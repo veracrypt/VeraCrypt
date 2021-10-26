@@ -220,7 +220,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 
 NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 {
-	DriveFilterExtension *Extension;
+	DriveFilterExtension *Extension = NULL;
 	NTSTATUS status;
 	PDEVICE_OBJECT filterDeviceObject = NULL;
 	PDEVICE_OBJECT attachedDeviceObject;
@@ -275,7 +275,7 @@ NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 err:
 	if (filterDeviceObject)
 	{
-		if (Extension->LowerDeviceObject)
+		if (Extension && Extension->LowerDeviceObject)
 			IoDetachDevice (Extension->LowerDeviceObject);
 
 		IoDeleteDevice (filterDeviceObject);
@@ -362,8 +362,8 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 		NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 #ifdef _WIN64
 		XSTATE_SAVE SaveState;
-		if (g_isIntel && HasSAVX())
-			saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		if (IsCpuIntel() && HasSAVX())
+			saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 		KFLOATING_SAVE floatingPointState;		
 		if (HasISSE() || (HasSSSE3() && HasMMX()))
@@ -405,7 +405,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 
 		if (NT_SUCCESS (saveStatus))
 #ifdef _WIN64
-			KeRestoreExtendedProcessorState(&SaveState);
+			KeRestoreExtendedProcessorStateVC(&SaveState);
 #else
 			KeRestoreFloatingPointState (&floatingPointState);
 #endif
@@ -1045,6 +1045,11 @@ static NTSTATUS DispatchControl (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFil
 					}
 				}
 			}
+			break;
+		case IOCTL_DISK_GROW_PARTITION:
+			Dump ("DriverFilter-DispatchControl: IOCTL_DISK_GROW_PARTITION blocked\n");
+			IoReleaseRemoveLock (&Extension->Queue.RemoveLock, Irp);
+			return TCCompleteDiskIrp (Irp, STATUS_UNSUCCESSFUL, 0);
 			break;
 	}
 
@@ -2107,8 +2112,8 @@ void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp)
 			wchar_t BootEncryptionAlgorithmNameW[256];
 			wchar_t BootPrfAlgorithmNameW[256];
 			GetBootEncryptionAlgorithmNameRequest *request = (GetBootEncryptionAlgorithmNameRequest *) irp->AssociatedIrp.SystemBuffer;
-			EAGetName (BootEncryptionAlgorithmNameW, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
-			HashGetName2 (BootPrfAlgorithmNameW, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
+			EAGetName (BootEncryptionAlgorithmNameW, 256, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
+			HashGetName2 (BootPrfAlgorithmNameW, 256, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
 
 			RtlStringCbPrintfA (request->BootEncryptionAlgorithmName, sizeof (request->BootEncryptionAlgorithmName), "%S", BootEncryptionAlgorithmNameW);
 			RtlStringCbPrintfA (request->BootPrfAlgorithmName, sizeof (request->BootPrfAlgorithmName), "%S", BootPrfAlgorithmNameW);

@@ -14,6 +14,7 @@
 #include "Tcdefs.h"
 #include "Crc.h"
 #include "Random.h"
+#include "Dlgcode.h"
 #include "Crypto\cpu.h"
 #include "Crypto\jitterentropy.h"
 #include "Crypto\rdrand.h"
@@ -96,6 +97,7 @@ HCRYPTPROV hCryptProv;
 /* Init the random number generator, setup the hooks, and start the thread */
 int RandinitWithCheck ( int* pAlreadyInitialized)
 {
+	BOOL bIgnoreHookError = FALSE;
 	DWORD dwLastError = ERROR_SUCCESS;
 	if (GetMaxPkcs5OutSize() > RNG_POOL_SIZE)
 		TC_THROW_FATAL_EXCEPTION;
@@ -129,11 +131,13 @@ int RandinitWithCheck ( int* pAlreadyInitialized)
 		VirtualLock (pRandPool, RANDOMPOOL_ALLOCSIZE);
 	}
 
+	bIgnoreHookError = IsThreadInSecureDesktop(GetCurrentThreadId());
+
 	hKeyboard = SetWindowsHookEx (WH_KEYBOARD, (HOOKPROC)&KeyboardProc, NULL, GetCurrentThreadId ());
-	if (hKeyboard == 0) handleWin32Error (0, SRC_POS);
+	if (hKeyboard == 0 && !bIgnoreHookError) handleWin32Error (0, SRC_POS);
 
 	hMouse = SetWindowsHookEx (WH_MOUSE, (HOOKPROC)&MouseProc, NULL, GetCurrentThreadId ());
-	if (hMouse == 0)
+	if (hMouse == 0 && !bIgnoreHookError)
 	{
 		handleWin32Error (0, SRC_POS);
 		goto error;

@@ -260,7 +260,7 @@ byte GetKeyboardChar (byte *scanCode)
 	{
 		// reduce CPU usage by halting CPU until the next external interrupt is fired
 		__asm
-		{		
+		{
 			hlt
 		}
 	}

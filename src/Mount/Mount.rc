@@ -191,7 +191,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWORD,69,8,179,14,ES_PASSWORD | ES_AUTOHSCROLL
     COMBOBOX        IDC_PKCS5_PRF_ID,69,26,96,90,CBS_DROPDOWNLIST | WS_TABSTOP
-    CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,28,76,10
+    CONTROL         "&TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,28,76,10
     EDITTEXT        IDC_PIM,69,43,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,48,97,10
     CONTROL         "Cache passwords and keyfil&es in memory",IDC_CACHE,
@@ -330,7 +330,7 @@ BEGIN
     CONTROL         "Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)",IDC_ENABLE_HARDWARE_ENCRYPTION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,18,41,340,17
     LTEXT           "More information",IDC_MORE_INFO_ON_HW_ACCELERATION,18,61,165,10,SS_NOTIFY
-    CONTROL         "Do not use the following number of processors for encryption/decryption:",IDC_LIMIT_ENC_THREAD_POOL,
+    CONTROL         "Do not use the following number of logical processors for encryption/decryption:",IDC_LIMIT_ENC_THREAD_POOL,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,18,103,283,11
     COMBOBOX        IDC_ENCRYPTION_FREE_CPU_COUNT,304,101,48,51,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "",IDT_LIMIT_ENC_THREAD_POOL_NOTE,18,126,334,33
@@ -559,8 +559,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,24,23,0
- PRODUCTVERSION 1,24,23,0
+ FILEVERSION 1,25,1,0
+ PRODUCTVERSION 1,25,1,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -577,11 +577,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt"
-            VALUE "FileVersion", "1.24-Update7"
+            VALUE "FileVersion", "1.25"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.24-Update7"
+            VALUE "ProductVersion", "1.25"
         END
     END
     BLOCK "VarFileInfo"

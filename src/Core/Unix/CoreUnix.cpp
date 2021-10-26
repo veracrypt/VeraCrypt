@@ -24,6 +24,11 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_LINUX
+	static string GetTmpUser ();
+	static bool SamePath (const string& path1, const string& path2);
+#endif
+
 	CoreUnix::CoreUnix ()
 	{
 		signal (SIGPIPE, SIG_IGN);
@@ -355,9 +360,98 @@ namespace VeraCrypt
 
 	string CoreUnix::GetTempDirectory () const
 	{
-		char *envDir = getenv ("TMPDIR");
-		return envDir ? envDir : "/tmp";
+		const char *tmpdir = getenv ("TMPDIR");
+		string envDir = tmpdir ? tmpdir : "/tmp";
+
+#ifdef TC_LINUX
+		/*
+		 * If pam_tmpdir.so is in use, a different temporary directory is
+		 * allocated for each user ID. We need to mount to the directory used
+		 * by the non-root user.
+		 */
+		if (getuid () == 0 && envDir.size () >= 2
+			&& envDir.substr (envDir.size () - 2) == "/0") {
+			string tmpuser = GetTmpUser ();
+			if (SamePath (envDir, tmpuser + "/0")) {
+				/* Substitute the sudo'ing user for 0 */
+				char uid[40];
+				FILE *fp = fopen ("/proc/self/loginuid", "r");
+				if (fp != NULL) {
+					if (fgets (uid, sizeof (uid), fp) != nullptr) {
+						envDir = tmpuser + "/" + uid;
+					}
+					fclose (fp);
+				}
+			}
+		}
+#endif
+
+		return envDir;
 	}
+
+#ifdef TC_LINUX
+	static string GetTmpUser ()
+	{
+		string tmpuser = "/tmp/user";
+		FILE *fp = fopen ("/etc/security/tmpdir.conf", "r");
+		if (fp == NULL) {
+			return tmpuser;
+		}
+		while (true) {
+			/* Parses the same way as pam_tmpdir */
+			char line[1024];
+			if (fgets (line, sizeof (line), fp) == nullptr) {
+				break;
+			}
+			if (line[0] == '#') {
+				continue;
+			}
+			size_t len = strlen (line);
+			if (len > 0 && line[len-1] == '\n') {
+				line[len-1] = '\0';
+			}
+			char *eq = strchr (line, '=');
+			if (eq == nullptr) {
+				continue;
+			}
+			*eq = '\0';
+			const char *key = line;
+			const char *value = eq + 1;
+			if (strcmp (key, "tmpdir") == 0) {
+				tmpuser = value;
+				break;
+			}
+		}
+		fclose (fp);
+		return tmpuser;
+	}
+
+	static bool SamePath (const string& path1, const string& path2)
+	{
+		size_t i1 = 0;
+		size_t i2 = 0;
+		while (i1 < path1.size () && i2 < path2.size ()) {
+			if (path1[i1] != path2[i2]) {
+				return false;
+			}
+			/* Any two substrings consisting entirely of slashes compare equal */
+			if (path1[i1] == '/') {
+				while (i1 < path1.size () && path1[i1] == '/') {
+					++i1;
+				}
+				while (i2 < path2.size () && path2[i2] == '/') {
+					++i2;
+				}
+			}
+			else
+			{
+				++i1;
+				++i2;
+			}
+		}
+		return (i1 == path1.size () && i2 == path2.size ());
+	}
+#endif
 
 	bool CoreUnix::IsMountPointAvailable (const DirectoryPath &mountPoint) const
 	{

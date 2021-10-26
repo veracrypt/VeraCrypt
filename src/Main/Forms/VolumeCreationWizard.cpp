@@ -117,7 +117,7 @@ namespace VeraCrypt
 				page->SetPageTitle (LangString["INTRO_TITLE"]);
 
 				page->AddChoice (VolumeHostType::File, LangString["IDC_FILE_CONTAINER"], LangString["IDT_FILE_CONTAINER"], L"introcontainer", LangString["IDC_MORE_INFO_ON_CONTAINERS"]);
-				page->AddChoice (VolumeHostType::Device, _("Create a volume within a partition/&drive"), _("Formats and encrypts a non-system partition, entire external or secondary drive, entire USB stick, etc."));
+				page->AddChoice (VolumeHostType::Device, LangString["IDC_NONSYS_DEVICE"], LangString["IDT_NON_SYS_DEVICE"]);
 
 				page->SetSelection (SelectedVolumeHostType);
 				return page;
@@ -138,7 +138,7 @@ namespace VeraCrypt
 		case Step::VolumeLocation:
 			{
 				VolumeLocationWizardPage *page = new VolumeLocationWizardPage (GetPageParent(), SelectedVolumeHostType);
-				page->SetPageTitle (LangString["VOLUME_LOCATION"]);
+				page->SetPageTitle (LangString["LOCATION"]);
 
 				if (SelectedVolumeType == VolumeType::Hidden)
 					page->SetPageText (LangString[SelectedVolumeHostType == VolumeHostType::File ? "FILE_HELP_HIDDEN_HOST_VOL" : "DEVICE_HELP_HIDDEN_HOST_VOL"]);
@@ -179,8 +179,8 @@ namespace VeraCrypt
 				else if (SelectedVolumeType == VolumeType::Hidden)
 				{
 					pageTitle = LangString["SIZE_HIDVOL_TITLE"];
-					pageText = LangString["SIZE_HELP_HIDDEN_VOL"] + L"\n\n" + _("Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.");
-					freeSpaceText = StringFormatter (_("Maximum possible hidden volume size for this volume is {0}."), Gui->SizeToString (MaxHiddenVolumeSize));
+					pageText = LangString["SIZE_HELP_HIDDEN_VOL"] + L"\n\n" + LangString["LINUX_DYNAMIC_NOTICE"];
+					freeSpaceText = StringFormatter (LangString["LINUX_MAX_HIDDEN_SIZE"], Gui->SizeToString (MaxHiddenVolumeSize));
 				}
 				else
 				{
@@ -246,11 +246,9 @@ namespace VeraCrypt
 				SingleChoiceWizardPage <bool> *page = new SingleChoiceWizardPage <bool> (GetPageParent(), wxEmptyString, true);
 				page->SetPageTitle (LangString["FILESYS_PAGE_TITLE"]);
 
-				page->AddChoice (false, _("I will not store files larger than 4 GB on the volume"),
-					_("Choose this option if you do not need to store files larger than 4 GB (4,294,967,296 bytes) on the volume."));
+				page->AddChoice (true, LangString["UISTR_YES"],LangString["FILESYS_PAGE_HELP_QUESTION"]);
 
-				page->AddChoice (true, _("I will store files larger than 4 GB on the volume"),
-					_("Choose this option if you need to store files larger than 4 GB (4,294,967,296 bytes) on the volume."));
+				page->AddChoice (false, LangString["UISTR_NO"],LangString["FILESYS_PAGE_HELP_EXPLANATION"]);
 
 				page->SetSelection (LargeFilesSupport);
 				return page;
@@ -264,7 +262,7 @@ namespace VeraCrypt
 				VolumeFormatOptionsWizardPage *page = new VolumeFormatOptionsWizardPage (GetPageParent(), filesystemSize, SectorSize,
 					SelectedVolumePath.IsDevice() && (OuterVolume || SelectedVolumeType != VolumeType::Hidden), OuterVolume, LargeFilesSupport);
 
-				page->SetPageTitle (_("Format Options"));
+				page->SetPageTitle (LangString["FORMAT_TITLE"]);
 				page->SetFilesystemType (SelectedFilesystemType);
 
 				if (!OuterVolume && SelectedVolumeType == VolumeType::Hidden)
@@ -277,13 +275,12 @@ namespace VeraCrypt
 		case Step::CrossPlatformSupport:
 			{
 				SingleChoiceWizardPage <bool> *page = new SingleChoiceWizardPage <bool> (GetPageParent(), wxEmptyString, true);
-				page->SetPageTitle (_("Cross-Platform Support"));
+				page->SetPageTitle ( LangString["LINUX_CROSS_SUPPORT"]);
 
-				page->AddChoice (true, _("I will mount the volume on other platforms"),
-					_("Choose this option if you need to use the volume on other platforms."));
+				page->AddChoice (true, LangString["LINUX_CROSS_SUPPORT_OTHER"], LangString["LINUX_CROSS_SUPPORT_OTHER_HELP"]);
 
-				page->AddChoice (false, StringFormatter (_("I will mount the volume only on {0}"), SystemInfo::GetPlatformName()),
-					_("Choose this option if you do not need to use the volume on other platforms."));
+				page->AddChoice (false, StringFormatter ( LangString["LINUX_CROSS_SUPPORT_ONLY"], SystemInfo::GetPlatformName()),
+					LangString["LINUX_CROSS_SUPPORT_ONLY_HELP"]);
 
 				page->SetSelection (CrossPlatformSupport);
 				return page;
@@ -312,7 +309,7 @@ namespace VeraCrypt
 				page->SetPageTitle (LangString["FORMAT_FINISHED_TITLE"]);
 				page->SetPageText (LangString["FORMAT_FINISHED_HELP"]);
 
-				SetCancelButtonText (_("Exit"));
+				SetCancelButtonText (LangString["IDC_EXIT"]);
 				return page;
 			}
 
@@ -353,13 +350,12 @@ namespace VeraCrypt
 					DirectoryPath OuterVolumeMountPoint;
 				};
 
-				InfoWizardPage *page = new InfoWizardPage (GetPageParent(), _("Open Outer Volume"),
+				InfoWizardPage *page = new InfoWizardPage (GetPageParent(), LangString["LINUX_OPEN_OUTER_VOL"],
 					shared_ptr <Functor> (new OpenOuterVolumeFunctor (MountedOuterVolume->MountPoint)));
 
 				page->SetPageTitle (LangString["HIDVOL_HOST_FILLING_TITLE"]);
 
-				page->SetPageText (StringFormatter (
-					_("Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume."),
+				page->SetPageText (StringFormatter (LangString["LINUX_OUTER_VOL_IS_MOUNTED"],
 					wstring (MountedOuterVolume->MountPoint)));
 
 				return page;
@@ -645,7 +641,7 @@ namespace VeraCrypt
 								{
 									if (partition.MountPoint == "/")
 									{
-										Gui->ShowError (_("Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows."));
+										Gui->ShowError (LangString["LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE"]);
 										return GetCurrentStep();
 									}
 								}
@@ -680,11 +676,11 @@ namespace VeraCrypt
 							{
 								if (mountPoint == "/")
 								{
-									Gui->ShowError (_("Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows."));
+									Gui->ShowError (LangString["LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION"]);
 									return GetCurrentStep();
 								}
 
-								if (!Gui->AskYesNo (StringFormatter (_("WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?"), wstring (mountPoint)), false, true))
+								if (!Gui->AskYesNo (StringFormatter (LangString["LINUX_WARNING_FORMAT_DESTROY_FS"], wstring (mountPoint)), false, true))
 									return GetCurrentStep();
 
 								try
@@ -694,7 +690,7 @@ namespace VeraCrypt
 								catch (exception &e)
 								{
 									Gui->ShowError (e);
-									Gui->ShowError (StringFormatter (_("The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding."), wstring (mountPoint)));
+									Gui->ShowError (StringFormatter (LangString["LINUX_MOUNTET_HINT"], wstring (mountPoint)));
 									return GetCurrentStep();
 								}
 							}
@@ -815,7 +811,7 @@ namespace VeraCrypt
 							//check if they have also the same PIM
 							if (OuterPim == Pim)
 							{
-								Gui->ShowError (_("The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume"));
+								Gui->ShowError (LangString["LINUX_HIDDEN_PASS_NO_DIFF"]);
 								return GetCurrentStep();
 							}
 						}
@@ -866,7 +862,7 @@ namespace VeraCrypt
 						//check if they have also the same PIM
 						if (OuterPim == Pim)
 						{
-							Gui->ShowError (_("The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume"));
+							Gui->ShowError (LangString["LINUX_HIDDEN_PASS_NO_DIFF"]);
 							return GetCurrentStep();
 						}
 					}
@@ -931,11 +927,7 @@ namespace VeraCrypt
 				{
 					if (page->GetFilesystemType() != VolumeCreationOptions::FilesystemType::FAT)
 					{
-						if (!Gui->AskYesNo (_("WARNING: You have selected a filesystem other than FAT for the outer volume.\n"
-											  "Please Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\n"
-											  "Thus, it is your responsibility to use an adequate value for the size of the hidden volume so that it doesn\'t overlap the outer volume.\n\n"
-											  "Do you want to continue using the selected filesystem for the outer volume?")
-											, false, true))
+						if (!Gui->AskYesNo (LangString["LINUX_CONFIRM_INNER_VOLUME_CALC"], false, true))
 						{
 							return GetCurrentStep();
 						}
@@ -966,7 +958,7 @@ namespace VeraCrypt
 				}
 
 				if (forward && CrossPlatformSupport)
-					Gui->ShowWarning (StringFormatter (_("Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume."), SystemInfo::GetPlatformName()));
+					Gui->ShowWarning (StringFormatter (LangString["LINUX_NOT_FAT_HINT"], SystemInfo::GetPlatformName()));
 
 				return Step::CreationProgress;
 			}
@@ -984,15 +976,15 @@ namespace VeraCrypt
 						if (OuterVolume && VolumeSize > TC_MAX_FAT_SECTOR_COUNT * SectorSize)
 						{
 							uint64 limit = TC_MAX_FAT_SECTOR_COUNT * SectorSize / BYTES_PER_TB;
-							wstring err = StringFormatter (_("Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n"), limit, limit * 1024);
+							wstring err = StringFormatter (LangString["LINUX_ERROR_SIZE_HIDDEN_VOL"], limit, limit * 1024);
 
 							if (SectorSize < 4096)
 							{
-								err += _("- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size");
+								err += LangString["LINUX_MAX_SIZE_HINT"];
 #if defined (TC_LINUX)
-								err += _(".\n");
+								err += LangString["LINUX_DOT_LF"];
 #else
-								err += _(" (not supported by components available on this platform).\n");
+								err += LangString["LINUX_NOT_SUPPORTED"];
 #endif
 							}
 
@@ -1004,7 +996,7 @@ namespace VeraCrypt
 						{
 							wxString confirmMsg = LangString["OVERWRITEPROMPT_DEVICE"];
 
-							if (!Gui->AskYesNo (wxString::Format (confirmMsg, wxString (_("DEVICE")).c_str(), wstring (SelectedVolumePath).c_str(), L""), false, true))
+							if (!Gui->AskYesNo (wxString::Format (confirmMsg, wxString (LangString["DEVICE"]).c_str(), wstring (SelectedVolumePath).c_str(), L""), false, true))
 								return GetCurrentStep();
 						}
 						else if (FilesystemPath (wstring (SelectedVolumePath)).IsFile())

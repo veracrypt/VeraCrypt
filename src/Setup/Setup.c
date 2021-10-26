@@ -738,6 +738,24 @@ void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersi
 	*driverVersionPtr = driverVersion;
 }
 
+BOOL isMsiInstalled ()
+{
+	BOOL bRet = FALSE;
+	HKEY hKey;
+	if (ERROR_SUCCESS == RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\VeraCrypt_MSI", 0, KEY_READ | KEY_WOW64_64KEY, &hKey))
+	{
+		DWORD dwType = 0;
+		if (	(ERROR_SUCCESS == RegQueryValueExW(hKey, L"ProductGuid", NULL, &dwType, NULL, NULL))
+			&&	(REG_SZ == dwType))
+		{
+			bRet = TRUE;
+		}
+		RegCloseKey(hKey);
+	}
+
+	return bRet;
+}
+
 
 static BOOL IsFileInUse (const wstring &filePath)
 {
@@ -851,31 +869,46 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				if (Is64BitOs ()
 					&& ((wcscmp (szFiles[i], L"Dveracrypt.sys") == 0) || (wcscmp (szFiles[i], L"Averacrypt.sys") == 0)))
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-arm64.sys", sizeof(L"veracrypt-arm64.sys"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"Averacrypt.cat") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-x64.cat", sizeof (L"veracrypt-x64.cat"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-arm64.cat", sizeof(L"veracrypt-arm64.cat"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-x64.cat", sizeof (L"veracrypt-x64.cat"));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-x64.exe", sizeof (L"VeraCrypt-x64.exe"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-arm64.exe", sizeof(L"VeraCrypt-arm64.exe"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-x64.exe", sizeof (L"VeraCrypt-x64.exe"));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCryptExpander.exe") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-x64.exe", sizeof (L"VeraCryptExpander-x64.exe"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-arm64.exe", sizeof(L"VeraCryptExpander-arm64.exe"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-x64.exe", sizeof (L"VeraCryptExpander-x64.exe"));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-x64.exe", sizeof (L"VeraCrypt Format-x64.exe"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-arm64.exe", sizeof(L"VeraCrypt Format-arm64.exe"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-x64.exe", sizeof (L"VeraCrypt Format-x64.exe"));
 				}
 
 				if (!bDevm)
@@ -2209,6 +2242,14 @@ void DoInstall (void *arg)
 
 	ClearLogWindow (hwndDlg);
 
+	if (isMsiInstalled())
+	{
+		MessageBoxW (hwndDlg,  GetString ("CANT_INSTALL_WITH_EXE_OVER_MSI"), lpszTitle, MB_ICONHAND);
+		Error ("INSTALL_FAILED", hwndDlg);
+		PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0);
+		return;
+	}
+
 	if (mkfulldir (InstallationPath, TRUE) != 0)
 	{
 		if (mkfulldir (InstallationPath, FALSE) != 0)
@@ -2237,12 +2278,15 @@ void DoInstall (void *arg)
 		&& (IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L".exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L"-x86.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L"-x64.exe")
+			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L"-arm64.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L" Format.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L" Format-x86.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L" Format-x64.exe")
+			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L" Format-arm64.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L"Expander.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L"Expander-x86.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L"Expander-x64.exe")
+			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L"Expander-arm64.exe")
 			|| IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L" Setup.exe")
 			)
 		)

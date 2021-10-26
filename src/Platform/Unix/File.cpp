@@ -23,6 +23,12 @@
 #include <sys/disk.h>
 #endif
 
+#ifdef TC_OPENBSD
+#include <sys/ioctl.h>
+#include <sys/dkio.h>
+#include <sys/disklabel.h>
+#endif
+
 #ifdef TC_SOLARIS
 #include <stropts.h>
 #include <sys/dkio.h>
@@ -31,6 +37,10 @@
 #include <sys/file.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#ifdef TC_FREEBSD
+#include <sys/sysctl.h>
+#endif
 
 #include "Platform/File.h"
 #include "Platform/TextReader.h"
@@ -113,6 +123,11 @@ namespace VeraCrypt
 			throw_sys_sub_if (ioctl (FileHandle, DIOCGSECTORSIZE, &sectorSize) == -1, wstring (Path));
 			return (uint32) sectorSize;
 
+#elif defined (TC_OPENBSD)
+			struct disklabel dl;
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGPDINFO, &dl) == -1, wstring (Path));
+			return (uint32) dl.d_secsize;
+
 #elif defined (TC_SOLARIS)
 			struct dk_minfo mediaInfo;
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGMEDIAINFO, &mediaInfo) == -1, wstring (Path));
@@ -146,6 +161,31 @@ namespace VeraCrypt
 		throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBASE, &offset) == -1, wstring (Path));
 		return offset;
 
+#elif defined (TC_FREEBSD)
+		// Get the kernel GEOM configuration
+		size_t sysctlDataLen, mibLen;
+		int mib[4];
+		mibLen = 4;
+		throw_sys_sub_if (sysctlnametomib ("kern.geom.conftxt", mib, &mibLen), wstring (Path));
+		throw_sys_sub_if (sysctl (mib, mibLen, NULL, &sysctlDataLen, NULL, 0), wstring (Path));
+		vector<char> conftxt(sysctlDataLen);
+		throw_sys_sub_if (sysctl (mib, mibLen, (void *)conftxt.data(), &sysctlDataLen, NULL, 0), wstring (Path));
+
+		// Find the slice/partition data
+		string conftxtStr (conftxt.begin(), conftxt.end());
+		size_t confLoc = conftxtStr.find (Path.ToBaseName());
+		throw_sys_sub_if (confLoc == string::npos, wstring (Path));
+
+		// Skip to the ninth column
+		for (int i = 0; i < 6;i++) {
+			confLoc = conftxtStr.find (" ", confLoc + 1);
+			throw_sys_sub_if (confLoc == string::npos, wstring (Path));
+		}
+		confLoc++;
+		size_t end = conftxtStr.find (" ", confLoc);
+		throw_sys_sub_if (end == string::npos, wstring (Path));
+		return StringConverter::ToUInt64 (conftxtStr.substr (confLoc, end - confLoc));
+
 #elif defined (TC_SOLARIS)
 
 		struct extpart_info partInfo;
@@ -171,6 +211,10 @@ namespace VeraCrypt
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBLOCKSIZE, &blockSize) == -1, wstring (Path));
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBLOCKCOUNT, &blockCount) == -1, wstring (Path));
 			return blockCount * blockSize;
+#	elif TC_OPENBSD
+			struct disklabel dl;
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGPDINFO, &dl) == -1, wstring (Path));
+			return DL_GETDSIZE(&dl);
 #	else
 			uint64 mediaSize;
 			throw_sys_sub_if (ioctl (FileHandle, DIOCGMEDIASIZE, &mediaSize) == -1, wstring (Path));

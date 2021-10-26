@@ -193,7 +193,9 @@
 #pragma warning(disable : 4702) /* unreachable code */
 
 #define __GNUC_PREREQ(a,b) 0
+#ifndef UINT64_C
 #define UINT64_C(value)   value ## ULL
+#endif
 
 #endif                          /* Compiler */
 

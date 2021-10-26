@@ -75,7 +75,7 @@ namespace VeraCrypt
 			}
 
 #ifdef TC_WINDOWS
-			fields[ColumnDevice] = StringFormatter (L"{0} {1}:", _("Harddisk"), device.SystemNumber);
+			fields[ColumnDevice] = StringFormatter (L"{0} {1}:", LangString["HARDDISK"], device.SystemNumber);
 			fields[ColumnDrive] = device.MountPoint;
 			fields[ColumnName] = device.Name;
 #else
@@ -120,21 +120,20 @@ namespace VeraCrypt
 		Fit();
 		Layout();
 		Center();
-
-		StdButtonsOK->Disable();
-		StdButtonsOK->SetDefault();
+		OKButton->Disable();
+		OKButton->SetDefault();
 	}
 
 	void DeviceSelectionDialog::OnListItemActivated (wxListEvent& event)
 	{
-		if (StdButtonsOK->IsEnabled())
+		if (OKButton->IsEnabled())
 			EndModal (wxID_OK);
 	}
 
 	void DeviceSelectionDialog::OnListItemDeselected (wxListEvent& event)
 	{
 		if (DeviceListCtrl->GetSelectedItemCount() == 0)
-			StdButtonsOK->Disable();
+			OKButton->Disable();
 	}
 
 	void DeviceSelectionDialog::OnListItemSelected (wxListEvent& event)
@@ -144,9 +143,9 @@ namespace VeraCrypt
 		if (device && device->Size)
 		{
 			SelectedDevice = *device;
-			StdButtonsOK->Enable();
+			OKButton->Enable();
 		}
 		else
-			StdButtonsOK->Disable();
+			OKButton->Disable();
 	}
 }

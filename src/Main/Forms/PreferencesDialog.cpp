@@ -135,8 +135,8 @@ namespace VeraCrypt
 
 #ifdef TC_MACOSX
 		DismountOnScreenSaverCheckBox->Show (false);
-		DismountOnLogOffCheckBox->SetLabel (_("VeraCrypt quits"));
-		OpenExplorerWindowAfterMountCheckBox->SetLabel (_("Open Finder window for successfully mounted volume"));
+		DismountOnLogOffCheckBox->SetLabel (LangString["LINUX_VC_QUITS"]);
+		OpenExplorerWindowAfterMountCheckBox->SetLabel (LangString["LINUX_OPEN_FINDER"]);
 
 		MountRemovableCheckBox->Show (false);
 		FilesystemSizer->Show (false);
@@ -200,7 +200,7 @@ namespace VeraCrypt
 		Fit();
 		Center();
 
-		StdButtonsOK->SetDefault();
+		OKButton->SetDefault();
 
 #ifdef TC_WINDOWS
 		// Hotkey timer
@@ -302,20 +302,20 @@ namespace VeraCrypt
 			if (Gui->AskYesNo (LangString["CONFIRM_SETTING_DEGRADES_PERFORMANCE"], true, true))
 			{
 #ifdef TC_LINUX
-				Gui->ShowWarning (_("Please note that this setting takes effect only if use of the kernel cryptographic services is disabled."));
+				Gui->ShowWarning (LangString["LINUX_DISABLE_KERNEL_ONLY_SETTING"]);
 #endif
 			}
 			else
 				NoHardwareCryptoCheckBox->SetValue (false);
 		}
 
-		Gui->ShowWarning (_("Please note that any currently mounted volumes need to be remounted before they can use this setting."));
+		Gui->ShowWarning (LangString["LINUX_REMOUNT_BECAUSEOF_SETTING"]);
 	}
 
 	void PreferencesDialog::OnNoKernelCryptoCheckBoxClick (wxCommandEvent& event)
 	{
 		if (event.IsChecked())
-			NoKernelCryptoCheckBox->SetValue (Gui->AskYesNo (_("Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?"), false, true));
+			NoKernelCryptoCheckBox->SetValue (Gui->AskYesNo (LangString["LINUX_DISABLE_KERNEL_CRYPT_CONFIRM"], false, true));
 	}
 
 	void PreferencesDialog::OnClose (wxCloseEvent& event)
@@ -424,7 +424,7 @@ namespace VeraCrypt
 	{
 #ifdef TC_LINUX
 		if (!event.IsChecked())
-			Gui->ShowInfo (_("Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services."));
+			Gui->ShowInfo (LangString["LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT"]);
 #endif
 	}
 

@@ -55,7 +55,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.24-Update7"
+#define VERSION_STRING					"1.25-RC1"
 
 #ifdef VC_EFI_CUSTOM_MODE
 #define VERSION_STRING_SUFFIX			"-CustomEFI"
@@ -64,12 +64,12 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #endif
 
 // Version number to compare against driver
-#define VERSION_NUM						0x0124
+#define VERSION_NUM						0x0125
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"August 7, 2020"
-#define TC_RELEASE_DATE_YEAR			2020
-#define TC_RELEASE_DATE_MONTH			 8
+#define TC_STR_RELEASE_DATE			L"September 5, 2021"
+#define TC_RELEASE_DATE_YEAR			2021
+#define TC_RELEASE_DATE_MONTH			 9
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -180,10 +180,10 @@ typedef uint64 uint_64t;
 typedef CHAR16 wchar_t;
 typedef int LONG;
 
-#define wcscpy StrCpy
+#define StringCchCopyW StrCpyS
 #define wcslen StrLen
 #define wcscmp StrCmp
-#define wcscat StrCat
+#define StringCchCatW StrCatS
 
 #define memcpy(dest,source,count)         CopyMem(dest,source,(UINTN)(count))
 #define memset(dest,ch,count)             SetMem(dest,(UINTN)(count),(UINT8)(ch))
@@ -195,7 +195,7 @@ typedef int LONG;
 #define strchr(str,ch)                    ScanMem8((VOID *)(str),AsciiStrSize(str),(UINT8)ch)
 #define strcmp                            AsciiStrCmp
 #define strncmp(string1,string2,count)    (int)(AsciiStrnCmp(string1,string2,(UINTN)(count)))
-#define strcpy(strDest,strSource)         AsciiStrCpyS(strDest,MAX_STRING_SIZE,strSource)
+#define StringCchCopyA(strDest,strMaxSize,strSource)         AsciiStrCpyS(strDest,strMaxSize,strSource)
 #define strncpy(strDest,strSource,count)  AsciiStrnCpyS(strDest,MAX_STRING_SIZE,strSource,(UINTN)count)
 #define strlen(str)                       (size_t)(AsciiStrnLenS(str,MAX_STRING_SIZE))
 #define strstr                            AsciiStrStr
@@ -310,13 +310,13 @@ typedef ULONG (NTAPI *KeQueryActiveProcessorCountExFn)(
   USHORT GroupNumber
 );
 
-extern NTSTATUS NTAPI KeSaveExtendedProcessorState (
+extern NTSTATUS NTAPI KeSaveExtendedProcessorStateVC (
     __in ULONG64 Mask,
     PXSTATE_SAVE XStateSave
     );
 
 
-extern VOID NTAPI KeRestoreExtendedProcessorState (
+extern VOID NTAPI KeRestoreExtendedProcessorStateVC (
 	PXSTATE_SAVE XStateSave
 	);
 

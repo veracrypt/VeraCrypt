@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2013-2020 IDRIX
+# Copyright (c) 2013-2021 IDRIX
 # Governed by the Apache License 2.0 the full text of which is contained
 # in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -41,8 +41,19 @@ else
 
 echo "Building GUI version of VeraCrypt for DEB using system wxWidgets"
 make clean 	|| exit 1
-make 		|| exit 1
+
+if [ "$#" = "1" ] && [ "$1" = "INDICATOR" ]
+then
+
+make INDICATOR=1		|| exit 1
+make INDICATOR=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
+
+else
+
+make		|| exit 1
 make install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
+
+fi
 
 fi
 

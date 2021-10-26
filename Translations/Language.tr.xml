@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.24-Update7">
+  <localization prog-version= "1.25-RC1">
     <language langid="tr" name="Türkçe" en-name="Turkish" version="0.1.0" translators="Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci" />
     <font lang="tr" class="normal" size="11" face="default" />
     <font lang="tr" class="bold" size="13" face="Arial" />
     <font lang="tr" class="fixed" size="12" face="Lucida Console" />
     <font lang="tr" class="title" size="21" face="Times New Roman" />
     <entry lang="tr" key="IDCANCEL">İptal</entry>
-    <entry lang="en" key="IDC_ALL_USERS">Install &amp;for all users</entry>
-    <entry lang="en" key="IDC_BROWSE">Bro&amp;wse...</entry>
+    <entry lang="tr" key="IDC_ALL_USERS">Tüm kullanıcılar için kur</entry>
+    <entry lang="tr" key="IDC_BROWSE">Gezin...</entry>
     <entry lang="tr" key="IDC_DESKTOP_ICON">VeraCrypt simgesini &amp;masaüstüne ekle</entry>
-    <entry lang="en" key="IDC_DONATE">Donate now...</entry>
-    <entry lang="en" key="IDC_FILE_TYPE">Associate the .hc file &amp;extension with VeraCrypt</entry>
-    <entry lang="en" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Open the destination location when finished</entry>
+    <entry lang="tr" key="IDC_DONATE">Bağış yap</entry>
+    <entry lang="tr" key="IDC_FILE_TYPE">.hc dosya uzantısını VeraCrypt ile özleştir</entry>
+    <entry lang="tr" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Tamamlandığında hedef klasörü aç</entry>
     <entry lang="tr" key="IDC_PROG_GROUP">VeraCrypt'i &amp;Başlat menüsüne ekle</entry>
     <entry lang="tr" key="IDC_SYSTEM_RESTORE">Sistem Geri Yükleme &amp;noktası oluştur</entry>
     <entry lang="tr" key="IDC_UNINSTALL">&amp;Kaldır</entry>
-    <entry lang="en" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Extract</entry>
-    <entry lang="en" key="IDC_WIZARD_MODE_INSTALL">&amp;Install</entry>
-    <entry lang="en" key="IDD_INSTL_DLG">VeraCrypt Setup Wizard</entry>
+    <entry lang="tr" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Çıkart</entry>
+    <entry lang="tr" key="IDC_WIZARD_MODE_INSTALL">&amp;Yükle</entry>
+    <entry lang="tr" key="IDD_INSTL_DLG">VeraCrypt Kurulum Sihirbazı</entry>
     <entry lang="tr" key="IDD_UNINSTALL">VeraCrypt'i Kaldır</entry>
     <entry lang="tr" key="IDHELP">&amp;Yardım</entry>
-    <entry lang="en" key="IDT_EXTRACT_DESTINATION">Lütfen çıkarılan dosyaları yerleştirmek istediğiniz konumu seçin veya yazın:</entry>
-    <entry lang="en" key="IDT_INSTALL_DESTINATION">Lütfen VeraCrypt program dosyalarını kurmak istediğiniz yeri seçin veya yazın. Belirtilen klasör yoksa, otomatik olarak oluşturulacaktır.</entry>
-    <entry lang="en" key="IDT_UNINSTALL_DIR">VeraCrypt'i bu sistemden kaldırmak için Kaldır'a tıklayın.</entry>
+    <entry lang="tr" key="IDT_EXTRACT_DESTINATION">Lütfen çıkarılan dosyaları yerleştirmek istediğiniz konumu seçin veya yazın:</entry>
+    <entry lang="tr" key="IDT_INSTALL_DESTINATION">Lütfen VeraCrypt program dosyalarını kurmak istediğiniz yeri seçin veya yazın. Belirtilen klasör yoksa, otomatik olarak oluşturulacaktır.</entry>
+    <entry lang="tr" key="IDT_UNINSTALL_DIR">VeraCrypt'i bu sistemden kaldırmak için Kaldır'a tıklayın.</entry>
     <entry lang="tr" key="IDC_ABORT_BUTTON">İptal</entry>
-    <entry lang="en" key="IDC_BENCHMARK">&amp;Benchmark</entry>
+    <entry lang="tr" key="IDC_BENCHMARK">&amp;Benchmark</entry>
     <entry lang="tr" key="IDC_CIPHER_TEST">&amp;Test</entry>
-    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Şifrelenmiş birim oluşturun ve biçimlendirin</entry>
-    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Bölümü yerinde şifrele</entry>
-    <entry lang="en" key="IDC_DISPLAY_KEYS">Oluşturulan anahtarları (bölümlerini) görüntüle</entry>
+    <entry lang="tr" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Şifrelenmiş birim oluşturun ve biçimlendirin</entry>
+    <entry lang="tr" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Bölümü yerinde şifrele</entry>
+    <entry lang="tr" key="IDC_DISPLAY_KEYS">Oluşturulan anahtarları (bölümlerini) görüntüle</entry>
     <entry lang="tr" key="IDC_DISPLAY_POOL_CONTENTS">Havuz içeriğini göster</entry>
-    <entry lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD kayıt yazılımını indirin</entry>
-    <entry lang="en" key="IDC_FILE_CONTAINER">Şifreli dosya kapsayıcısı oluşturma</entry>
-    <entry lang="en" key="IDC_GB">&amp;GB</entry>
-    <entry lang="en" key="IDC_TB">&amp;TB</entry>
+    <entry lang="tr" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD kayıt yazılımını indirin</entry>
+    <entry lang="tr" key="IDC_FILE_CONTAINER">Şifreli dosya kapsayıcısı oluşturma</entry>
+    <entry lang="tr" key="IDC_GB">&amp;GB</entry>
+    <entry lang="tr" key="IDC_TB">&amp;TB</entry>
     <entry lang="tr" key="IDC_HIDDEN_SYSENC_INFO_LINK">Daha fazla bilgi</entry>
-    <entry lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden VeraCrypt volume </entry>
-    <entry lang="en" key="IDC_HIDDEN_VOL_HELP">More information about hidden volumes</entry>
-    <entry lang="en" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direct mode</entry>
-    <entry lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</entry>
+    <entry lang="tr" key="IDC_HIDDEN_VOL">Gizli VeraCrypt birimi </entry>
+    <entry lang="tr" key="IDC_HIDDEN_VOL_HELP">Gizli birimler hakkında daha fazla bilgi</entry>
+    <entry lang="tr" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direk mod</entry>
+    <entry lang="tr" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mod</entry>
     <entry lang="tr" key="IDC_KB">&amp;KB</entry>
     <entry lang="tr" key="IDC_KEYFILES_ENABLE">Anah&amp;tar dosya kullan</entry>
-    <entry lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</entry>
-    <entry lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</entry>
+    <entry lang="tr" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">İlk olarak boş şifre ile bağlamayı dene</entry>
+    <entry lang="tr" key="IDC_KEYFILES_RANDOM_SIZE">Rastgele boyut ( 64 &lt;-&gt; 1048576 )</entry>
     <entry lang="tr" key="IDC_KEY_FILES">&amp;Anahtar Dosyalar</entry>
     <entry lang="tr" key="IDC_LINK_HASH_INFO">Karma algoritmaları hakkında bilgi</entry>
     <entry lang="tr" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Daha fazla bilgi</entry>
-    <entry lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</entry>
+    <entry lang="tr" key="IDC_LINK_PIM_INFO">PIM hakkında bilgi</entry>
     <entry lang="tr" key="IDC_MB">&amp;MB</entry>
     <entry lang="tr" key="IDC_MORE_INFO_ON_CONTAINERS">Daha fazla bilgi</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">More information about system encryption</entry>
+    <entry lang="tr" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Sistem şifreleme hakkında daha fazla bilgi</entry>
     <entry lang="tr" key="IDC_MORE_INFO_SYS_ENCRYPTION">Daha fazla bilgi</entry>
     <entry lang="en" key="IDC_MULTI_BOOT">Multi-Boot</entry>
-    <entry lang="en" key="IDC_NONSYS_DEVICE">Encrypt a non-system partition/drive</entry>
+    <entry lang="tr" key="IDC_NONSYS_DEVICE">Sistem harici birim/sürücü şifrele </entry>
     <entry lang="tr" key="IDC_NO_HISTORY">Geçmi&amp;şi asla kaydetme</entry>
     <entry lang="tr" key="IDC_OPEN_OUTER_VOLUME">Dış Birimi Aç</entry>
-    <entry lang="en" key="IDC_PAUSE">&amp;Pause</entry>
+    <entry lang="tr" key="IDC_PAUSE">&amp;Duraklat</entry>
     <entry lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</entry>
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="tr" key="IDC_QUICKFORMAT">Hızlı Biçimlendirme</entry>
@@ -144,7 +144,7 @@
     <entry lang="tr" key="IDC_HOTKEY_ASSIGN">Tuşu Ata</entry>
     <entry lang="tr" key="IDC_HOTKEY_REMOVE">Tuşu Sil</entry>
     <entry lang="tr" key="IDC_KEYFILES">Anahtar dosyalar</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="tr" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Daha fazla bilgi</entry>
     <entry lang="tr" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Daha fazla bilgi</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>
@@ -180,7 +180,7 @@
     <entry lang="tr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Parolayı göster</entry>
     <entry lang="tr" key="IDC_TRAVEL_OPEN_EXPLORER">Bağlanan &amp;birim için Gezgin penceresini aç</entry>
     <entry lang="tr" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Parolayı aygıt belleğinde önbelleğe al</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="tr" key="IDC_UNMOUNTALL">H&amp;epsinin Bağlantısını Kes</entry>
     <entry lang="tr" key="IDC_VOLUME_PROPERTIES">Birim Ö&amp;zellikleri...</entry>
     <entry lang="tr" key="IDC_VOLUME_TOOLS">Biri&amp;m Araçları...</entry>
@@ -1425,7 +1425,7 @@
     <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of %d characters.\nNo additional character is allowed.</entry>
     <entry lang="tr" key="IDC_SELECT_LANGUAGE_LABEL">Kurulum süresince kullanýlacak dili seçin:</entry>
     <entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
-    <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>    
+    <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>
     <entry lang="en" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNING: Defragmenting non-system partitions/drives may leak metadata about their content or cause issues with hidden volumes they may contain.\n\nContinue?</entry>
     <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
     <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
@@ -1446,6 +1446,127 @@
     <entry lang="en" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Force VeraCrypt entry to be the first in the EFI firmware boot menu</entry>
     <entry lang="en" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNING: RAM encryption is not compatible with Windows Hibernate and Windows Fast Startup features. VeraCrypt needs to disable them before activating RAM encryption.\n\nContinue?</entry>
     <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
+    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
+    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
+    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
+    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
+    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
+    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
+    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
+    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
+    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
+    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
+    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
+    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
+    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
+    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
+    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
+    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
+    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
+    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
+    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
+    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
+    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
+    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
+    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
+    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
+    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
+    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
+    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
+    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
+    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
+    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
+    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
+    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
+    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
+    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
+    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
+    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
+    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
+    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
+    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
+    <entry lang="en" key="LINUX_WARNING">Warning</entry>
+    <entry lang="en" key="LINUX_ERROR">Error</entry>
+    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
+    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
+    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
+    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
+    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
+    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
+    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
+    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
+    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
+    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
+    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
+    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
+    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
+    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
+    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
+    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
+    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
+    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
+    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
+    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
+    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
+    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
+    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
+    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
+    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
+    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
+    <entry lang="en" key="MOUNT">Mount</entry>
+    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
+    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
+    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
+    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
+    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
+    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
+    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
+    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
+    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
+    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
+    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
+    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -54,7 +54,7 @@ namespace VeraCrypt
 		if (!Preferences.NonInteractive)
 		{
 			if (!SystemInfo::IsVersionAtLeast (2, 6, 24))
-				ShowWarning (_("Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later."));
+				ShowWarning (LangString["LINUX_KERNEL_OLD"]);
 		}
 #endif // TC_LINUX
 	}
@@ -212,7 +212,7 @@ namespace VeraCrypt
 				{
 					if (!message.IsEmpty())
 						message += L'\n';
-					message += StringFormatter (_("Volume \"{0}\" has been dismounted."), wstring (volume->Path));
+					message += StringFormatter (LangString["LINUX_VOL_DISMOUNTED"], wstring (volume->Path));
 				}
 			}
 
@@ -247,7 +247,7 @@ namespace VeraCrypt
 
 		foreach_ref (const VolumeInfo &volume, volumes)
 		{
-			prop << _("Slot") << L": " << StringConverter::FromNumber (volume.SlotNumber) << L'\n';
+			prop << LangString["TOKEN_SLOT_ID"] << L": " << StringConverter::FromNumber (volume.SlotNumber) << L'\n';
 			prop << LangString["VOLUME"] << L": " << wstring (volume.Path) << L'\n';
 #ifndef TC_WINDOWS
 			prop << LangString["VIRTUAL_DEVICE"] << L": " << wstring (volume.VirtualDevice) << L'\n';
@@ -355,7 +355,7 @@ namespace VeraCrypt
 		// bad_alloc
 		const bad_alloc *outOfMemory = dynamic_cast <const bad_alloc *> (&ex);
 		if (outOfMemory)
-			return _("Out of memory.");
+			return LangString["LINUX_OOM"];
 
 		// Unresolved exceptions
 		string typeName (StringConverter::GetTypeName (typeid (ex)));
@@ -384,12 +384,12 @@ namespace VeraCrypt
 
 			// ElevationFailed
 			if (dynamic_cast <const ElevationFailed*> (&ex))
-				errOutput += wxString (_("Failed to obtain administrator privileges")) + (StringConverter::Trim (execEx->GetErrorOutput()).empty() ? L". " : L": ");
+				errOutput += wxString (LangString["LINUX_CANT_GET_ADMIN_PRIV"]) + (StringConverter::Trim (execEx->GetErrorOutput()).empty() ? L". " : L": ");
 
 			errOutput += StringConverter::ToWide (execEx->GetErrorOutput());
 
 			if (errOutput.empty())
-				return errOutput + StringFormatter (_("Command \"{0}\" returned error {1}."), execEx->GetCommand(), execEx->GetExitCode());
+				return errOutput + StringFormatter (LangString["LINUX_COMMAND_GET_ERROR"], execEx->GetCommand(), execEx->GetExitCode());
 
 			return wxString (errOutput).Trim (true);
 		}
@@ -406,7 +406,7 @@ namespace VeraCrypt
 			if (Keyfile::WasHiddenFilePresentInKeyfilePath())
 			{
 #ifdef TC_UNIX
-				message += _("\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.");
+				message += LangString["LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH"];
 #else
 				message += LangString["HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH"];
 #endif
@@ -442,60 +442,61 @@ namespace VeraCrypt
 
 	wxString UserInterface::ExceptionTypeToString (const std::type_info &ex)
 	{
+
 #define EX2MSG(exception, message) do { if (ex == typeid (exception)) return (message); } while (false)
 		EX2MSG (DriveLetterUnavailable,				LangString["DRIVE_LETTER_UNAVAILABLE"]);
-		EX2MSG (DeviceSectorSizeMismatch,			_("Storage device and VC volume sector size mismatch"));
-		EX2MSG (EncryptedSystemRequired,			_("This operation must be performed only when the system hosted on the volume is running."));
+		EX2MSG (DeviceSectorSizeMismatch,			LangString["LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH"]);
+		EX2MSG (EncryptedSystemRequired,			LangString["LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED"]);
 		EX2MSG (ExternalException,					LangString["EXCEPTION_OCCURRED"]);
-		EX2MSG (InsufficientData,					_("Not enough data available."));
+		EX2MSG (InsufficientData, 					LangString["LINUX_EX2MSG_INSUFFICIENTDATA"]);
 		EX2MSG (InvalidSecurityTokenKeyfilePath,	LangString["INVALID_TOKEN_KEYFILE_PATH"]);
 		EX2MSG (HigherVersionRequired,				LangString["NEW_VERSION_REQUIRED"]);
-		EX2MSG (KernelCryptoServiceTestFailed,		_("Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line."));
+		EX2MSG (KernelCryptoServiceTestFailed,		LangString["LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED"]);
 		EX2MSG (KeyfilePathEmpty,					LangString["ERR_KEYFILE_PATH_EMPTY"]);
-		EX2MSG (LoopDeviceSetupFailed,				_("Failed to set up a loop device."));
-		EX2MSG (MissingArgument,					_("A required argument is missing."));
-		EX2MSG (MissingVolumeData,					_("Volume data missing."));
-		EX2MSG (MountPointRequired,					_("Mount point required."));
-		EX2MSG (MountPointUnavailable,				_("Mount point is already in use."));
+		EX2MSG (LoopDeviceSetupFailed,				LangString["LINUX_EX2MSG_LOOPDEVICESETUPFAILED"]);
+		EX2MSG (MissingArgument,					LangString["LINUX_EX2MSG_MISSINGARGUMENT"]);
+		EX2MSG (MissingVolumeData,					LangString["LINUX_EX2MSG_MISSINGVOLUMEDATA"]);
+		EX2MSG (MountPointRequired,					LangString["LINUX_EX2MSG_MOUNTPOINTREQUIRED"]);
+		EX2MSG (MountPointUnavailable,				LangString["LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE"]);
 		EX2MSG (NoDriveLetterAvailable,				LangString["NO_FREE_DRIVES"]);
-		EX2MSG (PasswordEmpty,						_("No password or keyfile specified."));
+		EX2MSG (PasswordEmpty,						LangString["LINUX_EX2MSG_PASSWORDEMPTY"]);
 		EX2MSG (PasswordIncorrect,					LangString["PASSWORD_WRONG"]);
 		EX2MSG (PasswordKeyfilesIncorrect,			LangString["PASSWORD_OR_KEYFILE_WRONG"]);
-		EX2MSG (PasswordOrKeyboardLayoutIncorrect,	LangString["PASSWORD_OR_KEYFILE_WRONG"] + _("\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system."));
-		EX2MSG (PasswordOrMountOptionsIncorrect,	LangString["PASSWORD_OR_KEYFILE_OR_MODE_WRONG"] + _("\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'."));
-		EX2MSG (PasswordTooLong,					StringFormatter (_("Password is longer than {0} characters."), (int) VolumePassword::MaxSize));
+		EX2MSG (PasswordOrKeyboardLayoutIncorrect,	LangString["PASSWORD_OR_KEYFILE_WRONG"] + LangString["LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT"]);
+		EX2MSG (PasswordOrMountOptionsIncorrect,	LangString["PASSWORD_OR_KEYFILE_OR_MODE_WRONG"] + LangString["LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT"]);
+		EX2MSG (PasswordTooLong,					StringFormatter (LangString["LINUX_EX2MSG_PASSWORDTOOLONG"], (int) VolumePassword::MaxSize));
 		EX2MSG (PasswordUTF8TooLong,				LangString["PASSWORD_UTF8_TOO_LONG"]);
 		EX2MSG (PasswordLegacyUTF8TooLong,			LangString["LEGACY_PASSWORD_UTF8_TOO_LONG"]);
 		EX2MSG (PasswordUTF8Invalid,				LangString["PASSWORD_UTF8_INVALID"]);
-		EX2MSG (PartitionDeviceRequired,			_("Partition device required."));
-		EX2MSG (ProtectionPasswordIncorrect,		_("Incorrect password to the protected hidden volume or the hidden volume does not exist."));
-		EX2MSG (ProtectionPasswordKeyfilesIncorrect,_("Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist."));
+		EX2MSG (PartitionDeviceRequired,			LangString["LINUX_EX2MSG_PARTITIONDEVICEREQUIRED"]);
+		EX2MSG (ProtectionPasswordIncorrect,		LangString["LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT"]);
+		EX2MSG (ProtectionPasswordKeyfilesIncorrect, LangString["LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT"]);
 		EX2MSG (RootDeviceUnavailable,				LangString["NODRIVER"]);
 		EX2MSG (SecurityTokenKeyfileAlreadyExists,	LangString["TOKEN_KEYFILE_ALREADY_EXISTS"]);
 		EX2MSG (SecurityTokenKeyfileNotFound,		LangString["TOKEN_KEYFILE_NOT_FOUND"]);
 		EX2MSG (SecurityTokenLibraryNotInitialized,	LangString["PKCS11_MODULE_INIT_FAILED"]);
-		EX2MSG (StringConversionFailed,				_("Invalid characters encountered."));
-		EX2MSG (StringFormatterException,			_("Error while parsing formatted string."));
-		EX2MSG (TemporaryDirectoryFailure,			_("Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space."));
+		EX2MSG (StringConversionFailed,				LangString["LINUX_EX2MSG_STRINGCONVERSIONFAILED"]);
+		EX2MSG (StringFormatterException,			LangString["LINUX_EX2MSG_STRINGFORMATTEREXCEPTION"]);
+		EX2MSG (TemporaryDirectoryFailure,			LangString["LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE"]);
 		EX2MSG (UnportablePassword,					LangString["UNSUPPORTED_CHARS_IN_PWD"]);
 
 #if defined (TC_LINUX)
 		EX2MSG (UnsupportedSectorSize,				LangString["SECTOR_SIZE_UNSUPPORTED"]);
-		EX2MSG (UnsupportedSectorSizeHiddenVolumeProtection, _("Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume."));
-		EX2MSG (UnsupportedSectorSizeNoKernelCrypto, _("Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive."));
+		EX2MSG (UnsupportedSectorSizeHiddenVolumeProtection, LangString["LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION"]);
+		EX2MSG (UnsupportedSectorSizeNoKernelCrypto, LangString["LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO"]);
 #else
-		EX2MSG (UnsupportedSectorSize,				_("Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform."));
+		EX2MSG (UnsupportedSectorSize,				LangString["LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE"]);
 #endif
 
 		EX2MSG (VolumeAlreadyMounted,				LangString["VOL_ALREADY_MOUNTED"]);
 		EX2MSG (VolumeEncryptionNotCompleted,		LangString["ERR_ENCRYPTION_NOT_COMPLETED"]);
-		EX2MSG (VolumeHostInUse,					_("The host file/device is already in use."));
-		EX2MSG (VolumeSlotUnavailable,				_("Volume slot unavailable."));
+		EX2MSG (VolumeHostInUse,					LangString["LINUX_EX2MSG_VOLUMEHOSTINUSE"]);
+		EX2MSG (VolumeSlotUnavailable,				LangString["LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE"]);
 		EX2MSG (UnsupportedAlgoInTrueCryptMode,		LangString["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 		EX2MSG (UnsupportedTrueCryptFormat,			LangString["UNSUPPORTED_TRUECRYPT_FORMAT"]);
 
 #ifdef TC_MACOSX
-		EX2MSG (HigherFuseVersionRequired,			_("VeraCrypt requires OSXFUSE 2.5 or above."));
+		EX2MSG (HigherFuseVersionRequired,			LangString["LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED"]);
 #endif
 
 #undef EX2MSG
@@ -800,7 +801,7 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
-			ShowError (_("Unknown exception occurred."));
+			ShowError (LangString["LINUX_UNKNOWN_EXC_OCCURRED"]);
 		}
 
 		Yield();
@@ -1007,7 +1008,7 @@ namespace VeraCrypt
 					{
 						if (!message.IsEmpty())
 							message += L'\n';
-						message += StringFormatter (_("Volume \"{0}\" has been mounted."), wstring (volume.Path));
+						message += StringFormatter (LangString["LINUX_VOL_DISMOUNTED"], wstring (volume.Path));
 					}
 					ShowInfo (message);
 				}
@@ -1269,10 +1270,11 @@ namespace VeraCrypt
 					"--slot=SLOT\n"
 					" Use specified slot number when mounting, dismounting, or listing a volume.\n"
 					"\n"
-					"--size=SIZE[K|M|G|T]\n"
+					"--size=SIZE[K|KiB|M|MiB|G|GiB|T|TiB] or --size=max\n"
 					" Use specified size when creating a new volume. If no suffix is indicated,\n"
 					" then SIZE is interpreted in bytes. Suffixes K, M, G or T can be used to\n"
 					" indicate a value in KiB, MiB, GiB or TiB respectively.\n"
+					" If max is specified, the new volume will use all available free disk space.\n"
 					"\n"
 					"-t, --text\n"
 					" Use text user interface. Graphical user interface is used by default if\n"
@@ -1326,7 +1328,7 @@ namespace VeraCrypt
 #ifndef TC_NO_GUI
 				if (Application::GetUserInterfaceType() == UserInterfaceType::Graphic)
 				{
-					wxDialog dialog (nullptr, wxID_ANY, _("VeraCrypt Command Line Help"), wxDefaultPosition);
+					wxDialog dialog (nullptr, wxID_ANY, LangString["LINUX_CMD_HELP"], wxDefaultPosition);
 
 					wxTextCtrl *textCtrl = new wxTextCtrl (&dialog, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY);
 					textCtrl->SetFont (wxFont (wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, L"Courier"));
@@ -1338,7 +1340,7 @@ namespace VeraCrypt
 
 					wxBoxSizer *sizer = new wxBoxSizer (wxVERTICAL);
 					sizer->Add (textCtrl, 1, wxALL | wxEXPAND, 5);
-					sizer->Add (new wxButton (&dialog, wxID_OK, _("OK")), 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 5);
+					sizer->Add (new wxButton (&dialog, wxID_OK, LangString["IDOK"]), 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 5);
 
 					dialog.SetSizer (sizer);
 					dialog.Layout();

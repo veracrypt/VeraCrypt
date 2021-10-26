@@ -13,6 +13,8 @@
 
 #include "TCdefs.h"
 #include <ntddk.h>
+#include <initguid.h>
+#include <Ntddstor.h>
 #include "Crypto.h"
 #include "Fat.h"
 #include "Tests.h"
@@ -151,6 +153,29 @@ POOL_TYPE ExDefaultNonPagedPoolType = NonPagedPool;
 ULONG ExDefaultMdlProtection = 0;
 
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
+
+BOOL AlignValue (ULONG ulValue, ULONG ulAlignment, ULONG *pulResult)
+{
+	BOOL bRet = FALSE;
+	HRESULT hr;
+	if (ulAlignment == 0)
+	{
+		*pulResult = ulValue;
+		bRet = TRUE;
+	}
+	else
+	{
+		ulAlignment -= 1;
+		hr = ULongAdd (ulValue, ulAlignment, &ulValue);
+		if (S_OK == hr)
+		{
+			*pulResult = ulValue & (~ulAlignment);
+			bRet = TRUE;
+		}
+	}
+
+	return bRet;
+}
 
 BOOL IsUefiBoot ()
 {
@@ -1688,7 +1713,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				ULONG ulNewInputLength = 0;
 				BOOL bForwardIoctl = FALSE;
 
-				if (inputLength >= minSizeGeneric && inputLength >= minSizedataSet && inputLength >= minSizeParameter)
+				if (((ULONGLONG) inputLength) >= minSizeGeneric && ((ULONGLONG) inputLength) >= minSizedataSet && ((ULONGLONG) inputLength) >= minSizeParameter)
 				{
 					if (bEntireSet)
 					{
@@ -1700,36 +1725,53 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 						}
 						else
 						{
-							DWORD dwDataSetOffset = ALIGN_VALUE (inputLength, sizeof(DEVICE_DATA_SET_RANGE));
+							DWORD dwDataSetOffset;
 							DWORD dwDataSetLength = sizeof(DEVICE_DATA_SET_RANGE);
 
-							Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE set. Setting data range to all volume.\n");
-
-							ulNewInputLength = dwDataSetOffset + dwDataSetLength;
-							pNewSetAttrs = (PDEVICE_MANAGE_DATA_SET_ATTRIBUTES) TCalloc (ulNewInputLength);
-							if (pNewSetAttrs)
+							if (AlignValue (inputLength,  sizeof(DEVICE_DATA_SET_RANGE), &dwDataSetOffset))
 							{
-								PDEVICE_DATA_SET_RANGE pRange = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pNewSetAttrs) + dwDataSetOffset);
+								Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE set. Setting data range to all volume.\n");
 
-								memcpy (pNewSetAttrs, pInputAttrs, inputLength);
+								if (S_OK == ULongAdd(dwDataSetOffset, dwDataSetLength, &ulNewInputLength))
+								{
+									pNewSetAttrs = (PDEVICE_MANAGE_DATA_SET_ATTRIBUTES) TCalloc (ulNewInputLength);
+									if (pNewSetAttrs)
+									{
+										PDEVICE_DATA_SET_RANGE pRange = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pNewSetAttrs) + dwDataSetOffset);
 
-								pRange->StartingOffset = (ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset;
-								pRange->LengthInBytes = Extension->DiskLength;
+										memcpy (pNewSetAttrs, pInputAttrs, inputLength);
 
-								pNewSetAttrs->Size = sizeof(DEVICE_MANAGE_DATA_SET_ATTRIBUTES);
-								pNewSetAttrs->Action = action;
-								pNewSetAttrs->Flags = pInputAttrs->Flags & (~DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE);
-								pNewSetAttrs->ParameterBlockOffset = pInputAttrs->ParameterBlockOffset;
-								pNewSetAttrs->ParameterBlockLength = pInputAttrs->ParameterBlockLength;
-								pNewSetAttrs->DataSetRangesOffset = dwDataSetOffset;
-								pNewSetAttrs->DataSetRangesLength = dwDataSetLength;
+										pRange->StartingOffset = (ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset;
+										pRange->LengthInBytes = Extension->DiskLength;
 
-								bForwardIoctl = TRUE;
+										pNewSetAttrs->Size = sizeof(DEVICE_MANAGE_DATA_SET_ATTRIBUTES);
+										pNewSetAttrs->Action = action;
+										pNewSetAttrs->Flags = pInputAttrs->Flags & (~DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE);
+										pNewSetAttrs->ParameterBlockOffset = pInputAttrs->ParameterBlockOffset;
+										pNewSetAttrs->ParameterBlockLength = pInputAttrs->ParameterBlockLength;
+										pNewSetAttrs->DataSetRangesOffset = dwDataSetOffset;
+										pNewSetAttrs->DataSetRangesLength = dwDataSetLength;
+
+										bForwardIoctl = TRUE;
+									}
+									else
+									{
+										Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - Failed to allocate memory.\n");
+										Irp->IoStatus.Status = STATUS_INSUFFICIENT_RESOURCES;
+										Irp->IoStatus.Information = 0;
+									}
+								}
+								else
+								{
+									Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE set but data range length computation overflowed.\n");
+									Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+									Irp->IoStatus.Information = 0;
+								}
 							}
 							else
 							{
-								Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - Failed to allocate memory.\n");
-								Irp->IoStatus.Status = STATUS_INSUFFICIENT_RESOURCES;
+								Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE set but data set offset computation overflowed.\n");
+								Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
 								Irp->IoStatus.Information = 0;
 							}
 						}
@@ -3379,6 +3421,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		return (LPWSTR) _T ("IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT");
 	else if (ulCode == IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES)
 		return (LPWSTR) _T ("IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES");
+	else if (ulCode == IOCTL_DISK_GROW_PARTITION)
+		return (LPWSTR) _T ("IOCTL_DISK_GROW_PARTITION");
 	else if (ulCode == IRP_MJ_READ)
 		return (LPWSTR) _T ("IRP_MJ_READ");
 	else if (ulCode == IRP_MJ_WRITE)
@@ -4568,7 +4612,7 @@ void EnsureNullTerminatedString (wchar_t *str, size_t maxSizeInBytes)
 void *AllocateMemoryWithTimeout (size_t size, int retryDelay, int timeout)
 {
 	LARGE_INTEGER waitInterval;
-	waitInterval.QuadPart = retryDelay * -10000;
+	waitInterval.QuadPart = ((LONGLONG)retryDelay) * -10000;
 
 	ASSERT (KeGetCurrentIrql() <= APC_LEVEL);
 	ASSERT (retryDelay > 0 && retryDelay <= timeout);
@@ -4940,7 +4984,7 @@ BOOL IsOSAtLeast (OSVersionEnum reqMinOS)
 		>= (major << 16 | minor << 8));
 }
 
-NTSTATUS NTAPI KeSaveExtendedProcessorState (
+NTSTATUS NTAPI KeSaveExtendedProcessorStateVC (
     __in ULONG64 Mask,
     PXSTATE_SAVE XStateSave
     )
@@ -4955,7 +4999,7 @@ NTSTATUS NTAPI KeSaveExtendedProcessorState (
 	}
 }
 
-VOID NTAPI KeRestoreExtendedProcessorState (
+VOID NTAPI KeRestoreExtendedProcessorStateVC (
 	PXSTATE_SAVE XStateSave
 	)
 {

@@ -21,7 +21,7 @@ export WX_BUILD_DIR=$PARENTDIR/wxBuild-3.1.2
 
 # define the SDK version to use and OSX minimum target. We target 10.9 by default
 export VC_OSX_TARGET=10.9
-export VC_OSX_SDK=10.14
+export VC_OSX_SDK=11.3
 echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
 
 cd $SOURCEPATH

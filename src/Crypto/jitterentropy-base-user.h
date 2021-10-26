@@ -70,7 +70,17 @@ typedef int32 ssize_t;
 
 static VC_INLINE void jent_get_nstime(uint64 *out)
 {
+#ifdef _M_ARM64
+	LARGE_INTEGER v = { 0 };
+#ifdef TC_WINDOWS_DRIVER
+		v = KeQueryPerformanceCounter(NULL);
+#else
+		QueryPerformanceCounter(&v);
+#endif
+		* out = v.QuadPart;
+#else
 	*out = __rdtsc();;
+#endif
 }
 
 #else

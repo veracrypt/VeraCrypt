@@ -25,7 +25,7 @@ uint32 HiddenSysLeakProtectionCount = 0;
 
 NTSTATUS VolumeFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 {
-	VolumeFilterExtension *Extension;
+	VolumeFilterExtension *Extension = NULL;
 	NTSTATUS status;
 	PDEVICE_OBJECT filterDeviceObject = NULL;
 	PDEVICE_OBJECT attachedDeviceObject;
@@ -72,7 +72,7 @@ NTSTATUS VolumeFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 err:
 	if (filterDeviceObject)
 	{
-		if (Extension->LowerDeviceObject)
+		if (Extension && Extension->LowerDeviceObject)
 			IoDetachDevice (Extension->LowerDeviceObject);
 
 		IoDeleteDevice (filterDeviceObject);
@@ -125,6 +125,32 @@ static NTSTATUS OnStartDeviceCompleted (PDEVICE_OBJECT filterDeviceObject, PIRP 
 	return STATUS_CONTINUE_COMPLETION;
 }
 
+static BOOL IsSystemVolumePartition (VolumeFilterExtension *Extension)
+{
+	NTSTATUS status;
+	BOOL bRet = FALSE;
+	DriveFilterExtension *bootDriveExtension = GetBootDriveFilterExtension();
+	STORAGE_DEVICE_NUMBER storageDeviceNumber;
+
+	if (!bootDriveExtension->SystemStorageDeviceNumberValid)
+		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+
+	status = SendDeviceIoControlRequest (Extension->LowerDeviceObject, IOCTL_STORAGE_GET_DEVICE_NUMBER, NULL, 0, &storageDeviceNumber, sizeof (storageDeviceNumber));
+
+	if (NT_SUCCESS (status) && bootDriveExtension->SystemStorageDeviceNumber == storageDeviceNumber.DeviceNumber)
+	{
+		PARTITION_INFORMATION_EX partition;
+		status = SendDeviceIoControlRequest (Extension->LowerDeviceObject, IOCTL_DISK_GET_PARTITION_INFO_EX, NULL, 0, &partition, sizeof (partition));
+
+		if (NT_SUCCESS (status) && partition.StartingOffset.QuadPart == bootDriveExtension->ConfiguredEncryptedAreaStart)
+		{
+			bRet = TRUE;
+		}
+	}
+
+	return bRet;
+}
+
 
 static NTSTATUS DispatchControl (PDEVICE_OBJECT DeviceObject, PIRP Irp, VolumeFilterExtension *Extension, PIO_STACK_LOCATION irpSp)
 {
@@ -139,25 +165,10 @@ static NTSTATUS DispatchControl (PDEVICE_OBJECT DeviceObject, PIRP Irp, VolumeFi
 		case IOCTL_DISK_IS_WRITABLE:
 			{
 				// All volumes except the system volume must be read-only
-
-				DriveFilterExtension *bootDriveExtension = GetBootDriveFilterExtension();
-				STORAGE_DEVICE_NUMBER storageDeviceNumber;
-
-				if (!bootDriveExtension->SystemStorageDeviceNumberValid)
-					TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
-
-				status = SendDeviceIoControlRequest (Extension->LowerDeviceObject, IOCTL_STORAGE_GET_DEVICE_NUMBER, NULL, 0, &storageDeviceNumber, sizeof (storageDeviceNumber));
-
-				if (NT_SUCCESS (status) && bootDriveExtension->SystemStorageDeviceNumber == storageDeviceNumber.DeviceNumber)
+				if (IsSystemVolumePartition(Extension))
 				{
-					PARTITION_INFORMATION_EX partition;
-					status = SendDeviceIoControlRequest (Extension->LowerDeviceObject, IOCTL_DISK_GET_PARTITION_INFO_EX, NULL, 0, &partition, sizeof (partition));
-
-					if (NT_SUCCESS (status) && partition.StartingOffset.QuadPart == bootDriveExtension->ConfiguredEncryptedAreaStart)
-					{
-						IoReleaseRemoveLock (&Extension->Queue.RemoveLock, Irp);
-						return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
-					}
+					IoReleaseRemoveLock (&Extension->Queue.RemoveLock, Irp);
+					return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
 				}
 
 				IoReleaseRemoveLock (&Extension->Queue.RemoveLock, Irp);
@@ -194,6 +205,15 @@ static NTSTATUS DispatchControl (PDEVICE_OBJECT DeviceObject, PIRP Irp, VolumeFi
 
 			IoReleaseRemoveLock (&Extension->Queue.RemoveLock, Irp);
 			return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
+
+		case IOCTL_DISK_GROW_PARTITION:
+			if (IsSystemVolumePartition(Extension))
+			{
+				Dump ("VolumeFilter-DispatchControl: IOCTL_DISK_GROW_PARTITION blocked\n");
+				IoReleaseRemoveLock (&Extension->Queue.RemoveLock, Irp);
+				return TCCompleteDiskIrp (Irp, STATUS_UNSUCCESSFUL, 0);
+			}
+			break;
 		}
 	}
 

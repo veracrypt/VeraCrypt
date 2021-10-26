@@ -1,0 +1,7 @@
+LIBRARY VERACRYPTSETUP
+EXPORTS
+	VC_CustomAction_PreInstall
+	VC_CustomAction_PostInstall
+	VC_CustomAction_PreUninstall
+	VC_CustomAction_PostUninstall
+	VC_CustomAction_DoChecks

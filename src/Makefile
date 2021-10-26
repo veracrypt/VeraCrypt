@@ -56,8 +56,7 @@ export WX_CONFIG_ARGS := --unicode
 WX_CONFIGURE_FLAGS :=
 export WXCONFIG_CFLAGS :=
 export WXCONFIG_CXXFLAGS :=
-WX_ROOT ?= ..
-
+WX_ROOT ?= $(BASE_DIR)/wxWidgets
 
 export TC_BUILD_CONFIG := Release
 
@@ -96,6 +95,15 @@ ifeq "$(origin WXSTATIC)" "command line"
 	endif
 endif
 
+ifeq "$(origin INDICATOR)" "command line"
+	ifneq (,$(findstring gtk3,$(shell $(WX_CONFIG) --selected-config)))
+		INDICATOR_LIBRARY=ayatana-appindicator3-0.1
+	else
+		INDICATOR_LIBRARY=ayatana-appindicator-0.1
+	endif
+	export LIBS += $(shell pkg-config --libs $(INDICATOR_LIBRARY))
+	C_CXX_FLAGS += $(shell pkg-config --cflags $(INDICATOR_LIBRARY)) -DHAVE_INDICATORS
+endif
 
 #------ Release configuration ------
 
@@ -175,13 +183,22 @@ ifeq "$(shell uname -s)" "Linux"
 
 	PLATFORM := Linux
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
+
+	# GNU GCC version 11 and higher compile with -std=gnu++17 by default
+        # which breaks "byte" definitions in Crypto++ library. So set 
+        # -std=gnu++14 instead.
+        GCC11PLUS := $(shell expr `$(CC) -dumpversion | cut -f1 -d.` \>= 11)
+        ifeq "$(GCC11PLUS)" "1"
+                CXXFLAGS += -std=gnu++14
+        endif
+
 	
 	ifeq "$(SIMD_SUPPORTED)" "1"
 		CFLAGS += -msse2
 		CXXFLAGS += -msse2
 
-		GCC_GTEQ_440 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
-		GCC_GTEQ_430 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
+		GCC_GTEQ_440 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
+		GCC_GTEQ_430 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
 		ifeq "$(GCC_GTEQ_440)" "1"
 			CFLAGS += -maes
 			CXXFLAGS += -maes
@@ -215,7 +232,7 @@ ifeq "$(shell uname -s)" "Linux"
 	ifneq "$(origin WXSTATIC)" "command line"
 		LFLAGS += -ldl
 	else
-		GCC5USED := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 5)
+		GCC5USED := $(shell expr `$(CC) -dumpversion | cut -f1 -d.` \>= 5)
 		ifeq "$(GCC5USED)" "1"
 			CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 			WXCONFIG_CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
@@ -246,7 +263,7 @@ ifeq "$(shell uname -s)" "Darwin"
 	export VC_OSX_SDK ?= $(VC_OSX_TARGET)
 
 	#check to see if XCode 3 path exists.Otherwise, use XCode 4 path
-	VC_OSX_SDK_PATH  := /Developer/SDKs/MacOSX$(VC_OSX_SDK).sdk
+	VC_OSX_SDK_PATH := /Developer/SDKs/MacOSX$(VC_OSX_SDK).sdk
 	ifeq ($(wildcard $(VC_OSX_SDK_PATH)/SDKSettings.plist),)
 		VC_OSX_SDK_PATH := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(VC_OSX_SDK).sdk
 	endif
@@ -264,6 +281,10 @@ ifeq "$(shell uname -s)" "Darwin"
 	WX_CONFIGURE_FLAGS += --with-macosx-version-min=$(VC_OSX_TARGET) --with-macosx-sdk=$(VC_OSX_SDK_PATH)
 
 	ifeq "$(CPU_ARCH)" "x64"
+		CPU_ARCH = x86
+	endif
+	
+	ifeq "$(CPU_ARCH)" "arm64"
 		CPU_ARCH = x86
 	endif
 
@@ -294,14 +315,18 @@ ifeq "$(shell uname -s)" "Darwin"
 		C_CXX_FLAGS += -gfull -arch x86_64
 		LFLAGS += -Wl,-dead_strip -arch x86_64
 		
+		WX_CONFIGURE_FLAGS += --without-libpng --disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-svg
+
 		#----- Legacy build: we build both 32-bit and 64-bit ----
 		ifdef VC_LEGACY_BUILD
 			C_CXX_FLAGS += -arch i386
 			LFLAGS += -arch i386
 			WX_CONFIGURE_FLAGS += --enable-universal_binary=i386,x86_64
 		else
-			CXXFLAGS += -std=c++11
-			WX_CONFIGURE_FLAGS += --disable-universal_binary
+			CXXFLAGS += -std=c++11			
+			C_CXX_FLAGS += -arch arm64
+			LFLAGS += -arch arm64
+			WX_CONFIGURE_FLAGS += --enable-universal_binary=arm64,x86_64
 		endif
 
 		WXCONFIG_CFLAGS += -gfull
@@ -364,6 +389,27 @@ ifeq "$(shell uname -s)" "FreeBSD"
 endif
 
 
+#------ OpenBSD configuration ------
+
+ifeq "$(shell uname -s)" "OpenBSD"
+
+	PLATFORM := OpenBSD
+	PLATFORM_UNSUPPORTED := 1
+	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_OPENBSD
+
+	CC := cc
+	CXX := c++
+
+	ifeq "$(TC_BUILD_CONFIG)" "Release"
+		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
+		LFLAGS += -Wl,--gc-sections -pie
+
+		WXCONFIG_CFLAGS += -fpie -fPIC
+		WXCONFIG_CXXFLAGS += -fpie -fPIC
+	endif
+endif
+
+
 #------ Solaris configuration ------
 
 ifeq "$(shell uname -s)" "SunOS"
@@ -390,8 +436,8 @@ WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --dis
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
 	--disable-animatectrl --disable-bmpcombobox --disable-calendar --disable-caret --disable-checklst --disable-collpane --disable-colourpicker --disable-comboctrl \
-	--disable-datepick --disable-display --disable-dirpicker --disable-filepicker --disable-fontpicker --disable-grid  --disable-dataviewctrl \
-	--disable-listbook --disable-odcombobox --disable-sash  --disable-searchctrl --disable-slider --disable-splitter --disable-togglebtn \
+	--disable-datepick --disable-display --disable-dirpicker --disable-filepicker --disable-fontpicker --disable-grid --disable-dataviewctrl \
+	--disable-listbook --disable-odcombobox --disable-sash --disable-searchctrl --disable-slider --disable-splitter --disable-togglebtn \
 	--disable-toolbar --disable-tbarnative --disable-treebook --disable-toolbook --disable-tipwindow --disable-popupwin \
 	--disable-commondlg --disable-aboutdlg --disable-coldlg --disable-finddlg --disable-fontdlg --disable-numberdlg --disable-splash \
 	--disable-tipdlg --disable-progressdlg --disable-wizarddlg --disable-miniframe --disable-splines --disable-palette \

@@ -15,7 +15,7 @@
 #include "Platform/StringConverter.h"
 #include <stdio.h>
 #include <sys/stat.h>
-#if !defined(__FreeBSD__) && !defined(__APPLE__)
+#if !defined(__FreeBSD__) && !defined(__APPLE__) && !defined(__OpenBSD__)
 #include <sys/sysmacros.h>
 #endif
 
@@ -107,8 +107,11 @@ namespace VeraCrypt
 
 		string pathStr = StringConverter::ToSingle (Path);
 		size_t p = pathStr.rfind ("s");
-		if (p == string::npos)
-			throw PartitionDeviceRequired (SRC_POS);
+		if (p == string::npos) {
+			p = pathStr.rfind ("p");
+			if (p == string::npos)
+				throw PartitionDeviceRequired (SRC_POS);
+		}
 		path = pathStr.substr (0, p);
 
 #elif defined (TC_SOLARIS)

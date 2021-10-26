@@ -1425,7 +1425,7 @@ void ComboSelChangeEA (HWND hwndDlg)
 		int i, cnt = 0;
 
 		nIndex = (int) SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
-		EAGetName (name, nIndex, 0);
+		EAGetName (name, ARRAYSIZE(name),nIndex, 0);
 
 		if (wcscmp (name, L"AES") == 0)
 		{
@@ -3332,7 +3332,6 @@ BOOL IsSparseFile (HWND hwndDlg)
 
 	if (bPreserveTimestamp)
 	{
-		FILETIME ftLastAccessTime;
 		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
 		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
 
@@ -3377,7 +3376,6 @@ BOOL GetFileVolSize (HWND hwndDlg, unsigned __int64 *size)
 
 	if (bPreserveTimestamp)
 	{
-		FILETIME ftLastAccessTime;
 		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
 		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
 
@@ -4167,7 +4165,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 				{
 					if (EAIsFormatEnabled (ea) && (!SysEncInEffect () || bSystemIsGPT || EAIsMbrSysEncEnabled (ea)))
-						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea, 1), ea);
+						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ARRAYSIZE(buf),ea, 1), ea);
 				}
 
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), &nVolumeEA);
@@ -5599,7 +5597,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			int nIndex = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
 			nIndex = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
-			EAGetName (name, nIndex, 0);
+			EAGetName (name, ARRAYSIZE(name),nIndex, 0);
 
 			if (wcscmp (name, L"AES") == 0)
 				Applink ("aes");
@@ -6390,8 +6388,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 #ifdef _DEBUG
 			// For faster testing
-			strcpy (szVerify, "q");
-			strcpy (szRawPassword, "q");
+			StringCchCopyA (szVerify, ARRAYSIZE(szVerify), "q");
+			StringCchCopyA (szRawPassword, ARRAYSIZE(szRawPassword), "q");
 #endif
 
 			PasswordEditDropTarget* pTarget = new PasswordEditDropTarget ();
@@ -7332,7 +7330,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				else
 				{
 					// Either a standard Windows boot manager or no boot manager
-					wcscpy_s (SysEncMultiBootCfgOutcome, sizeof(SysEncMultiBootCfgOutcome) / 2, GetString ("WINDOWS_BOOT_LOADER_HINTS"));
+					StringCchCopyW (SysEncMultiBootCfgOutcome, sizeof(SysEncMultiBootCfgOutcome) / 2, GetString ("WINDOWS_BOOT_LOADER_HINTS"));
 				}
 			}
 

@@ -519,8 +519,10 @@
 			<dict>
 				<key>POSTINSTALL_PATH</key>
 				<dict>
+					<key>PATH</key>
+					<string>postinstall.sh</string>
 					<key>PATH_TYPE</key>
-					<integer>0</integer>
+					<integer>1</integer>
 				</dict>
 				<key>PREINSTALL_PATH</key>
 				<dict>
@@ -555,7 +557,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.24.23</string>
+				<string>1.25.1</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -834,7 +836,8 @@
 						<integer>1</integer>
 						<key>IC_REQUIREMENT_FILES_LIST</key>
 						<array>
-							<string>/usr/local/lib/libosxfuse_i64.2.dylib</string>
+							<string>/usr/local/lib/libfuse.dylib</string>
+							<string>/usr/local/lib/libosxfuse.2.dylib</string>
 						</array>
 						<key>IC_REQUIREMENT_FILES_SELECTOR</key>
 						<integer>0</integer>
@@ -851,7 +854,7 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>OSXFuse seems to be missing on your machine. VeraCrypt requires OSXFuse 2.5 or above.
+							<string>OSXFuse seems to be missing on your machine. VeraCrypt requires OSXFuse 3.10 or above.
 Please download the latest OSXFuse version from  :
 https://osxfuse.github.io/</string>
 						</dict>
@@ -861,7 +864,7 @@ https://osxfuse.github.io/</string>
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>OSXFuse semble ne pas être installé sur votre machine. VeraCrypt nécessite OSXFuse 2.5 ou supérieur.
+							<string>OSXFuse semble ne pas être installé sur votre machine. VeraCrypt nécessite OSXFuse 3.10 ou supérieur.
 Merci de télécharger la dernière version de OSXFuse à partir de :
 https://osxfuse.github.io/
 
@@ -1059,7 +1062,7 @@ https://osxfuse.github.io/
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>VeraCrypt Legacy 1.24-Update7</string>
+			<string>VeraCrypt Legacy 1.25-RC1</string>
 			<key>PAYLOAD_ONLY</key>
 			<false/>
 			<key>TREAT_MISSING_PRESENTATION_DOCUMENTS_AS_WARNING</key>

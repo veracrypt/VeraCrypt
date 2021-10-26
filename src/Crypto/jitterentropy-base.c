@@ -53,7 +53,7 @@
 
 
 #ifdef TC_WINDOWS_DRIVER
-#define UINT64_MAX	0xffffffffffffffffU
+#define UINT64_MAX	 0xffffffffffffffffui64
 #else
 #include <stdint.h>
 #endif
@@ -345,7 +345,7 @@ static uint64_t jent_loop_shuffle(struct rand_data *ec,
 	 * We add a lower boundary value to ensure we have a minimum
 	 * RNG loop count.
 	 */
-	return (shuffle + (1<<min));
+	return (shuffle + (1ULL<<min));
 }
 
 /**

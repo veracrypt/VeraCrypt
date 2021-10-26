@@ -574,40 +574,45 @@ namespace VeraCrypt
 
 		if (parser.Found (L"size", &str))
 		{
-			uint64 multiplier;
-			wxChar lastChar = str [str.Length () - 1];
-			if (lastChar >= wxT('0') && lastChar <= wxT('9'))
-				multiplier = 1;
-			else if (lastChar == wxT('K') || lastChar == wxT('k'))
-				multiplier = BYTES_PER_KB;
-			else if (lastChar == wxT('M') || lastChar == wxT('m'))
-				multiplier = BYTES_PER_MB;
-			else if (lastChar == wxT('G') || lastChar == wxT('g'))
-				multiplier = BYTES_PER_GB;
-			else if (lastChar == wxT('T') || lastChar == wxT('t'))
-				multiplier = BYTES_PER_TB;
+			if (str.CmpNoCase (wxT("max")) == 0)
+			{
+				ArgSize = (uint64) -1; // indicator of maximum available size
+			}
 			else
-				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			{
+				uint64 multiplier;
+				wxString originalStr = str;
+				size_t index = str.find_first_not_of (wxT("0123456789"));
+				if (index == 0)
+				{
+					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+				}
+				else if (index != (size_t) wxNOT_FOUND)
+				{
+					wxString sizeSuffix = str.Mid(index);
+					if (sizeSuffix.CmpNoCase(wxT("K")) == 0 || sizeSuffix.CmpNoCase(wxT("KiB")) == 0)
+						multiplier = BYTES_PER_KB;
+					else if (sizeSuffix.CmpNoCase(wxT("M")) == 0 || sizeSuffix.CmpNoCase(wxT("MiB")) == 0)
+						multiplier = BYTES_PER_MB;
+					else if (sizeSuffix.CmpNoCase(wxT("G")) == 0 || sizeSuffix.CmpNoCase(wxT("GiB")) == 0)
+						multiplier = BYTES_PER_GB;
+					else if (sizeSuffix.CmpNoCase(wxT("T")) == 0 || sizeSuffix.CmpNoCase(wxT("TiB")) == 0)
+						multiplier = BYTES_PER_TB;
+					else
+						throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 
-			// remove suffix if present
-			if (multiplier != 1)
-				str.RemoveLast ();
-			// check that we only have digits in the string
-			size_t index = str.find_first_not_of (wxT("0123456789"));
-			if (index != (size_t) wxNOT_FOUND)
-			{
-				// restore last characater for error display
-				if (multiplier != 1)
-					str += lastChar;
-				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
-			}
-			try
-			{
-				ArgSize = multiplier * StringConverter::ToUInt64 (wstring (str));
-			}
-			catch (...)
-			{
-				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+					str = str.Left (index);
+				}
+				else
+					multiplier = 1;
+				try
+				{
+					ArgSize = multiplier * StringConverter::ToUInt64 (wstring (str));
+				}
+				catch (...)
+				{
+					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + originalStr);
+				}
 			}
 		}
 

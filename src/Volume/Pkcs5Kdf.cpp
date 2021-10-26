@@ -56,15 +56,15 @@ namespace VeraCrypt
 
 		if (truecryptMode)
 		{
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 (true)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 (true)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (true)));
+			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 (true)));
 		}
 		else
 		{
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 (false)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (false)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256 ()));
+			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (false)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 (false)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
 		}

@@ -19,6 +19,13 @@
 #if !defined(_UEFI)
 #include <string.h>
 #ifndef TC_WINDOWS_BOOT
+#ifdef TC_WINDOWS_DRIVER
+#include <ntstrsafe.h>
+#define StringCchCatW	RtlStringCchCatW
+#define StringCchCopyW	RtlStringCchCopyW
+#else
+#include <strsafe.h>
+#endif
 #include "EncryptionThreadPool.h"
 #endif
 #endif
@@ -555,33 +562,35 @@ BOOL EAInitMode (PCRYPTO_INFO ci, unsigned char* key2)
 	return TRUE;
 }
 
-static void EAGetDisplayName(wchar_t *buf, int ea, int i)
+static void EAGetDisplayName(wchar_t *buf, size_t bufLen, int ea, int i)
 {
-	wcscpy (buf, CipherGetName (i));
+	StringCchCopyW (buf, bufLen, CipherGetName (i));
 	if (i = EAGetPreviousCipher(ea, i))
 	{
-		wcscat (buf, L"(");
-		EAGetDisplayName (&buf[wcslen(buf)], ea, i);
-		wcscat (buf, L")");
+		size_t curLen;
+		StringCchCatW (buf, bufLen, L"(");
+		curLen = wcslen(buf);
+		EAGetDisplayName (&buf[curLen], bufLen - curLen, ea, i);
+		StringCchCatW (buf, bufLen, L")");
 	}
 }
 
 // Returns name of EA, cascaded cipher names are separated by hyphens
-wchar_t *EAGetName (wchar_t *buf, int ea, int guiDisplay)
+wchar_t *EAGetName (wchar_t *buf, size_t bufLen, int ea, int guiDisplay)
 {
 	if (guiDisplay)
 	{
-		EAGetDisplayName (buf, ea, EAGetLastCipher(ea));
+		EAGetDisplayName (buf, bufLen, ea, EAGetLastCipher(ea));
 	}
 	else
 	{
 		int i = EAGetLastCipher(ea);
-		wcscpy (buf, (i != 0) ? CipherGetName (i) : L"?");
+		StringCchCopyW (buf, bufLen, (i != 0) ? CipherGetName (i) : L"?");
 
 		while (i = EAGetPreviousCipher(ea, i))
 		{
-			wcscat (buf, L"-");
-			wcscat (buf, CipherGetName (i));
+			StringCchCatW (buf, bufLen, L"-");
+			StringCchCatW (buf, bufLen, CipherGetName (i));
 		}
 	}
 	return buf;
@@ -595,7 +604,7 @@ int EAGetByName (wchar_t *name)
 
 	do
 	{
-		EAGetName(n, ea, 1);
+		EAGetName(n, 128, ea, 1);
 #if defined(_UEFI)
 		if (wcscmp(n, name) == 0)
 #else
@@ -785,11 +794,11 @@ const wchar_t *HashGetName (int hashId)
    return pHash? pHash -> Name : L"";
 }
 
-void HashGetName2 (wchar_t *buf, int hashId)
+void HashGetName2 (wchar_t *buf, size_t bufLen, int hashId)
 {
    Hash* pHash = HashGet(hashId);
    if (pHash)
-		wcscpy(buf, pHash -> Name);
+		StringCchCopyW (buf, bufLen, pHash -> Name);
 	else
 		buf[0] = L'\0';
 }
@@ -1195,6 +1204,8 @@ BOOL IsAesHwCpuSupported ()
 	}
 
 	return state && !HwEncryptionDisabled;
+#elif defined (_M_ARM64)
+	return 0;
 #else
 	return (HasAESNI() && !HwEncryptionDisabled)? TRUE : FALSE;
 #endif
@@ -1476,3 +1487,29 @@ void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 
 #endif
 
+#ifdef _M_ARM64
+/* dummy implementation that should never be called */
+void aes_hw_cpu_decrypt(const byte* ks, byte* data)
+{
+	ks = ks;
+	data = data;
+}
+
+void aes_hw_cpu_decrypt_32_blocks(const byte* ks, byte* data)
+{
+	ks = ks;
+	data = data;
+}
+
+void aes_hw_cpu_encrypt(const byte* ks, byte* data)
+{
+	ks = ks;
+	data = data;
+}
+
+void aes_hw_cpu_encrypt_32_blocks(const byte* ks, byte* data)
+{
+	ks = ks;
+	data = data;
+}
+#endif

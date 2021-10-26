@@ -58,7 +58,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		g_customIdCmdV = wxNewId();
 		g_customIdCmdA = wxNewId();
-		wxApp::s_macHelpMenuTitleName = _("&Help");
+		wxApp::s_macHelpMenuTitleName = LangString["MENU_HELP"];
 #endif
 	}
 
@@ -466,7 +466,7 @@ namespace VeraCrypt
 				}
 				else
 				{
-					wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), _("Enter your user password or administrator password:"), _("Administrator privileges required"));
+					wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), LangString["LINUX_ADMIN_PW_QUERY"], LangString["LINUX_ADMIN_PW_QUERY_TITLE"]);
 					if (dialog.ShowModal() != wxID_OK)
 						throw UserAbort (SRC_POS);
 					sValue = dialog.GetValue();
@@ -885,7 +885,7 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 		if (volume && !Preferences.NonInteractive && !Preferences.DisableKernelEncryptionModeWarning
 			&& volume->EncryptionModeName != L"XTS"
-			&& !AskYesNo (LangString["ENCRYPTION_MODE_NOT_SUPPORTED_BY_KERNEL"] + _("\n\nDo you want to show this message next time you mount such a volume?"), true, true))
+			&& !AskYesNo (LangString["ENCRYPTION_MODE_NOT_SUPPORTED_BY_KERNEL"] + LangString["LINUX_MESSAGE_ON_MOUNT_AGAIN"], true, true))
 		{
 			UserPreferences prefs = GetPreferences();
 			prefs.DisableKernelEncryptionModeWarning = true;
@@ -986,7 +986,7 @@ namespace VeraCrypt
 					if (write (showFifo, buf, 1) == 1)
 					{
 						close (showFifo);
-						Gui->ShowInfo (_("VeraCrypt is already running."));
+						Gui->ShowInfo (LangString["LINUX_VC_RUNNING_ALREADY"]);
 						Application::SetExitCode (0);
 						return false;
 					}
@@ -1018,7 +1018,7 @@ namespace VeraCrypt
 
 				wxLog::FlushActive();
 				Application::SetExitCode (1);
-				Gui->ShowInfo (_("VeraCrypt is already running."));
+				Gui->ShowInfo (LangString["LINUX_VC_RUNNING_ALREADY"]);
 				return false;
 #endif
 			}
@@ -1754,6 +1754,10 @@ namespace VeraCrypt
 		}
 
 		BackgroundMode = state;
+
+#ifdef HAVE_INDICATORS
+		gtk_menu_item_set_label ((GtkMenuItem*) ((MainFrame*) mMainFrame)->indicator_item_showhide, LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"].mb_str());
+#endif
 	}
 
 	void GraphicUserInterface::SetListCtrlColumnWidths (wxListCtrl *listCtrl, list <int> columnWidthPermilles, bool hasVerticalScrollbar) const
@@ -1887,9 +1891,9 @@ namespace VeraCrypt
 		else
 		{
 			if (style & wxICON_EXCLAMATION)
-				caption = wxString (_("Warning")) + L':';
+				caption = wxString (LangString["LINUX_WARNING"]) + L':';
 			else if (style & wxICON_ERROR || style & wxICON_HAND)
-				caption = wxString (_("Error")) + L':';
+				caption = wxString (LangString["LINUX_ERROR"]) + L':';
 			else
 				caption.clear();
 		}
@@ -1907,8 +1911,9 @@ namespace VeraCrypt
 
 				style |= wxSTAY_ON_TOP;
 			}
-
-			return wxMessageBox (subMessage, caption, style, GetActiveWindow());
+			wxMessageDialog cur(GetActiveWindow(), subMessage, caption, style);
+			cur.SetYesNoLabels(LangString["UISTR_YES"], LangString["UISTR_NO"]);
+			return (cur.ShowModal() == wxID_YES ? wxYES : wxNO) ;
 		}
 	}
 
@@ -1923,7 +1928,7 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::ThrowTextModeRequired () const
 	{
-		Gui->ShowError (_("This feature is currently supported only in text mode."));
+		Gui->ShowError (LangString["LINUX_ONLY_TEXTMODE"]);
 		throw UserAbort (SRC_POS);
 	}
 

@@ -127,7 +127,7 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 		goto err;
 	}
 
-	WriteFilterBufferSize = filterInitData->MaxPagesPerWrite * PAGE_SIZE;
+	WriteFilterBufferSize = ((SIZE_T)filterInitData->MaxPagesPerWrite) * PAGE_SIZE;
 
 #ifdef _WIN64
 	highestAcceptableWriteBufferAddr.QuadPart = 0x7FFffffFFFFLL;

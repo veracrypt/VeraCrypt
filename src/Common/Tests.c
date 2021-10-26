@@ -707,7 +707,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 			if (!EAIsModeSupported (ci->ea, ci->mode))
 				continue;
 
-			EAGetName (name, ci->ea, 0);
+			EAGetName (name, ARRAYSIZE(name), ci->ea, 0);
 
 			if (EAInit (ci->ea, key1, ci->ks) != ERR_SUCCESS)
 				return FALSE;
@@ -1188,7 +1188,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 		if (!EAIsModeSupported (ci->ea, ci->mode))
 			continue;
 
-		EAGetName (name, ci->ea, 0);
+		EAGetName (name, ARRAYSIZE(name), ci->ea, 0);
 
 		if (EAInit (ci->ea, key1, ci->ks) != ERR_SUCCESS)
 			return FALSE;

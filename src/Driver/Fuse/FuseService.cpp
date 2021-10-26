@@ -10,7 +10,12 @@
  code distribution packages.
 */
 
+#ifdef TC_OPENBSD
+#define FUSE_USE_VERSION  26
+#else
 #define FUSE_USE_VERSION  25
+#endif
+
 #include <errno.h>
 #include <fcntl.h>
 #include <fuse.h>
@@ -51,7 +56,11 @@ namespace VeraCrypt
 		return 0;
 	}
 
+#ifdef TC_OPENBSD
+	static void *fuse_service_init (struct fuse_conn_info *)
+#else
 	static void *fuse_service_init ()
+#endif
 	{
 		try
 		{
@@ -583,7 +592,11 @@ namespace VeraCrypt
 
 		SignalHandlerPipe->GetWriteFD();
 
+#ifdef TC_OPENBSD
+		_exit (fuse_main (argc, argv, &fuse_service_oper, NULL));
+#else
 		_exit (fuse_main (argc, argv, &fuse_service_oper));
+#endif
 	}
 
 	VolumeInfo FuseService::OpenVolumeInfo;

@@ -48,21 +48,21 @@ namespace VeraCrypt
 			enableNewPassword = true;
 			enableNewKeyfiles = true;
 			enablePkcs5Prf = true;
-			SetTitle (_("Change Volume Password and Keyfiles"));
+			SetTitle (LangString["IDD_PASSWORDCHANGE_DLG"]);
 			break;
 
 		case Mode::ChangeKeyfiles:
 			enableNewKeyfiles = true;
-			SetTitle (_("Add/Remove Keyfiles to/from Volume"));
+			SetTitle (LangString["IDD_PCDM_ADD_REMOVE_VOL_KEYFILES"]);
 			break;
 
 		case Mode::RemoveAllKeyfiles:
-			SetTitle (_("Remove All Keyfiles from Volume"));
+			SetTitle (LangString["IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL"]);
 			break;
 
 		case Mode::ChangePkcs5Prf:
 			enablePkcs5Prf = true;
-			SetTitle (_("Change Header Key Derivation Algorithm"));
+			SetTitle (LangString["IDD_PCDM_CHANGE_PKCS5_PRF"]);
 			break;
 
 		default:

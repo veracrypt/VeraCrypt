@@ -108,6 +108,18 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 			char *Salt;
 
 		} KeyDerivation;
+
+		struct
+		{
+			TC_EVENT *KeyDerivationCompletedEvent;
+			TC_EVENT *NoOutstandingWorkItemEvent;
+			LONG *outstandingWorkItemCount;
+			void* keyInfoBuffer;
+			int keyInfoBufferSize;
+			void* keyDerivationWorkItems;
+			int keyDerivationWorkItemsSize;
+
+		} ReadVolumeHeaderFinalization;
 	};
 
 } EncryptionThreadPoolWorkItem;
@@ -275,6 +287,37 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			TC_SET_EVENT (WorkItemCompletedEvent);
 			continue;
 
+		case ReadVolumeHeaderFinalizationWork:
+			TC_WAIT_EVENT (*(workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent));
+
+			if (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems)
+			{
+				burn (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems, workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize);
+#if !defined(DEVICE_DRIVER)
+				VirtualUnlock (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems, workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize);
+#endif
+				TCfree (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems);
+			}
+
+			if (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer)
+			{
+				burn (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer, workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize);
+#if !defined(DEVICE_DRIVER)
+				VirtualUnlock (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer, workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize);
+#endif
+				TCfree (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer);
+			}
+
+#if !defined(DEVICE_DRIVER) 
+			CloseHandle (*(workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent));
+			CloseHandle (*(workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent));
+#endif
+			TCfree (workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent);
+			TCfree (workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent);
+			TCfree (workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount);
+			SetWorkItemState (workItem, WorkItemFree);
+			TC_SET_EVENT (WorkItemCompletedEvent);
+			continue;
 		default:
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -528,6 +571,40 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	TC_RELEASE_MUTEX (&EnqueueMutex);
 }
 
+void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivationCompletedEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG* outstandingWorkItemCount, 
+	void* keyInfoBuffer, int keyInfoBufferSize,
+	void* keyDerivationWorkItems, int keyDerivationWorkItemsSize)
+{
+	EncryptionThreadPoolWorkItem *workItem;
+
+	if (!ThreadPoolRunning)
+		TC_THROW_FATAL_EXCEPTION;
+
+	TC_ACQUIRE_MUTEX (&EnqueueMutex);
+
+	workItem = &WorkItemQueue[EnqueuePosition++];
+	if (EnqueuePosition >= ThreadQueueSize)
+		EnqueuePosition = 0;
+
+	while (GetWorkItemState (workItem) != WorkItemFree)
+	{
+		TC_WAIT_EVENT (WorkItemCompletedEvent);
+	}
+
+	workItem->Type = ReadVolumeHeaderFinalizationWork;
+	workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
+	workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent = keyDerivationCompletedEvent;
+	workItem->ReadVolumeHeaderFinalization.keyInfoBuffer = keyInfoBuffer;
+	workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize = keyInfoBufferSize;
+	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems = keyDerivationWorkItems;
+	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize = keyDerivationWorkItemsSize;
+	workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount = outstandingWorkItemCount;
+
+	SetWorkItemState (workItem, WorkItemReady);
+	TC_SET_EVENT (WorkItemReadyEvent);
+	TC_RELEASE_MUTEX (&EnqueueMutex);
+}
+
 
 void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo)
 {
@@ -615,7 +692,7 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, 
 		workItem->Encryption.UnitCount = unitsPerFragment;
 		workItem->Encryption.StartUnitNo.Value = fragmentStartUnitNo;
 
-		fragmentData += unitsPerFragment * ENCRYPTION_DATA_UNIT_SIZE;
+		fragmentData += ((uint64)unitsPerFragment) * ENCRYPTION_DATA_UNIT_SIZE;
 		fragmentStartUnitNo += unitsPerFragment;
 
 		if (remainder > 0 && --remainder == 0)

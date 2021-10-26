@@ -23,6 +23,7 @@
 #include "Random.h"
 
 #include <io.h>
+#include <strsafe.h>
 
 #ifndef SRC_POS
 #define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
@@ -210,7 +211,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 
 	if (bDevice == FALSE)
 	{
-		wcscpy (szCFDevice, szDiskFile);
+		StringCchCopyW (szCFDevice, ARRAYSIZE(szCFDevice), szDiskFile);
 	}
 	else
 	{

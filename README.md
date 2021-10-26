@@ -44,6 +44,7 @@ Requirements for Building VeraCrypt for Windows:
 ------------------------------------------------
 
 - Microsoft Visual C++ 2010 SP1 (Professional Edition or compatible)
+- Microsoft Visual C++ 2019 
 - Microsoft Visual C++ 1.52 (available from MSDN Subscriber Downloads)
 - Microsoft Windows SDK for Windows 7.1 (configured for Visual C++ 2010)
 - Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
@@ -59,19 +60,19 @@ The 64-bit editions of Windows Vista and later versions of Windows, and in
 some cases (e.g. playback of HD DVD content) also the 32-bit editions, do not
 allow the VeraCrypt driver to run without an appropriate digital signature.
 Therefore, all .sys files in official VeraCrypt binary packages are digitally
-signed with the digital certificate of the IDRIX, which was
-issued by Thawte certification authority. At the end of each official .exe and
+signed with the digital certificate of the IDRIX, which was issued by 
+GlobalSign certification authority. At the end of each official .exe and
 .sys file, there are embedded digital signatures and all related certificates
 (i.e. all certificates in the relevant certification chain, such as the
 certification authority certificates, CA-MS cross-certificate, and the
 IDRIX certificate).
-Keep this in mind if you compile VeraCrypt
-and compare your binaries with the official binaries. If your binaries are
-unsigned, the sizes of the official binaries will usually be approximately
-10 KiB greater than sizes of your binaries (there may be further differences
-if you use a different version of the compiler, or if you install a different
-or no service pack for Visual Studio, or different hotfixes for it, or if you
-use different versions of the required SDKs).
+Keep this in mind if you compile VeraCrypt and compare your binaries with the
+official binaries. If your binaries are unsigned, the sizes of the official
+binaries will usually be approximately 10 KiB greater than sizes of your 
+binaries (there may be further differences if you use a different version of
+the compiler, or if you install a different or no service pack for Visual
+Studio, or different hotfixes for it, or if you use different versions of
+the required SDKs).
 
 
 Instructions for Building VeraCrypt for Windows:
@@ -91,12 +92,22 @@ Instructions for Building VeraCrypt for Windows:
 
 3) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2010.
 
-4) Select 'All' as the active solution configuration.
+4) Select 'All' as the active solution configuration and WIN32 as the active
+   platform.
 
 5) Build the solution.
 
+6) Select x64 as the active platform and build the solution again.
+
+7) Open the solution file 'VeraCrypt_vs2019.sln' in Microsoft Visual Studio 2019.
+
+8) Select 'All' as the active solution configuration and ARM64 as the active
+   platform.
+
+9) Build the solution.
+
 6) If successful, there should be newly built VeraCrypt binaries in the
-   'Release' folder.
+   'Release\Setup Files' folder.
 
 Instructions for Signing and Packaging VeraCrypt for Windows:
 -------------------------------------------------------------
@@ -105,17 +116,19 @@ First, create an environment variable 'WSDK81' pointing to the Windows SDK
 for Windows 8.1 installation directory.
 The folder "Signing" contains a batch file (sign.bat) that will sign all
 VeraCrypt components using a code signing certificate present on the
-certificate store and also build the final installation setup.
-The batch file suppose that the code signing certificate is issued by Thawt.
-This is the case for IDRIX's certificate. If yours is issued by another CA,
-then you should put the Root and Intermediate certificates in the "Signing"
-folder and then modify sign.bat accordingly.
+certificate store and also build the final installation setup and MSI package.
+The batch file suppose that the code signing certificate is issued by
+GlobalSign. This is the case for IDRIX's certificate. If yours is issued by
+another CA, then you should put its intermediate certificates in the "Signing"
+folder and modify sign.bat accordingly.
+
+In order to generate MSI packages, WiX Toolset v3.11 must be installed.
 
 VeraCrypt EFI Boot Loader:
 --------------------------
 
 VeraCrypt source code contains pre-built EFI binaries under src\Boot\EFI.
-The source code of VeraCrypt EFI Boot Loader is licensed under LGPL and 
+The source code of VeraCrypt EFI Boot Loader is licensed under LGPL and
 it is available at https://github.com/veracrypt/VeraCrypt-DCS.
 For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 
@@ -176,10 +189,10 @@ On MacOSX, building a console-only executable is not supported.
 Mac OS X specifics:
 -----------------------------------------------------------
 
-Under MacOSX, the SDK for OSX 10.7 is used by default. To use another version
-of the SDK (i.e. 10.6), you can export the environment variable VC_OSX_TARGET:
+Under MacOSX, the SDK for OSX 11.3 is used by default. To use another version
+of the SDK (i.e. 10.15), you can export the environment variable VC_OSX_TARGET:
 
-	$ export VC_OSX_TARGET=10.6
+	$ export VC_OSX_TARGET=10.15
 
 
 Before building under MacOSX, pkg-config must be installed if not yet available.
@@ -191,16 +204,16 @@ compile using the following commands :
 	$ sudo make install
 
 After making sure pkg-config is available, download and install OSXFuse from
-https://osxfuse.github.io/ (MacFUSE compatibility layer must selected)
+https://osxfuse.github.io/
 
 The script build_veracrypt_macosx.sh available under "src/Build" performs the
 full build of VeraCrypt including the creation of the installer pkg. It expects
-to find the wxWidgets 3.0.3 sources at the same level as where you put
+to find the wxWidgets 3.1.2 sources at the same level as where you put
 VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
-then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.3")
+then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.1.2")
 
 The build process uses Code Signing certificates whose ID is specified in
-src/Main/Main.make (look for lines containing "Developer ID Application" and 
+src/Main/Main.make (look for lines containing "Developer ID Application" and
 "Developer ID Installer"). You'll have to modify these lines to put the ID of
 your Code Signing certificates or comment them if you don't have one.
 
@@ -241,10 +254,10 @@ Copyright Information
 ---------------------
 
 This software as a whole:  
-Copyright (c) 2013-2020 IDRIX. All rights reserved.
+Copyright (c) 2013-2021 IDRIX. All rights reserved.
 
 Portions of this software:  
-Copyright (c) 2013-2020 IDRIX. All rights reserved.  
+Copyright (c) 2013-2021 IDRIX. All rights reserved.  
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.  
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.  
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.  

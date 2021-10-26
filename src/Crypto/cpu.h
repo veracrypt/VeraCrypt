@@ -30,13 +30,17 @@
 #if defined(__cplusplus)
 extern "C" {
 #endif
+#if defined(_M_X64) || defined (_M_IX86) || defined (_M_IX86_FP)
 extern unsigned __int64 __rdtsc();
+#endif
 #if defined(__cplusplus)
 }
 #endif
 #else
 #include <intrin.h>
+#if defined(_M_X64) || defined (_M_IX86) || defined (_M_IX86_FP)
 #pragma intrinsic(__rdtsc)
+#endif
 #endif
 #endif
 
@@ -205,6 +209,7 @@ extern "C" {
 #endif
 
 #define CRYPTOPP_CPUID_AVAILABLE
+#define TC_AES_HW_CPU
 
 // these should not be used directly
 extern volatile int g_x86DetectionDone;
@@ -260,7 +265,27 @@ void DisableCPUExtendedFeatures ();
 
 #else
 
+#define HasSSE2()	0
+#define HasISSE()	0
+
+#define HasMMX()	0
+#define HasSSE42() 0
+#define HasSSE41() 0
+#define HasSAVX() 0
+#define HasSAVX2() 0
+#define HasSBMI2() 0
+#define HasSSSE3() 0
+#define HasAESNI() 0
+#define HasCLMUL() 0
+#define IsP4() 0
+#define HasRDRAND() 0
+#define HasRDSEED() 0
+#define IsCpuIntel() 0
+#define IsCpuAMD() 0
 #define GetCacheLineSize()	CRYPTOPP_L1_CACHE_LINE_SIZE
+
+#define DetectX86Features()
+#define DisableCPUExtendedFeatures()
 
 #endif
 

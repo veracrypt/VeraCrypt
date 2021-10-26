@@ -170,7 +170,10 @@ BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
 	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
-	CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
+	unsigned char* keyInfoBuffer = NULL;
+	int keyInfoBufferSize = sizeof (KEY_INFO) + 16;
+	size_t keyInfoBufferOffset;
+	PKEY_INFO keyInfo;
 	PCRYPTO_INFO cryptoInfo;
 	CRYPTOPP_ALIGN_DATA(16) char dk[MASTER_KEYDATA_SIZE];
 	int enqPkcs5Prf, pkcs5_prf;
@@ -179,15 +182,27 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	int primaryKeyOffset;
 	int pkcs5PrfCount = LAST_PRF_ID - FIRST_PRF_ID + 1;
 #if !defined(_UEFI)
-	TC_EVENT keyDerivationCompletedEvent;
-	TC_EVENT noOutstandingWorkItemEvent;
-	KeyDerivationWorkItem *keyDerivationWorkItems;
+	TC_EVENT *keyDerivationCompletedEvent = NULL;
+	TC_EVENT *noOutstandingWorkItemEvent = NULL;
+	KeyDerivationWorkItem *keyDerivationWorkItems = NULL;
+	int keyDerivationWorkItemsSize = 0;
 	KeyDerivationWorkItem *item;
 	size_t encryptionThreadCount = GetEncryptionThreadCount();
-	LONG outstandingWorkItemCount = 0;
+	LONG *outstandingWorkItemCount = NULL;
 	int i;
 #endif
 	size_t queuedWorkItems = 0;
+
+	// allocate 16-bytes aligned buffer to hold KEY_INFO in a portable way
+	keyInfoBuffer = TCalloc(keyInfoBufferSize);
+	if (!keyInfoBuffer)
+		return ERR_OUTOFMEMORY;
+	keyInfoBufferOffset = 16 - (((uint64) keyInfoBuffer) % 16);
+	keyInfo = (PKEY_INFO) (keyInfoBuffer + keyInfoBufferOffset);
+
+#if !defined(DEVICE_DRIVER) && !defined(_UEFI)
+	VirtualLock (keyInfoBuffer, keyInfoBufferSize);
+#endif
 
 	// if no PIM specified, use default value
 	if (pim < 0)
@@ -218,45 +233,78 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	/* use thread pool only if no PRF was specified */
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
-		keyDerivationWorkItems = TCalloc (sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
-		if (!keyDerivationWorkItems)
+		keyDerivationCompletedEvent = TCalloc (sizeof (TC_EVENT));
+		if (!keyDerivationCompletedEvent)
 			return ERR_OUTOFMEMORY;
+
+		noOutstandingWorkItemEvent = TCalloc (sizeof (TC_EVENT));
+		if (!noOutstandingWorkItemEvent)
+		{
+			TCfree(keyDerivationCompletedEvent);
+			return ERR_OUTOFMEMORY;
+		}
+
+		outstandingWorkItemCount = TCalloc (sizeof (LONG));
+		if (!outstandingWorkItemCount)
+		{
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			return ERR_OUTOFMEMORY;
+		}
+
+		keyDerivationWorkItemsSize = sizeof (KeyDerivationWorkItem) * pkcs5PrfCount;
+		keyDerivationWorkItems = TCalloc (keyDerivationWorkItemsSize);
+		if (!keyDerivationWorkItems)
+		{
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			TCfree(outstandingWorkItemCount);
+			return ERR_OUTOFMEMORY;
+		}
 
 		for (i = 0; i < pkcs5PrfCount; ++i)
 			keyDerivationWorkItems[i].Free = TRUE;
 
+		*outstandingWorkItemCount = 0;
 #ifdef DEVICE_DRIVER
-		KeInitializeEvent (&keyDerivationCompletedEvent, SynchronizationEvent, FALSE);
-		KeInitializeEvent (&noOutstandingWorkItemEvent, SynchronizationEvent, TRUE);
+		KeInitializeEvent (keyDerivationCompletedEvent, SynchronizationEvent, FALSE);
+		KeInitializeEvent (noOutstandingWorkItemEvent, SynchronizationEvent, TRUE);
 #else
-		keyDerivationCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
-		if (!keyDerivationCompletedEvent)
+		*keyDerivationCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
+		if (!*keyDerivationCompletedEvent)
 		{
 			TCfree (keyDerivationWorkItems);
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			TCfree(outstandingWorkItemCount);
 			return ERR_OUTOFMEMORY;
 		}
 
-		noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, TRUE, NULL);
-		if (!noOutstandingWorkItemEvent)
+		*noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, TRUE, NULL);
+		if (!*noOutstandingWorkItemEvent)
 		{
 			CloseHandle (keyDerivationCompletedEvent);
 			TCfree (keyDerivationWorkItems);
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			TCfree(outstandingWorkItemCount);
 			return ERR_OUTOFMEMORY;
 		}
+
+		VirtualLock (keyDerivationWorkItems, keyDerivationWorkItemsSize);
 #endif
 	}
 
 #if !defined(DEVICE_DRIVER) 
-	VirtualLock (&keyInfo, sizeof (keyInfo));
 	VirtualLock (&dk, sizeof (dk));
 	VirtualLock (&header, sizeof (header));
 #endif
 #endif //  !defined(_UEFI)
 
-	crypto_loadkey (&keyInfo, password->Text, (int) password->Length);
+	crypto_loadkey (keyInfo, password->Text, (int) password->Length);
 
 	// PKCS5 is used to derive the primary header key(s) and secondary header key(s) (XTS mode) from the password
-	memcpy (keyInfo.salt, encryptedHeader + HEADER_SALT_OFFSET, PKCS5_SALT_SIZE);
+	memcpy (keyInfo->salt, encryptedHeader + HEADER_SALT_OFFSET, PKCS5_SALT_SIZE);
 
 	// Test all available PKCS5 PRFs
 	for (enqPkcs5Prf = FIRST_PRF_ID; enqPkcs5Prf <= LAST_PRF_ID || queuedWorkItems > 0; ++enqPkcs5Prf)
@@ -283,9 +331,9 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 						item->KeyReady = FALSE;
 						item->Pkcs5Prf = enqPkcs5Prf;
 
-						EncryptionThreadPoolBeginKeyDerivation (&keyDerivationCompletedEvent, &noOutstandingWorkItemEvent,
-							&item->KeyReady, &outstandingWorkItemCount, enqPkcs5Prf, keyInfo.userKey,
-							keyInfo.keyLength, keyInfo.salt, get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot), item->DerivedKey);
+						EncryptionThreadPoolBeginKeyDerivation (keyDerivationCompletedEvent, noOutstandingWorkItemEvent,
+							&item->KeyReady, outstandingWorkItemCount, enqPkcs5Prf, keyInfo->userKey,
+							keyInfo->keyLength, keyInfo->salt, get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot), item->DerivedKey);
 
 						++queuedWorkItems;
 						break;
@@ -307,7 +355,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 					if (!item->Free && InterlockedExchangeAdd (&item->KeyReady, 0) == TRUE)
 					{
 						pkcs5_prf = item->Pkcs5Prf;
-						keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, truecryptMode, bBoot);
+						keyInfo->noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, truecryptMode, bBoot);
 						memcpy (dk, item->DerivedKey, sizeof (dk));
 
 						item->Free = TRUE;
@@ -317,7 +365,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 				}
 
 				if (queuedWorkItems > 0)
-					TC_WAIT_EVENT (keyDerivationCompletedEvent);
+					TC_WAIT_EVENT (*keyDerivationCompletedEvent);
 			}
 			continue;
 KeyReady:	;
@@ -326,33 +374,33 @@ KeyReady:	;
 #endif // !defined(_UEFI)
 		{
 			pkcs5_prf = enqPkcs5Prf;
-			keyInfo.noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot);
+			keyInfo->noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot);
 
 			switch (pkcs5_prf)
 			{
 			case RIPEMD160:
-				derive_key_ripemd160 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				derive_key_ripemd160 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
 			case SHA512:
-				derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				derive_key_sha512 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
 			case WHIRLPOOL:
-				derive_key_whirlpool (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				derive_key_whirlpool (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
 			case SHA256:
-				derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				derive_key_sha256 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
 			case STREEBOG:
-				derive_key_streebog(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				derive_key_streebog(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 			default:
 				// Unknown/wrong ID
@@ -509,7 +557,7 @@ KeyReady:	;
 					if (retInfo == NULL)
 					{
 						cryptoInfo->pkcs5 = pkcs5_prf;
-						cryptoInfo->noIterations = keyInfo.noIterations;
+						cryptoInfo->noIterations = keyInfo->noIterations;
 						cryptoInfo->bTrueCryptMode = truecryptMode;
 						cryptoInfo->volumePim = pim;
 						goto ret;
@@ -526,34 +574,34 @@ KeyReady:	;
 				}
 
 				// Master key data
-				memcpy (keyInfo.master_keydata, header + HEADER_MASTER_KEYDATA_OFFSET, MASTER_KEYDATA_SIZE);
+				memcpy (keyInfo->master_keydata, header + HEADER_MASTER_KEYDATA_OFFSET, MASTER_KEYDATA_SIZE);
 #ifdef TC_WINDOWS_DRIVER
 				{
 					RMD160_CTX ctx;
 					RMD160Init (&ctx);
-					RMD160Update (&ctx, keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
+					RMD160Update (&ctx, keyInfo->master_keydata, MASTER_KEYDATA_SIZE);
 					RMD160Update (&ctx, header, sizeof(header));
 					RMD160Final (cryptoInfo->master_keydata_hash, &ctx);
 					burn(&ctx, sizeof (ctx));
 				}
 #else
-				memcpy (cryptoInfo->master_keydata, keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
+				memcpy (cryptoInfo->master_keydata, keyInfo->master_keydata, MASTER_KEYDATA_SIZE);
 #endif
 				// PKCS #5
 				cryptoInfo->pkcs5 = pkcs5_prf;
-				cryptoInfo->noIterations = keyInfo.noIterations;
+				cryptoInfo->noIterations = keyInfo->noIterations;
 				cryptoInfo->bTrueCryptMode = truecryptMode;
 				cryptoInfo->volumePim = pim;
 
 				// Init the cipher with the decrypted master key
-				status = EAInit (cryptoInfo->ea, keyInfo.master_keydata + primaryKeyOffset, cryptoInfo->ks);
+				status = EAInit (cryptoInfo->ea, keyInfo->master_keydata + primaryKeyOffset, cryptoInfo->ks);
 				if (status == ERR_CIPHER_INIT_FAILURE)
 					goto err;
 #ifndef TC_WINDOWS_DRIVER
 				// The secondary master key (if cascade, multiple concatenated)
-				memcpy (cryptoInfo->k2, keyInfo.master_keydata + EAGetKeySize (cryptoInfo->ea), EAGetKeySize (cryptoInfo->ea));
+				memcpy (cryptoInfo->k2, keyInfo->master_keydata + EAGetKeySize (cryptoInfo->ea), EAGetKeySize (cryptoInfo->ea));
 #endif
-				if (!EAInitMode (cryptoInfo, keyInfo.master_keydata + EAGetKeySize (cryptoInfo->ea)))
+				if (!EAInitMode (cryptoInfo, keyInfo->master_keydata + EAGetKeySize (cryptoInfo->ea)))
 				{
 					status = ERR_MODE_INIT_FAILED;
 					goto err;
@@ -573,13 +621,11 @@ err:
 		*retInfo = NULL;
 	}
 
-ret:
-	burn (&keyInfo, sizeof (keyInfo));
+ret:	
 	burn (dk, sizeof(dk));
 	burn (header, sizeof(header));
 
 #if !defined(DEVICE_DRIVER) && !defined(_UEFI)
-	VirtualUnlock (&keyInfo, sizeof (keyInfo));
 	VirtualUnlock (&dk, sizeof (dk));
 	VirtualUnlock (&header, sizeof (header));
 #endif
@@ -587,17 +633,19 @@ ret:
 #if !defined(_UEFI)
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
-		TC_WAIT_EVENT (noOutstandingWorkItemEvent);
-
-		burn (keyDerivationWorkItems, sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
-		TCfree (keyDerivationWorkItems);
-
-#if !defined(DEVICE_DRIVER) 
-		CloseHandle (keyDerivationCompletedEvent);
-		CloseHandle (noOutstandingWorkItemEvent);
-#endif
+		EncryptionThreadPoolBeginReadVolumeHeaderFinalization (keyDerivationCompletedEvent, noOutstandingWorkItemEvent, outstandingWorkItemCount, 
+			keyInfoBuffer, keyInfoBufferSize, 
+			keyDerivationWorkItems, keyDerivationWorkItemsSize);
 	}
+	else
 #endif
+	{
+		burn (keyInfo, sizeof (KEY_INFO));
+#if !defined(DEVICE_DRIVER) && !defined(_UEFI)
+		VirtualUnlock (keyInfoBuffer, keyInfoBufferSize);
+#endif
+		TCfree(keyInfoBuffer);
+	}
 	return status;
 }
 

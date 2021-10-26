@@ -43,14 +43,14 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	       PWSTR pwszMountVolume,
 	       BOOL bRawDevice)
 {
-	FILE_STANDARD_INFORMATION FileStandardInfo;
+	FILE_STANDARD_INFORMATION FileStandardInfo = { 0 };
 	FILE_BASIC_INFORMATION FileBasicInfo;
 	OBJECT_ATTRIBUTES oaFileAttributes;
 	UNICODE_STRING FullFileName;
 	IO_STATUS_BLOCK IoStatusBlock;
 	PCRYPTO_INFO cryptoInfoPtr = NULL;
 	PCRYPTO_INFO tmpCryptoInfo = NULL;
-	LARGE_INTEGER lDiskLength;
+	LARGE_INTEGER lDiskLength = { 0 };
 	__int64 partitionStartingOffset = 0;
 	int volumeType;
 	char *readBuffer = 0;
@@ -484,7 +484,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			// Header of a volume that is not within the scope of system encryption, or
 			// header of a system hidden volume (containing a hidden OS)
 
-			LARGE_INTEGER headerOffset;
+			LARGE_INTEGER headerOffset = {0};
 
 			if (mount->UseBackupHeader && lDiskLength.QuadPart <= TC_TOTAL_VOLUME_HEADERS_SIZE)
 				continue;

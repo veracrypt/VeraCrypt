@@ -51,7 +51,11 @@ endif
 
 
 # Embedded files
+ifeq "$(PLATFORM)" "OpenBSD"
+OD_BIN := ggod -v -t u1 -A n
+else
 OD_BIN := od -v -t u1 -A n
+endif
 TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 'n' '\n'
 
 %.xml.h: %.xml

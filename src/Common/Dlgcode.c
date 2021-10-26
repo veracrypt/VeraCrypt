@@ -22,13 +22,13 @@
 #include <io.h>
 #include <math.h>
 #include <shlobj.h>
+#include <shlwapi.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <time.h>
 #include <tchar.h>
 #include <Richedit.h>
 #if defined (TCMOUNT) || defined (VOLFORMAT)
-#include <Shlwapi.h>
 #include <process.h>
 #include <Tlhelp32.h>
 #endif
@@ -106,6 +106,15 @@ LOCAL_DEFINE_GUID(PARTITION_LDM_METADATA_GUID,   0x5808C8AAL, 0x7E8F, 0x42E0, 0x
 LOCAL_DEFINE_GUID(PARTITION_LDM_DATA_GUID,       0xAF9B60A0L, 0x1431, 0x4F62, 0xBC, 0x68, 0x33, 0x11, 0x71, 0x4A, 0x69, 0xAD);    // Logical Disk Manager data partition
 LOCAL_DEFINE_GUID(PARTITION_MSFT_RECOVERY_GUID,  0xDE94BBA4L, 0x06D1, 0x4D40, 0xA1, 0x6A, 0xBF, 0xD5, 0x01, 0x79, 0xD6, 0xAC);    // Microsoft recovery partition
 LOCAL_DEFINE_GUID(PARTITION_CLUSTER_GUID, 	   0xdb97dba9L, 0x0840, 0x4bae, 0x97, 0xf0, 0xff, 0xb9, 0xa3, 0x27, 0xc7, 0xe1);    // Cluster metadata partition
+
+#ifndef PROCESSOR_ARCHITECTURE_ARM64
+#define PROCESSOR_ARCHITECTURE_ARM64            12
+#endif
+
+#ifndef IMAGE_FILE_MACHINE_ARM64
+#define IMAGE_FILE_MACHINE_ARM64 0xAA64
+#endif
+
 
 using namespace VeraCrypt;
 
@@ -226,7 +235,8 @@ static std::vector<HostDevice> rawHostDeviceList;
 CRITICAL_SECTION csSecureDesktop;
 
 /* Boolean that indicates if our Secure Desktop is active and being used or not */
-BOOL bSecureDesktopOngoing = FALSE;
+volatile BOOL bSecureDesktopOngoing = FALSE;
+TCHAR SecureDesktopName[65];
 
 HINSTANCE hInst = NULL;
 HCURSOR hCursor = NULL;
@@ -335,6 +345,13 @@ typedef LSTATUS (STDAPICALLTYPE *SHDeleteKeyWPtr)(HKEY hkey, LPCWSTR pszSubKey);
 
 typedef HRESULT (STDAPICALLTYPE *SHStrDupWPtr)(LPCWSTR psz, LPWSTR *ppwsz);
 
+typedef HRESULT (STDAPICALLTYPE *UrlUnescapeWPtr)(
+  PWSTR pszUrl,
+  PWSTR pszUnescaped,
+  DWORD *pcchUnescaped,
+  DWORD dwFlags
+);
+
 // ChangeWindowMessageFilter
 typedef BOOL (WINAPI *ChangeWindowMessageFilterPtr) (UINT, DWORD);
 
@@ -363,6 +380,7 @@ SetupInstallFromInfSectionWPtr SetupInstallFromInfSectionWFn = NULL;
 SetupOpenInfFileWPtr SetupOpenInfFileWFn = NULL;
 SHDeleteKeyWPtr SHDeleteKeyWFn = NULL;
 SHStrDupWPtr SHStrDupWFn = NULL;
+UrlUnescapeWPtr UrlUnescapeWFn = NULL;
 ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
 CreateProcessWithTokenWFn CreateProcessWithTokenWPtr = NULL;
 
@@ -380,22 +398,13 @@ static WTHELPERPROVDATAFROMSTATEDATA WTHelperProvDataFromStateDataFn = NULL;
 static WTHELPERGETPROVSIGNERFROMCHAIN WTHelperGetProvSignerFromChainFn = NULL;
 static WTHELPERGETPROVCERTFROMCHAIN WTHelperGetProvCertFromChainFn = NULL;
 
-static unsigned char gpbSha1CodeSignCertFingerprint[64] = {
-	0x97, 0xE3, 0x36, 0xE0, 0x45, 0x21, 0xE9, 0x8A, 0xA7, 0xEA, 0xE8, 0x68,
-	0x4A, 0x56, 0x02, 0xB2, 0xE7, 0x63, 0x59, 0x3A, 0x37, 0x03, 0x64, 0xC3,
-	0x7D, 0xBF, 0xF8, 0x19, 0xDB, 0x39, 0x57, 0x41, 0x55, 0x00, 0x9C, 0xBE,
-	0xFE, 0xA3, 0xBC, 0x0F, 0xE3, 0xD8, 0x34, 0x2D, 0x2F, 0xB4, 0x80, 0xBE,
-	0xDD, 0xEA, 0xA7, 0xDB, 0xAD, 0x53, 0x07, 0x71, 0x1A, 0x12, 0x42, 0xB4,
-	0xE9, 0x65, 0xA5, 0x61
-};
-
 static unsigned char gpbSha256CodeSignCertFingerprint[64] = {
-	0x88, 0x60, 0xC4, 0x26, 0x6D, 0x42, 0x59, 0x1B, 0xDF, 0x89, 0x0F, 0x1A,
-	0x2F, 0x70, 0x8D, 0xBB, 0xC0, 0xF0, 0x03, 0x1F, 0x37, 0x11, 0xF9, 0x24,
-	0x78, 0xDF, 0xD3, 0x60, 0xFB, 0xF3, 0xDC, 0xCA, 0x0D, 0x95, 0x06, 0x6A,
-	0x5E, 0xAD, 0x5C, 0xA3, 0x3E, 0x75, 0x55, 0x96, 0x7B, 0xD1, 0x0D, 0xC1,
-	0x00, 0xFE, 0xA0, 0x95, 0x13, 0x23, 0x20, 0x63, 0x26, 0x57, 0xFA, 0x6C,
-	0xE4, 0x27, 0xF8, 0x36
+	0xF2, 0x09, 0xD3, 0xC5, 0xF5, 0x36, 0x73, 0x4A, 0x64, 0x33, 0xEA, 0x00,
+	0x6C, 0x4D, 0x44, 0xE9, 0xAF, 0x3D, 0x50, 0xE5, 0x6B, 0xBB, 0xCD, 0xED,
+	0xD1, 0x37, 0x75, 0x49, 0xF5, 0xC1, 0xDE, 0xFB, 0xAD, 0xA0, 0xA6, 0x9A,
+	0xC9, 0xA1, 0xD7, 0x2E, 0xB1, 0xCC, 0xFE, 0x68, 0xA0, 0x2C, 0x00, 0xCA,
+	0x26, 0x52, 0xD3, 0x27, 0xDF, 0x4C, 0xEF, 0x94, 0x3D, 0x0D, 0xD1, 0xAA,
+	0xB1, 0x3B, 0xA6, 0xBF
 };
 
 
@@ -1521,7 +1530,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Based on TrueCrypt 7.1a, freely available at http://www.truecrypt.org/ .\r\n\r\n"
 
 			L"Portions of this software:\r\n"
-			L"Copyright \xA9 2013-2020 IDRIX. All rights reserved.\r\n"
+			L"Copyright \xA9 2013-2021 IDRIX. All rights reserved.\r\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\r\n"
@@ -1533,7 +1542,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Copyright \xA9 2013-2019 Stephan Mueller <smueller@chronox.de>\r\n\r\n"
 
 			L"This software as a whole:\r\n"
-			L"Copyright \xA9 2013-2020 IDRIX. All rights reserved.\r\n\r\n"
+			L"Copyright \xA9 2013-2021 IDRIX. All rights reserved.\r\n\r\n"
 
 			L"An IDRIX Release");
 
@@ -2866,6 +2875,45 @@ void DoPostInstallTasks (HWND hwndDlg)
 		SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_REMOVE_ALL);
 }
 
+#ifdef SETUP_DLL
+static BOOL GetWindowVersionFromFile(DWORD* pdwMajor, DWORD* pdwMinor, DWORD* pdwBuildNumber)
+{
+	wchar_t dllPath[MAX_PATH];
+	BOOL bRet = FALSE;
+	LPBYTE versionInfo = NULL;
+	UINT size;
+	VS_FIXEDFILEINFO *vinfo;
+
+	/* Load dll explictely from System32 to avoid Dll hijacking attacks*/
+	if (!GetSystemDirectory(dllPath, MAX_PATH))
+		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32");
+
+	StringCbCatW(dllPath, sizeof(dllPath), L"\\");
+	StringCbCatW(dllPath, sizeof(dllPath), L"Kernel32.dll");
+
+    size = GetFileVersionInfoSizeW(dllPath, NULL);
+    if (size)
+    {
+		versionInfo = (LPBYTE) TCalloc(size);
+		if (GetFileVersionInfo(dllPath, 0, size, versionInfo))
+		{
+    
+			if (VerQueryValueW(versionInfo, L"\\", (LPVOID *)&vinfo, &size) && (size >=sizeof(VS_FIXEDFILEINFO)))
+			{
+				*pdwMajor = HIWORD(vinfo->dwProductVersionMS);
+				*pdwMinor = LOWORD(vinfo->dwProductVersionMS);
+				*pdwBuildNumber = HIWORD(vinfo->dwProductVersionLS);
+				bRet = TRUE;
+			}
+		}
+	}
+
+	if (versionInfo)
+		TCfree(versionInfo);
+	return bRet;
+}
+#endif
+
 /*
  * Use RtlGetVersion to get Windows version because GetVersionEx is affected by application manifestation.
  */
@@ -2874,6 +2922,9 @@ typedef NTSTATUS (WINAPI* RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
 static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
 {
 	BOOL bRet = FALSE;
+#ifdef SETUP_DLL
+	DWORD dwMajor, dwMinor, dwBuildNumber;
+#endif
 	RtlGetVersionPtr RtlGetVersionFn = (RtlGetVersionPtr) GetProcAddress(GetModuleHandle (L"ntdll.dll"), "RtlGetVersion");
 	if (RtlGetVersionFn != NULL)
 	{
@@ -2883,6 +2934,17 @@ static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
 
 	if (!bRet)
 		bRet = GetVersionExW (lpVersionInformation);
+
+#ifdef SETUP_DLL
+	// we get real version from Kernel32.dll version since MSI always sets current version to 6.0
+	// https://stackoverflow.com/questions/49335885/windows-10-not-detecting-on-installshield/49343826#49343826
+	if (GetWindowVersionFromFile(&dwMajor, &dwMinor, &dwBuildNumber))
+	{
+		lpVersionInformation->dwMajorVersion = dwMajor;
+		lpVersionInformation->dwMinorVersion = dwMinor;
+		lpVersionInformation->dwBuildNumber = dwBuildNumber;
+	}
+#endif
 
 	return bRet;
 }
@@ -3091,10 +3153,11 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	if (!SetupCloseInfFileFn || !SetupDiOpenClassRegKeyFn || !SetupInstallFromInfSectionWFn || !SetupOpenInfFileWFn)
 		AbortProcess ("INIT_DLL");
 
-	// Get SHDeleteKeyW function pointer
+	// Get SHDeleteKeyW,SHStrDupW, UrlUnescapeW functions pointers
 	SHDeleteKeyWFn = (SHDeleteKeyWPtr) GetProcAddress (hShlwapiDll, "SHDeleteKeyW");
 	SHStrDupWFn = (SHStrDupWPtr) GetProcAddress (hShlwapiDll, "SHStrDupW");
-	if (!SHDeleteKeyWFn || !SHStrDupWFn)
+	UrlUnescapeWFn = (UrlUnescapeWPtr) GetProcAddress(hShlwapiDll, "UrlUnescapeW");
+	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn)
 		AbortProcess ("INIT_DLL");
 
 	if (IsOSAtLeast (WIN_VISTA))
@@ -3196,8 +3259,8 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	RemoteSession = GetSystemMetrics (SM_REMOTESESSION) != 0;
 
-	// OS version check
-	if (CurrentOSMajor < 5)
+	// OS version check: from version 1.25, only Windows 8 and newer is supported
+	if (!IsOSVersionAtLeast(WIN_8, 0))
 	{
 		MessageBoxW (NULL, GetString ("UNSUPPORTED_OS"), lpszTitle, MB_ICONSTOP);
 		exit (1);
@@ -4409,7 +4472,7 @@ static int DriverLoad ()
 	else
 		*tmp = 0;
 
-	StringCbCatW (driverPath, sizeof(driverPath), !Is64BitOs () ? L"\\veracrypt.sys" : L"\\veracrypt-x64.sys");
+	StringCbCatW (driverPath, sizeof(driverPath), !Is64BitOs () ? L"\\veracrypt.sys" : IsARM()? L"\\veracrypt-arm64.sys" : L"\\veracrypt-x64.sys");
 
 	file = FindFirstFile (driverPath, &find);
 
@@ -5884,7 +5947,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				benchmarkTable[benchmarkTotalItems].decSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 				benchmarkTable[benchmarkTotalItems].id = ci->ea;
 				benchmarkTable[benchmarkTotalItems].meanBytesPerSec = ((unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart)) + (unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].decSpeed / benchmarkPerformanceFrequency.QuadPart))) / 2;
-				EAGetName (benchmarkTable[benchmarkTotalItems].name, ci->ea, 1);
+				EAGetName (benchmarkTable[benchmarkTotalItems].name, 100, ci->ea, 1);
 
 				benchmarkTotalItems++;
 			}
@@ -6807,7 +6870,7 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 			{
 				if (EAGetCipherCount (ea) == 1 && EAIsFormatEnabled (ea))
-					AddComboPair (GetDlgItem (hwndDlg, IDC_CIPHER), EAGetName (buf, ea, 1), EAGetFirstCipher (ea));
+					AddComboPair (GetDlgItem (hwndDlg, IDC_CIPHER), EAGetName (buf, ARRAYSIZE(buf),ea, 1), EAGetFirstCipher (ea));
 			}
 
 			ResetCipherTest(hwndDlg, idTestCipher);
@@ -9504,8 +9567,11 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, wchar_t *title, size_t textByteLen)
 
 BOOL IsNonInstallMode ()
 {
-	HKEY hkey;
+	HKEY hkey, hkeybis;
 	DWORD dw;
+	WCHAR szBuffer[512];
+    DWORD dwBufferSize = sizeof(szBuffer);
+	std::wstring msiProductGUID;
 
 	if (bPortableModeConfirmed)
 		return TRUE;
@@ -9562,6 +9628,29 @@ BOOL IsNonInstallMode ()
 		else
 			CloseHandle (hDriverTmp);
 	}
+
+	// The following test checks whether the MSI is installed, which means we're not in portable mode.
+	// The ProductGUID is read from registry.
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt_MSI", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS ||
+        RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt_MSI", 0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+    {
+        if (ERROR_SUCCESS == RegQueryValueExW(hkey, L"ProductGuid", 0, NULL, (LPBYTE)szBuffer, &dwBufferSize))
+        {
+            msiProductGUID = szBuffer;
+
+            std::wstring regKey = L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\";
+            regKey += msiProductGUID;
+
+            if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, regKey.c_str(), 0, KEY_READ | KEY_WOW64_32KEY, &hkeybis) == ERROR_SUCCESS ||
+                RegOpenKeyEx(HKEY_LOCAL_MACHINE, regKey.c_str(), 0, KEY_READ, &hkeybis) == ERROR_SUCCESS)
+            {
+                RegCloseKey(hkeybis);
+                return FALSE;
+            }
+        }
+
+        RegCloseKey(hkey);
+    }
 
 	// The following test may be unreliable in some cases (e.g. after the user selects restore "Last Known Good
 	// Configuration" from the Windows boot menu).
@@ -10753,30 +10842,94 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 }
 
 
-BOOL Is64BitOs ()
+BOOL Is64BitOs()
 {
 #ifdef _WIN64
 	return TRUE;
 #else
-    static BOOL isWow64 = FALSE;
+	static BOOL isWow64 = FALSE;
 	static BOOL valid = FALSE;
-	typedef BOOL (__stdcall *LPFN_ISWOW64PROCESS ) (HANDLE hProcess,PBOOL Wow64Process);
+	typedef BOOL(__stdcall* LPFN_ISWOW64PROCESS) (HANDLE hProcess, PBOOL Wow64Process);
+	typedef BOOL(__stdcall* LPFN_ISWOW64PROCESS2)(
+		HANDLE hProcess,
+		USHORT* pProcessMachine,
+		USHORT* pNativeMachine
+		);
 	LPFN_ISWOW64PROCESS fnIsWow64Process;
+	LPFN_ISWOW64PROCESS2 fnIsWow64Process2;
 
 	if (valid)
 		return isWow64;
 
-	fnIsWow64Process = (LPFN_ISWOW64PROCESS) GetProcAddress (GetModuleHandle(L"kernel32"), "IsWow64Process");
+	fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandle(L"kernel32"), "IsWow64Process");
+	fnIsWow64Process2 = (LPFN_ISWOW64PROCESS2)GetProcAddress(GetModuleHandle(L"kernel32"), "IsWow64Process2");
 
-    if (fnIsWow64Process != NULL)
-        if (!fnIsWow64Process (GetCurrentProcess(), &isWow64))
+	if (fnIsWow64Process2)
+	{
+		USHORT processMachine, nativeMachine;
+		if (!fnIsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine))
 			isWow64 = FALSE;
-
+		else
+		{
+			if (IMAGE_FILE_MACHINE_ARM64 == nativeMachine || IMAGE_FILE_MACHINE_AMD64 == nativeMachine || IMAGE_FILE_MACHINE_IA64 == nativeMachine || IMAGE_FILE_MACHINE_ALPHA64 == nativeMachine)
+				isWow64 = TRUE;
+		}
+}
+	else if (fnIsWow64Process != NULL)
+	{
+		if (!fnIsWow64Process(GetCurrentProcess(), &isWow64))
+			isWow64 = FALSE;
+	}
 	valid = TRUE;
-    return isWow64;
+	return isWow64;
 #endif
 }
 
+BOOL IsARM()
+{
+#if defined(_M_ARM) || defined(_M_ARM64)
+	return TRUE;
+#else
+	static BOOL isARM = FALSE;
+	static BOOL valid = FALSE;
+	typedef BOOL(__stdcall* LPFN_ISWOW64PROCESS2)(
+		HANDLE hProcess,
+		USHORT* pProcessMachine,
+		USHORT* pNativeMachine
+		);
+	LPFN_ISWOW64PROCESS2 fnIsWow64Process2;
+
+	if (valid)
+		return isARM;
+
+	fnIsWow64Process2 = (LPFN_ISWOW64PROCESS2)GetProcAddress(GetModuleHandle(L"kernel32"), "IsWow64Process2");
+	if (fnIsWow64Process2)
+	{
+		USHORT processMachine, nativeMachine;
+		if (fnIsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine))
+		{
+			if (IMAGE_FILE_MACHINE_ARM64 == nativeMachine || IMAGE_FILE_MACHINE_ARM == nativeMachine)
+				isARM = TRUE;
+			else
+				isARM = FALSE;
+			valid = TRUE;
+		}
+	}
+
+	if (!valid)
+	{
+		SYSTEM_INFO systemInfo;
+		GetNativeSystemInfo(&systemInfo);
+		if (systemInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM || systemInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM64)
+			isARM = TRUE;
+		else
+			isARM = FALSE;
+	}
+	valid = TRUE;
+	return isARM;
+
+#endif
+}
 
 BOOL IsServerOS ()
 {
@@ -10946,7 +11099,7 @@ std::wstring GetWindowsEdition ()
 		osname += L"-basic";
 
 	if (Is64BitOs())
-		osname += L"-x64";
+		osname += IsARM()? L"-arm64" : L"-x64";
 
 	if (CurrentOSServicePack > 0)
 	{
@@ -11117,15 +11270,33 @@ void Applink (const char *dest)
 		CorrectURL (url);
 	}
 
-	if (IsAdmin ())
+	if (IsOSAtLeast (WIN_VISTA) && IsAdmin ())
 	{
-		if (buildUrl && !FileExists (url))
+		int openDone = 0;
+		if (buildUrl)
 		{
-			// fallbacl to online resources
-			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
-			SafeOpenURL (url);
+			wchar_t pageFileName [TC_MAX_PATH] = {0};
+			DWORD cchUnescaped = ARRAYSIZE(pageFileName);
+
+			StringCbCopyW (pageFileName, sizeof(pageFileName), page);
+			/* remove escape sequences from the page name before calling FileExists function */
+			if (S_OK == UrlUnescapeWFn (pageFileName, pageFileName, &cchUnescaped, URL_UNESCAPE_INPLACE))
+			{
+				std::wstring pageFullPath = installDir;
+				pageFullPath += L"docs\\html\\en\\";
+				pageFullPath += pageFileName;
+			
+				if (!FileExists (pageFullPath.c_str()))
+				{
+					// fallback to online resources
+					StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+					SafeOpenURL (url);
+					openDone = 1;
+				}
+			}
 		}
-		else
+
+		if (!openDone)
 		{
 			SafeOpenURL (url);
 		}
@@ -11136,7 +11307,7 @@ void Applink (const char *dest)
 
 		if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
 		{
-			// fallbacl to online resources
+			// fallback to online resources
 			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
 			ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
 		}			
@@ -11234,12 +11405,21 @@ BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size)
 {
 	HGLOBAL hResL;
     HRSRC hRes;
+    HINSTANCE hResInst = NULL;
 
-	hRes = FindResource (NULL, MAKEINTRESOURCE(resourceId), resourceType);
-	hResL = LoadResource (NULL, hRes);
+#ifdef SETUP_DLL
+	//	In case we're being called from the SetupDLL project, FindResource()
+	//	and LoadResource() with NULL will fail since we're in a DLL. We need
+	//	to call them with the HINSTANCE of the DLL instead, which we set in 
+	//	Setup.c of SetupDLL, DllMain() function.
+    hResInst = hInst;
+#endif
+
+	hRes = FindResource (hResInst, MAKEINTRESOURCE(resourceId), resourceType);
+	hResL = LoadResource (hResInst, hRes);
 
 	if (size != NULL)
-		*size = SizeofResource (NULL, hRes);
+		*size = SizeofResource (hResInst, hRes);
 
 	return (BYTE *) LockResource (hResL);
 }
@@ -12123,6 +12303,35 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 	return 0;
 }
 
+extern "C" BOOL IsThreadInSecureDesktop(DWORD dwThreadID)
+{
+	BOOL bRet = FALSE;
+	if (bSecureDesktopOngoing)
+	{
+		HDESK currentDesk = GetThreadDesktop (dwThreadID);
+		if (currentDesk)
+		{
+			LPWSTR szName = NULL;
+			DWORD dwLen = 0;
+			if (!GetUserObjectInformation (currentDesk, UOI_NAME, NULL, 0, &dwLen))
+			{
+				szName = (LPWSTR) malloc (dwLen);
+				if (szName)
+				{
+					if (GetUserObjectInformation (currentDesk, UOI_NAME, szName, dwLen, &dwLen))
+					{
+						if (0 == _wcsicmp (szName, SecureDesktopName))
+							bRet = TRUE;
+					}
+					free (szName);
+				}
+			}
+		}
+	}
+
+	return bRet;
+}
+
 
 BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 {
@@ -12147,6 +12356,8 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 				HWND hParent = IsWindow (m_hwnd)? m_hwnd : GetActiveWindow();
 				if (!hParent)
 					hParent = GetForegroundWindow ();
+				if (IsThreadInSecureDesktop(GetCurrentThreadId()) && !IsThreadInSecureDesktop(GetWindowThreadProcessId(hParent, NULL)))
+					hParent = GetActiveWindow ();
 				if (SecureDesktopDialogBoxParam (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PASSWORD), hParent, (DLGPROC) SecurityTokenPasswordDlgProc, (LPARAM) &str) == IDCANCEL)
 					throw UserAbort (SRC_POS);
 			}
@@ -13756,7 +13967,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 	INT_PTR retValue = 0;
 	BOOL bEffectiveUseSecureDesktop = bCmdUseSecureDesktopValid? bCmdUseSecureDesktop : bUseSecureDesktop;
 
-	if (bEffectiveUseSecureDesktop)
+	if (bEffectiveUseSecureDesktop && !IsThreadInSecureDesktop(GetCurrentThreadId()))
 	{
 		EnterCriticalSection (&csSecureDesktop);
 		bSecureDesktopOngoing = TRUE;
@@ -13802,6 +14013,8 @@ INT_PTR SecureDesktopDialogBoxParam(
 				HANDLE hThread = ::CreateThread (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
 				if (hThread)
 				{
+					StringCbCopy(SecureDesktopName, sizeof (SecureDesktopName), szDesktopName);
+
 					WaitForSingleObject (hThread, INFINITE);
 					CloseHandle (hThread);
 
@@ -13945,9 +14158,7 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 					BYTE hashVal[64];
 					sha512 (hashVal, pProviderCert->pCert->pbCertEncoded, pProviderCert->pCert->cbCertEncoded);
 
-					if (	(0 ==  memcmp (hashVal, gpbSha1CodeSignCertFingerprint, 64))
-						||	(0 ==  memcmp (hashVal, gpbSha256CodeSignCertFingerprint, 64))
-						)
+					if (0 ==  memcmp (hashVal, gpbSha256CodeSignCertFingerprint, 64))
 					{
 						bResult = TRUE;
 					}
@@ -15007,7 +15218,11 @@ BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled)
 				}
 
 				// check if Fast Startup / Hybrid Boot is enabled
-				if (IsOSVersionAtLeast (WIN_8, 0) && spc.spare2[0])
+#if _MSC_VER >= 1900
+				if (IsOSVersionAtLeast (WIN_8, 0) && spc.Hiberboot)
+#else
+				if (IsOSVersionAtLeast(WIN_8, 0) && spc.spare2[0])
+#endif
 				{
 					dwHiberbootEnabled = 1;
 					ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", &dwHiberbootEnabled);

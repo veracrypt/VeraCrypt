@@ -506,6 +506,7 @@ END
 //
 // BIN
 //
+#ifndef ARM64
 
 IDR_BOOT_SECTOR         BIN                     "..\\Boot\\Windows\\Release\\BootSector.bin"
 IDR_BOOT_SECTOR_AES     BIN                     "..\\Boot\\Windows\\Release_AES\\BootSector.bin"
@@ -571,6 +572,7 @@ IDR_EFI_DCSBML32         BIN                     "..\\Boot\\EFI\\DcsBml32.efi"
 #endif
 IDR_EFI_DCSRE32          BIN                     "..\\Boot\\EFI\\DcsRe32.efi"
 IDR_EFI_DCSINFO32         BIN                     "..\\Boot\\EFI\\DcsInfo32.efi"
+#endif
 #endif
 /////////////////////////////////////////////////////////////////////////////
 //

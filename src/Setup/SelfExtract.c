@@ -132,7 +132,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	wchar_t tmpStr [2048];
 	int bufLen = 0, compressedDataLen = 0, uncompressedDataLen = 0;
 
-	x = wcslen (szDestDir);
+	x = (int) wcslen (szDestDir);
 	if (x < 2)
 		goto err;
 
@@ -179,7 +179,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 		bufLen += (int) GetFileSize64 (szTmpFilePath);
 
 		bufLen += 2;					// 16-bit filename length
-		bufLen += (wcslen(szCompressedFiles[i]) * sizeof (wchar_t));	// Filename
+		bufLen += (int) (wcslen(szCompressedFiles[i]) * sizeof (wchar_t));	// Filename
 		bufLen += 4;					// CRC-32
 		bufLen += 4;					// 32-bit file length
 	}
@@ -197,7 +197,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 
 
 	// Write the start marker
-	if (!SaveBufferToFile (MAG_START_MARKER, outputFile, strlen (MAG_START_MARKER), TRUE, FALSE))
+	if (!SaveBufferToFile (MAG_START_MARKER, outputFile, (DWORD) strlen (MAG_START_MARKER), TRUE, FALSE))
 	{
 		if (_wremove (outputFile))
 			PkgError (L"Cannot write the start marker\nFailed also to delete package file");
@@ -324,7 +324,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	}
 
 	// Write the end marker
-	if (!SaveBufferToFile (MagEndMarker, outputFile, strlen (MagEndMarker), TRUE, FALSE))
+	if (!SaveBufferToFile (MagEndMarker, outputFile, (DWORD) strlen (MagEndMarker), TRUE, FALSE))
 	{
 		if (_wremove (outputFile))
 			PkgError (L"Cannot write the end marker.\nFailed also to delete package file");
@@ -408,7 +408,7 @@ BOOL VerifyPackageIntegrity (const wchar_t *path)
 		return FALSE;
 	}
 
-	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, strlen (MagEndMarker));
+	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, (int) strlen (MagEndMarker));
 	if (fileDataEndPos < 0)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
@@ -416,13 +416,13 @@ BOOL VerifyPackageIntegrity (const wchar_t *path)
 	}
 	fileDataEndPos--;
 
-	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, strlen (MAG_START_MARKER));
+	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, (int) strlen (MAG_START_MARKER));
 	if (fileDataStartPos < 0)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		return FALSE;
 	}
-	fileDataStartPos += strlen (MAG_START_MARKER);
+	fileDataStartPos += (int) strlen (MAG_START_MARKER);
 
 
 	if (!LoadInt32 (path, &crc, fileDataEndPos + strlen (MagEndMarker) + 1))
@@ -443,7 +443,7 @@ BOOL VerifyPackageIntegrity (const wchar_t *path)
 	// Zero all bytes that change when an exe is digitally signed (except appended blocks).
 	WipeSignatureAreas (tmpBuffer);
 
-	if (crc != GetCrc32 (tmpBuffer, fileDataEndPos + 1 + strlen (MagEndMarker)))
+	if (crc != GetCrc32 (tmpBuffer, fileDataEndPos + 1 + (int) strlen (MagEndMarker)))
 	{
 		free (tmpBuffer);
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
@@ -463,7 +463,7 @@ BOOL IsSelfExtractingPackage (void)
 
 	GetModuleFileName (NULL, path, ARRAYSIZE (path));
 
-	return (FindStringInFile (path, MagEndMarker, strlen (MagEndMarker)) != -1);
+	return (FindStringInFile (path, MagEndMarker, (int) strlen (MagEndMarker)) != -1);
 }
 
 
@@ -505,7 +505,7 @@ BOOL SelfExtractInMemory (wchar_t *path)
 
 	FreeAllFileBuffers();
 
-	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, strlen (MagEndMarker));
+	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, (int) strlen (MagEndMarker));
 	if (fileDataEndPos < 0)
 	{
 		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
@@ -514,14 +514,14 @@ BOOL SelfExtractInMemory (wchar_t *path)
 
 	fileDataEndPos--;
 
-	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, strlen (MAG_START_MARKER));
+	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, (int) strlen (MAG_START_MARKER));
 	if (fileDataStartPos < 0)
 	{
 		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
 		return FALSE;
 	}
 
-	fileDataStartPos += strlen (MAG_START_MARKER);
+	fileDataStartPos += (int) strlen (MAG_START_MARKER);
 
 	filePos = fileDataStartPos;
 

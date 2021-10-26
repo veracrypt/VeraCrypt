@@ -11,8 +11,8 @@ elseif ( NOT DEFINED NOGUI )
 endif()
 
 # - Set version of the package
-set( FULL_VERSION 		"1.24-Update7" )
-set( VERSION 			"1.24.23" )
+set( FULL_VERSION 		"1.25-RC1" )
+set( VERSION 			"1.25.1" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values
@@ -194,6 +194,9 @@ MESSAGE ( STATUS "Architecture = ${ARCHITECTURE}" )
 install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/usr/bin
 		DESTINATION .
 		USE_SOURCE_PERMISSIONS)
+install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/usr/sbin
+		DESTINATION .
+		USE_SOURCE_PERMISSIONS)
 install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/usr/share
 		DESTINATION .
 		USE_SOURCE_PERMISSIONS)
@@ -251,7 +254,7 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 		if ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) ) 
 			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "18.04" ) ) )
 			
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libfuse2, dmsetup, sudo" )										
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libayatana-appindicator3-1, libfuse2, dmsetup, sudo" )										
 			
 		else ()
 			# Link against statically built wxWidgets on Ubuntu 14.04 and older, and Debian 8 and older
@@ -317,9 +320,12 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) )
 	# This is to avoid having %dir of these directories in the .spec file
 	set( CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION 			"/usr" )
 	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/bin" )
+	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/sbin" )
 	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/share" )
 	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/share/applications" )
 	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/share/doc" )
+	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/share/mime" )
+	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/share/mime/packages" )
 	list(APPEND CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION	"/usr/share/pixmaps" )
 	
 	set( CPACK_RPM_PACKAGE_RELOCATABLE 					"OFF" )

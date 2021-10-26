@@ -24,9 +24,10 @@ namespace VeraCrypt
 		SectorSize (sectorSize),
 		AvailableDiskSpace (0)
 	{
-		VolumeSizePrefixChoice->Append (LangString["KB"], reinterpret_cast <void *> (1024));
-		VolumeSizePrefixChoice->Append (LangString["MB"], reinterpret_cast <void *> (1024 * 1024));
-		VolumeSizePrefixChoice->Append (LangString["GB"], reinterpret_cast <void *> (1024 * 1024 * 1024));
+		VolumeSizePrefixChoice->Append (LangString["KB"], reinterpret_cast <void *> (1));
+		VolumeSizePrefixChoice->Append (LangString["MB"], reinterpret_cast <void *> (2));
+		VolumeSizePrefixChoice->Append (LangString["GB"], reinterpret_cast <void *> (3));
+		VolumeSizePrefixChoice->Append (LangString["TB"], reinterpret_cast <void *> (4));
 		VolumeSizePrefixChoice->Select (Prefix::MB);
 
 		wxLongLong diskSpace = 0;
@@ -34,6 +35,7 @@ namespace VeraCrypt
 		{
 			VolumeSizeTextCtrl->Disable();
 			VolumeSizeTextCtrl->SetValue (L"");
+			UseAllFreeSpaceCheckBox->Disable();
 		}
 		else
 		{
@@ -52,13 +54,13 @@ namespace VeraCrypt
 			wxString drive = wxFileName (wstring (volumePath)).GetVolume();
 			if (!drive.empty())
 			{
-				FreeSpaceStaticText->SetLabel (StringFormatter (_("Free space on drive {0}: is {1}."),
+				FreeSpaceStaticText->SetLabel (StringFormatter (LangString["LINUX_FREE_SPACE_ON_DRIVE"],
 					drive, Gui->SizeToString (diskSpace.GetValue())));
 			}
 			else
 #endif
 			{
-				FreeSpaceStaticText->SetLabel (StringFormatter (_("Free space available: {0}"),
+				FreeSpaceStaticText->SetLabel (StringFormatter (LangString["DISK_FREE"],
 					Gui->SizeToString (diskSpace.GetValue())));
 			}
 		}
@@ -74,13 +76,25 @@ namespace VeraCrypt
 	uint64 VolumeSizeWizardPage::GetVolumeSize () const
 	{
 		uint64 prefixMult = 1;
-		int selection = VolumeSizePrefixChoice->GetSelection();
-		if (selection == wxNOT_FOUND)
-			return 0;
+		uint64 val;
+		if (UseAllFreeSpaceCheckBox->IsChecked ())
+		{
+			val = AvailableDiskSpace;
+		}
+		else
+		{
+			int selection = VolumeSizePrefixChoice->GetSelection();
+			if (selection == wxNOT_FOUND)
+				return 0;
 
-		prefixMult = reinterpret_cast <uint64> (VolumeSizePrefixChoice->GetClientData (selection));
-
-		uint64 val = StringConverter::ToUInt64 (wstring (VolumeSizeTextCtrl->GetValue()));
+			uint64 counter = reinterpret_cast <uint64> (VolumeSizePrefixChoice->GetClientData (selection));
+			while (counter)
+			{
+				prefixMult *= 1024;
+				counter--;
+			}
+			val = StringConverter::ToUInt64 (wstring(VolumeSizeTextCtrl->GetValue()));
+		}
 		if (val <= 0x7fffFFFFffffFFFFull / prefixMult)
 		{
 			val *= prefixMult;
@@ -98,7 +112,7 @@ namespace VeraCrypt
 
 	bool VolumeSizeWizardPage::IsValid ()
 	{
-		if (!VolumeSizeTextCtrl->GetValue().empty() && Validate())
+		if ((!VolumeSizeTextCtrl->GetValue().empty() || UseAllFreeSpaceCheckBox->IsChecked ()) && Validate())
 		{
 			try
 			{
@@ -126,7 +140,12 @@ namespace VeraCrypt
 			return;
 		}
 
-		if (size % (1024 * 1024 * 1024) == 0)
+		if (size % (1024ULL * 1024ULL * 1024ULL * 1024ULL) == 0)
+		{
+			size /= 1024ULL * 1024ULL * 1024ULL * 1024ULL;
+			VolumeSizePrefixChoice->Select (Prefix::TB);
+		}
+		else if (size % (1024 * 1024 * 1024) == 0)
 		{
 			size /= 1024 * 1024 * 1024;
 			VolumeSizePrefixChoice->Select (Prefix::GB);
@@ -143,5 +162,22 @@ namespace VeraCrypt
 		}
 
 		VolumeSizeTextCtrl->SetValue (StringConverter::FromNumber (size));
+	}
+
+	void VolumeSizeWizardPage::OnUseAllFreeSpaceCheckBoxClick( wxCommandEvent& event )
+	{
+		if (UseAllFreeSpaceCheckBox->IsChecked ())
+		{
+			VolumeSizePrefixChoice->Select (Prefix::MB);
+			VolumeSizeTextCtrl->SetValue (L"");
+			VolumeSizePrefixChoice->Disable();
+			VolumeSizeTextCtrl->Disable();
+		}
+		else
+		{
+			VolumeSizePrefixChoice->Enable();
+			VolumeSizeTextCtrl->SetValue (L"");
+			VolumeSizeTextCtrl->Enable();
+		}
 	}
 }

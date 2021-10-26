@@ -25,7 +25,7 @@
 
 #ifdef TC_MACOSX
 #	include <sys/ucontext.h>
-#elif defined (TC_BSD)
+#elif defined (TC_BSD) && !defined (TC_OPENBSD)
 #	include <ucontext.h>
 #endif
 
@@ -56,9 +56,13 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 #	ifdef __x86_64__
 		faultingInstructionAddress = context->uc_mcontext->__ss.__rip;
+#   else
+#	ifdef __aarch64__
+		faultingInstructionAddress = context->uc_mcontext->__ss.__pc;
 #	else
 		faultingInstructionAddress = context->uc_mcontext->__ss.__eip;
 #	endif
+#   endif
 
 #endif
 		wstringstream vars;
@@ -243,7 +247,7 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
-			Gui->ShowError (_("Unknown exception occurred."));
+			Gui->ShowError (LangString["LINUX_UNKNOWN_EXC_OCCURRED"]);
 		}
 
 		_exit (1);
