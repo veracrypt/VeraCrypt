@@ -1446,14 +1446,14 @@
     <entry lang="zh-hk" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">強制於 EFI 韌體的啟動選單中將 VeraCrypt 選項排在最前</entry>
     <entry lang="zh-hk" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">警告: 記憶體加密 與 Windows 的休眠和快速啟動功能並不兼容。在啟用記憶體加密之前 VeraCrypt 需要先停用這些功能 。\n\n還要繼續嗎？</entry>
     <entry lang="zh-hk" key="CONFIRM_DISABLE_FAST_STARTUP">警告： Windows 快速開機功能已啟用，在使用 VeraCrypt 加密區時啟用這個功能已知會導致問題。建議在使用 VeraCrypt 加密區時停用這個功能以獲得更好的保安和可用性。\n\n你是否要停用 Windows 的快速開機功能？</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
+    <entry lang="zh-hk" key="QUICK_FORMAT_HELP">為了令您的操作系統可以掛載您的新加密區，你需要先將其格式化成一個檔案系統。請選擇一個檔案系統類型。\n\n如果您的加密區是寄存在一個裝置或分割區，您可以使用「快速格式化」以跳過加密加密區的未使用空間。</entry>
+    <entry lang="zh-hk" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">不要使用中央處理器的 AES 指令集來進行 AES 加密/解密加速</entry>
+    <entry lang="zh-hk" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">將所有已掛載的加密區加入到最愛...</entry>
+    <entry lang="zh-hk" key="TASKICON_PREF_MENU_ITEMS">任務欄圖示選項</entry>
+    <entry lang="zh-hk" key="TASKICON_PREF_OPEN_VOL">開啟已掛載的加密區</entry>
+    <entry lang="zh-hk" key="TASKICON_PREF_DISMOUNT_VOL">解除掛載已掛載的加密區</entry>
+    <entry lang="zh-hk" key="DISK_FREE">可用的空間: {0}</entry>
+    <entry lang="zh-hk" key="VOLUME_SIZE_HELP">請指定要建立新的加密容器檔案的大小。注意最細容許的加密容器大小為 292 KiB。</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
     <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
     <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
