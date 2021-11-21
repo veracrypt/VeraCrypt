@@ -11,7 +11,7 @@
 <body>
 
 <div>
-<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
 </div>
 
 <div id="menu">
@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.25-RC1</strong> (September 5<sup>th</sup>, 2021):</p>
+<p><strong style="text-align:left">1.25-RC2</strong> (November 21<sup>st</sup>, 2021):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -55,7 +55,7 @@
 <li>For now, MSI installer cannot be used if system partition is encrypted with VeraCrypt</li>
 </ul>
 </li>
-<li>Drop support of Windows XP, Windows Vista and Windows 7. Windows 8 is now the minimum supported Windows version.</li>
+<li>Drop support of Windows Vista, Windows 7, Windows 8 and Windows 8.1 because of new requirement for driver code signing.</li>
 <li>Reduce time of mount when PRF auto-detection is selected.</li>
 <li>Fix potential memory corruption in driver caused by integer overflow in IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES (reported by Ilja van Sprundel).</li>
 <li>Replace insecure wcscpy/wcscat/strcpy runtime functions with secure equivalents.</li>
@@ -78,6 +78,8 @@
 <li>Native support of Apple Silicon M1.</li>
 <li>Drop official support of Mac OS X 10.7 Lion and Mac OS X 10.8 Mountain Lion.</li>
 <li>Add UI language support using installed XML files. Language is automatically detected using "LANG" environment variable</li>
+<li>Add CLI switch (--size=max) and UI option to give a file container all available free space on the disk where it is created.</li>
+<li>Return error if unknown filesystem value specified in CLI --filesystem switch instead of silently skipping filesystem creation.</li>
 </ul>
 </li>
 <li><strong>Linux:</strong>
@@ -85,16 +87,22 @@
 <li>Add UI language support using installed XML files. Language is automatically detected using "LANG" environment variable</li>
 <li>Compatiblity with with pam_tmpdir.</li>
 <li>Display icon in notification area on Ubuntu 18.04 and newer (contibuted by https://unit193.net/).</li>
+<li>Add CLI switch (--size=max) and UI option to give a file container all available free space on the disk where it is created.</li>
+<li>Return error if unknown filesystem value specified in CLI --filesystem switch instead of silently skipping filesystem creation.</li>
 </ul>
 </li>
 <li><strong>FreeBSD:</strong>
 <ul>
 <li>Make system devices work under FreeBSD</li>
+<li>Add CLI switch (--size=max) and UI option to give a file container all available free space on the disk where it is created.</li>
+<li>Return error if unknown filesystem value specified in CLI --filesystem switch instead of silently skipping filesystem creation.</li>
 </ul>
 </li>
 <li><strong>OpenBSD:</strong>
 <ul>
 <li>Add basic support of OpenBSD</li>
+<li>Add CLI switch (--size=max) and UI option to give a file container all available free space on the disk where it is created.</li>
+<li>Return error if unknown filesystem value specified in CLI --filesystem switch instead of silently skipping filesystem creation.</li>
 </ul>
 </li>
 </ul>
