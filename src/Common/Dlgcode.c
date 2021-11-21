@@ -3259,8 +3259,8 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	RemoteSession = GetSystemMetrics (SM_REMOTESESSION) != 0;
 
-	// OS version check: from version 1.25, only Windows 8 and newer is supported
-	if (!IsOSVersionAtLeast(WIN_8, 0))
+	// OS version check: from version 1.25, only Windows XP, Windows 10 and Windows 11 are supported because of new driver signing requirements
+	if (!(IsOSVersionAtLeast(WIN_10, 0) || (nCurrentOS == WIN_XP) || (nCurrentOS == WIN_XP64)))
 	{
 		MessageBoxW (NULL, GetString ("UNSUPPORTED_OS"), lpszTitle, MB_ICONSTOP);
 		exit (1);
@@ -3270,26 +3270,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		// Service pack check & warnings about critical MS issues
 		switch (nCurrentOS)
 		{
-		case WIN_2000:
-			if (CurrentOSServicePack < 3)
-				Warning ("LARGE_IDE_WARNING_2K", NULL);
-			else
-			{
-				DWORD val = 0, size = sizeof(val);
-				HKEY hkey;
-
-				if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Services\\Atapi\\Parameters", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
-				{
-					if (RegQueryValueExW (hkey, L"EnableBigLba", 0, 0, (LPBYTE) &val, &size) != ERROR_SUCCESS
-							|| val != 1)
-					{
-						Warning ("LARGE_IDE_WARNING_2K_REGISTRY", NULL);
-					}
-					RegCloseKey (hkey);
-				}
-			}
-			break;
-
 		case WIN_XP:
 			if (CurrentOSServicePack < 1)
 			{
@@ -14113,6 +14093,11 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 	WINTRUST_FILE_INFO  fileInfo = {0};
 	WINTRUST_DATA      WVTData = {0};
 	wchar_t filePath [TC_MAX_PATH + 1024];
+
+    // we check our own authenticode signature only starting from Windows 10 since this is
+	// the minimal supported OS apart from XP where we can't verify SHA256 signatures
+	if (!IsOSAtLeast (WIN_10))
+		return TRUE;
 
 	// Strip quotation marks (if any)
 	if (path [0] == L'"')
