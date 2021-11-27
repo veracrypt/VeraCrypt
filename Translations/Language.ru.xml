@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.25-RC2">
-    <language langid="ru" name="Русский" en-name="Russian" version="1.0.7" translators="Dmitry Yerokhin" />
+    <language langid="ru" name="Русский" en-name="Russian" version="1.0.8" translators="Dmitry Yerokhin" />
     <font lang="ru" class="normal" size="11" face="default" />
     <font lang="ru" class="bold" size="13" face="Arial" />
     <font lang="ru" class="fixed" size="12" face="Lucida Console" />
@@ -653,7 +653,7 @@
     <entry lang="ru" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">Не найдено ни одного несистемного тома с прерванной операцией шифрования/дешифрования и заголовком, для которого подходит указанный пароль и/или ключевые файлы.\n\nПроверьте, правильно ли указан пароль и/или ключевые файлы, и не используется ли раздел/том системой или приложениями (включая антивирусное ПО).</entry>
     <entry lang="ru" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">Раздел/устройство уже полностью зашифрован(о).\nФлаги заголовка = 0x%.8X</entry>
     <entry lang="ru" key="SELECTED_PARTITION_NOT_INPLACE_ENC">Раздел/устройство не использует шифрование "на месте".\nФлаги заголовка = 0x%.8X</entry>
-    <entry lang="ru" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\nПримечание: если вы пытаетесь смонтировать раздел, расположенный на зашифрованном системном диске без предзагрузочной аутентификации, или смонтировать зашифрованный системный раздел операционной системы, не выполняемой в данный момент, выберите "Система" &gt; "Смонтировать без предзагрузочной аутентификации".</entry>
+    <entry lang="ru" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\nПРИМЕЧАНИЕ: Если вы пытаетесь смонтировать раздел, расположенный на зашифрованном системном диске без предзагрузочной аутентификации, или смонтировать зашифрованный системный раздел операционной системы, которая не запущена, то выберите "Система" &gt; "Смонтировать без предзагрузочной аутентификации".</entry>
     <entry lang="ru" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">В этом режиме нельзя монтировать раздел, расположенный на диске, часть которого находится в области шифрования активной системы.\n\nПрежде чем можно будет смонтировать этот раздел в данном режиме, нужно либо загрузить операционную систему, установленную на другом диске (зашифрованном или нет), либо загрузить незашифрованную ОС.</entry>
     <entry lang="ru" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt не может расшифровать отдельный раздел на полностью зашифрованном системном диске (можно расшифровать только весь системный диск).</entry>
     <entry lang="ru" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Внимание! Так как диск содержит загрузчик VeraCrypt, он может быть полностью зашифрованным системным диском. Если это так, учтите, что VeraCrypt не может расшифровывать отдельный раздел на полностью зашифрованном системном диске (можно расшифровать только весь системный диск). Вы можете сейчас продолжить, но потом получите сообщение "Неверный пароль".</entry>
@@ -955,7 +955,7 @@
     <entry lang="ru" key="HEADER_RESTORE_INTERNAL">Восстановить заголовок из копии, встроенной в том</entry>
     <entry lang="ru" key="HEADER_RESTORE_EXTERNAL">Восстановить заголовок из внешнего файла с резервной копией</entry>
     <entry lang="ru" key="HEADER_BACKUP_SIZE_INCORRECT">Неверный размер файла с резервной копией заголовка тома.</entry>
-    <entry lang="ru" key="VOLUME_HAS_NO_BACKUP_HEADER">В этом томе нет встроенной копии заголовка (встроенные копии заголовков есть только в томах, созданных VeraCrypt 6.0 или новее).</entry>
+    <entry lang="ru" key="VOLUME_HAS_NO_BACKUP_HEADER">В этом томе нет встроенной копии заголовка (встроенные копии заголовков есть только в томах, созданных TrueCrypt 6.0 или новее).</entry>
     <entry lang="ru" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Вы пытаетесь создать резервную копию заголовка системного раздела/диска. Это не разрешено. Операции резервного копирования/восстановления, относящиеся к системному разделу/диску, можно выполнять только с помощью диска восстановления VeraCrypt (Rescue Disk).\n\nСоздать диск восстановления VeraCrypt?</entry>
     <entry lang="ru" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Вы пытаетесь восстановить из резервной копии заголовок виртуального тома VeraCrypt, но выбрали системный раздел/диск. Это не разрешено. Операции резервного копирования/восстановления, относящиеся к системному разделу/диску, можно выполнять только с помощью диска восстановления VeraCrypt (Rescue Disk).\n\nСоздать диск восстановления VeraCrypt?</entry>
     <entry lang="ru" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">После нажатия OK выберите имя файла для образа нового диска восстановления VeraCrypt (Rescue Disk) и место, где его нужно сохранить.</entry>
@@ -1433,7 +1433,7 @@
     <entry lang="ru" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">ВАЖНО:\n - Состояние этой опции не сохраняется после выключения/перезагрузки - при следующем запуске ПК её нужно выбрать снова.\n\n - Если эта опция включена, то после подключения нового устройства компьютер перестанет реагировать и в итоге произойдёт сбой с BSOD, так как у Windows нет доступа к зашифрованному диску после удаления из памяти его ключей.\n</entry>
     <entry lang="ru" key="STARTING">Запуск</entry>
     <entry lang="ru" key="IDC_ENABLE_CPU_RNG">Аппаратный генератор случайных чисел как дополнительный источник энтропии</entry>
-    <entry lang="ru" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Устаревшая предельная длина пароля (64 символа)</entry>
+    <entry lang="ru" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Ограничивать пароль 64 символами (как в версиях до 1.24)</entry>
     <entry lang="ru" key="IDC_ENABLE_RAM_ENCRYPTION">Шифровать ключи и пароли в ОЗУ</entry>
     <entry lang="ru" key="IDT_BENCHMARK">Тест:</entry>
     <entry lang="ru" key="IDC_DISABLE_MOUNT_MANAGER">Только создать виртуальное устройство, не монтируя на букву диска</entry>
@@ -1446,127 +1446,127 @@
     <entry lang="ru" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Пункт VeraCrypt - первый в меню загрузки прошивки EFI</entry>
     <entry lang="ru" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">ВНИМАНИЕ: Шифрование ОЗУ несовместимо с имеющимися в  Windows функциями гибернации и быстрого запуска. Прежде чем активировать шифрование ОЗУ, VeraCrypt требуется их отключить.\n\nПродолжить?</entry>
     <entry lang="ru" key="CONFIRM_DISABLE_FAST_STARTUP">ВНИМАНИЕ: В Windows включена функция быстрого запуска, которая вызывает проблемы в работе с томами VeraCrypt. Для большей безопасности и удобства использования рекомендуется её отключить.\n\nХотите отключить быстрый запуск Windows?</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
+    <entry lang="ru" key="QUICK_FORMAT_HELP">Чтобы операционная система могла смонтировать новый том, он должен быть отформатирован с файловой системой. Выберите тип файловой системы.\n\nЕсли том будет размещён на устройстве или разделе, можно выбрать быстрое форматирование, чтобы не шифровать свободное место в томе.</entry>
+    <entry lang="ru" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Не ускорять (де)шифрование AES с помощью AES-инструкций процессора</entry>
+    <entry lang="ru" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Добавить в избранное все смонтированные тома...</entry>
+    <entry lang="ru" key="TASKICON_PREF_MENU_ITEMS">Элементы меню значка задачи</entry>
+    <entry lang="ru" key="TASKICON_PREF_OPEN_VOL">Открыть смонтированные тома</entry>
+    <entry lang="ru" key="TASKICON_PREF_DISMOUNT_VOL">Размонтировать смонтированные тома</entry>
+    <entry lang="ru" key="DISK_FREE">Свободное место: {0}</entry>
+    <entry lang="ru" key="VOLUME_SIZE_HELP">Укажите размер создаваемого контейнера. Минимально допустимый размер тома - 292 КиБ.</entry>
+    <entry lang="ru" key="LINUX_CONFIRM_INNER_VOLUME_CALC">ВНИМАНИЕ: Для внешнего тома выбрана файловая система, отличная от FAT.\nУчтите, что в этом случае VeraCrypt не сможет точно вычислить максимально допустимый размер скрытого тома и будет использовать только оценочное значение, которое может быть неверным.\nТаким образом, ответственность за использование правильного размера скрытого тома, чтобы он не перекрывал внешний том, лежит на вас.\n\nПродолжить, используя выбранную файловую систему для внешнего тома?</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_SECURITY">Безопасность</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Опции монтирования</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_BACKGROUND_TASK">Фоновая задача</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">Интеграция в систему</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Проводник файловой системы</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_PERFORMANCE">Производительность</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_KEYFILES">Ключевые файлы</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_TOKENS">Токены безопасности</entry>
+    <entry lang="ru" key="LINUX_PREF_KERNEL_SERVICES">Службы ядра</entry>
+    <entry lang="ru" key="LINUX_PREF_KERNEL_CRYPT">Не использовать криптографические службы ядра</entry>
+    <entry lang="ru" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Файловая система</entry>
+    <entry lang="ru" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Опции монтирования:</entry>
+    <entry lang="ru" key="LINUX_CROSS_SUPPORT">Кросс-платформенная поддержка</entry>
+    <entry lang="ru" key="LINUX_CROSS_SUPPORT_OTHER">Я буду монтировать том на других платформах</entry>
+    <entry lang="ru" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Выберите эту опцию, если вам нужно использовать этот том на других платформах.</entry>
+    <entry lang="ru" key="LINUX_CROSS_SUPPORT_ONLY">Я буду монтировать этот том только в {0}</entry>
+    <entry lang="ru" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Выберите эту опцию, если вам не нужно использовать этот том на других платформах.</entry>
+    <entry lang="ru" key="LINUX_DESELECT">Отменить выбор</entry>
+    <entry lang="ru" key="LINUX_ADMIN_PW_QUERY">Введите пароль пользователя или администратора:</entry>
+    <entry lang="ru" key="LINUX_ADMIN_PW_QUERY_TITLE">Требуются права администратора</entry>
+    <entry lang="ru" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt уже выполняется.</entry>
+    <entry lang="ru" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">Пароль шифрования системы длиннее {0} симв.</entry>
+    <entry lang="ru" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Смонтировать раздел, использу&amp;я системное шифрование (предзагрузочная аутентификация)</entry>
+    <entry lang="ru" key="LINUX_DO_NOT_MOUNT">&amp;Не монтировать</entry>
+    <entry lang="ru" key="LINUX_MOUNT_AT_DIR">Смонтировать в каталог:</entry>
+    <entry lang="ru" key="LINUX_SELECT">В&amp;ыбрать...</entry>
+    <entry lang="ru" key="LINUX_DISMOUNT_ALL_WHEN">Размонтировать все тома, когда</entry>
+    <entry lang="ru" key="LINUX_ENTERING_POWERSAVING">Система переходит в режим энергосбережения</entry>
+    <entry lang="ru" key="LINUX_LOGIN_ACTION">Действия при входе пользователя</entry>
+    <entry lang="ru" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Закрыть все окна Проводника с размонтируемым томом</entry>
+    <entry lang="ru" key="LINUX_HOTKEYS">Горячие клавиши</entry>
+    <entry lang="ru" key="LINUX_SYSTEM_HOTKEYS">Общесистемные клавиши</entry>
+    <entry lang="ru" key="LINUX_SOUND_NOTIFICATION">Системный звук оповещения при (де)монтировании</entry>
+    <entry lang="ru" key="LINUX_CONFIRM_AFTER_DISMOUNT">Окно с подтверждением после размонтирования</entry>
+    <entry lang="ru" key="LINUX_VC_QUITS">VeraCrypt завершает работу</entry>
+    <entry lang="ru" key="LINUX_OPEN_FINDER">Открыть окно Finder с успешно смонтированным томом</entry>
+    <entry lang="ru" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Учтите, что этот параметр работает только при отключённых криптографических службах ядра.</entry>
+    <entry lang="ru" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Отключение криптографических служб ядра может снизить производительность.\n\nВы уверены?</entry>
+    <entry lang="ru" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Учтите, что отключение этой опции может никак не сказаться на томах, смонтированных с использованием криптографических служб ядра.</entry>
+    <entry lang="ru" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Учтите, что все сейчас смонтированные тома нужно размонтировать, прежде чем они смогут использовать эту настройку.</entry>
+    <entry lang="ru" key="LINUX_UNKNOWN_EXC_OCCURRED">Произошло неизвестное исключение.</entry>
+    <entry lang="ru" key="LINUX_FIRST_AID">"При нажатии OK будет запущена утилита управления дисками (Disk Utility).\n\nВыберите в её окне ваш том и нажмите кнопку проверки или починки диска ('Verify Disk' или 'Repair Disk') на странице первой помощи ('First Aid').</entry>
+    <entry lang="ru" key="LINUX_MOUNT_ALL_DEV">Смонтировать все устройства</entry>
+    <entry lang="ru" key="LINUX_ERROR_LOADING_CONFIG">Ошибка при загрузке файлов конфигурации в </entry>
+    <entry lang="ru" key="LINUX_SELECT_FREE_SLOT">Выберите в списке свободный слот диска.</entry>
+    <entry lang="ru" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nПоказывать это сообщение при следующем монтировании такого тома?</entry>
+    <entry lang="ru" key="LINUX_WARNING">Внимание</entry>
+    <entry lang="ru" key="LINUX_ERROR">Ошибка</entry>
+    <entry lang="ru" key="LINUX_ONLY_TEXTMODE">В данный момент эта функция поддерживается только в текстовом режиме.</entry>
+    <entry lang="ru" key="LINUX_FREE_SPACE_ON_DRIVE">На диске {0}: свободно {1}.</entry>
+    <entry lang="ru" key="LINUX_DYNAMIC_NOTICE">Учтите, что если операционная система не распределяет файлы с начала свободного пространства, максимально возможный размер скрытого тома может быть намного меньше размера свободного места на внешнем томе. Это не ошибка в VeraCrypt, а ограничение операционной системы.</entry>
+    <entry lang="ru" key="LINUX_MAX_HIDDEN_SIZE">Максимально возможный размер скрытого тома для этого тома - {0}.</entry>
+    <entry lang="ru" key="LINUX_OPEN_OUTER_VOL">Открыть внешний том</entry>
+    <entry lang="ru" key="LINUX_OUTER_VOL_IS_MOUNTED">Внешний том успешно создан и смонтирован как '{0}'. Теперь вам следует скопировать на этот том какие-нибудь конфиденциальные файлы, которые вы на самом деле НЕ хотите скрывать. Эти файлы будут там для тех, кто заставит вас раскрыть пароль. Вы сообщите только пароль для этого внешнего тома, а не для скрытого. Файлы, которые вам действительно нужно скрывать, будут храниться в скрытом томе, который будет создан позже. Когда закончите копирование, нажмите кнопку 'Далее'. Не размонтируйте том.\n\nПримечание: после нажатия 'Далее' внешний том будет проанализирован для определения размера непрерывной свободной области, конец которой совпадает с концом тома. В этой области будет размещён скрытый том, поэтому это ограничивает его максимально возможный размер. Эта процедура гарантирует, что данные во внешнем томе не будут перезаписаны скрытым томом.</entry>
+    <entry lang="ru" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">ОШИБКА: Вы пытаетесь зашифровать системный диск.\n\nVeraCrypt может шифровать системный диск только в Windows.</entry>
+    <entry lang="ru" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">ОШИБКА: Вы пытаетесь зашифровать системный раздел.\n\nVeraCrypt может шифровать системные разделы только в Windows.</entry>
+    <entry lang="ru" key="LINUX_WARNING_FORMAT_DESTROY_FS">ВНИМАНИЕ: Форматирование устройства уничтожит все данные в файловой системе '{0}'.\n\nПродолжить?</entry>
+    <entry lang="ru" key="LINUX_MOUNTET_HINT">Файловая система выбранного устройства сейчас смонтирована. Прежде чем продолжить, размонтируйте '{0}'.</entry>
+    <entry lang="ru" key="LINUX_HIDDEN_PASS_NO_DIFF">У скрытого тома не может быть тех же пароля, PIM и ключевых файлов, как у внешнего тома</entry>
+    <entry lang="ru" key="LINUX_NOT_FAT_HINT">Учтите, что том не будет отформатирован с файловой системой FAT, поэтому для монтирования этого тома на платформах, отличных от {0}, может потребоваться установить дополнительные драйверы файловой системы.</entry>
+    <entry lang="ru" key="LINUX_ERROR_SIZE_HIDDEN_VOL">ОШИБКА: Создаваемый скрытый том больше {0} ТБ ({1} ГБ).\n\nВозможные решения:\n- Создайте контейнер/раздел размером менее {0} ТБ.\n</entry>
+    <entry lang="ru" key="LINUX_MAX_SIZE_HINT">- Используйте диск с 4096-байтовыми секторами, чтобы можно было создавать на разделах/ устройствах скрытые тома размером до 16 ТБ</entry>
+    <entry lang="ru" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="ru" key="LINUX_NOT_SUPPORTED"> (не поддерживается компонентами, доступными на этой платформе).\n</entry>
+    <entry lang="ru" key="LINUX_KERNEL_OLD">Ваша система использует старую версию ядра Linux.\n\nИз-за ошибки в ядре Linux система может перестать отвечать на запросы при записи данных на том VeraCrypt. Эта проблема решается обновлением ядра до версии 2.6.24 или более новой.</entry>
+    <entry lang="ru" key="LINUX_VOL_DISMOUNTED">Том {0} размонтирован.</entry>
+    <entry lang="ru" key="LINUX_OOM">Недостаточно памяти.</entry>
+    <entry lang="ru" key="LINUX_CANT_GET_ADMIN_PRIV">Не удалось получить права администратора</entry>
+    <entry lang="ru" key="LINUX_COMMAND_GET_ERROR">Команда {0} возвратила ошибку {1}.</entry>
+    <entry lang="ru" key="LINUX_CMD_HELP">Справка по командной строке VeraCrypt</entry>
+    <entry lang="ru" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nВНИМАНИЕ: В пути к ключевому файлу есть скрытые файлы. Если вам нужно использовать их как ключевые файлы, удалите начальную точку из их имён. Скрытые файлы видны, только если их отображение включено в настройках системы.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Несоответствие размера секторов устройства хранения и тома VeraCrypt</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Эта операция должна выполняться, только если сейчас работает система, размещённая на томе.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_INSUFFICIENTDATA">Недостаточно данных.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Ошибка теста криптографической службы ядра. Скорее всего, криптографическая служба ядра не поддерживает тома размером более 2 ТБ.\n\nВозможные решения:\n- Обновите ядро Linux до версии 2.6.33 или более новой.\n- Отключите использование криптографических служб ядра (Настройки > Параметры > Интеграция в систему) или используйте опцию монтирования 'nokernelcrypto' в командной строке.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Не удалось настроить циклическое устройство.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_MISSINGARGUMENT">Отсутствует обязательный аргумент.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Отсутствуют данные тома.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Требуется точка монтирования.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Точка монтирования уже используется.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_PASSWORDEMPTY">Не указаны пароль или ключевой файл.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nОбратите внимание, что пароли предзагрузочной аутентификации вводятся на этапе, когда ОС ещё не загружена, и доступна только американская раскладка клавиатуры. Поэтому пароли предзагрузочной аутентификации всегда должны вводиться с использованием стандартной раскладки клавиатуры США (в противном случае в большинстве случаев пароль будет введён неправильно). Однако настоящая клавиатура США не требуется - нужно просто изменить раскладку клавиатуры в операционной системе.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nПРИМЕЧАНИЕ: Если вы пытаетесь смонтировать раздел, расположенный на зашифрованном системном диске, без предзагрузочной аутентификации, или смонтировать зашифрованный системный раздел операционной системы, которая не запущена, то выберите 'Параметры > Смонтировать раздел, используя системное шифрование'.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_PASSWORDTOOLONG">Пароль длиннее {0} симв.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Требуется разделение устройства на разделы.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Неверный пароль к защищённому скрытому тому, либо скрытого тома не существует.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Неверные ключевые файлы и/или пароль к защищённому скрытому тому, либо скрытый том не существует.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Обнаружены недопустимые символы.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Ошибка при разборе форматированной строки.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Не удалось создать файл или каталог во временном каталоге.\n\nУбедитесь, что временный каталог существует, его права безопасности позволяют вам получить к нему доступ, и что на диске достаточно места.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">ОШИБКА: Диск использует не 512-байтовые сектора.\n\nИз-за ограничений компонентов на вашей платформе, размещённые на диске внешние тома не могут быть смонтированы с защитой скрытых томов.\n\nВозможные решения:\n- Используйте диск с 512-байтовыми секторами.\n- Создайте на диске том на основе файла (контейнер).\n- Сделайте резервную копию содержимого скрытого тома, а затем обновите внешний том.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">ОШИБКА: Диск использует не 512-байтовые сектора.\n\nИз-за ограничений компонентов на вашей платформе, тома на основе раздела/устройства можно монтировать только с использованием криптографических служб ядра.\n\nВозможные решения:\n- Разрешите использование криптографических служб ядра (Настройки > Интеграция в систему).\n- Используйте диск с 512-байтовыми секторами.\n- Создайте на диске том на основе файла (контейнер).</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">ОШИБКА: Диск использует не 512-байтовые сектора.\n\nИз-за ограничений компонентов на вашей платформе, на этом диске нельзя монтировать/использовать тома на основе раздела/устройства.\n\nВозможные решения:\n- Создайте на диске том на основе файла (контейнер).\n- Используйте диск с 512-байтовыми секторами.\n- Используйте VeraCrypt на другой платформе.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Хост-файл/устройство уже используется.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Слот для тома недоступен.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">Для VeraCrypt требуется OSXFUSE 2.5 или новее.</entry>
+    <entry lang="ru" key="EXCEPTION_OCCURRED">Произошло исключение</entry>
+    <entry lang="ru" key="ENTER_PASSWORD">Введите пароль</entry>
+    <entry lang="ru" key="ENTER_TC_VOL_PASSWORD">Введите пароль тома VeraCrypt</entry>
+    <entry lang="ru" key="MOUNT">Смонтировать</entry>
+    <entry lang="ru" key="MOUNT_POINT">Смонтировать каталог</entry>
+    <entry lang="ru" key="NO_VOLUMES_MOUNTED">Нет смонтированных томов.</entry>
+    <entry lang="ru" key="OPEN_NEW_VOLUME">Укажите новый том VeraCrypt</entry>
+    <entry lang="ru" key="PARAMETER_INCORRECT">Неверный параметр</entry>
+    <entry lang="ru" key="SELECT_KEYFILES">Выберите ключевые файлы</entry>
+    <entry lang="ru" key="START_TC">Запустить VeraCrypt</entry>
+    <entry lang="ru" key="VOLUME_ALREADY_MOUNTED">Том {0} уже смонтирован.</entry>
+    <entry lang="ru" key="UNKNOWN_OPTION">Неизвестная опция</entry>
+    <entry lang="ru" key="VOLUME_LOCATION">Расположение тома</entry>
+    <entry lang="ru" key="VOLUME_HOST_IN_USE">ВНИМАНИЕ: Хост-файл/устройство {0} уже используется!\n\nИгнорирование этого может привести к нежелательным результатам, включая нестабильность системы. Перед монтированием тома закройте все приложения, которые могут использовать хост-файл/устройство.\n\nПродолжить монтирование?</entry>
+    <entry lang="ru" key="CANT_INSTALL_WITH_EXE_OVER_MSI">Программа VeraCrypt ранее была установлена с помощью MSI-пакета, поэтому её нельзя обновить с помощью стандартного установщика.\n\nЧтобы обновить VeraCrypt, используйте MSI-пакет.</entry>
+    <entry lang="ru" key="IDC_USE_ALL_FREE_SPACE">Использовать всё свободное место</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
