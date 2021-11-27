@@ -1,11 +1,11 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
-set VC_VERSION=1.25-RC2
-set VC_VERSION_NBRE=1.25.2
+set VC_VERSION=1.25
+set VC_VERSION_NBRE=1.25.3
 set SIGNINGPATH=%~dp0
 cd %SIGNINGPATH%
 
-rem call "..\..\doc\chm\create_chm.bat"
+call "..\..\doc\chm\create_chm.bat"
 
 cd %SIGNINGPATH%
 
