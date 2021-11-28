@@ -955,7 +955,7 @@
     <entry lang="zh-hk" key="HEADER_RESTORE_INTERNAL">從加密區內嵌的備份中還原加密區標頭數據</entry>
     <entry lang="zh-hk" key="HEADER_RESTORE_EXTERNAL">從一個外部備份檔案還原加密區標頭數據</entry>
     <entry lang="zh-hk" key="HEADER_BACKUP_SIZE_INCORRECT">加密區標頭數據備份檔案的尺寸不對。</entry>
-    <entry lang="zh-hk" key="VOLUME_HAS_NO_BACKUP_HEADER">加密區中沒有內嵌的備份標頭數據(注意，僅在 VeraCrypt 6.0 和以後的版本才包含內嵌的標頭數據)。</entry>
+    <entry lang="zh-hk" key="VOLUME_HAS_NO_BACKUP_HEADER">加密區中沒有內嵌的備份標頭數據(注意，僅在 TrueCrypt 6.0 和以後的版本才包含內嵌的標頭數據)。</entry>
     <entry lang="zh-hk" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在嘗試備份系統分割區/裝置的標頭數據，該功能不被允許。對於系統分割區/裝置標頭數據的備份/還原 只能通過使用 VeraCrypt 救機光碟來進行。\n\n您希望建立 VeraCrypt 救機光碟嗎？</entry>
     <entry lang="zh-hk" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在嘗試還原系統分割區/裝置的標頭數據，但是您選擇的是系統分割區/裝置。該功能不被允許。 對於系統分割區/裝置標頭數據的備份/還原 只能通過使用 VeraCrypt 救機光碟來進行。\n\n您希望建立 VeraCrypt 救機光碟嗎？</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在按「確定」按鈕後，您將會設定新的 VeraCrypt 救機光碟  鏡像檔的名稱和存放位置。</entry>

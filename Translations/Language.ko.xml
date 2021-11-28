@@ -955,7 +955,7 @@
     <entry lang="ko" key="HEADER_RESTORE_INTERNAL">볼륨에 포함 된 백업에서 볼륨 헤더 복원</entry>
     <entry lang="ko" key="HEADER_RESTORE_EXTERNAL">외부 백업 파일에서 볼륨 헤더 복원</entry>
     <entry lang="ko" key="HEADER_BACKUP_SIZE_INCORRECT">볼륨 헤더 백업 파일의 크기가 올바르지 않습니다.</entry>
-    <entry lang="ko" key="VOLUME_HAS_NO_BACKUP_HEADER">이 볼륨에는 백업 헤더가 내장되어 있지 않습니다(VeraCrypt 6.0 이상 버전에서 생성 된 볼륨에만 포함 된 백업 헤더가 있음을 유의하십시오).</entry>
+    <entry lang="ko" key="VOLUME_HAS_NO_BACKUP_HEADER">이 볼륨에는 백업 헤더가 내장되어 있지 않습니다(TrueCrypt 6.0 이상 버전에서 생성 된 볼륨에만 포함 된 백업 헤더가 있음을 유의하십시오).</entry>
     <entry lang="ko" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">시스템 파티션/드라이브의 헤더를 백업하려고합니다. 허용되지 않습니다. 시스템 파티션/드라이브와 관련된 백업/복원 작업은 VeraCrypt 응급 복구 디스크를 사용해야 만 수행 할 수 있습니다.\n\nVeraCrypt 응급 복구 디스크를 만드시겠습니까?</entry>
     <entry lang="ko" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">가상 VeraCrypt 볼륨의 헤더를 복원하려고했지만 시스템 파티션/드라이브를 선택했습니다. 허용되지 않습니다. 시스템 파티션/드라이브와 관련된 백업/복원 작업은 VeraCrypt 응급 복구 디스크를 사용해야 만 수행 할 수 있습니다.\n\nVeraCrypt 응급 복구 디스크를 만드시겠습니까?</entry>
     <entry lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">확인을 클릭하면 새로운 VeraCrypt 응급 복구 디스크 이미지의 파일 이름과 파일을 저장할 위치를 선택하게됩니다.</entry>

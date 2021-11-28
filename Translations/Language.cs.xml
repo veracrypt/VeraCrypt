@@ -955,7 +955,7 @@
     <entry lang="cs" key="HEADER_RESTORE_INTERNAL">Obnovit hlavičku svazku ze zálohy uložené v tomto svazku</entry>
     <entry lang="cs" key="HEADER_RESTORE_EXTERNAL">Obnovit hlavičku svazku z externího záložního souboru</entry>
     <entry lang="cs" key="HEADER_BACKUP_SIZE_INCORRECT">Velikost souboru se zálohou hlavičky svazku je nesprávná.</entry>
-    <entry lang="cs" key="VOLUME_HAS_NO_BACKUP_HEADER">V tomto svazku není žádná vnořená záložní hlavička (pouze svazky vytvořené programem VeraCrypt 6.0 a vyšším obsahují vnořené zálohy hlaviček).</entry>
+    <entry lang="cs" key="VOLUME_HAS_NO_BACKUP_HEADER">V tomto svazku není žádná vnořená záložní hlavička (pouze svazky vytvořené programem TrueCrypt 6.0 a vyšším obsahují vnořené zálohy hlaviček).</entry>
     <entry lang="cs" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Pokoušíte se zazálohovat hlavičku systémového diskového oddílu/disku. To není povoleno. Zálohovací/obnovovací operace týkající se systémového diskového oddílu/disku mohou být provedeny pouze s použitím Záchranného disku VeraCrypt.\n\nChcete vytvořit Záchranný disk VeraCrypt?</entry>
     <entry lang="cs" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Pokoušíte se obnovit hlavičku virtuálního svazku VeraCrypt, ale vybrali jste systémový diskový oddíl/disk. To není povoleno. Zálohovací/obnovovací operace týkající se systémového diskového oddílu/disku mohou být provedeny pouze s použitím Záchranného disku VeraCrypt.\n\nChcete vytvořit Záchranný disk VeraCrypt?</entry>
     <entry lang="cs" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Po kliknutí na OK zvolíte soubor pro nový obraz Záchranného disku VeraCrypt a místo, kam ho chcete uložit.</entry>

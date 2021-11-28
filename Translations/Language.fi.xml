@@ -955,7 +955,7 @@
     <entry lang="fi" key="HEADER_RESTORE_INTERNAL">Palauta taltio otsikko varmistetulta varmuuskopiolta</entry>
     <entry lang="fi" key="HEADER_RESTORE_EXTERNAL">Palauta taltio otsikko ulkoiselta varmuuskopiolta</entry>
     <entry lang="fi" key="HEADER_BACKUP_SIZE_INCORRECT">Taltion otsikon varmuustallenteen tiedoston koko on väärä.</entry>
-    <entry lang="fi" key="VOLUME_HAS_NO_BACKUP_HEADER">Ei ole varmistettua otsikkoa varustettuna tällä taltiolla (huomioi, että vain taltiot luotuna VeraCrypt 6.0 tai myöhemmällä sisältää varustuksen varmistus otsikoille).</entry>
+    <entry lang="fi" key="VOLUME_HAS_NO_BACKUP_HEADER">Ei ole varmistettua otsikkoa varustettuna tällä taltiolla (huomioi, että vain taltiot luotuna TrueCrypt 6.0 tai myöhemmällä sisältää varustuksen varmistus otsikoille).</entry>
     <entry lang="fi" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Olet yrittänyt varmuuskopioida otsikkoa järjestelmäosiolta/asemalta. Tämä ei ole sallittua. Varmuustalletus/palautus toiminto mikä koskee järjestelmäosiota/asemaa voidaan suorittaa ainoastaan käyttämällä VeraCrypt-ohjelman Pelastuslevyä.\n\nHaluatko luoda Pelastuslevyn?</entry>
     <entry lang="fi" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Olet yrittänyt palauttaa otsikkoa virtuaalisesta VeraCrypt-taltiolta mutta valitsit järjestelmäosion/aseman. Tämä ei ole sallittua. Varmuustalletus/palautus toiminto mikä koskee järjestelmäosiota/asemaa voidaan suorittaa ainoastaan käyttämällä VeraCrypt-ohjelman Pelastuslevyä.\n\nHaluatko luoda Pelastuslevyn?</entry>
     <entry lang="fi" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Kun olet painanut OK, valitse tiedostonimi uudelle VeraCrypt-ohjelman Pelastuslevyn ISO imagelle ja määritä tallennnukselle sijainti.</entry>

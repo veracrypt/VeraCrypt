@@ -955,7 +955,7 @@
     <entry lang="vi" key="HEADER_RESTORE_INTERNAL">Hồi phục phần đầu tập đĩa từ bản sao được gắn trong tập đĩa</entry>
     <entry lang="vi" key="HEADER_RESTORE_EXTERNAL">Hồi phục phần đầu tập đĩa từ một bản sao tập tin bên ngoài</entry>
     <entry lang="vi" key="HEADER_BACKUP_SIZE_INCORRECT">Kích cỡ của bản sao phần đầu tập đĩa không đúng.</entry>
-    <entry lang="vi" key="VOLUME_HAS_NO_BACKUP_HEADER">Không có bản sao phần đầu được gắn trong tập đĩa này (lưu ý là chỉ có các tập đĩa được cấu tạo bởi VeraCrypt 6.0 hay sau này có chứa những bản sao phần đầu được gắn vào).</entry>
+    <entry lang="vi" key="VOLUME_HAS_NO_BACKUP_HEADER">Không có bản sao phần đầu được gắn trong tập đĩa này (lưu ý là chỉ có các tập đĩa được cấu tạo bởi TrueCrypt 6.0 hay sau này có chứa những bản sao phần đầu được gắn vào).</entry>
     <entry lang="vi" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Bạn đang thử sao lại phần đầu của phân vùng/ổ đĩa hệ thống. Chuyện này không được cho phép. Sao lại/hồi phục những thao tác liên quan đến phân vùng/ổ đĩa hệ thống chỉ có thể thực hiện bằng cách dùng Đĩa Cứu hộ VeraCrypt.\n\nBạn có muốn cấu tạo một Đĩa Cứu hộ VeraCrypt không?</entry>
     <entry lang="vi" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Bạn đang thử hồi phục phần đầu của một tập đĩa VeraCrypt ảo nhưng bạn đã chọn phân vùng/ổ đĩa hệ thống. Chuyện này không được cho phép. Sao lại/hồi phục những thao tác liên quan đến phân vùng/ổ đĩa hệ thống chỉ có thể thực hiện bằng cách dùng Đĩa Cứu hộ VeraCrypt.\n\nBạn có muốn cấu tạo một Đĩa Cứu hộ VeraCrypt không?</entry>
     <entry lang="vi" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Sau khi bạn nhấn OK, bạn sẽ chọn tên một tập tin cho bản ảnh của Đĩa Cứu hộ VeraCrypt và vị trí bạn muốn để nó.</entry>

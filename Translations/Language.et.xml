@@ -955,7 +955,7 @@
     <entry lang="en" key="HEADER_RESTORE_INTERNAL">Restore the volume header from the backup embedded in the volume</entry>
     <entry lang="en" key="HEADER_RESTORE_EXTERNAL">Restore the volume header from an external backup file</entry>
     <entry lang="en" key="HEADER_BACKUP_SIZE_INCORRECT">The size of the volume header backup file is incorrect.</entry>
-    <entry lang="en" key="VOLUME_HAS_NO_BACKUP_HEADER">There is no backup header embedded in this volume (note that only volumes created by VeraCrypt 6.0 or later contain embedded backup headers).</entry>
+    <entry lang="en" key="VOLUME_HAS_NO_BACKUP_HEADER">There is no backup header embedded in this volume (note that only volumes created by TrueCrypt 6.0 or later contain embedded backup headers).</entry>
     <entry lang="en" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">You are attempting to back up the header of the system partition/drive. This is not allowed. Backup/restore operations pertaining to the system partition/drive can be performed only using the VeraCrypt Rescue Disk.\n\nDo you want to create a VeraCrypt Rescue Disk?</entry>
     <entry lang="en" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">You are attempting to restore the header of a virtual VeraCrypt volume but you selected the system partition/drive. This is not allowed. Backup/restore operations pertaining to the system partition/drive can be performed only using the VeraCrypt Rescue Disk.\n\nDo you want to create a VeraCrypt Rescue Disk?</entry>
     <entry lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">After you click OK, you will select a filename for the new VeraCrypt Rescue Disk image and the location where you wish to place it.</entry>

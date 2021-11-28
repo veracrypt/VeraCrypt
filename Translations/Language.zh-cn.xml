@@ -955,7 +955,7 @@
     <entry lang="zh-cn" key="HEADER_RESTORE_INTERNAL">从加密卷内嵌的备份中恢复加密卷头信息</entry>
     <entry lang="zh-cn" key="HEADER_RESTORE_EXTERNAL">从外部备份文件中恢复加密卷头信息</entry>
     <entry lang="zh-cn" key="HEADER_BACKUP_SIZE_INCORRECT">加密卷头信息备份文件的尺寸不对。</entry>
-    <entry lang="zh-cn" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中没有内嵌的备份头信息（注意，仅在 VeraCrypt 6.0 和以后的版本才包含内嵌的头信息）。</entry>
+    <entry lang="zh-cn" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中没有内嵌的备份头信息（注意，仅在 TrueCrypt 6.0 和以后的版本才包含内嵌的头信息）。</entry>
     <entry lang="zh-cn" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试备份系统分区/设备的头信息，该功能不被允许。对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试恢复系统分区/设备的头信息，但是您选择的是系统分区/设备。该功能不被允许。 对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在点击〖确定〗按钮后，您将会设置新的 VeraCrypt 应急盘  镜像文件的名称和存放位置。</entry>

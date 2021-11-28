@@ -955,7 +955,7 @@
     <entry lang="en" key="HEADER_RESTORE_INTERNAL">Restore the volume header from the backup embedded in the volume</entry>
     <entry lang="en" key="HEADER_RESTORE_EXTERNAL">Restore the volume header from an external backup file</entry>
     <entry lang="en" key="HEADER_BACKUP_SIZE_INCORRECT">The size of the volume header backup file is incorrect.</entry>
-    <entry lang="en" key="VOLUME_HAS_NO_BACKUP_HEADER">There is no backup header embedded in this volume (note that only volumes created by VeraCrypt 6.0 or later contain embedded backup headers).</entry>
+    <entry lang="en" key="VOLUME_HAS_NO_BACKUP_HEADER">There is no backup header embedded in this volume (note that only volumes created by TrueCrypt 6.0 or later contain embedded backup headers).</entry>
     <entry lang="be" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Вы спрабуеце зрабіць рэзервовую копію загалоўка сістэмнага падзелу/дыска. Гэта не дазволена. Аперацыі рэзервовага капіявання/узнаўлення, якія тычацца сістэмнага падзелу/дыску, можна выконваць толькі з дапамогай дыска ўзнаўлення VeraCrypt (Rescue Disk).\n\nСтварыць дыск узнаўлення VeraCrypt?</entry>
     <entry lang="be" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Вы спрабуеце аднавіць з рэзервовай копіі загаловак віртуальнага тома VeraCrypt, але абралі сістэмны падзел/дыск. Гэта не дазволена. Аперацыі рэзервовага капіявання/узнаўлення, якія тычацца сістэмнага падзелу/дыску, можна выконваць толькі з дапамогай дыска ўзнаўлення VeraCrypt (Rescue Disk).\n\nСтварыць дыск узнаўлення VeraCrypt?</entry>
     <entry lang="be" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Пасля націску OK абярыце імя файла для ISO-выявы новага дыска ўзнаўлення VeraCrypt (Rescue Disk) і месца, дзе яго трэба захаваць.</entry>

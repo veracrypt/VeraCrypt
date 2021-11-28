@@ -955,7 +955,7 @@
     <entry lang="da" key="HEADER_RESTORE_INTERNAL">Gendan bind etiket fra den indbyggede backup i bindet</entry>
     <entry lang="da" key="HEADER_RESTORE_EXTERNAL">Gendan bind etiket fra en ekstern backup fil</entry>
     <entry lang="da" key="HEADER_BACKUP_SIZE_INCORRECT">Størrelsen af bind etiket backup filen er ukorrekt.</entry>
-    <entry lang="da" key="VOLUME_HAS_NO_BACKUP_HEADER">Der er ingen backup etiket indbygget i dette bind (bemærk at kun bind oprettet med VeraCrypt 6.0 eller senere indeholder indbyggede backup etiketter).</entry>
+    <entry lang="da" key="VOLUME_HAS_NO_BACKUP_HEADER">Der er ingen backup etiket indbygget i dette bind (bemærk at kun bind oprettet med TrueCrypt 6.0 eller senere indeholder indbyggede backup etiketter).</entry>
     <entry lang="da" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Du forsøger at lave backup af etiket for system partition/drevet. Dette er ikke tilladt. Backup/gendan funktioner angående system partition/drev kan kun udføres ved hjælp af VeraCrypt Nødhjælps Disk.\n\nØnsker du at oprette en VeraCrypt Nødhjælps Disk?</entry>
     <entry lang="da" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Du forsøger at gendanne en etiket for et virtuelt VeraCrypt bind men du valgte system partition/drev. Dette er ikke tilladt. Backup/gendan funktioner angående system partition/drev kan kun udføres ved hjælp af VeraCrypt Nødhjælps Disk.\n\nØnsker du at oprette en VeraCrypt Nødhjælps Disk?</entry>
     <entry lang="da" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Efter du har klikket OK, skal du vælge et filnavn til det nye VeraCrypt Nødhjælps Disk billede og placeringen hvor du ønsker at placere det.</entry>

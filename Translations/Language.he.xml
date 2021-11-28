@@ -955,7 +955,7 @@
     <entry lang="he" key="HEADER_RESTORE_INTERNAL">שחזר את כותרת אמצעי האחסון מהגיבוי המוטמע באמצעי אחסון</entry>
     <entry lang="he" key="HEADER_RESTORE_EXTERNAL">שחזר את כותרת אמצעי האחסון מקובץ גיבוי חיצוני</entry>
     <entry lang="he" key="HEADER_BACKUP_SIZE_INCORRECT">הגודל של קובץ הגיבוי של כותרת אמצעי האחסון אינו נכון.</entry>
-    <entry lang="he" key="VOLUME_HAS_NO_BACKUP_HEADER">אין כותרת גיבוי משובצת באמצעי אחסון זה (שים לב שרק אמצעי אחסון שנוצרו על ידי VeraCrypt 6.0 ואילך מכילים כותרות גיבוי מוטבעות).</entry>
+    <entry lang="he" key="VOLUME_HAS_NO_BACKUP_HEADER">אין כותרת גיבוי משובצת באמצעי אחסון זה (שים לב שרק אמצעי אחסון שנוצרו על ידי TrueCrypt 6.0 ואילך מכילים כותרות גיבוי מוטבעות).</entry>
     <entry lang="he" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">אתה מנסה לגבות את הכותרת של מחיצת המערכת / כונן המערכת.זה לא מותר.ניתן לבצע פעולות גיבוי / שחזור הנוגעות למחיצת המערכת / כונן המערכת באמצעות דיסק ההצלה של VeraCrypt. \n \n האם ברצונך ליצור דיסק הצלה של VeraCrypt?</entry>
     <entry lang="he" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">אתה מנסה לשחזר את הכותרת של אמצעי אחסון וירטואלי של VeraCrypt, אך בחרת במחיצת המערכת / בכונן.זה לא מותר.ניתן לבצע פעולות גיבוי / שחזור הנוגעות למחיצת המערכת / כונן המערכת באמצעות דיסק ההצלה של VeraCrypt. \n \n האם ברצונך ליצור דיסק הצלה של VeraCrypt?</entry>
     <entry lang="he" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">לאחר שתלחץ על אישור, תבחר שם קובץ לתמונת דיסק ההצלה החדשה של VeraCrypt ולמיקום שבו ברצונך למקם אותה.</entry>
