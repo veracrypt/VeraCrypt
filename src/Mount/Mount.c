@@ -9663,6 +9663,35 @@ static void SystemFavoritesServiceSetStatus (DWORD status, DWORD waitHint = 0)
 	SetServiceStatus (SystemFavoritesServiceStatusHandle, &SystemFavoritesServiceStatus);
 }
 
+static void SystemFavoritesServiceUpdateLoaderProcessing ()
+{
+	if (!(BootEncObj->ReadServiceConfigurationFlags () & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
+	{
+		try
+		{
+			BootEncryption::UpdateSetupConfigFile (true);
+			if (!BootEncStatus.HiddenSystem)
+			{
+				// re-install our bootloader again in case the update process has removed it.
+				bool bForceSetNextBoot = false;
+				bool bSetBootentry = true;
+				bool bForceFirstBootEntry = true;
+				uint32 flags = BootEncObj->ReadServiceConfigurationFlags ();
+				if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)
+					bForceSetNextBoot = true;
+				if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)
+					bSetBootentry = false;
+				if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)
+					bForceFirstBootEntry = false;
+				BootEncryption bootEnc (NULL, true, bSetBootentry, bForceFirstBootEntry, bForceSetNextBoot);
+				bootEnc.InstallBootLoader (true);
+			}
+		}
+		catch (...)
+		{
+		}
+	}
+}
 
 static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 														DWORD dwEventType,
@@ -9675,38 +9704,31 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 	case SERVICE_CONTROL_STOP:
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
- 		if (!(BootEncObj->ReadServiceConfigurationFlags () & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
-		{
-			try
-			{
-				BootEncryption::UpdateSetupConfigFile (true);
-				if (!BootEncStatus.HiddenSystem)
-				{
-					// re-install our bootloader again in case the update process has removed it.
-					bool bForceSetNextBoot = false;
-					bool bSetBootentry = true;
-					bool bForceFirstBootEntry = true;
-					uint32 flags = BootEncObj->ReadServiceConfigurationFlags ();
-					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)
-						bForceSetNextBoot = true;
-					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)
-						bSetBootentry = false;
-					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)
-						bForceFirstBootEntry = false;
-					BootEncryption bootEnc (NULL, true, bSetBootentry, bForceFirstBootEntry, bForceSetNextBoot);
-					bootEnc.InstallBootLoader (true);
-				}
-			}
-			catch (...)
-			{
-			}
-		}
+		SystemFavoritesServiceUpdateLoaderProcessing ();
 
 		/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION flag */
 		SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, FALSE);
 		SetEvent (SystemFavoriteServiceStopEvent);
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
+		break;
+	case SERVICE_CONTROL_POWEREVENT:
+		{
+			/* perform fixing of bootloader and SetupConfig.ini when the system resumes from sleep */
+			if (dwEventType == PBT_APMRESUMEAUTOMATIC)
+			{
+				SystemFavoritesServiceUpdateLoaderProcessing ();
+			}
+		}
+		break;
+	case SERVICE_CONTROL_SESSIONCHANGE:
+		{
+			/* perform fixing of bootloader and SetupConfig.ini when the user logs in or when he unlocks his locked session */
+			if ((dwEventType == WTS_SESSION_UNLOCK) || (dwEventType == WTS_SESSION_LOGON))
+			{
+				SystemFavoritesServiceUpdateLoaderProcessing ();
+			}
+		}
 		break;
 	case SERVICE_CONTROL_DEVICEEVENT:
 		if (DBT_DEVICEARRIVAL == dwEventType)
@@ -9773,7 +9795,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
 	SystemFavoritesServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
 	if (IsOSAtLeast (WIN_VISTA))
-		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN;
+		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN | SERVICE_ACCEPT_SESSIONCHANGE | SERVICE_ACCEPT_POWEREVENT;
 
 	if ((argc >= 2) && (0 == _wcsicmp (argv[1], VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT)))
 		bSkipMount = TRUE;
@@ -9823,6 +9845,8 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 
 		if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD))
 			WipeCache (NULL, TRUE);
+
+		SystemFavoritesServiceUpdateLoaderProcessing ();
 	}
 
 	SystemFavoritesServiceSetStatus (SERVICE_RUNNING);
