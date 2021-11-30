@@ -1,7 +1,7 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
-set VC_VERSION=1.25
-set VC_VERSION_NBRE=1.25.3
+set VC_VERSION=1.25.4
+set VC_VERSION_NBRE=1.25.4
 set SIGNINGPATH=%~dp0
 cd %SIGNINGPATH%
 
@@ -58,6 +58,6 @@ rmdir /S /Q docs
 cd %SIGNINGPATH%
 
 rem sign Setup using SHA-256
-signtool sign /v /sha1 2B174F12D921AF2FF576D867BE91E97E4ADC7D07 /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe" "..\Release\Setup Files\bin\VeraCrypt_%VC_VERSION_NBRE%_Setup_x64.msi" "..\Release\Setup Files\bin\VeraCrypt_%VC_VERSION_NBRE%_Setup_x64_en-us.msi"
+signtool sign /v /sha1 2B174F12D921AF2FF576D867BE91E97E4ADC7D07 /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe" "..\Release\Setup Files\bin\VeraCrypt_Setup_x64_%VC_VERSION_NBRE%.msi" "..\Release\Setup Files\bin\VeraCrypt_Setup_x64_%VC_VERSION_NBRE%_en-us.msi"
 
 pause

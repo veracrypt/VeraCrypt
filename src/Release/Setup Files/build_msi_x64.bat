@@ -118,7 +118,7 @@ cd %MSI_BUILDPATH%
 @if NOT "%ERRORLEVEL%" == "0" goto msi_failed
 "%VC_DIR_WIX%\candle.exe" -dLang=en -arch x64 -ext WixUIExtension -ext WiXUtilExtension Custom_InstallDirDlg.wxs -out out\64\en-us\Custom_InstallDirDlg.wixobj
 @if NOT "%ERRORLEVEL%" == "0" goto msi_failed
-"%VC_DIR_WIX%\Light.exe" -ext WixUIExtension -ext WiXUtilExtension -cultures:en-us -loc Strings-en.wxl out\64\en-us\Product.wixobj out\64\en-us\Custom_InstallDirDlg.wixobj out\64\en-us\Custom_InstallDir.wixobj -out out\64\en-us\VeraCrypt_%1_Setup_en-us.msi -pdbout out\64\en-us\VeraCrypt_%1_Setup_en-us.wixpdb -sice:ICE09
+"%VC_DIR_WIX%\Light.exe" -ext WixUIExtension -ext WiXUtilExtension -cultures:en-us -loc Strings-en.wxl out\64\en-us\Product.wixobj out\64\en-us\Custom_InstallDirDlg.wixobj out\64\en-us\Custom_InstallDir.wixobj -out out\64\en-us\VeraCrypt_Setup_%1_en-us.msi -pdbout out\64\en-us\VeraCrypt_Setup_%1_en-us.wixpdb -sice:ICE09
 @if NOT "%ERRORLEVEL%" == "0" goto msi_failed
 
 ::------------------------------------
@@ -129,8 +129,8 @@ cd %MSI_BUILDPATH%
 @set OUT_PATH=%cd%\out\64\
 @echo [INFO] OUT_PATH=%OUT_PATH%
 
-@set MSI_FILE_IN=VeraCrypt_%1_Setup
-@set MSI_FILE_OUT=VeraCrypt_%1_Setup_x64
+@set MSI_FILE_IN=VeraCrypt_Setup_%1
+@set MSI_FILE_OUT=VeraCrypt_Setup_x64_%1
 
 :: Check if all the MSI files were built
 @set LANG=en-us
@@ -152,7 +152,7 @@ cd %MSI_BUILDPATH%
 mkdir bin
 @copy /Y "%OUT_PATH%\%MSI_FILE_OUT%.msi" "%cd%\bin\%MSI_FILE_OUT%.msi"
 @set LANG=en-us
-@copy /Y "%OUT_PATH%\%LANG%\%MSI_FILE_IN%_%LANG%.msi" "%cd%\bin\%MSI_FILE_IN%_x64_%LANG%.msi"
+@copy /Y "%OUT_PATH%\%LANG%\%MSI_FILE_IN%_%LANG%.msi" "%cd%\bin\%MSI_FILE_OUT%_%LANG%.msi"
 @rmdir /S /Q "%cd%\out"
 
 goto END
