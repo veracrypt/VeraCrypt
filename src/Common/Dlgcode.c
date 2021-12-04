@@ -166,6 +166,8 @@ BOOL bHistory = FALSE;
 
 #ifndef SETUP
 BOOL bLanguageSetInSetup = FALSE;
+#else
+extern BOOL bMakePackage;
 #endif
 
 // Status of detection of hidden sectors (whole-system-drive encryption). 
@@ -3259,12 +3261,36 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	RemoteSession = GetSystemMetrics (SM_REMOTESESSION) != 0;
 
+#ifndef VC_SKIP_OS_DRIVER_REQ_CHECK
 	// OS version check: from version 1.25, only Windows XP, Windows 10 and Windows 11 are supported because of new driver signing requirements
 	if (!(IsOSVersionAtLeast(WIN_10, 0) || (nCurrentOS == WIN_XP) || (nCurrentOS == WIN_XP64)))
 	{
 		MessageBoxW (NULL, GetString ("UNSUPPORTED_OS"), lpszTitle, MB_ICONSTOP);
 		exit (1);
 	}
+#else
+	// in TESTSIGNING mode, we support only Windows Vista, Windows 7, Windows 8/8.1
+	if (	!IsOSVersionAtLeast(WIN_VISTA, 0) 
+#ifndef SETUP
+		||	IsOSVersionAtLeast(WIN_10, 0)
+#else
+		||	(IsOSVersionAtLeast(WIN_10, 0) && !bMakePackage)
+#endif
+		)
+	{
+		MessageBoxW (NULL, L"TESTSIGNING version of VeraCrypt targets only Windows Vista, Windows 7 and Windows 8/8.1.\n\nPlease use the standard version of VeraCrypt instead.", lpszTitle, MB_ICONSTOP);
+		exit (1);
+	}
+	else if (  !IsTestSigningModeEnabled()
+#ifdef SETUP
+			&& !bMakePackage
+#endif
+		)
+	{
+		MessageBoxW (NULL, L"Test-Signing Mode, which is required to run VeraCrypt TESTSIGNING binaries, is not enabled in Windows.\n\nExecution aborted!", lpszTitle, MB_ICONSTOP);
+		exit (1);
+	}
+#endif
 	else
 	{
 		// Service pack check & warnings about critical MS issues
@@ -14035,7 +14061,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 
 #endif
 
-#ifdef NDEBUG
+#if !defined(NDEBUG) && !defined(VC_SKIP_OS_DRIVER_REQ_CHECK)
 static BOOL InitializeWintrust()
 {
 	if (!hWinTrustLib)
@@ -14086,7 +14112,7 @@ static void FinalizeWintrust()
 
 BOOL VerifyModuleSignature (const wchar_t* path)
 {
-#ifdef NDEBUG
+#if !defined(NDEBUG) && !defined (VC_SKIP_OS_DRIVER_REQ_CHECK)
 	BOOL bResult = FALSE;
 	HRESULT hResult;
 	GUID gActionID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
@@ -15233,3 +15259,27 @@ BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled)
 	return bResult;
 }
 
+/* return TRUE if Windows is in Test Signing mode */
+/* ref: https://social.msdn.microsoft.com/Forums/Windowsapps/en-US/e6c1be93-7003-4594-b8e4-18ab4a75d273/detecting-testsigning-onoff-via-api */
+BOOL IsTestSigningModeEnabled ()
+{
+	BOOL bEnabled = FALSE;
+	NtQuerySystemInformationFn NtQuerySystemInformationPtr = (NtQuerySystemInformationFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "NtQuerySystemInformation");
+	if(NtQuerySystemInformationPtr)
+	{
+		SYSTEM_CODEINTEGRITY_INFORMATION info = {0};
+		ULONG cbReturnedData = 0;
+		info.Length = sizeof(info);
+		if (	(NtQuerySystemInformationPtr((SYSTEM_INFORMATION_CLASS) SYSTEMCODEINTEGRITYINFORMATION, &info, sizeof(info), &cbReturnedData) >= 0) 
+			&&	(cbReturnedData == sizeof(info))
+			)
+		{
+			if ((info.CodeIntegrityOptions & (CODEINTEGRITY_OPTION_TESTSIGN | CODEINTEGRITY_OPTION_ENABLED)) == (CODEINTEGRITY_OPTION_TESTSIGN | CODEINTEGRITY_OPTION_ENABLED))
+			{
+				bEnabled = TRUE;
+			}
+		}
+	}
+
+	return bEnabled;
+}

@@ -2944,31 +2944,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 	SelfExtractStartupInit();
 
-#ifdef PORTABLE
-	lpszTitle = L"VeraCrypt Portable";
-#else
-	lpszTitle = L"VeraCrypt Setup";
-#endif
-	/* Call InitApp to initialize the common code */
-	InitApp (hInstance, NULL);
-
-#ifndef PORTABLE
-	if (IsAdmin () != TRUE)
-		if (MessageBoxW (NULL, GetString ("SETUP_ADMIN"), lpszTitle, MB_YESNO | MB_ICONQUESTION) != IDYES)
-		{
-			FinalizeApp ();
-			exit (1);
-		}
-#endif
-	/* Setup directory */
-	{
-		wchar_t *s;
-		GetModuleFileName (NULL, SetupFilesDir, ARRAYSIZE (SetupFilesDir));
-		s = wcsrchr (SetupFilesDir, L'\\');
-		if (s)
-			s[1] = 0;
-	}
-
 	/* Parse command line arguments */
 
 	if (lpszCommandLine[0] == L'/')
@@ -2999,6 +2974,31 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 			// Dev mode:	/d
 			bDevm = TRUE;
 		}
+	}
+
+#ifdef PORTABLE
+	lpszTitle = L"VeraCrypt Portable";
+#else
+	lpszTitle = L"VeraCrypt Setup";
+#endif
+	/* Call InitApp to initialize the common code */
+	InitApp (hInstance, NULL);
+
+#ifndef PORTABLE
+	if (IsAdmin () != TRUE)
+		if (MessageBoxW (NULL, GetString ("SETUP_ADMIN"), lpszTitle, MB_YESNO | MB_ICONQUESTION) != IDYES)
+		{
+			FinalizeApp ();
+			exit (1);
+		}
+#endif
+	/* Setup directory */
+	{
+		wchar_t *s;
+		GetModuleFileName (NULL, SetupFilesDir, ARRAYSIZE (SetupFilesDir));
+		s = wcsrchr (SetupFilesDir, L'\\');
+		if (s)
+			s[1] = 0;
 	}
 
 	if (bMakePackage)

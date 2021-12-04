@@ -59,6 +59,8 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 
 #ifdef VC_EFI_CUSTOM_MODE
 #define VERSION_STRING_SUFFIX			"-CustomEFI"
+#elif defined(VC_SKIP_OS_DRIVER_REQ_CHECK)
+#define VERSION_STRING_SUFFIX			"-TESTSIGNING"
 #else
 #define VERSION_STRING_SUFFIX			""
 #endif
