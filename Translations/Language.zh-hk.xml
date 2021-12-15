@@ -1451,7 +1451,7 @@
     <entry lang="zh-hk" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">將所有已掛載的加密區加入到最愛...</entry>
     <entry lang="zh-hk" key="TASKICON_PREF_MENU_ITEMS">任務欄圖示選項</entry>
     <entry lang="zh-hk" key="TASKICON_PREF_OPEN_VOL">開啟已掛載的加密區</entry>
-    <entry lang="zh-hk" key="TASKICON_PREF_DISMOUNT_VOL">解除掛載已掛載的加密區</entry>
+    <entry lang="zh-hk" key="TASKICON_PREF_DISMOUNT_VOL">卸載已掛載的加密區</entry>
     <entry lang="zh-hk" key="DISK_FREE">可用的空間: {0}</entry>
     <entry lang="zh-hk" key="VOLUME_SIZE_HELP">請指定要建立新的加密容器檔案的大小。注意最細容許的加密容器大小為 292 KiB。</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
@@ -1469,45 +1469,45 @@
     <entry lang="zh-hk" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">掛載選項:</entry>
     <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT">跨平台支援</entry>
     <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT_OTHER">我將會在其他平台掛載這個加密區</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
+    <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT_OTHER_HELP">如您需要於其他平台上掛載此加密區請選取此選項。</entry>
     <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT_ONLY">我將只會在 {0} 掛載這個加密區</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
+    <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT_ONLY_HELP">如您毋需於其他平台上掛載此加密區請選取此選項。</entry>
     <entry lang="zh-hk" key="LINUX_DESELECT">取消選取</entry>
     <entry lang="zh-hk" key="LINUX_ADMIN_PW_QUERY">輸入您的使用者密碼或系統管理員密碼:</entry>
     <entry lang="zh-hk" key="LINUX_ADMIN_PW_QUERY_TITLE">需要系統管理員權限</entry>
     <entry lang="zh-hk" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt 已經正在運行。</entry>
     <entry lang="zh-hk" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">系統加密密碼長於 {0} 個字元。</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
+    <entry lang="zh-hk" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">使用系統加密 (開機前驗證) 來掛載分割區(&amp;u)</entry>
     <entry lang="zh-hk" key="LINUX_DO_NOT_MOUNT">不要掛載(&amp;n)</entry>
     <entry lang="zh-hk" key="LINUX_MOUNT_AT_DIR">掛載於路徑:</entry>
     <entry lang="zh-hk" key="LINUX_SELECT">選取(&amp;l)...</entry>
-    <entry lang="zh-hk" key="LINUX_DISMOUNT_ALL_WHEN">解除掛載全部加密區於</entry>
+    <entry lang="zh-hk" key="LINUX_DISMOUNT_ALL_WHEN">卸載全部加密區於</entry>
     <entry lang="zh-hk" key="LINUX_ENTERING_POWERSAVING">系統正在進入省電模式</entry>
     <entry lang="zh-hk" key="LINUX_LOGIN_ACTION">使用者登入時執行的動作</entry>
-    <entry lang="zh-hk" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">解除掛載加密區時關閉所有檔案瀏覽器視窗Close all Explorer windows of volume being dismounted</entry>
+    <entry lang="zh-hk" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">卸載加密區時關閉所有檔案瀏覽器視窗</entry>
     <entry lang="zh-hk" key="LINUX_HOTKEYS">快捷鍵</entry>
     <entry lang="zh-hk" key="LINUX_SYSTEM_HOTKEYS">系統性快捷鍵</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
+    <entry lang="zh-hk" key="LINUX_SOUND_NOTIFICATION">掛載/卸載後播放提示聲音</entry>
+    <entry lang="zh-hk" key="LINUX_CONFIRM_AFTER_DISMOUNT">卸載後顯示確認訊息</entry>
+    <entry lang="zh-hk" key="LINUX_VC_QUITS">VeraCrypt 已結束</entry>
+    <entry lang="zh-hk" key="LINUX_OPEN_FINDER">成功掛載加密區後開啟 Finder 視窗</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
     <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
     <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
+    <entry lang="zh-hk" key="LINUX_UNKNOWN_EXC_OCCURRED">發生未知的例外情況。</entry>
     <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
+    <entry lang="zh-hk" key="LINUX_MOUNT_ALL_DEV">掛載所有裝置</entry>
     <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
+    <entry lang="zh-hk" key="LINUX_SELECT_FREE_SLOT">請在列表中選擇未使用的磁碟機位置。</entry>
     <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
+    <entry lang="zh-hk" key="LINUX_WARNING">警告</entry>
+    <entry lang="zh-hk" key="LINUX_ERROR">錯誤</entry>
+    <entry lang="zh-hk" key="LINUX_ONLY_TEXTMODE">此功能只支援在文字模式中使用。</entry>
+    <entry lang="zh-hk" key="LINUX_FREE_SPACE_ON_DRIVE">磁碟上的未使用空間 {0}: 是 {1}.</entry>
     <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
     <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
+    <entry lang="zh-hk" key="LINUX_OPEN_OUTER_VOL">開啟外層加密區</entry>
     <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
     <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
     <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
@@ -1520,37 +1520,37 @@
     <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
+    <entry lang="en" key="LINUX_VOL_DISMOUNTED">加密區 {0} 已經卸載。</entry>
+    <entry lang="zh-hk" key="LINUX_OOM">記憶體用盡。</entry>
+    <entry lang="zh-hk" key="LINUX_CANT_GET_ADMIN_PRIV">無法取得系統管理員權限</entry>
+    <entry lang="zh-hk" key="LINUX_COMMAND_GET_ERROR">指令 {0} 傳回錯誤 {1}.</entry>
+    <entry lang="zh-hk" key="LINUX_CMD_HELP">VeraCrypt 指令協助</entry>
     <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
     <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
     <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">未有足夠可用的數據。</entry>
     <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
     <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_MISSINGARGUMENT">缺少必需的參數。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">缺少加密區數據。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">必需掛載點。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">掛載點已經正在使用。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_PASSWORDEMPTY">沒有密碼或已指定加密鑰檔案。No password or keyfile specified.</entry>
     <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
     <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_PASSWORDTOOLONG">密碼超過 {0} 個字元。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">必需分割區的裝置</entry>
     <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
     <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">遇上無效的字元。</entry>
     <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
     <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
     <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
     <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
     <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
     <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">加密區位置不可用。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt 需要 OSXFUSE 2.5 或更新版本。</entry>
     <entry lang="zh-hk" key="EXCEPTION_OCCURRED">已發生異常情況</entry>
     <entry lang="zh-hk" key="ENTER_PASSWORD">輸入密碼</entry>
     <entry lang="zh-hk" key="ENTER_TC_VOL_PASSWORD">輸入 VeraCrypt 加密區密碼</entry>
