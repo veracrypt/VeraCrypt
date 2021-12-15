@@ -2218,7 +2218,6 @@ namespace VeraCrypt
 
 #endif // !SETUP
 
-	NtQuerySystemInformationFn NtQuerySystemInformationPtr = NULL;
 
 	EfiBootConf::EfiBootConf() : passwordType (0),
 		passwordMsg ("Password: "),
@@ -2510,14 +2509,13 @@ namespace VeraCrypt
 			ULONG    len;
 			NTSTATUS res;
 			WCHAR tempBuf[1024];
+			NtQuerySystemInformationFn NtQuerySystemInformationPtr = (NtQuerySystemInformationFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "NtQuerySystemInformation");
 			memset(tempBuf, 0, sizeof(tempBuf));
 
 			// Load NtQuerySystemInformation function point
 			if (!NtQuerySystemInformationPtr)
 			{
-				NtQuerySystemInformationPtr = (NtQuerySystemInformationFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "NtQuerySystemInformation");
-				if (!NtQuerySystemInformationPtr)
-					throw SystemException (SRC_POS);
+				throw SystemException (SRC_POS);
 			}
 
 			res = NtQuerySystemInformationPtr((SYSTEM_INFORMATION_CLASS)SYSPARTITIONINFORMATION, tempBuf, sizeof(tempBuf), &len);

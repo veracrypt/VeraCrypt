@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25-RC1">
+  <localization prog-version= "1.25.4">
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
     <font lang="sv" class="normal" size="11" face="default" />
     <font lang="sv" class="bold" size="13" face="Arial" />
@@ -955,7 +955,7 @@
     <entry lang="sv" key="HEADER_RESTORE_INTERNAL">Återställ volymhuvudet från volymens inbäddade säkerhetskopia</entry>
     <entry lang="sv" key="HEADER_RESTORE_EXTERNAL">Återställ volymhuvudet från en extern säkerhetskopia</entry>
     <entry lang="sv" key="HEADER_BACKUP_SIZE_INCORRECT">Storleken på volymhuvudets säkerhetskopia är felaktig.</entry>
-    <entry lang="sv" key="VOLUME_HAS_NO_BACKUP_HEADER">Det finns ingen inbäddad säkerhetskopia av volymhuvudet i denna volym. (Observera att endast volymer skapade av VeraCrypt 6.0 eller nyare innehåller inbäddade säkerhetskopior av volymhuvuden.)</entry>
+    <entry lang="sv" key="VOLUME_HAS_NO_BACKUP_HEADER">Det finns ingen inbäddad säkerhetskopia av volymhuvudet i denna volym. (Observera att endast volymer skapade av TrueCrypt 6.0 eller nyare innehåller inbäddade säkerhetskopior av volymhuvuden.)</entry>
     <entry lang="sv" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Du försöker säkerhetskopiera systempartitionens eller -enhetens volymhuvud. Detta är inte tillåtet. Säkerhetskopierings- och återställningsåtgärder på systempartitionen eller -enheten kan endast utföras med hjälp av VeraCrypts återställningsskiva.\n\nVill du skapa en återställningsskiva?</entry>
     <entry lang="sv" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Du försöker återställa ett virtuellt volymhuvud men du valde systempartitionen eller -enheten som mål. Detta är inte tillåtet. Säkerhetskopierings- och återställningsåtgärder på systempartitionen eller -enheten kan endast utföras med hjälp av VeraCrypts återställningsskiva.\n\nVill du skapa en återställningsskiva?</entry>
     <entry lang="sv" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Efter att du klickat på OK kommer du att få välja ett filnamn för ISO-avbildningen av den nya återställningsskivan och den mapp du vill placera den i.</entry>

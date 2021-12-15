@@ -339,7 +339,7 @@ namespace VeraCrypt
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::UFS;
 #endif
 				else
-					ArgFilesystem = VolumeCreationOptions::FilesystemType::None;
+					throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
 			}
 		}
 

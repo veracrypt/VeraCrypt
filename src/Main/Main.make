@@ -269,7 +269,9 @@ endif
 
 
 install: prepare
+ifneq "$(DESTDIR)" ""
 	mkdir -p $(DESTDIR)
+endif
 	cp -R $(BASE_DIR)/Setup/Linux/usr $(DESTDIR)/
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
@@ -321,7 +323,9 @@ endif
 
 
 install: prepare
+ifneq "$(DESTDIR)" ""
 	mkdir -p $(DESTDIR)
+endif
 	cp -R $(BASE_DIR)/Setup/FreeBSD/usr $(DESTDIR)/.
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"

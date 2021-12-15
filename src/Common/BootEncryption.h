@@ -18,16 +18,6 @@
 #include "Exception.h"
 #include "Platform/PlatformBase.h"
 #include "Volumes.h"
-#include <Winternl.h>
-
-#define SYSPARTITIONINFORMATION 0x62
-
-typedef NTSTATUS (WINAPI *NtQuerySystemInformationFn)(
-		SYSTEM_INFORMATION_CLASS SystemInformationClass,
-		PVOID                    SystemInformation,
-      ULONG                    SystemInformationLength,
-		PULONG                   ReturnLength
-);
 
 typedef ULONG (WINAPI *RtlNtStatusToDosErrorFn)(
   NTSTATUS Status

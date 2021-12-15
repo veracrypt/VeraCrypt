@@ -458,6 +458,9 @@ namespace VeraCrypt
 			adminPassword[request.AdminPassword.size()] = '\n';
 		}
 
+#if defined(TC_LINUX )
+		Thread::Sleep (1000); // wait 1 second for the forked sudo to start
+#endif
 		if (write (inPipe->GetWriteFD(), &adminPassword.front(), adminPassword.size())) { } // Errors ignored
 
 		burn (&adminPassword.front(), adminPassword.size());
