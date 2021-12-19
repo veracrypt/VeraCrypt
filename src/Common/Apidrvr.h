@@ -407,6 +407,10 @@ typedef struct
 #define TC_DRIVER_CONFIG_REG_VALUE_NAME DRIVER_STR("VeraCryptConfig")
 #define TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME DRIVER_STR("VeraCryptEncryptionFreeCpuCount")
 
+#define VC_ENCRYPTION_IO_REQUEST_COUNT DRIVER_STR("VeraCryptEncryptionIoRequestCount")
+#define VC_ENCRYPTION_ITEM_COUNT DRIVER_STR("VeraCryptEncryptionItemCount")
+#define VC_ENCRYPTION_FRAGMENT_SIZE DRIVER_STR("VeraCryptEncryptionFragmentSize")
+
 // WARNING: Modifying the following values can introduce incompatibility with previous versions.
 #define TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD						0x1
 #define TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES		0x2

@@ -121,6 +121,8 @@ typedef struct
  	SIZE_T SecRegionSize;
 
 	volatile BOOL ThreadBlockReadWrite;
+
+	int FragmentSize;
 }  EncryptedIoQueue;
 
 

@@ -148,6 +148,9 @@ static KeAreAllApcsDisabledFn KeAreAllApcsDisabledPtr = NULL;
 static KeSetSystemGroupAffinityThreadFn KeSetSystemGroupAffinityThreadPtr = NULL;
 static KeQueryActiveGroupCountFn KeQueryActiveGroupCountPtr = NULL;
 static KeQueryActiveProcessorCountExFn KeQueryActiveProcessorCountExPtr = NULL;
+int EncryptionIoRequestCount = 0;
+int EncryptionItemCount = 0;
+int EncryptionFragmentSize = 0;
 
 POOL_TYPE ExDefaultNonPagedPoolType = NonPagedPool;
 ULONG ExDefaultMdlProtection = 0;
@@ -4794,6 +4797,50 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 
 		TCfree (data);
 	}
+
+	if (driverEntry && NT_SUCCESS (TCReadRegistryKey (&name, VC_ENCRYPTION_IO_REQUEST_COUNT, &data)))
+	{
+		if (data->Type == REG_DWORD)
+			EncryptionIoRequestCount = *(uint32 *) data->Data;
+
+		TCfree (data);
+	}
+
+	if (driverEntry && NT_SUCCESS (TCReadRegistryKey (&name, VC_ENCRYPTION_ITEM_COUNT, &data)))
+	{
+		if (data->Type == REG_DWORD)
+			EncryptionItemCount = *(uint32 *) data->Data;
+
+		TCfree (data);
+	}
+
+	if (driverEntry && NT_SUCCESS (TCReadRegistryKey (&name, VC_ENCRYPTION_FRAGMENT_SIZE, &data)))
+	{
+		if (data->Type == REG_DWORD)
+			EncryptionFragmentSize = *(uint32 *) data->Data;
+
+		TCfree (data);
+	}
+
+	if (driverEntry)
+	{
+		if (EncryptionIoRequestCount < TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_COUNT)
+			EncryptionIoRequestCount = TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_COUNT;
+
+		if (EncryptionItemCount == 0)
+			EncryptionItemCount = EncryptionIoRequestCount / 2;
+		else if (EncryptionItemCount >= EncryptionIoRequestCount)
+			EncryptionItemCount = EncryptionIoRequestCount - 1;
+
+		/* EncryptionFragmentSize value in registry is expressed in KiB */
+		if (EncryptionFragmentSize == 0)
+			EncryptionFragmentSize = TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE / 1024;
+		else if (EncryptionFragmentSize > (8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE / 1024))
+			EncryptionFragmentSize = 8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE / 1024;
+		
+		EncryptionFragmentSize = EncryptionFragmentSize * 1024;
+	}
+
 
 	return status;
 }
