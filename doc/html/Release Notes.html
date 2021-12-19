@@ -39,6 +39,20 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
+<p><strong style="text-align:left">1.25.5</strong> (December 19<sup>th</sup>, 2021):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Add registry settings to control driver internal encryption queue (under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt):
+<ul>
+<li>VeraCryptEncryptionFragmentSize (REG_DWORD): size of encryption data fragment in KiB. Default is 256.</li>
+<li>VeraCryptEncryptionIoRequestCount (REG_DWORD): maximum number of parallel I/O requests. Default is 16.</li>
+<li>VeraCryptEncryptionItemCount (REG_DWORD): maximum number of encryption queue items processed in parallel. Default is 8.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <p><strong style="text-align:left">1.25.4</strong> (December 3<sup>rd</sup>, 2021):</p>
 <ul>
 <li><strong>All OSes:</strong>
