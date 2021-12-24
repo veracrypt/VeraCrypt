@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.25.5</strong> (December 19<sup>th</sup>, 2021):</p>
+<p><strong style="text-align:left">1.25.5</strong> (December 24<sup>th</sup>, 2021):</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -50,6 +50,10 @@
 <li>VeraCryptEncryptionItemCount (REG_DWORD): maximum number of encryption queue items processed in parallel. Default is 8.</li>
 </ul>
 </li>
+</ul>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>Fix resource files inside VeraCrypt application bundle (e.g. HTML documentation, languages XML files) being world-writable.</li>
 </ul>
 </li>
 </ul>
