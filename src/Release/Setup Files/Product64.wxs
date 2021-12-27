@@ -1115,7 +1115,7 @@
 			
 				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
 				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume\DefaultIcon" >
-					<RegistryValue 	Type="string" Value="[APPLICATIONROOTFOLDER]\VeraCrypt.exe,1" KeyPath="yes" />
+					<RegistryValue 	Type="string" Value="[APPLICATIONROOTFOLDER]VeraCrypt.exe,1" KeyPath="yes" />
 				</RegistryKey>
 			</Component>
 			
@@ -1126,7 +1126,7 @@
 			
 				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
 				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume\Shell\open\command" >
-					<RegistryValue 	Type="string" Value="&quot;[APPLICATIONROOTFOLDER]\VeraCrypt.exe&quot; /v &quot;%%1&quot;" KeyPath="yes" />
+					<RegistryValue 	Type="string" Value="&quot;[APPLICATIONROOTFOLDER]VeraCrypt.exe&quot; /v &quot;%1&quot;" KeyPath="yes" />
 				</RegistryKey>
 			</Component>
 			
