@@ -2886,6 +2886,18 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
+	case VC_IOCTL_ENCRYPTION_QUEUE_PARAMS:
+		if (ValidateIOBufferSize (Irp, sizeof (EncryptionQueueParameters), ValidateOutput))
+		{
+			EncryptionQueueParameters* pParams = (EncryptionQueueParameters*) Irp->AssociatedIrp.SystemBuffer;
+			pParams->EncryptionFragmentSize = EncryptionFragmentSize;
+			pParams->EncryptionIoRequestCount = EncryptionIoRequestCount;
+			pParams->EncryptionItemCount = EncryptionItemCount;
+			Irp->IoStatus.Information = sizeof (EncryptionQueueParameters);
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+		}
+		break;
+
 	default:
 		return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
 	}
@@ -3296,6 +3308,7 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		TC_CASE_RET_NAME (VC_IOCTL_GET_DRIVE_GEOMETRY_EX);
 		TC_CASE_RET_NAME (VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS);
 		TC_CASE_RET_NAME (VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED);
+		TC_CASE_RET_NAME (VC_IOCTL_ENCRYPTION_QUEUE_PARAMS);
 
 		TC_CASE_RET_NAME (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS);
 
@@ -4826,13 +4839,14 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 	{
 		if (EncryptionIoRequestCount < TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_COUNT)
 			EncryptionIoRequestCount = TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_COUNT;
+		else if (EncryptionIoRequestCount > TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_MAX_COUNT)
+			EncryptionIoRequestCount = TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_MAX_COUNT;
 
-		if (EncryptionItemCount == 0)
+		if ((EncryptionItemCount == 0) || (EncryptionItemCount > (EncryptionIoRequestCount / 2)))
 			EncryptionItemCount = EncryptionIoRequestCount / 2;
-		else if (EncryptionItemCount >= EncryptionIoRequestCount)
-			EncryptionItemCount = EncryptionIoRequestCount - 1;
 
 		/* EncryptionFragmentSize value in registry is expressed in KiB */
+		/* Maximum allowed value for EncryptionFragmentSize is 2048 KiB */
 		EncryptionFragmentSize *= 1024;
 		if (EncryptionFragmentSize == 0)
 			EncryptionFragmentSize = TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;

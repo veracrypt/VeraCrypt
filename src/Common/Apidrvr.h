@@ -127,6 +127,8 @@
 
 #define VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED				TC_IOCTL (42)
 
+#define VC_IOCTL_ENCRYPTION_QUEUE_PARAMS				TC_IOCTL (43)
+
 // Legacy IOCTLs used before version 5.0
 #define TC_IOCTL_LEGACY_GET_DRIVER_VERSION		466968
 #define TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES		466948
@@ -389,6 +391,13 @@ typedef struct
 	struct _DriveFilterExtension *BootDriveFilterExtension;
 	BOOL HwEncryptionEnabled;
 } GetSystemDriveDumpConfigRequest;
+
+typedef struct
+{
+	int EncryptionIoRequestCount;
+	int EncryptionItemCount;
+	int EncryptionFragmentSize;
+} EncryptionQueueParameters;
 
 #pragma pack (pop)
 
