@@ -4833,12 +4833,13 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			EncryptionItemCount = EncryptionIoRequestCount - 1;
 
 		/* EncryptionFragmentSize value in registry is expressed in KiB */
+		EncryptionFragmentSize *= 1024;
 		if (EncryptionFragmentSize == 0)
-			EncryptionFragmentSize = TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE / 1024;
-		else if (EncryptionFragmentSize > (8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE / 1024))
-			EncryptionFragmentSize = 8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE / 1024;
+			EncryptionFragmentSize = TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;
+		else if (EncryptionFragmentSize > (8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE))
+			EncryptionFragmentSize = 8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;
 		
-		EncryptionFragmentSize = EncryptionFragmentSize * 1024;
+		
 	}
 
 
