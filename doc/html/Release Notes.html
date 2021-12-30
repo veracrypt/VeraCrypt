@@ -39,22 +39,27 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.25.6</strong> (December 27<sup>th</sup>, 2021):</p>
+<p><strong style="text-align:left">1.25.6</strong> (December 30<sup>th</sup>, 2021):</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
-<li>MSI installation only: Fix double-clicking .hc file container inserting %1 instead of volume name in UI path field.</li>
-<li>Add registry settings to control driver internal encryption queue (under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt):
+<li>MSI installation only: Fix double-clicking .hc file container inserting %1 instead of volume name in path field.</li>
+<li>Advanced users: Add registry settings to control driver internal encryption queue to allow tuning performance for SSD disks and having better stability under heavy load.
 <ul>
-<li>VeraCryptEncryptionFragmentSize (REG_DWORD): size of encryption data fragment in KiB. Default is 256.</li>
-<li>VeraCryptEncryptionIoRequestCount (REG_DWORD): maximum number of parallel I/O requests. Default is 16.</li>
-<li>VeraCryptEncryptionItemCount (REG_DWORD): maximum number of encryption queue items processed in parallel. Default is 8.</li>
+<li>Under registry key HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt:
+<ul>
+<li>VeraCryptEncryptionFragmentSize (REG_DWORD): size of encryption data fragment in KiB. Default is 256. Maximum is 2048.</li>
+<li>VeraCryptEncryptionIoRequestCount (REG_DWORD): maximum number of parallel I/O requests. Default is 16. Maximum is 8192.</li>
+<li>VeraCryptEncryptionItemCount (REG_DWORD): maximum number of encryption queue items processed in parallel. Default as well as maximum is half of VeraCryptEncryptionIoRequestCount.</li>
+</ul>
+</li>
+<li>The triplet (FragmentSize=512, IoRequestCount=128, ItemCount=64) is an example of parameters that enhance sequential read speed on some SSD NVMe systems.</li>
 </ul>
 </li>
 </ul>
 <li><strong>MacOSX:</strong>
 <ul>
-<li>Fix resource files inside VeraCrypt application bundle (e.g. HTML documentation, languages XML files) being world-writable.</li>
+<li>Fix resource files inside VeraCrypt application bundle (e.g. HTML documentation, languages XML files) being world-writable. (Reported by Niall O'Reilly)</li>
 </ul>
 </li>
 </ul>
