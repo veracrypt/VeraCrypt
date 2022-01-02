@@ -39,10 +39,16 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.25.6</strong> (January 1<sup>st</sup>, 2022):</p>
+<p><strong style="text-align:left">1.25.6</strong> (January 3<sup>rd</sup>, 2022):</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
+<li>Restore support of Windows Vista, Windows 7 and Windows 8/8.1.
+<ul>
+<li>Windows 7 support requires that either KB3033929 or KB4474419 is installed.</li>
+<li>Windows Vista support requires that either KB4039648 or KB4474419 is installed.</li>
+</ul>
+</li>
 <li>MSI installation only: Fix double-clicking .hc file container inserting %1 instead of volume name in path field.</li>
 <li>Advanced users: Add registry settings to control driver internal encryption queue to allow tuning performance for SSD disks and having better stability under heavy load.
 <ul>
