@@ -495,6 +495,7 @@ void Debug (char *format, ...);
 void DebugMsgBox (char *format, ...);
 BOOL IsOSAtLeast (OSVersionEnum reqMinOS);
 BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack);
+BOOL IsSupportedOS ();
 BOOL Is64BitOs ();
 BOOL IsARM();
 BOOL IsServerOS ();
@@ -774,6 +775,8 @@ public:
 };
 
 BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled);
+bool GetKbList (std::vector<std::wstring>& kbList);
+bool OneOfKBsInstalled (const wchar_t* szKBs[], int count);
 
 #endif // __cplusplus
 
