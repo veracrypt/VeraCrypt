@@ -10,8 +10,6 @@ call "..\..\doc\chm\create_chm.bat"
 cd %SIGNINGPATH%
 
 rem sign using SHA-256
-signtool sign /v /sha1 2B174F12D921AF2FF576D867BE91E97E4ADC7D07 /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\veracrypt.sys" "..\Release\Setup Files\veracrypt-x64.sys" "..\Release\Setup Files\veracrypt-arm64.sys"
-
 signtool sign /v /sha1 2B174F12D921AF2FF576D867BE91E97E4ADC7D07 /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt.exe" "..\Release\Setup Files\VeraCrypt Format.exe" "..\Release\Setup Files\VeraCryptExpander.exe" "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe" "..\Release\Setup Files\VeraCrypt-arm64.exe" "..\Release\Setup Files\VeraCrypt Format-arm64.exe" "..\Release\Setup Files\VeraCryptExpander-arm64.exe" "..\Release\Setup Files\VeraCrypt COMReg.exe" "..\Release\Setup Files\VeraCryptSetup.dll"
 
 rem create setup and MSI
