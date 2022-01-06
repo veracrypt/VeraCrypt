@@ -325,7 +325,7 @@ EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,9
+    LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,27
 END
 
 IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 74
