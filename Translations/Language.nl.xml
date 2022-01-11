@@ -8,60 +8,60 @@
     <font lang="nl" class="fixed" size="12" face="Lucida Console"/>
     <font lang="nl" class="title" size="21" face="Times New Roman"/>
     <entry lang="nl" key="IDCANCEL">Annuleren</entry>
-    <entry lang="nl" key="IDC_ALL_USERS">Installeren &amp;voor alle gebruikers</entry>
-    <entry lang="nl" key="IDC_BROWSE">&amp;Bladeren...</entry>
+    <entry lang="nl" key="IDC_ALL_USERS">Installeren voor alle gebruikers</entry>
+    <entry lang="nl" key="IDC_BROWSE">Bladeren...</entry>
     <entry lang="nl" key="IDC_DESKTOP_ICON">VeraCrypt-pictogram toevoegen aan het bureaublad</entry>
     <entry lang="nl" key="IDC_DONATE">Nu doneren...</entry>
     <entry lang="nl" key="IDC_FILE_TYPE">De .hc-bestandsextensie koppelen aan VeraCrypt</entry>
     <entry lang="nl" key="IDC_OPEN_CONTAINING_FOLDER">De bestemmingslocatie openen wanneer klaar</entry>
     <entry lang="nl" key="IDC_PROG_GROUP">VeraCrypt aan het startmenu toevoegen</entry>
     <entry lang="nl" key="IDC_SYSTEM_RESTORE">Systeemherstelpunt aanmaken</entry>
-    <entry lang="nl" key="IDC_UNINSTALL">&amp;Verwijderen</entry>
-    <entry lang="nl" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Uitpakken</entry>
-    <entry lang="nl" key="IDC_WIZARD_MODE_INSTALL">&amp;Installeren</entry>
+    <entry lang="nl" key="IDC_UNINSTALL">Verwijderen</entry>
+    <entry lang="nl" key="IDC_WIZARD_MODE_EXTRACT_ONLY">Uitpakken</entry>
+    <entry lang="nl" key="IDC_WIZARD_MODE_INSTALL">Installeren</entry>
     <entry lang="nl" key="IDD_INSTL_DLG">VeraCrypt installatiewizard</entry>
     <entry lang="nl" key="IDD_UNINSTALL">VeraCrypt verwijderen</entry>
-    <entry lang="nl" key="IDHELP">&amp;Help</entry>
+    <entry lang="nl" key="IDHELP">Help</entry>
     <entry lang="nl" key="IDT_EXTRACT_DESTINATION">Selecteer of typ de locatie waar u de uitgepakte bestanden wilt plaatsen:</entry>
     <entry lang="nl" key="IDT_INSTALL_DESTINATION">Selecteer of typ de locatie waar u de VeraCrypt-programmabestanden wilt installeren. Als de opgegeven map niet bestaat, wordt deze automatisch aangemaakt.</entry>
     <entry lang="nl" key="IDT_UNINSTALL_DIR">Klik op Verwijderen om VeraCrypt van dit systeem te verwijderen.</entry>
     <entry lang="nl" key="IDC_ABORT_BUTTON">Afbreken</entry>
     <entry lang="nl" key="IDC_BENCHMARK">Benchmark</entry>
-    <entry lang="nl" key="IDC_CIPHER_TEST">&amp;Testen</entry>
+    <entry lang="nl" key="IDC_CIPHER_TEST">Testen</entry>
     <entry lang="nl" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Versleuteld volume aanmaken en het formatteren</entry>
     <entry lang="nl" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Partitie ter plaatse versleutelen</entry>
     <entry lang="nl" key="IDC_DISPLAY_KEYS">Genereerde sleutels (hun delen) weergeven</entry>
     <entry lang="nl" key="IDC_DISPLAY_POOL_CONTENTS">Inhoud van pool weergeven</entry>
     <entry lang="nl" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Cd/dvd-opnamesoftware downloaden</entry>
     <entry lang="nl" key="IDC_FILE_CONTAINER">Een versleutelde bestandscontainer aanmaken</entry>
-    <entry lang="nl" key="IDC_GB">&amp;GiB</entry>
-    <entry lang="nl" key="IDC_TB">&amp;TiB</entry>
+    <entry lang="nl" key="IDC_GB">GiB</entry>
+    <entry lang="nl" key="IDC_TB">TiB</entry>
     <entry lang="nl" key="IDC_HIDDEN_SYSENC_INFO_LINK">Meer informatie</entry>
     <entry lang="nl" key="IDC_HIDDEN_VOL">Verborgen VeraCrypt-volume </entry>
     <entry lang="nl" key="IDC_HIDDEN_VOL_HELP">Meer informatie over verborgen volumes</entry>
     <entry lang="nl" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Directe modus</entry>
     <entry lang="nl" key="IDC_HIDVOL_WIZ_MODE_FULL">Normale modus</entry>
-    <entry lang="nl" key="IDC_KB">&amp;KiB</entry>
+    <entry lang="nl" key="IDC_KB">KiB</entry>
     <entry lang="nl" key="IDC_KEYFILES_ENABLE">Sleutelbestanden gebruiken</entry>
     <entry lang="nl" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Probeer eerst te koppelen met een leeg wachtwoord</entry>
     <entry lang="nl" key="IDC_KEYFILES_RANDOM_SIZE">Willekeurige grootte (64 &lt;-&gt; 1048576)</entry>
-    <entry lang="nl" key="IDC_KEY_FILES">&amp;Sleutelbestanden...</entry>
+    <entry lang="nl" key="IDC_KEY_FILES">Sleutelbestanden...</entry>
     <entry lang="nl" key="IDC_LINK_HASH_INFO">Informatie over hash-algoritmen</entry>
     <entry lang="nl" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Meer informatie</entry>
     <entry lang="nl" key="IDC_LINK_PIM_INFO">Informatie over PIM</entry>
-    <entry lang="nl" key="IDC_MB">&amp;MiB</entry>
+    <entry lang="nl" key="IDC_MB">MiB</entry>
     <entry lang="nl" key="IDC_MORE_INFO_ON_CONTAINERS">Meer informatie</entry>
     <entry lang="nl" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Meer informatie over systeemversleuteling</entry>
     <entry lang="nl" key="IDC_MORE_INFO_SYS_ENCRYPTION">Meer informatie</entry>
     <entry lang="nl" key="IDC_MULTI_BOOT">Multi-boot</entry>
     <entry lang="nl" key="IDC_NONSYS_DEVICE">Een niet-systeempartitie/schijf versleutelen</entry>
-    <entry lang="nl" key="IDC_NO_HISTORY">&amp;Nooit geschiedenis opslaan</entry>
+    <entry lang="nl" key="IDC_NO_HISTORY">Nooit geschiedenis opslaan</entry>
     <entry lang="nl" key="IDC_OPEN_OUTER_VOLUME">Buitenste volume openen</entry>
-    <entry lang="nl" key="IDC_PAUSE">&amp;Pauzeren</entry>
+    <entry lang="nl" key="IDC_PAUSE">Pauzeren</entry>
     <entry lang="nl" key="IDC_PIM_ENABLE">PIM gebruiken</entry>
     <entry lang="nl" key="IDC_NEW_PIM_ENABLE">PIM gebruiken</entry>
     <entry lang="nl" key="IDC_QUICKFORMAT">Snelformatteren</entry>
-    <entry lang="nl" key="IDC_SHOW_PASSWORD">&amp;Wachtwoord weergeven</entry>
+    <entry lang="nl" key="IDC_SHOW_PASSWORD">Wachtwoord weergeven</entry>
     <entry lang="nl" key="IDC_SHOW_PASSWORD_SINGLE">Wachtwoord weergeven</entry>
     <entry lang="nl" key="IDC_SHOW_PIM">PIM weergeven</entry>
     <entry lang="nl" key="IDC_SINGLE_BOOT">Single-boot</entry>
@@ -74,7 +74,7 @@
     <entry lang="nl" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt wizard volume aanmaken</entry>
     <entry lang="nl" key="IDT_CLUSTER">Cluster </entry>
     <entry lang="nl" key="IDT_COLLECTING_RANDOM_DATA_NOTE">BELANGRIJK: Beweeg de muis zo willekeurig mogelijk binnen dit venster. Hoe langer u ze beweegt, hoe beter. Dit verhoogt de cryptografische kracht van de encryptiesleutels aanzienlijk. Klik vervolgens op Volgende om verder te gaan.</entry>
-    <entry lang="nl" key="IDT_CONFIRM">&amp;Bevestigen:</entry>
+    <entry lang="nl" key="IDT_CONFIRM">Bevestigen:</entry>
     <entry lang="nl" key="IDT_DONE">Klaar</entry>
     <entry lang="nl" key="IDT_DRIVE_LETTER">Stationsletter:</entry>
     <entry lang="nl" key="IDT_ENCRYPTION_ALGO">Versleutelingsalgoritme</entry>
@@ -107,13 +107,13 @@
     <entry lang="nl" key="IDC_AUTORUN_DISABLE">Niets doen</entry>
     <entry lang="nl" key="IDC_AUTORUN_MOUNT">VeraCrypt-volume automatisch koppelen (hieronder opgegeven)</entry>
     <entry lang="nl" key="IDC_AUTORUN_START">VeraCrypt starten</entry>
-    <entry lang="nl" key="IDC_AUTO_DETECT_PKCS11_MODULE">Bibliotheek auto-&amp;detecteren</entry>
+    <entry lang="nl" key="IDC_AUTO_DETECT_PKCS11_MODULE">Bibliotheek auto-detecteren</entry>
     <entry lang="nl" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Pre-boot-authenticatiewachtwoord in het stuurprogrammageheugen opslaan (voor het koppelen van niet-systeemvolumes)</entry>
     <entry lang="nl" key="IDC_BROWSE_DIRS">Bladeren...</entry>
     <entry lang="nl" key="IDC_BROWSE_FILES">Bladeren...</entry>
     <entry lang="nl" key="IDC_CACHE">Wachtwoorden en sleutelbestanden in geheugen opslaan</entry>
     <entry lang="nl" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Afsluiten als er geen gekoppelde volumes zijn</entry>
-    <entry lang="nl" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Token-sessie sluiten (afmelden) nadat een volume met succes is gekoppeld</entry>
+    <entry lang="nl" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">Token-sessie sluiten (afmelden) nadat een volume met succes is gekoppeld</entry>
     <entry lang="nl" key="IDC_COPY_EXPANDER">Inclusief VeraCrypt volume-uitbreider</entry>
     <entry lang="nl" key="IDC_COPY_WIZARD">Inclusief VeraCrypt wizard volume aanmaken</entry>
     <entry lang="nl" key="IDC_CREATE">Aanmaken</entry>
@@ -123,11 +123,11 @@
     <entry lang="nl" key="IDC_ENABLE_HARDWARE_ENCRYPTION">AES-versleuteling/ontsleuteling versnellen door gebruik te maken van de AES-instructies van de processor (indien beschikbaar).</entry>
     <entry lang="nl" key="IDC_ENABLE_KEYFILES">Sleutelbestanden gebruiken</entry>
     <entry lang="nl" key="IDC_ENABLE_NEW_KEYFILES">Sleutelbestanden gebr.</entry>
-    <entry lang="nl" key="IDC_EXIT">&amp;Sluiten</entry>
+    <entry lang="nl" key="IDC_EXIT">Sluiten</entry>
     <entry lang="nl" key="IDC_FAVORITES_HELP_LINK">Hulp bij favoriete volumes</entry>
     <entry lang="nl" key="IDC_FAVORITE_DISABLE_HOTKEY">Geselecteerd volume niet koppelen wanneer sneltoets 'favoriete volumes koppelen' wordt ingedrukt</entry>
-    <entry lang="nl" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Koppel het geselecteerde volume wanneer zijn host-apparaat wordt aangesloten.</entry>
-    <entry lang="nl" key="IDC_FAVORITE_MOUNT_ON_LOGON">Geselecteerd volume koppelen bij het &amp;aanmelden</entry>
+    <entry lang="nl" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Geselecteerd volume koppelen wanneer zijn host-apparaat wordt aangesloten</entry>
+    <entry lang="nl" key="IDC_FAVORITE_MOUNT_ON_LOGON">Geselecteerd volume koppelen bij het aanmelden</entry>
     <entry lang="nl" key="IDC_FAVORITE_MOUNT_READONLY">Geselecteerd volume koppelen als alleen-lezen</entry>
     <entry lang="nl" key="IDC_FAVORITE_MOUNT_REMOVABLE">Geselecteerd volume koppelen als verwisselbaar medium</entry>
     <entry lang="nl" key="IDC_FAVORITE_MOVE_DOWN">Omlaag</entry>
@@ -149,8 +149,8 @@
     <entry lang="nl" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Meer informatie</entry>
     <entry lang="nl" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Meer informatie</entry>
     <entry lang="nl" key="IDC_MORE_SETTINGS">Meer instellingen...</entry>
-    <entry lang="nl" key="IDC_MOUNTALL">&amp;Automatisch koppelen</entry>
-    <entry lang="nl" key="IDC_MOUNT_OPTIONS">&amp;Koppelopties...</entry>
+    <entry lang="nl" key="IDC_MOUNTALL">Automatisch koppelen</entry>
+    <entry lang="nl" key="IDC_MOUNT_OPTIONS">Koppelopties...</entry>
     <entry lang="nl" key="IDC_MOUNT_READONLY">Volume koppelen als alleen-lezen</entry>
     <entry lang="nl" key="IDC_NEW_KEYFILES">Sleutelbestanden...</entry>
     <entry lang="nl" key="IDC_OLD_PIM_HELP">(Leeg of 0 voor standaard iteraties)</entry>
@@ -174,17 +174,17 @@
     <entry lang="nl" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Opgeslagen wachtwoorden wissen bij afsluiten</entry>
     <entry lang="nl" key="IDC_PRESERVE_TIMESTAMPS">Tijdstempel van wijziging van bestandscontainers bewaren</entry>
     <entry lang="nl" key="IDC_RESET_HOTKEYS">Herstellen</entry>
-    <entry lang="nl" key="IDC_SELECT_DEVICE">&amp;Apparaat selecteren...</entry>
-    <entry lang="nl" key="IDC_SELECT_FILE">&amp;Bestand selecteren...</entry>
-    <entry lang="nl" key="IDC_SELECT_PKCS11_MODULE">&amp;Bibliotheek selecteren...</entry>
+    <entry lang="nl" key="IDC_SELECT_DEVICE">Apparaat selecteren...</entry>
+    <entry lang="nl" key="IDC_SELECT_FILE">Bestand selecteren...</entry>
+    <entry lang="nl" key="IDC_SELECT_PKCS11_MODULE">Bibliotheek selecteren...</entry>
     <entry lang="nl" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Wachtwoord weergeven</entry>
     <entry lang="nl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Wachtwoord weergeven</entry>
-    <entry lang="nl" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Verkennervenster openen voor gekoppeld volume</entry>
-    <entry lang="nl" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Wachtwoord in stuurprogramma-geheugen opslaan</entry>
+    <entry lang="nl" key="IDC_TRAVEL_OPEN_EXPLORER">Verkennervenster openen voor gekoppeld volume</entry>
+    <entry lang="nl" key="IDC_TRAV_CACHE_PASSWORDS">Wachtwoord in stuurprogramma-geheugen opslaan</entry>
     <entry lang="nl" key="IDC_TRUECRYPT_MODE">TrueCrypt-modus</entry>
-    <entry lang="nl" key="IDC_UNMOUNTALL">Alles &amp;ontkoppelen</entry>
-    <entry lang="nl" key="IDC_VOLUME_PROPERTIES">&amp;Volume-eigenschappen</entry>
-    <entry lang="nl" key="IDC_VOLUME_TOOLS">&amp;Volumegereedschap...</entry>
+    <entry lang="nl" key="IDC_UNMOUNTALL">Alles ontkoppelen</entry>
+    <entry lang="nl" key="IDC_VOLUME_PROPERTIES">Volume-eigenschappen</entry>
+    <entry lang="nl" key="IDC_VOLUME_TOOLS">Volumegereedschap...</entry>
     <entry lang="nl" key="IDC_WIPE_CACHE">Cache wissen</entry>
     <entry lang="nl" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Koppelingparameters</entry>
     <entry lang="nl" key="IDD_FAVORITE_VOLUMES">VeraCrypt - favoriete volumes</entry>
@@ -302,23 +302,23 @@
     <entry lang="nl" key="IDT_TRAVEL_ROOT">Reisschijf-bestanden aanmaken in (reisschijf-basismap):</entry>
     <entry lang="nl" key="IDT_VOLUME">Volume</entry>
     <entry lang="nl" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
-    <entry lang="nl" key="IDC_ADD_KEYFILE_PATH">&amp;Pad toevoegen...</entry>
-    <entry lang="nl" key="IDC_AUTO">&amp;Alles auto-testen</entry>
-    <entry lang="nl" key="IDC_CONTINUE">&amp;Doorgaan</entry>
-    <entry lang="nl" key="IDC_DECRYPT">&amp;Ontsleutelen</entry>
+    <entry lang="nl" key="IDC_ADD_KEYFILE_PATH">Pad toevoegen...</entry>
+    <entry lang="nl" key="IDC_AUTO">Alles auto-testen</entry>
+    <entry lang="nl" key="IDC_CONTINUE">Doorgaan</entry>
+    <entry lang="nl" key="IDC_DECRYPT">Ontsleutelen</entry>
     <entry lang="nl" key="IDC_DELETE">Verwijderen</entry>
-    <entry lang="nl" key="IDC_ENCRYPT">&amp;Versleutelen</entry>
-    <entry lang="nl" key="IDC_EXPORT">&amp;Exporteren...</entry>
+    <entry lang="nl" key="IDC_ENCRYPT">Versleutelen</entry>
+    <entry lang="nl" key="IDC_EXPORT">Exporteren...</entry>
     <entry lang="nl" key="IDC_GENERATE_AND_SAVE_KEYFILE">Sleutelbestand genereren en opslaan...</entry>
-    <entry lang="nl" key="IDC_GENERATE_KEYFILE">&amp;Willekeurig sleutelbest. genereren...</entry>
+    <entry lang="nl" key="IDC_GENERATE_KEYFILE">Willekeurig sleutelbest. genereren...</entry>
     <entry lang="nl" key="IDC_GET_LANG_PACKS">Taalpakket downloaden</entry>
     <entry lang="nl" key="IDC_HW_AES_LABEL_LINK">Hardware-versneld AES:</entry>
     <entry lang="nl" key="IDC_IMPORT_KEYFILE">Sleutelbestand importeren naar token...</entry>
-    <entry lang="nl" key="IDC_KEYADD">&amp;Best. toev...</entry>
+    <entry lang="nl" key="IDC_KEYADD">Best. toev...</entry>
     <entry lang="nl" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Sleutelbestanden gebruiken</entry>
-    <entry lang="nl" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Sleutelbestanden...</entry>
-    <entry lang="nl" key="IDC_KEYREMOVE">&amp;Verwijderen</entry>
-    <entry lang="nl" key="IDC_KEYREMOVEALL">&amp;Alles verwijderen</entry>
+    <entry lang="nl" key="IDC_KEYFILES_HIDVOL_PROT">Sleutelbestanden...</entry>
+    <entry lang="nl" key="IDC_KEYREMOVE">Verwijderen</entry>
+    <entry lang="nl" key="IDC_KEYREMOVEALL">Alles verwijderen</entry>
     <entry lang="nl" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Wat is de bescherming van een verborgen volume?</entry>
     <entry lang="nl" key="IDC_LINK_KEYFILES_INFO">Meer informatie over sleutelbestanden</entry>
     <entry lang="nl" key="IDC_MOUNT_REMOVABLE">Volume koppelen als verwisselbaar medium</entry>
@@ -327,7 +327,7 @@
     <entry lang="nl" key="IDC_PERFORM_BENCHMARK">Benchmark</entry>
     <entry lang="nl" key="IDC_PRINT">Afdrukken</entry>
     <entry lang="nl" key="IDC_PROTECT_HIDDEN_VOL">Beschermen tegen schade veroorzaakt door schrijven naar het buitenste volume</entry>
-    <entry lang="nl" key="IDC_RESET">&amp;Herstellen</entry>
+    <entry lang="nl" key="IDC_RESET">Herstellen</entry>
     <entry lang="nl" key="IDC_SHOW_PASSWORD_MO">Wachtwoord weergeven</entry>
     <entry lang="nl" key="IDC_TOKEN_FILES_ADD">Tokenbest. toev...</entry>
     <entry lang="nl" key="IDC_USE_EMBEDDED_HEADER_BAK">Back-up header ingebed in volume gebruiken indien beschikbaar</entry>
@@ -369,7 +369,7 @@
     <entry lang="nl" key="IDT_SECURITY_TOKEN">Beveiligingstoken:</entry>
     <entry lang="nl" key="IDT_SORT_METHOD">Weergave:</entry>
     <entry lang="nl" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Even geduld. Dit proces kan lang duren....</entry>
-    <entry lang="nl" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Even geduld...\nDit proces kan lang duren en VeraCrypt lijkt misschien niet te reageren.</entry>
+    <entry lang="nl" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Even geduld...\nDit proces kan lang duren en het kan lijken dat VeraCrypt niet meer reageert.</entry>
     <entry lang="nl" key="IDT_TEST_BLOCK_NUMBER">Bloknummer:</entry>
     <entry lang="nl" key="IDT_TEST_CIPHERTEXT">Versleutelingstekst (hexadecimaal)</entry>
     <entry lang="nl" key="IDT_TEST_DATA_UNIT_NUMBER">Gegevenseenheid-nummer (64-bits hexadecimaal, grootte van gegevenseenh. is 512 bytes).</entry>
@@ -378,13 +378,13 @@
     <entry lang="nl" key="IDT_TOKEN_KEYFILE_NAME">Naam sleutelbestand:</entry>
     <entry lang="nl" key="IDT_XTS_MODE">XTS-modus</entry>
     <entry lang="nl" key="MENU_SYSTEM_ENCRYPTION">Systeem</entry>
-    <entry lang="nl" key="MENU_VOLUMES">&amp;Volumes</entry>
-    <entry lang="nl" key="MENU_FAVORITES">&amp;Favorieten</entry>
-    <entry lang="nl" key="MENU_TOOLS">&amp;Gereedschap</entry>
-    <entry lang="nl" key="MENU_SETTINGS">&amp;Instellingen</entry>
-    <entry lang="nl" key="MENU_HELP">&amp;Help</entry>
+    <entry lang="nl" key="MENU_VOLUMES">Volumes</entry>
+    <entry lang="nl" key="MENU_FAVORITES">Favorieten</entry>
+    <entry lang="nl" key="MENU_TOOLS">Gereedschap</entry>
+    <entry lang="nl" key="MENU_SETTINGS">Instellingen</entry>
+    <entry lang="nl" key="MENU_HELP">Help</entry>
     <entry lang="nl" key="MENU_WEBSITE">   Startpagina   </entry>
-    <entry lang="nl" key="ABOUTBOX">&amp;Over...</entry>
+    <entry lang="nl" key="ABOUTBOX">Over...</entry>
     <entry lang="nl" key="ACCESSMODEFAIL">Het alleen-lezen attribuut op uw oude volume kon niet worden gewijzigd. Controleer de toegangsrechten voor het bestand.</entry>
     <entry lang="nl" key="ACCESS_DENIED">Fout: Toegang geweigerd.\n\nDe partitie die u probeert te benaderen is ofwel 0 sectoren lang, of het is het opstartapparaat. </entry>
     <entry lang="nl" key="ADMINISTRATOR">Beheerder</entry>
@@ -465,8 +465,8 @@
     <entry lang="nl" key="SYSTEM_CRASH_REPORT">Om ons te helpen bepalen of er een bug in VeraCrypt zit, kunt u ons een automatisch gegenereerde foutmelding sturen met de volgende items:\n- Programmaversie\n- Versie van het besturingssysteem\n- Type CPU\n- Foutcategorie\n- Naam en versie van het stuurprogramma\n- Oproepensysteem\n\nAls u 'Ja' selecteert, wordt de volgende URL (die de volledige foutmelding bevat) geopend in uw standaard internetbrowser.</entry>
     <entry lang="nl" key="ASK_SEND_ERROR_REPORT">Wilt u ons bovenstaande foutmelding sturen?</entry>
     <entry lang="nl" key="ENCRYPT">Versleutelen</entry>
-    <entry lang="nl" key="DECRYPT">&amp;Ontsleutelen</entry>
-    <entry lang="nl" key="PERMANENTLY_DECRYPT">&amp;Permanent ontsleutelen</entry>
+    <entry lang="nl" key="DECRYPT">Ontsleutelen</entry>
+    <entry lang="nl" key="PERMANENTLY_DECRYPT">Permanent ontsleutelen</entry>
     <entry lang="nl" key="EXIT">Sluiten</entry>
     <entry lang="nl" key="EXT_PARTITION">Maak een logische schijf aan voor deze uitgebreide partitie en probeer het dan opnieuw.</entry>
     <entry lang="nl" key="FILE_HELP">Een VeraCrypt-volume kan zich bevinden in een bestand (de VeraCrypt-container genoemd), dat zich op een harde schijf, op een USB-flashstation, enz. kan bevinden. Een VeraCrypt-container is net als elk normaal bestand (het kan bijvoorbeeld worden verplaatst of verwijderd zoals elk normaal bestand). Klik op 'Bestand selecteren' om een bestandsnaam voor de container te kiezen en de locatie te selecteren waar u de container wilt aanmaken.\n\nWAARSCHUWING: als u een bestaand bestand selecteert, zal VeraCrypt het bestand NIET versleutelen; het bestand zal worden verwijderd en vervangen door de nieuw aangemaakte VeraCrypt-container. U kunt bestaande bestanden (later) versleutelen door ze te verplaatsen naar de VeraCrypt-container die u nu gaat maken.</entry>
@@ -488,12 +488,12 @@
     <entry lang="nl" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">Dit is de snelste manier om een partitie-gehost of apparaat-gehost VeraCrypt-volume aan te maken (versleuteling ter plaatse, wat de andere optie is, is langzamer omdat de inhoud van elke sector eerst gelezen, versleuteld en vervolgens geschreven moet worden). Alle gegevens die momenteel op de geselecteerde partitie/apparaat zijn opgeslagen, gaan verloren (de gegevens worden NIET versleuteld; ze worden overschreven door willekeurige gegevens). Als u bestaande gegevens op een partitie wilt versleutelen, kiest u de andere optie.</entry>
     <entry lang="nl" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">De volledige geselecteerde partitie en alle gegevens die erop zijn opgeslagen worden ter plaatse versleuteld. Als de partitie leeg is, moet u de andere optie kiezen (het volume zal veel sneller worden aangemaakt).</entry>
     <entry lang="nl" key="NOTE_BEGINNING">Opmerking: </entry>
-    <entry lang="nl" key="RESUME">&amp;Hervatten</entry>
+    <entry lang="nl" key="RESUME">Hervatten</entry>
     <entry lang="nl" key="DEFER">Uitstellen</entry>
-    <entry lang="nl" key="START">&amp;Starten</entry>
-    <entry lang="nl" key="CONTINUE">&amp;Doorgaan</entry>
-    <entry lang="nl" key="FORMAT">&amp;Formatteren</entry>
-    <entry lang="nl" key="WIPE">&amp;Wissen</entry>
+    <entry lang="nl" key="START">Starten</entry>
+    <entry lang="nl" key="CONTINUE">Doorgaan</entry>
+    <entry lang="nl" key="FORMAT">Formatteren</entry>
+    <entry lang="nl" key="WIPE">Wissen</entry>
     <entry lang="nl" key="FORMAT_ABORT">Formatteren afbreken?</entry>
     <entry lang="nl" key="SHOW_MORE_INFORMATION">Meer informatie</entry>
     <entry lang="nl" key="DO_NOT_SHOW_THIS_AGAIN">Dit niet meer weergeven</entry>
@@ -567,13 +567,13 @@
     <entry lang="nl" key="MAX_HIDVOL_SIZE_TB">De maximaal mogelijke verborgen volumegrootte voor dit volume is %.2f TiB.</entry>
     <entry lang="nl" key="MOUNTED_NOPWCHANGE">Volumewachtwoord/sleutelbestanden kunnen niet worden gewijzigd als het volume is gekoppeld. Ontkoppel het volume eerst.</entry>
     <entry lang="nl" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Het sleutel-afleidingsalgoritme van de header kan niet worden gewijzigd terwijl het volume is gekoppeld. Ontkoppel eerst het volume.</entry>
-    <entry lang="nl" key="MOUNT_BUTTON">&amp;Koppelen</entry>
+    <entry lang="nl" key="MOUNT_BUTTON">Koppelen</entry>
     <entry lang="nl" key="NEW_VERSION_REQUIRED">Er is een nieuwere versie van VeraCrypt nodig om dit volume te koppelen.</entry>
     <entry lang="nl" key="VOL_CREATION_WIZARD_NOT_FOUND">Fout: wizard volume aanmaken niet gevonden.\n\nZorg ervoor dat het bestand 'VeraCrypt Format.exe' in de map staat waaruit 'VeraCrypt.exe' is gestart. Is dit niet het geval, installeer dan VeraCrypt opnieuw, of zoek 'VeraCrypt Format.exe' op uw schijf en voer het uit.</entry>
     <entry lang="nl" key="VOL_EXPANDER_NOT_FOUND">Fout: volume-uitbreider niet gevonden.\n\nZorg ervoor dat het bestand 'VeraCryptExpander.exe' in de map staat waaruit 'VeraCryptExpander.exe' is gestart. Als dit niet het geval is, installeer dan VeraCrypt opnieuw, of zoek 'VeraCryptExpander.exe' op uw schijf en voer het uit.</entry>
     <entry lang="nl" key="NEXT">Volgende &gt;</entry>
-    <entry lang="nl" key="FINALIZE">&amp;Beëindigen</entry>
-    <entry lang="nl" key="INSTALL">&amp;Installeren</entry>
+    <entry lang="nl" key="FINALIZE">Voltooien</entry>
+    <entry lang="nl" key="INSTALL">Installeren</entry>
     <entry lang="nl" key="EXTRACT">Uitpakken</entry>
     <entry lang="nl" key="NODRIVER">Kan geen verbinding maken met het VeraCrypt-apparaatstuurprogramma. VeraCrypt kan niet werken als het apparaatstuurprogramma niet actief is.\n\nHoud er rekening mee dat het vanwege een Windows-probleem nodig kan zijn om af te melden of het systeem opnieuw op te starten voordat het apparaatstuurprogramma kan worden geladen. </entry>
     <entry lang="nl" key="NOFONT">Er is een fout opgetreden bij het laden/voorbereiden van lettertypen.</entry>
@@ -658,7 +658,7 @@
     <entry lang="nl" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">In deze modus kunt u geen partitie koppelen die zich op een schijf bevindt waarvan het gedeelte binnen de sleutelomvang van de actieve systeemversleuteling valt.\n\nVoordat u deze partitie in deze modus kunt koppelen, moet u ofwel een besturingssysteem opstarten dat op een andere schijf is geïnstalleerd (versleuteld of niet-versleuteld) of een niet-versleuteld besturingssysteem opstarten.</entry>
     <entry lang="nl" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt kan geen individuele partitie ontsleutelen van een volledig versleutelde systeemschijf (u kunt alleen de hele systeemschijf ontsleutelen)</entry>
     <entry lang="nl" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Waarschuwing: aangezien de schijf de VeraCrypt-bootloader bevat, kan het een volledig versleutelde systeemschijf zijn. Als dit het geval is, moet u er rekening mee houden dat VeraCrypt een individuele partitie op een volledig versleutelde systeemschijf niet kan ontsleutelen (u kunt alleen de volledige systeemschijf ontsleutelen). Als dat het geval is, kunt u nu verder gaan, maar krijgt u later de foutmelding 'onjuist wachtwoord'.</entry>
-    <entry lang="nl" key="PREV">&lt; &amp;Terug</entry>
+    <entry lang="nl" key="PREV">&lt; Terug</entry>
     <entry lang="nl" key="RAWDEVICES">Kan geen lijst weergeven van "raw" apparaten die op uw systeem zijn geïnstalleerd!</entry>
     <entry lang="nl" key="READONLYPROMPT">Het volume '%s' bestaat en is alleen-lezen. Weet u zeker dat u het wilt vervangen?</entry>
     <entry lang="nl" key="SELECT_DEST_DIR">Doelmap selecteren</entry>
@@ -694,7 +694,7 @@
     <entry lang="nl" key="UNKNOWN">Onbekend</entry>
     <entry lang="nl" key="ERR_UNKNOWN">Er is een niet nader omschreven of onbekende fout opgetreden (%d).</entry>
     <entry lang="nl" key="UNMOUNTALL_LOCK_FAILED">Sommige volumes bevatten bestanden of mappen die door toepassingen of systemen worden gebruikt.\n\nOntkoppelen forceren?</entry>
-    <entry lang="nl" key="UNMOUNT_BUTTON">&amp;Ontkoppelen</entry>
+    <entry lang="nl" key="UNMOUNT_BUTTON">Ontkoppelen</entry>
     <entry lang="nl" key="UNMOUNT_FAILED">Ontkoppelen is mislukt!</entry>
     <entry lang="nl" key="UNMOUNT_LOCK_FAILED">Volume bevat bestanden of mappen die worden gebruikt door toepassingen of het systeem.\n\nOntkoppelen forceren?</entry>
     <entry lang="nl" key="NO_VOLUME_MOUNTED_TO_DRIVE">Er is geen volume gekoppeld aan de opgegeven stationsletter.</entry>
@@ -903,8 +903,8 @@
     <entry lang="nl" key="HOURS">uur</entry>
     <entry lang="nl" key="MINUTES">minuten</entry>
     <entry lang="nl" key="SECONDS"> s</entry>
-    <entry lang="nl" key="OPEN">Open</entry>
-    <entry lang="nl" key="DISMOUNT">Ontkoppel</entry>
+    <entry lang="nl" key="OPEN">Openen</entry>
+    <entry lang="nl" key="DISMOUNT">Ontkoppelen</entry>
     <entry lang="nl" key="SHOW_TC">VeraCrypt weergeven</entry>
     <entry lang="nl" key="HIDE_TC">VeraCrypt verbergen</entry>
     <entry lang="nl" key="TOTAL_DATA_READ">Gegevens gelezen sinds koppeling</entry>
@@ -921,7 +921,7 @@
     <entry lang="nl" key="PROGRESS_STATUS_DECRYPTING">Ontsleutelen</entry>
     <entry lang="nl" key="PROGRESS_STATUS_FINALIZING">Afronden</entry>
     <entry lang="nl" key="PROGRESS_STATUS_PAUSED">Gepauzeerd</entry>
-    <entry lang="nl" key="PROGRESS_STATUS_FINISHED">Klaar</entry>
+    <entry lang="nl" key="PROGRESS_STATUS_FINISHED">Voltooid</entry>
     <entry lang="nl" key="PROGRESS_STATUS_ERROR">Fout</entry>
     <entry lang="nl" key="FAVORITE_DISCONNECTED_DEV">Apparaat losgekoppeld</entry>
     <entry lang="nl" key="SYS_FAVORITE_VOLUMES_SAVED">Favoriete volumes van het systeem opgeslagen.\n\nOm koppeling van de favoriete volumes van het systeem in te schakelen wanneer het systeem wordt opgestart, selecteert u 'Instellingen' &gt; 'Systeemfavoriete volumes' &gt; 'Systeemfavoriete volumes koppelen wanneer Windows start'.</entry>
@@ -982,7 +982,7 @@
     <entry lang="nl" key="IDPM_REPAIR_FILESYS">Bestandssysteem repareren</entry>
     <entry lang="nl" key="IDPM_ADD_TO_FAVORITES">Aan favorieten toevoegen...</entry>
     <entry lang="nl" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Aan systeemfavorieten toevoegen...</entry>
-    <entry lang="nl" key="IDPM_PROPERTIES">E&amp;igenschappen...</entry>
+    <entry lang="nl" key="IDPM_PROPERTIES">Eigenschappen...</entry>
     <entry lang="nl" key="HIDDEN_VOL_PROTECTION">Verborgen volume beschermd</entry>
     <entry lang="nl" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">n.v.t.</entry>
     <entry lang="nl" key="UISTR_YES">Ja</entry>
@@ -1296,8 +1296,8 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="SETTING_REQUIRES_REBOOT">Merk op dat deze instelling pas van kracht wordt nadat het besturingssysteem opnieuw is opgestart.</entry>
     <entry lang="nl" key="COMMAND_LINE_ERROR">Fout bij het verwerken van de opdrachtregel.</entry>
     <entry lang="nl" key="RESCUE_DISK">Herstelschijf</entry>
-    <entry lang="nl" key="SELECT_FILE_AND_MOUNT">&amp;Bestand selecteren en koppelen...</entry>
-    <entry lang="nl" key="SELECT_DEVICE_AND_MOUNT">&amp;Apparaat selecteren en koppelen...</entry>
+    <entry lang="nl" key="SELECT_FILE_AND_MOUNT">Bestand selecteren en koppelen...</entry>
+    <entry lang="nl" key="SELECT_DEVICE_AND_MOUNT">Apparaat selecteren en koppelen...</entry>
     <entry lang="nl" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">Alleen beheerders toestaan om de systeemfavoriete volumes weer te geven en te ontkoppelen in VeraCrypt</entry>
     <entry lang="nl" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Systeemfavoriete volumes koppelen wanneer Windows start (in de beginfase van de opstartprocedure)</entry>
     <entry lang="nl" key="MOUNTED_VOLUME_DIRTY">Waarschuwing: het bestandssysteem op het als '%s' gekoppelde volume is niet goed ontkoppeld en kan dus fouten bevatten. Het gebruik van een beschadigd bestandssysteem kan gegevensverlies of gegevensbeschadiging veroorzaken.\n\nOpmerking: Voordat u een apparaat (zoals een USB-flashstation of een externe harde schijf) waarop een gekoppeld VeraCrypt-volume staat, fysiek verwijdert of uitschakelt, moet u altijd eerst het VeraCrypt-volume in VeraCrypt ontkoppelen.\n\n\nWilt u dat Windows probeert (eventuele) fouten in het bestandssysteem op te sporen en op te lossen?</entry>
@@ -1383,7 +1383,7 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="TB_PER_SEC">TiB/s</entry>
     <entry lang="nl" key="PB_PER_SEC">PiB/s</entry>
     <entry lang="nl" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</entry>
-    <entry lang="nl" key="IDC_BOOT_LOADER_CACHE_PIM">&amp;PIM toevoegen bij cachen van pre-boot-authenticatiewachtwoord</entry>
+    <entry lang="nl" key="IDC_BOOT_LOADER_CACHE_PIM">PIM toevoegen bij cachen van pre-boot-authenticatiewachtwoord</entry>
     <entry lang="nl" key="IDC_PREF_CACHE_PIM">PIM toevoegen bij opslaan van een wachtwoord</entry>
     <entry lang="nl" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Losgekoppelde netwerkstations beschikbaar stellen voor koppeling</entry>
     <entry lang="nl" key="PASSWORD_UTF8_TOO_LONG">Het ingevoerde wachtwoord is te lang: de UTF-8-weergave is groter dan %d bytes.</entry>
@@ -1481,7 +1481,6 @@ Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte vo
     <entry lang="nl" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Kies deze optie als u het volume op andere platforms moet gebruiken.</entry>
     <entry lang="nl" key="LINUX_CROSS_SUPPORT_ONLY">Ik zal het volume alleen koppelen op {0}</entry>
     <entry lang="nl" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Kies deze optie als u het volume niet op andere platforms moet gebruiken.</entry>
-    <entry lang="nl" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Kies deze optie als u het volume niet op andere platforms moet gebruiken.</entry>
     <entry lang="nl" key="LINUX_DESELECT">Deselecteren</entry>
     <entry lang="nl" key="LINUX_ADMIN_PW_QUERY">Voer uw gebruikers- of beheerderswachtwoord in:</entry>
     <entry lang="nl" key="LINUX_ADMIN_PW_QUERY_TITLE">Beheerdersrechten vereist</entry>
@@ -1576,8 +1575,8 @@ Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte vo
     <entry lang="nl" key="UNKNOWN_OPTION">Onbekende optie</entry>
     <entry lang="nl" key="VOLUME_LOCATION">Volumelocatie</entry>
     <entry lang="nl" key="VOLUME_HOST_IN_USE">WAARSCHUWING: hostbestand/apparaat {0} is al in gebruik!\n\nHet negeren hiervan kan ongewenste resultaten veroorzaken, waaronder systeeminstabiliteit. Alle toepassingen die het hostbestand/apparaat gebruiken moeten worden gesloten voordat het volume wordt gekoppeld.\n\nDoorgaan met koppelen?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
+    <entry lang="nl" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt werd eerder geïnstalleerd met een MSI-pakket en kan dus niet worden bijgewerkt met het standaardinstallatieprogramma. Gebruik het MSI-pakket om uw VeraCrypt-installatie bij te werken.</entry>
+    <entry lang="nl" key="IDC_USE_ALL_FREE_SPACE">Alle beschikbare vrije ruimte gebruiken</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
