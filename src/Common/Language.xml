@@ -1582,6 +1582,7 @@
     <entry lang="en" key="BACKUP_DATA"> I considered doing a backup of my personal Data</entry>
     <entry lang="en" key="CHECKLIST_TITLE">Checklist - Before clicking 'Next'</entry>
     <entry lang="en" key="SYS_ENCRYPTION_PRETEST_INFO">Some tests have to be done now to verify that everything works correctly.\n\nFor this test, your computer has to be restarted. Then you will have to enter your password in the VeraCrypt Boot Loader screen that will appear before Windows starts. After Windows starts, VeraCrypt is started automatically and you will be informed about the result of this pretest.\n\n\nThe following device will be modified: Drive %c:</entry>
+    <entry lang="en" key="SYSENC_DECRYPTION_PAGE_INFO">Make sure that your device does not run out of power.\nIf the decryption is interrupted you can resume it restarting VeraCrypt and selecting 'System' > 'Resume Interrupted Process'.</entry>
     <entry lang="en" key="ADVANCED_FEATURES">Advanced features</entry>
     <entry lang="en" key="VERY_WEAK_PASSWORD">very weak</entry>
     <entry lang="en" key="WEAK_PASSWORD">weak</entry>
