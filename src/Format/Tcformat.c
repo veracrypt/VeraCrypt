@@ -3746,7 +3746,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), finalMsg);
 
-			wmemset (finalMsg, 0, sizeof (finalMsg));
+			memset (finalMsg, 0, sizeof (finalMsg));
 			try
 			{
 				StringCbPrintfW (finalMsg, sizeof(finalMsg),
