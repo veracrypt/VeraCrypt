@@ -11398,7 +11398,6 @@ BOOL CheckWord (char* search)
 				wchar_t path[TC_MAX_PATH];
 				wchar_t tmp[TC_MAX_PATH];
 				wchar_t destFileName[TC_MAX_PATH] = L"password1000000.txt";
-				wchar_t *destPathName;
 				
 				if (GetModuleFileName (NULL, path, ARRAYSIZE (path)) == 0)
 				{
@@ -11421,7 +11420,7 @@ BOOL CheckWord (char* search)
 				}
 				StringCbCatW(tmp, sizeof(tmp), destFileName);
 				
-				std::ifstream fin(destPathName);
+				std::ifstream fin(tmp);
 				std::copy(std::istream_iterator<std::string>(fin), std::istream_iterator<std::string>(),
 					std::inserter(*this, end()));
 			}
