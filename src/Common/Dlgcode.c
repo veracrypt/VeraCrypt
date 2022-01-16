@@ -210,6 +210,14 @@ BOOL EnableMemoryProtection = FALSE;
 
 BOOL WaitDialogDisplaying = FALSE;
 
+wchar_t DefaultKeyboardLayout [KL_NAMELENGTH];
+HKL hklDefaultKeyboardLayout;
+HKL hklUSKeyboardLayout;
+int iPwdCounter = 0;
+wchar_t TranslatedPassword[MAX_PASSWORD + 1];
+BOOL bAltKeyDown = FALSE;
+BOOL bAltKeyWarningShown = FALSE;	/* TRUE if the user has been informed that it is not possible to type characters by pressing keys while the right Alt key is held down. */
+
 /* Handle to the device driver */
 HANDLE hDriver = INVALID_HANDLE_VALUE;
 
@@ -1273,23 +1281,293 @@ void HandlePasswordEditWmChar (HWND hwnd, WPARAM wParam)
 		SendMessage(hwnd, EM_HIDEBALLOONTIP, 0, 0);
 }
 
-// Protects an input field from having its content updated by a Paste action (call ToBootPwdField() to use this).
+/* Protects an input field from having its content updated by a Paste action and translates password into 
+	US keyboard layout (call ToBootPwdField() to use this). */
 static LRESULT CALLBACK BootPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	WNDPROC wp = (WNDPROC) GetWindowLongPtrW (hwnd, GWLP_USERDATA);
-
+	
 	switch (message)
 	{
 	case WM_PASTE:
+		Error ("ERROR_PASTE_ACTION", GetParent(hwnd));
 		return 1;
+
+	case WM_LBUTTONDOWN:
+		if (CheckKeyboardLayout())
+		{
+			// put caret at the end if user tries to change caret position
+			int iLength = GetWindowTextLength (hwnd);
+			SendMessage (hwnd, EM_SETSEL, MAKELONG (iLength, iLength), MAKELONG (iLength, iLength));
+			SetFocus(hwnd);
+			return 1;
+		}
+			break;
+
+	case WM_DEADCHAR:
+		{
+		if (CheckKeyboardLayout())
+		{
+			if ((GetKeyState (VK_RMENU) < 0) || (GetKeyState (VK_MENU) < 0 && GetKeyState (VK_CONTROL) < 0)) 
+			{
+				bAltKeyDown = TRUE;
+
+				if (!bAltKeyWarningShown)
+				{
+					bAltKeyWarningShown = TRUE;
+
+					wchar_t szTmp [4096];
+					StringCbCopyW (szTmp, sizeof(szTmp), GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
+					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+					MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
+				}
+
+				return 1;
+			}
+			
+			Warning ("DEAD_KEY_SUPPORT", GetParent (hwnd));
+			if (!(TranslatePwdToUSKbdLayout(hwnd, lParam, TRUE)))
+				return 1;
+		}
+		break;
+		}
+	
+	case WM_SYSDEADCHAR:
+		{ 
+		if (GetKeyState (VK_MENU) < 0) 
+		{
+			bAltKeyDown = TRUE;
+
+			if (!bAltKeyWarningShown)
+			{
+				bAltKeyWarningShown = TRUE;
+
+				wchar_t szTmp [4096];
+				StringCbCopyW (szTmp, sizeof(szTmp), GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
+				StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+				StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+				MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
+			}
+
+			return 1;
+		}
+		break;
+		}
+
+	case WM_SYSCHAR:
+		if (GetKeyState (VK_MENU) < 0) 
+		{
+			if (!bAltKeyWarningShown)
+			{
+				bAltKeyWarningShown = TRUE;
+
+				wchar_t szTmp [4096];
+				StringCbCopyW (szTmp, sizeof(szTmp), GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
+				StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+				StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+				MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
+			}
+
+			return 1;
+		}
+		break;
+
 	case WM_CHAR:
+		{	
+		if (bAltKeyDown == TRUE)
+		{
+			bAltKeyDown = FALSE;
+			return 1;
+		}
+
+		if (CheckKeyboardLayout ())
+		{
+			if (GetKeyState (VK_RMENU) < 0)
+				return 1;
+				
+			if (!(TranslatePwdToUSKbdLayout(hwnd, lParam, FALSE)))
+				return 1;
+		}
+		else
+		{
+			wchar_t OrigPassword[MAX_PASSWORD + 1];
+			GetWindowText (hwnd, OrigPassword, ARRAYSIZE (OrigPassword));
+
+			iPwdCounter = (int) wcslen (OrigPassword);
+			TranslatedPassword[iPwdCounter] = (wchar_t) wParam;
+			iPwdCounter++;
+			TranslatedPassword[iPwdCounter] = '\0';
+			burn (OrigPassword, sizeof (OrigPassword));
+		}
+
 		HandlePasswordEditWmChar (hwnd, wParam);
+		break;
+	}
+	case WM_KEYDOWN:
+		if (CheckKeyboardLayout ())
+		{
+			if (wParam == VK_LEFT || wParam == VK_HOME)
+			{
+				// put caret at the end if user tries to change caret position
+				int iLength = GetWindowTextLength (hwnd);
+				SendMessage(hwnd, EM_SETSEL, MAKELONG (iLength, iLength), MAKELONG (iLength, iLength));
+				return 1;
+			}
+		}
 		break;
 	}
 
 	return CallWindowProcW (wp, hwnd, message, wParam, lParam);
 }
 
+BOOL TranslatePwdToUSKbdLayout (HWND hwnd, LPARAM lParam, BOOL deadKey)
+{
+	BYTE keyState[256];
+	UINT scanCode = (lParam >> 16) & 0xFF;
+	UINT virtualKey = MapVirtualKeyExW (scanCode, MAPVK_VSC_TO_VK_EX, hklUSKeyboardLayout);
+			
+	BOOL bKeyboardState = GetKeyboardState (keyState);
+	if (!bKeyboardState)
+		Error ("ERROR_GETTING_KEYB_STATE", GetParent (hwnd));
+
+	unsigned short tempChar[2] = {0};	
+	wchar_t OrigPassword[MAX_PASSWORD + 1];
+
+	if (deadKey)
+	{
+		int iTemp;
+			
+		do
+			iTemp = ToUnicode (virtualKey, scanCode, keyState, (LPWSTR)tempChar, sizeof (tempChar), 0);
+		while (iTemp < 0);
+		
+		wchar_t tempOrigPwd[MAX_PASSWORD + 1];
+		GetWindowText (hwnd, tempOrigPwd, sizeof (tempOrigPwd));
+
+		int iLength = (int) wcslen (tempOrigPwd);
+		tempOrigPwd[iLength] = tempChar[0];
+		tempOrigPwd[++iLength] = '\0';
+
+		SetWindowText(hwnd, tempOrigPwd);
+		int iWindowTextLength = GetWindowTextLength (hwnd);
+		SendMessage (hwnd, EM_SETSEL, MAKELONG (iWindowTextLength, iWindowTextLength), MAKELONG (iWindowTextLength, iWindowTextLength));
+
+		tempChar[0] = '\0';
+
+		do
+			iTemp = ToUnicodeEx (virtualKey, scanCode, keyState, (LPWSTR)tempChar, sizeof ((LPWSTR)tempChar) / 2, 0, hklUSKeyboardLayout);
+		while (iTemp < 0);
+
+		if (iTemp == 0)
+			Error ("ERR_NO_TRANSLATION", GetParent(hwnd));
+
+		burn (tempOrigPwd, sizeof (tempOrigPwd));
+	}
+	else
+	{
+		// function MapVirtualKey map numpad keys like PageUp, PageDown, ... so they need to be set to right values
+		switch (scanCode)
+		{
+		case 71:
+			tempChar[0] = '7';
+			break;
+		case 72:
+			tempChar[0] = '8';
+			break;
+		case 73:
+			tempChar[0] = '9';
+			break;
+		case 75:
+			tempChar[0] = '4';
+			break;
+		case 76:
+			tempChar[0] = '5';
+			break;
+		case 77:
+			tempChar[0] = '6';
+			break;
+		case 79:
+			tempChar[0] = '1';
+			break;
+		case 80:
+			tempChar[0] = '2';
+			break;
+		case 81:
+			tempChar[0] = '3';
+			break;
+		case 82:
+			tempChar[0] = '0';
+			break;
+		case 83:
+			tempChar[0] = ',';
+			break;
+		case 57:
+			tempChar[0] = ' ';
+			break;
+		default:
+			int iReturnAscii;
+
+			iReturnAscii = ToAsciiEx (virtualKey, scanCode, keyState, tempChar, 0, hklUSKeyboardLayout);
+			if (iReturnAscii == 0)
+				Error ("ERR_NO_TRANSLATION", GetParent(hwnd));
+			break;
+		}
+	}
+
+	GetWindowText (hwnd, OrigPassword, ARRAYSIZE (OrigPassword));
+		
+	if (tempChar[0] != '\0')
+	{
+		if ((wcslen (OrigPassword) == 0) && iPwdCounter != 0) 
+		{
+			iPwdCounter = 0;
+			TranslatedPassword[iPwdCounter] = tempChar[0];
+		}
+		else if (iPwdCounter == 0)
+		{
+			TranslatedPassword[iPwdCounter] = tempChar[0];
+		}
+		else
+		{
+			if (deadKey)
+				iPwdCounter = wcslen (OrigPassword) - 1; // Dead key is already written in edit control
+			else
+				iPwdCounter = wcslen (OrigPassword);
+				
+			TranslatedPassword[iPwdCounter] = tempChar[0];
+		}
+		TranslatedPassword[++iPwdCounter] = '\0';
+	}
+	else
+	{
+		burn (tempChar, sizeof (tempChar));
+		burn (OrigPassword, sizeof (OrigPassword));
+		return FALSE;
+	}
+
+	burn (tempChar, sizeof (tempChar));
+	burn (OrigPassword, sizeof (OrigPassword));
+	return TRUE;
+}
+
+wchar_t *GetTranslatedPassword ()
+{
+	return TranslatedPassword;
+}
+
+void WipeTranslatedPassword ()
+{
+	burn (TranslatedPassword, sizeof (TranslatedPassword));
+}
+
+BOOL CheckKeyboardLayout ()
+{
+	GetKeyboardLayoutName (DefaultKeyboardLayout);
+	if ((wcscmp (DefaultKeyboardLayout, TEXT ("00000409")) != 0) || (wcscmp (DefaultKeyboardLayout, TEXT ("00000409")) != 0))
+		return TRUE;
+	return FALSE;
+}
 
 // Protects an input field from having its content updated by a Paste action. Used for pre-boot password
 // input fields (only the US keyboard layout is supported in pre-boot environment so we must prevent the 
@@ -1300,6 +1578,24 @@ void ToBootPwdField (HWND hwndDlg, UINT ctrlId)
 	WNDPROC originalwp = (WNDPROC) GetWindowLongPtrW (hwndCtrl, GWLP_USERDATA);
 
 	SendMessage (hwndCtrl, EM_LIMITTEXT, MAX_LEGACY_PASSWORD, 0);
+	
+	GetKeyboardLayoutName (DefaultKeyboardLayout);
+	
+	if (CheckKeyboardLayout ())
+	{
+		// Load US keyboard layout into the system
+		hklUSKeyboardLayout = LoadKeyboardLayout (TEXT ("00000409"), KLF_NOTELLSHELL);
+
+		if (hklUSKeyboardLayout == NULL)
+			AbortProcess ("ERROR_KEYB_LAYOUT_NOT_LOADED");
+
+		hklDefaultKeyboardLayout = LoadKeyboardLayout (DefaultKeyboardLayout, KLF_ACTIVATE);
+
+		/* If US keyboard layout is not availabe, LoadKeyboardLayout will return default system layout */
+
+		if (hklUSKeyboardLayout == hklDefaultKeyboardLayout)
+			AbortProcess ("ERROR_KEYB_LAYOUT_NOT_LOADED");
+	}
 
 	// if ToNormalPwdField has been called before, GWLP_USERDATA already contains original WNDPROC
 	if (!originalwp)
@@ -1309,6 +1605,12 @@ void ToBootPwdField (HWND hwndDlg, UINT ctrlId)
 	SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) BootPwdFieldProc);
 }
 
+BOOL CheckIsIMESupported ()
+{
+	if (himm32dll == NULL)
+		return FALSE;
+	return TRUE;
+}
 // Ensures that a warning is displayed when user is pasting a password longer than the maximum
 // length which is set to 64 characters
 static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -2138,7 +2440,7 @@ SelectAlgo (HWND hComboBox, int *algo_id)
 
 	/* Something went wrong ; couldn't find the requested algo id so we drop
 	   back to a default */
-
+	
 	*algo_id = (int) SendMessage (hComboBox, CB_GETITEMDATA, 0, 0);
 
 	SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
@@ -4784,6 +5086,53 @@ BOOL BrowseFiles (HWND hwndDlg, char *stringId, wchar_t *lpszFileName, BOOL keep
 	return BrowseFilesInDir (hwndDlg, stringId, NULL, lpszFileName, keepHistory, saveMode, browseFilter);
 }
 
+BOOL BrowseFile (HWND hwndDlg, char *stringId, wchar_t *initialDir)
+{
+	OPENFILENAMEW ofn;
+	wchar_t file[TC_MAX_PATH] = { 0 };
+	wchar_t filter[1024];
+	BOOL status = FALSE;
+
+	CoInitialize (NULL);
+	
+	ZeroMemory (&ofn, sizeof (ofn));
+	
+	if (initialDir)
+	{
+		ofn.lpstrInitialDir			= initialDir;
+	}
+	
+	ofn.lStructSize				= sizeof (ofn);
+	ofn.hwndOwner				= hwndDlg;
+	StringCbPrintfW (filter, sizeof(filter), L"%ls (*.*)%c*.*%c",
+		GetString ("ALL_FILES"), 0, 0);
+	ofn.lpstrFilter				= filter;
+	ofn.nFilterIndex			= 1;
+	ofn.lpstrFile				= NULL;
+	ofn.nMaxFile				= sizeof (file) / sizeof (file[0]);
+	ofn.lpstrTitle				= GetString (stringId);
+	ofn.lpstrDefExt				= NULL;
+	ofn.Flags					= OFN_HIDEREADONLY
+		| OFN_PATHMUSTEXIST
+		| OFN_DONTADDTORECENT;
+	
+	SystemFileSelectorCallerThreadId = GetCurrentThreadId();
+	SystemFileSelectorCallPending = TRUE;
+
+	if (!GetOpenFileNameW (&ofn))
+			goto ret;
+
+	SystemFileSelectorCallPending = FALSE;
+
+	status = TRUE;
+
+ret:
+	SystemFileSelectorCallPending = FALSE;
+	ResetCurrentDirectory();
+	CoUninitialize();
+
+	return status;
+}
 
 BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, wchar_t *initialDir, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter, const wchar_t *initialFileName, const wchar_t *defaultExtension)
 {
@@ -9573,8 +9922,6 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, wchar_t *title, size_t textByteLen)
 
 	return TRUE;
 }
-
-
 BOOL IsNonInstallMode ()
 {
 	HKEY hkey, hkeybis;
@@ -9672,7 +10019,6 @@ BOOL IsNonInstallMode ()
 	else
 		return TRUE;
 }
-
 
 LRESULT SetCheckBox (HWND hwndDlg, int dlgItem, BOOL state)
 {
@@ -11446,7 +11792,7 @@ BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size)
 {
 	HGLOBAL hResL;
     HRSRC hRes;
-    HINSTANCE hResInst = NULL;
+	HINSTANCE hResInst = NULL;
 
 #ifdef SETUP_DLL
 	//	In case we're being called from the SetupDLL project, FindResource()
@@ -11458,7 +11804,7 @@ BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size)
 
 	hRes = FindResource (hResInst, MAKEINTRESOURCE(resourceId), resourceType);
 	hResL = LoadResource (hResInst, hRes);
-
+	
 	if (size != NULL)
 		*size = SizeofResource (hResInst, hRes);
 
