@@ -11045,7 +11045,7 @@ BOOL CALLBACK AdvanceDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 		{
 			if (EAIsFormatEnabled (ea) && (!SysEncInEffect () || bSystemIsGPT || EAIsMbrSysEncEnabled (ea)))
-				AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea, 1), ea);
+				AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ARRAYSIZE(buf), ea, 1), ea);
 		}
 
 		SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), &nVolumeEA);
@@ -11405,7 +11405,7 @@ BOOL CheckWord (char* search)
 					Error ("ERROR_GETTING_PATH", MainDlg);
 				}
 
-				wcsncpy(tmp, path, wcslen(path));
+				StringCbCopyW(tmp, ARRAYSIZE(tmp), path);
 				
 				//detects the last '\' in order to remove the name of the exe file. Afterwards add .txt file in the path	
 				for (int i = wcslen(path); i > 1; i--)
@@ -11419,7 +11419,7 @@ BOOL CheckWord (char* search)
 						break;
 					}
 				}
-				destPathName = wcscat(tmp, destFileName);
+				StringCbCatW(tmp, sizeof(tmp), destFileName);
 				
 				std::ifstream fin(destPathName);
 				std::copy(std::istream_iterator<std::string>(fin), std::istream_iterator<std::string>(),
