@@ -118,7 +118,6 @@
 #define IDT_SINGLE_BOOT                 1079
 #define IDC_SYS_POOL_CONTENTS           1080
 #define IDT_PARTIAL_POOL_CONTENTS       1081
-#define IDC_DOWNLOAD_CD_BURN_SOFTWARE   1082
 #define IDT_RESCUE_DISK_BURN_INFO       1083
 #define IDT_WIPE_MODE_INFO              1084
 #define IDC_WIPE_MODE                   1085
@@ -146,6 +145,30 @@
 #define IDC_TB                          1107
 #define IDC_SKIP_RESCUE_VERIFICATION    1108
 #define SPARSE_FILE                     1109
+#define IDC_ADVANCE_INTRO               1110
+#define IDD_ADVANCE						1111
+#define IDC_ADVANCE						1112
+#define PASSWORD_METER					1113
+#define IDC_REMEMBER_PASSWORD			1114
+#define IDC_STORE_RESCUE_DISK			1115	
+#define IDC_BACKUP_DATA					1116
+#define IDT_REMEMBER_PASSWORD			1117
+#define IDT_STORE_RESCUE_DISK			1118
+#define IDT_BACKUP_DATA					1119
+#define IDC_CHECKLIST_A					1120
+#define IDC_CHECKLIST_B					1121
+#define IDC_CHECKLIST_C					1122
+#define IDD_ADVANCE_MBR					1123 
+#define IDC_INFORMATION_TIP				1124
+#define IDC_SHA512_HELP					1125
+#define IDT_PASSWORD_STRENGTH			1126
+#define IDT_RESCUE_DISK_INFO_2			1127
+#define IDT_SYSENC_INFO_2				1128
+#define IDT_IMPORTANT_NOTE				1129
+#define IDT_PIM_INFO					1130
+#define IDT_WIPE_INFO					1131
+#define IDT_TEST_ALGO					1132
+#define IDC_CHECKBOX_PRETEST			1133
 
 // Next default values for new objects
 // 
