@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.4">
+  <localization prog-version= "1.25.7">
     <language langid="zh-tw" name="繁體中文" en-name="Chinese (Taiwan)" version="0.1.0" translators="Barney Li, Simon Ma, ChangMing Hsu" />
     <font lang="zh-tw" class="normal" size="12" face="MingLiU" />
     <font lang="zh-tw" class="bold" size="15" face="MingLiU" />

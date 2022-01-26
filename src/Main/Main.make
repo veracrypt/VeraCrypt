@@ -209,6 +209,7 @@ ifdef VC_LEGACY_BUILD
 else
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 endif
+	chmod -R go-w $(APPNAME).app
 	codesign -s "Developer ID Application: IDRIX (Z933746L2S)" --timestamp $(APPNAME).app
 
 install: prepare

@@ -82,6 +82,11 @@
 #include <WinTrust.h>
 #include <strsafe.h>
 
+#define _WIN32_DCOM
+#include <comdef.h>
+#include <Wbemidl.h>
+
+#pragma comment(lib, "wbemuuid.lib")
 #pragma comment( lib, "setupapi.lib" )
 
 #ifndef TTI_INFO_LARGE
@@ -401,12 +406,12 @@ static WTHELPERGETPROVSIGNERFROMCHAIN WTHelperGetProvSignerFromChainFn = NULL;
 static WTHELPERGETPROVCERTFROMCHAIN WTHelperGetProvCertFromChainFn = NULL;
 
 static unsigned char gpbSha256CodeSignCertFingerprint[64] = {
-	0xF2, 0x09, 0xD3, 0xC5, 0xF5, 0x36, 0x73, 0x4A, 0x64, 0x33, 0xEA, 0x00,
-	0x6C, 0x4D, 0x44, 0xE9, 0xAF, 0x3D, 0x50, 0xE5, 0x6B, 0xBB, 0xCD, 0xED,
-	0xD1, 0x37, 0x75, 0x49, 0xF5, 0xC1, 0xDE, 0xFB, 0xAD, 0xA0, 0xA6, 0x9A,
-	0xC9, 0xA1, 0xD7, 0x2E, 0xB1, 0xCC, 0xFE, 0x68, 0xA0, 0x2C, 0x00, 0xCA,
-	0x26, 0x52, 0xD3, 0x27, 0xDF, 0x4C, 0xEF, 0x94, 0x3D, 0x0D, 0xD1, 0xAA,
-	0xB1, 0x3B, 0xA6, 0xBF
+	0x9C, 0xA0, 0x21, 0xD3, 0x7C, 0x90, 0x61, 0x88, 0xEF, 0x5F, 0x99, 0x3D,
+	0x54, 0x9F, 0xB8, 0xCE, 0x72, 0x32, 0x4F, 0x57, 0x4F, 0x19, 0xD2, 0xA4,
+	0xDC, 0x84, 0xFF, 0xE2, 0x84, 0x2B, 0xD4, 0x30, 0xAB, 0xA7, 0xE4, 0x63,
+	0x18, 0xD1, 0xD8, 0x32, 0x0E, 0xA4, 0x81, 0x3C, 0x19, 0xBF, 0x13, 0x11,
+	0xA4, 0x37, 0xD6, 0xDB, 0x26, 0xBA, 0xDC, 0x8F, 0x86, 0x96, 0x55, 0x96,
+	0xDB, 0x6F, 0xC0, 0x62
 };
 
 
@@ -1532,7 +1537,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Based on TrueCrypt 7.1a, freely available at http://www.truecrypt.org/ .\r\n\r\n"
 
 			L"Portions of this software:\r\n"
-			L"Copyright \xA9 2013-2021 IDRIX. All rights reserved.\r\n"
+			L"Copyright \xA9 2013-2022 IDRIX. All rights reserved.\r\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\r\n"
@@ -1544,7 +1549,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Copyright \xA9 2013-2019 Stephan Mueller <smueller@chronox.de>\r\n\r\n"
 
 			L"This software as a whole:\r\n"
-			L"Copyright \xA9 2013-2021 IDRIX. All rights reserved.\r\n\r\n"
+			L"Copyright \xA9 2013-2022 IDRIX. All rights reserved.\r\n\r\n"
 
 			L"An IDRIX Release");
 
@@ -3262,8 +3267,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	RemoteSession = GetSystemMetrics (SM_REMOTESESSION) != 0;
 
 #ifndef VC_SKIP_OS_DRIVER_REQ_CHECK
-	// OS version check: from version 1.25, only Windows XP, Windows 10 and Windows 11 are supported because of new driver signing requirements
-	if (!(IsOSVersionAtLeast(WIN_10, 0) || (nCurrentOS == WIN_XP) || (nCurrentOS == WIN_XP64)))
+	if (!IsSupportedOS())
 	{
 		MessageBoxW (NULL, GetString ("UNSUPPORTED_OS"), lpszTitle, MB_ICONSTOP);
 		exit (1);
@@ -10847,6 +10851,37 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 		>= (major << 16 | minor << 8 | reqMinServicePack));
 }
 
+BOOL IsSupportedOS ()
+{
+	BOOL bRet = FALSE;
+#ifdef SETUP
+	static const wchar_t* szWin7KBs[] = {L"KB3033929", L"KB4474419"};
+	static const wchar_t* szWinVistaKBs[] = {L"KB4039648", L"KB4474419"};
+	if (IsOSAtLeast(WIN_8))
+		bRet = TRUE;
+	else if (IsOSAtLeast(WIN_7))
+	{
+		if (OneOfKBsInstalled(szWin7KBs, 2))
+			bRet = TRUE;
+		else
+			MessageBoxW (NULL, L"SHA-2 support missing from Windows.\n\nPlease Install KB3033929 or KB4474419", lpszTitle, MB_ICONWARNING);
+	}
+	else if (IsOSAtLeast(WIN_VISTA))
+	{
+		if (OneOfKBsInstalled(szWinVistaKBs, 2))
+			bRet = TRUE;
+		else
+			MessageBoxW (NULL, L"SHA-2 support missing from Windows.\n\nPlease Install KB4039648 or KB4474419", lpszTitle, MB_ICONWARNING);
+	}
+	else if (IsOSAtLeast(WIN_XP))
+		bRet = TRUE;
+#else
+	if (IsOSAtLeast(WIN_XP))
+		bRet = TRUE;
+#endif
+
+	return bRet;
+}
 
 BOOL Is64BitOs()
 {
@@ -14061,7 +14096,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 
 #endif
 
-#if !defined(NDEBUG) && !defined(VC_SKIP_OS_DRIVER_REQ_CHECK)
+#if defined(NDEBUG) && !defined(VC_SKIP_OS_DRIVER_REQ_CHECK)
 static BOOL InitializeWintrust()
 {
 	if (!hWinTrustLib)
@@ -14112,7 +14147,7 @@ static void FinalizeWintrust()
 
 BOOL VerifyModuleSignature (const wchar_t* path)
 {
-#if !defined(NDEBUG) && !defined (VC_SKIP_OS_DRIVER_REQ_CHECK)
+#if defined(NDEBUG) && !defined (VC_SKIP_OS_DRIVER_REQ_CHECK)
 	BOOL bResult = FALSE;
 	HRESULT hResult;
 	GUID gActionID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
@@ -15282,4 +15317,195 @@ BOOL IsTestSigningModeEnabled ()
 	}
 
 	return bEnabled;
+}
+
+// Adapted from https://docs.microsoft.com/en-us/windows/win32/wmisdk/example-creating-a-wmi-application
+bool GetKbList (std::vector<std::wstring>& kbList)
+{
+    HRESULT hres;
+	kbList.clear();
+
+    // Initialize COM.
+    hres =  CoInitialize(NULL); 
+    if (FAILED(hres))
+    {
+        return false;
+    }
+
+    // Initialize 
+    hres =  CoInitializeSecurity(
+        NULL,     
+        -1,      // COM negotiates service                  
+        NULL,    // Authentication services
+        NULL,    // Reserved
+        RPC_C_AUTHN_LEVEL_DEFAULT,    // authentication
+        RPC_C_IMP_LEVEL_IMPERSONATE,  // Impersonation
+        NULL,             // Authentication info 
+        EOAC_NONE,        // Additional capabilities
+        NULL              // Reserved
+        );
+
+                      
+    if (FAILED(hres))
+    {
+        CoUninitialize();
+        return false;
+    }
+
+    // Obtain the initial locator to Windows Management
+    // on a particular host computer.
+    IWbemLocator *pLoc = 0;
+
+    hres = CoCreateInstance(
+        CLSID_WbemLocator,             
+        0, 
+        CLSCTX_INPROC_SERVER, 
+        IID_IWbemLocator, (LPVOID *) &pLoc);
+ 
+    if (FAILED(hres))
+    {
+        CoUninitialize();
+        return false;
+    }
+
+    IWbemServices *pSvc = 0;
+
+    // Connect to the root\cimv2 namespace with the
+    // current user and obtain pointer pSvc
+    // to make IWbemServices calls.
+
+    hres = pLoc->ConnectServer(
+        
+        _bstr_t(L"ROOT\\CIMV2"), // WMI namespace
+        NULL,                    // User name
+        NULL,                    // User password
+        0,                       // Locale
+        NULL,                    // Security flags                 
+        0,                       // Authority       
+        0,                       // Context object
+        &pSvc                    // IWbemServices proxy
+        );                              
+    
+    if (FAILED(hres))
+    {
+        pLoc->Release();     
+        CoUninitialize();
+        return false;
+    }
+
+    // Set the IWbemServices proxy so that impersonation
+    // of the user (client) occurs.
+    hres = CoSetProxyBlanket(
+       
+       pSvc,                         // the proxy to set
+       RPC_C_AUTHN_WINNT,            // authentication service
+       RPC_C_AUTHZ_NONE,             // authorization service
+       NULL,                         // Server principal name
+       RPC_C_AUTHN_LEVEL_CALL,       // authentication level
+       RPC_C_IMP_LEVEL_IMPERSONATE,  // impersonation level
+       NULL,                         // client identity 
+       EOAC_NONE                     // proxy capabilities     
+    );
+
+    if (FAILED(hres))
+    {
+        pSvc->Release();
+        pLoc->Release();     
+        CoUninitialize();
+        return false;
+    }
+
+
+    // Use the IWbemServices pointer to make requests of WMI. 
+    // Make requests here:
+
+    // query for all installed KBs
+    IEnumWbemClassObject* pEnumerator = NULL;
+    hres = pSvc->ExecQuery(
+        bstr_t("WQL"), 
+        bstr_t("SELECT * FROM Win32_QuickFixEngineering"),
+        WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, 
+        NULL,
+        &pEnumerator);
+    
+    if (FAILED(hres))
+    {
+        pSvc->Release();
+        pLoc->Release();     
+        CoUninitialize();
+        return false;
+    }
+    else
+    { 
+        IWbemClassObject *pclsObj;
+        ULONG uReturn = 0;
+   
+        while (pEnumerator)
+        {
+            hres = pEnumerator->Next(WBEM_INFINITE, 1, 
+                &pclsObj, &uReturn);
+
+            if(0 == uReturn)
+            {
+                break;
+            }
+
+            VARIANT vtProp;
+
+            // Get the value of the "hotfixid" property
+            hres = pclsObj->Get(L"hotfixid", 0, &vtProp, 0, 0);
+			if (SUCCEEDED(hres) && (V_VT(&vtProp) == VT_BSTR))
+			{
+				kbList.push_back(vtProp.bstrVal);
+			}
+            VariantClear(&vtProp);
+            
+            pclsObj->Release();
+            pclsObj = NULL;
+        }
+         
+    }
+ 
+    // Cleanup
+    // ========
+    
+    pSvc->Release();
+    pLoc->Release();
+    pEnumerator->Release();  
+    
+    CoUninitialize();
+
+    return true;
+}
+
+bool OneOfKBsInstalled (const wchar_t* szKBs[], int count)
+{
+	std::vector<std::wstring> kbList;
+	bool bRet = GetKbList(kbList);
+	if (bRet)
+	{
+		// at least one of the given KBs must be present
+		bool bFound = false;
+
+		for (size_t j = 0; j < kbList.size(); j++)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				if (_wcsicmp(szKBs[i], kbList[j].c_str()) == 0)
+				{
+					bFound = true;
+					break;
+				}
+			}
+
+			if (bFound)
+			{
+				break;
+			}
+		}
+
+		bRet = bFound;
+	}
+
+	return bRet;
 }

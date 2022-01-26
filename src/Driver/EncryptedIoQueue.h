@@ -24,6 +24,7 @@
 
 #define TC_ENC_IO_QUEUE_PREALLOCATED_ITEM_COUNT 8
 #define TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_COUNT 16
+#define TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_MAX_COUNT 8192
 
 
 typedef struct EncryptedIoQueueBufferStruct
@@ -121,6 +122,8 @@ typedef struct
  	SIZE_T SecRegionSize;
 
 	volatile BOOL ThreadBlockReadWrite;
+
+	int FragmentSize;
 }  EncryptedIoQueue;
 
 

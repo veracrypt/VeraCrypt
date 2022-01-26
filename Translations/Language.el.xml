@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.4">
+  <localization prog-version= "1.25.7">
     <language langid="el" name="Ελληνικά" en-name="Greek" version="0.1.0" translators="Βασίλης Κοσμίδης" />
     <font lang="el" class="normal" size="11" face="default" />
     <font lang="el" class="bold" size="13" face="Arial" />

@@ -127,6 +127,8 @@
 
 #define VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED				TC_IOCTL (42)
 
+#define VC_IOCTL_ENCRYPTION_QUEUE_PARAMS				TC_IOCTL (43)
+
 // Legacy IOCTLs used before version 5.0
 #define TC_IOCTL_LEGACY_GET_DRIVER_VERSION		466968
 #define TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES		466948
@@ -390,6 +392,13 @@ typedef struct
 	BOOL HwEncryptionEnabled;
 } GetSystemDriveDumpConfigRequest;
 
+typedef struct
+{
+	int EncryptionIoRequestCount;
+	int EncryptionItemCount;
+	int EncryptionFragmentSize;
+} EncryptionQueueParameters;
+
 #pragma pack (pop)
 
 #define DRIVER_STR WIDE
@@ -406,6 +415,10 @@ typedef struct
 
 #define TC_DRIVER_CONFIG_REG_VALUE_NAME DRIVER_STR("VeraCryptConfig")
 #define TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME DRIVER_STR("VeraCryptEncryptionFreeCpuCount")
+
+#define VC_ENCRYPTION_IO_REQUEST_COUNT DRIVER_STR("VeraCryptEncryptionIoRequestCount")
+#define VC_ENCRYPTION_ITEM_COUNT DRIVER_STR("VeraCryptEncryptionItemCount")
+#define VC_ENCRYPTION_FRAGMENT_SIZE DRIVER_STR("VeraCryptEncryptionFragmentSize")
 
 // WARNING: Modifying the following values can introduce incompatibility with previous versions.
 #define TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD						0x1

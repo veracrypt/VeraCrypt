@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.4">
-    <language langid="cs" name="Čeština" en-name="Czech" version="1.1.0" translators="Vítek Moser, Lagardere" />
+  <localization prog-version= "1.25.7">
+    <language langid="cs" name="Čeština" en-name="Czech" version="1.2.0" translators="Vítek Moser, Lagardere" />
     <font lang="cs" class="normal" size="11" face="default" />
     <font lang="cs" class="bold" size="13" face="Arial" />
     <font lang="cs" class="fixed" size="12" face="Lucida Console" />
@@ -1446,127 +1446,127 @@
     <entry lang="cs" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Vynutit si záznam položky VeraCryptu na první místo v nabídce zavaděče EFI</entry>
     <entry lang="cs" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">UPOZORNĚNÍ: Šifrování RAM není kompatibilní s funkcemi Windows „Hibernace” a „Rychlé spuštění systému”. Před aktivováním šifrování RAM je VeraCrypt systémově vypne.\n\nPokračovat?</entry>
     <entry lang="cs" key="CONFIRM_DISABLE_FAST_STARTUP">UPOZORNĚNÍ: „Rychlé spuštění systému Windows” je aktivní, což způsobuje problémy při práci se svazky VeraCryptu. Pro lepší zabezpečení a použitelnost programu doporučujeme tuto funkci vypnout.\n\nChcete vypnout „Rychlé spuštění systému Windows”?</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
+    <entry lang="cs" key="QUICK_FORMAT_HELP">Aby operační systém mohl připojit nový svazek, musí být naformátován souborovým systémem. Vyberte si typ souborového systému.\n\nBude-li váš svazek umístěn na zařízení nebo diskovém oddílu, můžete použít „Rychlé formátování” a vynechat šifrování volného místa svazku.</entry>
+    <entry lang="cs" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Neurychlovat šifrování/dešifrování AES pomocí procesorových instrukcí AES.</entry>
+    <entry lang="cs" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Přidat všechny připojené svazky do oblíbených...</entry>
+    <entry lang="cs" key="TASKICON_PREF_MENU_ITEMS">Položky nabídky s ikonou úlohy</entry>
+    <entry lang="cs" key="TASKICON_PREF_OPEN_VOL">Otevřít připojené svazky</entry>
+    <entry lang="cs" key="TASKICON_PREF_DISMOUNT_VOL">Odpojit připojené svazky</entry>
+    <entry lang="cs" key="DISK_FREE">Volné místo k dispozici: {0}</entry>
+    <entry lang="cs" key="VOLUME_SIZE_HELP">Zadejte velikost kontejneru, který chcete vytvořit. Nezapomeňte, že minimální možná velikost svazku je 292 KiB.</entry>
+    <entry lang="cs" key="LINUX_CONFIRM_INNER_VOLUME_CALC">UPOZORNĚNÍ: Pro vnější svazek jste vybral/a jiný souborový systém než je FAT.\nBerte v potaz, že v tomto případě VeraCrypt nemůže vypočítat přesnou maximální povolenou velikost skrytého svazku a použije pouze odhad, který může být chybný.\nJe tedy vaší odpovědností použít odpovídající hodnotu velikosti skrytého svazku, aby nepřekrýval vnější svazek.\n\nChcete pro vnější svazek nadále používat vybraný souborový systém?</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_SECURITY">Zabezpečení</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Možnosti připojení</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_BACKGROUND_TASK">Úloha na pozadí</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">Systémová integrace</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Průzkumník souborového systému</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_PERFORMANCE">Výkon</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_KEYFILES">Soubory s klíčem</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_TOKENS">Bezpečnostní tokeny</entry>
+    <entry lang="cs" key="LINUX_PREF_KERNEL_SERVICES">Služby jádra</entry>
+    <entry lang="cs" key="LINUX_PREF_KERNEL_CRYPT">Nepoužívejte kryptografické služby jádra</entry>
+    <entry lang="cs" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Souborový systém</entry>
+    <entry lang="cs" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Možnosti připojení:</entry>
+    <entry lang="cs" key="LINUX_CROSS_SUPPORT">Podpora napříč platformami</entry>
+    <entry lang="cs" key="LINUX_CROSS_SUPPORT_OTHER">Svazek bude připojen na jiných platformách</entry>
+    <entry lang="cs" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Tuto možnost vyberte, chcete-li svazek používat i na jiných platformách.</entry>
+    <entry lang="cs" key="LINUX_CROSS_SUPPORT_ONLY">Svazek bude připojen pouze na {0}</entry>
+    <entry lang="cs" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Tuto možnost vyberte, nepotřebujete-li svazek používat i na jiných platformách.</entry>
+    <entry lang="cs" key="LINUX_DESELECT">Zrušit výběr</entry>
+    <entry lang="cs" key="LINUX_ADMIN_PW_QUERY">Zadejte uživatelské heslo nebo heslo systémového správce:</entry>
+    <entry lang="cs" key="LINUX_ADMIN_PW_QUERY_TITLE">Jsou vyžadována práva systémového správce</entry>
+    <entry lang="cs" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt je již spuštěn.</entry>
+    <entry lang="cs" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">Heslo pro šifrování systému je delší než {0} znaků.</entry>
+    <entry lang="cs" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Připojit diskový oddíl &amp;pomocí šifrování systému (ověření před zavedením systému)</entry>
+    <entry lang="cs" key="LINUX_DO_NOT_MOUNT">Ne&amp;připojovat</entry>
+    <entry lang="cs" key="LINUX_MOUNT_AT_DIR">Připojit v adresáři:</entry>
+    <entry lang="cs" key="LINUX_SELECT">Vy&amp;brat...</entry>
+    <entry lang="cs" key="LINUX_DISMOUNT_ALL_WHEN">Odpojit všechny svazky, když</entry>
+    <entry lang="cs" key="LINUX_ENTERING_POWERSAVING">Systém přechází do úsporného režimu</entry>
+    <entry lang="cs" key="LINUX_LOGIN_ACTION">Úkony prováděné po přihlášení uživatele</entry>
+    <entry lang="cs" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Zavřít všechna okna Průzkumníka odpojovaného svazku</entry>
+    <entry lang="cs" key="LINUX_HOTKEYS">Klávesové zkratky</entry>
+    <entry lang="cs" key="LINUX_SYSTEM_HOTKEYS">Celosystémové klávesové zkratky</entry>
+    <entry lang="cs" key="LINUX_SOUND_NOTIFICATION">Přehrát zvuk oznámení systému po připojení/odpojení</entry>
+    <entry lang="cs" key="LINUX_CONFIRM_AFTER_DISMOUNT">Zobrazit okno s potvrzením po odpojení</entry>
+    <entry lang="cs" key="LINUX_VC_QUITS">Ukončení VeraCryptu</entry>
+    <entry lang="cs" key="LINUX_OPEN_FINDER">Otevřít okno Finderu pro úspěšně připojený svazek</entry>
+    <entry lang="cs" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Berte v potaz, že toto nastavení se projeví pouze v případě, že je zakázáno používání kryptografických služeb jádra.</entry>
+    <entry lang="cs" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Zakázání používání kryptografických služeb jádra může snížit výkon.\n\nJste si jist/a?</entry>
+    <entry lang="cs" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Berte v potaz, že vypnutí této možnosti nemusí mít žádný vliv na svazky připojené pomocí kryptografických služeb jádra.</entry>
+    <entry lang="cs" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Berte v potaz, že před použitím tohoto nastavení je třeba znovu připojit všechny aktuálně připojené svazky.</entry>
+    <entry lang="cs" key="LINUX_UNKNOWN_EXC_OCCURRED">Vyskytla se neznámá výjimka.</entry>
+    <entry lang="cs" key="LINUX_FIRST_AID">"Po stisknutí tlačítka „OK” se spustí nástroj „Disk Utility”.\n\nV okně nástroje „Disk Utility” vyberte svazek a na stránce „První pomoc” stiskněte tlačítko „Ověřit disk” nebo „Opravit disk”.</entry>
+    <entry lang="cs" key="LINUX_MOUNT_ALL_DEV">Připojit všechna zařízení</entry>
+    <entry lang="cs" key="LINUX_ERROR_LOADING_CONFIG">Chyba při načítání konfiguračních souborů umístěných v </entry>
+    <entry lang="cs" key="LINUX_SELECT_FREE_SLOT">Vyberte ze seznamu volný slot pro jednotku.</entry>
+    <entry lang="cs" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nChcete tuto zprávu zobrazit při příštím připojení takového svazku?</entry>
+    <entry lang="cs" key="LINUX_WARNING">Upozornění</entry>
+    <entry lang="cs" key="LINUX_ERROR">Chyba</entry>
+    <entry lang="cs" key="LINUX_ONLY_TEXTMODE">Tato funkce je v současné době podporována pouze v textovém režimu.</entry>
+    <entry lang="cs" key="LINUX_FREE_SPACE_ON_DRIVE">Volné místo na jednotce {0}: je {1}.</entry>
+    <entry lang="cs" key="LINUX_DYNAMIC_NOTICE">Berte v potaz, že nepřiděluje-li operační systém soubory od začátku volného místa, může být maximální možná velikost skrytého svazku mnohem menší než velikost volného místa na vnějším svazku. Nejedná se o chybu v programu VeraCrypt, ale o omezení operačního systému.</entry>
+    <entry lang="cs" key="LINUX_MAX_HIDDEN_SIZE">Maximální možná velikost skrytého svazku pro tento svazek je {0}.</entry>
+    <entry lang="cs" key="LINUX_OPEN_OUTER_VOL">Otevřít vnější svazek</entry>
+    <entry lang="cs" key="LINUX_OUTER_VOL_IS_MOUNTED">Vnější svazek byl úspěšně vytvořen a připojen jako '{0}'. Na tento svazek byste nyní měli zkopírovat některé citlivě vypadající soubory, které ve skutečnosti NECHCETE skrýt. Tyto soubory budou k dispozici každému, kdo vás donutí sdělit heslo. Prozradíte pouze heslo pro tento vnější svazek, nikoli pro ten skrytý. Soubory, na kterých vám skutečně záleží, budou uloženy ve skrytém svazku, který bude vytvořen později. Po dokončení kopírování klikněte na tlačítko „Další”. Svazek neodpojujte.\n\nBerte v potaz, že po kliknutí na tlačítko „Další” bude vnější svazek prohledán za účelem určení velikosti nepřerušené oblasti volného místa, jejíž konec bude zarovnán s koncem svazku. Do této oblasti se vejde skrytý svazek, takže bude omezena jeho maximální možná velikost. Tento postup zajistí, že data na vnějším svazku nebudou přepsána skrytým svazkem.</entry>
+    <entry lang="cs" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Chyba: \n\nVeraCrypt může šifrovat systémovou jednotku pouze pod Windows.</entry>
+    <entry lang="cs" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Chyba: Pokoušíte se zašifrovat systémový diskový oddíl.\n\nVeraCrypt umí šifrovat systémové diskové oddíly pouze pod Windows</entry>
+    <entry lang="cs" key="LINUX_WARNING_FORMAT_DESTROY_FS">UPOZORNĚNÍ: Formátování zařízení zničí všechna data na souborovém systému '{0}'.\n\nChcete pokračovat?</entry>
+    <entry lang="cs" key="LINUX_MOUNTET_HINT">Souborový systém vybraného zařízení je aktuálně připojen. Před pokračováním prosím odpojte '{0}'.</entry>
+    <entry lang="cs" key="LINUX_HIDDEN_PASS_NO_DIFF">Skrytý svazek nemůže mít stejné heslo, PIM a klíčové soubory jako vnější svazek</entry>
+    <entry lang="cs" key="LINUX_NOT_FAT_HINT">Upozorňujeme, že svazek nebude naformátován systémem souborů FAT, a proto může být nutné na jiných platformách než {0} nainstalovat další ovladače souborového systému, jenž umožní připojení svazku.</entry>
+    <entry lang="cs" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Chyba: Skrytý svazek, který má být vytvořen, je větší než {0} TB ({1} GB).\n\nMožná řešení:\n– Vytvořte kontejner/diskový oddíl menší než {0} TB.\n</entry>
+    <entry lang="cs" key="LINUX_MAX_SIZE_HINT">- Použijte disk s 4096bajtovými sektory, abyste mohli vytvářet skryté svazky s diskovými oddíly/zařízeními o velikosti až 16 TB.</entry>
+    <entry lang="cs" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="cs" key="LINUX_NOT_SUPPORTED"> (není podporováno komponentami dostupnými na této platformě).\n</entry>
+    <entry lang="cs" key="LINUX_KERNEL_OLD">Váš systém používá starou verzi linuxového jádra.\n\nV důsledku chyby v linuxovém jádře může systém přestat reagovat při zápisu dat na svazek VeraCryptu. Tento problém lze vyřešit aktualizací jádra na verzi 2.6.24 nebo novější.</entry>
+    <entry lang="cs" key="LINUX_VOL_DISMOUNTED">Svazek {0} byl odpojen.</entry>
+    <entry lang="cs" key="LINUX_OOM">Nedostatek paměti.</entry>
+    <entry lang="cs" key="LINUX_CANT_GET_ADMIN_PRIV">Nepodařilo se získat oprávnění správce systému</entry>
+    <entry lang="cs" key="LINUX_COMMAND_GET_ERROR">Příkaz {0} vrátil chybu {1}.</entry>
+    <entry lang="cs" key="LINUX_CMD_HELP">Nápověda k příkazovému řádku „VeraCrypt”</entry>
+    <entry lang="cs" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nUpozornění: V cestě k souboru s klýčem se nacházejí skryté soubory. Potřebujete-li je použít jako soubory s klíčem, odstraňte z jejich názvů počáteční tečku. Skryté soubory jsou viditelné pouze v případě, že jsou povoleny v nastavení systému.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Neshoda velikosti sektoru úložného zařízení a svazku Veracryptu</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Tento úkon je třeba provést pouze tehdy, když je spuštěn systém hostovaný na svazku.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_INSUFFICIENTDATA">Není k dispozici dostatek údajů.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Test kryptografické služby jádra selhal. Kryptografická služba vašeho jádra pravděpodobně nepodporuje svazky větší než 2 TB.\n\nMožná řešení:\n- Aktualizujte linuxové jádro na verzi 2.6.33 nebo novější.\n- Zakažte používání kryptografických služeb jádra (Nastavení > Možnosti > Integrace systému) nebo použijte příkaz 'nokernelcrypto' v příkazovém řádku.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Nastavení smyčkového zařízení se nezdařilo.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_MISSINGARGUMENT">Chybí požadovaný argument.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Data svazku chybí.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Je požadován bod připojení.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Bod připojení se již používá.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_PASSWORDEMPTY">Není zadáno heslo ani soubor s klíčem.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nBerte v potaz, že hesla pro ověřování před zavedením systému je třeba zadávat v prostředí před zavedením systému, kde není k dispozici jiné než americké rozložení klávesnice. Proto musí být vždy zadávána hesla pomocí standardního amerického rozložení klávesnice (jinak bude heslo ve většině případů zadáno nesprávně). Skutečná americká klávesnice není samozřejmě potřeba, stačí změnit rozložení klávesnice v operačním systému.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nBerte v potaz, že pokoušíte-li se připojit diskový oddíl umístěný na šifrovaném systémovém disku bez ověření před zavedením systému nebo připojit šifrovaný systémový diskový oddíl operačního systému, který není spuštěn, můžete tak učinit pomocí výběru „Možnosti > Připojit diskový oddíl pomocí šifrování systému”.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_PASSWORDTOOLONG">Heslo je delší než {0} znaků.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Je vyždováno zařízení diskového oddílu.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Nesprávné heslo k chráněnému skrytému svazku nebo skrytý svazek neexistuje.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Nesprávný soubor/y s klíčem a/nebo heslo k chráněnému skrytému svazku nebo skrytý svazek neexistuje.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Vyskytly se neplatné znaky.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Chyba při zpracování formátovaného řetězce.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Nepodařilo se vytvořit soubor nebo adresář v dočasném adresáři.\n\nUjistěte se, že dočasný adresář existuje, máte k němu přístupová práva a na disku je dostatek volného místa.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Chyba: Disk používá jinou velikost sektoru než 512 bajtů.\n\nVzhledem k omezením komponent dostupných na vaší platformě lze svazky na disku připojit pouze pomocí kryptografických služeb jádra.\n\nMožná řešení:\n- Povolit používání kryptografických služeb jádra (Možnosti > Integrace systému).\n- Použít disk s 512bajtovými sektory.\n- Vytvořit na disku svazek (kontejner) pro hostování souborů.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Chyba: Disk používá jinou velikost sektoru než 512 bajtů.\n\nVzhledem k omezením komponent dostupných na vaší platformě lze svazky hostované diskovým oddílem/zařízením na jednotce připojit pouze pomocí kryptografických služeb jádra.\n\nMožná řešení:\n- Povolit používání kryptografických služeb jádra (Možnosti > Integrace systému).\n- Použít jednotku s 512bajtovými sektory.\n- Vytvořit na jednotce svazek pro soubory (kontejner).</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Chyba: Disk používá jinou velikost sektoru než 512 bajtů.\n\nVzhledem k omezením komponent dostupných na vaší platformě, svazky hostované diskovým oddílem/zařízením nemohou být vytvořeny/použity.\n\nMožná řešení:\n- Vytvořit na jednotce svazek pro soubory (kontejner).\n- Použít jednotku s 512bajtovými sektory.\n- Použít VeraCrypt na jiné platformě.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Hostitelský soubor/zařízení se již používá.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Slot pro svazek není k dispozici.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vyžaduje minimálně OSXFUSE 2.5.</entry>
+    <entry lang="cs" key="EXCEPTION_OCCURRED">Vyskytla se chyba</entry>
+    <entry lang="cs" key="ENTER_PASSWORD">Zadejte heslo</entry>
+    <entry lang="cs" key="ENTER_TC_VOL_PASSWORD">Zadejte heslo ke svazku Veracrypt</entry>
+    <entry lang="cs" key="MOUNT">Připojit</entry>
+    <entry lang="cs" key="MOUNT_POINT">Připojit adresář"</entry>
+    <entry lang="cs" key="NO_VOLUMES_MOUNTED">Není připojen žádný svazek.</entry>
+    <entry lang="cs" key="OPEN_NEW_VOLUME">Nastavte nový svazek Veracryptu</entry>
+    <entry lang="cs" key="PARAMETER_INCORRECT">Parametr není správný</entry>
+    <entry lang="cs" key="SELECT_KEYFILES">Vyberte soubor s klíčem</entry>
+    <entry lang="cs" key="START_TC">Spustit VeraCrypt</entry>
+    <entry lang="cs" key="VOLUME_ALREADY_MOUNTED">Svazek {0} je již připojen.</entry>
+    <entry lang="cs" key="UNKNOWN_OPTION">Neznámá možnost</entry>
+    <entry lang="cs" key="VOLUME_LOCATION">Umístění svazku</entry>
+    <entry lang="cs" key="VOLUME_HOST_IN_USE">UPOZORNĚNÍ: Hostitelský soubor/zařízení {0} je již používán!\n\nIgnorování této skutečnosti může způsobit nežádoucí výsledky včetně nestability systému. Všechny aplikace, které by mohly používat hostitelský soubor/zařízení, by měly být před připojením svazku ukončeny.\n\nPokračovat v připojení?</entry>
+    <entry lang="cs" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt byl nainstalován pomocí balíčku MSI, a proto jej nelze aktualizovat pomocí standardního instalátoru.\n\nPro aktualizaci instalace VeraCrypt, použijte balíček MSI.</entry>
+    <entry lang="cs" key="IDC_USE_ALL_FREE_SPACE">Využít veškeré dostupné volné místo</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

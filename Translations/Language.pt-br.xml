@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.4">
-    <language langid="pt-br" name="Português-Brasil" en-name="Portuguese (Brazil)" version="0.1.0" translators="Thiago C. L. Mendes, Lecidio S. Alencar , Lucas C. Ferreira" />
+  <localization prog-version= "1.25.7">
+    <language langid="pt-br" name="Português-Brasil" en-name="Portuguese (Brazil)" version="0.2.0" translators="Thiago C. L. Mendes, Lecidio S. Alencar , Lucas C. Ferreira, Transifex contributors" />
     <font lang="pt-br" class="normal" size="11" face="padrão" />
     <font lang="pt-br" class="bold" size="13" face="Arial" />
     <font lang="pt-br" class="fixed" size="12" face="Lucida Console" />
@@ -132,7 +132,7 @@
     <entry lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</entry>
     <entry lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</entry>
     <entry lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</entry>
-    <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
+    <entry lang="pt-br" key="IDC_FAVORITE_REMOVE">&amp;Remover</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
     <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
@@ -145,8 +145,8 @@
     <entry lang="pt-br" key="IDC_HOTKEY_REMOVE">Remover</entry>
     <entry lang="pt-br" key="IDC_KEYFILES">Arquivos-chave...</entry>
     <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
+    <entry lang="pt-br" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Mais informações</entry>
+    <entry lang="pt-br" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Mais informações</entry>
     <entry lang="pt-br" key="IDC_MORE_SETTINGS">Mais Configurações ...</entry>
     <entry lang="pt-br" key="IDC_MOUNTALL">&amp;Auto-montar Dispositivos</entry>
     <entry lang="pt-br" key="IDC_MOUNT_OPTIONS">Mais &amp;Opções...</entry>
@@ -386,7 +386,7 @@
     <entry lang="pt-br" key="ABOUTBOX">&amp;Sobre...</entry>
     <entry lang="pt-br" key="ACCESSMODEFAIL">O atributo de somente-leitura de seu disco antigo não pôde ser alterado. Por favor verifique as permissões de acesso ao arquivo.</entry>
     <entry lang="pt-br" key="ACCESS_DENIED">Erro: Acesso negado.\n\nA partição que você está tentando acessar tem 0 setores ou é o dispositivo de sistema.</entry>
-    <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
+    <entry lang="pt-br" key="ADMINISTRATOR">Administrador</entry>
     <entry lang="pt-br" key="ADMIN_PRIVILEGES_DRIVER">Para carregar o driver do VeraCrypt, você deve estar logado em uma conta com privilégio de administrador.</entry>
     <entry lang="pt-br" key="ADMIN_PRIVILEGES_WARN_DEVICES">Para criptografar/Descriptografar/formatar uma partição/dispositivo você deve estar logado em uma conta com privilégios de administrador.\n\nIsto não se aplica a volumes armazenados em arquivos.</entry>
     <entry lang="pt-br" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Para criar um disco oculto, você deve estar logado em uma conta com privilégios de administrador.\n\nDeseja continuar?</entry>
@@ -739,7 +739,7 @@
     <entry lang="pt-br" key="VOLUME">Volume</entry>
     <entry lang="pt-br" key="VOLUME_LOWER_CASE">volume</entry>
     <entry lang="pt-br" key="VOLUME_UPPER_CASE">VOLUME</entry>
-    <entry lang="en" key="LABEL">Label</entry>
+    <entry lang="pt-br" key="LABEL">Etiqueta</entry>
     <entry lang="pt-br" key="CLUSTER_TOO_SMALL">O tamanho de cluster selecionado é muito pequeno para este tamanho de disco. Um tamanho maior será usado.</entry>
     <entry lang="pt-br" key="CANT_GET_VOLSIZE">Erro: Não foi possível determinar o tamanho do disco!\n\nGaranta que o disco selecionado não está sendo usado pelo sistema ou alguma aplicação.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
@@ -847,7 +847,7 @@
     <entry lang="pt-br" key="AFTER_INSTALL_TUTORIAL">Se você nunca usou o VeraCrypt, recomendamos que você leia o capítulo Tutorial para Iniciantes no Guia do Usuário do VeraCrypt. Você deseja ler o tutorial?</entry>
     <entry lang="pt-br" key="SELECT_AN_ACTION">Favor escolher uma das seguintes ações:</entry>
     <entry lang="pt-br" key="REPAIR_REINSTALL">Reparar/Reinstalar</entry>
-    <entry lang="en" key="UPGRADE">Upgrade</entry>
+    <entry lang="pt-br" key="UPGRADE">Atualizar</entry>
     <entry lang="pt-br" key="UNINSTALL">Desinstalar</entry>
     <entry lang="pt-br" key="SETUP_ADMIN">Para instalar/desinstalar o VeraCrypt com sucesso, você deve ter privilégios de administrador. Deseja continuar?</entry>
     <entry lang="pt-br" key="TC_INSTALLER_IS_RUNNING">O instalador do VeraCrypt está atualmente em execução, realizando ou preparando uma instalação ou atualização do VeraCrypt. Antes de continuar, por favor, aguarde o seu término ou feche-o. Se você não puder fechá-lo, por favor, reinicie o computador antes de prosseguir.</entry>
@@ -932,7 +932,7 @@
     <entry lang="en" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable VeraCrypt to assign a label to the partition.</entry>
     <entry lang="en" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">Due to a Windows limitation, a container stored in a remote filesystem shared over a network cannot be mounted as a system favorite volume (however, it can be mounted as a non-system favorite volume when a user logs on).</entry>
     <entry lang="pt-br" key="ENTER_PASSWORD_FOR">Entre senha para %s</entry>
-    <entry lang="en" key="ENTER_PASSWORD_FOR_LABEL">Enter password for '%s'</entry>
+    <entry lang="pt-br" key="ENTER_PASSWORD_FOR_LABEL">Digite a senha para '%s'</entry>
     <entry lang="pt-br" key="ENTER_NORMAL_VOL_PASSWORD">Digite a senha para o volume normal/externo</entry>
     <entry lang="pt-br" key="ENTER_HIDDEN_VOL_PASSWORD">Digite a senha para o volume oculto</entry>
     <entry lang="pt-br" key="ENTER_HEADER_BACKUP_PASSWORD">Digite a senha para o cabeçalho armazenado no arquivo de backup</entry>
@@ -984,7 +984,7 @@
     <entry lang="pt-br" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">N/A</entry>
     <entry lang="pt-br" key="UISTR_YES">Sim</entry>
     <entry lang="pt-br" key="UISTR_NO">Não</entry>
-    <entry lang="en" key="UISTR_DISABLED">Disabled</entry>
+    <entry lang="pt-br" key="UISTR_DISABLED">Desativado</entry>
     <entry lang="pt-br" key="DIGIT_ONE">1</entry>
     <entry lang="pt-br" key="TWO_OR_MORE">2 ou mais</entry>
     <entry lang="pt-br" key="MODE_OF_OPERATION">Modo de Operação</entry>
@@ -1397,7 +1397,7 @@
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</entry>
     <entry lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</entry>
     <entry lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</entry>
-    <entry lang="en" key="TIME">Time</entry>
+    <entry lang="pt-br" key="TIME">Hora</entry>
     <entry lang="en" key="ITERATIONS">Iterations</entry>
     <entry lang="en" key="PRE-BOOT">Pre-Boot</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</entry>
@@ -1415,7 +1415,7 @@
     <entry lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</entry>
     <entry lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</entry>
     <entry lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</entry>
-    <entry lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</entry>
+    <entry lang="pt-br" key="IDT_ADVANCED_OPTIONS">Opções Avançadas</entry>
     <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</entry>
     <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
     <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
@@ -1431,7 +1431,7 @@
     <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
     <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
     <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
-    <entry lang="en" key="STARTING">Starting</entry>
+    <entry lang="pt-br" key="STARTING">Conectando</entry>
     <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
     <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
     <entry lang="en" key="IDC_ENABLE_RAM_ENCRYPTION">Activate encryption of keys and passwords stored in RAM</entry>
@@ -1455,12 +1455,12 @@
     <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
     <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
+    <entry lang="pt-br" key="LINUX_PREF_TAB_SECURITY">Segurança</entry>
     <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
     <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
     <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
     <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
+    <entry lang="pt-br" key="LINUX_PREF_TAB_PERFORMANCE">Desempenho</entry>
     <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
     <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
     <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
@@ -1501,13 +1501,13 @@
     <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
     <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
     <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
+    <entry lang="pt-br" key="LINUX_WARNING">Aviso</entry>
+    <entry lang="pt-br" key="LINUX_ERROR">Erro</entry>
     <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
     <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
     <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
     <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
+    <entry lang="pt-br" key="LINUX_OPEN_OUTER_VOL">Abrir volume externo</entry>
     <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
     <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
     <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
@@ -1552,8 +1552,8 @@
     <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
     <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
     <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
+    <entry lang="pt-br" key="ENTER_PASSWORD">Digite a senha</entry>
+    <entry lang="pt-br" key="ENTER_TC_VOL_PASSWORD">Digitar a Senha do Volume VeraCrypt</entry>
     <entry lang="en" key="MOUNT">Mount</entry>
     <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
     <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
@@ -1563,7 +1563,7 @@
     <entry lang="en" key="START_TC">Start VeraCrypt</entry>
     <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
     <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
+    <entry lang="pt-br" key="VOLUME_LOCATION">Localização do Volume</entry>
     <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
     <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
     <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>

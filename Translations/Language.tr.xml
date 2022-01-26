@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.4">
+  <localization prog-version= "1.25.7">
     <language langid="tr" name="Türkçe" en-name="Turkish" version="0.1.0" translators="Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci" />
     <font lang="tr" class="normal" size="11" face="default" />
     <font lang="tr" class="bold" size="13" face="Arial" />

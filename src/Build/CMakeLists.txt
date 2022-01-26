@@ -11,8 +11,8 @@ elseif ( NOT DEFINED NOGUI )
 endif()
 
 # - Set version of the package
-set( FULL_VERSION 		"1.25.4" )
-set( VERSION 			"1.25.4" )
+set( FULL_VERSION 		"1.25.7" )
+set( VERSION 			"1.25.7" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values

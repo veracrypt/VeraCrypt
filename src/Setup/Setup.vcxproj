@@ -279,6 +279,20 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
     <ClCompile Include="..\Common\Registry.c" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Translations\Language.ar.xml" />
+    <None Include="..\..\Translations\Language.cs.xml" />
+    <None Include="..\..\Translations\Language.de.xml" />
+    <None Include="..\..\Translations\Language.es.xml" />
+    <None Include="..\..\Translations\Language.fr.xml" />
+    <None Include="..\..\Translations\Language.it.xml" />
+    <None Include="..\..\Translations\Language.ja.xml" />
+    <None Include="..\..\Translations\Language.nl.xml" />
+    <None Include="..\..\Translations\Language.pl.xml" />
+    <None Include="..\..\Translations\Language.ro.xml" />
+    <None Include="..\..\Translations\Language.ru.xml" />
+    <None Include="..\..\Translations\Language.vi.xml" />
+    <None Include="..\..\Translations\Language.zh-cn.xml" />
+    <None Include="..\..\Translations\Language.zh-hk.xml" />
     <None Include="ComSetup.rgs" />
     <None Include="Setup.ico" />
     <None Include="..\Common\VeraCrypt.ico" />

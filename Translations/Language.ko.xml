@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.4">
+  <localization prog-version= "1.25.7">
     <language langid="ko" name="한국어" en-name="Korean" version="0.1.1" translators="Kieaer, Herbert Shin" />
     <font lang="ko" class="normal" size="11" face="돋움" />
     <font lang="ko" class="bold" size="13" face="맑은 고딕" />

@@ -2249,14 +2249,6 @@ BOOL InitDll (MSIHANDLE hInstaller)
 	SetUnhandledExceptionFilter (ExceptionHandler);
 	_set_invalid_parameter_handler (InvalidParameterHandler);
 	RemoteSession = GetSystemMetrics (SM_REMOTESESSION) != 0;
-	
-	// OS version check: from version 1.25, only Windows XP, Windows 10 and Windows 11 are supported because of new driver signing requirements
-	if (!IsOSVersionAtLeast(WIN_10, 0))
-	{
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, GetString("UNSUPPORTED_OS"));
-		bOK = FALSE;
-		goto end;
-	}
 
 end:
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"End InitDll");

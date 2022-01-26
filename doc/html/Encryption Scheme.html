@@ -81,7 +81,7 @@ Hidden Operating System</a>). If there is a hidden volume within this volume (or
 <p>* If the size of the active partition is less than 256 MB, then the data is read from the
 <em>second</em> partition behind the active one (Windows 7 and later, by default, do not boot from the partition on which they are installed).</p>
 <p>&dagger; These parameters are kept secret <em>not</em> in order to increase the complexity of an attack, but primarily to make VeraCrypt volumes unidentifiable (indistinguishable from random data), which would be difficult to achieve if these parameters
- were stored unencrypted within the volume header. Also note that if a non-cascaded encryption algorithm is used for system encryption, the algorithm
+ were stored unencrypted within the volume header. Also note that in the case of legacy MBR boot mode, if a non-cascaded encryption algorithm is used for system encryption, the algorithm
 <em>is</em> known (it can be determined by analyzing the contents of the unencrypted VeraCrypt Boot Loader stored in the first logical drive track or on the VeraCrypt Rescue Disk).</p>
 <p>** The master keys were generated during the volume creation and cannot be changed later. Volume password change is accomplished by re-encrypting the volume header using a new header key (derived from a new password).</p>
 <p>&nbsp;</p>

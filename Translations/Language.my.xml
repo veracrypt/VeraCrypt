@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.4">
-    <language langid="my" name="မြန်မာ" en-name="Burmese" version="1.0.0" translators="Zaw Myo Htet" />
+  <localization prog-version= "1.25.7">
+    <language langid="my" name="မြန်မာ" en-name="Burmese" version="2.0.0" translators="Zaw Myo Htet; Transifex contributors" />
     <font lang="my" class="normal" size="11" face="Myanmar3" />
     <font lang="my" class="bold" size="13" face="Myanmar3" />
     <font lang="my" class="fixed" size="12" face="Myanmar3" />
@@ -42,12 +42,12 @@
     <entry lang="my" key="IDC_HIDVOL_WIZ_MODE_FULL">ပုံမှန် နည်းစနစ်</entry>
     <entry lang="my" key="IDC_KB">&amp;KB</entry>
     <entry lang="my" key="IDC_KEYFILES_ENABLE">ကီးဖိုင်ကို သုံးရန်</entry>
-    <entry lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</entry>
-    <entry lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</entry>
+    <entry lang="my" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">စကားဝှက်အလွတ်ဖြင့် အစပျိုးရန် ဦးစွာ ကြိုးစားပါ</entry>
+    <entry lang="my" key="IDC_KEYFILES_RANDOM_SIZE">အလျင်းသင့်သော အရွယ်အစား ( 64 &lt;-&gt; 1048576 )</entry>
     <entry lang="my" key="IDC_KEY_FILES">ကီးဖိုင်များ...</entry>
     <entry lang="my" key="IDC_LINK_HASH_INFO">H​ash အယ်လဂိုရီသမ်များ၏ အချက်အလက်များ</entry>
     <entry lang="my" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">နောက်ထပ် အချက်အလက်</entry>
-    <entry lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</entry>
+    <entry lang="my" key="IDC_LINK_PIM_INFO">PIM အကြောင်း အချက်အလက်</entry>
     <entry lang="my" key="IDC_MB">&amp;MB</entry>
     <entry lang="my" key="IDC_MORE_INFO_ON_CONTAINERS">နောက်ထပ် အချက်အလက်</entry>
     <entry lang="my" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအကြောင်း အသေးစိတ် အချက်အလက်များ</entry>
@@ -57,12 +57,12 @@
     <entry lang="my" key="IDC_NO_HISTORY">မှတ်တမ်း လုံး၀ မတင်ရန်</entry>
     <entry lang="my" key="IDC_OPEN_OUTER_VOLUME">ပြင်ပ volume ကို ဖွင့်ရန်</entry>
     <entry lang="my" key="IDC_PAUSE">ခေတ္တရပ်နားရန်</entry>
-    <entry lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</entry>
-    <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
+    <entry lang="my" key="IDC_PIM_ENABLE">P&amp;IM အသုံးပြုပါ</entry>
+    <entry lang="my" key="IDC_NEW_PIM_ENABLE">PIM အသုံးပြုပါ</entry>
     <entry lang="my" key="IDC_QUICKFORMAT">အမြန် မော်မက်ချရန်</entry>
     <entry lang="my" key="IDC_SHOW_PASSWORD">စကားဝှက်ကို ပြရန်</entry>
     <entry lang="my" key="IDC_SHOW_PASSWORD_SINGLE">စကားဝှက်ကို ပြရန်</entry>
-    <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
+    <entry lang="my" key="IDC_SHOW_PIM">&amp;PIM ပြသရန်</entry>
     <entry lang="my" key="IDC_SINGLE_BOOT">Single-boot</entry>
     <entry lang="my" key="IDC_STD_VOL">သာမန် VeraCrypt volume</entry>
     <entry lang="my" key="IDC_SYSENC_HIDDEN">လျှို့ဝှက်</entry>
@@ -75,7 +75,7 @@
     <entry lang="my" key="IDT_COLLECTING_RANDOM_DATA_NOTE">အရေးကြီးချက် - ဤ ၀င်းဒိုးအတွင်း သင့်ကြွက်ခလုတ်ကို ကျပန်းနည်းဖြင့် ရွှေ့လျားပါ။ အချိန်ပိုကြာလေ၊ ပိုကောင်းလေ ဖြစ်သည်။ ဤသို့ဖြင့် စာဝှက်ထားသော ကီးများ၏ ဝှက်စာ ရေးသားခြင်း အားကောင်းခိုင်မာမှုကို တိုးမြှင့်စေမည် ဖြစ်သည်။ လုပ်ပြီးပါက volume ကို ဖန်တီးရန် ဖော်မက်ချရန် ခလုတ်ကို နှိပ်ပါ။</entry>
     <entry lang="my" key="IDT_CONFIRM">အတည်ပြုရန် -</entry>
     <entry lang="my" key="IDT_DONE">ပြီးသွားပြီ</entry>
-    <entry lang="en" key="IDT_DRIVE_LETTER">Drive letter:</entry>
+    <entry lang="my" key="IDT_DRIVE_LETTER">ဒရိုက်(ဗ်) စာလုံး -</entry>
     <entry lang="my" key="IDT_ENCRYPTION_ALGO">စာဝှက်စနစ် အယ်လဂိုရီသမ်</entry>
     <entry lang="my" key="IDT_FILESYSTEM">ဖိုင်စနစ်</entry>
     <entry lang="my" key="IDT_FILE_CONTAINER">စာဝှက်ထားသော disk အတု တစ်ခုကို ဖိုင်တစ်ခုထဲ ဖန်တီးလိုက်ပါ။ အတွေ့အကြုံ မရှိသေးသော သုံးစွဲသူများအတွက် သင့်လျှော်သည်။</entry>
@@ -89,8 +89,8 @@
     <entry lang="my" key="IDT_PARTIAL_POOL_CONTENTS">လက်ရှိ စုပေါင်း အကြောင်းအရာ (တစ်ပိုင်းတစ်စ)</entry>
     <entry lang="my" key="IDT_PASS">အောင်မြင်သည်</entry>
     <entry lang="my" key="IDT_PASSWORD">စကားဝှက် -</entry>
-    <entry lang="en" key="IDT_PIM">Volume PIM:</entry>
-    <entry lang="en" key="IDT_OLD_PIM">Volume PIM:</entry>
+    <entry lang="my" key="IDT_PIM">Volume PIM -</entry>
+    <entry lang="my" key="IDT_OLD_PIM">Volume PIM -</entry>
     <entry lang="my" key="IDT_PROGRESS">တိုးတက်မှု -</entry>
     <entry lang="my" key="IDT_RANDOM_POOL">ကျပန်း စုစည်းမှု -</entry>
     <entry lang="my" key="IDT_SINGLE_BOOT">ဤကွန်ပြူတာ၌ OS တစ်ခုတည်း ထည့်သွင်းထားလျှင် (သုံးစွဲသူ အများ ရှိနေလျှင်လည်း) ဒီရွေးစရာကို ရွေးပါ။</entry>
@@ -99,7 +99,7 @@
     <entry lang="my" key="IDT_SYSENC_KEYS_GEN_INFO">ကီး salt နှင့် အခြား ဒေတာများကို အောင်မြင်စွာ ထုတ်လုပ်လိုက်ပြီ။ ကီးအသစ် ထပ်လုပ်လိုပါက နောက်သို့ ခလုတ်ကို နှိပ်ပြီး ရှေ့သို့ ခလုတ်ကို ပြန်နှိပ်ပါ။ ဒါမှမဟုတ်၊ ဆက်လက် လုပ်ဆောင်ရန် ရှေ့သို့ ခလုတ်ကို နှိပ်ပါ။</entry>
     <entry lang="my" key="IDT_SYS_DEVICE">၀င်းဒိုးစနစ် ထည့်သွင်းထားသော အခန်းကန့်/drive ကို စာဝှက်ပါ။ ၀င်းဒိုးစနစ် မပိတ်မီ စက်ထဲ ၀င်၍ ဖိုင်များကို ဖတ်ရှုလို၊ စာရေးလိုသူ မည်သူမဆို အကြိမ်တိုင်း စကားဝှက် အမှန် ရေးထည့်ပေးရမည် ဖြစ်သည်။ လိုအပ်လျှင်၊ လျှို့ဝှက် ကွန်ပျူတာ စနစ် တစ်ခုကို ဖန်တီးပါ။</entry>
     <entry lang="my" key="IDT_SYS_PARTITION">လက်ရှိ အသုံးပြုနေသော ဝင်းဒိုး OS ထည့်သွင်းထားသည့် ​အခန်းကန့်ကို စာဝှက်ရန် ဒီရွေးစရာကို ရွေးပါ။</entry>
-    <entry lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</entry>
+    <entry lang="my" key="IDT_VOLUME_LABEL">Windows ရှိ Volume အညွှန်း -</entry>
     <entry lang="my" key="IDT_WIPE_MODE">ရှင်းလင်းသည့် စနစ် -</entry>
     <entry lang="my" key="IDCLOSE">ပိတ်ရန်</entry>
     <entry lang="my" key="IDC_ALLOW_ESC_PBA_BYPASS">ရှောင်ကွင်းရမည့် စက်မတက်မီ စစ်ဆေးမှု ပြုလုပ်ရန် Esc ကီး(စက်အတက် မန်နေဂျာကို ဖွင့်ထားရန်၏) ကို နှိပ်ပါ</entry>
@@ -113,12 +113,12 @@
     <entry lang="my" key="IDC_CACHE">စကားဝှက်များနှင့် ကီးဖိုင်များကို မှတ်ဉာဏ်ထဲတွင် ခေတ္တ သိမ်းဆည်းရန်</entry>
     <entry lang="my" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">အစပျိုးထာသော volumes မရှိသည့်အခါ ထွက်ပါ</entry>
     <entry lang="my" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">Volume တစ်ခုကို အောင်မြင်စွာ အစပျိုးပြီးသောအခါ တိုကင်ဖြင့် ဝင်ရောက်မှုကို ပိတ်ပါ</entry>
-    <entry lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</entry>
+    <entry lang="my" key="IDC_COPY_EXPANDER">VeraCrypt Volume ချဲ့သည့်ကိရိယာ ထည့်သွင်းရန်</entry>
     <entry lang="my" key="IDC_COPY_WIZARD">VeraCrypt Volume ဖန်တီးမှု အညွှန်းကို ထည့်သွင်းရန်</entry>
     <entry lang="my" key="IDC_CREATE">ဖန်တီးရန်</entry>
     <entry lang="my" key="IDC_CREATE_VOLUME">Volume ဖန်တီးရန်</entry>
     <entry lang="my" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">စက်မတက်မီ စစ်ဆေးမှုပြ မျက်နှာပြင်တွင် မည်သည့်စာသားမျှ မပြပါနှင့်(အောက်ဖေါ်ပြပါ စိတ်ကြိုက် စာတမ်းမှ လွဲ၍)</entry>
-    <entry lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</entry>
+    <entry lang="my" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">"Evil Maid" အတိုက်အခိုက် ထောက်လှမ်းမှုကို ပယ်ဖျက်ရန်</entry>
     <entry lang="my" key="IDC_ENABLE_HARDWARE_ENCRYPTION">ပရိုဆက်ဆာ၏ AES လမ်းညွှန်မှုကိုအသုံးပြု၍ AES ဝှက်စာခြင်း/စာဝှက်ဖေါ်ခြင်းကို အရိုန်မြှင့်ပါ (အကယ်၍ ရနိုင်ပါက)</entry>
     <entry lang="my" key="IDC_ENABLE_KEYFILES">ကီးဖိုင် သုံးရန်</entry>
     <entry lang="my" key="IDC_ENABLE_NEW_KEYFILES">ကီးဖိုင် သုံးရန်</entry>
@@ -133,7 +133,7 @@
     <entry lang="my" key="IDC_FAVORITE_MOVE_UP">အပေါ်သို့ ရွှေ့ရန်</entry>
     <entry lang="my" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">ရွေးချယ်ထားသော volume ကို အောင်မြင်စွာ အစပျိုးပြီးပါက Explorer ဝင်းဒိုးကို ဖွင့်ပါ</entry>
     <entry lang="my" key="IDC_FAVORITE_REMOVE">ဖယ်ရှားရန်</entry>
-    <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
+    <entry lang="my" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">အနှစ်သက်ဆုံး အညွှန်းကို Explorer ဒရိုက်(ဗ်) အညွှန်းအဖြစ် အသုံးပြုရန်</entry>
     <entry lang="my" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">ဘုံသုံး ချိန်ညှိချက်များ</entry>
     <entry lang="my" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">အထူး ကီးကို အောင်မြင်စွာ အဆုံးသတ်ပြီးပါက ပူပေါင်း လမ်းညွှန်ကို ပြပါ</entry>
     <entry lang="my" key="IDC_HK_DISMOUNT_PLAY_SOUND">အထူး ကီးကို အောင်မြင်စွာ အဆုံးသတ်ပြီးပါက စက် အချက်ပြ အသံကို ဖွင့်ပါ</entry>
@@ -152,13 +152,13 @@
     <entry lang="my" key="IDC_MOUNT_OPTIONS">ရွေးစရာများကို အစပျိုးရန်...</entry>
     <entry lang="my" key="IDC_MOUNT_READONLY">Volume ကို ဖတ်ရှုရန်အတွက်သာ အစပျိုးရန်</entry>
     <entry lang="my" key="IDC_NEW_KEYFILES">ကီးဖိုင်များ...</entry>
-    <entry lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</entry>
-    <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</entry>
+    <entry lang="my" key="IDC_OLD_PIM_HELP">(နဂိုမူလ ထပ်တလဲလဲပြုလုပ်ခြင်းများအတွက် အလွတ် သို့မဟုတ် 0)</entry>
+    <entry lang="my" key="IDC_PIM_HELP">(နဂိုမူလ ထပ်တလဲလဲပြုလုပ်ခြင်းများအတွက် အလွတ် သို့မဟုတ် 0)</entry>
     <entry lang="my" key="IDC_PREF_BKG_TASK_ENABLE">ဖွင့်ထားသည်</entry>
     <entry lang="my" key="IDC_PREF_CACHE_PASSWORDS">စကားဝှက်ကို ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲ၌ ခေတ္တ သိမ်းဆည်းရန်</entry>
     <entry lang="my" key="IDC_PREF_DISMOUNT_INACTIVE">ဒေတာများကို ဖတ်ရှုခြင်း/ရေးသားခြင်း မပြုသည့်အခါ volume ကို အလိုအလျောက် အဆုံးသတ်ပါ</entry>
     <entry lang="my" key="IDC_PREF_DISMOUNT_LOGOFF">သုံးစွဲသူ ထွက်ရန်</entry>
-    <entry lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</entry>
+    <entry lang="my" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">အသုံးပြုသူ အပိုင်းအခြားကာလ လော့ချထားသည်</entry>
     <entry lang="my" key="IDC_PREF_DISMOUNT_POWERSAVING">စွမ်းအင် ချွေတာရေးစနစ်ကို သုံးစွဲရန်</entry>
     <entry lang="my" key="IDC_PREF_DISMOUNT_SCREENSAVER">Screen saver ဖွင့်ထားသည်</entry>
     <entry lang="my" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Volume ၌ ဖွင့်ထားသော ဖိုင်များ (သို့) ဖိုင်တွဲများ ပါ၀င်နေလျှင်လည်း ၎င်းကို အလိုအလျှောက် အတင်း အဆုံးသတ်ပါ</entry>
@@ -167,7 +167,7 @@
     <entry lang="my" key="IDC_PREF_MOUNT_READONLY">Volumes များကို ဖတ်ရှုရန် အတွက်သာ အစပျိုးရန်</entry>
     <entry lang="my" key="IDC_PREF_MOUNT_REMOVABLE">Volumes များကို ဖြုတ်တပ်နိုင်သော ကြားခံအဖြစ်သာ အစပျိုးရန်</entry>
     <entry lang="my" key="IDC_PREF_OPEN_EXPLORER">အောင်မြင်စွာ အစပျိုးလိုက်သော volume အတွက် Explorer ၀င်းဒိုးကို ဖွင့်ရန်</entry>
-    <entry lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</entry>
+    <entry lang="my" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">"အနှစ်သက်ဆုံး Volume များ အစပျိုးရန်" လုပ်ဆောင်ချက်များပြုလုပ်စဉ် စကားဝှက်ကို ယာယီ သိမ်းထားရန်</entry>
     <entry lang="my" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">အစပျိုးထားသော volumes များ ရှိပါက ခြားနားသော taskbar ပုံများကို သုံးစွဲရန်</entry>
     <entry lang="my" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">အလိုအလျောက် အဆုံးသတ်သည့်အခါ ခေတ္တ မှတ်ထားသော စကားဝှက်များကို ရှင်းလင်းရန်</entry>
     <entry lang="my" key="IDC_PREF_WIPE_CACHE_ON_EXIT">ထွက်သည့်အခါ ခေတ္တ မှတ်ထားသော စကားဝှက်များကို ရှင်းလင်းရန်</entry>
@@ -180,12 +180,12 @@
     <entry lang="my" key="IDC_SHOW_PASSWORD_CHPWD_ORI">စကားဝှက် ပြရန်</entry>
     <entry lang="my" key="IDC_TRAVEL_OPEN_EXPLORER">အစပျိုးထားသော volume အတွက် Explorer ၀င်းဒိုး ဖွင့်ရန်</entry>
     <entry lang="my" key="IDC_TRAV_CACHE_PASSWORDS">ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲရှိ ယာယီ စကားဝှက်</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="my" key="IDC_TRUECRYPT_MODE">TrueCrypt မုဒ်</entry>
     <entry lang="my" key="IDC_UNMOUNTALL">အားလုံးကို အဆုံးသတ်ရန်</entry>
     <entry lang="my" key="IDC_VOLUME_PROPERTIES">Volume  ဂုဏ်အင်္ဂါရပ်များ...</entry>
     <entry lang="my" key="IDC_VOLUME_TOOLS">Volume ကိရိယာများ...</entry>
     <entry lang="my" key="IDC_WIPE_CACHE">ယာယီဖိုင်များကို ရှင်းလင်းရန်</entry>
-    <entry lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</entry>
+    <entry lang="my" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - သတ်မှတ်ဘောင်များ အစပျိုးရန်</entry>
     <entry lang="my" key="IDD_FAVORITE_VOLUMES">VeraCrypt - စိတ်ကြိုက် Volumes များ</entry>
     <entry lang="my" key="IDD_HOTKEYS_DLG">VeraCrypt - စက်သုံး အထူး ကီးများ</entry>
     <entry lang="my" key="IDD_MOUNT_DLG">VeraCrypt</entry>
@@ -214,9 +214,9 @@
     <entry lang="my" key="IDM_CREATE_HIDDEN_OS">လျှို့ဝှက် OS ဖန်တီးရန်...</entry>
     <entry lang="my" key="IDM_CREATE_RESCUE_DISK">ကယ်ဆယ်ရေး Disk ဖန်တီးရန်...</entry>
     <entry lang="my" key="IDM_CREATE_VOLUME">Volume အသစ် ဖန်တီးရန်...</entry>
-    <entry lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</entry>
+    <entry lang="my" key="IDM_DECRYPT_NONSYS_VOL">အပြီးတိုင် ပြန်ဖြည်ရန်…</entry>
     <entry lang="my" key="IDM_DEFAULT_KEYFILES">မူလ ကီးဖိုင်များ...</entry>
-    <entry lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</entry>
+    <entry lang="my" key="IDM_DEFAULT_MOUNT_PARAMETERS">နဂိုမူလ အစပျိုးရန် သတ်မှတ်ဘောင်များ…</entry>
     <entry lang="my" key="IDM_DONATE">ယခု လှူဒါန်းရန်...</entry>
     <entry lang="my" key="IDM_ENCRYPT_SYSTEM_DEVICE">ကွန်ပျူတာ အခန်းကန့်/Drive ကို စာဝှက်ရန်...</entry>
     <entry lang="my" key="IDM_FAQ">မေးလေ့ရှိသော မေခွန်းများ</entry>
@@ -258,9 +258,9 @@
     <entry lang="my" key="IDM_UNMOUNTALL">အစပျိုးထားသော Volumes အားလုံး အဆုံးသတ်ရန်</entry>
     <entry lang="my" key="IDM_UNMOUNT_VOLUME">Volume အဆုံးသတ်ရန်</entry>
     <entry lang="my" key="IDM_VERIFY_RESCUE_DISK">ကယ်ဆယ်ရေး Disk စစ်ဆေးရန်</entry>
-    <entry lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk Image</entry>
+    <entry lang="my" key="IDM_VERIFY_RESCUE_DISK_ISO">Rescue Disk Image ကို မှန်ကန်ကြောင်းစစ်ဆေးပါ</entry>
     <entry lang="my" key="IDM_VERSION_HISTORY">ဗားရှင်း မှတ်တမ်း</entry>
-    <entry lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</entry>
+    <entry lang="my" key="IDM_VOLUME_EXPANDER">Volume ချဲ့သည့်ကိရိယာ</entry>
     <entry lang="my" key="IDM_VOLUME_PROPERTIES">Volume ဂုဏ်အင်္ဂါရပ်များ</entry>
     <entry lang="my" key="IDM_VOLUME_WIZARD">Volume ဖန်တီးမှု အညွှန်း</entry>
     <entry lang="my" key="IDM_WEBSITE">VeraCrypt ကွန်ရက် စာမျက်နှာ</entry>
@@ -277,8 +277,8 @@
     <entry lang="my" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">စက်မတက်မီ စစ်ဆေးမှု မျက်နှာပြင်တွင် ဤစိတ်ကြိုက် စာတမ်းကို ပြရန် (စာလုံးရေ အများဆုံး ၂၄ လုံးသာ) -</entry>
     <entry lang="my" key="IDT_DEFAULT_MOUNT_OPTIONS">မူလ အစပျိုး ရွေးစရာများ</entry>
     <entry lang="my" key="IDT_DISMOUNT_ACTION">အထူး ကီး ရွေးစရာများ</entry>
-    <entry lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</entry>
-    <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</entry>
+    <entry lang="my" key="IDT_DRIVER_OPTIONS">ဒရိုက်ဗာ အစိတ်အပိုင်းများဖွဲ့စည်းပုံ</entry>
+    <entry lang="my" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">ချဲ့ထွင်ထားသော ဒစ်(စ်)ထိန်းချုပ်မှု ကုဒ်များ ပံ့ပိုးမှုကို ဖွင့်ရန်</entry>
     <entry lang="my" key="IDT_FAVORITE_LABEL">ရွေးချယ်ထားသော စိတ်ကြိုက် volume အညွှန်း -</entry>
     <entry lang="my" key="IDT_FILE_SETTINGS">ဖိုင် ချိန်ညှိချက်များ</entry>
     <entry lang="my" key="IDT_HOTKEY_KEY">သတ်မှတ်ရမည့် ကီး -</entry>
@@ -292,7 +292,7 @@
     <entry lang="my" key="IDT_PARALLELIZATION_OPTIONS">Thread-အခြေပြု ပြိုင်တူပြုလုပ်ခြင်း</entry>
     <entry lang="my" key="IDT_PKCS11_LIB_PATH">PKCS #11 လိုင်ဘရာရီ လမ်းကြောင်း</entry>
     <entry lang="my" key="IDT_PKCS5_PRF">PKCS-5 PRF-</entry>
-    <entry lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="my" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF -</entry>
     <entry lang="my" key="IDT_PW_CACHE_OPTIONS">စကားဝှက် ယာယီ သိမ်းဆည်းခန်း</entry>
     <entry lang="my" key="IDT_SECURITY_OPTIONS">လုံခြုံရေး ရွေးစရာများ</entry>
     <entry lang="my" key="IDT_TASKBAR_ICON">VeraCrypt နောက်ခံ လုပ်ငန်း</entry>
@@ -355,9 +355,9 @@
     <entry lang="my" key="IDT_KEYFILE_GENERATOR_NOTE">အရေးကြီးချက် - ဤ၀င်းဒိုးထဲ၌ သင့် ကြွက်ခလုတ်ကို တက်နိုင်သမျှ ကျပန်းနည်းဖြင့် လှုပ်ရှားပေးပါ။ ကြာကြာ​ ရွှေ့လေ၊ ပိုကောင်းလေ ဖြစ်သည်။ ဤအရာက ကီးဖိုင်၏ စာဝှက်အားကို တိုးမြှင့်စေသည်။</entry>
     <entry lang="my" key="IDT_KEYFILE_WARNING">သတိပေးချက် - ကီးဖိုင်​ ပျောက်သွားသည် ဖြစ်စေ (သို့) ၄င်း၏ ပထမဆုံး ၁၀၂၄ kilobytes ပြောင်းသွားသည် ဖြစ်စေ၊ အဲဒီ ကီးဖိုင်ကို အသုံးပြုသော volumes များကို အစပျိုးနိုင်မည် မဟုတ်ပါ။</entry>
     <entry lang="my" key="IDT_KEY_UNIT">bits</entry>
-    <entry lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</entry>
-    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</entry>
-    <entry lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</entry>
+    <entry lang="my" key="IDT_NUMBER_KEYFILES">စကားဝှက်သော့ဖိုင် အရေအတွက် -</entry>
+    <entry lang="my" key="IDT_KEYFILES_SIZE">စကားဝှက်သော့ဖိုင်များ၏ အရွယ်အစား (ဘိုက်) -</entry>
+    <entry lang="my" key="IDT_KEYFILES_BASE_NAME">စကားဝှက်သော့ဖိုင်များ အခြေ အမည် -</entry>
     <entry lang="my" key="IDT_LANGPACK_AUTHORS">ဘာသာပြန်ဆိုသူ -</entry>
     <entry lang="my" key="IDT_PLAINTEXT">စာသား သက်သက် အရွယ် -</entry>
     <entry lang="my" key="IDT_PLAINTEXT_SIZE_UNIT">bits</entry>
@@ -368,7 +368,7 @@
     <entry lang="my" key="IDT_SECURITY_TOKEN">လုံခြုံရေး တိုကင် -</entry>
     <entry lang="my" key="IDT_SORT_METHOD">မျိုးတူစုနည်း -</entry>
     <entry lang="my" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">ကျေးဇူးပြု၍ စောင့်ပါ။ ဤလုပ်ငန်းစဉ်သည် အတော် ကြာနိုင်ပါသည်...</entry>
-    <entry lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</entry>
+    <entry lang="my" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">ကျေးဇူးပြု၍ စောင့်ပါ…\nဤလုပ်ငန်းစဉ်သည် အချိန်ကြာမည်ဖြစ်ပြီး VeraCrypt သည် တုံ့ပြန်မှုမရှိသည့်ပုံပေါ်နိုင်သည်။</entry>
     <entry lang="my" key="IDT_TEST_BLOCK_NUMBER">နံပါတ် အစု -</entry>
     <entry lang="my" key="IDT_TEST_CIPHERTEXT">ဝှက်စာ စာသား (hexadecimal)</entry>
     <entry lang="my" key="IDT_TEST_DATA_UNIT_NUMBER">ဒေတာ ယူနစ် နံပါတ် (64-bit hexadecimal, ဒေတာ ယူနစ် အရွယ်သည် 512 bytes ဖြစ်သည်)</entry>
@@ -504,11 +504,11 @@
     <entry lang="my" key="FORMAT_FINISHED_HELP">\n\n VeraCrypt volume ကို ဖန်တီးလိုက်ပြီ ဖြစ်၍ သုံးစွဲရန် အသင့် ဖြစ်နေပြီ။ အခြား VeraCrypt volume ကို ဖန်တီးလိုပါက၊ 'ရှေ့သို့' ကို နှိပ်ပါ။ ဒါမှမဟုတ် 'ထွက်ရန်' ကို နှိပ်ပါ။</entry>
     <entry lang="my" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n လျှို့ဝှက် VeraCrypt volume ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ (လျှို့ဝှက် OS သည် ဤလျှို့ဝှက် volume ထဲ၌ ရှိနေမည် ဖြစ်သည်)။\n\n ဆက်လုပ်ရန် 'ရှေ့သို့' ကို နှိပ်ပါ။</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volume ကို အပြည့်အ၀ စာဝှက်ထားပြီ</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume ကို အပြည့်အဝ ပြန်ဖြည်ပြီးပါပြီ</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_FINISHED_INFO">အရေးကြီးချက် - အသစ်စက်စက် ဖန်တီးလိုက်သော VERACRYPT VOLUME ကို အစပျိုးပြီး ၄င်းအထဲ၌ သိုလှောင်ထားသော ဒေတာကို ရယူရန်၊ 'Devices များ အလိုလို အစပျိုးရန်' ကို နှိပ်ပါ။ စကားဝှက် (နှင့် ကီးဖိုင်) အမှန်ကို ထည့်သွင်းပြီးပါက ()၊ VeraCrypt ၏ ပင်မ ၀င်းဒိုးပေါ်ရှိ စာရင်းမှ သင် ရွေးချယ်လိုက်သော drive အက္ခရာဖြင့် volume ကို အစပျိုးလာမည် (ပြီးနောက် စာဝှက်ထားသော ဒေတာကို ရွေးချယ်​ထားသော drive အက္ခရာမှတဆင့် ၀င်ရောက်နိုင်မည်) ဖြစ်သည်။\n\nအ​ထက် ဖေါ်ပြပါ အဆင့်များကို မှတ်ထားခြင်း/ရေးမှတ်ခြင်း ပြုထားပါ။ VOLUME ကို အစပျိုးလိုသော အချိန်၊ အထဲ၌ သိုလှောင်ထားသော ဒေတာများကို ရယူလိုသည့်အချိန်တွင် ၄င်းအဆင့်များအတိုင်း လုပ်ဆောင်ပါ။ တနည်းအားဖြင့် - VeraCrypt ၏ ပင်မ ဝင်းဒိုးထဲ၌ တွင် 'Device ရွေးရန်' ကို နှိပ်ပါ၊ ထို့နောက် ဤ အခန်းကန့်/volume ကို ရေးပြီး၊ 'အစပျိုးရန်' ကို နှိပ်ပါ။\n\n အခန်းကန့်/volume ကို အောင်မြင်စွာ စာဝှက်လိုက်ပြီ ဖြစ်၍ သုံးစွဲရန် အသင့် ဖြစ်နေပြီ။</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DEC_FINISHED_INFO">VeraCrypt Volume ကို အောင်မြင်စွာ ပြန်ဖြည်ပြီးပါပြီ။</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">VeraCrypt Volume ကို အောင်မြင်စွာ ပြန်ဖြည်ပြီးပါပြီ။\n\nကျေးဇူးပြု၍ ပြန်ဖြည်ထားသော Volume သို့ သင်ခွဲဝေသတ်မှတ်လိုသော ဒရိုက်(ဗ်)စာလုံးကို ရွေးချယ်ပြီးနောက် ပြီးပါပြီ ကို နှိပ်ပါ။\n\nအရေးကြီးသည် - ပြန်ဖြည်ထားသော Volume သို့ ဒရိုက်(ဗ်)စာလုံး ခွဲဝေသတ်မှတ်ပြီးမှသာ Volume တွင် သိမ်းထားသော အချက်အလက်ကို သင် အသုံးပြုနိုင်ပါမည်။</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">သတိပေးချက် - ပြန်ဖြည်ထားသော အချက်အလက်ကို အသုံးပြုနိုင်ရန် ပြန်ဖြည်ထားသော Volume အတွက် ဒရိုက်(ဗ်)စာလုံး ခွဲဝေသတ်မှတ်ပေးရန် လိုအပ်ပါသည်။ သို့သော် လတ်တလောတွင် ဒရိုက်(ဗ်)စာလုံး မရရှိနိုင်ပါ။\n\nကျေးဇူးပြု၍ ဒရိုက်(ဗ်)စာလုံးမှ ထွက်ပြီး (ဥပမာ - USB ဖလက်ရှ်ဒရိုက်(ဗ်) သို့မဟုတ် ပြင်ပ ဟာ့ဒရိုက်(ဗ်) စသည်တို့ကို ဆက်သွယ်မှုဖျက်ခြင်းဖြင့်) အိုကေ ကို နှိပ်ပါ။</entry>
     <entry lang="my" key="FORMAT_FINISHED_INFO">VeraCrypt volume ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။</entry>
     <entry lang="my" key="FORMAT_FINISHED_TITLE">Volume ဖန်တီးလိုက်ပြီ</entry>
     <entry lang="my" key="FORMAT_HELP">အရေးကြီးချက် - သင့် ကြွက်ခလုတ်ကို ဤဝင်းဒိုးအတွင်း တက်နိုင်သမျ ကျပန်း ရွေ့လျားပါ။ ပိုကြာလေ ကောင်းလေ ဖြစ်သည်။ ၎င်းသည် စာဝှက် ကီးများ၏ ဝှက်စာ ကြံ့ခိုင်မှုကို အားကောင်းစေသည်။ ထို့နောက် volume ကို ဖန်တီးရန် ဖော်မက်ချရန် ကို နှိပ်ပါ။</entry>
@@ -545,18 +545,18 @@
     <entry lang="my" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">မှတ်ချက် - အကယ်၍ မျက်လှည့် ကွန်ပျူတာစနစ်ထဲမှ ဖိုင်များကို လျှို့ဝှက် ကွန်ပျူတာစနစ်ထဲ လုံခြုံစွာ ပြောင်းရွှေ့လိုက်ပါက၊ အောက်ပါ အဆင့်များကို လိုက်နာပါ -\n၁) မျက်လှည့် ကွန်ပျူတာစနစ်ကို စဖွင့်ပါ။\n၂) ဖိုင်များကို စာဝှက်မထားသော volume တစ်ခုထဲ သိမ်းဆည်းပါ (သို့) ပြင်ပ/ပုံမှန် VeraCrypt volume တစ်ခုထဲ သိမ်းဆည်းပါ။\n၃) လျှို့ဝှက် ကွန်ပျူတာစနစ်ကို စတင်ပါ။\n၄) အကယ်၍ ဖိုင်များကို VeraCrypt volume တစ်ခုထဲ သိမ်းဆည်းထားပါက၊ ၄င်းကို အစပျိုးပါ (၎င်းကို ဖတ်ရှုရန်သက်သက်အဖြစ် အလိုအလျောက် အစပျိုးလာမည် ဖြစ်သည်)\n၅) ဖိုင်များကို လျှို့ဝှက် ကွန်ပျူတာစနစ် အခန်းကန့်ထဲ (သို့) အခြား လျှို့ဝှက် volume ထဲ ကော်ပီးကူးလိုက်ပါ။</entry>
     <entry lang="my" key="CONFIRM_RESTART">သင့် ကွန်ပျူတာကို ပြန်ဖွင့်ဖို့ လိုအပ်သည်။\n\nကွန်ပျူတာကို ယခု ပြန်ဖွင့်လိုသလား?</entry>
     <entry lang="my" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">ကွန်ပျူတာစနစ်၏ စာဝှက်ခြင်း အနေအထားကို ရယူနေစဉ် ချို့ယွင်းချက် တစ်ခု ဖြစ်ပေါ်နေသည်။</entry>
-    <entry lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</entry>
-    <entry lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</entry>
-    <entry lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</entry>
-    <entry lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</entry>
-    <entry lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</entry>
-    <entry lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</entry>
+    <entry lang="my" key="ERR_PASSWORD_MISSING">command line တွင် စကားဝှက် သတ်မှတ်ဖော်ပြမထားပါ။ Volume ကို မဖန်တီးနိုင်ပါ။</entry>
+    <entry lang="my" key="ERR_SIZE_MISSING">command line တွင် Volume အရွယ်အစားကို သတ်မှတ်ဖော်ပြမထားပါ။ Volume ကို မဖန်တီးနိုင်ပါ။</entry>
+    <entry lang="my" key="ERR_NTFS_INVALID_VOLUME_SIZE">command line တွင် သတ်မှတ်ဖော်ပြထားသော Volume ဖိုင် အရွယ်အစားမှာ ရွေးချယ်ထားသော NTFS ဖိုင်စနစ်နှင့် လိုက်လျောညီထွေမရှိပါ။</entry>
+    <entry lang="my" key="ERR_FAT_INVALID_VOLUME_SIZE">command line တွင် သတ်မှတ်ဖော်ပြထားသော Volume ဖိုင် အရွယ်အစားမှာ ရွေးချယ်ထားသော FAT32 ဖိုင်စနစ်နှင့် လိုက်လျောညီထွေမရှိပါ။</entry>
+    <entry lang="my" key="ERR_DYNAMIC_NOT_SUPPORTED">လက်ခံမည့်ဒရိုက်(ဗ်)ရှိ ဖိုင်စနစ်သည် ပြောင်းလဲနိုင်သော volume များအတွက် လိုအပ်သော ပမာဏသေးငယ်သည့်ဖိုင်များ ဖန်တီးခြင်းကို မပံ့ပိုးပါ။</entry>
+    <entry lang="my" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">ကုဒ်ထည့်သည့်ဆော့ဝဲဖိုင်များကိုသာ command line မှတစ်ဆင့် ဖန်တီးနိုင်ပါသည်။</entry>
+    <entry lang="my" key="ERR_CONTAINER_SIZE_TOO_BIG">command line တွင် ဖော်ပြထားသော ကုဒ်ထည့်သည့်ဆော့ဝဲဖိုင် အရွယ်အစားမှာ ရရှိနိုင်သော ဒစ်(စ်)နေရာလွတ်ထက် ကြီးနေသည်။ Volume ကို မဖန်တီးနိုင်ပါ။</entry>
+    <entry lang="my" key="ERR_VOLUME_SIZE_TOO_SMALL">command line တွင် ဖော်ပြထားသော Volume အရွယ်အစားမှာ ငယ်လွန်းနေသည်။ Volume ကို မဖန်တီးနိုင်ပါ။</entry>
+    <entry lang="my" key="ERR_VOLUME_SIZE_TOO_BIG">command line တွင် ဖော်ပြထားသော Volume အရွယ်အစားမှာ ကြီးလွန်းနေသည်။ Volume ကို မဖန်တီးနိုင်ပါ။</entry>
     <entry lang="my" key="INIT_SYS_ENC">ကွန်ပျူတာစနစ် စာဝှက်ရန်အတွက် အပ္ပလီကေးရှင်း အစိတ်အပိုင်းများကို အစပြု၍ မရပါ။</entry>
     <entry lang="my" key="INIT_RAND">ကျပန်း နံပါတ် ထုတ်စနစ်ကို အစပြု၍ မရပါ။</entry>
-    <entry lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</entry>
+    <entry lang="my" key="CAPI_RAND">Windows Crypto API မအောင်မြင်ပါ။\n\n\n(သင်သည် ဤအကြောင်းနှင့် ဆက်စပ်ပြီး ပြဿနာ အစီရင်ခံပါက ကျေးဇူးပြု၍ အောက်ပါနည်းပညာဆိုင်ရာ အချက်အလက်ကို ပြဿနာ အစီရင်ခံစာတွင် ထည့်သွင်းပါ -\n%hs၊ နောက်ဆုံးပြဿနာ = 0x%.8X)</entry>
     <entry lang="my" key="INIT_REGISTER">အပ္ပလီကေးရှင်းကို အစပြု၍ မရပါ။ Dialog class ကို မှတ်ပုံတင်ရန် မအောင်မြင်ပါ။</entry>
     <entry lang="my" key="INIT_RICHEDIT">ချို့ယွင်းချက် - Rich Edit စနစ် လိုင်ဘရာရီကို ဖွင့်မရပါ။</entry>
     <entry lang="my" key="INTRO_TITLE">VeraCrypt Volume ဖန်တီးမှု အညွှန်း</entry>
@@ -570,7 +570,7 @@
     <entry lang="my" key="MOUNT_BUTTON">&amp;အစပျိုးပါ</entry>
     <entry lang="my" key="NEW_VERSION_REQUIRED">ဤ volume ကို အစပျိုးရန် VeraCrypt ဗားရှင်း အသစ် လိုအပ်သည်။</entry>
     <entry lang="my" key="VOL_CREATION_WIZARD_NOT_FOUND">ချို့ယွင်းချက် - Volume ဖန်တီးခြင်း အညွှန်းကို ရှာမတွေ့ပါ။\n\nဖိုင်တွဲထဲ၌ 'VeraCrypt Format.exe' ရှိရမည် ဖြစ်ပြီး၊ ၄င်းဖိုင်တွဲမှာ 'VeraCrypt.exe' ကို ဖွင့်ရမည် ဖြစ်သည်။ အကယ်၍ မရှိခဲ့လျှင် VeraCrypt ကို ဖက်ထဲ ထပ်မထည့်သွင်းပါ၊ (သို့) သင့် disk တွင် 'VeraCrypt Format.exe' ကို ရှာပြီး ၄င်းကို ဖွင့်ပါ။</entry>
-    <entry lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</entry>
+    <entry lang="my" key="VOL_EXPANDER_NOT_FOUND">ပြဿနာ - Volume ချဲ့သည့်ကိရိယာ ရှာမတွေ့ပါ။\n\nကျေးဇူးပြု၍ 'VeraCrypt.exe' ကို မိတ်ဆက်သော ဖိုင်တွဲတွင် 'VeraCryptExpander.exe' ရှိကြောင်း သေချာအောင်လုပ်ပါ။ မရှိပါက ကျေးဇူးပြု၍ VeraCrypt ကို ပြန်လည်ထည့်သွင်းပါ သို့မဟုတ် သင့်ဒစ်(စ်)ပေါ်တွင် 'VeraCryptExpander.exe' တည်နေရာကို ရှာပြီး လည်ပတ်ပါ။</entry>
     <entry lang="my" key="NEXT">&amp;ရှေ့သို့ &gt;</entry>
     <entry lang="my" key="FINALIZE">&amp;ပြီးသွားပြီ</entry>
     <entry lang="my" key="INSTALL">စက်ထဲ ထည့်သွင်းရန်</entry>
@@ -578,7 +578,7 @@
     <entry lang="my" key="NODRIVER">VeraCrypt device ဒရိုင်ဘာကို ဆက်သွယ်၍ မရပါ။ အကယ်၍ device ဒရိုင်ဘာ အလုပ်မလုပ်လျှင် VeraCrypt အလုပ်လုပ်နိုင်မည် မဟုတ်ပါ။\n\nဝင်းဒိုး ပြဿနာ တစ်ရပ်ကြောင့်၊ device ဒရိုင်ဘာကို မဖွင့်ခင် ကွန်ပျူတာစနစ်ကို ခေတ္တပိတ်ထားရန် (သို့) စက်ပြန်ဖွင့်ရန် လိုအပ်လာနိုင်သည်။</entry>
     <entry lang="my" key="NOFONT">ဖောင့်များကို ဖွင့်နေစဉ်/ပြင်ဆင်နေစဉ် ချို့ယွင်းချက် ဖြစ်ပွားသည်။</entry>
     <entry lang="my" key="NOT_FOUND">Drive အက္ခရာကို ရှာမတွေ့ပါ (သို့) drive အက္ခရာကို သတ်မှတ်မထားပါ။</entry>
-    <entry lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</entry>
+    <entry lang="my" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">ပြဿနာ - ဒရိုက်(ဗ်)စာလုံးကို ခွဲဝေသတ်မှတ်၍မရပါ။\n\nပြန်ဖြည်ထားသော Volume အတွက် ဒရိုက်(ဗ်)စာလုံး ခွဲဝေသတ်မှတ်ပြီးမှသာ Volume တွင် သိမ်းထားသော အချက်အလက်ကို အသုံးပြုနိုင်ပါမည်။\n\nထပ်မံကြိုးစားလိုပါသလား။</entry>
     <entry lang="my" key="DRIVE_LETTER_UNAVAILABLE">Drive အက္ခရာ မရနိုင်ပါ။</entry>
     <entry lang="my" key="NO_FILE_SELECTED">ဖိုင် ရွေးမထားပါ!</entry>
     <entry lang="my" key="NO_FREE_DRIVES">Drive အက္ခရာ မရနိုင်ပါ။</entry>
@@ -598,18 +598,18 @@
     <entry lang="my" key="OVERWRITEPROMPT">သတိပေးချက် - ဖိုင်အမည် '%s' ရှိနေပြီ ဖြစ်သည်!\n\nအရေးကြီးချက် - VeraCrypt သည် ဖိုင်ကို စာဝှက်ပေးမည် မဟုတ်ပါ၊ သို့သော် ၄င်းကို ပယ်ဖျက်မည် မဟုတ်ပါ။ ဖိုင်ကို ပယ်ဖျက်ပြီး VeraCrypt သိမ်းဆည်းခန်း အသစ် တစ်ခုနှင့် အစားထိုးလိုသလား?</entry>
     <entry lang="my" key="OVERWRITEPROMPT_DEVICE">သတိပေးချက် - လောလောဆယ် ရွေးချယ်ထားသော %s '%s'%s ၌ သိမ်းဆည်းထားသော ဖိုင်အားလုံးကို ဖျက်ပစ်မည် ဖြစ်ပြီး၊ ​ပျောက်ဆုံးသွားမည် ဖြစ်သည် (၄င်းတို့ကို စာဝှက်ထားမည် မဟုတ်ပါ)!\n\nဖော်မက်ချပြီး သင် ဆက်လက် လုပ်ဆောင်လိုသလား?</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_CONFIRM">သတိပေးချက် - Volume ကို အပြည့်အ၀ စာမဝှက်မီ ၎င်းကို အစပျိုးနိုင်မည် မဟုတ်ပါ (သို့) ၄င်းအထဲရှိ ဖိုင်များကို ရယူနိုင်မည် မဟုတ်ပါ။\n\nရွေးချယ်ထားသော %s '%s'%s ကို စတင် စာဝှက်လိုသလား?</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%s'%s?</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DEC_CONFIRM">သတိပေးချက် - Volume ကို အပြည့်အဝ ပြန်ဖြည်ပြီးမှသာ Volume အစပျိုးနိုင်မည် သို့မဟုတ် ၎င်းတွင် သိမ်းထားသော ဖိုင်များကို အသုံးပြုနိုင်ပါမည်။\n\nရွေးချယ်ထားသော %s '%s'%s ကို စတင်ပြန်ဖြည်လိုသည်မှာ သေချာပါသလား။</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">သတိပေးချက် - လက်ရှိ ဒေတာများကို အစီအစဉ်တကျ စာဝှက်နေစဉ် ​ပါဝါအား ပျက်သွားပါက၊ (သို့) VeraCrypt သည် လက်ရှိ ဒေတာများကို အစီအစဉ်တကျ စာဝှက်နေစဉ် ဆော့ဗ်ဝဲ ချို့ယွင်းချက်ကြောင့် သို့မဟုတ် စက်ပိုင်းဆိုင်ရာ ချို့ယွင်းချက်ကြောင့် OS စနစ် ပျက်စီးသွားပါက၊ ဒေတာ တစ်စိတ်တစ်ပိုင်းသည် ပျက်စီးသွားမည် (သို့) ပျောက်ဆုံးသွားမည် ဖြစ်သည်။ ထို့ကြောင့်၊ စာဝှက်ခြင်း မပြုမီ၊ သင် စာဝှက်​လိုသော ဖိုင်များ၏ အရန်သင့်​ ကော်ပီ ထားရှိရမည် ဖြစ်သည်။\n\nယင်းကဲ့သို့ အရန်သင့် သိမ်းဆည်းချက် သင့်ထံ၌ ရှိသလား?</entry>
     <entry lang="my" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">သတိပေးချက် - လောလောဆယ် '%s'%s အခန်းကန့် (ကွန်ပျူတာစနစ် အခန်းကန့်​ နောက်ကွယ်မှ ပထမ အခန်းကန့်) ၌ သိမ်းဆည်းထားသော ဖိုင်များ (၄်းတို့ကို စာဝှက်ထားမည် မဟုတ်) သည် ပယ်ဖျက်ခံရလိမ့်မည် (သို့) ပျောက်ဆုံးသွားလိမ့်မည်!\n\nဖော်မက်ချပြီး ဆက်လက် လုပ်ဆောင်ရန် သေချာသလား?</entry>
     <entry lang="my" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">သတိပေးချက် - ရွေးချယ်ထားသော အခန်းကန့်၌ ဒေတာ အများအပြား ရှိနေသည်။ ၄င်း အခန်းကန့်၌ သိမ်းဆည်းထားသော ဖိုင်များသည် ဖျက်ဆီးခံရမည် ဖြစ်ပြီး ပျောက်ဆုံးသွားမည် ဖြစ်သည် (၎င်းဖိုင်များကို စာဝှက်မထားပါ)!</entry>
     <entry lang="my" key="ERASE_FILES_BY_CREATING_VOLUME">အခန်းကန့်ထဲ၌ VeraCrypt volume တစ်ခု ဖန်တီးပြီး သိမ်းဆည်းထားသော ဖိုင်များကို ပယ်ဖျက်ပါ။</entry>
     <entry lang="my" key="PASSWORD">စကားဝှက်</entry>
-    <entry lang="en" key="PIM">PIM</entry>
+    <entry lang="my" key="PIM">PIM</entry>
     <entry lang="my" key="IDD_PCDM_CHANGE_PKCS5_PRF">ခေါင်းစီး ကီး ဆင်းသက်မှုလအယ်လဂိုရစ်သမ် သတ်မှတ်ရန်</entry>
     <entry lang="my" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Volume ထဲရှိ ကီးဖိုင်များကို ထည့်သွင်းရန်/ဖယ်ရှားရန်</entry>
     <entry lang="my" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Volume ထဲရှိ ကီးဖိုင်အားလုံးကို ဖယ်ရှားရန်</entry>
     <entry lang="my" key="PASSWORD_CHANGED">စကားဝှက်နှင့် ကီးဖိုင်(များ)ကို အောင်မြင်စွာ ပြောင်းလိုက်ပြီး။\n\nအရေးကြီးချက် - VeraCrypt သုံးစွဲသူ လမ်းညွှန်ထဲမှ 'လုံခြုံရေး လိုအပ်ချက်များနှင့် ကြိုတင်ကာကွယ်မှုများ' အခန်းမှ 'စကားဝှက်များနှင့် ကီးဖိုင်များ ပြောင်းလဲခြင်း' အပိုင်းကို သေချာ ဖတ်ရှုပါ။</entry>
-    <entry lang="en" key="FAVORITE_PIM_CHANGED">This volume is registered as a System Favorite and its PIM was changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
+    <entry lang="my" key="FAVORITE_PIM_CHANGED">ဤ Volume ကို စနစ်၏ အနှစ်သက်ဆုံးအဖြစ် စာရင်းသွင်းထားပြီး ၎င်း၏ PIM ကို ပြောင်းလဲထားပါသည်။\nသင်သည် VeraCrypt အား စနစ်၏ အနှစ်သက်ဆုံး အစိတ်အပိုင်းများဖွဲ့စည်းပုံကို အလိုအလျောက် အပ်ဒိတ်လုပ်စေချင်ပါသလား (စီမံအုပ်ချုပ်သူ အခွင့်ထူးများ လိုအပ်ပါသည်)။\n\nကျေးဇူးပြု၍ သင်က မလုပ်စေချင်ပါဟု ဖြေပါက စနစ်၏ အနှစ်သက်ဆုံးကို သင်ကိုယ်တိုင် အပ်ဒိတ်လုပ်ရမည်ကို သတိပြုပါ။</entry>
     <entry lang="my" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">အရေးကြီးချက် - အကယ်၍ VeraCrypt ဆယ်တင်​ရေး အခွေကို သင် မဖျက်ဆီးပါက၊သင့် ကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို စကားဝှက် အဟောင်းဖြင့် (VeraCrypt ဆယ်တင်ရေး အခွေကို ထည့်၊ စကားဝှက်ကို ရေးထည့်ပြီး) စာဝှက်ဖြည်နိုင်မည် ဖြစ်သည်။ VeraCrypt ဆယ်ဆင်ရေး အခွေကို ဖန်တီးပြီး အဟောင်းကို ဖျက်ဆီးလိုက်ပါ။\n\nVeraCrypt ဆယ်တင်ရေး ​အခွေသစ် တစ်ခုကို သင် ဖန်တီးလိုသလား?</entry>
     <entry lang="my" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">သင့် VeraCrypt ဆယ်တင်ရေး ​အခွေသည် ယခင် အယ်လဂိုရီသမ်ကို သုံးစွဲနေဆဲဖြစ်သည်ကို သတိပြုပါ။ အကယ်၍ ယခင်က အယ်လဂိုရီသမ်သည် လုံခြုံမှုမရှိဟု ယူဆပါက၊ VeraCrypt ဆယ်တင်ရေး အခွေသစ် တစ်ခု ဖန်တီးပြီး အဟောင်းကို ဖျက်ဆီးလိုက်ပါ။\n\nVeraCrypt ပျက်စီးဒေတာပြန်ဖော်ဓာတ်ပြားကို သင်သည် ဖန်တီးလိုပါသလား?</entry>
     <entry lang="my" key="KEYFILES_NOTE">မည်သည့် ဖိုင်အမျိုးအစားမဆို (ဥပမာ - .mp3, .jpg, .zip, .avi) VeraCrypt ကီးဖိုင် အဖြစ် အသုံးပြုနိုင်သည်။ VeraCrypt သည် ကီးဖိုင်ပါ အကြောင်းအရာများကို အပြောင်းအလဲ မလုပ်ပါ။ သင်သည် ကီးဖိုင် တစ်ခုပို၍ ရွေးချယ်နိုင်သည် (ဖိုင်ဟောင်းလျှင်လည်း ကိစ္စမရှိပါ)။ အကယ်၍ ဖိုင်တွဲ တစ်ခုကို သင် ထည့်သွင်းလျှင်၊ ၄င်း၌ တွေ့ရှိသော လျှို့ဝှက်မထားသည့် ဖိုင်အားလုံးကို ကီးဖိုင်များအဖြင့် အသုံးပြုလိမ့်မည်။ လုံခြုံရေး တိုကင်များ သို့မဟုတ် စမတ်ကတ်များ၌ သိမ်းဆည်းထားသော ကီးဖိုင်များကို ရွေးချယ်ရန် (သို့မဟုတ် တိုကင်များ (သို့) စမတ်ကတ်များ အတွက် ကီးဖိုင်များကို တင်သွင်းရန်) 'တိုကင် ဖိုင်များ ထည့်သွင်းရန်' ကို နှိပ်ပါ။</entry>
@@ -618,7 +618,7 @@
     <entry lang="my" key="PKCS5_PRF_CHANGED">ခေါင်းစီး ကီး ဆင်းသက်မှု အယ်လဂိုရီသမ်ကို အောင်မြင်စွာ သတ်မှတ်လိုက်ပြီ။</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">စာဝှက်သည့် လုပ်ငန်းစဉ်ကို အစီအစဉ်တကျ ပြန်လည် လုပ်ဆောင်လိုသည့် စာဝှက်မထားသော ကွန်ပျူတာစနစ် volume အတွက် စကားဝှက်/ကီးဖိုင်(များ)ကို ရေးထည့်ပါ။\n\n\nမှတ်ချက် - ရှေ့သို့ ခလုတ်ကို နှိပ်ပြီးနောက် VeraCrypt သည် စာဝှက်ခြင်း လုပ်ငန်းစဉ် အနှောင့်အယှက် ခံရသောနေရာ့၊ VeraCrypt volume ခေါင်းစီးသည် ပေး​ထားသော စကာဝှက်/ကီးဖိုင်(များ)ကို သုံးပြီး စာဝှက်ဖြည်နိုင်သော နေရာ ဖြစ်သည့် ကွန်ပျူတာစနစ် မဟုတ်သည့် volumes အားလုံးကို ကြိုးစား ရှာဖွေ​လာလိမ့်မည်။ အကယ်၍ ယင်းကဲ့သို့ volume ကို တစ်ခုထက်ပိုပြီး တွေ့ရှိပါက၊ ၄င်းတို့အထဲက တစ်ခုကို နောက်အဆင့်၌ သင် ရွေးချယ်ရမည် ဖြစ်သည်။</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">စာရင်းထဲ၌ ပါသော volumes များထဲက တစ်ခုကို ရွေးချယ်ပါ။ စာရင်းထဲ၌ စာဝှက်ခြင်း လုပ်ငန်းစဉ် အနှောင့်အယှက် ခံရသည့် ကွန်ပျူတာစနစ် မဟုတ်သော volume ပါရှိပြီး ၄င်း၏ ခေါင်းစီးကို ပေးထားသော စကားဝှက်/ကီး(ဖိုင်)များကို သုံးပြီး စာဝှက်ဖြည်နိုင်သည်။</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">ကျေးဇူးပြု၍ သင်ပြန်ဖြည်လိုသော စနစ်မဟုတ်သည့် VeraCrypt Volume အတွက် စကားဝှက် နှင့်/သို့မဟုတ် စကားဝှက်သော့ဖိုင်(များ) ကို ရိုက်ထည့်ပါ။</entry>
     <entry lang="my" key="PASSWORD_HELP">ကြံ့ခိုင်သော စကားဝှက် တစ်ခုကို ရွေးချယ်ရန် အရေးကြီးသည်။ အဘိဓါန်ကျမ်း၌ တွေ့နိုင်​သည့် စာလုံး တစ်လုံးတည်း (၂၊ ၃၊ ၄ ကဲ့သို့ စာလုံး စုစည်းချက် တစ်ခုခု) ပါ၀င်သော စာလုံးမျိုးကို မရွေးချယ်မိရန် ရှောင်ရှားပါ။ နာမည်များ (သို့) မွေးနေ့များ မပါရပါ။ ခန့်မှန်းရန် လွယ်ကူသော စာလုံး မဖြစ်ရပါ။ ကြံ့ခိုင်သော စကားဝှက် ဟူသည် စာလုံးအကြီး အသေး၊ နံပါတ်များ၊ @ ^ = $ * + ကဲ့သို့သော အထူး စာလုံးများ ပါ၀င်သော ကျန်ပန်း အစုအစည်း ဖြစ်သည်။ စာလုံးရေ ၂၀ ကျော် ပါသော စကားဝှက် တစ်ခုခုကို ရွေးချယ်ရန် ကျွန်ုပ်တို့ အကြံပြုလိုသည် (စာလုံးရေ များလေ၊ ကောင်းလေ ဖြစ်သည်)။ အများဆုံး လက်ခံနိုင်သော အရေအတွက်မှာ ၆၄ လုံး ဖြစ်သည်။</entry>
     <entry lang="my" key="PASSWORD_HIDDENVOL_HELP">လျှို့ဝှက် volume အတွက် စကားဝှက် တစ်ခု ရွေးပါ။</entry>
     <entry lang="my" key="PASSWORD_HIDDEN_OS_HELP">လျှို့ဝှက် OS အတွက် စကားဝှက် တစ်ခု ရွေးပါ (ဥပမာ လျှို့ဝှက် volume အတွက်)။</entry>
@@ -639,34 +639,34 @@
     <entry lang="my" key="PASSWORD_WRONG_AUTOMOUNT">စကားဝှက် မမှန်ပါ (သို့) VeraCrypt volume မရှိပါ။</entry>
     <entry lang="my" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">ကီးဖိုင်(များ)/စကားဝှက် မမှန်ပါ (သို့) VeraCrypt volume မရှိပါ။</entry>
     <entry lang="my" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nသတိပေးချက် - Caps Lock ဖွင့်နေသည်။ ဤအချက်ကြောင့် စကားဝှက် အမှား ရေးမိနိုင်သည်။</entry>
-    <entry lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</entry>
-    <entry lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</entry>
-    <entry lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</entry>
-    <entry lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</entry>
-    <entry lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</entry>
-    <entry lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</entry>
-    <entry lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</entry>
-    <entry lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</entry>
-    <entry lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</entry>
-    <entry lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</entry>
-    <entry lang="en" key="PIM_TITLE">Volume PIM</entry>
+    <entry lang="my" key="PIM_CHANGE_WARNING">Volume အစပျိုးရန် နံပါတ်ကို မှတ်ထားပါ</entry>
+    <entry lang="my" key="PIM_HIDVOL_HOST_TITLE">ပြင်ပ Volume PIM</entry>
+    <entry lang="my" key="PIM_HIDVOL_TITLE">လျှို့ဝှက် Volume PIM</entry>
+    <entry lang="my" key="PIM_HIDDEN_OS_TITLE">လျှို့ဝှက် OS အတွက် PIM</entry>
+    <entry lang="my" key="PIM_HELP">PIM (တစ်ကိုယ်ရေသုံး ထပ်တလဲလဲပြုလုပ်ခြင်းများ မြှောက်ကိန်း) သည် ခေါင်းစဉ် စကားဝှက်သော့ တစ်ဆင့်ရယူခြင်းက အသုံးပြုသည့် ထပ်တလဲလဲပြုလုပ်ခြင်းများ အရေအတွက်ကို အောက်ပါအတိုင်း ထိန်းချုပ်သည့် တန်ဖိုးတစ်ခု ဖြစ်သည် -\n ထပ်တလဲလဲပြုလုပ်ခြင်းများ = 15000 + (PIM x 1000)။\n\nအလွတ်အတိုင်း ချန်ထားလျှင် သို့မဟုတ် 0 အဖြစ် သတ်မှတ်ထားလျှင် VeraCrypt သည် လုံခြုံရေးမြင့်ကြောင်း သေချာစေသည့် နဂိုမူလတန်ဖိုး (၄၈၅) ကို အသုံးပြုပါမည်။\n\nစကားဝှက်သည် စာလုံး ၂၀ အောက်ရှိသောအခါ အနည်းဆုံးရှိသင့်သော လုံခြုံရေးအဆင့်ကို ထိန်းသိမ်းရန်အတွက် PIM သည် ၄၈၅ အောက် မငယ်ရပါ။\nစကားဝှက်သည် စာလုံး ၂၀ နှင့်အထက် ရှိသောအခါ PIM ကို မည်သည့်တန်ဖိုးမဆို သတ်မှတ်နိုင်သည်။\n\nPIM တန်ဖိုးသည် ၄၈၅ ထက်ကြီးလျှင် အစပျိုးရာတွင် နှေးပါမည်။ PIM တန်ဖိုးငယ်လျှင် (၄၈၅ အောက်နည်းလျှင်) အစပျိုးရာတွင် မြန်သော်လည်း စကားဝှက်ခိုင်မာမှုနည်းပါက လုံခြုံမှု လျော့နည်းနိုင်သည်။</entry>
+    <entry lang="my" key="PIM_SYSENC_HELP">PIM (တစ်ကိုယ်ရေသုံး ထပ်တလဲလဲပြုလုပ်ခြင်းများ မြှောက်ကိန်း) သည် ခေါင်းစဉ် စကားဝှက်သော့ တစ်ဆင့်ရယူခြင်းက အသုံးပြုသည့် ထပ်တလဲလဲပြုလုပ်ခြင်းများ အရေအတွက်ကို အောက်ပါအတိုင်း ထိန်းချုပ်သည့် တန်ဖိုးတစ်ခု ဖြစ်သည် -\n ထပ်တလဲလဲပြုလုပ်ခြင်းများ = PIM x 2048။\n\nအလွတ်အတိုင်း ချန်ထားလျှင် သို့မဟုတ် 0 အဖြစ် သတ်မှတ်ထားလျှင် VeraCrypt သည် လုံခြုံရေးမြင့်ကြောင်း သေချာစေသည့် နဂိုမူလတန်ဖိုးကို အသုံးပြုပါမည်။\n\nစကားဝှက်သည် စာလုံး ၂၀ အောက်ရှိသောအခါ အနည်းဆုံးရှိသင့်သော လုံခြုံရေးအဆင့်ကို ထိန်းသိမ်းရန်အတွက် PIM သည် ၉၈ အောက် မငယ်ရပါ။\nစကားဝှက်သည် စာလုံး ၂၀ နှင့်အထက် ရှိသောအခါ PIM ကို မည်သည့်တန်ဖိုးမဆို သတ်မှတ်နိုင်သည်။\n\nPIM တန်ဖိုးသည် ၉၈ ထက်ကြီးလျှင် စတင်အလုပ်လုပ်ရာတွင်နှေးပါမည်။ PIM တန်ဖိုးငယ်လျှင် (၉၈ အောက်နည်းလျှင်) စတင်အလုပ်လုပ်ရာတွင်မြန်သော်လည်း စကားဝှက်ခိုင်မာမှုနည်းပါက လုံခြုံမှု လျော့နည်းနိုင်သည်။</entry>
+    <entry lang="my" key="PIM_SYSENC_CHANGE_WARNING">စနစ် စတင်အလုပ်လုပ်ရန် နံပါတ်ကို မှတ်ထားပါ</entry>
+    <entry lang="my" key="PIM_LARGE_WARNING">သင်သည် VeraCrypt နဂိုမူလတန်ဖိုးထက်ကြီးသော PIM တန်ဖိုးကို ရွေးထားသည်။\nယင်းကြောင့် အစပျိုးခြင်း/စတင်အလုပ်လုပ်ခြင်း များစွာပိုနှေးနိုင်ကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။</entry>
+    <entry lang="my" key="PIM_SMALL_WARNING">သင်သည် နဂိုမူလ VeraCrypt တန်ဖိုးအောက်ငယ်သော တစ်ကိုယ်ရေသုံး ထပ်တလဲလဲပြုလုပ်ခြင်းများ မြှောက်ကိန်း (PIM) ကို ရွေးချယ်ထားသည်။ သင့်စကားဝှက်သည် လုံလောက်စွာမခိုင်မာပါက လုံခြုံရေး ပိုအားနည်းနိုင်ကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။\n\nသင်သည် ခိုင်မာသော စကားဝှက်ကို အသုံးပြုနေကြောင်း အတည်ပြုပါသလား။</entry>
+    <entry lang="my" key="PIM_SYSENC_TOO_BIG">စနစ် ကုဒ်ဖြင့်ပြောင်းလဲမှုအတွက် တစ်ကိုယ်ရေ ထပ်တလဲလဲပြုလုပ်ခြင်းများ မြှောက်ကိန်း (PIM) အများဆုံးတန်ဖိုးမှာ ၆၅၅၃၅ ဖြစ်သည်။</entry>
+    <entry lang="my" key="PIM_TITLE">Volume PIM</entry>
     <entry lang="my" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nသတိပေးချက် - လျှို့ဝှက် ဖိုင်(များ)ကို ကီးဖိုင် ရှာဖွေရေး လမ်းကြောင်း၌ တွေ့ရှိရသည်။ ယင်းကဲ့သို့ လျှို့ဝှက် ဖိုင်များကို ကီးဖိုင်အဖြစ် သုံးစွဲ၍ မရပါ။ ၄င်းတို့ကို ကီးဖိုင်များ အဖြစ် သုံးစွဲလိုပါက၊ ၄င်းတို့၏ 'Hidden' သတ်မှတ်ချက်ကို ဖယ်ရှားလိုက်ပါ (၄င်းတို့ကို ညာဖက် နှိပ်ပါ၊ 'Properties' ကို ရွေး၊ 'Hidden' အမှန်ခြစ်ကို ​ဖြုတ်ပြီး OK နှိပ်လိုက်ပါ)။ မှတ်ချက် - လျှို့ဝှက် ဖိုင်များသည် အကယ်၍ သက်ဆိုင်ရာ ရွေးစရာ (Computer &gt; Organize &gt; 'Folder and search options' &gt; View)ကို ဖွင့်ထားမှသာ မြင်နိုင်သည်။</entry>
     <entry lang="my" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">အကယ်၍ သင်သည် လျှို့ဝှက် ကွန်ပျူတာစနစ် ပါရှိသော လျှို့ဝှက် volume တစ်ခုကို ကာကွယ်ရန် ကြိုးစားနေပါက၊ လျှို့ဝှက် volume အတွက် စကားဝှက် ​ရိုက်ထည့်သည့်အခါ အမေရိကန် ကီးဘုတ် လေးအောက်ကို သုံးပါ။ ဤကဲ့သို့ ပြုလုပ်ရခြင်း အကြောင်းမှာ အမေရိကန် ကီးဘုတ် မဟုတ်သော ကီးဘုတ် မရှိနိုင်သောနေရာတွင် စကားဝှက်ကို စက်မဖွင့်မီ (ဝင်းဒိုးမတက်ခင်) အနေအထား၌ ရိုက်ထည့်ရမည် ဖြစ်​သောကြောင့် ဖြစ်သည်။</entry>
     <entry lang="my" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt သည် ကွန်ပျူတာစနစ် မဟုတ်သော စာဝှက်စနစ် အနှောင့်အယှက် ခံရသည့်နေရာ၊ volume ခေါင်းစီးကို ပေးထားသော စကားဝှက်နှင့် ကီးဖိုင်(များ) သုံးပြီး စာဝှက်ဖြည်နိုင်သည့်နေရာတွေ volume တစ်ခုမျှ မတွေ့ရပါ။\n\nစကားဝှက်နှင့် ကီးဖိုင်(များ)သည် မှန်ကန်ရမည် ဖြစ်ပြီး၊ အခန်းကန့်/volume ကို (ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲ အပါအ၀င်) ကွန်ပျူတာစနစ် (သို့) အပ္ပလီကေးရှင်းများက အသုံးမပြု​ရချေ။</entry>
-    <entry lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</entry>
-    <entry lang="en" key="SELECTED_PARTITION_NOT_INPLACE_ENC">The selected partition/device is not using in-place encryption.\nHeader Flags = 0x%.8X</entry>
+    <entry lang="my" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">ရွေးချယ်ထားသော အခန်းကန့်/စက်ကို အပြည့်အဝ ကုဒ်ဖြင့်ပြောင်းလဲပြီးဖြစ်သည်။\nခေါင်းစဉ် အသိပေးချက်များ = 0x%.8X</entry>
+    <entry lang="my" key="SELECTED_PARTITION_NOT_INPLACE_ENC">ရွေးချယ်ထားသော အခန်းကန့်/စက်သည် နေရာတကျ ကုဒ်ဖြင့်ပြောင်းလဲမှုကို အသုံးပြုမနေပါ။\nခေါင်းစဉ် အသိပေးချက်များ = 0x%.8X</entry>
     <entry lang="my" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\nမှတ်ချက် - အကယ်၍ သင်သည် လျှို့ဝှက် ကွန်ပျူတာစနစ် drive ထဲ၌ ရှိသော အခန်းကန့် တစ်ခုကို စက်ဖွင့်ပြီး စစ်ဆေးစရာ မလိုပဲ အစပျိုးရန် (သို့) အသုံးမပြုသော OS စနစ် တစ်ခု၏ စာဝှက်ထားသော ကွန်ပျူတာစနစ် အခန်းကန့်ကို အစပျိုးရန် သင် ကြိုးစားနေပါက၊ သင်သည် 'ကွန်ပျူတာစနစ်' &gt; 'စက်ဖွင့်ပြီး စစ်ဆေးစရာ မလိုပဲ အစပျိုးရန်' ကို ရွေးပြီး လုပ်ဆောင်နိုင်သည်။</entry>
     <entry lang="my" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">ဤစနစ်တွင်၊ လက်ရှိ သက်၀င်နေသော စာဝှက်စနစ်၏ ကီးနယ်ပယ်အတွင်း ရှိနေသော drive တစ်ခု၌ တည်ရှိသော အခန်းကန့်ကို အစပျိုး၍ မရပါ။\n\nဤအခန်းကန့်ကို ဒီစနစ်ဖြင့် အစမပျိုးခင်၊ (စာဝှက်ထားသော သို့မစုတ် စာဝှက်မထားသော) အခြား drive (သို့) စာဝှက်မထားသော OS စနစ်၌ ထည့်သွင်းထာသော OS စနစ်ကို သင် ပြန်ဖွင့်ရန် လိုအပ်သည်။</entry>
-    <entry lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive).</entry>
-    <entry lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</entry>
+    <entry lang="my" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt သည် တစ်ခုလုံး ကုဒ်ဖြင့်ပြောင်းလဲထားသော စနစ်ဒရိုက်(ဗ်)ရှိ အခန်းကန့်တစ်ခုစီကို ပြန်မဖြည်နိုင်ပါ (စနစ်ဒရိုက်(ဗ်)တစ်ခုလုံးကိုသာ ပြန်ဖြည်နိုင်သည်)။</entry>
+    <entry lang="my" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">သတိပေးချက် - ဒရိုက်(ဗ်)တွင် VeraCrypt စတင်အလုပ်လုပ်သည့်ကိရိယာ ပါဝင်သောကြောင့် ၎င်းသည် တစ်ခုလုံး ကုဒ်ဖြင့်ပြောင်းလဲထားသည့် စနစ်ဒရိုက်(ဗ်) ဖြစ်နိုင်သည်။ ထိုသို့ဖြစ်ပါက VeraCrypt သည် တစ်ခုလုံး ကုဒ်ဖြင့်ပြောင်းလဲထားသည့် စနစ်ဒရိုက်(ဗ်)ရှိ အခန်းကန့်တစ်ခုစီကို ပြန်မဖြည်နိုင်ကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ (စနစ်ဒရိုက်(ဗ်)တစ်ခုလုံးကိုသာ ပြန်ဖြည်နိုင်သည်)။ ဤသို့ဖြစ်လျှင် သင်သည် ယခု ဆက်လုပ်နိုင်သော်လည်း နောက်ပိုင်းတွင် "စကားဝှက် မှားနေသည်" ချွတ်ယွင်းချက်ပြမက်ဆေ့ချ်ကို လက်ခံရရှိပါမည်။</entry>
     <entry lang="my" key="PREV">&lt; &amp;နောက်သို့</entry>
     <entry lang="my" key="RAWDEVICES">သင့် ကွန်ပျူတာစနစ်၌ ထည့်သွင်းထားသော devices များ အကြမ်းစာရင်းကို ထုတ်ပြန်၍ မရပါ။</entry>
     <entry lang="my" key="READONLYPROMPT">Volume '%s' ရှိနေပြီး ၄င်းသည် ဖတ်ရှုရန်သက်သက် ဖြစ်သည်။ ၄င်းကို အစားထိုးရန် သေချာသလား?</entry>
     <entry lang="my" key="SELECT_DEST_DIR">ဖိုင်တွဲ ထားမည့်နေရာကို ရွေးရန်</entry>
     <entry lang="my" key="SELECT_KEYFILE">ကီးဖိုင် ရွေးရန်</entry>
     <entry lang="my" key="SELECT_KEYFILE_PATH">ကီးဖိုင် ရှာဖွေရေး လမ်းကြောင်း တစ်ခုကို ရွေးပါ။ သတိပေးချက် - ဖိုင်အမည်များ မပါပဲ၊ ဖိုင်လမ်းကြောင်းကိုသာ မှတ်သားမည် ဖြစ်သည်။</entry>
-    <entry lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</entry>
-    <entry lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</entry>
+    <entry lang="my" key="SELECT_KEYFILE_GENERATION_DIRECTORY">စကားဝှက်သော့ဖိုင်များကို သိုလှောင်ရန် လမ်းညွှန်တစ်ခု ရွေးချယ်ပါ။</entry>
+    <entry lang="my" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">လက်ရှိ ထည့်စရာဖိုင်ကို စကားဝှက်သော့ဖိုင်အဖြစ် ရွေးချယ်ခဲ့သည်။ ၎င်းကို ကျော်ပါမည်။</entry>
     <entry lang="my" key="SERPENT_HELP">Ross Anderson, , Eli Biham နှင့် Lars Knudsen တို့မှ ဒီဇိုင်းဆွဲသည်။ ၁၉၉၈ ခုနှစ်၌ ပုံနှိပ်ထုတ်ဝေသည်။ 256-bit key, 128-bit block ရှိသည်။ လုပ်ဆောင်သည့် စနစ်မှာ XTS ဖြစ်သည်။ Serpent သည် AES ၏ နောက်ဆုံး ရွေးချယ်စာရင်းထဲမှ တစ်ခု ဖြစ်သည်။</entry>
     <entry lang="my" key="SIZE_HELP">သင် ဖန်တီးလိုသော သိမ်းဆည်းခန်း၏ အရွယ်အစားကို သတ်မှတ်ပါ။\n\nအကယ်၍ တက်ကြွ (sparse-file) သိမ်းဆည်းခန်း တစ်ခုကို သင် ဖန်တီးပါက၊ ဒီပါရာမီတာသည် ၄င်း၏ အများဆုံး အရွယ်အစားကို သတ်မှတ်ပေးမည် ဖြစ်သည်။\n\nFAT volume ၏ အနည်းဆုံး အရွယ်အစားသည် 292 KB ဖြစ်သည်။ NTFS volume ၏ အနည်းဆုံး အရွယ်အစားမှာ 3792 KB ဖြစ်သည်။</entry>
     <entry lang="my" key="SIZE_HELP_HIDDEN_HOST_VOL">သင် ဖန်တီးမည့် ပြင်ပ volume  ၏ အရွယ်အစားကို သတ်မှတ်ပါ (ပြင်ပ volume ကို သင် အရင် ဖန်တီးပြီး၊ ၄င်းအထဲ၌ လျှို့ဝှက် volume တစ်ခု ဖန်တီးရမည် ဖြစ်သည်)။ လျှို့ဝှက် volume  တည်ရှိသော volume ၏ အနည်းဆုံး အရွယ်အစားမှာ340 KB ဖြစ်သည်။</entry>
@@ -759,18 +759,18 @@
     <entry lang="my" key="FOR_MORE_INFO_ON_PARTITIONS">အခန်းကန့်များ ဖန်တီးနည်းနှင် စီမံခန့်ခွဲနည်း အကြောင်း အချက်အလက်​များကို သင့် OS စနစ်နှင့် ပါလာသော အသုံးပြုနည်း လက်စွဲ၌ လေ့လာပါ (သို့) သင့် ကွန်ပျူတာ ရောင်းချပေးသူ၏ နည်းပညာဆိုင်ရာ ထောက်ပံ့ရေး အဖွဲ့ထံမှ အကူအညီ တောင်းခံနိုင်သည်။</entry>
     <entry lang="my" key="SYSTEM_PARTITION_NOT_ACTIVE">ချို့ယွင်းချက် - လက်ရှိ သုံးစွဲနေသော OS စနစ်သည် boot အခန်းကန့် (ပထမ သုံးစွဲနေသော အခန်းကန့်) တွင် မထည့်သွင်းထားပါ။ ဤအရာကို ထောက်ပံ့ မထားပါ။</entry>
     <entry lang="my" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">သင်သည် ဤ VeraCrypt volume ထဲ၌ 4 GB ထက် ပိုကြီးသော ဖိုင်များကို သိမ်းဆည်းရန် ရည်ရွယ်ထားပုံရသည်။ သို့သော်၊ 4 GB ထက် ကြီးသော ဖိုင်များကို သိမ်းဆည်း၍ မရသည့် FAT ဖိုင်စနစ်ကို သင် ရွေးချယ်ထားသည်။\n\nသင်သည် volume ကို FAT အဖြစ် ဖော်မက်ချရန် သေချာပါသလား?</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DECRYPTION_BAD_VOL_FORMAT">Error: VeraCrypt does not support in-place decryption of legacy non-system volumes created by VeraCrypt 1.0b or earlier.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DECRYPTION_CANT_DECRYPT_HID_VOL">Error: VeraCrypt cannot in-place decrypt a hidden VeraCrypt volume.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</entry>
-    <entry lang="en" key="CONFIRM_VOL_CONTAINS_NO_HIDDEN_VOL">Warning: Note that VeraCrypt cannot in-place decrypt a volume that contains a hidden VeraCrypt volume (the hidden volume would be overwritten with pseudorandom data).\n\nPlease confirm that the volume you are about to decrypt contains no hidden volume.\n\nNote: If the volume contains a hidden volume but you do not mind losing the hidden volume, you can select Proceed (the outer volume will be safely decrypted).</entry>
-    <entry lang="en" key="VOL_CONTAINS_NO_HIDDEN_VOL">The volume does not contain any hidden volume. Proceed.</entry>
-    <entry lang="en" key="VOL_CONTAINS_A_HIDDEN_VOL">The volume contains a hidden volume. Cancel.</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DECRYPTION_BAD_VOL_FORMAT">ပြဿနာ - VeraCrypt သည် VeraCrypt 1.0b သို့မဟုတ် အစောပိုင်းဗားရှင်းမှ ဖန်တီးသည့် အသုံးများသည့် စနစ်မဟုတ်သော volume ဟောင်းများ၏ နေရာတကျ ပြန်ဖြည်မှုကို မပံ့ပိုးပါ။\n\nသတိပြုရန် - သင်သည် volume တွင် သိုလှောင်ထားသော ဖိုင်များကို ကုဒ်ဖြင့်မပြောင်းလဲထားသော volume သို့ ကူးခြင်း/ရွှေ့ခြင်းဖြင့် ပြန်ဖြည်နိုင်ပါသေးသည်။</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DECRYPTION_CANT_DECRYPT_HID_VOL">ပြဿနာ - VeraCrypt သည် ဖုံးကွယ်ထားသော VeraCrypt volume ကို နေရာတကျ ပြန်မဖြည်နိုင်ပါ။\n\nသတိပြုရန် - သင်သည် volume တွင် သိုလှောင်ထားသော ဖိုင်များကို ကုဒ်ဖြင့်မပြောင်းလဲထားသော volume သို့ ကူးခြင်း/ရွှေ့ခြင်းဖြင့် ပြန်ဖြည်နိုင်ပါသေးသည်။</entry>
+    <entry lang="my" key="CONFIRM_VOL_CONTAINS_NO_HIDDEN_VOL">သတိပေးချက် - VeraCrypt သည် ဖုံးကွယ်ထားသော VeraCrypt volume ပါဝင်သည့် volume ကို နေရာတကျ ပြန်မဖြည်နိုင်ပါ (ဖုံးကွယ်ထားသော volume ကို အလားတူ အလျင်းသင့်သော အချက်အလက်ဖြင့် ထပ်ရေးပါမည်)။\n\nကျေးဇူးပြု၍ သင်ပြန်ဖြည်မည့် volume တွင် ဖုံးကွယ်ထားသော volume မပါကြောင်း အတည်ပြုပါ။\n\nသတိပြုရန် - ထို volume တွင် ဖုံးကွယ်ထားသော volume ပါသော်လည်း သင်သည် ထိုဖုံးကွယ်ထားသော volume ကို အဆုံးရှုံးခံနိုင်ပါက ဆက်လုပ်ရန် ကို ရွေးချယ်နိုင်ပါသည် (ပြင်ပ volume ကို ဘေးကင်းစွာ ပြန်ဖြည်ပါမည်)။</entry>
+    <entry lang="my" key="VOL_CONTAINS_NO_HIDDEN_VOL">ဤ volume တွင် ဖုံးကွယ်ထားသော volume မပါဝင်ပါ။ ဆက်လုပ်ပါ။</entry>
+    <entry lang="my" key="VOL_CONTAINS_A_HIDDEN_VOL">ဤ volume တွင် ဖုံးကွယ်ထားသော volume ပါဝင်နေသည်။ ပယ်ဖျက်ပါ။</entry>
     <entry lang="my" key="CANT_ACCESS_VOL">ချို့ယွင်းချက် - Volume ကို မဖွင့်နိုင်ပါ!\n\nရွေးထားသော volume သည် အစပျိုးထားခြင်း ရှိမရှိ (သို့) ကွန်ပျူတာစနစ် သို့မဟုတ် အပ္ပလီကေးရှင်းမှ အသုံးပြုမပြု၊ volume သည် ​အရေး/အဖတ် ခွင့်ပြုချက် ရှိမရှိ၊ ရေးသား၍ မရအောင် ကာကွယ်ထားခြင်း ရှိမရှိကို စစ်ဆေးပါ။</entry>
-    <entry lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</entry>
+    <entry lang="my" key="CANT_GET_VOL_INFO">ပြဿနာ - volume ဂုဏ်သတ္တိများ မရယူနိုင်ပါ။</entry>
     <entry lang="my" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">ချို့ယွင်းချက် - Volume ကို ဖွင့်မရပါ/volume အကြောင်း အချက်အလက် မရနိုင်ပါ!\n\nရွေးထားသော volume ရှိမရှိ၊ ကွန်ပျူတာစနစ် သို့မဟုတ် အပ္ပလီကေးရှင်းမှ အသုံးပြုမပြု၊ volume သည် ​အရေး/အဖတ် ခွင့်ပြုချက် ရှိမရှိ၊ ရေးသား၍ မရအောင် ကာကွယ်ထားခြင်း ရှိမရှိကို စစ်ဆေးပါ။</entry>
     <entry lang="my" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">ချို့ယွင်းချက် - Volume ကို ဖွင့်မရပါ/volume အကြောင်း အချက်အလက် မရနိုင်ပါ! ရွေးထားသော volume ရှိမရှိ၊ ကွန်ပျူတာစနစ် သို့မဟုတ် အပ္ပလီကေးရှင်းမှ အသုံးပြုမပြု၊ volume သည် ​အရေး/အဖတ် ခွင့်ပြုချက် ရှိမရှိ၊ ရေးသား၍ မရအောင် ကာကွယ်ထားခြင်း ရှိမရှိကို စစ်ဆေးပါ။\n\nအကယ်၍ ပြဿနာ ဆက်ရှိနေပါက၊ အောက်ပါ အဆင့်များကို လိုက်နာခြင်းဖြင့် အ​ကူအညီ ရနိုင်သည်။</entry>
     <entry lang="my" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">ချို့ယွင်းချက် တစ်ခုသည် VeraCrypt ကို အခန်းကန့် စာဝှက်၍ မရနိုင်အောင် တားဆီးနေသည်။ ယခင်က သတင်း​ပို့ထားသော ပြဿနာများကို ပြင်ဆင်ပြီး ထပ်ကြိုးစားပါ။ အကယ်၍ ပြဿနာ ဆက်ရှိနေပါက၊ အောက်ပါ အဆင့်များကို လိုက်နာခြင်းဖြင့် အ​ကူအညီ ရနိုင်သည်။</entry>
     <entry lang="my" key="INPLACE_ENC_GENERIC_ERR_RESUME">ချို့ယွင်းချက် တစ်ခုသည် VeraCrypt ကို အခန်းကန့် စာဝှက်သည့် လုပ်ငန်းစဉ် ပြန်စ၍ မရနိုင်အောင် တားဆီးနေသည်။\n\nယခင်က သတင်း​ပို့ထားသော ပြဿနာများကို ပြင်ဆင်ပြီး လုပ်ငန်းစဉ်ကို ပြန်စပါ။ Volume ကို အပြည့်အ၀ စာဝှက်ခြင်း မပြီးမချင်း ၄င်းကို ​အစပျိုး၍ ရမည် မဟုတ်ပါ။</entry>
-    <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
+    <entry lang="my" key="INPLACE_DEC_GENERIC_ERR">ပြဿနာတစ်ခုက VeraCrypt အား volume ကို ပြန်မဖြည်နိုင်အောင် တားဆီးထားသည်။ ကျေးဇူးပြု၍ ယခင်က အစီရင်ခံထားသော ပြဿနာများကို ပြင်ကြည့်ပြီးနောက် ဖြစ်နိုင်ပါက ထပ်မံကြိုးစားပါ။</entry>
     <entry lang="my" key="CANT_DISMOUNT_OUTER_VOL">ချို့ယွင်းချက် - ပြင်ပ volume ကို အဆုံးသတ်၍ မရပါ!\n\nVolume သည် ၄င်း၌ ပါသော ဖိုင်များ (သို့) ဖိုင်တွဲများကို ပရိုဂရမ် တစ်ခုခု (သို့) ကွန်ပျူတာစနစ် တစ်ခုခုက အသုံးပြုနေပါက အဆုံးသတ်၍ ရမည် မဟုတ်ပါ။\n\nVolume ထဲမှ ဖိုင်များ (သို့) ဖိုင်တွဲများကို သုံးစွဲနေသော ပရိုဂရမ်ကို ပိတ်ပြီး ထပ်ကြိုးစားပါ။</entry>
     <entry lang="my" key="CANT_GET_OUTER_VOL_INFO">ချို့ယွင်းချက် - ပြင်ပ volume နှင့်ပါတ်သက်သော အချက်အလက် မရနိုင်ပါ!\n\nVolume ကို ဆက်လက် မဖန်တီးနိုင်ပါ။</entry>
     <entry lang="my" key="CANT_ACCESS_OUTER_VOL">ချို့ယွင်းချက် - ပြင်ပ volume ကို မဖွင့်နိုင်ပါ! Volume ကို ဆက်လက် မဖန်တီးနိုင်ပါ။</entry>
@@ -825,7 +825,7 @@
     <entry lang="my" key="REMOVABLE_DISK">ဖြုတ်တပ်နိုင်သော Disk</entry>
     <entry lang="my" key="HARDDISK">Harddisk</entry>
     <entry lang="my" key="UNCHANGED">အပြောင်းအလဲ မရှိ</entry>
-    <entry lang="en" key="AUTODETECTION">Autodetection</entry>
+    <entry lang="my" key="AUTODETECTION">အလိုအလျောက် ထောက်လှမ်းခြင်း</entry>
     <entry lang="my" key="SETUP_MODE_TITLE">အညွှန်းစနစ်</entry>
     <entry lang="my" key="SETUP_MODE_INFO">စနစ် တစ်ခုခုကို ရွေးပါ။ ရွေးချယ်မည့် အရာကို မသေချာပါက၊ ပုံမှန်စနစ်ကို ရွေးပါ။</entry>
     <entry lang="my" key="SETUP_MODE_HELP_INSTALL">VeraCrypt ကို ကွန်ပျူတာစနစ်ထဲ ထည့်သွင်းလိုပါက ဤရွေးစရာကို ရွေးချယ်ပါ။</entry>
@@ -939,11 +939,11 @@
     <entry lang="my" key="ENTER_HIDDEN_VOL_PASSWORD">လျှို့ဝှက် volume အတွက် စကားဝှက် ရေးထည့်ပါ</entry>
     <entry lang="my" key="ENTER_HEADER_BACKUP_PASSWORD">အရံသင့် ဖိုင်ထဲ၌ သိမ်းဆည်းထားသော ခေါင်းစီးအတွက် စကားဝှက် ရေးထည့်ပါ</entry>
     <entry lang="my" key="KEYFILE_CREATED">ကီးဖိုင်ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
-    <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
-    <entry lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</entry>
-    <entry lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</entry>
+    <entry lang="my" key="KEYFILE_INCORRECT_NUMBER">သင် ပေးသွင်းခဲ့သော စကားဝှက်သော့ဖိုင် အရေအတွက်မှာ မမှန်ကန်ပါ။</entry>
+    <entry lang="my" key="KEYFILE_INCORRECT_SIZE">စကားဝှက်သော့ဖိုင် အရွယ်အစားသည် ၆၄ နှင့် ၁၀၄၈၅၇၆ ဘိုက် အကြား ရှိရမည်။</entry>
+    <entry lang="my" key="KEYFILE_EMPTY_BASE_NAME">ကျေးဇူးပြု၍ စကားဝှက်သော့ဖိုင်(များ)ကို ထုတ်လုပ်ရန် အမည်တစ်ခု ရိုက်ထည့်ပါ</entry>
+    <entry lang="my" key="KEYFILE_INVALID_BASE_NAME">စကားဝှက်သော့ဖိုင်(များ)၏ အခြေအမည်မှာ မမှန်ကန်ပါ</entry>
+    <entry lang="my" key="KEYFILE_ALREADY_EXISTS">စကားဝှက်သော့ဖိုင် '%s' သည် ရှိပြီးသားဖြစ်သည်။\nသင်သည် ၎င်းကို ထပ်ရေးလိုပါသလား။ ထပ်မရေးလိုပါ ဟု သင်ဖြေပါက ထုတ်လုပ်သည့်လုပ်ငန်းစဉ်ကို ရပ်လိုက်ပါမည်။</entry>
     <entry lang="my" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">သတိပေးချက် - ဤ volume ၏ ခေါင်းစီး ပျက်စီးသွားပြီ! ၎င်း volume ထဲ၌ ထည့်မြှပ်ထားသော volume ခေါင်းစီး အရံသင့် သိမ်းဆည်းချက်ကို VeraCrypt သည် အလိုအလျောက် သုံးစွဲထားသည်။\n\n Volume  ခေါင်းစီးကို 'ကိရိယာများ' &gt; 'Volume ​ခေါင်းစီး ပြန်ထားရန်' ကို ရွေးပြီး ပြုပြင်ပါ။</entry>
     <entry lang="my" key="VOL_HEADER_BACKED_UP">Volume ခေါင်းစီးကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။\n\nအရေးကြီးချက် - ဤအရန်သင့် ဖိုင်ကို အသုံးပြုပြီး volume ခေါင်းစီးကို ပြန်ထားခြင်းဖြင့် လက်ရှိ volume ၏ စကားဝှက်ကိုလည်း ပြန်ထားပေးမည် ဖြစ်သည်။ ထို့အပြင် volume ကို အစပျိုးရန် ကီးဖိုင်(များ) လိုအပ်လာပါက၊ volume ခေါင်းစီးကို ပြန်ထားသည့်အခါ ၄င်း volume ကို အစပျိုးရန်အတွက် အလားတူ ကီးဖိုင် လိုအပ်လာမည်ဖြစ်သည်။\n\nသတိပေးချက် - ဤ volume ခေါင်းစီးကို သီးခြား volume ၏ ခေါင်းစီးကို ပြန်ထားရန် သုံးစွဲနိုင်သည်။ အကယ်၍ ဤခေါင်းစီး အရန်သင့် ဖိုင်ကို အခြား volume တစ်ခု၏ ခေါင်းစီး ပြန်ထားရန် အသုံးပြုပါက၊ ၄င်း volume ကို သင် အစပျိုးနိုင်မည် ဖြစ်သည်၊ သို့သော် volume ထဲ၌ သိမ်းဆည်းထားသော ဒေတာများကို သင် စာဝှက်ဖေါ်နိုင်မည် မဟုတ်ပါ (အဘယ့်ကြောင့် ဆိုသော် ၄င်း၏ မာစတာ ကီးကို သင် ပြောင်းလဲရမည် ဖြစ်သည်)။</entry>
     <entry lang="my" key="VOL_HEADER_RESTORED">volume ခေါင်းစီးကို အောင်မြင်စွာ ပြန်ထားလိုက်ပြီ။\n\nအရေးကြီးချက် - စကားဝှက် အဟောင်းကိုပါ ပြန်ထားနိုင်သည်ကို သတိပြုပါ။ ဒါ့အပြင်၊ အကယ်၍ အရန်သင့်ဖိုင်ကို ဖန်တီးသည့်အခါ volume ကို အစပျိုးရန်အတွက် ကီးဖိုင်(များ) လိုအပ်လာပါက၊ ၄င်း volume ကို အစပျိုးရန်အတွက် အလားတူ ကီးဖိုင်များ လိုအပ်လာမည် ဖြစ်သည်။</entry>
@@ -966,8 +966,8 @@
     <entry lang="my" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">VeraCrypt ဆယ်တင်ရေး အခွေကို သင့် CD/DVD drive ထဲ ထည့်ပြီး ၄င်းကို စစ်ဆေးရန် ကောင်းပြီး ခလုတ်ကို နှိပ်ပါ။</entry>
     <entry lang="my" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt ဆယ်တင်ရေး အခွေကို အောင်မြင်စွာ စစ်ဆေးလိုက်ပြီ။</entry>
     <entry lang="my" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">ဆယ်တင်ရေး အခွေကို မှန်မှန်ကန်ကန် ရေးကူးမှု ရှိမရှိ စစ်ဆေး၍ မရပါ။\n\nဆယ်တင်ရေး ​အခွေကို ကူးပြီးပါ​က၊ စီဒီ/ဒီဗွီဒီကို ထုတ်ပြီး ပြန်သွင်းကာ ထပ်စမ်းကြည့်ပါ။ အကယ်၍ အလုပ်မဖြစ်ပါက၊ အခြား  စီဒီ/ဒီဗွီဒီ ခွေကူး ဆော့ဗ်ဝဲ (သို့) ကြားခံဖြင့် ထပ်စမ်းကြည့်ပါ။\n\nအကယ်၍ သင်သည် အခြား မာစတာ ကီး၊ စကားဝှက်၊ salt နှင့် အခြားအတွက် ဖန်တီးထားသော VeraCrypt ဆယ်တင်ရေး အခွေကို စစ်ဆေးရန် ကြိုးပမ်း​နေပါက၊ ယင်းကဲ့သို့ ဆယ်တင်ရေး အခွေသည် ဤကဲ့သို့ စစ်ဆေးမှုကို အောင်မြင်မည် မဟုတ်ပါ။ သင့် လက်ရှိ ပြုပြင်ဖန်တီးမှုနှင့် ကိုက်ညီသော ဆယ်တင်ရေး အခွေသစ် တစ်ခုကို သင် ပြုလုပ်လိုပါက 'System' &gt; 'ဆယ်တင်ရေး ​အခွေ ဖန်တီးရန်' ကို ရွေးပါ။</entry>
-    <entry lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk image has been successfully verified.</entry>
-    <entry lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk image created for a different master key, password, salt, etc., please note that such Rescue Disk image will always fail this verification. To create a new Rescue Disk image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</entry>
+    <entry lang="my" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt Rescue Disk image ကို မှန်ကန်ကြောင်း အောင်မြင်စွာ စစ်ဆေးပြီးပါပြီ။</entry>
+    <entry lang="my" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">Rescue Disk image မှန်ကန်ကြောင်း စစ်ဆေးခြင်း မအောင်မြင်ပါ။\n\nသင်သည် မတူညီသော မာစတာကီး၊ စကားဝှက်၊ စကားဝှက်ဟက်ရှ် ပြင်ဆင်ရန်ဒေတာ စသည်တို့အတွက် ဖန်တီးထားသည့် VeraCrypt Rescue Disk image ကို မှန်ကန်ကြောင်းစစ်ဆေးရန် ကြိုးပမ်းခဲ့ပါက ထိုကဲ့သို့ Rescue Disk image သည် ဤမှန်ကန်ကြောင်းစစ်ဆေးမှုတွင် အမြဲတမ်း ကျရှုံးပါမည်။ သင့်လက်ရှိ အစိတ်အပိုင်းများဖွဲ့စည်းပုံနှင့် အပြည့်အဝ ကိုက်ညီသော Rescue Disk image အသစ်ကို ဖန်တီးရန် 'စနစ်' &gt; 'Rescue Disk ဖန်တီးရန်' ကို ရွေးချယ်ပါ။</entry>
     <entry lang="my" key="ERROR_CREATING_RESCUE_DISK">VeraCrypt ဆယ်တင်ရေး အ​ခွေ ဖန်တီးမှု ချို့ယွင်းချက်။</entry>
     <entry lang="my" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">လျှို့ဝှက် OS ကို သုံးစွဲ​​နေစဉ် VeraCrypt ဆယ်တင်ရေး အခွေကို ဖန်တီး၍ မရပါ။\n\nVeraCrypt ဆယ်တင်ရေး အခွေကို ဖန်တီးရန်၊ မျက်လှည့် OS ကို ဖွင့်ပြီး 'System' &gt; 'ဆယ်တင်ရေး အခွေ ဖန်တီးရန်' ကို ရွေးပါ။</entry>
     <entry lang="my" key="RESCUE_DISK_CHECK_FAILED">ဆယ်တင်ရေး အခွေကို မှန်မှန်ကန်ကန် ရေးကူးမှု ရှိမရှိ စစ်ဆေး၍ မရပါ။\n\nဆယ်တင်ရေး ​အခွေကို ကူးပြီးပါ​က၊ စီဒီ/ဒီဗွီဒီကို ထုတ်ပြီး ပြန်သွင်းကာ ထပ်စမ်းကြည့်ပါ။ အကယ်၍ အလုပ်မဖြစ်ပါက၊ အခြား  စီဒီ/ဒီဗွီဒီ ခွေကူး ဆော့ဗ်ဝဲ (သို့) ကြားခံ %s ဖြင့် ထပ်စမ်းကြည့်ပါ။\n\nအကယ်၍ သင်သည် ဆယ်တင်ရေး အခွေကို မကူးသေးပါက၊ ယခု ကူးယူပြီးနောက်၊ ရှေ့သို့ ခလုတ်ကို နှိပ်ပါ။\n\n ဤအညွှန်းကို မဖွင့်မီ သင် ဖန်တီးခဲ့သော VeraCrypt ဆယ်တင်ရေး အခွေကို စစ်ဆေးရန် သင် ကြိုးပမ်းနေပါက၊ ယင်းကဲ့သို့ ဆယ်တင်ရေး အခွေကို သုံးစွဲနိုင်မည် မဟုတ်ပါ၊ အဘယ်ကြောင့် ဆိုသော် ၄င်းသည် အခြား မာစတာ ကီးအတွက် ဖန်တီးထား၍ ဖြစ်သည်။ အသစ် ထုတ်လုပ်ထားသော ဆယ်တင်ရေး အခွေကို သင် ကူးယူရန် လိုအပ်သည်။</entry>
@@ -1044,7 +1044,7 @@
     <entry lang="my" key="CONFIRM_EXIT_UNIVERSAL">ထွက်မည်လား?</entry>
     <entry lang="my" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt ၌ စာဝှက်ခြင်း (သို့) စာဝှက်ဖြည်ခြင်း ပြုလုပ်ရန် ဆုံးဖြတ်ရမည့် အချက်အလက် အလုံ​အလောက် မရှိပါ။</entry>
     <entry lang="my" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt ၌ စာဝှက်ခြင်း (သို့) စာဝှက်ဖြည်ခြင်း ပြုလုပ်ရန် ဆုံးဖြတ်ရမည့် အချက်အလက် အလုံ​အလောက် မရှိပါ။\n\nမှတ်ချက် - အကယ်၍ သင်သည် ကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို စက်မတင်မီ အခြေအနေ၌ စာဝှက်ခဲ့လျှင်၊ လုပ်ငန်းစဉ်ကို စာဝှက်ဖြည်ရန် ကို နှိပ်ခြင်းဖြင့် အပြီးသတ်ရန် လိုအပ်သည်။</entry>
-    <entry lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</entry>
+    <entry lang="my" key="NONSYS_INPLACE_ENC_REVERSE_INFO">သတိပြုရန် - သင်သည် စနစ်မဟုတ်သော အခန်း/volume ကို နေရာတကျ ကုဒ်ဖြင့်ပြောင်းလဲနေချိန်တွင် ပြဿနာတစ်ခုက သင့်အား လုပ်ငန်းစဉ် မပြီးစီးနိုင်အောင် ဆက်လက်တားဆီးနေပါက သင်သည် volume ကို တစ်ခုလုံး ပြန်ဖြည်ပြီးချိန်အထိ volume အစပျိုးနိုင်မည် (ပြီးလျှင် ၎င်းတွင် သိုလှောင်ထားသော ဒေတာကို အသုံးပြုနိုင်မည်) မဟုတ်ပါ (ဆိုလိုသည်မှာ လုပ်ငန်းစဉ်ကို ပြောင်းပြန်ဆောင်ရွက်ရမည်)။\n\nသင်သည် ထိုသို့ပြုလုပ်ရန် လိုအပ်ပါက ဤအဆင့်များကို လိုက်နာပါ - \n1) ဤ wizard မှ ထွက်ပါ။\n2)အဓိက VeraCrypt ဝင်းဒိုးတွင် 'Volume' များ' &gt; 'ကြားဖြတ်ထားသော လုပ်ငန်းစဉ်ကို ပြန်လည်စတင်ပါ' ကို ရွေးချယ်ပါ။\n3)'ပြန်ဖြည်ရန်' ကို ရွေးချယ်ပါ။</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">အခန်းကန့်/volume စာဝှက်ခြင်း လုပ်ငန်းစဉ်ကို ဟန့်တားလိုသလား/ရပ်တန့်လိုသလား?\n\nမှတ်ချက် - Volume ကို အပြည့်အ၀ စာဝှက် မပြီးမချင်း အစပျိုး၍ မရပါ။ စာဝှက်ခြင်း လုပ်ငန်းစဉ်ကို ပြန်စရမည်ဖြစ်ပြီး ၄င်းကို ရပ်တန့်ထားသည့် နေရာမှ ပြန်ဆက်ရမည် ဖြစ်သည်။ ဤသို့ ပြုလုပ်ရန်၊ ဥပမာ အားဖြင့်၊ ပင်မ VeraCrypt ၀င်းဒိုးရှိ မီနူးဘားမှ 'Volumes များ' &gt; 'ဟန့်တားသည့် လုပ်ငန်းစဉ် ပြန်စရန်' ကို ရွေးချယ်ခြင်းဖြစ် လုပ်ဆောင်နိုင်သည်။</entry>
     <entry lang="my" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">အခန်းကန့်/volume စာဝှက်ခြင်း လုပ်ငန်းစဉ်ကို ဟန့်တားလိုသလား/ရပ်တန့်လိုသလား?\n\nမှတ်ချက် - လုပ်ငန်းစဉ်ကို သင် ပြန်စနိုင်မည် ဖြစ်ပြီး ၄င်းရပ်တန့်ထားသည့် နေရာမှ ပြန်ဆက်ရမည် ဖြစ်သည်။ ဤသို့ ပြုလုပ်ရန်၊ ဥပမာ အားဖြင့်၊ ပင်မ VeraCrypt ၀င်းဒိုးရှိ မီနူးဘားမှ 'Volumes များ' &gt; 'ဟန့်တားသည့် လုပ်ငန်းစဉ် ပြန်စရန်' ကို ရွေးချယ်ခြင်းဖြစ် လုပ်ဆောင်နိုင်သည်။ အကယ်၍ သင်သည် စာဝှက်ခြင်း လုပ်ငန်းစဉ်ကို အမြဲတမ်း အဆုံးသတ်လိုပါက (သို့) နောက်ကြောင်း ပြန်လှည့်လိုပါက၊ 'ကွန်ပျူတာ စနစ်' &gt; 'ကွန်ပျူတာစနစ် အခန်းကန့်/Drive အမြဲတမ်း စာဝှက်​ဖြည်ရန်' ကို ရွေးပါ။</entry>
     <entry lang="my" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">အခန်းကန့်/volume စာဝှက်ဖြည်ခြင်း လုပ်ငန်းစဉ်ကို ဟန့်တားလိုသလား/ရပ်တန့်လိုသလား?\n\nမှတ်ချက် - လုပ်ငန်းစဉ်ကို သင် ပြန်စနိုင်မည် ဖြစ်ပြီး ၄င်းရပ်တန့်ထားသည့် နေရာမှ ပြန်ဆက်ရမည် ဖြစ်သည်။ ဤသို့ ပြုလုပ်ရန်၊ ဥပမာ အားဖြင့်၊ ပင်မ VeraCrypt ၀င်းဒိုးရှိ မီနူးဘားမှ 'Volumes များ' &gt; 'ဟန့်တားသည့် လုပ်ငန်းစဉ် ပြန်စရန်' ကို ရွေးချယ်ခြင်းဖြစ် လုပ်ဆောင်နိုင်သည်။ အကယ်၍ သင်သည် စာဝှက်ဖြည်ခြင်း လုပ်ငန်းစဉ်ကို နောက်ကြောင်း ပြန်လှည့် (ပြီး စတင် စာဝှက်) လိုပါက၊ 'ကွန်ပျူတာ စနစ်' &gt; 'ကွန်ပျူတာစနစ် အခန်းကန့်/Drive စာဝှက်​ရန်' ကို ရွေးပါ။</entry>
@@ -1054,7 +1054,7 @@
     <entry lang="my" key="FAILED_TO_START_WIPING">ချို့ယွင်းချက် - ရှင်းလင်းသည့် လုပ်ငန်းစဉ် စတင်ရန်မအောင်မြင်ပါ။</entry>
     <entry lang="my" key="INCONSISTENCY_RESOLVED">မကိုက်ညီသော ဖြေရှင်းချက်။\n\n\n(ဤအကြောင်းနှင့် ပါတ်သက်၍ ပရိုဂရမ် အမှား တစ်ခုကို သတင်းပို့မည် ဆိုလျှင်၊ ပရိုဂရမ် အမှား သတင်းပေးပို့ချက်၌ အောက်ပါ နည်းပညာဆိုင်ရာ အချက်အလက်များကို ထည့်သွင်းပါ -\n%hs)</entry>
     <entry lang="my" key="UNEXPECTED_STATE">ချို့ယွင်းချက် - မျော်လင့်မထားသော အ​ခြေအနေ။\n\n\n(ဤအကြောင်းနှင့် ပါတ်သက်၍ ပရိုဂရမ် အမှား တစ်ခုကို သတင်းပို့မည် ဆိုလျှင်၊ ပရိုဂရမ် အမှား သတင်းပေးပို့ချက်၌ အောက်ပါ နည်းပညာဆိုင်ရာ အချက်အလက်များကို ထည့်သွင်းပါ -\n%hs)</entry>
-    <entry lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</entry>
+    <entry lang="my" key="NO_SYS_ENC_PROCESS_TO_RESUME">စနစ် အခန်းကန့်/ဒရိုက်(ဗ်)အား ကုဒ်ဖြင့်ပြောင်းလဲခြင်း/ပြန်ဖြည်ခြင်းကို ပြန်လည်စတင်ရန်အတွက် ကြားဖြတ်ထားသော လုပ်ငန်းစဉ် မရှိပါ။\n\nသတိပြုရန် - သင်သည် စနစ်မဟုတ်သော အခန်းကန့်/volume အား ကုဒ်ဖြင့်ပြောင်းလဲခြင်း/ပြန်ဖြည်ခြင်းကို ကြားဖြတ်ထားသော လုပ်ငန်းစဉ်ကို ပြန်လည်စတင်လိုပါက 'Volume များ' &gt; 'ကြားဖြတ်ထားသော လုပ်ငန်းစဉ်ကို ပြန်လည်စတင်ပါ' ကို ရွေးချယ်ပါ။</entry>
     <entry lang="my" key="HIDVOL_PROT_BKG_TASK_WARNING">သတိပေးချက် - VeraCrypt နောက်ခံ လုပ်ဆောင်ချက်ကို ပိတ်ထားသည်။ VeraCrypt မှ ထွက်ပြီးပါက၊ လျှို့ဝှက် volume ထဲမှ ပျက်စီးမှုကို တားဆီးထားလျှင် သင့်ကို အချက်ပေးမည် မဟုတ်ပါ။\n\nမှတ်ချက် - VeraCrypt အမှိုက်ပုံး အိုင်ကွန်ကို ညာဖက် နှိပ်၊ 'ထွက်ရန်' ကို ရွေးပြီး နောက်ခံ လုပ်ဆောင်ချက်ကို သင် အချိန်မရွေး ပိတ်နိုင်သည်။\n\nVeraCrypt နောက်ခံ လုပ်ဆောင်ချက်ကို ဖွင့်လိုသလား?</entry>
     <entry lang="my" key="LANG_PACK_VERSION">ဘာသာစကား အထုပ် ဗားရှင်း - %s</entry>
     <entry lang="my" key="CHECKING_FS">%s အနေဖြင့် အစပျိုးထားသော VeraCrypt volume မှ ဖိုင်စနစ်ကို စစ်ဆေးနေသည်...</entry>
@@ -1079,7 +1079,7 @@
     <entry lang="my" key="SYS_LOADER_RESTORE_FAILED">မူရင်း system loader ကို နဂိုနေရာ ပြန်ထား၍ မရပါ။\n\n VeraCrypt Boot Loade ကို Windows system loader ဖြင့် အစားထိုးရန် VeraCrypt Rescue Disk ('Repair Options' &gt; 'Restore original system loader') သို့မဟုတ် Windows အခွေကို အသုံးပြုပါ။</entry>
     <entry lang="my" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">မူရင်း system loader ကို Rescue Disk (ဖြစ်နိုင်ချေ အကြောင်းရင် - အရန်သင့် သိမ်းဆည်းဖိုင် ပျောက်ဆုံးခြင်း) ၌ သိမ်းဆည်းမည် မဟုတ်ပါ။</entry>
     <entry lang="my" key="ERROR_MBR_PROTECTED">MBR sector ကို ရေးသာ၍ မရပါ။\n\n သင့် BIOS သည် MBR sector ကို ကာကွယ်ရန် ပြုပြင်ထားပုံပေါ်သည်။  MBR/ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲ အကာအကွယ်အတွက် သင့် BIOS ချိန်ညှိချက်များကို စစ်ဆေးပါ (စက်ဖွင့်နေစဉ် F2, Delete, သို့မဟုတ် Esc တစ်ခုခုကို နှိပ်ပါ)။</entry>
-    <entry lang="en" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">WARNING: The verification of VeraCrypt bootloader fingerprint failed!\nYour disk may have been tampered with by an attacker ("Evil Maid" attack).\n\nThis warning can also be triggered if you restored VeraCrypt boot loader using an Rescue Disk generated using a different VeraCrypt version.\n\nYou are advised to change your password immediately which will also restore the correct VeraCrypt bootloader. It is recommended to reinstall VeraCrypt and to take measures to avoid access to this machine by untrusted entities.</entry>
+    <entry lang="my" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">သတိပေးချက် - VeraCrypt စတင်အလုပ်လုပ်ချိန် လက်‌‌ဗွေ မှန်ကန်ကြောင်းစစ်ဆေးမှု မအောင်မြင်ပါ။\nသင့်ဒစ်(စ်)ကို တိုက်ခိုက်သူက ကြားဖြတ်နှောင့်ယှက်ထားခြင်း ဖြစ်နိုင်သည် ("Evil Maid" အတိုက်အခိုက်)။\n\nသင်သည် ကွဲပြားသော VeraCrypt ဗားရှင်းဖြင့် ထုတ်လုပ်ထားသော Rescue Disk ကို သုံးသည့် VeraCrypt boot loader ကို ပြန်လည်ရယူလျှင်လည်း ဤသတိပေးချက်ကို လှုံ့ဆော်နိုင်သည်။\n\nသင့်စကားဝှက်ကို ချက်ချင်း ပြောင်းလဲရန် အကြံပြုပါသည်။ ယင်းသည် မှန်ကန်သော VeraCrypt boot loader ကိုလည်း ပြန်လည်ရယူပါမည်။ VeraCrypt ကို ပြန်လည်ထည့်သွင်းပြီး ဤစက်ကို မယုံကြည်ရသော ပုဂ္ဂိုလ်များမှ အသုံးမပြုနိုင်အောင် ပြင်ဆင်မှုများ ပြုလုပ်ရန် အကြံပြုပါသည်။</entry>
     <entry lang="my" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">လိုအပ်သော VeraCrypt Boot Loader ဗားရှင်းကို လောလောဆယ် ထည့်သွင်းမထားပါ။ ဤအချက်ကြောင့် အခြား ချိန်ညှိချက်များ သိမ်းဆည်း၍ မရခြင်း ဖြစ်နိုင်သည်။</entry>
     <entry lang="my" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">မှတ်ချက် - တစ်ခါတစ်ရံ၊ သင့်ကို စောင့်ကြည့်နေသော ပုဂ္ဂိုလ် တစ်စုံတစ်ယောက်သည် သင် VeraCrypt သုံးစွဲနေသည်ကို မသိစေလိုသည့် အခြေအနေမျိုး ရှိလာနိုင်သည်။ အထက်ပါ ရွေးစရာ၌ VeraCrypt boot loader မျက်နှာပြင်ကို စိတ်ကြိုက်ဖန်တီးခြင်းဖြင့် ပြုလုပ်နိုင်သည်။ ပထမ ရွေးစရာကို သင် ဖွင့်ထားပါက၊ boot loader ၌ (စကားဝှက် အမှား ရေးထည့်သည်အခါ၌ပင်) မည်သည့် စာတမ်းမျှ ပေါ်လာမည် မဟုတ်ပါ။ သင့် စကားဝှက်ကို ရေးထည့်နေစဉ် ကွန်ပြူတာသည် "ရပ်တန့်နေ"သယောင် မြင်တွေ့ရမည် ဖြစ်သည်။ သည့်အပြင်၊ ရန်သူကို လမ်းကြောင်းလွှဲစေရန် စိတ်ကြိုက် ရေးထားသော စာတမ်း ပေါ်လာမည် ဖြစ်သည်။ဥပမာ အားဖြင့် - "Missing operating system" (၄င်းသည် Windows boot loader က Windows boot partition ကို မတွေ့သည့်အခါ ပုံမှန် ပြသနေသော စာတမ်းဖြစ်သည်။ သို့သော်၊ အကယ်၍ ရန်သူသည် hard drive ၌ ပါရှိသော အကြောင်းအရာကို စစ်ဆေးလာပါက၊ VeraCrypt boot loader ပါရှိနေသည်ကို သိရှိနိုင်ပါသည်။</entry>
     <entry lang="my" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">သတိပေးချက် - ဤရွေးစရာကို ဖွင့်ထားပါက၊ VeraCrypt boot loader သည် မည်သည့် စာတမ်း (စကားဝှက် အမှား ရေးထည့်လျှင်လည်း) ကိုမျှ ပြမည် မဟုတ်သည်ကို သတိပြုပါ။ စကားဝှက်ကို သင် ရေးထည့်ချိန်၌ ကွန်ပြူတာသည် "ရပ်တန့်"နေသကဲ့သို့ (တုံ့ပြန်မှုမရှိပဲ​) မြင်တွေ့ရမည် (cursor ရွှေ့လျားမည် မဟုတ်သကဲ့သို့ ကီးတစ်ခုခုကို နှိပ်သည့်အခါ ကြယ်ပွင့် တစ်ခုမျှ မြင်ရမည် မဟုတ်ပါ)။\n\n ဤရွေးစရာကို ဖွင့်ရန် သင် တကယ်အလိုရှိသလား?</entry>
@@ -1101,10 +1101,10 @@
     <entry lang="my" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nအပို boot အခန်းကန့်ကို Windows မထည့်သွင်းမီ ဖယ်ရှားနိုင်သည်။ ထိုသို့ ပြုလုပ်ရန်၊ အောက်ပါ အဆင့်များကို လိုက်နာပါ -\n\n၁) Windows အခွေကို ဖွင့်ပါ။\n\n၂) Windows ထည့်သွင်းစနစ် မျက်နှာပြင်၌၊ 'Install now' &gt; 'Custom (advanced)' ကို နှိပ်ပါ။\n\n၃) 'Drive Options' ကို နှိပ်ပါ။\n\n၄) ပင်မ ကွန်ပျူတာစနစ် အခန်းကန့်ကို ရွေးပါ။ ၄င်းကို 'Delete' နှိပ်ပြီး 'OK' နှိပ်ပါ။\n\n၅)  'System Reserved' အခန်းကန့်ကို ရွေးပြီး၊ 'Extend' ကို နှိပ်ပါ။ OS စနစ် ထည့်သွင်းမည့် အခန်းကန့်​ အရွယ်အစားကို တိုးမြှင့်လိုက်ပါ။\n\n၆) 'Apply' နှင့် 'OK' ကို နှိပ်ပါ။\n\n၇) Windows ကို 'System Reserved' အခန်းကန့်၌ ထည့်သွင်းပါ။\n\n\nရန်သူက အပို boot အခန်းကန့်ကို ဖယ်ရှားရသည့် အကြောင်းရင်းကို မေးသည့်အခါ၊ သင့်အနေဖြင့် စာဝှက်မထားသော boot အခန်းကန့်ထဲ၌ ဒေတာ ယိုဖိတ်မှု မရှိစေရန် လုပ်ဆောင်ခြင်း ဖြစ်ကြောင်း ဖြေကြားနိုင်သည်။\n\nမှတ်ချက် - ဤစာတမ်းကို အောက်မှ 'Print' ခလုတ် နှိပ်ပြီး ပရင့်ထုတ်နိုင်သည်။ အကယ်၍ ဤစာတမ်းကို သိမ်းထားသည် ဖြစ်စေ၊ ပရင့်ထုတ်သည့် ဖြစ်စေ (သင့်ပရင်တာသည် ၄င်းပရင့်ထုတ်ထားသော မှတ်တမ်းမှတ်ရာများကို ၄င်း၏ အတွင်း drive ထဲ၌ သိမ်းဆည်းမထားပါက)၊ အပို boot အခန်းကန့် (အကယ်၍ ယင်းကော်ပီကို တွေ့ခဲ့လျှင်၊ ဤကွန်ပျူတာ၌ လျှို့ဝှက် OS စနစ် တစ်ခု ​ရှိနေကြောင်း ညွှန်ပြနေမည် ဖြစ်သည်) ကို ဖယ်ရှားပြီးသည့်အခါ ၄င်းကော်ပီးများကို ဖျက်ဆီးပစ်ရမည် ဖြစ်သည်။</entry>
     <entry lang="my" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">သတိပေးချက် - ကွန်ပျူတာစနစ် အခန်းကန့်နှင့် ပထမ အခန်းကန့်တို့ အကြား၌ မသတ်မှတ်ရသေးသော နေရာရှိသည်။ လျှို့ဝှက် OS စနစ်ကို ဖန်တီးပြီးသောအခါ၊ ယင်း မသတ်မှတ်ရသေးသော နေရာ၌ အခန်းကန့်အသစ် မဖန်တီးရ။ သို့မဟုတ်ပါက၊ (ယင်းကဲ့သို့ အသစ် ဖန်တီးလိုက်သော အခန်းကန့်များကို မဖျက်မချင်း) လျှို့ဝှက် OS စနစ်ကို ဖွင့်၍ မရ ဖြစ်သွားနိုင်သည်။</entry>
     <entry lang="my" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ဤအယ်လဂိုရီသမ်၌ လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။</entry>
-    <entry lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</entry>
-    <entry lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</entry>
-    <entry lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</entry>
-    <entry lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</entry>
+    <entry lang="my" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">ဤအယ်လဂိုရီသမ်ကို TrueCrypt မုဒ်အတွက် ပံ့ပိုးမထားပါ။</entry>
+    <entry lang="my" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (တစ်ကိုယ်ရေသုံး ထပ်တလဲလဲပြုခြင်းများ မြှောက်ကိန်း) ကို TrueCrypt မုဒ်အတွက် ပံ့ပိုးမထားပါ။</entry>
+    <entry lang="my" key="PIM_REQUIRE_LONG_PASSWORD">ဖော်ပြထားသော PIM ကို အသုံးပြုရန်အတွက် စကားဝှက်သည် စာလုံး ၂၀ နှင့်အထက် ရှိရပါမည်။\nPIM သည် ၄၈၅ နှင့်အထက် ရှိမှသာ ပိုတိုသော စကားဝှက်များကို အသုံးပြုနိုင်ပါသည်။</entry>
+    <entry lang="my" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">ဖော်ပြထားသော PIM ကို အသုံးပြုရန်အတွက် စတင်အလုပ်မလုပ်မီ စစ်မှန်ကြောင်းသက်သေပြသည့် စကားဝှက်သည် စာလုံး ၂၀ နှင့်အထက် ရှိရပါမည်။\nPIM သည် ၉၈ နှင့်အထက် ရှိမှသာ ပိုတိုသော စကားဝှက်များကို အသုံးပြုနိုင်ပါသည်။</entry>
     <entry lang="my" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ကီးဖိုင်များသည် လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။​</entry>
     <entry lang="my" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">သတိပေးချက် - VeraCrypt သည် မူရင်း ​ကီးဘုတ် လေးအောက်ကို နဂိုအတိုင်း ပြန်မထားနိုင်ပါ။ ဤအချက်ကြောင့် စကားဝှက်ကို မှားယွင်းစွာ ရေးထည့်မိနိုင်သည်။</entry>
     <entry lang="my" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ချို့ယွင်းချက် - VeraCrypt အတွက် ကီးဘုတ် လေးအောက်ကို standard US ကီးဘုတ် လေးအောက် အဖြစ် သတ်မှတ်၍ မရပါ။\n\n US စနစ် မဟုတ်သော ဝင်းဒိုး ကီးဘုတ် လေးအောက် မရနိုင်သည့် နေရာ၌ စက်မတက်ခင် အခြေအနေ (ကွန်ပျူတာ မတက်မီ) တွင် စကားဝှက်ကို ရေးထည့်ရန် လိုအပ်သည်။ ထို့ကြာင့်၊ စကားဝှက်ကို  ဝှက်စာကို standard US ကီးဘုတ် လေးအောက် သုံးပြီး အမြဲတမ်း ရေးထည့်ရမည်။</entry>
@@ -1136,7 +1136,7 @@
     <entry lang="my" key="WIPE_MODE_3_DOD_5220">၃-ကြိမ် (US DoD 5220.22-M)</entry>
     <entry lang="my" key="WIPE_MODE_7_DOD_5220">၇-ကြိမ် (US DoD 5220.22-M)</entry>
     <entry lang="my" key="WIPE_MODE_35_GUTMANN">၃၅-ကြိမ် ("Gutmann")</entry>
-    <entry lang="en" key="WIPE_MODE_256">256-pass</entry>
+    <entry lang="my" key="WIPE_MODE_256">၂၅၆-အောင်မြင်သည်</entry>
     <entry lang="my" key="SYS_MULTI_BOOT_MODE_TITLE">OS စနစ် အရေအတွက်</entry>
     <entry lang="my" key="MULTI_BOOT_FOR_ADVANCED_ONLY">သတိပေးချက် - အတွေ့အကြုံမရှိသေးသော သုံးစွဲသူများသည် ၀င်းဒိုးကို Multi-boot ပြုပြင်ဖန်တီးစနစ်ဖြင့် စာဝှက်ရန် မကြိုးစားသင့်ပါ။\n\n ဆက်လုပ်မည်လား?</entry>
     <entry lang="my" key="HIDDEN_OS_MULTI_BOOT">လျှို့ဝှက် OS စနစ်ကို ဖန်တီး/သုံးစွဲသည့်အခါ၊ VeraCrypt သည် အောက်ပါ အခြေအနေများနှင့် ကိုက်ညီမှ multi-boot ပြုပြင်ဖန်တီးမှုကကို ထောက်ပံ့ပေးသည် -\n\n- လောလောဆယ် အသုံးပြုနေသော OS စနစ်ကို boot drive ထဲတွင် ထည့်သွင်းရမည် ဖြစ်သည်၊ ၄င်း၌ အခြား OS စနစ်များ ရှိမည် မဟုတ်ပါ။\n\n အခြား drives များ၌ ထည့်သွင်းထားသော OS စနစ်များသည် လောလောဆယ် အသုံးပြုနေသော OS စနစ် ထည့်သွင်းထားသည့် drive ထဲတွင် ရှိသော မည်သည့် boot loader ကို အသုံးမပြုရပါ။\n\n အထက်မှ အခြေအနေများနှင့် ကိုက်ညီသလား?</entry>
@@ -1189,7 +1189,7 @@
     <entry lang="my" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">အကြို စမ်းသပ်မှု အောင်မြင်စွာ ပြီးစီးသွားပြီ။\n\n သတိပေးချက် - လက်ရှိ ဒေတာများကို စနစ်တကျ စာဝှက်နေစဉ် ရုတ်တရက် မီးပျက်သွားပါက၊ (သို့) VeraCrypt သည် လက်ရှိ ဒေတာများကို အစီအစဉ်တကျ စာဝှက်နေစဉ် ကို ဆော့ဗ်ဝဲ အမှား (သို့) hardware ချို့ယွင်းချက် တစ်ခုခုကြောင့် OS စနစ် ပျက်သွားပါက ​​ဒေတာ တချို့သည် ​ပျက်သွားလိမ့်မည် (သို့) ပျောက်ဆုံးသွားလိမ့်မည်။ ထို့ကြောင့် စာဝှက်ခြင်းမပြုခင်၊ သင် စာဝှက်မည့် ဖိုင်များကို အရန်သင့် သိမ်းဆည်းရန် သတိပြုပါ။ အကယ်၍ မလုပ်ထားပါက၊ ဖိုင်များကို ယခု အရန်သင့် သိမ်းဆည်းလိုက်ပါ (Defer ကို နှိပ်ပြီး၊ ဖိုင်များကို အရန်သင့် သိမ်းဆည်းပါ၊ ထို့နောက် VeraCrypt ကို ထပ်ဖွင့်ပါ၊ စာဝှက်စနစ်ကို စတင်ရန် 'System' &gt; 'Resume Interrupted Process' ကို နှိပ်ပါ)။\n\nအဆင်သင့် ဖြစ်သည့်အခါ၊ စာဝှက်စနစ် စတင်ရန် စာဝှက်ရန် ကို နှိပ်ပါ။</entry>
     <entry lang="my" key="SYSENC_ENCRYPTION_PAGE_INFO">စာဝှက်ခြင်း (သို့) စာဝှက်ဖေါ်ခြင်း လုပ်ငန်းစဉ်ကို ရပ်တန်းရန် ခေတ္တရပ်နားရန် (သို့) ရွှေ့ဆိုင်းရန် ကို အချိန်မရွေး နှိပ်ပါ၊ ဤအညွှန်းမှ ထွက်ပြီး၊ သင့်ကွန်ပျူတာကို ပြန်ဖွင့်ပါ (သို့) စက်ပိတ်လိုက်ပါ။ ထို့နောက် လုပ်ငန်းစဉ်ကို ပြန်စပါ။ ယခင်က ရပ်တန့်ခဲ့သော နေရာမှ ပြန်စတင်မည် ဖြစ်သည်။ ကွန်ပျူတာစနစ် drive ထဲမှ ဒေတာများကို ရေးသားနေစဉ် (သို့) ဖတ်ရှုနေစဉ် ကွန်ပျူတာစနစ် (သို့) အ​ပ္ပလီကေးရှင်းများ နှေးကွေးမရှိစေရန်၊ VeraCrypt သည် ဒေတာများကို ရေးသားခြင်း (သို့) ဖတ်ရှုခြင်း (အထက်မှ အနေအထားကို ကြည့်ပါ) ပြီးစီးသည့်အခါ စောင့်​ဆိုင်းမည် ဖြစ်ပြီး၊ စာဝှက်ခြင်း (သို့) စာဝှက် ဖေါ်ခြင်းကို အလိုအလျောက် ဆက်လုပ်မည် ဖြစ်သည်။</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n စာဝှက်ခြင်း လုပ်ငန်းစဉ်ကို ရပ်တန့်ရန် ခေတ္တရပ်နားရန်၊ ရွှေ့ဆိုင်းရန် ကို သင် နှိပ်နိုင်သည်။ ဤအညွှန်းကို ပိတ်ပါ၊ သင့် ကွန်ပျူတာကို ပြန်ဖွင့်ပါ (သို့) စက်ပိတ်ပါ။ ထို့နောက် လုပ်ငန်းစဉ်ကို ​ပြန်စပါ။ ၄င်းသည် ယခင်က ရပ်နားထားသည့် နေရာမှ ပြန်စမည် ဖြစ်သည်။ volume ကို အပြည့်အ၀ စာဝှက် မပြီးမချင်း အစပျိုးနိုင်မည် မဟုတ်ပါ။</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</entry>
+    <entry lang="my" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nသင်သည် ပြန်ဖြည်ခြင်း လုပ်ငန်းစဉ်ကို နှောင့်ယှက်ရန်၊ ဤ wizard မှ ထွက်ရန်၊ ကွန်ပျူတာ ပြန်လည်စတင်ရန် သို့မဟုတ် ပိတ်ရန်အတွက် ခဏရပ်ရန် သို့မဟုတ် ရွှေ့ဆိုင်းရန် ကို အချိန်မရွေး နှိပ်နိုင်ပါသည်။ ထို့နောက် လုပ်ငန်းစဉ်ကို ပြန်လည်စတင်ပါက ရပ်ခဲ့သောနေရာမှ ဆက်လက်လုပ်ဆောင်ပါမည်။ အပြည့်အဝ ပြန်ဖြည်ပြီးမှသာ volume အစပျိုးမည်ဖြစ်ကြောင်း သတိပြုပါ။</entry>
     <entry lang="my" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">လျှို့ဝှက် ကွန်ပျူတာစနစ် စတင်နေပြီ</entry>
     <entry lang="my" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">မူလ ကွန်ပျူတာစနစ်</entry>
     <entry lang="my" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows သည် မှတ်တမ်းဖိုင်များ၊ ယာယီဖိုင်များ အမျိုးမျိုးကို (သင် မသိရှိပဲ) ကွန်ပျူတာစနစ် အခန်းကန့်ထဲ၌ ဖန်တီးလေ့ရှိသည်။ RAM ၌ ရှိသော အကြောင်းအရာကိုလည်း hibernation ပြုလုပ်ရာ၌ နေရာ သက်သာစေပြီး ကွန်ပျူတာစနစ် အခန်းကန့်၌ ရှိသော ဖိုင်များကို ဆက်သွယ်ပေးသည်။ ရန်သူ တစ်ဦးတစ်ယောက်သည် သင့် မူရင်း ကွန်ပျူတာစနစ် (မူပွားထားသော လျှို့ဝှက် ကွန်ပျူတာစနစ်ထဲ) ၌ တည်ရှိနေသော အခန်းကန့်ထဲ သိမ်းဆည်းခဲ့သော ဖိုင်များကို စစ်ဆေးပြီး သိရှိသွားနိုင်သည်။ ဥပမာ အားဖြင့်၊ VeraCrypt အညွှန်းကို hidden-system-creation စနစ်ဖြင့် သုံးစွဲနေမှု (ဤနည်းဖြင့် သင့်ကွန်ပျူတာ၌ လျှို့ဝှက် OS ရှိနေကြောင်း ညွှန်​ပြပေးနိုင်သည်)။\n\n ယင်းကဲ့သို့ ပြဿနာမျိုး မဖြစ်ပွားရန်၊ VeraCrypt သည်၊ နောက်တစ်ဆင့်၌၊ မူရင်း ကွန်ပျူတာစနစ် တည်ရှိသော အခန်းကန့်မှ အကြောင်းအရာ တစ်ခုလုံးကို ပယ်ရှင်းပစ်မည် ဖြစ်သည်။ ထို့နောက်၊ ငြင်းပယ်နိုင်မှုကို ​​ရရှိနိုင်ရန်၊ အခန်းကန့်ထဲ၌ ကွန်ပျူတာစနစ် အသစ်တစ်ခုကို သင် ထည့်သွင်းပြီး ၄င်းကို စာဝှက်ရန် လိုအပ်လိမ့်မည်။ ဤ​နည်းဖြင့်၊ မျက်လှည့် ကွန်ပျူတာစနစ်ကို ဖန်တီးပြီး လျှို့ဝှက် OS စနစ် ဖန်တီးမှု လုပ်ငန်းစဉ် ပြီးမြောက်သွားမည် ဖြစ်သည်။</entry>
@@ -1246,8 +1246,8 @@
     <entry lang="my" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">သင်သည် ကွန်ပျူတာစနစ် အခန်းကန့်/drive (သို့မဟုတ် boot အခန်းကန့်) ကို ရွေးချယ်ခဲ့သည်၊ သို့သော် သင်ရွေးချယ်ခဲ့သော အညွှန်းစနစ်သည် ကွန်ပျူတာစနစ် မဟုတ်သော အခန်းကန့်များ/drives အတွက်သာ သင့်လျှော်သည်။\n\nစက်မတက်မီ စစ်ဆေးအတည်ပြုချက်ကို သင် သတ်မှတ်လိုသလား (ဆိုလိုသည်မှာ Windows boot မတက်မီ/စဖွင့်မီ သင့်စကားဝှက်ကို အကြိမ်တိုင်း ရေးထည့်ရန် လိုအပ်လာမည် ဖြစ်သည်) ထို့နောက် ကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို စာဝှက်လိုသလား?</entry>
     <entry lang="my" key="CONFIRM_DECRYPT_SYS_DEVICE">ကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို အမြဲတမ်း စာဝှက်ဖြည်လိုသလား?</entry>
     <entry lang="my" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">သတိပေးချက် - အကယ်၍ ကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို အမြဲတမ်း စာဝှက်ဖြည်ပါက၊ စာဝှက်မထားသော ဒေတာများကို ၄င်းအထဲ၌ ရေးသားလိမ့်မည် ဖြစ်သည်။\n\nကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို သင် အမြဲတမ်း စာဝှက်ဖြည်လိုသလား?</entry>
-    <entry lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</entry>
-    <entry lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">CAUTION: If you permanently decrypt the VeraCrypt volume, unencrypted data will be written to the disk.\n\nAre you really sure you want to permanently decrypt the selected volume?</entry>
+    <entry lang="my" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">အောက်ပါ volume ကို အပြီးတိုင် ပြန်ဖြည်လိုသည်မှာ သေချာပါသလား။</entry>
+    <entry lang="my" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">သတိပြုရန် - သင်သည် VeraCrypt volume ကို အပြီးတိုင် ပြန်ဖြည်ပါက ကုဒ်ဖြင့်မပြောင်းထားသော အချက်အလက်ကို ဒစ်(စ်)တွင် ရေးပါမည်။\n\nရွေးချယ်ထားသော volume ကို အပြီးတိုင် ပြန်ဖြည်လိုသည်မှာ သေချာပါသလား။</entry>
     <entry lang="my" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">သတိပေးချက် - အကယ်၍ သင်သည် ကွန်ပျူတာစနစ် စာဝှက်ရန်အတွက် ဝှက်စာ အဆင့်ဆင့်ကို အသုံးပြုပါက၊ အောက်ပါ ပြဿနာများကို သင် ရင်ဆိုင်ရနိုင်သည် - \n\n၁) VeraCrypt Boot Loader သည် ပုံမှန်ထက် ပိုကြီးသည်။ ထို့ကြောင့်၊ VeraCrypt Boot Loader ၏ အရန်သင့် သိမ်းဆည်းမှု တစ်ခုအတွက် drive track ထဲ၌ နေရာ အလုံအလောက် မရှိပါ။ ထို့ကြောင့်၊ ၄င်းပျက်စီးသွားသည့်အခါတိုင်း (အချို့ ပရိုဂရမ်များအတွက် မူပိုင်ခွင့် တားဆီးရေး activation လုပ်ငန်းစဉ်ကို စနစ်တကျ စီစဉ်ရေးသားခြင်း မလုပ်​သည့်အချိန်အတွင်း)၊ VeraCrypt Boot Loader ကို boot တက်ရန် (သို့) ပြုပြင်ရန် VeraCrypt ဆယ်တင်ရေး အခွေကို သင် သုံးစွဲရမည် ဖြစ်သည်။\n\n၂) အချို့ ကွန်ပျူတာများ၌ Hibernation မှ ပြန်စရန် အချိန် အတော်ကြာတတ်သည်။\n\nထိုကဲ့သို့ ဖြစ်နိုင်ချေ ပြဿနာများကို အဆင့်ဆင့် မဟုတ်သည့် စာဝှက်စနစ် အယ်လဂိုရီသမ်ကို ရွေးခြင်းဖြင့် တားဆီးနိုင်သည် (ဥပမာ - AES)။\n\nသင်သည် ဝှက်စာ အဆင့်ဆင့်ကို အသုံးပြုမည်လား?</entry>
     <entry lang="my" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">အကယ်၍ ယခင်က ဖေါ်ပြခဲ့သော ပြဿနာများ အချို့ကို သင် တွေ့ကြုံရပါက၊ အခန်းကန့်/drive ကို စာဝှက်ပြီး အဆင့်ဆင့်မဟုတ်သော စာဝှက်စနစ် အယ်လဂိုရီသမ်ကို သုံးကာ ထပ်မံ စာဝှက်ကြည့်ပါ (ဥပမာ - AES)။</entry>
     <entry lang="my" key="UPDATE_TC_IN_DECOY_OS_FIRST">သတိပေးချက် - လုံခြုံစိတ်ချရန်အတွက်၊ VeraCrypt ကို လျှို့ဝှက် OS စနစ်၌ မွမ်းမံခြင်း မပြုမီ မျက်လှည့် OS ၌ ၄င်းကို မွမ်းမံထားရမည်။\n\nထိုသို့ ပြုလုပ်ရန်၊ မျက်လှည့် ကွန်ပျူတာစနစ်ကို boot တက်ပြီး ၄င်းအထဲမှ VeraCrypt ဆော့ဗ်ဝဲ ထည့်သွင်းစနစ်ကို ဖွင့်ပါ။ လျှို့ဝှက် ကွန်ပျူတာစနစ်ကို boot တက်ပြီး ၄င်းအထဲမှ ဆော့ဗ်ဝဲ ထည့်သွင်းစနစ်ကို ဖွင့်ပါ။\n\nမှတ်ချက် - မျက်လှည့် ကွန်ပျူတာစနစ်နှင့် လျှို့ဝှက် ကွန်ပျူတာစနစ် တို့သည် boot loader တစ်ခုတည်းကို မျှဝေ သုံးစွဲနေကြသည်။ အကယ်၍ VeraCrypt ကို လျှို့ဝှက် ကွန်ပျူတာစနစ်ထဲ၌သာ အဆင့်မြှင့်ပါက ()၊ မျက်လှည့် ကွန်ပျူတာစနစ်ထဲ VeraCrypt ဒရိုင်ဘာ တစ်ခုနှင့် VeraCrypt အ​ပ္ပလီကေးရှင်းများ ပါရှိမည် ဖြစ်သည်။ ၄င်းတို့၏ဗားရှင်း နံပါတ်များသည် VeraCrypt Boot Loader ၏ ဗားရှင်း နံပါတ်နှင့် ကွာခြားနေမည် ဖြစ်သည်။ ထိုကဲ့သို့ ကွဲပြားခြားနားမှု​ကြောင့် ဤကွန်ပျူတာ၌ လျှို့ဝှက် OS စနစ် တစ်ခု ရှိနေကြောင်း ညွှန်ပြနေနိုင်သည်။\n\nဆက်လက် လုပ်ဆောင်မည်လား?</entry>
@@ -1263,7 +1263,7 @@
     <entry lang="my" key="ENABLE_BAD_SECTOR_ZEROING">ချို့ယွင်းချက် - Disk ၌ ရှိသော sectors များ၏ အကြောင်းအရာကို မဖတ်နိုင်ပါ (စက်ပိုင်းဆိုင်ရာ ပျက်စီးမှုကြောင့် ဖြစ်သည်)။\n\nSectors များကို ဖတ်ရှုနိုင်အောင် လုပ်ဆောင်သည့်အခါမှသာ အစီအစဉ်တကျ စာဝှက်ခြင်း လုပ်ငန်းစဉ်ကို လုပ်ဆောင်နိုင်သည်။ Sectors ထဲ၌ သုညများကို ရေးသားခြင်းဖြင့် VeraCrypt သည် ယင်း sectors များကို ဖတ်ရှုနိုင်အောင် လုပ်ဆောင်နိုင်သည် (နောက်ဆက်တွဲ​အနေဖြင့်၊ ယင်းသုည blocks များ အားလုံးကို စာဝှက်နိုင်မည် ဖြစ်သည်)။ သို့သော်၊ ဖတ်မရသော sectors ၌ ရှိသည့် ဒေတာအားလုံး ပျောက်ဆုံးသွားမည် ဖြစ်သည်။ အကယ်၍ ၄င်းကို ရှောင်ရှားလိုပါက၊ သင့်လျှော်သော အခြား ကိရိယာများကို သုံးပြီး ပျက်စီးသွားသော ​ဒေတာ အချို့ကို ပြန်လည် ဆယ်တင်ရန် ကြိုးစားနိုင်သည်။\n\nမှတ်ချက် - ရုပ်ပိုင်းဆိုင်ရာ ပျက်စီးသွားသည့် sectors များနှင့် ပါတ်သက်၍ (ဒေတာ ပျက်စီးခြင်းနှင့် checksum ချို့ယွင်းချက်များနှင့် မတူပဲ) သိုလှောင်ရေး devices အမျိုးအစား အများစုသည် ၄င်းတို့ အထဲတွင် (ပျက်စီးသွားသော sectors များထဲ၌ ရှိသော လက်ရှိ ဒေတာများသည် drive အထဲ၌ စာမဝှက်ပဲ ဆက်လက် တည်ရှိနိုင်ရန်) ဒေတာများကို ရေးသားသည့်အခါ sectors များကို နေရာ ပြောင်းရွှေ့ပေးသည်။\n\nVeraCrypt သည် ဖတ်မရသော sectors များ၌ သုညများ ရေးသားစေလိုသလား?</entry>
     <entry lang="my" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">ျို့ယွင်းချက် - Disk ၌ ရှိသော sectors များ၏ အကြောင်းအရာကို မဖတ်နိုင်ပါ (စက်ပိုင်းဆိုင်ရာ ပျက်စီးမှုကြောင့် ဖြစ်သည်)။\n\nစာဝှက်သည့် လုပ်ငန်းစဉ်ကို ဆက်လုပ်နိုင်ရန်၊ VeraCrypt သည် ဖတ်မရသော sectors များ၏ အကြောင်းအရာများကို စွန့်ပစ်ရမည် ဖြစ်သည် (အကြောင်းအရာများကို pseudorandom ဒေတာများဖြင့် အ​စားထိုးသွားမည် ဖြစ်သည်။ ဆက်လက် မ​လုပ်ဆောင်မီ၊ သင့်လျှော်သော အခြား ကိရိယာများကို သုံးပြီး ပျက်စီးသွားသော ဒေတာ တချို့ကို ပြန်လည် ဆယ်တင်ရန် သင် ကြိုးစားနိုင်သည်။\n\nဖတ်၍ မရသော sectors များရှိ ဒေတာများကို VeraCrypt ကို သုံးပြီး စွန့်ပစ်လိုသလား?ဖတ်၍ မရသော sectors များ၌ VeraCrypt ဖြင့် သုညများကို ရေးသားလိုသလား?</entry>
     <entry lang="my" key="ZEROED_BAD_SECTOR_COUNT">မှတ်ချက် - VeraCrypt သည် %I64d ဖတ်မရသော sectors (%s) ရှိ ​အကြောင်းအရာများကို စာဝှက်ထားသော all-zero စသား block များနှင့် အစားထိုးလိုက်သည်။</entry>
-    <entry lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</entry>
+    <entry lang="my" key="SKIPPED_BAD_SECTOR_COUNT">မှတ်ချက် - VeraCrypt သည် %I64d မဖတ်နိုင်သော အပိုင်းများ၏ အကြောင်းအရာ (%s) ကို အလားတူ အလျင်းသင့်သည့် အချက်အလက်ဖြင့် အစားထိုးလိုက်ပါသည်။</entry>
     <entry lang="my" key="ENTER_TOKEN_PASSWORD">တိုကင် '%s' အတွက် စကားဝှက်/PIN နံပါတ် ရေးထည့်ပါ -</entry>
     <entry lang="my" key="PKCS11_LIB_LOCATION_HELP">VeraCrypt သည် လုံခြုံရေး တိုကင် (သို့) စမတ်ကတ်ကို သုံးစွဲနိုင်ရန်၊ တိုကင် (သို့) စမတ်ကတ် အတွက် ပထမဦးဆုံး PKCS #11 ဆော့ဗ်ဝဲ လိုင်ဘရာရီ တစ်ခုကို ထည့်သွင်း ရမည်ဖြစ်သည်။ ယင်းလိုင်ဘရာရီမျိုးကို device ထဲ၌ ပါလာနိုင်သည် (သို့) ဆော့ဗ်ဝဲ ရောင်းချသော သူ၏ ကွန်ရက် စာမျက်နှာ သို့မဟုတ် အခြား နေရာများမှ ဒေါင်းလုဒ်ဆွဲယူ နိုင်မည် ဖြစ်သည်။\n\nစက်ထဲ လိုင်ဘရာရီကို ထည့်သွင်းပြီးနောက်၊ 'Select Library' ကို နှိပ်ခြင်းဖြင့် ၄င်းကို ကိုယ်တိုင် ရွေးနိုင်သည် (သို့)  VeraCrypt ကို ​ရှာစေနိုင်ပြီး 'Auto-Detect Library' (Windows စနစ် ဖိုင်တွဲထဲ၌သာ ​ရှာဖွေမည် ဖြစ်သည်) ကို နှိပ်ပြီး အလိုအလျောက် ရွေးချယ်နိုင်သည်။</entry>
     <entry lang="my" key="SELECT_PKCS11_MODULE_HELP">မှတ်ချက် - သင့် လုံခြုံရေး တိုကင် (သို့) စမတ်ကတ် အတွက် ထည့်သွင်းခဲ့သော PKCS #11 လိုင်ဘရာရီ၏ ဖိုင်အမည်နှင့် တည်နေရာအတွက်၊ တိုကင်၊ ကတ်၊ သို့မဟုတ် အခြား ဆော့ဗ်ဝဲနှင့် အတူပါလာသော အသုံးပြုနည်း လက်စွဲကို လေ့လာပါ။\n\nဖိုင် လမ်းကြောင်းနှင့် ဖိုင်အမည်များကို ရွေးချယ်ရန် 'ကောင်းပြီ' ခလုတ်ကို နှိပ်ပါ။</entry>
@@ -1308,7 +1308,7 @@
     <entry lang="my" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">သတိပေးချက် - ဤချိန်ညှိချက်သည် စွမ်းဆောင်ရည်ကို နိမ့်ကျစေနိုင်သည်။\n\nဤချိန်ညှိချက်ကို သင်တကယ် အသုံးပြုလိုသလား?</entry>
     <entry lang="my" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">သတိပေးချက် - VeraCrypt volume ကို အလိုလို-အဆုံးသတ်ထားသည်</entry>
     <entry lang="my" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">အစပျိုးထားသော volume တစ်ခုပါသော device တစ်ခုကို ရုပ်ပိုင်းဆိုင်ရာ မဖယ်ရှားမီ (သို့)  စက်မပိတ်မီ၊ VeraCrypt ဖြင့် volume ကို ပထမဦးဆုံး အမြဲတမ်း အဆုံးသတ်ရမည် ဖြစ်သည်။\n\nကေဘယ်ကြိုး၊ drive (enclosure) တို့ ပြတ်တောင်းပြတ်တောင်း ဖြစ်နေမှုကြောင့် မမျှော်လင့်သော အလိုလို အဆုံးသတ်မှု ဖြစ်ပွားနေသည်။</entry>
-    <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
+    <entry lang="my" key="UNSUPPORTED_TRUECRYPT_FORMAT">ဤ volume ကို TrueCrypt %x.%x ဖြင့် ဖန်တီးခဲ့သည်။ သို့သော် VeraCrypt သည် TrueCrypt 6.x/7.x စီးရီးဖြင့် ဖန်တီးထားသော TrueCrypt volume များကိုသာ ပံ့ပိုးပါသည်။</entry>
     <entry lang="my" key="TEST">စမ်းသပ်ရန်</entry>
     <entry lang="my" key="KEYFILE">ကီးဖိုင်</entry>
     <entry lang="my" key="VKEY_08">နောက်ပြန်ခလုတ်</entry>
@@ -1377,235 +1377,217 @@
     <entry lang="my" key="TB_PER_SEC">တယ်ရာဘိုက်/စက္ကန့်</entry>
     <entry lang="my" key="PB_PER_SEC">ပီတာဘိုက်/စက္ကန့်</entry>
     <entry lang="my" key="TRIPLE_DOT_GLYPH_ELLIPSIS">...</entry>
-    <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</entry>
-    <entry lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</entry>
-    <entry lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</entry>
-    <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds %d bytes.</entry>
-    <entry lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</entry>
-    <entry lang="en" key="INIT_DLL">Error: Failed to load a system library.</entry>
-    <entry lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</entry>
-    <entry lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</entry>
-    <entry lang="en" key="IDT_VOLUME_ID">Volume ID:</entry>
-    <entry lang="en" key="VOLUME_ID">Volume ID</entry>
-    <entry lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</entry>
-    <entry lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</entry>
-    <entry lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</entry>
-    <entry lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</entry>
-    <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</entry>
-    <entry lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</entry>
-    <entry lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</entry>
-    <entry lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</entry>
-    <entry lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</entry>
-    <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</entry>
-    <entry lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</entry>
-    <entry lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</entry>
-    <entry lang="en" key="TIME">Time</entry>
-    <entry lang="en" key="ITERATIONS">Iterations</entry>
-    <entry lang="en" key="PRE-BOOT">Pre-Boot</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</entry>
-    <entry lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</entry>
-    <entry lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</entry>
-    <entry lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</entry>
-    <entry lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</entry>
-    <entry lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</entry>
-    <entry lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</entry>
-    <entry lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</entry>
-    <entry lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</entry>
-    <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</entry>
-    <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
-    <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
-    <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
-    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
-    <entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is %d characters</entry>
-    <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of %d characters.\nNo additional character is allowed.</entry>
-    <entry lang="en" key="IDC_SELECT_LANGUAGE_LABEL">Select the language to use during the installation:</entry>
-    <entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
-    <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>
-    <entry lang="en" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNING: Defragmenting non-system partitions/drives may leak metadata about their content or cause issues with hidden volumes they may contain.\n\nContinue?</entry>
-    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
-    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
-    <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
-    <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
-    <entry lang="en" key="STARTING">Starting</entry>
-    <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
-    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
-    <entry lang="en" key="IDC_ENABLE_RAM_ENCRYPTION">Activate encryption of keys and passwords stored in RAM</entry>
-    <entry lang="en" key="IDT_BENCHMARK">Benchmark:</entry>
-    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
-    <entry lang="en" key="LEGACY_PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</entry>
-    <entry lang="en" key="HIDDEN_CREDS_SAME_AS_OUTER">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt does not support encrypting a system drive that is already encrypted by BitLocker.</entry>
-    <entry lang="en" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Automatically fix boot configuration issues that may prevent Windows from starting</entry>
-    <entry lang="en" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Force machine to boot on VeraCrypt in the next startup</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Force the presence of VeraCrypt entry in the EFI firmware boot menu</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Force VeraCrypt entry to be the first in the EFI firmware boot menu</entry>
-    <entry lang="en" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNING: RAM encryption is not compatible with Windows Hibernate and Windows Fast Startup features. VeraCrypt needs to disable them before activating RAM encryption.\n\nContinue?</entry>
-    <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
+    <entry lang="my" key="IDC_BOOT_LOADER_CACHE_PIM">စတင်အလုပ်မလုပ်မီ စစ်မှန်ကြောင်းသက်သေပြသည့် စကားဝှက်ကို ယာယီသိမ်းဆည်းရာတွင် &amp;PIM ကို ထည့်သွင်းပါ</entry>
+    <entry lang="my" key="IDC_PREF_CACHE_PIM">စကားဝှက်ကို ယာယီသိမ်းဆည်းရာတွင် PIM ကို ထည့်သွင်းပါ</entry>
+    <entry lang="my" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">ဆက်သွယ်မှုဖျက်ထားသော ကွန်ရက်ဒရိုက်(ဗ်)များကို အစပျိုးနိုင်အောင် ပြုလုပ်ပါ</entry>
+    <entry lang="my" key="PASSWORD_UTF8_TOO_LONG">ရိုက်ထည့်ထားသော စကားဝှက်မှာ ရှည်လွန်းသည် - ၎င်း၏ UTF-8 ကိုယ်စားပြုမှုသည် %d ဘိုက် ကျော်နေသည်။</entry>
+    <entry lang="my" key="PASSWORD_UTF8_INVALID">ရိုက်ထည့်လိုက်သော စကားဝှက်တွင် Unicode စာလုံးများ ပါဝင်ပြီး ၎င်းတို့ကို UTF-8 ကိုယ်စားပြုမှုအဖြစ် မပြောင်းလဲနိုင်ပါ။</entry>
+    <entry lang="my" key="INIT_DLL">ပြဿနာ - စနစ် စာကြည့်တိုက် တင်ခြင်း မအောင်မြင်ပါ။</entry>
+    <entry lang="my" key="ERR_EXFAT_INVALID_VOLUME_SIZE">command line တွင် ဖော်ပြထားသော volume ဖိုင် အရွယ်အစားသည် ရွေးချယ်ထားသော exFAT ဖိုင်စနစ်နှင့် ကိုက်ညီမှုမရှိပါ။</entry>
+    <entry lang="my" key="IDT_ENTROPY_BAR">မောက်စ် ရွေ့လျားမှုများမှ စုဆောင်းထားသော အလျင်းသင့်မှု</entry>
+    <entry lang="my" key="IDT_VOLUME_ID">Volume ID -</entry>
+    <entry lang="my" key="VOLUME_ID">Volume ID</entry>
+    <entry lang="my" key="IDC_FAVORITE_USE_VOLUME_ID">အနှစ်သက်ဆုံးကို အစပျိုးရန် Volume ID ကို အသုံးပြုပါ</entry>
+    <entry lang="my" key="VOLUME_ID_INVALID">Volume ID တန်ဖိုး မမှန်ကန်ပါ</entry>
+    <entry lang="my" key="VOLUME_ID_NOT_FOUND">ဖော်ပြထားသော ID ရှိသည့် Volume ကို စနစ်တွင် ရှာမတွေ့ပါ</entry>
+    <entry lang="my" key="IDPM_COPY_VALUE_TO_CLIPBOARD">တန်ဖိုးကို clipboard သို့ ကူးရန်…</entry>
+    <entry lang="my" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">PIM ကို စတင်အလုပ်မလုပ်မီ စစ်မှန်ကြောင်းသက်သေပြရန် စခရင်တွင် မတောင်းဆိုပါနှင့် (PIM တန်ဖိုးကို ဒစ်(စ်)ပေါ်တွင် ကုဒ်ဖြင့်မပြောင်းလဲဘဲ သိုလှောင်ထားသည်)</entry>
+    <entry lang="my" key="DISABLE_BOOT_LOADER_PIM_PROMPT">သတိပေးချက် - သင်သည် ဤရွေးချယ်မှုကို ဖွင့်လိုက်ပါက PIM တန်ဖိုးကို ဒစ်(စ်)ပေါ်တွင် ကုဒ်ဖြင့်မပြောင်းလဲဘဲ သိုလှောင်မည်ဖြစ်ကြောင်း သတိပြုပါ။\n\nဤရွေးချယ်မှုကို ဖွင့်လိုသည်မှာ သေချာပါသလား။</entry>
+    <entry lang="my" key="PIM_TOO_BIG">တစ်ကိုယ်ရေသုံး ထပ်တလဲလဲပြုလုပ်ခြင်းများ မြှောက်ကိန်း (PIM) အများဆုံးတန်ဖိုးမှာ ၂၁၄၇၄၆၈ ဖြစ်သည်။</entry>
+    <entry lang="my" key="IDC_SKIP_RESCUE_VERIFICATION">Rescue Disk မှန်ကန်ကြောင်းစစ်ဆေးခြင်းကို ကျော်ပါ</entry>
+    <entry lang="my" key="IDC_HIDE_WAITING_DIALOG">လည်ပတ်မှုများ ဆောင်ရွက်စဉ် စောင့်ရန်မက်ဆေ့ချ် ဝင်းဒိုးငယ်ကို မပြပါနှင့်</entry>
+    <entry lang="my" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">တန်ဖိုးပြောင်းလုပ်ဆောင်ချက် အယ်လဂိုရီသမ်ကို စတင်အလုပ်မလုပ်မီ စစ်မှန်ကြောင်းသက်သေပြသည့် စခရင်တွင် မတောင်းဆိုပါနှင့်</entry>
+    <entry lang="my" key="KUZNYECHIK_HELP">Kuznyechik သည် ၂၀၁၅ တွင် ပထမအကြိမ် ထုတ်ဝေသည့် ဘလော့ကုဒ်ရေးသားမှု ဖြစ်ပြီး ရုရှားဖယ်ဒရေးရှင်း၏ နိုင်ငံတော်အဆင့် စံနှုန်း GOST R 34.12-2015 နှင့် RFC 7801 တွင်လည်း သတ်မှတ်ဖော်ပြထားသည်။ 256-bit ၂၅၆-ဘစ် စကားဝှက်သော့၊ ၁၂၈-ဘစ် ဘလော့ဖြစ်ပြီး လည်ပတ်မှုမုဒ်မှာ XTS ဖြစ်သည်။</entry>
+    <entry lang="my" key="CAMELLIA_HELP">ဂျပန်နိုင်ငံ၏ Mitsubishi Electric နှင့် NTT တို့မှ ပူးပေါင်းရေးသားထားသည်။ ၂၀၀၀ ခုနှစ်တွင် ပထမအကြိမ် ထုတ်ဝေသည်။ ၂၅၆-ဘစ် စကားဝှက်သော့၊ ၁၂၈-ဘစ် ဘလော့ ဖြစ်ပြီး လည်ပတ်မှုစနစ်မှာ XTS ဖြစ်သည်။ ၎င်းကိုအသုံးပြုရန်  ISO/IEC၊ ဥရောပသမဂ္ဂ၏ NESSIE စီမံကိန်းနှင့် ဂျပန် CRYPTREC စီမံကိန်းတို့မှ ခွင့်ပြုထားသည်။</entry>
+    <entry lang="my" key="TIME">အချိန်</entry>
+    <entry lang="my" key="ITERATIONS">ထပ်တလဲလဲ ပြုလုပ်ခြင်းများ</entry>
+    <entry lang="my" key="PRE-BOOT">စတင်အလုပ်မလုပ်မီ</entry>
+    <entry lang="my" key="RESCUE_DISK_EFI_INFO">အခန်းကန့်ကို ကုဒ်ဖြင့်မပြောင်းလဲမီ သင်သည် အောက်ပါအချက်များကို လုပ်ဆောင်နိုင်ရန် VeraCrypt Rescue Disk (VRD) တစ်ခုကို ဖန်တီးရပါမည် -\n\n- VeraCrypt Boot Loader၊ မာစတာကီး (သို့) အခြားအရေးကြီးအချက်အလက်များ ပျက်စီးသွားပါက VRD ဖြင့် ပြန်လည်ရယူနိုင်ပါမည် (သို့သော် သင်သည် စကားဝှက်အမှန်ကို ရေးထည့်ရပါမည်)။\n\n- Windows ပျက်စီးပြီး စတင်၍မရပါက Windows မစတင်မီ VRD ဖြင့် အခန်းကန့်ကို အပြီးတိုင် ပြန်ဖြည်နိုင်ပါသည်။\n\n- VRD တွင် လက်ရှိ EFI boot loader ၏ အရန် ပါဝင်မည်ဖြစ်ပြီး လိုအပ်ပါက ၎င်းကို ပြန်လည်ရယူနိုင်ပါမည်။\n\nVeraCrypt Rescue Disk ZIP image ကို အောက်တွင်ဖော်ပြထားသည့် တည်နေရာတွင် ပြုလုပ်ပါမည်။</entry>
+    <entry lang="my" key="RESCUE_DISK_EFI_EXTRACT_INFO">Rescue Disk ZIP image ကို ဖန်တီးလိုက်ပြီး ဤဖိုင်တွင် သိုလှောင်ထားသည် -\n%s\n\nယခုအခါ သင်သည် FAT/FAT32 အဖြစ် ဖောမက်ချထားသော USB stick သို့ ၎င်းကို ဆွဲထုတ်ရန် လိုအပ်သည်။\n\n%lsRescue Disk ကို ဖန်တီးပြီးနောက် ၎င်းကို မှန်ကန်စွာ ဖန်တီးထားကြောင်း စစ်ဆေးရန် ရှေ့သို့ ကို နှိပ်ပါ။</entry>
+    <entry lang="my" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">Rescue Disk ZIP image ကို ဖန်တီးလိုက်ပြီး ဤဖိုင်တွင် သိုလှောင်ထားသည် -\n%s\n\nယခုအခါ သင်သည် FAT/FAT32 အဖြစ် ဖောမက်ချထားသော USB stick သို့ ၎င်းကို ဆွဲထုတ်ရန် လိုအပ်သည် (သို့) နောင်တွင် အသုံးပြုရန်အတွက် လုံခြုံသောနေရာသို့ ရွှေ့ရန် လိုအပ်သည်။\n\n%lsဆက်လုပ်ရန် ရှေ့သို့ ကို နှိပ်ပါ။</entry>
+    <entry lang="my" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">အရေးကြီးသည် - zip ဖိုင်ကို USB stick ၏ အခြေသို့ တိုက်ရိုက်ဆွဲထုတ်ရမည်ဖြစ်ကြောင်း သတိပြုပါ။ ဥပမာ -  USB stick ၏ ဒရိုက်(ဗ်)စာလုံးမှာ E ဖြစ်ပါက zip ဖိုင်ကို ဆွဲထုတ်ခြင်းဖြင့် USB stick တွင် ဖိုင်တွဲ E:\\EFI ကို ဖန်တီးရပါမည်။\n\n</entry>
+    <entry lang="my" key="RESCUE_DISK_EFI_CHECK_FAILED">Rescue Disk ကို မှန်ကန်စွာ ဆွဲထုတ်ထားခြင်းရှိ၊ မရှိ စစ်ဆေး၍မရပါ။\n\nသင်သည် Rescue Disk ကို ဆွဲထုတ်ထားပါက ၎င်းကို ထုတ်ပြီး USB stick ကို ပြန်ထည့်ပါ။ ထို့နောက် ထပ်စမ်းကြည့်ရန် ရှေ့သို့ ကို နှိပ်ပါ။ အလုပ်မဖြစ်ပါက အခြား USB stick နှင့်/သို့မဟုတ် အခြား ZIP ဆော့ဝဲဖြင့် စမ်းကြည့်ပါ။\n\nRescue Disk ကို ဆွဲမထုတ်ရသေးပါက ကျေးဇူးပြု၍ ဆွဲထုတ်ပြီးနောက် ရှေ့သို့ ကို နှိပ်ပါ။\n\nဤ wizard ကို မဖွင့်မီ VeraCrypt Rescue Disk ကို မှန်ကန်ကြောင်းစစ်ဆေးရန် ကြိုးစားခဲ့ပါက ၎င်းကို အခြား မာစတာကီးအတွက် ဖန်တီးခဲ့ခြင်းဖြစ်သောကြောင့် အသုံးမပြုနိုင်ပါ။ သင်သည် အသစ်ထုတ်လုပ်ထားသော Rescue Disk ZIP image ကို ဆွဲထုတ်ရန် လိုအပ်ပါသည်။</entry>
+    <entry lang="my" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Rescue Disk ကို မှန်ကန်စွာ ဆွဲထုတ်ထားခြင်းရှိ၊ မရှိ စစ်ဆေး၍မရပါ။\n\nသင်သည် Rescue Disk image ကို USB stick သို့ ဆွဲထုတ်ပြီးပါက ကျေးဇူးပြု၍ ၎င်းကို ထုတ်၍ ပြန်ထည့်ပြီးနောက် ထပ်စမ်းကြည့်ပါ။ အလုပ်မလုပ်ပါက ကျေးဇူးပြု၍ အခြား ZIP ဆော့ဝဲ နှင့်/သို့မဟုတ် ကြားခံဖြင့် စမ်းကြည့်ပါ။\n\nအကယ်၍ သင်သည် အခြား မာစတာ ကီး၊ စကားဝှက်၊ salt စသည်တို့အတွက် ဖန်တီးထားသော VeraCrypt Rescue Disk ကို စစ်ဆေးရန် ကြိုးပမ်း​နေပါက၊ ယင်းကဲ့သို့ Rescue Disk သည် ဤကဲ့သို့ စစ်ဆေးမှုကို အောင်မြင်မည် မဟုတ်ပါ။ သင့်လက်ရှိ အစိတ်အပိုင်းများဖွဲ့စည်းပုံနှင့် ကိုက်ညီသော Rescue Disk အသစ် တစ်ခုကို သင် ပြုလုပ်လိုပါက 'စနစ်' &gt; 'Rescue Disk ဖန်တီးရန်' ကို ရွေးပါ။</entry>
+    <entry lang="my" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Rescue Disk image ကို ဖန်တီးထားပြီး ဤဖိုင်ထဲ၌ သိမ်းဆည်းထားသည် -\n%s\n\nယခုအခါ သင်သည် Rescue Disk image ကို FAT/FAT32 အဖြစ် ဖောမက်ချထားသော USB stick သို့ ဆွဲထုတ်ရန် လိုအပ်သည်။\n\nအရေးကြီးသည် - zip ဖိုင်ကို USB stick ၏ အခြေသို့ တိုက်ရိုက် ဆွဲထုတ်ရပါမည်။ ဥပမာ - USB stick ၏ ဒရိုက်(ဗ်)စာလုံးသည် E ဖြစ်ပါက zip ဖိုင်ကို ဆွဲထုတ်ခြင်းဖြင့် ထို USB stick တွင် ဖိုင်တွဲ E:\\EFI ကို ဖန်တီးပါမည်။\n\nသင်သည် Rescue Disk ကို ဖန်တီးပြီးနောက် ၎င်းကို မှန်ကန်စွာ ဖန်တီးထားခြင်းရှိ၊ မရှိ စစ်ဆေးရန် 'စနစ်' &gt; 'Rescue Disk စစ်ဆေးရန်' ကို ရွေးပါ။</entry>
+    <entry lang="my" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">စကားဝှက် ရိုက်ထည့်ရန်အတွက် လုံခြုံစိတ်ချရသော ကွန်ပျူတာကို အသုံးပြုပါ</entry>
+    <entry lang="my" key="ERR_REFS_INVALID_VOLUME_SIZE">command line တွင် သတ်မှတ်ဖော်ပြထားသော volume ဖိုင် အရွယ်အစားမှာ ရွေးချယ်ထားသော ReFS ဖိုင်စနစ်နှင့် ကိုက်ညီမှုမရှိပါ။</entry>
+    <entry lang="my" key="IDC_EDIT_DCSPROP">Boot Loader အစိတ်အပိုင်းများဖွဲ့စည်းပုံကို တည်းဖြတ်ပါ</entry>
+    <entry lang="my" key="IDC_SHOW_PLATFORMINFO">EFI ပလက်ဖောင်း အချက်အလက်ကို ပြသပါ</entry>
+    <entry lang="my" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader အစိတ်အပိုင်းများဖွဲ့စည်းပုံဖိုင်</entry>
+    <entry lang="my" key="EFI_PLATFORM_INFORMATION">EFI ပလက်ဖောင်း အချက်အလက်</entry>
+    <entry lang="my" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">သတိပေးချက် - အတွေ့အကြုံမရှိသော အသုံးပြုသူများသည် boot loader အစိတ်အပိုင်းများဖွဲ့စည်းပုံများကို ကိုယ်တိုင် တည်းဖြတ်ရန် ဘယ်တော့မှ မကြိုးစားသင့်ပါ။\n\nဆက်လုပ်မလား။</entry>
+    <entry lang="my" key="DCSPROP_XML_VALIDATION_FAILED">သတိပေးချက် - Boot Loader အစိတ်အပိုင်းများဖွဲ့စည်းပုံ၏ XML ဖောမက်ကို စစ်မှန်ကြောင်းအတည်ပြုခြင်း မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ သင်၏ ပြင်ဆင်မွမ်းမံမှုများကို စစ်ဆေးပါ။</entry>
+    <entry lang="my" key="IDT_ADVANCED_OPTIONS">အဆင့်မြင့် ရွေးချယ်စရာများ</entry>
+    <entry lang="my" key="AFTER_UPGRADE_RESCUE_DISK">'စနစ်' &gt; 'Rescue Disk ဖန်တီးရန်' ကို ရွေးချယ်၍ (VeraCrypt Boot Loader ဗားရှင်းသစ် ပါဝင်သော) VeraCrypt Rescue Disk အသစ်ကို ဖန်တီးရန် အထူးအကြံပြုပါသည်။\nသင်ယခု ပြုလုပ်လိုပါသလား။</entry>
+    <entry lang="my" key="IDC_ALLOW_TRIM_NONSYS_SSD">စနစ်မဟုတ်သော SSD အခန်းကန့်/ဒရိုက်(ဗ်)အတွက် TRIM ညွှန်ကြားချက်ကို ခွင့်ပြုပါ</entry>
+    <entry lang="my" key="IDC_BLOCK_SYSENC_TRIM">စနစ် အခန်းကန့်/ဒရိုက်(ဗ်)တွင် TRIM ညွှန်ကြားချက်ကို ဘလော့ပါ</entry>
+    <entry lang="my" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ပြဿနာ - Windows EFI စနစ်တင်သည့်ကိရိယာကို ဒစ်(စ်)ပေါ်တွင် တည်နေရာရှာမရပါ။ လည်ပတ်မှုကို ဖျက်ပစ်ပါမည်။</entry>
+    <entry lang="my" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">SecureBoot ကို ဖွင့်ထားပြီး VeraCrypt စိတ်ကြိုက်စကားဝှက်သော့များကို စက်ဟာ့ဝဲထိန်းချုပ်သည့် ဆော့ဝဲထဲသို့ တင်မထားလျှင် လတ်တလောတွင် စနစ်ကို ကုဒ်ဖြင့် မပြောင်းလဲနိုင်ပါ။ စနစ် ကုဒ်ဖြင့်ပြောင်းလဲမှုကို ဆက်လုပ်ခွင့်ပြုရန် SecureBoot ကို BIOS အစိတ်အပိုင်းများဖွဲ့စည်းပုံတွင် ပယ်ဖျက်ထားရန် လိုအပ်သည်။</entry>
+    <entry lang="my" key="PASSWORD_PASTED_TRUNCATED">အများဆုံး စကားဝှက်အရှည်မှာ စာလုံး %d လုံး ဖြစ်သောကြောင့် ထည့်ထားသော စာသားကို တိုအောင်လုပ်လိုက်သည်</entry>
+    <entry lang="my" key="PASSWORD_MAXLENGTH_REACHED">စကားဝှက်သည် အရှည်ဆုံးအလျားဖြစ်သော စာလုံး %d လုံး ပြည့်သွားပါပြီ။\nအပိုစာလုံးကို ခွင့်မပြုပါ။</entry>
+    <entry lang="my" key="IDC_SELECT_LANGUAGE_LABEL">တပ်ဆင်နေစဉ် အသုံးပြုရန် ဘာသာစကားကို ‌ရွေးချယ်ပါ -</entry>
+    <entry lang="my" key="VOLUME_TOO_LARGE_FOR_HOST">ပြဿနာ - ဖိုင်ထည့်စရာ အရွယ်အစားသည် ဒစ်(စ်)ပေါ်ရှိ ရရှိနိုင်သော နေရာလွတ်ထက် ပိုကြီးနေသည်။</entry>
+    <entry lang="my" key="IDC_ALLOW_WINDOWS_DEFRAG">ကွန်ပျူတာစနစ်မဟုတ်သော အခန်းကန့်/ဒရိုက်(ဗ်)ကို နီးစပ်သော အစုများအဖြစ် ပြင်ဆင်သိုလှောင်ရန် Windows Disk Defragmenter အား ခွင့်ပြုပါ</entry>
+    <entry lang="my" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">သတိပေးချက် - ကွန်ပျူတာစနစ်မဟုတ်သော အခန်းကန့်များ/ဒရိုက်(ဗ်)များကို နီးစပ်သောအစုများအဖြစ် ပြင်ဆင်သိုလှောင်ခြင်းသည် ၎င်းတို့ပါ အကြောင်းအရာနှင့်ဆိုင်သော မီတာဒေတာကို ပေါက်ကြားစေနိုင်သည် သို့မဟုတ် ၎င်းတို့တွင် ပါဝင်သော လျှို့ဝှက် volume များတွင် ပြဿနာများ ဖြစ်စေနိုင်သည်။\n\nဆက်လုပ်မလား။</entry>
+    <entry lang="my" key="VIRTUAL_DEVICE">Virtual စက်ပစ္စည်း</entry>
+    <entry lang="my" key="MOUNTED_VOLUME_NOT_ASSOCIATED">ရွေးချယ်ထားသော အစပျိုးထားသည့် volume သည် Windows ရှိ ၎င်း၏ ဒရိုက်(ဗ်)စာလုံးနှင့် မဆက်စပ်သောကြောင့် ၎င်းကို Windows Explorer တွင် မဖွင့်နိုင်ပါ။</entry>
+    <entry lang="my" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">စက်ပစ္စည်းအသစ်ကို ထည့်သွင်းလျှင် ကုဒ်ဖြင့်ပြောင်းလဲသည့် စကားဝှက်သော့များကို မမ်မိုရီမှ ရှင်းပစ်ပါ</entry>
+    <entry lang="my" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">အရေးကြီးမှတ်ချက်များ -\n - ဤရွေးချယ်မှုသည် စက်ကို ပိတ်ပြီးနောက်/ပိတ်၍ပြန်ဖွင့်ပြီးနောက် ဆက်ရှိမည်မဟုတ်ကြောင်း သတိပြုပါ။ ထို့ကြောင့် သင်သည် နောက်တစ်ကြိမ် စက် စတင်ချိန်တွင် ၎င်းကို ပြန်ရွေးရပါမည်။\n\n - ဤရွေးချယ်မှုကို ဖွင့်ထားပြီး စက်အသစ်တစ်ခု ချိတ်ဆက်ပြီးနောက် စက်သည် ရပ်တန့်သွားပြီး နောက်ဆုံးတွင် BSOD တစ်ခုနှင့် ရပ်ဆိုင်းပါမည်။ ဤသို့ဖြစ်ရခြင်းမှာ Windows သည် ၎င်း၏ စကားဝှက်သော့များကို မမ်မိုရီမှ ရှင်းပစ်ပြီးနောက် ကုဒ်ဖြင့်ပြောင်းလဲထားသော ဒစ်(စ်)ကို အသုံးမပြုနိုင်သောကြောင့် ဖြစ်သည်။</entry>
+    <entry lang="my" key="STARTING">စနေပြီ</entry>
+    <entry lang="my" key="IDC_ENABLE_CPU_RNG">အချက်အလက်ရွှေ့ပြောင်းနှုန်း၏ ထပ်ဆောင်းရင်းမြစ်အဖြစ် CPU ဟာ့ဝဲ အလျင်းသင့်သလို ထုတ်လုပ်သည့်ကိရိယာကို အသုံးပြုပါ</entry>
+    <entry lang="my" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">အသုံးများသော အများဆုံး စကားဝှက်အရှည် အဟောင်း (စာလုံး ၆၄ လုံး) ကို အသုံးပြုပါ</entry>
+    <entry lang="my" key="IDC_ENABLE_RAM_ENCRYPTION">RAM တွင် သိုလှောင်ထားသော စကားဝှက်သော့များနှင့် စကားဝှက်များအား ကုဒ်ဖြင့်ပြောင်းလဲမှုကို သက်ဝင်လုပ်ဆောင်ပါ</entry>
+    <entry lang="my" key="IDT_BENCHMARK">ရလဒ်များကို နှိုင်းယှဉ်ရန် စံနှုန်း -</entry>
+    <entry lang="my" key="IDC_DISABLE_MOUNT_MANAGER">ရွေးချယ်ထားသော ဒရိုက်(ဗ်)စာလုံးကို အစမပျိုးဘဲနှင့်သာ virtual စက်ပစ္စည်းကို ဖန်တီးပါ</entry>
+    <entry lang="my" key="LEGACY_PASSWORD_UTF8_TOO_LONG">ရိုက်ထည့်ထားသော စကားဝှက်မှာ ရှည်လွန်းသည် - ၎င်း၏ UTF-8 ကိုယ်စားပြုမှုသည် ၆၄ ဘိုက် ကျော်နေသည်။</entry>
+    <entry lang="my" key="HIDDEN_CREDS_SAME_AS_OUTER">လျှို့ဝှက် volume သည် ပြင်ပ volume နှင့် တူညီသော စကားဝှက်၊ PIM နှင့် စကားဝှက်သော့ဖိုင်များ မရှိရပါ</entry>
+    <entry lang="my" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt သည် BitLocker ဖြင့် ကုဒ်ဖြင့်ပြောင်းလဲပြီးဖြစ်သော စနစ်ဒရိုက်(ဗ်)ကို ကုဒ်ဖြင့်ပြောင်းလဲခြင်းအား မပံ့ပိုးပါ။</entry>
+    <entry lang="my" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Windows စတင်ခြင်းကို တားဆီးနိုင်သော စတင်အလုပ်လုပ်ချိန် အစိတ်အပိုင်းများဖွဲ့စည်းပုံ ပြဿနာများကို အလိုအလျောက် ပြုပြင်သည်</entry>
+    <entry lang="my" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">နောက်တစ်ကြိမ် စတင်ချိန်တွင် VeraCrypt တွင် စတင်အလုပ်လုပ်ရန် စက်ကို တွန်းအားပေးသည်</entry>
+    <entry lang="my" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">EFI ဟာ့ဝဲကိုထိန်းချုပ်သည့် ဆော့ဝဲ စတင်အလုပ်လုပ်သည့် မီနူးတွင် VeraCrypt ပါဝင်မှု ရှိစေရန် တွန်းအားပေးသည်</entry>
+    <entry lang="my" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">EFI ဟာ့ဝဲကိုထိန်းချုပ်သည့် ဆော့ဝဲ စတင်အလုပ်လုပ်သည့် မီနူးတွင် VeraCrypt ပါဝင်မှုကို ပထမဆုံးဖြစ်စေရန် တွန်းအားပေးပါ</entry>
+    <entry lang="my" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">သတိပေးချက် - RAM ကုဒ်ဖြင့်ပြောင်းလဲခြင်းသည် Windows Hibernate နှင့် Windows Fast Startup အပြင်အဆင်များနှင့် မကိုက်ညီပါ။ VeraCrypt သည် RAM ကုဒ်ဖြင့်ပြောင်းလဲခြင်းကို သက်ဝင်မလုပ်ဆောင်မီ ၎င်းတို့ကို ပယ်ဖျက်ရန် လိုအပ်သည်။\n\nဆက်လုပ်မလား။</entry>
+    <entry lang="my" key="CONFIRM_DISABLE_FAST_STARTUP">သတိပေးချက် - Windows Fast Startup ကို ဖွင့်ထားပြီး ၎င်းသည် VeraCrypt volume များနှင့် အလုပ်လုပ်ချိန်တွင် ပြဿနာများ ဖြစ်စေသည်ဟု သိရပါသည်။ လုံခြုံရေးနှင့် အသုံးပြုနိုင်မှု ပိုကောင်းစေရန်အတွက် ၎င်းကို ပယ်ဖျက်ထားရန် အကြံပြုပါသည်။\n\nWindows Fast Startup ကို ပယ်ဖျက်လိုပါသလား။</entry>
+    <entry lang="my" key="QUICK_FORMAT_HELP">သင့်လည်ပတ်မှုစနစ်က သင်၏ volume အသစ်ကို အစပျိုးနိုင်စေရန်အတွက် ၎င်းကို ဖိုင်စနစ်ဖြင့် ဖောမက်ချထားရပါမည်။ ကျေးဇူးပြု၍ ဖိုင်စနစ် အမျိုးအစားတစ်ခု ရွေးချယ်ပါ။\n\nအကယ်၍ သင့် volume ကို စက်ပစ္စည်း သို့မဟုတ် အခန်းကန့်တစ်ခုတွင် လက်ခံထားရှိမည်ဆိုပါက သင်သည် ထို volume ၏ နေရာလွတ်ကို ကုဒ်ဖြင့်ပြောင်းလဲခြင်းအား ကျော်ရန် 'အမြန် ဖောမက်ချခြင်း' ကို အသုံးပြုနိုင်သည်။</entry>
+    <entry lang="my" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">ပရိုဆက်ဆာ၏ AES ညွှန်ကြားချက်များကို အသုံးပြု၍ AES ကုဒ်ဖြင့်ပြောင်းလဲခြင်း/ပြန်ဖြည်ခြင်းကို အရှိန်မမြှင့်ပါနှင့်</entry>
+    <entry lang="my" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">အစပျိုးထားသော Volume အားလုံးကို စိတ်ကြိုက်စာရင်းထဲ ထည့်ရန်…</entry>
+    <entry lang="my" key="TASKICON_PREF_MENU_ITEMS">အလုပ် အိုင်ကွန် မီနူး ပါဝင်မှုများ</entry>
+    <entry lang="my" key="TASKICON_PREF_OPEN_VOL">အစပျိုးထားသော Volume များကို ဖွင့်ပါ</entry>
+    <entry lang="my" key="TASKICON_PREF_DISMOUNT_VOL">အစပျိုးထားသော Volume များကို အဆုံးသတ်ပါ</entry>
+    <entry lang="my" key="DISK_FREE">နေရာလွတ် ရရှိနိုင်သည် - {0}</entry>
+    <entry lang="my" key="VOLUME_SIZE_HELP">ဖန်တီးမည့် ထည့်သွင်းစရာ၏ အရွယ်အစားကို သတ်မှတ်ဖော်ပြပါ။ volume တစ်ခု၏ အသေးဆုံး အရွယ်အစားမှာ ၂၉၂ KiB ဖြစ်ကြောင်း သတိပြုပါ။</entry>
+    <entry lang="my" key="LINUX_CONFIRM_INNER_VOLUME_CALC">သတိပေးချက် - သင်သည် ပြင်ပ volume အတွက် FAT မဟုတ်သည့် ဖိုင်စနစ်တစ်ခုကို ရွေးချယ်ထားသည်။\nဤကိစ္စရပ်တွင် VeraCrypt သည် လျှို့ဝှက် volume အတွက် အများဆုံး ခွင့်ပြုထားသော အရွယ်အစား အတိအကျကို မတွက်နိုင်သောကြောင့် ခန့်မှန်းခြေတစ်ခုကိုသာ အသုံးပြုမည်ဖြစ်ပြီး ၎င်းသည် မှားနိုင်ကြောင်း သတိပြုပါ။\nထို့ကြောင့် ပြင်ပ volume အတွက် သင့်တော်သော တန်ဖိုးကို အသုံးပြုရန်မှာ သင့်တာဝန်ဖြစ်သည်။\n\nရွေးချယ်ထားသော ဖိုင်စနစ်ကို ပြင်ပ volume အတွက် ဆက်လက် အသုံးပြုလိုပါသလား။</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_SECURITY">လုံခြုံရေး</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_MOUNT_OPTIONS">အစပျိုးရန် ရွေးချယ်မှုများ</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_BACKGROUND_TASK">နောက်ခံအလုပ်</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">စနစ် ပေါင်းစပ်ထည့်သွင်းမှု</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">ဖိုင်စနစ် ရှာဖွေကိရိယာ</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_PERFORMANCE">စွမ်းဆောင်ရည်</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_KEYFILES">စကားဝှက်ဖိုင်များ</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_TOKENS">လုံခြုံရေး တိုကင်များ</entry>
+    <entry lang="my" key="LINUX_PREF_KERNEL_SERVICES">Kernel ဝန်ဆောင်မှုများ</entry>
+    <entry lang="my" key="LINUX_PREF_KERNEL_CRYPT">Kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများကို အသုံးမပြုပါနှင့်</entry>
+    <entry lang="my" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">ဖိုင်စနစ်</entry>
+    <entry lang="my" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">အစပျိုးရန် ရွေးချယ်မှုများ -</entry>
+    <entry lang="my" key="LINUX_CROSS_SUPPORT">ပလက်ဖောင်းအများသုံး ပံ့ပိုးမှု</entry>
+    <entry lang="my" key="LINUX_CROSS_SUPPORT_OTHER">ကျွန်ုပ်သည် volume ကို အခြားပလက်ဖောင်းများပေါ်တွင် တင်ပါမည်</entry>
+    <entry lang="my" key="LINUX_CROSS_SUPPORT_OTHER_HELP">သင်သည် အခြားပလက်ဖောင်းများပေါ်တွင် volume ကို အသုံးပြုရန် လိုအပ်ပါက ဤရွေးချယ်စရာကို ရွေးပါ။</entry>
+    <entry lang="my" key="LINUX_CROSS_SUPPORT_ONLY">ကျွန်ုပ်သည် volume ကို {0} တွင်သာ တင်ပါမည်</entry>
+    <entry lang="my" key="LINUX_CROSS_SUPPORT_ONLY_HELP">သင်သည် အခြားပလက်ဖောင်းများပေါ်တွင် volume ကို အသုံးပြုရန် မလိုအပ်ပါက ဤရွေးချယ်စရာကို ရွေးပါ။</entry>
+    <entry lang="my" key="LINUX_DESELECT">ရွေးချယ်မှုဖျက်ရန်</entry>
+    <entry lang="my" key="LINUX_ADMIN_PW_QUERY">သင်၏ အသုံးပြုသူ စကားဝှက် သို့မဟုတ် စီမံအုပ်ချုပ်သူ စကားဝှက်ကို ရိုက်ထည့်ပါ -</entry>
+    <entry lang="my" key="LINUX_ADMIN_PW_QUERY_TITLE">စီမံအုပ်ချုပ်သူ အခွင့်ထူးများ လိုအပ်သည်</entry>
+    <entry lang="my" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt ကို လည်ပတ်နေပါပြီ။</entry>
+    <entry lang="my" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">စနစ် ကုဒ်ဖြင့်ပြောင်းလဲခြင်း စကားဝှက်သည် စာလုံး {0} လုံးထက် ရှည်နေသည်။</entry>
+    <entry lang="my" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">အခန်းကန့်ကို စနစ် ကုဒ်ဖြင့်ပြောင်းလဲခြင်းကို &amp;အသုံးပြု၍ တင်ပါ (စတင်အလုပ်မလုပ်မီ စစ်မှန်ကြောင်းသက်သေပြခြင်း)</entry>
+    <entry lang="my" key="LINUX_DO_NOT_MOUNT">&amp;အစမပျိုးပါနှင့်</entry>
+    <entry lang="my" key="LINUX_MOUNT_AT_DIR">လမ်းညွှန်တွင် အစပျိုးပါ -</entry>
+    <entry lang="my" key="LINUX_SELECT">ရွေးချယ်ရန်…</entry>
+    <entry lang="my" key="LINUX_DISMOUNT_ALL_WHEN">ဤအချိန်တွင် Volume အားလုံးကို အဆုံးသတ်ပါ</entry>
+    <entry lang="my" key="LINUX_ENTERING_POWERSAVING">စနစ်သည် ပါဝါချွေတာရေးမုဒ်သို့ ဝင်ရောက်နေသည်</entry>
+    <entry lang="my" key="LINUX_LOGIN_ACTION">အသုံးပြုသူ ဝင်ရောက်သည့်အခါ ဆောင်ရွက်ရန် လုပ်ဆောင်ချက်များ</entry>
+    <entry lang="my" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">အဆုံးသတ်နေသော volume ၏ Explorer windows အားလုံးကို ပိတ်ပါ</entry>
+    <entry lang="my" key="LINUX_HOTKEYS">အထူးကီးများ</entry>
+    <entry lang="my" key="LINUX_SYSTEM_HOTKEYS">စနစ်သုံး အထူးကီးများ</entry>
+    <entry lang="my" key="LINUX_SOUND_NOTIFICATION">အစပျိုးပြီးနောက်/အဆုံးသတ်ပြီးနောက် စနစ်အသိပေးချက်အသံကို ဖွင့်ပါ</entry>
+    <entry lang="my" key="LINUX_CONFIRM_AFTER_DISMOUNT">အဆုံးသတ်ပြီးနောက် အတည်ပြုမက်ဆေ့ချ်အကွက်ကို ပြသပါ</entry>
+    <entry lang="my" key="LINUX_VC_QUITS">VeraCrypt ထွက်ပါပြီ</entry>
+    <entry lang="my" key="LINUX_OPEN_FINDER">အောင်မြင်စွာ အစပျိုးထားသော volume အတွက် Finder ဝင်းဒိုးကို ဖွင့်ပါ</entry>
+    <entry lang="my" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများကို အသုံးပြုမှု ပယ်ဖျက်ထားမှသာ ဤဆက်တင် အကျိုးသက်ရောက်မှုရှိကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။</entry>
+    <entry lang="my" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများ အသုံးပြုမှုကို ပယ်ဖျက်ခြင်းသည် စွမ်းဆောင်ရည် နိမ့်စေသည်။\n\nသေချာပါသလား။</entry>
+    <entry lang="my" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">ဤရွေးချယ်မှုကို ပယ်ဖျက်ခြင်းသည် kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများကို အသုံးပြု၍ အစပျိုးထားသော volume များအပေါ်တွင် သက်ရောက်မှု မရှိနိုင်ကြောင်း သတိပြုပါ။</entry>
+    <entry lang="my" key="LINUX_REMOUNT_BECAUSEOF_SETTING">ဤဆက်တင်ကို အသုံးမပြုမီ လတ်တလော အစပျိုးထားသော volume များကို ပြန်အစပျိုးရန် လိုအပ်ကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။</entry>
+    <entry lang="my" key="LINUX_UNKNOWN_EXC_OCCURRED">အမည်မသိသော ခြွင်းချက် ဖြစ်ပေါ်ခဲ့သည်။</entry>
+    <entry lang="my" key="LINUX_FIRST_AID">"သင် 'အိုကေ' ကို နှိပ်ပြီးနောက် Disk Utility ကို မိတ်ဆက်ပါမည်။\n\nကျေးဇူးပြု၍ Disk Utility ဝင်းဒိုးတွင် သင့် volume ကို ရွေးချယ်ပြီးနောက် 'First Aid' စာမျက်နှာရှိ 'ဒစ်(စ်)မှန်ကန်ကြောင်း စစ်ဆေးရန်' သို့မဟုတ် 'ဒစ်(စ်)ပြုပြင်ရန်' ခလုတ်ကို နှိပ်ပါ။</entry>
+    <entry lang="my" key="LINUX_MOUNT_ALL_DEV">စက်အားလုံးကို အစပျိုးရန်</entry>
+    <entry lang="my" key="LINUX_ERROR_LOADING_CONFIG">ဤနေရာတွင် တည်ရှိသည့် အစိတ်အပိုင်းများဖွဲ့စည်းပုံဖိုင်များကို တင်နေစဉ် ပြဿနာ ဖြစ်ပေါ်ခဲ့သည်</entry>
+    <entry lang="my" key="LINUX_SELECT_FREE_SLOT">ကျေးဇူးပြု၍ ဒရိုက်(ဗ်)အပေါက်လွတ်ကို စာရင်းမှ ရွေးချယ်ပါ။</entry>
+    <entry lang="my" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nနောက်တစ်ကြိမ် ထိုကဲ့သို့ volume ကို သင် အစပျိုးချိန်တွင် ဤမက်ဆေ့ချ်ကို ပြသလိုပါသလား။</entry>
+    <entry lang="my" key="LINUX_WARNING">သတိပေးချက်</entry>
+    <entry lang="my" key="LINUX_ERROR">ချို့ယွင်းချက်</entry>
+    <entry lang="my" key="LINUX_ONLY_TEXTMODE">ဤအပြင်အဆင်ကို လတ်တလောတွင် စာသားမုဒ်ဖြင့်သာ ပံ့ပိုးထားသည်။</entry>
+    <entry lang="my" key="LINUX_FREE_SPACE_ON_DRIVE">ဒရိုက်(ဗ်) {0}: ရှိ နေရာလွတ်မှာ {1} ဖြစ်သည်။</entry>
+    <entry lang="my" key="LINUX_DYNAMIC_NOTICE">သင့်ကွန်ပျူတာလည်ပတ်မှုစနစ်သည် နေရာလွတ်အစကတည်းက ဖိုင်များကို ခွဲဝေသတ်မှတ်မပေးပါက အများဆုံး လျှို့ဝှက် volume အရွယ်အစားသည် ပြင်ပ volume ရှိ နေရာလွတ် အရွယ်အစားထက် များစွာငယ်နိုင်ကြောင်း သတိပြုပါ။ ယင်းသည် VeraCrypt ရှိ ပြဿနာ မဟုတ်ဘဲ ကွန်ပျူတာလည်ပတ်မှုစနစ်၏ ကန့်သတ်ချက်တစ်ခုသာ ဖြစ်သည်။</entry>
+    <entry lang="my" key="LINUX_MAX_HIDDEN_SIZE">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အကြီးဆုံး အရွယ်အစားမှာ {0} ဖြစ်သည်။</entry>
+    <entry lang="my" key="LINUX_OPEN_OUTER_VOL">ပြင်ပ volume ကို ဖွင့်ရန်</entry>
+    <entry lang="my" key="LINUX_OUTER_VOL_IS_MOUNTED">ပြင်ပ volume ကို အောင်မြင်စွာ ဖန်တီးပြီး '{0}' အဖြစ် အစပျိုးထားပါပြီ။ သင် အမှန်တကယ် မဝှက်လိုသော ထိခိုက်လွယ်ပုံပေါက်သည့် ဖိုင်အချို့ကို ဤ volume သို့ ကူးနိုင်ပါပြီ။ သင့်စကားဝှက်ကို ထုတ်ပြောရန် တစ်စုံတစ်ယောက်က သင့်အား တွန်းအားပေးလာပါက ထိုဖိုင်မျာကို အသုံးပြုနိုင်ပါသည်။ သင်သည် ဤပြင်ပ volume အတွက် စကားဝှက်ကိုသာ ထုတ်ပြောရန်လိုပြီး လျှို့ဝှက် volume အတွက် မလိုအပ်ပါ။ သင်အလေးထားသော ဖိုင်များကို လျှို့ဝှက် volume ထဲတွင် သိမ်းထားပါမည်။ ၎င်းကို နောက်ပိုင်းတွင် ဖန်တီးပါမည်။ သင် ကူးပြီးချိန်တွင် ရှေ့သို့ ကို နှိပ်ပါ။ volume ကို အဆုံးမသတ်ပါနှင့်။\n\nသတိပြုရန် - သင် ရှေ့သို့ ကို နှိပ်ပြီးနောက် volume ၏ အဆုံးပိုင်းနှင့် ချိန်ညှိထားသော အဆုံးပိုင်းရှိသည့် နေရာလွတ်၏ နှောင့်ယှက်မခံရသော ဧရိယာ အရွယ်အစားကို ဆုံးဖြတ်ရန်အတွက် ပြင်ပ volume ကို ခွဲခြမ်းစိတ်ဖြာပါမည်။ ဤဧရိယာတွင် လျှို့ဝှက် volume ကို ထားရှိမည်ဖြစ်သောကြောင့် ၎င်းက အကြီးဆုံး အရွယ်အစားကို ကန့်သတ်ပါမည်။ ဤလုပ်ငန်းစဉ်တွင် ပြင်ပ volume ရှိ အချက်အလက်ကို လျှို့ဝှက် volume က ထပ်မရေးကြောင်း သေချာစေမည်ဖြစ်သည်။</entry>
+    <entry lang="my" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">ပြဿနာ - သင်သည် စနစ်ဒရိုက်(ဗ်)တစ်ခုကို ကုဒ်ဖြင့်ပြောင်းလဲရန် ကြိုးစားနေသည်။\n\nVeraCrypt သည် စနစ်ဒရိုက်(ဗ်)တစ်ခုကို Windows တွင်သာ ကုဒ်ဖြင့်ပြောင်းလဲနိုင်သည်။</entry>
+    <entry lang="my" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">ပြဿနာ - သင်သည် စနစ်အခန်းကန့်တစ်ခုကို ကုဒ်ဖြင့်ပြောင်းလဲရန် ကြိုးစားနေသည်။\n\nVeraCrypt သည် စနစ်အခန်းကန့်များကို Windows တွင်သာ ကုဒ်ဖြင့်ပြောင်းလဲနိုင်သည်။</entry>
+    <entry lang="my" key="LINUX_WARNING_FORMAT_DESTROY_FS">သတိပေးချက် - စက်ကို ဖောမက်ချခြင်းသည် ဖိုင်စနစ် '{0}' ရှိ အချက်အလက်အားလုံးကို ဖျက်သိမ်းပါမည်။\n\nသင် ဆက်လုပ်လိုပါသလား။</entry>
+    <entry lang="my" key="LINUX_MOUNTET_HINT">ရွေးချယ်ထားသော စက်၏ ဖိုင်စနစ်ကို လတ်တလော အစပျိုးထားသည်။ ကျေးဇူးပြု၍ ရှေ့မဆက်မီ '{0}' ကို အဆုံးသတ်ပါ။</entry>
+    <entry lang="my" key="LINUX_HIDDEN_PASS_NO_DIFF">လျှို့ဝှက် volume သည် ပြင်ပ volume နှင့် တူညီသော စကားဝှက်၊ PIM နှင့် စကားဝှက်သော့ဖိုင်များ မရှိရပါ</entry>
+    <entry lang="my" key="LINUX_NOT_FAT_HINT">volume ကို FAT ဖိုင်စနစ်နှင့် ဖောမက်ချမည်မဟုတ်သောကြောင့် သင်သည် ပလက်ဖောင်းများပေါ်တွင် {0} အပြင် ထပ်ဆောင်း ဖိုင်စနစ် ဒရိုက်ဗာများကို တပ်ဆင်ရန် လိုအပ်ပါမည်။ ယင်းက volume ကို အစပျိုးနိုင်အောင် သင့်အား ကူညီပါမည်။</entry>
+    <entry lang="my" key="LINUX_ERROR_SIZE_HIDDEN_VOL">ပြဿနာ - ဖန်တီးမည့် လျှို့ဝှက် volume သည် {0} TB ({1} GB) ထက် ကြီးနေသည်။\n\nဖြေရှင်းနိုင်သော နည်းလမ်းများ -\n- {0} TB အောက်ငယ်သော ကုဒ်ထည့်သည့်ဆော့ဝဲ/အခန်းကန့်ကို ဖန်တီးပါ။\n</entry>
+    <entry lang="my" key="LINUX_MAX_SIZE_HINT">- ၁၆ TB အရွယ်အစားအထိရှိသော အခန်းကန့်/စက်ပစ္စည်းတွင် လက်ခံထားရှိသည့် လျှို့ဝှက် volume များကို ဖန်တီးနိုင်ရန် ၄၀၉၆-ဘိုက် အပိုင်းများရှိသော ဒရိုက်(ဗ်)တစ်ခုကို အသုံးပြုပါ</entry>
+    <entry lang="my" key="LINUX_DOT_LF">။\n</entry>
+    <entry lang="my" key="LINUX_NOT_SUPPORTED">(ဤပလက်ဖောင်းတွင် ရရှိနိုင်သော အစိတ်အပိုင်းများက မပံ့ပိုးပါ)။\n</entry>
+    <entry lang="my" key="LINUX_KERNEL_OLD">သင့်စနစ်သည် Linux kernel ၏ ဗားရှင်းဟောင်းကို အသုံးပြုသည်။\n\nLinux kernel ရှိ ပြဿနာတစ်ခုကြောင့် VeraCrypt volume တစ်ခုသို့ ဒေတာရေးစဉ် သင့်စနစ် ရပ်သွားနိုင်သည်။ ဤပြဿနာကို ဖြေရှင်းရန် kernel ကို ဗားရှင်း ၂.၆.၂၄ သို့မဟုတ် နောက်ပိုင်းဗားရှင်းသို့ အဆင့်မြှင့်နိုင်သည်။</entry>
+    <entry lang="my" key="LINUX_VOL_DISMOUNTED">Volume {0} ကို အဆုံးသတ်လိုက်ပါပြီ။</entry>
+    <entry lang="my" key="LINUX_OOM">မမ်မိုရီ မကျန်တော့ပါ။</entry>
+    <entry lang="my" key="LINUX_CANT_GET_ADMIN_PRIV">စီမံအုပ်ချုပ်သူ အခွင့်ထူးများကို ရယူခြင်း မအောင်မြင်ပါ</entry>
+    <entry lang="my" key="LINUX_COMMAND_GET_ERROR">ညွှန်ကြားချက် {0} က ပြဿနာ {1} ကို ပြန်ပို့ပေးသည်။</entry>
+    <entry lang="my" key="LINUX_CMD_HELP">VeraCrypt Command Line အကူအညီ</entry>
+    <entry lang="my" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nစကားဝှက်သော့ဖိုင် လမ်းကြောင်းတစ်ခုတွင် လျှို့ဝှက်ဖိုင်များ ရှိနေသည်။ သင်သည် ၎င်းတို့ကို စကားဝှက်သော့ဖိုင်များအဖြစ် အသုံးပြုရန် လိုအပ်ပါက ၎င်းတို့၏ ဖိုင်အမည်များ၏ ရှေ့မှလာသော အပြောက်ကို ဖယ်ရှားပါ။ လျှို့ဝှက်ဖိုင်များကို စနစ်ရွေးချယ်မှုများတွင် ဖွင့်ထားမှသာ မြင်နိုင်ပါသည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">သိုလှောင်စက်နှင့် VC volume အပိုင်း အရွယ်အစား လွဲနေသည်</entry>
+    <entry lang="my" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">volume က လက်ခံထားသော စနစ်ကို လည်ပတ်နေစဉ်တွင်သာ ဤလုပ်ဆောင်ချက်ကို ဆောင်ရွက်ရမည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_INSUFFICIENTDATA">ဒေတာ အလုံအလောက် မရရှိနိုင်ပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှု စစ်ဆေးခြင်း မအောင်မြင်ပါ။ သင့် kernel ၏ ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုသည် ၂ TB ထက်ကြီးသော volume များကို မပံ့ပိုးသည့် ဖြစ်နိုင်ခြေ အများဆုံးရှိသည်။\n\n‌ဖြေရှင်းနိုင်သော နည်းလမ်းများ -\n- Linux kernel ကို ဗားရှင်း ၂.၆.၃၃ သို့မဟုတ် နောက်ပိုင်းဗားရှင်းသို့ အဆင့်မြှင့်ပါ။\n- kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများ အသုံးပြုခြင်းကို ပယ်ဖျက်ပါ (ဆက်တင်များ &gt; အလေးပေးရွေးချယ်မှု &gt; စနစ် ပေါင်းစပ်ထည့်သွင်းမှု) သို့မဟုတ် command line တွင် 'nokernelcrypto' အစပျိုးရန် ရွေးချယ်မှုကို အသုံးပြုပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">ချိတ်ဆက်စက်ပစ္စည်းတစ်ခု စတင်သတ်မှတ်ခြင်း မအောင်မြင်ပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_MISSINGARGUMENT">လိုအပ်သော ချေပချက် မရှိပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">volume ဒေတာ လိုနေသည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">အစပျိုးပွိုင့် လိုအပ်သည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">အစပျိုးပွိုင့်ကို အသုံးပြုနေပြီး ဖြစ်သည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_PASSWORDEMPTY">စကားဝှက် သို့မဟုတ် စကားဝှက်သော့ဖိုင် မဖော်ပြထားပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nစတင်အသုံးမပြုမီ စစ်မှန်ကြောင်းသက်သေပြရန် စကားဝှက်များကို US ကီးဘုတ် မဟုတ်သော အပြင်အဆင်များကို မရရှိနိုင်သည့် စတင်အလုပ်မလုပ်မီ ပတ်ဝန်းကျင်တွင် ရိုက်ရန် လိုအပ်ပါသည်။ ထို့ကြောင့် စတင်အသုံးမပြုမီ စစ်မှန်ကြောင်းသက်သေပြရန် စကားဝှက်များကို စံသတ်မှတ်ထားသော US ကီးဘုတ် အပြင်အဆင်သုံး၍ အမြဲတမ်း ရိုက်ရပါမည် (သို့မဟုတ်ပါက အများအားဖြင့် စကားဝှက်ကို မှားယွင်းစွာ ရိုက်ပါလိမ့်မည်)။ သို့သော် သင်သည် အမှန်တကယ် US ကီးဘုတ် ရှိရန် မလိုအပ်ပါ။ သင်၏ ကွန်ပျူတာ လည်ပတ်မှုစနစ်တွင် ကီးဘုတ် အပြင်အဆင်ကို ပြောင်းရန်သာ လိုအပ်ပါသည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nသတိပြုရန် - သင်သည် စတင်အလုပ်မလုပ်မီ စစ်မှန်ကြောင်းသက်သေပြခြင်း မရှိသော ကုဒ်ဖြင့်ပြောင်းလဲထားသည့် စနစ်ဒရိုက်(ဗ်)တွင် တည်ရှိသော အခန်းကန့်တစ်ခုကို အစပျိုးရန် ကြိုးစားနေလျှင် (သို့) လည်ပတ်မနေသော ကွန်ပျူတာလည်ပတ်မှုစနစ်၏ ကုဒ်ဖြင့်ပြောင်းလဲထားသည့် စနစ်အခန်းကန့်ကို အစပျိုးရန် ကြိုးစားနေလျှင် သင်သည် 'ရွေးချယ်မှုများ &gt;' &gt; 'စနစ်ကုဒ်ဖြင့်ပြောင်းလဲခြင်းကို သုံး၍ အခန်းကန့်ကို အစပျိုးရန်' ကို ရွေးချယ်ဆောင်ရွက်နိုင်သည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_PASSWORDTOOLONG">စကားဝှက်သည် စာလုံး {0} လုံးထက် ပိုရှည်နေသည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">အခန်းကန့်စက် လိုအပ်သည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">ကာကွယ်ထားသည့် လျှို့ဝှက် volume သို့မဟုတ် လျှို့ဝှက် volume အတွက် မမှန်ကန်သော စကားဝှက် မရှိပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">ကာကွယ်ထားသည့် လျှို့ဝှက် volume သို့မဟုတ် လျှို့ဝှက် volume အတွက် မမှန်ကန်သော စကားဝှက်သော့ဖိုင်(များ) နှင့်/သို့မဟုတ် စကားဝှက် မရှိပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">မဆီလျော်သော စာလုံးများ တွေ့ထားသည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">ဖောမက်ချထားသော စာကြောင်းကို ခွဲခြမ်းစိတ်ဖြာစဉ် ချို့ယွင်းချက်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">ယာယီလမ်းညွှန်တွင် ဖိုင် သို့မဟုတ် လမ်းညွှန် ဖန်တီးခြင်း မအောင်မြင်ပါ။\n\nကျေးဇူးပြု၍ ထိုယာယီလမ်းညွှန် တည်ရှိကြောင်း၊ ၎င်း၏ လုံခြုံရေး ခွင့်ပြုချက်များက သင့်အား အသုံးပြုခွင့်ပေးထားကြောင်းနှင့် ဒစ်(စ်)နေရာ အလုံအလောက် ရှိကြောင်း သေချာအောင်လုပ်ပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">ပြဿနာ - ဒရိုက်(ဗ်)သည် ၅၁၂ ဘိုက် မဟုတ်သည့် အပိုင်းအရွယ်အစားကို အသုံးပြုသည်။\n\nသင့်ပလက်ဖောင်းပေါ်တွင် ရရှိနိုင်သော အစိတ်အပိုင်းများ၏ ကန့်သတ်ချက်များကြောင့် ဒရိုက်(ဗ်)တွင် လက်ခံထားရှိသော ပြင်ပ volume များကို လျှို့ဝှက် volume ကာကွယ်ရေး သုံး၍ အစမပျိုးနိုင်ပါ။\n\nဖြစ်နိုင်ခြေရှိသော ဖြေရှင်းနည်းများ -\n- 512-byte အပိုင်းများရှိသော ဒရိုက်(ဗ်)တစ်ခုကို အသုံးပြုပါ။\n- ဒရိုက်(ဗ်)ပေါ်တွင် ဖိုင်လက်ခံထားရှိသော volume (ထည့်စရာ) ကို ဖန်တီးပါ။\n- လျှို့ဝှက် volume ပါ အကြောင်းအရာများကို အရန်ပြုလုပ်ပြီးနောက် ပြင်ပ volume ကို အပ်ဒိတ်လုပ်ပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">ပြဿနာ - ဒရိုက်(ဗ်)သည် ၅၁၂ ဘိုက် မဟုတ်သည့် အပိုင်းအရွယ်အစားကို အသုံးပြုသည်။\n\nသင့်ပလက်ဖောင်းပေါ်တွင် ရရှိနိုင်သော အစိတ်အပိုင်းများ၏ ကန့်သတ်ချက်များကြောင့် ဒရိုက်(ဗ်)တွင် အခန်းကန့်/စက်ပစ္စည်း လက်ခံထားရှိသော volume များကို kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများ သုံး၍သာ အစပျိုးနိုင်သည်။\n\nဖြစ်နိုင်ခြေရှိသော ဖြေရှင်းနည်းများ -\n- kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများ အသုံးပြုမှုကို ဖွင့်ထားပါ (အလေးပေး ရွေးချယ်မှု &gt; စနစ်ပေါင်းစပ်ထည့်သွင်းမှု)။\n- 512-byte အပိုင်းများပါသော ဒရိုက်(ဗ်)တစ်ခုကို သုံးပါ။\n- ဒရိုက်(ဗ်)ပေါ်တွင် ဖိုင်လက်ခံထားရှိသော volume (ထည့်စရာ) တစ်ခုကို ဖန်တီးပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">ပြဿနာ - ဒရိုက်(ဗ်)သည် ၅၁၂ ဘိုက် မဟုတ်သည့် အပိုင်းအရွယ်အစားကို အသုံးပြုသည်။\n\nသင့်ပလက်ဖောင်းပေါ်တွင် ရရှိနိုင်သော အစိတ်အပိုင်းများ၏ ကန့်သတ်ချက်များကြောင့် ဒရိုက်(ဗ်)တွင် အခန်းကန့်/စက်ပစ္စည်း လက်ခံထားရှိသော volume များကို မဖန်တီးနိုင်ပါ/အသုံးမပြုနိုင်ပါ။\n\nဖြစ်နိုင်ခြေရှိသော ဖြေရှင်းနည်းများ -\n- ဒရိုက်(ဗ်)ပေါ်တွင် ဖိုင်လက်ခံထားရှိသော volume (ထည့်စရာ) တစ်ခုကို ဖန်တီးပါ။\n- 512-byte အပိုင်းများပါသော ဒရိုက်(ဗ်)တစ်ခုကို သုံးပါ။\n- အခြားပလက်ဖောင်းပေါ်တွင် VeraCrypt ကို အသုံးပြုပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">လက်ခံဖိုင်/စက်ကို အသုံးပြုထားပြီး ဖြစ်သည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume အပေါက် မရရှိနိုင်ပါ။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt သည် OSXFUSE 2.5 နှင့်အထက် လိုအပ်သည်။</entry>
+    <entry lang="my" key="EXCEPTION_OCCURRED">ခြွင်းချက် ဖြစ်ပေါ်ခဲ့သည်</entry>
+    <entry lang="my" key="ENTER_PASSWORD">စကားဝှက် ရိုက်ထည့်ပါ</entry>
+    <entry lang="my" key="ENTER_TC_VOL_PASSWORD">VeraCrypt Volume စကားဝှက် ရေးထည့်ရန်</entry>
+    <entry lang="my" key="MOUNT">အစပျိုးသည်</entry>
+    <entry lang="my" key="MOUNT_POINT">လမ်းညွှန်" အစပျိုးပါ</entry>
+    <entry lang="my" key="NO_VOLUMES_MOUNTED">volume များ အစပျိုးမထားပါ။</entry>
+    <entry lang="my" key="OPEN_NEW_VOLUME">VeraCrypt Volume အသစ် သတ်မှတ်ဖော်ပြပါ</entry>
+    <entry lang="my" key="PARAMETER_INCORRECT">သတ်မှတ်ချက်ဘောင် မှားနေသည်</entry>
+    <entry lang="my" key="SELECT_KEYFILES">စကားဝှက်သော့ဖိုင်များ ရွေးပါ</entry>
+    <entry lang="my" key="START_TC">VeraCrypt စတင်ပါ</entry>
+    <entry lang="my" key="VOLUME_ALREADY_MOUNTED">volume {0} ကို အစပျိုးထားပြီး ဖြစ်သည်။</entry>
+    <entry lang="my" key="UNKNOWN_OPTION">အမည်မသိသော ရွေးချယ်မှု</entry>
+    <entry lang="my" key="VOLUME_LOCATION">Volume တည်နေရာ</entry>
+    <entry lang="my" key="VOLUME_HOST_IN_USE">သတိပေးချက် - Host ဖိုင်/device {0} ကို အသုံးပြုထားပြီးဖြစ်သည်။\n\n ဤအချက်ကို လျစ်လျူရှုခြင်းအားဖြင့် ကွန်ပျူတာစနစ် မတည်ငြိမ်မှု စသော မလိုလားအပ်သည့် ရလဒ်များ ဖြစ်ပေါ်စေနိုင်သည်။ Volume ကို အစမ​ပျိုးခင် host ဖိုင်/device ကို သုံးစွဲနေသည့် အက်ပလီကေးရှင်း အားလုံးကို ပိတ်ထားရမည်။\n\n ဆက်လက် အစပျိုးမလား။</entry>
     <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
     <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
   </localization>
-  <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
       <xs:complexType>
         <xs:sequence>
           <xs:element name="localization">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="language">
-                  <xs:complexType>
-                    <xs:attribute name="langid" type="xs:string" use="required" />
-                    <xs:attribute name="name" type="xs:string" use="required" />
-                    <xs:attribute name="en-name" type="xs:string" use="required" />
-                    <xs:attribute name="version" type="xs:string" use="required" />
-                    <xs:attribute name="translators" type="xs:string" use="required" />
-                  </xs:complexType>
-                </xs:element>
-                <xs:element minOccurs="4" maxOccurs="4" name="font">
-                  <xs:complexType>
-                    <xs:attribute name="lang" type="xs:string" use="required" />
-                    <xs:attribute name="class" type="xs:string" use="required" />
-                    <xs:attribute name="size" type="xs:unsignedByte" use="required" />
-                    <xs:attribute name="face" type="xs:string" use="required" />
-                  </xs:complexType>
-                </xs:element>
                 <xs:element maxOccurs="unbounded" name="entry">
                   <xs:complexType>
                     <xs:simpleContent>
                       <xs:extension base="xs:string">
-                        <xs:attribute name="lang" type="xs:string" use="required" />
-                        <xs:attribute name="key" type="xs:string" use="required" />
+                        <xs:attribute name="lang" type="xs:string" use="required"/>
+                        <xs:attribute name="key" type="xs:string" use="required"/>
                       </xs:extension>
                     </xs:simpleContent>
                   </xs:complexType>
                 </xs:element>
               </xs:sequence>
-              <xs:attribute name="prog-version" type="xs:string" use="required" />
             </xs:complexType>
           </xs:element>
         </xs:sequence>
