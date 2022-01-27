@@ -374,6 +374,12 @@ typedef BOOL (WINAPI *CreateProcessWithTokenWFn)(
     __out       LPPROCESS_INFORMATION lpProcessInformation
       );
 
+typedef HRESULT (WINAPI *IUnknown_QueryServiceFn)(
+	__in IUnknown* punk, 
+	__in REFGUID guidService, 
+	__in REFIID riid, 
+	__deref_out void ** ppvOut);
+
 SetDllDirectoryPtr SetDllDirectoryFn = NULL;
 SetSearchPathModePtr SetSearchPathModeFn = NULL;
 SetDefaultDllDirectoriesPtr SetDefaultDllDirectoriesFn = NULL;
@@ -390,6 +396,7 @@ SHStrDupWPtr SHStrDupWFn = NULL;
 UrlUnescapeWPtr UrlUnescapeWFn = NULL;
 ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
 CreateProcessWithTokenWFn CreateProcessWithTokenWPtr = NULL;
+IUnknown_QueryServiceFn IUnknown_QueryServicePtr = NULL;
 
 typedef LONG (WINAPI *WINVERIFYTRUST)(HWND hwnd, GUID *pgActionID, LPVOID pWVTData);
 typedef CRYPT_PROVIDER_DATA* (WINAPI *WTHELPERPROVDATAFROMSTATEDATA)(HANDLE hStateData);
@@ -3164,7 +3171,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	SHDeleteKeyWFn = (SHDeleteKeyWPtr) GetProcAddress (hShlwapiDll, "SHDeleteKeyW");
 	SHStrDupWFn = (SHStrDupWPtr) GetProcAddress (hShlwapiDll, "SHStrDupW");
 	UrlUnescapeWFn = (UrlUnescapeWPtr) GetProcAddress(hShlwapiDll, "UrlUnescapeW");
-	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn)
+	IUnknown_QueryServicePtr = (IUnknown_QueryServiceFn) GetProcAddress(hShlwapiDll, "IUnknown_QueryService");
+	if (!IUnknown_QueryServicePtr)
+		IUnknown_QueryServicePtr = (IUnknown_QueryServiceFn) GetProcAddress(hShlwapiDll, MAKEINTRESOURCEA(176));
+	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn || IUnknown_QueryServicePtr)
 		AbortProcess ("INIT_DLL");
 
 	if (IsOSAtLeast (WIN_VISTA))
@@ -14612,6 +14622,98 @@ BOOL IsElevated()
 	return bReturn;
 }
 
+// Based on code from:
+// https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/winui/shell/appplatform/ExecInExplorer/ExecInExplorer.cpp
+HRESULT GetShellViewForDesktop(REFIID riid, void **ppv)
+{
+    *ppv = NULL;
+
+    IShellWindows *psw;
+    HRESULT hr = CoCreateInstance(CLSID_ShellWindows, NULL, CLSCTX_LOCAL_SERVER, IID_PPV_ARGS(&psw));
+    if (SUCCEEDED(hr))
+    {
+        HWND hwnd;
+        IDispatch* pdisp;
+        VARIANT vEmpty = {}; // VT_EMPTY
+        if (S_OK == psw->FindWindowSW(&vEmpty, &vEmpty, SWC_DESKTOP, (long*)&hwnd, SWFO_NEEDDISPATCH, &pdisp))
+        {
+            IShellBrowser *psb;
+            hr = IUnknown_QueryServicePtr(pdisp, SID_STopLevelBrowser, IID_PPV_ARGS(&psb));
+            if (SUCCEEDED(hr))
+            {
+                IShellView *psv;
+                hr = psb->QueryActiveShellView(&psv);
+                if (SUCCEEDED(hr))
+                {
+                    hr = psv->QueryInterface(riid, ppv);
+                    psv->Release();
+                }
+                psb->Release();
+            }
+            pdisp->Release();
+        }
+        else
+        {
+            hr = E_FAIL;
+        }
+        psw->Release();
+    }
+    return hr;
+}
+
+HRESULT GetShellDispatchFromView(IShellView *psv, REFIID riid, void **ppv)
+{
+    *ppv = NULL;
+
+    IDispatch *pdispBackground;
+    HRESULT hr = psv->GetItemObject(SVGIO_BACKGROUND, IID_PPV_ARGS(&pdispBackground));
+    if (SUCCEEDED(hr))
+    {
+        IShellFolderViewDual *psfvd;
+        hr = pdispBackground->QueryInterface(IID_PPV_ARGS(&psfvd));
+        if (SUCCEEDED(hr))
+        {
+            IDispatch *pdisp;
+            hr = psfvd->get_Application(&pdisp);
+            if (SUCCEEDED(hr))
+            {
+                hr = pdisp->QueryInterface(riid, ppv);
+                pdisp->Release();
+            }
+            psfvd->Release();
+        }
+        pdispBackground->Release();
+    }
+    return hr;
+}
+
+HRESULT ShellExecInExplorerProcess(PCWSTR pszFile)
+{
+    IShellView *psv;
+	CoInitialize(NULL);
+    HRESULT hr = GetShellViewForDesktop(IID_PPV_ARGS(&psv));
+    if (SUCCEEDED(hr))
+    {
+        IShellDispatch2 *psd;
+        hr = GetShellDispatchFromView(psv, IID_PPV_ARGS(&psd));
+        if (SUCCEEDED(hr))
+        {
+            BSTR bstrFile = SysAllocString(pszFile);
+            hr = bstrFile ? S_OK : E_OUTOFMEMORY;
+            if (SUCCEEDED(hr))
+            {
+                VARIANT vtEmpty = {}; // VT_EMPTY
+                hr = psd->ShellExecuteW(bstrFile, vtEmpty, vtEmpty, vtEmpty, vtEmpty);
+                SysFreeString(bstrFile);
+            }
+            psd->Release();
+        }
+        psv->Release();
+    }
+	CoUninitialize();
+    return hr;
+}
+
 // This function always loads a URL in a non-privileged mode
 // If current process has admin privileges, we execute the command "rundll32 url.dll,FileProtocolHandler URL" as non-elevated
 // Use this security mechanism only starting from Windows Vista and only if we can get the window of the Shell's desktop since
@@ -14619,7 +14721,8 @@ BOOL IsElevated()
 // then we can't protect the user in such non standard environment
 void SafeOpenURL (LPCWSTR szUrl)
 {
-	if (IsOSAtLeast (WIN_VISTA) && IsAdmin () && IsElevated() && GetShellWindow())
+	BOOL bFallback = TRUE;
+	if (IsOSAtLeast (WIN_VISTA) && IsUacSupported() && IsAdmin () && IsElevated() && GetShellWindow())
 	{
 		WCHAR szRunDllPath[TC_MAX_PATH];
 		WCHAR szUrlDllPath[TC_MAX_PATH];
@@ -14633,11 +14736,23 @@ void SafeOpenURL (LPCWSTR szUrl)
 		StringCbPrintfW(szUrlDllPath, sizeof(szUrlDllPath), L"%s\\%s", szSystemPath, L"url.dll");
 		StringCchPrintfW(szCommandLine, 1024, L"%s %s,FileProtocolHandler %s", szRunDllPath, szUrlDllPath, szUrl);
 
-		RunAsDesktopUser (NULL, szCommandLine);
+		if (RunAsDesktopUser (NULL, szCommandLine))
+		{
+			bFallback = FALSE;
+		}
+		else
+		{
+			// fallback to IShellDispatch2::ShellExecuteW
+			if (SUCCEEDED(ShellExecInExplorerProcess(szUrl)))
+			{
+				bFallback = FALSE;
+			}
+		}
 
 		delete [] szCommandLine;
 	}
-	else
+
+	if (bFallback)
 	{
 		ShellExecuteW (NULL, L"open", szUrl, NULL, NULL, SW_SHOWNORMAL);
 	}
