@@ -3174,7 +3174,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	IUnknown_QueryServicePtr = (IUnknown_QueryServiceFn) GetProcAddress(hShlwapiDll, "IUnknown_QueryService");
 	if (!IUnknown_QueryServicePtr)
 		IUnknown_QueryServicePtr = (IUnknown_QueryServiceFn) GetProcAddress(hShlwapiDll, MAKEINTRESOURCEA(176));
-	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn || IUnknown_QueryServicePtr)
+	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn || !IUnknown_QueryServicePtr)
 		AbortProcess ("INIT_DLL");
 
 	if (IsOSAtLeast (WIN_VISTA))
