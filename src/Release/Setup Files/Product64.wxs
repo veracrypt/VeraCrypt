@@ -82,16 +82,16 @@
 			Schedule="afterInstallExecute"
 		/>
 		
-		<!-- Windows 8 (602) is our Min OS -->
+		<!-- Windows 7 (601) is our Min OS -->
 		<!-- See https://docs.microsoft.com/en-us/windows/win32/msi/operating-system-property-values -->
 		<!-- 'Installed' is a Windows Installer property that is set only if the product is installed per-machine or for the current user.
 			 Using !Installed ensures the check is only done when the user is installing the application, rather than on a repair or remove -->
-		<!-- Notice the ! : If Not Installed AND VersionNT < 602 => Show error message -->
+		<!-- Notice the ! : If Not Installed AND VersionNT < 601 => Show error message -->
 		<Condition Message="!(loc.MinOs)">
 			<![CDATA[
 			Installed
-			OR (VersionNT = 602)
-			OR (VersionNT > 602)
+			OR (VersionNT = 601)
+			OR (VersionNT > 601)
 			]]>
 		</Condition>
 		
