@@ -1360,7 +1360,10 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 	if (bStart)
 	{
 		if (!StartService (hService, argc, argv) && (GetLastError () != ERROR_SERVICE_ALREADY_RUNNING))
+		{
+			MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to start %s. Error 0x%.8X", lpszService, GetLastError ());
 			goto error;
+		}
 	}
 	else
 		ControlService (hService, SERVICE_CONTROL_STOP, &status);
@@ -1379,10 +1382,16 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 
 	bRet = QueryServiceStatus (hService, &status);
 	if (bRet != TRUE)
+	{
+		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to query status of %s. Error 0x%.8X", lpszService, GetLastError ());
 		goto error;
+	}
 
 	if (status.dwCurrentState != dwExpectedState)
+	{
+		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Current state of %s (0x%.8X) is different from expected one (0x%.8X).", lpszService, status.dwCurrentState, dwExpectedState);
 		goto error;
+	}
 
 	bOK = TRUE;
 
@@ -1511,11 +1520,6 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 			BootEncryption bootEnc (hwnd);
 			if (bootEnc.GetDriverServiceStartType() == SERVICE_BOOT_START)
 			{
-				MSILogAndShow(hInstaller, MSI_ERROR_LEVEL, L"VeraCrypt MSI installation is currently not compatible with Windows System Encryption");
-				bOK = FALSE;
-				goto end;
-
-				/************* TODO: find a workaround to the fact that MSI service cannot access EFI environment variable
 				try
 				{
 					// Check hidden OS update consistency
@@ -1559,7 +1563,6 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 					SystemEncryptionUpdate = TRUE;
 					PortableMode = FALSE;
 				}
-				*****************************************/
 			}
 		}
 		catch (...)	{ }
@@ -1612,6 +1615,12 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 
 			if (TCWindowClosed)
 				Sleep (2000);
+
+			// stop service
+			if (SystemEncryptionUpdate)
+			{
+				StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL);
+			}
 		}
 
 		// Test for any applications attached to driver
@@ -1928,7 +1937,8 @@ BOOL UpgradeBootLoader_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
 		{
 			MSILog (hInstaller, MSI_INFO_LEVEL, GetString("INSTALLER_UPDATING_BOOT_LOADER"));
 
-			bootEnc.InstallBootLoader (true);
+			// this is done by the service now
+			//bootEnc.InstallBootLoader (true);
 
 			if (bootEnc.GetInstalledBootLoaderVersion() <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
 			{
@@ -2776,15 +2786,20 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 					if (StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
 					{
-						// we tell the service not to load system favorites on startup
-						LPCWSTR szArgs[2] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT};
+						// we tell the service not to load system favorites on startup and to update bootloader on startup
+						LPCWSTR szArgs[3] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER};
 						if (!CopyFile (szTmp, servicePath.c_str(), FALSE))
 							ForceCopyFile (szTmp, servicePath.c_str());
 
-						StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, 2, szArgs);
+						MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: SystemEncryptionUpdate = %s", SystemEncryptionUpdate? L"TRUE" : L"FALSE");
+
+						StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, SystemEncryptionUpdate? 3 : 2, szArgs);
 					}
 					else
+					{
+						MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: failed to stop %S", servicePath.c_str());
 						ForceCopyFile (szTmp, servicePath.c_str());
+					}
 
 					BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
 

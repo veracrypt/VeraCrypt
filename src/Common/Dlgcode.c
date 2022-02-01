@@ -175,6 +175,10 @@ BOOL bLanguageSetInSetup = FALSE;
 extern BOOL bMakePackage;
 #endif
 
+#ifdef TCMOUNT
+extern BOOL ServiceMode;
+#endif
+
 // Status of detection of hidden sectors (whole-system-drive encryption). 
 // 0 - Unknown/undetermined/completed, 1: Detection is or was in progress (but did not complete e.g. due to system crash).
 int HiddenSectorDetectionStatus = 0;	
@@ -4759,10 +4763,16 @@ load:
 			if (IsNonInstallMode () && CreateDriverSetupMutex () && DriverUnload () && nLoadRetryCount++ < 3)
 				goto load;
 
-			CloseDriverSetupMutex ();
-			CloseHandle (hDriver);
-			hDriver = INVALID_HANDLE_VALUE;
-			return ERR_DRIVER_VERSION;
+#ifdef TCMOUNT
+			// don't fail in case of service. This solves issues during upgrade when system encryption is enabled
+			if (!ServiceMode)
+#endif
+			{
+				CloseDriverSetupMutex ();
+				CloseHandle (hDriver);
+				hDriver = INVALID_HANDLE_VALUE;
+				return ERR_DRIVER_VERSION;
+			}
 		}
 #else
 		if (!bResult)
