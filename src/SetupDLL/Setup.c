@@ -2743,6 +2743,13 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		HANDLE h;
 		wchar_t szTmp[TC_MAX_PATH];
 
+		// delete "VeraCrypt Setup.exe" if it exists
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"VeraCrypt Setup.exe");
+		if (FileExists(szTmp))
+		{
+			ForceDeleteFile(szTmp);
+		}
+
 		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"VeraCrypt.exe");
 
 		if (Is64BitOs ())

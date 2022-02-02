@@ -4791,85 +4791,155 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				int fileNo = 0;
 				// get file from the Setup binary after checking its signature and its version
-				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Setup.exe", appDir);
-
-				FreeAllFileBuffers ();
-
-				if (!VerifyPackageIntegrity (srcPath) || !SelfExtractInMemory (srcPath))
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt COMReg.exe", appDir); // MSI installation case
+				if (FileExists(srcPath))
 				{
-					MessageBoxW (hwndDlg, GetString ("DIST_PACKAGE_CORRUPTED"), lpszTitle, MB_ICONEXCLAMATION);
-					goto stop;
-				}
+					// we copy only our binaries since we don't have those of the other platforms
 
-				for (fileNo = 0; fileNo < NBR_COMPRESSED_FILES; fileNo++)
-				{
-					wchar_t fileName [TC_MAX_PATH] = {0};
-
-					// Filename
-					StringCchCopyNW (fileName, ARRAYSIZE(fileName), Decompressed_Files[fileNo].fileName, Decompressed_Files[fileNo].fileNameLength);
-
-					if (wcscmp (fileName, L"VeraCrypt.exe") == 0)
+					// Main app
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt.exe", appDir);
+					StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
+					if (!VerifyModuleSignature (srcPath))
 					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
-					}
-					else if (wcscmp (fileName, L"VeraCrypt-x64.exe") == 0)
-					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
-					}
-					else if (wcscmp(fileName, L"VeraCrypt-arm64.exe") == 0)
-					{
-						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-arm64.exe", dstDir);
-					}
-					else if (wcscmp (fileName, L"veracrypt.sys") == 0)
-					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt.sys", dstDir);
-					}
-					else if (wcscmp (fileName, L"veracrypt-x64.sys") == 0)
-					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
-					}
-					else if (wcscmp(fileName, L"veracrypt-arm64.sys") == 0)
-					{
-						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-arm64.sys", dstDir);
-					}
-					else if (copyWizard && (wcscmp (fileName, L"VeraCrypt Format.exe") == 0))
-					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
-					}
-					else if (copyWizard && (wcscmp (fileName, L"VeraCrypt Format-x64.exe") == 0))
-					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
-					}
-					else if (copyWizard && (wcscmp(fileName, L"VeraCrypt Format-arm64.exe") == 0))
-					{
-						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-arm64.exe", dstDir);
-					}
-					else if (copyExpander && (wcscmp (fileName, L"VeraCryptExpander.exe") == 0))
-					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander.exe", dstDir);
-					}
-					else if (copyExpander && (wcscmp (fileName, L"VeraCryptExpander-x64.exe") == 0))
-					{
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-x64.exe", dstDir);
-					}
-					else if (copyExpander && (wcscmp(fileName, L"VeraCryptExpander-arm64.exe") == 0))
-					{
-						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-arm64.exe", dstDir);
-					}
-					else
-						continue;
-
-					if (!SaveBufferToFile (
-						(char *) Decompressed_Files[fileNo].fileContent,
-						dstPath,
-						Decompressed_Files[fileNo].fileLength,
-						FALSE, FALSE))
-					{
-						wchar_t szTmp[512];
-
-						StringCbPrintfW (szTmp, sizeof (szTmp), GetString ("CANNOT_WRITE_FILE_X"), dstPath);
-						MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+						Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
 						goto stop;
+					}
+					else if (!TCCopyFile (srcPath, dstPath))
+					{
+						handleWin32Error (hwndDlg, SRC_POS);
+						goto stop;
+					}
+
+					// Wizard
+					if (copyWizard)
+					{
+						StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format.exe", appDir);
+						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
+						if (!VerifyModuleSignature (srcPath))
+						{
+							Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
+							goto stop;
+						}
+						else if (!TCCopyFile (srcPath, dstPath))
+						{
+							handleWin32Error (hwndDlg, SRC_POS);
+							goto stop;
+						}
+					}
+
+					// Expander
+					if (copyExpander)
+					{
+						StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander.exe", appDir);
+						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander.exe", dstDir);
+						if (!VerifyModuleSignature (srcPath))
+						{
+							Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
+							goto stop;
+						}
+						else if (!TCCopyFile (srcPath, dstPath))
+						{
+							handleWin32Error (hwndDlg, SRC_POS);
+							goto stop;
+						}
+					}
+
+					// Driver
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\veracrypt.sys", appDir);
+					StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt.sys", dstDir);
+					if (!VerifyModuleSignature (srcPath))
+					{
+						Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
+						goto stop;
+					}
+					else if (!TCCopyFile (srcPath, dstPath))
+					{
+						handleWin32Error (hwndDlg, SRC_POS);
+						goto stop;
+					}
+				}
+				else
+				{
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Setup.exe", appDir); // EXE installation case
+
+					FreeAllFileBuffers ();
+
+					if (!VerifyPackageIntegrity (srcPath) || !SelfExtractInMemory (srcPath))
+					{
+						MessageBoxW (hwndDlg, GetString ("DIST_PACKAGE_CORRUPTED"), lpszTitle, MB_ICONEXCLAMATION);
+						goto stop;
+					}
+
+					for (fileNo = 0; fileNo < NBR_COMPRESSED_FILES; fileNo++)
+					{
+						wchar_t fileName [TC_MAX_PATH] = {0};
+
+						// Filename
+						StringCchCopyNW (fileName, ARRAYSIZE(fileName), Decompressed_Files[fileNo].fileName, Decompressed_Files[fileNo].fileNameLength);
+
+						if (wcscmp (fileName, L"VeraCrypt.exe") == 0)
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
+						}
+						else if (wcscmp (fileName, L"VeraCrypt-x64.exe") == 0)
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
+						}
+						else if (wcscmp(fileName, L"VeraCrypt-arm64.exe") == 0)
+						{
+							StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-arm64.exe", dstDir);
+						}
+						else if (wcscmp (fileName, L"veracrypt.sys") == 0)
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt.sys", dstDir);
+						}
+						else if (wcscmp (fileName, L"veracrypt-x64.sys") == 0)
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
+						}
+						else if (wcscmp(fileName, L"veracrypt-arm64.sys") == 0)
+						{
+							StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-arm64.sys", dstDir);
+						}
+						else if (copyWizard && (wcscmp (fileName, L"VeraCrypt Format.exe") == 0))
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
+						}
+						else if (copyWizard && (wcscmp (fileName, L"VeraCrypt Format-x64.exe") == 0))
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
+						}
+						else if (copyWizard && (wcscmp(fileName, L"VeraCrypt Format-arm64.exe") == 0))
+						{
+							StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-arm64.exe", dstDir);
+						}
+						else if (copyExpander && (wcscmp (fileName, L"VeraCryptExpander.exe") == 0))
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander.exe", dstDir);
+						}
+						else if (copyExpander && (wcscmp (fileName, L"VeraCryptExpander-x64.exe") == 0))
+						{
+							StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-x64.exe", dstDir);
+						}
+						else if (copyExpander && (wcscmp(fileName, L"VeraCryptExpander-arm64.exe") == 0))
+						{
+							StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-arm64.exe", dstDir);
+						}
+						else
+							continue;
+
+						if (!SaveBufferToFile (
+							(char *) Decompressed_Files[fileNo].fileContent,
+							dstPath,
+							Decompressed_Files[fileNo].fileLength,
+							FALSE, FALSE))
+						{
+							wchar_t szTmp[512];
+
+							StringCbPrintfW (szTmp, sizeof (szTmp), GetString ("CANNOT_WRITE_FILE_X"), dstPath);
+							MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+							goto stop;
+						}
 					}
 				}
 			}
