@@ -95,20 +95,6 @@
     <None Include="..\Common\Textual_logo_background.bmp">
       <Filter>Resource Files\Common</Filter>
     </None>
-    <None Include="..\..\Translations\Language.ar.xml" />
-    <None Include="..\..\Translations\Language.cs.xml" />
-    <None Include="..\..\Translations\Language.de.xml" />
-    <None Include="..\..\Translations\Language.es.xml" />
-    <None Include="..\..\Translations\Language.fr.xml" />
-    <None Include="..\..\Translations\Language.it.xml" />
-    <None Include="..\..\Translations\Language.ja.xml" />
-    <None Include="..\..\Translations\Language.nl.xml" />
-    <None Include="..\..\Translations\Language.pl.xml" />
-    <None Include="..\..\Translations\Language.ro.xml" />
-    <None Include="..\..\Translations\Language.ru.xml" />
-    <None Include="..\..\Translations\Language.vi.xml" />
-    <None Include="..\..\Translations\Language.zh-cn.xml" />
-    <None Include="..\..\Translations\Language.zh-hk.xml" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Apidrvr.h">
