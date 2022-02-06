@@ -52,6 +52,12 @@
 <li>Set minimum support for MSI installation to Windows 7.</li>
 <li>Fix failure to create Traveler Disk when VeraCrypt is installed using MSI.</li>
 <li>Fix double-clicking mounted drive in VeraCrypt UI not working in some special Windows configurations.</li>
+<li>Add registry key to fix BSOD during shutdown/reboot on some machines when using system encryption.
+<ul>
+<li>Under "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt", create a REG_DWORD value named "VeraCryptEraseKeysShutdown".</li>
+<li>Setting this registry value to 0 disables erasing system encryption keys which is the cause of BSOD during shutdown on some machines.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><strong>Linux:</strong>
