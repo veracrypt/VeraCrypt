@@ -22,6 +22,7 @@
 #include "Dir.h"
 #include "Language.h"
 #include "Resource.h"
+#include "LzmaLib.h"
 #include <tchar.h>
 #include <Strsafe.h>
 
@@ -94,24 +95,43 @@ static void PkgInfo (wchar_t *msg)
 // Returns 0 if decompression fails or, if successful, returns the size of the decompressed data
 static int DecompressBuffer (unsigned char *out, int outSize, unsigned char *in, int len)
 {
-	uLongf outlen = (uLongf) outSize;
-	int ret = uncompress (out, &outlen, in, (uLong) len);
-	if (Z_OK == ret)
-		return (int) outlen;
-	else
-		return 0;
+	int outlen = 0;
+	int status;
+	if (len > 5)
+	{
+		// the first 5 bytes of in contain props parameter
+		size_t srcLen = len - 5;
+		size_t outputLen = (size_t) outSize;
+		status = LzmaUncompress (out, &outputLen, in + 5, &srcLen, in, 5);
+		if (status == SZ_OK)
+		{
+			outlen = (int) outputLen;
+		}
+	}
+
+	return outlen;
 }
 
 
 // Returns 0 if compression fails or, if successful, the size of the compressed data
 static int CompressBuffer (unsigned char *out, int outSize, unsigned char *in, int len)
 {
-	uLongf outlen = (uLongf) outSize;
-	int ret = compress2 (out, &outlen, in, (uLong) len, Z_BEST_COMPRESSION);
-	if (Z_OK == ret)
-		return (int) outlen;
-	else
-		return 0;
+	unsigned char outProps[5];
+	size_t outPropsSize = 5;
+	int outlen = 0;
+	int status;
+	if (outSize > 5)
+	{
+		size_t outputLen = (size_t) (outSize - 5);
+		status = LzmaCompress (out + 5, &outputLen, in, len, outProps, &outPropsSize, 9, 0, -1, -1, -1, -1, -1);
+		if (status == SZ_OK)
+		{
+			memcpy (out, outProps, outPropsSize);
+			outlen = (int) (outputLen + 5);
+		}
+	}
+
+	return outlen;
 }
 
 
