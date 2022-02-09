@@ -32,7 +32,11 @@
 #ifdef PORTABLE
 #define OutputPackageFile L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX)L".exe"
 #else
+#ifdef VC_COMREG
+#define OutputPackageFile L"VeraCrypt COMReg.exe"
+#else
 #define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX) L".exe"
+#endif
 #endif
 #define MAG_START_MARKER	"VCINSTRT"
 #define MAG_END_MARKER_OBFUSCATED	"V/C/I/N/S/C/R/C"
@@ -41,6 +45,7 @@
 unsigned char MagEndMarker [sizeof (MAG_END_MARKER_OBFUSCATED)];
 wchar_t DestExtractPath [TC_MAX_PATH];
 DECOMPRESSED_FILE	Decompressed_Files [NBR_COMPRESSED_FILES];
+int Decompressed_Files_Count = 0;
 
 volatile char *PipeWriteBuf = NULL;
 volatile HANDLE hChildStdinWrite = INVALID_HANDLE_VALUE;
@@ -119,7 +124,7 @@ static void WipeSignatureAreas (char *buffer)
 }
 
 
-BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
+BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir, BOOL bSkipX64)
 {
 	int i, x;
 	wchar_t inputFile [TC_MAX_PATH];
@@ -163,6 +168,17 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 
 	for (i = 0; i < sizeof (szCompressedFiles) / sizeof (szCompressedFiles[0]); i++)
 	{
+		if (bSkipX64 && wcsstr(szCompressedFiles[i], L"-x64"))
+			continue;
+
+#ifdef VC_COMREG
+		if (	wcsstr(szCompressedFiles[i], L".zip") || wcsstr(szCompressedFiles[i], L".inf") 
+			||	wcsstr(szCompressedFiles[i], L".cat") || wcsstr(szCompressedFiles[i], L".txt")
+			||	wcsstr(szCompressedFiles[i], L"LICENSE") || wcsstr(szCompressedFiles[i], L"NOTICE")
+			)
+			continue;
+#endif
+
 		StringCbPrintfW (szTmpFilePath, sizeof(szTmpFilePath), L"%s%s", szDestDir, szCompressedFiles[i]);
 
 		if (!FileExists (szTmpFilePath))
@@ -214,6 +230,17 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	{
 		DWORD tmpFileSize;
 		unsigned char *tmpBuffer;
+
+		if (bSkipX64 && wcsstr(szCompressedFiles[i], L"-x64"))
+			continue;
+
+#ifdef VC_COMREG
+		if (	wcsstr(szCompressedFiles[i], L".zip") || wcsstr(szCompressedFiles[i], L".inf") 
+			||	wcsstr(szCompressedFiles[i], L".cat") || wcsstr(szCompressedFiles[i], L".txt")
+			||	wcsstr(szCompressedFiles[i], L"LICENSE") || wcsstr(szCompressedFiles[i], L"NOTICE")
+			)
+			continue;
+#endif
 
 		StringCbPrintfW (szTmpFilePath, sizeof(szTmpFilePath), L"%s%s", szDestDir, szCompressedFiles[i]);
 
@@ -485,6 +512,8 @@ void FreeAllFileBuffers (void)
 		Decompressed_Files[fileNo].fileLength = 0;
 		Decompressed_Files[fileNo].crc = 0;
 	}
+
+	Decompressed_Files_Count = 0;
 }
 
 
@@ -492,7 +521,7 @@ void FreeAllFileBuffers (void)
 // Creates a table of pointers to buffers containing the following objects for each file:
 // filename size, filename (not null-terminated!), file size, file CRC-32, uncompressed file contents.
 // For details, see the definition of the DECOMPRESSED_FILE structure.
-BOOL SelfExtractInMemory (wchar_t *path)
+BOOL SelfExtractInMemory (wchar_t *path, BOOL bSkipCountCheck)
 {
 	int filePos = 0, fileNo = 0;
 	int fileDataEndPos = 0;
@@ -548,7 +577,7 @@ BOOL SelfExtractInMemory (wchar_t *path)
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 	}
 
-	decompressedDataLen = uncompressedLen + 524288;	// + 512K reserve
+	decompressedDataLen = uncompressedLen;
 	DecompressedData = malloc (decompressedDataLen);
 	if (DecompressedData == NULL)
 	{
@@ -607,11 +636,13 @@ BOOL SelfExtractInMemory (wchar_t *path)
 		fileNo++;
 	}
 
-	if (fileNo < NBR_COMPRESSED_FILES)
+	if (!bSkipCountCheck && (fileNo < NBR_COMPRESSED_FILES))
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		goto sem_end;
 	}
+
+	Decompressed_Files_Count = fileNo;
 
 	free (compressedData);
 	return TRUE;
@@ -635,7 +666,7 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 
 	GetModuleFileName (NULL, packageFile, ARRAYSIZE (packageFile));
 
-	if (!(bSuccess = SelfExtractInMemory (packageFile)))
+	if (!(bSuccess = SelfExtractInMemory (packageFile, FALSE)))
 		goto eaf_end;
 
 	if (mkfulldir (DestExtractPath, TRUE) != 0)
