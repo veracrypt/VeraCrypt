@@ -39,11 +39,11 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.25.8</strong> (February 5<sup>th</sup>, 2022):</p>
+<p><strong style="text-align:left">1.25.8</strong> (February 10<sup>th</sup>, 2022):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
-<li>Update translations.</li>
+<li>Update translations (Chinese, Dutch, German, Turkish).</li>
 </ul>
 </li>
 <li><strong>Windows:</strong>
@@ -51,6 +51,8 @@
 <li>Make MSI installer compatible with system encryption.</li>
 <li>Set minimum support for MSI installation to Windows 7.</li>
 <li>Fix failure to create Traveler Disk when VeraCrypt is installed using MSI.</li>
+<li>Don't cache the outer volume password when mounting with hidden volume protection if wrong hidden volume password was specified.</li> 
+<li>Reduce the size of EXE installers by almost 50% by using LZMA compression instead of DEFLATE.</li>
 <li>Fix double-clicking mounted drive in VeraCrypt UI not working in some special Windows configurations.</li>
 <li>Add registry key to fix BSOD during shutdown/reboot on some machines when using system encryption.
 <ul>
