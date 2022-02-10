@@ -317,7 +317,7 @@
     <entry lang="de" key="IDC_HW_AES_LABEL_LINK">Hardwarebeschleunigtes AES:</entry>
     <entry lang="de" key="IDC_IMPORT_KEYFILE">&amp;Schl.dateien auf den Token importieren ...</entry>
     <entry lang="de" key="IDC_KEYADD">Dateien &amp;hinzuf.</entry>
-    <entry lang="de" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Schlüsselda&amp;teien verw.</entry>
+    <entry lang="de" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Schlüsselda&amp;t. verwenden</entry>
     <entry lang="de" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Schlüsseldat. ...</entry>
     <entry lang="de" key="IDC_KEYREMOVE">Ent&amp;fernen</entry>
     <entry lang="de" key="IDC_KEYREMOVEALL">&amp;Alle entfernen</entry>
