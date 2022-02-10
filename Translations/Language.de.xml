@@ -99,7 +99,7 @@
     <entry lang="de" key="IDT_SINGLE_BOOT">Diese Option wählen, wenn sich nur ein Betriebssystem auf dem Computer befindet (auch bei mehreren Benutzern).</entry>
     <entry lang="de" key="IDT_SPEED">Geschw.</entry>
     <entry lang="de" key="IDT_STATUS">Status</entry>
-    <entry lang="de" key="IDT_SYSENC_KEYS_GEN_INFO">Die Schlüssel, der Salt-Wert und andere Daten wurden erfolgreich erstellt. Wenn Sie neue Schlüssel erstellen möchten, klicken Sie auf „Zurück“ und dann auf „Weiter“. Anderenfalls klicken Sie auf „Weiter“.</entry>
+    <entry lang="de" key="IDT_SYSENC_KEYS_GEN_INFO">Die Schlüssel, der Salt-Wert und andere Daten wurden erfolgreich erstellt. Wenn Sie neue Schlüssel erstellen möchten, klicken Sie auf „Zurück“ und dann auf „Weiter“. Ansonsten klicken Sie auf „Weiter“.</entry>
     <entry lang="de" key="IDT_SYS_DEVICE">Partition/Laufwerk verschlüsseln, auf dem Windows installiert ist. Jeder, der Zugang zum System erlangen möchte, muss das korrekte Passwort bei jedem Start von Windows eingeben. Eine Alternative dazu ist das Erstellen eines versteckten Systems.</entry>
     <entry lang="de" key="IDT_SYS_PARTITION">Wählen Sie diese Option, um die Partition zu verschlüsseln, auf der das derzeit laufende Windows installiert ist.</entry>
     <entry lang="de" key="IDT_VOLUME_LABEL">Volumen-Bezeichnung in Windows:</entry>
@@ -122,7 +122,7 @@
     <entry lang="de" key="IDC_CREATE_VOLUME">Volumen &amp;erstellen</entry>
     <entry lang="de" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Keine Texte im Pre-Boot-Authentifikationsbildschirm &amp;anzeigen (außer die unten definierte Nachricht)</entry>
     <entry lang="de" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Erkennung von „Evil Maid“-Angriffen deaktivieren</entry>
-    <entry lang="de" key="IDC_ENABLE_HARDWARE_ENCRYPTION">AES-Verschlüsselung durch Nutzung der AES-Befehle des Prozessors beschleunigen, falls unterstützt</entry>
+    <entry lang="de" key="IDC_ENABLE_HARDWARE_ENCRYPTION">AES-Verschlüsselung durch Nutzung der AES-Befehle des Prozessors beschleunigen (falls unterstützt)</entry>
     <entry lang="de" key="IDC_ENABLE_KEYFILES">Sch&amp;lüsseldateien verwenden</entry>
     <entry lang="de" key="IDC_ENABLE_NEW_KEYFILES">Schlüsselda&amp;teien verwenden</entry>
     <entry lang="de" key="IDC_EXIT">&amp;Beenden</entry>
@@ -226,7 +226,7 @@
     <entry lang="de" key="IDM_HELP">&amp;Benutzerhandbuch</entry>
     <entry lang="de" key="IDM_HOMEPAGE">Webseite</entry>
     <entry lang="de" key="IDM_HOTKEY_SETTINGS">&amp;Tastenkombinationen ...</entry>
-    <entry lang="de" key="IDM_KEYFILE_GENERATOR">&amp;Schlüsseldatei(en) generieren ...</entry>
+    <entry lang="de" key="IDM_KEYFILE_GENERATOR">&amp;Schlüsseldatei(en) erstellen ...</entry>
     <entry lang="de" key="IDM_LANGUAGE">&amp;Sprache ...</entry>
     <entry lang="de" key="IDM_LICENSE">&amp;Lizenzvereinbarung</entry>
     <entry lang="de" key="IDM_MANAGE_TOKEN_KEYFILES">Sicherheitstoken-Schlüsseldateien verwalten ...</entry>
