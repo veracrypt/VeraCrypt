@@ -15,7 +15,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	if (lpCmdLine[0] == L'/' && lpCmdLine[1] == L'p')
 	{
-		MessageBox(NULL, L"",L"",0);
 		SelfExtractStartupInit();
 		GetModuleFileName (NULL, SetupFilesDir, ARRAYSIZE (SetupFilesDir));
 		s = wcsrchr (SetupFilesDir, L'\\');
