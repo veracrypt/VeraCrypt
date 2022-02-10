@@ -28,8 +28,8 @@
     <entry lang="de" key="IDT_INSTALL_DESTINATION">Geben Sie das Zielverzeichnis für die Installation der Programmdateien von VeraCrypt an. Falls das Zielverzeichnis nicht existiert, wird es automatisch beim Entpacken angelegt.</entry>
     <entry lang="de" key="IDT_UNINSTALL_DIR">Klicken Sie auf „Deinstallieren“, um VeraCrypt von diesem System zu entfernen.</entry>
     <entry lang="de" key="IDC_ABORT_BUTTON">Abbrechen</entry>
-    <entry lang="de" key="IDC_BENCHMARK">&amp;Benchmark</entry>
-    <entry lang="de" key="IDC_CIPHER_TEST">&amp;Test</entry>
+    <entry lang="de" key="IDC_BENCHMARK">&amp;Benchmark ...</entry>
+    <entry lang="de" key="IDC_CIPHER_TEST">&amp;Test ...</entry>
     <entry lang="de" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Verschlüsseltes Volumen erstellen und formatieren</entry>
     <entry lang="de" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Partition „in-place“ verschlüsseln</entry>
     <entry lang="de" key="IDC_DISPLAY_KEYS">Generierte Schlüssel anzeigen (deren Teile)</entry>
@@ -44,9 +44,9 @@
     <entry lang="de" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direkter Modus</entry>
     <entry lang="de" key="IDC_HIDVOL_WIZ_MODE_FULL">Kompletter Modus</entry>
     <entry lang="de" key="IDC_KB">&amp;KB</entry>
-    <entry lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;tei verwenden</entry>
-    <entry lang="de" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Versuche zuerst ohne Passwort einzubinden</entry>
-    <entry lang="de" key="IDC_KEYFILES_RANDOM_SIZE">Zufällige Größe (64 &lt;-&gt; 1048576)</entry>
+    <entry lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;t. verwenden</entry>
+    <entry lang="de" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Einbinden zuerst ohne Passwort versuchen</entry>
+    <entry lang="de" key="IDC_KEYFILES_RANDOM_SIZE">Zufällige Größe (64 &lt;-&gt; 1048576 Bytes)</entry>
     <entry lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien ...</entry>
     <entry lang="de" key="IDC_LINK_HASH_INFO">Infos über Hash-Algorithmen</entry>
     <entry lang="de" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Weitere Informationen</entry>
@@ -67,21 +67,21 @@
     <entry lang="de" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Passwort anzeigen</entry>
     <entry lang="de" key="IDC_SHOW_PIM">PIM &amp;anzeigen</entry>
     <entry lang="de" key="IDC_SINGLE_BOOT">Ein Betriebssystem</entry>
-    <entry lang="de" key="IDC_STD_VOL">Standard VeraCrypt-Volume</entry>
+    <entry lang="de" key="IDC_STD_VOL">Standard-VeraCrypt-Volume</entry>
     <entry lang="de" key="IDC_SYSENC_HIDDEN">V&amp;ersteckt</entry>
     <entry lang="de" key="IDC_SYSENC_NORMAL">Normal</entry>
-    <entry lang="de" key="IDC_SYS_DEVICE">Eine System-Partition bzw. ein System-Laufwerk verschlüsseln</entry>
-    <entry lang="de" key="IDC_SYS_PARTITION">Die Windows System-Partition verschlüsseln</entry>
+    <entry lang="de" key="IDC_SYS_DEVICE">Eine Systempartition bzw. ein Systemlaufwerk verschlüsseln</entry>
+    <entry lang="de" key="IDC_SYS_PARTITION">Die Windows-Systempartition verschlüsseln</entry>
     <entry lang="de" key="IDC_WHOLE_SYS_DRIVE">Gesamtes Laufwerk verschlüsseln</entry>
     <entry lang="de" key="IDD_VOL_CREATION_WIZARD_DLG">Assistent zum Erstellen eines VeraCrypt-Volumens</entry>
     <entry lang="de" key="IDT_CLUSTER">Cluster </entry>
-    <entry lang="de" key="IDT_COLLECTING_RANDOM_DATA_NOTE">WICHTIG: Bewegen Sie den Mauszeiger in diesem Fenster zufällig hin und her. Je länger (min. 30 Sek.) Sie die Maus bewegen, desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei. Klicken Sie dann auf „Weiter“, um fortzufahren.</entry>
+    <entry lang="de" key="IDT_COLLECTING_RANDOM_DATA_NOTE">WICHTIG: Bewegen Sie den Mauszeiger in diesem Fenster mindestens 30 Sekunden zufällig hin und her. Je länger Sie die Maus bewegen, desto besser ist die Verschlüsselung. Klicken Sie dann auf „Weiter“, um fortzufahren.</entry>
     <entry lang="de" key="IDT_CONFIRM">&amp;Bestätigung:</entry>
     <entry lang="de" key="IDT_DONE">Fertig</entry>
     <entry lang="de" key="IDT_DRIVE_LETTER">Laufwerksbuchstabe:</entry>
     <entry lang="de" key="IDT_ENCRYPTION_ALGO">Verschlüsselungsalgorithmus</entry>
     <entry lang="de" key="IDT_FILESYSTEM">Dateisystem </entry>
-    <entry lang="de" key="IDT_FILE_CONTAINER">Erstellt ein verschlüsseltes virtuelles Laufwerk, welches als Datei gespeichert wird. Für Anfänger empfohlen.</entry>
+    <entry lang="de" key="IDT_FILE_CONTAINER">Erstellt ein verschlüsseltes virtuelles Laufwerk, das als Datei gespeichert wird. Für Anfänger empfohlen.</entry>
     <entry lang="de" key="IDT_FORMAT_OPTIONS">Optionen</entry>
     <entry lang="de" key="IDT_HASH_ALGO">Hash-Algorithmus</entry>
     <entry lang="de" key="IDT_HEADER_KEY">Kopfdatenschlüssel: </entry>
@@ -99,32 +99,32 @@
     <entry lang="de" key="IDT_SINGLE_BOOT">Diese Option wählen, wenn sich nur ein Betriebssystem auf dem Computer befindet (auch bei mehreren Benutzern).</entry>
     <entry lang="de" key="IDT_SPEED">Geschw.</entry>
     <entry lang="de" key="IDT_STATUS">Status</entry>
-    <entry lang="de" key="IDT_SYSENC_KEYS_GEN_INFO">Die Schlüssel, der Salt-Wert und andere Daten wurden erfolgreich erstellt. Wenn Sie neue Schlüssel erstellen möchten, klicken Sie auf „Zurück“ und dann auf „Weiter“. Andernfalls klicken Sie auf „Weiter“.</entry>
-    <entry lang="de" key="IDT_SYS_DEVICE">Partition/Laufwerk verschlüsseln auf dem Windows installiert ist. Jeder, der Zugang zum System erlangen möchte, muss das korrekte Passwort bei jedem Start von Windows eingeben. Eine Alternative dazu ist das Erstellen eines versteckten Systems.</entry>
+    <entry lang="de" key="IDT_SYSENC_KEYS_GEN_INFO">Die Schlüssel, der Salt-Wert und andere Daten wurden erfolgreich erstellt. Wenn Sie neue Schlüssel erstellen möchten, klicken Sie auf „Zurück“ und dann auf „Weiter“. Ansonsten klicken Sie auf „Weiter“.</entry>
+    <entry lang="de" key="IDT_SYS_DEVICE">Partition/Laufwerk verschlüsseln, auf dem Windows installiert ist. Jeder, der Zugang zum System erlangen möchte, muss das korrekte Passwort bei jedem Start von Windows eingeben. Eine Alternative dazu ist das Erstellen eines versteckten Systems.</entry>
     <entry lang="de" key="IDT_SYS_PARTITION">Wählen Sie diese Option, um die Partition zu verschlüsseln, auf der das derzeit laufende Windows installiert ist.</entry>
     <entry lang="de" key="IDT_VOLUME_LABEL">Volumen-Bezeichnung in Windows:</entry>
     <entry lang="de" key="IDT_WIPE_MODE">Löschmodus:</entry>
     <entry lang="de" key="IDCLOSE">Schließen</entry>
-    <entry lang="de" key="IDC_ALLOW_ESC_PBA_BYPASS">Erlauben, die Prä-Boot-&amp;Authentifikation durch Drücken v. ESC zu überspringen (aktiviert Boot-Manager)</entry>
+    <entry lang="de" key="IDC_ALLOW_ESC_PBA_BYPASS">Erlauben, die Pre-Boot-&amp;Authentifikation durch Drücken von Esc zu überspringen (aktiviert Bootmanager)</entry>
     <entry lang="de" key="IDC_AUTORUN_DISABLE">Nichts machen</entry>
-    <entry lang="de" key="IDC_AUTORUN_MOUNT">&amp;VeraCrypt-Volumen autom. einhängen (wie unten angegeben)</entry>
+    <entry lang="de" key="IDC_AUTORUN_MOUNT">&amp;VeraCrypt-Volumen automatisch einhängen (wie unten angegeben)</entry>
     <entry lang="de" key="IDC_AUTORUN_START">&amp;VeraCrypt starten</entry>
     <entry lang="de" key="IDC_AUTO_DETECT_PKCS11_MODULE">Bibliothek auto&amp;matisch erkennen</entry>
-    <entry lang="de" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Prä-Boot-Authentifikationspasswort in Treiber-Speicher schr. (zum Einhängen v. Nicht-System-Volumen)</entry>
+    <entry lang="de" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Pre-Boot-Authentifikationspasswort in Treiber-Speicher schreiben (zum Einhängen von Nicht-System-Volumen)</entry>
     <entry lang="de" key="IDC_BROWSE_DIRS">Durchsuchen ...</entry>
     <entry lang="de" key="IDC_BROWSE_FILES">Durchsuchen ...</entry>
     <entry lang="de" key="IDC_CACHE">Passwort und Schlüsseldatei im &amp;Cache halten</entry>
-    <entry lang="de" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">&amp;Beenden, wenn alle Vol. getrennt wurden</entry>
+    <entry lang="de" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">&amp;Beenden, wenn alle Volumen getrennt wurden</entry>
     <entry lang="de" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">Token-&amp;Sitzung schließen, nachdem ein Volumen erfolgreich eingehängt wurde</entry>
     <entry lang="de" key="IDC_COPY_EXPANDER">Volumen-Erweiterer hinzufügen</entry>
     <entry lang="de" key="IDC_COPY_WIZARD">Assistent für die Erstellung von VeraCrypt-Volumen hinzufügen</entry>
     <entry lang="de" key="IDC_CREATE">Erstellen</entry>
     <entry lang="de" key="IDC_CREATE_VOLUME">Volumen &amp;erstellen</entry>
-    <entry lang="de" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Keine Texte im Prä-Boot-Authentifikationsbildschirm &amp;anzeigen (außer die unten definierte Nachricht)</entry>
-    <entry lang="de" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Deaktiviert Erkennung von „Evil Maid“ Angriffen</entry>
-    <entry lang="de" key="IDC_ENABLE_HARDWARE_ENCRYPTION">AES-Verschlüsselung beschleunigen durch Nutzung der AES-Befehle des Prozessors (falls unterstützt)</entry>
-    <entry lang="de" key="IDC_ENABLE_KEYFILES">Sch&amp;lüsseldateien verw.</entry>
-    <entry lang="de" key="IDC_ENABLE_NEW_KEYFILES">Schlüsselda&amp;teien verw.</entry>
+    <entry lang="de" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Keine Texte im Pre-Boot-Authentifikationsbildschirm &amp;anzeigen (außer die unten definierte Nachricht)</entry>
+    <entry lang="de" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Erkennung von „Evil Maid“-Angriffen deaktivieren</entry>
+    <entry lang="de" key="IDC_ENABLE_HARDWARE_ENCRYPTION">AES-Verschlüsselung durch Nutzung der AES-Befehle des Prozessors beschleunigen (falls unterstützt)</entry>
+    <entry lang="de" key="IDC_ENABLE_KEYFILES">Sch&amp;lüsseldateien verwenden</entry>
+    <entry lang="de" key="IDC_ENABLE_NEW_KEYFILES">Schlüsselda&amp;teien verwenden</entry>
     <entry lang="de" key="IDC_EXIT">&amp;Beenden</entry>
     <entry lang="de" key="IDC_FAVORITES_HELP_LINK">Hilfe zu Favoriten-Volumen</entry>
     <entry lang="de" key="IDC_FAVORITE_DISABLE_HOTKEY">Ausgewähltes Volumen nicht einhängen, wenn die „Favoriten einhängen“-&amp;Tastenkombination gedrückt wird.</entry>
@@ -134,7 +134,7 @@
     <entry lang="de" key="IDC_FAVORITE_MOUNT_REMOVABLE">Ausgewähltes Volumen als &amp;Wechselmedium einhängen</entry>
     <entry lang="de" key="IDC_FAVORITE_MOVE_DOWN">Nach &amp;unten</entry>
     <entry lang="de" key="IDC_FAVORITE_MOVE_UP">Nach &amp;oben</entry>
-    <entry lang="de" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Explorer-&amp;Fenster für das gewählte Volumen öffnen, wenn es erfolgreich eingehängt wurde</entry>
+    <entry lang="de" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Explorer-&amp;Fenster für das ausgewählte Volumen öffnen, wenn es erfolgreich eingehängt wurde</entry>
     <entry lang="de" key="IDC_FAVORITE_REMOVE">&amp;Entfernen</entry>
     <entry lang="de" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Bezeichnung des ausgewählten Volumen für Explorer verwenden</entry>
     <entry lang="de" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Globale Einstellungen</entry>
@@ -146,15 +146,15 @@
     <entry lang="de" key="IDC_HK_MOD_WIN">Win</entry>
     <entry lang="de" key="IDC_HOTKEY_ASSIGN">Zuweisen</entry>
     <entry lang="de" key="IDC_HOTKEY_REMOVE">Aufheben</entry>
-    <entry lang="de" key="IDC_KEYFILES">&amp;Schlüsseldat ...</entry>
+    <entry lang="de" key="IDC_KEYFILES">&amp;Schlüsseldateien ...</entry>
     <entry lang="de" key="IDC_LIMIT_ENC_THREAD_POOL">Diese Anzahl von logischen Prozessoren nicht für Ver-/Entschlüsselung nutzen:</entry>
     <entry lang="de" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Mehr Informationen</entry>
     <entry lang="de" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Mehr Informationen</entry>
-    <entry lang="de" key="IDC_MORE_SETTINGS">Mehr Einstellungen ...</entry>
-    <entry lang="de" key="IDC_MOUNTALL">&amp;Alle Datentr. einhängen</entry>
+    <entry lang="de" key="IDC_MORE_SETTINGS">Mehr Einstellungen »</entry>
+    <entry lang="de" key="IDC_MOUNTALL">&amp;Alle Datentr. einhängen ...</entry>
     <entry lang="de" key="IDC_MOUNT_OPTIONS">&amp;Optionen ...</entry>
     <entry lang="de" key="IDC_MOUNT_READONLY">Als schreib&amp;geschütztes Laufwerk einhängen</entry>
-    <entry lang="de" key="IDC_NEW_KEYFILES">Schlüssel&amp;dat ...</entry>
+    <entry lang="de" key="IDC_NEW_KEYFILES">Schlüssel&amp;dateien ...</entry>
     <entry lang="de" key="IDC_OLD_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</entry>
     <entry lang="de" key="IDC_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</entry>
     <entry lang="de" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiv</entry>
@@ -166,7 +166,7 @@
     <entry lang="de" key="IDC_PREF_DISMOUNT_SCREENSAVER">Bildsc&amp;hirmschonerstart</entry>
     <entry lang="de" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Automatisches Trennen bei geöffneten Date&amp;ien erzwingen</entry>
     <entry lang="de" key="IDC_PREF_LOGON_MOUNT_DEVICES">Alle Datenträger-&amp;Volumen einhängen</entry>
-    <entry lang="de" key="IDC_PREF_LOGON_START">Starte VeraCrypt Hintergrund Task</entry>
+    <entry lang="de" key="IDC_PREF_LOGON_START">VeraCrypt-Hintergrundtask starten</entry>
     <entry lang="de" key="IDC_PREF_MOUNT_READONLY">Nur &amp;schreibgeschützt einhängen</entry>
     <entry lang="de" key="IDC_PREF_MOUNT_REMOVABLE">Als &amp;Wechselmedium einhängen</entry>
     <entry lang="de" key="IDC_PREF_OPEN_EXPLORER">Explo&amp;rer-Fenster für erfolgreich eingehängtes Volumen öffnen</entry>
@@ -178,15 +178,15 @@
     <entry lang="de" key="IDC_RESET_HOTKEYS">Zu&amp;rücksetzen</entry>
     <entry lang="de" key="IDC_SELECT_DEVICE">Datent&amp;räger ...</entry>
     <entry lang="de" key="IDC_SELECT_FILE">&amp;Datei ...</entry>
-    <entry lang="de" key="IDC_SELECT_PKCS11_MODULE">&amp;Bibliothek auswählen ...</entry>
+    <entry lang="de" key="IDC_SELECT_PKCS11_MODULE">&amp;Bibliothek wählen ...</entry>
     <entry lang="de" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Passwort anze&amp;igen</entry>
     <entry lang="de" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Passwort an&amp;zeigen</entry>
     <entry lang="de" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer-Fenster für eingehängtes Volumen öffnen</entry>
     <entry lang="de" key="IDC_TRAV_CACHE_PASSWORDS">Passwort im Cache halten</entry>
     <entry lang="de" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt-Modus</entry>
-    <entry lang="de" key="IDC_UNMOUNTALL">A&amp;lle trennen</entry>
+    <entry lang="de" key="IDC_UNMOUNTALL">A&amp;lle Datenträger trennen</entry>
     <entry lang="de" key="IDC_VOLUME_PROPERTIES">Eigenscha&amp;ften ...</entry>
-    <entry lang="de" key="IDC_VOLUME_TOOLS">Vol.-&amp;Operationen ...</entry>
+    <entry lang="de" key="IDC_VOLUME_TOOLS">Volumen-&amp;Operationen »</entry>
     <entry lang="de" key="IDC_WIPE_CACHE">&amp;Cache sicher löschen</entry>
     <entry lang="de" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt – Parameter beim Einhängen</entry>
     <entry lang="de" key="IDD_FAVORITE_VOLUMES">VeraCrypt – Favoriten-Volumen</entry>
@@ -194,7 +194,7 @@
     <entry lang="de" key="IDD_MOUNT_DLG">VeraCrypt</entry>
     <entry lang="de" key="IDD_PASSWORDCHANGE_DLG">Passwort oder Schlüsseldateien ändern</entry>
     <entry lang="de" key="IDD_PASSWORD_DLG">Passwort für VeraCrypt-Volumen eingeben</entry>
-    <entry lang="de" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt – Leistungseinstellungen und Treibereinstellungen</entry>
+    <entry lang="de" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt – Leistungs- und Treibereinstellungen</entry>
     <entry lang="de" key="IDD_PREFERENCES_DLG">VeraCrypt – Voreinstellungen</entry>
     <entry lang="de" key="IDD_SYSENC_SETTINGS">VeraCrypt – Einstellungen der Systemverschl.</entry>
     <entry lang="de" key="IDD_TOKEN_PREFERENCES">VeraCrypt – Sicherheitstoken-Einstellungen</entry>
@@ -213,35 +213,35 @@
     <entry lang="de" key="IDM_CHANGE_SYS_PASSWORD">Passwort ändern ...</entry>
     <entry lang="de" key="IDM_CLEAR_HISTORY">Volumen-Ve&amp;rlauf löschen</entry>
     <entry lang="de" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Alle Sicherheitstoken-Sitzungen schließen</entry>
-    <entry lang="de" key="IDM_CONTACT">&amp;Kontakt</entry>
+    <entry lang="de" key="IDM_CONTACT">&amp;Kontakt ...</entry>
     <entry lang="de" key="IDM_CREATE_HIDDEN_OS">Verstecktes Betriebssystem erstellen ...</entry>
     <entry lang="de" key="IDM_CREATE_RESCUE_DISK">Rettungsdatenträger erstellen ...</entry>
     <entry lang="de" key="IDM_CREATE_VOLUME">&amp;Neues Volumen erstellen ...</entry>
     <entry lang="de" key="IDM_DECRYPT_NONSYS_VOL">Dauerhaft entschlüsseln ...</entry>
     <entry lang="de" key="IDM_DEFAULT_KEYFILES">&amp;Standardschlüsseldateien ...</entry>
     <entry lang="de" key="IDM_DEFAULT_MOUNT_PARAMETERS">Standardparameter beim Einhängen ...</entry>
-    <entry lang="de" key="IDM_DONATE">Jetzt spenden...</entry>
-    <entry lang="de" key="IDM_ENCRYPT_SYSTEM_DEVICE">System-Partition/Laufwerk verschlüsseln ...</entry>
+    <entry lang="de" key="IDM_DONATE">Jetzt spenden ...</entry>
+    <entry lang="de" key="IDM_ENCRYPT_SYSTEM_DEVICE">Systempartition/Systemlaufwerk verschlüsseln ...</entry>
     <entry lang="de" key="IDM_FAQ">Häufig gestellte &amp;Fragen (FAQ)</entry>
     <entry lang="de" key="IDM_HELP">&amp;Benutzerhandbuch</entry>
     <entry lang="de" key="IDM_HOMEPAGE">Webseite</entry>
     <entry lang="de" key="IDM_HOTKEY_SETTINGS">&amp;Tastenkombinationen ...</entry>
-    <entry lang="de" key="IDM_KEYFILE_GENERATOR">&amp;Schlüsseldatei(en) generieren</entry>
+    <entry lang="de" key="IDM_KEYFILE_GENERATOR">&amp;Schlüsseldatei(en) erstellen ...</entry>
     <entry lang="de" key="IDM_LANGUAGE">&amp;Sprache ...</entry>
     <entry lang="de" key="IDM_LICENSE">&amp;Lizenzvereinbarung</entry>
     <entry lang="de" key="IDM_MANAGE_TOKEN_KEYFILES">Sicherheitstoken-Schlüsseldateien verwalten ...</entry>
     <entry lang="de" key="IDM_MOUNTALL">&amp;Alle Datenträger-Volumen automatisch einhängen</entry>
     <entry lang="de" key="IDM_MOUNT_FAVORITE_VOLUMES">&amp;Favoriten einhängen</entry>
-    <entry lang="de" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Ohne Prä-Boot-&amp;Authentifikation einhängen ...</entry>
+    <entry lang="de" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Ohne Pre-Boot-&amp;Authentifikation einhängen ...</entry>
     <entry lang="de" key="IDM_MOUNT_VOLUME">Volumen &amp;einhängen</entry>
     <entry lang="de" key="IDM_MOUNT_VOLUME_OPTIONS">Volumen einhängen (mit &amp;Optionen)</entry>
     <entry lang="de" key="IDM_NEWS">&amp;Neuigkeiten</entry>
     <entry lang="de" key="IDM_ONLINE_HELP">Online-&amp;Hilfe</entry>
     <entry lang="de" key="IDM_ONLINE_TUTORIAL">&amp;Anleitung für Anfänger</entry>
-    <entry lang="de" key="IDM_ORGANIZE_FAVORITES">Favoriten-Volumen Einstellungen ...</entry>
+    <entry lang="de" key="IDM_ORGANIZE_FAVORITES">Favoriten-Volumen-Einstellungen ...</entry>
     <entry lang="de" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Systemfavoriten-Volumen-Einstellungen ...</entry>
-    <entry lang="de" key="IDM_PERFORMANCE_SETTINGS">Leistung/Treiberkonfiguration</entry>
-    <entry lang="de" key="IDM_PERMANENTLY_DECRYPT_SYS">System-Partition/Laufwerk dauerhaft entschlüsseln</entry>
+    <entry lang="de" key="IDM_PERFORMANCE_SETTINGS">Leistung/Treiberkonfiguration ...</entry>
+    <entry lang="de" key="IDM_PERMANENTLY_DECRYPT_SYS">Systempartition/Systemlaufwerk dauerhaft entschlüsseln</entry>
     <entry lang="de" key="IDM_PREFERENCES">&amp;Voreinstellungen ...</entry>
     <entry lang="de" key="IDM_REFRESH_DRIVE_LETTERS">&amp;Laufwerksbuchstaben aktualisieren</entry>
     <entry lang="de" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">&amp;Alle Schlüsseldateien vom Volumen entfernen ...</entry>
@@ -261,11 +261,11 @@
     <entry lang="de" key="IDM_UNMOUNTALL">A&amp;lle Volumen trennen</entry>
     <entry lang="de" key="IDM_UNMOUNT_VOLUME">Volumen &amp;trennen</entry>
     <entry lang="de" key="IDM_VERIFY_RESCUE_DISK">Rettungsdatenträger überprüfen</entry>
-    <entry lang="de" key="IDM_VERIFY_RESCUE_DISK_ISO">Abbild von Rettungsdatenträger überprüfen</entry>
+    <entry lang="de" key="IDM_VERIFY_RESCUE_DISK_ISO">ISO-Abbild vom Rettungsdatenträger überprüfen</entry>
     <entry lang="de" key="IDM_VERSION_HISTORY">&amp;Versionsverlauf</entry>
-    <entry lang="de" key="IDM_VOLUME_EXPANDER">Volumen-Erweiterer</entry>
+    <entry lang="de" key="IDM_VOLUME_EXPANDER">Volumen-Erweiterer ...</entry>
     <entry lang="de" key="IDM_VOLUME_PROPERTIES">E&amp;igenschaften des VeraCrypt-Volumen</entry>
-    <entry lang="de" key="IDM_VOLUME_WIZARD">VeraCrypt-Volumen &amp;erstellen</entry>
+    <entry lang="de" key="IDM_VOLUME_WIZARD">VeraCrypt-Volumen &amp;erstellen ...</entry>
     <entry lang="de" key="IDM_WEBSITE">VeraCrypt-&amp;Webseite</entry>
     <entry lang="de" key="IDM_WIPE_CACHE">&amp;Passwort-Cache sicher löschen</entry>
     <entry lang="de" key="IDOK">OK</entry>
@@ -277,7 +277,7 @@
     <entry lang="de" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Optionen des Bootloader-Bildschirms</entry>
     <entry lang="de" key="IDT_CONFIRM_PASSWORD">Passwort bestätigen:</entry>
     <entry lang="de" key="IDT_CURRENT">Momentan</entry>
-    <entry lang="de" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Zeige diese benutzerdefinierte Nachricht im Prä-Boot-Authentifikationsbildschirm an (max. 24 Zeichen):</entry>
+    <entry lang="de" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Zeige diese benutzerdefinierte Nachricht im Pre-Boot-Authentifikationsbildschirm an (max. 24 Zeichen):</entry>
     <entry lang="de" key="IDT_DEFAULT_MOUNT_OPTIONS">Voreinstellungen beim Einhängen</entry>
     <entry lang="de" key="IDT_DISMOUNT_ACTION">Einstellungen für Tastenkombinationen</entry>
     <entry lang="de" key="IDT_DRIVER_OPTIONS">Treiberkonfiguration</entry>
@@ -299,8 +299,8 @@
     <entry lang="de" key="IDT_PW_CACHE_OPTIONS">Passwort-Cache (im Speicher des VeraCrypt-Treibers)</entry>
     <entry lang="de" key="IDT_SECURITY_OPTIONS">Sicherheitsoptionen</entry>
     <entry lang="de" key="IDT_TASKBAR_ICON">VeraCrypt-Hintergrunddienst</entry>
-    <entry lang="de" key="IDT_TRAVELER_MOUNT">VeraCrypt-Volumen einhängen (relativ zum Traveler-Disk-Verz.):</entry>
-    <entry lang="de" key="IDT_TRAVEL_INSERTION">Beim Anschließen einer Traveler Disk: </entry>
+    <entry lang="de" key="IDT_TRAVELER_MOUNT">VeraCrypt-Volumen einhängen (relativ zum Traveler-Disk-Verzeichnis):</entry>
+    <entry lang="de" key="IDT_TRAVEL_INSERTION">Beim Anschließen einer Traveler-Disk: </entry>
     <entry lang="de" key="IDT_TRAVEL_ROOT">Traveler-Disk-Dateien erstellen in (Traveler-Disk-Stammverzeichnis):</entry>
     <entry lang="de" key="IDT_VOLUME">Volume</entry>
     <entry lang="de" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
@@ -311,38 +311,38 @@
     <entry lang="de" key="IDC_DELETE">&amp;Löschen</entry>
     <entry lang="de" key="IDC_ENCRYPT">&amp;Verschlüsseln</entry>
     <entry lang="de" key="IDC_EXPORT">&amp;Exportieren ...</entry>
-    <entry lang="de" key="IDC_GENERATE_AND_SAVE_KEYFILE">Schlüsseldatei(en) &amp;erstellen und speichern</entry>
-    <entry lang="de" key="IDC_GENERATE_KEYFILE">Schlüsseldatei(en) &amp;generieren</entry>
+    <entry lang="de" key="IDC_GENERATE_AND_SAVE_KEYFILE">Schlüsseldatei(en) &amp;erstellen u. speichern ...</entry>
+    <entry lang="de" key="IDC_GENERATE_KEYFILE">Schlüsseldatei(en) &amp;erstellen ...</entry>
     <entry lang="de" key="IDC_GET_LANG_PACKS">Sprachpaket herunterladen</entry>
     <entry lang="de" key="IDC_HW_AES_LABEL_LINK">Hardwarebeschleunigtes AES:</entry>
     <entry lang="de" key="IDC_IMPORT_KEYFILE">&amp;Schl.dateien auf den Token importieren ...</entry>
     <entry lang="de" key="IDC_KEYADD">Dateien &amp;hinzuf.</entry>
-    <entry lang="de" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Schlüsselda&amp;teien verw.</entry>
-    <entry lang="de" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Schlüsseldat ...</entry>
+    <entry lang="de" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Schlüsselda&amp;t. verwenden</entry>
+    <entry lang="de" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Schlüsseldat. ...</entry>
     <entry lang="de" key="IDC_KEYREMOVE">Ent&amp;fernen</entry>
     <entry lang="de" key="IDC_KEYREMOVEALL">&amp;Alle entfernen</entry>
-    <entry lang="de" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Was bedeutet „Schützen von verstecktem Volume“?</entry>
+    <entry lang="de" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Was bedeutet „Verstecktes Volumen schützen“?</entry>
     <entry lang="de" key="IDC_LINK_KEYFILES_INFO">Mehr Infos zu Schlüsseldateien</entry>
     <entry lang="de" key="IDC_MOUNT_REMOVABLE">Als &amp;Wechselmedium einhängen</entry>
-    <entry lang="de" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Partition mit &amp;Systemverschl. ohne Prä-Boot-Authentifikation einhängen</entry>
+    <entry lang="de" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Partition mit &amp;Systemverschlüsselung ohne Pre-Boot-Authentifikation einhängen</entry>
     <entry lang="de" key="IDC_PARALLELIZATION_LABEL_LINK">Parallelisierung:</entry>
-    <entry lang="de" key="IDC_PERFORM_BENCHMARK">Test</entry>
+    <entry lang="de" key="IDC_PERFORM_BENCHMARK">Test ...</entry>
     <entry lang="de" key="IDC_PRINT">&amp;Drucken</entry>
     <entry lang="de" key="IDC_PROTECT_HIDDEN_VOL">Verstecktes Volumen vor &amp;Beschädigung durch äußeres Volumen schützen</entry>
     <entry lang="de" key="IDC_RESET">&amp;Zurücksetzen</entry>
     <entry lang="de" key="IDC_SHOW_PASSWORD_MO">Passwort an&amp;zeigen</entry>
     <entry lang="de" key="IDC_TOKEN_FILES_ADD">&amp;Token/SmartCard</entry>
     <entry lang="de" key="IDC_USE_EMBEDDED_HEADER_BAK">Wenn verfügbar, im Volumen eingebettete Kopfdatensicherung verwenden</entry>
-    <entry lang="de" key="IDC_XTS_MODE_ENABLED">XTS Modus</entry>
+    <entry lang="de" key="IDC_XTS_MODE_ENABLED">XTS-Modus</entry>
     <entry lang="de" key="IDD_ABOUT_DLG">Über VeraCrypt</entry>
-    <entry lang="de" key="IDD_BENCHMARK_DLG">VeraCrypt – Benchmark-Test für Algorithmen</entry>
+    <entry lang="de" key="IDD_BENCHMARK_DLG">VeraCrypt – Benchmark-Test für Verschlüsselungsalgorithmen</entry>
     <entry lang="de" key="IDD_CIPHER_TEST_DLG">VeraCrypt – Testvektoren</entry>
     <entry lang="de" key="IDD_COMMANDHELP_DLG">Hilfe für Kommandozeilenparameter</entry>
     <entry lang="de" key="IDD_KEYFILES">VeraCrypt – Schlüsseldateien</entry>
     <entry lang="de" key="IDD_KEYFILE_GENERATOR">VeraCrypt – Schlüsseldatei(en) aus Zufallswerten erstellen</entry>
     <entry lang="de" key="IDD_LANGUAGE">VeraCrypt – Sprache</entry>
     <entry lang="de" key="IDD_MOUNT_OPTIONS">VeraCrypt – Einstellungen beim Einhängen</entry>
-    <entry lang="de" key="IDD_NEW_TOKEN_KEYFILE">Eigenschaften für neue Sicherheitstoken-Schlüsseldateien</entry>
+    <entry lang="de" key="IDD_NEW_TOKEN_KEYFILE">Eigenschaften für neue Sicherheitstoken-Schlüsseldatei</entry>
     <entry lang="de" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt – Verbesserung des Zufallszahlen-Generators</entry>
     <entry lang="de" key="IDD_RAWDEVICES_DLG">Datenträger oder Partition auswählen</entry>
     <entry lang="de" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</entry>
@@ -352,10 +352,10 @@
     <entry lang="de" key="IDT_BOX_BENCHMARK_INFO">Die Leistung hängt von der CPU-Last und von der Charakteristik des Speichergerätes ab.\n\nAlle Tests werden im RAM durchgeführt.</entry>
     <entry lang="de" key="IDT_BUFFER_SIZE">Speichergröße:</entry>
     <entry lang="de" key="IDT_CIPHER">Blockchiffre:</entry>
-    <entry lang="de" key="IDT_HIDDEN_PROT_PASSWD">&amp;Passwort des versteckten Volumens (Cache falls leer):</entry>
+    <entry lang="de" key="IDT_HIDDEN_PROT_PASSWD">&amp;Passwort des versteckten Volumens (Cache, falls leer):</entry>
     <entry lang="de" key="IDT_HIDDEN_VOL_PROTECTION">Verstecktes Volumen schützen</entry>
     <entry lang="de" key="IDT_KEY">Schlüsselgröße:</entry>
-    <entry lang="de" key="IDT_KEYFILE_GENERATOR_NOTE">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin- und herbewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei.</entry>
+    <entry lang="de" key="IDT_KEYFILE_GENERATOR_NOTE">WICHTIG: Bewegen Sie den Mauszeiger in diesem Fenster mindestens 30 Sekunden zufällig hin und her. Je länger Sie die Maus bewegen, desto besser ist die Verschlüsselung.</entry>
     <entry lang="de" key="IDT_KEYFILE_WARNING">WARNUNG: Ein Volumen kann nicht mehr eingehängt werden, wenn eine der Schlüsseldateien fehlt oder in den ersten 1024 KB verändert wurde!</entry>
     <entry lang="de" key="IDT_KEY_UNIT">Bit</entry>
     <entry lang="de" key="IDT_NUMBER_KEYFILES">Anzahl der Schlüsseldateien:</entry>
@@ -366,13 +366,13 @@
     <entry lang="de" key="IDT_PLAINTEXT_SIZE_UNIT">Bit</entry>
     <entry lang="de" key="IDT_POOL_CONTENTS">Momentaner Pool-Inhalt:</entry>
     <entry lang="de" key="IDT_PRF">&amp;PRF:</entry>
-    <entry lang="de" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin- und herbewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei. Klicken Sie auf „Weiter“, um mit dem Vorgang fortzufahren.</entry>
+    <entry lang="de" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">WICHTIG: Bewegen Sie den Mauszeiger in diesem Fenster mindestens 30 Sekunden zufällig hin und her. Je länger Sie die Maus bewegen, desto besser ist die Verschlüsselung. Klicken Sie auf „Weiter“, um mit dem Vorgang fortzufahren.</entry>
     <entry lang="de" key="IDT_SECONDARY_KEY">Sekundärer Schlüssel (hexadezimal)</entry>
     <entry lang="de" key="IDT_SECURITY_TOKEN">Sicherheitstoken:</entry>
     <entry lang="de" key="IDT_SORT_METHOD">Sortiermethode:</entry>
     <entry lang="de" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Bitte warten. Dieser Vorgang kann sehr lange dauern ...</entry>
     <entry lang="de" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Bitte warten ...\nDieser Prozess kann sehr lange dauern und VeraCrypt kann vorübergehend hängen bleiben.</entry>
-    <entry lang="de" key="IDT_TEST_BLOCK_NUMBER">Block Nummer:</entry>
+    <entry lang="de" key="IDT_TEST_BLOCK_NUMBER">Blocknummer:</entry>
     <entry lang="de" key="IDT_TEST_CIPHERTEXT">Chiffretext (hexadezimal)</entry>
     <entry lang="de" key="IDT_TEST_DATA_UNIT_NUMBER">Dateneinheitnummer (64 Bit hexadezimal, die Größe einer Dateneinheit beträgt 512 Byte)</entry>
     <entry lang="de" key="IDT_TEST_KEY">Schlüssel (hexadezimal)</entry>
@@ -388,83 +388,83 @@
     <entry lang="de" key="MENU_WEBSITE">   Web&amp;seite   </entry>
     <entry lang="de" key="ABOUTBOX">&amp;Über VeraCrypt ...</entry>
     <entry lang="de" key="ACCESSMODEFAIL">Das Schreibschutzattribut des alten Volumens konnte nicht geändert werden. Überprüfen Sie bitte die Dateizugriffsrechte.</entry>
-    <entry lang="de" key="ACCESS_DENIED">Fehler: Zugriff verweigert.\n\nDie Partition ist entweder 0 Sektoren groß, oder es handelt sich um die Bootpartition.</entry>
+    <entry lang="de" key="ACCESS_DENIED">FEHLER: Zugriff verweigert.\n\nDie Partition ist entweder 0 Sektoren groß, oder es handelt sich um die Bootpartition.</entry>
     <entry lang="de" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="de" key="ADMIN_PRIVILEGES_DRIVER">Zum Laden des VeraCrypt-Treibers müssen Sie als Benutzer mit Administratorrechten angemeldet sein.</entry>
     <entry lang="de" key="ADMIN_PRIVILEGES_WARN_DEVICES">Zum Verschlüsseln/Entschlüsseln/Formatieren eines Datenträgers oder einer Partition müssen Sie als Benutzer mit Administratorrechten angemeldet sein.\n\nDiese Einschränkung gilt nicht für VeraCrypt-Volumen in Containerdateien.</entry>
     <entry lang="de" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Zum Erstellen eines versteckten Volumen müssen Sie als Benutzer mit Administratorrechten angemeldet sein.\n\nFortsetzen?</entry>
     <entry lang="de" key="ADMIN_PRIVILEGES_WARN_NTFS">Um das Volumen mit NTFS/exFAT zu formatieren, müssen Sie als Benutzer mit Administratorrechten angemeldet sein.\n\nFür das Formatieren mit FAT werden keine Administratorrechte benötigt.</entry>
-    <entry lang="de" key="AES_HELP">Von der FIPS genehmigte Blockchiffre (Rijndael, 1998 veröffentlicht), die zur Verwendung in U.S. amerikanischen Ministerien und Behörden zugelassen ist, um vertrauliche Informationen bis zur Geheimhaltungsstufe „Top Secret“ zu schützen. 256 Bit Schlüssellänge, 128 Bit Blockgröße, 14 Runden (AES-256). Arbeitet im XTS-Modus.</entry>
+    <entry lang="de" key="AES_HELP">Von der FIPS genehmigte Blockchiffre (Rijndael, 1998 veröffentlicht), die zur Verwendung in US-amerikanischen Ministerien und Behörden zugelassen ist, um vertrauliche Informationen bis zur Geheimhaltungsstufe „Top Secret“ zu schützen. 256 Bit Schlüssellänge, 128 Bit Blockgröße, 14 Runden (AES-256). Arbeitet im XTS-Modus.</entry>
     <entry lang="de" key="ALREADY_MOUNTED">Das Volumen ist bereits eingehängt.</entry>
     <entry lang="de" key="ERR_SELF_TESTS_FAILED">WARNUNG: Mindestens ein Verschlüsselungs- oder Hash-Algorithmus hat die automatischen Selbsttests nicht bestanden.\n\nDie VeraCrypt-Installation ist möglicherweise beschädigt.</entry>
     <entry lang="de" key="ERR_NOT_ENOUGH_RANDOM_DATA">WARNUNG: Es befinden sich nicht genügend Daten im Pool des Zufallszahlengenerators, um die angeforderte Anzahl von Zufallswerten zu erzeugen.\n\nBrechen Sie den Vorgang bitte ab und melden Sie diesen Fehler (Menüpunkt „Kontakt“ im Hilfemenü).</entry>
-    <entry lang="de" key="ERR_HARDWARE_ERROR">Das Laufwerk ist beschädigt (physischer Defekt), ein Kabel ist beschädigt oder der Speicher ist defekt.\n\nBeachten Sie bitte, dass es ein Problem mit Ihrer Hardware gibt, nicht mit VeraCrypt. Melden Sie diesen Fehler/das Problem deshalb bitte NICHT VeraCrypt und suchen Sie keine Hilfe in den VeraCrypt-Foren. Für Unterstützung kontaktieren Sie bitte Ihren Hardware-Hersteller. Vielen Dank.\n\nHinweis: Wenn der Fehler wiederholt an gleicher Stelle auftritt, so liegt es möglicherweise an einem fehlerhaften Datenträger-Block, der vielleicht durch Fremdanbietersoftware korrigiert werden kann (beachten Sie, dass in vielen Fällen der Befehl „chkdsk /r“ ihn nicht korrigiert, da dies nur auf Dateisystemebene funktioniert; in einigen Fällen kann das „chkdsk“-Programm dies nicht feststellen).</entry>
+    <entry lang="de" key="ERR_HARDWARE_ERROR">Das Laufwerk ist beschädigt (physischer Defekt), ein Kabel ist beschädigt oder der Speicher ist defekt.\n\nBeachten Sie bitte, dass es ein Problem mit Ihrer Hardware gibt, nicht mit VeraCrypt. Melden Sie diesen Fehler/das Problem deshalb bitte NICHT VeraCrypt und suchen Sie keine Hilfe in den VeraCrypt-Foren. Für Unterstützung kontaktieren Sie bitte Ihren Hardware-Hersteller. Vielen Dank.\n\nHinweis: Wenn der Fehler wiederholt an gleicher Stelle auftritt, so liegt es möglicherweise an einem fehlerhaften Datenträger-Block, der vielleicht durch Fremdanbietersoftware korrigiert werden kann. Beachten Sie, dass in vielen Fällen der Befehl „chkdsk /r“ ihn nicht korrigiert, da dieser nur auf Dateisystemebene funktioniert. In einigen Fällen kann das „chkdsk“ nicht feststellen.</entry>
     <entry lang="de" key="DEVICE_NOT_READY_ERROR">Falls Sie auf ein Laufwerk für Wechselmedien zugreifen möchten, stellen Sie bitte sicher, dass sich ein Wechselmedium in diesem Laufwerk befindet. Das Laufwerk oder das Wechselmedium könnten auch beschädigt sein (physischer Defekt) oder ein Kabel könnte beschädigt oder nicht richtig verbunden sein.</entry>
-    <entry lang="de" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">Ihr System verwendet scheinbar modifizierte Chipsatz-Treiber mit einem Bug, der die Komplettverschlüsselung verhindert.\n\nBitte versuchen Sie alle modifizierten (nicht-Microsoft) Chipsatz-Treiber zu aktualisieren oder zu deinstallieren, bevor Sie fortfahren. Falls dies nicht hilft, können Sie versuchen, lediglich die Systempartition zu verschlüsseln.</entry>
+    <entry lang="de" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">Ihr System verwendet scheinbar modifizierte Chipsatz-Treiber mit einem Bug, der die Komplettverschlüsselung verhindert.\n\nBitte versuchen Sie, alle modifizierten (nicht-Microsoft) Chipsatz-Treiber zu aktualisieren oder zu deinstallieren, bevor Sie fortfahren. Falls dies nicht hilft, können Sie versuchen, lediglich die Systempartition zu verschlüsseln.</entry>
     <entry lang="de" key="BAD_DRIVE_LETTER">Ungültiger Laufwerksbuchstabe.</entry>
     <entry lang="de" key="INVALID_PATH">Ungültiger Pfad.</entry>
     <entry lang="de" key="CANCEL">Abbrechen</entry>
     <entry lang="de" key="CANNOT_CALC_SPACE">Datenträger ist nicht lesbar. Stellen Sie bitte sicher, dass der Datenträger vorhanden ist und dass dieser nicht vom System verwendet wird.</entry>
     <entry lang="de" key="CAPSLOCK_ON">WARNUNG: Die Feststelltaste ist gedrückt. Dies führt möglicherweise zu einer falschen Passworteingabe.</entry>
     <entry lang="de" key="VOLUME_TYPE_TITLE">Volumen-Typ</entry>
-    <entry lang="de" key="HIDDEN_VOLUME_TYPE_HELP">Es kann vorkommen, dass Sie von jemandem gezwungen werden das Passwort für ein verschlüsseltes Volumen zu verraten. Es gibt viele Situationen, in denen Sie sich nicht weigern können, das Passwort herauszugeben (z.B. Erpressung). Mit Hilfe eines sogenannten versteckten Volumens müssen Sie in solchen Situationen das Passwort ihres (versteckten) Volumens nicht herausgeben.</entry>
+    <entry lang="de" key="HIDDEN_VOLUME_TYPE_HELP">Es kann vorkommen, dass Sie von jemandem gezwungen werden, das Passwort für ein verschlüsseltes Volumen zu verraten. Es gibt viele Situationen, in denen Sie sich nicht weigern können, das Passwort herauszugeben (z. B. Erpressung). Mit Hilfe eines versteckten Volumens müssen Sie in solchen Situationen das Passwort Ihres (versteckten) Volumens nicht herausgeben.</entry>
     <entry lang="de" key="NORMAL_VOLUME_TYPE_HELP">Diese Option zum Erstellen eines normalen VeraCrypt-Volumens wählen.</entry>
     <entry lang="de" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">Bitte beachten Sie, dass das gesamte Systemlaufwerk nicht mit einem einzelnen Schlüssel verschlüsselt werden kann, wenn Sie möchten, dass ein Betriebssystem in ein verstecktes partitionsbasiertes Volumen installiert wird.</entry>
     <entry lang="de" key="CIPHER_HIDVOL_HOST_TITLE">Verschl.-Methode des äußeren Vol.</entry>
     <entry lang="de" key="CIPHER_HIDVOL_TITLE">Verschl.-Methode des versteckten Vol.</entry>
     <entry lang="de" key="CIPHER_TITLE">Verschlüsselungseinstellungen</entry>
     <entry lang="de" key="CLEAN_WINMRU_FAILED">WARNUNG: Die Pfadinformation des zuletzt ausgewählten Volumen bzw. der zuletzt ausgewählten Schlüsseldatei konnte nicht gelöscht werden (diese Information wird vom Dateiauswahlfenster gespeichert).</entry>
-    <entry lang="de" key="COMPRESSION_NOT_SUPPORTED">Fehler: Das Volumen wurde auf Dateisystemebene komprimiert. Komprimierte Volumen werden nicht von VeraCrypt unterstützt (die Kompression von verschlüsselten Daten ist ineffektiv und redundant).\n\nEntfernen Sie das Komprimierungsattribut bitte wie folgt: 1. Rechtsklick auf Container-Datei innerhalb des Windows-Explorers (nicht in VeraCrypt) 2. „Eigenschaften“ auswählen 3. Im „Eigenschaften“-Dialogfenster auf „Erweitert ...“ klicken 4. Im „Erweiterte Attribute“-Dialogfenster die Option „Inhalt komprimieren, um Speicherplatz zu sparen“ deaktivieren und auf „OK“ klicken 5. Im „Eigenschaften“-Dialogfenster auf „OK“ klicken</entry>
+    <entry lang="de" key="COMPRESSION_NOT_SUPPORTED">FEHLER: Das Volumen wurde auf Dateisystemebene komprimiert. Komprimierte Volumen werden nicht von VeraCrypt unterstützt (die Kompression von verschlüsselten Daten ist ineffektiv und redundant).\n\nEntfernen Sie das Komprimierungsattribut bitte wie folgt: 1. Rechtsklick auf Container-Datei innerhalb des Windows-Explorers (nicht in VeraCrypt) 2. „Eigenschaften“ auswählen 3. Im „Eigenschaften“-Dialogfenster auf „Erweitert ...“ klicken 4. Im „Erweiterte Attribute“-Dialogfenster die Option „Inhalt komprimieren, um Speicherplatz zu sparen“ deaktivieren und auf „OK“ klicken 5. Im „Eigenschaften“-Dialogfenster auf „OK“ klicken</entry>
     <entry lang="de" key="CREATE_FAILED">Volumen %s konnte nicht erstellt werden</entry>
-    <entry lang="de" key="DEVICE_FREE_BYTES">Die Größe von %s ist %.2f Byte</entry>
+    <entry lang="de" key="DEVICE_FREE_BYTES">Die Größe von %s ist %.2f Bytes</entry>
     <entry lang="de" key="DEVICE_FREE_KB">Die Größe von %s ist %.2f KB</entry>
     <entry lang="de" key="DEVICE_FREE_MB">Die Größe von %s ist %.2f MB</entry>
     <entry lang="de" key="DEVICE_FREE_GB">Die Größe von %s ist %.2f GB</entry>
     <entry lang="de" key="DEVICE_FREE_TB">Die Größe von %s ist %.2f TB</entry>
     <entry lang="de" key="DEVICE_FREE_PB">Die Größe von %s ist %.2f PB</entry>
     <entry lang="de" key="DEVICE_IN_USE_FORMAT">WARNUNG: Der Datenträger bzw. die Partition wird bereits vom Betriebssystem oder von Anwendungen benutzt! Das Formatieren des Datenträgers bzw. der Partition kann zu Datenbeschädigung und Systeminstabilität führen.\n\nDennoch mit dem Formatieren beginnen?</entry>
-    <entry lang="de" key="DEVICE_IN_USE_INPLACE_ENC">WARNUNG: Die Partition wird vom Betriebssystem oder von einer Anwendung verwendet. Sie sollten jede Anwendung, die möglicherweise die Partition verwendet, schließen (einschließlich Anti-Viren Software).\n\nFortfahren?</entry>
-    <entry lang="de" key="FORMAT_CANT_DISMOUNT_FILESYS">Fehler: Der Datenträger bzw. die Partition enthält ein Dateisystem das nicht ausgehängt werden konnte. Das Dateisystem wird möglicherweise vom Betriebssystem verwendet. Das Formatieren würde sehr wahrscheinlich Daten beschädigen und zu Systeminstabilität führen.\n\nEmpfehlungen zur Behebung des Problems: Zuerst die Partition löschen und anschließend die Partition ohne Formatierung neu erstellen.\n\n1) Im Startmenü Rechtsklick auf das „Computer“-Icon (oder „Arbeitsplatz“-Icon) und „Verwalten“ auswählen. Danach müsste das Fenster „Computerverwaltung“ erscheinen.\n2) „Datenspeicher“ &gt; „Datenträgerverwaltung“ im Fenster „Computerverwaltung“ auswählen.\n3) Rechtsklick auf die zu verschlüsselnde Partition und entweder „Partition löschen ...“, „Volumen löschen ...“ oder „Logisches Laufwerk löschen ...“ auswählen.\n4) Auf „Ja“ klicken. Sollte Windows zum Neustart des Rechners auffordern, dieser Aufforderung folgen, die Schritte 1 und 2 wiederholen, und mit Schritt 5 fortsetzen.\n5) Rechtsklick auf den als „nicht zugeordnet“/„Freier Speicherplatz“ bezeichneten Bereich und entweder „Neue Partition ...“, „Neues einfaches Volumen ...“, oder „Neues logisches Laufwerk ...“ auswählen.\n6) Den Anweisungen des daraufhin erscheinenden „Assistent zum Erstellen neuer Partitionen“- bzw. „Assistent zum Erstellen neuer einfacher Volumen“-Fensters folgen. Auf der Seite „Partition formatieren“ des Assistenten, entweder „Diese Partition nicht formatieren“ oder „Dieses Volumen nicht formatieren“ auswählen. Anschließend auf „Weiter“ und danach auf „Fertig stellen“ klicken.\n7) Der Name des in VeraCrypt ausgewählten Datenträgers bzw. der Partition ist jetzt u. U. falsch. Schließen Sie deshalb den Assistenten zum Erstellen von VeraCrypt-Volumen (falls dieser noch offen ist) und starten Sie den Assistenten neu.\n8) Versuchen Sie erneut den Datenträger bzw. die Partition zu verschlüsseln.\n\nSollte sich VeraCrypt erneut weigern den Datenträger bzw. die Partition zu verschlüsseln, so könnten Sie stattdessen auch die Erstellung eines Containerdatei-Volumens in Betracht ziehen.</entry>
-    <entry lang="de" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Fehler: Das Dateisystem konnte nicht gesperrt und/oder getrennt werden. Es könnte vom Betriebssystem oder von Programmen verwendet werden (z.B. Backup-Software oder Virenscanner). Die Verschlüsselung der Partition könnte Daten beschädigen oder das System instabil werden lassen.\n\nBitte schließen Sie jede Anwendung, die möglicherweise die Partition verwendet (einschließlich Anti-Viren Software), und versuchen Sie es erneut. Wenn dies nicht hilft, folgen Sie bitte den unten stehenden Schritten.</entry>
+    <entry lang="de" key="DEVICE_IN_USE_INPLACE_ENC">WARNUNG: Die Partition wird vom Betriebssystem oder von einer Anwendung verwendet. Sie sollten jede Anwendung, die möglicherweise die Partition verwendet, schließen (einschließlich Anti-Viren-Software).\n\nFortfahren?</entry>
+    <entry lang="de" key="FORMAT_CANT_DISMOUNT_FILESYS">FEHLER: Der Datenträger bzw. die Partition enthält ein Dateisystem das nicht ausgehängt werden konnte. Das Dateisystem wird möglicherweise vom Betriebssystem verwendet. Das Formatieren würde sehr wahrscheinlich Daten beschädigen und zu Systeminstabilität führen.\n\nEmpfehlungen zur Behebung des Problems: Zuerst die Partition löschen und anschließend die Partition ohne Formatierung neu erstellen.\n\n1) Im Startmenü Rechtsklick auf „Computer“ oder „Arbeitsplatz“ und dann „Verwalten“ auswählen. Danach müsste das Fenster „Computerverwaltung“ erscheinen.\n2) „Datenspeicher“ &gt; „Datenträgerverwaltung“ im Fenster „Computerverwaltung“ auswählen.\n3) Rechtsklick auf die zu verschlüsselnde Partition und entweder „Partition löschen ...“, „Volumen löschen ...“ oder „Logisches Laufwerk löschen ...“ auswählen.\n4) Auf „Ja“ klicken. Sollte Windows zum Neustart des Rechners auffordern, dieser Aufforderung folgen, die Schritte 1 und 2 wiederholen und mit Schritt 5 fortsetzen.\n5) Rechtsklick auf den als „Nicht zugeordnet“/„Freier Speicherplatz“ bezeichneten Bereich und entweder „Neue Partition ...“, „Neues einfaches Volumen ...“, oder „Neues logisches Laufwerk ...“ auswählen.\n6) Den Anweisungen des daraufhin erscheinenden „Assistent zum Erstellen neuer Partitionen“- bzw. „Assistent zum Erstellen neuer einfacher Volumen“-Fensters folgen. Auf der Seite „Partition formatieren“ des Assistenten entweder „Diese Partition nicht formatieren“ oder „Dieses Volumen nicht formatieren“ auswählen. Anschließend auf „Weiter“ und danach auf „Fertigstellen“ klicken.\n7) Der Name des in VeraCrypt ausgewählten Datenträgers bzw. der Partition ist jetzt u. U. falsch. Schließen Sie deshalb den Assistenten zum Erstellen von VeraCrypt-Volumen (falls dieser noch offen ist) und starten Sie den Assistenten neu.\n8) Versuchen Sie erneut, den Datenträger bzw. die Partition zu verschlüsseln.\n\nSollte sich VeraCrypt erneut weigern, den Datenträger bzw. die Partition zu verschlüsseln, so können Sie stattdessen auch die Erstellung eines Containerdatei-Volumens in Betracht ziehen.</entry>
+    <entry lang="de" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">FEHLER: Das Dateisystem konnte nicht gesperrt und/oder getrennt werden. Es könnte vom Betriebssystem oder von Programmen verwendet werden (z. B. Backup-Software oder Virenscanner). Die Verschlüsselung der Partition könnte Daten beschädigen oder das System instabil werden lassen.\n\nBitte schließen Sie jede Anwendung, die möglicherweise die Partition verwendet (einschließlich Anti-Viren-Software), und versuchen Sie es erneut. Wenn dies nicht hilft, folgen Sie bitte den unten stehenden Schritten.</entry>
     <entry lang="de" key="DEVICE_IN_USE_INFO">WARNUNG: Einige der angeschlossenen Datenträger bzw. Partitionen werden bereits verwendet!\n\nDas Ignorieren dieser Meldung kann zu unerwünschten Ergebnissen einschließlich einer Systeminstabilität führen.\n\nEs wird dringend empfohlen alle Anwendungen, die möglicherweise diese Datenträger bzw. Partitionen verwenden, zu schließen.</entry>
     <entry lang="de" key="DEVICE_PARTITIONS_ERR">Der ausgewählte Datenträger enthält Partitionen!\n\nDas Formatieren des Datenträgers könnte zu Systeminstabilitäten und/oder Datenbeschädigung führen. Bitte wählen Sie stattdessen eine Partition auf diesem Datenträger aus oder entfernen Sie sämtliche Partitionen vom Datenträger, damit VeraCrypt den Datenträger sicher formatieren kann.</entry>
-    <entry lang="de" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Das ausgewählte Nicht-Systemlaufwerk enthält Partitionen.\n\nVerschlüsselte laufwerkbasierte VeraCrypt-Volumen können auf Laufwerken erstellt werden die keine Partitionen enthalten (einschließlich Festplatten und Solid-State-Laufwerken). Ein Laufwerk, das Partitionen enthält kann nur vollständig „in-place“ verschlüsselt werden (Verwendung eines Hauptschlüssels), wenn es das Laufwerk ist auf dem Windows installiert ist und von dem es startet.\n\nWenn Sie das ausgewählte Nicht-Systemlaufwerk mit einem Hauptschlüssel verschlüsseln möchten, dann müssen Sie zuerst alle Partitionen auf dem Laufwerk löschen damit VeraCrypt es sicher formatieren kann (Formatieren eines Laufwerkes, das Partitionen enthält, kann Systeminstabilität und/oder Datenbeschädigung hervorrufen). Alternativ können Sie jede Partition auf dem Laufwerk individuell verschlüsseln (jede Partition wird mit einem anderen Hauptschlüssel verschlüsselt).\n\nHinweis: Wenn Sie alle Partitionen von einem GPT-Datenträger löschen möchten, dann müssen Sie es in einen MBR-Datenträger umwandeln (z.B. mit dem Computerverwaltungsprogramm), um versteckte Partitionen zu löschen.</entry>
-    <entry lang="de" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">WARNUNG: Wenn Sie das gesamte Gerät verschlüsseln (im Gegensatz zu einer Partition auf dem Gerät), wird das Betriebssystem dieses Gerät als neu, leer und unformatiert erkennen (da es keine Partitionstabelle enthalten wird). Das kann dazu führen, dass das Gerät vom System spontan initialisiert wird (oder dass Sie gefragt werden ob Sie das Gerät initialisieren möchten), was das Volumen beschädigen kann. Außerdem wird es nicht möglich sein, das Volumen beständig als Favorit einzubinden (z.B. wenn sich der Laufwerksbuchstabe ändert) oder ihm eine Favoriten-Volumen-Bezeichnung zuzuweisen.\n\nUm diese Probleme zu vermeiden, sollten Sie erwägen eine Partition auf dem Gerät zu erstellen und diese zu verschlüsseln.\n\nSind Sie sicher, dass Sie das gesamte Gerät verschlüsseln möchten?</entry>
-    <entry lang="de" key="AFTER_FORMAT_DRIVE_LETTER_WARN">WICHTIG: Bitte beachten Sie, dass dieses Volumen NICHT mit dem derzeit zugewiesenen Laufwerksbuchstaben %c: einzuhängen werden kann!\n\nUm das Volumen einzuhängen, klicken Sie „Alle Datentr. einhängen“ im Hauptfenster von VeraCrypt (alternativ können Sie auch im Hauptfenster „Datenträger..“ auswählen, diese(n) Partition/Datenträger wählen und „Einhängen“ klicken). Dem Volumen wird dann ein neuer Laufwerksbuchstabe zugewiesen den Sie aus der Liste im Hauptfenster auswählen.\n\nDer vorherige Laufwerksbuchstabe %c: sollte nur benutzt werden wenn Sie die Verschlüsselung von der Partition/dem Datenträger entfernen möchten (z.B. wenn Sie keine Verschlüsselung mehr benötigen). In diesem Fall wählen Sie das Laufwerk %c: in der „Computer“ oder „Mein Computer“ Liste mit Rechtsklick aus und wählen Sie „Formatieren“. Ansonsten sollte der Laufwerksbuchstabe %c: nie benutzt werden (außer Sie entfernen ihn und weisen ihn einer anderen Partition oder einem anderen Datenträger zu; Siehe VeraCrypt FAQ).</entry>
-    <entry lang="de" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Die In-Place Verschlüsselung eines Nicht-Systemlaufwerks wird nicht von Ihrem Betriebssystem unterstützt (nur von Windows Vista oder neuer).\n\nDer Grund dafür ist, dass die aktuell laufende Version nicht das Verkleinern eines Dateisystems beherrscht (Das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).</entry>
-    <entry lang="de" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Die ausgewählte Partition scheint kein NTFS-Dateisystem zu enthalten. Nur Partitionen die ein NTFS-Dateisystem enthalten, können „in-place“ verschlüsselt werden.\n\nHinweis: Der Grund hierfür ist, dass Windows das Verkleinern von anderen Dateisystemtypen nicht unterstützt. (das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).</entry>
-    <entry lang="de" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Die ausgewählte Partition scheint kein NTFS-Dateisystem zu enthalten. Nur Partitionen die ein NTFS-Dateisystem enthalten können „in-place“ verschlüsselt werden.\n\nWenn sie ein Verschlüsseltes VeraCrypt-Volumen innerhalb dieser Partition erstellen möchten, dann wählen Sie die Option „Verschlüsseltes Volumen erstellen und formatieren“ (anstelle der Option „Partition „in-place“ verschlüsseln“).</entry>
-    <entry lang="de" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">Fehler: Die Partition ist zu klein. VeraCrypt kann es nicht „in-place“ verschlüsseln.</entry>
-    <entry lang="de" key="INPLACE_ENC_ALTERNATIVE_STEPS">Um die Daten auf dieser Partition zu verschlüsseln, gehen Sie bitte wie folgt vor:\n\n1) Erstellen Sie ein VeraCrypt-Volumen auf einer leeren Partition/einem leeren Laufwerk und binden es ein.\n\n2) Kopieren Sie alle Dateien aus der Partition, die Sie ursprünglich verschlüsseln wollten, in das eingehängte Volumen (dieses wurde im Schritt 1 erstellt). Auf diese Weise erstellen Sie eine von VeraCrypt verschlüsselte Sicherung der Daten.\n\n3) Erstellen Sie ein VeraCrypt-Volumen auf der Partition, die Sie ursprünglich verschlüsseln wollten und stellen sicher, dass Sie (im VeraCrypt Assistenten) die Option „Verschlüsseltes Volumen erstellen und formatieren“ wählen (anstelle der Option „Partition „in-place“ verschlüsseln“). Beachten Sie, dass alle Daten auf der Partition gelöscht werden. Nachdem das Volumen erstellt ist, binden Sie es ein.\n\n4) Kopieren Sie alle Dateien von dem eingehängten VeraCrypt-Sicherungs-Volumen (erstellt und eingehängt im ersten Schritt) in das eingehängte VeraCrypt-Volume, dass im dritten Schritt erstellt (und eingehängt) wurde.\n\nNachdem Sie die Schritte abgeschlossen haben, sind die Daten verschlüsselt und zusätzlich gibt es eine verschlüsselte Sicherung der Daten.</entry>
-    <entry lang="de" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">VeraCrypt kann nur eine Partition, ein Dynamisches Volumen oder ein ganzes Systemlaufwerk „in-place“-verschlüsseln.\n\nWenn Sie ein Verschlüsseltes VeraCrypt-Volumen innerhalb des ausgewählten Nicht-Systemlaufwerkes erstellen möchten, dann wählen Sie die Option „Verschlüsseltes Volumen erstellen und formatieren“ (anstelle der Option „Partition „in-place“ verschlüsseln“).</entry>
-    <entry lang="de" key="INPLACE_ENC_INVALID_PATH">Fehler: VeraCrypt kann nur eine Partition, ein dynamisches Volumen oder ein ganzes Systemlaufwerk „in-place“ verschlüsseln. Stellen Sie bitte sicher, dass der angegebene Pfad korrekt ist.</entry>
-    <entry lang="de" key="CANNOT_RESIZE_FILESYS">Fehler: Kann das Dateisystem nicht verkleinern (das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).\n\nMögliche Ursachen und Lösungen:\n\n- Nicht genügend freier Speicher auf dem Datenträger. Bitte stellen Sie sicher, dass keine Anwendung auf den Datenträger schreibt.\n\n- Beschädigtes Dateisystem. Überprüfen Sie es und beheben Sie die Fehler (Rechtsklick auf das entsprechende Laufwerk im „Arbeitsplatz“, dann auf „Eigenschaften“. Dort wählen Sie „Extras“ und „Jetzt prüfen“ aus. Stellen Sie sicher, dass die Option „Dateisystemfehler automatisch korrigieren“ markiert ist.\n\nWenn die obigen Anweisungen nicht funktionieren, folgen Sie bitte den unten aufgeführten Schritten.</entry>
-    <entry lang="de" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">Fehler: Auf dem angegebenen Laufwerk ist nicht genügend Speicher frei, um das Laufwerk zu verkleinern (das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).\n\nBitte löschen Sie nicht benötigte Dateien und leeren Sie den Papierkorb, um mindestens 256 KB freien Speicherplatz zu schaffen und versuchen Sie es anschließend erneut. Beachten Sie bitte, dass auf Grund eines Fehlers von Windows die Menge des freien Speichers (angezeigt im Windows Explorer) falsch sein kann, bis das System neu gestartet wurde. Wenn selbst ein Neustart des Systems nicht hilft, könnte das Dateisystem beschädigt sein. Überprüfen Sie dies und beheben Sie die Fehler (Rechtsklick auf das entsprechende Laufwerk im „Arbeitsplatz“, dann auf „Eigenschaften“. Dort wählen Sie „Extras“ und „Jetzt prüfen“ aus. Stellen Sie sicher, dass die Option „Dateisystemfehler automatisch korrigieren“ markiert ist.\n\nWenn die obigen Anweisungen nicht funktionieren, folgen Sie bitte den unten aufgeführten Schritten.</entry>
-    <entry lang="de" key="DISK_FREE_BYTES">Auf Laufwerk %s sind noch %.2f Byte frei.</entry>
+    <entry lang="de" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Das ausgewählte Nicht-Systemlaufwerk enthält Partitionen.\n\nVerschlüsselte laufwerksbasierte VeraCrypt-Volumen können nur auf Laufwerken erstellt werden, die keine Partitionen enthalten (einschließlich Festplatten und Solid-State-Laufwerken). Ein Laufwerk, das Partitionen enthält, kann nur vollständig „in-place“ verschlüsselt werden (Verwendung eines Hauptschlüssels), wenn es das Laufwerk ist, auf dem Windows installiert ist und von dem es startet.\n\nWenn Sie das ausgewählte Nicht-Systemlaufwerk mit einem Hauptschlüssel verschlüsseln möchten, dann müssen Sie zuerst alle Partitionen auf dem Laufwerk löschen, damit VeraCrypt es sicher formatieren kann (Formatieren eines Laufwerks, das Partitionen enthält, kann Systeminstabilität und/oder Datenbeschädigung hervorrufen). Alternativ können Sie jede Partition auf dem Laufwerk individuell verschlüsseln (jede Partition wird mit einem anderen Hauptschlüssel verschlüsselt).\n\nHinweis: Wenn Sie alle Partitionen von einem GPT-Datenträger löschen möchten, dann müssen Sie es in einen MBR-Datenträger umwandeln (z. B. mit dem Computerverwaltungsprogramm), um versteckte Partitionen zu löschen.</entry>
+    <entry lang="de" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">WARNUNG: Wenn Sie das gesamte Gerät verschlüsseln (im Gegensatz zu einer Partition auf dem Gerät), wird das Betriebssystem dieses Gerät als neu, leer und unformatiert erkennen (da es keine Partitionstabelle enthalten wird). Das kann dazu führen, dass das Gerät vom System spontan initialisiert wird (oder dass Sie gefragt werden, ob Sie das Gerät initialisieren möchten), was das Volumen beschädigen kann. Außerdem wird es nicht möglich sein, das Volumen beständig als Favorit einzubinden (z. B., wenn sich der Laufwerksbuchstabe ändert) oder ihm eine Favoriten-Volumen-Bezeichnung zuzuweisen.\n\nUm diese Probleme zu vermeiden, sollten Sie erwägen eine Partition auf dem Gerät zu erstellen und diese zu verschlüsseln.\n\nSind Sie sicher, dass Sie das gesamte Gerät verschlüsseln möchten?</entry>
+    <entry lang="de" key="AFTER_FORMAT_DRIVE_LETTER_WARN">WICHTIG: Bitte beachten Sie, dass dieses Volumen NICHT mit dem derzeit zugewiesenen Laufwerksbuchstaben %c: einzuhängen werden kann!\n\nUm das Volumen einzuhängen, klicken Sie „Alle Datentr. einhängen ...“ im Hauptfenster von VeraCrypt (alternativ können Sie auch im Hauptfenster „Datenträger..“ auswählen, diese(n) Partition/Datenträger wählen und „Einhängen“ klicken). Dem Volumen wird dann ein neuer Laufwerksbuchstabe zugewiesen den Sie aus der Liste im Hauptfenster auswählen.\n\nDer vorherige Laufwerksbuchstabe %c: sollte nur benutzt werden, wenn Sie die Verschlüsselung von der Partition/dem Datenträger entfernen möchten (z. B., wenn Sie keine Verschlüsselung mehr benötigen). In diesem Fall wählen Sie das Laufwerk %c: in der „Computer“ oder „Mein Computer“ Liste mit Rechtsklick aus und wählen Sie „Formatieren ...“. Ansonsten sollte der Laufwerksbuchstabe %c: nie benutzt werden (außer, Sie entfernen ihn und weisen ihn einer anderen Partition oder einem anderen Datenträger zu; siehe VeraCrypt-FAQ).</entry>
+    <entry lang="de" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Die In-Place-Verschlüsselung eines Nicht-Systemlaufwerks wird nicht von Ihrem Betriebssystem unterstützt (nur von Windows Vista oder neuer).\n\nDer Grund dafür ist, dass die aktuell laufende Version nicht das Verkleinern eines Dateisystems beherrscht (Das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).</entry>
+    <entry lang="de" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Die ausgewählte Partition scheint kein NTFS-Dateisystem zu enthalten. Nur Partitionen, die ein NTFS-Dateisystem enthalten, können „in-place“ verschlüsselt werden.\n\nHinweis: Der Grund hierfür ist, dass Windows das Verkleinern von anderen Dateisystemtypen nicht unterstützt. (das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).</entry>
+    <entry lang="de" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Die ausgewählte Partition scheint kein NTFS-Dateisystem zu enthalten. Nur Partitionen, die ein NTFS-Dateisystem enthalten, können „in-place“ verschlüsselt werden.\n\nWenn Sie ein verschlüsseltes VeraCrypt-Volumen innerhalb dieser Partition erstellen möchten, dann wählen Sie die Option „Verschlüsseltes Volumen erstellen und formatieren“ (anstelle der Option „Partition ‚in-place‘ verschlüsseln“).</entry>
+    <entry lang="de" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">FEHLER: Die Partition ist zu klein. VeraCrypt kann es nicht „in-place“ verschlüsseln.</entry>
+    <entry lang="de" key="INPLACE_ENC_ALTERNATIVE_STEPS">Um die Daten auf dieser Partition zu verschlüsseln, gehen Sie bitte wie folgt vor:\n\n1) Erstellen Sie ein VeraCrypt-Volumen auf einer leeren Partition/einem leeren Laufwerk und binden es ein.\n\n2) Kopieren Sie alle Dateien aus der Partition, die Sie ursprünglich verschlüsseln wollten, in das eingehängte Volumen (dieses wurde im Schritt 1 erstellt). Auf diese Weise erstellen Sie eine von VeraCrypt verschlüsselte Sicherung der Daten.\n\n3) Erstellen Sie ein VeraCrypt-Volumen auf der Partition, die Sie ursprünglich verschlüsseln wollten, und stellen Sie sicher, dass Sie (im VeraCrypt-Assistenten) die Option „Verschlüsseltes Volumen erstellen und formatieren“ wählen (anstelle der Option „Partition ‚in-place‘ verschlüsseln“). Beachten Sie, dass alle Daten auf der Partition gelöscht werden. Nachdem das Volumen erstellt ist, binden Sie es ein.\n\n4) Kopieren Sie alle Dateien von dem eingehängten VeraCrypt-Sicherungs-Volumen (erstellt und eingehängt im ersten Schritt) in das eingehängte VeraCrypt-Volume, das im dritten Schritt erstellt (und eingehängt) wurde.\n\nNachdem Sie die Schritte abgeschlossen haben, sind die Daten verschlüsselt und zusätzlich gibt es eine verschlüsselte Sicherung der Daten.</entry>
+    <entry lang="de" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">VeraCrypt kann nur eine Partition, ein Dynamisches Volumen oder ein ganzes Systemlaufwerk „in-place“ verschlüsseln.\n\nWenn Sie ein verschlüsseltes VeraCrypt-Volumen innerhalb des ausgewählten Nicht-Systemlaufwerks erstellen möchten, dann wählen Sie die Option „Verschlüsseltes Volumen erstellen und formatieren“ (anstelle der Option „Partition ‚in-place‘ verschlüsseln“).</entry>
+    <entry lang="de" key="INPLACE_ENC_INVALID_PATH">FEHLER: VeraCrypt kann nur eine Partition, ein dynamisches Volumen oder ein ganzes Systemlaufwerk „in-place“ verschlüsseln. Stellen Sie bitte sicher, dass der angegebene Pfad korrekt ist.</entry>
+    <entry lang="de" key="CANNOT_RESIZE_FILESYS">FEHLER: Kann das Dateisystem nicht verkleinern (das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).\n\nMögliche Ursachen und Lösungen:\n\n- Nicht genügend freier Speicher auf dem Datenträger. Bitte stellen Sie sicher, dass keine Anwendung auf den Datenträger schreibt.\n\n- Beschädigtes Dateisystem. Überprüfen Sie es und beheben Sie die Fehler (Rechtsklick auf das entsprechende Laufwerk im „Arbeitsplatz“, dann auf „Eigenschaften“. Dort wählen Sie „Extras“ und „Jetzt prüfen“ aus. Stellen Sie sicher, dass die Option „Dateisystemfehler automatisch korrigieren“ markiert ist.\n\nWenn die obigen Anweisungen nicht funktionieren, folgen Sie bitte den unten aufgeführten Schritten.</entry>
+    <entry lang="de" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">FEHLER: Auf dem angegebenen Laufwerk ist nicht genügend Speicher frei, um das Laufwerk zu verkleinern (das Dateisystem muss verkleinert werden, um Platz für die Volumen-Kopfdaten und die Sicherungskopfdaten zu schaffen).\n\nBitte löschen Sie nicht benötigte Dateien und leeren Sie den Papierkorb, um mindestens 256 KB freien Speicherplatz zu schaffen und versuchen Sie es anschließend erneut. Beachten Sie bitte, dass auf Grund eines Fehlers von Windows die Menge des freien Speichers (angezeigt im Windows Explorer) falsch sein kann, bis das System neu gestartet wurde. Wenn selbst ein Neustart des Systems nicht hilft, könnte das Dateisystem beschädigt sein. Überprüfen Sie dies und beheben Sie die Fehler (Rechtsklick auf das entsprechende Laufwerk im „Arbeitsplatz“, dann auf „Eigenschaften“. Dort wählen Sie „Extras“ und „Jetzt prüfen“ aus. Stellen Sie sicher, dass die Option „Dateisystemfehler automatisch korrigieren“ markiert ist.\n\nWenn die obigen Anweisungen nicht funktionieren, folgen Sie bitte den unten aufgeführten Schritten.</entry>
+    <entry lang="de" key="DISK_FREE_BYTES">Auf Laufwerk %s sind noch %.2f Bytes frei.</entry>
     <entry lang="de" key="DISK_FREE_KB">Auf Laufwerk %s sind noch %.2f KB frei.</entry>
     <entry lang="de" key="DISK_FREE_MB">Auf Laufwerk %s sind noch %.2f MB frei.</entry>
     <entry lang="de" key="DISK_FREE_GB">Auf Laufwerk %s sind noch %.2f GB frei.</entry>
     <entry lang="de" key="DISK_FREE_TB">Auf Laufwerk %s sind noch %.2f TB frei.</entry>
     <entry lang="de" key="DISK_FREE_PB">Auf Laufwerk %s sind noch %.2f PB frei.</entry>
     <entry lang="de" key="DRIVELETTERS">Fehler beim Ermitteln der verfügbaren Laufwerksbuchstaben.</entry>
-    <entry lang="de" key="DRIVER_NOT_FOUND">Fehler: VeraCrypt-Treiber nicht gefunden.\n\nBitte kopieren Sie die Dateien „veracrypt.sys“ und „veracrypt-x64.sys“ in das Verzeichnis der Hauptanwendung von VeraCrypt (VeraCrypt.exe).</entry>
-    <entry lang="de" key="DRIVER_VERSION">Fehler: Eine inkompatible Version des VeraCrypt-Treibers ist derzeit aktiv.\n\nWenn Sie versuchen, VeraCrypt im mobilen Modus auszuführen (d.h. ohne es zu installieren) und eine andere Version von VeraCrypt bereits installiert ist, müssen Sie diese Version erst deinstallieren (oder mittels des VeraCrypt-Installationspakets aktualisieren). Um VeraCrypt zu deinstallieren, folgen Sie diesen Schritten: Unter Windows Vista oder neuer wählen Sie „Startmenü“ &gt; „Einstellungen“ &gt; „Systemsteuerung“ &gt; „Programme und Funktionen“ &gt; „VeraCrypt“ &gt; „Deinstallieren“.\n\nWenn Sie versuchen, VeraCrypt im mobilen Modus auszuführen (d.h. ohne es zu installieren) und eine andere Version von VeraCrypt bereits im mobilen Modus aktiv ist, müssen Sie den Computer neu starten, bevor Sie diese neue Version starten können.</entry>
+    <entry lang="de" key="DRIVER_NOT_FOUND">FEHLER: VeraCrypt-Treiber nicht gefunden.\n\nBitte kopieren Sie die Dateien „veracrypt.sys“ und „veracrypt-x64.sys“ in das Verzeichnis der Hauptanwendung von VeraCrypt (VeraCrypt.exe).</entry>
+    <entry lang="de" key="DRIVER_VERSION">FEHLER: Eine inkompatible Version des VeraCrypt-Treibers ist derzeit aktiv.\n\nWenn Sie versuchen, VeraCrypt im mobilen Modus auszuführen (d. h., ohne es zu installieren) und eine andere Version von VeraCrypt bereits installiert ist, müssen Sie diese Version erst deinstallieren (oder mittels des VeraCrypt-Installationspakets aktualisieren). Um VeraCrypt zu deinstallieren, folgen Sie diesen Schritten: Unter Windows Vista oder neuer wählen Sie „Startmenü“ &gt; „Einstellungen“ &gt; „Systemsteuerung“ &gt; „Programme und Funktionen“ &gt; „VeraCrypt“ &gt; „Deinstallieren“.\n\nWenn Sie versuchen, VeraCrypt im mobilen Modus auszuführen (d. h., ohne es zu installieren) und eine andere Version von VeraCrypt bereits im mobilen Modus aktiv ist, müssen Sie den Computer neu starten, bevor Sie diese neue Version starten können.</entry>
     <entry lang="de" key="ERR_CIPHER_INIT_FAILURE">Fehler beim Initialisieren der Blockchiffre.</entry>
-    <entry lang="de" key="ERR_CIPHER_INIT_WEAK_KEY">Fehler: Es wurde ein schwacher oder ein potenziell schwacher Schlüssel entdeckt! Der Schlüssel wird verworfen. Bitte wiederholen Sie den Vorgang.</entry>
+    <entry lang="de" key="ERR_CIPHER_INIT_WEAK_KEY">FEHLER: Es wurde ein schwacher oder ein potenziell schwacher Schlüssel entdeckt! Der Schlüssel wird verworfen. Bitte wiederholen Sie den Vorgang.</entry>
     <entry lang="de" key="EXCEPTION_REPORT">Ein kritischer Fehler ist aufgetreten und VeraCrypt muss beendet werden. Wenn dies durch einen Fehler in VeraCrypt verursacht wurde, so würden wir diesen gerne ausbessern. Um uns dabei zu helfen, können Sie uns einen automatisch generierten Fehlerbericht senden, der die folgenden Daten enthält:\n\n- Versionsnummer\n- Betriebssystem\n- Prozessor\n- Name der betroffenen VeraCrypt-Komponente(n)\n- Prüfsumme des Programms\n- Symbolischer Name des Dialogfensters\n- Fehlerkategorie\n- Fehleradresse\n- VeraCrypt-Aufruf-Stack\n\nWenn Sie „Ja“ wählen, wird die folgende URL (welche den kompletten Fehlerbericht enthält) mit Ihrem Standardbrowser aufgerufen.\n\n%hs\n\nMöchten Sie uns den oben angezeigten Fehlerbericht senden?</entry>
-    <entry lang="de" key="EXCEPTION_REPORT_EXT">Ein kritischer Fehler ist in Ihrem System aufgetreten.\n\nBeachten Sie, dass dieser Fehler nicht durch VeraCrypt verursacht wurde (d.h. VeraCrypt Entwickler können den Fehler nicht beheben). Bitte überprüfen Sie Ihr System auf mögliche Probleme (z.B. System-Konfiguration, Netzwerk-Verbindung, Fehler in Hardware-Komponenten).</entry>
-    <entry lang="de" key="EXCEPTION_REPORT_EXT_FILESEL">Es ist ein kritischer Fehler in Ihrem System aufgetreten und VeraCrypt musste beendet werden.\n\nWenn dieses Problem wiederholt auftritt, sollten Sie versuchen Anwendungen, die diesen Fehler verursachen könnten, auszuschalten oder zu deinstallieren (z.B. Antiviren- oder Internetsicherheitssoftware, System-„Verbesserungs“-, „Optimierungs“- oder „Tweaker“-Software usw.). Sollte dies nicht helfen, sollten Sie in Erwägung ziehen, Ihr Betriebssystem neu zu installieren (dieses Problem kann auch durch Schadsoftware verursacht werden).</entry>
+    <entry lang="de" key="EXCEPTION_REPORT_EXT">Ein kritischer Fehler ist in Ihrem System aufgetreten.\n\nBeachten Sie, dass dieser Fehler nicht durch VeraCrypt verursacht wurde (d. h., VeraCrypt-Entwickler können den Fehler nicht beheben). Bitte überprüfen Sie Ihr System auf mögliche Probleme (z. B. Systemkonfiguration, Netzwerkverbindung, Fehler in Hardwarekomponenten).</entry>
+    <entry lang="de" key="EXCEPTION_REPORT_EXT_FILESEL">Es ist ein kritischer Fehler in Ihrem System aufgetreten und VeraCrypt musste beendet werden.\n\nWenn dieses Problem wiederholt auftritt, sollten Sie versuchen, Anwendungen, die diesen Fehler verursachen könnten, auszuschalten oder zu deinstallieren (z. B. Antiviren- oder Internetsicherheitssoftware, „Systemverbesserungs“-, „Optimierungs“- oder „Tweaker“-Software usw.). Sollte dies nicht helfen, sollten Sie in Erwägung ziehen, Ihr Betriebssystem neu zu installieren (dieses Problem kann auch durch Schadsoftware verursacht werden).</entry>
     <entry lang="de" key="EXCEPTION_REPORT_TITLE">VeraCrypt – Kritischer Fehler</entry>
-    <entry lang="de" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt hat erkannt, dass Ihr Betriebssystem vor kurzem abgestürzt ist. Es gibt viele mögliche Gründe für einen Systemabsturz (z.B. Fehler in einer Hardwarekomponente, fehlerhafte Treiber usw.).\n\nSoll VeraCrypt prüfen ob ein Fehler in VeraCrypt den Systemabsturz verursacht haben könnte?</entry>
+    <entry lang="de" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt hat erkannt, dass Ihr Betriebssystem vor kurzem abgestürzt ist. Es gibt viele mögliche Gründe für einen Systemabsturz (z. B. Fehler in einer Hardwarekomponente, fehlerhafte Treiber usw.).\n\nSoll VeraCrypt prüfen ob ein Fehler in VeraCrypt den Systemabsturz verursacht haben könnte?</entry>
     <entry lang="de" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">Möchten Sie, dass VeraCrypt weiterhin Systemabstürze erkennt?</entry>
     <entry lang="de" key="NO_MINIDUMP_FOUND">VeraCrypt konnte keine Minidump-Datei des Systemabsturzes finden.</entry>
     <entry lang="de" key="ASK_DELETE_KERNEL_CRASH_DUMP">Möchten Sie die Windows Absturzspeicherabbild-Datei löschen, um Speicherplatz frei zu geben?</entry>
     <entry lang="de" key="ASK_DEBUGGER_INSTALL">Um den Systemabsturz zu analysieren, muss VeraCrypt zuerst die Microsoft Debugging Tools für Windows installieren.\n\nNachdem Sie „OK“ klicken, wird der Windows Installer das „Microsoft Debugging Tools“-Installationspaket (16 MB) von einem Microsoft Server herunterladen und installieren (der Windows Installer wird vom VeraCrypt-Server auf die Server-URL des Microsoft Servers weitergeleitet. Hierdurch wird sichergestellt, dass der Vorgang auch dann funktioniert, wenn Microsoft die URL ändert).</entry>
     <entry lang="de" key="SYSTEM_CRASH_ANALYSIS_INFO">Nachdem Sie „OK“ klicken, analysiert VeraCrypt den Systemabsturz. Dies kann mehrere Minuten dauern.</entry>
     <entry lang="de" key="DEBUGGER_NOT_FOUND">Bitte stellen Sie sicher, dass die Umgebungsvariable „PATH“ den Pfad zu „kd.exe“ (Kernel Debugger) enthält („Systemsteuerung“ &gt; „System“ &gt; „Erweiterte Systemeinstellungen“ &gt; „Erweitert“ &gt; „Umgebungsvariablen“).</entry>
-    <entry lang="de" key="SYSTEM_CRASH_NO_VERACRYPT">Es scheint als habe VeraCrypt den Systemabsturz sehr wahrscheinlich nicht verursacht. Es gibt viele mögliche Gründe für einen Systemabsturz (z.B. Fehler in einer Hardwarekomponente, fehlerhafte Treiber usw.).</entry>
+    <entry lang="de" key="SYSTEM_CRASH_NO_VERACRYPT">Es scheint als habe VeraCrypt den Systemabsturz sehr wahrscheinlich nicht verursacht. Es gibt viele mögliche Gründe für einen Systemabsturz (z. B. Fehler in einer Hardwarekomponente, fehlerhafte Treiber usw.).</entry>
     <entry lang="de" key="SYSTEM_CRASH_UPDATE_DRIVER">Die Ergebnisse der Analyse deuten darauf hin, dass die Aktualisierung folgender Treiber das Problem beheben könnte: </entry>
-    <entry lang="de" key="SYSTEM_CRASH_REPORT">Damit wir herausfinden können, ob ein Fehler in VeraCrypt existiert, können Sie uns einen automatisch erstellten Bericht senden, der die folgenden Punkte enthält:\n- Programmversion\n- Version des Betriebssystems\n- CPU-Typ\n- Fehlerkategorie\n- Treibername und -Version\n- System call stack\n\nWenn Sie „Ja“ wählen wird die folgende URL (die den gesamten Fehlerbericht enthält) in Ihrem Browser geöffnet.</entry>
+    <entry lang="de" key="SYSTEM_CRASH_REPORT">Damit wir herausfinden können, ob ein Fehler in VeraCrypt existiert, können Sie uns einen automatisch erstellten Bericht senden, der die folgenden Punkte enthält:\n- Programmversion\n- Version des Betriebssystems\n- CPU-Typ\n- Fehlerkategorie\n- Treibername und -Version\n- System call stack\n\nWenn Sie „Ja“ wählen, wird die folgende URL (die den gesamten Fehlerbericht enthält) in Ihrem Browser geöffnet.</entry>
     <entry lang="de" key="ASK_SEND_ERROR_REPORT">Möchten Sie uns den obigen Fehlerbericht senden?</entry>
     <entry lang="de" key="ENCRYPT">&amp;Verschlüsseln</entry>
     <entry lang="de" key="DECRYPT">&amp;Entschlüsseln</entry>
@@ -472,22 +472,22 @@
     <entry lang="de" key="EXIT">Beenden</entry>
     <entry lang="de" key="EXT_PARTITION">Legen Sie bitte ein logisches Laufwerk für diese erweiterte Partition an und wiederholen Sie anschließend den Vorgang.</entry>
     <entry lang="de" key="FILE_HELP">Ein VeraCrypt-Volumen kann in einer Datei liegen (eine VeraCrypt-Containerdatei), die sich auf einer Festplatte, einer Partition, einem USB-Stick usw. befindet. Eine VeraCrypt-Containerdatei verhält sich genau wie eine normale Datei (sie kann zum Beispiel wie eine normale Datei kopiert, bewegt oder gelöscht werden). Klicken Sie auf „Datei ...“, um einen Dateinamen und den Speicherort für die Containerdatei zu wählen.\n\nACHTUNG: Wenn Sie eine bestehende Datei wählen, wird VeraCrypt diese NICHT verschlüsseln; die Datei wird gelöscht und mit der Containerdatei ersetzt. Sie können bestehende Dateien verschlüsseln, indem Sie diese später in den neuen VeraCrypt-Container verschieben, den Sie gerade erstellen.</entry>
-    <entry lang="de" key="FILE_HELP_HIDDEN_HOST_VOL">Wählen Sie den Speicherort des äußeren Volumens (in diesem wird später das versteckte Volumen erstellt).\nEin VeraCrypt-Volumen kann in einer Datei liegen (eine VeraCrypt-Containerdatei), die sich auf einer Festplatte, einer Partition, einem USB-Stick usw. befindet. Eine Containerdatei verhält sich genau wie eine normale Datei (sie kann z.B. kopiert oder gelöscht werden). Klicken Sie auf „Datei ...“, um einen Dateinamen und den Speicherort für die Containerdatei zu wählen.\n\nACHTUNG: Wenn Sie eine bestehende Datei wählen wird VeraCrypt diese NICHT verschlüsseln; die Datei wird gelöscht und mit der Containerdatei ersetzt. Sie können bestehende Dateien verschlüsseln, indem Sie diese in den neuen VeraCrypt-Container verschieben.</entry>
-    <entry lang="de" key="DEVICE_HELP">Verschlüsselte laufwerkbasierte VeraCrypt-Volumen können innerhalb einer Partition auf Festplatten, Solid-State Laufw., USB- Sticks, und auf allen anderen unterstützten Laufwerken erstellt werden. Partitionen können außerdem „in-place“ verschlüsselt werden.\n\nAußerdem können laufwerkbasierte VeraCrypt-Volumen auf Laufwerken erstellt werden, die keine Partitionen beinhalten (einschließlich Festplatten und Solid-State Laufwerken).\n\nHinweis: Ein Laufwerk das Partitionen enthält kann nur vollständig „in-place“ verschlüsselt werden (Verwendung eines Hauptschlüssels), wenn es das Laufwerk ist auf dem Windows installiert ist und von dem es startet.</entry>
-    <entry lang="de" key="DEVICE_HELP_NO_INPLACE">Ein laufwerkbasiertes VeraCrypt-Volumen kann innerhalb einer Festplatte, eines Solid-State Laufwerkes, USB Memory-Stick und anderen Speichergeräten erstellt werden.\n\nWARNUNG: Beachten Sie, dass die Partition/das Laufwerk formatiert werden und alle derzeit darauf gespeicherten Daten verloren gehen.</entry>
+    <entry lang="de" key="FILE_HELP_HIDDEN_HOST_VOL">Wählen Sie den Speicherort des äußeren Volumens (in diesem wird später das versteckte Volumen erstellt).\nEin VeraCrypt-Volumen kann in einer Datei liegen (eine VeraCrypt-Containerdatei), die sich auf einer Festplatte, einer Partition, einem USB-Stick usw. befindet. Eine Containerdatei verhält sich genau wie eine normale Datei (sie kann z. B. kopiert oder gelöscht werden). Klicken Sie auf „Datei ...“, um einen Dateinamen und den Speicherort für die Containerdatei zu wählen.\n\nACHTUNG: Wenn Sie eine bestehende Datei wählen wird VeraCrypt diese NICHT verschlüsseln; die Datei wird gelöscht und mit der Containerdatei ersetzt. Sie können bestehende Dateien verschlüsseln, indem Sie diese in den neuen VeraCrypt-Container verschieben.</entry>
+    <entry lang="de" key="DEVICE_HELP">Verschlüsselte, laufwerksbasierte VeraCrypt-Volumen können innerhalb einer Partition auf Festplatten, Solid-State-Laufwerken, USB-Sticks und anderen unterstützten Laufwerken erstellt werden. Partitionen können außerdem „in-place“ verschlüsselt werden.\n\nAußerdem können laufwerksbasierte VeraCrypt-Volumen auf Laufwerken erstellt werden, die keine Partitionen beinhalten (einschließlich Festplatten und Solid-State-Laufwerken).\n\nHinweis: Ein Laufwerk, das Partitionen enthält, kann nur vollständig „in-place“ verschlüsselt werden (Verwendung eines Hauptschlüssels), wenn es das Laufwerk ist, auf dem Windows installiert ist und von dem es startet.</entry>
+    <entry lang="de" key="DEVICE_HELP_NO_INPLACE">Ein laufwerksbasiertes VeraCrypt-Volumen kann innerhalb einer Festplatte, eines Solid-State-Laufwerks, USB-Stick und anderen Speichergeräten erstellt werden.\n\nWARNUNG: Beachten Sie, dass die Partition/das Laufwerk formatiert werden und alle derzeit darauf gespeicherten Daten verloren gehen.</entry>
     <entry lang="de" key="DEVICE_HELP_HIDDEN_HOST_VOL">\nWählen Sie den Speicherort für die Erstellung des äußeren Volumens (in ihm wird später das versteckte Volumen erstellt).\n\nEin äußeres Volumen kann auf einer Festplatten-Partition, einem Solid-State Laufwerk, USB-Stick u.a. Speicherlaufwerken erstellt werden. Äußere Volumen können auch auf Laufwerken erstellt werden, die keine Partitionen enthalten (einschließlich Festplatten und SSDs).\n\nWARNUNG: Beachten Sie, dass die Partition bzw. der Datenträger formatiert wird und alle zurzeit darauf gespeicherte Daten verloren gehen.</entry>
     <entry lang="de" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">Wählen Sie bitte den Speicherort des VeraCrypt-Volumens aus, innerhalb dessen das versteckte Volumen erstellt werden soll.</entry>
-    <entry lang="de" key="FILE_IN_USE">WARNUNG: Die Datei/das Laufwerk ist bereits in Verwendung!\n\nWenn Sie diese Warnung ignorieren, können nicht vorhersehbare Probleme einschließlich Systemabstürze auftreten. Alle Programme, die die Datei/das Laufwerk verwenden (zum Beispiel Virenscanner oder Backup-Software) sollten geschlossen werden, bevor das Volumen eingehängt wird.\n\nTrotzdem fortfahren?</entry>
-    <entry lang="de" key="FILE_IN_USE_FAILED">Fehler: Das Volumen konnte nicht eingehängt werden. Die Datei/das Laufwerk wird bereits verwendet. Der Versuch, das Volumen ohne Exklusivzugriff einzuhängen, ist ebenfalls gescheitert.</entry>
+    <entry lang="de" key="FILE_IN_USE">WARNUNG: Die Datei/das Laufwerk ist bereits in Verwendung!\n\nWenn Sie diese Warnung ignorieren, können nicht vorhersehbare Probleme einschließlich Systemabstürze auftreten. Alle Programme, die die Datei/das Laufwerk verwenden (z. B. Virenscanner oder Backup-Software) sollten geschlossen werden, bevor das Volumen eingehängt wird.\n\nTrotzdem fortfahren?</entry>
+    <entry lang="de" key="FILE_IN_USE_FAILED">FEHLER: Das Volumen konnte nicht eingehängt werden. Die Datei/das Laufwerk wird bereits verwendet. Der Versuch, das Volumen ohne Exklusivzugriff einzuhängen, ist ebenfalls gescheitert.</entry>
     <entry lang="de" key="FILE_OPEN_FAILED">Die Datei konnte nicht geöffnet werden.</entry>
     <entry lang="de" key="FILE_TITLE">Volumen-Speicherort</entry>
     <entry lang="de" key="FILESYS_PAGE_TITLE">Große Dateien</entry>
     <entry lang="de" key="FILESYS_PAGE_HELP_QUESTION">Beabsichtigen Sie, Dateien die größer als 4 GB sind, in diesem VeraCrypt-Volumen zu speichern?</entry>
     <entry lang="de" key="FILESYS_PAGE_HELP_EXPLANATION">Je nach Auswahl wird VeraCrypt ein geeignetes Dateisystem für das Volumen wählen (im nächsten Schritt änderbar).</entry>
-    <entry lang="de" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">Da Sie ein äußeres Volumen erstellen, sollten Sie erwägen „Nein“ zu wählen. Wenn Sie „Ja“ wählen, wird NTFS als Standard-Dateisystem gewählt. Es ist für äußere Volumen weniger geeignet als FAT/exFAT (z.B. wird die maximal mögliche Größe des versteckten Volumens erheblich größer sein, wenn das äußere Volumen mit FAT/exFAT formatiert ist). Normalerweise ist FAT die Standardeinstellung für versteckte und normale Volumen (somit sind FAT-Volumen nicht verdächtig). Wenn Sie allerdings die Absicht haben Dateien &gt; 4 GB auf dem äußeren Volumen zu speichern (was FAT nicht zulässt), dann sollte NTFS gewählt werden.</entry>
+    <entry lang="de" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">Da Sie ein äußeres Volumen erstellen, sollten Sie „Nein“ wählen. Wenn Sie „Ja“ wählen, wird NTFS als Standard-Dateisystem gewählt. Es ist für äußere Volumen weniger geeignet als FAT/exFAT (z. B. wird die maximal mögliche Größe des versteckten Volumens erheblich größer sein, wenn das äußere Volumen mit FAT/exFAT formatiert ist). Normalerweise ist FAT die Standardeinstellung für versteckte und normale Volumen (somit sind FAT-Volumen nicht verdächtig). Wenn Sie allerdings die Absicht haben Dateien &gt; 4 GB auf dem äußeren Volumen zu speichern (was FAT nicht zulässt), dann sollte NTFS gewählt werden.</entry>
     <entry lang="de" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Sind Sie sicher, dass Sie „Ja“ wählen möchten?</entry>
     <entry lang="de" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Volumen-Erstellungsmodus</entry>
-    <entry lang="de" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">Dies ist der schnellste Weg, um ein partitionsbasiertes oder laufwerkbasiertes VeraCrypt-Volumen zu erstellen (die „in-place“ Verschlüsselung ist langsamer, da die Inhalte von jedem Sektor zuerst gelesen, verschlüsselt und dann geschrieben werden müssen). Alle Daten, die zurzeit auf der ausgewählten Partition/dem Laufwerk sind, gehen verloren (die Daten werden NICHT verschlüsselt, sie werden mit Zufallsdaten überschrieben). Wenn Sie vorhandene Daten auf einer Partition verschlüsseln möchten, dann wählen Sie die andere Option.</entry>
+    <entry lang="de" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">Dies ist der schnellste Weg, um ein partitionsbasiertes oder laufwerksbasiertes VeraCrypt-Volumen zu erstellen (die „in-place“-Verschlüsselung ist langsamer, da die Inhalte von jedem Sektor zuerst gelesen, verschlüsselt und dann geschrieben werden müssen). Alle Daten, die zurzeit auf der ausgewählten Partition/dem Laufwerk sind, gehen verloren (die Daten werden NICHT verschlüsselt, sie werden mit Zufallsdaten überschrieben). Wenn Sie vorhandene Daten auf einer Partition verschlüsseln möchten, dann wählen Sie die andere Option.</entry>
     <entry lang="de" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">Die gesamte ausgewählte Partition und alle darauf gespeicherten Daten werden „in-place“ verschlüsselt. Wenn die Partition leer ist, dann sollten Sie die andere Option wählen (das Volumen wird dann viel schneller erstellt).</entry>
     <entry lang="de" key="NOTE_BEGINNING">Hinweis: </entry>
     <entry lang="de" key="RESUME">&amp;Weiter</entry>
@@ -499,22 +499,22 @@
     <entry lang="de" key="FORMAT_ABORT">Formatierung abbrechen?</entry>
     <entry lang="de" key="SHOW_MORE_INFORMATION">Zeige mehr Informat.</entry>
     <entry lang="de" key="DO_NOT_SHOW_THIS_AGAIN">Nicht noch einmal anzeigen</entry>
-    <entry lang="de" key="WIPE_FINISHED">Der Inhalt der Partition/des Laufwerkes wurde erfolgreich gelöscht.</entry>
+    <entry lang="de" key="WIPE_FINISHED">Der Inhalt der Partition/des Laufwerks wurde erfolgreich gelöscht.</entry>
     <entry lang="de" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">Der Inhalt der Partition, auf der das ursprüngliche System lag (von dem das versteckte System eine Kopie ist), wurde erfolgreich gelöscht.</entry>
-    <entry lang="de" key="DECOY_OS_VERSION_WARNING">Bitte stellen Sie sicher, dass die Windows-Version, die Sie installieren werden, die gleiche ist, wie die Version die sie gerade laufen haben. Dies ist notwendig, da beide Systeme die selbe Boot-Partition verwenden werden.</entry>
+    <entry lang="de" key="DECOY_OS_VERSION_WARNING">Bitte stellen Sie sicher, dass die Windows-Version, die Sie installieren werden, die gleiche ist wie die Version, die sie gerade laufen haben. Dies ist notwendig, da beide Systeme die selbe Bootpartition verwenden werden.</entry>
     <entry lang="de" key="SYSTEM_ENCRYPTION_FINISHED">Die Systempartition/das Systemlaufwerk wurde erfolgreich verschlüsselt.\n\nBitte beachten Sie: Wenn es VeraCrypt-Volumen gibt, die Sie jedes Mal einhängen möchten, wenn Windows startet, können Sie dies einrichten, indem Sie die Volumen einhängen und unter „Favoriten“ &gt; „Eingehängtes Volumen zu Systemfavoriten hinzufügen“ wählen.</entry>
-    <entry lang="de" key="SYSTEM_DECRYPTION_FINISHED">Die System-Partition/das Laufwerk wurde erfolgreich entschlüsselt.</entry>
-    <entry lang="de" key="FORMAT_FINISHED_HELP">\n\nDas VeraCrypt-Volumen wurde erstellt und ist Einsatzbereit. Mit „Weiter“ können Sie ein weiteres VeraCrypt-Volumen erstellen (anderenfalls drücken Sie auf „Beenden“).</entry>
+    <entry lang="de" key="SYSTEM_DECRYPTION_FINISHED">Die Systempartition/das Systemlaufwerk wurde erfolgreich entschlüsselt.</entry>
+    <entry lang="de" key="FORMAT_FINISHED_HELP">\n\nDas VeraCrypt-Volumen wurde erstellt und ist einsatzbereit. Mit „Weiter“ können Sie ein weiteres VeraCrypt-Volumen erstellen (anderenfalls drücken Sie auf „Beenden“).</entry>
     <entry lang="de" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nDas versteckte VeraCrypt-Volumen wurde erfolgreich erstellt (das versteckte Betriebssystem wird sich innerhalb von diesem versteckten Volumen befinden).\n\nKlicken Sie auf „Weiter“, um fortzufahren.</entry>
     <entry lang="de" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volumen vollständig verschlüsselt</entry>
     <entry lang="de" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volumen vollständig entschlüsselt</entry>
-    <entry lang="de" key="NONSYS_INPLACE_ENC_FINISHED_INFO">WICHTIG: UM DIESES NEU ERSTELLTE VERACRYPT-VOLUMEN EINZUHÄNGEN UND UM AUF DIE DATEN DARAUF ZUZUGREIFEN, KLICKEN SIE AUF „Alle Datentr. einhängen“ IM VERACRYPT-HAUPTFENSTER. Nachdem Sie das richtige Passwort eingegeben haben (und/oder die korrekten Schlüsseldateien angegeben haben), wird das Volumen unter dem Laufwerksbuchstaben, den Sie aus der Liste im VeraCrypt-Hauptfenster wählen, eingehängt (und Sie können auf die verschlüsselten Daten über den gewählten Laufwerksbuchstaben zugreifen).\n\nBITTE MERKEN SIE SICH ODER SCHREIBEN SIE SICH DIE OBEN GENANNTEN SCHRITTE AUF. SIE MÜSSEN DIESE JEDES MAL BEFOLGEN, WENN SIE DAS VOLUMEN EINHÄNGEN UND AUF DARAUF BEFINDLICHE DATEN ZUGREIFEN MÖCHTEN. Alternativ klicken Sie im VeraCrypt-Hauptfenster auf „Datenträger ...“, dann wählen Sie diese(s) Partition/Volumen und klicken auf „Einhängen“.\n\nDie Partition/das Volumen wurde erfolgreich verschlüsselt (es enthält jetzt ein voll-verschlüsseltes VeraCrypt-Volumen und ist einsatzbereit.</entry>
+    <entry lang="de" key="NONSYS_INPLACE_ENC_FINISHED_INFO">WICHTIG: UM DIESES NEU ERSTELLTE VERACRYPT-VOLUMEN EINZUHÄNGEN UND UM AUF DIE DATEN DARAUF ZUZUGREIFEN, KLICKEN SIE AUF „Alle Datentr. einhängen ...“ IM VERACRYPT-HAUPTFENSTER. Nachdem Sie das richtige Passwort eingegeben haben (und/oder die korrekten Schlüsseldateien angegeben haben), wird das Volumen unter dem Laufwerksbuchstaben, den Sie aus der Liste im VeraCrypt-Hauptfenster wählen, eingehängt (und Sie können auf die verschlüsselten Daten über den gewählten Laufwerksbuchstaben zugreifen).\n\nBITTE MERKEN SIE SICH ODER SCHREIBEN SIE SICH DIE OBEN GENANNTEN SCHRITTE AUF. SIE MÜSSEN DIESE JEDES MAL BEFOLGEN, WENN SIE DAS VOLUMEN EINHÄNGEN UND AUF DARAUF BEFINDLICHE DATEN ZUGREIFEN MÖCHTEN. Alternativ klicken Sie im VeraCrypt-Hauptfenster auf „Datenträger ...“, dann wählen Sie diese(s) Partition/Volumen und klicken auf „Einhängen ...“.\n\nDie Partition/das Volumen wurde erfolgreich verschlüsselt, enthält jetzt ein vollverschlüsseltes VeraCrypt-Volumen und ist einsatzbereit.</entry>
     <entry lang="de" key="NONSYS_INPLACE_DEC_FINISHED_INFO">Das VeraCrypt-Volumen wurde erfolgreich entschlüsselt.</entry>
     <entry lang="de" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">Das VeraCrypt-Volumen wurde erfolgreich entschlüsselt.\n\nBitte wählen Sie einen Laufwerksbuchstaben aus, der dem entschlüsselten Laufwerk zugewiesen werden soll und klicken Sie auf „Fertigstellen“.\n\nWICHTIG: Solange dem entschlüsselten Laufwerk kein Laufwerksbuchstabe zugewiesen wurde, kann nicht auf die darauf vorhandenen Daten zugegriffen werden.</entry>
-    <entry lang="de" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">WARNUNG: Um auf die entschlüsselten Daten zugreifen zu können, muss dem entschlüsselten Laufwerk ein Laufwerksbuchstabe zugewiesen werden, jedoch steht momentan kein freier Laufwerksbuchstabe zur Verfügung.\n\nBitte einen verwendeten Laufwerksbuchstaben freigeben (z.B. durch Abziehen eines USB-Sticks oder anderer externer Laufwerke) und dann mit „OK“ bestätigen.</entry>
+    <entry lang="de" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">WARNUNG: Um auf die entschlüsselten Daten zugreifen zu können, muss dem entschlüsselten Laufwerk ein Laufwerksbuchstabe zugewiesen werden, jedoch steht momentan kein freier Laufwerksbuchstabe zur Verfügung.\n\nBitte einen verwendeten Laufwerksbuchstaben freigeben (z. B. durch Abziehen eines USB-Sticks oder anderer externer Laufwerke) und dann mit „OK“ bestätigen.</entry>
     <entry lang="de" key="FORMAT_FINISHED_INFO">Das VeraCrypt-Volumen wurde erfolgreich erstellt.</entry>
     <entry lang="de" key="FORMAT_FINISHED_TITLE">Volumen wurde erstellt</entry>
-    <entry lang="de" key="FORMAT_HELP">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin- und herbewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei. Klicken Sie auf „Formatieren“, um mit der Erstellung fortzufahren.</entry>
+    <entry lang="de" key="FORMAT_HELP">WICHTIG: Bewegen Sie den Mauszeiger in diesem Fenster mindestens 30 Sekunden zufällig hin und her. Je länger Sie die Maus bewegen, desto besser ist die Verschlüsselung. Klicken Sie auf „Formatieren“, um mit der Erstellung fortzufahren.</entry>
     <entry lang="de" key="FORMAT_HIDVOL_HOST_HELP">Klicken Sie auf „Formatieren“, um das äußere Volumen zu erstellen. Für mehr Informationen lesen Sie bitte die Dokumentation.</entry>
     <entry lang="de" key="FORMAT_HIDVOL_HOST_TITLE">Format des äußeren Volumens</entry>
     <entry lang="de" key="FORMAT_HIDVOL_TITLE">Format des versteckten Volumens</entry>
@@ -524,7 +524,7 @@
     <entry lang="de" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Mit dieser Auswahl erstellen Sie ein verstecktes Volumen in einem bestehenden VeraCrypt-Volumen. Es wird davon ausgegangen, dass Sie bereits ein VeraCrypt-Volumen erstellt haben und dieses in der Lage ist, ein verstecktes Volumen zu beinhalten.</entry>
     <entry lang="de" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Volumen-Erstellungsmethode</entry>
     <entry lang="de" key="HIDVOL_FORMAT_FINISHED_TITLE">Verstecktes Volumen wurde erstellt</entry>
-    <entry lang="de" key="HIDVOL_FORMAT_FINISHED_HELP">Das versteckte VeraCrypt-Volumen wurde erfolgreich erstellt und ist gebrauchsbereit. Wenn alle Anweisungen korrekt befolgt wurden und wenn die Vorsichtsmaßnahmen und Anforderungen aus dem Abschnitt „Security Requirements and Precautions Pertaining to Hidden Volumes“ im VeraCrypt-Benutzerhandbuch befolgt wurden, wird es unmöglich sein zu beweisen, dass das versteckte Volumen existiert, auch wenn das äußere Volumen eingehängt ist.\n\nACHTUNG: SCHREIBEN SIE NICHTS AUF DAS ÄUSSERE VOLUMEN WENN SIE DAS VERSTECKTE VOLUMEN NICHT ABSICHERN (Informationen wie Sie das versteckte Volumen absichern können, finden Sie im Abschnitt „Protection of Hidden Volumes Against Damage“ im VeraCrypt-Benutzerhandbuch). ANDERNFALLS KÖNNEN SIE DAS VERSTECKTE VOLUMEN BESCHÄDIGEN UND UNWIEDERBRINGLICH ÜBERSCHREIBEN!</entry>
+    <entry lang="de" key="HIDVOL_FORMAT_FINISHED_HELP">Das versteckte VeraCrypt-Volumen wurde erfolgreich erstellt und ist gebrauchsbereit. Wenn alle Anweisungen korrekt befolgt wurden und wenn die Vorsichtsmaßnahmen und Anforderungen aus dem Abschnitt „Security Requirements and Precautions Pertaining to Hidden Volumes“ im VeraCrypt-Benutzerhandbuch befolgt wurden, wird es unmöglich sein zu beweisen, dass das versteckte Volumen existiert, auch wenn das äußere Volumen eingehängt ist.\n\nACHTUNG: SCHREIBEN SIE NICHTS AUF DAS ÄUSSERE VOLUMEN WENN SIE DAS VERSTECKTE VOLUMEN NICHT ABSICHERN (Informationen, wie Sie das versteckte Volumen absichern können, finden Sie im Abschnitt „Protection of Hidden Volumes Against Damage“ im VeraCrypt-Benutzerhandbuch). ANDERENFALLS KÖNNEN SIE DAS VERSTECKTE VOLUMEN BESCHÄDIGEN UND UNWIEDERBRINGLICH ÜBERSCHREIBEN!</entry>
     <entry lang="de" key="FIRST_HIDDEN_OS_BOOT_INFO">Sie haben das versteckte Betriebssystem gestartet. Wie Sie vielleicht bemerkt haben, scheint das versteckte Betriebssystem auf der gleichen Partition installiert zu sein wie das Originale Betriebssystem. In Wirklichkeit ist es jedoch auf der Partition hinter diesem installiert (in dem versteckten Volumen). Alle Lese- und Schreibvorgänge werden transparent von der ursprünglichen Systempartition zu dem versteckten Volumen weitergeleitet.\n\nWeder das Betriebssystem noch die Programme werden wissen, dass Daten auf die/von der Systempartition geschrieben/gelesen werden – tatsächlich wird auf die/von der Partition dahinter geschrieben/gelesen (von/zu einem versteckten Volumen). Alle Daten werden wie üblich „on-the-fly“ ver- und entschlüsselt (mit einem Verschlüsselungsschlüssel der anders ist, als der für das Köder-Betriebssystem).\n\n\nKlicken Sie auf „Weiter“, um fortzufahren.</entry>
     <entry lang="de" key="HIDVOL_HOST_FILLING_HELP_SYSENC">Das äußere Volumen wurde erstellt und als Laufwerk %hc: eingehängt. Auf dieses äußere Volumen sollten Sie nun einige vertraulich aussehende Dateien kopieren, die Sie eigentlich nicht verstecken möchten. Diese werden für jeden da sein, der Sie zwingt das Passwort für die erste Partition hinter der Systempartition zu verraten, wo sich das äußere und das versteckte Volumen (enthält das versteckte Betriebssystem) befinden werden. Sie werden im Stande sein das Passwort für dieses äußere Volumen herauszugeben und die Existenz des versteckten Volumens (und des versteckten Betriebssystems) bleibt trotzdem geheim.\nWICHTIG: Die Dateien, die Sie auf das äußere Volumen kopieren, sollten nicht mehr als %s belegen. Andernfalls gibt es möglicherweise nicht genügend Speicherplatz auf dem äußeren Volumen für das versteckte Volumen (und Sie werden nicht fortfahren können). Nachdem Sie mit dem Kopieren fertig sind, klicken Sie auf „Weiter“ (das Volumen nicht trennen).</entry>
     <entry lang="de" key="HIDVOL_HOST_FILLING_HELP">Das äußere Volumen wurde erfolgreich erstellt und als Laufwerk %hc: eingehängt. Jetzt müssen Sie noch einige sensibel aussehende Alibi-Dateien auf dieses Volumen kopieren. Diese Dateien sind für Personen bestimmt welche die Herausgabe des Passwortes erzwingen möchten. Diesen Personen offenbaren Sie nur das Passwort des äußeren, nicht aber das des versteckten Volumens. Die wirklich wichtigen Dateien speichern Sie in das (noch zu erstellende) versteckte Volumen. Klicken Sie nach dem Kopieren der Alibi-Dateien auf „Weiter“, ohne zuvor das Volumen zu trennen. Es erfolgt dann eine Analyse der Cluster-Belegung des äußeren Volumens, um festzustellen, wie viel freier zusammenhängender Speicher vom Ende des Volumens aus verfügbar ist. Dieser Bereich wird für die Unterbringung des versteckten Volumens verwendet. Die Analyse der Cluster-Belegung stellt sicher, dass keine Daten des äußeren Volumens durch das versteckte Volumen überschrieben werden.</entry>
