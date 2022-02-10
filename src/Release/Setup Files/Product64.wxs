@@ -12,7 +12,7 @@
   
 	<!-- Unique GUID identifying this product release (32-bit and 64-bit have different ones) -->
 	<!-- MUST BE regenerated for each new release -->
-	<?define var.ProductGuid = {0BB46A1B-F1B9-4F48-A03D-1E81EEA7B7A4}?>
+	<?define var.ProductGuid = {121986C0-9BBB-454C-AC39-187AC1400E20}?>
 
 	<!-- Unique GUID identifying a particular Windows Installer package -->
 	<!-- When compiling a product, it should not be set in order to allow it to be generated for each build -->
