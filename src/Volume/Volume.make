@@ -47,12 +47,16 @@ ifeq "$(PLATFORM)" "MacOSX"
 	OBJSEX += ../Crypto/sha512_sse4.oo
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
+ifeq "$(DISABLE_AESNI)" "0"
 	OBJS += ../Crypto/Aes_hw_cpu.o
+endif
 	OBJS += ../Crypto/sha256-x86-nayuki.o
 	OBJS += ../Crypto/sha512-x86-nayuki.o
 else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/Aes_x64.o
+ifeq "$(DISABLE_AESNI)" "0"
 	OBJS += ../Crypto/Aes_hw_cpu.o
+endif
 	OBJS += ../Crypto/Twofish_x64.o
 	OBJS += ../Crypto/Camellia_x64.o
 	OBJS += ../Crypto/Camellia_aesni_x64.o
