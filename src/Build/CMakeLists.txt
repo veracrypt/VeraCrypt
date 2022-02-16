@@ -13,7 +13,7 @@ endif()
 # - Set version of the package
 set( FULL_VERSION 		"1.25.8" )
 set( VERSION 			"1.25.8" )
-set( RELEASE 			"1" )
+set( RELEASE 			"2" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values
 if (NOGUI)
