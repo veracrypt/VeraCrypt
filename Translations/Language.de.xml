@@ -814,8 +814,8 @@
     <entry lang="de" key="SECONDARY_KEY_SIZE_LRW">Tweak-Schlüssellänge (LRW-Modus)</entry>
     <entry lang="de" key="BITS">Bit</entry>
     <entry lang="de" key="BLOCK_SIZE">Blockgröße</entry>
-    <entry lang="de" key="PKCS5_PRF">PKCS #5 PRF</entry>
-    <entry lang="de" key="PKCS5_ITERATIONS">PKCS #5-Iterationen</entry>
+    <entry lang="de" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="de" key="PKCS5_ITERATIONS">PKCS-5-Iterationen</entry>
     <entry lang="de" key="VOLUME_CREATE_DATE">Volumen erstellt</entry>
     <entry lang="de" key="VOLUME_HEADER_DATE">Kopfdaten zuletzt geändert</entry>
     <entry lang="de" key="VOLUME_HEADER_DAYS"> (vor %I64d Tagen)</entry>
