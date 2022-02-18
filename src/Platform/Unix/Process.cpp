@@ -119,7 +119,6 @@ namespace VeraCrypt
 		throw_sys_if (fcntl (exceptionPipe.GetReadFD(), F_SETFL, O_NONBLOCK) == -1);
 
 		vector <char> buffer (4096), stdOutput (4096), errOutput (4096), exOutput (4096);
-		buffer.clear ();
 		stdOutput.clear ();
 		errOutput.clear ();
 		exOutput.clear ();
