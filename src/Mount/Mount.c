@@ -9598,8 +9598,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							CmdVolumePkcs5 = SHA512;
 						else if (_wcsicmp(szTmp, L"sha256") == 0)
 							CmdVolumePkcs5 = SHA256;
-						else if (_wcsicmp(szTmp, L"ripemd160") == 0)
-							CmdVolumePkcs5 = RIPEMD160;
+						else if ((_wcsicmp(szTmp, L"blake2s") == 0) || (_wcsicmp(szTmp, L"blake2s-256") == 0))
+							CmdVolumePkcs5 = BLAKE2S;
 						else
 						{
 							/* match using internal hash names */

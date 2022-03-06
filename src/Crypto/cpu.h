@@ -134,6 +134,11 @@ extern __m128i _mm_slli_epi16(__m128i _A, int _Count);
 extern __m128i _mm_shuffle_epi32 (__m128i a, int imm8);
 extern __m128i _mm_set_epi64x (__int64 e1, __int64 e0);
 extern __m128i _mm_set1_epi64x (__int64 a);
+extern __m128i _mm_castps_si128(__m128);
+extern __m128  _mm_castsi128_ps(__m128i);
+extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
+extern __m128i _mm_srli_si128(__m128i _A, int _Imm);
+extern __m128i _mm_slli_si128(__m128i _A, int _Imm);
 #define _mm_xor_si64      _m_pxor
 #define _mm_empty         _m_empty
 #define _MM_SHUFFLE(fp3,fp2,fp1,fp0) (((fp3) << 6) | ((fp2) << 4) | \
@@ -148,12 +153,12 @@ extern __m128i _mm_set1_epi64x (__int64 a);
 #endif
 
 #if CRYPTOPP_SSSE3_AVAILABLE || defined(__INTEL_COMPILER)
-#if defined (_MSC_VER) && !defined (TC_WINDOWS_BOOT)
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif
 extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
+extern __m128i _mm_alignr_epi8 (__m128i a, __m128i b, int n);
 #if defined(__cplusplus)
 }
 #endif
@@ -162,13 +167,14 @@ extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
 #endif
 #endif
 
-#if defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER)
+#if CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE || defined(__INTEL_COMPILER)
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif
 extern int   _mm_extract_epi32(__m128i src, const int ndx);
 extern __m128i _mm_insert_epi32(__m128i dst, int s, const int ndx);
+extern __m128i _mm_blend_epi16 (__m128i v1, __m128i v2, const int mask);
 #if defined(_M_X64)
 extern __m128i _mm_insert_epi64(__m128i dst, __int64 s, const int ndx);
 #endif
@@ -198,7 +204,6 @@ extern __m128i _mm_aesdeclast_si128(__m128i v, __m128i rkey);
 #endif
 #else
 #include <wmmintrin.h>
-#endif
 #endif
 #endif
 

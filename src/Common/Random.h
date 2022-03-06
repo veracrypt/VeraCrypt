@@ -21,7 +21,7 @@ extern "C" {
 /* RNG defines & pool pointers */
 #define RNG_POOL_SIZE	320	// Must be divisible by the size of the output of each of the implemented hash functions. (in bytes)
 
-#if RNG_POOL_SIZE % SHA512_DIGESTSIZE || RNG_POOL_SIZE % WHIRLPOOL_DIGESTSIZE || RNG_POOL_SIZE % RIPEMD160_DIGESTSIZE
+#if RNG_POOL_SIZE % SHA512_DIGESTSIZE || RNG_POOL_SIZE % WHIRLPOOL_DIGESTSIZE || RNG_POOL_SIZE % BLAKE2S_DIGESTSIZE
 #error RNG_POOL_SIZE must be divisible by the size of the output of each of the implemented hash functions.
 #endif
 

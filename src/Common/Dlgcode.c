@@ -6412,7 +6412,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		{
 			BYTE digest [MAX_DIGESTSIZE];
 			WHIRLPOOL_CTX	wctx;
-			RMD160_CTX		rctx;
+			blake2s_state   bctx;
 			sha512_ctx		s2ctx;
 			sha256_ctx		s256ctx;
 			STREEBOG_CTX		stctx;
@@ -6441,10 +6441,10 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 						sha256_end ((unsigned char *) digest, &s256ctx);
 						break;
 
-					case RIPEMD160:
-						RMD160Init(&rctx);
-						RMD160Update(&rctx, lpTestBuffer, benchmarkBufferSize);
-						RMD160Final((unsigned char *) digest, &rctx);
+					case BLAKE2S:
+						blake2s_init(&bctx);
+						blake2s_update(&bctx, lpTestBuffer, benchmarkBufferSize);
+						blake2s_final(&bctx, (unsigned char *) digest);
 						break;
 
 					case WHIRLPOOL:
@@ -6509,9 +6509,9 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
-				case RIPEMD160:
-					/* PKCS-5 test with HMAC-RIPEMD-160 used as the PRF */
-					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+				case BLAKE2S:
+					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
+					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
@@ -7895,9 +7895,6 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 	SetWindowText(GetDlgItem(hwndDlg, IDC_CIPHERTEXT), L"0000000000000000");
 
 	if (idTestCipher == AES || idTestCipher == SERPENT || idTestCipher == TWOFISH || idTestCipher == CAMELLIA
-#if defined(CIPHER_GOST89)
-		|| idTestCipher == GOST89
-#endif
 		|| idTestCipher == KUZNYECHIK
 		)
 	{

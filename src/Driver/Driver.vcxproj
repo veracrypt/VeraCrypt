@@ -192,6 +192,10 @@ BuildDriver.cmd -rebuild -debug -x64 "$(SolutionDir)\Common" "$(SolutionDir)\Cry
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Crypto\blake2s.c" />
+    <ClCompile Include="..\Crypto\blake2s_SSE2.c" />
+    <ClCompile Include="..\Crypto\blake2s_SSE41.c" />
+    <ClCompile Include="..\Crypto\blake2s_SSSE3.c" />
     <ClCompile Include="..\Crypto\Camellia.c" />
     <ClCompile Include="..\Crypto\chacha-xmm.c" />
     <ClCompile Include="..\Crypto\chacha256.c" />
@@ -223,7 +227,6 @@ BuildDriver.cmd -rebuild -debug -x64 "$(SolutionDir)\Common" "$(SolutionDir)\Cry
     <ClCompile Include="..\Common\Xts.c" />
     <ClCompile Include="..\Crypto\Aeskey.c" />
     <ClCompile Include="..\Crypto\Aestab.c" />
-    <ClCompile Include="..\Crypto\Rmd160.c" />
     <ClCompile Include="..\Crypto\Sha2.c" />
     <ClCompile Include="..\Crypto\Twofish.c" />
     <ClCompile Include="..\Crypto\Whirlpool.c" />

@@ -16,7 +16,7 @@
 #include <memory.h>
 #include <stdlib.h>
 #endif
-#include "Rmd160.h"
+#include "blake2.h"
 #ifndef TC_WINDOWS_BOOT
 #include "Sha2.h"
 #include "Whirlpool.h"
@@ -550,100 +550,131 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 
 #endif // TC_WINDOWS_BOOT
 
-#if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_RIPEMD160)
+#if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_BLAKE2S)
 
-typedef struct hmac_ripemd160_ctx_struct
+typedef struct hmac_blake2s_ctx_struct
 {
-	RMD160_CTX context;
-	RMD160_CTX inner_digest_ctx; /*pre-computed inner digest context */
-	RMD160_CTX outer_digest_ctx; /*pre-computed outer digest context */
-	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the RIPEMD-160 hash */
-	char u[RIPEMD160_DIGESTSIZE];
-} hmac_ripemd160_ctx;
+	blake2s_state ctx;
+	blake2s_state inner_digest_ctx; /*pre-computed inner digest context */
+	blake2s_state outer_digest_ctx; /*pre-computed outer digest context */
+	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the SHA256 hash */
+	char u[BLAKE2S_DIGESTSIZE];
+} hmac_blake2s_ctx;
 
-void hmac_ripemd160_internal (char *input_digest, int len, hmac_ripemd160_ctx* hmac)
+void hmac_blake2s_internal
+(
+	  char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
+	  int ld,		/* length of input data in bytes */
+	  hmac_blake2s_ctx* hmac /* HMAC-SHA256 context which holds temporary variables */
+)
 {
-	RMD160_CTX* context = &(hmac->context);
+	blake2s_state* ctx = &(hmac->ctx);
 
 	/**** Restore Precomputed Inner Digest Context ****/
 
-	memcpy (context, &(hmac->inner_digest_ctx), sizeof (RMD160_CTX));
+	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (blake2s_state));
 
-	RMD160Update(context, (const unsigned char *) input_digest, len); /* then text of datagram */
-	RMD160Final((unsigned char *) input_digest, context);         /* finish up 1st pass */
+	blake2s_update (ctx, d, ld);
+
+	blake2s_final (ctx, (unsigned char*) d); /* d = inner digest */
 
 	/**** Restore Precomputed Outer Digest Context ****/
 
-	memcpy (context, &(hmac->outer_digest_ctx), sizeof (RMD160_CTX));
+	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (blake2s_state));
 
-	/* results of 1st hash */
-	RMD160Update(context, (const unsigned char *) input_digest, RIPEMD160_DIGESTSIZE);
-	RMD160Final((unsigned char *) input_digest, context);         /* finish up 2nd pass */
+	blake2s_update (ctx, d, SHA256_DIGESTSIZE);
+
+	blake2s_final (ctx, (unsigned char *) d); /* d = outer digest */
 }
 
 #ifndef TC_WINDOWS_BOOT
-void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
+void hmac_blake2s
+(
+	char *k,    /* secret key */
+	int lk,    /* length of the key in bytes */
+	char *d,    /* data */
+	int ld    /* length of data in bytes */
+)
 {
-	hmac_ripemd160_ctx hmac;
-	RMD160_CTX* ctx;
-	unsigned char* k_pad = (unsigned char*) hmac.k;  /* inner/outer padding - key XORd with ipad */
-	unsigned char tk[RIPEMD160_DIGESTSIZE];
-	int i;
-
-	/* If the key is longer than the hash algorithm block size,
-	let key = ripemd160(key), as per HMAC specifications. */
-	if (keylen > RIPEMD160_BLOCKSIZE) 
+	hmac_blake2s_ctx hmac;
+	blake2s_state* ctx;
+	char* buf = hmac.k;
+	int b;
+	char key[BLAKE2S_DIGESTSIZE];
+#if defined (DEVICE_DRIVER)
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+#ifdef _WIN64
+	XSTATE_SAVE SaveState;
+	if (IsCpuIntel() && HasSAVX())
+		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+#else
+	KFLOATING_SAVE floatingPointState;	
+	if (HasSSE2())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
+#endif
+    /* If the key is longer than the hash algorithm block size,
+	   let key = blake2s(key), as per HMAC specifications. */
+	if (lk > BLAKE2S_BLOCKSIZE)
 	{
-		RMD160_CTX      tctx;
+		blake2s_state tctx;
 
-		RMD160Init(&tctx);
-		RMD160Update(&tctx, (const unsigned char *) key, keylen);
-		RMD160Final(tk, &tctx);
+		blake2s_init (&tctx);
+		blake2s_update (&tctx, k, lk);
+		blake2s_final (&tctx, (unsigned char *) key);
 
-		key = (char *) tk;
-		keylen = RIPEMD160_DIGESTSIZE;
+		k = key;
+		lk = BLAKE2S_DIGESTSIZE;
 
-		burn (&tctx, sizeof(tctx));	// Prevent leaks
-	}   
+		burn (&tctx, sizeof(tctx));		// Prevent leaks
+	}
 
-	/* perform inner RIPEMD-160 */
+	/**** Precompute HMAC Inner Digest ****/
+
 	ctx = &(hmac.inner_digest_ctx);
-	/* start out by storing key in pads */
-	memset(k_pad, 0x36, 64);
-	/* XOR key with ipad and opad values */
-	for (i=0; i<keylen; i++) 
-	{
-		k_pad[i] ^= key[i];
-	}
+	blake2s_init (ctx);
 
-	RMD160Init(ctx);           /* init context for 1st pass */
-	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with inner pad */
+	/* Pad the key for inner digest */
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x36);
+	memset (&buf[lk], 0x36, BLAKE2S_BLOCKSIZE - lk);
 
-	/* perform outer RIPEMD-160 */
+	blake2s_update (ctx, (unsigned char *) buf, BLAKE2S_BLOCKSIZE);
+
+	/**** Precompute HMAC Outer Digest ****/
+
 	ctx = &(hmac.outer_digest_ctx);
-	memset(k_pad, 0x5c, 64);
-	for (i=0; i<keylen; i++) 
-	{
-		k_pad[i] ^= key[i];
-	}
+	blake2s_init (ctx);
 
-	RMD160Init(ctx);           /* init context for 2nd pass */
-	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with outer pad */
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x5C);
+	memset (&buf[lk], 0x5C, SHA256_BLOCKSIZE - lk);
 
-	hmac_ripemd160_internal (input_digest, len, &hmac);
+	blake2s_update (ctx, (unsigned char *) buf, BLAKE2S_BLOCKSIZE);
 
-	burn (&hmac, sizeof(hmac));
-	burn (tk, sizeof(tk));
+	hmac_blake2s_internal(d, ld, &hmac);
+
+#if defined (DEVICE_DRIVER)
+	if (NT_SUCCESS (saveStatus))
+#ifdef _WIN64
+		KeRestoreExtendedProcessorStateVC(&SaveState);
+#else
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+#endif
+
+	/* Prevent leaks */
+	burn(&hmac, sizeof(hmac));
+	burn(key, sizeof(key));
 }
 #endif
 
-
-static void derive_u_ripemd160 (char *salt, int salt_len, uint32 iterations, int b, hmac_ripemd160_ctx* hmac)
+static void derive_u_blake2s (char *salt, int salt_len, uint32 iterations, int b, hmac_blake2s_ctx* hmac)
 {
 	char* k = hmac->k;
 	char* u = hmac->u;
 	uint32 c;
-	int i;
+	int i;	
 
 #ifdef TC_WINDOWS_BOOT
 	/* In bootloader mode, least significant bit of iterations is a boolean (TRUE for boot derivation mode, FALSE otherwise)
@@ -653,11 +684,11 @@ static void derive_u_ripemd160 (char *salt, int salt_len, uint32 iterations, int
 	c = iterations >> 16;
 	i = ((int) iterations) & 0x01;
 	if (i)
-		c = (c == 0)? 327661 : c << 11;
+		c = (c == 0)? 200000 : c << 11;
 	else
-		c = (c == 0)? 655331 : 15000 + c * 1000;
+		c = (c == 0)? 500000 : 15000 + c * 1000;
 #else
-	c  = iterations;
+	c = iterations;
 #endif
 
 	/* iteration 1 */
@@ -665,7 +696,7 @@ static void derive_u_ripemd160 (char *salt, int salt_len, uint32 iterations, int
 	
 	/* big-endian block number */
 #ifdef TC_WINDOWS_BOOT
-    /* specific case of 16-bit bootloader: b is a 16-bit integer that is always < 256*/
+    /* specific case of 16-bit bootloader: b is a 16-bit integer that is always < 256 */
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
 #else
@@ -673,14 +704,14 @@ static void derive_u_ripemd160 (char *salt, int salt_len, uint32 iterations, int
     memcpy (&k[salt_len], &b, 4);
 #endif	
 
-	hmac_ripemd160_internal (k, salt_len + 4, hmac);
-	memcpy (u, k, RIPEMD160_DIGESTSIZE);
+	hmac_blake2s_internal (k, salt_len + 4, hmac);
+	memcpy (u, k, BLAKE2S_DIGESTSIZE);
 
 	/* remaining iterations */
-	while ( c > 1)
+	while (c > 1)
 	{
-		hmac_ripemd160_internal (k, RIPEMD160_DIGESTSIZE, hmac);
-		for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
+		hmac_blake2s_internal (k, BLAKE2S_DIGESTSIZE, hmac);
+		for (i = 0; i < BLAKE2S_DIGESTSIZE; i++)
 		{
 			u[i] ^= k[i];
 		}
@@ -688,86 +719,107 @@ static void derive_u_ripemd160 (char *salt, int salt_len, uint32 iterations, int
 	}
 }
 
-void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
+
+void derive_key_blake2s (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {	
+	hmac_blake2s_ctx hmac;
+	blake2s_state* ctx;
+	char* buf = hmac.k;
 	int b, l, r;
-	hmac_ripemd160_ctx hmac;
-	RMD160_CTX* ctx;
-	unsigned char* k_pad = (unsigned char*) hmac.k;
 #ifndef TC_WINDOWS_BOOT
-	unsigned char tk[RIPEMD160_DIGESTSIZE];
+	char key[BLAKE2S_DIGESTSIZE];
+#if defined (DEVICE_DRIVER)
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+#ifdef _WIN64
+	XSTATE_SAVE SaveState;
+	if (IsCpuIntel() && HasSAVX())
+		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+#else
+	KFLOATING_SAVE floatingPointState;	
+	if (HasSSE2())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
+#endif
     /* If the password is longer than the hash algorithm block size,
-	   let password = ripemd160(password), as per HMAC specifications. */
-	if (pwd_len > RIPEMD160_BLOCKSIZE) 
+	   let pwd = blake2s(pwd), as per HMAC specifications. */
+	if (pwd_len > BLAKE2S_BLOCKSIZE)
 	{
-        RMD160_CTX      tctx;
+		blake2s_state tctx;
 
-        RMD160Init(&tctx);
-        RMD160Update(&tctx, (const unsigned char *) pwd, pwd_len);
-        RMD160Final(tk, &tctx);
+		blake2s_init (&tctx);
+		blake2s_update (&tctx, pwd, pwd_len);
+		blake2s_final (&tctx, (unsigned char *) key);
 
-        pwd = (char *) tk;
-        pwd_len = RIPEMD160_DIGESTSIZE;
+		pwd = key;
+		pwd_len = SHA256_DIGESTSIZE;
 
-		burn (&tctx, sizeof(tctx));	// Prevent leaks
-    }
+		burn (&tctx, sizeof(tctx));		// Prevent leaks
+	}
 #endif
 
-	if (dklen % RIPEMD160_DIGESTSIZE)
+	if (dklen % BLAKE2S_DIGESTSIZE)
 	{
-		l = 1 + dklen / RIPEMD160_DIGESTSIZE;
+		l = 1 + dklen / BLAKE2S_DIGESTSIZE;
 	}
 	else
 	{
-		l = dklen / RIPEMD160_DIGESTSIZE;
+		l = dklen / BLAKE2S_DIGESTSIZE;
 	}
 
-	r = dklen - (l - 1) * RIPEMD160_DIGESTSIZE;
+	r = dklen - (l - 1) * BLAKE2S_DIGESTSIZE;
 
-	/* perform inner RIPEMD-160 */
+	/**** Precompute HMAC Inner Digest ****/
+
 	ctx = &(hmac.inner_digest_ctx);
-	/* start out by storing key in pads */
-	memset(k_pad, 0x36, 64);
-	/* XOR key with ipad and opad values */
-	for (b=0; b<pwd_len; b++) 
-	{
-		k_pad[b] ^= pwd[b];
-	}
+	blake2s_init (ctx);
 
-	RMD160Init(ctx);           /* init context for 1st pass */
-	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with inner pad */
+	/* Pad the key for inner digest */
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x36);
+	memset (&buf[pwd_len], 0x36, BLAKE2S_BLOCKSIZE - pwd_len);
 
-	/* perform outer RIPEMD-160 */
+	blake2s_update (ctx, buf, BLAKE2S_BLOCKSIZE);
+
+	/**** Precompute HMAC Outer Digest ****/
+
 	ctx = &(hmac.outer_digest_ctx);
-	memset(k_pad, 0x5c, 64);
-	for (b=0; b<pwd_len; b++) 
-	{
-		k_pad[b] ^= pwd[b];
-	}
+	blake2s_init (ctx);
 
-	RMD160Init(ctx);           /* init context for 2nd pass */
-	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with outer pad */
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x5C);
+	memset (&buf[pwd_len], 0x5C, BLAKE2S_BLOCKSIZE - pwd_len);
+
+	blake2s_update (ctx, buf, BLAKE2S_BLOCKSIZE);
 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_ripemd160 (salt, salt_len, iterations, b, &hmac);
-		memcpy (dk, hmac.u, RIPEMD160_DIGESTSIZE);
-		dk += RIPEMD160_DIGESTSIZE;
+		derive_u_blake2s (salt, salt_len, iterations, b, &hmac);
+		memcpy (dk, hmac.u, BLAKE2S_DIGESTSIZE);
+		dk += BLAKE2S_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_ripemd160 (salt, salt_len, iterations, b, &hmac);
+	derive_u_blake2s (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
+#if defined (DEVICE_DRIVER)
+	if (NT_SUCCESS (saveStatus))
+#ifdef _WIN64
+		KeRestoreExtendedProcessorStateVC(&SaveState);
+#else
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+#endif
 
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 #ifndef TC_WINDOWS_BOOT
-	burn (tk, sizeof(tk));
+	burn (key, sizeof(key));
 #endif
 }
-#endif // TC_WINDOWS_BOOT
+
+#endif
 
 #ifndef TC_WINDOWS_BOOT
 
@@ -1210,8 +1262,8 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 	case SHA256:	
 		return L"HMAC-SHA-256";
 
-	case RIPEMD160:	
-		return L"HMAC-RIPEMD-160";
+	case BLAKE2S:	
+		return L"HMAC-BLAKE2s";
 
 	case WHIRLPOOL:	
 		return L"HMAC-Whirlpool";
@@ -1238,11 +1290,11 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 	switch (pkcs5_prf_id)
 	{
 
-	case RIPEMD160:	
+	case BLAKE2S:	
 		if (truecryptMode)
-			return bBoot ? 1000 : 2000;
+			return 0; // BLAKE2s not supported by TrueCrypt
 		else if (pim == 0)
-			return bBoot? 327661 : 655331;
+			return bBoot? 200000 : 500000;
 		else
 		{
 			return bBoot? pim * 2048 : 15000 + pim * 1000;
@@ -1290,14 +1342,14 @@ int is_pkcs5_prf_supported (int pkcs5_prf_id, BOOL truecryptMode, PRF_BOOT_TYPE 
    if (truecryptMode)
    {
       if (  (bootType == PRF_BOOT_GPT) 
-         || (bootType == PRF_BOOT_MBR && pkcs5_prf_id != RIPEMD160) 
-         || (bootType == PRF_BOOT_NO && pkcs5_prf_id != SHA512 && pkcs5_prf_id != WHIRLPOOL && pkcs5_prf_id != RIPEMD160)
+         || (bootType == PRF_BOOT_MBR) 
+         || (bootType == PRF_BOOT_NO && pkcs5_prf_id != SHA512 && pkcs5_prf_id != WHIRLPOOL)
          )
          return 0;
    }
    else
    {
-      if (  (bootType == PRF_BOOT_MBR && pkcs5_prf_id != RIPEMD160 && pkcs5_prf_id != SHA256)
+      if (  (bootType == PRF_BOOT_MBR && pkcs5_prf_id != BLAKE2S && pkcs5_prf_id != SHA256)
          || (bootType != PRF_BOOT_MBR && (pkcs5_prf_id < FIRST_PRF_ID || pkcs5_prf_id > LAST_PRF_ID))
          )
          return 0;

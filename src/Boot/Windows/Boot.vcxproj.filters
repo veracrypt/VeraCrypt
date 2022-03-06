@@ -74,9 +74,6 @@
     <ClCompile Include="..\..\Crypto\CamelliaSmall.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Crypto\Rmd160.c">
-      <Filter>Source Files\Crypto</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Crypto\Serpent.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
@@ -84,6 +81,9 @@
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Crypto\Twofish.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Crypto\blake2s-ref.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
   </ItemGroup>

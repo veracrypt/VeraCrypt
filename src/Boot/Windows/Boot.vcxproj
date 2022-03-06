@@ -222,6 +222,7 @@ nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH</NMakeReBuildCommandLine>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Crypto\blake2s-ref.c" />
     <ClCompile Include="BootConfig.cpp" />
     <ClCompile Include="BootConsoleIo.cpp" />
     <ClCompile Include="BootDebug.cpp" />
@@ -240,7 +241,6 @@ nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH</NMakeReBuildCommandLine>
     <ClCompile Include="..\..\Common\Xts.c" />
     <ClCompile Include="..\..\Crypto\AesSmall.c" />
     <ClCompile Include="..\..\Crypto\CamelliaSmall.c" />
-    <ClCompile Include="..\..\Crypto\Rmd160.c" />
     <ClCompile Include="..\..\Crypto\Serpent.c" />
     <ClCompile Include="..\..\Crypto\Sha2Small.c" />
     <ClCompile Include="..\..\Crypto\Twofish.c" />

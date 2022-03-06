@@ -58,14 +58,13 @@ namespace VeraCrypt
 		{
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 (true)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (true)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 (true)));
 		}
 		else
 		{
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 (false)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256 ()));
+			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacBlake2s ()));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (false)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 (false)));
 			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
 		}
 
@@ -78,16 +77,16 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 	}
 
-	void Pkcs5HmacRipemd160::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
+	void Pkcs5HmacBlake2s_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_ripemd160 ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
+		derive_key_blake2s ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
 
-	void Pkcs5HmacRipemd160_1000::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
+	void Pkcs5HmacBlake2s::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_ripemd160 ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
+		derive_key_blake2s ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
 
 	void Pkcs5HmacSha256_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const

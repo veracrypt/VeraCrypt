@@ -145,6 +145,9 @@ export CPU_ARCH ?= unknown
 export SIMD_SUPPORTED := 0
 export DISABLE_AESNI ?= 0
 
+export GCC_GTEQ_440 := 0
+export GCC_GTEQ_430 := 0
+
 ARCH ?= $(shell uname -m)
 
 ifneq (,$(filter i386 i486 i586 i686 x86,$(ARCH)))
@@ -201,12 +204,13 @@ ifeq "$(shell uname -s)" "Linux"
 		CFLAGS += -msse2
 		CXXFLAGS += -msse2
 
+		GCC_GTEQ_440 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
+		GCC_GTEQ_430 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
+
 		ifeq "$(DISABLE_AESNI)" "1"
 			CFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
 			CXXFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
 		else
-			GCC_GTEQ_440 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
-			GCC_GTEQ_430 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
 			ifeq "$(GCC_GTEQ_440)" "1"
 				CFLAGS += -maes
 				CXXFLAGS += -maes

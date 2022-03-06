@@ -7,7 +7,6 @@ NTTARGETFILES = \
 	"$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Aes_hw_cpu.obj" \
 	"$(OBJ_PATH)\$(O)\rdrand_ml.obj" \
-	"$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).obj" \
@@ -22,19 +21,21 @@ NTTARGETFILES = \
 
 SOURCES = \
 	Aes_$(TC_ARCH).asm \
-	gost89_$(TC_ARCH).asm \
 	Aes_hw_cpu.asm \
 	rdrand_ml.asm \
 	rdseed_ml.asm \
 	Aeskey.c \
 	Aestab.c \
+	blake2s.c \
+	blake2s_SSE2.c \
+	blake2s_SSE41.c \
+	blake2s_SSSE3.c \
 	chacha-xmm.c \
 	chacha256.c \
 	chachaRng.c \
 	cpu.c \
 	jitterentropy-base.c \
 	rdrand.c \
-	Rmd160.c \
 	SerpentFast.c \
 	SerpentFast_simd.cpp \
 	Sha2.c \
@@ -43,7 +44,6 @@ SOURCES = \
 	t1ha2_selfcheck.c \
 	Twofish.c \
 	Twofish_$(TC_ARCH).S \
-	GostCipher.c \
 	Streebog.c \
 	kuznyechik.c \
 	kuznyechik_simd.c \

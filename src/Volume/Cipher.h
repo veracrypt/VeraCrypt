@@ -108,9 +108,6 @@ namespace VeraCrypt
 #undef TC_CIPHER_ADD_METHODS
 #define TC_CIPHER_ADD_METHODS
 
-	TC_CIPHER (Gost89, 16, 32);
-	TC_CIPHER (Gost89StaticSBOX, 16, 32);
-
 #undef TC_CIPHER
 
 

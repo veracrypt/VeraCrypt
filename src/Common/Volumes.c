@@ -27,6 +27,8 @@
 
 #ifndef DEVICE_DRIVER
 #include "Random.h"
+#else
+#include "cpu.h"
 #endif
 #endif // !defined(_UEFI)
 
@@ -378,8 +380,8 @@ KeyReady:	;
 
 			switch (pkcs5_prf)
 			{
-			case RIPEMD160:
-				derive_key_ripemd160 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+			case BLAKE2S:
+				derive_key_blake2s (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
 					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
@@ -577,12 +579,22 @@ KeyReady:	;
 				memcpy (keyInfo->master_keydata, header + HEADER_MASTER_KEYDATA_OFFSET, MASTER_KEYDATA_SIZE);
 #ifdef TC_WINDOWS_DRIVER
 				{
-					RMD160_CTX ctx;
-					RMD160Init (&ctx);
-					RMD160Update (&ctx, keyInfo->master_keydata, MASTER_KEYDATA_SIZE);
-					RMD160Update (&ctx, header, sizeof(header));
-					RMD160Final (cryptoInfo->master_keydata_hash, &ctx);
+					blake2s_state ctx;
+#ifndef _WIN64
+					NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+					KFLOATING_SAVE floatingPointState;	
+					if (HasSSE2())
+						saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
+					blake2s_init (&ctx);
+					blake2s_update (&ctx, keyInfo->master_keydata, MASTER_KEYDATA_SIZE);
+					blake2s_update (&ctx, header, sizeof(header));
+					blake2s_final (&ctx, cryptoInfo->master_keydata_hash);
 					burn(&ctx, sizeof (ctx));
+#ifndef _WIN64
+					if (NT_SUCCESS (saveStatus))
+						KeRestoreFloatingPointState (&floatingPointState);
+#endif
 				}
 #else
 				memcpy (cryptoInfo->master_keydata, keyInfo->master_keydata, MASTER_KEYDATA_SIZE);
@@ -709,7 +721,7 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 	derive_key_sha256 (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
 		PKCS5_SALT_SIZE, iterations, dk, sizeof (dk));
 #else
-	derive_key_ripemd160 (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
+	derive_key_blake2s (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
 		PKCS5_SALT_SIZE, iterations, dk, sizeof (dk));
 #endif
 
@@ -792,7 +804,7 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 #ifdef TC_WINDOWS_BOOT_SHA2
 		cryptoInfo->pkcs5 = SHA256;
 #else
-		cryptoInfo->pkcs5 = RIPEMD160;
+		cryptoInfo->pkcs5 = BLAKE2S;
 #endif
 
 		memcpy (dk, header + HEADER_MASTER_KEYDATA_OFFSET, sizeof (dk));
@@ -981,8 +993,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 			break;
 
-		case RIPEMD160:
-			derive_key_ripemd160 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+		case BLAKE2S:
+			derive_key_blake2s (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 			break;
 
