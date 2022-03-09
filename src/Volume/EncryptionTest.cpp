@@ -123,23 +123,7 @@ namespace VeraCrypt
 			}
 		}
 	};
-	
-	static const CipherTestVector GOST89TestVectors[] =
-	{
-		{
-			{
-				0xFF, 0xEE, 0xDD, 0xCC, 0xBB, 0xAA, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 
-				0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7,	0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF
-			},
-			{
-				0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0xFF, 0xEE, 0xDD, 0xCC,	0xBB, 0xAA, 0x99, 0x88
-			},
-			{
-				0x8F, 0xC6, 0xFE, 0xB8, 0x91, 0x51, 0x4C, 0x37, 0x4D, 0x51, 0x46, 0xEF, 0x02, 0x9D, 0xBD, 0x9F
-			}
-		}
-	};
-	
+
 	static const CipherTestVector KuznyechikTestVectors[] =
 	{
 		{
@@ -214,9 +198,6 @@ namespace VeraCrypt
 			
 			CipherCamellia camellia;
 			TestCipher (camellia, CamelliaTestVectors, array_capacity (CamelliaTestVectors));
-			
-			CipherGost89StaticSBOX gost89;
-			TestCipher (gost89, GOST89TestVectors, array_capacity (GOST89TestVectors));
 			
 			CipherKuznyechik kuznyechik;
 			TestCipher (kuznyechik, KuznyechikTestVectors, array_capacity (KuznyechikTestVectors));
@@ -653,32 +634,6 @@ namespace VeraCrypt
 						break;
 					}
 				}
-				else if (typeid (ea) == typeid (GOST89))
-				{
-					switch (testCase)
-					{
-					case 0:
-						if (crc != 0x12194ef5)
-							throw TestFailed (SRC_POS);
-						nTestsPerformed++;
-						break;
-					case 1:
-						if (crc != 0xda8d429b)
-							throw TestFailed (SRC_POS);
-						nTestsPerformed++;
-						break;
-					case 2:
-						if (crc != 0xdbf0b12e)
-							throw TestFailed (SRC_POS);
-						nTestsPerformed++;
-						break;
-					case 3:
-						if (crc != 0xb986eb4a)
-							throw TestFailed (SRC_POS);
-						nTestsPerformed++;
-						break;
-					}
-				}
 				else if (typeid (ea) == typeid (Kuznyechik))
 				{
 					switch (testCase)
@@ -1037,12 +992,6 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
-			else if (typeid (ea) == typeid (GOST89))
-			{
-				if (crc != 0x9e8653cb)
-					throw TestFailed (SRC_POS);
-				nTestsPerformed++;
-			}
 			else if (typeid (ea) == typeid (Kuznyechik))
 			{
 				if (crc != 0xd6d39cdb)
@@ -1121,7 +1070,7 @@ namespace VeraCrypt
 			nTestsPerformed++;
 		}
 
-		if (nTestsPerformed != 160)
+		if (nTestsPerformed != 150)
 			throw TestFailed (SRC_POS);
 	}
 
@@ -1132,9 +1081,9 @@ namespace VeraCrypt
 		ConstBufferPtr salt (saltData, sizeof (saltData));
 		Buffer derivedKey (4);
 
-		Pkcs5HmacRipemd160 pkcs5HmacRipemd160(false);
-		pkcs5HmacRipemd160.DeriveKey (derivedKey, password, salt, 5);
-		if (memcmp (derivedKey.Ptr(), "\x7a\x3d\x7c\x03", 4) != 0)
+		Pkcs5HmacBlake2s pkcs5HmacBlake2s;
+		pkcs5HmacBlake2s.DeriveKey (derivedKey, password, salt, 5);
+		if (memcmp (derivedKey.Ptr(), "\x8d\x51\xfa\x31", 4) != 0)
 			throw TestFailed (SRC_POS);
 
 		Pkcs5HmacSha512 pkcs5HmacSha512(false);

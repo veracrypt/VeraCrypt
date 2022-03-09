@@ -135,6 +135,7 @@ BOOL CacheBootPim = FALSE;
 BOOL NonAdminSystemFavoritesAccessDisabled = FALSE;
 BOOL BlockSystemTrimCommand = FALSE;
 BOOL AllowWindowsDefrag = FALSE;
+BOOL EraseKeysOnShutdown = TRUE; // by default, we erase encryption keys on system shutdown
 static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
 static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
@@ -4854,6 +4855,19 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			EncryptionFragmentSize = 8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;
 		
 		
+	}
+
+	if (driverEntry && NT_SUCCESS (TCReadRegistryKey (&name, VC_ERASE_KEYS_SHUTDOWN, &data)))
+	{
+		if (data->Type == REG_DWORD)
+		{
+			if (*((uint32 *) data->Data))
+				EraseKeysOnShutdown = TRUE;
+			else
+				EraseKeysOnShutdown = FALSE;
+		}
+
+		TCfree (data);
 	}
 
 

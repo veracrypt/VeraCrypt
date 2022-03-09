@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.7">
+  <localization prog-version= "1.25.9">
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.1" translators="Barney Li, Zhangjintao, Nkh0472" />
     <font lang="zh-cn" class="normal" size="11" face="Tahoma" />
     <font lang="zh-cn" class="bold" size="14" face="Tahoma" />
@@ -645,7 +645,7 @@
     <entry lang="zh-cn" key="PIM_SYSENC_HELP">PIM (自定迭代次数) 是一个控制头部密钥迭代次数的值，当导出头部密钥时会向这样使用:\n      迭代次数 = (PIM x 2048) \n\n当这个值留空或设为0时，VeraCrypt会使用默认值(98)来确保安全性。\n\n当使用20位以下的密码时，为了保证维持最小的安全性，PIM的值不能小于98。\n当使用20位以上的密码时，PIM的值可以任意自定。\n\nPIM大于98可能导致启动速度下降。PIM小于485可能会提高启动速度，但是如果你的密码强度不足，这会降低安全性。</entry>
     <entry lang="zh-cn" key="PIM_SYSENC_CHANGE_WARNING">记住所启动的系统的PIM</entry>
     <entry lang="zh-cn" key="PIM_LARGE_WARNING">你选择了一个大于VeraCrypt默认值的PIM。\n注意这可能使挂载/启动速度下降。</entry>
-    <entry lang="zh-cn" key="PIM_SMALL_WARNING">你选择了一个小于VeraCrypt默认值的PIM。注意如果你的密码强度不够强，这回事一个安全隐患。\n\n你确定你在使用一个强密码？</entry>
+    <entry lang="zh-cn" key="PIM_SMALL_WARNING">你选择了一个小于VeraCrypt默认值的PIM。注意如果你的密码强度不够强，这会是一个安全隐患。\n\n你确定你在使用一个强密码？</entry>
     <entry lang="zh-cn" key="PIM_SYSENC_TOO_BIG">对于系统加密，自定迭代倍数 (PIM) 的最大值是65535。</entry>
     <entry lang="zh-cn" key="PIM_TITLE">卷 PIM</entry>
     <entry lang="zh-cn" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n警告：在密钥文件搜索路径中存在隐藏文件。此类隐藏文件无法被用作密钥文件。如果您需要将它们当作密钥文件使用，请去除它们的“隐藏”属性（使用鼠标右键点击文件，选择〖属性〗，去除勾选“隐藏”标志再点击〖确定〗按钮）。注意：隐藏文件仅在启用相关选项后才可见（我的电脑 -&gt; 工具 -&gt; 文件夹选项 -&gt; 查看）。</entry>

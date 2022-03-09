@@ -988,6 +988,7 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 
 	// Dismount the system drive on shutdown on Windows 7 and later
 	if (DriverShuttingDown
+		&& EraseKeysOnShutdown
 		&& IsOSAtLeast (WIN_7)
 		&& Extension->BootDrive
 		&& Extension->DriveMounted

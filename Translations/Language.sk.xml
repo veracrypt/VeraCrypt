@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.7">
+  <localization prog-version= "1.25.9">
     <language langid="sk" name="Slovenčina" en-name="Slovak" version="0.1.0" translators="Kamil David" />
     <font lang="sk" class="normal" size="11" face="default" />
     <font lang="sk" class="bold" size="13" face="Arial" />

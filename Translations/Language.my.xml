@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.7">
+  <localization prog-version= "1.25.9">
     <language langid="my" name="မြန်မာ" en-name="Burmese" version="2.0.0" translators="Zaw Myo Htet; Transifex contributors" />
     <font lang="my" class="normal" size="11" face="Myanmar3" />
     <font lang="my" class="bold" size="13" face="Myanmar3" />

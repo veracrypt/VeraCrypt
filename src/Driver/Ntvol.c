@@ -58,6 +58,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	BOOL forceAccessCheck = !bRawDevice;
 	BOOL disableBuffering = TRUE;
 	BOOL exclusiveAccess = mount->bExclusiveAccess;
+	/* when mounting with hidden volume protection, we cache the passwords after both outer and hidden volumes are mounted successfully*/
+	BOOL bAutoCachePassword = mount->bProtectHiddenVolume? FALSE : mount->bCache;
 
 	Extension->pfoDeviceFile = NULL;
 	Extension->hDeviceFile = NULL;
@@ -602,7 +604,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		{
 			mount->nReturnCode = ReadVolumeHeaderWCache (
 				FALSE,
-				mount->bCache,
+				bAutoCachePassword,
 				mount->bCachePim,
 				readBuffer,
 				&mount->ProtectedHidVolPassword,
@@ -615,7 +617,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		{
 			mount->nReturnCode = ReadVolumeHeaderWCache (
 				mount->bPartitionInInactiveSysEncScope && volumeType == TC_VOLUME_TYPE_NORMAL,
-				mount->bCache,
+				bAutoCachePassword,
 				mount->bCachePim,
 				readBuffer,
 				&mount->VolumePassword,
@@ -826,6 +828,13 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			// decrypt the hidden volume header.
 			if (!(volumeType == TC_VOLUME_TYPE_NORMAL && mount->bProtectHiddenVolume))
 			{
+				/* in case of mounting with hidden volume protection, we cache both passwords manually after bother outer and hidden volumes are mounted*/
+				if (mount->bProtectHiddenVolume && mount->bCache)
+				{
+					AddPasswordToCache(&mount->VolumePassword, mount->VolumePim, mount->bCachePim);
+					AddPasswordToCache(&mount->ProtectedHidVolPassword, mount->ProtectedHidVolPim, mount->bCachePim);
+				}
+
 				TCfree (readBuffer);
 
 				if (tmpCryptoInfo != NULL)

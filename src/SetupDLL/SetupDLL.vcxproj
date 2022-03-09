@@ -74,7 +74,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SETUP;SETUP_DLL;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_ATL_NO_DEFAULT_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -88,7 +88,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>version.lib;msi.lib;libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;msi.lib;libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.dll</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -113,7 +113,7 @@ copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SETUP;SETUP_DLL;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_ATL_NO_DEFAULT_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -127,7 +127,7 @@ copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>version.lib;msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.dll</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -152,7 +152,7 @@ copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SETUP;VC_EFI_CUSTOM_MODE;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_ATL_NO_DEFAULT_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -166,7 +166,7 @@ copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>version.lib;msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>

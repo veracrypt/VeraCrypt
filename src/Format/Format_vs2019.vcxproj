@@ -185,7 +185,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -225,7 +225,7 @@ copy Debug\VeraCryptFormat.exe "..\Debug\Setup Files\VeraCrypt Format.exe" &gt;N
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -267,7 +267,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -308,7 +308,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -348,7 +348,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;VC_EFI_CUSTOM_MODE;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -392,7 +392,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -435,7 +435,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -478,7 +478,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;VC_EFI_CUSTOM_MODE;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -521,7 +521,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VOLFORMAT;VC_EFI_CUSTOM_MODE;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -734,6 +734,9 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Lzma_vs2019.vcxproj">
+      <Project>{b896fe1f-6bf3-4f75-9148-f841829073d9}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Crypto\Crypto_vs2019.vcxproj">
       <Project>{993245cf-6b70-47ee-91bb-39f8fc6dc0e7}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

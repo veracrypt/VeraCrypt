@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.7">
+  <localization prog-version= "1.25.9">
     <language langid="fr" name="Français" en-name="French" version="0.3.0" translators="Stéphane S., Olivier M., Thierry T" />
     <font lang="fr" class="normal" size="11" face="default" />
     <font lang="fr" class="bold" size="13" face="Arial" />
@@ -1447,7 +1447,7 @@
     <entry lang="fr" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">AVERTISSEMENT: Le chiffrement de la RAM n'est pas compatible avec les fonctionnalités hibernation et démarrage rapide de Windows. VeraCrypt a besoin de les désactiver avant d'activer le chiffrement de la RAM.\n\n Continuer?</entry>
     <entry lang="fr" key="CONFIRM_DISABLE_FAST_STARTUP">AVERTISSEMENT: Le démarrage rapide de Windows est activé, ce qui peut causer des problèmes lors de l'utilisation de VeraCrypt. Il est conseillé de le désactiver pour améliorer la sécurité et l'utilisabilié de VeraCrypt.\n\nVoulez-vous désactiver le démarrage rapide de Windows?</entry>
     <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
+    <entry lang="fr" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Ne pas utiliser les instructions AES du processeur pour accélérer le chiffrement/déchiffrement AES</entry>
     <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
@@ -1497,7 +1497,7 @@
     <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
     <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
     <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
+    <entry lang="fr" key="LINUX_MOUNT_ALL_DEV">Tout Monter</entry>
     <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
     <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
     <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>

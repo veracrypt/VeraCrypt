@@ -48,27 +48,27 @@ namespace VeraCrypt
 		Hash &operator= (const Hash &);
 	};
 
-	// RIPEMD-160
-	class Ripemd160 : public Hash
+	// Blake2s
+	class Blake2s : public Hash
 	{
 	public:
-		Ripemd160 ();
-		virtual ~Ripemd160 () { }
+		Blake2s ();
+		virtual ~Blake2s () { }
 
 		virtual void GetDigest (const BufferPtr &buffer);
 		virtual size_t GetBlockSize () const { return 64; }
-		virtual size_t GetDigestSize () const { return 160 / 8; }
-		virtual wstring GetName () const { return L"RIPEMD-160"; }
-		virtual wstring GetAltName () const { return L"RIPEMD160"; }
-		virtual shared_ptr <Hash> GetNew () const { return shared_ptr <Hash> (new Ripemd160); }
+		virtual size_t GetDigestSize () const { return 32; }
+		virtual wstring GetName () const { return L"BLAKE2s-256"; }
+		virtual wstring GetAltName () const { return L"BLAKE2s"; }
+		virtual shared_ptr <Hash> GetNew () const { return shared_ptr <Hash> (new Blake2s); }
 		virtual void Init ();
 		virtual void ProcessData (const ConstBufferPtr &data);
 
 	protected:
 
 	private:
-		Ripemd160 (const Ripemd160 &);
-		Ripemd160 &operator= (const Ripemd160 &);
+		Blake2s (const Blake2s &);
+		Blake2s &operator= (const Blake2s &);
 	};
 
 	// SHA-256

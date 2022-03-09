@@ -267,6 +267,7 @@ Copyright (c) 1999-2017 Dieter Baron and Thomas Klausner.
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.  
 Copyright (c) 1999-2016 Jack Lloyd. All rights reserved.  
 Copyright (c) 2013-2019 Stephan Mueller <smueller@chronox.de>
+Copyright (c) 1999-2021 Igor Pavlov
 
 For more information, please see the legal notices attached to parts of the
 source code.

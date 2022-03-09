@@ -47,12 +47,16 @@ ifeq "$(PLATFORM)" "MacOSX"
 	OBJSEX += ../Crypto/sha512_sse4.oo
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
+ifeq "$(DISABLE_AESNI)" "0"
 	OBJS += ../Crypto/Aes_hw_cpu.o
+endif
 	OBJS += ../Crypto/sha256-x86-nayuki.o
 	OBJS += ../Crypto/sha512-x86-nayuki.o
 else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/Aes_x64.o
+ifeq "$(DISABLE_AESNI)" "0"
 	OBJS += ../Crypto/Aes_hw_cpu.o
+endif
 	OBJS += ../Crypto/Twofish_x64.o
 	OBJS += ../Crypto/Camellia_x64.o
 	OBJS += ../Crypto/Camellia_aesni_x64.o
@@ -67,17 +71,25 @@ else
 	OBJS += ../Crypto/Aescrypt.o
 endif
 
+ifeq "$(GCC_GTEQ_430)" "1"
+OBJSSSE41 += ../Crypto/blake2s_SSE41.osse41
+OBJSSSSE3 += ../Crypto/blake2s_SSSE3.ossse3
+else
+OBJS += ../Crypto/blake2s_SSE41.o
+OBJS += ../Crypto/blake2s_SSSE3.o
+endif
+
 OBJS += ../Crypto/Aeskey.o
 OBJS += ../Crypto/Aestab.o
 OBJS += ../Crypto/cpu.o
-OBJS += ../Crypto/Rmd160.o
+OBJS += ../Crypto/blake2s.o
+OBJS += ../Crypto/blake2s_SSE2.o
 OBJS += ../Crypto/SerpentFast.o
 OBJS += ../Crypto/SerpentFast_simd.o
 OBJS += ../Crypto/Sha2.o
 OBJS += ../Crypto/Twofish.o
 OBJS += ../Crypto/Whirlpool.o
 OBJS += ../Crypto/Camellia.o
-OBJS += ../Crypto/GostCipher.o
 OBJS += ../Crypto/Streebog.o
 OBJS += ../Crypto/kuznyechik.o
 OBJS += ../Crypto/kuznyechik_simd.o

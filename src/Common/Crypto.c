@@ -64,9 +64,6 @@ static Cipher Ciphers[] =
 	{ SERPENT,	L"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	L"Twofish",		16,			32,			TWOFISH_KS			},
 	{ CAMELLIA,	L"Camellia",	16,			32,			CAMELLIA_KS			},
-#if defined(CIPHER_GOST89)
-	{ GOST89,	L"GOST89",		16,			32,			GOST_KS },
-#endif  // defined(CIPHER_GOST89)
 	{ KUZNYECHIK,	L"Kuznyechik",16,		32,			KUZNYECHIK_KS },
 #endif
 	{ 0,		0,				0,			0,			0					}
@@ -85,9 +82,6 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { SERPENT,					0 }, { XTS, 0 },	1, 1 },
 	{ { TWOFISH,					0 }, { XTS, 0 },	1, 1 },
 	{ { CAMELLIA,					0 }, { XTS, 0 },	1, 1 },
-#if defined(CIPHER_GOST89)
-	{ { GOST89,						0 }, { XTS, 0 },	0, 0 },
-#endif  // defined(CIPHER_GOST89)
 	{ { KUZNYECHIK,				0 }, { XTS, 0 },	0, 1 },
 	{ { TWOFISH, AES,				0 }, { XTS, 0 },	1, 1 },
 	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1, 1 },
@@ -126,8 +120,8 @@ static Hash Hashes[] =
 {	// ID				Name					Deprecated	System Encryption
 	{ SHA512,		L"SHA-512",				FALSE,	FALSE },
 	{ WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
+	{ BLAKE2S,		L"BLAKE2s-256",				FALSE,	TRUE },
 	{ SHA256,		L"SHA-256",				FALSE,	TRUE },
-	{ RIPEMD160,	L"RIPEMD-160",			TRUE,		TRUE },
 	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
 	{ 0, 0, 0 }
 };
@@ -168,11 +162,6 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 #endif
 
 #if !defined(TC_WINDOWS_BOOT) 
-#if defined(CIPHER_GOST89)
-	case GOST89:
-		gost_set_key(key, (gost_kds*)ks, 1);
-		break;
-#endif // && defined(CIPHER_GOST89)
 	case KUZNYECHIK:
 		kuznyechik_set_key(key, (kuznyechik_kds*)ks);
 		break;
@@ -206,9 +195,6 @@ void EncipherBlock(int cipher, void *data, void *ks)
 	case CAMELLIA:		camellia_encrypt (data, data, ks); break;
 #endif
 #if !defined(TC_WINDOWS_BOOT)
-#if defined(CIPHER_GOST89)
-	case GOST89:		gost_encrypt(data, data, ks, 1); break;
-#endif // defined(CIPHER_GOST89)
 	case KUZNYECHIK:		kuznyechik_encrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT) 
 	default:			TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
@@ -281,9 +267,6 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #endif
 	}
 #endif
-	else if (cipher == GOST89)	{
-			gost_encrypt(data, data, ks, (int)blockCount);
-	}
 	else
 	{
 		size_t blockSize = CipherGetBlockSize (cipher);
@@ -307,9 +290,6 @@ void DecipherBlock(int cipher, void *data, void *ks)
 	case CAMELLIA:	camellia_decrypt (data, data, ks); break;
 #endif
 #if !defined(TC_WINDOWS_BOOT)
-#if defined(CIPHER_GOST89)
-	case GOST89:	gost_decrypt(data, data, ks, 1); break;
-#endif // defined(CIPHER_GOST89)
 	case KUZNYECHIK:	kuznyechik_decrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT)
 
@@ -398,9 +378,6 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #endif
 	}
 #endif
-	else if (cipher == GOST89)	{
-			gost_decrypt(data, data, ks, (int)blockCount);
-	}
 	else
 	{
 		size_t blockSize = CipherGetBlockSize (cipher);
@@ -466,7 +443,6 @@ int CipherGetKeyScheduleSize (int cipherId)
 BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 {
 	return (cipher == AES && IsAesHwCpuSupported()) 
-		|| (cipher == GOST89)
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 		|| (cipher == SERPENT && HasSSE2())
 		|| (cipher == KUZNYECHIK && HasSSE2())

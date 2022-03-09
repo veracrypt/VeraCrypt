@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <localization prog-version="1.25.7">
+  <localization prog-version="1.25.9">
     <language langid="he" name="עברית" en-name="Hebrew" version="0.1.0" translators="thewh1teagle" />
     <font lang="he" class="normal" size="11" face="default" />
     <font lang="he" class="bold" size="13" face="Arial" />

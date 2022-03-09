@@ -330,7 +330,9 @@ void DetectX86Features()
 	g_hasSSE42 = g_hasSSE2 && (cpuid1[2] & (1 << 20));
 	g_hasSSE41 = g_hasSSE2 && (cpuid1[2] & (1 << 19));
 	g_hasSSSE3 = g_hasSSE2 && (cpuid1[2] & (1<<9));
+#ifndef CRYPTOPP_DISABLE_AESNI
 	g_hasAESNI = g_hasSSE2 && (cpuid1[2] & (1<<25));
+#endif
 	g_hasCLMUL = g_hasSSE2 && (cpuid1[2] & (1<<1));
 
 #if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)

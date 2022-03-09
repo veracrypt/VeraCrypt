@@ -175,6 +175,10 @@ BOOL bLanguageSetInSetup = FALSE;
 extern BOOL bMakePackage;
 #endif
 
+#ifdef TCMOUNT
+extern BOOL ServiceMode;
+#endif
+
 // Status of detection of hidden sectors (whole-system-drive encryption). 
 // 0 - Unknown/undetermined/completed, 1: Detection is or was in progress (but did not complete e.g. due to system crash).
 int HiddenSectorDetectionStatus = 0;	
@@ -374,6 +378,12 @@ typedef BOOL (WINAPI *CreateProcessWithTokenWFn)(
     __out       LPPROCESS_INFORMATION lpProcessInformation
       );
 
+typedef HRESULT (WINAPI *IUnknown_QueryServiceFn)(
+	__in IUnknown* punk, 
+	__in REFGUID guidService, 
+	__in REFIID riid, 
+	__deref_out void ** ppvOut);
+
 SetDllDirectoryPtr SetDllDirectoryFn = NULL;
 SetSearchPathModePtr SetSearchPathModeFn = NULL;
 SetDefaultDllDirectoriesPtr SetDefaultDllDirectoriesFn = NULL;
@@ -390,6 +400,7 @@ SHStrDupWPtr SHStrDupWFn = NULL;
 UrlUnescapeWPtr UrlUnescapeWFn = NULL;
 ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
 CreateProcessWithTokenWFn CreateProcessWithTokenWPtr = NULL;
+IUnknown_QueryServiceFn IUnknown_QueryServicePtr = NULL;
 
 typedef LONG (WINAPI *WINVERIFYTRUST)(HWND hwnd, GUID *pgActionID, LPVOID pWVTData);
 typedef CRYPT_PROVIDER_DATA* (WINAPI *WTHELPERPROVDATAFROMSTATEDATA)(HANDLE hStateData);
@@ -412,6 +423,15 @@ static unsigned char gpbSha256CodeSignCertFingerprint[64] = {
 	0x18, 0xD1, 0xD8, 0x32, 0x0E, 0xA4, 0x81, 0x3C, 0x19, 0xBF, 0x13, 0x11,
 	0xA4, 0x37, 0xD6, 0xDB, 0x26, 0xBA, 0xDC, 0x8F, 0x86, 0x96, 0x55, 0x96,
 	0xDB, 0x6F, 0xC0, 0x62
+};
+
+static unsigned char gpbSha256MSCodeSignCertFingerprint[64] = {
+	0x9C, 0x96, 0x81, 0x3B, 0x88, 0x54, 0xCB, 0x81, 0xB5, 0x94, 0x40, 0x4E,
+	0x15, 0x81, 0x20, 0xA1, 0x19, 0x00, 0x4E, 0x49, 0x8A, 0xA8, 0x98, 0x13,
+	0x9D, 0xE2, 0x86, 0x6A, 0xC1, 0xFA, 0xD3, 0x00, 0x0D, 0xAC, 0xE9, 0xE3,
+	0x3B, 0xFC, 0x6B, 0x26, 0xCE, 0xC8, 0xE2, 0x36, 0x3B, 0x60, 0x9C, 0x8E,
+	0x0A, 0x2A, 0x74, 0x20, 0xD7, 0x4E, 0x0F, 0xEE, 0x2E, 0x79, 0xE2, 0xAF,
+	0x1C, 0x90, 0x0B, 0x9C
 };
 
 
@@ -493,6 +513,955 @@ typedef struct
 	BOOL bold;
 
 } MULTI_CHOICE_DLGPROC_PARAMS;
+
+
+
+
+// Loads a 32-bit integer from the file at the specified file offset. The saved value is assumed to have been
+// processed by mputLong(). The result is stored in *result. Returns TRUE if successful (otherwise FALSE).
+BOOL LoadInt32 (const wchar_t *filePath, unsigned __int32 *result, __int64 fileOffset)
+{
+	DWORD bufSize = sizeof(__int32);
+	unsigned char *buffer = (unsigned char *) malloc (bufSize);
+	unsigned char *bufferPtr = buffer;
+	HANDLE src = NULL;
+	DWORD bytesRead;
+	LARGE_INTEGER seekOffset, seekOffsetNew;
+	BOOL retVal = FALSE;
+
+	if (buffer == NULL)
+		return -1;
+
+	src = CreateFile (filePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	if (src == INVALID_HANDLE_VALUE)
+	{
+		free (buffer);
+		return FALSE;
+	}
+
+	seekOffset.QuadPart = fileOffset;
+
+	if (SetFilePointerEx (src, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
+		goto fsif_end;
+
+	if (ReadFile (src, buffer, bufSize, &bytesRead, NULL) == 0
+		|| bytesRead != bufSize)
+		goto fsif_end;
+
+
+	retVal = TRUE;
+
+	*result = mgetLong(bufferPtr);
+
+fsif_end:
+	CloseHandle (src);
+	free (buffer);
+
+	return retVal;
+}
+
+// Loads a 16-bit integer from the file at the specified file offset. The saved value is assumed to have been
+// processed by mputWord(). The result is stored in *result. Returns TRUE if successful (otherwise FALSE).
+BOOL LoadInt16 (const wchar_t *filePath, int *result, __int64 fileOffset)
+{
+	DWORD bufSize = sizeof(__int16);
+	unsigned char *buffer = (unsigned char *) malloc (bufSize);
+	unsigned char *bufferPtr = buffer;
+	HANDLE src = NULL;
+	DWORD bytesRead;
+	LARGE_INTEGER seekOffset, seekOffsetNew;
+	BOOL retVal = FALSE;
+
+	if (buffer == NULL)
+		return -1;
+
+	src = CreateFile (filePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	if (src == INVALID_HANDLE_VALUE)
+	{
+		free (buffer);
+		return FALSE;
+	}
+
+	seekOffset.QuadPart = fileOffset;
+
+	if (SetFilePointerEx (src, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
+		goto fsif_end;
+
+	if (ReadFile (src, buffer, bufSize, &bytesRead, NULL) == 0
+		|| bytesRead != bufSize)
+		goto fsif_end;
+
+
+	retVal = TRUE;
+
+	*result = mgetWord(bufferPtr);
+
+fsif_end:
+	CloseHandle (src);
+	free (buffer);
+
+	return retVal;
+}
+
+// Returns NULL if there's any error. Although the buffer can contain binary data, it is always null-terminated.
+char *LoadFile (const wchar_t *fileName, DWORD *size)
+{
+	char *buf;
+	DWORD fileSize = INVALID_FILE_SIZE;
+	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	if (h == INVALID_HANDLE_VALUE)
+		return NULL;
+
+	if ((fileSize = GetFileSize (h, NULL)) == INVALID_FILE_SIZE)
+	{
+		CloseHandle (h);
+		return NULL;
+	}
+
+	*size = fileSize;
+	buf = (char *) calloc (*size + 1, 1);
+
+	if (buf == NULL)
+	{
+		CloseHandle (h);
+		return NULL;
+	}
+
+	if (!ReadFile (h, buf, *size, size, NULL))
+	{
+		free (buf);
+		buf = NULL;
+	}
+
+	CloseHandle (h);
+	return buf;
+}
+
+
+// Returns NULL if there's any error.
+char *LoadFileBlock (const wchar_t *fileName, __int64 fileOffset, DWORD count)
+{
+	char *buf;
+	DWORD bytesRead = 0;
+	LARGE_INTEGER seekOffset, seekOffsetNew;
+	BOOL bStatus;
+
+	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	if (h == INVALID_HANDLE_VALUE)
+		return NULL;
+
+	seekOffset.QuadPart = fileOffset;
+
+	if (SetFilePointerEx (h, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
+	{
+		CloseHandle (h);
+		return NULL;
+	}
+
+	buf = (char *) calloc (count, 1);
+
+	if (buf == NULL)
+	{
+		CloseHandle (h);
+		return NULL;
+	}
+
+	bStatus = ReadFile (h, buf, count, &bytesRead, NULL);
+
+	CloseHandle (h);
+
+	if (!bStatus || (bytesRead != count))
+	{
+		free (buf);
+		return NULL;
+	}
+
+	return buf;
+}
+
+
+// Returns -1 if there is an error, or the size of the file.
+__int64 GetFileSize64 (const wchar_t *path)
+{
+	HANDLE h = CreateFile (path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	LARGE_INTEGER size;
+	__int64 retSize = -1;
+
+	if (h)
+	{
+		if (GetFileSizeEx (h, &size))
+		{
+			retSize = size.QuadPart;
+		}
+
+		CloseHandle (h);
+	}
+
+	return retSize;
+}
+
+// If bAppend is TRUE, the buffer is appended to an existing file. If bAppend is FALSE, any existing file
+// is replaced. If an error occurs, the incomplete file is deleted (provided that bAppend is FALSE).
+BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, DWORD inputLength, BOOL bAppend, BOOL bRenameIfFailed)
+{
+	HANDLE dst;
+	DWORD bytesWritten;
+	BOOL res = TRUE;
+	DWORD dwLastError = 0;
+
+	dst = CreateFile (destinationFile,
+		GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, bAppend ? OPEN_EXISTING : CREATE_ALWAYS, 0, NULL);
+
+	dwLastError = GetLastError();
+	if (!bAppend && bRenameIfFailed && (dst == INVALID_HANDLE_VALUE) && (GetLastError () == ERROR_SHARING_VIOLATION))
+	{
+		wchar_t renamedPath[TC_MAX_PATH + 1];
+		StringCbCopyW (renamedPath, sizeof(renamedPath), destinationFile);
+		StringCbCatW  (renamedPath, sizeof(renamedPath), VC_FILENAME_RENAMED_SUFFIX);
+
+		/* rename the locked file in order to be able to create a new one */
+		if (MoveFileEx (destinationFile, renamedPath, MOVEFILE_REPLACE_EXISTING))
+		{
+			dst = CreateFile (destinationFile,
+					GENERIC_WRITE,
+					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, 0, NULL);
+			dwLastError = GetLastError();
+			if (dst == INVALID_HANDLE_VALUE)
+			{
+				/* restore the original file name */
+				MoveFileEx (renamedPath, destinationFile, MOVEFILE_REPLACE_EXISTING);
+			}
+			else
+			{
+				/* delete the renamed file when the machine reboots */
+				MoveFileEx (renamedPath, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+			}
+		}
+	}
+
+	if (dst == INVALID_HANDLE_VALUE)
+	{
+		SetLastError (dwLastError);
+		handleWin32Error (MainDlg, SRC_POS);
+		return FALSE;
+	}
+
+	if (bAppend)
+		SetFilePointer (dst, 0, NULL, FILE_END);
+
+	if (!WriteFile (dst, inputBuffer, inputLength, &bytesWritten, NULL)
+		|| inputLength != bytesWritten)
+	{
+		res = FALSE;
+	}
+
+	if (!res)
+	{
+		// If CREATE_ALWAYS is used, ERROR_ALREADY_EXISTS is returned after successful overwrite
+		// of an existing file (it's not an error)
+		if (! (GetLastError() == ERROR_ALREADY_EXISTS && !bAppend) )
+			handleWin32Error (MainDlg, SRC_POS);
+	}
+
+	CloseHandle (dst);
+
+	if (!res && !bAppend)
+		_wremove (destinationFile);
+
+	return res;
+}
+
+
+// Returns -1 if the specified string is not found in the buffer. Otherwise, returns the
+// offset of the first occurrence of the string. The string and the buffer may contain zeroes,
+// which do NOT terminate them.
+int64 FindString (const char *buf, const char *str, int64 bufLen, int64 strLen, int64 startOffset)
+{
+	if (buf == NULL
+		|| str == NULL
+		|| strLen > bufLen
+		|| bufLen < 1
+		|| strLen < 1
+		|| startOffset > bufLen - strLen)
+	{
+		return -1;
+	}
+
+	for (int64 i = startOffset; i <= bufLen - strLen; i++)
+	{
+		if (memcmp (buf + i, str, (size_t) strLen) == 0)
+			return i;
+	}
+
+	return -1;
+}
+
+// Returns TRUE if the file or directory exists (both may be enclosed in quotation marks).
+BOOL FileExists (const wchar_t *filePathPtr)
+{
+	wchar_t filePath [TC_MAX_PATH * 2 + 1];
+
+	// Strip quotation marks (if any)
+	if (filePathPtr [0] == L'"')
+	{
+		StringCbCopyW (filePath, sizeof(filePath), filePathPtr + 1);
+	}
+	else
+	{
+		StringCbCopyW (filePath, sizeof(filePath), filePathPtr);
+	}
+
+	// Strip quotation marks (if any)
+	if (filePath [wcslen (filePath) - 1] == L'"')
+		filePath [wcslen (filePath) - 1] = 0;
+
+    return (_waccess (filePath, 0) != -1);
+}
+
+
+// Searches the file from its end for the LAST occurrence of the string str.
+// The string may contain zeroes, which do NOT terminate the string.
+// If the string is found, its offset from the start of the file is returned.
+// If the string isn't found or if any error occurs, -1 is returned.
+__int64 FindStringInFile (const wchar_t *filePath, const char* str, int strLen)
+{
+	int bufSize = 64 * BYTES_PER_KB;
+	char *buffer = (char *) err_malloc (bufSize);
+	HANDLE src = NULL;
+	DWORD bytesRead;
+	BOOL readRetVal;
+	__int64 filePos = GetFileSize64 (filePath);
+	int bufPos = 0;
+	LARGE_INTEGER seekOffset, seekOffsetNew;
+	BOOL bExit = FALSE;
+	int filePosStep;
+	__int64 retVal = -1;
+
+	if (filePos <= 0
+		|| buffer == NULL
+		|| strLen > bufSize
+		|| strLen < 1)
+	{
+	if (buffer)
+		free (buffer);
+		return -1;
+	}
+
+	src = CreateFile (filePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	if (src == INVALID_HANDLE_VALUE)
+	{
+		free (buffer);
+		return -1;
+	}
+
+	filePosStep = bufSize - strLen + 1;
+
+	do
+	{
+		filePos -= filePosStep;
+
+		if (filePos < 0)
+		{
+			filePos = 0;
+			bExit = TRUE;
+		}
+
+		seekOffset.QuadPart = filePos;
+
+		if (SetFilePointerEx (src, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
+			goto fsif_end;
+
+		if ((readRetVal = ReadFile (src, buffer, bufSize, &bytesRead, NULL)) == 0
+			|| bytesRead == 0)
+			goto fsif_end;
+
+		bufPos = bytesRead - strLen;
+
+		while (bufPos > 0)
+		{
+			if (memcmp (buffer + bufPos, str, strLen) == 0)
+			{
+				// String found
+				retVal = filePos + bufPos;
+				goto fsif_end;
+			}
+			bufPos--;
+		}
+
+	} while (!bExit);
+
+fsif_end:
+	CloseHandle (src);
+	free (buffer);
+
+	return retVal;
+}
+
+// System CopyFile() copies source file attributes (like FILE_ATTRIBUTE_ENCRYPTED)
+// so we need to use our own copy function
+BOOL TCCopyFileBase (HANDLE src, HANDLE dst)
+{
+	__int8 *buffer;
+	FILETIME fileTime;
+	DWORD bytesRead, bytesWritten;
+	BOOL res;
+
+	buffer = (char *) malloc (64 * 1024);
+	if (!buffer)
+	{
+		CloseHandle (src);
+		CloseHandle (dst);
+		return FALSE;
+	}
+
+	while (res = ReadFile (src, buffer, 64 * 1024, &bytesRead, NULL))
+	{
+		if (bytesRead == 0)
+		{
+			res = 1;
+			break;
+		}
+
+		if (!WriteFile (dst, buffer, bytesRead, &bytesWritten, NULL)
+			|| bytesRead != bytesWritten)
+		{
+			res = 0;
+			break;
+		}
+	}
+
+	if (GetFileTime (src, NULL, NULL, &fileTime))
+		SetFileTime (dst, NULL, NULL, &fileTime);
+
+	CloseHandle (src);
+	CloseHandle (dst);
+
+	free (buffer);
+	return res != 0;
+}
+
+BOOL TCCopyFile (wchar_t *sourceFileName, wchar_t *destinationFile)
+{
+	HANDLE src, dst;
+
+	src = CreateFileW (sourceFileName,
+		GENERIC_READ,
+		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	if (src == INVALID_HANDLE_VALUE)
+		return FALSE;
+
+	dst = CreateFileW (destinationFile,
+		GENERIC_WRITE,
+		0, NULL, CREATE_ALWAYS, 0, NULL);
+
+	if (dst == INVALID_HANDLE_VALUE)
+	{
+		CloseHandle (src);
+		return FALSE;
+	}
+
+	return TCCopyFileBase (src, dst);
+}
+
+#if defined(NDEBUG) && !defined(VC_SKIP_OS_DRIVER_REQ_CHECK)
+static BOOL InitializeWintrust()
+{
+	if (!hWinTrustLib)
+	{
+		wchar_t szPath[MAX_PATH] = {0};
+
+		if (GetSystemDirectory(szPath, MAX_PATH))
+			StringCchCatW (szPath, MAX_PATH, L"\\Wintrust.dll");
+		else
+			StringCchCopyW (szPath, MAX_PATH, L"C:\\Windows\\System32\\Wintrust.dll");
+
+		hWinTrustLib = LoadLibrary (szPath);
+		if (hWinTrustLib)
+		{
+			WinVerifyTrustFn = (WINVERIFYTRUST) GetProcAddress (hWinTrustLib, "WinVerifyTrust");
+			WTHelperProvDataFromStateDataFn = (WTHELPERPROVDATAFROMSTATEDATA) GetProcAddress (hWinTrustLib, "WTHelperProvDataFromStateData");
+			WTHelperGetProvSignerFromChainFn = (WTHELPERGETPROVSIGNERFROMCHAIN) GetProcAddress (hWinTrustLib, "WTHelperGetProvSignerFromChain");
+			WTHelperGetProvCertFromChainFn = (WTHELPERGETPROVCERTFROMCHAIN) GetProcAddress (hWinTrustLib, "WTHelperGetProvCertFromChain");
+
+			if (	!WinVerifyTrustFn 
+				||	!WTHelperProvDataFromStateDataFn 
+				||	!WTHelperGetProvSignerFromChainFn 
+				||	!WTHelperGetProvCertFromChainFn)
+			{
+				FreeLibrary (hWinTrustLib);
+				hWinTrustLib = NULL;
+			}
+
+		}
+	}
+
+	if (hWinTrustLib)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static void FinalizeWintrust()
+{
+	if (hWinTrustLib)
+	{
+		FreeLibrary (hWinTrustLib);
+		hWinTrustLib = NULL;
+	}
+}
+
+#endif
+
+BOOL VerifyModuleSignature (const wchar_t* path)
+{
+#if defined(NDEBUG) && !defined (VC_SKIP_OS_DRIVER_REQ_CHECK)
+	BOOL bResult = FALSE;
+	HRESULT hResult;
+	GUID gActionID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
+	WINTRUST_FILE_INFO  fileInfo = {0};
+	WINTRUST_DATA      WVTData = {0};
+	wchar_t filePath [TC_MAX_PATH + 1024];
+
+    // we check our own authenticode signature only starting from Windows 10 since this is
+	// the minimal supported OS apart from XP where we can't verify SHA256 signatures
+	if (!IsOSAtLeast (WIN_10))
+		return TRUE;
+
+	// Strip quotation marks (if any)
+	if (path [0] == L'"')
+	{
+		StringCbCopyW (filePath, sizeof(filePath), path + 1);
+	}
+	else
+	{
+		StringCbCopyW (filePath, sizeof(filePath), path);
+	}
+
+	// Strip quotation marks (if any)
+	if (filePath [wcslen (filePath) - 1] == L'"')
+		filePath [wcslen (filePath) - 1] = 0;
+
+	if (!InitializeWintrust ())
+		return FALSE;
+
+	fileInfo.cbStruct = sizeof(WINTRUST_FILE_INFO);
+	fileInfo.pcwszFilePath = filePath;
+	fileInfo.hFile = NULL;
+
+	WVTData.cbStruct            = sizeof(WINTRUST_DATA);
+	WVTData.dwUIChoice          = WTD_UI_NONE;
+	WVTData.fdwRevocationChecks = WTD_REVOKE_NONE;
+	WVTData.dwUnionChoice       = WTD_CHOICE_FILE;
+	WVTData.pFile               = &fileInfo;
+	WVTData.dwStateAction       = WTD_STATEACTION_VERIFY;
+	WVTData.dwProvFlags         = WTD_REVOCATION_CHECK_NONE | WTD_CACHE_ONLY_URL_RETRIEVAL;
+
+	hResult = WinVerifyTrustFn(0, &gActionID, &WVTData);
+	if (0 == hResult)
+	{
+		PCRYPT_PROVIDER_DATA pProviderData = WTHelperProvDataFromStateDataFn (WVTData.hWVTStateData);
+		if (pProviderData)
+		{
+			PCRYPT_PROVIDER_SGNR pProviderSigner = WTHelperGetProvSignerFromChainFn (pProviderData, 0, FALSE, 0);
+			if (pProviderSigner)
+			{
+				PCRYPT_PROVIDER_CERT pProviderCert = WTHelperGetProvCertFromChainFn (pProviderSigner, 0);
+				if (pProviderCert && (pProviderCert->pCert))
+				{
+					BYTE hashVal[64];
+					sha512 (hashVal, pProviderCert->pCert->pbCertEncoded, pProviderCert->pCert->cbCertEncoded);
+
+					if (	(0 ==  memcmp (hashVal, gpbSha256CodeSignCertFingerprint, 64))
+						||	(0 ==  memcmp (hashVal, gpbSha256MSCodeSignCertFingerprint, 64))
+						)
+					{
+						bResult = TRUE;
+					}
+				}
+			}
+		}
+	}
+
+	WVTData.dwUIChoice = WTD_UI_NONE;
+	WVTData.dwStateAction = WTD_STATEACTION_CLOSE;
+	WinVerifyTrustFn(0, &gActionID, &WVTData);
+
+	FinalizeWintrust ();
+
+	return bResult;
+#else
+	return TRUE;
+#endif
+}
+
+DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
+{
+#ifndef VC_COMREG
+	PWSTR lpMsgBuf;
+	DWORD dwError = GetLastError ();	
+	wchar_t szErrorValue[32];
+	wchar_t* pszDesc;
+
+	if (Silent || dwError == 0 || dwError == ERROR_INVALID_WINDOW_HANDLE)
+		return dwError;
+
+	// Access denied
+	if (dwError == ERROR_ACCESS_DENIED && !IsAdmin ())
+	{
+		ErrorDirect ( AppendSrcPos (GetString ("ERR_ACCESS_DENIED"), srcPos).c_str (), hwndDlg);
+		SetLastError (dwError);		// Preserve the original error code
+		return dwError;
+	}
+
+	FormatMessageW (
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			      NULL,
+			      dwError,
+			      MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),	/* Default language */
+			      (PWSTR) &lpMsgBuf,
+			      0,
+			      NULL
+	    );
+
+	if (lpMsgBuf)
+		pszDesc = (wchar_t*) lpMsgBuf;
+	else
+	{
+		StringCchPrintfW (szErrorValue, ARRAYSIZE (szErrorValue), L"Error 0x%.8X", dwError);
+		pszDesc = szErrorValue;
+	}
+
+	MessageBoxW (hwndDlg, AppendSrcPos (pszDesc, srcPos).c_str (), lpszTitle, ICON_HAND);
+	if (lpMsgBuf) LocalFree (lpMsgBuf);
+
+	// User-friendly hardware error explanation
+	if (IsDiskError (dwError))
+		Error ("ERR_HARDWARE_ERROR", hwndDlg);
+
+	// Device not ready
+	if (dwError == ERROR_NOT_READY)
+		HandleDriveNotReadyError(hwndDlg);
+
+	SetLastError (dwError);		// Preserve the original error code
+
+	return dwError;
+#else
+	return GetLastError();
+#endif
+}
+
+int Error (char *stringId, HWND hwnd)
+{
+#ifndef VC_COMREG
+	if (Silent) return 0;
+	return MessageBoxW (hwnd, GetString (stringId), lpszTitle, MB_ICONERROR);
+#else
+	return 0;
+#endif
+}
+
+BOOL IsOSAtLeast (OSVersionEnum reqMinOS)
+{
+	return IsOSVersionAtLeast (reqMinOS, 0);
+}
+
+
+// Returns TRUE if the operating system is at least reqMinOS and service pack at least reqMinServicePack.
+// Example 1: IsOSVersionAtLeast (WIN_VISTA, 1) called under Windows 2008, returns TRUE.
+// Example 2: IsOSVersionAtLeast (WIN_XP, 3) called under Windows XP SP1, returns FALSE.
+// Example 3: IsOSVersionAtLeast (WIN_XP, 3) called under Windows Vista SP1, returns TRUE.
+BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
+{
+	/* When updating this function, update IsOSAtLeast() in Ntdriver.c too. */
+
+	if (CurrentOSMajor <= 0)
+		TC_THROW_FATAL_EXCEPTION;
+
+	int major = 0, minor = 0;
+
+	switch (reqMinOS)
+	{
+	case WIN_2000:			major = 5; minor = 0; break;
+	case WIN_XP:			major = 5; minor = 1; break;
+	case WIN_SERVER_2003:	major = 5; minor = 2; break;
+	case WIN_VISTA:			major = 6; minor = 0; break;
+	case WIN_7:				major = 6; minor = 1; break;
+	case WIN_8:				major = 6; minor = 2; break;
+	case WIN_8_1:			major = 6; minor = 3; break;
+	case WIN_10:			major = 10; minor = 0; break;
+
+	default:
+		TC_THROW_FATAL_EXCEPTION;
+		break;
+	}
+
+	return ((CurrentOSMajor << 16 | CurrentOSMinor << 8 | CurrentOSServicePack)
+		>= (major << 16 | minor << 8 | reqMinServicePack));
+}
+
+#ifdef SETUP_DLL
+static BOOL GetWindowVersionFromFile(DWORD* pdwMajor, DWORD* pdwMinor, DWORD* pdwBuildNumber)
+{
+	wchar_t dllPath[MAX_PATH];
+	BOOL bRet = FALSE;
+	LPBYTE versionInfo = NULL;
+	UINT size;
+	VS_FIXEDFILEINFO *vinfo;
+
+	/* Load dll explictely from System32 to avoid Dll hijacking attacks*/
+	if (!GetSystemDirectory(dllPath, MAX_PATH))
+		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32");
+
+	StringCbCatW(dllPath, sizeof(dllPath), L"\\");
+	StringCbCatW(dllPath, sizeof(dllPath), L"Kernel32.dll");
+
+    size = GetFileVersionInfoSizeW(dllPath, NULL);
+    if (size)
+    {
+		versionInfo = (LPBYTE) TCalloc(size);
+		if (GetFileVersionInfo(dllPath, 0, size, versionInfo))
+		{
+    
+			if (VerQueryValueW(versionInfo, L"\\", (LPVOID *)&vinfo, &size) && (size >=sizeof(VS_FIXEDFILEINFO)))
+			{
+				*pdwMajor = HIWORD(vinfo->dwProductVersionMS);
+				*pdwMinor = LOWORD(vinfo->dwProductVersionMS);
+				*pdwBuildNumber = HIWORD(vinfo->dwProductVersionLS);
+				bRet = TRUE;
+			}
+		}
+	}
+
+	if (versionInfo)
+		TCfree(versionInfo);
+	return bRet;
+}
+#endif
+
+/*
+ * Use RtlGetVersion to get Windows version because GetVersionEx is affected by application manifestation.
+ */
+typedef NTSTATUS (WINAPI* RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
+
+static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
+{
+	BOOL bRet = FALSE;
+#ifdef SETUP_DLL
+	DWORD dwMajor, dwMinor, dwBuildNumber;
+#endif
+	RtlGetVersionPtr RtlGetVersionFn = (RtlGetVersionPtr) GetProcAddress(GetModuleHandle (L"ntdll.dll"), "RtlGetVersion");
+	if (RtlGetVersionFn != NULL)
+	{
+		if (ERROR_SUCCESS == RtlGetVersionFn (lpVersionInformation))
+			bRet = TRUE;
+	}
+
+	if (!bRet)
+		bRet = GetVersionExW (lpVersionInformation);
+
+#ifdef SETUP_DLL
+	// we get real version from Kernel32.dll version since MSI always sets current version to 6.0
+	// https://stackoverflow.com/questions/49335885/windows-10-not-detecting-on-installshield/49343826#49343826
+	if (GetWindowVersionFromFile(&dwMajor, &dwMinor, &dwBuildNumber))
+	{
+		lpVersionInformation->dwMajorVersion = dwMajor;
+		lpVersionInformation->dwMinorVersion = dwMinor;
+		lpVersionInformation->dwBuildNumber = dwBuildNumber;
+	}
+#endif
+
+	return bRet;
+}
+
+
+void InitOSVersionInfo ()
+{
+	OSVERSIONINFOEXW os;
+	os.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
+
+	if (GetWindowsVersion ((LPOSVERSIONINFOW) &os) == FALSE)
+		AbortProcess ("NO_OS_VER");
+
+	CurrentOSMajor = os.dwMajorVersion;
+	CurrentOSMinor = os.dwMinorVersion;
+	CurrentOSServicePack = os.wServicePackMajor;
+	CurrentOSBuildNumber = os.dwBuildNumber;
+
+	if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 0)
+		nCurrentOS = WIN_2000;
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 1)
+		nCurrentOS = WIN_XP;
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 2)
+	{
+		if (os.wProductType == VER_NT_SERVER || os.wProductType == VER_NT_DOMAIN_CONTROLLER)
+			nCurrentOS = WIN_SERVER_2003;
+		else
+			nCurrentOS = WIN_XP64;
+	}
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 0)
+	{
+		if (os.wProductType !=  VER_NT_WORKSTATION)
+			nCurrentOS = WIN_SERVER_2008;
+		else
+			nCurrentOS = WIN_VISTA;
+	}
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 1)
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2008_R2 : WIN_7);
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 2)
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2012 : WIN_8);
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 3)
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2012_R2 : WIN_8_1);
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 10 && CurrentOSMinor == 0)
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2016 : WIN_10);
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 4)
+		nCurrentOS = WIN_NT4;
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && os.dwMajorVersion == 4 && os.dwMinorVersion == 0)
+		nCurrentOS = WIN_95;
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && os.dwMajorVersion == 4 && os.dwMinorVersion == 10)
+		nCurrentOS = WIN_98;
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && os.dwMajorVersion == 4 && os.dwMinorVersion == 90)
+		nCurrentOS = WIN_ME;
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32s)
+		nCurrentOS = WIN_31;
+	else
+		nCurrentOS = WIN_UNKNOWN;
+}
+
+#pragma warning(push)
+#pragma warning(disable:4702)
+
+void *err_malloc (size_t size)
+{
+	void *z = (void *) TCalloc (size);
+	if (z)
+		return z;
+	AbortProcess ("OUTOFMEMORY");
+	return 0;
+}
+
+#pragma warning(pop)
+
+
+char *err_strdup (char *lpszText)
+{
+	size_t j = (strlen (lpszText) + 1) * sizeof (char);
+	char *z = (char *) err_malloc (j);
+	memmove (z, lpszText, j);
+	return z;
+}
+
+void AbortProcessDirect (wchar_t *abortMsg)
+{
+	// Note that this function also causes localcleanup() to be called (see atexit())
+	MessageBeep (MB_ICONEXCLAMATION);
+	MessageBoxW (NULL, abortMsg, lpszTitle, ICON_HAND);
+#ifndef VC_COMREG
+	FREE_DLL (hRichEditDll);
+	FREE_DLL (hComctl32Dll);
+	FREE_DLL (hSetupDll);
+	FREE_DLL (hShlwapiDll);
+	FREE_DLL (hProfApiDll);
+	FREE_DLL (hUsp10Dll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hUXThemeDll);
+	FREE_DLL (hUserenvDll);
+	FREE_DLL (hRsaenhDll);
+	FREE_DLL (himm32dll);
+	FREE_DLL (hMSCTFdll);
+	FREE_DLL (hfltlibdll);
+	FREE_DLL (hframedyndll);
+	FREE_DLL (hpsapidll);
+	FREE_DLL (hsecur32dll);
+	FREE_DLL (hnetapi32dll);
+	FREE_DLL (hauthzdll);
+	FREE_DLL (hxmllitedll);
+	FREE_DLL (hmprdll);
+	FREE_DLL (hsppdll);
+	FREE_DLL (vssapidll);
+	FREE_DLL (hvsstracedll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hcfgmgr32dll);
+	FREE_DLL (hdevobjdll);
+	FREE_DLL (hpowrprofdll);
+	FREE_DLL (hsspiclidll);
+	FREE_DLL (hcryptbasedll);
+	FREE_DLL (hdwmapidll);
+	FREE_DLL (hmsasn1dll);
+	FREE_DLL (hcrypt32dll);
+	FREE_DLL (hbcryptdll);
+	FREE_DLL (hbcryptprimitivesdll);
+	FREE_DLL (hMsls31);
+	FREE_DLL (hntmartadll);
+	FREE_DLL (hwinscarddll);
+	FREE_DLL (hmsvcrtdll);
+	FREE_DLL (hAdvapi32Dll);
+#endif
+	exit (1);
+}
+
+void AbortProcess (char *stringId)
+{
+	// Note that this function also causes localcleanup() to be called (see atexit())
+#ifndef VC_COMREG
+	AbortProcessDirect (GetString (stringId));
+#else
+	static wchar_t g_wszUnknown[1024];
+	StringCbPrintfW (g_wszUnknown, sizeof(g_wszUnknown), UNKNOWN_STRING_ID L"%hs" UNKNOWN_STRING_ID, stringId);
+	AbortProcessDirect (g_wszUnknown);
+#endif
+}
+
+#ifndef VC_COMREG
+void AbortProcessSilent (void)
+{
+	FREE_DLL (hRichEditDll);
+	FREE_DLL (hComctl32Dll);
+	FREE_DLL (hSetupDll);
+	FREE_DLL (hShlwapiDll);
+	FREE_DLL (hProfApiDll);
+	FREE_DLL (hUsp10Dll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hUXThemeDll);
+	FREE_DLL (hUserenvDll);
+	FREE_DLL (hRsaenhDll);
+	FREE_DLL (himm32dll);
+	FREE_DLL (hMSCTFdll);
+	FREE_DLL (hfltlibdll);
+	FREE_DLL (hframedyndll);
+	FREE_DLL (hpsapidll);
+	FREE_DLL (hsecur32dll);
+	FREE_DLL (hnetapi32dll);
+	FREE_DLL (hauthzdll);
+	FREE_DLL (hxmllitedll);
+	FREE_DLL (hmprdll);
+	FREE_DLL (hsppdll);
+	FREE_DLL (vssapidll);
+	FREE_DLL (hvsstracedll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hcfgmgr32dll);
+	FREE_DLL (hdevobjdll);
+	FREE_DLL (hpowrprofdll);
+	FREE_DLL (hsspiclidll);
+	FREE_DLL (hcryptbasedll);
+	FREE_DLL (hdwmapidll);
+	FREE_DLL (hmsasn1dll);
+	FREE_DLL (hcrypt32dll);
+	FREE_DLL (hbcryptdll);
+	FREE_DLL (hbcryptprimitivesdll);
+	FREE_DLL (hMsls31);
+	FREE_DLL (hntmartadll);
+	FREE_DLL (hwinscarddll);
+	FREE_DLL (hmsvcrtdll);
+	FREE_DLL (hAdvapi32Dll);
+
+	// Note that this function also causes localcleanup() to be called (see atexit())
+	exit (1);
+}
 
 void InitGlobalLocks ()
 {
@@ -760,131 +1729,6 @@ int RemoveFakeDosName (wchar_t *lpszDiskFile, wchar_t *lpszDosDevice)
 }
 
 
-void AbortProcessDirect (wchar_t *abortMsg)
-{
-	// Note that this function also causes localcleanup() to be called (see atexit())
-	MessageBeep (MB_ICONEXCLAMATION);
-	MessageBoxW (NULL, abortMsg, lpszTitle, ICON_HAND);
-	FREE_DLL (hRichEditDll);
-	FREE_DLL (hComctl32Dll);
-	FREE_DLL (hSetupDll);
-	FREE_DLL (hShlwapiDll);
-	FREE_DLL (hProfApiDll);
-	FREE_DLL (hUsp10Dll);
-	FREE_DLL (hCryptSpDll);
-	FREE_DLL (hUXThemeDll);
-	FREE_DLL (hUserenvDll);
-	FREE_DLL (hRsaenhDll);
-	FREE_DLL (himm32dll);
-	FREE_DLL (hMSCTFdll);
-	FREE_DLL (hfltlibdll);
-	FREE_DLL (hframedyndll);
-	FREE_DLL (hpsapidll);
-	FREE_DLL (hsecur32dll);
-	FREE_DLL (hnetapi32dll);
-	FREE_DLL (hauthzdll);
-	FREE_DLL (hxmllitedll);
-	FREE_DLL (hmprdll);
-	FREE_DLL (hsppdll);
-	FREE_DLL (vssapidll);
-	FREE_DLL (hvsstracedll);
-	FREE_DLL (hCryptSpDll);
-	FREE_DLL (hcfgmgr32dll);
-	FREE_DLL (hdevobjdll);
-	FREE_DLL (hpowrprofdll);
-	FREE_DLL (hsspiclidll);
-	FREE_DLL (hcryptbasedll);
-	FREE_DLL (hdwmapidll);
-	FREE_DLL (hmsasn1dll);
-	FREE_DLL (hcrypt32dll);
-	FREE_DLL (hbcryptdll);
-	FREE_DLL (hbcryptprimitivesdll);
-	FREE_DLL (hMsls31);
-	FREE_DLL (hntmartadll);
-	FREE_DLL (hwinscarddll);
-	FREE_DLL (hmsvcrtdll);
-	FREE_DLL (hAdvapi32Dll);
-
-	exit (1);
-}
-
-void AbortProcess (char *stringId)
-{
-	// Note that this function also causes localcleanup() to be called (see atexit())
-	AbortProcessDirect (GetString (stringId));
-}
-
-void AbortProcessSilent (void)
-{
-	FREE_DLL (hRichEditDll);
-	FREE_DLL (hComctl32Dll);
-	FREE_DLL (hSetupDll);
-	FREE_DLL (hShlwapiDll);
-	FREE_DLL (hProfApiDll);
-	FREE_DLL (hUsp10Dll);
-	FREE_DLL (hCryptSpDll);
-	FREE_DLL (hUXThemeDll);
-	FREE_DLL (hUserenvDll);
-	FREE_DLL (hRsaenhDll);
-	FREE_DLL (himm32dll);
-	FREE_DLL (hMSCTFdll);
-	FREE_DLL (hfltlibdll);
-	FREE_DLL (hframedyndll);
-	FREE_DLL (hpsapidll);
-	FREE_DLL (hsecur32dll);
-	FREE_DLL (hnetapi32dll);
-	FREE_DLL (hauthzdll);
-	FREE_DLL (hxmllitedll);
-	FREE_DLL (hmprdll);
-	FREE_DLL (hsppdll);
-	FREE_DLL (vssapidll);
-	FREE_DLL (hvsstracedll);
-	FREE_DLL (hCryptSpDll);
-	FREE_DLL (hcfgmgr32dll);
-	FREE_DLL (hdevobjdll);
-	FREE_DLL (hpowrprofdll);
-	FREE_DLL (hsspiclidll);
-	FREE_DLL (hcryptbasedll);
-	FREE_DLL (hdwmapidll);
-	FREE_DLL (hmsasn1dll);
-	FREE_DLL (hcrypt32dll);
-	FREE_DLL (hbcryptdll);
-	FREE_DLL (hbcryptprimitivesdll);
-	FREE_DLL (hMsls31);
-	FREE_DLL (hntmartadll);
-	FREE_DLL (hwinscarddll);
-	FREE_DLL (hmsvcrtdll);
-	FREE_DLL (hAdvapi32Dll);
-
-	// Note that this function also causes localcleanup() to be called (see atexit())
-	exit (1);
-}
-
-
-#pragma warning(push)
-#pragma warning(disable:4702)
-
-void *err_malloc (size_t size)
-{
-	void *z = (void *) TCalloc (size);
-	if (z)
-		return z;
-	AbortProcess ("OUTOFMEMORY");
-	return 0;
-}
-
-#pragma warning(pop)
-
-
-char *err_strdup (char *lpszText)
-{
-	size_t j = (strlen (lpszText) + 1) * sizeof (char);
-	char *z = (char *) err_malloc (j);
-	memmove (z, lpszText, j);
-	return z;
-}
-
-
 BOOL IsDiskReadError (DWORD error)
 {
 	return (error == ERROR_CRC
@@ -911,59 +1755,6 @@ BOOL IsDiskWriteError (DWORD error)
 BOOL IsDiskError (DWORD error)
 {
 	return IsDiskReadError (error) || IsDiskWriteError (error);
-}
-
-
-DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
-{
-	PWSTR lpMsgBuf;
-	DWORD dwError = GetLastError ();	
-	wchar_t szErrorValue[32];
-	wchar_t* pszDesc;
-
-	if (Silent || dwError == 0 || dwError == ERROR_INVALID_WINDOW_HANDLE)
-		return dwError;
-
-	// Access denied
-	if (dwError == ERROR_ACCESS_DENIED && !IsAdmin ())
-	{
-		ErrorDirect ( AppendSrcPos (GetString ("ERR_ACCESS_DENIED"), srcPos).c_str (), hwndDlg);
-		SetLastError (dwError);		// Preserve the original error code
-		return dwError;
-	}
-
-	FormatMessageW (
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			      NULL,
-			      dwError,
-			      MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),	/* Default language */
-			      (PWSTR) &lpMsgBuf,
-			      0,
-			      NULL
-	    );
-
-	if (lpMsgBuf)
-		pszDesc = (wchar_t*) lpMsgBuf;
-	else
-	{
-		StringCchPrintfW (szErrorValue, ARRAYSIZE (szErrorValue), L"Error 0x%.8X", dwError);
-		pszDesc = szErrorValue;
-	}
-
-	MessageBoxW (hwndDlg, AppendSrcPos (pszDesc, srcPos).c_str (), lpszTitle, ICON_HAND);
-	if (lpMsgBuf) LocalFree (lpMsgBuf);
-
-	// User-friendly hardware error explanation
-	if (IsDiskError (dwError))
-		Error ("ERR_HARDWARE_ERROR", hwndDlg);
-
-	// Device not ready
-	if (dwError == ERROR_NOT_READY)
-		HandleDriveNotReadyError(hwndDlg);
-
-	SetLastError (dwError);		// Preserve the original error code
-
-	return dwError;
 }
 
 BOOL translateWin32Error (wchar_t *lpszMsgBuf, int nWSizeOfBuf)
@@ -1546,7 +2337,8 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Copyright \xA9 1999-2017 Dieter Baron and Thomas Klausner.\r\n"
 			L"Copyright \xA9 2013, Alexey Degtyarev. All rights reserved.\r\n"
 			L"Copyright \xA9 1999-2016 Jack Lloyd. All rights reserved.\r\n"
-			L"Copyright \xA9 2013-2019 Stephan Mueller <smueller@chronox.de>\r\n\r\n"
+			L"Copyright \xA9 2013-2019 Stephan Mueller <smueller@chronox.de>\r\n"
+			L"Copyright \xA9 1999-2021 Igor Pavlov\r\n\r\n"
 
 			L"This software as a whole:\r\n"
 			L"Copyright \xA9 2013-2022 IDRIX. All rights reserved.\r\n\r\n"
@@ -2882,134 +3674,6 @@ void DoPostInstallTasks (HWND hwndDlg)
 		SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_REMOVE_ALL);
 }
 
-#ifdef SETUP_DLL
-static BOOL GetWindowVersionFromFile(DWORD* pdwMajor, DWORD* pdwMinor, DWORD* pdwBuildNumber)
-{
-	wchar_t dllPath[MAX_PATH];
-	BOOL bRet = FALSE;
-	LPBYTE versionInfo = NULL;
-	UINT size;
-	VS_FIXEDFILEINFO *vinfo;
-
-	/* Load dll explictely from System32 to avoid Dll hijacking attacks*/
-	if (!GetSystemDirectory(dllPath, MAX_PATH))
-		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32");
-
-	StringCbCatW(dllPath, sizeof(dllPath), L"\\");
-	StringCbCatW(dllPath, sizeof(dllPath), L"Kernel32.dll");
-
-    size = GetFileVersionInfoSizeW(dllPath, NULL);
-    if (size)
-    {
-		versionInfo = (LPBYTE) TCalloc(size);
-		if (GetFileVersionInfo(dllPath, 0, size, versionInfo))
-		{
-    
-			if (VerQueryValueW(versionInfo, L"\\", (LPVOID *)&vinfo, &size) && (size >=sizeof(VS_FIXEDFILEINFO)))
-			{
-				*pdwMajor = HIWORD(vinfo->dwProductVersionMS);
-				*pdwMinor = LOWORD(vinfo->dwProductVersionMS);
-				*pdwBuildNumber = HIWORD(vinfo->dwProductVersionLS);
-				bRet = TRUE;
-			}
-		}
-	}
-
-	if (versionInfo)
-		TCfree(versionInfo);
-	return bRet;
-}
-#endif
-
-/*
- * Use RtlGetVersion to get Windows version because GetVersionEx is affected by application manifestation.
- */
-typedef NTSTATUS (WINAPI* RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
-
-static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
-{
-	BOOL bRet = FALSE;
-#ifdef SETUP_DLL
-	DWORD dwMajor, dwMinor, dwBuildNumber;
-#endif
-	RtlGetVersionPtr RtlGetVersionFn = (RtlGetVersionPtr) GetProcAddress(GetModuleHandle (L"ntdll.dll"), "RtlGetVersion");
-	if (RtlGetVersionFn != NULL)
-	{
-		if (ERROR_SUCCESS == RtlGetVersionFn (lpVersionInformation))
-			bRet = TRUE;
-	}
-
-	if (!bRet)
-		bRet = GetVersionExW (lpVersionInformation);
-
-#ifdef SETUP_DLL
-	// we get real version from Kernel32.dll version since MSI always sets current version to 6.0
-	// https://stackoverflow.com/questions/49335885/windows-10-not-detecting-on-installshield/49343826#49343826
-	if (GetWindowVersionFromFile(&dwMajor, &dwMinor, &dwBuildNumber))
-	{
-		lpVersionInformation->dwMajorVersion = dwMajor;
-		lpVersionInformation->dwMinorVersion = dwMinor;
-		lpVersionInformation->dwBuildNumber = dwBuildNumber;
-	}
-#endif
-
-	return bRet;
-}
-
-
-void InitOSVersionInfo ()
-{
-	OSVERSIONINFOEXW os;
-	os.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
-
-	if (GetWindowsVersion ((LPOSVERSIONINFOW) &os) == FALSE)
-		AbortProcess ("NO_OS_VER");
-
-	CurrentOSMajor = os.dwMajorVersion;
-	CurrentOSMinor = os.dwMinorVersion;
-	CurrentOSServicePack = os.wServicePackMajor;
-	CurrentOSBuildNumber = os.dwBuildNumber;
-
-	if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 0)
-		nCurrentOS = WIN_2000;
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 1)
-		nCurrentOS = WIN_XP;
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 2)
-	{
-		if (os.wProductType == VER_NT_SERVER || os.wProductType == VER_NT_DOMAIN_CONTROLLER)
-			nCurrentOS = WIN_SERVER_2003;
-		else
-			nCurrentOS = WIN_XP64;
-	}
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 0)
-	{
-		if (os.wProductType !=  VER_NT_WORKSTATION)
-			nCurrentOS = WIN_SERVER_2008;
-		else
-			nCurrentOS = WIN_VISTA;
-	}
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 1)
-		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2008_R2 : WIN_7);
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 2)
-		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2012 : WIN_8);
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 3)
-		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2012_R2 : WIN_8_1);
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 10 && CurrentOSMinor == 0)
-		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2016 : WIN_10);
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 4)
-		nCurrentOS = WIN_NT4;
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && os.dwMajorVersion == 4 && os.dwMinorVersion == 0)
-		nCurrentOS = WIN_95;
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && os.dwMajorVersion == 4 && os.dwMinorVersion == 10)
-		nCurrentOS = WIN_98;
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && os.dwMajorVersion == 4 && os.dwMinorVersion == 90)
-		nCurrentOS = WIN_ME;
-	else if (os.dwPlatformId == VER_PLATFORM_WIN32s)
-		nCurrentOS = WIN_31;
-	else
-		nCurrentOS = WIN_UNKNOWN;
-}
-
 static void LoadSystemDll (LPCTSTR szModuleName, HMODULE *pHandle, BOOL bIgnoreError, const char* srcPos)
 {
 	wchar_t dllPath[MAX_PATH];
@@ -3164,7 +3828,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	SHDeleteKeyWFn = (SHDeleteKeyWPtr) GetProcAddress (hShlwapiDll, "SHDeleteKeyW");
 	SHStrDupWFn = (SHStrDupWPtr) GetProcAddress (hShlwapiDll, "SHStrDupW");
 	UrlUnescapeWFn = (UrlUnescapeWPtr) GetProcAddress(hShlwapiDll, "UrlUnescapeW");
-	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn)
+	IUnknown_QueryServicePtr = (IUnknown_QueryServiceFn) GetProcAddress(hShlwapiDll, "IUnknown_QueryService");
+	if (!IUnknown_QueryServicePtr)
+		IUnknown_QueryServicePtr = (IUnknown_QueryServiceFn) GetProcAddress(hShlwapiDll, MAKEINTRESOURCEA(176));
+	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn || !IUnknown_QueryServicePtr)
 		AbortProcess ("INIT_DLL");
 
 	if (IsOSAtLeast (WIN_VISTA))
@@ -4749,10 +5416,16 @@ load:
 			if (IsNonInstallMode () && CreateDriverSetupMutex () && DriverUnload () && nLoadRetryCount++ < 3)
 				goto load;
 
-			CloseDriverSetupMutex ();
-			CloseHandle (hDriver);
-			hDriver = INVALID_HANDLE_VALUE;
-			return ERR_DRIVER_VERSION;
+#ifdef TCMOUNT
+			// don't fail in case of service. This solves issues during upgrade when system encryption is enabled
+			if (!ServiceMode)
+#endif
+			{
+				CloseDriverSetupMutex ();
+				CloseHandle (hDriver);
+				hDriver = INVALID_HANDLE_VALUE;
+				return ERR_DRIVER_VERSION;
+			}
 		}
 #else
 		if (!bResult)
@@ -5739,7 +6412,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		{
 			BYTE digest [MAX_DIGESTSIZE];
 			WHIRLPOOL_CTX	wctx;
-			RMD160_CTX		rctx;
+			blake2s_state   bctx;
 			sha512_ctx		s2ctx;
 			sha256_ctx		s256ctx;
 			STREEBOG_CTX		stctx;
@@ -5768,10 +6441,10 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 						sha256_end ((unsigned char *) digest, &s256ctx);
 						break;
 
-					case RIPEMD160:
-						RMD160Init(&rctx);
-						RMD160Update(&rctx, lpTestBuffer, benchmarkBufferSize);
-						RMD160Final((unsigned char *) digest, &rctx);
+					case BLAKE2S:
+						blake2s_init(&bctx);
+						blake2s_update(&bctx, lpTestBuffer, benchmarkBufferSize);
+						blake2s_final(&bctx, (unsigned char *) digest);
 						break;
 
 					case WHIRLPOOL:
@@ -5836,9 +6509,9 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
-				case RIPEMD160:
-					/* PKCS-5 test with HMAC-RIPEMD-160 used as the PRF */
-					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+				case BLAKE2S:
+					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
+					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
@@ -7222,9 +7895,6 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 	SetWindowText(GetDlgItem(hwndDlg, IDC_CIPHERTEXT), L"0000000000000000");
 
 	if (idTestCipher == AES || idTestCipher == SERPENT || idTestCipher == TWOFISH || idTestCipher == CAMELLIA
-#if defined(CIPHER_GOST89)
-		|| idTestCipher == GOST89
-#endif
 		|| idTestCipher == KUZNYECHIK
 		)
 	{
@@ -9175,198 +9845,6 @@ HANDLE DismountDrive (wchar_t *devName, wchar_t *devicePath)
 	return (bResult ? hVolume : INVALID_HANDLE_VALUE);
 }
 
-// Returns -1 if the specified string is not found in the buffer. Otherwise, returns the
-// offset of the first occurrence of the string. The string and the buffer may contain zeroes,
-// which do NOT terminate them.
-int64 FindString (const char *buf, const char *str, int64 bufLen, int64 strLen, int64 startOffset)
-{
-	if (buf == NULL
-		|| str == NULL
-		|| strLen > bufLen
-		|| bufLen < 1
-		|| strLen < 1
-		|| startOffset > bufLen - strLen)
-	{
-		return -1;
-	}
-
-	for (int64 i = startOffset; i <= bufLen - strLen; i++)
-	{
-		if (memcmp (buf + i, str, (size_t) strLen) == 0)
-			return i;
-	}
-
-	return -1;
-}
-
-// Returns TRUE if the file or directory exists (both may be enclosed in quotation marks).
-BOOL FileExists (const wchar_t *filePathPtr)
-{
-	wchar_t filePath [TC_MAX_PATH * 2 + 1];
-
-	// Strip quotation marks (if any)
-	if (filePathPtr [0] == L'"')
-	{
-		StringCbCopyW (filePath, sizeof(filePath), filePathPtr + 1);
-	}
-	else
-	{
-		StringCbCopyW (filePath, sizeof(filePath), filePathPtr);
-	}
-
-	// Strip quotation marks (if any)
-	if (filePath [wcslen (filePath) - 1] == L'"')
-		filePath [wcslen (filePath) - 1] = 0;
-
-    return (_waccess (filePath, 0) != -1);
-}
-
-// Searches the file from its end for the LAST occurrence of the string str.
-// The string may contain zeroes, which do NOT terminate the string.
-// If the string is found, its offset from the start of the file is returned.
-// If the string isn't found or if any error occurs, -1 is returned.
-__int64 FindStringInFile (const wchar_t *filePath, const char* str, int strLen)
-{
-	int bufSize = 64 * BYTES_PER_KB;
-	char *buffer = (char *) err_malloc (bufSize);
-	HANDLE src = NULL;
-	DWORD bytesRead;
-	BOOL readRetVal;
-	__int64 filePos = GetFileSize64 (filePath);
-	int bufPos = 0;
-	LARGE_INTEGER seekOffset, seekOffsetNew;
-	BOOL bExit = FALSE;
-	int filePosStep;
-	__int64 retVal = -1;
-
-	if (filePos <= 0
-		|| buffer == NULL
-		|| strLen > bufSize
-		|| strLen < 1)
-	{
-	if (buffer)
-		free (buffer);
-		return -1;
-	}
-
-	src = CreateFile (filePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-
-	if (src == INVALID_HANDLE_VALUE)
-	{
-		free (buffer);
-		return -1;
-	}
-
-	filePosStep = bufSize - strLen + 1;
-
-	do
-	{
-		filePos -= filePosStep;
-
-		if (filePos < 0)
-		{
-			filePos = 0;
-			bExit = TRUE;
-		}
-
-		seekOffset.QuadPart = filePos;
-
-		if (SetFilePointerEx (src, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
-			goto fsif_end;
-
-		if ((readRetVal = ReadFile (src, buffer, bufSize, &bytesRead, NULL)) == 0
-			|| bytesRead == 0)
-			goto fsif_end;
-
-		bufPos = bytesRead - strLen;
-
-		while (bufPos > 0)
-		{
-			if (memcmp (buffer + bufPos, str, strLen) == 0)
-			{
-				// String found
-				retVal = filePos + bufPos;
-				goto fsif_end;
-			}
-			bufPos--;
-		}
-
-	} while (!bExit);
-
-fsif_end:
-	CloseHandle (src);
-	free (buffer);
-
-	return retVal;
-}
-
-// System CopyFile() copies source file attributes (like FILE_ATTRIBUTE_ENCRYPTED)
-// so we need to use our own copy function
-BOOL TCCopyFileBase (HANDLE src, HANDLE dst)
-{
-	__int8 *buffer;
-	FILETIME fileTime;
-	DWORD bytesRead, bytesWritten;
-	BOOL res;
-
-	buffer = (char *) malloc (64 * 1024);
-	if (!buffer)
-	{
-		CloseHandle (src);
-		CloseHandle (dst);
-		return FALSE;
-	}
-
-	while (res = ReadFile (src, buffer, 64 * 1024, &bytesRead, NULL))
-	{
-		if (bytesRead == 0)
-		{
-			res = 1;
-			break;
-		}
-
-		if (!WriteFile (dst, buffer, bytesRead, &bytesWritten, NULL)
-			|| bytesRead != bytesWritten)
-		{
-			res = 0;
-			break;
-		}
-	}
-
-	if (GetFileTime (src, NULL, NULL, &fileTime))
-		SetFileTime (dst, NULL, NULL, &fileTime);
-
-	CloseHandle (src);
-	CloseHandle (dst);
-
-	free (buffer);
-	return res != 0;
-}
-
-BOOL TCCopyFile (wchar_t *sourceFileName, wchar_t *destinationFile)
-{
-	HANDLE src, dst;
-
-	src = CreateFileW (sourceFileName,
-		GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-
-	if (src == INVALID_HANDLE_VALUE)
-		return FALSE;
-
-	dst = CreateFileW (destinationFile,
-		GENERIC_WRITE,
-		0, NULL, CREATE_ALWAYS, 0, NULL);
-
-	if (dst == INVALID_HANDLE_VALUE)
-	{
-		CloseHandle (src);
-		return FALSE;
-	}
-
-	return TCCopyFileBase (src, dst);
-}
-
 BOOL DecompressZipToDir (const unsigned char *inputBuffer, DWORD inputLength, const wchar_t *destinationDir, ProgressFn progressFnPtr, HWND hwndDlg)
 {
 	BOOL res = TRUE;
@@ -9423,79 +9901,6 @@ BOOL DecompressZipToDir (const unsigned char *inputBuffer, DWORD inputLength, co
 
 	return res;
 }
-
-// If bAppend is TRUE, the buffer is appended to an existing file. If bAppend is FALSE, any existing file
-// is replaced. If an error occurs, the incomplete file is deleted (provided that bAppend is FALSE).
-BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, DWORD inputLength, BOOL bAppend, BOOL bRenameIfFailed)
-{
-	HANDLE dst;
-	DWORD bytesWritten;
-	BOOL res = TRUE;
-	DWORD dwLastError = 0;
-
-	dst = CreateFile (destinationFile,
-		GENERIC_WRITE,
-		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, bAppend ? OPEN_EXISTING : CREATE_ALWAYS, 0, NULL);
-
-	dwLastError = GetLastError();
-	if (!bAppend && bRenameIfFailed && (dst == INVALID_HANDLE_VALUE) && (GetLastError () == ERROR_SHARING_VIOLATION))
-	{
-		wchar_t renamedPath[TC_MAX_PATH + 1];
-		StringCbCopyW (renamedPath, sizeof(renamedPath), destinationFile);
-		StringCbCatW  (renamedPath, sizeof(renamedPath), VC_FILENAME_RENAMED_SUFFIX);
-
-		/* rename the locked file in order to be able to create a new one */
-		if (MoveFileEx (destinationFile, renamedPath, MOVEFILE_REPLACE_EXISTING))
-		{
-			dst = CreateFile (destinationFile,
-					GENERIC_WRITE,
-					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, 0, NULL);
-			dwLastError = GetLastError();
-			if (dst == INVALID_HANDLE_VALUE)
-			{
-				/* restore the original file name */
-				MoveFileEx (renamedPath, destinationFile, MOVEFILE_REPLACE_EXISTING);
-			}
-			else
-			{
-				/* delete the renamed file when the machine reboots */
-				MoveFileEx (renamedPath, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
-			}
-		}
-	}
-
-	if (dst == INVALID_HANDLE_VALUE)
-	{
-		SetLastError (dwLastError);
-		handleWin32Error (MainDlg, SRC_POS);
-		return FALSE;
-	}
-
-	if (bAppend)
-		SetFilePointer (dst, 0, NULL, FILE_END);
-
-	if (!WriteFile (dst, inputBuffer, inputLength, &bytesWritten, NULL)
-		|| inputLength != bytesWritten)
-	{
-		res = FALSE;
-	}
-
-	if (!res)
-	{
-		// If CREATE_ALWAYS is used, ERROR_ALREADY_EXISTS is returned after successful overwrite
-		// of an existing file (it's not an error)
-		if (! (GetLastError() == ERROR_ALREADY_EXISTS && !bAppend) )
-			handleWin32Error (MainDlg, SRC_POS);
-	}
-
-	CloseHandle (dst);
-
-	if (!res && !bAppend)
-		_wremove (destinationFile);
-
-	return res;
-}
-
 
 // Proper flush for Windows systems. Returns TRUE if successful.
 BOOL TCFlushFile (FILE *f)
@@ -9939,191 +10344,6 @@ int GetDriverRefCount ()
 		return -1;
 }
 
-// Loads a 32-bit integer from the file at the specified file offset. The saved value is assumed to have been
-// processed by mputLong(). The result is stored in *result. Returns TRUE if successful (otherwise FALSE).
-BOOL LoadInt32 (const wchar_t *filePath, unsigned __int32 *result, __int64 fileOffset)
-{
-	DWORD bufSize = sizeof(__int32);
-	unsigned char *buffer = (unsigned char *) malloc (bufSize);
-	unsigned char *bufferPtr = buffer;
-	HANDLE src = NULL;
-	DWORD bytesRead;
-	LARGE_INTEGER seekOffset, seekOffsetNew;
-	BOOL retVal = FALSE;
-
-	if (buffer == NULL)
-		return -1;
-
-	src = CreateFile (filePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-
-	if (src == INVALID_HANDLE_VALUE)
-	{
-		free (buffer);
-		return FALSE;
-	}
-
-	seekOffset.QuadPart = fileOffset;
-
-	if (SetFilePointerEx (src, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
-		goto fsif_end;
-
-	if (ReadFile (src, buffer, bufSize, &bytesRead, NULL) == 0
-		|| bytesRead != bufSize)
-		goto fsif_end;
-
-
-	retVal = TRUE;
-
-	*result = mgetLong(bufferPtr);
-
-fsif_end:
-	CloseHandle (src);
-	free (buffer);
-
-	return retVal;
-}
-
-// Loads a 16-bit integer from the file at the specified file offset. The saved value is assumed to have been
-// processed by mputWord(). The result is stored in *result. Returns TRUE if successful (otherwise FALSE).
-BOOL LoadInt16 (const wchar_t *filePath, int *result, __int64 fileOffset)
-{
-	DWORD bufSize = sizeof(__int16);
-	unsigned char *buffer = (unsigned char *) malloc (bufSize);
-	unsigned char *bufferPtr = buffer;
-	HANDLE src = NULL;
-	DWORD bytesRead;
-	LARGE_INTEGER seekOffset, seekOffsetNew;
-	BOOL retVal = FALSE;
-
-	if (buffer == NULL)
-		return -1;
-
-	src = CreateFile (filePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-
-	if (src == INVALID_HANDLE_VALUE)
-	{
-		free (buffer);
-		return FALSE;
-	}
-
-	seekOffset.QuadPart = fileOffset;
-
-	if (SetFilePointerEx (src, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
-		goto fsif_end;
-
-	if (ReadFile (src, buffer, bufSize, &bytesRead, NULL) == 0
-		|| bytesRead != bufSize)
-		goto fsif_end;
-
-
-	retVal = TRUE;
-
-	*result = mgetWord(bufferPtr);
-
-fsif_end:
-	CloseHandle (src);
-	free (buffer);
-
-	return retVal;
-}
-
-// Returns NULL if there's any error. Although the buffer can contain binary data, it is always null-terminated.
-char *LoadFile (const wchar_t *fileName, DWORD *size)
-{
-	char *buf;
-	DWORD fileSize = INVALID_FILE_SIZE;
-	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-	if (h == INVALID_HANDLE_VALUE)
-		return NULL;
-
-	if ((fileSize = GetFileSize (h, NULL)) == INVALID_FILE_SIZE)
-	{
-		CloseHandle (h);
-		return NULL;
-	}
-
-	*size = fileSize;
-	buf = (char *) calloc (*size + 1, 1);
-
-	if (buf == NULL)
-	{
-		CloseHandle (h);
-		return NULL;
-	}
-
-	if (!ReadFile (h, buf, *size, size, NULL))
-	{
-		free (buf);
-		buf = NULL;
-	}
-
-	CloseHandle (h);
-	return buf;
-}
-
-
-// Returns NULL if there's any error.
-char *LoadFileBlock (const wchar_t *fileName, __int64 fileOffset, DWORD count)
-{
-	char *buf;
-	DWORD bytesRead = 0;
-	LARGE_INTEGER seekOffset, seekOffsetNew;
-	BOOL bStatus;
-
-	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-	if (h == INVALID_HANDLE_VALUE)
-		return NULL;
-
-	seekOffset.QuadPart = fileOffset;
-
-	if (SetFilePointerEx (h, seekOffset, &seekOffsetNew, FILE_BEGIN) == 0)
-	{
-		CloseHandle (h);
-		return NULL;
-	}
-
-	buf = (char *) calloc (count, 1);
-
-	if (buf == NULL)
-	{
-		CloseHandle (h);
-		return NULL;
-	}
-
-	bStatus = ReadFile (h, buf, count, &bytesRead, NULL);
-
-	CloseHandle (h);
-
-	if (!bStatus || (bytesRead != count))
-	{
-		free (buf);
-		return NULL;
-	}
-
-	return buf;
-}
-
-
-// Returns -1 if there is an error, or the size of the file.
-__int64 GetFileSize64 (const wchar_t *path)
-{
-	HANDLE h = CreateFile (path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-	LARGE_INTEGER size;
-	__int64 retSize = -1;
-
-	if (h)
-	{
-		if (GetFileSizeEx (h, &size))
-		{
-			retSize = size.QuadPart;
-		}
-
-		CloseHandle (h);
-	}
-
-	return retSize;
-}
-
 
 wchar_t *GetModPath (wchar_t *path, int maxSize)
 {
@@ -10324,13 +10544,6 @@ int WarningDirect (const wchar_t *warnMsg, HWND hwnd)
 {
 	if (Silent) return 0;
 	return MessageBoxW (hwnd, warnMsg, lpszTitle, MB_ICONWARNING);
-}
-
-
-int Error (char *stringId, HWND hwnd)
-{
-	if (Silent) return 0;
-	return MessageBoxW (hwnd, GetString (stringId), lpszTitle, MB_ICONERROR);
 }
 
 int ErrorRetryCancel (char *stringId, HWND hwnd)
@@ -10809,46 +11022,6 @@ void DebugMsgBox (char *format, ...)
 	va_end(val);
 
 	MessageBoxA (MainDlg, buf, "VeraCrypt debug", 0);
-}
-
-
-BOOL IsOSAtLeast (OSVersionEnum reqMinOS)
-{
-	return IsOSVersionAtLeast (reqMinOS, 0);
-}
-
-
-// Returns TRUE if the operating system is at least reqMinOS and service pack at least reqMinServicePack.
-// Example 1: IsOSVersionAtLeast (WIN_VISTA, 1) called under Windows 2008, returns TRUE.
-// Example 2: IsOSVersionAtLeast (WIN_XP, 3) called under Windows XP SP1, returns FALSE.
-// Example 3: IsOSVersionAtLeast (WIN_XP, 3) called under Windows Vista SP1, returns TRUE.
-BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
-{
-	/* When updating this function, update IsOSAtLeast() in Ntdriver.c too. */
-
-	if (CurrentOSMajor <= 0)
-		TC_THROW_FATAL_EXCEPTION;
-
-	int major = 0, minor = 0;
-
-	switch (reqMinOS)
-	{
-	case WIN_2000:			major = 5; minor = 0; break;
-	case WIN_XP:			major = 5; minor = 1; break;
-	case WIN_SERVER_2003:	major = 5; minor = 2; break;
-	case WIN_VISTA:			major = 6; minor = 0; break;
-	case WIN_7:				major = 6; minor = 1; break;
-	case WIN_8:				major = 6; minor = 2; break;
-	case WIN_8_1:			major = 6; minor = 3; break;
-	case WIN_10:			major = 10; minor = 0; break;
-
-	default:
-		TC_THROW_FATAL_EXCEPTION;
-		break;
-	}
-
-	return ((CurrentOSMajor << 16 | CurrentOSMinor << 8 | CurrentOSServicePack)
-		>= (major << 16 | minor << 8 | reqMinServicePack));
 }
 
 BOOL IsSupportedOS ()
@@ -14096,135 +14269,6 @@ INT_PTR SecureDesktopDialogBoxParam(
 
 #endif
 
-#if defined(NDEBUG) && !defined(VC_SKIP_OS_DRIVER_REQ_CHECK)
-static BOOL InitializeWintrust()
-{
-	if (!hWinTrustLib)
-	{
-		wchar_t szPath[MAX_PATH] = {0};
-
-		if (GetSystemDirectory(szPath, MAX_PATH))
-			StringCchCatW (szPath, MAX_PATH, L"\\Wintrust.dll");
-		else
-			StringCchCopyW (szPath, MAX_PATH, L"C:\\Windows\\System32\\Wintrust.dll");
-
-		hWinTrustLib = LoadLibrary (szPath);
-		if (hWinTrustLib)
-		{
-			WinVerifyTrustFn = (WINVERIFYTRUST) GetProcAddress (hWinTrustLib, "WinVerifyTrust");
-			WTHelperProvDataFromStateDataFn = (WTHELPERPROVDATAFROMSTATEDATA) GetProcAddress (hWinTrustLib, "WTHelperProvDataFromStateData");
-			WTHelperGetProvSignerFromChainFn = (WTHELPERGETPROVSIGNERFROMCHAIN) GetProcAddress (hWinTrustLib, "WTHelperGetProvSignerFromChain");
-			WTHelperGetProvCertFromChainFn = (WTHELPERGETPROVCERTFROMCHAIN) GetProcAddress (hWinTrustLib, "WTHelperGetProvCertFromChain");
-
-			if (	!WinVerifyTrustFn 
-				||	!WTHelperProvDataFromStateDataFn 
-				||	!WTHelperGetProvSignerFromChainFn 
-				||	!WTHelperGetProvCertFromChainFn)
-			{
-				FreeLibrary (hWinTrustLib);
-				hWinTrustLib = NULL;
-			}
-
-		}
-	}
-
-	if (hWinTrustLib)
-		return TRUE;
-	else
-		return FALSE;
-}
-
-static void FinalizeWintrust()
-{
-	if (hWinTrustLib)
-	{
-		FreeLibrary (hWinTrustLib);
-		hWinTrustLib = NULL;
-	}
-}
-
-#endif
-
-BOOL VerifyModuleSignature (const wchar_t* path)
-{
-#if defined(NDEBUG) && !defined (VC_SKIP_OS_DRIVER_REQ_CHECK)
-	BOOL bResult = FALSE;
-	HRESULT hResult;
-	GUID gActionID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
-	WINTRUST_FILE_INFO  fileInfo = {0};
-	WINTRUST_DATA      WVTData = {0};
-	wchar_t filePath [TC_MAX_PATH + 1024];
-
-    // we check our own authenticode signature only starting from Windows 10 since this is
-	// the minimal supported OS apart from XP where we can't verify SHA256 signatures
-	if (!IsOSAtLeast (WIN_10))
-		return TRUE;
-
-	// Strip quotation marks (if any)
-	if (path [0] == L'"')
-	{
-		StringCbCopyW (filePath, sizeof(filePath), path + 1);
-	}
-	else
-	{
-		StringCbCopyW (filePath, sizeof(filePath), path);
-	}
-
-	// Strip quotation marks (if any)
-	if (filePath [wcslen (filePath) - 1] == L'"')
-		filePath [wcslen (filePath) - 1] = 0;
-
-	if (!InitializeWintrust ())
-		return FALSE;
-
-	fileInfo.cbStruct = sizeof(WINTRUST_FILE_INFO);
-	fileInfo.pcwszFilePath = filePath;
-	fileInfo.hFile = NULL;
-
-	WVTData.cbStruct            = sizeof(WINTRUST_DATA);
-	WVTData.dwUIChoice          = WTD_UI_NONE;
-	WVTData.fdwRevocationChecks = WTD_REVOKE_NONE;
-	WVTData.dwUnionChoice       = WTD_CHOICE_FILE;
-	WVTData.pFile               = &fileInfo;
-	WVTData.dwStateAction       = WTD_STATEACTION_VERIFY;
-	WVTData.dwProvFlags         = WTD_REVOCATION_CHECK_NONE | WTD_CACHE_ONLY_URL_RETRIEVAL;
-
-	hResult = WinVerifyTrustFn(0, &gActionID, &WVTData);
-	if (0 == hResult)
-	{
-		PCRYPT_PROVIDER_DATA pProviderData = WTHelperProvDataFromStateDataFn (WVTData.hWVTStateData);
-		if (pProviderData)
-		{
-			PCRYPT_PROVIDER_SGNR pProviderSigner = WTHelperGetProvSignerFromChainFn (pProviderData, 0, FALSE, 0);
-			if (pProviderSigner)
-			{
-				PCRYPT_PROVIDER_CERT pProviderCert = WTHelperGetProvCertFromChainFn (pProviderSigner, 0);
-				if (pProviderCert && (pProviderCert->pCert))
-				{
-					BYTE hashVal[64];
-					sha512 (hashVal, pProviderCert->pCert->pbCertEncoded, pProviderCert->pCert->cbCertEncoded);
-
-					if (0 ==  memcmp (hashVal, gpbSha256CodeSignCertFingerprint, 64))
-					{
-						bResult = TRUE;
-					}
-				}
-			}
-		}
-	}
-
-	WVTData.dwUIChoice = WTD_UI_NONE;
-	WVTData.dwStateAction = WTD_STATEACTION_CLOSE;
-	WinVerifyTrustFn(0, &gActionID, &WVTData);
-
-	FinalizeWintrust ();
-
-	return bResult;
-#else
-	return TRUE;
-#endif
-}
-
 void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, BOOL* pbInstallPathDetermined)
 {
 	HKEY hkey;
@@ -14612,6 +14656,98 @@ BOOL IsElevated()
 	return bReturn;
 }
 
+// Based on code from:
+// https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/winui/shell/appplatform/ExecInExplorer/ExecInExplorer.cpp
+HRESULT GetShellViewForDesktop(REFIID riid, void **ppv)
+{
+    *ppv = NULL;
+
+    IShellWindows *psw;
+    HRESULT hr = CoCreateInstance(CLSID_ShellWindows, NULL, CLSCTX_LOCAL_SERVER, IID_PPV_ARGS(&psw));
+    if (SUCCEEDED(hr))
+    {
+        HWND hwnd;
+        IDispatch* pdisp;
+        VARIANT vEmpty = {}; // VT_EMPTY
+        if (S_OK == psw->FindWindowSW(&vEmpty, &vEmpty, SWC_DESKTOP, (long*)&hwnd, SWFO_NEEDDISPATCH, &pdisp))
+        {
+            IShellBrowser *psb;
+            hr = IUnknown_QueryServicePtr(pdisp, SID_STopLevelBrowser, IID_PPV_ARGS(&psb));
+            if (SUCCEEDED(hr))
+            {
+                IShellView *psv;
+                hr = psb->QueryActiveShellView(&psv);
+                if (SUCCEEDED(hr))
+                {
+                    hr = psv->QueryInterface(riid, ppv);
+                    psv->Release();
+                }
+                psb->Release();
+            }
+            pdisp->Release();
+        }
+        else
+        {
+            hr = E_FAIL;
+        }
+        psw->Release();
+    }
+    return hr;
+}
+
+HRESULT GetShellDispatchFromView(IShellView *psv, REFIID riid, void **ppv)
+{
+    *ppv = NULL;
+
+    IDispatch *pdispBackground;
+    HRESULT hr = psv->GetItemObject(SVGIO_BACKGROUND, IID_PPV_ARGS(&pdispBackground));
+    if (SUCCEEDED(hr))
+    {
+        IShellFolderViewDual *psfvd;
+        hr = pdispBackground->QueryInterface(IID_PPV_ARGS(&psfvd));
+        if (SUCCEEDED(hr))
+        {
+            IDispatch *pdisp;
+            hr = psfvd->get_Application(&pdisp);
+            if (SUCCEEDED(hr))
+            {
+                hr = pdisp->QueryInterface(riid, ppv);
+                pdisp->Release();
+            }
+            psfvd->Release();
+        }
+        pdispBackground->Release();
+    }
+    return hr;
+}
+
+HRESULT ShellExecInExplorerProcess(PCWSTR pszFile)
+{
+    IShellView *psv;
+	CoInitialize(NULL);
+    HRESULT hr = GetShellViewForDesktop(IID_PPV_ARGS(&psv));
+    if (SUCCEEDED(hr))
+    {
+        IShellDispatch2 *psd;
+        hr = GetShellDispatchFromView(psv, IID_PPV_ARGS(&psd));
+        if (SUCCEEDED(hr))
+        {
+            BSTR bstrFile = SysAllocString(pszFile);
+            hr = bstrFile ? S_OK : E_OUTOFMEMORY;
+            if (SUCCEEDED(hr))
+            {
+                VARIANT vtEmpty = {}; // VT_EMPTY
+                hr = psd->ShellExecuteW(bstrFile, vtEmpty, vtEmpty, vtEmpty, vtEmpty);
+                SysFreeString(bstrFile);
+            }
+            psd->Release();
+        }
+        psv->Release();
+    }
+	CoUninitialize();
+    return hr;
+}
+
 // This function always loads a URL in a non-privileged mode
 // If current process has admin privileges, we execute the command "rundll32 url.dll,FileProtocolHandler URL" as non-elevated
 // Use this security mechanism only starting from Windows Vista and only if we can get the window of the Shell's desktop since
@@ -14619,7 +14755,8 @@ BOOL IsElevated()
 // then we can't protect the user in such non standard environment
 void SafeOpenURL (LPCWSTR szUrl)
 {
-	if (IsOSAtLeast (WIN_VISTA) && IsAdmin () && IsElevated() && GetShellWindow())
+	BOOL bFallback = TRUE;
+	if (IsOSAtLeast (WIN_VISTA) && IsUacSupported() && IsAdmin () && IsElevated() && GetShellWindow())
 	{
 		WCHAR szRunDllPath[TC_MAX_PATH];
 		WCHAR szUrlDllPath[TC_MAX_PATH];
@@ -14633,11 +14770,23 @@ void SafeOpenURL (LPCWSTR szUrl)
 		StringCbPrintfW(szUrlDllPath, sizeof(szUrlDllPath), L"%s\\%s", szSystemPath, L"url.dll");
 		StringCchPrintfW(szCommandLine, 1024, L"%s %s,FileProtocolHandler %s", szRunDllPath, szUrlDllPath, szUrl);
 
-		RunAsDesktopUser (NULL, szCommandLine);
+		if (RunAsDesktopUser (NULL, szCommandLine))
+		{
+			bFallback = FALSE;
+		}
+		else
+		{
+			// fallback to IShellDispatch2::ShellExecuteW
+			if (SUCCEEDED(ShellExecInExplorerProcess(szUrl)))
+			{
+				bFallback = FALSE;
+			}
+		}
 
 		delete [] szCommandLine;
 	}
-	else
+
+	if (bFallback)
 	{
 		ShellExecuteW (NULL, L"open", szUrl, NULL, NULL, SW_SHOWNORMAL);
 	}
@@ -15509,3 +15658,4 @@ bool OneOfKBsInstalled (const wchar_t* szKBs[], int count)
 
 	return bRet;
 }
+#endif // VC_COMREG

@@ -27,11 +27,12 @@ typedef struct
 } DECOMPRESSED_FILE;
 
 extern DECOMPRESSED_FILE	Decompressed_Files [NBR_COMPRESSED_FILES];
+extern int Decompressed_Files_Count;
 
 void SelfExtractStartupInit (void);
-BOOL SelfExtractInMemory (wchar_t *path);
+BOOL SelfExtractInMemory (wchar_t *path, BOOL bSkipCountCheck);
 void __cdecl ExtractAllFilesThread (void *hwndDlg);
-BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir);
+BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir, BOOL bSkipX64);
 BOOL VerifyPackageIntegrity (const wchar_t *path);
 BOOL VerifySelfPackageIntegrity (void);
 BOOL IsSelfExtractingPackage (void);

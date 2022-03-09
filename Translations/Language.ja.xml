@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.7">
+  <localization prog-version= "1.25.9">
     <language langid="ja" name="日本語" en-name="Japanese" version="1.1.0" translators="OGOSHI Masayuki, Transifex contributors" />
     <font lang="ja" class="normal" size="12" face="MS UI Gothic" />
     <font lang="ja" class="bold" size="16" face="MS UI Gothic" />

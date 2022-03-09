@@ -297,24 +297,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
-    <CustomBuild Include="Gost89_x64.asm">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"
-</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aescrypt.c">
@@ -325,12 +307,12 @@
     </ClCompile>
     <ClCompile Include="Aeskey.c" />
     <ClCompile Include="Aestab.c" />
+    <ClCompile Include="blake2s.c" />
     <ClCompile Include="Camellia.c" />
     <ClCompile Include="chacha-xmm.c" />
     <ClCompile Include="chacha256.c" />
     <ClCompile Include="chachaRng.c" />
     <ClCompile Include="cpu.c" />
-    <ClCompile Include="GostCipher.c" />
     <ClCompile Include="jitterentropy-base.c">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
@@ -345,7 +327,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Rmd160.c" />
     <ClCompile Include="SerpentFast.c" />
     <ClCompile Include="SerpentFast_simd.cpp" />
     <ClCompile Include="Sha2.c" />
@@ -368,13 +349,11 @@
     <ClInclude Include="chacha_u4.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="cpu.h" />
-    <ClInclude Include="GostCipher.h" />
     <ClInclude Include="jitterentropy-base-user.h" />
     <ClInclude Include="jitterentropy.h" />
     <ClInclude Include="kuznyechik.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="rdrand.h" />
-    <ClInclude Include="Rmd160.h" />
     <ClInclude Include="SerpentFast.h" />
     <ClInclude Include="SerpentFast_sbox.h" />
     <ClInclude Include="Sha2.h" />

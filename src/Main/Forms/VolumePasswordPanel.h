@@ -45,6 +45,7 @@ namespace VeraCrypt
 		bool UpdatePimHelpText (bool pimChanged);
 
 		Event UpdateEvent;
+		wxWindow* TopOwnerParent; // use to handle layout when embedded inside sizer child
 
 	protected:
 		void SetPimValidator ();

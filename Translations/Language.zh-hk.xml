@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.7">
+  <localization prog-version= "1.25.9">
     <language langid="zh-hk" name="繁體中文(香港)" en-name="Chinese (Hong Kong)" version="0.1.0" translators="PUN Chi Ho, Yeung Tim Ming" />
     <font lang="zh-hk" class="normal" size="12" face="Microsoft JhengHei UI" />
     <font lang="zh-hk" class="bold" size="13" face="Microsoft JhengHei UI Bold" />

@@ -33,12 +33,12 @@
     <ClCompile Include="..\Crypto\Aescrypt.c" />
     <ClCompile Include="..\Crypto\Aeskey.c" />
     <ClCompile Include="..\Crypto\Aestab.c" />
+    <ClCompile Include="..\Crypto\blake2s.c" />
     <ClCompile Include="..\Crypto\Camellia.c" />
     <ClCompile Include="..\Crypto\chacha-xmm.c" />
     <ClCompile Include="..\Crypto\chacha256.c" />
     <ClCompile Include="..\Crypto\chachaRng.c" />
     <ClCompile Include="..\Crypto\cpu.c" />
-    <ClCompile Include="..\Crypto\GostCipher.c" />
     <ClCompile Include="..\Crypto\jitterentropy-base.c" />
     <ClCompile Include="..\Crypto\kuznyechik.c" />
     <ClCompile Include="..\Crypto\kuznyechik_simd.c">
@@ -53,7 +53,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\Crypto\Rmd160.c" />
     <ClCompile Include="..\Crypto\SerpentFast.c" />
     <ClCompile Include="..\Crypto\SerpentFast_simd.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
@@ -303,14 +302,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="..\Crypto\Gost89_x64.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>

@@ -787,7 +787,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 		GetModuleFileName (NULL, szTmp, ARRAYSIZE (szTmp));
 
-		if (!SelfExtractInMemory (szTmp))
+		if (!SelfExtractInMemory (szTmp, FALSE))
 			return FALSE;
 	}
 
@@ -2779,7 +2779,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	{
 		/* Create self-extracting package */
 
-		MakeSelfExtractingPackage (NULL, SetupFilesDir);
+		MakeSelfExtractingPackage (NULL, SetupFilesDir, FALSE);
 	}
 	else
 	{

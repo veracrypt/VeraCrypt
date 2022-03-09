@@ -4,7 +4,7 @@
 
 	<!-- FullProductVersion's first 3 parts MUST BE incremented at each release in order 
 			for upgrades to work ; Windows Installer ignores the 4th part -->
-	<?define var.FullProductVersion = 1.25.7?>
+	<?define var.FullProductVersion = 1.25.9?>
 	<?define var.ProductName = VeraCrypt $(var.FullProductVersion)?>
 
 	<!-- Unique GUID identifying this family of product (32-bit and 64-bit have the same) -->
@@ -12,7 +12,7 @@
   
 	<!-- Unique GUID identifying this product release (32-bit and 64-bit have different ones) -->
 	<!-- MUST BE regenerated for each new release -->
-	<?define var.ProductGuid = {5660AE59-4AFF-4BE7-9DF5-6656D55537A3}?>
+	<?define var.ProductGuid = {5DDDA84D-81B6-4C9C-B82B-9DB89244B547}?>
 
 	<!-- Unique GUID identifying a particular Windows Installer package -->
 	<!-- When compiling a product, it should not be set in order to allow it to be generated for each build -->
@@ -82,16 +82,16 @@
 			Schedule="afterInstallExecute"
 		/>
 		
-		<!-- Windows 8 (602) is our Min OS -->
+		<!-- Windows 7 (601) is our Min OS -->
 		<!-- See https://docs.microsoft.com/en-us/windows/win32/msi/operating-system-property-values -->
 		<!-- 'Installed' is a Windows Installer property that is set only if the product is installed per-machine or for the current user.
 			 Using !Installed ensures the check is only done when the user is installing the application, rather than on a repair or remove -->
-		<!-- Notice the ! : If Not Installed AND VersionNT < 602 => Show error message -->
+		<!-- Notice the ! : If Not Installed AND VersionNT < 601 => Show error message -->
 		<Condition Message="!(loc.MinOs)">
 			<![CDATA[
 			Installed
-			OR (VersionNT = 602)
-			OR (VersionNT > 602)
+			OR (VersionNT = 601)
+			OR (VersionNT > 601)
 			]]>
 		</Condition>
 		
