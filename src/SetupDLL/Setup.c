@@ -1560,6 +1560,14 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 						goto end;
 					}
 
+					// check if we are upgrading a system encrypted with unsupported algorithms
+					if (bootEnc.IsUsingUnsupportedAlgorithm(driverVersion))
+					{
+						MSILogAndShow(hInstaller, MSI_ERROR_LEVEL, GetString("SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM"));
+						bOK = FALSE;
+						goto end;
+					}
+
 					SystemEncryptionUpdate = TRUE;
 					PortableMode = FALSE;
 				}

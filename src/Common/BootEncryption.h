@@ -313,6 +313,7 @@ namespace VeraCrypt
 		void RestoreSystemLoader ();
 		static void UpdateSetupConfigFile (bool bForInstall);
 		void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
+		bool IsUsingUnsupportedAlgorithm(LONG driverVersion);
 	protected:
 		static const uint32 RescueIsoImageSize = 1835008; // Size of ISO9660 image with bootable emulated 1.44MB floppy disk image
 
