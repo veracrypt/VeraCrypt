@@ -1567,6 +1567,7 @@
     <entry lang="ru" key="VOLUME_HOST_IN_USE">ВНИМАНИЕ: Хост-файл/устройство {0} уже используется!\n\nИгнорирование этого может привести к нежелательным результатам, включая нестабильность системы. Перед монтированием тома закройте все приложения, которые могут использовать хост-файл/устройство.\n\nПродолжить монтирование?</entry>
     <entry lang="ru" key="CANT_INSTALL_WITH_EXE_OVER_MSI">Программа VeraCrypt ранее была установлена с помощью MSI-пакета, поэтому её нельзя обновить с помощью стандартного установщика.\n\nЧтобы обновить VeraCrypt, используйте MSI-пакет.</entry>
     <entry lang="ru" key="IDC_USE_ALL_FREE_SPACE">Использовать всё свободное место</entry>
+	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

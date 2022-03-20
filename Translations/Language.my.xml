@@ -1569,6 +1569,7 @@
     <entry lang="my" key="VOLUME_HOST_IN_USE">သတိပေးချက် - Host ဖိုင်/device {0} ကို အသုံးပြုထားပြီးဖြစ်သည်။\n\n ဤအချက်ကို လျစ်လျူရှုခြင်းအားဖြင့် ကွန်ပျူတာစနစ် မတည်ငြိမ်မှု စသော မလိုလားအပ်သည့် ရလဒ်များ ဖြစ်ပေါ်စေနိုင်သည်။ Volume ကို အစမ​ပျိုးခင် host ဖိုင်/device ကို သုံးစွဲနေသည့် အက်ပလီကေးရှင်း အားလုံးကို ပိတ်ထားရမည်။\n\n ဆက်လက် အစပျိုးမလား။</entry>
     <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
     <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
+	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

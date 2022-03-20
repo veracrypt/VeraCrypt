@@ -1567,6 +1567,7 @@
     <entry lang="tr" key="VOLUME_HOST_IN_USE">UYARI: {0} ana bilgisayar dosyası/cihazı zaten kullanımda!\n\nBunu dikkate almamak, sistem kararsızlığı dahil olmak üzere istenmeyen sonuçlara neden olabilir. Ana bilgisayar dosyasını/cihazı kullanıyor olabilecek tüm uygulamalar, birimi monte etmeden önce kapatılmalıdır.\n\nMontaj devam edilsin mi?</entry>
     <entry lang="tr" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt daha önce bir MSI paketi kullanılarak kurulmuştu ve bu nedenle standart yükleyici kullanılarak güncellenemez.\n\nVeraCrypt kurulumunuzu güncellemek için lütfen MSI paketini kullanın..</entry>
     <entry lang="tr" key="IDC_USE_ALL_FREE_SPACE">Mevcut tüm boş alanı kullan</entry>
+	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -1567,6 +1567,7 @@
     <entry lang="hu" key="VOLUME_HOST_IN_USE">FIGYELEM: A(z) {0} gazdafájl/eszköz már használatban van!\n\nEnnek figyelmen kívül hagyása nemkívánatos eredményekhez vezethet, beleértve a rendszer instabilitását is.\nA kötet csatolása előtt minden olyan alkalmazást le kell állítani, amely a gazdafájlt/eszközt használja.\nFolytatja a csatolást?</entry>
     <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
     <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
+	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

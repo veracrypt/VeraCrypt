@@ -1577,6 +1577,7 @@ Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte vo
     <entry lang="nl" key="VOLUME_HOST_IN_USE">WAARSCHUWING: hostbestand/apparaat {0} is al in gebruik!\n\nHet negeren hiervan kan ongewenste resultaten veroorzaken, waaronder systeeminstabiliteit. Alle toepassingen die het hostbestand/apparaat gebruiken moeten worden gesloten voordat het volume wordt gekoppeld.\n\nDoorgaan met koppelen?</entry>
     <entry lang="nl" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt werd eerder geïnstalleerd met een MSI-pakket en kan dus niet worden bijgewerkt met het standaardinstallatieprogramma. Gebruik het MSI-pakket om uw VeraCrypt-installatie bij te werken.</entry>
     <entry lang="nl" key="IDC_USE_ALL_FREE_SPACE">Alle beschikbare vrije ruimte gebruiken</entry>
+	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
