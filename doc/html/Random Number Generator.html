@@ -51,9 +51,9 @@
  written to the pool, this function is applied to the entire pool.</p>
 <p>Description of the pool mixing function:</p>
 <ol>
-<li>Let <em>R</em> be the randomness pool. </li><li>Let <em>H</em> be the hash function selected by the user (SHA-512, RIPEMD-160, or Whirlpool).
+<li>Let <em>R</em> be the randomness pool. </li><li>Let <em>H</em> be the hash function selected by the user (SHA-512, BLAKE2S-256, or Whirlpool).
 </li><li><em>l</em> = byte size of the output of the hash function <em>H</em> (i.e., if
-<em>H</em> is RIPEMD-160, then <em>l</em> = 20; if <em>H</em> is SHA-512, <em>l</em> = 64)
+<em>H</em> is BLAKE2S-256, then <em>l</em> = 20; if <em>H</em> is SHA-512, <em>l</em> = 64)
 </li><li><em>z</em> = byte size of the randomness pool <em>R </em>(320 bytes) </li><li><em>q</em> = <em>z</em> / <em>l</em> &ndash; 1 (e.g., if <em>H</em> is Whirlpool, then
 <em>q</em> = 4) </li><li>Ris divided intol-byte blocksB0...Bq.
 <p>For 0 &le; i &le; q (i.e., for each block B) the following steps are performed:</p>

@@ -31,15 +31,21 @@
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
 <a href="Hash%20Algorithms.html">Hash Algorithms</a>
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
-<a href="RIPEMD-160.html">RIPEMD-160</a>
+<a href="BLAKE2s-256.html">BLAKE2s-256</a>
 </p></div>
 
 <div class="wikidoc">
-<h1>RIPEMD-160</h1>
+<h1>BLAKE2s-256</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-RIPEMD-160, published in 1996, is a hash algorithm designed by Hans Dobbertin, Antoon Bosselaers, and Bart Preneel in an open academic community. The size of the output of RIPEMD-160 is 160 bits. RIPEMD-160 is a strengthened version of the RIPEMD hash algorithm
- that was developed in the framework of the European Union's project RIPE (<em style="text-align:left">RACE Integrity Primitives Evaluation</em>), 1988-1992. RIPEMD-160 was adopted by the International Organization for Standardization (ISO) and the IEC in the
- ISO/IEC 10118-3:2004 international standard [21].</div>
+<p>
+BLAKE2 is a cryptographic hash function based on BLAKE, created by Jean-Philippe Aumasson, Samuel Neves, Zooko Wilcox-O'Hearn, and Christian Winnerlein. It was announced on December 21, 2012. The design goal was to replace the widely used, but broken, MD5 and SHA-1 algorithms in applications requiring high performance in software. BLAKE2 provides better security than SHA-2 and similar to that of SHA-3 (e.g. immunity to length extension, indifferentiability from a random oracle, etc...).<br/>
+BLAKE2 removes addition of constants to message words from BLAKE round function, changes two rotation constants, simplifies padding, adds parameter block that is XOR'ed with initialization vectors, and reduces the number of rounds from 16 to 12 for BLAKE2b (successor of BLAKE-512), and from 14 to 10 for BLAKE2s (successor of BLAKE-256).<br/>
+BLAKE2b and BLAKE2s are specified in RFC 7693.
+</p>
+<p>
+VeraCrypt uses only BLAKE2s with its maximum output size of 32-bytes (256 bits).
+</p>
+</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <a href="SHA-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></div>
 </div><div class="ClearBoth"></div></body></html>
