@@ -595,6 +595,14 @@ BOOL SelfExtractInMemory (wchar_t *path, BOOL bSkipCountCheck)
 	if (compressedLen != fileDataEndPos - fileDataStartPos - 8 + 1)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
+		return FALSE;
+	}
+
+	// Test to make Coverity happy. It will always be false
+	if (uncompressedLen >= (INT_MAX - 524288))
+	{
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
+		return FALSE;
 	}
 
 	decompressedDataLen = uncompressedLen;

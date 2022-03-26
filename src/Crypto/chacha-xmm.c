@@ -139,22 +139,15 @@ void chacha_ECRYPT_encrypt_bytes(size_t bytes, uint32* x, const uint8* m, uint8*
 #endif
 
   if (!bytes) return;
-  for (;;) {
-    salsa20_wordtobyte(output,x, r);
-    x[12] = PLUSONE(x[12]);
-    if (!x[12]) {
-      x[13] = PLUSONE(x[13]);
-      /* stopping at 2^70 bytes per nonce is user's responsibility */
-    }
-    if (bytes <= 64) {
-      for (i = 0;i < bytes;++i) out[i] = m[i] ^ output[i];
-      return;
-    }
-    for (i = 0;i < 64;++i) out[i] = m[i] ^ output[i];
-    bytes -= 64;
-    out += 64;
-    m += 64;
+  // bytes is now guaranteed to be between 1 and 63
+  salsa20_wordtobyte(output,x, r);
+  x[12] = PLUSONE(x[12]);
+  if (!x[12]) {
+    x[13] = PLUSONE(x[13]);
+    /* stopping at 2^70 bytes per nonce is user's responsibility */
   }
+
+  for (i = 0;i < bytes;++i) out[i] = m[i] ^ output[i];
 }
 
 #endif
