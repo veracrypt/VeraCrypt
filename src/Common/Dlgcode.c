@@ -611,6 +611,7 @@ char *LoadFile (const wchar_t *fileName, DWORD *size)
 	char *buf;
 	DWORD fileSize = INVALID_FILE_SIZE;
 	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	*size = 0;
 	if (h == INVALID_HANDLE_VALUE)
 		return NULL;
 
@@ -620,8 +621,7 @@ char *LoadFile (const wchar_t *fileName, DWORD *size)
 		return NULL;
 	}
 
-	*size = fileSize;
-	buf = (char *) calloc (*size + 1, 1);
+	buf = (char *) calloc (fileSize + 1, 1);
 
 	if (buf == NULL)
 	{
@@ -629,10 +629,14 @@ char *LoadFile (const wchar_t *fileName, DWORD *size)
 		return NULL;
 	}
 
-	if (!ReadFile (h, buf, *size, size, NULL))
+	if (!ReadFile (h, buf, fileSize, size, NULL))
 	{
 		free (buf);
 		buf = NULL;
+	}
+	else
+	{
+		buf[*size] = 0; //make coverity happy eventhough buf is guaranteed to be null terminated because of fileSize+1 in calloc call
 	}
 
 	CloseHandle (h);

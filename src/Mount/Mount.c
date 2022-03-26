@@ -6583,6 +6583,14 @@ static void ShowSystemEncryptionStatus (HWND hwndDlg)
 	if (GetAsyncKeyState (VK_SHIFT) < 0 && GetAsyncKeyState (VK_CONTROL) < 0)
 	{
 		// Ctrl+Shift held (for debugging purposes)
+		int64 encryptedRatio = 0;
+		if (BootEncStatus.DriveEncrypted 
+			&& (BootEncStatus.ConfiguredEncryptedAreaStart >= 0) 
+			&& (BootEncStatus.ConfiguredEncryptedAreaEnd >= BootEncStatus.ConfiguredEncryptedAreaStart)
+			)
+		{
+			encryptedRatio = (BootEncStatus.EncryptedAreaEnd + 1 - BootEncStatus.EncryptedAreaStart) * 100I64 / (BootEncStatus.ConfiguredEncryptedAreaEnd + 1 - BootEncStatus.ConfiguredEncryptedAreaStart);
+		}
 
 		DebugMsgBox ("Debugging information for system encryption:\n\nDeviceFilterActive: %d\nBootLoaderVersion: %x\nSetupInProgress: %d\nSetupMode: %d\nVolumeHeaderPresent: %d\nDriveMounted: %d\nDriveEncrypted: %d\n"
 			"HiddenSystem: %d\nHiddenSystemPartitionStart: %I64d\n"
@@ -6600,7 +6608,7 @@ static void ShowSystemEncryptionStatus (HWND hwndDlg)
 			BootEncStatus.ConfiguredEncryptedAreaEnd,
 			BootEncStatus.EncryptedAreaStart,
 			BootEncStatus.EncryptedAreaEnd,
-			!BootEncStatus.DriveEncrypted ? 0 : (BootEncStatus.EncryptedAreaEnd + 1 - BootEncStatus.EncryptedAreaStart) * 100I64 / (BootEncStatus.ConfiguredEncryptedAreaEnd + 1 - BootEncStatus.ConfiguredEncryptedAreaStart));
+			encryptedRatio);
 	}
 
 	if (!BootEncStatus.DriveEncrypted && !BootEncStatus.DriveMounted)

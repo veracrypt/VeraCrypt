@@ -9756,11 +9756,18 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 		// The map will be scanned to determine the size of the uninterrupted block of free
 		// space (provided there is any) whose end is aligned with the end of the volume.
 		// The value will then be used to determine the maximum possible size of the hidden volume.
-
-		return ScanVolClusterBitmap (hwndDlg,
-			driveNo,
-			hiddenVolHostSize / *realClusterSize,
-			pnbrFreeClusters);
+		if (*realClusterSize > 0)
+		{
+			return ScanVolClusterBitmap (hwndDlg,
+				driveNo,
+				hiddenVolHostSize / *realClusterSize,
+				pnbrFreeClusters);
+		}
+		else
+		{
+			// should never happen
+			return -1;
+		}
 	}
 	else if (!wcsncmp (szFileSystemNameBuffer, L"NTFS", 4) || !_wcsnicmp (szFileSystemNameBuffer, L"exFAT", 5))
 	{

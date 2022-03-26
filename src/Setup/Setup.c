@@ -819,7 +819,8 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 			if (Is64BitOs ())
 				driver64 = TRUE;
 
-			GetSystemDirectory (szDir, ARRAYSIZE (szDir));
+			if (!GetSystemDirectory (szDir, ARRAYSIZE (szDir)))
+				StringCbCopyW(szDir, sizeof(szDir), L"C:\\Windows\\System32");
 
 			x = wcslen (szDir);
 			if (szDir[x - 1] != L'\\')
