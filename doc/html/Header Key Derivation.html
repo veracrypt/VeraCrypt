@@ -65,14 +65,16 @@ PIM </a>field (<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">Per
 PIM </a>value is not specified or if it is equal to zero, VeraCrypt uses the default values expressed below:<br/>
 <ul>
 <li>For system partition encryption (boot encryption) that uses SHA-256, BLAKE2s-256 or Streebog, <strong>200000</strong> iterations are used.</li>
-<li>For system encryption that uses SHA-512 or Whirlpool, non-system encryption and file containers, <strong>500000</strong> iterations are used.
+<li>For system encryption that uses SHA-512 or Whirlpool, <strong>500000</strong> iterations are used.</li>
+<li>For non-system encryption and file containers, all derivation algorithms will use <strong>500000</strong> iterations.
 </li></ul>
 </p>
 <p>When a <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
 PIM </a>value is given by the user, the number of iterations of the key derivation function is calculated as follows:</p>
 <ul>
 <li>For system encryption that doesn't use SHA-512 or Whirlpool: Iterations = <strong>PIM x 2048</strong>
-</li><li>For system encryption that uses SHA-512 or Whirlpool, non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+</li><li>For system encryption that uses SHA-512 or Whirlpool: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+</li><li>For non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
 </li></ul>
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">

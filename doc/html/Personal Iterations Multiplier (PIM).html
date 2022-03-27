@@ -44,7 +44,9 @@
 Header Key Derivation</a>).</p>
 <p>When a PIM value is specified, the number of iterations is calculated as follows:</p>
 <ul>
-<li>For system encryption that doesn't use SHA-512 or Whirlpool: Iterations = <strong>PIM x 2048</strong> </li><li>For system encryption that uses SHA-512 or Whirlpool, non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+<li>For system encryption that doesn't use SHA-512 or Whirlpool: Iterations = <strong>PIM x 2048</strong>
+</li><li>For system encryption that uses SHA-512 or Whirlpool: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+</li><li>For non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
 </li></ul>
 <p>Prior to version 1.12, the security of a VeraCrypt volume was only based on the password strength because VeraCrypt was using a fixed number of iterations.<br>
 With the introduction of PIM, VeraCrypt has a 2-dimensional security space for volumes based on the couple (Password, PIM). This provides more flexibility for adjusting the desired security level while also controlling the performance of the mount/boot operation.</p>
