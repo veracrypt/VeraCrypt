@@ -842,7 +842,7 @@
     <entry lang="co" key="EXTRACTION_FINISHED_TITLE_DON" >Schedarii estraiti currettamente</entry>
     <entry lang="co" key="EXTRACTION_FINISHED_INFO" >Tutti i schedarii sò stati estraiti currettamente in u locu di destinazione.</entry>
     <entry lang="co" key="AUTO_FOLDER_CREATION" >S’è u cartulare specificatu ùn esiste micca, quellu serà creatu autumaticamente.</entry>
-    <entry lang="co" key="SETUP_UPGRADE_DESTINATION" >I schedarii di u prugramma VeraCrypt seranu messi à ghjornu in u locu induve VeraCrypt hè installatu. S’ella hè bisognu à selezziunà un altru locu, ci volè, prima, à disinstallà VeraCrypt.</entry>
+    <entry lang="co" key="SETUP_UPGRADE_DESTINATION" >I schedarii di u prugramma VeraCrypt seranu messi à livellu in u locu induve VeraCrypt hè installatu. S’ella hè bisognu à selezziunà un altru locu, ci volè, prima, à disinstallà VeraCrypt.</entry>
     <entry lang="co" key="AFTER_UPGRADE_RELEASE_NOTES" >Vulete leghje l’annutazioni nant’à a versione attuale (l’ultima versione stabule) di VeraCrypt ?</entry>
     <entry lang="co" key="AFTER_INSTALL_TUTORIAL" >S’è ùn avete mai impiegatu VeraCrypt, vi ricumandemu di leghje u capitulu « Beginner's Tutorial » in a guida di l’utilizatore VeraCrypt. Vulete fighjà a furmazione autonoma ?</entry>
     <entry lang="co" key="SELECT_AN_ACTION" >Selezziunate un azzione à fà :</entry>
@@ -1567,7 +1567,7 @@
     <entry lang="co" key="VOLUME_HOST_IN_USE" >AVERTIMENTI : U schedariu o l’apparechju ospite {0} hè dighjà impiegatu !\n\nIgnurà què pò cagiunà fenomeni imprevisti cum’è l’istabilità di u sistema. Tutte l’appiecazioni chì puderianu impiegà u schedariu o l’apparechju ospite devenu esse chjose prima di muntà u vulume.\n\nCuntinuà a muntatura ?</entry>
     <entry lang="co" key="CANT_INSTALL_WITH_EXE_OVER_MSI" >VeraCrypt hè statu installatu anteriurmente impieghendu un pacchettu MSI è dunque, ùn pò micca esse mudificatu cù un stalladore classicu.\n\nImpiegate u pacchettu MSI per mudificà a vostra installazione VeraCrypt.</entry>
     <entry lang="co" key="IDC_USE_ALL_FREE_SPACE" >Impiegà tuttu u spaziu dispunibule</entry>
-	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
+    <entry lang="co" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt ùn pò micca esse messu à livellu perchè a partizione o u lettore di u sistema hè statu cifratu impieghendu una cudificazione chì ùn hè più accettata.\nDicifrate u vostru sistema prima di mette VeraCrypt à livellu è cifratelu torna.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
