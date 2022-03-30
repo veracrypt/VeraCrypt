@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="System%20Encryption.html">Шифрование системы</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Rescue%20Disk.html">Диск восстановления VeraCrypt</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Диск восстановления VeraCrypt (Rescue Disk)</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При подготовке к шифрованию системного раздела/диска VeraCrypt требует, чтобы вы создали так называемый диск
+восстановления VeraCrypt (USB-диск в режиме загрузки EFI, CD/DVD в устаревшем режиме загрузки MBR). Он нужен в следующих случаях:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если экран загрузчика VeraCrypt не появляется при старте компьютера (или если не загружается Windows),
+возможно, <strong style="text-align:left">повреждён загрузчик VeraCrypt</strong>. С помощью Диска восстановления
+VeraCrypt загрузчик можно восстановить и, таким образом, вернуть доступ к зашифрованной системе и данным (при этом,
+однако, всё равно будет нужно ввести правильный пароль). В режиме загрузки EFI на экране Диска восстановления
+выберите <em style="text-align:left">Restore VeraCrypt loader binaries to system disk</em>. В устаревшем режиме
+MBR вместо этого выберите <em style="text-align:left">Repair Options</em> &gt;
+<em style="text-align:left">Restore VeraCrypt Boot Loader</em>. Затем нажмите 'Y', чтобы подтвердить действие,
+извлеките Диск восстановления из разъёма USB или из CD/DVD-накопителя и перезагрузите компьютер.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если <strong style="text-align:left">загрузчик VeraCrypt часто повреждается</strong> (например, из-за некорректно
+написанного ПО активации) или если нужно, чтобы <strong style="text-align:left">на жёстком диске
+не было загрузчика VeraCrypt</strong><strong style="text-align:left"></strong> (например, если вы хотите
+использовать альтернативный загрузчик/менеджер загрузки для других операционных систем), то можно загружаться
+непосредственно с Диска восстановления VeraCrypt (поскольку он тоже содержит загрузчик VeraCrypt) без
+восстановления загрузчика на жёстком диске. В режиме загрузки EFI просто вставьте Диск восстановления в разъём USB,
+загрузите с него компьютер и затем на экране Диска восстановления выберите <em style="text-align:left">Boot VeraCrypt loader from rescue disk</em>.
+В устаревшем режиме загрузки MBR вам потребуется вставить Диск восстановления в CD/DVD-накопитель и ввести
+пароль на экране Диска восстановления.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если вы вводите правильный пароль, но VeraCrypt говорит, что пароль неверный, возможно,
+<strong style="text-align:left">повреждены мастер-ключ или другие важные данные</strong>. Диск восстановления VeraCrypt
+позволяет их восстановить и, таким образом, вернуть доступ к зашифрованной системе и данным (разумеется, при этом
+будет нужно ввести правильный пароль). В режиме загрузки EFI на экране Диска восстановления выберите
+<em style="text-align:left">Restore OS header keys</em>. В устаревшем режиме MBR вместо этого выберите
+<em style="text-align:left">Repair Options</em> &gt; <em style="text-align:left">Restore VeraCrypt Boot Loader</em>.
+Затем введите пароль, нажмите 'Y', чтобы подтвердить действие, извлеките Диск восстановления из разъёма USB или из
+CD/DVD-накопителя и перезагрузите компьютер.<br style="text-align:left">
+<br style="text-align:left">
+Примечание. Эту функцию нельзя использовать для восстановления заголовка скрытого тома, находящегося внутри
+<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+скрытой операционной системы</a> (см. раздел <a href="Hidden%20Operating%20System.html">
+Скрытая операционная система</a>). Чтобы восстановить заголовок такого тома, нажмите кнопку <em style="text-align:left">
+Выбрать устройство</em>, выберите раздел, следующий за разделом с обманной системой, нажмите
+<em style="text-align:left">OK</em>, выберите <em style="text-align:left">Сервис</em> &gt;
+<em style="text-align:left">Восстановить заголовок тома</em> и следуйте инструкциям.<br style="text-align:left">
+<br style="text-align:left">
+ВНИМАНИЕ: При восстановлении ключевых данных с помощью Диска восстановления VeraCrypt также происходит
+восстановление пароля, который был действителен на момент создания Диска восстановления. Поэтому при каждой
+смене пароля необходимо уничтожать ранее созданный Диск восстановления VeraCrypt и создавать новый
+(для этого выберите <em style="text-align:left">Система</em> &gt; <em style="text-align:left">
+Создать Диск восстановления</em>). В противном случае, если неприятель знает ваш старый пароль (например,
+он получил его с помощью одной из программ-перехватчиков клавиатуры) и найдёт ваш старый диск восстановления
+VeraCrypt, он сможет воспользоваться им для восстановления ключевых данных (мастер-ключа, зашифрованного
+старым паролем) и, следовательно, расшифровать ваш системный раздел/диск.</li><li id="WindowsDamaged" style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если <strong style="text-align:left">Windows повреждена и не может загрузиться</strong> после ввода правильного
+пароля в строке ввода пароля VeraCrypt, то с помощью Диска восстановления VeraCrypt можно окончательно расшифровать
+раздел/диск до начала загрузки Windows. В режиме загрузки EFI на экране Диска восстановления выберите
+<em style="text-align:left">Decrypt OS</em>. В устаревшем режиме MBR вместо этого выберите
+<em style="text-align:left">Repair Options</em> &gt; <em style="text-align:left">
+Permanently decrypt system partition/drive</em>. Введите правильный пароль и дождитесь завершения операции дешифрования.
+После этого вы сможете, например, загрузиться с установочного диска Windows, чтобы исправить установку системы.
+Обратите внимание, что эта функция неприменима для дешифрования скрытого тома внутри
+<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+скрытой операционной системы</a> (см. раздел <a href="Hidden%20Operating%20System.html">
+Скрытая операционная система</a>).<br style="text-align:left">
+<br style="text-align:left">
+Примечание. Если повреждена (не загружается) Windows, её также можно восстановить (или получить доступ
+к хранящимся в ней файлам), не прибегая к дешифрованию системного раздела/диска. Для этого нужно сделать следующее.
+Если у вас в компьютере несколько операционных систем, загрузите ту, которая не требует предзагрузочной аутентификации.
+Если в компьютере всего одна операционная система, можно загрузиться с CD/DVD с WinPE или BartPE, либо с
+Linux Live CD/DVD/USB. Также можно подключить системный диск как вторичный или внешний диск к другому компьютеру
+и загрузить операционную систему, установленную на том компьютере. После загрузки системы запустите VeraCrypt,
+нажмите кнопку <i>Выбрать устройство</i>, выберите нужный системный раздел, нажмите <i>OK</i>, выберите
+<i>Система</i> &gt; <i>Смонтировать без предзагрузочной аутентификации</i>, введите пароль предзагрузочной
+аутентификации и нажмите <i>OK</i>. Этот раздел будет смонтирован как обычный том VeraCrypt (т. е. данные
+будут расшифровываться/шифроваться на лету в ОЗУ, как и всегда).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В случае устаревшего режима загрузки MBR на Диске восстановления содержится
+<strong style="text-align:left">резервная копия исходного содержимого первой дорожки диска</strong> (сделанная
+до того, как туда был прописан загрузчик VeraCrypt), что позволяет при необходимости её восстановить. Первая
+дорожка обычно содержит системный загрузчик или менеджер загрузок ОС. На экране Диска восстановления выберите
+<i>Repair Options</i> &gt; <i>Restore original system loader</i>.
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+&nbsp;</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Обратите внимание, что даже если вы потеряете свой Диск восстановления VeraCrypt,
+и его найдёт неприятель, он всё равно <strong style="text-align:left">не</strong> сможет расшифровать системный
+раздел или диск, не зная правильный пароль.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы загрузиться с Диска восстановления VeraCrypt, вставьте его в разъём USB или в CD/DVD-накопитель
+(в зависимости от его типа) и перезагрузите компьютер. Если экран Диска восстановления VeraCrypt не появляется
+(или, в случае устаревшего режима загрузки MBR, вы не видите элемента <i>Repair Options</i> в группе
+<i>Keyboard Controls</i> на экране), вероятно, BIOS вашего компьютера настроен так, что сначала выполняется
+загрузка с жёсткого диска, и лишь потом с USB и CD/DVD. В этом случае перезагрузите компьютер, нажмите клавишу
+<i>F2</i> или <i>Delete</i> (сразу же, как появится начальный экран BIOS) и дождитесь появления экрана
+настройки BIOS. Если экран настройки BIOS не появился, снова перезагрузите компьютер (нажмите кнопку
+сброса (Reset) на корпусе ПК и сразу же начните постоянно нажимать клавишу <i>F2</i> или <i>Delete</i>.
+Когда появится экран настройки BIOS, сконфигурируйте BIOS так, чтобы загрузка системы сначала происходила
+с USB и с CD/DVD (о том, как это сделать, см. в документации на вашу системную плату/BIOS или проконсультируйтесь
+в службе техподдержки поставщика ПК). Затем снова перезагрузите компьютер. Экран Диска восстановления VeraCrypt
+теперь должен появиться.<br>
+Примечание. В устаревшем режиме загрузки MBR можно выбрать <i>Repair Options</i> на экране Диска восстановления
+VeraCrypt, нажав <i>F8</i> на клавиатуре.</div>
+<p>Если Диск восстановления VeraCrypt повредится, вы можете создать новый, выбрав
+<em style="text-align:left">Система</em> &gt; <em style="text-align:left">Создать Диск восстановления</em>.
+Чтобы выяснить, не повреждён ли Диск восстановления VeraCrypt, вставьте его в разъём USB (или в CD/DVD-накопитель,
+если используется устаревший режим загрузки MBR) и выберите
+<em style="text-align:left">Система</em> &gt; <em style="text-align:left">Проверить Диск восстановления</em>.</p>
+</div><div class="ClearBoth"></div>
+
+
+<h2>Диск восстановления VeraCrypt для устаревшего режима загрузки MBR на USB-флешке</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если у вас в компьютере нет CD/DVD-накопителя, то Диск восстановления VeraCrypt для устаревшего режима загрузки
+MBR можно создать на USB-флешке. <strong style="text-align:left">Обратите внимание, что вы должны следить
+за тем, чтобы данные на USB-накопителе не были перезаписаны! Если вы потеряете USB-накопитель или ваши данные
+будут повреждены, вы не сможете восстановить свою систему в случае возникновения какой-либо проблемы!</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы создать загрузочный USB-диск восстановления VeraCrypt, нужно создать загрузочный USB-накопитель, загрузчик
+которого запускает ISO-образ. Такие решения, как UNetbootin, которые пытаются скопировать данные внутри
+ISO-образа на USB-накопитель, пока не работают. В Windows выполните следующие действия:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Загрузите необходимые файлы из официального репозитория VeraCrypt на SourceForge: <a href="https://sourceforge.net/projects/veracrypt/files/Contributions/VeraCryptUsbRescueDisk.zip" style="text-align:left; 		color:#0080c0; text-decoration:none.html">
+		https://sourceforge.net/projects/veracrypt/files/Contributions/VeraCryptUsbRescueDisk.zip</a>
+	</li>
+
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Вставьте USB-накопитель.
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Отформатируйте USB-накопитель в FAT16 или FAT32:
+		<ul style="text-align:left; margin-top:6px; margin-bottom:6px; padding-top:0px; padding-bottom:0px">
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Запустите файл usb_format.exe от имени администратора (щёлкните правой кнопкой мыши и выберите <i>Запуск от имени администратора</i>).
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Выберите USB-накопитель в списке устройств.
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Выберите файловую систему FAT и установите флажок <i>Quick Format</i> (Быстрое форматирование). Нажмите <i>Start</i> (Пуск).
+			</li>
+		</ul>
+
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Создайте загрузчик, который может запускать образ ISO:
+		<ul style="text-align:left; margin-top:6px; margin-bottom:6px; padding-top:0px; padding-bottom:0px">
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Запустите файл grubinst_gui.exe.
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Отметьте <i>Disk</i> и затем выберите в списке свой USB-накопитель.
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Нажмите кнопку <i>Refresh</i> (Обновить) перед <i>Part List</i> и затем выберите <i>Whole disk (MBR)</i> (Весь диск).
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Оставьте все остальные параметры без изменений, а затем нажмите <i>Install</i> (Установить).
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Должно появиться окно консоли с надписью "The MBR/BS has been successfully installed. Press &ltENTER&gt; to continue ..."
+				("MBR/BS успешно установлена. Нажмите ENTER для продолжения...").
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Закройте утилиту.
+			</li>
+		</ul>
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Скопируйте файл "grldr" в корневую папку USB-накопителя (например, если буква диска – I:, то должно быть I:\grldr). Этот файл загружает Grub4Dos.
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Скопируйте файл "menu.lst" в корневую папку USB-накопителя (например, если буква диска – I:, то должно быть I:\menu.lst). Этот файл настраивает отображаемое меню и его параметры.
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Скопируйте файл Диска восстановления "VeraCrypt Rescue Disk.iso" в корневую папку USB-накопителя и переименуйте его в "veracrypt.iso". Другой вариант – изменить ссылку в файле "menu.lst".
+	</li>
+
+</ul>
+</body></html>

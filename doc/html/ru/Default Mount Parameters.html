@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Default%20Mount%20Parameters.html">Параметры монтирования по умолчанию</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>Параметры монтирования по умолчанию</h2>
+<p>Начиная с версии 1.0f-2 стало возможным указывать алгоритм PRF и режим TrueCrypt выбранными по умолчанию в окне пароля.</p>
+<p>Как показано ниже, выберите пункт <i>Параметры монтирования по умолчанию</i> в меню <i>Настройки</i>:</p>
+<p><img src="Home_VeraCrypt_menu_Default_Mount_Parameters.png" alt="Menu Default Mount Parameters"></p>
+<p>&nbsp;</p>
+<p>Появится следующее окно:</p>
+<p><img src="Home_VeraCrypt_Default_Mount_Parameters.png" alt="Default Mount Parameters Dialog"></p>
+<p>Внесите нужные вам изменения и нажмите OK.</p>
+<p>Выбранные значения затем будут записаны в основной конфигурационный файл VeraCrypt (Configuration.xml), что сделает их постоянными.</p>
+<p>Во всех последующих диалоговых окнах запроса пароля будут использоваться значения по умолчанию, выбранные ранее.
+Например, если в окне параметров монтирования по умолчанию вы установите флажок <i>Режим TrueCrypt</i> и выберете SHA-512
+в качестве PRF, то последующие окна ввода пароля будут выглядеть следующим образом:<br>
+<img src="Default Mount Parameters_VeraCrypt_password_using_default_parameters.png" alt="Mount Password Dialog using default values"></p>
+<p>&nbsp;</p>
+<p><strong>Примечание.</strong> Параметры монтирования по умолчанию могут быть переопределены в
+&nbsp;<a href="Command%20Line%20Usage.html">командной строке</a> ключами
+<strong>/tc</strong> и <strong>/hash</strong>, которые всегда имеют приоритет.</p>
+<p>&nbsp;</p>
+</div><div class="ClearBoth"></div></body></html>

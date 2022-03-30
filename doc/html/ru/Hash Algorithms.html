@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hash%20Algorithms.html">Алгоритмы хеширования</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Алгоритмы хеширования</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Выбор алгоритма хеширования предлагается в мастере создания томов, в диалоговом окне смены пароля,
+а также в окне генератора ключевых файлов. Выбранный пользователем алгоритм хеширования применяется
+во встроенном в VeraCrypt генераторе случайных чисел как функция псевдослучайного &quot;смешивания&quot;,
+а также в функции формирования ключа заголовка (HMAC – алгоритме усиления криптостойкости других
+криптоалгоритмов на основе хеш-функции, как определено в PKCS #5 v2.0) как псевдослучайная функция.
+При создании нового тома, генератором случайных чисел создаются мастер-ключ, вторичный ключ (режим XTS)
+и соль. Более подробную информацию см. в разделах <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Генератор случайных чисел</a> и <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Формирование ключа заголовка, соль и количество итераций</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В настоящее время VeraCrypt поддерживает следующие алгоритмы хеширования:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="BLAKE2s-256.html"><strong style="text-align:left.html">BLAKE2s-256</strong></a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="SHA-256.html"><strong style="text-align:left.html">SHA-256</strong></a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="SHA-512.html"><strong style="text-align:left.html">SHA-512</strong></a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Whirlpool.html"><strong style="text-align:left.html">Whirlpool</strong></a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><a href="Streebog.html">Streebog</a></strong>
+</li></ul>
+<p><a href="BLAKE2s-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>

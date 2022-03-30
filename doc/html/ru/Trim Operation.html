@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Требования безопасности и меры предосторожности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Trim%20Operation.html">Операция Trim</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Операция Trim</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В ряде запоминающих устройств (например, в некоторых твердотельных (SSD) накопителях, включая USB-флешки) для
+маркировки секторов как свободных, например, при удалении файла, применяется так называемая операция "Trim".
+Вследствие этого такие сектора могут содержать незашифрованные нули или другие неопределённые данные
+(незашифрованные), даже если они расположены внутри зашифрованной VeraCrypt части диска. VeraCrypt не блокирует
+операцию Trim на разделах, входящих в область
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+шифрования системы</a> (если только не запущена <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+скрытая операционная система</a>), а в среде Linux – на всех томах, использующих собственные криптографические
+службы ядра. В таких ситуациях неприятель сможет выяснить, какие сектора содержат пустое место (и сможет
+в дальнейшем воспользоваться этой информацией для анализа и атак), что негативно скажется на возможности
+<a href="Plausible%20Deniability.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+правдоподобно отрицать наличие шифрования</a>. Если вы хотите избежать подобных проблем, не применяйте
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+шифрование системы</a> на дисках, использующих операцию Trim, а в среде Linux либо настройте VeraCrypt
+так, чтобы не использовались собственные криптографические службы ядра Linux, либо убедитесь, что тома
+VeraCrypt не расположены на дисках, использующих операцию Trim.</div>
+<p>Выяснить, используется ли в устройстве операция Trim, можно в документации на это устройство или
+у его поставщика/производителя.</p>
+</div><div class="ClearBoth"></div></body></html>

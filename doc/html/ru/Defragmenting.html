@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Требования безопасности и меры предосторожности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Дефрагментация.html">Дефрагментация</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Дефрагментация</h1>
+<p>Когда вы (или операционная система) выполняете дефрагментацию файловой системы, в которой находится контейнер VeraCrypt
+на основе файла, копия этого контейнера (или его фрагмент) может остаться в свободной области хост-тома (в дефрагментированной
+файловой системе). Это может повлечь за собой ряд проблем с безопасностью. Например, если вы затем измените у тома пароль
+и/или ключевые файлы, а неприятель обнаружит старую копию или фрагмент (старый заголовок) тома VeraCrypt, он может с его
+помощью смонтировать том, используя старый скомпрометированный пароль (и/или старые скомпрометированные ключевые файлы,
+действительные для монтирования этого тома до того, как был перешифрован заголовок тома). Избежать этой и других
+проблем с безопасностью (таких, как описано в разделе <a href="Volume%20Clones.html"><em>Клонирование томов</em></a>)
+поможет одно из следующего:</p>
+<ul>
+<li>Используйте тома VeraCrypt на основе раздела/устройства, а не на основе файла.</li>
+<li>После дефрагментации <em>надёжно</em> затирайте свободное место на хост-томе (в дефрагментированной файловой системе).
+В Windows это можно сделать с помощью бесплатной утилиты Microsoft <code>SDelete</code> (<a href="https://technet.microsoft.com/en-us/sysinternals/bb897443.aspx" rel="nofollow">https://technet.microsoft.com/en-us/sysinternals/bb897443.aspx</a>). В Linux для этой цели служит утилита
+<code>shred</code> из пакета GNU coreutils.&nbsp;
+</li><li>Не дефрагментируйте файловые системы, в которых вы храните тома VeraCrypt. </li></ul>
+</div><div class="ClearBoth"></div></body></html>

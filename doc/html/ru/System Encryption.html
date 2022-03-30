@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="System%20Encryption.html">Шифрование системы</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Шифрование системы</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt позволяет "на лету" шифровать системный раздел или весь системный диск, т. е. раздел или диск,
+где установлена Windows и с которого она загружается.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Шифрование системы обеспечивает наивысший уровень надёжности и безопасности, так как все файлы, включая любые
+временные файлы, создаваемые Windows и приложениями в системном разделе (как правило, без вашего ведома и
+согласия), файлы гибернации, файлы подкачки и т. д., всегда остаются зашифрованными (даже при внезапном
+пропадании питания). Кроме того, Windows записывает множество данных, которые потенциально могут нести
+конфиденциальную нагрузку, например имена и пути открываемых вами файлов, запускаемые вами программы и др.
+Все такие файлы-журналы и записи в реестре также всегда остаются зашифрованными.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Шифрование системы включает в себя предзагрузочную аутентификацию, означающую, что любому пользователю для
+получения доступа, возможности работы в зашифрованной системе, чтения и записи файлов на системном диске и
+т. д. будет нужно вводить правильный пароль перед каждой загрузкой (стартом) Windows. Предзагрузочную
+аутентификацию обеспечивает загрузчик VeraCrypt (Boot Loader), расположенный в первой дорожке загрузочного
+диска и на
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+диске восстановления VeraCrypt</a> (Rescue Disk, см. далее).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Обратите внимание, что VeraCrypt выполняет шифрование имеющегося незашифрованного системного раздела/диска
+"на месте", т. е. прямо при работе операционной системы (во время шифрования системы можно продолжать
+пользоваться компьютером как обычно, без каких-либо ограничений). Аналогично, зашифрованный с помощью
+VeraCrypt системный раздел/диск можно дешифровать "на месте", во время работы операционной системы. Процесс
+шифрования/дешифрования можно прервать в любой момент, оставить раздел/диск частично незашифрованным,
+перезагрузить или выключить компьютер, а затем возобновить операцию с той точки, в которой она была остановлена.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При шифровании системы применяется режим <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+XTS</a> (см. раздел <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Режимы работы</a>). Технические детали шифрования системы см. в разделе
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Схема шифрования</a>, глава <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Технические подробности</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы зашифровать системный раздел или весь системный диск, выберите <em style="text-align:left">
+Система</em> &gt; <em style="text-align:left">Зашифровать системный раздел/диск</em> и следуйте инструкциям
+мастера. Чтобы дешифровать системный раздел/диск, выберите
+<em style="text-align:left">Система</em> &gt; <em style="text-align:left">Окончательно расшифровать
+системный раздел/диск</em>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Из-за требований BIOS предзагрузочный пароль вводится с использованием <strong>американской раскладки
+клавиатуры</strong>. Во время шифрования системы VeraCrypt автоматически и прозрачно переключает клавиатуру
+на американскую раскладку, чтобы гарантировать, что введённый пароль будет соответствовать паролю, введённому
+в предзагрузочном режиме. Таким образом, чтобы избежать ошибок из-за неверного пароля, необходимо вводить
+пароль, используя те же клавиши, что и при создании шифрования системы.</div>
+<p>Примечание. Windows 7 и более новые версии Windows по умолчанию загружаются с особого маленького раздела.
+Этот раздел содержит файлы, необходимые для загрузки системы. Право записи в этот раздел Windows даёт только
+приложениям с административными привилегиями (при работе системы). В режиме загрузки EFI, который используется
+по умолчанию на современных ПК, VeraCrypt не может зашифровать этот раздел, поскольку он должен оставаться
+незашифрованным, чтобы BIOS мог загрузить из него загрузчик EFI. Это, в свою очередь, означает, что в режиме
+загрузки EFI программа предлагает зашифровать только системный раздел, на котором установлена ​​Windows
+(позже пользователь может вручную зашифровать другие разделы с данными с помощью VeraCrypt).
+В устаревшем режиме загрузки MBR программа выполняет шифрование этого раздела, только если вы выбрали
+шифрование всего системного диска (а не шифрование только раздела, в котором установлена Windows).</p>
+<p>&nbsp;</p>
+<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+</div>
+</body></html>
