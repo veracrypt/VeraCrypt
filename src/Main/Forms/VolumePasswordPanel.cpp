@@ -472,9 +472,9 @@ namespace VeraCrypt
 			VolumePimHelpStaticText->SetLabel(LangString["PIM_CHANGE_WARNING"]);
 			guiUpdated = true;
 		}
-		if (!pimChanged && VolumePimHelpStaticText->GetForegroundColour() != *wxBLACK)
+		if (!pimChanged && VolumePimHelpStaticText->GetForegroundColour() != wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT))
 		{
-			VolumePimHelpStaticText->SetForegroundColour(*wxBLACK);
+			VolumePimHelpStaticText->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 			VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
 			guiUpdated = true;
 		}
