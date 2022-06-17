@@ -28,7 +28,6 @@ cd "..\Release\Setup Files\"
 copy ..\..\LICENSE .
 copy ..\..\License.txt .
 copy ..\..\NOTICE .
-copy ..\..\password1000000 .
 copy ..\..\Resources\Texts\License.rtf .
 copy ..\..\Common\VeraCrypt.ico .
 copy ..\..\Setup\VeraCrypt_setup_background.bmp .
