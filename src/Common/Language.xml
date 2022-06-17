@@ -1590,7 +1590,7 @@
     <entry lang="en" key="STRONG_PASSWORD">strong</entry>
     <entry lang="en" key="VERY_STRONG_PASSWORD">very strong</entry>
     <entry lang="en" key="IDT_PASSWORD_STRENGTH">Password strength:</entry>
-    <entry lang="en" key="PASSWORD_HELP_SYSENC">You might consider to write the password down somewhere safe. </entry>
+    <entry lang="en" key="PASSWORD_HELP_SYSENC">You might consider to write the password down somewhere safe. Please note, that the field to repeat your password is greyed out until you password has the minimum required strength.</entry>
     <entry lang="en" key="AES_HELP_NEW">AES is secure accoring to the National Institute of Standards and Technology (NIST) and the privacy and security research community.</entry>
     <entry lang="en" key="SHA512_HELP">SHA-512 is secure accoring to the National Institute of Standards and Technology (NIST) and the privacy and security research community.</entry>
     <entry lang="en" key="CHOOSE_PASSWORD_TITLE">Choose Password</entry>
