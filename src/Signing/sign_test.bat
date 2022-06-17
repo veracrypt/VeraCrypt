@@ -53,7 +53,6 @@ call build_msi_x64.bat %VC_VERSION_NBRE%
 del LICENSE
 del License.txt
 del NOTICE
-del password1000000.txt
 del License.rtf
 del VeraCrypt.ico
 del VeraCrypt_setup_background.bmp
