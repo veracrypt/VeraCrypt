@@ -6305,7 +6305,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if(!BrowseFile (hwndDlg, "RESCUE_DISK_PATH", tmpszRescueDiskISO))
 				return 1;
 
-			return 1;
+			return 0;
 		}
 		if (nCurPageNo == SYSENC_PRETEST_RESULT_PAGE && lw == IDC_CHECKBOX_PRETEST)
 		{
