@@ -1025,8 +1025,8 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="DownloadVeraCrypt">
-  <a href="#hide16" class="hide" id="hide16">Download VeraCrypt source files</a>
-  <a href="#show16" class="show" id="show16">Download VeraCrypt source files</a>
+  <a href="#hide16" class="hide" id="hide16">Download VeraCrypt Source Files</a>
+  <a href="#show16" class="show" id="show16">Download VeraCrypt Source Files</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1044,8 +1044,8 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="CompileWin32X64">
-  <a href="#hide17" class="hide" id="hide17">Compile the Win32/x64 versions of VeraCrypt</a>
-  <a href="#show17" class="show" id="show17">Compile the Win32/x64 versions of VeraCrypt</a>
+  <a href="#hide17" class="hide" id="hide17">Compile the Win32/x64 Versions of VeraCrypt</a>
+  <a href="#show17" class="show" id="show17">Compile the Win32/x64 Versions of VeraCrypt</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1081,8 +1081,8 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="CompileARM64">
-  <a href="#hide18" class="hide" id="hide18">Compile the ARM64 version of VeraCrypt</a>
-  <a href="#show18" class="show" id="show18">Compile the ARM64 version of VeraCrypt</a>
+  <a href="#hide18" class="hide" id="hide18">Compile the ARM64 Version of VeraCrypt</a>
+  <a href="#show18" class="show" id="show18">Compile the ARM64 Version of VeraCrypt</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1107,8 +1107,8 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="BuildVeraCryptExecutables">
-  <a href="#hide19" class="hide" id="hide19">Build VeraCrypt Executables</a>
-  <a href="#show19" class="show" id="show19">Build VeraCrypt Executables</a>
+  <a href="#hide19" class="hide" id="hide19">Build the VeraCrypt Executables</a>
+  <a href="#show19" class="show" id="show19">Build the VeraCrypt Executables</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1130,8 +1130,8 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="ImportCertificates">
-  <a href="#hide20" class="hide" id="hide20">Import the certificates</a>
-  <a href="#show20" class="show" id="show20">Import the certificates</a>
+  <a href="#hide20" class="hide" id="hide20">Import the Certificates</a>
+  <a href="#show20" class="show" id="show20">Import the Certificates</a>
   <div class="texttohide">
     <p> With the sign_test.bat script you just signed the VeraCrypt executables. This is necessary, since Windows only accepts drivers, which are trusted by a signed Certificate Authority. <br>
 	Since you did not use the official VeraCrypt signing certificate to sign your code, but a public development version, you have to import and therefore trust the certifcates used.
@@ -1165,7 +1165,8 @@ The following components are required for compiling VeraCrypt:
 				<b>This distribution package is damaged</b> <br>
 				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
 				On Windows 10 or higher you might get the error message above. It occurs, if the authenticode signature check fails. <br>
-				Currently this check works incorrectly, so it might fail every time. A workaround is to skip the check.
+				Currently this check works incorrectly, so it might fail every time. A workaround is to skip the verification. <br>
+				Please see <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/</a> for further details.
 				<ol>
 					<li>
 						Open the file "src/Common/Dlgcode.c"
