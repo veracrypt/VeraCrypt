@@ -1119,12 +1119,109 @@ The following components are required for compiling VeraCrypt:
 				Go into the folder "src/Signing/"
 			</li>
 			<li>
-				Run the script "sign.bat"
+				Run the script "sign_test.bat"
 			</li>
 			<li>
 				You will find the generated exectuables within the folder "src/Release/Setup Files"
 			</li>
 		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="ImportCertificates">
+  <a href="#hide20" class="hide" id="hide20">Import the certificates</a>
+  <a href="#show20" class="show" id="show20">Import the certificates</a>
+  <div class="texttohide">
+    <p> With the sign_test.bat script you just signed the VeraCrypt executables. This is necessary, since Windows only accepts drivers, which are trusted by a signed Certificate Authority. <br>
+	Since you did not use the official VeraCrypt signing certificate to sign your code, but a public development version, you have to import and therefore trust the certifcates used.
+		<ol>
+			<li>
+				Open the folder "src/Signing"
+			</li>
+			<li>
+				Import the following certificates to your Local Machine Certificate storage, by double clicking them:
+				<ul>
+					<li>GlobalSign_R3Cross.cer</li>
+					<li>GlobalSign_SHA256_EV_CodeSigning_CA.cer</li>
+					<li>TestCertificates/idrix_codeSign.pfx</li>
+					<li>TestCertificates/idrix_Sha256CodeSign.pfx</li>
+					<li>TestCertificates/idrix_SHA256TestRootCA.crt</li>
+					<li>TestCertificates/idrix_TestRootCA.crt</li>
+				</ul>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="KnownIssues">
+  <a href="#hide21" class="hide" id="hide21">Known Issues</a>
+  <a href="#show21" class="show" id="show21">Known Issues</a>
+  <div class="texttohide">
+    <p>
+		<ul>
+			<li>
+				<b>This distribution package is damaged</b> <br>
+				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
+				On Windows 10 or higher you might get the error message above. It occurs, if the authenticode signature check fails. <br>
+				Currently this check works incorrectly, so it might fail every time. A workaround is to skip the check.
+				<ol>
+					<li>
+						Open the file "src/Common/Dlgcode.c"
+					</li>
+					<li>
+						Look for the function "VerifyModuleSignature"
+					</li>
+					<li>
+						Replace the following lines: <br>
+						Find:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						if (!IsOSAtLeast (WIN_10)) <br>
+						return TRUE;
+						</p> <br>
+						Replace:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						return TRUE;
+						</p>
+					</li>
+					<li>
+						Compile the VeraCrypt code again
+					</li>
+				</ol>
+			</li>
+			<li>
+				<b>Certificate failure</b> <br>
+				<img src="CompilingGuidelineWin/CertVerifyFails.jpg" width="20%"> <br>
+				Windows validates the signature for every driver which is going to be installed.<br>
+				This validation can fail during the installation process of VeraCrypt for two reasons:
+				<ol>
+					<li>
+						<b>The certificate used for signing is not trusted by Windows</b><br>
+						You can verify if you are affected by checking the properties of the executable:
+						<ol>
+							<li>
+								Make a right click on the VeraCrypt Setup executable: "src/Release/Setup Files/VeraCrypt Setup 1.XX.exe"
+							</li>
+							<li>
+								Click on properties
+							</li>
+							<li>	
+								Go to the top menu "Digital Signatures". Her you will find two signatures in the Signature list
+							</li>
+								Check both by double clicking on it. If the headline says "The certificate in the signature cannot be verified", the corresponding signing certificate was not imported correctly.<br>
+								Click on "View Certificate" and then on "Install Certificate..." to import the certificate to your certificate storage <br>
+								<img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
+							<li>
+						</ol>
+					</li>
+					<li>
+						<b>The driver was modified after the signing process.</b> <br>
+						In this case, please use the script "src/Signing/sign_test.bat" to sign your code again with the test certificates
+					</li>
+				</ol>
+			</li>
+		</ul>
 	</p>
   </div>
  </div>
