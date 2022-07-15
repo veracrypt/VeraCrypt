@@ -87,10 +87,10 @@ For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 II. Linux and Mac OS X
 ======================
 
+A detailed guide on how to build a dev environment and on how to compile VeraCrypt on Linux can be found at: https://www.veracrypt.fr/en/CompilingGuidelineLinux.html
+
 Requirements for Building VeraCrypt for Linux and Mac OS X:
 -----------------------------------------------------------
-
-A detailed guide on how to build a dev environment and on how to compile VeraCrypt on Linux can be found at: https://www.veracrypt.fr/en/CompilingGuidelineLinux.html
 
 - GNU Make
 - GNU C++ Compiler 4.0 or compatible
