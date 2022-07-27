@@ -7993,35 +7993,38 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				}
 
-				wchar_t tmp[RANDPOOL_DISPLAY_SIZE + 1];
-				if (!bInPlaceEncNonSys)
-				{
-					/* Generate master key and other related data (except the rescue disk) for system encryption. */
-					try
-					{
-						WaitCursor();
-						BootEncObj->PrepareInstallation(!bWholeSysDrive, volumePassword, nVolumeEA, FIRST_MODE_OF_OPERATION_ID, hash_algo, volumePim, L"");
-					}
-					catch (Exception &e)
-					{
-						e.Show(hwndDlg);
-						NormalCursor();
-						return 1;
-					}
-				}
-				KillTimer(hwndDlg, TIMER_ID_RANDVIEW);
-				// Attempt to wipe the GUI field showing portions of randpool	
-				wmemset(tmp, L'X', ARRAYSIZE(tmp));
-				tmp[ARRAYSIZE(tmp) - 1] = 0;
-				SetWindowText(hRandPoolSys, tmp);
-				NormalCursor();
 
 				if (SysEncInEffect ())
 				{
 					if (PimEnable)
 						nNewPageNo = PIM_PAGE - 1;
 					else
+					{
 						nNewPageNo = SYSENC_RESCUE_DISK_CREATION_PAGE - 1; // Skip irrelevant pages
+						
+						wchar_t tmp[RANDPOOL_DISPLAY_SIZE + 1];
+						if (!bInPlaceEncNonSys)
+						{
+							/* Generate master key and other related data (except the rescue disk) for system encryption. */
+							try
+							{
+								WaitCursor();
+								BootEncObj->PrepareInstallation(!bWholeSysDrive, volumePassword, nVolumeEA, FIRST_MODE_OF_OPERATION_ID, hash_algo, volumePim, L"");
+							}
+							catch (Exception &e)
+							{
+								e.Show(hwndDlg);
+								NormalCursor();
+								return 1;
+							}
+						}
+						KillTimer(hwndDlg, TIMER_ID_RANDVIEW);
+						// Attempt to wipe the GUI field showing portions of randpool	
+						wmemset(tmp, L'X', ARRAYSIZE(tmp));
+						tmp[ARRAYSIZE(tmp) - 1] = 0;
+						SetWindowText(hRandPoolSys, tmp);
+						NormalCursor();
+					}
 
 				}
 			}
@@ -8079,6 +8082,29 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (SysEncInEffect ())
 				{
 					nNewPageNo = SYSENC_RESCUE_DISK_CREATION_PAGE - 1;	// Skip irrelevant pages
+					
+					wchar_t tmp[RANDPOOL_DISPLAY_SIZE + 1];
+					if (!bInPlaceEncNonSys)
+					{
+						/* Generate master key and other related data (except the rescue disk) for system encryption. */
+						try
+						{
+							WaitCursor();
+							BootEncObj->PrepareInstallation(!bWholeSysDrive, volumePassword, nVolumeEA, FIRST_MODE_OF_OPERATION_ID, hash_algo, volumePim, L"");
+						}
+						catch (Exception &e)
+						{
+							e.Show(hwndDlg);
+							NormalCursor();
+							return 1;
+						}
+					}
+					KillTimer(hwndDlg, TIMER_ID_RANDVIEW);
+					// Attempt to wipe the GUI field showing portions of randpool	
+					wmemset(tmp, L'X', ARRAYSIZE(tmp));
+					tmp[ARRAYSIZE(tmp) - 1] = 0;
+					SetWindowText(hRandPoolSys, tmp);
+					NormalCursor();
 				}
 			}
 
