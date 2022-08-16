@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Personal%20Iterations%20Multiplier%20(PIM).html">PIM</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>PIM (Персональный множитель итераций)</h1>
+<div>
+<p>PIM расшифровывается как &quot;Персональный множитель итераций&quot;. Это параметр впервые появился в VeraCrypt 1.12,
+его значение определяет количество итераций, используемых функцией формирования ключа заголовка. Это значение можно
+указать в диалоговом окне пароля или в командной строке.</p>
+<p>Если значение PIM не указано, будет использоваться количество итераций по умолчанию, применяемое в версиях до 1.12 (см.
+<a href="Header%20Key%20Derivation.html">
+Формирование ключа заголовка</a>).</p>
+<p>Если значение PIM указано, количество итераций вычисляется следующим образом:</p>
+<ul>
+<li>Для шифрования системы без использования SHA-512 или Whirlpool <i>количество итераций</i> = <strong>PIM &times; 2048</strong> </li>
+<li>Для шифрования системы с использованием SHA-512 или Whirlpool <i>количество итераций</i> = <strong>15 000 &#43; (PIM &times; 1000)</strong></li>
+<li>Для шифрования несистемных разделов и файлов-контейнеров <i>количество итераций</i> = <strong>15 000 &#43; (PIM &times; 1000)</strong></li>
+</ul>
+<p>До версии 1.12 безопасность тома VeraCrypt основывалась только на надёжности пароля, поскольку VeraCrypt использовал
+фиксированное количество итераций.<br>
+Благодаря реализации управления PIM у VeraCrypt появилось двумерное пространство безопасности для томов, основанное
+на паре (Пароль, PIM). Это обеспечивает большую гибкость при настройке желаемого уровня безопасности, одновременно
+контролируя производительность операции монтирования/загрузки.</p>
+<h3>Использование PIM</h3>
+Указывать PIM не обязательно.</div>
+<div><br>
+При создании тома или при смене пароля у пользователя есть возможность указать значение PIM, включив опцию
+<i>Использовать PIM</i>, что, в свою очередь, сделает поле PIM доступным в графическом интерфейсе, чтобы
+можно было ввести значение PIM.</div>
+<div>&nbsp;</div>
+<div>PIM обрабатывается как секретное значение, которое пользователь должен вводить каждый раз вместе с паролем.
+Если указано неверное значение PIM, операция монтирования/загрузки завершится ошибкой.</div>
+<div>&nbsp;</div>
+<div>Чем больше PIM, тем выше безопасность, так как увеличивается число итераций, но тем медленнее
+монтирование/загрузка.</div>
+<div>Чем меньше PIM, тем быстрее монтирование/загрузка, но возможно ухудшение безопасности, если используется
+слабый пароль.</div>
+<div>&nbsp;</div>
+<div>Во время создания тома или шифрования системы VeraCrypt принудительно выставляет значение PIM большим
+или равным определённому минимальному значению, если пароль меньше 20 символов. Эта проверка выполняется для
+того, чтобы убедиться, что для коротких паролей уровень безопасности по крайней мере равен уровню по умолчанию,
+когда PIM пуст.</div>
+<div>&nbsp;</div>
+<div>Минимальное значение PIM для коротких паролей равно <b>98</b> для шифрования системы без использования
+SHA-512 или Whirlpool, и <b>485</b> для других случаев. Для пароля, состоящего из 20 и более символов,
+минимальное значение PIM равно <b>1</b>.
+Во всех случаях, если оставить PIM пустым или установить его значение равным 0, VeraCrypt будет использовать
+большое количество итераций по умолчанию, как это объяснено в разделе
+<a href="Header%20Key%20Derivation.html">
+Формирование ключа заголовка</a>.</div>
+<div><br>
+Мотивами применения пользовательского значения PIM могут быть:<br>
+<ul>
+<li>добавление дополнительного секретного параметра (PIM), который злоумышленнику придётся угадывать;</li>
+<li>повышение уровня безопасности при использовании больших значений PIM, чтобы воспрепятствовать дальнейшему
+развитию атак методом перебора;</li>
+<li>ускорение загрузки или монтирования за счет использования небольшого значения PIM (менее 98 для
+шифрования системы без использования SHA-512 или Whirlpool, и менее 485 для других случаев)
+</li></ul>
+<p>На приведённых ниже снимках экрана показан шаг монтирования тома с использованием PIM, равного 231:</p>
+<table style="margin-left:auto; margin-right:auto">
+<tbody>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step1.png" alt=""></td>
+</tr>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step2.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<h3>Изменение/очистка PIM</h3>
+<p>PIM тома или для шифрования системы можно изменить или очистить с помощью функции смены пароля.
+На снимках экрана ниже показан пример изменения PIM со стандартного пустого значения на значение,
+равное 3 (это возможно, поскольку пароль содержит более 20 символов). Для этого нужно сначала включить
+опцию <i>Использовать PIM</i> в группе <i>Новый</i>, чтобы открыть поле PIM.</p>
+<table width="519" style="height:896px; width:519px; margin-left:auto; margin-right:auto">
+<caption><strong>Пример с обычным томом</strong></caption>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step1.png" alt=""></td>
+</tr>
+<tr>
+<td>
+<p><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step2.png" alt=""></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h5>&nbsp;</h5>
+<table style="margin-left:auto; margin-right:auto">
+<caption><strong>Пример с шифрованием системы</strong></caption>
+<tbody>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step1.png" alt=""></td>
+</tr>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step2.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p><a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

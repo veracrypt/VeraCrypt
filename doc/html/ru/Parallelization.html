@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Parallelization.html">Распараллеливание</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Распараллеливание</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если компьютер оснащён многоядерным процессором (или несколькими процессорами), VeraCrypt при операциях
+шифрования и дешифрования использует все ядра (или процессоры) параллельно. Например, когда нужно расшифровать
+порцию данных, сначала эта порция делится им на несколько более мелких частей. Количество частей равно числу
+ядер (или процессоров). Затем все части расшифровываются параллельно (часть 1 расшифровывается потоком 1,
+часть 2 – потоком 2, и т. д.). Тот же метод применяется и при шифровании.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Таким образом, если в компьютере установлен, скажем, 4-ядерный процессор, шифрование и дешифрование будут
+выполняться в четыре раза быстрее, чем при использовании одноядерного процессора с эквивалентными
+характеристиками (соответственно, в два раза быстрее, чем с помощью 2-ядерного процессора, и т. д.).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Увеличение скорости шифрования/дешифрования прямо пропорционально числу ядер и/или процессоров.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Процессоры с технологией Hyper-Threading имеют несколько логических ядер на одном физическом ядре
+(или несколько логических процессоров в одном физическом процессоре). Если в настройках компьютера (например,
+в BIOS) включена технология Hyper-Threading, VeraCrypt создаёт по одному потоку на каждое логическое ядро/процессор.
+Так, скажем, на 6-ядерном процессоре, имеющим на одном физическом ядре по два логических, VeraCrypt использует
+12 потоков.</div>
+<p><br style="text-align:left">
+Если компьютер имеет многоядерный процессор (или несколько процессоров), также параллельно выполняется и
+<a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+формирование ключа заголовка</a>. В результате при использовании многоядерного ЦП (или многопроцессорного ПК)
+монтирование тома происходит в несколько раз быстрее, чем при использовании одноядерного ЦП (или
+однопроцессорного ПК) с аналогичными характеристиками.
+</p>
+</div><div class="ClearBoth"></div></body></html>

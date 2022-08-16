@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Encryption%20Algorithms.html">Алгоритмы шифрования</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Serpent.html">Serpent</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Алгоритм шифрования Serpent</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>Разработан Ross Anderson, Eli Biham и Lars Knudsen; опубликован в 1998 году. Использует ключ длиной 256 бит
+и 128-битовые блоки, работает в режиме XTS (см. раздел
+<a href="Modes%20of%20Operation.html"><em>Режимы работы</em></a>). Serpent был одним из финалистов конкурса AES.
+В результате голосования он занял второе место, уступив алгоритму AES (Rijndael), несмотря на то, что у него был
+более высокий запас безопасности, чем у победившего Rijndael [4]. Говоря конкретнее, у Serpent был <em>высокий</em>
+запас безопасности, в то время как у Rijndael этот запас только <em>достаточный</em> [4]. Кроме того, в адрес
+алгоритма Rijndael раздавались критические замечания о том, что его математическая структура в будущем может
+привести к атакам [4].<br>
+<br>
+В документе [5] команда Twofish представила таблицу запаса прочности финалистов конкурса AES.
+Запас прочности определялся следующим образом: число раундов полного шифра делилось на наибольшее число раундов,
+которые были взломаны. Следовательно, взломанный шифр имеет наименьший запас прочности, равный 1.
+Среди финалистов конкурса AES наибольший запас прочности оказался у Serpent: 3,56 (для всех
+поддерживаемых размеров ключей). Запас прочности алгоритма Rijndael-256 составил 1,56.
+<br>
+<br>
+Несмотря на эти факты, победителем в конкурсе AES был выбран всё-таки Rijndael за его сочетание безопасности,
+производительности, эффективности, возможностей реализации и гибкости [4]. На последней конференции кандидатов AES
+алгоритм Rijndael получил 86 голосов, Serpent – 59, Twofish – 31, RC6 – 23, и MARS – 13 голосов [18, 19].*</p>
+<p>* Это положительные голоса. Если вычесть отрицательные голоса, то получаются следующие результаты:
+Rijndael: 76 голосов, Serpent: 52 голоса, Twofish: 10 голосов, RC6: -14 голосов, MARS: -70 голосов [19].</p>
+<p>&nbsp;</p>
+<p><a href="Twofish.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

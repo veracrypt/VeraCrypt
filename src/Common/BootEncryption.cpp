@@ -1705,15 +1705,11 @@ namespace VeraCrypt
 					ea = TWOFISH;
 				else if (_stricmp (request.BootEncryptionAlgorithmName, "Camellia") == 0)
 					ea = CAMELLIA;
-#if defined(CIPHER_GOST89)
-				else if (_stricmp (request.BootEncryptionAlgorithmName, "GOST89") == 0)
-					ea = GOST89;
-#endif
 
 				if (_stricmp(request.BootPrfAlgorithmName, "SHA-256") == 0)
 					pkcs5_prf = SHA256;
-				else if (_stricmp(request.BootPrfAlgorithmName, "RIPEMD-160") == 0)
-					pkcs5_prf = RIPEMD160;
+				else if (_stricmp(request.BootPrfAlgorithmName, "BLAKE2s-256") == 0)
+					pkcs5_prf = BLAKE2S;
 				else if (_stricmp(request.BootPrfAlgorithmName, "SHA-512") == 0)
 					pkcs5_prf = SHA512;
 				else if (_stricmp(request.BootPrfAlgorithmName, "Whirlpool") == 0)
@@ -1721,7 +1717,7 @@ namespace VeraCrypt
 				else if (_stricmp(request.BootPrfAlgorithmName, "Streebog") == 0)
 					pkcs5_prf = STREEBOG;
 				else if (strlen(request.BootPrfAlgorithmName) == 0) // case of version < 1.0f
-					pkcs5_prf = RIPEMD160;
+					pkcs5_prf = BLAKE2S;
 			}
 			catch (...)
 			{
@@ -1747,8 +1743,8 @@ namespace VeraCrypt
 			pkcs5_prf = SelectedPrfAlgorithmId;
 		}
 
-		// Only RIPEMD160 and SHA-256 are supported for MBR boot loader		
-		if (!bIsGPT && pkcs5_prf != RIPEMD160 && pkcs5_prf != SHA256)
+		// Only BLAKE2s and SHA-256 are supported for MBR boot loader		
+		if (!bIsGPT && pkcs5_prf != BLAKE2S && pkcs5_prf != SHA256)
 			throw ParameterIncorrect (SRC_POS);
 
 		int bootSectorId = 0;
@@ -2222,7 +2218,7 @@ namespace VeraCrypt
 	EfiBootConf::EfiBootConf() : passwordType (0),
 		passwordMsg ("Password: "),
 		passwordPicture ("login.bmp"),
-		hashMsg ("(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) RIPEMD160 (5) STREEBOG\nHash: "),
+		hashMsg ("(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) BLAKE2S (5) STREEBOG\nHash: "),
 		hashAlgo (0),
 		requestHash (0),
 		pimMsg ("PIM (Leave empty for default): "),
@@ -2339,7 +2335,7 @@ namespace VeraCrypt
 		passwordType = ReadConfigInteger (configContent, "PasswordType", 0);
 		passwordMsg = ReadConfigString (configContent, "PasswordMsg", "Password: ", buffer, sizeof (buffer));
 		passwordPicture = ReadConfigString (configContent, "PasswordPicture", "\\EFI\\VeraCrypt\\login.bmp", buffer, sizeof (buffer));
-		//hashMsg = ReadConfigString (configContent, "HashMsg", "(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) RIPEMD160 (5) STREEBOG\nHash: ", buffer, sizeof (buffer));
+		//hashMsg = ReadConfigString (configContent, "HashMsg", "(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) BLAKE2S (5) STREEBOG\nHash: ", buffer, sizeof (buffer));
 		hashAlgo = ReadConfigInteger (configContent, "Hash", 0);
 		requestHash = ReadConfigInteger (configContent, "HashRqt", 1);
 		pimMsg = ReadConfigString (configContent, "PimMsg", "PIM: ", buffer, sizeof (buffer));
@@ -5835,5 +5831,33 @@ namespace VeraCrypt
 	bool BootEncryption::RestartComputer (BOOL bShutdown)
 	{
 		return (::RestartComputer(bShutdown) != FALSE);
+	}
+
+	bool BootEncryption::IsUsingUnsupportedAlgorithm(LONG driverVersion)
+	{
+		bool bRet = false;
+
+		try
+		{
+			if (driverVersion <= 0x125)
+			{
+				// version 1.25 is last version to support RIPEMD160 and GOST89
+				static int GOST89_EA = 5;
+				static int RIPEMD160_PRF = 4;
+
+				VOLUME_PROPERTIES_STRUCT props = {0};
+				GetVolumeProperties(&props);
+
+				//
+				if (props.ea == GOST89_EA || props.pkcs5 == RIPEMD160_PRF)
+					bRet = true;
+			}
+		}
+		catch(...)
+		{
+
+		}
+
+		return bRet;
 	}
 }

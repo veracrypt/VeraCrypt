@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Pipelining.html">Конвейеризация</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Конвейеризация</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При шифровании или дешифровании данных VeraCrypt использует так называемую конвейеризацию (асинхронную
+обработку, pipelining). Когда какое-либо приложение загружает часть файла из зашифрованного с помощью
+VeraCrypt тома/диска, VeraCrypt автоматически расшифровывает её (в ОЗУ). Благодаря конвейеризации,
+приложению не нужно ждать расшифровки любой части файла, оно может начать загружать другие части файла
+немедленно. То же самое относится к шифрованию при записи данных в зашифрованный том/диск.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Конвейеризация позволяет считывать и записывать данные на зашифрованном диске так же быстро, как если бы
+диск не был зашифрован (это применимо к <a href="VeraCrypt%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+томам</a> VeraCrypt и на основе файла-контейнера, и на основе раздела).*
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Конвейеризация реализована только в версиях VeraCrypt для Windows.</div>
+<p>&nbsp;</p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* Некоторые твердотельные накопители (SSD)
+сжимают данные своими внутренними средствами, что выглядит как увеличение фактической скорости чтения/записи,
+когда данные поддаются сжатию (например, текстовые файлы). Однако зашифрованные данные не могут быть сжаты
+(поскольку они состоят исключительно из случайного "шума" без каких-либо сжимаемых шаблонов).
+Это может иметь различные последствия. Например, программы для тестирования производительности, которые
+считывают или записывают сжимаемые данные (такие как последовательности нулей), будут сообщать о более низкой
+скорости на зашифрованных томах, чем на незашифрованных (чтобы избежать этого, используйте программы для
+тестирования производительности, которые считывают/записывают случайные или другие виды несжимаемых данных)</span><span style="text-align:left; font-size:10px; line-height:12px">.</span></p>
+</div><div class="ClearBoth"></div></body></html>

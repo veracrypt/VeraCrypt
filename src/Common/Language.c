@@ -611,7 +611,8 @@ char *GetPreferredLangId ()
 
 void SetPreferredLangId (char *langId)
 {
-	StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), langId);
+	if (strlen(langId) < sizeof(PreferredLangId))
+		StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), langId);
 }
 
 

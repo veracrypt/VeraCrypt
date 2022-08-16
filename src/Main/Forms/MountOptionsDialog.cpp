@@ -88,7 +88,8 @@ namespace VeraCrypt
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, &options, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
+		ProtectionPasswordPanel = new VolumePasswordPanel (ProtectionSizer->GetStaticBox(), &options, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
+		ProtectionPasswordPanel->TopOwnerParent = this;
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
 		UpdateDialog();

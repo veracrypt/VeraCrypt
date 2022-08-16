@@ -280,7 +280,7 @@ static int Detect_MS_HyperV_AES ()
 	// when Hyper-V is enabled on older versions of Windows Server (i.e. 2008 R2), the AES-NI capability 
 	// gets masked out for all applications, even running on the host.
 	// We try to detect Hyper-V virtual CPU and perform a dummy AES-NI operation to check its real presence
-	uint32 cpuid[4];
+	uint32 cpuid[4] = {0};
 	char HvProductName[13];
 
 	CpuId(0x40000000, cpuid);
@@ -330,7 +330,9 @@ void DetectX86Features()
 	g_hasSSE42 = g_hasSSE2 && (cpuid1[2] & (1 << 20));
 	g_hasSSE41 = g_hasSSE2 && (cpuid1[2] & (1 << 19));
 	g_hasSSSE3 = g_hasSSE2 && (cpuid1[2] & (1<<9));
+#ifndef CRYPTOPP_DISABLE_AESNI
 	g_hasAESNI = g_hasSSE2 && (cpuid1[2] & (1<<25));
+#endif
 	g_hasCLMUL = g_hasSSE2 && (cpuid1[2] & (1<<1));
 
 #if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
@@ -346,7 +348,7 @@ void DetectX86Features()
 		g_hasISSE = 1;
 	else
 	{
-		uint32 cpuid2[4];
+		uint32 cpuid2[4] = {0};
 		CpuId(0x080000000, cpuid2);
 		if (cpuid2[0] >= 0x080000001)
 		{

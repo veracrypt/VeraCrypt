@@ -787,7 +787,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 		GetModuleFileName (NULL, szTmp, ARRAYSIZE (szTmp));
 
-		if (!SelfExtractInMemory (szTmp))
+		if (!SelfExtractInMemory (szTmp, FALSE))
 			return FALSE;
 	}
 
@@ -819,7 +819,8 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 			if (Is64BitOs ())
 				driver64 = TRUE;
 
-			GetSystemDirectory (szDir, ARRAYSIZE (szDir));
+			if (!GetSystemDirectory (szDir, ARRAYSIZE (szDir)))
+				StringCbCopyW(szDir, sizeof(szDir), L"C:\\Windows\\System32");
 
 			x = wcslen (szDir);
 			if (szDir[x - 1] != L'\\')
@@ -1725,6 +1726,10 @@ BOOL DoDriverUnload (HWND hwndDlg)
 				{
 					if (CurrentOSMajor == 6 && CurrentOSMinor == 0 && CurrentOSServicePack < 1)
 						AbortProcess ("SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0");
+
+					// check if we are upgrading a system encrypted with unsupported algorithms
+					if (bootEnc.IsUsingUnsupportedAlgorithm(driverVersion))
+						AbortProcess ("SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM");
 
 					SystemEncryptionUpdate = TRUE;
 					PortableMode = FALSE;
@@ -2779,7 +2784,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	{
 		/* Create self-extracting package */
 
-		MakeSelfExtractingPackage (NULL, SetupFilesDir);
+		MakeSelfExtractingPackage (NULL, SetupFilesDir, FALSE);
 	}
 	else
 	{

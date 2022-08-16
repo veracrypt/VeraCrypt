@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  display:none;
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.show {
+  display: none;
+    text-decoration: none;
+}
+
+.hide:target + .show {
+  display: inline;
+  text-decoration: none;
+}
+
+.hide:target {
+  display: none;
+  text-decoration: none;
+}
+
+.hide:target ~ .texttohide {
+  display:inline;
+  text-decoration: none;
+
+}
+
+@media print {
+  .hide, .show {
+    display: none;
+  }
+}
+
+</style>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineLinux.html">Compiling Gudineline for Linux</a>
+</p></div>
+
+<div class="wikidoc">
+This guide describes how to set up a Linux System that can compile the VeraCrypt. Further it is described how VeraCrypt is going to be compiled. <br>
+The procedure for a Ubuntu 22.04 LTS system is described here as an example, but the procedure for other Linux systems is analogous.
+</div>
+
+<div class="wikidoc">
+<br>
+<br>
+The following components are required for compiling VeraCrypt:
+<ol>
+	<li>GNU Make</li>
+	<li>GNU C++ Compiler 4.0</li>
+	<li>YASM 1.3.0</li>
+	<li>pkg-config</li>
+	<li>wxWidgets 3.2 shared library and header files installed or wxWidgets 3.0 library source code </li>
+	<li>FUSE library and header files</li>
+</ol>
+</div>
+
+<div class="wikidoc">
+If you do not want to perform the single steps below, you can run these commands to build an environment and to compile VeraCrpyt: <br>
+Download as script: <a href="LinuxPrepAndBuild.sh" target="_blank">Script</a> <br>
+<code>
+sudo apt update <br>
+sudo apt install -y build-essential yasm pkg-config libgtk-3-dev <br>
+wget https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.0/wxWidgets-3.2.0.tar.bz2 <br>
+tar -xf wxWidgets-3.2.0.tar.bz2 <br>
+cd wxWidgets-3.2.0 <br>
+mkdir gtk-build <br>
+cd gtk-build <br>
+../configure <br>
+make <br>
+sudo make install <br>
+sudo ldconfig <br>
+cd ../.. <br>
+rm -r wxWidgets-3.2.0 <br>
+rm wxWidgets-3.2.0.tar.bz2 <br>
+sudo apt install -y libfuse-dev git <br>
+git clone https://github.com/veracrypt/VeraCrypt.git
+cd ~/VeraCrypt/src <br>
+make
+</code>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfGNUMake">
+  <a href="#hide1" class="hide" id="hide1">Installation of GNU Make</a>
+  <a href="#show1" class="show" id="show1">Installation of GNU Make</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install build-essential
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfGNUCompiler">
+  <a href="#hide2" class="hide" id="hide2">Installation of GNU C++ Compiler 4.0</a>
+  <a href="#show2" class="show" id="show2">Installation of GNU C++ Compiler 4.0</a>
+  <div class="texttohide">
+    <p> If the build-essential were already installed in the step before, this step can be skipped.
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install build-essential
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#hide3" class="hide" id="hide3">Installation of YASM</a>
+  <a href="#show3" class="show" id="show3">Installation of YASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install yasm
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfPKGConfig">
+  <a href="#hide4" class="hide" id="hide4">Installation of pkg-config</a>
+  <a href="#show4" class="show" id="show4">Installation of pkg-config</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install pkg-config
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfwxWidgets">
+  <a href="#hide5" class="hide" id="hide5">Installation of wxWidgets 3.2</a>
+  <a href="#show5" class="show" id="show5">Installation of wxWidgets 3.2</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>		
+				sudo apt install libgtk-3-dev <br>
+				wget https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.0/wxWidgets-3.2.0.tar.bz2 <br>
+				tar -xf wxWidgets-3.2.0.tar.bz2 <br>
+				cd wxWidgets-3.2.0 <br>
+				mkdir gtk-build <br>
+				cd gtk-build <br>
+				../configure <br>
+				make <br>
+				sudo make install <br>
+				sudo ldconfig <br>
+				cd ../.. <br>
+				rm -r wxWidgets-3.2.0 <br>
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfFuse">
+  <a href="#hide6" class="hide" id="hide6">Installation of libfuse</a>
+  <a href="#show6" class="show" id="show6">Installation of libfuse</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install libfuse-dev
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#hide7" class="hide" id="hide7">Download VeraCrypt</a>
+  <a href="#show7" class="show" id="show7">Download VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install git <br>
+				git clone https://github.com/veracrypt/VeraCrypt.git
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileVeraCrypt">
+  <a href="#hide8" class="hide" id="hide8">Compile VeraCrypt</a>
+  <a href="#show8" class="show" id="show8">Compile VeraCrypt</a>
+  <div class="texttohide">
+    <p> Remarks: <br>
+	<ul>
+		<li>
+			If you have not installed wxWidgets like described here, you may have to modify the make statement to reference to the right file: <br>
+			<code>make WXSTATIC=1</code>
+		</li>
+		<li>
+			By default, a universal executable supporting both graphical and text user interface (through the switch --text) is built. <br>
+			On Linux, a console-only executable, which requires no GUI library, can be built using the 'NOGUI' parameter: <br>
+			<code>
+			make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild <br>
+			make NOGUI=1 WXSTATIC=1
+			</code>
+		</li>
+	</ul>
+	Steps:
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>		
+				cd ~/VeraCrypt/src <br>
+				make
+				</code>
+			</li>
+			<li>
+				If successful, the VeraCrypt executable should be located in the directory 'Main'.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

@@ -175,8 +175,8 @@
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="RIPEMD-160">
-			<param name="Local" value="RIPEMD-160.html">
+			<param name="Name" value="BLAKE2s-256">
+			<param name="Local" value="BLAKE2s-256.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="SHA-256">

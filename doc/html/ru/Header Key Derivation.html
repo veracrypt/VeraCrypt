@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Header%20Key%20Derivation.html">Формирование ключа заголовка, соль и количество итераций</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Формирование ключа заголовка, соль и количество итераций</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Ключ заголовка используется для шифрования и дешифрования зашифрованной области заголовка тома
+VeraCrypt (в случае 
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+шифрования системы</a> – области ключевых данных), которая содержит мастер-ключ и другую информацию (см. разделы
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Схема шифрования</a> и <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Спецификация формата томов VeraCrypt</a>). В томах, созданных с помощью VeraCrypt (и для
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+шифрования системы</a>), эта область зашифрована в режиме XTS (см. раздел <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Режимы работы</a>). Для генерирования ключа заголовка и вторичного ключа заголовка (режим XTS)
+VeraCrypt использует метод PBKDF2, определённый в PKCS #5 v2.0; см.
+<a href="References.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+[7]</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В программе применяется 512-битовая соль, что означает 2<sup style="text-align:left; font-size:85%">512</sup>
+ключей для каждого пароля. Благодаря этому значительно повышается устойчивость к атакам с офлайн-словарями/"радужной
+таблицей" (соль крайне осложняет предвычисление всех ключей для словаря паролей) [7]. Соль состоит из
+случайных значений, созданных
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+генератором случайных чисел VeraCrypt</a> в процессе создания тома. Функция формирования (деривации) ключа
+заголовка основана на HMAC-SHA-512, HMAC-SHA-256, HMAC-BLAKE2S-256, HMAC-Whirlpool или HMAC-Streebog (см. [8, 9, 20, 22]) &ndash;
+какая из них будет применяться, выбирается пользователем. Длина сформированного ключа не зависит от
+размера вывода лежащей в основе хеш-функции. Например, длина ключа заголовка для шифра AES-256 всегда равна
+256 битам, даже если используется HMAC-SHA-512 (в режиме XTS применяется дополнительный 256-битовый
+вторичный ключ заголовка; следовательно, для AES-256 в целом применяются два 256-битовых ключа). Более
+подробную информацию см. в [7]. Для формирования ключа заголовка выполняется большое количество итераций,
+что увеличивает время, необходимое для полного поиска паролей (т.е. атакой методом перебора)&nbsp;[7].</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>До версии 1.12 в VeraCrypt всегда использовалось фиксированное количество итераций, зависящее только от типа
+тома и алгоритма формирования ключа.</p>
+<ul></ul>
+<p>Начиная с версии 1.12, поле <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM</a> (<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">Персональный множитель итераций</a>)
+даёт пользователям больший контроль за количеством итераций, используемых в функции формирования ключа.</p>
+<p>Если <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM</a> не указан или равен нулю, VeraCrypt использует следующие стандартные значения:</p>
+<ul>
+<li>Для шифрования системы (шифрование загрузки), если используется SHA-256, BLAKE2s-256 или Streebog, <i>число итераций</i> = <strong>200 000</strong>.</li>
+<li>Для шифрования системы, если используется SHA-512 или Whirlpool, для несистемных разделов и файлов-контейнеров <i>число итераций</i> = <strong>500 000</strong>.
+</li></ul>
+</p>
+<p>Если <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM</a> указан, то количество итераций функции формирования ключа вычисляется следующим образом:</p>
+<ul>
+<li>Для шифрования системы, если не используется SHA-512 или Whirlpool, <i>число итераций</i> = <strong>PIM &times; 2048</strong>.</li>
+<li>Для шифрования системы, если используется SHA-512 или Whirlpool, для несистемных разделов и файлов-контейнеров <i>число итераций</i> = <strong>15 000 &#43; (PIM &times; 1000)</strong>.
+</li></ul>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Ключи заголовка, используемые шифрами при каскадном (последовательном) шифровании, не зависят друг от друга,
+хотя они и сформированы из одного пароля (к которому могут быть применены ключевые файлы). Например, для
+каскада AES-Twofish-Serpent функция формирования ключа заголовка получает 768-битный ключ шифрования из
+заданного пароля (и, для режима XTS, вдобавок 768-битовый <em style="text-align:left">вторичный</em> ключ
+заголовка из заданного пароля). Сгенерированный 768-битовый ключ заголовка затем разделяется на три 256-битовых
+ключа (для режима XTS <em style="text-align:left">вторичный</em> ключ разделяется тоже на три 256-битовых ключа,
+поэтому в действительности каскад в целом использует шесть 256-битовых ключей), из которых первый ключ
+используется шифром Serpent, второй – шифром Twofish, а третьй – шифром AES (кроме того, для режима XTS
+первый вторичный ключ используется шифром Serpent, второй вторичный ключ – шифром Twofish, и третий вторичный
+ключ – шифром AES). Отсюда следует, что даже если у неприятеля окажется один из ключей, он не сможет им
+воспользоваться для формирования остальных, поскольку не существует реально осуществимого способа определить
+пароль по полученному из него в результате формирования ключу (за исключением атаки полным перебором при
+слабом пароле).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

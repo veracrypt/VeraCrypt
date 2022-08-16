@@ -4790,18 +4790,25 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			else
 			{
 				int fileNo = 0;
+				BOOL bMsiX64Case = FALSE;
 				// get file from the Setup binary after checking its signature and its version
-				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Setup.exe", appDir);
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt COMReg.exe", appDir); // MSI installation case
+				if (FileExists(srcPath))
+				{
+					bMsiX64Case = TRUE;
+				}
+				else
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Setup.exe", appDir); // EXE installation case
 
 				FreeAllFileBuffers ();
 
-				if (!VerifyPackageIntegrity (srcPath) || !SelfExtractInMemory (srcPath))
+				if (!VerifyPackageIntegrity (srcPath) || !SelfExtractInMemory (srcPath, TRUE) || (!bMsiX64Case && (Decompressed_Files_Count != NBR_COMPRESSED_FILES)))
 				{
 					MessageBoxW (hwndDlg, GetString ("DIST_PACKAGE_CORRUPTED"), lpszTitle, MB_ICONEXCLAMATION);
 					goto stop;
 				}
 
-				for (fileNo = 0; fileNo < NBR_COMPRESSED_FILES; fileNo++)
+				for (fileNo = 0; fileNo < Decompressed_Files_Count; fileNo++)
 				{
 					wchar_t fileName [TC_MAX_PATH] = {0};
 
@@ -4869,6 +4876,71 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 						StringCbPrintfW (szTmp, sizeof (szTmp), GetString ("CANNOT_WRITE_FILE_X"), dstPath);
 						MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+						goto stop;
+					}
+				}
+
+				if (bMsiX64Case)
+				{
+					// Main app
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt.exe", appDir);
+					StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
+					if (!VerifyModuleSignature (srcPath))
+					{
+						Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
+						goto stop;
+					}
+					else if (!TCCopyFile (srcPath, dstPath))
+					{
+						handleWin32Error (hwndDlg, SRC_POS);
+						goto stop;
+					}
+
+					// Wizard
+					if (copyWizard)
+					{
+						StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format.exe", appDir);
+						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
+						if (!VerifyModuleSignature (srcPath))
+						{
+							Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
+							goto stop;
+						}
+						else if (!TCCopyFile (srcPath, dstPath))
+						{
+							handleWin32Error (hwndDlg, SRC_POS);
+							goto stop;
+						}
+					}
+
+					// Expander
+					if (copyExpander)
+					{
+						StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander.exe", appDir);
+						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-x64.exe", dstDir);
+						if (!VerifyModuleSignature (srcPath))
+						{
+							Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
+							goto stop;
+						}
+						else if (!TCCopyFile (srcPath, dstPath))
+						{
+							handleWin32Error (hwndDlg, SRC_POS);
+							goto stop;
+						}
+					}
+
+					// Driver
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\veracrypt.sys", appDir);
+					StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
+					if (!VerifyModuleSignature (srcPath))
+					{
+						Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
+						goto stop;
+					}
+					else if (!TCCopyFile (srcPath, dstPath))
+					{
+						handleWin32Error (hwndDlg, SRC_POS);
 						goto stop;
 					}
 				}
@@ -6511,6 +6583,14 @@ static void ShowSystemEncryptionStatus (HWND hwndDlg)
 	if (GetAsyncKeyState (VK_SHIFT) < 0 && GetAsyncKeyState (VK_CONTROL) < 0)
 	{
 		// Ctrl+Shift held (for debugging purposes)
+		int64 encryptedRatio = 0;
+		if (BootEncStatus.DriveEncrypted 
+			&& (BootEncStatus.ConfiguredEncryptedAreaStart >= 0) 
+			&& (BootEncStatus.ConfiguredEncryptedAreaEnd >= BootEncStatus.ConfiguredEncryptedAreaStart)
+			)
+		{
+			encryptedRatio = (BootEncStatus.EncryptedAreaEnd + 1 - BootEncStatus.EncryptedAreaStart) * 100I64 / (BootEncStatus.ConfiguredEncryptedAreaEnd + 1 - BootEncStatus.ConfiguredEncryptedAreaStart);
+		}
 
 		DebugMsgBox ("Debugging information for system encryption:\n\nDeviceFilterActive: %d\nBootLoaderVersion: %x\nSetupInProgress: %d\nSetupMode: %d\nVolumeHeaderPresent: %d\nDriveMounted: %d\nDriveEncrypted: %d\n"
 			"HiddenSystem: %d\nHiddenSystemPartitionStart: %I64d\n"
@@ -6528,7 +6608,7 @@ static void ShowSystemEncryptionStatus (HWND hwndDlg)
 			BootEncStatus.ConfiguredEncryptedAreaEnd,
 			BootEncStatus.EncryptedAreaStart,
 			BootEncStatus.EncryptedAreaEnd,
-			!BootEncStatus.DriveEncrypted ? 0 : (BootEncStatus.EncryptedAreaEnd + 1 - BootEncStatus.EncryptedAreaStart) * 100I64 / (BootEncStatus.ConfiguredEncryptedAreaEnd + 1 - BootEncStatus.ConfiguredEncryptedAreaStart));
+			encryptedRatio);
 	}
 
 	if (!BootEncStatus.DriveEncrypted && !BootEncStatus.DriveMounted)
@@ -9526,8 +9606,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							CmdVolumePkcs5 = SHA512;
 						else if (_wcsicmp(szTmp, L"sha256") == 0)
 							CmdVolumePkcs5 = SHA256;
-						else if (_wcsicmp(szTmp, L"ripemd160") == 0)
-							CmdVolumePkcs5 = RIPEMD160;
+						else if ((_wcsicmp(szTmp, L"blake2s") == 0) || (_wcsicmp(szTmp, L"blake2s-256") == 0))
+							CmdVolumePkcs5 = BLAKE2S;
 						else
 						{
 							/* match using internal hash names */
@@ -9663,28 +9743,39 @@ static void SystemFavoritesServiceSetStatus (DWORD status, DWORD waitHint = 0)
 	SetServiceStatus (SystemFavoritesServiceStatusHandle, &SystemFavoritesServiceStatus);
 }
 
-static void SystemFavoritesServiceUpdateLoaderProcessing ()
+static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 {
-	if (!(BootEncObj->ReadServiceConfigurationFlags () & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
+	SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing called");
+	if (bForce || !(BootEncObj->ReadServiceConfigurationFlags () & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
 	{
+		SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing processing");
 		try
 		{
 			BootEncryption::UpdateSetupConfigFile (true);
+			SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing: UpdateSetupConfigFile called");
 			if (!BootEncStatus.HiddenSystem)
 			{
 				// re-install our bootloader again in case the update process has removed it.
 				bool bForceSetNextBoot = false;
 				bool bSetBootentry = true;
 				bool bForceFirstBootEntry = true;
-				uint32 flags = BootEncObj->ReadServiceConfigurationFlags ();
-				if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)
-					bForceSetNextBoot = true;
-				if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)
-					bSetBootentry = false;
-				if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)
-					bForceFirstBootEntry = false;
-				BootEncryption bootEnc (NULL, true, bSetBootentry, bForceFirstBootEntry, bForceSetNextBoot);
+				bool bPostOOBE = true;
+				if (bForce)
+					bPostOOBE = false;
+				else
+				{
+					uint32 flags = BootEncObj->ReadServiceConfigurationFlags ();
+					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)
+						bForceSetNextBoot = true;
+					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)
+						bSetBootentry = false;
+					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)
+						bForceFirstBootEntry = false;
+				}
+				BootEncryption bootEnc (NULL, bPostOOBE, bSetBootentry, bForceFirstBootEntry, bForceSetNextBoot);
+				SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing: InstallBootLoader calling");
 				bootEnc.InstallBootLoader (true);
+				SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing: InstallBootLoader called");
 			}
 		}
 		catch (...)
@@ -9704,7 +9795,7 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 	case SERVICE_CONTROL_STOP:
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
-		SystemFavoritesServiceUpdateLoaderProcessing ();
+		SystemFavoritesServiceUpdateLoaderProcessing (FALSE);
 
 		/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION flag */
 		SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, FALSE);
@@ -9717,7 +9808,7 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 			/* perform fixing of bootloader and SetupConfig.ini when the system resumes from sleep */
 			if (dwEventType == PBT_APMRESUMEAUTOMATIC)
 			{
-				SystemFavoritesServiceUpdateLoaderProcessing ();
+				SystemFavoritesServiceUpdateLoaderProcessing (FALSE);
 			}
 		}
 		break;
@@ -9726,7 +9817,7 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 			/* perform fixing of bootloader and SetupConfig.ini when the user logs in or when he unlocks his locked session */
 			if ((dwEventType == WTS_SESSION_UNLOCK) || (dwEventType == WTS_SESSION_LOGON))
 			{
-				SystemFavoritesServiceUpdateLoaderProcessing ();
+				SystemFavoritesServiceUpdateLoaderProcessing (FALSE);
 			}
 		}
 		break;
@@ -9791,14 +9882,21 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	BOOL status = FALSE;
 	DEV_BROADCAST_DEVICEINTERFACE hdr;
 	BOOL bSkipMount = FALSE;
+	BOOL bUpdateLoader = FALSE;
+	DWORD i;
 	memset (&SystemFavoritesServiceStatus, 0, sizeof (SystemFavoritesServiceStatus));
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
 	SystemFavoritesServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
 	if (IsOSAtLeast (WIN_VISTA))
 		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN | SERVICE_ACCEPT_SESSIONCHANGE | SERVICE_ACCEPT_POWEREVENT;
 
-	if ((argc >= 2) && (0 == _wcsicmp (argv[1], VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT)))
-		bSkipMount = TRUE;
+	for (i = 1; i < argc; i++)
+	{
+		if (0 == _wcsicmp (argv[i], VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT))
+			bSkipMount = TRUE;
+		else if (0 == _wcsicmp (argv[i], VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER))
+			bUpdateLoader = TRUE;
+	}
 
 	ZeroMemory (&hdr, sizeof(hdr));
 	hdr.dbcc_size = sizeof (hdr);
@@ -9816,6 +9914,12 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 
 	SetUnhandledExceptionFilter (SystemFavoritesServiceExceptionHandler);
 	_set_invalid_parameter_handler (SystemFavoritesServiceInvalidParameterHandler);
+
+	if (bUpdateLoader)
+	{
+		SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
+		SystemFavoritesServiceUpdateLoaderProcessing (TRUE);
+	}
 
 	if (!bSkipMount)
 	{
@@ -9846,7 +9950,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 		if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD))
 			WipeCache (NULL, TRUE);
 
-		SystemFavoritesServiceUpdateLoaderProcessing ();
+		SystemFavoritesServiceUpdateLoaderProcessing (FALSE);
 	}
 
 	SystemFavoritesServiceSetStatus (SERVICE_RUNNING);

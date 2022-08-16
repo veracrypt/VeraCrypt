@@ -67,9 +67,6 @@
     <ClCompile Include="..\Crypto\cpu.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\GostCipher.c">
-      <Filter>Crypto\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Crypto\jitterentropy-base.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Crypto\rdrand.c">
-      <Filter>Crypto\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Crypto\Rmd160.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Crypto\SerpentFast.c">
@@ -150,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="Ntdriver.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s.c">
+      <Filter>Crypto\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -267,9 +264,6 @@
       <Filter>Crypto\Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="..\Crypto\Aes_x86.asm">
-      <Filter>Crypto\Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\Crypto\Gost89_x64.asm">
       <Filter>Crypto\Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="..\Crypto\Twofish_x64.S">

@@ -313,6 +313,7 @@ namespace VeraCrypt
 		void RestoreSystemLoader ();
 		static void UpdateSetupConfigFile (bool bForInstall);
 		void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
+		bool IsUsingUnsupportedAlgorithm(LONG driverVersion);
 	protected:
 		static const uint32 RescueIsoImageSize = 1835008; // Size of ISO9660 image with bootable emulated 1.44MB floppy disk image
 
@@ -360,6 +361,7 @@ namespace VeraCrypt
 #define	TC_SYSTEM_FAVORITES_SERVICE_LOAD_ORDER_GROUP	L"Event Log"
 #define TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION		L"/systemFavoritesService"
 #define VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT		L"/SkipMount"
+#define VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER	L"/UpdateLoader"
 
 #define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER			0x1
 #define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT			0x2

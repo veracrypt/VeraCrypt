@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Keyfiles%20in%20VeraCrypt.html">Ключевые файлы</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Ключевые файлы</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+Ключевой файл это файл, чьё содержимое объединено с паролем (информацию о методе объединения ключевого файла
+с паролем см. в разделе
+<a href="Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Ключевые файлы</a>, глава <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Технические подробности</a>). Пока не будет предоставлен правильный ключевой файл, ни один том, использующий
+этот ключевой файл, не может быть смонтирован.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Использовать ключевые файлы необязательно. Тем не менее, их применение даёт ряд преимуществ. Ключевые файлы:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+могут повысить стойкость защиты к атакам методом полного перебора (brute force), особенно при недостаточно надёжном пароле тома;</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+позволяют использовать токены безопасности и смарт-карты (см. ниже);</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+позволяют нескольким пользователям монтировать один том, используя разные пароли или пин-коды: просто
+снабдите каждого пользователя токеном безопасности или смарт-картой, содержащими один и тот же ключевой
+файл VeraCrypt, и позвольте им выбрать свой собственный пароль или пин-код для защиты их токенов безопасности
+или смарт-карт;</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+позволяют управлять многопользовательским <em style="text-align:left">совместным</em> доступом (все владельцы
+ключевых файлов должны их предоставить, прежде чем том можно будет смонтировать).</li>
+</ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В качестве ключевого файла VeraCrypt можно использовать файл любого типа (например, .txt, .exe, mp3**, .avi),
+однако мы рекомендуем отдавать предпочтение сжатым файлам (.mp3, .jpg, .zip и т. д.).
+<br style="text-align:left">
+<br style="text-align:left">
+Обратите внимание, что VeraCrypt никогда не изменяет содержимое ключевых файлов. Разрешается выбирать более
+одного ключевого файла; их последовательность не имеет значения. Кроме того, ключевой файл со случайным содержимым
+может сгенерировать и непосредственно VeraCrypt. Чтобы это сделать, выберите
+<em style="text-align:left">Сервис &gt; Генератор ключевых файлов</em>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Ключевые файлы в настоящее время не поддерживаются для шифрования системы.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+ВНИМАНИЕ: Если вы потеряете ключевой файл или в ключевом файле будет изменён хотя бы один бит в первых 1024 килобайтах,
+то не сможете монтировать тома, использующие этот ключевой файл!</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left"><strong style="text-align:left">ПРЕДУПРЕЖДЕНИЕ: Если включено кэширование паролей,
+то в кэше паролей также будет сохраняться содержимое ключевых файлов, использованных для успешного монтирования тома.
+После этого том можно будет повторно монтировать даже в случае отсутствия/недоступности ключевого файла.</strong></em>
+Чтобы этого избежать, нажмите <em style="text-align:left">Очистить кэш</em> или отключите кэширование паролей
+(см. подробности в подразделе <em>Настройки -&gt; Параметры</em>, пункт <em>Кэшировать пароли в памяти драйвера</em>
+в разделе <em><a href="Program%20Menu.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Меню программы</em></a>).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. также раздел <a href="Choosing%20Passwords%20and%20Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Выбор паролей и ключевых файлов</a>, глава <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Требования безопасности и меры предосторожности</a>.</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Диалоговое окно ключевых файлов</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если вы хотите использовать ключевые файлы (то есть &quot;применять&quot; их) при создании/монтировании томов
+или изменении паролей, ищите опцию и кнопку <em style="text-align:left">Ключевые файлы</em> ниже поля ввода пароля.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Keyfiles in VeraCrypt_Image_040.png" alt="VeraCrypt Keyfiles dialog" width="491" height="165"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Эти управляющие элементы присутствуют в разных диалоговых окнах, но всегда выполняют одинаковые функции. Включите
+опцию <em style="text-align:left">Ключевые файлы</em> и нажмите кнопку <em style="text-align:left">
+Ключевые файлы</em>. должно появиться диалоговое окно, в котором вы сможете указать ключевые файлы (чтобы это
+сделать, нажмите кнопку <em style="text-align:left">Файлы</em> или <em style="text-align:left">Токен-файлы</em>)
+<em style="text-align:left"> или</em> путь поиска ключевых файлов (нажмите кнопку
+<em style="text-align:left">Путь</em>).</div>
+<p>&nbsp;</p>
+<h3 id="SmartCard" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Токены безопасности и смарт-карты</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt может непосредственно использовать ключевые файлы, находящиеся на токенах безопасности или на
+смарт-картах, соответствующих стандарту PKCS&nbsp;#11 (2.0 или новее) [23], что позволяет пользователю
+хранить файл (объект данных) на токене/карте. Чтобы использовать такие файла в качестве ключевых файлов
+VeraCrypt, нажмите кнопку <em style="text-align:left">Токен-файлы</em> (в диалоговом окне ключевых файлов).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Доступ к хранящемуся в токене безопасности или смарт-карте ключевому файлу, как правило, защищён пин-кодами,
+которые можно ввести либо с аппаратной цифровой клавиатуры ("пинпада"), либо из интерфейса VeraCrypt.
+Кроме того, возможны и другие методы защиты, например, сканирование отпечатков пальцев.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы предоставить VeraCrypt доступ с токену безопасности или смарт-карте, необходимо сначала установить
+программную библиотеку PKCS #11 (2.0 или новее) для этого токена или смарт-карты. Такая библиотека может
+либо поставляться вместе с устройством, либо её нужно загрузить с сайта поставщика или других сторонних фирм.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если в токене безопасности или смарт-карте нет файлов (объектов данных) для использования как ключевых
+файлов VeraCrypt, можно импортировать любой файл на токен безопасности или смарт-карту (если это
+поддерживается устройством) с помощью VeraCrypt. Для этого:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В диалоговом окне ключевых файлов нажмите кнопку <em style="text-align:left">Токен-файлы</em>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если токен или смарт-карта защищены пин-кодом, паролем или иным способом (например, сканером отпечатков
+пальцев), идентифицируйте себя (например, введя пин-код на пинпаде).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В появившемся диалоговом окне <i>Ключевые файлы токена безопасности</i> нажмите <em style="text-align:left">
+Импорт кл.файла в токен </em> и выберите файл, который вы хотите импортировать в токен или смарт-карту.
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Обратите внимание, что можно импортировать, например, 512-битовые ключевые файлы со случайным содержимым,
+созданные с помощью VeraCrypt (см. ниже
+<em style="text-align:left">Сервис &gt; Генератор ключевых файлов</em>).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы закрыть все открытые сеансы токена безопасности, либо выберите <em style="text-align:left">
+Сервис</em> &gt; <em style="text-align:left">Закрыть все токен-сессии</em>, либо задайте и используйте
+комбинацию горячих клавиш (<em style="text-align:left">Настройки</em> &gt;
+<em style="text-align:left">Горячие клавиши &gt; Закрыть все токен-сессии</em>).</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Путь поиска ключевых файлов</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Добавив папку в диалоговом окне ключевых файлов (для этого нажмите кнопку <em style="text-align:left">
+Путь</em>), можно указать <em style="text-align:left">путь поиска ключевых файлов</em>. Все файлы,
+обнаруженные в пути поиска ключевых файлов*, будут использоваться как ключевые, за исключением тех,
+у которых установлен атрибут <i>Скрытый</i>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><em style="text-align:left">ВАЖНО: Обратите внимание, что папки
+(и содержащиеся в них файлы), найденные в путях поиска ключевых файлов, игнорируются.</em></strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Пути поиска ключевых файлов особенно удобны, если вы, например, храните ключевые файлы на USB-накопителе (флешке),
+который всегда носите с собой. В этом случае можно назначить букву диска USB-накопителя как путь поиска
+ключевых файлов, принимаемый по умолчанию. Чтобы это сделать, выберите
+<em style="text-align:left">Настройки</em> -&gt; <em style="text-align:left">Ключевые файлы по умолчанию</em>. Затем нажмите кнопку
+<br style="text-align:left">
+<em style="text-align:left">Путь</em>, укажите букву диска, присвоенную USB-накопителю, и нажмите
+<em style="text-align:left">OK</em>. Теперь при каждом монтировании тома (при условии, что в окне ввода пароля
+включена опция <em style="text-align:left">Ключевые файлы</em>), VeraCrypt будет просматривать этот
+путь и использовать все файлы, которые он обнаружит в USB-накопителе, как ключевые.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><em style="text-align:left">ВНИМАНИЕ: Когда вы добавляете в список ключевых
+файлов папку (в отличие от файла), запоминается только путь, но не имена файлов! Это означает, что, например,
+если создать в этой папке новый файл или скопировать в неё ещё один какой-либо файл, то все тома, которые
+используют ключевые файлы из этой папки, будет невозможно смонтировать (до тех пор, пока из папки не будет
+удалён этот новый файл).
+</em></strong></div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Пустой пароль и ключевой файл</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если используется ключевой файл, то пароль может быть пустым, т. е. ключевой файл может служить единственным
+элементом, необходимым для монтирования тома (чего мы делать не рекомендуем). Если при монтировании тома
+установлены ключевые файлы по умолчанию и включено их использование, то перед запросом пароля VeraCrypt
+сначала автоматически пытается выполнить монтирование с помощью пустого пароля и ключевых файлов по умолчанию
+(это, однако, не относится к функции <em style="text-align:left">Автомонтирование</em>). Если нужно задать
+параметры монтирования (например, чтобы смонтировать том как доступный только для чтения, включить защиту
+скрытого тома и т. д.) для тома, который уже был смонтирован таким способом, то при щелчке по кнопке
+<em style="text-align:left">Монтировать</em> удерживайте нажатой клавишу <em style="text-align:left">
+Control </em>(<em style="text-align:left">Ctrl</em>) (или выберите команду <em style="text-align:left">Смонтировать том с параметрами</em>
+в меню <em style="text-align:left">Тома</em>). Этим вы откроете диалоговое окно <em style="text-align:left">
+Параметры монтирования</em>.</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Быстрый выбор</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Ключевые файлы или пути поиска ключевых файлов можно быстро выбирать следующими способами:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+щёлкните правой кнопкой мыши на кнопке <em style="text-align:left">Ключевые файлы</em> в окне ввода пароля
+и выберите один из пунктов в появившемся меню;
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+перетащите значки соответствующих файлов/папок в окно ключевых файлов или в окно ввода пароля.
+</li></ul>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Тома -&gt; Добавить/удалить ключевые файлы в/из том(а)</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Эта функция позволяет перешифровать заголовок тома с ключом, сформированным из любого количества ключевых
+файлов (с паролем или без него) или вовсе без ключевых файлов. Так, том, для монтирования которого требуется
+только пароль, можно преобразовать в том, для монтирования которого нужны ключевые файлы (в дополнение
+к паролю). Обратите внимание, что в заголовке тома содержится мастер-ключ шифрования, с помощью которого
+зашифрован этот том. Поэтому после использования этой функции хранящиеся в томе данные
+<em style="text-align:left">не</em> потеряются.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Эту функцию также можно использовать, чтобы изменить/установить ключевые файлы тома (т. е. чтобы удалить
+некоторые или все ключевые файлы и применить новые).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Замечание: Эта функция внутренне равносильна функции смены пароля.<br style="text-align:left">
+<br style="text-align:left">
+Когда VeraCrypt выполняет перешифрование заголовка тома, исходный заголовок сначала перезаписывается 256 раз
+случайными данными с целью помешать неприятелю воспользоваться такими технологическими способами,
+как магнитно-силовая микроскопия или магнитно-силовая сканирующая туннельная микроскопия [17] для
+восстановления перезаписанного заголовка (тем не менее см. также главу <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Требования безопасности и меры предосторожности</a>).</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Тома -&gt; Удалить из тома все ключевые файлы</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Эта функция позволяет перешифровать заголовок тома с ключом, сформированным из пароля и без ключевых
+файлов (т. е. чтобы для монтирования тома нужно было указывать только пароль, без каких-либо ключевых
+файлов). Обратите внимание, что в заголовке тома содержится мастер-ключ шифрования, с помощью
+которого зашифрован этот том. Поэтому после использования этой функции хранящиеся в томе данные
+<em style="text-align:left">не</em> потеряются.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Замечание: Эта функция внутренне равносильна функции смены пароля.<br style="text-align:left">
+<br style="text-align:left">
+Когда VeraCrypt выполняет перешифрование заголовка тома, исходный заголовок сначала перезаписывается 256 раз
+случайными данными с целью помешать неприятелю воспользоваться такими технологическими способами,
+как магнитно-силовая микроскопия или магнитно-силовая сканирующая туннельная микроскопия [17] для
+восстановления перезаписанного заголовка (тем не менее см. также главу <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Требования безопасности и меры предосторожности</a>).</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Сервис &gt; Генератор ключевых файлов</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Эта функция служит для генерирования файла со случайным содержимым, который можно (и рекомендуется)
+использовать как ключевой файл. В этой функции используется реализованный в VeraCrypt генератор случайных
+чисел. Обратите внимание, что размер результирующего файла всегда равен 64 байтам (т. е. 512 битам), что
+также является максимально возможной длиной пароля VeraCrypt. Также можно сгенерировать несколько файлов
+и указать их размер (либо фиксированное значение для них всех, либо позволить VeraCrypt выбирать размеры
+файлов случайным образом). Во всех случаях размер файла должен составлять от 64 до 1 048 576 байт (что
+равно 1 МБ – максимальному количеству байтов в ключевом файле, обрабатываемых VeraCrypt).</div>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Настройки -&gt; Ключевые файлы по умолчанию</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Используйте эту функцию, чтобы установить используемые по умолчанию ключевые файлы и/или пути их поиска.
+Эта функция особенно удобна, если вы, например, храните ключевые файлы на USB-накопителе (флешке), который
+всегда носите с собой. В этом случае вы можете добавить его букву диска в используемую по умолчанию конфигурацию
+ключевых файлов. Чтобы это сделать, нажмите кнопку <em style="text-align:left">Путь</em>, укажите букву диска,
+присвоенную USB-накопителю, и нажмите <em style="text-align:left">OK</em>. Теперь при каждом монтировании тома
+(при условии, что в окне ввода пароля включена опция <i>Ключевые файлы</i>) VeraCrypt будет просматривать
+этот путь и использовать все файлы, которые он там обнаружит, как ключевые.<br style="text-align:left">
+<br style="text-align:left">
+<strong style="text-align:left"><em style="text-align:left">ВНИМАНИЕ: Когда вы добавляете в список ключевых
+файлов папку (в отличие от файла), запоминается только путь, но не имена файлов! Это означает, что, например,
+если создать в этой папке новый файл или скопировать в неё ещё один какой-либо файл, то все тома, которые
+используют ключевые файлы из этой папки, будет невозможно смонтировать (до тех пор, пока из папки не будет
+удалён этот новый файл).
+<br style="text-align:left">
+<br style="text-align:left">
+</em></strong><span style="text-align:left; font-style:italic">ВАЖНО: Когда вы устанавливаете используемые
+по умолчанию ключевые файлы и/или пути поиска ключевых файлов, имена файлов и пути сохраняются в файле
+</span>Default Keyfiles.xml<span style="text-align:left; font-style:italic"> в незашифрованном виде.
+См. подробности в главе
+</span><a href="VeraCrypt%20System%20Files.html" style="text-align:left; color:#0080c0; text-decoration:none">Системные файлы VeraCrypt и программные данные</a><span style="text-align:left; font-style:italic.html">.
+</span></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left"><br style="text-align:left">
+</em></div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* Обнаруженные при монтировании тома,
+смене его пароля или выполнении любой другой операции, связанной с повторным шифрованием заголовка тома.<br style="text-align:left">
+** Если вы используете файл MP3 в качестве ключевого, то должны убедиться, что никакая программа не изменяет
+в нём теги ID3 (например, название песни, имя исполнителя и т. д.). В противном случае тома, использующие
+этот ключевой файл, будет невозможно смонтировать.<br style="text-align:left">
+</span></p>
+</div><div class="ClearBoth"></div></body></html>

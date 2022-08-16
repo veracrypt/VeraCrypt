@@ -1,0 +1,867 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="FAQ.html">Вопросы и ответы</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Вопросы и ответы</h1>
+<div style="text-align:left; margin-bottom:19px; padding-top:0px; padding-bottom:0px; margin-top:0px">
+Последнее обновление: 2 июля 2017 г.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Мы не обещаем отсутствие ошибок в этом документе, он поставляется &quot;как есть&quot; без всяких гарантий. См. подробности в главе
+<a href="Disclaimers.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Отказ от обязательств</a>.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Могут ли TrueCrypt и VeraCrypt работать на одном компьютере?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Как правило, между программами TrueCrypt и VeraCrypt нет конфликтов, поэтому их можно установить и использовать на одном компьютере.
+Однако в Windows, если они обе используются для монтирования одного и того же тома, при его монтировании могут появиться два диска.
+Это можно решить, выполнив перед монтированием любого тома следующую команду в командной строке с повышенными привилегиями
+(используя запуск от имени администратора):
+<strong>mountvol.exe /r</strong>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Можно ли использовать тома TrueCrypt в VeraCrypt?</strong></div>
+Да. Начиная с версии 1.0f, программа VeraCrypt поддерживает монтирование томов TrueCrypt.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Можно ли преобразовать тома TrueCrypt в формат VeraCrypt?</strong></div>
+Да. Начиная с версии 1.0f, программа VeraCrypt умеет преобразовывать контейнеры и несистемные разделы TrueCrypt в формат VeraCrypt.
+Это можно сделать с помощью команды <i>Изменить пароль тома</i> или <i>Установить алгоритм формирования ключа заголовка</i>. Просто включите
+опцию <i>Режим TrueCrypt</i>, введите пароль TrueCrypt и выполните операцию – после этого том будет преобразован в формат VeraCrypt.<br>
+Перед преобразованием рекомендуется с помощью программы TrueCrypt сделать резервную копию заголовка тома.
+После преобразования и проверки правильности монтирования преобразованного тома в VeraCrypt эту резервную копию можно безопасно удалить .</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Чем различаются TrueCrypt и VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt добавляет повышенную безопасность к алгоритмам, используемым для шифрования системы и разделов, что делает его
+невосприимчивым к новым разработкам в атаках перебором.<br>
+Кроме того, в VeraCrypt устранено много уязвимостей и проблем безопасности, обнаруженных в TrueCrypt.<br>
+Как пример: когда системный раздел зашифрован, TrueCrypt использует PBKDF2-RIPEMD160 с 1000 итераций, тогда как
+итераций в VeraCrypt – <span style="text-decoration:underline">327 661</span>. А с обычными контейнерами и другими
+разделами TrueCrypt использует максимум 2000 итераций, в то время как VeraCrypt использует
+<span style="text-decoration:underline">500 000</span> итераций.<br>
+Эта повышенная безопасность добавляет некоторую задержку только при открытии зашифрованных разделов, не оказывая
+никакого влияния на производительность на этапе использования приложения. Для законного владельца это приемлемо,
+а вот злоумышленнику получить доступ к зашифрованным данным гораздо труднее.</div>
+</div>
+<br id="PasswordLost" style="text-align:left">
+<strong style="text-align:left">Я не могу вспомнить пароль! Есть ли какой-нибудь способ ('лазейка'), чтобы можно
+было извлечь файлы из моего тома VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Мы не внедряли никаких "лазеек" ("бэкдоров") в VeraCrypt (и никогда не внедрим их, даже если об этом попросит
+орган власти), потому что это противоречило бы самой сути данного ПО. VeraCrypt не позволяет восстанавливать никакие
+зашифрованные данные без знания правильного пароля или ключа. Мы не можем восстановить ваши данные, так как не знаем
+и не можем узнать выбранный вами пароль или сгенерированный с помощью VeraCrypt ключ. Единственный способ восстановить
+ваши файлы – попытаться "взломать" пароль или ключ, но на это могут уйти тысячи или миллионы лет (в зависимости от
+длины и качества пароля или ключевых файлов, быстродействия программной/аппаратной части компьютера, алгоритмов и
+других факторов).
+В 2010 году были новости о том, что
+<a href="http://www.webcitation.org/query?url=g1.globo.com/English/noticia/2010/06/not-even-fbi-can-de-crypt-files-daniel-dantas.html" target="_blank">
+ФБР не удалось расшифровать том TrueCrypt после года попыток</a>. Пока мы не можем проверить, правда ли это или нет,
+но в VeraCrypt мы повысили безопасность формирования ключа до уровня, при котором любой перебор пароля практически
+невозможен при условии соблюдения всех требований безопасности.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Существует ли учебник, как быстро приступить к работе, или какое-то пособие для новичков?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Первая глава, <strong style="text-align:left"><a href="Beginner%27s%20Tutorial.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">Руководство для начинающих</a></strong>, в Руководстве пользователя VeraCrypt содержит снимки экранов и пошаговые инструкции, как
+создавать, монтировать и использовать тома VeraCrypt.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли зашифровать раздел/диск, на котором установлена Windows?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, см. раздел <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Шифрование системы</a> в Руководстве пользователя VeraCrypt.</div>
+<div id="BootingHang" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>Предварительная проверка (пре-тест) шифрования системы завершается неудачно, потому что загрузчик зависает на сообщении
+&quot;booting&quot; ("загрузка") после успешной проверки пароля. Как сделать, чтобы пре-тест прошёл успешно?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Известно два решения этой проблемы (для обоих требуется установочный диск Windows):</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<ol>
+<li>Загрузите компьютер с помощью установочного диска Windows и выберите <i>Восстановить компьютер</i>. Выберите опцию
+<i>Командная строка</i>, а когда она откроется, введите приведённые ниже команды, после чего перезапустите систему:
+<ul>
+<li>BootRec /fixmbr </li><li>BootRec /FixBoot </li></ul>
+</li><li>Удалите зарезервированный системой раздел объёмом 100 МБ в начале диска и сделайте системный раздел рядом с ним активным
+(оба действия выполняются с помощью утилиты diskpart, доступной в опции восстановления установочного диска Windows). Затем запустите
+восстановление при запуске после перезагрузки на установочном диске Windows. См. здесь подробные инструкции:
+<a href="https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html" target="_blank">
+https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html</a>
+</li></ol>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div id="PreTestFail" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>Предварительная проверка (пре-тест) шифрования системы завершается неудачно, хотя пароль в загрузчике был введён правильно.
+Как сделать, чтобы пре-тест прошёл успешно?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Это может быть вызвано драйвером TrueCrypt, который очищает память BIOS до того, как VeraCrypt сможет её прочитать.
+В этом случае решает проблему удаление TrueCrypt.<br>
+Это также может быть вызвано некоторыми драйверами оборудования и другим ПО, которые получают доступ к памяти BIOS.
+Универсального решения для этого не существует, пользователи, которые с этим столкнулись, должны идентифицировать
+такое ПО и удалить его из системы.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли воспроизводить видеофайлы (.avi, .mpg и т. д.) прямо с тома VeraCrypt, где они записаны?</strong></div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, зашифрованные с помощью VeraCrypt тома ведут себя как обычные диски. Вы указываете правильный пароль
+(и/или ключевой файл) и монтируете (открываете) том VeraCrypt. Когда вы дважды щёлкаете по значку видеофайла,
+операционная система запускает ассоциированное с этим типом файлов приложение – обычно это медиапроигрываетель.
+Затем медиапроигрыватель начинает загружать маленькую начальную часть видеофайла из зашифрованного тома VeraCrypt
+в ОЗУ (оперативную память компьютера), чтобы его воспроизвести. Во время загрузки этой части VeraCrypt автоматически
+её расшифровывает (в ОЗУ), после чего расшифрованная часть видео (находящаяся в ОЗУ) воспроизводится
+медиапроигрываетелем. Пока эта часть воспроизводится, медиапроигрыватель начинает загружать другую небольшую часть
+видеофайла из зашифрованного тома VeraCrypt, и процесс повторяется.<br style="text-align:left">
+<br style="text-align:left">
+То же самое происходит, например, при записи видео: прежде чем часть видеофайла будет записана в том VeraCrypt,
+она шифруется TrueCrypt в ОЗУ, и только затем записывается на диск. Такой процесс называется шифрованием/дешифрованием
+«на лету», и он работает для файлов всех типов (не только видео).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Будет ли VeraCrypt всегда бесплатным и с открытым кодом?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, будет. Мы никогда не станем выпускать коммерческие версии VeraCrypt, поскольку уверены, что ПО для
+обеспечения безопасности должно быть с открытым исходным кодом и бесплатным.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Могу ли я оказать финансовое содействие проекту VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Можете использовать для этого кнопки пожертвования на веб-странице <a href="https://www.veracrypt.fr/en/Donation.html" target="_blank">
+https://www.veracrypt.fr/en/Donation.html</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Почему у VeraCrypt открытый исходный код? Каковы преимущества этого?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Поскольку исходный код VeraCrypt доступен всем, у независимых экспертов есть возможность проверить, что
+он не содержит никаких брешей в безопасности или потайных 'лазеек'. Если бы исходный код был недоступен,
+экспертам пришлось бы прибегать к обратному инжинирингу исполняемых файлов. Однако проанализировать и
+осмыслить такой полученный в результате реинжиниринга код настолько сложно, что это практически <i>невозможно</i>
+(особенно если код столь большой, как у VeraCrypt).
+<br>
+<br>
+Примечание: аналогичная проблема касается и аппаратуры для шифрования (например самошифрующихся запоминающих
+устройств). Выполнить её реинжиниринг и проверить отсутствие брешей в безопасности и потайных 'лазеек' крайне сложно.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Исходный код VeraCrypt открыт, но кто-нибудь его на самом деле проверял?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. <a href="http://blog.quarkslab.com/security-assessment-of-veracrypt-fixes-and-evolutions-from-truecrypt.html" target="_blank">
+Аудит</a> проводила компания <a href="https://quarkslab.com/" target="_blank">
+Quarkslab</a>. Технический отчёт можно загрузить <a href="http://blog.quarkslab.com/resources/2016-10-17-audit-veracrypt/16-08-215-REP-VeraCrypt-sec-assessment.pdf">здесь</a>.
+Выявленные в ходе этого аудита проблемы устранены в VeraCrypt 1.19.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Так как VeraCrypt это ПО с открытым исходным кодом, независимые исследователи
+могут проверить, что исходный код не содержит никаких брешей в безопасности и "лазеек". Могут ли они также
+проверить, что официально распространяемые исполняемые файлы собраны из публично доступного исходного кода
+и не содержат никакого дополнительного кода?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, могут. Помимо исследования исходного кода, независимые эксперты могут скомпилировать исходный код и
+сравнить полученные исполняемые файлы с официальными. При этом возможны некоторые расхождения (например,
+метки времени или встроенные цифровые подписи), но эти различия можно проанализировать и убедиться, что
+они несут никакого вредоносного кода.
+</div>
+<div id="UsbFlashDrive" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Как использовать VeraCrypt на USB-флешке? </strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Есть три варианта:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Зашифровать весь флеш-накопитель USB. Однако в этом случае с него не удастся запускать VeraCrypt.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Создать два или более разделов на флеш-накопителе USB. Оставьте первый раздел незашифрованным и зашифруйте другие
+разделы. Таким образом, на первом разделе можно будет хранить VeraCrypt, чтобы запускать его прямо с флешки.<br style="text-align:left">
+Примечание: Windows может получать доступ только к первичному разделу флеш-накопителя USB, тем не менее
+дополнительные разделы остаются доступными через VeraCrypt.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Создать на флеш-накопителе USB файл-контейнер VeraCrypt (о том, как это сделать, см. в главе
+<strong style="text-align:left"><a href="Beginner%27s%20Tutorial.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Руководство для начинающих</a></strong> в
+<a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>). Если оставить на флеш-накопителе достаточно места (выбрав соответствующий
+размер контейнера VeraCrypt), то можно будет также хранить в нём программу VeraCrypt (<i>рядом</i> с контейнером, а
+<em style="text-align:left">не</em> в контейнере) и оттуда же её запускать (cм. также главу
+<a href="Portable%20Mode.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Портативный режим</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>). </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Шифрует ли VeraCrypt также имена файлов и папок?
+</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Вся файловая система внутри тома VeraCrypt зашифрована (включая имена файлов, имена папок и содержимое
+каждого файла). Это относится к обоим типам томов VeraCrypt &ndash; к файлам-контейнерам (виртуальным
+дискам VeraCrypt) и к зашифрованным с помощью VeraCrypt разделам/устройствам.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Использует ли VeraCrypt распараллеливание?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Увеличение скорости шифрования/дешифрования прямо пропорционально числу ядер/процессоров в компьютере. См. подробности в главе
+<a href="Parallelization.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Распараллеливание</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Скорость чтения и записи на зашифрованном томе/диске такая же, как на диске без шифрования?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, поскольку VeraCrypt использует конвейеризацию и распараллеливание. См. подробности в главах
+<a href="Pipelining.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Конвейеризация</a> и <a href="Parallelization.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Распараллеливание</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Поддерживает ли VeraCrypt аппаратное ускорение шифрования?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. См. подробности в главе <a href="Hardware%20Acceleration.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Аппаратное ускорение</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли загружать Windows, установленную в скрытом томе VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, можно. См. подробности в разделе <a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Скрытая операционная система</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Смогу ли я смонтировать свой том (контейнер) VeraCrypt на любом компьютере?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, <a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+тома VeraCrypt</a> не зависят от операционной системы. Том VeraCrypt можно смонтировать на любом компьютере,
+на котором способен работать VeraCrypt (см. также вопрос <em style="text-align:left">Можно ли использовать
+VeraCrypt в Windows, если у меня нет прав администратора?</em>).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли извлекать или выключать устройство с «горячим» подключением (например,
+USB-флешку или жёсткий диск с интерфейсом USB), когда на нём находится смонтированный том VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Прежде чем отсоединить или выключить такое устройство, сначала всегда следует в VeraCrypt размонтировать том,
+а затем выполнить операцию <em style="text-align:left">Извлечь</em>, если это доступно (щёлкнув правой кнопкой
+мыши по устройству в списке <em style="text-align:left">Компьютер</em> или <em style="text-align:left">Мой компьютер</em>),
+либо воспользоваться функцией <em style="text-align:left">Безопасное извлечение устройства</em> (она встроена в Windows и
+доступна в области уведомлений на панели задач). Иначе возможна потеря данных.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Что такое «скрытая операционная система»?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. раздел <a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Скрытая операционная система</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Что такое «правдоподобное отрицание наличия шифрования»?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. главу <a href="Plausible%20Deniability.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Правдоподобное отрицание наличия шифрования</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div id="SystemReinstallUpgrade" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Смогу ли я монтировать свой раздел/контейнер VeraCrypt после того, как переустановлю или обновлю операционную систему?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, <a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+тома VeraCrypt</a> не зависят от операционной системы. При этом, однако, нужно убедиться, что программа установки
+вашей операционной системы не выполняет форматирование раздела, где находится том VeraCrypt.<br style="text-align:left">
+<br style="text-align:left">
+Примечание: если системный раздел/диск зашифрован, и вы хотите переустановить или обновить Windows, сначала его нужно расшифровать (выберите
+<em style="text-align:left">Система</em> &gt; <em style="text-align:left">Окончательно расшифровать системный
+раздел/диск</em>). В то же время, запущенную операционную систему можно
+<em style="text-align:left">обновлять</em> (устанавливать обновления безопасности, пакеты обновления и т. п.)
+без всяких проблем, даже если системный раздел/диск зашифрован.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли обновлять VeraCrypt с более старой версии до новой без каких-либо проблем?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Как правило, да. Тем не менее, перед обновлением ознакомьтесь с <a href="Release%20Notes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+примечаниями</a> ко всем версиям VeraCrypt, выпущенным после вашей. Если имеются известные проблемы или несовместимости, касающиеся обновления вашей версии до более новой, они будут там указаны.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли обновлять VeraCrypt, если зашифрован системный раздел/диск, или нужно сначала его расшифровать?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Как правило, вы можете обновлять программу до самой новой версии без дешифрования системного раздела/диска
+(просто запустите программу установки VeraCrypt – и она автоматически обновит VeraCrypt в вашей системе).
+Тем не менее, перед обновлением ознакомьтесь с
+<a href="Release%20Notes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+примечаниями</a> ко всем версиям VeraCrypt, выпущенным после вашей. Если имеются известные проблемы или несовместимости, касающиеся обновления вашей версии до более новой, они будут там указаны. Обратите внимание, что данный ответ адресован и пользователям <a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+скрытых операционных систем</a>. Также примите к сведению, что если системный раздел/диск зашифрован, то устанавливать
+более <em style="text-align:left">старую</em> версию VeraCrypt нельзя.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Я использую предзагрузочную аутентификацию. Можно ли сделать, чтобы при включении компьютера не было видно, что я использую VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Чтобы это сделать, загрузите зашифрованную систему, запустите VeraCrypt, выберите <em style="text-align:left">
+Настройки</em> &gt; <em style="text-align:left">Шифрование системы</em>, включите опцию <em style="text-align:left">Пустой экран аутентификации</em>
+и нажмите <em style="text-align:left">OK</em>. После этого загрузчик VeraCrypt при включении компьютера
+не будет выводить на экран никакого текста (даже если введён неправильный пароль). При вводе пароля будет казаться,
+что компьютер &quot;завис&quot;. При этом, однако, важно помнить, что если неприятелю доступно для анализа
+содержимое жёсткого диска, то он сможет обнаружить и наличие загрузчика VeraCrypt.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Я использую предзагрузочную аутентификацию. Можно ли настроить загрузчик VeraCrypt, чтобы
+он выводил на экран только обманное сообщение об ошибке?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Чтобы это сделать, загрузите зашифрованную систему, запустите VeraCrypt, выберите <em style="text-align:left">
+Настройки</em> &gt; <em style="text-align:left">Шифрование системы</em>, включите опцию <em style="text-align:left">Пустой экран аутентификации</em>
+и введите в соответствующем поле обманное сообщение об ошибке (например, можно ввести сообщение
+&quot;<em style="text-align:left">Missing operating system</em>&quot;, которое обычно выводит загрузчик Windows,
+если ему не удаётся обнаружить загрузочный раздел Windows). При этом, однако, важно помнить, что если неприятелю доступно для анализа
+содержимое жёсткого диска, то он сможет обнаружить и наличие загрузчика VeraCrypt.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли настроить VeraCrypt так, чтобы при каждом старте Windows выполнялось
+автоматическое монтирование несистемного тома VeraCrypt, пароль для которого такой же, как для системного
+раздела/диска (т. е. пароль предзагрузочной аутентификации)?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Для этого сделайте следующее:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Смонтируйте том (на ту букву диска, на которую вы хотите, чтобы он монтировался каждый раз).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Щёлкните правой кнопкой мыши на томе в списке дисков в главном окне VeraCrypt и выберите
+<em style="text-align:left">Добавить в системные избранные</em>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В появившемся окне упорядочивания системных избранных томов включите опцию
+<em style="text-align:left">Монтировать системные избранные тома при старте Windows</em> и нажмите
+<em style="text-align:left">OK</em>. </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. подробности в главе <a href="System%20Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Системные избранные тома</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли автоматически монтировать том при каждом входе в Windows?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Для этого сделайте следующее:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Смонтируйте том (на ту букву диска, на которую вы хотите, чтобы он монтировался каждый раз).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Щёлкните правой кнопкой мыши на томе в списке дисков в главном окне VeraCrypt и выберите
+<em style="text-align:left">Добавить в избранные</em>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В появившемся окне <a href="Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Избранные тома</a> включите опцию <em style="text-align:left">Монтировать выбранный том при входе в систему</em>
+и нажмите <em style="text-align:left">OK</em>. </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+После этого при каждом входе в Windows вам будет предлагаться указать пароль тома (и/или ключевые файлы),
+и в случае правильного ввода том будет смонтирован.<br style="text-align:left">
+<br style="text-align:left">
+Если тома на основе раздела/устройства, и вам не нужно монтировать их всякий раз только на какие-то конкретные
+буквы дисков, то можно сделать следующее:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Выберите <em style="text-align:left">Настройки</em> &gt; <em style="text-align:left">
+Параметры.</em> Появится окно <em style="text-align:left">Параметры</em>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В группе <em style="text-align:left">Действия при входе в Windows</em>, включите опцию
+<em style="text-align:left">Монтировать все тома на устройствах</em> и нажмите <em style="text-align:left">OK</em>. </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание: VeraCrypt не будет спрашивать пароль, если вы включили кэширование пароля
+<a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+предзагрузочной аутентификации</a> (<em style="text-align:left">Настройки</em> &gt; <em style="text-align:left">Шифрование системы</em>),
+а у томов такой же пароль, как у системного раздела/диска.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли автоматически монтировать том при подключении к компьютеру
+устройства, на котором находится этот том?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Например, если вы храните контейнер VeraCrypt на USB-флешке и хотите, чтобы он автоматически монтировался
+при вставке флешки в порт USB, сделайте следующее:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Смонтируйте том (на ту букву диска, на которую вы хотите, чтобы он монтировался каждый раз).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Щёлкните правой кнопкой мыши на томе в списке дисков в главном окне VeraCrypt и выберите
+<em style="text-align:left">Добавить в избранные</em>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В появившемся окне <a href="Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Избранные тома</a> включите опцию <em style="text-align:left">Монтировать выбранный том при подключении устройства, на котором он расположен</em>
+и нажмите <em style="text-align:left">OK</em>. </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+После этого при каждой вставке флешки в USB-разъём вам будет предлагаться указать пароль тома (и/или ключевые файлы)
+(если только он уже не был помещён в кэш), и в случае правильного ввода том будет смонтирован.<br style="text-align:left">
+<br style="text-align:left">
+Примечание: VeraCrypt не будет спрашивать пароль, если вы включили кэширование пароля
+<a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+предзагрузочной аутентификации</a> (<em style="text-align:left">Настройки</em> &gt; <em style="text-align:left">Шифрование системы</em>),
+а у тома такой же пароль, как у системного раздела/диска.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли поместить в кэш (запомнить) пароль предзагрузочной аутентификации,
+чтобы его можно было использовать для монтирования несистемных томов в течение данного сеанса работы?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Выберите <em style="text-align:left">Настройки</em> &gt; <em style="text-align:left">Шифрование системы</em>
+и включите опцию <em style="text-align:left">Кэшировать пароль в памяти драйвера</em>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a name="notraces" style="text-align:left; color:#0080c0; text-decoration:none"></a><br style="text-align:left">
+<strong style="text-align:left">Я живу в стране, где в отношении её граждан нарушаются основные права человека.
+Существует ли возможность использовать VeraCrypt, не оставляя никаких ‘следов’ в незашифрованной Windows?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Для этого нужно запускать VeraCrypt в <a href="Portable%20Mode.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+переносном (portable) режиме</a> в среде <a href="http://www.nu2.nu/pebuilder/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+BartPE</a> или аналогичном окружении. BartPE (расшифровывается как &quot;Bart's Preinstalled Environment&quot;),
+в действительности представляет собой операционную систему Windows, подготовленную таким образом, чтобы она
+целиком находилась на CD/DVD и оттуда же загружалась (реестр, временные файлы и т. п. хранятся в ОЗУ – жёсткий
+диск при этом не используется вовсе и даже может отсутствовать). Чтобы преобразовать установочный компакт-диск
+Windows XP в BartPE CD, можно воспользоваться бесплатным конструктором
+<a href="http://www.nu2.nu/pebuilder/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Bart's PE Builder</a>. Для BartPE даже не требуется никакого особого модуля (плагина) VeraCrypt. Сделайте следующее:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Создайте BartPE CD и загрузитесь с него. (Внимание: все следующие шаги должны выполняться из среды BartPE.)
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Загрузите самораспаковывающийся пакет VeraCrypt на RAM-диск (который BartPE создаёт автоматически).
+<br style="text-align:left">
+<br style="text-align:left">
+<strong style="text-align:left">Примечание</strong>: если неприятель имеет возможность перехватывать данные,
+которые вы отправляете или получаете через Интернет, и вам нужно, чтобы он не знал, что вы загружали VeraCrypt,
+выполняйте загрузку через
+<a href="https://geti2p.net/en/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+<strong style="text-align:left">I2P</strong></a>, <a href="http://www.torproject.org/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+<strong style="text-align:left">Tor</strong></a> или другие аналогичные анонимайзеры работы в сети.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Проверьте цифровые подписи у загруженного файла (см. подробности <a href="Digital%20Signatures.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+здесь</a>). </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Запустите загруженный файл и выберите на второй странице мастера установки <em style="text-align:left">Извлечь</em>
+(вместо <em style="text-align:left">Установить</em>). Извлеките содержимое на RAM-диск.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Запустите файл <em style="text-align:left">VeraCrypt.exe</em> с RAM-диска. </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание: в качестве альтернативного варианта можно создать скрытую операционную систему (см. раздел
+<a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Скрытая операционная система</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>). См. также главу <a href="Plausible%20Deniability.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Правдоподобное отрицание наличия шифрования</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли шифровать системный раздел/диск, если у меня нет клавиатуры со стандартной раскладкой США?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, VeraCrypt поддерживает все раскладки клавиатуры. Из-за требований BIOS пароль для предварительной загрузки
+вводится с использованием американской раскладки клавиатуры. Во время процесса шифрования системы VeraCrypt
+автоматически и прозрачно переключает клавиатуру на американскую раскладку, чтобы гарантировать, что введённый
+пароль будет соответствовать паролю, введённому в режиме предварительной загрузки. Таким образом, чтобы избежать
+ошибок в пароле, необходимо ввести пароль, используя те же клавиши, что и при создании зашифрованной системы.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли сохранять данные в разделе с обманной системой, не рискуя повредить раздел со скрытой системой?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Вы можете спокойно записывать данные в раздел с обманной системой безо всякого риска повредить скрытый том
+(потому что обманная система <em style="text-align:left">не</em> установлена в том же разделе, где установлена
+скрытая система. См. подробности в главе
+<a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Скрытая операционная система</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли использовать VeraCrypt в Windows, если у меня нет прав администратора?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. главу <a href="Using%20VeraCrypt%20Without%20Administrator%20Privileges.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">Использование VeraCrypt без прав администратора</a>
+ в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Сохраняет ли VeraCrypt пароли на диске?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Нет.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Как VeraCrypt проверяет, что введённый пароль – правильный?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. раздел <a href="Encryption%20Scheme.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Схема шифрования</a> (глава <a href="Technical%20Details.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Технические подробности</a>) в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div id="encrypt-in-place" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли зашифровать раздел/диск без потери находящихся там данных?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, но должны быть соблюдены следующие условия:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если вы хотите зашифровать весь системный диск (который может содержать несколько разделов) или системный раздел
+(другими словами, если нужно зашифровать диск или раздел, где установлена Windows), вы можете это сделать при
+условии, что используете Windows XP или более новую версию Windows (например Windows 7) <span style="text-align:left; font-size:10px; line-height:12px">
+(выберите <em style="text-align:left">Система</em> &gt; <em style="text-align:left">Зашифровать системный
+раздел/диск</em> и следуйте инструкциям мастера)</span>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если вы хотите зашифровать несистемный раздел «на месте», то можете это сделать при условии, что он содержит
+файловую систему NTFS и что вы используете Windows Vista или более новую версию Windows (например Windows 7)
+<span style="text-align:left; font-size:10px; line-height:12px">(выберите <em style="text-align:left">Тома</em> &gt;
+<em style="text-align:left">Создать том</em> &gt; <em style="text-align:left">Зашифровать раздел или диск без
+системы</em> &gt; <em style="text-align:left">Обычный том VeraCrypt</em> &gt; <em style="text-align:left">Выбрать
+устройство</em> &gt; <em style="text-align:left">Зашифровать раздел на  месте</em> и следуйте инструкциям мастера)</span>.
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли использовать VeraCrypt, не устанавливая в систему?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, см. главу <a href="Portable%20Mode.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Переносной (портативный) режим</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a name="tpm" style="text-align:left; color:#0080c0; text-decoration:none"></a><br style="text-align:left">
+<strong style="text-align:left">Некоторые программы шифрования для предотвращения атак применяют криптопроцессор TPM.
+Будет ли его также использовать и VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Нет. Такие программы используют TPM для защиты против атак, при которых <em style="text-align:left">
+необходимо</em>, чтобы неприятель имел права администратора или физический доступ к компьютеру, и неприятелю нужно,
+чтобы после его доступа вы воспользовались компьютером.
+<em style="text-align:left">Однако если удовлетворено любое из этих условий, защитить компьютер в действительности
+невозможно</em> (см. ниже), поэтому нужно прекратить им пользоваться (а не полагаться на TPM).
+<br style="text-align:left">
+<br style="text-align:left">
+Если неприятель обладает правами администратора, он может, например, выполнить сброс TPM, захватить
+содержимое ОЗУ (с хранящимися там мастер-ключами) или файлов в смонтированных томах VeraCrypt (расшифрованных
+«на лету»), которое затем может быть переправлено неприятелю через Интернет или сохранено на незашифрованном
+локальном диске (с которого неприятель считает эту информацию, когда получит физический доступ к компьютеру).
+<br style="text-align:left">
+<br style="text-align:left">
+Если у неприятеля есть физический доступ к аппаратной части компьютера (и вы пользовались ПК после того,
+как с ним имел дело неприятель), он может, например, внедрить в него вредоносный компонент (скажем,
+аппаратный модуль слежения за нажатием клавиш на клавиатуре), который будет захватывать пароли,
+содержимое ОЗУ (с хранящимися там мастер-ключами) или файлов в смонтированных томах VeraCrypt
+(расшифрованных «на лету»), после чего пересылать все эти данные неприятелю по Интернету или
+сохранять на незашифрованном локальном диске (с которого неприятель сможет считать их, когда 
+нова получит физический доступ к компьютеру). <br style="text-align:left">
+<br style="text-align:left">
+Единственная вещь, которую TPM почти способен гарантировать, – создание ложного чувства безопасности
+(одно только имя – &quot;Trusted Platform Module&quot;, Модуль доверенной платформы – вводит в заблуждение
+и создаёт ложное чувство безопасности). Для настоящей защиты TPM в действительности излишен (а внедрение
+избыточных функций, как правило, ведёт к созданию так называемого bloatware – функционально избыточного
+и ресурсоёмкого ПО). <br style="text-align:left">
+<br style="text-align:left">
+См. подробности в разделах <a title="Physical%20Security&quot;" style="text-align:left; color:#0080c0; text-decoration:none">
+Физическая безопасность</a> и <a href="Malware.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Вредоносное ПО (Malware)</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Нужно ли размонтировать тома VeraCrypt перед завершением работы или перезагрузкой Windows?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Нет. При завершении работы или перезагрузке системы VeraCrypt размонтирует все свои смонтированные тома автоматически.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Какой тип тома VeraCrypt лучше – раздел или файл-контейнер?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">Файлы-контейнеры</a>
+это обычные файлы, поэтому с ними можно обращаться точно так же, как с любыми обычными файлами (например,
+как и другие файлы, их можно перемещать, переименовывать и удалять). <a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Разделы/диски</a> могут быть лучше в плане производительности. Примите к сведению, что если контейнер
+сильно фрагментирован, операции чтения и записи с ним могут выполняться значительно дольше. Чтобы решить
+эту проблему, дефрагментируйте файловую систему, в которой хранится этот контейнер (при размонтированном
+томе VeraCrypt).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Как лучше выполнять резервное копирование (backup) томов VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. главу <a href="How%20to%20Back%20Up%20Securely.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+О безопасном резервном копировании</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Что произойдёт, если я отформатирую раздел VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. вопрос <em style="text-align:left"><a href="#changing-filesystem" style="text-align:left; color:#0080c0; text-decoration:none">Можно ли
+изменить файловую систему в зашифрованном томе?</a></em> ниже.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left"><a name="changing-filesystem" style="text-align:left; color:#0080c0; text-decoration:none"></a>Можно ли
+изменить файловую систему в зашифрованном томе?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, будучи смонтированными, тома VeraCrypt могут быть отформатированы в FAT12, FAT16, FAT32, NTFS или
+в любую другую файловую систему. Тома VeraCrypt ведут себя как обычные дисковые устройства, поэтому можно
+щёлкнуть правой кнопкой мыши по значку устройства (например, в окне <em style="text-align:left">Компьютер</em>
+или <em style="text-align:left">Мой компьютер</em>) и выбрать пункт <em style="text-align:left">Форматировать</em>.
+Текущее содержимое тома будет при этом потеряно, но сам том останется полностью зашифрованным. Если вы
+отформатируете зашифрованный с помощью VeraCrypt раздел, когда том на основе этого раздела не смонтирован,
+то этот том будет уничтожен, а раздел перестанет быть зашифрованным (он станет пустым).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли смонтировать контейнер VeraCrypt, находящийся на CD или DVD?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. Однако если требуется монтировать том VeraCrypt на не допускающем записи носителе (таком, как CD или DVD)
+в среде Windows 2000, файловой системой внутри тома VeraCrypt должна быть FAT (Windows 2000 не может
+монтировать файловую систему NTFS на носителях, доступных только для чтения).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли изменить пароль для скрытого тома?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, диалоговое окно смены пароля работает как для обычных, так и для
+<a href="Hidden%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+скрытых томов</a>. Просто введите в этом окне пароль для скрытого тома в поле <i>Текущий пароль</i>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px; font-size:10px; line-height:12px">
+Замечание: сначала VeraCrypt пытается расшифровать <a href="VeraCrypt%20Volume%20Format%20Specification.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+заголовок</a> обычного тома, и если это не удаётся, то пытается расшифровать область внутри тома, где может
+находиться заголовок скрытого тома (если внутри есть скрытый том). Если попытка успешна, пароль изменяется
+у скрытого тома. (При обеих попытках используется пароль, введённый в поле <i>Текущий пароль</i>.)</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Как записать на DVD контейнер VeraCrypt размером больше 2 гигабайт?</strong><br style="text-align:left">
+<br style="text-align:left">
+ПО для записи DVD должно позволять выбирать формат DVD. Выберите формат UDF (в формате ISO файлы размером
+больше 2 ГиБ не поддерживаются).</div>
+<div id="disk_defragmenter" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли использовать утилиты <em style="text-align:left">chkdsk</em>,
+дефрагментатор дисков и т. п. для данных, находящихся на смонтированном томе VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, тома VeraCrypt ведут себя как реальные физические дисковые устройства, поэтому с содержимым смонтированного
+тома VeraCrypt можно использовать любые программы для проверки, исправления и дефрагментации файловых систем.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Поддерживает ли VeraCrypt 64-разрядные версии Windows?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, поддерживает.<br>
+<span style="text-align:left; font-size:10px; line-height:12px">Примечание: 64-разрядные версии Windows
+загружают только те драйверы, которые имеют цифровую подпись с цифровым сертификатом, выданным центром
+сертификации, утверждённым для выдачи сертификатов подписи кода режима ядра. VeraCrypt соответствует этому
+требованию (драйвер VeraCrypt имеет <a href="Digital%20Signatures.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+цифровую подпись</a> с цифровым сертификатом IDRIX, выданным удостоверяющим центром Thawte).</span></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли монтировать тома VeraCrypt в Windows, Mac OS X (macOS) и Linux?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, тома VeraCrypt полностью кроссплатформенные.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Как удалить VeraCrypt в Linux?</strong>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы удалить VeraCrypt в Linux, выполните следующую команду в Терминале от имени пользователя root:
+<strong>veracrypt-uninstall.sh</strong>. В Ubuntu используйте &quot;<strong>sudo veracrypt-uninstall.sh</strong>&quot;.</div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли где-нибудь ознакомиться со списком всех ОС, поддерживаемых VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, см. раздел <a href="Supported%20Operating%20Systems.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Поддерживаемые операционные системы</a> в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли устанавливать приложения в том VeraCrypt и запускать их оттуда?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Что произойдёт, если повредится часть тома VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Один повреждённый бит в зашифрованных данных обычно вызывает повреждение всего блока зашифрованного текста,
+в котором он расположен. В VeraCrypt используются блоки зашифрованного текста размером 16 байт (то есть 128 бит).
+Применающийся в VeraCrypt <a href="Modes%20of%20Operation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+режим работы</a> гарантирует, что если данные повреждены в пределах одного блока, остальные блоки это
+не затронет. См. также вопрос <em style="text-align:left">Что делать, если в томе VeraCrypt повреждена зашифрованная файловая система?</em> ниже.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Что делать, если в томе VeraCrypt повреждена зашифрованная файловая система?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Файловая система внутри тома VeraCrypt может повредиться так же, как и любая другая обычная незашифрованная
+файловая система. Если это произошло, для её исправления можно воспользоваться соответствующими средствами,
+входящими в состав операционной системы. В Windows это утилита <em style="text-align:left">chkdsk</em>.
+В VeraCrypt реализовано её простое применение: щёлкните правой кнопкой мыши по смонтированному тому в главном
+окне VeraCrypt (в списке дисков) и выберите в контекстном меню пункт <em style="text-align:left">Исправить файловую систему</em>.</div>
+<div id="reset_volume_password" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Мы используем VeraCrypt в корпоративном окружении/на предприятии. Есть ли
+способ для администратора сбросить пароль от тома или предзагрузочной аутентификации в случае, если
+пользователь его забыл (или потерял ключевой файл)?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да. В VeraCrypt не встроено никаких &quot;лазеек&quot; (бэкдоров). Однако сбросить пароли/<a href="Keyfiles.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">ключевые файлы</a> томов и пароли
+<a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+предзагрузочной аутентификации</a> можно. После того, как вы создадите том, сохраните резервную копию его заголовка в файле (выберите
+<em style="text-align:left">Сервис</em> -&gt; <em style="text-align:left">Создать резервную копию заголовка тома</em>)
+до того, как позволите 
+<a href="Using%20VeraCrypt%20Without%20Administrator%20Privileges.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+пользователю без прав администратора</a> начать работать с этим томом. Обратите внимание: в <a href="VeraCrypt%20Volume%20Format%20Specification.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+заголовке тома</a> (зашифрованного с помощью <a href="Header%20Key%20Derivation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+ключа заголовка</a>, сформированного из пароля/ключевого файла) содержится <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+мастер-ключ</a>, которым зашифрован том. Затем попросите пользователя выбрать пароль и установите его для
+него/неё (<em style="text-align:left">Тома</em> -&gt;
+<em style="text-align:left">Изменить пароль тома</em>) или сгенерируйте для пользователя ключевой файл.
+После этого вы можете разрешить пользователю начать работать с томом и изменять пароль/ключевые файлы без
+вашего участия/разрешения. Теперь если пользователь забудет свой пароль или потеряет ключевой файл, вы сможете
+сбросить пароль/ключевые файлы тома в ваши исходные администраторские пароль/ключевые файлы, восстановив
+заголовок тома из файла с резервной копией (<em style="text-align:left">Сервис</em> -&gt;
+<em style="text-align:left">Восстановить заголовок тома</em>). <br style="text-align:left">
+<br style="text-align:left">
+Аналогичным образом можно сбросить пароль к <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+предзагрузочной аутентификации</a><a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">.
+</a>Чтобы создать резервную копию данных мастер-ключа (которая будет сохранена на <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+диске восстановления VeraCrypt</a> и зашифрована вашим паролем администратора), выберите <em style="text-align:left">Система</em> &gt; <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none"><em style="text-align:left.html">Создать
+ диск восстановления</em></a>. Чтобы установить пользовательский пароль <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+предзагрузочной аутентификации</a>, выберите <em style="text-align:left">Система</em> &gt; <em style="text-align:left">Изменить пароль</em>.
+Чтобы восстановить ваш пароль администратора, загрузитесь с диска восстановления VeraCrypt, выберите <em style="text-align:left">Repair
+ Options</em> &gt; <em style="text-align:left">Restore key data</em> и введите свой пароль администратора.
+<br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">Примечание: записывать каждый ISO-образ
+<a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+диска восстановления VeraCrypt</a> на CD/DVD не требуется. Можно завести централизованное хранилище ISO-образов
+для всех рабочих станций (вместо хранилища дисков CD/DVD). Подробности см. в разделе
+<a href="Command%20Line%20Usage.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Использование в командной строке</a> (опция <em style="text-align:left">/noisocheck</em>).</span></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Можно ли нашей коммерческой компании использовать VeraCrypt бесплатно?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При условии, что выполняются все условия <a href="VeraCrypt%20License.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Лицензии VeraCrypt</a>, вы можете устанавливать и использовать VeraCrypt бесплатно на любом количестве ваших компьютеров.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Мы совместно используем том по сети. Есть ли способ автоматически восстанавливать
+общий сетевой ресурс при перезапуске системы?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. главу <a href="Sharing%20over%20Network.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Общий доступ по сети</a> в
+<a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Возможен ли одновременный доступ к одному и тому же тому VeraCrypt из
+нескольких операционных систем (например, к общему том по сети)?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. главу <a href="Sharing%20over%20Network.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Общий доступ по сети</a> в
+<a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Может ли пользователь получить доступ к своему тому VeraCrypt через сеть?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. главу <a href="Sharing%20over%20Network.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Общий доступ по сети</a> в
+<a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>.</div>
+<div id="non_system_drive_letter" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">После шифрования несистемного раздела его исходная буква диска по-прежнему
+видна в окне <span style="text-align:left; font-style:italic">Мой компьютер</span>. Если дважды щёлкнуть мышью по этой букве диска, Windows выдаёт запрос на форматирование этого диска. Можно ли как-нибудь скрыть или высвободить эту букву диска?</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, можно. Чтобы высвободить букву диска, сделайте следующее:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Щёлкните правой кнопкой мыши по значку <em style="text-align:left">Компьютер</em> (или <span style="text-align:left; font-style:italic">Мой компьютер</span>) на рабочем столе или в меню "Пуск" и выберите пункт 
+<span style="text-align:left; font-style:italic">Управление</span>. Появится окно <span style="text-align:left; font-style:italic">Управление компьютером</span>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В списке слева выберите <span style="text-align:left; font-style:italic">Управление дисками</span> (в подветви
+<span style="text-align:left; font-style:italic">Запоминающие устройства</span>). </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Щёлкните правой кнопкой мыши по зашифрованному разделу/устройству и выберите <span style="text-align:left; font-style:italic">
+Изменить букву диска или путь к диску</span>. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Нажмите <span style="text-align:left; font-style:italic">Удалить</span>. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если Windows попросит подтвердить действие, нажмите <span style="text-align:left; font-style:italic">
+Да</span>. </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><br style="text-align:left">
+Когда я подключаю к компьютеру зашифрованную USB-флешку, Windows предлагает её отформатировать. Можно ли
+сделать, чтобы этот запрос не появлялся?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, можно, но потребуется удалить присвоенную этому устройству букву диска. О том, как это сделать, см. выше
+вопрос <em style="text-align:left">После шифрования несистемного раздела его исходная буква диска по-прежнему видна в окне <i>Мой компьютер</i>.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><br style="text-align:left">
+Как удалить или отменить шифрование, если оно мне больше не нужно? Как окончательно расшифровать том?
+</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. раздел <a href="Removing%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Как удалить шифрование</a> в
+<a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Что изменится, если включить параметр <em style="text-align:left">Монтировать тома как сменные носители</em>?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. раздел <a href="Removable%20Medium%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Том, смонтированный как сменный носитель</a> в
+<a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Руководстве пользователя VeraCrypt</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Доступна ли онлайн-документация для загрузки в виде одного файла?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Да, документация содержится в файле <em style="text-align:left">VeraCrypt User Guide.chm</em>, включённом
+в официальный установщик VeraCrypt для Windows. Вы также можете скачать файл CHM по ссылке на главной странице
+<a href="https://www.veracrypt.fr/en/Downloads.html" target="_blank">https://www.veracrypt.fr/en/downloads/</a>.
+Обратите внимание, что вам
+<em style="text-align:left">не</em> нужно устанавливать VeraCrypt, чтобы получить документацию в файле CHM.
+Просто запустите самораспаковывающийся установочный пакет и затем на втором экране мастера установки VeraCrypt
+выберите <em style="text-align:left">Извлечь</em> (вместо <em style="text-align:left">
+Установить</em>). Также обратите внимание, что когда вы <em style="text-align:left">устанавливаете</em> VeraCrypt,
+документация в формате CHM автоматически копируется в папку, в которую установлена ​​программа, и она становится
+доступной через пользовательский интерфейс VeraCrypt (по нажатию F1 или при выборе в меню
+<em style="text-align:left">Справка</em> &gt; <em style="text-align:left">Руководство пользователя</em>).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Нужно ли «затирать» свободное место и/или файлы в томе VeraCrypt?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<span style="text-align:left; font-size:10px; line-height:12px">Примечание: &quot;затереть&quot; (wipe) = надёжно стереть;
+перезаписать конфиденциальные данные, чтобы сделать их невосстановимыми.
+</span><br style="text-align:left">
+<br style="text-align:left">
+Если вы полагаете, что неприятель сможет расшифровать том (например, вынудив вас сообщить пароль), тогда ответ – да.
+В противном случае в этом нет необходимости, так как том полностью зашифрован.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">Как VeraCrypt определяет алгоритм, с помощью которого зашифрован том?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. раздел <a href="Encryption%20Scheme.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Схема шифрования</a> (глава <a href="Technical%20Details.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Технические подробности</a>) в <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+документации</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Как выполнить встроенное резервное копирование Windows на томе VeraCrypt?
+Том VeraCrypt не отображается в списке доступных путей резервного копирования.<br>
+</strong>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Встроенная утилита резервного копирования Windows ищет только физические диски, поэтому не отображает тома VeraCrypt.
+Тем не менее, вы всё равно можете сделать резервную копию тома VeraCrypt, используя хитрость: активируйте общий
+доступ к тому VeraCrypt через интерфейс Проводника (разумеется, при этом нужно поставить правильное разрешение,
+чтобы избежать несанкционированного доступа), а затем выберите опцию &quot;Удалить общую папку (Remote shared folder)&quot;
+(конечно, она не удалённая, но Windows нужен сетевой путь). Там вы можете ввести путь к общему диску (пример: \\ServerName\sharename),
+и резервное копирование будет настроено правильно.</div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Уязвимо ли используемое в VeraCrypt шифрование для квантовых атак?</strong>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt использует для шифрования блочные шифры (AES, Serpent, Twofish). Квантовые атаки на эти блочные
+шифры – это просто более быстрый метод перебора, поскольку наиболее известная атака на эти алгоритмы – полный
+перебор (атаки на связанные ключи не имеют отношения к нашему случаю, потому что все ключи случайны и независимы
+друг от друга).<br>
+Поскольку VeraCrypt всегда использует 256-битные случайные и независимые ключи, мы уверены в 128-битном уровне
+защиты от квантовых алгоритмов, что делает шифрование VeraCrypt невосприимчивым к таким атакам.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>Как сделать том VeraCrypt доступным для индексации поиска Windows?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы иметь возможность индексировать том VeraCrypt с помощью поиска Windows, том должен быть смонтирован
+во время загрузки (быть системным избранным томом), либо службы поиска Windows должны быть перезапущены
+после монтирования тома. Это необходимо, поскольку поиск Windows может индексировать только те диски,
+которые доступны при его запуске.</div>
+<strong style="text-align:left">Здесь нет ответа на мой вопрос &ndash; что мне делать?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Попробуйте поискать ответ в документации VeraCrypt и на сайте программы.</div>
+</div><div class="ClearBoth"></div></body></html>

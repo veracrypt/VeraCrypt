@@ -19,7 +19,7 @@
 namespace VeraCrypt
 {
 	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, MountOptions* options, shared_ptr <VolumePassword> password, bool disableTruecryptMode, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
-		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList), EnablePimEntry (true)
+		: VolumePasswordPanelBase (parent), TopOwnerParent(NULL), Keyfiles (new KeyfileList), EnablePimEntry (true)
 	{
 		size_t maxPasswordLength = CmdLine->ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize;
 		if (keyfiles)
@@ -493,6 +493,7 @@ namespace VeraCrypt
 	{
 		if (EnablePimEntry)
 		{
+			wxWindow* layoutParent = TopOwnerParent? TopOwnerParent : GetParent();
 			PimCheckBox->Show (false);
 			VolumePimStaticText->Show (true);
 			VolumePimTextCtrl->Show (true);
@@ -506,8 +507,8 @@ namespace VeraCrypt
 				Fit();
 			}
 
-			GetParent()->Layout();
-			GetParent()->Fit();
+			layoutParent->Layout();
+			layoutParent->Fit();
 		}
 	}
 

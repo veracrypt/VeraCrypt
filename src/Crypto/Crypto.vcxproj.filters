@@ -24,9 +24,6 @@
     <ClCompile Include="cpu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rmd160.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sha2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,9 +31,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Whirlpool.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GostCipher.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="kuznyechik.c">
@@ -81,6 +75,18 @@
     <ClCompile Include="t1ha2_selfcheck.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="blake2s.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="blake2s_SSE2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="blake2s_SSE41.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="blake2s_SSSE3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -107,9 +113,6 @@
     <ClInclude Include="misc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rmd160.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sha2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,9 +120,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Whirlpool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GostCipher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="kuznyechik.h">
@@ -164,6 +164,15 @@
     <ClInclude Include="t1ha_selfcheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="blake2s-load-sse2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="blake2s-load-sse41.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="blake2s-round.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Aes_hw_cpu.asm">
@@ -173,9 +182,6 @@
       <Filter>Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Aes_x86.asm">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Gost89_x64.asm">
       <Filter>Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Twofish_x64.S">

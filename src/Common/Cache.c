@@ -146,7 +146,7 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, char *heade
 }
 
 
-void AddPasswordToCache (Password *password, int pim)
+void AddPasswordToCache (Password *password, int pim, BOOL bCachePim)
 {
 #ifdef _WIN64
 	Password tmpPass;
@@ -174,9 +174,17 @@ void AddPasswordToCache (Password *password, int pim)
 		if (IsRamEncryptionEnabled ())
 			VcProtectPassword (&CachedPasswords[nPasswordIdx], VcGetPasswordEncryptionID (&CachedPasswords[nPasswordIdx]));
 #endif
-		CachedPim[nPasswordIdx] = pim > 0? pim : 0;
+		/* Store also PIM if requested, otherwise set to default */
+		if (bCachePim && (pim > 0))
+			CachedPim[nPasswordIdx] = pim;
+		else
+			CachedPim[nPasswordIdx] = 0;
 		nPasswordIdx = (nPasswordIdx + 1) % CACHE_SIZE;
 		cacheEmpty = 0;
+	}
+	else if (bCachePim)
+	{
+		CachedPim[i] = pim > 0? pim : 0;
 	}
 #ifdef _WIN64
 	if (IsRamEncryptionEnabled())
@@ -190,7 +198,7 @@ void AddLegacyPasswordToCache (PasswordLegacy *password, int pim)
 	inputPass.Length = password->Length;
 	memcpy (inputPass.Text, password->Text, password->Length);
 
-	AddPasswordToCache (&inputPass, pim);
+	AddPasswordToCache (&inputPass, pim, TRUE);
 
 	burn (&inputPass, sizeof (inputPass));
 }

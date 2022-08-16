@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Notation.html">Система обозначений</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Система обозначений</h1>
+<p>&nbsp;</p>
+<table cellspacing="0">
+<tbody>
+<tr>
+<td><em>C</em></td>
+<td>Блок шифротекста</td>
+</tr>
+<tr>
+<td><em>DK()</em></td>
+<td>Алгоритм дешифрования, использующий ключ шифрования/дешифрования <em>K</em></td>
+</tr>
+<tr>
+<td><em>EK()</em></td>
+<td>Алгоритм шифрования, использующий ключ шифрования/дешифрования <em>K</em></td>
+</tr>
+<tr>
+<td><em>H()</em></td>
+<td>Функция хеширования</td>
+</tr>
+<tr>
+<td><em>i</em></td>
+<td>Блочный индекс для <i>n</i>-битовых блоков; <i>n</i> зависит от контекста</td>
+</tr>
+<tr>
+<td><em>K</em></td>
+<td>Криптографический ключ</td>
+</tr>
+<tr>
+<td><em>^</em></td>
+<td>Побитовая операция исключающего ИЛИ (XOR)</td>
+</tr>
+<tr>
+<td><em>&oplus;</em></td>
+<td>Сложение по модулю 2<sup><i>n</i></sup>, где <i>n</i> – битовый размер самого левого операнда и результирующего значения
+(например, если если левый операнд – 1-битовое значение, а правый операнд – 2-битовое значение, то: 1 &oplus; 0 = 1; 1 &oplus; 1 = 0; 1 &oplus; 2 = 1; 1 &oplus; 3 = 0;
+ 0 &oplus; 0 = 0; 0 &oplus; 1 = 1; 0 &oplus; 2 = 0; 0 &oplus; 3 = 1)</td>
+</tr>
+<tr>
+<td><em>&otimes;</em></td>
+<td>Модульное умножение двух полиномов в бинарном поле GF(2) по модулю x<sup>128</sup>&#43;x<sup>7</sup>&#43;x<sup>2</sup>&#43;x&#43;1 (GF означает Galois Field – поле Галуа)</td>
+</tr>
+<tr>
+<td><em>||</em></td>
+<td>Конкатенация</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p><a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+</div>
+</body></html>

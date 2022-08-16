@@ -87,9 +87,6 @@
     <ClCompile Include="..\Crypto\Aestab.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\Rmd160.c">
-      <Filter>Source Files\Crypto</Filter>
-    </ClCompile>
     <ClCompile Include="..\Crypto\Sha2.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
@@ -133,6 +130,18 @@
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\Crypto\t1ha2_selfcheck.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSE2.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSE41.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSSE3.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
   </ItemGroup>

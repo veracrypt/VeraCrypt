@@ -49,7 +49,7 @@
 </tr>
 <tr>
 <td><em>/hash</em></td>
-<td>It must be followed by a parameter indicating the PRF hash algorithm to use when mounting the volume. Possible values for /hash parameter are: sha256, sha-256, sha512, sha-512, whirlpool, ripemd160 and ripemd-160. When /hash is omitted, VeraCrypt will try
+<td>It must be followed by a parameter indicating the PRF hash algorithm to use when mounting the volume. Possible values for /hash parameter are: sha256, sha-256, sha512, sha-512, whirlpool, blake2s and blake2s-256. When /hash is omitted, VeraCrypt will try
  all possible PRF algorithms thus lengthening the mount operation time.</td>
 </tr>
 <tr>
@@ -306,9 +306,9 @@ If it is followed by <strong>n</strong> or <strong>no</strong>: the password dia
 </tbody>
 </table>
 <h4>Syntax</h4>
-<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |ripemd160|ripemd-160}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
  [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
-<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|ripemd160|ripemd-160}]
+<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
  [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</p>
 <p>Note that the order in which options are specified does not matter.</p>
 <h4>Examples</h4>

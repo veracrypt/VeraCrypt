@@ -963,7 +963,7 @@ namespace VeraCrypt
 
 		for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 		{
-			if (!favorite.SystemEncryption || (favorite.TrueCryptMode != 1) || (i == RIPEMD160))
+			if (!favorite.SystemEncryption || (favorite.TrueCryptMode != 1))
 			{
 				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);

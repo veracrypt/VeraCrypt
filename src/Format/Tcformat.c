@@ -4180,8 +4180,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 					{
-						// For now, we keep RIPEMD160 for system encryption
-						if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
+						if ((!HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
 							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
 					}
 				}
@@ -5756,8 +5755,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Applink ("serpent");
 			else if (wcscmp (name, L"Twofish") == 0)
 				Applink ("twofish");
-			else if (wcscmp (name, L"GOST89") == 0)
-				Applink ("gost89");
 			else if (wcscmp (name, L"Kuznyechik") == 0)
 				Applink ("kuznyechik");
 			else if (wcscmp (name, L"Camellia") == 0)
@@ -9598,8 +9595,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							CmdVolumePkcs5 = SHA512;
 						else if (_wcsicmp(szTmp, L"sha256") == 0)
 							CmdVolumePkcs5 = SHA256;
-						else if (_wcsicmp(szTmp, L"ripemd160") == 0)
-							CmdVolumePkcs5 = RIPEMD160;
+						else if ((_wcsicmp(szTmp, L"blake2s") == 0) || (_wcsicmp(szTmp, L"blake2s-256") == 0))
+							CmdVolumePkcs5 = BLAKE2S;
 						else
 						{
 							/* match using internal hash names */
@@ -10107,11 +10104,18 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 		// The map will be scanned to determine the size of the uninterrupted block of free
 		// space (provided there is any) whose end is aligned with the end of the volume.
 		// The value will then be used to determine the maximum possible size of the hidden volume.
-
-		return ScanVolClusterBitmap (hwndDlg,
-			driveNo,
-			hiddenVolHostSize / *realClusterSize,
-			pnbrFreeClusters);
+		if (*realClusterSize > 0)
+		{
+			return ScanVolClusterBitmap (hwndDlg,
+				driveNo,
+				hiddenVolHostSize / *realClusterSize,
+				pnbrFreeClusters);
+		}
+		else
+		{
+			// should never happen
+			return -1;
+		}
 	}
 	else if (!wcsncmp (szFileSystemNameBuffer, L"NTFS", 4) || !_wcsnicmp (szFileSystemNameBuffer, L"exFAT", 5))
 	{

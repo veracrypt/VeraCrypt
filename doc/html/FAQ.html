@@ -65,8 +65,7 @@ VeraCrypt adds enhanced security to the algorithms used for system and partition
 It also solves many vulnerabilities and security issues found in TrueCrypt.<br>
 As an example, when the system partition is encrypted, TrueCrypt uses PBKDF2-RIPEMD160 with 1000 iterations whereas in VeraCrypt we use
 <span style="text-decoration:underline">327661</span>. And for standard containers and other partitions, TrueCrypt uses at most 2000 iterations but VeraCrypt uses
-<span style="text-decoration:underline">655331 </span>for RIPEMD160 and <span style="text-decoration:underline">
-500000 </span>iterations for SHA-2 and Whirlpool.<br>
+<span style="text-decoration:underline">500000 </span>iterations.<br>
 This enhanced security adds some delay only to the opening of encrypted partitions without any performance impact to the application use phase. This is acceptable to the legitimate owner but it makes it much harder for an attacker to gain access to the encrypted
  data.</div>
 </div>
@@ -522,14 +521,6 @@ hidden volumes</a>. Just type the password for the hidden volume in the 'Current
 Remark: VeraCrypt first attempts to decrypt the standard <a href="VeraCrypt%20Volume%20Format%20Specification.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
 volume header</a> and if it fails, it attempts to decrypt the area within the volume where the hidden volume header may be stored (if there is a hidden volume within). In case it is successful, the password change applies to the hidden volume. (Both attempts
  use the password typed in the 'Current Password' field.)</div>
-<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<br style="text-align:left">
-<strong style="text-align:left">When I use HMAC-RIPEMD-160, is the size of the header encryption key only 160 bits?</strong></div>
-<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-No, VeraCrypt never uses an output of a hash function (nor of a HMAC algorithm) directly as an encryption key. See the section
-<a href="Header%20Key%20Derivation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Header Key Derivation, Salt, and Iteration Count</a> in the <a href="https://www.veracrypt.fr/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
-documentation</a> for more information.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">How do I burn a VeraCrypt container larger than 2 GB onto a DVD?</strong><br style="text-align:left">
