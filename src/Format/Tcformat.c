@@ -4373,13 +4373,24 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					ToBootPwdField (hwndDlg, IDC_PASSWORD);
 					ToBootPwdField (hwndDlg, IDC_VERIFY);
 
-					bKeyboardLayoutChanged = FALSE;
+					StringCbPrintfW(OrigKeyboardLayout, sizeof(OrigKeyboardLayout), L"%08X", (DWORD)GetKeyboardLayout(NULL) & 0xFFFF);
+					//bKeyboardLayoutChanged = FALSE;
 
-					if (CheckIsIMESupported ())
+					if ((DWORD)GetKeyboardLayout(NULL) != 0x00000409 && (DWORD)GetKeyboardLayout(NULL) != 0x04090409)
+					//if (CheckIsIMESupported ())
 					{
-						// East Asian languages are not translated to US keyboard layout so we need to change keyboard layout
-						if ((DWORD) GetKeyboardLayout (NULL) != 0x00000409 && (DWORD) GetKeyboardLayout (NULL) != 0x04090409)
+						DWORD keybLayout = (DWORD)LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+
+						if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
+
+						//// East Asian languages are not translated to US keyboard layout so we need to change keyboard layout
+						//if ((DWORD) GetKeyboardLayout (NULL) != 0x00000409 && (DWORD) GetKeyboardLayout (NULL) != 0x04090409)
 						{
+							Error("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
+							EndMainDlg(MainDlg);
+							return 1;
+
+							/*
 							DWORD keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 							if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
@@ -4389,7 +4400,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								return 1;
 							}
 							bKeyboardLayoutChanged = TRUE;
+							*/
+
 						}
+						bKeyboardLayoutChanged = TRUE;
 					}
 
 					if (SetTimer (MainDlg, TIMER_ID_KEYB_LAYOUT_GUARD, TIMER_INTERVAL_KEYB_LAYOUT_GUARD, NULL) == 0)
@@ -4413,8 +4427,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), KeyFilesEnable && !SysEncInEffect());
 					EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), !SysEncInEffect());
 
-					SetPassword (hwndDlg, IDC_PASSWORD, szRawPassword);
-					SetPassword (hwndDlg, IDC_VERIFY, szVerify);
+					//SetPassword (hwndDlg, IDC_PASSWORD, szRawPassword);
+					//SetPassword (hwndDlg, IDC_VERIFY, szVerify);
 				}
 
 				if (bHiddenVolHost)
@@ -4431,6 +4445,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					StringCbCopyW (str, sizeof(str), GetString ("PASSWORD_HELP_SYSENC"));
 				}
+
+				SetPassword(hwndDlg, IDC_PASSWORD, szRawPassword);
+				SetPassword(hwndDlg, IDC_VERIFY, szVerify);
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
 
@@ -11088,8 +11105,8 @@ BOOL CALLBACK AdvanceDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			RandSetHashFunction(hash_algo);
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 			{
-				// For now, we keep RIPEMD160 for system encryption	
-				if (((hid == RIPEMD160) || !HashIsDeprecated(hid)) && (bSystemIsGPT || HashForSystemEncryption(hid)))
+				// Use blake2s for hashing
+				if (((hid == BLAKE2S) || !HashIsDeprecated(hid)) && (bSystemIsGPT || HashForSystemEncryption(hid)))
 					AddComboPair(GetDlgItem(hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
 			}
 		}
