@@ -282,10 +282,7 @@ typedef NTSTATUS (WINAPI *NtQuerySystemInformationFn)(
 #define	ISO_BURNER_TOOL L"isoburn.exe"
 #define PRINT_TOOL L"notepad.exe"
 
-wchar_t *GetTranslatedPassword ();
-BOOL TranslatePwdToUSKbdLayout (HWND hwnd, LPARAM lParam, BOOL deadKey);
-void WipeTranslatedPassword ();
-BOOL CheckKeyboardLayout ();
+
 BOOL CheckIsIMESupported ();
 
 void InitGlobalLocks ();

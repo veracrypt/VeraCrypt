@@ -4374,34 +4374,16 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					ToBootPwdField (hwndDlg, IDC_VERIFY);
 
 					StringCbPrintfW(OrigKeyboardLayout, sizeof(OrigKeyboardLayout), L"%08X", (DWORD)GetKeyboardLayout(NULL) & 0xFFFF);
-					//bKeyboardLayoutChanged = FALSE;
 
 					if ((DWORD)GetKeyboardLayout(NULL) != 0x00000409 && (DWORD)GetKeyboardLayout(NULL) != 0x04090409)
-					//if (CheckIsIMESupported ())
 					{
 						DWORD keybLayout = (DWORD)LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
 
 						if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
-
-						//// East Asian languages are not translated to US keyboard layout so we need to change keyboard layout
-						//if ((DWORD) GetKeyboardLayout (NULL) != 0x00000409 && (DWORD) GetKeyboardLayout (NULL) != 0x04090409)
 						{
 							Error("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
 							EndMainDlg(MainDlg);
 							return 1;
-
-							/*
-							DWORD keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
-
-							if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
-							{
-								Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
-								EndMainDlg (MainDlg);
-								return 1;
-							}
-							bKeyboardLayoutChanged = TRUE;
-							*/
-
 						}
 						bKeyboardLayoutChanged = TRUE;
 					}
@@ -4426,9 +4408,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable && !SysEncInEffect());
 					EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), KeyFilesEnable && !SysEncInEffect());
 					EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), !SysEncInEffect());
-
-					//SetPassword (hwndDlg, IDC_PASSWORD, szRawPassword);
-					//SetPassword (hwndDlg, IDC_VERIFY, szVerify);
 				}
 
 				if (bHiddenVolHost)
@@ -6911,35 +6890,50 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		case TIMER_ID_KEYB_LAYOUT_GUARD:
 			if (SysEncInEffect ())
 			{
-				if (CheckIsIMESupported ())
+				DWORD keybLayout = (DWORD) GetKeyboardLayout (NULL);
+
+				/* Watch the keyboard layout */
+
+				if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 				{
-					DWORD keybLayout = (DWORD) GetKeyboardLayout (NULL);
+					// Keyboard layout is not standard US
+
+					WipePasswordsAndKeyfiles (true);
+
+					SetPassword (hCurPage, IDC_PASSWORD, szRawPassword);
+					SetPassword (hCurPage, IDC_VERIFY, szVerify);
+
+					keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 					// East Asian languages are not translated to US keyboard layout so we need to change keyboard layout
 					if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 					{
-						WipePasswordsAndKeyfiles (true);
+						KillTimer (hwndDlg, TIMER_ID_KEYB_LAYOUT_GUARD);
+						Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
+						EndMainDlg (MainDlg);
+						return 1;
+					}
+						
+					bKeyboardLayoutChanged = TRUE;
+					wchar_t szTmp [4096];
+					StringCbCopyW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
+					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+					MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 
-						SetPassword (hCurPage, IDC_PASSWORD, szRawPassword);
-						SetPassword (hCurPage, IDC_VERIFY, szVerify);
-
-						keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
-
-						if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
+					if (bKeyboardLayoutChanged && !bKeybLayoutAltKeyWarningShown)
+					{
+						if (GetAsyncKeyState (VK_RMENU) < 0)
 						{
-							KillTimer (hwndDlg, TIMER_ID_KEYB_LAYOUT_GUARD);
-							Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
-							EndMainDlg (MainDlg);
-							return 1;
+							bKeybLayoutAltKeyWarningShown = TRUE;
+
+
+							wchar_t szTmp [4096];
+							StringCbCopyW (szTmp, sizeof(szTmp), GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
+							StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+							StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+							MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
 						}
-
-						bKeyboardLayoutChanged = TRUE;
-
-						wchar_t szTmp [4096];
-						StringCbCopyW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
-						StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
-						StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
-						MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 					}
 				}
 			}
@@ -7894,29 +7888,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					wchar_t tmpPwd[MAX_PASSWORD + 1];
 					GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD), tmpPwd, iMaxPasswordLength + 1);
-
-					if (wcscmp (tmpPwd, GetTranslatedPassword ()) != 0)
-					{	
-						if (wcslen (GetTranslatedPassword ()) ==  wcslen (tmpPwd))
-						{
-							bNextButtonClicked = TRUE;
-							BOOL bWritePwd = SetWindowTextW (GetDlgItem (hCurPage, IDC_PASSWORD), GetTranslatedPassword ());
-							BOOL bWriteVerifyPwd = SetWindowTextW (GetDlgItem (hCurPage, IDC_VERIFY), GetTranslatedPassword ());	
-							if (!bWritePwd || !bWriteVerifyPwd)
-							{
-								Error ("TRANSLATED_PWD_NOT_WRITTEN", hwndDlg);
-								return 1;
-							}
-						}
-						else
-						{
-							Error ("ERROR_TRANSLATE_PWD", hwndDlg);
-							return 1;
-						}
-
-						burn (tmpPwd, sizeof (tmpPwd));
-						WipeTranslatedPassword ();
-					}
 				}
 				VerifyPasswordAndUpdate (hwndDlg, GetDlgItem (MainDlg, IDC_NEXT),
 					GetDlgItem (hCurPage, IDC_PASSWORD),
