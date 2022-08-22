@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26">
-    <!-- Sprachen -->
     <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl, Felix Reichmann" />
-    <!-- Schriftarten -->
     <font lang="de" class="normal" size="11" face="default" />
     <font lang="de" class="bold" size="13" face="Arial" />
     <font lang="de" class="fixed" size="12" face="Lucida Console" />
     <font lang="de" class="title" size="21" face="Times New Roman" />
-    <!-- Steuerelemente  -->
+
     <entry lang="de" key="IDCANCEL">Abbrechen</entry>
     <entry lang="de" key="IDC_ALL_USERS">Für &amp;alle Benutzer installieren</entry>
     <entry lang="de" key="IDC_BROWSE">Su&amp;chen ...</entry>
@@ -1570,7 +1568,11 @@
     <entry lang="de" key="VOLUME_HOST_IN_USE">WARNUNG: Die Datei/das Laufwerk {0} ist bereits in Verwendung!\n\nWenn Sie diese Warnung ignorieren, können nicht vorhersehbare Probleme einschließlich Systemabstürze auftreten. Alle Programme, die die Datei/das Laufwerk verwenden (z. B. Virenscanner oder Backup-Software), sollten geschlossen werden, bevor das Volume eingehängt wird.\n\nTrotzdem fortfahren?</entry>
     <entry lang="de" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt wurde zuvor mit einem MSI-Paket installiert und kann daher nicht mit dem Standard-Installationsprogramm aktualisiert werden.\n\nBitte verwenden Sie das MSI-Paket, um Ihre VeraCrypt-Installation zu aktualisieren.</entry>
     <entry lang="de" key="IDC_USE_ALL_FREE_SPACE">Gesamten verfügbaren freien Speicherplatz nutzen</entry>
-	  <entry lang="de" key="RESCUE_DISK_CHECKLIST_A">Bewahren Sie Ihr Passwort an einem sicheren Ort auf. Ohne Ihr Passwort können Sie Ihre Daten nicht wiederherstellen.\nDeshalb gilt VeraCrypt als sicher.</entry>
+    <entry lang="de" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt kann nicht aktualisiert werden, weil die Systempartition/das Laufwerk mit einem Algorithmus verschlüsselt wurde, der nicht mehr unterstützt wird.\nBitte entschlüsseln Sie Ihr System vor dem Upgrade von VeraCrypt und verschlüsseln Sie es dann erneut.</entry>
+    <entry lang="de" key="RESCUE_DISK_BACK_BUTTON">Der Rettungsdatenträger wurde bereits mit den gewählten Optionen erstellt. Um Inkompatibilitäten zu vermeiden, müssen Sie auf "Abbrechen" klicken und den Systemverschlüsselungsprozess neu starten, wenn Sie eine Konfiguration ändern möchten.</entry>
+    <entry lang="de" key="AES_BOX_HELP">Laut dem National Institute of Standards and Technology (NIST) ist AES sicher</entry>
+	  <entry lang="de" key="BACKUP_RESCUE_DISK_TITLE">Sicherung des Rettungsdatenträgers</entry>
+    <entry lang="de" key="RESCUE_DISK_CHECKLIST_A">Bewahren Sie Ihr Passwort an einem sicheren Ort auf. Ohne Ihr Passwort können Sie Ihre Daten nicht wiederherstellen.\nDeshalb gilt VeraCrypt als sicher.</entry>
     <entry lang="de" key="RESCUE_DISK_CHECKLIST_B">Stellen Sie sicher, dass die Rettungsdatei auf einem externen Medium gespeichert ist. Dies kann ein Flash-Laufwerk, eine externe Festplatte oder sogar ein Cloud-Speicher sein.\nDie Rettungsdatei befindet sich hier:</entry>
     <entry lang="de" key="RESCUE_DISK_CHECKLIST_C">Bevor Sie mit der Verschlüsselung Ihres Systems beginnen, ist es immer eine gute Idee, Ihre persönlichen Daten auf einem externen Laufwerk zu sichern, für den unwahrscheinlichen Fall, dass der Verschlüsselungsprozess fehlschlägt.</entry>
     <entry lang="de" key="RESCUE_DISK_INFO_2">Das VeraCrypt Rettungs-ZIP-Image wird erstellt, indem Sie auf die Schaltfläche Next (Weiter) an dem unten angegebenen Ort klicken.</entry>
@@ -1579,6 +1581,7 @@
     <entry lang="de" key="BACKUP_DATA"> Ich habe darüber nachgedacht, ein Backup meiner persönlichen Daten zu machen.</entry>
     <entry lang="de" key="CHECKLIST_TITLE">Checkliste - Bevor Sie auf 'Weiter' klicken</entry>
     <entry lang="de" key="SYS_ENCRYPTION_PRETEST_INFO">Es müssen nun einige Tests durchgeführt werden, um zu überprüfen, ob alles korrekt funktioniert.\n\nFür diese Tests muss Ihr Computer neu gestartet werden. Dann müssen Sie Ihr Passwort in den VeraCrypt Boot Loader Bildschirm eingeben, der vor dem Start von Windows erscheint. Nach dem Start von Windows wird VeraCrypt automatisch gestartet und Sie werden über das Ergebnis dieses Vortests informiert.\n\n\nDas folgende Gerät wird geändert: Laufwerk %c:</entry>
+    <entry lang="de" key="SYSENC_DECRYPTION_PAGE_INFO">Vergewissern Sie sich, dass Ihr Gerät aufgeladen ist.\nWenn die Verschlüsselung unterbrochen wurde, können Sie sie wieder aufnehmen, indem Sie VeraCrypt neu starten und 'System' > 'Unterbrochenen Prozess fortsetzen' wählen.</entry>
     <entry lang="de" key="ADVANCED_FEATURES">Erweiterte Funktionen</entry>
     <entry lang="de" key="VERY_WEAK_PASSWORD">sehr schwach</entry>
     <entry lang="de" key="WEAK_PASSWORD">schwach</entry>
@@ -1613,11 +1616,6 @@
     <entry lang="de" key="RESCUE_DISK_PATH">Pfad des Rettungsdatenträgers</entry>
     <entry lang="de" key="PRETEST_BACK_BUTTON">Wenn Sie den Verschlüsselungsassistenten abbrechen möchten, klicken Sie bitte auf Abbrechen. In diesem Fall werden keine Änderungen an Ihrem Computer vorgenommen.</entry>
     <entry lang="de" key="WIPE_WARNING">Der Löschvorgang kann sehr lange dauern (bis zu Stunden). Das Löschen wird nicht empfohlen, wenn Sie ein SSD-Laufwerk haben.</entry>
-    <entry lang="de" key="RESCUE_DISK_BACK_BUTTON">Der Rettungsdatenträger wurde bereits mit den gewählten Optionen erstellt. Um Inkompatibilitäten zu vermeiden, müssen Sie auf "Abbrechen" klicken und den Systemverschlüsselungsprozess neu starten, wenn Sie eine Konfiguration ändern möchten.</entry>
-    <entry lang="de" key="AES_BOX_HELP">Laut dem National Institute of Standards and Technology (NIST) ist AES sicher</entry>
-	  <entry lang="de" key="BACKUP_RESCUE_DISK_TITLE">Sicherung des Rettungsdatenträgers</entry>
-    <entry lang="de" key="SYSENC_DECRYPTION_PAGE_INFO">Vergewissern Sie sich, dass Ihr Gerät aufgeladen ist.\nWenn die Verschlüsselung unterbrochen wurde, können Sie sie wieder aufnehmen, indem Sie VeraCrypt neu starten und 'System' > 'Unterbrochenen Prozess fortsetzen' wählen.</entry>
-	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
