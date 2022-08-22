@@ -1568,6 +1568,7 @@
     <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
     <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
     <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
+    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
     <entry lang="en" key="RESCUE_DISK_BACK_BUTTON">The Rescue Disk was already created depending on the selected options. In order to prevent incompatibility, you have to click 'cancel' and restart the system encryption process, if you want to modify any configuration.</entry>
     <entry lang="en" key="AES_BOX_HELP">AES is secure according to NIST</entry>
     <entry lang="en" key="BACKUP_RESCUE_DISK_TITLE">Backup Rescue Disk</entry>
@@ -1615,7 +1616,7 @@
     <entry lang="en" key="RESCUE_DISK_PATH">Rescue Disk Path</entry>
     <entry lang="en" key="PRETEST_BACK_BUTTON">If you want to cancel the encryption wizard, please click on cancel. In this case no changes will be made to your computer.</entry>
     <entry lang="en" key="WIPE_WARNING">Wiping can take a long time (Up to hours). Wiping is not recommended if you have an SSD Drive.</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
+    
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
