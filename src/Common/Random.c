@@ -830,7 +830,7 @@ BOOL FastPoll (void)
 	FILETIME creationTime, exitTime, kernelTime, userTime;
 	SIZE_T minimumWorkingSetSize, maximumWorkingSetSize;
 	LARGE_INTEGER performanceCount;
-	MEMORYSTATUS memoryStatus;
+	MEMORYSTATUSEX memoryStatus;
 	HANDLE handle;
 	POINT point;
 
@@ -871,9 +871,9 @@ BOOL FastPoll (void)
 	/* Get percent of memory in use, bytes of physical memory, bytes of
 	   free physical memory, bytes in paging file, free bytes in paging
 	   file, user bytes of address space, and free user bytes */
-	memoryStatus.dwLength = sizeof (MEMORYSTATUS);
+	memoryStatus.dwLength = sizeof (MEMORYSTATUSEX);
 	GlobalMemoryStatusEx (&memoryStatus);
-	RandaddBuf ((unsigned char *) &memoryStatus, sizeof (MEMORYSTATUS));
+	RandaddBuf ((unsigned char *) &memoryStatus, sizeof (MEMORYSTATUSEX));
 
 	/* Get thread and process creation time, exit time, time in kernel
 	   mode, and time in user mode in 100ns intervals */
