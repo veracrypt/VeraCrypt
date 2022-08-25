@@ -2068,23 +2068,24 @@ void HandlePasswordEditWmChar (HWND hwnd, WPARAM wParam)
 		SendMessage(hwnd, EM_HIDEBALLOONTIP, 0, 0);
 }
 
-// Protects an input field from having its content updated by a Paste action (call ToBootPwdField() to use this).
+
+/* Protects an input field from having its content updated by a paste action */
 static LRESULT CALLBACK BootPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	WNDPROC wp = (WNDPROC) GetWindowLongPtrW (hwnd, GWLP_USERDATA);
-
+	
 	switch (message)
 	{
 	case WM_PASTE:
+		Error ("ERROR_PASTE_ACTION", GetParent(hwnd));
 		return 1;
+
 	case WM_CHAR:
 		HandlePasswordEditWmChar (hwnd, wParam);
 		break;
 	}
-
 	return CallWindowProcW (wp, hwnd, message, wParam, lParam);
 }
-
 
 // Protects an input field from having its content updated by a Paste action. Used for pre-boot password
 // input fields (only the US keyboard layout is supported in pre-boot environment so we must prevent the 
@@ -2104,6 +2105,12 @@ void ToBootPwdField (HWND hwndDlg, UINT ctrlId)
 	SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) BootPwdFieldProc);
 }
 
+BOOL CheckIsIMESupported ()
+{
+	if (himm32dll == NULL)
+		return FALSE;
+	return TRUE;
+}
 // Ensures that a warning is displayed when user is pasting a password longer than the maximum
 // length which is set to 64 characters
 static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -2934,7 +2941,7 @@ SelectAlgo (HWND hComboBox, int *algo_id)
 
 	/* Something went wrong ; couldn't find the requested algo id so we drop
 	   back to a default */
-
+	
 	*algo_id = (int) SendMessage (hComboBox, CB_GETITEMDATA, 0, 0);
 
 	SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
@@ -5461,6 +5468,53 @@ BOOL BrowseFiles (HWND hwndDlg, char *stringId, wchar_t *lpszFileName, BOOL keep
 	return BrowseFilesInDir (hwndDlg, stringId, NULL, lpszFileName, keepHistory, saveMode, browseFilter);
 }
 
+BOOL BrowseFile (HWND hwndDlg, char *stringId, wchar_t *initialDir)
+{
+	OPENFILENAMEW ofn;
+	wchar_t file[TC_MAX_PATH] = { 0 };
+	wchar_t filter[1024];
+	BOOL status = FALSE;
+
+	CoInitialize (NULL);
+	
+	ZeroMemory (&ofn, sizeof (ofn));
+	
+	if (initialDir)
+	{
+		ofn.lpstrInitialDir			= initialDir;
+	}
+	
+	ofn.lStructSize				= sizeof (ofn);
+	ofn.hwndOwner				= hwndDlg;
+	StringCbPrintfW (filter, sizeof(filter), L"%ls (*.*)%c*.*%c",
+		GetString ("ALL_FILES"), 0, 0);
+	ofn.lpstrFilter				= filter;
+	ofn.nFilterIndex			= 1;
+	ofn.lpstrFile				= NULL;
+	ofn.nMaxFile				= sizeof (file) / sizeof (file[0]);
+	ofn.lpstrTitle				= GetString (stringId);
+	ofn.lpstrDefExt				= NULL;
+	ofn.Flags					= OFN_HIDEREADONLY
+		| OFN_PATHMUSTEXIST
+		| OFN_DONTADDTORECENT;
+	
+	SystemFileSelectorCallerThreadId = GetCurrentThreadId();
+	SystemFileSelectorCallPending = TRUE;
+
+	if (!GetOpenFileNameW (&ofn))
+			goto ret;
+
+	SystemFileSelectorCallPending = FALSE;
+
+	status = TRUE;
+
+ret:
+	SystemFileSelectorCallPending = FALSE;
+	ResetCurrentDirectory();
+	CoUninitialize();
+
+	return status;
+}
 
 BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, wchar_t *initialDir, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter, const wchar_t *initialFileName, const wchar_t *defaultExtension)
 {
@@ -9982,8 +10036,6 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, wchar_t *title, size_t textByteLen)
 
 	return TRUE;
 }
-
-
 BOOL IsNonInstallMode ()
 {
 	HKEY hkey, hkeybis;
@@ -10081,7 +10133,6 @@ BOOL IsNonInstallMode ()
 	else
 		return TRUE;
 }
-
 
 LRESULT SetCheckBox (HWND hwndDlg, int dlgItem, BOOL state)
 {
@@ -11623,7 +11674,7 @@ BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size)
 {
 	HGLOBAL hResL;
     HRSRC hRes;
-    HINSTANCE hResInst = NULL;
+	HINSTANCE hResInst = NULL;
 
 #ifdef SETUP_DLL
 	//	In case we're being called from the SetupDLL project, FindResource()
@@ -11635,7 +11686,7 @@ BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size)
 
 	hRes = FindResource (hResInst, MAKEINTRESOURCE(resourceId), resourceType);
 	hResL = LoadResource (hResInst, hRes);
-
+	
 	if (size != NULL)
 		*size = SizeofResource (hResInst, hRes);
 
