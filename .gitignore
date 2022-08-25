@@ -103,3 +103,6 @@ src/Setup/PortableRelease
 
 src/SetupDLL/Debug
 src/SetupDLL/Release
+src/Common/Lzma_vs2019.vcxproj
+src/Common/Lzma_vs2019.vcxproj
+*.vcxproj

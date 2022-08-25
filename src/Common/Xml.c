@@ -93,9 +93,11 @@ char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttr
 	e = strchr (e, '>');
 	if (e == NULL) return NULL;
 
+	size_t len_xmlAttrName = strlen(xmlAttrName);
+
 	while ((t = strstr (t, xmlAttrName)) && t < e)
 	{
-		char *o = t + strlen (xmlAttrName);
+		char *o = t + len_xmlAttrName;
 		if (t[-1] == ' '
 			&&
 			(BeginsWith (o, "=\"")

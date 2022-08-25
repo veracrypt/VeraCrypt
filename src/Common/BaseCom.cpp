@@ -27,7 +27,10 @@ HRESULT CreateElevatedComObject (HWND hwnd, REFGUID guid, REFIID iid, void **ppv
     WCHAR clsid[1024];
     BIND_OPTS3 bo;
 
-    StringFromGUID2 (guid, clsid, sizeof (clsid) / 2);
+	if (!StringFromGUID2(guid, clsid, sizeof(clsid) / 2))
+	{
+		return E_OUTOFMEMORY;
+	}
 	swprintf_s (monikerName, sizeof (monikerName) / 2, L"Elevation:Administrator!new:%s", clsid);
 
     memset (&bo, 0, sizeof (bo));
@@ -168,7 +171,6 @@ DWORD BaseCom::GetFileSize (BSTR filePath, unsigned __int64 *pSize)
 
 	try
 	{
-		std::wstring path (filePath);
 		File file(filePath, true);
 		file.CheckOpened (SRC_POS);
 		file.GetFileSize (*pSize);

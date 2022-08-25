@@ -8031,13 +8031,14 @@ BOOL CALLBACK MultiChoiceDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			// Determine the number of newlines contained in the message text
 			{
 				int64 offset = -1;
+				int str_len = wcslen(L"\n");
 
 				do
 				{
 					offset = FindString ((char *) (bResolve ? GetString(*(pStrOrig+1)) : *(pwStrOrig+1)), 
 						(char *) L"\n",
 						nMainTextLenInChars * 2, 
-						(int) wcslen (L"\n") * 2, 
+						str_len * 2,
 						offset + 1);
 
 					newLineSeqCount++;

@@ -1515,7 +1515,9 @@ static void VerifySizeAndUpdate (HWND hwndDlg, BOOL bUpdate)
 
 	GetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTmp, ARRAYSIZE (szTmp));
 
-	for (i = 0; i < (__int64) wcslen (szTmp); i++)
+	__int64 len_szTmp = wcslen(szTmp);
+
+	for (i = 0; i < len_szTmp; i++)
 	{
 		if (szTmp[i] >= L'0' && szTmp[i] <= L'9')
 			continue;

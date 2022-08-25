@@ -1283,7 +1283,7 @@ namespace VeraCrypt
 
 				// Convert absolute path to relative to the Windows directory
 				driverPath = pathBuf;
-				driverPath = driverPath.substr (driverPath.rfind (L"\\", driverPath.rfind (L"\\", driverPath.rfind (L"\\") - 1) - 1) + 1);
+				driverPath = driverPath.substr (driverPath.rfind (L'\\', driverPath.rfind (L'\\', driverPath.rfind(L'\\') - 1) - 1) + 1);
 			}
 		}
 
@@ -4511,7 +4511,8 @@ namespace VeraCrypt
 			device.Read (bootLoaderBuf, sizeof (bootLoaderBuf));
 
 			// Prevent TrueCrypt loader from being backed up
-			for (size_t i = 0; i < sizeof (bootLoaderBuf) - strlen (TC_APP_NAME); ++i)
+			size_t str_len = strlen(TC_APP_NAME);
+			for (size_t i = 0; i < sizeof (bootLoaderBuf) - str_len; ++i)
 			{
 				if (memcmp (bootLoaderBuf + i, TC_APP_NAME, strlen (TC_APP_NAME)) == 0)
 				{
@@ -4696,17 +4697,19 @@ namespace VeraCrypt
 		if (mszDest && input)
 		{
 			DWORD offset, remainingSize = dwDestSize;
+			DWORD str_input = strlen(input);
+			DWORD str_mszDest = strlen(mszDest);
 			while (*mszDest)
 			{
 				if (_stricmp (mszDest, input) == 0)
 				{
-					offset = (DWORD) strlen (input) + 1;
+					offset = str_input + 1;
 					memmove (mszDest, mszDest + offset, remainingSize - offset);
 					dwDestSize -= offset;
 					bRet = true;
 					break;
 				}
-				offset = (DWORD) strlen (mszDest) + 1;
+				offset = str_mszDest + 1;
 				mszDest += offset;
 				remainingSize -= offset;
 			}
@@ -5421,11 +5424,8 @@ namespace VeraCrypt
 		}
 
 		// Change the PKCS-5 PRF if requested by user
-		if (pkcs5 != 0)
-		{
-			cryptoInfo->pkcs5 = pkcs5;
-			RandSetHashFunction (pkcs5);
-		}
+		cryptoInfo->pkcs5 = pkcs5;
+		RandSetHashFunction (pkcs5);
 
 		if (Randinit() != 0)
 		{
