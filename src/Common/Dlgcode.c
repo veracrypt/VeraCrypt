@@ -14547,7 +14547,10 @@ static bool RunAsDesktopUser(
 		LookupPrivilegeValueW(NULL, SE_INCREASE_QUOTA_NAME, &tkp.Privileges[0].Luid);
 		tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
 
-		SetThreadToken (NULL, NULL);
+		if (!SetThreadToken(NULL, NULL))
+		{
+			goto cleanup;
+		}
 
 		AdjustTokenPrivileges(hThreadToken, FALSE, &tkp, 0, NULL, NULL);
 		dwLastErr = GetLastError();
@@ -14633,7 +14636,10 @@ cleanup:
 	if (hPrimaryToken) CloseHandle(hPrimaryToken);
 	if (hShellProcess) CloseHandle(hShellProcess);
 	if (hThreadToken) CloseHandle(hThreadToken);
-	RevertToSelf ();
+
+	if (!RevertToSelf())
+	return false;
+
 	if (!retval)
 		SetLastError (dwLastErr);
 	return retval;
@@ -15041,7 +15047,7 @@ ULONG GenericDropTarget::Release(void)
 BOOL GenericDropTarget::Register(HWND hWnd)
 {
 	if(NULL == hWnd)
-		return E_FAIL;
+		return FALSE;
 
 	OleInitialize(NULL);
 
@@ -15262,7 +15268,7 @@ DWORD PasswordEditDropTarget::GotEnter(void)
 	HWND hChild = WindowFromPoint (m_DropPoint);
 	// check that we are on password edit control (we use maximum length to correctly identify password fields since they don't always have ES_PASSWORD style (if the the user checked show password)
 	if (hChild && GetClassName (hChild, szClassName, ARRAYSIZE (szClassName)) && (0 == _tcsicmp (szClassName, _T("EDIT")))
-		&& (dwStyles = GetWindowLong (hChild, GWL_STYLE)) && !(dwStyles & ES_NUMBER)
+		&& (dwStyles = GetWindowLongPtr (hChild, GWL_STYLE)) && !(dwStyles & ES_NUMBER)
 		&& (maxLen = (int) SendMessage (hChild, EM_GETLIMITTEXT, 0, 0)) && (maxLen == MAX_PASSWORD || maxLen == MAX_LEGACY_PASSWORD)
 		)
 	{
@@ -15287,7 +15293,7 @@ void PasswordEditDropTarget::GotDrop(CLIPFORMAT format)
 		int maxLen;
 		HWND hChild = WindowFromPoint (m_DropPoint);
 		if (hChild && GetClassName (hChild, szClassName, ARRAYSIZE (szClassName)) && (0 == _tcsicmp (szClassName, _T("EDIT")))
-			&& (dwStyles = GetWindowLong (hChild, GWL_STYLE)) && !(dwStyles & ES_NUMBER)
+			&& (dwStyles = GetWindowLongPtr (hChild, GWL_STYLE)) && !(dwStyles & ES_NUMBER)
 			&& (maxLen = (int) SendMessage (hChild, EM_GETLIMITTEXT, 0, 0)) && (maxLen == MAX_PASSWORD || maxLen == MAX_LEGACY_PASSWORD)
 			)
 		{
