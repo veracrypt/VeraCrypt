@@ -1393,7 +1393,7 @@
     <entry lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">不要在预引导身份验证屏幕中请求 PIM (PIM 值在磁盘上未加密存储)</entry>
     <entry lang="zh-cn" key="DISABLE_BOOT_LOADER_PIM_PROMPT">警告: 请记住，如果启用此选项，PIM 值将在磁盘上不加密地存储。n\n 您确定要启用此选项吗？</entry>
     <entry lang="zh-cn" key="PIM_TOO_BIG">个人迭代乘数 (PIM) 最大值为 2147468。</entry>
-    <entry lang="zh-cn" key="IDC_SKIP_RESCUE_VERIFICATION">跳过修复盘验证</entry>
+    <entry lang="zh-cn" key="IDC_SKIP_RESCUE_VERIFICATION">跳过应急盘验证</entry>
     <entry lang="zh-cn" key="IDC_HIDE_WAITING_DIALOG">执行操作时不显示等待消息对话框</entry>
     <entry lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">在预引导身份验证屏幕中不请求哈希算法</entry>
     <entry lang="zh-cn" key="KUZNYECHIK_HELP">Kuznyechik 是一个分组密码首次发表于 2015年, 并在俄罗斯联邦 GOST R 34.12-2015 和 RFC 7801 的国家标准中定义。256位密钥，128 位块。操作方式 XTS。</entry>
@@ -1402,11 +1402,11 @@
     <entry lang="zh-cn" key="ITERATIONS">迭代</entry>
     <entry lang="zh-cn" key="PRE-BOOT">预启动</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_INFO">\n\n如果 Windows 损坏且无法启动，VeraCrypt 应急盘可让您永久解密该分区。但请注意，您将仍然需要输入正确的密码！\n\n\n警告：如果您过去已经创建了 VeraCrypt 应急盘，则不能将其重新用于此加密！每次使用此加密工具时，即使您使用相同的密码，也必须为其创建并安全存储新的 VeraCrypt 应急盘。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO">修复盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您需要将其解压到一个格式化为 FAT/FAT32 的 U盘。\n\n%ls您创建修复盘后，单击 “下一步” 以验证它是否已正确创建。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">修复盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您应该将镜像提取到格式化为 FAT/FAT32 的 U盘，或将其移动到安全位置以备以后使用。\n\n\n\n%ls 单击“下一步”继续。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO">应急盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您需要将其解压到一个格式化为 FAT/FAT32 的 U盘。\n\n%ls您创建应急盘后，单击 “下一步” 以验证它是否已正确创建。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">应急盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您应该将镜像提取到格式化为 FAT/FAT32 的 U盘，或将其移动到安全位置以备以后使用。\n\n\n\n%ls 单击“下一步”继续。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">重要：请注意，必须将 zip 文件直接提取到 U盘的根目录中。例如，如果 U盘的驱动器号是 E:， 那么解压 zip 文件，应该在 U盘上创建一个文件夹 E:\\EFI。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n如果您已经提取了修复盘，请弹出并重新插入 U盘；然后单击 “下一步” 重试。如果这没有帮助，请尝试另一个 U盘和/或其它 ZIP 软件。\n\n如果您尚未提取修复盘，请执行此操作，然后单击 “下一步”。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 修复盘；请注意，无法使用此修复盘，因为它是为不同的主密钥创建的。您需要提取新生成的修复盘 ZIP 映像。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n您已将修复盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 修复盘, 请注意此修复盘将始终无法通过此验证。要创建与当前配置完全兼容的新的修复盘, 请选择 "系统" > "创建修复盘"。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n如果您已经提取了应急盘，请弹出并重新插入 U盘；然后单击 “下一步” 重试。如果这没有帮助，请尝试另一个 U盘和/或其它 ZIP 软件。\n\n如果您尚未提取应急盘，请执行此操作，然后单击 “下一步”。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 应急盘；请注意，无法使用此应急盘，因为它是为不同的主密钥创建的。您需要提取新生成的应急盘 ZIP 映像。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n您已将应急盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 应急盘, 请注意此应急盘将始终无法通过此验证。要创建与当前配置完全兼容的新的应急盘, 请选择 "系统" > "创建应急盘"。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">恢复盘镜像文件已经创建并存储在文件：\n%s\n\n现在您需要提取恢复盘镜像到格式化为 FAT 和 FAT32 的 U盘。\n\n重要：注意 zip 文件必须直接提取到 U盘的根目录。例如，如果 U盘的盘符是 E: ，解压缩 ZIP 文件应该在 U盘创建一个文件夹 E:\\EFI。\n\n创建恢复盘后，选择 “系统” > “验证恢复盘” 以确认它已正确创建。</entry>
     <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">使用安全桌面输入密码</entry>
     <entry lang="zh-cn" key="ERR_REFS_INVALID_VOLUME_SIZE">命令行中指定的卷文件大小与选定的 ReFS 文件系统不兼容。</entry>
@@ -1417,7 +1417,7 @@
     <entry lang="zh-cn" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">警告: 经验不足的用户不应尝试手动编辑引导加载程序配置。\n\n继续吗？</entry>
     <entry lang="zh-cn" key="DCSPROP_XML_VALIDATION_FAILED">警告: 未能验证启动加载程序配置的 XML 格式。请检查您的修改。</entry>
     <entry lang="zh-cn" key="IDT_ADVANCED_OPTIONS">高级选项</entry>
-    <entry lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 修复盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 '系统' > '创建修复盘'。\n您现在要创建吗？</entry>
+    <entry lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 应急盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 '系统' > '创建应急盘'。\n您现在要创建吗？</entry>
     <entry lang="zh-cn" key="IDC_ALLOW_TRIM_NONSYS_SSD">允许在非系统 SSD 分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="IDC_BLOCK_SYSENC_TRIM">阻止系统分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="WINDOWS_EFI_BOOT_LOADER_MISSING">错误: 无法在磁盘上找到 Windows EFI 系统加载程序。操作将中止。</entry>
