@@ -1611,7 +1611,7 @@
     <entry lang="en" key="ERROR_GETTING_KEYB_STATE">Error occured while getting the keyboard state.</entry>
     <entry lang="en" key="ERR_NO_TRANSLATION">There is no translation for that key you just pressed!</entry>
     <entry lang="en" key="DEAD_KEY_SUPPORT">Dead keys will not reproduce dead char in this case because your password need to be translated to US keyboard layout so you can type your password in pre-boot environment.</entry>
-    <entry lang="en" key="PRETEST_CHECKBOX"> I made sure that my device will not run out of power during the encryption process.</entry>
+    <entry lang="en" key="PRETEST_CHECKBOX">I made sure that my device will not run out of power during the encryption process.</entry>
     <entry lang="en" key="OPEN_PATH_CHECKLIST_PAGE">Open path</entry>
     <entry lang="en" key="RESCUE_DISK_PATH">Rescue Disk Path</entry>
     <entry lang="en" key="PRETEST_BACK_BUTTON">If you want to cancel the encryption wizard, please click on cancel. In this case no changes will be made to your computer.</entry>
