@@ -609,7 +609,7 @@
     <entry lang="zh-cn" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">添加/移除 密钥文件...</entry>
     <entry lang="zh-cn" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">从加密卷中移除所有密钥文件</entry>
     <entry lang="zh-cn" key="PASSWORD_CHANGED">密码 和/或 密钥文件已成功修改。\n\n重要：请确认您已经阅读了用户指南的'Security Requirements and Precautions'章节中的'Changing Passwords and Keyfiles'部分。</entry>
-    <entry lang="zh-cn" key="FAVORITE_PIM_CHANGED">此加密卷已经修改PIM并标记成"系统收藏加密卷"。\n您希望VeraCrypt自动更新系统收藏加密卷设置么(需要管理员权限)。\n\n如果您不希望的话，请稍后手动更新设置。</entry>
+    <entry lang="zh-cn" key="FAVORITE_PIM_CHANGED">此加密卷已经修改PIM并标记成“系统收藏加密卷”。\n您希望VeraCrypt自动更新系统收藏加密卷设置么(需要管理员权限)。\n\n如果您不希望的话，请稍后手动更新设置。</entry>
     <entry lang="zh-cn" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果您不销毁 VeraCrypt 应急盘，您的系统分区/驱动器仍然可以通过使用旧密码解密（通过启动 VeraCrypt 应急盘和输入旧密码）。您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">请注意，VeraCrypt 应急盘仍然使用着早期的加密算法。如果您觉的先前的加密算法不安全，您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="KEYFILES_NOTE">任何类型的文件（例如：.mp3、.jpg、.zip、.avi）都可以作为 VeraCrypt 的密钥文件。VeraCrypt 并不会修改密钥文件的内容。 您可以选择一个以上的密钥文件（与次序无关）。如果您添加了一个文件夹，里面的所有非隐藏文件都将作为密钥文件。点击“添加口令牌”来选择存储于安全口令牌或智能卡中的密钥文件（或者导入密钥文件到安全口令牌或智能卡）。</entry>
@@ -657,7 +657,7 @@
     <entry lang="zh-cn" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n注意：如果您试图加载不带有启动验证的加密系统驱动器中的分区，或者是加载没有运行的加密系统分区，您可以通过选择“系统” -&gt;“以非启动验证方式加载”。</entry>
     <entry lang="zh-cn" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">在此模式下，您不能加载此驱动器上的分区（该驱动器的部分内容处于当前活动加密系统的关键范围）。\n\n要想以此模式加载此分区，您需要先启动到安装在不同驱动器上的操作系统（与该系统是否加密无关），或者是先启动一个未加密的操作系统。</entry>
     <entry lang="zh-cn" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">在整个系统所在的磁盘被加密的情况下，VeraCrypt不能单独解密某个分区(你只能解密整个系统磁盘)。</entry>
-    <entry lang="zh-cn" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">警告:这个磁盘看起来包含VeraCrypt启动加载器，它有可能是已经加密的整个系统磁盘。如果是的话，VeraCrypt不能单独解密某个分区(你只能解密整个系统磁盘)。你可以继续，但你稍后会收到"密码错误"的消息。</entry>
+    <entry lang="zh-cn" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">警告:这个磁盘看起来包含VeraCrypt启动加载器，它有可能是已经加密的整个系统磁盘。如果是的话，VeraCrypt不能单独解密某个分区(你只能解密整个系统磁盘)。你可以继续，但你稍后会收到“密码错误”的消息。</entry>
     <entry lang="zh-cn" key="PREV">&lt; 后退(&amp;B)</entry>
     <entry lang="zh-cn" key="RAWDEVICES">不能列表安装在系统上的 raw 设备！</entry>
     <entry lang="zh-cn" key="READONLYPROMPT">加密卷 '%s' 存在，并且是只读的。您确定要替换它吗？</entry>
@@ -942,7 +942,7 @@
     <entry lang="zh-cn" key="KEYFILE_INCORRECT_SIZE">密钥文件的大小必须介于64字节至1048576字节之间。</entry>
     <entry lang="zh-cn" key="KEYFILE_EMPTY_BASE_NAME">输入要生成的密钥文件的文件名</entry>
     <entry lang="zh-cn" key="KEYFILE_INVALID_BASE_NAME">输入的密钥文件基底文件名无效</entry>
-    <entry lang="zh-cn" key="KEYFILE_ALREADY_EXISTS">密钥文件 '%s' 已存在。\n你希望覆盖它吗？选择"不"会停止生成过程...</entry>
+    <entry lang="zh-cn" key="KEYFILE_ALREADY_EXISTS">密钥文件 '%s' 已存在。\n你希望覆盖它吗？选择“否”会停止生成过程...</entry>
     <entry lang="zh-cn" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：加密卷头信息已经损坏！VeraCrypt 将自动使用内嵌在加密卷中的头信息备份。\n\n您应当通过选择“工具”-&gt;“恢复加密卷头信息”来修复头信息。</entry>
     <entry lang="zh-cn" key="VOL_HEADER_BACKED_UP">加密卷头信息备份已经成功创建。\n\n重要：使用恢复功能恢复时也会恢复当前加密卷的密码。另外，如果创建加密卷的时候使用了密钥文件，恢复后也需要同样的密钥文件来打开加密卷。\n\n警告：该加密卷头信息备份只能用在这个提供备份的加密卷上。如果您把该头信息备份恢复到其它加密卷，您可能能够打开加密卷，但是您将不能解密存储于加密卷的任何数据（这是因为您已经改变了加密卷的主密钥）。</entry>
     <entry lang="zh-cn" key="VOL_HEADER_RESTORED">加密卷头信息备份已经成功恢复。\n\n重要：请注意旧密码也同样被恢复了。另外，备份时如果需要密钥文件来加载加密卷，恢复后也需要同样的密钥文件。</entry>
@@ -966,7 +966,7 @@
     <entry lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 应急盘已经被成功验证。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">应急盘验证失败。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再试一次。如果仍然无效，请尝试使用其它 CD/DVD 刻录软件或刻录盘。\n\n如果您尝试验证一个为不同的主密钥、密码、元素等创建的 VeraCrypt 应急盘，请注意这样的应急盘会无法通过验证。要创建一个新的和当前配置完全兼容的应急盘，请选择“系统” -&gt; “创建应急盘”。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 应急盘 镜像已经被成功验证。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘 镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘镜像，请选择 "系统" > "创建应急盘" 。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘 镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘镜像，请选择 “系统” > “创建应急盘” 。</entry>
     <entry lang="zh-cn" key="ERROR_CREATING_RESCUE_DISK">创建 VeraCrypt 应急盘时失败。</entry>
     <entry lang="zh-cn" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 应急盘在隐形操作系统运行时无法创建。\n\n要创建 VeraCrypt 应急盘，请启动到迷惑操作系统之后选择“系统” -&gt; “创建应急盘”。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_CHECK_FAILED">不能确定应急盘是否刻录成功。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再尝试验证一次。如果仍然无效，请尝试使用其它 %s 。\n\n如果您还没有创建应急盘，请首先创建一个，然后再点“下一步”按钮。\n\n如果您尝试验证一个运行加密盘创建向导以前创建的应急盘，则这样的应急盘是无法用于当前系统的，这是因为它是使用了不同的主密钥创建的。您需要刻录和创建一个新的应急盘。</entry>
@@ -1043,7 +1043,7 @@
     <entry lang="zh-cn" key="CONFIRM_EXIT_UNIVERSAL">退出吗？</entry>
     <entry lang="zh-cn" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt 没有足够信息确定是否要加密还是解密。</entry>
     <entry lang="zh-cn" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt 无足够的信息来确定加解密状态。\n\n注意：如果您在启动验证环境解密系统分区/驱动器，您可能需要点击 Decrypt（解密）来最后完成解密过程。</entry>
-    <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_REVERSE_INFO">注意:当你在就地加密非系统卷时持续遇到错误时，直到你完全解密此卷(例如执行"继续被中断的过程")前都无法挂载这个卷(也不能访问卷中的数据)。n\n如果要这样做:\n1)退出这个向导。\n2) 从 VeraCrypt 主窗口的菜单中选择"加密卷" -&gt; "继续被中断的过程"。\n3) 选择 '解密'。</entry>
+    <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_REVERSE_INFO">注意:当你在就地加密非系统卷时持续遇到错误时，直到你完全解密此卷(例如执行“继续被中断的过程”)前都无法挂载这个卷(也不能访问卷中的数据)。n\n如果要这样做:\n1)退出这个向导。\n2) 从 VeraCrypt 主窗口的菜单中选择“加密卷” -&gt; “继续被中断的过程”。\n3) 选择 “解密”。</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">您想要中断和推迟对分区/驱动器的加密吗？\n\n注意：要记住这个加密卷在完全加密前是不能被加载的。您可以继续加密过程，加密则会在中断的地方继续。要达到这点，例如，可以从 VeraCrypt 主窗口的菜单中选择“加密卷” -&gt; “继续被中断的过程”。</entry>
     <entry lang="zh-cn" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">您想要中断和推迟对系统分区/驱动器的加密吗？\n\n注意：您以后也可以从中断位置恢复加密进程。操作如下：在 VeraCrypt 界面中选择“系统” -&gt; “继续被中断的过程”。如果您想永久中止或回滚加密进程，请选择“系统” -&gt; “永久解密系统分区/驱动器”。</entry>
     <entry lang="zh-cn" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">您想要中断和推迟对系统分区/驱动器的加密吗？\n\n注意：您以后也可以从中断位置恢复加密进程。操作如下：在 VeraCrypt 界面中选择“系统” -&gt; “继续被中断的过程”。如果您想回滚解密进程（和开始加密），选择“系统” -&gt; “加密系统分区/驱动器”。</entry>
@@ -1053,7 +1053,7 @@
     <entry lang="zh-cn" key="FAILED_TO_START_WIPING">错误：启动擦除过程时失败。</entry>
     <entry lang="zh-cn" key="INCONSISTENCY_RESOLVED">发现不一致性。\n\n\n（如果您使用此链接报告这个错误，请在报告中包含下面信息： %hs）</entry>
     <entry lang="zh-cn" key="UNEXPECTED_STATE">错误：未知状态。\n\n\n（如果您报告与之相关的 BUG，请在错误报告里面包含下面的技术信息： %hs）</entry>
-    <entry lang="zh-cn" key="NO_SYS_ENC_PROCESS_TO_RESUME">没有要恢复的系统分区加密/解密进程。\n\n提示: 要恢复非系统分区加密/解密进程，选择"加密卷" -&gt; "继续被中断的过程"。</entry>
+    <entry lang="zh-cn" key="NO_SYS_ENC_PROCESS_TO_RESUME">没有要恢复的系统分区加密/解密进程。\n\n提示: 要恢复非系统分区加密/解密进程，选择“加密卷” -&gt; “继续被中断的过程”。</entry>
     <entry lang="zh-cn" key="HIDVOL_PROT_BKG_TASK_WARNING">警告： VeraCrypt 后台任务已禁用。在您退出 VeraCrypt 后，如果设置了阻止损坏隐藏加密卷，您也将无法得到提示。\n\n注意：您可以随时在通过右键单击 VeraCrypt 通知栏图标并 选择“退出”来停止后台任务。\n\n\n您要启用 VeraCrypt 后台任务吗？</entry>
     <entry lang="zh-cn" key="LANG_PACK_VERSION">语言包版本： %s</entry>
     <entry lang="zh-cn" key="CHECKING_FS">正在检测加载为 %s 的 VeraCrypt 加密卷的文件系统...</entry>
@@ -1097,7 +1097,7 @@
     <entry lang="zh-cn" key="DECOY_OS_REINSTALL_WARNING">警告：在隐形系统创建过程中，您将会被要求全新安装当前运行的操作系统（以便安全创建迷惑系统）。\n\n说明：当前运行的操作系统和该系统分区的全部内容将会被复制到隐藏加密卷（以便创建隐形系统）。\n\n\n您确认您将使用 Windows 安装介质安装此系统吗（或使用服务分区）？</entry>
     <entry lang="zh-cn" key="DECOY_OS_REQUIREMENTS">安全起见，如果当前运行的操作系统需要激活，则必须在继续进行克隆前激活。注意到隐形操作系统将通过复制当前操作系统的内容到隐藏加密卷来得以创建（因此如果当前操作系统未激活，则隐形操作系统也处于未激活状态）。更多信息，请参考《VeraCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章节。\n\n重要：在继续进行前，确认您已经阅读了《VeraCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章节。\n\n\n当前运行的操作系统满足上面的条件吗？</entry>
     <entry lang="zh-cn" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">您的系统使用了一个额外的启动分区。VeraCrypt 不支持使用额外启动分区的隐形系统的休眠（迷惑系统完全可以休眠）。\n\n请注意，启动分区应当被迷惑系统和隐形系统所共同使用。因此，为了防止数据泄露和由于休眠所导致的问题，VeraCrypt 只能阻止隐形系统写入数据到共用的启动分区和阻止隐形系统使用休眠。\n\n\n您确认要继续吗？如果选择“否”，则会显示移除额外启动分区的提示信息。</entry>
-    <entry lang="zh-cn" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\n在安装 Windows 之前可以移除额外的启动分区。想要如此，请遵循以下步骤（译者注：这些步骤没有在XP安装光盘看到，请读者自悟吧，抱歉）：\n\n1）启动您的 Windows 安装光盘。\n\n2）在 Windows 安装屏幕，选择 '现在安装' -&gt; '自定义（高级）'。\n\n3）点击 '驱动器 选项'。\n\n4）选择主系统分区并选择删除这个分区，之后再确认删除（安装盘删除分区的时候会多次确认）。\n\n5）选择 '系统保留' 分区，选择 '扩展'，并增加它的大小直到可以安装系统为止。\n\n6）选择 '应用' 和确认。\n\n7）安装 Windows 到 '系统保留' 分区。\n\n\n如果攻击者询问您移除额外启动分区的原因，您可以回答是因为您不希望数据泄露到未加密的启动分区。\n\n注意：您可以通过点击下面的“打印”按钮打印这些文本。如果您打印了这些文本，强烈建议您在移除额外启动分区后销毁这些纸张（否则，如果这些纸张被发现，可能暗示着存在隐形系统）。</entry>
+    <entry lang="zh-cn" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\n在安装 Windows 之前可以移除额外的启动分区。想要如此，请遵循以下步骤（译者注：这些步骤没有在XP安装光盘看到，请读者自悟吧，抱歉）：\n\n1）启动您的 Windows 安装光盘。\n\n2）在 Windows 安装屏幕，选择 “现在安装” -&gt; “自定义（高级）”。\n\n3）点击 “驱动器” 选项。\n\n4）选择主系统分区并选择删除这个分区，之后再确认删除（安装盘删除分区的时候会多次确认）。\n\n5）选择 “系统保留” 分区，选择 “扩展”，并增加它的大小直到可以安装系统为止。\n\n6）选择 “应用” 和确认。\n\n7）安装 Windows 到 “系统保留” 分区。\n\n\n如果攻击者询问您移除额外启动分区的原因，您可以回答是因为您不希望数据泄露到未加密的启动分区。\n\n注意：您可以通过点击下面的“打印”按钮打印这些文本。如果您打印了这些文本，强烈建议您在移除额外启动分区后销毁这些纸张（否则，如果这些纸张被发现，可能暗示着存在隐形系统）。</entry>
     <entry lang="zh-cn" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系统分区和其后的第一个分区之间存在未分配空间。在您创建隐形操作系统之后，您必须不能在此未分配空间上创建任何新的分区，否则，隐形操作系统将无法启动（直到删除了这个新创建的分区）。</entry>
     <entry lang="zh-cn" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此算法当前不支持系统加密。</entry>
     <entry lang="zh-cn" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">当使用TrueCrypt模式时不能使用这个算法。</entry>
@@ -1187,8 +1187,8 @@
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">预测试已成功完成</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">如果加密被中断，您可以重新启动 VeraCrypt 并选择“系统”>“继续被中断的进程”。\n\n请确保您的设备在加密过程中电量不会耗尽。</entry>
     <entry lang="zh-cn" key="SYSENC_ENCRYPTION_PAGE_INFO">请确保您的设备在加密过程中电量不会耗尽。\n如果加密被中断，您可以通过重新启动 VeraCrypt 并选择“系统”>“继续被中断的进程”来恢复它。</entry>
-    <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n您可以在加密过程的任何时候点击"暂停"或者"推迟"，来中断加密的过程，退出向导，重启计算机，并在此后继续该过程，继续的时候将会从上次中断之处开始。注意：此加密卷在完全加密之前无法被加载。</entry>
-    <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\n您可以在解密过程的任何时候点击"暂停"或者"推迟"，来中断解密的过程，退出向导，重启计算机，并在此后继续该过程，继续的时候将会从上次中断之处开始。注意：此加密卷在完全解密之前无法被挂载。</entry>
+    <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n您可以在加密过程的任何时候点击“暂停”或者“推迟”，来中断加密的过程，退出向导，重启计算机，并在此后继续该过程，继续的时候将会从上次中断之处开始。注意：此加密卷在完全加密之前无法被加载。</entry>
+    <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\n您可以在解密过程的任何时候点击“暂停”或者“推迟”，来中断解密的过程，退出向导，重启计算机，并在此后继续该过程，继续的时候将会从上次中断之处开始。注意：此加密卷在完全解密之前无法被挂载。</entry>
     <entry lang="zh-cn" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">隐形系统已启动</entry>
     <entry lang="zh-cn" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">原始系统</entry>
     <entry lang="zh-cn" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows 会在系统分区创建（通常情况下，您并不知道或者同意）不同的日志文件、临时文件等等。同时也会在系统分区存储内存中的内容到休眠文件或虚拟内存页面文件。因此，如果攻击者分析原始系统（即隐形系统所克隆的系统来源）所在分区的文件，他可能会发现，例如，您使用过 VeraCrypt 向导的隐形系统创建模式（因此可能暗示计算机中存在隐形系统。\n\n要预防此类问题，在后面步骤中，VeraCrypt 将会安全擦除原始系统所在分区的所有内容。在此之后，为了达到隐蔽性，您需要在此分区上安装新的操作系统并使用 VeraCrypt 加密它（即成为所谓的迷惑系统）。因此您将会创建完成这个迷惑系统并且整个隐形系统的创建过程也会相应的完成。</entry>
@@ -1221,7 +1221,7 @@
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_13">在迷惑操作系统创建之后 ------------------------------------------------\n\n在您加密了迷惑操作系统之后，这个隐形系统的创建就完成了，这时您可以使用三个密码：\n\n1）启动验证中用于启动隐形系统的密码。\n\n2）启动验证中用于启动迷惑操作系统的密码。\n\n3）用于外层加密卷的密码。\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_14">如果您想启动隐形操作系统，只需要在 VeraCrypt 启动管理器屏幕（该屏幕出现于您开机或者重启系统的时候）输入隐形操作系统的密码。\n\n如果您想启动迷惑操作系统，只需要在 VeraCrypt 启动管理器屏幕输入迷惑操作系统的密码即可。\n\n迷惑操作系统的密码可以泄漏给强迫您说出密码的人，而此时隐藏加密卷（以及隐形操作系统）的存在仍然是保密的。\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_15">第三个密码（外层加密卷的密码），可以泄漏给强迫您说出系统分区之后那个分区密码的人（这个分区包含外层加密卷和隐藏加密卷，隐藏加密卷中即为隐形系统）。而此时隐藏加密卷（以及隐形操作系统）的存在仍然是保密的。\n\n\n</entry>
-    <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_16">如果您把迷惑系统的密码泄漏给强迫您说出密码的人，如果他询问为什么（迷惑）系统分区的自由空间包含随机数据，您可以回答，例如："这个分区以前包含 VeraCrypt 加密的系统但是我忘记了密码（或者说这个系统已经损坏和无法启动了），因此我不得不安装了 Windows 和重新加密了这个分区"。\n\n\n</entry>
+    <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_16">如果您把迷惑系统的密码泄漏给强迫您说出密码的人，如果他询问为什么（迷惑）系统分区的自由空间包含随机数据，您可以回答，例如：“这个分区以前包含 VeraCrypt 加密的系统但是我忘记了密码（或者说这个系统已经损坏和无法启动了），因此我不得不安装了 Windows 和重新加密了这个分区”。\n\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_17">如果您遵循了前面的指令并且遵循了《VeraCrypt User Guide》中的 "Security Precautions Pertaining to Hidden Volumes" 章节所提到的防护措施，则外人无法证明隐藏加密卷和隐形系统的存在，哪怕是外层加密卷已加载或迷惑操作系统已解密/启动。\n\n如果您打印了此文本，在您创建迷惑操作系统之后并理解了文本中所述内容之后，强烈建议您销毁这个文本（否则，如果该文本纸张被发现，可能会暗示计算机上有存在隐形系统的可能）。</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_18">警告：如果您没有保护隐藏加密卷（保护的做法参考 VeraCrypt 用户指南的"Protection of Hidden Volumes Against Damage"章节），请不要向外层加密卷写入数据。否则您可能会覆盖或损坏隐藏加密卷！请不要想外层加密卷写入数据（注意，迷惑操作系统并未安装在外层加密卷）。否则，您可能会覆盖和损坏隐藏加密卷（以及在其内的隐形系统）！</entry>
     <entry lang="zh-cn" key="HIDDEN_OS_CREATION_PREINFO_TITLE">正在克隆操作系统</entry>
@@ -1406,7 +1406,7 @@
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">应急盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您应该将镜像提取到格式化为 FAT/FAT32 的 U盘，或将其移动到安全位置以备以后使用。\n\n\n\n%ls 单击“下一步”继续。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">重要：请注意，必须将 zip 文件直接提取到 U盘的根目录中。例如，如果 U盘的驱动器号是 E:， 那么解压 zip 文件，应该在 U盘上创建一个文件夹 E:\\EFI。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n如果您已经提取了应急盘，请弹出并重新插入 U盘；然后单击 “下一步” 重试。如果这没有帮助，请尝试另一个 U盘和/或其它 ZIP 软件。\n\n如果您尚未提取应急盘，请执行此操作，然后单击 “下一步”。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 应急盘；请注意，无法使用此应急盘，因为它是为不同的主密钥创建的。您需要提取新生成的应急盘 ZIP 映像。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n您已将应急盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 应急盘, 请注意此应急盘将始终无法通过此验证。要创建与当前配置完全兼容的新的应急盘, 请选择 "系统" > "创建应急盘"。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n您已将应急盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 应急盘, 请注意此应急盘将始终无法通过此验证。要创建与当前配置完全兼容的新的应急盘, 请选择 “系统” > “创建应急盘“”。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">恢复盘镜像文件已经创建并存储在文件：\n%s\n\n现在您需要提取恢复盘镜像到格式化为 FAT 和 FAT32 的 U盘。\n\n重要：注意 zip 文件必须直接提取到 U盘的根目录。例如，如果 U盘的盘符是 E: ，解压缩 ZIP 文件应该在 U盘创建一个文件夹 E:\\EFI。\n\n创建恢复盘后，选择 “系统” > “验证恢复盘” 以确认它已正确创建。</entry>
     <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">使用安全桌面输入密码</entry>
     <entry lang="zh-cn" key="ERR_REFS_INVALID_VOLUME_SIZE">命令行中指定的卷文件大小与选定的 ReFS 文件系统不兼容。</entry>
@@ -1417,7 +1417,7 @@
     <entry lang="zh-cn" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">警告: 经验不足的用户不应尝试手动编辑引导加载程序配置。\n\n继续吗？</entry>
     <entry lang="zh-cn" key="DCSPROP_XML_VALIDATION_FAILED">警告: 未能验证启动加载程序配置的 XML 格式。请检查您的修改。</entry>
     <entry lang="zh-cn" key="IDT_ADVANCED_OPTIONS">高级选项</entry>
-    <entry lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 应急盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 '系统' > '创建应急盘'。\n您现在要创建吗？</entry>
+    <entry lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 应急盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 “系统” > “创建应急盘”。\n您现在要创建吗？</entry>
     <entry lang="zh-cn" key="IDC_ALLOW_TRIM_NONSYS_SSD">允许在非系统 SSD 分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="IDC_BLOCK_SYSENC_TRIM">阻止系统分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="WINDOWS_EFI_BOOT_LOADER_MISSING">错误: 无法在磁盘上找到 Windows EFI 系统加载程序。操作将中止。</entry>
@@ -1497,7 +1497,7 @@
     <entry lang="zh-cn" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">请注意，禁用此选项可能对已通过内核加密服务装入的卷没有影响。</entry>
     <entry lang="zh-cn" key="LINUX_REMOUNT_BECAUSEOF_SETTING">请注意，任何当前已装载的卷都需要重新装载才能应用此设置。</entry>
     <entry lang="zh-cn" key="LINUX_UNKNOWN_EXC_OCCURRED">发生未知异常。</entry>
-    <entry lang="zh-cn" key="LINUX_FIRST_AID">磁盘实用程序将在你按下'确定'后启动。\n\n请在“磁盘实用程序”窗口选择您的卷，然后按“急救”页上的“验证磁盘”或“修复磁盘”按钮。</entry>
+    <entry lang="zh-cn" key="LINUX_FIRST_AID">磁盘实用程序将在你按下“确定”后启动。\n\n请在“磁盘实用程序”窗口选择您的卷，然后按“急救”页上的“验证磁盘”或“修复磁盘”按钮。</entry>
     <entry lang="zh-cn" key="LINUX_MOUNT_ALL_DEV">装载所有设备</entry>
     <entry lang="zh-cn" key="LINUX_ERROR_LOADING_CONFIG">加载此处的配置文件时出错: </entry>
     <entry lang="zh-cn" key="LINUX_SELECT_FREE_SLOT">请从列表中选择一个可用驱动器插槽。</entry>
@@ -1538,7 +1538,7 @@
     <entry lang="zh-cn" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">挂载点已经在使用中。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDEMPTY">未指定密码或密钥文件。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\n请注意，在不可用非美国键盘布局的预启动环境中，需要输入预启动身份验证密码。因此，开机前的认证密码必须使用标准的美国键盘布局(否则大多数情况下密码会输入错误)。但是，请注意，你不需要一个真正的美国键盘;你只需要改变操作系统中的键盘布局。</entry>
-    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n注意：如果您试图在没有预引导身份验证的情况下挂载位于加密系统驱动器上的分区，或者挂载未运行的操作系统的加密系统分区，则可以通过选择'选项 >' > '使用系统加密挂载分区'来执行此操作。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n注意：如果您试图在没有预引导身份验证的情况下挂载位于加密系统驱动器上的分区，或者挂载未运行的操作系统的加密系统分区，则可以通过选择“选项” > “使用系统加密挂载分区”来执行此操作。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDTOOLONG">密码长度超过{0}个字符。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">需要分区设备。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">受保护的隐藏卷密码错误或隐藏卷不存在。</entry>
@@ -1611,7 +1611,7 @@
     <entry lang="zh-cn" key="ERROR_GETTING_KEYB_STATE">获取键盘状态时发生错误。</entry>
     <entry lang="zh-cn" key="ERR_NO_TRANSLATION">您刚刚按下的那个键没有对应的转码！</entry>
     <entry lang="zh-cn" key="DEAD_KEY_SUPPORT">在这种情况下，该键不会输入对应字符，因为您的密码需要转换为美式键盘布局，以便您可以在预启动环境中输入密码。</entry>
-    <entry lang="zh-cn" key="PRETEST_CHECKBOX"> 我确保我的设备在加密过程中不会耗尽电源。</entry>
+    <entry lang="zh-cn" key="PRETEST_CHECKBOX">我确保我的设备在加密过程中不会耗尽电源。</entry>
     <entry lang="zh-cn" key="OPEN_PATH_CHECKLIST_PAGE">打开路径</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_PATH">应急磁盘路径</entry>
     <entry lang="zh-cn" key="PRETEST_BACK_BUTTON">如果您想取消加密向导，请点击取消。 在这种情况下，不会对您的计算机进行任何更改。</entry>
