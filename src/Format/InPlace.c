@@ -89,6 +89,8 @@ static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const wchar_t *devicePath,
 	}
 
 	if (	(ntfsVolData.NumberSectors.QuadPart <= 0)
+		||	(ntfsVolData.BytesPerSector == 0)
+		||	(ntfsVolData.BytesPerSector >= (DWORD) UINT_MAX)
 		||	(ntfsVolData.NumberSectors.QuadPart > (INT64_MAX / (__int64) ntfsVolData.BytesPerSector)) // overflow test
 		)
 	{

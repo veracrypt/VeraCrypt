@@ -4,7 +4,7 @@
 
 	<!-- FullProductVersion's first 3 parts MUST BE incremented at each release in order 
 			for upgrades to work ; Windows Installer ignores the 4th part -->
-	<?define var.FullProductVersion = 1.25.9?>
+	<?define var.FullProductVersion = 1.26?>
 	<?define var.ProductName = VeraCrypt $(var.FullProductVersion)?>
 
 	<!-- Unique GUID identifying this family of product (32-bit and 64-bit have the same) -->
@@ -12,7 +12,7 @@
   
 	<!-- Unique GUID identifying this product release (32-bit and 64-bit have different ones) -->
 	<!-- MUST BE regenerated for each new release -->
-	<?define var.ProductGuid = {5DDDA84D-81B6-4C9C-B82B-9DB89244B547}?>
+	<?define var.ProductGuid = {4089F6A9-1D6A-4235-AE08-4C2C2F98C7F5}?>
 
 	<!-- Unique GUID identifying a particular Windows Installer package -->
 	<!-- When compiling a product, it should not be set in order to allow it to be generated for each build -->
@@ -867,9 +867,6 @@
 			<Component Id="cmpFB2313AB16EF2467366ED136C0E61CE6" Guid="{CFEC9559-9F85-46C6-9E98-AEBB573B96FE}">
 				<File Id="filE496203C4727FDF47F8352CB9722A8C7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Removing Encryption.html" DiskId="1" />
 			</Component>
-			<Component Id="cmp960F36632D3FB602421D1195E4EB6FE1" Guid="{321F49A5-8A1B-4881-A32D-12EDA99D1B85}">
-				<File Id="fil324009D5856BF4C5270D40F1EC4110EB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\RIPEMD-160.html" DiskId="1" />
-			</Component>
 			<Component Id="cmpB4C7B1A7A3EC0CB2DE805AC5CC5FC0D7" Guid="{4534E8B2-114E-4173-AE3E-75E0D96EB573}">
 				<File Id="fil8CFD1CFDCBE261B6F91D9E587F8720C0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Security Model.html" DiskId="1" />
 			</Component>
@@ -1383,7 +1380,6 @@
 			<ComponentRef Id="cmpB313B00E647A121B2CBE47F3048A18A7" />
 			<ComponentRef Id="cmp400428F6494DE58618E3B92539548C39" />
 			<ComponentRef Id="cmpFB2313AB16EF2467366ED136C0E61CE6" />
-			<ComponentRef Id="cmp960F36632D3FB602421D1195E4EB6FE1" />
 			<ComponentRef Id="cmpB4C7B1A7A3EC0CB2DE805AC5CC5FC0D7" />
 			<ComponentRef Id="cmp00540BF93A805E0B9996945B61E1BC2F" />
 			<ComponentRef Id="cmp4C46C6668AD830D543AFE593D51676B3" />

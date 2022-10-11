@@ -1519,12 +1519,20 @@ BOOL test_hmac_sha256 ()
 	for (i = 0; i < sizeof (hmac_sha256_test_data) / sizeof(char *); i++)
 	{
 		char digest[1024]; /* large enough to hold digets and test vector inputs */
-		memcpy (digest, hmac_sha256_test_data[i], strlen (hmac_sha256_test_data[i]));
-		hmac_sha256 (hmac_sha256_test_keys[i], (int) strlen (hmac_sha256_test_keys[i]), digest, (int) strlen (hmac_sha256_test_data[i]));
-		if (memcmp (digest, hmac_sha256_test_vectors[i], SHA256_DIGESTSIZE) != 0)
-			return FALSE;
+		size_t dataLen = strlen (hmac_sha256_test_data[i]);
+		if (dataLen <= sizeof(digest))
+		{
+			memcpy (digest, hmac_sha256_test_data[i], dataLen);
+			hmac_sha256 (hmac_sha256_test_keys[i], (int) strlen (hmac_sha256_test_keys[i]), digest, (int) dataLen);
+			if (memcmp (digest, hmac_sha256_test_vectors[i], SHA256_DIGESTSIZE) != 0)
+				return FALSE;
+			else
+				nTestsPerformed++;
+		}
 		else
-			nTestsPerformed++;
+		{
+			return FALSE;
+		}
 	}
 
 	return (nTestsPerformed == 6);
@@ -1538,12 +1546,20 @@ BOOL test_hmac_sha512 ()
 	for (i = 0; i < sizeof (hmac_sha512_test_data) / sizeof(char *); i++)
 	{
 		char digest[1024]; /* large enough to hold digets and test vector inputs */
-		memcpy (digest, hmac_sha512_test_data[i], (int) strlen (hmac_sha512_test_data[i]));
-		hmac_sha512 (hmac_sha512_test_keys[i], (int) strlen (hmac_sha512_test_keys[i]), digest, (int) strlen (hmac_sha512_test_data[i]));
-		if (memcmp (digest, hmac_sha512_test_vectors[i], SHA512_DIGESTSIZE) != 0)
-			return FALSE;
+		size_t dataLen = strlen (hmac_sha512_test_data[i]);
+		if (dataLen <= sizeof(digest))
+		{
+			memcpy (digest, hmac_sha512_test_data[i], dataLen );
+			hmac_sha512 (hmac_sha512_test_keys[i], (int) strlen (hmac_sha512_test_keys[i]), digest, (int) dataLen);
+			if (memcmp (digest, hmac_sha512_test_vectors[i], SHA512_DIGESTSIZE) != 0)
+				return FALSE;
+			else
+				nTestsPerformed++;
+		}
 		else
-			nTestsPerformed++;
+		{
+			return FALSE;
+		}
 	}
 
 	return (nTestsPerformed == 6);
@@ -1557,12 +1573,20 @@ BOOL test_hmac_blake2s ()
 	for (i = 0; i < sizeof (hmac_blake2s_test_data) / sizeof(char *); i++)
 	{
 		char digest[1024]; /* large enough to hold digets and test vector inputs */
-		memcpy (digest, hmac_blake2s_test_data[i], strlen (hmac_blake2s_test_data[i]));
-		hmac_blake2s (hmac_blake2s_test_keys[i], (int) strlen (hmac_blake2s_test_keys[i]), digest, (int) strlen (hmac_blake2s_test_data[i]));
-		if (memcmp (digest, hmac_blake2s_test_vectors[i], BLAKE2S_DIGESTSIZE) != 0)
-			return FALSE;
+		size_t dataLen = strlen (hmac_blake2s_test_data[i]);
+		if (dataLen <= sizeof(digest))
+		{
+			memcpy (digest, hmac_blake2s_test_data[i], dataLen);
+			hmac_blake2s (hmac_blake2s_test_keys[i], (int) strlen (hmac_blake2s_test_keys[i]), digest, (int) dataLen);
+			if (memcmp (digest, hmac_blake2s_test_vectors[i], BLAKE2S_DIGESTSIZE) != 0)
+				return FALSE;
+			else
+				nTestsPerformed++;
+		}
 		else
-			nTestsPerformed++;
+		{
+			return FALSE;
+		}
 	}
 
 	return (nTestsPerformed == 6);

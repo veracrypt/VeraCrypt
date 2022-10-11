@@ -285,7 +285,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 		*noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, TRUE, NULL);
 		if (!*noOutstandingWorkItemEvent)
 		{
-			CloseHandle (keyDerivationCompletedEvent);
+			CloseHandle (*keyDerivationCompletedEvent);
 			TCfree (keyDerivationWorkItems);
 			TCfree(keyDerivationCompletedEvent);
 			TCfree(noOutstandingWorkItemEvent);

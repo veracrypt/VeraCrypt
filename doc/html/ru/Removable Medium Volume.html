@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">Разное</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Removable%20Medium%20Volume.html">Том, смонтированный как сменный носитель</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>Том, смонтированный как сменный носитель</h2>
+<p>Этот раздел относится к томам VeraCrypt, смонтированным, когда включена одна из следующих опций (если применимо):</p>
+<ul>
+<li><em>Настройки</em> &gt; <em>Параметры</em> &gt; <em>Монтировать тома как сменные носители</em></li>
+<li><em>Параметры монтирования</em> &gt; <em>Монтировать том как сменный носитель</em> </li>
+<li><em>Избранное</em> &gt; <em>Упорядочить избранные тома</em> &gt; <em>Монтировать выбранный том как сменный носитель</em></li>
+<li><em>Избранное</em> &gt; <em>Упорядочить системные избранные тома</em> &gt; <em>Монтировать выбранный том как сменный носитель</em></li>
+</ul>
+<p>Тома VeraCrypt, смонтированные как сменные носители, имеют следующие преимущества и недостатки:</p>
+<ul>
+<li>На таких томах VeraCrypt в Windows не создаются автоматически папки <em>Recycled</em> и/или <em>System Volume
+Information</em> (эти папки в Windows служат для функций Корзины и восстановления системы).</li>
+<li>Windows 8 и более новые версии не могут записывать в журнал событий Событие 98, содержащее имя устройства
+(\\device\VeraCryptVolumeXX) томов VeraCrypt, отформатированных в NTFS. Эта "функция" журнала событий была
+реализована в Windows 8 как часть недавно введённых проверок работоспособности NTFS, см. пояснения
+<a href="https://blogs.msdn.microsoft.com/b8/2012/05/09/redesigning-chkdsk-and-the-new-ntfs-health-model/" target="_blank">
+здесь</a>. Большое спасибо Liran Elharar, который это обнаружил.</li>
+<li>Windows может использовать методы кэширования и отложенную запись, которые обычно применяются для сменных
+носителей (например, для USB-флешек). Это может немного снизить производительность, но в то же время увеличить
+вероятность того, что можно будет быстро размонтировать том без принудительного размонтирования.</li>
+<li>Операционная система может стремиться свести к минимуму количество дескрипторов, которые она открывает
+для такого тома.</li>
+<li>У томов, смонтированных как сменные носители, в среде Windows Vista и более ранних версий Windows в списке
+<em>Компьютер</em> (или <em>Мой компьютер</em>) не отображается объём свободного места (это ограничение Windows,
+а не ошибка в VeraCrypt).</li>
+<li>В среде Windows Vista и более новых версий Windows для настольных ПК, сектора тома, смонтированного как
+сменный носитель, могут быть доступны всем пользователям (включая пользователей без прав администратора; см. раздел
+<a href="Multi-User%20Environment.html">
+<em>Многопользовательская среда</em></a>).</li></ul>
+</div><div class="ClearBoth"></div></body></html>

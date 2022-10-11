@@ -1,0 +1,510 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Troubleshooting.html">Устранение затруднений</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Устранение затруднений</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В этом разделе приведены возможные решения типичных проблем, с которыми можно столкнуться при использовании VeraCrypt.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Если описания вашей проблемы здесь нет, просмотрите следующие разделы:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Несовмесимости</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Issues%20and%20Ограничения.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Замеченные проблемы и ограничения</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="FAQ.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Вопросы и ответы</a>
+</li></ul>
+<table style="border-collapse:separate; border-spacing:0px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<td style="color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:15px; border:1px solid #000000">
+Убедитесь, что вы используете новейшую стабильную версию VeraCrypt. Если проблема вызвана ошибкой в какой-либо
+старой версии VeraCrypt, Если проблема вызвана ошибкой в какой-либо старой версии TrueCrypt, возможно, она уже исправлена.
+Чтобы узнать, какая у вас сейчас версия программы, см. 
+<em style="text-align:left"><strong style="text-align:left">Справка</strong></em> &gt;
+<em style="text-align:left"><strong style="text-align:left">О программе</strong></em>.</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Операции записи/чтения с томом выполняются очень медленно, хотя согласно тесту,
+скорость используемого шифра выше, чем скорость жёсткого диска.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Возможно, проблема вызвана вмешательством какой-либо сторонней программы.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Во-первых, проверьте, не имеет ли ваш файл-контейнер VeraCrypt расширения, зарезервированного за исполняемыми
+файлами (например, .exe, .sys или .dll). Если это так, Windows и антивирусное ПО могут вмешиваться в операции
+с таким контейнером и неблагоприятно влиять на скорость работы с томом.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Во-вторых, отключите или удалите приложение, которое может вмешиваться в операции с контейнером (обычно
+это антивирусное ПО, программы для автоматической дефрагментации дисков и т. д.). Если причина – в антивирусном
+ПО, часто помогает отключение в его настройках защиты в реальном времени. Если так устранить проблему не удалось,
+попробуйте временно отключить антивирусное ПО. Если и это не помогло, попробуйте полностью удалить это ПО
+и перезагрузить компьютер.</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Невозможно смонтировать том VeraCrypt; программа выдаёт сообщение
+&quot;</em>Неверный пароль, либо это не том VeraCrypt<em style="text-align:left">&quot;.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Может быть повреждён заголовок тома в результате действия сторонней программы или некорректной работы
+аппаратного компонента компьютера.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения: </strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Попробуйте восстановить заголовок тома из резервной копии, встроенной в том. Для этого:
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Запустите VeraCrypt.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Нажмите кнопку <em style="text-align:left">Выбрать устройство</em> или <em style="text-align:left">
+Выбрать файл</em>, чтобы выбрать том.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Выберите <em style="text-align:left"><a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none.html">Сервис &gt; Восстановить заголовок тома</a></em>.
+</li></ol>
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема:</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">После успешного монтирования тома Windows выдаёт сообщение об ошибке
+&quot;</em>Файловая система тома не распознана<em style="text-align:left">&quot;
+(&quot;</em>This device does not contain a valid file system<em style="text-align:left">&quot;) или аналогичное.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Может быть повреждена файловая система в томе VeraCrypt (или том не отформатирован).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Для исправления файловой системы в томе VeraCrypt можно воспользоваться соответствующими средствами,
+входящими в состав вашей операционной системы. В Windows это утилита '<em style="text-align:left">chkdsk</em>'.
+VeraCrypt предоставляет простой способ её использования для своих томов. Сначала создайте резервную копию тома
+VeraCrypt (так как утилита '<em style="text-align:left">chkdsk</em>' может повредить файловую систему
+ещё больше), а затем смонтируйте его. Щёлкните правой кнопкой мыши по смонтированному тому в главном окне
+VeraCrypt (в списке дисков) и выберите в контекстном меню пункт <em style="text-align:left">Исправить файловую систему</em>.</div>
+<hr style="text-align:left">
+<div id="hidden_volume_small_max_size" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема:</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">При попытке создать скрытый том, его максимально возможный размер – неожиданно
+маленький (хотя во внешнем томе гораздо больше свободного места).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные причины: </strong></div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Внешний том отформатирован как NTFS.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Фрагментация.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Слишком маленький размер кластера + слишком много файлов/папок в корневой папке внешнего тома.
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Решение для случая 1:</div>
+<blockquote style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В отличие от файловой системы FAT, файловая система NTFS всегда сохраняет внутренние данные точно в середине
+тома. Поэтому скрытый том может находиться только во второй половине внешнего тома. Если это ограничение для
+вас неприемлемо, сделайте одно из следующего:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Переформатируйте внешний том в FAT и затем создайте внутри него скрытый том. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если внешний том слишком большой, чтобы его можно было отформатировать в FAT, разделите этот том на несколько
+томов объёмом по 2 терабайта (или по 16 терабайт, если устройство использует 4-килобайтные сектора) и
+отформатируйте каждый из этих томов в FAT.
+</li></ul>
+</blockquote>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Решение для случая 2:</div>
+<blockquote style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Создайте новый внешний том (дефрагментация не решит проблему, так как неблагоприятно влияет на возможность
+правдоподобного отрицания наличия шифрования &ndash; см. раздел
+<a href="Дефрагментация.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Дефрагментация</a>).</div>
+</blockquote>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Решение для случая 3:</div>
+<blockquote style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Следующее решение применимо только к скрытым томам, созданным внутри томов с файловой системой FAT.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Дефрагментируйте внешний том (смонтируйте его, щёлкните правой кнопкой мыши по его букве диска в окне
+<em style="text-align:left">Компьютер</em> или <em style="text-align:left">Мой компьютер</em>, нажмите
+<em style="text-align:left">Свойства</em>, перейдите на вкладку <em style="text-align:left">
+Сервис</em> и нажмите <em style="text-align:left">Выполнить дефрагментацию</em>). После того как том будет
+дефрагментирован, закройте окно
+<em style="text-align:left">Дефрагментация диска</em> и попытайтесь снова создать скрытый том.
+<br style="text-align:left">
+<br style="text-align:left">
+Если это не помогло, удалите <em style="text-align:left">все</em> файлы и папки во внешнем томе нажатием клавиш
+Shift&#43;Delete, но не форматированием (не забудьте заранее отключить для этого диска Корзину и восстановление
+системы), и попробуйте снова создать скрытый том в этом <em style="text-align:left">полностью пустом</em>
+внешнем томе (только с целью проверки). Если максимально возможный размер скрытого тома не изменился даже сейчас,
+причина проблемы, вероятнее всего, кроется в расширенной корневой папке. Если вы использовали размер кластеров,
+отличный от <i>предлагаемого по умолчанию</i> (последний этап в работе мастера), переформатируйте внешний том,
+на этот раз оставив <i>размер кластера по умолчанию</i>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если это не помогло, ещё раз переформатируйте внешний том и скопируйте в его корневую папку меньше файлов/папок,
+чем в прошлый раз. Если проблема не решается, повторяйте форматирование и уменьшайте количество файлов/папок
+в корневой папке. Если это неприемлемо или не помогает, переформатируйте внешний том, выбрав больший размер
+кластеров. Если это не помогло, повторяйте переформатирование, увеличивая размер кластеров, пока проблема
+не будет решена. В качестве альтернативы попробуйте создать скрытый том внутри тома с файловой системой NTFS.
+</div>
+</blockquote>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Возникает одна из следующих проблем:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+невозможно смонтировать том VeraCrypt</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+невозможно создавать тома VeraCrypt с файловой системой NTFS</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Кроме того, возможна следующая ошибка: "<i>Процесс не может получить доступ к файлу, занятому другим процессом</i>".</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Возможно, проблема вызвана вмешательством какой-либо сторонней программы. Обратите внимание, что это не
+ошибка в VeraCrypt. Операционная система сообщает VeraCrypt, что устройство заблокировано для исключительного
+доступа каким-либо приложением (поэтому VeraCrypt не может к нему обратиться).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Как правило, помогает отключение или удаление мешающего приложения (обычно это антивирусное ПО, программы управления дисками и т. д.).</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">На экране загрузчика VeraCrypt я пытаюсь ввести пароль и/или нажимать другие
+клавиши, но загрузчик никак на это не реагирует.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+У вас клавиатура USB (не PS/2), а в настройках BIOS отключена поддержка USB-клавиатур в фазе до загрузки ОС.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Нужно включить поддержку USB-клавиатур в настройках BIOS. Чтобы это сделать, выполните следующее:</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Перезагрузите компьютер, нажмите клавишу <b>F2</b> или <b>Delete</b> (сразу как появится начальный экран BIOS) и
+дождитесь появления экрана с настройками BIOS. Если этот экран не появился, снова перезагрузите компьютер
+(нажмите кнопку сброса) и сразу же начните часто нажимать клавишу <b>F2</b> или <b>Delete</b>. Когда появится экран
+с настройками BIOS, включите поддержку USB-клавиатур в предзагрузочной среде. Обычно это выполняется выбором
+<i>Advanced</i> > <i>USB Configuration</i> > <i>Legacy USB Support</i> (или <i>USB Legacy</i>) > <i>Enabled</i>.
+(Обратите внимание, что слово "legacy", т. е. "устаревший", на самом деле вводит в заблуждение, так как
+предзагрузочные компоненты современных версий Windows требуют, чтобы этот параметр был включён, дабы
+позволить взаимодействие с пользователем.) Затем сохраните настройки BIOS (обычно это делается нажатием
+клавиши <F10>) и перезагрузите компьютер. Более подробную информацию см. в документации на BIOS/системную
+плату или свяжитесь со службой технической поддержки поставщика вашего компьютера.</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">После шифрования системного раздела/диска компьютер после перезагрузки не может
+загрузиться (также невозможно войти в экран настроек BIOS).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина:</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Ошибка в BIOS компьютера.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения: </strong></div>
+<p>Сделайте следующее:</p>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Отключите зашифрованный диск. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Подключите незашифрованный диск с установленной операционной системой (или установите её на диск).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Обновите BIOS.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если проблема не решилась, сообщите об этой ошибке производителю или поставщику компьютера.
+</li></ol>
+<p>ИЛИ</p>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если у поставщика BIOS/системной платы/компьютера нет обновлений, решающих проблему, а вы используете Windows 7
+или более новую версию Windows, и на диске есть дополнительный загрузочный раздел (размером менее 1 ГБ),
+можно попробовать переустановить Windows без этого дополнительного загрузочного раздела (чтобы обойти ошибку в BIOS). </li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Возникает одна из следующих проблем:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">После ввода пароля предзагрузочной аутентификации во время предварительного
+теста шифрования системы компьютер зависает (при появлении сообщения '</em>Booting...<em style="text-align:left">').</em>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Если зашифрован системный раздел/диск (частично или полностью), и система
+перезагружена первый раз с момента запуска шифрования системного раздела/диска, компьютер зависает после
+ввода пароля предзагрузочной аутентификации (при появлении сообщения '</em>Booting...<em style="text-align:left">').</em>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">После клонирования скрытой операционной системы и ввода для неё пароля компьютер
+зависает (при появлении сообщения '</em>Booting...'<em style="text-align:left">).</em>
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Ошибка в BIOS компьютера или проблема с загрузчиком Windows.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения:</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Обновите BIOS (о том, как это сделать, см. в документации на BIOS/системную плату или свяжитесь со
+службой технической поддержки поставщика компьютера).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Используйте системную плату другой модели/фирмы.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если у поставщика BIOS/системной платы/компьютера нет обновлений, решающих проблему, а вы используете Windows 7
+или более новую версию Windows, и на диске есть дополнительный загрузочный раздел (размером менее 1 ГБ),
+можно попробовать переустановить Windows без этого дополнительного загрузочного раздела (чтобы обойти ошибку в BIOS).</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Известно два других обходных пути для этой проблемы, которые требуют наличия установочного диска Windows:
+<ul>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Загрузите компьютер с установочного диска Windows и выберите восстановление компьютера. Выберите опцию
+<i>Командная строка</i> (<i>Command Prompt</i>), и когда она откроется, введите приведённые ниже команды,
+а затем перезагрузите систему:
+<ul>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+BootRec /fixmbr </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+BootRec /FixBoot </li></ul>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Удалите раздел System Reserved размером 100 МБ, расположенный в начале диска, сделайте активным системный
+раздел рядом с ним (оба действия можно выполнить с помощью утилиты diskpart, доступной на установочном диске Windows).
+После этого, выполнив перезагрузку, запустите <i>Восстановление при загрузке</i> на установочном диске Windows.
+См. подробную инструкцию по следующей ссылке:
+<a href="https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html" target="_blank">
+https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html</a>
+</li></ul>
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">При попытке шифрования системного раздела/диска, во время предварительного теста,
+загрузчик VeraCrypt всегда сообщает, что неверно введён пароль предзагрузочной аутентификации (хотя я точно
+знаю, что пароль правильный).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные причины:</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Ошибочно нажаты клавиши <em style="text-align:left">Num Lock</em> и/или <em style="text-align:left">
+Caps Lock</em>.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Повреждение данных.</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Когда вы <i>устанавливаете</i> пароль предзагрузочной аутентификации, запомните состояние <Num Lock> и
+<Caps Lock> (в зависимости от производителя, эти клавиши могут иметь разную маркировку, например, <Num LK>).
+Примечание. До установки пароля вы можете изменить состояние любой из этих клавиш так, как хотите, нужно
+лишь запомнить их состояния.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+При вводе пароля на экране загрузчика VeraCrypt убедитесь, что состояние каждой из этих клавиш такое же,
+каким оно было при установке пароля.
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Другие возможные решения данной проблемы см. в других частях этой главы.</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема:</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Если зашифрован системный раздел/диск, операционная система каждые 5-60 минут
+"зависает" примерно на 10-60 секунд (что может также сопровождаться 100%-ной загрузкой ЦП).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Проблема с ЦП и/или системной платой.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения: </strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Попробуйте отключить все функции энергосбережения (включая любые особые функции приостановки ЦП), в
+настройках BIOS и в разделе <i>Электропитание</i> в Панели управления Windows.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Замените процессор на другой (другого типа и/или фирмы).</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Замените системную плату на другую (другого типа и/или фирмы). </li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема:</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">При монтировании или размонтировании тома VeraCrypt происходит сбой системы
+(появляется "синий экран" ошибки, либо компьютер внезапно перезагружается).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+ИЛИ</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">После установки VeraCrypt начались частые сбои в работе операционной системы.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные причины: </strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Ошибка в стороннем приложении (например, в антивирусном ПО, утилите для подстройки системы и т. д.).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Ошибка в VeraCrypt.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Ошибка в Windows или неисправность в аппаратном компоненте компьютера.</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения: </strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Попробуйте отключить все антивирусные программы, утилиты для тонкой подстройки системы ("твикеры") и
+другие аналогичные приложения. Если это не поможет, попробуйте удалить их и перезагрузить Windows.
+<br style="text-align:left">
+<br style="text-align:left">
+Если проблема не исчезает, запустите VeraCrypt выберите <em style="text-align:left">Справка</em> &gt;
+<em style="text-align:left">Проанализировать сбой системы</em> вскоре после сбоя или перезагрузки системы.
+проанализирует файлы дампа сбоев, которые автоматически создаются Windows при аварийных отказах (если они есть).
+Если VeraCrypt определяет, что сбой вероятнее всего вызван ошибкой в стороннем драйвере, будут показаны
+имя и поставщик этого драйвера (обратите внимание, что проблему можно устранить, обновив или удалив драйвер).
+Какой бы результат ни был, вы сможете отправить основную информацию о сбое системы, чтобы мы выяснили,
+не вызван ли он ошибкой в VeraCrypt.
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема:</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">В Windows 7/Vista (и, возможно, в более новых версиях) не получается использовать
+утилиту <i>Microsoft Windows Backup</i> (</i>Программу архивации</i>) для резервного копирования данных
+на несистемный том VeraCrypt.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Ошибка в инструменте резервного копирования Windows.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Смонтируйте том VeraCrypt, на который вы хотите записать резервную копию данных. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Щёлкните правой кнопкой мыши по папке в этом томе (или по букве диска, на котором он расположен, в списке
+<em style="text-align:left">Компьютер</em>) и выберите в подменю пункт <em style="text-align:left">Общий
+доступ и безопасность</em> (в Windows Vista – <em style="text-align:left">Общий доступ</em>).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Следуйте инструкциям, чтобы предоставить общий доступ к папке с вашей учётной записью пользователя. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В средстве резервного копирования Windows выберите общую папку (сетевое местоположение/путь) в качестве
+места назначения.</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Запустите процесс резервного копирования.</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Указанное выше решение не относится к редакциям <em style="text-align:left">Starter</em>
+(<i>Начальная</i>) и <em style="text-align:left">Home</em> (<i>Домашняя</i>) Windows 7 (и, возможно, более новых версий).</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема:</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">В Vista и более новых версиях Windows из окна <i>Компьютер</i> невозможно
+изменить метку файловой системы у тома VeraCrypt.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Из-за проблемы Windows метка записывается только в файл реестра, а не в файловую систему.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения: </strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Щёлкните правой кнопкой мыши по смонтированному тому в окне <i>Компьютер</i>, выберите <i>Свойства</i>
+и введите новую метку для этого тома.
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Не удаётся зашифровать раздел/устройство, так как мастер создания томов VeraCrypt
+сообщает, что раздел/устройство сейчас используется.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Закройте, отключите или удалите все программы, которые могут как-либо использовать раздел/устройство
+(например, антивирусное ПО). Если это не помогает, щёлкните правой кнопкой мыши по значку
+<em style="text-align:left">Компьютер</em> (или <em style="text-align:left">Мой компьютер</em>) на рабочем
+столе и выберите <em style="text-align:left">Управление</em> &gt; <em style="text-align:left"> Запоминающие
+устройства</em> &gt; <em style="text-align:left"> Управление дисками.</em> Затем щёлкните правой кнопкой мыши
+по разделу, который вы хотите зашифровать, и выберите <em style="text-align:left">Изменить букву диска или
+путь к диску</em>. Далее нажмите <em style="text-align:left">
+Удалить</em> и <em style="text-align:left">OK</em>. Перезагрузите операционную систему.</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">При создании скрытого тома мастер сообщает, что невозможно заблокировать внешний том.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Внешний том содержит файлы, используемые одним или несколькими приложениями.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Закройте все программы, которые используют файлы во внешнем томе. Если это не помогает, попробуйте отключить
+или удалить установленное у вас антивирусное ПО и затем перезагрузить систему.</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При доступе к файлу-контейнеру, совместно используемому по сети, вы получаете одно или оба из следующих
+сообщений об ошибках:
+<br style="text-align:left">
+&quot;<em style="text-align:left">Not enough server storage is available to process this command&quot;
+(Для обработки этой команды недостаточно места на сервере)</em><br>
+и/или<br style="text-align:left">
+&quot;<em style="text-align:left">Not enough memory to complete transaction&quot; (Недостаточно памяти для
+завершения транзакции)</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Возможно, слишком маленькое значение у ключа <em style="text-align:left">IRPStackSize</em> в реестре Windows.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное решение: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Найдите ключ <em style="text-align:left">IRPStackSize </em> в реестре Windows и установите более высокое
+значение, после чего перезагрузите систему. Если этого ключа нет в реестре, создайте его в
+<em style="text-align:left">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters</em>
+и установите значение 16 или больше, после чего перезагрузите систему. Более подробную информацию см. на веб-страницах
+<a href="https://support.microsoft.com/kb/285089/" style="text-align:left; color:#0080c0; text-decoration:none">
+https://support.microsoft.com/kb/285089/ </a> и <a href="https://support.microsoft.com/kb/177078/" style="text-align:left; color:#0080c0; text-decoration:none">
+https://support.microsoft.com/kb/177078/</a></div>
+<hr style="text-align:left">
+<p><br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+&nbsp;&nbsp;См. также: <a href="Issues%20and%20Ограничения.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">
+Замеченные проблемы и ограничения</a>,&nbsp;&nbsp;<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Несовместимости</a></p>
+</div><div class="ClearBoth"></div></body></html>

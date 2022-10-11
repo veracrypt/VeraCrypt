@@ -54,7 +54,7 @@ Hidden Operating System</a>). If there is a hidden volume within this volume (or
 <li>PRF used by the header key derivation function (as specified in PKCS #5 v2.0; see the section
 <a href="Header%20Key%20Derivation.html">
 <em>Header Key Derivation, Salt, and Iteration Count</em></a>), which can be one of the following:
-<p>HMAC-SHA-512, HMAC-SHA-256, HMAC-RIPEMD-160, HMAC-Whirlpool. If a PRF is explicitly specified by the user, it will be used directly without trying the other possibilities.</p>
+<p>HMAC-SHA-512, HMAC-SHA-256, HMAC-BLAKE2S-256, HMAC-Whirlpool. If a PRF is explicitly specified by the user, it will be used directly without trying the other possibilities.</p>
 <p>A password entered by the user (to which one or more keyfiles may have been applied &ndash; see the section
 <a href="Keyfiles%20in%20VeraCrypt.html">
 <em>Keyfiles</em></a>), a PIM value (if specified) and the salt read in (1) are passed to the header key derivation function, which produces a sequence of values (see the section

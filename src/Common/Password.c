@@ -39,6 +39,7 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 	char szTmp1Utf8[MAX_PASSWORD + 1];
 	char szTmp2Utf8[MAX_PASSWORD + 1];
 	int k = GetWindowTextLength (hPassword);
+	int j = GetWindowTextLength (hVerify);
 	BOOL bEnable = FALSE;
 	int utf8Len1, utf8Len2;
 
@@ -51,7 +52,12 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 	utf8Len2 = WideCharToMultiByte (CP_UTF8, 0, szTmp2, -1, szTmp2Utf8, MAX_PASSWORD + 1, NULL, NULL);
 
 	if (wcscmp (szTmp1, szTmp2) != 0)
+	{
 		bEnable = FALSE;
+		if(k > 0 && j == k)
+			Warning ("WARNING_PASSWORD_NOT_IDENTICAL", hwndDlg);
+
+	}
 	else if (utf8Len1 <= 0)
 		bEnable = FALSE;
 	else
@@ -145,11 +151,6 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim
 			Error (bootPimCondition? "BOOT_PIM_REQUIRE_LONG_PASSWORD": "PIM_REQUIRE_LONG_PASSWORD", hwndDlg);
 			return FALSE;
 		}
-
-#ifndef _DEBUG
-		if (!bSkipPasswordWarning && (MessageBoxW (hwndDlg, GetString ("PASSWORD_LENGTH_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES))
-			return FALSE;
-#endif
 	}
 #ifndef _DEBUG
 	else if (bCustomPimSmall)
@@ -563,4 +564,3 @@ error:
 
 	return nStatus;
 }
-

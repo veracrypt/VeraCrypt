@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.25.9">
+  <localization prog-version= "1.26">
     <language langid="zh-hk" name="繁體中文(香港)" en-name="Chinese (Hong Kong)" version="0.1.0" translators="PUN Chi Ho, Yeung Tim Ming" />
     <font lang="zh-hk" class="normal" size="12" face="Microsoft JhengHei UI" />
     <font lang="zh-hk" class="bold" size="13" face="Microsoft JhengHei UI Bold" />
@@ -1425,7 +1425,7 @@
     <entry lang="zh-hk" key="PASSWORD_MAXLENGTH_REACHED">密碼長度已經達到上限的 %d 字元。\n無法接受更多的字元。</entry>
     <entry lang="zh-hk" key="IDC_SELECT_LANGUAGE_LABEL">選擇安裝時使用的語言：</entry>
     <entry lang="zh-hk" key="VOLUME_TOO_LARGE_FOR_HOST">錯誤：容器檔案的大小大於磁碟的可用空間。</entry>
-    <entry lang="zh-hk" key="IDC_ALLOW_WINDOWS_DEFRAG">容許 Windows 磁碟重組工具重組非系統分割區/磁碟機</entry>    
+    <entry lang="zh-hk" key="IDC_ALLOW_WINDOWS_DEFRAG">容許 Windows 磁碟重組工具重組非系統分割區/磁碟機</entry>
     <entry lang="zh-hk" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">警告: 磁碟重組非系統分割區/磁碟機可能會洩漏關於其內容的 Metadata 或令其可能內含的隱蔽加密區出現問題。\n\n還要繼續嗎？</entry>
     <entry lang="zh-hk" key="VIRTUAL_DEVICE">虛擬裝置</entry>
     <entry lang="zh-hk" key="MOUNTED_VOLUME_NOT_ASSOCIATED">所選取的已掛載磁碟區在 Windows 與其磁碟機代號並沒有進行關聯，故無法使用 Windows 檔案瀏覽器開啟。</entry>
@@ -1567,6 +1567,7 @@
     <entry lang="zh-hk" key="VOLUME_HOST_IN_USE">警告: 在本機上的檔案/裝置 {0} 已在使用中!\n\n如果忽略的話會引致不良的後果，包括系統不穩定。請務必關閉所有可能正在使用在本機上的檔案/裝置的應用程式。\n\n要繼續掛載嗎？</entry>
     <entry lang="zh-hk" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt 之前是使用 MSI 封包進行安裝因此無法使用標準安裝程式進行更新。\n\n請使用 MSI 封包來更新您的 VeraCrypt 安裝。</entry>
     <entry lang="zh-hk" key="IDC_USE_ALL_FREE_SPACE">使用所有可用的空間</entry>
+    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

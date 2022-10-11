@@ -1263,7 +1263,7 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 		return L"HMAC-SHA-256";
 
 	case BLAKE2S:	
-		return L"HMAC-BLAKE2s";
+		return L"HMAC-BLAKE2s-256";
 
 	case WHIRLPOOL:	
 		return L"HMAC-Whirlpool";

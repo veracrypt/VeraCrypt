@@ -82,7 +82,7 @@ namespace VeraCrypt
 		}
 		else
 		{
-			VolumePimHelpStaticText->SetForegroundColour(*wxBLACK);
+			VolumePimHelpStaticText->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 			VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
 		}
 		Fit();

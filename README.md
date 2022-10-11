@@ -18,8 +18,6 @@ Contents
 ========
 
 I. Windows
-   Requirements for Building VeraCrypt for Windows.
-   Instructions for Building VeraCrypt for Windows.
 	Instructions for Signing and Packaging VeraCrypt for Windows.
 
 II. Linux and Mac OS X
@@ -40,19 +38,7 @@ VI. Further Information
 I. Windows
 ==========
 
-Requirements for Building VeraCrypt for Windows:
-------------------------------------------------
-
-- Microsoft Visual C++ 2010 SP1 (Professional Edition or compatible)
-- Microsoft Visual C++ 2019 
-- Microsoft Visual C++ 1.52 (available from MSDN Subscriber Downloads)
-- Microsoft Windows SDK for Windows 7.1 (configured for Visual C++ 2010)
-- Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
-- Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
-- NASM assembler 2.08 or compatible
-- YASM 1.3.0 or newer.
-- gzip compressor
-- upx packer (available at https://upx.github.io/)
+A detailed guide on how to compile VeraCrypt on Windows can be found at: https://www.veracrypt.fr/en/CompilingGuidelineWin.html
 
 IMPORTANT:
 
@@ -73,41 +59,6 @@ binaries (there may be further differences if you use a different version of
 the compiler, or if you install a different or no service pack for Visual
 Studio, or different hotfixes for it, or if you use different versions of
 the required SDKs).
-
-
-Instructions for Building VeraCrypt for Windows:
-------------------------------------------------
-
-1) Create an environment variable 'MSVC16_ROOT' pointing to the folder 'MSVC15'
-   extracted from the Visual C++ 1.52 self-extracting package.
-
-   Note: The 16-bit installer MSVC15\SETUP.EXE cannot be run on 64-bit Windows,
-   but it is actually not necessary to run it. You only need to extract the
-   folder 'MSVC15', which contains the 32-bit binaries required to build the
-   VeraCrypt Boot Loader.
-
-2) If you have installed the Windows Driver Development Kit in another
-   directory than '%SYSTEMDRIVE%\WinDDK', create an environment variable
-   'WINDDK_ROOT' pointing to the DDK installation directory.
-
-3) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2010.
-
-4) Select 'All' as the active solution configuration and WIN32 as the active
-   platform.
-
-5) Build the solution.
-
-6) Select x64 as the active platform and build the solution again.
-
-7) Open the solution file 'VeraCrypt_vs2019.sln' in Microsoft Visual Studio 2019.
-
-8) Select 'All' as the active solution configuration and ARM64 as the active
-   platform.
-
-9) Build the solution.
-
-6) If successful, there should be newly built VeraCrypt binaries in the
-   'Release\Setup Files' folder.
 
 Instructions for Signing and Packaging VeraCrypt for Windows:
 -------------------------------------------------------------
@@ -135,6 +86,8 @@ For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 
 II. Linux and Mac OS X
 ======================
+
+A detailed guide on how to build a dev environment and on how to compile VeraCrypt on Linux can be found at: https://www.veracrypt.fr/en/CompilingGuidelineLinux.html
 
 Requirements for Building VeraCrypt for Linux and Mac OS X:
 -----------------------------------------------------------

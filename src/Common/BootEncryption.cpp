@@ -5832,4 +5832,32 @@ namespace VeraCrypt
 	{
 		return (::RestartComputer(bShutdown) != FALSE);
 	}
+
+	bool BootEncryption::IsUsingUnsupportedAlgorithm(LONG driverVersion)
+	{
+		bool bRet = false;
+
+		try
+		{
+			if (driverVersion <= 0x125)
+			{
+				// version 1.25 is last version to support RIPEMD160 and GOST89
+				static int GOST89_EA = 5;
+				static int RIPEMD160_PRF = 4;
+
+				VOLUME_PROPERTIES_STRUCT props = {0};
+				GetVolumeProperties(&props);
+
+				//
+				if (props.ea == GOST89_EA || props.pkcs5 == RIPEMD160_PRF)
+					bRet = true;
+			}
+		}
+		catch(...)
+		{
+
+		}
+
+		return bRet;
+	}
 }

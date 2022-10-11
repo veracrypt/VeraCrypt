@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Требования безопасности и меры предосторожности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">Утечки данных</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Memory%20Dump%20Files.html">Файлы дампа памяти</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Файлы дампа памяти</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Примечание. Описанная ниже проблема вас <strong style="text-align:left">
+не</strong> касается, если системный раздел или системный диск зашифрован (см. подробности в главе
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Шифрование системы</a>) и если система настроена так, что файлы дампа памяти сохраняются на системном диске
+(по умолчанию обычно это так и есть).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Большинство операционных систем, включая Windows, можно настроить так, чтобы при возникновении ошибки (сбоя
+системы, "синего экрана") выполнялась запись отладочной информации и содержимого системной памяти в так
+называемые файлы дампов (их также иногда называют дамп-файлами сбоев). Поэтому в файлах дампа памяти могут
+содержаться секретные данные. VeraCrypt <i>не может</i> препятствовать сохранению в <i>незашифрованном</i> виде в файлах
+дампа памяти кэшированных паролей, ключей шифрования и содержимого конфиденциальных файлов, открытых в ОЗУ.
+Помните, что когда вы открываете хранящийся в томе VeraCrypt файл, например, в текстовом редакторе, содержимое
+этого файла в <i>незашифрованном</i> виде помещается в ОЗУ (и может там оставаться <i>незашифрованным</i> до
+выключения компьютера). Также учитывайте, что когда смонтирован том VeraCrypt, его мастер-ключ хранится
+<i>незашифрованным</i> в ОЗУ. Поэтому хотя бы на время каждого сеанса, в течение которого вы работаете с секретными
+данными, и на время монтирования тома VeraCrypt необходимо отключать в компьютере создание дампов памяти.
+Чтобы это сделать в Windows XP или более новой версии Windows, щёлкните правой кнопкой мыши по значку
+<i>Компьютер</i> (или <i>Мой компьютер</i>) на рабочем столе или в меню <i>Пуск</i>, затем выберите
+<em style="text-align:left">Свойства</em> &gt; (в Windows Vista и новее: &gt; <em style="text-align:left">
+Свойства системы</em> &gt;) вкладку <em style="text-align:left">Дополнительно</em> &gt; раздел
+<em style="text-align:left">Загрузка и восстановление</em> &gt; <em style="text-align:left">
+Параметры &gt; </em> раздел <em style="text-align:left">Запись отладочной информации
+</em> &gt; выберите <em style="text-align:left">(отсутствует)</em> &gt; <em style="text-align:left">
+OK</em>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Примечание для пользователей Windows XP/2003</em>. Так как Windows XP и Windows 2003
+не предоставляют никакого API для шифрования файлов дампа памяти, в случае, если системный раздел/диск
+зашифрован с помощью VeraCrypt, и ваша система Windows XP настроена на запись файлов дампа памяти на системный
+диск, драйвер VeraCrypt автоматически запрещает Windows записывать любые данные в файлы дампа памяти.
+</div>
+</div><div class="ClearBoth"></div></body></html>

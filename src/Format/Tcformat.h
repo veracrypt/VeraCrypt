@@ -104,6 +104,14 @@ extern wchar_t HeaderKeyGUIView [KEY_GUI_VIEW_SIZE];
 extern wchar_t MasterKeyGUIView [KEY_GUI_VIEW_SIZE];
 extern volatile int NonSysInplaceEncStatus;
 
+BOOL CALLBACK AdvanceDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK FinishDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+void AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value);
+int  PrintStrongness (char* input, unsigned int length);
+BOOL CheckWord (char search[]);
+BOOL CALLBACK AdvanceDlgProcIntro (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+void CreateToolTip (HWND hWndParent, HWND hControlItem, PTSTR pszText);
+
 #ifdef __cplusplus
 }
 #endif

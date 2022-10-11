@@ -31,6 +31,12 @@ mkfulldir (wchar_t *oriPath, BOOL bCheckonly)
 	wchar_t *uniq_file;
 	wchar_t path [TC_MAX_PATH];
 
+	if (wcslen(oriPath) >= TC_MAX_PATH)
+	{
+		// directory name will be truncated so return failure to avoid unexepected behavior
+		return -1;
+	}
+
 	StringCbCopyW (path, TC_MAX_PATH, oriPath);
 
 	if (wcslen (path) == 3 && path[1] == L':')
@@ -65,6 +71,12 @@ mkfulldir_internal (wchar_t *path)
 	struct _stat st;
 	static wchar_t tokpath[_MAX_PATH];
 	static wchar_t trail[_MAX_PATH];
+
+	if (wcslen(path) >= _MAX_PATH)
+	{
+		// directory name will be truncated so return failure to avoid unexepected behavior
+		return -1;
+	}
 
 	StringCbCopyW (tokpath, _MAX_PATH, path);
 	trail[0] = L'\0';

@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Требования безопасности и меры предосторожности</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Требования безопасности и меры предосторожности</h1>
+<table style="border-collapse:separate; border-spacing:0px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<td style="text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; color:#ff0000; padding:15px; border:1px solid #000000">
+<strong style="text-align:left">ВАЖНО</strong>: Если вы хотите пользоваться VeraCrypt, то обязаны соблюдать описанные в этой главе требования безопасности и меры предосторожности.</td>
+</tr>
+</tbody>
+</table>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В этой главе описаны требования безопасности при использовании VeraCrypt и дана информация о том, как неприятель
+может повлиять на возможности (или ограничить их) VeraCrypt по защите данных и обеспечению правдоподобного
+отрицания наличия шифрования.<br>
+Отказ от ответственности: мы не гарантируем, что в данной главе затронуты
+<em style="text-align:left">все</em> возможные проблемы, связанные с безопасностью, и описаны все атаки, которые
+может предпринять неприятель с целью повлиять на возможности (или ограничить их) VeraCrypt по защите данных
+и обеспечению правдоподобного отрицания наличия шифрования.</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Data%20Leaks.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Утечки данных</a>
+<ul>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Paging%20File.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Файл подкачки</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Файл гибернации</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Memory%20Dump%20Files.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Файлы дампа памяти</a>
+</li></ul>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Unencrypted%20Data%20in%20RAM.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Незашифрованные данные в ОЗУ</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Physical%20Security.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Физическая безопасность</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Malware.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Вредоносное ПО (malware)</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Multi-User%20Environment.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Многопользовательская среда</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Authenticity%20and%20Integrity.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Аутентичность и целостность данных</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Choosing%20Passwords%20and%20Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Выбор паролей и ключевых файлов</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Changing%20Passwords%20and%20Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Изменение паролей и ключевых файлов</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Trim%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Операция Trim</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Wear-Leveling.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Распределение износа (Wear-Leveling)</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Reallocated%20Sectors.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Перераспределённые сектора</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Дефрагментация.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Дефрагментация</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Journaling%20File%20Systems.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Журналируемые файловые системы</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Volume%20Clones.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Клонирование томов</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Additional%20Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Дополнительные требования безопасности и меры предосторожности</a>
+</li></ul>
+</div><div class="ClearBoth"></div></body></html>

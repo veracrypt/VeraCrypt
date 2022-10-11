@@ -442,6 +442,12 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 		goto error;
 	}
 
+	if ((BytesPerSector == 0) || (BytesPerSector > (DWORD)INT_MAX))
+	{
+		nStatus = ERR_SECTOR_SIZE_INCOMPATIBLE;
+		goto error;
+	}
+
 	DebugAddProgressDlgStatus (hwndDlg, L"Extending file system ...\r\n");
 
 	// extend volume

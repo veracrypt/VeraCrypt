@@ -1216,10 +1216,16 @@ BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 	   DWORD dwExitCode, dwWritten;
 	   LPCSTR newLine = "\n";
 	   
-	   WriteFile(hChildStd_IN_Wr, (LPCVOID) newLine, 1, &dwWritten, NULL);
-
-	   /* wait for the format process to finish */
-	   WaitForSingleObject (piProcInfo.hProcess, INFINITE);
+	   if (WriteFile(hChildStd_IN_Wr, (LPCVOID) newLine, 1, &dwWritten, NULL))
+	   {
+		   /* wait for the format process to finish */
+		   WaitForSingleObject (piProcInfo.hProcess, INFINITE);
+	   }
+	   else
+	   {
+		   /* we failed to write "\n". Maybe process exited too quickly. We wait 1 second */
+		   WaitForSingleObject (piProcInfo.hProcess, 1000);
+	   }
 
 	   /* check if it was successfull */	   
 	   if (GetExitCodeProcess (piProcInfo.hProcess, &dwExitCode))
