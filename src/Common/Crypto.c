@@ -14,8 +14,6 @@
 #include "Tcdefs.h"
 #include "Crypto.h"
 #include "Xts.h"
-#include "Crc.h"
-#include "Common/Endian.h"
 #if !defined(_UEFI)
 #include <string.h>
 #ifndef TC_WINDOWS_BOOT
@@ -29,7 +27,6 @@
 #include "EncryptionThreadPool.h"
 #endif
 #endif
-#include "Volumes.h"
 #include "cpu.h"
 
 #pragma warning (disable:4706) // assignment within conditional expression

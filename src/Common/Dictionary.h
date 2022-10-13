@@ -13,8 +13,6 @@
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
-#include <windows.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

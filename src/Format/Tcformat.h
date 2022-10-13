@@ -107,7 +107,7 @@ extern volatile int NonSysInplaceEncStatus;
 BOOL CALLBACK AdvanceDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK FinishDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value);
-int  PrintStrongness (char* input, unsigned int length);
+int  PrintStrongness (char* input, size_t length);
 BOOL CheckWord (char search[]);
 BOOL CALLBACK AdvanceDlgProcIntro (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateToolTip (HWND hWndParent, HWND hControlItem, PTSTR pszText);

@@ -13,8 +13,6 @@
 #ifndef TC_HEADER_BASE_COM
 #define TC_HEADER_BASE_COM
 
-#include <guiddef.h>
-
 template <class TClass>
 class TrueCryptFactory : public IClassFactory
 {
@@ -65,7 +63,7 @@ public:
 
 		HRESULT hr = tc->QueryInterface (riid, ppvObject);
 
-		if (hr)
+		if FAILED(hr)
 			delete tc;
 
 		return hr;

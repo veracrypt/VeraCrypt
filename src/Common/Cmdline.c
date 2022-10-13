@@ -14,12 +14,9 @@
 #include "Tcdefs.h"
 
 #include <malloc.h>
-#include <ctype.h>
 #include "Cmdline.h"
 
 #include "Resource.h"
-#include "Crypto.h"
-#include "Apidrvr.h"
 #include "Dlgcode.h"
 #include "Language.h"
 #include <Strsafe.h>

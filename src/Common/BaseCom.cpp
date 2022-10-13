@@ -11,7 +11,6 @@
 */
 
 #include <atlcomcli.h>
-#include <atlconv.h>
 #include <comutil.h>
 #include <windows.h>
 #include "BaseCom.h"

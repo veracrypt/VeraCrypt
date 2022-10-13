@@ -116,7 +116,6 @@ typedef unsigned __int64 uint64;
 
 #include <inttypes.h>
 #include <limits.h>
-#include <memory.h>
 
 typedef int8_t int8;
 typedef int16_t int16;

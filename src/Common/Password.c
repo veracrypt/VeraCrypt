@@ -18,8 +18,6 @@
 #include "Password.h"
 #include "Dlgcode.h"
 #include "Language.h"
-#include "Pkcs5.h"
-#include "Endian.h"
 #include "Random.h"
 
 #include <io.h>

@@ -1283,7 +1283,7 @@ namespace VeraCrypt
 
 				// Convert absolute path to relative to the Windows directory
 				driverPath = pathBuf;
-				driverPath = driverPath.substr (driverPath.rfind (L"\\", driverPath.rfind (L"\\", driverPath.rfind (L"\\") - 1) - 1) + 1);
+				driverPath = driverPath.substr (driverPath.rfind (L'\\', driverPath.rfind (L'\\', driverPath.rfind (L'\\') - 1) - 1) + 1);
 			}
 		}
 

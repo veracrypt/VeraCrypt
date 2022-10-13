@@ -202,7 +202,7 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 		SetThreadCpuGroupAffinity ((USHORT) *(WORD*)(threadArg));
 #else
 		SetThreadGroupAffinityFn SetThreadGroupAffinityPtr = (SetThreadGroupAffinityFn) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "SetThreadGroupAffinity");
-		if (SetThreadGroupAffinityPtr && threadArg)
+		if (SetThreadGroupAffinityPtr)
 		{
 			GROUP_AFFINITY groupAffinity = {0};
 			groupAffinity.Mask = ~0ULL;

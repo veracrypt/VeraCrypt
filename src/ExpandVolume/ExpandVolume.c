@@ -515,7 +515,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	FILETIME ftLastWriteTime;
 	FILETIME ftLastAccessTime;
 	BOOL bTimeStampValid = FALSE;
-	LARGE_INTEGER headerOffset;
+	LARGE_INTEGER headerOffset, offset;
 	BOOL backupHeader;
 	byte *wipeBuffer = NULL;
 	uint32 workChunkSize = TC_VOLUME_HEADER_GROUP_SIZE;
@@ -787,7 +787,9 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 				}
 			}
 
-			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			offset.QuadPart = 0;
+
+			if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) != 0)
 			{
 				nStatus = ERR_OS_ERROR;
 				goto error;
@@ -795,7 +797,10 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 		}
 		else
 		{
-			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			LARGE_INTEGER setFileInt;
+			setFileInt.QuadPart = 0;
+
+			if (SetFilePointerEx (dev, setFileInt, NULL, FILE_BEGIN) != 0)
 			{
 				nStatus = ERR_OS_ERROR;
 				goto error;

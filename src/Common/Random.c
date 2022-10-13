@@ -69,9 +69,6 @@ void RandAddInt64 (unsigned __int64 x)
 	RandaddByte((x >> 56));
 }
 
-#include <tlhelp32.h>
-#include "Dlgcode.h"
-
 #ifndef SRC_POS
 #define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
 #endif
@@ -267,7 +264,7 @@ BOOL Randmix ()
 		sha512_ctx		sctx;
 		sha256_ctx		s256ctx;
 		STREEBOG_CTX	stctx;
-		int poolIndex, digestIndex, digestSize;
+		int poolIndex = 0, digestIndex = 0, digestSize = 0;
 
 		switch (HashFunction)
 		{
@@ -664,7 +661,6 @@ NETAPIBUFFERFREE pNetApiBufferFree = NULL;
 BOOL SlowPoll (void)
 {
 	static int isWorkstation = -1;
-	static int cbPerfData = 0x10000;
 	HANDLE hDevice;
 	LPBYTE lpBuffer;
 	DWORD dwSize, status;

@@ -730,6 +730,11 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
                 if (kf)
 				    free (kf);
 			}
+			else
+			{
+				Warning("ERR_MEM_ALLOC", hwndDlg);
+				break;
+			}
 		}
 		break;
 

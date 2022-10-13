@@ -56,6 +56,7 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
+
 #ifdef _WIN64
 	CRYPTO_INFO tmpCI;
 #endif

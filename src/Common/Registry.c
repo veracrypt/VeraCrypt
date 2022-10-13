@@ -90,7 +90,7 @@ BOOL ReadLocalMachineRegistryStringNonReflected (const wchar_t *subKey, wchar_t 
 int ReadRegistryInt (wchar_t *subKey, wchar_t *name, int defaultValue)
 {
 	HKEY hkey = 0;
-	DWORD value, size = sizeof (DWORD);
+	DWORD value = 0, size = sizeof (DWORD);
 
 	if (RegOpenKeyEx (HKEY_CURRENT_USER, subKey,
 		0, KEY_READ, &hkey) != ERROR_SUCCESS)

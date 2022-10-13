@@ -21,9 +21,7 @@
 #include "EncryptionThreadPool.h"
 #endif
 
-#include <stddef.h>
 #include <string.h>
-#include <io.h>
 
 #ifndef DEVICE_DRIVER
 #include "Random.h"

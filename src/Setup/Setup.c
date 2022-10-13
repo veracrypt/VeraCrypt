@@ -317,7 +317,6 @@ static void AllowKeyAccess(HKEY Key,const wchar_t* SubKeyName)
 	DWORD dwLength = 0;
 	HANDLE Token = NULL;
 	PTOKEN_USER pTokenUser = NULL;
-	std::string sNewSD;
 
 	RegResult = RegOpenKeyExW(Key, SubKeyName, 0, WRITE_OWNER | KEY_READ, &SvcKey);
 	if (RegResult==ERROR_SUCCESS)

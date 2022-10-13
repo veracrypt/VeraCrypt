@@ -429,9 +429,6 @@ void DisableCPUExtendedFeatures ()
 	g_hasSSE2 = 0;
 	g_hasISSE = 0;
 	g_hasMMX = 0;
-	g_hasSSE2 = 0;
-	g_hasISSE = 0;
-	g_hasMMX = 0;
 	g_hasAVX = 0;
 	g_hasAVX2 = 0;
 	g_hasBMI2 = 0;

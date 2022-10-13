@@ -21,14 +21,12 @@
 #include <limits.h>
 #include <time.h>
 #include <errno.h>
-#include <io.h>
 #include <sys/stat.h>
 #include <shlobj.h>
 #include <commctrl.h>
 
 #include "Crypto.h"
 #include "cpu.h"
-#include "Apidrvr.h"
 #include "Dlgcode.h"
 #include "Language.h"
 #include "Combo.h"
@@ -37,13 +35,11 @@
 #include "Common/Common.h"
 #include "Common/BootEncryption.h"
 #include "Common/Dictionary.h"
-#include "Common/Endian.h"
 #include "Common/resource.h"
 #include "Common/Pkcs5.h"
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
 #include "Random.h"
-#include "Fat.h"
 #include "InPlace.h"
 #include "Resource.h"
 #include "TcFormat.h"
@@ -11364,32 +11360,31 @@ AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value)
 }
 
 /* Acording to NIST, only a blacklist check and at least 8 character should be compulsary, no special character check... */
-int PrintStrongness (char input[], unsigned int length)
+int PrintStrongness (char input[], size_t length)
 {
-	unsigned int n = length;
 	int iReturnValue = 0;
-	if (n < 10)
+	if (length < 10)
 	{
-		burn (input, sizeof(input));
+		burn (input, length);
 		return iReturnValue = weak;
 	}
 	else if (CheckWord(input))
 	{
-		burn (input, sizeof(input));
+		burn (input, length);
 		return iReturnValue = weak;
 	}
 	//Tetermine the strength of the passsord	
-	if ((n >= 13))
+	if ((length >= 13))
 	{
 		iReturnValue = very_strong;
 	}
 	//if 3 out of 4 paramters are true	
-	else if (n >= 10)
+	else if (length >= 10)
 	{	
 		iReturnValue = strong;
 	}
 	//if 2 out of 4 values are true	
-	else if (n >= 8)
+	else if (length >= 8)
 	{
 		iReturnValue = medium;
 	}
@@ -11397,7 +11392,7 @@ int PrintStrongness (char input[], unsigned int length)
 	{
 		iReturnValue = weak;
 	}
-	burn (input, sizeof(input));
+	burn (input, length);
 	return iReturnValue;
 }
 

@@ -2296,8 +2296,6 @@ static int OpenBackupHeader (HANDLE dev, const wchar_t *devicePath, Password *pa
 
 closing_seq:
 
-	dwError = GetLastError();
-
 	burn (header, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 	VirtualUnlock (header, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 	TCfree (header);

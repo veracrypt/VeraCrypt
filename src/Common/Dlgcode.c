@@ -714,6 +714,7 @@ BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, 
 	DWORD bytesWritten;
 	BOOL res = TRUE;
 	DWORD dwLastError = 0;
+	LARGE_INTEGER offset;
 
 	dst = CreateFile (destinationFile,
 		GENERIC_WRITE,
@@ -753,8 +754,10 @@ BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, 
 		return FALSE;
 	}
 
+	offset.QuadPart = 0;
+
 	if (bAppend)
-		SetFilePointer (dst, 0, NULL, FILE_END);
+		SetFilePointerEx (dst, offset, NULL, FILE_END);
 
 	if (!WriteFile (dst, inputBuffer, inputLength, &bytesWritten, NULL)
 		|| inputLength != bytesWritten)
@@ -3583,8 +3586,7 @@ int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm)
 
 	count = atoi (fileBuf);
 
-	if (fileBuf != NULL)
-		TCfree (fileBuf);
+	TCfree (fileBuf);
 
 	if (fileBuf2 != NULL)
 		TCfree (fileBuf2);
@@ -4296,8 +4298,7 @@ BOOL GetSysDevicePaths (HWND hwndDlg)
 		bCachedSysDevicePathsValid = 1;
 	}
 
-	return (bCachedSysDevicePathsValid 
-		&& wcslen (SysPartitionDevicePath) > 1 
+	return (wcslen (SysPartitionDevicePath) > 1 
 		&& wcslen (SysDriveDevicePath) > 1);
 }
 
@@ -4375,7 +4376,7 @@ int IsNonSysPartitionOnSysDrive (const wchar_t *path)
 	wcsncpy (tmpPath, path, ARRAYSIZE (tmpPath) - 1);
 
 
-	pos = (int) FindString ((const char*) tmpPath, (const char*) L"Partition", (int) wcslen (tmpPath) * 2, (int) wcslen (L"Partition") * 2, 0);
+	pos = (int) FindString ((const char*) tmpPath, "Partition", (int) wcslen (tmpPath) * 2, (int) wcslen (L"Partition") * 2, 0);
 
 	if (pos < 0)
 		return -1;
@@ -4488,7 +4489,6 @@ INT_PTR TextEditDialogBox (BOOL readOnly, HWND parent, const WCHAR* Title, std::
 BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD (wParam);
-	static int nID = 0;
 	static TEXT_INFO_DIALOG_PARAM_PTR prm;
 	switch (msg)
 	{
@@ -5504,8 +5504,6 @@ BOOL BrowseFile (HWND hwndDlg, char *stringId, wchar_t *initialDir)
 	if (!GetOpenFileNameW (&ofn))
 			goto ret;
 
-	SystemFileSelectorCallPending = FALSE;
-
 	status = TRUE;
 
 ret:
@@ -6439,8 +6437,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 	if (QueryPerformanceFrequency (&benchmarkPerformanceFrequency) == 0)
 	{
-		if (ci)
-			crypto_close (ci);
+		crypto_close (ci);
 		MessageBoxW (hwndDlg, GetString ("ERR_PERF_COUNTER"), lpszTitle, ICON_HAND);
 		return FALSE;
 	}
@@ -6450,8 +6447,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		lpTestBuffer = (BYTE *) _aligned_malloc(benchmarkBufferSize - (benchmarkBufferSize % 16), 16);
 		if (lpTestBuffer == NULL)
 		{
-			if (ci)
-				crypto_close (ci);
+			crypto_close (ci);
 			MessageBoxW (hwndDlg, GetString ("ERR_MEM_ALLOC"), lpszTitle, ICON_HAND);
 			return FALSE;
 		}
@@ -7427,6 +7423,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			WaitCursor();
 
 			keyfile = (unsigned char*) TCalloc( bRandomSize? KEYFILE_MAX_READ_LEN : keyfilesSize );
+			if (!keyfile) return 1;
 
 			for (i= 0; i < keyfilesCount; i++)
 			{
@@ -8089,7 +8086,7 @@ BOOL CALLBACK MultiChoiceDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 				do
 				{
 					offset = FindString ((char *) (bResolve ? GetString(*(pStrOrig+1)) : *(pwStrOrig+1)), 
-						(char *) L"\n",
+						"\n",
 						nMainTextLenInChars * 2, 
 						(int) wcslen (L"\n") * 2, 
 						offset + 1);
@@ -8555,6 +8552,8 @@ static BOOL GetDeviceStorageProperty (HANDLE hDevice, STORAGE_PROPERTY_ID proper
 		if (dwBytesReturned == sizeof(STORAGE_DESCRIPTOR_HEADER))
 		{
 			unsigned char* outputBuffer = (unsigned char*) TCalloc (descHeader.Size);
+			if (!outputBuffer) return FALSE;
+
 			bRet = ::DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY,
 				&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY),
 				outputBuffer, descHeader.Size,
@@ -9898,9 +9897,12 @@ HANDLE DismountDrive (wchar_t *devName, wchar_t *devicePath)
 	}
 
 	if (!bResult)
-		CloseHandle (hVolume);
+	{
+		CloseHandle(hVolume);
+		return INVALID_HANDLE_VALUE;
+	}
 
-	return (bResult ? hVolume : INVALID_HANDLE_VALUE);
+	return hVolume;
 }
 
 BOOL DecompressZipToDir (const unsigned char *inputBuffer, DWORD inputLength, const wchar_t *destinationDir, ProgressFn progressFnPtr, HWND hwndDlg)
@@ -13735,6 +13737,7 @@ BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL 
 			{
 				DWORD dwTextSize = (DWORD) wcslen (GetString ("PASSWORD_UTF8_TOO_LONG")) + 16;
 				WCHAR* szErrorText = (WCHAR*) malloc (dwTextSize * sizeof (WCHAR));
+				if (!szErrorText) return bRet;
 
 				// bufSize is equal to maximum password length plus one
 				StringCchPrintf (szErrorText, dwTextSize, GetString ("PASSWORD_UTF8_TOO_LONG"), (bufSize - 1));
@@ -14039,6 +14042,9 @@ static BOOL GenerateRandomString (HWND hwndDlg, LPTSTR szName, DWORD maxCharsCou
 	else
 	{
 		BYTE* indexes = (BYTE*) malloc (maxCharsCount + 1);
+		if (!indexes) return bRet;
+
+
 		bRet = RandgetBytesFull (hwndDlg, indexes, maxCharsCount + 1, TRUE, TRUE); 
 		if (bRet)
 		{
@@ -14862,7 +14868,7 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 {
 	LARGE_INTEGER iSeed;
 	SYSTEMTIME sysTime;
-	byte digest[WHIRLPOOL_DIGESTSIZE];
+	byte digest[WHIRLPOOL_DIGESTSIZE] = { 0 };
 	WHIRLPOOL_CTX tctx;
 	size_t count;
 

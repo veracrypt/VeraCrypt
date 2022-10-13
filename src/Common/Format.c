@@ -27,7 +27,6 @@
 #include "Dlgcode.h"
 #include "Language.h"
 #include "Progress.h"
-#include "Resource.h"
 #include "Format/FormatCom.h"
 #include "Format/Tcformat.h"
 
@@ -191,8 +190,13 @@ begin_format:
 		DWORD dwResult;
 		int nPass;
 
-		if (FakeDosNameForDevice (volParams->volumePath, dosDev, sizeof(dosDev), devName, sizeof(devName), FALSE) != 0)
+		if (FakeDosNameForDevice(volParams->volumePath, dosDev, sizeof(dosDev), devName, sizeof(devName), FALSE) != 0)
+		{
+			burn(header, sizeof(header));
+			VirtualUnlock(header, sizeof(header));
 			return ERR_OS_ERROR;
+		}
+
 
 		if (IsDeviceMounted (devName))
 		{
@@ -409,7 +413,9 @@ begin_format:
 				SetFileValidData (dev, volumeSize.QuadPart);
 			}
 
-			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			offset.QuadPart = 0;
+
+			if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) != 0)
 			{
 				nStatus = ERR_OS_ERROR;
 				goto error;
@@ -720,7 +726,10 @@ error:
 		if (!volParams->bDevice && !volParams->hiddenVol && nStatus != 0)
 		{
 			// Remove preallocated part before closing file handle if format failed
-			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) == 0)
+			LARGE_INTEGER setFileInt;
+			setFileInt.QuadPart = 0;
+
+			if (SetFilePointerEx (dev, setFileInt, NULL, FILE_BEGIN) == 0)
 				SetEndOfFile (dev);
 		}
 

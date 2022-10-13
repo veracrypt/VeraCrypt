@@ -18,7 +18,6 @@
 #include "BootEncryption.h"
 #include "Dlgcode.h"
 #include "Format.h"
-#include "Progress.h"
 #include "TcFormat.h"
 #include "FormatCom.h"
 #include "FormatCom_h.h"
