@@ -190,6 +190,10 @@ ifeq "$(shell uname -s)" "Linux"
 
 	PLATFORM := Linux
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
+	# TODO: Prpoper implementation in the makefile
+	C_CXX_FLAGS += -I/usr/include/PCSC/ -lpcsclite
+	LFLAGS += -I/usr/include/PCSC/ -lpcsclite
+
 
 	# GNU GCC version 11 and higher compile with -std=gnu++17 by default
         # which breaks "byte" definitions in Crypto++ library. So set 
