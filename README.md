@@ -17,21 +17,17 @@ called 'TrueCrypt' or 'VeraCrypt'
 Contents
 ========
 
-I. Windows
-	Instructions for Signing and Packaging VeraCrypt for Windows.
+[I. Windows](#i-windows)
 
-II. Linux and Mac OS X
-    Requirements for Building VeraCrypt for Linux and Mac OS X.
-    Instructions for Building VeraCrypt for Linux and Mac OS X.
-	Mac OS X specifics
+[II. Linux and Mac OS X](#ii-linux-and-mac-os-x)
 
-III. FreeBSD
+[III. FreeBSD](#iii-freebsd) 
 
-IV. Third-Party Developers (Contributors)
+[IV. Third-Party Developers (Contributors)](#iv-third-party-developers-contributors) 
 
-V. Legal Information
+[V. Legal Information](#v-legal-information) 
 
-VI. Further Information
+[VI. Further Information](#vi-further-information) 
 
 
 
