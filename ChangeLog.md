@@ -1,0 +1,34 @@
+[Full Changelog](https://github.com/veracrypt/veracrypt/compare/VeraCrypt_MacOSX_1.0f-BETA...list)
+
+ - [#277](https://github.com/veracrypt/veracrypt/pull/277): Fix Location Typo
+ - [#267](https://github.com/veracrypt/veracrypt/pull/267): Fix wxWidgets assertion failed when backing up/restoring volume heade…
+ - [#252](https://github.com/veracrypt/veracrypt/pull/252): Update Spanish translations
+ - [#250](https://github.com/veracrypt/veracrypt/pull/250): Update Language.de.xml
+ - [#243](https://github.com/veracrypt/veracrypt/pull/243): Linux: autodetect host drive name using sysfs (closes #233)
+ - [#206](https://github.com/veracrypt/veracrypt/pull/206): Fix typo
+ - [#226](https://github.com/veracrypt/veracrypt/pull/226): Romanian Translation: Update to ver. 122 and made some corrections.
+ - [#230](https://github.com/veracrypt/veracrypt/pull/230): Fix compilation on Linux (closes #198)
+ - [#227](https://github.com/veracrypt/veracrypt/pull/227): Update Language.zh-cn.xml
+ - [#234](https://github.com/veracrypt/veracrypt/pull/234): fixed kuznyechik blocksize in german description
+ - [#175](https://github.com/veracrypt/veracrypt/pull/175): Minor TOC correction
+ - [#168](https://github.com/veracrypt/veracrypt/pull/168): Language XML files: Update Romanian translation by Barna Cosmin Marian
+ - [#167](https://github.com/veracrypt/veracrypt/pull/167): Updated German XML language file
+ - [#118](https://github.com/veracrypt/veracrypt/pull/118): Linux/MacOSX: Document --truecrypt option
+ - [#109](https://github.com/veracrypt/veracrypt/pull/109): README: Added line breaks between copyright holders
+ - [#108](https://github.com/veracrypt/veracrypt/pull/108): README: Fixed one link that was not working
+ - [#107](https://github.com/veracrypt/veracrypt/pull/107): README: Changed http:// to https:// on some links
+ - [#75](https://github.com/veracrypt/veracrypt/pull/75): Linux: added TiB support to text mode.
+ - [#69](https://github.com/veracrypt/veracrypt/pull/69): MacOSX: Added two line to enable support for retina ui on retina Macs.
+ - [#68](https://github.com/veracrypt/veracrypt/pull/68): Fix wxWidget expected directory for OSX install in Readme
+ - [#67](https://github.com/veracrypt/veracrypt/pull/67): Revert "Makefile: fix build under gcc6"
+ - [#66](https://github.com/veracrypt/veracrypt/pull/66): Makefile: fix build under gcc6
+ - [#61](https://github.com/veracrypt/veracrypt/pull/61): Normalize line terminators
+ - [#55](https://github.com/veracrypt/veracrypt/pull/55): Use XDG_CONFIG_HOME to determine the path of the configuration
+ - [#44](https://github.com/veracrypt/veracrypt/pull/44): Language files: Update German translation
+ - [#41](https://github.com/veracrypt/veracrypt/pull/41): Update README to point to new libfuse URL
+ - [#38](https://github.com/veracrypt/veracrypt/pull/38): Readme: fix markdown syntax, typos, and format
+ - [#35](https://github.com/veracrypt/veracrypt/pull/35): Update Language.zh-cn.xml
+ - [#31](https://github.com/veracrypt/veracrypt/pull/31): Update Language.ko.xml (by Herbert Shin)
+ - [#29](https://github.com/veracrypt/veracrypt/pull/29): Update Language.zh-cn.xml
+ - [#27](https://github.com/veracrypt/veracrypt/pull/27): Update Language.zh-cn.xml (By zhangjintao)
+ - [#18](https://github.com/veracrypt/veracrypt/pull/18): Linux/MacOSX: Support supplying password to VeraCrypt via pipe (stdin)
