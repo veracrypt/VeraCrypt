@@ -22,6 +22,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - uses: kenchan0130/actions-system-info@master
+        id: sysinfo
       - name: Install compiler and dependencies
         run: |
           sudo apt-get install -q -y --no-install-recommends make pkg-config g++ yasm ccache wget libfuse-dev libgtk-3-dev
@@ -33,14 +35,14 @@ jobs:
           cache-name: cache-wxwidgets
         with:
           path: wxWidgets
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('wxWidgets/**') }}
+          key: ${{ steps.sysinfo.outputs.release }}-build-${{ env.cache-name }}-${{ hashFiles('wxWidgets/**') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - if: ${{ steps.cache-wx.outputs.cache-hit != 'true' }}
         name: Download wxWidgets 3.2.1
         run: |
-          wget -q https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v3.2.1.tar.gz
-          tar xf v3.2.1.tar.gz
+          wget -q https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxWidgets-3.2.1.tar.bz2
+          tar xf wxWidgets-3.2.1.tar.bz2
           mv wxWidgets-3.2.1 wxWidgets
       - if: ${{ steps.cache-wx.outputs.cache-hit != 'true' }}
         name: Build wxWidgets
@@ -55,6 +57,3 @@ jobs:
         with:
           name: veracrypt-ubuntu20-amd64
           path: src/Main/veracrypt
-
-
-          
