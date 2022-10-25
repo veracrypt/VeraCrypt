@@ -453,13 +453,13 @@ WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-trac
 
 ifdef VC_WX_MINIMAL
 WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
-	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-webkit --disable-webview \
+	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-webviewwebkit \
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
 	--disable-animatectrl --disable-bmpcombobox --disable-calendar --disable-caret --disable-checklst --disable-collpane --disable-colourpicker --disable-comboctrl \
 	--disable-datepick --disable-display --disable-dirpicker --disable-filepicker --disable-fontpicker --disable-grid --disable-dataviewctrl \
 	--disable-listbook --disable-odcombobox --disable-sash --disable-searchctrl --disable-slider --disable-splitter --disable-togglebtn \
-	--disable-toolbar --disable-tbarnative --disable-treebook --disable-toolbook --disable-tipwindow --disable-popupwin \
+	--disable-tbarnative --disable-treebook --disable-toolbook --disable-tipwindow --disable-popupwin \
 	--disable-commondlg --disable-aboutdlg --disable-coldlg --disable-finddlg --disable-fontdlg --disable-numberdlg --disable-splash \
 	--disable-tipdlg --disable-progressdlg --disable-wizarddlg --disable-miniframe --disable-splines --disable-palette \
 	--disable-richtext --disable-dialupman --disable-debugreport --disable-filesystem --disable-rearrangectrl --disable-treelist --disable-richmsgdlg \
@@ -471,9 +471,9 @@ WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --dis
 	
 ifeq "$(PLATFORM)" "Linux"
 WX_CONFIGURE_FLAGS += --disable-tooltips
-ifneq "$(origin WITHGTK3)" "command line"
-	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
-endif
+#ifneq "$(origin WITHGTK3)" "command line"
+#	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
+#endif
 else
 	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
 endif
