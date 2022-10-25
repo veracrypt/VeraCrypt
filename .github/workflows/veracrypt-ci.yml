@@ -39,8 +39,8 @@ jobs:
       - if: ${{ steps.cache-wx.outputs.cache-hit != 'true' }}
         name: Download wxWidgets 3.2.1
         run: |
-          wget https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v3.2.1.tar.gz
-          tar xvf v3.2.1.tar.gz
+          wget -q https://github.com/wxWidgets/wxWidgets/archive/refs/tags/v3.2.1.tar.gz
+          tar xf v3.2.1.tar.gz
           mv wxWidgets-3.2.1 wxWidgets
       - if: ${{ steps.cache-wx.outputs.cache-hit != 'true' }}
         name: Build wxWidgets
