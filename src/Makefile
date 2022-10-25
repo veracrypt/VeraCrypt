@@ -467,8 +467,10 @@ WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --dis
 	--without-gtkprint --without-gnomevfs --disable-fsvolume --disable-fswatcher \
 	--disable-sound --disable-mediactrl --disable-joystick --disable-apple_ieee \
 	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm --disable-svg \
-	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib
-	
+	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib \
+	--disable-xlocale --disable-spellcheck --disable-backtrace \
+	--disable-detect_sm --disable-secretstore --disable-webrequest --disable-webview
+
 ifeq "$(PLATFORM)" "Linux"
 WX_CONFIGURE_FLAGS += --disable-tooltips
 #ifneq "$(origin WITHGTK3)" "command line"

@@ -44,6 +44,8 @@
 #ifndef _JITTERENTROPY_H
 #define _JITTERENTROPY_H
 
+#include <sys/types.h>
+
 #include "jitterentropy-base-user.h"
 
 /* The entropy pool */

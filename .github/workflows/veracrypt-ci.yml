@@ -5,8 +5,8 @@ on:
       - 'Tests/**'
       - 'doc/**'
       - '*.md'
-    branches:
-    - master
+    # branches:
+    # - master
   pull_request:
     branches:
     - master
@@ -28,17 +28,16 @@ jobs:
         run: |
           sudo apt-get install -q -y --no-install-recommends make pkg-config g++ yasm ccache wget libfuse-dev libgtk-3-dev
       - uses: actions/checkout@v3
-      - name: Cache wxWidgets build
-        id: cache-wx
+      - name: Cache ccache build
+        id: ccache
         uses: actions/cache@v3
         env:
-          cache-name: cache-wxwidgets
+          cache-name: cache-ccache
         with:
-          path: |
-            wxWidgets
-            ~/.ccache
-          key: ubuntu-${{ steps.sysinfo.outputs.release }}_build_${{ env.cache-name }}
-      - if: ${{ steps.cache-wx.outputs.cache-hit != 'true' }}
+           path: |
+              ~/.ccache
+           key: ubuntu-${{ steps.sysinfo.outputs.release }}_build_${{ env.cache-name }}
+      - if: ${{ steps.ccache.outputs.cache-hit != 'true' }}
         name: Download wxWidgets 3.2.1
         run: |
           wget -q https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxWidgets-3.2.1.tar.bz2
@@ -52,8 +51,27 @@ jobs:
       - name: Build Veracrypt
         working-directory: ./src
         run: |
-          make NOGUI=1 WXSTATIC=1
+          CC='ccache gcc' CXX='ccache g++' make NOGUI=1 WXSTATIC=1
       - uses: actions/upload-artifact@v3
         with:
           name: veracrypt-ubuntu20-amd64
           path: src/Main/veracrypt
+
+  alpine:
+    name: test on Alpine
+    runs-on: ubuntu-22.04
+    steps:
+      - name: setup Alpine Linux in a chroot
+        uses: jirutka/setup-alpine@v1
+        with:
+          arch: x86_64
+          branch: v3.15
+          packages: git build-base make wget g++ yasm pkgconfig fuse-dev gtk+3.0-dev libintl wxgtk3-dev
+      - name: Clone repo inside chroot
+        run: |
+          git clone --branch alpine-build https://github.com/jaromil/veracrypt
+        shell: alpine.sh {0}
+      - name: Build veracrypt inside chroot
+        run: |
+          cd veracrypt/src && WX_CONFIG=wx-config-gtk3 make NOGUI=1
+        shell: alpine.sh {0}
