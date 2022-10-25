@@ -16,11 +16,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ubuntu-20:
-    name: 🐧 test Ubuntu-20    
-    runs-on: ubuntu-20.04
+  build-matrix:
     strategy:
-      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: kenchan0130/actions-system-info@master
         id: sysinfo
@@ -34,10 +34,12 @@ jobs:
         env:
           cache-name: cache-wxwidgets
         with:
-          path: wxWidgets
+          path: |
+            wxWidgets
+            ~/.ccache
           key: ${{ steps.sysinfo.outputs.release }}-build-${{ env.cache-name }}-${{ hashFiles('wxWidgets/**') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ steps.sysinfo.outputs.release }}-build-${{ env.cache-name }}-
       - if: ${{ steps.cache-wx.outputs.cache-hit != 'true' }}
         name: Download wxWidgets 3.2.1
         run: |
@@ -48,7 +50,7 @@ jobs:
         name: Build wxWidgets
         working-directory: ./src
         run: |
-          make WXSTATIC=1 WX_ROOT=`realpath ../wxWidgets` wxbuild
+          CC='ccache gcc' CXX='ccache g++' make WXSTATIC=1 WX_ROOT=`realpath ../wxWidgets` wxbuild
       - name: Build Veracrypt
         working-directory: ./src
         run: |
