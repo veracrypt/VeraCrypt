@@ -37,9 +37,7 @@ jobs:
           path: |
             wxWidgets
             ~/.ccache
-          key: ${{ steps.sysinfo.outputs.release }}-build-${{ env.cache-name }}-${{ hashFiles('wxWidgets/**') }}
-          restore-keys: |
-            ${{ steps.sysinfo.outputs.release }}-build-${{ env.cache-name }}-
+          key: ubuntu-${{ steps.sysinfo.outputs.release }}_build_${{ env.cache-name }}
       - if: ${{ steps.cache-wx.outputs.cache-hit != 'true' }}
         name: Download wxWidgets 3.2.1
         run: |
