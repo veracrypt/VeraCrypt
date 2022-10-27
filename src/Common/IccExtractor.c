@@ -1,5 +1,48 @@
 #include "IccExtractor.h"
 
+/* SELECT_TYPES FOR DIFFERENT AIDs*/
+BYTE SELECT_MASTERCARD[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x04, 0x10, 0x10};
+BYTE SELECT_VISA[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x03, 0x10, 0x10};
+BYTE SELECT_AMEX[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 00, 0x25, 0x10};
+BYTE SELECT_CB[]={00, 0xA4, 0x04, 00, 0x07,0xA0, 00, 00, 00, 0x42, 0x10, 0x10, };
+BYTE * SELECT_TYPES[]={SELECT_MASTERCARD, SELECT_AMEX, SELECT_VISA,SELECT_CB};
+
+
+LONG returnValue;           /* Return value of SCard functions */
+SCARDCONTEXT hContext;      /* Handle that identifies the resource manager context.*/
+char **readers = NULL;      /* Card reader table */
+int nbReaders;
+LPSTR mszReaders = NULL;    /* Names of the reader groups defined to the system, as a multi-string. Use a NULL value to
+                             * list all readers in the system */
+
+DWORD dwReaders;            /* Length of the mszReaders buffer in characters. If the buffer length is specified as
+                             * SCARD_AUTOALLOCATE, then mszReaders is converted to a pointer to a byte pointer, and
+                             * receives the address of a block of memory containing the multi-string structure */
+
+SCARDHANDLE hCard;          /* A handle that identifies the connection to the smart card in the designated reader*/
+
+DWORD dwActiveProtocol;       /* A flag that indicates the established active protocol.
+                             * SCARD_PROTOCOL_T0: An asynchronous, character-oriented half-duplex transmission protocol.
+                             * SCARD_PROTOCOL_T1: An asynchronous, block-oriented half-duplex transmission protocol.*/
+
+char pbReader[MAX_READERNAME] = ""; /* List of display names (multiple string) by which the currently connected reader
+                                     * is known.*/
+
+BYTE pbAtr[MAX_ATR_SIZE] = ""; /* Pointer to a 32-byte buffer that receives the ATR string from the currently inserted
+                                * card, if available. ATR string : A sequence of bytes returned from a smart card when
+                                * it is turned on. These bytes are used to identify the card to the system. */
+
+DWORD dwAtrLen,dwReaderLen; /* Respectively the length of pbAtr and pbReader */
+DWORD dwState;              /* Current state of the smart card in the reader*/
+DWORD dwProt;               /* Current protocol, if any*/
+
+SCARD_IO_REQUEST pioSendPci;
+SCARD_IO_REQUEST pioRecvPci;
+
+BYTE pbRecvBuffer[64];      /* Buffer to receive the card response */
+BYTE pbRecvBufferFat[256];  /* Bigger buffer to receive the card response */
+DWORD dwSendLength, dwRecvLength; /* Respectively the current length of the sender buffer and the reception buffer */
+
 
 /* Cleaning function in case of error*/
 int ErrorClean(){
