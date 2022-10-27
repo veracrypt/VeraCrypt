@@ -325,9 +325,7 @@ int GettingAllCerts(unsigned char* data){
     int hasCerts=0;
     unsigned char* CPCL;
     if(GetCPCL(CPCL)==0){
-        for (int i=0;i<sizeof(CPCL);i++){
-            data[i]=CPCL[i];
-        }
+        memcpy(data, CPCL, sizeof(CPCL));
     }
     for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
         if(TestingCardType(SELECT_TYPES[i])){
@@ -335,12 +333,8 @@ int GettingAllCerts(unsigned char* data){
             unsigned char* ICC_CERT;
             unsigned char* ISSUER_CERT;
             if(GetCerts(ICC_CERT, ISSUER_CERT)==0){
-                for (int i=sizeof(CPCL);i<sizeof(CPCL)+sizeof(ICC_CERT);i++){
-                    data[i]=ICC_CERT[i-sizeof(CPCL)];
-                }
-                for (int i=sizeof(CPCL)+sizeof(ICC_CERT);i<sizeof(CPCL)+sizeof(ICC_CERT)+sizeof(ISSUER_CERT);i++){
-                    data[i]=ISSUER_CERT[i-sizeof(CPCL)-sizeof(ICC_CERT)];
-                }
+                memcpy(data+sizeof(CPCL), ICC_CERT, sizeof(ICC_CERT));
+                memcpy(data+sizeof(CPCL)+sizeof(ICC_CERT), ISSUER_CERT, sizeof(ISSUER_CERT));
                 hasCerts=1;
                 break;
             }
