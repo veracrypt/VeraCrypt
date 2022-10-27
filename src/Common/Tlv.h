@@ -18,22 +18,22 @@ struct TLVNode{
 };
 
 /* TLV node structure creation */
-static struct TLVNode* TLV_CreateNode(void);
+struct TLVNode* TLV_CreateNode(void);
 
 /* Check if the bit is correct */
-static inline int CheckBit(unsigned char value, int bit);
+inline int CheckBit(unsigned char value, int bit);
 
 /* Parsing one TLV node */
-static struct TLVNode* TLV_Parse_One(unsigned char* buf,int size);
+struct TLVNode* TLV_Parse_One(unsigned char* buf,int size);
 
 /* Parsing all TLV nodes */
-static int TLV_Parse_SubNodes(struct TLVNode* parent);
+int TLV_Parse_SubNodes(struct TLVNode* parent);
 
 /* Parsing all sub-nodes (in width not in depth) of a given parent node */
-static int TLV_Parse_All(struct TLVNode* parent);
+int TLV_Parse_All(struct TLVNode* parent);
 
 /* Recursive function to parse all nodes starting from a root parent node */
-static void TLV_Parse_Sub(struct TLVNode* parent);
+void TLV_Parse_Sub(struct TLVNode* parent);
 
 /* Parsing TLV from a buffer and constructing TLV structure */
 struct TLVNode* TLV_Parse(unsigned char* buf,int size);

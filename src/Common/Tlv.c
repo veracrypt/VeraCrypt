@@ -1,7 +1,9 @@
 #include "Tlv.h"
+#include <string.h>
+
 
 /* TLV node structure creation */
-static struct TLVNode* TLV_CreateNode(void)
+struct TLVNode* TLV_CreateNode(void)
 {
     struct TLVNode* node = (struct TLVNode *)malloc(sizeof(*node));
     memset(node,0,sizeof(*node));
@@ -9,7 +11,7 @@ static struct TLVNode* TLV_CreateNode(void)
 }
 
 /* Check if the bit is correct */
-static inline int CheckBit(unsigned char value, int bit){
+inline int CheckBit(unsigned char value, int bit){
     unsigned char bitvalue[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
     if((bit >= 1)&&(bit <= 8)){
@@ -27,7 +29,7 @@ static inline int CheckBit(unsigned char value, int bit){
 }
 
 /* Parsing one TLV node */
-static struct TLVNode* TLV_Parse_One(unsigned char* buf,int size){
+struct TLVNode* TLV_Parse_One(unsigned char* buf,int size){
     int index = 0;
     int i;
     uint16_t tag1,tag2,tagsize;
@@ -92,7 +94,7 @@ static struct TLVNode* TLV_Parse_One(unsigned char* buf,int size){
 }
 
 /* Parsing all sub-nodes (in width not in depth) of a given parent node */
-static int TLV_Parse_SubNodes(struct TLVNode* parent){
+int TLV_Parse_SubNodes(struct TLVNode* parent){
     int sublen = 0;
     int i;
 
@@ -118,7 +120,7 @@ static int TLV_Parse_SubNodes(struct TLVNode* parent){
 }
 
 /* Recursive function to parse all nodes starting from a root parent node */
-static void TLV_Parse_Sub(struct TLVNode* parent)
+void TLV_Parse_Sub(struct TLVNode* parent)
 {
     int i;
     if(parent->SubFlag != 0)
