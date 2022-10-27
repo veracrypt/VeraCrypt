@@ -1,3 +1,6 @@
+#ifndef TC_HEADER_Common_Tlv
+#define TC_HEADER_Common_Tlv
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,10 +21,10 @@ struct TLVNode{
 };
 
 /* TLV node structure creation */
-struct TLVNode* TLV_CreateNode(void);
+struct TLVNode* TLV_CreateNode();
 
 /* Check if the bit is correct */
-inline int CheckBit(unsigned char value, int bit);
+int CheckBit(unsigned char value, int bit);
 
 /* Parsing one TLV node */
 struct TLVNode* TLV_Parse_One(unsigned char* buf,int size);
@@ -41,3 +44,4 @@ struct TLVNode* TLV_Parse(unsigned char* buf,int size);
 /* Finding a TLV node with a particular tag */
 struct TLVNode* TLV_Find(struct TLVNode* node,uint16_t tag);
 
+#endif //TC_HEADER_Common_Tlv

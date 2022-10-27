@@ -1,5 +1,6 @@
 #include "IccExtractor.h"
 
+
 /* Cleaning function in case of error*/
 int ErrorClean(){
 
@@ -34,6 +35,7 @@ void PCSC_ERROR(LONG rv, char* text){
     {
         printf("%s: OK\n",text);
     }
+    return;
 }
 
 /* Establishing the resource manager context (the scope) within which database operations are performed.
@@ -47,6 +49,9 @@ int EstablishRSContext(){
     {
         printf("SCardEstablishContext: Cannot Connect to Resource Manager %lX\n", returnValue);
         return EXIT_FAILURE;
+    } else {
+        printf("SCardEstablishContext: OK\n");
+        return EXIT_SUCCESS;
     }
 }
 
@@ -254,6 +259,7 @@ int GetCPCL(unsigned char* CPCL){
     if (pbRecvBuffer[0] == 0x6A)
     {
         printf("No CPCL data on the card");
+        return 1;
     }else if (pbRecvBuffer[0] == 0x6C){
         SELECT_APDU_CPCL[4] = pbRecvBuffer[1];
         dwRecvLength = sizeof(pbRecvBufferFat);
@@ -276,8 +282,9 @@ int GettingAllCerts(unsigned char* data){
     int hasCerts=0;
     unsigned char* CPCL;
     if(GetCPCL(CPCL)==0){
-        memcpy(data, CPCL, sizeof(CPCL));
-        hasCPCL=1;
+        for (int i=0;i<sizeof(CPCL);i++){
+            data[i]=CPCL[i];
+        }
     }
     for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
         if(TestingCardType(SELECT_TYPES[i])){
@@ -285,13 +292,15 @@ int GettingAllCerts(unsigned char* data){
             unsigned char* ICC_CERT;
             unsigned char* ISSUER_CERT;
             if(GetCerts(ICC_CERT, ISSUER_CERT)==0){
-                memcpy(data+sizeof(CPCL),ICC_CERT, sizeof(ICC_CERT));
-                memcpy(data+sizeof(CPCL)+sizeof(ICC_CERT),ISSUER_CERT, sizeof(ISSUER_CERT));
+                for (int i=sizeof(CPCL);i<sizeof(CPCL)+sizeof(ICC_CERT);i++){
+                    data[i]=ICC_CERT[i-sizeof(CPCL)];
+                }
+                for (int i=sizeof(CPCL)+sizeof(ICC_CERT);i<sizeof(CPCL)+sizeof(ICC_CERT)+sizeof(ISSUER_CERT);i++){
+                    data[i]=ISSUER_CERT[i-sizeof(CPCL)-sizeof(ICC_CERT)];
+                }
                 hasCerts=1;
                 break;
             }
-        } else{
-
         }
     }
     if(isEMV==0){
@@ -314,14 +323,14 @@ int FinishClean(){
     /* Ending transaction */
     fprintf(stderr,"-> End transaction...");
     returnValue = SCardEndTransaction(hCard, SCARD_LEAVE_CARD);
-    fprintf(stderr," Done with return value %s \n",returnValue);
+    fprintf(stderr," Done with return value %ld \n",returnValue);
     //PCSC_ERROR(returnValue, "SCardEndTransaction"); //TODO: Fix this error by permitting PCSC_ERROR() to print (maybe in stderr)
 
 
     /* Disconnecting the card */
     fprintf(stderr,"-> Disconnecting the card...");
     returnValue = SCardDisconnect(hCard, SCARD_UNPOWER_CARD);
-    printf(stderr," Done with return value %s \n",returnValue);
+    fprintf(stderr," Done with return value %ld \n",returnValue);
     //PCSC_ERROR(returnValue, "SCardDisconnect"); //TODO: Fix this error by permitting PCSC_ERROR() to print (maybe in stderr)
 
     return EXIT_SUCCESS;

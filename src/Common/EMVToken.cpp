@@ -1,11 +1,15 @@
 #include "EMVToken.h"
 
+extern "C" {
+    #include "IccExtractor.h"
+}
+
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
 #include <vector>
 #include <iostream>
 
-#include "IccExtractor.h"
+
 
 #if !defined(TC_WINDOWS) || defined(TC_PROTOTYPE)
 #include "Platform/SerializerFactory.h"
@@ -15,6 +19,7 @@
 #include "Dictionary.h"
 #include "Language.h"
 #endif
+
 
 using namespace std;
 

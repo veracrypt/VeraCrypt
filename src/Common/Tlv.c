@@ -3,7 +3,7 @@
 
 
 /* TLV node structure creation */
-struct TLVNode* TLV_CreateNode(void)
+struct TLVNode* TLV_CreateNode()
 {
     struct TLVNode* node = (struct TLVNode *)malloc(sizeof(*node));
     memset(node,0,sizeof(*node));
@@ -11,7 +11,7 @@ struct TLVNode* TLV_CreateNode(void)
 }
 
 /* Check if the bit is correct */
-inline int CheckBit(unsigned char value, int bit){
+int CheckBit(unsigned char value, int bit){
     unsigned char bitvalue[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
     if((bit >= 1)&&(bit <= 8)){
@@ -136,6 +136,7 @@ void TLV_Parse_Sub(struct TLVNode* parent)
             }
         }
     }
+    return;
 }
 
 /* Parsing TLV from a buffer and constructing TLV structure */

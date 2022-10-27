@@ -1,5 +1,6 @@
-#include "Tlv.h"
 
+#ifndef TC_HEADER_Common_IccExtractor
+#define TC_HEADER_Common_IccExtractor
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +10,7 @@
 #include <PCSC/winscard.h> // TODO : verify that this is the same for linux and windows
 #define BOOL int
 #include <unistd.h>
+#include "Tlv.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -113,3 +115,5 @@ int GettingAllCerts(unsigned char* data);
 
 /* Cleaning function to end properly the protocol*/
 int FinishClean();
+
+#endif // TC_HEADER_Common_IccExtractor
