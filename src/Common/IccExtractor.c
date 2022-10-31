@@ -1,11 +1,11 @@
 #include "IccExtractor.h"
 
+
 /* SELECT_TYPES FOR DIFFERENT AIDs*/
 BYTE SELECT_MASTERCARD[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x04, 0x10, 0x10};
 BYTE SELECT_VISA[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x03, 0x10, 0x10};
 BYTE SELECT_AMEX[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 00, 0x25, 0x10};
-BYTE SELECT_CB[]={00, 0xA4, 0x04, 00, 0x07,0xA0, 00, 00, 00, 0x42, 0x10, 0x10, };
-BYTE * SELECT_TYPES[]={SELECT_MASTERCARD, SELECT_AMEX, SELECT_VISA,SELECT_CB};
+BYTE * SELECT_TYPES[]={SELECT_MASTERCARD, SELECT_AMEX, SELECT_VISA};
 
 
 LONG returnValue;           /* Return value of SCard functions */
@@ -233,7 +233,7 @@ int TestingCardType(BYTE * SELECT_TYPE){
 }
 
 /* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application */
-int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT){
+int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT, int * ICC_CERT_SIZE, int * ISSUER_CERT_SIZE){
     printf("Getting public key certificates ... \n");
     int iccFound=0;
     int issuerFound=0;
@@ -267,14 +267,21 @@ int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT){
                 struct TLVNode* ICC_Public_Key_Certificate = TLV_Find(node, 0x9F46);
                 if(ICC_Public_Key_Certificate) {
                     iccFound=1;
-                    ICC_CERT = ICC_Public_Key_Certificate->Value;
+                    for (int i = 0; i < ICC_Public_Key_Certificate->Length;i++) {
+                        ICC_CERT[i] = ICC_Public_Key_Certificate->Value[i];
+                    }
+
+                    *ICC_CERT_SIZE = ICC_Public_Key_Certificate->Length;
                 }
 
                 /* Finding the ICC_Public_Key_Certificate */
                 struct TLVNode* Issuer_PK_Certificate = TLV_Find(node, 0x90);
                 if(Issuer_PK_Certificate) {
                     issuerFound=1;
-                    ISSUER_CERT = Issuer_PK_Certificate->Value;
+                    for (int i = 0; i < Issuer_PK_Certificate->Length;i++) {
+                        ISSUER_CERT[i] = Issuer_PK_Certificate->Value[i];
+                    }
+                    *ISSUER_CERT_SIZE = (int) Issuer_PK_Certificate->Length;
                 }
 
                 /* Limiting the search of one occurrence of both PKs per application to speed up the process.
@@ -284,11 +291,11 @@ int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT){
         }
     }
     printf("One of the Public keys is missing in this application\n");
-    return 1;
+    return -1;
 }
 
 /* Getting CPCL data from the card*/
-int GetCPCL(unsigned char* CPCL){
+int GetCPCL(unsigned char* CPCL, int* CPCL_SIZE){
     printf("Getting CPCL data ... \n");
 
     BYTE SELECT_APDU_CPCL[] = {0x80,0xCA, 0x9F, 0x7F, 0x00};
@@ -310,32 +317,43 @@ int GetCPCL(unsigned char* CPCL){
         returnValue = SCardTransmit(hCard, &pioSendPci, SELECT_APDU_CPCL, dwSendLength,
                                     NULL, pbRecvBufferFat, &dwRecvLength);
 
-        CPCL = pbRecvBufferFat;
+        for (int i = 0; i < dwRecvLength; i++) {
+            CPCL[i] = pbRecvBufferFat[i];
+        }
+        *CPCL_SIZE = (int) dwRecvLength;
         return 0;
     } else{
         printf("Unexpected bahavior");
-        return 1;
+        return -1;
     }
 }
 
 /* Getting an ICC Public Key Certificates and an Issuer Public Key Certificates for the first application with the cpcl data present on the card and finally merge it into one byte array */
-int GettingAllCerts(unsigned char* data){
+int GettingAllCerts(unsigned char* ICC_DATA, int* ICC_DATA_SIZE){
     int isEMV=0;
     int hasCPCL=0;
     int hasCerts=0;
-    unsigned char* CPCL;
-    if(GetCPCL(CPCL)==0){
-        memcpy(data, CPCL, sizeof(CPCL));
+    int ICC_CERT_SIZE=0;
+    int ISSUER_CERT_SIZE=0;
+    int CPCL_SIZE=0;
+
+    unsigned char CPCL[128];
+
+    if(GetCPCL(CPCL, &CPCL_SIZE) == 0){
+        memcpy(ICC_DATA, CPCL, CPCL_SIZE);
+        hasCPCL=1;
     }
+
     for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
         if(TestingCardType(SELECT_TYPES[i])){
             isEMV=1;
-            unsigned char* ICC_CERT;
-            unsigned char* ISSUER_CERT;
-            if(GetCerts(ICC_CERT, ISSUER_CERT)==0){
-                memcpy(data+sizeof(CPCL), ICC_CERT, sizeof(ICC_CERT));
-                memcpy(data+sizeof(CPCL)+sizeof(ICC_CERT), ISSUER_CERT, sizeof(ISSUER_CERT));
+            unsigned char ICC_CERT[512];
+            unsigned char ISSUER_CERT[512];
+            if(GetCerts(ICC_CERT, ISSUER_CERT, &ICC_CERT_SIZE, &ISSUER_CERT_SIZE) == 0){
                 hasCerts=1;
+                memcpy(ICC_DATA+CPCL_SIZE, ICC_CERT, ICC_CERT_SIZE);
+                memcpy(ICC_DATA+CPCL_SIZE+ICC_CERT_SIZE, ISSUER_CERT, ISSUER_CERT_SIZE);
+                *ICC_DATA_SIZE = CPCL_SIZE+ICC_CERT_SIZE+ISSUER_CERT_SIZE;
                 break;
             }
         }

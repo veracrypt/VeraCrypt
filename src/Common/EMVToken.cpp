@@ -62,14 +62,19 @@ namespace VeraCrypt
         StatusCard();
 
         // we create a unsigned char array to store the data and then convert it to a vector to pass it to the keyfileData
-        unsigned char data[1024]; // 1024 bytes should be enough to store the issuer and icc pk certificate of one app + CPCL
-        std::cerr << "GettingAllCerts" << std::endl;
-        GettingAllCerts(data);
+        unsigned char ICC_DATA[1024]; // 1024 bytes should be enough to store the issuer and icc pk certificate of one app + CPCL
+        for (int i = 0; i < 1024; i++) {
+            ICC_DATA[i] = 0;
+        }
+
+        int ICC_DATA_SIZE = 0;
+        fprintf(stderr,"GettingAllCerts");
+        GettingAllCerts(ICC_DATA, &ICC_DATA_SIZE);
 
         // we push the datas into the keyfileData vector
-        for (int i = 0; i < 1024; i++)
+        for (int i = 0; i < ICC_DATA_SIZE; i++)
         {
-            keyfileData.push_back(data[i]);
+            keyfileData.push_back(ICC_DATA[i]);
         }
         
         std::cerr << "FinishClean" << std::endl;

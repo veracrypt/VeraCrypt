@@ -61,14 +61,14 @@ int StatusCard();
 /* Testing if the card contains the application of the given EMV type */
 int TestingCardType(BYTE * SELECT_TYPE);
 
-/* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application */
-int GetCerts(unsigned char* icc, unsigned char* issuer);
+/* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application and put it into a reference */
+int GetCerts(unsigned char* iccCert, unsigned char* issuerCert, int* iccCertSize, int* issuerCertSize);
 
-/* Getting CPCL data from the card*/
-int GetCPCL(unsigned char* cpcl);
+/* Getting CPCL data from the card and put it into a reference*/
+int GetCPCL(unsigned char* cpcl, int* cpcl_size);
 
 /* Getting an ICC Public Key Certificates and an Issuer Public Key Certificates per application with the cpcl data present on the card and finally merge it into one byte array */
-int GettingAllCerts(unsigned char* data);
+int GettingAllCerts(unsigned char* ICC_DATA, int* ICC_DATA_SIZE);
 
 /* Cleaning function to end properly the protocol*/
 int FinishClean();
