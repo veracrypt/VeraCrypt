@@ -181,7 +181,7 @@ HANDLE hIconTooltip = NULL;
 char tempPassword[MAX_PASSWORD + 1];
 int iPasswordStrength;
 
-volatile BOOL bInPlaceEncNonSys = TRUE;		/* If TRUE, existing data on a non-system partition/volume are to be encrypted (or decrypted if bInPlaceDecNonSys is TRUE) in place (for system encryption, this flag is ignored) */
+volatile BOOL bInPlaceEncNonSys = FALSE;		/* If TRUE, existing data on a non-system partition/volume are to be encrypted (or decrypted if bInPlaceDecNonSys is TRUE) in place (for system encryption, this flag is ignored) */
 volatile BOOL bInPlaceDecNonSys = FALSE;		/* If TRUE, existing data on a non-system partition/volume are to be decrypted in place (for system encryption, this flag is ignored) */
 volatile BOOL bInPlaceEncNonSysResumed = FALSE;	/* If TRUE, the wizard is supposed to resume (or has resumed) process of non-system in-place encryption/decryption. */
 volatile BOOL bFirstNonSysInPlaceEncResumeDone = FALSE;

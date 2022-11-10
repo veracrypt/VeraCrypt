@@ -1,8 +1,6 @@
 #include "EMVToken.h"
 
-extern "C" {
-    #include "IccExtractor.h"
-}
+#include "IccExtractor.h"
 
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"

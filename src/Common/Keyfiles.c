@@ -23,6 +23,7 @@
 #include "Dlgcode.h"
 #include "Language.h"
 #include "SecurityToken.h"
+#include "EMVToken.h"
 #include "Common/resource.h"
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
@@ -255,6 +256,55 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				vector <byte> keyfileData;
 				SecurityTokenKeyfilePath secPath (kf->FileName);
 				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (secPath), keyfileData);
+
+				if (keyfileData.empty())
+				{
+					SetLastError (ERROR_HANDLE_EOF);
+					handleWin32Error (hwndDlg, SRC_POS);
+					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
+					status = FALSE;
+					continue;
+				}
+
+				unsigned __int32 crc = 0xffffffff;
+				unsigned __int32 writePos = 0;
+				size_t totalRead = 0;
+
+				for (size_t i = 0; i < keyfileData.size(); i++)
+				{
+					crc = UPDC32 (keyfileData[i], crc);
+
+					keyPool[writePos++] += (unsigned __int8) (crc >> 24);
+					keyPool[writePos++] += (unsigned __int8) (crc >> 16);
+					keyPool[writePos++] += (unsigned __int8) (crc >> 8);
+					keyPool[writePos++] += (unsigned __int8) crc;
+
+					if (writePos >= keyPoolSize)
+						writePos = 0;
+
+					if (++totalRead >= KEYFILE_MAX_READ_LEN)
+						break;
+				}
+
+				burn (&keyfileData.front(), keyfileData.size());
+				continue;
+			}
+		}
+		catch (Exception &e)
+		{
+			e.Show (NULL);
+			return FALSE;
+		}
+
+		// Determine whether it's an EMV token path
+		try
+		{
+			if (EMVToken::IsKeyfilePathValid (kf->FileName))
+			{
+				// Apply EMV token keyfile
+				vector <byte> keyfileData;
+				//SecurityTokenKeyfilePath secPath (kf->FileName);
+				EMVToken::GetKeyfileData (EMVTokenInfo ((wstring (kf->FileName))), keyfileData);
 
 				if (keyfileData.empty())
 				{

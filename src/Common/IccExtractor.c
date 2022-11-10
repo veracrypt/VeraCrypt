@@ -100,15 +100,15 @@ int EstablishRSContext(){
 
 /* Detecting available readers and filling the reader table */
 int GetReaders(){
+	char *ptr=NULL;
+    int nbReaders = 0;
+
     printf("Getting available readers...\n");
     /* Retrieving the available readers list and putting it in mszReaders*/
     dwReaders = SCARD_AUTOALLOCATE;
     returnValue = SCardListReaders(hContext, NULL, (LPSTR)&mszReaders, &dwReaders);
     PCSC_ERROR(returnValue, "SCardListReaders");
 
-
-    char *ptr=NULL;
-    int nbReaders = 0;
     ptr = mszReaders;
 
     /* Getting the total number of readers */
@@ -173,6 +173,8 @@ int ConnectCard(int reader_nb){
 
 /* Getting the status of the card connected */
 int StatusCard(){
+	int i;
+
     printf("Getting card status...\n");
     dwAtrLen = sizeof(pbAtr);
     dwReaderLen = sizeof(pbReader);
@@ -183,7 +185,7 @@ int StatusCard(){
     printf(" State: 0x%lX\n", dwState);
     printf(" Protocol: %ld\n", dwProt);
     printf(" ATR (length %ld bytes):", dwAtrLen);
-    for (int i = 0; i < dwAtrLen; i++) {
+    for (i = 0; i < dwAtrLen; i++) {
         printf(" %02X", pbAtr[i]);
     }
     printf("\n");
@@ -211,6 +213,7 @@ int StatusCard(){
 
 /* Testing if the card contains the application of the given EMV type */
 int TestingCardType(BYTE * SELECT_TYPE){
+	int i;
 
     /* exchange APDU  : TYPE */
     dwSendLength = SELECT_TYPE_SIZE;
@@ -223,7 +226,7 @@ int TestingCardType(BYTE * SELECT_TYPE){
     printf("Error : %lx \n", returnValue);
 
     printf("Receiving: ");
-    for (int i = 0; i < dwRecvLength; i++) {
+    for (i = 0; i < dwRecvLength; i++) {
         printf("%02X ", pbRecvBuffer[i]);
     }
     printf("\n");
@@ -234,14 +237,21 @@ int TestingCardType(BYTE * SELECT_TYPE){
 
 /* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application */
 int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT, int * ICC_CERT_SIZE, int * ISSUER_CERT_SIZE){
-    printf("Getting public key certificates ... \n");
     int iccFound=0;
     int issuerFound=0;
+	int sfi;
+	int rec;
+	struct TLVNode* node;
+	struct TLVNode* ICC_Public_Key_Certificate;
+	int i;
+	struct TLVNode* Issuer_PK_Certificate;
+
+	printf("Getting public key certificates ... \n");
     /* Parsing root folders */
-    for (int sfi = 0; sfi < 32; sfi++)
+    for (sfi = 0; sfi < 32; sfi++)
     {
         /* Parsing sub folders */
-        for (int rec = 0; rec < 17; rec++)
+        for (rec = 0; rec < 17; rec++)
         {
             BYTE SELECT_APDU_FILE[] = {00, 0xB2, rec, (sfi << 3) | 4, 0x00};
             /* Exchange APDU  : SELECT FILE */
@@ -262,12 +272,12 @@ int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT, int * ICC_CERT
                 returnValue = SCardTransmit(hCard, &pioSendPci, SELECT_APDU_FILE, dwSendLength,
                                             NULL, pbRecvBufferFat, &dwRecvLength);
                 
-                struct TLVNode* node = TLV_Parse(pbRecvBufferFat,sizeof(pbRecvBufferFat));
+                node = TLV_Parse(pbRecvBufferFat,sizeof(pbRecvBufferFat));
                 /* Finding the ICC_Public_Key_Certificate */
-                struct TLVNode* ICC_Public_Key_Certificate = TLV_Find(node, 0x9F46);
+                ICC_Public_Key_Certificate = TLV_Find(node, 0x9F46);
                 if(ICC_Public_Key_Certificate) {
                     iccFound=1;
-                    for (int i = 0; i < ICC_Public_Key_Certificate->Length;i++) {
+                    for (i = 0; i < ICC_Public_Key_Certificate->Length;i++) {
                         ICC_CERT[i] = ICC_Public_Key_Certificate->Value[i];
                     }
 
@@ -275,10 +285,10 @@ int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT, int * ICC_CERT
                 }
 
                 /* Finding the ICC_Public_Key_Certificate */
-                struct TLVNode* Issuer_PK_Certificate = TLV_Find(node, 0x90);
+                Issuer_PK_Certificate = TLV_Find(node, 0x90);
                 if(Issuer_PK_Certificate) {
                     issuerFound=1;
-                    for (int i = 0; i < Issuer_PK_Certificate->Length;i++) {
+                    for (i = 0; i < Issuer_PK_Certificate->Length;i++) {
                         ISSUER_CERT[i] = Issuer_PK_Certificate->Value[i];
                     }
                     *ISSUER_CERT_SIZE = (int) Issuer_PK_Certificate->Length;
@@ -296,9 +306,11 @@ int GetCerts(unsigned char* ICC_CERT, unsigned char* ISSUER_CERT, int * ICC_CERT
 
 /* Getting CPCL data from the card*/
 int GetCPCL(unsigned char* CPCL, int* CPCL_SIZE){
+	int i;
+	
+	BYTE SELECT_APDU_CPCL[] = {0x80,0xCA, 0x9F, 0x7F, 0x00};
+	
     printf("Getting CPCL data ... \n");
-
-    BYTE SELECT_APDU_CPCL[] = {0x80,0xCA, 0x9F, 0x7F, 0x00};
 
     dwSendLength = sizeof(SELECT_APDU_CPCL);
     dwRecvLength = sizeof(pbRecvBuffer);
@@ -317,7 +329,7 @@ int GetCPCL(unsigned char* CPCL, int* CPCL_SIZE){
         returnValue = SCardTransmit(hCard, &pioSendPci, SELECT_APDU_CPCL, dwSendLength,
                                     NULL, pbRecvBufferFat, &dwRecvLength);
 
-        for (int i = 0; i < dwRecvLength; i++) {
+        for (i = 0; i < dwRecvLength; i++) {
             CPCL[i] = pbRecvBufferFat[i];
         }
         *CPCL_SIZE = (int) dwRecvLength;
@@ -339,16 +351,19 @@ int GettingAllCerts(unsigned char* ICC_DATA, int* ICC_DATA_SIZE){
 
     unsigned char CPCL[128];
 
+	int i;
+	
+	unsigned char ICC_CERT[512];
+    unsigned char ISSUER_CERT[512];
+
     if(GetCPCL(CPCL, &CPCL_SIZE) == 0){
         memcpy(ICC_DATA, CPCL, CPCL_SIZE);
         hasCPCL=1;
     }
 
-    for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
+    for(i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
         if(TestingCardType(SELECT_TYPES[i])){
             isEMV=1;
-            unsigned char ICC_CERT[512];
-            unsigned char ISSUER_CERT[512];
             if(GetCerts(ICC_CERT, ISSUER_CERT, &ICC_CERT_SIZE, &ISSUER_CERT_SIZE) == 0){
                 hasCerts=1;
                 memcpy(ICC_DATA+CPCL_SIZE, ICC_CERT, ICC_CERT_SIZE);

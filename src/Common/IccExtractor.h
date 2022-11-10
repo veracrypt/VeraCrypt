@@ -2,14 +2,25 @@
 #ifndef TC_HEADER_Common_IccExtractor
 #define TC_HEADER_Common_IccExtractor
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#undef BOOL
-#include <PCSC/winscard.h> // TODO : verify that this is the same for linux and windows
-#define BOOL int
-#include <unistd.h>
+#ifdef TC_WINDOWS
+	#include <winscard.h>
+#endif
+
+#ifdef TC_UNIX
+	//#include <stdbool.h> //Works without on windows
+	#undef BOOL
+	#include <PCSC/winscard.h>
+	#define BOOL int
+	//#include <unistd.h> //Works without on windows
+#endif
+
 #include "Tlv.h"
 
 #ifdef _WIN32
@@ -72,5 +83,9 @@ int GettingAllCerts(unsigned char* ICC_DATA, int* ICC_DATA_SIZE);
 
 /* Cleaning function to end properly the protocol*/
 int FinishClean();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // TC_HEADER_Common_IccExtractor
