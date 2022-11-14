@@ -253,7 +253,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	bSizer18->SetMinSize( wxSize( 138,34 ) ); 
 	VolumePropertiesButton = new wxButton( LowStaticBoxSizer->GetStaticBox(), wxID_ANY, _("IDC_VOLUME_PROPERTIES"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer18->Add( VolumePropertiesButton, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
+	bSizer18->Add( VolumePropertiesButton, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	gSizer1->Add( bSizer18, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -263,7 +263,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	bSizer19->SetMinSize( wxSize( 138,34 ) ); 
 	WipeCacheButton = new wxButton( LowStaticBoxSizer->GetStaticBox(), wxID_ANY, _("HK_WIPE_CACHE"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer19->Add( WipeCacheButton, 1, wxALL|wxALIGN_RIGHT|wxEXPAND, 5 );
+	bSizer19->Add( WipeCacheButton, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	gSizer1->Add( bSizer19, 0, wxALIGN_RIGHT, 5 );
@@ -345,7 +345,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	VolumeButton->SetMinSize( wxSize( -1,32 ) );
 	
-	sbSizer4->Add( VolumeButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
+	sbSizer4->Add( VolumeButton, 1, wxEXPAND|wxALL, 2 );
 	
 	
 	gSizer2->Add( sbSizer4, 1, wxEXPAND, 0 );
@@ -357,7 +357,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	MountAllDevicesButton = new wxButton( sbSizer41->GetStaticBox(), wxID_ANY, _("IDC_MOUNTALL"), wxDefaultPosition, wxDefaultSize, 0 );
 	MountAllDevicesButton->SetMinSize( wxSize( -1,32 ) );
 	
-	sbSizer41->Add( MountAllDevicesButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
+	sbSizer41->Add( MountAllDevicesButton, 1, wxEXPAND|wxALL, 2 );
 	
 	
 	gSizer2->Add( sbSizer41, 1, wxEXPAND, 5 );
@@ -369,7 +369,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	DismountAllButton = new wxButton( sbSizer42->GetStaticBox(), wxID_ANY, _("IDC_UNMOUNTALL"), wxDefaultPosition, wxDefaultSize, 0 );
 	DismountAllButton->SetMinSize( wxSize( -1,32 ) );
 	
-	sbSizer42->Add( DismountAllButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
+	sbSizer42->Add( DismountAllButton, 1, wxEXPAND|wxALL, 2 );
 	
 	
 	gSizer2->Add( sbSizer42, 1, wxEXPAND, 5 );
@@ -381,7 +381,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	ExitButton = new wxButton( sbSizer43->GetStaticBox(), wxID_ANY, _("IDC_EXIT"), wxDefaultPosition, wxDefaultSize, 0 );
 	ExitButton->SetMinSize( wxSize( -1,32 ) );
 	
-	sbSizer43->Add( ExitButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
+	sbSizer43->Add( ExitButton, 1, wxEXPAND|wxALL, 2 );
 	
 	
 	gSizer2->Add( sbSizer43, 1, wxEXPAND, 5 );
@@ -606,7 +606,7 @@ WizardFrameBase::WizardFrameBase( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer70->Add( CancelButton, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
-	bSizer64->Add( bSizer70, 0, wxEXPAND|wxALIGN_RIGHT|wxALL, 5 );
+	bSizer64->Add( bSizer70, 0, wxEXPAND|wxALL, 5 );
 	
 	
 	bSizer63->Add( bSizer64, 1, wxEXPAND, 5 );
@@ -987,7 +987,7 @@ DeviceSelectionDialogBase::DeviceSelectionDialogBase( wxWindow* parent, wxWindow
 	bSizer166->Add( OKButton, 0, wxALL, 5 );
 	
 	
-	bSizer3->Add( bSizer166, 0, wxALIGN_RIGHT|wxALL|wxEXPAND, 5 );
+	bSizer3->Add( bSizer166, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizer3 );
