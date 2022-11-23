@@ -46,7 +46,7 @@
     <entry lang="zh-cn" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">首先尝试以空密码挂载</entry>
     <entry lang="zh-cn" key="IDC_KEYFILES_RANDOM_SIZE">随机大小 ( 64 &lt;-&gt; 1048576 )</entry>
     <entry lang="zh-cn" key="IDC_KEY_FILES">密钥文件(&amp;K)...</entry>
-    <entry lang="zh-cn" key="IDC_LINK_HASH_INFO">混杂算法的更多信息（联网）</entry>
+    <entry lang="zh-cn" key="IDC_LINK_HASH_INFO">哈希算法的更多信息（联网）</entry>
     <entry lang="zh-cn" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">更多信息（联网）</entry>
     <entry lang="zh-cn" key="IDC_LINK_PIM_INFO">关于PIM的更多信息（联网）</entry>
     <entry lang="zh-cn" key="IDC_MB">MB(&amp;M)</entry>
