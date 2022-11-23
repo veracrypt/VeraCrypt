@@ -1599,7 +1599,7 @@
     <entry lang="zh-cn" key="ERROR_PASTE_ACTION">粘贴文本被禁用。 请输入您的密码。</entry>
     <entry lang="zh-cn" key="WARNING_PASSWORD_NOT_IDENTICAL">密码不一致！ 请在两个字段中输入相同的密码！</entry>
     <entry lang="zh-cn" key="SYSENC_INFO">此助手将帮助您加密驱动器 (%c:)</entry>
-    <entry lang="zh-cn" key="SYSENC_INFO_2">可以通过物理访问您的设备的不良行为者很容易地绕过 Windows 密码。 驱动器加密有助于保护您的数据不被不良行为者访问。 VeraCrypt Drive Encryption 将通过使用附加密码保护您的数据来阻止它们。 </entry>
+    <entry lang="zh-cn" key="SYSENC_INFO_2">能物理接触您的设备的不良行为者可以轻易绕过 Windows 密码。 驱动器加密有助于保护您的数据免于被不良行为者访问。 VeraCrypt Drive Encryption 将通过使用附加密码保护您的数据来阻止它们。 </entry>
     <entry lang="zh-cn" key="ADV_FEATURES_INTRO_TOOLTIP">在此处激活隐藏的操作系统。</entry>
     <entry lang="zh-cn" key="ADV_FEATURES_NOTE">大多数专家同意以下预选选项是安全的。 仅当您知道自己在做什么时才更改它们。 </entry>
     <entry lang="zh-cn" key="PIM_INFO">自定迭代次数 (PIM) 允许您设置密码哈希迭代的次数。 这为调整所需的安全级别提供了更大的灵活性，同时还控制了挂载/引导操作的性能。</entry>
