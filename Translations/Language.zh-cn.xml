@@ -394,7 +394,7 @@
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_NTFS">请注意：如果要把加密卷格式化为 NTFS 文件系统，您必需以具有管理员权限的帐号登录。\n\n若无管理员权限，您可以格式化加密卷为 FAT 文件系统。</entry>
     <entry lang="zh-cn" key="AES_HELP">FIPS-认可的加密算法（Rijndael，发表于 1998 年）可能被美国联邦部门和机构用来对特定信息进行顶级保护。256 位密钥、128-位块、14 次离散循环（AES-256，发表于 2001 年）。操作模式为 XTS。</entry>
     <entry lang="zh-cn" key="ALREADY_MOUNTED">加密卷已加载。</entry>
-    <entry lang="zh-cn" key="ERR_SELF_TESTS_FAILED">注意：至少一个 加密或哈希算法未能通过内置自检！\n\n此 VeraCrypt 程序文件可能已损坏。</entry>
+    <entry lang="zh-cn" key="ERR_SELF_TESTS_FAILED">注意：至少一个加密或哈希算法未能通过内置自检！\n\n此 VeraCrypt 程序文件可能已损坏。</entry>
     <entry lang="zh-cn" key="ERR_NOT_ENOUGH_RANDOM_DATA">注意：在随机数生成器缓冲中的数据不足，无法提供要求数量的随机数据。\n\n您不应当继续进行。请从帮助菜单选择“报告错误”来报告此软件错误。</entry>
     <entry lang="zh-cn" key="ERR_HARDWARE_ERROR">该设备已损坏（物理损坏）或者线缆损坏，或者是内存出现故障。\n\n请注意：这是您的硬件问题，并不是 VeraCrypt 的问题。因此，请不要把这个报告为 VeraCrypt 的错误，并且也不要在 VeraCrypt 论坛对此问题寻求帮助。请联系您的计算机供应商获取技术支持，谢谢您！\n\n注意：如果该提示反复出现在同一位置，那就很可能是磁盘坏块导致的，应该通过使用第三方软件来修复（请注意，在很多情况下，'chkdsk /r' 命令由于工作在系统层因此不能修复此问题；在某些情况中，'chkdsk' 工具甚至不能检测到此类错误。</entry>
     <entry lang="zh-cn" key="DEVICE_NOT_READY_ERROR">如果您正在访问驱动器上的可移动介质，请确认可移动介质已经插入驱动器。也可能是驱动器/介质已损坏（物理损坏），或连接线已损坏或断开。</entry>
@@ -631,18 +631,18 @@
     <entry lang="zh-cn" key="PASSWORD_HIDDEN_OS_TITLE">隐形操作系统的密码</entry>
     <entry lang="zh-cn" key="PASSWORD_LENGTH_WARNING">警告：简短密码容易被暴力破解技术破解！\n\n我们建议选择一个超过 20 个字符的密码。\n\n您确定要使用简短密码吗？</entry>
     <entry lang="zh-cn" key="PASSWORD_TITLE">加密卷密码</entry>
-    <entry lang="zh-cn" key="PASSWORD_WRONG">密码不正确或不是 VeraCrypt 加密卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG">密钥 和/或 密码不正确或不是 VeraCrypt 加密卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_MODE_WRONG">错误的加载模式/密码或不是 VeraCrypt 加密卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">错误的加载模式，无效的密钥文件 和/或 密码，或者不是 VeraCrypt 加密卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">密码不正确或不是 VeraCrypt 加密卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">密钥 和/或 密码不正确或不是 VeraCrypt 加密卷</entry>
+    <entry lang="zh-cn" key="PASSWORD_WRONG">由于以下一个或多个原因，操作失败：\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG">由于以下一个或多个原因，操作失败：\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_MODE_WRONG">由于以下一个或多个原因，操作失败：\n-加载模式错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">由于以下一个或多个原因，操作失败：\n-加载模式错误。\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">由于以下一个或多个原因，操作失败：\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">由于以下一个或多个原因，操作失败：\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
     <entry lang="zh-cn" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock 已经开启。 这可能导致您密码输入错误。</entry>
     <entry lang="zh-cn" key="PIM_CHANGE_WARNING">记住所挂载的卷的PIM</entry>
     <entry lang="zh-cn" key="PIM_HIDVOL_HOST_TITLE">外层卷 PIM</entry>
     <entry lang="zh-cn" key="PIM_HIDVOL_TITLE">隐藏卷 PIM</entry>
     <entry lang="zh-cn" key="PIM_HIDDEN_OS_TITLE">隐形操作系统 PIM</entry>
-    <entry lang="zh-cn" key="PIM_HELP">PIM (自定迭代次数) 是一个控制头部密钥迭代次数的值，当导出头部密钥时会向这样使用:\n      迭代次数 = 15000 + (PIM x 1000) \n\n当这个值留空或设为0时，VeraCrypt会使用默认值(485)来确保安全性。\n\n当使用20位以下的密码时，为了保证维持最小的安全性，PIM的值不能小于485。\n当使用20位以上的密码时，PIM的值可以任意自定。\n\nPIM大于485可能导致加密卷的挂载速度下降。PIM小于485可能会提高挂载速度，但是如果你的密码强度不足，这会降低安全性。</entry>
+    <entry lang="zh-cn" key="PIM_HELP">PIM (自定迭代次数) 是一个控制头部密钥迭代次数的值，当导出头部密钥时会像这样使用:\n      迭代次数 = 15000 + (PIM x 1000) \n\n当这个值留空或设为0时，VeraCrypt会使用默认值(485)来确保安全性。\n\n当使用20位以下的密码时，为了保证维持最小的安全性，PIM的值不能小于485。\n当使用20位以上的密码时，PIM的值可以任意自定。\n\nPIM大于485可能导致加密卷的挂载速度下降。PIM小于485可能会提高挂载速度，但是如果你的密码强度不足，这会降低安全性。</entry>
     <entry lang="zh-cn" key="PIM_SYSENC_HELP">PIM (自定迭代次数) 是一个控制头部密钥迭代次数的值，当导出头部密钥时会向这样使用:\n      迭代次数 = (PIM x 2048) \n\n当这个值留空或设为0时，VeraCrypt会使用默认值(98)来确保安全性。\n\n当使用20位以下的密码时，为了保证维持最小的安全性，PIM的值不能小于98。\n当使用20位以上的密码时，PIM的值可以任意自定。\n\nPIM大于98可能导致启动速度下降。PIM小于485可能会提高启动速度，但是如果你的密码强度不足，这会降低安全性。</entry>
     <entry lang="zh-cn" key="PIM_SYSENC_CHANGE_WARNING">记住所启动的系统的PIM</entry>
     <entry lang="zh-cn" key="PIM_LARGE_WARNING">你选择了一个大于VeraCrypt默认值的PIM。\n注意这可能使挂载/启动速度下降。</entry>
@@ -1215,7 +1215,7 @@
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5）在 VeraCrypt 加密卷创建向导中，不要选择“隐藏” 选项。保持“常规”选项为选中状态并点击“下一步”。\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_8">6）选择选项“加密 Windows 系统分区”并点击“下一步”。\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_9">7）如果计算机中只安装了一个隐形系统和迷惑系统，请选择“单系统”（如果在这两个系统之外还有其它系统，请选择“多系统”）。之后点击“下一步”。\n\n</entry>
-    <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_10">8）重要：在本步中，对于迷惑系统，您必须选择与加密隐形系统相同的加密算法和哈希算法！否则将无法访问隐形系统。换句话说，迷惑系统和隐形系统的加密算法必须系统。说明：原因是迷惑系统和隐形系统共用同一个启动管理器，这个管理器只支持用户选择的某个单一算法（对于每种算法，都会对应一个特定的 VeraCrypt 启动管理器版本）。\n\n</entry>
+    <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_10">8）重要提示：在本步中，对于迷惑系统，您必须选择与加密隐形系统相同的加密算法和哈希算法！否则将无法访问隐形系统。换句话说，迷惑系统必须使用与隐形系统相同的加密算法进行加密。注意：原因是迷惑系统和隐形系统共用同一个启动管理器，这个管理器只支持用户选择的某个特定算法（对于每种算法，都会对应一个特定的 VeraCrypt 启动管理器版本）。\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_11">9）在这个步骤中，为迷惑系统选择一个密码。当您被要求或者强迫提供启动验证密码时您可以泄漏这个迷惑系统的密码（另外一个可以泄漏的密码是外层加密卷密码）。而第三个密码（也就是启动验证里面用于启动隐形系统的密码）仍然是保密的。\n\n重要：迷惑系统的密码必须完全不同于隐藏加密卷的密码（隐藏加密卷的密码也就是隐形操作系统的密码）。\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_12">10）遵循向导的其余指令以加密迷惑操作系统。\n\n\n\n</entry>
     <entry lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_13">在迷惑操作系统创建之后 ------------------------------------------------\n\n在您加密了迷惑操作系统之后，这个隐形系统的创建就完成了，这时您可以使用三个密码：\n\n1）启动验证中用于启动隐形系统的密码。\n\n2）启动验证中用于启动迷惑操作系统的密码。\n\n3）用于外层加密卷的密码。\n\n</entry>
@@ -1602,7 +1602,7 @@
     <entry lang="zh-cn" key="SYSENC_INFO_2">能物理接触您的设备的不良行为者可以轻易绕过 Windows 密码。 驱动器加密有助于保护您的数据免于被不良行为者访问。 VeraCrypt Drive Encryption 将通过使用附加密码保护您的数据来阻止它们。 </entry>
     <entry lang="zh-cn" key="ADV_FEATURES_INTRO_TOOLTIP">在此处激活隐藏的操作系统。</entry>
     <entry lang="zh-cn" key="ADV_FEATURES_NOTE">大多数专家同意以下预选选项是安全的。 仅当您知道自己在做什么时才更改它们。 </entry>
-    <entry lang="zh-cn" key="PIM_INFO">自定迭代次数 (PIM) 允许您设置密码哈希迭代的次数。 这为调整所需的安全级别提供了更大的灵活性，同时还控制了挂载/引导操作的性能。</entry>
+    <entry lang="zh-cn" key="PIM_INFO">自定迭代次数 (PIM) 允许您设置密码的哈希迭代的次数。 这为调整所需的安全级别提供了更大的灵活性，同时还控制了挂载/引导操作的性能。</entry>
     <entry lang="zh-cn" key="WIPE_INFO">在加密之前覆盖您的数据。 这可以防止可能的数据恢复。 正常情况下不需要擦拭。</entry>
     <entry lang="zh-cn" key="PRETEST_INFO">在加密之前 VeraCrypt 将验证一切是否正常工作。\n\nVeraCrypt 将运行一些测试，请重新启动您的计算机，然后您必须在 Windows 启动之前的屏幕中输入您的密码。</entry>
     <entry lang="zh-cn" key="PRETEST_CANCEL">如果您现在单击取消，系统将不会发生任何更改。</entry>
