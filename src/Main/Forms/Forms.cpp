@@ -2314,7 +2314,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	OKButton = new wxButton( this, wxID_OK, _("IDOK"), wxDefaultPosition, wxDefaultSize, 0 );
 	OKButton->SetDefault();
 	
-	bSizer182->Add( OKButton, 0, wxALIGN_RIGHT|wxALL, 5 );
+	bSizer182->Add( OKButton, 0, wxALL, 5 );
 	
 	CancelButton = new wxButton( this, wxID_CANCEL, _("IDCANCEL"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer182->Add( CancelButton, 0, wxALL, 5 );
