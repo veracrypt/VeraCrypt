@@ -586,24 +586,24 @@ WizardFrameBase::WizardFrameBase( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer70->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	HelpButton = new wxButton( MainPanel, wxID_HELP, _("IDHELP"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer70->Add( HelpButton, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	bSizer70->Add( HelpButton, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
-	bSizer70->Add( 0, 0, 0, wxLEFT|wxALIGN_RIGHT, 5 );
+	bSizer70->Add( 2, 0, 0, wxLEFT, 5 );
 	
 	PreviousButton = new wxButton( MainPanel, wxID_ANY, _("PREV"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer70->Add( PreviousButton, 0, wxTOP|wxBOTTOM|wxLEFT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	bSizer70->Add( PreviousButton, 0, wxTOP|wxBOTTOM|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	NextButton = new wxButton( MainPanel, wxID_ANY, _("NEXT"), wxDefaultPosition, wxDefaultSize, 0|wxWANTS_CHARS );
 	NextButton->SetDefault();
 	
-	bSizer70->Add( NextButton, 0, wxTOP|wxBOTTOM|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	bSizer70->Add( NextButton, 0, wxTOP|wxBOTTOM|wxRIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
-	bSizer70->Add( 0, 0, 0, wxLEFT|wxALIGN_RIGHT, 5 );
+	bSizer70->Add( 2, 0, 0, wxLEFT, 5 );
 	
 	CancelButton = new wxButton( MainPanel, wxID_CANCEL, _("IDCANCEL"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer70->Add( CancelButton, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	bSizer70->Add( CancelButton, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer64->Add( bSizer70, 0, wxEXPAND|wxALL, 5 );
