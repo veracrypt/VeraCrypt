@@ -2999,7 +2999,7 @@ VolumeCreationProgressWizardPageBase::VolumeCreationProgressWizardPageBase( wxWi
 	
 	RandomPoolSampleStaticText->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Courier New") ) );
 	
-	bSizer126->Add( RandomPoolSampleStaticText, 0, wxEXPAND|wxTOP|wxRIGHT|wxALIGN_BOTTOM, 7 );
+	bSizer126->Add( RandomPoolSampleStaticText, 0, wxEXPAND|wxTOP|wxRIGHT, 7 );
 	
 	DisplayKeysCheckBox = new wxCheckBox( sbSizer31->GetStaticBox(), wxID_ANY, _("IDC_DISPLAY_POOL_CONTENTS"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer126->Add( DisplayKeysCheckBox, 0, wxEXPAND|wxRIGHT, 5 );
@@ -3396,7 +3396,7 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	#else
 	VolumePimTextCtrl->SetMaxLength( 7 );
 	#endif
-	GridBagSizer->Add( VolumePimTextCtrl, wxGBPosition( 3, 1 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxEXPAND, 5 );
+	GridBagSizer->Add( VolumePimTextCtrl, wxGBPosition( 3, 1 ), wxGBSpan( 1, 1 ), wxBOTTOM|wxEXPAND, 5 );
 	
 	VolumePimHelpStaticText = new wxStaticText( this, wxID_ANY, _("IDC_PIM_HELP"), wxDefaultPosition, wxDefaultSize, 0 );
 	VolumePimHelpStaticText->Wrap( -1 );
