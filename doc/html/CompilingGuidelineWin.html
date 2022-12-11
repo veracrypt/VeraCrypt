@@ -16,38 +16,11 @@
 }
 
 .texttohide {
-  display:none;
   font-family: Helvetica,sans-serif;
   font-size: 14px;
   font-weight: normal;
 }
 
-.show {
-  display: none;
-    text-decoration: none;
-}
-
-.hide:target + .show {
-  display: inline;
-  text-decoration: none;
-}
-
-.hide:target {
-  display: none;
-  text-decoration: none;
-}
-
-.hide:target ~ .texttohide {
-  display:inline;
-  text-decoration: none;
-
-}
-
-@media print {
-  .hide, .show {
-    display: none;
-  }
-}
 
 </style>
 
@@ -80,7 +53,11 @@
 <p>
 <a href="Documentation.html">Documentation</a>
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
-<a href="CompilingGuidelineWin.html">Compiling Gudineline for Windows</a>
+<a href="Technical%20Details.html">Technical Details</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">Building VeraCrypt From Source</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineWin.html">Windows Build Guide</a>
 </p></div>
 
 <div class="wikidoc">
@@ -113,11 +90,36 @@ The following components are required for compiling VeraCrypt:
 
 </div>
 
+<div class="wikidoc">
+<p>Below are the procedure steps:</p> 
+<ul>
+<li><a href="#InstallationOfMicrosoftVisualStudio2010">Installation of Microsoft Visual Studio 2010</a></li>
+<li><a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">Installation of Microsoft Visual Studio 2010 Service Pack 1</a></li>
+<li><a href="#InstallationOfNASM">Installation of NASM</a></li>
+<li><a href="#InstallationOfYASM">Installation of YASM</a></li>
+<li><a href="#InstallationOfVisualC++">Installation of Microsoft Visual C++ 1.52</a></li>
+<li><a href="#InstallationOfWindowsSDK71++">Installation of the Windows SDK 7.1</a></li>
+<li><a href="#InstallationOfWDK71++">Installation of the Windows Driver Kit 7.1</a></li>
+<li><a href="#InstallationOfSDK81++">Installation of the Windows 8.1 SDK</a></li>
+<li><a href="#InstallationOfGzip">Installation of gzip</a></li>
+<li><a href="#InstallationOfUpx">Installation of upx</a></li>
+<li><a href="#InstallationOf7zip">Installation of 7zip</a></li>
+<li><a href="#InstallationOfWix3">Installation of Wix3</a></li>
+<li><a href="#InstallationOfVS2019">Installation of Microsoft Visual Studio 2019</a></li>
+<li><a href="#InstallationOfWDK10">Installation of the Windows Driver Kit 2004</a></li>
+<li><a href="#InstallationOfVisualBuildTools">Installation of the Visual Studio build tools</a></li>
+<li><a href="#DownloadVeraCrypt">Download VeraCrypt Source Files</a></li>
+<li><a href="#CompileWin32X64">Compile the Win32/x64 Versions of VeraCrypt</a></li>
+<li><a href="#CompileARM64">Compile the ARM64 Version of VeraCrypt</a></li>
+<li><a href="#BuildVeraCryptExecutables">Build the VeraCrypt Executables</a></li>
+<li><a href="#ImportCertificates">Import the Certificates</a></li>
+<li><a href="#KnownIssues">Known Issues</a></li>
+</ul>
+</div>
 
 <div class="wikidoc">
  <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010">
-  <a href="#hide1" class="hide" id="hide1">Installation of Microsoft Visual Studio 2010</a>
-  <a href="#show1" class="show" id="show1">Installation of Microsoft Visual Studio 2010</a>
+  <a href="#InstallationOfMicrosoftVisualStudio2010">Installation of Microsoft Visual Studio 2010</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -145,8 +147,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010ServicePack1">
-  <a href="#hide2" class="hide" id="hide2">Installation of Microsoft Visual Studio 2010 Service Pack 1</a>
-  <a href="#show2" class="show" id="show2">Installation of Microsoft Visual Studio 2010 Service Pack 1</a>
+  <a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">Installation of Microsoft Visual Studio 2010 Service Pack 1</a>
   <div class="texttohide">
     <p>
 		Note: The content the official installer from Microsoft tries to download is no longer available. Therefore, it is necessary to use an offline installer.
@@ -170,8 +171,7 @@ The following components are required for compiling VeraCrypt:
  </div>
 
  <div class="textbox" id="InstallationOfNASM">
-  <a href="#hide3" class="hide" id="hide3">Installation of NASM</a>
-  <a href="#show3" class="show" id="show3">Installation of NASM</a>
+  <a href="#InstallationOfNASM">Installation of NASM</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -227,8 +227,7 @@ The following components are required for compiling VeraCrypt:
  </div>
 
  <div class="textbox" id="InstallationOfYASM">
-  <a href="#hide4" class="hide" id="hide4">Installation of YASM</a>
-  <a href="#show4" class="show" id="show4">Installation of YASM</a>
+  <a href="#InstallationOfYASM">Installation of YASM</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -311,8 +310,7 @@ The following components are required for compiling VeraCrypt:
  </div>
 
  <div class="textbox" id="InstallationOfVisualC++">
-  <a href="#hide5" class="hide" id="hide5">Installation of Microsoft Visual C++ 1.52</a>
-  <a href="#show5" class="show" id="show5">Installation of Microsoft Visual C++ 1.52</a>
+  <a href="#InstallationOfVisualC++">Installation of Microsoft Visual C++ 1.52</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -363,8 +361,7 @@ The following components are required for compiling VeraCrypt:
  </div> 
  
  <div class="textbox" id="InstallationOfWindowsSDK71++">
-  <a href="#hide6" class="hide" id="hide6">Installation of the Windows SDK 7.1</a>
-  <a href="#show6" class="show" id="show6">Installation of the Windows SDK 7.1</a>
+  <a href="#InstallationOfWindowsSDK71++">Installation of the Windows SDK 7.1</a>
   <div class="texttohide">
     <p>
 		The installer requires .Net Framework 4 (Not a newer one like .Net Framework 4.8!). Since a newer version is already preinstalled with Windows 10, the installer has to be tricked:
@@ -446,8 +443,7 @@ The following components are required for compiling VeraCrypt:
  </div>  
  
  <div class="textbox" id="InstallationOfWDK71++">
-  <a href="#hide7" class="hide" id="hide7">Installation of the Windows Driver Kit 7.1</a>
-  <a href="#show7" class="show" id="show7">Installation of the Windows Driver Kit 7.1</a>
+  <a href="#InstallationOfWDK71++">Installation of the Windows Driver Kit 7.1</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -471,8 +467,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="InstallationOfSDK81++">
-  <a href="#hide8" class="hide" id="hide8">Installation of the Windows 8.1 SDK</a>
-  <a href="#show8" class="show" id="show8">Installation of the Windows 8.1 SDK</a>
+  <a href="#InstallationOfSDK81++">Installation of the Windows 8.1 SDK</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -520,8 +515,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="InstallationOfGzip">
-  <a href="#hide9" class="hide" id="hide9">Installation of gzip</a>
-  <a href="#show9" class="show" id="show9">Installation of gzip</a>
+  <a href="#InstallationOfGzip">Installation of gzip</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -578,8 +572,7 @@ The following components are required for compiling VeraCrypt:
  </div>
 
  <div class="textbox" id="InstallationOfUpx">
-  <a href="#hide10" class="hide" id="hide10">Installation of upx</a>
-  <a href="#show10" class="show" id="show10">Installation of upx</a>
+  <a href="#InstallationOfUpx">Installation of upx</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -636,8 +629,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="InstallationOf7zip">
-  <a href="#hide11" class="hide" id="hide11">Installation of 7zip</a>
-  <a href="#show11" class="show" id="show11">Installation of 7zip</a>
+  <a href="#InstallationOf7zip">Installation of 7zip</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -654,8 +646,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="InstallationOfWix3">
-  <a href="#hide12" class="hide" id="hide12">Installation of Wix3</a>
-  <a href="#show12" class="show" id="show12">Installation of Wix3</a>
+  <a href="#InstallationOfWix3">Installation of Wix3</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -672,8 +663,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="InstallationOfVS2019">
-  <a href="#hide13" class="hide" id="hide13">Installation of Microsoft Visual Studio 2019</a>
-  <a href="#show13" class="show" id="show13">Installation of Microsoft Visual Studio 2019</a>
+  <a href="#InstallationOfVS2019">Installation of Microsoft Visual Studio 2019</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -908,8 +898,7 @@ The following components are required for compiling VeraCrypt:
  </div>
 
  <div class="textbox" id="InstallationOfWDK10">
-  <a href="#hide14" class="hide" id="hide14">Installation of the Windows Driver Kit 2004</a>
-  <a href="#show14" class="show" id="show14">Installation of the Windows Driver Kit 2004</a>
+  <a href="#InstallationOfWDK10">Installation of the Windows Driver Kit 2004</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -934,8 +923,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="InstallationOfVisualBuildTools">
-  <a href="#hide15" class="hide" id="hide15">Installation of the Visual Studio build tools</a>
-  <a href="#show15" class="show" id="show15">Installation of the Visual Studio build tools</a>
+  <a href="#InstallationOfVisualBuildTools">Installation of the Visual Studio build tools</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1025,8 +1013,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="DownloadVeraCrypt">
-  <a href="#hide16" class="hide" id="hide16">Download VeraCrypt Source Files</a>
-  <a href="#show16" class="show" id="show16">Download VeraCrypt Source Files</a>
+  <a href="#DownloadVeraCrypt">Download VeraCrypt Source Files</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1044,8 +1031,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="CompileWin32X64">
-  <a href="#hide17" class="hide" id="hide17">Compile the Win32/x64 Versions of VeraCrypt</a>
-  <a href="#show17" class="show" id="show17">Compile the Win32/x64 Versions of VeraCrypt</a>
+  <a href="#CompileWin32X64">Compile the Win32/x64 Versions of VeraCrypt</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1081,8 +1067,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="CompileARM64">
-  <a href="#hide18" class="hide" id="hide18">Compile the ARM64 Version of VeraCrypt</a>
-  <a href="#show18" class="show" id="show18">Compile the ARM64 Version of VeraCrypt</a>
+  <a href="#CompileARM64">Compile the ARM64 Version of VeraCrypt</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1107,8 +1092,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="BuildVeraCryptExecutables">
-  <a href="#hide19" class="hide" id="hide19">Build the VeraCrypt Executables</a>
-  <a href="#show19" class="show" id="show19">Build the VeraCrypt Executables</a>
+  <a href="#BuildVeraCryptExecutables">Build the VeraCrypt Executables</a>
   <div class="texttohide">
     <p>
 		<ol>
@@ -1130,8 +1114,7 @@ The following components are required for compiling VeraCrypt:
  </div>
  
  <div class="textbox" id="ImportCertificates">
-  <a href="#hide20" class="hide" id="hide20">Import the Certificates</a>
-  <a href="#show20" class="show" id="show20">Import the Certificates</a>
+  <a href="#ImportCertificates">Import the Certificates</a>
   <div class="texttohide">
     <p> With the sign_test.bat script you just signed the VeraCrypt executables. This is necessary, since Windows only accepts drivers, which are trusted by a signed Certificate Authority. <br>
 	Since you did not use the official VeraCrypt signing certificate to sign your code, but a public development version, you have to import and therefore trust the certifcates used.
@@ -1156,8 +1139,7 @@ The following components are required for compiling VeraCrypt:
  </div>
 
  <div class="textbox" id="KnownIssues">
-  <a href="#hide21" class="hide" id="hide21">Known Issues</a>
-  <a href="#show21" class="show" id="show21">Known Issues</a>
+  <a href="#KnownIssues">Known Issues</a>
   <div class="texttohide">
     <p>
 		<ul>
