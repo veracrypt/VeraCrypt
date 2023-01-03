@@ -31,7 +31,7 @@ del Languages.zip
 rmdir /S /Q docs
 mkdir docs\html\en
 mkdir docs\EFI-DCS
-copy /V /Y ..\..\..\doc\html\* docs\html\en\.
+xcopy /E /V /Y ..\..\..\doc\html\* docs\html\en\.
 copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
 copy "..\..\..\doc\EFI-DCS\*.pdf" docs\EFI-DCS\.
 del docs.zip
