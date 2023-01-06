@@ -1700,7 +1700,7 @@ namespace VeraCrypt
 				bool slotUpdated = false;
 				if (itemIndex == -1)
 				{
-					Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *) volume->SlotNumber);
+					Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *)(intptr_t) volume->SlotNumber);
 					OnListItemInserted (prevItemIndex);
 
 					listChanged |= true;
@@ -1735,7 +1735,7 @@ namespace VeraCrypt
 				{
 					if (itemIndex == -1)
 					{
-						Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *) slotNumber);
+						Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *)(intptr_t) slotNumber);
 						OnListItemInserted (prevItemIndex);
 						listChanged |= true;
 					}
