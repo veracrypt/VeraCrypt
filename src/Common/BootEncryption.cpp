@@ -4511,10 +4511,10 @@ namespace VeraCrypt
 			device.Read (bootLoaderBuf, sizeof (bootLoaderBuf));
 
 			// Prevent TrueCrypt loader from being backed up
-			size_t str_len = strlen(TC_APP_NAME);
-			for (size_t i = 0; i < sizeof (bootLoaderBuf) - str_len; ++i)
+			size_t lenAppName = strlen(TC_APP_NAME);
+			for (size_t i = 0; i < sizeof (bootLoaderBuf) - lenAppName; ++i)
 			{
-				if (memcmp (bootLoaderBuf + i, TC_APP_NAME, strlen (TC_APP_NAME)) == 0)
+				if (memcmp (bootLoaderBuf + i, TC_APP_NAME, lenAppName) == 0)
 				{
 					if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED", ParentWindow) == IDNO)
 						throw UserAbort (SRC_POS);
