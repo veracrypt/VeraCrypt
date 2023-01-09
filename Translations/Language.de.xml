@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26">
+    <!-- Sprachen -->
     <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl, Felix Reichmann" />
+    <!-- Schriftarten -->
     <font lang="de" class="normal" size="11" face="default" />
     <font lang="de" class="bold" size="13" face="Arial" />
     <font lang="de" class="fixed" size="12" face="Lucida Console" />
     <font lang="de" class="title" size="21" face="Times New Roman" />
-
+    <!-- Steuerelemente  -->
     <entry lang="de" key="IDCANCEL">Abbrechen</entry>
     <entry lang="de" key="IDC_ALL_USERS">Für &amp;alle Benutzer installieren</entry>
     <entry lang="de" key="IDC_BROWSE">Su&amp;chen ...</entry>
@@ -59,7 +61,7 @@
     <entry lang="de" key="IDC_OPEN_OUTER_VOLUME">Äußeres Volume öffnen</entry>
     <entry lang="de" key="IDC_PAUSE">&amp;Pause</entry>
     <entry lang="de" key="IDC_PIM_ENABLE">P&amp;IM verwenden</entry>
-    <entry lang="de" key="IDC_NEW_PIM_ENABLE">PIM modifizieren</entry>
+    <entry lang="de" key="IDC_NEW_PIM_ENABLE">PIM verwenden</entry>
     <entry lang="de" key="IDC_QUICKFORMAT">Schnell-Formatierung</entry>
     <entry lang="de" key="IDC_SHOW_PASSWORD">Passwort an&amp;zeigen</entry>
     <entry lang="de" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Passwort anzeigen</entry>
@@ -71,7 +73,7 @@
     <entry lang="de" key="IDC_SYS_DEVICE">Systempartition bzw. Systemlaufwerk verschlüsseln</entry>
     <entry lang="de" key="IDC_SYS_PARTITION">Die Windows-Systempartition verschlüsseln</entry>
     <entry lang="de" key="IDC_WHOLE_SYS_DRIVE">Gesamtes Laufwerk verschlüsseln</entry>
-    <entry lang="de" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt Assistent</entry>
+    <entry lang="de" key="IDD_VOL_CREATION_WIZARD_DLG">Assistent zum Erstellen eines VeraCrypt-Volumes</entry>
     <entry lang="de" key="IDT_CLUSTER">Cluster </entry>
     <entry lang="de" key="IDT_COLLECTING_RANDOM_DATA_NOTE">WICHTIG: Bewegen Sie den Mauszeiger in diesem Fenster mindestens 30 Sekunden zufällig hin und her. Je länger Sie die Maus bewegen, desto besser ist die Verschlüsselung. Klicken Sie dann auf „Weiter“, um fortzufahren.</entry>
     <entry lang="de" key="IDT_CONFIRM">&amp;Bestätigung:</entry>
@@ -97,7 +99,7 @@
     <entry lang="de" key="IDT_SINGLE_BOOT">Diese Option wählen, wenn sich nur ein Betriebssystem auf dem Computer befindet (auch bei mehreren Benutzern).</entry>
     <entry lang="de" key="IDT_SPEED">Geschw.</entry>
     <entry lang="de" key="IDT_STATUS">Status</entry>
-    <entry lang="de" key="IDT_SYSENC_KEYS_GEN_INFO">Die Schlüssel, der Salt-Wert und andere Daten wurden erfolgreich erstellt. Wenn Sie neue Schlüssel erstellen möchten, klicken Sie auf „Zurück“ und dann auf „Weiter“. Andernfalls klicken Sie auf „Weiter“.</entry>
+    <entry lang="de" key="IDT_SYSENC_KEYS_GEN_INFO">Die Schlüssel, der Salt-Wert und andere Daten wurden erfolgreich erstellt. Wenn Sie neue Schlüssel erstellen möchten, klicken Sie auf „Zurück“ und dann auf „Weiter“. Ansonsten klicken Sie auf „Weiter“.</entry>
     <entry lang="de" key="IDT_SYS_DEVICE">Partition/Laufwerk verschlüsseln, auf dem Windows installiert ist. Jeder, der Zugang zum System erlangen möchte, muss das korrekte Passwort bei jedem Start von Windows eingeben. Eine Alternative dazu ist das Erstellen eines versteckten Systems.</entry>
     <entry lang="de" key="IDT_SYS_PARTITION">Die Partition verschlüsseln, auf der das derzeit laufende Windows installiert ist.</entry>
     <entry lang="de" key="IDT_VOLUME_LABEL">Volume-Bezeichnung in Windows:</entry>
@@ -489,7 +491,7 @@
     <entry lang="de" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">Die gesamte ausgewählte Partition und alle darauf gespeicherten Daten werden „in-place“ verschlüsselt. Wenn die Partition leer ist, dann sollten Sie die andere Option wählen (das Volume wird dann viel schneller erstellt).</entry>
     <entry lang="de" key="NOTE_BEGINNING">Hinweis: </entry>
     <entry lang="de" key="RESUME">&amp;Weiter</entry>
-    <entry lang="de" key="DEFER">&amp;Abbrechen</entry>
+    <entry lang="de" key="DEFER">&amp;Später</entry>
     <entry lang="de" key="START">&amp;Start</entry>
     <entry lang="de" key="CONTINUE">&amp;Fortsetzen</entry>
     <entry lang="de" key="FORMAT">&amp;Formatieren</entry>
@@ -1155,8 +1157,8 @@
     <entry lang="de" key="WINDOWS_BOOT_LOADER_HINTS">Wenn das aktuell ausgeführte Betriebssystem auf der Startpartition installiert ist, dann müssen Sie, nachdem Sie es verschlüsselt haben, immer das richtige Passwort eingeben, auch wenn Sie ein anderes unverschlüsseltes Windows-System starten möchten (da diese sich einen einzigen verschlüsselten Windows-Bootloader/Bootmanager teilen).\n\nWenn im Gegensatz dazu das derzeit laufende Betriebssystem nicht auf der Startpartition installiert ist (oder wenn der Windows-Bootloader/Bootmanager nicht von allen anderen Systemen verwendet wird), dann müssen Sie nicht das korrekte Passwort zum Starten der anderen unverschlüsselten Systeme eingeben, nachdem Sie dieses System verschlüsselt haben -- Sie müssen nur die Esc-Taste drücken, um das unverschlüsselte System zu starten (wenn es mehrere unverschlüsselte Systeme gibt, dann müssen Sie im VeraCrypt-Bootmanager wählen, welches der Systeme gestartet werden soll).\n(Hinweis: Normalerweise ist das erste installierte Windows-System auf der Startpartition installiert.)</entry>
     <entry lang="de" key="SYSENC_PRE_DRIVE_ANALYSIS_TITLE">Verschlüsselung des geschützten Bereichs des Hosts</entry>
     <entry lang="de" key="SYSENC_PRE_DRIVE_ANALYSIS_HELP">Am Ende vieler Laufwerke gibt es einen Bereich, der normalerweise vom Betriebssystem versteckt wird (solche Bereiche werden als host-geschützte Bereiche bezeichnet). Allerdings können manche Programme von/auf solche(n) Bereiche(n) lesen und schreiben.\n\nWARNUNG: Einige Computerhersteller verwenden möglicherweise solche Bereiche, um Werkzeuge und Daten für RAID, Systemwiederherstellung, Systeminstallation, Diagnose oder andere Zwecke zu speichern. Wenn solche Tools oder Daten vor dem Starten zugänglich sein müssen, dann sollte der versteckte Bereich nicht verschlüsselt werden (wählen Sie oben „Nein“).\n\nMöchten Sie, dass VeraCrypt einen solchen Bereich (falls vorhanden) am Ende des Systemlaufwerks ermittelt und verschlüsselt?</entry>
-    <entry lang="de" key="SYSENC_TYPE_PAGE_TITLE">Verschlüssel Windows Laufwerk (%c:)</entry>
-    <entry lang="de" key="SYSENC_NORMAL_TYPE_HELP">Wählen Sie diese Option, wenn Sie lediglich die Systempartition oder das gesamte Systemlaufwerk verschlüsseln möchten.</entry>
+    <entry lang="de" key="SYSENC_TYPE_PAGE_TITLE">Art der Systemverschlüsselung</entry>
+    <entry lang="de" key="SYSENC_NORMAL_TYPE_HELP">Nur die Systempartition oder das gesamte Systemlaufwerk verschlüsseln.</entry>
     <entry lang="de" key="SYSENC_HIDDEN_TYPE_HELP">Es kann vorkommen, dass Sie gezwungen werden, das Betriebssystem zu entschlüsseln. Es gibt viele Situationen (z. B. Erpressung), in denen Sie sich nicht weigern können. Bei Auswahl dieser Option erstellen Sie ein verstecktes Betriebssystem, dessen Existenz unmöglich zu beweisen sein sollte (wenn gewisse Richtlinien eingehalten werden). Daher müssen Sie das versteckte Betriebssystem nicht entschlüsseln oder das Passwort dafür herausgeben.</entry>
     <entry lang="de" key="HIDDEN_OS_PREINFO">Es kann vorkommen, dass Sie gezwungen werden, das Betriebssystem zu entschlüsseln. Es gibt viele Situationen (z. B. Erpressung), in denen Sie sich nicht weigern können, das Passwort herauszugeben.\n\nMit diesem Assistenten können Sie ein verstecktes Betriebssystem erstellen, dessen Existenz unmöglich zu beweisen ist (wenn bestimmte Richtlinien eingehalten werden). Daher müssen Sie das versteckte Betriebssystem nicht entschlüsseln oder das Passwort dafür herausgeben.</entry>
     <entry lang="de" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">Verstecktes Betriebssystem</entry>
@@ -1184,9 +1186,9 @@
     <entry lang="de" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">Vorgehensweise, wenn Windows nicht startet\n------------------------------------------------\n\nHinweis: Diese Anweisungen gelten nur, wenn Sie den Verschlüsselungsprozess noch nicht begonnen haben.\n\n- Wenn Windows nicht startet, nachdem Sie das korrekte Passwort eingegeben haben (oder wenn Sie wiederholt das korrekte Passwort eingeben, aber VeraCrypt sagt, dass es falsch ist), bleiben Sie ruhig. Starten Sie den Computer neu (Strom ausschalten und wieder anschalten) und drücken Sie nach dem Erscheinen des VeraCrypt-Ladebildschirms die Esc-Taste (und wählen Sie eines zum Starten aus, falls Sie mehrere Systeme haben). Windows sollte dann starten (wenn es nicht verschlüsselt ist) und VeraCrypt wird automatisch fragen, ob Sie die Pre-Boot-Authentifikation deinstallieren möchten. Bitte beachten Sie, dass die genannten Schritte NICHT funktionieren, wenn die Systempartition/das Systemlaufwerk verschlüsselt ist. Es ist unmöglich, ein verschlüsseltes Windows zu starten oder auf verschlüsselte Daten zuzugreifen, ohne das korrekte Passwort einzugeben, auch wenn die vorherigen Schritte befolgt werden.\n\n</entry>
     <entry lang="de" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- Wenn die vorherigen Schritte nicht helfen oder der VeraCrypt-Ladebildschirm vor dem Start von Windows nicht erscheint, legen Sie den VeraCrypt-Rettungsdatenträger in Ihr CD/DVD-Laufwerk ein und starten Sie Ihren Computer neu. Wenn der VeraCrypt-Rettungsdatenträger-Bildschirm nicht erscheint (oder wenn „Repair Options“ nicht im Abschnitt „Keyboard Controls“ des VeraCrypt-Rettungsdatenträger-Bildschirms verfügbar ist), ist Ihr BIOS wahrscheinlich so konfiguriert, dass es zuerst von Festplatte und dann von CD startet. In diesem Fall müssen Sie den Computer neu starten und die F2-Taste oder Entf-Taste drücken (sobald Sie einen BIOS-Startbildschirm sehen), bis der BIOS-Einstellungsbildschirm erscheint. Stellen Sie Ihr BIOS so ein, dass es zuerst von CD/DVD bootet (für genauere Informationen lesen Sie bitte in der Bedienungsanleitung Ihres BIOS/Motherboards nach oder kontaktieren Sie den Support Ihres Computerherstellers). Danach starten Sie Ihren Computer neu. Der VeraCrypt-Rettungsdatenträger-Bildschirm sollte jetzt erscheinen. Hier wählen Sie nun „Repair Options“, indem Sie die F8-Taste drücken. Aus dem Menü „Repair Options“ wählen Sie „Restore original system loader“. Entfernen Sie jetzt die Rettungs-CD aus dem CD/DVD-Laufwerk und starten Sie den Computer neu. Windows sollte jetzt normal starten (wenn es nicht verschlüsselt ist).\n\n</entry>
     <entry lang="de" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">Bitte beachten Sie, dass die genannten Schritte NICHT funktionieren, wenn die Systempartition/das Systemlaufwerk verschlüsselt ist. Es ist unmöglich, ein verschlüsseltes Windows zu starten oder auf verschlüsselte Daten zuzugreifen, ohne das korrekte Passwort einzugeben, auch wenn die vorherigen Schritte befolgt wurden.\n\n\nBitte beachten Sie, dass es einem Angreifer unmöglich sein wird, die Systempartition ohne das korrekte Passwort zu entschlüsseln, selbst wenn er den VeraCrypt-Rettungsdatenträger findet.</entry>
-    <entry lang="de" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">Vortest erfolgreich abgeschlossen</entry>
-    <entry lang="de" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">Wenn die Verschlüsselung unterbrochen wird, können Sie sie wieder aufnehmen, indem Sie VeraCrypt neu starten und 'System' > 'Unterbrochenen Prozess fortsetzen' wählen. Bitte stellen Sie sicher, dass Ihr Gerät während des Verschlüsselungsprozesses aufgeladen ist.</entry>
-    <entry lang="de" key="SYSENC_ENCRYPTION_PAGE_INFO">Vergewissern Sie sich, dass Ihr Gerät aufgeladen ist.\nWenn die Verschlüsselung unterbrochen wurde, können Sie sie wieder aufnehmen, indem Sie VeraCrypt neu starten und 'System' > 'Unterbrochenen Prozess fortsetzen' wählen.</entry>
+    <entry lang="de" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">Vortest abgeschlossen</entry>
+    <entry lang="de" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">Der Vortest wurde erfolgreich abgeschlossen.\n\nWARNUNG: Wenn die Stromversorgung plötzlich unterbrochen wird, während vorhandene Daten „in-place“ verschlüsselt werden, oder wenn das Betriebssystem wegen eines Software- oder Hardwarefehlers abstürzt, während VeraCrypt vorhandene Daten „in-place“ verschlüsselt, dann werden Daten beschädigt oder gehen verloren. Stellen Sie daher bitte sicher, dass Sie Sicherungskopien von den Dateien haben, die Sie verschlüsseln möchten, bevor Sie mit dem Verschlüsseln beginnen. Wenn dies nicht der Fall ist, dann sichern Sie Ihre Dateien jetzt. Sie können auf „Später“ klicken, um die Dateien zu sichern, VeraCrypt jederzeit wieder starten und „System“ &gt; „Unterbrochenen Prozess fortsetzen“ wählen, um die Verschlüsselung zu starten).\n\nWenn Sie fertig sind, klicken Sie auf „Verschlüsseln“, um zu beginnen.</entry>
+    <entry lang="de" key="SYSENC_ENCRYPTION_PAGE_INFO">Sie können jederzeit „Pause“ oder „Später“ klicken, um den Ver- oder Entschlüsselungsprozess anzuhalten, diesen Assistenten verlassen, den Computer neu starten oder herunterfahren und den Prozess dann vom pausierten Punkt wieder aufnehmen. Um ein Verlangsamen des Computers zu verhindern, wenn das System oder ein Programm auf das Systemlaufwerk zugreifen, wartet VeraCrypt automatisch, bis die Daten geschrieben oder gelesen wurden (siehe Status oben), und fährt dann automatisch fort.</entry>
     <entry lang="de" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\nSie können jederzeit „Pause“ oder „Später“ klicken, um den Verschlüsselungsprozess zu unterbrechen, diesen Assistenten verlassen, den Computer neu starten oder herunterfahren und dann den Prozess wieder fortsetzen. Beachten Sie, dass das Volume nicht eingehängt werden kann, bis es vollständig verschlüsselt wurde.</entry>
     <entry lang="de" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\nSie können jederzeit „Pause“ oder „Später“ klicken, um den Entschlüsselungsprozess zu unterbrechen, diesen Assistenten verlassen, den Computer neu starten oder herunterfahren und dann den Prozess wieder fortsetzen. Es wird an dem Punkt fortgesetzt, an dem Sie gestoppt haben. Bitte beachten Sie, dass das Volume nicht eingehängt werden kann, bis es vollständig entschlüsselt wurde.</entry>
     <entry lang="de" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">Verstecktes System gestartet</entry>
@@ -1401,7 +1403,7 @@
     <entry lang="de" key="TIME">Zeit</entry>
     <entry lang="de" key="ITERATIONS">Iterationen</entry>
     <entry lang="de" key="PRE-BOOT">Pre-Boot</entry>
-    <entry lang="de" key="RESCUE_DISK_EFI_INFO">\n\nWenn Windows beschädigt wird und nicht mehr startet, können Sie mit dem VeraCrypt Rettungsdatenträger die Partition dauerhaft entschlüsseln. Bitte beachten Sie, dass Sie trotzdem das korrekte Passwort eingeben müssen.\n\n\nWARNUNG: Wenn Sie in der Vergangenheit bereits einen Rettungsdatenträger erstellt haben können Sie ihn nicht für diese Verschlüsselung verwenden! Jedes mal, wenn Sie Ihr Laufwerk verschlüsseln müssen Sie einen neuen Rettungsdatenträger erstellen und sicher aufbewahren. Dies gilt auch, wenn Sie das gleiche Passwort verwenden.</entry>
+    <entry lang="de" key="RESCUE_DISK_EFI_INFO">Bevor Sie die Partition verschlüsseln können, müssen Sie einen VeraCrypt-Rettungsdatenträger (VRD) erstellen, der zu folgenden Zwecken dient:\n\n- Wenn der VeraCrypt-Bootloader, Hauptschlüssel oder andere kritische Daten beschädigt werden, ermöglicht der VRD Ihnen, sie wiederherzustellen (beachten Sie jedoch, dass Sie immer noch das richtige Passwort eingeben müssen).\n\n- Wenn Windows beschädigt wird und nicht gestartet werden kann, ermöglicht der VRD Ihnen, die Partition dauerhaft zu entschlüsseln, bevor Windows gestartet wird.\n\n- Der VRD wird eine Sicherung des derzeitigen EFI-Bootloaders enthalten und ermöglicht es Ihnen, ihn bei Bedarf wiederherzustellen.\n\nDas VeraCrypt-Rettungsdatenträger-ZIP-Abbild wird in der unten angegebenen Adresse erstellt.</entry>
     <entry lang="de" key="RESCUE_DISK_EFI_EXTRACT_INFO">Das Rettungsdatenträger-ZIP-Abbild wurde erstellt und in dieser Datei gespeichert:\n%s\n\nJetzt müssen Sie es auf einen mit FAT-/FAT32-formatierten USB-Stick entpacken.\n\n%lsNachdem Sie den Rettungsdatenträger erstellt haben, klicken Sie auf „Weiter“, um zu bestätigen, dass er korrekt erstellt wurde.</entry>
     <entry lang="de" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">Das Rettungsdatenträger-ZIP-Abbild wurde erstellt und in dieser Datei gespeichert\n%s\n\nJetzt sollten Sie es entweder auf einen mit FAT-/FAT32-formatierten USB-Stick entpacken oder an einen sicheren Ort für die spätere Verwendung verschieben.\n\n%ls„Weiter“ klicken, um fortzufahren.</entry>
     <entry lang="de" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">WICHTIG: Beachten Sie, dass die ZIP-Datei direkt in das Stammverzeichnis des USB-Sticks entpackt werden muss. Zum Beispiel, wenn der Laufwerksbuchstabe des USB-Sticks E: ist, sollte das Entpacken der ZIP-Datei einen Ordner E:\\EFI auf dem USB-Stick erstellen.\n\n</entry>
@@ -1568,54 +1570,7 @@
     <entry lang="de" key="VOLUME_HOST_IN_USE">WARNUNG: Die Datei/das Laufwerk {0} ist bereits in Verwendung!\n\nWenn Sie diese Warnung ignorieren, können nicht vorhersehbare Probleme einschließlich Systemabstürze auftreten. Alle Programme, die die Datei/das Laufwerk verwenden (z. B. Virenscanner oder Backup-Software), sollten geschlossen werden, bevor das Volume eingehängt wird.\n\nTrotzdem fortfahren?</entry>
     <entry lang="de" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt wurde zuvor mit einem MSI-Paket installiert und kann daher nicht mit dem Standard-Installationsprogramm aktualisiert werden.\n\nBitte verwenden Sie das MSI-Paket, um Ihre VeraCrypt-Installation zu aktualisieren.</entry>
     <entry lang="de" key="IDC_USE_ALL_FREE_SPACE">Gesamten verfügbaren freien Speicherplatz nutzen</entry>
-    <entry lang="de" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt kann nicht aktualisiert werden, weil die Systempartition/das Laufwerk mit einem Algorithmus verschlüsselt wurde, der nicht mehr unterstützt wird.\nBitte entschlüsseln Sie Ihr System vor dem Upgrade von VeraCrypt und verschlüsseln Sie es dann erneut.</entry>
-    <entry lang="de" key="RESCUE_DISK_BACK_BUTTON">Der Rettungsdatenträger wurde bereits mit den gewählten Optionen erstellt. Um Inkompatibilitäten zu vermeiden, müssen Sie auf "Abbrechen" klicken und den Systemverschlüsselungsprozess neu starten, wenn Sie eine Konfiguration ändern möchten.</entry>
-    <entry lang="de" key="AES_BOX_HELP">Laut dem National Institute of Standards and Technology (NIST) ist AES sicher</entry>
-	  <entry lang="de" key="BACKUP_RESCUE_DISK_TITLE">Sicherung des Rettungsdatenträgers</entry>
-    <entry lang="de" key="RESCUE_DISK_CHECKLIST_A">Bewahren Sie Ihr Passwort an einem sicheren Ort auf. Ohne Ihr Passwort können Sie Ihre Daten nicht wiederherstellen.\nDeshalb gilt VeraCrypt als sicher.</entry>
-    <entry lang="de" key="RESCUE_DISK_CHECKLIST_B">Stellen Sie sicher, dass die Rettungsdatei auf einem externen Medium gespeichert ist. Dies kann ein Flash-Laufwerk, eine externe Festplatte oder sogar ein Cloud-Speicher sein.\nDie Rettungsdatei befindet sich hier:</entry>
-    <entry lang="de" key="RESCUE_DISK_CHECKLIST_C">Bevor Sie mit der Verschlüsselung Ihres Systems beginnen, ist es immer eine gute Idee, Ihre persönlichen Daten auf einem externen Laufwerk zu sichern, für den unwahrscheinlichen Fall, dass der Verschlüsselungsprozess fehlschlägt.</entry>
-    <entry lang="de" key="RESCUE_DISK_INFO_2">Das VeraCrypt Rettungs-ZIP-Image wird erstellt, indem Sie auf die Schaltfläche Next (Weiter) an dem unten angegebenen Ort klicken.</entry>
-    <entry lang="de" key="REMEMBER_PASSWORD"> Ich erinnere mich an mein Passwort</entry>
-    <entry lang="de" key="STORE_RESCUE_DISK"> Ich habe meine Rettungsdatei gespeichert</entry>
-    <entry lang="de" key="BACKUP_DATA"> Ich habe darüber nachgedacht, ein Backup meiner persönlichen Daten zu machen.</entry>
-    <entry lang="de" key="CHECKLIST_TITLE">Checkliste - Bevor Sie auf 'Weiter' klicken</entry>
-    <entry lang="de" key="SYS_ENCRYPTION_PRETEST_INFO">Es müssen nun einige Tests durchgeführt werden, um zu überprüfen, ob alles korrekt funktioniert.\n\nFür diese Tests muss Ihr Computer neu gestartet werden. Dann müssen Sie Ihr Passwort in den VeraCrypt Boot Loader Bildschirm eingeben, der vor dem Start von Windows erscheint. Nach dem Start von Windows wird VeraCrypt automatisch gestartet und Sie werden über das Ergebnis dieses Vortests informiert.\n\n\nDas folgende Gerät wird geändert: Laufwerk %c:</entry>
-    <entry lang="de" key="SYSENC_DECRYPTION_PAGE_INFO">Vergewissern Sie sich, dass Ihr Gerät aufgeladen ist.\nWenn die Verschlüsselung unterbrochen wurde, können Sie sie wieder aufnehmen, indem Sie VeraCrypt neu starten und 'System' > 'Unterbrochenen Prozess fortsetzen' wählen.</entry>
-    <entry lang="de" key="ADVANCED_FEATURES">Erweiterte Funktionen</entry>
-    <entry lang="de" key="VERY_WEAK_PASSWORD">sehr schwach</entry>
-    <entry lang="de" key="WEAK_PASSWORD">schwach</entry>
-    <entry lang="de" key="MEDIUM_PASSWORD">medium</entry>
-    <entry lang="de" key="STRONG_PASSWORD">stark</entry>
-    <entry lang="de" key="VERY_STRONG_PASSWORD">sehr stark</entry>
-    <entry lang="de" key="IDT_PASSWORD_STRENGTH">Passwordstärke:</entry>
-    <entry lang="de" key="PASSWORD_HELP_SYSENC">Sie sollten darüber nachdenken das Passwort an einem sicheren Ort zu notieren. </entry>
-    <entry lang="de" key="AES_HELP_NEW">AES ist nach Ansicht des National Institute of Standards and Technology (NIST) und der Datenschutz- und Sicherheitsforschungsgemeinschaft sicher.</entry>
-    <entry lang="de" key="SHA512_HELP">SHA-512 ist nach Angaben des National Institute of Standards and Technology (NIST) und der Datenschutz- und Sicherheitsforschungsgemeinschaft sicher.</entry>
-    <entry lang="de" key="CHOOSE_PASSWORD_TITLE">Passwort wählen</entry>
-    <entry lang="de" key="TRANSLATED_PWD_NOT_WRITTEN">Warnung: Beim Schreiben des übersetzten Passworts ist ein Fehler aufgetreten! Bitte versuchen Sie es erneut. Wenn dieser Fehler erneut auftritt, ändern Sie das Tastaturlayout manuell in das US-Tastaturlayout.</entry>
-    <entry lang="de" key="ERROR_TRANSLATE_PWD">Warnung: Beim Übersetzen des Passworts ist ein Fehler aufgetreten!\nBitte geben Sie das Passwort erneut ein und versuchen Sie es. Wenn dieser Fehler erneut auftritt, schalten Sie das Tastaturlayout manuell auf das US-Tastaturlayout um.</entry>
-    <entry lang="de" key="ERROR_KEYB_LAYOUT_NOT_LOADED">Ihr System unterstützt nicht das Standard-US-Keyboard-Layout. Bitte stellen Sie sicher, dass das Layout verfügbar ist. Für weitere Hilfe besuchen Sie bitte: https://support.microsoft.com/en-us/windows/manage-the-input-and-display-language-settings-in-windows-10-12a10cb4-8626-9b77-0ccb-5013e0c7c7a2 </entry>  
-    <entry lang="de" key="ERROR_PASTE_ACTION">Das Einfügen von Text ist deaktiviert. Bitte geben Sie Ihr Passwort ein.</entry>
-    <entry lang="de" key="WARNING_PASSWORD_NOT_IDENTICAL">Passwörter sind nicht identisch! Bitte geben Sie in beide Felder identische Passwörter ein!</entry>
-    <entry lang="de" key="SYSENC_INFO">Dieser Assistent hilft Ihnen, Ihr Laufwerk (%c:) zu verschlüsseln</entry>
-    <entry lang="de" key="SYSENC_INFO_2">Ein Windows-Kennwort kann von böswilligen Personen, die physischen Zugang zu Ihrem Gerät haben, leicht umgangen werden. Laufwerksverschlüsselung hilft, Ihre Daten vor dem Zugriff böswilligen Akteuren zu schützen. VeraCrypt Laufwerksverschlüsselung hält sie fern, indem es Ihre Daten mit einem zusätzlichen Passwort schützt. </entry>
-    <entry lang="de" key="ADV_FEATURES_INTRO_TOOLTIP">Aktivieren Sie hier das versteckte Betriebssystem.</entry>
-    <entry lang="de" key="ADV_FEATURES_NOTE">Die meisten Experten sind sich einig, dass die folgenden vorgewählten Optionen sicher sind. Ändern Sie sie nur, wenn Sie wissen, was Sie tun. </entry>
-    <entry lang="de" key="PIM_INFO">Mit dem persönlichen Iterationsmultiplikator (PIM) können Sie die Anzahl der Passwort-Hash-Wiederholungen festlegen. Dies bietet mehr Flexibilität bei der Anpassung der gewünschten Sicherheitsstufe und steuert gleichzeitig die Geschwindigkeit des Einhänge-/Bootvorgangs.</entry>
-    <entry lang="de" key="WIPE_INFO">Überschreibt Ihre Daten vor der Verschlüsselung. Dies verhindert eine mögliche Datenwiederherstellung. Das Löschen ist unter normalen Umständen nicht erforderlich.</entry>
-    <entry lang="de" key="PRETEST_INFO">Vor der Verschlüsselung prüft VeraCrypt, ob alles richtig funktioniert. \n\nVeraCrypt führt einige Tests durch, startet Ihren Computer neu und Sie müssen Ihr Passwort eingeben, bevor Windows startet.</entry>
-    <entry lang="de" key="PRETEST_CANCEL">Wenn Sie jetzt auf Abbrechen klicken, werden keine Änderungen an Ihrem System vorgenommen.</entry>
-    <entry lang="de" key="ERROR_GETTING_PATH">Beim Abrufen des Pfads zur ausführbaren Datei ist ein Fehler aufgetreten.</entry>
-    <entry lang="de" key="ERROR_GETTING_PWD">Beim Abrufen des Passworts ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</entry>
-    <entry lang="de" key="ERROR_GETTING_KEYB_STATE">Beim Abrufen des Tastaturstatus ist ein Fehler aufgetreten.</entry>
-    <entry lang="de" key="ERR_NO_TRANSLATION">Für die Taste, die Sie gedrückt haben, gibt es keine Übersetzung!</entry>
-    <entry lang="de" key="DEAD_KEY_SUPPORT">Tote Tasten reproduzieren in diesem Fall keine toten Zeichen, da Ihr Passwort in das US-Tastaturlayout übersetzt werden muss, damit Sie Ihr Passwort in der Pre-Boot-Umgebung eingeben können.</entry>
-    <entry lang="de" key="PRETEST_CHECKBOX"> Ich habe dafür gesorgt, dass meinem Gerät während des Verschlüsselungsvorgangs nicht der Strom ausgeht.</entry>
-    <entry lang="de" key="OPEN_PATH_CHECKLIST_PAGE">Pfad öffnen</entry>
-    <entry lang="de" key="RESCUE_DISK_PATH">Pfad des Rettungsdatenträgers</entry>
-    <entry lang="de" key="PRETEST_BACK_BUTTON">Wenn Sie den Verschlüsselungsassistenten abbrechen möchten, klicken Sie bitte auf Abbrechen. In diesem Fall werden keine Änderungen an Ihrem Computer vorgenommen.</entry>
-    <entry lang="de" key="WIPE_WARNING">Der Löschvorgang kann sehr lange dauern (bis zu Stunden). Das Löschen wird nicht empfohlen, wenn Sie ein SSD-Laufwerk haben.</entry>
+	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
