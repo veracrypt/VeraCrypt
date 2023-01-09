@@ -15268,7 +15268,7 @@ void PasswordEditDropTarget::GotLeave(void)
 DWORD PasswordEditDropTarget::GotEnter(void)
 {
 	TCHAR szClassName[64];
-	DWORD dwStyles;
+	LONG_PTR dwStyles;
 	int maxLen;
 	HWND hChild = WindowFromPoint (m_DropPoint);
 	// check that we are on password edit control (we use maximum length to correctly identify password fields since they don't always have ES_PASSWORD style (if the the user checked show password)
