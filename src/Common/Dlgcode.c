@@ -14553,10 +14553,14 @@ static bool RunAsDesktopUser(
 			goto cleanup;
 		}
 
-		AdjustTokenPrivileges(hThreadToken, FALSE, &tkp, 0, NULL, NULL);
-		dwLastErr = GetLastError();
-		if (ERROR_SUCCESS != dwLastErr)
+		if (!AdjustTokenPrivileges(hThreadToken, FALSE, &tkp, 0, NULL, NULL))
 		{
+			dwLastErr = GetLastError();
+			goto cleanup;
+		}
+		if (GetLastError() == ERROR_NOT_ALL_ASSIGNED)
+		{
+			dwLastErr = ERROR_NOT_ALL_ASSIGNED;
 			goto cleanup;
 		}
 	}
