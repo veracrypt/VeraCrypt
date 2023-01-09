@@ -14639,7 +14639,7 @@ cleanup:
 	if (hThreadToken) CloseHandle(hThreadToken);
 
 	if (!RevertToSelf())
-	return false;
+		return false;
 
 	if (!retval)
 		SetLastError (dwLastErr);
