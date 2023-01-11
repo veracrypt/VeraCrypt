@@ -15,27 +15,36 @@
 
 namespace VeraCrypt {
 
-    struct EMVTokenPath
+    struct EMVTokenKeyfilePath
 	{
-		EMVTokenPath () { }
-		EMVTokenPath (const wstring &path) : Path (path) { }
+		EMVTokenKeyfilePath () { }
+		EMVTokenKeyfilePath (const wstring &path) : Path (path) { }
 		operator wstring () const { return Path; }
-		wstring Path;
+		wstring Path;	//Complete path
 	};
 
-	struct EMVTokenInfo
+	struct EMVTokenKeyfileInfo
 	{
-		EMVTokenInfo () : SlotId(~0UL) {}
-		EMVTokenInfo (const EMVTokenPath &path);
+		unsigned long SlotId;	//Card reader slotId
+		wstring Label ;	//Card name
+	};
 
-		operator EMVTokenPath () const;
+	struct EMVTokenKeyfile
+	{
+		EMVTokenKeyfile () : SlotId(~0UL) {}
+		EMVTokenKeyfile (const EMVTokenKeyfilePath &path);
 
-		unsigned long SlotId;
+		operator EMVTokenKeyfilePath () const;
+
+		static const wstring Id;	//File name = "emv" for every EMV keyfile
+		string IdUtf8;	// ??
+		unsigned long SlotId;	//Card reader slotId
+		EMVTokenKeyfileInfo Token;	//Token infos
 	};
 
     class EMVToken {
         public:
-            static void GetKeyfileData (const EMVTokenInfo &keyfile, vector <byte> &keyfileData);
+            static void GetKeyfileData (const EMVTokenKeyfile &keyfile, vector <byte> &keyfileData);
             static bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath);
 
     };

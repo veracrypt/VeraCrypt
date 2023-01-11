@@ -23,31 +23,42 @@ using namespace std;
 
 namespace VeraCrypt
 {
-    EMVTokenInfo::EMVTokenInfo(const EMVTokenPath &path)
+
+	const wstring EMVTokenKeyfile::Id = L"emv";
+
+	EMVTokenKeyfile::EMVTokenKeyfile (const EMVTokenKeyfilePath &path)
+	{
+		wstring pathStr = path;
+		unsigned long slotId;
+
+		if (swscanf (pathStr.c_str(), TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/%lu", &slotId) != 1)
+			throw nullptr; //InvalidSecurityTokenKeyfilePath(); TODO Create similar error
+
+		SlotId = slotId;
+		/* TODO : Make a similar thing to get an EMVTokenKeyfile token.Label filled with the card number
+		Need : EMVToken::GetAvailableKeyfiles(unsined long *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring("emv"))
+		returning a vector of EMVTokenKeyfile matching the filters
+
+		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles (&SlotId, Id);
+
+		if (keyfiles.empty())
+			throw SecurityTokenKeyfileNotFound();
+
+		*this = keyfiles.front();*/
+	}
+
+	EMVTokenKeyfile::operator EMVTokenKeyfilePath () const
+	{
+		wstringstream path;
+		path << TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId;
+		return path.str();
+	}
+
+    void EMVToken::GetKeyfileData(const EMVTokenKeyfile &keyfile, vector<byte> &keyfileData)
     {
-        wstring pathStr = path;
-        unsigned long slotId;
-
-        if (swscanf(pathStr.c_str(), TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/%lu", &slotId) != 1)
-            throw nullptr; // InvalidSecurityTokenKeyfilePath();
-
-        SlotId = slotId;
-    }
-
-    EMVTokenInfo::operator EMVTokenPath() const
-    {
-        wstringstream path;
-        path << TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId;
-        return path.str();
-    }
-
-    void EMVToken::GetKeyfileData(const EMVTokenInfo &keyfile, vector<byte> &keyfileData)
-    {
-        // TODO: Add EMV card data inside the vector of bytes keyfileData
+        // Add EMV card data inside the vector of bytes keyfileData
         // (note: the vector already exists, so we can simply do keyfileData.push_back(a_byte) )
         // The variable keyfile contains the card id, accessible by reading keyfile.SlotID
-
-
 
         std::cerr << "EstablishRSContext" << std::endl;
         EstablishRSContext();
