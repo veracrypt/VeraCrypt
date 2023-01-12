@@ -53,9 +53,11 @@
 #define TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"slot"
 #define TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"file"
 
+#include "Token.h"
+
 namespace VeraCrypt
 {
-	struct SecurityTokenInfo
+	struct SecurityTokenInfo : TokenInfo
 	{
 		CK_SLOT_ID SlotId;
 		CK_FLAGS Flags;
@@ -63,7 +65,7 @@ namespace VeraCrypt
 		string LabelUtf8;
 	};
 
-	struct SecurityTokenKeyfilePath
+	struct SecurityTokenKeyfilePath : TokenKeyfilePath
 	{
 		SecurityTokenKeyfilePath () { }
 		SecurityTokenKeyfilePath (const wstring &path) : Path (path) { }
@@ -71,12 +73,15 @@ namespace VeraCrypt
 		wstring Path;
 	};
 
-	struct SecurityTokenKeyfile
+	struct SecurityTokenKeyfile : TokenKeyfile
 	{
 		SecurityTokenKeyfile () : Handle(CK_INVALID_HANDLE), SlotId(CK_UNAVAILABLE_INFORMATION) { Token.SlotId = CK_UNAVAILABLE_INFORMATION; Token.Flags = 0; }
 		SecurityTokenKeyfile (const SecurityTokenKeyfilePath &path);
 
-		operator SecurityTokenKeyfilePath () const;
+        //to remove when TokenKeyfile will be used
+        operator SecurityTokenKeyfilePath () const;
+
+        operator TokenKeyfilePath () const;
 
 		CK_OBJECT_HANDLE Handle;
 		wstring Id;

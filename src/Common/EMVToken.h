@@ -16,9 +16,11 @@
 #	include "Platform/Exception.h"
 #endif
 
+#include "Token.h"
+
 namespace VeraCrypt {
 
-    struct EMVTokenKeyfilePath
+    struct EMVTokenKeyfilePath : TokenKeyfilePath
 	{
 		EMVTokenKeyfilePath () { }
 		EMVTokenKeyfilePath (const wstring &path) : Path (path) { }
@@ -26,18 +28,18 @@ namespace VeraCrypt {
 		wstring Path;	//Complete path
 	};
 
-	struct EMVTokenKeyfileInfo
+	struct EMVTokenKeyfileInfo : TokenInfo
 	{
 		unsigned long SlotId;	//Card reader slotId
 		wstring Label ;	//Card name
 	};
 
-	struct EMVTokenKeyfile
+	struct EMVTokenKeyfile : TokenKeyfile
 	{
 		EMVTokenKeyfile () : SlotId(UNAVAILABLE_SLOT) {}
 		EMVTokenKeyfile (const EMVTokenKeyfilePath &path);
 
-		operator EMVTokenKeyfilePath () const;
+		virtual operator TokenKeyfilePath () const;
 
 		static const wstring Id;	// File name = "emv" for every EMV keyfile
 		string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
@@ -49,6 +51,7 @@ namespace VeraCrypt {
         public:
             static void GetKeyfileData (const EMVTokenKeyfile &keyfile, vector <byte> &keyfileData);
             static bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath);
+            static vector <EMVTokenKeyfile> GetAvailableKeyfiles ();
 
     };
 }

@@ -47,7 +47,7 @@ namespace VeraCrypt
 		*this = keyfiles.front();*/
 	}
 
-	EMVTokenKeyfile::operator EMVTokenKeyfilePath () const
+	EMVTokenKeyfile::operator TokenKeyfilePath () const
 	{
 		wstringstream path;
 		path << TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId;
@@ -94,6 +94,11 @@ namespace VeraCrypt
     bool EMVToken::IsKeyfilePathValid(const wstring &securityTokenKeyfilePath)
     {
         return securityTokenKeyfilePath.find(TC_EMV_TOKEN_KEYFILE_URL_PREFIX) == 0;
+    }
+
+    //todo
+    vector <EMVTokenKeyfile> GetAvailableKeyfiles (){
+        return vector <EMVTokenKeyfile>();
     }
 
 }

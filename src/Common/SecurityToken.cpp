@@ -60,12 +60,21 @@ namespace VeraCrypt
 		*this = keyfiles.front();
 	}
 
-	SecurityTokenKeyfile::operator SecurityTokenKeyfilePath () const
-	{
-		wstringstream path;
-		path << TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId << L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/" << Id;
-		return path.str();
-	}
+    //to be removed when TokenKeyfilePath will be used
+    SecurityTokenKeyfile::operator SecurityTokenKeyfilePath () const
+    {
+        wstringstream path;
+        path << TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId << L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/" << Id;
+        return path.str();
+    }
+
+
+    SecurityTokenKeyfile::operator TokenKeyfilePath () const
+    {
+        wstringstream path;
+        path << TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId << L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/" << Id;
+        return path.str();
+    }
 
 	void SecurityToken::CheckLibraryStatus ()
 	{

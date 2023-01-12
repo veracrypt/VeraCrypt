@@ -96,6 +96,7 @@ OBJS += ../Crypto/kuznyechik_simd.o
 
 OBJSNOOPT += ../Crypto/jitterentropy-base.o0
 
+OBJS += ../Common/Token.o
 OBJS += ../Common/Crc.o
 OBJS += ../Common/Tlv.o
 OBJS += ../Common/IccExtractor.o
