@@ -38,7 +38,12 @@ VI. Further Information
 I. Windows
 ==========
 
-A detailed guide on how to compile VeraCrypt on Windows can be found at: https://www.veracrypt.fr/en/CompilingGuidelineWin.html
+Requirements for Building VeraCrypt for Windows:
+------------------------------------------------
+
+A detailed guide on how to build VeraCrypt on Windows can be found in 
+the file doc/html/CompilingGuidelineWin.html. it is also available online
+at https://www.veracrypt.fr/en/CompilingGuidelineWin.html
 
 IMPORTANT:
 
@@ -87,7 +92,9 @@ For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 II. Linux and Mac OS X
 ======================
 
-A detailed guide on how to build a dev environment and on how to compile VeraCrypt on Linux can be found at: https://www.veracrypt.fr/en/CompilingGuidelineLinux.html
+A detailed guide on how to build VeraCrypt on Linux can be found in 
+the file doc/html/CompilingGuidelineLinux.html. it is also available online
+at https://www.veracrypt.fr/en/CompilingGuidelineLinux.html
 
 Requirements for Building VeraCrypt for Linux and Mac OS X:
 -----------------------------------------------------------
