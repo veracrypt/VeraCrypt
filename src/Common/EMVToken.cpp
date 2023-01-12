@@ -24,7 +24,7 @@ using namespace std;
 namespace VeraCrypt
 {
 
-	const wstring EMVTokenKeyfile::Id = L"emv";
+	const wstring EMVTokenKeyfile::Id = EMV_CARDS_LABEL;
 
 	EMVTokenKeyfile::EMVTokenKeyfile (const EMVTokenKeyfilePath &path)
 	{
@@ -36,7 +36,7 @@ namespace VeraCrypt
 
 		SlotId = slotId;
 		/* TODO : Make a similar thing to get an EMVTokenKeyfile token.Label filled with the card number
-		Need : EMVToken::GetAvailableKeyfiles(unsined long *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring("emv"))
+		Need : EMVToken::GetAvailableKeyfiles(unsined long *slotIdFilter = nullptr, const wstring keyfileIdFilter = EMV_CARDS_LABEL)
 		returning a vector of EMVTokenKeyfile matching the filters
 
 		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles (&SlotId, Id);

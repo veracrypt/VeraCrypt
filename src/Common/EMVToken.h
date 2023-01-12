@@ -6,6 +6,9 @@
 #define TC_EMV_TOKEN_KEYFILE_URL_PREFIX L"emv://"
 #define TC_EMV_TOKEN_KEYFILE_URL_SLOT L"slot"
 
+#define EMV_CARDS_LABEL L"emv"
+#define UNAVAILABLE_SLOT ~0UL
+
 #include "Platform/PlatformBase.h"
 #if defined (TC_WINDOWS) && !defined (TC_PROTOTYPE)
 #	include "Exception.h"
@@ -31,15 +34,15 @@ namespace VeraCrypt {
 
 	struct EMVTokenKeyfile
 	{
-		EMVTokenKeyfile () : SlotId(~0UL) {}
+		EMVTokenKeyfile () : SlotId(UNAVAILABLE_SLOT) {}
 		EMVTokenKeyfile (const EMVTokenKeyfilePath &path);
 
 		operator EMVTokenKeyfilePath () const;
 
-		static const wstring Id;	//File name = "emv" for every EMV keyfile
-		string IdUtf8;	// ??
-		unsigned long SlotId;	//Card reader slotId
-		EMVTokenKeyfileInfo Token;	//Token infos
+		static const wstring Id;	// File name = "emv" for every EMV keyfile
+		string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
+		unsigned long SlotId;	        // Card reader slotId, already in token, remove ?
+		EMVTokenKeyfileInfo Token;	// Token infos
 	};
 
     class EMVToken {
