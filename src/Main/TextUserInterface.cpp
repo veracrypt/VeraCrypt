@@ -648,7 +648,8 @@ namespace VeraCrypt
 		{
 			uint64 AvailableDiskSpace = 0;
 			wxLongLong diskSpace = 0;
-			if (wxGetDiskSpace (wxFileName (wstring (options->Path)).GetPath(), nullptr, &diskSpace))
+			if (!wxFileName (wstring (options->Path)).GetPath().IsEmpty() &&
+				wxGetDiskSpace (wxFileName (wstring (options->Path)).GetPath(), nullptr, &diskSpace))
 			{
 				AvailableDiskSpace = (uint64) diskSpace.GetValue ();
 				if (maxVolumeSize > AvailableDiskSpace)
