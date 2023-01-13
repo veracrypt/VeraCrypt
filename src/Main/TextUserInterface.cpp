@@ -175,9 +175,13 @@ namespace VeraCrypt
 		wxString msg = _("Enter new PIM: ");
 		if (!message.empty())
 			msg = message + L": ";
+		SetTerminalEcho (false);
+		finally_do ({ TextUserInterface::SetTerminalEcho (true); });
 		while (pim < 0)
 		{
 			wstring pimStr = AskString (msg);
+			ShowString (L"\n");
+
 			if (pimStr.empty())
 				pim = 0;
 			else
@@ -1290,7 +1294,7 @@ namespace VeraCrypt
 				options.Password = AskPassword (StringFormatter (_("Enter password for {0}"), wstring (*options.Path)));
 			}
 
-			if (!options.TrueCryptMode && (options.Pim < 0))
+			if (!options.TrueCryptMode /*&& (options.Pim < 0) re-ask in case of wrong value entered*/)
 			{
 				options.Pim = AskPim (StringFormatter (_("Enter PIM for {0}"), wstring (*options.Path)));
 			}
