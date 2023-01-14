@@ -24,37 +24,37 @@ using namespace std;
 namespace VeraCrypt
 {
 
-	const wstring EMVTokenKeyfile::Id = EMV_CARDS_LABEL;
+    const wstring EMVTokenKeyfile::Id = EMV_CARDS_LABEL;
 
-	EMVTokenKeyfile::EMVTokenKeyfile (const EMVTokenKeyfilePath &path)
-	{
-		wstring pathStr = path;
-		unsigned long slotId;
+    EMVTokenKeyfile::EMVTokenKeyfile(const EMVTokenKeyfilePath& path)
+    {
+        wstring pathStr = path;
+        unsigned long slotId;
 
-		if (swscanf (pathStr.c_str(), TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/%lu", &slotId) != 1)
-			throw nullptr; //InvalidSecurityTokenKeyfilePath(); TODO Create similar error
+        if (swscanf(pathStr.c_str(), TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/%lu", &slotId) != 1)
+            throw nullptr; //InvalidSecurityTokenKeyfilePath(); TODO Create similar error
 
-		SlotId = slotId;
-		/* TODO : Make a similar thing to get an EMVTokenKeyfile token.Label filled with the card number
-		Need : EMVToken::GetAvailableKeyfiles(unsined long *slotIdFilter = nullptr, const wstring keyfileIdFilter = EMV_CARDS_LABEL)
-		returning a vector of EMVTokenKeyfile matching the filters
+        SlotId = slotId;
+        /* TODO : Make a similar thing to get an EMVTokenKeyfile token.Label filled with the card number
+        Need : EMVToken::GetAvailableKeyfiles(unsined long *slotIdFilter = nullptr, const wstring keyfileIdFilter = EMV_CARDS_LABEL)
+        returning a vector of EMVTokenKeyfile matching the filters
 
-		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles (&SlotId, Id);
+        vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles (&SlotId, Id);
 
-		if (keyfiles.empty())
-			throw SecurityTokenKeyfileNotFound();
+        if (keyfiles.empty())
+            throw SecurityTokenKeyfileNotFound();
 
-		*this = keyfiles.front();*/
-	}
+        *this = keyfiles.front();*/
+    }
 
-	EMVTokenKeyfile::operator TokenKeyfilePath () const
-	{
-		wstringstream path;
-		path << TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId;
-		return path.str();
-	}
+    EMVTokenKeyfile::operator TokenKeyfilePath () const
+    {
+        wstringstream path;
+        path << TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId;
+        return path.str();
+    }
 
-    void EMVToken::GetKeyfileData(const EMVTokenKeyfile &keyfile, vector<byte> &keyfileData)
+    void EMVToken::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
     {
         // Add EMV card data inside the vector of bytes keyfileData
         // (note: the vector already exists, so we can simply do keyfileData.push_back(a_byte) )
@@ -77,7 +77,7 @@ namespace VeraCrypt
         }
 
         int ICC_DATA_SIZE = 0;
-        fprintf(stderr,"GettingAllCerts");
+        fprintf(stderr, "GettingAllCerts");
         GettingAllCerts(ICC_DATA, &ICC_DATA_SIZE);
 
         // we push the datas into the keyfileData vector
@@ -85,20 +85,20 @@ namespace VeraCrypt
         {
             keyfileData.push_back(ICC_DATA[i]);
         }
-        
+
         std::cerr << "FinishClean" << std::endl;
         FinishClean();
         std::cerr << "EMV Part DONE!!!" << std::endl;
     }
 
-    bool EMVToken::IsKeyfilePathValid(const wstring &securityTokenKeyfilePath)
+    bool EMVToken::IsKeyfilePathValid(const wstring& emvTokenKeyfilePath)
     {
-        return securityTokenKeyfilePath.find(TC_EMV_TOKEN_KEYFILE_URL_PREFIX) == 0;
+        return emvTokenKeyfilePath.find(TC_EMV_TOKEN_KEYFILE_URL_PREFIX) == 0;
     }
 
     //todo
-    vector <EMVTokenKeyfile> GetAvailableKeyfiles (){
-        return vector <EMVTokenKeyfile>();
+    vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles() {
+        return vector<EMVTokenKeyfile>();
     }
 
 }

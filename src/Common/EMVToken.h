@@ -20,40 +20,32 @@
 
 namespace VeraCrypt {
 
-    struct EMVTokenKeyfilePath : TokenKeyfilePath
+	struct EMVTokenKeyfilePath: TokenKeyfilePath
 	{
-		EMVTokenKeyfilePath () { }
-		EMVTokenKeyfilePath (const wstring &path) : Path (path) { }
-		operator wstring () const { return Path; }
-		wstring Path;	//Complete path
+		EMVTokenKeyfilePath(const wstring& path): TokenKeyfilePath(path) { }
 	};
 
-	struct EMVTokenKeyfileInfo : TokenInfo
+	struct EMVTokenKeyfileInfo: TokenInfo
 	{
-		unsigned long SlotId;	//Card reader slotId
-		wstring Label ;	//Card name
 	};
 
-	struct EMVTokenKeyfile : TokenKeyfile
+	struct EMVTokenKeyfile: TokenKeyfile
 	{
-		EMVTokenKeyfile () : SlotId(UNAVAILABLE_SLOT) {}
-		EMVTokenKeyfile (const EMVTokenKeyfilePath &path);
+		EMVTokenKeyfile(const EMVTokenKeyfilePath& path);
 
 		virtual operator TokenKeyfilePath () const;
 
 		static const wstring Id;	// File name = "emv" for every EMV keyfile
-		string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
-		unsigned long SlotId;	        // Card reader slotId, already in token, remove ?
 		EMVTokenKeyfileInfo Token;	// Token infos
 	};
 
-    class EMVToken {
-        public:
-            static void GetKeyfileData (const EMVTokenKeyfile &keyfile, vector <byte> &keyfileData);
-            static bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath);
-            static vector <EMVTokenKeyfile> GetAvailableKeyfiles ();
+	class EMVToken {
+	public:
+		static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
+		static bool IsKeyfilePathValid(const wstring& emvTokenKeyfilePath);
+		static vector<EMVTokenKeyfile> GetAvailableKeyfiles();
 
-    };
+	};
 }
 
 #endif
