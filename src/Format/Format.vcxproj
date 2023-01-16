@@ -500,6 +500,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <ClCompile Include="..\Common\EMVToken.cpp" />
     <ClCompile Include="..\Common\IccExtractor.c" />
     <ClCompile Include="..\Common\Tlv.c" />
+    <ClCompile Include="..\Common\Token.cpp" />
     <ClCompile Include="FormatCom.cpp" />
     <ClCompile Include="InPlace.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
@@ -593,6 +594,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Format.h" />
     <ClInclude Include="..\Common\IccExtractor.h" />
     <ClInclude Include="..\Common\Tlv.h" />
+    <ClInclude Include="..\Common\Token.h" />
     <ClInclude Include="FormatCom.h" />
     <ClInclude Include="..\Common\GfMul.h" />
     <ClInclude Include="InPlace.h" />

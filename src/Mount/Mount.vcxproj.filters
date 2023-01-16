@@ -117,6 +117,9 @@
     <ClCompile Include="..\Common\IccExtractor.c">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\Token.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MainCom.idl">
@@ -227,6 +230,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\IccExtractor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

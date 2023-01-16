@@ -7,7 +7,6 @@
 #define TC_EMV_TOKEN_KEYFILE_URL_SLOT L"slot"
 
 #define EMV_CARDS_LABEL L"emv"
-#define UNAVAILABLE_SLOT ~0UL
 
 #include "Platform/PlatformBase.h"
 #if defined (TC_WINDOWS) && !defined (TC_PROTOTYPE)

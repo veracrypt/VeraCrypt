@@ -13,6 +13,7 @@
 
 #include <string>
 
+#define UNAVAILABLE_SLOT ~0UL
 
 namespace VeraCrypt {
 

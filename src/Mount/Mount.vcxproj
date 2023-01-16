@@ -536,6 +536,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
     <ClCompile Include="..\Common\EMVToken.cpp" />
     <ClCompile Include="..\Common\IccExtractor.c" />
     <ClCompile Include="..\Common\Tlv.c" />
+    <ClCompile Include="..\Common\Token.cpp" />
     <ClCompile Include="..\Setup\SelfExtract.c" />
     <ClCompile Include="Favorites.cpp" />
     <ClCompile Include="Hotkeys.c" />
@@ -608,6 +609,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\EMVToken.h" />
     <ClInclude Include="..\Common\IccExtractor.h" />
     <ClInclude Include="..\Common\Tlv.h" />
+    <ClInclude Include="..\Common\Token.h" />
     <ClInclude Include="..\Common\Wipe.h" />
     <ClInclude Include="..\Common\Apidrvr.h" />
     <ClInclude Include="..\Common\BaseCom.h" />
