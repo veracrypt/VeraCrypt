@@ -250,7 +250,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		// Determine whether it's a security token path
 		try
 		{
-			if (SecurityToken::IsKeyfilePathValid (kf->FileName))
+			if (SecurityToken::IsKeyfilePathValid (kf->FileName))  // TODO Use Token
 			{
 				// Apply security token keyfile
 				vector <byte> keyfileData;
@@ -299,7 +299,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		// Determine whether it's an EMV token path
 		try
 		{
-			if (EMVToken::IsKeyfilePathValid (kf->FileName))
+			if (EMVToken::IsKeyfilePathValid (kf->FileName))  // TODO Use Token
 			{
 				// Apply EMV token keyfile
 				vector <byte> keyfileData;
