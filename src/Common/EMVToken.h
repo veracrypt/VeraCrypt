@@ -24,7 +24,7 @@ namespace VeraCrypt {
 		EMVTokenKeyfilePath(const wstring& path): TokenKeyfilePath(path) { }
 	};
 
-	struct EMVTokenKeyfileInfo: TokenInfo
+	struct EMVTokenInfo: TokenInfo
 	{
 	};
 
@@ -35,7 +35,7 @@ namespace VeraCrypt {
 		virtual operator TokenKeyfilePath () const;
 
 		static const wstring Id;	// File name = "emv" for every EMV keyfile
-		EMVTokenKeyfileInfo Token;	// Token infos
+		EMVTokenInfo Token;	// Token infos
 	};
 
 	class EMVToken {

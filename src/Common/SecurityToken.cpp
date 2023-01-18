@@ -35,7 +35,7 @@
 using namespace std;
 
 namespace VeraCrypt
-{
+{	
 	SecurityTokenKeyfile::SecurityTokenKeyfile(const SecurityTokenKeyfilePath& path)
 	{
 		wstring pathStr = path;

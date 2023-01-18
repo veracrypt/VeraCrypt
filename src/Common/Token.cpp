@@ -23,29 +23,39 @@ using namespace std;
 
 namespace VeraCrypt
 {
-    vector<unique_ptr<TokenKeyfile>> Token::GetAvailableKeyfiles() {
-        vector<SecurityTokenKeyfile> v1 = SecurityToken::GetAvailableKeyfiles();
-        vector<EMVTokenKeyfile> v2 = EMVToken::GetAvailableKeyfiles();
+	vector<shared_ptr<TokenKeyfile>> Token::GetAvailableKeyfiles() {
+		vector<SecurityTokenKeyfile> v1 = SecurityToken::GetAvailableKeyfiles();
+		vector<EMVTokenKeyfile> v2 = EMVToken::GetAvailableKeyfiles();
 
-        vector<unique_ptr<TokenKeyfile>> v_ptr;
+		vector<shared_ptr<TokenKeyfile>> v_ptr;
 
-        for (SecurityTokenKeyfile& k : v1) {
-            v_ptr.push_back(make_unique<SecurityTokenKeyfile>(k));
-        }
+		foreach (SecurityTokenKeyfile k, v1) {
+			v_ptr.push_back(std::shared_ptr<TokenKeyfile>(new SecurityTokenKeyfile(k)));
+		}
 
-        for (auto& k : v2) {
-            v_ptr.push_back(make_unique<EMVTokenKeyfile>(k));
-        }
+		foreach (EMVTokenKeyfile k, v2) {
+			v_ptr.push_back(std::shared_ptr<TokenKeyfile>(new EMVTokenKeyfile(k)));
+		}
 
-        return v_ptr;
-    }
+		return v_ptr;
+	}
 
-    void Token::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
-    {
-    }
+	void Token::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
+	{
+	}
 
-    bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath)
-    {
-        return false;
-    }
+	bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath)
+	{
+		return false;
+	}
+
+	list <shared_ptr<TokenInfo>> Token::GetAvailableTokens()
+	{
+		list <shared_ptr<TokenInfo>> availableTokens;
+		foreach(SecurityTokenInfo securityToken, SecurityToken::GetAvailableTokens()){
+			availableTokens.push_back(std::shared_ptr<TokenInfo>(new SecurityTokenInfo(std::move(securityToken))));
+		}
+
+		return availableTokens ;
+	}
 }

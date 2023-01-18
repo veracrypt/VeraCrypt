@@ -64,6 +64,8 @@ namespace VeraCrypt
 
 	struct SecurityTokenInfo: TokenInfo
 	{
+		SecurityTokenInfo(){}
+
 		CK_FLAGS Flags;
 		string LabelUtf8;
 	};

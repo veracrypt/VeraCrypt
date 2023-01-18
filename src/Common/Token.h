@@ -17,31 +17,34 @@
 
 namespace VeraCrypt {
 
-    struct TokenKeyfilePath {
-        TokenKeyfilePath(const wstring& path): Path(path) { }
+	struct TokenKeyfilePath {
+		TokenKeyfilePath(const wstring& path): Path(path) { }
+		operator wstring () const { return Path; }
 
-        operator wstring () const { return Path; }
-        wstring Path;	//Complete path
+		wstring Path;	//Complete path
 
-    };
-    struct TokenInfo {
-        unsigned long int SlotId;
-        wstring Label;	//Card name
-    };
+	};
+	struct TokenInfo {
+		TokenInfo() {}
 
-    struct TokenKeyfile {
-        TokenKeyfile(): SlotId(UNAVAILABLE_SLOT) {};
-        virtual operator TokenKeyfilePath () const = 0;
-        unsigned long int SlotId;
-        string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
-    };
+		unsigned long int SlotId;
+		wstring Label;	//Card name
+	};
 
-    class Token {
-    public:
-        static vector<unique_ptr<TokenKeyfile>> GetAvailableKeyfiles();
-        static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
-        static bool IsKeyfilePathValid(const wstring& tokenKeyfilePath);
-    };
+	struct TokenKeyfile {
+		TokenKeyfile(): SlotId(UNAVAILABLE_SLOT) {};
+		virtual operator TokenKeyfilePath () const = 0;
+		unsigned long int SlotId;
+		string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
+	};
+
+	class Token {
+	public:
+		static vector<shared_ptr<TokenKeyfile>> GetAvailableKeyfiles();
+		static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
+		static bool IsKeyfilePathValid(const wstring& tokenKeyfilePath);
+		static list <shared_ptr<TokenInfo>> GetAvailableTokens();	// List available token to write keyfile
+	};
 }
 
 
