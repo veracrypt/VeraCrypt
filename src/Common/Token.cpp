@@ -39,7 +39,7 @@ namespace VeraCrypt
 		return v_ptr;
 	}
 
-	void Token::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
+	void Token::GetKeyfileData(const shared_ptr<TokenKeyfile> keyfile, vector<byte>& keyfileData)
 	{
 	}
 
