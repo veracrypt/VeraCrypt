@@ -12262,7 +12262,7 @@ static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <Securit
 		s << keyfile.SlotId;  // TODO Use Token
 
 		ListItemAdd (tokenListControl, lvItem.iItem, (wchar_t *) s.str().c_str());
-		ListSubItemSet (tokenListControl, lvItem.iItem, 1, (wchar_t *) keyfile.Token.Label.c_str());
+		ListSubItemSet (tokenListControl, lvItem.iItem, 1, (wchar_t *) keyfile.Token->Label.c_str());
 		ListSubItemSet (tokenListControl, lvItem.iItem, 2, (wchar_t *) keyfile.Id.c_str());
 	}
 

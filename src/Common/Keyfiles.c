@@ -303,7 +303,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			{
 				// Apply EMV token keyfile
 				vector <byte> keyfileData;
-				EMVTokenKeyfilePath secPath (kf->FileName);
+				TokenKeyfilePath secPath (kf->FileName);
 				EMVToken::GetKeyfileData (EMVTokenKeyfile (secPath), keyfileData);
 
 				if (keyfileData.empty())
