@@ -98,7 +98,15 @@ namespace VeraCrypt
 
     //todo
     vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles() {
-        return vector<EMVTokenKeyfile>();
+        /*EMVTokenKeyfilePath p(L"test d'un path");
+        EMVTokenKeyfileInfo i;
+        i.SlotId = 1;
+        i.Label = L"test";
+        EMVTokenKeyfile k(p);
+        k.Token = i;*/
+        vector<EMVTokenKeyfile> res;
+        //res.push_back(k);
+        return res;
     }
 
 }

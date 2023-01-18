@@ -25,6 +25,7 @@ namespace VeraCrypt {
 
     };
     struct TokenInfo {
+    public:
         unsigned long int SlotId;
         wstring Label;	//Card name
     };
@@ -34,11 +35,15 @@ namespace VeraCrypt {
         virtual operator TokenKeyfilePath () const = 0;
         unsigned long int SlotId;
         string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
+
+        //override attributes
+        TokenInfo Token;
+        wstring Id;
     };
 
     class Token {
     public:
-        static vector<unique_ptr<TokenKeyfile>> GetAvailableKeyfiles();
+        static vector<shared_ptr<TokenKeyfile>> GetAvailableKeyfiles();
         static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
         static bool IsKeyfilePathValid(const wstring& tokenKeyfilePath);
     };

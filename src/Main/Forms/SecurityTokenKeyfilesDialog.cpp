@@ -54,16 +54,16 @@ namespace VeraCrypt
 		wxBusyCursor busy;
 
 		SecurityTokenKeyfileListCtrl->DeleteAllItems();
-		SecurityTokenKeyfileList = SecurityToken::GetAvailableKeyfiles();
+		SecurityTokenKeyfileList = Token::GetAvailableKeyfiles();
 
 		size_t i = 0;
-		foreach (const SecurityTokenKeyfile &key, SecurityTokenKeyfileList)
+		foreach (const shared_ptr<TokenKeyfile> key, SecurityTokenKeyfileList)
 		{
 			vector <wstring> fields (SecurityTokenKeyfileListCtrl->GetColumnCount());
 
-			fields[ColumnSecurityTokenSlotId] = StringConverter::ToWide ((uint64) key.SlotId);
-			fields[ColumnSecurityTokenLabel] = key.Token.Label;
-			fields[ColumnSecurityTokenKeyfileLabel] = key.Id;
+			fields[ColumnSecurityTokenSlotId] = StringConverter::ToWide ((uint64) key->SlotId);
+			fields[ColumnSecurityTokenLabel] = key->Token.Label;
+			fields[ColumnSecurityTokenKeyfileLabel] = key->Id;
 
 			Gui->AppendToListCtrl (SecurityTokenKeyfileListCtrl, fields, 0, &SecurityTokenKeyfileList[i++]);
 		}
@@ -192,7 +192,7 @@ namespace VeraCrypt
 	{
 		foreach (long item, Gui->GetListCtrlSelectedItems (SecurityTokenKeyfileListCtrl))
 		{
-			SecurityTokenKeyfile *key = reinterpret_cast <SecurityTokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData (item));
+			TokenKeyfile *key = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData (item));
 			SelectedSecurityTokenKeyfilePaths.push_back (*key);
 		}
 

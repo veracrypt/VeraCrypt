@@ -75,6 +75,9 @@ namespace VeraCrypt
 
 		operator TokenKeyfilePath () const;
 
+        //to be removed
+        operator SecurityTokenKeyfilePath () const;
+
 		CK_OBJECT_HANDLE Handle;
 		wstring Id;
 		SecurityTokenInfo Token;
