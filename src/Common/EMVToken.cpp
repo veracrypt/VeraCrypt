@@ -26,7 +26,7 @@ namespace VeraCrypt
 
     const wstring EMVTokenKeyfile::Id = EMV_CARDS_LABEL;
 
-    EMVTokenKeyfile::EMVTokenKeyfile(const EMVTokenKeyfilePath& path)
+    EMVTokenKeyfile::EMVTokenKeyfile(const TokenKeyfilePath& path)
     {
         wstring pathStr = path;
         unsigned long slotId;
@@ -98,14 +98,13 @@ namespace VeraCrypt
 
     //todo
     vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles() {
-        /*EMVTokenKeyfilePath p(L"test d'un path");
+        EMVTokenKeyfile k;
         EMVTokenKeyfileInfo i;
-        i.SlotId = 1;
-        i.Label = L"test";
-        EMVTokenKeyfile k(p);
-        k.Token = i;*/
+        i.SlotId = 0;
+        i.Label = L"****-1456";
+        k.Token = i;
         vector<EMVTokenKeyfile> res;
-        //res.push_back(k);
+        res.push_back(k);
         return res;
     }
 

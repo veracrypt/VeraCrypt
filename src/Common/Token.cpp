@@ -17,7 +17,7 @@
 
 #include "SecurityToken.h"
 #include "EMVToken.h"
-
+#include "iostream"
 
 using namespace std;
 
@@ -26,15 +26,14 @@ namespace VeraCrypt
     vector<shared_ptr<TokenKeyfile>> Token::GetAvailableKeyfiles() {
         vector<SecurityTokenKeyfile> v1 = SecurityToken::GetAvailableKeyfiles();
         vector<EMVTokenKeyfile> v2 = EMVToken::GetAvailableKeyfiles();
-
         vector<shared_ptr<TokenKeyfile>> v_ptr;
 
         for (SecurityTokenKeyfile& k : v1) {
-            v_ptr.push_back(make_shared<SecurityTokenKeyfile>(k));
+            v_ptr.push_back(shared_ptr<TokenKeyfile>(new SecurityTokenKeyfile(k)));
         }
 
         for (EMVTokenKeyfile& k : v2) {
-            v_ptr.push_back(make_shared<EMVTokenKeyfile>(k));
+            v_ptr.push_back(shared_ptr<TokenKeyfile>(new EMVTokenKeyfile(k)));
         }
 
         return v_ptr;

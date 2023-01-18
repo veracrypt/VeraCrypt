@@ -25,7 +25,6 @@ namespace VeraCrypt {
 
     };
     struct TokenInfo {
-    public:
         unsigned long int SlotId;
         wstring Label;	//Card name
     };
@@ -36,7 +35,6 @@ namespace VeraCrypt {
         unsigned long int SlotId;
         string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
 
-        //override attributes
         TokenInfo Token;
         wstring Id;
     };

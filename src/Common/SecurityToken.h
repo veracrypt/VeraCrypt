@@ -57,6 +57,7 @@
 
 namespace VeraCrypt
 {
+    //to be removed
 	struct SecurityTokenKeyfilePath: TokenKeyfilePath
 	{
 		SecurityTokenKeyfilePath(const wstring& path): TokenKeyfilePath(path) { }
@@ -71,6 +72,8 @@ namespace VeraCrypt
 	struct SecurityTokenKeyfile: TokenKeyfile
 	{
 		SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) { Token.SlotId = CK_UNAVAILABLE_INFORMATION; Token.Flags = 0; }
+
+        //to be changed into TokenKeyfilePath
 		SecurityTokenKeyfile(const SecurityTokenKeyfilePath& path);
 
 		operator TokenKeyfilePath () const;
@@ -79,7 +82,6 @@ namespace VeraCrypt
         operator SecurityTokenKeyfilePath () const;
 
 		CK_OBJECT_HANDLE Handle;
-		wstring Id;
 		SecurityTokenInfo Token;
 	};
 

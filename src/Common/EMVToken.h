@@ -19,18 +19,14 @@
 
 namespace VeraCrypt {
 
-	struct EMVTokenKeyfilePath: TokenKeyfilePath
-	{
-		EMVTokenKeyfilePath(const wstring& path): TokenKeyfilePath(path) { }
-	};
-
 	struct EMVTokenKeyfileInfo: TokenInfo
 	{
 	};
 
 	struct EMVTokenKeyfile: TokenKeyfile
 	{
-		EMVTokenKeyfile(const EMVTokenKeyfilePath& path);
+        EMVTokenKeyfile(){};
+		EMVTokenKeyfile(const TokenKeyfilePath& path);
 
 		virtual operator TokenKeyfilePath () const;
 

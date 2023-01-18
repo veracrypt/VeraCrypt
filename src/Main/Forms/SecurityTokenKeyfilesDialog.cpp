@@ -59,6 +59,10 @@ namespace VeraCrypt
 		size_t i = 0;
 		foreach (const shared_ptr<TokenKeyfile> key, SecurityTokenKeyfileList)
 		{
+            cout << "Slot ID " << StringConverter::ToWide ((uint64) key->SlotId)<< endl;
+            cout << "Label " << key->Token.Label << endl;
+            cout << "Id " << key->Id << endl;
+
 			vector <wstring> fields (SecurityTokenKeyfileListCtrl->GetColumnCount());
 
 			fields[ColumnSecurityTokenSlotId] = StringConverter::ToWide ((uint64) key->SlotId);
