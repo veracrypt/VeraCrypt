@@ -28,11 +28,11 @@ namespace VeraCrypt
         vector<EMVTokenKeyfile> v2 = EMVToken::GetAvailableKeyfiles();
         vector<shared_ptr<TokenKeyfile>> v_ptr;
 
-        for (SecurityTokenKeyfile& k : v1) {
+        foreach (SecurityTokenKeyfile k, v1) {
             v_ptr.push_back(shared_ptr<TokenKeyfile>(new SecurityTokenKeyfile(k)));
         }
 
-        for (EMVTokenKeyfile& k : v2) {
+        foreach (EMVTokenKeyfile k, v2) {
             v_ptr.push_back(shared_ptr<TokenKeyfile>(new EMVTokenKeyfile(k)));
         }
 
