@@ -23,10 +23,10 @@ using namespace std;
 
 namespace VeraCrypt
 {
-	const wstring EMVTokenKeyfile::Id = EMV_CARDS_LABEL;
 
 	EMVTokenKeyfile::EMVTokenKeyfile(const TokenKeyfilePath& path)
 	{
+        Id = L"emv";
 		wstring pathStr = path;
 		unsigned long slotId;
 
@@ -99,7 +99,7 @@ namespace VeraCrypt
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles() {
         EMVTokenKeyfile k;
         shared_ptr<EMVTokenKeyfileInfo> i = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo);
-        i->SlotId = 2561981981;
+        k.SlotId = 2561981981;
         i->Label = L"****-1456";
         k.Token = i;
         vector<EMVTokenKeyfile> res;
