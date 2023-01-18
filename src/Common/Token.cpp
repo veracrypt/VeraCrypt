@@ -36,15 +36,25 @@ namespace VeraCrypt
             v_ptr.push_back(shared_ptr<TokenKeyfile>(new EMVTokenKeyfile(k)));
         }
 
-        return v_ptr;
-    }
+		return v_ptr;
+	}
 
-    void Token::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
-    {
-    }
+	void Token::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
+	{
+	}
 
-    bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath)
-    {
-        return false;
-    }
+	bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath)
+	{
+		return false;
+	}
+
+	list <shared_ptr<TokenInfo>> Token::GetAvailableTokens()
+	{
+		list <shared_ptr<TokenInfo>> availableTokens;
+		foreach(SecurityTokenInfo securityToken, SecurityToken::GetAvailableTokens()){
+			availableTokens.push_back(shared_ptr<TokenInfo>(new SecurityTokenInfo(std::move(securityToken))));
+		}
+
+		return availableTokens ;
+	}
 }

@@ -71,7 +71,8 @@ namespace VeraCrypt
 
 	struct SecurityTokenKeyfile: TokenKeyfile
 	{
-		SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) { Token.SlotId = CK_UNAVAILABLE_INFORMATION; Token.Flags = 0; }
+		SecurityTokenKeyfile();
+
 
         //to be changed into TokenKeyfilePath
 		SecurityTokenKeyfile(const SecurityTokenKeyfilePath& path);
@@ -82,7 +83,7 @@ namespace VeraCrypt
         operator SecurityTokenKeyfilePath () const;
 
 		CK_OBJECT_HANDLE Handle;
-		SecurityTokenInfo Token;
+		wstring Id;
 	};
 
 	struct Pkcs11Exception: public Exception

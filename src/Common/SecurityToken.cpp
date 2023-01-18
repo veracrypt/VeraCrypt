@@ -36,6 +36,13 @@ using namespace std;
 
 namespace VeraCrypt
 {
+    SecurityTokenKeyfile::SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) {
+        SecurityTokenInfo* token = new SecurityTokenInfo();
+        Token = shared_ptr<SecurityTokenInfo>(token); token->SlotId = CK_UNAVAILABLE_INFORMATION; token->Flags = 0;
+    }
+
+
+
 	SecurityTokenKeyfile::SecurityTokenKeyfile(const SecurityTokenKeyfilePath& path)
 	{
 		wstring pathStr = path;
@@ -225,7 +232,7 @@ namespace VeraCrypt
 				SecurityTokenKeyfile keyfile;
 				keyfile.Handle = dataHandle;
 				keyfile.SlotId = slotId;
-				keyfile.Token = token;
+				keyfile.Token = shared_ptr<SecurityTokenInfo>(new SecurityTokenInfo(token));
 
 				vector <byte> privateAttrib;
 				GetObjectAttribute(slotId, dataHandle, CKA_PRIVATE, privateAttrib);

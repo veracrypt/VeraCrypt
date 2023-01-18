@@ -12167,11 +12167,11 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 			WaitCursor();
 			finally_do ({ NormalCursor(); });
 
-			list <SecurityTokenInfo> tokens;
+			list <shared_ptr<TokenInfo>> tokens;
 
 			try
 			{
-				tokens = SecurityToken::GetAvailableTokens(); // TODO Use Token
+				tokens = Token::GetAvailableTokens(); // TODO Use Token
 			}
 			catch (Exception &e)
 			{
@@ -12185,12 +12185,12 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 				return 1;
 			}
 
-			foreach (const SecurityTokenInfo &token, tokens)
+			foreach (const shared_ptr<TokenInfo> token, tokens)
 			{
 				wstringstream tokenLabel;
-				tokenLabel << L"[" << token.SlotId << L"] " << token.Label;  // TODO Use Token
+				tokenLabel << L"[" << token->SlotId << L"] " << token->Label;  // TODO Use Token
 
-				AddComboPair (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token.SlotId);  // TODO Use Token
+				AddComboPair (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token->SlotId);  // TODO Use Token
 			}
 
 			ComboBox_SetCurSel (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), 0);
@@ -12289,7 +12289,7 @@ static list <SecurityTokenKeyfile> SecurityTokenKeyfileDlgGetSelected (HWND hwnd
 
 BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static list <SecurityTokenKeyfilePath> *selectedTokenKeyfiles;
+	static list <TokenKeyfilePath> *selectedTokenKeyfiles;
 	static vector <SecurityTokenKeyfile> keyfiles;
 
 	WORD lw = LOWORD (wParam);
@@ -12298,7 +12298,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 	{
 	case WM_INITDIALOG:
 		{
-			selectedTokenKeyfiles = (list <SecurityTokenKeyfilePath> *) lParam;
+			selectedTokenKeyfiles = (list <TokenKeyfilePath> *) lParam;
 
 			LVCOLUMNW LvCol;
 			HWND tokenListControl = GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST);
@@ -12363,7 +12363,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 			{
 				foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 				{
-					selectedTokenKeyfiles->push_back (SecurityTokenKeyfilePath (keyfile));
+					selectedTokenKeyfiles->push_back (TokenKeyfilePath (keyfile));
 				}
 			}
 

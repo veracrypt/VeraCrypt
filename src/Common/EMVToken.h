@@ -31,7 +31,6 @@ namespace VeraCrypt {
 		virtual operator TokenKeyfilePath () const;
 
 		static const wstring Id;	// File name = "emv" for every EMV keyfile
-		EMVTokenKeyfileInfo Token;	// Token infos
 	};
 
 	class EMVToken {

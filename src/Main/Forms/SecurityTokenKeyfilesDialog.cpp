@@ -60,13 +60,13 @@ namespace VeraCrypt
 		foreach (const shared_ptr<TokenKeyfile> key, SecurityTokenKeyfileList)
 		{
             cout << "Slot ID " << StringConverter::ToWide ((uint64) key->SlotId)<< endl;
-            cout << "Label " << key->Token.Label << endl;
+            cout << "Label " << key->Token->Label << endl;
             cout << "Id " << key->Id << endl;
 
 			vector <wstring> fields (SecurityTokenKeyfileListCtrl->GetColumnCount());
 
 			fields[ColumnSecurityTokenSlotId] = StringConverter::ToWide ((uint64) key->SlotId);
-			fields[ColumnSecurityTokenLabel] = key->Token.Label;
+			fields[ColumnSecurityTokenLabel] = key->Token->Label;
 			fields[ColumnSecurityTokenKeyfileLabel] = key->Id;
 
 			Gui->AppendToListCtrl (SecurityTokenKeyfileListCtrl, fields, 0, &SecurityTokenKeyfileList[i++]);
