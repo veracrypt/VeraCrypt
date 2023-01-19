@@ -1007,7 +1007,7 @@ namespace VeraCrypt
 
 		foreach_ref (const Keyfile &keyfile, *keyfiles)
 		{
-			SecurityToken::DeleteKeyfile (SecurityTokenKeyfilePath (FilePath (keyfile)));
+			SecurityToken::DeleteKeyfile (TokenKeyfilePath (FilePath (keyfile)));
 		}
 	}
 
@@ -1212,7 +1212,7 @@ namespace VeraCrypt
 	{
 		foreach (const SecurityTokenKeyfile &keyfile, SecurityToken::GetAvailableKeyfiles())
 		{
-			ShowString (wstring (SecurityTokenKeyfilePath (keyfile)));
+			ShowString (wstring (TokenKeyfilePath (keyfile)));
 			ShowString (L"\n");
 		}
 	}
