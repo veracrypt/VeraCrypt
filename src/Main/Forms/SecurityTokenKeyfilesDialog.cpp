@@ -12,7 +12,6 @@
 
 #include "System.h"
 #include "Main/GraphicUserInterface.h"
-#include "Common/SecurityToken.h"
 #include "NewSecurityTokenKeyfileDialog.h"
 #include "SecurityTokenKeyfilesDialog.h"
 
@@ -59,17 +58,13 @@ namespace VeraCrypt
 		size_t i = 0;
 		foreach (const shared_ptr<TokenKeyfile> key, SecurityTokenKeyfileList)
 		{
-            cout << "Slot ID " << StringConverter::ToWide ((uint64) key->SlotId)<< endl;
-            cout << "Label " << key->Token->Label << endl;
-            cout << "Id " << key->Id << endl;
-
 			vector <wstring> fields (SecurityTokenKeyfileListCtrl->GetColumnCount());
 
 			fields[ColumnSecurityTokenSlotId] = StringConverter::ToWide ((uint64) key->SlotId);
 			fields[ColumnSecurityTokenLabel] = key->Token->Label;
 			fields[ColumnSecurityTokenKeyfileLabel] = key->Id;
 
-			Gui->AppendToListCtrl (SecurityTokenKeyfileListCtrl, fields, 0, &SecurityTokenKeyfileList[i++]);
+			Gui->AppendToListCtrl (SecurityTokenKeyfileListCtrl, fields, 0, key.get());
 		}
 	}
 
@@ -192,14 +187,15 @@ namespace VeraCrypt
 		}
 	}
 
+    //todo throw an exception if keyfile type is unknown
 	void SecurityTokenKeyfilesDialog::OnOKButtonClick ()
 	{
 		foreach (long item, Gui->GetListCtrlSelectedItems (SecurityTokenKeyfileListCtrl))
-		{
-			TokenKeyfile *key = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData (item));
-			SelectedSecurityTokenKeyfilePaths.push_back (*key);
-		}
+        {
+            TokenKeyfile *key = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData(item));
 
+            SelectedSecurityTokenKeyfilePaths.push_back(*key);
+        }
 		EndModal (wxID_OK);
 	}
 }
