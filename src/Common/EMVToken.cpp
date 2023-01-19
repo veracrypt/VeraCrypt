@@ -99,8 +99,8 @@ namespace VeraCrypt
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles() {
         EMVTokenKeyfile k;
         shared_ptr<EMVTokenKeyfileInfo> i = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo);
-        k.SlotId = 2561981981;
-        i->Label = L"****-1456";
+        k.SlotId = 0;
+        i->Label = L"EMV card **** **** **** 1456";
         k.Token = i;
         vector<EMVTokenKeyfile> res;
         res.push_back(k);

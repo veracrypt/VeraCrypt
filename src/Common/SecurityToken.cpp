@@ -43,7 +43,7 @@ namespace VeraCrypt
 
 
 
-	SecurityTokenKeyfile::SecurityTokenKeyfile(const SecurityTokenKeyfilePath& path)
+	SecurityTokenKeyfile::SecurityTokenKeyfile(const TokenKeyfilePath& path)
 	{
 		wstring pathStr = path;
 		unsigned long slotId;
@@ -73,14 +73,6 @@ namespace VeraCrypt
 		path << TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId << L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/" << Id;
 		return path.str();
 	}
-
-    //to be removed
-    SecurityTokenKeyfile::operator SecurityTokenKeyfilePath () const
-    {
-        wstringstream path;
-        path << TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId << L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/" << Id;
-        return path.str();
-    }
 
 	void SecurityToken::CheckLibraryStatus()
 	{

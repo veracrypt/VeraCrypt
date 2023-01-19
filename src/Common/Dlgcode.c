@@ -12252,7 +12252,7 @@ static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <shared_
 
 	ListView_DeleteAllItems (tokenListControl);
 
-	foreach (const shared_ptr<TokenKeyfile> &keyfile, keyfiles)
+	foreach (const shared_ptr<TokenKeyfile> keyfile, keyfiles)
 	{
 		memset (&lvItem, 0, sizeof(lvItem));
 		lvItem.mask = LVIF_TEXT;

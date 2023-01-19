@@ -250,61 +250,12 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		// Determine whether it's a security token path
 		try
 		{
-			if (SecurityToken::IsKeyfilePathValid (kf->FileName))  // TODO Use Token
+			if (Token::IsKeyfilePathValid (kf->FileName))  // TODO Use Token
 			{
 				// Apply security token keyfile
 				vector <byte> keyfileData;
-				SecurityTokenKeyfilePath secPath (kf->FileName);
-				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (secPath), keyfileData);
-
-				if (keyfileData.empty())
-				{
-					SetLastError (ERROR_HANDLE_EOF);
-					handleWin32Error (hwndDlg, SRC_POS);
-					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
-					status = FALSE;
-					continue;
-				}
-
-				unsigned __int32 crc = 0xffffffff;
-				unsigned __int32 writePos = 0;
-				size_t totalRead = 0;
-
-				for (size_t i = 0; i < keyfileData.size(); i++)
-				{
-					crc = UPDC32 (keyfileData[i], crc);
-
-					keyPool[writePos++] += (unsigned __int8) (crc >> 24);
-					keyPool[writePos++] += (unsigned __int8) (crc >> 16);
-					keyPool[writePos++] += (unsigned __int8) (crc >> 8);
-					keyPool[writePos++] += (unsigned __int8) crc;
-
-					if (writePos >= keyPoolSize)
-						writePos = 0;
-
-					if (++totalRead >= KEYFILE_MAX_READ_LEN)
-						break;
-				}
-
-				burn (&keyfileData.front(), keyfileData.size());
-				continue;
-			}
-		}
-		catch (Exception &e)
-		{
-			e.Show (NULL);
-			return FALSE;
-		}
-
-		// Determine whether it's an EMV token path
-		try
-		{
-			if (EMVToken::IsKeyfilePathValid (kf->FileName))  // TODO Use Token
-			{
-				// Apply EMV token keyfile
-				vector <byte> keyfileData;
 				TokenKeyfilePath secPath (kf->FileName);
-				EMVToken::GetKeyfileData (EMVTokenKeyfile (secPath), keyfileData);
+				Token::GetKeyfileData (Token::getTokenKeyfile (secPath), keyfileData);
 
 				if (keyfileData.empty())
 				{
@@ -601,10 +552,10 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_TOKEN_FILES_ADD)
 		{
-			list <SecurityTokenKeyfilePath> selectedTokenKeyfiles;
+			list <TokenKeyfilePath> selectedTokenKeyfiles;
 			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_KEYFILES), hwndDlg, (DLGPROC) SecurityTokenKeyfileDlgProc, (LPARAM) &selectedTokenKeyfiles) == IDOK)
 			{
-				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
+				foreach (const TokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
@@ -808,10 +759,10 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 
 	case IDM_KEYFILES_POPUP_ADD_TOKEN_FILES:
 		{
-			list <SecurityTokenKeyfilePath> selectedTokenKeyfiles;
+			list <TokenKeyfilePath> selectedTokenKeyfiles;
 			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_KEYFILES), hwndDlg, (DLGPROC) SecurityTokenKeyfileDlgProc, (LPARAM) &selectedTokenKeyfiles) == IDOK)
 			{
-				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
+				foreach (const TokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)

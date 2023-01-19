@@ -6,7 +6,7 @@
 #define TC_EMV_TOKEN_KEYFILE_URL_PREFIX L"emv://"
 #define TC_EMV_TOKEN_KEYFILE_URL_SLOT L"slot"
 
-#define EMV_CARDS_LABEL L"emv"
+#define EMV_CARDS_LABEL L"EMV Certificates"
 
 #include "Platform/PlatformBase.h"
 #if defined (TC_WINDOWS) && !defined (TC_PROTOTYPE)
@@ -25,7 +25,7 @@ namespace VeraCrypt {
 
 	struct EMVTokenKeyfile: TokenKeyfile
 	{
-        EMVTokenKeyfile(){Id = L"emv";};
+        EMVTokenKeyfile(){Id = EMV_CARDS_LABEL;};
 		EMVTokenKeyfile(const TokenKeyfilePath& path);
 
 		virtual operator TokenKeyfilePath () const;

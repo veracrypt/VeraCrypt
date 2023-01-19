@@ -57,12 +57,6 @@
 
 namespace VeraCrypt
 {
-    //to be removed
-	struct SecurityTokenKeyfilePath: TokenKeyfilePath
-	{
-		SecurityTokenKeyfilePath(const wstring& path): TokenKeyfilePath(path) { }
-	};
-
 	struct SecurityTokenInfo: TokenInfo
 	{
 		CK_FLAGS Flags;
@@ -75,12 +69,9 @@ namespace VeraCrypt
 
 
         //to be changed into TokenKeyfilePath
-		SecurityTokenKeyfile(const SecurityTokenKeyfilePath& path);
+		SecurityTokenKeyfile(const TokenKeyfilePath& path);
 
 		operator TokenKeyfilePath () const;
-
-        //to be removed
-        operator SecurityTokenKeyfilePath () const;
 
 		CK_OBJECT_HANDLE Handle;
 	};
