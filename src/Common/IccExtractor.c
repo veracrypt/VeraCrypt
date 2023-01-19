@@ -99,7 +99,7 @@ int EstablishRSContext(){
 }
 
 /* Detecting available readers and filling the reader table */
-int GetReaders(){
+unsigned long int GetReaders(){
 	char *ptr=NULL;
     int nbReaders = 0;
 

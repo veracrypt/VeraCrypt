@@ -58,7 +58,7 @@ void PCSC_ERROR(LONG rv, char* text);
 int EstablishRSContext();
 
 /* Detecting available readers and filling the reader table */
-int GetReaders();
+unsigned long int GetReaders();
 
 /* Selecting the reader number (index in the table)*/
 int SelectReaderNumber(int argc, char * readerNumber);

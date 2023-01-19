@@ -96,10 +96,10 @@ namespace VeraCrypt
 	}
 
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring keyfileIdFilter) {
-        vector <EMVTokenKeyfile> keyfiles;
+        /*vector <EMVTokenKeyfile> keyfiles;
 
         //foreach(unsigned long int & slotId, GetReaders())
-        for(int slotId = 0; slotId<GetReaders(); slotId++)
+        for(unsigned long int slotId = 0; slotId<GetReaders(); slotId++)
         {
             EMVTokenKeyfileInfo token;
 
@@ -121,17 +121,17 @@ namespace VeraCrypt
         }
 
 
-        return keyfiles;
+        return keyfiles;*/
 
         //tests
-        /*EMVTokenKeyfile k;
+        EMVTokenKeyfile k;
         shared_ptr<EMVTokenKeyfileInfo> i = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo);
         k.SlotId = 0;
         i->Label = L"EMV card **** **** **** 1456";
         k.Token = i;
         vector<EMVTokenKeyfile> res;
         res.push_back(k);
-        return res;*/
+        return res;
     }
 
 
@@ -146,5 +146,5 @@ namespace VeraCrypt
 
 
 	}
-    
+
 }
