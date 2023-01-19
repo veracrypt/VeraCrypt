@@ -45,7 +45,7 @@ namespace VeraCrypt
 
 	bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath)
 	{
-		return false;
+		return SecurityToken::IsKeyfilePathValid(tokenKeyfilePath) || EMVToken::IsKeyfilePathValid(tokenKeyfilePath);
 	}
 
 	list <shared_ptr<TokenInfo>> Token::GetAvailableTokens()
@@ -57,12 +57,4 @@ namespace VeraCrypt
 
 		return availableTokens ;
 	}
-    bool Token::IsSecurityKeyfileType(const TokenKeyfile& tokenKeyfile)
-    {
-        return tokenKeyfile.Id == L"keyfile";
-    }
-    bool Token::IsEMVKeyfileType(const TokenKeyfile& tokenKeyfile)
-    {
-        return tokenKeyfile.Id == L"emv";
-    }
 }

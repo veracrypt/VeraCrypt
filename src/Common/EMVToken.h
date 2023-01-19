@@ -37,6 +37,7 @@ namespace VeraCrypt {
 		static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
 		static bool IsKeyfilePathValid(const wstring& emvTokenKeyfilePath);
 		static vector<EMVTokenKeyfile> GetAvailableKeyfiles();
+        static EMVTokenInfo EMVToken::GetTokenInfo(unsigned long int slotId);
 
 	};
 }

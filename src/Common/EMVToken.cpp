@@ -95,16 +95,44 @@ namespace VeraCrypt
 		return emvTokenKeyfilePath.find(TC_EMV_TOKEN_KEYFILE_URL_PREFIX) == 0;
 	}
 
-	//todo
-	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles() {
-        EMVTokenKeyfile k;
-        shared_ptr<EMVTokenKeyfileInfo> i = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo);
-        k.SlotId = 2561981981;
-        i->Label = L"****-1456";
-        k.Token = i;
-        vector<EMVTokenKeyfile> res;
-        res.push_back(k);
-        return res;
-	}
+	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(CK_SLOT_ID* slotIdFilter, const wstring keyfileIdFilter) {
+        vector <SecurityTokenKeyfile> keyfiles;
 
+        foreach(unsigned long int & slotId, GetReaders())
+        {
+            EMVTokenInfo token;
+
+            if (slotIdFilter && *slotIdFilter != slotId)
+                continue;
+
+            token.SlotId = slotId;
+            //todo fill token with card numbers
+            //token = GetTokenInfo(slotId);
+
+            EMVTokenKeyfile keyfile;
+            keyfile.SlotId = slotId;
+            keyfile.Token = shared_ptr<EMVTokenInfo>(new EMVTokenInfo(token));
+
+            keyfiles.push_back(keyfile);
+
+            if (!keyfileIdFilter.empty())
+                break;
+        }
+
+        if (keyfiles.empty() && unrecognizedTokenPresent)
+            throw Pkcs11Exception(CKR_TOKEN_NOT_RECOGNIZED);
+
+        return keyfiles;
+    }
+
+
+    EMVTokenInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
+        SecurityTokenInfo token;
+        token.SlotId = slotId;
+
+        //todo fill token with card numbers
+
+        return token;
+
+    }
 }

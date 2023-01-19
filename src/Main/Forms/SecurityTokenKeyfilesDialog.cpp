@@ -187,7 +187,6 @@ namespace VeraCrypt
 		}
 	}
 
-    //todo throw an exception if keyfile type is unknown
 	void SecurityTokenKeyfilesDialog::OnOKButtonClick ()
 	{
 		foreach (long item, Gui->GetListCtrlSelectedItems (SecurityTokenKeyfileListCtrl))
