@@ -95,12 +95,13 @@ namespace VeraCrypt
 		return emvTokenKeyfilePath.find(TC_EMV_TOKEN_KEYFILE_URL_PREFIX) == 0;
 	}
 
-	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(CK_SLOT_ID* slotIdFilter, const wstring keyfileIdFilter) {
-        vector <SecurityTokenKeyfile> keyfiles;
+	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring keyfileIdFilter) {
+        vector <EMVTokenKeyfile> keyfiles;
 
-        foreach(unsigned long int & slotId, GetReaders())
+        //foreach(unsigned long int & slotId, GetReaders())
+        for(int slotId = 0; slotId<GetReaders(); slotId++)
         {
-            EMVTokenInfo token;
+            EMVTokenKeyfileInfo token;
 
             if (slotIdFilter && *slotIdFilter != slotId)
                 continue;
@@ -111,7 +112,7 @@ namespace VeraCrypt
 
             EMVTokenKeyfile keyfile;
             keyfile.SlotId = slotId;
-            keyfile.Token = shared_ptr<EMVTokenInfo>(new EMVTokenInfo(token));
+            keyfile.Token = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo(token));
 
             keyfiles.push_back(keyfile);
 
@@ -119,20 +120,31 @@ namespace VeraCrypt
                 break;
         }
 
-        if (keyfiles.empty() && unrecognizedTokenPresent)
-            throw Pkcs11Exception(CKR_TOKEN_NOT_RECOGNIZED);
 
         return keyfiles;
+
+        //tests
+        /*EMVTokenKeyfile k;
+        shared_ptr<EMVTokenKeyfileInfo> i = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo);
+        k.SlotId = 0;
+        i->Label = L"EMV card **** **** **** 1456";
+        k.Token = i;
+        vector<EMVTokenKeyfile> res;
+        res.push_back(k);
+        return res;*/
     }
 
 
-    EMVTokenInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
-        SecurityTokenInfo token;
+    EMVTokenKeyfileInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
+        EMVTokenKeyfileInfo token;
         token.SlotId = slotId;
 
         //todo fill token with card numbers
 
         return token;
 
-    }
+
+
+	}
+    
 }

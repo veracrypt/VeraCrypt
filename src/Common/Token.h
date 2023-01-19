@@ -45,7 +45,8 @@ namespace VeraCrypt {
 		static vector<shared_ptr<TokenKeyfile>> GetAvailableKeyfiles();
 		static void GetKeyfileData(const shared_ptr<TokenKeyfile> keyfile, vector <byte>& keyfileData);
 		static bool IsKeyfilePathValid(const wstring& tokenKeyfilePath);
-		static list <shared_ptr<TokenInfo>> GetAvailableTokens();	// List available token to write keyfile
+		static list <shared_ptr<TokenInfo>> GetAvailableTokens();	// List available token to write 
+		static shared_ptr<TokenKeyfile> getTokenKeyfile(const TokenKeyfilePath path);
 	};
 
 };
