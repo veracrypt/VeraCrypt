@@ -525,7 +525,7 @@ namespace VeraCrypt
 	void SecurityToken::InitLibrary(const string& pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback)
 #endif
 	{
-		/*if (Initialized)
+		if (Initialized)
 			CloseLibrary();
 
 #ifdef TC_WINDOWS
@@ -558,7 +558,7 @@ namespace VeraCrypt
 		PinCallback = move_ptr(pinCallback);
 		WarningCallback = move_ptr(warningCallback);
 
-		Initialized = true;*/
+		Initialized = true;
 	}
 
 	void SecurityToken::OpenSession(CK_SLOT_ID slotId)

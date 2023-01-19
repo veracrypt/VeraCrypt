@@ -24,13 +24,13 @@ using namespace std;
 namespace VeraCrypt
 {
 	vector<shared_ptr<TokenKeyfile>> Token::GetAvailableKeyfiles() {
-		//vector<SecurityTokenKeyfile> v1 = SecurityToken::GetAvailableKeyfiles();
+		vector<SecurityTokenKeyfile> v1 = SecurityToken::GetAvailableKeyfiles();
 		vector<EMVTokenKeyfile> v2 = EMVToken::GetAvailableKeyfiles();
 		vector<shared_ptr<TokenKeyfile>> v_ptr;
 
-		/*foreach (SecurityTokenKeyfile k, v1) {
+		foreach (SecurityTokenKeyfile k, v1) {
 			v_ptr.push_back(shared_ptr<TokenKeyfile>(new SecurityTokenKeyfile(k)));
-		}*/
+		}
 
 		foreach (EMVTokenKeyfile k, v2) {
 			v_ptr.push_back(shared_ptr<TokenKeyfile>(new EMVTokenKeyfile(k)));
