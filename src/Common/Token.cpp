@@ -57,4 +57,12 @@ namespace VeraCrypt
 
 		return availableTokens ;
 	}
+    bool Token::IsSecurityKeyfileType(const TokenKeyfile& tokenKeyfile)
+    {
+        return tokenKeyfile.Id == L"keyfile";
+    }
+    bool Token::IsEMVKeyfileType(const TokenKeyfile& tokenKeyfile)
+    {
+        return tokenKeyfile.Id == L"emv";
+    }
 }

@@ -83,7 +83,6 @@ namespace VeraCrypt
         operator SecurityTokenKeyfilePath () const;
 
 		CK_OBJECT_HANDLE Handle;
-		wstring Id;
 	};
 
 	struct Pkcs11Exception: public Exception
