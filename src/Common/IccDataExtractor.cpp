@@ -461,6 +461,9 @@ string IccDataExtractor::make_hex_string(TInputIter first, TInputIter last, bool
 
 string IccDataExtractor::GettingPAN(int readerNumber) {
     vector<byte> PAN;
+
+    bool isEMV= false;
+
     try{
         ConnectCard(readerNumber);
     }catch (const PCSCException &ex){
@@ -474,6 +477,7 @@ string IccDataExtractor::GettingPAN(int readerNumber) {
         try{
             /* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
             if(!TestingCardType(i)) continue;
+            isEMV=true;
             PAN=GetPAN();
             break;
         }catch (const APDUException &ex){
@@ -485,5 +489,10 @@ string IccDataExtractor::GettingPAN(int readerNumber) {
         }
     }
     DisconnectCard();
+
+    /* Check if the card is not an EMV one */
+    if(!isEMV)
+        throw ICCExtractionException("Unknown card type");
+
     return make_hex_string(PAN.begin(),PAN.end());
 }
