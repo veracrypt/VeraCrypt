@@ -1,5 +1,3 @@
-
-
 #ifndef TC_HEADER_Common_EMVToken
 #define TC_HEADER_Common_EMVToken
 
@@ -26,7 +24,7 @@ namespace VeraCrypt {
 
 	struct EMVTokenKeyfile: TokenKeyfile
 	{
-        EMVTokenKeyfile(){Id = EMV_CARDS_LABEL;};
+		EMVTokenKeyfile(){Id = EMV_CARDS_LABEL;};
 		EMVTokenKeyfile(const TokenKeyfilePath& path);
 
 		virtual operator TokenKeyfilePath () const;
@@ -34,13 +32,13 @@ namespace VeraCrypt {
 	};
 
 	class EMVToken {
-    private:
-        static IccDataExtractor extractor;
+	private:
+		static IccDataExtractor extractor;
 	public:
 		static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
 		static bool IsKeyfilePathValid(const wstring& emvTokenKeyfilePath);
 		static vector<EMVTokenKeyfile> GetAvailableKeyfiles(unsigned long int* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
-        static EMVTokenKeyfileInfo GetTokenInfo(unsigned long int slotId);
+		static EMVTokenKeyfileInfo GetTokenInfo(unsigned long int slotId);
 
 	};
 }

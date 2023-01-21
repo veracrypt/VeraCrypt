@@ -36,10 +36,10 @@ using namespace std;
 
 namespace VeraCrypt
 {
-    SecurityTokenKeyfile::SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) {
-        SecurityTokenInfo* token = new SecurityTokenInfo();
-        Token = shared_ptr<SecurityTokenInfo>(token); token->SlotId = CK_UNAVAILABLE_INFORMATION; token->Flags = 0;
-    }
+	SecurityTokenKeyfile::SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) {
+		SecurityTokenInfo* token = new SecurityTokenInfo();
+		Token = shared_ptr<SecurityTokenInfo>(token); token->SlotId = CK_UNAVAILABLE_INFORMATION; token->Flags = 0;
+	}
 
 	SecurityTokenKeyfile::SecurityTokenKeyfile(const TokenKeyfilePath& path)
 	{
@@ -109,7 +109,7 @@ namespace VeraCrypt
 			}
 			catch (...) {}
 		}
-}
+	}
 
 	void SecurityToken::CloseSession(CK_SLOT_ID slotId)
 	{
@@ -775,4 +775,4 @@ namespace VeraCrypt
 	TC_SERIALIZER_FACTORY_ADD_EXCEPTION_SET(SecurityTokenException);
 
 #endif
-		}
+}

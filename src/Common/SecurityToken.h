@@ -67,8 +67,6 @@ namespace VeraCrypt
 	{
 		SecurityTokenKeyfile();
 
-
-        //to be changed into TokenKeyfilePath
 		SecurityTokenKeyfile(const TokenKeyfilePath& path);
 
 		operator TokenKeyfilePath () const;

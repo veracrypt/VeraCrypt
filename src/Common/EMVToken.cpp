@@ -24,11 +24,11 @@ using namespace std;
 namespace VeraCrypt
 {
 
-    IccDataExtractor EMVToken::extractor;
+	IccDataExtractor EMVToken::extractor;
 
 	EMVTokenKeyfile::EMVTokenKeyfile(const TokenKeyfilePath& path)
 	{
-        Id = L"emv";
+		Id = L"emv";
 		wstring pathStr = path;
 		unsigned long slotId;
 
@@ -58,7 +58,7 @@ namespace VeraCrypt
 	void EMVToken::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
 	{
 		keyfileData = extractor.GettingAllCerts(keyfile.SlotId);
-        return;
+		return;
 	}
 
 	bool EMVToken::IsKeyfilePathValid(const wstring& emvTokenKeyfilePath)
@@ -67,47 +67,47 @@ namespace VeraCrypt
 	}
 
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring keyfileIdFilter) {
-        vector <EMVTokenKeyfile> keyfiles;
+		vector <EMVTokenKeyfile> keyfiles;
 
-        for(unsigned long int slotId = 0; slotId<EMVToken::extractor.GetReaders(); slotId++)
-        {
-            EMVTokenKeyfileInfo token;
+		for(unsigned long int slotId = 0; slotId<EMVToken::extractor.GetReaders(); slotId++)
+		{
+			EMVTokenKeyfileInfo token;
 
-            if (slotIdFilter && *slotIdFilter != slotId)
-                continue;
+			if (slotIdFilter && *slotIdFilter != slotId)
+				continue;
 
-            try{
-                token = GetTokenInfo(slotId);
-            } catch(ICCExtractionException) {
-                cout << "Not EMV Type" << endl;
-                continue;
-            }
-
-
-            EMVTokenKeyfile keyfile;
-            keyfile.SlotId = slotId;
-            keyfile.Token = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo(token));
-
-            keyfiles.push_back(keyfile);
-
-            if (!keyfileIdFilter.empty())
-                break;
-        }
-
-        return keyfiles;
-
-    }
+			try{
+				token = GetTokenInfo(slotId);
+			} catch(ICCExtractionException) {
+				cout << "Not EMV Type" << endl;
+				continue;
+			}
 
 
-    EMVTokenKeyfileInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
-        EMVTokenKeyfileInfo token;
-        token.SlotId = slotId;
-        //card numbers recuperation
-        std::string w = EMVToken::extractor.GettingPAN(slotId);
+			EMVTokenKeyfile keyfile;
+			keyfile.SlotId = slotId;
+			keyfile.Token = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo(token));
 
-        token.Label = L"****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);
+			keyfiles.push_back(keyfile);
 
-        return token;
-    }
+			if (!keyfileIdFilter.empty())
+				break;
+		}
+
+		return keyfiles;
+
+	}
+
+
+	EMVTokenKeyfileInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
+		EMVTokenKeyfileInfo token;
+		token.SlotId = slotId;
+		//card numbers recuperation
+		std::string w = EMVToken::extractor.GettingPAN(slotId);
+
+		token.Label = L"****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);
+
+		return token;
+	}
 
 }

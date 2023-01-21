@@ -36,8 +36,8 @@ namespace VeraCrypt {
 		virtual operator TokenKeyfilePath () const = 0;
 		unsigned long int SlotId;
 		string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
-        shared_ptr<TokenInfo> Token;
-        wstring Id;
+		shared_ptr<TokenInfo> Token;
+		wstring Id;
 	};
 
 	class Token {
