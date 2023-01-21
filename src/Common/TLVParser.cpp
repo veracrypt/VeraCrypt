@@ -6,7 +6,7 @@ using namespace std;
 /* TLV node structure creation */
 shared_ptr<TLVNode> TLVParser::TLV_CreateNode()
 {
-    shared_ptr<TLVNode> node= make_shared<TLVNode>();//TLVNode* node = new TLVNode;
+    shared_ptr<TLVNode> node= shared_ptr<TLVNode>(new TLVNode);//TLVNode* node = new TLVNode;
     memset(node.get(),0,sizeof(*node));
     return node;
 }
