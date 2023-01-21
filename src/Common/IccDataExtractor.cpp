@@ -53,7 +53,7 @@ unsigned long IccDataExtractor::GetReaders(){
     DWORD dwReaders = SCARD_AUTOALLOCATE;
 
     /* Retrieving the available readers list and putting it in mszReaders*/ // Use LPSTR on linux
-    LONG returnValue = SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
+    long returnValue = SCardListReaders(hContext, NULL, mszReaders, &dwReaders);
 
     /* Check if the listing of the connected readers was unsuccessful  */
     if (returnValue != SCARD_S_SUCCESS)
@@ -79,7 +79,7 @@ unsigned long IccDataExtractor::GetReaders(){
 }
 
 /* Connecting to the card in the given reader*/
-int IccDataExtractor::ConnectCard(unsigned long reader_nb){
+int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
 
     /* Check if the given reader slot number is possible */
     if (reader_nb < 0 || reader_nb >= nbReaders)

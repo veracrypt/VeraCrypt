@@ -77,7 +77,7 @@ private:
     int EstablishRSContext();
 
     /* Connecting to the card in the given reader*/
-    int ConnectCard(unsigned long reader_nb);
+    int ConnectCard(unsigned long int reader_nb);
 
     /* Disconnect the card currently connected*/
     int DisconnectCard();
