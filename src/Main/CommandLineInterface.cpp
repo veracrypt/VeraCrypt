@@ -67,7 +67,9 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"import-token-keyfiles", _("Import keyfiles to security token"));
 		parser.AddOption (L"k", L"keyfiles",			_("Keyfiles"));
 		parser.AddSwitch (L"l", L"list",				_("List mounted volumes"));
-		parser.AddSwitch (L"",	L"list-token-keyfiles",	_("List security token keyfiles"));
+        parser.AddSwitch (L"",	L"list-token-keyfiles",	_("List token keyfiles"));
+		parser.AddSwitch (L"",	L"list-securitytoken-keyfiles",	_("List security token keyfiles"));
+        parser.AddSwitch (L"",	L"list-emvtoken-keyfiles",	_("List emv token keyfiles"));
 		parser.AddSwitch (L"",	L"load-preferences",	_("Load user preferences"));
 		parser.AddSwitch (L"",	L"mount",				_("Mount volume interactively"));
 		parser.AddOption (L"m", L"mount-options",		_("VeraCrypt volume mount options"));
@@ -238,8 +240,18 @@ namespace VeraCrypt
 		if (parser.Found (L"list-token-keyfiles"))
 		{
 			CheckCommandSingle();
-			ArgCommand = CommandId::ListSecurityTokenKeyfiles;
+			ArgCommand = CommandId::ListTokenKeyfiles;
 		}
+        if (parser.Found (L"list-securitytoken-keyfiles"))
+        {
+            CheckCommandSingle();
+            ArgCommand = CommandId::ListSecurityTokenKeyfiles;
+        }
+        if (parser.Found (L"list-emvtoken-keyfiles"))
+        {
+            CheckCommandSingle();
+            ArgCommand = CommandId::ListEMVTokenKeyfiles;
+        }
 
 		if (parser.Found (L"mount"))
 		{

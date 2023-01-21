@@ -1133,9 +1133,16 @@ namespace VeraCrypt
 					" output option (-v). See below for description of MOUNTED_VOLUME.\n"
 					"\n"
 					"--list-token-keyfiles\n"
-					" Display a list of all available security token keyfiles. See also command\n"
+					" Display a list of all available token keyfiles. See also command\n"
 					" --import-token-keyfiles.\n"
-					"\n"
+					"\n""--list-securitytoken-keyfiles\n"
+                    " Display a list of all available security token keyfiles. See also command\n"
+                    " --import-token-keyfiles.\n"
+                    "\n"
+                    "\n""--list-emvtoken-keyfiles\n"
+                    " Display a list of all available emv token keyfiles. See also command\n"
+                    " --import-token-keyfiles.\n"
+                    "\n"
 					"--mount[=VOLUME_PATH]\n"
 					" Mount a volume. Volume path and other options are requested from the user\n"
 					" if not specified on command line.\n"
@@ -1363,9 +1370,17 @@ namespace VeraCrypt
 			ImportSecurityTokenKeyfiles();
 			return true;
 
-		case CommandId::ListSecurityTokenKeyfiles:
-			ListSecurityTokenKeyfiles();
+		case CommandId::ListTokenKeyfiles:
+			ListTokenKeyfiles();
 			return true;
+
+        case CommandId::ListSecurityTokenKeyfiles:
+             ListSecurityTokenKeyfiles();
+             return true;
+
+        case CommandId::ListEMVTokenKeyfiles:
+            ListEMVTokenKeyfiles();
+            return true;
 
 		case CommandId::ListVolumes:
 			if (Preferences.Verbose)

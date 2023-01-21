@@ -25,6 +25,7 @@
 #ifdef TC_UNIX
 	#undef BOOL
 	#include <PCSC/winscard.h>
+    using VeraCrypt::byte;
 	#define BOOL int
 	//#include <unistd.h> //Works without on windows
 #endif
@@ -42,7 +43,7 @@
 #define SELECT_TYPE_SIZE 12      /* Size of the SELECT_TYPE APDU */
 
 
-//using VeraCrypt::byte;
+
 
 class IccDataExtractor {
 private:

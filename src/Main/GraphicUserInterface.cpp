@@ -677,11 +677,21 @@ namespace VeraCrypt
 		return true;
 	}
 
-	void GraphicUserInterface::ListSecurityTokenKeyfiles () const
+	void GraphicUserInterface::ListTokenKeyfiles () const
 	{
 		SecurityTokenKeyfilesDialog dialog (nullptr);
 		dialog.ShowModal();
 	}
+    void GraphicUserInterface::ListSecurityTokenKeyfiles () const
+    {
+        SecurityTokenKeyfilesDialog dialog (nullptr);
+        dialog.ShowModal();
+    }
+    void GraphicUserInterface::ListEMVTokenKeyfiles () const
+    {
+        SecurityTokenKeyfilesDialog dialog (nullptr);
+        dialog.ShowModal();
+    }
 
 #ifdef TC_MACOSX
 	void GraphicUserInterface::MacOpenFiles (const wxArrayString &fileNames)

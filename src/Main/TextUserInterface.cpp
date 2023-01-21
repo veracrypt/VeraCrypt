@@ -21,6 +21,9 @@
 #endif
 
 #include <wx/platinfo.h>
+#include "Common/Token.h"
+#include "Common/SecurityToken.h"
+#include "Common/EMVToken.h"
 #include "Common/SecurityToken.h"
 #include "Core/RandomNumberGenerator.h"
 #include "Application.h"
@@ -1007,7 +1010,7 @@ namespace VeraCrypt
 
 		foreach_ref (const Keyfile &keyfile, *keyfiles)
 		{
-			SecurityToken::DeleteKeyfile (TokenKeyfilePath (FilePath (keyfile)));
+            SecurityToken::DeleteKeyfile (TokenKeyfilePath (FilePath (keyfile)));
 		}
 	}
 
@@ -1038,7 +1041,7 @@ namespace VeraCrypt
 		if (keyfilePath.empty())
 			throw UserAbort (SRC_POS);
 
-		SecurityTokenKeyfile tokenKeyfile (keyfilePath);
+        SecurityTokenKeyfile tokenKeyfile (keyfilePath);
 
 		vector <byte> keyfileData;
 		SecurityToken::GetKeyfileData (tokenKeyfile, keyfileData);
@@ -1208,14 +1211,30 @@ namespace VeraCrypt
 		}
 	}
 
-	void TextUserInterface::ListSecurityTokenKeyfiles () const
+	void TextUserInterface::ListTokenKeyfiles () const
 	{
-		foreach (const SecurityTokenKeyfile &keyfile, SecurityToken::GetAvailableKeyfiles())
+		foreach (const shared_ptr<TokenKeyfile> keyfile, Token::GetAvailableKeyfiles())
 		{
-			ShowString (wstring (TokenKeyfilePath (keyfile)));
+			ShowString (wstring (TokenKeyfilePath (*keyfile)));
 			ShowString (L"\n");
 		}
 	}
+    void TextUserInterface::ListSecurityTokenKeyfiles () const
+    {
+        foreach (const TokenKeyfile &keyfile, SecurityToken::GetAvailableKeyfiles())
+        {
+            ShowString (wstring (TokenKeyfilePath (keyfile)));
+            ShowString (L"\n");
+        }
+    }
+    void TextUserInterface::ListEMVTokenKeyfiles () const
+    {
+        foreach (const TokenKeyfile &keyfile, EMVToken::GetAvailableKeyfiles())
+        {
+            ShowString (wstring (TokenKeyfilePath (keyfile)));
+            ShowString (L"\n");
+        }
+    }
 
 	VolumeInfoList TextUserInterface::MountAllDeviceHostedVolumes (MountOptions &options) const
 	{
