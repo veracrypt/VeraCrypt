@@ -250,7 +250,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		// Determine whether it's a security token path
 		try
 		{
-			if (Token::IsKeyfilePathValid (kf->FileName))  // TODO Use Token
+			if (Token::IsKeyfilePathValid (kf->FileName))
 			{
 				// Apply security token keyfile
 				vector <byte> keyfileData;

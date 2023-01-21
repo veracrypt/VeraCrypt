@@ -12,7 +12,7 @@ shared_ptr<TLVNode> TLVParser::TLV_CreateNode()
 }
 
 /* Check if the bit is correct */
-int TLVParser::CheckBit(unsigned char value, int bit){
+uint16_t TLVParser::CheckBit(unsigned char value, int bit){
     unsigned char bitvalue[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
     if((bit >= 1)&&(bit <= 8)){
@@ -25,7 +25,7 @@ int TLVParser::CheckBit(unsigned char value, int bit){
     }
     else{ //TODO
         throw ;//TLVException("FILE:"+string(__FILE__)+"LINE: "+to_string(__LINE__)+" fonction parameter incorrect! bit=["+to_string(bit));
-        return(-1);
+        return(-1); // TODO change to positive defined constant (unsigned)
     }
 }
 
@@ -33,8 +33,8 @@ int TLVParser::CheckBit(unsigned char value, int bit){
 shared_ptr<TLVNode> TLVParser::TLV_Parse_One(unsigned char* buf,int size){
     int index = 0;
     int i;
-    uint16_t tag1,tag2,tagsize;
-    uint16_t len,lensize;
+    unsigned char tag1,tag2,tagsize;
+    unsigned char len,lensize;
     unsigned char* value;
     shared_ptr<TLVNode> node = TLV_CreateNode();
 

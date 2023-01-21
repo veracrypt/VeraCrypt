@@ -12171,7 +12171,7 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 
 			try
 			{
-				tokens = Token::GetAvailableTokens(); // TODO Use Token
+				tokens = Token::GetAvailableTokens();
 			}
 			catch (Exception &e)
 			{
@@ -12188,9 +12188,9 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 			foreach (const shared_ptr<TokenInfo> token, tokens)
 			{
 				wstringstream tokenLabel;
-				tokenLabel << L"[" << token->SlotId << L"] " << token->Label;  // TODO Use Token
+				tokenLabel << L"[" << token->SlotId << L"] " << token->Label;
 
-				AddComboPair (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token->SlotId);  // TODO Use Token
+				AddComboPair (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token->SlotId);
 			}
 
 			ComboBox_SetCurSel (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), 0);
@@ -12259,7 +12259,7 @@ static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <shared_
 		lvItem.iItem = line++;
 
 		wstringstream s;
-		s << keyfile->SlotId;  // TODO Use Token
+		s << keyfile->SlotId;
 
 		ListItemAdd (tokenListControl, lvItem.iItem, (wchar_t *) s.str().c_str());
 		ListSubItemSet (tokenListControl, lvItem.iItem, 1, (wchar_t *) keyfile->Token->Label.c_str());
@@ -12333,7 +12333,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				keyfiles = Token::GetAvailableKeyfiles(); // TODO Use Token
+				keyfiles = Token::GetAvailableKeyfiles();
 			}
 			catch (UserAbort&)
 			{
@@ -12422,7 +12422,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name); // TODO Use Token
 
-									keyfiles = Token::GetAvailableKeyfiles(); // TODO Use Token
+									keyfiles = Token::GetAvailableKeyfiles();
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
 								catch (Exception &e)
@@ -12504,7 +12504,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));  // TODO Use Token, temp code
 						}
 
-						keyfiles = Token::GetAvailableKeyfiles(); // TODO Use Token
+						keyfiles = Token::GetAvailableKeyfiles();
 						SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 					}
 					catch (Exception &e)

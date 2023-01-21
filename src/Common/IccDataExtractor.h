@@ -60,7 +60,7 @@ private:
 
     std::vector<LPCTSTR> readers;  /* Card reader list */
 
-    int nbReaders;              /* Number of connected (available) readers */
+    unsigned long int nbReaders;              /* Number of connected (available) readers */
 
     LPTSTR mszReaders;           /* Names of the reader groups defined to the system, as a multi-string. Use a NULL value to
                                  * list all readers in the system */
@@ -77,7 +77,7 @@ private:
     int EstablishRSContext();
 
     /* Connecting to the card in the given reader*/
-    int ConnectCard(int reader_nb);
+    int ConnectCard(unsigned long reader_nb);
 
     /* Disconnect the card currently connected*/
     int DisconnectCard();
@@ -107,7 +107,7 @@ public:
 
     /* Detecting available readers and filling the reader table. Returns
      * the number of available readers */
-    int GetReaders();
+    unsigned long GetReaders();
 
     /* Getting an ICC Public Key Certificates, an Issuer Public Key Certificates and the CPCL data
      * from the card designated by the reader number. Appending them into a byte vector */
