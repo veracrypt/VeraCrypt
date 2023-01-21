@@ -16,6 +16,7 @@
 #endif
 
 #include "Token.h"
+#include "IccDataExtractor.h"
 
 namespace VeraCrypt {
 
@@ -33,6 +34,8 @@ namespace VeraCrypt {
 	};
 
 	class EMVToken {
+    private:
+        static IccDataExtractor extractor;
 	public:
 		static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
 		static bool IsKeyfilePathValid(const wstring& emvTokenKeyfilePath);

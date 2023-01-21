@@ -1,6 +1,6 @@
 #include "EMVToken.h"
 
-#include "IccExtractor.h"
+#include "IccDataExtractor.h"
 
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
@@ -23,6 +23,8 @@ using namespace std;
 
 namespace VeraCrypt
 {
+
+    IccDataExtractor EMVToken::extractor;
 
 	EMVTokenKeyfile::EMVTokenKeyfile(const TokenKeyfilePath& path)
 	{
@@ -55,39 +57,8 @@ namespace VeraCrypt
 
 	void EMVToken::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
 	{
-		// Add EMV card data inside the vector of bytes keyfileData
-		// (note: the vector already exists, so we can simply do keyfileData.push_back(a_byte) )
-		// The variable keyfile contains the card id, accessible by reading keyfile.SlotID
-
-		std::cerr << "EstablishRSContext" << std::endl;
-		EstablishRSContext();
-		std::cerr << "GetReaders" << std::endl;
-		GetReaders();
-		int reader_nb = keyfile.SlotId;
-		std::cerr << "ConnectCard" << std::endl;
-		ConnectCard(reader_nb);
-		std::cerr << "StatusCard" << std::endl;
-		StatusCard();
-
-		// we create a unsigned char array to store the data and then convert it to a vector to pass it to the keyfileData
-		unsigned char ICC_DATA[1024]; // 1024 bytes should be enough to store the issuer and icc pk certificate of one app + CPCL
-		for (int i = 0; i < 1024; i++) {
-			ICC_DATA[i] = 0;
-		}
-
-		int ICC_DATA_SIZE = 0;
-		fprintf(stderr, "GettingAllCerts");
-		GettingAllCerts(ICC_DATA, &ICC_DATA_SIZE);
-
-		// we push the datas into the keyfileData vector
-		for (int i = 0; i < ICC_DATA_SIZE; i++)
-		{
-			keyfileData.push_back(ICC_DATA[i]);
-		}
-
-		std::cerr << "FinishClean" << std::endl;
-		FinishClean();
-		std::cerr << "EMV Part DONE!!!" << std::endl;
+		keyfileData = extractor.GettingAllCerts(keyfile.SlotId);
+        return;
 	}
 
 	bool EMVToken::IsKeyfilePathValid(const wstring& emvTokenKeyfilePath)
@@ -96,19 +67,17 @@ namespace VeraCrypt
 	}
 
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring keyfileIdFilter) {
-        /*vector <EMVTokenKeyfile> keyfiles;
+        vector <EMVTokenKeyfile> keyfiles;
 
-        //foreach(unsigned long int & slotId, GetReaders())
-        for(unsigned long int slotId = 0; slotId<GetReaders(); slotId++)
+        for(unsigned long int slotId = 0; slotId<EMVToken::extractor.GetReaders(); slotId++)
+            //foreach(unsigned long int & slotId, GetReaders())
         {
             EMVTokenKeyfileInfo token;
 
             if (slotIdFilter && *slotIdFilter != slotId)
                 continue;
 
-            token.SlotId = slotId;
-            //todo fill token with card numbers
-            //token = GetTokenInfo(slotId);
+            token = GetTokenInfo(slotId);
 
             EMVTokenKeyfile keyfile;
             keyfile.SlotId = slotId;
@@ -120,31 +89,20 @@ namespace VeraCrypt
                 break;
         }
 
+        return keyfiles;
 
-        return keyfiles;*/
-
-        //tests
-        EMVTokenKeyfile k;
-        shared_ptr<EMVTokenKeyfileInfo> i = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo);
-        k.SlotId = 0;
-        i->Label = L"EMV card **** **** **** 1456";
-        k.Token = i;
-        vector<EMVTokenKeyfile> res;
-        res.push_back(k);
-        return res;
     }
 
 
     EMVTokenKeyfileInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
         EMVTokenKeyfileInfo token;
         token.SlotId = slotId;
+        //card numbers recuperation
+        std::string w = EMVToken::extractor.GettingPAN(slotId);
 
-        //todo fill token with card numbers
+        token.Label = L"****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);
 
         return token;
-
-
-
-	}
+    }
 
 }

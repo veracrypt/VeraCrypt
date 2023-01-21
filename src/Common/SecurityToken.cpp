@@ -41,8 +41,6 @@ namespace VeraCrypt
         Token = shared_ptr<SecurityTokenInfo>(token); token->SlotId = CK_UNAVAILABLE_INFORMATION; token->Flags = 0;
     }
 
-
-
 	SecurityTokenKeyfile::SecurityTokenKeyfile(const TokenKeyfilePath& path)
 	{
 		wstring pathStr = path;

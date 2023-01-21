@@ -5,7 +5,9 @@
 #ifndef NEWEMV_ICCDATAEXTRACTOR_H
 #define NEWEMV_ICCDATAEXTRACTOR_H
 
+#ifdef TC_WINDOWS
 #include <winscard.h>
+#endif
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,15 +15,19 @@
 #include <vector>
 #include <iomanip>
 #include <memory>
-
+#include "Platform/PlatformBase.h"
 #include "TLVParser.h"
 
 #ifdef  __linux__
     #include <unistd.h>
 #endif
 
-#ifdef _WIN32
-#include <windows.h>
+#ifdef TC_UNIX
+//#include <stdbool.h> //Works without on windows
+	#undef BOOL
+	#include <PCSC/winscard.h>
+	#define BOOL int
+	//#include <unistd.h> //Works without on windows
 #endif
 
 #ifdef _WIN32
@@ -35,6 +41,9 @@
 #endif
 
 #define SELECT_TYPE_SIZE 12      /* Size of the SELECT_TYPE APDU */
+
+
+using VeraCrypt::byte;
 
 class IccDataExtractor {
 private:
@@ -78,14 +87,14 @@ private:
 
     /* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application
     * (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-    std::vector<std::byte> GetCerts();
+    std::vector<byte> GetCerts();
 
     /* Getting CPCL data from the card and put it into a reference*/
-    std::vector<std::byte> GetCPCL();
+    std::vector<byte> GetCPCL();
 
     /* Getting the PAN  by parsing the application
     * (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-    std::vector<std::byte> GetPAN();
+    std::vector<byte> GetPAN();
 
     /* Helper function to make a string from plain arrays and various standard containers of bytes */
     template<typename TInputIter>
@@ -102,7 +111,7 @@ public:
 
     /* Getting an ICC Public Key Certificates, an Issuer Public Key Certificates and the CPCL data
      * from the card designated by the reader number. Appending them into a byte vector */
-    std::vector<std::byte> GettingAllCerts(int readerNumber);
+    std::vector<byte> GettingAllCerts(int readerNumber);
 
     /* Getting the PAN from the card designated by the reader number */
     std::string GettingPAN(int readerNumber);

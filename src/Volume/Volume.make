@@ -98,8 +98,8 @@ OBJSNOOPT += ../Crypto/jitterentropy-base.o0
 
 OBJS += ../Common/Token.o
 OBJS += ../Common/Crc.o
-OBJS += ../Common/Tlv.o
-OBJS += ../Common/IccExtractor.o
+OBJS += ../Common/IccDataExtractor.o
+OBJS += ../Common/TLVParser.o
 OBJS += ../Common/EMVToken.o
 OBJS += ../Common/Endian.o
 OBJS += ../Common/GfMul.o
