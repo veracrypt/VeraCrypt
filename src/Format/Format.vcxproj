@@ -498,8 +498,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\EMVToken.cpp" />
-    <ClCompile Include="..\Common\IccExtractor.c" />
-    <ClCompile Include="..\Common\Tlv.c" />
+    <ClCompile Include="..\Common\IccDataExtractor.cpp" />
+    <ClCompile Include="..\Common\TLVParser.cpp" />
     <ClCompile Include="..\Common\Token.cpp" />
     <ClCompile Include="FormatCom.cpp" />
     <ClCompile Include="InPlace.c">
@@ -592,8 +592,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Exception.h" />
     <ClInclude Include="..\Common\Fat.h" />
     <ClInclude Include="..\Common\Format.h" />
-    <ClInclude Include="..\Common\IccExtractor.h" />
-    <ClInclude Include="..\Common\Tlv.h" />
+    <ClInclude Include="..\Common\IccDataExtractor.h" />
+    <ClInclude Include="..\Common\TLVParser.h" />
     <ClInclude Include="..\Common\Token.h" />
     <ClInclude Include="FormatCom.h" />
     <ClInclude Include="..\Common\GfMul.h" />

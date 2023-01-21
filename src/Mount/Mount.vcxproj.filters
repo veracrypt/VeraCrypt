@@ -223,16 +223,16 @@
     <ClInclude Include="..\Common\Xts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Tlv.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\EMVToken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\IccExtractor.h">
+    <ClInclude Include="..\Common\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Token.h">
+    <ClInclude Include="..\Common\IccDataExtractor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TLVParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -126,16 +126,16 @@
     <ClCompile Include="..\Setup\SelfExtract.c">
       <Filter>Source Files\Setup</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Tlv.c">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\EMVToken.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\IccExtractor.c">
+    <ClCompile Include="..\Common\Token.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Token.cpp">
+    <ClCompile Include="..\Common\IccDataExtractor.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TLVParser.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -242,16 +242,16 @@
     <ClInclude Include="..\Common\Xts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Tlv.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\EMVToken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\IccExtractor.h">
+    <ClInclude Include="..\Common\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Token.h">
+    <ClInclude Include="..\Common\IccDataExtractor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TLVParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
