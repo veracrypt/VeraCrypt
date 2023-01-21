@@ -52,8 +52,8 @@ int IccDataExtractor::GetReaders(){
     * receives the address of a block of memory containing the multi-string structure */
     DWORD dwReaders = SCARD_AUTOALLOCATE;
 
-    /* Retrieving the available readers list and putting it in mszReaders*/
-    LONG returnValue = SCardListReaders(hContext, NULL, (LPSTR)&mszReaders, &dwReaders);
+    /* Retrieving the available readers list and putting it in mszReaders*/ // Use LPSTR on linux
+    LONG returnValue = SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
 
     /* Check if the listing of the connected readers was unsuccessful  */
     if (returnValue != SCARD_S_SUCCESS)
@@ -61,13 +61,13 @@ int IccDataExtractor::GetReaders(){
 
 
     nbReaders = 0;
-    LPSTR ReaderPtr = mszReaders;
+    LPTSTR ReaderPtr = mszReaders;
 
     /* Getting the total number of readers */
     while (*ReaderPtr != '\0')
     {
         readers.push_back(ReaderPtr);
-        ReaderPtr += strlen(ReaderPtr) + 1;
+        ReaderPtr += strlen((char*)ReaderPtr) + 1;
         nbReaders++;
     }
 
@@ -83,7 +83,7 @@ int IccDataExtractor::ConnectCard(int reader_nb){
 
     /* Check if the given reader slot number is possible */
     if (reader_nb < 0 || reader_nb >= nbReaders)
-        throw ICCExtractionException("Wrong reader index: "+to_string(reader_nb));
+        throw ;//ICCExtractionException("Wrong reader index: "+to_string(reader_nb));
 
     dwActiveProtocol = -1;
 

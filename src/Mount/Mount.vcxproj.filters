@@ -108,16 +108,16 @@
     <ClCompile Include="..\Setup\SelfExtract.c">
       <Filter>Source Files\Setup</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Tlv.c">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\EMVToken.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\IccExtractor.c">
+    <ClCompile Include="..\Common\Token.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Token.cpp">
+    <ClCompile Include="..\Common\IccDataExtractor.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TLVParser.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>

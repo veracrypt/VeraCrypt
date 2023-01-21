@@ -23,8 +23,8 @@ int TLVParser::CheckBit(unsigned char value, int bit){
             return (0);
         }
     }
-    else{
-        throw TLVException("FILE:"+string(__FILE__)+"LINE: "+to_string(__LINE__)+" fonction parameter incorrect! bit=["+to_string(bit));
+    else{ //TODO
+        throw ;//TLVException("FILE:"+string(__FILE__)+"LINE: "+to_string(__LINE__)+" fonction parameter incorrect! bit=["+to_string(bit));
         return(-1);
     }
 }
@@ -87,8 +87,8 @@ shared_ptr<TLVNode> TLVParser::TLV_Parse_One(unsigned char* buf,int size){
     else if(index == size){
         node->MoreFlag = 0;
     }
-    else{
-        throw TLVException("Parse Error! index="+to_string(index)+"size="+to_string(size));
+    else{ // TODO
+        throw ;//TLVException("Parse Error! index="+to_string(index)+"size="+to_string(size));
     }
 
     return node;

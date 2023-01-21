@@ -5,9 +5,6 @@
 #ifndef NEWEMV_ICCDATAEXTRACTOR_H
 #define NEWEMV_ICCDATAEXTRACTOR_H
 
-#ifdef TC_WINDOWS
-#include <winscard.h>
-#endif
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,8 +19,10 @@
     #include <unistd.h>
 #endif
 
+#ifdef TC_WINDOWS
+	#include <winscard.h>
+#endif
 #ifdef TC_UNIX
-//#include <stdbool.h> //Works without on windows
 	#undef BOOL
 	#include <PCSC/winscard.h>
 	#define BOOL int
@@ -43,7 +42,7 @@
 #define SELECT_TYPE_SIZE 12      /* Size of the SELECT_TYPE APDU */
 
 
-using VeraCrypt::byte;
+//using VeraCrypt::byte;
 
 class IccDataExtractor {
 private:
@@ -58,11 +57,11 @@ private:
 
     SCARDHANDLE hCard;          /* A handle that identifies the connection to the smart card in the designated reader*/
 
-    std::vector<char *> readers;  /* Card reader list */
+    std::vector<LPCTSTR> readers;  /* Card reader list */
 
     int nbReaders;              /* Number of connected (available) readers */
 
-    LPSTR mszReaders;           /* Names of the reader groups defined to the system, as a multi-string. Use a NULL value to
+    LPTSTR mszReaders;           /* Names of the reader groups defined to the system, as a multi-string. Use a NULL value to
                                  * list all readers in the system */
 
     DWORD dwActiveProtocol;       /* A flag that indicates the established active protocol.
@@ -154,7 +153,7 @@ protected:
 class APDUException
 {
 public:
-    APDUException(const UCHAR *error): APDUException(error[0], error[1]){}
+    APDUException(const UCHAR *error) {APDUException(error[0], error[1]);}
 
     APDUException(UCHAR e1, UCHAR e2)
     {
