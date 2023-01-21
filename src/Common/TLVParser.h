@@ -20,8 +20,8 @@ struct TLVNode{
     uint16_t MoreFlag;			/* Used In Sub */
     uint16_t SubFlag;			/* Does it have sub-nodes? */
     uint16_t SubCount;
-    struct shared_ptr<TLVNode> Sub[256];
-    struct shared_ptr<TLVNode> Next;
+    shared_ptr<TLVNode> Sub[256];
+    shared_ptr<TLVNode> Next;
 
     ~TLVNode() {
         delete Value;
@@ -35,7 +35,7 @@ private :
     static shared_ptr<TLVNode> TLV_CreateNode();
 
     /* Check if the bit is correct */
-    static int CheckBit(unsigned char value, int bit);
+    static uint16_t CheckBit(unsigned char value, int bit);
 
     /* Parsing one TLV node */
     static shared_ptr<TLVNode> TLV_Parse_One(unsigned char* buf,int size);

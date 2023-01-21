@@ -43,7 +43,7 @@ int IccDataExtractor::EstablishRSContext(){
 }
 
 /* Detecting available readers and filling the reader table */
-int IccDataExtractor::GetReaders(){
+unsigned long IccDataExtractor::GetReaders(){
 
     EstablishRSContext();
 
@@ -53,7 +53,7 @@ int IccDataExtractor::GetReaders(){
     DWORD dwReaders = SCARD_AUTOALLOCATE;
 
     /* Retrieving the available readers list and putting it in mszReaders*/ // Use LPSTR on linux
-    LONG returnValue = SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
+    long returnValue = SCardListReaders(hContext, NULL, mszReaders, &dwReaders);
 
     /* Check if the listing of the connected readers was unsuccessful  */
     if (returnValue != SCARD_S_SUCCESS)
@@ -79,13 +79,13 @@ int IccDataExtractor::GetReaders(){
 }
 
 /* Connecting to the card in the given reader*/
-int IccDataExtractor::ConnectCard(int reader_nb){
+int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
 
     /* Check if the given reader slot number is possible */
     if (reader_nb < 0 || reader_nb >= nbReaders)
         throw ;//ICCExtractionException("Wrong reader index: "+to_string(reader_nb));
 
-    dwActiveProtocol = -1;
+    dwActiveProtocol = SCARD_PROTOCOL_UNDEFINED;;
 
     LONG returnValue = SCardConnect(hContext, readers[reader_nb], SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1, &hCard, &dwActiveProtocol);
 
@@ -108,7 +108,6 @@ bool IccDataExtractor::TestingCardType(const int SELECT_TYPE_NUMBER){
     const BYTE * SELECTED_TYPE = SELECT_TYPES[SELECT_TYPE_NUMBER];
 
     BYTE pbRecvBuffer[64];      /* Buffer to receive the card response */
-    BYTE pbRecvBufferFat[256];  /* Bigger buffer to receive the card response */
 
     DWORD dwSendLength = SELECT_TYPE_SIZE;     /* Set the size of the send buffer */
     DWORD dwRecvLength = sizeof(pbRecvBuffer); /* Set the size of the reception buffer */
@@ -277,7 +276,7 @@ vector<byte> IccDataExtractor::GetCPCL(){
         throw ICCExtractionException("Getting CPCl data response not recognisable");
 
     /* We add CPCL data and crop the TAG and the data length at the start and the trailer at the end */
-    for (int i = 3; i < dwRecvLength-2; i++) {
+    for (unsigned long i = 3; i < dwRecvLength-2; i++) {
         CPCL.push_back(static_cast<byte>(pbRecvBufferFat[i]));
     }
 

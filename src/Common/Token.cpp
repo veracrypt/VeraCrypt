@@ -31,7 +31,7 @@ namespace VeraCrypt
 			foreach (SecurityTokenKeyfile k, SecurityToken::GetAvailableKeyfiles()) {
 				availableKeyfiles.push_back(shared_ptr<TokenKeyfile>(new SecurityTokenKeyfile(k)));
 			}
-		} catch (SecurityTokenLibraryNotInitialized& e){
+		} catch (SecurityTokenLibraryNotInitialized){
 			securityTokenLibraryInitialized = false;
 		}
 
