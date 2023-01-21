@@ -70,14 +70,19 @@ namespace VeraCrypt
         vector <EMVTokenKeyfile> keyfiles;
 
         for(unsigned long int slotId = 0; slotId<EMVToken::extractor.GetReaders(); slotId++)
-            //foreach(unsigned long int & slotId, GetReaders())
         {
             EMVTokenKeyfileInfo token;
 
             if (slotIdFilter && *slotIdFilter != slotId)
                 continue;
 
-            token = GetTokenInfo(slotId);
+            try{
+                token = GetTokenInfo(slotId);
+            } catch(ICCExtractionException) {
+                cout << "Not EMV Type" << endl;
+                continue;
+            }
+
 
             EMVTokenKeyfile keyfile;
             keyfile.SlotId = slotId;
