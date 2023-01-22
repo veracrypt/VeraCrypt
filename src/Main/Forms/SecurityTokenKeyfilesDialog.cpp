@@ -60,7 +60,7 @@ namespace VeraCrypt
 		{
 			vector <wstring> fields (SecurityTokenKeyfileListCtrl->GetColumnCount());
 
-			fields[ColumnSecurityTokenSlotId] = StringConverter::ToWide ((uint64) key->SlotId);
+			fields[ColumnSecurityTokenSlotId] = StringConverter::ToWide ((uint64) key->Token->SlotId);
 			fields[ColumnSecurityTokenLabel] = key->Token->Label;
 			fields[ColumnSecurityTokenKeyfileLabel] = key->Id;
 

@@ -1040,10 +1040,10 @@ namespace VeraCrypt
 		if (keyfilePath.empty())
 			throw UserAbort (SRC_POS);
 
-        TokenKeyfile tokenKeyfile (keyfilePath);
+        shared_ptr<TokenKeyfile> tokenKeyfile = Token::getTokenKeyfile(keyfilePath);
 
 		vector <byte> keyfileData;
-		tokenKeyfile.GetKeyfileData (keyfileData);
+		tokenKeyfile->GetKeyfileData (keyfileData);
 
 		BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 		finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
@@ -1085,7 +1085,7 @@ namespace VeraCrypt
 
 	void TextUserInterface::ImportSecurityTokenKeyfiles () const
 	{
-		list <TokenInfo> tokens = Token::GetAvailableTokens();
+		list <shared_ptr<TokenInfo>> tokens = Token::GetAvailableTokens();
 
 		if (tokens.empty())
 			throw_err (LangString ["NO_TOKENS_FOUND"]);
@@ -1094,19 +1094,19 @@ namespace VeraCrypt
 
 		if (tokens.size() == 1)
 		{
-			slotId = tokens.front().SlotId;
+			slotId = tokens.front()->SlotId;
 		}
 		else
 		{
-			foreach (const TokenInfo &token, tokens)
+			foreach (const shared_ptr<TokenInfo> &token, tokens)
 			{
 				wstringstream tokenLabel;
-				tokenLabel << L"[" << token.SlotId << L"] " << LangString["TOKEN_SLOT_ID"].c_str() << L" " << token.SlotId << L"  " << token.Label;
+				tokenLabel << L"[" << token->SlotId << L"] " << LangString["TOKEN_SLOT_ID"].c_str() << L" " << token->SlotId << L"  " << token->Label;
 
 				ShowInfo (tokenLabel.str());
 			}
 
-			slotId = (CK_SLOT_ID) AskSelection (tokens.back().SlotId, tokens.front().SlotId);
+			slotId = (CK_SLOT_ID) AskSelection (tokens.back()->SlotId, tokens.front()->SlotId);
 		}
 
 		shared_ptr <KeyfileList> keyfiles;
