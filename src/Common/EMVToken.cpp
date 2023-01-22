@@ -28,13 +28,15 @@ namespace VeraCrypt
 
 	EMVTokenKeyfile::EMVTokenKeyfile(const TokenKeyfilePath& path)
 	{
+		Id = EMV_CARDS_LABEL;
+		Token = shared_ptr<EMVTokenInfo>(new EMVTokenInfo());
 		wstring pathStr = path;
 		unsigned long slotId;
 
 		if (swscanf(pathStr.c_str(), TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/%lu", &slotId) != 1)
 			throw nullptr; //InvalidSecurityTokenKeyfilePath(); TODO Create similar error
 
-		SlotId = slotId;
+		Token->SlotId = slotId;
 		/* TODO : Make a similar thing to get an EMVTokenKeyfile token.Label filled with the card number
 		Need : EMVToken::GetAvailableKeyfiles(unsined long *slotIdFilter = nullptr, const wstring keyfileIdFilter = EMV_CARDS_LABEL)
 		returning a vector of EMVTokenKeyfile matching the filters
@@ -50,14 +52,13 @@ namespace VeraCrypt
 	EMVTokenKeyfile::operator TokenKeyfilePath () const
 	{
 		wstringstream path;
-		path << TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId;
+		path << TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/" << Token->SlotId;
 		return path.str();
 	}
 
 	void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
 	{
-		keyfileData = EMVToken::extractor.GettingAllCerts(SlotId);
-		return;
+		keyfileData = EMVToken::extractor.GettingAllCerts(Token->SlotId);
 	}
 
 	bool EMVToken::IsKeyfilePathValid(const wstring& emvTokenKeyfilePath)
@@ -70,7 +71,7 @@ namespace VeraCrypt
 
 		for(unsigned long int slotId = 0; slotId<EMVToken::extractor.GetReaders(); slotId++)
 		{
-			EMVTokenKeyfileInfo token;
+			EMVTokenInfo token;
 
 			if (slotIdFilter && *slotIdFilter != slotId)
 				continue;
@@ -84,8 +85,8 @@ namespace VeraCrypt
 
 
 			EMVTokenKeyfile keyfile;
-			keyfile.SlotId = slotId;
-			keyfile.Token = shared_ptr<EMVTokenKeyfileInfo>(new EMVTokenKeyfileInfo(token));
+			keyfile.Token->SlotId = slotId;
+			keyfile.Token = shared_ptr<TokenInfo>(new EMVTokenInfo(token));
 
 			keyfiles.push_back(keyfile);
 
@@ -98,10 +99,10 @@ namespace VeraCrypt
 	}
 
 
-	EMVTokenKeyfileInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
-		EMVTokenKeyfileInfo token;
+	EMVTokenInfo EMVToken::GetTokenInfo(unsigned long int slotId) {
+		EMVTokenInfo token;
 		token.SlotId = slotId;
-		//card numbers recuperation
+		//card numbers extraction
 		std::string w = EMVToken::extractor.GettingPAN(slotId);
 
 		token.Label = L"EMV card ****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);

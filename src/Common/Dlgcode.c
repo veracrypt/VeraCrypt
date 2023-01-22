@@ -12259,7 +12259,7 @@ static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <shared_
 		lvItem.iItem = line++;
 
 		wstringstream s;
-		s << keyfile->SlotId;
+		s << keyfile->Token->SlotId;
 
 		ListItemAdd (tokenListControl, lvItem.iItem, (wchar_t *) s.str().c_str());
 		ListSubItemSet (tokenListControl, lvItem.iItem, 1, (wchar_t *) keyfile->Token->Label.c_str());

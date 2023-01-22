@@ -38,18 +38,21 @@ namespace VeraCrypt
 {
 	SecurityTokenKeyfile::SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) {
 		SecurityTokenInfo* token = new SecurityTokenInfo();
-		Token = shared_ptr<SecurityTokenInfo>(token); token->SlotId = CK_UNAVAILABLE_INFORMATION; token->Flags = 0;
+		Token = shared_ptr<SecurityTokenInfo>(token);
+		Token->SlotId = CK_UNAVAILABLE_INFORMATION;
+		token->Flags = 0;
 	}
 
 	SecurityTokenKeyfile::SecurityTokenKeyfile(const TokenKeyfilePath& path)
 	{
+		Token = shared_ptr<SecurityTokenInfo>(new SecurityTokenInfo());
 		wstring pathStr = path;
 		unsigned long slotId;
 
 		if (swscanf(pathStr.c_str(), TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/%lu", &slotId) != 1)
 			throw InvalidSecurityTokenKeyfilePath();
 
-		SlotId = slotId;
+		Token->SlotId = slotId;
 
 		size_t keyIdPos = pathStr.find(L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/");
 		if (keyIdPos == wstring::npos)
@@ -57,7 +60,7 @@ namespace VeraCrypt
 
 		Id = pathStr.substr(keyIdPos + wstring(L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/").size());
 
-		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles(&SlotId, Id);
+		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles(&Token->SlotId, Id);
 
 		if (keyfiles.empty())
 			throw SecurityTokenKeyfileNotFound();
@@ -68,7 +71,7 @@ namespace VeraCrypt
 	SecurityTokenKeyfile::operator TokenKeyfilePath () const
 	{
 		wstringstream path;
-		path << TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/" << SlotId << L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/" << Id;
+		path << TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX TC_SECURITY_TOKEN_KEYFILE_URL_SLOT L"/" << Token->SlotId << L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/" << Id;
 		return path.str();
 	}
 
@@ -178,9 +181,9 @@ namespace VeraCrypt
 
 	void SecurityToken::DeleteKeyfile(const SecurityTokenKeyfile& keyfile)
 	{
-		LoginUserIfRequired(keyfile.SlotId);
+		LoginUserIfRequired(keyfile.Token->SlotId);
 
-		CK_RV status = Pkcs11Functions->C_DestroyObject(Sessions[keyfile.SlotId].Handle, keyfile.Handle);
+		CK_RV status = Pkcs11Functions->C_DestroyObject(Sessions[keyfile.Token->SlotId].Handle, keyfile.Handle);
 		if (status != CKR_OK)
 			throw Pkcs11Exception(status);
 	}
@@ -221,7 +224,7 @@ namespace VeraCrypt
 			{
 				SecurityTokenKeyfile keyfile;
 				keyfile.Handle = dataHandle;
-				keyfile.SlotId = slotId;
+				keyfile.Token->SlotId = slotId;
 				keyfile.Token = shared_ptr<SecurityTokenInfo>(new SecurityTokenInfo(token));
 
 				vector <byte> privateAttrib;
@@ -319,8 +322,8 @@ namespace VeraCrypt
 
 	void SecurityTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
 	{
-		SecurityToken::LoginUserIfRequired(SlotId);
-		SecurityToken::GetObjectAttribute(SlotId, Handle, CKA_VALUE, keyfileData);
+		SecurityToken::LoginUserIfRequired(Token->SlotId);
+		SecurityToken::GetObjectAttribute(Token->SlotId, Handle, CKA_VALUE, keyfileData);
 	}
 
 	vector <CK_OBJECT_HANDLE> SecurityToken::GetObjects(CK_SLOT_ID slotId, CK_ATTRIBUTE_TYPE objectClass)

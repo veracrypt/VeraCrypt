@@ -18,14 +18,14 @@
 
 namespace VeraCrypt {
 
-	struct EMVTokenKeyfileInfo: TokenInfo
+	struct EMVTokenInfo: TokenInfo
 	{
 		virtual BOOL isEditable() const {return false;}
 	};
 
 	struct EMVTokenKeyfile: TokenKeyfile
 	{
-		EMVTokenKeyfile(){Id = EMV_CARDS_LABEL;};
+		EMVTokenKeyfile(){Id = EMV_CARDS_LABEL; Token = shared_ptr<EMVTokenInfo>(new EMVTokenInfo());};
 		EMVTokenKeyfile(const TokenKeyfilePath& path);
 
 		virtual operator TokenKeyfilePath () const;
@@ -39,7 +39,7 @@ namespace VeraCrypt {
 	public:
 		static bool IsKeyfilePathValid(const wstring& emvTokenKeyfilePath);
 		static vector<EMVTokenKeyfile> GetAvailableKeyfiles(unsigned long int* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
-		static EMVTokenKeyfileInfo GetTokenInfo(unsigned long int slotId);
+		static EMVTokenInfo GetTokenInfo(unsigned long int slotId);
 
 		friend void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const;
 
