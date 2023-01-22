@@ -55,9 +55,9 @@ namespace VeraCrypt
 		return path.str();
 	}
 
-	void EMVToken::GetKeyfileData(const TokenKeyfile& keyfile, vector<byte>& keyfileData)
+	void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
 	{
-		keyfileData = extractor.GettingAllCerts(keyfile.SlotId);
+		keyfileData = EMVToken::extractor.GettingAllCerts(SlotId);
 		return;
 	}
 

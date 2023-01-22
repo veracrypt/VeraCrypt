@@ -34,6 +34,8 @@ namespace VeraCrypt {
 	struct TokenKeyfile {
 		TokenKeyfile(): SlotId(UNAVAILABLE_SLOT) {};
 		virtual operator TokenKeyfilePath () const = 0;
+		virtual void GetKeyfileData(vector <byte>& keyfileData) const = 0;
+
 		unsigned long int SlotId;
 		string IdUtf8;	                // Was used in SecurityToken to compare with the file name from a PKCS11 card, remove ?
 		shared_ptr<TokenInfo> Token;
@@ -43,7 +45,7 @@ namespace VeraCrypt {
 	class Token {
 	public:
 		static vector<shared_ptr<TokenKeyfile>> GetAvailableKeyfiles();
-		static void GetKeyfileData(const shared_ptr<TokenKeyfile> keyfile, vector <byte>& keyfileData);
+		//static void GetKeyfileData(const shared_ptr<TokenKeyfile> keyfile, vector <byte>& keyfileData);
 		static bool IsKeyfilePathValid(const wstring& tokenKeyfilePath);
 		static list <shared_ptr<TokenInfo>> GetAvailableTokens();	// List available token to write 
 		static shared_ptr<TokenKeyfile> getTokenKeyfile(const TokenKeyfilePath path);

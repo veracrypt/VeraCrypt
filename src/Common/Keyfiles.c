@@ -255,7 +255,8 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				// Apply security token keyfile
 				vector <byte> keyfileData;
 				TokenKeyfilePath secPath (kf->FileName);
-				Token::GetKeyfileData (Token::getTokenKeyfile (secPath), keyfileData);
+				//Token::GetKeyfileData (Token::getTokenKeyfile (secPath), keyfileData);
+				Token::getTokenKeyfile (secPath)->GetKeyfileData (keyfileData);
 
 				if (keyfileData.empty())
 				{

@@ -28,6 +28,7 @@ namespace VeraCrypt {
 		EMVTokenKeyfile(const TokenKeyfilePath& path);
 
 		virtual operator TokenKeyfilePath () const;
+		virtual void GetKeyfileData(vector <byte>& keyfileData) const;
 
 	};
 
@@ -35,10 +36,12 @@ namespace VeraCrypt {
 	private:
 		static IccDataExtractor extractor;
 	public:
-		static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
+		// static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
 		static bool IsKeyfilePathValid(const wstring& emvTokenKeyfilePath);
 		static vector<EMVTokenKeyfile> GetAvailableKeyfiles(unsigned long int* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
 		static EMVTokenKeyfileInfo GetTokenInfo(unsigned long int slotId);
+
+		friend void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const;
 
 	};
 }

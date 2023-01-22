@@ -317,10 +317,10 @@ namespace VeraCrypt
 		return token;
 	}
 
-	void SecurityToken::GetKeyfileData(const SecurityTokenKeyfile& keyfile, vector <byte>& keyfileData)
+	void SecurityTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
 	{
-		LoginUserIfRequired(keyfile.SlotId);
-		GetObjectAttribute(keyfile.SlotId, keyfile.Handle, CKA_VALUE, keyfileData);
+		SecurityToken::LoginUserIfRequired(SlotId);
+		SecurityToken::GetObjectAttribute(SlotId, Handle, CKA_VALUE, keyfileData);
 	}
 
 	vector <CK_OBJECT_HANDLE> SecurityToken::GetObjects(CK_SLOT_ID slotId, CK_ATTRIBUTE_TYPE objectClass)

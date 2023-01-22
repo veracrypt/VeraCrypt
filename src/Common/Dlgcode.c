@@ -12463,7 +12463,8 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 								vector <byte> keyfileData;
 
-								Token::GetKeyfileData (keyfile, keyfileData);
+								keyfile->GetKeyfileData (keyfileData);
+								//Token::GetKeyfileData (keyfile, keyfileData);
 
 								if (keyfileData.empty())
 								{
@@ -12489,7 +12490,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 					return 1;
 				}
 
-			case IDC_DELETE:
+			case IDC_DELETE: // TODO disable this option if not editable
 				{
 					if (AskNoYes ("CONFIRM_SEL_FILES_DELETE", hwndDlg) == IDNO)
 						return 1;

@@ -71,6 +71,8 @@ namespace VeraCrypt
 
 		operator TokenKeyfilePath () const;
 
+		void GetKeyfileData(vector<byte>& keyfileData) const;
+
 		CK_OBJECT_HANDLE Handle;
 	};
 
@@ -176,7 +178,7 @@ namespace VeraCrypt
 		static void CreateKeyfile(CK_SLOT_ID slotId, vector <byte>& keyfileData, const string& name);
 		static void DeleteKeyfile(const SecurityTokenKeyfile& keyfile);
 		static vector <SecurityTokenKeyfile> GetAvailableKeyfiles(CK_SLOT_ID* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
-		static void GetKeyfileData(const SecurityTokenKeyfile& keyfile, vector <byte>& keyfileData);
+		//static void GetKeyfileData(const SecurityTokenKeyfile& keyfile, vector <byte>& keyfileData);
 		static list <SecurityTokenInfo> GetAvailableTokens();
 		static SecurityTokenInfo GetTokenInfo(CK_SLOT_ID slotId);
 #ifdef TC_WINDOWS
@@ -209,6 +211,8 @@ namespace VeraCrypt
 #endif
 		static map <CK_SLOT_ID, Pkcs11Session> Sessions;
 		static unique_ptr <SendExceptionFunctor> WarningCallback;
+
+		friend void SecurityTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const;
 	};
 }
 

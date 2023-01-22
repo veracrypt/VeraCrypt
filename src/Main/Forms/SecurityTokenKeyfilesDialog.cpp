@@ -96,7 +96,7 @@ namespace VeraCrypt
 		{
 			foreach (long item, Gui->GetListCtrlSelectedItems (SecurityTokenKeyfileListCtrl))
 			{
-				SecurityTokenKeyfile *keyfile = reinterpret_cast <SecurityTokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData (item));
+				TokenKeyfile *keyfile = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData (item));
 
 				FilePathList files = Gui->SelectFiles (this, wxEmptyString, true);
 
@@ -105,7 +105,8 @@ namespace VeraCrypt
 					wxBusyCursor busy;
 
 					vector <byte> keyfileData;
-					SecurityToken::GetKeyfileData (*keyfile, keyfileData);
+					//SecurityToken::GetKeyfileData (*keyfile, keyfileData);
+					keyfile->GetKeyfileData (keyfileData);
 
 					BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 					finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
