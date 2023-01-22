@@ -28,7 +28,6 @@ namespace VeraCrypt
 
 	EMVTokenKeyfile::EMVTokenKeyfile(const TokenKeyfilePath& path)
 	{
-		Id = L"emv";
 		wstring pathStr = path;
 		unsigned long slotId;
 
@@ -105,7 +104,7 @@ namespace VeraCrypt
 		//card numbers recuperation
 		std::string w = EMVToken::extractor.GettingPAN(slotId);
 
-		token.Label = L"****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);
+		token.Label = L"EMV card ****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);
 
 		return token;
 	}

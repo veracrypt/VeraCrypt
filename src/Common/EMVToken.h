@@ -20,6 +20,7 @@ namespace VeraCrypt {
 
 	struct EMVTokenKeyfileInfo: TokenInfo
 	{
+		virtual BOOL isEditable() const {return false;}
 	};
 
 	struct EMVTokenKeyfile: TokenKeyfile
@@ -36,7 +37,6 @@ namespace VeraCrypt {
 	private:
 		static IccDataExtractor extractor;
 	public:
-		// static void GetKeyfileData(const TokenKeyfile& keyfile, vector <byte>& keyfileData);
 		static bool IsKeyfilePathValid(const wstring& emvTokenKeyfilePath);
 		static vector<EMVTokenKeyfile> GetAvailableKeyfiles(unsigned long int* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
 		static EMVTokenKeyfileInfo GetTokenInfo(unsigned long int slotId);

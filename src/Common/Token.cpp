@@ -46,19 +46,6 @@ namespace VeraCrypt
 		return availableKeyfiles;
 	}
 
-	/*void Token::GetKeyfileData(const shared_ptr<TokenKeyfile> keyfile, vector<byte>& keyfileData)
-	{
-		shared_ptr<SecurityTokenKeyfile> securityTokenKeyfile = dynamic_pointer_cast<SecurityTokenKeyfile>(keyfile);
-		if(securityTokenKeyfile){
-			SecurityToken::GetKeyfileData(*securityTokenKeyfile.get(),keyfileData);
-		} else {
-			shared_ptr<EMVTokenKeyfile> emvTokenKeyfile = dynamic_pointer_cast<EMVTokenKeyfile>(keyfile);
-			if(emvTokenKeyfile){
-				EMVToken::GetKeyfileData(*emvTokenKeyfile.get(),keyfileData);
-			} 
-		}
-	}*/
-
 	bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath)
 	{
 		return SecurityToken::IsKeyfilePathValid(tokenKeyfilePath) || EMVToken::IsKeyfilePathValid(tokenKeyfilePath);

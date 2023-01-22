@@ -24,7 +24,6 @@
 #include "Common/Token.h"
 #include "Common/SecurityToken.h"
 #include "Common/EMVToken.h"
-#include "Common/SecurityToken.h"
 #include "Core/RandomNumberGenerator.h"
 #include "Application.h"
 #include "TextUserInterface.h"
@@ -1041,10 +1040,10 @@ namespace VeraCrypt
 		if (keyfilePath.empty())
 			throw UserAbort (SRC_POS);
 
-        SecurityTokenKeyfile tokenKeyfile (keyfilePath);
+        TokenKeyfile tokenKeyfile (keyfilePath);
 
 		vector <byte> keyfileData;
-		SecurityToken::GetKeyfileData (tokenKeyfile, keyfileData);
+		tokenKeyfile.GetKeyfileData (keyfileData);
 
 		BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 		finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
@@ -1086,7 +1085,7 @@ namespace VeraCrypt
 
 	void TextUserInterface::ImportSecurityTokenKeyfiles () const
 	{
-		list <SecurityTokenInfo> tokens = SecurityToken::GetAvailableTokens();
+		list <TokenInfo> tokens = Token::GetAvailableTokens();
 
 		if (tokens.empty())
 			throw_err (LangString ["NO_TOKENS_FOUND"]);
@@ -1099,7 +1098,7 @@ namespace VeraCrypt
 		}
 		else
 		{
-			foreach (const SecurityTokenInfo &token, tokens)
+			foreach (const TokenInfo &token, tokens)
 			{
 				wstringstream tokenLabel;
 				tokenLabel << L"[" << token.SlotId << L"] " << LangString["TOKEN_SLOT_ID"].c_str() << L" " << token.SlotId << L"  " << token.Label;

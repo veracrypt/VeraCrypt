@@ -12374,8 +12374,15 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 		if (msg == WM_NOTIFY && ((LPNMHDR) lParam)->code == LVN_ITEMCHANGED)
 		{
 			BOOL selected = (ListView_GetNextItem (GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST), -1, LVIS_SELECTED) != -1);
+			BOOL deletable = true;
+			foreach (const shared_ptr<TokenKeyfile> &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
+			{
+				if( ! keyfile->Token->isEditable()){
+					deletable = false;
+				}
+			}
 			EnableWindow (GetDlgItem (hwndDlg, IDC_EXPORT), selected);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_DELETE), selected);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_DELETE), deletable);
 			return 1;
 		}
 
@@ -12464,7 +12471,6 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 								vector <byte> keyfileData;
 
 								keyfile->GetKeyfileData (keyfileData);
-								//Token::GetKeyfileData (keyfile, keyfileData);
 
 								if (keyfileData.empty())
 								{
@@ -12490,7 +12496,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 					return 1;
 				}
 
-			case IDC_DELETE: // TODO disable this option if not editable
+			case IDC_DELETE:
 				{
 					if (AskNoYes ("CONFIRM_SEL_FILES_DELETE", hwndDlg) == IDNO)
 						return 1;

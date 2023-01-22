@@ -105,7 +105,6 @@ namespace VeraCrypt
 					wxBusyCursor busy;
 
 					vector <byte> keyfileData;
-					//SecurityToken::GetKeyfileData (*keyfile, keyfileData);
 					keyfile->GetKeyfileData (keyfileData);
 
 					BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());

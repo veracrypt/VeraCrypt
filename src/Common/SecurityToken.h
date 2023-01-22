@@ -59,6 +59,8 @@ namespace VeraCrypt
 {
 	struct SecurityTokenInfo: TokenInfo
 	{
+		virtual BOOL isEditable() const {return true;}
+
 		CK_FLAGS Flags;
 		string LabelUtf8;
 	};
@@ -178,7 +180,6 @@ namespace VeraCrypt
 		static void CreateKeyfile(CK_SLOT_ID slotId, vector <byte>& keyfileData, const string& name);
 		static void DeleteKeyfile(const SecurityTokenKeyfile& keyfile);
 		static vector <SecurityTokenKeyfile> GetAvailableKeyfiles(CK_SLOT_ID* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
-		//static void GetKeyfileData(const SecurityTokenKeyfile& keyfile, vector <byte>& keyfileData);
 		static list <SecurityTokenInfo> GetAvailableTokens();
 		static SecurityTokenInfo GetTokenInfo(CK_SLOT_ID slotId);
 #ifdef TC_WINDOWS
