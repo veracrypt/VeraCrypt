@@ -177,15 +177,25 @@ namespace VeraCrypt
 		}
 	}
 
-	void SecurityTokenKeyfilesDialog::OnListItemSelected (wxListEvent& event)
-	{
-		if (event.GetItem().GetData() != (wxUIntPtr) nullptr)
-		{
-			DeleteButton->Enable();
-			ExportButton->Enable();
-			OKButton->Enable();
-		}
-	}
+    void SecurityTokenKeyfilesDialog::OnListItemSelected(wxListEvent &event) {
+        if (event.GetItem().GetData() != (wxUIntPtr) nullptr) {
+            BOOL deletable = true;
+            foreach(long
+            item, Gui->GetListCtrlSelectedItems(SecurityTokenKeyfileListCtrl))
+            {
+                TokenKeyfile *keyfile = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData(
+                        item));
+                if (!keyfile->Token->isEditable()) {
+                    deletable = false;
+                }
+            }
+            if (deletable) {
+                DeleteButton->Enable();
+            }
+            ExportButton->Enable();
+            OKButton->Enable();
+        }
+    }
 
 	void SecurityTokenKeyfilesDialog::OnOKButtonClick ()
 	{
