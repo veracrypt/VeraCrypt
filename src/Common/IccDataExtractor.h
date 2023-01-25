@@ -87,10 +87,10 @@ private:
 
 	/* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application
 	* (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-	std::vector<byte> GetCerts();
+	void GetCerts(vector<byte> &CERTS);
 
 	/* Getting CPCL data from the card and put it into a reference*/
-	std::vector<byte> GetCPCL();
+	void GetCPCL(vector<byte> &v);
 
 	/* Getting the PAN  by parsing the application
 	* (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
@@ -111,7 +111,7 @@ public:
 
 	/* Getting an ICC Public Key Certificates, an Issuer Public Key Certificates and the CPCL data
 	* from the card designated by the reader number. Appending them into a byte vector */
-	std::vector<byte> GettingAllCerts(int readerNumber);
+	void GettingAllCerts(int readerNumber, vector<byte> &v);
 
 	/* Getting the PAN from the card designated by the reader number */
 	std::string GettingPAN(int readerNumber);

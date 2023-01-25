@@ -58,7 +58,7 @@ namespace VeraCrypt
 
 	void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
 	{
-		keyfileData = EMVToken::extractor.GettingAllCerts(Token->SlotId);
+		EMVToken::extractor.GettingAllCerts(Token->SlotId, keyfileData);
 	}
 
 	bool EMVToken::IsKeyfilePathValid(const wstring& emvTokenKeyfilePath)

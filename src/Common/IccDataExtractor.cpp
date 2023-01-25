@@ -136,8 +136,9 @@ bool IccDataExtractor::TestingCardType(const int SELECT_TYPE_NUMBER){
 
 /* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application
 * (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-vector<byte> IccDataExtractor::GetCerts(){
-	vector<byte> CERTS;
+void IccDataExtractor::GetCerts(vector<byte> &CERTS){
+
+    CERTS.clear();
 
 	bool iccFound= false;
 	bool issuerFound= false;
@@ -221,17 +222,14 @@ vector<byte> IccDataExtractor::GetCerts(){
 
 			/* Limiting the search to at least one occurrence of both PKs to speed up the process.
 			* There might be more certificates tho */
-			if(iccFound && issuerFound) return CERTS;
+			if(iccFound && issuerFound) return;
 		}
 	}
 	throw ICCExtractionException("One of the PK is missing in this application");
-	return CERTS;
 }
 
 /* Getting CPCL data from the card*/
-vector<byte> IccDataExtractor::GetCPCL(){
-
-	vector<byte> CPCL;
+void IccDataExtractor::GetCPCL(vector<byte> &v){
 
 	BYTE SELECT_APDU_CPCL[] = {0x80,0xCA, 0x9F, 0x7F, 0x00};
 
@@ -277,20 +275,16 @@ vector<byte> IccDataExtractor::GetCPCL(){
 
 	/* We add CPCL data and crop the TAG and the data length at the start and the trailer at the end */
 	for (unsigned long i = 3; i < dwRecvLength-2; i++) {
-		CPCL.push_back(static_cast<byte>(pbRecvBufferFat[i]));
+		v.push_back(static_cast<byte>(pbRecvBufferFat[i]));
 	}
-
-	return CPCL;
 }
 
 /* Getting an ICC Public Key Certificates and an Issuer Public Key Certificates for the first application with the cpcl
 * data present on the card and finally merge it into one byte array */
-vector<byte> IccDataExtractor::GettingAllCerts(int readerNumber){
+void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
 	bool isEMV= false;
 	bool hasCPCL=false;
 	bool hasCerts=false;
-
-	vector<byte> ICC_DATA;
 
 	try{
 		ConnectCard(readerNumber);
@@ -307,8 +301,8 @@ vector<byte> IccDataExtractor::GettingAllCerts(int readerNumber){
 			/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
 			if(!TestingCardType(i)) continue;
 			isEMV= true;
-			vector<byte> CERTS=GetCerts();
-			ICC_DATA.insert(ICC_DATA.end(),CERTS.begin(),CERTS.end());
+			GetCerts(v);
+			//ICC_DATA.insert(ICC_DATA.end(),CERTS.begin(),CERTS.end());
 			hasCerts=true;
 			break;
 		}catch (const APDUException &ex){
@@ -342,8 +336,8 @@ vector<byte> IccDataExtractor::GettingAllCerts(int readerNumber){
 	}
 
 	try{
-		vector<byte> CPCL=GetCPCL();
-		ICC_DATA.insert(ICC_DATA.end(),CPCL.begin(),CPCL.end());
+		GetCPCL(v);
+		//ICC_DATA.insert(ICC_DATA.end(),CPCL.begin(),CPCL.end());
 		hasCPCL= true;
 	}catch (const APDUException &ex){
 		printf("Error when getting CPCL: 0x%04x\n",ex.ErrorCode());  //TODO Change printf to cout
@@ -354,8 +348,6 @@ vector<byte> IccDataExtractor::GettingAllCerts(int readerNumber){
 	}
 
 	DisconnectCard();
-
-	return ICC_DATA;
 }
 
 /* Getting the PAN  by parsing the application
