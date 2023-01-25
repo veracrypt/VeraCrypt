@@ -12374,7 +12374,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 		if (msg == WM_NOTIFY && ((LPNMHDR) lParam)->code == LVN_ITEMCHANGED)
 		{
 			BOOL selected = (ListView_GetNextItem (GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST), -1, LVIS_SELECTED) != -1);
-			BOOL deletable = true;
+			BOOL deletable = selected;
 			foreach (const shared_ptr<TokenKeyfile> &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 			{
 				if( ! keyfile->Token->isEditable()){
