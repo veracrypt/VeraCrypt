@@ -1521,6 +1521,7 @@
     <entry lang="co" key="LINUX_NOT_SUPPORTED" > (micca accettatu da i cumpunenti dispunibule nant’à sta piattaforma).\n</entry>
     <entry lang="co" key="LINUX_KERNEL_OLD" >U vostru sistema impiegheghja una vechja versione di u nocciulu Linux.\n\nPer via d’un prublema in u nocciulu Linux, u vostru sistema puderia piantassi di risponde quandu si scrive i dati nant’à u vulume VeraCrypt. Stu prublema pò esse currettu mittendu à livellu u nocciulu à a versione 2.6.24 o più recente.</entry>
     <entry lang="co" key="LINUX_VOL_DISMOUNTED" >U vulume {0} hè statu smuntatu.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="co" key="LINUX_OOM" >Mancanza di memoria.</entry>
     <entry lang="co" key="LINUX_CANT_GET_ADMIN_PRIV" >Impussibule d’ottene i privileghji d’amministratore</entry>
     <entry lang="co" key="LINUX_COMMAND_GET_ERROR" >A cumanda {0} hà restituitu u sbagliu {1}.</entry>

@@ -1521,6 +1521,7 @@
     <entry lang="ko" key="LINUX_NOT_SUPPORTED"> (이 플랫폼의 구성요소로는 지원되지 않습니다).\n</entry>
     <entry lang="ko" key="LINUX_KERNEL_OLD">시스템이 오래된 Linux 커널을 사용하고 있습니다.\n\nLinux 커널의 버그로 인해, VeraCrypt 볼륨으로 데이터 작성 중에 시스템이 응답을 중단할 수도 있습니다. 이 문제는 커널을 2.6.24 혹은 더 높은 버전으로 업그레이드하면 해결됩니다.</entry>
     <entry lang="ko" key="LINUX_VOL_DISMOUNTED">{0} 볼륨이 마운트 해제되었습니다.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="ko" key="LINUX_OOM">메모리 부족.</entry>
     <entry lang="ko" key="LINUX_CANT_GET_ADMIN_PRIV">관리자 권한을 취득하는데에 실패했습니다.</entry>
     <entry lang="ko" key="LINUX_COMMAND_GET_ERROR">{0} 명령어가 {1} 오류를 반환하였습니다.</entry>

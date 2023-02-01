@@ -1521,6 +1521,7 @@
     <entry lang="zh-cn" key="LINUX_NOT_SUPPORTED"> (此平台上可用的组件不支持).\n</entry>
     <entry lang="zh-cn" key="LINUX_KERNEL_OLD">您的系统使用的是旧版本Linux内核。\n\n由于Linux内核中的错误，在将数据写入VeraCrypt卷时，系统可能会停止响应。这个问题可以通过将内核升级到2.6.24或更高版本来解决。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_DISMOUNTED">卷{0}已卸载。</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="zh-cn" key="LINUX_OOM">内存不足。</entry>
     <entry lang="zh-cn" key="LINUX_CANT_GET_ADMIN_PRIV">获取管理员权限失败</entry>
     <entry lang="zh-cn" key="LINUX_COMMAND_GET_ERROR">命令{0}返回错误{1}.</entry>

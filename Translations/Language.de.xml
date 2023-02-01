@@ -1524,6 +1524,7 @@
     <entry lang="de" key="LINUX_NOT_SUPPORTED">(wird von den vorhandenen Komponenten dieser Plattform nicht unterstützt).</entry>
     <entry lang="de" key="LINUX_KERNEL_OLD">Ihr System verwendet einen alten Linux-Kernel.\n\nWegen eines Fehlers im Linux-Kernel kann es passieren, dass Ihr System beim Schreiben auf ein VeraCrypt-Volume nicht mehr reagiert. Diese Problem kann durch einen Kernel in Version 2.6.24 oder neuer gelöst werden.</entry>
     <entry lang="de" key="LINUX_VOL_DISMOUNTED">Volume {0} ausgehängt.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="de" key="LINUX_OOM">Zu wenig Speicher.</entry>
     <entry lang="de" key="LINUX_CANT_GET_ADMIN_PRIV">Erlangen der Administrator-Privilegien fehlgeschlagen</entry>
     <entry lang="de" key="LINUX_COMMAND_GET_ERROR">Kommando {0} lieferte Fehler: {1}.</entry>

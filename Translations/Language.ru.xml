@@ -1521,6 +1521,7 @@
     <entry lang="ru" key="LINUX_NOT_SUPPORTED"> (не поддерживается компонентами, доступными на этой платформе).\n</entry>
     <entry lang="ru" key="LINUX_KERNEL_OLD">Ваша система использует старую версию ядра Linux.\n\nИз-за ошибки в ядре Linux система может перестать отвечать на запросы при записи данных на том VeraCrypt. Эта проблема решается обновлением ядра до версии 2.6.24 или более новой.</entry>
     <entry lang="ru" key="LINUX_VOL_DISMOUNTED">Том {0} размонтирован.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="ru" key="LINUX_OOM">Недостаточно памяти.</entry>
     <entry lang="ru" key="LINUX_CANT_GET_ADMIN_PRIV">Не удалось получить права администратора</entry>
     <entry lang="ru" key="LINUX_COMMAND_GET_ERROR">Команда {0} возвратила ошибку {1}.</entry>

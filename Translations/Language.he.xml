@@ -1522,6 +1522,7 @@
     <entry lang="he" key="LINUX_NOT_SUPPORTED">(לא נתמך על ידי רכיבים הזמינים בפלטפורמה זו). \n</entry>
     <entry lang="he" key="LINUX_KERNEL_OLD">המערכת שלך משתמשת בגרסה ישנה של ליבת לינוקס. \n \n בשל באג בליבת הלינוקס, המערכת שלך עשויה להפסיק להגיב בעת כתיבת נתונים לאמצעי אחסון VeraCrypt.ניתן לפתור בעיה זו על ידי שדרוג הגרעין לגרסה 2.6.24 ואילך.</entry>
     <entry lang="he" key="LINUX_VOL_DISMOUNTED">אמצעי האחסון {0} הוסר.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="he" key="LINUX_OOM">מתוך הזיכרון.</entry>
     <entry lang="he" key="LINUX_CANT_GET_ADMIN_PRIV">השגת הרשאות מנהל נכשלה</entry>
     <entry lang="he" key="LINUX_COMMAND_GET_ERROR">הפקודה {0} החזירה שגיאה {1}.</entry>

@@ -1008,7 +1008,7 @@ namespace VeraCrypt
 					{
 						if (!message.IsEmpty())
 							message += L'\n';
-						message += StringFormatter (LangString["LINUX_VOL_DISMOUNTED"], wstring (volume.Path));
+						message += StringFormatter (LangString["LINUX_VOL_MOUNTED"], wstring (volume.Path));
 					}
 					ShowInfo (message);
 				}
