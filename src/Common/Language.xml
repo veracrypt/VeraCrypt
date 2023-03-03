@@ -113,6 +113,7 @@
     <entry lang="en" key="IDC_CACHE">Cache passwords and keyfil&amp;es in memory</entry>
     <entry lang="en" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Exit when there are no mounted volumes</entry>
     <entry lang="en" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Close token session (log out) after a volume is successfully mounted</entry>
+    <entry lang="en" key="IDC_ACTIVATE_EMV_OPTION">Activate EMV Option</entry>
     <entry lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</entry>
     <entry lang="en" key="IDC_COPY_WIZARD">Include VeraCrypt Volume Creation Wizard</entry>
     <entry lang="en" key="IDC_CREATE">Create</entry>
@@ -295,6 +296,7 @@
     <entry lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="en" key="IDT_PW_CACHE_OPTIONS">Password Cache</entry>
     <entry lang="en" key="IDT_SECURITY_OPTIONS">Security Options</entry>
+    <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
     <entry lang="en" key="IDT_TASKBAR_ICON">VeraCrypt Background Task</entry>
     <entry lang="en" key="IDT_TRAVELER_MOUNT">VeraCrypt volume to mount (relative to traveler disk root):</entry>
     <entry lang="en" key="IDT_TRAVEL_INSERTION">Upon insertion of traveler disk: </entry>
