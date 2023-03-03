@@ -1121,7 +1121,7 @@ namespace VeraCrypt
 					" Delete keyfiles from security tokens. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--export-token-keyfile\n"
-					" Export a keyfile from a security token. See also command --list-token-keyfiles.\n"
+					" Export a keyfile from a token keyfile. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--import-token-keyfiles\n"
 					" Import keyfiles to a security token. See also option --token-lib.\n"
