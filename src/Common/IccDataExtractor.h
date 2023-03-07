@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sstream>
 #include <vector>
 #include <iomanip>
 #include <memory>
@@ -58,11 +59,11 @@ private:
 
 	SCARDHANDLE hCard;          /* A handle that identifies the connection to the smart card in the designated reader*/
 
-	std::vector<LPCTSTR> readers;  /* Card reader list */
+	std::vector<char*> readers;  /* Card reader list */
 
 	unsigned long int nbReaders;              /* Number of connected (available) readers */
 
-	LPTSTR mszReaders;           /* Names of the reader groups defined to the system, as a multi-string. Use a NULL value to
+	LPSTR mszReaders;           /* Names of the reader groups defined to the system, as a multi-string. Use a NULL value to
 								 * list all readers in the system */
 
 	DWORD dwActiveProtocol;       /* A flag that indicates the established active protocol.
