@@ -68,8 +68,8 @@ namespace VeraCrypt
 
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring keyfileIdFilter) {
 		vector <EMVTokenKeyfile> keyfiles;
-
-		for(unsigned long int slotId = 0; slotId<EMVToken::extractor.GetReaders(); slotId++)
+		unsigned long int nb = EMVToken::extractor.GetReaders();
+		for(unsigned long int slotId = 0; slotId<nb; slotId++)
 		{
 			EMVTokenInfo token;
 

@@ -53,7 +53,11 @@ unsigned long IccDataExtractor::GetReaders(){
 	DWORD dwReaders = SCARD_AUTOALLOCATE;
 
 	/* Retrieving the available readers list and putting it in mszReaders*/ // Use LPSTR on linux
+#ifdef TC_WINDOWS
+	long returnValue = SCardListReadersA(hContext, NULL, (LPSTR)&mszReaders, &dwReaders);
+#else
 	long returnValue = SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
+#endif
 
 	/* Check if the listing of the connected readers was unsuccessful  */
 	if (returnValue != SCARD_S_SUCCESS)
@@ -61,7 +65,7 @@ unsigned long IccDataExtractor::GetReaders(){
 
 
 	nbReaders = 0;
-	LPTSTR ReaderPtr = mszReaders;
+	LPSTR ReaderPtr = mszReaders;
 
 	/* Getting the total number of readers */
 	while (*ReaderPtr != '\0')
@@ -87,7 +91,11 @@ int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
 
 	dwActiveProtocol = SCARD_PROTOCOL_UNDEFINED;
 
+#ifdef TC_WINDOWS
+	LONG returnValue = SCardConnectA(hContext, readers[reader_nb], SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1, &hCard, &dwActiveProtocol);
+#else
 	LONG returnValue = SCardConnect(hContext, readers[reader_nb], SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1, &hCard, &dwActiveProtocol);
+#endif
 
 	/* Check is the card connection was unsuccessful */
 	if (returnValue != SCARD_S_SUCCESS)
