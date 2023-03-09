@@ -1212,7 +1212,7 @@ namespace VeraCrypt
 
 	void TextUserInterface::ListTokenKeyfiles () const
 	{
-		foreach (const shared_ptr<TokenKeyfile> keyfile, Token::GetAvailableKeyfiles())
+		foreach (const shared_ptr<TokenKeyfile> keyfile, Token::GetAvailableKeyfiles(true))
 		{
 			ShowString (wstring (TokenKeyfilePath (*keyfile)));
 			ShowString (L"\n");

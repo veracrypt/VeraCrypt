@@ -53,7 +53,7 @@ namespace VeraCrypt
 		wxBusyCursor busy;
 
 		SecurityTokenKeyfileListCtrl->DeleteAllItems();
-		SecurityTokenKeyfileList = Token::GetAvailableKeyfiles();
+		SecurityTokenKeyfileList = Token::GetAvailableKeyfiles(Gui->GetPreferences().ActivateEMVOption);
 
 		size_t i = 0;
 		foreach (const shared_ptr<TokenKeyfile> key, SecurityTokenKeyfileList)
