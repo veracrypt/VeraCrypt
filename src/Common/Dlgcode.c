@@ -12333,7 +12333,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				keyfiles = Token::GetAvailableKeyfiles();
+				keyfiles = Token::GetAvailableKeyfiles(true);
 			}
 			catch (UserAbort&)
 			{
@@ -12429,7 +12429,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name); // TODO Use Token
 
-									keyfiles = Token::GetAvailableKeyfiles();
+									keyfiles = Token::GetAvailableKeyfiles(true);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
 								catch (Exception &e)
@@ -12511,7 +12511,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));  // TODO Use Token, temp code
 						}
 
-						keyfiles = Token::GetAvailableKeyfiles();
+						keyfiles = Token::GetAvailableKeyfiles(true);
 						SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 					}
 					catch (Exception &e)
