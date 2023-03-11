@@ -207,6 +207,7 @@ BOOL LastMountedVolumeDirty;
 BOOL MountVolumesAsSystemFavorite = FALSE;
 BOOL FavoriteMountOnArrivalInProgress = FALSE;
 BOOL MultipleMountOperationInProgress = FALSE;
+BOOL ActivateEMVOption = FALSE;
 
 volatile BOOL NeedPeriodicDeviceListUpdate = FALSE;
 BOOL DisablePeriodicDeviceListUpdate = FALSE;
@@ -12333,7 +12334,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				keyfiles = Token::GetAvailableKeyfiles(true);
+				keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
 			}
 			catch (UserAbort&)
 			{
@@ -12429,7 +12430,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name); // TODO Use Token
 
-									keyfiles = Token::GetAvailableKeyfiles(true);
+									keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
 								catch (Exception &e)
@@ -12511,7 +12512,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));  // TODO Use Token, temp code
 						}
 
-						keyfiles = Token::GetAvailableKeyfiles(true);
+						keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
 						SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 					}
 					catch (Exception &e)

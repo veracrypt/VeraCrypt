@@ -953,6 +953,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	}
 
 	ConfigReadCompareInt ("CloseSecurityTokenSessionsAfterMount", 0, &CloseSecurityTokenSessionsAfterMount, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("ActivateEMVOption", 0, &ActivateEMVOption, bOnlyCheckModified, pbSettingsModified);
 
 	if (IsHiddenOSRunning())
 		ConfigReadCompareInt ("HiddenSystemLeakProtNotifStatus", TC_HIDDEN_OS_READ_ONLY_NOTIF_MODE_NONE, &HiddenSysLeakProtectionNotificationStatus, bOnlyCheckModified, pbSettingsModified);
@@ -1125,6 +1126,7 @@ void SaveSettings (HWND hwndDlg)
 		}
 
 		ConfigWriteInt ("CloseSecurityTokenSessionsAfterMount",	CloseSecurityTokenSessionsAfterMount);
+		ConfigWriteInt ("ActivateEMVOption", ActivateEMVOption);
 
 		// Hotkeys
 		ConfigWriteInt ("HotkeyModAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyModifiers);
@@ -11814,6 +11816,7 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 		LocalizeDialog (hwndDlg, "IDD_TOKEN_PREFERENCES");
 		SetDlgItemText (hwndDlg, IDC_PKCS11_MODULE, SecurityTokenLibraryPath);
 		CheckDlgButton (hwndDlg, IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT, CloseSecurityTokenSessionsAfterMount ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton (hwndDlg, IDC_ACTIVATE_EMV_OPTION, ActivateEMVOption ? BST_CHECKED : BST_UNCHECKED);
 
 		SetWindowTextW (GetDlgItem (hwndDlg, IDT_PKCS11_LIB_HELP), GetString("PKCS11_LIB_LOCATION_HELP"));
 
@@ -11856,7 +11859,7 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 				}
 
 				CloseSecurityTokenSessionsAfterMount = (IsDlgButtonChecked (hwndDlg, IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT) == BST_CHECKED);
-
+				ActivateEMVOption = (IsDlgButtonChecked (hwndDlg, IDC_ACTIVATE_EMV_OPTION) == BST_CHECKED);
 				WaitCursor ();
 				SaveSettings (hwndDlg);
 				NormalCursor ();
