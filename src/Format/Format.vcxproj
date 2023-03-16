@@ -652,7 +652,9 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <None Include="..\Boot\Windows\Release_Twofish\BootSector.bin" />
     <None Include="..\Boot\Windows\Release_AES\BootSector.bin" />
     <None Include="..\Boot\Windows\Release\Decompressor.com" />
-    <None Include="..\Common\Language.xml" />
+    <None Include="..\Common\Language.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Resources\Texts\License.rtf" />
     <None Include="..\Common\Textual_logo_288dpi.bmp" />
     <None Include="..\Common\Textual_logo_96dpi.bmp" />
