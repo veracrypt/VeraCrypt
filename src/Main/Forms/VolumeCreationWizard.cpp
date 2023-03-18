@@ -795,7 +795,6 @@ namespace VeraCrypt
 						shared_ptr <VolumePassword> hiddenPassword;
 						try
 						{
-                            cout << "création volume" << endl;
 							hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().ActivateEMVOption);
 						}
 						catch (...)
@@ -847,7 +846,6 @@ namespace VeraCrypt
 					shared_ptr <VolumePassword> hiddenPassword;
 					try
 					{
-                        cout << "création volume" << endl;
 						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().ActivateEMVOption);
 					}
 					catch (...)
@@ -1164,7 +1162,6 @@ namespace VeraCrypt
 				// remember Outer password and keyfiles in order to be able to compare it with those of Hidden volume
 				try
 				{
-                    cout << "création volume" << endl;
 					OuterPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().ActivateEMVOption);
 				}
 				catch (...)

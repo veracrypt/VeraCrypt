@@ -84,7 +84,6 @@ namespace VeraCrypt
 
 	shared_ptr <VolumePassword> Keyfile::ApplyListToPassword (shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> password, bool EMVOption)
 	{
-        cout << EMVOption << endl;
 		if (!password)
 			password.reset (new VolumePassword);
 

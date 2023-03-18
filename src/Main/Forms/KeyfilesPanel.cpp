@@ -20,7 +20,6 @@ namespace VeraCrypt
 	KeyfilesPanel::KeyfilesPanel (wxWindow* parent, shared_ptr <KeyfileList> keyfiles)
 		: KeyfilesPanelBase (parent)
 	{
-        cout << "test" << endl;
 		KeyfilesListCtrl->InsertColumn (0, LangString["KEYFILE"], wxLIST_FORMAT_LEFT, 1);
 		Gui->SetListCtrlHeight (KeyfilesListCtrl, 10);
 

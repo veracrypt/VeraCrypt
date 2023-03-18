@@ -98,7 +98,7 @@ namespace VeraCrypt
 			{
 				MountOptions newOptions = options;
 
-				newOptions.Password = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
+				newOptions.Password = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVOption);
 				if (newOptions.Keyfiles)
 					newOptions.Keyfiles->clear();
 
