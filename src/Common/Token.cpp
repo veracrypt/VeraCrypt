@@ -49,9 +49,12 @@ namespace VeraCrypt
 		return availableKeyfiles;
 	}
 
-	bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath)
+	bool Token::IsKeyfilePathValid(const wstring& tokenKeyfilePath, bool EMVOption)
 	{
-		return SecurityToken::IsKeyfilePathValid(tokenKeyfilePath) || EMVToken::IsKeyfilePathValid(tokenKeyfilePath);
+        if(EMVOption){
+            return SecurityToken::IsKeyfilePathValid(tokenKeyfilePath) || EMVToken::IsKeyfilePathValid(tokenKeyfilePath);
+        }
+		return SecurityToken::IsKeyfilePathValid(tokenKeyfilePath);
 	}
 
 	list <shared_ptr<TokenInfo>> Token::GetAvailableTokens()
