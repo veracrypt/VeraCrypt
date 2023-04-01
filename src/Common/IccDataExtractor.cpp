@@ -62,8 +62,7 @@ unsigned long IccDataExtractor::GetReaders(){
 	/* Check if the listing of the connected readers was unsuccessful  */
 	if (returnValue != SCARD_S_SUCCESS)
 		throw PCSCException(returnValue);
-
-
+ 
 	nbReaders = 0;
 	LPSTR ReaderPtr = mszReaders;
 
@@ -106,7 +105,12 @@ int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
 
 /* Disconnect the card currently connected*/
 int IccDataExtractor::DisconnectCard(){
-	SCardDisconnect(hCard, SCARD_UNPOWER_CARD);
+	LONG returnValue = SCardDisconnect(hCard, SCARD_UNPOWER_CARD);
+
+	/* Check is the card deconnection was unsuccessful */
+	if (returnValue != SCARD_S_SUCCESS)
+		throw PCSCException(returnValue);
+
 	return EXIT_SUCCESS;
 }
 
@@ -233,7 +237,8 @@ void IccDataExtractor::GetCerts(vector<byte> &CERTS){
 			if(iccFound && issuerFound) return;
 		}
 	}
-	throw ICCExtractionException("One of the PK is missing in this application");
+
+	throw ICCExtractionException("At least one of the PK is missing in this application");
 }
 
 /* Getting CPCL data from the card*/
@@ -291,35 +296,19 @@ void IccDataExtractor::GetCPCL(vector<byte> &v){
 * data present on the card and finally merge it into one byte array */
 void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
 	bool isEMV= false;
-	bool hasCPCL=false;
 	bool hasCerts=false;
 
-	try{
-		ConnectCard(readerNumber);
-	}catch (const PCSCException &ex){
-		printf("Error when connecting to card: 0x%08x\n",ex.ErrorCode());      //TODO Change printf to cout
-	}catch (const ICCExtractionException &ex) {
-		cout << "Error when connecting to card:  " << ex.ErrorMessage() << endl;
-	}
+	ConnectCard(readerNumber);
 
 	/* Test all the type of applications and get the certificates from the first one found */
 	for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
 
-		try{
-			/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
-			if(!TestingCardType(i)) continue;
-			isEMV= true;
-			GetCerts(v);
-			//ICC_DATA.insert(ICC_DATA.end(),CERTS.begin(),CERTS.end());
-			hasCerts=true;
-			break;
-		}catch (const APDUException &ex){
-			printf("Error when getting Certificates: 0x%04x\n",ex.ErrorCode());   //TODO Change printf to cout
-		}catch (const PCSCException &ex){
-			printf("Error when getting Certificates: 0x%08x\n",ex.ErrorCode());   //TODO Change printf to cout
-		}catch (const ICCExtractionException &ex){
-			cout<<"Error when getting Certificates: " << ex.ErrorMessage() << endl;
-		}
+		/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
+		if(!TestingCardType(i)) continue;
+		isEMV= true;
+		GetCerts(v);
+		hasCerts=true;
+		break;
 	}
 
 	/* Need to disconnect reconnect the card to access CPLC data (not located in any application) */
@@ -329,39 +318,20 @@ void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
 	if(!isEMV)
 		throw ICCExtractionException("Unknown card type");
 
-
 	/* Not enough data to act as a keyfile (CPLC data is not enough) */
-	if (hasCerts==0)
+	if (!hasCerts)
 		throw ICCExtractionException("No Certs on the card");
 
+	ConnectCard(readerNumber);
 
-	try{
-		ConnectCard(readerNumber);
-	}catch (const PCSCException &ex){
-		printf("Error when connecting to card: 0x%08x\n",ex.ErrorCode()); //TODO Change printf to cout
-	}catch (const ICCExtractionException &ex) {
-		cout << "Error when connecting to card:  " << ex.ErrorMessage() << endl;
-	}
-
-	try{
-		GetCPCL(v);
-		//ICC_DATA.insert(ICC_DATA.end(),CPCL.begin(),CPCL.end());
-		hasCPCL= true;
-	}catch (const APDUException &ex){
-		printf("Error when getting CPCL: 0x%04x\n",ex.ErrorCode());  //TODO Change printf to cout
-	}catch (const PCSCException &ex){
-		printf("Error when getting CPCL: 0x%08x\n",ex.ErrorCode());  //TODO Change printf to cout
-	}catch (const ICCExtractionException &ex){
-		cout<<"Error when getting CPCL: " << ex.ErrorMessage() << endl;
-	}
+	GetCPCL(v);
 
 	DisconnectCard();
 }
 
 /* Getting the PAN  by parsing the application
 * (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-vector<byte> IccDataExtractor::GetPAN() {
-	vector<byte> PANres;
+void IccDataExtractor::GetPAN(vector<byte> &v) {
 
 	bool PANFound= false;
 	shared_ptr<TLVNode> node;
@@ -427,19 +397,14 @@ vector<byte> IccDataExtractor::GetPAN() {
 			if(PAN) {
 				PANFound=true;
 				for (int i = 0; i < PAN->Length;i++) {
-					PANres.push_back(static_cast<byte>(PAN->Value[i]));
+					v.push_back(static_cast<byte>(PAN->Value[i]));
 				}
 			}
-
-			/* Limiting the search to at least one occurrence of both PKs to speed up the process.
-			* There might be more certificates tho */
-			if(PANFound){
-				return PANres;
-			}
+			if(PANFound) return ;
 		}
 	}
+
 	throw ICCExtractionException("PAN not found");
-	return PANres;
 }
 
 template<typename TInputIter>
@@ -463,30 +428,18 @@ string IccDataExtractor::GettingPAN(int readerNumber) {
 
 	bool isEMV= false;
 
-	try{
-		ConnectCard(readerNumber);
-	}catch (const PCSCException &ex){
-		printf("Error when connecting to card: 0x%08x\n",ex.ErrorCode());      //TODO Change printf to cout
-	}catch (const ICCExtractionException &ex) {
-		cout << "Error when connecting to card:  " << ex.ErrorMessage() << endl;
-	}
+	ConnectCard(readerNumber);
 
 	/* Test all the type of applications and get the PAN from the first one found */
 	for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
-		try{
-			/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
-			if(!TestingCardType(i)) continue;
-			isEMV=true;
-			PAN=GetPAN();
-			break;
-		}catch (const APDUException &ex){
-			printf("Error when getting PAN: 0x%08x\n",ex.ErrorCode());   //TODO Change printf to cout
-		}catch (const PCSCException &ex){
-			printf("Error when getting PAN: 0x%04x\n",ex.ErrorCode());   //TODO Change printf to cout
-		}catch (const ICCExtractionException &ex){
-			cout<<"Error when getting PAN: " << ex.ErrorMessage() << endl;
-		}
+
+		/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
+		if(!TestingCardType(i)) continue;
+		isEMV=true;
+		GetPAN(PAN);
+		break;
 	}
+
 	DisconnectCard();
 
 	/* Check if the card is not an EMV one */

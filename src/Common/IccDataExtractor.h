@@ -95,7 +95,7 @@ private:
 
 	/* Getting the PAN  by parsing the application
 	* (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-	std::vector<byte> GetPAN();
+	void GetPAN(vector<byte> &v);
 
 	/* Helper function to make a string from plain arrays and various standard containers of bytes */
 	template<typename TInputIter>
