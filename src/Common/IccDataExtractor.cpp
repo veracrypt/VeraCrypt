@@ -3,7 +3,7 @@
 //
 
 #include "IccDataExtractor.h"
-using namespace std;
+//using namespace std;
 const BYTE IccDataExtractor::SELECT_MASTERCARD[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x04, 0x10, 0x10};
 const BYTE IccDataExtractor::SELECT_VISA[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x03, 0x10, 0x10};
 const BYTE IccDataExtractor::SELECT_AMEX[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 00, 0x25, 0x10};
@@ -31,7 +31,6 @@ IccDataExtractor::~IccDataExtractor(){
 * applications,and supports transaction primitives for accessing services available on a given card.*/
 int IccDataExtractor::EstablishRSContext(){
 
-	//if(hContext==NULL){
 	LONG returnValue = SCardEstablishContext(SCARD_SCOPE_SYSTEM, NULL, NULL, &hContext);
 
 	/* Check if the establishment of the context was unsuccessful  */
@@ -39,7 +38,7 @@ int IccDataExtractor::EstablishRSContext(){
 		throw PCSCException(returnValue);
 
 	return EXIT_SUCCESS;
-	//}
+
 }
 
 /* Detecting available readers and filling the reader table */
@@ -86,7 +85,7 @@ int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
 
 	/* Check if the given reader slot number is possible */
 	if (reader_nb < 0 || reader_nb >= nbReaders)
-		throw ;//ICCExtractionException("Wrong reader index: "+to_string(reader_nb));
+		throw ICCExtractionException("Wrong reader index: "+std::to_string(static_cast<long long>(reader_nb)));
 
 	dwActiveProtocol = SCARD_PROTOCOL_UNDEFINED;
 
@@ -223,7 +222,7 @@ void IccDataExtractor::GetCerts(vector<byte> &CERTS){
 				}
 			}
 
-			/* Finding the ICC_Public_Key_Certificate */
+			/* Finding the Issuer_Public_Key_Certificate */
 			Issuer_PK_Certificate = TLVParser::TLV_Find(node, 0x90);
 			if(Issuer_PK_Certificate) {
 				issuerFound=true;
@@ -267,7 +266,7 @@ void IccDataExtractor::GetCPCL(vector<byte> &v){
 
 	/* Not the correct APDU response code */
 	if (pbRecvBuffer[0] != 0x6C)
-		throw APDUException(&pbRecvBuffer[0]);
+		throw ICCExtractionException("Not the correct APDU response code when checking for CPCL data");
 
 	/* It set the proper expected length of the data in the APDU */
 	SELECT_APDU_CPCL[4] = pbRecvBuffer[1];
@@ -298,21 +297,36 @@ void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
 	bool isEMV= false;
 	bool hasCerts=false;
 
-	ConnectCard(readerNumber);
+	try{
+		ConnectCard(readerNumber);
+	}catch(const PCSCException &ex){
+		throw ICCExtractionException("Error when connecting to card. " + ex.ErrorMessage());
+	}
 
 	/* Test all the type of applications and get the certificates from the first one found */
 	for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
 
-		/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
-		if(!TestingCardType(i)) continue;
-		isEMV= true;
-		GetCerts(v);
-		hasCerts=true;
-		break;
+		try{
+			/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
+			if(!TestingCardType(i)) continue;
+			isEMV= true;
+			GetCerts(v);
+			hasCerts=true;
+			break;
+		}catch(const TLVException &ex){
+			throw ICCExtractionException("Error when parsing the TLV when getting the certificates:" + ex.ErrorMessage());
+		}catch(const PCSCException &ex){
+			throw ICCExtractionException("Error when fetching the certificates. " + ex.ErrorMessage());
+		}
+
 	}
 
 	/* Need to disconnect reconnect the card to access CPLC data (not located in any application) */
-	DisconnectCard();
+	try{
+		DisconnectCard();
+	}catch(const PCSCException &ex){
+		throw ICCExtractionException("Error when disconnecting the card. " + ex.ErrorMessage());
+	}
 
 	/* Check if the card is not an EMV one */
 	if(!isEMV)
@@ -320,13 +334,25 @@ void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
 
 	/* Not enough data to act as a keyfile (CPLC data is not enough) */
 	if (!hasCerts)
-		throw ICCExtractionException("No Certs on the card");
+		throw ICCExtractionException("No certificates on the card");
 
-	ConnectCard(readerNumber);
+	try{
+		ConnectCard(readerNumber);
+	}catch(const PCSCException &ex){
+		throw ICCExtractionException("Error when connecting to card. " + ex.ErrorMessage());
+	}
 
-	GetCPCL(v);
+	try{
+		GetCPCL(v);
+	}catch(const PCSCException &ex){
+		throw ICCExtractionException("Error when fetching the CPCL data. " + ex.ErrorMessage());
+	}
 
-	DisconnectCard();
+	try{
+		DisconnectCard();
+	}catch(const PCSCException &ex){
+		throw ICCExtractionException("Error when disconnecting the card. " + ex.ErrorMessage());
+	}
 }
 
 /* Getting the PAN  by parsing the application
@@ -428,19 +454,32 @@ string IccDataExtractor::GettingPAN(int readerNumber) {
 
 	bool isEMV= false;
 
-	ConnectCard(readerNumber);
+	try{
+		ConnectCard(readerNumber);
+	}catch(const PCSCException &ex){
+		throw ICCExtractionException("Error when connecting to card. " + ex.ErrorMessage());
+	}
 
 	/* Test all the type of applications and get the PAN from the first one found */
 	for(int i=0;i<sizeof(SELECT_TYPES)/sizeof(SELECT_TYPES[0]); i++){
-
-		/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
-		if(!TestingCardType(i)) continue;
-		isEMV=true;
-		GetPAN(PAN);
-		break;
+		try{
+			/* The card does not contain this application (0:Mastercard, 1:Visa, 2:Amex) */
+			if(!TestingCardType(i)) continue;
+			isEMV=true;
+			GetPAN(PAN);
+			break;
+		}catch(const TLVException &ex){
+			throw ICCExtractionException("Error when parsing the TLV when getting the PAN:" + ex.ErrorMessage());
+		}catch(const PCSCException &ex){
+			throw ICCExtractionException("Error when fetching the PAN. " + ex.ErrorMessage());
+		}
 	}
 
-	DisconnectCard();
+	try{
+		DisconnectCard();
+	}catch(const PCSCException &ex){
+		throw ICCExtractionException("Error when disconnecting the card. " + ex.ErrorMessage());
+	}
 
 	/* Check if the card is not an EMV one */
 	if(!isEMV)

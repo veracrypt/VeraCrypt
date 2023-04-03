@@ -126,9 +126,9 @@ public:
 	PCSCException(LONG errorCode): m_errorCode(errorCode){}
 
 	/* Get the error code */
-	inline LONG ErrorCode() const
+	inline std::string ErrorMessage() const
 	{
-		return m_errorCode;
+		return "Winscard error: "+ std::to_string(static_cast<long long>(m_errorCode));
 	}
 
 protected:
@@ -144,32 +144,12 @@ public:
 	/* Get the error message */
 	inline std::string ErrorMessage() const
 	{
-		return m_errormessage;
+		return "<EMV> "+ m_errormessage;
 	}
 
 protected:
 	std::string m_errormessage;
 };
 
-/* The definition of the exception class for APDU errors */
-class APDUException
-{
-public:
-	APDUException(const UCHAR *error) {APDUException(error[0], error[1]);}
-
-	APDUException(UCHAR e1, UCHAR e2)
-	{
-		m_errorCode = (static_cast<USHORT>(e1) << 8) | static_cast<USHORT>(e2);
-	}
-
-	/* Get the error code */
-	inline USHORT ErrorCode() const
-	{
-		return m_errorCode;
-	}
-
-protected:
-	USHORT m_errorCode;
-};
 
 #endif //NEWEMV_ICCDATAEXTRACTOR_H
