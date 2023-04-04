@@ -6,7 +6,7 @@ using namespace std;
 /* TLV node structure creation */
 shared_ptr<TLVNode> TLVParser::TLV_CreateNode()
 {
-	shared_ptr<TLVNode> node= shared_ptr<TLVNode>(new TLVNode);//TLVNode* node = new TLVNode;
+	shared_ptr<TLVNode> node= shared_ptr<TLVNode>(new TLVNode);
 	memset(node.get(),0,sizeof(*node));
 	return node;
 }
@@ -23,9 +23,9 @@ uint16_t TLVParser::CheckBit(unsigned char value, int bit){
 			return (0);
 		}
 	}
-	else{ //TODO
-		throw ;//TLVException("FILE:"+string(__FILE__)+"LINE: "+to_string(__LINE__)+" fonction parameter incorrect! bit=["+to_string(bit));
-		return(-1); // TODO change to positive defined constant (unsigned)
+	else{
+		throw TLVException("FILE:"+string(__FILE__)+"LINE: "+to_string(static_cast<long long>((__LINE__)))+" fonction parameter incorrect! bit=["+to_string(static_cast<long long>(bit)));
+		return(2);
 	}
 }
 
@@ -76,7 +76,7 @@ shared_ptr<TLVNode> TLVParser::TLV_Parse_One(unsigned char* buf,int size){
 	node->LengthSize = lensize;
 
 	//V zone
-	value = new unsigned char[len]; //(unsigned char *)malloc(len);
+	value = new unsigned char[len];
 	std::copy(buf+index,buf+index+len,value);//memcpy(value,buf+index,len);
 	node->Value = value;
 	index += len;
@@ -87,8 +87,8 @@ shared_ptr<TLVNode> TLVParser::TLV_Parse_One(unsigned char* buf,int size){
 	else if(index == size){
 		node->MoreFlag = 0;
 	}
-	else{ // TODO
-		throw ;//TLVException("Parse Error! index="+to_string(index)+"size="+to_string(size));
+	else{
+		throw TLVException("Parse Error! index="+to_string(static_cast<long long>(index))+"size="+to_string(static_cast<long long>(size)));
 	}
 
 	return node;
