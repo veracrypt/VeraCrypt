@@ -114,6 +114,25 @@ To close all opened security token sessions, either select <em style="text-align
 Tools</em> &gt; <em style="text-align:left">Close All Security Token Sessions</em> or define and use a hotkey combination (<em style="text-align:left">Settings</em> &gt;
 <em style="text-align:left">Hot Keys &gt; Close All Security Token Sessions</em>).</div>
 <p>&nbsp;</p>
+<h3 id="SmartCard" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+EMV Smart Cards</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt can use directly as keyfiles data extracted from EMV compliant smart cards, supporting Visa, Mastecard or Maestro applications. As with PKCS-11 compliant smart cards, to use such data as VeraCrypt keyfiles, 
+click <em style="text-align:left">Add Token Files</em> (in the keyfile dialog window). The last four digits of the card's Primary Account Number will be displayed, allowing the selection of the card as a keyfile source.
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+The data extracted and concatenated into a single keyfile are as follow : ICC Public Key Certificate, Issuer Public Key Certificate and Card Production Life 
+Cycle (CPLC) data. They are respectively identified by the tags '9F46', '90' and '9F7F' in the card's data management system. These two certificates are specific to an application deployed on the EMV card and used for the Dynamic Data Authentication of the card 
+during banking transactions. CPLC data are specific to the card and not to any of its applications. They contain information on the production process of the smart card. Therefore both certificates and data are unique and static on any EMV compliant smart card.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+According to the ISO/IEC 7816 standard on which the EMV standard is based, communication with an EMV smart card is done through structured commands called APDUs, allowing to extract the data from the smart card. These data are encoded in the BER-TLV format, 
+defined by the ASN.1 standard, and therefore need to be parsed before being concatenated into a keyfile. No PIN is required to access and retrieve data from the card. To cope with the diversity of smart cards readers on the market, librairies compliant with the Microsoft Personal 
+Computer/Smart Card communication standard are used. The Winscard library, natively available in System32, is used on Windows. It then doesn't require any installation. However, to use EMV cards on Linux or macOS, the PCSCLite package have to be installed.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Since the card is read-only, it is not possible to import or delete data. However, data used as keyfiles can be exported locally in any binary file. During the entire cryptographic process of mounting or creating a volume, the certificates and CPLC data are never stored anywhere 
+other than in the user's machine RAM. Once the process is complete, these RAM memory areas are rigorously erased.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+It important to note that this feature is optional and disabled by default. It can be enabled in the <em style="text-align:left">Security Token Preferences</em> parameters by checking the box provided.</div>
+<p>&nbsp;</p>
 <h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
 Keyfile Search Path</h3>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
