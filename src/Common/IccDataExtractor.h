@@ -56,8 +56,6 @@ typedef LONG (WINAPI *SCardListReadersAPtr)(SCARDCONTEXT hContext,LPCSTR mszGrou
 typedef LONG (WINAPI *SCardFreeMemoryPtr)(SCARDCONTEXT hContext,LPCVOID pvMem);
 #endif
 
-
-
 namespace VeraCrypt
 {
 	class IccDataExtractor {

@@ -114,6 +114,9 @@ namespace VeraCrypt
 		LONG returnValue = SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
 		#endif
 
+		/* If the is no readers, return */
+		if(returnValue == SCARD_E_NO_READERS_AVAILABLE) return 0;
+
 		/* Check if the listing of the connected readers was unsuccessful  */
 		if (returnValue != SCARD_S_SUCCESS)
 			throw ICCExtractionException("Error when fetching readers: " + PCSCException(returnValue).ErrorMessage());
