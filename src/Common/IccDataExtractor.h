@@ -23,6 +23,7 @@
 #ifdef TC_WINDOWS
 #include <winscard.h>
 #include "Exception.h"
+#include <windows.h>
 #endif
 #ifdef TC_UNIX
 #undef BOOL
@@ -44,15 +45,15 @@ using VeraCrypt::byte;
 
 #define SELECT_TYPE_SIZE 12      /* Size of the SELECT_TYPE APDU */
 
-/*Winscard function pointers definitions*/
+/* Winscard function pointers definitions for windows import */
 #ifdef TC_WINDOWS
-typedef LONG (*SCardEstablishContextPtr)(DWORD dwScope,LPCVOID pvReserved1, LPCVOID pvReserved2, LPSCARDCONTEXT phContext);
-typedef LONG (*SCardReleaseContextPtr)(SCARDCONTEXT hContext);
-typedef LONG (*SCardConnectAPtr)(SCARDCONTEXT hContext,LPCSTR szReader,DWORD dwShareMode,DWORD dwPreferredProtocols,LPSCARDHANDLE phCard, LPDWORD pdwActiveProtocol);
-typedef LONG (*SCardDisconnectPtr)(SCARDHANDLE hCard, DWORD dwDisposition);
-typedef LONG (*SCardTransmitPtr)(SCARDHANDLE hCard,LPCSCARD_IO_REQUEST pioSendPci,const BYTE* pbSendBuffer, DWORD cbSendLength,LPSCARD_IO_REQUEST pioRecvPci,BYTE* pbRecvBuffer, LPDWORD pcbRecvLength);
-typedef LONG (*SCardListReadersAPtr)(SCARDCONTEXT hContext,LPCSTR mszGroups,LPSTR mszReaders, LPDWORD pcchReaders);
-typedef LONG (*SCardFreeMemoryPtr)(SCARDCONTEXT hContext,LPCVOID pvMem);
+typedef	LONG (WINAPI *SCardEstablishContextPtr)(DWORD dwScope,LPCVOID pvReserved1, LPCVOID pvReserved2, LPSCARDCONTEXT phContext);
+typedef LONG (WINAPI *SCardReleaseContextPtr)(SCARDCONTEXT hContext);
+typedef LONG (WINAPI *SCardConnectAPtr)(SCARDCONTEXT hContext,LPCSTR szReader,DWORD dwShareMode,DWORD dwPreferredProtocols,LPSCARDHANDLE phCard, LPDWORD pdwActiveProtocol);
+typedef LONG (WINAPI *SCardDisconnectPtr)(SCARDHANDLE hCard, DWORD dwDisposition);
+typedef LONG (WINAPI *SCardTransmitPtr)(SCARDHANDLE hCard,LPCSCARD_IO_REQUEST pioSendPci,const BYTE* pbSendBuffer, DWORD cbSendLength,LPSCARD_IO_REQUEST pioRecvPci,BYTE* pbRecvBuffer, LPDWORD pcbRecvLength);
+typedef LONG (WINAPI *SCardListReadersAPtr)(SCARDCONTEXT hContext,LPCSTR mszGroups,LPSTR mszReaders, LPDWORD pcchReaders);
+typedef LONG (WINAPI *SCardFreeMemoryPtr)(SCARDCONTEXT hContext,LPCVOID pvMem);
 #endif
 
 
@@ -62,19 +63,20 @@ namespace VeraCrypt
 	class IccDataExtractor {
 	private:
 
-	#ifdef TC_WINDOWS
+		/* Used for loading winscard on windows */
+		#ifdef TC_WINDOWS
 		/* Winscard Library Handle */
-		//HMODULE WinscardLibraryHandle;
+		HMODULE WinscardLibraryHandle;
 
 		/* Winscard function pointers */
-		//SCardEstablishContextPtr SCardEstablishContext;
-		//SCardReleaseContextPtr SCardReleaseContext;
-		//SCardConnectAPtr SCardConnectA;
-		//SCardDisconnectPtr SCardDisconnect;
-		//SCardFreeMemoryPtr SCardFreeMemory;
-		//SCardListReadersAPtr SCardListReaders;
-		//SCardTransmitPtr SCardTransmit;
-	#endif
+		SCardEstablishContextPtr WSCardEstablishContext;
+		SCardReleaseContextPtr WSCardReleaseContext;
+		SCardConnectAPtr WSCardConnectA;
+		SCardDisconnectPtr WSCardDisconnect;
+		SCardFreeMemoryPtr WSCardFreeMemory;
+		SCardListReadersAPtr WSCardListReadersA;
+		SCardTransmitPtr WSCardTransmit;
+		#endif
 
 		/* SELECT_TYPES FOR DIFFERENT AIDs*/
 		const static BYTE SELECT_MASTERCARD[SELECT_TYPE_SIZE];
@@ -98,6 +100,10 @@ namespace VeraCrypt
 									  * SCARD_PROTOCOL_T0: An asynchronous, character-oriented half-duplex transmission protocol.
 									  * SCARD_PROTOCOL_T1: An asynchronous, block-oriented half-duplex transmission protocol.*/
 
+		/* Used to initialize th ewinscard library on windows to make sure the dll is in System32 */
+		#ifdef TC_WINDOWS
+		void IccDataExtractor::InitLibrary();
+		#endif
 
 		/* Establishing the resource manager context (the scope) within which database operations are performed.
 		* The module of the smart card subsystem that manages access to multiple readers and smart cards. The
@@ -138,7 +144,6 @@ namespace VeraCrypt
 		* the number of available readers */
 		unsigned long GetReaders();
 
-		void IccDataExtractor::InitLibrary();
 
 		/* Getting an ICC Public Key Certificates, an Issuer Public Key Certificates and the CPCL data
 		* from the card designated by the reader number. Appending them into a byte vector */
