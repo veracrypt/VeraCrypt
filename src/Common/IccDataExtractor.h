@@ -43,11 +43,37 @@ using VeraCrypt::byte;
 
 #define SELECT_TYPE_SIZE 12      /* Size of the SELECT_TYPE APDU */
 
+/*Winscard function pointers definitions*/
+#ifdef TC_WINDOWS
+typedef LONG (*SCardEstablishContextPtr)(DWORD dwScope,LPCVOID pvReserved1, LPCVOID pvReserved2, LPSCARDCONTEXT phContext);
+typedef LONG (*SCardReleaseContextPtr)(SCARDCONTEXT hContext);
+typedef LONG (*SCardConnectAPtr)(SCARDCONTEXT hContext,LPCSTR szReader,DWORD dwShareMode,DWORD dwPreferredProtocols,LPSCARDHANDLE phCard, LPDWORD pdwActiveProtocol);
+typedef LONG (*SCardDisconnectPtr)(SCARDHANDLE hCard, DWORD dwDisposition);
+typedef LONG (*SCardTransmitPtr)(SCARDHANDLE hCard,LPCSCARD_IO_REQUEST pioSendPci,const BYTE* pbSendBuffer, DWORD cbSendLength,LPSCARD_IO_REQUEST pioRecvPci,BYTE* pbRecvBuffer, LPDWORD pcbRecvLength);
+typedef LONG (*SCardListReadersAPtr)(SCARDCONTEXT hContext,LPCSTR mszGroups,LPSTR mszReaders, LPDWORD pcchReaders);
+typedef LONG (*SCardFreeMemoryPtr)(SCARDCONTEXT hContext,LPCVOID pvMem);
+#endif
+
 
 
 
 class IccDataExtractor {
 private:
+
+#ifdef TC_WINDOWS
+	/* Winscard Library Handle */
+    HMODULE WinscardLibraryHandle;
+
+	/* Winscard function pointers */
+	SCardEstablishContextPtr SCardEstablishContext;
+    SCardReleaseContextPtr SCardReleaseContext;
+	SCardConnectAPtr SCardConnectA;
+	SCardDisconnectPtr SCardDisconnect;
+    SCardFreeMemoryPtr SCardFreeMemory;
+    SCardListReadersAPtr SCardListReaders;
+    SCardTransmitPtr SCardTransmit;
+#endif
+
 	/* SELECT_TYPES FOR DIFFERENT AIDs*/
 	const static BYTE SELECT_MASTERCARD[SELECT_TYPE_SIZE];
 	const static BYTE SELECT_VISA[SELECT_TYPE_SIZE];
