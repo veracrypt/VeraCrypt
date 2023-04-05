@@ -54,10 +54,20 @@ namespace VeraCrypt
 
 	#ifdef TC_WINDOWS
 	void IccDataExtractor::InitLibrary(){
+		
+		/* Getting the System32 directory */
+		char sysDir[MAX_PATH];
+		GetSystemDirectoryA(sysDir, MAX_PATH);
+		
+		/* Getting the winscard dll path directory */
+		char winscardPath[MAX_PATH];
+		sprintf_s(winscardPath, "%s\\Winscard.dll", sysDir);
 
-		WinscardLibraryHandle = LoadLibraryA("C:\\Windows\\System32\\WinSCard.dll");
+		/* Loading the winscard dll from System32 */
+		WinscardLibraryHandle = LoadLibraryA(winscardPath);
 		throw_sys_if(!WinscardLibraryHandle);
 
+		/* Fetching the functions pointers from the dll */
 		WSCardEstablishContext = (SCardEstablishContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardEstablishContext");
 		WSCardReleaseContext= (SCardReleaseContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardReleaseContext");
 		WSCardConnectA = (SCardConnectAPtr) GetProcAddress(WinscardLibraryHandle,"SCardConnectA");

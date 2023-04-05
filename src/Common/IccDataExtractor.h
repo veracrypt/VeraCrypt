@@ -100,7 +100,7 @@ namespace VeraCrypt
 									  * SCARD_PROTOCOL_T0: An asynchronous, character-oriented half-duplex transmission protocol.
 									  * SCARD_PROTOCOL_T1: An asynchronous, block-oriented half-duplex transmission protocol.*/
 
-		/* Used to initialize th ewinscard library on windows to make sure the dll is in System32 */
+		/* Used to initialize the winscard library on windows to make sure the dll is in System32 */
 		#ifdef TC_WINDOWS
 		void IccDataExtractor::InitLibrary();
 		#endif
