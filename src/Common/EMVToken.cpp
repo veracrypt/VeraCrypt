@@ -68,7 +68,15 @@ namespace VeraCrypt
 
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring keyfileIdFilter) {
 		vector <EMVTokenKeyfile> keyfiles;
-		unsigned long int nb = EMVToken::extractor.GetReaders();
+		EMVToken::extractor.InitLibrary();
+		unsigned long int nb;
+
+		try{
+			nb = 0;//EMVToken::extractor.GetReaders();
+		} catch(ICCExtractionException) {
+			nb = 0;
+		}
+
 		for(unsigned long int slotId = 0; slotId<nb; slotId++)
 		{
 			EMVTokenInfo token;
@@ -77,13 +85,13 @@ namespace VeraCrypt
 				continue;
 
 			try{
-				token = GetTokenInfo(slotId);
+				//token = GetTokenInfo(slotId);
 			} catch(ICCExtractionException) {
 				cout << "Not EMV Type" << endl;
 				continue;
 			}
 
-
+			continue;
 			EMVTokenKeyfile keyfile;
 			keyfile.Token->SlotId = slotId;
 			keyfile.Token = shared_ptr<TokenInfo>(new EMVTokenInfo(token));

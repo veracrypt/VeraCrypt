@@ -3,25 +3,18 @@
 //
 
 #include "IccDataExtractor.h"
-//using namespace std;
-const BYTE IccDataExtractor::SELECT_MASTERCARD[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x04, 0x10, 0x10};
-const BYTE IccDataExtractor::SELECT_VISA[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x03, 0x10, 0x10};
-const BYTE IccDataExtractor::SELECT_AMEX[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 00, 0x25, 0x10};
-const BYTE * IccDataExtractor::SELECT_TYPES[]={SELECT_MASTERCARD,  SELECT_VISA, SELECT_AMEX};
 
-IccDataExtractor::IccDataExtractor(){
-	WinscardLibraryHandle=LoadLibrary(TEXT("C:\\Windows\\System32\\WinSCard.dll"));
+namespace VeraCrypt
+{
+	//using namespace std;
+	const BYTE IccDataExtractor::SELECT_MASTERCARD[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x04, 0x10, 0x10};
+	const BYTE IccDataExtractor::SELECT_VISA[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x03, 0x10, 0x10};
+	const BYTE IccDataExtractor::SELECT_AMEX[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 00, 0x25, 0x10};
+	const BYTE * IccDataExtractor::SELECT_TYPES[]={SELECT_MASTERCARD,  SELECT_VISA, SELECT_AMEX};
 
-	SCardEstablishContext = (SCardEstablishContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardEstablishContext");
-	SCardReleaseContext= (SCardReleaseContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardReleaseContext");
-	SCardConnectA = (SCardConnectAPtr) GetProcAddress(WinscardLibraryHandle,"SCardConnectA");
-	SCardDisconnect = (SCardDisconnectPtr) GetProcAddress(WinscardLibraryHandle,"SCardDisconnect");
-	SCardFreeMemory = ( SCardFreeMemoryPtr) GetProcAddress(WinscardLibraryHandle,"SCardFreeMemory");
-	SCardListReaders =  (SCardListReadersAPtr) GetProcAddress(WinscardLibraryHandle,"SCardListReadersA");
-	SCardTransmit = ( SCardTransmitPtr) GetProcAddress(WinscardLibraryHandle,"SCardTransmit");
-}
+	IccDataExtractor::IccDataExtractor(){}
 
-IccDataExtractor::~IccDataExtractor(){
+										IccDataExtractor::~IccDataExtractor(){
 	/* Disconnect card if connected */
 	if(hCard) SCardDisconnect(hContext,hCard);
 
@@ -35,63 +28,80 @@ IccDataExtractor::~IccDataExtractor(){
 
 }
 
-/* Establishing the resource manager context (the scope) within which database operations are performed.
-* The module of the smart card subsystem that manages access to multiple readers and smart cards. The
-* resource manager identifies and tracks resources, allocates readers and resources across multiple
-* applications,and supports transaction primitives for accessing services available on a given card.*/
-int IccDataExtractor::EstablishRSContext(){
-
-	LONG returnValue = SCardEstablishContext(SCARD_SCOPE_SYSTEM, NULL, NULL, &hContext);
-
-	/* Check if the establishment of the context was unsuccessful  */
-	if (returnValue != SCARD_S_SUCCESS)
-		throw PCSCException(returnValue);
-
-	return EXIT_SUCCESS;
-
-}
-
-/* Detecting available readers and filling the reader table */
-unsigned long IccDataExtractor::GetReaders(){
-
-	EstablishRSContext();
-
-	/* Length of the mszReaders buffer in characters. If the buffer length is specified as
-	* SCARD_AUTOALLOCATE, then mszReaders is converted to a pointer to a byte pointer, and
-	* receives the address of a block of memory containing the multi-string structure */
-	DWORD dwReaders = SCARD_AUTOALLOCATE;
-
-	/* Retrieving the available readers list and putting it in mszReaders*/ // Use LPSTR on linux
-#ifdef TC_WINDOWS
-	long returnValue = SCardListReadersA(hContext, NULL, (LPSTR)&mszReaders, &dwReaders);
-#else
-	long returnValue = SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
-#endif
-
-	/* Check if the listing of the connected readers was unsuccessful  */
-	if (returnValue != SCARD_S_SUCCESS)
-		throw PCSCException(returnValue);
- 
-	nbReaders = 0;
-	LPSTR ReaderPtr = mszReaders;
-
-	/* Getting the total number of readers */
-	while (*ReaderPtr != '\0')
-	{
-		readers.push_back(ReaderPtr);
-		ReaderPtr += strlen((char*)ReaderPtr) + 1;
-		nbReaders++;
+	void IccDataExtractor::InitLibrary(){
+		HMODULE WinscardLibraryHandle = LoadLibraryA("C:\\Windows\\System32\\WinSCard.dll");
+		throw_sys_if(!WinscardLibraryHandle);
+		SCardEstablishContextPtr SCardEstablishContext = (SCardEstablishContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardEstablishContext");
+		SCardReleaseContextPtr SCardReleaseContext= (SCardReleaseContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardReleaseContext");
+		SCardConnectAPtr SCardConnectA = (SCardConnectAPtr) GetProcAddress(WinscardLibraryHandle,"SCardConnectA");
+		SCardDisconnectPtr SCardDisconnect = (SCardDisconnectPtr) GetProcAddress(WinscardLibraryHandle,"SCardDisconnect");
+		SCardFreeMemoryPtr SCardFreeMemory = ( SCardFreeMemoryPtr) GetProcAddress(WinscardLibraryHandle,"SCardFreeMemory");
+		SCardListReadersAPtr SCardListReaders =  (SCardListReadersAPtr) GetProcAddress(WinscardLibraryHandle,"SCardListReadersA");
+		SCardTransmitPtr SCardTransmit = ( SCardTransmitPtr) GetProcAddress(WinscardLibraryHandle,"SCardTransmit");
+		LONG returnValue = SCardEstablishContext(SCARD_SCOPE_SYSTEM, NULL, NULL, &hContext);
+		DWORD dwReaders = SCARD_AUTOALLOCATE;
+		//returnValue =SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
 	}
 
-	/* Check if there is at least one reader connected */
-	if (nbReaders == 0)
-		throw ICCExtractionException("No reader found");
+	/* Establishing the resource manager context (the scope) within which database operations are performed.
+	* The module of the smart card subsystem that manages access to multiple readers and smart cards. The
+	* resource manager identifies and tracks resources, allocates readers and resources across multiple
+	* applications,and supports transaction primitives for accessing services available on a given card.*/
+	int IccDataExtractor::EstablishRSContext(){
 
-	return nbReaders;
-}
+		LONG returnValue = SCardEstablishContext(SCARD_SCOPE_SYSTEM, NULL, NULL, &hContext);
 
-/* Connecting to the card in the given reader*/
-int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
+		/* Check if the establishment of the context was unsuccessful  */
+		if (returnValue != SCARD_S_SUCCESS)
+			throw PCSCException(returnValue);
+
+		return EXIT_SUCCESS;
+
+	}
+
+	/* Detecting available readers and filling the reader table */
+	unsigned long IccDataExtractor::GetReaders(){
+
+		//EstablishRSContext();
+
+		/* Length of the mszReaders buffer in characters. If the buffer length is specified as
+		* SCARD_AUTOALLOCATE, then mszReaders is converted to a pointer to a byte pointer, and
+		* receives the address of a block of memory containing the multi-string structure */
+		DWORD dwReaders = SCARD_AUTOALLOCATE;
+
+		/* Retrieving the available readers list and putting it in mszReaders*/ // Use LPSTR on linux
+	#ifdef TC_WINDOWS
+		long returnValue = SCARD_S_SUCCESS;// SCardListReadersA(hContext, NULL, (LPSTR)&mszReaders, &dwReaders);
+	#else
+		long returnValue = SCARD_S_SUCCESS;//SCardListReaders(hContext, NULL, (LPTSTR)&mszReaders, &dwReaders);
+	#endif
+
+		/* Check if the listing of the connected readers was unsuccessful  */
+		//if (returnValue != SCARD_S_SUCCESS);
+			//throw PCSCException(returnValue);
+ 
+		nbReaders = 0;
+		//LPSTR ReaderPtr = mszReaders;
+
+		/* Getting the total number of readers */
+		/*
+		while (*ReaderPtr != '\0')
+		{
+			readers.push_back(ReaderPtr);
+			ReaderPtr += strlen((char*)ReaderPtr) + 1;
+			nbReaders++;
+		}
+		*/
+
+		/* Check if there is at least one reader connected */
+		//if (nbReaders == 0)
+			//throw ICCExtractionException("No reader found");
+
+		return 1;// nbReaders;
+	}
+
+	/* Connecting to the card in the given reader*/
+															int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
 
 	/* Check if the given reader slot number is possible */
 	if (reader_nb < 0 || reader_nb >= nbReaders)
@@ -112,8 +122,8 @@ int IccDataExtractor::ConnectCard(unsigned long int reader_nb){
 	return EXIT_SUCCESS;
 }
 
-/* Disconnect the card currently connected*/
-int IccDataExtractor::DisconnectCard(){
+	/* Disconnect the card currently connected*/
+							int IccDataExtractor::DisconnectCard(){
 	LONG returnValue = SCardDisconnect(hCard, SCARD_UNPOWER_CARD);
 
 	/* Check is the card deconnection was unsuccessful */
@@ -123,8 +133,8 @@ int IccDataExtractor::DisconnectCard(){
 	return EXIT_SUCCESS;
 }
 
-/* Testing if the card contains the application of the given EMV type (0:Mastercard, 1:Visa, 2:Amex) */
-bool IccDataExtractor::TestingCardType(const int SELECT_TYPE_NUMBER){
+	/* Testing if the card contains the application of the given EMV type (0:Mastercard, 1:Visa, 2:Amex) */
+																					bool IccDataExtractor::TestingCardType(const int SELECT_TYPE_NUMBER){
 
 	const BYTE * SELECTED_TYPE = SELECT_TYPES[SELECT_TYPE_NUMBER];
 
@@ -155,9 +165,9 @@ bool IccDataExtractor::TestingCardType(const int SELECT_TYPE_NUMBER){
 	return false;
 }
 
-/* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application
-* (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-void IccDataExtractor::GetCerts(vector<byte> &CERTS){
+	/* Getting the ICC Public Key Certificates and the Issuer Public Key Certificates by parsing the application
+	* (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
+																																																																						void IccDataExtractor::GetCerts(vector<byte> &CERTS){
 
     CERTS.clear();
 
@@ -250,8 +260,8 @@ void IccDataExtractor::GetCerts(vector<byte> &CERTS){
 	throw ICCExtractionException("At least one of the PK is missing in this application");
 }
 
-/* Getting CPCL data from the card*/
-void IccDataExtractor::GetCPCL(vector<byte> &v){
+	/* Getting CPCL data from the card*/
+																																				void IccDataExtractor::GetCPCL(vector<byte> &v){
 
 	BYTE SELECT_APDU_CPCL[] = {0x80,0xCA, 0x9F, 0x7F, 0x00};
 
@@ -301,9 +311,9 @@ void IccDataExtractor::GetCPCL(vector<byte> &v){
 	}
 }
 
-/* Getting an ICC Public Key Certificates and an Issuer Public Key Certificates for the first application with the cpcl
-* data present on the card and finally merge it into one byte array */
-void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
+	/* Getting an ICC Public Key Certificates and an Issuer Public Key Certificates for the first application with the cpcl
+	* data present on the card and finally merge it into one byte array */
+																																																			void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
 	bool isEMV= false;
 	bool hasCerts=false;
 
@@ -365,9 +375,9 @@ void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
 	}
 }
 
-/* Getting the PAN  by parsing the application
-* (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
-void IccDataExtractor::GetPAN(vector<byte> &v) {
+	/* Getting the PAN  by parsing the application
+	* (!NEED TO TEST CARD TYPE TO SELECT APPLICATION FIRST!)*/
+																																																									void IccDataExtractor::GetPAN(vector<byte> &v) {
 
 	bool PANFound= false;
 	shared_ptr<TLVNode> node;
@@ -443,8 +453,8 @@ void IccDataExtractor::GetPAN(vector<byte> &v) {
 	throw ICCExtractionException("PAN not found");
 }
 
-template<typename TInputIter>
-string IccDataExtractor::make_hex_string(TInputIter first, TInputIter last, bool use_uppercase, bool insert_spaces)
+	template<typename TInputIter>
+														string IccDataExtractor::make_hex_string(TInputIter first, TInputIter last, bool use_uppercase, bool insert_spaces)
 {
 	ostringstream ss;
 	ss << hex << std::setfill('0');
@@ -459,7 +469,7 @@ string IccDataExtractor::make_hex_string(TInputIter first, TInputIter last, bool
 	return ss.str();
 }
 
-string IccDataExtractor::GettingPAN(int readerNumber) {
+																																string IccDataExtractor::GettingPAN(int readerNumber) {
 	vector<byte> PAN;
 
 	bool isEMV= false;
@@ -496,4 +506,5 @@ string IccDataExtractor::GettingPAN(int readerNumber) {
 		throw ICCExtractionException("Unknown card type");
 
 	return make_hex_string(PAN.begin(),PAN.end());
+}
 }
