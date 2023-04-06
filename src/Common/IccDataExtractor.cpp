@@ -66,7 +66,7 @@ namespace VeraCrypt
 	#ifdef TC_WINDOWS
 	void IccDataExtractor::InitLibrary(){
 
-		if(Initialized) return;
+		if(Initialized) FreeLibrary(WinscardLibraryHandle);
 
 		/* Getting the System32 directory */
 		char sysDir[MAX_PATH-20];
