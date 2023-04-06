@@ -1558,8 +1558,8 @@ void cleanup ()
 #ifndef SETUP
 	try
 	{
-		if (SecurityToken::IsInitialized())  // TODO Use Token
-			SecurityToken::CloseLibrary();  // TODO Use Token
+		if (SecurityToken::IsInitialized())
+			SecurityToken::CloseLibrary();
 	}
 	catch (...) { }
 
@@ -12077,7 +12077,7 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 			StringCbPrintfW (s, sizeof(s), GetString ("ENTER_TOKEN_PASSWORD"), Utf8StringToWide (password->c_str()).c_str());
 			SetWindowTextW (GetDlgItem (hwndDlg, IDT_TOKEN_PASSWORD_INFO), s);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD), EM_LIMITTEXT, SecurityToken::MaxPasswordLength, 0);  // TODO Use Token
+			SendMessage (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD), EM_LIMITTEXT, SecurityToken::MaxPasswordLength, 0);
 
 			SetForegroundWindow (hwndDlg);
 			SetFocus (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD));
@@ -12100,15 +12100,15 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 		{
 			if (lw == IDOK)
 			{
-				wchar_t passwordWide[SecurityToken::MaxPasswordLength + 1];  // TODO Use Token
+				wchar_t passwordWide[SecurityToken::MaxPasswordLength + 1];
 
-				if (GetWindowTextW (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD), passwordWide, SecurityToken::MaxPasswordLength + 1) == 0)  // TODO Use Token
+				if (GetWindowTextW (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD), passwordWide, SecurityToken::MaxPasswordLength + 1) == 0)
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
 					break;
 				}
 
-				char passwordUtf8[SecurityToken::MaxPasswordLength + 1];  // TODO Use Token
+				char passwordUtf8[SecurityToken::MaxPasswordLength + 1];
 
 				int len = WideCharToMultiByte (CP_UTF8, 0, passwordWide, -1, passwordUtf8, array_capacity (passwordUtf8) - 1, nullptr, nullptr);
 				passwordUtf8[len] = 0;
@@ -12119,9 +12119,9 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 
 			// Attempt to wipe password stored in the input field buffer
-			wchar_t tmp[SecurityToken::MaxPasswordLength+1];  // TODO Use Token
-			wmemset (tmp, 'X', SecurityToken::MaxPasswordLength);  // TODO Use Token
-			tmp[SecurityToken::MaxPasswordLength] = 0;  // TODO Use Token
+			wchar_t tmp[SecurityToken::MaxPasswordLength+1];
+			wmemset (tmp, 'X', SecurityToken::MaxPasswordLength);
+			tmp[SecurityToken::MaxPasswordLength] = 0;
 			SetWindowText (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD), tmp);
 
 			EndDialog (hwndDlg, lw);
@@ -12148,7 +12148,7 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 
 struct NewSecurityTokenKeyfileDlgProcParams
 {
-	CK_SLOT_ID SlotId;  // TODO Use Token
+	CK_SLOT_ID SlotId;
 	string Name;
 };
 
@@ -12212,7 +12212,7 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 					return 1;
 				}
 
-				newParams->SlotId = (CK_SLOT_ID) ComboBox_GetItemData (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), selectedToken);  // TODO Use Token
+				newParams->SlotId = (CK_SLOT_ID) ComboBox_GetItemData (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), selectedToken);
 
 				wchar_t name[1024];
 				if (GetWindowTextW (GetDlgItem (hwndDlg, IDC_TOKEN_KEYFILE_NAME), name, array_capacity (name)) != 0)
@@ -12428,7 +12428,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 									WaitCursor();
 									finally_do ({ NormalCursor(); });
 
-									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name); // TODO Use Token
+									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name);
 
 									keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
@@ -12509,7 +12509,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 						foreach (const shared_ptr<TokenKeyfile> keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 						{
-							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));  // TODO Use Token, temp code
+							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));
 						}
 
 						keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
@@ -12613,7 +12613,7 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 
 	try
 	{
-		SecurityToken::InitLibrary (SecurityTokenLibraryPath, unique_ptr <GetPinFunctor> (new PinRequestHandler(MainDlg)), unique_ptr <SendExceptionFunctor> (new WarningHandler(MainDlg)));  // TODO Use Token
+		SecurityToken::InitLibrary (SecurityTokenLibraryPath, unique_ptr <GetPinFunctor> (new PinRequestHandler(MainDlg)), unique_ptr <SendExceptionFunctor> (new WarningHandler(MainDlg)));
 	}
 	catch (Exception &e)
 	{
