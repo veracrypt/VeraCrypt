@@ -678,7 +678,7 @@ namespace VeraCrypt
 		}
 
 		stringstream s;
-		s << "0x" << hex << ErrorCode;
+		s << "0x" << ErrorCode;
 		return s.str();
 	}
 
