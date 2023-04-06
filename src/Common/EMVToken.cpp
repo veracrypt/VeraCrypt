@@ -74,11 +74,8 @@ namespace VeraCrypt
 		vector <EMVTokenKeyfile> keyfiles;
 		unsigned long int nb = 0;
 
-		try{
-			nb = EMVToken::extractor.GetReaders();
-		}catch(ICCExtractionException){
-			cout << "PB pour lister les lecteurs" << endl;
-		}
+		nb = EMVToken::extractor.GetReaders();
+	
 
 		for(unsigned long int slotId = 0; slotId<nb; slotId++)
 		{
@@ -89,9 +86,16 @@ namespace VeraCrypt
 
 			try{
 				token = GetTokenInfo(slotId);
-			} catch(ICCExtractionException) {
-				cout << "Not EMV Type" << endl;
+			} catch(EMVUnknownCardType) {
 				continue;
+			}catch(PCSCException &e){
+
+				if (e.GetErrorCode() == SCARD_W_REMOVED_CARD)
+				{
+					continue;
+				}
+
+				throw e;
 			}
 
 			EMVTokenKeyfile keyfile;

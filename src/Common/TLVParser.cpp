@@ -77,7 +77,7 @@ shared_ptr<TLVNode> TLVParser::TLV_Parse_One(unsigned char* buf,int size){
 
 	//V zone
 	value = new unsigned char[len];
-	std::copy(buf+index,buf+index+len,value);//memcpy(value,buf+index,len);
+	std::copy(buf+index,buf+index+len,value);
 	node->Value = value;
 	index += len;
 
