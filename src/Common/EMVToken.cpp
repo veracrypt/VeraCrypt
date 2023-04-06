@@ -67,6 +67,10 @@ namespace VeraCrypt
 	}
 
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring keyfileIdFilter) {
+		#ifdef TC_WINDOWS
+		EMVToken::extractor.InitLibrary();
+		#endif
+
 		vector <EMVTokenKeyfile> keyfiles;
 		unsigned long int nb = 0;
 

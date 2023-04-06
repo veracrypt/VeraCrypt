@@ -74,6 +74,9 @@ namespace VeraCrypt
 		SCardFreeMemoryPtr WSCardFreeMemory;
 		SCardListReadersAPtr WSCardListReadersA;
 		SCardTransmitPtr WSCardTransmit;
+
+		/* Is the library loaded */
+		static bool Initialized;
 		#endif
 
 		/* SELECT_TYPES FOR DIFFERENT AIDs*/
@@ -98,10 +101,6 @@ namespace VeraCrypt
 									  * SCARD_PROTOCOL_T0: An asynchronous, character-oriented half-duplex transmission protocol.
 									  * SCARD_PROTOCOL_T1: An asynchronous, block-oriented half-duplex transmission protocol.*/
 
-		/* Used to initialize the winscard library on windows to make sure the dll is in System32 */
-		#ifdef TC_WINDOWS
-		void IccDataExtractor::InitLibrary();
-		#endif
 
 		/* Establishing the resource manager context (the scope) within which database operations are performed.
 		* The module of the smart card subsystem that manages access to multiple readers and smart cards. The
@@ -137,6 +136,11 @@ namespace VeraCrypt
 		IccDataExtractor();
 
 		~IccDataExtractor();
+
+		/* Used to initialize the winscard library on windows to make sure the dll is in System32 */
+		#ifdef TC_WINDOWS
+		void IccDataExtractor::InitLibrary();
+		#endif
 
 		/* Detecting available readers and filling the reader table. Returns
 		* the number of available readers */
@@ -182,6 +186,13 @@ namespace VeraCrypt
 
 	protected:
 		std::string m_errormessage;
+	};
+
+
+
+	struct WinscardLibraryNotInitialized: public Exception
+	{
+		void Show(HWND parent) const { Error("WINSCARD_MODULE_INIT_FAILED", parent); }
 	};
 }
 

@@ -6,17 +6,14 @@
 
 namespace VeraCrypt
 {
+	bool IccDataExtractor::Initialized;
 	//using namespace std;
 	const BYTE IccDataExtractor::SELECT_MASTERCARD[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x04, 0x10, 0x10};
 	const BYTE IccDataExtractor::SELECT_VISA[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 0x03, 0x10, 0x10};
 	const BYTE IccDataExtractor::SELECT_AMEX[] = {00, 0xA4, 0x04, 00, 0x07, 0xA0, 00, 00, 00, 00, 0x25, 0x10};
 	const BYTE * IccDataExtractor::SELECT_TYPES[]={SELECT_MASTERCARD,  SELECT_VISA, SELECT_AMEX};
 
-	IccDataExtractor::IccDataExtractor(){
-		#ifdef TC_WINDOWS
-		InitLibrary();
-		#endif
-	}
+	IccDataExtractor::IccDataExtractor(){}
 
 	IccDataExtractor::~IccDataExtractor(){
 		/* Disconnect card if connected */
@@ -47,6 +44,7 @@ namespace VeraCrypt
 			#endif
 		}
 
+		/* Freeing winscard library */
 		#ifdef TC_WINDOWS
 		FreeLibrary(WinscardLibraryHandle);
 		#endif
@@ -54,7 +52,6 @@ namespace VeraCrypt
 
 	#ifdef TC_WINDOWS
 	void IccDataExtractor::InitLibrary(){
-		
 		/* Getting the System32 directory */
 		char sysDir[MAX_PATH];
 		GetSystemDirectoryA(sysDir, MAX_PATH);
@@ -69,12 +66,28 @@ namespace VeraCrypt
 
 		/* Fetching the functions pointers from the dll */
 		WSCardEstablishContext = (SCardEstablishContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardEstablishContext");
+		if(!WSCardEstablishContext) throw WinscardLibraryNotInitialized();
+
 		WSCardReleaseContext= (SCardReleaseContextPtr) GetProcAddress(WinscardLibraryHandle,"SCardReleaseContext");
+		if(!WSCardReleaseContext) throw WinscardLibraryNotInitialized();
+
 		WSCardConnectA = (SCardConnectAPtr) GetProcAddress(WinscardLibraryHandle,"SCardConnectA");
+		if(!WSCardConnectA) throw WinscardLibraryNotInitialized();
+
 		WSCardDisconnect = (SCardDisconnectPtr) GetProcAddress(WinscardLibraryHandle,"SCardDisconnect");
+		if(!WSCardDisconnect) throw WinscardLibraryNotInitialized();
+
 		WSCardFreeMemory = ( SCardFreeMemoryPtr) GetProcAddress(WinscardLibraryHandle,"SCardFreeMemory");
+		if(!WSCardFreeMemory) throw WinscardLibraryNotInitialized();
+
 		WSCardListReadersA =  (SCardListReadersAPtr) GetProcAddress(WinscardLibraryHandle,"SCardListReadersA");
+		if(!WSCardListReadersA) throw WinscardLibraryNotInitialized();
+
 		WSCardTransmit = ( SCardTransmitPtr) GetProcAddress(WinscardLibraryHandle,"SCardTransmit");
+		if(!WSCardTransmit) throw WinscardLibraryNotInitialized();
+
+		Initialized = true;
+		
 	}
 	#endif
 
@@ -99,6 +112,11 @@ namespace VeraCrypt
 
 	/* Detecting available readers and filling the reader table */
 	unsigned long IccDataExtractor::GetReaders(){
+
+		#ifdef TC_WINDOWS
+		if(!Initialized) 
+			throw WinscardLibraryNotInitialized();
+		#endif 
 
 		EstablishRSContext();
 
@@ -371,6 +389,12 @@ namespace VeraCrypt
 	/* Getting an ICC Public Key Certificates and an Issuer Public Key Certificates for the first application with the cpcl
 	* data present on the card and finally merge it into one byte array */
 	void IccDataExtractor::GettingAllCerts(int readerNumber, vector<byte> &v){
+
+		#ifdef TC_WINDOWS
+		if(!Initialized) 
+			throw WinscardLibraryNotInitialized();
+		#endif 
+
 		bool isEMV= false;
 		bool hasCerts=false;
 
@@ -533,6 +557,12 @@ namespace VeraCrypt
 	}
 
 	string IccDataExtractor::GettingPAN(int readerNumber) {
+
+		#ifdef TC_WINDOWS
+		if(!Initialized) 
+			throw WinscardLibraryNotInitialized();
+		#endif 
+
 		vector<byte> PAN;
 
 		bool isEMV= false;
