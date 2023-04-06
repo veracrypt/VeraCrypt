@@ -177,22 +177,6 @@ namespace VeraCrypt
 		uint64 SubjectErrorCode;
 	};
 
-	/* The definition of the exception class related to ICC data extraction */
-	class ICCExtractionException
-	{
-	public:
-		ICCExtractionException(std::string errormessage): m_errormessage(errormessage){}
-
-		/* Get the error message */
-		inline std::string ErrorMessage() const
-		{
-			return "<EMV> "+ m_errormessage;
-		}
-
-	protected:
-		std::string m_errormessage;
-	};
-
 	#ifdef TC_HEADER_Platform_Exception
 
 	#define TC_EXCEPTION(NAME) TC_EXCEPTION_DECL(NAME,Exception)
