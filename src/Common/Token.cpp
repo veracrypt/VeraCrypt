@@ -41,7 +41,6 @@ namespace VeraCrypt
             }
         }
 
-
 		if(availableKeyfiles.size() == 0 && ! securityTokenLibraryInitialized){
 			throw SecurityTokenLibraryNotInitialized();
 		}

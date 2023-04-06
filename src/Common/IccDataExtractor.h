@@ -75,7 +75,7 @@ namespace VeraCrypt
 		SCardListReadersAPtr WSCardListReadersA;
 		SCardTransmitPtr WSCardTransmit;
 
-		/* Is the library loaded */
+		/* Is the winscard library loaded */
 		static bool Initialized;
 		#endif
 
@@ -154,22 +154,27 @@ namespace VeraCrypt
 		/* Getting the PAN from the card designated by the reader number */
 		std::string GettingPAN(int readerNumber);
 	};
-
-
-	/* The definition of the exception class related to PCSC Library */
-	class PCSCException
+	
+	struct PCSCException: public Exception
 	{
-	public:
-		PCSCException(LONG errorCode): m_errorCode(errorCode){}
+		PCSCException(LONG errorCode): ErrorCode(errorCode), SubjectErrorCodeValid(false), SubjectErrorCode((uint64)-1){}
+		PCSCException(LONG errorCode, uint64 subjectErrorCode): ErrorCode(errorCode), SubjectErrorCodeValid(true), SubjectErrorCode(subjectErrorCode){}
 
-		/* Get the error code */
-		inline std::string ErrorMessage() const
-		{
-			return "Winscard error: "+ std::to_string(static_cast<long long>(m_errorCode));
-		}
+		#ifdef TC_HEADER_Platform_Exception
+		virtual ~PCSCException() throw () { }
+		TC_SERIALIZABLE_EXCEPTION(PCSCException);
+		#else
+
+		void Show(HWND parent) const;
+		#endif
+
+		operator string () const;
+		LONG GetErrorCode() const { return ErrorCode; }
 
 	protected:
-		LONG m_errorCode;
+		LONG ErrorCode;
+		bool SubjectErrorCodeValid;
+		uint64 SubjectErrorCode;
 	};
 
 	/* The definition of the exception class related to ICC data extraction */
@@ -188,12 +193,49 @@ namespace VeraCrypt
 		std::string m_errormessage;
 	};
 
+	#ifdef TC_HEADER_Platform_Exception
 
+	#define TC_EXCEPTION(NAME) TC_EXCEPTION_DECL(NAME,Exception)
+
+	#undef TC_EXCEPTION_SET
+	#define TC_EXCEPTION_SET \
+	TC_EXCEPTION_NODECL (PCSCException); \
+	TC_EXCEPTION (WinscardLibraryNotInitialized); \
+	TC_EXCEPTION (EMVKeyfileDataNotFound); \
+	TC_EXCEPTION (EMVPANNotFound); \
+	TC_EXCEPTION (EMVUnknownCardType);
+	TC_EXCEPTION_SET;
+
+	#undef TC_EXCEPTION
+
+	#else // !TC_HEADER_Platform_Exception	
 
 	struct WinscardLibraryNotInitialized: public Exception
 	{
 		void Show(HWND parent) const { Error("WINSCARD_MODULE_INIT_FAILED", parent); }
 	};
+
+	struct InvalidEMVPath: public Exception
+	{
+		void Show(HWND parent) const { Error("INVALID_EMV_PATH", parent); }
+	};
+
+	struct EMVKeyfileDataNotFound: public Exception
+	{
+		void Show(HWND parent) const { Error("EMV_KEYFILE_DATA_NOT_FOUND", parent); }
+	};
+
+	struct EMVPANNotFound: public Exception
+	{
+		void Show(HWND parent) const { Error("EMV_PAN_NOT_FOUND", parent); }
+	};
+
+	struct EMVUnknownCardType: public Exception
+	{
+		void Show(HWND parent) const { Error("EMV_UNKNOWN_CARD_TYPE", parent); }
+	};
+
+	#endif // !TC_HEADER_Platform_Exception
 }
 
 #endif //NEWEMV_ICCDATAEXTRACTOR_H
