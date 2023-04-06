@@ -315,10 +315,18 @@ namespace VeraCrypt
 					continue;
 
 				/* Parsing the TLV */
-				node = TLVParser::TLV_Parse(pbRecvBufferFat,sizeof(pbRecvBufferFat));
+				try{
+					node = TLVParser::TLV_Parse(pbRecvBufferFat,sizeof(pbRecvBufferFat));
+				}catch(TLVException){
+					continue;
+				}
 
 				/* Finding the ICC_Public_Key_Certificate */
-				ICC_Public_Key_Certificate = TLVParser::TLV_Find(node, 0x9F46);
+				try{
+					ICC_Public_Key_Certificate = TLVParser::TLV_Find(node, 0x9F46);
+				}catch(TLVException){
+					continue;
+				}
 				if(ICC_Public_Key_Certificate) {
 					iccFound=true;
 					for (int i = 0; i < ICC_Public_Key_Certificate->Length;i++) {
@@ -327,7 +335,12 @@ namespace VeraCrypt
 				}
 
 				/* Finding the Issuer_Public_Key_Certificate */
-				Issuer_PK_Certificate = TLVParser::TLV_Find(node, 0x90);
+				try{
+					Issuer_PK_Certificate = TLVParser::TLV_Find(node, 0x90);
+				}catch(TLVException){
+					continue;
+				}
+
 				if(Issuer_PK_Certificate) {
 					issuerFound=true;
 					for (int i = 0; i < Issuer_PK_Certificate->Length;i++) {
@@ -506,10 +519,18 @@ namespace VeraCrypt
 					continue;
 
 				/* Parsing the TLV */
-				node = TLVParser::TLV_Parse(pbRecvBufferFat,sizeof(pbRecvBufferFat));
+				try{
+					node = TLVParser::TLV_Parse(pbRecvBufferFat,sizeof(pbRecvBufferFat));
+				}catch(TLVException){
+					continue;
+				}
 
 				/* Finding the PAN */
-				PAN = TLVParser::TLV_Find(node, 0x5A);
+				try{
+					PAN = TLVParser::TLV_Find(node, 0x5A);
+				}catch(TLVException){
+					continue;
+				}
 				if(PAN) {
 					PANFound=true;
 					for (int i = 0; i < PAN->Length;i++) {
