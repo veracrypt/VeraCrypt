@@ -1284,7 +1284,7 @@
     <entry lang="en" key="EMV_KEYFILE_DATA_NOT_FOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
     <entry lang="en" key="EMV_PAN_NOT_FOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
     <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted</entry>
+    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
     <entry lang="en" key="SELECT_TOKEN_KEYFILES">Select Security Token Keyfiles</entry>
     <entry lang="en" key="TOKEN_SLOT_ID">Slot</entry>
     <entry lang="en" key="TOKEN_NAME">Token name</entry>
