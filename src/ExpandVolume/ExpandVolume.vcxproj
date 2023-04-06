@@ -191,7 +191,7 @@
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\Debug\crypto.lib;..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;mpr.lib;winscard.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\Debug\crypto.lib;..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -292,7 +292,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;mpr.lib;winscard.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
