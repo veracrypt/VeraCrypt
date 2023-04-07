@@ -106,7 +106,7 @@ namespace VeraCrypt
 		token.SlotId = slotId;
 		//card numbers extraction
 		std::string w = EMVToken::extractor.GettingPAN(slotId);
-		token.Label = L"EMV card ****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);
+		token.Label = L"EMV card ****-" + wstring (w.begin(), w.end());
 
 		return token;
 	}
