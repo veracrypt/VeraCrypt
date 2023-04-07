@@ -20,6 +20,7 @@ namespace VeraCrypt {
 
 	struct EMVTokenInfo: TokenInfo
 	{
+		virtual ~EMVTokenInfo();
 		virtual BOOL isEditable() const {return false;}
 	};
 

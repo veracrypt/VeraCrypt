@@ -26,6 +26,7 @@ namespace VeraCrypt {
 	};
 	struct TokenInfo {
 		TokenInfo() {}
+		virtual ~TokenInfo() {}
 
 		virtual BOOL isEditable() const=0;
 

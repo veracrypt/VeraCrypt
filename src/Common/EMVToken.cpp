@@ -24,6 +24,11 @@ namespace VeraCrypt
 
 	IccDataExtractor EMVToken::extractor;
 
+	EMVTokenInfo::~EMVTokenInfo()
+	{
+		burn(&Label,Label.size());
+	}
+
 	EMVTokenKeyfile::EMVTokenKeyfile(const TokenKeyfilePath& path)
 	{
 		Id = EMV_CARDS_LABEL;
@@ -106,8 +111,11 @@ namespace VeraCrypt
 		token.SlotId = slotId;
 		//card numbers extraction
 		std::string w = EMVToken::extractor.GettingPAN(slotId);
-		token.Label = L"EMV card ****-" + (wstring (w.begin(), w.end())).substr(w.size()-4);
-
+		token.Label = L"EMV card **** ";
+		if(w.size() >= 16){
+			token.Label += wstring (w.begin()+12, w.begin()+16);
+		}
+		burn(&w,w.size());
 		return token;
 	}
 
