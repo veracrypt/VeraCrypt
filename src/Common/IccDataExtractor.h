@@ -135,7 +135,7 @@ namespace VeraCrypt
 
 		/* Helper function to make a string from plain arrays and various standard containers of bytes */
 		template<typename TInputIter>
-		std::string make_hex_string(TInputIter first, TInputIter last, bool use_uppercase = true, bool insert_spaces = false);
+		void make_hex_string(TInputIter first, TInputIter last, std::string& panString, bool use_uppercase = true, bool insert_spaces = false);
 
 	public:
 		IccDataExtractor();
@@ -157,7 +157,7 @@ namespace VeraCrypt
 		void GettingAllCerts(int readerNumber, vector<byte> &v);
 
 		/* Getting the PAN from the card designated by the reader number */
-		std::string GettingPAN(int readerNumber);
+		void GettingPAN(int readerNumber, string& panString);
 	};
 
 	struct PCSCException: public Exception

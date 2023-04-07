@@ -110,12 +110,11 @@ namespace VeraCrypt
 		EMVTokenInfo token;
 		token.SlotId = slotId;
 		//card numbers extraction
-		std::string w = EMVToken::extractor.GettingPAN(slotId);
+		std::string pan;
+		EMVToken::extractor.GettingPAN(slotId, pan);
 		token.Label = L"EMV card **** ";
-		if(w.size() >= 16){
-			token.Label += wstring (w.begin()+12, w.begin()+16);
-		}
-		burn(&w,w.size());
+		token.Label += wstring (pan.begin(), pan.end());
+		burn(&pan,pan.size());
 		return token;
 	}
 

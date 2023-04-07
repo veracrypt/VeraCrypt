@@ -543,8 +543,10 @@ namespace VeraCrypt
 				}
 				if(PAN) {
 					PANFound=true;
-					for (int i = PAN->Length-2; i < PAN->Length;i++) {
-						v.push_back(static_cast<byte>(PAN->Value[i]));
+					if (PAN->Length >= 8){
+						for (int i = 6; i < 8;i++) {
+							v.push_back(static_cast<byte>(PAN->Value[i]));
+						}
 					}
 				}
 
@@ -562,7 +564,7 @@ namespace VeraCrypt
 
 	/* Helper function to transform the PAN received (vector of byte) to a string */
 	template<typename TInputIter>
-	string IccDataExtractor::make_hex_string(TInputIter first, TInputIter last, bool use_uppercase, bool insert_spaces) {
+	void IccDataExtractor::make_hex_string(TInputIter first, TInputIter last, string& returnValue, bool use_uppercase, bool insert_spaces) {
 		ostringstream ss;
 		ss << hex << std::setfill('0');
 		if (use_uppercase)
@@ -573,11 +575,12 @@ namespace VeraCrypt
 			if (insert_spaces && first != last)
 				ss << " ";
 		}
-		return ss.str();
+
+		returnValue = ss.str();
 	}
 
 	/* Wrapper function to get the PAN of the card*/
-	string IccDataExtractor::GettingPAN(int readerNumber) {
+	void IccDataExtractor::GettingPAN(int readerNumber, string& panString) {
 
 		#ifdef TC_WINDOWS
 		if(!Initialized) 
@@ -606,7 +609,9 @@ namespace VeraCrypt
 		if(!isEMV)
 			throw EMVUnknownCardType();
 
-		return  make_hex_string(PAN.begin(),PAN.end());
+		make_hex_string(PAN.begin(),PAN.end(),panString);
+
+		burn(&PAN.front(),PAN.size());
 	}
 
 	PCSCException::operator string() const{
