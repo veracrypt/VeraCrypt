@@ -24,6 +24,7 @@
 #include "Platform/SystemInfo.h"
 #include "Platform/SystemException.h"
 #include "Common/SecurityToken.h"
+#include "Common/IccDataExtractor.h"
 #include "Volume/EncryptionTest.h"
 #include "Application.h"
 #include "FavoriteVolume.h"
@@ -436,6 +437,27 @@ namespace VeraCrypt
 			return LangString["SECURITY_TOKEN_ERROR"] + L":\n\n" + StringConverter::ToWide (errorString);
 		}
 
+
+        // PCSC Exception
+        if (dynamic_cast <const PCSCException *> (&ex))
+        {
+            string errorString = string (dynamic_cast <const PCSCException &> (ex));
+
+            if (LangString.Exists (errorString))
+                return LangString[errorString];
+
+            if (errorString.find("SCARD_E_") == 0 || errorString.find("SCARD_F_") == 0 || errorString.find("SCARD_W_") == 0)
+            {
+                errorString = errorString.substr(8);
+                for (size_t i = 0; i < errorString.size(); ++i)
+                {
+                    if (errorString[i] == '_')
+                        errorString[i] = ' ';
+                }
+            }
+            return LangString["PCSC_ERROR"] + L":\n\n" + StringConverter::ToWide (errorString);
+        }
+
 		// Other library exceptions
 		return ExceptionTypeToString (typeid (ex));
 	}
@@ -479,6 +501,11 @@ namespace VeraCrypt
 		EX2MSG (StringFormatterException,			LangString["LINUX_EX2MSG_STRINGFORMATTEREXCEPTION"]);
 		EX2MSG (TemporaryDirectoryFailure,			LangString["LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE"]);
 		EX2MSG (UnportablePassword,					LangString["UNSUPPORTED_CHARS_IN_PWD"]);
+        EX2MSG (WinscardLibraryNotInitialized,		LangString["WINSCARD_MODULE_INIT_FAILED"]);
+        EX2MSG (InvalidEMVPath,					    LangString["INVALID_EMV_PATH"]);
+        EX2MSG (EMVKeyfileDataNotFound,				LangString["EMV_KEYFILE_DATA_NOT_FOUND"]);
+        EX2MSG (EMVPANNotFound,					    LangString["EMV_PAN_NOT_FOUND"]);
+        EX2MSG (EMVUnknownCardType,					LangString["EMV_UNKNOWN_CARD_TYPE"]);
 
 #if defined (TC_LINUX)
 		EX2MSG (UnsupportedSectorSize,				LangString["SECTOR_SIZE_UNSUPPORTED"]);
@@ -1663,6 +1690,13 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (CipherException);
 		VC_CONVERT_EXCEPTION (VolumeException);
 		VC_CONVERT_EXCEPTION (PasswordException);
+
+        VC_CONVERT_EXCEPTION (WinscardLibraryNotInitialized);
+        VC_CONVERT_EXCEPTION (InvalidEMVPath);
+        VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
+        VC_CONVERT_EXCEPTION (EMVPANNotFound);
+        VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+
 		throw *ex;
 	}
 }

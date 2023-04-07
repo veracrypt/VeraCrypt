@@ -14,7 +14,7 @@
 #endif
 
 namespace VeraCrypt
-{	
+{
 
 
 	#ifdef TC_WINDOWS
@@ -723,5 +723,35 @@ namespace VeraCrypt
 		}
 	}
 	#endif // TC_HEADER_Common_Exception
+
+#ifdef TC_HEADER_Platform_Exception
+
+    void PCSCException::Deserialize(shared_ptr <Stream> stream)
+	{
+		Exception::Deserialize(stream);
+		Serializer sr(stream);
+		uint64 code;
+		sr.Deserialize("ErrorCode", code);
+		sr.Deserialize("SubjectErrorCodeValid", SubjectErrorCodeValid);
+		sr.Deserialize("SubjectErrorCode", SubjectErrorCode);
+		ErrorCode = (LONG)code;
+	}
+
+	void PCSCException::Serialize(shared_ptr <Stream> stream) const
+	{
+		Exception::Serialize(stream);
+		Serializer sr(stream);
+		sr.Serialize("ErrorCode", (uint64)ErrorCode);
+		sr.Serialize("SubjectErrorCodeValid", SubjectErrorCodeValid);
+		sr.Serialize("SubjectErrorCode", SubjectErrorCode);
+	}
+
+#	define TC_EXCEPTION(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
+#	undef TC_EXCEPTION_NODECL
+#	define TC_EXCEPTION_NODECL(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
+
+	TC_SERIALIZER_FACTORY_ADD_EXCEPTION_SET(PCSCTokenException);
+
+#endif
 
 }
