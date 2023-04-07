@@ -32,19 +32,9 @@ namespace VeraCrypt
 		unsigned long slotId;
 
 		if (swscanf(pathStr.c_str(), TC_EMV_TOKEN_KEYFILE_URL_PREFIX TC_EMV_TOKEN_KEYFILE_URL_SLOT L"/%lu", &slotId) != 1)
-			throw nullptr; //InvalidSecurityTokenKeyfilePath(); TODO Create similar error
+			throw InvalidEMVPath();
 
 		Token->SlotId = slotId;
-		/* TODO : Make a similar thing to get an EMVTokenKeyfile token.Label filled with the card number
-		Need : EMVToken::GetAvailableKeyfiles(unsined long *slotIdFilter = nullptr, const wstring keyfileIdFilter = EMV_CARDS_LABEL)
-		returning a vector of EMVTokenKeyfile matching the filters
-
-		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles (&SlotId, Id);
-
-		if (keyfiles.empty())
-		throw SecurityTokenKeyfileNotFound();
-
-		*this = keyfiles.front();*/
 	}
 
 	EMVTokenKeyfile::operator TokenKeyfilePath () const
