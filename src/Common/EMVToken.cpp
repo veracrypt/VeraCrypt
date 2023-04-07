@@ -58,6 +58,11 @@ namespace VeraCrypt
 
 	void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
 	{
+		#ifdef TC_WINDOWS
+		EMVToken::extractor.InitLibrary();
+		#endif
+
+		EMVToken::extractor.GetReaders();
 		EMVToken::extractor.GettingAllCerts(Token->SlotId, keyfileData);
 	}
 
@@ -88,14 +93,9 @@ namespace VeraCrypt
 				token = GetTokenInfo(slotId);
 			} catch(EMVUnknownCardType) {
 				continue;
-			}catch(PCSCException &e){
+			}catch(PCSCException){
 
-				if (e.GetErrorCode() == SCARD_W_REMOVED_CARD)
-				{
 					continue;
-				}
-
-				throw e;
 			}
 
 			EMVTokenKeyfile keyfile;
