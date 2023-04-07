@@ -20,9 +20,14 @@
 #include <unistd.h>
 #endif
 
+#if defined (TC_WINDOWS) && !defined (TC_PROTOTYPE)
+#	include "Exception.h"
+#else
+#	include "Platform/Exception.h"
+#endif
+
 #ifdef TC_WINDOWS
 #include <winscard.h>
-#include "Exception.h"
 #include <windows.h>
 #endif
 #ifdef TC_UNIX
@@ -154,10 +159,10 @@ namespace VeraCrypt
 		/* Getting the PAN from the card designated by the reader number */
 		std::string GettingPAN(int readerNumber);
 	};
-	
+
 	struct PCSCException: public Exception
 	{
-		PCSCException(LONG errorCode): ErrorCode(errorCode), SubjectErrorCodeValid(false), SubjectErrorCode((uint64)-1){}
+		PCSCException(LONG errorCode = (LONG) -1): ErrorCode(errorCode), SubjectErrorCodeValid(false), SubjectErrorCode((uint64)-1){}
 		PCSCException(LONG errorCode, uint64 subjectErrorCode): ErrorCode(errorCode), SubjectErrorCodeValid(true), SubjectErrorCode(subjectErrorCode){}
 
 		#ifdef TC_HEADER_Platform_Exception
@@ -179,12 +184,13 @@ namespace VeraCrypt
 
 	#ifdef TC_HEADER_Platform_Exception
 
-	#define TC_EXCEPTION(NAME) TC_EXCEPTION_DECL(NAME,Exception)
+    #define TC_EXCEPTION(NAME) TC_EXCEPTION_DECL(NAME,Exception)
 
 	#undef TC_EXCEPTION_SET
 	#define TC_EXCEPTION_SET \
 	TC_EXCEPTION_NODECL (PCSCException); \
 	TC_EXCEPTION (WinscardLibraryNotInitialized); \
+    TC_EXCEPTION (InvalidEMVPath); \
 	TC_EXCEPTION (EMVKeyfileDataNotFound); \
 	TC_EXCEPTION (EMVPANNotFound); \
 	TC_EXCEPTION (EMVUnknownCardType);

@@ -1,7 +1,5 @@
 #include "EMVToken.h"
 
-#include "IccDataExtractor.h"
-
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
 #include <vector>
