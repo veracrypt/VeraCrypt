@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <string>
 #include <memory>
+#include "iostream"
+#include "Tcdefs.h"
 using namespace std;
 struct TLVNode{
 	uint16_t Tag;				/*	T 	*/
@@ -24,7 +26,8 @@ struct TLVNode{
 	shared_ptr<TLVNode> Next;
 
 	~TLVNode() {
-		delete Value;
+        burn(Value, Length);
+        delete Value;
 	}
 };
 

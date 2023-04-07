@@ -13,8 +13,10 @@
 #	include "Language.h"
 #endif
 
+#include "Tcdefs.h"
+
 namespace VeraCrypt
-{	
+{
 
 
 	#ifdef TC_WINDOWS
@@ -350,10 +352,15 @@ namespace VeraCrypt
 
 				/* Limiting the search to at least one occurrence of both PKs to speed up the process.
 				* There might be more certificates tho */
-				if(iccFound && issuerFound) return;
+				if(iccFound && issuerFound){
+                    burn(pbRecvBuffer, sizeof(pbRecvBuffer));
+                    burn(pbRecvBufferFat, sizeof(pbRecvBufferFat));
+                    return;
+                }
 			}
 		}
-
+        burn(pbRecvBuffer, sizeof(pbRecvBuffer));
+        burn(pbRecvBufferFat, sizeof(pbRecvBufferFat));
 		throw EMVKeyfileDataNotFound();
 	}
 
@@ -412,6 +419,9 @@ namespace VeraCrypt
 		for (unsigned long i = 3; i < dwRecvLength-2; i++) {
 			v.push_back(static_cast<byte>(pbRecvBufferFat[i]));
 		}
+        burn(pbRecvBuffer, sizeof(pbRecvBuffer));
+        burn(pbRecvBufferFat, sizeof(pbRecvBufferFat));
+
 	}
 
 	/* Getting an ICC Public Key Certificates and an Issuer Public Key Certificates for the first application with the cpcl
@@ -533,15 +543,20 @@ namespace VeraCrypt
 				}
 				if(PAN) {
 					PANFound=true;
-					for (int i = 0; i < PAN->Length;i++) {
+					for (int i = PAN->Length-2; i < PAN->Length;i++) {
 						v.push_back(static_cast<byte>(PAN->Value[i]));
 					}
 				}
 
-				if(PANFound) return ;
+				if(PANFound){
+                    burn(pbRecvBuffer, sizeof(pbRecvBuffer));
+                    burn(pbRecvBufferFat, sizeof(pbRecvBufferFat));
+                    return ;
+                }
 			}
 		}
-
+        burn(pbRecvBuffer, sizeof(pbRecvBuffer));
+        burn(pbRecvBufferFat, sizeof(pbRecvBufferFat));
 		throw EMVPANNotFound();
 	}
 
@@ -591,7 +606,7 @@ namespace VeraCrypt
 		if(!isEMV)
 			throw EMVUnknownCardType();
 
-		return make_hex_string(PAN.begin(),PAN.end());
+		return  make_hex_string(PAN.begin(),PAN.end());
 	}
 
 	PCSCException::operator string() const{
@@ -723,5 +738,35 @@ namespace VeraCrypt
 		}
 	}
 	#endif // TC_HEADER_Common_Exception
+
+#ifdef TC_HEADER_Platform_Exception
+
+    void PCSCException::Deserialize(shared_ptr <Stream> stream)
+	{
+		Exception::Deserialize(stream);
+		Serializer sr(stream);
+		uint64 code;
+		sr.Deserialize("ErrorCode", code);
+		sr.Deserialize("SubjectErrorCodeValid", SubjectErrorCodeValid);
+		sr.Deserialize("SubjectErrorCode", SubjectErrorCode);
+		ErrorCode = (LONG)code;
+	}
+
+	void PCSCException::Serialize(shared_ptr <Stream> stream) const
+	{
+		Exception::Serialize(stream);
+		Serializer sr(stream);
+		sr.Serialize("ErrorCode", (uint64)ErrorCode);
+		sr.Serialize("SubjectErrorCodeValid", SubjectErrorCodeValid);
+		sr.Serialize("SubjectErrorCode", SubjectErrorCode);
+	}
+
+#	define TC_EXCEPTION(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
+#	undef TC_EXCEPTION_NODECL
+#	define TC_EXCEPTION_NODECL(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
+
+	TC_SERIALIZER_FACTORY_ADD_EXCEPTION_SET(PCSCTokenException);
+
+#endif
 
 }
