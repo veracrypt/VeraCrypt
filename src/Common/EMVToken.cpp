@@ -114,7 +114,7 @@ namespace VeraCrypt
 		EMVToken::extractor.GettingPAN(slotId, pan);
 		token.Label = L"EMV card **** ";
 		token.Label += wstring (pan.begin(), pan.end());
-		burn(&pan,pan.size());
+		burn(&pan[0],pan.size());
 		return token;
 	}
 
