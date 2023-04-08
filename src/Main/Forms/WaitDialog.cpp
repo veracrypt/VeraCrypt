@@ -10,6 +10,7 @@
 #include "Volume/EncryptionModeXTS.h"
 #include "Main/GraphicUserInterface.h"
 #include "Common/SecurityToken.h"
+#include "Common/IccDataExtractor.h"
 #include "WaitDialog.h"
 
 namespace VeraCrypt
@@ -100,6 +101,14 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (CipherException);
 		VC_CONVERT_EXCEPTION (VolumeException);
 		VC_CONVERT_EXCEPTION (PasswordException);
+
+        VC_CONVERT_EXCEPTION (PCSCException);
+        VC_CONVERT_EXCEPTION (WinscardLibraryNotInitialized);
+        VC_CONVERT_EXCEPTION (InvalidEMVPath);
+        VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
+        VC_CONVERT_EXCEPTION (EMVPANNotFound);
+        VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+
 		throw *ex;
 	}
 }

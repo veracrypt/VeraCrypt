@@ -501,6 +501,7 @@ namespace VeraCrypt
 		EX2MSG (StringFormatterException,			LangString["LINUX_EX2MSG_STRINGFORMATTEREXCEPTION"]);
 		EX2MSG (TemporaryDirectoryFailure,			LangString["LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE"]);
 		EX2MSG (UnportablePassword,					LangString["UNSUPPORTED_CHARS_IN_PWD"]);
+        
         EX2MSG (WinscardLibraryNotInitialized,		LangString["WINSCARD_MODULE_INIT_FAILED"]);
         EX2MSG (InvalidEMVPath,					    LangString["INVALID_EMV_PATH"]);
         EX2MSG (EMVKeyfileDataNotFound,				LangString["EMV_KEYFILE_DATA_NOT_FOUND"]);
@@ -1691,6 +1692,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (VolumeException);
 		VC_CONVERT_EXCEPTION (PasswordException);
 
+        VC_CONVERT_EXCEPTION (PCSCException);
         VC_CONVERT_EXCEPTION (WinscardLibraryNotInitialized);
         VC_CONVERT_EXCEPTION (InvalidEMVPath);
         VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
