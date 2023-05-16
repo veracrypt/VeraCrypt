@@ -13,11 +13,11 @@ for arg in $*; do
     fs=*)             VCOPTIONS=(${VCOPTIONS[*]} --filesystem=${arg#*=});;
     keyfiles=*)       VCOPTIONS=(${VCOPTIONS[*]} --keyfiles=${arg#*=});;
     password=*)       VCOPTIONS=(${VCOPTIONS[*]} --password=${arg#*=});;
-    pim=*)            VCOPTIONS=(${VCOPTIONS[*]} --pim==${arg#*=});;
+    pim=*)            VCOPTIONS=(${VCOPTIONS[*]} --pim=${arg#*=});;
     protect-hidden=*) VCOPTIONS=(${VCOPTIONS[*]} --protect-hidden=${arg#*=});;
     slot=*)           VCOPTIONS=(${VCOPTIONS[*]} --slot=${arg#*=});;
     *)                OPTIONS="${OPTIONS}${arg},";;
   esac
 done
 
-/usr/bin/veracrypt --non-interactive --text ${VCOPTIONS[*]} --fs-options="${OPTIONS%,*}" ${DEV} ${MNTPT}
+/usr/bin/veracrypt --text --non-interactive ${VCOPTIONS[*]} --fs-options="${OPTIONS%,*}" ${DEV} ${MNTPT}
