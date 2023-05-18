@@ -1531,6 +1531,7 @@ Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte vo
     <entry lang="nl" key="LINUX_NOT_SUPPORTED"> (niet ondersteund door onderdelen beschikbaar op dit platform).\n</entry>
     <entry lang="nl" key="LINUX_KERNEL_OLD">Uw systeem gebruikt een oude versie van de Linux-kernel.\n\nDoor een bug in de Linux-kernel kan uw systeem stoppen met reageren bij het schrijven van gegevens naar een VeraCrypt-volume. Dit probleem kan worden opgelost door de kernel te upgraden naar versie 2.6.24 of later.</entry>
     <entry lang="nl" key="LINUX_VOL_DISMOUNTED">Volume {0} is ontkoppeld.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="nl" key="LINUX_OOM">Onvoldoende geheugen.</entry>
     <entry lang="nl" key="LINUX_CANT_GET_ADMIN_PRIV">Geen beheerdersrechten verkregen</entry>
     <entry lang="nl" key="LINUX_COMMAND_GET_ERROR">Opdracht {0} gaf fout {1}.</entry>

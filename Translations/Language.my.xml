@@ -1523,6 +1523,7 @@
     <entry lang="my" key="LINUX_NOT_SUPPORTED">(ဤပလက်ဖောင်းတွင် ရရှိနိုင်သော အစိတ်အပိုင်းများက မပံ့ပိုးပါ)။\n</entry>
     <entry lang="my" key="LINUX_KERNEL_OLD">သင့်စနစ်သည် Linux kernel ၏ ဗားရှင်းဟောင်းကို အသုံးပြုသည်။\n\nLinux kernel ရှိ ပြဿနာတစ်ခုကြောင့် VeraCrypt volume တစ်ခုသို့ ဒေတာရေးစဉ် သင့်စနစ် ရပ်သွားနိုင်သည်။ ဤပြဿနာကို ဖြေရှင်းရန် kernel ကို ဗားရှင်း ၂.၆.၂၄ သို့မဟုတ် နောက်ပိုင်းဗားရှင်းသို့ အဆင့်မြှင့်နိုင်သည်။</entry>
     <entry lang="my" key="LINUX_VOL_DISMOUNTED">Volume {0} ကို အဆုံးသတ်လိုက်ပါပြီ။</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="my" key="LINUX_OOM">မမ်မိုရီ မကျန်တော့ပါ။</entry>
     <entry lang="my" key="LINUX_CANT_GET_ADMIN_PRIV">စီမံအုပ်ချုပ်သူ အခွင့်ထူးများကို ရယူခြင်း မအောင်မြင်ပါ</entry>
     <entry lang="my" key="LINUX_COMMAND_GET_ERROR">ညွှန်ကြားချက် {0} က ပြဿနာ {1} ကို ပြန်ပို့ပေးသည်။</entry>

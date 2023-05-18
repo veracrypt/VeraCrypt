@@ -1521,6 +1521,7 @@
     <entry lang="pl" key="LINUX_NOT_SUPPORTED"> (nieobsługiwane przez komponenty dostępne na tej platformie).\n</entry>
     <entry lang="pl" key="LINUX_KERNEL_OLD">Twój system używa starej wersji jądra Linuksa.\n\nZ powodu błędu w jądrze Linuksa Twój system może przestać odpowiadać podczas zapisywania danych do wolumenu VeraCrypt. Ten problem można rozwiązać, aktualizując jądro do wersji 2.6.24 lub nowszej.</entry>
     <entry lang="pl" key="LINUX_VOL_DISMOUNTED">Wolumen {0} został odłączony.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="pl" key="LINUX_OOM">Brak pamięci.</entry>
     <entry lang="pl" key="LINUX_CANT_GET_ADMIN_PRIV">Nie udało się uzyskać uprawnień administratora</entry>
     <entry lang="pl" key="LINUX_COMMAND_GET_ERROR">Polecenie {0} zwróciło błąd {1}.</entry>
