@@ -1317,7 +1317,14 @@ namespace VeraCrypt
 			{
 				/* check if local file exists */
 				wxFileName htmlFile = htmlPath + url;
-				htmlFile.Normalize();
+				htmlFile.Normalize (
+					wxPATH_NORM_ENV_VARS |
+					wxPATH_NORM_DOTS     |
+					wxPATH_NORM_CASE     |
+					wxPATH_NORM_LONG     |
+					wxPATH_NORM_SHORTCUT |
+					wxPATH_NORM_TILDE
+				);
 				localFile = htmlFile.FileExists();
 			}
 
