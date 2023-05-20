@@ -73,7 +73,7 @@
     <entry lang="zh-cn" key="IDC_WHOLE_SYS_DRIVE">加密整个硬盘驱动器</entry>
     <entry lang="zh-cn" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt 加密卷向导</entry>
     <entry lang="zh-cn" key="IDT_CLUSTER">簇 </entry>
-    <entry lang="zh-cn" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：在窗口范围内尽量任意移动鼠标。移动时间越长越好。这将会极大的增强密钥的加密强度。之后点击“下一步”按钮继续。</entry>
+    <entry lang="zh-cn" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：请在此窗口内尽可能地随机移动鼠标。移动时间越长越好。这将会极大地增强密钥的加密强度。之后点击“下一步”按钮继续。</entry>
     <entry lang="zh-cn" key="IDT_CONFIRM">确认(&amp;C)：</entry>
     <entry lang="zh-cn" key="IDT_DONE">完成</entry>
     <entry lang="zh-cn" key="IDT_DRIVE_LETTER">卷标:</entry>
@@ -353,7 +353,7 @@
     <entry lang="zh-cn" key="IDT_HIDDEN_PROT_PASSWD">隐藏加密卷的密码(&amp;A)：\n(如果为空则使用缓存)</entry>
     <entry lang="zh-cn" key="IDT_HIDDEN_VOL_PROTECTION">保护隐藏加密卷</entry>
     <entry lang="zh-cn" key="IDT_KEY">密钥长度：</entry>
-    <entry lang="zh-cn" key="IDT_KEYFILE_GENERATOR_NOTE">重要：请在此窗口内随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。</entry>
+    <entry lang="zh-cn" key="IDT_KEYFILE_GENERATOR_NOTE">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。</entry>
     <entry lang="zh-cn" key="IDT_KEYFILE_WARNING">警告：如果您丢失了密钥文件或者密钥文件的前 1024 KB 内容被改变，该密钥将无法加载相应的加密卷！</entry>
     <entry lang="zh-cn" key="IDT_KEY_UNIT">位</entry>
     <entry lang="zh-cn" key="IDT_NUMBER_KEYFILES">密钥文件数量:</entry>
@@ -364,7 +364,7 @@
     <entry lang="zh-cn" key="IDT_PLAINTEXT_SIZE_UNIT">位</entry>
     <entry lang="zh-cn" key="IDT_POOL_CONTENTS">当前缓冲内容</entry>
     <entry lang="zh-cn" key="IDT_PRF">混合 PRF：</entry>
-    <entry lang="zh-cn" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">重要：在窗口内尽可能自由的移动鼠标。移动时间越长效果越好。这将会显著增加安全性。当操作完成时，点击“继续”按钮。</entry>
+    <entry lang="zh-cn" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">重要：请在此窗口内尽可能地随机移动鼠标。移动时间越长效果越好。这将会显著增加安全性。当操作完成时，点击“继续”按钮。</entry>
     <entry lang="zh-cn" key="IDT_SECONDARY_KEY">次密钥（十六进制）</entry>
     <entry lang="zh-cn" key="IDT_SECURITY_TOKEN">安全口令牌：</entry>
     <entry lang="zh-cn" key="IDT_SORT_METHOD">排序方式：</entry>
@@ -389,7 +389,7 @@
     <entry lang="zh-cn" key="ACCESS_DENIED">错误：访问被拒绝。\n\n您试图访问的分区是长度为 0 的扇区，或是启动设备。</entry>
     <entry lang="zh-cn" key="ADMINISTRATOR">系统管理员</entry>
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_DRIVER">要加载 VeraCrypt 驱动，您必需以一个具有管理员权限的帐号登录。</entry>
-    <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_DEVICES">请注意：如果要加密或格式化某分区和设备您必需以一个 具有管理员权限的帐号登录。\n\n文件类型加密卷不受这个限制。</entry>
+    <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_DEVICES">请注意：如果要加密或格式化某分区和设备您必需以一个具有管理员权限的帐号登陆。\n\n文件类型加密卷不受这个限制。</entry>
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_HIDVOL">如果要创建隐藏的加密卷，您必须以一个 具有管理员权限的帐号登录。\n\n需要继续吗？</entry>
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_NTFS">请注意：如果要把加密卷格式化为 NTFS 文件系统，您必需以具有管理员权限的帐号登录。\n\n若无管理员权限，您可以格式化加密卷为 FAT 文件系统。</entry>
     <entry lang="zh-cn" key="AES_HELP">FIPS-认可的加密算法（Rijndael，发表于 1998 年）可能被美国联邦部门和机构用来对特定信息进行顶级保护。256 位密钥、128-位块、14 次离散循环（AES-256，发表于 2001 年）。操作模式为 XTS。</entry>
@@ -398,7 +398,7 @@
     <entry lang="zh-cn" key="ERR_NOT_ENOUGH_RANDOM_DATA">注意：在随机数生成器缓冲中的数据不足，无法提供要求数量的随机数据。\n\n您不应当继续进行。请从帮助菜单选择“报告错误”来报告此软件错误。</entry>
     <entry lang="zh-cn" key="ERR_HARDWARE_ERROR">该设备已损坏（物理损坏）或者线缆损坏，或者是内存出现故障。\n\n请注意：这是您的硬件问题，并不是 VeraCrypt 的问题。因此，请不要把这个报告为 VeraCrypt 的错误，并且也不要在 VeraCrypt 论坛对此问题寻求帮助。请联系您的计算机供应商获取技术支持，谢谢您！\n\n注意：如果该提示反复出现在同一位置，那就很可能是磁盘坏块导致的，应该通过使用第三方软件来修复（请注意，在很多情况下，'chkdsk /r' 命令由于工作在系统层因此不能修复此问题；在某些情况中，'chkdsk' 工具甚至不能检测到此类错误。</entry>
     <entry lang="zh-cn" key="DEVICE_NOT_READY_ERROR">如果您正在访问驱动器上的可移动介质，请确认可移动介质已经插入驱动器。也可能是驱动器/介质已损坏（物理损坏），或连接线已损坏或断开。</entry>
-    <entry lang="zh-cn" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">您的系统好像使用了带有缺陷的不支持创建全盘加密的第三方的芯片驱动。\n\n请在继续之前尝试更新或者卸载任何第三方芯片驱动（非微软认证的驱动）。 如果仍然不起作用，请尝试只加密系统分区。</entry>
+    <entry lang="zh-cn" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">您的系统好像使用了带有不支持创建全盘加密缺陷的第三方的芯片驱动。\n\n请在继续之前尝试更新或者卸载任何第三方芯片驱动（非微软认证的驱动）。 如果仍然不起作用，请尝试只加密系统分区。</entry>
     <entry lang="zh-cn" key="BAD_DRIVE_LETTER">无效驱动器盘符。</entry>
     <entry lang="zh-cn" key="INVALID_PATH">无效路径。</entry>
     <entry lang="zh-cn" key="CANCEL">取消</entry>
@@ -512,7 +512,7 @@
     <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">警告: 你必须将解密后的卷挂载到一个盘符上来读取卷中的数据，但没有可用的盘符。\n\n请释放一个盘符 (例如移除一个USB存储设备或外置硬盘) 然后点击 OK 。</entry>
     <entry lang="zh-cn" key="FORMAT_FINISHED_INFO">VeraCrypt 加密卷已成功创建。</entry>
     <entry lang="zh-cn" key="FORMAT_FINISHED_TITLE">加密卷已创建</entry>
-    <entry lang="zh-cn" key="FORMAT_HELP">重要：请在此窗口内随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。之后点击“格式化”按钮创建加密卷。</entry>
+    <entry lang="zh-cn" key="FORMAT_HELP">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。之后点击“格式化”按钮创建加密卷。</entry>
     <entry lang="zh-cn" key="FORMAT_HIDVOL_HOST_HELP">点击“格式化”按钮创建外层的加密卷。如若获得更多信息，请参考软件文档。</entry>
     <entry lang="zh-cn" key="FORMAT_HIDVOL_HOST_TITLE">外层加密卷格式化</entry>
     <entry lang="zh-cn" key="FORMAT_HIDVOL_TITLE">隐藏加密卷格式化</entry>
@@ -646,7 +646,7 @@
     <entry lang="zh-cn" key="PIM_SYSENC_HELP">PIM (自定迭代次数) 是一个控制头部密钥迭代次数的值，当导出头部密钥时会向这样使用:\n      迭代次数 = (PIM x 2048) \n\n当这个值留空或设为0时，VeraCrypt会使用默认值(98)来确保安全性。\n\n当使用20位以下的密码时，为了保证维持最小的安全性，PIM的值不能小于98。\n当使用20位以上的密码时，PIM的值可以任意自定。\n\nPIM大于98可能导致启动速度下降。PIM小于485可能会提高启动速度，但是如果你的密码强度不足，这会降低安全性。</entry>
     <entry lang="zh-cn" key="PIM_SYSENC_CHANGE_WARNING">记住所启动的系统的PIM</entry>
     <entry lang="zh-cn" key="PIM_LARGE_WARNING">你选择了一个大于VeraCrypt默认值的PIM。\n注意这可能使挂载/启动速度下降。</entry>
-    <entry lang="zh-cn" key="PIM_SMALL_WARNING">你选择了一个小于VeraCrypt默认值的PIM。注意如果你的密码强度不够强，这会是一个安全隐患。\n\n你确定你在使用一个强密码？</entry>
+    <entry lang="zh-cn" key="PIM_SMALL_WARNING">你选择了一个小于VeraCrypt默认值的PIM。\n注意如果你的密码强度不够强，这会是一个安全隐患。\n\n你确定你在使用一个强密码？</entry>
     <entry lang="zh-cn" key="PIM_SYSENC_TOO_BIG">对于系统加密，自定迭代倍数 (PIM) 的最大值是65535。</entry>
     <entry lang="zh-cn" key="PIM_TITLE">卷 PIM</entry>
     <entry lang="zh-cn" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n警告：在密钥文件搜索路径中存在隐藏文件。此类隐藏文件无法被用作密钥文件。如果您需要将它们当作密钥文件使用，请去除它们的“隐藏”属性（使用鼠标右键点击文件，选择“属性”，去除勾选“隐藏”标志再点击“确定”按钮）。注意：隐藏文件仅在启用相关选项后才可见（我的电脑 -&gt; 工具 -&gt; 文件夹选项 -&gt; 查看）。</entry>
@@ -1391,7 +1391,7 @@
     <entry lang="zh-cn" key="VOLUME_ID_NOT_FOUND">在系统上未找到具有指定 ID 的卷</entry>
     <entry lang="zh-cn" key="IDPM_COPY_VALUE_TO_CLIPBOARD">将值复制到剪贴板…</entry>
     <entry lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">不要在预引导身份验证屏幕中请求 PIM (PIM 值在磁盘上未加密存储)</entry>
-    <entry lang="zh-cn" key="DISABLE_BOOT_LOADER_PIM_PROMPT">警告: 请记住，如果启用此选项，PIM 值将在磁盘上不加密地存储。n\n 您确定要启用此选项吗？</entry>
+    <entry lang="zh-cn" key="DISABLE_BOOT_LOADER_PIM_PROMPT">警告: 请记住，如果启用此选项，PIM 值将在磁盘上不加密地存储。\n\n 您确定要启用此选项吗？</entry>
     <entry lang="zh-cn" key="PIM_TOO_BIG">个人迭代乘数 (PIM) 最大值为 2147468。</entry>
     <entry lang="zh-cn" key="IDC_SKIP_RESCUE_VERIFICATION">跳过应急盘验证</entry>
     <entry lang="zh-cn" key="IDC_HIDE_WAITING_DIALOG">执行操作时不显示等待消息对话框</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="zh-cn" key="LINUX_NOT_SUPPORTED"> (此平台上可用的组件不支持).\n</entry>
     <entry lang="zh-cn" key="LINUX_KERNEL_OLD">您的系统使用的是旧版本Linux内核。\n\n由于Linux内核中的错误，在将数据写入VeraCrypt卷时，系统可能会停止响应。这个问题可以通过将内核升级到2.6.24或更高版本来解决。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_DISMOUNTED">卷{0}已卸载。</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
+    <entry lang="zh-cn" key="LINUX_VOL_MOUNTED">卷{0}已装载。</entry>
     <entry lang="zh-cn" key="LINUX_OOM">内存不足。</entry>
     <entry lang="zh-cn" key="LINUX_CANT_GET_ADMIN_PRIV">获取管理员权限失败</entry>
     <entry lang="zh-cn" key="LINUX_COMMAND_GET_ERROR">命令{0}返回错误{1}.</entry>
