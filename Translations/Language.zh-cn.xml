@@ -1570,53 +1570,6 @@
     <entry lang="zh-cn" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt 此前通过MSI包进行了安装，因此其无法再通过独立安装包进行更新。\n\n请通过MSI包更新您的 VeraCrypt 程序。</entry>
     <entry lang="zh-cn" key="IDC_USE_ALL_FREE_SPACE">使用所有空闲空间。</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt无法升级，因为系统分区/驱动器使用了将不再支持的算法进行加密。\n请在升级VeraCrypt之前解密系统，然后再次加密。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_BACK_BUTTON">应急盘已根据所选选项创建。为了防止不兼容，如果您想修改任何配置，您必须单击“取消”并重新启动系统加密过程。</entry>
-    <entry lang="zh-cn" key="AES_BOX_HELP">根据 NIST 的信息，AES 是安全的</entry>
-    <entry lang="zh-cn" key="BACKUP_RESCUE_DISK_TITLE">备份应急盘</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_CHECKLIST_A">将您的密码保存在安全的位置。若没有密码你将无法恢复你的数据。\n这就是为什么 VeraCrypt 被认为是安全的。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_CHECKLIST_B">确保应急文件存储在外部介质上。这可以是闪存驱动器、外部硬盘驱动器甚至是云存储。\n您的救援文件位于此处：</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_CHECKLIST_C">在开始加密系统之前，最好将个人数据备份到外部驱动器上，以防加密过程失败。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_INFO_2">单击下面的下一步按钮以创建VeraCrypt 应急磁盘 ZIP 映像。</entry>
-    <entry lang="zh-cn" key="REMEMBER_PASSWORD"> 我记得我的密码</entry>
-    <entry lang="zh-cn" key="STORE_RESCUE_DISK"> 我存储了我的应急文件</entry>
-    <entry lang="zh-cn" key="BACKUP_DATA"> 我考虑过备份我的个人数据</entry>
-    <entry lang="zh-cn" key="CHECKLIST_TITLE">检查清单 - 在单击“下一步”之前</entry>
-    <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO">现在必须进行一些测试以验证一切正常。\n\n对于此测试，您的计算机必须重新启动。然后您必须在 Windows 启动之前出现的 VeraCrypt 引导加载程序屏幕中输入您的密码。 Windows 启动后，VeraCrypt 会自动启动，您将被告知此预测试的结果。\n\n\n以下设备将被修改：驱动器 %c:</entry>
-    <entry lang="zh-cn" key="SYSENC_DECRYPTION_PAGE_INFO">请确保您的设备在加密过程中电量不会耗尽。\n如果解密被中断，您可以通过重新启动 VeraCrypt 并选择“系统”>“继续被中断的进程”来恢复它。</entry>
-    <entry lang="zh-cn" key="ADVANCED_FEATURES">高级特性</entry>
-    <entry lang="zh-cn" key="VERY_WEAK_PASSWORD">非常弱</entry>
-    <entry lang="zh-cn" key="WEAK_PASSWORD">弱</entry>
-    <entry lang="zh-cn" key="MEDIUM_PASSWORD">中等</entry>
-    <entry lang="zh-cn" key="STRONG_PASSWORD">强</entry>
-    <entry lang="zh-cn" key="VERY_STRONG_PASSWORD">非常强</entry>
-    <entry lang="zh-cn" key="IDT_PASSWORD_STRENGTH">密码强度：</entry>
-    <entry lang="zh-cn" key="PASSWORD_HELP_SYSENC">您可以考虑将密码写在安全的地方。请注意，在您的密码达到所需的最低强度之前，确认密码的位置将显示为灰色。</entry>
-    <entry lang="zh-cn" key="AES_HELP_NEW">根据美国国家标准与技术研究院 (NIST) 和隐私与安全研究社区的说法，AES 是安全的。</entry>
-    <entry lang="zh-cn" key="SHA512_HELP">SHA-512 根据美国国家标准与技术研究院 (NIST) 和隐私与安全研究社区的要求是安全的。</entry>
-    <entry lang="zh-cn" key="CHOOSE_PASSWORD_TITLE">选择密码</entry>
-    <entry lang="zh-cn" key="TRANSLATED_PWD_NOT_WRITTEN">警告：写入转换后的密码时出错！请再试一次。如果此错误再次发生，请手动将键盘布局更改为美式键盘布局。</entry>
-    <entry lang="zh-cn" key="ERROR_TRANSLATE_PWD">警告：转换密码时出错！\n请再次输入密码并尝试。 如果此错误再次发生，请手动将键盘布局切换为美式键盘布局。</entry>
-    <entry lang="zh-cn" key="ERROR_KEYB_LAYOUT_NOT_LOADED">您的系统不支持标准的美式键盘布局。 请确保布局可用。 如需进一步帮助，请访问： https://support.microsoft.com/en-us/windows/manage-the-input-and-display-language-settings-in-windows-10-12a10cb4-8626-9b77-0ccb-5013e0c7c7a2 </entry>  
-    <entry lang="zh-cn" key="ERROR_PASTE_ACTION">粘贴文本被禁用。 请输入您的密码。</entry>
-    <entry lang="zh-cn" key="WARNING_PASSWORD_NOT_IDENTICAL">密码不一致！ 请在两个字段中输入相同的密码！</entry>
-    <entry lang="zh-cn" key="SYSENC_INFO">此助手将帮助您加密驱动器 (%c:)</entry>
-    <entry lang="zh-cn" key="SYSENC_INFO_2">能物理接触您的设备的不良行为者可以轻易绕过 Windows 密码。 驱动器加密有助于保护您的数据免于被不良行为者访问。 VeraCrypt Drive Encryption 将通过使用附加密码保护您的数据来阻止它们。 </entry>
-    <entry lang="zh-cn" key="ADV_FEATURES_INTRO_TOOLTIP">在此处激活隐藏的操作系统。</entry>
-    <entry lang="zh-cn" key="ADV_FEATURES_NOTE">大多数专家同意以下预选选项是安全的。 仅当您知道自己在做什么时才更改它们。 </entry>
-    <entry lang="zh-cn" key="PIM_INFO">自定迭代次数 (PIM) 允许您设置密码的哈希迭代的次数。 这为调整所需的安全级别提供了更大的灵活性，同时还控制了挂载/引导操作的性能。</entry>
-    <entry lang="zh-cn" key="WIPE_INFO">在加密之前覆盖您的数据。 这可以防止可能的数据恢复。 正常情况下不需要擦拭。</entry>
-    <entry lang="zh-cn" key="PRETEST_INFO">在加密之前 VeraCrypt 将验证一切是否正常工作。\n\nVeraCrypt 将运行一些测试，请重新启动您的计算机，然后您必须在 Windows 启动之前的屏幕中输入您的密码。</entry>
-    <entry lang="zh-cn" key="PRETEST_CANCEL">如果您现在单击取消，系统将不会发生任何更改。</entry>
-    <entry lang="zh-cn" key="ERROR_GETTING_PATH">获取可执行文件的路径时发生错误。</entry>
-    <entry lang="zh-cn" key="ERROR_GETTING_PWD">获取密码时出错。 请再试一次。</entry>
-    <entry lang="zh-cn" key="ERROR_GETTING_KEYB_STATE">获取键盘状态时发生错误。</entry>
-    <entry lang="zh-cn" key="ERR_NO_TRANSLATION">您刚刚按下的那个键没有对应的转码！</entry>
-    <entry lang="zh-cn" key="DEAD_KEY_SUPPORT">在这种情况下，该键不会输入对应字符，因为您的密码需要转换为美式键盘布局，以便您可以在预启动环境中输入密码。</entry>
-    <entry lang="zh-cn" key="PRETEST_CHECKBOX">我确保我的设备在加密过程中不会耗尽电源。</entry>
-    <entry lang="zh-cn" key="OPEN_PATH_CHECKLIST_PAGE">打开路径</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_PATH">应急磁盘路径</entry>
-    <entry lang="zh-cn" key="PRETEST_BACK_BUTTON">如果您想取消加密向导，请点击取消。 在这种情况下，不会对您的计算机进行任何更改。</entry>
-    <entry lang="zh-cn" key="WIPE_WARNING">擦除可能需要很长时间（长达数小时）。 如果您使用的是 SSD 驱动器，则不建议进行擦除。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
