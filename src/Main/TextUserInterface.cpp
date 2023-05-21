@@ -1294,7 +1294,7 @@ namespace VeraCrypt
 				options.Password = AskPassword (StringFormatter (_("Enter password for {0}"), wstring (*options.Path)));
 			}
 
-			if (!options.TrueCryptMode /*&& (options.Pim < 0) re-ask in case of wrong value entered*/)
+			if (!options.TrueCryptMode && (options.Pim < 0))
 			{
 				options.Pim = AskPim (StringFormatter (_("Enter PIM for {0}"), wstring (*options.Path)));
 			}
@@ -1346,12 +1346,14 @@ namespace VeraCrypt
 						options.UseBackupHeaders = false;
 						ShowInfo (e);
 						options.Password.reset();
+						options.Pim = -1;
 					}
 				}
 				else
 				{
 					ShowInfo (e);
 					options.Password.reset();
+					options.Pim = -1;
 				}
 
 				ShowString (L"\n");
@@ -1360,6 +1362,7 @@ namespace VeraCrypt
 			{
 				ShowInfo (e);
 				options.Password.reset();
+				options.Pim = -1;
 			}
 		}
 
