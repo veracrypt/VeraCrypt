@@ -1,9 +1,9 @@
 /*
   zip_source_file_win32.c -- read-only Windows file source implementation
-  Copyright (C) 1999-2020 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2022 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -37,6 +37,8 @@ static bool _zip_win32_op_stat(zip_source_file_context_t *ctx, zip_source_file_s
 
 static bool _zip_stat_win32(zip_source_file_context_t *ctx, zip_source_file_stat_t *st, HANDLE h);
 
+/* clang-format off */
+
 static zip_source_file_operations_t ops_win32_read = {
     _zip_win32_op_close,
     NULL,
@@ -53,13 +55,14 @@ static zip_source_file_operations_t ops_win32_read = {
     NULL
 };
 
+/* clang-format on */
 
 ZIP_EXTERN zip_source_t *
 zip_source_win32handle(zip_t *za, HANDLE h, zip_uint64_t start, zip_int64_t len) {
     if (za == NULL) {
         return NULL;
     }
-    
+
     return zip_source_win32handle_create(h, start, len, &za->error);
 }
 
@@ -90,7 +93,7 @@ _zip_win32_op_read(zip_source_file_context_t *ctx, void *buf, zip_uint64_t len) 
         zip_error_set(&ctx->error, ZIP_ER_READ, _zip_win32_error_to_errno(GetLastError()));
         return -1;
     }
-    
+
     return (zip_int64_t)i;
 }
 
@@ -112,7 +115,7 @@ _zip_win32_op_seek(zip_source_file_context_t *ctx, void *f, zip_int64_t offset, 
         break;
     default:
         zip_error_set(&ctx->error, ZIP_ER_SEEK, EINVAL);
-        return -1;
+        return false;
     }
 
     li.QuadPart = (LONGLONG)offset;
@@ -135,13 +138,13 @@ zip_int64_t
 _zip_win32_op_tell(zip_source_file_context_t *ctx, void *f) {
     LARGE_INTEGER zero;
     LARGE_INTEGER new_offset;
-    
+
     zero.QuadPart = 0;
     if (!SetFilePointerEx((HANDLE)f, zero, &new_offset, FILE_CURRENT)) {
         zip_error_set(&ctx->error, ZIP_ER_SEEK, _zip_win32_error_to_errno(GetLastError()));
         return -1;
     }
-    
+
     return (zip_int64_t)new_offset.QuadPart;
 }
 
@@ -153,6 +156,7 @@ _zip_win32_error_to_errno(DWORD win32err) {
     case ERROR_INVALID_PARAMETER:
         return EINVAL;
     case ERROR_FILE_NOT_FOUND:
+    case ERROR_PATH_NOT_FOUND:
         return ENOENT;
     case ERROR_INVALID_HANDLE:
         return EBADF;
@@ -180,11 +184,11 @@ _zip_stat_win32(zip_source_file_context_t *ctx, zip_source_file_stat_t *st, HAND
         zip_error_set(&ctx->error, ZIP_ER_READ, _zip_win32_error_to_errno(GetLastError()));
         return false;
     }
-    if (_zip_filetime_to_time_t(mtimeft, &mtime) < 0) {
+    if (!_zip_filetime_to_time_t(mtimeft, &mtime)) {
         zip_error_set(&ctx->error, ZIP_ER_READ, ERANGE);
         return false;
     }
-    
+
     st->exists = true;
     st->mtime = mtime;
 
@@ -198,7 +202,7 @@ _zip_stat_win32(zip_source_file_context_t *ctx, zip_source_file_stat_t *st, HAND
 
         st->size = (zip_uint64_t)size.QuadPart;
     }
-    
+
     /* TODO: fill in ctx->attributes */
 
     return true;

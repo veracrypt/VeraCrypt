@@ -3,10 +3,10 @@
 
 /*
   compat.h -- compatibility defines.
-  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2021 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -45,8 +45,6 @@
 #ifndef ZIP_EXTERN
 #ifndef ZIP_STATIC
 #define ZIP_EXTERN __declspec(dllexport)
-#else
-#define ZIP_EXTERN
 #endif
 #endif
 /* for dup(), close(), etc. */
@@ -56,11 +54,9 @@
 #ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
 #else
-#ifndef __cplusplus
 typedef char bool;
 #define true 1
 #define false 0
-#endif
 #endif
 
 #include <errno.h>
@@ -85,9 +81,6 @@ typedef char bool;
 #endif
 
 #ifdef _WIN32
-#if defined(HAVE__CHMOD)
-#define chmod _chmod
-#endif
 #if defined(HAVE__CLOSE)
 #define close _close
 #endif
@@ -101,7 +94,7 @@ typedef char bool;
 #if !defined(HAVE_FILENO) && defined(HAVE__FILENO)
 #define fileno _fileno
 #endif
-#if defined(HAVE__SNPRINTF)
+#if !defined(HAVE_SNPRINTF) && defined(HAVE__SNPRINTF)
 #define snprintf _snprintf
 #endif
 #if defined(HAVE__STRDUP)

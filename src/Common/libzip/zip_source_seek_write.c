@@ -1,9 +1,9 @@
 /*
   zip_source_seek_write.c -- seek to offset for writing
-  Copyright (C) 2014-2019 Dieter Baron and Thomas Klausner
+  Copyright (C) 2014-2021 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -40,8 +40,8 @@ zip_source_seek_write(zip_source_t *src, zip_int64_t offset, int whence) {
     zip_source_args_seek_t args;
 
     if (!ZIP_SOURCE_IS_OPEN_WRITING(src) || (whence != SEEK_SET && whence != SEEK_CUR && whence != SEEK_END)) {
-	zip_error_set(&src->error, ZIP_ER_INVAL, 0);
-	return -1;
+        zip_error_set(&src->error, ZIP_ER_INVAL, 0);
+        return -1;
     }
 
     args.offset = offset;
