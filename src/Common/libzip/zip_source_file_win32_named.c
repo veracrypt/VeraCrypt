@@ -3,7 +3,7 @@
   Copyright (C) 1999-2020 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -65,13 +65,13 @@ zip_source_file_operations_t _zip_source_file_win32_named_ops = {
 static zip_int64_t
 _zip_win32_named_op_commit_write(zip_source_file_context_t *ctx) {
     zip_win32_file_operations_t *file_ops = (zip_win32_file_operations_t *)ctx->ops_userdata;
-	DWORD attributes;
-    
+    DWORD attributes;
+
     if (!CloseHandle((HANDLE)ctx->fout)) {
         zip_error_set(&ctx->error, ZIP_ER_WRITE, _zip_win32_error_to_errno(GetLastError()));
         return -1;
     }
-    
+
     attributes = file_ops->get_file_attributes(ctx->tmpname);
     if (attributes == INVALID_FILE_ATTRIBUTES) {
         zip_error_set(&ctx->error, ZIP_ER_RENAME, _zip_win32_error_to_errno(GetLastError()));
@@ -109,47 +109,47 @@ _zip_win32_named_op_create_temp_output(zip_source_file_context_t *ctx) {
     char *tempname = NULL;
     size_t tempname_size = 0;
 
-     if ((HANDLE)ctx->f != INVALID_HANDLE_VALUE && GetFileType((HANDLE)ctx->f) == FILE_TYPE_DISK) {
-         si = DACL_SECURITY_INFORMATION | UNPROTECTED_DACL_SECURITY_INFORMATION;
-         success = GetSecurityInfo((HANDLE)ctx->f, SE_FILE_OBJECT, si, NULL, NULL, &dacl, NULL, &psd);
-         if (success == ERROR_SUCCESS) {
-             sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-             sa.bInheritHandle = FALSE;
-             sa.lpSecurityDescriptor = psd;
-             psa = &sa;
-         }
-     }
+    if ((HANDLE)ctx->f != INVALID_HANDLE_VALUE && GetFileType((HANDLE)ctx->f) == FILE_TYPE_DISK) {
+        si = DACL_SECURITY_INFORMATION | UNPROTECTED_DACL_SECURITY_INFORMATION;
+        success = GetSecurityInfo((HANDLE)ctx->f, SE_FILE_OBJECT, si, NULL, NULL, &dacl, NULL, &psd);
+        if (success == ERROR_SUCCESS) {
+            sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+            sa.bInheritHandle = FALSE;
+            sa.lpSecurityDescriptor = psd;
+            psa = &sa;
+        }
+    }
 
- #ifndef MS_UWP
+#ifndef MS_UWP
     value = GetTickCount();
 #else
     value = (zip_uint32_t)(GetTickCount64() & 0xffffffff);
 #endif
-    
+
     if ((tempname = file_ops->allocate_tempname(ctx->fname, 10, &tempname_size)) == NULL) {
         zip_error_set(&ctx->error, ZIP_ER_MEMORY, 0);
         return -1;
     }
-        
+
     for (i = 0; i < 1024 && th == INVALID_HANDLE_VALUE; i++) {
         file_ops->make_tempname(tempname, tempname_size, ctx->fname, value + i);
-        
+
         th = win32_named_open(ctx, tempname, true, psa);
         if (th == INVALID_HANDLE_VALUE && GetLastError() != ERROR_FILE_EXISTS)
             break;
     }
-    
+
     if (th == INVALID_HANDLE_VALUE) {
         free(tempname);
         LocalFree(psd);
         zip_error_set(&ctx->error, ZIP_ER_TMPOPEN, _zip_win32_error_to_errno(GetLastError()));
         return -1;
     }
-    
+
     LocalFree(psd);
     ctx->fout = th;
     ctx->tmpname = tempname;
-    
+
     return 0;
 }
 
@@ -157,11 +157,11 @@ _zip_win32_named_op_create_temp_output(zip_source_file_context_t *ctx) {
 static bool
 _zip_win32_named_op_open(zip_source_file_context_t *ctx) {
     HANDLE h = win32_named_open(ctx, ctx->fname, false, NULL);
-    
+
     if (h == INVALID_HANDLE_VALUE) {
         return false;
     }
-    
+
     ctx->f = h;
     return true;
 }
@@ -194,7 +194,7 @@ _zip_win32_named_op_rollback_write(zip_source_file_context_t *ctx) {
 static bool
 _zip_win32_named_op_stat(zip_source_file_context_t *ctx, zip_source_file_stat_t *st) {
     zip_win32_file_operations_t *file_ops = (zip_win32_file_operations_t *)ctx->ops_userdata;
-    
+
     WIN32_FILE_ATTRIBUTE_DATA file_attributes;
 
     if (!file_ops->get_file_attributes_ex(ctx->fname, GetFileExInfoStandard, &file_attributes)) {
@@ -206,9 +206,16 @@ _zip_win32_named_op_stat(zip_source_file_context_t *ctx, zip_source_file_stat_t 
         zip_error_set(&ctx->error, ZIP_ER_READ, _zip_win32_error_to_errno(error));
         return false;
     }
-    
+
     st->exists = true;
-    st->regular_file = true; /* TODO: Is this always right? How to determine without a HANDLE? */
+    st->regular_file = false;
+
+    if (file_attributes.dwFileAttributes != INVALID_FILE_ATTRIBUTES) {
+        if ((file_attributes.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_DEVICE | FILE_ATTRIBUTE_REPARSE_POINT)) == 0) {
+            st->regular_file = true;
+        }
+    }
+
     if (!_zip_filetime_to_time_t(file_attributes.ftLastWriteTime, &st->mtime)) {
         zip_error_set(&ctx->error, ZIP_ER_READ, ERANGE);
         return false;
@@ -236,7 +243,7 @@ _zip_win32_named_op_write(zip_source_file_context_t *ctx, const void *data, zip_
         zip_error_set(&ctx->error, ZIP_ER_WRITE, _zip_win32_error_to_errno(GetLastError()));
         return -1;
     }
-    
+
     return (zip_int64_t)ret;
 }
 
@@ -249,8 +256,8 @@ win32_named_open(zip_source_file_context_t *ctx, const char *name, bool temporar
     DWORD share_mode = FILE_SHARE_READ | FILE_SHARE_WRITE;
     DWORD creation_disposition = OPEN_EXISTING;
     DWORD file_attributes = FILE_ATTRIBUTE_NORMAL;
-	HANDLE h;
-    
+    HANDLE h;
+
     if (temporary) {
         access = GENERIC_READ | GENERIC_WRITE;
         share_mode = FILE_SHARE_READ;
@@ -259,7 +266,7 @@ win32_named_open(zip_source_file_context_t *ctx, const char *name, bool temporar
     }
 
     h = file_ops->create_file(name, access, share_mode, security_attributes, creation_disposition, file_attributes, NULL);
-    
+
     if (h == INVALID_HANDLE_VALUE) {
         zip_error_set(&ctx->error, ZIP_ER_OPEN, _zip_win32_error_to_errno(GetLastError()));
     }

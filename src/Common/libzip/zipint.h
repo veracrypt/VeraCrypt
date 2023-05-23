@@ -3,10 +3,10 @@
 
 /*
   zipint.h -- internal declarations.
-  Copyright (C) 1999-2020 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2022 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -35,13 +35,12 @@
 */
 
 #include "config.h"
+
 #include "compat.h"
 
 #ifdef ZIP_ALLOCATE_BUFFER
 #include <stdlib.h>
 #endif
-
-#include <zlib.h>
 
 #ifndef _ZIP_COMPILING_DEPRECATED
 #define ZIP_DISABLE_DEPRECATED
@@ -123,6 +122,9 @@ enum zip_compression_status {
 typedef enum zip_compression_status zip_compression_status_t;
 
 struct zip_compression_algorithm {
+    /* Return maximum compressed size for uncompressed data of given size. */
+    zip_uint64_t (*maximum_compressed_size)(zip_uint64_t uncompressed_size);
+
     /* called once to create new context */
     void *(*allocate)(zip_uint16_t method, int compression_flags, zip_error_t *error);
     /* called once to free context */
@@ -134,7 +136,7 @@ struct zip_compression_algorithm {
     zip_uint8_t version_needed;
 
     /* start processing */
-    bool (*start)(void *ctx);
+    bool (*start)(void *ctx, zip_stat_t *st, zip_file_attributes_t *attributes);
     /* stop processing */
     bool (*end)(void *ctx);
 
@@ -155,7 +157,10 @@ extern zip_compression_algorithm_t zip_algorithm_deflate_compress;
 extern zip_compression_algorithm_t zip_algorithm_deflate_decompress;
 extern zip_compression_algorithm_t zip_algorithm_xz_compress;
 extern zip_compression_algorithm_t zip_algorithm_xz_decompress;
+extern zip_compression_algorithm_t zip_algorithm_zstd_compress;
+extern zip_compression_algorithm_t zip_algorithm_zstd_decompress;
 
+zip_compression_algorithm_t *_zip_get_compression_algorithm(zip_int32_t method, bool compress);
 
 /* This API is not final yet, but we need it internally, so it's private for now. */
 
@@ -167,7 +172,7 @@ const zip_uint8_t *zip_get_extra_field_by_id(zip_t *, int, int, zip_uint16_t, in
 
 typedef zip_int64_t (*zip_source_layered_callback)(zip_source_t *, void *, void *, zip_uint64_t, enum zip_source_cmd);
 zip_source_t *zip_source_compress(zip_t *za, zip_source_t *src, zip_int32_t cm, int compression_flags);
-zip_source_t *zip_source_crc(zip_t *, zip_source_t *, int);
+zip_source_t *zip_source_crc_create(zip_source_t *, int, zip_error_t *error);
 zip_source_t *zip_source_decompress(zip_t *za, zip_source_t *src, zip_int32_t cm);
 zip_source_t *zip_source_layered(zip_t *, zip_source_t *, zip_source_layered_callback, void *);
 zip_source_t *zip_source_layered_create(zip_source_t *src, zip_source_layered_callback cb, void *ud, zip_error_t *error);
@@ -175,14 +180,56 @@ zip_source_t *zip_source_pkware_decode(zip_t *, zip_source_t *, zip_uint16_t, in
 zip_source_t *zip_source_pkware_encode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
 int zip_source_remove(zip_source_t *);
 zip_int64_t zip_source_supports(zip_source_t *src);
-zip_source_t *zip_source_window(zip_t *, zip_source_t *, zip_uint64_t, zip_uint64_t);
 zip_source_t *zip_source_winzip_aes_decode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
 zip_source_t *zip_source_winzip_aes_encode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
 zip_source_t *zip_source_buffer_with_attributes(zip_t *za, const void *data, zip_uint64_t len, int freep, zip_file_attributes_t *attributes);
+zip_source_t *zip_source_buffer_with_attributes_create(const void *data, zip_uint64_t len, int freep, zip_file_attributes_t *attributes, zip_error_t *error);
 
 /* error source for layered sources */
 
 enum zip_les { ZIP_LES_NONE, ZIP_LES_UPPER, ZIP_LES_LOWER, ZIP_LES_INVAL };
+
+#define ZIP_DETAIL_ET_GLOBAL 0
+#define ZIP_DETAIL_ET_ENTRY  1
+
+struct _zip_err_info {
+    int type;
+    const char *description;
+};
+
+extern const struct _zip_err_info _zip_err_str[];
+extern const int _zip_err_str_count;
+extern const struct _zip_err_info _zip_err_details[];
+extern const int _zip_err_details_count;
+
+/* macros for libzip-internal errors */
+#define MAX_DETAIL_INDEX 0x7fffff
+#define MAKE_DETAIL_WITH_INDEX(error, index) ((((index) > MAX_DETAIL_INDEX) ? MAX_DETAIL_INDEX : (int)(index)) << 8 | (error))
+#define GET_INDEX_FROM_DETAIL(error) (((error) >> 8) & MAX_DETAIL_INDEX)
+#define GET_ERROR_FROM_DETAIL(error) ((error) & 0xff)
+#define ADD_INDEX_TO_DETAIL(error, index) MAKE_DETAIL_WITH_INDEX(GET_ERROR_FROM_DETAIL(error), (index))
+
+/* error code for libzip-internal errors */
+#define ZIP_ER_DETAIL_NO_DETAIL 0   /* G no detail */
+#define ZIP_ER_DETAIL_CDIR_OVERLAPS_EOCD 1  /* G central directory overlaps EOCD, or there is space between them */
+#define ZIP_ER_DETAIL_COMMENT_LENGTH_INVALID 2  /* G archive comment length incorrect */
+#define ZIP_ER_DETAIL_CDIR_LENGTH_INVALID 3  /* G central directory length invalid */
+#define ZIP_ER_DETAIL_CDIR_ENTRY_INVALID 4  /* E central header invalid */
+#define ZIP_ER_DETAIL_CDIR_WRONG_ENTRIES_COUNT 5  /* G central directory count of entries is incorrect */
+#define ZIP_ER_DETAIL_ENTRY_HEADER_MISMATCH 6  /* E local and central headers do not match */
+#define ZIP_ER_DETAIL_EOCD_LENGTH_INVALID 7  /* G wrong EOCD length */
+#define ZIP_ER_DETAIL_EOCD64_OVERLAPS_EOCD 8  /* G EOCD64 overlaps EOCD, or there is space between them */
+#define ZIP_ER_DETAIL_EOCD64_WRONG_MAGIC 9  /* G EOCD64 magic incorrect */
+#define ZIP_ER_DETAIL_EOCD64_MISMATCH 10  /* G EOCD64 and EOCD do not match */
+#define ZIP_ER_DETAIL_CDIR_INVALID 11  /* G invalid value in central directory */
+#define ZIP_ER_DETAIL_VARIABLE_SIZE_OVERFLOW 12 /* E variable size fields overflow header */
+#define ZIP_ER_DETAIL_INVALID_UTF8_IN_FILENAME 13 /* E invalid UTF-8 in filename */
+#define ZIP_ER_DETAIL_INVALID_UTF8_IN_COMMENT 13 /* E invalid UTF-8 in comment */
+#define ZIP_ER_DETAIL_INVALID_ZIP64_EF 14 /* E invalid Zip64 extra field */
+#define ZIP_ER_DETAIL_INVALID_WINZIPAES_EF 14 /* E invalid WinZip AES extra field */
+#define ZIP_ER_DETAIL_EF_TRAILING_GARBAGE 15 /* E garbage at end of extra fields */
+#define ZIP_ER_DETAIL_INVALID_EF_LENGTH 16 /* E extra field length is invalid */
+#define ZIP_ER_DETAIL_INVALID_FILE_LENGTH 17 /* E file length in header doesn't match actual file length */
 
 /* directory entry: general purpose bit flags */
 
@@ -336,8 +383,8 @@ typedef enum zip_source_write_state zip_source_write_state_t;
 struct zip_source {
     zip_source_t *src;
     union {
-	zip_source_callback f;
-	zip_source_layered_callback l;
+        zip_source_callback f;
+        zip_source_layered_callback l;
     } cb;
     void *ud;
     zip_error_t error;
@@ -347,8 +394,9 @@ struct zip_source {
     bool source_closed;                   /* set if source archive is closed */
     zip_t *source_archive;                /* zip archive we're reading from, NULL if not from archive */
     unsigned int refcount;
-    bool eof;            /* EOF reached */
-    bool had_read_error; /* a previous ZIP_SOURCE_READ reported an error */
+    bool eof;                /* EOF reached */
+    bool had_read_error;     /* a previous ZIP_SOURCE_READ reported an error */
+    zip_uint64_t bytes_read; /* for sources that don't support ZIP_SOURCE_TELL. */
 };
 
 #define ZIP_SOURCE_IS_OPEN_READING(src) ((src)->open_count > 0)
@@ -420,10 +468,6 @@ struct _zip_pkware_keys {
     zip_uint32_t key[3];
 };
 typedef struct _zip_pkware_keys zip_pkware_keys_t;
-
-extern const char *const _zip_err_str[];
-extern const int _zip_nerr_str;
-extern const int _zip_err_type[];
 
 #define ZIP_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define ZIP_MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -532,7 +576,7 @@ zip_hash_t *_zip_hash_new(zip_error_t *error);
 bool _zip_hash_reserve_capacity(zip_hash_t *hash, zip_uint64_t capacity, zip_error_t *error);
 bool _zip_hash_revert(zip_hash_t *hash, zip_error_t *error);
 
-int _zip_mkstempm(char *path, int mode);
+int _zip_mkstempm(char *path, int mode, bool create_file);
 
 zip_t *_zip_open(zip_source_t *, unsigned int, zip_error_t *);
 
@@ -563,16 +607,16 @@ bool _zip_source_had_error(zip_source_t *);
 void _zip_source_invalidate(zip_source_t *src);
 zip_source_t *_zip_source_new(zip_error_t *error);
 int _zip_source_set_source_archive(zip_source_t *, zip_t *);
-zip_source_t *_zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_uint64_t length, zip_stat_t *st, zip_file_attributes_t *attributes, zip_t *source_archive, zip_uint64_t source_index, zip_error_t *error);
-zip_source_t *_zip_source_zip_new(zip_t *, zip_t *, zip_uint64_t, zip_flags_t, zip_uint64_t, zip_uint64_t, const char *);
+zip_source_t *_zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_int64_t length, zip_stat_t *st, zip_file_attributes_t *attributes, zip_t *source_archive, zip_uint64_t source_index, zip_error_t *error);
+zip_source_t *_zip_source_zip_new(zip_t *, zip_uint64_t, zip_flags_t, zip_uint64_t, zip_uint64_t, const char *, zip_error_t *error);
 
 int _zip_stat_merge(zip_stat_t *dst, const zip_stat_t *src, zip_error_t *error);
-int _zip_string_equal(const zip_string_t *, const zip_string_t *);
-void _zip_string_free(zip_string_t *);
-zip_uint32_t _zip_string_crc32(const zip_string_t *);
-const zip_uint8_t *_zip_string_get(zip_string_t *, zip_uint32_t *, zip_flags_t, zip_error_t *);
-zip_uint16_t _zip_string_length(const zip_string_t *);
-zip_string_t *_zip_string_new(const zip_uint8_t *, zip_uint16_t, zip_flags_t, zip_error_t *);
+int _zip_string_equal(const zip_string_t *a, const zip_string_t *b);
+void _zip_string_free(zip_string_t *string);
+zip_uint32_t _zip_string_crc32(const zip_string_t *string);
+const zip_uint8_t *_zip_string_get(zip_string_t *string, zip_uint32_t *lenp, zip_flags_t flags, zip_error_t *error);
+zip_uint16_t _zip_string_length(const zip_string_t *string);
+zip_string_t *_zip_string_new(const zip_uint8_t *raw, zip_uint16_t length, zip_flags_t flags, zip_error_t *error);
 int _zip_string_write(zip_t *za, const zip_string_t *string);
 bool _zip_winzip_aes_decrypt(zip_winzip_aes_t *ctx, zip_uint8_t *data, zip_uint64_t length);
 bool _zip_winzip_aes_encrypt(zip_winzip_aes_t *ctx, zip_uint8_t *data, zip_uint64_t length);

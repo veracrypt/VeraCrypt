@@ -1,9 +1,9 @@
 /*
   zip_fopen_index_encrypted.c -- open file for reading by index w/ password
-  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2021 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -45,18 +45,22 @@ zip_fopen_index_encrypted(zip_t *za, zip_uint64_t index, zip_flags_t flags, cons
     zip_file_t *zf;
     zip_source_t *src;
 
-    if ((src = _zip_source_zip_new(za, za, index, flags, 0, 0, password)) == NULL)
-	return NULL;
+    if (password != NULL && password[0] == '\0') {
+        password = NULL;
+    }
+    
+    if ((src = _zip_source_zip_new(za, index, flags, 0, 0, password, &za->error)) == NULL)
+        return NULL;
 
     if (zip_source_open(src) < 0) {
-	_zip_error_set_from_source(&za->error, src);
-	zip_source_free(src);
-	return NULL;
+        _zip_error_set_from_source(&za->error, src);
+        zip_source_free(src);
+        return NULL;
     }
 
     if ((zf = _zip_file_new(za)) == NULL) {
-	zip_source_free(src);
-	return NULL;
+        zip_source_free(src);
+        return NULL;
     }
 
     zf->src = src;
@@ -70,8 +74,8 @@ _zip_file_new(zip_t *za) {
     zip_file_t *zf;
 
     if ((zf = (zip_file_t *)malloc(sizeof(struct zip_file))) == NULL) {
-	zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
-	return NULL;
+        zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
+        return NULL;
     }
 
     zf->za = za;
