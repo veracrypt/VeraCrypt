@@ -219,7 +219,7 @@ Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.  
 Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler.  
 Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov  
-Copyright (c) 1999-2017 Dieter Baron and Thomas Klausner.  
+Copyright (c) 1999-2020 Dieter Baron and Thomas Klausner.  
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.  
 Copyright (c) 1999-2016 Jack Lloyd. All rights reserved.  
 Copyright (c) 2013-2019 Stephan Mueller <smueller@chronox.de>  
