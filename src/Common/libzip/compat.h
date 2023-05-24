@@ -41,19 +41,22 @@
 /* to have *_MAX definitions for all types when compiling with g++ */
 #define __STDC_LIMIT_MACROS
 
-#ifdef _WIN32
-#ifndef ZIP_EXTERN
-#ifndef ZIP_STATIC
+#if defined(_WIN32) && defined(ZIP_DLL) && !defined(ZIP_STATIC)
+#ifdef BUILDING_LIBZIP
 #define ZIP_EXTERN __declspec(dllexport)
+#else
+#define ZIP_EXTERN __declspec(dllimport)
 #endif
 #endif
+
+#ifdef _WIN32
 /* for dup(), close(), etc. */
 #include <io.h>
 #endif
 
 #ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
-#else
+#elif !defined(__BOOL_DEFINED)
 typedef char bool;
 #define true 1
 #define false 0
