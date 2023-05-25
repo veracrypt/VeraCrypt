@@ -66,9 +66,6 @@
     <ClCompile Include="libzip\zip_fdopen.c">
       <Filter>libzip</Filter>
     </ClCompile>
-    <ClCompile Include="libzip\zip_filerange_crc.c">
-      <Filter>libzip</Filter>
-    </ClCompile>
     <ClCompile Include="libzip\zip_file_add.c">
       <Filter>libzip</Filter>
     </ClCompile>
@@ -364,6 +361,39 @@
       <Filter>libzip</Filter>
     </ClCompile>
     <ClCompile Include="libzip\zip_err_str.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_source_winzip_aes_decode.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_source_winzip_aes_encode.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_crypto_win.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_error_to_str.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_file_set_encryption.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_fseek.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_ftell.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_libzip_version.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_random_win32.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_source_file_win32_ansi.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_winzip_aes.c">
       <Filter>libzip</Filter>
     </ClCompile>
   </ItemGroup>
