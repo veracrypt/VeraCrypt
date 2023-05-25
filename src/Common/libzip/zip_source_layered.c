@@ -1,9 +1,9 @@
 /*
   zip_source_layered.c -- create layered source
-  Copyright (C) 2009-2019 Dieter Baron and Thomas Klausner
+  Copyright (C) 2009-2021 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -40,7 +40,7 @@
 zip_source_t *
 zip_source_layered(zip_t *za, zip_source_t *src, zip_source_layered_callback cb, void *ud) {
     if (za == NULL)
-	return NULL;
+        return NULL;
 
     return zip_source_layered_create(src, cb, ud, &za->error);
 }
@@ -51,7 +51,7 @@ zip_source_layered_create(zip_source_t *src, zip_source_layered_callback cb, voi
     zip_source_t *zs;
 
     if ((zs = _zip_source_new(error)) == NULL)
-	return NULL;
+        return NULL;
 
     zip_source_keep(src);
     zs->src = src;
@@ -60,7 +60,7 @@ zip_source_layered_create(zip_source_t *src, zip_source_layered_callback cb, voi
 
     zs->supports = cb(src, ud, NULL, 0, ZIP_SOURCE_SUPPORTS);
     if (zs->supports < 0) {
-	zs->supports = ZIP_SOURCE_SUPPORTS_READABLE;
+        zs->supports = ZIP_SOURCE_SUPPORTS_READABLE;
     }
 
     return zs;

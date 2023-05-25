@@ -3,7 +3,7 @@
   Copyright (C) 1999-2020 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -38,7 +38,7 @@ zip_source_file(zip_t *za, const char *fname, zip_uint64_t start, zip_int64_t le
     if (za == NULL) {
         return NULL;
     }
-    
+
     return zip_source_file_create(fname, start, len, &za->error);
 }
 
@@ -67,7 +67,7 @@ zip_source_file_create(const char *fname, zip_uint64_t start, zip_int64_t length
     MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, fname, -1, wfname, size);
 
     source = zip_source_win32w_create(wfname, start, length, error);
-    
+
     free(wfname);
     return source;
 }
