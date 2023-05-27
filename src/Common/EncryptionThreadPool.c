@@ -16,6 +16,8 @@
 #include "Driver/Ntdriver.h"
 #endif
 
+#include "gcrypt.h"
+
 //Increasing the maximum number of threads 
 #define TC_ENC_THREAD_POOL_MAX_THREAD_COUNT 256 //64
 #define TC_ENC_THREAD_POOL_QUEUE_SIZE (TC_ENC_THREAD_POOL_MAX_THREAD_COUNT * 2)
@@ -249,28 +251,68 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			switch (workItem->KeyDerivation.Pkcs5Prf)
 			{
 			case BLAKE2S:
-				derive_key_blake2s (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+				gcry_kdf_derive(
+					workItem->KeyDerivation.Password,			// passphrase
+					workItem->KeyDerivation.PasswordLength,		// lenth of passphrase
+					GCRY_KDF_PBKDF2,							// kdf-algo
+					GCRY_MD_BLAKE2S_256,						// hash
+					workItem->KeyDerivation.Salt,              	// salt
+					PKCS5_SALT_SIZE,							// lenth of salt
+					workItem->KeyDerivation.IterationCount,     // iterations
+					GetMaxPkcs5OutSize(),       				// keysize
+					workItem->KeyDerivation.DerivedKey);		// buffer of key
 				break;
 
 			case SHA512:
-				derive_key_sha512 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+				gcry_kdf_derive(
+					workItem->KeyDerivation.Password,			// passphrase
+					workItem->KeyDerivation.PasswordLength,		// lenth of passphrase
+					GCRY_KDF_PBKDF2,							// kdf-algo
+					GCRY_MD_SHA512,								// hash
+					workItem->KeyDerivation.Salt,              	// salt
+					PKCS5_SALT_SIZE,							// lenth of salt
+					workItem->KeyDerivation.IterationCount,     // iterations
+					GetMaxPkcs5OutSize(),       				// keysize
+					workItem->KeyDerivation.DerivedKey);		// buffer of key
 				break;
 
 			case WHIRLPOOL:
-				derive_key_whirlpool (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+				gcry_kdf_derive(
+					workItem->KeyDerivation.Password,			// passphrase
+					workItem->KeyDerivation.PasswordLength,		// lenth of passphrase
+					GCRY_KDF_PBKDF2,							// kdf-algo
+					GCRY_MD_WHIRLPOOL,							// hash
+					workItem->KeyDerivation.Salt,              	// salt
+					PKCS5_SALT_SIZE,							// lenth of salt
+					workItem->KeyDerivation.IterationCount,     // iterations
+					GetMaxPkcs5OutSize(),       				// keysize
+					workItem->KeyDerivation.DerivedKey);		// buffer of key
 				break;
 
 			case SHA256:
-				derive_key_sha256 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+				gcry_kdf_derive(
+					workItem->KeyDerivation.Password,			// passphrase
+					workItem->KeyDerivation.PasswordLength,		// lenth of passphrase
+					GCRY_KDF_PBKDF2,							// kdf-algo
+					GCRY_MD_SHA256,								// hash
+					workItem->KeyDerivation.Salt,              	// salt
+					PKCS5_SALT_SIZE,							// lenth of salt
+					workItem->KeyDerivation.IterationCount,     // iterations
+					GetMaxPkcs5OutSize(),       				// keysize
+					workItem->KeyDerivation.DerivedKey);		// buffer of key
 				break;
 
 			case STREEBOG:
-				derive_key_streebog(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+				gcry_kdf_derive(
+					workItem->KeyDerivation.Password,			// passphrase
+					workItem->KeyDerivation.PasswordLength,		// lenth of passphrase
+					GCRY_KDF_PBKDF2,							// kdf-algo
+					GCRY_MD_STRIBOG512,							// hash
+					workItem->KeyDerivation.Salt,              	// salt
+					PKCS5_SALT_SIZE,							// lenth of salt
+					workItem->KeyDerivation.IterationCount,     // iterations
+					GetMaxPkcs5OutSize(),       				// keysize
+					workItem->KeyDerivation.DerivedKey);		// buffer of key
 				break;
 
 			default:

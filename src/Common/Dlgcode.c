@@ -13,6 +13,8 @@
 
 #include "Tcdefs.h"
 
+#include "gcrypt.h"
+
 #include <windowsx.h>
 #include <dbghelp.h>
 #include <dbt.h>
@@ -6419,9 +6421,28 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 			blake2s_state   bctx;
 			sha512_ctx		s2ctx;
 			sha256_ctx		s256ctx;
-			STREEBOG_CTX		stctx;
+			STREEBOG_CTX	stctx;
 
 			int hid, i;
+
+			gcry_md_hd_t hash_sha512;
+			gcry_md_hd_t hash_sha256;
+			gcry_md_hd_t hash_blake2s256;
+			gcry_md_hd_t hash_whirpool;
+			gcry_md_hd_t hash_streebog512;
+
+			unsigned int sha512_len = gcry_md_get_algo_dlen(GCRY_MD_SHA512);
+			unsigned int sha256_len = gcry_md_get_algo_dlen(GCRY_MD_SHA256);
+			unsigned int blake2s256_len = gcry_md_get_algo_dlen(GCRY_MD_BLAKE2S_256);
+			unsigned int whirpool_len = gcry_md_get_algo_dlen(GCRY_MD_WHIRLPOOL);
+			unsigned int streebog512_len = gcry_md_get_algo_dlen(GCRY_MD_STRIBOG512);
+
+			gcry_md_open(&hash_sha512, GCRY_MD_SHA512, GCRY_MD_FLAG_SECURE);
+			gcry_md_open(&hash_sha256, GCRY_MD_SHA256, GCRY_MD_FLAG_SECURE);
+			gcry_md_open(&hash_blake2s256, GCRY_MD_BLAKE2S_256, GCRY_MD_FLAG_SECURE);
+			gcry_md_open(&hash_whirpool, GCRY_MD_WHIRLPOOL, GCRY_MD_FLAG_SECURE);
+			gcry_md_open(&hash_streebog512, GCRY_MD_STRIBOG512, GCRY_MD_FLAG_SECURE);
+
 
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++) 
 			{
@@ -6434,33 +6455,38 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 					{
 
 					case SHA512:
-						sha512_begin (&s2ctx);
-						sha512_hash (lpTestBuffer, benchmarkBufferSize, &s2ctx);
-						sha512_end ((unsigned char *) digest, &s2ctx);
+
+						gcry_md_write(hash_sha512, lpTestBuffer, benchmarkBufferSize);
+						memcpy(digest, gcry_md_read(hash_sha512, GCRY_MD_SHA512), sha512_len);
+
 						break;
 
 					case SHA256:
-						sha256_begin (&s256ctx);
-						sha256_hash (lpTestBuffer, benchmarkBufferSize, &s256ctx);
-						sha256_end ((unsigned char *) digest, &s256ctx);
+
+						gcry_md_write(hash_sha256, lpTestBuffer, benchmarkBufferSize);
+						memcpy(digest, gcry_md_read(hash_sha256, GCRY_MD_SHA256), sha256_len);
+
 						break;
 
 					case BLAKE2S:
-						blake2s_init(&bctx);
-						blake2s_update(&bctx, lpTestBuffer, benchmarkBufferSize);
-						blake2s_final(&bctx, (unsigned char *) digest);
+
+						gcry_md_write(hash_blake2s256, lpTestBuffer, benchmarkBufferSize);
+						memcpy(digest, gcry_md_read(hash_blake2s256, GCRY_MD_BLAKE2S_256), blake2s256_len);
+
 						break;
 
 					case WHIRLPOOL:
-						WHIRLPOOL_init (&wctx);
-						WHIRLPOOL_add (lpTestBuffer, benchmarkBufferSize, &wctx);
-						WHIRLPOOL_finalize (&wctx, (unsigned char *) digest);
+
+						gcry_md_write(hash_whirpool, lpTestBuffer, benchmarkBufferSize);
+						memcpy(digest, gcry_md_read(hash_whirpool, GCRY_MD_WHIRLPOOL), whirpool_len);
+
 						break;
 
 					case STREEBOG:
-						STREEBOG_init(&stctx);
-						STREEBOG_add(&stctx, lpTestBuffer, benchmarkBufferSize);
-						STREEBOG_finalize(&stctx, (unsigned char *)digest);
+
+						gcry_md_write(hash_streebog512, lpTestBuffer, benchmarkBufferSize);
+						memcpy(digest, gcry_md_read(hash_streebog512, GCRY_MD_STRIBOG512), streebog512_len);
+
 						break;
 
 					}
@@ -6478,6 +6504,12 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				benchmarkTotalItems++;
 			}
+
+			gcry_md_close(hash_whirpool);
+			gcry_md_close(hash_sha512);
+			gcry_md_close(hash_sha256);
+			gcry_md_close(hash_blake2s256);
+			gcry_md_close(hash_streebog512);
 		}
 	break;
 
@@ -6505,27 +6537,72 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					gcry_kdf_derive(
+						"passphrase-1234567890",	// passphrase
+						21,							// lenth of passphrase
+						GCRY_KDF_PBKDF2,			// kdf-algo
+						GCRY_MD_SHA512,				// hash
+						tmp_salt,					// salt
+						64,							// lenth of salt
+						get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot),      // iterations
+						MASTER_KEYDATA_SIZE,		// keysize
+						dk);						// buffer of key
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					gcry_kdf_derive(
+						"passphrase-1234567890",	// passphrase
+						21,							// lenth of passphrase
+						GCRY_KDF_PBKDF2,			// kdf-algo
+						GCRY_MD_SHA256,				// hash
+						tmp_salt,					// salt
+						64,							// lenth of salt
+						get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot),      // iterations
+						MASTER_KEYDATA_SIZE,		// keysize
+						dk);						// buffer of key
 					break;
 
 				case BLAKE2S:
 					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
-					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					gcry_kdf_derive(
+						"passphrase-1234567890",	// passphrase
+						21,							// lenth of passphrase
+						GCRY_KDF_PBKDF2,			// kdf-algo
+						GCRY_MD_BLAKE2S_256,		// hash
+						tmp_salt,					// salt
+						64,							// lenth of salt
+						get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot),      // iterations
+						MASTER_KEYDATA_SIZE,		// keysize
+						dk);						// buffer of key
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					gcry_kdf_derive(
+						"passphrase-1234567890",	// passphrase
+						21,							// lenth of passphrase
+						GCRY_KDF_PBKDF2,			// kdf-algo
+						GCRY_MD_WHIRLPOOL,			// hash
+						tmp_salt,					// salt
+						64,							// lenth of salt
+						get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot),      // iterations
+						MASTER_KEYDATA_SIZE,		// keysize
+						dk);						// buffer of key
 					break;
 
 				case STREEBOG:
 					/* PKCS-5 test with HMAC-STREEBOG used as the PRF */
-					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					gcry_kdf_derive(
+						"passphrase-1234567890",	// passphrase
+						21,							// lenth of passphrase
+						GCRY_KDF_PBKDF2,			// kdf-algo
+						GCRY_MD_STRIBOG512,			// hash
+						tmp_salt,					// salt
+						64,							// lenth of salt
+						get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot),      // iterations
+						MASTER_KEYDATA_SIZE,		// keysize
+						dk);						// buffer of key
 					break;
 				}
 			}
@@ -6590,8 +6667,18 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 					for (i = 0; i < 10; i++)
 					{
-						EncryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
-						DecryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
+						
+						
+						
+						EncryptDataUnits (lpTestBuffer, // buf:			data to be encrypted
+							&startDataUnitNo,			// unitNo:		sequential number of the data unit with which the buffer starts
+							(TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, // nbrUnits:	number of data units in the buffer
+							ci);
+
+						DecryptDataUnits (lpTestBuffer, 
+							&startDataUnitNo, 
+							(TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, 
+							ci);
 					}
 				}
 			}
@@ -14815,23 +14902,33 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 	WHIRLPOOL_CTX tctx;
 	size_t count;
 
+	gcry_md_hd_t hash_whirpool;
+
+	gcry_md_open(&hash_whirpool, GCRY_MD_WHIRLPOOL, GCRY_MD_FLAG_SECURE);
+
 	while (cbRandSeed)
 	{	
-		WHIRLPOOL_init (&tctx);
+		//WHIRLPOOL_init (&tctx);
+		gcry_md_reset(hash_whirpool);
 		// we hash current content of digest buffer which is uninitialized the first time
-		WHIRLPOOL_add (digest, WHIRLPOOL_DIGESTSIZE, &tctx);
+		//WHIRLPOOL_add (digest, WHIRLPOOL_DIGESTSIZE, &tctx);
+		gcry_md_write(hash_whirpool, digest, WHIRLPOOL_DIGESTSIZE);
 
 		// we use various time information as source of entropy
 		GetSystemTime (&sysTime);
-		WHIRLPOOL_add ((unsigned char *) &sysTime, sizeof(sysTime), &tctx);
+		//WHIRLPOOL_add ((unsigned char *) &sysTime, sizeof(sysTime), &tctx);
+		gcry_md_write(hash_whirpool, (unsigned char *) &sysTime, sizeof(sysTime));
 		if (QueryPerformanceCounter (&iSeed))
-			WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+			//WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+			gcry_md_write(hash_whirpool, (unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart));
 		if (QueryPerformanceFrequency (&iSeed))
-			WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+			//WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+			gcry_md_write(hash_whirpool, (unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart));
 
 		/* use Windows random generator as entropy source */
 		if (RtlGenRandom (digest, sizeof (digest)))
-			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
+			//WHIRLPOOL_add (digest, sizeof(digest), &tctx);
+			gcry_md_write(hash_whirpool, digest, sizeof(digest));
 
 		/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
 		if (0 == jent_entropy_init ())
@@ -14841,7 +14938,8 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 			{
 				ssize_t rndLen = jent_read_entropy (ec, (char*) digest, sizeof (digest));
 				if (rndLen > 0)
-					WHIRLPOOL_add (digest, (unsigned int) rndLen, &tctx);
+					//WHIRLPOOL_add (digest, (unsigned int) rndLen, &tctx);
+					gcry_md_write(hash_whirpool, digest, (unsigned int) rndLen);
 				jent_entropy_collector_free (ec);
 			}
 		}
@@ -14852,9 +14950,11 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 			||	(HasRDRAND() && RDRAND_getBytes (digest, sizeof (digest)))
 			))
 		{
-			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
+			//WHIRLPOOL_add (digest, sizeof(digest), &tctx);
+			gcry_md_write(hash_whirpool, digest, sizeof(digest));
 		}
-		WHIRLPOOL_finalize (&tctx, digest);
+		//WHIRLPOOL_finalize (&tctx, digest);
+		memcpy(digest, gcry_md_read(hash_whirpool, GCRY_MD_WHIRLPOOL), sizeof(digest));
 
 		count = VC_MIN (cbRandSeed, sizeof (digest));
 
@@ -14868,6 +14968,9 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 	FAST_ERASE64 (&iSeed.QuadPart, 8);
 	burn (&sysTime, sizeof(sysTime));
 	burn (&tctx, sizeof(tctx));
+
+	gcry_md_close(hash_whirpool);
+	burn (&hash_whirpool, sizeof(hash_whirpool));
 }
 #endif
 

@@ -25,6 +25,8 @@
 #include <string.h>
 #include <io.h>
 
+#include "gcrypt.h"
+
 #ifndef DEVICE_DRIVER
 #include "Random.h"
 #else
@@ -194,6 +196,8 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	int i;
 #endif
 	size_t queuedWorkItems = 0;
+
+	gcry_error_t gcryError;
 
 	// allocate 16-bytes aligned buffer to hold KEY_INFO in a portable way
 	keyInfoBuffer = TCalloc(keyInfoBufferSize);
@@ -381,28 +385,73 @@ KeyReady:	;
 			switch (pkcs5_prf)
 			{
 			case BLAKE2S:
-				derive_key_blake2s (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+				gcryError = 
+				gcry_kdf_derive(
+					keyInfo->userKey,       // passphrase
+					keyInfo->keyLength,     // lenth of passphrase
+					GCRY_KDF_PBKDF2,        // kdf-algo
+					GCRY_MD_BLAKE2S_256,    // hash
+					keyInfo->salt,          // salt
+					PKCS5_SALT_SIZE,        // lenth of salt
+					keyInfo->noIterations,  // iterations
+					GetMaxPkcs5OutSize(),   // keysize
+					dk);					// buffer of key
 				break;
 
 			case SHA512:
-				derive_key_sha512 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+				gcryError = 
+				gcry_kdf_derive(
+					keyInfo->userKey,       // passphrase
+					keyInfo->keyLength,     // lenth of passphrase
+					GCRY_KDF_PBKDF2,        // kdf-algo
+					GCRY_MD_SHA512,         // hash
+					keyInfo->salt,          // salt
+					PKCS5_SALT_SIZE,        // lenth of salt
+					keyInfo->noIterations,  // iterations
+					GetMaxPkcs5OutSize(),   // keysize
+					dk);					// buffer of key
 				break;
 
 			case WHIRLPOOL:
-				derive_key_whirlpool (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+				gcryError = 
+				gcry_kdf_derive(
+					keyInfo->userKey,       // passphrase
+					keyInfo->keyLength,     // lenth of passphrase
+					GCRY_KDF_PBKDF2,        // kdf-algo
+					GCRY_MD_WHIRLPOOL,      // hash
+					keyInfo->salt,          // salt
+					PKCS5_SALT_SIZE,        // lenth of salt
+					keyInfo->noIterations,  // iterations
+					GetMaxPkcs5OutSize(),   // keysize
+					dk);					// buffer of key
 				break;
 
 			case SHA256:
-				derive_key_sha256 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+				gcryError = 
+				gcry_kdf_derive(
+					keyInfo->userKey,       // passphrase
+					keyInfo->keyLength,     // lenth of passphrase
+					GCRY_KDF_PBKDF2,        // kdf-algo
+					GCRY_MD_SHA256,         // hash
+					keyInfo->salt,          // salt
+					PKCS5_SALT_SIZE,        // lenth of salt
+					keyInfo->noIterations,  // iterations
+					GetMaxPkcs5OutSize(),   // keysize
+					dk);					// buffer of key
 				break;
 
 			case STREEBOG:
-				derive_key_streebog(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+				gcryError = 
+				gcry_kdf_derive(
+					keyInfo->userKey,       // passphrase
+					keyInfo->keyLength,     // lenth of passphrase
+					GCRY_KDF_PBKDF2,        // kdf-algo
+					GCRY_MD_STRIBOG512,     // hash
+					keyInfo->salt,          // salt
+					PKCS5_SALT_SIZE,        // lenth of salt
+					keyInfo->noIterations,  // iterations
+					GetMaxPkcs5OutSize(),   // keysize
+					dk);					// buffer of key
 				break;
 			default:
 				// Unknown/wrong ID
@@ -674,7 +723,7 @@ void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderS
 	// TC_BOOT_SECTOR_USER_CONFIG_OFFSET      = 438
 	//
 	// we have: TC_BOOT_SECTOR_USER_MESSAGE_OFFSET = TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET + TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_SIZE
-
+/*
 	WHIRLPOOL_CTX whirlpool;
 	sha512_ctx sha2;
 
@@ -690,8 +739,34 @@ void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderS
 	WHIRLPOOL_add (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, (bootLoaderSize - TC_SECTOR_SIZE_BIOS), &whirlpool);
 	sha512_hash (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, (bootLoaderSize - TC_SECTOR_SIZE_BIOS), &sha2);
 
-	WHIRLPOOL_finalize (&whirlpool, fingerprint);
+	WHIRLPOOL_finalize (&whirlpool, fingerprint);  // byte Fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
 	sha512_end (&fingerprint [WHIRLPOOL_DIGESTSIZE], &sha2);
+*/
+	gcry_md_hd_t hash_whirpool;
+	gcry_md_hd_t hash_sha512;
+
+	gcry_md_open(&hash_whirpool, GCRY_MD_WHIRLPOOL, GCRY_MD_FLAG_SECURE);
+	gcry_md_open(&hash_sha512, GCRY_MD_SHA512, GCRY_MD_FLAG_SECURE);
+
+	gcry_md_write(hash_whirpool, bootLoaderBuf, TC_BOOT_SECTOR_PIM_VALUE_OFFSET);
+	gcry_md_write(hash_sha512, bootLoaderBuf, TC_BOOT_SECTOR_PIM_VALUE_OFFSET);
+
+	gcry_md_write(hash_whirpool, 
+		bootLoaderBuf + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, 
+		(TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)));
+
+	gcry_md_write(hash_sha512, 
+		bootLoaderBuf + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, 
+		(TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)));
+
+	gcry_md_write(hash_whirpool, bootLoaderBuf + TC_SECTOR_SIZE_BIOS, (bootLoaderSize - TC_SECTOR_SIZE_BIOS));
+	gcry_md_write(hash_sha512, bootLoaderBuf + TC_SECTOR_SIZE_BIOS, (bootLoaderSize - TC_SECTOR_SIZE_BIOS));
+
+	memcpy(fingerprint, gcry_md_read(hash_whirpool, GCRY_MD_WHIRLPOOL), WHIRLPOOL_DIGESTSIZE);
+	memcpy(&fingerprint[WHIRLPOOL_DIGESTSIZE], gcry_md_read(hash_sha512, GCRY_MD_SHA512), SHA512_DIGESTSIZE);
+
+	gcry_md_close(hash_whirpool);
+	gcry_md_close(hash_sha512);
 }
 #endif
 
@@ -711,6 +786,8 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 	iterations <<= 16;
 	iterations |= bBoot;
 
+	gcry_error_t gcryError;
+
 	if (retHeaderCryptoInfo != NULL)
 		cryptoInfo = retHeaderCryptoInfo;
 	else
@@ -718,11 +795,29 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 
 	// PKCS5 PRF
 #ifdef TC_WINDOWS_BOOT_SHA2
-	derive_key_sha256 (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
-		PKCS5_SALT_SIZE, iterations, dk, sizeof (dk));
+	gcryError = 
+	gcry_kdf_derive(
+		password->Text,               	// passphrase
+		(int) password->Length,       	// lenth of passphrase
+		GCRY_KDF_PBKDF2,        		// kdf-algo
+		GCRY_MD_SHA256,         		// hash
+		header + HEADER_SALT_OFFSET,    // salt
+		PKCS5_SALT_SIZE,          		// lenth of salt
+		iterations,           			// iterations
+		sizeof (dk),           			// keysize
+		dk);               				// buffer of key
 #else
-	derive_key_blake2s (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
-		PKCS5_SALT_SIZE, iterations, dk, sizeof (dk));
+	gcryError = 
+	gcry_kdf_derive(
+		password->Text,               	// passphrase
+		(int) password->Length,       	// lenth of passphrase
+		GCRY_KDF_PBKDF2,        		// kdf-algo
+		GCRY_MD_BLAKE2S_256,         	// hash
+		header + HEADER_SALT_OFFSET,    // salt
+		PKCS5_SALT_SIZE,          		// lenth of salt
+		iterations,           			// iterations
+		sizeof (dk),           			// keysize
+		dk);               				// buffer of key
 #endif
 
 	// Mode of operation
@@ -896,6 +991,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	int retVal = 0;
 	int primaryKeyOffset;
 
+	gcry_error_t     gcryError;
+
 	if (cryptoInfo == NULL)
 		return ERR_OUTOFMEMORY;
 
@@ -984,28 +1081,73 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 		switch (pkcs5_prf)
 		{
 		case SHA512:
-			derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			gcryError = 
+			gcry_kdf_derive(
+				keyInfo.userKey,               	// passphrase
+				keyInfo.keyLength,       		// lenth of passphrase
+				GCRY_KDF_PBKDF2,        		// kdf-algo
+				GCRY_MD_SHA512,         		// hash
+				keyInfo.salt,               	// salt
+				PKCS5_SALT_SIZE,          		// lenth of salt
+				keyInfo.noIterations,           // iterations
+				GetMaxPkcs5OutSize(),           // keysize
+				dk);               				// buffer of key
 			break;
 
 		case SHA256:
-			derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			gcryError = 
+			gcry_kdf_derive(
+				keyInfo.userKey,               	// passphrase
+				keyInfo.keyLength,       		// lenth of passphrase
+				GCRY_KDF_PBKDF2,        		// kdf-algo
+				GCRY_MD_SHA256,         		// hash
+				keyInfo.salt,               	// salt
+				PKCS5_SALT_SIZE,          		// lenth of salt
+				keyInfo.noIterations,           // iterations
+				GetMaxPkcs5OutSize(),           // keysize
+				dk);               				// buffer of key
 			break;
 
 		case BLAKE2S:
-			derive_key_blake2s (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			gcryError = 
+			gcry_kdf_derive(
+				keyInfo.userKey,               	// passphrase
+				keyInfo.keyLength,       		// lenth of passphrase
+				GCRY_KDF_PBKDF2,        		// kdf-algo
+				GCRY_MD_BLAKE2S_256,         	// hash
+				keyInfo.salt,               	// salt
+				PKCS5_SALT_SIZE,          		// lenth of salt
+				keyInfo.noIterations,           // iterations
+				GetMaxPkcs5OutSize(),           // keysize
+				dk);               				// buffer of key
 			break;
 
 		case WHIRLPOOL:
-			derive_key_whirlpool (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			gcryError = 
+			gcry_kdf_derive(
+				keyInfo.userKey,               	// passphrase
+				keyInfo.keyLength,       		// lenth of passphrase
+				GCRY_KDF_PBKDF2,        		// kdf-algo
+				GCRY_MD_WHIRLPOOL,         		// hash
+				keyInfo.salt,               	// salt
+				PKCS5_SALT_SIZE,          		// lenth of salt
+				keyInfo.noIterations,           // iterations
+				GetMaxPkcs5OutSize(),           // keysize
+				dk);               				// buffer of key
 			break;
 
 		case STREEBOG:
-			derive_key_streebog(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			gcryError = 
+			gcry_kdf_derive(
+				keyInfo.userKey,               	// passphrase
+				keyInfo.keyLength,       		// lenth of passphrase
+				GCRY_KDF_PBKDF2,        		// kdf-algo
+				GCRY_MD_STRIBOG512,         	// hash
+				keyInfo.salt,               	// salt
+				PKCS5_SALT_SIZE,          		// lenth of salt
+				keyInfo.noIterations,           // iterations
+				GetMaxPkcs5OutSize(),           // keysize
+				dk);               				// buffer of key
 			break;
 
 		default:
