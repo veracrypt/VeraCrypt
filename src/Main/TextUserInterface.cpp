@@ -814,6 +814,7 @@ namespace VeraCrypt
 
 		// Filesystem
 		options->FilesystemClusterSize = 0;
+		uint64 filesystemSize = layout->GetMaxDataSize (options->Size);
 
 		if (options->Filesystem == VolumeCreationOptions::FilesystemType::Unknown)
 		{
@@ -827,32 +828,39 @@ namespace VeraCrypt
 
 				vector <VolumeCreationOptions::FilesystemType::Enum> filesystems;
 
-				ShowInfo (L" 1) " + LangString["NONE"]); filesystems.push_back (VolumeCreationOptions::FilesystemType::None);
-				ShowInfo (L" 2) FAT"); filesystems.push_back (VolumeCreationOptions::FilesystemType::FAT);
-
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, LangString["NONE"])); filesystems.push_back (VolumeCreationOptions::FilesystemType::None);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "FAT")); filesystems.push_back (VolumeCreationOptions::FilesystemType::FAT);
 #if defined (TC_LINUX)
-				ShowInfo (L" 3) Linux Ext2"); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext2);
-				ShowInfo (L" 4) Linux Ext3"); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext3);
-				ShowInfo (L" 5) Linux Ext4"); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext4);
-				ShowInfo (L" 6) NTFS");       filesystems.push_back (VolumeCreationOptions::FilesystemType::NTFS);
-				ShowInfo (L" 7) exFAT");      filesystems.push_back (VolumeCreationOptions::FilesystemType::exFAT);
-				ShowInfo (L" 8) Btrfs");      filesystems.push_back (VolumeCreationOptions::FilesystemType::Btrfs);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "Linux Ext2")); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext2);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "Linux Ext3")); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext3);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "Linux Ext4")); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext4);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "NTFS"));       filesystems.push_back (VolumeCreationOptions::FilesystemType::NTFS);
+				if (VolumeCreationOptions::FilesystemType::IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::exFAT))
+				{
+				        ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "exFAT"));      filesystems.push_back (VolumeCreationOptions::FilesystemType::exFAT);
+				}
+				if (VolumeCreationOptions::FilesystemType::IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::Btrfs))
+		                {
+			                // minimum size to be able to format as Btrfs is 16777216 bytes
+			                if (filesystemSize >= VC_MIN_SMALL_BTRFS_VOLUME_SIZE)
+			                {
+                                                ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "Btrfs"));      filesystems.push_back (VolumeCreationOptions::FilesystemType::Btrfs);
+			                }
+			        }
 #elif defined (TC_MACOSX)
-				ShowInfo (L" 3) Mac OS Extended"); filesystems.push_back (VolumeCreationOptions::FilesystemType::MacOsExt);
-				ShowInfo (L" 4) exFAT");      filesystems.push_back (VolumeCreationOptions::FilesystemType::exFAT);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "Mac OS Extended")); filesystems.push_back (VolumeCreationOptions::FilesystemType::MacOsExt);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "exFAT"));      filesystems.push_back (VolumeCreationOptions::FilesystemType::exFAT);
 				if (wxPlatformInfo::Get().CheckOSVersion (10, 13))
 				{
-					ShowInfo (L" 5) APFS");      filesystems.push_back (VolumeCreationOptions::FilesystemType::APFS);
+					ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "APFS"));      filesystems.push_back (VolumeCreationOptions::FilesystemType::APFS);
 				}
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
-				ShowInfo (L" 3) UFS"); filesystems.push_back (VolumeCreationOptions::FilesystemType::UFS);
+				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "UFS")); filesystems.push_back (VolumeCreationOptions::FilesystemType::UFS);
 #endif
 
 				options->Filesystem = filesystems[AskSelection (filesystems.size(), 2) - 1];
 			}
 		}
-
-		uint64 filesystemSize = layout->GetMaxDataSize (options->Size);
 
 		if (options->Filesystem == VolumeCreationOptions::FilesystemType::FAT
 			&& (filesystemSize < TC_MIN_FAT_FS_SIZE || filesystemSize > TC_MAX_FAT_SECTOR_COUNT * options->SectorSize))
