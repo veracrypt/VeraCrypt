@@ -192,6 +192,7 @@ namespace VeraCrypt
 		{
 			// Compute the message digest of the entire pool using the selected hash function
 			SecureBuffer digest (PoolHash->GetDigestSize());
+			PoolHash->Init();
 			PoolHash->ProcessData (Pool);
 			PoolHash->GetDigest (digest);
 
@@ -262,14 +263,14 @@ namespace VeraCrypt
 			AddToPool (buffer);
 		}
 
-		if (Crc32::ProcessBuffer (Pool) != 0x9ae2fff8)
+		if (Crc32::ProcessBuffer (Pool) != 0x21CED8B7)
 			throw TestFailed (SRC_POS);
 
 		buffer.Allocate (PoolSize);
 		buffer.CopyFrom (PeekPool());
 		AddToPool (buffer);
 
-		if (Crc32::ProcessBuffer (Pool) != 0x391135a7)
+		if (Crc32::ProcessBuffer (Pool) != 0xDCFD0A83)
 			throw TestFailed (SRC_POS);
 
 		PoolHash = origPoolHash;
