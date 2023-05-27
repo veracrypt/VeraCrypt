@@ -1521,6 +1521,7 @@
     <entry lang="cs" key="LINUX_NOT_SUPPORTED"> (není podporováno komponentami dostupnými na této platformě).\n</entry>
     <entry lang="cs" key="LINUX_KERNEL_OLD">Váš systém používá starou verzi linuxového jádra.\n\nV důsledku chyby v linuxovém jádře může systém přestat reagovat při zápisu dat na svazek VeraCryptu. Tento problém lze vyřešit aktualizací jádra na verzi 2.6.24 nebo novější.</entry>
     <entry lang="cs" key="LINUX_VOL_DISMOUNTED">Svazek {0} byl odpojen.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="cs" key="LINUX_OOM">Nedostatek paměti.</entry>
     <entry lang="cs" key="LINUX_CANT_GET_ADMIN_PRIV">Nepodařilo se získat oprávnění správce systému</entry>
     <entry lang="cs" key="LINUX_COMMAND_GET_ERROR">Příkaz {0} vrátil chybu {1}.</entry>

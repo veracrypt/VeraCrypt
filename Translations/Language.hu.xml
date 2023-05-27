@@ -1521,6 +1521,7 @@
     <entry lang="hu" key="LINUX_NOT_SUPPORTED"> (az aktuális platformon elérhető összetevők nem támogatják).\n</entry>
     <entry lang="hu" key="LINUX_KERNEL_OLD">Rendszere a Linux kernel régi verzióját használja.\n\nA Linux kernel hibája miatt előfordulhat, hogy rendszere nem válaszol, miközben adatokat ír egy VeraCrypt kötetre. Ez a probléma megoldható a kernel 2.6.24-es vagy újabb verziójára történő frissítésével.</entry>
     <entry lang="hu" key="LINUX_VOL_DISMOUNTED">A(z) {0} kötet le van választva.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="hu" key="LINUX_OOM">Kevés a memória.</entry>
     <entry lang="hu" key="LINUX_CANT_GET_ADMIN_PRIV">Nem sikerült rendszergazdai jogosultságokat szerezni</entry>
     <entry lang="hu" key="LINUX_COMMAND_GET_ERROR">A(z) {0} parancs {1} hibával tért vissza.</entry>

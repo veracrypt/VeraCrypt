@@ -177,9 +177,13 @@ namespace VeraCrypt
 		wxString msg = _("Enter new PIM: ");
 		if (!message.empty())
 			msg = message + L": ";
+		SetTerminalEcho (false);
+		finally_do ({ TextUserInterface::SetTerminalEcho (true); });
 		while (pim < 0)
 		{
 			wstring pimStr = AskString (msg);
+			ShowString (L"\n");
+
 			if (pimStr.empty())
 				pim = 0;
 			else
@@ -652,7 +656,12 @@ namespace VeraCrypt
 		{
 			uint64 AvailableDiskSpace = 0;
 			wxLongLong diskSpace = 0;
-			if (wxGetDiskSpace (wxFileName (wstring (options->Path)).GetPath(), nullptr, &diskSpace))
+			wxString parentDir = wxFileName (wstring (options->Path)).GetPath();
+			if (parentDir.IsEmpty())
+			{
+			  parentDir = wxT(".");
+			}
+			if (wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
 			{
 				AvailableDiskSpace = (uint64) diskSpace.GetValue ();
 				if (maxVolumeSize > AvailableDiskSpace)
@@ -1363,12 +1372,14 @@ namespace VeraCrypt
 						options.UseBackupHeaders = false;
 						ShowInfo (e);
 						options.Password.reset();
+						options.Pim = -1;
 					}
 				}
 				else
 				{
 					ShowInfo (e);
 					options.Password.reset();
+					options.Pim = -1;
 				}
 
 				ShowString (L"\n");
@@ -1377,6 +1388,7 @@ namespace VeraCrypt
 			{
 				ShowInfo (e);
 				options.Password.reset();
+				options.Pim = -1;
 			}
 		}
 

@@ -17,21 +17,17 @@ called 'TrueCrypt' or 'VeraCrypt'
 Contents
 ========
 
-I. Windows
-	Instructions for Signing and Packaging VeraCrypt for Windows.
+[I. Windows](#i-windows)
 
-II. Linux and Mac OS X
-    Requirements for Building VeraCrypt for Linux and Mac OS X.
-    Instructions for Building VeraCrypt for Linux and Mac OS X.
-	Mac OS X specifics
+[II. Linux and Mac OS X](#ii-linux-and-mac-os-x)
 
-III. FreeBSD
+[III. FreeBSD](#iii-freebsd) 
 
-IV. Third-Party Developers (Contributors)
+[IV. Third-Party Developers (Contributors)](#iv-third-party-developers-contributors) 
 
-V. Legal Information
+[V. Legal Information](#v-legal-information) 
 
-VI. Further Information
+[VI. Further Information](#vi-further-information) 
 
 
 
@@ -214,20 +210,20 @@ Copyright Information
 ---------------------
 
 This software as a whole:  
-Copyright (c) 2013-2022 IDRIX. All rights reserved.
+Copyright (c) 2013-2023 IDRIX. All rights reserved.
 
 Portions of this software:  
-Copyright (c) 2013-2022 IDRIX. All rights reserved.  
+Copyright (c) 2013-2023 IDRIX. All rights reserved.  
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.  
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.  
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.  
 Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler.  
 Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov  
-Copyright (c) 1999-2017 Dieter Baron and Thomas Klausner.  
+Copyright (c) 1999-2020 Dieter Baron and Thomas Klausner.  
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.  
 Copyright (c) 1999-2016 Jack Lloyd. All rights reserved.  
-Copyright (c) 2013-2019 Stephan Mueller <smueller@chronox.de>
-Copyright (c) 1999-2021 Igor Pavlov
+Copyright (c) 2013-2019 Stephan Mueller <smueller@chronox.de>  
+Copyright (c) 1999-2021 Igor Pavlov  
 
 For more information, please see the legal notices attached to parts of the
 source code.

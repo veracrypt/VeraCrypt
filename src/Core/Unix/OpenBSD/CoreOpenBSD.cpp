@@ -69,8 +69,6 @@ namespace VeraCrypt
 		if (freeVnd == -1)
 			throw "couldn't find free vnd";
 
-		args.push_back ("-c");
-
 		stringstream freePath;
 		freePath << "vnd" << freeVnd;
 		args.push_back (freePath.str());

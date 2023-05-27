@@ -1,9 +1,9 @@
 /*
-  zip_filerange_crc.c -- compute CRC32 for a range of a file
-  Copyright (C) 2008-2019 Dieter Baron and Thomas Klausner
+  zip_fseek.c -- seek in file
+  Copyright (C) 2016-2021 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -32,53 +32,30 @@
 */
 
 
-#include <stdio.h>
-
 #include "zipint.h"
 
+ZIP_EXTERN zip_int8_t
+zip_fseek(zip_file_t *zf, zip_int64_t offset, int whence) {
+    if (!zf)
+        return -1;
 
-int
-_zip_filerange_crc(zip_source_t *src, zip_uint64_t start, zip_uint64_t len, uLong *crcp, zip_error_t *error) {
-    DEFINE_BYTE_ARRAY(buf, BUFSIZE);
+    if (zf->error.zip_err != 0)
+        return -1;
 
-    zip_int64_t n;
-
-    *crcp = crc32(0L, Z_NULL, 0);
-
-    if (start > ZIP_INT64_MAX) {
-	zip_error_set(error, ZIP_ER_SEEK, EFBIG);
-	return -1;
+    if (zip_source_seek(zf->src, offset, whence) < 0) {
+        _zip_error_set_from_source(&zf->error, zf->src);
+        return -1;
     }
-
-    if (zip_source_seek(src, (zip_int64_t)start, SEEK_SET) != 0) {
-	_zip_error_set_from_source(error, src);
-	return -1;
-    }
-
-    if (!byte_array_init(buf, BUFSIZE)) {
-	zip_error_set(error, ZIP_ER_MEMORY, 0);
-	return -1;
-    }
-
-    while (len > 0) {
-	n = (zip_int64_t)(len > BUFSIZE ? BUFSIZE : len);
-	if ((n = zip_source_read(src, buf, (zip_uint64_t)n)) < 0) {
-	    _zip_error_set_from_source(error, src);
-	    byte_array_fini(buf);
-	    return -1;
-	}
-	if (n == 0) {
-	    zip_error_set(error, ZIP_ER_EOF, 0);
-	    byte_array_fini(buf);
-	    return -1;
-	}
-
-	*crcp = crc32(*crcp, buf, (uInt)n);
-
-	len -= (zip_uint64_t)n;
-    }
-
-    byte_array_fini(buf);
 
     return 0;
+}
+
+
+ZIP_EXTERN int
+zip_file_is_seekable(zip_file_t *zfile) {
+    if (!zfile) {
+        return -1;
+    }
+    
+    return ZIP_SOURCE_CHECK_SUPPORTED(zip_source_supports(zfile->src), ZIP_SOURCE_SEEK);
 }

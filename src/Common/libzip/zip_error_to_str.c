@@ -1,9 +1,9 @@
 /*
   zip_error_to_str.c -- get string representation of zip error code
-  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2021 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -44,22 +44,23 @@ ZIP_EXTERN int
 zip_error_to_str(char *buf, zip_uint64_t len, int ze, int se) {
     const char *zs, *ss;
 
-    if (ze < 0 || ze >= _zip_nerr_str)
-	return snprintf(buf, len, "Unknown error %d", ze);
+    if (ze < 0 || ze >= _zip_err_str_count) {
+        return snprintf(buf, len, "Unknown error %d", ze);
+    }
 
-    zs = _zip_err_str[ze];
+    zs = _zip_err_str[ze].description;
 
-    switch (_zip_err_type[ze]) {
-    case ZIP_ET_SYS:
-	ss = strerror(se);
-	break;
-
-    case ZIP_ET_ZLIB:
-	ss = zError(se);
-	break;
-
-    default:
-	ss = NULL;
+    switch (_zip_err_str[ze].type) {
+        case ZIP_ET_SYS:
+            ss = strerror(se);
+            break;
+            
+        case ZIP_ET_ZLIB:
+            ss = zError(se);
+            break;
+            
+        default:
+            ss = NULL;
     }
 
     return snprintf(buf, len, "%s%s%s", zs, (ss ? ": " : ""), (ss ? ss : ""));

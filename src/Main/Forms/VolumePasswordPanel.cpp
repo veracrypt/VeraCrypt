@@ -204,7 +204,7 @@ namespace VeraCrypt
 		newTextCtrl->SetMinSize ((*textCtrl)->GetSize());
 
 		GridBagSizer->Detach ((*textCtrl));
-		GridBagSizer->Add (newTextCtrl, wxGBPosition (row, 1), wxGBSpan (1, colspan), wxEXPAND|wxBOTTOM|wxALIGN_CENTER_VERTICAL, 5);
+		GridBagSizer->Add (newTextCtrl, wxGBPosition (row, 1), wxGBSpan (1, colspan), wxEXPAND|wxBOTTOM, 5);
 		(*textCtrl)->Show (false);
 		WipeTextCtrl (*textCtrl);
 

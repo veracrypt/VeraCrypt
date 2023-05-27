@@ -1521,6 +1521,7 @@
     <entry lang="tr" key="LINUX_NOT_SUPPORTED"> (Bu platformda bulunan bileşenler tarafından desteklenmez).\n</entry>
     <entry lang="tr" key="LINUX_KERNEL_OLD">Sisteminiz Linux çekirdeğinin eski bir sürümünü kullanıyor.\n\nLinux çekirdeğindeki bir hata nedeniyle, sisteminiz bir VeraCrypt birimine veri yazarken yanıt vermeyebilir. Bu sorun, çekirdeği 2.6.24 veya sonraki bir sürüme yükselterek çözülebilir..</entry>
     <entry lang="tr" key="LINUX_VOL_DISMOUNTED">{0} birimi kaldırıldı.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="tr" key="LINUX_OOM">Bellek yetersiz.</entry>
     <entry lang="tr" key="LINUX_CANT_GET_ADMIN_PRIV">Yönetici ayrıcalıkları alınamadı</entry>
     <entry lang="tr" key="LINUX_COMMAND_GET_ERROR">{0} komutu {1} hatası verdi.</entry>

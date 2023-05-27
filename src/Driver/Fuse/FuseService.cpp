@@ -230,7 +230,7 @@ namespace VeraCrypt
 						FuseService::ReadVolumeSectors (BufferPtr ((byte *) buf, size), offset);
 					}
 				}
-				catch (MissingVolumeData)
+				catch (MissingVolumeData&)
 				{
 					return 0;
 				}
@@ -359,7 +359,7 @@ namespace VeraCrypt
 		{
 			throw;
 		}
-		catch (std::bad_alloc)
+		catch (std::bad_alloc&)
 		{
 			return -ENOMEM;
 		}

@@ -1,40 +1,52 @@
-/*
-   This file was generated automatically by C:\dev\prj\Github\VeraCrypt\src\Common\libzip\make_zip_err_str.sh
-   from C:\dev\libraries\libzip\build\config.h; make changes there.
- */
-
 #ifndef _HAD_ZIPCONF_H
 #define _HAD_ZIPCONF_H
 
-extern const char * const _zip_err_str[];
+/*
+   zipconf.h -- platform specific include file
 
-extern const int _zip_nerr_str;
+   This file was generated automatically by CMake
+   based on ../cmake-zipconf.h.in.
+ */
 
-#define N ZIP_ET_NONE
-#define S ZIP_ET_SYS
-#define Z ZIP_ET_ZLIB
+#define LIBZIP_VERSION "1.9.2"
+#define LIBZIP_VERSION_MAJOR 1
+#define LIBZIP_VERSION_MINOR 9
+#define LIBZIP_VERSION_MICRO 2
 
-extern const int _zip_err_type[];
+/* #undef ZIP_STATIC */
 
+#define _Nullable
+#define _Nonnull
 
-typedef signed char zip_int8_t;
-typedef unsigned char zip_uint8_t;
-typedef signed short zip_int16_t;
-typedef unsigned short zip_uint16_t;
-typedef signed int zip_int32_t;
-typedef unsigned int zip_uint32_t;
-typedef signed long long zip_int64_t;
-typedef unsigned long long zip_uint64_t;
+#if !defined(__STDC_FORMAT_MACROS)
+#define __STDC_FORMAT_MACROS 1
+#endif
+#if defined(_MSC_VER) && _MSC_VER < 1700
+#include <stdint.h>
+#define PRIu32 "lu"
+#define PRIu64 "llu"
+#else
+#include <inttypes.h>
+#endif
 
-#define ZIP_INT8_MIN	-0x80
+typedef int8_t zip_int8_t;
+typedef uint8_t zip_uint8_t;
+typedef int16_t zip_int16_t;
+typedef uint16_t zip_uint16_t;
+typedef int32_t zip_int32_t;
+typedef uint32_t zip_uint32_t;
+typedef int64_t zip_int64_t;
+typedef uint64_t zip_uint64_t;
+
+#define ZIP_INT8_MIN	 (-ZIP_INT8_MAX-1)
 #define ZIP_INT8_MAX	 0x7f
 #define ZIP_UINT8_MAX	 0xff
 
-#define ZIP_INT16_MIN	-0x8000
+#define ZIP_INT16_MIN	 (-ZIP_INT16_MAX-1)
 #define ZIP_INT16_MAX	 0x7fff
 #define ZIP_UINT16_MAX	 0xffff
 
-#define ZIP_INT32_MIN	-0x80000000L
+#define ZIP_INT32_MIN	 (-ZIP_INT32_MAX-1L)
 #define ZIP_INT32_MAX	 0x7fffffffL
 #define ZIP_UINT32_MAX	 0xffffffffLU
 
@@ -43,4 +55,3 @@ typedef unsigned long long zip_uint64_t;
 #define ZIP_UINT64_MAX	 0xffffffffffffffffULL
 
 #endif /* zipconf.h */
-
