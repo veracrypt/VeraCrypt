@@ -187,19 +187,26 @@ namespace VeraCrypt
 	void RandomNumberGenerator::HashMixPool ()
 	{
 		BytesAddedSincePoolHashMix = 0;
+		size_t digestSize = PoolHash->GetDigestSize();
+		size_t poolSize = Pool.Size();
+		// pool size must be multiple of digest size
+		// this is always the case with default pool size value (320 bytes)
+		if (poolSize % digestSize)
+			throw AssertionFailed (SRC_POS);
 
-		for (size_t poolPos = 0; poolPos < Pool.Size(); )
+		for (size_t poolPos = 0; poolPos < poolSize; poolPos += digestSize)
 		{
 			// Compute the message digest of the entire pool using the selected hash function
-			SecureBuffer digest (PoolHash->GetDigestSize());
+			SecureBuffer digest (digestSize);
 			PoolHash->Init();
 			PoolHash->ProcessData (Pool);
 			PoolHash->GetDigest (digest);
 
-			// Add the message digest to the pool
-			for (size_t digestPos = 0; digestPos < digest.Size() && poolPos < Pool.Size(); ++digestPos)
+			/* XOR the resultant message digest to the pool at the poolIndex position. */
+			/* this matches the documentation: https://veracrypt.fr/en/Random%20Number%20Generator.html */
+			for (size_t digestIndex = 0; digestIndex < digestSize; digestIndex++)
 			{
-				Pool[poolPos++] += digest[digestPos];
+				Pool [poolPos + digestIndex] ^= digest [digestIndex];
 			}
 		}
 	}
@@ -263,14 +270,14 @@ namespace VeraCrypt
 			AddToPool (buffer);
 		}
 
-		if (Crc32::ProcessBuffer (Pool) != 0x21CED8B7)
+ 		if (Crc32::ProcessBuffer (Pool) != 0x9c743238)
 			throw TestFailed (SRC_POS);
 
 		buffer.Allocate (PoolSize);
 		buffer.CopyFrom (PeekPool());
 		AddToPool (buffer);
 
-		if (Crc32::ProcessBuffer (Pool) != 0xDCFD0A83)
+ 		if (Crc32::ProcessBuffer (Pool) != 0xd2d09c8d)
 			throw TestFailed (SRC_POS);
 
 		PoolHash = origPoolHash;
