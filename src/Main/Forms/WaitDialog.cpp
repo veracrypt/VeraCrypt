@@ -74,6 +74,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (ParameterTooLarge);
 		VC_CONVERT_EXCEPTION (PartitionDeviceRequired);
 		VC_CONVERT_EXCEPTION (StringConversionFailed);
+		VC_CONVERT_EXCEPTION (TerminalNotFound);
 		VC_CONVERT_EXCEPTION (TestFailed);
 		VC_CONVERT_EXCEPTION (TimeOut);
 		VC_CONVERT_EXCEPTION (UnknownException);

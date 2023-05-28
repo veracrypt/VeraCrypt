@@ -92,6 +92,7 @@ namespace VeraCrypt
 	TC_EXCEPTION (ParameterTooLarge); \
 	TC_EXCEPTION (PartitionDeviceRequired); \
 	TC_EXCEPTION (StringConversionFailed); \
+	TC_EXCEPTION (TerminalNotFound); \
 	TC_EXCEPTION (TestFailed); \
 	TC_EXCEPTION (TimeOut); \
 	TC_EXCEPTION (UnknownException); \
