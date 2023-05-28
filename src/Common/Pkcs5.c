@@ -557,7 +557,7 @@ typedef struct hmac_blake2s_ctx_struct
 	blake2s_state ctx;
 	blake2s_state inner_digest_ctx; /*pre-computed inner digest context */
 	blake2s_state outer_digest_ctx; /*pre-computed outer digest context */
-	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the SHA256 hash */
+	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Blake2s hash */
 	char u[BLAKE2S_DIGESTSIZE];
 } hmac_blake2s_ctx;
 
@@ -565,7 +565,7 @@ void hmac_blake2s_internal
 (
 	  char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
 	  int ld,		/* length of input data in bytes */
-	  hmac_blake2s_ctx* hmac /* HMAC-SHA256 context which holds temporary variables */
+	  hmac_blake2s_ctx* hmac /* HMAC-BLAKE2S context which holds temporary variables */
 )
 {
 	blake2s_state* ctx = &(hmac->ctx);
@@ -582,7 +582,7 @@ void hmac_blake2s_internal
 
 	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (blake2s_state));
 
-	blake2s_update (ctx, d, SHA256_DIGESTSIZE);
+	blake2s_update (ctx, d, BLAKE2S_DIGESTSIZE);
 
 	blake2s_final (ctx, (unsigned char *) d); /* d = outer digest */
 }
@@ -648,7 +648,7 @@ void hmac_blake2s
 
 	for (b = 0; b < lk; ++b)
 		buf[b] = (char) (k[b] ^ 0x5C);
-	memset (&buf[lk], 0x5C, SHA256_BLOCKSIZE - lk);
+	memset (&buf[lk], 0x5C, BLAKE2S_BLOCKSIZE - lk);
 
 	blake2s_update (ctx, (unsigned char *) buf, BLAKE2S_BLOCKSIZE);
 
@@ -751,7 +751,7 @@ void derive_key_blake2s (char *pwd, int pwd_len, char *salt, int salt_len, uint3
 		blake2s_final (&tctx, (unsigned char *) key);
 
 		pwd = key;
-		pwd_len = SHA256_DIGESTSIZE;
+		pwd_len = BLAKE2S_DIGESTSIZE;
 
 		burn (&tctx, sizeof(tctx));		// Prevent leaks
 	}
