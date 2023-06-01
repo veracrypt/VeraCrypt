@@ -481,6 +481,7 @@ namespace VeraCrypt
 		EX2MSG (UnportablePassword,					LangString["UNSUPPORTED_CHARS_IN_PWD"]);
 
 #if defined (TC_LINUX)
+		EX2MSG (TerminalNotFound,					LangString["LINUX_EX2MSG_TERMINALNOTFOUND"]);
 		EX2MSG (UnsupportedSectorSize,				LangString["SECTOR_SIZE_UNSUPPORTED"]);
 		EX2MSG (UnsupportedSectorSizeHiddenVolumeProtection, LangString["LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION"]);
 		EX2MSG (UnsupportedSectorSizeNoKernelCrypto, LangString["LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO"]);
@@ -1620,6 +1621,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (ParameterTooLarge);
 		VC_CONVERT_EXCEPTION (PartitionDeviceRequired);
 		VC_CONVERT_EXCEPTION (StringConversionFailed);
+		VC_CONVERT_EXCEPTION (TerminalNotFound);
 		VC_CONVERT_EXCEPTION (TestFailed);
 		VC_CONVERT_EXCEPTION (TimeOut);
 		VC_CONVERT_EXCEPTION (UnknownException);

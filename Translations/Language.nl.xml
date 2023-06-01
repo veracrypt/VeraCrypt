@@ -1569,6 +1569,7 @@
     <entry lang="nl" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt werd eerder geïnstalleerd met een MSI-pakket en kan dus niet worden bijgewerkt met het standaardinstallatieprogramma. Gebruik het MSI-pakket om uw VeraCrypt-installatie bij te werken.</entry>
     <entry lang="nl" key="IDC_USE_ALL_FREE_SPACE">Alle beschikbare vrije ruimte gebruiken</entry>
     <entry lang="nl" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt kan niet worden bijgewerkt omdat de systeempartitie/schijf is versleuteld met een algoritme dat niet meer wordt ondersteund.\nOntsleutel uw systeem voordat u VeraCrypt bijwerkt en versleutel het dan opnieuw.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
