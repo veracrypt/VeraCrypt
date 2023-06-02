@@ -8887,7 +8887,7 @@ int MountVolume (HWND hwndDlg,
 	}
 
 	// If using cached passwords, check cache status first
-	if (password == NULL && IsPasswordCacheEmpty ())
+	if (password == NULL && (mountOptions->SkipCachedPasswords || IsPasswordCacheEmpty ()))
 		return 0;
 
 	ZeroMemory (&mount, sizeof (mount));

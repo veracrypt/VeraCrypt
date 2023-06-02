@@ -1571,6 +1571,7 @@
     <entry lang="zh-cn" key="IDC_USE_ALL_FREE_SPACE">使用所有空闲空间。</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt无法升级，因为系统分区/驱动器使用了将不再支持的算法进行加密。\n请在升级VeraCrypt之前解密系统，然后再次加密。</entry>
     <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
+    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

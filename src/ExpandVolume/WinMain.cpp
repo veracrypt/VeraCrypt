@@ -292,6 +292,7 @@ void LoadSettings (HWND hwndDlg)
 	defaultMountOptions.PartitionInInactiveSysEncScope = FALSE;
 	defaultMountOptions.RecoveryMode = FALSE;
 	defaultMountOptions.UseBackupHeader =  FALSE;
+	defaultMountOptions.SkipCachedPasswords = FALSE;
 
 	mountOptions = defaultMountOptions;
 

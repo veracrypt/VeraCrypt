@@ -948,6 +948,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 		defaultMountOptions.PartitionInInactiveSysEncScope = FALSE;
 		defaultMountOptions.RecoveryMode = FALSE;
 		defaultMountOptions.UseBackupHeader =  FALSE;
+		defaultMountOptions.SkipCachedPasswords = FALSE;
 
 		mountOptions = defaultMountOptions;
 	}
@@ -5392,6 +5393,8 @@ ret:
 	burn (&mountOptions.ProtectedHidVolPassword, sizeof (mountOptions.ProtectedHidVolPassword));
 	burn (&mountOptions.ProtectedHidVolPkcs5Prf, sizeof (mountOptions.ProtectedHidVolPkcs5Prf));
 
+	mountOptions.SkipCachedPasswords = FALSE;
+
 	RestoreDefaultKeyFilesParam ();
 
 	if (UsePreferences)
@@ -5674,6 +5677,7 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 
 	VolumePassword.Length = 0;
 	mountOptions = defaultMountOptions;
+	mountOptions.SkipCachedPasswords = FALSE;
 	bPrebootPasswordDlgMode = FALSE;
 	VolumePim = -1;
 
@@ -6964,12 +6968,12 @@ void DisplayDriveListContextMenu (HWND hwndDlg, LPARAM lParam)
 	{
 	case IDPM_SELECT_FILE_AND_MOUNT:
 		if (SelectContainer (hwndDlg))
-			MountSelectedVolume (hwndDlg, FALSE);
+			MountSelectedVolume (hwndDlg, FALSE, FALSE);
 		break;
 
 	case IDPM_SELECT_DEVICE_AND_MOUNT:
 		if (SelectPartition (hwndDlg))
-			MountSelectedVolume (hwndDlg, FALSE);
+			MountSelectedVolume (hwndDlg, FALSE, FALSE);
 		break;
 
 	case IDPM_CHECK_FILESYS:
@@ -7021,6 +7025,7 @@ void DisplayDriveListContextMenu (HWND hwndDlg, LPARAM lParam)
 		else
 		{
 			mountOptions = defaultMountOptions;
+			mountOptions.SkipCachedPasswords = FALSE;
 			bPrebootPasswordDlgMode = FALSE;
 
 			if (CheckMountList (hwndDlg, FALSE))
@@ -7077,6 +7082,49 @@ static void SignalExitCode (int exitCode)
 			WriteFile(hFile, szMsg, (DWORD) (strlen (szMsg) +1), &cbWritten, (LPOVERLAPPED) NULL); 
 			CloseHandle (hFile);
 		}
+	}
+}
+
+#ifndef BS_SPLITBUTTON
+#define BS_SPLITBUTTON 0x0000000C
+#endif
+
+#ifndef BCN_DROPDOWN
+#define BCN_DROPDOWN (0U-1250U) + 2U
+#endif
+
+static void EnableSplitButton(HWND hwndDlg, int buttonId)
+{
+	HWND hwndButton = GetDlgItem(hwndDlg, buttonId);
+	if (hwndButton != NULL)
+	{
+		// change the button style
+		SetWindowLongPtr(hwndButton, GWL_STYLE, GetWindowLongPtr(hwndButton, GWL_STYLE) | BS_SPLITBUTTON);
+	}
+}
+
+static HMENU CreateMountNoCacheDropdownMenu()
+{
+	HMENU hmenu = CreatePopupMenu();
+
+	// add menu items
+	AppendMenu(hmenu, MF_STRING, IDM_MOUNIT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
+
+	return hmenu;
+}
+
+static void HandleMountButtonDropdown(HWND hwndButton, HWND hwndOwner, HMENU hmenu)
+{
+	RECT rc;
+	POINT pt;
+
+	if (GetClientRect(hwndButton, &rc))
+	{
+		pt.x = rc.left;
+		pt.y = rc.bottom;
+		ClientToScreen(hwndButton, &pt);
+
+		TrackPopupMenu(hmenu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, hwndOwner, NULL);
 	}
 }
 
@@ -7180,6 +7228,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				mountOptions = CmdMountOptions;
 
 			InitMainDialog (hwndDlg);
+			EnableSplitButton(hwndDlg, IDOK);	
 
 			try
 			{
@@ -8130,6 +8179,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				else if (LOWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))) == TC_MLIST_ITEM_FREE)
 				{
 					mountOptions = defaultMountOptions;
+					mountOptions.SkipCachedPasswords = FALSE;
 					bPrebootPasswordDlgMode = FALSE;
 
 					if (GetAsyncKeyState (VK_CONTROL) < 0)
@@ -8179,6 +8229,18 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 			}
 		}
+		else
+		{
+			LPNMHDR pnmh = (LPNMHDR)lParam;
+
+			if (pnmh->idFrom == IDOK && pnmh->code == BCN_DROPDOWN)
+			{
+				// Create a popup menu for the split button
+				HMENU hmenu = CreateMountNoCacheDropdownMenu();
+				HandleMountButtonDropdown(pnmh->hwndFrom, hwndDlg, hmenu);
+				DestroyMenu(hmenu);
+			}
+		}
 		return 0;
 
 	case WM_ERASEBKGND:
@@ -8225,9 +8287,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
-		if ((lw == IDOK || lw == IDM_MOUNT_VOLUME || lw == IDM_MOUNT_VOLUME_OPTIONS))
+		if ((lw == IDOK || lw == IDM_MOUNT_VOLUME || lw == IDM_MOUNT_VOLUME_OPTIONS || lw == IDM_MOUNIT_NO_CACHE))
 		{
-			MountSelectedVolume (hwndDlg, lw == IDM_MOUNT_VOLUME_OPTIONS);
+			MountSelectedVolume (hwndDlg, lw == IDM_MOUNT_VOLUME_OPTIONS, lw == IDM_MOUNIT_NO_CACHE);
 			return 1;
 		}
 
@@ -8300,6 +8362,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				mountOptions = defaultMountOptions;
 				mountOptions.PartitionInInactiveSysEncScope = TRUE;
+				mountOptions.SkipCachedPasswords = FALSE;
 				bPrebootPasswordDlgMode = TRUE;
 
 				if (CheckMountList (hwndDlg, FALSE))
@@ -9147,6 +9210,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 	/* Defaults */
 	mountOptions.PreserveTimestamp = TRUE;
+	mountOptions.SkipCachedPasswords = FALSE;
 
 	if (_wcsicmp (lpszCommandLine, L"-Embedding") == 0)
 	{
@@ -10423,6 +10487,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 	}
 
 	mountOptions = defaultMountOptions;
+	mountOptions.SkipCachedPasswords = FALSE;
 
 	VolumePassword.Length = 0;
 	MultipleMountOperationInProgress = (favoriteVolumeToMount.Path.empty() || FavoriteMountOnArrivalInProgress);
@@ -12397,7 +12462,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 }
 
 
-void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions)
+void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions, BOOL skipCachedPasswords)
 {
 	if (!VolumeSelected(hwndDlg))
 	{
@@ -12406,6 +12471,7 @@ void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions)
 	else if (LOWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))) == TC_MLIST_ITEM_FREE)
 	{
 		mountOptions = defaultMountOptions;
+		mountOptions.SkipCachedPasswords = skipCachedPasswords;
 		bPrebootPasswordDlgMode = FALSE;
 
 		if (mountWithOptions || GetAsyncKeyState (VK_CONTROL) < 0)
