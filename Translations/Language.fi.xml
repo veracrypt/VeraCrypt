@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26">
-    <language langid="fi" name="Suomi" en-name="Finnish" version="0.3.0" translators="Matti Ruhanen" />
+    <language langid="fi" name="Suomi" en-name="Finnish" version="0.3.0" translators="Matti Ruhanen, Jertzukka" />
     <font lang="fi" class="normal" size="11" face="default" />
     <font lang="fi" class="bold" size="13" face="Arial" />
     <font lang="fi" class="fixed" size="12" face="Lucida Console" />
@@ -122,7 +122,7 @@
     <entry lang="fi" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Kiihdytä AES salausta/purkua käyttämällä prosessorin AES ohjeita (jos käytettävissä)</entry>
     <entry lang="fi" key="IDC_ENABLE_KEYFILES">Käytä Avaintiedostoa</entry>
     <entry lang="fi" key="IDC_ENABLE_NEW_KEYFILES">Käytä Avaintiedostoa</entry>
-    <entry lang="fi" key="IDC_EXIT">&amp;Poistu</entry>
+    <entry lang="fi" key="IDC_EXIT">Poist&amp;u</entry>
     <entry lang="fi" key="IDC_FAVORITES_HELP_LINK">Apua suosikkitaltioille</entry>
     <entry lang="fi" key="IDC_FAVORITE_DISABLE_HOTKEY">Älä kytke valittua taltiota kun 'Kytke Suosikkitaltiot' &amp;pikanäppäintä on painettu</entry>
     <entry lang="fi" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Kytke valittu taltio kun sen isäntä laite &amp;kytkeytyy</entry>
@@ -148,7 +148,7 @@
     <entry lang="fi" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Lisätietoa</entry>
     <entry lang="fi" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Lisätietoa</entry>
     <entry lang="fi" key="IDC_MORE_SETTINGS">Lisää Asetuksia..</entry>
-    <entry lang="fi" key="IDC_MOUNTALL">&amp;Autom. yhdistäminen</entry>
+    <entry lang="fi" key="IDC_MOUNTALL">&amp;Autom. liittäminen</entry>
     <entry lang="fi" key="IDC_MOUNT_OPTIONS">Yhdistä V&amp;alinta..</entry>
     <entry lang="fi" key="IDC_MOUNT_READONLY">Yhdistä taltio vain luku&amp;tilassa</entry>
     <entry lang="fi" key="IDC_NEW_KEYFILES">Avaintiedostot..</entry>
@@ -173,8 +173,8 @@
     <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Pyyhi välimuistiin tallennetut salasanat poistuttaessa</entry>
     <entry lang="fi" key="IDC_PRESERVE_TIMESTAMPS">Säilytä tiedostosäilöjen muokkausaikaleima</entry>
     <entry lang="fi" key="IDC_RESET_HOTKEYS">Tyhjennä</entry>
-    <entry lang="fi" key="IDC_SELECT_DEVICE">&amp;Valitse Laite..</entry>
-    <entry lang="fi" key="IDC_SELECT_FILE">Valitse T&amp;iedosto..</entry>
+    <entry lang="fi" key="IDC_SELECT_DEVICE">Valitse &amp;Laite..</entry>
+    <entry lang="fi" key="IDC_SELECT_FILE">&amp;Valitse Tiedosto..</entry>
     <entry lang="fi" key="IDC_SELECT_PKCS11_MODULE">Valitse &amp;Kirjasto..</entry>
     <entry lang="fi" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Näytä Salasana</entry>
     <entry lang="fi" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Näytä Salasana</entry>
@@ -182,8 +182,8 @@
     <entry lang="fi" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Välimuistisalasana ajurin muistille</entry>
     <entry lang="fi" key="IDC_TRUECRYPT_MODE">TrueCrypt Tila</entry>
     <entry lang="fi" key="IDC_UNMOUNTALL">P&amp;oista Yhdistämiset</entry>
-    <entry lang="fi" key="IDC_VOLUME_PROPERTIES">Taltion Ominaisuu&amp;det..</entry>
-    <entry lang="fi" key="IDC_VOLUME_TOOLS">Taltio&amp;n Työkalut..</entry>
+    <entry lang="fi" key="IDC_VOLUME_PROPERTIES">Taltion &amp;Ominaisuudet...</entry>
+    <entry lang="fi" key="IDC_VOLUME_TOOLS">Taltion &amp;Työkalut..</entry>
     <entry lang="fi" key="IDC_WIPE_CACHE">Tyhjennä &amp;Välimuisti</entry>
     <entry lang="fi" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Yhdistä Parametrit</entry>
     <entry lang="fi" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Suosikkitaltiot</entry>
@@ -693,8 +693,8 @@
     <entry lang="fi" key="UNKNOWN">Tuntematon</entry>
     <entry lang="fi" key="ERR_UNKNOWN">Tapahtui määrittelemätön tai tuntematon virhe (%d).</entry>
     <entry lang="fi" key="UNMOUNTALL_LOCK_FAILED">Jotkin asemat sisältävät tiedostoja tai hakemistoja jotka ovat sovelluksen tai järjestelmän käytössä.\n\nPakotettu yhteyden poisto?</entry>
-    <entry lang="fi" key="UNMOUNT_BUTTON">&amp;Poista Yhteys</entry>
-    <entry lang="fi" key="UNMOUNT_FAILED">Yhteyden poisto epäonnistui!</entry>
+    <entry lang="fi" key="UNMOUNT_BUTTON">&amp;Poista Liitos</entry>
+    <entry lang="fi" key="UNMOUNT_FAILED">Liitoksen poisto epäonnistui!</entry>
     <entry lang="fi" key="UNMOUNT_LOCK_FAILED">Taltio sisältää tiedostoja tai hakemistoja, jotka ovat sovelluksien tai järjestelmän käytössä.\n\nPakotettu yhteyden poisto?</entry>
     <entry lang="fi" key="NO_VOLUME_MOUNTED_TO_DRIVE">Mitään taltiota ei ole asennettu määritettyyn asemakirjaimeen.</entry>
     <entry lang="fi" key="VOL_ALREADY_MOUNTED">Taltion jota yritit yhdistää on jo yhdistetty. </entry>
@@ -1007,8 +1007,8 @@
     <entry lang="fi" key="NO_SYSENC_PARTITION_SELECTED">Osiota ei valittuna.\n\nPaina 'Valitse Laite' valitaksesi poistettavan yhteyden osion, joka tavallisesti vaaditaan esikäynnistys autentikoinnissa (esimerkiksi, osio sijaitsee toisen käyttöjärjestelmän suojatulla järjestelmälevyllä, joka ei ole käytössä, tai se on toisen käyttöjärjestelmän salattu järjestelmäosio).\n\nTiedotus: Valittu osio yhdistetään kuten tavallinen VeraCrypt-taltio ilman esikäynnistys autentikointia. Tämä on hyödyllinen esim. varmistettaessa tai korjatessa toimintoa.</entry>
     <entry lang="fi" key="CONFIRM_SAVE_DEFAULT_KEYFILES">VAROITUS: Jos oletus avaintiedosto on olemassa ja aktivoituna, taltiot jotka eivät käytä tätä avaintiedostoa ei voida yhdistää. Siksi, oletus avaintiedoston aktivoinnin jälkeen, pidä mielessäsi poistaa merkintä 'Käytä Avaintiedostoa' tarkistus (alla salasana syöttö kenttä) kun yhdistät tällaiset taltiot.\n\nOletko varma, että haluat tallentaa valitut avaintiedostot/polut oletus asetuksiksi?</entry>
     <entry lang="fi" key="HK_AUTOMOUNT_DEVICES">Automaattinen yhdistäminen laitteille</entry>
-    <entry lang="fi" key="HK_DISMOUNT_ALL">Poista kaikki yhteydet</entry>
-    <entry lang="fi" key="HK_WIPE_CACHE">Tyhjennä välimuisti</entry>
+    <entry lang="fi" key="HK_DISMOUNT_ALL">Poista kaikki liitokset</entry>
+    <entry lang="fi" key="HK_WIPE_CACHE">Tyhjennä Välimuisti</entry>
     <entry lang="fi" key="HK_DISMOUNT_ALL_AND_WIPE">Poista Kaikki Yhistämiset &amp; Tyhjennä välimuisti</entry>
     <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Pakotettu yhdistämisen poisto kaikille  &amp;  Tyhjennä välimuisti</entry>
     <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Pakotettu yhdistämisen poisto kaikille,  Tyhjennä välimuisti  &amp;  Poistu</entry>
@@ -1484,92 +1484,92 @@
     <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
     <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Sulje kaikki taltion Explorer-ikkunat kun sen liitos poistetaan</entry>
+    <entry lang="en" key="LINUX_HOTKEYS">Pikanäppäimet</entry>
+    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">Järjestelmänlaajuiset pikanäppäimet</entry>
+    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Soita järjestelmän ilmoitusääni liitoksen luomisesta ja poistamisesta</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Näytä varmistus liitoksen poistamisen jälkeen</entry>
+    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt sammuu</entry>
+    <entry lang="en" key="LINUX_OPEN_FINDER">Avaa Finder-ikkuna onnistuneesti liitetylle taltiolle</entry>
+    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Ota huomioon että tämä asetus toimii vain jos ytimen kryptografiset palvelut ovat poissa käytöstä.</entry>
+    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Ytimen kryptografisten palveluiden ottaminen pois päältä voi huonontaa suorituskykyä.\n\nOletko varma?</entry>
+    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Ota huomioon että tämän asetuksen ottaminen pois päältä ei välttämättä vaikuta taltioihin jotka on liitetty käyttäen ytimen kryptografisia palveluita.</entry>
+    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Ota huomioon, että jo liitettynä olevat taltiot tulee liittää uudelleen ennen kuin ne voivat käyttää tätä asetusta.</entry>
+    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Tuntematon poikkeus tapahtui.</entry>
+    <entry lang="en" key="LINUX_FIRST_AID">Levytyökalu käynnistetään kun painat 'OK'.\n\nValitse ensin taltiosi Levytyökalussa ja paina 'Tarkista Levy' tai 'Korjaa Levy' nappulaa 'Korjaus' sivulla.</entry>
+    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Liitä Kaikki Laitteet</entry>
+    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Virhe ladattaessa määritystiedostoa sijainnista </entry>
+    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Valitse vapaa taltiolokero listasta.</entry>
+    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nHaluatko nähdä tämän ilmoituksen ensi kerralla kun liität vastaavan taltion?</entry>
+    <entry lang="en" key="LINUX_WARNING">Varoitus</entry>
+    <entry lang="en" key="LINUX_ERROR">Virhe</entry>
+    <entry lang="en" key="LINUX_ONLY_TEXTMODE">Tämä toiminto on tuettuna vain tekstimoodissa.</entry>
+    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Vapaa tila levyllä {0}: on {1}.</entry>
+    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Ota huomioon, että jos käyttöjärjestelmäsi ei varaa tilaa tiedostoillesi aloittaen vapaan tilan alusta, piilotetun taltion suurin mahdollinen koko voi olla paljon pienempi kuin vapaa tila ulommalla taltiolla. Tämä ei ole vika VeraCryptissä, vaan rajoitus käyttöjärjestelmässä.</entry>
+    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Suurin mahdollinen koko piilotetulle taltiolle on {0}.</entry>
+    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Avaa Ulompi Taltio</entry>
+    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Ulompi taltio on onnistuneesti luotu ja liitetty liitoskohtaan '{0}'. Nyt sinun tulee siirtää tähän taltioon jotakin arkaluontoiselta vaikuttavia tiedostoja joita ET todellisuudessa halua piilottaa. Nämä tiedostot ovat niitä varten jotka pakottavat sinut paljastamaan salasanasi. Paljastat vain tämän ulomman taltion salasanan, mutta et piilotetun taltion salasanaa. Tiedostot joista oikeasti välität säilytetään piilotetussa taltiossa joka luodaan myöhemmin. Kun olet kopioinut tiedostot, paina Seuraava. Älä poista taltion liitosta.\n\nHuomio: Kun painat Seuraava, ulompi taltio analysoidaan ja määritetään suurin mahdollinen yhtäjaksoinen tyhjä tila joka päättyy taltion loppuun. Tämä tyhjä tila asuttaa tulevan piilotetun taltion, joten se rajoittaa sen suurinta mahdollista kokoa. Toiminto varmistaa ettei ulommalla taltiolla oleva data tule ylikirjoitetuksi piilotettua taltiota luodessa.</entry>
+    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Virhe: Yrität salata järjestelmälevyä.\n\nVeraCrypt voi salata järjestelmälevyn vain Windows-alustalla.</entry>
+    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Virhe: Yrität salata järjestelmäosiota.\n\nVeraCrypt voi salata järjestelmäosion vain Windows-alustalla.</entry>
+    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">VAROITUS: Laitteen alustus poistaa kaiken datan tietojärjestelmällä '{0}'.\n\nHaluatko jatkaa?</entry>
+    <entry lang="en" key="LINUX_MOUNTET_HINT">Valitun laitteen tietojärjestelmä on jo liitetty. Poista liitos '{0}' ennen kuin jatkat.</entry>
+    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">Piilotetulla taltiolla ei voi olla sama salasana, PIM ja avaintiedostot kuin Ulommalla taltiolla.</entry>
+    <entry lang="en" key="LINUX_NOT_FAT_HINT">Ota huomioon että taltiota ei alusteta FAT-tietojärjestelmällä, tästä johtuen voit joutua asentamaan ylimääräisiä tietojärjestelmäajureita liittääksesi tietojärjestelmän muilla kuin {0} alustalla.</entry>
+    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Virhe: Luotava piilotettu taltio on suurempi kuin {0} Tt ({1} Gt).\n\nMahdollisia ratkaisuja:\n- Luo säiliö/osio joka on pienempi kuin {0} Tt.\n</entry>
+    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Käytä levyä jossa on 4096 tavun sektorikoko voidaksesi luoda osio/laitepohjaisia piilotettuja taltioita 16 Tt asti.</entry>
     <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
+    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (ei ole tuettu tällä alustalla saatavilla olevilla komponenteilla).\n</entry>
+    <entry lang="en" key="LINUX_KERNEL_OLD">Järjestelmässäsi on käytössä vanha Linux-ydin.\n\nLinux-ytimessä olevan vian vuoksi järjestelmäsi voi lakata vastaamasta kirjoittaessasi dataa VeraCrypt taltioon. Tämä ongelma voidaan ratkaista päivittämällä Linux-ydin versioon 2.6.24 tai uudempaan.</entry>
+    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Taltion {0} liitos on poistettu.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Taltio {0} on liitetty.</entry>
+    <entry lang="en" key="LINUX_OOM">Keskusmuisti on loppu.</entry>
+    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Järjestelmänvalvojan oikeuksien saanti epäonnistui</entry>
+    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Komento {0} palautti virheen {1}.</entry>
+    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Komentorivi Ohjeet</entry>
+    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nVaroitus: Avaintiedostojen tiedostopolulla on piilotettuja tiedostoja. Jos haluat käyttää niitä avaintiedostoina, poista niistä edeltävä piste tiedostonimistä. Piilotetut tiedostot ovat näkyvissä vain jos ne on asetuksista niin asetettu.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Tallennuslaitteen ja VeraCrypt-taltion sektorikoot poikkeavat toisistaan</entry>
+    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Tämä toiminto voidaan suorittaa vain kun taltiolla oleva järjestelmä on käynnissä.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Ei tarpeeksi dataa saatavilla.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Ytimen kryptografisen palvelun testi epäonnistui. Ytimen kryptografinen palvelu ei luultavasti tue taltioita jotka ovat suurempia kuin 2 Tt.\n\nMahdollisia ratkaisuja:\n- Päivitä Linux-ytimesi versioon 2.6.33 tai uudempaan.\n- Poista käytöstä ytimen kryptografiset palvelut (Asetukset > Ominaisuudet > Järjestelmäintegraatio) tai käytä komentorivillä liitosasetusta 'nokernelcrypto'.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Loop-laitteen luominen epäonnistui.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">Vaadittu argumentti puuttuu.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Taltion dataa puuttuu.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Liitoskohta vaaditaan.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Liitoskohta on jo käytössä.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">Salasanaa tai avaintiedostoa ei ole annettu.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nHuomioi että käynnistystä edeltävässä todennuksessa salasanat kirjoitetaan käynnistystä edeltävässä ympäristössä jolloin käytössä on vain Yhdysvaltalainen näppäimistöjen asettelu. Tästä syystä käynnistystä edeltävän ympäristön salasana tulee kirjoittaa Yhdysvaltalaisella näppäimistön asettelulla, sillä muutoin salasana tulee usein kirjoitettua väärin. Et kuitenkaan tarvitse Yhdysvaltalaista näppäimistöä, vaan voit vaihtaa asettelua väliaikaisesti käyttöjärjestelmästäsi.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nHuomio: Jos yrität liittää osiota joka sijaitsee salatulla järjestelmälevyllä ilman käynnistystä edeltävää todennusta tai salattua järjestelmäosiota käyttöjärjestelmästä joka ei ole käynnissä, voit tehdä niin valitsemalla 'Asetukset >' > 'Liitä osio käyttäen järjestelmäsalausta'.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Salasana on pidempi kuin {0} merkkiä.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Osioitava laite vaaditaan.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Väärä salasana piilotettuun taltioon tai piilotettua taltiota ei ole olemassa.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Virheelliset avaintiedostot ja/tai salasana piilotettuun taltioon tai piilotettua taltiota ei ole olemassa.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Virheellisiä merkkejä kohdattu.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Virhe jäsentäessä muotoiltua merkkijonoa.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Tiedoston tai kansion luonti väliaikaiseen kansioon epäonnistui.\n\nVarmista että väliaikainen kansio on olemassa, sen käyttöoikeudet sallii käytön ja että levytilaa on riittävästi.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Virhe: Levy käyttää jotakin muuta sektorikokoa kuin 512 tavua.\n\nAlustallasi saatavilla olevien komponenttien rajoitusten vuoksi, ulkoisia taltioita levyllä ei voida liittää käyttäen salaisen taltion suojausta.\n\nMahdollisia ratkaisuja:\n- Käytä levyä jossa on 512 tavun sektorikoko.\n- Luo tiedostopohjainen taltio (säiliö) levylle.\n- Varmuuskopioi salaisen taltion sisältö talteen ja sitten päivitä ulkoinen taltio.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Virhe: Levy käyttää jotakin muuta sektorikokoa kuin 512 tavua.\n\nAlustallasi saatavilla olevien komponenttien rajoitusten vuoksi, osio- tai laitepohjaiset taltiot voidaan liittää vain käyttäen ytimen kryptografisia palveluita.\n\nMahdollisia ratkaisuja:\n- Laita käyttöön ytimen kryptografiset palvelut (Asetukset > Ominaisuudet > Järjestelmäintegraatio).\n- Käytä levyä jossa on 512 tavun sektorikoko.\n- Luo tiedostopohjainen taltio (säiliö) levylle.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Virhe: Levy käyttää jotakin muuta sektorikokoa kuin 512 tavua.\n\nAlustallasi saatavilla olevien komponenttien rajoitusten vuoksi, osio- tai laitepohjaisia taltioita ei voida luoda eikä käyttää tällä levyllä.\nMahdollisia ratkaisuja:\n- Luo tiedostopohjainen taltio (säiliö) levylle.\n- Käytä levyä jossa on 512 tavun sektorikoko.\n- Käytä VeraCryptiä toisella alustalla.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Isäntätiedosto/-laite on jo käytössä.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Taltiolokero ei ole käytettävissä.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vaatii OSXFUSE 2.5 tai uudemman version.</entry>
+    <entry lang="en" key="EXCEPTION_OCCURRED">Poikkeus kohdattu</entry>
+    <entry lang="en" key="ENTER_PASSWORD">Anna salasana</entry>
+    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Anna VeraCrypt Taltion Salasana</entry>
+    <entry lang="en" key="MOUNT">Liitä</entry>
+    <entry lang="en" key="MOUNT_POINT">Liitoskohta</entry>
+    <entry lang="en" key="NO_VOLUMES_MOUNTED">Ei taltioita liitettynä.</entry>
+    <entry lang="en" key="OPEN_NEW_VOLUME">Määritä Uusi VeraCrypt Taltio</entry>
+    <entry lang="en" key="PARAMETER_INCORRECT">Väärä parametri</entry>
+    <entry lang="en" key="SELECT_KEYFILES">Valitse Avaintiedostot</entry>
+    <entry lang="en" key="START_TC">Käynnistä VeraCrypt</entry>
+    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">Taltio {0} on jo liitettynä.</entry>
+    <entry lang="en" key="UNKNOWN_OPTION">Tuntematon vaihtoehto</entry>
+    <entry lang="en" key="VOLUME_LOCATION">Taltion Sijainti</entry>
+    <entry lang="en" key="VOLUME_HOST_IN_USE">VAROITUS: Isäntätiedosto/-laite {0} on jo käytössä!\n\nTämän huomiotta jättämisellä voi olla ei-toivottuja vaikutuksia kuten käyttöjärjestelmän epävakaus. Kaikki ohjelmat jotka mahdollisesti käyttävät isäntätiedostoa/-laitetta tulisi sulkea ennen kuin taltiota liitetään.\n\nJatketaanko liittämistä?</entry>
+    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt on aikaisemmin asennettu käyttäen MSI-asennusohjelmaa joten sitä ei voida päivittää käyttäen yleistä asennusohjelmaa.\n\nKäytä MSI-asennusohjelmaa päivittääksesi VeraCrypt asennuksesi.</entry>
+    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Käytä kaikki vapaana oleva levytila</entry>
+    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCryptiä ei voida päivittää uudempaan, sillä järjestelmäosio tai -levy on salattu käyttäen algoritmiä jota ei enää tueta.\nPura järjestelmäsi salaus ennen kuin päivität VeraCryptin, jonka jälkeen voit salata sen uudelleen.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Tuettua pääte-emulaattoria ei löytynyt, tuettuihin kuuluvat xterm, konsole ja gnome-terminal (dbus-x11 vaaditaan).</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
