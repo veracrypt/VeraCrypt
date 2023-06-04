@@ -1524,7 +1524,7 @@
     <entry lang="de" key="LINUX_NOT_SUPPORTED">(wird von den vorhandenen Komponenten dieser Plattform nicht unterstützt).</entry>
     <entry lang="de" key="LINUX_KERNEL_OLD">Ihr System verwendet einen alten Linux-Kernel.\n\nWegen eines Fehlers im Linux-Kernel kann es passieren, dass Ihr System beim Schreiben auf ein VeraCrypt-Volume nicht mehr reagiert. Diese Problem kann durch einen Kernel in Version 2.6.24 oder neuer gelöst werden.</entry>
     <entry lang="de" key="LINUX_VOL_DISMOUNTED">Volume {0} ausgehängt.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
+    <entry lang="de" key="LINUX_VOL_MOUNTED">Volume {0} wurde eingehängt.</entry>
     <entry lang="de" key="LINUX_OOM">Zu wenig Speicher.</entry>
     <entry lang="de" key="LINUX_CANT_GET_ADMIN_PRIV">Erlangen der Administrator-Privilegien fehlgeschlagen</entry>
     <entry lang="de" key="LINUX_COMMAND_GET_ERROR">Kommando {0} lieferte Fehler: {1}.</entry>
@@ -1571,9 +1571,9 @@
     <entry lang="de" key="VOLUME_HOST_IN_USE">WARNUNG: Die Datei/das Laufwerk {0} ist bereits in Verwendung!\n\nWenn Sie diese Warnung ignorieren, können nicht vorhersehbare Probleme einschließlich Systemabstürze auftreten. Alle Programme, die die Datei/das Laufwerk verwenden (z. B. Virenscanner oder Backup-Software), sollten geschlossen werden, bevor das Volume eingehängt wird.\n\nTrotzdem fortfahren?</entry>
     <entry lang="de" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt wurde zuvor mit einem MSI-Paket installiert und kann daher nicht mit dem Standard-Installationsprogramm aktualisiert werden.\n\nBitte verwenden Sie das MSI-Paket, um Ihre VeraCrypt-Installation zu aktualisieren.</entry>
     <entry lang="de" key="IDC_USE_ALL_FREE_SPACE">Gesamten verfügbaren freien Speicherplatz nutzen</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
-    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
+    <entry lang="de" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt kann nicht aktualisiert werden, weil die Systempartition/das Systemlaufwerk mit einem Algorithmus verschlüsselt wurde, der nicht mehr unterstützt wird.\nBitte entschlüsseln Sie Ihr System vor dem Upgrade von VeraCrypt und verschlüsseln Sie es dann erneut.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_TERMINALNOTFOUND">Unterstützte Terminalanwendung konnte nicht gefunden werden, Sie benötigen entweder xterm, konsole oder gnome-terminal (mit dbus-x11).</entry>
+    <entry lang="de" key="IDM_MOUNT_NO_CACHE">Ohne Cache einhängen</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
