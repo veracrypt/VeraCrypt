@@ -7,7 +7,6 @@ Information about Corsican localization:
 
 2. History of Corsican translation for Notepad++:
 
-	- Updated on June 2nd, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Updated on June 1st, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Updated on May 30th, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Updated on May 29th, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
@@ -18,8 +17,8 @@ Information about Corsican localization:
 	https://github.com/Patriccollu/Lingua_Corsa-Infurmatica/blob/ceppu/Prughjetti/VeraCrypt/Traduzzione.md
 -->
 <VeraCrypt>
-	<localization prog-version="1.26">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.1" translators="Patriccollu di Santa Maria è Sichè"/>
+	<localization prog-version="1.26.2">
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.0" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -1588,7 +1587,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDC_USE_ALL_FREE_SPACE">Impiegà tuttu u spaziu dispunibule</entry>
 		<entry lang="co" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt ùn pò micca esse messu à livellu perchè a partizione o u lettore di u sistema hè statu cifratu impieghendu una cudificazione chì ùn hè più accettata.\nDicifrate u vostru sistema prima di mette VeraCrypt à livellu è cifratelu torna.</entry>
 		<entry lang="co" key="LINUX_EX2MSG_TERMINALNOTFOUND">Ùn si pò micca truvà l’appiecazione di terminale pigliata in carica ; ci hè bisognu, sia di xterm, di konsole o di gnome-terminal (cù dbus-x11).</entry>
-		<entry lang="co" key="IDM_MOUNT_NO_CACHE">Muntà senza impiatta</entry>
+		<entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
