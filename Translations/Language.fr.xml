@@ -1568,7 +1568,9 @@
     <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
     <entry lang="fr" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt a déjà été installé à l'aide d'un package MSI et de ce fait il ne peut pas être mis à jour à l'aide du programme d'installation standard.\n\nVeuillez utiliser le package MSI pour mettre à jour votre installation VeraCrypt.</entry>
     <entry lang="fr" key="IDC_USE_ALL_FREE_SPACE">Utiliser la totalité de l'espace libre sur le disque</entry>
-	<entry lang="fr" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt ne peut pas être mis à niveau car votre partition/disque système a été chiffré à l'aide d'un algorithme qui n'est plus pris en charge.\nVeuillez déchiffrer votre système avant de mettre à niveau VeraCrypt, puis chiffrez-le à nouveau. </entry>
+    <entry lang="fr" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt ne peut pas être mis à niveau car votre partition/disque système a été chiffré à l'aide d'un algorithme qui n'est plus pris en charge.\nVeuillez déchiffrer votre système avant de mettre à niveau VeraCrypt, puis chiffrez-le à nouveau. </entry>
+    <entry lang="fr" key="LINUX_EX2MSG_TERMINALNOTFOUND">Aucune application de terminal compatible n'a été trouvée, vous avez besoin soit de xterm, de konsole ou de gnome-terminal (avec dbus-x11).</entry>
+    <entry lang="fr" key="IDM_MOUNT_NO_CACHE">Monter sans cache</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
