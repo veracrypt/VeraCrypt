@@ -59,7 +59,7 @@ Note that the output of a hash function is <em>never </em>used directly as an en
 <h3 id="QuickFormat">Quick Format</h3>
 <p>If unchecked, each sector of the new volume will be formatted. This means that the new volume will be
 <em>entirely </em>filled with random data. Quick format is much faster but may be less secure because until the whole volume has been filled with files, it may be possible to tell how much data it contains (if the space was not filled with random data beforehand).
- If you are not sure whether to enable or disable Quick Format, we recommend that you leave this option unchecked. Note that Quick Format can only be enabled when encrypting partitions/devices.</p>
+ If you are not sure whether to enable or disable Quick Format, we recommend that you leave this option unchecked. Note that Quick Format can only be enabled when encrypting partitions/devices, except on Windows where it is also available when creating file containers.</p>
 <p>Important: When encrypting a partition/device within which you intend to create a hidden volume afterwards, leave this option unchecked.</p>
 <h3 id="dynamic">Dynamic</h3>
 <p>Dynamic VeraCrypt container is a pre-allocated NTFS sparse file whose physical size (actual disk space used) grows as new data is added to it. Note that the physical size of the container (actual disk space that the container uses) will not decrease when
