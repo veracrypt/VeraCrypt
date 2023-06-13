@@ -261,6 +261,8 @@ ifeq "$(shell uname -s)" "Linux"
 	
 	ifeq "$(origin WITHGTK3)" "command line"
 		WX_CONFIGURE_FLAGS += --with-gtk=3
+	else
+		WX_CONFIGURE_FLAGS += --with-gtk=2
 	endif
 
 endif
@@ -452,7 +454,7 @@ LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-tracking --enable-exceptions --enable-std_string --enable-dataobj --enable-mimetype
 
 ifdef VC_WX_MINIMAL
-WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
+WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --without-libcurl --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
 	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-addremovectrl --disable-webview \
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
