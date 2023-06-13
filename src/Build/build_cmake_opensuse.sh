@@ -18,8 +18,8 @@ export SOURCEPATH=$(readlink -f "$SCRIPTPATH/..")
 # Directory where the VeraCrypt has been checked out
 export PARENTDIR=$(readlink -f "$SCRIPTPATH/../../..")
 
-# The sources of wxWidgets 3.0.5 must be extracted to the parent directory
-export WX_ROOT=$PARENTDIR/wxWidgets-3.0.5
+# The sources of wxWidgets 3.2.2.1 must be extracted to the parent directory
+export WX_ROOT=$PARENTDIR/wxWidgets-3.2.2.1
 echo "Using wxWidgets sources in $WX_ROOT"
 
 cd $SOURCEPATH
