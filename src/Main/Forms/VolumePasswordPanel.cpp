@@ -459,7 +459,11 @@ namespace VeraCrypt
 
 	void VolumePasswordPanel::WipeTextCtrl (wxTextCtrl *textCtrl)
 	{
-		textCtrl->SetValue (wxString (L'X', textCtrl->GetLineLength(0)));
+		int txtLen = textCtrl->GetLineLength(0);
+		if (txtLen > 0)
+		{
+			textCtrl->SetValue (wxString (L'X', txtLen));
+		}
 		GetPassword (textCtrl);
 	}
 
