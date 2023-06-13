@@ -32,7 +32,11 @@ KTERM=0
 case $PACKAGE_TYPE in
 	tar)
 		PACKAGE_INSTALLER=tar
-		PACKAGE_INSTALLER_OPTS='-C / --keep-directory-symlink --no-overwrite-dir -xpzvf'
+		if tar --help | grep -q -- '--keep-directory-symlink'; then
+			PACKAGE_INSTALLER_OPTS='-C / --keep-directory-symlink --no-overwrite-dir -xpzvf'
+		else
+			PACKAGE_INSTALLER_OPTS='-C / --no-overwrite-dir -xpzvf'
+		fi
 		;;
 esac
 
