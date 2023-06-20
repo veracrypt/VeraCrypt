@@ -938,7 +938,7 @@
     <entry lang="pl" key="ENTER_HEADER_BACKUP_PASSWORD">Wprowadź hasło do zapisania do pliku kopii bezpieczeństwa nagłówka</entry>
     <entry lang="pl" key="KEYFILE_CREATED">Plik-klucz został pomyślnie utworzony.</entry>
     <entry lang="pl" key="KEYFILE_INCORRECT_NUMBER">Liczba plików-kluczy, którą podałeś jest nieprawidłowa.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
+    <entry lang="pl" key="KEYFILE_INCORRECT_SIZE">Rozmiar pliku-klucza musi wynosić co najmniej 64 bajty.</entry>
     <entry lang="pl" key="KEYFILE_EMPTY_BASE_NAME">Proszę podać nazwę pliku/ów-klucza/y do wygenerowania</entry>
     <entry lang="pl" key="KEYFILE_INVALID_BASE_NAME">Nazwa bazowa pliku/ów-klucza/ów jest nieprawidłowa.</entry>
     <entry lang="pl" key="KEYFILE_ALREADY_EXISTS">Plik-klucz'%s' już istnieje.\nCzy chcesz go nadpisać? Proces generowania zostanie zakończony, jeżeli odpowiesz Nie.</entry>
