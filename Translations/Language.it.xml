@@ -356,7 +356,7 @@
     <entry lang="it" key="IDT_KEYFILE_WARNING">ATTENZIONE: se viene perso un file chiave o se cambiano i bit nei primi 1024 KB, sarà impossibile montare i volumi che usano questo file chiave!</entry>
     <entry lang="it" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="it" key="IDT_NUMBER_KEYFILES">Numero di file chiave:</entry>
-    <entry lang="it" key="IDT_KEYFILES_SIZE">Dimensione del file chiave (in Bytes):</entry>
+    <entry lang="it" key="IDT_KEYFILES_SIZE">Dimensione del file chiave:</entry>
     <entry lang="it" key="IDT_KEYFILES_BASE_NAME">Nome del file chiave di base:</entry>
     <entry lang="it" key="IDT_LANGPACK_AUTHORS">Tradotto da:</entry>
     <entry lang="it" key="IDT_PLAINTEXT">Dimensione testo:</entry>
@@ -938,7 +938,7 @@
     <entry lang="it" key="ENTER_HEADER_BACKUP_PASSWORD">Digitare la password per la testa memorizzata nel file di backup</entry>
     <entry lang="it" key="KEYFILE_CREATED">Il file chiave è stato creato correttamente.</entry>
     <entry lang="it" key="KEYFILE_INCORRECT_NUMBER">Il numero di file chiavi che hai fornito non è valido.</entry>
-    <entry lang="it" key="KEYFILE_INCORRECT_SIZE">La dimensione del file chiave deve essere compresa tra 64 e 1048576 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="it" key="KEYFILE_EMPTY_BASE_NAME">Per favore inserisci un nome per il/i file chiave per essere generato/i.</entry>
     <entry lang="it" key="KEYFILE_INVALID_BASE_NAME">Il nome del(dei) file chiave di base non è valido</entry>
     <entry lang="it" key="KEYFILE_ALREADY_EXISTS">Il file chiave '%s' esiste già.\nVuoi sovrascriverlo? Il processo di generazione sarà interrotto se rispondi No.</entry>

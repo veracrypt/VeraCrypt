@@ -356,7 +356,7 @@
     <entry lang="fr" key="IDT_KEYFILE_WARNING">AVERTISSEMENT : Si vous perdez un fichier clé ou si tout bit de ses 1024 premiers kilooctets change, il sera impossible de monter les volumes utilisant ce fichier clé !</entry>
     <entry lang="fr" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="fr" key="IDT_NUMBER_KEYFILES">Nombre de fichiers clé:</entry>
-    <entry lang="fr" key="IDT_KEYFILES_SIZE">Taille fichiers clé (en Octets):</entry>
+    <entry lang="fr" key="IDT_KEYFILES_SIZE">Taille fichiers clé:</entry>
     <entry lang="fr" key="IDT_KEYFILES_BASE_NAME">Nom de base fichiers clé:</entry>
     <entry lang="fr" key="IDT_LANGPACK_AUTHORS">Traduit par :</entry>
     <entry lang="fr" key="IDT_PLAINTEXT">Taille text en clair :</entry>
@@ -938,7 +938,7 @@
     <entry lang="fr" key="ENTER_HEADER_BACKUP_PASSWORD">Entrez le mot de passe pour l’en-tête stocké dans un fichier de sauvegarde</entry>
     <entry lang="fr" key="KEYFILE_CREATED">Fichiers clé créés avec succès.</entry>
     <entry lang="fr" key="KEYFILE_INCORRECT_NUMBER">Le nombre de fichiers clé que vous avez saisi est invalide.</entry>
-    <entry lang="fr" key="KEYFILE_INCORRECT_SIZE">La taille du fichier clé doit être comprise entre 64 and 1048576 octets.</entry>
+    <entry lang="fr" key="KEYFILE_INCORRECT_SIZE">La taille du fichier clé doit être au mois 64 octets.</entry>
     <entry lang="fr" key="KEYFILE_EMPTY_BASE_NAME">Merci de saisir le nom de base des fichiers clé qui vont être crées</entry>
     <entry lang="fr" key="KEYFILE_INVALID_BASE_NAME">Le nom de base saisi des fichiers clé est invalide</entry>
     <entry lang="fr" key="KEYFILE_ALREADY_EXISTS">Le fichier clé ’%s’ existe déjà.\nVoulez-vous l’écraser? L’opération de génération va s’arrêter si vous répondez non.</entry>

@@ -356,7 +356,7 @@
     <entry lang="ko" key="IDT_KEYFILE_WARNING">경고: 키 파일을 잃어버리거나 처음 1024KB 의 일부가 변경된 경우, 키 파일을 사용하는 볼륨을 마운트하는 것은 불가능할 것입니다.</entry>
     <entry lang="ko" key="IDT_KEY_UNIT">비트</entry>
     <entry lang="ko" key="IDT_NUMBER_KEYFILES">키 파일 수:</entry>
-    <entry lang="ko" key="IDT_KEYFILES_SIZE">키 파일 크기(바이트):</entry>
+    <entry lang="ko" key="IDT_KEYFILES_SIZE">키 파일 크기:</entry>
     <entry lang="ko" key="IDT_KEYFILES_BASE_NAME">키 파일 기본 이름:</entry>
     <entry lang="ko" key="IDT_LANGPACK_AUTHORS">번역자:</entry>
     <entry lang="ko" key="IDT_PLAINTEXT">일반 글자 크기:</entry>
@@ -938,7 +938,7 @@
     <entry lang="ko" key="ENTER_HEADER_BACKUP_PASSWORD">백업 파일에 저장된 헤더의 비밀번호를 입력하세요.</entry>
     <entry lang="ko" key="KEYFILE_CREATED">키 파일이 성공적으로 작성되었습니다.</entry>
     <entry lang="ko" key="KEYFILE_INCORRECT_NUMBER">입력 한 키 파일의 수가 유효하지 않습니다.</entry>
-    <entry lang="ko" key="KEYFILE_INCORRECT_SIZE">키 파일 크기는 64에서 1048576 바이트 사이에서 구해야합니다.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="ko" key="KEYFILE_EMPTY_BASE_NAME">생성 할 키 파일의 이름을 입력하세요.</entry>
     <entry lang="ko" key="KEYFILE_INVALID_BASE_NAME">키 파일의 기본 이름이 유효하지 않습니다.</entry>
     <entry lang="ko" key="KEYFILE_ALREADY_EXISTS">키 파일 '%s'이 (가) 이미 존재합니다.\n덮어 쓰시겠습니까? 대답을하지 않으면 생성 프로세스가 중지됩니다.</entry>

@@ -356,7 +356,7 @@
     <entry lang="id" key="IDT_KEYFILE_WARNING">PERINGATAN: Jika Anda kehilangan berkas kunci atau sembarang bit dari 1024 kilobyte pertamanya berubah, tidak mungkin untuk mengait volume yang menggunakan berkas kunci tersebut!</entry>
     <entry lang="id" key="IDT_KEY_UNIT">bit</entry>
     <entry lang="id" key="IDT_NUMBER_KEYFILES">Banyaknya berkas kunci:</entry>
-    <entry lang="id" key="IDT_KEYFILES_SIZE">Ukuran berkas kunci (dalam Byte):</entry>
+    <entry lang="id" key="IDT_KEYFILES_SIZE">Ukuran berkas kunci:</entry>
     <entry lang="id" key="IDT_KEYFILES_BASE_NAME">Nama basis berkas kunci:</entry>
     <entry lang="id" key="IDT_LANGPACK_AUTHORS">Diterjemahkan oleh:</entry>
     <entry lang="id" key="IDT_PLAINTEXT">Ukuran teks polos:</entry>
@@ -938,7 +938,7 @@
     <entry lang="id" key="ENTER_HEADER_BACKUP_PASSWORD">Masukkan kata sandi untuk header yang disimpan dalam berkas cadangan</entry>
     <entry lang="id" key="KEYFILE_CREATED">Berkas kunci telah berhasil dibuat.</entry>
     <entry lang="id" key="KEYFILE_INCORRECT_NUMBER">Banyaknya berkas kunci yang Anda berikan tidak valid.</entry>
-    <entry lang="id" key="KEYFILE_INCORRECT_SIZE">Ukuran berkas kunci harus antara 64 dan 1048576 byte.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="id" key="KEYFILE_EMPTY_BASE_NAME">Silakan masukkan nama untuk berkas kunci yang akan dihasilkan</entry>
     <entry lang="id" key="KEYFILE_INVALID_BASE_NAME">Nama dasar berkas kunci tidak valid</entry>
     <entry lang="id" key="KEYFILE_ALREADY_EXISTS">Berkas kunci '%s' sudah ada.\nApakah Anda ingin menimpanya? Proses pembuatan akan dihentikan jika Anda menjawab Tidak.</entry>

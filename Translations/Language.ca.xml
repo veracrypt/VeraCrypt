@@ -356,7 +356,7 @@
     <entry lang="ca" key="IDT_KEYFILE_WARNING">ATENCIÓ: Si perd un fitxer de claus o si canvia algun dels seus primers 1024 kilobytes, serà impossible de muntar els volums que utilitzin aquest fitxer de claus!</entry>
     <entry lang="ca" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</entry>
-    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</entry>
+    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size:</entry>
     <entry lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</entry>
     <entry lang="ca" key="IDT_LANGPACK_AUTHORS">Traduït per:</entry>
     <entry lang="ca" key="IDT_PLAINTEXT">Mida del text pla:</entry>
@@ -938,7 +938,7 @@
     <entry lang="ca" key="ENTER_HEADER_BACKUP_PASSWORD">Introdueixi la contrasenya de la capçalera guardada a la còpia de seguretat</entry>
     <entry lang="ca" key="KEYFILE_CREATED">El fitxer de claus s'ha creat amb èxit.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
     <entry lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</entry>
     <entry lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</entry>

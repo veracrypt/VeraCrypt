@@ -356,7 +356,7 @@
     <entry lang="ar" key="IDT_KEYFILE_WARNING">‮تحذير: إذا فَقدّت الملف المفتاح أو تغيرت أي بتة من أوّل ‪1024‬ كيلوبايت منه فسيكون من المستحيل وصل المجلدات التي تستخدم ذلك المفتاح!</entry>
     <entry lang="ar" key="IDT_KEY_UNIT">‮بتات</entry>
     <entry lang="ar" key="IDT_NUMBER_KEYFILES">عدد ملفات المفتاح</entry>
-    <entry lang="ar" key="IDT_KEYFILES_SIZE">حجم ملفات المفتاح (بايت):</entry>
+    <entry lang="ar" key="IDT_KEYFILES_SIZE">حجم ملفات المفتاح:</entry>
     <entry lang="ar" key="IDT_KEYFILES_BASE_NAME">اسم قاعدة ملفات المفتاح:</entry>
     <entry lang="ar" key="IDT_LANGPACK_AUTHORS">‮ترجمه:</entry>
     <entry lang="ar" key="IDT_PLAINTEXT">‮حجم النص الصريح:</entry>
@@ -938,7 +938,7 @@
     <entry lang="ar" key="ENTER_HEADER_BACKUP_PASSWORD">‮أدخل كلمة سر الترويسة المحفوظة في الملف</entry>
     <entry lang="ar" key="KEYFILE_CREATED">‮أُنشئ ملف المفتاح بنجاح.</entry>
     <entry lang="ar" key="KEYFILE_INCORRECT_NUMBER">عدد ملفات المفتاح المدخل غير صحيح.</entry>
-    <entry lang="ar" key="KEYFILE_INCORRECT_SIZE">حجم ملف المفتاح يجب أن يكون بين 64 و 1048576 بايت.</entry>
+    <entry lang="ar" key="KEYFILE_INCORRECT_SIZE">حجم ملف المفتاح يجب أن يكون على الأقل 64 بايت.</entry>
     <entry lang="ar" key="KEYFILE_EMPTY_BASE_NAME">الرجاء إدخال إسم لملف/ملفات المفاتيح المراد توليدها</entry>
     <entry lang="ar" key="KEYFILE_INVALID_BASE_NAME">إسم ملف/ملفات المفتاح غير صحيح</entry>
     <entry lang="ar" key="KEYFILE_ALREADY_EXISTS">ملف المفتاح '%s' موجود من قبل.\nهل تريد استبداله? عملية التوليد ستتوقف لو كانت الإجابة بلا.</entry>

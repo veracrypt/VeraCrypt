@@ -356,7 +356,7 @@
     <entry lang="el" key="IDT_KEYFILE_WARNING">ΠΡΟΣΟΧΗ: Αν χάσετε ένα αρχείο-κλειδί ή κάποιο bit από τα πρώτα 1024 ΚΒ του αλλάξει, θα είναι αδύνατο να φορτώσετε τόμους που το χρησιμοποιούν!</entry>
     <entry lang="el" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</entry>
-    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</entry>
+    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size:</entry>
     <entry lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</entry>
     <entry lang="el" key="IDT_LANGPACK_AUTHORS">Μετάφραση:</entry>
     <entry lang="el" key="IDT_PLAINTEXT">Μέγεθος απλού κειμένου:</entry>
@@ -938,7 +938,7 @@
     <entry lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</entry>
     <entry lang="el" key="KEYFILE_CREATED">Το αρχείο-κλειδί δημιουργήθηκε επιτυχώς.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
     <entry lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</entry>
     <entry lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</entry>

@@ -356,7 +356,7 @@
     <entry lang="hu" key="IDT_KEYFILE_WARNING">FIGYELEM: Ha elveszíti a kulcsfájlt, vagy az első 1024 kilobájt bármely része megváltozik, lehetetlenné válik a kulcsfájlt használó kötetek csatlakoztatása!</entry>
     <entry lang="hu" key="IDT_KEY_UNIT">bit</entry>
     <entry lang="hu" key="IDT_NUMBER_KEYFILES">Kulcsfájlok száma:</entry>
-    <entry lang="hu" key="IDT_KEYFILES_SIZE">Kulcsfájlok mérete (bájtban):</entry>
+    <entry lang="hu" key="IDT_KEYFILES_SIZE">Kulcsfájlok mérete:</entry>
     <entry lang="hu" key="IDT_KEYFILES_BASE_NAME">Kulcsfájlok alapneve:</entry>
     <entry lang="hu" key="IDT_LANGPACK_AUTHORS">Fordította:</entry>
     <entry lang="hu" key="IDT_PLAINTEXT">Egyszerű szöveg mérete:</entry>
@@ -938,7 +938,7 @@
     <entry lang="hu" key="ENTER_HEADER_BACKUP_PASSWORD">Adja meg a biztonsági másolatban tárolt fejléc jelszavát</entry>
     <entry lang="hu" key="KEYFILE_CREATED">A kulcsfájlok sikeresen létre lettek hozva.</entry>
     <entry lang="hu" key="KEYFILE_INCORRECT_NUMBER">A megadott kulcsfájlok száma érvénytelen.</entry>
-    <entry lang="hu" key="KEYFILE_INCORRECT_SIZE">A kulcsfájl méretének 64 és 1048576 bájt között kell lennie.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="hu" key="KEYFILE_EMPTY_BASE_NAME">Adja meg a létrehozandó kulcsfájl(ok) nevét</entry>
     <entry lang="hu" key="KEYFILE_INVALID_BASE_NAME">A kulcsfájl(ok) alapneve érvénytelen</entry>
     <entry lang="hu" key="KEYFILE_ALREADY_EXISTS">A(z) '%s' kulcsfájl már létezik.\nFelülírja? A létrehozási folyamat leáll, ha nemmel válaszol.</entry>

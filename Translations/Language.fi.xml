@@ -356,7 +356,7 @@
     <entry lang="fi" key="IDT_KEYFILE_WARNING">VAROITUS: Jos hävität avaintiedoston tai jokin ensimmäisen 1024 kilotavua bitti muuttuu, on mahdotonta yhdistää taltiota, joka käyttää tätä avaintiedostoa!</entry>
     <entry lang="fi" key="IDT_KEY_UNIT">bittiä</entry>
     <entry lang="fi" key="IDT_NUMBER_KEYFILES">Avaintiedotojen määrä:</entry>
-    <entry lang="fi" key="IDT_KEYFILES_SIZE">Avaintiedostojen koko (tavuina):</entry>
+    <entry lang="fi" key="IDT_KEYFILES_SIZE">Avaintiedostojen koko:</entry>
     <entry lang="fi" key="IDT_KEYFILES_BASE_NAME">Avaintiedoston perusnimi:</entry>
     <entry lang="fi" key="IDT_LANGPACK_AUTHORS">Käännös:</entry>
     <entry lang="fi" key="IDT_PLAINTEXT">Ilmitekstin koko:</entry>
@@ -938,7 +938,7 @@
     <entry lang="fi" key="ENTER_HEADER_BACKUP_PASSWORD">Anna salasana otsikolle talletettuna varmuus tiedostoon</entry>
     <entry lang="fi" key="KEYFILE_CREATED">Avaintiedosto on nyt luotu onnistuneesti.</entry>
     <entry lang="fi" key="KEYFILE_INCORRECT_NUMBER">Toimittamasi avaintiedostot ovat virheellisiä.</entry>
-    <entry lang="fi" key="KEYFILE_INCORRECT_SIZE">Avaintiedostot koon on oltava 64 ja 1048576 tavun välillä.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="fi" key="KEYFILE_EMPTY_BASE_NAME">Anna nimi generoitavalle avaintiedostolle</entry>
     <entry lang="fi" key="KEYFILE_INVALID_BASE_NAME">Nimi avaintiedostolle(t) on virheellinen</entry>
     <entry lang="fi" key="KEYFILE_ALREADY_EXISTS">Avaintiedoto '%s' on jo olemassa.\nHaluatko ylikirjoittaa sen? Generointi keskeytetään, jos vastaat kysymykseen En.</entry>

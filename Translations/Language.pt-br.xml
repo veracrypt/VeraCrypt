@@ -356,7 +356,7 @@
     <entry lang="pt-br" key="IDT_KEYFILE_WARNING">ALERTA: Se você perder um arquivo-chave ou algum bit dos seus primeiros 1024 kilobytes for alterado, será impossível montar os volumes que usam esse arquivo-chave!</entry>
     <entry lang="pt-br" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</entry>
-    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</entry>
+    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size:</entry>
     <entry lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</entry>
     <entry lang="pt-br" key="IDT_LANGPACK_AUTHORS">Traduzido por:</entry>
     <entry lang="pt-br" key="IDT_PLAINTEXT">Tamanho do Texto em Claro:</entry>
@@ -938,7 +938,7 @@
     <entry lang="pt-br" key="ENTER_HEADER_BACKUP_PASSWORD">Digite a senha para o cabeçalho armazenado no arquivo de backup</entry>
     <entry lang="pt-br" key="KEYFILE_CREATED">O arquivo-chave foi criado com sucesso.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
     <entry lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</entry>
     <entry lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</entry>

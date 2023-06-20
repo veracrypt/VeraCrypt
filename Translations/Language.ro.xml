@@ -356,7 +356,7 @@
     <entry lang="ro" key="IDT_KEYFILE_WARNING">ATENȚIONARE:\nDacă pierdeți un fișier-cheie sau orice bit din primii 1024 kiloocteți este modificat, va fi imposibil de montat volumul care utilizează acel fișier-cheie!</entry>
     <entry lang="ro" key="IDT_KEY_UNIT">biți</entry>
     <entry lang="ro" key="IDT_NUMBER_KEYFILES">Număr fișiere-cheie:</entry>
-    <entry lang="ro" key="IDT_KEYFILES_SIZE">Mărime (în octeți):</entry>
+    <entry lang="ro" key="IDT_KEYFILES_SIZE">Mărime:</entry>
     <entry lang="ro" key="IDT_KEYFILES_BASE_NAME">Nume de bază fișiere-cheie:</entry>
     <entry lang="ro" key="IDT_LANGPACK_AUTHORS">Tradus de:</entry>
     <entry lang="ro" key="IDT_PLAINTEXT">Mărime text simplu:</entry>
@@ -938,7 +938,7 @@
     <entry lang="ro" key="ENTER_HEADER_BACKUP_PASSWORD">Introduceți parola pentru antetul stocat în fișierul de rezervă</entry>
     <entry lang="ro" key="KEYFILE_CREATED">Fișierele-cheie au fost create cu succes.</entry>
     <entry lang="ro" key="KEYFILE_INCORRECT_NUMBER">Numărul de fișiere-cheie furnizate este invalid.</entry>
-    <entry lang="ro" key="KEYFILE_INCORRECT_SIZE">Dimensiunea fișierului cheie trebuie cuprinsă între 64 și 1048576 octeți.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="ro" key="KEYFILE_EMPTY_BASE_NAME">Introduceți un nume pentru fișierele-cheie ce vor fi generate</entry>
     <entry lang="ro" key="KEYFILE_INVALID_BASE_NAME">Numele de bază a fișierelor cheie este invalid</entry>
     <entry lang="ro" key="KEYFILE_ALREADY_EXISTS">Fișierul cheie '%s' deja există.\nDoriți să-l suprascrieți? Procesul de generare va fi oprit dacă răspundeți nu.</entry>

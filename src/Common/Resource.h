@@ -224,6 +224,7 @@
 #define IDC_BENCHMARK_PREBOOT           5140
 #define IDD_TEXT_EDIT_DLG               5141
 #define IDC_DISABLE_MOUNT_MANAGER       5142
+#define IDC_KEYFILES_SIZE_UNIT          5143
 
 // Next default values for new objects
 // 
@@ -232,7 +233,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        578
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5143
+#define _APS_NEXT_CONTROL_VALUE         5144
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

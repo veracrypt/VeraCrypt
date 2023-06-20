@@ -375,7 +375,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_KEYFILE_WARNING">AVERTIMENTU : S’è vo pirdite un schedariu chjave o s’è un solu bit di i so 1024 primi chiloottetti cambia, serà impussibule di muntà i vulumi chì impieganu stu schedariu chjave !</entry>
 		<entry lang="co" key="IDT_KEY_UNIT">bits</entry>
 		<entry lang="co" key="IDT_NUMBER_KEYFILES">Numeru di sch. chjave :</entry>
-		<entry lang="co" key="IDT_KEYFILES_SIZE">Dimens. di i sch. chjave (ottetti) :</entry>
+		<entry lang="co" key="IDT_KEYFILES_SIZE">Dimens. di i sch. chjave :</entry>
 		<entry lang="co" key="IDT_KEYFILES_BASE_NAME">Nome di basa di i sch. chjave :</entry>
 		<entry lang="co" key="IDT_LANGPACK_AUTHORS">Traduttu da :</entry>
 		<entry lang="co" key="IDT_PLAINTEXT">Dimensione di u testu in chjaru :</entry>
@@ -957,7 +957,7 @@ Information about Corsican localization:
 		<entry lang="co" key="ENTER_HEADER_BACKUP_PASSWORD">Stampittate a parolla d’intesa per l°intestatura piazzata in u schedariu di salvaguardia</entry>
 		<entry lang="co" key="KEYFILE_CREATED">I schedarii chjave sò stati creati currettamente.</entry>
 		<entry lang="co" key="KEYFILE_INCORRECT_NUMBER">U numeru di schedarii chjave stampittatu hè inaccettevule.</entry>
-		<entry lang="co" key="KEYFILE_INCORRECT_SIZE">A dimensione di u schedariu chjave deve esse trà 64 è 1048576 ottetti.</entry>
+		<entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
 		<entry lang="co" key="KEYFILE_EMPTY_BASE_NAME">Stampittate un nome per u(i) schedariu(i) chjave chì hà(anu) da esse ingeneratu(i)</entry>
 		<entry lang="co" key="KEYFILE_INVALID_BASE_NAME">U nome di basa di u(i) schedariu(i) chjave hè inaccettevule</entry>
 		<entry lang="co" key="KEYFILE_ALREADY_EXISTS">U schedariu chjave « %s » esiste dighjà.\nVulete rimpiazzallu ? U trattamentu di generazione serà piantatu s’è vò rispundite Nò.</entry>

@@ -7167,6 +7167,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		{
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PRF_ID);
+			HWND hSizeUnit = GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE_UNIT);
 			HCRYPTPROV hRngProv = NULL;
 
 			VirtualLock (randPool, sizeof(randPool));
@@ -7195,6 +7196,16 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					AddComboPair (hComboBox, HashGetName(hid), hid);
 			}
 			SelectAlgo (hComboBox, &hash_algo);
+
+			// populate keyfiles size unit combo
+			SendMessage (hSizeUnit, CB_RESETCONTENT, 0, 0);
+			AddComboPair (hSizeUnit,  GetString ("BYTES"), 0);
+			AddComboPair (hSizeUnit, GetString ("KB"), 1);
+			AddComboPair (hSizeUnit, GetString ("MB"), 2);
+			AddComboPair (hSizeUnit, GetString ("GB"), 3);
+
+			// set default keyfiles size unit
+			SendMessage (hSizeUnit, CB_SETCURSEL, 0, 0);
 
 			SetCheckBox (hwndDlg, IDC_DISPLAY_POOL_CONTENTS, bDisplayPoolContents);
 			hEntropyBar = GetDlgItem (hwndDlg, IDC_ENTROPY_BAR);
@@ -7303,6 +7314,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (lw == IDC_KEYFILES_RANDOM_SIZE)
 		{
 			EnableWindow(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), !GetCheckBox (hwndDlg, IDC_KEYFILES_RANDOM_SIZE));
+			EnableWindow(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE_UNIT), !GetCheckBox (hwndDlg, IDC_KEYFILES_RANDOM_SIZE));
 		}
 
 		if (lw == IDC_GENERATE_AND_SAVE_KEYFILE)
@@ -7313,7 +7325,10 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			wchar_t szFileName [2*TC_MAX_PATH + 16];
 			unsigned char *keyfile = NULL;
 			int fhKeyfile = -1, status;
-			long keyfilesCount = 0, keyfilesSize = 0, i;
+			long keyfilesCount = 0, i;
+			unsigned long long keyfilesSize = 0, remainingBytes = 0;
+			int selectedUnitIndex, selectedUnitFactor, loopIndex, rndBytesLength;
+			DWORD dwLastError = 0;
 			wchar_t* fileExtensionPtr = 0;
 			wchar_t szSuffix[32];
 			BOOL bRandomSize = GetCheckBox (hwndDlg, IDC_KEYFILES_RANDOM_SIZE);
@@ -7335,12 +7350,23 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					szNumber[0] = 0;
 
 				keyfilesSize = wcstoul(szNumber, NULL, 0);
-				if (keyfilesSize < 64 || keyfilesSize > 1024*1024)
+				// multiply by the unit factor
+				selectedUnitIndex = ComboBox_GetCurSel (GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE_UNIT));
+				if (selectedUnitIndex != CB_ERR)
+				{
+					selectedUnitFactor = (CK_SLOT_ID) ComboBox_GetItemData (GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE_UNIT), selectedUnitIndex);
+					for (loopIndex = 0; loopIndex < selectedUnitFactor; loopIndex++)
+						keyfilesSize *= 1024ULL;
+				}
+
+				if (keyfilesSize < 64)
 				{
 					Warning("KEYFILE_INCORRECT_SIZE", hwndDlg);
 					SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), TRUE);
 					return 1;
 				}
+
+				remainingBytes = keyfilesSize;
 			}
 
 			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), szFileBaseName, TC_MAX_PATH))
@@ -7372,7 +7398,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			WaitCursor();
 
-			keyfile = (unsigned char*) TCalloc( bRandomSize? KEYFILE_MAX_READ_LEN : keyfilesSize );
+			keyfile = (unsigned char*) TCalloc(KEYFILE_MAX_READ_LEN);
 
 			for (i= 0; i < keyfilesCount; i++)
 			{
@@ -7435,32 +7461,45 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						return 1;
 					}
 					
-					/* since keyfilesSize < 1024 * 1024, we mask with 0x000FFFFF */
-					keyfilesSize = (long) (((unsigned long) keyfilesSize) & 0x000FFFFF);
+					/* since random keyfilesSize < 1024 * 1024, we mask with 0x000FFFFF */
+					keyfilesSize = (unsigned long long) (((unsigned long) keyfilesSize) & 0x000FFFFF);
 
 					keyfilesSize %= ((KEYFILE_MAX_READ_LEN - 64) + 1);
 					keyfilesSize += 64;
+
+					remainingBytes = keyfilesSize;
 				}
 
-				/* Generate the keyfile */ 				
-				if (!RandgetBytesFull (hwndDlg, keyfile, keyfilesSize, TRUE, TRUE))
-				{
-					_close (fhKeyfile);
-					DeleteFile (szFileName);
-					TCfree(keyfile);
-					NormalCursor();
-					return 1;
-				}				
+				do {
+					rndBytesLength = (int) min (remainingBytes, (unsigned long long) KEYFILE_MAX_READ_LEN);
 
-				/* Write the keyfile */
-				status = _write (fhKeyfile, keyfile, keyfilesSize);
-				burn (keyfile, keyfilesSize);
+					/* Generate the keyfile */ 				
+					if (!RandgetBytesFull (hwndDlg, keyfile, rndBytesLength, TRUE, TRUE))
+					{
+						_close (fhKeyfile);
+						DeleteFile (szFileName);
+						TCfree(keyfile);
+						NormalCursor();
+						return 1;
+					}				
+
+					/* Write the keyfile */
+					status = _write (fhKeyfile, keyfile, rndBytesLength);
+				} while (status != -1 && (remainingBytes -= (unsigned long long) rndBytesLength) > 0);
+
+				/* save last error code */
+				if (status == -1)
+					dwLastError = GetLastError();
+
+				burn (keyfile, KEYFILE_MAX_READ_LEN);
 				_close (fhKeyfile);
 
 				if (status == -1)
 				{
 					TCfree(keyfile);
 					NormalCursor();
+					/* restore last error code */
+					SetLastError(dwLastError);
 					handleWin32Error (hwndDlg, SRC_POS);
 					return 1;
 				}				

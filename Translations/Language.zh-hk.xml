@@ -356,7 +356,7 @@
     <entry lang="zh-hk" key="IDT_KEYFILE_WARNING">警告：如果您失去加密鑰檔案或者加密鑰檔案的首 1024 KiB 被修改，使用該加密鑰的加密區將會無法掛載！</entry>
     <entry lang="zh-hk" key="IDT_KEY_UNIT">位元</entry>
     <entry lang="zh-hk" key="IDT_NUMBER_KEYFILES">加密鑰檔案數量</entry>
-    <entry lang="zh-hk" key="IDT_KEYFILES_SIZE">加密鑰檔案大小 (位元組):</entry>
+    <entry lang="zh-hk" key="IDT_KEYFILES_SIZE">加密鑰檔案大小:</entry>
     <entry lang="zh-hk" key="IDT_KEYFILES_BASE_NAME">加密鑰檔案名稱前綴:</entry>
     <entry lang="zh-hk" key="IDT_LANGPACK_AUTHORS">翻譯人員：</entry>
     <entry lang="zh-hk" key="IDT_PLAINTEXT">純文字長度：</entry>
@@ -938,7 +938,7 @@
     <entry lang="zh-hk" key="ENTER_HEADER_BACKUP_PASSWORD">輸入儲存在備份檔案中的加密區頭的密碼</entry>
     <entry lang="zh-hk" key="KEYFILE_CREATED">已成功建立加密鑰檔案。</entry>
     <entry lang="zh-hk" key="KEYFILE_INCORRECT_NUMBER">你提供的加密鑰檔案數量無效</entry>
-    <entry lang="zh-hk" key="KEYFILE_INCORRECT_SIZE">加密鑰檔案大小必須在介乎 64 至 1048576 位元之間。</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="zh-hk" key="KEYFILE_EMPTY_BASE_NAME">請輸入一個名稱給將會產生的加密鑰檔案</entry>
     <entry lang="zh-hk" key="KEYFILE_INVALID_BASE_NAME">加密鑰檔案的基名無效</entry>
     <entry lang="zh-hk" key="KEYFILE_ALREADY_EXISTS">加密鑰檔案「%s」已經存在。\n你是否想覆寫它？如您回應否的話產生程序將會停止。</entry>

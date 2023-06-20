@@ -356,7 +356,7 @@
     <entry lang="ja" key="IDT_KEYFILE_WARNING">警告：もしキーファイルを紛失、あるいはその先頭1024キロバイト中に1ビットでも変化があった場合、そのキーファイルを使っているボリュームはマウントできなくなります！</entry>
     <entry lang="ja" key="IDT_KEY_UNIT">ビット</entry>
     <entry lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</entry>
-    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</entry>
+    <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size:</entry>
     <entry lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</entry>
     <entry lang="ja" key="IDT_LANGPACK_AUTHORS">翻訳者：</entry>
     <entry lang="ja" key="IDT_PLAINTEXT">平文のサイズ：</entry>
@@ -938,7 +938,7 @@
     <entry lang="ja" key="ENTER_HEADER_BACKUP_PASSWORD">バックアップファイルに保存されたヘッダのパスワードを入力してください。</entry>
     <entry lang="ja" key="KEYFILE_CREATED">キーファイルの生成に成功しました。</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
     <entry lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</entry>
     <entry lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</entry>

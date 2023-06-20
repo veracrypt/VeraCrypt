@@ -356,7 +356,7 @@
     <entry lang="tr" key="IDT_KEYFILE_WARNING">UYARI: Anahtar dosyasını kaybederseniz veya ilk 1024 kilobayt'ının bir bit'i değişirse, bu anahtar dosyasını kullanan birimleri bağlamak imkansız hale gelecektir!</entry>
     <entry lang="tr" key="IDT_KEY_UNIT">bit</entry>
     <entry lang="tr" key="IDT_NUMBER_KEYFILES">Anahtar dosya sayısı:</entry>
-    <entry lang="tr" key="IDT_KEYFILES_SIZE">Anahtar dosya boyutu (in Bytes):</entry>
+    <entry lang="tr" key="IDT_KEYFILES_SIZE">Anahtar dosya boyutu:</entry>
     <entry lang="tr" key="IDT_KEYFILES_BASE_NAME">Anahtar dosya temel adı:</entry>
     <entry lang="tr" key="IDT_LANGPACK_AUTHORS">Çevirenler:</entry>
     <entry lang="tr" key="IDT_PLAINTEXT">Şifresiz metin boyutu:</entry>
@@ -938,7 +938,7 @@
     <entry lang="tr" key="ENTER_HEADER_BACKUP_PASSWORD">Yedekleme dosyasında saklanan başlık için parolayı girin</entry>
     <entry lang="tr" key="KEYFILE_CREATED">Anahtar dosyası başarıyla oluşturuldu.</entry>
     <entry lang="tr" key="KEYFILE_INCORRECT_NUMBER">Sağladığınız anahtar dosya sayısı geçersiz.</entry>
-    <entry lang="tr" key="KEYFILE_INCORRECT_SIZE">Anahtar dosyasının boyutu 64 ile 1048576 bayt arasında oluşturulmalıdır.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="tr" key="KEYFILE_EMPTY_BASE_NAME">Lütfen oluşturulacak anahtar dosya(lar) için bir ad girin</entry>
     <entry lang="tr" key="KEYFILE_INVALID_BASE_NAME">Anahtar dosya(lar)ın temel adı geçersiz</entry>
     <entry lang="tr" key="KEYFILE_ALREADY_EXISTS">'%s' anahtar dosyası zaten var.\nÜzerine yazmak istiyor musunuz? Hayır cevabını verirseniz oluşturma işlemi durdurulacaktır..</entry>

@@ -356,7 +356,7 @@
     <entry lang="es" key="IDT_KEYFILE_WARNING">PRECAUCIÓN: ¡si pierde un archivo-llave o si cambian sus primeros 1024 KB, será imposible montar los volúmenes que usan ese archivo-llave!</entry>
     <entry lang="es" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="es" key="IDT_NUMBER_KEYFILES">Número de archivos-clave:</entry>
-    <entry lang="es" key="IDT_KEYFILES_SIZE">Tamaño de los ficheros-llave (en Bytes):</entry>
+    <entry lang="es" key="IDT_KEYFILES_SIZE">Tamaño de los ficheros-llave:</entry>
     <entry lang="es" key="IDT_KEYFILES_BASE_NAME">Nombre base de los ficheros-llave:</entry>
     <entry lang="es" key="IDT_LANGPACK_AUTHORS">Traducido por:</entry>
     <entry lang="es" key="IDT_PLAINTEXT">Tamaño del texto legible:</entry>
@@ -938,7 +938,7 @@
     <entry lang="es" key="ENTER_HEADER_BACKUP_PASSWORD">Introduzca contraseña para la cabecera almacenada en archivo de respaldo</entry>
     <entry lang="es" key="KEYFILE_CREATED">Se ha creado con éxito el archivo-llave.</entry>
     <entry lang="es" key="KEYFILE_INCORRECT_NUMBER">El número de archivos-clave que proporcionó es inválido.</entry>
-    <entry lang="es" key="KEYFILE_INCORRECT_SIZE">El tamaño del archivo-clave debe estar comprendido entre 64 y 1048576 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="es" key="KEYFILE_EMPTY_BASE_NAME">Por favor, introduzca un nombre para que se genere el fichero-llave</entry>
     <entry lang="es" key="KEYFILE_INVALID_BASE_NAME">El nombre base del/de los fichero(s)-llave es inválido</entry>
     <entry lang="es" key="KEYFILE_ALREADY_EXISTS">El fichero-llave '%s' ya existe.\n¿Quiere sobrescribirlo? Se detendrá el proceso si responde No.</entry>

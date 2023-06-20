@@ -356,7 +356,7 @@
     <entry lang="nl" key="IDT_KEYFILE_WARNING">WAARSCHUWING: als u een sleutelbestand verliest of als er een bit van de eerste 1024 KiB verandert, is het onmogelijk om volumes te koppelen die het sleutelbestand gebruiken!</entry>
     <entry lang="nl" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="nl" key="IDT_NUMBER_KEYFILES">Aantal sleutelbestanden:</entry>
-    <entry lang="nl" key="IDT_KEYFILES_SIZE">Grootte sleutelbestand (bytes):</entry>
+    <entry lang="nl" key="IDT_KEYFILES_SIZE">Grootte sleutelbestand:</entry>
     <entry lang="nl" key="IDT_KEYFILES_BASE_NAME">Basisnaam sleutelbestanden:</entry>
     <entry lang="nl" key="IDT_LANGPACK_AUTHORS">Vertaald door:</entry>
     <entry lang="nl" key="IDT_PLAINTEXT">Grootte van platte tekst:</entry>
@@ -938,7 +938,7 @@
     <entry lang="nl" key="ENTER_HEADER_BACKUP_PASSWORD">Voer het wachtwoord in voor de header die in het back-upbestand is opgeslagen</entry>
     <entry lang="nl" key="KEYFILE_CREATED">Sleutelbestanden zijn met succes aangemaakt.</entry>
     <entry lang="nl" key="KEYFILE_INCORRECT_NUMBER">Het aantal door u opgegeven sleutelbestanden is ongeldig.</entry>
-    <entry lang="nl" key="KEYFILE_INCORRECT_SIZE">De grootte van het sleutelbestand moet liggen tussen 64 en 1048576 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="nl" key="KEYFILE_EMPTY_BASE_NAME">Voer een naam in voor de aan te maken sleutelbestanden.</entry>
     <entry lang="nl" key="KEYFILE_INVALID_BASE_NAME">Basisnaam van sleutelbestand(en) is ongeldig</entry>
     <entry lang="nl" key="KEYFILE_ALREADY_EXISTS">Het sleutelbestand '%s' bestaat al.\nWilt u het overschrijven? Het genereren wordt gestopt als u nee antwoordt.</entry>

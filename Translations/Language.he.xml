@@ -356,7 +356,7 @@
     <entry lang="he" key="IDT_KEYFILE_WARNING">אזהרה: אם אתה מאבד קובץ מפתח או אם כל חלק מה 1024 קילובייט הראשונים שלו משתנה, אי אפשר יהיה לעלות אמצעי אחסוןים המשתמשים בקובץ המפתחות!</entry>
     <entry lang="he" key="IDT_KEY_UNIT">ביטים</entry>
     <entry lang="he" key="IDT_NUMBER_KEYFILES">מספר קובצי המפתח:</entry>
-    <entry lang="he" key="IDT_KEYFILES_SIZE">גודל מפתחות (בבתים):</entry>
+    <entry lang="he" key="IDT_KEYFILES_SIZE">גודל מפתחות:</entry>
     <entry lang="he" key="IDT_KEYFILES_BASE_NAME">שם בסיס קובץ המפתח:</entry>
     <entry lang="he" key="IDT_LANGPACK_AUTHORS">תורגם ע&amp;quot;י:</entry>
     <entry lang="he" key="IDT_PLAINTEXT">גודל טקסט רגיל:</entry>
@@ -938,7 +938,7 @@
     <entry lang="he" key="ENTER_HEADER_BACKUP_PASSWORD">הזן סיסמה לכותרת המאוחסנת בקובץ הגיבוי</entry>
     <entry lang="he" key="KEYFILE_CREATED">קבצי המפתחות נוצרו בהצלחה.</entry>
     <entry lang="he" key="KEYFILE_INCORRECT_NUMBER">מספר קבצי המפתחות שסיפקת אינו חוקי.</entry>
-    <entry lang="he" key="KEYFILE_INCORRECT_SIZE">יש להכין את גודל הקליפ בין 64 ל -1048576 בתים.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="he" key="KEYFILE_EMPTY_BASE_NAME">אנא הזן שם לקובץ המפתחות שייווצר</entry>
     <entry lang="he" key="KEYFILE_INVALID_BASE_NAME">שם הבסיס של קובץ המפתחות לא חוקי</entry>
     <entry lang="he" key="KEYFILE_ALREADY_EXISTS">קובץ המפתח %s כבר קיים.\nהאם ברצונך להחליף אותו?\nהתהליך ייפסק אם תבחר שלא.</entry>

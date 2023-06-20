@@ -356,7 +356,7 @@
     <entry lang="ru" key="IDT_KEYFILE_WARNING">* При утере ключевого файла или повреждении его первых 1024 килобайт монтирование использующих этот файл томов невозможно!</entry>
     <entry lang="ru" key="IDT_KEY_UNIT">бит</entry>
     <entry lang="ru" key="IDT_NUMBER_KEYFILES">Число ключевых файлов:</entry>
-    <entry lang="ru" key="IDT_KEYFILES_SIZE">Размер файлов (в байтах):</entry>
+    <entry lang="ru" key="IDT_KEYFILES_SIZE">Размер файлов:</entry>
     <entry lang="ru" key="IDT_KEYFILES_BASE_NAME">Базовое имя ключевых файлов:</entry>
     <entry lang="ru" key="IDT_LANGPACK_AUTHORS">Автор перевода:</entry>
     <entry lang="ru" key="IDT_PLAINTEXT">Размер:</entry>
@@ -938,7 +938,7 @@
     <entry lang="ru" key="ENTER_HEADER_BACKUP_PASSWORD">Введите пароль для заголовка в файле резервной копии</entry>
     <entry lang="ru" key="KEYFILE_CREATED">Ключевой файл успешно создан.</entry>
     <entry lang="ru" key="KEYFILE_INCORRECT_NUMBER">Недопустимое количество ключевых файлов.</entry>
-    <entry lang="ru" key="KEYFILE_INCORRECT_SIZE">Размер ключевого файла должен быть между 64 и 1 048 576 байтами.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="ru" key="KEYFILE_EMPTY_BASE_NAME">Введите имя создаваемого ключевого файла</entry>
     <entry lang="ru" key="KEYFILE_INVALID_BASE_NAME">Недопустимое базовое имя ключевых файлов</entry>
     <entry lang="ru" key="KEYFILE_ALREADY_EXISTS">Ключевой файл "%s" уже существует.\nПерезаписать его? При ответе "Нет" процесс генерирования будет остановлен.</entry>

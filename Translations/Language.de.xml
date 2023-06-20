@@ -359,7 +359,7 @@
     <entry lang="de" key="IDT_KEYFILE_WARNING">WARNUNG: Ein Volume kann nicht mehr eingehängt werden, wenn eine der Schlüsseldateien fehlt oder in den ersten 1024 KB verändert wurde!</entry>
     <entry lang="de" key="IDT_KEY_UNIT">Bit</entry>
     <entry lang="de" key="IDT_NUMBER_KEYFILES">Anzahl der Schlüsseldateien:</entry>
-    <entry lang="de" key="IDT_KEYFILES_SIZE">Schlüsseldateigröße (in Bytes):</entry>
+    <entry lang="de" key="IDT_KEYFILES_SIZE">Schlüsseldateigröße:</entry>
     <entry lang="de" key="IDT_KEYFILES_BASE_NAME">Name der Schlüsseldatei(en):</entry>
     <entry lang="de" key="IDT_LANGPACK_AUTHORS">Übersetzt von:</entry>
     <entry lang="de" key="IDT_PLAINTEXT">Klartextgröße:</entry>
@@ -941,7 +941,7 @@
     <entry lang="de" key="ENTER_HEADER_BACKUP_PASSWORD">Geben Sie das Passwort für die in der Sicherungsdatei abgelegten Kopfdaten ein.</entry>
     <entry lang="de" key="KEYFILE_CREATED">Die Schlüsseldatei(en) wurde(n) erfolgreich erstellt.</entry>
     <entry lang="de" key="KEYFILE_INCORRECT_NUMBER">Die Anzahl der gewählten Schlüsseldateien ist unzulässig.</entry>
-    <entry lang="de" key="KEYFILE_INCORRECT_SIZE">Die Schlüsseldatei muss zwischen 64 und 1048576 Bytes groß sein.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="de" key="KEYFILE_EMPTY_BASE_NAME">Bitte geben Sie einen Namen für die zu erstellenden Schlüsseldateien ein.</entry>
     <entry lang="de" key="KEYFILE_INVALID_BASE_NAME">Der Name für die Schlüsseldateien ist unzulässig.</entry>
     <entry lang="de" key="KEYFILE_ALREADY_EXISTS">Die Schlüsseldatei „%s“ existiert bereits.\nMöchten Sie sie überschreiben? Der Erstellungsprozess wird abgebrochen, wenn Sie „Nein“ wählen.</entry>

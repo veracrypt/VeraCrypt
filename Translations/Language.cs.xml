@@ -356,7 +356,7 @@
     <entry lang="cs" key="IDT_KEYFILE_WARNING">UPOZORNĚNÍ: ztratíte-li souborový klíč nebo změní-li se jediný bit z prvních 1024 kilobajtů, bude nemožné připojit svazek používající souborový klíč.</entry>
     <entry lang="cs" key="IDT_KEY_UNIT">bitů</entry>
     <entry lang="cs" key="IDT_NUMBER_KEYFILES">Počet klíčů:</entry>
-    <entry lang="cs" key="IDT_KEYFILES_SIZE">Velikost klíče (v bajtech):</entry>
+    <entry lang="cs" key="IDT_KEYFILES_SIZE">Velikost klíče:</entry>
     <entry lang="cs" key="IDT_KEYFILES_BASE_NAME">Název úložiště klíče:</entry>
     <entry lang="cs" key="IDT_LANGPACK_AUTHORS">Přeložil:</entry>
     <entry lang="cs" key="IDT_PLAINTEXT">Velikost textu:</entry>
@@ -938,7 +938,7 @@
     <entry lang="cs" key="ENTER_HEADER_BACKUP_PASSWORD">Zadejte heslo pro hlavičku uloženou v záložním souboru</entry>
     <entry lang="cs" key="KEYFILE_CREATED">Souborový klíč byl úspěšně vytvořen.</entry>
     <entry lang="cs" key="KEYFILE_INCORRECT_NUMBER">Počet poskytnutých souborových klíčů je neplatný.</entry>
-    <entry lang="cs" key="KEYFILE_INCORRECT_SIZE">Velikost souborových klíčů musí mít hodnotu mezi 64 a 1048576 bajtů.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="cs" key="KEYFILE_EMPTY_BASE_NAME">Prosím, zadejte název pro vygenerovaný souborový klíč</entry>
     <entry lang="cs" key="KEYFILE_INVALID_BASE_NAME">Základní název souborového klíče je neplatný</entry>
     <entry lang="cs" key="KEYFILE_ALREADY_EXISTS">Souborový klíč '%s' již existuje.\nPřejete si ho přepsat? Jeho vygenerování bude zastaveno, odpovíte-li „Ne”.</entry>
