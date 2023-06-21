@@ -303,12 +303,11 @@ namespace VeraCrypt
 				//	We also use the old way if the user is forcing the use of dummy password for sudo
 				
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
-				
+				bool authCheckDone = false;
 				if (!Core->GetUseDummySudoPassword ())
 				{
 					std::vector<char> buffer(128, 0);
 					std::string result;
-					bool authCheckDone = false;
 					
 					FILE* pipe = popen("sudo -n uptime 2>&1 | grep 'load average' | wc -l", "r");	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
 					if (pipe)
@@ -354,7 +353,10 @@ namespace VeraCrypt
 					}
 
 					request.FastElevation = false;
-					(*AdminPasswordCallback) (request.AdminPassword);
+#if defined(TC_LINUX ) || defined (TC_FREEBSD)
+					if(!authCheckDone)
+#endif
+						(*AdminPasswordCallback) (request.AdminPassword);
 				}
 			}
 		}

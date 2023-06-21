@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Normal%20Dismount%20vs%20Force%20Dismount.html">Normal Dismount vs Force Dismount</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Normal Dismount vs Force Dismount</h1>
+<p>Understanding the distinction between "Normal Dismount" and "Force Dismount" operation is important due to the potential impact on user data.</p>
+
+<h2>Normal Dismount Process</h2>
+
+<p>During a normal dismount process, VeraCrypt performs the following steps:</p>
+
+<ol>
+    <li>Requests the Windows operating system to lock the volume, prohibiting further I/O operations.</li>
+    <li>Requests Windows to gracefully eject the volume from the system. This step is analogous to user-initiated device ejection via the system tray.</li>
+    <li>Instructs the Windows Mount Manager to unmount the volume.</li>
+    <li>Deletes the link between the drive letter and the volume's virtual device.</li>
+    <li>Deletes the volume's virtual device, which includes erasing the encryption keys from RAM.</li>
+</ol>
+
+<p>In this flow, steps 1 and 2 may fail if there are open files on the volume. Notably, even if all user applications accessing files on the volume are closed, Windows might still keep the files open until the I/O cache is completely flushed.</p>
+
+<h2>Force Dismount Process</h2>
+
+<p>The Force Dismount process is distinct but largely similar to the Normal Dismount. It essentially follows the same steps but disregards any failures that might occur during steps 1 and 2, and carries on with the rest of the procedure. However, if there are files open by the user or if the volume I/O cache has not yet been flushed, this could result in potential data loss. This situation parallels forcibly removing a USB device from your computer while Windows is still indicating its active usage.</p>
+
+<p>Provided all applications using files on the mounted volume have been successfully closed and the I/O cache is fully flushed, neither data loss nor data/filesystem corruption should occur when executing a 'force dismount'. As in a normal dismount, the encryption keys are erased from RAM upon successful completion of a 'Force Dismount'.</p>
+
+<h2>How to Trigger Force Dismount</h2>
+
+<p>There are three approaches to trigger a force dismount in VeraCrypt:</p>
+
+<ol>
+    <li>Through the popup window that appears if a normal dismount attempt is unsuccessful.</li>
+    <li>Via Preferences, by checking the "force auto-dismount" option in the "Auto-Dismount" section.</li>
+    <li>Using the command line, by incorporating the /force or /f switch along with the /d or /dismount switch.</li>
+</ol>
+
+<p>In order to avoid inadvertent data loss or corruption, always ensure to follow suitable precautions when dismounting a VeraCrypt volume. This includes</p>
+<ol>
+    <li>Ensuring all files on the volume are closed before initiating a dismount.</li>
+    <li>Allowing some time after closing all files to ensure Windows has completely flushed the I/O cache.</li>
+	<li>Take note that some antivirus software may keep file handles open on the volume after performing a scan, hindering a successful Normal Dismount. If you experience this issue, you might consider excluding the VeraCrypt volume from your antivirus scans. Alternatively, consult with your antivirus software provider to understand how their product interacts with VeraCrypt volumes and how to ensure it doesn't retain open file handles.</li>
+</ol>
+
+
+</div><div class="ClearBoth"></div></body></html>

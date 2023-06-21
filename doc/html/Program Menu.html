@@ -134,12 +134,12 @@ Rescue Disk</a>.</p>
 <em>Select Device</em> or <em>Select File</em>, select the volume, select <em>Tools</em> -&gt;
 <em>Restore Volume Header</em>, and then follow the instructions.<br>
 <br>
-WARNING: Restoring a volume header also restores the volume password that was valid when the backup was created. Moreover, if keyfile(s) are/is necessary to mount a volume when the backup is created, the same keyfile(s) will be necessary to mount the volume
+WARNING: Restoring a volume header also restores the volume password and PIM that were valid when the backup was created. Moreover, if keyfile(s) are/is necessary to mount a volume when the backup is created, the same keyfile(s) will be necessary to mount the volume
  again after the volume header is restored. For more information, see the section
 <a href="Encryption%20Scheme.html"><em>Encryption Scheme</em></a> in the chapter
 <a href="Technical%20Details.html"><em>Technical Details</em></a>.<br>
 <br>
-After you create a volume header backup, you might need to create a new one only when you change the volume password and/or keyfiles. Otherwise, the volume header remains unmodified so the volume header backup remains up-to-date.</p>
+After you create a volume header backup, you might need to create a new one only when you change the volume password and/or keyfiles, or when you change the PIM value. Otherwise, the volume header remains unmodified so the volume header backup remains up-to-date.</p>
 <p>Note: Apart from salt (which is a sequence of random numbers), external header backup files do not contain any unencrypted information and they cannot be decrypted without knowing the correct password and/or supplying the correct keyfile(s). For more information,
  see the chapter <a href="Technical%20Details.html">
 <em>Technical Details</em></a>.</p>
@@ -147,10 +147,10 @@ After you create a volume header backup, you might need to create a new one only
  there is no hidden volume within the volume, the area reserved for the hidden volume header in the backup file will be filled with random data (to preserve plausible deniability).<br>
 <br>
 When <em>restoring</em> a volume header, you need to choose the type of volume whose header you wish to restore (a standard or hidden volume). Only one volume header can be restored at a time. To restore both headers, you need to use the function twice (<em>Tools</em>
- -&gt; <em>Restore Volume Header</em>). You will need to enter the correct password (and/or to supply the correct keyfiles) that was/were valid when the volume header backup was created. The password (and/or keyfiles) will also automatically determine the type
+ -&gt; <em>Restore Volume Header</em>). You will need to enter the correct password (and/or to supply the correct keyfiles) and the non-default PIM value, if applicable, that were valid when the volume header backup was created. The password (and/or keyfiles) and PIM will also automatically determine the type
  of the volume header to restore, i.e. standard or hidden (note that VeraCrypt determines the type through the process of trial and error).<br>
 <br>
-Note: If the user fails to supply the correct password (and/or keyfiles) twice in a row when trying to mount a volume, VeraCrypt will automatically try to mount the volume using the embedded backup header (in addition to trying to mount it using the primary
+Note: If the user fails to supply the correct password (and/or keyfiles) and/or the correct non-default PIM value twice in a row when trying to mount a volume, VeraCrypt will automatically try to mount the volume using the embedded backup header (in addition to trying to mount it using the primary
  header) each subsequent time that the user attempts to mount the volume (until he or she clicks
 <em>Cancel</em>). If VeraCrypt fails to decrypt the primary header but it successfully decrypts the embedded backup header at the same time, the volume is mounted and the user is warned that the volume header is damaged (and informed as to how to repair it).</p>
 <h3 id="Settings-Performance">Settings -&gt; Performance and Driver Options</h3>
@@ -164,10 +164,10 @@ Disable this option if you experience stability issues (like volume access issue
 <h3>Settings -&gt; Preferences</h3>
 <p>Invokes the Preferences dialog window, where you can change, among others, the following options:</p>
 <h4>Wipe cached passwords on exit</h4>
-<p>If enabled, passwords (which may also contain processed keyfile contents) cached in driver memory will be cleared when VeraCrypt exits.</p>
+<p>If enabled, passwords (which may also contain processed keyfile contents) and PIM values cached in driver memory will be cleared when VeraCrypt exits.</p>
 <h4>Cache passwords in driver memory</h4>
-<p>When checked, passwords and/or processed keyfile contents for up to last four successfully mounted VeraCrypt volumes are cached. This allows mounting volumes without having to type their passwords (and selecting keyfiles) repeatedly. VeraCrypt never saves
- any password to a disk (however, see the chapter <a href="Security%20Requirements%20and%20Precautions.html">
+<p>When checked, passwords and/or processed keyfile contents for up to last four successfully mounted VeraCrypt volumes are cached. If the 'Include PIM when caching a password' option is enabled in the Preferences, non-default PIM values are cached alongside the passwords. This allows mounting volumes without having to type their passwords (and selecting keyfiles) repeatedly. VeraCrypt never saves
+ any password or PIM values to a disk (however, see the chapter <a href="Security%20Requirements%20and%20Precautions.html">
 <em>Security Requirements and Precautions</em></a>). Password caching can be enabled/disabled in the Preferences (<em>Settings</em> -&gt;
 <em>Preferences</em>) and in the password prompt window. If the system partition/drive is encrypted, caching of the pre-boot authentication password can be enabled or disabled in the system encryption settings (<em>Settings</em> &gt; &lsquo;<em>System Encryption</em>&rsquo;).</p>
 <h4>Temporary Cache password during &quot;Mount Favorite Volumes&quot; operations</h4>

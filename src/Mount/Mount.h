@@ -108,7 +108,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume);
 void SecurityTokenPreferencesDialog (HWND hwndDlg);
 static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions);
+void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions, BOOL skipCachedPasswords);
 uint32 ReadDriverConfigurationFlags ();
 void HookMouseWheel (HWND hwndDlg, UINT ctrlId);
 static BOOL HandleDriveListMouseWheelEvent (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bListMustBePointed);

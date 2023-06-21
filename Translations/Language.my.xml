@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26">
+  <localization prog-version= "1.26.2">
     <language langid="my" name="မြန်မာ" en-name="Burmese" version="2.0.0" translators="Zaw Myo Htet; Transifex contributors" />
     <font lang="my" class="normal" size="11" face="Myanmar3" />
     <font lang="my" class="bold" size="13" face="Myanmar3" />
@@ -356,7 +356,7 @@
     <entry lang="my" key="IDT_KEYFILE_WARNING">သတိပေးချက် - ကီးဖိုင်​ ပျောက်သွားသည် ဖြစ်စေ (သို့) ၄င်း၏ ပထမဆုံး ၁၀၂၄ kilobytes ပြောင်းသွားသည် ဖြစ်စေ၊ အဲဒီ ကီးဖိုင်ကို အသုံးပြုသော volumes များကို အစပျိုးနိုင်မည် မဟုတ်ပါ။</entry>
     <entry lang="my" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="my" key="IDT_NUMBER_KEYFILES">စကားဝှက်သော့ဖိုင် အရေအတွက် -</entry>
-    <entry lang="my" key="IDT_KEYFILES_SIZE">စကားဝှက်သော့ဖိုင်များ၏ အရွယ်အစား (ဘိုက်) -</entry>
+    <entry lang="my" key="IDT_KEYFILES_SIZE">စကားဝှက်သော့ဖိုင်များ၏ အရွယ်အစား -</entry>
     <entry lang="my" key="IDT_KEYFILES_BASE_NAME">စကားဝှက်သော့ဖိုင်များ အခြေ အမည် -</entry>
     <entry lang="my" key="IDT_LANGPACK_AUTHORS">ဘာသာပြန်ဆိုသူ -</entry>
     <entry lang="my" key="IDT_PLAINTEXT">စာသား သက်သက် အရွယ် -</entry>
@@ -940,7 +940,7 @@
     <entry lang="my" key="ENTER_HEADER_BACKUP_PASSWORD">အရံသင့် ဖိုင်ထဲ၌ သိမ်းဆည်းထားသော ခေါင်းစီးအတွက် စကားဝှက် ရေးထည့်ပါ</entry>
     <entry lang="my" key="KEYFILE_CREATED">ကီးဖိုင်ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။</entry>
     <entry lang="my" key="KEYFILE_INCORRECT_NUMBER">သင် ပေးသွင်းခဲ့သော စကားဝှက်သော့ဖိုင် အရေအတွက်မှာ မမှန်ကန်ပါ။</entry>
-    <entry lang="my" key="KEYFILE_INCORRECT_SIZE">စကားဝှက်သော့ဖိုင် အရွယ်အစားသည် ၆၄ နှင့် ၁၀၄၈၅၇၆ ဘိုက် အကြား ရှိရမည်။</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="my" key="KEYFILE_EMPTY_BASE_NAME">ကျေးဇူးပြု၍ စကားဝှက်သော့ဖိုင်(များ)ကို ထုတ်လုပ်ရန် အမည်တစ်ခု ရိုက်ထည့်ပါ</entry>
     <entry lang="my" key="KEYFILE_INVALID_BASE_NAME">စကားဝှက်သော့ဖိုင်(များ)၏ အခြေအမည်မှာ မမှန်ကန်ပါ</entry>
     <entry lang="my" key="KEYFILE_ALREADY_EXISTS">စကားဝှက်သော့ဖိုင် '%s' သည် ရှိပြီးသားဖြစ်သည်။\nသင်သည် ၎င်းကို ထပ်ရေးလိုပါသလား။ ထပ်မရေးလိုပါ ဟု သင်ဖြေပါက ထုတ်လုပ်သည့်လုပ်ငန်းစဉ်ကို ရပ်လိုက်ပါမည်။</entry>
@@ -1572,6 +1572,7 @@
     <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
     <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
     <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
+    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

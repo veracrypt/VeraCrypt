@@ -292,6 +292,7 @@ void LoadSettings (HWND hwndDlg)
 	defaultMountOptions.PartitionInInactiveSysEncScope = FALSE;
 	defaultMountOptions.RecoveryMode = FALSE;
 	defaultMountOptions.UseBackupHeader =  FALSE;
+	defaultMountOptions.SkipCachedPasswords = FALSE;
 
 	mountOptions = defaultMountOptions;
 
@@ -1036,7 +1037,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				wchar_t fileName[MAX_PATH];
 				GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), fileName, ARRAYSIZE (fileName));
-				ExpandVolumeWizard(hwndDlg, fileName);
+				if (!VolumePathExists (fileName))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+				}
+				else
+					ExpandVolumeWizard(hwndDlg, fileName);
 			}
 			return 1;
 		}

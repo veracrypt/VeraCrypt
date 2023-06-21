@@ -7,6 +7,9 @@ Information about Corsican localization:
 
 2. History of Corsican translation for Notepad++:
 
+	- Updated on June 5th, 2023 for version 1.26.2 by Patriccollu di Santa Maria è Sichè
+	- Updated on June 2nd, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
+	- Updated on June 1st, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Updated on May 30th, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Updated on May 29th, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
@@ -16,8 +19,8 @@ Information about Corsican localization:
 	https://github.com/Patriccollu/Lingua_Corsa-Infurmatica/blob/ceppu/Prughjetti/VeraCrypt/Traduzzione.md
 -->
 <VeraCrypt>
-	<localization prog-version="1.26">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.2.1" translators="Patriccollu di Santa Maria è Sichè"/>
+	<localization prog-version="1.26.2">
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.2" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -372,7 +375,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_KEYFILE_WARNING">AVERTIMENTU : S’è vo pirdite un schedariu chjave o s’è un solu bit di i so 1024 primi chiloottetti cambia, serà impussibule di muntà i vulumi chì impieganu stu schedariu chjave !</entry>
 		<entry lang="co" key="IDT_KEY_UNIT">bits</entry>
 		<entry lang="co" key="IDT_NUMBER_KEYFILES">Numeru di sch. chjave :</entry>
-		<entry lang="co" key="IDT_KEYFILES_SIZE">Dimens. di i sch. chjave (ottetti) :</entry>
+		<entry lang="co" key="IDT_KEYFILES_SIZE">Dimens. di i sch. chjave :</entry>
 		<entry lang="co" key="IDT_KEYFILES_BASE_NAME">Nome di basa di i sch. chjave :</entry>
 		<entry lang="co" key="IDT_LANGPACK_AUTHORS">Traduttu da :</entry>
 		<entry lang="co" key="IDT_PLAINTEXT">Dimensione di u testu in chjaru :</entry>
@@ -954,7 +957,7 @@ Information about Corsican localization:
 		<entry lang="co" key="ENTER_HEADER_BACKUP_PASSWORD">Stampittate a parolla d’intesa per l°intestatura piazzata in u schedariu di salvaguardia</entry>
 		<entry lang="co" key="KEYFILE_CREATED">I schedarii chjave sò stati creati currettamente.</entry>
 		<entry lang="co" key="KEYFILE_INCORRECT_NUMBER">U numeru di schedarii chjave stampittatu hè inaccettevule.</entry>
-		<entry lang="co" key="KEYFILE_INCORRECT_SIZE">A dimensione di u schedariu chjave deve esse trà 64 è 1048576 ottetti.</entry>
+		<entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
 		<entry lang="co" key="KEYFILE_EMPTY_BASE_NAME">Stampittate un nome per u(i) schedariu(i) chjave chì hà(anu) da esse ingeneratu(i)</entry>
 		<entry lang="co" key="KEYFILE_INVALID_BASE_NAME">U nome di basa di u(i) schedariu(i) chjave hè inaccettevule</entry>
 		<entry lang="co" key="KEYFILE_ALREADY_EXISTS">U schedariu chjave « %s » esiste dighjà.\nVulete rimpiazzallu ? U trattamentu di generazione serà piantatu s’è vò rispundite Nò.</entry>
@@ -1585,7 +1588,8 @@ Information about Corsican localization:
 		<entry lang="co" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt hè statu installatu anteriurmente impieghendu un pacchettu MSI è dunque, ùn pò micca esse mudificatu cù un stalladore classicu.\n\nImpiegate u pacchettu MSI per mudificà a vostra installazione VeraCrypt.</entry>
 		<entry lang="co" key="IDC_USE_ALL_FREE_SPACE">Impiegà tuttu u spaziu dispunibule</entry>
 		<entry lang="co" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt ùn pò micca esse messu à livellu perchè a partizione o u lettore di u sistema hè statu cifratu impieghendu una cudificazione chì ùn hè più accettata.\nDicifrate u vostru sistema prima di mette VeraCrypt à livellu è cifratelu torna.</entry>
-		<entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
+		<entry lang="co" key="LINUX_EX2MSG_TERMINALNOTFOUND">Ùn si pò micca truvà l’appiecazione di terminale pigliata in carica ; ci hè bisognu, sia di xterm, di konsole o di gnome-terminal (cù dbus-x11).</entry>
+		<entry lang="co" key="IDM_MOUNT_NO_CACHE">Muntà senza impiatta</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">

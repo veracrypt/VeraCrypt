@@ -39,13 +39,13 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26</strong> (March 21<sup>st</sup>, 2022):</p>
+<p><strong style="text-align:left">1.26.2</strong> (June 4<sup>th</sup>, 2023):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
 <li>Add support for BLAKE2s as new PRF algorithm for both system encryption and standard volumes.</li>
 <li>Complete removal of RIPEMD16 and GOST89 algorithms. Legacy volumes using any of them cannot be mounted by VeraCrypt anymore.</li>
-<li>Add Corsican language support. Update translations (French, German, Russian). </li>
+<li>Add Corsican language support. Update several translations. </li>
 </ul>
 </li>
 <li><strong>Windows:</strong>
@@ -55,6 +55,26 @@
 <li>Fix bug in PasswordTimeout value handling that caused it to be limited to 255 seconds.</li>
 <li>Rescue Disk: enhance "Boot Original Windows Loader" by using embedded backup of original Windows loader if it is missing from disk</li>
 <li>Addition of Blake2s and removal of RIPEMD160 & GOST89</li>
+</ul>
+</li>
+<li>Add dropdown menu to Mount button to allow mounting without using the cache.</li>
+<li>Possible workaround for logarithmic slowdown for Encrypt-In-Place on large volumes.</li>
+<li>Update libzip to version 1.9.2 and zlib to version 1.2.13.</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Fix bug in Random generator on Linux when used with Blake2s that was triggering a self test failure.</li>
+<li>Modify Random Generator on Linux to exactly match official documentation and the Windows implementation.</li> 
+<li>Fix compatibility issues with Ubuntu 23.04.</li>
+<li>Fix assert messages displayed when using wxWidgets 3.1.6 and newer.</li>
+<li>Fix issues launching fsck on Linux.</li>
+<li>Fix various issues when running in Text mode:
+<ul>
+<li>Don't allow selecting exFAT/BTRFS filesytem if they are not present or not compatible with the created volume.</li>
+<li>Fix wrong dismount message displayed when mounting a volume.</li>
+<li>Hide PIM during entry and re-ask PIM when user entered a wrong value.</li>
+<li>Fix printing error when checking freespace during volume creation in path doesn't exist.</li>
 </ul>
 </li>
 </ul>
