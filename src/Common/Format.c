@@ -401,12 +401,29 @@ begin_format:
 
 			if (speedupFileCreation)
 			{
-				// accelerate file creation by telling Windows not to fill all file content with zeros
-				// this has security issues since it will put existing disk content into file container
-				// We use this mechanism only when switch /fastCreateFile specific and when quick format
-				// also specified and which is documented to have security issues.
-				// we don't check returned status because failure is not issue for us
-				SetFileValidData (dev, volumeSize.QuadPart);
+				if (!SetPrivilege(SE_MANAGE_VOLUME_NAME, TRUE))
+				{
+					DWORD dwLastError = GetLastError();
+					if (Silent || (MessageBoxW(hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME"), lpszTitle, MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO))
+					{
+						SetLastError(dwLastError);
+						nStatus = ERR_OS_ERROR;
+						goto error;
+					}
+				}
+				else
+				{
+					// accelerate file creation by telling Windows not to fill all file content with zeros
+					// this has security issues since it will put existing disk content into file container
+					// We use this mechanism only when switch /fastCreateFile specific and when quick format
+					// also specified and which is documented to have security issues.
+					// we don't check returned status because failure is not issue for us
+					if (!SetFileValidData (dev, volumeSize.QuadPart))
+					{
+						nStatus = ERR_OS_ERROR;
+						goto error;
+					}
+				}
 			}
 
 			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
