@@ -939,7 +939,7 @@
     <entry lang="zh-cn" key="ENTER_HEADER_BACKUP_PASSWORD">输入存储在备份文件中的加密卷头的密码</entry>
     <entry lang="zh-cn" key="KEYFILE_CREATED">密钥文件已成功创建。</entry>
     <entry lang="zh-cn" key="KEYFILE_INCORRECT_NUMBER">你提供的密钥文件数量无效。</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">密钥文件的大小不得小于 64 字节。</entry>
     <entry lang="zh-cn" key="KEYFILE_EMPTY_BASE_NAME">输入要生成的密钥文件的文件名</entry>
     <entry lang="zh-cn" key="KEYFILE_INVALID_BASE_NAME">输入的密钥文件基底文件名无效</entry>
     <entry lang="zh-cn" key="KEYFILE_ALREADY_EXISTS">密钥文件 '%s' 已存在。\n你希望覆盖它吗？选择“否”会停止生成过程...</entry>
