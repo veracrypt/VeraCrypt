@@ -390,6 +390,7 @@
     <entry lang="zh-cn" key="ADMINISTRATOR">系统管理员</entry>
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_DRIVER">要加载 VeraCrypt 驱动，您必需以一个具有管理员权限的帐号登录。</entry>
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_DEVICES">请注意：如果要加密或格式化某分区和设备您必需以一个具有管理员权限的帐号登陆。\n\n文件类型加密卷不受这个限制。</entry>
+    <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">无法使用快速文件创建：需要管理员权限。\n请以管理员身份重新启动程序以启用此功能。\n\n是否要在不启用快速创建文件的情况下继续？</entry>
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_HIDVOL">如果要创建隐藏的加密卷，您必须以一个 具有管理员权限的帐号登录。\n\n需要继续吗？</entry>
     <entry lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_NTFS">请注意：如果要把加密卷格式化为 NTFS 文件系统，您必需以具有管理员权限的帐号登录。\n\n若无管理员权限，您可以格式化加密卷为 FAT 文件系统。</entry>
     <entry lang="zh-cn" key="AES_HELP">FIPS-认可的加密算法（Rijndael，发表于 1998 年）可能被美国联邦部门和机构用来对特定信息进行顶级保护。256 位密钥、128-位块、14 次离散循环（AES-256，发表于 2001 年）。操作模式为 XTS。</entry>
