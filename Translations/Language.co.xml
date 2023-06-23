@@ -8,7 +8,7 @@ Information about Corsican localization:
 2. History of Corsican translation for Notepad++:
 
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
-	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2)
+	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2)
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Created on March 6th, 2022 for version 1.25.9 by Patriccollu di Santa Maria è Sichè
 
@@ -17,7 +17,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.2">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.4" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.5" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -405,6 +405,7 @@ Information about Corsican localization:
 		<entry lang="co" key="ADMINISTRATOR">Amministratore</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_DRIVER">Per caricà u pilotu VeraCrypt, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_DEVICES">Sappiate chì per cifrà, dicifrà o mette à u furmatu una partizione o un apparechju, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.\n\nÙn s’appieca micca à i vulumi chì sò ospitati in un schedariu.</entry>
+		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Impussibule d’attivà a creazione rapida di schedariu perchè i privileghji d’amministratore sò richiesti.\nCi vole à rilancià u prugramma tale un amministratore per attivà sta funzione.\n\nVulete cuntinuà quantunque senza a creazione rapida di schedariu ?</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Per creà un vulume piattatu, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.\n\nCuntinuà ?</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_NTFS">Sappiate chì, per mette u vulume à u furmatu NTFS/exFAT/ReFS, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.\n\nSenza sti privileghji, pudete mettelu solu u furmatu FAT.</entry>
 		<entry lang="co" key="AES_HELP">Ciframentu crittograficu (Rijndael, publicatu in u 1998), appruvatu da FIPS, chì pò esse impiegatu da i Stati Uniti. i dipartimenti è l’agenze americani per prutege l’infurmazione sensibile à u livellu « Top Secret ». Chjave à 256 bit, bloccu à 128 bit, 14 passagi (AES-256). U modu operatoriu hè XTS.</entry>
