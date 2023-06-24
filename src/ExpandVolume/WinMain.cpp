@@ -199,6 +199,10 @@ BOOL CheckSysEncMountWithoutPBA (const char *devicePath, BOOL quiet)
 
 static void InitMainDialog (HWND hwndDlg)
 {
+	MENUITEMINFOW info;
+	int i;
+	wchar_t *str;
+	int menuEntries[] = {IDM_ABOUT, IDM_HOMEPAGE};
 	/* Call the common dialog init code */
 	InitDialog (hwndDlg);
 	LocalizeDialog (hwndDlg, NULL);
@@ -207,7 +211,27 @@ static void InitMainDialog (HWND hwndDlg)
 	SetWindowTextW (hwndDlg, lpszTitle);
 
 	SendMessage (GetDlgItem (hwndDlg, IDC_INFOEXPAND), WM_SETFONT, (WPARAM) hBoldFont, (LPARAM) TRUE);
-	SetWindowText (GetDlgItem (hwndDlg, IDC_INFOEXPAND), szExpandVolumeInfo);
+	SetWindowText (GetDlgItem (hwndDlg, IDC_INFOEXPAND), GetString("EXPANDER_INFO"));
+
+	// Localize menu strings
+	for (i = 0; i < array_capacity (menuEntries); i++)
+	{
+		str = (wchar_t *)GetDictionaryValueByInt (menuEntries[i]);
+		if (str)
+		{
+			ZeroMemory (&info, sizeof(info));
+			info.cbSize = sizeof (info);
+			info.fMask = MIIM_TYPE;
+			info.fType = MFT_STRING;
+			if (GetMenuItemInfoW (GetMenu (hwndDlg), menuEntries[i], FALSE,  &info))
+			{
+				info.dwTypeData = str;
+				info.cch = (UINT) wcslen (str);
+
+				SetMenuItemInfoW (GetMenu (hwndDlg), menuEntries[i], FALSE,  &info);
+			}
+		}
+	}
 
 	// Resize the logo bitmap if the user has a non-default DPI
 	if (ScreenDPI != USER_DEFAULT_SCREEN_DPI

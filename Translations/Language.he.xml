@@ -1572,6 +1572,8 @@
     <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
     <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
     <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
+    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
+    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
