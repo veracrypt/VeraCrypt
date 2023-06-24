@@ -72,6 +72,7 @@
 #define IDC_OLD_PIM_HELP                1144
 #define ID_HOMEPAGE                     1145
 #define IDC_QUICKEXPAND                 1146
+#define IDC_STEPSEXPAND                 1147
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -142,7 +143,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40064
-#define _APS_NEXT_CONTROL_VALUE         1147
+#define _APS_NEXT_CONTROL_VALUE         1148
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

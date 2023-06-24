@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lzma\7zTypes.h" />
+    <ClInclude Include="lzma\7zWindows.h" />
     <ClInclude Include="lzma\Alloc.h" />
     <ClInclude Include="lzma\Compiler.h" />
     <ClInclude Include="lzma\CpuArch.h" />

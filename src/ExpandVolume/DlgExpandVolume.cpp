@@ -147,6 +147,8 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			pVolExpandParam = (EXPAND_VOL_THREAD_PARAMS*)lParam;
 
+			LocalizeDialog (hwndDlg, NULL);
+
 			EnableWindow (GetDlgItem (hwndDlg, IDC_SIZEBOX), !pVolExpandParam->bIsDevice);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KB), !pVolExpandParam->bIsDevice);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_MB), !pVolExpandParam->bIsDevice);
@@ -308,6 +310,8 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			VirtualLock (randPool, sizeof(randPool));
 			VirtualLock (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
 			VirtualLock (maskRandPool, sizeof(maskRandPool));
+
+			LocalizeDialog (hwndDlg, NULL);
 
 			mouseEntropyGathered = 0xFFFFFFFF;
 			mouseEventsInitialCount = 0;

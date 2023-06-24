@@ -7,11 +7,8 @@ Information about Corsican localization:
 
 2. History of Corsican translation for Notepad++:
 
-	- Updated on June 5th, 2023 for version 1.26.2 by Patriccollu di Santa Maria è Sichè
-	- Updated on June 2nd, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
-	- Updated on June 1st, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
-	- Updated on May 30th, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
-	- Updated on May 29th, 2023 for version 1.26 by Patriccollu di Santa Maria è Sichè
+	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
+	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2)
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Created on March 6th, 2022 for version 1.25.9 by Patriccollu di Santa Maria è Sichè
 
@@ -20,7 +17,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.2">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.2" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.5" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -374,9 +371,9 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_KEYFILE_GENERATOR_NOTE">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja cunsiderabilmente a forza crittografica di u schedariu chjave.</entry>
 		<entry lang="co" key="IDT_KEYFILE_WARNING">AVERTIMENTU : S’è vo pirdite un schedariu chjave o s’è un solu bit di i so 1024 primi chiloottetti cambia, serà impussibule di muntà i vulumi chì impieganu stu schedariu chjave !</entry>
 		<entry lang="co" key="IDT_KEY_UNIT">bits</entry>
-		<entry lang="co" key="IDT_NUMBER_KEYFILES">Numeru di sch. chjave :</entry>
-		<entry lang="co" key="IDT_KEYFILES_SIZE">Dimens. di i sch. chjave :</entry>
-		<entry lang="co" key="IDT_KEYFILES_BASE_NAME">Nome di basa di i sch. chjave :</entry>
+		<entry lang="co" key="IDT_NUMBER_KEYFILES">Numeru di schedarii chjave :</entry>
+		<entry lang="co" key="IDT_KEYFILES_SIZE">Dimensione di i schedarii chjave :</entry>
+		<entry lang="co" key="IDT_KEYFILES_BASE_NAME">Nome di basa di i schedarii chjave :</entry>
 		<entry lang="co" key="IDT_LANGPACK_AUTHORS">Traduttu da :</entry>
 		<entry lang="co" key="IDT_PLAINTEXT">Dimensione di u testu in chjaru :</entry>
 		<entry lang="co" key="IDT_PLAINTEXT_SIZE_UNIT">bits</entry>
@@ -408,6 +405,7 @@ Information about Corsican localization:
 		<entry lang="co" key="ADMINISTRATOR">Amministratore</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_DRIVER">Per caricà u pilotu VeraCrypt, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_DEVICES">Sappiate chì per cifrà, dicifrà o mette à u furmatu una partizione o un apparechju, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.\n\nÙn s’appieca micca à i vulumi chì sò ospitati in un schedariu.</entry>
+		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Impussibule d’attivà a creazione rapida di schedariu perchè i privileghji d’amministratore sò richiesti.\nCi vole à rilancià u prugramma tale un amministratore per attivà sta funzione.\n\nVulete cuntinuà quantunque senza a creazione rapida di schedariu ?</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Per creà un vulume piattatu, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.\n\nCuntinuà ?</entry>
 		<entry lang="co" key="ADMIN_PRIVILEGES_WARN_NTFS">Sappiate chì, per mette u vulume à u furmatu NTFS/exFAT/ReFS, ci vole à esse cunnessu cù un contu chì hà privileghji d’amministratore.\n\nSenza sti privileghji, pudete mettelu solu u furmatu FAT.</entry>
 		<entry lang="co" key="AES_HELP">Ciframentu crittograficu (Rijndael, publicatu in u 1998), appruvatu da FIPS, chì pò esse impiegatu da i Stati Uniti. i dipartimenti è l’agenze americani per prutege l’infurmazione sensibile à u livellu « Top Secret ». Chjave à 256 bit, bloccu à 128 bit, 14 passagi (AES-256). U modu operatoriu hè XTS.</entry>
@@ -957,7 +955,7 @@ Information about Corsican localization:
 		<entry lang="co" key="ENTER_HEADER_BACKUP_PASSWORD">Stampittate a parolla d’intesa per l°intestatura piazzata in u schedariu di salvaguardia</entry>
 		<entry lang="co" key="KEYFILE_CREATED">I schedarii chjave sò stati creati currettamente.</entry>
 		<entry lang="co" key="KEYFILE_INCORRECT_NUMBER">U numeru di schedarii chjave stampittatu hè inaccettevule.</entry>
-		<entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
+		<entry lang="co" key="KEYFILE_INCORRECT_SIZE">A dimensione di u schedariu chjave deve esse più maiò chè 64 ottetti.</entry>
 		<entry lang="co" key="KEYFILE_EMPTY_BASE_NAME">Stampittate un nome per u(i) schedariu(i) chjave chì hà(anu) da esse ingeneratu(i)</entry>
 		<entry lang="co" key="KEYFILE_INVALID_BASE_NAME">U nome di basa di u(i) schedariu(i) chjave hè inaccettevule</entry>
 		<entry lang="co" key="KEYFILE_ALREADY_EXISTS">U schedariu chjave « %s » esiste dighjà.\nVulete rimpiazzallu ? U trattamentu di generazione serà piantatu s’è vò rispundite Nò.</entry>
@@ -1590,6 +1588,8 @@ Information about Corsican localization:
 		<entry lang="co" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt ùn pò micca esse messu à livellu perchè a partizione o u lettore di u sistema hè statu cifratu impieghendu una cudificazione chì ùn hè più accettata.\nDicifrate u vostru sistema prima di mette VeraCrypt à livellu è cifratelu torna.</entry>
 		<entry lang="co" key="LINUX_EX2MSG_TERMINALNOTFOUND">Ùn si pò micca truvà l’appiecazione di terminale pigliata in carica ; ci hè bisognu, sia di xterm, di konsole o di gnome-terminal (cù dbus-x11).</entry>
 		<entry lang="co" key="IDM_MOUNT_NO_CACHE">Muntà senza impiatta</entry>
+		<entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
+		<entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
