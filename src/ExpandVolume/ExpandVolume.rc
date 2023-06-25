@@ -43,7 +43,7 @@ BEGIN
     DEFPUSHBUTTON   "Continue",IDC_CONTINUE,15,238,84,18
     PUSHBUTTON      "Cancel",IDCANCEL,277,238,84,18
     LTEXT           "Help Text",IDC_BOX_HELP,15,165,346,58,0,WS_EX_CLIENTEDGE
-    GROUPBOX        "Enter new volume size",IDC_STATIC,15,83,346,63
+    GROUPBOX        "Enter new volume size",IDT_NEW_SIZE_BOX_TITLE,15,83,346,63
     RTEXT           "Current size: ",IDT_CURRENT_SIZE,27,42,46,8
     CONTROL         "",IDC_EXPAND_VOLUME_OLDSIZE,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,80,42,275,8,WS_EX_TRANSPARENT
     RTEXT           "New size: ",IDT_NEW_SIZE,28,54,45,8
@@ -128,7 +128,7 @@ BEGIN
     RTEXT           "Fill new space: ",IDT_INIT_SPACE,20,64,53,8
     RTEXT           "File system: ",IDT_FILE_SYS,31,28,42,8
     CONTROL         "",IDC_EXPAND_FILE_SYSTEM,"Static",SS_SIMPLE | WS_GROUP,80,28,275,8,WS_EX_TRANSPARENT
-    RTEXT           "Random Pool: ",IDT_RANDOM_POOL2,20,144,53,8
+    RTEXT           "Random Pool: ",IDT_RANDOM_POOL,20,144,53,8
     CONTROL         "",IDC_RANDOM_BYTES,"Static",SS_SIMPLE | WS_GROUP,80,144,149,8,WS_EX_TRANSPARENT
     CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,236,142,125,12
     GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,20,156,214,18
