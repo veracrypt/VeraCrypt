@@ -1571,8 +1571,8 @@
     <entry lang="pl" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">Nie można zaktualizować VeraCrypt, ponieważ partycję/dysk systemowy zaszyfrowano przy użyciu algorytmu, który nie jest już obsługiwany.\nProszę odszyfrować system przed aktualizacją VeraCrypt, a następnie zaszyfrować go ponownie.</entry>
     <entry lang="pl" key="LINUX_EX2MSG_TERMINALNOTFOUND">Nie można znaleźć obsługiwanej aplikacji terminala, potrzebujesz xterm, konsole lub gnome-terminal (z dbus-x11).</entry>
     <entry lang="pl" key="IDM_MOUNT_NO_CACHE">Podłącz bez pamięci podręcznej</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
+    <entry lang="pl" key="EXPANDER_INFO">:: Rozszerzacz VeraCrypt ::\n\nRozszerz wolumen VeraCrypt w locie bez ponownego formatowania\n\n\nObsługiwane są wszelkiego rodzaju wolumeny (pliki kontenerów, dyski i partycje) sformatowane w systemie plików NTFS. Jedynym warunkiem jest wystarczająca ilość wolnego miejsca na dysku hosta lub urządzeniu hosta wolumenu VeraCrypt.\n\nNie używaj tego oprogramowania do rozszerzania wolumenu zewnętrznego zawierającego wolumen ukryty, ponieważ spowoduje to zniszczenie wolumenu ukrytego!\n</entry>
+    <entry lang="pl" key="IDC_STEPSEXPAND">1. Wybierz wolumen VeraCrypt do rozszerzenia\n2. Kliknij przycisk 'Podłącz'</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
