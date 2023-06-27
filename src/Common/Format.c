@@ -538,7 +538,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, volParams->quickFormat);
+		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, volParams->quickFormat, volParams->bDevice);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -571,7 +571,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatFat (hwndDlg, startSector, &ft, (void *) dev, cryptoInfo, volParams->quickFormat);
+		nStatus = FormatFat (hwndDlg, startSector, &ft, (void *) dev, cryptoInfo, volParams->quickFormat, volParams->bDevice);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -847,11 +847,13 @@ fv_end:
 }
 
 
-int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
+int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
 	unsigned __int64 nSecNo = startSector;
+	unsigned __int64 nSkipSectors = 128 * (unsigned __int64) BYTES_PER_MB / FormatSectorSize;
+	DWORD bytesWritten;
 	int retVal = 0;
 	DWORD err;
 	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
@@ -927,18 +929,56 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 
 		while (num_sectors--)
 		{
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 				cryptoInfo) == FALSE)
 				goto fail;
 		}
 
+		if (UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize))
+			return FALSE;
+
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;
 	}
-	else
-		nSecNo = num_sectors;
+	else if (!bDevice)
+	{
+		// Quick format: write a zeroed sector every 128 MiB, leaving other sectors untouched
+		// This helps users visualize the progress of actual file creation while forcing Windows
+		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows 
+		// would delay the allocation until we write the backup header at the end of the volume which
+		// would make the user think that the format process has stalled after progress bar reaches 100%.
+		while (num_sectors >= nSkipSectors)
+		{
+			// seek to next sector to be written
+			nSecNo += (nSkipSectors - 1);
+			startOffset.QuadPart = nSecNo * FormatSectorSize;
+			if (!MoveFilePointer ((HANDLE) dev, startOffset))
+			{
+				goto fail;
+			}
+			
+			// sector array has been zeroed above
+			if (!WriteFile ((HANDLE) dev, sector, FormatSectorSize, &bytesWritten, NULL) 
+				|| bytesWritten != FormatSectorSize)
+			{
+				goto fail;
+			}
+			
+			nSecNo++;
+			num_sectors -= nSkipSectors;
 
-	UpdateProgressBar (nSecNo * FormatSectorSize);
+			if (UpdateProgressBar ((nSecNo - startSector)* FormatSectorSize))
+				goto fail;
+		}
+		
+		nSecNo += num_sectors;
+	}
+	else
+	{
+		nSecNo += num_sectors;
+	}
+
+	UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize);
 
 	// Restore the original secondary key (XTS mode) in case NTFS format fails and the user wants to try FAT immediately
 	memcpy (cryptoInfo->k2, originalK2, sizeof (cryptoInfo->k2));
@@ -1269,7 +1309,7 @@ BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 
 BOOL WriteSector (void *dev, char *sector,
 	     char *write_buf, int *write_buf_cnt,
-	     __int64 *nSecNo, PCRYPTO_INFO cryptoInfo)
+	     unsigned __int64 *nSecNo, unsigned __int64 startSector, PCRYPTO_INFO cryptoInfo)
 {
 	static __int32 updateTime = 0;
 
@@ -1283,7 +1323,7 @@ BOOL WriteSector (void *dev, char *sector,
 
 	if (GetTickCount () - updateTime > 25)
 	{
-		if (UpdateProgressBar (*nSecNo * FormatSectorSize))
+		if (UpdateProgressBar ((*nSecNo - startSector) * FormatSectorSize))
 			return FALSE;
 
 		updateTime = GetTickCount ();
