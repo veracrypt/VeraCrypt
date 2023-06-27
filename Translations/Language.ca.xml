@@ -389,6 +389,7 @@
     <entry lang="ca" key="ADMINISTRATOR">Administrador</entry>
     <entry lang="ca" key="ADMIN_PRIVILEGES_DRIVER">Per carregar el controlador VeraCrypt és necessari que entri al sistema amb un compte amb privilegis d'administrador.</entry>
     <entry lang="ca" key="ADMIN_PRIVILEGES_WARN_DEVICES">Si us plau, tingui en compte que per xifrar/desxifrar/donar format a una partició/unitat és necessari que s'utilitzi un compte d'usuari amb privilegis d'administrador.\n\nAixò no s'aplica als volums de dispositiu.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="ca" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Per a crear un volum ocult és necessàri utilitzar un compte d'usuari amb privilegis d'administrador.\n\nVol continuar?</entry>
     <entry lang="ca" key="ADMIN_PRIVILEGES_WARN_NTFS">Tingui en compte que per donar format NTFS a un volum és necessàri utilitzar un compte d'usuari amb privilegis d'administrador.\n\nSense privilegis d'administrador pot donar format FAT al volum.</entry>
     <entry lang="ca" key="AES_HELP">Un xifrat aprovat pel FIPS (el 1998 amb el nom de Rijndael) que està autoritzat pels departaments i les agències del govern dels EUA per protegir informació classificada fins al nivell de Top Secret. Clau de 256 bits, bloc de 128 bits, 14 rondes (AES-256). Treballa en mode XTS.</entry>

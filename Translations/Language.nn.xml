@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="nn" key="ADMIN_PRIVILEGES_DRIVER">For å kunne lasta VeraCrypt drivaren må du vera logga inn med ein konto som har administrator rettigheiter.</entry>
     <entry lang="nn" key="ADMIN_PRIVILEGES_WARN_DEVICES">Obs for å kryptera/formatera ein partisjon/ei eining må du vera logga inn med ein konto som har administrator rettigheiter.\n\nDette gjeld ikkje fil-verta volum.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="nn" key="ADMIN_PRIVILEGES_WARN_HIDVOL">For å oppretta eit skjult volum må du vera logga inn med ein konto som har administrator rettigheiter.\n\nFortsetja?</entry>
     <entry lang="nn" key="ADMIN_PRIVILEGES_WARN_NTFS">Obs for å kunna formatera volumet som NTFS må du vera logga inn med ein konto som har administrator rettigheiter.\n\nUtan administrator rettigheiter, kan du berre formatera volumet som FAT.</entry>
     <entry lang="en" key="AES_HELP">FIPS-approved cipher (Rijndael, published in 1998) that may be used by U.S. government departments and agencies to protect classified information up to the Top Secret level. 256-bit key, 128-bit block, 14 rounds (AES-256). Mode of operation is XTS.</entry>

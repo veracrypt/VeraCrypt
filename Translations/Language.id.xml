@@ -389,6 +389,7 @@
     <entry lang="id" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="id" key="ADMIN_PRIVILEGES_DRIVER">Untuk memuat driver VeraCrypt, Anda perlu log masuk ke akun dengan hak administrator.</entry>
     <entry lang="id" key="ADMIN_PRIVILEGES_WARN_DEVICES">Harap dicatat bahwa untuk mengenkripsi, mendekripsi, atau memformat suatu partisi/peranti Anda perlu log masuk ke akun dengan hak administrator.\n\nIni tidak berlaku bagi volume yang diwadahi berkas.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="id" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Untuk membuat suatu volume tersembunyi Anda perlu log masuk ke akun dengan hak administrator.\n\nLanjutkan?</entry>
     <entry lang="id" key="ADMIN_PRIVILEGES_WARN_NTFS">Harap dicatat bahwa untuk memformat volume sebagai NTFS/exFAT/ReFS Anda perlu log masuk ke akun dengan hak administrator.\n\nTanpa hak administrator, Anda dapat memformat volume sebagai FAT.</entry>
     <entry lang="id" key="AES_HELP">Cipher yang disetujui FIPS (Rijndael, diterbitkan pada tahun 1998) yang dapat digunakan oleh departemen dan lembaga pemerintah AS untuk melindungi informasi rahasia hingga tingkat Top Secret. Kunci 256-bit, blok 128-bit, 14 putaran (AES-256). Mode operasi adalah XTS.</entry>

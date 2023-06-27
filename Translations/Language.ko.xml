@@ -389,6 +389,7 @@
     <entry lang="ko" key="ADMINISTRATOR">관리자</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypt 드라이버를 로드하려면 관리자 권한이 있는 계정에 로그인해야 합니다.</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_WARN_DEVICES">파티션/디바이스 암호화, 암호 해독 또는 포맷을 하려면 관리자 권한이 있는 계정에 로그인해야 한다는 점에 유의하세요.\n\n파일이 호스팅된 볼륨에는 적용되지 않음.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_WARN_HIDVOL">숨겨진 볼륨을 생성하려면 관리자 권한이 있는 계정에 로그인해야 합니다.\n\n계속하시겠습니까?</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_WARN_NTFS">볼륨을 NTFS/exFAT/ReFS로 포맷하려면 관리자 권한이 있는 계정에 로그인해야 한다는 점에 유의하세요.\n\n관리자 권한 없이 볼륨을 FAT로 포맷할 수 있습니다.</entry>
     <entry lang="ko" key="AES_HELP">미국 정부 부처 및 기관이 최고 비밀 수준까지의 기밀 정보를 보호하기 위해 사용할 수 있는 것들은 FIPS 승인 암호(Rijndael, 1998년 발행). 256비트 키, 128비트 블록, 14라운드(AES-256). 작업 모드는 XTS입니다.</entry>

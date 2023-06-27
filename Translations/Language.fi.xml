@@ -389,6 +389,7 @@
     <entry lang="fi" key="ADMINISTRATOR">Pääkäyttäjä</entry>
     <entry lang="fi" key="ADMIN_PRIVILEGES_DRIVER">Jotta VeraCrypt ohjaimen lataus olisi mahdollista, sinun on kirjauduttava pääkäyttäjän oikeuksilla.</entry>
     <entry lang="fi" key="ADMIN_PRIVILEGES_WARN_DEVICES">Huomioi, että salataksesi/alustaaksesi osion/laitteen sinun tulee kirjautua koneelle pääkäyttäjän oikeuksin.\n\nTätä ei pyydetty tiedostoisännöidyille taltioille.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="fi" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Luodaksesi Piilotetun VeraCrypt taltion sinun tulee kirjautua koneelle pääkäyttäjän oikeuksin.\n\nJatka?</entry>
     <entry lang="fi" key="ADMIN_PRIVILEGES_WARN_NTFS">Huomioi, että kun alustat taltion NTFS tyyppiseksi, sinun täytyy kirjautua koneelle pääkäyttäjän oikeuksilla.\n\nIlman pääkäyttäjän oikeuksia voit alustaa taltion FAT tyyppiseksi.</entry>
     <entry lang="fi" key="AES_HELP">FIPS hyväksytty koodaus (Rijndael, julkaistu 1998), jota voidaan käyttää U.S. hallituksen osastojen ja toimistojen luottamuksellisten tietojen suojaukseen huippusalaisella tasolla. 256-bitin avain, 128-bitin lohko, 14 kierrosta (AES-256). Toimenpide tila on XTS.</entry>

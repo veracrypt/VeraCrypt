@@ -389,6 +389,7 @@
     <entry lang="ja" key="ADMINISTRATOR">管理者</entry>
     <entry lang="ja" key="ADMIN_PRIVILEGES_DRIVER">VeraCryptのドライバをロードするためには、管理者権限を持つアカウントでログオンする必要があります。</entry>
     <entry lang="ja" key="ADMIN_PRIVILEGES_WARN_DEVICES">パーティションやデバイスを暗号化またはフォーマットするためには、管理者権限を持つアカウントでログオンする必要があります。\n\nただしファイル型ボリュームの場合はその限りではありません。</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="ja" key="ADMIN_PRIVILEGES_WARN_HIDVOL">隠しボリュームの作成には管理者権限を持つアカウントでログオンする必要があります。\n\n作業を続けますか？</entry>
     <entry lang="ja" key="ADMIN_PRIVILEGES_WARN_NTFS">ボリュームをNTFSでフォーマットするには、管理者権限を持つアカウントでログオンする必要があります。\n\nただし管理者権限がなくても、FATでならフォーマット可能です。</entry>
     <entry lang="ja" key="AES_HELP">FIPS(連邦情報処理基準)で規格化された暗号化方式(Rijndael 1998年)であり、アメリカ政府の各省庁において、最高機密レベルの情報保護に使われています。256ビットの鍵長、128ビットブロックで、ラウンド数は14です(AES-256)。動作モードはXTSです。</entry>

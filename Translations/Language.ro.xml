@@ -389,6 +389,7 @@
     <entry lang="ro" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="ro" key="ADMIN_PRIVILEGES_DRIVER">Pentru a putea încărca driver-ul VeraCrypt, trebuie să fiți autentificat într-un cont cu drepturi de administrator.</entry>
     <entry lang="ro" key="ADMIN_PRIVILEGES_WARN_DEVICES">Țineți cont că pentru a cripta/formata o partiție/disc trebuie să fiți autentificat într-un cont cu drepturi de administrator.\n\nAceasta nu se aplică la volumele amplasate în fișiere.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="ro" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Pentru a putea crea un volum ascuns trebuie să fiți autentificat într-un cont cu drepturi de administrator.\n\nContinuați?</entry>
     <entry lang="ro" key="ADMIN_PRIVILEGES_WARN_NTFS">Țineți cont că pentru a formata volumul ca NTFS/exFAT/ReFS trebuie să fiți autentificat într-un cont cu drepturi de administrator.\n\nFără drepturi de administrator, puteți formata volumul ca FAT.</entry>
     <entry lang="ro" key="AES_HELP">FIPS-cifru aprobat (Rijndael, publicat în 1998) care poate fi folosit de departamentele și agențiile guvernamentale ale SUA pentru a proteja informațiile clasificate până la nivelul Top Secret. Cheie 256-biți, bloc 128-biți, 14 runde (AES-256). Modul de operare este XTS.</entry>

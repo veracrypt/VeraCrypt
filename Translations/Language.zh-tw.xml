@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="zh-tw" key="ADMIN_PRIVILEGES_DRIVER">要掛載 VeraCrypt 磁碟機，您必需以一個具有管理員權限的帳戶登錄。</entry>
     <entry lang="zh-tw" key="ADMIN_PRIVILEGES_WARN_DEVICES">請注意您必需以一個具有管理員權限的帳戶登錄如果要加密或格式化某磁碟分割區和磁碟機。\n\n檔案類型加密區不受這個限制。</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="zh-tw" key="ADMIN_PRIVILEGES_WARN_HIDVOL">如果要建立隱藏的加密區，您必須以一個具有管理員權限的帳戶登錄。\n\n要繼續嗎？</entry>
     <entry lang="zh-tw" key="ADMIN_PRIVILEGES_WARN_NTFS">請注意您必需以一個具有管理員權限的帳戶登錄如果要把加密區格式化為 NTFS 檔案系統。\n\n如果沒有管理員權限，您可以格式化加密區為 FAT 檔案系統。</entry>
     <entry lang="zh-tw" key="AES_HELP">FIPS 認可的加密演算法(Rijndael，發表於 1998)可能被美國聯邦部門和機構用來對特定資訊進行極機密等級保護。256 位元金鑰，128 位元區塊，14 次離散迴圈(AES-256)。操作模式為 XTS。</entry>

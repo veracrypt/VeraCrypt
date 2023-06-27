@@ -389,6 +389,7 @@
     <entry lang="tr" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="tr" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypt sürücüsünü yüklemek için, yönetici haklarına sahip bir hesaba oturum açmış olmalısınız.</entry>
     <entry lang="tr" key="ADMIN_PRIVILEGES_WARN_DEVICES">Bir bölümü/aygıtı şifrelemek/Şifre Çözmek/biçimlendirmek için yönetici haklarına sahip bir hesaba oturum açmanız gerektiğine lütfen dikkat edin.\n\nBu koşul dosyada barındırılan birimler için geçerli değildir.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="tr" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Gizli bir birim oluşturmak için yönetici haklarına sahip bir hesaba oturum açmanız gereklidir.\n\nDevam edilsin mi?</entry>
     <entry lang="tr" key="ADMIN_PRIVILEGES_WARN_NTFS">Birimi NTFS olarak biçimlendirebilmek için yönetim haklarına sahip bir hesaba oturum açmanız gerektiğine dikkat edin.\n\nBirimi yönetim hakları olmadan FAT olarak biçimlendirebilirsiniz.</entry>
     <entry lang="tr" key="AES_HELP">FIPS onaylı şifre (Rijndael, 1998'de yayınlandı), gizli bilgileri Çok Gizli seviyeye kadar korumak için ABD devlet daireleri ve kurumları tarafından kullanılabilir. 256 bit anahtar, 128 bit blok, 14 tur (AES-256). Çalışma modu XTS'dir.</entry>

@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="bg" key="ADMIN_PRIVILEGES_DRIVER">За да се зареди VeraCrypt драйвера, трябва да сте влезли с акаунт, който има администраторски права.</entry>
     <entry lang="bg" key="ADMIN_PRIVILEGES_WARN_DEVICES">Моля, обърнете внимание на това, че за да криптирате/форматирате дял/устройство, трябва да сте влезли с акаунт, който има администраторски права.\n\nТова не се отнася за томове които се намират във файл-контейнери.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="bg" key="ADMIN_PRIVILEGES_WARN_HIDVOL">За да създадете скрит том трябва да сте влезли с акаунт, който има администраторски права.\n\nЩе продължите ли?</entry>
     <entry lang="bg" key="ADMIN_PRIVILEGES_WARN_NTFS">Моля, обърнете внимание на това, че за да форматирате том като NTFS, трябва да сте влезли с акаунт, който има администраторски права.\n\nБез администраторски права можете да форматирате тома като FAT.</entry>
     <entry lang="bg" key="AES_HELP">Шифър одобрен от FIPS (Rijndael, публикуван през 1998) който може да се използва от правителствените организации и служби на САЩ за защита на класифицирана информация до ниво Строго Секретно. 256-битов ключ, 128-битов блок, 14 кръга (AES-256). Режимът на работа е XTS.</entry>

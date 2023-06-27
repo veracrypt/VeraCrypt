@@ -389,6 +389,7 @@
     <entry lang="es" key="ADMINISTRATOR">Administrador</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_DRIVER">Para cargar el controlador de VeraCrypt necesita iniciar sesión con privilegios de administrador.</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_WARN_DEVICES">Tenga en cuenta que para cifrar/formatear una partición/dispositivo necesita iniciar sesión con privilegios de administrador.\n\nEsto no se aplica a los volúmenes alojados en archivos.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Para crear un volumen oculto necesita iniciar sesión con privilegios de administrador.\n\n¿Desea continuar?</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_WARN_NTFS">Tenga en cuenta que para formatear el volumen como NTFS necesita iniciar sesión con privilegios de administrador.\n\nSin los privilegios de administrador, sólo puede formatear el volumen como FAT.</entry>
     <entry lang="es" key="AES_HELP">Algoritmo aprobado por FIPS (Rijndael, publicado en 1998) que podría ser usado por departamentos y agencias gubernamentales de EEUU para proteger información clasificada hasta el nivel Alto Secreto. Clave de 256-bit, bloque de 128-bit, 14 rondas (AES-256). El modo de operación es XTS.</entry>

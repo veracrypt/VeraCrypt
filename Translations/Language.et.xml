@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="et" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypti tüüreli laadimiseks  pead sa olema sisse logitud Administratori õigustes.</entry>
     <entry lang="et" key="ADMIN_PRIVILEGES_WARN_DEVICES">Pane tähele, et krüptida/formaatida partitsiooni/seadet, pead sa olema sisse logitud Administraatori õigustes. See ei kehti faili-baasil konteineritele.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="et" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Peidetud konteineri loomiseks pead sa olema sisse logitud Administraatori õigustes.\n\nJätkan?</entry>
     <entry lang="et" key="ADMIN_PRIVILEGES_WARN_NTFS">Pane tähele, et formaatida konteiner kui NTFS, pead sa olema sisse logitud Administraatori õigustes. Ilma Administraatori  õigusteta saad sa konteineri formaatida kui FAT.</entry>
     <entry lang="en" key="AES_HELP">FIPS-approved cipher (Rijndael, published in 1998) that may be used by U.S. government departments and agencies to protect classified information up to the Top Secret level. 256-bit key, 128-bit block, 14 rounds (AES-256). Mode of operation is XTS.</entry>

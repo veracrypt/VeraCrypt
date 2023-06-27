@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="ka" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypt-ის დრაივერის ჩასატვირთად სისტემაში ადმინისტრატორის უფლებებით უნდა იყოთ შესული</entry>
     <entry lang="ka" key="ADMIN_PRIVILEGES_WARN_DEVICES">განაყოფის/მოწყობილობის შიფრაციისათვის/ფორმატირებისათვის სისტემაში ადმინისტრატორის უფლებებით უნდა იყოთ შესული.\n\n ეს არ ეხება ტომებს ფაილის ბაზაზე.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="ka" key="ADMIN_PRIVILEGES_WARN_HIDVOL">ფარული ტომის შექმნისათვის სისტემაში ადმინისტრატორის უფლებებით უნდა იყოთ შესული.\n\nგავაგრძელო?</entry>
     <entry lang="ka" key="ADMIN_PRIVILEGES_WARN_NTFS">ტომის NTFS ფორმატირებისათვის სისტემაში ადმინისტრატორის უფლებებით უნდა იყოთ შესული.\n\nამის გარეშე ტომის ფორმატირება შესაძლებელია მხოლოდ როგორც FAT</entry>
     <entry lang="ka" key="AES_HELP">FIPS-ის მიერ დამტკიცებული შიფრი (Rijndael, გამოქვეყნდა 1998წ), გამოიყენება სახელმწიფო უწყებებში ზესაიდუმლო ინფორმაციის დასაცავად. 256-ბიტი გასაღები, 128-ბიტი ბლოკი, 14 რაუნდი (AES-256). ქმედების რეჟიმი-XTS.</entry>

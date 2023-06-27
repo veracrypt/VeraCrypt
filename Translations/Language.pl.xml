@@ -389,6 +389,7 @@
     <entry lang="pl" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_DRIVER">Do załadowania sterowników VeraCrypt wymagane jest użycie konta z uprawnieniami administratora.</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_WARN_DEVICES">Aby zaszyfrować/sformatować partycję lub urządzenie, należy użyć konta z uprawnieniami administratora.\n\nPowyższe ograniczenie nie dotyczy wolumenów tworzonych w plikach.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_WARN_HIDVOL">W przypadku tworzenia wolumenu ukrytego należy użyć konta z uprawnieniami administratora.\n\nCzy kontynuować?</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_WARN_NTFS">Do formatowania wolumenu w formacie NTFS/exFAT/ReFS należy użyć konta z uprawnieniami administratora.\n\nBez uprawnień administratora można formatować wolumen w formacie FAT.</entry>
     <entry lang="pl" key="AES_HELP">Zaakceptowany przez FIPS szyfr (Rijndael, opublikowany w 1998) może być używany przez agencje rządowe USA Do ochrony informacji zaklasyfikowanych jako ściśle tajne. Klucz 256-bitowy, z blokiem 128-bitowym, 14 przebiegów (AES-256). Tryb szyfrowania: XTS.</entry>

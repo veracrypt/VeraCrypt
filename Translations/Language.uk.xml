@@ -389,6 +389,7 @@
     <entry lang="uk" key="ADMINISTRATOR">Адміністратор</entry>
     <entry lang="uk" key="ADMIN_PRIVILEGES_DRIVER">Щоб завантажити драйвер VeraCrypt, ви повинні ввійти в систему з правами Адміністратора.</entry>
     <entry lang="uk" key="ADMIN_PRIVILEGES_WARN_DEVICES">Щоб можна було шифрувати/Розшифрувати/форматувати розділ/пристрій, ви повинні ввійти в систему з правами Адміністратора.\n\nДо томів на основі файлів це не відноситься.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="uk" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Щоб створити прихований том, ви повинні ввійти в систему з правами Адміністратора.\n\nПродовжити?</entry>
     <entry lang="uk" key="ADMIN_PRIVILEGES_WARN_NTFS">Щоб форматувати томи як NTFS, ви повинні увійти в систему з правами Адміністратора.\n\nБез привілегій Адміністратора можна форматувати томи тільки як FAT.</entry>
     <entry lang="uk" key="AES_HELP">Затверджений FIPS (США) алгоритм шифрування (Rijndael, опублікований в 1998 р.), дозволений до застосування в федеральних структурах США для захисту важливої інформації. 256-біт ключ, 128-біт блок, 14 циклів (AES-256). Режим роботи -- XTS.</entry>

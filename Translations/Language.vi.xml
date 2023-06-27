@@ -389,6 +389,7 @@
     <entry lang="vi" key="ADMINISTRATOR">Quản lý</entry>
     <entry lang="vi" key="ADMIN_PRIVILEGES_DRIVER">Để nạp trình điều khiển của VeraCrypt lên, bạn cần đăng nhập vào một trương mục có quyền quản lý.</entry>
     <entry lang="vi" key="ADMIN_PRIVILEGES_WARN_DEVICES">Xin lưu ý là để mã hóa/Giải/định dạng một phân vùng/thiết bị thì bạn cần đăng nhập vào một trương mục có quyền quản lý.\n\nChuyện này không áp dụng với các tập đĩa có tập tin làm chủ.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="vi" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Để cấu tạo một tập đĩa ẩn bạn cần đăng nhập vào một trương mục có quyền quản lý.\n\nTiếp tục không?</entry>
     <entry lang="vi" key="ADMIN_PRIVILEGES_WARN_NTFS">Xin lưu ý là để định dạng tập đĩa theo dạng NTFS bạn cần đăng nhập vào một trương mục có quyền quản lý.\n\nKhông thôi có quyền quản lý, bạn có thể định dạng tập đĩa theo dạng FAT.</entry>
     <entry lang="vi" key="AES_HELP">Mã hóa được chấp thuận bởi FIPS (Rijndael, phát hành năm 1998) có thể được sử dụng bởi các bộ và cơ quan Hoa Kỳ để bảo vệ những tin tức mật cho đến mức tối mật. 256-bit key, 128-bit block, 14 rounds (AES-256). Phương thức của thao tác là XTS.</entry>

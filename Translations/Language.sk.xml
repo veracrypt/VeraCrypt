@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="sk" key="ADMIN_PRIVILEGES_DRIVER">Pre nahratie ovládača VeraCrypt musíte byť prihlásený ako administrátor.</entry>
     <entry lang="sk" key="ADMIN_PRIVILEGES_WARN_DEVICES">Pre šifrovanie/Dešifrovanie/formátovanie oddielu/zariadenia musíte byť prihlásený s administrátorskými právami.\n\nToto sa netýka zväzkov, ktoré sú vytvorené zo súborov.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="sk" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Pre vytvorenie skrytého zväzku musíte byť prihlásený s administrátorskými právami.\n\nPokračovať?</entry>
     <entry lang="sk" key="ADMIN_PRIVILEGES_WARN_NTFS">Pre sformátovanie zväzku systémom NTFS musíte byť prihlásený s administrátorskými právami.\n\nBez administrátorských práv môžete zväzok sformátovať systémom súborov FAT.</entry>
     <entry lang="en" key="AES_HELP">FIPS-approved cipher (Rijndael, published in 1998) that may be used by U.S. government departments and agencies to protect classified information up to the Top Secret level. 256-bit key, 128-bit block, 14 rounds (AES-256). Mode of operation is XTS.</entry>

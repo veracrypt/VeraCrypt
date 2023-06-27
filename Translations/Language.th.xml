@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="en" key="ADMIN_PRIVILEGES_DRIVER">In order to load the VeraCrypt driver, you need to be logged into an account with administrator privileges.</entry>
     <entry lang="en" key="ADMIN_PRIVILEGES_WARN_DEVICES">Please note that in order to encrypt, decrypt or format a partition/device you need to be logged into an account with administrator privileges.\n\nThis does not apply to file-hosted volumes.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="en" key="ADMIN_PRIVILEGES_WARN_HIDVOL">In order to create a hidden volume you need to be logged into an account with administrator privileges.\n\nContinue?</entry>
     <entry lang="en" key="ADMIN_PRIVILEGES_WARN_NTFS">Please note that in order to format the volume as NTFS/exFAT/ReFS you need to be logged into an account with administrator privileges.\n\nWithout administrator privileges, you can format the volume as FAT.</entry>
     <entry lang="en" key="AES_HELP">FIPS-approved cipher (Rijndael, published in 1998) that may be used by U.S. government departments and agencies to protect classified information up to the Top Secret level. 256-bit key, 128-bit block, 14 rounds (AES-256). Mode of operation is XTS.</entry>

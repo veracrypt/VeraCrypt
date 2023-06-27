@@ -389,6 +389,7 @@
     <entry lang="pt-br" key="ADMINISTRATOR">Administrador</entry>
     <entry lang="pt-br" key="ADMIN_PRIVILEGES_DRIVER">Para carregar o driver do VeraCrypt, você deve estar logado em uma conta com privilégio de administrador.</entry>
     <entry lang="pt-br" key="ADMIN_PRIVILEGES_WARN_DEVICES">Para criptografar/Descriptografar/formatar uma partição/dispositivo você deve estar logado em uma conta com privilégios de administrador.\n\nIsto não se aplica a volumes armazenados em arquivos.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="pt-br" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Para criar um disco oculto, você deve estar logado em uma conta com privilégios de administrador.\n\nDeseja continuar?</entry>
     <entry lang="pt-br" key="ADMIN_PRIVILEGES_WARN_NTFS">Para formatar o disco como NTFS você precisa estar logado em uma conta com privilégios de administrador.\n\nSem estes privilégios, você pode formatar o disco como FAT.</entry>
     <entry lang="pt-br" key="AES_HELP">Cifra aprovada pela FIPS (Rijndael, publicada em 1998) para ser usada pelos departamentos e agências do governo dos EUA para proteger as informações mais confidenciais. Chave de 256 bits, bloco de 128 bits, 14 ciclos (AES-256). Modo de operação XTS.</entry>

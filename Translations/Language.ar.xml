@@ -389,6 +389,7 @@
     <entry lang="ar" key="ADMINISTRATOR">المستخدم المدير</entry>
     <entry lang="ar" key="ADMIN_PRIVILEGES_DRIVER">‮لتُحمّل مشغّل ڤيراكربت تحتاج للولوج إلى حساب له صلاحيات المدير.</entry>
     <entry lang="ar" key="ADMIN_PRIVILEGES_WARN_DEVICES">‮لاحظ أنه لكي تعمي/تُهيئ قسما/نبيطة فإنه يتوجب عليك الولوج إلى حساب له صلاحيات المدير. ‮ ‮ هذا لا ينطبق على المجلدات المستضافة في ملفات.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="ar" key="ADMIN_PRIVILEGES_WARN_HIDVOL">‮لإنشاء مجلد مخفي يجب الولوج إلى حساب له صلاحيات المدير. ‮ ‮أأتابع؟</entry>
     <entry lang="ar" key="ADMIN_PRIVILEGES_WARN_NTFS">‮رجاءً لاحظ أنه يجب عليك الولوج إلى حساب له صلاحيات المدير لتتمكّن من تهيئة المجلد بنظام‍ ‪NTFS‬. ‮ ‮ يمكنك أن تُهيء المجلد بنظام ‪FAT‬ دون صلاحيات المدير.</entry>
     <entry lang="ar" key="AES_HELP">‮شفرة مقبولة لدى ‪FIPS‬ (‪Rijndael‬ المنشورة في ‪1998‬) يمكن لوكالات و إدارات حكومة الولايات المتحدة الأمريكية استخدامها لحماية المعلومات المصنفة حتى مستوى 'سري للغاية'. ‮مفتاح بطول ‪256‬ بتة؛ كتلة ‪128‬ بتة؛ ‪14‬ دورة (‪AES‬ ‪256‬)؛ تعمل في طور ‪XTS‬.</entry>

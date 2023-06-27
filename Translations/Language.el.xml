@@ -389,6 +389,7 @@
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="el" key="ADMIN_PRIVILEGES_DRIVER">Για να φορτώσετε τον οδηγό VeraCrypt, πρέπει να συνθεθείτε ως διαχειριστής.</entry>
     <entry lang="el" key="ADMIN_PRIVILEGES_WARN_DEVICES">Παρακαλώ σημειώστε ότι για να κρυπτογραφήσετε/διαμορφώσετε ένα διαμέρισμα/συσκευή πρέπει να έχετε δικαιώματα διαχειριστή.\n\nΑυτό δεν ισχύει για τους τόμους σε αρχεία.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="el" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Για να δημιουργήσετε κρυφό τόμο πρέπει να έχετε δικαιώματα διαχειριστή.\n\nΣυνέχεια;</entry>
     <entry lang="el" key="ADMIN_PRIVILEGES_WARN_NTFS">Παρακαλώ σημειώστε ότι για να διαμορφώσετε τον τόμο σε NTFS πρέπει να έχετε δικαιώματα διαχειριστή.\n\nΧωρίς δικαιώματα διαχειριστή μπορείτε να διαμορφώσετε τον τόμο σε FAT.</entry>
     <entry lang="el" key="AES_HELP">Κρυπτογράφος εγκεκριμένος από την FIPS (Rijndael, δημοσιεύτηκε το 1998) που μπορεί να χρησιμοποιηθεί από υπηρεσίες των Η.Π.Α. για προστασία μέχρι άκρως απορρήτων πληροφοριών. Κλειδί 256-bit, μπλοκ 128-bit, 14 γύροι (AES-256). Κατάσταση λειτουργίας XTS.</entry>

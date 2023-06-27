@@ -389,6 +389,7 @@
     <entry lang="sv" key="ADMINISTRATOR">Administratör</entry>
     <entry lang="sv" key="ADMIN_PRIVILEGES_DRIVER">För att kunna ladda VeraCrypts drivrutin måste du vara inloggad med ett konto med administratörsbehörigheter.</entry>
     <entry lang="sv" key="ADMIN_PRIVILEGES_WARN_DEVICES">Observera att du måste vara inloggad med ett konto med administratörsbehörigheter för att kunna kryptera/dekryptera eller formatera en partition eller enhet.\n\nDetta gäller inte volymer i volymbehållare.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="sv" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Du måste vara inloggad med ett konto med administratörsbehörigheter för att kunna skapa en dold volym.\n\n Vill du fortsätta?</entry>
     <entry lang="sv" key="ADMIN_PRIVILEGES_WARN_NTFS">Observera att du måste vara inloggad med ett konto med administratörsbehörigheter för att kunna formatera volymen med NTFS.\n\nUtan administratörsbehörighet kan du formatera volymen med FAT.</entry>
     <entry lang="sv" key="AES_HELP">FIPS-godkänt krypteringsalgoritm (Rijndael, publicerad 1998) som får användas av amerikanska regeringens departement och myndigheter för att skydda hemligstämplad information upp till topphemlig nivå. 256-bitars nyckel, 128-bitars block, 14 steg (AES-256). Arbetsläget är XTS.</entry>

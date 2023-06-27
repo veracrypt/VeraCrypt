@@ -389,6 +389,7 @@
     <entry lang="he" key="ADMINISTRATOR">מנהל</entry>
     <entry lang="he" key="ADMIN_PRIVILEGES_DRIVER">על מנת לטעון את מנהל ההתקן של VeraCrypt, עליך להיכנס לחשבון עם הרשאות מנהל.</entry>
     <entry lang="he" key="ADMIN_PRIVILEGES_WARN_DEVICES">שים לב שכדי להצפין, לפענח או לעצב מחיצה / התקן אתה צריך להיות מחובר לחשבון עם הרשאות מנהל. \n \n זה לא חל על אמצעי אחסון המתארחים בקבצים.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="he" key="ADMIN_PRIVILEGES_WARN_HIDVOL">על מנת ליצור אמצעי אחסון מוסתר עליך להיכנס לחשבון עם הרשאות מנהל. \n \n להמשיך?</entry>
     <entry lang="he" key="ADMIN_PRIVILEGES_WARN_NTFS">שים לב שכדי לעצב את אמצעי האחסון כ- NTFS / exFAT / ReFS אתה צריך להיות מחובר לחשבון עם הרשאות מנהל. \n \n ללא הרשאות מנהל, אתה יכול לעצב את אמצעי האחסון כ- FAT.</entry>
     <entry lang="he" key="AES_HELP">צופן מאושר על ידי FIPS (Rijndael, פורסם בשנת 1998) אשר עשוי לשמש את משרדי הממשלה והסוכנויות בארה&amp;quot;ב כדי להגן על מידע מסווג עד לרמה הסודית ביותר.מקש 256 סיביות, בלוק 128 סיביות, 14 סיבובים (AES-256).אופן הפעולה הוא XTS.</entry>

@@ -389,6 +389,7 @@
     <entry lang="it" key="ADMINISTRATOR">Amministratore</entry>
     <entry lang="it" key="ADMIN_PRIVILEGES_DRIVER">Per caricare il driver VeraCrypt è necessario accedere come utente con privilegi di amministratore.</entry>
     <entry lang="it" key="ADMIN_PRIVILEGES_WARN_DEVICES">Per codificare/decodificare/formattare un unità/partizione è necessario accedere come utente con privilegi di amministratore.\n\nQuesta restrizione non si applica ai volumi basati su file.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="it" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Per creare un volume nascosto è necessario accedere come utente con privilegi di amministratore.\n\nContinuare?</entry>
     <entry lang="it" key="ADMIN_PRIVILEGES_WARN_NTFS">Per formattare il volume come NTFS è necessario accedere come utente con privilegi di amministratore.\n\nSenza i privilegi di amministrazione si può formattare il volume come FAT.</entry>
     <entry lang="it" key="AES_HELP">Algoritmo di codifica (Rijndael, pubblicato nel 1998) approvato per la FIPS, che può essere usato dai dipartimenti ed agenzie federali U.S.A. per proteggere le informazioni Top Secret.\nChiave a 256-bit, blocco a 128-bit, 14 passaggi (AES-256).\nModo operativo XTS.</entry>

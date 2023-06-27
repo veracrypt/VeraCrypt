@@ -389,6 +389,7 @@
     <entry lang="eu" key="ADMINISTRATOR">Administratzailea</entry>
     <entry lang="eu" key="ADMIN_PRIVILEGES_DRIVER">TrueCryp-en kontrolatzailea kargatzeko administratzaile baimeneko kontu batekin saioa izan behar duzu.</entry>
     <entry lang="eu" key="ADMIN_PRIVILEGES_WARN_DEVICES">Kontutan izan ezazu partizio/gailu bat enkriptatzeko/formateatzeko administratzaile baimeneko kontu batekin saioa izan behar duzula.\n\nHau ez da beharrezkoa fitxategi barneko bolumenentzako.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="eu" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Ezkutuko bolumena sortzeko administratzaile baimeneko kontu batekin saioa izan behar duzu.\n\nJarraitu?</entry>
     <entry lang="eu" key="ADMIN_PRIVILEGES_WARN_NTFS">Ohartu zaitez bolumena NTFS moduan formateatu nahi baduzu administratzaile bezela sesioa zian behar duzula.\n\nAdministratzaile baimenik ez baduzu bolumenari FAT formatua eman diezaiokezu.</entry>
     <entry lang="eu" key="AES_HELP">FIPS onartutako zifraketa (Rijndael, 1998ean argitaratua). E.B. gobernuko departamentu eta agentziek erabili dezakete informazio sekretua babesteko Top Secret mailara arte. 256 biteko gakoa, 128 biteko blokea, 14 saio. XTS moduan lan egiten du.</entry>
