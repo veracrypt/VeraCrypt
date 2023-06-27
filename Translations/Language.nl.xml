@@ -356,7 +356,7 @@
     <entry lang="nl" key="IDT_KEYFILE_WARNING">WAARSCHUWING: als u een sleutelbestand verliest of als er een bit van de eerste 1024 KiB verandert, is het onmogelijk om volumes te koppelen die het sleutelbestand gebruiken!</entry>
     <entry lang="nl" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="nl" key="IDT_NUMBER_KEYFILES">Aantal sleutelbestanden:</entry>
-    <entry lang="nl" key="IDT_KEYFILES_SIZE">Grootte sleutelbestand:</entry>
+    <entry lang="nl" key="IDT_KEYFILES_SIZE">Grootte sleutelbestanden:</entry>
     <entry lang="nl" key="IDT_KEYFILES_BASE_NAME">Basisnaam sleutelbestanden:</entry>
     <entry lang="nl" key="IDT_LANGPACK_AUTHORS">Vertaald door:</entry>
     <entry lang="nl" key="IDT_PLAINTEXT">Grootte van platte tekst:</entry>
@@ -389,6 +389,7 @@
     <entry lang="nl" key="ADMINISTRATOR">Beheerder</entry>
     <entry lang="nl" key="ADMIN_PRIVILEGES_DRIVER">Om het VeraCrypt-stuurprogramma te laden, moet u ingelogd zijn op een account met beheerdersrechten.</entry>
     <entry lang="nl" key="ADMIN_PRIVILEGES_WARN_DEVICES">Om een partitie/apparaat te versleutelen, te ontsleutelen of te formatteren, moet u aangemeld zijn bij een account met beheerdersrechten.\n\nDit is niet van toepassing op volumes die door bestanden worden gehost.</entry>
+    <entry lang="nl" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Kan snelle bestandsaanmaak niet inschakelen: Administratorrechten vereist.\nStart het programma opnieuw als administrator om deze functie in te schakelen.\n\nWilt u doorgaan zonder snel bestanden maken?</entry>
     <entry lang="nl" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Om een verborgen volume aan te maken moet u ingelogd zijn op een account met beheerdersrechten.\n\nDoorgaan?</entry>
     <entry lang="nl" key="ADMIN_PRIVILEGES_WARN_NTFS">Om het volume als NTFS/exFAT/ReFS te formatteren, moet u aangemeld zijn bij een account met beheerdersrechten.\n\nZonder beheerdersrechten kunt u het volume formatteren als FAT.</entry>
     <entry lang="nl" key="AES_HELP">FIPS-goedgekeurde code (Rijndael, gepubliceerd in 1998) die door Amerikaanse ministeries en instanties mag worden gebruikt om gerubriceerde informatie te beschermen tot op het topgeheime niveau. 256-bit sleutel, 128-bit blok, 14 ronden (AES-256). Werkingswijze is XTS.</entry>
@@ -938,7 +939,7 @@
     <entry lang="nl" key="ENTER_HEADER_BACKUP_PASSWORD">Voer het wachtwoord in voor de header die in het back-upbestand is opgeslagen</entry>
     <entry lang="nl" key="KEYFILE_CREATED">Sleutelbestanden zijn met succes aangemaakt.</entry>
     <entry lang="nl" key="KEYFILE_INCORRECT_NUMBER">Het aantal door u opgegeven sleutelbestanden is ongeldig.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
+    <entry lang="nl" key="KEYFILE_INCORRECT_SIZE">Het sleutelbestand moet ten minste 64 bytes groot zijn.</entry>
     <entry lang="nl" key="KEYFILE_EMPTY_BASE_NAME">Voer een naam in voor de aan te maken sleutelbestanden.</entry>
     <entry lang="nl" key="KEYFILE_INVALID_BASE_NAME">Basisnaam van sleutelbestand(en) is ongeldig</entry>
     <entry lang="nl" key="KEYFILE_ALREADY_EXISTS">Het sleutelbestand '%s' bestaat al.\nWilt u het overschrijven? Het genereren wordt gestopt als u nee antwoordt.</entry>
@@ -1571,39 +1572,39 @@
     <entry lang="nl" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt kan niet worden bijgewerkt omdat de systeempartitie/schijf is versleuteld met een algoritme dat niet meer wordt ondersteund.\nOntsleutel uw systeem voordat u VeraCrypt bijwerkt en versleutel het dan opnieuw.</entry>
     <entry lang="nl" key="LINUX_EX2MSG_TERMINALNOTFOUND">Er kon geen ondersteunde terminalapplicatie worden gevonden. U hebt ofwel xterm, konsole of gnome-terminal (met dbus-x11) nodig.</entry>
     <entry lang="nl" key="IDM_MOUNT_NO_CACHE">Koppelen zonder cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
+    <entry lang="nl" key="EXPANDER_INFO">:: VeraCrypt Uitbreider ::\n\nEen VeraCrypt-volume on the fly uitbreiden zonder opnieuw te formatteren\n\n\nAlle soorten volumes (containerbestanden, schijven en partities) die met NTFS zijn geformatteerd, worden ondersteund. De enige voorwaarde is dat er voldoende vrije ruimte moet zijn op de hostschijf of het hostapparaat van het VeraCrypt-volume.\n\nGebruik deze software niet om een buitenste volume uit te breiden dat een verborgen volume bevat, omdat dit het verborgen volume vernietigt!\n</entry>
+    <entry lang="nl" key="IDC_STEPSEXPAND">1. Selecteer het VeraCrypt-volume dat moet worden uitgebreid\n2. Klik op de knop 'Koppelen'</entry>
+    <entry lang="nl" key="IDT_VOL_NAME">Volume: </entry>
+    <entry lang="nl" key="IDT_FILE_SYS">Bestandssysteem:</entry>
+    <entry lang="nl" key="IDT_CURRENT_SIZE">Huidige grootte:</entry>
+    <entry lang="nl" key="IDT_NEW_SIZE">Nieuwe grootte:</entry>
+    <entry lang="nl" key="IDT_NEW_SIZE_BOX_TITLE">Voer de nieuwe volumegrootte in</entry>
+    <entry lang="nl" key="IDC_INIT_NEWSPACE">Nieuwe ruimte met willekeurige gegevens vullen</entry>
+    <entry lang="nl" key="IDC_QUICKEXPAND">Snel uitbreiden</entry>
+    <entry lang="nl" key="IDT_INIT_SPACE">Nieuwe ruimte vullen:</entry>
+    <entry lang="nl" key="EXPANDER_FREE_SPACE">%s vrije ruimte beschikbaar op host-schijf</entry>
+    <entry lang="nl" key="EXPANDER_HELP_DEVICE">Dit is een apparaatgebaseerd VeraCrypt-volume.\n\nDe nieuwe volumegrootte wordt automatisch gekozen als de grootte van het host-apparaat.</entry>
+    <entry lang="nl" key="EXPANDER_HELP_FILE">Geef de nieuwe grootte van het VeraCrypt-volume op (moet minstens %I64u kB groter zijn dan de huidige grootte).</entry>
+    <entry lang="nl" key="QUICK_EXPAND_WARNING">WAARSCHUWING: gebruik snel uitbreiden alleen in de volgende gevallen:\n\n1) Het apparaat waar de bestandscontainer zich bevindt, bevat geen gevoelige gegevens en u hebt geen aannemelijke ontkenning nodig.\n2) Het apparaat waarde bestandscontainer zich bevindt is al op een veilige manier en volledig gecodeerd.\n\nWeet u zeker dat u snel uitbreiden wilt gebruiken?</entry>
+    <entry lang="nl" key="EXPANDER_STATUS_TEXT">BELANGRIJK: Beweeg de muis zo willekeurig mogelijk binnen dit venster. Hoe langer u ze beweegt, hoe beter. Dit verhoogt de cryptografische kracht van de encryptiesleutels aanzienlijk. Klik vervolgens op 'Doorgaan' om het volume uit te breiden.</entry>
+    <entry lang="nl" key="EXPANDER_STATUS_TEXT_LEGACY">Klik op 'Doorgaan' om het volume uit te breiden.</entry>
+    <entry lang="nl" key="EXPANDER_FINISH_ERROR">Fout: uitbreiden van volume mislukt.</entry>
+    <entry lang="nl" key="EXPANDER_FINISH_ABORT">Fout: bewerking afgebroken door gebruiker.</entry>
+    <entry lang="nl" key="EXPANDER_FINISH_OK">Klaar. Volume met succes uitgebreid.</entry>
+    <entry lang="nl" key="EXPANDER_CANCEL_WARNING">Waarschuwing: het volume wordt uitgebreid!\n\nAls u nu stopt, kan het volume beschadigd raken.\n\nWilt u echt annuleren?</entry>
+    <entry lang="nl" key="EXPANDER_STARTING_STATUS">Uitbreiden van volume starten...\n</entry>
+    <entry lang="nl" key="EXPANDER_HIDDEN_VOLUME_ERROR">Een buitenste volume dat een verborgen volume bevat kan niet worden uitgebreid, omdat dit het verborgen volume vernietigt.\n</entry>
+    <entry lang="nl" key="EXPANDER_SYSTEM_VOLUME_ERROR">Een VeraCrypt-systeemvolume kan niet worden uitgebreid.</entry>
+    <entry lang="nl" key="EXPANDER_NO_FREE_SPACE">Onvoldoende vrije ruimte om het volume uit te breiden</entry>
+    <entry lang="nl" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Waarschuwing: het containerbestand is groter dan het VeraCrypt-volumegebied. De gegevens na het VeraCrypt-volumegebied worden overschreven.\n\nWilt u doorgaan?</entry>
+    <entry lang="nl" key="EXPANDER_WARNING_FAT">Waarschuwing: het VeraCrypt-volume bevat een FAT-bestandssysteem!\n\nAlleen het VeraCrypt-volume zelf wordt uitgebreid, maar niet het bestandssysteem.\n\nWilt u doorgaan?</entry>
+    <entry lang="nl" key="EXPANDER_WARNING_EXFAT">Waarschuwing: het VeraCrypt-volume bevat een exFAT-bestandssysteem!\n\nAlleen het VeraCrypt-volume zelf wordt uitgebreid, maar niet het bestandssysteem.\n\nWilt u doorgaan?</entry>
+    <entry lang="nl" key="EXPANDER_WARNING_UNKNOWN_FS">Waarschuwing: het VeraCrypt-volume bevat een onbekend of geen bestandssysteem!\n\nAlleen het VeraCrypt-volume zelf wordt uitgebreid, het bestandssysteem blijft ongewijzigd.\n\nWilt u doorgaan?</entry>
+    <entry lang="nl" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Nieuwe volumegrootte te klein. Ze moet minstens %I64u kB groter zijn dan de huidige grootte.</entry>
+    <entry lang="nl" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Nieuwe volumegrootte te groot. Onvoldoende ruimte op hoststation</entry>
+    <entry lang="nl" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximale bestandsgrootte van %I64u MB op hoststation overschreden.</entry>
+    <entry lang="nl" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Fout: de nodige rechten om 'snel uitbreiden' in te schakelen zijn niet verkregen!\nHaal het vinkje weg bij de optie 'snel uitbreiden' en probeer het opnieuw.</entry>
+    <entry lang="nl" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximale VeraCrypt-volumegrootte van %I64u TB overschreden!\n</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
