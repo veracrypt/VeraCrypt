@@ -17,6 +17,7 @@
 #include <wx/cmdline.h>
 #include "Crypto/cpu.h"
 #include "Platform/PlatformTest.h"
+#include "Common/PCSCException.h"
 #ifdef TC_UNIX
 #include <errno.h>
 #include "Platform/Unix/Process.h"
@@ -24,7 +25,6 @@
 #include "Platform/SystemInfo.h"
 #include "Platform/SystemException.h"
 #include "Common/SecurityToken.h"
-#include "Common/IccDataExtractor.h"
 #include "Volume/EncryptionTest.h"
 #include "Application.h"
 #include "FavoriteVolume.h"
@@ -501,12 +501,18 @@ namespace VeraCrypt
 		EX2MSG (StringFormatterException,			LangString["LINUX_EX2MSG_STRINGFORMATTEREXCEPTION"]);
 		EX2MSG (TemporaryDirectoryFailure,			LangString["LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE"]);
 		EX2MSG (UnportablePassword,					LangString["UNSUPPORTED_CHARS_IN_PWD"]);
-        
-        EX2MSG (WinscardLibraryNotInitialized,		LangString["WINSCARD_MODULE_INIT_FAILED"]);
-        EX2MSG (InvalidEMVPath,					    LangString["INVALID_EMV_PATH"]);
-        EX2MSG (EMVKeyfileDataNotFound,				LangString["EMV_KEYFILE_DATA_NOT_FOUND"]);
-        EX2MSG (EMVPANNotFound,					    LangString["EMV_PAN_NOT_FOUND"]);
-        EX2MSG (EMVUnknownCardType,					LangString["EMV_UNKNOWN_CARD_TYPE"]);
+
+		EX2MSG (CommandAPDUNotValid,				LangString["COMMAND_APDU_INVALID"]);
+		EX2MSG (ExtendedAPDUNotSupported,			LangString["EXTENDED_APDU_UNSUPPORTED"]);
+		EX2MSG (ScardLibraryInitializationFailed,	LangString["SCARD_MODULE_INIT_FAILED"]);
+		EX2MSG (EMVUnknownCardType,					LangString["EMV_UNKNOWN_CARD_TYPE"]);
+		EX2MSG (EMVSelectAIDFailed,					LangString["EMV_SELECT_AID_FAILED"]);
+		EX2MSG (EMVIccCertNotFound,					LangString["EMV_ICC_CERT_NOTFOUND"]);
+		EX2MSG (EMVIssuerCertNotFound,				LangString["EMV_ISSUER_CERT_NOTFOUND"]);
+		EX2MSG (EMVCPLCNotFound,					LangString["EMV_CPLC_NOTFOUND"]);
+		EX2MSG (InvalidEMVPath,						LangString["EMV_PAN_NOTFOUND"]);
+		EX2MSG (EMVKeyfileDataNotFound,				LangString["INVALID_EMV_PATH"]);
+		EX2MSG (EMVPANNotFound,						LangString["EMV_KEYFILE_DATA_NOTFOUND"]);
 
 #if defined (TC_LINUX)
 		EX2MSG (TerminalNotFound,					LangString["LINUX_EX2MSG_TERMINALNOTFOUND"]);
@@ -1150,7 +1156,7 @@ namespace VeraCrypt
 					" Delete keyfiles from security tokens. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--export-token-keyfile\n"
-					" Export a keyfile from a token keyfile. See also command --list-token-keyfiles.\n"
+					" Export a keyfile from a token. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--import-token-keyfiles\n"
 					" Import keyfiles to a security token. See also option --token-lib.\n"
@@ -1393,12 +1399,12 @@ namespace VeraCrypt
 			}
 			return true;
 
-		case CommandId::ExportSecurityTokenKeyfile:
-			ExportSecurityTokenKeyfile();
+		case CommandId::ExportTokenKeyfile:
+			ExportTokenKeyfile();
 			return true;
 
-		case CommandId::ImportSecurityTokenKeyfiles:
-			ImportSecurityTokenKeyfiles();
+		case CommandId::ImportTokenKeyfiles:
+			ImportTokenKeyfiles();
 			return true;
 
 		case CommandId::ListTokenKeyfiles:
@@ -1694,12 +1700,18 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (VolumeException);
 		VC_CONVERT_EXCEPTION (PasswordException);
 
-        VC_CONVERT_EXCEPTION (PCSCException);
-        VC_CONVERT_EXCEPTION (WinscardLibraryNotInitialized);
-        VC_CONVERT_EXCEPTION (InvalidEMVPath);
-        VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
-        VC_CONVERT_EXCEPTION (EMVPANNotFound);
-        VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+		VC_CONVERT_EXCEPTION (PCSCException);
+		VC_CONVERT_EXCEPTION (CommandAPDUNotValid);
+		VC_CONVERT_EXCEPTION (ExtendedAPDUNotSupported);
+		VC_CONVERT_EXCEPTION (ScardLibraryInitializationFailed);
+		VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+		VC_CONVERT_EXCEPTION (EMVSelectAIDFailed);
+		VC_CONVERT_EXCEPTION (EMVIccCertNotFound);
+		VC_CONVERT_EXCEPTION (EMVIssuerCertNotFound);
+		VC_CONVERT_EXCEPTION (EMVCPLCNotFound);
+		VC_CONVERT_EXCEPTION (InvalidEMVPath);
+		VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
+		VC_CONVERT_EXCEPTION (EMVPANNotFound);
 
 		throw *ex;
 	}

@@ -96,7 +96,7 @@ namespace VeraCrypt
 		// Security tokens
 		Pkcs11ModulePathTextCtrl->SetValue (wstring (Preferences.SecurityTokenModule));
 		TC_CHECK_BOX_VALIDATOR (CloseSecurityTokenSessionsAfterMount);
-        TC_CHECK_BOX_VALIDATOR (ActivateEMVOption);
+		TC_CHECK_BOX_VALIDATOR (EMVSupportEnabled);
 
 		// System integration
 		TC_CHECK_BOX_VALIDATOR (StartOnLogon);

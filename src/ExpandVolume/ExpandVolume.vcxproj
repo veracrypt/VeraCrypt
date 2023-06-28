@@ -245,7 +245,7 @@ copy Debug\VeraCryptExpander.exe "..\Debug\Setup Files" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\x64\Debug\crypto.lib;..\Common\x64\Debug\Zip.lib;..\Common\x64\Debug\lzma.lib;mpr.lib;winscard.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\x64\Debug\crypto.lib;..\Common\x64\Debug\Zip.lib;..\Common\x64\Debug\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -336,7 +336,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;mpr.lib;winscard.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -428,7 +428,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;..\Common\x64\Release\lzma.lib;mpr.lib;winscard.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;..\Common\x64\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -476,7 +476,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;..\Common\x64\Release\lzma.lib;mpr.lib;winscard.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;..\Common\x64\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -575,8 +575,15 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\CommandAPDU.cpp" />
+    <ClCompile Include="..\Common\EMVCard.cpp" />
     <ClCompile Include="..\Common\EMVToken.cpp" />
-    <ClCompile Include="..\Common\IccDataExtractor.cpp" />
+    <ClCompile Include="..\Common\PCSCException.cpp" />
+    <ClCompile Include="..\Common\ResponseAPDU.cpp" />
+    <ClCompile Include="..\Common\SCard.cpp" />
+    <ClCompile Include="..\Common\SCardLoader.cpp" />
+    <ClCompile Include="..\Common\SCardManager.cpp" />
+    <ClCompile Include="..\Common\SCardReader.cpp" />
     <ClCompile Include="..\Common\TLVParser.cpp" />
     <ClCompile Include="..\Common\Token.cpp" />
     <ClCompile Include="..\Setup\SelfExtract.c" />
@@ -659,8 +666,15 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\CommandAPDU.h" />
+    <ClInclude Include="..\Common\EMVCard.h" />
     <ClInclude Include="..\Common\EMVToken.h" />
-    <ClInclude Include="..\Common\IccDataExtractor.h" />
+    <ClInclude Include="..\Common\PCSCException.h" />
+    <ClInclude Include="..\Common\ResponseAPDU.h" />
+    <ClInclude Include="..\Common\SCard.h" />
+    <ClInclude Include="..\Common\SCardLoader.h" />
+    <ClInclude Include="..\Common\SCardManager.h" />
+    <ClInclude Include="..\Common\SCardReader.h" />
     <ClInclude Include="..\Common\TLVParser.h" />
     <ClInclude Include="..\Common\Token.h" />
     <ClInclude Include="..\Common\Wipe.h" />

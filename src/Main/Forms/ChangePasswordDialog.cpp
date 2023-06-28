@@ -204,7 +204,7 @@ namespace VeraCrypt
 				wxBusyCursor busy;
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
 					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
-					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf), NewPasswordPanel->GetHeaderWipeCount(), Gui->GetPreferences().ActivateEMVOption);
+					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf), NewPasswordPanel->GetHeaderWipeCount(), Gui->GetPreferences().EMVSupportEnabled);
 				Gui->ExecuteWaitThreadRoutine (this, &routine);
 			}
 

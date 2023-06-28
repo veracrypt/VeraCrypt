@@ -59,6 +59,7 @@ namespace VeraCrypt
 {
 	struct SecurityTokenInfo: TokenInfo
 	{
+		virtual ~SecurityTokenInfo() {};
 		virtual BOOL isEditable() const {return true;}
 
 		CK_FLAGS Flags;
@@ -71,10 +72,13 @@ namespace VeraCrypt
 
 		SecurityTokenKeyfile(const TokenKeyfilePath& path);
 
+		virtual ~SecurityTokenKeyfile() {}
+
 		operator TokenKeyfilePath () const;
 
 		void GetKeyfileData(vector<byte>& keyfileData) const;
 
+		string IdUtf8;
 		CK_OBJECT_HANDLE Handle;
 	};
 

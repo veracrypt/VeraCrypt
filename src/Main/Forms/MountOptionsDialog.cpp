@@ -193,7 +193,7 @@ namespace VeraCrypt
 			Options.MountPoint = make_shared <DirectoryPath> (mountPoint);
 
 		Options.FilesystemOptions = FilesystemOptionsTextCtrl->GetValue();
-        Options.EMVOption = Gui->GetPreferences().ActivateEMVOption;
+		Options.EMVSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
 
 		EndModal (wxID_OK);
 	}

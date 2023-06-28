@@ -53,7 +53,7 @@ namespace VeraCrypt
 		wxBusyCursor busy;
 
 		SecurityTokenKeyfileListCtrl->DeleteAllItems();
-		SecurityTokenKeyfileList = Token::GetAvailableKeyfiles(Gui->GetPreferences().ActivateEMVOption);
+		SecurityTokenKeyfileList = Token::GetAvailableKeyfiles(Gui->GetPreferences().EMVSupportEnabled);
 
 		size_t i = 0;
 		foreach (const shared_ptr<TokenKeyfile> key, SecurityTokenKeyfileList)
@@ -177,34 +177,38 @@ namespace VeraCrypt
 		}
 	}
 
-    void SecurityTokenKeyfilesDialog::OnListItemSelected(wxListEvent &event) {
-        if (event.GetItem().GetData() != (wxUIntPtr) nullptr) {
-            BOOL deletable = true;
-            foreach(long
-            item, Gui->GetListCtrlSelectedItems(SecurityTokenKeyfileListCtrl))
-            {
-                TokenKeyfile *keyfile = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData(
-                        item));
-                if (!keyfile->Token->isEditable()) {
-                    deletable = false;
-                }
-            }
-            if (deletable) {
-                DeleteButton->Enable();
-            }
-            ExportButton->Enable();
-            OKButton->Enable();
-        }
-    }
+	void SecurityTokenKeyfilesDialog::OnListItemSelected(wxListEvent &event)
+	{
+		if (event.GetItem().GetData() != (wxUIntPtr) nullptr)
+		{
+			BOOL deletable = true;
+			foreach(long
+			item, Gui->GetListCtrlSelectedItems(SecurityTokenKeyfileListCtrl))
+			{
+				TokenKeyfile *keyfile = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData(item));
+				if (!keyfile->Token->isEditable())
+				{
+					deletable = false;
+					break;
+				}
+			}
+			if (deletable)
+			{
+				DeleteButton->Enable();
+			}
+			ExportButton->Enable();
+			OKButton->Enable();
+		}
+	}
 
 	void SecurityTokenKeyfilesDialog::OnOKButtonClick ()
 	{
 		foreach (long item, Gui->GetListCtrlSelectedItems (SecurityTokenKeyfileListCtrl))
-        {
-            TokenKeyfile *key = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData(item));
+		{
+			TokenKeyfile *key = reinterpret_cast <TokenKeyfile *> (SecurityTokenKeyfileListCtrl->GetItemData(item));
 
-            SelectedSecurityTokenKeyfilePaths.push_back(*key);
-        }
+			SelectedSecurityTokenKeyfilePaths.push_back(*key);
+		}
 		EndModal (wxID_OK);
 	}
 }

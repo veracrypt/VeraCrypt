@@ -190,9 +190,9 @@ ifeq "$(shell uname -s)" "Linux"
 
 	PLATFORM := Linux
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
-	# TODO: Prpoper implementation in the makefile
-	C_CXX_FLAGS += -I/usr/include/PCSC/ -lpcsclite
-	LFLAGS += -I/usr/include/PCSC/ -lpcsclite
+	
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
 
 
 	# GNU GCC version 11 and higher compile with -std=gnu++17 by default
@@ -367,6 +367,9 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	PLATFORM := FreeBSD
 	PLATFORM_UNSUPPORTED := 1
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_FREEBSD
+
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
 	
 	CC := cc
 	CXX := c++
@@ -424,6 +427,9 @@ ifeq "$(shell uname -s)" "OpenBSD"
 	PLATFORM_UNSUPPORTED := 1
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_OPENBSD
 
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+
 	CC := cc
 	CXX := c++
 
@@ -445,6 +451,9 @@ ifeq "$(shell uname -s)" "SunOS"
 	PLATFORM_UNSUPPORTED := 1
 	C_CXX_FLAGS += -DTC_UNIX -DTC_SOLARIS
 	WX_CONFIGURE_FLAGS += --with-gtk
+
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
 
 endif
 

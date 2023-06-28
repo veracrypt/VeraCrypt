@@ -56,7 +56,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"display-password",	_("Display password while typing"));
 		parser.AddOption (L"",	L"encryption",			_("Encryption algorithm"));
 		parser.AddSwitch (L"",	L"explore",				_("Open explorer window for mounted volume"));
-		parser.AddSwitch (L"",	L"export-token-keyfile",_("Export keyfile from security token"));
+		parser.AddSwitch (L"",	L"export-token-keyfile",_("Export keyfile from token"));
 		parser.AddOption (L"",	L"filesystem",			_("Filesystem type"));
 		parser.AddSwitch (L"f", L"force",				_("Force mount/dismount/overwrite"));
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
@@ -67,9 +67,9 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"import-token-keyfiles", _("Import keyfiles to security token"));
 		parser.AddOption (L"k", L"keyfiles",			_("Keyfiles"));
 		parser.AddSwitch (L"l", L"list",				_("List mounted volumes"));
-        parser.AddSwitch (L"",	L"list-token-keyfiles",	_("List token keyfiles"));
+		parser.AddSwitch (L"",	L"list-token-keyfiles",	_("List token keyfiles"));
 		parser.AddSwitch (L"",	L"list-securitytoken-keyfiles",	_("List security token keyfiles"));
-        parser.AddSwitch (L"",	L"list-emvtoken-keyfiles",	_("List emv token keyfiles"));
+		parser.AddSwitch (L"",	L"list-emvtoken-keyfiles",	_("List EMV token keyfiles"));
 		parser.AddSwitch (L"",	L"load-preferences",	_("Load user preferences"));
 		parser.AddSwitch (L"",	L"mount",				_("Mount volume interactively"));
 		parser.AddOption (L"m", L"mount-options",		_("VeraCrypt volume mount options"));
@@ -221,13 +221,13 @@ namespace VeraCrypt
 		if (parser.Found (L"export-token-keyfile"))
 		{
 			CheckCommandSingle();
-			ArgCommand = CommandId::ExportSecurityTokenKeyfile;
+			ArgCommand = CommandId::ExportTokenKeyfile;
 		}
 
 		if (parser.Found (L"import-token-keyfiles"))
 		{
 			CheckCommandSingle();
-			ArgCommand = CommandId::ImportSecurityTokenKeyfiles;
+			ArgCommand = CommandId::ImportTokenKeyfiles;
 		}
 
 		if (parser.Found (L"list"))

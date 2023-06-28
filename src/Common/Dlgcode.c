@@ -207,7 +207,7 @@ BOOL LastMountedVolumeDirty;
 BOOL MountVolumesAsSystemFavorite = FALSE;
 BOOL FavoriteMountOnArrivalInProgress = FALSE;
 BOOL MultipleMountOperationInProgress = FALSE;
-BOOL ActivateEMVOption = FALSE;
+BOOL EMVSupportEnabled = FALSE;
 
 volatile BOOL NeedPeriodicDeviceListUpdate = FALSE;
 BOOL DisablePeriodicDeviceListUpdate = FALSE;
@@ -12373,7 +12373,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
+				keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled);
 			}
 			catch (UserAbort&)
 			{
@@ -12415,10 +12415,14 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			BOOL selected = (ListView_GetNextItem (GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST), -1, LVIS_SELECTED) != -1);
 			BOOL deletable = selected;
+			// Multiple key files can be selected.
+			// Therefore, if one of them is not deletable, it means the delete button must be disabled for all.
 			foreach (const shared_ptr<TokenKeyfile> &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 			{
-				if( ! keyfile->Token->isEditable()){
+				if (!keyfile->Token->isEditable())
+				{
 					deletable = false;
+					break;
 				}
 			}
 			EnableWindow (GetDlgItem (hwndDlg, IDC_EXPORT), selected);
@@ -12469,7 +12473,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name);
 
-									keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
+									keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
 								catch (Exception &e)
@@ -12551,7 +12555,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));
 						}
 
-						keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
+						keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled);
 						SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 					}
 					catch (Exception &e)

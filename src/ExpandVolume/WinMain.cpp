@@ -321,7 +321,7 @@ void LoadSettings (HWND hwndDlg)
 	mountOptions = defaultMountOptions;
 
 	CloseSecurityTokenSessionsAfterMount = ConfigReadInt ("CloseSecurityTokenSessionsAfterMount", 0);
-	ActivateEMVOption = ConfigReadInt ("ActivateEMVOption", 0);
+	EMVSupportEnabled = ConfigReadInt ("EMVSupportEnabled", 0);
 
 	{
 		char szTmp[TC_MAX_PATH] = {0};

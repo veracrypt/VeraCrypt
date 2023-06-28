@@ -148,6 +148,15 @@
     <ClCompile Include="..\Crypto\blake2s.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSE2.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSE41.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSSE3.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DriveFilter.h">

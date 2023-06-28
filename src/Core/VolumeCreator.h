@@ -38,7 +38,7 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> VolumeHeaderKdf;
 		shared_ptr <EncryptionAlgorithm> EA;
 		bool Quick;
-        bool EMVOption;
+		bool EMVSupportEnabled;
 
 		struct FilesystemType
 		{

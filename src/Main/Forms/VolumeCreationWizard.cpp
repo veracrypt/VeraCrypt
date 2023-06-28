@@ -795,7 +795,7 @@ namespace VeraCrypt
 						shared_ptr <VolumePassword> hiddenPassword;
 						try
 						{
-							hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().ActivateEMVOption);
+							hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().EMVSupportEnabled);
 						}
 						catch (...)
 						{
@@ -846,7 +846,7 @@ namespace VeraCrypt
 					shared_ptr <VolumePassword> hiddenPassword;
 					try
 					{
-						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().ActivateEMVOption);
+						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().EMVSupportEnabled);
 					}
 					catch (...)
 					{
@@ -1032,7 +1032,7 @@ namespace VeraCrypt
 						options->Size = VolumeSize;
 						options->Type = OuterVolume ? VolumeType::Normal : SelectedVolumeType;
 						options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*SelectedHash, false);
-                        options->EMVOption = Gui->GetPreferences().ActivateEMVOption;
+						options->EMVSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
 
 
 						Creator.reset (new VolumeCreator);
@@ -1162,7 +1162,7 @@ namespace VeraCrypt
 				// remember Outer password and keyfiles in order to be able to compare it with those of Hidden volume
 				try
 				{
-					OuterPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().ActivateEMVOption);
+					OuterPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().EMVSupportEnabled);
 				}
 				catch (...)
 				{

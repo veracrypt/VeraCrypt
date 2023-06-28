@@ -9,8 +9,8 @@
 #include "System.h"
 #include "Volume/EncryptionModeXTS.h"
 #include "Main/GraphicUserInterface.h"
+#include "Common/PCSCException.h"
 #include "Common/SecurityToken.h"
-#include "Common/IccDataExtractor.h"
 #include "WaitDialog.h"
 
 namespace VeraCrypt
@@ -103,12 +103,18 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (VolumeException);
 		VC_CONVERT_EXCEPTION (PasswordException);
 
-        VC_CONVERT_EXCEPTION (PCSCException);
-        VC_CONVERT_EXCEPTION (WinscardLibraryNotInitialized);
-        VC_CONVERT_EXCEPTION (InvalidEMVPath);
-        VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
-        VC_CONVERT_EXCEPTION (EMVPANNotFound);
-        VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+		VC_CONVERT_EXCEPTION (PCSCException);
+		VC_CONVERT_EXCEPTION (CommandAPDUNotValid);
+		VC_CONVERT_EXCEPTION (ExtendedAPDUNotSupported);
+		VC_CONVERT_EXCEPTION (ScardLibraryInitializationFailed);
+		VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+		VC_CONVERT_EXCEPTION (EMVSelectAIDFailed);
+		VC_CONVERT_EXCEPTION (EMVIccCertNotFound);
+		VC_CONVERT_EXCEPTION (EMVIssuerCertNotFound);
+		VC_CONVERT_EXCEPTION (EMVCPLCNotFound);
+		VC_CONVERT_EXCEPTION (InvalidEMVPath);
+		VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
+		VC_CONVERT_EXCEPTION (EMVPANNotFound);
 
 		throw *ex;
 	}

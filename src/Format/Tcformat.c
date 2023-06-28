@@ -802,7 +802,7 @@ static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified,
 
 	ConfigReadCompareInt ("UseLegacyMaxPasswordLength", FALSE, &bUseLegacyMaxPasswordLength, bOnlyCheckModified, pbSettingsModified);
 
-	ConfigReadCompareInt ("ActivateEMVOption", 0, &ActivateEMVOption, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("EMVSupportEnabled", 0, &EMVSupportEnabled, bOnlyCheckModified, pbSettingsModified);
 
 	{
 		char szTmp[MAX_PATH] = {0};

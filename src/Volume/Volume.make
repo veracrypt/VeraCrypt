@@ -96,15 +96,22 @@ OBJS += ../Crypto/kuznyechik_simd.o
 
 OBJSNOOPT += ../Crypto/jitterentropy-base.o0
 
+OBJS += ../Common/CommandAPDU.o
+OBJS += ../Common/PCSCException.o
+OBJS += ../Common/ResponseAPDU.o
+OBJS += ../Common/SCard.o
+OBJS += ../Common/SCardLoader.o
+OBJS += ../Common/SCardManager.o
+OBJS += ../Common/SCardReader.o
 OBJS += ../Common/Token.o
 OBJS += ../Common/Crc.o
 OBJS += ../Common/TLVParser.o
+OBJS += ../Common/EMVCard.o
 OBJS += ../Common/EMVToken.o
 OBJS += ../Common/Endian.o
 OBJS += ../Common/GfMul.o
 OBJS += ../Common/Pkcs5.o
 OBJS += ../Common/SecurityToken.o
-OBJS += ../Common/IccDataExtractor.o
 
 VolumeLibrary: Volume.a
 
