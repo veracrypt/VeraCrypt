@@ -193,6 +193,7 @@ namespace VeraCrypt
 						options->Kdf,
 						false,
 						options->Keyfiles,
+                        options->EMVOption,
 						options->Protection,
 						options->ProtectionPassword,
 						options->ProtectionPim,
@@ -221,6 +222,7 @@ namespace VeraCrypt
 								options->Kdf,
 								false,
 								options->Keyfiles,
+                                options->EMVOption,
 								options->Protection,
 								options->ProtectionPassword,
 								options->ProtectionPim,
@@ -315,7 +317,7 @@ namespace VeraCrypt
 
 			// Re-encrypt volume header
 			SecureBuffer newHeaderBuffer (normalVolume->GetLayout()->GetHeaderSize());
-			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, normalVolume->GetHeader(), normalVolumeMountOptions.Password, normalVolumeMountOptions.Pim, normalVolumeMountOptions.Keyfiles);
+			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, normalVolume->GetHeader(), normalVolumeMountOptions.Password, normalVolumeMountOptions.Pim, normalVolumeMountOptions.Keyfiles, normalVolumeMountOptions.EMVOption);
 
 			ExecuteWaitThreadRoutine (parent, &routine);
 
@@ -324,7 +326,7 @@ namespace VeraCrypt
 			if (hiddenVolume)
 			{
 				// Re-encrypt hidden volume header
-				ReEncryptHeaderThreadRoutine hiddenRoutine(newHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Pim, hiddenVolumeMountOptions.Keyfiles);
+				ReEncryptHeaderThreadRoutine hiddenRoutine(newHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Pim, hiddenVolumeMountOptions.Keyfiles, hiddenVolumeMountOptions.EMVOption);
 
 				ExecuteWaitThreadRoutine (parent, &hiddenRoutine);
 			}
@@ -677,11 +679,21 @@ namespace VeraCrypt
 		return true;
 	}
 
-	void GraphicUserInterface::ListSecurityTokenKeyfiles () const
+	void GraphicUserInterface::ListTokenKeyfiles () const
 	{
 		SecurityTokenKeyfilesDialog dialog (nullptr);
 		dialog.ShowModal();
 	}
+    void GraphicUserInterface::ListSecurityTokenKeyfiles () const
+    {
+        SecurityTokenKeyfilesDialog dialog (nullptr);
+        dialog.ShowModal();
+    }
+    void GraphicUserInterface::ListEMVTokenKeyfiles () const
+    {
+        SecurityTokenKeyfilesDialog dialog (nullptr);
+        dialog.ShowModal();
+    }
 
 #ifdef TC_MACOSX
 	void GraphicUserInterface::MacOpenFiles (const wxArrayString &fileNames)
@@ -1456,6 +1468,7 @@ namespace VeraCrypt
 						options.Kdf,
 						options.TrueCryptMode,
 						options.Keyfiles,
+                        options.EMVOption,
 						options.Protection,
 						options.ProtectionPassword,
 						options.ProtectionPim,
@@ -1488,7 +1501,7 @@ namespace VeraCrypt
 			// Re-encrypt volume header
 			wxBusyCursor busy;
 			SecureBuffer newHeaderBuffer (volume->GetLayout()->GetHeaderSize());
-			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, volume->GetHeader(), options.Password, options.Pim, options.Keyfiles);
+			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, volume->GetHeader(), options.Password, options.Pim, options.Keyfiles, options.EMVOption);
 
 			ExecuteWaitThreadRoutine (parent, &routine);
 
@@ -1569,7 +1582,7 @@ namespace VeraCrypt
 						backupFile.ReadAt (headerBuffer, layout->GetType() == VolumeType::Hidden ? layout->GetHeaderSize() : 0);
 
 						// Decrypt header
-						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
+						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVOption);
 						Pkcs5KdfList keyDerivationFunctions = layout->GetSupportedKeyDerivationFunctions(options.TrueCryptMode);
 						EncryptionAlgorithmList encryptionAlgorithms = layout->GetSupportedEncryptionAlgorithms();
 						EncryptionModeList encryptionModes = layout->GetSupportedEncryptionModes();
@@ -1603,7 +1616,7 @@ namespace VeraCrypt
 			// Re-encrypt volume header
 			wxBusyCursor busy;
 			SecureBuffer newHeaderBuffer (decryptedLayout->GetHeaderSize());
-			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles);
+			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles, options.EMVOption);
 
 			ExecuteWaitThreadRoutine (parent, &routine);
 
@@ -1619,7 +1632,7 @@ namespace VeraCrypt
 			if (decryptedLayout->HasBackupHeader())
 			{
 				// Re-encrypt backup volume header
-				ReEncryptHeaderThreadRoutine backupRoutine(newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles);
+				ReEncryptHeaderThreadRoutine backupRoutine(newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles, options.EMVOption);
 
 				ExecuteWaitThreadRoutine (parent, &backupRoutine);
 

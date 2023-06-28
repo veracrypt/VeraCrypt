@@ -2204,11 +2204,18 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	
 	CloseSecurityTokenSessionsAfterMountCheckBox = new wxCheckBox( sbSizer37->GetStaticBox(), wxID_ANY, _("IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer37->Add( CloseSecurityTokenSessionsAfterMountCheckBox, 0, wxALL, 5 );
-	
+
 	
 	bSizer128->Add( sbSizer37, 0, wxEXPAND|wxALL, 5 );
-	
-	
+
+    wxStaticBoxSizer* sbSizer38;
+    sbSizer38 = new wxStaticBoxSizer( new wxStaticBox( SecurityTokensPage, wxID_ANY, _("IDT_EMV_OPTIONS") ), wxVERTICAL );
+
+    ActivateEMVOptionCheckBox = new wxCheckBox( sbSizer38->GetStaticBox(), wxID_ANY, _("IDC_ACTIVATE_EMV_OPTION"), wxDefaultPosition, wxDefaultSize, 0 );
+    sbSizer38->Add( ActivateEMVOptionCheckBox, 0, wxALL, 5 );
+
+    bSizer128->Add( sbSizer38, 0, wxEXPAND|wxALL, 5 );
+
 	bSizer127->Add( bSizer128, 1, wxEXPAND|wxALL, 5 );
 	
 	

@@ -24,6 +24,7 @@
 #include "Platform/SystemInfo.h"
 #include "Platform/SystemException.h"
 #include "Common/SecurityToken.h"
+#include "Common/IccDataExtractor.h"
 #include "Volume/EncryptionTest.h"
 #include "Application.h"
 #include "FavoriteVolume.h"
@@ -436,6 +437,27 @@ namespace VeraCrypt
 			return LangString["SECURITY_TOKEN_ERROR"] + L":\n\n" + StringConverter::ToWide (errorString);
 		}
 
+
+        // PCSC Exception
+        if (dynamic_cast <const PCSCException *> (&ex))
+        {
+            string errorString = string (dynamic_cast <const PCSCException &> (ex));
+
+            if (LangString.Exists (errorString))
+                return LangString[errorString];
+
+            if (errorString.find("SCARD_E_") == 0 || errorString.find("SCARD_F_") == 0 || errorString.find("SCARD_W_") == 0)
+            {
+                errorString = errorString.substr(8);
+                for (size_t i = 0; i < errorString.size(); ++i)
+                {
+                    if (errorString[i] == '_')
+                        errorString[i] = ' ';
+                }
+            }
+            return LangString["PCSC_ERROR"] + L":\n\n" + StringConverter::ToWide (errorString);
+        }
+
 		// Other library exceptions
 		return ExceptionTypeToString (typeid (ex));
 	}
@@ -479,6 +501,12 @@ namespace VeraCrypt
 		EX2MSG (StringFormatterException,			LangString["LINUX_EX2MSG_STRINGFORMATTEREXCEPTION"]);
 		EX2MSG (TemporaryDirectoryFailure,			LangString["LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE"]);
 		EX2MSG (UnportablePassword,					LangString["UNSUPPORTED_CHARS_IN_PWD"]);
+        
+        EX2MSG (WinscardLibraryNotInitialized,		LangString["WINSCARD_MODULE_INIT_FAILED"]);
+        EX2MSG (InvalidEMVPath,					    LangString["INVALID_EMV_PATH"]);
+        EX2MSG (EMVKeyfileDataNotFound,				LangString["EMV_KEYFILE_DATA_NOT_FOUND"]);
+        EX2MSG (EMVPANNotFound,					    LangString["EMV_PAN_NOT_FOUND"]);
+        EX2MSG (EMVUnknownCardType,					LangString["EMV_UNKNOWN_CARD_TYPE"]);
 
 #if defined (TC_LINUX)
 		EX2MSG (TerminalNotFound,					LangString["LINUX_EX2MSG_TERMINALNOTFOUND"]);
@@ -1122,7 +1150,7 @@ namespace VeraCrypt
 					" Delete keyfiles from security tokens. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--export-token-keyfile\n"
-					" Export a keyfile from a security token. See also command --list-token-keyfiles.\n"
+					" Export a keyfile from a token keyfile. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--import-token-keyfiles\n"
 					" Import keyfiles to a security token. See also option --token-lib.\n"
@@ -1134,9 +1162,15 @@ namespace VeraCrypt
 					" output option (-v). See below for description of MOUNTED_VOLUME.\n"
 					"\n"
 					"--list-token-keyfiles\n"
-					" Display a list of all available security token keyfiles. See also command\n"
+					" Display a list of all available token keyfiles. See also command\n"
 					" --import-token-keyfiles.\n"
-					"\n"
+					"\n""--list-securitytoken-keyfiles\n"
+                    " Display a list of all available security token keyfiles. See also command\n"
+                    " --import-token-keyfiles.\n"
+                    "\n"
+                    "\n""--list-emvtoken-keyfiles\n"
+                    " Display a list of all available emv token keyfiles. See also command\n"
+                    "\n"
 					"--mount[=VOLUME_PATH]\n"
 					" Mount a volume. Volume path and other options are requested from the user\n"
 					" if not specified on command line.\n"
@@ -1199,9 +1233,12 @@ namespace VeraCrypt
 					" used (non-recursively). Multiple keyfiles must be separated by comma.\n"
 					" Use double comma (,,) to specify a comma contained in keyfile's name.\n"
 					" Keyfile stored on a security token must be specified as\n"
-					" token://slot/SLOT_NUMBER/file/FILENAME. An empty keyfile (-k \"\") disables\n"
+					" token://slot/SLOT_NUMBER/file/FILENAME for a security token keyfile\n"
+                    " and emv://slot/SLOT_NUMBER for an EMV token keyfile.\n"
+                    " An empty keyfile (-k \"\") disables\n"
 					" interactive requests for keyfiles. See also options --import-token-keyfiles,\n"
-					" --list-token-keyfiles, --new-keyfiles, --protection-keyfiles.\n"
+					" --list-token-keyfiles, --list-securitytoken-keyfiles, --list-emvtoken-keyfiles,\n"
+                    " --new-keyfiles, --protection-keyfiles.\n"
 					"\n"
 					"--load-preferences\n"
 					" Load user preferences.\n"
@@ -1364,9 +1401,17 @@ namespace VeraCrypt
 			ImportSecurityTokenKeyfiles();
 			return true;
 
-		case CommandId::ListSecurityTokenKeyfiles:
-			ListSecurityTokenKeyfiles();
+		case CommandId::ListTokenKeyfiles:
+			ListTokenKeyfiles();
 			return true;
+
+        case CommandId::ListSecurityTokenKeyfiles:
+             ListSecurityTokenKeyfiles();
+             return true;
+
+        case CommandId::ListEMVTokenKeyfiles:
+            ListEMVTokenKeyfiles();
+            return true;
 
 		case CommandId::ListVolumes:
 			if (Preferences.Verbose)
@@ -1648,6 +1693,14 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (CipherException);
 		VC_CONVERT_EXCEPTION (VolumeException);
 		VC_CONVERT_EXCEPTION (PasswordException);
+
+        VC_CONVERT_EXCEPTION (PCSCException);
+        VC_CONVERT_EXCEPTION (WinscardLibraryNotInitialized);
+        VC_CONVERT_EXCEPTION (InvalidEMVPath);
+        VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
+        VC_CONVERT_EXCEPTION (EMVPANNotFound);
+        VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+
 		throw *ex;
 	}
 }

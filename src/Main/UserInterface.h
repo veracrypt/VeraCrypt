@@ -56,7 +56,9 @@ namespace VeraCrypt
 		virtual void Init ();
 		virtual void InitSecurityTokenLibrary () const = 0;
 		virtual void ListMountedVolumes (const VolumeInfoList &volumes) const;
+		virtual void ListTokenKeyfiles () const = 0;
 		virtual void ListSecurityTokenKeyfiles () const = 0;
+		virtual void ListEMVTokenKeyfiles () const = 0;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) const;
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const { return Core->MountVolume (options);}
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;

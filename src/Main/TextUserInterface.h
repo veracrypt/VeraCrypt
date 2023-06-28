@@ -51,7 +51,9 @@ namespace VeraCrypt
 		virtual bool Initialize (int &argc, wxChar **argv) { return wxAppBase::Initialize(argc, argv); }
 #endif
 		virtual void InitSecurityTokenLibrary () const;
-		virtual void ListSecurityTokenKeyfiles () const;
+		virtual void ListTokenKeyfiles () const;
+        virtual void ListSecurityTokenKeyfiles () const;
+        virtual void ListEMVTokenKeyfiles () const;
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) const;
 		virtual bool OnInit ();

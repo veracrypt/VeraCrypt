@@ -207,6 +207,7 @@ BOOL LastMountedVolumeDirty;
 BOOL MountVolumesAsSystemFavorite = FALSE;
 BOOL FavoriteMountOnArrivalInProgress = FALSE;
 BOOL MultipleMountOperationInProgress = FALSE;
+BOOL ActivateEMVOption = FALSE;
 
 volatile BOOL NeedPeriodicDeviceListUpdate = FALSE;
 BOOL DisablePeriodicDeviceListUpdate = FALSE;
@@ -12206,11 +12207,11 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 			WaitCursor();
 			finally_do ({ NormalCursor(); });
 
-			list <SecurityTokenInfo> tokens;
+			list <shared_ptr<TokenInfo>> tokens;
 
 			try
 			{
-				tokens = SecurityToken::GetAvailableTokens();
+				tokens = Token::GetAvailableTokens();
 			}
 			catch (Exception &e)
 			{
@@ -12224,12 +12225,12 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 				return 1;
 			}
 
-			foreach (const SecurityTokenInfo &token, tokens)
+			foreach (const shared_ptr<TokenInfo> token, tokens)
 			{
 				wstringstream tokenLabel;
-				tokenLabel << L"[" << token.SlotId << L"] " << token.Label;
+				tokenLabel << L"[" << token->SlotId << L"] " << token->Label;
 
-				AddComboPair (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token.SlotId);
+				AddComboPair (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token->SlotId);
 			}
 
 			ComboBox_SetCurSel (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), 0);
@@ -12283,7 +12284,7 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 }
 
 
-static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <SecurityTokenKeyfile> &keyfiles)
+static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <shared_ptr<TokenKeyfile>> &keyfiles)
 {
 	HWND tokenListControl = GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST);
 	LVITEMW lvItem;
@@ -12291,18 +12292,18 @@ static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <Securit
 
 	ListView_DeleteAllItems (tokenListControl);
 
-	foreach (const SecurityTokenKeyfile &keyfile, keyfiles)
+	foreach (const shared_ptr<TokenKeyfile> keyfile, keyfiles)
 	{
 		memset (&lvItem, 0, sizeof(lvItem));
 		lvItem.mask = LVIF_TEXT;
 		lvItem.iItem = line++;
 
 		wstringstream s;
-		s << keyfile.SlotId;
+		s << keyfile->Token->SlotId;
 
 		ListItemAdd (tokenListControl, lvItem.iItem, (wchar_t *) s.str().c_str());
-		ListSubItemSet (tokenListControl, lvItem.iItem, 1, (wchar_t *) keyfile.Token.Label.c_str());
-		ListSubItemSet (tokenListControl, lvItem.iItem, 2, (wchar_t *) keyfile.Id.c_str());
+		ListSubItemSet (tokenListControl, lvItem.iItem, 1, (wchar_t *) keyfile->Token->Label.c_str());
+		ListSubItemSet (tokenListControl, lvItem.iItem, 2, (wchar_t *) keyfile->Id.c_str());
 	}
 
 	BOOL selected = (ListView_GetNextItem (GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST), -1, LVIS_SELECTED) != -1);
@@ -12311,10 +12312,10 @@ static void SecurityTokenKeyfileDlgFillList (HWND hwndDlg, const vector <Securit
 }
 
 
-static list <SecurityTokenKeyfile> SecurityTokenKeyfileDlgGetSelected (HWND hwndDlg, const vector <SecurityTokenKeyfile> &keyfiles)
+static list <shared_ptr<TokenKeyfile>> SecurityTokenKeyfileDlgGetSelected (HWND hwndDlg, const vector <shared_ptr<TokenKeyfile>> &keyfiles)
 {
 	HWND tokenListControl = GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST);
-	list <SecurityTokenKeyfile> selectedKeyfiles;
+	list <shared_ptr<TokenKeyfile>> selectedKeyfiles;
 
 	int itemId = -1;
 	while ((itemId = ListView_GetNextItem (tokenListControl, itemId, LVIS_SELECTED)) != -1)
@@ -12328,8 +12329,8 @@ static list <SecurityTokenKeyfile> SecurityTokenKeyfileDlgGetSelected (HWND hwnd
 
 BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static list <SecurityTokenKeyfilePath> *selectedTokenKeyfiles;
-	static vector <SecurityTokenKeyfile> keyfiles;
+	static list <TokenKeyfilePath> *selectedTokenKeyfiles;
+	static vector <shared_ptr<TokenKeyfile>> keyfiles;
 
 	WORD lw = LOWORD (wParam);
 
@@ -12337,7 +12338,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 	{
 	case WM_INITDIALOG:
 		{
-			selectedTokenKeyfiles = (list <SecurityTokenKeyfilePath> *) lParam;
+			selectedTokenKeyfiles = (list <TokenKeyfilePath> *) lParam;
 
 			LVCOLUMNW LvCol;
 			HWND tokenListControl = GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST);
@@ -12372,7 +12373,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				keyfiles = SecurityToken::GetAvailableKeyfiles();
+				keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
 			}
 			catch (UserAbort&)
 			{
@@ -12400,9 +12401,9 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			if (selectedTokenKeyfiles)
 			{
-				foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
+				foreach (const shared_ptr<TokenKeyfile> &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 				{
-					selectedTokenKeyfiles->push_back (SecurityTokenKeyfilePath (keyfile));
+					selectedTokenKeyfiles->push_back (TokenKeyfilePath (*keyfile));
 				}
 			}
 
@@ -12413,8 +12414,15 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 		if (msg == WM_NOTIFY && ((LPNMHDR) lParam)->code == LVN_ITEMCHANGED)
 		{
 			BOOL selected = (ListView_GetNextItem (GetDlgItem (hwndDlg, IDC_TOKEN_FILE_LIST), -1, LVIS_SELECTED) != -1);
+			BOOL deletable = selected;
+			foreach (const shared_ptr<TokenKeyfile> &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
+			{
+				if( ! keyfile->Token->isEditable()){
+					deletable = false;
+				}
+			}
 			EnableWindow (GetDlgItem (hwndDlg, IDC_EXPORT), selected);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_DELETE), selected);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_DELETE), deletable);
 			return 1;
 		}
 
@@ -12461,7 +12469,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name);
 
-									keyfiles = SecurityToken::GetAvailableKeyfiles();
+									keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
 								catch (Exception &e)
@@ -12489,7 +12497,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				{
 					try
 					{
-						foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
+						foreach (const shared_ptr<TokenKeyfile> &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 						{
 							wchar_t keyfilePath[TC_MAX_PATH];
 
@@ -12502,7 +12510,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 								vector <byte> keyfileData;
 
-								SecurityToken::GetKeyfileData (keyfile, keyfileData);
+								keyfile->GetKeyfileData (keyfileData);
 
 								if (keyfileData.empty())
 								{
@@ -12538,12 +12546,12 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 						WaitCursor();
 						finally_do ({ NormalCursor(); });
 
-						foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
+						foreach (const shared_ptr<TokenKeyfile> keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 						{
-							SecurityToken::DeleteKeyfile (keyfile);
+							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));
 						}
 
-						keyfiles = SecurityToken::GetAvailableKeyfiles();
+						keyfiles = Token::GetAvailableKeyfiles(ActivateEMVOption);
 						SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 					}
 					catch (Exception &e)

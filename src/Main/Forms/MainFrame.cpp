@@ -683,7 +683,7 @@ namespace VeraCrypt
 			{
 				mountOptions.Pim = CmdLine->ArgPim;
 			}
-
+            mountOptions.EMVOption = GetPreferences().ActivateEMVOption;
 			Gui->MountAllFavoriteVolumes (mountOptions);
 		}
 		catch (exception &e)
@@ -718,6 +718,7 @@ namespace VeraCrypt
 		{
 			mountOptions.Pim = CmdLine->ArgPim;
 		}
+        mountOptions.EMVOption = GetPreferences().ActivateEMVOption;
 
 		try
 		{

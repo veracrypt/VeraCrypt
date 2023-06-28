@@ -79,6 +79,7 @@ namespace VeraCrypt
 			TC_CONFIG_SET (CloseBackgroundTaskOnNoVolumes);
 			TC_CONFIG_SET (CloseExplorerWindowsOnDismount);
 			TC_CONFIG_SET (CloseSecurityTokenSessionsAfterMount);
+            TC_CONFIG_SET (ActivateEMVOption);
 			TC_CONFIG_SET (DisableKernelEncryptionModeWarning);
 			TC_CONFIG_SET (DismountOnInactivity);
 			TC_CONFIG_SET (DismountOnLogOff);
@@ -197,6 +198,7 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (CloseBackgroundTaskOnNoVolumes);
 		TC_CONFIG_ADD (CloseExplorerWindowsOnDismount);
 		TC_CONFIG_ADD (CloseSecurityTokenSessionsAfterMount);
+        TC_CONFIG_ADD (ActivateEMVOption);
 		TC_CONFIG_ADD (DisableKernelEncryptionModeWarning);
 		TC_CONFIG_ADD (DismountOnInactivity);
 		TC_CONFIG_ADD (DismountOnLogOff);

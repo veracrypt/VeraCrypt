@@ -23,6 +23,7 @@
 #include "Dlgcode.h"
 #include "Language.h"
 #include "SecurityToken.h"
+#include "EMVToken.h"
 #include "Common/resource.h"
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
@@ -249,12 +250,12 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		// Determine whether it's a security token path
 		try
 		{
-			if (SecurityToken::IsKeyfilePathValid (kf->FileName))
+			if (Token::IsKeyfilePathValid (kf->FileName, ActivateEMVOption))
 			{
 				// Apply security token keyfile
 				vector <byte> keyfileData;
-				SecurityTokenKeyfilePath secPath (kf->FileName);
-				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (secPath), keyfileData);
+				TokenKeyfilePath secPath (kf->FileName);
+				Token::getTokenKeyfile (secPath)->GetKeyfileData (keyfileData);
 
 				if (keyfileData.empty())
 				{
@@ -551,10 +552,10 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_TOKEN_FILES_ADD)
 		{
-			list <SecurityTokenKeyfilePath> selectedTokenKeyfiles;
+			list <TokenKeyfilePath> selectedTokenKeyfiles;
 			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_KEYFILES), hwndDlg, (DLGPROC) SecurityTokenKeyfileDlgProc, (LPARAM) &selectedTokenKeyfiles) == IDOK)
 			{
-				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
+				foreach (const TokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
@@ -758,10 +759,10 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 
 	case IDM_KEYFILES_POPUP_ADD_TOKEN_FILES:
 		{
-			list <SecurityTokenKeyfilePath> selectedTokenKeyfiles;
+			list <TokenKeyfilePath> selectedTokenKeyfiles;
 			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_KEYFILES), hwndDlg, (DLGPROC) SecurityTokenKeyfileDlgProc, (LPARAM) &selectedTokenKeyfiles) == IDOK)
 			{
-				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
+				foreach (const TokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
