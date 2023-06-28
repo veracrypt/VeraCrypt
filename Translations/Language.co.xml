@@ -1621,6 +1621,9 @@ Information about Corsican localization:
 		<entry lang="co" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">A dimensione massima di %I64u Mo per u schedariu hè trapassata nant’à u lettore di l’ospite.</entry>
 		<entry lang="co" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Sbagliu : Fiascu per ottene i privileghji richiesti per attivà l’estensione rapida !\nCi vole à disattivà l’ozzione « Estensione rapida » è pruvà torna.</entry>
 		<entry lang="co" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">A dimensione massima di %I64u To per un schedariu VeraCrypthè trapassata !\n</entry>
+		<entry lang="en" key="FULL_FORMAT">Full Format</entry>
+		<entry lang="en" key="FAST_CREATE">Fast Create</entry>
+		<entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">

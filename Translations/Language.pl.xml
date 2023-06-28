@@ -1605,6 +1605,9 @@
     <entry lang="pl" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Przekroczono maksymalny rozmiar pliku %I64u MB na dysku hosta.</entry>
     <entry lang="pl" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Błąd: Nie udało się uzyskać wymaganych uprawnień, aby włączyć Szybkie rozszerzanie!\nOdznacz opcję Szybkie rozszerzanie i spróbuj ponownie.</entry>
     <entry lang="pl" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Przekroczono maksymalny rozmiar wolumenu VeraCrypt %I64u TB!\n</entry>
+    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
+    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
+    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

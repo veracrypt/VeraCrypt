@@ -290,6 +290,7 @@ volatile BOOL quickFormat = FALSE;
 volatile BOOL fastCreateFile = FALSE;
 volatile BOOL dynamicFormat = FALSE; /* this variable represents the sparse file flag. */
 volatile int fileSystem = FILESYS_NONE;
+volatile int formatType = FORMAT_TYPE_FULL;
 volatile int clusterSize = 0;
 
 SYSENC_MULTIBOOT_CFG	SysEncMultiBootCfg;
@@ -4961,6 +4962,18 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				else
 					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("FORMAT_TITLE"));
 
+				/* Fill the format type combobox */
+				SendMessage (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), CB_RESETCONTENT, 0, 0);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), TRUE);
+
+				AddComboPair (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), GetString("FULL_FORMAT"), FORMAT_TYPE_FULL);
+				AddComboPair (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), GetString("IDC_QUICKFORMAT"), FORMAT_TYPE_QUICK);
+				if (!bDevice) // Fast Create only makes sens for file containers
+					AddComboPair (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), GetString("FAST_CREATE"), FORMAT_TYPE_FAST);
+				SendMessage (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), CB_SETCURSEL, 0, 0);
+
+				formatType = FORMAT_TYPE_FULL;
+
 				/* Quick/Dynamic */
 
 				if (bHiddenVol)
@@ -4972,8 +4985,18 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
 					EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), FALSE);
 
-					SetCheckBox (hwndDlg, IDC_QUICKFORMAT, quickFormat);
-					EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), bHiddenVolHost);
+					if (quickFormat)
+					{
+						formatType = FORMAT_TYPE_QUICK;
+						SelectAlgo (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE),  (int *) &formatType);
+					}
+					else if (!bDevice && fastCreateFile)
+					{
+						formatType = FORMAT_TYPE_FAST;
+						quickFormat = TRUE;
+						SelectAlgo (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE),  (int *) &formatType);
+					}
+					EnableWindow (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), bHiddenVolHost);
 				}
 				else
 				{
@@ -4983,7 +5006,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						bSparseFileSwitch = FALSE;
 						SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
 						EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), FALSE);
-						EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), TRUE);
+						EnableWindow (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), TRUE);
 					}
 					else
 					{
@@ -5004,8 +5027,15 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							dynamicFormat = FALSE;
 							SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
 						}
+
+						if (fastCreateFile)
+						{
+							formatType = FORMAT_TYPE_FAST;
+							quickFormat = TRUE;
+							SelectAlgo (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE),  (int *) &formatType);
+						}
 						EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), bSparseFileSwitch);
-						EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), TRUE);
+						EnableWindow (GetDlgItem (hwndDlg, IDC_FORMAT_TYPE), TRUE);
 					}
 				}
 
@@ -5959,29 +5989,50 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		}
 
-		if (lw == IDC_QUICKFORMAT)
+		if (lw == IDC_FORMAT_TYPE && hw == CBN_SELCHANGE)
 		{
-			if (IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT)))
+			formatType = (int) SendMessage (GetDlgItem (hCurPage, IDC_FORMAT_TYPE), CB_GETITEMDATA,
+				SendMessage (GetDlgItem (hCurPage, IDC_FORMAT_TYPE), CB_GETCURSEL, 0, 0) , 0);
+
+			if (formatType == FORMAT_TYPE_QUICK)
 			{
 				if (AskWarnYesNo("WARN_QUICK_FORMAT", MainDlg) == IDNO)
-					SetCheckBox (hwndDlg, IDC_QUICKFORMAT, FALSE);
+				{
+					formatType = FORMAT_TYPE_FULL;
+					SelectAlgo(GetDlgItem (hCurPage, IDC_FORMAT_TYPE), (int *) &formatType);
+				}
 			}
-			else if (IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE)))
+			else if (formatType == FORMAT_TYPE_FAST)
 			{
-				/* sparse file require quick format */
-				SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
+				if (AskWarnYesNo("WARN_FAST_CREATE", MainDlg) == IDNO)
+				{
+					formatType = FORMAT_TYPE_FULL;
+					SelectAlgo(GetDlgItem (hCurPage, IDC_FORMAT_TYPE), (int *) &formatType);
+				}
 			}
+
 			return 1;
 		}
 
-		if (lw == SPARSE_FILE && IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE)))
+		if (lw == SPARSE_FILE)
 		{
-			if (AskWarnYesNo("CONFIRM_SPARSE_FILE", MainDlg) == IDNO)
-				SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
-			else if (!IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT)) && IsWindowEnabled (GetDlgItem (hCurPage, IDC_QUICKFORMAT)))
+			if (IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE)))
 			{
-				/* sparse file require quick format */
-				SetCheckBox (hwndDlg, IDC_QUICKFORMAT, TRUE);
+				if (AskWarnYesNo("CONFIRM_SPARSE_FILE", MainDlg) == IDNO)
+					SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
+				else
+				{
+					/* sparse file require quick format */
+					formatType = FORMAT_TYPE_QUICK;
+					SelectAlgo(GetDlgItem (hCurPage, IDC_FORMAT_TYPE), (int *) &formatType);
+					EnableWindow(GetDlgItem (hCurPage, IDC_FORMAT_TYPE), FALSE);
+				}
+			}
+			else
+			{
+				EnableWindow(GetDlgItem (hCurPage, IDC_FORMAT_TYPE), TRUE);
+				formatType = FORMAT_TYPE_FULL;
+				SelectAlgo(GetDlgItem (hCurPage, IDC_FORMAT_TYPE), (int *) &formatType);
 			}
 			return 1;
 		}
@@ -6896,7 +6947,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			// Format has been aborted (did not finish)
 
-			EnableWindow (GetDlgItem (hCurPage, IDC_QUICKFORMAT), !(bHiddenVol && !bHiddenVolHost));
+			EnableWindow (GetDlgItem (hCurPage, IDC_FORMAT_TYPE), !(bHiddenVol && !bHiddenVolHost));
 			EnableWindow (GetDlgItem (hCurPage, SPARSE_FILE), (bSparseFileSwitch) && !(bHiddenVol && !bHiddenVolHost));
 			EnableWindow (GetDlgItem (hCurPage, IDC_FILESYS), TRUE);
 			EnableWindow (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), TRUE);
@@ -8496,7 +8547,10 @@ retryCDDriveCheck:
 				clusterSize = (int) SendMessage (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), CB_GETITEMDATA,
 					SendMessage (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), CB_GETCURSEL, 0, 0) , 0);
 
-				quickFormat = IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT));
+				formatType = (int) SendMessage (GetDlgItem (hCurPage, IDC_FORMAT_TYPE), CB_GETITEMDATA,
+					SendMessage (GetDlgItem (hCurPage, IDC_FORMAT_TYPE), CB_GETCURSEL, 0, 0) , 0);
+				quickFormat = (formatType == FORMAT_TYPE_QUICK) || (formatType == FORMAT_TYPE_FAST);
+				fastCreateFile = (formatType == FORMAT_TYPE_FAST);
 				dynamicFormat = IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE));
 
 				if (!dynamicFormat && !bDevice && !(bHiddenVol && !bHiddenVolHost) && (nVolumeSize > (ULONGLONG) nAvailableFreeSpace))
@@ -8595,7 +8649,7 @@ retryCDDriveCheck:
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEXT), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDHELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDCANCEL), FALSE);
-				EnableWindow (GetDlgItem (hCurPage, IDC_QUICKFORMAT), FALSE);
+				EnableWindow (GetDlgItem (hCurPage, IDC_FORMAT_TYPE), FALSE);
 				EnableWindow (GetDlgItem (hCurPage, SPARSE_FILE), FALSE);
 				EnableWindow (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), FALSE);
 				EnableWindow (GetDlgItem (hCurPage, IDC_FILESYS), FALSE);

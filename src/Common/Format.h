@@ -91,6 +91,11 @@ BOOL MoveFilePointer (HANDLE dev, LARGE_INTEGER offset);
 #define FILESYS_EXFAT	3
 #define FILESYS_REFS	4
 
+#define FORMAT_TYPE_FULL		0
+#define FORMAT_TYPE_QUICK		1
+#define FORMAT_TYPE_FAST		2
+
+
 #ifdef __cplusplus
 }
 #endif
