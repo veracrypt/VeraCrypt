@@ -8,7 +8,8 @@ Information about Corsican localization:
 2. History of Corsican translation for Notepad++:
 
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
-	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2)
+	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
+	          June 29th (1.26.2)
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Created on March 6th, 2022 for version 1.25.9 by Patriccollu di Santa Maria è Sichè
 
@@ -17,7 +18,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.2">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.6" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.7" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -311,6 +312,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF :</entry>
 		<entry lang="co" key="IDT_PW_CACHE_OPTIONS">Impiatta di a parolla d’intesa</entry>
 		<entry lang="co" key="IDT_SECURITY_OPTIONS">Ozzioni di sicurità</entry>
+		<entry lang="co" key="IDT_EMV_OPTIONS">Ozzioni EMV</entry>
 		<entry lang="co" key="IDT_TASKBAR_ICON">Tacca di sfondulu VeraCrypt</entry>
 		<entry lang="co" key="IDT_TRAVELER_MOUNT">Vulume VeraCrypt à muntà (secondu à a radica di u discu viaghjadore) :</entry>
 		<entry lang="co" key="IDT_TRAVEL_INSERTION">À l’inserzione di u discu viaghjadore :</entry>
@@ -383,8 +385,8 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_SECONDARY_KEY">Chjave secundaria (esadecimale)</entry>
 		<entry lang="co" key="IDT_SECURITY_TOKEN">Gettone di sicurità :</entry>
 		<entry lang="co" key="IDT_SORT_METHOD">Metoda d’ordine :</entry>
-		<entry lang="co" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Aspittate per piacè. Stu trattamentu pò durà un bellu pezzu…</entry>
-		<entry lang="co" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Aspittate per piacè…\nStu trattamentu pò durà un bellu pezzu è VeraCrypt pò parè sensa risposta.</entry>
+		<entry lang="co" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Aspittate per piacè. St’operazione pò durà un bellu pezzu…</entry>
+		<entry lang="co" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Aspittate per piacè…\nSt’operazione pò durà un bellu pezzu è VeraCrypt pò parè sensa risposta.</entry>
 		<entry lang="co" key="IDT_TEST_BLOCK_NUMBER">Numeru di bloccu :</entry>
 		<entry lang="co" key="IDT_TEST_CIPHERTEXT">Crittogramu (esadecimale)</entry>
 		<entry lang="co" key="IDT_TEST_DATA_UNIT_NUMBER">Numeru d’unità di dati (esadecimale di 64-bit, dimensione d’unità di dati di 512 ottetti)</entry>
@@ -1621,10 +1623,22 @@ Information about Corsican localization:
 		<entry lang="co" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">A dimensione massima di %I64u Mo per u schedariu hè trapassata nant’à u lettore di l’ospite.</entry>
 		<entry lang="co" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Sbagliu : Fiascu per ottene i privileghji richiesti per attivà l’estensione rapida !\nCi vole à disattivà l’ozzione « Estensione rapida » è pruvà torna.</entry>
 		<entry lang="co" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">A dimensione massima di %I64u To per un schedariu VeraCrypthè trapassata !\n</entry>
-		<entry lang="en" key="FULL_FORMAT">Full Format</entry>
-		<entry lang="en" key="FAST_CREATE">Fast Create</entry>
-		<entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-	</localization>
+		<entry lang="co" key="FULL_FORMAT">Furmatu cumpletu</entry>
+		<entry lang="co" key="FAST_CREATE">Creazione rapida</entry>
+		<entry lang="co" key="WARN_FAST_CREATE">AVERTIMENTU : Duveriate impiegà a creazione rapida solu in quelli casi :\n\n1) L’apparechju ùn cuntene micca dati impurtante è ùn avete micca bisognu di u dinegu verisimile.\n2) L’apparechju hè statu dighjà tuttu cifratu è di manera sicura.\n\nDa veru, vulete impiegà a creazione rapida ?</entry>
+		<entry lang="co" key="IDC_ENABLE_EMV_SUPPORT">Permette l’impiegu di l’EMV</entry>
+		<entry lang="co" key="COMMAND_APDU_INVALID">A cumanda APDU mandata à a carta ùn hè micca accettevule.</entry>
+		<entry lang="co" key="EXTENDED_APDU_UNSUPPORTED">E cumande avanzate APDU ùn ponu micca esse impiegate cù u gettone attuale.</entry>
+		<entry lang="co" key="SCARD_MODULE_INIT_FAILED">Sbagliu durante u caricamentu di a biblioteca WinSCard / PCSC.</entry>
+		<entry lang="co" key="EMV_UNKNOWN_CARD_TYPE">A carta in u lettore ùn hè micca una carta EMV accettata.</entry>
+		<entry lang="co" key="EMV_SELECT_AID_FAILED">L’infurmazione AID di a carta in u lettore ùn pò micca esse selezziunata.</entry>
+		<entry lang="co" key="EMV_ICC_CERT_NOTFOUND">U certificatu di chjave publica ICC ùn si trova micca in a carta.</entry>
+		<entry lang="co" key="EMV_ISSUER_CERT_NOTFOUND">U certificatu di chjave publica di l’emettore ùn si trova micca in a carta.</entry>
+		<entry lang="co" key="EMV_CPLC_NOTFOUND">CLPC ùn si trova micca in a carta EMV.</entry>
+		<entry lang="co" key="EMV_PAN_NOTFOUND">Ùn si trova alcunu numeru principale di contu in a carta EMV.</entry>
+		<entry lang="co" key="INVALID_EMV_PATH">U chjassu EMV hè inaccettevule.</entry>
+		<entry lang="co" key="EMV_KEYFILE_DATA_NOTFOUND">Impussibule di custruisce un schedariu chjave cù i dati di a carta EMV.\n\nUna di ste cundizione hè assente :\n- U certificatu di chjave publica ICC.\n- U certificatu di chjave publica di l’emettore.\n- I dati CPCL.</entry>
+		<entry lang="co" key="SCARD_W_REMOVED_CARD">Alcuna carta in u lettore.\n\nAssicuratevi chì a carta hè framessa currettamente.</entry>	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
 			<xs:complexType>
