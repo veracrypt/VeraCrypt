@@ -206,6 +206,7 @@ static void InitMainDialog (HWND hwndDlg)
 	/* Call the common dialog init code */
 	InitDialog (hwndDlg);
 	LocalizeDialog (hwndDlg, NULL);
+	DragAcceptFiles (hwndDlg, TRUE);
 
 	SendMessage (GetDlgItem (hwndDlg, IDC_VOLUME), CB_LIMITTEXT, TC_MAX_PATH, 0);
 	SetWindowTextW (hwndDlg, lpszTitle);
@@ -516,17 +517,6 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				SetWindowPos (hwndDlg, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			}
-
-			if (!bSecureDesktopOngoing)
-			{
-				PasswordEditDropTarget* pTarget = new PasswordEditDropTarget ();
-				if (pTarget->Register (hwndDlg))
-				{
-					SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) pTarget);
-				}
-				else
-					delete pTarget;
-			}
 		}
 		return 0;
 
@@ -819,19 +809,6 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			DragFinish (hdrop);
 		}
 		return 1;
-
-	case WM_NCDESTROY:
-		{
-			/* unregister drap-n-drop support */
-			PasswordEditDropTarget* pTarget = (PasswordEditDropTarget*) GetWindowLongPtr (hwndDlg, DWLP_USER);
-			if (pTarget)
-			{
-				SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) 0);
-				pTarget->Revoke ();
-				pTarget->Release();
-			}
-		}
-		return 0;
 	}
 
 	return 0;
@@ -1043,6 +1020,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		VeraCryptExpander::EndMainDlg (hwndDlg);
 		localcleanup ();
 		return 0;
+
+	case WM_DROPFILES:
+		{
+			HDROP hdrop = (HDROP) wParam;
+			DragQueryFile (hdrop, 0, szFileName, ARRAYSIZE (szFileName));
+			DragFinish (hdrop);
+
+			AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
+			SetFocus (GetDlgItem (hwndDlg, IDOK));
+		}
+		return 1;
 
 	case WM_COMMAND:
 
