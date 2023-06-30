@@ -255,11 +255,14 @@ static void PutFSInfo (unsigned char *sector, fatparams *ft)
 
 
 int
-FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
+FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
 	unsigned __int64 nSecNo = startSector;
+	unsigned __int64 nSkipSectors = 128 * (unsigned __int64) BYTES_PER_MB / ft->sector_size;
+	unsigned __int64 num_sectors;
+	DWORD bytesWritten;
 	int x, n;
 	int retVal;
 	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
@@ -288,7 +291,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		goto fail;
 
 	PutBoot (ft, (unsigned char *) sector);
-	if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+	if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 		cryptoInfo) == FALSE)
 		goto fail;
 
@@ -297,7 +300,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	{
 		/* fsinfo */
 		PutFSInfo((unsigned char *) sector, ft);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 			cryptoInfo) == FALSE)
 			goto fail;
 
@@ -307,7 +310,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			memset (sector, 0, ft->sector_size);
 			sector[508+3]=0xaa; /* TrailSig */
 			sector[508+2]=0x55;
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 				cryptoInfo) == FALSE)
 				goto fail;
 		}
@@ -315,12 +318,12 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		/* bootsector backup */
 		memset (sector, 0, ft->sector_size);
 		PutBoot (ft, (unsigned char *) sector);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 				 cryptoInfo) == FALSE)
 			goto fail;
 
 		PutFSInfo((unsigned char *) sector, ft);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 			cryptoInfo) == FALSE)
 			goto fail;
 	}
@@ -329,7 +332,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	while (nSecNo - startSector < (unsigned int)ft->reserved)
 	{
 		memset (sector, 0, ft->sector_size);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 			cryptoInfo) == FALSE)
 			goto fail;
 	}
@@ -373,7 +376,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 				}
 			}
 
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 				    cryptoInfo) == FALSE)
 				goto fail;
 		}
@@ -384,7 +387,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	for (x = 0; x < ft->size_root_dir / ft->sector_size; x++)
 	{
 		memset (sector, 0, ft->sector_size);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 				 cryptoInfo) == FALSE)
 			goto fail;
 
@@ -450,11 +453,11 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		x = ft->num_sectors - ft->reserved - ft->size_root_dir / ft->sector_size - ft->fat_length * 2;
 		while (x--)
 		{
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 				cryptoInfo) == FALSE)
 				goto fail;
 		}
-		UpdateProgressBar (nSecNo * ft->sector_size);
+		UpdateProgressBar ((nSecNo - startSector) * ft->sector_size);
 
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 		{
@@ -465,6 +468,44 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 
 		burn (&tmpCI, sizeof (tmpCI));
 		VirtualUnlock (&tmpCI, sizeof (tmpCI));
+	}
+	else if (!bDevice)
+	{
+		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
+			goto fail;
+
+		// Quick format: write a zeroed sector every 128 MiB, leaving other sectors untouched
+		// This helps users visualize the progress of actual file creation while forcing Windows
+		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows 
+		// would delay the allocation until we write the backup header at the end of the volume which
+		// would make the user think that the format process has stalled after progress bar reaches 100%.
+		num_sectors = ft->num_sectors - ft->reserved - ft->size_root_dir / ft->sector_size - ft->fat_length * 2;
+		while (num_sectors >= nSkipSectors)
+		{
+			// seek to next sector to be written
+			nSecNo += (nSkipSectors - 1);
+			startOffset.QuadPart = nSecNo * ft->sector_size;
+			if (!MoveFilePointer ((HANDLE) dev, startOffset))
+			{
+				goto fail;
+			}
+			
+			// sector array has been zeroed above
+			if (!WriteFile ((HANDLE) dev, sector, ft->sector_size, &bytesWritten, NULL) 
+				|| bytesWritten != ft->sector_size)
+			{
+				goto fail;
+			}
+			
+			nSecNo++;
+			num_sectors -= nSkipSectors;
+
+			if (UpdateProgressBar ((nSecNo - startSector)* ft->sector_size))
+				goto fail;
+		}
+		
+		nSecNo += num_sectors;
+		UpdateProgressBar ((nSecNo - startSector)* ft->sector_size);
 	}
 	else
 	{

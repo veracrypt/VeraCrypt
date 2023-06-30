@@ -79,7 +79,7 @@ namespace VeraCrypt
 		uint64 val;
 		if (UseAllFreeSpaceCheckBox->IsChecked ())
 		{
-			val = AvailableDiskSpace;
+			val = MaxVolumeSizeValid ? MaxVolumeSize : AvailableDiskSpace;
 		}
 		else
 		{

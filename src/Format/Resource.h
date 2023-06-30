@@ -146,6 +146,7 @@
 #define IDC_TB                          1107
 #define IDC_SKIP_RESCUE_VERIFICATION    1108
 #define SPARSE_FILE                     1109
+#define IDC_FORMAT_TYPE                 1110
 
 // Next default values for new objects
 // 
@@ -154,7 +155,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1110
+#define _APS_NEXT_CONTROL_VALUE         1111
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

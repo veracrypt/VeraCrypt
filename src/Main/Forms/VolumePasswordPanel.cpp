@@ -383,7 +383,7 @@ namespace VeraCrypt
 			SecurityTokenKeyfilesDialog dialog (this);
 			if (dialog.ShowModal() == wxID_OK)
 			{
-				foreach (const SecurityTokenKeyfilePath &path, dialog.GetSelectedSecurityTokenKeyfilePaths())
+				foreach (const TokenKeyfilePath &path, dialog.GetSelectedSecurityTokenKeyfilePaths())
 				{
 					Keyfiles->push_back (make_shared <Keyfile> (wstring (path)));
 				}

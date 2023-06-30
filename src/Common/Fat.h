@@ -66,4 +66,4 @@ struct msdos_boot_sector
 
 void GetFatParams ( fatparams *ft );
 void PutBoot ( fatparams *ft , unsigned char *boot );
-int FormatFat (void* hwndDlg, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat);
+int FormatFat (void* hwndDlg, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice);

@@ -98,11 +98,11 @@ namespace VeraCrypt
 			{
 				MountOptions newOptions = options;
 
-				newOptions.Password = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
+				newOptions.Password = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled);
 				if (newOptions.Keyfiles)
 					newOptions.Keyfiles->clear();
 
-				newOptions.ProtectionPassword = Keyfile::ApplyListToPassword (options.ProtectionKeyfiles, options.ProtectionPassword);
+				newOptions.ProtectionPassword = Keyfile::ApplyListToPassword (options.ProtectionKeyfiles, options.ProtectionPassword, options.EMVSupportEnabled);
 				if (newOptions.ProtectionKeyfiles)
 					newOptions.ProtectionKeyfiles->clear();
 
@@ -126,7 +126,7 @@ namespace VeraCrypt
 				if (options.CachePassword
 					&& ((options.Password && !options.Password->IsEmpty()) || (options.Keyfiles && !options.Keyfiles->empty())))
 				{
-					VolumePasswordCache::Store (*Keyfile::ApplyListToPassword (options.Keyfiles, options.Password));
+					VolumePasswordCache::Store (*Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled));
 				}
 			}
 

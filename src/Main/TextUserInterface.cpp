@@ -21,7 +21,9 @@
 #endif
 
 #include <wx/platinfo.h>
+#include "Common/Token.h"
 #include "Common/SecurityToken.h"
+#include "Common/EMVToken.h"
 #include "Core/RandomNumberGenerator.h"
 #include "Application.h"
 #include "TextUserInterface.h"
@@ -287,6 +289,9 @@ namespace VeraCrypt
 		normalVolumeMountOptions.Path = volumePath;
 		hiddenVolumeMountOptions.Path = volumePath;
 
+		normalVolumeMountOptions.EMVSupportEnabled = true;
+		hiddenVolumeMountOptions.EMVSupportEnabled = true;
+
 		VolumeType::Enum volumeType = VolumeType::Normal;
 
 		// Open both types of volumes
@@ -312,6 +317,7 @@ namespace VeraCrypt
 						kdf,
 						false,
 						options->Keyfiles,
+                        options->EMVSupportEnabled,
 						options->Protection,
 						options->ProtectionPassword,
 						options->ProtectionPim,
@@ -337,6 +343,7 @@ namespace VeraCrypt
 								kdf,
 								false,
 								options->Keyfiles,
+                                options->EMVSupportEnabled,
 								options->Protection,
 								options->ProtectionPassword,
 								options->ProtectionPim,
@@ -407,14 +414,14 @@ namespace VeraCrypt
 
 		// Re-encrypt volume header
 		SecureBuffer newHeaderBuffer (normalVolume->GetLayout()->GetHeaderSize());
-		Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, normalVolume->GetHeader(), normalVolumeMountOptions.Password, normalVolumeMountOptions.Pim, normalVolumeMountOptions.Keyfiles);
+		Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, normalVolume->GetHeader(), normalVolumeMountOptions.Password, normalVolumeMountOptions.Pim, normalVolumeMountOptions.Keyfiles, normalVolumeMountOptions.EMVSupportEnabled);
 
 		backupFile.Write (newHeaderBuffer);
 
 		if (hiddenVolume)
 		{
 			// Re-encrypt hidden volume header
-			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Pim, hiddenVolumeMountOptions.Keyfiles);
+			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Pim, hiddenVolumeMountOptions.Keyfiles, hiddenVolumeMountOptions.EMVSupportEnabled);
 		}
 		else
 		{
@@ -482,7 +489,7 @@ namespace VeraCrypt
 					try
 					{
 						keyfiles.reset (new KeyfileList);
-						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, truecryptMode, keyfiles);
+						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, truecryptMode, keyfiles, true);
 					}
 					catch (PasswordException&)
 					{
@@ -492,7 +499,7 @@ namespace VeraCrypt
 				}
 
 				if (!volume.get())
-					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, truecryptMode, keyfiles);
+					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, truecryptMode, keyfiles, true);
 			}
 			catch (PasswordException &e)
 			{
@@ -527,7 +534,7 @@ namespace VeraCrypt
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool();
 
-		Core->ChangePassword (volume, newPassword, newPim, newKeyfiles,
+		Core->ChangePassword (volume, newPassword, newPim, newKeyfiles, true,
 			newHash ? Pkcs5Kdf::GetAlgorithm (*newHash, false) : shared_ptr <Pkcs5Kdf>());
 
 		ShowInfo ("PASSWORD_CHANGED");
@@ -911,6 +918,7 @@ namespace VeraCrypt
 		wxLongLong startTime = wxGetLocalTimeMillis();
 
 		VolumeCreator creator;
+		options->EMVSupportEnabled = true;
 		creator.CreateVolume (options);
 
 		bool volumeCreated = false;
@@ -952,6 +960,7 @@ namespace VeraCrypt
 			mountOptions.Password = options->Password;
 			mountOptions.Pim = options->Pim;
 			mountOptions.Keyfiles = options->Keyfiles;
+			mountOptions.EMVSupportEnabled = true;
 
 			shared_ptr <VolumeInfo> volume = Core->MountVolume (mountOptions);
 			finally_do_arg (shared_ptr <VolumeInfo>, volume, { Core->DismountVolume (finally_arg, true); });
@@ -1024,7 +1033,7 @@ namespace VeraCrypt
 
 		foreach_ref (const Keyfile &keyfile, *keyfiles)
 		{
-			SecurityToken::DeleteKeyfile (SecurityTokenKeyfilePath (FilePath (keyfile)));
+            SecurityToken::DeleteKeyfile (TokenKeyfilePath (FilePath (keyfile)));
 		}
 	}
 
@@ -1048,17 +1057,17 @@ namespace VeraCrypt
 		wcerr << L"Warning: " << static_cast<wstring> (message) << endl;
 	}
 
-	void TextUserInterface::ExportSecurityTokenKeyfile () const
+	void TextUserInterface::ExportTokenKeyfile () const
 	{
-		wstring keyfilePath = AskString (_("Enter security token keyfile path: "));
+		wstring keyfilePath = AskString (_("Enter token keyfile path: "));
 
 		if (keyfilePath.empty())
 			throw UserAbort (SRC_POS);
 
-		SecurityTokenKeyfile tokenKeyfile (keyfilePath);
+        shared_ptr<TokenKeyfile> tokenKeyfile = Token::getTokenKeyfile(keyfilePath);
 
 		vector <byte> keyfileData;
-		SecurityToken::GetKeyfileData (tokenKeyfile, keyfileData);
+		tokenKeyfile->GetKeyfileData (keyfileData);
 
 		BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 		finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
@@ -1098,9 +1107,9 @@ namespace VeraCrypt
 		return shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler (this));
 	}
 
-	void TextUserInterface::ImportSecurityTokenKeyfiles () const
+	void TextUserInterface::ImportTokenKeyfiles () const
 	{
-		list <SecurityTokenInfo> tokens = SecurityToken::GetAvailableTokens();
+		list <shared_ptr<TokenInfo>> tokens = Token::GetAvailableTokens();
 
 		if (tokens.empty())
 			throw_err (LangString ["NO_TOKENS_FOUND"]);
@@ -1109,19 +1118,19 @@ namespace VeraCrypt
 
 		if (tokens.size() == 1)
 		{
-			slotId = tokens.front().SlotId;
+			slotId = tokens.front()->SlotId;
 		}
 		else
 		{
-			foreach (const SecurityTokenInfo &token, tokens)
+			foreach (const shared_ptr<TokenInfo> &token, tokens)
 			{
 				wstringstream tokenLabel;
-				tokenLabel << L"[" << token.SlotId << L"] " << LangString["TOKEN_SLOT_ID"].c_str() << L" " << token.SlotId << L"  " << token.Label;
+				tokenLabel << L"[" << token->SlotId << L"] " << LangString["TOKEN_SLOT_ID"].c_str() << L" " << token->SlotId << L"  " << token->Label;
 
 				ShowInfo (tokenLabel.str());
 			}
 
-			slotId = (CK_SLOT_ID) AskSelection (tokens.back().SlotId, tokens.front().SlotId);
+			slotId = (CK_SLOT_ID) AskSelection (tokens.back()->SlotId, tokens.front()->SlotId);
 		}
 
 		shared_ptr <KeyfileList> keyfiles;
@@ -1225,14 +1234,30 @@ namespace VeraCrypt
 		}
 	}
 
-	void TextUserInterface::ListSecurityTokenKeyfiles () const
+	void TextUserInterface::ListTokenKeyfiles () const
 	{
-		foreach (const SecurityTokenKeyfile &keyfile, SecurityToken::GetAvailableKeyfiles())
+		foreach (const shared_ptr<TokenKeyfile> keyfile, Token::GetAvailableKeyfiles(true))
 		{
-			ShowString (wstring (SecurityTokenKeyfilePath (keyfile)));
+			ShowString (wstring (TokenKeyfilePath (*keyfile)));
 			ShowString (L"\n");
 		}
 	}
+    void TextUserInterface::ListSecurityTokenKeyfiles () const
+    {
+        foreach (const TokenKeyfile &keyfile, SecurityToken::GetAvailableKeyfiles())
+        {
+            ShowString (wstring (TokenKeyfilePath (keyfile)));
+            ShowString (L"\n");
+        }
+    }
+    void TextUserInterface::ListEMVTokenKeyfiles () const
+    {
+        foreach (const TokenKeyfile &keyfile, EMVToken::GetAvailableKeyfiles())
+        {
+            ShowString (wstring (TokenKeyfilePath (keyfile)));
+            ShowString (L"\n");
+        }
+    }
 
 	VolumeInfoList TextUserInterface::MountAllDeviceHostedVolumes (MountOptions &options) const
 	{
@@ -1246,6 +1271,8 @@ namespace VeraCrypt
 
 			if (!options.Keyfiles)
 				options.Keyfiles = AskKeyfiles();
+
+			options.EMVSupportEnabled = true;
 
 			VolumeInfoList mountedVolumes = UserInterface::MountAllDeviceHostedVolumes (options);
 
@@ -1284,6 +1311,8 @@ namespace VeraCrypt
 
 		VolumePassword password;
 		KeyfileList keyfiles;
+
+		options.EMVSupportEnabled = true;
 
 		if ((!options.Password || options.Password->IsEmpty())
 			&& (!options.Keyfiles || options.Keyfiles->empty())
@@ -1505,6 +1534,7 @@ namespace VeraCrypt
 			shared_ptr <Volume> volume;
 			MountOptions options;
 			options.Path = volumePath;
+			options.EMVSupportEnabled = true;
 
 			while (!volume)
 			{
@@ -1523,6 +1553,7 @@ namespace VeraCrypt
 						kdf,
 						false,
 						options.Keyfiles,
+                        options.EMVSupportEnabled,
 						options.Protection,
 						options.ProtectionPassword,
 						options.ProtectionPim,
@@ -1550,7 +1581,7 @@ namespace VeraCrypt
 
 			// Re-encrypt volume header
 			SecureBuffer newHeaderBuffer (volume->GetLayout()->GetHeaderSize());
-			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, volume->GetHeader(), options.Password, options.Pim,  options.Keyfiles);
+			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, volume->GetHeader(), options.Password, options.Pim,  options.Keyfiles, options.EMVSupportEnabled);
 
 			// Write volume header
 			int headerOffset = volume->GetLayout()->GetHeaderOffset();
@@ -1600,6 +1631,7 @@ namespace VeraCrypt
 
 			// Open the volume header stored in the backup file
 			MountOptions options;
+			options.EMVSupportEnabled = true;
 
 			shared_ptr <VolumeLayout> decryptedLayout;
 
@@ -1627,7 +1659,7 @@ namespace VeraCrypt
 						backupFile.ReadAt (headerBuffer, layout->GetType() == VolumeType::Hidden ? layout->GetHeaderSize() : 0);
 
 						// Decrypt header
-						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
+						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled);
 						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, options.Pim, kdf, false, layout->GetSupportedKeyDerivationFunctions(false), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
 						{
 							decryptedLayout = layout;
@@ -1652,7 +1684,7 @@ namespace VeraCrypt
 
 			// Re-encrypt volume header
 			SecureBuffer newHeaderBuffer (decryptedLayout->GetHeaderSize());
-			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles);
+			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles, options.EMVSupportEnabled);
 
 			// Write volume header
 			int headerOffset = decryptedLayout->GetHeaderOffset();
@@ -1666,7 +1698,7 @@ namespace VeraCrypt
 			if (decryptedLayout->HasBackupHeader())
 			{
 				// Re-encrypt backup volume header
-				Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles);
+				Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles, options.EMVSupportEnabled);
 
 				// Write backup volume header
 				headerOffset = decryptedLayout->GetBackupHeaderOffset();

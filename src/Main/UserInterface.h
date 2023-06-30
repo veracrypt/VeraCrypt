@@ -49,14 +49,16 @@ namespace VeraCrypt
 		virtual void DoShowWarning (const wxString &message) const = 0;
 		virtual void EndBusyState () const = 0;
 		static wxString ExceptionToMessage (const exception &ex);
-		virtual void ExportSecurityTokenKeyfile () const = 0;
+		virtual void ExportTokenKeyfile () const = 0;
 		virtual shared_ptr <GetStringFunctor> GetAdminPasswordRequestHandler () = 0;
 		virtual const UserPreferences &GetPreferences () const { return Preferences; }
-		virtual void ImportSecurityTokenKeyfiles () const = 0;
+		virtual void ImportTokenKeyfiles () const = 0;
 		virtual void Init ();
 		virtual void InitSecurityTokenLibrary () const = 0;
 		virtual void ListMountedVolumes (const VolumeInfoList &volumes) const;
+		virtual void ListTokenKeyfiles () const = 0;
 		virtual void ListSecurityTokenKeyfiles () const = 0;
+		virtual void ListEMVTokenKeyfiles () const = 0;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) const;
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const { return Core->MountVolume (options);}
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
