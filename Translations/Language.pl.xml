@@ -1621,6 +1621,8 @@
     <entry lang="pl" key="INVALID_EMV_PATH">Ścieżka EMV jest nieprawidłowa.</entry>
     <entry lang="pl" key="EMV_KEYFILE_DATA_NOTFOUND">Nie można utworzyć pliku klucza z danych karty EMV.\n\nBrak jednego z następujących elementów:\n- Certyfikatu klucza publicznego ICC.\n- Certyfikatu klucza publicznego wydawcy.\n- Danych CPCL.</entry>
     <entry lang="pl" key="SCARD_W_REMOVED_CARD">Brak karty w czytniku.\n\nUpewnij się, że karta jest prawidłowo włożona.</entry>
+    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
+    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

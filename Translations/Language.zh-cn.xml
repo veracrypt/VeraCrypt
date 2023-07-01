@@ -1622,6 +1622,8 @@
     <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
     <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
     <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
+    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
+    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

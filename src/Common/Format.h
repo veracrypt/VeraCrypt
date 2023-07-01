@@ -69,14 +69,16 @@ FORMAT_VOL_PARAMETERS;
 #define FMIFS_CHECKDISK_PROGRESS 0x19
 #define FMIFS_READ_ONLY_MODE 0x20
 
+#define FMIFS_REMOVAL	0xB
 #define FMIFS_HARDDISK	0xC
 
 extern int FormatWriteBufferSize;
 
 int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams);
-BOOL FormatNtfs (int driveNo, int clusterSize);
-BOOL FormatFs (int driveNo, int clusterSize, int fsType);
-BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType);
+int FormatNtfs (int driveNo, int clusterSize);
+int FormatFs (int driveNo, int clusterSize, int fsType);
+int ExternalFormatFs (int driveNo, int clusterSize, int fsType);
+LPCWSTR FormatExGetMessage (int command);
 uint64 GetVolumeDataAreaSize (BOOL hiddenVolume, uint64 volumeSize);
 int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num_sectors, void *dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice);
 BOOL WriteSector ( void *dev , char *sector , char *write_buf , int *write_buf_cnt , unsigned __int64 *nSecNo , unsigned __int64 startSector, PCRYPTO_INFO cryptoInfo );
