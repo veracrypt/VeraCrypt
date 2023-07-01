@@ -75,8 +75,8 @@ FORMAT_VOL_PARAMETERS;
 extern int FormatWriteBufferSize;
 
 int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams);
-int FormatNtfs (int driveNo, int clusterSize);
-int FormatFs (int driveNo, int clusterSize, int fsType);
+int FormatNtfs (int driveNo, int clusterSize, BOOL bFallBackExternal);
+int FormatFs (int driveNo, int clusterSize, int fsType, BOOL bFallBackExternal);
 int ExternalFormatFs (int driveNo, int clusterSize, int fsType);
 LPCWSTR FormatExGetMessage (int command);
 uint64 GetVolumeDataAreaSize (BOOL hiddenVolume, uint64 volumeSize);
