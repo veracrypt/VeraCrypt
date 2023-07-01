@@ -72,7 +72,7 @@
     <entry lang="fi" key="IDC_WHOLE_SYS_DRIVE">Salaa koko asema</entry>
     <entry lang="fi" key="IDD_VOL_CREATION_WIZARD_DLG">Opastettu VeraCrypt-taltion luonti</entry>
     <entry lang="fi" key="IDT_CLUSTER">Klusteri </entry>
-    <entry lang="fi" key="IDT_COLLECTING_RANDOM_DATA_NOTE">TÄRKEÄÄ: Liikuta hiirtäsi satunnaisesti tässä ikkunassa. Mitä kauemmin liikutat sitä, sen parempi. Tämä kasvattaa huomattavasti salausavaimien kryptografista vahvuutta. Paina sitten Seuraava jatkaaksesi.</entry>
+    <entry lang="fi" key="IDT_COLLECTING_RANDOM_DATA_NOTE">TÄRKEÄÄ: Liikuta hiirtäsi mahdollisimman satunnaisesti tässä ikkunassa. Mitä pitempään, sen parempi. Tämä kasvattaa huomattavasti salausavaimien kryptografista vahvuutta. Paina sitten Seuraava jatkaaksesi.</entry>
     <entry lang="fi" key="IDT_CONFIRM">&amp;Vahvista:</entry>
     <entry lang="fi" key="IDT_DONE">Valmis</entry>
     <entry lang="fi" key="IDT_DRIVE_LETTER">Aseman kirjain:</entry>
@@ -295,6 +295,7 @@
     <entry lang="fi" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="fi" key="IDT_PW_CACHE_OPTIONS">Salasanojen muistaminen</entry>
     <entry lang="fi" key="IDT_SECURITY_OPTIONS">Salausasetukset</entry>
+    <entry lang="fi" key="IDT_EMV_OPTIONS">EMV-asetukset</entry>
     <entry lang="fi" key="IDT_TASKBAR_ICON">VeraCrypt taustaohjelma</entry>
     <entry lang="fi" key="IDT_TRAVELER_MOUNT">Liitettävä Veracrypt-taltio (suhteessa siirrettävän levyn juureen):</entry>
     <entry lang="fi" key="IDT_TRAVEL_INSERTION">Siirrettävän levyn kytkeytyessä: </entry>
@@ -352,7 +353,7 @@
     <entry lang="fi" key="IDT_HIDDEN_PROT_PASSWD">Piilotetun taltion &amp;salasana:\n(jos tyhjä, käytetään välimuistia)</entry>
     <entry lang="fi" key="IDT_HIDDEN_VOL_PROTECTION">Piilotetun taltion suojaus</entry>
     <entry lang="fi" key="IDT_KEY">Avainkoko:</entry>
-    <entry lang="fi" key="IDT_KEYFILE_GENERATOR_NOTE">TÄRKEÄÄ: Liikuta hiirtäsi mahdollisimman satunnaisesti tämän ikkunan sisällä. Mitä kauemmin, sitä parempi. Tämä lisää merkittävästi avaintiedoston kryptografista vahvuutta.</entry>
+    <entry lang="fi" key="IDT_KEYFILE_GENERATOR_NOTE">TÄRKEÄÄ: Liikuta hiirtäsi mahdollisimman satunnaisesti tässä ikkunassa. Mitä pitempään, sen parempi. Tämä kasvattaa huomattavasti salausavaimien kryptografista vahvuutta.</entry>
     <entry lang="fi" key="IDT_KEYFILE_WARNING">VAROITUS: Jos hävität avaintiedoston tai jokin ensimmäisen 1024 kilotavun bitti muuttuu, mitään taltiota joka käyttää tätä avaintiedostoa ei voi enää liittää!</entry>
     <entry lang="fi" key="IDT_KEY_UNIT">bittiä</entry>
     <entry lang="fi" key="IDT_NUMBER_KEYFILES">Avaintiedostojen määrä:</entry>
@@ -512,7 +513,7 @@
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Varoitus: Jotta pääset käsiksi salaamattomaan dataan, asemalle jonka salaus on purettu, tulee määrittää asemakirjain. Kuitenkaan tätä varten asemakirjaimia ei ole vapaana.\n\nVapauta asemakirjain (esimerkiksi irrottamalla USB-muistitikku tai ulkoinen kiintolevy jne.) ja paina OK.</entry>
     <entry lang="fi" key="FORMAT_FINISHED_INFO">VeraCrypt-taltio on luotu onnistuneesti.</entry>
     <entry lang="fi" key="FORMAT_FINISHED_TITLE">Taltio luotu</entry>
-    <entry lang="fi" key="FORMAT_HELP">TÄRKEÄÄ: Liikuta hiirtäsi tässä ikkunassa mahdollisimman satunnaisesti. Mitä kauemmin liikutat, sen parempi. Tämä kasvattaa merkittävästi salausavaimen kryptografista vahvuutta. Paina Alusta luodaksesi taltion.</entry>
+    <entry lang="fi" key="FORMAT_HELP">TÄRKEÄÄ: Liikuta hiirtäsi mahdollisimman satunnaisesti tässä ikkunassa. Mitä pitempään, sen parempi. Tämä kasvattaa huomattavasti salausavaimien kryptografista vahvuutta. Paina Alusta luodaksesi taltion.</entry>
     <entry lang="fi" key="FORMAT_HIDVOL_HOST_HELP">Paina Alusta luodaksesi ulomman taltion. Lisätiedot käyttöoppaasta.</entry>
     <entry lang="fi" key="FORMAT_HIDVOL_HOST_TITLE">Ulomman taltion alustus</entry>
     <entry lang="fi" key="FORMAT_HIDVOL_TITLE">Piilotetun taltion alustus</entry>
@@ -1574,53 +1575,53 @@
     <entry lang="fi" key="IDM_MOUNT_NO_CACHE">Liitä käyttämättä välimuistia</entry>
     <entry lang="fi" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nLaajenna Veracrypt-taltiota lennossa ilman tarvetta uudelleenalustukselle\n\n\nKaikki NTFS-tiedostojärjestelmällä alustetut taltiot (tiedostosäilöt, levyt ja osiot) ovat tuettuja.\n\nÄlä käytä tätä ohjelmistoa laajentaaksesi ulompaa taltiota joka sisältää piilotetun taltion, sillä tämä tuhoaa piilotetun taltion!\n</entry>
     <entry lang="fi" key="IDC_STEPSEXPAND">1. Valitse VeraCrypt-taltio jota haluat laajentaa\n2. Paina 'Liitä' nappulaa</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CLPC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
+    <entry lang="fi" key="IDT_VOL_NAME">Taltio: </entry>
+    <entry lang="fi" key="IDT_FILE_SYS">Tiedostojärjestelmä: </entry>
+    <entry lang="fi" key="IDT_CURRENT_SIZE">Nykyinen koko: </entry>
+    <entry lang="fi" key="IDT_NEW_SIZE">Uusi koko: </entry>
+    <entry lang="fi" key="IDT_NEW_SIZE_BOX_TITLE">Syötä taltion uusi koko</entry>
+    <entry lang="fi" key="IDC_INIT_NEWSPACE">Täytä uusi tila satunnaisella datalla</entry>
+    <entry lang="fi" key="IDC_QUICKEXPAND">Nopea laajennus</entry>
+    <entry lang="fi" key="IDT_INIT_SPACE">Täytä uusi tila: </entry>
+    <entry lang="fi" key="EXPANDER_FREE_SPACE">%s tilaa vapaana isäntälevyllä</entry>
+    <entry lang="fi" key="EXPANDER_HELP_DEVICE">Tämä on laiteisännöity VeraCrypt-taltio.\n\nUuden taltion koko asetetaan automaattisesti isäntälaitteen koon perusteella.</entry>
+    <entry lang="fi" key="EXPANDER_HELP_FILE">Määritä VeraCrypt-taltion uusi koko (tulee olla vähintään %I64u Kt suurempi kuin nykyinen koko).</entry>
+    <entry lang="fi" key="QUICK_EXPAND_WARNING">VAROITUS: Sinun tulisi käyttää nopeaa laajennusta seuraavissa tapauksissa:\n\n1) Laite jolla tiedostosäilö sijaitsee ei sisällä arkaluonteista dataa etkä tarvitse uskottavaa kieltäytyvyyttä.)\n2) Laite jolla tiedostosäilö sijaitsee on jo turvallisesti ja kokonaan salattu.\n\nOletko varma että haluat käyttää nopeaa laajennusta?</entry>
+    <entry lang="fi" key="EXPANDER_STATUS_TEXT">TÄRKEÄÄ: Liikuta hiirtäsi mahdollisimman satunnaisesti tässä ikkunassa. Mitä pitempään, sen parempi. Tämä kasvattaa huomattavasti salausavaimien kryptografista vahvuutta. Paina sitten 'Jatka' laajentaaksesi taltiota.</entry>
+    <entry lang="fi" key="EXPANDER_STATUS_TEXT_LEGACY">Paina 'Jatka' laajentaaksesi taltion.</entry>
+    <entry lang="fi" key="EXPANDER_FINISH_ERROR">Virhe: taltion laajennus epäonnistui.</entry>
+    <entry lang="fi" key="EXPANDER_FINISH_ABORT">Virhe: toiminto keskeytettiin käyttäjän toimesta.</entry>
+    <entry lang="fi" key="EXPANDER_FINISH_OK">Valmis. Taltio laajennettiin onnistuneesti.</entry>
+    <entry lang="fi" key="EXPANDER_CANCEL_WARNING">Varoitus: Taltion laajennus on käynnissä!\n\nSen keskeyttäminen voi johtaa vioittuneeseen taltioon.\n\nOletko aivan varma että haluat keskeyttää?</entry>
+    <entry lang="fi" key="EXPANDER_STARTING_STATUS">Aloitetaan taltion laajennus ...\n</entry>
+    <entry lang="fi" key="EXPANDER_HIDDEN_VOLUME_ERROR">Ulompaa taltiota joka sisältää piilotetun taltion ei voida laajentaa, koska se tuhoaisi piilotetun taltion.\n</entry>
+    <entry lang="fi" key="EXPANDER_SYSTEM_VOLUME_ERROR">VeraCryptin järjestelmätaltiota ei voida laajentaa.</entry>
+    <entry lang="fi" key="EXPANDER_NO_FREE_SPACE">Ei tarpeeksi vapaata tilaa taltion laajentamiseen.</entry>
+    <entry lang="fi" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Varoitus: Tiedostosäilön koko on suurempi kuin VeraCrypt-taltion varaama alue. Data joka sijaitsee VeraCrypt-taltion varaaman alueen jälkeen tullaan ylikirjoittamaan.\n\nHaluatko jatkaa?</entry>
+    <entry lang="fi" key="EXPANDER_WARNING_FAT">Varoitus: VeraCrypt-taltio sisältää FAT-tiedostojärjestelmän!\n\nVain VeraCrypt-taltio itsessään tullaan laajentamaan, ei sen sisältämää tiedostojärjestelmää.\n\nHaluatko jatkaa?</entry>
+    <entry lang="fi" key="EXPANDER_WARNING_EXFAT">Varoitus: VeraCrypt-taltio sisältää exFAT-tiedostojärjestelmän!\n\nVain VeraCrypt-taltio itsessään tullaan laajentamaan, ei sen sisältämää tiedostojärjestelmää.\n\nHaluatko jatkaa?</entry>
+    <entry lang="fi" key="EXPANDER_WARNING_UNKNOWN_FS">Varoitus: VeraCrypt-taltio ei sisällä tiedostojärjestelmää tai sitä ei tunnisteta!\n\nVain VeraCrypt-taltio tullaan laajentamaan, sen tiedostojärjestelmä pysyy ennallaan.\n\nHaluatko jatkaa?</entry>
+    <entry lang="fi" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Taltion uusi koko on liian pieni, sen tulee olla vähintään %I64u kt suurempi kuin sen nykyinen koko.</entry>
+    <entry lang="fi" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Taltion uusi koko on liian suuri, isäntälevyllä ei ole tarpeeksi tilaa.</entry>
+    <entry lang="fi" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Tiedoston enimmäiskoko %I64u MB isäntälevyllä on ylitetty.</entry>
+    <entry lang="fi" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Virhe: Tarvittavien oikeuksien saaminen nopean laajennuksen käyttöönottoon epäonnistui!\nOta nopea laajennus pois käytöstä ja yritä uudelleen.</entry>
+    <entry lang="fi" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">VeraCrypt-taltion enimmäiskoko %I64u TB on ylitetty!\n</entry>
+    <entry lang="fi" key="FULL_FORMAT">Täysi alustus</entry>
+    <entry lang="fi" key="FAST_CREATE">Nopea luonti</entry>
+    <entry lang="fi" key="WARN_FAST_CREATE">VAROITUS: Sinun tulisi käyttää Nopea luonti -moodia vain seuraavissa tapauksissa:\n\n1) Laite ei sisällä arkaluonteista dataa ja et tarvitse uskottavaa kiistettävyyttä.\n2) Laite on jo turvallisesti ja kokonaan salattu.\n\nOletko varma että haluat käyttää nopeaa luontia?</entry>
+    <entry lang="fi" key="IDC_ENABLE_EMV_SUPPORT">Käytä EMV-tukea</entry>
+    <entry lang="fi" key="COMMAND_APDU_INVALID">Kortille lähetetty APDU-komento ei ole sopiva.</entry>
+    <entry lang="fi" key="EXTENDED_APDU_UNSUPPORTED">Laajennettuja APDU-komentoja ei voida käyttää tämän tunnisteen kanssa.</entry>
+    <entry lang="fi" key="SCARD_MODULE_INIT_FAILED">Virhe ladattaessa WinSCard / PCSC kirjastoja.</entry>
+    <entry lang="fi" key="EMV_UNKNOWN_CARD_TYPE">Lukijassa oleva kortti ei ole tuettu EMV-kortti.</entry>
+    <entry lang="fi" key="EMV_SELECT_AID_FAILED">Lukijassa olevan kortin AID:tä ei voitu valita.</entry>
+    <entry lang="fi" key="EMV_ICC_CERT_NOTFOUND">Älykortin julkisen avaimen varmennetta ei löytynyt kortilta.</entry>
+    <entry lang="fi" key="EMV_ISSUER_CERT_NOTFOUND">Myöntäjän julkisen avaimen varmennetta ei löytynyt kortilta.</entry>
+    <entry lang="fi" key="EMV_CPLC_NOTFOUND">CPLC ei löytynyt EMV-kortilta.</entry>
+    <entry lang="fi" key="EMV_PAN_NOTFOUND">Ensisijaista käyttäjänumeroa (PAN) ei löytynyt EMV-kortilta.</entry>
+    <entry lang="fi" key="INVALID_EMV_PATH">EMV polku on väärä.</entry>
+    <entry lang="fi" key="EMV_KEYFILE_DATA_NOTFOUND">Avaintiedoston luominen EMV-kortin datasta epäonnistui.\n\nJokin seuraavista puuttuu:\n- Älykortin julkisen avaimen varmenne.\n- Myöntäjän julkisen avaimen varmenne.\n- CPLC data.</entry>
+    <entry lang="fi" key="SCARD_W_REMOVED_CARD">Ei korttia lukijassa.\n\nVarmista että kortti on asetettu kunnolla.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
