@@ -108,6 +108,7 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
   wxWidgets 3.0 library source code (available at https://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse
   and https://osxfuse.github.io/)
+- PCSC-lite library and header files (available at https://github.com/LudovicRousseau/PCSC)
 
 
 Instructions for Building VeraCrypt for Linux and Mac OS X:

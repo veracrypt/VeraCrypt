@@ -76,6 +76,7 @@ The following components are required for compiling VeraCrypt:
 	<li>pkg-config</li>
 	<li>wxWidgets 3.x shared library and header files installed by the system or wxWidgets 3.x library source code </li>
 	<li>FUSE library and header files</li>
+	<li>PCSC-lite library and header files</li>
 </ol>
 </div>
 
@@ -88,6 +89,7 @@ The following components are required for compiling VeraCrypt:
 <li><strong><a href="#InstallationOfPKGConfig">Installation of pkg-config</a></li></strong>
 <li><strong><a href="#InstallationOfwxWidgets">Installation of wxWidgets 3.2</a></li></strong>
 <li><strong><a href="#InstallationOfFuse">Installation of libfuse</a></li></strong>
+<li><strong><a href="#InstallationOfPCSCLite">Installation of libpcsclite</a></li></strong>
 <li><strong><a href="#DownloadVeraCrypt">Download VeraCrypt</a></li></strong>
 <li><strong><a href="#CompileVeraCrypt">Compile VeraCrypt</a></li></strong>
 </ul>
@@ -96,7 +98,7 @@ The following components are required for compiling VeraCrypt:
 <code>
 sudo apt update <br>
 sudo apt install -y build-essential yasm pkg-config libwxgtk3.0-gtk3-dev <br>
-sudo apt install -y libfuse-dev git <br>
+sudo apt install -y libfuse-dev git libpcsclite-dev <br>
 git clone https://github.com/veracrypt/VeraCrypt.git <br>
 cd ~/VeraCrypt/src <br>
 make
@@ -224,6 +226,26 @@ make
 	</p>
   </div>
  </div>
+
+<div class="textbox" id="InstallationOfPCSCLite">
+	<a href="#InstallationOfPCSCLite">Installation of libpcsclite</a>
+	<div class="texttohide">
+		<p>
+		<ol>
+			<li>
+				Open a terminal
+			</li>
+			<li>
+				Execute the following commands: <br>
+				<code>
+					sudo apt update <br>
+					sudo apt install libpcsclite-dev
+				</code>
+			</li>
+		</ol>
+		</p>
+	</div>
+</div>
  
  <div class="textbox" id="DownloadVeraCrypt">
   <a href="#DownloadVeraCrypt">Download VeraCrypt</a>
