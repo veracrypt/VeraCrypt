@@ -39,11 +39,21 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.3</strong> (June 28<sup>th</sup>, 2023):</p>
+<p><strong style="text-align:left">1.26.3</strong> (July 2<sup>nd</sup>, 2023):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
 <li>Add support for BLAKE2s as new PRF algorithm for both system encryption and standard volumes.</li>
+<li>Introducing native EMV banking smart card integration for non-system volumes.
+<ul>
+<li>No need to configure a separate PKCS#11 module.</li>
+<li>Card PIN not required.</li>
+<li>Uses unique, encoded data present on the banking card to securely generate keyfile content.</li>
+<li>Supports all banking cards that comply with EMV standard.</li>
+<li>Developped by a team of students from <a href="https://www.insa-rennes.fr">Institut national des sciences appliquées de Rennes</a></li>
+<li>Project Github repositoty: <a href="https://github.com/veracrypt-EMV-INSA-Rennes-4INFO/VeraCrypt_EMV">https://github.com/veracrypt-EMV-INSA-Rennes-4INFO/VeraCrypt_EMV</a></li>
+</ul>
+</li>
 <li>Complete removal of RIPEMD160 and GOST89 algorithms. Legacy volumes using any of them cannot be mounted by VeraCrypt anymore.</li>
 <li>Add Corsican language support. Update several translations. </li>
 <li>Update documentation</li>
@@ -65,6 +75,9 @@
 <li>Allow selecting size unit (KB/MB/GB) for generated keyfiles</li>
 <li>Avoid silent failure of Fast Create when creating file containers by displaying warning if required privilege is not held</li>
 <li>Allow choosing Fast Create in Format Wizard UI when creating file containers</li>
+<li>Fix formatting issues during volume creation on some machines.</li>
+<li>Display full list of supported cluster sizes for NTFS, ReFS and exFAT filesystems when creating volumes</li>
+<li>Support drag-n-drop of files and keyfiles in Expander.</li>
 <li>Implement translation of Expander UI</li>
 <li>Update LZMA library to version 23.01</li>
 <li>Update libzip to version 1.9.2 and zlib to version 1.2.13.</li>
@@ -78,6 +91,7 @@
 <li>Fix assert messages displayed when using wxWidgets 3.1.6 and newer.</li>
 <li>Fix issues launching fsck on Linux.</li>
 <li>Fix privilege escalation prompts being ignored.</li>
+<li>Fix wrong size for hidden volume when selecting the option to use all free space.</li>
 <li>Fix various issues when running in Text mode:
 <ul>
 <li>Don't allow selecting exFAT/BTRFS filesytem if they are not present or not compatible with the created volume.</li>
