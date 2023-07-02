@@ -7366,8 +7366,6 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), TRUE);
 					return 1;
 				}
-
-				remainingBytes = keyfilesSize;
 			}
 
 			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), szFileBaseName, TC_MAX_PATH))
@@ -7468,8 +7466,9 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					keyfilesSize %= ((KEYFILE_MAX_READ_LEN - 64) + 1);
 					keyfilesSize += 64;
 
-					remainingBytes = keyfilesSize;
 				}
+
+				remainingBytes = keyfilesSize;
 
 				do {
 					rndBytesLength = (int) min (remainingBytes, (unsigned long long) KEYFILE_MAX_READ_LEN);
