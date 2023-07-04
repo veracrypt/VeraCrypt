@@ -316,7 +316,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 		<ol>
 			<li>
 				Visual C++ 1.52 is available via the paid Microsoft MSDN subscription. If you do not have a subscription, you download the ISO image via the internet archive: <br>
-				<a href="https://archive.org/details/ms-vc152 target="_blank">https://archive.org/details/ms-vc152</a>
+				<a href="https://archive.org/details/ms-vc152" target="_blank">https://archive.org/details/ms-vc152</a>
 			</li>
 			<li>
 				Create the folder “C:\MSVC15”
@@ -655,7 +655,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 				<a href="https://github.com/wixtoolset/wix3/releases" target="_blank">https://github.com/wixtoolset/wix3/releases</a>
 			</li>
 			<li>
-				Run the downloaded file as administrator and install 7zip with default settings
+				Run the downloaded file as administrator and install WiX Toolset with default settings
 			</li>
 		</ol>
 	</p>
@@ -898,23 +898,23 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
  </div>
 
  <div class="textbox" id="InstallationOfWDK10">
-  <a href="#InstallationOfWDK10">Installation of the Windows Driver Kit 2004</a>
+  <a href="#InstallationOfWDK10">Installation of the Windows Driver Kit version 2004</a>
   <div class="texttohide">
     <p>
 		<ol>
 			<li>
-				Please download the Windows Driver Kit (WDK) 2004 at: <br>
+				Please download the Windows Driver Kit (WDK) version 2004 at: <br>
 				<a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads</a>
 			</li>
 			<li>
 				Run the downloaded file as administrator and install the WDK with default settings
 			</li>
 			<li>
-				At the end of the installation you will be asked, if you want to "install Windows Driver Kit Visual Studio extension". <br>
+				At the end of the installation you will be asked if you want to "install Windows Driver Kit Visual Studio extension". <br>
 				Please make sure, that this option is selected before closing the dialog.
 			</li>
 			<li>
-				A different setup will start automatically and will detect Visual Studio Professional 2019 as possible tarket for the extension. <br>
+				A different setup will start automatically and will detect Visual Studio Professional 2019 as possible target for the extension. <br>
 				Please select it and proceed with the installation.
 			</li>
 		</ol>
@@ -1117,7 +1117,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
   <a href="#ImportCertificates">Import the Certificates</a>
   <div class="texttohide">
     <p> With the sign_test.bat script you just signed the VeraCrypt executables. This is necessary, since Windows only accepts drivers, which are trusted by a signed Certificate Authority. <br>
-	Since you did not use the official VeraCrypt signing certificate to sign your code, but a public development version, you have to import and therefore trust the certifcates used.
+	Since you did not use the official VeraCrypt signing certificate to sign your code, but a public development version, you have to import and therefore trust the certificates used.
 		<ol>
 			<li>
 				Open the folder "src/Signing"
@@ -1132,6 +1132,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 					<li>TestCertificates/idrix_SHA256TestRootCA.crt</li>
 					<li>TestCertificates/idrix_TestRootCA.crt</li>
 				</ul>
+				Note: If prompted, the password for .pfx certificates is <b>idrix</b>.
 			</li>
 		</ol>
 	</p>
@@ -1193,7 +1194,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 								Go to the top menu "Digital Signatures". Her you will find two signatures in the Signature list
 							</li>
 								Check both by double clicking on it. If the headline says "The certificate in the signature cannot be verified", the corresponding signing certificate was not imported correctly.<br>
-								Click on "View Certificate" and then on "Install Certificate..." to import the certificate to your certificate storage <br>
+								Click on "View Certificate" and then on "Install Certificate..." to import the certificate to your certificate storage. For the Root certificates, you may need to choose "Place all certificates in the following store", and select the "Trusted Root Certification Authorities" store.<br>
 								<img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
 							<li>
 						</ol>
