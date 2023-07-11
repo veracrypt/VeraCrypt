@@ -44,17 +44,17 @@
 <li><strong>All OSes:</strong>
 <ul>
 <li>Add support for BLAKE2s as new PRF algorithm for both system encryption and standard volumes.</li>
-<li>Introducing native EMV banking smart card integration for non-system volumes.
-<ul>
-<li>No need to configure a separate PKCS#11 module.</li>
-<li>Card PIN not required.</li>
-<li>Uses unique, encoded data present on the banking card to securely generate keyfile content.</li>
-<li>Supports all banking cards that comply with EMV standard.</li>
-<li>Must be enabled in settings (menu Settings->Security Tokens)</li>
-<li>Developed by a team of students from <a href="https://www.insa-rennes.fr">Institut national des sciences appliquées de Rennes</a></li>
-<li>Project Github repository: <a href="https://github.com/veracrypt-EMV-INSA-Rennes-4INFO/VeraCrypt_EMV">https://github.com/veracrypt-EMV-INSA-Rennes-4INFO/VeraCrypt_EMV</a></li>
-</ul>
-</li>
+<li>Introducing support for EMV banking smart cards as keyfiles for non-system volumes.
+	<ul>
+		<li>No need for a separate PKCS#11 module configuration.</li>
+		<li>Card PIN isn't required.</li>
+		<li>Generates secure keyfile content from unique, encoded data present on the banking card.</li>
+		<li>Supports all EMV standard-compliant banking cards.</li>
+		<li>Can be enabled in settings (go to Settings->Security Tokens).</li>
+		<li>Developed by a team of students from the <a href="https://www.insa-rennes.fr">Institut national des sciences appliquées de Rennes</a>.</li>
+		<li>More details about the team and the project are available at <a href="https://projets-info.insa-rennes.fr/projets/2022/VeraCrypt/index_en.html">https://projets-info.insa-rennes.fr/projets/2022/VeraCrypt/index_en.html</a>.</li>
+	</ul>
+</li>	
 <li>Complete removal of RIPEMD160 and GOST89 algorithms. Legacy volumes using any of them cannot be mounted by VeraCrypt anymore.</li>
 <li>Add Corsican language support. Update several translations. </li>
 <li>Update documentation</li>
