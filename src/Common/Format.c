@@ -538,7 +538,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, volParams->quickFormat);
+		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, volParams->quickFormat, volParams->bDevice);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -571,7 +571,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatFat (hwndDlg, startSector, &ft, (void *) dev, cryptoInfo, volParams->quickFormat);
+		nStatus = FormatFat (hwndDlg, startSector, &ft, (void *) dev, cryptoInfo, volParams->quickFormat, volParams->bDevice);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -797,16 +797,24 @@ error:
 		}
 
 		retCode = ExternalFormatFs (driveNo, volParams->clusterSize, fsType);
-		if (retCode != TRUE)
+		if (retCode != 0)
 		{
+
 			/* fallback to using FormatEx function from fmifs.dll */
 			if (!Silent && !IsAdmin () && IsUacSupported ())
 				retCode = UacFormatFs (volParams->hwndDlg, driveNo, volParams->clusterSize, fsType);
 			else
-				retCode = FormatFs (driveNo, volParams->clusterSize, fsType);
+				retCode = FormatFs (driveNo, volParams->clusterSize, fsType, FALSE); /* no need to fallback to format.com since we have already tried it without elevation */
+			
+			if (retCode != 0)
+			{
+				wchar_t auxLine[2048];
+				StringCbPrintfW (auxLine, sizeof(auxLine), GetString ("FORMATEX_API_FAILED"), FormatExGetMessage(retCode));
+				ErrorDirect(auxLine, volParams->hwndDlg);
+			}
 		}
 
-		if (retCode != TRUE)
+		if (retCode != 0)
 		{
 			if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo) && !Silent)
 				MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
@@ -847,11 +855,13 @@ fv_end:
 }
 
 
-int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
+int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
 	unsigned __int64 nSecNo = startSector;
+	unsigned __int64 nSkipSectors = 128 * (unsigned __int64) BYTES_PER_MB / FormatSectorSize;
+	DWORD bytesWritten;
 	int retVal = 0;
 	DWORD err;
 	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
@@ -927,18 +937,56 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 
 		while (num_sectors--)
 		{
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
 				cryptoInfo) == FALSE)
 				goto fail;
 		}
 
+		if (UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize))
+			return FALSE;
+
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;
 	}
-	else
-		nSecNo = num_sectors;
+	else if (!bDevice)
+	{
+		// Quick format: write a zeroed sector every 128 MiB, leaving other sectors untouched
+		// This helps users visualize the progress of actual file creation while forcing Windows
+		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows 
+		// would delay the allocation until we write the backup header at the end of the volume which
+		// would make the user think that the format process has stalled after progress bar reaches 100%.
+		while (num_sectors >= nSkipSectors)
+		{
+			// seek to next sector to be written
+			nSecNo += (nSkipSectors - 1);
+			startOffset.QuadPart = nSecNo * FormatSectorSize;
+			if (!MoveFilePointer ((HANDLE) dev, startOffset))
+			{
+				goto fail;
+			}
+			
+			// sector array has been zeroed above
+			if (!WriteFile ((HANDLE) dev, sector, FormatSectorSize, &bytesWritten, NULL) 
+				|| bytesWritten != FormatSectorSize)
+			{
+				goto fail;
+			}
+			
+			nSecNo++;
+			num_sectors -= nSkipSectors;
 
-	UpdateProgressBar (nSecNo * FormatSectorSize);
+			if (UpdateProgressBar ((nSecNo - startSector)* FormatSectorSize))
+				goto fail;
+		}
+		
+		nSecNo += num_sectors;
+	}
+	else
+	{
+		nSecNo += num_sectors;
+	}
+
+	UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize);
 
 	// Restore the original secondary key (XTS mode) in case NTFS format fails and the user wants to try FAT immediately
 	memcpy (cryptoInfo->k2, originalK2, sizeof (cryptoInfo->k2));
@@ -990,6 +1038,46 @@ fail:
 
 
 volatile BOOLEAN FormatExError;
+volatile int FormatExErrorCommand;
+
+LPCWSTR FormatExGetMessage (int command)
+{
+	static WCHAR h_szMsg[32];
+	switch (command)
+	{
+	case FMIFS_DONE:
+		return L"FORMAT_FINISHED";
+	case FMIFS_STRUCTURE_PROGRESS:
+		return L"FORMAT_STRUCTURE_PROGRESS";
+	case FMIFS_MEDIA_WRITE_PROTECTED:
+		return L"FORMAT_MEDIA_WRITE_PROTECTED";
+	case FMIFS_INCOMPATIBLE_FILE_SYSTEM:
+		return L"FORMAT_INCOMPATIBLE_FILE_SYSTEM";
+	case FMIFS_ACCESS_DENIED:
+		return L"FORMAT_ACCESS_DENIED";
+	case FMIFS_VOLUME_IN_USE:
+		return L"FORMAT_VOLUME_IN_USE";
+	case FMIFS_CLUSTER_SIZE_TOO_SMALL:
+		return L"FORMAT_CLUSTER_SIZE_TOO_SMALL";
+	case FMIFS_CLUSTER_SIZE_TOO_BIG:
+		return L"FORMAT_CLUSTER_SIZE_TOO_BIG";
+	case FMIFS_VOLUME_TOO_SMALL:
+		return L"FORMAT_VOLUME_TOO_SMALL";
+	case FMIFS_VOLUME_TOO_BIG:
+		return L"FORMAT_VOLUME_TOO_BIG";
+	case FMIFS_NO_MEDIA_IN_DRIVE:
+		return L"FORMAT_NO_MEDIA_IN_DRIVE";
+	case FMIFS_DEVICE_NOT_READY:
+		return L"FORMAT_DEVICE_NOT_READY";
+	case FMIFS_BAD_LABEL:
+		return L"FORMAT_BAD_LABEL";
+	case FMIFS_CANT_QUICK_FORMAT:
+		return L"FORMAT_CANT_QUICK_FORMAT";
+	default:
+		StringCbPrintfW (h_szMsg, sizeof(h_szMsg), L"0x%.8X", command);
+		return h_szMsg;
+	}	
+}
 
 BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID parameter)
 {
@@ -1046,10 +1134,14 @@ BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID paramet
 		FormatExError = TRUE;
 		break;
 	}
+	if (FormatExError)
+	{
+		FormatExErrorCommand = command;
+	}
 	return (FormatExError? FALSE : TRUE);
 }
 
-BOOL FormatFs (int driveNo, int clusterSize, int fsType)
+int FormatFs (int driveNo, int clusterSize, int fsType, BOOL bFallBackExternal)
 {
 	wchar_t dllPath[MAX_PATH] = {0};
 	WCHAR dir[8] = { (WCHAR) driveNo + L'A', 0 };
@@ -1095,41 +1187,45 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 	StringCchCatW (dir, ARRAYSIZE(dir), L":\\");
 
 	FormatExError = TRUE;
+	FormatExErrorCommand = 0;
 
 	// Windows sometimes fails to format a volume (hosted on a removable medium) as NTFS.
 	// It often helps to retry several times.
 	for (i = 0; i < 50 && FormatExError; i++)
 	{
 		FormatExError = FALSE;
-		FormatEx (dir, FMIFS_HARDDISK, szFsFormat, szLabel, TRUE, clusterSize * FormatSectorSize, FormatExCallback);
+		FormatExErrorCommand = 0;
+		FormatEx (dir, FMIFS_REMOVAL, szFsFormat, szLabel, TRUE, clusterSize * FormatSectorSize, FormatExCallback);
 	}
 
 	// The device may be referenced for some time after FormatEx() returns
 	Sleep (4000);
 
 	FreeLibrary (hModule);
-	return FormatExError? FALSE : TRUE;
+
+	if (FormatExError && bFallBackExternal)
+	{
+		return ExternalFormatFs (driveNo, clusterSize, fsType);
+	}
+
+	return FormatExError? FormatExErrorCommand : 0;
 }
 
-BOOL FormatNtfs (int driveNo, int clusterSize)
+int FormatNtfs (int driveNo, int clusterSize, BOOL bFallBackExternal)
 {
-	return FormatFs (driveNo, clusterSize, FILESYS_NTFS);
+	return FormatFs (driveNo, clusterSize, FILESYS_NTFS, bFallBackExternal);
 }
 
 /* call Windows format.com program to perform formatting */
-BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
+int ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 {
 	wchar_t exePath[MAX_PATH] = {0};
-	HANDLE hChildStd_IN_Rd = NULL;
-	HANDLE hChildStd_IN_Wr = NULL;
-	HANDLE hChildStd_OUT_Rd = NULL;
-	HANDLE hChildStd_OUT_Wr = NULL;
 	WCHAR szFsFormat[16];
 	TCHAR szCmdline[2 * MAX_PATH];
 	STARTUPINFO siStartInfo;
 	PROCESS_INFORMATION piProcInfo;
 	BOOL bSuccess = FALSE; 
-	SECURITY_ATTRIBUTES saAttr; 
+	int iRet = 0;
 
 	switch (fsType)
 	{
@@ -1146,35 +1242,6 @@ BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 			return FALSE;
 	}
 
-	/* Set the bInheritHandle flag so pipe handles are inherited.  */
-	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES); 
-	saAttr.bInheritHandle = TRUE; 
-	saAttr.lpSecurityDescriptor = NULL; 
-
-	/* Create a pipe for the child process's STDOUT. */
-	if ( !CreatePipe(&hChildStd_OUT_Rd, &hChildStd_OUT_Wr, &saAttr, 0) ) 
-		return FALSE;
-
-	/* Ensure the read handle to the pipe for STDOUT is not inherited. */
-	/* Create a pipe for the child process's STDIN.  */ 
-	if (	!SetHandleInformation(hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0) 
-		||	!CreatePipe(&hChildStd_IN_Rd, &hChildStd_IN_Wr, &saAttr, 0))
-	{
-		CloseHandle (hChildStd_OUT_Rd);
-		CloseHandle (hChildStd_OUT_Wr);
-		return FALSE;
-	}
-
-	/* Ensure the write handle to the pipe for STDIN is not inherited. */ 
-	if ( !SetHandleInformation(hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0))
-	{
-		CloseHandle (hChildStd_OUT_Rd);
-		CloseHandle (hChildStd_OUT_Wr);
-		CloseHandle (hChildStd_IN_Rd);
-		CloseHandle (hChildStd_IN_Wr);
-		return FALSE;
-	}
-
 	if (GetSystemDirectory (exePath, MAX_PATH))
 	{
 		StringCchCatW(exePath, ARRAYSIZE(exePath), L"\\format.com");
@@ -1182,7 +1249,7 @@ BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 	else
 		StringCchCopyW(exePath, ARRAYSIZE(exePath), L"C:\\Windows\\System32\\format.com");
 	
-	StringCbPrintf (szCmdline, sizeof(szCmdline), L"%s %c: /FS:%s /Q /X /V:\"\"", exePath, (WCHAR) driveNo + L'A', szFsFormat);
+	StringCbPrintf (szCmdline, sizeof(szCmdline), L"%s %c: /FS:%s /Q /X /V:\"\" /Y", exePath, (WCHAR) driveNo + L'A', szFsFormat);
 	
 	if (clusterSize)
 	{
@@ -1205,15 +1272,11 @@ BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
    ZeroMemory( &piProcInfo, sizeof(PROCESS_INFORMATION) ); 
 
    /* Set up members of the STARTUPINFO structure. 
-	  This structure specifies the STDIN and STDOUT handles for redirection.
 	*/ 
    ZeroMemory( &siStartInfo, sizeof(STARTUPINFO) );
    siStartInfo.cb = sizeof(STARTUPINFO); 
-   siStartInfo.hStdError = hChildStd_OUT_Wr;
-   siStartInfo.hStdOutput = hChildStd_OUT_Wr;
-   siStartInfo.hStdInput = hChildStd_IN_Rd;
    siStartInfo.wShowWindow = SW_HIDE;
-   siStartInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+   siStartInfo.dwFlags |= STARTF_USESHOWWINDOW;
  
    /* Create the child process.      */
    bSuccess = CreateProcess(NULL, 
@@ -1229,47 +1292,33 @@ BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 
    if (bSuccess)
    {
-	   /* Unblock the format process by simulating hit on ENTER key */
-	   DWORD dwExitCode, dwWritten;
-	   LPCSTR newLine = "\n";
-	   
-	   if (WriteFile(hChildStd_IN_Wr, (LPCVOID) newLine, 1, &dwWritten, NULL))
-	   {
-		   /* wait for the format process to finish */
-		   WaitForSingleObject (piProcInfo.hProcess, INFINITE);
-	   }
-	   else
-	   {
-		   /* we failed to write "\n". Maybe process exited too quickly. We wait 1 second */
-		   WaitForSingleObject (piProcInfo.hProcess, 1000);
-	   }
+	   DWORD dwExitCode;
+
+	   /* wait for the format process to finish */
+	   WaitForSingleObject (piProcInfo.hProcess, INFINITE);
 
 	   /* check if it was successfull */	   
 	   if (GetExitCodeProcess (piProcInfo.hProcess, &dwExitCode))
 	   {
-		   if (dwExitCode == 0)
-			   bSuccess = TRUE;
-		   else
-			   bSuccess = FALSE;
+		   iRet = (int) dwExitCode; /* dwExitCode will be 0 in case of success */
 	   }
 	   else
-		   bSuccess = FALSE;
+		   iRet = (int) GetLastError();
 
 	   CloseHandle (piProcInfo.hThread);
 	   CloseHandle (piProcInfo.hProcess);
    }
+   else
+   {
+	   iRet = (int) GetLastError();
+   }
 
-	CloseHandle(hChildStd_OUT_Wr);
-	CloseHandle(hChildStd_OUT_Rd);
-	CloseHandle(hChildStd_IN_Rd);
-	CloseHandle(hChildStd_IN_Wr);
-
-   return bSuccess;
+   return iRet;
 }
 
 BOOL WriteSector (void *dev, char *sector,
 	     char *write_buf, int *write_buf_cnt,
-	     __int64 *nSecNo, PCRYPTO_INFO cryptoInfo)
+	     unsigned __int64 *nSecNo, unsigned __int64 startSector, PCRYPTO_INFO cryptoInfo)
 {
 	static __int32 updateTime = 0;
 
@@ -1283,7 +1332,7 @@ BOOL WriteSector (void *dev, char *sector,
 
 	if (GetTickCount () - updateTime > 25)
 	{
-		if (UpdateProgressBar (*nSecNo * FormatSectorSize))
+		if (UpdateProgressBar ((*nSecNo - startSector) * FormatSectorSize))
 			return FALSE;
 
 		updateTime = GetTickCount ();

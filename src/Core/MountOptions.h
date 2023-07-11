@@ -73,6 +73,7 @@ namespace VeraCrypt
 		VolumeSlotNumber SlotNumber;
 		bool UseBackupHeaders;
 		bool TrueCryptMode;
+		bool EMVSupportEnabled;
 
 	protected:
 		void CopyFrom (const MountOptions &other);

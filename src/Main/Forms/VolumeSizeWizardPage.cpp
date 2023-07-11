@@ -39,6 +39,12 @@ namespace VeraCrypt
 		}
 		else
 		{
+			if (!volumePath.IsDevice())
+			{
+				wxULongLong containerSizeUnsigned = wxFileName (wstring (volumePath)).GetSize();
+				if (containerSizeUnsigned != wxInvalidSize)
+					diskSpace += static_cast<wxLongLong_t>(containerSizeUnsigned.GetValue());
+			}
 			AvailableDiskSpace = (uint64) diskSpace.GetValue ();
 		}
 
@@ -79,7 +85,7 @@ namespace VeraCrypt
 		uint64 val;
 		if (UseAllFreeSpaceCheckBox->IsChecked ())
 		{
-			val = AvailableDiskSpace;
+			val = MaxVolumeSizeValid ? MaxVolumeSize : AvailableDiskSpace;
 		}
 		else
 		{

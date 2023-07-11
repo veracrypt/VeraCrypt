@@ -43,24 +43,22 @@
 #define IDC_SELECT_FILE                 1042
 #define IDC_VOLUME_PROPERTIES           1044
 #define IDT_RANDOM_POOL                 1047
-#define IDT_VOL_NAME                    1047
 #define IDT_HEADER_KEY                  1048
-#define IDT_CURRENT_SIZE                1048
-#define IDT_VOLUME                      1049
 #define IDT_MASTER_KEY                  1049
-#define IDT_NEW_SIZE                    1049
-#define IDT_PASSWORD                    1050
 #define IDT_DONE                        1050
 #define IDT_SPEED                       1051
 #define IDT_LEFT                        1052
 #define IDT_INIT_SPACE                  1053
 #define IDT_FILE_SYS                    1054
-#define IDT_INIT_SPACE2                 1055
-#define IDT_RANDOM_POOL2                1055
 #define IDC_EXIT                        1060
 #define IDC_UNMOUNTALL                  1063
 #define IDC_SHOW_PASSWORD               1094
 #define IDC_LOGO                        1095
+#define IDT_VOL_NAME                    1096
+#define IDT_CURRENT_SIZE                1097
+#define IDT_NEW_SIZE                    1098
+#define IDT_VOLUME                      1099
+#define IDT_PASSWORD                    1100
 #define IDC_SIZEDLG_TITLE               1111
 #define IDC_INIT_NEWSPACE               1112
 #define IDC_INFOEXPAND                  1113
@@ -72,6 +70,8 @@
 #define IDC_OLD_PIM_HELP                1144
 #define ID_HOMEPAGE                     1145
 #define IDC_QUICKEXPAND                 1146
+#define IDC_STEPSEXPAND                 1147
+#define IDT_NEW_SIZE_BOX_TITLE          1148
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -142,7 +142,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40064
-#define _APS_NEXT_CONTROL_VALUE         1147
+#define _APS_NEXT_CONTROL_VALUE         1149
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

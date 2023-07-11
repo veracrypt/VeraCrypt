@@ -593,6 +593,7 @@ namespace VeraCrypt
 			wxTextCtrl* Pkcs11ModulePathTextCtrl;
 			wxButton* SelectPkcs11ModuleButton;
 			wxCheckBox* CloseSecurityTokenSessionsAfterMountCheckBox;
+			wxCheckBox* EMVSupportEnabledCheckBox;
 			wxListCtrl* HotkeyListCtrl;
 			wxTextCtrl* HotkeyTextCtrl;
 			wxButton* AssignHotkeyButton;

@@ -80,5 +80,8 @@
     <ClInclude Include="lzma\Threads.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lzma\7zWindows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

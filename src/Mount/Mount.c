@@ -428,6 +428,59 @@ static void localcleanup (void)
 	RandStop (TRUE);
 }
 
+#ifndef BS_SPLITBUTTON
+#define BS_SPLITBUTTON 0x0000000C
+#endif
+
+#ifndef BCN_DROPDOWN
+#define BCN_DROPDOWN (0U-1250U) + 2U
+#endif
+
+static void EnableSplitButton(HWND hwndDlg, int buttonId)
+{
+	HWND hwndButton = GetDlgItem(hwndDlg, buttonId);
+	if (hwndButton != NULL)
+	{
+		// change the button style
+		SetWindowLongPtr(hwndButton, GWL_STYLE, GetWindowLongPtr(hwndButton, GWL_STYLE) | BS_SPLITBUTTON);
+	}
+}
+
+static void DisableSplitButton(HWND hwndDlg, int buttonId)
+{
+	HWND hwndButton = GetDlgItem(hwndDlg, buttonId);
+	if (hwndButton != NULL)
+	{
+		// change the button style
+		SetWindowLongPtr(hwndButton, GWL_STYLE, GetWindowLongPtr(hwndButton, GWL_STYLE) & ~BS_SPLITBUTTON);
+	}
+}
+
+static HMENU CreateMountNoCacheDropdownMenu()
+{
+	HMENU hmenu = CreatePopupMenu();
+
+	// add menu items
+	AppendMenu(hmenu, MF_STRING, IDM_MOUNIT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
+
+	return hmenu;
+}
+
+static void HandleMountButtonDropdown(HWND hwndButton, HWND hwndOwner, HMENU hmenu)
+{
+	RECT rc;
+	POINT pt;
+
+	if (GetClientRect(hwndButton, &rc))
+	{
+		pt.x = rc.left;
+		pt.y = rc.bottom;
+		ClientToScreen(hwndButton, &pt);
+
+		TrackPopupMenu(hmenu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, hwndOwner, NULL);
+	}
+}
+
 void RefreshMainDlg (HWND hwndDlg)
 {
 	if (Silent)
@@ -625,7 +678,10 @@ void EnableDisableButtons (HWND hwndDlg)
 	case TC_MLIST_ITEM_NONSYS_VOL:
 		{
 			SetWindowTextW (hOKButton, GetString ("UNMOUNT_BUTTON"));
+			DisableSplitButton(hwndDlg, IDOK);
 			EnableWindow (hOKButton, TRUE);
+			// Invalid the button IDOK so that it will be redrawn
+			InvalidateRect (hOKButton, NULL, TRUE);
 			EnableMenuItem (GetMenu (hwndDlg), IDM_UNMOUNT_VOLUME, MF_ENABLED);
 
 			EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES), TRUE);
@@ -635,15 +691,21 @@ void EnableDisableButtons (HWND hwndDlg)
 
 	case TC_MLIST_ITEM_SYS_PARTITION:
 	case TC_MLIST_ITEM_SYS_DRIVE:
+		EnableSplitButton(hwndDlg, IDOK);
 		EnableWindow (hOKButton, FALSE);
 		SetWindowTextW (hOKButton, GetString ("MOUNT_BUTTON"));
+		// Invalid the button IDOK so that it will be redrawn
+		InvalidateRect (hOKButton, NULL, TRUE);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES), TRUE);
 		EnableMenuItem (GetMenu (hwndDlg), IDM_UNMOUNT_VOLUME, MF_GRAYED);
 		break;
 
 	case TC_MLIST_ITEM_FREE:
 	default:
+		EnableSplitButton(hwndDlg, IDOK);
 		SetWindowTextW (hOKButton, GetString ("MOUNT_BUTTON"));
+		// Invalid the button IDOK so that it will be redrawn
+		InvalidateRect (hOKButton, NULL, TRUE);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES), FALSE);
 		EnableMenuItem (GetMenu (hwndDlg), IDM_VOLUME_PROPERTIES, MF_GRAYED);
 		EnableMenuItem (GetMenu (hwndDlg), IDM_UNMOUNT_VOLUME, MF_GRAYED);
@@ -954,6 +1016,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	}
 
 	ConfigReadCompareInt ("CloseSecurityTokenSessionsAfterMount", 0, &CloseSecurityTokenSessionsAfterMount, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("EMVSupportEnabled", 0, &EMVSupportEnabled, bOnlyCheckModified, pbSettingsModified);
 
 	if (IsHiddenOSRunning())
 		ConfigReadCompareInt ("HiddenSystemLeakProtNotifStatus", TC_HIDDEN_OS_READ_ONLY_NOTIF_MODE_NONE, &HiddenSysLeakProtectionNotificationStatus, bOnlyCheckModified, pbSettingsModified);
@@ -1126,6 +1189,7 @@ void SaveSettings (HWND hwndDlg)
 		}
 
 		ConfigWriteInt ("CloseSecurityTokenSessionsAfterMount",	CloseSecurityTokenSessionsAfterMount);
+		ConfigWriteInt ("EMVSupportEnabled", EMVSupportEnabled);
 
 		// Hotkeys
 		ConfigWriteInt ("HotkeyModAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyModifiers);
@@ -5401,7 +5465,7 @@ ret:
 		bCacheInDriver = bCacheInDriverDefault;
 
 	if (status && CloseSecurityTokenSessionsAfterMount && !MultipleMountOperationInProgress)
-		SecurityToken::CloseAllSessions();
+		SecurityToken::CloseAllSessions(); // TODO Use Token
 
 	return status;
 }
@@ -5903,7 +5967,7 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 	}
 
 	if (status && CloseSecurityTokenSessionsAfterMount)
-		SecurityToken::CloseAllSessions();
+		SecurityToken::CloseAllSessions();  // TODO Use Token
 
 ret:
 	MultipleMountOperationInProgress = FALSE;
@@ -7085,49 +7149,6 @@ static void SignalExitCode (int exitCode)
 	}
 }
 
-#ifndef BS_SPLITBUTTON
-#define BS_SPLITBUTTON 0x0000000C
-#endif
-
-#ifndef BCN_DROPDOWN
-#define BCN_DROPDOWN (0U-1250U) + 2U
-#endif
-
-static void EnableSplitButton(HWND hwndDlg, int buttonId)
-{
-	HWND hwndButton = GetDlgItem(hwndDlg, buttonId);
-	if (hwndButton != NULL)
-	{
-		// change the button style
-		SetWindowLongPtr(hwndButton, GWL_STYLE, GetWindowLongPtr(hwndButton, GWL_STYLE) | BS_SPLITBUTTON);
-	}
-}
-
-static HMENU CreateMountNoCacheDropdownMenu()
-{
-	HMENU hmenu = CreatePopupMenu();
-
-	// add menu items
-	AppendMenu(hmenu, MF_STRING, IDM_MOUNIT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
-
-	return hmenu;
-}
-
-static void HandleMountButtonDropdown(HWND hwndButton, HWND hwndOwner, HMENU hmenu)
-{
-	RECT rc;
-	POINT pt;
-
-	if (GetClientRect(hwndButton, &rc))
-	{
-		pt.x = rc.left;
-		pt.y = rc.bottom;
-		ClientToScreen(hwndButton, &pt);
-
-		TrackPopupMenu(hmenu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, hwndOwner, NULL);
-	}
-}
-
 /* Except in response to the WM_INITDIALOG and WM_ENDSESSION messages, the dialog box procedure
    should return nonzero if it processes a message, and zero if it does not. */
 BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -7228,7 +7249,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				mountOptions = CmdMountOptions;
 
 			InitMainDialog (hwndDlg);
-			EnableSplitButton(hwndDlg, IDOK);	
 
 			try
 			{
@@ -7653,7 +7673,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bWipeCacheOnAutoDismount)
 				{
 					DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-					SecurityToken::CloseAllSessions();
+					SecurityToken::CloseAllSessions();  // TODO Use Token
 				}
 
 				DismountAll (hwndDlg, bForceAutoDismount, TRUE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
@@ -7692,7 +7712,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (bWipeCacheOnAutoDismount)
 			{
 				DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-				SecurityToken::CloseAllSessions();
+				SecurityToken::CloseAllSessions();  // TODO Use Token
 			}
 
 			DismountAll (hwndDlg, bForceAutoDismount, TRUE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
@@ -7749,7 +7769,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							if (bWipeCacheOnAutoDismount)
 							{
 								DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-								SecurityToken::CloseAllSessions();
+								SecurityToken::CloseAllSessions();  // TODO Use Token
 							}
 
 							DismountAll (hwndDlg, bForceAutoDismount, FALSE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
@@ -8648,7 +8668,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				SecurityToken::CloseAllSessions();
+				SecurityToken::CloseAllSessions();  // TODO Use Token
 			}
 
 			InfoBalloon (NULL, "ALL_TOKEN_SESSIONS_CLOSED", hwndDlg);
@@ -9637,7 +9657,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionTokenPin:
 				{
-					wchar_t szTmp[SecurityToken::MaxPasswordLength + 1] = {0};
+					wchar_t szTmp[SecurityToken::MaxPasswordLength + 1] = {0};  // TODO Use Token
 					if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)) == HAS_ARGUMENT)
 					{
 						if (0 == WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, CmdTokenPin, TC_MAX_PATH, nullptr, nullptr))
@@ -10303,7 +10323,7 @@ void DismountIdleVolumes ()
 							if (bWipeCacheOnAutoDismount)
 							{
 								DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-								SecurityToken::CloseAllSessions();
+								SecurityToken::CloseAllSessions();  // TODO Use Token
 							}
 						}
 					}
@@ -10632,7 +10652,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 	burn (&VolumeTrueCryptMode, sizeof (VolumeTrueCryptMode));
 
 	if (bRet && CloseSecurityTokenSessionsAfterMount)
-		SecurityToken::CloseAllSessions();
+		SecurityToken::CloseAllSessions();  // TODO Use Token
 
 	return bRet;
 }
@@ -10810,7 +10830,7 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 		break;
 
 	case HK_CLOSE_SECURITY_TOKEN_SESSIONS:
-		SecurityToken::CloseAllSessions();
+		SecurityToken::CloseAllSessions();  // TODO Use Token
 
 		InfoBalloon (NULL, "ALL_TOKEN_SESSIONS_CLOSED", hwndDlg);
 
@@ -11879,6 +11899,7 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 		LocalizeDialog (hwndDlg, "IDD_TOKEN_PREFERENCES");
 		SetDlgItemText (hwndDlg, IDC_PKCS11_MODULE, SecurityTokenLibraryPath);
 		CheckDlgButton (hwndDlg, IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT, CloseSecurityTokenSessionsAfterMount ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton (hwndDlg, IDC_ENABLE_EMV_SUPPORT, EMVSupportEnabled ? BST_CHECKED : BST_UNCHECKED);
 
 		SetWindowTextW (GetDlgItem (hwndDlg, IDT_PKCS11_LIB_HELP), GetString("PKCS11_LIB_LOCATION_HELP"));
 
@@ -11901,7 +11922,7 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 				{
 					try
 					{
-						SecurityToken::CloseLibrary();
+						SecurityToken::CloseLibrary();  // TODO Use Token
 					}
 					catch (...) { }
 
@@ -11921,7 +11942,7 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 				}
 
 				CloseSecurityTokenSessionsAfterMount = (IsDlgButtonChecked (hwndDlg, IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT) == BST_CHECKED);
-
+				EMVSupportEnabled = (IsDlgButtonChecked (hwndDlg, IDC_ENABLE_EMV_SUPPORT) == BST_CHECKED);
 				WaitCursor ();
 				SaveSettings (hwndDlg);
 				NormalCursor ();
