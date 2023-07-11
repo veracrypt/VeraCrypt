@@ -1,6 +1,6 @@
 /*
-  zip_source_stat.c -- get meta information from zip_source
-  Copyright (C) 2009-2021 Dieter Baron and Thomas Klausner
+  zip_source_pass_to_lower_layer.c -- pass command to lower layer
+  Copyright (C) 2022 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <info@libzip.org>
@@ -31,36 +31,48 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #include "zipint.h"
 
+zip_int64_t zip_source_pass_to_lower_layer(zip_source_t *src, void *data, zip_uint64_t length, zip_source_cmd_t command) {
+    switch (command) {
+    case ZIP_SOURCE_OPEN:
+    case ZIP_SOURCE_CLOSE:
+    case ZIP_SOURCE_FREE:
+    case ZIP_SOURCE_GET_FILE_ATTRIBUTES:
+    case ZIP_SOURCE_SUPPORTS_REOPEN:
+        return 0;
 
-ZIP_EXTERN int
-zip_source_stat(zip_source_t *src, zip_stat_t *st) {
-    if (src->source_closed) {
+    case ZIP_SOURCE_STAT:
+        return sizeof(zip_stat_t);
+
+    case ZIP_SOURCE_ACCEPT_EMPTY:
+    case ZIP_SOURCE_ERROR:
+    case ZIP_SOURCE_READ:
+    case ZIP_SOURCE_SEEK:
+    case ZIP_SOURCE_TELL:
+        return _zip_source_call(src, data, length, command);
+
+
+    case ZIP_SOURCE_BEGIN_WRITE:
+    case ZIP_SOURCE_BEGIN_WRITE_CLONING:
+    case ZIP_SOURCE_COMMIT_WRITE:
+    case ZIP_SOURCE_REMOVE:
+    case ZIP_SOURCE_ROLLBACK_WRITE:
+    case ZIP_SOURCE_SEEK_WRITE:
+    case ZIP_SOURCE_TELL_WRITE:
+    case ZIP_SOURCE_WRITE:
+        zip_error_set(&src->error, ZIP_ER_OPNOTSUPP, 0);
         return -1;
-    }
-    if (st == NULL) {
-        zip_error_set(&src->error, ZIP_ER_INVAL, 0);
-        return -1;
-    }
 
-    if (src->write_state == ZIP_SOURCE_WRITE_REMOVED) {
-        zip_error_set(&src->error, ZIP_ER_READ, ENOENT);
-    }
-
-    zip_stat_init(st);
-
-    if (ZIP_SOURCE_IS_LAYERED(src)) {
-        if (zip_source_stat(src->src, st) < 0) {
-            zip_error_set_from_source(&src->error, src->src);
+    case ZIP_SOURCE_SUPPORTS:
+        if (length < sizeof(zip_int64_t)) {
+            zip_error_set(&src->error, ZIP_ER_INTERNAL, 0);
             return -1;
         }
-    }
+        return *(zip_int64_t *)data;
 
-    if (_zip_source_call(src, st, sizeof(*st), ZIP_SOURCE_STAT) < 0) {
+    default:
+        zip_error_set(&src->error, ZIP_ER_OPNOTSUPP, 0);
         return -1;
     }
-
-    return 0;
 }

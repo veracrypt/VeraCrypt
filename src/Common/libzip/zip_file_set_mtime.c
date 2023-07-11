@@ -51,6 +51,10 @@ zip_file_set_mtime(zip_t *za, zip_uint64_t idx, time_t mtime, zip_flags_t flags)
         zip_error_set(&za->error, ZIP_ER_RDONLY, 0);
         return -1;
     }
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        zip_error_set(&za->error, ZIP_ER_NOT_ALLOWED, 0);
+        return -1;
+    }
 
     e = za->entry + idx;
 

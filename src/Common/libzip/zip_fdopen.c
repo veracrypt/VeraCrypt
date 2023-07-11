@@ -51,6 +51,10 @@ zip_fdopen(int fd_orig, int _flags, int *zep) {
         return NULL;
     }
 
+#ifndef ENABLE_FDOPEN
+    _zip_set_open_error(zep, NULL, ZIP_ER_OPNOTSUPP);
+    return NULL;
+#else
     /* We dup() here to avoid messing with the passed in fd.
        We could not restore it to the original state in case of error. */
 
@@ -83,4 +87,5 @@ zip_fdopen(int fd_orig, int _flags, int *zep) {
     zip_error_fini(&error);
     close(fd_orig);
     return za;
+#endif
 }
