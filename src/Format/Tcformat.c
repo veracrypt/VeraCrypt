@@ -3462,6 +3462,13 @@ BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display, LONGLONG *pFr
 		else
 		{
 			LARGE_INTEGER lDiskFree;
+			// if the file pointed by szFileName already exists, we must add its size to the free space since it will be overwritten durig the volume creation
+			__int64 lFileSize = GetFileSize64(szFileName);
+			if (lFileSize != -1)
+			{
+				free.QuadPart += lFileSize;
+			}
+
 			lDiskFree.QuadPart = free.QuadPart;
 
 			if (pFreeSpaceValue)
