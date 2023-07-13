@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.3">
-    <language langid="ru" name="Русский" en-name="Russian" version="1.0.9" translators="Dmitry Yerokhin" />
+    <language langid="ru" name="Русский" en-name="Russian" version="1.26.3" translators="Dmitry Yerokhin" />
     <font lang="ru" class="normal" size="11" face="default" />
     <font lang="ru" class="bold" size="13" face="Arial" />
     <font lang="ru" class="fixed" size="12" face="Lucida Console" />
@@ -389,7 +389,7 @@
     <entry lang="ru" key="ADMINISTRATOR">Администратор</entry>
     <entry lang="ru" key="ADMIN_PRIVILEGES_DRIVER">Для загрузки драйвера VeraCrypt нужно войти в систему с правами администратора.</entry>
     <entry lang="ru" key="ADMIN_PRIVILEGES_WARN_DEVICES">Для шифрования/дешифрования/форматирования раздела/устройства нужно войти в систему с правами администратора.\n\nК томам на основе файлов это не относится.</entry>
-    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
+    <entry lang="ru" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Невозможно включить быстрое создание файлов: требуются права администратора.\nЧтобы активировать эту функцию, перезапустите программу с правами администратора.\n\nХотите продолжить без быстрого создания файлов?</entry>
     <entry lang="ru" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Чтобы создать скрытый том, нужно войти в систему с правами администратора.\n\nПродолжить?</entry>
     <entry lang="ru" key="ADMIN_PRIVILEGES_WARN_NTFS">Чтобы форматировать тома как NTFS/exFAT, нужно войти в систему с правами администратора.\n\nБез привилегий администратора можно форматировать тома только как FAT.</entry>
     <entry lang="ru" key="AES_HELP">Утверждённый FIPS (США) алгоритм шифрования (Rijndael, опубликован в 1998 г.), разрешён к применению в федеральных структурах США для защиты важнейшей информации. Ключ: 256 бит, блок: 128 бит, раундов: 14 (AES-256). Режим работы: XTS.</entry>
@@ -939,7 +939,7 @@
     <entry lang="ru" key="ENTER_HEADER_BACKUP_PASSWORD">Введите пароль для заголовка в файле резервной копии</entry>
     <entry lang="ru" key="KEYFILE_CREATED">Ключевой файл успешно создан.</entry>
     <entry lang="ru" key="KEYFILE_INCORRECT_NUMBER">Недопустимое количество ключевых файлов.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
+    <entry lang="ru" key="KEYFILE_INCORRECT_SIZE">Размер ключевого файла должен быть не менее 64 байт.</entry>
     <entry lang="ru" key="KEYFILE_EMPTY_BASE_NAME">Введите имя создаваемого ключевого файла</entry>
     <entry lang="ru" key="KEYFILE_INVALID_BASE_NAME">Недопустимое базовое имя ключевых файлов</entry>
     <entry lang="ru" key="KEYFILE_ALREADY_EXISTS">Ключевой файл "%s" уже существует.\nПерезаписать его? При ответе "Нет" процесс генерирования будет остановлен.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="ru" key="LINUX_NOT_SUPPORTED"> (не поддерживается компонентами, доступными на этой платформе).\n</entry>
     <entry lang="ru" key="LINUX_KERNEL_OLD">Ваша система использует старую версию ядра Linux.\n\nИз-за ошибки в ядре Linux система может перестать отвечать на запросы при записи данных на том VeraCrypt. Эта проблема решается обновлением ядра до версии 2.6.24 или более новой.</entry>
     <entry lang="ru" key="LINUX_VOL_DISMOUNTED">Том {0} размонтирован.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
+    <entry lang="ru" key="LINUX_VOL_MOUNTED">Том {0} смонтирован.</entry>
     <entry lang="ru" key="LINUX_OOM">Недостаточно памяти.</entry>
     <entry lang="ru" key="LINUX_CANT_GET_ADMIN_PRIV">Не удалось получить права администратора</entry>
     <entry lang="ru" key="LINUX_COMMAND_GET_ERROR">Команда {0} возвратила ошибку {1}.</entry>
@@ -1569,60 +1569,60 @@
     <entry lang="ru" key="VOLUME_HOST_IN_USE">ВНИМАНИЕ: Хост-файл/устройство {0} уже используется!\n\nИгнорирование этого может привести к нежелательным результатам, включая нестабильность системы. Перед монтированием тома закройте все приложения, которые могут использовать хост-файл/устройство.\n\nПродолжить монтирование?</entry>
     <entry lang="ru" key="CANT_INSTALL_WITH_EXE_OVER_MSI">Программа VeraCrypt ранее была установлена с помощью MSI-пакета, поэтому её нельзя обновить с помощью стандартного установщика.\n\nЧтобы обновить VeraCrypt, используйте MSI-пакет.</entry>
     <entry lang="ru" key="IDC_USE_ALL_FREE_SPACE">Использовать всё свободное место</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
-    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CLPC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
+    <entry lang="ru" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt не может быть обновлён, так как системный раздел/диск был зашифрован с помощью алгоритма, который больше не поддерживается.\nПеред обновлением VeraCrypt расшифруйте свою систему, а затем зашифруйте её снова.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_TERMINALNOTFOUND">Не найдено поддерживаемое терминальное приложение, требуется xterm, konsole или gnome-terminal (с dbus-x11).</entry>
+    <entry lang="ru" key="IDM_MOUNT_NO_CACHE">Монтировать без кэша</entry>
+    <entry lang="ru" key="EXPANDER_INFO">:: Расширитель томов VeraCrypt ::\n\nРасширяйте том VeraCrypt на лету без переформатирования\n\n\nПоддерживаются все виды томов (файлы-контейнеры, диски и разделы), отформатированные в NTFS. Единственное условие - наличие достаточного свободного места на хост-диске или хост-устройстве тома VeraCrypt.\n\nНе используйте эту программу для расширения внешнего тома, содержащего скрытый том, потому что это уничтожит скрытый том!\n</entry>
+    <entry lang="ru" key="IDC_STEPSEXPAND">1. Выберите том VeraCrypt для расширения\n2. Нажмите кнопку монтирования</entry>
+    <entry lang="ru" key="IDT_VOL_NAME">Том: </entry>
+    <entry lang="ru" key="IDT_FILE_SYS">Файловая система: </entry>
+    <entry lang="ru" key="IDT_CURRENT_SIZE">Текущий размер: </entry>
+    <entry lang="ru" key="IDT_NEW_SIZE">Новый размер: </entry>
+    <entry lang="ru" key="IDT_NEW_SIZE_BOX_TITLE">Введите новый размер тома</entry>
+    <entry lang="ru" key="IDC_INIT_NEWSPACE">Заполнить новое место случайными данными</entry>
+    <entry lang="ru" key="IDC_QUICKEXPAND">Быстрое расширение</entry>
+    <entry lang="ru" key="IDT_INIT_SPACE">Заполнить новое место: </entry>
+    <entry lang="ru" key="EXPANDER_FREE_SPACE">%s свободно на хост-диске</entry>
+    <entry lang="ru" key="EXPANDER_HELP_DEVICE">Это том VeraCrypt на основе устройства.\n\nНовый размер тома будет выбран автоматически в соответствии с размером хост-устройства.</entry>
+    <entry lang="ru" key="EXPANDER_HELP_FILE">Укажите новый размер тома VeraCrypt (он должен быть хотя бы на %I64u КБ больше текущего размера).</entry>
+    <entry lang="ru" key="QUICK_EXPAND_WARNING">ВНИМАНИЕ: Быстрое расширение следует использовать только в следующих случаях:\n\n1) Устройство, на котором находится файловый контейнер, не содержит конфиденциальных данных, и вам не нужно правдоподобное отрицание.\n2) Устройство, на котором находится файловый контейнер, уже надёжно и полностью зашифровано.\n\nВы действительно хотите использовать быстрое расширение?</entry>
+    <entry lang="ru" key="EXPANDER_STATUS_TEXT">ВАЖНО: Перемещайте мышь как можно хаотичнее в пределах этого окна. Чем дольше, тем лучше. Это значительно увеличивает криптостойкость ключей шифрования. Затем нажмите 'Продолжить', чтобы расширить том.</entry>
+    <entry lang="ru" key="EXPANDER_STATUS_TEXT_LEGACY">Нажмите 'Продолжить', чтобы расширить том.</entry>
+    <entry lang="ru" key="EXPANDER_FINISH_ERROR">ОШИБКА: Расширение тома не выполнено.</entry>
+    <entry lang="ru" key="EXPANDER_FINISH_ABORT">ОШИБКА: Операция прервана пользователем.</entry>
+    <entry lang="ru" key="EXPANDER_FINISH_OK">Готово. Том успешно расширен.</entry>
+    <entry lang="ru" key="EXPANDER_CANCEL_WARNING">ВНИМАНИЕ: Выполняется расширение тома!\n\nЕсли остановиться сейчас, это может привести к повреждению тома.\n\nВы действительно настаиваете на отмене?</entry>
+    <entry lang="ru" key="EXPANDER_STARTING_STATUS">Запуск расширения тома...\n</entry>
+    <entry lang="ru" key="EXPANDER_HIDDEN_VOLUME_ERROR">Внешний том, содержащий скрытый том, не может быть расширен, так как это уничтожит скрытый том.\n</entry>
+    <entry lang="ru" key="EXPANDER_SYSTEM_VOLUME_ERROR">Системный том VeraCrypt не может быть расширен.</entry>
+    <entry lang="ru" key="EXPANDER_NO_FREE_SPACE">Недостаточно свободного места для расширения тома</entry>
+    <entry lang="ru" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">ВНИМАНИЕ: Файл-контейнер больше, чем область тома VeraCrypt. Данные после области тома VeraCrypt будут перезаписаны.\n\nПродолжить?</entry>
+    <entry lang="ru" key="EXPANDER_WARNING_FAT">ВНИМАНИЕ: Том VeraCrypt содержит файловую систему FAT!\n\nБудет расширен только сам том VeraCrypt, но не файловая система.\n\nПродолжить?</entry>
+    <entry lang="ru" key="EXPANDER_WARNING_EXFAT">ВНИМАНИЕ: Том VeraCrypt содержит файловую систему exFAT!\n\nБудет расширен только сам том VeraCrypt, но не файловая система.\n\nПродолжить?</entry>
+    <entry lang="ru" key="EXPANDER_WARNING_UNKNOWN_FS">ВНИМАНИЕ: Том VeraCrypt содержит неизвестную файловую систему или не содержит её вовсе!\n\nБудет расширен только сам том VeraCrypt, файловая система останется неизменной.\n\nПродолжить?</entry>
+    <entry lang="ru" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Новый размер тома слишком мал, он должен быть хотя бы на %I64u КБ больше текущего размера.</entry>
+    <entry lang="ru" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Новый размер тома слишком велик, недостаточно места на хост-диске.</entry>
+    <entry lang="ru" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Превышен максимальный размер файла %I64u МБ на хост-диске.</entry>
+    <entry lang="ru" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">ОШИБКА: Не удалось получить необходимые привилегии, чтобы включить быстрое расширение!\nВыключите опцию быстрого расширения и повторите попытку.</entry>
+    <entry lang="ru" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Превышен максимальный размер тома VeraCrypt %I64u ТБ!\n</entry>
+    <entry lang="ru" key="FULL_FORMAT">Полное форматирование</entry>
+    <entry lang="ru" key="FAST_CREATE">Быстрое создание</entry>
+    <entry lang="ru" key="WARN_FAST_CREATE">ВНИМАНИЕ: Быстрое создание следует использовать только в следующих случаях:\n\n1) Устройство не содержит конфиденциальных данных, и вам не нужно правдоподобное отрицание.\n2) Устройство уже надёжно и полностью зашифровано.\n\nВы действительно хотите использовать быстрое создание?</entry>
+    <entry lang="ru" key="IDC_ENABLE_EMV_SUPPORT">Включить поддержку EMV</entry>
+    <entry lang="ru" key="COMMAND_APDU_INVALID">Отправленная на карту команда APDU недействительна.</entry>
+    <entry lang="ru" key="EXTENDED_APDU_UNSUPPORTED">Расширенные команды APDU нельзя использовать с текущим токеном.</entry>
+    <entry lang="ru" key="SCARD_MODULE_INIT_FAILED">Ошибка загрузки библиотеки WinSCard / PCSC.</entry>
+    <entry lang="ru" key="EMV_UNKNOWN_CARD_TYPE">Карта в считывателе не является поддерживаемой картой EMV.</entry>
+    <entry lang="ru" key="EMV_SELECT_AID_FAILED">Не удалось выбрать AID карты в считывателе.</entry>
+    <entry lang="ru" key="EMV_ICC_CERT_NOTFOUND">На карте не найден сертификат открытого ключа ICC.</entry>
+    <entry lang="ru" key="EMV_ISSUER_CERT_NOTFOUND">На карте не найден сертификат открытого ключа эмитента.</entry>
+    <entry lang="ru" key="EMV_CPLC_NOTFOUND">На карте EMV не найден CLPC.</entry>
+    <entry lang="ru" key="EMV_PAN_NOTFOUND">На карте EMV не найден номер платёжной карты (PAN).</entry>
+    <entry lang="ru" key="INVALID_EMV_PATH">Путь EMV недействителен.</entry>
+    <entry lang="ru" key="EMV_KEYFILE_DATA_NOTFOUND">Не удалось создать ключевой файл из данных карты EMV.\n\nОтсутствует одно из следующего:\n- Сертификат открытого ключа ICC.\n- Сертификат открытого ключа эмитента.\n- Данные CPCL.</entry>
+    <entry lang="ru" key="SCARD_W_REMOVED_CARD">Нет карты в считывателе.\n\nУбедитесь, что карта правильно вставлена.</entry>
+    <entry lang="ru" key="FORMAT_EXTERNAL_FAILED">Windows-команде format.com не удалось отформатировать том как NTFS/exFAT/ReFS: Ошибка 0x%.8X.\n\nВозврат к использованию Windows FormatEx API.</entry>
+    <entry lang="ru" key="FORMATEX_API_FAILED">Windows FormatEx API не удалось отформатировать том как NTFS/exFAT/ReFS.\n\nСтатус отказа = %s.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
