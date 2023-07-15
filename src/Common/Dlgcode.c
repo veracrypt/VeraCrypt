@@ -14085,13 +14085,14 @@ typedef struct
 	DLGPROC lpDialogFunc;
 	LPARAM dwInitParam;
 	INT_PTR retValue;
+	BOOL bDlgDisplayed; // set to TRUE if the dialog was displayed on secure desktop
 } SecureDesktopThreadParam;
 
 typedef struct
 {
 	LPCWSTR szVCDesktopName;
 	HDESK hVcDesktop;
-	volatile BOOL* pbStopMonitoring;
+	HANDLE hStopEvent; // event to signal when to stop monitoring
 } SecureDesktopMonitoringThreadParam;
 
 #define SECUREDESKTOP_MONOTIR_PERIOD	500
@@ -14103,11 +14104,12 @@ static unsigned int __stdcall SecureDesktopMonitoringThread( LPVOID lpThreadPara
 	SecureDesktopMonitoringThreadParam* pMonitorParam = (SecureDesktopMonitoringThreadParam*) lpThreadParameter;
 	if (pMonitorParam)
 	{
-		volatile BOOL* pbStopMonitoring = pMonitorParam->pbStopMonitoring;
+		HANDLE hStopEvent = pMonitorParam->hStopEvent;
 		LPCWSTR szVCDesktopName = pMonitorParam->szVCDesktopName;
 		HDESK hVcDesktop = pMonitorParam->hVcDesktop;
 
-		while (!*pbStopMonitoring)
+		// loop until the stop event is signaled
+		while (WaitForSingleObject (hStopEvent, SECUREDESKTOP_MONOTIR_PERIOD) == WAIT_TIMEOUT)
 		{
 			// check that our secure desktop is still the input desktop
 			// otherwise, switch to it
@@ -14135,22 +14137,18 @@ static unsigned int __stdcall SecureDesktopMonitoringThread( LPVOID lpThreadPara
 
 			if (bPerformSwitch)
 				SwitchDesktop (hVcDesktop);
-
-			Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
 		}
 	}
 
 	return 0;
 }
 
-static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
+static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 {
-	volatile BOOL bStopMonitoring = FALSE;
 	HANDLE hMonitoringThread = NULL;
 	unsigned int monitoringThreadID = 0;
 	SecureDesktopThreadParam* pParam = (SecureDesktopThreadParam*) lpThreadParameter;
 	SecureDesktopMonitoringThreadParam monitorParam;
-	HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId ());
 	BOOL bNewDesktopSet = FALSE;
 
 	// wait for SwitchDesktop to succeed before using it for current thread
@@ -14158,38 +14156,48 @@ static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
 	{
 		if (SwitchDesktop (pParam->hDesk))
 		{
-			bNewDesktopSet = TRUE;
 			break;
 		}
 		Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
 	}
 
+	bNewDesktopSet = SetThreadDesktop (pParam->hDesk);
+
 	if (bNewDesktopSet)
 	{
-		SetThreadDesktop (pParam->hDesk);
-
 		// create the thread that will ensure that VeraCrypt secure desktop has always user input
-		monitorParam.szVCDesktopName = pParam->szDesktopName;
-		monitorParam.hVcDesktop = pParam->hDesk;
-		monitorParam.pbStopMonitoring = &bStopMonitoring;
-		hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+		// this is done only if the stop event is created successfully
+		HANDLE hStopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		if (hStopEvent)
+		{
+			monitorParam.szVCDesktopName = pParam->szDesktopName;
+			monitorParam.hVcDesktop = pParam->hDesk;
+			monitorParam.hStopEvent = hStopEvent;
+			hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+		}
+
+		pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
+							NULL, pParam->lpDialogFunc, pParam->dwInitParam);
+
+		if (hMonitoringThread)
+		{
+			// notify the monitoring thread to stop
+			SetEvent(hStopEvent);
+
+			WaitForSingleObject (hMonitoringThread, INFINITE);
+			CloseHandle (hMonitoringThread);
+		}
+
+		if (hStopEvent)
+		{
+			CloseHandle (hStopEvent);
+		}
+
+		pParam->bDlgDisplayed = TRUE;
 	}
-
-	pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
-						NULL, pParam->lpDialogFunc, pParam->dwInitParam);
-
-	if (hMonitoringThread)
+	else
 	{
-		bStopMonitoring = TRUE;
-
-		WaitForSingleObject (hMonitoringThread, INFINITE);
-		CloseHandle (hMonitoringThread);
-	}
-
-	if (bNewDesktopSet)
-	{
-		SetThreadDesktop (hOriginalDesk);
-		SwitchDesktop (hOriginalDesk);
+		pParam->bDlgDisplayed = FALSE;
 	}
 
 	return 0;
@@ -14249,6 +14257,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 			map<DWORD, BOOL> ctfmonBeforeList, ctfmonAfterList;
 			DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
 			HDESK hSecureDesk;
+			HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId());
 
 			HDESK hInputDesk = NULL;
 
@@ -14280,8 +14289,10 @@ INT_PTR SecureDesktopDialogBoxParam(
 				param.lpDialogFunc = lpDialogFunc;
 				param.dwInitParam = dwInitParam;
 				param.retValue = 0;
+				param.bDlgDisplayed = FALSE;
 
-				HANDLE hThread = ::CreateThread (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
+				// use _beginthreadex instead of CreateThread because lpDialogFunc may be using the C runtime library
+				HANDLE hThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
 				if (hThread)
 				{
 					StringCbCopy(SecureDesktopName, sizeof (SecureDesktopName), szDesktopName);
@@ -14289,8 +14300,15 @@ INT_PTR SecureDesktopDialogBoxParam(
 					WaitForSingleObject (hThread, INFINITE);
 					CloseHandle (hThread);
 
-					retValue = param.retValue;
-					bSuccess = TRUE;
+					if (param.bDlgDisplayed)
+					{
+						// dialog box was indeed displayed in Secure Desktop
+						retValue = param.retValue;
+						bSuccess = TRUE;
+					}
+
+					// switch back to original desktop
+					SwitchDesktop (hOriginalDesk);
 				}
 
 				CloseDesktop (hSecureDesk);
@@ -14311,6 +14329,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 				}
 			}
 
+			CloseDesktop(hOriginalDesk);
 			burn (szDesktopName, sizeof (szDesktopName));
 		}
 	}
