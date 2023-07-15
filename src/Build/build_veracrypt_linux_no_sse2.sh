@@ -20,8 +20,8 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-# the sources of wxWidgets 3.0.5 must be extracted to the parent directory
-export WX_ROOT=$PARENTDIR/wxWidgets-3.0.5
+# the sources of wxWidgets 3.2.2.1 must be extracted to the parent directory
+export WX_ROOT=$PARENTDIR/wxWidgets-3.2.2.1
 echo "Using wxWidgets sources in $WX_ROOT"
 
 cd $SOURCEPATH

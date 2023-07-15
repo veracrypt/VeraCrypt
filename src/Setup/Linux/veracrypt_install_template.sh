@@ -32,7 +32,11 @@ KTERM=0
 case $PACKAGE_TYPE in
 	tar)
 		PACKAGE_INSTALLER=tar
-		PACKAGE_INSTALLER_OPTS='-C / --keep-directory-symlink --no-overwrite-dir -xpzvf'
+		if tar --help | grep -q -- '--keep-directory-symlink'; then
+			PACKAGE_INSTALLER_OPTS='-C / --keep-directory-symlink --no-overwrite-dir -xpzvf'
+		else
+			PACKAGE_INSTALLER_OPTS='-C / --no-overwrite-dir -xpzvf'
+		fi
 		;;
 esac
 
@@ -1031,7 +1035,7 @@ fi
 
 if [ "$PACKAGE_TYPE" = "tar" ]
 then
-	if ! which fusermount >/dev/null 2>/dev/null || ! which dmsetup >/dev/null 2>/dev/null
+	if ! which fusermount >/dev/null 2>/dev/null || ! which dmsetup >/dev/null 2>/dev/null || ! service pcscd status >/dev/null 2>/dev/null
 	then
 		show_message "$(cat <<_INFO
 Requirements for Running VeraCrypt:
@@ -1039,6 +1043,7 @@ Requirements for Running VeraCrypt:
 
  - FUSE library and tools
  - device mapper tools
+ - PC/SC Lite (optional)
 
 _INFO
 )"

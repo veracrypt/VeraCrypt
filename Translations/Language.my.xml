@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26">
+  <localization prog-version= "1.26.3">
     <language langid="my" name="မြန်မာ" en-name="Burmese" version="2.0.0" translators="Zaw Myo Htet; Transifex contributors" />
     <font lang="my" class="normal" size="11" face="Myanmar3" />
     <font lang="my" class="bold" size="13" face="Myanmar3" />
@@ -356,7 +356,7 @@
     <entry lang="my" key="IDT_KEYFILE_WARNING">သတိပေးချက် - ကီးဖိုင်​ ပျောက်သွားသည် ဖြစ်စေ (သို့) ၄င်း၏ ပထမဆုံး ၁၀၂၄ kilobytes ပြောင်းသွားသည် ဖြစ်စေ၊ အဲဒီ ကီးဖိုင်ကို အသုံးပြုသော volumes များကို အစပျိုးနိုင်မည် မဟုတ်ပါ။</entry>
     <entry lang="my" key="IDT_KEY_UNIT">bits</entry>
     <entry lang="my" key="IDT_NUMBER_KEYFILES">စကားဝှက်သော့ဖိုင် အရေအတွက် -</entry>
-    <entry lang="my" key="IDT_KEYFILES_SIZE">စကားဝှက်သော့ဖိုင်များ၏ အရွယ်အစား (ဘိုက်) -</entry>
+    <entry lang="my" key="IDT_KEYFILES_SIZE">စကားဝှက်သော့ဖိုင်များ၏ အရွယ်အစား -</entry>
     <entry lang="my" key="IDT_KEYFILES_BASE_NAME">စကားဝှက်သော့ဖိုင်များ အခြေ အမည် -</entry>
     <entry lang="my" key="IDT_LANGPACK_AUTHORS">ဘာသာပြန်ဆိုသူ -</entry>
     <entry lang="my" key="IDT_PLAINTEXT">စာသား သက်သက် အရွယ် -</entry>
@@ -389,6 +389,7 @@
     <entry lang="my" key="ADMINISTRATOR">စီမံခန့်ခွဲသူ</entry>
     <entry lang="my" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypt ဒရိုင်ဘာကို ဖွင့်ရန်၊ အကောင့်ထဲသို့ စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်ဖြင့် ၀င်ရောက် ဝင်ရောက်ရန် လိုအပ်သည်။</entry>
     <entry lang="my" key="ADMIN_PRIVILEGES_WARN_DEVICES">အခန်းကန့်/စက်ပစ္စည်း တစ်ခုကို စာဝှက်ရန်/ဖော်မက်ချရန် သင်သည် အကောင့်ထဲသို့ စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်ဖြင့် ဝင်ရောက်ရန် လိုအပ်သည်။\n\n ၎င်းသည် ဖိုင် သိမ်းဆည်းသော volumes များနှင့် မသက်ဆိုင်ပါ။</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="my" key="ADMIN_PRIVILEGES_WARN_HIDVOL">လျှို့ဝှက် volume တစ်ခုကို ဖန်တီးရန် သင်သည် အကောင့်ထဲသို့ စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်ဖြစ် ဝင်ရောက်ရန် လိုအပ်သည်။\n\nဆက်လုပ်မည်လား?</entry>
     <entry lang="my" key="ADMIN_PRIVILEGES_WARN_NTFS">Volume ကို NTFS အဖြစ် ဖော်မက်ချရန် သင်သည် ​အကောင့်ထဲသို့  စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်ဖြင့် ဝင်ရောက်ရန် လိုအပ်သည်။\n\n စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်မပါပဲ၊ မဟုတ်ပါက volume ကို FAT အဖြစ်သာ ဖော်မက်ချနိုင်မည် ဖြစ်သည်။</entry>
     <entry lang="my" key="AES_HELP">FIPS မှ ထောက်ခံထားသော စာဝှက်စနစ် (Rijndael, ၁၉၉၈ ခုနှစ်၌ ထုတ်ပြန်ထားသည်) ကို ယူအက်စ် အစိုးရ အဖွဲ့အစည်းနှင့် အခြား အေဂျင်စီများသည် ထိပ်တန်း လျှို့ဝှက် အဆင့် 256-bit ကီး၊ 128-bit block, 14 rounds (AES-256) အထိ သတ်မှတ်ထားသော အချက်အလက်များကို ကာကွယ်ရန် အသုံးပြုနိုင်ကြသည်။ လုပ်ဆောင်ပုံ စနစ်မှာ XTS ဖြစ်သည်။</entry>
@@ -940,7 +941,7 @@
     <entry lang="my" key="ENTER_HEADER_BACKUP_PASSWORD">အရံသင့် ဖိုင်ထဲ၌ သိမ်းဆည်းထားသော ခေါင်းစီးအတွက် စကားဝှက် ရေးထည့်ပါ</entry>
     <entry lang="my" key="KEYFILE_CREATED">ကီးဖိုင်ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။</entry>
     <entry lang="my" key="KEYFILE_INCORRECT_NUMBER">သင် ပေးသွင်းခဲ့သော စကားဝှက်သော့ဖိုင် အရေအတွက်မှာ မမှန်ကန်ပါ။</entry>
-    <entry lang="my" key="KEYFILE_INCORRECT_SIZE">စကားဝှက်သော့ဖိုင် အရွယ်အစားသည် ၆၄ နှင့် ၁၀၄၈၅၇၆ ဘိုက် အကြား ရှိရမည်။</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="my" key="KEYFILE_EMPTY_BASE_NAME">ကျေးဇူးပြု၍ စကားဝှက်သော့ဖိုင်(များ)ကို ထုတ်လုပ်ရန် အမည်တစ်ခု ရိုက်ထည့်ပါ</entry>
     <entry lang="my" key="KEYFILE_INVALID_BASE_NAME">စကားဝှက်သော့ဖိုင်(များ)၏ အခြေအမည်မှာ မမှန်ကန်ပါ</entry>
     <entry lang="my" key="KEYFILE_ALREADY_EXISTS">စကားဝှက်သော့ဖိုင် '%s' သည် ရှိပြီးသားဖြစ်သည်။\nသင်သည် ၎င်းကို ထပ်ရေးလိုပါသလား။ ထပ်မရေးလိုပါ ဟု သင်ဖြေပါက ထုတ်လုပ်သည့်လုပ်ငန်းစဉ်ကို ရပ်လိုက်ပါမည်။</entry>
@@ -1523,6 +1524,7 @@
     <entry lang="my" key="LINUX_NOT_SUPPORTED">(ဤပလက်ဖောင်းတွင် ရရှိနိုင်သော အစိတ်အပိုင်းများက မပံ့ပိုးပါ)။\n</entry>
     <entry lang="my" key="LINUX_KERNEL_OLD">သင့်စနစ်သည် Linux kernel ၏ ဗားရှင်းဟောင်းကို အသုံးပြုသည်။\n\nLinux kernel ရှိ ပြဿနာတစ်ခုကြောင့် VeraCrypt volume တစ်ခုသို့ ဒေတာရေးစဉ် သင့်စနစ် ရပ်သွားနိုင်သည်။ ဤပြဿနာကို ဖြေရှင်းရန် kernel ကို ဗားရှင်း ၂.၆.၂၄ သို့မဟုတ် နောက်ပိုင်းဗားရှင်းသို့ အဆင့်မြှင့်နိုင်သည်။</entry>
     <entry lang="my" key="LINUX_VOL_DISMOUNTED">Volume {0} ကို အဆုံးသတ်လိုက်ပါပြီ။</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="my" key="LINUX_OOM">မမ်မိုရီ မကျန်တော့ပါ။</entry>
     <entry lang="my" key="LINUX_CANT_GET_ADMIN_PRIV">စီမံအုပ်ချုပ်သူ အခွင့်ထူးများကို ရယူခြင်း မအောင်မြင်ပါ</entry>
     <entry lang="my" key="LINUX_COMMAND_GET_ERROR">ညွှန်ကြားချက် {0} က ပြဿနာ {1} ကို ပြန်ပို့ပေးသည်။</entry>
@@ -1569,7 +1571,60 @@
     <entry lang="my" key="VOLUME_HOST_IN_USE">သတိပေးချက် - Host ဖိုင်/device {0} ကို အသုံးပြုထားပြီးဖြစ်သည်။\n\n ဤအချက်ကို လျစ်လျူရှုခြင်းအားဖြင့် ကွန်ပျူတာစနစ် မတည်ငြိမ်မှု စသော မလိုလားအပ်သည့် ရလဒ်များ ဖြစ်ပေါ်စေနိုင်သည်။ Volume ကို အစမ​ပျိုးခင် host ဖိုင်/device ကို သုံးစွဲနေသည့် အက်ပလီကေးရှင်း အားလုံးကို ပိတ်ထားရမည်။\n\n ဆက်လက် အစပျိုးမလား။</entry>
     <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
     <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
-	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
+    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
+    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
+    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
+    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
+    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
+    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
+    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
+    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
+    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
+    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
+    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
+    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
+    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
+    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
+    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
+    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
+    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
+    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
+    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
+    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
+    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
+    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
+    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
+    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
+    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
+    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
+    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
+    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
+    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
+    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
+    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
+    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
+    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
+    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
+    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
+    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
+    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
+    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
+    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
+    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
+    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
+    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
+    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
+    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
+    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
+    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
+    <entry lang="en" key="EMV_CPLC_NOTFOUND">CLPC was not found in the EMV card.</entry>
+    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
+    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
+    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
+    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
+    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
+    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

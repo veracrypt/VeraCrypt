@@ -152,7 +152,7 @@ extern __m128i _mm_slli_si128(__m128i _A, int _Imm);
 #endif
 #endif
 
-#if CRYPTOPP_SSSE3_AVAILABLE || defined(__INTEL_COMPILER)
+#if CRYPTOPP_BOOL_SSSE3_INTRINSICS_AVAILABLE || defined(__INTEL_COMPILER)
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {

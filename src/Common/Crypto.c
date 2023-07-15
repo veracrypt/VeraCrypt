@@ -1180,7 +1180,7 @@ BOOL IsAesHwCpuSupported ()
 	}
 
 	return state && !HwEncryptionDisabled;
-#elif defined (_M_ARM64)
+#elif defined (_M_ARM64) || defined(__arm__) || defined (__arm64__) || defined (__aarch64__)
 	return 0;
 #else
 	return (HasAESNI() && !HwEncryptionDisabled)? TRUE : FALSE;
@@ -1463,7 +1463,7 @@ void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 
 #endif
 
-#ifdef _M_ARM64
+#if defined(_M_ARM64) || defined(__arm__) || defined (__arm64__) || defined (__aarch64__)
 /* dummy implementation that should never be called */
 void aes_hw_cpu_decrypt(const byte* ks, byte* data)
 {

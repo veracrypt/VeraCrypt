@@ -1,3 +1,35 @@
+1.9.2 [2022-06-28]
+
+* Fix version number in header file.
+
+1.9.1 [2022-06-28]
+===================
+
+* Fix `zip_file_is_seekable()`.
+
+1.9.0 [2022-06-13]
+==================
+
+* Add `zip_file_is_seekable()`.
+* Improve compatibility with WinAES.
+* Fix encoding handling in `zip_name_locate()`.
+* Add option to `zipcmp` to output summary of changes.
+* Various bug fixes and documentation improvements.
+
+1.8.0 [2021-06-18]
+==================
+
+* Add support for zstd (Zstandard) compression.
+* Add support for lzma (ID 14) compression.
+* Add `zip_source_window_create()`.
+* Add `zip_source_zip_create()` variant to `zip_source_zip()`.
+* Allow method specific `comp_flags` in `zip_set_file_compression()`.
+* Allow `zip_source_tell()` on sources that don't support seeking and `zip_ftell()` on compressed data.
+* Provide more details for consistency check errors.
+* Improve output of `zipcmp`.
+* In `zipcmp`, don’t ignore empty directories when comparing directory listing.
+* Treat empty string as no password given in `zip_file_set_encryption()`, `zip_fopen_encrypted()`, and `zip_set_default_password()`.
+
 1.7.3 [2020-07-15]
 ==================
 

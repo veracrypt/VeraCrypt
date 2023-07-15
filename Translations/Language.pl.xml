@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26">
+  <localization prog-version= "1.26.3">
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <font lang="pl" class="normal" size="11" face="default" />
     <font lang="pl" class="bold" size="13" face="Arial" />
@@ -96,7 +96,7 @@
     <entry lang="pl" key="IDT_SINGLE_BOOT">Wybierz tę opcję, jeśli na tym komputerze jest zainstalowany tylko jeden system operacyjny (nawet jeśli ma wielu użytkowników).</entry>
     <entry lang="pl" key="IDT_SPEED">Szybkość</entry>
     <entry lang="pl" key="IDT_STATUS">Status</entry>
-    <entry lang="pl" key="IDT_SYSENC_KEYS_GEN_INFO">Klucze, ciągi zaburzające (salt) i inne dane zostały pomyślnie wygenerowane. Jeśli chcesz generować nowe klucze, kliknij przycisk Wstecz, a następnie Dalej. W przeciwnym wypadku kliknij przycisk Dalej, aby kontynuować.</entry>
+    <entry lang="pl" key="IDT_SYSENC_KEYS_GEN_INFO">Klucze, ciągi zaburzające (salt) i inne dane zostały pomyślnie wygenerowane. Jeśli chcesz generować nowe klucze, kliknij przycisk Wstecz, a następnie Dalej. W przeciwnym razie kliknij przycisk Dalej, aby kontynuować.</entry>
     <entry lang="pl" key="IDT_SYS_DEVICE">Zaszyfruj partycję lub dysk, na którym zainstalowany jest Windows. Każdy, kto będzie chciał uzyskać dostęp do systemu, czytać i zapisywać pliki itp., będzie musiał wpisać poprawne hasło za każdym razem, gdy będzie uruchamiany Windows.</entry>
     <entry lang="pl" key="IDT_SYS_PARTITION">Wybierz tą opcję, aby zaszyfrować partycję, gdzie obecnie jest zainstalowany i uruchomiony Windows.</entry>
     <entry lang="pl" key="IDT_VOLUME_LABEL">Etykieta wolumenu w Windows:</entry>
@@ -217,7 +217,7 @@
     <entry lang="pl" key="IDM_DECRYPT_NONSYS_VOL">Trwale odszyfruj...</entry>
     <entry lang="pl" key="IDM_DEFAULT_KEYFILES">Domyślne pliki-klucze...</entry>
     <entry lang="pl" key="IDM_DEFAULT_MOUNT_PARAMETERS">Domyślne parametry podłączania...</entry>
-    <entry lang="pl" key="IDM_DONATE">Dotuj teraz...</entry>
+    <entry lang="pl" key="IDM_DONATE">Wspomóż darowizną teraz...</entry>
     <entry lang="pl" key="IDM_ENCRYPT_SYSTEM_DEVICE">Szyfruj partycję lub dysk systemowy...</entry>
     <entry lang="pl" key="IDM_FAQ">Często zadawane pytania (FAQ)</entry>
     <entry lang="pl" key="IDM_HELP">Podręcznik użytkownika</entry>
@@ -356,7 +356,7 @@
     <entry lang="pl" key="IDT_KEYFILE_WARNING">Uwaga: Jeśli zgubisz plik-klucz lub zostanie zmieniony choć jeden bit z pierwszych 1024 kB, podłączenie wolumenów nie będzie możliwe!</entry>
     <entry lang="pl" key="IDT_KEY_UNIT">bity</entry>
     <entry lang="pl" key="IDT_NUMBER_KEYFILES">Liczba plików-kluczy:</entry>
-    <entry lang="pl" key="IDT_KEYFILES_SIZE">Rozmiar plków-kluczy (w bajtach):</entry>
+    <entry lang="pl" key="IDT_KEYFILES_SIZE">Rozmiar plków-kluczy:</entry>
     <entry lang="pl" key="IDT_KEYFILES_BASE_NAME">Nazwa bazowa plików-kluczy:</entry>
     <entry lang="pl" key="IDT_LANGPACK_AUTHORS">Przetłumaczony przez:</entry>
     <entry lang="pl" key="IDT_PLAINTEXT">Długość:</entry>
@@ -389,6 +389,7 @@
     <entry lang="pl" key="ADMINISTRATOR">Administrator</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_DRIVER">Do załadowania sterowników VeraCrypt wymagane jest użycie konta z uprawnieniami administratora.</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_WARN_DEVICES">Aby zaszyfrować/sformatować partycję lub urządzenie, należy użyć konta z uprawnieniami administratora.\n\nPowyższe ograniczenie nie dotyczy wolumenów tworzonych w plikach.</entry>
+    <entry lang="pl" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Nie można aktywować szybkiego tworzenia plików: wymagane są uprawnienia administratora.\nAby włączyć tę funkcję, uruchom ponownie program jako administrator.\n\nCzy chcesz kontynuować bez szybkiego tworzenia plików?</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_WARN_HIDVOL">W przypadku tworzenia wolumenu ukrytego należy użyć konta z uprawnieniami administratora.\n\nCzy kontynuować?</entry>
     <entry lang="pl" key="ADMIN_PRIVILEGES_WARN_NTFS">Do formatowania wolumenu w formacie NTFS/exFAT/ReFS należy użyć konta z uprawnieniami administratora.\n\nBez uprawnień administratora można formatować wolumen w formacie FAT.</entry>
     <entry lang="pl" key="AES_HELP">Zaakceptowany przez FIPS szyfr (Rijndael, opublikowany w 1998) może być używany przez agencje rządowe USA Do ochrony informacji zaklasyfikowanych jako ściśle tajne. Klucz 256-bitowy, z blokiem 128-bitowym, 14 przebiegów (AES-256). Tryb szyfrowania: XTS.</entry>
@@ -450,7 +451,7 @@
     <entry lang="pl" key="ERR_CIPHER_INIT_WEAK_KEY">Błąd: Wykryto słaby lub potencjalnie słaby klucz. Klucz zostanie odrzucony. Ponów próbę.</entry>
     <entry lang="pl" key="EXCEPTION_REPORT">Nastąpił błąd krytyczny i VeraCrypt musi zostać przerwany. Jeżeli jest to błąd VeraCrypt, spróbujemy go naprawić. Aby nam pomóc, możesz wysłać do nas automatycznie wygenerowany raport błędu zawierający:\n\n- Wersję programu\n- Wersję systemu operacyjnego\n- Nazwę komponentu VeraCrypt\n- Sumę kontrolną pliku wykonywalnego VeraCrypt\n- Symboliczną nazwę okienka dialogowego\n- Kategorię błędu\n- Adres błędu\n- Rodzaj CPU\n- Wywołanie stosu VeraCrypt\n\nJeżeli naciśniesz 'Tak', otworzy się strona WWW (z zawartością błędu) w twojej domyślnej przeglądarce Internetowej (może to trwać ok. 30 sekund).\n\n%hs\n\nCzy chcesz wysłać do nas raport o błędzie?</entry>
     <entry lang="pl" key="EXCEPTION_REPORT_EXT">Wystąpił błąd krytyczy w Twoim systemie, co spowodowało zamknięcie VeraCrypt.\n\nBłąd nie wynika z działania VeraCrypt (więc development VeraCrypt nie naprawi go). Proszę, sprawdzić swój system pod kątem występowania problemów (np. konfiguracja systemu, połączenie sieciowe, uszkodzenia elementów sprzętowych).</entry>
-    <entry lang="pl" key="EXCEPTION_REPORT_EXT_FILESEL">Wystąpił krytyczny błąd systemu, wymagający zamknięcia VeraCrypt.\n\nJeśli problem będzie się powtarzał, wymagane będzie zablokowanie lub odinstalowanie aplikacji, które potencjalnie mogły spowodować problem, jak programy antywirusowe lub zabezpieczające internet, "polepszające", "optymizujące" lub "tweakujące" system itp. Jeśli to nie pomoże, być może należy przeinstalować system operacyjny (Problem może być spowodowany przez malware).</entry>
+    <entry lang="pl" key="EXCEPTION_REPORT_EXT_FILESEL">Wystąpił krytyczny błąd systemu wymagający zamknięcia VeraCrypt.\n\nJeśli problem będzie się powtarzał, wymagane będzie zablokowanie lub odinstalowanie aplikacji, które potencjalnie mogły spowodować problem, jak programy antywirusowe lub zabezpieczające internet, "polepszające", "optymizujące" lub "tweakujące" system itp. Jeśli to nie pomoże, być może należy przeinstalować system operacyjny (problem może być spowodowany przez malware).</entry>
     <entry lang="pl" key="EXCEPTION_REPORT_TITLE">Błąd krytyczny VeraCrypt</entry>
     <entry lang="pl" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt wykrył, że padł ostatnio system operacyjny. Jest wiele potencjalnych przyczyn awarii systemu (na przykład wadliwy komponent sprzętowy, błąd w sterowniku urządzenia itp.)\n\nCzy VeraCrypt ma sprawdzić cy to z jego powodu mógł nastąpić awaria systemu?</entry>
     <entry lang="pl" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">Czy VeraCrypt ma dalej wykrywać awarie systemu?</entry>
@@ -591,7 +592,7 @@
     <entry lang="pl" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt mie może zablokować wolumenu ponieważ jest on używany przez system lub aplikacje (mogą być otwarte pliki na wolumenie).\n\nCzy chcesz wymusić odłączenie wolumenu?</entry>
     <entry lang="pl" key="OPEN_VOL_TITLE">Wybierz wolumen VeraCrypt</entry>
     <entry lang="pl" key="OPEN_TITLE">Podaj ścieżkę i nazwę pliku</entry>
-    <entry lang="pl" key="SELECT_PKCS11_MODULE">Wybierz PKCS #11 bibliotekę</entry>
+    <entry lang="pl" key="SELECT_PKCS11_MODULE">Wybierz bibliotekę PKCS #11</entry>
     <entry lang="pl" key="OUTOFMEMORY">Brak pamięci</entry>
     <entry lang="pl" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">WAŻNE: Mocno zalecamy niedoświadczonym użytkownikom tworzenie kontenerów VeraCrypt w plikach na wybranych urządzeniach/partycjach, zamiast szyfrować całe urządzenie/partycję.\n\nKiedy tworzysz kontener VeraCrypt plik (jako alternatywę zaszyfrowania urządzenia lub partycji) nie ma ryzyka np. uszkodzenia dużej ilości plików. Pamiętaj, że kontener - plik VeraCrypt (każdy wirtualny zaszyfrowany dysk) jest tak jak każdy normalny plik. Po więcej informacji, zajrzyj do instrukcji Beginner's Tutorial w dokumentacji VeraCrypt.\n\nCzy jesteś pewien że chcesz zaszyfrować całe urządzenie/partycję?</entry>
     <entry lang="pl" key="OVERWRITEPROMPT">OSTRZEŻENIE: Plik '%s' już istnieje!\n\nWAŻNE: PROGRAM VERACRYPT NIE ZASZYFRUJE TEGO PLIKU, ALE GO USUNIE! Czy na pewno usunąć ten plik i zastąpić go nowym kontenerem VeraCrypt?</entry>
@@ -627,7 +628,7 @@
     <entry lang="pl" key="PASSWORD_SYSENC_OUTERVOL_HELP">Proszę wybrać hasło do zewnętrznego wolumenu. To będzie hasło, które może być ujawnione, gdy będziesz tego chciał do pierwszej partycji za partycją systemową, gdzie umieszczone są oba: zewnętrzny wolumen i ukryty wolumen (zawierający ukryty system operacyjny). Istnienie ukrytego wolumenu (i ukrytego systemu operacyjnego) pozostanie dalej w tajemnicy. Pamiętaj hasło nie jest do zwodzącego systemu operacyjnego.\n\nWAŻNE: Hasło musi być zasadniczo inne od pozostałych, które wybrałeś do ukrytego wolumenu (np. do ukrytego systemu operacyjnego).</entry>
     <entry lang="pl" key="PASSWORD_HIDVOL_HOST_TITLE">Hasło wolumenu zewnętrznego</entry>
     <entry lang="pl" key="PASSWORD_HIDVOL_TITLE">Hasło wolumenu ukrytego</entry>
-    <entry lang="pl" key="PASSWORD_HIDDEN_OS_TITLE">Hasło ukrytego Systemu Operacyjnego</entry>
+    <entry lang="pl" key="PASSWORD_HIDDEN_OS_TITLE">Hasło ukrytego systemu operacyjnego</entry>
     <entry lang="pl" key="PASSWORD_LENGTH_WARNING">OSTRZEŻENIE: Krótkie hasła są łatwe do złamania przez zastosowanie techniki brutalnego ataku!\n\nZaleca się używanie haseł składających się przynajmniej z 20 znaków. Czy na pewno użyć krótkiego hasła?</entry>
     <entry lang="pl" key="PASSWORD_TITLE">Hasło wolumenu</entry>
     <entry lang="pl" key="PASSWORD_WRONG">Niepoprawne hasło albo to nie jest wolumen VeraCrypt.</entry>
@@ -908,7 +909,7 @@
     <entry lang="pl" key="TOTAL_DATA_WRITTEN">Dane zapisane od podłączenia</entry>
     <entry lang="pl" key="ENCRYPTED_PORTION">Część zaszyfrowana</entry>
     <entry lang="pl" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100% (całkowicie zaszyfrowane)</entry>
-    <entry lang="pl" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (nie zaszyfrowane)</entry>
+    <entry lang="pl" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (niezaszyfrowane)</entry>
     <entry lang="pl" key="PROCESSED_PORTION_X_PERCENT">%.3f%%</entry>
     <entry lang="pl" key="PROCESSED_PORTION_100_PERCENT">100%</entry>
     <entry lang="pl" key="PROGRESS_STATUS_WAITING">Oczekiwanie</entry>
@@ -938,7 +939,7 @@
     <entry lang="pl" key="ENTER_HEADER_BACKUP_PASSWORD">Wprowadź hasło do zapisania do pliku kopii bezpieczeństwa nagłówka</entry>
     <entry lang="pl" key="KEYFILE_CREATED">Plik-klucz został pomyślnie utworzony.</entry>
     <entry lang="pl" key="KEYFILE_INCORRECT_NUMBER">Liczba plików-kluczy, którą podałeś jest nieprawidłowa.</entry>
-    <entry lang="pl" key="KEYFILE_INCORRECT_SIZE">Rozmiar pliku-klucza musi być zawarty pomiędzy 64 a 1048576 bajtów.</entry>
+    <entry lang="pl" key="KEYFILE_INCORRECT_SIZE">Rozmiar pliku-klucza musi wynosić co najmniej 64 bajty.</entry>
     <entry lang="pl" key="KEYFILE_EMPTY_BASE_NAME">Proszę podać nazwę pliku/ów-klucza/y do wygenerowania</entry>
     <entry lang="pl" key="KEYFILE_INVALID_BASE_NAME">Nazwa bazowa pliku/ów-klucza/ów jest nieprawidłowa.</entry>
     <entry lang="pl" key="KEYFILE_ALREADY_EXISTS">Plik-klucz'%s' już istnieje.\nCzy chcesz go nadpisać? Proces generowania zostanie zakończony, jeżeli odpowiesz Nie.</entry>
@@ -1152,13 +1153,13 @@
     <entry lang="pl" key="SYSENC_MULTI_BOOT_OUTCOME_TITLE">Wiele systemów</entry>
     <entry lang="pl" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">Program VeraCrypt obecnie nie obsługuje konfiguracji wielosystemowej, w której w głównym rekordzie startowym (MBR) jest zainstalowany program startowy z systemu innego niż Windows.\n\nMożliwe rozwiązania:\n\n- Jeśli używasz menedżera uruchamiania do uruchamiania systemów Windows i Linux, przenieś menedżera uruchamiania (np. GRUB lub LILO) z MBR do partycji. Następnie uruchom ponownie kreator i zaszyfruj partycję lub dysk systemowy. Program startowy VeraCrypt stanie się podstawowym menedżerem uruchamiania i będzie pozwalał na uruchamianie oryginalnego menedżera uruchamiania (np. GRUB lub LILO) jako drugiego menedżera uruchamiania (przez naciśnięcie klawisza Esc na ekranie programu startowego VeraCrypt), co umożliwi uruchamianie systemu Linux.</entry>
     <entry lang="pl" key="WINDOWS_BOOT_LOADER_HINTS">Jeżeli obecnie uruchomiony system operacyjny jest zainstalowany na boot partycji, wówczas po zaszyfrowaniu jej, będziesz musiał wprowadzić poprawne hasło za każdym razem kiedy będziesz uruchamiał system (nawet ten niezaszyfrowany).\n\nNatomiast, jeżeli obecnie uruchomiony system operacyjny nie jest zainstalowany na boot partycji (lub jeżeli program startowy Windows nie jest używany przez inny system), wówczas, po zaszyfrowaniu systemu nie będziesz musiał wprowadzać hasła do uruchomienia innych systemów (również tych niezaszyfrowanych) -- będziesz musiał wcisnąć tylko klawisz Esc, aby uruchomić niezaszyfrowany system (jeżeli jest wiele niezaszyfrowanych systemów będziesz musiał wybrać, który system chcesz uruchomić).\n\nUwaga: Typowo, Windows jest zainstalowany na boot partycji.</entry>
-    <entry lang="pl" key="SYSENC_PRE_DRIVE_ANALYSIS_TITLE">Szyfrowanie obszaru HPA (Host protected area)</entry>
+    <entry lang="pl" key="SYSENC_PRE_DRIVE_ANALYSIS_TITLE">Szyfrowanie obszaru HPA (Host Protected Area)</entry>
     <entry lang="pl" key="SYSENC_PRE_DRIVE_ANALYSIS_HELP">Na końcu wielu dysków są ukryte miejsca, gdzie nie ma dostępu system operacyjny (są to zwykle Host Protected Areas). Jednakże niektóre programy potrafią czytać i pisać dane z/do tych sektorów.\n\nUWAGA: Niektórzy producenci sprzętu używają tych miejsc do przechowywania narzędzi np. do RAID, odtwarzania systemu, konfiguracji systemu, diagnostyki lub innych narzędzi. Jeżeli te narzędzia lub dane muszą być dostępne przed bootowaniem, obszar ten NIE powinien być zaszyfrowany (wybierz 'Nie' powyżej).\n\nCzy chcesz, aby VeraCrypt wykrył i zaszyfrował te ukryte obszary na końcu dysku?</entry>
-    <entry lang="pl" key="SYSENC_TYPE_PAGE_TITLE">Typ Systemu Szyfrowania</entry>
+    <entry lang="pl" key="SYSENC_TYPE_PAGE_TITLE">Typ systemu szyfrowania</entry>
     <entry lang="pl" key="SYSENC_NORMAL_TYPE_HELP">Wybierz tą opcję jeżeli chcesz zaszyfrować jedynie partycję systemową lub cały dysk systemowy.</entry>
     <entry lang="pl" key="SYSENC_HIDDEN_TYPE_HELP">Może się zdarzyć, że będziesz zmuszony przez kogoś do odszyfrowania systemu operacyjnego. Jest wiele sytuacji, gdy nie możesz tego odmówić (na przykład w wyniku wymuszenia). Jeżeli wybierzesz tę opcję, utworzysz ukryty system operacyjny, którego istnienie będzie niemożliwe do odkrycia (o ile zastosujesz się do pewnych wytycznych). Stąd nie będziesz zmuszony odszyfrowywać ani zdradzać hasła do ukrytego systemu operacyjnego. By uzyskać dokładniejsze wyjaśnienia, wybierz link poniżej.</entry>
     <entry lang="pl" key="HIDDEN_OS_PREINFO">Może się zdarzyć, że zostaniesz zmuszony przez kogoś do odszyfrowania systemu operacyjnego. Jest wiele sytuacji, gdy nie możesz tego odmówić (na przykład w wyniku wymuszenia).\n\nUżywając tego kreatora możesz utworzyć ukryty system operacyjny, którego istnienie powinno być niemożliwe do udowodnienia (o ile zastosujesz się do pewnych wytycznych). Stąd nie będziesz zmuszony odszyfrowywać ani zdradzać hasła do ukrytego systemu operacyjnego.</entry>
-    <entry lang="pl" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">Ukryty System Operacyjny</entry>
+    <entry lang="pl" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">Ukryty system operacyjny</entry>
     <entry lang="pl" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">Wykonując kolejne kroki, stworzysz dwa wolumeny VeraCrypt (zewnętrzny i ukryty), które będą za pierwszą partycją systemową. Ukryty wolumen będzie zawierał ukryty system operacyjny (OS). VeraCrypt będzie tworzył ukryty OS poprzez skopiowanie partycji systemowej (gdzie obecnie jest zainstalowany i uruchomiony OS) do ukrytego wolumenu. Do zewnętrznego wolumenu skopiuj jakieś pliki, które NIE będą ukryte. One będą dostępne dla każdego po to, aby utajnić hasło ukrytej partycji OS. Możesz ujawnić hasło do zewnętrznego wolumenu, który zawiera system operacyjny OS.\n\nNa koniec, na partycji, gdzie aktualnie masz uruchomiony OS, możesz zainstalować nowy OS, zwany dalej zwodzącym OS, i zaszyfrować go. On nie może zawierać wrażliwych danych. W sumie, będą trzy hasła. Dwa z nich można ujawnić (do zwodzącego OS i zewnętrznego wolumenu). Jeżeli użyjesz trzeciego hasła, zostanie uruchomiony ukryty system operacyjny.</entry>
     <entry lang="pl" key="SYSENC_DRIVE_ANALYSIS_TITLE">Wykrywanie ukrytych sektorów</entry>
     <entry lang="pl" key="SYSENC_DRIVE_ANALYSIS_INFO">Proszę poczekać dopóki VeraCrypt wykrywa możliwe ukryte sektory na końcu dysku systemowego. Może to potrwać dłuższą chwile.\n\nUwaga: W bardzo rzadkich przypadkach, na niektórych komputerach, system wykrywania może zawiesić komputer. Jeżeli to się zdarzy, uruchom ponownie komputer, uruchom VeraCrypt, powtórz poprzednie kroki, ale pomiń ten proces wyszukiwania. Informacja: To nie jest błąd VeraCrypt.</entry>
@@ -1211,19 +1212,19 @@
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2) Zainstaluj Windows na partycji, której zawartość ma być usunięta (tj. na partycji, której ukryty system jest klonem, został zainstalowany).\n\nWAŻNE: GDY ROZPOCZNIESZ INSTALACJĘ SYSTEMU ZWODZĄCEGO, SYSTEM UKRYTY *NIE* BĘDZIE MIAŁ MOŻLIWOŚCI URUCHOMIENIA (ponieważ program startowy VeraCrypt zostanie wymazany przez instalator systemu Windows). JEST TO NORMALNE I OCZEKIWANE. NIE PANIKOWAĆ. DOSTĘP DO URUCHOMIENIA UKRYTEGO SYSTEMU ZOSTANIE PRZYWRÓCONY PO ZASZYFROWANIU SYSTEMU ZWODZĄCEGO (ponieważ VeraCrypt zainstaluje wtedy automatycznie program startowy VeraCrypt na dysku systemowym).\n\nWażne: Wielkość partycji wydawać się taka sama jak wielkość ukrytego wolumenu (ten warunek będzie teraz spełniony). Ponadto, musisz nie możesz tworzyć żadnych partycji pomiędzy partycją systemu zwodzącego i partycją, na której umieszczono system ukryty.\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3) Uruchom system zwodzący (zainstalowany w kroku 2 i zainstaluj na nim VeraCrypt).\n\nZapamiętaj, że system zwodzący nie może zawierać żadnych wrażliwych danych.\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4) W systemie zwodzącym uruchom VeraCrypt i wybierz 'System' &gt; 'Szyfruj partycję lub dysk systemowy'. Powinno pojawić się okno Kreatora Tworzenia Wolumenu VeraCrypt.\n\nWykonaj następujące kroki w Kreatorze Tworzenia Wolumenu VeraCrypt.\n\n</entry>
-    <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5) W Kreatorze Tworzenia Wolumenu VeraCrypt, NIE wybieraj opcji 'Ukryty'. Pozostaw zaznaczoną opcję 'Normalny' i wciśnij 'Dalej'.\n\n</entry>
+    <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5) W Kreatorze tworzenia wolumenu VeraCrypt, NIE wybieraj opcji 'Ukryty'. Pozostaw zaznaczoną opcję 'Normalny' i wciśnij 'Dalej'.\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_8">6) Wybierz opcję 'Koduj partycję systemową Windows' a następnie wciśnij 'Dalej'.\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_9">7) Jeśli na komputerze zainstalowano tylko systemy ukryty i zwodzący, wybierz opcję 'Jeden system' (jeśli jest więcej niż te dwa systemy na komputerze, wybierz 'Wiele systemów'). Następnie wciśnij 'Dalej'.\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_10">8) WAŻNE: W TYM KROKU, DLA SYSTEMU ZWODZĄCEGO MUSISZ WYBRAĆ TEN SAM ALGORYTM SZYFROWANIA I ALGORYTM HASZOWANIA, KTÓRY WYBRAŁEŚ DLA SYSTEMU UKRYTEGO! W PRZECIWNYM RAZIE UKRYTY SYSTEM POZOSTANIE NIEDOSTĘPNY! Innymi słowy, system zwodzący musi być zaszyfrowany tym samym algorytmem szyfrującym jak system ukryty. Uwaga: Powodem tego jest fakt, że system zwodzący i ukryty dzielą ten sam program startowy, który wspiera tylko jeden algorytm, wybrany przez użytkownika (dla każdego algorytmu jest dedykowana wersja programu startowego VeraCrypt).\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_11">9) W tym kroku wybierz hasło dla zwodzącego systemu operacyjnego. Będzie to hasło, które możesz wyjawić przeciwnikowi jeśli będziesz proszony lub zmuszony wyjawić przeduruchomieniowe hasło autentykacyjne (innym hasłem, które możesz podać jest hasło do modułu zewnętrznego). Istnienie trzeciego hasła (tj przeduruchomieniowego hasła autentykacyjnego do ukrytego systemu operacyjnego) powinno pozostać tajemnicą.\n\nWażne: Hasło wybrane do systemu zwodzącego musi znacznie różnić się od tego do wolumenu ukrytego (tj do ukrytego systemu operacyjnego).\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_12">10) Wykonuj następne instrukcje kreatora aż do zaszyfrowania zwodzącego systemu operacyjnego.\n\n\n\n</entry>
-    <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_13">Po Utworzeniu Zwodzącego Systemu Operacyjnego ------------------------------------------------\n\nPo zaszyfrowaniu systemu zwodzącego cały proces tworzenia ukrytego systemu operacyjnego zostanie zakończony i będziesz mógł używać trzech haseł:\n\n1) Przeduruchomieniowe hasło autentykacyjne do ukrytego systemu operacyjnego.\n\n2) Przeduruchomieniowe hasło autentykacyjne dla zwodzącego systemu operacyjnego.\n\n3) Hasło do zewnętrznego wolumenu.\n\n</entry>
+    <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_13">Po utworzeniu zwodzącego systemu operacyjnego ------------------------------------------------\n\nPo zaszyfrowaniu systemu zwodzącego cały proces tworzenia ukrytego systemu operacyjnego zostanie zakończony i będziesz mógł używać trzech haseł:\n\n1) Przeduruchomieniowe hasło autentykacyjne do ukrytego systemu operacyjnego.\n\n2) Przeduruchomieniowe hasło autentykacyjne dla zwodzącego systemu operacyjnego.\n\n3) Hasło do zewnętrznego wolumenu.\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_14">Jeśli chcesz uruchomić ukryty system operacyjny, wystarczy tylko wpisać hasło do ukrytego systemu operacyjnego na ekranie programu startowego VeraCrypt (który pojawia się po włączeniu lub restarcie komputera).\n\nJeśli chcesz uruchomić zwodzący system operacyjny, wystarczy wpisać hasło dla zwodzącego systemu operacyjnego na ekranie programu startowego VeraCrypt.\n\nHasło do zwodzącego systemu operacyjnego może zostać ujawnione każdemu zmuszającemu Cię do zdradzenia przeduruchomieniowego hasła autentykacyjnego. Istnienie ukrytego wolumenu (i ukrytego systemu operacyjnego) pozostanie tajemnicą.\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_15">Trzecie hasło (do wolumenu zewnętrznego) może zostać wyjawiony każdemu zmuszającemu do zdradzenia hasła do pierwszej partycji za partycją systemową, gdzie mieszczą się wolumen zewnętrzny i ukryty (zawierający ukryty system operacyjny). Istnienie ukrytego wolumenu (i ukrytego systemu operacyjnego) pozostanie tajemnicą.\n\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_16">Jeśli zdradziłeś hasło do zwodzącego systemu operacyjnego przeciwnikowi a ten spyta, czemu wolna przestrzeń (zwodzącej) partycji systemowej zawiera dane losowe, możesz odpowiedzieć na przykład: "Partycja zawierała przedtem system zaszyfrowany przez VeraCrypt, ale zapomniałem przeduruchomieniowego hasła autentykacyjnego (albo system został uszkodzony i przestał się uruchamiać), więc musiałem ponownie zainstalować partycję windows i zaszyfrować ją."\n\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_17">Jeśli wykonano wszystkie instrukcje i zapewniono wszystkie środki ostrożności i i wymagania wymienione w sekcji "Security Requirements and Precautions Pertaining to Hidden Volumes" w instrukcji użytkownika VeraCrypt, powinno być niemożliwe udowodnienie, że ukryty wolumen i ukryty system operacyjny istnieje, nawet gdy zewnętrzny wolumen został podłączony lub gdy zwodzący system operacyjny jest odcyfrowany i uruchomiony.\n\nJeśli zapiszesz kopię tego tekstu lub wydrukujesz go (gorąco polecane, chyba, że drukarka przechowuje kopie drukowanych dokumentów na wewnętrznym dysku), musisz zniszczyć wszystkie jego kopie po utworzeniu systemu zwodzącego i zrozumieniu wszystkich informacji zawartych w tekście (w przeciwnym przypadku, jeśli taka kopia zostanie znaleziona, mogłaby wskazywać, że na tym komputerze zainstalowano ukryty system operacyjny).\n\n</entry>
     <entry lang="pl" key="DECOY_OS_INSTRUCTIONS_PORTION_18">UWAGA: JEŚLI NIE CHRONISZ UKRYTEGO WOLUMENU (by uzyskać informację jak to zrobić, sprawdź sekcję "Protection of Hidden Volumes Against Damage" w Instrukcji Użytkownika VeraCrypt), NIE ZAPISYWAĆ DANYCH NA WOLUMENIE ZEWNĘTRZNYM (zauważ że zwodzący system operacyjny NIE jest zainstalowany na wolumenie zewnętrznym). W PRZECIWNYM PRZYPADKU MOŻESZ NADPISAĆ I USZKODZIĆ UKRYTY WOLUMEN (I UKRYTY SYSTEM OPERACYJNY NA NIM)!</entry>
-    <entry lang="pl" key="HIDDEN_OS_CREATION_PREINFO_TITLE">Klonowanie Systemu Operacyjnego</entry>
+    <entry lang="pl" key="HIDDEN_OS_CREATION_PREINFO_TITLE">Klonowanie systemu operacyjnego</entry>
     <entry lang="pl" key="HIDDEN_OS_CREATION_PREINFO_HELP">W następnym kroku, VeraCrypt będzie tworzył ukryty system operacyjny przez skopiowanie zawartości partycji systemowej do ukrytego wolumenu (kopiowane dane zostaną zaszyfrowane "w locie" z innym kluczem niż został użyty w zwodzącym systemie operacyjnym).\n\nProszę pamiętać, że proces zacznie się od rozruchu wstępnego i może zabrać dość dużo czasu aż skończy; od kilu godzin lub nieraz kliku dni (w zależności od wielkości partycji systemowej i wydajności twojego komputera).\n\nMożesz przerwać proces, wyłączając komputer, a proces wznowi się, gdy włączysz go ponownie. Jednakże, jeżeli przerwiesz proces, cały proces kopiowania zacznie się od początku (ponieważ zawartość systemowej partycji nie może ulec zmianie podczas klonowania).</entry>
     <entry lang="pl" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">Czy chcesz anulować cały proces tworzenia ukrytego systemu operacyjnego?\n\nInfo: Nie będziesz mógł wznowić procesu jeżeli go anulujesz teraz.</entry>
     <entry lang="pl" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">Chcesz anulować test szyfrowania systemu?</entry>
@@ -1313,7 +1314,7 @@
     <entry lang="pl" key="VKEY_09">Tab</entry>
     <entry lang="pl" key="VKEY_0C">Czyść</entry>
     <entry lang="pl" key="VKEY_0D">Enter</entry>
-    <entry lang="pl" key="VKEY_13">Pauza</entry>
+    <entry lang="pl" key="VKEY_13">Pause</entry>
     <entry lang="pl" key="VKEY_14">Caps Lock</entry>
     <entry lang="pl" key="VKEY_20">Spacja</entry>
     <entry lang="pl" key="VKEY_21">Page Up</entry>
@@ -1521,6 +1522,7 @@
     <entry lang="pl" key="LINUX_NOT_SUPPORTED"> (nieobsługiwane przez komponenty dostępne na tej platformie).\n</entry>
     <entry lang="pl" key="LINUX_KERNEL_OLD">Twój system używa starej wersji jądra Linuksa.\n\nZ powodu błędu w jądrze Linuksa Twój system może przestać odpowiadać podczas zapisywania danych do wolumenu VeraCrypt. Ten problem można rozwiązać, aktualizując jądro do wersji 2.6.24 lub nowszej.</entry>
     <entry lang="pl" key="LINUX_VOL_DISMOUNTED">Wolumen {0} został odłączony.</entry>
+    <entry lang="pl" key="LINUX_VOL_MOUNTED">Wolumen {0} został podłączony.</entry>
     <entry lang="pl" key="LINUX_OOM">Brak pamięci.</entry>
     <entry lang="pl" key="LINUX_CANT_GET_ADMIN_PRIV">Nie udało się uzyskać uprawnień administratora</entry>
     <entry lang="pl" key="LINUX_COMMAND_GET_ERROR">Polecenie {0} zwróciło błąd {1}.</entry>
@@ -1567,7 +1569,60 @@
     <entry lang="pl" key="VOLUME_HOST_IN_USE">OSTRZEŻENIE: Plik/urządzenie {0} jest już używane!\n\nZignorowanie tego może spowodować niepożądane skutki, w tym niestabilność systemu. Wszystkie aplikacje, które mogą korzystać z pliku/urządzenia, powinny zostać zamknięte przed podłączeniem wolumenu.\n\nKontynuować podłączanie?</entry>
     <entry lang="pl" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt zainstalowano wcześniej przy użyciu pakietu MSI, więc nie można dokonać aktualizacji za pomocą standardowego instalatora.\n\nUżyj pakietu MSI, aby zaktualizować swoją instalację VeraCrypt.</entry>
     <entry lang="pl" key="IDC_USE_ALL_FREE_SPACE">Wykorzystaj całą dostępną wolną przestrzeń</entry>
-	<entry lang="pl" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">Nie można zaktualizować VeraCrypt, ponieważ partycję/dysk systemowy zaszyfrowano przy użyciu algorytmu, który nie jest już obsługiwany.\nProszę odszyfrować system przed aktualizacją VeraCrypt, a następnie zaszyfrować go ponownie.</entry>
+    <entry lang="pl" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">Nie można zaktualizować VeraCrypt, ponieważ partycję/dysk systemowy zaszyfrowano przy użyciu algorytmu, który nie jest już obsługiwany.\nProszę odszyfrować system przed aktualizacją VeraCrypt, a następnie zaszyfrować go ponownie.</entry>
+    <entry lang="pl" key="LINUX_EX2MSG_TERMINALNOTFOUND">Nie można znaleźć obsługiwanej aplikacji terminala, potrzebujesz xterm, konsole lub gnome-terminal (z dbus-x11).</entry>
+    <entry lang="pl" key="IDM_MOUNT_NO_CACHE">Podłącz bez pamięci podręcznej</entry>
+    <entry lang="pl" key="EXPANDER_INFO">:: Rozszerzacz VeraCrypt ::\n\nRozszerz wolumen VeraCrypt w locie bez ponownego formatowania\n\n\nObsługiwane są wszelkiego rodzaju wolumeny (pliki kontenerów, dyski i partycje) sformatowane w systemie plików NTFS. Jedynym warunkiem jest wystarczająca ilość wolnego miejsca na dysku hosta lub urządzeniu hosta wolumenu VeraCrypt.\n\nNie używaj tego oprogramowania do rozszerzania wolumenu zewnętrznego zawierającego wolumen ukryty, ponieważ spowoduje to zniszczenie wolumenu ukrytego!\n</entry>
+    <entry lang="pl" key="IDC_STEPSEXPAND">1. Wybierz wolumen VeraCrypt do rozszerzenia\n2. Kliknij przycisk 'Podłącz'</entry>
+    <entry lang="pl" key="IDT_VOL_NAME">Głośność: </entry>
+    <entry lang="pl" key="IDT_FILE_SYS">System plików: </entry>
+    <entry lang="pl" key="IDT_CURRENT_SIZE">Obecny rozmiar: </entry>
+    <entry lang="pl" key="IDT_NEW_SIZE">Nowy rozmiar: </entry>
+    <entry lang="pl" key="IDT_NEW_SIZE_BOX_TITLE">Wprowadź nowy rozmiar wolumenu</entry>
+    <entry lang="pl" key="IDC_INIT_NEWSPACE">Wypełnij nowe miejsce losowymi danymi</entry>
+    <entry lang="pl" key="IDC_QUICKEXPAND">Szybkie rozszerzanie</entry>
+    <entry lang="pl" key="IDT_INIT_SPACE">Wypełnij nowe miejsce: </entry>
+    <entry lang="pl" key="EXPANDER_FREE_SPACE">%s wolnego miejsca na dysku hosta</entry>
+    <entry lang="pl" key="EXPANDER_HELP_DEVICE">To jest wolumen VeraCrypt oparty na urządzeniu.\n\nNowy rozmiar wolumenu zostanie wybrany automatycznie jako rozmiar urządzenia hosta.</entry>
+    <entry lang="pl" key="EXPANDER_HELP_FILE">Określ nowy rozmiar wolumenu VeraCrypt (musi być co najmniej %I64u KB większy niż aktualny rozmiar).</entry>
+    <entry lang="pl" key="QUICK_EXPAND_WARNING">OSTRZEŻENIE: Szybkiego rozszerzania należy używać tylko w następujących przypadkach:\n\n1) Urządzenie, na którym znajduje się kontener plików, nie zawiera poufnych danych i nie jest wymagane wiarygodne zaprzeczenie.\n2) Urządzenie, na którym znajduje się kontener plików, zostało już bezpiecznie i w pełni zaszyfrowane.\n\nCzy na pewno chcesz użyć S zybkiego rozszerzania?</entry>
+    <entry lang="pl" key="EXPANDER_STATUS_TEXT">WAŻNE: Poruszaj myszą tak losowo, jak to możliwe w tym oknie. Im dłużej ją przesuwasz tym lepiej. To znacznie zwiększa siłę kryptograficzną kluczy szyfrujących. Następnie kliknij 'Kontynuuj', aby rozszerzyć wolumen.</entry>
+    <entry lang="pl" key="EXPANDER_STATUS_TEXT_LEGACY">Kliknij 'Kontynuuj', aby rozszerzyć wolumen.</entry>
+    <entry lang="pl" key="EXPANDER_FINISH_ERROR">Błąd: Rozszerzenie wolumenu nie powiodło się.</entry>
+    <entry lang="pl" key="EXPANDER_FINISH_ABORT">Błąd: Operacja przerwana przez użytkownika.</entry>
+    <entry lang="pl" key="EXPANDER_FINISH_OK">Zakończono. Wolumen pomyślnie rozszerzony.</entry>
+    <entry lang="pl" key="EXPANDER_CANCEL_WARNING">Ostrzeżenie: Trwa rozszerzanie wolumenu!\n\nZatrzymanie teraz może spowodować uszkodzenie wolumenu.\n\nCzy na pewno chcesz anulować?</entry>
+    <entry lang="pl" key="EXPANDER_STARTING_STATUS">Rozpoczęcie rozszerzania wolumenu...\n</entry>
+    <entry lang="pl" key="EXPANDER_HIDDEN_VOLUME_ERROR">Wolumen zewnętrzny zawierający wolumen ukryty nie może zostać rozszerzony, ponieważ spowoduje to zniszczenie wolumenu ukrytego.\n</entry>
+    <entry lang="pl" key="EXPANDER_SYSTEM_VOLUME_ERROR">Wolumen systemowy VeraCrypt nie może zostać rozszerzony.</entry>
+    <entry lang="pl" key="EXPANDER_NO_FREE_SPACE">Za mało wolnego miejsca, aby rozszerzyć wolumen</entry>
+    <entry lang="pl" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Ostrzeżenie: Plik kontenera jest większy niż obszar wolumenu VeraCrypt. Dane za obszarem wolumenu VeraCrypt zostaną nadpisane.\n\nCzy chcesz kontynuować?</entry>
+    <entry lang="pl" key="EXPANDER_WARNING_FAT">Ostrzeżenie: Wolumen VeraCrypt zawiera system plików FAT!\n\nTylko sam wolumen VeraCrypt zostanie rozszerzony, ale nie system plików.\n\nCzy chcesz kontynuować?</entry>
+    <entry lang="pl" key="EXPANDER_WARNING_EXFAT">Ostrzeżenie: Wolumen VeraCrypt zawiera system plików exFAT!\n\nTylko sam wolumen VeraCrypt zostanie rozszerzony, ale nie system plików.\n\nCzy chcesz kontynuować?</entry>
+    <entry lang="pl" key="EXPANDER_WARNING_UNKNOWN_FS">Ostrzeżenie: Wolumen VeraCrypt zawiera nieznany system plików lub nie zawiera go wcale!\n\nTylko sam wolumen VeraCrypt zostanie rozszerzony, system plików pozostanie niezmieniony.\n\nCzy chcesz kontynuować?</entry>
+    <entry lang="pl" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Nowy rozmiar wolumenu jest za mały, musi być co najmniej o %I64u kB większy niż bieżący rozmiar.</entry>
+    <entry lang="pl" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Nowy rozmiar wolumenu jest za duży, za mało miejsca na dysku hosta.</entry>
+    <entry lang="pl" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Przekroczono maksymalny rozmiar pliku %I64u MB na dysku hosta.</entry>
+    <entry lang="pl" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Błąd: Nie udało się uzyskać wymaganych uprawnień, aby włączyć Szybkie rozszerzanie!\nOdznacz opcję Szybkie rozszerzanie i spróbuj ponownie.</entry>
+    <entry lang="pl" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Przekroczono maksymalny rozmiar wolumenu VeraCrypt %I64u TB!\n</entry>
+    <entry lang="pl" key="FULL_FORMAT">Pełne formatowanie</entry>
+    <entry lang="pl" key="FAST_CREATE">Szybkie tworzenie</entry>
+    <entry lang="pl" key="WARN_FAST_CREATE">OSTRZEŻENIE: Szybkiego tworzenia należy używać tylko w następujących przypadkach:\n\n1) Urządzenie nie zawiera poufnych danych i nie jest wymagane wiarygodne zaprzeczenie.\n2) Urządzenie zostało już bezpiecznie i w pełni zaszyfrowane.\n\nCzy na pewno chcesz użyć szybkiego tworzenia?</entry>
+    <entry lang="pl" key="IDC_ENABLE_EMV_SUPPORT">Włącz obsługę EMV</entry>
+    <entry lang="pl" key="COMMAND_APDU_INVALID">Polecenie APDU wysłane do karty jest nieprawidłowe.</entry>
+    <entry lang="pl" key="EXTENDED_APDU_UNSUPPORTED">Rozszerzone polecenia APDU nie mogą być używane z bieżącym tokenem.</entry>
+    <entry lang="pl" key="SCARD_MODULE_INIT_FAILED">Błąd podczas ładowania biblioteki WinSCard / PCSC.</entry>
+    <entry lang="pl" key="EMV_UNKNOWN_CARD_TYPE">Karta w czytniku nie jest obsługiwaną kartą EMV.</entry>
+    <entry lang="pl" key="EMV_SELECT_AID_FAILED">AID karty w czytniku nie mógł zostać wybrany.</entry>
+    <entry lang="pl" key="EMV_ICC_CERT_NOTFOUND">Certyfikat klucza publicznego ICC nie został znaleziony na karcie.</entry>
+    <entry lang="pl" key="EMV_ISSUER_CERT_NOTFOUND">Nie znaleziono certyfikatu klucza publicznego ICC na karcie.</entry>
+    <entry lang="pl" key="EMV_CPLC_NOTFOUND">Nie znaleziono CLPC na karcie EMV.</entry>
+    <entry lang="pl" key="EMV_PAN_NOTFOUND">Nie znaleziono podstawowego numeru konta (PAN) na karcie EMV.</entry>
+    <entry lang="pl" key="INVALID_EMV_PATH">Ścieżka EMV jest nieprawidłowa.</entry>
+    <entry lang="pl" key="EMV_KEYFILE_DATA_NOTFOUND">Nie można utworzyć pliku klucza z danych karty EMV.\n\nBrak jednego z następujących elementów:\n- Certyfikatu klucza publicznego ICC.\n- Certyfikatu klucza publicznego wydawcy.\n- Danych CPCL.</entry>
+    <entry lang="pl" key="SCARD_W_REMOVED_CARD">Brak karty w czytniku.\n\nUpewnij się, że karta jest prawidłowo włożona.</entry>
+    <entry lang="pl" key="FORMAT_EXTERNAL_FAILED">Polecenie Windows format.com nie mogło sformatować wolumenu jako NTFS/exFAT/ReFS: Błąd 0x%.8X.\n\nPowrót do używania API Windows FormatEx.</entry>
+    <entry lang="pl" key="FORMATEX_API_FAILED">API Windows FormatEx nie sformatowało wolumenu jako NTFS/exFAT/ReFS.\n\nStan błędu = %s.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -5,7 +5,7 @@ VeraCrypt-DCS uses EDK II as its UEFI development environment.
 VeraCrypt-DCS is licensed under LGPL: https://github.com/veracrypt/VeraCrypt-DCS/blob/master/LICENSE
 
 Here the steps to build VeraCrypt-DCS (Visual Studio 2010 SP1 should be installed)
-  * Clone EDK: git clone https://github.com/tianocore/tianocore.github.io.git edk2
+  * Clone EDK: git clone https://github.com/tianocore/edk2.git edk2
   * Switch to UDK2015 branche: git checkout UDK2015
   * Clone VeraCrypt-DCS as DcsPkg inside edk2 folder: git clone https://github.com/veracrypt/VeraCrypt-DCS.git DcsPkg
   * Switch to VeraCrypt_1.18 branche: git checkout VeraCrypt_1.18

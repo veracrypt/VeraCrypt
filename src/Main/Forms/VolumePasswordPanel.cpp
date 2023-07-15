@@ -204,7 +204,7 @@ namespace VeraCrypt
 		newTextCtrl->SetMinSize ((*textCtrl)->GetSize());
 
 		GridBagSizer->Detach ((*textCtrl));
-		GridBagSizer->Add (newTextCtrl, wxGBPosition (row, 1), wxGBSpan (1, colspan), wxEXPAND|wxBOTTOM|wxALIGN_CENTER_VERTICAL, 5);
+		GridBagSizer->Add (newTextCtrl, wxGBPosition (row, 1), wxGBSpan (1, colspan), wxEXPAND|wxBOTTOM, 5);
 		(*textCtrl)->Show (false);
 		WipeTextCtrl (*textCtrl);
 
@@ -383,7 +383,7 @@ namespace VeraCrypt
 			SecurityTokenKeyfilesDialog dialog (this);
 			if (dialog.ShowModal() == wxID_OK)
 			{
-				foreach (const SecurityTokenKeyfilePath &path, dialog.GetSelectedSecurityTokenKeyfilePaths())
+				foreach (const TokenKeyfilePath &path, dialog.GetSelectedSecurityTokenKeyfilePaths())
 				{
 					Keyfiles->push_back (make_shared <Keyfile> (wstring (path)));
 				}
@@ -459,7 +459,11 @@ namespace VeraCrypt
 
 	void VolumePasswordPanel::WipeTextCtrl (wxTextCtrl *textCtrl)
 	{
-		textCtrl->SetValue (wxString (L'X', textCtrl->GetLineLength(0)));
+		int txtLen = textCtrl->GetLineLength(0);
+		if (txtLen > 0)
+		{
+			textCtrl->SetValue (wxString (L'X', txtLen));
+		}
 		GetPassword (textCtrl);
 	}
 

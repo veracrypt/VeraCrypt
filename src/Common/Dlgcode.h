@@ -166,6 +166,7 @@ extern BOOL LastMountedVolumeDirty;
 extern BOOL MountVolumesAsSystemFavorite;
 extern BOOL FavoriteMountOnArrivalInProgress;
 extern BOOL MultipleMountOperationInProgress;
+extern BOOL EMVSupportEnabled;
 
 extern volatile BOOL NeedPeriodicDeviceListUpdate;
 extern BOOL DisablePeriodicDeviceListUpdate;
@@ -282,9 +283,6 @@ typedef NTSTATUS (WINAPI *NtQuerySystemInformationFn)(
 #define	ISO_BURNER_TOOL L"isoburn.exe"
 #define PRINT_TOOL L"notepad.exe"
 
-
-BOOL CheckIsIMESupported ();
-
 void InitGlobalLocks ();
 void FinalizeGlobalLocks ();
 void cleanup ( void );
@@ -377,7 +375,6 @@ BOOL CALLBACK CipherTestDialogProc ( HWND hwndDlg , UINT uMsg , WPARAM wParam , 
 void ResetCipherTest ( HWND hwndDlg , int idTestCipher );
 void ResetCurrentDirectory ();
 BOOL BrowseFiles (HWND hwndDlg, char *stringId, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter);
-BOOL BrowseFile (HWND hwndDlg, char *stringId, wchar_t *initialDir);
 BOOL BrowseDirectories (HWND hWnd, char *lpszTitle, wchar_t *dirName);
 void handleError ( HWND hwndDlg , int code, const char* srcPos );
 BOOL CheckFileStreamWriteErrors (HWND hwndDlg, FILE *file, const wchar_t *fileName);

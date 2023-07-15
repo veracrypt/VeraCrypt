@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26">
-    <language langid="cs" name="Čeština" en-name="Czech" version="1.2.0" translators="Vítek Moser, Lagardere" />
+  <localization prog-version= "1.26.3">
+    <language langid="cs" name="Čeština" en-name="Czech" version="1.3.0" translators="Vítek Moser, Lagardere" />
     <font lang="cs" class="normal" size="11" face="default" />
     <font lang="cs" class="bold" size="13" face="Arial" />
     <font lang="cs" class="fixed" size="12" face="Lucida Console" />
@@ -356,7 +356,7 @@
     <entry lang="cs" key="IDT_KEYFILE_WARNING">UPOZORNĚNÍ: ztratíte-li souborový klíč nebo změní-li se jediný bit z prvních 1024 kilobajtů, bude nemožné připojit svazek používající souborový klíč.</entry>
     <entry lang="cs" key="IDT_KEY_UNIT">bitů</entry>
     <entry lang="cs" key="IDT_NUMBER_KEYFILES">Počet klíčů:</entry>
-    <entry lang="cs" key="IDT_KEYFILES_SIZE">Velikost klíče (v bajtech):</entry>
+    <entry lang="cs" key="IDT_KEYFILES_SIZE">Velikost klíče:</entry>
     <entry lang="cs" key="IDT_KEYFILES_BASE_NAME">Název úložiště klíče:</entry>
     <entry lang="cs" key="IDT_LANGPACK_AUTHORS">Přeložil:</entry>
     <entry lang="cs" key="IDT_PLAINTEXT">Velikost textu:</entry>
@@ -389,6 +389,7 @@
     <entry lang="cs" key="ADMINISTRATOR">Správce</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_DRIVER">Pro nahrání ovladače VeraCrypt musíte být přihlášeni jako správce systému.</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_WARN_DEVICES">Pro šifrování/formátování diskového oddílu/zařízení musíte být přihlášeni s oprávněním správce.\n\nTo se netýká svazků, které jsou vytvořeny ze souborů.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Pro vytvoření skrytého svazku musíte být přihlášeni s oprávněním správce.\n\nPokračovat?</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_WARN_NTFS">Pro zformátování svazku systémem NTFS musíte být přihlášeni s oprávněním správce.\n\nBez oprávnění správce můžete svazek zformátovat systémem souborů FAT.</entry>
     <entry lang="cs" key="AES_HELP">Šifra povolená FIPS (Rijndael, zveřejněno v roce 1998) kterou mohou používat úřady a agentury vlády Spojených států k ochraně utajovaných informací až k úrovni přísně tajné. 256-bitový klíč, 128-bitové  bloky, 14 iterací (AES-256). Operační režim je XTS.</entry>
@@ -938,7 +939,7 @@
     <entry lang="cs" key="ENTER_HEADER_BACKUP_PASSWORD">Zadejte heslo pro hlavičku uloženou v záložním souboru</entry>
     <entry lang="cs" key="KEYFILE_CREATED">Souborový klíč byl úspěšně vytvořen.</entry>
     <entry lang="cs" key="KEYFILE_INCORRECT_NUMBER">Počet poskytnutých souborových klíčů je neplatný.</entry>
-    <entry lang="cs" key="KEYFILE_INCORRECT_SIZE">Velikost souborových klíčů musí mít hodnotu mezi 64 a 1048576 bajtů.</entry>
+    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
     <entry lang="cs" key="KEYFILE_EMPTY_BASE_NAME">Prosím, zadejte název pro vygenerovaný souborový klíč</entry>
     <entry lang="cs" key="KEYFILE_INVALID_BASE_NAME">Základní název souborového klíče je neplatný</entry>
     <entry lang="cs" key="KEYFILE_ALREADY_EXISTS">Souborový klíč '%s' již existuje.\nPřejete si ho přepsat? Jeho vygenerování bude zastaveno, odpovíte-li „Ne”.</entry>
@@ -1521,6 +1522,7 @@
     <entry lang="cs" key="LINUX_NOT_SUPPORTED"> (není podporováno komponentami dostupnými na této platformě).\n</entry>
     <entry lang="cs" key="LINUX_KERNEL_OLD">Váš systém používá starou verzi linuxového jádra.\n\nV důsledku chyby v linuxovém jádře může systém přestat reagovat při zápisu dat na svazek VeraCryptu. Tento problém lze vyřešit aktualizací jádra na verzi 2.6.24 nebo novější.</entry>
     <entry lang="cs" key="LINUX_VOL_DISMOUNTED">Svazek {0} byl odpojen.</entry>
+    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="cs" key="LINUX_OOM">Nedostatek paměti.</entry>
     <entry lang="cs" key="LINUX_CANT_GET_ADMIN_PRIV">Nepodařilo se získat oprávnění správce systému</entry>
     <entry lang="cs" key="LINUX_COMMAND_GET_ERROR">Příkaz {0} vrátil chybu {1}.</entry>
@@ -1567,7 +1569,60 @@
     <entry lang="cs" key="VOLUME_HOST_IN_USE">UPOZORNĚNÍ: Hostitelský soubor/zařízení {0} je již používán!\n\nIgnorování této skutečnosti může způsobit nežádoucí výsledky včetně nestability systému. Všechny aplikace, které by mohly používat hostitelský soubor/zařízení, by měly být před připojením svazku ukončeny.\n\nPokračovat v připojení?</entry>
     <entry lang="cs" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt byl nainstalován pomocí balíčku MSI, a proto jej nelze aktualizovat pomocí standardního instalátoru.\n\nPro aktualizaci instalace VeraCrypt, použijte balíček MSI.</entry>
     <entry lang="cs" key="IDC_USE_ALL_FREE_SPACE">Využít veškeré dostupné volné místo</entry>
-	<entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
+    <entry lang="cs" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt nelze aktualizovat, jelikož systémový diskový oddíl/disk byl zašifrován pomocí algoritmu, který již není podporován.\nPřed aktualizací VeraCryptu dešifrujte systém a poté jej znovu zašifrujte.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_TERMINALNOTFOUND">Podporovaná terminálová aplikace nebyla nalezena, potřebujete buď xterm, konsole nebo gnome-terminal (s dbus-x11).</entry>
+    <entry lang="cs" key="IDM_MOUNT_NO_CACHE">Připojit bez mezipaměti</entry>
+    <entry lang="cs" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nRozšíření svazku VeraCryptu za běhu bez nutnosti přeformátování\n\n\nPodporovány jsou všechny druhy svazků (kontejnerové soubory, disky a diskové oddíly) naformátované systémem NTFS. Jedinou podmínkou je, že na hostitelské jednotce nebo hostitelském zařízení svazku VeraCrypt musí být dostatek volného místa.\n\nNepoužívejte tento software k rozšíření vnějšího svazku obsahujícího skrytý svazek, protože tím dojde ke zničení skrytého svazku!\n</entry>
+    <entry lang="cs" key="IDC_STEPSEXPAND">1. Vyberte svazek VeraCrypt, který chcete rozšířit\n2. Klikněte na tlačítko „Připojit”.</entry>
+    <entry lang="cs" key="IDT_VOL_NAME">Svazek: </entry>
+    <entry lang="cs" key="IDT_FILE_SYS">Souborový systém: </entry>
+    <entry lang="cs" key="IDT_CURRENT_SIZE">Aktuální velikost: </entry>
+    <entry lang="cs" key="IDT_NEW_SIZE">Nová velikost: </entry>
+    <entry lang="cs" key="IDT_NEW_SIZE_BOX_TITLE">Zadejte novou velikost svazku</entry>
+    <entry lang="cs" key="IDC_INIT_NEWSPACE">Vyplnit nové místo náhodnými daty</entry>
+    <entry lang="cs" key="IDC_QUICKEXPAND">Rychle rozšířit</entry>
+    <entry lang="cs" key="IDT_INIT_SPACE">Vyplnit nové místo: </entry>
+    <entry lang="cs" key="EXPANDER_FREE_SPACE">%s volného místa na hostitelské jednotce</entry>
+    <entry lang="cs" key="EXPANDER_HELP_DEVICE">Jedná se o svazek VeraCrypt založený na zařízení.\n\nVelikost nového svazku bude automaticky zvolena jako velikost hostitelského zařízení.</entry>
+    <entry lang="cs" key="EXPANDER_HELP_FILE">Zadejte novou velikost svazku VeraCrypt (musí být alespoň o %I64u KB větší než aktuální velikost)..</entry>
+    <entry lang="cs" key="QUICK_EXPAND_WARNING">UPOZORNĚNÍ: rychlé rozšíření byste měli použít pouze v následujících případech:\n\n1) Zařízení, na kterém je umístěn kontejner se soubory, neobsahuje žádná citlivá data a nepotřebujete je věrohodně popřít.\n2) Zařízení, na kterém je umístěn kontejner se soubory, již bylo bezpečně a plně zašifrováno.\n\nJste si jisti, že chcete použít Rychlé rozšíření?</entry>
+    <entry lang="cs" key="EXPANDER_STATUS_TEXT">DŮLEŽITÉ: v tomto okně pohybujte myší co nejnáhodněji. Čím déle s ní budete pohybovat, tím lépe. Tím se výrazně zvýší kryptografická síla šifrovacích klíčů. Poté pro zvětšení svazku klikněte na tlačítko „Pokračovat”.</entry>
+    <entry lang="cs" key="EXPANDER_STATUS_TEXT_LEGACY">Kliknutím na tlačítko „Pokračovat” zvětšíte svazek.</entry>
+    <entry lang="cs" key="EXPANDER_FINISH_ERROR">Chyba: rozšíření svazku se nepodařilo.</entry>
+    <entry lang="cs" key="EXPANDER_FINISH_ABORT">Chyba: uživatel přerušil operaci.</entry>
+    <entry lang="cs" key="EXPANDER_FINISH_OK">Dokončeno. Svazek byl úspěšně rozšířen.</entry>
+    <entry lang="cs" key="EXPANDER_CANCEL_WARNING">Upozornění:přerušení může mít za následek poškození svazku.\n\nChcete opravdu zrušit úkon?</entry>
+    <entry lang="cs" key="EXPANDER_STARTING_STATUS">Zahájení zvětšování svazku ...\n</entry>
+    <entry lang="cs" key="EXPANDER_HIDDEN_VOLUME_ERROR">Vnější svazek obsahující skrytý svazek nelze rozšířit, jelikož se tím bude skrytý svazek zničen.\n</entry>
+    <entry lang="cs" key="EXPANDER_SYSTEM_VOLUME_ERROR">Systémový svazek VeraCrypt nelze rozšířit.</entry>
+    <entry lang="cs" key="EXPANDER_NO_FREE_SPACE">Nedostatek volného místa pro zvětšení svazku</entry>
+    <entry lang="cs" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Upozornění: soubor kontejneru je větší než oblast svazku VeraCryptu. Data za oblastí svazku VeraCryptu budou přepsána.\n\nChcete pokračovat?</entry>
+    <entry lang="cs" key="EXPANDER_WARNING_FAT">Upozornění: rozšířen bude pouze samotný svazek VeraCryptu, ale ne souborový systém.\n\nChcete pokračovat?</entry>
+    <entry lang="cs" key="EXPANDER_WARNING_EXFAT">Upozornění: svazek VeraCrypt obsahuje souborový systém exFAT!\n\nRozšířen bude pouze samotný svazek VeraCryptu, ale ne souborový systém.\n\nChcete pokračovat?</entry>
+    <entry lang="cs" key="EXPANDER_WARNING_UNKNOWN_FS">Upozornění: Svazek VeraCryptu obsahuje neznámý nebo dokonce neobsahuje žádný souborový systém!\n\nRozšířen bude pouze samotný svazek VeraCryptu, souborový systém zůstane nezměněn.\n\nChcete pokračovat?</entry>
+    <entry lang="cs" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Příliš malá velikost nového svazku, musí být alespoň o %I64u kB větší než aktuální velikost.</entry>
+    <entry lang="cs" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Velikost nového svazku je příliš velká, na hostitelské jednotce není dostatek místa.</entry>
+    <entry lang="cs" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Překročena maximální velikost souboru %I64u MB na hostitelské jednotce.</entry>
+    <entry lang="cs" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Chyba: Nepodařilo se získat potřebná oprávnění k povolení funkce rychlého rozšíření!\nZrušte prosím zaškrtnutí možnosti rychlého rozšíření a zkuste to znovu.</entry>
+    <entry lang="cs" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximální velikost svazku VeraCryptu %I64u TB byla překročena!\n</entry>
+    <entry lang="cs" key="FULL_FORMAT">Plný formát</entry>
+    <entry lang="cs" key="FAST_CREATE">Rychle vytvořit</entry>
+    <entry lang="cs" key="WARN_FAST_CREATE">Upozornění: Rychlé vytvoření byste měli použít pouze v následujících případech:\n\n1) Zařízení neobsahuje žádná citlivá data a nepotřebujete věrohodné popření.\n2) Zařízení již bylo bezpečně a plně zašifrováno.\n\nJste si jisti, že chcete použít rychlé vytvoření?</entry>
+    <entry lang="cs" key="IDC_ENABLE_EMV_SUPPORT">Povolit podporu EMV</entry>
+    <entry lang="cs" key="COMMAND_APDU_INVALID">Příkaz APDU zaslaný na kartu není platný.</entry>
+    <entry lang="cs" key="EXTENDED_APDU_UNSUPPORTED">Rozšířené příkazy APDU nelze použít s aktuálním tokenem.</entry>
+    <entry lang="cs" key="SCARD_MODULE_INIT_FAILED">Chyba při načtení knihovny WinSCard / PCSC.</entry>
+    <entry lang="cs" key="EMV_UNKNOWN_CARD_TYPE">Karta ve čtečce není podporovanou kartou EMV.</entry>
+    <entry lang="cs" key="EMV_SELECT_AID_FAILED">AID karty ve čtečce nebylo možné vybrat.</entry>
+    <entry lang="cs" key="EMV_ICC_CERT_NOTFOUND">Certifikát veřejného klíče ICC nebyl na kartě nalezen.</entry>
+    <entry lang="cs" key="EMV_ISSUER_CERT_NOTFOUND">Certifikát veřejného klíče vydavatele nebyl na kartě nalezen.</entry>
+    <entry lang="cs" key="EMV_CPLC_NOTFOUND">CLPC nebyl na kartě EMV nalezen.</entry>
+    <entry lang="cs" key="EMV_PAN_NOTFOUND">Na kartě EMV nebylo nalezeno žádné číslo primárního účtu (PAN).</entry>
+    <entry lang="cs" key="INVALID_EMV_PATH">Cesta k EMV je neplatná.</entry>
+    <entry lang="cs" key="EMV_KEYFILE_DATA_NOTFOUND">Není možné sestavit soubor klíče z dat karty EMV.\n\nNení k dispozici jeden z následujících údajů:\n- Certifikát veřejného klíče ICC.\n- Certifikát veřejného klíče vydavatele.\n- Data CPCL.</entry>
+    <entry lang="cs" key="SCARD_W_REMOVED_CARD">Ve čtečce není žádná karta.\n\nZkontrolujte, zda je karta správně zasunuta.</entry>
+    <entry lang="cs" key="FORMAT_EXTERNAL_FAILED">Příkaz Windows format.com selhal při formátování svazku jako NTFS/exFAT/ReFS: Chyba 0x%.8X.\n\nPřechod zpět pro použití Windows FormatEx API.</entry>
+    <entry lang="cs" key="FORMATEX_API_FAILED">Windows FormatEx API se nepodařilo naformátovat svazek jako NTFS/exFAT/ReFS.\n\nStav selhání = %s.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

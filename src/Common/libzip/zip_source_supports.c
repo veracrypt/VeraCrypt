@@ -1,9 +1,9 @@
 /*
   zip_source_supports.c -- check for supported functions
-  Copyright (C) 2014-2019 Dieter Baron and Thomas Klausner
+  Copyright (C) 2014-2021 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -53,11 +53,11 @@ zip_source_make_command_bitmap(zip_source_cmd_t cmd0, ...) {
 
     va_start(ap, cmd0);
     for (;;) {
-	int cmd = va_arg(ap, int);
-	if (cmd < 0) {
-	    break;
-	}
-	bitmap |= ZIP_SOURCE_MAKE_COMMAND_BITMASK(cmd);
+        int cmd = va_arg(ap, int);
+        if (cmd < 0) {
+            break;
+        }
+        bitmap |= ZIP_SOURCE_MAKE_COMMAND_BITMASK(cmd);
     }
     va_end(ap);
 

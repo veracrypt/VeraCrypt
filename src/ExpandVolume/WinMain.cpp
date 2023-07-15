@@ -199,15 +199,40 @@ BOOL CheckSysEncMountWithoutPBA (const char *devicePath, BOOL quiet)
 
 static void InitMainDialog (HWND hwndDlg)
 {
+	MENUITEMINFOW info;
+	int i;
+	wchar_t *str;
+	int menuEntries[] = {IDM_ABOUT, IDM_HOMEPAGE};
 	/* Call the common dialog init code */
 	InitDialog (hwndDlg);
 	LocalizeDialog (hwndDlg, NULL);
+	DragAcceptFiles (hwndDlg, TRUE);
 
 	SendMessage (GetDlgItem (hwndDlg, IDC_VOLUME), CB_LIMITTEXT, TC_MAX_PATH, 0);
 	SetWindowTextW (hwndDlg, lpszTitle);
 
 	SendMessage (GetDlgItem (hwndDlg, IDC_INFOEXPAND), WM_SETFONT, (WPARAM) hBoldFont, (LPARAM) TRUE);
-	SetWindowText (GetDlgItem (hwndDlg, IDC_INFOEXPAND), szExpandVolumeInfo);
+	SetWindowText (GetDlgItem (hwndDlg, IDC_INFOEXPAND), GetString("EXPANDER_INFO"));
+
+	// Localize menu strings
+	for (i = 0; i < array_capacity (menuEntries); i++)
+	{
+		str = (wchar_t *)GetDictionaryValueByInt (menuEntries[i]);
+		if (str)
+		{
+			ZeroMemory (&info, sizeof(info));
+			info.cbSize = sizeof (info);
+			info.fMask = MIIM_TYPE;
+			info.fType = MFT_STRING;
+			if (GetMenuItemInfoW (GetMenu (hwndDlg), menuEntries[i], FALSE,  &info))
+			{
+				info.dwTypeData = str;
+				info.cch = (UINT) wcslen (str);
+
+				SetMenuItemInfoW (GetMenu (hwndDlg), menuEntries[i], FALSE,  &info);
+			}
+		}
+	}
 
 	// Resize the logo bitmap if the user has a non-default DPI
 	if (ScreenDPI != USER_DEFAULT_SCREEN_DPI
@@ -292,10 +317,12 @@ void LoadSettings (HWND hwndDlg)
 	defaultMountOptions.PartitionInInactiveSysEncScope = FALSE;
 	defaultMountOptions.RecoveryMode = FALSE;
 	defaultMountOptions.UseBackupHeader =  FALSE;
+	defaultMountOptions.SkipCachedPasswords = FALSE;
 
 	mountOptions = defaultMountOptions;
 
 	CloseSecurityTokenSessionsAfterMount = ConfigReadInt ("CloseSecurityTokenSessionsAfterMount", 0);
+	EMVSupportEnabled = ConfigReadInt ("EMVSupportEnabled", 0);
 
 	{
 		char szTmp[TC_MAX_PATH] = {0};
@@ -489,17 +516,6 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				FlashWindowEx (&flash);
 
 				SetWindowPos (hwndDlg, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			}
-
-			if (!bSecureDesktopOngoing)
-			{
-				PasswordEditDropTarget* pTarget = new PasswordEditDropTarget ();
-				if (pTarget->Register (hwndDlg))
-				{
-					SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) pTarget);
-				}
-				else
-					delete pTarget;
 			}
 		}
 		return 0;
@@ -793,19 +809,6 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			DragFinish (hdrop);
 		}
 		return 1;
-
-	case WM_NCDESTROY:
-		{
-			/* unregister drap-n-drop support */
-			PasswordEditDropTarget* pTarget = (PasswordEditDropTarget*) GetWindowLongPtr (hwndDlg, DWLP_USER);
-			if (pTarget)
-			{
-				SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) 0);
-				pTarget->Revoke ();
-				pTarget->Release();
-			}
-		}
-		return 0;
 	}
 
 	return 0;
@@ -1018,6 +1021,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		localcleanup ();
 		return 0;
 
+	case WM_DROPFILES:
+		{
+			HDROP hdrop = (HDROP) wParam;
+			DragQueryFile (hdrop, 0, szFileName, ARRAYSIZE (szFileName));
+			DragFinish (hdrop);
+
+			AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
+			SetFocus (GetDlgItem (hwndDlg, IDOK));
+		}
+		return 1;
+
 	case WM_COMMAND:
 
 		if (lw == IDCANCEL || lw == IDC_EXIT)
@@ -1036,7 +1050,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				wchar_t fileName[MAX_PATH];
 				GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), fileName, ARRAYSIZE (fileName));
-				ExpandVolumeWizard(hwndDlg, fileName);
+				if (!VolumePathExists (fileName))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+				}
+				else
+					ExpandVolumeWizard(hwndDlg, fileName);
 			}
 			return 1;
 		}

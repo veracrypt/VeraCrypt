@@ -190,6 +190,10 @@ ifeq "$(shell uname -s)" "Linux"
 
 	PLATFORM := Linux
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
+	
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+
 
 	# GNU GCC version 11 and higher compile with -std=gnu++17 by default
         # which breaks "byte" definitions in Crypto++ library. So set 
@@ -261,6 +265,8 @@ ifeq "$(shell uname -s)" "Linux"
 	
 	ifeq "$(origin WITHGTK3)" "command line"
 		WX_CONFIGURE_FLAGS += --with-gtk=3
+	else
+		WX_CONFIGURE_FLAGS += --with-gtk=2
 	endif
 
 endif
@@ -361,6 +367,9 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	PLATFORM := FreeBSD
 	PLATFORM_UNSUPPORTED := 1
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_FREEBSD
+
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
 	
 	CC := cc
 	CXX := c++
@@ -418,6 +427,9 @@ ifeq "$(shell uname -s)" "OpenBSD"
 	PLATFORM_UNSUPPORTED := 1
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_OPENBSD
 
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+
 	CC := cc
 	CXX := c++
 
@@ -440,6 +452,9 @@ ifeq "$(shell uname -s)" "SunOS"
 	C_CXX_FLAGS += -DTC_UNIX -DTC_SOLARIS
 	WX_CONFIGURE_FLAGS += --with-gtk
 
+	# PCSC
+	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+
 endif
 
 
@@ -452,8 +467,8 @@ LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-tracking --enable-exceptions --enable-std_string --enable-dataobj --enable-mimetype
 
 ifdef VC_WX_MINIMAL
-WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
-	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-webkit --disable-webview \
+WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --without-libcurl --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
+	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-addremovectrl --disable-webview \
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
 	--disable-animatectrl --disable-bmpcombobox --disable-calendar --disable-caret --disable-checklst --disable-collpane --disable-colourpicker --disable-comboctrl \

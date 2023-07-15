@@ -3,7 +3,7 @@
   Copyright (C) 2009-2020 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
-  The authors can be contacted at <libzip@nih.at>
+  The authors can be contacted at <info@libzip.org>
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -75,18 +75,18 @@ _zip_pkware_encrypt(zip_pkware_keys_t *keys, zip_uint8_t *out, const zip_uint8_t
     zip_uint8_t tmp;
 
     for (i = 0; i < len; i++) {
-	b = in[i];
+        b = in[i];
 
-	if (out != NULL) {
-	    tmp = crypt_byte(keys);
-	    update_keys(keys, b);
-	    b ^= tmp;
-	    out[i] = b;
-	}
-	else {
-	    /* during initialization, we're only interested in key updates */
-	    update_keys(keys, b);
-	}
+        if (out != NULL) {
+            tmp = crypt_byte(keys);
+            update_keys(keys, b);
+            b ^= tmp;
+            out[i] = b;
+        }
+        else {
+            /* during initialization, we're only interested in key updates */
+            update_keys(keys, b);
+        }
     }
 }
 
@@ -98,15 +98,15 @@ _zip_pkware_decrypt(zip_pkware_keys_t *keys, zip_uint8_t *out, const zip_uint8_t
     zip_uint8_t tmp;
 
     for (i = 0; i < len; i++) {
-	b = in[i];
+        b = in[i];
 
-	/* during initialization, we're only interested in key updates */
-	if (out != NULL) {
-	    tmp = crypt_byte(keys);
-	    b ^= tmp;
-	    out[i] = b;
-	}
+        /* during initialization, we're only interested in key updates */
+        if (out != NULL) {
+            tmp = crypt_byte(keys);
+            b ^= tmp;
+            out[i] = b;
+        }
 
-	update_keys(keys, b);
+        update_keys(keys, b);
     }
 }

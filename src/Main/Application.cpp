@@ -82,6 +82,7 @@ namespace VeraCrypt
 	{
 		mUserInterface = new GraphicUserInterface;
 		mUserInterfaceType = UserInterfaceType::Graphic;
+		wxSetEnv("WXSUPPRESS_SIZER_FLAGS_CHECK", "1");
 		return mUserInterface;
 	}
 #endif

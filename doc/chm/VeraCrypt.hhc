@@ -390,6 +390,20 @@
 			<param name="Name" value="Source Code">
 			<param name="Local" value="Source Code.html">
 			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Building VeraCrypt From Source">
+			<param name="Local" value="CompilingGuidelines.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Windows Build Guide">
+				<param name="Local" value="CompilingGuidelineWin.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Linux Build Guide">
+				<param name="Local" value="CompilingGuidelineLinux.html">
+				</OBJECT>
+		</UL>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Contact">

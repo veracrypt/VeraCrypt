@@ -1,6 +1,46 @@
 HISTORY of the LZMA SDK
 -----------------------
 
+23.01          2023-06-20
+-------------------------
+- 7-Zip now can use new ARM64 filter for compression to 7z and xz archives.
+  ARM64 filter can increase compression ratio for data containing executable 
+  files compiled for ARM64 (AArch64) architecture.
+  Also 7-Zip now parses executable files (that have exe and dll filename extensions) 
+  before compressing, and it selects appropriate filter for each parsed file: 
+    - BCJ or BCJ2 filter for x86 executable files,
+    - ARM64 filter for ARM64 executable files.
+  Previous versions by default used x86 filter BCJ or BCJ2 for all exe/dll files.
+- Default section size for BCJ2 filter was changed from 64 MiB to 240 MiB.
+  It can increase compression ratio for executable files larger than 64 MiB.
+- Some optimizations in filters code: BCJ, BCJ2, Swap* and opthers.
+- If 7-Zip uses BCJ2 filter for big datasets compressing, it can use additional temp 
+  files in system's TEMP folder. 7-Zip uses temp file for additional compressed 
+  data stream, if size of such compressed stream is larger than predefined limit: 
+  16 MiB in 32-bit version, 4 GiB in 64-bit version.
+- When new 7-Zip creates multivolume archive, 7-Zip keeps in open state
+  only volumes that still can be changed. Previous versions kept all volumes 
+  in open state until the end of the archive creation.
+- 7-Zip for Linux and macOS now can reduce the number of simultaneously open files,
+  when 7-Zip opens, extracts or creates multivolume archive. It allows to avoid 
+  the failures for cases with big number of volumes, bacause there is a limitation 
+  for number of open files allowed for a single program in Linux and macOS.
+- Some bugs were fixed.
+- Source code changes:
+- All external macros for compiling C/C++ code of 7-Zip now have Z7_ prefix.
+- 7-Zip COM interfaces now use new macros that allow to declare and implement COM interface.
+- The code has been modified to compile with the maximum diagnostic warning level:
+    -Wall in MSVC and -Weverything in CLANG.
+  And some warning types are disabled in 2 files:
+    - C/Compiler.h for C/C++ code warnings.
+    - CPP/Common/Common.h for C++ code warnings.
+- Linux/macOS versions of 7-Zip: IUnknown interface in new code doesn't use 
+  virtual destructor that was used in previous 7-Zip and p7zip:
+     // virtual ~IUnknown() {}
+  So 7-Zip's dynamically linked shared libraries (codecs) are not compatible 
+  between new 7-Zip for Linux/macOS and old 7-Zip (and p7zip).
+
+
 21.07          2021-12-26
 -------------------------
 - New switches: -spm and -im!{file_path} to exclude directories from processing 

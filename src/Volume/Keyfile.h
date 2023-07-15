@@ -29,7 +29,7 @@ namespace VeraCrypt
 		virtual ~Keyfile () { };
 
 		operator FilesystemPath () const { return Path; }
-		static shared_ptr <VolumePassword> ApplyListToPassword (shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> password);
+		static shared_ptr <VolumePassword> ApplyListToPassword (shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> password, bool emvSupportEnabled = false);
 		static shared_ptr <KeyfileList> DeserializeList (shared_ptr <Stream> stream, const string &name);
 		static void SerializeList (shared_ptr <Stream> stream, const string &name, shared_ptr <KeyfileList> keyfiles);
 		static bool WasHiddenFilePresentInKeyfilePath() { bool r = HiddenFileWasPresentInKeyfilePath; HiddenFileWasPresentInKeyfilePath = false; return r; }
@@ -38,7 +38,7 @@ namespace VeraCrypt
 		static const size_t MaxProcessedLength = 1024 * 1024;
 
 	protected:
-		void Apply (const BufferPtr &pool) const;
+		void Apply (const BufferPtr &pool, bool emvSupportEnabled) const;
 
 		static bool HiddenFileWasPresentInKeyfilePath;
 

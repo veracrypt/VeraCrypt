@@ -308,6 +308,9 @@
     <ClCompile Include="Aeskey.c" />
     <ClCompile Include="Aestab.c" />
     <ClCompile Include="blake2s.c" />
+    <ClCompile Include="blake2s_SSE2.c" />
+    <ClCompile Include="blake2s_SSE41.c" />
+    <ClCompile Include="blake2s_SSSE3.c" />
     <ClCompile Include="Camellia.c" />
     <ClCompile Include="chacha-xmm.c" />
     <ClCompile Include="chacha256.c" />

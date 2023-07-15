@@ -69,26 +69,34 @@ FORMAT_VOL_PARAMETERS;
 #define FMIFS_CHECKDISK_PROGRESS 0x19
 #define FMIFS_READ_ONLY_MODE 0x20
 
+#define FMIFS_REMOVAL	0xB
 #define FMIFS_HARDDISK	0xC
 
 extern int FormatWriteBufferSize;
 
 int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams);
-BOOL FormatNtfs (int driveNo, int clusterSize);
-BOOL FormatFs (int driveNo, int clusterSize, int fsType);
-BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType);
+int FormatNtfs (int driveNo, int clusterSize, BOOL bFallBackExternal);
+int FormatFs (int driveNo, int clusterSize, int fsType, BOOL bFallBackExternal);
+int ExternalFormatFs (int driveNo, int clusterSize, int fsType);
+LPCWSTR FormatExGetMessage (int command);
 uint64 GetVolumeDataAreaSize (BOOL hiddenVolume, uint64 volumeSize);
-int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors, void *dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat);
-BOOL WriteSector ( void *dev , char *sector , char *write_buf , int *write_buf_cnt , __int64 *nSecNo , PCRYPTO_INFO cryptoInfo );
+int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num_sectors, void *dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice);
+BOOL WriteSector ( void *dev , char *sector , char *write_buf , int *write_buf_cnt , unsigned __int64 *nSecNo , unsigned __int64 startSector, PCRYPTO_INFO cryptoInfo );
 BOOL FlushFormatWriteBuffer (void *dev, char *write_buf, int *write_buf_cnt, __int64 *nSecNo, PCRYPTO_INFO cryptoInfo);
 static BOOL StartFormatWriteThread ();
 static void StopFormatWriteThread ();
+BOOL MoveFilePointer (HANDLE dev, LARGE_INTEGER offset);
 
 #define FILESYS_NONE	0
 #define FILESYS_FAT		1
 #define FILESYS_NTFS	2
 #define FILESYS_EXFAT	3
 #define FILESYS_REFS	4
+
+#define FORMAT_TYPE_FULL		0
+#define FORMAT_TYPE_QUICK		1
+#define FORMAT_TYPE_FAST		2
+
 
 #ifdef __cplusplus
 }

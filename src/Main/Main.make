@@ -200,7 +200,7 @@ endif
 
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt_Volume.icns $(APPNAME).app/Contents/Resources
-	cp $(BASE_DIR)/../doc/html/* $(APPNAME).app/Contents/Resources/doc/HTML
+	cp -R $(BASE_DIR)/../doc/html/* $(APPNAME).app/Contents/Resources/doc/HTML
 	cp $(BASE_DIR)/../Translations/* $(APPNAME).app/Contents/Resources/languages
 
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
@@ -252,7 +252,7 @@ prepare: $(APPNAME)
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME)-uninstall.sh $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
 	chmod +x $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
 	cp $(BASE_DIR)/License.txt $(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/License.txt
-	cp $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML"
+	cp -R $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML"
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages
 	cp -r $(BASE_DIR)/../Translations/* $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages/
 
@@ -284,7 +284,7 @@ package: prepare
 	@echo "VERSION=$(TC_VERSION)" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_TYPE=tar" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_NAME=$(PACKAGE_NAME)" >> $(INTERNAL_INSTALLER_NAME)
-	@echo "PACKAGE_START=1107" >> $(INTERNAL_INSTALLER_NAME)
+	@echo "PACKAGE_START=1112" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
 
 	@cat $(BASE_DIR)/Setup/Linux/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
@@ -309,7 +309,7 @@ prepare: $(APPNAME)
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME)-uninstall.sh $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
 	chmod +x $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
 	cp $(BASE_DIR)/License.txt $(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/License.txt
-	cp $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/HTML"
+	cp -R $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/HTML"
 
 ifndef TC_NO_GUI
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/applications
@@ -338,7 +338,7 @@ package: prepare
 	@echo "VERSION=$(TC_VERSION)" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_TYPE=tar" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_NAME=$(PACKAGE_NAME)" >> $(INTERNAL_INSTALLER_NAME)
-	@echo "PACKAGE_START=1107" >> $(INTERNAL_INSTALLER_NAME)
+	@echo "PACKAGE_START=1108" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
 
 	@cat $(BASE_DIR)/Setup/FreeBSD/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)

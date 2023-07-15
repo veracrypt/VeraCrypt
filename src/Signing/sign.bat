@@ -1,7 +1,7 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
-set VC_VERSION=1.26
-set VC_VERSION_NBRE=1.26.0
+set VC_VERSION=1.26.3
+set VC_VERSION_NBRE=1.26.3
 set SIGNINGPATH=%~dp0
 cd %SIGNINGPATH%
 
@@ -31,7 +31,7 @@ del Languages.zip
 rmdir /S /Q docs
 mkdir docs\html\en
 mkdir docs\EFI-DCS
-copy /V /Y ..\..\..\doc\html\* docs\html\en\.
+xcopy /E /V /Y ..\..\..\doc\html\* docs\html\en\.
 copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
 copy "..\..\..\doc\EFI-DCS\*.pdf" docs\EFI-DCS\.
 del docs.zip

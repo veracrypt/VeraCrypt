@@ -593,7 +593,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 		offset.QuadPart = TC_VOLUME_DATA_OFFSET + dataAreaSize;
 
-		if (!SetFilePointerEx (dev, offset, NULL, FILE_BEGIN))
+		if (!MoveFilePointer (dev, offset))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -639,7 +639,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 		offset.QuadPart += TC_HIDDEN_VOLUME_HEADER_OFFSET;
 
-		if (!SetFilePointerEx (dev, offset, NULL, FILE_BEGIN))
+		if (!MoveFilePointer (dev, offset))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -916,7 +916,7 @@ inplace_enc_read:
 
 		offset.QuadPart = masterCryptoInfo->EncryptedAreaStart.Value - workChunkSize - TC_VOLUME_DATA_OFFSET;
 
-		if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0)
+		if (MoveFilePointer (dev, offset) == 0)
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -1007,14 +1007,14 @@ inplace_enc_read:
 					memcpy (wipeRandCharsUpdate, wipeBuffer, sizeof (wipeRandCharsUpdate));
 				}
 
-				if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+				if (MoveFilePointer (dev, offset) == 0
 					|| WriteFile (dev, wipeBuffer, workChunkSize, &n, NULL) == 0)
 				{
 					// Write error
 					dwError = GetLastError();
 
 					// Undo failed write operation
-					if (workChunkSize > TC_VOLUME_DATA_OFFSET && SetFilePointerEx (dev, offset, NULL, FILE_BEGIN))
+					if (workChunkSize > TC_VOLUME_DATA_OFFSET && MoveFilePointer (dev, offset))
 					{
 						DecryptDataUnits ((byte *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
 						WriteFile (dev, buf + TC_VOLUME_DATA_OFFSET, workChunkSize - TC_VOLUME_DATA_OFFSET, &n, NULL);
@@ -1034,7 +1034,7 @@ inplace_enc_read:
 
 		offset.QuadPart = masterCryptoInfo->EncryptedAreaStart.Value - workChunkSize;
 
-		if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0)
+		if (MoveFilePointer (dev, offset) == 0)
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -1046,7 +1046,7 @@ inplace_enc_read:
 			dwError = GetLastError();
 
 			// Undo failed write operation
-			if (workChunkSize > TC_VOLUME_DATA_OFFSET && SetFilePointerEx (dev, offset, NULL, FILE_BEGIN))
+			if (workChunkSize > TC_VOLUME_DATA_OFFSET && MoveFilePointer (dev, offset))
 			{
 				DecryptDataUnits ((byte *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
 				WriteFile (dev, buf + TC_VOLUME_DATA_OFFSET, workChunkSize - TC_VOLUME_DATA_OFFSET, &n, NULL);
@@ -1148,7 +1148,7 @@ inplace_enc_read:
 
 			offset.QuadPart = TC_VOLUME_HEADER_OFFSET;
 
-			if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+			if (MoveFilePointer (dev, offset) == 0
 				|| !WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
 			{
 				nStatus = ERR_OS_ERROR;
@@ -1207,7 +1207,7 @@ inplace_enc_read:
 
 			offset.QuadPart += TC_HIDDEN_VOLUME_HEADER_OFFSET;
 
-			if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+			if (MoveFilePointer (dev, offset) == 0
 				|| !WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
 			{
 				nStatus = ERR_OS_ERROR;
@@ -1544,7 +1544,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 
 		offset.QuadPart = workChunkStartByteOffset;
 
-		if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0)
+		if (MoveFilePointer (dev, offset) == 0)
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -1578,7 +1578,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 
 					for (tmpSectorCount = workChunkSize / sectorSize; tmpSectorCount > 0; --tmpSectorCount)
 					{
-						if (SetFilePointerEx (dev, tmpSectorOffset, NULL, FILE_BEGIN) == 0)
+						if (MoveFilePointer (dev, tmpSectorOffset) == 0)
 						{
 							nStatus = ERR_OS_ERROR;
 							goto closing_seq;
@@ -1640,7 +1640,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 
 		offset.QuadPart = workChunkStartByteOffset - TC_VOLUME_DATA_OFFSET;
 
-		if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0)
+		if (MoveFilePointer (dev, offset) == 0)
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -1724,7 +1724,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 			offset.QuadPart <= deviceSize - sectorSize;
 			offset.QuadPart += sectorSize)
 		{
-			if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0)
+			if (MoveFilePointer (dev, offset) == 0)
 			{
 				nStatus = ERR_OS_ERROR;
 				goto closing_seq;
@@ -1864,7 +1864,7 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 
 	offset.QuadPart = deviceSize - TC_VOLUME_HEADER_GROUP_SIZE;
 
-	if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+	if (MoveFilePointer (dev, offset) == 0
 		|| !ReadEffectiveVolumeHeader (TRUE, dev, header, &n) || n < TC_VOLUME_HEADER_EFFECTIVE_SIZE)
 	{
 		nStatus = ERR_OS_ERROR;
@@ -1913,7 +1913,7 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 	EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
 
 
-	if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+	if (MoveFilePointer (dev, offset) == 0
 		|| !WriteEffectiveVolumeHeader (TRUE, dev, header))
 	{
 		nStatus = ERR_OS_ERROR;
@@ -2092,7 +2092,7 @@ static int ConcealNTFS (HANDLE dev)
 
 	offset.QuadPart = 0;
 
-	if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0)
+	if (MoveFilePointer (dev, offset) == 0)
 		return ERR_OS_ERROR;
 
 	if (ReadFile (dev, buf, TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE, &nbrBytesProcessed, NULL) == 0)
@@ -2103,7 +2103,7 @@ static int ConcealNTFS (HANDLE dev)
 
 	offset.QuadPart = 0;
 
-	if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0)
+	if (MoveFilePointer (dev, offset) == 0)
 		return ERR_OS_ERROR;
 
 	if (WriteFile (dev, buf, TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE, &nbrBytesProcessed, NULL) == 0)
@@ -2122,7 +2122,7 @@ static int ConcealNTFS (HANDLE dev)
 		{
 			Sleep (1);
 		}
-		while (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+		while (MoveFilePointer (dev, offset) == 0
 			|| WriteFile (dev, buf, TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE, &nbrBytesProcessed2, NULL) == 0);
 
 		SetLastError (dwError);
@@ -2198,6 +2198,35 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm, 
 	return SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC), (DWORD) strlen(str), FALSE, FALSE);
 }
 
+// This function moves the file pointer to the given offset. It first retrieves the current
+// file position using SetFilePointerEx() with FILE_CURRENT as the reference point, and then
+// calculates the difference between the current position and the desired position. Subsequently,
+// it moves the file pointer by the difference calculated using SetFilePointerEx() again.
+//
+// This approach of moving the file pointer relatively (instead of absolutely) was implemented 
+// as a workaround to address the performance issues related to in-place encryption. When using
+// SetFilePointerEx() with FILE_BEGIN as the reference point, reaching the end of large drives 
+// during in-place encryption can cause significant slowdowns. By moving the file pointer
+// relatively, these performance issues are mitigated.
+BOOL MoveFilePointer (HANDLE dev, LARGE_INTEGER offset)
+{
+	LARGE_INTEGER currOffset;
+	LARGE_INTEGER diffOffset;
+
+	currOffset.QuadPart = 0;
+	if (SetFilePointerEx (dev, currOffset, &currOffset, FILE_CURRENT) == 0)
+		return FALSE;
+
+	diffOffset.QuadPart = offset.QuadPart - currOffset.QuadPart;
+	if (diffOffset.QuadPart == 0)
+		return TRUE;
+
+	// Moves the file pointer by the difference between current and desired positions
+	if (SetFilePointerEx (dev, diffOffset, NULL, FILE_CURRENT) == 0)
+		return FALSE;
+
+	return TRUE;
+}
 
 // Repairs damaged sectors (i.e. those with read errors) by zeroing them.
 // Note that this operating fails if there are any write errors.
@@ -2217,7 +2246,7 @@ int ZeroUnreadableSectors (HANDLE dev, LARGE_INTEGER startOffset, int64 size, in
 	if (!sectorBuffer)
 		return ERR_OUTOFMEMORY;
 
-	if (SetFilePointerEx (dev, startOffset, NULL, FILE_BEGIN) == 0)
+	if (!MoveFilePointer(dev, workOffset))
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
@@ -2230,7 +2259,8 @@ int ZeroUnreadableSectors (HANDLE dev, LARGE_INTEGER startOffset, int64 size, in
 		{
 			memset (sectorBuffer, 0, sectorSize);
 
-			if (SetFilePointerEx (dev, workOffset, NULL, FILE_BEGIN) == 0)
+            // If ReadFile failed, move back to start of the unreadable sector
+            if (MoveFilePointer (dev, workOffset) == 0)
 			{
 				nStatus = ERR_OS_ERROR;
 				goto closing_seq;
@@ -2281,7 +2311,7 @@ static int OpenBackupHeader (HANDLE dev, const wchar_t *devicePath, Password *pa
 
 	offset.QuadPart = deviceSize - TC_VOLUME_HEADER_GROUP_SIZE;
 
-	if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+	if (MoveFilePointer (dev, offset) == 0
 		|| !ReadEffectiveVolumeHeader (TRUE, dev, (byte *) header, &n) || n < TC_VOLUME_HEADER_EFFECTIVE_SIZE)
 	{
 		nStatus = ERR_OS_ERROR;

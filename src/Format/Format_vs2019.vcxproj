@@ -557,6 +557,17 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\CommandAPDU.cpp" />
+    <ClCompile Include="..\Common\EMVCard.cpp" />
+    <ClCompile Include="..\Common\EMVToken.cpp" />
+    <ClCompile Include="..\Common\PCSCException.cpp" />
+    <ClCompile Include="..\Common\ResponseAPDU.cpp" />
+    <ClCompile Include="..\Common\SCard.cpp" />
+    <ClCompile Include="..\Common\SCardLoader.cpp" />
+    <ClCompile Include="..\Common\SCardManager.cpp" />
+    <ClCompile Include="..\Common\SCardReader.cpp" />
+    <ClCompile Include="..\Common\TLVParser.cpp" />
+    <ClCompile Include="..\Common\Token.cpp" />
     <ClCompile Include="FormatCom.cpp" />
     <ClCompile Include="InPlace.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
@@ -642,16 +653,27 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\BaseCom.h" />
+    <ClInclude Include="..\Common\CommandAPDU.h" />
     <ClInclude Include="..\Common\Common.h" />
     <ClInclude Include="..\Common\Crc.h" />
     <ClInclude Include="..\Common\Crypto.h" />
     <ClInclude Include="..\Common\Dictionary.h" />
     <ClInclude Include="..\Common\Dlgcode.h" />
+    <ClInclude Include="..\Common\EMVCard.h" />
+    <ClInclude Include="..\Common\EMVToken.h" />
     <ClInclude Include="..\Common\EncryptionThreadPool.h" />
     <ClInclude Include="..\Common\Endian.h" />
     <ClInclude Include="..\Common\Exception.h" />
     <ClInclude Include="..\Common\Fat.h" />
     <ClInclude Include="..\Common\Format.h" />
+    <ClInclude Include="..\Common\PCSCException.h" />
+    <ClInclude Include="..\Common\ResponseAPDU.h" />
+    <ClInclude Include="..\Common\SCard.h" />
+    <ClInclude Include="..\Common\SCardLoader.h" />
+    <ClInclude Include="..\Common\SCardManager.h" />
+    <ClInclude Include="..\Common\SCardReader.h" />
+    <ClInclude Include="..\Common\TLVParser.h" />
+    <ClInclude Include="..\Common\Token.h" />
     <ClInclude Include="FormatCom.h" />
     <ClInclude Include="..\Common\GfMul.h" />
     <ClInclude Include="InPlace.h" />
