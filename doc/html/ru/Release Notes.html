@@ -42,7 +42,75 @@
 внешние, так и скрытые тома, включая шифрование системы и скрытую ОС, и удалить существующие тома, созданные версией
 VeraCrypt старее, чем 1.18a.</span></li>
 </p>
-<p><strong style="text-align:left">1.25.9</strong> (19 февраля 2022)</p>
+<p><strong style="text-align:left">1.26.3</strong> (2 июля 2023 года):</p>
+<ul>
+<li><strong>Все ОС:</strong>
+<ul>
+<li>Добавлена поддержка BLAKE2s в качестве нового алгоритма PRF как для системного шифрования, так и для стандартных томов.</li>
+<li>Представляем встроенную интеграцию банковских смарт-карт EMV для несистемных томов.
+<ul>
+<li>Нет необходимости настраивать отдельный модуль PKCS#11.</li>
+<li>Не требуется PIN-код карты.</li>
+<li>Для безопасного генерирования содержимого ключевого файла используются уникальные закодированные данные, имеющиеся на банковской карте.</li>
+<li>Поддерживаются все банковские карты, соответствующие стандарту EMV.</li>
+<li>Поддержку EMV нужно включить в настройках программы (меню <em>Настройки->Токены безопасности</em>).</li>
+<li>Разработано командой студентов из <a href="https://www.insa-rennes.fr">Institut national des sciences appliquées de Rennes</a> (Национального института прикладных наук Ренна).</li>
+<li>Репозитарий проекта на Github: <a href="https://github.com/veracrypt-EMV-INSA-Rennes-4INFO/VeraCrypt_EMV">https://github.com/veracrypt-EMV-INSA-Rennes-4INFO/VeraCrypt_EMV</a></li>
+</ul>
+</li>
+<li>Полностью удалены алгоритмы RIPEMD160 и GOST89 (ГОСТ 28147-89). Устаревшие тома, использующие любой из них, больше не могут быть смонтированы в VeraCrypt.</li>
+<li>Добавлена поддержка корсиканского языка. Обновлено несколько переводов. </li>
+<li>Обновлена документация.</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>Загрузчик EFI:
+<ul>
+<li>Исправлена ошибка в обработке значения PasswordTimeout, из-за которой оно ограничивалось 255 секундами.</li>
+<li>Rescue Disk: улучшен "Boot Original Windows Loader" благодаря использованию встроенной резервной копии исходного загрузчика Windows, если он отсутствует на диске.</li>
+<li>Добавлен BLAKE2s, удалены RIPEMD160 и GOST89.</li>
+</ul>
+</li>
+<li>Добавлено выпадающее меню к кнопке <em>Смонтировать</em>, позволяющее монтировать без использования кэша.</li>
+<li>Возможный обход логарифмического замедления шифрования на месте на больших томах.</li>
+<li>Исправлена проблема с зависанием, вызванная быстрым форматированием больших файловых контейнеров.</li>
+<li>Расширитель томов (Expander) сначала проверяет наличие файла, прежде чем продолжить.</li>
+<li>Возможен выбор единицы размера (КБ/МБ/ГБ) для генерируемых ключевых файлов.</li>
+<li>Во избежание тихого сбоя при быстром создании файловых контейнеров отображается предупреждение, если недостаёт прав.</li>
+<li>При создании файловых контейнеров разрешён выбор быстрого создания в пользовательском интерфейсе мастера форматирования.</li>
+<li>Исправлены проблемы с форматированием при создании тома на некоторых машинах.</li>
+<li>При создании томов отображается полный список поддерживаемых размеров кластеров для файловых систем NTFS, ReFS и exFAT.</li>
+<li>Добавлена поддержка перетаскивания файлов и ключевых файлов в Расширителе томов (Expander).</li>
+<li>Реализован перевод интерфейса Расширителя томов (Expander).</li>
+<li>Обновлена библиотека LZMA до версии 23.01.</li>
+<li>Обновлены библиотеки libzip до версии 1.9.2 и zlib до версии 1.2.13.</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Исправлена ошибка в генераторе случайных чисел в Linux при использовании с BLAKE2s, которая вызывала сбой самопроверки.</li>
+<li>Изменён генератор случайных чисел в Linux, чтобы он точно соответствовал официальной документации и реализации в Windows.</li> 
+<li>Исправлены проблемы совместимости с Ubuntu 23.04.</li>
+<li>Исправлены сообщения об утверждениях, отображаемые при использовании wxWidgets 3.1.6 и новее.</li>
+<li>Исправлены проблемы с запуском fsck в Linux.</li>
+<li>Исправлено игнорирование запросов на повышение привилегий.</li>
+<li>Исправлен неправильный размер скрытого тома при выборе опции использования всего свободного места.</li>
+<li>Исправлены различные проблемы при работе в текстовом режиме:
+<ul>
+<li>Запрет выбора файловых систем exFAT/BTRFS, если они отсутствуют или несовместимы с созданным томом.</li>
+<li>Исправлено неправильное сообщение о размонтировании, отображаемое при монтировании тома.</li>
+<li>Скрытие PIM при вводе и повторный запрос PIM при вводе неправильного значения.</li>
+<li>Исправлена ошибка печати при проверке свободного места во время создания тома в несуществующем пути.</li>
+</ul>
+</li>
+<li>Для статических сборок (например только консольной версии) используется wxWidgets 3.2.2.1.</li>
+<li>Исправлена совместимость универсальных установщиков со старыми дистрибутивами Linux.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.25.9</strong> (19 февраля 2022 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -79,7 +147,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </ul>
 </li>
 </ul>
-<p><strong style="text-align:left">1.25.7</strong> (7 января 2022)</p>
+<p><strong style="text-align:left">1.25.7</strong> (7 января 2022 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -115,7 +183,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </ul>
 </li>
 </ul>
-<p><strong style="text-align:left">1.25.4</strong> (3 декабря 2021)</p>
+<p><strong style="text-align:left">1.25.4</strong> (3 декабря 2021 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -185,7 +253,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.24-Update8</strong> (28 ноября 2020)</p>
+<p><strong style="text-align:left">1.24-Update8</strong> (28 ноября 2020 года)</p>
 <ul>
 <li><strong>Mac OS X:</strong>
 <ul>
@@ -194,7 +262,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.24-Update7</strong> (7 августа 2020)</p>
+<p><strong style="text-align:left">1.24-Update7</strong> (7 августа 2020 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -240,7 +308,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.24-Update6 </strong>(10 марта 2020)</p>
+<p><strong style="text-align:left">1.24-Update6 </strong>(10 марта 2020 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -250,7 +318,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.24-Update5 </strong>(9 марта 2020)</p>
+<p><strong style="text-align:left">1.24-Update5 </strong>(9 марта 2020 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -264,7 +332,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.24-Update4 </strong>(23 января 2020)</p>
+<p><strong style="text-align:left">1.24-Update4 </strong>(23 января 2020 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -288,7 +356,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.24-Update3 </strong>(21 декабря 2019)</p>
+<p><strong style="text-align:left">1.24-Update3 </strong>(21 декабря 2019 года)</p>
 <ul>
 <li><strong>Linux:</strong>
 <ul>
@@ -297,7 +365,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.24-Update2 </strong>(16 декабря 2019)</p>
+<p><strong style="text-align:left">1.24-Update2 </strong>(16 декабря 2019 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -363,7 +431,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </ul>
 
 
-<p><strong style="text-align:left">1.24-Hotfix1 </strong>(27 октября 2019)</p>
+<p><strong style="text-align:left">1.24-Hotfix1 </strong>(27 октября 2019 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -395,7 +463,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </ul>
 
 
-<p><strong style="text-align:left">1.24 </strong>(6 октября 2019)</p>
+<p><strong style="text-align:left">1.24 </strong>(6 октября 2019 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -467,7 +535,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.23-Hotfix-2 </strong>(8 октября 2018)</p>
+<p><strong style="text-align:left">1.23-Hotfix-2 </strong>(8 октября 2018 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -486,7 +554,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.23 </strong>(12 сентября 2018)</p>
+<p><strong style="text-align:left">1.23 </strong>(12 сентября 2018 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -527,7 +595,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </ul>
 
 
-<p><strong style="text-align:left">1.22 </strong>(30 марта 2018)</p>
+<p><strong style="text-align:left">1.22 </strong>(30 марта 2018 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -568,7 +636,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.21 </strong>(9 июля 2017)</p>
+<p><strong style="text-align:left">1.21 </strong>(9 июля 2017 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -595,7 +663,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.20 </strong>(29 июня 2017)</p>
+<p><strong style="text-align:left">1.20 </strong>(29 июня 2017 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -666,7 +734,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 </ul>
 
-<p><strong style="text-align:left">1.19 </strong>(17 октября 2016)</p>
+<p><strong style="text-align:left">1.19 </strong>(17 октября 2016 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -700,7 +768,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <li>Удалена зависимость от уровня совместимости MacFUSE в OSXFuse.</li></ul>
 </li></ul>
 <p>&nbsp;</p>
-<p><strong style="text-align:left">1.18a </strong>(17 августа 2016)</p>
+<p><strong style="text-align:left">1.18a </strong>(17 августа 2016 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -738,7 +806,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <li>Решена проблема совместимости с новыми версиями OSXFuse.</li></ul>
 </li></ul>
 <p>&nbsp;</p>
-<p><strong style="text-align:left">1.17 </strong>(13 февраля 2016)</p>
+<p><strong style="text-align:left">1.17 </strong>(13 февраля 2016 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -775,7 +843,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <li>Поддержка суффиксов K/M/G/T в ключе <code>--size</code>, указывающих единицу размера.</li>
 </ul>
 </li></ul>
-<p id="116"><strong style="text-align:left">1.16 (7 октября 2015)</strong></p>
+<p id="116"><strong style="text-align:left">1.16 </strong>(7 октября 2015 года)</p>
 <ul>
 <li><strong><strong>Windows:</strong></strong>
 <ul>
@@ -788,7 +856,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 </li></ul>
 </li></ul>
-<p><strong style="text-align:left">1.15 </strong>(26 сентября 2015)</p>
+<p><strong style="text-align:left">1.15 </strong>(26 сентября 2015 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
@@ -804,7 +872,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <li>Поддержка указания размера томов в терабайтах в графическом интерфейсе (в командной строке это уже поддерживалось).</li>
 </ul>
 </li></ul>
-<p><strong style="text-align:left">1.14 </strong>(16 сентября 2015)</p>
+<p><strong style="text-align:left">1.14 </strong>(16 сентября 2015 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -841,13 +909,13 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 </li></ul>
 </li></ul>
-<p><strong style="text-align:left">1.13 </strong>(9 августа 2015)</p>
+<p><strong style="text-align:left">1.13 </strong>(9 августа 2015 года)</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
 <li>Устранён сбой TOR при запуске с тома VeraCrypt.</li></ul>
 </li></ul>
-<p><strong style="text-align:left">1.12 </strong>(5 августа 2015)</p>
+<p><strong style="text-align:left">1.12 </strong>(5 августа 2015 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -893,7 +961,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 </li></ul>
 </li></ul>
-<p id="1.0f-2"><strong style="text-align:left">1.0f-2</strong> (5 апреля 2015)</p>
+<p id="1.0f-2"><strong style="text-align:left">1.0f-2</strong> (5 апреля 2015 года)</p>
 <ul>
 <li><strong>Все ОС:</strong>
 <ul>
@@ -932,7 +1000,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <li>Устранены различные проблемы с установщиком при работе в не слишком распространённых конфигурациях.</li>
 <li>Незначительные исправления (см. подробности в git-истории).</li></ul>
 </li></ul>
-<p><strong style="text-align:left">1.0f-1 </strong>(4 января 2015)</p>
+<p><strong style="text-align:left">1.0f-1 </strong>(4 января 2015 года)</p>
 <ul>
 <li><strong>Все ОС</strong>:
 <ul>
@@ -988,7 +1056,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <li>Несколько незначительных исправлений.</li></ul>
 </li></ul>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<strong style="text-align:left">1.0e </strong>(4 сентября 2014)</div>
+<strong style="text-align:left">1.0e </strong>(4 сентября 2014 года)</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <ul>
 <li><strong style="text-align:left">Улучшения и исправления ошибок:</strong>
@@ -1001,7 +1069,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
-<strong style="text-align:left">1.0d </strong>(3 июня 2014)</div>
+<strong style="text-align:left">1.0d </strong>(3 июня 2014 года)</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <ul>
 <li><strong style="text-align:left">Улучшения и исправления ошибок:</strong>
