@@ -33,7 +33,6 @@
 
 #include "zipint.h"
 
-#include <limits.h>
 #include <stdlib.h>
 #include <zstd.h>
 #include <zstd_errors.h>
@@ -56,21 +55,20 @@ maximum_compressed_size(zip_uint64_t uncompressed_size) {
 
 
 static void *
-allocate(bool compress, int compression_flags, zip_error_t *error) {
+allocate(bool compress, zip_uint32_t compression_flags, zip_error_t *error) {
     struct ctx *ctx;
-
-    /* 0: let zstd choose */
-    if (compression_flags < ZSTD_minCLevel() || compression_flags > ZSTD_maxCLevel()) {
-        compression_flags = 0;
-    }
 
     if ((ctx = (struct ctx *)malloc(sizeof(*ctx))) == NULL) {
         return NULL;
     }
 
+    ctx->compression_flags = (zip_int32_t)compression_flags;
+    if (ctx->compression_flags < ZSTD_minCLevel() || ctx->compression_flags > ZSTD_maxCLevel()) {
+        ctx->compression_flags = 0; /* let zstd choose */
+    }
+
     ctx->error = error;
     ctx->compress = compress;
-    ctx->compression_flags = compression_flags;
     ctx->end_of_input = false;
 
     ctx->zdstream = NULL;
@@ -87,13 +85,15 @@ allocate(bool compress, int compression_flags, zip_error_t *error) {
 
 
 static void *
-compress_allocate(zip_uint16_t method, int compression_flags, zip_error_t *error) {
+compress_allocate(zip_uint16_t method, zip_uint32_t compression_flags, zip_error_t *error) {
+    (void)method;
     return allocate(true, compression_flags, error);
 }
 
 
 static void *
-decompress_allocate(zip_uint16_t method, int compression_flags, zip_error_t *error) {
+decompress_allocate(zip_uint16_t method, zip_uint32_t compression_flags, zip_error_t *error) {
+    (void)method;
     return allocate(false, compression_flags, error);
 }
 
@@ -107,7 +107,7 @@ deallocate(void *ud) {
 
 static zip_uint16_t
 general_purpose_bit_flags(void *ud) {
-    /* struct ctx *ctx = (struct ctx *)ud; */
+    (void)ud;
     return 0;
 }
 
@@ -139,6 +139,10 @@ map_error(size_t ret) {
 static bool
 start(void *ud, zip_stat_t *st, zip_file_attributes_t *attributes) {
     struct ctx *ctx = (struct ctx *)ud;
+
+    (void)st;
+    (void)attributes;
+
     ctx->in.src = NULL;
     ctx->in.pos = 0;
     ctx->in.size = 0;

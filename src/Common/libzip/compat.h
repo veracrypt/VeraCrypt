@@ -41,6 +41,9 @@
 /* to have *_MAX definitions for all types when compiling with g++ */
 #define __STDC_LIMIT_MACROS
 
+/* to have ISO C secure library functions */
+#define __STDC_WANT_LIB_EXT1__ 1
+
 #if defined(_WIN32) && defined(ZIP_DLL) && !defined(ZIP_STATIC)
 #ifdef BUILDING_LIBZIP
 #define ZIP_EXTERN __declspec(dllexport)
@@ -100,6 +103,9 @@ typedef char bool;
 #if !defined(HAVE_SNPRINTF) && defined(HAVE__SNPRINTF)
 #define snprintf _snprintf
 #endif
+#if !defined(HAVE__SNWPRINTF_S)
+#define _snwprintf_s(buf, bufsz, len, fmt, ...) (_snwprintf((buf), (len), (fmt), __VA_ARGS__))
+#endif
 #if defined(HAVE__STRDUP)
 #if !defined(HAVE_STRDUP) || defined(_WIN32)
 #undef strdup
@@ -128,11 +134,51 @@ typedef char bool;
 #define ftello(s) ((long)ftell((s)))
 #endif
 
+#ifdef HAVE_LOCALTIME_S
+#ifdef _WIN32
+/* Windows is incompatible to the C11 standard, hurray! */
+#define zip_localtime(t, tm) (localtime_s((tm), (t)) == 0 ? tm : NULL)
+#else
+#define zip_localtime localtime_s
+#endif
+#else
+#ifdef HAVE_LOCALTIME_R
+#define zip_localtime localtime_r
+#else
+#define zip_localtime(t, tm) (localtime(t))
+#endif
+#endif
+
+#ifndef HAVE_MEMCPY_S
+#define memcpy_s(dest, destsz, src, count) (memcpy((dest), (src), (count)) == NULL)
+#endif
+
+#ifndef HAVE_SNPRINTF_S
+#ifdef HAVE__SNPRINTF_S
+#define snprintf_s(buf, bufsz, fmt, ...) (_snprintf_s((buf), (bufsz), (bufsz), (fmt), __VA_ARGS__))
+#else
+#define snprintf_s snprintf
+#endif
+#endif
+
 #if !defined(HAVE_STRCASECMP)
 #if defined(HAVE__STRICMP)
 #define strcasecmp _stricmp
 #elif defined(HAVE_STRICMP)
 #define strcasecmp stricmp
+#endif
+#endif
+
+#ifndef HAVE_STRNCPY_S
+#define strncpy_s(dest, destsz, src, count) (strncpy((dest), (src), (count)), 0)
+#endif
+
+#ifndef HAVE_STRERROR_S
+#define strerrorlen_s(errnum) (strlen(strerror(errnum)))
+#define strerror_s(buf, bufsz, errnum) ((void)strncpy_s((buf), (bufsz), strerror(errnum), (bufsz)), (buf)[(bufsz)-1] = '\0', strerrorlen_s(errnum) >= (bufsz))
+#else
+#ifndef HAVE_STRERRORLEN_S
+#define strerrorlen_s(errnum)   8192
 #endif
 #endif
 

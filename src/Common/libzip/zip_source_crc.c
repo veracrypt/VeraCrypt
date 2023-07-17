@@ -90,7 +90,7 @@ crc_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_source
 
     case ZIP_SOURCE_READ:
         if ((n = zip_source_read(src, data, len)) < 0) {
-            _zip_error_set_from_source(&ctx->error, src);
+            zip_error_set_from_source(&ctx->error, src);
             return -1;
         }
 
@@ -103,7 +103,7 @@ crc_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_source
                     struct zip_stat st;
 
                     if (zip_source_stat(src, &st) < 0) {
-                        _zip_error_set_from_source(&ctx->error, src);
+                        zip_error_set_from_source(&ctx->error, src);
                         return -1;
                     }
 
@@ -141,6 +141,10 @@ crc_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_source
         st = (zip_stat_t *)data;
 
         if (ctx->crc_complete) {
+            if ((st->valid & ZIP_STAT_SIZE) && st->size != ctx->size) {
+                zip_error_set(&ctx->error, ZIP_ER_DATA_LENGTH, 0);
+                return -1;
+            }
             /* TODO: Set comp_size, comp_method, encryption_method?
                     After all, this only works for uncompressed data. */
             st->size = ctx->size;
@@ -164,11 +168,13 @@ crc_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_source
         zip_int64_t mask = zip_source_supports(src);
 
         if (mask < 0) {
-            _zip_error_set_from_source(&ctx->error, src);
+            zip_error_set_from_source(&ctx->error, src);
             return -1;
         }
 
-        return mask & ~zip_source_make_command_bitmap(ZIP_SOURCE_BEGIN_WRITE, ZIP_SOURCE_COMMIT_WRITE, ZIP_SOURCE_ROLLBACK_WRITE, ZIP_SOURCE_SEEK_WRITE, ZIP_SOURCE_TELL_WRITE, ZIP_SOURCE_REMOVE, ZIP_SOURCE_GET_FILE_ATTRIBUTES, -1);
+        mask &= ~zip_source_make_command_bitmap(ZIP_SOURCE_BEGIN_WRITE, ZIP_SOURCE_COMMIT_WRITE, ZIP_SOURCE_ROLLBACK_WRITE, ZIP_SOURCE_SEEK_WRITE, ZIP_SOURCE_TELL_WRITE, ZIP_SOURCE_REMOVE, ZIP_SOURCE_GET_FILE_ATTRIBUTES, -1);
+        mask |= zip_source_make_command_bitmap(ZIP_SOURCE_FREE, -1);
+        return mask;
     }
 
     case ZIP_SOURCE_SEEK: {
@@ -179,7 +185,7 @@ crc_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_source
             return -1;
         }
         if (zip_source_seek(src, args->offset, args->whence) < 0 || (new_position = zip_source_tell(src)) < 0) {
-            _zip_error_set_from_source(&ctx->error, src);
+            zip_error_set_from_source(&ctx->error, src);
             return -1;
         }
 
@@ -192,7 +198,6 @@ crc_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_source
         return (zip_int64_t)ctx->position;
 
     default:
-        zip_error_set(&ctx->error, ZIP_ER_OPNOTSUPP, 0);
-        return -1;
+        return zip_source_pass_to_lower_layer(src, data, len, cmd);
     }
 }

@@ -50,11 +50,12 @@ zip_fread(zip_file_t *zf, void *outbuf, zip_uint64_t toread) {
         return -1;
     }
 
-    if ((zf->eof) || (toread == 0))
+    if (toread == 0) {
         return 0;
+    }
 
     if ((n = zip_source_read(zf->src, outbuf, toread)) < 0) {
-        _zip_error_set_from_source(&zf->error, zf->src);
+        zip_error_set_from_source(&zf->error, zf->src);
         return -1;
     }
 

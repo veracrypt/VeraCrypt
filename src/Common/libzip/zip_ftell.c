@@ -46,7 +46,7 @@ zip_ftell(zip_file_t *zf) {
 
     res = zip_source_tell(zf->src);
     if (res < 0) {
-        _zip_error_set_from_source(&zf->error, zf->src);
+        zip_error_set_from_source(&zf->error, zf->src);
         return -1;
     }
 

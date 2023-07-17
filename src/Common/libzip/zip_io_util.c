@@ -31,8 +31,10 @@
  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
+#include <zlib.h>
 
 #include "zipint.h"
 
@@ -46,7 +48,7 @@ _zip_read(zip_source_t *src, zip_uint8_t *b, zip_uint64_t length, zip_error_t *e
     }
 
     if ((n = zip_source_read(src, b, length)) < 0) {
-        _zip_error_set_from_source(error, src);
+        zip_error_set_from_source(error, src);
         return -1;
     }
 
@@ -81,7 +83,7 @@ _zip_read_data(zip_buffer_t *buffer, zip_source_t *src, size_t length, bool nulp
             free(r);
             return NULL;
         }
-        memcpy(r, data, length);
+        (void)memcpy_s(r, length, data, length);
     }
     else {
         if (_zip_read(src, r, length, error) < 0) {
@@ -122,12 +124,22 @@ _zip_write(zip_t *za, const void *data, zip_uint64_t length) {
     zip_int64_t n;
 
     if ((n = zip_source_write(za->src, data, length)) < 0) {
-        _zip_error_set_from_source(&za->error, za->src);
+        zip_error_set_from_source(&za->error, za->src);
         return -1;
     }
     if ((zip_uint64_t)n != length) {
         zip_error_set(&za->error, ZIP_ER_WRITE, EINTR);
         return -1;
+    }
+
+    if (za->write_crc != NULL) {
+        zip_uint64_t position = 0;
+        while (position < length) {
+            zip_uint64_t nn = ZIP_MIN(UINT_MAX, length - position);
+
+            *za->write_crc = (zip_uint32_t)crc32(*za->write_crc, (const Bytef *)data + position, (uInt)nn);
+            position += nn;
+        }
     }
 
     return 0;

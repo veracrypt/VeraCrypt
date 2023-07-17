@@ -125,7 +125,7 @@ _zip_winzip_aes_new(const zip_uint8_t *password, zip_uint64_t password_length, c
     }
 
     if (password_verify) {
-        memcpy(password_verify, buffer + (2 * key_size / 8), WINZIP_AES_PASSWORD_VERIFY_LENGTH);
+        (void)memcpy_s(password_verify, WINZIP_AES_PASSWORD_VERIFY_LENGTH, buffer + (2 * key_size / 8), WINZIP_AES_PASSWORD_VERIFY_LENGTH);
     }
 
     return ctx;

@@ -254,7 +254,7 @@ pbkdf2(PUCHAR pbPassword, ULONG cbPassword, PUCHAR pbSalt, ULONG cbSalt, DWORD c
         for (j = 0; j < cIterations; j++) {
             if (j == 0) {
                 /* construct first input for PRF */
-                memcpy(U, pbSalt, cbSalt);
+                (void)memcpy_s(U, cbSalt, pbSalt, cbSalt);
                 U[cbSalt] = (BYTE)((i & 0xFF000000) >> 24);
                 U[cbSalt + 1] = (BYTE)((i & 0x00FF0000) >> 16);
                 U[cbSalt + 2] = (BYTE)((i & 0x0000FF00) >> 8);
@@ -262,7 +262,7 @@ pbkdf2(PUCHAR pbPassword, ULONG cbPassword, PUCHAR pbSalt, ULONG cbSalt, DWORD c
                 dwULen = cbSalt + 4;
             }
             else {
-                memcpy(U, V, DIGEST_SIZE);
+                (void)memcpy_s(U, DIGEST_SIZE, V, DIGEST_SIZE);
                 dwULen = DIGEST_SIZE;
             }
 
@@ -274,11 +274,11 @@ pbkdf2(PUCHAR pbPassword, ULONG cbPassword, PUCHAR pbSalt, ULONG cbSalt, DWORD c
         }
 
         if (i != l) {
-            memcpy(&pbDerivedKey[(i - 1) * DIGEST_SIZE], Ti, DIGEST_SIZE);
+            (void)memcpy_s(&pbDerivedKey[(i - 1) * DIGEST_SIZE], cbDerivedKey - (i - 1) * DIGEST_SIZE, Ti, DIGEST_SIZE);
         }
         else {
             /* Take only the first r bytes */
-            memcpy(&pbDerivedKey[(i - 1) * DIGEST_SIZE], Ti, r);
+            (void)memcpy_s(&pbDerivedKey[(i - 1) * DIGEST_SIZE], cbDerivedKey - (i - 1) * DIGEST_SIZE, Ti, r);
         }
     }
 

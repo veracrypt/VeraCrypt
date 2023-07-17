@@ -109,7 +109,7 @@ zip_source_file_common_new(const char *fname, void *file, zip_uint64_t start, zi
     ctx->start = start;
     ctx->len = (zip_uint64_t)len;
     if (st) {
-        memcpy(&ctx->st, st, sizeof(ctx->st));
+        (void)memcpy_s(&ctx->st, sizeof(ctx->st), st, sizeof(*st));
         ctx->st.name = NULL;
         ctx->st.valid &= ~ZIP_STAT_NAME;
     }
@@ -130,7 +130,7 @@ zip_source_file_common_new(const char *fname, void *file, zip_uint64_t start, zi
     zip_error_init(&ctx->error);
     zip_file_attributes_init(&ctx->attributes);
 
-    ctx->supports = ZIP_SOURCE_SUPPORTS_READABLE | zip_source_make_command_bitmap(ZIP_SOURCE_SUPPORTS, ZIP_SOURCE_TELL, -1);
+    ctx->supports = ZIP_SOURCE_SUPPORTS_READABLE | zip_source_make_command_bitmap(ZIP_SOURCE_SUPPORTS, ZIP_SOURCE_TELL, ZIP_SOURCE_SUPPORTS_REOPEN, -1);
 
     zip_source_file_stat_init(&sb);
     if (!ops->stat(ctx, &sb)) {
@@ -262,7 +262,7 @@ read_file(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
             zip_error_set(&ctx->error, ZIP_ER_INVAL, 0);
             return -1;
         }
-        memcpy(data, &ctx->attributes, sizeof(ctx->attributes));
+        (void)memcpy_s(data, sizeof(ctx->attributes), &ctx->attributes, sizeof(ctx->attributes));
         return sizeof(ctx->attributes);
 
     case ZIP_SOURCE_OPEN:
@@ -272,7 +272,7 @@ read_file(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
             }
         }
 
-        if (ctx->start > 0) { // TODO: rewind on re-open
+        if (ctx->start > 0) { /* TODO: rewind on re-open */
             if (ctx->ops->seek(ctx, ctx->f, (zip_int64_t)ctx->start, SEEK_SET) == false) {
                 /* TODO: skip by reading */
                 return -1;
@@ -355,7 +355,7 @@ read_file(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
             return -1;
         }
 
-        memcpy(data, &ctx->st, sizeof(ctx->st));
+        (void)memcpy_s(data, sizeof(ctx->st), &ctx->st, sizeof(ctx->st));
         return sizeof(ctx->st);
     }
 
