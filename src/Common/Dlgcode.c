@@ -1584,11 +1584,11 @@ void LowerCaseCopy (wchar_t *lpszDest, const wchar_t *lpszSource)
 
 void UpperCaseCopy (wchar_t *lpszDest, size_t cbDest, const wchar_t *lpszSource)
 {
-	if (lpszDest && cbDest)
+	if (lpszDest && (cbDest >= 2))
 	{
 		size_t i = wcslen (lpszSource);
-		if (i >= cbDest)
-			i = cbDest - 1;
+		if (i >= (cbDest/2))
+			i = (cbDest/2) - 1;
 
 		lpszDest[i] = 0;
 		i++;

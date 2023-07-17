@@ -161,7 +161,7 @@
     <entry lang="ru" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">блокировке сеанса пользователя</entry>
     <entry lang="ru" key="IDC_PREF_DISMOUNT_POWERSAVING">входе в энергосбережение</entry>
     <entry lang="ru" key="IDC_PREF_DISMOUNT_SCREENSAVER">старте экранной заставки</entry>
-    <entry lang="ru" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Автоматически размонтировать тома даже при открытых файлах или папках</entry>
+    <entry lang="ru" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Принудительное авторазмонтирование даже при открытых файлах или папках</entry>
     <entry lang="ru" key="IDC_PREF_LOGON_MOUNT_DEVICES">Монтировать все тома на устройствах</entry>
     <entry lang="ru" key="IDC_PREF_LOGON_START">Запуск VeraCrypt в фоне</entry>
     <entry lang="ru" key="IDC_PREF_MOUNT_READONLY">Монтировать только для чтения</entry>
@@ -1605,7 +1605,7 @@
     <entry lang="ru" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Превышен максимальный размер файла %I64u МБ на хост-диске.</entry>
     <entry lang="ru" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">ОШИБКА: Не удалось получить необходимые привилегии, чтобы включить быстрое расширение!\nВыключите опцию быстрого расширения и повторите попытку.</entry>
     <entry lang="ru" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Превышен максимальный размер тома VeraCrypt %I64u ТБ!\n</entry>
-    <entry lang="ru" key="FULL_FORMAT">Полное форматирование</entry>
+    <entry lang="ru" key="FULL_FORMAT">Полное форматир.</entry>
     <entry lang="ru" key="FAST_CREATE">Быстрое создание</entry>
     <entry lang="ru" key="WARN_FAST_CREATE">ВНИМАНИЕ: Быстрое создание следует использовать только в следующих случаях:\n\n1) Устройство не содержит конфиденциальных данных, и вам не нужно правдоподобное отрицание.\n2) Устройство уже надёжно и полностью зашифровано.\n\nВы действительно хотите использовать быстрое создание?</entry>
     <entry lang="ru" key="IDC_ENABLE_EMV_SUPPORT">Включить поддержку EMV</entry>

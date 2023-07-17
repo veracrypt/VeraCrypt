@@ -45,6 +45,10 @@ zip_set_archive_comment(zip_t *za, const char *comment, zip_uint16_t len) {
         zip_error_set(&za->error, ZIP_ER_RDONLY, 0);
         return -1;
     }
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        zip_error_set(&za->error, ZIP_ER_NOT_ALLOWED, 0);
+        return -1;
+    }
 
     if (len > 0 && comment == NULL) {
         zip_error_set(&za->error, ZIP_ER_INVAL, 0);

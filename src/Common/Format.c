@@ -344,6 +344,26 @@ begin_format:
 	else
 	{
 		/* File-hosted volume */
+		BOOL speedupFileCreation = FALSE;
+		// speedup for file creation only makes sens when using quick format for non hidden volumes
+		if (!volParams->hiddenVol && !bInstantRetryOtherFilesys && volParams->quickFormat && volParams->fastCreateFile)
+		{
+			// we set required privileges to speedup file creation before we create the file so that the file handle inherits the privileges
+			if (!SetPrivilege(SE_MANAGE_VOLUME_NAME, TRUE))
+			{
+				DWORD dwLastError = GetLastError();
+				if (Silent || (MessageBoxW(hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME"), lpszTitle, MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO))
+				{
+					SetLastError(dwLastError);
+					nStatus = ERR_OS_ERROR;
+					goto error;
+				}
+			}
+			else
+			{
+				speedupFileCreation = TRUE;
+			}
+		}
 
 		dev = CreateFile (volParams->volumePath, GENERIC_READ | GENERIC_WRITE,
 			(volParams->hiddenVol || bInstantRetryOtherFilesys) ? (FILE_SHARE_READ | FILE_SHARE_WRITE) : 0,
@@ -373,12 +393,7 @@ begin_format:
 		if (!volParams->hiddenVol && !bInstantRetryOtherFilesys)
 		{
 			LARGE_INTEGER volumeSize;
-			BOOL speedupFileCreation = FALSE;
 			volumeSize.QuadPart = dataAreaSize + TC_VOLUME_HEADER_GROUP_SIZE;
-
-			// speedup for file creation only makes sens when using quick format
-			if (volParams->quickFormat && volParams->fastCreateFile)
-				speedupFileCreation = TRUE;
 
 			if (volParams->sparseFileSwitch && volParams->quickFormat)
 			{
@@ -401,28 +416,15 @@ begin_format:
 
 			if (speedupFileCreation)
 			{
-				if (!SetPrivilege(SE_MANAGE_VOLUME_NAME, TRUE))
+				// accelerate file creation by telling Windows not to fill all file content with zeros
+				// this has security issues since it will put existing disk content into file container
+				// We use this mechanism only when switch /fastCreateFile specific and when quick format
+				// also specified and which is documented to have security issues.
+				// we don't check returned status because failure is not issue for us
+				if (!SetFileValidData (dev, volumeSize.QuadPart))
 				{
-					DWORD dwLastError = GetLastError();
-					if (Silent || (MessageBoxW(hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME"), lpszTitle, MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO))
-					{
-						SetLastError(dwLastError);
-						nStatus = ERR_OS_ERROR;
-						goto error;
-					}
-				}
-				else
-				{
-					// accelerate file creation by telling Windows not to fill all file content with zeros
-					// this has security issues since it will put existing disk content into file container
-					// We use this mechanism only when switch /fastCreateFile specific and when quick format
-					// also specified and which is documented to have security issues.
-					// we don't check returned status because failure is not issue for us
-					if (!SetFileValidData (dev, volumeSize.QuadPart))
-					{
-						nStatus = ERR_OS_ERROR;
-						goto error;
-					}
+					nStatus = ERR_OS_ERROR;
+					goto error;
 				}
 			}
 

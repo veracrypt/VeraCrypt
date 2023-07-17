@@ -132,7 +132,12 @@ zip_error_set(zip_error_t *err, int ze, int se) {
 
 
 void
-_zip_error_set_from_source(zip_error_t *err, zip_source_t *src) {
+zip_error_set_from_source(zip_error_t *err, zip_source_t *src) {
+    if (src == NULL) {
+        zip_error_set(err, ZIP_ER_INVAL, 0);
+        return;
+    }
+
     _zip_error_copy(err, zip_source_error(src));
 }
 

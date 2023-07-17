@@ -37,7 +37,7 @@
 
 bool
 zip_source_accept_empty(zip_source_t *src) {
-    int ret;
+    zip_int64_t ret;
 
     if ((zip_source_supports(src) & ZIP_SOURCE_MAKE_COMMAND_BITMASK(ZIP_SOURCE_ACCEPT_EMPTY)) == 0) {
         if (ZIP_SOURCE_IS_LAYERED(src)) {
@@ -46,7 +46,7 @@ zip_source_accept_empty(zip_source_t *src) {
         return true;
     }
 
-    ret = (int)_zip_source_call(src, NULL, 0, ZIP_SOURCE_ACCEPT_EMPTY);
+    ret = _zip_source_call(src, NULL, 0, ZIP_SOURCE_ACCEPT_EMPTY);
 
     return ret != 0;
 }

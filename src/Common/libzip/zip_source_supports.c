@@ -42,6 +42,10 @@ zip_source_supports(zip_source_t *src) {
     return src->supports;
 }
 
+bool
+zip_source_supports_reopen(zip_source_t *src) {
+    return (zip_source_supports(src) & ZIP_SOURCE_MAKE_COMMAND_BITMASK(ZIP_SOURCE_SUPPORTS_REOPEN)) != 0;
+}
 
 ZIP_EXTERN zip_int64_t
 zip_source_make_command_bitmap(zip_source_cmd_t cmd0, ...) {
@@ -62,4 +66,9 @@ zip_source_make_command_bitmap(zip_source_cmd_t cmd0, ...) {
     va_end(ap);
 
     return bitmap;
+}
+
+
+ZIP_EXTERN int zip_source_is_seekable(zip_source_t *src) {
+    return ZIP_SOURCE_CHECK_SUPPORTED(zip_source_supports(src->src), ZIP_SOURCE_SEEK);
 }

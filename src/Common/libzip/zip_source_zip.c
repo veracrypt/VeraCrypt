@@ -34,6 +34,7 @@
 
 #include <stdlib.h>
 
+#define _ZIP_COMPILING_DEPRECATED
 #include "zipint.h"
 
 ZIP_EXTERN zip_source_t *zip_source_zip_create(zip_t *srcza, zip_uint64_t srcidx, zip_flags_t flags, zip_uint64_t start, zip_int64_t len, zip_error_t *error) {
@@ -42,15 +43,18 @@ ZIP_EXTERN zip_source_t *zip_source_zip_create(zip_t *srcza, zip_uint64_t srcidx
         return NULL;
     }
     
-    if (len == -1)
-        len = 0;
+    if (len == 0) {
+        len = -1;
+    }
     
-    if (start == 0 && len == 0)
+    if (start == 0 && len == -1) {
         flags |= ZIP_FL_COMPRESSED;
-    else
+    }
+    else {
         flags &= ~ZIP_FL_COMPRESSED;
-    
-    return _zip_source_zip_new(srcza, srcidx, flags, start, (zip_uint64_t)len, NULL, error);
+    }
+
+    return zip_source_zip_file_create(srcza, srcidx, flags, start, len, NULL, error);
 }
 
 
