@@ -92,7 +92,7 @@ public:
 
 	virtual BOOL STDMETHODCALLTYPE FormatNtfs (int driveNo, int clusterSize)
 	{
-		return ::FormatNtfs (driveNo, clusterSize);
+		return ::FormatNtfs (driveNo, clusterSize, TRUE);
 	}
 
 	virtual int STDMETHODCALLTYPE AnalyzeHiddenVolumeHost (
@@ -134,7 +134,7 @@ public:
 
 	virtual BOOL STDMETHODCALLTYPE FormatFs (int driveNo, int clusterSize, int fsType)
 	{
-		return ::FormatFs (driveNo, clusterSize, fsType);
+		return ::FormatFs (driveNo, clusterSize, fsType, TRUE);
 	}
 
 	virtual DWORD STDMETHODCALLTYPE GetFileSize (BSTR filePath, unsigned __int64 *pSize)
@@ -250,7 +250,7 @@ extern "C" int UacFormatNtfs (HWND hWnd, int driveNo, int clusterSize)
 	if (ComGetInstance (hWnd, &tc))
 		r = tc->FormatNtfs (driveNo, clusterSize);
 	else
-		r = 0;
+		r = (int) GetLastError();
 
 	CoUninitialize ();
 
@@ -267,7 +267,7 @@ extern "C" int UacFormatFs (HWND hWnd, int driveNo, int clusterSize, int fsType)
 	if (ComGetInstance (hWnd, &tc))
 		r = tc->FormatFs (driveNo, clusterSize, fsType);
 	else
-		r = 0;
+		r = (int) GetLastError();
 
 	CoUninitialize ();
 

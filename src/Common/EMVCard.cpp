@@ -500,7 +500,7 @@ namespace VeraCrypt
 									panData = *panNode->Value.get();
 									panData = vector<byte>(panData.rbegin(), panData.rbegin() + 2); // only interested in last digits
 									std::swap(panData[0], panData[1]);
-									lastPANDigits = ArrayToHexWideString(panData.data(), panData.size());
+									lastPANDigits = ArrayToHexWideString(panData.data(), (int) panData.size());
 								}
 							}
 						}

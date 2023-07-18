@@ -3705,24 +3705,44 @@ static void UpdateClusterSizeList (HWND hwndDlg, int fsType)
 	SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_RESETCONTENT, 0, 0);
 	AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), GetString ("DEFAULT"), 0);
 
-	for (int i = 1; i <= 128; i *= 2)
+	for (int i = 1; i <= 65536; i *= 2)
 	{
 		wstringstream s;
 		DWORD size = GetFormatSectorSize() * i;
 
-		if (size > TC_MAX_FAT_CLUSTER_SIZE)
+		/* cluster size makes sense only when there is a filesystem */
+		if (fsType == FILESYS_NONE)
+			break;
+
+		/* FAT supports at maximum 64K when sector size is 512, and at maximum 256K when sector size is larger than 512 */
+		/* For now we set maximum cluster size to 64K in all cases for compatibility with exiting FAT code in VeraCrypt */
+		if ((fsType == FILESYS_FAT) && (size > 64*BYTES_PER_KB))
 			break;
 
 		/* ReFS supports only 4KiB and 64KiB clusters */
 		if ((fsType == FILESYS_REFS) && (size != 4*BYTES_PER_KB) && (size != 64*BYTES_PER_KB))
 			continue;
 
-		if (size == 512)
-			s << L"0.5";
-		else
-			s << size / BYTES_PER_KB;
+		/* NTFS supports at maximum 2M cluster */
+		if ((fsType == FILESYS_NTFS) && (size > 2*BYTES_PER_MB))
+			break;
 
-		s << L" " << GetString ("KB");
+		/* exFAT supports at maximum 32M cluster */
+		if ((fsType == FILESYS_EXFAT) && (size > 32*BYTES_PER_MB))
+			break;
+
+		if (size == 512)
+			s << L"0.5 " << GetString ("KB");
+		else if (size < BYTES_PER_MB)
+		{
+			s << size / BYTES_PER_KB;
+			s << L" " << GetString ("KB");
+		}
+		else
+		{
+			s << size / BYTES_PER_MB;
+			s << L" " << GetString ("MB");
+		}
 
 		AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), s.str().c_str(), i);
 	}

@@ -428,6 +428,59 @@ static void localcleanup (void)
 	RandStop (TRUE);
 }
 
+#ifndef BS_SPLITBUTTON
+#define BS_SPLITBUTTON 0x0000000C
+#endif
+
+#ifndef BCN_DROPDOWN
+#define BCN_DROPDOWN (0U-1250U) + 2U
+#endif
+
+static void EnableSplitButton(HWND hwndDlg, int buttonId)
+{
+	HWND hwndButton = GetDlgItem(hwndDlg, buttonId);
+	if (hwndButton != NULL)
+	{
+		// change the button style
+		SetWindowLongPtr(hwndButton, GWL_STYLE, GetWindowLongPtr(hwndButton, GWL_STYLE) | BS_SPLITBUTTON);
+	}
+}
+
+static void DisableSplitButton(HWND hwndDlg, int buttonId)
+{
+	HWND hwndButton = GetDlgItem(hwndDlg, buttonId);
+	if (hwndButton != NULL)
+	{
+		// change the button style
+		SetWindowLongPtr(hwndButton, GWL_STYLE, GetWindowLongPtr(hwndButton, GWL_STYLE) & ~BS_SPLITBUTTON);
+	}
+}
+
+static HMENU CreateMountNoCacheDropdownMenu()
+{
+	HMENU hmenu = CreatePopupMenu();
+
+	// add menu items
+	AppendMenu(hmenu, MF_STRING, IDM_MOUNIT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
+
+	return hmenu;
+}
+
+static void HandleMountButtonDropdown(HWND hwndButton, HWND hwndOwner, HMENU hmenu)
+{
+	RECT rc;
+	POINT pt;
+
+	if (GetClientRect(hwndButton, &rc))
+	{
+		pt.x = rc.left;
+		pt.y = rc.bottom;
+		ClientToScreen(hwndButton, &pt);
+
+		TrackPopupMenu(hmenu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, hwndOwner, NULL);
+	}
+}
+
 void RefreshMainDlg (HWND hwndDlg)
 {
 	if (Silent)
@@ -625,7 +678,10 @@ void EnableDisableButtons (HWND hwndDlg)
 	case TC_MLIST_ITEM_NONSYS_VOL:
 		{
 			SetWindowTextW (hOKButton, GetString ("UNMOUNT_BUTTON"));
+			DisableSplitButton(hwndDlg, IDOK);
 			EnableWindow (hOKButton, TRUE);
+			// Invalid the button IDOK so that it will be redrawn
+			InvalidateRect (hOKButton, NULL, TRUE);
 			EnableMenuItem (GetMenu (hwndDlg), IDM_UNMOUNT_VOLUME, MF_ENABLED);
 
 			EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES), TRUE);
@@ -635,15 +691,21 @@ void EnableDisableButtons (HWND hwndDlg)
 
 	case TC_MLIST_ITEM_SYS_PARTITION:
 	case TC_MLIST_ITEM_SYS_DRIVE:
+		EnableSplitButton(hwndDlg, IDOK);
 		EnableWindow (hOKButton, FALSE);
 		SetWindowTextW (hOKButton, GetString ("MOUNT_BUTTON"));
+		// Invalid the button IDOK so that it will be redrawn
+		InvalidateRect (hOKButton, NULL, TRUE);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES), TRUE);
 		EnableMenuItem (GetMenu (hwndDlg), IDM_UNMOUNT_VOLUME, MF_GRAYED);
 		break;
 
 	case TC_MLIST_ITEM_FREE:
 	default:
+		EnableSplitButton(hwndDlg, IDOK);
 		SetWindowTextW (hOKButton, GetString ("MOUNT_BUTTON"));
+		// Invalid the button IDOK so that it will be redrawn
+		InvalidateRect (hOKButton, NULL, TRUE);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES), FALSE);
 		EnableMenuItem (GetMenu (hwndDlg), IDM_VOLUME_PROPERTIES, MF_GRAYED);
 		EnableMenuItem (GetMenu (hwndDlg), IDM_UNMOUNT_VOLUME, MF_GRAYED);
@@ -7087,49 +7149,6 @@ static void SignalExitCode (int exitCode)
 	}
 }
 
-#ifndef BS_SPLITBUTTON
-#define BS_SPLITBUTTON 0x0000000C
-#endif
-
-#ifndef BCN_DROPDOWN
-#define BCN_DROPDOWN (0U-1250U) + 2U
-#endif
-
-static void EnableSplitButton(HWND hwndDlg, int buttonId)
-{
-	HWND hwndButton = GetDlgItem(hwndDlg, buttonId);
-	if (hwndButton != NULL)
-	{
-		// change the button style
-		SetWindowLongPtr(hwndButton, GWL_STYLE, GetWindowLongPtr(hwndButton, GWL_STYLE) | BS_SPLITBUTTON);
-	}
-}
-
-static HMENU CreateMountNoCacheDropdownMenu()
-{
-	HMENU hmenu = CreatePopupMenu();
-
-	// add menu items
-	AppendMenu(hmenu, MF_STRING, IDM_MOUNIT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
-
-	return hmenu;
-}
-
-static void HandleMountButtonDropdown(HWND hwndButton, HWND hwndOwner, HMENU hmenu)
-{
-	RECT rc;
-	POINT pt;
-
-	if (GetClientRect(hwndButton, &rc))
-	{
-		pt.x = rc.left;
-		pt.y = rc.bottom;
-		ClientToScreen(hwndButton, &pt);
-
-		TrackPopupMenu(hmenu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, hwndOwner, NULL);
-	}
-}
-
 /* Except in response to the WM_INITDIALOG and WM_ENDSESSION messages, the dialog box procedure
    should return nonzero if it processes a message, and zero if it does not. */
 BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -7230,7 +7249,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				mountOptions = CmdMountOptions;
 
 			InitMainDialog (hwndDlg);
-			EnableSplitButton(hwndDlg, IDOK);	
 
 			try
 			{
