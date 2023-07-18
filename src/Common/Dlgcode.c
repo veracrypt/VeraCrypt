@@ -9088,8 +9088,7 @@ retry:
 	{
 		if (mount.wszVolume == NULL || swscanf_s ((const wchar_t *) mount.wszVolume,
 			WIDE("\\Device\\Harddisk%d\\Partition"),
-			&mount.nPartitionInInactiveSysEncScopeDriveNo,
-			sizeof(mount.nPartitionInInactiveSysEncScopeDriveNo)) != 1)
+			&mount.nPartitionInInactiveSysEncScopeDriveNo) != 1)
 		{
 			if (!quiet)
 				Warning ("NO_SYSENC_PARTITION_SELECTED", hwndDlg);

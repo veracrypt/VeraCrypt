@@ -348,7 +348,6 @@ void DetectX86Features()
 		g_hasISSE = 1;
 	else
 	{
-		uint32 cpuid2[4] = {0};
 		CpuId(0x080000000, cpuid2);
 		if (cpuid2[0] >= 0x080000001)
 		{
