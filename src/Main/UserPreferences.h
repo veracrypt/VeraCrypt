@@ -31,6 +31,7 @@ namespace VeraCrypt
 			CloseBackgroundTaskOnNoVolumes (true),
 			CloseExplorerWindowsOnDismount (true),
 			CloseSecurityTokenSessionsAfterMount (false),
+			EMVSupportEnabled (false),
 			DisableKernelEncryptionModeWarning (false),
 			DismountOnInactivity (false),
 			DismountOnLogOff (true),
@@ -72,6 +73,7 @@ namespace VeraCrypt
 		bool CloseBackgroundTaskOnNoVolumes;
 		bool CloseExplorerWindowsOnDismount;
 		bool CloseSecurityTokenSessionsAfterMount;
+        bool EMVSupportEnabled;
 		bool DisableKernelEncryptionModeWarning;
 		bool DismountOnInactivity;
 		bool DismountOnLogOff;

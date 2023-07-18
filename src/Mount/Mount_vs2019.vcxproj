@@ -602,6 +602,17 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\CommandAPDU.cpp" />
+    <ClCompile Include="..\Common\EMVCard.cpp" />
+    <ClCompile Include="..\Common\EMVToken.cpp" />
+    <ClCompile Include="..\Common\PCSCException.cpp" />
+    <ClCompile Include="..\Common\ResponseAPDU.cpp" />
+    <ClCompile Include="..\Common\SCard.cpp" />
+    <ClCompile Include="..\Common\SCardLoader.cpp" />
+    <ClCompile Include="..\Common\SCardManager.cpp" />
+    <ClCompile Include="..\Common\SCardReader.cpp" />
+    <ClCompile Include="..\Common\TLVParser.cpp" />
+    <ClCompile Include="..\Common\Token.cpp" />
     <ClCompile Include="..\Setup\SelfExtract.c" />
     <ClCompile Include="Favorites.cpp" />
     <ClCompile Include="Hotkeys.c" />
@@ -675,6 +686,17 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
     <Midl Include="MainCom.idl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\CommandAPDU.h" />
+    <ClInclude Include="..\Common\EMVCard.h" />
+    <ClInclude Include="..\Common\EMVToken.h" />
+    <ClInclude Include="..\Common\PCSCException.h" />
+    <ClInclude Include="..\Common\ResponseAPDU.h" />
+    <ClInclude Include="..\Common\SCard.h" />
+    <ClInclude Include="..\Common\SCardLoader.h" />
+    <ClInclude Include="..\Common\SCardManager.h" />
+    <ClInclude Include="..\Common\SCardReader.h" />
+    <ClInclude Include="..\Common\TLVParser.h" />
+    <ClInclude Include="..\Common\Token.h" />
     <ClInclude Include="..\Common\Wipe.h" />
     <ClInclude Include="..\Common\Apidrvr.h" />
     <ClInclude Include="..\Common\BaseCom.h" />

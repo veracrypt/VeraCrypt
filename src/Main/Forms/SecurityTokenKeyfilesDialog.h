@@ -14,7 +14,9 @@
 #define TC_HEADER_Main_Forms_SecurityTokenKeyfilesDialog
 
 #include "Forms.h"
+#include "Common/Token.h"
 #include "Common/SecurityToken.h"
+#include "Common/EMVToken.h"
 #include "Main/Main.h"
 
 namespace VeraCrypt
@@ -23,7 +25,7 @@ namespace VeraCrypt
 	{
 	public:
 		SecurityTokenKeyfilesDialog (wxWindow* parent, bool selectionMode = true);
-		list <SecurityTokenKeyfilePath> GetSelectedSecurityTokenKeyfilePaths() const { return SelectedSecurityTokenKeyfilePaths; }
+		list <TokenKeyfilePath> GetSelectedSecurityTokenKeyfilePaths() const { return SelectedSecurityTokenKeyfilePaths; }
 
 	protected:
 		enum
@@ -43,8 +45,8 @@ namespace VeraCrypt
 		void OnOKButtonClick ();
 		void OnOKButtonClick (wxCommandEvent& event) { OnOKButtonClick(); }
 
-		vector <SecurityTokenKeyfile> SecurityTokenKeyfileList;
-		list <SecurityTokenKeyfilePath> SelectedSecurityTokenKeyfilePaths;
+		vector <shared_ptr<TokenKeyfile>> SecurityTokenKeyfileList;
+		list <TokenKeyfilePath> SelectedSecurityTokenKeyfilePaths;
 	};
 }
 

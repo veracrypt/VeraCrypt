@@ -166,6 +166,7 @@ extern BOOL LastMountedVolumeDirty;
 extern BOOL MountVolumesAsSystemFavorite;
 extern BOOL FavoriteMountOnArrivalInProgress;
 extern BOOL MultipleMountOperationInProgress;
+extern BOOL EMVSupportEnabled;
 
 extern volatile BOOL NeedPeriodicDeviceListUpdate;
 extern BOOL DisablePeriodicDeviceListUpdate;

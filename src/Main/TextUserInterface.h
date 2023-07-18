@@ -44,14 +44,16 @@ namespace VeraCrypt
 		virtual void DoShowString (const wxString &str) const;
 		virtual void DoShowWarning (const wxString &message) const;
 		virtual void EndBusyState () const { }
-		virtual void ExportSecurityTokenKeyfile () const;
+		virtual void ExportTokenKeyfile () const;
 		virtual shared_ptr <GetStringFunctor> GetAdminPasswordRequestHandler ();
-		virtual void ImportSecurityTokenKeyfiles () const;
+		virtual void ImportTokenKeyfiles () const;
 #ifndef TC_NO_GUI
 		virtual bool Initialize (int &argc, wxChar **argv) { return wxAppBase::Initialize(argc, argv); }
 #endif
 		virtual void InitSecurityTokenLibrary () const;
-		virtual void ListSecurityTokenKeyfiles () const;
+		virtual void ListTokenKeyfiles () const;
+        virtual void ListSecurityTokenKeyfiles () const;
+        virtual void ListEMVTokenKeyfiles () const;
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) const;
 		virtual bool OnInit ();

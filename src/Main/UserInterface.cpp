@@ -17,6 +17,7 @@
 #include <wx/cmdline.h>
 #include "Crypto/cpu.h"
 #include "Platform/PlatformTest.h"
+#include "Common/PCSCException.h"
 #ifdef TC_UNIX
 #include <errno.h>
 #include "Platform/Unix/Process.h"
@@ -436,6 +437,27 @@ namespace VeraCrypt
 			return LangString["SECURITY_TOKEN_ERROR"] + L":\n\n" + StringConverter::ToWide (errorString);
 		}
 
+
+        // PCSC Exception
+        if (dynamic_cast <const PCSCException *> (&ex))
+        {
+            string errorString = string (dynamic_cast <const PCSCException &> (ex));
+
+            if (LangString.Exists (errorString))
+                return LangString[errorString];
+
+            if (errorString.find("SCARD_E_") == 0 || errorString.find("SCARD_F_") == 0 || errorString.find("SCARD_W_") == 0)
+            {
+                errorString = errorString.substr(8);
+                for (size_t i = 0; i < errorString.size(); ++i)
+                {
+                    if (errorString[i] == '_')
+                        errorString[i] = ' ';
+                }
+            }
+            return LangString["PCSC_ERROR"] + L":\n\n" + StringConverter::ToWide (errorString);
+        }
+
 		// Other library exceptions
 		return ExceptionTypeToString (typeid (ex));
 	}
@@ -479,6 +501,18 @@ namespace VeraCrypt
 		EX2MSG (StringFormatterException,			LangString["LINUX_EX2MSG_STRINGFORMATTEREXCEPTION"]);
 		EX2MSG (TemporaryDirectoryFailure,			LangString["LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE"]);
 		EX2MSG (UnportablePassword,					LangString["UNSUPPORTED_CHARS_IN_PWD"]);
+
+		EX2MSG (CommandAPDUNotValid,				LangString["COMMAND_APDU_INVALID"]);
+		EX2MSG (ExtendedAPDUNotSupported,			LangString["EXTENDED_APDU_UNSUPPORTED"]);
+		EX2MSG (ScardLibraryInitializationFailed,	LangString["SCARD_MODULE_INIT_FAILED"]);
+		EX2MSG (EMVUnknownCardType,					LangString["EMV_UNKNOWN_CARD_TYPE"]);
+		EX2MSG (EMVSelectAIDFailed,					LangString["EMV_SELECT_AID_FAILED"]);
+		EX2MSG (EMVIccCertNotFound,					LangString["EMV_ICC_CERT_NOTFOUND"]);
+		EX2MSG (EMVIssuerCertNotFound,				LangString["EMV_ISSUER_CERT_NOTFOUND"]);
+		EX2MSG (EMVCPLCNotFound,					LangString["EMV_CPLC_NOTFOUND"]);
+		EX2MSG (InvalidEMVPath,						LangString["EMV_PAN_NOTFOUND"]);
+		EX2MSG (EMVKeyfileDataNotFound,				LangString["INVALID_EMV_PATH"]);
+		EX2MSG (EMVPANNotFound,						LangString["EMV_KEYFILE_DATA_NOTFOUND"]);
 
 #if defined (TC_LINUX)
 		EX2MSG (TerminalNotFound,					LangString["LINUX_EX2MSG_TERMINALNOTFOUND"]);
@@ -1122,7 +1156,7 @@ namespace VeraCrypt
 					" Delete keyfiles from security tokens. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--export-token-keyfile\n"
-					" Export a keyfile from a security token. See also command --list-token-keyfiles.\n"
+					" Export a keyfile from a token. See also command --list-token-keyfiles.\n"
 					"\n"
 					"--import-token-keyfiles\n"
 					" Import keyfiles to a security token. See also option --token-lib.\n"
@@ -1134,9 +1168,15 @@ namespace VeraCrypt
 					" output option (-v). See below for description of MOUNTED_VOLUME.\n"
 					"\n"
 					"--list-token-keyfiles\n"
-					" Display a list of all available security token keyfiles. See also command\n"
+					" Display a list of all available token keyfiles. See also command\n"
 					" --import-token-keyfiles.\n"
-					"\n"
+					"\n""--list-securitytoken-keyfiles\n"
+                    " Display a list of all available security token keyfiles. See also command\n"
+                    " --import-token-keyfiles.\n"
+                    "\n"
+                    "\n""--list-emvtoken-keyfiles\n"
+                    " Display a list of all available emv token keyfiles. See also command\n"
+                    "\n"
 					"--mount[=VOLUME_PATH]\n"
 					" Mount a volume. Volume path and other options are requested from the user\n"
 					" if not specified on command line.\n"
@@ -1199,9 +1239,12 @@ namespace VeraCrypt
 					" used (non-recursively). Multiple keyfiles must be separated by comma.\n"
 					" Use double comma (,,) to specify a comma contained in keyfile's name.\n"
 					" Keyfile stored on a security token must be specified as\n"
-					" token://slot/SLOT_NUMBER/file/FILENAME. An empty keyfile (-k \"\") disables\n"
+					" token://slot/SLOT_NUMBER/file/FILENAME for a security token keyfile\n"
+                    " and emv://slot/SLOT_NUMBER for an EMV token keyfile.\n"
+                    " An empty keyfile (-k \"\") disables\n"
 					" interactive requests for keyfiles. See also options --import-token-keyfiles,\n"
-					" --list-token-keyfiles, --new-keyfiles, --protection-keyfiles.\n"
+					" --list-token-keyfiles, --list-securitytoken-keyfiles, --list-emvtoken-keyfiles,\n"
+                    " --new-keyfiles, --protection-keyfiles.\n"
 					"\n"
 					"--load-preferences\n"
 					" Load user preferences.\n"
@@ -1356,17 +1399,25 @@ namespace VeraCrypt
 			}
 			return true;
 
-		case CommandId::ExportSecurityTokenKeyfile:
-			ExportSecurityTokenKeyfile();
+		case CommandId::ExportTokenKeyfile:
+			ExportTokenKeyfile();
 			return true;
 
-		case CommandId::ImportSecurityTokenKeyfiles:
-			ImportSecurityTokenKeyfiles();
+		case CommandId::ImportTokenKeyfiles:
+			ImportTokenKeyfiles();
 			return true;
 
-		case CommandId::ListSecurityTokenKeyfiles:
-			ListSecurityTokenKeyfiles();
+		case CommandId::ListTokenKeyfiles:
+			ListTokenKeyfiles();
 			return true;
+
+        case CommandId::ListSecurityTokenKeyfiles:
+             ListSecurityTokenKeyfiles();
+             return true;
+
+        case CommandId::ListEMVTokenKeyfiles:
+            ListEMVTokenKeyfiles();
+            return true;
 
 		case CommandId::ListVolumes:
 			if (Preferences.Verbose)
@@ -1648,6 +1699,20 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (CipherException);
 		VC_CONVERT_EXCEPTION (VolumeException);
 		VC_CONVERT_EXCEPTION (PasswordException);
+
+		VC_CONVERT_EXCEPTION (PCSCException);
+		VC_CONVERT_EXCEPTION (CommandAPDUNotValid);
+		VC_CONVERT_EXCEPTION (ExtendedAPDUNotSupported);
+		VC_CONVERT_EXCEPTION (ScardLibraryInitializationFailed);
+		VC_CONVERT_EXCEPTION (EMVUnknownCardType);
+		VC_CONVERT_EXCEPTION (EMVSelectAIDFailed);
+		VC_CONVERT_EXCEPTION (EMVIccCertNotFound);
+		VC_CONVERT_EXCEPTION (EMVIssuerCertNotFound);
+		VC_CONVERT_EXCEPTION (EMVCPLCNotFound);
+		VC_CONVERT_EXCEPTION (InvalidEMVPath);
+		VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
+		VC_CONVERT_EXCEPTION (EMVPANNotFound);
+
 		throw *ex;
 	}
 }

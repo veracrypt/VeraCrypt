@@ -113,13 +113,13 @@
     #define CRYPTOPP_X64_ASM_AVAILABLE
 #endif
 
-#if !defined(CRYPTOPP_DISABLE_SSE2) && (defined(CRYPTOPP_MSVC6PP_OR_LATER) || defined(__SSE2__)) && !defined(_M_ARM) && !defined(_M_ARM64)
+#if !defined(CRYPTOPP_DISABLE_SSE2) && (defined(CRYPTOPP_MSVC6PP_OR_LATER) || defined(__SSE2__)) && !defined(_M_ARM) && !defined(_M_ARM64) && !defined(__arm__) && !defined(__aarch64__) && !defined(__arm64__)
     #define CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE 1
 #else
     #define CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE 0
 #endif
 
-#if !defined(CRYPTOPP_DISABLE_ASM) && !defined(CRYPTOPP_DISABLE_SSSE3) && !defined(_M_ARM) && !defined(_M_ARM64) && ( \
+#if !defined(CRYPTOPP_DISABLE_ASM) && !defined(CRYPTOPP_DISABLE_SSSE3) && !defined(_M_ARM) && !defined(_M_ARM64) && !defined(__arm__) && !defined(__aarch64__) && !defined(__arm64__) && ( \
 	defined(__SSSE3__) || (_MSC_VER >= 1500) || \
 	(CRYPTOPP_GCC_VERSION >= 40300) || (__INTEL_COMPILER >= 1000) || (__SUNPRO_CC >= 0x5110) || \
 	(CRYPTOPP_LLVM_CLANG_VERSION >= 20300) || (CRYPTOPP_APPLE_CLANG_VERSION >= 40000))
@@ -128,7 +128,7 @@
 	#define CRYPTOPP_SSSE3_AVAILABLE 0
 # endif
 
-#if !defined(CRYPTOPP_DISABLE_SSSE3) && (defined(__SSSE3__) || (_MSC_VER >= 1500)) && !defined(_M_ARM) && !defined(_M_ARM64)
+#if !defined(CRYPTOPP_DISABLE_SSSE3) && (defined(__SSSE3__) || (_MSC_VER >= 1500)) && !defined(_M_ARM) && !defined(_M_ARM64) && !defined(__arm__) && !defined(__aarch64__) && !defined(__arm64__)
     #define CRYPTOPP_BOOL_SSSE3_INTRINSICS_AVAILABLE 1
 #else
     #define CRYPTOPP_BOOL_SSSE3_INTRINSICS_AVAILABLE 0
@@ -146,7 +146,7 @@
     #define CRYPTOPP_BOOL_ALIGN16 0
 #endif
 
-#if CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE && (defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER))
+#if CRYPTOPP_BOOL_SSSE3_INTRINSICS_AVAILABLE && (defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER))
     #define CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE 1
 #else
     #define CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE 0
