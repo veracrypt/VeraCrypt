@@ -97,7 +97,7 @@
     <entry lang="fi" key="IDT_SPEED">Nopeus</entry>
     <entry lang="fi" key="IDT_STATUS">Tila</entry>
     <entry lang="fi" key="IDT_SYSENC_KEYS_GEN_INFO">Avaimet, suolaus ja muu data on nyt generoitu onnistuneesti. Jos haluat generoida uudet avaimet, paina Takaisin ja sitten Seuraava. Muutoin, paina Seuraava jatkaaksesi.</entry>
-    <entry lang="fi" key="IDT_SYS_DEVICE">Salaa järjestelmäaseman/osion, jolle Windows on asennettu (esim. C: asema). Tämän jälkeen se, että järjestelmää voidaan käyttää tai että tiedostoihin pääsee käsiksi vaatii sen, että oikea salasana annetaan joka kerta ennenkuin Windows käynnistyy.</entry>
+    <entry lang="fi" key="IDT_SYS_DEVICE">Salaa järjestelmäaseman/osion, jolle Windows on asennettu (esim. C: asema). Tämän jälkeen se, että järjestelmää voidaan käyttää tai että tiedostoihin pääsee käsiksi vaatii sen, että oikea salasana annetaan joka kerta ennen kuin Windows käynnistyy.</entry>
     <entry lang="fi" key="IDT_SYS_PARTITION">Valitse tämä vaihtoehto salataksesi osion missä Windows-käyttöjärjestelmä on asennettuna.</entry>
     <entry lang="fi" key="IDT_VOLUME_LABEL">Taltion otsikko Windowsissa:</entry>
     <entry lang="fi" key="IDT_WIPE_MODE">Tyhjennystila:</entry>
@@ -220,7 +220,7 @@
     <entry lang="fi" key="IDM_DONATE">Lahjoita...</entry>
     <entry lang="fi" key="IDM_ENCRYPT_SYSTEM_DEVICE">Salaa järjestelmäosio/asema...</entry>
     <entry lang="fi" key="IDM_FAQ">Usein kysyttyjä kysymyksiä</entry>
-    <entry lang="fi" key="IDM_HELP">Käyttäjäopas</entry>
+    <entry lang="fi" key="IDM_HELP">Käyttöopas</entry>
     <entry lang="fi" key="IDM_HOMEPAGE">&amp;Kotisivu </entry>
     <entry lang="fi" key="IDM_HOTKEY_SETTINGS">Pikanäppäimet...</entry>
     <entry lang="fi" key="IDM_KEYFILE_GENERATOR">Avaintiedoston generointi</entry>
@@ -509,7 +509,7 @@
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Taltion salaus kokonaan purettu</entry>
     <entry lang="fi" key="NONSYS_INPLACE_ENC_FINISHED_INFO">TÄRKEÄÄ: KYTKEÄKSESI TÄMÄN UUDEN LUODUN VERACRYPT TALTION JA PÄÄSY TALLENTAMAAN SILLE, PAINA 'Autom. yhdistäminen' VERACRYPT PÄÄIKKUNASSA. Sen jälkeen kun annat oikean salasanan (ja/tai toimitat oikean avaintiedoston), taltio yhdistetään asemakirjaimelle jonka valitsit VeraCrypt-ohjelman pääikkunasta (ja sinun on mahdollista päästä salatuille tiedolle valitun asemakirjaimen kautta).\n\nMUISTA TAI KIRJOITA YLöS ALLA OLEVAT VAIHEET. SINUN TULLE SEURATA NIITÄ AINA KUN HALUAT YHDISTÄÄ TALTION JA PÄÄSTÄ KIINNI TALLENNETTUIHIN TIETOIHIN. Vaihtoehtoisesti, VeraCryptin pääikkunasta, paina 'Valitse Laite', ja sitten valitse osio/taltio, ja paina 'Yhdistä'.\n\nOsio/taltio on onnistuneesti salattu (se sisältää nyt täysin salatun VeraCrypt-taltion) ja on valmis käytettäväksi.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_INFO">VeraCrypt-taltion salaus on onnistuneesti purettu.</entry>
-    <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">VeraCrypt-taltion salaus on onnistuneesti purettu.\n\nValitse asemakirjain, jonka haluat määrittää puretulle asemalle, ja valitse sitten Valmis.\n\nTÄRKEÄÄ: Ennenkuin asemakirjainta on määritetty puretulle asemalle, et pääse käsiksi asemalla olevaan dataan.</entry>
+    <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">VeraCrypt-taltion salaus on onnistuneesti purettu.\n\nValitse asemakirjain, jonka haluat määrittää puretulle asemalle, ja valitse sitten Valmis.\n\nTÄRKEÄÄ: Ennen kuin asemakirjainta on määritetty puretulle asemalle, et pääse käsiksi asemalla olevaan dataan.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Varoitus: Jotta pääset käsiksi salaamattomaan dataan, asemalle jonka salaus on purettu, tulee määrittää asemakirjain. Kuitenkaan tätä varten asemakirjaimia ei ole vapaana.\n\nVapauta asemakirjain (esimerkiksi irrottamalla USB-muistitikku tai ulkoinen kiintolevy jne.) ja paina OK.</entry>
     <entry lang="fi" key="FORMAT_FINISHED_INFO">VeraCrypt-taltio on luotu onnistuneesti.</entry>
     <entry lang="fi" key="FORMAT_FINISHED_TITLE">Taltio luotu</entry>
@@ -843,46 +843,46 @@
     <entry lang="fi" key="EXTRACTION_PROGRESS_INFO">Odota, että tiedostot on purettu.</entry>
     <entry lang="fi" key="EXTRACTION_FINISHED_TITLE_DON">Tiedostot onnistuneesti purettu</entry>
     <entry lang="fi" key="EXTRACTION_FINISHED_INFO">Kaikki tiedostot ovat onnistuneesti purettu kohteeseen.</entry>
-    <entry lang="fi" key="AUTO_FOLDER_CREATION">Jos erityinen hakemisto ei löydy, se luodaan automaattisesti.</entry>
+    <entry lang="fi" key="AUTO_FOLDER_CREATION">Jos määritettyä hakemistoa ei ole olemassa, se luodaan automaattisesti.</entry>
     <entry lang="fi" key="SETUP_UPGRADE_DESTINATION">VeraCrypt-ohjelman tiedostot päivitetään sijaintiin missä VeraCrypt-ohjelma on asennettu. Jos sinun tarvitsee valita toinen sijainti, poista ensin VeraCrypt-ohjelman asennus.</entry>
-    <entry lang="fi" key="AFTER_UPGRADE_RELEASE_NOTES">Haluatko näyttää ohjelmisto tiedotteen nykyisestä (viimeinen vakaa) versio VeraCrypt-ohjelmasta?</entry>
-    <entry lang="fi" key="AFTER_INSTALL_TUTORIAL">Jos et ole koskaan käyttänyt VeraCrypt-ohjelmaa ennen, suosittelemme, että luet kappaleen Aloittelijan Koulutus 'Beginner's Tutorial' VeraCrypt-ohjelma Käyttäjäoppaassa. Haluatko katsoa opetusohjelman?</entry>
-    <entry lang="fi" key="SELECT_AN_ACTION">Valitse toiminto suorittaaksesi seuraavan:</entry>
-    <entry lang="fi" key="REPAIR_REINSTALL">Korjaa/Uudelleen asennus</entry>
-    <entry lang="fi" key="UPGRADE">Päivitys</entry>
-    <entry lang="fi" key="UNINSTALL">Poista Asennus</entry>
-    <entry lang="fi" key="SETUP_ADMIN">Asentaaksesi/poistaaksesi VeraCrypt-ohjelman asennuksen onnistuneesti, sinulla tulee olla pääkäyttäjän oikeudet. Haluatko jatkaa?</entry>
-    <entry lang="fi" key="TC_INSTALLER_IS_RUNNING">VeraCrypt-ohjelma asennusohjelma on juuri käynnissä tässä järjestelmässä ja suorittaa tai valmistelee asennusta tai VeraCrypt-ohjelman päivittämistä. Ennen kuin aloitat, ole hyvä ja odota sen loppumista tai sulje se. Jos et voi sulkea sitä, ole hyvä ja käynnistä tietokoneesi uudelleen ennen tätä suoritusta.</entry>
+    <entry lang="fi" key="AFTER_UPGRADE_RELEASE_NOTES">Haluatko lukea viimeisimmän (vakaan) VeraCrypt version julkaisutiedot?</entry>
+    <entry lang="fi" key="AFTER_INSTALL_TUTORIAL">Jos et ole koskaan ennen käyttänyt VeraCryptiä, suosittelemme että luet kappaleen Beginner's Tutorial VeraCryptin käyttöoppaasta. Haluatko avata sen nyt?</entry>
+    <entry lang="fi" key="SELECT_AN_ACTION">Valitse suoritettava toiminto seuraavista:</entry>
+    <entry lang="fi" key="REPAIR_REINSTALL">Korjaa/asenna uudelleen</entry>
+    <entry lang="fi" key="UPGRADE">Päivitä</entry>
+    <entry lang="fi" key="UNINSTALL">Poista asennus</entry>
+    <entry lang="fi" key="SETUP_ADMIN">Asentaaksesi/poistaaksesi VeraCrypt-ohjelman asennuksen onnistuneesti, sinulla tulee olla järjestelmänvalvojan oikeudet. Haluatko jatkaa?</entry>
+    <entry lang="fi" key="TC_INSTALLER_IS_RUNNING">VeraCryptin asennusohjelma on juuri käynnissä tässä järjestelmässä ja suorittaa tai valmistelee VeraCryptin asennusta tai päivittämistä. Ennen kuin jatkat, odota sen päättymistä tai sulje se. Jos et voi sulkea sitä, ole hyvä ja käynnistä tietokoneesi uudelleen ennen jatkamista.</entry>
     <entry lang="fi" key="INSTALL_FAILED">Asennus epäonnistui.</entry>
     <entry lang="fi" key="UNINSTALL_FAILED">Asennuksen poisto epäonnistui.</entry>
     <entry lang="fi" key="DIST_PACKAGE_CORRUPTED">Tämä jaettu paketti on viallinen. Yritä ladata se uudelleen (mieluiten virallisilta VeraCrypt-kotisivuilta osoitteesta https://www.veracrypt.fr).</entry>
     <entry lang="fi" key="CANNOT_WRITE_FILE_X">Ei voida kirjoittaa tiedostoa %s</entry>
     <entry lang="fi" key="EXTRACTING_VERB">Puretaan</entry>
-    <entry lang="fi" key="CANNOT_READ_FROM_PACKAGE">Ei voida lukea tietoja paketista.</entry>
-    <entry lang="fi" key="CANT_VERIFY_PACKAGE_INTEGRITY">Ei voida tarkistaa jaetun paketin yhteneväisyyttä.</entry>
+    <entry lang="fi" key="CANNOT_READ_FROM_PACKAGE">Datan lukeminen paketista epäonnistui.</entry>
+    <entry lang="fi" key="CANT_VERIFY_PACKAGE_INTEGRITY">Tämän jakelupaketin ehyyttä ei voida varmistaa.</entry>
     <entry lang="fi" key="EXTRACTION_FAILED">Purku epäonnistui.</entry>
-    <entry lang="fi" key="ROLLBACK">Asennus otettu takaisin.</entry>
+    <entry lang="fi" key="ROLLBACK">Asennus on palautettu takaisin.</entry>
     <entry lang="fi" key="INSTALL_OK">VeraCrypt-ohjelma onnistuneesti asennettu.</entry>
     <entry lang="fi" key="SETUP_UPDATE_OK">VeraCrypt-ohjelma on onnistuneesti päivitetty.</entry>
-    <entry lang="fi" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt-ohjelma on onnistuneesti päivitetty. Ennen kuin voit aloittaa sen käytön, tietokone on käynnistettävä uudelleen.\n\nHaluatko käynnistää sen uudelleen?</entry>
+    <entry lang="fi" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt-ohjelma on onnistuneesti päivitetty. Ennen kuin voit aloittaa sen käytön, tietokone on käynnistettävä uudelleen.\n\nHaluatko käynnistää sen uudelleen nyt?</entry>
     <entry lang="fi" key="SYS_ENC_UPGRADE_FAILED">VeraCryptin päivittäminen epäonnistui!\n\nVAROITUS: Ennen järjestelmän sammuttamista tai uudelleenkäynnistystä on suositeltavaa käyttää järjestelmän palautusta (Windowsin Käynnistä-valikko > Kaikki ohjelmat> Tarvikkeet> Järjestelmätyökalut> Järjestelmän palauttaminen) palauttaaksesi kohteen nimeltään "VeraCrypt-asennus". Jos Järjestelmän palauttaminen ei ole käytettävissä, sinun kannattaa yrittää asentaa VeraCryptin alkuperäinen versio tai uusi versio ennen kuin suljet järjestelmän tai käynnistät sen uudelleen.</entry>
-    <entry lang="fi" key="UNINSTALL_OK">VeraCrypt-ohjelma on onnistuneesti poistettu.\n\nPaina 'Lopetus' poistaaksesi VeraCrypt asennuksen ja %s hakemiston. Huomioi, että hakemistoa ei poisteta jo jokin hakemiston tiedosto ei ole VeraCryptin asentama tai luotu VeraCryptin avulla.</entry>
-    <entry lang="fi" key="REMOVING_REG">Poistetaan VeraCrypt-ohjelman rekisterin sisältö</entry>
-    <entry lang="fi" key="ADDING_REG">Lisätään rekisterin sisältö</entry>
-    <entry lang="fi" key="REMOVING_APPDATA">Poista sovelluserityinen data</entry>
+    <entry lang="fi" key="UNINSTALL_OK">VeraCryptin asennus on poistettu onnistuneesti.\n\nPaina 'Valmis' poistaaksesi VeraCryptin asennusohjelman ja %s hakemiston. Huomioi, että hakemistoa ei poisteta jos se sisältää tiedostoja jotka eivät ole alun perin VeraCrypt asennusohjelman tai VeraCryptin luomia.</entry>
+    <entry lang="fi" key="REMOVING_REG">Poistetaan VeraCryptin rekisterimerkinnät</entry>
+    <entry lang="fi" key="ADDING_REG">Lisätään rekisterimerkintä</entry>
+    <entry lang="fi" key="REMOVING_APPDATA">Poistetaan sovelluskohtainen data</entry>
     <entry lang="fi" key="INSTALLING">Asennetaan</entry>
     <entry lang="fi" key="STOPPING">Pysäytetään</entry>
     <entry lang="fi" key="REMOVING">Poistetaan</entry>
     <entry lang="fi" key="ADDING_ICON">Lisätään ikoni</entry>
-    <entry lang="fi" key="CREATING_SYS_RESTORE">Luodaan järjestelmän palautuspiste</entry>
-    <entry lang="fi" key="FAILED_SYS_RESTORE">Epäonnistuttiin palautus pisteen luonnissa!</entry>
-    <entry lang="fi" key="INSTALLER_UPDATING_BOOT_LOADER">Päivitä Käynnistyslataaja</entry>
-    <entry lang="fi" key="INSTALL_OF_FAILED">Epäonnistui asentaa '%s'. %s Haluatko jatkaa asennusta?</entry>
-    <entry lang="fi" key="UNINSTALL_OF_FAILED">Asennuksen poisto '%s' epäonnistui. %s Haluatko jatkaa poistoa?</entry>
-    <entry lang="fi" key="INSTALL_COMPLETED">Asennuksen poisto valmis.</entry>
-    <entry lang="fi" key="CANT_CREATE_FOLDER">Hakemistoa '%s' ei voida luoda</entry>
-    <entry lang="fi" key="CLOSE_TC_FIRST">VeraCrypt-laiteohjainta ei voida purkaa.\n\nSulje ensin kaikki avoimet VeraCryptin ikkunat. Jos tämä ei auta, käynnistä Windows uudelleen ja yritä uudelleen.</entry>
-    <entry lang="fi" key="DISMOUNT_ALL_FIRST">Kaikki VeraCrypt-taltioilta täytyy poistaa yhteys ennen kuin onnistuu VeraCrypt-asennus tai asennuksen poisto.</entry>
+    <entry lang="fi" key="CREATING_SYS_RESTORE">Luodaan järjestelmän palautuspistettä</entry>
+    <entry lang="fi" key="FAILED_SYS_RESTORE">Järjestelmän palautuspisteen luominen epäonnistui!</entry>
+    <entry lang="fi" key="INSTALLER_UPDATING_BOOT_LOADER">Päivitetään käynnistysohjelmaa</entry>
+    <entry lang="fi" key="INSTALL_OF_FAILED">Asennus '%s' epäonnistui. %s\nHaluatko jatkaa asennusta?</entry>
+    <entry lang="fi" key="UNINSTALL_OF_FAILED">Asennuksen '%s' poistaminen epäonnistui. %s\nHaluatko jatkaa asennuksen poistoa?</entry>
+    <entry lang="fi" key="INSTALL_COMPLETED">Asennus on valmis.</entry>
+    <entry lang="fi" key="CANT_CREATE_FOLDER">Hakemistoa '%s' ei voitu luoda</entry>
+    <entry lang="fi" key="CLOSE_TC_FIRST">VeraCryptin laiteajuria ei voitu poistaa käytöstä.\n\nSuljethan kaikki avoimet VeraCrypt ikkunat ensin. Jos tämä ei auta, käynnistä Windows uudelleen ja yritä taas.</entry>
+    <entry lang="fi" key="DISMOUNT_ALL_FIRST">Kaikki VeraCrypt-taltiot tulee irrottaa ennen VeraCryptin asennusta tai poistoa.</entry>
     <entry lang="fi" key="UNINSTALL_OLD_VERSION_FIRST">Tällä järjestelmällä on tällä hetkellä asennettuna vanhentunut VeraCrypt-versio. Se on poistettava ennen kuin voit asentaa tämän uuden VeraCrypt-version.\n\nHeti kun suljet tämän viestikentän, vanhojen versioiden poistaminen käynnistetään. Huomaa, ettei mitään taltiota pureta, kun poistat VeraCryptin. Kun olet poistanut VeraCryptin vanhan version, suorita VeraCryptin uuden version asennusohjelma uudestaan.</entry>
     <entry lang="fi" key="REG_INSTALL_FAILED">Rekisteri merkinnän asennus on epäonnistunut</entry>
     <entry lang="fi" key="DRIVER_INSTALL_FAILED">Laite ohjaimen asennus on epäonnistunut. Käynnistä Windows uudelleen ja yritä asentaa VeraCrypt-ohjelma uudelleen.</entry>
@@ -1402,7 +1402,7 @@
     <entry lang="fi" key="TIME">Aika</entry>
     <entry lang="fi" key="ITERATIONS">Iteraatiot</entry>
     <entry lang="fi" key="PRE-BOOT">Käynnistystä edeltävä</entry>
-    <entry lang="fi" key="RESCUE_DISK_EFI_INFO">Ennenkuinvoit salata osion, sinun tulee luoda VeraCrypt pelastuslevy (lyh. VRD), joka ajaa seuraavat tarkoitukset:\n\n- Jos VeraCryptin käynnistysohjelma, pääavain tai jokin muu kriittinen data vahingoittuu, VRD mahdollistaa sen palauttamisen (huomioi että sinun täytyy silti syöttää oikea salasana).\n\n- Jos Windows vahingoittuu tai ei käynnisty, VRD mahdollistaa sen osion salauksen purkamisen ennen Windowsin käynnistymistä.\n\n- VRD sisältää varmuuskopion tämänhetkisestä EFI-käynnistysohjelmasta ja mahdollistaa sen palauttamisen jos tarve.\n\nVeraCrypt pelastuslevyn ZIP -levykuva luodaan alla määritettyyn sijaintiin.</entry>
+    <entry lang="fi" key="RESCUE_DISK_EFI_INFO">Ennen kuin voit salata osion, sinun tulee luoda VeraCrypt pelastuslevy (lyh. VRD), joka ajaa seuraavat tarkoitukset:\n\n- Jos VeraCryptin käynnistysohjelma, pääavain tai jokin muu kriittinen data vahingoittuu, VRD mahdollistaa sen palauttamisen (huomioi että sinun täytyy silti syöttää oikea salasana).\n\n- Jos Windows vahingoittuu tai ei käynnisty, VRD mahdollistaa sen osion salauksen purkamisen ennen Windowsin käynnistymistä.\n\n- VRD sisältää varmuuskopion tämänhetkisestä EFI-käynnistysohjelmasta ja mahdollistaa sen palauttamisen jos tarve.\n\nVeraCrypt pelastuslevyn ZIP -levykuva luodaan alla määritettyyn sijaintiin.</entry>
     <entry lang="fi" key="RESCUE_DISK_EFI_EXTRACT_INFO">Pelastuslevyn ZIP -levykuva on luotu ja tallennettu tähän tiedostoon:\n%s\n\nNyt se on purettava USB-muistitikulle joka on formatoitu FAT/FAT32-tiedostojärjestelmällä.\n\n%lsKun olet luonut pelastuslevyn, paina Seuraava varmistaaksesi että se luotiin onnistuneesti.</entry>
     <entry lang="fi" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">Pelastuslevyn ZIP -levykuva on luotu ja tallennettu tähän tiedostoon:\n%s\n\nNyt se on purettava joko USB-muistitikulle joka on formatoitu FAT/FAT32-tiedostojärjestelmällä tai siirrettävä turvalliseen paikkaan myöhempää käyttöä varten.\n\n%lsPaina Seuraava jatkaaksesi.</entry>
     <entry lang="fi" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">TÄRKEÄÄ: Huomaa, että zip-tiedosto on purettava suoraan USB-muistitikun juurihakemistoon. Esimerkiksi jos USB-muistitikun asemakirjain on E:, zip-tiedoston purkamisen USB-muistitikun juurihakemistoon pitäisi luoda hakemisto E:\\EFI.\n\n</entry>
@@ -1446,7 +1446,7 @@
     <entry lang="fi" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Pakota laite käynnistymään VeraCryptiin seuraavalla käynnistyskerralla</entry>
     <entry lang="fi" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Pakota VeraCrypt vaihtoehto EFI firmwaren käynnistysvalikkoon</entry>
     <entry lang="fi" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Pakota VeraCrypt ensimmäiseksi vaihtoehdoksi EFI firmwaren käynnistysvalikossa</entry>
-    <entry lang="fi" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">VAROITUS: RAM-muistin salaus ei ole yhteensopiva Windowsin horrostila ja -pikakäynnistys ominaisuuksien kanssa. VeraCryptin tulee ottaa ne pois käytöstä ennenkuin RAM-muistin salaus voidaan ottaa käyttöön.\n\nJatketaanko?</entry>
+    <entry lang="fi" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">VAROITUS: RAM-muistin salaus ei ole yhteensopiva Windowsin horrostila ja -pikakäynnistys ominaisuuksien kanssa. VeraCryptin tulee ottaa ne pois käytöstä ennen kuin RAM-muistin salaus voidaan ottaa käyttöön.\n\nJatketaanko?</entry>
     <entry lang="fi" key="CONFIRM_DISABLE_FAST_STARTUP">VAROITUS: Windowsin pikakäynnistys on käytössä ja sen tiedetään aiheuttavan ongelmia VeraCrypt-taltioiden kanssa. On suositeltavaa ottaa se pois käytöstä turvallisuuden ja käytettävyyden kannalta.\n\nHaluatko ottaa Windowsin pikakäynnistyksen pois käytöstä?</entry>
     <entry lang="fi" key="QUICK_FORMAT_HELP">Jotta käyttöjärjestelmäsi voi liittää uuden taltiosi, tulee sille luoda tiedostojärjestelmä. Valitse tiedostojärjestelmä.\n\nJos taltiosi sijaitsee laiteella tai osiolla, voit käyttää vaihtoehtoa 'Nopea alustus' ohittaaksesi taltion vapaan tilan salauksen.</entry>
     <entry lang="fi" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Älä käytä laitteistokiihdytystä käyttäen prosessorin AES-käskykantaa AES salaukseen tai salauksen purkuun</entry>
@@ -1622,8 +1622,8 @@
     <entry lang="fi" key="INVALID_EMV_PATH">EMV polku on väärä.</entry>
     <entry lang="fi" key="EMV_KEYFILE_DATA_NOTFOUND">Avaintiedoston luominen EMV-kortin datasta epäonnistui.\n\nJokin seuraavista puuttuu:\n- Älykortin julkisen avaimen varmenne.\n- Myöntäjän julkisen avaimen varmenne.\n- CPLC data.</entry>
     <entry lang="fi" key="SCARD_W_REMOVED_CARD">Ei korttia lukijassa.\n\nVarmista että kortti on asetettu kunnolla.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
+    <entry lang="fi" key="FORMAT_EXTERNAL_FAILED">Windowsin format.com komento epäonnistui taltion formatoimisessa NTFS/exFAT/ReFS: Error 0x%.8X.\n\nPalataan käyttämään Windowsin FormatEx API:a.</entry>
+    <entry lang="en" key="FORMATEX_API_FAILED">Windowsin FormatEx API epäonnistui formatoimaan taltion NTFS/exFAT/ReFS.\n\nVirheen tila = %s.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
