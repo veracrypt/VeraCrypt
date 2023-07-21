@@ -161,7 +161,7 @@
     <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">使用者階段被鎖定</entry>
     <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_POWERSAVING">進入待機狀態時</entry>
     <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_SCREENSAVER">螢幕保護載入時</entry>
-    <entry lang="zh-hk" key="IDC_PREF_FORCE_AUTO_DISMOUNT"></entry>
+    <entry lang="zh-hk" key="IDC_PREF_FORCE_AUTO_DISMOUNT">即使加密區上有檔案或資料夾正在使用中仍強制解除掛載</entry>
     <entry lang="zh-hk" key="IDC_PREF_LOGON_MOUNT_DEVICES">掛載所有裝置類的 VeraCrypt 加密區</entry>
     <entry lang="zh-hk" key="IDC_PREF_LOGON_START">啟動 VeraCrypt 並在背景執行</entry>
     <entry lang="zh-hk" key="IDC_PREF_MOUNT_READONLY">將加密區掛載成唯讀</entry>
@@ -270,7 +270,7 @@
     <entry lang="zh-hk" key="IDT_ASSIGN_HOTKEY">快捷鍵</entry>
     <entry lang="zh-hk" key="IDT_AUTORUN">自動執行設定檔(autorun.inf)</entry>
     <entry lang="zh-hk" key="IDT_AUTO_DISMOUNT">自動解除掛載</entry>
-    <entry lang="zh-hk" key="IDT_AUTO_DISMOUNT_ON">觸發全部解除掛載：</entry>
+    <entry lang="zh-hk" key="IDT_AUTO_DISMOUNT_ON">於這些情況下解除掛載所有加密區：</entry>
     <entry lang="zh-hk" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">開機管理程式畫面設定</entry>
     <entry lang="zh-hk" key="IDT_CONFIRM_PASSWORD">確認密碼：</entry>
     <entry lang="zh-hk" key="IDT_CURRENT">目前的密碼</entry>
