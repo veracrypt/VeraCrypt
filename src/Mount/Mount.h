@@ -55,7 +55,6 @@ typedef struct
 	Password *password;
 	int* pkcs5;
 	int* pim;
-	BOOL* truecryptMode;
 } PasswordDlgParam;
 
 extern VOLUME_NOTIFICATIONS_LIST VolumeNotificationsList;

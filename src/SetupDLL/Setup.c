@@ -328,10 +328,6 @@ void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersi
 		DWORD dwResult;
 		BOOL bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &driverVersion, sizeof (driverVersion), &dwResult, NULL);
 
-		if (!bResult)
-			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &driverVersion, sizeof (driverVersion), &dwResult, NULL);
-
-
 		bUpgrade = (bResult && driverVersion <= VERSION_NUM);
 		bDowngrade = (bResult && driverVersion > VERSION_NUM);
 		bReinstallMode = (bResult && driverVersion == VERSION_NUM);
@@ -1591,13 +1587,6 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 
 			// Check mounted volumes
 			bResult = DeviceIoControl (hDriver, TC_IOCTL_IS_ANY_VOLUME_MOUNTED, NULL, 0, &volumesMounted, sizeof (volumesMounted), &dwResult, NULL);
-
-			if (!bResult)
-			{
-				bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES, NULL, 0, &driver, sizeof (driver), &dwResult, NULL);
-				if (bResult)
-					volumesMounted = driver.ulMountedDrives;
-			}
 
 			if (bResult)
 			{

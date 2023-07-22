@@ -1278,10 +1278,9 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 
 
 
-int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BOOL bBoot)
+int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot)
 {
 	if (	(pim < 0)
-		|| (truecryptMode && pim > 0) /* No PIM for TrueCrypt mode */
 		)
 	{
 		return 0;
@@ -1291,9 +1290,7 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 	{
 
 	case BLAKE2S:	
-		if (truecryptMode)
-			return 0; // BLAKE2s not supported by TrueCrypt
-		else if (pim == 0)
+		if (pim == 0)
 			return bBoot? 200000 : 500000;
 		else
 		{
@@ -1301,15 +1298,13 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 		}
 
 	case SHA512:	
-		return truecryptMode? 1000 : ((pim == 0)? 500000 : 15000 + pim * 1000);
+		return ((pim == 0)? 500000 : 15000 + pim * 1000);
 
 	case WHIRLPOOL:	
-		return truecryptMode? 1000 : ((pim == 0)? 500000 : 15000 + pim * 1000);
+		return ((pim == 0)? 500000 : 15000 + pim * 1000);
 
 	case SHA256:
-		if (truecryptMode)
-			return 0; // SHA-256 not supported by TrueCrypt
-		else if (pim == 0)
+		if (pim == 0)
 			return bBoot? 200000 : 500000;
 		else
 		{
@@ -1317,9 +1312,7 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 		}
 
 	case STREEBOG:	
-		if (truecryptMode)
-			return 1000;
-		else if (pim == 0)
+		if (pim == 0)
 			return bBoot? 200000 : 500000;
 		else
 		{
@@ -1334,26 +1327,15 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 #endif
 }
 
-int is_pkcs5_prf_supported (int pkcs5_prf_id, BOOL truecryptMode, PRF_BOOT_TYPE bootType)
+int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
 {
    if (pkcs5_prf_id == 0) // auto-detection always supported
       return 1;
 
-   if (truecryptMode)
-   {
-      if (  (bootType == PRF_BOOT_GPT) 
-         || (bootType == PRF_BOOT_MBR) 
-         || (bootType == PRF_BOOT_NO && pkcs5_prf_id != SHA512 && pkcs5_prf_id != WHIRLPOOL)
-         )
-         return 0;
-   }
-   else
-   {
-      if (  (bootType == PRF_BOOT_MBR && pkcs5_prf_id != BLAKE2S && pkcs5_prf_id != SHA256)
-         || (bootType != PRF_BOOT_MBR && (pkcs5_prf_id < FIRST_PRF_ID || pkcs5_prf_id > LAST_PRF_ID))
-         )
-         return 0;
-   }
+   if (  (bootType == PRF_BOOT_MBR && pkcs5_prf_id != BLAKE2S && pkcs5_prf_id != SHA256)
+		|| (bootType != PRF_BOOT_MBR && (pkcs5_prf_id < FIRST_PRF_ID || pkcs5_prf_id > LAST_PRF_ID))
+		)
+      return 0;
 
    return 1;
 

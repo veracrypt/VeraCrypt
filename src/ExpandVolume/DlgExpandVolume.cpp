@@ -61,7 +61,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 namespace VeraCryptExpander
 {
 /* defined in WinMain.c, referenced by ExpandVolumeWizard() */
-int ExtcvAskVolumePassword (HWND hwndDlg, const wchar_t* fileName, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions);
+int ExtcvAskVolumePassword (HWND hwndDlg, const wchar_t* fileName, Password *password, int *pkcs5, int *pim, char *titleStringId, BOOL enableMountOptions);
 }
 
 
@@ -490,7 +490,6 @@ typedef struct
 	Password *password;
 	int pkcs5_prf;
 	int pim;
-	BOOL truecryptMode;
 	BOOL write;
 	BOOL preserveTimestamps;
 	BOOL useBackupHeader;
@@ -502,7 +501,7 @@ void CALLBACK OpenVolumeWaitThreadProc(void* pArg, HWND hwndDlg)
 	OpenVolumeThreadParam* pThreadParam = (OpenVolumeThreadParam*) pArg;
 
 	*(pThreadParam)->nStatus = OpenVolume(pThreadParam->context, pThreadParam->volumePath, pThreadParam->password, pThreadParam->pkcs5_prf,
-		pThreadParam->pim, pThreadParam->truecryptMode, pThreadParam->write, pThreadParam->preserveTimestamps, pThreadParam->useBackupHeader);
+		pThreadParam->pim, pThreadParam->write, pThreadParam->preserveTimestamps, pThreadParam->useBackupHeader);
 }
 
 /*
@@ -594,9 +593,8 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	while (TRUE)
 	{
 		OpenVolumeContext expandVol;
-		BOOL truecryptMode = FALSE;
 
-		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, lpszVolume, &VolumePassword, &VolumePkcs5, &VolumePim, &truecryptMode, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
+		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, lpszVolume, &VolumePassword, &VolumePkcs5, &VolumePim, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
 		{
 			goto ret;
 		}
@@ -614,7 +612,6 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		threadParam.password = &VolumePassword;
 		threadParam.pkcs5_prf = VolumePkcs5;
 		threadParam.pim = VolumePim;
-		threadParam.truecryptMode = FALSE;
 		threadParam.write = FALSE;
 		threadParam.preserveTimestamps = bPreserveTimestamp;
 		threadParam.useBackupHeader = FALSE;

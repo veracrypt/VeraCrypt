@@ -97,7 +97,7 @@ public:
 	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, 0, 0, FALSE, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, 0, 0, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
 	virtual DWORD STDMETHODCALLTYPE CopyFile (BSTR sourceFile, BSTR destinationFile)
@@ -143,19 +143,19 @@ public:
 	virtual int STDMETHODCALLTYPE ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, FALSE, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, truecryptMode, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, __int64 hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, Password *newPassword, int pkcs5, int pim, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, old_pim, newPassword, pkcs5, pim, wipePassCount, (HWND) hWnd);
 	}
 
 	virtual DWORD STDMETHODCALLTYPE GetFileSize (BSTR filePath, unsigned __int64 *pSize)
@@ -316,7 +316,7 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, wchar_t *lpszVolume)
 }
 
 
-extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg)
+extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg)
 {
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
@@ -327,7 +327,7 @@ extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old
 	{
 		CComBSTR bstrVolume (lpszVolume);
 		WaitCursor ();
-		r = tc->ChangePasswordEx3 (bstrVolume, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (__int64) hwndDlg);
+		r = tc->ChangePasswordEx3 (bstrVolume, oldPassword, old_pkcs5, old_pim, newPassword, pkcs5, pim, wipePassCount, (__int64) hwndDlg);
 		NormalCursor ();
 	}
 	else

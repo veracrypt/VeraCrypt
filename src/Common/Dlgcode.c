@@ -5209,7 +5209,6 @@ static int DriverLoad ()
 
 BOOL DriverUnload ()
 {
-	MOUNT_LIST_STRUCT driver;
 	int refCount;
 	int volumesMounted;
 	DWORD dwResult;
@@ -5233,13 +5232,6 @@ BOOL DriverUnload ()
 
 	// Test for mounted volumes
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_IS_ANY_VOLUME_MOUNTED, NULL, 0, &volumesMounted, sizeof (volumesMounted), &dwResult, NULL);
-
-	if (!bResult)
-	{
-		bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES, NULL, 0, &driver, sizeof (driver), &dwResult, NULL);
-		if (bResult)
-			volumesMounted = driver.ulMountedDrives;
-	}
 
 	if (bResult)
 	{
@@ -5406,9 +5398,6 @@ load:
 		DWORD dwResult;
 
 		BOOL bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &DriverVersion, sizeof (DriverVersion), &dwResult, NULL);
-
-		if (!bResult)
-			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &DriverVersion, sizeof (DriverVersion), &dwResult, NULL);
 
 #ifndef SETUP // Don't check version during setup to allow removal of another version
 		if (bResult == FALSE)
@@ -6506,27 +6495,27 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case BLAKE2S:
 					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
-					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case STREEBOG:
 					/* PKCS-5 test with HMAC-STREEBOG used as the PRF */
-					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 			}
@@ -6536,7 +6525,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 			benchmarkTable[benchmarkTotalItems].id = thid;
-			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot);
+			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot);
 			benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (unsigned __int64) (1000 * ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart / 2));
 			if (benchmarkPreBoot)
 			{
@@ -8234,15 +8223,6 @@ BOOL CheckFileExtension (wchar_t *fileName)
 	return FALSE;
 }
 
-BOOL IsTrueCryptFileExtension (wchar_t *fileName)
-{
-	wchar_t *ext = wcsrchr (fileName, L'.');
-	if (ext && !_wcsicmp (ext, L".tc"))
-		return TRUE;
-	else
-		return FALSE;
-}
-
 void CorrectFileName (wchar_t* fileName)
 {
 	/* replace '/' by '\' */
@@ -8886,7 +8866,6 @@ int MountVolume (HWND hwndDlg,
 				 Password *password,
 				 int pkcs5,
 				 int pim,
-				 BOOL truecryptMode,
 				 BOOL cachePassword,
 				 BOOL cachePim,
 				 BOOL sharedAccess,
@@ -8967,7 +8946,6 @@ retry:
 	else
 		mount.bMountManager = TRUE;
 	mount.pkcs5_prf = pkcs5;
-	mount.bTrueCryptMode = truecryptMode;
 	mount.VolumePim = pim;
 
 	wstring path = volumePath;
@@ -9122,7 +9100,6 @@ retry:
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
 	burn (&mount.ProtectedHidVolPassword, sizeof (mount.ProtectedHidVolPassword));
 	burn (&mount.pkcs5_prf, sizeof (mount.pkcs5_prf));
-	burn (&mount.bTrueCryptMode, sizeof (mount.bTrueCryptMode));
 	burn (&mount.ProtectedHidVolPkcs5Prf, sizeof (mount.ProtectedHidVolPkcs5Prf));
 
 	SetLastError (dwLastError);
@@ -11701,7 +11678,7 @@ void ReportUnexpectedState (const char *techInfo)
 
 #ifndef SETUP
 
-int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
+int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password *password, int pkcs5_prf, int pim, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
 {
 	int status = ERR_PARAMETER_INCORRECT;
 	int volumeType;
@@ -11876,7 +11853,7 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 		}
 
 		// Decrypt volume header
-		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pim, truecryptMode, &context->CryptoInfo, NULL);
+		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pim, &context->CryptoInfo, NULL);
 
 		if (status == ERR_PASSWORD_WRONG)
 			continue;		// Try next volume type

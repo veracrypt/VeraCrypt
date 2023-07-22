@@ -84,7 +84,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWORD,69,8,166,14,ES_PASSWORD | ES_AUTOHSCROLL
     COMBOBOX        IDC_PKCS5_PRF_ID,69,26,86,90,CBS_DROPDOWNLIST | WS_TABSTOP
-    CONTROL         "&TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,28,76,10
     EDITTEXT        IDC_PIM,69,43,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,49,97,10
     CONTROL         "Cache passwords and keyfil&es in memory",IDC_CACHE,
@@ -193,8 +192,8 @@ IDR_MOUNT_RSRC_HEADER   HEADER                  "resource.h"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,26,3,0
- PRODUCTVERSION 1,26,3,0
+ FILEVERSION 1,26,4,0
+ PRODUCTVERSION 1,26,4,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -211,11 +210,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt Expander"
-            VALUE "FileVersion", "1.26.3"
+            VALUE "FileVersion", "1.26.4"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCryptExpander.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.26.3"
+            VALUE "ProductVersion", "1.26.4"
         END
     END
     BLOCK "VarFileInfo"
