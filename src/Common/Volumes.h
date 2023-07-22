@@ -135,11 +135,11 @@ UINT64_STRUCT GetHeaderField64 (byte *header, int offset);
 #if defined(TC_WINDOWS_BOOT)
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 #elif defined(_UEFI)
-int ReadVolumeHeader(BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
+int ReadVolumeHeader(BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 int CreateVolumeHeaderInMemory(BOOL bBoot, char *encryptedHeader, int ea, int mode, Password *password, int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo, unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize, unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode);
 BOOL RandgetBytes(unsigned char *buf, int len, BOOL forceSlowPoll);
 #else
-int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
+int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 #if defined(_WIN32) && !defined(_UEFI)
 void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderSize, byte* fingerprint);
 #endif

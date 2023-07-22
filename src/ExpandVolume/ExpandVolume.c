@@ -105,7 +105,7 @@ int MountVolTemp (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Password *pas
 	mountOptions.PartitionInInactiveSysEncScope = FALSE;
 	mountOptions.UseBackupHeader = FALSE;
 
-	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
+	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
 	{
 		*driveNo = -3;
 		return ERR_VOL_MOUNT_FAILED;
@@ -681,7 +681,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	/* Try to decrypt the header */
 
-	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, VolumePim, FALSE, &cryptoInfo, NULL);
+	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, VolumePim, &cryptoInfo, NULL);
 	if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 		nStatus = 0;	// We can ignore this error here
 

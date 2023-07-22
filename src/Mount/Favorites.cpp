@@ -100,7 +100,6 @@ namespace VeraCrypt
 		favorite.OpenExplorerWindow = (bExplore == TRUE);
 		favorite.Pim = prop.volumePim;
 		favorite.Pkcs5 = prop.pkcs5;
-		favorite.TrueCryptMode = (prop.pkcs5Iterations == get_pkcs5_iteration_count(prop.pkcs5, 0, TRUE, prop.partitionInInactiveSysEncScope))? 1 : 0;
 		memcpy (favorite.VolumeID, prop.volumeID, VOLUME_ID_SIZE);
 
 		if (favorite.VolumePathId.empty()
@@ -693,15 +692,6 @@ namespace VeraCrypt
 					favorite.DisconnectedDevice = true;
 			}
 
-			XmlGetAttributeText (xml, "TrueCryptMode", boolVal, sizeof (boolVal));
-			if (boolVal[0])
-				favorite.TrueCryptMode = (boolVal[0] == '1')? 1 : 0;
-			else
-				favorite.TrueCryptMode = -1;
-			
-			if (favorite.TrueCryptMode > 0)
-				favorite.Pim = 0;
-
 			XmlGetAttributeText (xml, "pkcs5", label, sizeof (label));
 			if (label[0])
 				favorite.Pkcs5 = strtol (label, NULL, 10);
@@ -710,7 +700,6 @@ namespace VeraCrypt
 			if 	(	(favorite.Pkcs5 != -1) 
 				&&	(  (favorite.Pkcs5 < FIRST_PRF_ID)
 						|| (favorite.Pkcs5 > LAST_PRF_ID)
-						|| (favorite.TrueCryptMode == 1 && (0 == get_pkcs5_iteration_count (favorite.Pkcs5, 0, TRUE, favorite.SystemEncryption? TRUE : FALSE)))
 					)
 				)
 			{
@@ -819,16 +808,11 @@ namespace VeraCrypt
 			if (!favorite.Label.empty())
 				s += L" label=\"" + favorite.Label + L"\"";
 
-			if ((favorite.Pim >= 0) && (favorite.TrueCryptMode <= 0))
+			if (favorite.Pim >= 0)
 				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
 
 			if (favorite.Pkcs5 > 0)
 				s += L" pkcs5=\"" + IntToWideString(favorite.Pkcs5) + L"\"";
-
-			if (favorite.TrueCryptMode > 0)
-				s += L" TrueCryptMode=\"1\"";
-			else if (favorite.TrueCryptMode == 0)
-				s += L" TrueCryptMode=\"0\"";
 
 			if (favorite.ReadOnly)
 				s += L" readonly=\"1\"";
@@ -951,7 +935,6 @@ namespace VeraCrypt
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_READONLY, favorite.ReadOnly);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE, favorite.Removable);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID, favorite.UseVolumeID && bIsDevice);
-		SetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE, (favorite.TrueCryptMode > 0)? TRUE : FALSE);
 
 		/* Populate the PRF algorithms list */
 		int nIndex, i, nSelected = 0;
@@ -963,13 +946,10 @@ namespace VeraCrypt
 
 		for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 		{
-			if (!favorite.SystemEncryption || (favorite.TrueCryptMode != 1))
-			{
-				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
-				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
-				if (favorite.Pkcs5 == i)
-					nSelected = nIndex;
-			}
+			nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
+			if (favorite.Pkcs5 == i)
+				nSelected = nIndex;
 		}
 
 		if (favorite.Pkcs5 >= 0)
@@ -1003,7 +983,6 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_REMOVE), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), enable && !favorite.SystemEncryption);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), enable && !favorite.SystemEncryption);
-		EnableWindow (GetDlgItem (hwndDlg, IDC_TRUECRYPT_MODE), enable && !favorite.SystemEncryption);                      
 		EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PIM), enable);
@@ -1082,24 +1061,6 @@ namespace VeraCrypt
 			favorite.Pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, nSelected, 0);
 		else
 			favorite.Pkcs5 = -1;
-		BOOL selectedTrueCryptMode = (IsDlgButtonChecked (hwndDlg, IDC_TRUECRYPT_MODE) != 0)? 1 : 0;
-		if ((favorite.TrueCryptMode >= 0) || selectedTrueCryptMode)
-			favorite.TrueCryptMode = selectedTrueCryptMode;
-
-		if (favorite.TrueCryptMode == 1)
-		{
-			if ((favorite.Pkcs5 > 0) && !is_pkcs5_prf_supported (favorite.Pkcs5, TRUE, favorite.SystemEncryption? PRF_BOOT_MBR : PRF_BOOT_NO))
-			{
-				Error ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
-				favorite.Pkcs5 = 0;
-			}
-
-			if (favorite.Pim > 0)
-			{
-				Error ("PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
-				favorite.Pim = 0;
-			}
-		}
 
 		favorite.ReadOnly = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_READONLY) != 0);
 		favorite.Removable = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE) != 0);

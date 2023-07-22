@@ -2319,7 +2319,7 @@ static int OpenBackupHeader (HANDLE dev, const wchar_t *devicePath, Password *pa
 	}
 
 
-	nStatus = ReadVolumeHeader (FALSE, header, password, pkcs5, pim, FALSE, retMasterCryptoInfo, headerCryptoInfo);
+	nStatus = ReadVolumeHeader (FALSE, header, password, pkcs5, pim, retMasterCryptoInfo, headerCryptoInfo);
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
 

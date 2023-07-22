@@ -257,7 +257,6 @@ typedef struct CRYPTO_INFO_t
 #endif
 
 	int noIterations;	
-	BOOL bTrueCryptMode;
 	int volumePim;
 
 	BOOL bProtectHiddenVolume;			// Indicates whether the volume contains a hidden volume to be protected against overwriting

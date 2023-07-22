@@ -26,7 +26,7 @@ extern "C" {
 BOOL ComServerMain ();
 int UacBackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, wchar_t *lpszVolume);
 int UacRestoreVolumeHeader (HWND hwndDlg, wchar_t *lpszVolume);
-int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg);
+int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg);
 
 #ifdef __cplusplus
 }
