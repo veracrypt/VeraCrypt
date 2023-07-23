@@ -1211,7 +1211,7 @@ namespace VeraCrypt
 					" Display password characters while typing.\n"
 					"\n"
 					"--encryption=ENCRYPTION_ALGORITHM\n"
-					" Use specified encryption algorithm when creating a new volume.\n"
+					" Use specified encryption algorithm when creating a new volume. When cascasing algorithms, they must be seperated by a dash. For example: AES-Twofish. \n"
 					"\n"
 					"--filesystem=TYPE\n"
 					" Filesystem type to mount. The TYPE argument is passed to mount(8) command\n"
