@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.3">
+  <localization prog-version= "1.26.4">
     <language langid="my" name="မြန်မာ" en-name="Burmese" version="2.0.0" translators="Zaw Myo Htet; Transifex contributors" />
     <font lang="my" class="normal" size="11" face="Myanmar3" />
     <font lang="my" class="bold" size="13" face="Myanmar3" />
@@ -295,6 +295,7 @@
     <entry lang="my" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF -</entry>
     <entry lang="my" key="IDT_PW_CACHE_OPTIONS">စကားဝှက် ယာယီ သိမ်းဆည်းခန်း</entry>
     <entry lang="my" key="IDT_SECURITY_OPTIONS">လုံခြုံရေး ရွေးစရာများ</entry>
+    <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
     <entry lang="my" key="IDT_TASKBAR_ICON">VeraCrypt နောက်ခံ လုပ်ငန်း</entry>
     <entry lang="my" key="IDT_TRAVELER_MOUNT">အစပျိုးရမည့် VeraCrypt volume (ခရီးဆောင် disk root နှင့် ဆက်စပ်သည်) -</entry>
     <entry lang="my" key="IDT_TRAVEL_INSERTION">Traveler disk ကို ထည့်လိုက်သည့်အခါ -</entry>
@@ -1625,6 +1626,13 @@
     <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
     <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
     <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
+    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\r\n</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

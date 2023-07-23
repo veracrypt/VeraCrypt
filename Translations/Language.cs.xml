@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.3">
+  <localization prog-version= "1.26.4">
     <language langid="cs" name="Čeština" en-name="Czech" version="1.3.0" translators="Vítek Moser, Lagardere" />
     <font lang="cs" class="normal" size="11" face="default" />
     <font lang="cs" class="bold" size="13" face="Arial" />
@@ -295,6 +295,7 @@
     <entry lang="cs" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="cs" key="IDT_PW_CACHE_OPTIONS">Mezipaměť pro hesla</entry>
     <entry lang="cs" key="IDT_SECURITY_OPTIONS">Možnosti zabezpečení</entry>
+    <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
     <entry lang="cs" key="IDT_TASKBAR_ICON">VeraCrypt služba na pozadí</entry>
     <entry lang="cs" key="IDT_TRAVELER_MOUNT">Svazek VeraCryptu, který chcete připojit (relativní ke kořenovému adresáři):</entry>
     <entry lang="cs" key="IDT_TRAVEL_INSERTION">Po připojení přenosného disku:</entry>
@@ -1623,6 +1624,13 @@
     <entry lang="cs" key="SCARD_W_REMOVED_CARD">Ve čtečce není žádná karta.\n\nZkontrolujte, zda je karta správně zasunuta.</entry>
     <entry lang="cs" key="FORMAT_EXTERNAL_FAILED">Příkaz Windows format.com selhal při formátování svazku jako NTFS/exFAT/ReFS: Chyba 0x%.8X.\n\nPřechod zpět pro použití Windows FormatEx API.</entry>
     <entry lang="cs" key="FORMATEX_API_FAILED">Windows FormatEx API se nepodařilo naformátovat svazek jako NTFS/exFAT/ReFS.\n\nStav selhání = %s.</entry>
+    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\r\n</entry>
+    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\r\n</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
