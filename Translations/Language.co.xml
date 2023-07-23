@@ -1641,13 +1641,13 @@ Information about Corsican localization:
 		<entry lang="co" key="SCARD_W_REMOVED_CARD">Alcuna carta in u lettore.\n\nAssicuratevi chì a carta hè framessa currettamente.</entry>	</localization>
 		<entry lang="co" key="FORMAT_EXTERNAL_FAILED">A cumanda « format.com » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS : Sbagliu 0x%.8X.\n\nRivultata à impiegà l’API « FormatEx » di Windows.</entry>
 		<entry lang="co" key="FORMATEX_API_FAILED">L’API « FormatEx » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS.\n\nStatu di u fiascu = %s.</entry>
-		<entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\r\n</entry>
-		<entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\r\n</entry>
-		<entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\r\n</entry>
-		<entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\r\n</entry>
-		<entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\r\n</entry>
-		<entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\r\n</entry>
-		<entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\r\n</entry>
+		<entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
+		<entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
+		<entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
+		<entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
+		<entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
+		<entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
+		<entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
 			<xs:complexType>

@@ -1624,13 +1624,13 @@
     <entry lang="ru" key="SCARD_W_REMOVED_CARD">Нет карты в считывателе.\n\nУбедитесь, что карта правильно вставлена.</entry>
     <entry lang="ru" key="FORMAT_EXTERNAL_FAILED">Windows-команде format.com не удалось отформатировать том как NTFS/exFAT/ReFS: Ошибка 0x%.8X.\n\nВозврат к использованию Windows FormatEx API.</entry>
     <entry lang="ru" key="FORMATEX_API_FAILED">Windows FormatEx API не удалось отформатировать том как NTFS/exFAT/ReFS.\n\nСтатус отказа = %s.</entry>
-    <entry lang="ru" key="EXPANDER_WRITING_RANDOM_DATA">Запись случайных данных в добавленное место...\r\n</entry>
-    <entry lang="ru" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Запись повторно зашифрованной резервной копии заголовка...\r\n</entry>
-    <entry lang="ru" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Запись повторно зашифрованного основного заголовка...\r\n</entry>
-    <entry lang="ru" key="EXPANDER_WIPING_OLD_HEADER">Удаление старой резервной копии заголовка...\r\n</entry>
-    <entry lang="ru" key="EXPANDER_MOUNTING_VOLUME">Монтирование тома...\r\n</entry>
-    <entry lang="ru" key="EXPANDER_UNMOUNTING_VOLUME">Размонтирование тома...\r\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\r\n</entry>
+    <entry lang="ru" key="EXPANDER_WRITING_RANDOM_DATA">Запись случайных данных в добавленное место...\n</entry>
+    <entry lang="ru" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Запись повторно зашифрованной резервной копии заголовка...\n</entry>
+    <entry lang="ru" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Запись повторно зашифрованного основного заголовка...\n</entry>
+    <entry lang="ru" key="EXPANDER_WIPING_OLD_HEADER">Удаление старой резервной копии заголовка...\n</entry>
+    <entry lang="ru" key="EXPANDER_MOUNTING_VOLUME">Монтирование тома...\n</entry>
+    <entry lang="ru" key="EXPANDER_UNMOUNTING_VOLUME">Размонтирование тома...\n</entry>
+    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
