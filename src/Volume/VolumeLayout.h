@@ -51,10 +51,10 @@ namespace VeraCrypt
 		EncryptionAlgorithmList SupportedEncryptionAlgorithms;
 		EncryptionModeList SupportedEncryptionModes;
 
-		int BackupHeaderOffset;
-		int HeaderOffset;
-		uint32 HeaderSize;
-		VolumeType::Enum Type;
+		int BackupHeaderOffset = 0;
+		int HeaderOffset = 0;
+		uint32 HeaderSize = 0;
+		VolumeType::Enum Type = VolumeType::Unknown;
 
 		shared_ptr <VolumeHeader> Header;
 

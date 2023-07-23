@@ -35,33 +35,33 @@ namespace VeraCrypt
 
 		// Modifying this structure can introduce incompatibility with previous versions
 		DirectoryPath AuxMountPoint;
-		uint32 EncryptionAlgorithmBlockSize;
-		uint32 EncryptionAlgorithmKeySize;
-		uint32 EncryptionAlgorithmMinBlockSize;
+		uint32 EncryptionAlgorithmBlockSize = 0;
+		uint32 EncryptionAlgorithmKeySize = 0;
+		uint32 EncryptionAlgorithmMinBlockSize = 0;
 		wstring EncryptionAlgorithmName;
 		wstring EncryptionModeName;
 		VolumeTime HeaderCreationTime;
-		bool HiddenVolumeProtectionTriggered;
+		bool HiddenVolumeProtectionTriggered = false;
 		DevicePath LoopDevice;
-		uint32 MinRequiredProgramVersion;
+		uint32 MinRequiredProgramVersion = 0;
 		DirectoryPath MountPoint;
 		VolumePath Path;
-		uint32 Pkcs5IterationCount;
+		uint32 Pkcs5IterationCount = 0;
 		wstring Pkcs5PrfName;
-		uint32 ProgramVersion;
+		uint32 ProgramVersion = 0;
 		VolumeProtection::Enum Protection;
-		uint64 SerialInstanceNumber;
-		uint64 Size;
+		uint64 SerialInstanceNumber = 0;
+		uint64 Size = 0;
 		VolumeSlotNumber SlotNumber;
-		bool SystemEncryption;
-		uint64 TopWriteOffset;
-		uint64 TotalDataRead;
-		uint64 TotalDataWritten;
-		VolumeType::Enum Type;
+		bool SystemEncryption = false;
+		uint64 TopWriteOffset = 0;
+		uint64 TotalDataRead = 0;
+		uint64 TotalDataWritten = 0;
+		VolumeType::Enum Type = VolumeType::Unknown;
 		DevicePath VirtualDevice;
 		VolumeTime VolumeCreationTime;
-		bool TrueCryptMode;
-		int Pim;
+		bool TrueCryptMode = false;
+		int Pim = 0;
 
 	private:
 		VolumeInfo (const VolumeInfo &);
