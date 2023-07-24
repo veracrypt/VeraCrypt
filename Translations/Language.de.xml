@@ -298,7 +298,7 @@
     <entry lang="de" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="de" key="IDT_PW_CACHE_OPTIONS">Passwort-Cache (im Speicher des VeraCrypt-Treibers)</entry>
     <entry lang="de" key="IDT_SECURITY_OPTIONS">Sicherheitsoptionen</entry>
-    <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
+    <entry lang="de" key="IDT_EMV_OPTIONS">EMV-Optionen</entry>
     <entry lang="de" key="IDT_TASKBAR_ICON">VeraCrypt-Hintergrunddienst</entry>
     <entry lang="de" key="IDT_TRAVELER_MOUNT">VeraCrypt-Volume einhängen (relativ zum Traveler-Disk-Verzeichnis):</entry>
     <entry lang="de" key="IDT_TRAVEL_INSERTION">Beim Anschließen einer Traveler-Disk: </entry>
@@ -1627,13 +1627,13 @@
     <entry lang="de" key="SCARD_W_REMOVED_CARD">Keine Karte im Lesegerät.\n\nVergewissern Sie sich, dass die Karte richtig eingesteckt ist.</entry>
     <entry lang="de" key="FORMAT_EXTERNAL_FAILED">Der Windows-Befehl format.com konnte das Volume nicht als NTFS/exFAT/ReFS formatieren: Fehler 0x%.8X.\n\nZurückfallen auf die Verwendung der Windows FormatEx-API.</entry>
     <entry lang="de" key="FORMATEX_API_FAILED">Windows FormatEx-API konnte das Volume nicht als NTFS/exFAT/ReFS formatieren.\n\nFehlerstatus = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
+    <entry lang="de" key="EXPANDER_WRITING_RANDOM_DATA">Zufallsdaten in neuen Speicherbereich schreiben ...\n</entry>
+    <entry lang="de" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Wiederverschlüsselte Backup-Kopfdaten schreiben ...\n</entry>
+    <entry lang="de" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Wiederverschlüsselte primäre Kopfdaten schreiben ...\n</entry>
+    <entry lang="de" key="EXPANDER_WIPING_OLD_HEADER">Alte Backup-Kopfdaten löschen ...\n</entry>
+    <entry lang="de" key="EXPANDER_MOUNTING_VOLUME">Volume einhängen ...\n</entry>
+    <entry lang="de" key="EXPANDER_UNMOUNTING_VOLUME">Volume trennen ...\n</entry>
+    <entry lang="de" key="EXPANDER_EXTENDING_FILESYSTEM">Dateisystem erweitern ...\n</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
