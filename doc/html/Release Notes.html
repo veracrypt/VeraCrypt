@@ -39,10 +39,12 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.3</strong> (July 2<sup>nd</sup>, 2023):</p>
+<p><strong style="text-align:left">1.26.4</strong> (July 24<sup>th</sup>, 2023):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
+<li>Remove TrueCrypt Mode support</li>
+<li>Complete removal of RIPEMD160 and GOST89 algorithms. Legacy volumes using any of them cannot be mounted by VeraCrypt anymore.</li>
 <li>Add support for BLAKE2s as new PRF algorithm for both system encryption and standard volumes.</li>
 <li>Introducing support for EMV banking smart cards as keyfiles for non-system volumes.
 	<ul>
@@ -54,8 +56,8 @@
 		<li>Developed by a team of students from the <a href="https://www.insa-rennes.fr">Institut national des sciences appliquées de Rennes</a>.</li>
 		<li>More details about the team and the project are available at <a href="https://projets-info.insa-rennes.fr/projets/2022/VeraCrypt/index_en.html">https://projets-info.insa-rennes.fr/projets/2022/VeraCrypt/index_en.html</a>.</li>
 	</ul>
-</li>	
-<li>Complete removal of RIPEMD160 and GOST89 algorithms. Legacy volumes using any of them cannot be mounted by VeraCrypt anymore.</li>
+</li>
+<li>when overwriting an existing file container during volume creation, add its current size to the available free space</li>
 <li>Add Corsican language support. Update several translations. </li>
 <li>Update documentation</li>
 </ul>
@@ -69,19 +71,20 @@
 <li>Addition of Blake2s and removal of RIPEMD160 & GOST89</li>
 </ul>
 </li>
-<li>Add dropdown menu to Mount button to allow mounting without using the cache.</li>
-<li>Possible workaround for logarithmic slowdown for Encrypt-In-Place on large volumes.</li>
-<li>Fix stall issue caused by Quick Format of large file containers</li>
-<li>Make Expander first check file existence before proceeding further</li>
-<li>Allow selecting size unit (KB/MB/GB) for generated keyfiles</li>
+<li>Fix Secure Desktop issues under Windows 11 22H2</li>
 <li>Avoid silent failure of Fast Create when creating file containers by displaying warning if required privilege is not held</li>
 <li>Allow choosing Fast Create in Format Wizard UI when creating file containers</li>
 <li>Fix formatting issues during volume creation on some machines.</li>
+<li>Fix stall issue caused by Quick Format of large file containers</li>
+<li>Add dropdown menu to Mount button to allow mounting without using the cache.</li>
+<li>Possible workaround for logarithmic slowdown for Encrypt-In-Place on large volumes.</li>
+<li>Make Expander first check file existence before proceeding further</li>
+<li>Allow selecting size unit (KB/MB/GB) for generated keyfiles</li>
 <li>Display full list of supported cluster sizes for NTFS, ReFS and exFAT filesystems when creating volumes</li>
 <li>Support drag-n-drop of files and keyfiles in Expander.</li>
 <li>Implement translation of Expander UI</li>
 <li>Update LZMA library to version 23.01</li>
-<li>Update libzip to version 1.9.2 and zlib to version 1.2.13.</li>
+<li>Update libzip to version 1.10.0 and zlib to version 1.2.13.</li>
 </ul>
 </li>
 <li><strong>Linux:</strong>
@@ -103,6 +106,7 @@
 </li>
 <li>Use wxWidgets 3.2.2.1 for static builds (e.g. console only version)</li>
 <li>Fix compatibility of generic installers with old Linux distros</li>
+<li>Update help message to indicate that when cascading algorithms they must be separated by dash</li>
 </ul>
 </li>
 </ul>
