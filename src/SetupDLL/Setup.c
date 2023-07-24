@@ -1496,7 +1496,6 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 
 	if (hDriver != INVALID_HANDLE_VALUE)
 	{
-		MOUNT_LIST_STRUCT driver;
 		LONG driverVersion = VERSION_NUM;
 		int refCount;
 		DWORD dwResult;
