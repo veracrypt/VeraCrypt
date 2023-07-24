@@ -295,7 +295,7 @@
     <entry lang="pl" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="pl" key="IDT_PW_CACHE_OPTIONS">Pamięć haseł</entry>
     <entry lang="pl" key="IDT_SECURITY_OPTIONS">Opcje bezpieczeństwa</entry>
-    <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
+    <entry lang="pl" key="IDT_EMV_OPTIONS">Opcje EMV</entry>
     <entry lang="pl" key="IDT_TASKBAR_ICON">Zadanie VeraCrypt w tle</entry>
     <entry lang="pl" key="IDT_TRAVELER_MOUNT">Podłączany wolumen VeraCrypt (względem gł. katalogu dysku podróżnego):</entry>
     <entry lang="pl" key="IDT_TRAVEL_INSERTION">Przy włożeniu dysku podróżnego: </entry>
@@ -1624,13 +1624,13 @@
     <entry lang="pl" key="SCARD_W_REMOVED_CARD">Brak karty w czytniku.\n\nUpewnij się, że karta jest prawidłowo włożona.</entry>
     <entry lang="pl" key="FORMAT_EXTERNAL_FAILED">Polecenie Windows format.com nie mogło sformatować wolumenu jako NTFS/exFAT/ReFS: Błąd 0x%.8X.\n\nPowrót do używania API Windows FormatEx.</entry>
     <entry lang="pl" key="FORMATEX_API_FAILED">API Windows FormatEx nie sformatowało wolumenu jako NTFS/exFAT/ReFS.\n\nStan błędu = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
+    <entry lang="pl" key="EXPANDER_WRITING_RANDOM_DATA">Zapisywanie losowych danych w nowej przestrzeni...\n</entry>
+    <entry lang="pl" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Zapisywanie ponownie zaszyfrowanego nagłówka kopii zapasowej...\n</entry>
+    <entry lang="pl" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Zapisywanie ponownie zaszyfrowanego nagłówka głównego...\n</entry>
+    <entry lang="pl" key="EXPANDER_WIPING_OLD_HEADER">Wymazywanie starego nagłówka kopii zapasowej...\n</entry>
+    <entry lang="pl" key="EXPANDER_MOUNTING_VOLUME">Podłączanie wolumenu...\n</entry>
+    <entry lang="pl" key="EXPANDER_UNMOUNTING_VOLUME">Odłączanie wolumenu...\n</entry>
+    <entry lang="pl" key="EXPANDER_EXTENDING_FILESYSTEM">Rozszerzanie systemu plików...\n</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
