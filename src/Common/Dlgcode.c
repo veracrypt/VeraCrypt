@@ -5822,11 +5822,6 @@ void handleError (HWND hwndDlg, int code, const char* srcPos)
 		// A non-error
 		break;
 
-	case ERR_UNSUPPORTED_TRUECRYPT_FORMAT:
-		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), (code >> 24), (code >> 16) & 0x000000FF);
-		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, ICON_HAND);
-		break;
-
 #ifndef SETUP
 	case ERR_RAND_INIT_FAILED:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("INIT_RAND"), SRC_POS, GetLastError ());

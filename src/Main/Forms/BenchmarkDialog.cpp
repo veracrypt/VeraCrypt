@@ -273,7 +273,7 @@ namespace VeraCrypt
 				Buffer salt(64);
 				const char *tmp_salt = {"\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF\x01\x23\x45\x67\x89\xAB\xCD\xEF\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF\x01\x23\x45\x67\x89\xAB\xCD\xEF\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF"};
 				unsigned long pim;
-				Pkcs5KdfList prfList = Pkcs5Kdf::GetAvailableAlgorithms (false);
+				Pkcs5KdfList prfList = Pkcs5Kdf::GetAvailableAlgorithms ();
 				VolumePassword password ((const byte*) "passphrase-1234567890", 21);
 
 				memcpy (&pim, buffer.Ptr (), sizeof (unsigned long));

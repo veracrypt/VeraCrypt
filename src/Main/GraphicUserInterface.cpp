@@ -191,7 +191,6 @@ namespace VeraCrypt
 						options->Password,
 						options->Pim,
 						options->Kdf,
-						false,
 						options->Keyfiles,
 						options->EMVSupportEnabled,
 						options->Protection,
@@ -220,7 +219,6 @@ namespace VeraCrypt
 								options->Password,
 								options->Pim,
 								options->Kdf,
-								false,
 								options->Keyfiles,
 								options->EMVSupportEnabled,
 								options->Protection,
@@ -835,7 +833,7 @@ namespace VeraCrypt
 				options.Keyfiles = make_shared <KeyfileList> (GetPreferences().DefaultKeyfiles);
 
 			if ((options.Password && !options.Password->IsEmpty())
-				|| (options.Keyfiles && !options.Keyfiles->empty() && (options.TrueCryptMode || options.Password)))
+				|| (options.Keyfiles && !options.Keyfiles->empty() && options.Password))
 			{
 				try
 				{
@@ -1466,7 +1464,6 @@ namespace VeraCrypt
 						options.Password,
 						options.Pim,
 						options.Kdf,
-						options.TrueCryptMode,
 						options.Keyfiles,
 						options.EMVSupportEnabled,
 						options.Protection,
@@ -1583,11 +1580,11 @@ namespace VeraCrypt
 
 						// Decrypt header
 						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled);
-						Pkcs5KdfList keyDerivationFunctions = layout->GetSupportedKeyDerivationFunctions(options.TrueCryptMode);
+						Pkcs5KdfList keyDerivationFunctions = layout->GetSupportedKeyDerivationFunctions();
 						EncryptionAlgorithmList encryptionAlgorithms = layout->GetSupportedEncryptionAlgorithms();
 						EncryptionModeList encryptionModes = layout->GetSupportedEncryptionModes();
 
-						DecryptThreadRoutine decryptRoutine(layout->GetHeader(), headerBuffer, *passwordKey, options.Pim, options.Kdf, options.TrueCryptMode, keyDerivationFunctions, encryptionAlgorithms, encryptionModes);
+						DecryptThreadRoutine decryptRoutine(layout->GetHeader(), headerBuffer, *passwordKey, options.Pim, options.Kdf, keyDerivationFunctions, encryptionAlgorithms, encryptionModes);
 
 						ExecuteWaitThreadRoutine (parent, &decryptRoutine);
 

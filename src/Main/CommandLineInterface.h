@@ -83,7 +83,6 @@ namespace VeraCrypt
 		shared_ptr <VolumePath> ArgVolumePath;
 		VolumeInfoList ArgVolumes;
 		VolumeType::Enum ArgVolumeType;
-		bool ArgTrueCryptMode;
         shared_ptr<SecureBuffer> ArgTokenPin;
         bool ArgDisableFileSizeCheck;
         bool ArgUseLegacyPassword;

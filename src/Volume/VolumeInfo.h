@@ -60,7 +60,6 @@ namespace VeraCrypt
 		VolumeType::Enum Type;
 		DevicePath VirtualDevice;
 		VolumeTime VolumeCreationTime;
-		bool TrueCryptMode;
 		int Pim;
 
 	private:
