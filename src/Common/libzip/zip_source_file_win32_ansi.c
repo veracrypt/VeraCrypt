@@ -37,6 +37,7 @@ static char *ansi_allocate_tempname(const char *name, size_t extra_chars, size_t
 static void ansi_make_tempname(char *buf, size_t len, const char *name, zip_uint32_t i);
 
 /* clang-format off */
+DONT_WARN_INCOMPATIBLE_FN_PTR_BEGIN
 
 zip_win32_file_operations_t ops_ansi = {
     ansi_allocate_tempname,
@@ -50,6 +51,7 @@ zip_win32_file_operations_t ops_ansi = {
     strdup
 };
 
+DONT_WARN_INCOMPATIBLE_FN_PTR_END
 /* clang-format on */
 
 ZIP_EXTERN zip_source_t *
@@ -81,5 +83,5 @@ ansi_allocate_tempname(const char *name, size_t extra_chars, size_t *lengthp) {
 
 static void
 ansi_make_tempname(char *buf, size_t len, const char *name, zip_uint32_t i) {
-    snprintf(buf, len, "%s.%08x", name, i);
+    snprintf_s(buf, len, "%s.%08x", name, i);
 }

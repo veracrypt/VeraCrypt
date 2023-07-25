@@ -2,7 +2,7 @@
 ;;; VeraCrypt
 ;;;
 ;;;
-;;; Copyright (c) 2022, IDRIX
+;;; Copyright (c) 2023, IDRIX
 ;;;
 
 [Version]
@@ -10,7 +10,7 @@ signature   = "$Windows NT$"
 Class       = "Encryption"                              ;This is determined by the work this filter driver does
 ClassGuid   = {a0a701c0-a511-42ff-aa6c-06dc0395576f}    ;This value is determined by the Class
 Provider    = %ProviderString%
-DriverVer   = 03/09/2022,1.26.0.0
+DriverVer   = 07/22/2022,1.26.4.0
 CatalogFile = veracrypt.cat
 
 
@@ -22,23 +22,29 @@ veracrypt.DriverFiles  = 12            ;%windir%\system32\drivers
 ;; Default install sections
 ;;
 
-[DefaultInstall]
+[DefaultInstall.NTx86]
 OptionDesc          = %ServiceDescription%
 CopyFiles           = veracrypt.DriverFiles
 AddReg              = veracrypt.AddReg
 
-[DefaultInstall.Services]
+[DefaultInstall.NTamd64]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = veracrypt.DriverFiles
+AddReg              = veracrypt.AddReg
+
+[DefaultInstall.NTarm64]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = veracrypt.DriverFiles
+AddReg              = veracrypt.AddReg
+
+[DefaultInstall.NTx86.Services]
 AddService          = veracrypt,,veracrypt.Service
 
-;;
-;; Default uninstall sections
-;;
+[DefaultInstall.NTamd64.Services]
+AddService          = veracrypt,,veracrypt.Service
 
-[DefaultUninstall]
-DelFiles   = veracrypt.DriverFiles
-
-[DefaultUninstall.Services]
-DelService = veracrypt,0x200      ;Ensure service is stopped before deleting
+[DefaultInstall.NTarm64.Services]
+AddService          = veracrypt,,veracrypt.Service
 
 ;
 ; Services Section

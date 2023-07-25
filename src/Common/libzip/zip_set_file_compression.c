@@ -49,6 +49,10 @@ zip_set_file_compression(zip_t *za, zip_uint64_t idx, zip_int32_t method, zip_ui
         zip_error_set(&za->error, ZIP_ER_RDONLY, 0);
         return -1;
     }
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        zip_error_set(&za->error, ZIP_ER_NOT_ALLOWED, 0);
+        return -1;
+    }
 
     if (!zip_compression_method_supported(method, true)) {
         zip_error_set(&za->error, ZIP_ER_COMPNOTSUPP, 0);

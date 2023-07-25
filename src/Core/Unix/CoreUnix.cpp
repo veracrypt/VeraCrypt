@@ -546,7 +546,6 @@ namespace VeraCrypt
 					options.Password,
 					options.Pim,
 					options.Kdf,
-					options.TrueCryptMode,
 					options.Keyfiles,
 					options.EMVSupportEnabled,
 					options.Protection,

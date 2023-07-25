@@ -19,7 +19,7 @@ namespace VeraCrypt
 	VolumePasswordWizardPage::VolumePasswordWizardPage (wxPanel* parent, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, bool enableConfirmation)
 		: VolumePasswordWizardPageBase (parent), ConfirmationMode (enableConfirmation)
 	{
-		PasswordPanel = new VolumePasswordPanel (this, NULL, password, true, keyfiles, false, true, true, enableConfirmation, !enableConfirmation, !enableConfirmation);
+		PasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, false, true, true, enableConfirmation, !enableConfirmation, !enableConfirmation);
 		PasswordPanel->UpdateEvent.Connect (EventConnector <VolumePasswordWizardPage> (this, &VolumePasswordWizardPage::OnPasswordPanelUpdate));
 
 		PasswordPanelSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);

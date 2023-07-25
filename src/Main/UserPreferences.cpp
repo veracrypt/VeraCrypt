@@ -110,8 +110,6 @@ namespace VeraCrypt
 			TC_CONFIG_SET (WipeCacheOnAutoDismount);
 			TC_CONFIG_SET (WipeCacheOnClose);
 
-			SetValue (configMap[L"DefaultTrueCryptMode"], DefaultMountOptions.TrueCryptMode);
-
 			wstring defaultPrf;
 			SetValue (configMap[L"DefaultPRF"], defaultPrf);
 
@@ -119,7 +117,7 @@ namespace VeraCrypt
 			try
 			{
 				if (defaultPrf != L"autodetection")
-					savedKdf = Pkcs5Kdf::GetAlgorithm (defaultPrf, DefaultMountOptions.TrueCryptMode);
+					savedKdf = Pkcs5Kdf::GetAlgorithm (defaultPrf);
 			}
 			catch (ParameterIncorrect&)
 			{
@@ -224,8 +222,6 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (UseKeyfiles);
 		TC_CONFIG_ADD (WipeCacheOnAutoDismount);
 		TC_CONFIG_ADD (WipeCacheOnClose);
-
-		formatter.AddEntry (L"DefaultTrueCryptMode", DefaultMountOptions.TrueCryptMode);
 
 		wstring defaultPrf = L"autodetection";
 		if (DefaultMountOptions.Kdf)

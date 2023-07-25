@@ -16,7 +16,7 @@
 
 namespace VeraCrypt
 {
-	Pkcs5Kdf::Pkcs5Kdf (bool truecryptMode) : m_truecryptMode(truecryptMode)
+	Pkcs5Kdf::Pkcs5Kdf ()
 	{
 	}
 
@@ -29,9 +29,9 @@ namespace VeraCrypt
 		DeriveKey (key, password, salt, GetIterationCount(pim));
 	}
 
-	shared_ptr <Pkcs5Kdf> Pkcs5Kdf::GetAlgorithm (const wstring &name, bool truecryptMode)
+	shared_ptr <Pkcs5Kdf> Pkcs5Kdf::GetAlgorithm (const wstring &name)
 	{
-		foreach (shared_ptr <Pkcs5Kdf> kdf, GetAvailableAlgorithms(truecryptMode))
+		foreach (shared_ptr <Pkcs5Kdf> kdf, GetAvailableAlgorithms())
 		{
 			if (kdf->GetName() == name)
 				return kdf;
@@ -39,9 +39,9 @@ namespace VeraCrypt
 		throw ParameterIncorrect (SRC_POS);
 	}
 
-	shared_ptr <Pkcs5Kdf> Pkcs5Kdf::GetAlgorithm (const Hash &hash, bool truecryptMode)
+	shared_ptr <Pkcs5Kdf> Pkcs5Kdf::GetAlgorithm (const Hash &hash)
 	{
-		foreach (shared_ptr <Pkcs5Kdf> kdf, GetAvailableAlgorithms(truecryptMode))
+		foreach (shared_ptr <Pkcs5Kdf> kdf, GetAvailableAlgorithms())
 		{
 			if (typeid (*kdf->GetHash()) == typeid (hash))
 				return kdf;
@@ -50,23 +50,15 @@ namespace VeraCrypt
 		throw ParameterIncorrect (SRC_POS);
 	}
 
-	Pkcs5KdfList Pkcs5Kdf::GetAvailableAlgorithms (bool truecryptMode)
+	Pkcs5KdfList Pkcs5Kdf::GetAvailableAlgorithms ()
 	{
 		Pkcs5KdfList l;
 
-		if (truecryptMode)
-		{
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 (true)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (true)));
-		}
-		else
-		{
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 (false)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256 ()));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacBlake2s ()));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (false)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
-		}
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256 ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacBlake2s ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
 
 		return l;
 	}

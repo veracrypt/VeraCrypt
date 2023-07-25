@@ -642,13 +642,9 @@ namespace VeraCrypt
 		try
 		{
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
-			if (CmdLine->ArgTrueCryptMode)
-			{
-				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-			}
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -671,13 +667,9 @@ namespace VeraCrypt
 		try
 		{
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
-			if (CmdLine->ArgTrueCryptMode)
-			{
-				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-			}
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -706,13 +698,9 @@ namespace VeraCrypt
 		MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 		mountOptions.SlotNumber = SelectedSlotNumber;
 		mountOptions.Path = GetSelectedVolumePath();
-		if (CmdLine->ArgTrueCryptMode)
-		{
-			mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-		}
 		if (CmdLine->ArgHash)
 		{
-			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}
 		if (CmdLine->ArgPim > 0)
 		{
@@ -964,13 +952,9 @@ namespace VeraCrypt
 			SetVolumePath (favorite.Path);
 
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
-			if (CmdLine->ArgTrueCryptMode)
-			{
-				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-			}
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -1706,7 +1690,7 @@ namespace VeraCrypt
 #endif
 				fields[ColumnPath] = volume->Path;
 				fields[ColumnSize] = Gui->SizeToString (volume->Size);
-				fields[ColumnType] = Gui->VolumeTypeToString (volume->Type, volume->TrueCryptMode, volume->Protection);
+				fields[ColumnType] = Gui->VolumeTypeToString (volume->Type, volume->Protection);
 
 				if (volume->HiddenVolumeProtectionTriggered)
 				{

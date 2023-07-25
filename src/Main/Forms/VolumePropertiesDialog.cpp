@@ -36,7 +36,7 @@ namespace VeraCrypt
 		AppendToList ("VIRTUAL_DEVICE", wstring (volumeInfo.VirtualDevice));
 #endif
 		AppendToList ("SIZE", Gui->SizeToString (volumeInfo.Size));
-		AppendToList ("TYPE", Gui->VolumeTypeToString (volumeInfo.Type, volumeInfo.TrueCryptMode, volumeInfo.Protection));
+		AppendToList ("TYPE", Gui->VolumeTypeToString (volumeInfo.Type, volumeInfo.Protection));
 		AppendToList ("READ_ONLY", LangString [volumeInfo.Protection == VolumeProtection::ReadOnly ? "UISTR_YES" : "UISTR_NO"]);
 
 		wxString protection;

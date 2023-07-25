@@ -1584,11 +1584,11 @@ void LowerCaseCopy (wchar_t *lpszDest, const wchar_t *lpszSource)
 
 void UpperCaseCopy (wchar_t *lpszDest, size_t cbDest, const wchar_t *lpszSource)
 {
-	if (lpszDest && cbDest)
+	if (lpszDest && (cbDest >= 2))
 	{
 		size_t i = wcslen (lpszSource);
-		if (i >= cbDest)
-			i = cbDest - 1;
+		if (i >= (cbDest/2))
+			i = (cbDest/2) - 1;
 
 		lpszDest[i] = 0;
 		i++;
@@ -5209,7 +5209,6 @@ static int DriverLoad ()
 
 BOOL DriverUnload ()
 {
-	MOUNT_LIST_STRUCT driver;
 	int refCount;
 	int volumesMounted;
 	DWORD dwResult;
@@ -5233,13 +5232,6 @@ BOOL DriverUnload ()
 
 	// Test for mounted volumes
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_IS_ANY_VOLUME_MOUNTED, NULL, 0, &volumesMounted, sizeof (volumesMounted), &dwResult, NULL);
-
-	if (!bResult)
-	{
-		bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES, NULL, 0, &driver, sizeof (driver), &dwResult, NULL);
-		if (bResult)
-			volumesMounted = driver.ulMountedDrives;
-	}
 
 	if (bResult)
 	{
@@ -5406,9 +5398,6 @@ load:
 		DWORD dwResult;
 
 		BOOL bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &DriverVersion, sizeof (DriverVersion), &dwResult, NULL);
-
-		if (!bResult)
-			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &DriverVersion, sizeof (DriverVersion), &dwResult, NULL);
 
 #ifndef SETUP // Don't check version during setup to allow removal of another version
 		if (bResult == FALSE)
@@ -5831,11 +5820,6 @@ void handleError (HWND hwndDlg, int code, const char* srcPos)
 	case ERR_USER_ABORT:
 	case ERR_DONT_REPORT:
 		// A non-error
-		break;
-
-	case ERR_UNSUPPORTED_TRUECRYPT_FORMAT:
-		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), (code >> 24), (code >> 16) & 0x000000FF);
-		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 
 #ifndef SETUP
@@ -6506,27 +6490,27 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case BLAKE2S:
 					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
-					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case STREEBOG:
 					/* PKCS-5 test with HMAC-STREEBOG used as the PRF */
-					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 			}
@@ -6536,7 +6520,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 			benchmarkTable[benchmarkTotalItems].id = thid;
-			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot);
+			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot);
 			benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (unsigned __int64) (1000 * ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart / 2));
 			if (benchmarkPreBoot)
 			{
@@ -8234,15 +8218,6 @@ BOOL CheckFileExtension (wchar_t *fileName)
 	return FALSE;
 }
 
-BOOL IsTrueCryptFileExtension (wchar_t *fileName)
-{
-	wchar_t *ext = wcsrchr (fileName, L'.');
-	if (ext && !_wcsicmp (ext, L".tc"))
-		return TRUE;
-	else
-		return FALSE;
-}
-
 void CorrectFileName (wchar_t* fileName)
 {
 	/* replace '/' by '\' */
@@ -8886,7 +8861,6 @@ int MountVolume (HWND hwndDlg,
 				 Password *password,
 				 int pkcs5,
 				 int pim,
-				 BOOL truecryptMode,
 				 BOOL cachePassword,
 				 BOOL cachePim,
 				 BOOL sharedAccess,
@@ -8967,7 +8941,6 @@ retry:
 	else
 		mount.bMountManager = TRUE;
 	mount.pkcs5_prf = pkcs5;
-	mount.bTrueCryptMode = truecryptMode;
 	mount.VolumePim = pim;
 
 	wstring path = volumePath;
@@ -9088,8 +9061,7 @@ retry:
 	{
 		if (mount.wszVolume == NULL || swscanf_s ((const wchar_t *) mount.wszVolume,
 			WIDE("\\Device\\Harddisk%d\\Partition"),
-			&mount.nPartitionInInactiveSysEncScopeDriveNo,
-			sizeof(mount.nPartitionInInactiveSysEncScopeDriveNo)) != 1)
+			&mount.nPartitionInInactiveSysEncScopeDriveNo) != 1)
 		{
 			if (!quiet)
 				Warning ("NO_SYSENC_PARTITION_SELECTED", hwndDlg);
@@ -9123,7 +9095,6 @@ retry:
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
 	burn (&mount.ProtectedHidVolPassword, sizeof (mount.ProtectedHidVolPassword));
 	burn (&mount.pkcs5_prf, sizeof (mount.pkcs5_prf));
-	burn (&mount.bTrueCryptMode, sizeof (mount.bTrueCryptMode));
 	burn (&mount.ProtectedHidVolPkcs5Prf, sizeof (mount.ProtectedHidVolPkcs5Prf));
 
 	SetLastError (dwLastError);
@@ -11702,7 +11673,7 @@ void ReportUnexpectedState (const char *techInfo)
 
 #ifndef SETUP
 
-int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
+int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password *password, int pkcs5_prf, int pim, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
 {
 	int status = ERR_PARAMETER_INCORRECT;
 	int volumeType;
@@ -11877,7 +11848,7 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 		}
 
 		// Decrypt volume header
-		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pim, truecryptMode, &context->CryptoInfo, NULL);
+		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pim, &context->CryptoInfo, NULL);
 
 		if (status == ERR_PASSWORD_WRONG)
 			continue;		// Try next volume type
@@ -14085,13 +14056,14 @@ typedef struct
 	DLGPROC lpDialogFunc;
 	LPARAM dwInitParam;
 	INT_PTR retValue;
+	BOOL bDlgDisplayed; // set to TRUE if the dialog was displayed on secure desktop
 } SecureDesktopThreadParam;
 
 typedef struct
 {
 	LPCWSTR szVCDesktopName;
 	HDESK hVcDesktop;
-	volatile BOOL* pbStopMonitoring;
+	HANDLE hStopEvent; // event to signal when to stop monitoring
 } SecureDesktopMonitoringThreadParam;
 
 #define SECUREDESKTOP_MONOTIR_PERIOD	500
@@ -14103,11 +14075,12 @@ static unsigned int __stdcall SecureDesktopMonitoringThread( LPVOID lpThreadPara
 	SecureDesktopMonitoringThreadParam* pMonitorParam = (SecureDesktopMonitoringThreadParam*) lpThreadParameter;
 	if (pMonitorParam)
 	{
-		volatile BOOL* pbStopMonitoring = pMonitorParam->pbStopMonitoring;
+		HANDLE hStopEvent = pMonitorParam->hStopEvent;
 		LPCWSTR szVCDesktopName = pMonitorParam->szVCDesktopName;
 		HDESK hVcDesktop = pMonitorParam->hVcDesktop;
 
-		while (!*pbStopMonitoring)
+		// loop until the stop event is signaled
+		while (WaitForSingleObject (hStopEvent, SECUREDESKTOP_MONOTIR_PERIOD) == WAIT_TIMEOUT)
 		{
 			// check that our secure desktop is still the input desktop
 			// otherwise, switch to it
@@ -14135,22 +14108,18 @@ static unsigned int __stdcall SecureDesktopMonitoringThread( LPVOID lpThreadPara
 
 			if (bPerformSwitch)
 				SwitchDesktop (hVcDesktop);
-
-			Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
 		}
 	}
 
 	return 0;
 }
 
-static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
+static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 {
-	volatile BOOL bStopMonitoring = FALSE;
 	HANDLE hMonitoringThread = NULL;
 	unsigned int monitoringThreadID = 0;
 	SecureDesktopThreadParam* pParam = (SecureDesktopThreadParam*) lpThreadParameter;
 	SecureDesktopMonitoringThreadParam monitorParam;
-	HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId ());
 	BOOL bNewDesktopSet = FALSE;
 
 	// wait for SwitchDesktop to succeed before using it for current thread
@@ -14158,38 +14127,48 @@ static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
 	{
 		if (SwitchDesktop (pParam->hDesk))
 		{
-			bNewDesktopSet = TRUE;
 			break;
 		}
 		Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
 	}
 
+	bNewDesktopSet = SetThreadDesktop (pParam->hDesk);
+
 	if (bNewDesktopSet)
 	{
-		SetThreadDesktop (pParam->hDesk);
-
 		// create the thread that will ensure that VeraCrypt secure desktop has always user input
-		monitorParam.szVCDesktopName = pParam->szDesktopName;
-		monitorParam.hVcDesktop = pParam->hDesk;
-		monitorParam.pbStopMonitoring = &bStopMonitoring;
-		hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+		// this is done only if the stop event is created successfully
+		HANDLE hStopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		if (hStopEvent)
+		{
+			monitorParam.szVCDesktopName = pParam->szDesktopName;
+			monitorParam.hVcDesktop = pParam->hDesk;
+			monitorParam.hStopEvent = hStopEvent;
+			hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+		}
+
+		pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
+							NULL, pParam->lpDialogFunc, pParam->dwInitParam);
+
+		if (hMonitoringThread)
+		{
+			// notify the monitoring thread to stop
+			SetEvent(hStopEvent);
+
+			WaitForSingleObject (hMonitoringThread, INFINITE);
+			CloseHandle (hMonitoringThread);
+		}
+
+		if (hStopEvent)
+		{
+			CloseHandle (hStopEvent);
+		}
+
+		pParam->bDlgDisplayed = TRUE;
 	}
-
-	pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
-						NULL, pParam->lpDialogFunc, pParam->dwInitParam);
-
-	if (hMonitoringThread)
+	else
 	{
-		bStopMonitoring = TRUE;
-
-		WaitForSingleObject (hMonitoringThread, INFINITE);
-		CloseHandle (hMonitoringThread);
-	}
-
-	if (bNewDesktopSet)
-	{
-		SetThreadDesktop (hOriginalDesk);
-		SwitchDesktop (hOriginalDesk);
+		pParam->bDlgDisplayed = FALSE;
 	}
 
 	return 0;
@@ -14249,6 +14228,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 			map<DWORD, BOOL> ctfmonBeforeList, ctfmonAfterList;
 			DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
 			HDESK hSecureDesk;
+			HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId());
 
 			HDESK hInputDesk = NULL;
 
@@ -14280,8 +14260,10 @@ INT_PTR SecureDesktopDialogBoxParam(
 				param.lpDialogFunc = lpDialogFunc;
 				param.dwInitParam = dwInitParam;
 				param.retValue = 0;
+				param.bDlgDisplayed = FALSE;
 
-				HANDLE hThread = ::CreateThread (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
+				// use _beginthreadex instead of CreateThread because lpDialogFunc may be using the C runtime library
+				HANDLE hThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
 				if (hThread)
 				{
 					StringCbCopy(SecureDesktopName, sizeof (SecureDesktopName), szDesktopName);
@@ -14289,8 +14271,15 @@ INT_PTR SecureDesktopDialogBoxParam(
 					WaitForSingleObject (hThread, INFINITE);
 					CloseHandle (hThread);
 
-					retValue = param.retValue;
-					bSuccess = TRUE;
+					if (param.bDlgDisplayed)
+					{
+						// dialog box was indeed displayed in Secure Desktop
+						retValue = param.retValue;
+						bSuccess = TRUE;
+					}
+
+					// switch back to original desktop
+					SwitchDesktop (hOriginalDesk);
 				}
 
 				CloseDesktop (hSecureDesk);
@@ -14311,6 +14300,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 				}
 			}
 
+			CloseDesktop(hOriginalDesk);
 			burn (szDesktopName, sizeof (szDesktopName));
 		}
 	}

@@ -30,7 +30,7 @@ namespace VeraCrypt
 		bool IsPimSelected () const { return PasswordPanel->IsUsePimChecked ();}
 		void SetPimSelected (bool selected) const { PasswordPanel->SetUsePimChecked (selected);}
 
-		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const { bool bUnsupportedKdf; return PasswordPanel->GetPkcs5Kdf(bUnsupportedKdf); }
+		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const { return PasswordPanel->GetPkcs5Kdf(); }
 		bool IsValid ();
 		void SetMaxStaticTextWidth (int width) { InfoStaticText->Wrap (width); }
 		void SetPageText (const wxString &text) { InfoStaticText->SetLabel (text); }

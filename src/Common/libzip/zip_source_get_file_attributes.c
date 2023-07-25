@@ -60,8 +60,10 @@ zip_source_get_file_attributes(zip_source_t *src, zip_file_attributes_t *attribu
     if (ZIP_SOURCE_IS_LAYERED(src)) {
         zip_file_attributes_t lower_attributes;
 
+        zip_file_attributes_init(&lower_attributes);
+
         if (zip_source_get_file_attributes(src->src, &lower_attributes) < 0) {
-            _zip_error_set_from_source(&src->error, src->src);
+            zip_error_set_from_source(&src->error, src->src);
             return -1;
         }
 

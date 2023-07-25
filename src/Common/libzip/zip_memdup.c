@@ -50,7 +50,7 @@ _zip_memdup(const void *mem, size_t len, zip_error_t *error) {
         return NULL;
     }
 
-    memcpy(ret, mem, len);
+    (void)memcpy_s(ret, len, mem, len);
 
     return ret;
 }

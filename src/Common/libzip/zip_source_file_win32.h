@@ -73,4 +73,12 @@ zip_int64_t _zip_win32_op_tell(zip_source_file_context_t *ctx, void *f);
 bool _zip_filetime_to_time_t(FILETIME ft, time_t *t);
 int _zip_win32_error_to_errno(DWORD win32err);
 
+#ifdef __clang__
+#define DONT_WARN_INCOMPATIBLE_FN_PTR_BEGIN _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wincompatible-function-pointer-types\"")
+#define DONT_WARN_INCOMPATIBLE_FN_PTR_END _Pragma("GCC diagnostic pop")
+#else
+#define DONT_WARN_INCOMPATIBLE_FN_PTR_BEGIN
+#define DONT_WARN_INCOMPATIBLE_FN_PTR_END
+#endif
+
 #endif /* _HAD_ZIP_SOURCE_FILE_WIN32_H */

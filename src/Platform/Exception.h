@@ -96,8 +96,6 @@ namespace VeraCrypt
 	TC_EXCEPTION (TestFailed); \
 	TC_EXCEPTION (TimeOut); \
 	TC_EXCEPTION (UnknownException); \
-	TC_EXCEPTION (UnsupportedAlgoInTrueCryptMode); \
-	TC_EXCEPTION (UnsupportedTrueCryptFormat); \
 	TC_EXCEPTION (UserAbort)
 
 	TC_EXCEPTION_SET;

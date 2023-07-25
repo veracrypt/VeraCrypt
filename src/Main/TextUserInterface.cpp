@@ -277,7 +277,7 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> kdf;
 		if (CmdLine->ArgHash)
 		{
-			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, false);
+			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}
 
 		shared_ptr <Volume> normalVolume;
@@ -315,7 +315,6 @@ namespace VeraCrypt
 						options->Password,
 						options->Pim,
 						kdf,
-						false,
 						options->Keyfiles,
                         options->EMVSupportEnabled,
 						options->Protection,
@@ -341,7 +340,6 @@ namespace VeraCrypt
 								options->Password,
 								options->Pim,
 								kdf,
-								false,
 								options->Keyfiles,
                                 options->EMVSupportEnabled,
 								options->Protection,
@@ -437,7 +435,7 @@ namespace VeraCrypt
 		ShowInfo ("VOL_HEADER_BACKED_UP");
 	}
 
-	void TextUserInterface::ChangePassword (shared_ptr <VolumePath> volumePath, shared_ptr <VolumePassword> password, int pim, shared_ptr <Hash> currentHash, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Hash> newHash) const
+	void TextUserInterface::ChangePassword (shared_ptr <VolumePath> volumePath, shared_ptr <VolumePassword> password, int pim, shared_ptr <Hash> currentHash, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Hash> newHash) const
 	{
 		shared_ptr <Volume> volume;
 
@@ -459,7 +457,7 @@ namespace VeraCrypt
 		shared_ptr<Pkcs5Kdf> kdf;
 		if (currentHash)
 		{
-			kdf = Pkcs5Kdf::GetAlgorithm (*currentHash, truecryptMode);
+			kdf = Pkcs5Kdf::GetAlgorithm (*currentHash);
 		}
 
 		while (true)
@@ -475,7 +473,7 @@ namespace VeraCrypt
 			}
 
 			// current PIM
-			if (!truecryptMode && !Preferences.NonInteractive && (pim < 0))
+			if (!Preferences.NonInteractive && (pim < 0))
 			{
 				pim = AskPim (_("Enter current PIM"));
 			}
@@ -489,7 +487,7 @@ namespace VeraCrypt
 					try
 					{
 						keyfiles.reset (new KeyfileList);
-						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, truecryptMode, keyfiles, true);
+						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, keyfiles, true);
 					}
 					catch (PasswordException&)
 					{
@@ -499,7 +497,7 @@ namespace VeraCrypt
 				}
 
 				if (!volume.get())
-					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, truecryptMode, keyfiles, true);
+					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, keyfiles, true);
 			}
 			catch (PasswordException &e)
 			{
@@ -535,7 +533,7 @@ namespace VeraCrypt
 		UserEnrichRandomPool();
 
 		Core->ChangePassword (volume, newPassword, newPim, newKeyfiles, true,
-			newHash ? Pkcs5Kdf::GetAlgorithm (*newHash, false) : shared_ptr <Pkcs5Kdf>());
+			newHash ? Pkcs5Kdf::GetAlgorithm (*newHash) : shared_ptr <Pkcs5Kdf>());
 
 		ShowInfo ("PASSWORD_CHANGED");
 	}
@@ -815,7 +813,7 @@ namespace VeraCrypt
 
 			shared_ptr <Hash> selectedHash = hashes[AskSelection (hashes.size(), 1) - 1];
 			RandomNumberGenerator::SetHash (selectedHash);
-			options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*selectedHash, false);
+			options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*selectedHash);
 
 		}
 
@@ -1266,7 +1264,7 @@ namespace VeraCrypt
 			if (!options.Password)
 				options.Password = AskPassword();
 
-			if (!options.TrueCryptMode && (options.Pim < 0))
+			if (options.Pim < 0)
 				options.Pim = AskPim (_("Enter PIM"));
 
 			if (!options.Keyfiles)
@@ -1336,7 +1334,7 @@ namespace VeraCrypt
 				options.Password = AskPassword (StringFormatter (_("Enter password for {0}"), wstring (*options.Path)));
 			}
 
-			if (!options.TrueCryptMode && (options.Pim < 0))
+			if (options.Pim < 0)
 			{
 				options.Pim = AskPim (StringFormatter (_("Enter PIM for {0}"), wstring (*options.Path)));
 			}
@@ -1355,7 +1353,7 @@ namespace VeraCrypt
 			{
 				if (!options.ProtectionPassword)
 					options.ProtectionPassword = AskPassword (_("Enter password for hidden volume"));
-				if (!options.TrueCryptMode && (options.ProtectionPim < 0))
+				if (options.ProtectionPim < 0)
 					options.ProtectionPim = AskPim (_("Enter PIM for hidden volume"));
 				if (!options.ProtectionKeyfiles)
 					options.ProtectionKeyfiles = AskKeyfiles (_("Enter keyfile for hidden volume"));
@@ -1504,7 +1502,7 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> kdf;
 		if (CmdLine->ArgHash)
 		{
-			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, false);
+			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}
 
 		ShowInfo (LangString["HEADER_RESTORE_EXTERNAL_INTERNAL"]);
@@ -1551,7 +1549,6 @@ namespace VeraCrypt
 						options.Password,
 						options.Pim,
 						kdf,
-						false,
 						options.Keyfiles,
                         options.EMVSupportEnabled,
 						options.Protection,
@@ -1660,7 +1657,7 @@ namespace VeraCrypt
 
 						// Decrypt header
 						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled);
-						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, options.Pim, kdf, false, layout->GetSupportedKeyDerivationFunctions(false), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
+						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, options.Pim, kdf, layout->GetSupportedKeyDerivationFunctions(), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
 						{
 							decryptedLayout = layout;
 							break;

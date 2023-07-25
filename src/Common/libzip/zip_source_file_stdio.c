@@ -176,33 +176,3 @@ _zip_stdio_op_tell(zip_source_file_context_t *ctx, void *f) {
 
     return offset;
 }
-
-
-/*
- * fopen replacement that sets the close-on-exec flag
- * some implementations support an fopen 'e' flag for that,
- * but e.g. macOS doesn't.
- */
-FILE *
-_zip_fopen_close_on_exec(const char *name, bool writeable) {
-    int fd;
-    int flags;
-    FILE *fp;
-
-    flags = O_CLOEXEC;
-    if (writeable) {
-        flags |= O_RDWR;
-    }
-    else {
-        flags |= O_RDONLY;
-    }
-
-    /* mode argument needed on Windows */
-    if ((fd = open(name, flags, 0666)) < 0) {
-        return NULL;
-    }
-    if ((fp = fdopen(fd, writeable ? "r+b" : "rb")) == NULL) {
-        return NULL;
-    }
-    return fp;
-}

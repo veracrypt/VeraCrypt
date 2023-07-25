@@ -39,20 +39,41 @@ ZIP_EXTERN int
 zip_stat_index(zip_t *za, zip_uint64_t index, zip_flags_t flags, zip_stat_t *st) {
     const char *name;
     zip_dirent_t *de;
+    zip_entry_t *entry;
 
-    if ((de = _zip_get_dirent(za, index, flags, NULL)) == NULL)
+    if ((de = _zip_get_dirent(za, index, flags, NULL)) == NULL) {
         return -1;
+    }
 
-    if ((name = zip_get_name(za, index, flags)) == NULL)
+    if ((name = zip_get_name(za, index, flags)) == NULL) {
         return -1;
+    }
 
+    entry = za->entry + index;
 
     if ((flags & ZIP_FL_UNCHANGED) == 0 && ZIP_ENTRY_DATA_CHANGED(za->entry + index)) {
-        zip_entry_t *entry = za->entry + index;
 
         if (zip_source_stat(entry->source, st) < 0) {
             zip_error_set(&za->error, ZIP_ER_CHANGED, 0);
             return -1;
+        }
+
+        if (ZIP_CM_IS_DEFAULT(de->comp_method)) {
+            if (!(st->valid & ZIP_STAT_COMP_METHOD) || st->comp_method == ZIP_CM_STORE) {
+                st->valid &= ~(ZIP_STAT_COMP_SIZE|ZIP_STAT_COMP_METHOD);
+            }
+        }
+        else {
+            if ((st->valid & ZIP_STAT_COMP_METHOD) && st->comp_method != de->comp_method) {
+                st->valid &= ~ZIP_STAT_COMP_SIZE;
+            }
+            st->valid |= ZIP_STAT_COMP_METHOD;
+            st->comp_method = de->comp_method;
+        }
+
+        if (((st->valid & (ZIP_STAT_COMP_METHOD|ZIP_STAT_SIZE)) == (ZIP_STAT_COMP_METHOD|ZIP_STAT_SIZE)) && st->comp_method == ZIP_CM_STORE) {
+            st->valid |= ZIP_STAT_COMP_SIZE;
+            st->comp_size = st->size;
         }
 
         if (entry->changes != NULL && entry->changes->changed & ZIP_DIRENT_LAST_MOD) {
@@ -70,6 +91,16 @@ zip_stat_index(zip_t *za, zip_uint64_t index, zip_flags_t flags, zip_stat_t *st)
         st->comp_method = (zip_uint16_t)de->comp_method;
         st->encryption_method = de->encryption_method;
         st->valid = (de->crc_valid ? ZIP_STAT_CRC : 0) | ZIP_STAT_SIZE | ZIP_STAT_MTIME | ZIP_STAT_COMP_SIZE | ZIP_STAT_COMP_METHOD | ZIP_STAT_ENCRYPTION_METHOD;
+        if (entry->changes != NULL && entry->changes->changed & ZIP_DIRENT_COMP_METHOD) {
+            st->valid &= ~ZIP_STAT_COMP_SIZE;
+        }
+    }
+
+    if ((za->ch_flags & ZIP_AFL_WANT_TORRENTZIP) && (flags & ZIP_FL_UNCHANGED) == 0) {
+        st->comp_method = ZIP_CM_DEFLATE;
+        st->mtime = _zip_d2u_time(0xbc00, 0x2198);
+        st->valid |= ZIP_STAT_MTIME | ZIP_STAT_COMP_METHOD;
+        st->valid &= ~ZIP_STAT_COMP_SIZE;
     }
 
     st->index = index;

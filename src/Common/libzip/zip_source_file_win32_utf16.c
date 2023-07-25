@@ -39,6 +39,7 @@ static void utf16_make_tempname(char *buf, size_t len, const char *name, zip_uin
 static char *utf16_strdup(const char *string);
 
 /* clang-format off */
+DONT_WARN_INCOMPATIBLE_FN_PTR_BEGIN
 
 zip_win32_file_operations_t ops_utf16 = {
     utf16_allocate_tempname,
@@ -52,6 +53,7 @@ zip_win32_file_operations_t ops_utf16 = {
     utf16_strdup
 };
 
+DONT_WARN_INCOMPATIBLE_FN_PTR_END
 /* clang-format on */
 
 ZIP_EXTERN zip_source_t *
@@ -101,7 +103,7 @@ static HANDLE __stdcall utf16_create_file(const char *name, DWORD access, DWORD 
 
 static void
 utf16_make_tempname(char *buf, size_t len, const char *name, zip_uint32_t i) {
-    _snwprintf((wchar_t *)buf, len, L"%s.%08x", (const wchar_t *)name, i);
+    _snwprintf_s((wchar_t *)buf, len, len, L"%s.%08x", (const wchar_t *)name, i);
 }
 
 

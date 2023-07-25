@@ -1,0 +1,1213 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+</style>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">Сборка VeraCrypt из исходного кода</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineWin.html">Руководство по сборке в Windows</a>
+</p></div>
+
+<div class="wikidoc">
+В этом руководстве описано, как настроить систему Windows для компилирования VeraCrypt и как cкомпилировать программу.<br>
+Здесь как пример приведена процедура для Windows 10, процедуры для других версий Windows аналогичны.
+</div>
+
+<div class="wikidoc">
+Для компиляции VeraCrypt необходимы следующие компоненты:
+
+<ol>
+	<li>Microsoft Visual Studio 2010</li>
+	<li>Microsoft Visual Studio 2010 Service Pack 1</li>
+	<li>NASM</li>
+	<li>YASM</li>
+	<li>Visual C++ 1.52</li>
+	<li>Windows SDK 7.1</li>
+	<li>Windows Driver Kit 7.1</li>
+	<li>Windows 8.1 SDK</li>
+	<li>gzip</li>
+	<li>UPX</li>
+	<li>7-Zip</li>
+	<li>WiX3</li>
+	<li>Microsoft Visual Studio 2019</li>
+	<li>Windows 10 SDK</li>
+	<li>Windows Driver Kit 1903</li>
+	<li>Средства сборки Visual Studio</li>
+	
+</ol>
+
+</div>
+
+<div class="wikidoc">
+Ниже приведены шаги процедуры. Нажав на любую ссылку, вы сразу перейдёте к соответствующему шагу:
+<ul>
+<li><strong><a href="#InstallationOfMicrosoftVisualStudio2010">Установка Microsoft Visual Studio 2010</a></li></strong>
+<li><strong><a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">Установка Microsoft Visual Studio 2010 Service Pack 1</a></li></strong>
+<li><strong><a href="#InstallationOfNASM">Установка NASM</a></li></strong>
+<li><strong><a href="#InstallationOfYASM">Установка YASM</a></li></strong>
+<li><strong><a href="#InstallationOfVisualCPP">Установка Microsoft Visual C++ 1.52</a></li></strong>
+<li><strong><a href="#InstallationOfWindowsSDK71PP">Установка Windows SDK 7.1</a></li></strong>
+<li><strong><a href="#InstallationOfWDK71PP">Установка Windows Driver Kit 7.1</a></li></strong>
+<li><strong><a href="#InstallationOfSDK81PP">Установка Windows 8.1 SDK</a></li></strong>
+<li><strong><a href="#InstallationOfGzip">Установка gzip</a></li></strong>
+<li><strong><a href="#InstallationOfUpx">Установка UPX</a></li></strong>
+<li><strong><a href="#InstallationOf7zip">Установка 7-Zip</a></li></strong>
+<li><strong><a href="#InstallationOfWix3">Установка WiX3</a></li></strong>
+<li><strong><a href="#InstallationOfVS2019">Установка Microsoft Visual Studio 2019</a></li></strong>
+<li><strong><a href="#InstallationOfWDK10">Установка Windows Driver Kit 2004</a></li></strong>
+<li><strong><a href="#InstallationOfVisualBuildTools">Установка средств сборки Visual Studio</a></li></strong>
+<li><strong><a href="#DownloadVeraCrypt">Загрузка исходных файлов VeraCrypt</a></li></strong>
+<li><strong><a href="#CompileWin32X64">Компиляция Win32/x64-версий VeraCrypt</a></li></strong>
+<li><strong><a href="#CompileARM64">Компиляция ARM64-версии VeraCrypt</a></li></strong>
+<li><strong><a href="#BuildVeraCryptExecutables">Сборка исполняемых файлов VeraCrypt</a></li></strong>
+<li><strong><a href="#ImportCertificates">Импорт сертификатов</a></li></strong>
+<li><strong><a href="#KnownIssues">Известные проблемы</a></li></strong>
+</ul>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010">
+  <a href="#InstallationOfMicrosoftVisualStudio2010">Установка Microsoft Visual Studio 2010</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Посетите следующий сайт Microsoft и войдите в систему с помощью бесплатной учётной записи Microsoft: <br>
+				<a href="https://my.visualstudio.com/Downloads?q=Visual%20Studio%202010%20Professional&pgroup=" target="_blank">https://my.visualstudio.com/Downloads?q=Visual%20Studio%202010%20Professional&pgroup=</a>
+			</li>
+			<li>
+				Загрузите (пробную) версию "Visual Studio Professional 2010". <br>
+				<img src="CompilingGuidelineWin/DownloadVS2010.jpg" width="80%">
+			</li>
+			<li>
+				Смонтируйте загруженный файл ISO, дважды щёлкнув по нему.
+			</li>
+			<li>
+				Запустите файл "autorun.exe" от имени администратора.
+			</li>
+			<li>
+				Установите Microsoft Visual Studio 2010 с настройками по умолчанию.
+			</li>
+		</ol>
+		Установка Microsoft SQL Server 2008 Express Service Pack 1 (x64) может завершиться ошибкой, но это не требуется для компиляции VeraCrypt.
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010ServicePack1">
+  <a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">Установка Microsoft Visual Studio 2010 Service Pack 1</a>
+  <div class="texttohide">
+    <p>
+		ПРИМЕЧАНИЕ: Содержимое, которое пытается загрузить официальный установщик Microsoft, больше недоступно. Поэтому необходимо использовать автономный установщик.
+		<ol>
+			<li>
+				Посетите сайт интернет-архива и загрузите ISO-образ Microsoft Visual Studio 2010 Service Pack 1:<br>
+				<a href="https://archive.org/details/vs-2010-sp-1dvd-1" target="_blank">https://archive.org/details/vs-2010-sp-1dvd-1</a>
+			</li>
+			<li>
+				Смонтируйте загруженный файл ISO, дважды щёлкнув по нему.
+			</li>
+			<li>
+				Запустите файл "Setup.exe" от имени администратора.
+			</li>
+			<li>
+				Установите Microsoft Visual Studio 2010 Service Pack 1 с настройками по умолчанию.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfNASM">
+  <a href="#InstallationOfNASM">Установка NASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите файл "nasm-2.08-installer.exe" отсюда: <br>
+				<a href="https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/</a>
+			</li>
+			<li>
+				Запустите файл от имени администратора.
+			</li>
+			<li>
+				Установите NASM с настройками по умолчанию.
+			</li>
+			<li>
+				Добавьте путь к папке NASM в системную переменную PATH. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" выберите переменную "Path" и нажмите кнопку "Изменить...". <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Нажмите кнопку "Создать" и добавьте следующее значение: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\nasm</p>
+					</li>
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+			<li>
+				Чтобы проверить, правильно ли работает конфигурация, откройте командную строку и посмотрите вывод следующей команды: <br>
+				<p style="font-family: 'Courier New', monospace;">nasm</p> <br>
+				<img src="CompilingGuidelineWin/NasmCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#InstallationOfYASM">Установка YASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Создайте следующую папку: <br>
+				C:\Program Files\YASM
+			</li>
+			<li>
+				Загрузите файл "Win64 VS2010 .zip" отсюда: <br>
+				<a href="https://yasm.tortall.net/Download.html" target="_blank">https://yasm.tortall.net/Download.html</a>
+			</li>
+			<li>
+				Ваш интернет-браузер может сообщить, что, возможно, файл представляет угрозу безопасности, так как редко скачивается или из-за незашифрованного соединения. Тем не менее официальный сайт – наиболее надёжный источник этого файла, поэтому мы рекомендуем разрешить загрузку.
+			</li>
+			<li>
+				Распакуйте загруженный zip-архив и скопируйте извлечённые файлы в папку "C:\Program Files\YASM".
+			</li>
+			<li>
+				Загрузите файл "Win64 .exe" отсюда: <br>
+				<a href="https://yasm.tortall.net/Download.html" target="_blank">https://yasm.tortall.net/Download.html</a>
+			</li>
+			<li>
+				Ваш интернет-браузер может сообщить, что, возможно, файл представляет угрозу безопасности, так как редко скачивается или из-за незашифрованного соединения. Тем не менее официальный сайт – наиболее надёжный источник этого файла, поэтому мы рекомендуем разрешить загрузку.
+			</li>
+			<li>
+				Переименуйте файл в "yasm.exe" и скопируйте его в папку "C:\Program Files\YASM".
+			</li>
+			<li>
+				Добавьте путь к папке YASM в переменную PATH и создайте новую системную переменную для YASM. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" выберите переменную "Path" и нажмите кнопку "Изменить...". <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Нажмите кнопку "Создать" и добавьте следующее значение: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
+					</li>
+					<li>
+						Закройте верхнее окно, нажав OK.
+					</li>
+					<li>
+						В поле "Системные переменные" нажмите кнопку "Создать...". <br>
+						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+					</li>
+					<li>
+						Заполните форму следующими значениями: <br>
+						<p style="font-family: 'Courier New', monospace;">Имя переменной: YASMPATH<br> Значение переменной: C:\Program Files\YASM</p>
+					</li>
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+			<li>
+				Чтобы проверить, правильно ли работает конфигурация, откройте командную строку и посмотрите вывод следующей команды: <br>
+				<p style="font-family: 'Courier New', monospace;">yasm</p> <br>
+				и <br>
+				<p style="font-family: 'Courier New', monospace;">vsyasm</p> <br>
+				<img src="CompilingGuidelineWin/YasmCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfVisualCPP">
+  <a href="#InstallationOfVisualCPP">Установка Microsoft Visual C++ 1.52</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Пакет Visual C++ 1.52 доступен по платной подписке Microsoft MSDN. Если у вас нет подписки, загрузите образ ISO через интернет-архив: <br>
+				<a href="https://archive.org/details/ms-vc152 target="_blank">https://archive.org/details/ms-vc152</a>
+			</li>
+			<li>
+				Создайте папку "C:\MSVC15".
+			</li>
+			<li>
+				Смонтируйте файл ISO и скопируйте содержимое папки "MSVC" в "C:\MSVC15".
+			</li>
+			<li>
+				Создайте системную переменную для Microsoft Visual C++ 1.52. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" нажмите кнопку "Создать...". <br>
+						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+					</li>
+					<li>
+						Заполните форму следующими значениями: <br>
+						<p style="font-family: 'Courier New', monospace;">Имя переменной: MSVC16_ROOT<br> Значение переменной: C:\MSVC15</p>
+					</li>
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div> 
+ 
+ <div class="textbox" id="InstallationOfWindowsSDK71PP">
+  <a href="#InstallationOfWindowsSDK71PP">Установка Windows SDK 7.1</a>
+  <div class="texttohide">
+    <p>
+		Для установки требуется платформа .NET Framework 4 (более новая, например .NET Framework 4.8, не годится!). Поскольку вместе с Windows 10 уже предустановлена более новая версия, установщик придётся обмануть:
+		<ol>
+			<li>
+				Нажмите кнопку <em>Пуск</em> и найдите "regedit.exe". Запустите первое найденное.
+			</li>
+			<li>
+				Перейдите в ветвь "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\NET Framework Setup\NDP\v4\".
+			</li>
+			<li>
+				Измените разрешения у папки "Client", чтобы можно было редактировать ключи: <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Щёлкните правой кнопкой мыши по подпапке "Client" и выберите "Разрешения...".
+					</li>
+					<li>
+						Нажмите кнопку "Дополнительно". <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-1.jpg" width="17%">
+					</li>
+					<li>
+						Измените владельца на своего пользователя и нажмите "Добавить". <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-2.jpg" width="35%">
+					</li>
+					<li>
+						Укажите субъектом своего пользователя, включите опцию "Полный доступ" и нажмите OK. <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-3.jpg" width="35%">
+					</li>
+					<li>
+						В папке "Client" запишите значение элемента "Version".
+					</li>
+					<li>
+						Дважды щёлкните мышью по элементу "Version" и измените значение на "4.0.30319". <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-4.jpg" width="30%">
+					</li>
+				</ol>
+			</li>
+			<li>
+				Измените разрешения у папки "Full", чтобы можно было редактировать ключи: <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Щёлкните правой кнопкой мыши по подпапке "Full" и выберите "Разрешения...".
+					</li>
+					<li>
+						Нажмите кнопку "Дополнительно". <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-1.jpg" width="17%">
+					</li>
+					<li>
+						Измените владельца на своего пользователя и нажмите "Добавить". <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-2.jpg" width="35%">
+					</li>
+					<li>
+						Укажите субъектом своего пользователя, включите опцию "Полный доступ" и нажмите OK. <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-3.jpg" width="35%">
+					</li>
+					<li>
+						В папке "Full" запишите значение элемента "Version".
+					</li>
+					<li>
+						Дважды щёлкните мышью по элементу "Version" и измените значение на "4.0.30319". <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-4.jpg" width="30%">
+					</li>
+				</ol>
+			</li>
+			<li>
+				Загрузите Windows SDK 7.1 отсюда: <br>
+				<a href="https://www.microsoft.com/en-us/download/details.aspx?id=8279" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=8279</a>
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и установите приложение с настройками по умолчанию.
+			</li>
+			<li>
+				После установки отмените изменения, сделанные в редакторе реестра. <br>
+				<b>ПРИМЕЧАНИЕ:</b> Владельца "TrustedInstaller" можно восстановить, выполнив поиск: "NT Service\TrustedInstaller".
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>  
+ 
+ <div class="textbox" id="InstallationOfWDK71PP">
+  <a href="#InstallationOfWDK71PP">Установка Windows Driver Kit 7.1</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите ISO-файл Windows Diver Kit 7.1 отсюда: <br>
+				<a href="https://www.microsoft.com/en-us/download/details.aspx?id=11800" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=11800</a>
+			</li>
+			<li>
+				Смонтируйте загруженный файл ISO, дважды щёлкнув по нему.
+			</li>
+			<li>
+				Запустите файл "KitSetup.exe" от имени администратора. Выберите для установки все компоненты. <br>
+				<b>ПРИМЕЧАНИЕ: </b>Возможно, во время установки вас попросят установить .NET Framework 3.5. В этом случае нажмите "Загрузить и установить".
+			</li>
+			<li>
+				Установите комплект драйверов в папку по умолчанию.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfSDK81PP">
+  <a href="#InstallationOfSDK81PP">Установка Windows 8.1 SDK</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите ISO-файл Windows 8.1 SDK отсюда: <br>
+				<a href="https://developer.microsoft.com/de-de/windows/downloads/sdk-archive/" target="_blank">https://developer.microsoft.com/de-de/windows/downloads/sdk-archive/</a>
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и установите Windows 8.1 SDK с настройками по умолчанию.
+			</li>
+			<li>
+				Создайте системную переменную для Windows 8.1 SDK. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" нажмите кнопку "Создать...". <br>
+						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+					</li>
+					<li>
+						Заполните форму следующими значениями: <br>
+						<p style="font-family: 'Courier New', monospace;">Имя переменной: WSDK81<br> Значение переменной: C:\Program Files (x86)\Windows Kits\8.1\</p>
+					</li>
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfGzip">
+  <a href="#InstallationOfGzip">Установка gzip</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Создайте следующую папку: <br>
+				C:\Program Files (x86)\gzip
+			</li>
+			<li>
+				Загрузите версию gzip отсюда: <br>
+				<a href="https://sourceforge.net/projects/gnuwin32/files/gzip/1.3.12-1/gzip-1.3.12-1-bin.zip/download?use-mirror=netix&download=" target="_blank">https://sourceforge.net/projects/gnuwin32/files/gzip/1.3.12-1/gzip-1.3.12-1-bin.zip/download?use-mirror=netix&download=</a>
+			</li>
+			<li>
+				Скопируйте содержимое загруженного zip-архива в папку "C:\Program Files (x86)\gzip".
+			</li>
+			<li>
+				Добавьте путь к папке с gzip в переменную PATH. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" выберите переменную "Path" и нажмите кнопку "Изменить...". <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Нажмите кнопку "Создать" и добавьте следующее значение: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\gzip\bin</p>
+					</li>
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+			<li>
+				Чтобы проверить, правильно ли работает конфигурация, откройте командную строку и посмотрите вывод следующей команды: <br>
+				<p style="font-family: 'Courier New', monospace;">gzip</p> <br>
+				<img src="CompilingGuidelineWin/gzipCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfUpx">
+  <a href="#InstallationOfUpx">Установка UPX</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Создайте следующую папку: <br>
+				C:\Program Files (x86)\upx
+			</li>
+			<li>
+				Загрузите новейшую версию файла upx-X.X.X-win64.zip отсюда: <br>
+				<a href="https://github.com/upx/upx/releases/tag/v4.0.2" target="_blank">https://github.com/upx/upx/releases/tag/v4.0.2</a>
+			</li>
+			<li>
+				Скопируйте содержимое загруженного zip-архива в папку "C:\Program Files (x86)\upx".
+			</li>
+			<li>
+				Добавьте путь к папке с gzip в системную переменную PATH. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" выберите переменную "Path" и нажмите кнопку "Изменить...". <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Нажмите кнопку "Создать" и добавьте следующее значение: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\upx</p>
+					</li>
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+			<li>
+				Чтобы проверить, правильно ли работает конфигурация, откройте командную строку и посмотрите вывод следующей команды: <br>
+				<p style="font-family: 'Courier New', monospace;">upx</p> <br>
+				<img src="CompilingGuidelineWin/upxCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOf7zip">
+  <a href="#InstallationOf7zip">Установка 7-Zip</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите новейшую версию 7-Zip отсюда: <br>
+				<a href="https://www.7-zip.org/" target="_blank">https://www.7-zip.org/</a>
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и установите 7-Zip с настройками по умолчанию.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfWix3">
+  <a href="#InstallationOfWix3">Установка WiX3</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите файл "wix311.exe" отсюда: <br>
+				<a href="https://github.com/wixtoolset/wix3/releases" target="_blank">https://github.com/wixtoolset/wix3/releases</a>
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и установите WiX с настройками по умолчанию.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVS2019">
+  <a href="#InstallationOfVS2019">Установка Microsoft Visual Studio 2019</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Посетите следующий сайт Microsoft и войдите в систему с помощью бесплатной учётной записи Microsoft: <br>
+				<a href="https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20Professional" target="_blank">https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20Professional</a>
+			</li>
+			<li>
+				Загрузите новейшую (пробную) версию "Visual Studio Professional 2019". <br>
+				<img src="CompilingGuidelineWin/DownloadVS2019.jpg" width="80%">
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и следуйте указаниям мастера. <br>
+				Выберите следующие Workloads для установки: <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Desktop development with C++
+					</li>
+					<li>
+						.NET desktop development
+					</li>
+				</ol>
+				Выберите следующие отдельные компоненты для установки:
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						.NET
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								.NET 6.0 Runtime
+							</li>
+							<li>
+								.NET Core 3.1 Runtime (LTS)
+							</li>
+							<li>
+								.NET Framework 4 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.5 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.5.1 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.5.2 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.6 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.6.1 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.7.2 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.8 SDK
+							</li>
+							<li>
+								.NET Framework 4.8 targeting pack
+							</li>
+							<li>
+								.NET SDK
+							</li>
+							<li>
+								ML.NET Model Builder (Preview)
+							</li>
+						</ol>
+					</li>
+					<li>
+						Облако, база данных и сервер
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								CLR data types for SQL Server
+							</li>
+							<li>
+								Connectivity and publishing tools
+							</li>
+						</ol>
+					</li>
+					<li>
+						Инструменты кода
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								NuGet package manager
+							</li>
+							<li>
+								Text Template Transformation
+							</li>
+						</ol>
+					</li>
+					<li>
+						Компиляторы, инструменты сборки и среды выполнения
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								.NET Compiler Platform SDK
+							</li>
+							<li>
+								C# and Visual Basic Roslyn compilers
+							</li>
+							<li>
+								C++ 2019 Redistributable Update
+							</li>
+							<li>
+								C++ CMake tools for Windows
+							</li>
+							<li>
+								C++/CLI support for v142 build tools (Latest)
+							</li>
+							<li>
+								MSBuild
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 Spectre-mitigated libs (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 Spectre-mitigated libs (Latest)
+							</li>
+						</ol>
+					</li>
+					<li>
+						Отладка и тестирование
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								.NET profiling tools
+							</li>
+							<li>
+								C++ AddressSanatizer
+							</li>
+							<li>
+								C++ profiling tools
+							</li>
+							<li>
+								Just-In-Time debugger
+							</li>
+							<li>
+								Test Adapter for Boost.Test
+							</li>
+							<li>
+								Test Adapter for Google Test
+							</li>
+						</ol>
+					</li>
+					<li>
+						Средства разработки
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C# and Visual Basic
+							</li>
+							<li>
+								C++ core features
+							</li>
+							<li>
+								F# language support
+							</li>
+							<li>
+								IntelliCode
+							</li>
+							<li>
+								JavaScript and TypeScript language support
+							</li>
+							<li>
+								Live Share
+							</li>
+						</ol>
+					</li>
+					<li>
+						Эмуляторы
+						<ol style="list-style-type: upper-roman;">
+							НЕТ
+						</ol>
+					</li>
+					<li>
+						Игры и графика
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								Graphics debugger and GPU profiler for DirectX
+							</li>
+						</ol>
+					</li>
+					<li>
+						SDK, библиотеки и фреймворки
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C++ ATL for latest v142 build tools (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools (x86 & x64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (x86 & x64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools (ARM64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools (x86 & x64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools with Spectre Mitigations (ARM64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools with Spectre Mitigations (x86 & x64)
+							</li>
+							<li>
+								Entity Framework 6 tools
+							</li>
+							<li>
+								TypeScript 4.3 SDK
+							</li>
+							<li>
+								Windows 10 SDK (10.0.19041.0)
+							</li>
+							<li>
+								Windows Universal C Runtime
+							</li>
+						</ol>
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfWDK10">
+  <a href="#InstallationOfWDK10">Установка Windows Driver Kit 2004</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите Windows Driver Kit (WDK) 2004 отсюда: <br>
+				<a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads</a>
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и установите WDK с настройками по умолчанию.
+			</li>
+			<li>
+				В конце установки вас спросят, нужно ли установить расширение Windows Driver Kit Visual Studio. <br>
+				Перед закрытием диалогового окна убедитесь, что эта опция включена.
+			</li>
+			<li>
+				Автоматически запустится другая установка и определит пакет Visual Studio Professional 2019 как цель для расширения. <br>
+				Выберите его и продолжите установку.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVisualBuildTools">
+  <a href="#InstallationOfVisualBuildTools">Установка средств сборки Visual Studio</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Посетите следующий сайт Microsoft и войдите в систему с помощью бесплатной учётной записи Microsoft: <br>
+				<a href="https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20build%20tools" target="_blank">https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20build%20tools</a>
+			</li>
+			<li>
+				Загрузите новейшую версию "Build Tools for Visual Studio 2019". <br>
+				<img src="CompilingGuidelineWin/DownloadVSBuildTools.jpg" width="80%">
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и следуйте указаниям мастера. Выберите для установки следующие отдельные компоненты:
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						.NET
+						<ol style="list-style-type: upper-roman;">
+							НЕТ
+						</ol>
+					</li>
+					<li>
+						Облако, база данных и сервер
+						<ol style="list-style-type: upper-roman;">
+							НЕТ
+						</ol>
+					</li>
+					<li>
+						Инструменты кода
+						<ol style="list-style-type: upper-roman;">
+							НЕТ
+						</ol>
+					</li>
+					<li>
+						Компиляторы, инструменты сборки и среды выполнения
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C++/CLI support for v142 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 Spectre-mitigated libs (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 Spectre-mitigated libs (Latest)
+							</li>
+						</ol>
+					</li>
+					<li>
+						Отладка и тестирование
+						<ol style="list-style-type: upper-roman;">
+							НЕТ
+						</ol>
+					</li>
+					<li>
+						Средства разработки
+						<ol style="list-style-type: upper-roman;">
+							НЕТ
+						</ol>
+					</li>
+					<li>
+						SDK, библиотеки и фреймворки
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C++ ATL for latest v142 build tools (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools (x86 & x64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (x86 & x64)
+							</li>
+						</ol>
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#DownloadVeraCrypt">Загрузка исходных файлов VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Посетите репозитарий VeraCrypt на Github: <br>
+				<a href="https://github.com/veracrypt/VeraCrypt" target="_blank">https://github.com/veracrypt/VeraCrypt</a>
+			</li>
+			<li>
+				Нажмите зелёную кнопку с надписью "Code" и скачайте код. <br>
+				Загрузить репозиторий можно в виде zip-архива, но вы, возможно, предпочтёте использовать протокол git для отслеживания изменений.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileWin32X64">
+  <a href="#CompileWin32X64">Компиляция Win32/x64-версий VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте файл "src/VeraCrypt.sln" в Visual Studio <b>2010</b>.
+			</li>
+			<li>
+				Выберите "All|Win32" как активную конфигурацию.<br>
+				<img src="CompilingGuidelineWin/VS2010Win32Config.jpg" width="80%">
+			</li>
+			<li>
+				Нажмите "Build -> Build Solution". <br>
+				<img src="CompilingGuidelineWin/VS2010BuildSolution.jpg" width="40%">
+			</li>
+			<li>
+				Процесс компиляции должен завершиться с предупреждениями, но без ошибок. Некоторые проекты следует пропустить.
+			</li>
+			<li>
+				Выберите "All|x64" как активную конфигурацию. <br>
+				<img src="CompilingGuidelineWin/VS2010X64Config.jpg" width="80%">
+			</li>
+			<li>
+				Нажмите "Build -> Build Solution". <br>
+				<img src="CompilingGuidelineWin/VS2010BuildSolution.jpg" width="40%">
+			</li>
+			<li>
+				Процесс компиляции должен завершиться с предупреждениями, но без ошибок. Некоторые проекты следует пропустить. <br>
+				Закройте Visual Studio 2010 после завершения процесса компиляции.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileARM64">
+  <a href="#CompileARM64">Компиляция ARM64-версии VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте файл "src/VeraCrypt_vs2019.sln" в Visual Studio <b>2019</b>.
+			</li>
+			<li>
+				Выберите "All|ARM64" как активную конфигурацию. <br>
+				<img src="CompilingGuidelineWin/VS2019ARM64Config.jpg" width="80%">
+			</li>
+			<li>
+				Нажмите "Build -> Build Solution". <br>
+				<img src="CompilingGuidelineWin/VS2019BuildSolution.jpg" width="40%">
+			</li>
+			<li>
+				Процесс компиляции должен завершиться с предупреждениями, но без ошибок. Один проект следует пропустить. <br>
+				Закройте Visual Studio 2019 после завершения процесса компиляции.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="BuildVeraCryptExecutables">
+  <a href="#BuildVeraCryptExecutables">Сборка исполняемых файлов VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте командную строку от имени администратора.
+			</li>
+			<li>
+				Перейдите в папку "src/Signing/".
+			</li>
+			<li>
+				Запустите скрипт "sign_test.bat".
+			</li>
+			<li>
+				Сгенерированные исполняемые файлы будут в папке "src/Release/Setup Files".
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="ImportCertificates">
+  <a href="#ImportCertificates">Импорт сертификатов</a>
+  <div class="texttohide">
+    <p> С помощью скрипта sign_test.bat вы только что подписали исполняемые файлы VeraCrypt. Это необходимо, поскольку Windows принимает только те драйверы, которым доверяет подписанный центр сертификации. <br>
+	Поскольку вы использовали не официальный сертификат подписи VeraCrypt для подписи своего кода, а общедоступную версию для разработки, вы должны импортировать и, следовательно, доверять используемым сертификатам.
+		<ol>
+			<li>
+				Откройте папку "src/Signing".
+			</li>
+			<li>
+				Импортируйте следующие сертификаты в хранилище сертификатов локального компьютера, дважды щёлкнув по ним:
+				<ul>
+					<li>GlobalSign_R3Cross.cer</li>
+					<li>GlobalSign_SHA256_EV_CodeSigning_CA.cer</li>
+					<li>TestCertificates/idrix_codeSign.pfx</li>
+					<li>TestCertificates/idrix_Sha256CodeSign.pfx</li>
+					<li>TestCertificates/idrix_SHA256TestRootCA.crt</li>
+					<li>TestCertificates/idrix_TestRootCA.crt</li>
+				</ul>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="KnownIssues">
+  <a href="#KnownIssues">Известные проблемы</a>
+  <div class="texttohide">
+    <p>
+		<ul>
+			<li>
+				<b>Этот дистрибутив повреждён.</b> <br>
+				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
+				В Windows 10 или более новой версии вы можете получить указанное выше сообщение об ошибке. Это происходит, если не удалось проверить подлинность подписи. <br>
+				В настоящее время эта проверка работает некорректно, поэтому она может давать сбой каждый раз. Обходной путь – пропустить проверку. <br>
+				См. подробности здесь: <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/</a>.
+				<ol>
+					<li>
+						Откройте файл "src/Common/Dlgcode.c".
+					</li>
+					<li>
+						Найдите функцию "VerifyModuleSignature".
+					</li>
+					<li>
+						Замените следующие строки: <br>
+						Найти:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						if (!IsOSAtLeast (WIN_10)) <br>
+						return TRUE;
+						</p> <br>
+						Заменить на:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						return TRUE;
+						</p>
+					</li>
+					<li>
+						Снова скомпилируйте код VeraCrypt.
+					</li>
+				</ol>
+			</li>
+			<li>
+				<b>Ошибка сертификата.</b> <br>
+				<img src="CompilingGuidelineWin/CertVerifyFails.jpg" width="20%"> <br>
+				Windows проверяет подпись каждого устанавливаемого драйвера.<br>
+				Эта проверка может завершиться ошибкой при установке VeraCrypt по двум причинам:
+				<ol>
+					<li>
+						<b>Используемый для подписи сертификат не является доверенным для Windows.</b><br>
+						Чтобы проверить, относится ли это к вам, проверьте свойства исполняемого файла:
+						<ol>
+							<li>
+								Щёлкните правой кнопкой мыши по исполняемому файлу VeraCrypt Setup: "src/Release/Setup Files/VeraCrypt Setup 1.XX.exe".
+							</li>
+							<li>
+								Выберите <em>Свойства</em>.
+							</li>
+							<li>	
+								Сверху выберите вкладку "Цифровые подписи". Здесь вы увидите две подписи.
+							</li>
+								Проверьте обе, дважды щёлкая по ним. Если в заголовке написано "Подпись сертификата не может быть проверена", то соответствующий сертификат подписи не был правильно импортирован.<br>
+								Нажмите кнопку "Просмотр сертификата", а затем "Установить сертификат...", чтобы импортировать сертификат в хранилище сертификатов. <br>
+								<img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
+							<li>
+						</ol>
+					</li>
+					<li>
+						<b>Драйвер был изменён после подписания.</b> <br>
+						В этом случае воспользуйтесь скриптом "src/Signing/sign_test.bat", чтобы снова подписать ваш код тестовыми сертификатами.
+					</li>
+				</ol>
+			</li>
+		</ul>
+	</p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

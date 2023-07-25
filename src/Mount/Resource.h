@@ -160,7 +160,6 @@
 #define IDC_PREF_DISMOUNT_SESSION_LOCKED 1137
 #define IDT_NEW_PKCS5_PRF               1138
 #define IDC_PKCS5_OLD_PRF_ID            1139
-#define IDC_TRUECRYPT_MODE              1140
 #define IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT 1141
 #define IDT_OLD_PIM                     1142
 #define IDC_OLD_PIM                     1143

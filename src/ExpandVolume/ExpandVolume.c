@@ -105,7 +105,7 @@ int MountVolTemp (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Password *pas
 	mountOptions.PartitionInInactiveSysEncScope = FALSE;
 	mountOptions.UseBackupHeader = FALSE;
 
-	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
+	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
 	{
 		*driveNo = -3;
 		return ERR_VOL_MOUNT_FAILED;
@@ -390,7 +390,7 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 
 	// mount and resize file system
 
-	DebugAddProgressDlgStatus (hwndDlg, L"Mounting volume ...\r\n");
+	DebugAddProgressDlgStatus (hwndDlg, GetString("EXPANDER_MOUNTING_VOLUME"));
 
 	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, pVolumePassword, VolumePkcs5, VolumePim);
 	if (nStatus!=ERR_SUCCESS)
@@ -448,7 +448,7 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 		goto error;
 	}
 
-	DebugAddProgressDlgStatus (hwndDlg, L"Extending file system ...\r\n");
+	DebugAddProgressDlgStatus (hwndDlg, GetString("EXPANDER_EXTENDING_FILESYSTEM"));
 
 	// extend volume
 	nStatus = FsctlExtendVolume(szVolumeGUID, newDataAreaSize/BytesPerSector );
@@ -459,7 +459,7 @@ error:
 
 	if (driveNo>=0)
 	{
-		DebugAddProgressDlgStatus (hwndDlg, L"Unmounting volume ...\r\n");
+		DebugAddProgressDlgStatus (hwndDlg, GetString("EXPANDER_UNMOUNTING_VOLUME"));
 		UnmountVolume (hwndDlg, driveNo, TRUE);
 	}
 
@@ -681,7 +681,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	/* Try to decrypt the header */
 
-	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, VolumePim, FALSE, &cryptoInfo, NULL);
+	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, VolumePim, &cryptoInfo, NULL);
 	if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 		nStatus = 0;	// We can ignore this error here
 
@@ -818,7 +818,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, L"Writing random data to new space ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, GetString ("EXPANDER_WRITING_RANDOM_DATA"));
 
 		SetFormatSectorSize(HostSectorSize);
 		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, FALSE);
@@ -859,9 +859,9 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	while ( !cryptoInfo->LegacyVolume )
 	{
 		if (backupHeader)
-			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted backup header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, GetString("EXPANDER_WRITING_ENCRYPTED_BACKUP"));
 		else
-			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted primary header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, GetString("EXPANDER_WRITING_ENCRYPTED_PRIMARY"));
 
 #ifdef _WIN64
 		if (bIsRamEncryptionEnabled)
@@ -1032,7 +1032,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, L"Wiping old backup header ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, GetString("EXPANDER_WIPING_OLD_HEADER"));
 
 		wipeBuffer = (byte *) TCalloc (workChunkSize);
 		if (!wipeBuffer)

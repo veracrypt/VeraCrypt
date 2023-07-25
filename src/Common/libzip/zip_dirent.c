@@ -37,6 +37,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
+#include <zlib.h>
 
 #include "zipint.h"
 
@@ -127,14 +128,20 @@ _zip_cdir_write(zip_t *za, const zip_filelist_t *filelist, zip_uint64_t survivor
     zip_uint64_t i;
     bool is_zip64;
     int ret;
+    zip_uint32_t cdir_crc;
 
     if ((off = zip_source_tell_write(za->src)) < 0) {
-        _zip_error_set_from_source(&za->error, za->src);
+        zip_error_set_from_source(&za->error, za->src);
         return -1;
     }
     offset = (zip_uint64_t)off;
 
     is_zip64 = false;
+
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        cdir_crc = (zip_uint32_t)crc32(0, NULL, 0);
+        za->write_crc = &cdir_crc;
+    }
 
     for (i = 0; i < survivors; i++) {
         zip_entry_t *entry = za->entry + filelist[i].idx;
@@ -145,15 +152,17 @@ _zip_cdir_write(zip_t *za, const zip_filelist_t *filelist, zip_uint64_t survivor
             is_zip64 = true;
     }
 
+    za->write_crc = NULL;
+
     if ((off = zip_source_tell_write(za->src)) < 0) {
-        _zip_error_set_from_source(&za->error, za->src);
+        zip_error_set_from_source(&za->error, za->src);
         return -1;
     }
     size = (zip_uint64_t)off - offset;
 
-    if (offset > ZIP_UINT32_MAX || survivors > ZIP_UINT16_MAX)
+    if (offset > ZIP_UINT32_MAX || survivors > ZIP_UINT16_MAX) {
         is_zip64 = true;
-
+    }
 
     if ((buffer = _zip_buffer_new(buf, sizeof(buf))) == NULL) {
         zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
@@ -186,7 +195,13 @@ _zip_cdir_write(zip_t *za, const zip_filelist_t *filelist, zip_uint64_t survivor
 
     comment = za->comment_changed ? za->comment_changes : za->comment_orig;
 
-    _zip_buffer_put_16(buffer, (zip_uint16_t)(comment ? comment->length : 0));
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        _zip_buffer_put_16(buffer, TORRENTZIP_SIGNATURE_LENGTH + TORRENTZIP_CRC_LENGTH);
+    }
+    else {
+        _zip_buffer_put_16(buffer, (zip_uint16_t)(comment ? comment->length : 0));
+    }
+
 
     if (!_zip_buffer_ok(buffer)) {
         zip_error_set(&za->error, ZIP_ER_INTERNAL, 0);
@@ -201,7 +216,15 @@ _zip_cdir_write(zip_t *za, const zip_filelist_t *filelist, zip_uint64_t survivor
 
     _zip_buffer_free(buffer);
 
-    if (comment) {
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        char torrentzip_comment[TORRENTZIP_SIGNATURE_LENGTH + TORRENTZIP_CRC_LENGTH + 1];
+        snprintf(torrentzip_comment, sizeof(torrentzip_comment), TORRENTZIP_SIGNATURE "%08X", cdir_crc);
+
+        if (_zip_write(za, torrentzip_comment, strlen(torrentzip_comment)) < 0) {
+            return -1;
+        }
+    }
+    else if (comment != NULL) {
         if (_zip_write(za, comment->raw, comment->length) < 0) {
             return -1;
         }
@@ -219,7 +242,7 @@ _zip_dirent_clone(const zip_dirent_t *sde) {
         return NULL;
 
     if (sde)
-        memcpy(tde, sde, sizeof(*sde));
+        (void)memcpy_s(tde, sizeof(*tde), sde, sizeof(*sde));
     else
         _zip_dirent_init(tde);
 
@@ -503,75 +526,17 @@ _zip_dirent_read(zip_dirent_t *zde, zip_source_t *src, zip_buffer_t *buffer, boo
 
     if (zde->uncomp_size == ZIP_UINT32_MAX || zde->comp_size == ZIP_UINT32_MAX || zde->offset == ZIP_UINT32_MAX) {
         zip_uint16_t got_len;
-        zip_buffer_t *ef_buffer;
         const zip_uint8_t *ef = _zip_ef_get_by_id(zde->extra_fields, &got_len, ZIP_EF_ZIP64, 0, local ? ZIP_EF_LOCAL : ZIP_EF_CENTRAL, error);
-        /* TODO: if got_len == 0 && !ZIP64_EOCD: no error, 0xffffffff is valid value */
-        if (ef == NULL) {
-            if (!from_buffer) {
-                _zip_buffer_free(buffer);
-            }
-            return -1;
-        }
-
-        if ((ef_buffer = _zip_buffer_new((zip_uint8_t *)ef, got_len)) == NULL) {
-            zip_error_set(error, ZIP_ER_MEMORY, 0);
-            if (!from_buffer) {
-                _zip_buffer_free(buffer);
-            }
-            return -1;
-        }
-
-        if (zde->uncomp_size == ZIP_UINT32_MAX) {
-            zde->uncomp_size = _zip_buffer_get_64(ef_buffer);
-        }
-        else if (local) {
-            /* From appnote.txt: This entry in the Local header MUST
-               include BOTH original and compressed file size fields. */
-            (void)_zip_buffer_skip(ef_buffer, 8); /* error is caught by _zip_buffer_eof() call */
-        }
-        if (zde->comp_size == ZIP_UINT32_MAX) {
-            zde->comp_size = _zip_buffer_get_64(ef_buffer);
-        }
-        if (!local) {
-            if (zde->offset == ZIP_UINT32_MAX) {
-                zde->offset = _zip_buffer_get_64(ef_buffer);
-            }
-            if (zde->disk_number == ZIP_UINT16_MAX) {
-                zde->disk_number = _zip_buffer_get_32(ef_buffer);
-            }
-        }
-
-        if (!_zip_buffer_eof(ef_buffer)) {
-            /* accept additional fields if values match */
-            bool ok = true;
-            switch (got_len) {
-            case 28:
-                _zip_buffer_set_offset(ef_buffer, 24);
-                if (zde->disk_number != _zip_buffer_get_32(ef_buffer)) {
-                    ok = false;
-                }
-                /* fallthrough */
-            case 24:
-                _zip_buffer_set_offset(ef_buffer, 0);
-                if ((zde->uncomp_size != _zip_buffer_get_64(ef_buffer)) || (zde->comp_size != _zip_buffer_get_64(ef_buffer)) || (zde->offset != _zip_buffer_get_64(ef_buffer))) {
-                    ok = false;
-                }
-                break;
-
-            default:
-                ok = false;
-            }
-            if (!ok) {
-                zip_error_set(error, ZIP_ER_INCONS, ZIP_ER_DETAIL_INVALID_ZIP64_EF);
-                _zip_buffer_free(ef_buffer);
+        if (ef != NULL) {
+            if (!zip_dirent_process_ef_zip64(zde, ef, got_len, local, error)) {
                 if (!from_buffer) {
                     _zip_buffer_free(buffer);
                 }
                 return -1;
             }
         }
-        _zip_buffer_free(ef_buffer);
     }
+
 
     if (!_zip_buffer_ok(buffer)) {
         zip_error_set(error, ZIP_ER_INTERNAL, 0);
@@ -597,6 +562,65 @@ _zip_dirent_read(zip_dirent_t *zde, zip_source_t *src, zip_buffer_t *buffer, boo
     zde->extra_fields = _zip_ef_remove_internal(zde->extra_fields);
 
     return (zip_int64_t)size + (zip_int64_t)variable_size;
+}
+
+bool zip_dirent_process_ef_zip64(zip_dirent_t* zde, const zip_uint8_t* ef, zip_uint64_t got_len, bool local, zip_error_t* error) {
+    zip_buffer_t *ef_buffer;
+
+    if ((ef_buffer = _zip_buffer_new((zip_uint8_t *)ef, got_len)) == NULL) {
+        zip_error_set(error, ZIP_ER_MEMORY, 0);
+        return false;
+    }
+
+    if (zde->uncomp_size == ZIP_UINT32_MAX) {
+        zde->uncomp_size = _zip_buffer_get_64(ef_buffer);
+    }
+    else if (local) {
+        /* From appnote.txt: This entry in the Local header MUST
+           include BOTH original and compressed file size fields. */
+        (void)_zip_buffer_skip(ef_buffer, 8); /* error is caught by _zip_buffer_eof() call */
+    }
+    if (zde->comp_size == ZIP_UINT32_MAX) {
+        zde->comp_size = _zip_buffer_get_64(ef_buffer);
+    }
+    if (!local) {
+        if (zde->offset == ZIP_UINT32_MAX) {
+            zde->offset = _zip_buffer_get_64(ef_buffer);
+        }
+        if (zde->disk_number == ZIP_UINT16_MAX) {
+            zde->disk_number = _zip_buffer_get_32(ef_buffer);
+        }
+    }
+
+    if (!_zip_buffer_eof(ef_buffer)) {
+        /* accept additional fields if values match */
+        bool ok = true;
+        switch (got_len) {
+        case 28:
+            _zip_buffer_set_offset(ef_buffer, 24);
+            if (zde->disk_number != _zip_buffer_get_32(ef_buffer)) {
+                ok = false;
+            }
+            /* fallthrough */
+        case 24:
+            _zip_buffer_set_offset(ef_buffer, 0);
+            if ((zde->uncomp_size != _zip_buffer_get_64(ef_buffer)) || (zde->comp_size != _zip_buffer_get_64(ef_buffer)) || (zde->offset != _zip_buffer_get_64(ef_buffer))) {
+                ok = false;
+            }
+            break;
+
+        default:
+            ok = false;
+        }
+        if (!ok) {
+            zip_error_set(error, ZIP_ER_INCONS, ZIP_ER_DETAIL_INVALID_ZIP64_EF);
+            _zip_buffer_free(ef_buffer);
+            return false;
+        }
+    }
+    _zip_buffer_free(ef_buffer);
+
+    return true;
 }
 
 
@@ -728,7 +752,7 @@ _zip_dirent_size(zip_source_t *src, zip_uint16_t flags, zip_error_t *error) {
     size = local ? LENTRYSIZE : CDENTRYSIZE;
 
     if (zip_source_seek(src, local ? 26 : 28, SEEK_CUR) < 0) {
-        _zip_error_set_from_source(error, src);
+        zip_error_set_from_source(error, src);
         return -1;
     }
 
@@ -901,7 +925,13 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags) {
         _zip_buffer_put_16(buffer, (zip_uint16_t)de->comp_method);
     }
 
-    _zip_u2d_time(de->last_mod, &dostime, &dosdate);
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        dostime = 0xbc00;
+        dosdate = 0x2198;
+    }
+    else {
+        _zip_u2d_time(de->last_mod, &dostime, &dosdate);
+    }
     _zip_buffer_put_16(buffer, dostime);
     _zip_buffer_put_16(buffer, dosdate);
 
@@ -937,12 +967,15 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags) {
     }
 
     _zip_buffer_put_16(buffer, _zip_string_length(de->filename));
-    /* TODO: check for overflow */
-    ef_total_size = (zip_uint32_t)_zip_ef_size(de->extra_fields, flags) + (zip_uint32_t)_zip_ef_size(ef, ZIP_EF_BOTH);
+    ef_total_size = (zip_uint32_t)_zip_ef_size(ef, ZIP_EF_BOTH);
+    if (!ZIP_WANT_TORRENTZIP(za)) {
+        /* TODO: check for overflow */
+        ef_total_size += (zip_uint32_t)_zip_ef_size(de->extra_fields, flags);
+    }
     _zip_buffer_put_16(buffer, (zip_uint16_t)ef_total_size);
 
     if ((flags & ZIP_FL_LOCAL) == 0) {
-        _zip_buffer_put_16(buffer, _zip_string_length(de->comment));
+        _zip_buffer_put_16(buffer, ZIP_WANT_TORRENTZIP(za) ? 0 : _zip_string_length(de->comment));
         _zip_buffer_put_16(buffer, (zip_uint16_t)de->disk_number);
         _zip_buffer_put_16(buffer, de->int_attrib);
         _zip_buffer_put_32(buffer, de->ext_attrib);
@@ -981,13 +1014,13 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags) {
         }
     }
     _zip_ef_free(ef);
-    if (de->extra_fields) {
+    if (de->extra_fields && !ZIP_WANT_TORRENTZIP(za)) {
         if (_zip_ef_write(za, de->extra_fields, flags) < 0) {
             return -1;
         }
     }
 
-    if ((flags & ZIP_FL_LOCAL) == 0) {
+    if ((flags & ZIP_FL_LOCAL) == 0 && !ZIP_WANT_TORRENTZIP(za)) {
         if (de->comment) {
             if (_zip_string_write(za, de->comment) < 0) {
                 return -1;
@@ -1089,15 +1122,10 @@ _zip_get_dirent(zip_t *za, zip_uint64_t idx, zip_flags_t flags, zip_error_t *err
 void
 _zip_u2d_time(time_t intime, zip_uint16_t *dtime, zip_uint16_t *ddate) {
     struct tm *tpm;
-
-#ifdef HAVE_LOCALTIME_R
     struct tm tm;
-    tpm = localtime_r(&intime, &tm);
-#else
-    tpm = localtime(&intime);
-#endif
+    tpm = zip_localtime(&intime, &tm);
     if (tpm == NULL) {
-        /* if localtime() fails, return an arbitrary date (1980-01-01 00:00:00) */
+        /* if localtime fails, return an arbitrary date (1980-01-01 00:00:00) */
         *ddate = (1 << 5) + 1;
         *dtime = 0;
         return;
@@ -1108,8 +1136,6 @@ _zip_u2d_time(time_t intime, zip_uint16_t *dtime, zip_uint16_t *ddate) {
 
     *ddate = (zip_uint16_t)(((tpm->tm_year + 1900 - 1980) << 9) + ((tpm->tm_mon + 1) << 5) + tpm->tm_mday);
     *dtime = (zip_uint16_t)(((tpm->tm_hour) << 11) + ((tpm->tm_min) << 5) + ((tpm->tm_sec) >> 1));
-
-    return;
 }
 
 
@@ -1159,4 +1185,23 @@ _zip_dirent_apply_attributes(zip_dirent_t *de, zip_file_attributes_t *attributes
     if ((changed & ZIP_DIRENT_ATTRIBUTES) == 0 && (attributes->valid & ZIP_FILE_ATTRIBUTES_HOST_SYSTEM)) {
         de->version_madeby = (de->version_madeby & 0xff) | (zip_uint16_t)(attributes->host_system << 8);
     }
+}
+
+
+/* _zip_dirent_torrent_normalize(de);
+   Set values suitable for torrentzip.
+*/
+
+void zip_dirent_torrentzip_normalize(zip_dirent_t *de) {
+    de->version_madeby = 0;
+    de->version_needed = 20; /* 2.0 */
+    de->bitflags = 2; /* maximum compression */
+    de->comp_method = ZIP_CM_DEFLATE;
+    de->compression_level = TORRENTZIP_COMPRESSION_FLAGS;
+    de->disk_number = 0;
+    de->int_attrib = 0;
+    de->ext_attrib = 0;
+
+    /* last_mod, extra_fields, and comment are normalized in zip_dirent_write() directly */
+
 }

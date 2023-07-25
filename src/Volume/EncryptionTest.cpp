@@ -1086,12 +1086,12 @@ namespace VeraCrypt
 		if (memcmp (derivedKey.Ptr(), "\x8d\x51\xfa\x31", 4) != 0)
 			throw TestFailed (SRC_POS);
 
-		Pkcs5HmacSha512 pkcs5HmacSha512(false);
+		Pkcs5HmacSha512 pkcs5HmacSha512;
 		pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5);
 		if (memcmp (derivedKey.Ptr(), "\x13\x64\xae\xf8", 4) != 0)
 			throw TestFailed (SRC_POS);
 
-		Pkcs5HmacWhirlpool pkcs5HmacWhirlpool(false);
+		Pkcs5HmacWhirlpool pkcs5HmacWhirlpool;
 		pkcs5HmacWhirlpool.DeriveKey (derivedKey, password, salt, 5);
 		if (memcmp (derivedKey.Ptr(), "\x50\x7c\x36\x6f", 4) != 0)
 			throw TestFailed (SRC_POS);

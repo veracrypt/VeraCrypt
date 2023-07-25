@@ -54,7 +54,6 @@ namespace VeraCrypt
 		Type = static_cast <VolumeType::Enum> (sr.DeserializeInt32 ("Type"));
 		VirtualDevice = sr.DeserializeWString ("VirtualDevice");
 		sr.Deserialize ("VolumeCreationTime", VolumeCreationTime);
-		sr.Deserialize ("TrueCryptMode", TrueCryptMode);
 		sr.Deserialize ("Pim", Pim);
 	}
 
@@ -95,7 +94,6 @@ namespace VeraCrypt
 		sr.Serialize ("Type", static_cast <uint32> (Type));
 		sr.Serialize ("VirtualDevice", wstring (VirtualDevice));
 		sr.Serialize ("VolumeCreationTime", VolumeCreationTime);
-		sr.Serialize ("TrueCryptMode", TrueCryptMode);
 		sr.Serialize ("Pim", Pim);
 	}
 
@@ -120,7 +118,6 @@ namespace VeraCrypt
 		TopWriteOffset = volume.GetTopWriteOffset();
 		TotalDataRead = volume.GetTotalDataRead();
 		TotalDataWritten = volume.GetTotalDataWritten();
-		TrueCryptMode = volume.GetTrueCryptMode();
 		Pim = volume.GetPim ();
 	}
 

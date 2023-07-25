@@ -222,17 +222,14 @@ namespace VeraCrypt
 		return volumeHostSize;
 	}
 
-	Pkcs5KdfList VolumeLayoutSystemEncryption::GetSupportedKeyDerivationFunctions (bool truecryptMode) const
+	Pkcs5KdfList VolumeLayoutSystemEncryption::GetSupportedKeyDerivationFunctions () const
 	{
 		Pkcs5KdfList l;
-		if (!truecryptMode)
-		{
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256_Boot ()));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacBlake2s_Boot ()));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 (false)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool (false)));
-			l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
-		}
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256_Boot ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacBlake2s_Boot ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
 		return l;
 	}
 }

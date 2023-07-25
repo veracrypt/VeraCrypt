@@ -42,23 +42,29 @@
 ZIP_EXTERN const char *
 zip_error_strerror(zip_error_t *err) {
     const char *zip_error_string, *system_error_string;
-    char buf[128], *s;
+    char *s;
+    char *system_error_buffer = NULL;
 
     zip_error_fini(err);
 
     if (err->zip_err < 0 || err->zip_err >= _zip_err_str_count) {
-        snprintf(buf, sizeof(buf), "Unknown error %d", err->zip_err);
-        buf[sizeof(buf) - 1] = '\0'; /* make sure string is NUL-terminated */
+        system_error_buffer = (char *)malloc(128);
+        snprintf_s(system_error_buffer, 128, "Unknown error %d", err->zip_err);
+        system_error_buffer[128 - 1] = '\0'; /* make sure string is NUL-terminated */
         zip_error_string = NULL;
-        system_error_string = buf;
+        system_error_string = system_error_buffer;
     }
     else {
         zip_error_string = _zip_err_str[err->zip_err].description;
 
         switch (_zip_err_str[err->zip_err].type) {
-            case ZIP_ET_SYS:
-                system_error_string = strerror(err->sys_err);
+            case ZIP_ET_SYS: {
+                size_t len = strerrorlen_s(err->sys_err) + 1;
+                system_error_buffer = malloc(len);
+                strerror_s(system_error_buffer, len, err->sys_err);
+                system_error_string = system_error_buffer;
                 break;
+            }
                 
             case ZIP_ET_ZLIB:
                 system_error_string = zError(err->sys_err);
@@ -72,14 +78,16 @@ zip_error_strerror(zip_error_t *err) {
                     system_error_string = NULL;
                 }
                 else if (error >= _zip_err_details_count) {
-                    snprintf(buf, sizeof(buf), "invalid detail error %u", error);
-                    buf[sizeof(buf) - 1] = '\0'; /* make sure string is NUL-terminated */
-                    system_error_string = buf;
+                    system_error_buffer = (char *)malloc(128);
+                    snprintf_s(system_error_buffer, 128, "invalid detail error %u", error);
+                    system_error_buffer[128 - 1] = '\0'; /* make sure string is NUL-terminated */
+                    system_error_string = system_error_buffer;
                 }
                 else if (_zip_err_details[error].type == ZIP_DETAIL_ET_ENTRY && index < MAX_DETAIL_INDEX) {
-                    snprintf(buf, sizeof(buf), "entry %d: %s", index, _zip_err_details[error].description);
-                    buf[sizeof(buf) - 1] = '\0'; /* make sure string is NUL-terminated */
-                    system_error_string = buf;
+                    system_error_buffer = (char *)malloc(128);
+                    snprintf_s(system_error_buffer, 128, "entry %d: %s", index, _zip_err_details[error].description);
+                    system_error_buffer[128 - 1] = '\0'; /* make sure string is NUL-terminated */
+                    system_error_string = system_error_buffer;
                 }
                 else {
                     system_error_string = _zip_err_details[error].description;
@@ -93,16 +101,28 @@ zip_error_strerror(zip_error_t *err) {
     }
 
     if (system_error_string == NULL) {
+        free(system_error_buffer);
         return zip_error_string;
     }
     else {
-        if ((s = (char *)malloc(strlen(system_error_string) + (zip_error_string ? strlen(zip_error_string) + 2 : 0) + 1)) == NULL) {
+        size_t length = strlen(system_error_string);
+        if (zip_error_string) {
+            size_t length_error = strlen(zip_error_string);
+            if (length + length_error + 2 < length) {
+                free(system_error_buffer);
+                return _zip_err_str[ZIP_ER_MEMORY].description;
+            }
+            length += length_error + 2;
+        }
+        if (length == SIZE_MAX || (s = (char *)malloc(length + 1)) == NULL) {
+            free(system_error_buffer);
             return _zip_err_str[ZIP_ER_MEMORY].description;
         }
 
-        sprintf(s, "%s%s%s", (zip_error_string ? zip_error_string : ""), (zip_error_string ? ": " : ""), system_error_string);
+        snprintf_s(s, length + 1, "%s%s%s", (zip_error_string ? zip_error_string : ""), (zip_error_string ? ": " : ""), system_error_string);
         err->str = s;
 
+        free(system_error_buffer);
         return s;
     }
 }

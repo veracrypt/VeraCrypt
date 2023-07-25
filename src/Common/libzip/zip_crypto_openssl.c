@@ -40,10 +40,27 @@
 #include <limits.h>
 #include <openssl/rand.h>
 
-#if OPENSSL_VERSION_NUMBER < 0x1010000fL || (defined(LIBRESSL_VERSION_NUMBER) && LIBRESSL_VERSION_NUMBER < 0x02070000fL)
-#define USE_OPENSSL_1_0_API
+#ifdef USE_OPENSSL_3_API
+static _zip_crypto_hmac_t* hmac_new() {
+    _zip_crypto_hmac_t *hmac = (_zip_crypto_hmac_t*)malloc(sizeof(*hmac));
+    if (hmac != NULL) {
+        hmac->mac = NULL;
+        hmac->ctx = NULL;
+    }
+    return hmac;
+}
+static void hmac_free(_zip_crypto_hmac_t* hmac) {
+    if (hmac != NULL) {
+        if (hmac->ctx != NULL) {
+            EVP_MAC_CTX_free(hmac->ctx);
+        }
+        if (hmac->mac != NULL) {
+            EVP_MAC_free(hmac->mac);
+        }
+        free(hmac);
+    }
+}
 #endif
-
 
 _zip_crypto_aes_t *
 _zip_crypto_aes_new(const zip_uint8_t *key, zip_uint16_t key_size, zip_error_t *error) {
@@ -126,13 +143,34 @@ _zip_crypto_hmac_new(const zip_uint8_t *secret, zip_uint64_t secret_length, zip_
         return NULL;
     }
 
+#ifdef USE_OPENSSL_3_API
+    if ((hmac = hmac_new()) == NULL
+        || (hmac->mac = EVP_MAC_fetch(NULL, "HMAC", "provider=default")) == NULL
+        || (hmac->ctx = EVP_MAC_CTX_new(hmac->mac)) == NULL) {
+        hmac_free(hmac);
+        zip_error_set(error, ZIP_ER_MEMORY, 0);
+        return NULL;
+    }
+
+    {
+        OSSL_PARAM params[2];
+        params[0] = OSSL_PARAM_construct_utf8_string("digest", "SHA1", 0);
+        params[1] = OSSL_PARAM_construct_end();
+
+        if (!EVP_MAC_init(hmac->ctx, (const unsigned char *)secret, secret_length, params)) {
+            zip_error_set(error, ZIP_ER_INTERNAL, 0);
+            hmac_free(hmac);
+            return NULL;
+        }
+    }
+#else
 #ifdef USE_OPENSSL_1_0_API
     if ((hmac = (_zip_crypto_hmac_t *)malloc(sizeof(*hmac))) == NULL) {
         zip_error_set(error, ZIP_ER_MEMORY, 0);
         return NULL;
     }
 
-    HMAC_CTX_init(hmac);
+        HMAC_CTX_init(hmac);
 #else
     if ((hmac = HMAC_CTX_new()) == NULL) {
         zip_error_set(error, ZIP_ER_MEMORY, 0);
@@ -149,6 +187,7 @@ _zip_crypto_hmac_new(const zip_uint8_t *secret, zip_uint64_t secret_length, zip_
 #endif
         return NULL;
     }
+#endif
 
     return hmac;
 }
@@ -160,7 +199,9 @@ _zip_crypto_hmac_free(_zip_crypto_hmac_t *hmac) {
         return;
     }
 
-#ifdef USE_OPENSSL_1_0_API
+#if defined(USE_OPENSSL_3_API)
+    hmac_free(hmac);
+#elif defined(USE_OPENSSL_1_0_API)
     HMAC_CTX_cleanup(hmac);
     _zip_crypto_clear(hmac, sizeof(*hmac));
     free(hmac);
@@ -172,9 +213,13 @@ _zip_crypto_hmac_free(_zip_crypto_hmac_t *hmac) {
 
 bool
 _zip_crypto_hmac_output(_zip_crypto_hmac_t *hmac, zip_uint8_t *data) {
+#ifdef USE_OPENSSL_3_API
+    size_t length;
+    return EVP_MAC_final(hmac->ctx, data, &length, ZIP_CRYPTO_SHA1_LENGTH) == 1 && length == ZIP_CRYPTO_SHA1_LENGTH;
+#else
     unsigned int length;
-
     return HMAC_Final(hmac, data, &length) == 1;
+#endif
 }
 
 

@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include "zipint.h"
+#include "zip_crypto.h"
 
 struct winzip_aes {
     char *password;
@@ -72,7 +73,7 @@ zip_source_winzip_aes_decode(zip_t *za, zip_source_t *src, zip_uint16_t encrypti
     }
 
     if (zip_source_stat(src, &st) != 0) {
-        _zip_error_set_from_source(&za->error, src);
+        zip_error_set_from_source(&za->error, src);
         return NULL;
     }
 
@@ -107,7 +108,7 @@ decrypt_header(zip_source_t *src, struct winzip_aes *ctx) {
 
     headerlen = WINZIP_AES_PASSWORD_VERIFY_LENGTH + SALT_LENGTH(ctx->encryption_method);
     if ((n = zip_source_read(src, header, headerlen)) < 0) {
-        _zip_error_set_from_source(&ctx->error, src);
+        zip_error_set_from_source(&ctx->error, src);
         return -1;
     }
 
@@ -131,9 +132,9 @@ decrypt_header(zip_source_t *src, struct winzip_aes *ctx) {
 
 static bool
 verify_hmac(zip_source_t *src, struct winzip_aes *ctx) {
-    unsigned char computed[SHA1_LENGTH], from_file[HMAC_LENGTH];
+    unsigned char computed[ZIP_CRYPTO_SHA1_LENGTH], from_file[HMAC_LENGTH];
     if (zip_source_read(src, from_file, HMAC_LENGTH) < HMAC_LENGTH) {
-        _zip_error_set_from_source(&ctx->error, src);
+        zip_error_set_from_source(&ctx->error, src);
         return false;
     }
 
@@ -181,7 +182,7 @@ winzip_aes_decrypt(zip_source_t *src, void *ud, void *data, zip_uint64_t len, zi
         }
 
         if ((n = zip_source_read(src, data, len)) < 0) {
-            _zip_error_set_from_source(&ctx->error, src);
+            zip_error_set_from_source(&ctx->error, src);
             return -1;
         }
         ctx->current_position += (zip_uint64_t)n;
@@ -211,7 +212,7 @@ winzip_aes_decrypt(zip_source_t *src, void *ud, void *data, zip_uint64_t len, zi
     }
 
     case ZIP_SOURCE_SUPPORTS:
-        return zip_source_make_command_bitmap(ZIP_SOURCE_OPEN, ZIP_SOURCE_READ, ZIP_SOURCE_CLOSE, ZIP_SOURCE_STAT, ZIP_SOURCE_ERROR, ZIP_SOURCE_FREE, -1);
+        return zip_source_make_command_bitmap(ZIP_SOURCE_OPEN, ZIP_SOURCE_READ, ZIP_SOURCE_CLOSE, ZIP_SOURCE_STAT, ZIP_SOURCE_ERROR, ZIP_SOURCE_FREE, ZIP_SOURCE_SUPPORTS_REOPEN, -1);
 
     case ZIP_SOURCE_ERROR:
         return zip_error_to_data(&ctx->error, data, len);
@@ -221,8 +222,7 @@ winzip_aes_decrypt(zip_source_t *src, void *ud, void *data, zip_uint64_t len, zi
         return 0;
 
     default:
-        zip_error_set(&ctx->error, ZIP_ER_INVAL, 0);
-        return -1;
+        return zip_source_pass_to_lower_layer(src, data, len, cmd);
     }
 }
 

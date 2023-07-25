@@ -325,7 +325,7 @@ void CALLBACK ResumeInPlaceEncWaitThreadProc(void* pArg, HWND hwndDlg)
 			if (device.Path == szDevicePath)
 			{
 				OpenVolumeContext volume;
-				int status = OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePim, FALSE, FALSE, FALSE, TRUE);
+				int status = OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePim, FALSE, FALSE, TRUE);
 
 				if ( status == ERR_SUCCESS)
 				{
@@ -371,7 +371,7 @@ void CALLBACK ResumeInPlaceEncWaitThreadProc(void* pArg, HWND hwndDlg)
 
 				OpenVolumeContext volume;
 
-				if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePim, FALSE, FALSE, FALSE, TRUE) == ERR_SUCCESS)
+				if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePim, FALSE, FALSE, TRUE) == ERR_SUCCESS)
 				{
 					if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
 						&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
@@ -3462,6 +3462,13 @@ BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display, LONGLONG *pFr
 		else
 		{
 			LARGE_INTEGER lDiskFree;
+			// if the file pointed by szFileName already exists, we must add its size to the free space since it will be overwritten durig the volume creation
+			__int64 lFileSize = GetFileSize64(szFileName);
+			if (lFileSize != -1)
+			{
+				free.QuadPart += lFileSize;
+			}
+
 			lDiskFree.QuadPart = free.QuadPart;
 
 			if (pFreeSpaceValue)
@@ -8080,7 +8087,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					// Check that it is not a hidden or legacy volume
 
-					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePim, FALSE, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
+					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePim, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
 					{
 						NormalCursor();
 						return 1;
@@ -8122,7 +8129,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					mountOptions.UseBackupHeader = TRUE;	// This must be TRUE at this point (we won't be using the regular header, which will be lost soon after the decryption process starts)
 
-					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePim, FALSE, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
+					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePim, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
 					{
 						NormalCursor();
 						return 1;
@@ -9915,7 +9922,7 @@ int MountHiddenVolHost (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Passwor
 	mountOptions.PartitionInInactiveSysEncScope = FALSE;
 	mountOptions.UseBackupHeader = FALSE;
 
-	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5_prf, pim, FALSE, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
+	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5_prf, pim, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
 	{
 		*driveNo = -3;
 		return ERR_VOL_MOUNT_FAILED;

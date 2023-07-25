@@ -129,10 +129,6 @@
 
 #define VC_IOCTL_ENCRYPTION_QUEUE_PARAMS				TC_IOCTL (43)
 
-// Legacy IOCTLs used before version 5.0
-#define TC_IOCTL_LEGACY_GET_DRIVER_VERSION		466968
-#define TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES		466948
-
 // Undocumented IOCTL sent by Windows 10 when handling EFS data on volumes
 #define IOCTL_UNKNOWN_WINDOWS10_EFS_ACCESS				0x455610D8
 
@@ -170,7 +166,6 @@ typedef struct
 	BOOL RecoveryMode;
 	int pkcs5_prf;
 	int ProtectedHidVolPkcs5Prf;
-	BOOL bTrueCryptMode;
 	uint32 BytesPerPhysicalSector;
 	int VolumePim;
 	int ProtectedHidVolPim;
@@ -200,7 +195,7 @@ typedef struct
 	unsigned __int64 diskLength[26];
 	int ea[26];
 	int volumeType[26];	/* Volume type (e.g. PROP_VOL_TYPE_OUTER, PROP_VOL_TYPE_OUTER_VOL_WRITE_PREVENTED, etc.) */
-	BOOL truecryptMode[26];
+	BOOL reserved[26]; /* needed to keep the same size for the structure so that installer of new version can communicate with installed old version */
 } MOUNT_LIST_STRUCT;
 
 typedef struct

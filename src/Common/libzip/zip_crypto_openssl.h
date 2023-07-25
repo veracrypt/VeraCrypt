@@ -39,14 +39,31 @@
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 
+#if OPENSSL_VERSION_NUMBER < 0x1010000fL || (defined(LIBRESSL_VERSION_NUMBER) && LIBRESSL_VERSION_NUMBER < 0x02070000fL)
+#define USE_OPENSSL_1_0_API
+#elif OPENSSL_VERSION_NUMBER < 0x3000000fL
+#define USE_OPENSSL_1_1_API
+#else
+#define USE_OPENSSL_3_API
+#endif
+
 #define _zip_crypto_aes_t EVP_CIPHER_CTX
+#ifdef USE_OPENSSL_3_API
+struct _zip_crypto_hmac_t {
+    EVP_MAC *mac;
+    EVP_MAC_CTX *ctx;
+};
+typedef struct _zip_crypto_hmac_t _zip_crypto_hmac_t;
+#define _zip_crypto_hmac(hmac, data, length) (EVP_MAC_update((hmac->ctx), (data), (length)) == 1)
+#else
 #define _zip_crypto_hmac_t HMAC_CTX
+#define _zip_crypto_hmac(hmac, data, length) (HMAC_Update((hmac), (data), (length)) == 1)
+#endif
 
 void _zip_crypto_aes_free(_zip_crypto_aes_t *aes);
 bool _zip_crypto_aes_encrypt_block(_zip_crypto_aes_t *aes, const zip_uint8_t *in, zip_uint8_t *out);
 _zip_crypto_aes_t *_zip_crypto_aes_new(const zip_uint8_t *key, zip_uint16_t key_size, zip_error_t *error);
 
-#define _zip_crypto_hmac(hmac, data, length) (HMAC_Update((hmac), (data), (length)) == 1)
 void _zip_crypto_hmac_free(_zip_crypto_hmac_t *hmac);
 _zip_crypto_hmac_t *_zip_crypto_hmac_new(const zip_uint8_t *secret, zip_uint64_t secret_length, zip_error_t *error);
 bool _zip_crypto_hmac_output(_zip_crypto_hmac_t *hmac, zip_uint8_t *data);

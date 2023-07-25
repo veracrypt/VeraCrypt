@@ -34,7 +34,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <zlib.h>
 
 #define _ZIP_COMPILING_DEPRECATED
 #include "zipint.h"
@@ -42,26 +41,18 @@
 
 ZIP_EXTERN int
 zip_error_to_str(char *buf, zip_uint64_t len, int ze, int se) {
-    const char *zs, *ss;
+    zip_error_t error;
+    const char *error_string;
+    int ret;
 
-    if (ze < 0 || ze >= _zip_err_str_count) {
-        return snprintf(buf, len, "Unknown error %d", ze);
-    }
+    zip_error_init(&error);
+    zip_error_set(&error, ze, se);
 
-    zs = _zip_err_str[ze].description;
+    error_string = zip_error_strerror(&error);
 
-    switch (_zip_err_str[ze].type) {
-        case ZIP_ET_SYS:
-            ss = strerror(se);
-            break;
-            
-        case ZIP_ET_ZLIB:
-            ss = zError(se);
-            break;
-            
-        default:
-            ss = NULL;
-    }
+    ret = snprintf_s(buf, ZIP_MIN(len, SIZE_MAX), error_string, strlen(error_string));
 
-    return snprintf(buf, len, "%s%s%s", zs, (ss ? ": " : ""), (ss ? ss : ""));
+    zip_error_fini(&error);
+
+    return ret;
 }
