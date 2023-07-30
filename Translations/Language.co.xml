@@ -9,7 +9,7 @@ Information about Corsican localization:
 
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
-	          June 29th (1.26.2), July 1st (1.26.3)
+	          June 29th (1.26.2), July 1st (1.26.3), July 30th (1.26.4)
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Created on March 6th, 2022 for version 1.25.9 by Patriccollu di Santa Maria è Sichè
 
@@ -18,7 +18,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.4">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.8" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.3.9" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -386,7 +386,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_SECURITY_TOKEN">Gettone di sicurità :</entry>
 		<entry lang="co" key="IDT_SORT_METHOD">Metoda d’ordine :</entry>
 		<entry lang="co" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Aspittate per piacè. St’operazione pò durà un bellu pezzu…</entry>
-		<entry lang="co" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Aspittate per piacè…\nSt’operazione pò durà un bellu pezzu è VeraCrypt pò parè sensa risposta.</entry>
+		<entry lang="co" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Aspittate per piacè…\nSt’operazione pò durà un bellu pezzu è VeraCrypt pò parè senza risposta.</entry>
 		<entry lang="co" key="IDT_TEST_BLOCK_NUMBER">Numeru di bloccu :</entry>
 		<entry lang="co" key="IDT_TEST_CIPHERTEXT">Crittogramu (esadecimale)</entry>
 		<entry lang="co" key="IDT_TEST_DATA_UNIT_NUMBER">Numeru d’unità di dati (esadecimale di 64-bit, dimensione d’unità di dati di 512 ottetti)</entry>
@@ -1180,7 +1180,7 @@ Information about Corsican localization:
 		<entry lang="co" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">Sistema operatoriu piattatu</entry>
 		<entry lang="co" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">À e tappe chì seguitanu, avete da creà dui vulumi VeraCrypt (esternu è piattatu) dentru a prima partizione daretu a partizione di u sistema. U vulume piattatu cuntenerà u sistema operatoriu (OS) piattatu. VeraCrypt creerà u sistema operatoriu piattatu cupiendu u cuntenutu di a partizione di u sistema (induve u sistema operatoriu attuale hè installatu) versu u vulume piattatu. Nant’à u vulume esternu, cupierete parechji schedarii chì parenu impurtante ma chì, in fatti, ùn hè MICCA bisognu à piattà. Seranu quì per qualunque chì vi custringhje à palisà a parolla d’intesa per u sistema operatoriu piattatu. Pudete palisà a parolla d’intesa per u vulume esternu dentru a partizione di u sistema operatoriu piattatu (l’esistenza di u sistema operatoriu piattatu sterà un sicretu).\n\nIn fine di contu, nant’à a partizione sistema di u sistema operatoriu attuale, avete da installà un novu sistema operatoriu, chjamatu OS d’ingannu, è avete da cifrallu. St’OS, chì ùn deve micca cuntene dati impurtante, serà quì per qualunque chì vi custringhje à palisà a vostra parolla d’intesa d’autenticazione di prepiccera. In tuttu, ci serà trè parolle d’intesa. Duie trà elle ponu esse palisate (per l’OS d’ingannu è u vulume esternu). S’è vò impiegate a terza, l’OS piattatu serà avviatu.</entry>
 		<entry lang="co" key="SYSENC_DRIVE_ANALYSIS_TITLE">Scuperta di i settori piattati</entry>
-		<entry lang="co" key="SYSENC_DRIVE_ANALYSIS_INFO">Aspettate mentre chì VeraCrypt scopri a presenza di i settori piattati à a fine di u lettore di u sistema. Sappiate chì què pò durà un bellu pezzu per compiesi.\n\nNota : In qualchì casu assai scarsu, nant’à certi urdinatori, u sistema pò parè sensa risposta durante stu trattamentu di scuperta. S’ella accade, rilanciate l’urdinatore, lanciate VeraCrypt, ripitite e tappe precedente ma tralasciate stu trattamentu di scuperta. Sappiate chì stu prublema ùn hè micca cagiunatu da un sbagliu in VeraCrypt.</entry>
+		<entry lang="co" key="SYSENC_DRIVE_ANALYSIS_INFO">Aspettate mentre chì VeraCrypt scopri a presenza di i settori piattati à a fine di u lettore di u sistema. Sappiate chì què pò durà un bellu pezzu per compiesi.\n\nNota : In qualchì casu assai scarsu, nant’à certi urdinatori, u sistema pò parè senza risposta durante stu trattamentu di scuperta. S’ella accade, rilanciate l’urdinatore, lanciate VeraCrypt, ripitite e tappe precedente ma tralasciate stu trattamentu di scuperta. Sappiate chì stu prublema ùn hè micca cagiunatu da un sbagliu in VeraCrypt.</entry>
 		<entry lang="co" key="SYS_ENCRYPTION_SPAN_TITLE">Area à cifrà</entry>
 		<entry lang="co" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">Selezziunate st’ozzione s’è vò vulete cifrà u lettore sanu induve u sistema Windows in corsu di funziunamentu hè installatu. U lettore sanu, cuntenendu tutte e so partizioni, serà cifratu fora di a prima traccia induve sterà u caricadore di piccera di VeraCrypt. Quale chì vole accede à un sistema installatu nant’à u lettore, o à i schedarii chì ci sò arregistrati, duverà stampittà a parolla d’intesa curretta ogni volta nanzu l’avviu di u sistema. St’ozzione ùn pò micca esse impiegata per cifrà un lettore secundariu o esternu s’è Windows ùn ci hè micca installatu è s’ellu ùn ci hè micca avviatu.</entry>
 		<entry lang="co" key="COLLECTING_RANDOM_DATA_TITLE">Raccolta di dati aleatorii</entry>
@@ -1641,13 +1641,13 @@ Information about Corsican localization:
 		<entry lang="co" key="SCARD_W_REMOVED_CARD">Alcuna carta in u lettore.\n\nAssicuratevi chì a carta hè framessa currettamente.</entry>	</localization>
 		<entry lang="co" key="FORMAT_EXTERNAL_FAILED">A cumanda « format.com » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS : Sbagliu 0x%.8X.\n\nRivultata à impiegà l’API « FormatEx » di Windows.</entry>
 		<entry lang="co" key="FORMATEX_API_FAILED">L’API « FormatEx » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS.\n\nStatu di u fiascu = %s.</entry>
-		<entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-		<entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-		<entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-		<entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-		<entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-		<entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-		<entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
+		<entry lang="co" key="EXPANDER_WRITING_RANDOM_DATA">Scrittura di dati aleatorii in u spaziu novu…\n</entry>
+		<entry lang="co" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Scrittura di l’intestatura torna cifrata di salvaguardia…\n</entry>
+		<entry lang="co" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Scrittura di l’intestatura principale torna cifrata…\n\n</entry>
+		<entry lang="co" key="EXPANDER_WIPING_OLD_HEADER">Nettata di l’intestatura vechja di salvaguardia…\n</entry>
+		<entry lang="co" key="EXPANDER_MOUNTING_VOLUME">Muntatura di u vulume…\n</entry>
+		<entry lang="co" key="EXPANDER_UNMOUNTING_VOLUME">Smuntatura di u vulume…\n</entry>
+		<entry lang="co" key="EXPANDER_EXTENDING_FILESYSTEM">Estensione di u sistema di schedariu…\n</entry>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
 			<xs:complexType>
