@@ -607,7 +607,7 @@ void twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
 		byte S8[16];
 		uint32 S32[4];
 	} us;
-	int i;
+	unsigned int i;
    const byte* key = (const byte*) in_key;
 
 	us.S32[0] = RS[0][key[0]] ^ RS[1][key[1]] ^ RS[2][key[2]] ^ RS[3][key[3]] ^ RS[4][key[4]] ^ RS[5][key[5]] ^ RS[6][key[6]] ^ RS[7][key[7]];

@@ -238,7 +238,7 @@ extern volatile int g_isIntel;
 extern volatile int g_isAMD;
 extern volatile uint32 g_cacheLineSize;
 void DetectX86Features(); // must be called at the start of the program/driver
-int CpuId(uint32 input, uint32 *output);
+int CpuId(uint32 input, uint32 output[4]);
 // disable all CPU extended features (e.g. SSE, AVX, AES) that may have
 // been enabled by DetectX86Features.
 void DisableCPUExtendedFeatures (); 

@@ -22,6 +22,9 @@
 #include "Driver/Fuse/FuseService.h"
 #include "Volume/VolumePasswordCache.h"
 
+template<typename T>
+inline void ignore_result(const T & /* unused result */) {}
+
 namespace VeraCrypt
 {
 #ifdef TC_LINUX
@@ -691,7 +694,7 @@ namespace VeraCrypt
 				{
 					try
 					{
-						chown (mountPoint.c_str(), GetRealUserId(), GetRealGroupId());
+						ignore_result(chown (mountPoint.c_str(), GetRealUserId(), GetRealGroupId()));
 					} catch (...) { }
 				}
 			}
