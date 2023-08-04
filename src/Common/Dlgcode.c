@@ -15711,4 +15711,36 @@ bool OneOfKBsInstalled (const wchar_t* szKBs[], int count)
 
 	return bRet;
 }
+
+DWORD SendServiceNotification (DWORD dwNotificationCmd)
+{
+	DWORD dwRet = ERROR_INVALID_PARAMETER;
+	// We only support clearing keys on new device insertion
+	if (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION == dwNotificationCmd)
+	{
+		DWORD dwServiceControlCode = VC_SERVICE_CONTROL_BUILD_DEVICE_LIST;
+		// send this control code to VeraCrypt SystemFavorites service
+		SC_HANDLE hSCManager = OpenSCManager (NULL, NULL, SC_MANAGER_CONNECT);
+		if (hSCManager != NULL)
+		{
+			SC_HANDLE hService = OpenService (hSCManager, TC_SYSTEM_FAVORITES_SERVICE_NAME, SERVICE_ALL_ACCESS);
+			if (hService != NULL)
+			{
+				SERVICE_STATUS ss;
+				if (ControlService (hService, dwServiceControlCode, &ss))
+					dwRet = ERROR_SUCCESS;
+				else
+					dwRet = GetLastError ();
+				CloseServiceHandle (hService);
+			}
+			else
+				dwRet = GetLastError ();
+			CloseServiceHandle (hSCManager);
+		}
+		else
+			dwRet = GetLastError ();
+	}
+
+	return dwRet;
+}
 #endif // VC_COMREG

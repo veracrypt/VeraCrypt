@@ -84,6 +84,9 @@ enum
 
 #define VC_FILENAME_RENAMED_SUFFIX				L"_old"
 
+/* customer service control code to build device list */
+#define VC_SERVICE_CONTROL_BUILD_DEVICE_LIST 128
+
 #ifndef USER_DEFAULT_SCREEN_DPI
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
@@ -585,6 +588,7 @@ BOOL EnableProcessProtection();
 void SafeOpenURL (LPCWSTR szUrl);
 BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter);
 BOOL IsTestSigningModeEnabled ();
+DWORD SendServiceNotification (DWORD dwNotificationCmd);
 #ifdef _WIN64
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif

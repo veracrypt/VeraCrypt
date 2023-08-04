@@ -54,7 +54,12 @@
 #include <Strsafe.h>
 #include <InitGuid.h>
 #include <devguid.h>
+#include <devpkey.h>
+#include <SetupAPI.h>
+#include <Cfgmgr32.h>
 #include <intrin.h>
+#include <vector>
+#include <algorithm>
 
 #pragma intrinsic(_InterlockedCompareExchange, _InterlockedExchange)
 
@@ -9640,6 +9645,70 @@ static HDEVNOTIFY  SystemFavoriteServiceNotify = NULL;
 
 DEFINE_GUID(OCL_GUID_DEVCLASS_SOFTWARECOMPONENT, 0x5c4c3332, 0x344d, 0x483c, 0x87, 0x39, 0x25, 0x9e, 0x93, 0x4c, 0x9c, 0xc8);
 
+// This functions returns a vector containing all devices currently connected to the system
+void BuildDeviceList(std::vector<CDevice>& devices)
+{
+	devices.clear();
+
+	// Get device info set for all devices
+	HDEVINFO hDevInfo = SetupDiGetClassDevs(NULL, NULL, NULL, DIGCF_ALLCLASSES | DIGCF_PRESENT);
+	if (hDevInfo != INVALID_HANDLE_VALUE)
+	{
+		SP_DEVINFO_DATA deviceInfoData;
+		deviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+
+		// Enumerate through all devices in set
+		for (DWORD i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &deviceInfoData); i++)
+		{
+			// Get device path
+			WCHAR szDeviceID[MAX_PATH];
+			if (CR_SUCCESS == CM_Get_Device_IDW(deviceInfoData.DevInst, szDeviceID, MAX_PATH, 0))
+			{
+				// Add to vector
+				devices.push_back(CDevice(szDeviceID));
+			}
+		}
+
+		SetupDiDestroyDeviceInfoList(hDevInfo); // Cleanup
+	}
+}
+
+// This function build a device ID value from the dbcc_name field of a DEV_BROADCAST_DEVICEINTERFACE structure
+// In case of error, the device ID is set to an empty string
+// Algorithm taken from https://www.codeproject.com/Articles/14500/Detecting-Hardware-Insertion-and-or-Removal#premain174347
+void GetDeviceID(PDEV_BROADCAST_DEVICEINTERFACE pDevInf, WCHAR* szDevId)
+{
+	szDevId[0] = L'\0';
+	if (lstrlen(pDevInf->dbcc_name) < 4) return;
+	if (lstrlen(pDevInf->dbcc_name) - 4 >= MAX_PATH) return;
+
+	StringCchCopyW(szDevId, MAX_PATH, pDevInf->dbcc_name + 4);
+
+	// find last occurrence of '#'
+	wchar_t *idx = wcsrchr(szDevId, L'#');
+	if(!idx)
+	{
+		szDevId[0] = L'\0';
+		return;
+	}
+
+	// truncate string at last '#'
+	*idx = L'\0';
+
+	// replace '#' with '\\' and convert string to upper case
+	for (wchar_t *p = szDevId; *p; ++p)
+	{
+		if (*p == L'#')
+		{
+			*p = L'\\';
+		}
+		else
+		{
+			*p = towupper((unsigned)*p);
+		}
+	}
+}
+
 static void SystemFavoritesServiceLogMessage (const wstring &errorMessage, WORD wType)
 {
 	HANDLE eventSource = RegisterEventSource (NULL, TC_SYSTEM_FAVORITES_SERVICE_NAME);
@@ -9719,6 +9788,9 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 	}
 }
 
+// Global vector containing all devices previsouly knwon to the system
+std::vector<CDevice> g_Devices;
+
 static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 														DWORD dwEventType,
 														LPVOID lpEventData,
@@ -9756,6 +9828,18 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 			}
 		}
 		break;
+	case VC_SERVICE_CONTROL_BUILD_DEVICE_LIST:
+		{
+			/* build a list of all devices currently connected to the system */
+			/* ignore if clear keys configuration is already set */
+			if (!(ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION))
+			{
+				SystemFavoritesServiceLogInfo (L"VC_SERVICE_CONTROL_BUILD_DEVICE_LIST received");
+				g_Devices.clear ();
+				BuildDeviceList (g_Devices);
+			}
+		}
+		break;
 	case SERVICE_CONTROL_DEVICEEVENT:
 		if (DBT_DEVICEARRIVAL == dwEventType)
 		{
@@ -9777,12 +9861,43 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 						{
 							bClearKeys = FALSE;
 						}
+						else
+						{
+							WCHAR szDevId[MAX_PATH];
+							GetDeviceID(pInf, szDevId);
+							// device ID must contain "VID_" and "PID_" to be valid and it must not start with "SWD\" or "ROOT\"
+							if (wcsstr(szDevId, L"VID_") && wcsstr(szDevId, L"PID_") && wcsstr(szDevId, L"SWD\\") != szDevId && wcsstr(szDevId, L"ROOT\\") != szDevId)
+							{
+								CDevice dev(szDevId);
+								// look for the device in the list of devices already known to us and if it is there, then don't clear keys
+								if (std::find(g_Devices.begin(), g_Devices.end(), dev) != g_Devices.end())
+								{
+									bClearKeys = FALSE;
+								}
+								else
+								{
+									// trace the device ID of the new device in the log
+									WCHAR szMsg[2*MAX_PATH];
+									StringCbPrintfW(szMsg, sizeof(szMsg), L"SERVICE_CONTROL_DEVICEEVENT - New device ID: %s", szDevId);
+									SystemFavoritesServiceLogInfo (szMsg);
+								}
+							}
+							else
+							{
+								bClearKeys = FALSE;
+							}
+						}
 					}
 
 					if (bClearKeys)
 					{
 						DWORD cbBytesReturned = 0;
+
 						DeviceIoControl (hDriver, VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS, NULL, 0, NULL, 0, &cbBytesReturned, NULL);
+					}
+					else
+					{
+						SystemFavoritesServiceLogInfo (L"SERVICE_CONTROL_DEVICEEVENT - DBT_DEVICEARRIVAL ignored");
 					}
 				}
 			}
@@ -11449,6 +11564,13 @@ void SetServiceConfigurationFlag (uint32 flag, BOOL state)
 		BootEncObj->SetServiceConfigurationFlag (flag, state ? true : false);
 }
 
+
+void NotifyService (DWORD dwNotifyCmd)
+{
+	if (BootEncObj)
+		BootEncObj->NotifyService (dwNotifyCmd);
+}
+
 static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD (wParam);
@@ -12213,6 +12335,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, bPasswordCacheEnabled);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
+					if (bClearKeysEnabled)
+						NotifyService (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled);
 					SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, bAutoFixBootloader? FALSE : TRUE);
 					if (!IsHiddenOSRunning ())

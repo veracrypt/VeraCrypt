@@ -128,4 +128,42 @@ void SetDriverConfigurationFlag (uint32 flag, BOOL state);
 BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites = FALSE, BOOL logOnMount = FALSE, BOOL hotKeyMount = FALSE, const VeraCrypt::FavoriteVolume &favoriteVolumeToMount = VeraCrypt::FavoriteVolume());
 void __cdecl mountFavoriteVolumeThreadFunction (void *pArg);
 
+// A class that represents a device based on its device ID
+class CDevice
+{
+public:
+    WCHAR m_szDeviceID[MAX_PATH];
+
+    CDevice()
+    {
+        ZeroMemory(m_szDeviceID, sizeof(m_szDeviceID));
+    }
+
+    CDevice(WCHAR* szDevicePath)
+    {
+        StringCchCopyW(m_szDeviceID, MAX_PATH, szDevicePath);
+    }
+
+    CDevice(const CDevice& src)
+    {
+        StringCchCopyW(m_szDeviceID, MAX_PATH, src.m_szDeviceID);
+    }
+
+    CDevice& operator=(const CDevice& src)
+    {
+        StringCchCopyW(m_szDeviceID, MAX_PATH, src.m_szDeviceID);
+        return *this;
+    }
+
+    BOOL operator==(const CDevice& src)
+    {
+        return  wcscmp(m_szDeviceID, src.m_szDeviceID) == 0;
+    }
+
+    ~CDevice()
+    {
+    }
+};
+
+
 #endif

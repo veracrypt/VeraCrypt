@@ -492,3 +492,8 @@ DWORD BaseCom::UpdateSetupConfigFile (BOOL bForInstall)
 
 	return ERROR_SUCCESS;
 }
+
+DWORD BaseCom::NotifyService(DWORD dwNotifyCode)
+{
+	return SendServiceNotification(dwNotifyCode);
+}

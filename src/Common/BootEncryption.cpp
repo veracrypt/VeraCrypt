@@ -667,6 +667,18 @@ namespace VeraCrypt
 			}
 		}
 
+		static void NotifyService (DWORD dwNotifyCmd)
+		{
+			Elevate();
+
+			DWORD result = ElevatedComInstance->NotifyService (dwNotifyCmd);
+			if (result != ERROR_SUCCESS)
+			{
+				SetLastError (result);
+				throw SystemException(SRC_POS);
+			}
+		}
+
 		static void Release ()
 		{
 			if (--ReferenceCount == 0 && ElevatedComInstance)
@@ -5706,6 +5718,22 @@ namespace VeraCrypt
 		}
 
 		throw_sys_if (!WriteLocalMachineRegistryDword (keyPath, valueName, value));
+	}
+
+	void BootEncryption::NotifyService (DWORD dwNotifyCmd)
+	{
+		if (!IsAdmin() && IsUacSupported())
+		{
+			Elevator::NotifyService (dwNotifyCmd);
+			return;
+		}
+
+		DWORD dwRet = SendServiceNotification(dwNotifyCmd);
+		if (dwRet != ERROR_SUCCESS)
+		{
+			SetLastError(dwRet);
+			throw SystemException (SRC_POS);
+		}
 	}
 
 	void BootEncryption::StartDecryption (BOOL discardUnreadableEncryptedSectors)
