@@ -737,6 +737,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		if (event.GetActive() && Gui->IsInBackgroundMode())
 			Gui->SetBackgroundMode (false);
+		EnsureVisible();
 #endif
 		event.Skip();
 	}
