@@ -1632,7 +1632,7 @@
     <entry lang="ro" key="EXPANDER_UNMOUNTING_VOLUME">Se demontează volumul...\n</entry>
     <entry lang="ro" key="EXPANDER_EXTENDING_FILESYSTEM">Se extinde sistemul de fișiere...\n</entry>
   </localization>
-  <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http: /  / www.w3.org / 2001 / XMLSchema">
+  <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
       <xs:complexType>
         <xs:sequence>
