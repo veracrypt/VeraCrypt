@@ -1047,7 +1047,7 @@ namespace VeraCrypt
 
 	void TextUserInterface::DoShowString (const wxString &str) const
 	{
-		wcout << str.c_str();
+		wcout << str.c_str() << flush;
 	}
 
 	void TextUserInterface::DoShowWarning (const wxString &message) const
