@@ -345,6 +345,7 @@ begin_format:
 	{
 		/* File-hosted volume */
 		BOOL speedupFileCreation = FALSE;
+		BOOL delayedSpeedupFileCreation = FALSE;
 		// speedup for file creation only makes sens when using quick format for non hidden volumes
 		if (!volParams->hiddenVol && !bInstantRetryOtherFilesys && volParams->quickFormat && volParams->fastCreateFile)
 		{
@@ -352,7 +353,12 @@ begin_format:
 			if (!SetPrivilege(SE_MANAGE_VOLUME_NAME, TRUE))
 			{
 				DWORD dwLastError = GetLastError();
-				if (Silent || (MessageBoxW(hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME"), lpszTitle, MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO))
+				if (!IsAdmin () && IsUacSupported ())
+				{
+					speedupFileCreation = TRUE;
+					delayedSpeedupFileCreation = TRUE;
+				}
+				else if (Silent || (MessageBoxW(hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME"), lpszTitle, MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO))
 				{
 					SetLastError(dwLastError);
 					nStatus = ERR_OS_ERROR;
@@ -406,12 +412,15 @@ begin_format:
 				}
 			}
 
-			// Preallocate the file
-			if (!SetFilePointerEx (dev, volumeSize, NULL, FILE_BEGIN)
-				|| !SetEndOfFile (dev))
+			if (!delayedSpeedupFileCreation)
 			{
-				nStatus = ERR_OS_ERROR;
-				goto error;
+				// Preallocate the file
+				if (!SetFilePointerEx (dev, volumeSize, NULL, FILE_BEGIN)
+					|| !SetEndOfFile (dev))
+				{
+					nStatus = ERR_OS_ERROR;
+					goto error;
+				}
 			}
 
 			if (speedupFileCreation)
@@ -420,8 +429,42 @@ begin_format:
 				// this has security issues since it will put existing disk content into file container
 				// We use this mechanism only when switch /fastCreateFile specific and when quick format
 				// also specified and which is documented to have security issues.
-				// we don't check returned status because failure is not issue for us
-				if (!SetFileValidData (dev, volumeSize.QuadPart))
+				if (delayedSpeedupFileCreation)
+				{
+					// in case of delayed speedup we need to set the file size to a minimal value before performing the real preallocation through UAC
+					LARGE_INTEGER minimalSize;
+					DWORD dwOpStatus;
+					// 16K
+					minimalSize.QuadPart = 16 * 1024;
+					if (!SetFilePointerEx (dev, minimalSize, NULL, FILE_BEGIN)
+						|| !SetEndOfFile (dev))
+					{
+						nStatus = ERR_OS_ERROR;
+						goto error;
+					}
+
+					FlushFileBuffers (dev);
+					CloseHandle (dev);
+					dev = INVALID_HANDLE_VALUE;
+
+					dwOpStatus = UacFastFileCreation (volParams->hwndDlg, volParams->volumePath, volumeSize.QuadPart);
+					if (dwOpStatus != 0)
+					{
+						SetLastError(dwOpStatus);
+						nStatus = ERR_OS_ERROR;
+						goto error;
+					}
+
+					// open again the file now that it was created
+					dev = CreateFile (volParams->volumePath, GENERIC_READ | GENERIC_WRITE,
+						0, NULL, OPEN_EXISTING, 0, NULL);
+					if (dev == INVALID_HANDLE_VALUE)
+					{
+						nStatus = ERR_OS_ERROR;
+						goto error;
+					}
+				}
+				else if (!SetFileValidData (dev, volumeSize.QuadPart))
 				{
 					nStatus = ERR_OS_ERROR;
 					goto error;

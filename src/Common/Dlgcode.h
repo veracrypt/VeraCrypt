@@ -577,6 +577,7 @@ BOOL CopyTextToClipboard (const wchar_t* txtValue);
 BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_t* args);
 BOOL GetFreeDriveLetter(WCHAR* pCh);
 BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable);
+BOOL IsPrivilegeEnabled (LPTSTR szPrivilegeName);
 BOOL DeleteDirectory (const wchar_t* szDirName);
 BOOL IsThreadInSecureDesktop(DWORD dwThreadID);
 INT_PTR SecureDesktopDialogBoxParam (HINSTANCE, LPCWSTR, HWND, DLGPROC, LPARAM);
@@ -589,6 +590,7 @@ void SafeOpenURL (LPCWSTR szUrl);
 BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter);
 BOOL IsTestSigningModeEnabled ();
 DWORD SendServiceNotification (DWORD dwNotificationCmd);
+DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
 #ifdef _WIN64
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif

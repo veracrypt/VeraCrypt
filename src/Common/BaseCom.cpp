@@ -497,3 +497,8 @@ DWORD BaseCom::NotifyService(DWORD dwNotifyCode)
 {
 	return SendServiceNotification(dwNotifyCode);
 }
+
+DWORD BaseCom::FastFileResize (BSTR filePath, __int64 fileSize)
+{
+	return ::FastResizeFile (filePath, fileSize);
+}

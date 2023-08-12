@@ -13977,6 +13977,41 @@ BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 	return bRet;
 }
 
+BOOL IsPrivilegeEnabled (LPTSTR szPrivilegeName)
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+	BOOL bRet = FALSE;
+	DWORD dwLastError = 0;
+
+	if (OpenProcessToken(GetCurrentProcess(),
+		TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
+		&hToken))
+	{
+		if (LookupPrivilegeValue(NULL, szPrivilegeName,
+				&tkp.Privileges[0].Luid))
+		{
+			DWORD dwSize = sizeof (tkp);
+			if (GetTokenInformation (hToken, TokenPrivileges, &tkp, dwSize, &dwSize))
+			{
+				bRet = (tkp.Privileges[0].Attributes & SE_PRIVILEGE_ENABLED) != 0;
+			}
+			else
+				dwLastError = GetLastError ();
+		}
+		else
+			dwLastError = GetLastError ();
+
+		CloseHandle(hToken);
+	}
+	else
+		dwLastError = GetLastError ();
+
+	SetLastError (dwLastError);
+
+	return bRet;
+}
+
 BOOL DeleteDirectory (const wchar_t* szDirName)
 {
 	BOOL bStatus = RemoveDirectory (szDirName);
@@ -15739,6 +15774,56 @@ DWORD SendServiceNotification (DWORD dwNotificationCmd)
 		}
 		else
 			dwRet = GetLastError ();
+	}
+
+	return dwRet;
+}
+
+DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize)
+{
+	DWORD dwRet = ERROR_INVALID_PARAMETER;
+	if (filePath && fileSize > 0)
+	{
+		// we set required privileges to speedup file creation before we create the file so that the file handle inherits the privileges
+		BOOL bPrivilegesSet = IsPrivilegeEnabled (SE_MANAGE_VOLUME_NAME);
+		if (!bPrivilegesSet && !SetPrivilege(SE_MANAGE_VOLUME_NAME, TRUE))
+		{
+			dwRet = GetLastError ();
+		}
+		else
+		{
+			HANDLE dev = CreateFile (filePath, GENERIC_WRITE | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+			if (dev != INVALID_HANDLE_VALUE)
+			{
+				LARGE_INTEGER liSize;
+				liSize.QuadPart = fileSize;
+				// Preallocate the file with desired size
+				if (!SetFilePointerEx (dev, liSize, NULL, FILE_BEGIN)
+					|| !SetEndOfFile (dev))
+				{
+					dwRet = GetLastError ();
+				}
+				else
+				{
+					if (!SetFileValidData (dev, fileSize))
+					{
+						dwRet = GetLastError ();
+					}
+					else
+					{
+						dwRet = ERROR_SUCCESS;
+					}
+				}
+
+				FlushFileBuffers (dev);
+				CloseHandle (dev);
+			}
+			else
+				dwRet = GetLastError ();
+			
+			if (!bPrivilegesSet)
+				SetPrivilege(SE_MANAGE_VOLUME_NAME, FALSE);
+		}
 	}
 
 	return dwRet;

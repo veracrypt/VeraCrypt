@@ -187,6 +187,11 @@ public:
 		return BaseCom::NotifyService (dwNotifyCode);
 	}
 
+	virtual DWORD STDMETHODCALLTYPE FastFileResize (BSTR filePath, __int64 fileSize)
+	{
+		return BaseCom::FastFileResize (filePath, fileSize);
+	}
+
 protected:
 	DWORD MessageThreadId;
 	LONG RefCount;
@@ -335,3 +340,29 @@ extern "C" BOOL UacWriteLocalMachineRegistryDword (HWND hwndDlg, wchar_t *keyPat
 	}
 }
 
+extern "C" DWORD UacFastFileCreation (HWND hWnd, wchar_t* filePath, __int64 fileSize)
+{
+	CComPtr<ITrueCryptFormatCom> tc;
+	DWORD r;
+
+	CoInitialize (NULL);
+
+	if (ComGetInstance (hWnd, &tc))
+	{
+		CComBSTR filePathBstr;
+		BSTR bstr = W2BSTR(filePath);
+		if (bstr)
+		{
+			filePathBstr.Attach (bstr);
+			r = tc->FastFileResize (filePathBstr, fileSize);
+		}
+		else
+			r = ERROR_OUTOFMEMORY;
+	}
+	else
+		r = GetLastError();
+
+	CoUninitialize ();
+
+	return r;
+}

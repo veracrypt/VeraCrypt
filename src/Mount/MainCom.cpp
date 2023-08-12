@@ -208,6 +208,11 @@ public:
 		return BaseCom::NotifyService (dwNotifyCode);
 	}
 
+	virtual DWORD STDMETHODCALLTYPE FastFileResize (BSTR filePath, __int64 fileSize)
+	{
+		return BaseCom::FastFileResize (filePath, fileSize);
+	}
+
 protected:
 	DWORD MessageThreadId;
 	LONG RefCount;

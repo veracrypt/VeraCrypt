@@ -54,6 +54,7 @@ library TrueCryptMainCom
 		DWORD UpdateSetupConfigFile (BOOL bForInstall);
 		DWORD GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
 		DWORD NotifyService (DWORD dwNotifyCode);
+		DWORD FastFileResize (BSTR  filePath, __int64 fileSize);
 	};
 
 	[
