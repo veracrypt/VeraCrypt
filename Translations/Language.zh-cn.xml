@@ -370,7 +370,7 @@
     <entry lang="zh-cn" key="IDT_SECURITY_TOKEN">安全口令牌：</entry>
     <entry lang="zh-cn" key="IDT_SORT_METHOD">排序方式：</entry>
     <entry lang="zh-cn" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">请耐心等待，此过程可能需要较长时间...</entry>
-    <entry lang="zh-cn" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">请耐心等待...\n此过程可能需要较长时间并且VeraCrypt可能失去响应.</entry>
+    <entry lang="zh-cn" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">请耐心等待...\n此过程可能需要较长时间并且VeraCrypt可能失去响应。</entry>
     <entry lang="zh-cn" key="IDT_TEST_BLOCK_NUMBER">块数值：</entry>
     <entry lang="zh-cn" key="IDT_TEST_CIPHERTEXT">加密文本（十六进制）</entry>
     <entry lang="zh-cn" key="IDT_TEST_DATA_UNIT_NUMBER">数据单元数值（64-位十六进制，数据单元大小为 512 字节）</entry>
@@ -565,8 +565,8 @@
     <entry lang="zh-cn" key="MAX_HIDVOL_SIZE_BYTES">该加密卷能创建的最大隐藏加密卷大小为 %.2f 字节。</entry>
     <entry lang="zh-cn" key="MAX_HIDVOL_SIZE_KB">该加密卷能创建的最大隐藏加密卷大小为 %.2f KB。</entry>
     <entry lang="zh-cn" key="MAX_HIDVOL_SIZE_MB">该加密卷能创建的最大隐藏加密卷大小为 %.2f MB。</entry>
-    <entry lang="zh-cn" key="MAX_HIDVOL_SIZE_GB">该加密卷能创建的最大隐藏加密卷大小为 %.2f GB.</entry>
-    <entry lang="zh-cn" key="MAX_HIDVOL_SIZE_TB">该加密卷能创建的最大隐藏加密卷大小为 %.2f TB.</entry>
+    <entry lang="zh-cn" key="MAX_HIDVOL_SIZE_GB">该加密卷能创建的最大隐藏加密卷大小为 %.2f GB。</entry>
+    <entry lang="zh-cn" key="MAX_HIDVOL_SIZE_TB">该加密卷能创建的最大隐藏加密卷大小为 %.2f TB。</entry>
     <entry lang="zh-cn" key="MOUNTED_NOPWCHANGE">当此加密卷被加载时，无法修改加密卷密码/密钥文件。 请首先卸载此加密卷。</entry>
     <entry lang="zh-cn" key="MOUNTED_NO_PKCS5_PRF_CHANGE">当加密卷被加载时不能修改首密钥衍生算法。 请首先卸载加密卷。</entry>
     <entry lang="zh-cn" key="MOUNT_BUTTON">加载(&amp;M)</entry>
@@ -580,7 +580,7 @@
     <entry lang="zh-cn" key="NODRIVER">不能连接到 VeraCrypt 设备驱动。如果设备驱动不能运行则 VeraCrypt 也无法正常工作。\n\n请注意，由于 Windows 系统问题，在能够正常加载设备驱动前可能需要注销或者重启计算机。</entry>
     <entry lang="zh-cn" key="NOFONT">加载/准备字体时出错。</entry>
     <entry lang="zh-cn" key="NOT_FOUND">驱动器盘符未发现或没有指定驱动器盘符。</entry>
-    <entry lang="zh-cn" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">错误：无法制定一个盘符。\n\n您必须将解密后的卷挂载到一个盘符上来读取卷中的数据.\n\n再次尝试？</entry>
+    <entry lang="zh-cn" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">错误：无法制定一个盘符。\n\n您必须将解密后的卷挂载到一个盘符上来读取卷中的数据。\n\n再次尝试？</entry>
     <entry lang="zh-cn" key="DRIVE_LETTER_UNAVAILABLE">驱动器盘符不可用。</entry>
     <entry lang="zh-cn" key="NO_FILE_SELECTED">未选定文件！</entry>
     <entry lang="zh-cn" key="NO_FREE_DRIVES">无可用驱动器盘符。</entry>
@@ -1398,7 +1398,7 @@
     <entry lang="zh-cn" key="IDC_SKIP_RESCUE_VERIFICATION">跳过应急盘验证</entry>
     <entry lang="zh-cn" key="IDC_HIDE_WAITING_DIALOG">执行操作时不显示等待消息对话框</entry>
     <entry lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">在预引导身份验证屏幕中不请求哈希算法</entry>
-    <entry lang="zh-cn" key="KUZNYECHIK_HELP">Kuznyechik 是一个分组密码首次发表于 2015年, 并在俄罗斯联邦 GOST R 34.12-2015 和 RFC 7801 的国家标准中定义。256位密钥，128 位块。操作方式 XTS。</entry>
+    <entry lang="zh-cn" key="KUZNYECHIK_HELP">Kuznyechik 是一个分组密码首次发表于 2015年，并在俄罗斯联邦 GOST R 34.12-2015 和 RFC 7801 的国家标准中定义。256位密钥，128 位块。操作方式 XTS。</entry>
     <entry lang="zh-cn" key="CAMELLIA_HELP">由日本三菱电气和 NTT 共同开发。首先发表在2000。256位密钥，128 位块。操作方式 XTS。它已被批准供 ISO/IEC，欧盟的 NESSIE 项目和日本 CRYPTREC 项目使用。</entry>
     <entry lang="zh-cn" key="TIME">时间</entry>
     <entry lang="zh-cn" key="ITERATIONS">迭代</entry>
@@ -1408,7 +1408,7 @@
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">应急盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您应该将镜像提取到格式化为 FAT/FAT32 的 U盘，或将其移动到安全位置以备以后使用。\n\n\n\n%ls 单击“下一步”继续。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">重要：请注意，必须将 zip 文件直接提取到 U盘的根目录中。例如，如果 U盘的驱动器号是 E:， 那么解压 zip 文件，应该在 U盘上创建一个文件夹 E:\\EFI。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n如果您已经提取了应急盘，请弹出并重新插入 U盘；然后单击 “下一步” 重试。如果这没有帮助，请尝试另一个 U盘和/或其它 ZIP 软件。\n\n如果您尚未提取应急盘，请执行此操作，然后单击 “下一步”。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 应急盘；请注意，无法使用此应急盘，因为它是为不同的主密钥创建的。您需要提取新生成的应急盘 ZIP 映像。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n您已将应急盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 应急盘, 请注意此应急盘将始终无法通过此验证。要创建与当前配置完全兼容的新的应急盘, 请选择 “系统” > “创建应急盘“”。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n您已将应急盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 应急盘，请注意此应急盘将始终无法通过此验证。要创建与当前配置完全兼容的新的应急盘，请选择 “系统” > “创建应急盘“”。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">恢复盘镜像文件已经创建并存储在文件：\n%s\n\n现在您需要提取恢复盘镜像到格式化为 FAT 和 FAT32 的 U盘。\n\n重要：注意 zip 文件必须直接提取到 U盘的根目录。例如，如果 U盘的盘符是 E: ，解压缩 ZIP 文件应该在 U盘创建一个文件夹 E:\\EFI。\n\n创建恢复盘后，选择 “系统” > “验证恢复盘” 以确认它已正确创建。</entry>
     <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">使用安全桌面输入密码</entry>
     <entry lang="zh-cn" key="ERR_REFS_INVALID_VOLUME_SIZE">命令行中指定的卷文件大小与选定的 ReFS 文件系统不兼容。</entry>
@@ -1423,8 +1423,8 @@
     <entry lang="zh-cn" key="IDC_ALLOW_TRIM_NONSYS_SSD">允许在非系统 SSD 分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="IDC_BLOCK_SYSENC_TRIM">阻止系统分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="WINDOWS_EFI_BOOT_LOADER_MISSING">错误：无法在磁盘上找到 Windows EFI 系统加载程序。操作将中止。</entry>
-    <entry lang="zh-cn" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">如果启用了 SecureBoot, 并且 VeraCrypt 自定义密钥未加载到计算机固件中, 则无法对当前系统进行加密。SecureBoot 需要在 BIOS 配置中禁用, 以允许系统加密继续进行。</entry>
-    <entry lang="zh-cn" key="PASSWORD_PASTED_TRUNCATED">粘贴的文本被截断, 因为密码最大长度为%d个字符</entry>
+    <entry lang="zh-cn" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">如果启用了 SecureBoot，并且 VeraCrypt 自定义密钥未加载到计算机固件中， 则无法对当前系统进行加密。SecureBoot 需要在 BIOS 配置中禁用，以允许系统加密继续进行。</entry>
+    <entry lang="zh-cn" key="PASSWORD_PASTED_TRUNCATED">粘贴的文本被截断，因为密码最大长度为%d个字符</entry>
     <entry lang="zh-cn" key="PASSWORD_MAXLENGTH_REACHED">密码已达到其最大长度%d个字符。\n不允许附加字符。</entry>
     <entry lang="zh-cn" key="IDC_SELECT_LANGUAGE_LABEL">选择安装期间要使用的语言：</entry>
     <entry lang="zh-cn" key="VOLUME_TOO_LARGE_FOR_HOST">错误：文件容器的大小大于磁盘上的可用空间。</entry>
@@ -1432,7 +1432,7 @@
     <entry lang="zh-cn" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">警告：对非系统分区/驱动器进行碎片整理可能会泄漏有关其内容的元数据，或导致它们可能包含的隐藏卷出现问题。\n\n是否继续？</entry>
     <entry lang="zh-cn" key="VIRTUAL_DEVICE">虚拟设备</entry>
     <entry lang="zh-cn" key="MOUNTED_VOLUME_NOT_ASSOCIATED">选中的已挂载卷与它在Windows中的盘符不相符，因此无法在Windows资源管理器中打开。</entry>
-    <entry lang="zh-cn" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">如果插入了新设备, 则从内存中清除加密密钥</entry>
+    <entry lang="zh-cn" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">如果插入了新设备，则从内存中清除加密密钥</entry>
     <entry lang="zh-cn" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">重要提示：\n - 请记住此选项在关机/重启后不再有效，因此您需要在下一次开机后再次选择这个选项。\n\n - 当此选项启用且有一个新设备接入后，由于在内存中清除密钥后无法访问加密磁盘，电脑将会死机且最终会蓝屏。\n</entry>
     <entry lang="zh-cn" key="STARTING">开始</entry>
     <entry lang="zh-cn" key="IDC_ENABLE_CPU_RNG">使用CPU硬件随机数生成器作为额外的熵源</entry>
@@ -1506,7 +1506,7 @@
     <entry lang="zh-cn" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\n下次装入此类卷时是否要显示此消息？</entry>
     <entry lang="zh-cn" key="LINUX_WARNING">警告</entry>
     <entry lang="zh-cn" key="LINUX_ERROR">错误</entry>
-    <entry lang="zh-cn" key="LINUX_ONLY_TEXTMODE">目前仅在文本模式下支持此功能.</entry>
+    <entry lang="zh-cn" key="LINUX_ONLY_TEXTMODE">目前仅在文本模式下支持此功能。</entry>
     <entry lang="zh-cn" key="LINUX_FREE_SPACE_ON_DRIVE">驱动器{0}上的可用空间为：{1}。</entry>
     <entry lang="zh-cn" key="LINUX_DYNAMIC_NOTICE">请注意，如果操作系统没有从空闲空间开始分配文件，那么最大可隐藏卷大小可能远小于外部卷上可用空间的大小。这不是VeraCrypt的错误，而是操作系统的限制。</entry>
     <entry lang="zh-cn" key="LINUX_MAX_HIDDEN_SIZE">这个卷的最大隐藏卷大小是{0}。</entry>
@@ -1521,13 +1521,13 @@
     <entry lang="zh-cn" key="LINUX_ERROR_SIZE_HIDDEN_VOL">错误：要创建的隐藏卷大于 {0} TB ({1} GB)。\n\n可能的解决方式：\n- 创建一个小于 {0} TB的容器/分区。\n</entry>
     <entry lang="zh-cn" key="LINUX_MAX_SIZE_HINT">- 使用具有4096字节扇区的驱动器，能够创建分区/设备托管的隐藏卷尺寸可达 16 TB</entry>
     <entry lang="zh-cn" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="zh-cn" key="LINUX_NOT_SUPPORTED"> (此平台上可用的组件不支持).\n</entry>
+    <entry lang="zh-cn" key="LINUX_NOT_SUPPORTED"> (此平台上可用的组件不支持)。\n</entry>
     <entry lang="zh-cn" key="LINUX_KERNEL_OLD">您的系统使用的是旧版本Linux内核。\n\n由于Linux内核中的错误，在将数据写入VeraCrypt卷时，系统可能会停止响应。这个问题可以通过将内核升级到2.6.24或更高版本来解决。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_DISMOUNTED">卷{0}已卸载。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_MOUNTED">卷{0}已装载。</entry>
     <entry lang="zh-cn" key="LINUX_OOM">内存不足。</entry>
     <entry lang="zh-cn" key="LINUX_CANT_GET_ADMIN_PRIV">获取管理员权限失败</entry>
-    <entry lang="zh-cn" key="LINUX_COMMAND_GET_ERROR">命令{0}返回错误{1}.</entry>
+    <entry lang="zh-cn" key="LINUX_COMMAND_GET_ERROR">命令{0}返回错误{1}。</entry>
     <entry lang="zh-cn" key="LINUX_CMD_HELP">VeraCrypt命令行帮助</entry>
     <entry lang="zh-cn" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n警告：密钥文件路径中存在隐藏文件。如果需要将它们用作密钥文件，请从它们的文件名中删除前导点。只有在“系统选项”中启用时，隐藏文件才可见。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">存储设备和VC卷扇区大小不匹配 </entry>
@@ -1540,7 +1540,7 @@
     <entry lang="zh-cn" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">需要挂载点。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">挂载点已经在使用中。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDEMPTY">未指定密码或密钥文件。</entry>
-    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\n请注意，在不可用非美国键盘布局的预启动环境中，需要输入预启动身份验证密码。因此，开机前的认证密码必须使用标准的美国键盘布局(否则大多数情况下密码会输入错误)。但是，请注意，您不需要一个真正的美国键盘;您只需要改变操作系统中的键盘布局。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\n请注意，在不可用非美国键盘布局的预启动环境中，需要输入预启动身份验证密码。因此，开机前的认证密码必须使用标准的美国键盘布局(否则大多数情况下密码会输入错误)。但是，请注意，您不需要一个真正的美国键盘；您只需要改变操作系统中的键盘布局。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n注意：如果您试图在没有预引导身份验证的情况下挂载位于加密系统驱动器上的分区，或者挂载未运行的操作系统的加密系统分区，则可以通过选择“选项” > “使用系统加密挂载分区”来执行此操作。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDTOOLONG">密码长度超过{0}个字符。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">需要分区设备。</entry>
@@ -1623,7 +1623,7 @@
     <entry lang="zh-cn" key="INVALID_EMV_PATH">EMV路径无效。</entry>
     <entry lang="zh-cn" key="EMV_KEYFILE_DATA_NOTFOUND">无法使用EMV卡片数据建立密钥文件。\n\n缺少所需的下列数据之一：\n- ICC公钥证书\n- 发卡方公钥证书\n- CLPC数据</entry>
     <entry lang="zh-cn" key="SCARD_W_REMOVED_CARD">未在读卡器中找到卡片。\n\n请确保卡片已经插入。</entry>
-    <entry lang="zh-cn" key="FORMAT_EXTERNAL_FAILED">格式化NTFS/exFAT/ReFS卷的过程中调用Windows format.com命令失败：错误 0x%.8X.\n\n将回滚使用Windows FormatEx API。</entry>
+    <entry lang="zh-cn" key="FORMAT_EXTERNAL_FAILED">格式化NTFS/exFAT/ReFS卷的过程中调用Windows format.com命令失败：错误 0x%.8X。\n\n将回滚使用Windows FormatEx API。</entry>
     <entry lang="zh-cn" key="FORMATEX_API_FAILED">格式化NTFS/exFAT/ReFS卷的过程中调用Windows FormatEx API失败。\n\n失败状态 = %s。</entry>
     <entry lang="zh-cn" key="EXPANDER_WRITING_RANDOM_DATA">正在向新的空间中写入随机数据...\n</entry>
     <entry lang="zh-cn" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">正在写入重新加密的备份卷头信息...\n</entry>
