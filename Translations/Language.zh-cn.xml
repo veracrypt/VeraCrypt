@@ -558,7 +558,7 @@
     <entry lang="zh-cn" key="ERR_VOLUME_SIZE_TOO_BIG">不能创建加密卷，因为所输入的加密卷的大小太大。</entry>
     <entry lang="zh-cn" key="INIT_SYS_ENC">不能初始化用于系统加密的程序组件。</entry>
     <entry lang="zh-cn" key="INIT_RAND">初始化随机数据生成器失败！</entry>
-    <entry lang="zh-cn" key="CAPI_RAND">Windows Crypto API 调用失败!\n\n\n(如果您要提交一个关于此的错误报告，请附上下面的技术信息：bug report：\n%hs, Last Error = 0x%.8X)</entry>
+    <entry lang="zh-cn" key="CAPI_RAND">Windows Crypto API 调用失败!\n\n\n(如果您要提交一个关于此的错误报告，请附上下面的技术信息：bug report:\n%hs, Last Error = 0x%.8X)</entry>
     <entry lang="zh-cn" key="INIT_REGISTER">无法初始化应用程序。注册对话框类失败。</entry>
     <entry lang="zh-cn" key="INIT_RICHEDIT">错误：加载富文本编辑系统运行库失败。</entry>
     <entry lang="zh-cn" key="INTRO_TITLE">VeraCrypt 加密卷创建向导</entry>
