@@ -29,7 +29,6 @@ namespace VeraCrypt
 		ArgPim (-1),
 		ArgSize (0),
 		ArgVolumeType (VolumeType::Unknown),
-		ArgTrueCryptMode (false),
 		ArgDisableFileSizeCheck (false),
 		ArgUseLegacyPassword (false),
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
@@ -92,7 +91,6 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"quick",				_("Enable quick format"));
 		parser.AddOption (L"",	L"size",				_("Size in bytes"));
 		parser.AddOption (L"",	L"slot",				_("Volume slot number"));
-		parser.AddSwitch (L"tc",L"truecrypt",			_("Enable TrueCrypt mode. Should be put first to avoid issues."));
 		parser.AddSwitch (L"",	L"test",				_("Test internal algorithms"));
 		parser.AddSwitch (L"t", L"text",				_("Use text user interface"));
 		parser.AddOption (L"",	L"token-lib",			_("Security token library"));
@@ -357,9 +355,8 @@ namespace VeraCrypt
 
 		ArgForce = parser.Found (L"force");
 
-		ArgTrueCryptMode = parser.Found (L"truecrypt");
 		ArgDisableFileSizeCheck = parser.Found (L"no-size-check");
-		ArgUseLegacyPassword = parser.Found (L"legacy-password-maxlength") || ArgTrueCryptMode;		
+		ArgUseLegacyPassword = parser.Found (L"legacy-password-maxlength");		
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		ArgUseDummySudoPassword = parser.Found (L"use-dummy-sudo-password");
 #endif
@@ -449,8 +446,6 @@ namespace VeraCrypt
 
 			if (ArgNewPim < 0 || ArgNewPim > (ArgMountOptions.PartitionInSystemEncryptionScope? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
-			else if (ArgNewPim > 0 && ArgTrueCryptMode)
-				throw_err (LangString["PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 		}
 
 		if (parser.Found (L"non-interactive"))
@@ -489,8 +484,6 @@ namespace VeraCrypt
 
 			if (ArgPim < 0 || ArgPim > (ArgMountOptions.PartitionInSystemEncryptionScope? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
-			else if (ArgPim > 0 && ArgTrueCryptMode)
-				throw_err (LangString["PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 		}
 
 		if (parser.Found (L"protect-hidden", &str))
@@ -545,7 +538,7 @@ namespace VeraCrypt
 				if (hashName.IsSameAs (str, false) || hashAltName.IsSameAs (str, false))
 				{
 					bHashFound = true;
-					ArgMountOptions.ProtectionKdf = Pkcs5Kdf::GetAlgorithm (*hash, ArgTrueCryptMode);
+					ArgMountOptions.ProtectionKdf = Pkcs5Kdf::GetAlgorithm (*hash);
 				}
 			}
 

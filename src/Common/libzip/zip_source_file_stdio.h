@@ -42,6 +42,4 @@ bool _zip_stdio_op_seek(zip_source_file_context_t *ctx, void *f, zip_int64_t off
 bool _zip_stdio_op_stat(zip_source_file_context_t *ctx, zip_source_file_stat_t *st);
 zip_int64_t _zip_stdio_op_tell(zip_source_file_context_t *ctx, void *f);
 
-FILE *_zip_fopen_close_on_exec(const char *name, bool writeable);
-
 #endif /* _HAD_ZIP_SOURCE_FILE_STDIO_H */

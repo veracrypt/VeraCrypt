@@ -642,13 +642,9 @@ namespace VeraCrypt
 		try
 		{
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
-			if (CmdLine->ArgTrueCryptMode)
-			{
-				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-			}
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -671,13 +667,9 @@ namespace VeraCrypt
 		try
 		{
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
-			if (CmdLine->ArgTrueCryptMode)
-			{
-				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-			}
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -706,13 +698,9 @@ namespace VeraCrypt
 		MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 		mountOptions.SlotNumber = SelectedSlotNumber;
 		mountOptions.Path = GetSelectedVolumePath();
-		if (CmdLine->ArgTrueCryptMode)
-		{
-			mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-		}
 		if (CmdLine->ArgHash)
 		{
-			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}
 		if (CmdLine->ArgPim > 0)
 		{
@@ -749,6 +737,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		if (event.GetActive() && Gui->IsInBackgroundMode())
 			Gui->SetBackgroundMode (false);
+		EnsureVisible();
 #endif
 		event.Skip();
 	}
@@ -964,13 +953,9 @@ namespace VeraCrypt
 			SetVolumePath (favorite.Path);
 
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
-			if (CmdLine->ArgTrueCryptMode)
-			{
-				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
-			}
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -1706,7 +1691,7 @@ namespace VeraCrypt
 #endif
 				fields[ColumnPath] = volume->Path;
 				fields[ColumnSize] = Gui->SizeToString (volume->Size);
-				fields[ColumnType] = Gui->VolumeTypeToString (volume->Type, volume->TrueCryptMode, volume->Protection);
+				fields[ColumnType] = Gui->VolumeTypeToString (volume->Type, volume->Protection);
 
 				if (volume->HiddenVolumeProtectionTriggered)
 				{
@@ -1716,7 +1701,7 @@ namespace VeraCrypt
 				bool slotUpdated = false;
 				if (itemIndex == -1)
 				{
-					Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *) volume->SlotNumber);
+					Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *)(intptr_t) volume->SlotNumber);
 					OnListItemInserted (prevItemIndex);
 
 					listChanged |= true;
@@ -1751,7 +1736,7 @@ namespace VeraCrypt
 				{
 					if (itemIndex == -1)
 					{
-						Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *) slotNumber);
+						Gui->InsertToListCtrl (SlotListCtrl, ++prevItemIndex, fields, 0, (void *)(intptr_t) slotNumber);
 						OnListItemInserted (prevItemIndex);
 						listChanged |= true;
 					}

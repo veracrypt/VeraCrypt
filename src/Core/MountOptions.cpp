@@ -52,7 +52,6 @@ namespace VeraCrypt
 		TC_CLONE (SharedAccessAllowed);
 		TC_CLONE (SlotNumber);
 		TC_CLONE (UseBackupHeaders);
-		TC_CLONE (TrueCryptMode);
 	}
 
 	void MountOptions::Deserialize (shared_ptr <Stream> stream)
@@ -101,14 +100,12 @@ namespace VeraCrypt
 		sr.Deserialize ("SlotNumber", SlotNumber);
 		sr.Deserialize ("UseBackupHeaders", UseBackupHeaders);
 
-		sr.Deserialize ("TrueCryptMode", TrueCryptMode);
-
 		try
 		{
 			if (!sr.DeserializeBool ("KdfNull"))
 			{
 				sr.Deserialize ("Kdf", nameValue);
-				Kdf = Pkcs5Kdf::GetAlgorithm (nameValue, TrueCryptMode);
+				Kdf = Pkcs5Kdf::GetAlgorithm (nameValue);
 			}
 		}
 		catch(...) {}
@@ -118,7 +115,7 @@ namespace VeraCrypt
 			if (!sr.DeserializeBool ("ProtectionKdfNull"))
 			{
 				sr.Deserialize ("ProtectionKdf", nameValue);
-				ProtectionKdf = Pkcs5Kdf::GetAlgorithm (nameValue, TrueCryptMode);
+				ProtectionKdf = Pkcs5Kdf::GetAlgorithm (nameValue);
 			}
 		}
 		catch(...) {}
@@ -166,8 +163,6 @@ namespace VeraCrypt
 		sr.Serialize ("SharedAccessAllowed", SharedAccessAllowed);
 		sr.Serialize ("SlotNumber", SlotNumber);
 		sr.Serialize ("UseBackupHeaders", UseBackupHeaders);
-
-		sr.Serialize ("TrueCryptMode", TrueCryptMode);
 
 		sr.Serialize ("KdfNull", Kdf == nullptr);
 		if (Kdf)

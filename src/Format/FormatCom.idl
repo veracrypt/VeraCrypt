@@ -16,7 +16,7 @@ import "..\Common\Password.h";
 [
 	uuid(56327DDA-F1A7-4e13-B128-520D129BDEF6),
 	helpstring("VeraCrypt Format UAC Support Library"),
-	version(2.9)	// Update ComSetup.cpp when changing version number
+	version(2.10)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptFormatCom
 {
@@ -49,6 +49,8 @@ library TrueCryptFormatCom
 		DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
 		DWORD UpdateSetupConfigFile (BOOL bForInstall);
 		DWORD GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
+		DWORD NotifyService (DWORD dwNotifyCode);
+		DWORD FastFileResize (BSTR  filePath, __int64 fileSize);
 	};
 
 	[

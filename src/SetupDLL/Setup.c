@@ -328,10 +328,6 @@ void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersi
 		DWORD dwResult;
 		BOOL bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &driverVersion, sizeof (driverVersion), &dwResult, NULL);
 
-		if (!bResult)
-			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &driverVersion, sizeof (driverVersion), &dwResult, NULL);
-
-
 		bUpgrade = (bResult && driverVersion <= VERSION_NUM);
 		bDowngrade = (bResult && driverVersion > VERSION_NUM);
 		bReinstallMode = (bResult && driverVersion == VERSION_NUM);
@@ -1155,11 +1151,6 @@ void handleError_Dll (MSIHANDLE hInstaller, int code, const char* srcPos)
 		// A non-error
 		break;
 
-	case ERR_UNSUPPORTED_TRUECRYPT_FORMAT:
-		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), (code >> 24), (code >> 16) & 0x000000FF);
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, AppendSrcPos (szTmp, srcPos).c_str());
-		break;
-
 	default:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("ERR_UNKNOWN"), code);
 		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, AppendSrcPos (szTmp, srcPos).c_str());
@@ -1505,7 +1496,6 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 
 	if (hDriver != INVALID_HANDLE_VALUE)
 	{
-		MOUNT_LIST_STRUCT driver;
 		LONG driverVersion = VERSION_NUM;
 		int refCount;
 		DWORD dwResult;
@@ -1591,13 +1581,6 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 
 			// Check mounted volumes
 			bResult = DeviceIoControl (hDriver, TC_IOCTL_IS_ANY_VOLUME_MOUNTED, NULL, 0, &volumesMounted, sizeof (volumesMounted), &dwResult, NULL);
-
-			if (!bResult)
-			{
-				bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES, NULL, 0, &driver, sizeof (driver), &dwResult, NULL);
-				if (bResult)
-					volumesMounted = driver.ulMountedDrives;
-			}
 
 			if (bResult)
 			{

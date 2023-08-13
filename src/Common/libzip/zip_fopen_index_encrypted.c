@@ -49,11 +49,11 @@ zip_fopen_index_encrypted(zip_t *za, zip_uint64_t index, zip_flags_t flags, cons
         password = NULL;
     }
     
-    if ((src = _zip_source_zip_new(za, index, flags, 0, 0, password, &za->error)) == NULL)
+    if ((src = zip_source_zip_file_create(za, index, flags, 0, -1, password, &za->error)) == NULL)
         return NULL;
 
     if (zip_source_open(src) < 0) {
-        _zip_error_set_from_source(&za->error, src);
+        zip_error_set_from_source(&za->error, src);
         zip_source_free(src);
         return NULL;
     }
@@ -78,9 +78,7 @@ _zip_file_new(zip_t *za) {
         return NULL;
     }
 
-    zf->za = za;
     zip_error_init(&zf->error);
-    zf->eof = 0;
     zf->src = NULL;
 
     return zf;

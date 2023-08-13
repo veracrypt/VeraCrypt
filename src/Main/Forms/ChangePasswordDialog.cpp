@@ -35,12 +35,6 @@ namespace VeraCrypt
 		bool enableNewPassword = false;
 		bool enableNewKeyfiles = false;
 		bool enablePkcs5Prf = false;
-		bool isTrueCryptFile = false;
-		
-		if (volumePath && volumePath->HasTrueCryptExtension ())
-		{
-			isTrueCryptFile = true;
-		}
 
 		switch (mode)
 		{
@@ -73,12 +67,11 @@ namespace VeraCrypt
 		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
 #endif
 
-		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, false, keyfiles, false, true, true, false, true, true);
+		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
-		CurrentPasswordPanel->SetTrueCryptMode (isTrueCryptFile);
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
-		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, true, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
+		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -107,13 +100,7 @@ namespace VeraCrypt
 
 		try
 		{
-			bool bUnsupportedKdf = false;
-			shared_ptr <Pkcs5Kdf> currentKdf = CurrentPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf);
-			if (bUnsupportedKdf)
-			{
-				Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
-				return;
-			}
+			shared_ptr <Pkcs5Kdf> currentKdf = CurrentPasswordPanel->GetPkcs5Kdf();
 			int currentPim = CurrentPasswordPanel->GetVolumePim();
 			if (-1 == currentPim)
 			{
@@ -182,7 +169,7 @@ namespace VeraCrypt
 
 			/* force the display of the random enriching interface */
 			RandomNumberGenerator::SetEnrichedByUserStatus (false);
-			Gui->UserEnrichRandomPool (this, NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf) ? NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf)->GetHash() : shared_ptr <Hash>());
+			Gui->UserEnrichRandomPool (this, NewPasswordPanel->GetPkcs5Kdf() ? NewPasswordPanel->GetPkcs5Kdf()->GetHash() : shared_ptr <Hash>());
 
 			{
 #ifdef TC_UNIX
@@ -203,8 +190,8 @@ namespace VeraCrypt
 #endif
 				wxBusyCursor busy;
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
-					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
-					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf), NewPasswordPanel->GetHeaderWipeCount(), Gui->GetPreferences().EMVSupportEnabled);
+					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
+					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount(), Gui->GetPreferences().EMVSupportEnabled);
 				Gui->ExecuteWaitThreadRoutine (this, &routine);
 			}
 

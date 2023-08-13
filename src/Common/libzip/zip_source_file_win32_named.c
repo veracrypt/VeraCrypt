@@ -99,7 +99,6 @@ _zip_win32_named_op_create_temp_output(zip_source_file_context_t *ctx) {
 
     zip_uint32_t value, i;
     HANDLE th = INVALID_HANDLE_VALUE;
-    void *temp = NULL;
     PSECURITY_DESCRIPTOR psd = NULL;
     PSECURITY_ATTRIBUTES psa = NULL;
     SECURITY_ATTRIBUTES sa;

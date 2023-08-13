@@ -45,11 +45,15 @@ zip_source_stat(zip_source_t *src, zip_stat_t *st) {
         return -1;
     }
 
+    if (src->write_state == ZIP_SOURCE_WRITE_REMOVED) {
+        zip_error_set(&src->error, ZIP_ER_READ, ENOENT);
+    }
+
     zip_stat_init(st);
 
     if (ZIP_SOURCE_IS_LAYERED(src)) {
         if (zip_source_stat(src->src, st) < 0) {
-            _zip_error_set_from_source(&src->error, src->src);
+            zip_error_set_from_source(&src->error, src->src);
             return -1;
         }
     }

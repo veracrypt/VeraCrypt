@@ -53,12 +53,10 @@ namespace VeraCrypt
 
 		FilesystemOptionsTextCtrl->SetValue (Preferences.DefaultMountOptions.FilesystemOptions);
 
-		TrueCryptModeCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.TrueCryptMode));
-
 		int index, prfInitialIndex = 0;
 		Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);
 
-		foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms(false))
+		foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms())
 		{
 			index = Pkcs5PrfChoice->Append (kdf.GetName());
 			if (Preferences.DefaultMountOptions.Kdf
@@ -370,11 +368,10 @@ namespace VeraCrypt
 		{
 			try
 			{
-				selectedKdf = Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection ()), TrueCryptModeCheckBox->IsChecked ());
+				selectedKdf = Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection ()));
 			}
 			catch (ParameterIncorrect&)
 			{
-				Gui->ShowWarning ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE");
 				return;
 			}
 		}

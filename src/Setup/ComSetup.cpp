@@ -11,10 +11,10 @@
 */
 
 #define TC_MAIN_COM_VERSION_MAJOR 2
-#define TC_MAIN_COM_VERSION_MINOR 11
+#define TC_MAIN_COM_VERSION_MINOR 13
 
 #define TC_FORMAT_COM_VERSION_MAJOR 2
-#define TC_FORMAT_COM_VERSION_MINOR 9
+#define TC_FORMAT_COM_VERSION_MINOR 10
 
 #include <atlbase.h>
 #include <comdef.h>
@@ -39,9 +39,9 @@ extern "C" BOOL RegisterComServers (wchar_t *modulePath)
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR, 0, SYS_WIN32);
 	// unregister older versions that may still exist
-	for (WORD i = 7; i >= 1; i--)
+	for (WORD i = 9; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-i, 0, SYS_WIN32);
-	for (WORD i = 5; i >= 1; i--)
+	for (WORD i = 6; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR-i, 0, SYS_WIN32);
 
 	wchar_t setupModule[MAX_PATH];
@@ -78,9 +78,9 @@ extern "C" BOOL UnregisterComServers (wchar_t *modulePath)
 		return FALSE;
 
 	// unregister older versions that may still exist
-	for (WORD i = 7; i >= 1; i--)
+	for (WORD i = 9; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-i, 0, SYS_WIN32);
-	for (WORD i = 5; i >= 1; i--)
+	for (WORD i = 6; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR-i, 0, SYS_WIN32);
 
 	wchar_t module[1024];

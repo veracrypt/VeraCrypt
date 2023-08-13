@@ -59,7 +59,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.26.3"
+#define VERSION_STRING					"1.26.4"
 
 #ifdef VC_EFI_CUSTOM_MODE
 #define VERSION_STRING_SUFFIX			"-CustomEFI"
@@ -73,9 +73,9 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0126
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"June 28, 2023"
+#define TC_STR_RELEASE_DATE			L"July 24, 2023"
 #define TC_RELEASE_DATE_YEAR			2023
-#define TC_RELEASE_DATE_MONTH			 06
+#define TC_RELEASE_DATE_MONTH			 07
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -487,9 +487,8 @@ enum
 	ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG	= 31,
 	ERR_NONSYS_INPLACE_ENC_INCOMPLETE		= 32,
 	ERR_USER_ABORT							= 33,
-	ERR_UNSUPPORTED_TRUECRYPT_FORMAT		= 34,
-	ERR_RAND_INIT_FAILED					= 35,
-	ERR_CAPI_INIT_FAILED					= 36
+	ERR_RAND_INIT_FAILED					= 34,
+	ERR_CAPI_INIT_FAILED					= 35
 };
 
 #endif 	// #ifndef TCDEFS_H

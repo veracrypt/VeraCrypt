@@ -43,7 +43,7 @@ zip_fseek(zip_file_t *zf, zip_int64_t offset, int whence) {
         return -1;
 
     if (zip_source_seek(zf->src, offset, whence) < 0) {
-        _zip_error_set_from_source(&zf->error, zf->src);
+        zip_error_set_from_source(&zf->error, zf->src);
         return -1;
     }
 
@@ -57,5 +57,5 @@ zip_file_is_seekable(zip_file_t *zfile) {
         return -1;
     }
     
-    return ZIP_SOURCE_CHECK_SUPPORTED(zip_source_supports(zfile->src), ZIP_SOURCE_SEEK);
+    return zip_source_is_seekable(zfile->src);
 }

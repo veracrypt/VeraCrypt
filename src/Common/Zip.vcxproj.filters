@@ -396,6 +396,9 @@
     <ClCompile Include="libzip\zip_winzip_aes.c">
       <Filter>libzip</Filter>
     </ClCompile>
+    <ClCompile Include="libzip\zip_source_pass_to_lower_layer.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libzip\compat.h">

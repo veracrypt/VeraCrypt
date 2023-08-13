@@ -82,9 +82,9 @@ namespace VeraCrypt
 		string pcscPath = "";
 		FILE* pipe = 
 #ifdef TC_LINUX
-			popen("ldconfig -p", "r");
+			popen("ldconfig -p 2>&1", "r");
 #else
-			popen("ldconfig -r", "r"); // FreeBSD
+			popen("ldconfig -r 2>&1", "r"); // FreeBSD
 #endif
 		if (pipe)
 		{

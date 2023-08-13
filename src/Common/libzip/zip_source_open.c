@@ -53,7 +53,7 @@ zip_source_open(zip_source_t *src) {
     else {
         if (ZIP_SOURCE_IS_LAYERED(src)) {
             if (zip_source_open(src->src) < 0) {
-                _zip_error_set_from_source(&src->error, src->src);
+                zip_error_set_from_source(&src->error, src->src);
                 return -1;
             }
         }

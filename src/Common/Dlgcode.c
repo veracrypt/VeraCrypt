@@ -417,7 +417,7 @@ static WTHELPERPROVDATAFROMSTATEDATA WTHelperProvDataFromStateDataFn = NULL;
 static WTHELPERGETPROVSIGNERFROMCHAIN WTHelperGetProvSignerFromChainFn = NULL;
 static WTHELPERGETPROVCERTFROMCHAIN WTHelperGetProvCertFromChainFn = NULL;
 
-static unsigned char gpbSha256CodeSignCertFingerprint[64] = {
+static unsigned char gpbSha512CodeSignCertFingerprint[64] = {
 	0x9C, 0xA0, 0x21, 0xD3, 0x7C, 0x90, 0x61, 0x88, 0xEF, 0x5F, 0x99, 0x3D,
 	0x54, 0x9F, 0xB8, 0xCE, 0x72, 0x32, 0x4F, 0x57, 0x4F, 0x19, 0xD2, 0xA4,
 	0xDC, 0x84, 0xFF, 0xE2, 0x84, 0x2B, 0xD4, 0x30, 0xAB, 0xA7, 0xE4, 0x63,
@@ -426,13 +426,13 @@ static unsigned char gpbSha256CodeSignCertFingerprint[64] = {
 	0xDB, 0x6F, 0xC0, 0x62
 };
 
-static unsigned char gpbSha256MSCodeSignCertFingerprint[64] = {
-	0x9C, 0x96, 0x81, 0x3B, 0x88, 0x54, 0xCB, 0x81, 0xB5, 0x94, 0x40, 0x4E,
-	0x15, 0x81, 0x20, 0xA1, 0x19, 0x00, 0x4E, 0x49, 0x8A, 0xA8, 0x98, 0x13,
-	0x9D, 0xE2, 0x86, 0x6A, 0xC1, 0xFA, 0xD3, 0x00, 0x0D, 0xAC, 0xE9, 0xE3,
-	0x3B, 0xFC, 0x6B, 0x26, 0xCE, 0xC8, 0xE2, 0x36, 0x3B, 0x60, 0x9C, 0x8E,
-	0x0A, 0x2A, 0x74, 0x20, 0xD7, 0x4E, 0x0F, 0xEE, 0x2E, 0x79, 0xE2, 0xAF,
-	0x1C, 0x90, 0x0B, 0x9C
+static unsigned char gpbSha512MSCodeSignCertFingerprint[64] = {
+	0xEB, 0x76, 0x2E, 0xD3, 0x5B, 0x4A, 0xB1, 0x0E, 0xF5, 0x3B, 0x99, 0x4E,
+	0xC1, 0xF7, 0x48, 0x88, 0xF6, 0xA0, 0xE9, 0xAC, 0x32, 0x69, 0xCF, 0x20,
+	0xE1, 0x60, 0xC4, 0x0C, 0xEF, 0x01, 0x1F, 0xCB, 0x41, 0x95, 0x72, 0xB9,
+	0xED, 0x63, 0x0C, 0x6B, 0xB9, 0xE9, 0xA2, 0x72, 0xA6, 0x78, 0x96, 0x4C,
+	0x69, 0x9F, 0x90, 0x3F, 0xB1, 0x3C, 0x64, 0xF2, 0xAB, 0xCF, 0x14, 0x1D,
+	0xEC, 0x7C, 0xB0, 0xC7
 };
 
 
@@ -1081,8 +1081,8 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 					BYTE hashVal[64];
 					sha512 (hashVal, pProviderCert->pCert->pbCertEncoded, pProviderCert->pCert->cbCertEncoded);
 
-					if (	(0 ==  memcmp (hashVal, gpbSha256CodeSignCertFingerprint, 64))
-						||	(0 ==  memcmp (hashVal, gpbSha256MSCodeSignCertFingerprint, 64))
+					if (	(0 ==  memcmp (hashVal, gpbSha512CodeSignCertFingerprint, 64))
+						||	(0 ==  memcmp (hashVal, gpbSha512MSCodeSignCertFingerprint, 64))
 						)
 					{
 						bResult = TRUE;
@@ -1584,11 +1584,11 @@ void LowerCaseCopy (wchar_t *lpszDest, const wchar_t *lpszSource)
 
 void UpperCaseCopy (wchar_t *lpszDest, size_t cbDest, const wchar_t *lpszSource)
 {
-	if (lpszDest && cbDest)
+	if (lpszDest && (cbDest >= 2))
 	{
 		size_t i = wcslen (lpszSource);
-		if (i >= cbDest)
-			i = cbDest - 1;
+		if (i >= (cbDest/2))
+			i = (cbDest/2) - 1;
 
 		lpszDest[i] = 0;
 		i++;
@@ -5209,7 +5209,6 @@ static int DriverLoad ()
 
 BOOL DriverUnload ()
 {
-	MOUNT_LIST_STRUCT driver;
 	int refCount;
 	int volumesMounted;
 	DWORD dwResult;
@@ -5233,13 +5232,6 @@ BOOL DriverUnload ()
 
 	// Test for mounted volumes
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_IS_ANY_VOLUME_MOUNTED, NULL, 0, &volumesMounted, sizeof (volumesMounted), &dwResult, NULL);
-
-	if (!bResult)
-	{
-		bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES, NULL, 0, &driver, sizeof (driver), &dwResult, NULL);
-		if (bResult)
-			volumesMounted = driver.ulMountedDrives;
-	}
 
 	if (bResult)
 	{
@@ -5406,9 +5398,6 @@ load:
 		DWORD dwResult;
 
 		BOOL bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &DriverVersion, sizeof (DriverVersion), &dwResult, NULL);
-
-		if (!bResult)
-			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &DriverVersion, sizeof (DriverVersion), &dwResult, NULL);
 
 #ifndef SETUP // Don't check version during setup to allow removal of another version
 		if (bResult == FALSE)
@@ -5831,11 +5820,6 @@ void handleError (HWND hwndDlg, int code, const char* srcPos)
 	case ERR_USER_ABORT:
 	case ERR_DONT_REPORT:
 		// A non-error
-		break;
-
-	case ERR_UNSUPPORTED_TRUECRYPT_FORMAT:
-		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), (code >> 24), (code >> 16) & 0x000000FF);
-		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 
 #ifndef SETUP
@@ -6506,27 +6490,27 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case BLAKE2S:
 					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
-					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case STREEBOG:
 					/* PKCS-5 test with HMAC-STREEBOG used as the PRF */
-					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 			}
@@ -6536,7 +6520,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 			benchmarkTable[benchmarkTotalItems].id = thid;
-			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot);
+			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot);
 			benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (unsigned __int64) (1000 * ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart / 2));
 			if (benchmarkPreBoot)
 			{
@@ -7366,8 +7350,6 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), TRUE);
 					return 1;
 				}
-
-				remainingBytes = keyfilesSize;
 			}
 
 			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), szFileBaseName, TC_MAX_PATH))
@@ -7468,8 +7450,9 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					keyfilesSize %= ((KEYFILE_MAX_READ_LEN - 64) + 1);
 					keyfilesSize += 64;
 
-					remainingBytes = keyfilesSize;
 				}
+
+				remainingBytes = keyfilesSize;
 
 				do {
 					rndBytesLength = (int) min (remainingBytes, (unsigned long long) KEYFILE_MAX_READ_LEN);
@@ -8235,15 +8218,6 @@ BOOL CheckFileExtension (wchar_t *fileName)
 	return FALSE;
 }
 
-BOOL IsTrueCryptFileExtension (wchar_t *fileName)
-{
-	wchar_t *ext = wcsrchr (fileName, L'.');
-	if (ext && !_wcsicmp (ext, L".tc"))
-		return TRUE;
-	else
-		return FALSE;
-}
-
 void CorrectFileName (wchar_t* fileName)
 {
 	/* replace '/' by '\' */
@@ -8887,7 +8861,6 @@ int MountVolume (HWND hwndDlg,
 				 Password *password,
 				 int pkcs5,
 				 int pim,
-				 BOOL truecryptMode,
 				 BOOL cachePassword,
 				 BOOL cachePim,
 				 BOOL sharedAccess,
@@ -8968,7 +8941,6 @@ retry:
 	else
 		mount.bMountManager = TRUE;
 	mount.pkcs5_prf = pkcs5;
-	mount.bTrueCryptMode = truecryptMode;
 	mount.VolumePim = pim;
 
 	wstring path = volumePath;
@@ -9089,8 +9061,7 @@ retry:
 	{
 		if (mount.wszVolume == NULL || swscanf_s ((const wchar_t *) mount.wszVolume,
 			WIDE("\\Device\\Harddisk%d\\Partition"),
-			&mount.nPartitionInInactiveSysEncScopeDriveNo,
-			sizeof(mount.nPartitionInInactiveSysEncScopeDriveNo)) != 1)
+			&mount.nPartitionInInactiveSysEncScopeDriveNo) != 1)
 		{
 			if (!quiet)
 				Warning ("NO_SYSENC_PARTITION_SELECTED", hwndDlg);
@@ -9124,7 +9095,6 @@ retry:
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
 	burn (&mount.ProtectedHidVolPassword, sizeof (mount.ProtectedHidVolPassword));
 	burn (&mount.pkcs5_prf, sizeof (mount.pkcs5_prf));
-	burn (&mount.bTrueCryptMode, sizeof (mount.bTrueCryptMode));
 	burn (&mount.ProtectedHidVolPkcs5Prf, sizeof (mount.ProtectedHidVolPkcs5Prf));
 
 	SetLastError (dwLastError);
@@ -11703,7 +11673,7 @@ void ReportUnexpectedState (const char *techInfo)
 
 #ifndef SETUP
 
-int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
+int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password *password, int pkcs5_prf, int pim, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
 {
 	int status = ERR_PARAMETER_INCORRECT;
 	int volumeType;
@@ -11878,7 +11848,7 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 		}
 
 		// Decrypt volume header
-		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pim, truecryptMode, &context->CryptoInfo, NULL);
+		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pim, &context->CryptoInfo, NULL);
 
 		if (status == ERR_PASSWORD_WRONG)
 			continue;		// Try next volume type
@@ -12373,7 +12343,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled);
+				keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled? true : false);
 			}
 			catch (UserAbort&)
 			{
@@ -12473,7 +12443,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name);
 
-									keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled);
+									keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled? true : false);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
 								catch (Exception &e)
@@ -12555,7 +12525,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 							SecurityToken::DeleteKeyfile (dynamic_cast<SecurityTokenKeyfile&>(*keyfile.get()));
 						}
 
-						keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled);
+						keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled? true : false);
 						SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 					}
 					catch (Exception &e)
@@ -14007,6 +13977,41 @@ BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 	return bRet;
 }
 
+BOOL IsPrivilegeEnabled (LPTSTR szPrivilegeName)
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+	BOOL bRet = FALSE;
+	DWORD dwLastError = 0;
+
+	if (OpenProcessToken(GetCurrentProcess(),
+		TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
+		&hToken))
+	{
+		if (LookupPrivilegeValue(NULL, szPrivilegeName,
+				&tkp.Privileges[0].Luid))
+		{
+			DWORD dwSize = sizeof (tkp);
+			if (GetTokenInformation (hToken, TokenPrivileges, &tkp, dwSize, &dwSize))
+			{
+				bRet = (tkp.Privileges[0].Attributes & SE_PRIVILEGE_ENABLED) != 0;
+			}
+			else
+				dwLastError = GetLastError ();
+		}
+		else
+			dwLastError = GetLastError ();
+
+		CloseHandle(hToken);
+	}
+	else
+		dwLastError = GetLastError ();
+
+	SetLastError (dwLastError);
+
+	return bRet;
+}
+
 BOOL DeleteDirectory (const wchar_t* szDirName)
 {
 	BOOL bStatus = RemoveDirectory (szDirName);
@@ -14086,13 +14091,14 @@ typedef struct
 	DLGPROC lpDialogFunc;
 	LPARAM dwInitParam;
 	INT_PTR retValue;
+	BOOL bDlgDisplayed; // set to TRUE if the dialog was displayed on secure desktop
 } SecureDesktopThreadParam;
 
 typedef struct
 {
 	LPCWSTR szVCDesktopName;
 	HDESK hVcDesktop;
-	volatile BOOL* pbStopMonitoring;
+	HANDLE hStopEvent; // event to signal when to stop monitoring
 } SecureDesktopMonitoringThreadParam;
 
 #define SECUREDESKTOP_MONOTIR_PERIOD	500
@@ -14104,11 +14110,12 @@ static unsigned int __stdcall SecureDesktopMonitoringThread( LPVOID lpThreadPara
 	SecureDesktopMonitoringThreadParam* pMonitorParam = (SecureDesktopMonitoringThreadParam*) lpThreadParameter;
 	if (pMonitorParam)
 	{
-		volatile BOOL* pbStopMonitoring = pMonitorParam->pbStopMonitoring;
+		HANDLE hStopEvent = pMonitorParam->hStopEvent;
 		LPCWSTR szVCDesktopName = pMonitorParam->szVCDesktopName;
 		HDESK hVcDesktop = pMonitorParam->hVcDesktop;
 
-		while (!*pbStopMonitoring)
+		// loop until the stop event is signaled
+		while (WaitForSingleObject (hStopEvent, SECUREDESKTOP_MONOTIR_PERIOD) == WAIT_TIMEOUT)
 		{
 			// check that our secure desktop is still the input desktop
 			// otherwise, switch to it
@@ -14136,22 +14143,18 @@ static unsigned int __stdcall SecureDesktopMonitoringThread( LPVOID lpThreadPara
 
 			if (bPerformSwitch)
 				SwitchDesktop (hVcDesktop);
-
-			Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
 		}
 	}
 
 	return 0;
 }
 
-static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
+static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 {
-	volatile BOOL bStopMonitoring = FALSE;
 	HANDLE hMonitoringThread = NULL;
 	unsigned int monitoringThreadID = 0;
 	SecureDesktopThreadParam* pParam = (SecureDesktopThreadParam*) lpThreadParameter;
 	SecureDesktopMonitoringThreadParam monitorParam;
-	HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId ());
 	BOOL bNewDesktopSet = FALSE;
 
 	// wait for SwitchDesktop to succeed before using it for current thread
@@ -14159,38 +14162,48 @@ static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
 	{
 		if (SwitchDesktop (pParam->hDesk))
 		{
-			bNewDesktopSet = TRUE;
 			break;
 		}
 		Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
 	}
 
+	bNewDesktopSet = SetThreadDesktop (pParam->hDesk);
+
 	if (bNewDesktopSet)
 	{
-		SetThreadDesktop (pParam->hDesk);
-
 		// create the thread that will ensure that VeraCrypt secure desktop has always user input
-		monitorParam.szVCDesktopName = pParam->szDesktopName;
-		monitorParam.hVcDesktop = pParam->hDesk;
-		monitorParam.pbStopMonitoring = &bStopMonitoring;
-		hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+		// this is done only if the stop event is created successfully
+		HANDLE hStopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		if (hStopEvent)
+		{
+			monitorParam.szVCDesktopName = pParam->szDesktopName;
+			monitorParam.hVcDesktop = pParam->hDesk;
+			monitorParam.hStopEvent = hStopEvent;
+			hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+		}
+
+		pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
+							NULL, pParam->lpDialogFunc, pParam->dwInitParam);
+
+		if (hMonitoringThread)
+		{
+			// notify the monitoring thread to stop
+			SetEvent(hStopEvent);
+
+			WaitForSingleObject (hMonitoringThread, INFINITE);
+			CloseHandle (hMonitoringThread);
+		}
+
+		if (hStopEvent)
+		{
+			CloseHandle (hStopEvent);
+		}
+
+		pParam->bDlgDisplayed = TRUE;
 	}
-
-	pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
-						NULL, pParam->lpDialogFunc, pParam->dwInitParam);
-
-	if (hMonitoringThread)
+	else
 	{
-		bStopMonitoring = TRUE;
-
-		WaitForSingleObject (hMonitoringThread, INFINITE);
-		CloseHandle (hMonitoringThread);
-	}
-
-	if (bNewDesktopSet)
-	{
-		SetThreadDesktop (hOriginalDesk);
-		SwitchDesktop (hOriginalDesk);
+		pParam->bDlgDisplayed = FALSE;
 	}
 
 	return 0;
@@ -14250,6 +14263,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 			map<DWORD, BOOL> ctfmonBeforeList, ctfmonAfterList;
 			DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
 			HDESK hSecureDesk;
+			HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId());
 
 			HDESK hInputDesk = NULL;
 
@@ -14281,8 +14295,10 @@ INT_PTR SecureDesktopDialogBoxParam(
 				param.lpDialogFunc = lpDialogFunc;
 				param.dwInitParam = dwInitParam;
 				param.retValue = 0;
+				param.bDlgDisplayed = FALSE;
 
-				HANDLE hThread = ::CreateThread (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
+				// use _beginthreadex instead of CreateThread because lpDialogFunc may be using the C runtime library
+				HANDLE hThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
 				if (hThread)
 				{
 					StringCbCopy(SecureDesktopName, sizeof (SecureDesktopName), szDesktopName);
@@ -14290,8 +14306,15 @@ INT_PTR SecureDesktopDialogBoxParam(
 					WaitForSingleObject (hThread, INFINITE);
 					CloseHandle (hThread);
 
-					retValue = param.retValue;
-					bSuccess = TRUE;
+					if (param.bDlgDisplayed)
+					{
+						// dialog box was indeed displayed in Secure Desktop
+						retValue = param.retValue;
+						bSuccess = TRUE;
+					}
+
+					// switch back to original desktop
+					SwitchDesktop (hOriginalDesk);
 				}
 
 				CloseDesktop (hSecureDesk);
@@ -14312,6 +14335,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 				}
 			}
 
+			CloseDesktop(hOriginalDesk);
 			burn (szDesktopName, sizeof (szDesktopName));
 		}
 	}
@@ -15721,5 +15745,87 @@ bool OneOfKBsInstalled (const wchar_t* szKBs[], int count)
 	}
 
 	return bRet;
+}
+
+DWORD SendServiceNotification (DWORD dwNotificationCmd)
+{
+	DWORD dwRet = ERROR_INVALID_PARAMETER;
+	// We only support clearing keys on new device insertion
+	if (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION == dwNotificationCmd)
+	{
+		DWORD dwServiceControlCode = VC_SERVICE_CONTROL_BUILD_DEVICE_LIST;
+		// send this control code to VeraCrypt SystemFavorites service
+		SC_HANDLE hSCManager = OpenSCManager (NULL, NULL, SC_MANAGER_CONNECT);
+		if (hSCManager != NULL)
+		{
+			SC_HANDLE hService = OpenService (hSCManager, TC_SYSTEM_FAVORITES_SERVICE_NAME, SERVICE_ALL_ACCESS);
+			if (hService != NULL)
+			{
+				SERVICE_STATUS ss;
+				if (ControlService (hService, dwServiceControlCode, &ss))
+					dwRet = ERROR_SUCCESS;
+				else
+					dwRet = GetLastError ();
+				CloseServiceHandle (hService);
+			}
+			else
+				dwRet = GetLastError ();
+			CloseServiceHandle (hSCManager);
+		}
+		else
+			dwRet = GetLastError ();
+	}
+
+	return dwRet;
+}
+
+DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize)
+{
+	DWORD dwRet = ERROR_INVALID_PARAMETER;
+	if (filePath && fileSize > 0)
+	{
+		// we set required privileges to speedup file creation before we create the file so that the file handle inherits the privileges
+		BOOL bPrivilegesSet = IsPrivilegeEnabled (SE_MANAGE_VOLUME_NAME);
+		if (!bPrivilegesSet && !SetPrivilege(SE_MANAGE_VOLUME_NAME, TRUE))
+		{
+			dwRet = GetLastError ();
+		}
+		else
+		{
+			HANDLE dev = CreateFile (filePath, GENERIC_WRITE | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+			if (dev != INVALID_HANDLE_VALUE)
+			{
+				LARGE_INTEGER liSize;
+				liSize.QuadPart = fileSize;
+				// Preallocate the file with desired size
+				if (!SetFilePointerEx (dev, liSize, NULL, FILE_BEGIN)
+					|| !SetEndOfFile (dev))
+				{
+					dwRet = GetLastError ();
+				}
+				else
+				{
+					if (!SetFileValidData (dev, fileSize))
+					{
+						dwRet = GetLastError ();
+					}
+					else
+					{
+						dwRet = ERROR_SUCCESS;
+					}
+				}
+
+				FlushFileBuffers (dev);
+				CloseHandle (dev);
+			}
+			else
+				dwRet = GetLastError ();
+			
+			if (!bPrivilegesSet)
+				SetPrivilege(SE_MANAGE_VOLUME_NAME, FALSE);
+		}
+	}
+
+	return dwRet;
 }
 #endif // VC_COMREG

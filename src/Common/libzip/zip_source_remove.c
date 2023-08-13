@@ -37,6 +37,11 @@
 
 int
 zip_source_remove(zip_source_t *src) {
+    if (ZIP_SOURCE_IS_LAYERED(src)) {
+        zip_error_set(&src->error, ZIP_ER_OPNOTSUPP, 0);
+        return -1;
+    }
+
     if (src->write_state == ZIP_SOURCE_WRITE_REMOVED) {
         return 0;
     }

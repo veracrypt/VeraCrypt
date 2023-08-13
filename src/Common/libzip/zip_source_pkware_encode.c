@@ -86,7 +86,7 @@ encrypt_header(zip_source_t *src, struct trad_pkware *ctx) {
     zip_uint8_t *header;
 
     if (zip_source_stat(src, &st) != 0) {
-        _zip_error_set_from_source(&ctx->error, src);
+        zip_error_set_from_source(&ctx->error, src);
         return -1;
     }
 
@@ -156,7 +156,7 @@ pkware_encrypt(zip_source_t *src, void *ud, void *data, zip_uint64_t length, zip
         }
 
         if ((n = zip_source_read(src, data, length)) < 0) {
-            _zip_error_set_from_source(&ctx->error, src);
+            zip_error_set_from_source(&ctx->error, src);
             return -1;
         }
 
@@ -209,8 +209,7 @@ pkware_encrypt(zip_source_t *src, void *ud, void *data, zip_uint64_t length, zip
         return 0;
 
     default:
-        zip_error_set(&ctx->error, ZIP_ER_INVAL, 0);
-        return -1;
+        return zip_source_pass_to_lower_layer(src, data, length, cmd);
     }
 }
 

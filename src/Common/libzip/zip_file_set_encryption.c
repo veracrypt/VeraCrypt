@@ -51,6 +51,10 @@ zip_file_set_encryption(zip_t *za, zip_uint64_t idx, zip_uint16_t method, const 
         zip_error_set(&za->error, ZIP_ER_RDONLY, 0);
         return -1;
     }
+    if (ZIP_WANT_TORRENTZIP(za)) {
+        zip_error_set(&za->error, ZIP_ER_NOT_ALLOWED, 0);
+        return -1;
+    }
 
     if (method != ZIP_EM_NONE && _zip_get_encryption_implementation(method, ZIP_CODEC_ENCODE) == NULL) {
         zip_error_set(&za->error, ZIP_ER_ENCRNOTSUPP, 0);
