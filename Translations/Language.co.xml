@@ -1648,6 +1648,7 @@ Information about Corsican localization:
 		<entry lang="co" key="EXPANDER_MOUNTING_VOLUME">Muntatura di u vulume…\n</entry>
 		<entry lang="co" key="EXPANDER_UNMOUNTING_VOLUME">Smuntatura di u vulume…\n</entry>
 		<entry lang="co" key="EXPANDER_EXTENDING_FILESYSTEM">Estensione di u sistema di schedariu…\n</entry>
+		<entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
 			<xs:complexType>
