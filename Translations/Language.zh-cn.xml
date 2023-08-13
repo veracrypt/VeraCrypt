@@ -73,7 +73,7 @@
     <entry lang="zh-cn" key="IDC_WHOLE_SYS_DRIVE">加密整个硬盘驱动器</entry>
     <entry lang="zh-cn" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt 加密卷向导</entry>
     <entry lang="zh-cn" key="IDT_CLUSTER">簇 </entry>
-    <entry lang="zh-cn" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：请在此窗口内尽可能地随机移动鼠标。移动时间越长越好。这将会极大地增强密钥的加密强度。之后点击“下一步”按钮继续。</entry>
+    <entry lang="zh-cn" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会极大地增强密钥的加密强度。之后点击“下一步”按钮继续。</entry>
     <entry lang="zh-cn" key="IDT_CONFIRM">确认(&amp;C)：</entry>
     <entry lang="zh-cn" key="IDT_DONE">完成</entry>
     <entry lang="zh-cn" key="IDT_DRIVE_LETTER">卷标：</entry>
@@ -354,7 +354,7 @@
     <entry lang="zh-cn" key="IDT_HIDDEN_PROT_PASSWD">隐藏加密卷的密码(&amp;A)：\n(如果为空则使用缓存)</entry>
     <entry lang="zh-cn" key="IDT_HIDDEN_VOL_PROTECTION">保护隐藏加密卷</entry>
     <entry lang="zh-cn" key="IDT_KEY">密钥长度：</entry>
-    <entry lang="zh-cn" key="IDT_KEYFILE_GENERATOR_NOTE">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。</entry>
+    <entry lang="zh-cn" key="IDT_KEYFILE_GENERATOR_NOTE">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会极大地增强密钥的加密强度。</entry>
     <entry lang="zh-cn" key="IDT_KEYFILE_WARNING">警告：如果您丢失了密钥文件或者密钥文件的前 1024 KB 内容被改变，该密钥将无法加载相应的加密卷！</entry>
     <entry lang="zh-cn" key="IDT_KEY_UNIT">位</entry>
     <entry lang="zh-cn" key="IDT_NUMBER_KEYFILES">密钥文件数量：</entry>
@@ -365,7 +365,7 @@
     <entry lang="zh-cn" key="IDT_PLAINTEXT_SIZE_UNIT">位</entry>
     <entry lang="zh-cn" key="IDT_POOL_CONTENTS">当前缓冲内容</entry>
     <entry lang="zh-cn" key="IDT_PRF">混合 PRF：</entry>
-    <entry lang="zh-cn" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">重要：请在此窗口内尽可能地随机移动鼠标。移动时间越长效果越好。这将会显著增加安全性。当操作完成时，点击“继续”按钮。</entry>
+    <entry lang="zh-cn" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会极大地增强密钥的加密强度。当操作完成时，点击“继续”按钮。</entry>
     <entry lang="zh-cn" key="IDT_SECONDARY_KEY">次密钥（十六进制）</entry>
     <entry lang="zh-cn" key="IDT_SECURITY_TOKEN">安全口令牌：</entry>
     <entry lang="zh-cn" key="IDT_SORT_METHOD">排序方式：</entry>
@@ -514,7 +514,7 @@
     <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">警告：您必须将解密后的卷挂载到一个盘符上来读取卷中的数据，但没有可用的盘符。\n\n请释放一个盘符 (例如移除一个USB存储设备或外置硬盘) 然后点击 OK 。</entry>
     <entry lang="zh-cn" key="FORMAT_FINISHED_INFO">VeraCrypt 加密卷已成功创建。</entry>
     <entry lang="zh-cn" key="FORMAT_FINISHED_TITLE">加密卷已创建</entry>
-    <entry lang="zh-cn" key="FORMAT_HELP">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。之后点击“格式化”按钮创建加密卷。</entry>
+    <entry lang="zh-cn" key="FORMAT_HELP">重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会极大地增强密钥的加密强度。之后点击“格式化”按钮创建加密卷。</entry>
     <entry lang="zh-cn" key="FORMAT_HIDVOL_HOST_HELP">点击“格式化”按钮创建外层的加密卷。如若获得更多信息，请参考软件文档。</entry>
     <entry lang="zh-cn" key="FORMAT_HIDVOL_HOST_TITLE">外层加密卷格式化</entry>
     <entry lang="zh-cn" key="FORMAT_HIDVOL_TITLE">隐藏加密卷格式化</entry>
@@ -704,7 +704,7 @@
     <entry lang="zh-cn" key="VOL_MOUNT_FAILED">试图加载加密卷时出错。</entry>
     <entry lang="zh-cn" key="VOL_SEEKING">在加密卷里寻址时出错。</entry>
     <entry lang="zh-cn" key="VOL_SIZE_WRONG">错误：错误的加密卷大小。</entry>
-    <entry lang="zh-cn" key="WARN_QUICK_FORMAT">警告：您应当只能在下面的情况下使用快速格式化：\n\n1) 设备不包含敏感数据，且您不需要隐蔽性。\n2) 设备或分区已经被完全加密过。\n\n您确认要使用快速格式化吗？</entry>
+    <entry lang="zh-cn" key="WARN_QUICK_FORMAT">警告：您应当只能在以下情况时使用快速格式化：\n\n1) 该设备不包含敏感数据，且您不需要隐蔽性。\n2) 设备或分区已经被完全加密过。\n\n您确认要使用快速格式化吗？</entry>
     <entry lang="zh-cn" key="CONFIRM_SPARSE_FILE">动态扩展加密卷的容器是一个预先分配的 NTFS 稀疏文件，它的物理大小（实际磁盘空间占用）在有新数据添加到里面的时候才会增加。\n\n警告：动态扩展加密卷的性能比常规加密卷的性能有较大降低。动态扩展加密卷的安全性也要弱些－因为它有可能泄漏哪些加密卷扇区未被使用。另外，动态扩展加密卷无法实现隐蔽性（容纳一个隐藏加密卷）。同时需要注意，如果数据被写入到动态扩展加密卷，而此时宿主文件系统的剩余空间不足，加密卷的文件系统可能会损坏。\n\n您确认要创建动态扩展加密卷吗？</entry>
     <entry lang="zh-cn" key="SPARSE_FILE_SIZE_NOTE">注意，Windows 系统和 VeraCrypt 报告的动态扩展加密卷的大小会等于它的最大尺寸。要查看当前容器的物理大小（占用的实际磁盘空间），在 Windows 资源管理器窗口右键单击容器文件，之后选择“属性”并查看“占用空间”的数值。\n\n同时也要注意，如果您把动态扩展加密卷移动到另外容器或驱动器，容器的物理大小会变为它的最大大小。 (为避免此类情况发生，您可以在目标位置创建一个新的动态加密卷，然后把文件从之前的加密卷中复制过来)</entry>
     <entry lang="zh-cn" key="PASSWORD_CACHE_WIPED_SHORT">密码缓存已擦除</entry>
@@ -1574,7 +1574,7 @@
     <entry lang="zh-cn" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt无法升级，因为系统分区/驱动器使用了将不再支持的算法进行加密。\n请在升级VeraCrypt之前解密系统，然后再次加密。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_TERMINALNOTFOUND">未找到支持的终端应用程序，您需要xterm、konsole或gnome终端（带有dbus-x11）。</entry>
     <entry lang="zh-cn" key="IDM_MOUNT_NO_CACHE">无缓存装载</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
+    <entry lang="zh-cn" key="EXPANDER_INFO">:: VeraCrypt 加密卷扩展向导 ::\n\n无需重新格式化即可即时扩展 VeraCrypt 加密卷\n\n\n支持使用 NTFS 格式化的所有卷（容器文件、磁盘和分区）。唯一的条件是 VeraCrypt 卷的主机驱动器或主机设备上必须有足够的可用空间。\n\n请勿使用本软件扩展包含隐藏加密卷的外层加密卷，因为这会破坏隐藏加密卷！\n</entry>
     <entry lang="zh-cn" key="IDC_STEPSEXPAND">1. 选择要扩展的VeraCrypt卷\n2. 点击 '装载' 按钮</entry>
     <entry lang="zh-cn" key="IDT_VOL_NAME">卷：</entry>
     <entry lang="zh-cn" key="IDT_FILE_SYS">文件系统：</entry>
@@ -1587,8 +1587,8 @@
     <entry lang="zh-cn" key="EXPANDER_FREE_SPACE">主机驱动器上有 %s 空间可用</entry>
     <entry lang="zh-cn" key="EXPANDER_HELP_DEVICE">这是一个基于设备的VeraCrypt卷。\n\n新卷的大小将自动根据外部设备的大小进行设定。</entry>
     <entry lang="zh-cn" key="EXPANDER_HELP_FILE">请输入新的VeraCrypt卷大小 (需要至少比当前大 %I64u KB)。</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
+    <entry lang="zh-cn" key="QUICK_EXPAND_WARNING">警告：您应当只能在以下情况时使用快速扩展：\n\n1) 该设备不包含敏感数据，且您不需要隐蔽性。\n2) 设备或分区已经被完全加密过。\n\n您确认要使用快速扩展吗？</entry>
+    <entry lang="zh-cn" key="EXPANDER_STATUS_TEXT">重要：重要：请在此窗口内尽可能地随机移动鼠标，移动时间越长越好。这将会极大地增强密钥的加密强度。当操作完成时，点击“继续”按钮扩展卷。</entry>
     <entry lang="zh-cn" key="EXPANDER_STATUS_TEXT_LEGACY">单击“继续”以扩展加密卷。</entry>
     <entry lang="zh-cn" key="EXPANDER_FINISH_ERROR">错误：加密卷扩展失败。</entry>
     <entry lang="zh-cn" key="EXPANDER_FINISH_ABORT">错误：操作被用户中止。</entry>
@@ -1609,7 +1609,7 @@
     <entry lang="zh-cn" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">超过了VeraCrypt卷最大 %I64u TB的文件限制！\n</entry>
     <entry lang="zh-cn" key="FULL_FORMAT">完全格式化</entry>
     <entry lang="zh-cn" key="FAST_CREATE">快速创建</entry>
-    <entry lang="zh-cn" key="WARN_FAST_CREATE">警告：仅当下列情况时才应使用快速创建：\n\n1) 该设备不包含敏感数据，您不需要合理的否认。\n2) 该设备已被安全且完全加密。\n\n您确定要快速创建吗？</entry>
+    <entry lang="zh-cn" key="WARN_FAST_CREATE">警告：您应当只能在以下情况时使用快速创建：\n\n1) 该设备不包含敏感数据，且您不需要隐蔽性。\n2) 该设备已被安全且完全加密。\n\n您确定要快速创建吗？</entry>
     <entry lang="zh-cn" key="IDC_ENABLE_EMV_SUPPORT">启用EMV支持</entry>
     <entry lang="zh-cn" key="COMMAND_APDU_INVALID">发送到卡片的APDU命令无效。</entry>
     <entry lang="zh-cn" key="EXTENDED_APDU_UNSUPPORTED">当前口令中无法使用扩展的APDU命令。</entry>
