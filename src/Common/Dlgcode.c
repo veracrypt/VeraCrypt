@@ -9253,6 +9253,17 @@ retry:
 		}
 	}
 
+	if (mount.VolumeMountedReadOnlyAfterPartialSysEnc
+		&& !Silent
+		&& bDevice)
+	{
+		wchar_t msg[1024];
+		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
+		StringCbPrintfW (msg, sizeof(msg), GetString ("PARTIAL_SYSENC_MOUNT_READONLY"), mountPoint);
+
+		WarningDirect (msg, hwndDlg);
+	}
+
 	if (mount.wszLabel[0] && !mount.bDriverSetLabel)
 	{
 		// try setting the drive label on user-mode using registry

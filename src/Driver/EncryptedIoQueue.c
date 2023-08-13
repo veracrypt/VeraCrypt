@@ -797,7 +797,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				request->OrigDataBufferFragment = dataBuffer;
 				request->Length = dataFragmentLength;
 
-				if (queue->IsFilterDevice)
+				if (queue->IsFilterDevice || queue->bSupportPartialEncryption)
 				{
 					if (queue->EncryptedAreaStart == -1 || queue->EncryptedAreaEnd == -1)
 					{
