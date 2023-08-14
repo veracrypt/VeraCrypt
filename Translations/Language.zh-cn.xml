@@ -128,7 +128,7 @@
     <entry lang="zh-cn" key="IDC_FAVORITE_DISABLE_HOTKEY">当“加载收藏加密卷”热键按下时，不加载选定的加密卷(&amp;H)</entry>
     <entry lang="zh-cn" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">当主设备被连接时加载选定加密卷(&amp;C)</entry>
     <entry lang="zh-cn" key="IDC_FAVORITE_MOUNT_ON_LOGON">登录时加载选定加密卷(&amp;O)</entry>
-    <entry lang="zh-cn" key="IDC_FAVORITE_MOUNT_READONLY">以只读方式加载选定加密卷(&amp;N)</entry>
+    <entry lang="zh-cn" key="IDC_FAVORITE_MOUNT_READONLY">以只读模式加载选定加密卷(&amp;N)</entry>
     <entry lang="zh-cn" key="IDC_FAVORITE_MOUNT_REMOVABLE">以可移动介质方式加载选定加密卷(&amp;V)</entry>
     <entry lang="zh-cn" key="IDC_FAVORITE_MOVE_DOWN">下移(&amp;D)</entry>
     <entry lang="zh-cn" key="IDC_FAVORITE_MOVE_UP">上移(&amp;U)</entry>
@@ -541,8 +541,8 @@
     <entry lang="zh-cn" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">警告：数据试图保存到加载为 %c: 的加密卷的隐藏加密卷区域！VeraCrypt 已阻止这些数据的保存来保护隐藏加密卷。这会导致外层加密卷文件系统出错。Windows 可能会报告为写入错误（“延迟写入失败”或者是“参数不正确）。整个加密卷（外层加密卷和隐藏加密卷）将会被写保护到加密卷卸载为止。如果这不是 VeraCrypt 第一次阻止数据写入到隐藏加密卷区域，这样也会影响隐藏加密卷的隐蔽性（这是因为在外层加密卷文件系统可能存在反常的关联错乱）。因此，您应当考虑创建一个新的 VeraCrypt 加密卷（禁用快速格式化）并把此加密卷的数据移动到新加密卷里面去；此加密卷应当被安全擦除（外层卷和隐藏卷）。我们强烈建议您现在重启计算机。</entry>
     <entry lang="zh-cn" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">您已表明要在此加密卷中存放大于 4GB 的文件。这种情况下加密卷就必须格式化为 NTFS。</entry>
     <entry lang="zh-cn" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">当隐形操作系统运行时，非隐藏的加密卷无法被格式化为 NTFS 格式。原因是如需让操作系统格式化为 NTFS，就得以非写保护状态临时加载（反之如以格式化为 FAT，则由 VeraCrypt 而非操作系统来完成，无需加载加密卷）。如需获取更多技术细节，请参阅以下链接。您可以在迷惑操作系统中创建非隐藏的 NTFS 加密卷。</entry>
-    <entry lang="zh-cn" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">安全起见，当隐形操作系统正在运行时，隐藏加密卷只能以“直接”模式创建（这是因为外层加密卷必须总是以只读方式加载）。\n\n要安全地创建隐藏加密卷，请遵循如下步骤：\n\n1）启动到迷惑操作系统。\n\n2）创建一个常规 VeraCrypt 加密卷并复制一些您实际上并不想隐藏的貌似敏感的文件（该加密卷会作为外层加密卷）。\n\n3）启动隐形操作系统并启动 VeraCrypt 加密卷创建向导。如果此加密卷是文件类型的，移动该加密卷到系统分区或者其它隐藏加密卷中（否则新创建的隐藏加密卷将会以只读方式加载并且无法格式化）。按照向导的步骤进行并选择“直接”模式创建隐藏加密卷。\n\n4）在向导中，选择您在步骤 2 中创建的加密卷并遵循向导后面的步骤在这个加密卷之内创建隐藏加密卷。</entry>
-    <entry lang="zh-cn" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">安全起见，当隐形操作系统正在运行时，本地的非加密的文件系统和非隐藏 VeraCrypt 加密卷会以只读方式加载（没有任何数据可以写入这些文件系统或 VeraCrypt 加密卷）。\n\n而数据可以写入到 VeraCrypt 隐藏加密卷中（假设隐藏加密卷的存储容器并非位于非加密文件系统上或并非位于其它任何只读文件系统上）。</entry>
+    <entry lang="zh-cn" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">安全起见，当隐形操作系统正在运行时，隐藏加密卷只能以“直接”模式创建（这是因为外层加密卷必须总是以只读模式加载）。\n\n要安全地创建隐藏加密卷，请遵循如下步骤：\n\n1）启动到迷惑操作系统。\n\n2）创建一个常规 VeraCrypt 加密卷并复制一些您实际上并不想隐藏的貌似敏感的文件（该加密卷会作为外层加密卷）。\n\n3）启动隐形操作系统并启动 VeraCrypt 加密卷创建向导。如果此加密卷是文件类型的，移动该加密卷到系统分区或者其它隐藏加密卷中（否则新创建的隐藏加密卷将会以只读模式加载并且无法格式化）。按照向导的步骤进行并选择“直接”模式创建隐藏加密卷。\n\n4）在向导中，选择您在步骤 2 中创建的加密卷并遵循向导后面的步骤在这个加密卷之内创建隐藏加密卷。</entry>
+    <entry lang="zh-cn" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">安全起见，当隐形操作系统正在运行时，本地的非加密的文件系统和非隐藏 VeraCrypt 加密卷会以只读模式加载（没有任何数据可以写入这些文件系统或 VeraCrypt 加密卷）。\n\n而数据可以写入到 VeraCrypt 隐藏加密卷中（假设隐藏加密卷的存储容器并非位于非加密文件系统上或并非位于其它任何只读文件系统上）。</entry>
     <entry lang="zh-cn" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">采取这样的限制措施有三种主要原因：\n\n- 可以为加载隐藏加密卷提供更安全的平台。因此我们官方推荐仅在隐形操作系统运行的情况下加载隐藏加密卷。（更多信息请参考文档的 'Security Precautions Pertaining to Hidden Volumes' 部份）\n\n- 在某些情况下，有可能确定在某一时间，某一特定的文件系统（或者文件系统中特定的文件并未保存或访问）并未在特定的操作系统的实例中加载（例如，通过分析和比较文件系统日志、时间戳记、应用程序日志、错误日志等等）。这可能暗示计算机上安装了隐形操作系统（译者注：恢复系统备份、重新安装系统也会造成这种迹象，作者考虑的因素并不全面）。而这里的措施则可以避免此类情况发生。\n\n- 能够防止数据损坏和保证安全地使用系统休眠功能，这里假设所有加载的文件系统在系统休眠的时候均为同一状态。VeraCrypt 通过对任何迷惑系统和隐形系统里面可以访问的系统执行写保护来保证这点。如果没有这样的保护，当在一个系统中加载一个文件系统，而此文件系统在另外操作系统中为休眠状态时，文件系统可能会被损坏。</entry>
     <entry lang="zh-cn" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">注意：如果您要安全地从迷惑操作系统向隐形操作系统中传送文件，请遵循以下步骤： 1）启动迷惑操作系统。 2）保存这些文件到未加密的卷或者是 VeraCrypt 外层/常规加密卷。 3）启动隐形操作系统。 4）如果是把文件保存到 VeraCrypt 加密卷，则加载这个加密卷（该加密卷会自动以只读模式加载）。 5）复制这些文件到隐形操作系统的分区或者是其它隐藏加密卷。</entry>
     <entry lang="zh-cn" key="CONFIRM_RESTART">您的计算机必须重启。\n\n您希望现在重启计算机吗？</entry>
@@ -1300,7 +1300,7 @@
     <entry lang="zh-cn" key="FILESYS_REPAIR_CONFIRM_BACKUP">警告：使用微软的 'chkdsk' 工具修复受损的文件系统时可能会导致受损区域的数据丢失。因此，建议您首先备份存储在 VeraCrypt 加密卷中的文件到另外完好的加密卷。\n\n您确认现在就修复文件系统吗？</entry>
     <entry lang="zh-cn" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">由于写入权限被拒绝，加密卷 '%s' 不得不以只读模式加载。\n\n请确认文件类型加密卷的安全许可允许您对其执行写入操作（右键单击此容器并选择 属性 -&gt; 安全）。\n\n注意，由于 Windows 的原因，您可能在设置成合适的安全属性后还会看到这个警告，这并非是 VeraCrypt 的程序故障。一个可能的解决方法是移动您的加密卷文件，例如移动到文档文件夹。\n\n如果您确实要保持加密卷的只读模式，请设置加密卷的属性为只读（右键单击加密盘文件并选择属性 -&gt; 只读），这样就可以禁止显示警告了。</entry>
     <entry lang="zh-cn" key="MOUNTED_DEVICE_FORCED_READ_ONLY">由于写入权限被拒绝，加密卷 '%s' 不得不以只读模式加载。\n\n请确认没有其它程序（例如，防病毒程序）正在访问加密卷所在的分区/设备。</entry>
-    <entry lang="zh-cn" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密卷 '%s' 加载为只读模式，这是因为操作系统报告主设备为写保护状态。\n\n请注意，在一些第三方的芯片驱动中，已有错误报告指出可能会造成可写入介质错误的被系统报告为写保护。这个问题并不是由 VeraCrypt 造成。这可以通过更新或卸载当前系统中的任何第三方芯片组驱动（非微软认证）。</entry>
+    <entry lang="zh-cn" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密卷 '%s' 已使用只读模式装载，这是因为操作系统报告主设备为写保护状态。\n\n请注意，在一些第三方的芯片驱动中，已有错误报告指出可能会造成可写入介质错误的被系统报告为写保护。这个问题并不是由 VeraCrypt 造成。这可以通过更新或卸载当前系统中的任何第三方芯片组驱动（来自非微软官方）来尝试解决。</entry>
     <entry lang="zh-cn" key="LIMIT_ENC_THREAD_POOL_NOTE">请注意，超线程技术为每个物理核心提供了多个逻辑核心。当启用了超线程，上面选中的数字表示逻辑处理器数（核心数）。</entry>
     <entry lang="zh-cn" key="NUMBER_OF_THREADS">%d 线程</entry>
     <entry lang="zh-cn" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">请注意，硬件加速 AES 已禁用，这将会影响测试结果（使性能变差）。\n\n要启用硬件加速，请选择“设置”-&gt;“性能”并禁用相应选项。</entry>
@@ -1632,7 +1632,7 @@
     <entry lang="zh-cn" key="EXPANDER_MOUNTING_VOLUME">正在装载卷...\n</entry>
     <entry lang="zh-cn" key="EXPANDER_UNMOUNTING_VOLUME">正在卸载卷...\n</entry>
     <entry lang="zh-cn" key="EXPANDER_EXTENDING_FILESYSTEM">正在扩展文件系统...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
+    <entry lang="zh-cn" key="PARTIAL_SYSENC_MOUNT_READONLY">警告：您尝试装载的系统分区未完全加密。为了防止潜在的损坏或不必要的修改，加密卷 '%s' 已使用只读模式装载。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
