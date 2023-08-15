@@ -104,7 +104,7 @@
     <entry lang="fi" key="IDCLOSE">Sulje</entry>
     <entry lang="fi" key="IDC_ALLOW_ESC_PBA_BYPASS">Salli käynnistystä edeltävän &amp;tunnistautumisen ohitus painamalla Esc-näppäintä (avaa käynnistyksen hallintaohjelman)</entry>
     <entry lang="fi" key="IDC_AUTORUN_DISABLE">Älä tee mitään</entry>
-    <entry lang="fi" key="IDC_AUTORUN_MOUNT">&amp;Automaattisesti yhdistä VeraCrypt-taltio (määritelty alla)</entry>
+    <entry lang="fi" key="IDC_AUTORUN_MOUNT">&amp;Automaattisesti liitä VeraCrypt-taltio (määritelty alla)</entry>
     <entry lang="fi" key="IDC_AUTORUN_START">&amp;Käynnistä VeraCrypt</entry>
     <entry lang="fi" key="IDC_AUTO_DETECT_PKCS11_MODULE">Tunnista &amp;kirjasto automaattisesti</entry>
     <entry lang="fi" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Säilytä käynnistystä edeltävän tunnistautumisen salasana ajurin välimuistissa (ei-järjestelmätaltioiden liittämistä varten)</entry>
@@ -321,7 +321,7 @@
     <entry lang="fi" key="IDC_KEYREMOVEALL">Poista &amp;kaikki</entry>
     <entry lang="fi" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Mikä on piilotetun taltion suojaus?</entry>
     <entry lang="fi" key="IDC_LINK_KEYFILES_INFO">Lisää tietoa avaintiedostoista</entry>
-    <entry lang="fi" key="IDC_MOUNT_REMOVABLE">Yhdistä talti&amp;o irrotettavana tallennusvälineenä</entry>
+    <entry lang="fi" key="IDC_MOUNT_REMOVABLE">Liitä taltio &amp;irrotettavana tallennusvälineenä</entry>
     <entry lang="fi" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Liitä käyttämättä käynnistystä &amp;edeltävää tunnistautumista</entry>
     <entry lang="fi" key="IDC_PARALLELIZATION_LABEL_LINK">Rinnakkaistaminen:</entry>
     <entry lang="fi" key="IDC_PERFORM_BENCHMARK">Nopeustesti</entry>
@@ -394,7 +394,7 @@
     <entry lang="fi" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Luodaksesi piilotetun VeraCrypt-taltion, sinun tulee olla kirjautuneena käyttäjälle jolla on järjestelmänvalvojan oikeudet.\n\nJatketaanko?</entry>
     <entry lang="fi" key="ADMIN_PRIVILEGES_WARN_NTFS">Huomioi, että kun alustat taltion NTFS tyyppiseksi, sinun täytyy kirjautua koneelle pääkäyttäjän oikeuksilla.\n\nIlman pääkäyttäjän oikeuksia voit alustaa taltion FAT tyyppiseksi.</entry>
     <entry lang="fi" key="AES_HELP">FIPS hyväksytty salakirjoitusjärjestelmä (Rijndael, julkaistu 1998), jota voidaan käyttää Yhdysvaltain hallituksen osastojen ja virastojen luottamuksellisten tietojen suojaukseen huippusalaiseen tasoon asti. 256-bitin avainkoko, 128-bitin lohko, 14 kierrosta (AES-256). Toimenpide tila on XTS.</entry>
-    <entry lang="fi" key="ALREADY_MOUNTED">Taltio on jo yhdistetty.</entry>
+    <entry lang="fi" key="ALREADY_MOUNTED">Taltio on jo liitettynä.</entry>
     <entry lang="fi" key="ERR_SELF_TESTS_FAILED">VAROITUS: Ainakin yksi salaus- tai hajautusalgoritmin sisäänrakennettu automaattinen testi epäonnistui!\n\n\nVeraCryptin asennus voi olla vioittunut.</entry>
     <entry lang="fi" key="ERR_NOT_ENOUGH_RANDOM_DATA">VAROITUS: Satunnaisnumerogeneraattorin poolissa ei ole pyydettyä määrää satunnaista dataa.\n\nSinun ei tulisi jatkaa tästä eteenpäin. Ilmoita viasta valitsemalla 'Ilmoita viasta' Ohjeet-valikosta ja ilmoita tämä virhe.</entry>
     <entry lang="fi" key="ERR_HARDWARE_ERROR">Asema on vahingoittunut (siinä on fyysinen vika), johto on vioittunut, tai muistissa on toimintahäiriö.\n\nHuomioi, että tämä on ongelma laitteistossasi, ei VeraCrypt-ohjelmassa. Siksi älä raportoi tätä virheenä/ongelmana VeraCrypt-ohjelmassa ja ÄLÄ pyydä apua tähän VeraCryptin foorumilla. Ota yhteys tietokoneesi toimittajan tekniseen tukeen. Kiitos.\n\nHuomioi: Jos virhe tapahtuu jatkuvasti samassa kohdassa, se todennäköisesti johtuu huonosta levylohkosta, joka voi olla mahdollista korjata käyttäen kolmannen osapuolen ohjelmistoja (huomioi, että monessa tapauksessa 'chkdsk /r' komento ei korjaa sitä koska se toimii ainoastaan tiedostojärjestelmätasolla; joissakin tapauksissa 'chkdsk' työkalu ei voi edes tunnistaa sitä).</entry>
@@ -532,7 +532,7 @@
     <entry lang="fi" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\nSeuraavissa vaiheissa luot niinkutsutun ulomman VeraCrypt-taltion ensimmäiselle osiolle heti järjestelmäosion perään (kuten aikaisemmassa vaiheessa selitetty).</entry>
     <entry lang="fi" key="HIDVOL_HOST_PRE_CIPHER_TITLE">Ulompi taltio</entry>
     <entry lang="fi" key="HIDDEN_OS_PRE_CIPHER_HELP">Seuraavissa vaiheissa määrität asetukset ja salasanan piilotetulle taltiolle, joka tulee sisältämään piilotetun käyttöjärjestelmän.\n\nHuomaa: Ulomman taltion klustereiden bittikartta on skannattu jotta voimme määrittää yhtenäisen keskeytymättömän vapaan tilan (joka päättyy linjassa ulomman taltion kanssa) koon. Tämä alue asuttaa piilotetun taltion, joten se rajoittaa tämän piilotetun taltion suurinta mahdollista kokoa. Suurin mahdollinen koko on määritetty ja vahvistettu olevan suurempi kuin järjestelmäosion (mikä vaaditana, sillä koko järjestelmäosio kopioidaan ja tulee mahtua piilotetulle taltiolle). Tämä varmistaa että ulommalla taltiolla oleva data ei tule ylikirjoitetuksi kun kirjoitamme piilotetulle taltiolle.</entry>
-    <entry lang="fi" key="HIDDEN_OS_PRE_CIPHER_WARNING">TÄRKEÄÄ: Muista tässä vaiheessa valitsemasi algoritmi. Sinun tulee valita sama algoritmi myös houkutusjärjestelmälle. Muutoin salainen järjestelmä ei tule olemaan käytettävissä! (Houkutusjärjestelmän tulee olla salattuna samalla salausalgoritmillä kuin piilotetun järjestelmän.)\n\nHuomioi: Syy tähän on se, että houkutusjärjestelmä ja piilotettu järjestelmä jakavat yhden ja saman käynnistysohjelman, joka tukee vain yhden algoritmin käyttöä. Tämä on algoritmi on käyttäjän valitsema (jokaiselle algoritmille on oma erikoisversio VeraCrypt käynnistysohjelmasta).</entry>
+    <entry lang="fi" key="HIDDEN_OS_PRE_CIPHER_WARNING">TÄRKEÄÄ: Muista tässä vaiheessa valitsemasi algoritmi. Sinun tulee valita sama algoritmi myös houkutusjärjestelmälle. Muutoin salainen järjestelmä ei tule olemaan käytettävissä! (Houkutusjärjestelmän tulee olla salattuna samalla salausalgoritmilla kuin piilotetun järjestelmän.)\n\nHuomioi: Syy tähän on se, että houkutusjärjestelmä ja piilotettu järjestelmä jakavat yhden ja saman käynnistysohjelman, joka tukee vain yhden algoritmin käyttöä. Tämä on algoritmi on käyttäjän valitsema (jokaiselle algoritmille on oma erikoisversio VeraCrypt käynnistysohjelmasta).</entry>
     <entry lang="fi" key="HIDVOL_PRE_CIPHER_HELP">\n\nTaltion klustereiden bittikartta on skannattu ja suurin mahdollinen koko piilotetulle taltiolle on määritetty. Seuraavassa vaiheessa asetat piilotetun taltion asetukset, koon ja salasanan.</entry>
     <entry lang="fi" key="HIDVOL_PRE_CIPHER_TITLE">Piilotettu taltio</entry>
     <entry lang="fi" key="HIDVOL_PROT_WARN_AFTER_MOUNT">Piilotettu taltio on nyt suojattu vaurioita vastaan kunnes ulompi taltio on irrotettu.\n\nVAROITUS: Jos jotakin dataa yritetään tallentaa piilotetun taltion alueelle, VeraCrypt aloittaa koko taltion kirjoitussuojaamisen (sekä ulomman että piilotetun osuuden) kunnes se irrotetaan. Tämä voi johtaa tiedostojärjestelmän vioittumiseen ulommalla taltiolla, mikä (jos tehdään toistuvasti) voi haitata piilotetun taltion olemassaolon uskottavaa kiistettävyyttä. Tästä johtuen sinun tulisi välttää kaikin keinoin piilotetulle alueelle kirjoittamista. Piilotetun taltion alueelle kirjoitettu data sen ollessa suojattuna ei tule tallentumaan ja se menetetään. Windows voi ilmoittaa tämän kirjoitusvirheenä ("Viivästetty kirjoitus epäonnistui" tai "Parametri on virheellinen").</entry>
@@ -710,7 +710,7 @@
     <entry lang="fi" key="PASSWORD_CACHE_WIPED">Salasanat (ja/tai käsitellyt avaintiedoston sisällöt) tallennettu VeraCrypt-aseman välimuistiin ovat pyyhitty pois.</entry>
     <entry lang="fi" key="WRONG_VOL_TYPE">VeraCrypt ei voi muuttaa salasanaa vieraalle taltiolle.</entry>
     <entry lang="fi" key="SELECT_FREE_DRIVE">Valitse vapaa aseman kirjain listalta.</entry>
-    <entry lang="fi" key="SELECT_A_MOUNTED_VOLUME">Valitse yhdistettävän taltion kirjain listalta.</entry>
+    <entry lang="fi" key="SELECT_A_MOUNTED_VOLUME">Valitse liitetty taltio asemakirjainlistalta.</entry>
     <entry lang="fi" key="AMBIGUOUS_VOL_SELECTION">Varoitus: Tällä hetkellä valitaan kaksi eri taltiota/laitetta (ensimmäinen on valittu asemakirjain ja toinen on valittu syöttökirjamerkinnän alapuolella olevaan syöttökenttään).\n\nVahvista valintasi:</entry>
     <entry lang="fi" key="CANT_CREATE_AUTORUN">Virhe: Ei voida luoda autorun.inf tiedostoa</entry>
     <entry lang="fi" key="ERR_PROCESS_KEYFILE">Virhe suoritettaessa avaintiedostoa!</entry>
@@ -728,10 +728,10 @@
     <entry lang="fi" key="TC_VOLUMES">VeraCryptin Taltiot</entry>
     <entry lang="fi" key="DLL_FILES">Kirjasto Moduulit</entry>
     <entry lang="fi" key="FORMAT_NTFS_STOP">NTFS alustusta ei voida jatkaa.</entry>
-    <entry lang="fi" key="CANT_MOUNT_VOLUME">Ei voida yhdistää taltiota.</entry>
-    <entry lang="fi" key="CANT_DISMOUNT_VOLUME">Ei voida poistaa yhteyttä taltiota.</entry>
+    <entry lang="fi" key="CANT_MOUNT_VOLUME">Taltiota ei voida liittää.</entry>
+    <entry lang="fi" key="CANT_DISMOUNT_VOLUME">Taltiota ei voida irrottaa.</entry>
     <entry lang="fi" key="FORMAT_NTFS_FAILED">Windows epäonnistui alustamaan taltiota NTFS tyyppiseksi.\n\nValitse eri tyyppinen tiedostojärjestelmä (jos mahdollista) ja yritä uudelleen. Vaihtoehto, voit jättää taltio alustamatta (valitse 'ei mitään' tiedostojärjestelmäksi), poistu tästä opastusta, yhdistä taltio, ja sitten käytä joko järjestelmän tai kolmannen osapuolen työkalua alustaaksesi yhdistetyn taltion (asema jää suojatuksi).</entry>
-    <entry lang="fi" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows epäonnistui alustamaan taltiota NTFS tyyppiseksi.\n\nHaluatko sen sijaan alustaa taltion FAT tyyppiseksi?</entry>
+    <entry lang="fi" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows epäonnistui alustamaan taltion NTFS/exFAT/ReFS.\n\nHaluatko sen sijaan alustaa taltion FAT tyyppiseksi?</entry>
     <entry lang="fi" key="DEFAULT">Oletus</entry>
     <entry lang="fi" key="PARTITION_LOWER_CASE">osio</entry>
     <entry lang="fi" key="PARTITION_UPPER_CASE">OSIO</entry>
@@ -769,13 +769,13 @@
     <entry lang="fi" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">Virhe: Taltioon ei päästä käsiksi ja/tai taltion tietoja ei voitu noutaa.\n\nVarmista että valittu taltio on olemassa, ei ole jo valmiiksi liitettynä, ei ole järjestelmän tai jonkin ohjelmiston käytössä, sinulla on luku/kirjoitusoikeudet taltiolle ja että se ei ole kirjoitussuojattu.</entry>
     <entry lang="fi" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">Virhe: Taltioon ei päästä käsiksi ja/tai taltion tietoja ei voitu noutaa. Varmista että valittu taltio on olemassa, ei ole jo valmiiksi liitettynä, ei ole järjestelmän tai jonkin ohjelmiston käytössä, sinulla on luku/kirjoitusoikeudet taltiolle ja että se ei ole kirjoitussuojattu.\n\nJos ongelmaa edelleen esiintyy, alla olevat ohjeet voivat auttaa.</entry>
     <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Virhe estettäessä VeraCrypt-salauksen osiolle. Yritä korjata mikä tahansa edellinen raportoitu ongelma ja sitten yritä uudelleen. Jos ongelma yhä esiintyy, saattaa auttaa kun seuraat seuraavia askeleita.</entry>
-    <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_RESUME">Virhe estettäessä VeraCrypt aloittaa uudelleen salausprosessi taltiolla.\n\nYritä korjata mikä tahansa edellinen raportoitu ongelma ja yritä aloittaa prosessi uudelleen. Huomioi, että taltiota ei voida yhdistää ennen kuin se on täysin salattu.</entry>
-    <entry lang="fi" key="INPLACE_DEC_GENERIC_ERR">Virhe estää VeraCryptin salaamasta taltiota. Yritä korjata kaikki aikaisemmin raportoidut ongelmat ja yritä sitten uudelleen, jos mahdollista.</entry>
-    <entry lang="fi" key="CANT_DISMOUNT_OUTER_VOL">Virhe: Ei voida poistaa yhteyttä ulkoiselta taltiolta!\n\nTaltiolta ei voida poistaa yhteyttä jos se sisältää tietoja tai hakemistoja jotka ovat ohjelmien tai järjestelmän käytössä.\n\nSulje ohjelma joka saattaa käyttää tiedostoa tai hakemistoa taltiolla ja paina Yritä uudelleen.</entry>
-    <entry lang="fi" key="CANT_GET_OUTER_VOL_INFO">Virhe: Ulkoisen taltion tietoja ei saada! Taltion luontia ei voida jatkaa.</entry>
-    <entry lang="fi" key="CANT_ACCESS_OUTER_VOL">Virhe: Ulkoiselle asemalle pääsy estetty! Taltion luontia ei voida jatkaa.</entry>
-    <entry lang="fi" key="CANT_MOUNT_OUTER_VOL">Virhe: Ulkoista asemaa ei voida yhdistää! Taltion luontia ei voida jatkaa.</entry>
-    <entry lang="fi" key="CANT_GET_CLUSTER_BITMAP">Virhe: Taltion ryhmä bittikarttaa ei saada! Taltion luontia ei voida jatkaa.</entry>
+    <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_RESUME">Virhe esti VeraCryptiä jatkamasta osion/taltion salaus-/purkuprosessia.\n\nYritä korjata kaikki aikaisemmin ilmoitetut ongelmat ja yritä jatkaa prosessia uudelleen. Huomioi, että taltiota ei voida liittää ennen kuin se on täysin salattu tai salaus purettu.</entry>
+    <entry lang="fi" key="INPLACE_DEC_GENERIC_ERR">Virhe esti VeraCryptiä purkamasta taltion salausta. Yritä korjata kaikki aikaisemmin ilmoitetut ongelmat ja yritä sitten uudelleen, jos mahdollista.</entry>
+    <entry lang="fi" key="CANT_DISMOUNT_OUTER_VOL">Virhe: Ulompaa taltiota ei voida irrottaa!\n\nTaltiolta ei voida irrottaa jos se sisältää tiedostoja tai hakemistoja, jotka ovat jonkin ohjelman tai järjestelmän käytössä.\n\nSulje ohjelmat jotka mahdollisesti käyttävät tiedostoja tai hakemistoja taltiolta ja paina Yritä uudelleen.</entry>
+    <entry lang="fi" key="CANT_GET_OUTER_VOL_INFO">Virhe: Ulomman taltion tietoja ei voida noutaa!\nTaltion luontia ei voida jatkaa.</entry>
+    <entry lang="fi" key="CANT_ACCESS_OUTER_VOL">Virhe: Pääsy on estetty ulommalle taltiolle! Taltion luontia ei voida jatkaa.</entry>
+    <entry lang="fi" key="CANT_MOUNT_OUTER_VOL">Virhe: Ulompaa taltiota ei voida liittää! Taltion luontia ei voida jatkaa.</entry>
+    <entry lang="fi" key="CANT_GET_CLUSTER_BITMAP">Virhe: Taltion klustereiden bittikarttaa ei voitu luoda! Taltion luontia ei voida jatkaa.</entry>
     <entry lang="fi" key="ALPHABETICAL_CATEGORIZED">Aakkosellinen/Kategorisoitu</entry>
     <entry lang="fi" key="MEAN_SPEED">Keskinopeus (laskeva)</entry>
     <entry lang="fi" key="ALGORITHM">Algoritmi</entry>
@@ -1052,20 +1052,20 @@
     <entry lang="fi" key="FAILED_TO_INTERRUPT_WIPING">Virhe: Epäonnistunut keskeytys pyyhkimisen aikana.</entry>
     <entry lang="fi" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">Virhe: Yritys palauttaa salattua/salauspurettua järjestelmän osiota/asemaa.</entry>
     <entry lang="fi" key="FAILED_TO_START_WIPING">Virhe: Epäonnistunut pyyhkimisen aloitus.</entry>
-    <entry lang="fi" key="INCONSISTENCY_RESOLVED">Epäjohdonmukaisesti ratkaistu.\n\n\n(Jos raportoit viasta yhdistäessäsi näin, sisällytä seuraavat tekniset tiedot vikaraporttiin: %hs)</entry>
-    <entry lang="fi" key="UNEXPECTED_STATE">Virhe: Odottamaton tila.\n\n\n(Jos raportoit virheestä yhteydessä tähän, ole hyvä ja sisällytä seuraavat tekniset tiedot virhe raporttiin: %hs)</entry>
+    <entry lang="fi" key="INCONSISTENCY_RESOLVED">Epäjohdonmukaisuus ratkaistu.\n\n\n(Jos ilmoitat virheestä tähän liittyen, sisällytä seuraavat tekniset tiedot vikaraporttiin: \n%hs)</entry>
+    <entry lang="fi" key="UNEXPECTED_STATE">Virhe: Odottamaton tila.\n\n\n(Jos ilmoitat virheestä tähän liittyen, sisällytä seuraavat tekniset tiedot vikaraporttiin: \n%hs)</entry>
     <entry lang="fi" key="NO_SYS_ENC_PROCESS_TO_RESUME">Ei ole keskeytynyttä salaus/purkuprosessia järjestelmäosiolla/asemalla jatkettavaksi.\n\nHuomio: Jos haluat jatkaa keskeytynyttä salaus/purkuprosessia ei-järjestelmäosiolla/asemalla, valitse 'Taltiot' &gt; 'Jatka keskeytynyttä prosessia'.</entry>
     <entry lang="fi" key="HIDVOL_PROT_BKG_TASK_WARNING">VAROITUS: VeraCrypt taustaohjelma on poissa käytöstä. Poistuessasi VeraCrypt-ohjelmasta, sinulle ilmoitetaan jos piilotetun VeraCrypt-taltion vahingot on estetty.\n\nTiedotus: Voit sulkea taustaohjelman milloin vain hiiren oikealla näppäimellä tai VeraCrypt-ohjelman palkin kuvakkeesta valitsemalla 'Poistu'.\n\nOta käyttöön VeraCryptin taustaohjelma?</entry>
     <entry lang="fi" key="LANG_PACK_VERSION">Kielipaketin versio:  %s</entry>
-    <entry lang="fi" key="CHECKING_FS">Tarkistetaan tiedostojärjestelmää, joka on VeraCryptin yhdistetty %s taltio..</entry>
-    <entry lang="fi" key="REPAIRING_FS">Yritetään korjata tiedostojärjestelmää, joka on VeraCryptin yhdistetty %s taltio..</entry>
-    <entry lang="fi" key="WARN_64_BIT_BLOCK_CIPHER">Varoitus: Tämä taltio on salakirjoitettu laillisella salakirjoitus algoritmilla.\n\nKaikki 64-bit-block salakirjoitus algoritmit (esimerkiksi, Blowfish, CAST-128, tai Triple DES) ovat vältettyjä. On mahdollista yhdistää tämä taltio käyttäen tulevia VeraCrypt-ohjelman versioita. Kuitenkaan ei tule olemaan lisäyksiä salakirjoitus algoritmi toteutuksiin. Suosittelemme, että luot uuden VeraCrypt-taltion käyttäen 128-bit-block salakirjoitus algoritmia (esimerkiksi, AES, Serpent, Twofish, jne.) ja että siirrät kaikki tiedostot tästä taltiosta uuteen.</entry>
-    <entry lang="fi" key="SYS_AUTOMOUNT_DISABLED">Järjestelmäsi ei ole konfiguroitu käyttämään 'Autoyhdistä Laitteet' -toimintoa uusille taltioille. On mahdotonta yhdistää laite-isännöity VeraCrypt-taltio. Autoyhdistä laitteet voidaan aktivoida ajamalla seuraava komento ja käynnistämällä järjestelmä uudelleen.\n\nmountvol.exe /E</entry>
-    <entry lang="fi" key="SYS_ASSIGN_DRIVE_LETTER">Määrittele kirjain osiolle/laitteelle ennen suoritusta ('Control Panel' &gt; 'System and Maintenance' &gt; 'Administrative Tools' - 'Lisää ja alusta kiintolevyn osioita').\n\nHuomioi, että tämä on käyttöjärjestelmän vaatimus.</entry>
-    <entry lang="fi" key="MOUNT_TC_VOLUME">Yhdistä VeraCryptin Taltio</entry>
-    <entry lang="fi" key="DISMOUNT_ALL_TC_VOLUMES">Poista kaikki yhdistetyt VeraCryptin Taltiot</entry>
-    <entry lang="fi" key="UAC_INIT_ERROR">VeraCrypt-ohjelmalla ei ole tarvittavia oikeuksia.</entry>
-    <entry lang="fi" key="ERR_ACCESS_DENIED">Käyttöjärjestelmä evännyt pääsyn.\n\nMahdollinen syy: Käyttöjärjestelmä vaatii luku/kirjoitus oikeudet (tai pääkäyttäjän oikeudet) hakemistoon, tiedostoon, ja laitteeseen, jotta luku/kirjoitus onnistuisi sinulta. Tavallisesti käyttäjän on mahdollista, lukea ja muokata tiedostoja Omat tiedostot kansiossa.</entry>
+    <entry lang="fi" key="CHECKING_FS">Tarkistetaan liitetyn VeraCrypt-taltion %s tiedostojärjestelmää...</entry>
+    <entry lang="fi" key="REPAIRING_FS">Yritetään korjata liitetyn VeraCrypt-taltion %s tiedostojärjestelmää...</entry>
+    <entry lang="fi" key="WARN_64_BIT_BLOCK_CIPHER">Varoitus: Tämä taltio on salattu vanhalla salausalgoritmilla.\n\nKaikki 64-tavun lohkokoon salausalgoritmit (esimerkiksi, Blowfish, CAST-128, tai Triple DES) ovat vanhentuneita. Tämän taltion voi yhä liittää käyttäen tulevia VeraCrypt versioita. Näiden vanhojen salausalgoritmien toteutuksiin ei kuitenkaan ole tulossa uusia parannuksia. Suosittelemme, että luot uuden VeraCrypt-taltion käyttäen 128-tavun lohkokoon salausalgoritmia (esimerkiksi, AES, Serpent, Twofish, jne.) ja että siirrät kaikki tiedostot tästä taltiosta uuteen.</entry>
+    <entry lang="fi" key="SYS_AUTOMOUNT_DISABLED">Järjestelmäsi ei ole määritelty liittämään uusia taltioita automaattisesti. On mahdollista, että laiteisännöityjen VeraCrypt-taltioiden liittäminen ei onnistu. Automaattinen liittäminen voidaan ottaa käyttöön suorittamalla seuraava komento ja käynnistämällä järjestelmä uudelleen.\n\nmountvol.exe /E</entry>
+    <entry lang="fi" key="SYS_ASSIGN_DRIVE_LETTER">Määrittele asemakirjain osiolle/laitteelle ennen jatkamista (Avaa Suorita tai paina Windows+R ja kirjoita kenttään "diskmgmt.msc").\n\nHuomioi, että tämä on käyttöjärjestelmän vaatimus.</entry>
+    <entry lang="fi" key="MOUNT_TC_VOLUME">Liitä VeraCrypt-taltio</entry>
+    <entry lang="fi" key="DISMOUNT_ALL_TC_VOLUMES">Irrota kaikki VeraCrypt-taltiot</entry>
+    <entry lang="fi" key="UAC_INIT_ERROR">VeraCrypt ei onnistunut saamaan järjestelmänvalvojan oikeuksia.</entry>
+    <entry lang="fi" key="ERR_ACCESS_DENIED">Käyttöjärjestelmä evännyt pääsyn.\n\nMahdollinen syy: Käyttöjärjestelmä vaatii luku/kirjoitusoikeudet (tai järjestelmänvalvojan oikeudet) tiettyihin hakemistoihin, tiedostoihin ja laitteisiin, jotta dataa voidaan lukea/kirjoittaa niiltä/niille. Tavallisesti käyttäjä ilman järjestelmänvalvojan oikeuksia voi luoda, lukea ja muokata tiedostoja jotka sijaitsevät hänen Tiedostot-hakemistossa.</entry>
     <entry lang="fi" key="SECTOR_SIZE_UNSUPPORTED">Virhe: Asema käyttää sektorikokoa, jota ei ole tuettu.\n\nEi ole tällä hetkellä mahdollista luoda osio-/laiteisännöityjä taltioita sellaisissa asemissa, jotka käyttävät sektoreita, jotka ovat suurempia kuin 4096 tavua. Huomaa kuitenkin, että voit luoda tiedosto-isännöityjä taltioita (sisältää ers) tällaisissa asemissa.</entry>
     <entry lang="fi" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">Tällä hetkellä ei ole mahdollista salata järjestelmää, joka on asennettu levylle, joka käyttää muuta sektorikokoa kuin 512 tavua.</entry>
     <entry lang="fi" key="NO_SPACE_FOR_BOOT_LOADER">VeraCrypt-ohjelman Käynnistyslataaja vaatii vähintään 32 kibitavua vapaata tilaa järjestelmälevyn alusta (VeraCryptin Käynnistyslataaja tallennettava tälle alueelle). Valitettavasti, sinun asemasi eivät täytä tätä ehtoa.\n\nÄlä raportoi tätä VeraCrypt-ohjelman bugina/ongelmana. Ratkaistaksesi tämän ongelman, sinun tarvitsee osioida uudelleen levysi ja jättää ensimmäiset 32 kibitavua levyltä vapaaksi (useimmissa tapauksissa, sinun tarvitsee poistaa ja luoda ensimmäinen osio uudestaan). Suosittelemme, että käytät Microsoft osiointi manager ohjelmaa, joka on saatavana esim. kun asennat Windows järjestelmää.</entry>
@@ -1585,7 +1585,7 @@
     <entry lang="fi" key="IDT_INIT_SPACE">Täytä uusi tila: </entry>
     <entry lang="fi" key="EXPANDER_FREE_SPACE">%s tilaa vapaana isäntälevyllä</entry>
     <entry lang="fi" key="EXPANDER_HELP_DEVICE">Tämä on laiteisännöity VeraCrypt-taltio.\n\nUuden taltion koko asetetaan automaattisesti isäntälaitteen koon perusteella.</entry>
-    <entry lang="fi" key="EXPANDER_HELP_FILE">Määritä VeraCrypt-taltion uusi koko (tulee olla vähintään %I64u Kt suurempi kuin nykyinen koko).</entry>
+    <entry lang="fi" key="EXPANDER_HELP_FILE">Määritä VeraCrypt-taltion uusi koko (tulee olla vähintään %I64u kt suurempi kuin nykyinen koko).</entry>
     <entry lang="fi" key="QUICK_EXPAND_WARNING">VAROITUS: Sinun tulisi käyttää pikalaajennusta seuraavissa tapauksissa:\n\n1) Laite jolla tiedostosäilö sijaitsee ei sisällä arkaluonteista dataa etkä tarvitse uskottavaa kieltäytyvyyttä.)\n2) Laite jolla tiedostosäilö sijaitsee on jo turvallisesti ja kokonaan salattu.\n\nOletko varma että haluat käyttää pikalaajennusta?</entry>
     <entry lang="fi" key="EXPANDER_STATUS_TEXT">TÄRKEÄÄ: Liikuta hiirtäsi mahdollisimman satunnaisesti tässä ikkunassa. Mitä pitempään, sen parempi. Tämä kasvattaa huomattavasti salausavaimien kryptografista vahvuutta. Paina sitten 'Jatka' laajentaaksesi taltiota.</entry>
     <entry lang="fi" key="EXPANDER_STATUS_TEXT_LEGACY">Paina 'Jatka' laajentaaksesi taltion.</entry>
@@ -1622,8 +1622,8 @@
     <entry lang="fi" key="INVALID_EMV_PATH">EMV polku on väärä.</entry>
     <entry lang="fi" key="EMV_KEYFILE_DATA_NOTFOUND">Avaintiedoston luominen EMV-kortin datasta epäonnistui.\n\nJokin seuraavista puuttuu:\n- Älykortin julkisen avaimen varmenne.\n- Myöntäjän julkisen avaimen varmenne.\n- CPLC data.</entry>
     <entry lang="fi" key="SCARD_W_REMOVED_CARD">Ei korttia lukijassa.\n\nVarmista että kortti on asetettu kunnolla.</entry>
-    <entry lang="fi" key="FORMAT_EXTERNAL_FAILED">Windowsin format.com komento epäonnistui taltion formatoimisessa NTFS/exFAT/ReFS: Error 0x%.8X.\n\nPalataan käyttämään Windowsin FormatEx API:a.</entry>
-    <entry lang="fi" key="FORMATEX_API_FAILED">Windowsin FormatEx API epäonnistui formatoimaan taltion NTFS/exFAT/ReFS.\n\nVirheen tila = %s.</entry>
+    <entry lang="fi" key="FORMAT_EXTERNAL_FAILED">Windowsin format.com komento epäonnistui taltion alustamisessa NTFS/exFAT/ReFS: Error 0x%.8X.\n\nPalataan käyttämään Windowsin FormatEx API:a.</entry>
+    <entry lang="fi" key="FORMATEX_API_FAILED">Windowsin FormatEx API epäonnistui taltion alustamisessa NTFS/exFAT/ReFS.\n\nVirheen tila = %s.</entry>
     <entry lang="fi" key="EXPANDER_WRITING_RANDOM_DATA">Kirjoitetaan satunnaista dataa uudelle alueelle ...\n</entry>
     <entry lang="fi" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Kirjoitetaan uudelleensalattu varaotsikko ...\n</entry>
     <entry lang="fi" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Kirjoitetaan uudelleensalattu pääotsikko ...\n</entry>
