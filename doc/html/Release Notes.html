@@ -39,11 +39,17 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.4</strong> (July 24<sup>th</sup>, 2023):</p>
+<p><strong style="text-align:left">1.26.5</strong> (August 15<sup>th</sup>, 2023):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
-<li>Remove TrueCrypt Mode support</li>
+<li>Security: Ensure that XTS primary key is different from the secondary key when creating volumes
+	<ul>
+		<li>Issue unlikly to happen thanks to random generator properties but this check must be added to prevent attacks</li>
+		<li>Reference: CCSS,NSA comment at page 3: <a href="https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf">https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf</a></li>
+	</ul>
+</li>
+<li>Remove TrueCrypt Mode support. Version 1.25.9 can be used to mount or convert TrueCrypt volumes.</li>
 <li>Complete removal of RIPEMD160 and GOST89 algorithms. Legacy volumes using any of them cannot be mounted by VeraCrypt anymore.</li>
 <li>Add support for BLAKE2s as new PRF algorithm for both system encryption and standard volumes.</li>
 <li>Introducing support for EMV banking smart cards as keyfiles for non-system volumes.
@@ -72,7 +78,9 @@
 </ul>
 </li>
 <li>Fix Secure Desktop issues under Windows 11 22H2</li>
-<li>Avoid silent failure of Fast Create when creating file containers by displaying warning if required privilege is not held</li>
+<li> Implement support for mounting partially encrypted system partitions.</li>
+<li>Fix false positive detection of new device insertion when Clear Encryption Keys option is enable (System Encryption case only)</li>
+<li>Better implementation of Fast Create when creating file containers that uses UAC to request required privilege if not already held</li>
 <li>Allow choosing Fast Create in Format Wizard UI when creating file containers</li>
 <li>Fix formatting issues during volume creation on some machines.</li>
 <li>Fix stall issue caused by Quick Format of large file containers</li>
@@ -83,6 +91,7 @@
 <li>Display full list of supported cluster sizes for NTFS, ReFS and exFAT filesystems when creating volumes</li>
 <li>Support drag-n-drop of files and keyfiles in Expander.</li>
 <li>Implement translation of Expander UI</li>
+<li>Add support for more language in the setup installer</li>
 <li>Update LZMA library to version 23.01</li>
 <li>Update libzip to version 1.10.0 and zlib to version 1.2.13.</li>
 </ul>
@@ -107,7 +116,13 @@
 <li>Use wxWidgets 3.2.2.1 for static builds (e.g. console only version)</li>
 <li>Fix compatibility of generic installers with old Linux distros</li>
 <li>Update help message to indicate that when cascading algorithms they must be separated by dash</li>
+<li>Better compatibility with building under Alpine Linux and musl libc</li>
 </ul>
+</li>
+<li><strong>macOS:</strong>
+	<ul>
+	<li>Fix issue of VeraCrypt window becoming unusable in use cases involving multiple monitors and change in resolution.</li>
+	</ul>
 </li>
 </ul>
 

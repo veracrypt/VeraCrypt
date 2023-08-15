@@ -73,7 +73,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0126
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"August 14, 2023"
+#define TC_STR_RELEASE_DATE			L"August 15, 2023"
 #define TC_RELEASE_DATE_YEAR			2023
 #define TC_RELEASE_DATE_MONTH			 07
 
