@@ -1605,7 +1605,7 @@
     <entry lang="zh-cn" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">新卷太小，需要至少比当前大 %I64u KB</entry>
     <entry lang="zh-cn" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">新卷太大，驱动器上没有足够的空间。</entry>
     <entry lang="zh-cn" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">超过了外部卷最大 %I64u MB 的文件限制。</entry>
-    <entry lang="zh-cn" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">错误：无法获得启用快速扩展所需的权限！\请取消选中“快速扩展”选项，然后重试。</entry>
+    <entry lang="zh-cn" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">错误：无法获得启用快速扩展所需的权限！\n请取消选中“快速扩展”选项，然后重试。</entry>
     <entry lang="zh-cn" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">超过了VeraCrypt卷最大 %I64u TB的文件限制！\n</entry>
     <entry lang="zh-cn" key="FULL_FORMAT">完全格式化</entry>
     <entry lang="zh-cn" key="FAST_CREATE">快速创建</entry>
