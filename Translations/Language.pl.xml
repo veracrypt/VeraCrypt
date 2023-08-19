@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.4">
+  <localization prog-version= "1.26.5">
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <font lang="pl" class="normal" size="11" face="default" />
     <font lang="pl" class="bold" size="13" face="Arial" />
@@ -1631,6 +1631,7 @@
     <entry lang="pl" key="EXPANDER_MOUNTING_VOLUME">Podłączanie wolumenu...\n</entry>
     <entry lang="pl" key="EXPANDER_UNMOUNTING_VOLUME">Odłączanie wolumenu...\n</entry>
     <entry lang="pl" key="EXPANDER_EXTENDING_FILESYSTEM">Rozszerzanie systemu plików...\n</entry>
+    <entry lang="pl" key="PARTIAL_SYSENC_MOUNT_READONLY">Ostrzeżenie: Partycja systemowa, którą próbowano podłączyć, nie została w pełni zaszyfrowana. Ze względów bezpieczeństwa, aby zapobiec potencjalnemu uszkodzeniu lub niepożądanym modyfikacjom, wolumen '%s' został podłączony jako tylko do odczytu.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -49,6 +49,7 @@ typedef struct
 
 	// File-handle-based IO
 	HANDLE HostFileHandle;
+	BOOL bSupportPartialEncryption;
 	int64 VirtualDeviceLength;
 	SECURITY_CLIENT_CONTEXT *SecurityClientContext;
 

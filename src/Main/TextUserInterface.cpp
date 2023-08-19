@@ -656,17 +656,24 @@ namespace VeraCrypt
 		else
 		{
 			uint64 AvailableDiskSpace = 0;
-			wxLongLong diskSpace = 0;
-			wxString parentDir = wxFileName (wstring (options->Path)).GetPath();
-			if (parentDir.IsEmpty())
+			if (options->Path.IsDevice())
 			{
-			  parentDir = wxT(".");
+				AvailableDiskSpace = maxVolumeSize;
 			}
-			if (wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
+			else
 			{
-				AvailableDiskSpace = (uint64) diskSpace.GetValue ();
-				if (maxVolumeSize > AvailableDiskSpace)
-					maxVolumeSize = AvailableDiskSpace;
+				wxLongLong diskSpace = 0;
+				wxString parentDir = wxFileName (wstring (options->Path)).GetPath();
+				if (parentDir.IsEmpty())
+				{
+					parentDir = wxT(".");
+				}
+				if (wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
+				{
+					AvailableDiskSpace = (uint64) diskSpace.GetValue ();
+					if (maxVolumeSize > AvailableDiskSpace)
+						maxVolumeSize = AvailableDiskSpace;
+				}
 			}
 
 			if (options->Size == (uint64) (-1))
@@ -1047,7 +1054,7 @@ namespace VeraCrypt
 
 	void TextUserInterface::DoShowString (const wxString &str) const
 	{
-		wcout << str.c_str();
+		wcout << str.c_str() << flush;
 	}
 
 	void TextUserInterface::DoShowWarning (const wxString &message) const

@@ -3156,6 +3156,21 @@ VOID VolumeThreadProc (PVOID Context)
 	Extension->Queue.HostFileHandle = Extension->hDeviceFile;
 	Extension->Queue.VirtualDeviceLength = Extension->DiskLength;
 	Extension->Queue.MaxReadAheadOffset.QuadPart = Extension->HostLength;
+	if (bDevice && pThreadBlock->mount->bPartitionInInactiveSysEncScope
+		&& (!Extension->cryptoInfo->hiddenVolume)
+		&& (Extension->cryptoInfo->EncryptedAreaLength.Value != Extension->cryptoInfo->VolumeSize.Value)
+		)
+	{
+		// Support partial encryption only in the case of system encryption
+		Extension->Queue.EncryptedAreaStart = 0;
+		Extension->Queue.EncryptedAreaEnd = Extension->cryptoInfo->EncryptedAreaLength.Value - 1;
+		if (Extension->Queue.CryptoInfo->EncryptedAreaLength.Value == 0)
+		{
+			Extension->Queue.EncryptedAreaStart = -1;
+			Extension->Queue.EncryptedAreaEnd = -1;
+		}
+		Extension->Queue.bSupportPartialEncryption = TRUE;
+	}
 
 	if (Extension->SecurityClientContextValid)
 		Extension->Queue.SecurityClientContext = &Extension->SecurityClientContext;

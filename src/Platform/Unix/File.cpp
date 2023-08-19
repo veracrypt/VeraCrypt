@@ -222,6 +222,17 @@ namespace VeraCrypt
 #	endif
 		}
 #endif
+#ifdef TC_LINUX
+		// On Linux, try to use BLKGETSIZE64 for devices
+		if (Path.IsDevice())
+		{
+			uint64 mediaSize;
+			if (ioctl (FileHandle, BLKGETSIZE64, &mediaSize) != -1)
+			{
+				return mediaSize;
+			}
+		}
+#endif
 		off_t current = lseek (FileHandle, 0, SEEK_CUR);
 		throw_sys_sub_if (current == -1, wstring (Path));
 		SeekEnd (0);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.4">
+  <localization prog-version= "1.26.5">
     <!-- Sprachen -->
     <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl, Felix Reichmann" />
     <!-- Schriftarten -->
@@ -1634,6 +1634,7 @@
     <entry lang="de" key="EXPANDER_MOUNTING_VOLUME">Volume einhängen ...\n</entry>
     <entry lang="de" key="EXPANDER_UNMOUNTING_VOLUME">Volume trennen ...\n</entry>
     <entry lang="de" key="EXPANDER_EXTENDING_FILESYSTEM">Dateisystem erweitern ...\n</entry>
+    <entry lang="de" key="PARTIAL_SYSENC_MOUNT_READONLY">WARNUNG: Die Systempartition, die Sie einzuhängen versucht haben, war nicht vollständig verschlüsselt. Als Sicherheitsmaßnahme wurde das Volume '%s' schreibgeschützt eingehängt, um mögliche Beschädigungen oder unerwünschte Änderungen zu verhindern.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

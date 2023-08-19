@@ -88,6 +88,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	}
 
 	mount->VolumeMountedReadOnlyAfterDeviceWriteProtected = FALSE;
+	mount->VolumeMountedReadOnlyAfterPartialSysEnc = FALSE;
 
 	// If we are opening a device, query its size first
 	if (bRawDevice)
@@ -677,10 +678,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 					if (Extension->cryptoInfo->EncryptedAreaLength.Value != Extension->cryptoInfo->VolumeSize.Value)
 					{
-						// Partial encryption is not supported for volumes mounted as regular
-						mount->nReturnCode = ERR_ENCRYPTION_NOT_COMPLETED;
-						ntStatus = STATUS_SUCCESS;
-						goto error;
+						// mount as readonly in case of partial system encryption
+						Extension->bReadOnly = mount->bMountReadOnly = TRUE;
+						mount->VolumeMountedReadOnlyAfterPartialSysEnc = TRUE;
 					}
 				}
 				else if (Extension->cryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC)

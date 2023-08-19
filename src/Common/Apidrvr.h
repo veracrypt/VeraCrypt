@@ -166,6 +166,7 @@ typedef struct
 	BOOL RecoveryMode;
 	int pkcs5_prf;
 	int ProtectedHidVolPkcs5Prf;
+	BOOL VolumeMountedReadOnlyAfterPartialSysEnc;
 	uint32 BytesPerPhysicalSector;
 	int VolumePim;
 	int ProtectedHidVolPim;
