@@ -656,17 +656,24 @@ namespace VeraCrypt
 		else
 		{
 			uint64 AvailableDiskSpace = 0;
-			wxLongLong diskSpace = 0;
-			wxString parentDir = wxFileName (wstring (options->Path)).GetPath();
-			if (parentDir.IsEmpty())
+			if (options->Path.IsDevice())
 			{
-			  parentDir = wxT(".");
+				AvailableDiskSpace = maxVolumeSize;
 			}
-			if (wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
+			else
 			{
-				AvailableDiskSpace = (uint64) diskSpace.GetValue ();
-				if (maxVolumeSize > AvailableDiskSpace)
-					maxVolumeSize = AvailableDiskSpace;
+				wxLongLong diskSpace = 0;
+				wxString parentDir = wxFileName (wstring (options->Path)).GetPath();
+				if (parentDir.IsEmpty())
+				{
+					parentDir = wxT(".");
+				}
+				if (wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
+				{
+					AvailableDiskSpace = (uint64) diskSpace.GetValue ();
+					if (maxVolumeSize > AvailableDiskSpace)
+						maxVolumeSize = AvailableDiskSpace;
+				}
 			}
 
 			if (options->Size == (uint64) (-1))
