@@ -719,6 +719,36 @@ level against quantum algorithms which makes VeraCrypt encryption immune to such
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 In order to be able to index a VeraCrypt volume through Windows Search, the volume must be mounted at boot time (System Favorite) or the Windows Search services must be restart after the volume is mounted. This is needed because Windows Search can only index
  drives that are available when it starts.</div>
+ <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>I'm encountering an "Operation not permitted" error with VeraCrypt on macOS when trying to mount a file container. How can I resolve this?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+
+<p>This specific error, which appears in the form "Operation not permitted: /var/folders/w6/d2xssyzx.../T/.veracrypt_aux_mnt1/control VeraCrypt::File::Open:232", has been reported by some users. It is the result of macOS not granting the necessary permissions to VeraCrypt. Here are a couple of solutions you can try:</p>
+
+<ul>
+<li>A. Granting Full Disk Access to VeraCrypt:
+<p>
+<ol>
+    <li>Go to <code>Apple Menu</code> > <code>System Settings</code>.</li>
+    <li>Click on the <code>Privacy & Security</code> tab.</li>
+    <li>Scroll down and select <code>Full Disk Access</code>.</li>
+    <li>Click the <code>+</code> button, navigate to your Applications folder, select <code>VeraCrypt</code>, and click <code>Open</code>.</li>
+    <li>Ensure that the checkbox next to VeraCrypt is ticked.</li>
+    <li>Close the System Settings window and try using VeraCrypt again.</li>
+</p>
+</ol>
+</li>
+<li>B. Using the sudo approach to launch VeraCrypt:
+<p>You can launch VeraCrypt from the Terminal using elevated permissions:
+
+<pre>
+sudo /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt
+</pre>
+
+Running VeraCrypt with sudo often bypasses certain permission-related issues, but it's always a good practice to grant the necessary permissions via the system settings whenever possible.</p>
+</li>
+</ul>
+ </div>
 <strong style="text-align:left">I haven't found any answer to my question in the FAQ &ndash; what should I do?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Please search the VeraCrypt documentation and website.</div>

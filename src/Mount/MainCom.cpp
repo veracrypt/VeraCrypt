@@ -203,6 +203,11 @@ public:
 		return BaseCom::UpdateSetupConfigFile (bForInstall);
 	}
 
+	virtual DWORD STDMETHODCALLTYPE NotifyService (DWORD dwNotifyCode)
+	{
+		return BaseCom::NotifyService (dwNotifyCode);
+	}
+
 protected:
 	DWORD MessageThreadId;
 	LONG RefCount;

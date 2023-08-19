@@ -909,6 +909,15 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 			retVal = ERR_CIPHER_INIT_WEAK_KEY;
 			goto err;
 		}
+
+		// check that first half of keyInfo.master_keydata is different from the second half. If they are the same return error
+		// cf CCSS,NSA comment at page 3: https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf
+		if (memcmp (keyInfo.master_keydata, &keyInfo.master_keydata[bytesNeeded/2], bytesNeeded/2) == 0)
+		{
+			crypto_close (cryptoInfo);
+			retVal = ERR_CIPHER_INIT_WEAK_KEY;
+			goto err;
+		}
 	}
 	else
 	{

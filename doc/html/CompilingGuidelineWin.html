@@ -1147,9 +1147,14 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 			<li>
 				<b>This distribution package is damaged</b> <br>
 				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
-				On Windows 10 or higher you might get the error message above. It occurs, if the authenticode signature check fails. <br>
-				Currently this check works incorrectly, so it might fail every time. A workaround is to skip the verification. <br>
-				Please see <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/</a> for further details.
+				On Windows 10 or higher you might get the error message above. In order to avoid this, you will need to:<br>
+				<ul>
+					<li>Double-check the installation of the root certificate that issued the test code signing certificate in the "Local Machine Trusted Root Certification Authorities" store.</li>
+					<li>Compute SHA512 fingerprint of the test code signing certificate and update the gpbSha512CodeSignCertFingerprint array in the file "src/Common/Dlgcode.c" accordingly.</li>
+				</ul>
+				Please see <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12</a> for further details.<br>
+				<br>
+				Another approach is to disable the signature verification in the VeraCrypt code. This should be done only for testing purposes and not for production use:
 				<ol>
 					<li>
 						Open the file "src/Common/Dlgcode.c"
@@ -1175,10 +1180,16 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 				</ol>
 			</li>
 			<li>
-				<b>Certificate failure</b> <br>
+				<b>Driver Installation Failure during VeraCrypt Setup from Custom Builds</b> <br>
 				<img src="CompilingGuidelineWin/CertVerifyFails.jpg" width="20%"> <br>
 				Windows validates the signature for every driver which is going to be installed.<br>
-				This validation can fail during the installation process of VeraCrypt for two reasons:
+				For security reasons, Windows allows only drivers signed by Microsoft to load.<br>
+				So, when using a custom build:<br>
+				<ul>
+					<li>If you have not modified the VeraCrypt driver source code, you can use the Microsoft-signed drivers included in the VeraCrypt source code (under "src\Release\Setup Files").</li>
+					<li>If you have made modifications, <strong>you will need to boot Windows into "Test Mode"</strong>. This mode allows Windows to load drivers that aren't signed by Microsoft. However, even in "Test Mode", there are certain requirements for signatures, and failures can still occur due to reasons discussed below.</li>
+				</ul>
+				Potential Causes for Installation Failure under "Test Mode":
 				<ol>
 					<li>
 						<b>The certificate used for signing is not trusted by Windows</b><br>
@@ -1194,7 +1205,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 								Go to the top menu "Digital Signatures". Her you will find two signatures in the Signature list
 							</li>
 								Check both by double clicking on it. If the headline says "The certificate in the signature cannot be verified", the corresponding signing certificate was not imported correctly.<br>
-								Click on "View Certificate" and then on "Install Certificate..." to import the certificate to your certificate storage. For the Root certificates, you may need to choose "Place all certificates in the following store", and select the "Trusted Root Certification Authorities" store.<br>
+								Click on "View Certificate" and then on "Install Certificate..." to import the certificate to Local Machine certificate storage. For the Root certificates, you may need to choose "Place all certificates in the following store", and select the "Trusted Root Certification Authorities" store.<br>
 								<img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
 							<li>
 						</ol>

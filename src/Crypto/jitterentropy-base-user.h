@@ -85,6 +85,8 @@ static VC_INLINE void jent_get_nstime(uint64 *out)
 
 #else
 
+#include <sys/types.h>
+
 #if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
 
 /* taken from Linux kernel */

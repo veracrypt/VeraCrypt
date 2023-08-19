@@ -119,6 +119,8 @@ public:
 	static DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
 	static DWORD UpdateSetupConfigFile (BOOL bForInstall);
 	static DWORD GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
+	static DWORD NotifyService (DWORD dwNotifyCode);
+
 };
 
 
