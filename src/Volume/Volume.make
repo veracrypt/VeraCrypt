@@ -37,6 +37,7 @@ endif
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
 ifeq "$(PLATFORM)" "MacOSX"
+ifeq "$(COMPILE_ASM)" "true"
 	OBJSEX += ../Crypto/Aes_asm.oo
 	OBJS += ../Crypto/Aes_hw_cpu.o
 	OBJS += ../Crypto/Aescrypt.o
@@ -75,6 +76,7 @@ else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/sha512_sse4_x64.o
 else
 	OBJS += ../Crypto/Aescrypt.o
+endif
 endif
 
 ifeq "$(GCC_GTEQ_430)" "1"
@@ -129,6 +131,7 @@ VolumeLibrary: Volume.a
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
 ifeq "$(PLATFORM)" "MacOSX"
+ifeq "$(COMPILE_ASM)" "true"
 ../Crypto/Aes_asm.oo: ../Crypto/Aes_x86.asm ../Crypto/Aes_x64.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS32) -o ../Crypto/Aes_x86.o ../Crypto/Aes_x86.asm
@@ -137,7 +140,7 @@ ifeq "$(PLATFORM)" "MacOSX"
 	rm -fr ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o
 ../Crypto/Twofish_asm.oo: ../Crypto/Twofish_x64.S
 	@echo Assembling $(<F)
-	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/Twofish_asm.oo ../Crypto/Twofish_x64.S 
+	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/Twofish_asm.oo ../Crypto/Twofish_x64.S
 ../Crypto/Camellia_asm.oo: ../Crypto/Camellia_x64.S
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/Camellia_asm.oo ../Crypto/Camellia_x64.S
@@ -171,6 +174,7 @@ ifeq "$(PLATFORM)" "MacOSX"
 ../Crypto/sha512_sse4.oo: ../Crypto/sha512_sse4_x64.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS64) -o ../Crypto/sha512_sse4.oo ../Crypto/sha512_sse4_x64.asm
+endif
 endif
 endif
 

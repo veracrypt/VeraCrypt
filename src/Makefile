@@ -326,8 +326,10 @@ ifeq "$(shell uname -s)" "Darwin"
 		CPU_ARCH = arm64
 	endif
 
-	CFLAGS += -msse2
-	CXXFLAGS += -msse2
+	ifneq "$(CPU_ARCH)" "arm64"
+		CFLAGS += -msse2
+		CXXFLAGS += -msse2
+	endif
 
 	ifeq "$(origin SSSE3)" "command line"
 		CFLAGS += -mssse3
@@ -350,8 +352,8 @@ ifeq "$(shell uname -s)" "Darwin"
 		S := $(C_CXX_FLAGS)
 		C_CXX_FLAGS = $(subst -MMD,,$(S))
 
-		C_CXX_FLAGS += -gfull -arch x86_64
-		LFLAGS += -Wl,-dead_strip -arch x86_64
+		C_CXX_FLAGS += -gfull -arch $(CPU_ARCH)
+		LFLAGS += -Wl,-dead_strip -arch $(CPU_ARCH)
 		
 		WX_CONFIGURE_FLAGS += --without-libpng --disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-svg
 
@@ -364,7 +366,11 @@ ifeq "$(shell uname -s)" "Darwin"
 			CXXFLAGS += -std=c++11			
 			C_CXX_FLAGS += -arch arm64
 			LFLAGS += -arch arm64
-			WX_CONFIGURE_FLAGS += --enable-universal_binary=arm64,x86_64
+			ifeq "$(LOCAL_DEVELOPMENT_BUILD)" "true"
+				WX_CONFIGURE_FLAGS += --disable-universal_binary
+			else
+				WX_CONFIGURE_FLAGS += --enable-universal_binary=arm64,x86_64
+			endif
 		endif
 
 		WXCONFIG_CFLAGS += -gfull

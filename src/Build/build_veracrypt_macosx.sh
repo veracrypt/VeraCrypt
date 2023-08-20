@@ -37,6 +37,7 @@ if [ -n "$brew" ]; then
     # don't build a universal binary, just build for the local arch
     export CPU_ARCH=$(uname -m)
     export AS=$(which yasm)
+    export COMPILE_ASM=$( if [[ "$CPU_ARCH" != "arm64" ]]; then echo true; else echo false; fi )
     make clean && make
     if [ -n "$package" ]; then
         make package
