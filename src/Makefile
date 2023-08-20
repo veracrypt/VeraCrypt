@@ -295,7 +295,7 @@ ifeq "$(shell uname -s)" "Darwin"
 	PLATFORM := MacOSX
 	APPNAME := VeraCrypt
 
-	export VC_OSX_TARGET ?= 10.7
+	export VC_OSX_TARGET ?= 10.9
 	export VC_OSX_SDK ?= $(VC_OSX_TARGET)
 
 	#check to see if XCode 3 path exists.Otherwise, use XCode 4 path
@@ -323,7 +323,7 @@ ifeq "$(shell uname -s)" "Darwin"
 	endif
 	
 	ifeq "$(CPU_ARCH)" "arm64"
-		CPU_ARCH = x86
+		CPU_ARCH = arm64
 	endif
 
 	CFLAGS += -msse2
@@ -339,7 +339,7 @@ ifeq "$(shell uname -s)" "Darwin"
 		CXXFLAGS += -mssse3 -msse4.1
 	endif
 
-	AS := $(BASE_DIR)/Build/Tools/MacOSX/yasm
+	AS ?= $(BASE_DIR)/Build/Tools/MacOSX/yasm
 	export ASFLAGS32 := -D __GNUC__ -D __YASM__ -D __BITS__=32 --prefix=_ -f macho32
 	export ASFLAGS64 := -D __GNUC__ -D __YASM__ -D __BITS__=64 --prefix=_ -f macho64
 

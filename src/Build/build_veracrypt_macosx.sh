@@ -32,8 +32,11 @@ if [ -n "$brew" ]; then
     cellar=$(brew --cellar "wxwidgets")
     version=$(brew list --versions "wxwidgets" | head -1 | awk '{print $2}')
     export WX_BUILD_DIR="$cellar/$version/bin"
+    # skips signing
     export LOCAL_DEVELOPMENT_BUILD=true
-
+    # don't build a universal binary, just build for the local arch
+    export CPU_ARCH=$(uname -m)
+    export AS=$(which yasm)
     make clean && make
     if [ -n "$package" ]; then
         make package
