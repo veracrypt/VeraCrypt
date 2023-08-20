@@ -178,7 +178,7 @@ Because of incompatibility issues with OSXFUSE, the SDK 10.9 generates a
 VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension.
 Thus, we recommend using a different OSX SDK version for building VeraCrypt.
 
-
+To build the installation package, you will need [packages](http://s.sudre.free.fr/Software/Packages/about.html)
 
 III. FreeBSD
 ============================
