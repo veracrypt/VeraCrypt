@@ -32,6 +32,7 @@ if [ -n "$brew" ]; then
     cellar=$(brew --cellar "wxwidgets")
     version=$(brew list --versions "wxwidgets" | head -1 | awk '{print $2}')
     export WX_BUILD_DIR="$cellar/$version/bin"
+    export LOCAL_DEVELOPMENT_BUILD=true
 
     make clean && make
     if [ -n "$package" ]; then
