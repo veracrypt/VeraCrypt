@@ -102,7 +102,7 @@ endif
 
 #------ FUSE configuration ------
 
-FUSE_LIBS = $(shell pkg-config fuse --libs)
+FUSE_LIBS = $(shell $(PKG_CONFIG) fuse --libs)
 
 #------ Executable ------
 
@@ -159,7 +159,7 @@ endif
 
 $(APPNAME): $(LIBS) $(OBJS)
 	@echo Linking $@
-	$(CXX) -o $(APPNAME) $(OBJS) $(LIBS) $(FUSE_LIBS) $(WX_LIBS) $(LFLAGS)
+	$(CXX) -o $(APPNAME) $(OBJS) $(LIBS) $(AYATANA_LIBS) $(FUSE_LIBS) $(WX_LIBS) $(LFLAGS)
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifndef NOSTRIP
