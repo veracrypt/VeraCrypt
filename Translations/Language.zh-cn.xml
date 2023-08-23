@@ -60,7 +60,7 @@
     <entry lang="zh-cn" key="IDC_PAUSE">暂停(&amp;P)</entry>
     <entry lang="zh-cn" key="IDC_PIM_ENABLE">使用 P&amp;IM</entry>
     <entry lang="zh-cn" key="IDC_NEW_PIM_ENABLE">调整 PIM</entry>
-    <entry lang="zh-cn" key="IDC_QUICKFORMAT">快速格式化(全0填充)</entry>
+    <entry lang="zh-cn" key="IDC_QUICKFORMAT">简单格式化</entry>
     <entry lang="zh-cn" key="IDC_SHOW_PASSWORD">显示密码(&amp;D)</entry>
     <entry lang="zh-cn" key="IDC_SHOW_PASSWORD_SINGLE">显示密码(&amp;D)</entry>
     <entry lang="zh-cn" key="IDC_SHOW_PIM">&amp;显示 PIM</entry>
@@ -1607,8 +1607,8 @@
     <entry lang="zh-cn" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">超过了外部卷最大 %I64u MB 的文件限制。</entry>
     <entry lang="zh-cn" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">错误：无法获得启用快速扩展所需的权限！\n请取消选中“快速扩展”选项，然后重试。</entry>
     <entry lang="zh-cn" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">超过了VeraCrypt卷最大 %I64u TB的文件限制！\n</entry>
-    <entry lang="zh-cn" key="FULL_FORMAT">完全格式化(随机填充)</entry>
-    <entry lang="zh-cn" key="FAST_CREATE">快速创建(不填充)</entry>
+    <entry lang="zh-cn" key="FULL_FORMAT">安全格式化</entry>
+    <entry lang="zh-cn" key="FAST_CREATE">快速创建</entry>
     <entry lang="zh-cn" key="WARN_FAST_CREATE">警告：您应当只能在以下情况时使用快速创建：\n\n1) 该设备不包含敏感数据，且您不需要隐蔽性。\n2) 该设备已被安全且完全加密。\n\n您确定要快速创建吗？</entry>
     <entry lang="zh-cn" key="IDC_ENABLE_EMV_SUPPORT">启用EMV支持</entry>
     <entry lang="zh-cn" key="COMMAND_APDU_INVALID">发送到卡片的APDU命令无效。</entry>
