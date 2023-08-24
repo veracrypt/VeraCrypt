@@ -407,7 +407,17 @@ extern BOOLEAN VC_KeAreAllApcsDisabled (VOID);
 #if defined(_WIN32) && !defined(_UEFI)
 #define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; RtlSecureZeroMemory (mem, size); while (burnc--) *burnm++ = 0; } while (0)
 #else
-#define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); int burnc = size; while (burnc--) *burnm++ = 0; } while (0)
+#define burn(mem, size) do { \
+    volatile char *burnm = (volatile char *)(mem); \
+    size_t burnc = (size_t)(size); \
+    if (burnm && burnc > 0) { \
+        for (size_t i = 0; i < burnc; i++) { \
+            if (&burnm[i] >= mem && &burnm[i] < mem + size) { \
+                burnm[i] = 0; \
+            } \
+        } \
+    } \
+} while (0)
 #endif
 
 #define volatile_memcpy(d,s,size) do { volatile char *destm = (volatile char *)(d); volatile char *srcm = (volatile char *)(s); size_t memc = size; while (memc--) *destm++ = *srcm++; } while (0)
