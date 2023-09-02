@@ -10136,7 +10136,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_MOUNT_DLG), NULL, (DLGPROC) MainDialogProc,
 			(LPARAM) lpszCommandLine);
 
-	FinalizeApp ();
 	/* Terminate */
 	return 0;
 }
