@@ -1624,14 +1624,14 @@
     <entry lang="cs" key="SCARD_W_REMOVED_CARD">Ve čtečce není žádná karta.\n\nZkontrolujte, zda je karta správně zasunuta.</entry>
     <entry lang="cs" key="FORMAT_EXTERNAL_FAILED">Příkaz Windows format.com selhal při formátování svazku jako NTFS/exFAT/ReFS: Chyba 0x%.8X.\n\nPřechod zpět pro použití Windows FormatEx API.</entry>
     <entry lang="cs" key="FORMATEX_API_FAILED">Windows FormatEx API se nepodařilo naformátovat svazek jako NTFS/exFAT/ReFS.\n\nStav selhání = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
+    <entry lang="cs" key="EXPANDER_WRITING_RANDOM_DATA">Zápis náhodných dat na nové místo ...\n</entry>
+    <entry lang="cs" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Zápis znovu zašifrované záložní hlavičky ...\n</entry>
+    <entry lang="cs" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Zápis znovu zašifrované primární hlavičky ...\n</entry>
+    <entry lang="cs" key="EXPANDER_WIPING_OLD_HEADER">Vymazání staré záložní hlavičky ...\n</entry>
+    <entry lang="cs" key="EXPANDER_MOUNTING_VOLUME">Připojení svazku ...\n</entry>
+    <entry lang="cs" key="EXPANDER_UNMOUNTING_VOLUME">Odpojení svazku ...\n</entry>
+    <entry lang="cs" key="EXPANDER_EXTENDING_FILESYSTEM">Rozšíření souborového systému ...\n</entry>
+    <entry lang="cs" key="PARTIAL_SYSENC_MOUNT_READONLY">Upozornění: systémový diskový oddíl, jenž jste se pokusili připojit, nebyl plně zašifrován. Jako bezpečnostní opatření proti možnému poškození nebo nežádoucím změnám byl svazek '%s' připojen pouze pro čtení.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

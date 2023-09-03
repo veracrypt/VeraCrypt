@@ -42,10 +42,18 @@
 внешние, так и скрытые тома, включая шифрование системы и скрытую ОС, и удалить существующие тома, созданные версией
 VeraCrypt старее, чем 1.18a.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.3</strong> (2 июля 2023 года):</p>
+<p><strong style="text-align:left">1.26.5</strong> (15 августа 2023 года):</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
+<li>Безопасность: при создании томов гарантируется, что первичный ключ XTS отличается от вторичного.
+	<ul>
+		<li>Проблема маловероятна благодаря свойствам генератора случайных чисел, но эту проверку необходимо было добавить для предотвращения атак.</li>
+		<li>Ссылка: комментарий CCSS,NSA на стр. 3 в этом документе: <a href="https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf">https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf</a></li>
+	</ul>
+</li>
+<li>Удалена поддержка режима TrueCrypt. Для монтирования или преобразования томов TrueCrypt можно использовать версию 1.25.9.</li>
+<li>Полностью удалены алгоритмы RIPEMD160 и GOST89. Устаревшие тома, использующие любой из них, больше не могут быть смонтированы в VeraCrypt.</li>
 <li>Добавлена поддержка BLAKE2s в качестве нового алгоритма PRF как для системного шифрования, так и для стандартных томов.</li>
 <li>Представляем встроенную интеграцию банковских смарт-карт EMV для несистемных томов.
 <ul>
@@ -112,7 +120,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.25.9</strong> (19 февраля 2022 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Обновлены переводы (китайский, голландский, французский, немецкий, турецкий).</li>
 </ul>
@@ -149,7 +157,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </ul>
 <p><strong style="text-align:left">1.25.7</strong> (7 января 2022 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Обновлены переводы.</li>
 </ul>
@@ -185,7 +193,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </ul>
 <p><strong style="text-align:left">1.25.4</strong> (3 декабря 2021 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Ускорен Streebog.</li>
 <li>Обновлены переводы.</li>
@@ -264,7 +272,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.24-Update7</strong> (7 августа 2020 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Не разрешается, чтобы у скрытого тома были те же пароль, PIM и ключевые файлы, что и у внешнего тома.</li>
 <li>Исправлен случайный сбой в 32-разрядных сборках при использовании Streebog.</li>
@@ -367,7 +375,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.24-Update2 </strong>(16 декабря 2019 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Ключ AES удаляется из стековой памяти при использовании неоптимизированной реализации. Не относится к официальной сборке VeraCrypt (сообщил и исправил Hanno Böck).</li>
 <li>RNG-библиотека Jitterentropy обновлена до версии 2.2.0.</li>
@@ -465,7 +473,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.24 </strong>(6 октября 2019 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Для несистемных томов максимальная длина пароля увеличена до 128 байт в кодировке UTF-8.</li>
 <ul>
@@ -597,7 +605,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.22 </strong>(30 марта 2018 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>SIMD-оптимизация скорости для реализации шифра "Кузнечик" (ускорение до двух раз).</li>
 <li>Добавлено пять новых каскадов алгоритмов шифрования: Camellia-Kuznyechik, Camellia-Serpent, Kuznyechik-AES, Kuznyechik-Serpent-Camellia и Kuznyechik-Twofish.</li>
@@ -638,7 +646,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.21 </strong>(9 июля 2017 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Исправлена регрессия в версии 1.20, приводившая к сбою при работе на процессоре, не поддерживающем расширенные функции.</li>
 </ul>
@@ -665,7 +673,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.20 </strong>(29 июня 2017 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Используется 64-разрядная оптимизированная реализация сборки Twofish и Camellia от Jussi Kivilinna.
 <ul>
@@ -736,7 +744,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 
 <p><strong style="text-align:left">1.19 </strong>(17 октября 2016 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Устранены проблемы, выявленные аудитом Quarkslab:
 <ul>
@@ -770,7 +778,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <p>&nbsp;</p>
 <p><strong style="text-align:left">1.18a </strong>(17 августа 2016 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Поддержка японского стандарта шифрования Camellia, в том числе для системного шифрования Windows (MBR и EFI).</li>
 <li>Поддержка российских стандартов шифрования и хеширования "Кузнечик", "Магма" и "Стрибог", в том числе для системного шифрования Windows EFI.</li>
@@ -808,7 +816,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 <p>&nbsp;</p>
 <p><strong style="text-align:left">1.17 </strong>(13 февраля 2016 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Поддержка паролей в Юникоде: теперь в паролях принимаются все символы (кроме системного шифрования Windows).</li>
 <li>Вдвое сокращено время монтирования/загрузки вдвое благодаря оригинальной оптимизации формирования ключей (обнаружил <a href="https://madiba.encs.concordia.ca/~x_decarn/" target="_blank">Xavier de Carn&eacute; de Carnavalet</a>)</li>
@@ -874,7 +882,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 <p><strong style="text-align:left">1.14 </strong>(16 сентября 2015 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Подобно паролю, добавлено скрытие/показ значения PIM в графическом интерфейсе и в загрузчике.</li></ul>
 </li></ul>
@@ -917,7 +925,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 <p><strong style="text-align:left">1.12 </strong>(5 августа 2015 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Реализован "Динамический режим" поддержкой Персонального множителя итераций (Personal Iterations Multiplier, PIM). См. дополнительную информацию в документации.
 </li></ul>
@@ -963,7 +971,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 <p id="1.0f-2"><strong style="text-align:left">1.0f-2</strong> (5 апреля 2015 года)</p>
 <ul>
-<li><strong>Все ОС:</strong>
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Ускорено монтирование, на 64-разрядной версии он стало до 20% быстрее (благодарим Nils Maier).</li>
 <li>Добавлена опция для установки хеша/режима TrueCrypt как используемых по умолчанию для монтирования томов.</li>
@@ -1002,7 +1010,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 <p><strong style="text-align:left">1.0f-1 </strong>(4 января 2015 года)</p>
 <ul>
-<li><strong>Все ОС</strong>:
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Добавлена поддержка старого TrueCrypt 6.0.</li>
 <li>Изменено наименование каскадов алгоритмов в графическом интерфейсе для лучшего описания.</li></ul>
@@ -1018,7 +1026,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li></ul>
 <p><strong style="text-align:left">1.0f </strong>(30 декабря 2014)</p>
 <ul>
-<li><strong>Все ОС</strong>:
+<li><strong>Все операционные системы:</strong>
 <ul>
 <li>Добавлена поддержка монтирования томов TrueCrypt.</li>
 <li>Добавлена поддержка преобразования контейнеров и несистемных разделов TrueCrypt.</li>

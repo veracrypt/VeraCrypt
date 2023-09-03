@@ -49,6 +49,7 @@ C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I
 export ASFLAGS := -D __GNUC__ -D __YASM__
 export LFLAGS :=
 
+export PKG_CONFIG ?= pkg-config
 export PKG_CONFIG_PATH ?= /usr/local/lib/pkgconfig
 
 export WX_CONFIG ?= wx-config
@@ -101,8 +102,8 @@ ifeq "$(origin INDICATOR)" "command line"
 	else
 		INDICATOR_LIBRARY=ayatana-appindicator-0.1
 	endif
-	export LIBS += $(shell pkg-config --libs $(INDICATOR_LIBRARY))
-	C_CXX_FLAGS += $(shell pkg-config --cflags $(INDICATOR_LIBRARY)) -DHAVE_INDICATORS
+	export AYATANA_LIBS += $(shell $(PKG_CONFIG) --libs $(INDICATOR_LIBRARY))
+	C_CXX_FLAGS += $(shell $(PKG_CONFIG) --cflags $(INDICATOR_LIBRARY)) -DHAVE_INDICATORS
 endif
 
 #------ Release configuration ------

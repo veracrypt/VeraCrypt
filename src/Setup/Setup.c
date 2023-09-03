@@ -2782,7 +2782,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	if (IsAdmin () != TRUE)
 		if (MessageBoxW (NULL, GetString ("SETUP_ADMIN"), lpszTitle, MB_YESNO | MB_ICONQUESTION) != IDYES)
 		{
-			FinalizeApp ();
 			exit (1);
 		}
 #endif
@@ -2835,7 +2834,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 #else
 				MessageBox (NULL, L"Error: This portable installer file does not contain any compressed files.\n\nTo create a self-extracting portable installation package (with embedded compressed files), run:\n\"VeraCrypt Portable.exe\" /p", L"VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
 #endif
-				FinalizeApp ();
 				exit (1);
 			}
 
@@ -2856,7 +2854,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 					bUninstall = TRUE;
 					break;
 				default:
-					FinalizeApp ();
 					exit (1);
 				}
 			}
@@ -2890,7 +2887,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 					)
 				{
 					// Language dialog cancelled by user: exit the installer
-					FinalizeApp ();
 					exit (1);
 				}
 			}
@@ -2927,6 +2923,5 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		}
 #endif
 	}
-	FinalizeApp ();
 	return 0;
 }

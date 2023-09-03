@@ -91,7 +91,7 @@
       <AdditionalDependencies>version.lib;msi.lib;libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.dll</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Setup.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -130,7 +130,7 @@ copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
       <AdditionalDependencies>version.lib;msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.dll</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -169,7 +169,7 @@ copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
       <AdditionalDependencies>version.lib;msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>

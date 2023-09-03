@@ -501,7 +501,7 @@
     <entry lang="ro" key="WIPE_FINISHED">Conținutul discului / partiției a fost șters cu succes.</entry>
     <entry lang="ro" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">Conținutul partiției unde se află sistemul original (din care sistemul ascuns este o clonă) a fost șters cu succes.</entry>
     <entry lang="ro" key="DECOY_OS_VERSION_WARNING">Asigurați-vă că versiunea de Windows pe care o veți instala (pe partiția ștearsă) este aceeași ca versiunea Windows care funcționează acum. Aceasta este necesar deoarece ambele sisteme vor partaja aceeași partiție de pornire.</entry>
-    <entry lang="ro" key="SYSTEM_ENCRYPTION_FINISHED">Discul / partiția sistem a fost criptat(ă) cu succes.\n\nNotă: Dacă nu sunt volume non-sistem VeraCrypt pe care doriți să le montați automat la pornirea Windows, puteți să le setați montându-le pe rând și apoi selectând „Favorite” > „Adăugare volum montat la favorite sistem”).</entry>
+    <entry lang="ro" key="SYSTEM_ENCRYPTION_FINISHED">Discul / partiția sistem a fost criptat(ă) cu succes.\n\nNotă: Dacă sunt volume non-sistem VeraCrypt pe care doriți să le montați automat la pornirea Windows, puteți să le setați montându-le pe rând și apoi selectând „Favorite” > „Adăugare volum montat la favorite sistem”).</entry>
     <entry lang="ro" key="SYSTEM_DECRYPTION_FINISHED">Discul / partiția sistem a fost decriptat(ă) cu succes.</entry>
     <entry lang="ro" key="FORMAT_FINISHED_HELP">\n\nVolumul VeraCrypt a fost creat și este gata de folosire. Dacă doriți să creați un alt volum VeraCrypt, apăsați pe «Înainte». Altfel, apăsați pe «Ieșire».</entry>
     <entry lang="ro" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nVolumul ascuns VeraCrypt a fost creat cu succes (sistemul de operare ascuns se va afla pe acest volum ascuns).\n\nApăsați pe «Înainte» pentru a continua.</entry>
@@ -1631,7 +1631,7 @@
     <entry lang="ro" key="EXPANDER_MOUNTING_VOLUME">Se montează volumul...\n</entry>
     <entry lang="ro" key="EXPANDER_UNMOUNTING_VOLUME">Se demontează volumul...\n</entry>
     <entry lang="ro" key="EXPANDER_EXTENDING_FILESYSTEM">Se extinde sistemul de fișiere...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
+    <entry lang="ro" key="PARTIAL_SYSENC_MOUNT_READONLY">Avertizare: Partiția de sistem pe care ați încercat să o montați nu a fost criptată în întregime. Ca măsură de siguranță pentru a preveni o potențială corupere sau modificări nedorite, volumul „%s” a fost montat doar în mod citire.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

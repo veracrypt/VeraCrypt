@@ -210,7 +210,7 @@
       <AdditionalDependencies>..\Crypto\Debug\crypto.lib;..\Common\Debug\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Mount.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -259,7 +259,7 @@ copy Debug\VeraCrypt.exe "..\Debug\Setup Files" &gt;NUL:
       <AdditionalDependencies>..\Crypto\x64\Debug\crypto.lib;..\Common\x64\Debug\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Mount.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -310,7 +310,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
       <AdditionalDependencies>..\Crypto\ARM64\Debug\crypto.lib;..\Common\ARM64\Debug\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Mount.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -354,7 +354,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -397,7 +397,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -444,7 +444,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -490,7 +490,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalDependencies>..\Crypto\ARM64\Release\crypto.lib;..\Common\ARM64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -536,7 +536,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -582,7 +582,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>

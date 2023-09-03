@@ -63,7 +63,7 @@
 После преобразования и проверки правильности монтирования преобразованного тома в VeraCrypt эту резервную копию можно безопасно удалить .</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<strong style="text-align:left">Чем различаются TrueCrypt и VeraCrypt?</strong></div>
+<strong style="text-align:left">Чем VeraCrypt отличается от TrueCrypt?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 VeraCrypt добавляет повышенную безопасность к алгоритмам, используемым для шифрования системы и разделов, что делает его
 невосприимчивым к новым разработкам в атаках перебором.<br>
@@ -77,7 +77,7 @@ VeraCrypt добавляет повышенную безопасность к а
 а вот злоумышленнику получить доступ к зашифрованным данным гораздо труднее.</div>
 </div>
 <br id="PasswordLost" style="text-align:left">
-<strong style="text-align:left">Я не могу вспомнить пароль! Есть ли какой-нибудь способ ('лазейка'), чтобы можно
+<strong style="text-align:left">Я не могу вспомнить пароль! Есть ли какой-нибудь способ ("лазейка"), чтобы можно
 было извлечь файлы из моего тома VeraCrypt?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Мы не внедряли никаких "лазеек" ("бэкдоров") в VeraCrypt (и никогда не внедрим их, даже если об этом попросит
@@ -166,14 +166,14 @@ https://www.veracrypt.fr/en/Donation.html</a>.</div>
 <strong style="text-align:left">Почему у VeraCrypt открытый исходный код? Каковы преимущества этого?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Поскольку исходный код VeraCrypt доступен всем, у независимых экспертов есть возможность проверить, что
-он не содержит никаких брешей в безопасности или потайных 'лазеек'. Если бы исходный код был недоступен,
+он не содержит никаких брешей в безопасности или потайных "лазеек". Если бы исходный код был недоступен,
 экспертам пришлось бы прибегать к обратному инжинирингу исполняемых файлов. Однако проанализировать и
 осмыслить такой полученный в результате реинжиниринга код настолько сложно, что это практически <i>невозможно</i>
 (особенно если код столь большой, как у VeraCrypt).
 <br>
 <br>
 Примечание: аналогичная проблема касается и аппаратуры для шифрования (например самошифрующихся запоминающих
-устройств). Выполнить её реинжиниринг и проверить отсутствие брешей в безопасности и потайных 'лазеек' крайне сложно.</div>
+устройств). Выполнить её реинжиниринг и проверить отсутствие брешей в безопасности и потайных "лазеек" крайне сложно.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">Исходный код VeraCrypt открыт, но кто-нибудь его на самом деле проверял?</strong></div>
@@ -861,6 +861,37 @@ VeraCrypt использует для шифрования блочные шиф
 во время загрузки (быть системным избранным томом), либо службы поиска Windows должны быть перезапущены
 после монтирования тома. Это необходимо, поскольку поиск Windows может индексировать только те диски,
 которые доступны при его запуске.</div>
+ <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>Возникает ошибка "Операция не разрешена" ("Operation not permitted") при использовании VeraCrypt в macOS, когда я пытаюсь смонтировать файловый контейнер. Как решить эту проблему?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+
+<p>Об этой специфической ошибке, которая появляется в виде "Operation not permitted: /var/folders/w6/d2xssyzx.../T/.veracrypt_aux_mnt1/control VeraCrypt::File::Open:232", сообщают некоторые пользователи. Это результат того, что macOS не предоставила VeraCrypt необходимых разрешений. Вот пара способов, которые вы можете попробовать:</p>
+
+<ul>
+<li>А. Предоставление VeraCrypt полного доступа к диску:
+<p>
+<ol>
+    <li>Перейдите в <code>Apple Menu</code> > <code>System Settings</code>.</li>
+    <li>Щёлкните по вкладке <code>Privacy & Security</code>.</li>
+    <li>Прокрутите экран вниз и выберите <code>Full Disk Access</code>.</li>
+    <li>Нажмите кнопку "<code>+</code>", перейдите в папку Applications, выберите <code>VeraCrypt</code> и нажмите <code>Open</code>.</li>
+    <li>Убедитесь, что установлен флажок рядом с VeraCrypt.</li>
+    <li>Закройте окно системных настроек и попробуйте снова использовать VeraCrypt.</li>
+</p>
+</ol>
+</li>
+<li>Б. Использование sudo для запуска VeraCrypt:
+<p>Вы можете запустить VeraCrypt из терминала, используя повышенные разрешения:
+
+<pre>
+sudo /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt
+</pre>
+
+Запуск VeraCrypt с помощью sudo часто позволяет обойти определённые проблемы, связанные с разрешениями, но всегда, когда это возможно, рекомендуется предоставлять необходимые разрешения через системные настройки.</p>
+</li>
+</ul>
+ </div>
+
 <strong style="text-align:left">Здесь нет ответа на мой вопрос &ndash; что мне делать?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Попробуйте поискать ответ в документации VeraCrypt и на сайте программы.</div>
