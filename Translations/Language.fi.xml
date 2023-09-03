@@ -1137,10 +1137,10 @@
     <entry lang="fi" key="WIPE_MODE_7_DOD_5220">7-läpäisyä (US DoD 5220.22-M)</entry>
     <entry lang="fi" key="WIPE_MODE_35_GUTMANN">35-läpäisyä ("Gutmann")</entry>
     <entry lang="fi" key="WIPE_MODE_256">256-läpäisyä</entry>
-    <entry lang="fi" key="SYS_MULTI_BOOT_MODE_TITLE">Käyttöjärjestelmän numero</entry>
-    <entry lang="fi" key="MULTI_BOOT_FOR_ADVANCED_ONLY">VAROITUS: Aloittelevan käyttäjän ei koskaan pidä yrittää salata Windows monikäynnistys (multi-boot) konfiguraatioita.\n\nJatkatko?</entry>
-    <entry lang="fi" key="HIDDEN_OS_MULTI_BOOT">Piilotettua käyttöjärjestelmää luotaessa/käytettäessä VeraCrypt-ohjelma tukee usean käynnistyksen konfiguraatiota vain, kun seuraavat ehdot täyttyvät:\n\n- Käynnissä oleva käyttöjärjestelmä on asennettava käynnistysasemaan, joka ei saa sisältää muita käyttöjärjestelmiä.\n\n - Muissa asemissa asennettuihin käyttöjärjestelmiin ei saa käyttää käynnistyslatainta, joka sijaitsee asemalla, johon tällä hetkellä käynnissä oleva käyttöjärjestelmä on asennettu.\n\nOnko edellä mainitut edellytykset täyttyneet?</entry>
-    <entry lang="fi" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">VeraCrypt-ohjelma ei tue tätä monikäynnistys (multi-boot) konfiguraatiota piilotetun käyttöjärjestelmän luomisen tai käytön aikana.</entry>
+    <entry lang="fi" key="SYS_MULTI_BOOT_MODE_TITLE">Käyttöjärjestelmien määrä</entry>
+    <entry lang="fi" key="MULTI_BOOT_FOR_ADVANCED_ONLY">VAROITUS: Kokemattomien käyttäjien ei tulisi koskaan yrittää salata Windowsia monikäynnistys konfiguraatioissa.\n\nJatketaanko?</entry>
+    <entry lang="fi" key="HIDDEN_OS_MULTI_BOOT">Piilotettua käyttöjärjestelmää luotaessa/käytettäessä VeraCrypt tukee monikäynnistys konfiguraatiota vain, kun seuraavat ehdot täyttyvät:\n\n- Käynnissä oleva käyttöjärjestelmä on asennettuna käynnistyslevylle, joka ei saa sisältää muita käyttöjärjestelmiä.\n\n - Muille levyille asennetut käyttöjärjestelmät eivät saa käyttää käynnistysohjelmaa, joka sijaitsee levyllä, johon tällä hetkellä käynnissä oleva käyttöjärjestelmä on asennettu.\n\nTäyttyvätkö yllä mainitut edellytykset?</entry>
+    <entry lang="fi" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">VeraCrypt ei tue tätä monikäynnistys (multi-boot) konfiguraatiota piilotetun käyttöjärjestelmän luomiseen tai käyttämiseen.</entry>
     <entry lang="fi" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">käynnistysasema</entry>
     <entry lang="fi" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_HELP">Onko nykyinen käytössä oleva käyttöjärjestelmä asennettuna käynnistysasemalle?\n\nTiedotus: Joskus Windows ei ole asennettu samalle asemalle kuin käynnistyslataaja (käynnistys osiolle). Tässä tapauksessa valitse 'Ei'.</entry>
     <entry lang="fi" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">VeraCrypt-ohjelma ei nykyisin tue salattua käyttöjärjestelmää käynnistyasemalta, jonne sitä ei ole asennettu.</entry>
