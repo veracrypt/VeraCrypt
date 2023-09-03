@@ -4514,7 +4514,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			wchar_t dstPath[MAX_PATH * 2];
 			GetDlgItemText (hwndDlg, IDC_DIRECTORY, dstPath, ARRAYSIZE (dstPath));
 
-			if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", dstPath))
+			if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", dstPath, dstPath))
 				SetDlgItemText (hwndDlg, IDC_DIRECTORY, dstPath);
 
 			return 1;
@@ -6567,7 +6567,7 @@ static void ResumeInterruptedNonSysInplaceEncProcess (BOOL bDecrypt)
 
 BOOL SelectContainer (HWND hwndDlg)
 {
-	if (BrowseFiles (hwndDlg, "OPEN_VOL_TITLE", szFileName, bHistory, FALSE, NULL) == FALSE)
+	if (BrowseFiles (hwndDlg, "OPEN_VOL_TITLE", szFileName, bHistory, FALSE) == FALSE)
 		return FALSE;
 
 	AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
@@ -10957,7 +10957,7 @@ noHidden:
 		goto ret;
 
 	/* Select backup file */
-	if (!BrowseFiles (hwndDlg, "OPEN_TITLE", szFileName, bHistory, TRUE, NULL))
+	if (!BrowseFiles (hwndDlg, "OPEN_TITLE", szFileName, bHistory, TRUE))
 		goto ret;
 
 	/* Conceive the backup file */
@@ -11240,7 +11240,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 		}
 
 		/* Select backup file */
-		if (!BrowseFiles (hwndDlg, "OPEN_TITLE", szFileName, bHistory, FALSE, NULL))
+		if (!BrowseFiles (hwndDlg, "OPEN_TITLE", szFileName, bHistory, FALSE))
 		{
 			nStatus = ERR_SUCCESS;
 			goto ret;

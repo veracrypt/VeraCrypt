@@ -4964,245 +4964,312 @@ void ResetCurrentDirectory ()
 }
 
 
-BOOL BrowseFiles (HWND hwndDlg, char *stringId, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter)
+BOOL BrowseFiles (HWND hwndDlg, char *stringId, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode)
 {
-	return BrowseFilesInDir (hwndDlg, stringId, NULL, lpszFileName, keepHistory, saveMode, browseFilter);
+	return BrowseFilesInDir (hwndDlg, stringId, NULL, lpszFileName, keepHistory, saveMode, NULL);
 }
 
-
-BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, wchar_t *initialDir, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter, const wchar_t *initialFileName, const wchar_t *defaultExtension)
+BOOL BrowseFilesInDir(HWND hwndDlg, char *stringId, wchar_t *initialDir, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter, const wchar_t *initialFileName, const wchar_t *defaultExtension)
 {
-	OPENFILENAMEW ofn;
-	wchar_t file[TC_MAX_PATH] = { 0 };
+	IFileDialog *pfd = NULL;
+	HRESULT hr;
 	wchar_t filter[1024];
 	BOOL status = FALSE;
 
-	CoInitialize (NULL);
-
-	ZeroMemory (&ofn, sizeof (ofn));
-	*lpszFileName = 0;
-
-	if (initialDir)
+	hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	if (FAILED(hr))
 	{
-		ofn.lpstrInitialDir			= initialDir;
-	}
-
-	if (initialFileName)
-		StringCchCopyW (file, array_capacity (file), initialFileName);
-
-	ofn.lStructSize				= sizeof (ofn);
-	ofn.hwndOwner				= hwndDlg;
-
-	StringCbPrintfW (filter, sizeof(filter), L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
-		GetString ("ALL_FILES"), 0, 0, GetString ("TC_VOLUMES"), 0, 0, 0);
-	ofn.lpstrFilter				= browseFilter ? browseFilter : filter;
-	ofn.nFilterIndex			= 1;
-	ofn.lpstrFile				= file;
-	ofn.nMaxFile				= sizeof (file) / sizeof (file[0]);
-	ofn.lpstrTitle				= GetString (stringId);
-	ofn.lpstrDefExt				= defaultExtension;
-	ofn.Flags					= OFN_HIDEREADONLY
-		| OFN_PATHMUSTEXIST
-		| (keepHistory ? 0 : OFN_DONTADDTORECENT)
-		| (saveMode ? OFN_OVERWRITEPROMPT : 0);
-
-	if (!keepHistory)
-		CleanLastVisitedMRU ();
-
-	SystemFileSelectorCallerThreadId = GetCurrentThreadId();
-	SystemFileSelectorCallPending = TRUE;
-
-	if (!saveMode)
-	{
-		if (!GetOpenFileNameW (&ofn))
-			goto ret;
-	}
-	else
-	{
-		if (!GetSaveFileNameW (&ofn))
-			goto ret;
-	}
-
-	SystemFileSelectorCallPending = FALSE;
-
-	StringCchCopyW (lpszFileName, MAX_PATH, file);
-
-	if (!keepHistory)
-		CleanLastVisitedMRU ();
-
-	status = TRUE;
-
-ret:
-	SystemFileSelectorCallPending = FALSE;
-	ResetCurrentDirectory();
-	CoUninitialize();
-
-	return status;
-}
-
-
-static wchar_t SelectMultipleFilesPath[131072];
-static int SelectMultipleFilesOffset;
-
-BOOL SelectMultipleFiles (HWND hwndDlg, const char *stringId, wchar_t *lpszFileName, size_t cbFileName,BOOL keepHistory)
-{
-	OPENFILENAMEW ofn;
-	wchar_t filter[1024];
-	BOOL status = FALSE;
-
-	CoInitialize (NULL);
-
-	ZeroMemory (&ofn, sizeof (ofn));
-
-	SelectMultipleFilesPath[0] = 0;
-	*lpszFileName = 0;
-	ofn.lStructSize				= sizeof (ofn);
-	ofn.hwndOwner				= hwndDlg;
-	StringCbPrintfW (filter, sizeof(filter), L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
-		GetString ("ALL_FILES"), 0, 0, GetString ("TC_VOLUMES"), 0, 0, 0);
-	ofn.lpstrFilter				= filter;
-	ofn.nFilterIndex			= 1;
-	ofn.lpstrFile				= SelectMultipleFilesPath;
-	ofn.nMaxFile				= 0xffff * 2; // The size must not exceed 0xffff*2 due to a bug in Windows 2000 and XP SP1
-	ofn.lpstrTitle				= GetString (stringId);
-	ofn.Flags					= OFN_HIDEREADONLY
-		| OFN_EXPLORER
-		| OFN_PATHMUSTEXIST
-		| OFN_ALLOWMULTISELECT
-		| (keepHistory ? 0 : OFN_DONTADDTORECENT);
-	
-	if (!keepHistory)
-		CleanLastVisitedMRU ();
-
-	SystemFileSelectorCallerThreadId = GetCurrentThreadId();
-	SystemFileSelectorCallPending = TRUE;
-
-	if (!GetOpenFileNameW (&ofn))
-		goto ret;
-
-	SystemFileSelectorCallPending = FALSE;
-
-	if (SelectMultipleFilesPath[ofn.nFileOffset - 1] != 0)
-	{
-		// Single file selected
-		StringCbCopyW (lpszFileName, cbFileName, SelectMultipleFilesPath);
-		SelectMultipleFilesOffset = 0;
-		SecureZeroMemory (SelectMultipleFilesPath, sizeof (SelectMultipleFilesPath));
-	}
-	else
-	{
-		// Multiple files selected
-		SelectMultipleFilesOffset = ofn.nFileOffset;
-		SelectMultipleFilesNext (lpszFileName, cbFileName);
-	}
-
-	if (!keepHistory)
-		CleanLastVisitedMRU ();
-
-	status = TRUE;
-	
-ret:
-	SystemFileSelectorCallPending = FALSE;
-	ResetCurrentDirectory();
-	CoUninitialize();
-
-	return status;
-}
-
-
-BOOL SelectMultipleFilesNext (wchar_t *lpszFileName, size_t cbFileName)
-{
-	if (SelectMultipleFilesOffset == 0)
 		return FALSE;
-
-	StringCbCopyW (lpszFileName, cbFileName,SelectMultipleFilesPath);
-	lpszFileName[TC_MAX_PATH - 1] = 0;
-
-	if (lpszFileName[wcslen (lpszFileName) - 1] != L'\\')
-		StringCbCatW (lpszFileName, cbFileName,L"\\");
-
-	StringCbCatW (lpszFileName, cbFileName,SelectMultipleFilesPath + SelectMultipleFilesOffset);
-
-	SelectMultipleFilesOffset += (int) wcslen (SelectMultipleFilesPath + SelectMultipleFilesOffset) + 1;
-	if (SelectMultipleFilesPath[SelectMultipleFilesOffset] == 0)
-	{
-		SelectMultipleFilesOffset = 0;
-		SecureZeroMemory (SelectMultipleFilesPath, sizeof (SelectMultipleFilesPath));
 	}
 
-	return TRUE;
-}
-
-
-static int CALLBACK BrowseCallbackProc(HWND hwnd,UINT uMsg,LPARAM lp, LPARAM pData) 
-{
-	switch(uMsg) {
-	case BFFM_INITIALIZED: 
+	// Choose between the File Open or File Save dialog depending on the saveMode.
+	if (saveMode)
 	{
-	  /* WParam is TRUE since we are passing a path.
-	   It would be FALSE if we were passing a pidl. */
-	   SendMessageW (hwnd,BFFM_SETSELECTION,TRUE,(LPARAM)pData);
-	   break;
+		hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+	}
+	else
+	{
+		hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
 	}
 
-	case BFFM_SELCHANGED: 
+	if (SUCCEEDED(hr))
 	{
-		wchar_t szDir[TC_MAX_PATH];
-
-	   /* Set the status window to the currently selected path. */
-	   if (SHGetPathFromIDList((LPITEMIDLIST) lp ,szDir)) 
-	   {
-		  SendMessage (hwnd,BFFM_SETSTATUSTEXT,0,(LPARAM)szDir);
-	   }
-	   break;
-	}
-
-	default:
-	   break;
-	}
-
-	return 0;
-}
-
-
-BOOL BrowseDirectories (HWND hwndDlg, char *lpszTitle, wchar_t *dirName)
-{
-	BROWSEINFOW bi;
-	LPITEMIDLIST pidl;
-	LPMALLOC pMalloc;
-	BOOL bOK  = FALSE;
-
-	CoInitialize (NULL);
-
-	if (SUCCEEDED (SHGetMalloc (&pMalloc))) 
-	{
-		ZeroMemory (&bi, sizeof(bi));
-		bi.hwndOwner = hwndDlg;
-		bi.pszDisplayName = 0;
-		bi.lpszTitle = GetString (lpszTitle);
-		bi.pidlRoot = 0;
-		bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_STATUSTEXT;
-		bi.lpfn = BrowseCallbackProc;
-		bi.lParam = (LPARAM)dirName;
-
-		pidl = SHBrowseForFolderW (&bi);
-		if (pidl != NULL) 
+		// Set the options for the dialog.
+		DWORD dwFlags;
+		hr = pfd->GetOptions(&dwFlags);
+		if (SUCCEEDED(hr))
 		{
-			if (SHGetPathFromIDList(pidl, dirName)) 
-			{
-				bOK = TRUE;
-			}
-
-			pMalloc->Free (pidl);
-			pMalloc->Release();
+			dwFlags |= FOS_NOCHANGEDIR | FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM | FOS_NOVALIDATE;
+			if (!keepHistory)
+				dwFlags |= FOS_DONTADDTORECENT;
+			if (saveMode)
+				dwFlags |= FOS_NOTESTFILECREATE | FOS_OVERWRITEPROMPT | FOS_DEFAULTNOMINIMODE;
+			hr = pfd->SetOptions(dwFlags);
 		}
+
+		// Set the initial directory, if provided.
+		if (initialDir)
+		{
+			IShellItem *psi;
+			hr = SHCreateItemFromParsingName(initialDir, NULL, IID_PPV_ARGS(&psi));
+			if (SUCCEEDED(hr))
+			{
+				pfd->SetFolder(psi);
+				psi->Release();
+			}
+		}
+
+		// Set the initial file name, if provided.
+		if (initialFileName)
+		{
+			pfd->SetFileName(initialFileName);
+		}
+
+		// Set the title.
+		pfd->SetTitle(GetString(stringId));
+
+		// Set the default extension.
+		if (defaultExtension)
+		{
+			pfd->SetDefaultExtension(defaultExtension);
+		}
+
+		// Prepare the filter
+		COMDLG_FILTERSPEC filterSpec[5];
+		UINT cfilterSpec = 0;
+
+		if (!browseFilter)
+		{
+			StringCbPrintfW(filter, sizeof(filter), L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
+							GetString("ALL_FILES"), 0, 0, GetString("TC_VOLUMES"), 0, 0, 0);
+			browseFilter = filter;
+		}
+
+		// Assume browseFilter is a formatted wide string like L"Text Files (*.txt)\0*.txt\0"
+		// loop over all the filters in the string and add them to filterSpec array
+		while (*browseFilter)
+		{
+			filterSpec[cfilterSpec].pszName = browseFilter;
+			browseFilter += wcslen(browseFilter) + 1;
+			filterSpec[cfilterSpec].pszSpec = browseFilter;
+			browseFilter += wcslen(browseFilter) + 1;
+			cfilterSpec++;
+
+			if (cfilterSpec >= ARRAYSIZE(filterSpec))
+				break;
+		}
+
+		// Set the file types filter.
+		hr = pfd->SetFileTypes(cfilterSpec, filterSpec);
+		hr = pfd->SetFileTypeIndex(1);
+
+		if (!keepHistory)
+			CleanLastVisitedMRU();
+
+		SystemFileSelectorCallerThreadId = GetCurrentThreadId();
+		SystemFileSelectorCallPending = TRUE;
+
+		// Show the dialog.
+		hr = pfd->Show(hwndDlg);
+
+		// Obtain the result if the user clicked the "OK" button.
+		if (SUCCEEDED(hr))
+		{
+			IShellItem *pItem;
+			hr = pfd->GetResult(&pItem);
+			if (SUCCEEDED(hr))
+			{
+				PWSTR pszFilePath;
+				hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+				if (SUCCEEDED(hr))
+				{
+					StringCchCopyW(lpszFileName, MAX_PATH, pszFilePath);
+					CoTaskMemFree(pszFilePath);
+					status = TRUE;
+				}
+				pItem->Release();
+			}
+		}
+
+		pfd->Release();
+
+		if (!keepHistory)
+			CleanLastVisitedMRU();
+	}
+
+	SystemFileSelectorCallPending = FALSE;
+	ResetCurrentDirectory();
+	CoUninitialize();
+
+	return status;
+}
+
+BOOL SelectMultipleFiles(HWND hwndDlg, const char *stringId, BOOL keepHistory, std::vector<std::wstring> &filesList)
+{
+	IFileOpenDialog *pfd = NULL;
+	HRESULT hr;
+	BOOL status = FALSE;
+
+	filesList.clear();
+
+	hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	if (FAILED(hr))
+	{
+		return FALSE;
+	}
+
+	// Create the File Open Dialog object.
+	hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+	if (SUCCEEDED(hr))
+	{
+		DWORD dwFlags;
+		hr = pfd->GetOptions(&dwFlags);
+		if (SUCCEEDED(hr))
+		{
+			dwFlags |= FOS_ALLOWMULTISELECT | FOS_NOCHANGEDIR | FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM | FOS_NOVALIDATE;
+			if (!keepHistory)
+				dwFlags |= FOS_DONTADDTORECENT;
+
+			hr = pfd->SetOptions(dwFlags);
+		}
+
+		// Set the title and filter
+		pfd->SetTitle(GetString(stringId));
+
+		wchar_t allFilesfilter[512];
+		wchar_t volumesfilter[512];
+
+		StringCbPrintfW(allFilesfilter, sizeof(allFilesfilter), L"%ls (*.*)", GetString("ALL_FILES"));
+		StringCbPrintfW(volumesfilter, sizeof(volumesfilter), L"%ls (*.hc)", GetString("TC_VOLUMES"));
+
+		COMDLG_FILTERSPEC rgSpec[] =
+			{
+				{allFilesfilter, L"*.*"},
+				{volumesfilter, L"*.hc"}};
+		hr = pfd->SetFileTypes(ARRAYSIZE(rgSpec), rgSpec);
+
+		if (!keepHistory)
+			CleanLastVisitedMRU();
+
+		// Show the dialog
+		hr = pfd->Show(hwndDlg);
+		if (SUCCEEDED(hr))
+		{
+			IShellItemArray *psiaResults;
+			hr = pfd->GetResults(&psiaResults);
+			if (SUCCEEDED(hr))
+			{
+				DWORD count;
+				hr = psiaResults->GetCount(&count);
+				if (SUCCEEDED(hr))
+				{
+					for (DWORD i = 0; i < count; ++i)
+					{
+						IShellItem *psi;
+						hr = psiaResults->GetItemAt(i, &psi);
+						if (SUCCEEDED(hr))
+						{
+							PWSTR pszFilePath;
+							hr = psi->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+							if (SUCCEEDED(hr))
+							{
+								filesList.push_back(pszFilePath);
+								CoTaskMemFree(pszFilePath);
+							}
+							psi->Release();
+						}
+					}
+
+					status = TRUE;
+				}
+				psiaResults->Release();
+			}
+		}
+
+		if (!keepHistory)
+			CleanLastVisitedMRU();
+
+		pfd->Release();
 	}
 
 	CoUninitialize();
+	return status;
+}
 
+BOOL BrowseDirectories(HWND hwndDlg, char *lpszTitle, wchar_t *dirName, const wchar_t *initialDir)
+{
+	IFileDialog *pfd = NULL;
+	HRESULT hr;
+	BOOL bOK = FALSE;
+
+	hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	if (FAILED(hr))
+	{
+		return FALSE;
+	}
+
+	hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+	if (SUCCEEDED(hr))
+	{
+		// Set the options on the dialog.
+		DWORD dwFlags;
+		hr = pfd->GetOptions(&dwFlags);
+		if (SUCCEEDED(hr))
+		{
+			dwFlags |= FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_NOCHANGEDIR; // Important to enable folder-picking mode
+			hr = pfd->SetOptions(dwFlags);
+		}
+
+		// Set the title.
+		if (lpszTitle)
+		{
+			pfd->SetTitle(GetString(lpszTitle));
+		}
+
+		IShellItem *psi;
+		if (initialDir)
+		{
+			// Set the initial directory, if provided.
+			hr = SHCreateItemFromParsingName(initialDir, NULL, IID_PPV_ARGS(&psi));
+		}
+		else
+		{
+			// set folder to "This PC" shel item
+			hr = SHCreateItemInKnownFolder(FOLDERID_ComputerFolder, 0, NULL, IID_PPV_ARGS(&psi));
+		}
+		if (SUCCEEDED(hr))
+		{
+			pfd->SetFolder(psi);
+			psi->Release();
+		}
+
+		// Show the dialog.
+		hr = pfd->Show(hwndDlg);
+		if (SUCCEEDED(hr))
+		{
+			// Obtain the result when the user clicks the "OK" button.
+			// The result is an IShellItem object.
+			IShellItem *pItem;
+			hr = pfd->GetResult(&pItem);
+			if (SUCCEEDED(hr))
+			{
+				PWSTR pszFolderPath;
+				hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFolderPath);
+				if (SUCCEEDED(hr))
+				{
+					StringCchCopyW(dirName, MAX_PATH, pszFolderPath);
+					CoTaskMemFree(pszFolderPath);
+					bOK = TRUE;
+				}
+				pItem->Release();
+			}
+		}
+		pfd->Release();
+	}
+
+	CoUninitialize();
 	return bOK;
 }
-
 
 std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
 {
@@ -6891,7 +6958,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			fileExtensionPtr = wcsrchr(szFileBaseName, L'.');
 
 			/* Select directory */
-			if (!BrowseDirectories (hwndDlg, "SELECT_KEYFILE_GENERATION_DIRECTORY", szDirName))
+			if (!BrowseDirectories (hwndDlg, "SELECT_KEYFILE_GENERATION_DIRECTORY", szDirName, NULL))
 				return 1;
 
 			if (szDirName[wcslen(szDirName) - 1] != L'\\' && szDirName[wcslen(szDirName) - 1] != L'/')
@@ -11899,7 +11966,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 				{
 					wchar_t keyfilePath[TC_MAX_PATH];
 
-					if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE, NULL))
+					if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE))
 					{
 						DWORD keyfileSize;
 						byte *keyfileData = (byte *) LoadFile (keyfilePath, &keyfileSize);
@@ -11962,7 +12029,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 						{
 							wchar_t keyfilePath[TC_MAX_PATH];
 
-							if (!BrowseFiles (hwndDlg, "OPEN_TITLE", keyfilePath, bHistory, TRUE, NULL))
+							if (!BrowseFiles (hwndDlg, "OPEN_TITLE", keyfilePath, bHistory, TRUE))
 								break;
 
 							{

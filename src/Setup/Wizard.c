@@ -45,8 +45,8 @@ enum wizard_pages
 
 HWND hCurPage = NULL;		/* Handle to current wizard page */
 int nCurPageNo = -1;		/* The current wizard page */
-wchar_t WizardDestInstallPath [TC_MAX_PATH];
-wchar_t WizardDestExtractPath [TC_MAX_PATH];
+wchar_t WizardDestInstallPath [TC_MAX_PATH] = { 0 };
+wchar_t WizardDestExtractPath [TC_MAX_PATH] = { 0 };
 wchar_t SelfFile [TC_MAX_PATH];
 
 HBITMAP hbmWizardBitmapRescaled = NULL;
@@ -646,7 +646,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			switch (lw)
 			{
 			case IDC_BROWSE:
-				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestExtractPath))
+				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestExtractPath, WizardDestExtractPath))
 				{
 					if (WizardDestExtractPath [wcslen(WizardDestExtractPath)-1] != L'\\')
 					{
@@ -667,7 +667,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			switch (lw)
 			{
 			case IDC_BROWSE:
-				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestInstallPath))
+				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestInstallPath, WizardDestInstallPath))
 				{
 					if (WizardDestInstallPath [wcslen(WizardDestInstallPath)-1] != L'\\')
 					{

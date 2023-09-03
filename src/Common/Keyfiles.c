@@ -494,11 +494,15 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 			if (kf)
 			{
-				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, sizeof(kf->FileName),bHistory))
+				std::vector<std::wstring> filesList;
+				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", bHistory, filesList))
 				{
 					bool containerFileSkipped = false;
-					do
+					for	(std::vector<std::wstring>::const_iterator it = filesList.begin();
+							it != filesList.end();
+							++it)
 					{
+						StringCbCopyW (kf->FileName, sizeof (kf->FileName), it->c_str());
 						CorrectFileName (kf->FileName);
 						if (_wcsicmp (param->VolumeFileName, kf->FileName) == 0)
 							containerFileSkipped = true;
@@ -508,13 +512,13 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 							LoadKeyList (hwndDlg, param->FirstKeyFile);
 
 							kf = (KeyFile *) malloc (sizeof (KeyFile));
-                            if (!kf)
-                            {
-                                Warning ("ERR_MEM_ALLOC", hwndDlg);
-                                break;
-                            }
+							if (!kf)
+							{
+								Warning ("ERR_MEM_ALLOC", hwndDlg);
+								break;
+							}
 						}
-					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
+					}
 
 					if (containerFileSkipped)
 					{
@@ -533,7 +537,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
             if (kf)
             {
-			    if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
+			    if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName, NULL))
 			    {
 				    param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 				    LoadKeyList (hwndDlg, param->FirstKeyFile);
@@ -711,10 +715,14 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 			if (kf)
 			{
-				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, sizeof(kf->FileName),bHistory))
+				std::vector<std::wstring> filesList;
+				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", bHistory, filesList))
 				{
-					do
+					for	(std::vector<std::wstring>::const_iterator it = filesList.begin();
+							it != filesList.end();
+							++it)
 					{
+						StringCbCopyW (kf->FileName, sizeof (kf->FileName), it->c_str());
 						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 						kf = (KeyFile *) malloc (sizeof (KeyFile));
                         if (!kf)
@@ -722,7 +730,7 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
                             Warning ("ERR_MEM_ALLOC", hwndDlg);
                             break;
                         }
-					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
+					}
 
 					param->EnableKeyFiles = TRUE;
 					status = TRUE;
@@ -739,7 +747,7 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 			if (kf)
 			{
-				if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
+				if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName, NULL))
 				{
 					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 					param->EnableKeyFiles = TRUE;

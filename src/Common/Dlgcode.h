@@ -376,8 +376,8 @@ int DriverAttach ( void );
 BOOL CALLBACK CipherTestDialogProc ( HWND hwndDlg , UINT uMsg , WPARAM wParam , LPARAM lParam );
 void ResetCipherTest ( HWND hwndDlg , int idTestCipher );
 void ResetCurrentDirectory ();
-BOOL BrowseFiles (HWND hwndDlg, char *stringId, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter);
-BOOL BrowseDirectories (HWND hWnd, char *lpszTitle, wchar_t *dirName);
+BOOL BrowseFiles (HWND hwndDlg, char *stringId, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode);
+BOOL BrowseDirectories(HWND hwndDlg, char *lpszTitle, wchar_t *dirName, const wchar_t *initialDir);
 void handleError ( HWND hwndDlg , int code, const char* srcPos );
 BOOL CheckFileStreamWriteErrors (HWND hwndDlg, FILE *file, const wchar_t *fileName);
 void LocalizeDialog ( HWND hwnd, char *stringId );
@@ -512,8 +512,6 @@ BOOL CALLBACK FindTCWindowEnum (HWND hwnd, LPARAM lParam);
 BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size);
 void InconsistencyResolved (char *msg);
 void ReportUnexpectedState (const char *techInfo);
-BOOL SelectMultipleFiles (HWND hwndDlg, const char *stringId, wchar_t *lpszFileName, size_t cbFileName, BOOL keepHistory);
-BOOL SelectMultipleFilesNext (wchar_t *lpszFileName, size_t cbFileName);
 void OpenOnlineHelp ();
 BOOL GetPartitionInfo (const wchar_t *deviceName, PPARTITION_INFORMATION rpartInfo);
 BOOL GetDeviceInfo (const wchar_t *deviceName, DISK_PARTITION_INFO_STRUCT *info);
@@ -692,6 +690,7 @@ struct RawDevicesDlgParam
 	wchar_t *pszFileName;
 };
 
+BOOL SelectMultipleFiles (HWND hwndDlg, const char *stringId, BOOL keepHistory, std::vector<std::wstring>& filesList);
 BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, wchar_t *initialDir, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter, const wchar_t *initialFileName = NULL, const wchar_t *defaultExtension = NULL);
 std::wstring SingleStringToWide (const std::string &singleString);
 std::wstring Utf8StringToWide (const std::string &utf8String);
