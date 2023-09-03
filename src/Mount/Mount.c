@@ -5565,21 +5565,18 @@ retry:
 				goto retry;
 			}
 
-			if (IsOSAtLeast (WIN_7))
+			// Undo SHCNE_DRIVEREMOVED
+			if (	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL)
+				&& mountList.ulMountedDrives
+				&& (mountList.ulMountedDrives < (1 << 26))
+				)
 			{
-				// Undo SHCNE_DRIVEREMOVED
-				if (	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL)
-					&& mountList.ulMountedDrives
-					&& (mountList.ulMountedDrives < (1 << 26))
-					)
+				for (i = 0; i < 26; i++)
 				{
-					for (i = 0; i < 26; i++)
+					if (mountList.ulMountedDrives & (1 << i))
 					{
-						if (mountList.ulMountedDrives & (1 << i))
-						{
-							wchar_t root[] = { (wchar_t) i + L'A', L':', L'\\', 0 };
-							SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
-						}
+						wchar_t root[] = { (wchar_t) i + L'A', L':', L'\\', 0 };
+						SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
 					}
 				}
 			}
@@ -9937,8 +9934,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	memset (&SystemFavoritesServiceStatus, 0, sizeof (SystemFavoritesServiceStatus));
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
 	SystemFavoritesServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
-	if (IsOSAtLeast (WIN_VISTA))
-		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN | SERVICE_ACCEPT_SESSIONCHANGE | SERVICE_ACCEPT_POWEREVENT;
+	SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN | SERVICE_ACCEPT_SESSIONCHANGE | SERVICE_ACCEPT_POWEREVENT;
 
 	for (i = 1; i < argc; i++)
 	{
@@ -11605,7 +11601,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_CPU_RNG), FALSE);
 			}
 
-			if (IsOSAtLeast (WIN_7) && IsRamEncryptionSupported())
+			if (IsRamEncryptionSupported())
 			{
 				CheckDlgButton (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION, (driverConfig & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? BST_CHECKED : BST_UNCHECKED);
 			}
@@ -11717,32 +11713,30 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 					if (IsOSAtLeast (WIN_8_1))
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG, allowWindowsDefrag);
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_CPU_RNG, enableCpuRng);
-					if (IsOSAtLeast (WIN_7))
-					{
-						BOOL originalRamEncryptionEnabled = (driverConfig & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION)? TRUE : FALSE;
-						if (originalRamEncryptionEnabled != enableRamEncryption)
-						{
-							if (enableRamEncryption)
-							{
-								// Disable Hibernate and Fast Startup if they are enabled
-								BOOL bHibernateEnabled, bHiberbootEnabled;
-								if (GetHibernateStatus (bHibernateEnabled, bHiberbootEnabled))
-								{
-									if (bHibernateEnabled)
-									{										
-										BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Control\\Power", L"HibernateEnabled", 0);
-									}
 
-									if (bHiberbootEnabled)
-									{										
-										BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
-									}
+					BOOL originalRamEncryptionEnabled = (driverConfig & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION)? TRUE : FALSE;
+					if (originalRamEncryptionEnabled != enableRamEncryption)
+					{
+						if (enableRamEncryption)
+						{
+							// Disable Hibernate and Fast Startup if they are enabled
+							BOOL bHibernateEnabled, bHiberbootEnabled;
+							if (GetHibernateStatus (bHibernateEnabled, bHiberbootEnabled))
+							{
+								if (bHibernateEnabled)
+								{										
+									BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Control\\Power", L"HibernateEnabled", 0);
+								}
+
+								if (bHiberbootEnabled)
+								{										
+									BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
 								}
 							}
-							rebootRequired = true;
 						}
-						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION, enableRamEncryption);
+						rebootRequired = true;
 					}
+					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION, enableRamEncryption);
 
 					DWORD bytesReturned;
 					if (!DeviceIoControl (hDriver, TC_IOCTL_REREAD_DRIVER_CONFIG, NULL, 0, NULL, 0, &bytesReturned, NULL))

@@ -1148,7 +1148,7 @@ namespace VeraCrypt
 					if (partition.Info.PartitionNumber != config.SystemPartition.Number)
 					{
 						// If there is an extra boot partition, the system partition must be located right behind it
-						if (IsOSAtLeast (WIN_7) && config.ExtraBootPartitionPresent)
+						if (config.ExtraBootPartitionPresent)
 						{
 							int64 minOffsetFound = config.DrivePartition.Info.PartitionLength.QuadPart;
 							Partition bootPartition = partition;
@@ -1276,32 +1276,9 @@ namespace VeraCrypt
 
 		finally_do_arg (SC_HANDLE, service, { CloseServiceHandle (finally_arg); });
 
-		// Windows versions preceding Vista can be installed on FAT filesystem which does not
-		// support long filenames during boot. Convert the driver path to short form if required.
-		wstring driverPath;
-		if (startOnBoot && !IsOSAtLeast (WIN_VISTA))
-		{
-			wchar_t pathBuf[MAX_PATH];
-			wchar_t filesystem[128];
-
-			wstring path (GetWindowsDirectory());
-			path += L"\\drivers\\veracrypt.sys";
-
-			if (GetVolumePathName (path.c_str(), pathBuf, ARRAYSIZE (pathBuf))
-				&& GetVolumeInformation (pathBuf, NULL, 0, NULL, NULL, NULL, filesystem, ARRAYSIZE(filesystem))
-				&& wmemcmp (filesystem, L"FAT", 3) == 0)
-			{
-				throw_sys_if (GetShortPathName (path.c_str(), pathBuf, ARRAYSIZE (pathBuf)) == 0);
-
-				// Convert absolute path to relative to the Windows directory
-				driverPath = pathBuf;
-				driverPath = driverPath.substr (driverPath.rfind (L"\\", driverPath.rfind (L"\\", driverPath.rfind (L"\\") - 1) - 1) + 1);
-			}
-		}
-
 		throw_sys_if (!ChangeServiceConfig (service, SERVICE_NO_CHANGE, SERVICE_NO_CHANGE,
 			startOnBoot ? SERVICE_ERROR_SEVERE : SERVICE_ERROR_NORMAL,
-			driverPath.empty() ? NULL : driverPath.c_str(),
+			NULL,
 			startOnBoot ? L"Filter" : NULL,
 			NULL, NULL, NULL, NULL, NULL));
 
@@ -1661,8 +1638,7 @@ namespace VeraCrypt
 	{
 		SystemDriveConfiguration config = GetSystemDriveConfiguration();
 
-		if (IsOSAtLeast (WIN_7)
-			&& config.Partitions.size() == 2
+		if (config.Partitions.size() == 2
 			&& config.ExtraBootPartitionPresent
 			&& config.DrivePartition.Info.PartitionLength.QuadPart - config.SystemPartition.Info.PartitionLength.QuadPart < 164 * BYTES_PER_MB)
 		{
@@ -1838,8 +1814,7 @@ namespace VeraCrypt
 
 		*(uint16 *) (buffer + TC_BOOT_SECTOR_VERSION_OFFSET) = BE16 (VERSION_NUM);
 
-		if (IsOSAtLeast (WIN_VISTA))
-			buffer[TC_BOOT_SECTOR_CONFIG_OFFSET] |= TC_BOOT_CFG_FLAG_WINDOWS_VISTA_OR_LATER;
+		buffer[TC_BOOT_SECTOR_CONFIG_OFFSET] |= TC_BOOT_CFG_FLAG_WINDOWS_VISTA_OR_LATER;
 
 		if (rescueDisk && (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION))
 			buffer[TC_BOOT_SECTOR_CONFIG_OFFSET] |= TC_BOOT_CFG_FLAG_RESCUE_DISABLE_HW_ENCRYPTION;
@@ -4745,9 +4720,6 @@ namespace VeraCrypt
 			break;
 
 		case DumpFilter:
-			if (!IsOSAtLeast (WIN_VISTA))
-				return;
-
 			filter = "veracrypt.sys";
 			filterReg = "DumpFilters";
 			SetLastError (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\CrashControl", 0, KEY_READ | KEY_WRITE, &regKey));

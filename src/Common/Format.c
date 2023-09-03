@@ -218,7 +218,7 @@ begin_format:
 				bFailedRequiredDASD = TRUE;
 			}
 		}
-		else if (IsOSAtLeast (WIN_VISTA) && driveLetter == -1)
+		else if (driveLetter == -1)
 		{
 			// Windows Vista doesn't allow overwriting sectors belonging to an unformatted partition
 			// to which no drive letter has been assigned under the system. This problem can be worked

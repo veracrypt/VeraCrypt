@@ -254,25 +254,12 @@ BOOL IsSystemRestoreEnabled ()
 	GetRestorePointRegKeyName (szRegPath, sizeof (szRegPath));
 	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, szRegPath, 0, KEY_READ | KEY_WOW64_64KEY, &hKey) == ERROR_SUCCESS)
 	{
-		if (IsOSAtLeast (WIN_VISTA))
+		if (	(ERROR_SUCCESS == RegQueryValueEx (hKey, L"RPSessionInterval", NULL, NULL, (LPBYTE) &dwValue, &cbValue))
+			&&	(dwValue == 1)
+			)
 		{
-			if (	(ERROR_SUCCESS == RegQueryValueEx (hKey, L"RPSessionInterval", NULL, NULL, (LPBYTE) &dwValue, &cbValue))
-				&&	(dwValue == 1)
-				)
-			{
-				bEnabled = TRUE;
-			}
+			bEnabled = TRUE;
 		}
-		else
-		{
-			if (	(ERROR_SUCCESS == RegQueryValueEx (hKey, L"DisableSR", NULL, NULL, (LPBYTE) &dwValue, &cbValue))
-				&&	(dwValue == 0)
-				)
-			{
-				bEnabled = TRUE;
-			}
-		}
-
 
 		RegCloseKey (hKey);
 	}
@@ -882,8 +869,6 @@ void HandleDriveNotReadyError_Dll (MSIHANDLE hInstaller)
 	{
 		MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("SYS_AUTOMOUNT_DISABLED"));
 	}
-	else if (nCurrentOS == WIN_VISTA && CurrentOSServicePack < 1)
-		MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("SYS_ASSIGN_DRIVE_LETTER"));
 	else
 		MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("DEVICE_NOT_READY_ERROR"));
 
@@ -1717,7 +1702,7 @@ BOOL DoRegUninstall_Dll (MSIHANDLE hInstaller, BOOL bRemoveDeprecated)
 	}
 
 	// Unregister COM servers
-	if (!bRemoveDeprecated && IsOSAtLeast (WIN_VISTA))
+	if (!bRemoveDeprecated)
 	{
 		if (!UnregisterComServers (InstallationPath))
 			MSILog (hInstaller, MSI_ERROR_LEVEL, GetString("COM_DEREG_FAILED"));
@@ -2638,13 +2623,10 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	//	Last part of DoRegInstall()
 	{
 		//	Register COM servers for UAC
-		if (IsOSAtLeast (WIN_VISTA))
+		if (!RegisterComServers ((wchar_t*)szInstallDir.c_str()))
 		{
-			if (!RegisterComServers ((wchar_t*)szInstallDir.c_str()))
-			{
-				MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, GetString("COM_REG_FAILED"));
-				goto end;
-			}
+			MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, GetString("COM_REG_FAILED"));
+			goto end;
 		}
 	}
 

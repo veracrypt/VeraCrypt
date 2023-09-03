@@ -2243,7 +2243,7 @@ void InitDialog (HWND hwndDlg)
 	{
 		StringCbCopyW ((WCHAR *)metric.lfMessageFont.lfFaceName, sizeof (metric.lfMessageFont.lfFaceName), font->FaceName);
 	}
-	else if (IsOSAtLeast (WIN_VISTA))
+	else
 	{
 		// Vista's new default font (size and spacing) breaks compatibility with Windows 2k/XP applications.
 		// Force use of Tahoma (as Microsoft does in many dialogs) until a native Vista look is implemented.
@@ -3570,9 +3570,9 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	}
 #else
 	// in TESTSIGNING mode, we support only Windows 7 and Windows 8/8.1
-	if (	!IsOSVersionAtLeast(WIN_7, 0) 
+	if (
 #ifndef SETUP
-		||	IsOSVersionAtLeast(WIN_10, 0)
+			IsOSVersionAtLeast(WIN_10, 0)
 #else
 		||	(IsOSVersionAtLeast(WIN_10, 0) && !bMakePackage)
 #endif
@@ -3637,14 +3637,11 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 #ifndef SETUP
 #ifdef _WIN64
-	if (IsOSAtLeast (WIN_7))
+	EnableRamEncryption ((ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE);
+	if (IsRamEncryptionEnabled())
 	{
-		EnableRamEncryption ((ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE);
-		if (IsRamEncryptionEnabled())
-		{
-			if (!InitializeSecurityParameters(GetAppRandomSeed))
-				AbortProcess("OUTOFMEMORY");
-		}
+		if (!InitializeSecurityParameters(GetAppRandomSeed))
+			AbortProcess("OUTOFMEMORY");
 	}
 #endif
 	if (!EncryptionThreadPoolStart (ReadEncryptionThreadPoolFreeCpuCountLimit()))
@@ -3790,24 +3787,21 @@ BOOL GetSysDevicePaths (HWND hwndDlg)
 				StringCchCopyW (device.IsPartition ? SysPartitionDevicePath : SysDriveDevicePath, TC_MAX_PATH, device.Path.c_str()); 
 		}
 
-		if (IsOSAtLeast (WIN_7))
+		// Find extra boot partition
+		foreach (const HostDevice &drive, GetAvailableHostDevices (false, false))
 		{
-			// Find extra boot partition
-			foreach (const HostDevice &drive, GetAvailableHostDevices (false, false))
+			if (drive.ContainsSystem)
 			{
-				if (drive.ContainsSystem)
+				foreach (const HostDevice &sysDrivePartition, drive.Partitions)
 				{
-					foreach (const HostDevice &sysDrivePartition, drive.Partitions)
+					if (sysDrivePartition.Bootable)
 					{
-						if (sysDrivePartition.Bootable)
-						{
-							if (sysDrivePartition.Size <= TC_MAX_EXTRA_BOOT_PARTITION_SIZE)
-								ExtraBootPartitionDevicePath = sysDrivePartition.Path;
-							break;
-						}
+						if (sysDrivePartition.Size <= TC_MAX_EXTRA_BOOT_PARTITION_SIZE)
+							ExtraBootPartitionDevicePath = sysDrivePartition.Path;
+						break;
 					}
-					break;
 				}
+				break;
 			}
 		}
 
@@ -7970,7 +7964,7 @@ void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap)
 		eventId = SHCNE_DRIVEADD;
 	else if (message == DBT_DEVICEREMOVECOMPLETE)
 		eventId = SHCNE_DRIVEREMOVED;
-	else if (IsOSAtLeast (WIN_7) && message == DBT_DEVICEREMOVEPENDING) // Explorer on Windows 7 holds open handles of all drives when 'Computer' is expanded in navigation pane. SHCNE_DRIVEREMOVED must be used as DBT_DEVICEREMOVEPENDING is ignored.
+	else if (message == DBT_DEVICEREMOVEPENDING) // Explorer on Windows 7 holds open handles of all drives when 'Computer' is expanded in navigation pane. SHCNE_DRIVEREMOVED must be used as DBT_DEVICEREMOVEPENDING is ignored.
 		eventId = SHCNE_DRIVEREMOVED;
 
 	if (driveMap == 0)
@@ -8531,47 +8525,44 @@ retry:
 				mount.BytesPerPhysicalSector = bps;
 			}
 			
-			if (IsOSAtLeast (WIN_VISTA))
+			if (	(wcslen(root) >= 2)
+				&&	(root[1] == L':')
+				&&	(towupper(root[0]) >= L'A' && towupper(root[0]) <= L'Z')
+				)
 			{
-				if (	(wcslen(root) >= 2)
-					&&	(root[1] == L':')
-					&&	(towupper(root[0]) >= L'A' && towupper(root[0]) <= L'Z')
-					)
+				wstring drivePath = L"\\\\.\\X:";
+				HANDLE dev = INVALID_HANDLE_VALUE;
+				VOLUME_DISK_EXTENTS extents = {0};
+				DWORD dwResult = 0;
+				drivePath[4] = root[0];
+
+				if ((dev = CreateFile (drivePath.c_str(),0, 0, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
 				{
-					wstring drivePath = L"\\\\.\\X:";
-					HANDLE dev = INVALID_HANDLE_VALUE;
-					VOLUME_DISK_EXTENTS extents = {0};
-					DWORD dwResult = 0;
-					drivePath[4] = root[0];
-
-					if ((dev = CreateFile (drivePath.c_str(),0, 0, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
+					if (DeviceIoControl (dev, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &extents, sizeof(extents), &dwResult, NULL))
 					{
-						if (DeviceIoControl (dev, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &extents, sizeof(extents), &dwResult, NULL))
+						if (extents.NumberOfDiskExtents > 0)
 						{
-							if (extents.NumberOfDiskExtents > 0)
+							STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR accessDesc;
+							STORAGE_ADAPTER_DESCRIPTOR adapterDesc;
+
+							if (GetPhysicalDriveStorageInformation (extents.Extents[0].DiskNumber, &accessDesc, &adapterDesc))
 							{
-								STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR accessDesc;
-								STORAGE_ADAPTER_DESCRIPTOR adapterDesc;
-
-								if (GetPhysicalDriveStorageInformation (extents.Extents[0].DiskNumber, &accessDesc, &adapterDesc))
+								if (accessDesc.Size >= sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR))
 								{
-									if (accessDesc.Size >= sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR))
-									{
-										mount.BytesPerSector = accessDesc.BytesPerLogicalSector;
-										mount.BytesPerPhysicalSector = accessDesc.BytesPerPhysicalSector;
-									}
+									mount.BytesPerSector = accessDesc.BytesPerLogicalSector;
+									mount.BytesPerPhysicalSector = accessDesc.BytesPerPhysicalSector;
+								}
 
-									if (adapterDesc.Size >= sizeof (STORAGE_ADAPTER_DESCRIPTOR))
-									{
-										mount.MaximumTransferLength = adapterDesc.MaximumTransferLength;
-										mount.MaximumPhysicalPages = adapterDesc.MaximumPhysicalPages;
-										mount.AlignmentMask = adapterDesc.AlignmentMask;
-									}
+								if (adapterDesc.Size >= sizeof (STORAGE_ADAPTER_DESCRIPTOR))
+								{
+									mount.MaximumTransferLength = adapterDesc.MaximumTransferLength;
+									mount.MaximumPhysicalPages = adapterDesc.MaximumPhysicalPages;
+									mount.AlignmentMask = adapterDesc.AlignmentMask;
 								}
 							}
 						}
-						CloseHandle (dev);
 					}
+					CloseHandle (dev);
 				}
 			}
 
@@ -8874,12 +8865,9 @@ retry:
 				goto retry;
 			}
 
-			if (IsOSAtLeast (WIN_7))
-			{
-				// Undo SHCNE_DRIVEREMOVED
-				wchar_t root[] = { (wchar_t) nDosDriveNo + L'A', L':', L'\\', 0 };
-				SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
-			}
+			// Undo SHCNE_DRIVEREMOVED
+			wchar_t root[] = { (wchar_t) nDosDriveNo + L'A', L':', L'\\', 0 };
+			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
 
 			return FALSE;
 		}
@@ -9078,9 +9066,6 @@ BOOL IsUacSupported ()
 {
 	HKEY hkey;
 	DWORD value = 1, size = sizeof (DWORD);
-
-	if (!IsOSAtLeast (WIN_VISTA))
-		return FALSE;
 
 	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
 	{
@@ -9748,12 +9733,12 @@ void CleanLastVisitedMRU (void)
 	GetModuleFileNameW (NULL, exeFilename, sizeof (exeFilename) / sizeof(exeFilename[0]));
 	strToMatch = wcsrchr (exeFilename, L'\\') + 1;
 
-	StringCbPrintfW (regPath, sizeof(regPath), L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisited%sMRU", IsOSAtLeast (WIN_VISTA) ? L"Pidl" : L"");
+	StringCbCopyW (regPath, sizeof(regPath), L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedPidlMRU");
 
-	for (id = (IsOSAtLeast (WIN_VISTA) ? 0 : L'a'); id <= (IsOSAtLeast (WIN_VISTA) ? 1000 : L'z'); id++)
+	for (id = 0; id <= 1000; id++)
 	{
 		*strTmp = 0;
-		StringCbPrintfW (key, sizeof(key), (IsOSAtLeast (WIN_VISTA) ? L"%d" : L"%c"), id);
+		StringCbPrintfW (key, sizeof(key), L"%d", id);
 
 		if ((len = ReadRegistryBytes (regPath, key, (char *) strTmp, sizeof (strTmp))) > 0)
 		{
@@ -9769,47 +9754,25 @@ void CleanLastVisitedMRU (void)
 				DeleteRegistryValue (regPath, key);
 
 				// Remove ID from MRUList
-				if (IsOSAtLeast (WIN_VISTA))
+				int *p = (int *)buf;
+				int *pout = (int *)bufout;
+				int l;
+
+				l = len = ReadRegistryBytes (L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedPidlMRU", L"MRUListEx", buf, sizeof (buf));
+				while (l > 0)
 				{
-					int *p = (int *)buf;
-					int *pout = (int *)bufout;
-					int l;
+					l -= sizeof (int);
 
-					l = len = ReadRegistryBytes (L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedPidlMRU", L"MRUListEx", buf, sizeof (buf));
-					while (l > 0)
+					if (*p == id)
 					{
-						l -= sizeof (int);
-
-						if (*p == id)
-						{
-							p++;
-							len -= sizeof (int);
-							continue;
-						}
-						*pout++ = *p++;
+						p++;
+						len -= sizeof (int);
+						continue;
 					}
-
-					WriteRegistryBytes (L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedPidlMRU", L"MRUListEx", bufout, len);
+					*pout++ = *p++;
 				}
-				else
-				{
-					wchar_t *p = (wchar_t*) buf;
-					wchar_t *pout = (wchar_t*) bufout;
 
-					ReadRegistryString (L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedMRU", L"MRUList", L"", (wchar_t*) buf, sizeof (buf));
-					while (*p)
-					{
-						if (*p == id)
-						{
-							p++;
-							continue;
-						}
-						*pout++ = *p++;
-					}
-					*pout++ = 0;
-
-					WriteRegistryString (L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedMRU", L"MRUList", (wchar_t*) bufout);
-				}
+				WriteRegistryBytes (L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedPidlMRU", L"MRUListEx", bufout, len);
 
 				break;
 			}
@@ -9991,7 +9954,7 @@ void TaskBarIconDisplayBalloonTooltip (HWND hwnd, wchar_t *headline, wchar_t *te
 
 	tnid.uFlags = NIF_INFO;
 	tnid.dwInfoFlags = (warning ? NIIF_WARNING : NIIF_INFO);
-	tnid.uTimeout = (IsOSAtLeast (WIN_VISTA) ? 1000 : 5000); // in ms
+	tnid.uTimeout = 1000; // in ms
 
 	StringCbCopyW (tnid.szInfoTitle, sizeof(tnid.szInfoTitle), headline);
 	StringCbCopyW (tnid.szInfo, sizeof(tnid.szInfo),text);
@@ -11024,7 +10987,7 @@ void Applink (const char *dest)
 		CorrectURL (url);
 	}
 
-	if (IsOSAtLeast (WIN_VISTA) && IsAdmin ())
+	if (IsAdmin ())
 	{
 		int openDone = 0;
 		if (buildUrl)
@@ -11106,8 +11069,6 @@ void HandleDriveNotReadyError (HWND hwnd)
 	{
 		Warning ("SYS_AUTOMOUNT_DISABLED", hwnd);
 	}
-	else if (nCurrentOS == WIN_VISTA && CurrentOSServicePack < 1)
-		Warning ("SYS_ASSIGN_DRIVE_LETTER", hwnd);
 	else
 		Warning ("DEVICE_NOT_READY_ERROR", hwnd);
 
@@ -13016,11 +12977,6 @@ BOOL IsWindowsIsoBurnerAvailable ()
 {
 	wchar_t path[MAX_PATH*2] = { 0 };
 
-	if (!IsOSAtLeast (WIN_7))
-	{
-		return FALSE;
-	}
-
 	if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_SYSTEM, NULL, 0, path)))
 	{
 		StringCbCatW (path, MAX_PATH*2, L"\\" ISO_BURNER_TOOL);
@@ -13346,16 +13302,13 @@ void ProcessEntropyEstimate (HWND hProgress, DWORD* pdwInitialValue, DWORD dwCou
 		else
 			*pdwEntropy = dwMaxLevel;
 
-		if (IsOSAtLeast (WIN_VISTA))
-		{
-			int state = PBST_ERROR;
-			if (*pdwEntropy >= (dwMaxLevel/2))
-				state = PBST_NORMAL;
-			else if (*pdwEntropy >= (dwMaxLevel/4))
-				state = PBST_PAUSED;
+		int state = PBST_ERROR;
+		if (*pdwEntropy >= (dwMaxLevel/2))
+			state = PBST_NORMAL;
+		else if (*pdwEntropy >= (dwMaxLevel/4))
+			state = PBST_PAUSED;
 
-			SendMessage (hProgress, PBM_SETSTATE, state, 0);
-		}
+		SendMessage (hProgress, PBM_SETSTATE, state, 0);
 
 		SendMessage (hProgress, PBM_SETPOS,
 		(WPARAM) (*pdwEntropy),
@@ -14351,7 +14304,7 @@ HRESULT ShellExecInExplorerProcess(PCWSTR pszFile)
 void SafeOpenURL (LPCWSTR szUrl)
 {
 	BOOL bFallback = TRUE;
-	if (IsOSAtLeast (WIN_VISTA) && IsUacSupported() && IsAdmin () && IsElevated() && GetShellWindow())
+	if (IsUacSupported() && IsAdmin () && IsElevated() && GetShellWindow())
 	{
 		WCHAR szRunDllPath[TC_MAX_PATH];
 		WCHAR szUrlDllPath[TC_MAX_PATH];
