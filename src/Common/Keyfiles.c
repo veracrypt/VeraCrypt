@@ -487,6 +487,19 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		}
 		return 1;
 
+	case WM_CTLCOLORSTATIC:
+		{
+			if (((HWND)lParam == GetDlgItem(hwndDlg, IDT_KEYFILE_WARNING)) )
+			{
+				// we're about to draw the static
+				// set the text colour in (HDC)wParam
+				SetBkMode((HDC)wParam,TRANSPARENT);
+				SetTextColor((HDC)wParam, RGB(255,0,0));
+				return (BOOL)GetSysColorBrush(COLOR_MENU);
+			}
+		}
+		return 0;
+
 	case WM_COMMAND:
 
 		if (lw == IDC_KEYADD)

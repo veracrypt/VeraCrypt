@@ -613,7 +613,7 @@
     <entry lang="ko" key="FAVORITE_PIM_CHANGED">이 볼륨은 시스템 즐겨찾기로 등록되어 PIM이 변경되었습니다.\nVeraCrypt가 시스템 즐겨찾기 구성을 자동으로 업데이트하도록 할까요? (관리자 권한 필요)\n\n아니오라고 대답할 경우 시스템 즐겨찾기를 수동으로 업데이트해야 합니다.</entry>
     <entry lang="ko" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">중요: VeraCrypt 응급 복구 디스크를 폐기하지 않은 경우 이전 암호를 사용하여 시스템 파티션/드라이브를 해독 할 수 있습니다(VeraCrypt 응급 복구 디스크를 부팅하고 이전 암호 입력). 새로운 VeraCrypt 응급 복구 디스크를 작성한 다음 이전 버전을 폐기해야합니다.\n\n새로운 VeraCrypt 응급 복구 디스크를 만드시겠습니까?</entry>
     <entry lang="ko" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">VeraCrypt 응급 복구 디스크는 여전히 이전 알고리즘을 사용합니다. 이전의 알고리즘이 안전하지 않다고 생각하면 새로운 VeraCrypt 응급 복구 디스크를 생성 한 다음 이전 VeraCrypt 응급 복구 디스크를 폐기해야합니다.\n\n새로운 VeraCrypt 응급 복구 디스크를 만드시겠습니까?</entry>
-    <entry lang="ko" key="KEYFILES_NOTE">모든 종류의 파일 (예 :.mp3,.jpg,.zip,.avi)은 VeraCrypt 키 파일로 사용될 수 있습니다. VeraCrypt는 키 파일 내용을 수정하지 않습니다. 둘 이상의 키 파일을 선택할 수 있습니다(순서는 중요하지 않음). 폴더를 추가하면 그 안에있는 숨겨진 파일이 아닌 모든 키 파일이 키 파일로 사용됩니다. '토큰 파일 추가'를 클릭하여 보안 토큰 또는 스마트 카드에 저장된 키 파일을 선택하거나 키 파일을 보안 토큰 또는 스마트 카드로 가져옵니다.</entry>
+    <entry lang="ko" key="KEYFILES_NOTE">VeraCrypt는 키 파일 내용을 수정하지 않습니다. 둘 이상의 키 파일을 선택할 수 있습니다(순서는 중요하지 않음). 폴더를 추가하면 그 안에있는 숨겨진 파일이 아닌 모든 키 파일이 키 파일로 사용됩니다. '토큰 파일 추가'를 클릭하여 보안 토큰 또는 스마트 카드에 저장된 키 파일을 선택하거나 키 파일을 보안 토큰 또는 스마트 카드로 가져옵니다.</entry>
     <entry lang="ko" key="KEYFILE_CHANGED">키 파일이 성공적으로 추가/제거되었습니다.</entry>
     <entry lang="ko" key="KEYFILE_EXPORTED">키 파일을 내보냄.</entry>
     <entry lang="ko" key="PKCS5_PRF_CHANGED">헤더 키 유도 알고리즘이 성공적으로 설정되었습니다.</entry>
