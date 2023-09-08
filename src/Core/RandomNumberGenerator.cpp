@@ -54,21 +54,19 @@ namespace VeraCrypt
 			{
 				int rndCount = read (random, buffer, buffer.Size());
 				throw_sys_sub_if ((rndCount == -1) && errno != EAGAIN && errno != ERESTART && errno != EINTR, L"/dev/random");
-				if (rndCount == -1 && (!DevRandomSucceeded || (DevRandomBytesCount < 32)))
-				{
+				if (rndCount != -1) {
+					// We count returned bytes until 32-bytes threshold reached
+					if (DevRandomBytesCount < 32)
+						DevRandomBytesCount += rndCount;
+					break;
+				}
+				else if (DevRandomBytesCount >= 32) {
+					// allow /dev/random to fail gracefully since we have enough bytes
+					break;
+				}
+				else {
 					// wait 250ms before querying /dev/random again
 					::usleep (250 * 1000);
-				}
-				else
-				{
-					if (rndCount != -1)
-					{
-						// We count returned bytes untill 32-bytes treshold reached
-						if (DevRandomBytesCount < 32)
-							DevRandomBytesCount += rndCount;
-						DevRandomSucceeded = true;
-					}
-					break;
 				}
 			}
 			
@@ -253,7 +251,6 @@ namespace VeraCrypt
 
 		EnrichedByUser = false;
 		Running = false;
-		DevRandomSucceeded = false;
 		DevRandomBytesCount = 0;
 	}
 
@@ -292,6 +289,5 @@ namespace VeraCrypt
 	bool RandomNumberGenerator::Running = false;
 	size_t RandomNumberGenerator::WriteOffset;
 	struct rand_data *RandomNumberGenerator::JitterRngCtx = NULL;
-	bool RandomNumberGenerator::DevRandomSucceeded = false;
 	int RandomNumberGenerator::DevRandomBytesCount = 0;
 }
