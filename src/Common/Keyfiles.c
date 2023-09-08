@@ -484,6 +484,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW(GetDlgItem(hwndDlg, IDT_KEYFILES_NOTE), GetString ("KEYFILES_NOTE"));
 
 			ToHyperlink (hwndDlg, IDC_LINK_KEYFILES_INFO);
+			ToHyperlink (hwndDlg, IDC_LINK_KEYFILES_EXTENSIONS_WARNING);
 		}
 		return 1;
 
@@ -624,6 +625,12 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_LINK_KEYFILES_INFO)
 		{
 			Applink ("keyfiles");
+			return 1;
+		}
+
+		if (lw == IDC_LINK_KEYFILES_EXTENSIONS_WARNING)
+		{
+			Applink ("keyfilesextensions");
 			return 1;
 		}
 

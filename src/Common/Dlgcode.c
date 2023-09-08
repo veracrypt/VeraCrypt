@@ -6800,6 +6800,8 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), L"64");
 			// set the maximum length of the keyfile base name to (TC_MAX_PATH - 1)
 			SendMessage (GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), EM_SETLIMITTEXT, (WPARAM) (TC_MAX_PATH - 1), 0);
+
+			ToHyperlink (hwndDlg, IDC_LINK_KEYFILES_EXTENSIONS_WARNING);
 			return 1;
 		}
 
@@ -6885,6 +6887,12 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			EnableWindow(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), !GetCheckBox (hwndDlg, IDC_KEYFILES_RANDOM_SIZE));
 			EnableWindow(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE_UNIT), !GetCheckBox (hwndDlg, IDC_KEYFILES_RANDOM_SIZE));
+		}
+
+		if (lw == IDC_LINK_KEYFILES_EXTENSIONS_WARNING)
+		{
+			Applink ("keyfilesextensions");
+			return 1;
 		}
 
 		if (lw == IDC_GENERATE_AND_SAVE_KEYFILE)
@@ -10956,6 +10964,10 @@ void Applink (const char *dest)
 	else if (strcmp(dest, "keyfiles") == 0)
 	{
 		StringCbCopyW (page, sizeof (page),L"Keyfiles.html");
+	}
+	else if (strcmp(dest, "keyfilesextensions") == 0)
+	{
+		StringCbCopyW (page, sizeof (page),L"Avoid%20Third-Party%20File%20Extensions.html");
 	}
 	else if (strcmp(dest, "introcontainer") == 0)
 	{
