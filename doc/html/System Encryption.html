@@ -62,8 +62,9 @@ System</em> &gt; <em style="text-align:left">Encrypt System Partition/Drive</em>
 <em style="text-align:left">System</em> &gt; <em style="text-align:left">Permanently Decrypt System Partition/Drive</em>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Because of BIOS requirement, the pre-boot password is typed using <strong>US keyboard layout.
-</strong>During the system encryption process, VeraCrypt automatically and transparently switches the keyboard to US layout in order to ensure that the password value typed will match the one typed in pre-boot mode. Thus, in order to avoid wrong password errors,
- one must type the password using the same keys as when creating the system encryption.</div>
+</strong>During the system encryption process, VeraCrypt automatically and transparently switches the keyboard to US layout in order to ensure that the password value typed will match the one typed in pre-boot mode. 
+However, pasting the password from the clipboard can override this protective measure. To prevent any issues arising from this discrepancy, VeraCrypt disables the option to paste passwords from the clipboard in the system encryption wizard. 
+Thus, when setting or entering your password, it's crucial to type it manually using the same keys as when creating the system encryption, ensuring consistent access to your encrypted system.</div>
 <p>Note: By default, Windows 7 and later boot from a special small partition. The partition contains files that are required to boot the system. Windows allows only applications that have administrator privileges to write to the partition (when the system is
  running). In EFI boot mode, which is the default on modern PCs, VeraCrypt can not encrypt this partition since it must remain unencrypted so that the BIOS can load the EFI bootloader from it. This in turn implies that in EFI boot mode, VeraCrypt offers only to encrypt the system partition where Windows is installed (the user can later manually encrypt other data partitions using VeraCrypt).
  In MBR legacy boot mode, VeraCrypt encrypts the partition only if you choose to encrypt the whole system drive (as opposed to choosing to encrypt only the partition where Windows is installed).</p>
