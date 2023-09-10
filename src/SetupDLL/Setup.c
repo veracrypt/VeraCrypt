@@ -1994,7 +1994,7 @@ BOOL InitDll (MSIHANDLE hInstaller)
 	InitGlobalLocks ();
 
 	SetErrorMode (SetErrorMode (0) | SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX);
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	// Force language to english to read strings from the default Language.xml embedded in the DLL.
 	SetPreferredLangId ("en");

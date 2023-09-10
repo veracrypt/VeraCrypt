@@ -3487,7 +3487,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	hInst = hInstance;
 
 	SetErrorMode (SetErrorMode (0) | SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX);
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 #ifndef SETUP
 	// Application ID
@@ -14351,7 +14351,7 @@ HRESULT GetShellDispatchFromView(IShellView *psv, REFIID riid, void **ppv)
 HRESULT ShellExecInExplorerProcess(PCWSTR pszFile)
 {
     IShellView *psv;
-	CoInitialize(NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
     HRESULT hr = GetShellViewForDesktop(IID_PPV_ARGS(&psv));
     if (SUCCEEDED(hr))
     {
@@ -14526,7 +14526,7 @@ BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter)
 	wchar_t szDllPath[MAX_PATH] = { 0 };
 	HMODULE hPropsys = NULL;
 
-    CoInitialize(NULL);
+    CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
     if (GetSystemDirectory(szDllPath, MAX_PATH))
         StringCchCatW(szDllPath, MAX_PATH, L"\\Propsys.dll");
@@ -15082,7 +15082,7 @@ bool GetKbList (std::vector<std::wstring>& kbList)
 	kbList.clear();
 
     // Initialize COM.
-    hres =  CoInitialize(NULL); 
+    hres =  CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
     if (FAILED(hres))
     {
         return false;

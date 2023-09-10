@@ -295,7 +295,7 @@ static std::vector<MSXML2::IXMLDOMNodePtr> GetReadChildNodes (MSXML2::IXMLDOMNod
 static bool validateDcsPropXml(const char* xmlData)
 {
 	bool bValid = false;	
-	HRESULT hr = CoInitialize(NULL);
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	if(FAILED(hr))
 		return false;
 	else

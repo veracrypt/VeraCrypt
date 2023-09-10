@@ -275,7 +275,7 @@ extern "C" int UacBackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, w
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
 
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	if (ComGetInstance (hwndDlg, &tc))
 	{
@@ -303,7 +303,7 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, wchar_t *lpszVolume)
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
 
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	if (ComGetInstance (hwndDlg, &tc))
 	{
@@ -331,7 +331,7 @@ extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
 
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	if (ComGetInstance (hwndDlg, &tc))
 	{

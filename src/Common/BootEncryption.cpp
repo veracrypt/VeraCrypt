@@ -712,7 +712,7 @@ namespace VeraCrypt
 
 			if (!ElevatedComInstance || ElevatedComInstanceThreadId != GetCurrentThreadId())
 			{
-				CoInitialize (NULL);
+				CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 				ElevatedComInstance = GetElevatedInstance (GetActiveWindow() ? GetActiveWindow() : MainDlg);
 				ElevatedComInstanceThreadId = GetCurrentThreadId();
 			}
