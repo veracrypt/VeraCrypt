@@ -9,7 +9,7 @@ Information about Corsican localization:
 
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
-	          June 29th (1.26.2), July 1st (1.26.3), July 30th (1.26.4), Aug. 14th (1.26.5)
+	          June 29th (1.26.2), July 1st (1.26.3), July 30th (1.26.4), Aug. 14th (1.26.5), Sep. 8th (1.26.5)
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Created on March 6th, 2022 for version 1.25.9 by Patriccollu di Santa Maria è Sichè
 
@@ -18,7 +18,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.5">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.0" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.1" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -813,7 +813,7 @@ Information about Corsican localization:
 		<entry lang="co" key="NORMAL">Nurmale</entry>
 		<entry lang="co" key="SYSTEM_VOLUME_TYPE_ADJECTIVE">Sistema</entry>
 		<entry lang="co" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">Piattatu (sistema)</entry>
-		<entry lang="co" key="READ_ONLY">Lettura-sola</entry>
+		<entry lang="co" key="READ_ONLY">Lettura sola</entry>
 		<entry lang="co" key="SYSTEM_DRIVE">Lettore di u sistema</entry>
 		<entry lang="co" key="SYSTEM_DRIVE_ENCRYPTING">Lettore di u sistema (cifratura - %.2f%% fattu)</entry>
 		<entry lang="co" key="SYSTEM_DRIVE_DECRYPTING">Lettore di u sistema (dicifratura - %.2f%% fattu)</entry>
@@ -1638,7 +1638,7 @@ Information about Corsican localization:
 		<entry lang="co" key="EMV_PAN_NOTFOUND">Ùn si trova alcunu numeru principale di contu in a carta EMV.</entry>
 		<entry lang="co" key="INVALID_EMV_PATH">U chjassu EMV hè inaccettevule.</entry>
 		<entry lang="co" key="EMV_KEYFILE_DATA_NOTFOUND">Impussibule di custruisce un schedariu chjave cù i dati di a carta EMV.\n\nUna di ste cundizione hè assente :\n- U certificatu di chjave publica ICC.\n- U certificatu di chjave publica di l’emettore.\n- I dati CPCL.</entry>
-		<entry lang="co" key="SCARD_W_REMOVED_CARD">Alcuna carta in u lettore.\n\nAssicuratevi chì a carta hè framessa currettamente.</entry>	</localization>
+		<entry lang="co" key="SCARD_W_REMOVED_CARD">Alcuna carta in u lettore.\n\nAssicuratevi chì a carta hè framessa currettamente.</entry>
 		<entry lang="co" key="FORMAT_EXTERNAL_FAILED">A cumanda « format.com » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS : Sbagliu 0x%.8X.\n\nRivultata à impiegà l’API « FormatEx » di Windows.</entry>
 		<entry lang="co" key="FORMATEX_API_FAILED">L’API « FormatEx » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS.\n\nStatu di u fiascu = %s.</entry>
 		<entry lang="co" key="EXPANDER_WRITING_RANDOM_DATA">Scrittura di dati aleatorii in u spaziu novu…\n</entry>
@@ -1649,6 +1649,8 @@ Information about Corsican localization:
 		<entry lang="co" key="EXPANDER_UNMOUNTING_VOLUME">Smuntatura di u vulume…\n</entry>
 		<entry lang="co" key="EXPANDER_EXTENDING_FILESYSTEM">Estensione di u sistema di schedariu…\n</entry>
 		<entry lang="co" key="PARTIAL_SYSENC_MOUNT_READONLY">Avertimentu : A partizione di u sistema chì vo circate à muntà ùn hè stata micca cifrata sana. Da misura di sicurità, è per impedisce un alterazione pussibule, u vulume « %s » hè statu muntatu solu in lettura.</entry>
+		<entry lang="co" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Infurmazione impurtante nant’à l’impiegu d’estensioni di schedariu terze</entry>
+	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
 			<xs:complexType>
