@@ -72,7 +72,7 @@
     <entry lang="it" key="IDC_WHOLE_SYS_DRIVE">Codifica l'intero disco</entry>
     <entry lang="it" key="IDD_VOL_CREATION_WIZARD_DLG">Creazione guidata volume VeraCrypt</entry>
     <entry lang="it" key="IDT_CLUSTER">Cluster</entry>
-    <entry lang="it" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANTE: sposta il mouse il più casualmente possibile entro questa finestra.\nE' preferibile un movimento più lungo perchè aumenta in modo significativo l'effetto delle chiavi di codifica.\nQuindi fai click su 'Avanti' per continuare</entry>
+    <entry lang="it" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANTE: sposta il mouse il più casualmente possibile dentro questa finestra.\nE' preferibile muovere il mouse per più tempo, perchè aumenta in modo significativo la sicurezza delle chiavi di codifica.\nQuindi fai click su 'Avanti' per continuare</entry>
     <entry lang="it" key="IDT_CONFIRM">Conferma:</entry>
     <entry lang="it" key="IDT_DONE">Fatto</entry>
     <entry lang="it" key="IDT_DRIVE_LETTER">Lettera unità:</entry>
@@ -128,7 +128,7 @@
     <entry lang="it" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Montare il volume selezionato quando la sua periferica ospite viene &amp;connessa</entry>
     <entry lang="it" key="IDC_FAVORITE_MOUNT_ON_LOGON">Montare il volume selezionato dopo il log&amp;on</entry>
     <entry lang="it" key="IDC_FAVORITE_MOUNT_READONLY">Montare il volume selezionato in sola let&amp;tura</entry>
-    <entry lang="it" key="IDC_FAVORITE_MOUNT_REMOVABLE">Montare il volume selezionato come ,media rimo&amp;vibile</entry>
+    <entry lang="it" key="IDC_FAVORITE_MOUNT_REMOVABLE">Montare il volume selezionato come Media rimo&amp;vibile</entry>
     <entry lang="it" key="IDC_FAVORITE_MOVE_DOWN">Muovi &amp;giù</entry>
     <entry lang="it" key="IDC_FAVORITE_MOVE_UP">Muovi &amp;sù</entry>
     <entry lang="it" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Aprire la &amp;finestra di explorer per il volume selezionato quando viene montato con successo</entry>
@@ -364,7 +364,7 @@
     <entry lang="it" key="IDT_PLAINTEXT_SIZE_UNIT">bits</entry>
     <entry lang="it" key="IDT_POOL_CONTENTS">Contenuto attuale del pool</entry>
     <entry lang="it" key="IDT_PRF">Miscelazione PRF:</entry>
-    <entry lang="it" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">IMPORTANTE: Dovete muovere il vostro mouse il più a caso possibile all'interno di questa finestra.\nE'preferibile un movimento lungo.\nQuesto aumenta la sicurezza in maniera significativa.\nQuando fatto questo, fate click su 'Continua'.</entry>
+    <entry lang="it" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">IMPORTANTE: sposta il mouse il più casualmente possibile dentro questa finestra.\nE' preferibile muovere il mouse per più tempo\nQuesto aumenta la sicurezza in maniera significativa.\nQuindi fai click su 'Continua' per continuare</entry>
     <entry lang="it" key="IDT_SECONDARY_KEY">Chiave secondaria (esadecimale)</entry>
     <entry lang="it" key="IDT_SECURITY_TOKEN">Misura di sicurezza:</entry>
     <entry lang="it" key="IDT_SORT_METHOD">Ordinamento:</entry>
@@ -513,7 +513,7 @@
     <entry lang="it" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Attenzione: Per essere in grado di accedere ai dati decifrati, una lettera del drive deve essere assegnata al volume decifrato. Comunque, nessuna lettera è disponibile al momento.\n\nPer favore liberare una lettera (per esempio, disconnettendo una chiavetta USB  un hard drive esterno, etc.) e poi premi OK.</entry>
     <entry lang="it" key="FORMAT_FINISHED_INFO">Il volume VeraCrypt è stato creato con successo.</entry>
     <entry lang="it" key="FORMAT_FINISHED_TITLE">Volume creato</entry>
-    <entry lang="it" key="FORMAT_HELP">IMPORTANTE:Muovere il vostro mouse il più casualmente possibile entro questa finestra. E' preferibile un movimento più lungo perchè aumenta in modo significativo l'effetto delle chiavi di codifica, quindi fate click su Formatta per creare il volume.</entry>
+    <entry lang="it" key="FORMAT_HELP">IMPORTANTE: sposta il mouse il più casualmente possibile dentro questa finestra.E' preferibile muovere il mouse per più tempo, perchè aumenta in modo significativo la sicurezza delle chiavi di codifica. Quindi fate click su Formatta per creare il volume.</entry>
     <entry lang="it" key="FORMAT_HIDVOL_HOST_HELP">Fate click su Formatta per creare il volume esterno. Per ulteriori informazioni, riferitevi alla documentazione.</entry>
     <entry lang="it" key="FORMAT_HIDVOL_HOST_TITLE">Formattazione del volume esterno</entry>
     <entry lang="it" key="FORMAT_HIDVOL_TITLE">Formattazione del volume nascosto</entry>
