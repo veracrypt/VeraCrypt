@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-  <v3:trustInfo xmlns:v3="urn:schemas-microsoft-com:asm.v3">
-    <v3:security>
-      <v3:requestedPrivileges>
-        <v3:requestedExecutionLevel level="requireAdministrator" />
-      </v3:requestedPrivileges>
-    </v3:security>
-  </v3:trustInfo>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="requireAdministrator" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
   <asmv3:application>
     <asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
       <dpiAware>true</dpiAware>
