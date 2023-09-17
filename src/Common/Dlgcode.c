@@ -32,6 +32,9 @@
 #include <process.h>
 #include <Tlhelp32.h>
 #endif
+#ifdef _WIN32_WINNT >= 0x0602
+#include "processthreadsapi.h""
+#endif
 
 #include "Resource.h"
 
@@ -215,6 +218,9 @@ BOOL EMVSupportEnabled = FALSE;
 volatile BOOL NeedPeriodicDeviceListUpdate = FALSE;
 BOOL DisablePeriodicDeviceListUpdate = FALSE;
 BOOL EnableMemoryProtection = FALSE;
+
+BOOL MemoryProtectionActivated = FALSE;
+BOOL ProcessMitigationsActivated = FALSE;
 
 BOOL WaitDialogDisplaying = FALSE;
 
@@ -3238,6 +3244,17 @@ uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ()
 	return count;
 }
 
+BOOL ReadMemoryProtectionConfig ()
+{
+	DWORD config;
+
+	if (!ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", VC_ENABLE_MEMORY_PROTECTION, &config))
+	{
+		// enabled by default
+		config = 1;
+	}
+	return (config)? TRUE: FALSE;
+}
 
 BOOL LoadSysEncSettings ()
 {
@@ -3431,6 +3448,17 @@ extern "C" {
 		   // Force loading dlls from system32 directory only
 		   SetDefaultDllDirectoriesFn (LOAD_LIBRARY_SEARCH_SYSTEM32);
 		}
+
+		// activate process mitigations (currently only ASLR, dynamic code and extensions points)
+		ActivateProcessMitigations();
+
+#ifndef SETUP
+		// call ActivateMemoryProtection if corresponding setting has been enabled (default is enabled)
+		if (ReadMemoryProtectionConfig())
+		{
+			ActivateMemoryProtection();
+		}
+#endif
 		return wWinMainCRTStartup();
 	}
 }
@@ -14035,7 +14063,7 @@ BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void
  *
  * Reduce current user acess rights for this process to the minimum in order to forbid non-admin users from reading the process memory.
  */
-BOOL EnableProcessProtection()
+BOOL ActivateMemoryProtection()
 {
     BOOL bSuccess = FALSE;
 
@@ -14050,7 +14078,10 @@ BOOL EnableProcessProtection()
 
 	// Acces mask
 	DWORD dwAccessMask = SYNCHRONIZE | PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_TERMINATE; // same as protected process
-	
+
+    if (MemoryProtectionActivated)
+        return TRUE;
+    
 	if (IsAdmin ())
 	{
 		// if we are running elevated, we allow CreateProcessXXX calls alongside PROCESS_DUP_HANDLE and PROCESS_QUERY_INFORMATION in order to be able 
@@ -14113,6 +14144,9 @@ BOOL EnableProcessProtection()
                                     NULL // do not change SACL
                     ))? TRUE: FALSE;
 
+    if (bSuccess)
+        MemoryProtectionActivated = TRUE;
+
 Cleanup:
 
     if (pACL != NULL) {
@@ -14126,6 +14160,97 @@ Cleanup:
     }
 
     return bSuccess;
+}
+
+// define missing structures Windows 8
+#if (_WIN32_WINNT < 0x0602)
+
+typedef struct _PROCESS_MITIGATION_ASLR_POLICY {
+    union {
+        DWORD Flags;
+        struct {
+            DWORD EnableBottomUpRandomization : 1;
+            DWORD EnableForceRelocateImages : 1;
+            DWORD EnableHighEntropy : 1;
+            DWORD DisallowStrippedImages : 1;
+            DWORD ReservedFlags : 28;
+        } DUMMYSTRUCTNAME;
+    } DUMMYUNIONNAME;
+} PROCESS_MITIGATION_ASLR_POLICY, *PPROCESS_MITIGATION_ASLR_POLICY;
+
+typedef struct _PROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY {
+    union {
+        DWORD Flags;
+        struct {
+            DWORD DisableExtensionPoints : 1;
+            DWORD ReservedFlags : 31;
+        } DUMMYSTRUCTNAME;
+    } DUMMYUNIONNAME;
+} PROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY, *PPROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY;
+
+typedef struct _PROCESS_MITIGATION_DYNAMIC_CODE_POLICY {
+    union {
+        DWORD Flags;
+        struct {
+            DWORD ProhibitDynamicCode : 1;
+            DWORD AllowThreadOptOut : 1;
+            DWORD AllowRemoteDowngrade : 1;
+            DWORD AuditProhibitDynamicCode : 1;
+            DWORD ReservedFlags : 28;
+        } DUMMYSTRUCTNAME;
+    } DUMMYUNIONNAME;
+} PROCESS_MITIGATION_DYNAMIC_CODE_POLICY, *PPROCESS_MITIGATION_DYNAMIC_CODE_POLICY;
+
+typedef enum _PROCESS_MITIGATION_POLICY {
+    ProcessDEPPolicy,
+    ProcessASLRPolicy,
+    ProcessDynamicCodePolicy,
+    ProcessStrictHandleCheckPolicy,
+    ProcessSystemCallDisablePolicy,
+    ProcessMitigationOptionsMask,
+    ProcessExtensionPointDisablePolicy,
+    ProcessControlFlowGuardPolicy,
+    ProcessSignaturePolicy,
+    ProcessFontDisablePolicy,
+    ProcessImageLoadPolicy,
+    ProcessSystemCallFilterPolicy,
+    ProcessPayloadRestrictionPolicy,
+    ProcessChildProcessPolicy,
+    ProcessSideChannelIsolationPolicy,
+    ProcessUserShadowStackPolicy,
+    MaxProcessMitigationPolicy
+} PROCESS_MITIGATION_POLICY, *PPROCESS_MITIGATION_POLICY;
+
+#endif
+
+void ActivateProcessMitigations()
+{
+	if (ProcessMitigationsActivated)
+		return;
+
+	// we load the function pointer of SetProcessMitigationPolicy dynamically because we are building with Windows 7 SDK that does not have the definition of this function
+	typedef BOOL (WINAPI *SetProcessMitigationPolicyFunc) (PROCESS_MITIGATION_POLICY MitigationPolicy, PVOID lpBuffer, SIZE_T dwLength);
+	SetProcessMitigationPolicyFunc SetProcessMitigationPolicy = (SetProcessMitigationPolicyFunc) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "SetProcessMitigationPolicy");
+	if (SetProcessMitigationPolicy)
+	{
+		PROCESS_MITIGATION_ASLR_POLICY aslrPolicy = { 0 };
+		PROCESS_MITIGATION_DYNAMIC_CODE_POLICY dynCodePolicy = { 0 };
+		PROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY extensionPointDisablePolicy = { 0 };
+
+		aslrPolicy.EnableBottomUpRandomization = TRUE;
+		aslrPolicy.EnableForceRelocateImages = TRUE;
+		aslrPolicy.EnableHighEntropy = TRUE;
+
+		dynCodePolicy.ProhibitDynamicCode = TRUE;
+
+		extensionPointDisablePolicy.DisableExtensionPoints = TRUE;
+
+		SetProcessMitigationPolicy (ProcessASLRPolicy, &aslrPolicy, sizeof (aslrPolicy));
+		SetProcessMitigationPolicy (ProcessDynamicCodePolicy, &dynCodePolicy, sizeof (dynCodePolicy));
+		SetProcessMitigationPolicy (ProcessExtensionPointDisablePolicy, &extensionPointDisablePolicy, sizeof (extensionPointDisablePolicy));
+	}
+
+	ProcessMitigationsActivated = TRUE;
 }
 
 // Based on sample code from: 

@@ -344,7 +344,11 @@ extern BOOLEAN VC_KeAreAllApcsDisabled (VOID);
 
 #ifndef TC_LOCAL_WIN32_WINNT_OVERRIDE
 #	undef _WIN32_WINNT
+#ifdef _M_ARM64
+#	define  _WIN32_WINNT 0x0A00
+#else
 #	define	_WIN32_WINNT 0x0601	/* Does not apply to the driver */
+#endif
 #endif
 
 #include <windows.h>		/* Windows header */
