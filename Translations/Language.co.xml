@@ -18,7 +18,7 @@ Information about Corsican localization:
 	https://github.com/Patriccollu/Lingua_Corsa-Infurmatica/blob/ceppu/Prughjetti/VeraCrypt/Traduzzione.md
 -->
 <VeraCrypt>
-	<localization prog-version="1.26.5">
+	<localization prog-version="1.26.6">
 		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.2" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>

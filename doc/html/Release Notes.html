@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.5</strong> (August 15<sup>th</sup>, 2023):</p>
+<p><strong style="text-align:left">1.26.6</strong> (September 21<sup>st</sup>, 2023):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -70,6 +70,7 @@
 </li>
 <li><strong>Windows:</strong>
 <ul>
+<li>Officially, the minimum supported version is now <strong>Windows 10</strong>. VeraCrypt may still run on Windows 7 and Windows 8/8.1, but no active tests are done on these platforms.</li>
 <li>EFI Bootloader:
 <ul>
 <li>Fix bug in PasswordTimeout value handling that caused it to be limited to 255 seconds.</li>
@@ -77,8 +78,16 @@
 <li>Addition of Blake2s and removal of RIPEMD160 & GOST89</li>
 </ul>
 </li>
+<li>Enable memory protection by default. Add option under Performance/Driver Configuration to disable it if needed.
+<ul>
+	<li>Memory protection blocks non-admin processes from reading VeraCrypt memory</li>
+	<li>It may block Screen Readers (Accessibility support) from reading VeraCrypt UI, in which case it can be disabled</li>
+	<li>It can be disabled by setting registry value "VeraCryptEnableMemoryProtection" to 0 under "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt"</li>
+</ul>
+</li>
+<li>Add process mitigation policy to prevent VeraCrypt from being injected by other processes</li>
 <li>Fix Secure Desktop issues under Windows 11 22H2</li>
-<li> Implement support for mounting partially encrypted system partitions.</li>
+<li>Implement support for mounting partially encrypted system partitions.</li>
 <li>Fix false positive detection of new device insertion when Clear Encryption Keys option is enable (System Encryption case only)</li>
 <li>Better implementation of Fast Create when creating file containers that uses UAC to request required privilege if not already held</li>
 <li>Allow choosing Fast Create in Format Wizard UI when creating file containers</li>
@@ -91,9 +100,12 @@
 <li>Display full list of supported cluster sizes for NTFS, ReFS and exFAT filesystems when creating volumes</li>
 <li>Support drag-n-drop of files and keyfiles in Expander.</li>
 <li>Implement translation of Expander UI</li>
+<li>Replace legacy file/dir selection APIs with modern IFileDialog interface for better Windows 11 compatibility</li>
+<li>Enhancements to dependency dlls safe loading, including delay loading.</li>
+<li>remove recommendation of keyfiles files extensions and update documentation to mention risks of third-party file extensions.</li>
 <li>Add support for more language in the setup installer</li>
 <li>Update LZMA library to version 23.01</li>
-<li>Update libzip to version 1.10.0 and zlib to version 1.2.13.</li>
+<li>Update libzip to version 1.10.0 and zlib to version 1.3</li>
 </ul>
 </li>
 <li><strong>Linux:</strong>
