@@ -1633,6 +1633,7 @@
     <entry lang="pl" key="EXPANDER_EXTENDING_FILESYSTEM">Rozszerzanie systemu plików...\n</entry>
     <entry lang="pl" key="PARTIAL_SYSENC_MOUNT_READONLY">Ostrzeżenie: Partycja systemowa, którą próbowano podłączyć, nie została w pełni zaszyfrowana. Ze względów bezpieczeństwa, aby zapobiec potencjalnemu uszkodzeniu lub niepożądanym modyfikacjom, wolumen '%s' został podłączony jako tylko do odczytu.</entry>
     <entry lang="pl" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Ważne informacje na temat korzystania z rozszerzeń plików innych dostawców</entry>
+    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection in VeraCrypt</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

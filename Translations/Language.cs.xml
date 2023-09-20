@@ -1633,6 +1633,7 @@
     <entry lang="cs" key="EXPANDER_EXTENDING_FILESYSTEM">Rozšíření souborového systému ...\n</entry>
     <entry lang="cs" key="PARTIAL_SYSENC_MOUNT_READONLY">Upozornění: systémový diskový oddíl, jenž jste se pokusili připojit, nebyl plně zašifrován. Jako bezpečnostní opatření proti možnému poškození nebo nežádoucím změnám byl svazek '%s' připojen pouze pro čtení.</entry>
     <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
+    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection in VeraCrypt</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
