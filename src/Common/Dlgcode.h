@@ -350,6 +350,7 @@ uint32 ReadDriverConfigurationFlags ();
 uint32 ReadServiceConfigurationFlags ();
 uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ();
 BOOL ReadMemoryProtectionConfig ();
+BOOL WriteMemoryProtectionConfig (BOOL bEnable);
 BOOL LoadSysEncSettings ();
 int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm);
 void RemoveNonSysInPlaceEncNotifications (void);

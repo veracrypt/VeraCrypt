@@ -226,6 +226,7 @@
 #define IDC_DISABLE_MOUNT_MANAGER       5142
 #define IDC_KEYFILES_SIZE_UNIT          5143
 #define IDC_LINK_KEYFILES_EXTENSIONS_WARNING 5144
+#define IDC_DISABLE_MEMORY_PROTECTION   5145
 
 // Next default values for new objects
 // 
@@ -234,7 +235,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        578
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5145
+#define _APS_NEXT_CONTROL_VALUE         5146
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

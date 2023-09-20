@@ -120,6 +120,7 @@ extern BOOL bReinstallMode;
 extern BOOL bSystemRestore;
 extern BOOL bDisableSwapFiles;
 extern BOOL bForAllUsers;
+extern BOOL bDisableMemoryProtection;
 extern BOOL bRegisterFileExt;
 extern BOOL bAddToStartMenu;
 extern BOOL bDesktopIcon;

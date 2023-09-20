@@ -32,8 +32,8 @@
 #include <process.h>
 #include <Tlhelp32.h>
 #endif
-#ifdef _WIN32_WINNT >= 0x0602
-#include "processthreadsapi.h""
+#if _WIN32_WINNT >= 0x0602
+#include "processthreadsapi.h"
 #endif
 
 #include "Resource.h"
@@ -3254,6 +3254,13 @@ BOOL ReadMemoryProtectionConfig ()
 		config = 1;
 	}
 	return (config)? TRUE: FALSE;
+}
+
+BOOL WriteMemoryProtectionConfig (BOOL bEnable)
+{
+	DWORD config = bEnable? 1: 0;
+
+	return WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", VC_ENABLE_MEMORY_PROTECTION, config);
 }
 
 BOOL LoadSysEncSettings ()

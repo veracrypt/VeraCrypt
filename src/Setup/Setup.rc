@@ -146,12 +146,14 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_DESTINATION,11,41,260,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Bro&wse...",IDC_BROWSE,278,40,59,14
-    CONTROL         "Install &for all users",IDC_ALL_USERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,77,168,11
+    CONTROL         "Install &for all users",IDC_ALL_USERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,168,11
+    CONTROL         "Add VeraCrypt to &Start menu",IDC_PROG_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,80,168,11
+    CONTROL         "Add VeraCrypt icon to &desktop",IDC_DESKTOP_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,92,168,11
     CONTROL         "Associate the .hc file &extension with VeraCrypt",IDC_FILE_TYPE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,113,232,11
-    CONTROL         "Add VeraCrypt to &Start menu",IDC_PROG_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,89,168,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,104,232,11
+    CONTROL         "Disable memory protection in VeraCrypt",IDC_DISABLE_MEMORY_PROTECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,115,218,10
     CONTROL         "Create System &Restore point",IDC_SYSTEM_RESTORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,125,194,11
-    CONTROL         "Add VeraCrypt icon to &desktop",IDC_DESKTOP_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,101,168,11
     LTEXT           "Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.",IDT_INSTALL_DESTINATION,11,14,319,25
 END
 

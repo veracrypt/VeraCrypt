@@ -685,6 +685,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bForAllUsers = IsButtonChecked (GetDlgItem (hCurPage, IDC_ALL_USERS));
 				return 1;
 
+			case IDC_DISABLE_MEMORY_PROTECTION:
+				bDisableMemoryProtection = IsButtonChecked (GetDlgItem (hCurPage, IDC_DISABLE_MEMORY_PROTECTION));
+				return 1;
+
 			case IDC_FILE_TYPE:
 				bRegisterFileExt = IsButtonChecked (GetDlgItem (hCurPage, IDC_FILE_TYPE));
 				return 1;
