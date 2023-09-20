@@ -220,7 +220,6 @@ BOOL DisablePeriodicDeviceListUpdate = FALSE;
 BOOL EnableMemoryProtection = FALSE;
 
 BOOL MemoryProtectionActivated = FALSE;
-BOOL ProcessMitigationsActivated = FALSE;
 
 BOOL WaitDialogDisplaying = FALSE;
 
@@ -14232,13 +14231,10 @@ typedef enum _PROCESS_MITIGATION_POLICY {
 
 void ActivateProcessMitigations()
 {
-	if (ProcessMitigationsActivated)
-		return;
-
 	// we load the function pointer of SetProcessMitigationPolicy dynamically because we are building with Windows 7 SDK that does not have the definition of this function
 	typedef BOOL (WINAPI *SetProcessMitigationPolicyFunc) (PROCESS_MITIGATION_POLICY MitigationPolicy, PVOID lpBuffer, SIZE_T dwLength);
-	SetProcessMitigationPolicyFunc SetProcessMitigationPolicy = (SetProcessMitigationPolicyFunc) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "SetProcessMitigationPolicy");
-	if (SetProcessMitigationPolicy)
+	SetProcessMitigationPolicyFunc SetProcessMitigationPolicyPtr = (SetProcessMitigationPolicyFunc) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "SetProcessMitigationPolicy");
+	if (SetProcessMitigationPolicyPtr)
 	{
 		PROCESS_MITIGATION_ASLR_POLICY aslrPolicy = { 0 };
 		PROCESS_MITIGATION_DYNAMIC_CODE_POLICY dynCodePolicy = { 0 };
@@ -14252,12 +14248,10 @@ void ActivateProcessMitigations()
 
 		extensionPointDisablePolicy.DisableExtensionPoints = TRUE;
 
-		SetProcessMitigationPolicy (ProcessASLRPolicy, &aslrPolicy, sizeof (aslrPolicy));
-		SetProcessMitigationPolicy (ProcessDynamicCodePolicy, &dynCodePolicy, sizeof (dynCodePolicy));
-		SetProcessMitigationPolicy (ProcessExtensionPointDisablePolicy, &extensionPointDisablePolicy, sizeof (extensionPointDisablePolicy));
+		SetProcessMitigationPolicyPtr (ProcessASLRPolicy, &aslrPolicy, sizeof (aslrPolicy));
+		SetProcessMitigationPolicyPtr (ProcessDynamicCodePolicy, &dynCodePolicy, sizeof (dynCodePolicy));
+		SetProcessMitigationPolicyPtr (ProcessExtensionPointDisablePolicy, &extensionPointDisablePolicy, sizeof (extensionPointDisablePolicy));
 	}
-
-	ProcessMitigationsActivated = TRUE;
 }
 
 // Based on sample code from: 
