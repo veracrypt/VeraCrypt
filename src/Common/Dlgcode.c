@@ -3480,6 +3480,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 #if !defined(SETUP)
 	wchar_t modPath[MAX_PATH];
 #endif
+	INITCOMMONCONTROLSEX InitCtrls;
 
 	InitOSVersionInfo();
 
@@ -3500,9 +3501,13 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	InitGlobalLocks ();
 	
-	// call InitCommonControls function
+	// call InitCommonControlsEx function to initialize the common controls
+	InitCtrls.dwSize = sizeof (InitCtrls);
+	InitCtrls.dwICC = ICC_WIN95_CLASSES | ICC_PAGESCROLLER_CLASS | ICC_NATIVEFNTCTL_CLASS | ICC_STANDARD_CLASSES | ICC_LINK_CLASS;
+	InitCommonControlsEx (&InitCtrls);
 
-	InitCommonControls();
+	// Load RichEdit library in order to be able to use RichEdit20W class
+	LoadLibraryEx (L"Riched20.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
 
 #if !defined(SETUP)
 	GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
