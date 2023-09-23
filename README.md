@@ -198,6 +198,7 @@ If you intend to implement a feature, please contact us first to make sure:
    it, but haven't released the code yet).
 2) That the feature is acceptable.
 3) Whether we need help of third-party developers with implementing the feature.
+4) You can contribute with translations here: https://www.transifex.com/otf/veracrypt
 
 Information on how to contact us can be found at:
 https://www.veracrypt.fr/
