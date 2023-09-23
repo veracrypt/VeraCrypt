@@ -1651,7 +1651,8 @@ Information about Corsican localization:
 		<entry lang="co" key="EXPANDER_EXTENDING_FILESYSTEM">Estensione di u sistema di schedariu…\n</entry>
 		<entry lang="co" key="PARTIAL_SYSENC_MOUNT_READONLY">Avertimentu : A partizione di u sistema chì vo circate à muntà ùn hè stata micca cifrata sana. Da misura di sicurità, è per impedisce un alterazione pussibule, u vulume « %s » hè statu muntatu solu in lettura.</entry>
 		<entry lang="co" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Infurmazione impurtante nant’à l’impiegu d’estensioni di schedariu terze</entry>
-		<entry lang="co" key="IDC_DISABLE_MEMORY_PROTECTION">Disattivà a prutezzione di memoria in VeraCrypt</entry>
+		<entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
+		<entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">

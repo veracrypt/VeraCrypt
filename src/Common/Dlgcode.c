@@ -1759,6 +1759,88 @@ void AccommodateTextField (HWND hwndDlg, UINT ctrlId, BOOL bFirstUpdate, HFONT h
 	}
 }
 
+// Resizes width of a checkbox according to actual width in pixels of its label text (font size is taken into account)
+void AccommodateCheckBoxTextWidth (HWND hwndDlg, UINT ctrlId)
+{
+	RECT rec;
+	HWND hwndCtrl = GetDlgItem (hwndDlg, ctrlId);
+	int width, origWidth, origHeight;
+	int horizSubOffset;
+	wchar_t text [MAX_URL_LENGTH];
+	HFONT hFont = (HFONT) SendDlgItemMessage (hwndDlg, ctrlId, WM_GETFONT, 0, 0);
+
+	// Resize the field according to its length and font size and move if centered or right-aligned
+
+	GetWindowTextW (hwndCtrl, text, sizeof (text) / sizeof (wchar_t));
+
+	width = GetTextGfxWidth (hwndCtrl, text, hFont);
+
+	// add to width variable value the width of the checkbox square. We use SM_CXMENUCHECK which is a little larger than actual width
+	width += GetSystemMetrics(SM_CXMENUCHECK);
+	
+
+	GetClientRect (hwndCtrl, &rec);	
+	origWidth = rec.right;
+	origHeight = rec.bottom;
+
+	if (width >= 0
+		&& (origWidth > width))	// The original width of the field is the maximum allowed size 
+	{
+		horizSubOffset = origWidth - width;
+
+		// Resize the text field
+		SetWindowPos (hwndCtrl, 0, 0, 0,
+			origWidth - horizSubOffset,
+			origHeight,
+			SWP_NOMOVE | SWP_NOZORDER);
+
+		InvalidateRect (hwndCtrl, NULL, TRUE);
+	}
+}
+
+// makes controls contiguous by moving the second control right next to the first one horizontally
+void MakeControlsContiguous(HWND hwndDlg, UINT ctrl1ID, UINT ctrl2ID) {
+    HWND hwndCtrl1 = GetDlgItem(hwndDlg, ctrl1ID);
+    HWND hwndCtrl2 = GetDlgItem(hwndDlg, ctrl2ID);
+	RECT rect1, rect2;
+	POINT pt1, pt2;
+	int newLeftPosition;
+
+    // Exit silently if one or both controls are missing
+    if (!hwndCtrl1 || !hwndCtrl2) {
+        return;
+    }
+
+    
+    GetWindowRect(hwndCtrl1, &rect1);
+    GetWindowRect(hwndCtrl2, &rect2);
+
+    // Convert the top-right point of the first control from screen to client coordinates
+    pt1.x = rect1.right;
+	pt1.y = rect1.top;
+    if (!ScreenToClient(hwndDlg, &pt1)) {
+        return; // Exit if the conversion fails
+    }
+
+    // Convert the top-left point of the second control from screen to client coordinates
+    pt2.x = rect2.left;
+	pt2.y = rect2.top;
+    if (!ScreenToClient(hwndDlg, &pt2)) {
+        return; // Exit if the conversion fails
+    }
+
+    // Ensure the second control is always placed to the right of the first one
+    newLeftPosition = pt1.x + 1;
+
+    if (pt2.x < pt1.x) { // if the second control is to the left of the first one
+        newLeftPosition += (pt1.x - pt2.x);
+    }
+
+    // Move the second control to its new position
+    SetWindowPos(hwndCtrl2, NULL, newLeftPosition, pt2.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+}
+
+
 // Note that the user can still close the window by right-clicking its taskbar icon and selecting 'Close window', or by pressing Alt-F4, or using the Task Manager.
 void DisableCloseButton (HWND hwndDlg)
 {
@@ -2127,6 +2209,42 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 	}
 
 	return 0;
+}
+
+HWND CreateToolTip(int toolID, HWND hDlg, const char* strID)
+{
+    if (!toolID || !hDlg)
+    {
+        return FALSE;
+    }
+    
+    // Create the tooltip.
+    HWND hwndTip = CreateWindowExW(NULL, TOOLTIPS_CLASS, NULL,
+                              WS_POPUP | TTS_ALWAYSTIP | TTS_NOPREFIX | TTS_BALLOON,
+                              CW_USEDEFAULT, CW_USEDEFAULT,
+                              CW_USEDEFAULT, CW_USEDEFAULT,
+                              hDlg, NULL, 
+                              hInst, NULL);
+    
+   if (!hwndTip)
+   {
+       return (HWND)NULL;
+   }                              
+                              
+    // Associate the tooltip with the tool.
+    TOOLINFOW toolInfo = { 0 };
+    toolInfo.cbSize = sizeof(toolInfo);
+    toolInfo.hwnd = hDlg;
+    toolInfo.uFlags = TTF_SUBCLASS | TTF_IDISHWND;
+    toolInfo.uId = (UINT_PTR) GetDlgItem(hDlg, toolID);
+    toolInfo.lpszText = GetString(strID);
+
+	// set tooltip maximum width
+	SendMessage(hwndTip, TTM_SETMAXTIPWIDTH, 0, (LPARAM) 300);
+
+    SendMessage(hwndTip, TTM_ADDTOOL, 0, (LPARAM)&toolInfo);
+
+    return hwndTip;
 }
 
 
@@ -11092,6 +11210,10 @@ void Applink (const char *dest)
 	else if (strcmp(dest, "pim") == 0)
 	{
 		StringCbCopyW (page, sizeof (page),L"Personal%20Iterations%20Multiplier%20%28PIM%29.html");
+	}
+	else if (strcmp(dest, "memoryprotection") == 0)
+	{
+		StringCbCopyW (page, sizeof (page),L"VeraCrypt%20Memory%20Protection.html");
 	}
 	else
 	{
