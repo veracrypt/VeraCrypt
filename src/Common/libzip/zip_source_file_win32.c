@@ -69,7 +69,7 @@ zip_source_win32handle(zip_t *za, HANDLE h, zip_uint64_t start, zip_int64_t len)
 
 ZIP_EXTERN zip_source_t *
 zip_source_win32handle_create(HANDLE h, zip_uint64_t start, zip_int64_t length, zip_error_t *error) {
-    if (h == INVALID_HANDLE_VALUE || length < -1) {
+    if (h == INVALID_HANDLE_VALUE || length < ZIP_LENGTH_UNCHECKED) {
         zip_error_set(error, ZIP_ER_INVAL, 0);
         return NULL;
     }

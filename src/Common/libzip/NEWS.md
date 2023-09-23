@@ -1,3 +1,8 @@
+# 1.10.1 [2023-08-23]
+
+* Add `ZIP_LENGTH_TO_END` and `ZIP_LENGTH_UNCHECKED`. Unless `ZIP_LENGTH_UNCHECKED` is used as `length`, it is an error for a file to shrink between the time when the source is created and when its data is read.
+* Fix test on Windows.
+
 # 1.10.0 [2023-06-23]
 
 * Make support for layered sources public.

@@ -396,6 +396,11 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
     src_final = src;
     zip_source_keep(src_final);
 
+    if (!needs_decrypt && st.encryption_method == ZIP_EM_TRAD_PKWARE && (de->changed & ZIP_DIRENT_LAST_MOD)) {
+        /* PKWare encryption uses the last modification time for password verification, therefore we can't change it without re-encrypting. Ignoring the requested modification time change seems more sensible than failing to close the archive. */
+         de->changed &= ~ZIP_DIRENT_LAST_MOD;
+    }
+
     if (needs_decrypt) {
         zip_encryption_implementation impl;
 

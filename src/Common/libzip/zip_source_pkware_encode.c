@@ -42,6 +42,8 @@ struct trad_pkware {
     zip_pkware_keys_t keys;
     zip_buffer_t *buffer;
     bool eof;
+    bool mtime_set;
+    time_t mtime;
     zip_error_t error;
 };
 
@@ -50,7 +52,7 @@ static int encrypt_header(zip_source_t *, struct trad_pkware *);
 static zip_int64_t pkware_encrypt(zip_source_t *, void *, void *, zip_uint64_t, zip_source_cmd_t);
 static void trad_pkware_free(struct trad_pkware *);
 static struct trad_pkware *trad_pkware_new(const char *password, zip_error_t *error);
-
+static void set_mtime(struct trad_pkware* ctx, zip_stat_t* st);
 
 zip_source_t *
 zip_source_pkware_encode(zip_t *za, zip_source_t *src, zip_uint16_t em, int flags, const char *password) {
@@ -81,16 +83,19 @@ zip_source_pkware_encode(zip_t *za, zip_source_t *src, zip_uint16_t em, int flag
 
 static int
 encrypt_header(zip_source_t *src, struct trad_pkware *ctx) {
-    struct zip_stat st;
     unsigned short dostime, dosdate;
     zip_uint8_t *header;
 
-    if (zip_source_stat(src, &st) != 0) {
-        zip_error_set_from_source(&ctx->error, src);
-        return -1;
+    if (!ctx->mtime_set) {
+        struct zip_stat st;
+        if (zip_source_stat(src, &st) != 0) {
+            zip_error_set_from_source(&ctx->error, src);
+            return -1;
+        }
+        set_mtime(ctx, &st);
     }
 
-    _zip_u2d_time(st.mtime, &dostime, &dosdate);
+    _zip_u2d_time(ctx->mtime, &dostime, &dosdate);
 
     if ((ctx->buffer = _zip_buffer_new(NULL, ZIP_CRYPTO_PKWARE_HEADERLEN)) == NULL) {
         zip_error_set(&ctx->error, ZIP_ER_MEMORY, 0);
@@ -182,6 +187,9 @@ pkware_encrypt(zip_source_t *src, void *ud, void *data, zip_uint64_t length, zip
         if (st->valid & ZIP_STAT_COMP_SIZE) {
             st->comp_size += ZIP_CRYPTO_PKWARE_HEADERLEN;
         }
+        set_mtime(ctx, st);
+        st->mtime = ctx->mtime;
+        st->valid |= ZIP_STAT_MTIME;
 
         return 0;
     }
@@ -229,6 +237,8 @@ trad_pkware_new(const char *password, zip_error_t *error) {
         return NULL;
     }
     ctx->buffer = NULL;
+    ctx->mtime_set = false;
+    ctx->mtime = 0;
     zip_error_init(&ctx->error);
 
     return ctx;
@@ -245,4 +255,17 @@ trad_pkware_free(struct trad_pkware *ctx) {
     _zip_buffer_free(ctx->buffer);
     zip_error_fini(&ctx->error);
     free(ctx);
+}
+
+
+static void set_mtime(struct trad_pkware* ctx, zip_stat_t* st) {
+    if (!ctx->mtime_set) {
+        if (st->valid & ZIP_STAT_MTIME) {
+            ctx->mtime = st->mtime;
+        }
+        else {
+            time(&ctx->mtime);
+        }
+        ctx->mtime_set = true;
+    }
 }

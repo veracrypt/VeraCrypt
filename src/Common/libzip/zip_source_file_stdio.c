@@ -78,7 +78,7 @@ zip_source_filep(zip_t *za, FILE *file, zip_uint64_t start, zip_int64_t len) {
 
 ZIP_EXTERN zip_source_t *
 zip_source_filep_create(FILE *file, zip_uint64_t start, zip_int64_t length, zip_error_t *error) {
-    if (file == NULL || length < -1) {
+    if (file == NULL || length < ZIP_LENGTH_UNCHECKED) {
         zip_error_set(error, ZIP_ER_INVAL, 0);
         return NULL;
     }

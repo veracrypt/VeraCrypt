@@ -53,6 +53,7 @@ ZIP_EXTERN zip_source_t *zip_source_zip_file_create(zip_t *srcza, zip_uint64_t s
     zip_flags_t stat_flags;
     zip_int64_t data_len;
     bool take_ownership = false;
+    bool empty_data = false;
 
     if (srcza == NULL || srcidx >= srcza->nentry || len < -1) {
         zip_error_set(error, ZIP_ER_INVAL, 0);
@@ -147,15 +148,13 @@ ZIP_EXTERN zip_source_t *zip_source_zip_file_create(zip_t *srcza, zip_uint64_t s
     _zip_file_attributes_from_dirent(&attributes, de);
 
     have_comp_size = (st.valid & ZIP_STAT_COMP_SIZE) != 0;
-    if (compressed) {
-        if (have_comp_size && st.comp_size == 0) {
-            src = zip_source_buffer_with_attributes_create(NULL, 0, 0, &attributes, error);
-        }
-        else {
-            src = NULL;
-        }
+    if (needs_decrypt || needs_decompress) {
+        empty_data = (have_comp_size && st.comp_size == 0);
     }
-    else if (have_size && st.size == 0) {
+    else {
+        empty_data = (have_size && st.size == 0);
+    }
+    if (empty_data) {
         src = zip_source_buffer_with_attributes_create(NULL, 0, 0, &attributes, error);
     }
     else {
