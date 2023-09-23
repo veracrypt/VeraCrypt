@@ -702,7 +702,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 
 			case IDC_DISABLE_MEMORY_PROTECTION_HELP:
-				Applink("memoryprotection")
+				Applink("memoryprotection");
 				return 1;
 
 			case IDC_FILE_TYPE:

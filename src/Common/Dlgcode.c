@@ -11223,8 +11223,14 @@ void Applink (const char *dest)
 	
 	if (buildUrl)
 	{
+		// in case of setup, always open the online documentation because existing documentation may be outdated
+#ifdef SETUP
+		StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+		buildUrl = FALSE;
+#else
 		StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
 		CorrectURL (url);
+#endif
 	}
 
 	if (IsAdmin ())
