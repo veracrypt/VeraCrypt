@@ -883,6 +883,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			DonColorSchemeId = GetDonVal (2, 9);
 
+			// get the initial value of bDisableMemoryProtection by reading the registry
+			bDisableMemoryProtection = bOriginalDisableMemoryProtection = ReadMemoryProtectionConfig()? FALSE : TRUE;
+
 			if (bDevm)
 			{
 				InitWizardDestInstallPath ();

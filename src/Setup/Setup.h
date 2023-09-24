@@ -121,6 +121,7 @@ extern BOOL bSystemRestore;
 extern BOOL bDisableSwapFiles;
 extern BOOL bForAllUsers;
 extern BOOL bDisableMemoryProtection;
+extern BOOL bOriginalDisableMemoryProtection;
 extern BOOL bRegisterFileExt;
 extern BOOL bAddToStartMenu;
 extern BOOL bDesktopIcon;
