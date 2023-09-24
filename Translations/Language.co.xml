@@ -10,7 +10,7 @@ Information about Corsican localization:
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
 	          June 29th (1.26.2), July 1st (1.26.3), July 30th (1.26.4), Aug. 14th (1.26.5), Sep. 8th (1.26.5),
-	          Sep. 20th (1.26.5)
+	          Sep. 20th (1.26.5), Sep. 24th (1.26.6)
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Created on March 6th, 2022 for version 1.25.9 by Patriccollu di Santa Maria è Sichè
 
@@ -19,7 +19,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.6">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.2" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.3" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -1651,8 +1651,8 @@ Information about Corsican localization:
 		<entry lang="co" key="EXPANDER_EXTENDING_FILESYSTEM">Estensione di u sistema di schedariu…\n</entry>
 		<entry lang="co" key="PARTIAL_SYSENC_MOUNT_READONLY">Avertimentu : A partizione di u sistema chì vo circate à muntà ùn hè stata micca cifrata sana. Da misura di sicurità, è per impedisce un alterazione pussibule, u vulume « %s » hè statu muntatu solu in lettura.</entry>
 		<entry lang="co" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Infurmazione impurtante nant’à l’impiegu d’estensioni di schedariu terze</entry>
-		<entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-		<entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+		<entry lang="co" key="IDC_DISABLE_MEMORY_PROTECTION">Disattivà a prutezzione di memoria per a cumpatibilità cù l’attrezzi d’accessibilità</entry>
+		<entry lang="co" key="DISABLE_MEMORY_PROTECTION_WARNING">AVERTIMENTU : A disattivazione di prutezzione di memoria riduce a sicurità d’una manera significativa. Attivà st’ozzione SOLU s’è vo impiegate l’attrezzi d’accessibilità, cum’è i lettori di screnu, per interagisce cù l’interfaccia grafica di VeraCrypt.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
