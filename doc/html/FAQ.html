@@ -748,7 +748,21 @@ sudo /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt
 Running VeraCrypt with sudo often bypasses certain permission-related issues, but it's always a good practice to grant the necessary permissions via the system settings whenever possible.</p>
 </li>
 </ul>
- </div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Why does VeraCrypt show an unknown device in its list that doesn't appear as a physical disk in Windows Disk Management or in DiskPart output?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>
+Starting from Windows 10 version 1903 and later, Microsoft introduced a feature called <b>Windows Sandbox</b>. This is an isolated environment designed to run untrusted applications safely. As part of this feature, Windows generates a dynamic virtual hard disk (VHDX) which represents a clean Windows installation. This VHDX contains a base system image, user data, and the runtime state, and its size can vary depending on system configurations and usage.	
+</p>
+<p>
+When VeraCrypt enumerates devices on a system, it identifies all available disk devices using device path formats like <b>\Device\HardDiskX\PartitionY</b>. VeraCrypt lists these devices, including virtual ones such as those associated with Windows Sandbox, without making distinctions based on their physical or virtual nature. Therefore, you might observe an unexpected device in VeraCrypt, even if it doesn't appear as a physical disk in tools like diskpart.
+</p>
+<p>
+For more details on the Windows Sandbox feature and its associated virtual hard disk, you can refer to this <a href="https://techcommunity.microsoft.com/t5/windows-os-platform-blog/windows-sandbox/ba-p/301849">official Microsoft article</a>.
+</p>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <strong style="text-align:left">I haven't found any answer to my question in the FAQ &ndash; what should I do?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Please search the VeraCrypt documentation and website.</div>
