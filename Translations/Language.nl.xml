@@ -1633,7 +1633,8 @@
     <entry lang="nl" key="EXPANDER_EXTENDING_FILESYSTEM">Bestandssysteem uitbreiden...\n</entry>
     <entry lang="nl" key="PARTIAL_SYSENC_MOUNT_READONLY">Waarschuwing: de systeempartitie die u probeerde te koppelen was niet volledig versleuteld. Als veiligheidsmaatregel om mogelijke beschadiging of ongewenste wijzigingen te voorkomen, is volume '%s' gekoppeld als alleen-lezen.</entry>
     <entry lang="nl" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Belangrijke informatie over het gebruik van bestandsextensies van derden</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection in VeraCrypt</entry>
+    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
+    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

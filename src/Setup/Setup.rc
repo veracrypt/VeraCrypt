@@ -151,8 +151,9 @@ BEGIN
     CONTROL         "Add VeraCrypt icon to &desktop",IDC_DESKTOP_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,92,168,11
     CONTROL         "Associate the .hc file &extension with VeraCrypt",IDC_FILE_TYPE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,104,232,11
-    CONTROL         "Disable memory protection in VeraCrypt",IDC_DISABLE_MEMORY_PROTECTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,115,218,10
+    CONTROL         "Disable memory protection for Accessibility tools compatibility",IDC_DISABLE_MEMORY_PROTECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,115,315,10
+    PUSHBUTTON      "?",IDC_DISABLE_MEMORY_PROTECTION_HELP,337,111,7,14
     CONTROL         "Create System &Restore point",IDC_SYSTEM_RESTORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,125,194,11
     LTEXT           "Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.",IDT_INSTALL_DESTINATION,11,14,319,25
 END
