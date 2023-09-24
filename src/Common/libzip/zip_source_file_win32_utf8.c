@@ -49,7 +49,7 @@ zip_source_file_create(const char *fname, zip_uint64_t start, zip_int64_t length
     wchar_t *wfname;
     zip_source_t *source;
 
-    if (fname == NULL || length < -1) {
+    if (fname == NULL || length < ZIP_LENGTH_UNCHECKED) {
         zip_error_set(error, ZIP_ER_INVAL, 0);
         return NULL;
     }
