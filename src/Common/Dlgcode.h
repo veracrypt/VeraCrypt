@@ -597,6 +597,7 @@ DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
 #ifdef _WIN64
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif
+BOOL IsInternetConnected();
 #ifdef __cplusplus
 }
 

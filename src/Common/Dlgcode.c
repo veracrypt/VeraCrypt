@@ -18,6 +18,7 @@
 #include <dbt.h>
 #include <Setupapi.h>
 #include <aclapi.h>
+#include <Netlistmgr.h>
 #include <fcntl.h>
 #include <io.h>
 #include <math.h>
@@ -11223,10 +11224,18 @@ void Applink (const char *dest)
 	
 	if (buildUrl)
 	{
-		// in case of setup, always open the online documentation because existing documentation may be outdated
+		// in case of setup, open the online documentation if we are connected to Internet because existing documentation may be outdated
 #ifdef SETUP
-		StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
-		buildUrl = FALSE;
+		if (IsInternetConnected())
+		{
+			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+			buildUrl = FALSE;
+		}
+		else
+		{
+			StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
+			CorrectURL (url);
+		}
 #else
 		StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
 		CorrectURL (url);
@@ -15232,6 +15241,33 @@ void PasswordEditDropTarget::GotDrop(CLIPFORMAT format)
 	}
 }
 
+
+// check if the PC is connected to the internet using INetworkListManager interface
+BOOL IsInternetConnected()
+{
+    HRESULT hr;
+    BOOL isConnected = FALSE;
+    INetworkListManager* pNetworkListManager = nullptr;
+
+    hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+    if (SUCCEEDED(hr))
+    {
+        hr = CoCreateInstance(CLSID_NetworkListManager, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pNetworkListManager));
+        if (SUCCEEDED(hr))
+        {
+            VARIANT_BOOL isConnectedVariant;
+            hr = pNetworkListManager->get_IsConnectedToInternet(&isConnectedVariant);
+            if (SUCCEEDED(hr))
+            {
+                isConnected = isConnectedVariant == VARIANT_TRUE;
+            }
+            pNetworkListManager->Release();
+        }
+        CoUninitialize();
+    }
+
+    return isConnected;
+}
 
 /*
  * Query the status of Hibernate and Fast Startup
