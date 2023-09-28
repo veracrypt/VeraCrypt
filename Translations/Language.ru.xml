@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.6">
-    <language langid="ru" name="Русский" en-name="Russian" version="1.26.5-1" translators="Dmitry Yerokhin" />
+    <language langid="ru" name="Русский" en-name="Russian" version="1.26.6" translators="Dmitry Yerokhin" />
     <font lang="ru" class="normal" size="11" face="default" />
     <font lang="ru" class="bold" size="13" face="Arial" />
     <font lang="ru" class="fixed" size="12" face="Lucida Console" />
@@ -1632,9 +1632,9 @@
     <entry lang="ru" key="EXPANDER_UNMOUNTING_VOLUME">Размонтирование тома...\n</entry>
     <entry lang="ru" key="EXPANDER_EXTENDING_FILESYSTEM">Увеличение объёма файловой системы...\n</entry>
     <entry lang="ru" key="PARTIAL_SYSENC_MOUNT_READONLY">ВНИМАНИЕ: Системный раздел, который вы пытались смонтировать, не был полностью зашифрован. Чтобы предотвратить потенциальное повреждение или нежелательные изменения, том '%s' смонтирован как только для чтения.</entry>
-    <entry lang="ru" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Важная информация об использовании сторонних расширений файлов</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="ru" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">ВАЖНО: О сторонних расширениях файлов</entry>
+    <entry lang="ru" key="IDC_DISABLE_MEMORY_PROTECTION">Отключить защиту памяти для совместимости со специальными возможностями</entry>
+    <entry lang="ru" key="DISABLE_MEMORY_PROTECTION_WARNING">ВНИМАНИЕ: Отключение защиты памяти значительно снижает безопасность. Включайте эту опцию, ТОЛЬКО если вам нужны специальные возможности, такие как экранный диктор, для взаимодействия с интерфейсом VeraCrypt.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
