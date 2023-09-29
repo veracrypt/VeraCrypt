@@ -305,6 +305,10 @@ typedef NTSTATUS (NTAPI *ExGetFirmwareEnvironmentVariableFn) (
   PULONG          Attributes
 );
 
+typedef ULONG64 (NTAPI *KeQueryInterruptTimePreciseFn)(
+  PULONG64 QpcTimeStamp
+);
+
 typedef BOOLEAN (NTAPI *KeAreAllApcsDisabledFn) ();
 
 typedef void (NTAPI *KeSetSystemGroupAffinityThreadFn)(
