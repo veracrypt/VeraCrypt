@@ -11574,6 +11574,7 @@ void NotifyService (DWORD dwNotifyCmd)
 
 static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static HWND hDisableMemProtectionTooltipWnd = NULL;
 	WORD lw = LOWORD (wParam);
 
 	switch (msg)
@@ -11652,8 +11653,23 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 
 			ToHyperlink (hwndDlg, IDC_MORE_INFO_ON_HW_ACCELERATION);
 			ToHyperlink (hwndDlg, IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION);
+
+			hDisableMemProtectionTooltipWnd = CreateToolTip (IDC_DISABLE_MEMORY_PROTECTION, hwndDlg, "DISABLE_MEMORY_PROTECTION_WARNING");
+			// make IDC_DISABLE_MEMORY_PROTECTION control fit the text so that the tooltip is shown only when mouse is over the text
+			AccommodateCheckBoxTextWidth(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION);
+			// make the help button adjacent to the checkbox
+			MakeControlsContiguous(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, IDC_DISABLE_MEMORY_PROTECTION_HELP);
 		}
 		return 0;
+
+	// handle message to destroy hDisableMemProtectionTooltipWnd when the dialog is closed
+	case WM_DESTROY:
+		if (hDisableMemProtectionTooltipWnd)
+		{
+			DestroyWindow (hDisableMemProtectionTooltipWnd);
+			hDisableMemProtectionTooltipWnd = NULL;
+		}
+		break;
 
 	case WM_COMMAND:
 
@@ -11852,9 +11868,17 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				BOOL originalDisableMemoryProtection = !ReadMemoryProtectionConfig();
 				if (disableMemoryProtection != originalDisableMemoryProtection)
 				{
+					if (disableMemoryProtection)
+					{
+						Warning ("DISABLE_MEMORY_PROTECTION_WARNING", hwndDlg);
+					}
+
 					Warning ("SETTING_REQUIRES_REBOOT", hwndDlg);
 				}
 			}
+			return 1;
+		case IDC_DISABLE_MEMORY_PROTECTION_HELP:
+			Applink ("memoryprotection");
 			return 1;
 		case IDC_BENCHMARK:
 			Benchmark (hwndDlg);

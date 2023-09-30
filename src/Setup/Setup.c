@@ -75,6 +75,7 @@ BOOL bSystemRestore = TRUE;
 BOOL bDisableSwapFiles = FALSE;
 BOOL bForAllUsers = TRUE;
 BOOL bDisableMemoryProtection = FALSE;
+BOOL bOriginalDisableMemoryProtection = FALSE;
 BOOL bRegisterFileExt = TRUE;
 BOOL bAddToStartMenu = TRUE;
 BOOL bDesktopIcon = TRUE;
@@ -2336,9 +2337,10 @@ void DoInstall (void *arg)
 	if (bSystemRestore)
 		SetSystemRestorePoint (hwndDlg, TRUE);
 
-	if (bOK && bDisableMemoryProtection)
+	if (bOK && (bDisableMemoryProtection != bOriginalDisableMemoryProtection))
 	{
-		WriteMemoryProtectionConfig(FALSE);
+		WriteMemoryProtectionConfig(bDisableMemoryProtection? FALSE : TRUE);
+		bRestartRequired = TRUE; // Restart is required to apply the new memory protection settings
 	}
 
 	if (bOK)

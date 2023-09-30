@@ -57,7 +57,8 @@ zip_set_archive_flag(zip_t *za, zip_flags_t flag, int value) {
         return 0;
     }
 
-    if (ZIP_IS_RDONLY(za)) {
+    /* Allow removing ZIP_AFL_RDONLY if manually set, not if archive was opened read-only. */
+    if (za->flags & ZIP_AFL_RDONLY) {
         zip_error_set(&za->error, ZIP_ER_RDONLY, 0);
         return -1;
     }
