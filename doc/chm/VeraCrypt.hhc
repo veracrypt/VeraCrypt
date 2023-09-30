@@ -243,6 +243,10 @@
 			<param name="Local" value="Unencrypted Data in RAM.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt RAM Encryption">
+			<param name="Local" value="VeraCrypt RAM Encryption.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="VeraCrypt Memory Protection">
 			<param name="Local" value="VeraCrypt Memory Protection.html">
 			</OBJECT>
