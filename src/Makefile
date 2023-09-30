@@ -195,14 +195,21 @@ ifeq "$(shell uname -s)" "Linux"
 	# PCSC
 	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
 
+	# Extract the major and minor version numbers of GCC in a combined format for easy comparison
+	GCC_VERSION := $(shell $(CC) -dumpversion | awk -F. '{printf "%d%02d", $$1, $$2}')
 
-	# GNU GCC version 11 and higher compile with -std=gnu++17 by default
-        # which breaks "byte" definitions in Crypto++ library. So set 
-        # -std=gnu++14 instead.
-        GCC11PLUS := $(shell expr `$(CC) -dumpversion | cut -f1 -d.` \>= 11)
-        ifeq "$(GCC11PLUS)" "1"
-                CXXFLAGS += -std=gnu++14
-        endif
+	# Set the C++ standard based on the version numbers
+	ifeq ($(shell expr $(GCC_VERSION) \< 408), 1)
+		# GCC version below 4.8 support minimal C++11 features through the switch -std=c++0x
+		CXXFLAGS += -std=c++0x
+	else ifeq ($(GCC_VERSION), 408)
+		# GCC version 4.8 supports C++11 features through the switch -std=gnu++11
+		CXXFLAGS += -std=gnu++11
+	else ifeq ($(shell expr $(GCC_VERSION) \>= 1100), 1)
+		# GNU GCC version 11 and higher compile with -std=gnu++17 by default
+		# which breaks "byte" definitions in Crypto++ library. So set -std=gnu++14 instead.
+		CXXFLAGS += -std=gnu++14
+	endif
 
 	
 	ifeq "$(SIMD_SUPPORTED)" "1"
