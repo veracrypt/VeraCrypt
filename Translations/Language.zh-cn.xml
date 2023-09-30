@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.6">
-    <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.1" translators="Barney Li, Zhangjintao, Nkh0472" />
+    <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.2" translators="Barney Li, Zhangjintao, Nkh0472，风之暇想" />
     <font lang="zh-cn" class="normal" size="11" face="Tahoma" />
     <font lang="zh-cn" class="bold" size="14" face="Tahoma" />
     <font lang="zh-cn" class="fixed" size="14" face="MingLiU" />
@@ -1573,7 +1573,7 @@
     <entry lang="zh-cn" key="IDC_USE_ALL_FREE_SPACE">使用所有空闲空间。</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt无法升级，因为系统分区/驱动器使用了将不再支持的算法进行加密。\n请在升级VeraCrypt之前解密系统，然后再次加密。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_TERMINALNOTFOUND">未找到支持的终端应用程序，您需要xterm、konsole或gnome终端（带有dbus-x11）。</entry>
-    <entry lang="zh-cn" key="IDM_MOUNT_NO_CACHE">无缓存装载</entry>
+    <entry lang="zh-cn" key="IDM_MOUNT_NO_CACHE">无缓存加载</entry>
     <entry lang="zh-cn" key="EXPANDER_INFO">:: VeraCrypt 加密卷扩展向导 ::\n\n无需重新格式化即可即时扩展 VeraCrypt 加密卷\n\n\n支持使用 NTFS 格式化的所有卷（容器文件、磁盘和分区）。唯一的条件是 VeraCrypt 卷的主机驱动器或主机设备上必须有足够的可用空间。\n\n请勿使用本软件扩展包含隐藏加密卷的外层加密卷，因为这会破坏隐藏加密卷！\n</entry>
     <entry lang="zh-cn" key="IDC_STEPSEXPAND">1. 选择要扩展的VeraCrypt卷\n2. 点击 '装载' 按钮</entry>
     <entry lang="zh-cn" key="IDT_VOL_NAME">卷：</entry>
