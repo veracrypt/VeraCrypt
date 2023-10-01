@@ -203,8 +203,8 @@ ifeq "$(shell uname -s)" "Linux"
 		# GCC version below 4.8 support minimal C++11 features through the switch -std=c++0x
 		CXXFLAGS += -std=c++0x
 	else ifeq ($(GCC_VERSION), 408)
-		# GCC version 4.8 supports C++11 features through the switch -std=gnu++11
-		CXXFLAGS += -std=gnu++11
+		# GCC version 4.8 supports C++11 features through the switch -std=c++11
+		CXXFLAGS += -std=c++11
 	else ifeq ($(shell expr $(GCC_VERSION) \>= 1100), 1)
 		# GNU GCC version 11 and higher compile with -std=gnu++17 by default
 		# which breaks "byte" definitions in Crypto++ library. So set -std=gnu++14 instead.

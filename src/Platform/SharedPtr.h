@@ -21,7 +21,7 @@
 
 namespace VeraCrypt
 {
-#if (__cplusplus >= 201103L)
+#if (__cplusplus >= 201103L) || defined(__GXX_EXPERIMENTAL_CXX0X__)
 	#define VC_USE_NATIVE_PTR	1
 #endif
 

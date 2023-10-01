@@ -50,9 +50,9 @@ namespace VeraCrypt
 	class Token
 	{
 	public:
-		static vector<shared_ptr<TokenKeyfile>> GetAvailableKeyfiles(bool isEMVSupportEnabled);
+		static vector< shared_ptr<TokenKeyfile> > GetAvailableKeyfiles(bool isEMVSupportEnabled);
 		static bool IsKeyfilePathValid(const wstring& tokenKeyfilePath, bool isEMVSupportEnabled);
-		static list <shared_ptr<TokenInfo>> GetAvailableTokens();
+		static list < shared_ptr<TokenInfo> > GetAvailableTokens();
 		static shared_ptr<TokenKeyfile> getTokenKeyfile(const TokenKeyfilePath& path);
 	};
 };
