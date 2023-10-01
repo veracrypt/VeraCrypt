@@ -303,6 +303,8 @@ ifeq "$(shell uname -s)" "Darwin"
 	CC := gcc
 	CXX := g++
 
+	GCC_GTEQ_430 := 1
+
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_MACOSX -mmacosx-version-min=$(VC_OSX_TARGET) -isysroot $(VC_OSX_SDK_PATH)
 	LFLAGS += -mmacosx-version-min=$(VC_OSX_TARGET) -Wl,-syslibroot $(VC_OSX_SDK_PATH)
 	WX_CONFIGURE_FLAGS += --with-macosx-version-min=$(VC_OSX_TARGET) --with-macosx-sdk=$(VC_OSX_SDK_PATH)
@@ -381,6 +383,8 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	
 	CC := cc
 	CXX := c++
+
+	GCC_GTEQ_430 := 1
 	
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
 		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
@@ -440,6 +444,8 @@ ifeq "$(shell uname -s)" "OpenBSD"
 
 	CC := cc
 	CXX := c++
+
+	GCC_GTEQ_430 := 1
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
 		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
