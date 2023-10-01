@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -756,7 +755,7 @@
 						<key>IC_REQUIREMENT_OS_DISTRIBUTION_TYPE</key>
 						<integer>0</integer>
 						<key>IC_REQUIREMENT_OS_MINIMUM_VERSION</key>
-						<integer>100900</integer>
+						<integer>120001</integer>
 					</dict>
 					<key>IC_REQUIREMENT_CHECK_TYPE</key>
 					<integer>0</integer>
@@ -768,13 +767,13 @@
 							<key>LANGUAGE</key>
 							<string>English</string>
 							<key>VALUE</key>
-							<string>VeraCrypt requires MacOSX 10.9 and above.</string>
+							<string>VeraCrypt requires MacOSX 12 and above.</string>
 						</dict>
 						<dict>
 							<key>LANGUAGE</key>
 							<string>French</string>
 							<key>VALUE</key>
-							<string>VeraCrypt nécessite MacOSX 10.9 et supérieur.</string>
+							<string>VeraCrypt nécessite MacOSX 12 et supérieur.</string>
 						</dict>
 					</array>
 					<key>NAME</key>

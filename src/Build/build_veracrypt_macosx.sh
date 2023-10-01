@@ -13,15 +13,15 @@ SOURCEPATH=$(cd "$(dirname "$SCRIPTPATH/../.")"; pwd)
 PARENTDIR=$(cd "$(dirname "$SCRIPTPATH/../../../.")"; pwd)
 
 # the sources of wxWidgets 3.1.2 must be extracted to the parent directory (for night mode)
-export WX_ROOT=$PARENTDIR/wxWidgets-3.1.2
+export WX_ROOT=$PARENTDIR/wxWidgets-3.2.2.1
 echo "Using wxWidgets sources in $WX_ROOT"
 
 # this will be the temporary wxWidgets directory
-export WX_BUILD_DIR=$PARENTDIR/wxBuild-3.1.2
+export WX_BUILD_DIR=$PARENTDIR/wxBuild-3.2.2.1
 
 # define the SDK version to use and OSX minimum target. We target 10.9 by default
-export VC_OSX_TARGET=10.9
-export VC_OSX_SDK=11.3
+export VC_OSX_TARGET=12
+export VC_OSX_SDK=13
 echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
 
 cd $SOURCEPATH
@@ -31,3 +31,4 @@ make WXSTATIC=FULL wxbuild && make WXSTATIC=FULL clean && make WXSTATIC=FULL && 
 
 # Uncomment below and comment line above to reuse existing wxWidgets build
 # make WXSTATIC=FULL clean && make WXSTATIC=FULL && make WXSTATIC=FULL package
+
