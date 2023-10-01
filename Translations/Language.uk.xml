@@ -11,10 +11,10 @@
     <entry lang="uk" key="IDC_BROWSE">О&amp;гляд...</entry>
     <entry lang="uk" key="IDC_DESKTOP_ICON">&amp;Значок VeraCrypt на Рабочому столі</entry>
     <entry lang="uk" key="IDC_DONATE">допомога проекту...</entry>
-    <entry lang="uk" key="IDC_FILE_TYPE">Ассоціювати роз&amp;ширення '.hc' с VeraCrypt</entry>
+    <entry lang="uk" key="IDC_FILE_TYPE">Ассоціювати роз&amp;ширення '.hc' з VeraCrypt</entry>
     <entry lang="uk" key="IDC_OPEN_CONTAINING_FOLDER">По закінченні відкр&amp;ити місце призначення</entry>
     <entry lang="uk" key="IDC_PROG_GROUP">&amp;Додати VeraCrypt в меню 'Пуск'</entry>
-    <entry lang="uk" key="IDC_SYSTEM_RESTORE">Створити то&amp;чку воідновлення системи</entry>
+    <entry lang="uk" key="IDC_SYSTEM_RESTORE">Створити то&amp;чку відновлення системи</entry>
     <entry lang="uk" key="IDC_UNINSTALL">Вида&amp;лення</entry>
     <entry lang="uk" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Витягнути</entry>
     <entry lang="uk" key="IDC_WIZARD_MODE_INSTALL">&amp;Встановити</entry>
@@ -23,12 +23,12 @@
     <entry lang="uk" key="IDHELP">&amp;Довідка</entry>
     <entry lang="uk" key="IDT_EXTRACT_DESTINATION">Вкажіть місце призначення для витягнених файлів:</entry>
     <entry lang="uk" key="IDT_INSTALL_DESTINATION">Виберіть місце, куда ви хочете встановити програмні файли VeraCrypt.\nЯкщо вказаної теки не існує, вона буде створена автоматично.</entry>
-    <entry lang="uk" key="IDT_UNINSTALL_DIR">Щолкніть 'Видалення', щоб видалити VeraCrypt з цієї системи.</entry>
+    <entry lang="uk" key="IDT_UNINSTALL_DIR">Клацніть 'Видалення', щоб видалити VeraCrypt з цієї системи.</entry>
     <entry lang="uk" key="IDC_ABORT_BUTTON">Стоп</entry>
     <entry lang="uk" key="IDC_BENCHMARK">&amp;Випробувати</entry>
     <entry lang="uk" key="IDC_CIPHER_TEST">&amp;Тест</entry>
     <entry lang="uk" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Створити зашифрований том і відформатувати його</entry>
-    <entry lang="uk" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Зашифрувати розділ на йго місці</entry>
+    <entry lang="uk" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Зашифрувати розділ на його місці</entry>
     <entry lang="uk" key="IDC_DISPLAY_KEYS">Показ створених ключів (їх частин)</entry>
     <entry lang="uk" key="IDC_DISPLAY_POOL_CONTENTS">Показувати пул</entry>
     <entry lang="uk" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Завантажити ПЗ для запису CD/DVD</entry>
@@ -56,13 +56,13 @@
     <entry lang="uk" key="IDC_NONSYS_DEVICE">Зашифрувати несистемний розділ/диск</entry>
     <entry lang="uk" key="IDC_NO_HISTORY">&amp;Не зберігати історію</entry>
     <entry lang="uk" key="IDC_OPEN_OUTER_VOLUME">Відкрити зовнішній том</entry>
-    <entry lang="uk" key="IDC_PAUSE">&amp;Павза</entry>
+    <entry lang="uk" key="IDC_PAUSE">&amp;Навза</entry>
     <entry lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</entry>
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="uk" key="IDC_QUICKFORMAT">Швидке форматування.</entry>
     <entry lang="uk" key="IDC_SHOW_PASSWORD">&amp;Показ пароля</entry>
     <entry lang="uk" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Показ пароля</entry>
-    <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
+    <entry lang="en" key="IDC_SHOW_PIM">&amp;Показ PIM</entry>
     <entry lang="uk" key="IDC_SINGLE_BOOT">Одиночна загрузка</entry>
     <entry lang="uk" key="IDC_STD_VOL">Звичайний том VeraCrypt</entry>
     <entry lang="uk" key="IDC_SYSENC_HIDDEN">Пр&amp;ихований</entry>
@@ -72,10 +72,10 @@
     <entry lang="uk" key="IDC_WHOLE_SYS_DRIVE">Зашифрувати весь диск</entry>
     <entry lang="uk" key="IDD_VOL_CREATION_WIZARD_DLG">Майстер створення томів VeraCrypt</entry>
     <entry lang="uk" key="IDT_CLUSTER">Кластер </entry>
-    <entry lang="uk" key="IDT_COLLECTING_RANDOM_DATA_NOTE">ВАЖНО: Хаотично переміщуйте миш всередині цього вікна. Чим довше тим ліпше. Це значно збільшить криптостійкість ключів шифрування. Потім натисніть 'Далі' для продовження.</entry>
+    <entry lang="uk" key="IDT_COLLECTING_RANDOM_DATA_NOTE">ВАЖНО: Хаотично переміщуйте курсор всередині цього вікна. Чим довше тим краще. Це значно збільшить криптостійкість ключів шифрування. Потім натисніть 'Далі' для продовження.</entry>
     <entry lang="uk" key="IDT_CONFIRM">&amp;Підтвердіть:</entry>
     <entry lang="uk" key="IDT_DONE">Готово </entry>
-    <entry lang="en" key="IDT_DRIVE_LETTER">Drive letter:</entry>
+    <entry lang="en" key="IDT_DRIVE_LETTER">Буква диска:</entry>
     <entry lang="uk" key="IDT_ENCRYPTION_ALGO">Алгоритм шифрування</entry>
     <entry lang="uk" key="IDT_FILESYSTEM">Файл.сист.</entry>
     <entry lang="uk" key="IDT_FILE_CONTAINER">Створити віртуальний зашифрованний диск всередині файла. Рекомендується недосвідченим користувачам.</entry>
@@ -84,7 +84,7 @@
     <entry lang="uk" key="IDT_HEADER_KEY">Ключ заг-ка: </entry>
     <entry lang="uk" key="IDT_LEFT">Ще</entry>
     <entry lang="uk" key="IDT_MASTER_KEY">Майстер-ключ: </entry>
-    <entry lang="uk" key="IDT_MULTI_BOOT">Виберіть цю опцію, якщо в ПК встановлено дві чи більше ОС.\n\nНапример:\n- Windows XP і Windows XP\n- Windows XP і Windows Vista\n- Windows і Mac OS X\n- Windows і Linux\n- Windows, Linux і Mac OS X</entry>
+    <entry lang="uk" key="IDT_MULTI_BOOT">Виберіть цю опцію, якщо в ПК встановлено дві чи більше ОС.\n\nНаприклад:\n- Windows XP і Windows XP\n- Windows XP і Windows Vista\n- Windows і Mac OS X\n- Windows і Linux\n- Windows, Linux і Mac OS X</entry>
     <entry lang="uk" key="IDT_NON_SYS_DEVICE">Шифрує несистемний розділ на диск (наприклад, флеш-диск). За бажанням, створює прихований вміст.</entry>
     <entry lang="uk" key="IDT_PARTIAL_POOL_CONTENTS">Поточний вміст пула (часть)</entry>
     <entry lang="uk" key="IDT_PASS">Пароль</entry>
@@ -93,21 +93,21 @@
     <entry lang="en" key="IDT_OLD_PIM">Volume PIM:</entry>
     <entry lang="uk" key="IDT_PROGRESS">Хід операції:</entry>
     <entry lang="uk" key="IDT_RANDOM_POOL">Випадково: </entry>
-    <entry lang="uk" key="IDT_SINGLE_BOOT">Выберіть цю опцію, якщо в ПК встановлена тілько одна ОС (навіть якщо вона з кількома користувачами).</entry>
+    <entry lang="uk" key="IDT_SINGLE_BOOT">Виберіть цю опцію, якщо в ПК встановлена тілько одна ОС (навіть якщо вона з кількома користувачами).</entry>
     <entry lang="uk" key="IDT_SPEED">Швидкість </entry>
     <entry lang="uk" key="IDT_STATUS">Статус</entry>
-    <entry lang="uk" key="IDT_SYSENC_KEYS_GEN_INFO">Ключі, 'соль' і інші дані успішно згенеровані. Якщо ви хчете згенерувати новіе ключі, натисніть 'Назад', а потім 'Далі'. Якщо ж ні, то натисніть 'Далі' для продовження.</entry>
+    <entry lang="uk" key="IDT_SYSENC_KEYS_GEN_INFO">Ключі, 'сіль' та інші дані успішно згенеровані. Якщо ви хочете згенерувати новіе ключі, натисніть 'Назад', а потім 'Далі'. Якщо ж ні, то натисніть 'Далі' для продовження.</entry>
     <entry lang="uk" key="IDT_SYS_DEVICE">Зашифрувати розділ/диск, де встановлена Windows. Перед кожним завантаженням Windows потрібно буде вводити пароль для доступа до ОС, зчтитування і записи файлів і т.д. Додатково - створення прихоапної ОС.</entry>
     <entry lang="uk" key="IDT_SYS_PARTITION">Виберіть цю опцію, щоб зашифрувати розділ, де встановлена Windows і з якого вона завантажується.</entry>
     <entry lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</entry>
     <entry lang="uk" key="IDT_WIPE_MODE">Режим очищення:</entry>
     <entry lang="uk" key="IDCLOSE">Закрити</entry>
-    <entry lang="uk" key="IDC_ALLOW_ESC_PBA_BYPASS">Доз&amp;волити відміну предзагрузочної аутентифікації по Esc (включити диспетчер завантаженння)</entry>
+    <entry lang="uk" key="IDC_ALLOW_ESC_PBA_BYPASS">Доз&amp;волити відміну передзагрузочної аутентифікації по Esc (включити диспетчер завантаженння)</entry>
     <entry lang="uk" key="IDC_AUTORUN_DISABLE">Немає дій</entry>
     <entry lang="uk" key="IDC_AUTORUN_MOUNT">&amp;Автомонтування тома VeraCrypt (вказанного)</entry>
     <entry lang="uk" key="IDC_AUTORUN_START">&amp;Запуск VeraCrypt</entry>
     <entry lang="uk" key="IDC_AUTO_DETECT_PKCS11_MODULE">Автовизначення &amp;бібліотеки</entry>
-    <entry lang="uk" key="IDC_BOOT_LOADER_CACHE_PASSWORD">К&amp;ешувати пароль предзагрузочної аутентифікації в памяті драйвера (для монтування несистемных томів)</entry>
+    <entry lang="uk" key="IDC_BOOT_LOADER_CACHE_PASSWORD">К&amp;ешувати пароль передзагрузочної аутентифікації в памяті драйвера (для монтування несистемных томів)</entry>
     <entry lang="uk" key="IDC_BROWSE_DIRS">Огляд...</entry>
     <entry lang="uk" key="IDC_BROWSE_FILES">Огляд...</entry>
     <entry lang="uk" key="IDC_CACHE">К&amp;ешувати паролі і ключеві файли</entry>
@@ -117,7 +117,7 @@
     <entry lang="uk" key="IDC_COPY_WIZARD">З майстром створення томів VeraCrypt</entry>
     <entry lang="uk" key="IDC_CREATE">Створити</entry>
     <entry lang="uk" key="IDC_CREATE_VOLUME">&amp;Створити том</entry>
-    <entry lang="uk" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Не відображати текст на &amp;екрані футентифікації (за винятком нижче вказаного тексту)</entry>
+    <entry lang="uk" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Не відображати текст на &amp;екрані аутентифікації (за винятком нижче вказаного тексту)</entry>
     <entry lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</entry>
     <entry lang="uk" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Пришвидшення AES шифрування/дешифрування з використанням AES інструкцій процесора (якщо є)</entry>
     <entry lang="uk" key="IDC_ENABLE_KEYFILES">Використовувати файл-ключі</entry>
