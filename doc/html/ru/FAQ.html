@@ -35,7 +35,7 @@
 <div class="wikidoc">
 <h1>Вопросы и ответы</h1>
 <div style="text-align:left; margin-bottom:19px; padding-top:0px; padding-bottom:0px; margin-top:0px">
-Последнее обновление: 2 июля 2017 г.</div>
+Последнее обновление: 1 октября 2023 г.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <em style="text-align:left">Мы не обещаем отсутствие ошибок в этом документе, он поставляется &quot;как есть&quot; без всяких гарантий. См. подробности в главе
 <a href="Disclaimers.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
@@ -862,7 +862,7 @@ VeraCrypt использует для шифрования блочные шиф
 после монтирования тома. Это необходимо, поскольку поиск Windows может индексировать только те диски,
 которые доступны при его запуске.</div>
  <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<strong>Возникает ошибка "Операция не разрешена" ("Operation not permitted") при использовании VeraCrypt в macOS, когда я пытаюсь смонтировать файловый контейнер. Как решить эту проблему?</strong></div>
+<strong>При монтировании файлового контейнера VeraCrypt в macOS возникает ошибка "Операция не разрешена" ("Operation not permitted"). Как решить эту проблему?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 
 <p>Об этой специфической ошибке, которая появляется в виде "Operation not permitted: /var/folders/w6/d2xssyzx.../T/.veracrypt_aux_mnt1/control VeraCrypt::File::Open:232", сообщают некоторые пользователи. Это результат того, что macOS не предоставила VeraCrypt необходимых разрешений. Вот пара способов, которые вы можете попробовать:</p>
@@ -890,9 +890,22 @@ sudo /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt
 Запуск VeraCrypt с помощью sudo часто позволяет обойти определённые проблемы, связанные с разрешениями, но всегда, когда это возможно, рекомендуется предоставлять необходимые разрешения через системные настройки.</p>
 </li>
 </ul>
- </div>
-
-<strong style="text-align:left">Здесь нет ответа на мой вопрос &ndash; что мне делать?</strong></div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Почему VeraCrypt показывает в своём списке неизвестное устройство, которое не отображается как физический диск в Windows-компоненте "Управление дисками" или в выводе утилиты DiskPart?</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>
+Начиная с Windows 10 версии 1903 и в более поздних версиях Microsoft добавила функцию под названием <b>Песочница Windows</b> (Sandbox). Это изолированная среда, предназначенная для безопасного запуска ненадёжных приложений. В рамках этой функции Windows создаёт динамический виртуальный жёсткий диск (VHDX), который представляет собой чистую установку Windows. Этот VHDX содержит базовый образ системы, пользовательские данные и состояние времени выполнения, а его размер может варьироваться в зависимости от конфигурации и использования системы.
+</p>
+<p>
+Когда VeraCrypt перечисляет устройства в системе, определяются все доступные дисковые устройства, используя формат пути к устройству, например <b>\Device\HardDiskX\PartitionY</b>. VeraCrypt выводит список этих устройств, в том числе виртуальных, например тех, которые связаны с Песочницей Windows, не делая различий по их физической или виртуальной природе. Таким образом, вы можете обнаружить неожиданное устройство в VeraCrypt, даже если оно не отображается как физический диск в таких инструментах, как DiskPart.
+</p>
+<p>
+Более подробную информацию о Песочнице Windows и связанном с ней виртуальном жёстком диске см. в <a href="https://techcommunity.microsoft.com/t5/windows-os-platform-blog/windows-sandbox/ba-p/301849">официальной статье Microsoft</a>.
+</p>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Что делать, если здесь нет ответа на мой вопрос?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Попробуйте поискать ответ в документации VeraCrypt и на сайте программы.</div>
 </div><div class="ClearBoth"></div></body></html>

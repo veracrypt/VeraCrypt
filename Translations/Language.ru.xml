@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.7">
-    <language langid="ru" name="Русский" en-name="Russian" version="1.26.7" translators="Dmitry Yerokhin" />
+    <language langid="ru" name="Русский" en-name="Russian" version="1.26.7" translators="Dmitry Yerokhin [erodim@mail.ru] (231001)" />
     <font lang="ru" class="normal" size="11" face="default" />
     <font lang="ru" class="bold" size="13" face="Arial" />
     <font lang="ru" class="fixed" size="12" face="Lucida Console" />
@@ -1589,12 +1589,12 @@
     <entry lang="ru" key="QUICK_EXPAND_WARNING">ВНИМАНИЕ: Быстрое расширение следует использовать только в следующих случаях:\n\n1) Устройство, на котором находится файловый контейнер, не содержит конфиденциальных данных, и вам не нужно правдоподобное отрицание.\n2) Устройство, на котором находится файловый контейнер, уже надёжно и полностью зашифровано.\n\nВы действительно хотите использовать быстрое расширение?</entry>
     <entry lang="ru" key="EXPANDER_STATUS_TEXT">ВАЖНО: Перемещайте мышь как можно хаотичнее в пределах этого окна - чем дольше, тем лучше. Это значительно увеличивает криптостойкость ключей шифрования. Затем нажмите "Далее", чтобы увеличить размер тома.</entry>
     <entry lang="ru" key="EXPANDER_STATUS_TEXT_LEGACY">Нажмите "Далее", чтобы увеличить размер тома.</entry>
-    <entry lang="ru" key="EXPANDER_FINISH_ERROR">ОШИБКА: Увеличение размера тома не выполнено.</entry>
+    <entry lang="ru" key="EXPANDER_FINISH_ERROR">ОШИБКА: Размер тома не увеличен.</entry>
     <entry lang="ru" key="EXPANDER_FINISH_ABORT">ОШИБКА: Операция прервана пользователем.</entry>
     <entry lang="ru" key="EXPANDER_FINISH_OK">Готово. Размер том успешно увеличен.</entry>
     <entry lang="ru" key="EXPANDER_CANCEL_WARNING">ВНИМАНИЕ: Выполняется увеличение размера тома!\n\nЕсли остановиться сейчас, это может привести к повреждению тома.\n\nВы действительно настаиваете на отмене?</entry>
     <entry lang="ru" key="EXPANDER_STARTING_STATUS">Запуск увеличения размера тома...\n</entry>
-    <entry lang="ru" key="EXPANDER_HIDDEN_VOLUME_ERROR">Нельзя увеличить размер внешнего тома, в котором есть скрытый том, так как при этом скрытый том будет уничтожен.\n</entry>
+    <entry lang="ru" key="EXPANDER_HIDDEN_VOLUME_ERROR">Нельзя увеличить размер внешнего тома, в котором есть скрытый том, так как скрытый том будет при этом уничтожен.\n</entry>
     <entry lang="ru" key="EXPANDER_SYSTEM_VOLUME_ERROR">Нельзя увеличить размер системного тома VeraCrypt.</entry>
     <entry lang="ru" key="EXPANDER_NO_FREE_SPACE">Недостаточно свободного места для увеличения размера тома</entry>
     <entry lang="ru" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">ВНИМАНИЕ: Файл-контейнер больше, чем область тома VeraCrypt. Данные, находящиеся после области тома VeraCrypt, будут перезаписаны.\n\nПродолжить?</entry>
@@ -1614,16 +1614,16 @@
     <entry lang="ru" key="EXTENDED_APDU_UNSUPPORTED">Расширенные команды APDU нельзя использовать с текущим токеном.</entry>
     <entry lang="ru" key="SCARD_MODULE_INIT_FAILED">Ошибка загрузки библиотеки WinSCard / PCSC.</entry>
     <entry lang="ru" key="EMV_UNKNOWN_CARD_TYPE">Карта в считывателе не является поддерживаемой картой EMV.</entry>
-    <entry lang="ru" key="EMV_SELECT_AID_FAILED">Не удалось выбрать AID карты в считывателе.</entry>
+    <entry lang="ru" key="EMV_SELECT_AID_FAILED">Не удалось выбрать AID (идентификатор приложения) карты в считывателе.</entry>
     <entry lang="ru" key="EMV_ICC_CERT_NOTFOUND">На карте не найден сертификат открытого ключа ICC.</entry>
     <entry lang="ru" key="EMV_ISSUER_CERT_NOTFOUND">На карте не найден сертификат открытого ключа эмитента.</entry>
-    <entry lang="ru" key="EMV_CPLC_NOTFOUND">На карте EMV не найден CLPC.</entry>
+    <entry lang="ru" key="EMV_CPLC_NOTFOUND">На карте EMV не найдены данные CLPC (жизненный цикл производства карты).</entry>
     <entry lang="ru" key="EMV_PAN_NOTFOUND">На карте EMV не найден номер платёжной карты (PAN).</entry>
     <entry lang="ru" key="INVALID_EMV_PATH">Неверный путь EMV.</entry>
     <entry lang="ru" key="EMV_KEYFILE_DATA_NOTFOUND">Не удалось создать ключевой файл из данных карты EMV.\n\nОтсутствует одно из следующего:\n- Сертификат открытого ключа ICC.\n- Сертификат открытого ключа эмитента.\n- Данные CPCL.</entry>
     <entry lang="ru" key="SCARD_W_REMOVED_CARD">Нет карты в считывателе.\n\nУбедитесь, что карта правильно вставлена.</entry>
-    <entry lang="ru" key="FORMAT_EXTERNAL_FAILED">Windows-команде format.com не удалось отформатировать том как NTFS/exFAT/ReFS: Ошибка 0x%.8X.\n\nВозврат к использованию Windows FormatEx API.</entry>
-    <entry lang="ru" key="FORMATEX_API_FAILED">Windows FormatEx API не удалось отформатировать том как NTFS/exFAT/ReFS.\n\nСтатус отказа = %s.</entry>
+    <entry lang="ru" key="FORMAT_EXTERNAL_FAILED">Windows-программа format.com не смогла отформатировать том как NTFS/exFAT/ReFS: Ошибка 0x%.8X.\n\nВозврат к использованию Windows FormatEx API.</entry>
+    <entry lang="ru" key="FORMATEX_API_FAILED">API-функция FormatEx в Windows не смогла отформатировать том как NTFS/exFAT/ReFS.\n\nСтатус отказа = %s.</entry>
     <entry lang="ru" key="EXPANDER_WRITING_RANDOM_DATA">Запись случайных данных в добавленное место...\n</entry>
     <entry lang="ru" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Запись повторно зашифрованной резервной копии заголовка...\n</entry>
     <entry lang="ru" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Запись повторно зашифрованного основного заголовка...\n</entry>
