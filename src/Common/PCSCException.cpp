@@ -140,14 +140,17 @@ namespace VeraCrypt
 	{
 		Exception::Deserialize(stream);
 		Serializer sr(stream);
-		sr.Deserialize("ErrorCode", ErrorCode);
+		int64 v;
+		sr.Deserialize("ErrorCode", v);
+		ErrorCode = (LONG_PCSC)v;
 	}
 
 	void PCSCException::Serialize(shared_ptr <Stream> stream) const
 	{
 		Exception::Serialize(stream);
 		Serializer sr(stream);
-		sr.Serialize("ErrorCode", ErrorCode);
+		int64 v = (int64)ErrorCode;
+		sr.Serialize("ErrorCode", v);
 	}
 
 #	define TC_EXCEPTION(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
