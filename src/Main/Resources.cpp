@@ -189,7 +189,7 @@ namespace VeraCrypt
 		wxImage image (stream);
 		image.Resize (wxSize (16, 12), wxPoint (0, 0));
 
-#	ifdef __WXGTK__
+#	if defined  __WXGTK__ || defined TC_MACOSX
 		return wxBitmap (image.ConvertToMono (0, 0, 0), 1);
 #	else
 		return wxBitmap (image);
