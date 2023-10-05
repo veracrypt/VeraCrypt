@@ -222,13 +222,13 @@ Copyright (c) 2013-2023 IDRIX. All rights reserved.
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.  
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.  
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.  
-Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler.  
+Copyright (c) 1995-2023 Jean-loup Gailly and Mark Adler.  
 Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov  
-Copyright (c) 1999-2020 Dieter Baron and Thomas Klausner.  
+Copyright (c) 1999-2023 Dieter Baron and Thomas Klausner.  
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.  
 Copyright (c) 1999-2016 Jack Lloyd. All rights reserved.  
 Copyright (c) 2013-2019 Stephan Mueller <smueller@chronox.de>  
-Copyright (c) 1999-2021 Igor Pavlov  
+Copyright (c) 1999-2023 Igor Pavlov  
 
 For more information, please see the legal notices attached to parts of the
 source code.
