@@ -508,6 +508,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	PCRYPTO_INFO cryptoInfo = NULL, ci = NULL;
 	void *dev = INVALID_HANDLE_VALUE;
 	DWORD dwError;
+	DWORD bytesRead;
 	BOOL bDevice;
 	uint64 hostSize=0, newDataAreaSize, currentVolSize;
 	DWORD HostSectorSize;
@@ -672,8 +673,13 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	}
 
 	/* Read in volume header */
-	nStatus = _lread ((HFILE) dev, buffer, sizeof (buffer));
-	if (nStatus != sizeof (buffer))
+	if (!ReadEffectiveVolumeHeader (bDevice, dev, buffer, &bytesRead))
+	{
+		nStatus = ERR_OS_ERROR;
+		goto error;
+	}
+
+	if (bytesRead != sizeof (buffer))
 	{
 		// Windows may report EOF when reading sectors from the last cluster of a device formatted as NTFS
 		memset (buffer, 0, sizeof (buffer));
