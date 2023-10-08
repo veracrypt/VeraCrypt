@@ -29,7 +29,7 @@ namespace VeraCrypt
 		wstring result;
 		if (pbData)
 		{
-			for (int i = 0; i < cbData; i++)
+			for (size_t i = 0; i < cbData; i++)
 			{
 				result += hexChar[pbData[i] >> 4];
 				result += hexChar[pbData[i] & 0x0F];
