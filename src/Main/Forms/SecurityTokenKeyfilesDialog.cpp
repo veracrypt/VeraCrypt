@@ -55,7 +55,6 @@ namespace VeraCrypt
 		SecurityTokenKeyfileListCtrl->DeleteAllItems();
 		SecurityTokenKeyfileList = Token::GetAvailableKeyfiles(Gui->GetPreferences().EMVSupportEnabled);
 
-		size_t i = 0;
 		foreach (const shared_ptr<TokenKeyfile> key, SecurityTokenKeyfileList)
 		{
 			vector <wstring> fields (SecurityTokenKeyfileListCtrl->GetColumnCount());

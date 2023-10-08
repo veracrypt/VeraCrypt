@@ -25,11 +25,11 @@ namespace VeraCrypt
 #ifndef TC_WINDOWS
 	wstring ArrayToHexWideString(const unsigned char * pbData, size_t cbData)
 	{
-		static wchar_t* hexChar = L"0123456789ABCDEF";
+		static const wchar_t* hexChar = L"0123456789ABCDEF";
 		wstring result;
 		if (pbData)
 		{
-			for (int i = 0; i < cbData; i++)
+			for (size_t i = 0; i < cbData; i++)
 			{
 				result += hexChar[pbData[i] >> 4];
 				result += hexChar[pbData[i] & 0x0F];
