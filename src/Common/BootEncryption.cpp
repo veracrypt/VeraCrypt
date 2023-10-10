@@ -5053,7 +5053,7 @@ namespace VeraCrypt
 
 	void BootEncryption::SetServiceConfigurationFlag (uint32 flag, bool state)
 	{
-		DWORD configMap = ReadDriverConfigurationFlags();
+		DWORD configMap = ReadServiceConfigurationFlags();
 
 		if (state)
 			configMap |= flag;
