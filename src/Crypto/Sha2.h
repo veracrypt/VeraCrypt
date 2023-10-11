@@ -12,6 +12,13 @@
 #include "Common/Endian.h"
 #include "Crypto/config.h"
 
+#ifdef WOLFCRYPT_BACKEND
+    #include <wolfssl/options.h>
+    #include <wolfssl/wolfcrypt/sha256.h>
+    #include <wolfssl/wolfcrypt/sha512.h>
+    #include <wolfssl/wolfcrypt/hash.h>
+#endif
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -32,12 +39,18 @@ typedef struct
 {   uint_64t count[2];
     SHA2_ALIGN uint_64t hash[8];
     SHA2_ALIGN uint_64t wbuf[16];
+#ifdef WOLFCRYPT_BACKEND
+    wc_Sha512 wc_sha512;
+#endif
 } sha512_ctx;
 
 typedef struct
 {   uint_32t count[2];
     SHA2_ALIGN uint_32t hash[8];
     SHA2_ALIGN uint_32t wbuf[16];
+#ifdef WOLFCRYPT_BACKEND
+    wc_Sha256 wc_sha256;
+#endif
 } sha256_ctx;
 
 

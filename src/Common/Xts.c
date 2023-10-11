@@ -54,10 +54,14 @@ void EncryptBufferXTS (unsigned __int8 *buffer,
 					   unsigned __int8 *ks2,
 					   int cipher)
 {
-	if (CipherSupportsIntraDataUnitParallelization (cipher))
+    #ifndef WOLFCRYPT_BACKEND
+        if (CipherSupportsIntraDataUnitParallelization (cipher))
 		EncryptBufferXTSParallel (buffer, length, startDataUnitNo, startCipherBlockNo, ks, ks2, cipher);
 	else
 		EncryptBufferXTSNonParallel (buffer, length, startDataUnitNo, startCipherBlockNo, ks, ks2, cipher);
+    #else
+        xts_encrypt(buffer, buffer, length, startDataUnitNo, ks);
+    #endif
 }
 
 #if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
@@ -380,10 +384,14 @@ void DecryptBufferXTS (unsigned __int8 *buffer,
 					   unsigned __int8 *ks2,
 					   int cipher)
 {
+    #ifndef WOLFCRYPT_BACKEND
 	if (CipherSupportsIntraDataUnitParallelization (cipher))
 		DecryptBufferXTSParallel (buffer, length, startDataUnitNo, startCipherBlockNo, ks, ks2, cipher);
 	else
 		DecryptBufferXTSNonParallel (buffer, length, startDataUnitNo, startCipherBlockNo, ks, ks2, cipher);
+    #else
+        xts_decrypt(buffer, buffer, length, startDataUnitNo, ks);
+    #endif
 }
 
 

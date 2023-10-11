@@ -67,9 +67,10 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.end());
 	}
 
-	void EncryptionModeXTS::EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeXTS::EncryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-		byte finalCarry;
+    #ifndef WOLFCRYPT_BACKEND
+                byte finalCarry;
 		byte whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
 		byte whiteningValue [BYTES_PER_XTS_BLOCK];
 		byte byteBufUnitNo [BYTES_PER_XTS_BLOCK];
@@ -205,6 +206,10 @@ namespace VeraCrypt
 
 		FAST_ERASE64 (whiteningValue, sizeof (whiteningValue));
 		FAST_ERASE64 (whiteningValues, sizeof (whiteningValues));
+        #else
+                cipher.SetKeyXTS (SecondaryKey.GetRange (0, cipher.GetKeySize()));
+                cipher.EncryptBlockXTS(buffer, length, startDataUnitNo);
+        #endif
 	}
 
 	void EncryptionModeXTS::EncryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
@@ -246,8 +251,9 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.begin());
 	}
 
-	void EncryptionModeXTS::DecryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeXTS::DecryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
+    #ifndef WOLFCRYPT_BACKEND
 		byte finalCarry;
 		byte whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
 		byte whiteningValue [BYTES_PER_XTS_BLOCK];
@@ -374,7 +380,11 @@ namespace VeraCrypt
 
 		FAST_ERASE64 (whiteningValue, sizeof (whiteningValue));
 		FAST_ERASE64 (whiteningValues, sizeof (whiteningValues));
-	}
+	#else
+                cipher.SetKeyXTS (SecondaryKey.GetRange (0, cipher.GetKeySize()));
+                cipher.DecryptBlockXTS(buffer, length, startDataUnitNo);
+        #endif
+        }
 
 	void EncryptionModeXTS::DecryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
@@ -410,8 +420,12 @@ namespace VeraCrypt
 		size_t keyOffset = 0;
 		foreach_ref (Cipher &cipher, SecondaryCiphers)
 		{
+            #ifndef WOLFCRYPT_BACKEND
 			cipher.SetKey (SecondaryKey.GetRange (keyOffset, cipher.GetKeySize()));
-			keyOffset += cipher.GetKeySize();
+            #else
+                        cipher.SetKeyXTS (SecondaryKey.GetRange (keyOffset, cipher.GetKeySize()));
+	    #endif
+                        keyOffset += cipher.GetKeySize();
 		}
 
 		KeySet = true;

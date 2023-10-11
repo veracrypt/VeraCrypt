@@ -62,6 +62,7 @@ namespace VeraCrypt
 		EncryptionAlgorithmList l;
 
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AES ()));
+        #ifndef WOLFCRYPT_BACKEND
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Serpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Twofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Camellia ()));
@@ -76,7 +77,7 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-
+        #endif
 		return l;
 	}
 
@@ -229,6 +230,7 @@ namespace VeraCrypt
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 
+#ifndef WOLFCRYPT_BACKEND
 	// AES-Twofish
 	AESTwofish::AESTwofish ()
 	{
@@ -353,4 +355,5 @@ namespace VeraCrypt
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
+#endif
 }

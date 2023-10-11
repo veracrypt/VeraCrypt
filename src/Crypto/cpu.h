@@ -214,7 +214,7 @@ extern "C" {
 #endif
 
 #define CRYPTOPP_CPUID_AVAILABLE
-#ifndef CRYPTOPP_DISABLE_AESNI
+#if !defined(CRYPTOPP_DISABLE_AESNI) && !defined(WOLFCRYPT_BACKEND)
 #define TC_AES_HW_CPU
 #endif
 

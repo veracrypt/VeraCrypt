@@ -311,6 +311,9 @@ AES_TEST aes_ecb_vectors[AES_TEST_COUNT] = {
 0x8e,0xa2,0xb7,0xca,0x51,0x67,0x45,0xbf,0xea,0xfc,0x49,0x90,0x4b,0x49,0x60,0x89
 };
 
+
+#ifndef WOLFCRYPT_BACKEND
+
 // Serpent ECB test vectors
 
 #define SERPENT_TEST_COUNT 1
@@ -419,6 +422,7 @@ KUZNYECHIK_TEST kuznyechik_vectors[KUZNYECHIK_TEST_COUNT] = {
 }
 };
 
+#endif
 
 /* Test vectors from FIPS 198a, RFC 4231, RFC 2104, RFC 2202, and other sources. */
 
@@ -784,6 +788,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
+               #ifndef WOLFCRYPT_BACKEND
 			else if (wcscmp (name, L"Serpent") == 0)
 			{
 				switch (testCase)
@@ -1148,7 +1153,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-
+                #endif
 			if (crc == 0x9f5edd58)
 				return FALSE;
 
@@ -1200,6 +1205,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 				return FALSE;
 			nTestsPerformed++;
 		}
+        #ifndef WOLFCRYPT_BACKEND
 		else if (wcscmp (name, L"Serpent") == 0)
 		{
 			if (crc != 0x3494d480)
@@ -1284,7 +1290,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 				return FALSE;
 			nTestsPerformed++;
 		}
-
+        #endif
 		if (crc == 0x9f5edd58)
 			return FALSE;
 
@@ -1357,6 +1363,7 @@ static BOOL DoAutoTestAlgorithms (void)
 			bFailed = TRUE;
 	}
 
+    #ifndef WOLFCRYPT_BACKEND
 	/* Serpent */
 
 	for (i = 0; i < SERPENT_TEST_COUNT; i++)
@@ -1437,6 +1444,7 @@ static BOOL DoAutoTestAlgorithms (void)
 	}
 	if (i != KUZNYECHIK_TEST_COUNT)
 		bFailed = TRUE;
+    #endif
 
 	/* PKCS #5 and HMACs */
 	if (!test_pkcs5 ())
@@ -1565,6 +1573,7 @@ BOOL test_hmac_sha512 ()
 	return (nTestsPerformed == 6);
 }
 
+#ifndef WOLFCRYPT_BACKEND
 BOOL test_hmac_blake2s ()
 {
 	unsigned int i;
@@ -1609,6 +1618,7 @@ BOOL test_hmac_whirlpool ()
 
 	return TRUE;
 }
+#endif
 
 /* http://www.tc26.ru/methods/recommendation/%D0%A2%D0%9A26%D0%90%D0%9B%D0%93.pdf */
 /* https://tools.ietf.org/html/draft-smyshlyaev-gost-usage-00 */
@@ -1633,6 +1643,7 @@ static const unsigned char gost3411_2012_hmac_r1[] = {
 };
 
 
+#ifndef WOLFCRYPT_BACKEND
 BOOL test_hmac_streebog ()
 {
 	CRYPTOPP_ALIGN_DATA(16) char digest[64]; /* large enough to hold digets and test vector inputs */
@@ -1653,6 +1664,7 @@ int __cdecl StreebogHash (unsigned char* input, unsigned long inputLen, unsigned
 	STREEBOG_finalize (&ctx, output);
 	return STREEBOG_DIGESTSIZE;
 }
+#endif
 
 BOOL test_pkcs5 ()
 {
@@ -1666,6 +1678,7 @@ BOOL test_pkcs5 ()
 	if (!test_hmac_sha512())
 		return FALSE;
 
+#ifndef WOLFCRYPT_BACKEND
 	/* HMAC-BLAKE2s tests */
 	if (test_hmac_blake2s() == FALSE)
 		return FALSE;
@@ -1685,7 +1698,7 @@ BOOL test_pkcs5 ()
 	/* STREEBOG hash tests */
 	if (RunHashTest (StreebogHash, Streebog512TestVectors, (HasSSE2() || HasSSE41())? TRUE : FALSE) == FALSE)
 		return FALSE;
-
+#endif
 	/* PKCS-5 test 1 with HMAC-SHA-256 used as the PRF (https://tools.ietf.org/html/draft-josefsson-scrypt-kdf-00) */
 	derive_key_sha256 ("passwd", 6, "\x73\x61\x6C\x74", 4, 1, dk, 64);
 	if (memcmp (dk, "\x55\xac\x04\x6e\x56\xe3\x08\x9f\xec\x16\x91\xc2\x25\x44\xb6\x05\xf9\x41\x85\x21\x6d\xde\x04\x65\xe6\x8b\x9d\x57\xc2\x0d\xac\xbc\x49\xca\x9c\xcc\xf1\x79\xb6\x45\x99\x16\x64\xb3\x9d\x77\xef\x31\x7c\x71\xb8\x45\xb1\xe3\x0b\xd5\x09\x11\x20\x41\xd3\xa1\x97\x83", 64) != 0)
@@ -1717,6 +1730,7 @@ BOOL test_pkcs5 ()
 	if (memcmp (dk, "\x13\x64\xae\xf8\x0d\xf5\x57\x6c\x30\xd5\x71\x4c\xa7\x75\x3f\xfd\x00\xe5\x25\x8b\x39\xc7\x44\x7f\xce\x23\x3d\x08\x75\xe0\x2f\x48\xd6\x30\xd7\x00\xb6\x24\xdb\xe0\x5a\xd7\x47\xef\x52\xca\xa6\x34\x83\x47\xe5\xcb\xe9\x87\xf1\x20\x59\x6a\xe6\xa9\xcf\x51\x78\xc6\xb6\x23\xa6\x74\x0d\xe8\x91\xbe\x1a\xd0\x28\xcc\xce\x16\x98\x9a\xbe\xfb\xdc\x78\xc9\xe1\x7d\x72\x67\xce\xe1\x61\x56\x5f\x96\x68\xe6\xe1\xdd\xf4\xbf\x1b\x80\xe0\x19\x1c\xf4\xc4\xd3\xdd\xd5\xd5\x57\x2d\x83\xc7\xa3\x37\x87\xf4\x4e\xe0\xf6\xd8\x6d\x65\xdc\xa0\x52\xa3\x13\xbe\x81\xfc\x30\xbe\x7d\x69\x58\x34\xb6\xdd\x41\xc6", 144) != 0)
 		return FALSE;
 
+#ifndef WOLFCRYPT_BACKEND
 	/* PKCS-5 test 1 with HMAC-BLAKE2s used as the PRF */
 	derive_key_blake2s ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 4);
 	if (memcmp (dk, "\x8d\x51\xfa\x31", 4) != 0)
@@ -1746,6 +1760,6 @@ BOOL test_pkcs5 ()
 	derive_key_streebog ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 96);
 	if (memcmp (dk, "\xd0\x53\xa2\x30\x6f\x45\x81\xeb\xbc\x06\x81\xc5\xe7\x53\xa8\x5d\xc7\xf1\x23\x33\x1e\xbe\x64\x2c\x3b\x0f\x26\xd7\x00\xe1\x95\xc9\x65\x26\xb1\x85\xbe\x1e\xe2\xf4\x9b\xfc\x6b\x14\x84\xda\x24\x61\xa0\x1b\x9e\x79\x5c\xee\x69\x6e\xf9\x25\xb1\x1d\xca\xa0\x31\xba\x02\x6f\x9e\x99\x0f\xdb\x25\x01\x5b\xf1\xc7\x10\x19\x53\x3b\x29\x3f\x18\x00\xd6\xfc\x85\x03\xdc\xf2\xe5\xe9\x5a\xb1\x1e\x61\xde", 96) != 0)
 		return FALSE;
-
+#endif
 	return TRUE;
 }

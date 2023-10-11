@@ -28,8 +28,15 @@ namespace VeraCrypt
 
 		virtual void DecryptBlock (byte *data) const;
 		virtual void DecryptBlocks (byte *data, size_t blockCount) const;
-		static void EnableHwSupport (bool enable) { HwSupportEnabled = enable; }
-		virtual void EncryptBlock (byte *data) const;
+            #ifndef WOLFCRYPT_BACKEND
+                static void EnableHwSupport (bool enable) { HwSupportEnabled = enable; }
+	    #else
+                static void EnableHwSupport (bool enable) { HwSupportEnabled = false; }
+                virtual void EncryptBlockXTS (byte *data, uint64 length, uint64 startDataUnitNo) const;
+                virtual void DecryptBlockXTS (byte *data, uint64 length, uint64 startDataUnitNo) const;
+                virtual void SetKeyXTS (const ConstBufferPtr &key);
+          #endif        
+                virtual void EncryptBlock (byte *data) const;
 		virtual void EncryptBlocks (byte *data, size_t blockCount) const;
 		static CipherList GetAvailableCiphers ();
 		virtual size_t GetBlockSize () const = 0;
@@ -50,6 +57,11 @@ namespace VeraCrypt
 		virtual void Encrypt (byte *data) const = 0;
 		virtual size_t GetScheduledKeySize () const = 0;
 		virtual void SetCipherKey (const byte *key) = 0;
+            #ifdef WOLFCRYPT_BACKEND
+                virtual void DecryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const = 0;
+		virtual void EncryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const = 0;
+                virtual void SetCipherKeyXTS (const byte *key) = 0;
+            #endif
 
 		static bool HwSupportEnabled;
 		bool Initialized;
@@ -69,6 +81,36 @@ namespace VeraCrypt
 		CipherException (const string &message, const wstring &subject) : Exception (message, subject) { }
 	};
 
+#ifdef WOLFCRYPT_BACKEND
+
+#define TC_CIPHER(NAME, BLOCK_SIZE, KEY_SIZE) \
+	class TC_JOIN (Cipher,NAME) : public Cipher \
+	{ \
+	public: \
+		TC_JOIN (Cipher,NAME) () { } \
+		virtual ~TC_JOIN (Cipher,NAME) () { } \
+\
+		virtual size_t GetBlockSize () const { return BLOCK_SIZE; }; \
+		virtual size_t GetKeySize () const { return KEY_SIZE; }; \
+		virtual wstring GetName () const { return L###NAME; }; \
+		virtual shared_ptr <Cipher> GetNew () const { return shared_ptr <Cipher> (new TC_JOIN (Cipher,NAME)()); } \
+		TC_CIPHER_ADD_METHODS \
+\
+	protected: \
+		virtual void Decrypt (byte *data) const; \
+		virtual void Encrypt (byte *data) const; \
+		virtual size_t GetScheduledKeySize () const; \
+		virtual void SetCipherKey (const byte *key); \
+                virtual void DecryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const; \
+		virtual void SetCipherKeyXTS (const byte *key); \
+                virtual void EncryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const; \
+\
+	private: \
+		TC_JOIN (Cipher,NAME) (const TC_JOIN (Cipher,NAME) &); \
+		TC_JOIN (Cipher,NAME) &operator= (const TC_JOIN (Cipher,NAME) &); \
+	}
+
+#else
 
 #define TC_CIPHER(NAME, BLOCK_SIZE, KEY_SIZE) \
 	class TC_JOIN (Cipher,NAME) : public Cipher \
@@ -93,6 +135,8 @@ namespace VeraCrypt
 		TC_JOIN (Cipher,NAME) (const TC_JOIN (Cipher,NAME) &); \
 		TC_JOIN (Cipher,NAME) &operator= (const TC_JOIN (Cipher,NAME) &); \
 	}
+
+#endif
 
 #define TC_CIPHER_ADD_METHODS \
 	virtual void DecryptBlocks (byte *data, size_t blockCount) const; \

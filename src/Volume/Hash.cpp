@@ -24,11 +24,12 @@ namespace VeraCrypt
 		HashList l;
 
 		l.push_back (shared_ptr <Hash> (new Sha512 ()));
-		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
-		l.push_back (shared_ptr <Hash> (new Blake2s ()));
 		l.push_back (shared_ptr <Hash> (new Sha256 ()));
+        #ifndef WOLFCRYPT_BACKEND
+		l.push_back (shared_ptr <Hash> (new Blake2s ()));
+                l.push_back (shared_ptr <Hash> (new Whirlpool ()));
 		l.push_back (shared_ptr <Hash> (new Streebog ()));
-
+        #endif
 		return l;
 	}
 
@@ -44,6 +45,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 	}
 
+    #ifndef WOLFCRYPT_BACKEND
 	// RIPEMD-160
 	Blake2s::Blake2s ()
 	{
@@ -67,6 +69,7 @@ namespace VeraCrypt
 		if_debug (ValidateDataParameters (data));
 		blake2s_update ((blake2s_state *) Context.Ptr(), data.Get(), data.Size());
 	}
+    #endif
 
 	// SHA-256
 	Sha256::Sha256 ()
@@ -116,6 +119,7 @@ namespace VeraCrypt
 		sha512_hash (data.Get(), (int) data.Size(), (sha512_ctx *) Context.Ptr());
 	}
 
+    #ifndef WOLFCRYPT_BACKEND
 	// Whirlpool
 	Whirlpool::Whirlpool ()
 	{
@@ -163,4 +167,5 @@ namespace VeraCrypt
 		if_debug (ValidateDataParameters (data));
 		STREEBOG_add ((STREEBOG_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
 	}
+    #endif
 }

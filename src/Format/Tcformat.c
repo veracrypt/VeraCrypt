@@ -4475,9 +4475,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
-
+                            #ifndef WOLFCRYPT_BACKEND
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect () && hash_algo != SHA512 && hash_algo != WHIRLPOOL? "PIM_SYSENC_HELP" : "PIM_HELP"));
-
+                            #else
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect () && hash_algo != SHA512? "PIM_SYSENC_HELP" : "PIM_HELP"));
+                            #endif
 				ToHyperlink (hwndDlg, IDC_LINK_PIM_INFO);
 
 				if (CreatingHiddenSysVol())

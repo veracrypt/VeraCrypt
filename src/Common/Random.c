@@ -262,19 +262,17 @@ BOOL Randmix ()
 	if (bRandmixEnabled)
 	{
 		unsigned char hashOutputBuffer [MAX_DIGESTSIZE];
-		WHIRLPOOL_CTX	wctx;
-		blake2s_state   bctx;
+        #ifndef WOLFCRYPT_BACKEND		
+                WHIRLPOOL_CTX	wctx;
+                blake2s_state   bctx;
+		STREEBOG_CTX	stctx;
+        #endif
 		sha512_ctx		sctx;
 		sha256_ctx		s256ctx;
-		STREEBOG_CTX	stctx;
 		int poolIndex, digestIndex, digestSize;
 
 		switch (HashFunction)
 		{
-		case BLAKE2S:
-			digestSize = BLAKE2S_DIGESTSIZE;
-			break;
-
 		case SHA512:
 			digestSize = SHA512_DIGESTSIZE;
 			break;
@@ -283,6 +281,11 @@ BOOL Randmix ()
 			digestSize = SHA256_DIGESTSIZE;
 			break;
 
+        #ifndef WOLFCRYPT_BACKEND	
+               case BLAKE2S:
+			digestSize = BLAKE2S_DIGESTSIZE;
+			break;
+	
 		case WHIRLPOOL:
 			digestSize = WHIRLPOOL_DIGESTSIZE;
 			break;
@@ -290,7 +293,7 @@ BOOL Randmix ()
 		case STREEBOG:
 			digestSize = STREEBOG_DIGESTSIZE;
 			break;
-
+        #endif
 		default:
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -303,12 +306,6 @@ BOOL Randmix ()
 			/* Compute the message digest of the entire pool using the selected hash function. */
 			switch (HashFunction)
 			{
-			case BLAKE2S:
-				blake2s_init(&bctx);
-				blake2s_update(&bctx, pRandPool, RNG_POOL_SIZE);
-				blake2s_final(&bctx, hashOutputBuffer);
-				break;
-
 			case SHA512:
 				sha512_begin (&sctx);
 				sha512_hash (pRandPool, RNG_POOL_SIZE, &sctx);
@@ -319,6 +316,13 @@ BOOL Randmix ()
 				sha256_begin (&s256ctx);
 				sha256_hash (pRandPool, RNG_POOL_SIZE, &s256ctx);
 				sha256_end (hashOutputBuffer, &s256ctx);
+				break;
+
+                #ifndef WOLFCRYPT_BACKEND
+                      case BLAKE2S:
+				blake2s_init(&bctx);
+				blake2s_update(&bctx, pRandPool, RNG_POOL_SIZE);
+				blake2s_final(&bctx, hashOutputBuffer);
 				break;
 
 			case WHIRLPOOL:
@@ -332,7 +336,7 @@ BOOL Randmix ()
 				STREEBOG_add (&stctx, pRandPool, RNG_POOL_SIZE);
 				STREEBOG_finalize (&stctx, hashOutputBuffer);
 				break;
-
+                #endif
 			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
@@ -349,16 +353,17 @@ BOOL Randmix ()
 		burn (hashOutputBuffer, MAX_DIGESTSIZE);
 		switch (HashFunction)
 		{
-		case BLAKE2S:
-			burn (&bctx, sizeof(bctx));
-			break;
-
 		case SHA512:
 			burn (&sctx, sizeof(sctx));
 			break;
 
 		case SHA256:
 			burn (&s256ctx, sizeof(s256ctx));
+			break;
+
+        #ifndef WOLFCRYPT_BACKEND
+               case BLAKE2S:
+			burn (&bctx, sizeof(bctx));
 			break;
 
 		case WHIRLPOOL:
@@ -368,7 +373,7 @@ BOOL Randmix ()
 		case STREEBOG:
 			burn (&stctx, sizeof(sctx));
 			break;
-
+        #endif
 		default:
 			// Unknown/wrong ID
 			TC_THROW_FATAL_EXCEPTION;

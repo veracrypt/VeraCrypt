@@ -48,6 +48,7 @@ namespace VeraCrypt
 		Pkcs5Kdf &operator= (const Pkcs5Kdf &);
 	};
 
+    #ifndef WOLFCRYPT_BACKEND
 	class Pkcs5HmacBlake2s_Boot : public Pkcs5Kdf
 	{
 	public:
@@ -81,6 +82,7 @@ namespace VeraCrypt
 		Pkcs5HmacBlake2s (const Pkcs5HmacBlake2s &);
 		Pkcs5HmacBlake2s &operator= (const Pkcs5HmacBlake2s &);
 	};
+    #endif
 
 	class Pkcs5HmacSha256_Boot : public Pkcs5Kdf
 	{
@@ -132,7 +134,7 @@ namespace VeraCrypt
 		Pkcs5HmacSha512 (const Pkcs5HmacSha512 &);
 		Pkcs5HmacSha512 &operator= (const Pkcs5HmacSha512 &);
 	};
-
+    #ifndef WOLFCRYPT_BACKEND
 	class Pkcs5HmacWhirlpool : public Pkcs5Kdf
 	{
 	public:
@@ -183,6 +185,7 @@ namespace VeraCrypt
 		Pkcs5HmacStreebog_Boot (const Pkcs5HmacStreebog_Boot &);
 		Pkcs5HmacStreebog_Boot &operator= (const Pkcs5HmacStreebog_Boot &);
 	};
+    #endif
 }
 
 #endif // TC_HEADER_Encryption_Pkcs5

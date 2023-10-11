@@ -64,6 +64,7 @@ namespace VeraCrypt
 		}
 	};
 
+    #ifndef WOLFCRYPT_BACKEND
 	static const CipherTestVector SerpentTestVectors[] =
 	{
 		{
@@ -151,6 +152,7 @@ namespace VeraCrypt
 			}
 		}
 	};
+    #endif
 
 	static void TestCipher (Cipher &cipher, const CipherTestVector *testVector, size_t testVectorCount)
 	{
@@ -190,6 +192,7 @@ namespace VeraCrypt
 			if (origCrc != Crc32::ProcessBuffer (testData))
 				throw TestFailed (SRC_POS);
 
+        #ifndef WOLFCRYPT_BACKEND
 			CipherSerpent serpent;
 			TestCipher (serpent, SerpentTestVectors, array_capacity (SerpentTestVectors));
 
@@ -201,6 +204,7 @@ namespace VeraCrypt
 			
 			CipherKuznyechik kuznyechik;
 			TestCipher (kuznyechik, KuznyechikTestVectors, array_capacity (KuznyechikTestVectors));
+        #endif
 	}
 
 	const EncryptionTest::XtsTestVector EncryptionTest::XtsTestVectors[] =
@@ -556,6 +560,7 @@ namespace VeraCrypt
 						break;
 					}
 				}
+                        #ifndef WOLFCRYPT_BACKEND
 				else if (typeid (ea) == typeid (Serpent))
 				{
 					switch (testCase)
@@ -920,7 +925,7 @@ namespace VeraCrypt
 						break;
 					}
 				}
-
+                        #endif
 				if (crc == 0x9f5edd58)
 					throw TestFailed (SRC_POS);
 
@@ -974,6 +979,7 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
+                #ifndef WOLFCRYPT_BACKEND
 			else if (typeid (ea) == typeid (Serpent))
 			{
 				if (crc != 0x3494d480)
@@ -1058,6 +1064,7 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
+                #endif
 
 			if (crc == 0x9f5edd58)
 				throw TestFailed (SRC_POS);
@@ -1069,8 +1076,11 @@ namespace VeraCrypt
 
 			nTestsPerformed++;
 		}
-
+            #ifndef WOLFCRYPT_BACKEND
 		if (nTestsPerformed != 150)
+            #else
+               if (nTestsPerformed != 10)
+            #endif
 			throw TestFailed (SRC_POS);
 	}
 
@@ -1081,6 +1091,7 @@ namespace VeraCrypt
 		ConstBufferPtr salt (saltData, sizeof (saltData));
 		Buffer derivedKey (4);
 
+         #ifndef WOLFCRYPT_BACKEND
 		Pkcs5HmacBlake2s pkcs5HmacBlake2s;
 		pkcs5HmacBlake2s.DeriveKey (derivedKey, password, salt, 5);
 		if (memcmp (derivedKey.Ptr(), "\x8d\x51\xfa\x31", 4) != 0)
@@ -1105,5 +1116,16 @@ namespace VeraCrypt
 		pkcs5HmacStreebog.DeriveKey (derivedKey, password, salt, 5);
 		if (memcmp (derivedKey.Ptr(), "\xd0\x53\xa2\x30", 4) != 0)
 			throw TestFailed (SRC_POS);
-	}
+         #else
+               Pkcs5HmacSha256 pkcs5HmacSha256;
+		pkcs5HmacSha256.DeriveKey (derivedKey, password, salt, 5);
+		if (memcmp (derivedKey.Ptr(), "\x64\xf3\xa5\xa3", 4) != 0)
+			throw TestFailed (SRC_POS);
+
+		Pkcs5HmacSha512 pkcs5HmacSha512;	
+                pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5);
+		if (memcmp (derivedKey.Ptr(), "\x55\xa1\x76\xbb", 4) != 0)
+			throw TestFailed (SRC_POS);
+        #endif	
+        }
 }
