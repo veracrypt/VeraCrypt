@@ -11338,7 +11338,8 @@ BOOL CALLBACK CloseTCWindowsEnum (HWND hwnd, LPARAM lParam)
 	{
 		wchar_t name[1024] = { 0 };
 		GetWindowText (hwnd, name, ARRAYSIZE (name) - 1);
-		if (hwnd != MainDlg && wcsstr (name, L"VeraCrypt"))
+		// check if the window is a VeraCrypt window, excluding current process main dialog and VeraCrypt Setup window
+		if (hwnd != MainDlg && wcsstr (name, L"VeraCrypt") && !wcsstr (name, L"VeraCrypt Setup"))
 		{
 			PostMessage (hwnd, TC_APPMSG_CLOSE_BKG_TASK, 0, 0);
 
