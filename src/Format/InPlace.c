@@ -2208,24 +2208,27 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm, 
 // SetFilePointerEx() with FILE_BEGIN as the reference point, reaching the end of large drives 
 // during in-place encryption can cause significant slowdowns. By moving the file pointer
 // relatively, these performance issues are mitigated.
+//
+// We fall back to absolute positioning if the relative positioning fails.
 BOOL MoveFilePointer (HANDLE dev, LARGE_INTEGER offset)
 {
 	LARGE_INTEGER currOffset;
 	LARGE_INTEGER diffOffset;
 
 	currOffset.QuadPart = 0;
-	if (SetFilePointerEx (dev, currOffset, &currOffset, FILE_CURRENT) == 0)
-		return FALSE;
+	if (SetFilePointerEx (dev, currOffset, &currOffset, FILE_CURRENT))
+	{
+		diffOffset.QuadPart = offset.QuadPart - currOffset.QuadPart;
+		if (diffOffset.QuadPart == 0)
+			return TRUE;
 
-	diffOffset.QuadPart = offset.QuadPart - currOffset.QuadPart;
-	if (diffOffset.QuadPart == 0)
-		return TRUE;
+		// Moves the file pointer by the difference between current and desired positions
+		if (SetFilePointerEx (dev, diffOffset, NULL, FILE_CURRENT))
+			return TRUE;
+	}
 
-	// Moves the file pointer by the difference between current and desired positions
-	if (SetFilePointerEx (dev, diffOffset, NULL, FILE_CURRENT) == 0)
-		return FALSE;
-
-	return TRUE;
+	// An error occurred, fallback to absolute positioning
+	return SetFilePointerEx (dev, offset, NULL, FILE_BEGIN);
 }
 
 // Repairs damaged sectors (i.e. those with read errors) by zeroing them.
