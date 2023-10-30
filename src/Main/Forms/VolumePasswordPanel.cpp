@@ -467,6 +467,7 @@ namespace VeraCrypt
 			VolumePimStaticText->Show (true);
 			VolumePimTextCtrl->Show (true);
 			VolumePimHelpStaticText->Show (true);
+			VolumePimTextCtrl->SetFocus();
 
 			if (DisplayPasswordCheckBox->IsChecked ())
 				DisplayPassword (true, &VolumePimTextCtrl, 3);
