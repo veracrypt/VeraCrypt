@@ -39,15 +39,21 @@
 <div>
 <p>PIM stands for &quot;Personal Iterations Multiplier&quot;. It is a parameter that was introduced in VeraCrypt 1.12 and whose value controls the number of iterations used by the header key derivation function. This value can be specified through the password dialog
  or in the command line.</p>
-<p>If no PIM value is specified, VeraCrypt will use the default number of iterations used in versions prior to 1.12 (see
-<a href="Header%20Key%20Derivation.html">
-Header Key Derivation</a>).</p>
 <p>When a PIM value is specified, the number of iterations is calculated as follows:</p>
 <ul>
 <li>For system encryption that doesn't use SHA-512 or Whirlpool: Iterations = <strong>PIM x 2048</strong>
 </li><li>For system encryption that uses SHA-512 or Whirlpool: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
 </li><li>For non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
 </li></ul>
+<p>If no PIM value is specified, VeraCrypt will use the default number of iterations used in versions prior to 1.12 (see
+	<a href="Header%20Key%20Derivation.html">
+	Header Key Derivation</a>). This can be summarized as follows:<br/>
+		<ul>
+		<li>For system partition encryption (boot encryption) that uses SHA-256, BLAKE2s-256 or Streebog, <strong>200000</strong> iterations are used which is equivalent to a PIM value of <strong>98</strong>.</li>
+		<li>For system encryption that uses SHA-512 or Whirlpool, <strong>500000</strong> iterations are used which is equivalent to a PIM value of <strong>485</strong>.</li>
+		<li>For non-system encryption and file containers, all derivation algorithms will use <strong>500000</strong> iterations which is equivalent to a PIM value of <strong>485</strong>.</li>
+		</ul>
+</p>
 <p>Prior to version 1.12, the security of a VeraCrypt volume was only based on the password strength because VeraCrypt was using a fixed number of iterations.<br>
 With the introduction of PIM, VeraCrypt has a 2-dimensional security space for volumes based on the couple (Password, PIM). This provides more flexibility for adjusting the desired security level while also controlling the performance of the mount/boot operation.</p>
 <h3>PIM Usage</h3>
