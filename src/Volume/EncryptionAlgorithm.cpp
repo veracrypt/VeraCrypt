@@ -12,6 +12,9 @@
 
 #include "EncryptionAlgorithm.h"
 #include "EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "EncryptionModeWolfCryptXTS.h"
+#endif
 
 namespace VeraCrypt
 {
@@ -216,7 +219,25 @@ namespace VeraCrypt
 		}
 	}
 
-	void EncryptionAlgorithm::ValidateState () const
+    #ifdef WOLFCRYPT_BACKEND
+        void EncryptionAlgorithm::SetKeyXTS (const ConstBufferPtr &key)
+	{
+		if (Ciphers.size() < 1)
+			throw NotInitialized (SRC_POS);
+
+		if (GetKeySize() != key.Size())
+			throw ParameterIncorrect (SRC_POS);
+
+		size_t keyOffset = 0;
+		foreach_ref (Cipher &c, Ciphers)
+		{
+			c.SetKeyXTS (key.GetRange (keyOffset, c.GetKeySize()));
+			keyOffset += c.GetKeySize();
+		}
+	}
+    #endif
+
+        void EncryptionAlgorithm::ValidateState () const
 	{
 		if (Ciphers.size() < 1 || Mode.get() == nullptr)
 			throw NotInitialized (SRC_POS);
@@ -227,8 +248,12 @@ namespace VeraCrypt
 	{
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES()));
 
+            #ifdef WOLFCRYPT_BACKEND
+                SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS ()));
+            #else
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
+            #endif
+        }
 
 #ifndef WOLFCRYPT_BACKEND
 	// AES-Twofish

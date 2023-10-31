@@ -35,23 +35,22 @@ extern "C" {
 #define SHA2_ALIGN	CRYPTOPP_ALIGN_DATA(16)
 #endif
 
+#ifdef WOLFCRYPT_BACKEND
+typedef struct wc_Sha512 sha512_ctx;
+typedef struct wc_Sha256 sha256_ctx;
+#else
 typedef struct
 {   uint_64t count[2];
     SHA2_ALIGN uint_64t hash[8];
     SHA2_ALIGN uint_64t wbuf[16];
-#ifdef WOLFCRYPT_BACKEND
-    wc_Sha512 wc_sha512;
-#endif
 } sha512_ctx;
 
 typedef struct
 {   uint_32t count[2];
     SHA2_ALIGN uint_32t hash[8];
     SHA2_ALIGN uint_32t wbuf[16];
-#ifdef WOLFCRYPT_BACKEND
-    wc_Sha256 wc_sha256;
-#endif
 } sha256_ctx;
+#endif
 
 
 void sha512_begin(sha512_ctx* ctx);

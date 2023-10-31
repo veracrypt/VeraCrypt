@@ -16,7 +16,6 @@ OBJSNOOPT :=
 OBJS += Cipher.o
 OBJS += EncryptionAlgorithm.o
 OBJS += EncryptionMode.o
-OBJS += EncryptionModeXTS.o
 OBJS += EncryptionTest.o
 OBJS += EncryptionThreadPool.o
 OBJS += Hash.o
@@ -29,6 +28,12 @@ OBJS += VolumeInfo.o
 OBJS += VolumeLayout.o
 OBJS += VolumePassword.o
 OBJS += VolumePasswordCache.o
+
+ifeq "$(ENABLE_WOLFCRYPT)" "0"
+OBJS += EncryptionModeXTS.o
+else
+OBJS += EncryptionModeWolfCryptXTS.o
+endif
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
     ifeq "$(PLATFORM)" "MacOSX"

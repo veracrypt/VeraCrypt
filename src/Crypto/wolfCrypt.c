@@ -186,19 +186,17 @@ AES_RETURN xts_decrypt(const unsigned char *in, unsigned char *out, word64 lengt
 
 void sha256_begin(sha256_ctx* ctx)
 {
-    wc_Sha256 sha;
-    wc_InitSha256(&sha);
-    ctx->wc_sha256 = sha;
+    wc_InitSha256(ctx);
 }
 
 void sha256_hash(const unsigned char * source, uint_32t sourceLen, sha256_ctx *ctx)
 {
-    wc_Sha256Update(&ctx->wc_sha256, source, sourceLen);
+    wc_Sha256Update(ctx, source, sourceLen);
 }
 
 void sha256_end(unsigned char * result, sha256_ctx* ctx)
 {
-    wc_Sha256Final(&ctx->wc_sha256, result);
+    wc_Sha256Final(ctx, result);
 }
 
 void sha256(unsigned char * result, const unsigned char* source, uint_32t sourceLen)
@@ -212,19 +210,17 @@ void sha256(unsigned char * result, const unsigned char* source, uint_32t source
 
 void sha512_begin(sha512_ctx* ctx)
 {
-    wc_Sha512 sha;
-    wc_InitSha512(&sha);
-    ctx->wc_sha512 = sha;
+    wc_InitSha512(ctx);
 }
 
 void sha512_hash(const unsigned char * source, uint_64t sourceLen, sha512_ctx *ctx)
 {
-    wc_Sha512Update(&ctx->wc_sha512, source, sourceLen);
+    wc_Sha512Update(ctx, source, sourceLen);
 }
 
 void sha512_end(unsigned char * result, sha512_ctx* ctx)
 {
-    wc_Sha512Final(&ctx->wc_sha512, result);
+    wc_Sha512Final(ctx, result);
 }
 
 void sha512(unsigned char * result, const unsigned char* source, uint_64t sourceLen)

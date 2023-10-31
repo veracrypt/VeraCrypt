@@ -10,19 +10,19 @@
  code distribution packages.
 */
 
-#ifndef TC_HEADER_Volume_EncryptionModeXTS
-#define TC_HEADER_Volume_EncryptionModeXTS
+#ifndef TC_HEADER_Volume_EncryptionModeWolfCryptXTS
+#define TC_HEADER_Volume_EncryptionModeWolfCryptXTS
 
 #include "Platform/Platform.h"
 #include "EncryptionMode.h"
 
 namespace VeraCrypt
 {
-	class EncryptionModeXTS : public EncryptionMode
+	class EncryptionModeWolfCryptXTS : public EncryptionMode
 	{
 	public:
-		EncryptionModeXTS () { }
-		virtual ~EncryptionModeXTS () { }
+		EncryptionModeWolfCryptXTS () { }
+		virtual ~EncryptionModeWolfCryptXTS () { }
 
 		virtual void Decrypt (byte *data, uint64 length) const;
 		virtual void DecryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
@@ -31,24 +31,24 @@ namespace VeraCrypt
 		virtual const SecureBuffer &GetKey () const { return SecondaryKey; }
 		virtual size_t GetKeySize () const;
 		virtual wstring GetName () const { return L"XTS"; };
-		virtual shared_ptr <EncryptionMode> GetNew () const { return shared_ptr <EncryptionMode> (new EncryptionModeXTS); }
+		virtual shared_ptr <EncryptionMode> GetNew () const { return shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS); }
 		virtual void SetCiphers (const CipherList &ciphers);
-		virtual void SetKey (const ConstBufferPtr &key);
+	        virtual void SetKey (const ConstBufferPtr &key);
 
 	protected:
 		void DecryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const;
-		void DecryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const;
+		void DecryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const;
 		void EncryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const;
-		void EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const;
+		void EncryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const;
 		void SetSecondaryCipherKeys ();
 
 		SecureBuffer SecondaryKey;
 		CipherList SecondaryCiphers;
 
 	private:
-		EncryptionModeXTS (const EncryptionModeXTS &);
-		EncryptionModeXTS &operator= (const EncryptionModeXTS &);
+		EncryptionModeWolfCryptXTS (const EncryptionModeWolfCryptXTS &);
+		EncryptionModeWolfCryptXTS &operator= (const EncryptionModeWolfCryptXTS &);
 	};
 }
 
-#endif // TC_HEADER_Volume_EncryptionModeXTS
+#endif // TC_HEADER_Volume_EncryptionModeWolfCryptXTS

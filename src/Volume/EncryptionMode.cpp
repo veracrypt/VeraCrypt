@@ -12,6 +12,9 @@
 
 #include "EncryptionMode.h"
 #include "EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "EncryptionModeWolfCryptXTS.h"
+#endif
 #include "EncryptionThreadPool.h"
 
 namespace VeraCrypt
@@ -38,7 +41,11 @@ namespace VeraCrypt
 	{
 		EncryptionModeList l;
 
+            #ifdef WOLFCRYPT_BACKEND
+		l.push_back (shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS ()));
+            #else
 		l.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+            #endif
 
 		return l;
 	}

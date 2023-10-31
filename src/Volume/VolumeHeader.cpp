@@ -12,6 +12,9 @@
 
 #include "Crc32.h"
 #include "EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Pkcs5Kdf.h"
 #include "Pkcs5Kdf.h"
 #include "VolumeHeader.h"
@@ -76,8 +79,12 @@ namespace VeraCrypt
 		}
 
 		EA = options.EA;
-		shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
-		EA->SetMode (mode);
+            #ifdef WOLFCRYPT_BACKEND
+                shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS ());
+            #else
+                shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
+            #endif
+                EA->SetMode (mode);
 
 		EncryptNew (headerBuffer, options.Salt, options.HeaderKey, options.Kdf);
 	}
@@ -100,17 +107,28 @@ namespace VeraCrypt
 
 			foreach (shared_ptr <EncryptionMode> mode, encryptionModes)
 			{
-				if (typeid (*mode) != typeid (EncryptionModeXTS))
-					mode->SetKey (headerKey.GetRange (0, mode->GetKeySize()));
+                            #ifdef WOLFCRYPT_BACKEND
+                                if (typeid (*mode) != typeid (EncryptionModeWolfCryptXTS))
+                            #else
+                                if (typeid (*mode) != typeid (EncryptionModeXTS))
+                            #endif
+                                    mode->SetKey (headerKey.GetRange (0, mode->GetKeySize()));
 
 				foreach (shared_ptr <EncryptionAlgorithm> ea, encryptionAlgorithms)
 				{
 					if (!ea->IsModeSupported (mode))
 						continue;
 
+                                    #ifndef WOLFCRYPT_BACKEND
 					if (typeid (*mode) == typeid (EncryptionModeXTS))
 					{
-						ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
+                                           ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
+                                    #else
+					if (typeid (*mode) == typeid (EncryptionModeWolfCryptXTS))
+					{
+                                              ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
+						ea->SetKeyXTS (headerKey.GetRange (ea->GetKeySize(), ea->GetKeySize()));
+                                    #endif
 
 						mode = mode->GetNew();
 						mode->SetKey (headerKey.GetRange (ea->GetKeySize(), ea->GetKeySize()));
@@ -206,9 +224,16 @@ namespace VeraCrypt
 		ea = ea->GetNew();
 		mode = mode->GetNew();
 
+            #ifndef WOLFCRYPT_BACKEND
 		if (typeid (*mode) == typeid (EncryptionModeXTS))
 		{
-			ea->SetKey (header.GetRange (offset, ea->GetKeySize()));
+                    ea->SetKey (header.GetRange (offset, ea->GetKeySize()));
+            #else
+		if (typeid (*mode) == typeid (EncryptionModeWolfCryptXTS))
+		{
+                       ea->SetKey (header.GetRange (offset, ea->GetKeySize()));
+			ea->SetKeyXTS (header.GetRange (offset + ea->GetKeySize(), ea->GetKeySize()));
+            #endif
 			mode->SetKey (header.GetRange (offset + ea->GetKeySize(), ea->GetKeySize()));
 		}
 		else
@@ -250,10 +275,17 @@ namespace VeraCrypt
 		shared_ptr <EncryptionMode> mode = EA->GetMode()->GetNew();
 		shared_ptr <EncryptionAlgorithm> ea = EA->GetNew();
 
+            #ifndef WOLFCRYPT_BACKEND
 		if (typeid (*mode) == typeid (EncryptionModeXTS))
 		{
-			mode->SetKey (newHeaderKey.GetRange (EA->GetKeySize(), EA->GetKeySize()));
-			ea->SetKey (newHeaderKey.GetRange (0, ea->GetKeySize()));
+                        ea->SetKey (newHeaderKey.GetRange (0, ea->GetKeySize()));
+            #else
+		if (typeid (*mode) == typeid (EncryptionModeWolfCryptXTS))
+		{
+                        ea->SetKey (newHeaderKey.GetRange (0, ea->GetKeySize()));
+                        ea->SetKeyXTS (newHeaderKey.GetRange (EA->GetKeySize(), EA->GetKeySize()));
+            #endif
+                        mode->SetKey (newHeaderKey.GetRange (EA->GetKeySize(), EA->GetKeySize()));
 		}
 		else
 		{

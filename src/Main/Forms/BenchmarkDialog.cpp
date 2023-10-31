@@ -12,6 +12,9 @@
 
 #include "System.h"
 #include "Volume/EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "Volume/EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Main/GraphicUserInterface.h"
 #include "BenchmarkDialog.h"
 
@@ -209,9 +212,13 @@ namespace VeraCrypt
 
 						Buffer key (ea->GetKeySize());
 						ea->SetKey (key);
-
+                                            #ifdef WOLFCRYPT_BACKEND
+						shared_ptr <EncryptionMode> xts (new EncryptionModeWolfCryptXTS);
+						ea->SetKeyXTS (key);
+                                            #else
 						shared_ptr <EncryptionMode> xts (new EncryptionModeXTS);
-						xts->SetKey (key);
+                                            #endif
+                                                xts->SetKey (key);
 						ea->SetMode (xts);
 
 						wxLongLong startTime = wxGetLocalTimeMillis();

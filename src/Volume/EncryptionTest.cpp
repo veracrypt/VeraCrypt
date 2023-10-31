@@ -16,6 +16,9 @@
 #include "EncryptionAlgorithm.h"
 #include "EncryptionMode.h"
 #include "EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "EncryptionModeWolfCryptXTS.h"
+#endif
 #include "EncryptionTest.h"
 #include "Pkcs5Kdf.h"
 
@@ -441,9 +444,16 @@ namespace VeraCrypt
 		for (i = 0; i < array_capacity (XtsTestVectors); i++)
 		{
 			AES aes;
-			shared_ptr <EncryptionMode> xts (new EncryptionModeXTS);
+                    #ifdef WOLFCRYPT_BACKEND
+                        shared_ptr <EncryptionMode> xts (new EncryptionModeWolfCryptXTS);
+                    #else
+                        shared_ptr <EncryptionMode> xts (new EncryptionModeXTS);
+                    #endif
 
-			aes.SetKey (ConstBufferPtr (XtsTestVectors[i].key1, sizeof (XtsTestVectors[i].key1)));
+                        aes.SetKey (ConstBufferPtr (XtsTestVectors[i].key1, sizeof (XtsTestVectors[i].key1)));
+                    #ifdef WOLFCRYPT_BACKEND
+                        aes.SetKeyXTS (ConstBufferPtr (XtsTestVectors[i].key2, sizeof (XtsTestVectors[i].key2)));
+                    #endif
 			xts->SetKey (ConstBufferPtr (XtsTestVectors[i].key2, sizeof (XtsTestVectors[i].key2)));
 			aes.SetMode (xts);
 
@@ -498,7 +508,11 @@ namespace VeraCrypt
 			// Test all EAs that support this mode of operation
 			foreach_ref (EncryptionAlgorithm &ea, EncryptionAlgorithm::GetAvailableAlgorithms())
 			{
-				shared_ptr <EncryptionMode> mode (new EncryptionModeXTS);
+                            #ifdef WOLFCRYPT_BACKEND
+                                shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS);
+                            #else
+                                shared_ptr <EncryptionMode> mode (new EncryptionModeXTS);
+                            #endif
 
 				if (!ea.IsModeSupported (mode))
 					continue;
@@ -512,8 +526,11 @@ namespace VeraCrypt
 
 				mode->SetKey (modeKey);
 				ea.SetMode (mode);
+                            #ifdef WOLFCRYPT_BACKEND
+				ea.SetKeyXTS (modeKey);
+                            #endif
 
-				// Each data unit will contain the same plaintext
+                                // Each data unit will contain the same plaintext
 				for (i = 0; i < nbrUnits; i++)
 				{
 					memcpy ((unsigned char *) buf + i * ENCRYPTION_DATA_UNIT_SIZE,
@@ -946,7 +963,11 @@ namespace VeraCrypt
 		// Test all EAs that support this mode of operation
 		foreach_ref (EncryptionAlgorithm &ea, EncryptionAlgorithm::GetAvailableAlgorithms())
 		{
+                    #ifdef WOLFCRYPT_BACKEND
+			shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS);
+                    #else
 			shared_ptr <EncryptionMode> mode (new EncryptionModeXTS);
+                    #endif
 
 			if (!ea.IsModeSupported (mode))
 				continue;
@@ -960,6 +981,9 @@ namespace VeraCrypt
 
 			mode->SetKey (modeKey);
 			ea.SetMode (mode);
+                    #ifdef WOLFCRYPT_BACKEND
+                        ea.SetKeyXTS (modeKey);
+                    #endif
 
 			// Each data unit will contain the same plaintext
 			for (i = 0; i < nbrUnits; i++)

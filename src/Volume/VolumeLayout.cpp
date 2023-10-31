@@ -12,6 +12,9 @@
 
 #include "Volume/EncryptionMode.h"
 #include "Volume/EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "Volume/EncryptionModeWolfCryptXTS.h"
+#endif
 #include "VolumeLayout.h"
 #include "Boot/Windows/BootCommon.h"
 
@@ -75,8 +78,11 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
+
+                SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+        #else
+                SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS ()));
         #endif
-		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 
 	uint64 VolumeLayoutV1Normal::GetDataOffset (uint64 volumeHostSize) const
@@ -113,9 +119,12 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-        #endif
 		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
+        #else
+		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS ()));
+        #endif
+
+        }
 
 	uint64 VolumeLayoutV2Normal::GetDataOffset (uint64 volumeHostSize) const
 	{
@@ -159,8 +168,11 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-        #endif
+
 		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+        #else
+		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS ()));
+        #endif
 	}
 
 	uint64 VolumeLayoutV2Hidden::GetDataOffset (uint64 volumeHostSize) const
@@ -212,9 +224,13 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-        #endif		
-		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
+
+                SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+        #else
+		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS ()));
+        #endif
+
+        }
 
 	uint64 VolumeLayoutSystemEncryption::GetDataOffset (uint64 volumeHostSize) const
 	{
