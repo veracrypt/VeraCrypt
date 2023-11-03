@@ -295,7 +295,7 @@
     <entry lang="es" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="es" key="IDT_PW_CACHE_OPTIONS">Caché de Contraseñas</entry>
     <entry lang="es" key="IDT_SECURITY_OPTIONS">Opciones de seguridad</entry>
-    <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
+    <entry lang="es" key="IDT_EMV_OPTIONS">EMV Opciones</entry>
     <entry lang="es" key="IDT_TASKBAR_ICON">VeraCrypt en Segundo Plano</entry>
     <entry lang="es" key="IDT_TRAVELER_MOUNT">Volumen VeraCrypt a montar (relativo a raíz del disco viajero):</entry>
     <entry lang="es" key="IDT_TRAVEL_INSERTION">Tras la inserción del disco viajero: </entry>
@@ -390,7 +390,7 @@
     <entry lang="es" key="ADMINISTRATOR">Administrador</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_DRIVER">Para cargar el controlador de VeraCrypt necesita iniciar sesión con privilegios de administrador.</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_WARN_DEVICES">Tenga en cuenta que para cifrar/formatear una partición/dispositivo necesita iniciar sesión con privilegios de administrador.\n\nEsto no se aplica a los volúmenes alojados en archivos.</entry>
-    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
+    <entry lang="es" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">No se ha podido activar la creación rápida de archivos: Se requieren privilegios de administrador.\nPor favor, reinicie el programa como administrador para activar esta función.\n\n ¿Desea continuar sin la creación rápida de archivos?</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Para crear un volumen oculto necesita iniciar sesión con privilegios de administrador.\n\n¿Desea continuar?</entry>
     <entry lang="es" key="ADMIN_PRIVILEGES_WARN_NTFS">Tenga en cuenta que para formatear el volumen como NTFS necesita iniciar sesión con privilegios de administrador.\n\nSin los privilegios de administrador, sólo puede formatear el volumen como FAT.</entry>
     <entry lang="es" key="AES_HELP">Algoritmo aprobado por FIPS (Rijndael, publicado en 1998) que podría ser usado por departamentos y agencias gubernamentales de EEUU para proteger información clasificada hasta el nivel Alto Secreto. Clave de 256-bit, bloque de 128-bit, 14 rondas (AES-256). El modo de operación es XTS.</entry>
@@ -940,7 +940,7 @@
     <entry lang="es" key="ENTER_HEADER_BACKUP_PASSWORD">Introduzca contraseña para la cabecera almacenada en archivo de respaldo</entry>
     <entry lang="es" key="KEYFILE_CREATED">Se ha creado con éxito el archivo-llave.</entry>
     <entry lang="es" key="KEYFILE_INCORRECT_NUMBER">El número de archivos-clave que proporcionó es inválido.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
+    <entry lang="es" key="KEYFILE_INCORRECT_SIZE">El tamaño del fichero de claves debe ser de al menos 64 bytes.</entry>
     <entry lang="es" key="KEYFILE_EMPTY_BASE_NAME">Por favor, introduzca un nombre para que se genere el fichero-llave</entry>
     <entry lang="es" key="KEYFILE_INVALID_BASE_NAME">El nombre base del/de los fichero(s)-llave es inválido</entry>
     <entry lang="es" key="KEYFILE_ALREADY_EXISTS">El fichero-llave '%s' ya existe.\n¿Quiere sobrescribirlo? Se detendrá el proceso si responde No.</entry>
@@ -1429,14 +1429,14 @@
     <entry lang="es" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: El tamaño del contenedor de archivo es más grande que el espacio en disco disponible.</entry>
     <entry lang="es" key="IDC_ALLOW_WINDOWS_DEFRAG">Permitir al Defragmentador de Discos de Windows defragmentar una partición/disco no de sistema</entry>
     <entry lang="es" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">ADVERTENCIA: Defragmentar particiones/discos no de sistema puede filtrar metadatos acerca de su contenido o causar dificultades con los volúmenes ocultos que puedan contener.\n\n¿Continuar?</entry>
-    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
-    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
-    <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
-    <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
+    <entry lang="es" key="VIRTUAL_DEVICE">Dispositivo Virtual</entry>
+    <entry lang="es" key="MOUNTED_VOLUME_NOT_ASSOCIATED">El volumen montado seleccionado no está asociado a su letra de unidad en Windows, por lo que no se puede abrir en el Explorador de Windows.</entry>
+    <entry lang="es" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Borrar las claves de cifrado de la memoria si se inserta un nuevo dispositivo</entry>
+    <entry lang="es" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">NOTAS IMPORTANTES:\n - Por favor, tenga en cuenta que esta opción no persistirá después de un apagado/reinicio por lo que tendrá que seleccionarla de nuevo la próxima vez que se inicie la máquina.\n\n - Con esta opción activada y después de conectar un nuevo dispositivo, la máquina se congelará y eventualmente se bloqueará con un BSOD ya que Windows no puede acceder al disco encriptado después de que sus claves se borren de la memoria.\n</entry>
     <entry lang="es" key="STARTING">Iniciando</entry>
-    <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
-    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
-    <entry lang="en" key="IDC_ENABLE_RAM_ENCRYPTION">Activate encryption of keys and passwords stored in RAM</entry>
+    <entry lang="es" key="IDC_ENABLE_CPU_RNG">Utilizar el generador aleatorio de hardware de la CPU como fuente adicional de entropía.</entry>
+    <entry lang="es" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Utilice la longitud máxima de contraseña heredada (64 caracteres)</entry>
+    <entry lang="es" key="IDC_ENABLE_RAM_ENCRYPTION">Activar la encriptación de claves y contraseñas almacenadas en RAM</entry>
     <entry lang="es" key="IDT_BENCHMARK">Comparación:</entry>
     <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
     <entry lang="es" key="LEGACY_PASSWORD_UTF8_TOO_LONG">La contraseña introducida es demasiado larga: su representación en UTF-8 excede de 64 bytes.</entry>
