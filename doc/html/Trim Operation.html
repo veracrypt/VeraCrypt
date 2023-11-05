@@ -49,6 +49,9 @@ On Windows, VeraCrypt allows users to control the trim operation for both non-sy
 Under Linux, VeraCrypt does not block the trim operation on volumes using the native Linux kernel cryptographic services, which is the default setting. To block TRIM on Linux, users should either enable the "do not use kernel cryptographic services" option in VeraCrypt's Preferences (applicable only to volumes mounted afterward) or use the <code>--mount-options=nokernelcrypto</code> switch in the command line when mounting.
 <br>
 <br>
+Under macOS, VeraCrypt does not support the trim operation. Therefore, trim is always blocked on all volumes.
+<br>
+<br>
 In cases where trim operations occur, the adversary will be able to tell which sectors contain free space (and may be able to use this information for
  further analysis and attacks) and <a href="Plausible%20Deniability.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
 plausible deniability</a> may be negatively affected. In order to avoid these issues, users should either disable trim in VeraCrypt settings as previously described or make sure VeraCrypt volumes are not located on drives that use the trim operation.</div>
