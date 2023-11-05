@@ -40,6 +40,12 @@ VeraCrypt can on-the-fly encrypt a system partition or entire system drive, i.e.
 System encryption provides the highest level of security and privacy, because all files, including any temporary files that Windows and applications create on the system partition (typically, without your knowledge or consent), hibernation files, swap files,
  etc., are always permanently encrypted (even when power supply is suddenly interrupted). Windows also records large amounts of potentially sensitive data, such as the names and locations of files you open, applications you run, etc. All such log files and
  registry entries are always permanently encrypted as well.</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>Note on SSDs and TRIM:</strong>
+When using system encryption on SSDs, it's important to consider the implications of the TRIM operation, which can potentially reveal information about which sectors on the drive are not in use. For detailed guidance on how TRIM operates with VeraCrypt and how to manage its settings for enhanced security, please refer to the <a href="Trim%20Operation.html">TRIM Operation</a> documentation.
+</div>
+
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 System encryption involves pre-boot authentication, which means that anyone who wants to gain access and use the encrypted system, read and write files stored on the system drive, etc., will need to enter the correct password each time before Windows boots
  (starts). Pre-boot authentication is handled by the VeraCrypt Boot Loader, which resides in the first track of the boot drive and on the
