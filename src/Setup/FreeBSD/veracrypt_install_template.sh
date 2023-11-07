@@ -93,7 +93,7 @@ show_message()
 					else
 						if [ $KTERM -eq 1 ]
 						then
-							konsole --title 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo $*; read A"
+							konsole --qwindowtitle 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo $*; read A"
 						fi
 					fi
 				fi
@@ -1074,7 +1074,7 @@ then
 			else
 				if [ $KTERM -eq 1 ]
 				then
-					exec konsole --title 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A"
+					exec konsole --qwindowtitle 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A"
 				fi
 			fi
 		fi
