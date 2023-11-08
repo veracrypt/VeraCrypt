@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.9</strong> (October 11<sup>th</sup>, 2023):</p>
+<p><strong style="text-align:left">1.26.10</strong> (November 8<sup>th</sup>, 2023):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -52,6 +52,14 @@
 	<li>VeraCrypt Expander: Fix expansion of volumes on disks with a sector size different from 512 (by skl0n6)</li>
 	<li>Fix writing wrong EFI System Encryption Advanced Options to registry</li>
 	<li>Don't close Setup when exiting VeraCrypt process through system tray Exit menu</li>
+	<li>Windows: Fix failure to format some disks (e.g. VHDX) caused by virtual partition offset not 4K aligned</li>
+	<li>Windows: fallback to absolute positioning when accessing disks if relative positioning fails</li>
+	</ul>
+</li>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>Linux: Focus PIM field when selected (#1239)</li>
+	<li>Linux: Fix generic installation script on Konsole in Wayland (#1244)</li>
 	</ul>
 </li>
 <li><strong>macOS:</strong>
