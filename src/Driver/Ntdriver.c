@@ -1033,8 +1033,8 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				outputBuffer->Geometry.TracksPerCylinder = Extension->TracksPerCylinder;
 				outputBuffer->Geometry.SectorsPerTrack = Extension->SectorsPerTrack;
 				outputBuffer->Geometry.BytesPerSector = Extension->BytesPerSector;
-				/* add one sector to DiskLength since our partition size is DiskLength and its offset if BytesPerSector */
-				outputBuffer->DiskSize.QuadPart = Extension->DiskLength + Extension->BytesPerSector;
+				// Add 1MB to the disk size to emulate the geometry of a real MBR disk
+				outputBuffer->DiskSize.QuadPart = Extension->DiskLength + BYTES_PER_MB;
 
 				if (bFullBuffer)
 				{
@@ -1305,7 +1305,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->BootIndicator = FALSE;
 			outputBuffer->RecognizedPartition = TRUE;
 			outputBuffer->RewritePartition = FALSE;
-			outputBuffer->StartingOffset.QuadPart = Extension->BytesPerSector;
+			outputBuffer->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 			outputBuffer->PartitionLength.QuadPart= Extension->DiskLength;
 			outputBuffer->PartitionNumber = 1;
 			outputBuffer->HiddenSectors = 0;
@@ -1322,7 +1322,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 			outputBuffer->PartitionStyle = PARTITION_STYLE_MBR;
 			outputBuffer->RewritePartition = FALSE;
-			outputBuffer->StartingOffset.QuadPart = Extension->BytesPerSector;
+			outputBuffer->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 			outputBuffer->PartitionLength.QuadPart= Extension->DiskLength;
 			outputBuffer->PartitionNumber = 1;
 			outputBuffer->Mbr.PartitionType = Extension->PartitionType;
@@ -1350,7 +1350,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->PartitionEntry->BootIndicator = FALSE;
 			outputBuffer->PartitionEntry->RecognizedPartition = TRUE;
 			outputBuffer->PartitionEntry->RewritePartition = FALSE;
-			outputBuffer->PartitionEntry->StartingOffset.QuadPart = Extension->BytesPerSector;
+			outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 			outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
 			outputBuffer->PartitionEntry->PartitionNumber = 1;
 			outputBuffer->PartitionEntry->HiddenSectors = 0;			
@@ -1386,7 +1386,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				outputBuffer->PartitionEntry->Mbr.BootIndicator = FALSE;
 				outputBuffer->PartitionEntry->Mbr.RecognizedPartition = TRUE;
 				outputBuffer->PartitionEntry->RewritePartition = FALSE;
-				outputBuffer->PartitionEntry->StartingOffset.QuadPart = Extension->BytesPerSector;
+				outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 				outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
 				outputBuffer->PartitionEntry->PartitionNumber = 1;
 				outputBuffer->PartitionEntry->Mbr.HiddenSectors = 0;
@@ -1547,7 +1547,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				// of the underlaying physical disk and we report a single extent 
 				extents->NumberOfDiskExtents = 1;
 				extents->Extents[0].DiskNumber = Extension->DeviceNumber;
-				extents->Extents[0].StartingOffset.QuadPart = Extension->BytesPerSector;
+				extents->Extents[0].StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 				extents->Extents[0].ExtentLength.QuadPart = Extension->DiskLength;
 			}
 			else
@@ -1575,8 +1575,8 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				capacity->Version = sizeof (STORAGE_READ_CAPACITY);
 				capacity->Size = sizeof (STORAGE_READ_CAPACITY);
 				capacity->BlockLength = Extension->BytesPerSector;
-				capacity->NumberOfBlocks.QuadPart = (Extension->DiskLength / Extension->BytesPerSector) + 1;
-				capacity->DiskLength.QuadPart = Extension->DiskLength + Extension->BytesPerSector;
+				capacity->DiskLength.QuadPart = Extension->DiskLength + BYTES_PER_MB; // Add 1MB to the disk size to emulate the geometry of a real MBR disk
+				capacity->NumberOfBlocks.QuadPart = capacity->DiskLength.QuadPart / capacity->BlockLength;
 
 				Irp->IoStatus.Status = STATUS_SUCCESS;
 				Irp->IoStatus.Information = sizeof (STORAGE_READ_CAPACITY);
