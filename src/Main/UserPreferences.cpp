@@ -56,6 +56,21 @@ namespace VeraCrypt
 		cfgVar = wstring (cfgText);
 	}
 
+	void UserPreferences::GetValueFromKey (const string &key, string &value)
+	{
+		FilePath cfgPath = Application::GetConfigFilePath (GetPreferencesFileName());
+		if (cfgPath.IsFile()) {
+			map<wxString, wxString> configMap;
+			foreach (XmlNode node, XmlParser (cfgPath).GetNodes (L"config")) {
+				configMap[node.Attributes[L"key"]] = node.InnerText;
+				if (node.Attributes[L"key"] == key) {
+					value = node.InnerText;
+					return;
+				}
+			}
+		}
+	}
+
 	void UserPreferences::Load()
 	{
 		// first we clear the unknown config map entries
@@ -92,6 +107,7 @@ namespace VeraCrypt
 			TC_CONFIG_SET (BackgroundTaskEnabled);
 			if (configMap.count(L"FilesystemOptions") > 0) { SetValue (configMap[L"FilesystemOptions"], DefaultMountOptions.FilesystemOptions); configMap.erase (L"FilesystemOptions"); }
 			TC_CONFIG_SET (ForceAutoDismount);
+			TC_CONFIG_SET (Language);
 			TC_CONFIG_SET (LastSelectedSlotNumber);
 			TC_CONFIG_SET (MaxVolumeIdleTime);
 			TC_CONFIG_SET (MountDevicesOnLogon);
@@ -214,6 +230,7 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (BackgroundTaskEnabled);
 		formatter.AddEntry (L"FilesystemOptions", DefaultMountOptions.FilesystemOptions);
 		TC_CONFIG_ADD (ForceAutoDismount);
+		TC_CONFIG_ADD (Language);
 		TC_CONFIG_ADD (LastSelectedSlotNumber);
 		TC_CONFIG_ADD (MaxVolumeIdleTime);
 		TC_CONFIG_ADD (MountDevicesOnLogon);
@@ -240,7 +257,7 @@ namespace VeraCrypt
 		for (map<wxString, wxString>::const_iterator it = UnknownConfigMapEntries.begin(); it != UnknownConfigMapEntries.end(); ++it)
 		{
 			formatter.AddEntry(it->first.c_str(), it->second);
-		}		
+		}
 
 		XmlWriter writer (Application::GetConfigFilePath (GetPreferencesFileName(), true));
 		writer.WriteNode (formatter.XmlConfig);

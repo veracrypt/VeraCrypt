@@ -1449,7 +1449,7 @@
     <entry lang="fi" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">VAROITUS: RAM-muistin salaus ei ole yhteensopiva Windowsin horrostila ja -pikakäynnistys ominaisuuksien kanssa. VeraCryptin tulee ottaa ne pois käytöstä ennen kuin RAM-muistin salaus voidaan ottaa käyttöön.\n\nJatketaanko?</entry>
     <entry lang="fi" key="CONFIRM_DISABLE_FAST_STARTUP">VAROITUS: Windowsin pikakäynnistys on käytössä ja sen tiedetään aiheuttavan ongelmia VeraCrypt-taltioiden kanssa. On suositeltavaa ottaa se pois käytöstä turvallisuuden ja käytettävyyden kannalta.\n\nHaluatko ottaa Windowsin pikakäynnistyksen pois käytöstä?</entry>
     <entry lang="fi" key="QUICK_FORMAT_HELP">Jotta käyttöjärjestelmäsi voi liittää uuden taltiosi, tulee sille luoda tiedostojärjestelmä. Valitse tiedostojärjestelmä.\n\nJos taltiosi sijaitsee laiteella tai osiolla, voit käyttää vaihtoehtoa 'Pika-alustus' ohittaaksesi taltion vapaan tilan salauksen.</entry>
-    <entry lang="fi" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Älä käytä laitteistokiihdytystä käyttäen prosessorin AES-käskykantaa AES salaukseen tai salauksen purkuun</entry>
+    <entry lang="fi" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Älä käytä laitteistokiihdytystä käyttäen prosessorin AES-käskykantaa AES salaukseen tai salauksen\npurkuun</entry>
     <entry lang="fi" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Lisää kaikki liitetyt taltiot suosikkeihin...</entry>
     <entry lang="fi" key="TASKICON_PREF_MENU_ITEMS">Tehtäväpalkin kuvakkeet</entry>
     <entry lang="fi" key="TASKICON_PREF_OPEN_VOL">Avaa liitetyt taltiot</entry>
@@ -1632,9 +1632,12 @@
     <entry lang="fi" key="EXPANDER_UNMOUNTING_VOLUME">Irrotetaan taltio ...\n</entry>
     <entry lang="fi" key="EXPANDER_EXTENDING_FILESYSTEM">Laajennetaan tiedostojärjestelmää ...\n</entry>
     <entry lang="fi" key="PARTIAL_SYSENC_MOUNT_READONLY">Varoitus: Järjestelmäosio, jota yritit liittää, ei ole täysin salattu. Mahdollisen korruptoitumisen tai ei-toivottujen muokkausten estämiseksi, taltio '%s' on liitetty turvallisuustoimenpiteenä Vain luku -tilassa.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="fi" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Tärkeää tietoa kolmansien osapuolten tiedostopäätteistä</entry>
+    <entry lang="fi" key="IDC_DISABLE_MEMORY_PROTECTION">Ota muistinsuojaus pois käytöstä helppokäyttötyökalujen yhteensopivuuden takaamiseksi</entry>
+    <entry lang="fi" key="DISABLE_MEMORY_PROTECTION_WARNING">VAROITUS: Muistinsuojauksen käytöstä poistaminen heikentää tietoturvaa merkittävästi. Ota tämä käyttöön vain, jos olet riippuvainen helppokäyttötyökaluista kuten ruudunlukijoista käyttääksesi VeraCryptin käyttöliittymää.</entry>
+    <entry lang="fi" key="LINUX_LANGUAGE">Kieli</entry>
+    <entry lang="fi" key="LINUX_SELECT_SYS_DEFAULT_LANG">Valitse järjestelmän oletuskieli</entry>
+    <entry lang="fi" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Kielenmuutos tulee voimaan vasta VeraCryptin uudelleenkäynnistyksen jälkeen.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
