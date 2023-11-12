@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.10">
-    <language langid="ru" name="Русский" en-name="Russian" version="1.26.10" translators="Dmitry Yerokhin [erodim@mail.ru] (231001)" />
+    <language langid="ru" name="Русский" en-name="Russian" version="1.26.10" translators="Dmitry Yerokhin [erodim@mail.ru] (231110)" />
     <font lang="ru" class="normal" size="11" face="default" />
     <font lang="ru" class="bold" size="13" face="Arial" />
     <font lang="ru" class="fixed" size="12" face="Lucida Console" />
@@ -237,7 +237,7 @@
     <entry lang="ru" key="IDM_ONLINE_TUTORIAL">Руководство для начинающих</entry>
     <entry lang="ru" key="IDM_ORGANIZE_FAVORITES">Упорядочить избранные тома...</entry>
     <entry lang="ru" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Упорядочить системные избранные тома...</entry>
-    <entry lang="ru" key="IDM_PERFORMANCE_SETTINGS">Быстродействие и настройки драйвера...</entry>
+    <entry lang="ru" key="IDM_PERFORMANCE_SETTINGS">Производительность и драйвер...</entry>
     <entry lang="ru" key="IDM_PERMANENTLY_DECRYPT_SYS">Окончательно расшифровать системный раздел/диск</entry>
     <entry lang="ru" key="IDM_PREFERENCES">Параметры...</entry>
     <entry lang="ru" key="IDM_REFRESH_DRIVE_LETTERS">Обновить буквы дисков</entry>
@@ -1302,8 +1302,8 @@
     <entry lang="ru" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">Том "%s" смонтирован как "только для чтения" - ОС запретила запись на хост-устройство.\n\nОбратите внимание, что некоторые драйверы чипсета (НМС) ошибочно представляют доступные для записи носители как устройства только для чтения. Эта проблема - не по вине VeraCrypt. Её можно решить обновлением или удалением имеющихся в системе драйверов чипсета сторонних производителей (не Microsoft).</entry>
     <entry lang="ru" key="LIMIT_ENC_THREAD_POOL_NOTE">Hyper-Threading - это несколько логических ядер на одном физическом ядре. Если функция Hyper-Threading включена, число выше показывает количество логических процессоров/ядер.</entry>
     <entry lang="ru" key="NUMBER_OF_THREADS">%d шт.</entry>
-    <entry lang="ru" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Аппаратное ускорение AES отключено, что скажется на результатах теста (ухудшит производительность).\n\nЧтобы включить аппаратное ускорение, в меню "Настройки" выберите пункт "Быстродействие" и включите соответствующий параметр.</entry>
-    <entry lang="ru" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Число потоков сейчас ограничено, что скажется на результатах теста (ухудшит производительность).\n\nЧтобы задействовать весь потенциал ЦП, в меню "Настройки" выберите пункт "Быстродействие" и отключите соответствующий параметр.</entry>
+    <entry lang="ru" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Аппаратное ускорение AES отключено, что скажется на результатах теста (ухудшит производительность).\n\nЧтобы включить аппаратное ускорение, в меню "Настройки" выберите пункт "Производительность и драйвер" и включите соответствующий параметр.</entry>
+    <entry lang="ru" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Число потоков сейчас ограничено, что скажется на результатах теста (ухудшит производительность).\n\nЧтобы задействовать весь потенциал ЦП, в меню "Настройки" выберите пункт "Производительность и драйвер" и отключите соответствующий параметр.</entry>
     <entry lang="ru" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Хотите попробовать отключить защиту от записи у раздела/диска?</entry>
     <entry lang="ru" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">ВНИМАНИЕ: Этот параметр может ухудшить производительность.\n\nВы действительно хотите его включить?</entry>
     <entry lang="ru" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">ВНИМАНИЕ: Том VeraCrypt автоматически размонтирован</entry>
@@ -1419,7 +1419,7 @@
     <entry lang="ru" key="DCSPROP_XML_VALIDATION_FAILED">ВНИМАНИЕ: Ошибка проверки корректности XML-формата конфигурации загрузчика. Проверьте внесённые вами изменения.</entry>
     <entry lang="ru" key="IDT_ADVANCED_OPTIONS">Расширенные настройки</entry>
     <entry lang="ru" key="AFTER_UPGRADE_RESCUE_DISK">Настоятельно рекомендуем создать новый Диск восстановления VeraCrypt (который будет содержать новую версию загрузчика VeraCrypt), выбрав "Система" > "Создать Диск восстановления".\nСделать это сейчас?</entry>
-    <entry lang="ru" key="IDC_ALLOW_TRIM_NONSYS_SSD">Разрешить команду TRIM для несистемного SSD-раздела/диска</entry>
+    <entry lang="ru" key="IDC_ALLOW_TRIM_NONSYS_SSD">Разрешить команду TRIM для несистемных SSD-разделов/дисков</entry>
     <entry lang="ru" key="IDC_BLOCK_SYSENC_TRIM">Блокировать команду TRIM на системном разделе/диске</entry>
     <entry lang="ru" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ОШИБКА: Не удалось обнаружить на диске системный EFI-загрузчик Windows. Операция будет прервана.</entry>
     <entry lang="ru" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">В настоящий момент невозможно зашифровать систему, если включена безопасная загрузка (Secure Boot) и если свои ключи VeraCrypt не загружены в прошивку машины. Чтобы зашифровать систему, отключите Secure Boot в настройках BIOS.</entry>
@@ -1427,7 +1427,7 @@
     <entry lang="ru" key="PASSWORD_MAXLENGTH_REACHED">Максимальная длина пароля (%d симв.).\nБольше ничего вводить нельзя.</entry>
     <entry lang="ru" key="IDC_SELECT_LANGUAGE_LABEL">Выберите язык, который будет использован при установке:</entry>
     <entry lang="ru" key="VOLUME_TOO_LARGE_FOR_HOST">ОШИБКА: Размер файлового контейнера больше, чем свободно места на диске.</entry>
-    <entry lang="ru" key="IDC_ALLOW_WINDOWS_DEFRAG">Разрешить дефрагментатору Windows обрабатывать несистемный раздел/диск</entry>
+    <entry lang="ru" key="IDC_ALLOW_WINDOWS_DEFRAG">Разрешить дефрагментатору Windows обрабатывать несистемные разделы/диски</entry>
     <entry lang="ru" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">ВНИМАНИЕ: Дефрагментация несистемных разделов/дисков может способствовать утечке метаданных об их содержимом или вызывать проблемы со скрытыми томами, которые могут в них находиться.\n\nПродолжить?</entry>
     <entry lang="ru" key="VIRTUAL_DEVICE">Виртуальное устройство</entry>
     <entry lang="ru" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Выбранный смонтированный том не ассоциирован с буквой диска в Windows, его нельзя открыть в Проводнике Windows.</entry>
