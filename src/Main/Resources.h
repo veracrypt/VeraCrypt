@@ -15,6 +15,9 @@
 
 #include "System.h"
 #include "Platform/Platform.h"
+#ifndef TC_WINDOWS
+#include "UserPreferences.h"
+#endif
 
 namespace VeraCrypt
 {
