@@ -1499,7 +1499,7 @@
     <entry lang="fi" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Ota huomioon, että jo liitettynä olevat taltiot tulee liittää uudelleen ennen kuin ne voivat käyttää tätä asetusta.</entry>
     <entry lang="fi" key="LINUX_UNKNOWN_EXC_OCCURRED">Tuntematon poikkeus tapahtui.</entry>
     <entry lang="fi" key="LINUX_FIRST_AID">Levytyökalu käynnistetään kun painat 'OK'.\n\nValitse ensin taltiosi Levytyökalussa ja paina 'Tarkista Levy' tai 'Korjaa Levy' nappulaa 'Korjaus' sivulla.</entry>
-    <entry lang="fi" key="LINUX_MOUNT_ALL_DEV">Liitä Kaikki Laitteet</entry>
+    <entry lang="fi" key="LINUX_MOUNT_ALL_DEV">Liitä kaikki laitteet</entry>
     <entry lang="fi" key="LINUX_ERROR_LOADING_CONFIG">Virhe ladattaessa määritystiedostoa sijainnista </entry>
     <entry lang="fi" key="LINUX_SELECT_FREE_SLOT">Valitse vapaa paikka taltiolle listasta.</entry>
     <entry lang="fi" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nHaluatko nähdä tämän ilmoituksen ensi kerralla kun liität vastaavan taltion?</entry>

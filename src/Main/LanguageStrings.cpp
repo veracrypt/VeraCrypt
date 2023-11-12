@@ -32,6 +32,10 @@ namespace VeraCrypt
 		// return "VeraCrypt" as it is
 		if (key == "VeraCrypt")
 			return L"VeraCrypt";
+		// return strings in quotes as is, without translating
+		if (key.front() == '"' && key.back() == '"') {
+			return StringConverter::ToWide (key.substr(1, key.size() - 2));
+		};
 
 		return wxString (L"?") + StringConverter::ToWide (key) + L"?";
 	}
@@ -56,12 +60,17 @@ namespace VeraCrypt
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
 
-		foreach (XmlNode node, XmlParser (Resources::GetLanguageXml()).GetNodes (L"entry"))
+		string translatedXml = Resources::GetLanguageXml();
+		foreach (XmlNode node, XmlParser (translatedXml).GetNodes (L"entry"))
 		{
 			wxString text = node.InnerText;
 			text.Replace (L"\\n", L"\n");
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
+
+		XmlNode node = XmlParser (translatedXml).GetNodes (L"language").front();
+		Map["LANGUAGE_TRANSLATORS"] = wxString (node.Attributes[L"translators"]);
+		Map["CURRENT_LANGUAGE_PACK"] = wxString (node.Attributes[L"name"]);
 	}
 
 	LanguageStrings LangString;

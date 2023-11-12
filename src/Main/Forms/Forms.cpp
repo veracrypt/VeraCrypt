@@ -2260,10 +2260,42 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	fgSizer10->SetFlexibleDirection( wxBOTH );
 	fgSizer10->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
+	wxBoxSizer* bSizer174;
+	bSizer174 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText73 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("IDT_ACTIVE_LANG_PACK"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText73->Wrap( -1 );
+	bSizer174->Add( m_staticText73, 0, wxLEFT|wxTOP, 5 );
+
+	m_staticText75 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("\":\""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText75->Wrap( -1 );
+	bSizer174->Add( m_staticText75, 0, wxTOP, 5 );
+
+	m_staticText74 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("CURRENT_LANGUAGE_PACK"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText74->Wrap( -1 );
+	bSizer174->Add( m_staticText74, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+
+
+	fgSizer10->Add( bSizer174, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer1731;
+	bSizer1731 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText72 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("IDT_LANGPACK_AUTHORS"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText72->Wrap( -1 );
+	bSizer1731->Add( m_staticText72, 0, wxBOTTOM|wxLEFT, 5 );
+
+	m_staticText71 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("LANGUAGE_TRANSLATORS"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText71->Wrap( -1 );
+	bSizer1731->Add( m_staticText71, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+
+
+	fgSizer10->Add( bSizer1731, 1, wxEXPAND, 5 );
+
 	LanguageListBox = new wxListBox( sbSizer49->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_SINGLE|wxLB_SORT );
 	LanguageListBox->SetMinSize( wxSize( -1,310 ) );
 
-	fgSizer10->Add( LanguageListBox, 0, wxALL|wxEXPAND, 5 );
+	fgSizer10->Add( LanguageListBox, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
 
 	SysDefaultLangButton = new wxButton( sbSizer49->GetStaticBox(), wxID_ANY, _("LINUX_SELECT_SYS_DEFAULT_LANG"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer10->Add( SysDefaultLangButton, 0, wxALIGN_BOTTOM|wxALL|wxEXPAND, 5 );

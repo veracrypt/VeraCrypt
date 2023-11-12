@@ -557,6 +557,7 @@ namespace VeraCrypt
 	class PreferencesDialogBase : public wxDialog
 	{
 		private:
+			wxStaticText* m_staticText75;
 
 		protected:
 			wxBoxSizer* bSizer32;
@@ -615,6 +616,10 @@ namespace VeraCrypt
 			wxButton* RemoveHotkeyButton;
 			wxCheckBox* BeepAfterHotkeyMountDismountCheckBox;
 			wxCheckBox* DisplayMessageAfterHotkeyDismountCheckBox;
+			wxStaticText* m_staticText73;
+			wxStaticText* m_staticText74;
+			wxStaticText* m_staticText72;
+			wxStaticText* m_staticText71;
 			wxButton* SysDefaultLangButton;
 			wxButton* OKButton;
 			wxButton* CancelButton;
