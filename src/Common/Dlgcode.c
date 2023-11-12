@@ -6143,11 +6143,13 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		*/
 		{
 			BYTE digest [MAX_DIGESTSIZE];
-			WHIRLPOOL_CTX	wctx;
-			blake2s_state   bctx;
+		#ifndef WOLFCRYPT_BACKEND	
+                        WHIRLPOOL_CTX	wctx;
+			STREEBOG_CTX		stctx;
+                        blake2s_state   bctx;
+               #endif
 			sha512_ctx		s2ctx;
 			sha256_ctx		s256ctx;
-			STREEBOG_CTX		stctx;
 
 			int hid, i;
 
@@ -6172,7 +6174,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 						sha256_hash (lpTestBuffer, benchmarkBufferSize, &s256ctx);
 						sha256_end ((unsigned char *) digest, &s256ctx);
 						break;
-
+                              #ifndef WOLFCRYPT_BACKEND
 					case BLAKE2S:
 						blake2s_init(&bctx);
 						blake2s_update(&bctx, lpTestBuffer, benchmarkBufferSize);
@@ -6192,7 +6194,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 						break;
 
 					}
-				}
+			        #endif	
+                                }
 
 				if (QueryPerformanceCounter (&performanceCountEnd) == 0)
 					goto counter_error;
@@ -6240,7 +6243,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
 					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
-
+                          #ifndef WOLFCRYPT_BACKEND
 				case BLAKE2S:
 					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
 					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
@@ -6256,7 +6259,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
-			}
+	                   #endif	
+                        }
 
 			if (QueryPerformanceCounter (&performanceCountEnd) == 0)
 				goto counter_error;

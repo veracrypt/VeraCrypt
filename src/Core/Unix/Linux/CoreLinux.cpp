@@ -22,6 +22,9 @@
 #include "Platform/SystemInfo.h"
 #include "Platform/TextReader.h"
 #include "Volume/EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "Volume/EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Driver/Fuse/FuseService.h"
 #include "Core/Unix/CoreServiceProxy.h"
 
@@ -302,8 +305,13 @@ namespace VeraCrypt
 
 	void CoreLinux::MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const
 	{
-		bool xts = (typeid (*volume->GetEncryptionMode()) == typeid (EncryptionModeXTS));
-		bool algoNotSupported = (typeid (*volume->GetEncryptionAlgorithm()) == typeid (Kuznyechik))
+		bool xts = (typeid (*volume->GetEncryptionMode()) == 
+            #ifdef WOLFCRYPT_BACKEND
+                        typeid (EncryptionModeWolfCryptXTS));
+            #else
+                        typeid (EncryptionModeXTS));
+            #endif 
+                bool algoNotSupported = (typeid (*volume->GetEncryptionAlgorithm()) == typeid (Kuznyechik))
 			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (CamelliaKuznyechik))
 			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikTwofish))
 			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikAES))

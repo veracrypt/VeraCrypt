@@ -12,6 +12,9 @@
 
 #include "Volume/EncryptionTest.h"
 #include "Volume/EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "Volume/EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Core.h"
 
 #ifdef TC_UNIX
@@ -360,8 +363,13 @@ namespace VeraCrypt
 
 			// Data area keys
 			options->EA->SetKey (MasterKey.GetRange (0, options->EA->GetKeySize()));
-			shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
-			mode->SetKey (MasterKey.GetRange (options->EA->GetKeySize(), options->EA->GetKeySize()));
+                    #ifdef WOLFCRYPT_BACKEND
+                        shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS ());
+                        options->EA->SetKeyXTS (MasterKey.GetRange (options->EA->GetKeySize(), options->EA->GetKeySize()));
+                    #else
+                        shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
+                    #endif
+                        mode->SetKey (MasterKey.GetRange (options->EA->GetKeySize(), options->EA->GetKeySize()));
 			options->EA->SetMode (mode);
 
 			Options = options;

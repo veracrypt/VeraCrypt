@@ -48,6 +48,7 @@ namespace VeraCrypt
 		Hash &operator= (const Hash &);
 	};
 
+    #ifndef WOLFCRYPT_BACKEND
 	// Blake2s
 	class Blake2s : public Hash
 	{
@@ -70,6 +71,7 @@ namespace VeraCrypt
 		Blake2s (const Blake2s &);
 		Blake2s &operator= (const Blake2s &);
 	};
+    #endif
 
 	// SHA-256
 	class Sha256 : public Hash
@@ -117,6 +119,7 @@ namespace VeraCrypt
 		Sha512 &operator= (const Sha512 &);
 	};
 
+    #ifndef WOLFCRYPT_BACKEND
 	// Whirlpool
 	class Whirlpool : public Hash
 	{
@@ -162,6 +165,7 @@ namespace VeraCrypt
 		Streebog (const Streebog &);
 		Streebog &operator= (const Streebog &);
 	};
+    #endif
 }
 
 #endif // TC_HEADER_Encryption_Hash

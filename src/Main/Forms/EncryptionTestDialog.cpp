@@ -12,6 +12,9 @@
 
 #include "System.h"
 #include "Volume/EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "Volume/EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Volume/EncryptionTest.h"
 #include "Main/GraphicUserInterface.h"
 #include "EncryptionTestDialog.h"
@@ -94,8 +97,13 @@ namespace VeraCrypt
 					throw StringConversionFailed (SRC_POS);
 				}
 
+                            #ifdef WOLFCRYPT_BACKEND
+				shared_ptr <EncryptionMode> xts (new EncryptionModeWolfCryptXTS);
+				ea->SetKeyXTS (secondaryKey);
+                            #else
 				shared_ptr <EncryptionMode> xts (new EncryptionModeXTS);
-				xts->SetKey (secondaryKey);
+                            #endif
+                                xts->SetKey (secondaryKey);
 				ea->SetMode (xts);
 
 				Buffer sector (ENCRYPTION_DATA_UNIT_SIZE);

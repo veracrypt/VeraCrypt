@@ -56,10 +56,11 @@ namespace VeraCrypt
 
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 ()));
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256 ()));
+        #ifndef WOLFCRYPT_BACKEND
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacBlake2s ()));
-		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool ()));
+                l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool ()));
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
-
+        #endif
 		return l;
 	}
 
@@ -69,6 +70,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 	}
 
+    #ifndef WOLFCRYPT_BACKEND
 	void Pkcs5HmacBlake2s_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
@@ -80,6 +82,7 @@ namespace VeraCrypt
 		ValidateParameters (key, password, salt, iterationCount);
 		derive_key_blake2s ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
+    #endif
 
 	void Pkcs5HmacSha256_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
@@ -99,6 +102,7 @@ namespace VeraCrypt
 		derive_key_sha512 ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
 
+    #ifndef WOLFCRYPT_BACKEND
 	void Pkcs5HmacWhirlpool::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
@@ -116,4 +120,5 @@ namespace VeraCrypt
 		ValidateParameters (key, password, salt, iterationCount);
 		derive_key_streebog ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
+    #endif
 }

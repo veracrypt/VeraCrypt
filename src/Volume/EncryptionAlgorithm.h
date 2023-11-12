@@ -46,7 +46,10 @@ namespace VeraCrypt
 		virtual bool IsModeSupported (const EncryptionMode &mode) const;
 		virtual bool IsModeSupported (const shared_ptr <EncryptionMode> mode) const;
 		virtual void SetKey (const ConstBufferPtr &key);
-		virtual void SetMode (shared_ptr <EncryptionMode> mode);
+            #ifdef WOLFCRYPT_BACKEND
+		virtual void SetKeyXTS (const ConstBufferPtr &key);
+            #endif
+                virtual void SetMode (shared_ptr <EncryptionMode> mode);
 
 	protected:
 		EncryptionAlgorithm ();

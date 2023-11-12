@@ -57,14 +57,18 @@ static Cipher Ciphers[] =
 //	  ID		Name			(Bytes)		(Bytes)		(Bytes)
 #ifdef TC_WINDOWS_BOOT
 	{ AES,		"AES",			16,			32,			AES_KS				},
-	{ SERPENT,	"Serpent",		16,			32,			140*4				},
+#ifndef WOLFCRYPT_BACKEND
+        { SERPENT,	"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	"Twofish",		16,			32,			TWOFISH_KS			},
+#endif
 #else
 	{ AES,		L"AES",			16,			32,			AES_KS				},
+#ifndef WOLFCRYPT_BACKEND
 	{ SERPENT,	L"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	L"Twofish",		16,			32,			TWOFISH_KS			},
 	{ CAMELLIA,	L"Camellia",	16,			32,			CAMELLIA_KS			},
 	{ KUZNYECHIK,	L"Kuznyechik",16,		32,			KUZNYECHIK_KS },
+#endif
 #endif
 	{ 0,		0,				0,			0,			0					}
 };
@@ -79,6 +83,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 
 	{ { 0,							0 }, { 0, 0},		0, 0 },	// Must be all-zero
 	{ { AES,							0 }, { XTS, 0 },	1, 1 },
+#ifndef WOLFCRYPT_BACKEND
 	{ { SERPENT,					0 }, { XTS, 0 },	1, 1 },
 	{ { TWOFISH,					0 }, { XTS, 0 },	1, 1 },
 	{ { CAMELLIA,					0 }, { XTS, 0 },	1, 1 },
@@ -93,6 +98,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { SERPENT, CAMELLIA,		0 }, { XTS, 0 },	0, 1 },
 	{ { AES, KUZNYECHIK,		0 }, { XTS, 0 },	0, 1 },
 	{ { CAMELLIA, SERPENT, KUZNYECHIK,	0 }, { XTS, 0 },	0, 1 },
+#endif
 	{ { 0,							0 }, { 0,    0},	0, 0 }		// Must be all-zero
 
 #else // TC_WINDOWS_BOOT
@@ -100,6 +106,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	// Encryption algorithms available for boot drive encryption
 	{ { 0,						0 }, { 0, 0 },		0 },	// Must be all-zero
 	{ { AES,					0 }, { XTS, 0 },	1 },
+#ifndef WOLFCRYPT_BACKEND
 	{ { SERPENT,				0 }, { XTS, 0 },	1 },
 	{ { TWOFISH,				0 }, { XTS, 0 },	1 },
 	{ { TWOFISH, AES,			0 }, { XTS, 0 },	1 },
@@ -107,6 +114,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { AES, SERPENT,			0 }, { XTS, 0 },	1 },
 	{ { AES, TWOFISH, SERPENT,	0 }, { XTS, 0 },	1 },
 	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1 },
+#endif
 	{ { 0,						0 }, { 0, 0 },		0 },	// Must be all-zero
 
 #endif
@@ -119,11 +127,13 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 static Hash Hashes[] =
 {	// ID				Name					Deprecated	System Encryption
 	{ SHA512,		L"SHA-512",				FALSE,	FALSE },
-	{ WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
-	{ BLAKE2S,		L"BLAKE2s-256",				FALSE,	TRUE },
 	{ SHA256,		L"SHA-256",				FALSE,	TRUE },
+    #ifndef WOLFCRYPT_BACKEND
+        { BLAKE2S,		L"BLAKE2s-256",				FALSE,	TRUE },
+        { WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
 	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
-	{ 0, 0, 0 }
+    #endif
+        { 0, 0, 0 }
 };
 #endif
 
@@ -147,6 +157,7 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 #endif
 		break;
 
+#ifndef WOLFCRYPT_BACKEND	
 	case SERPENT:
 		serpent_set_key (key, ks);
 		break;
@@ -167,6 +178,7 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 		break;
 #endif // !defined(TC_WINDOWS_BOOT)
 
+#endif
 	default:
 		// Unknown/wrong cipher ID
 		return ERR_CIPHER_INIT_FAILURE;
@@ -189,6 +201,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 			aes_encrypt (data, data, ks);
 		break;
 
+#ifndef WOLFCRYPT_BACKEND
 	case TWOFISH:		twofish_encrypt (ks, data, data); break;
 	case SERPENT:		serpent_encrypt (data, data, ks); break;
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
@@ -197,6 +210,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 #if !defined(TC_WINDOWS_BOOT)
 	case KUZNYECHIK:		kuznyechik_encrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT) 
+#endif
 	default:			TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
 }
@@ -230,6 +244,7 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}
+#ifndef WOLFCRYPT_BACKEND	
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == SERPENT
 			&& (blockCount >= 4)
@@ -267,6 +282,7 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #endif
 	}
 #endif
+#endif
 	else
 	{
 		size_t blockSize = CipherGetBlockSize (cipher);
@@ -284,6 +300,7 @@ void DecipherBlock(int cipher, void *data, void *ks)
 {
 	switch (cipher)
 	{
+#ifndef WOLFCRYPT_BACKEND	
 	case SERPENT:	serpent_decrypt (data, data, ks); break;
 	case TWOFISH:	twofish_decrypt (ks, data, data); break;
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
@@ -292,6 +309,7 @@ void DecipherBlock(int cipher, void *data, void *ks)
 #if !defined(TC_WINDOWS_BOOT)
 	case KUZNYECHIK:	kuznyechik_decrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT)
+#endif
 
 
 #ifndef TC_WINDOWS_BOOT
@@ -341,6 +359,7 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}
+#ifndef WOLFCRYPT_BACKEND	
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == SERPENT
 			&& (blockCount >= 4)
@@ -377,6 +396,7 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}
+#endif
 #endif
 	else
 	{
@@ -523,8 +543,16 @@ BOOL EAInitMode (PCRYPTO_INFO ci, unsigned char* key2)
 		// Secondary key schedule
 		if (EAInit (ci->ea, key2, ci->ks2) != ERR_SUCCESS)
 			return FALSE;
+                
+            #ifdef WOLFCRYPT_BACKEND
+                if (xts_encrypt_key256 (key2, (aes_encrypt_ctx *) ci->ks) != EXIT_SUCCESS)
+			return ERR_CIPHER_INIT_FAILURE;
 
-		/* Note: XTS mode could potentially be initialized with a weak key causing all blocks in one data unit
+		if (xts_decrypt_key256 (key2, (aes_decrypt_ctx *) (ci->ks + sizeof(aes_encrypt_ctx))) != EXIT_SUCCESS)
+			return ERR_CIPHER_INIT_FAILURE;
+            #endif
+
+                /* Note: XTS mode could potentially be initialized with a weak key causing all blocks in one data unit
 		on the volume to be tweaked with zero tweaks (i.e. 512 bytes of the volume would be encrypted in ECB
 		mode). However, to create a TrueCrypt volume with such a weak key, each human being on Earth would have
 		to create approximately 11,378,125,361,078,862 (about eleven quadrillion) TrueCrypt volumes (provided 
@@ -1093,11 +1121,11 @@ void EncipherBlock(int cipher, void *data, void *ks)
 		aes_hw_cpu_encrypt ((byte *) ks, data);
 	else
 		aes_encrypt (data, data, ks); 
-#elif defined (TC_WINDOWS_BOOT_SERPENT)
+#elif defined (TC_WINDOWS_BOOT_SERPENT) && !defined (WOLFCRYPT_BACKEND)
 	serpent_encrypt (data, data, ks);
-#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+#elif defined (TC_WINDOWS_BOOT_TWOFISH) && !defined (WOLFCRYPT_BACKEND)
 	twofish_encrypt (ks, data, data);
-#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+#elif defined (TC_WINDOWS_BOOT_CAMELLIA) && !defined (WOLFCRYPT_BACKEND)
 	camellia_encrypt (data, data, ks);
 #endif
 }
@@ -1109,11 +1137,11 @@ void DecipherBlock(int cipher, void *data, void *ks)
 		aes_hw_cpu_decrypt ((byte *) ks + sizeof (aes_encrypt_ctx) + 14 * 16, data);
 	else
 		aes_decrypt (data, data, (aes_decrypt_ctx *) ((byte *) ks + sizeof(aes_encrypt_ctx))); 
-#elif defined (TC_WINDOWS_BOOT_SERPENT)
+#elif defined (TC_WINDOWS_BOOT_SERPENT) && !defined (WOLFCRYPT_BACKEND)
 	serpent_decrypt (data, data, ks);
-#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+#elif defined (TC_WINDOWS_BOOT_TWOFISH) && !defined (WOLFCRYPT_BACKEND)
 	twofish_decrypt (ks, data, data);
-#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+#elif defined (TC_WINDOWS_BOOT_CAMELLIA) && !defined (WOLFCRYPT_BACKEND)
 	camellia_decrypt (data, data, ks);
 #endif
 }

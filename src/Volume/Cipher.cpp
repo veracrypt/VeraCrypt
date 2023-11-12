@@ -94,11 +94,12 @@ namespace VeraCrypt
 		CipherList l;
 
 		l.push_back (shared_ptr <Cipher> (new CipherAES ()));
+        #ifndef WOLFCRYPT_BACKEND
 		l.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
 		l.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
 		l.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
 		l.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
-
+        #endif
 		return l;
 	}
 
@@ -114,6 +115,37 @@ namespace VeraCrypt
 		Key.CopyFrom (key);
 		Initialized = true;
 	}
+
+    #ifdef WOLFCRYPT_BACKEND
+        void Cipher::SetKeyXTS (const ConstBufferPtr &key)
+	{
+		if (key.Size() != GetKeySize ())
+			throw ParameterIncorrect (SRC_POS);
+
+		if (!Initialized)
+			ScheduledKey.Allocate (GetScheduledKeySize ());
+
+		SetCipherKeyXTS (key);
+		Key.CopyFrom (key);
+		Initialized = true;
+	}
+
+         void Cipher::EncryptBlockXTS (byte *data, uint64 length, uint64 startDataUnitNo) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+		EncryptXTS (data, length, startDataUnitNo);
+	}
+
+        void Cipher::DecryptBlockXTS (byte *data, uint64 length, uint64 startDataUnitNo) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+		DecryptXTS (data, length, startDataUnitNo);
+	}
+    #endif
 
 #define TC_EXCEPTION(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
 #undef TC_EXCEPTION_NODECL
@@ -186,6 +218,26 @@ namespace VeraCrypt
 #endif
 			Cipher::EncryptBlocks (data, blockCount);
 	}
+    #ifdef WOLFCRYPT_BACKEND
+        void CipherAES::EncryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const
+	{
+	    xts_encrypt (data, data, length, startDataUnitNo, (aes_encrypt_ctx *) ScheduledKey.Ptr());
+	}
+
+        void CipherAES::DecryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const
+	{
+	    xts_decrypt (data, data, length, startDataUnitNo, (aes_decrypt_ctx *) (ScheduledKey.Ptr() + sizeof (aes_encrypt_ctx)));
+	}
+
+        void CipherAES::SetCipherKeyXTS (const byte *key)
+	{
+		if (xts_encrypt_key256 (key, (aes_encrypt_ctx *) ScheduledKey.Ptr()) != EXIT_SUCCESS)
+			throw CipherInitError (SRC_POS);
+
+		if (xts_decrypt_key256 (key, (aes_decrypt_ctx *) (ScheduledKey.Ptr() + sizeof (aes_encrypt_ctx))) != EXIT_SUCCESS)
+			throw CipherInitError (SRC_POS);
+	}
+    #endif
 
 	size_t CipherAES::GetScheduledKeySize () const
 	{
@@ -218,6 +270,7 @@ namespace VeraCrypt
 			throw CipherInitError (SRC_POS);
 	}
 
+    #ifndef WOLFCRYPT_BACKEND
 	// Serpent
 	void CipherSerpent::Decrypt (byte *data) const
 	{
@@ -465,5 +518,6 @@ namespace VeraCrypt
 		return false;
 #endif
 	}
-	bool Cipher::HwSupportEnabled = true;
+    #endif	
+        bool Cipher::HwSupportEnabled = true;
 }

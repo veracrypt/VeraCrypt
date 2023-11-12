@@ -8,6 +8,9 @@
 
 #include "System.h"
 #include "Volume/EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "Volume/EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Main/GraphicUserInterface.h"
 #include "Common/PCSCException.h"
 #include "Common/SecurityToken.h"

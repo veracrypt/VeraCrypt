@@ -35,6 +35,11 @@
 
 #include "Common/Tcdefs.h"
 
+#ifdef WOLFCRYPT_BACKEND
+    #include <wolfssl/options.h>
+    #include <wolfssl/wolfcrypt/aes.h>
+#endif
+
 #ifndef EXIT_SUCCESS
 #define EXIT_SUCCESS    0
 #define EXIT_FAILURE    1
@@ -93,11 +98,19 @@ typedef union
 typedef struct
 {   uint_32t ks[KS_LENGTH];
     aes_inf inf;
+#ifdef WOLFCRYPT_BACKEND
+    XtsAes  wc_enc_xts;
+    Aes     wc_enc_aes;
+#endif
 } aes_encrypt_ctx;
 
 typedef struct
 {   uint_32t ks[KS_LENGTH];
     aes_inf inf;
+#ifdef WOLFCRYPT_BACKEND
+    XtsAes  wc_dec_xts;
+    Aes     wc_dec_aes;
+#endif
 } aes_decrypt_ctx;
 
 /* This routine must be called before first use if non-static       */
@@ -150,6 +163,13 @@ AES_RETURN aes_decrypt_key(const unsigned char *key, int key_len, aes_decrypt_ct
 
 AES_RETURN aes_decrypt(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1]);
 
+#endif
+
+#ifdef WOLFCRYPT_BACKEND
+AES_RETURN xts_encrypt_key256(const unsigned char *key, aes_encrypt_ctx cx[1]);
+AES_RETURN xts_decrypt_key256(const unsigned char *key, aes_decrypt_ctx cx[1]);
+AES_RETURN xts_encrypt(const unsigned char *in, unsigned char *out, word64 length, word64 sector, const aes_encrypt_ctx cx[1]);
+AES_RETURN xts_decrypt(const unsigned char *in, unsigned char *out, word64 length, word64 sector, const aes_decrypt_ctx cx[1]);
 #endif
 
 #if defined(AES_MODES)

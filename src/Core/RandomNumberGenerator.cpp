@@ -257,7 +257,11 @@ namespace VeraCrypt
 	void RandomNumberGenerator::Test ()
 	{
 		shared_ptr <Hash> origPoolHash = PoolHash;
-		PoolHash.reset (new Blake2s());
+	    #ifndef WOLFCRYPT_BACKEND
+                PoolHash.reset (new Blake2s());
+            #else
+                PoolHash.reset (new Sha256());
+            #endif
 
 		Pool.Zero();
 		Buffer buffer (1);
@@ -267,15 +271,23 @@ namespace VeraCrypt
 			AddToPool (buffer);
 		}
 
+	    #ifndef WOLFCRYPT_BACKEND
  		if (Crc32::ProcessBuffer (Pool) != 0x9c743238)
-			throw TestFailed (SRC_POS);
+            #else
+                if (Crc32::ProcessBuffer (Pool) != 0xac95ac1a)
+            #endif
+		        throw TestFailed (SRC_POS);
 
 		buffer.Allocate (PoolSize);
 		buffer.CopyFrom (PeekPool());
 		AddToPool (buffer);
 
- 		if (Crc32::ProcessBuffer (Pool) != 0xd2d09c8d)
-			throw TestFailed (SRC_POS);
+	    #ifndef WOLFCRYPT_BACKEND
+                if (Crc32::ProcessBuffer (Pool) != 0xd2d09c8d)
+            #else
+                if (Crc32::ProcessBuffer (Pool) != 0xb79f3c12)
+            #endif
+		        throw TestFailed (SRC_POS);
 
 		PoolHash = origPoolHash;
 	}

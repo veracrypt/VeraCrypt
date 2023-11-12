@@ -1687,23 +1687,26 @@ namespace VeraCrypt
 
 				if (_stricmp (request.BootEncryptionAlgorithmName, "AES") == 0)
 					ea = AES;
-				else if (_stricmp (request.BootEncryptionAlgorithmName, "Serpent") == 0)
+                        #ifndef WOLFCRYPT_BACKEND
+				else if (_stricmp (request.BootEncryptionAlgorithmName, "Camellia") == 0)
+					ea = CAMELLIA;	
+                                else if (_stricmp (request.BootEncryptionAlgorithmName, "Serpent") == 0)
 					ea = SERPENT;
 				else if (_stricmp (request.BootEncryptionAlgorithmName, "Twofish") == 0)
 					ea = TWOFISH;
-				else if (_stricmp (request.BootEncryptionAlgorithmName, "Camellia") == 0)
-					ea = CAMELLIA;
-
+                        #endif
 				if (_stricmp(request.BootPrfAlgorithmName, "SHA-256") == 0)
 					pkcs5_prf = SHA256;
-				else if (_stricmp(request.BootPrfAlgorithmName, "BLAKE2s-256") == 0)
-					pkcs5_prf = BLAKE2S;
-				else if (_stricmp(request.BootPrfAlgorithmName, "SHA-512") == 0)
+                              else if (_stricmp(request.BootPrfAlgorithmName, "SHA-512") == 0)
 					pkcs5_prf = SHA512;
+                        #ifndef WOLFCRYPT_BACKEND
+				else if (_stricmp(request.BootPrfAlgorithmName, "BLAKE2s-256") == 0)
+					pkcs5_prf = BLAKE2S;	
 				else if (_stricmp(request.BootPrfAlgorithmName, "Whirlpool") == 0)
 					pkcs5_prf = WHIRLPOOL;
 				else if (_stricmp(request.BootPrfAlgorithmName, "Streebog") == 0)
 					pkcs5_prf = STREEBOG;
+                        #endif
 				else if (strlen(request.BootPrfAlgorithmName) == 0) // case of version < 1.0f
 					pkcs5_prf = BLAKE2S;
 			}

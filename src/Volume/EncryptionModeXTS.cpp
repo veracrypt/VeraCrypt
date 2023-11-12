@@ -69,7 +69,7 @@ namespace VeraCrypt
 
 	void EncryptionModeXTS::EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-		byte finalCarry;
+                byte finalCarry;
 		byte whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
 		byte whiteningValue [BYTES_PER_XTS_BLOCK];
 		byte byteBufUnitNo [BYTES_PER_XTS_BLOCK];
@@ -374,7 +374,7 @@ namespace VeraCrypt
 
 		FAST_ERASE64 (whiteningValue, sizeof (whiteningValue));
 		FAST_ERASE64 (whiteningValues, sizeof (whiteningValues));
-	}
+        }
 
 	void EncryptionModeXTS::DecryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
@@ -411,7 +411,7 @@ namespace VeraCrypt
 		foreach_ref (Cipher &cipher, SecondaryCiphers)
 		{
 			cipher.SetKey (SecondaryKey.GetRange (keyOffset, cipher.GetKeySize()));
-			keyOffset += cipher.GetKeySize();
+                        keyOffset += cipher.GetKeySize();
 		}
 
 		KeySet = true;
