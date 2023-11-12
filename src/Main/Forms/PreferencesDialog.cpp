@@ -264,7 +264,11 @@ namespace VeraCrypt
 
 	void PreferencesDialog::OnSysDefaultLangButtonClick (wxCommandEvent& event)
 	{
-		LanguageListBox->SetStringSelection("System default");
+		// SetStringSelection()'s Assert currently broken in sorted ListBoxes on macOS, workaround:
+		int itemIndex = LanguageListBox->FindString("System default", true);
+		if (itemIndex != wxNOT_FOUND) {
+			LanguageListBox->SetSelection(itemIndex);
+		}
 	}
 
 	void PreferencesDialog::OnAssignHotkeyButtonClick (wxCommandEvent& event)
