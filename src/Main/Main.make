@@ -310,6 +310,8 @@ prepare: $(APPNAME)
 	chmod +x $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
 	cp $(BASE_DIR)/License.txt $(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/License.txt
 	cp -R $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/HTML"
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/veracrypt/languages
+	cp -r $(BASE_DIR)/../Translations/* $(BASE_DIR)/Setup/FreeBSD/usr/share/veracrypt/languages/
 
 ifndef TC_NO_GUI
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/applications

@@ -33,9 +33,8 @@ namespace VeraCrypt
 		if (key == "VeraCrypt")
 			return L"VeraCrypt";
 		// return strings in quotes as is, without translating
-		if (key.front() == '"' && key.back() == '"') {
+		if (key.front() == '"' && key.back() == '"')
 			return StringConverter::ToWide (key.substr(1, key.size() - 2));
-		};
 
 		return wxString (L"?") + StringConverter::ToWide (key) + L"?";
 	}
