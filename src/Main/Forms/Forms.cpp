@@ -1876,7 +1876,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	SecurityPage->SetSizer( bSizer44 );
 	SecurityPage->Layout();
 	bSizer44->Fit( SecurityPage );
-	PreferencesNotebook->AddPage( SecurityPage, _("LINUX_PREF_TAB_SECURITY"), false );
+	PreferencesNotebook->AddPage( SecurityPage, _("LINUX_PREF_TAB_SECURITY"), true );
 	DefaultMountOptionsPage = new wxPanel( PreferencesNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer46;
 	bSizer46 = new wxBoxSizer( wxVERTICAL );
@@ -2276,7 +2276,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	bSizer174->Add( m_staticText74, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 
 
-	fgSizer10->Add( bSizer174, 1, wxEXPAND, 5 );
+	fgSizer10->Add( bSizer174, 1, wxBOTTOM|wxEXPAND, 5 );
 
 	wxBoxSizer* bSizer1731;
 	bSizer1731 = new wxBoxSizer( wxHORIZONTAL );
@@ -2316,7 +2316,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	LanguagesPage->SetSizer( bSizer170 );
 	LanguagesPage->Layout();
 	bSizer170->Fit( LanguagesPage );
-	PreferencesNotebook->AddPage( LanguagesPage, _("LINUX_LANGUAGE"), true );
+	PreferencesNotebook->AddPage( LanguagesPage, _("LINUX_LANGUAGE"), false );
 
 	bSizer178->Add( PreferencesNotebook, 1, wxEXPAND | wxALL, 5 );
 

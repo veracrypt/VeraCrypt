@@ -14995,7 +14995,7 @@
                                                                             <property name="vgap">0</property>
                                                                             <object class="sizeritem" expanded="0">
                                                                                 <property name="border">5</property>
-                                                                                <property name="flag">wxEXPAND</property>
+                                                                                <property name="flag">wxBOTTOM|wxEXPAND</property>
                                                                                 <property name="proportion">1</property>
                                                                                 <object class="wxBoxSizer" expanded="0">
                                                                                     <property name="minimum_size"></property>
