@@ -56,21 +56,6 @@ namespace VeraCrypt
 		cfgVar = wstring (cfgText);
 	}
 
-	void UserPreferences::GetValueFromKey (const string &key, string &value)
-	{
-		FilePath cfgPath = Application::GetConfigFilePath (GetPreferencesFileName());
-		if (cfgPath.IsFile()) {
-			map<wxString, wxString> configMap;
-			foreach (XmlNode node, XmlParser (cfgPath).GetNodes (L"config")) {
-				configMap[node.Attributes[L"key"]] = node.InnerText;
-				if (node.Attributes[L"key"] == key) {
-					value = node.InnerText;
-					return;
-				}
-			}
-		}
-	}
-
 	void UserPreferences::Load()
 	{
 		// first we clear the unknown config map entries

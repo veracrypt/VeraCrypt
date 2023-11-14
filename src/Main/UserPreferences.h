@@ -102,8 +102,6 @@ namespace VeraCrypt
 		// This helps to preserve unknown entries that may be used by future versions of VeraCrypt or entries used by old versions that were removed from current version.
 		map <wxString, wxString> UnknownConfigMapEntries;
 
-		void GetValueFromKey (const string &key, string &value);
-
 	protected:
 		wxString GetDefaultKeyfilesFileName () const { return L"Default Keyfiles.xml"; }
 #ifdef TC_PROTOTYPE

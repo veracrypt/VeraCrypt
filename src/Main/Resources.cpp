@@ -23,6 +23,7 @@
 #include "Platform/File.h"
 #include "Platform/StringConverter.h"
 #include <stdio.h>
+#include "UserPreferences.h"
 #endif
 
 namespace VeraCrypt
@@ -69,13 +70,17 @@ namespace VeraCrypt
 		string filename = filenamePrefix + defaultLang + filenamePost;
 
 		UserPreferences Preferences;
-		string preferredLang;
-		Preferences.GetValueFromKey("Language", preferredLang);
-		if (preferredLang == "system") {
+		Preferences.Load();
+		wstring preferredLang = Preferences.Language;
+#ifdef DEBUG
+		std::cout << "Config language: " << preferredLang << std::endl;
+#endif
+
+		if (preferredLang == L"system") {
 			if (const char *env_p = getenv("LANG")) {
 				string lang(env_p);
 #ifdef DEBUG
-				std::cout << lang << std::endl;
+				std::cout << "env $LANG: " << lang << std::endl;
 #endif
 				if (lang.size() > 1) {
 					int found = lang.find(".");
