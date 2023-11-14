@@ -16,10 +16,6 @@
 #include "Forms.h"
 #include "Main/Main.h"
 #include "KeyfilesPanel.h"
-#ifndef TC_WINDOWS
-#include <wx/dir.h>
-#include <wx/arrstr.h>
-#endif
 
 namespace VeraCrypt
 {

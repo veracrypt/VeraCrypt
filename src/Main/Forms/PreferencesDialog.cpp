@@ -14,6 +14,9 @@
 #include <wx/dynlib.h>
 #ifdef TC_WINDOWS
 #include <wx/msw/registry.h>
+#else
+#include <wx/dir.h>
+#include <wx/arrstr.h>
 #endif
 #include "Common/SecurityToken.h"
 #include "Main/Main.h"

@@ -15191,9 +15191,10 @@
                                                                                 <property name="border">5</property>
                                                                                 <property name="flag">wxEXPAND</property>
                                                                                 <property name="proportion">1</property>
-                                                                                <object class="wxBoxSizer" expanded="0">
+                                                                                <object class="wxWrapSizer" expanded="0">
+                                                                                    <property name="flags">wxWRAPSIZER_DEFAULT_FLAGS</property>
                                                                                     <property name="minimum_size"></property>
-                                                                                    <property name="name">bSizer1731</property>
+                                                                                    <property name="name">wSizer1</property>
                                                                                     <property name="orient">wxHORIZONTAL</property>
                                                                                     <property name="permission">none</property>
                                                                                     <object class="sizeritem" expanded="0">
@@ -15358,7 +15359,7 @@
                                                                                     <property name="maximum_size"></property>
                                                                                     <property name="min_size"></property>
                                                                                     <property name="minimize_button">0</property>
-                                                                                    <property name="minimum_size">-1,310</property>
+                                                                                    <property name="minimum_size">-1,300</property>
                                                                                     <property name="moveable">1</property>
                                                                                     <property name="name">LanguageListBox</property>
                                                                                     <property name="pane_border">1</property>

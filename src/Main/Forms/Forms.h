@@ -38,6 +38,7 @@
 #include <wx/choice.h>
 #include <wx/gauge.h>
 #include <wx/spinctrl.h>
+#include <wx/wrapsizer.h>
 #include <wx/listbox.h>
 #include <wx/notebook.h>
 

@@ -2278,22 +2278,22 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 
 	fgSizer10->Add( bSizer174, 1, wxBOTTOM|wxEXPAND, 5 );
 
-	wxBoxSizer* bSizer1731;
-	bSizer1731 = new wxBoxSizer( wxHORIZONTAL );
+	wxWrapSizer* wSizer1;
+	wSizer1 = new wxWrapSizer( wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS );
 
 	m_staticText72 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("IDT_LANGPACK_AUTHORS"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText72->Wrap( -1 );
-	bSizer1731->Add( m_staticText72, 0, wxBOTTOM|wxLEFT, 5 );
+	wSizer1->Add( m_staticText72, 0, wxBOTTOM|wxLEFT, 5 );
 
 	m_staticText71 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("LANGUAGE_TRANSLATORS"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText71->Wrap( -1 );
-	bSizer1731->Add( m_staticText71, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	wSizer1->Add( m_staticText71, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
 
 
-	fgSizer10->Add( bSizer1731, 1, wxEXPAND, 5 );
+	fgSizer10->Add( wSizer1, 1, wxEXPAND, 5 );
 
 	LanguageListBox = new wxListBox( sbSizer49->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_SINGLE|wxLB_SORT );
-	LanguageListBox->SetMinSize( wxSize( -1,310 ) );
+	LanguageListBox->SetMinSize( wxSize( -1,300 ) );
 
 	fgSizer10->Add( LanguageListBox, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
 
