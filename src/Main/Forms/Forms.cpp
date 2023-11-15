@@ -2254,12 +2254,6 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	wxStaticBoxSizer* sbSizer49;
 	sbSizer49 = new wxStaticBoxSizer( new wxStaticBox( LanguagesPage, wxID_ANY, _("LINUX_LANGUAGE") ), wxVERTICAL );
 
-	wxFlexGridSizer* fgSizer10;
-	fgSizer10 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	fgSizer10->AddGrowableCol( 0 );
-	fgSizer10->SetFlexibleDirection( wxBOTH );
-	fgSizer10->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
 	wxBoxSizer* bSizer174;
 	bSizer174 = new wxBoxSizer( wxHORIZONTAL );
 
@@ -2272,7 +2266,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	bSizer174->Add( m_staticText74, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 
 
-	fgSizer10->Add( bSizer174, 1, wxBOTTOM|wxEXPAND, 5 );
+	sbSizer49->Add( bSizer174, 0, wxBOTTOM, 5 );
 
 	wxWrapSizer* wSizer1;
 	wSizer1 = new wxWrapSizer( wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS );
@@ -2286,18 +2280,13 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	wSizer1->Add( m_staticText71, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxLEFT|wxRIGHT, 5 );
 
 
-	fgSizer10->Add( wSizer1, 1, wxEXPAND, 5 );
+	sbSizer49->Add( wSizer1, 0, 0, 5 );
 
 	LanguageListBox = new wxListBox( sbSizer49->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_SINGLE|wxLB_SORT );
-	LanguageListBox->SetMinSize( wxSize( -1,300 ) );
-
-	fgSizer10->Add( LanguageListBox, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+	sbSizer49->Add( LanguageListBox, 1, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
 
 	SysDefaultLangButton = new wxButton( sbSizer49->GetStaticBox(), wxID_ANY, _("LINUX_SELECT_SYS_DEFAULT_LANG"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer10->Add( SysDefaultLangButton, 0, wxALIGN_BOTTOM|wxALL|wxEXPAND, 5 );
-
-
-	sbSizer49->Add( fgSizer10, 1, wxEXPAND, 5 );
+	sbSizer49->Add( SysDefaultLangButton, 0, wxALIGN_BOTTOM|wxALL|wxEXPAND, 5 );
 
 
 	bSizer173->Add( sbSizer49, 1, wxALL|wxEXPAND, 5 );

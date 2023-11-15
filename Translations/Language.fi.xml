@@ -1449,7 +1449,7 @@
     <entry lang="fi" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">VAROITUS: RAM-muistin salaus ei ole yhteensopiva Windowsin horrostila ja -pikakäynnistys ominaisuuksien kanssa. VeraCryptin tulee ottaa ne pois käytöstä ennen kuin RAM-muistin salaus voidaan ottaa käyttöön.\n\nJatketaanko?</entry>
     <entry lang="fi" key="CONFIRM_DISABLE_FAST_STARTUP">VAROITUS: Windowsin pikakäynnistys on käytössä ja sen tiedetään aiheuttavan ongelmia VeraCrypt-taltioiden kanssa. On suositeltavaa ottaa se pois käytöstä turvallisuuden ja käytettävyyden kannalta.\n\nHaluatko ottaa Windowsin pikakäynnistyksen pois käytöstä?</entry>
     <entry lang="fi" key="QUICK_FORMAT_HELP">Jotta käyttöjärjestelmäsi voi liittää uuden taltiosi, tulee sille luoda tiedostojärjestelmä. Valitse tiedostojärjestelmä.\n\nJos taltiosi sijaitsee laiteella tai osiolla, voit käyttää vaihtoehtoa 'Pika-alustus' ohittaaksesi taltion vapaan tilan salauksen.</entry>
-    <entry lang="fi" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Älä käytä laitteistokiihdytystä käyttäen prosessorin AES-käskykantaa AES salaukseen tai salauksen\npurkuun</entry>
+    <entry lang="fi" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Älä käytä laitteistokiihdytystä käyttäen prosessorin AES-käskykantaa AES salaukseen tai salauksen purkuun</entry>
     <entry lang="fi" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Lisää kaikki liitetyt taltiot suosikkeihin...</entry>
     <entry lang="fi" key="TASKICON_PREF_MENU_ITEMS">Tehtäväpalkin kuvakkeet</entry>
     <entry lang="fi" key="TASKICON_PREF_OPEN_VOL">Avaa liitetyt taltiot</entry>
