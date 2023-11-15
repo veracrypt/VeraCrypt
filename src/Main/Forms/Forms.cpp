@@ -2267,10 +2267,6 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	m_staticText73->Wrap( -1 );
 	bSizer174->Add( m_staticText73, 0, wxLEFT|wxTOP, 5 );
 
-	m_staticText75 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("\":\""), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText75->Wrap( -1 );
-	bSizer174->Add( m_staticText75, 0, wxTOP, 5 );
-
 	m_staticText74 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("CURRENT_LANGUAGE_PACK"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText74->Wrap( -1 );
 	bSizer174->Add( m_staticText74, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
@@ -2287,7 +2283,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 
 	m_staticText71 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("LANGUAGE_TRANSLATORS"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText71->Wrap( -1 );
-	wSizer1->Add( m_staticText71, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	wSizer1->Add( m_staticText71, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxLEFT|wxRIGHT, 5 );
 
 
 	fgSizer10->Add( wSizer1, 1, wxEXPAND, 5 );

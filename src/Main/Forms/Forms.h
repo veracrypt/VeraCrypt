@@ -558,7 +558,6 @@ namespace VeraCrypt
 	class PreferencesDialogBase : public wxDialog
 	{
 		private:
-			wxStaticText* m_staticText75;
 
 		protected:
 			wxBoxSizer* bSizer32;
