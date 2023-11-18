@@ -56,12 +56,17 @@ namespace VeraCrypt
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
 
-		foreach (XmlNode node, XmlParser (Resources::GetLanguageXml()).GetNodes (L"entry"))
+		string translatedXml = Resources::GetLanguageXml();
+		foreach (XmlNode node, XmlParser (translatedXml).GetNodes (L"entry"))
 		{
 			wxString text = node.InnerText;
 			text.Replace (L"\\n", L"\n");
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
+
+		XmlNode node = XmlParser (translatedXml).GetNodes (L"language").front();
+		Map["LANGUAGE_TRANSLATORS"] = wxString (node.Attributes[L"translators"]);
+		Map["CURRENT_LANGUAGE_PACK"] = wxString (node.Attributes[L"name"]);
 	}
 
 	LanguageStrings LangString;

@@ -1653,6 +1653,9 @@ Information about Corsican localization:
 		<entry lang="co" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Infurmazione impurtante nant’à l’impiegu d’estensioni di schedariu terze</entry>
 		<entry lang="co" key="IDC_DISABLE_MEMORY_PROTECTION">Disattivà a prutezzione di memoria per a cumpatibilità cù l’attrezzi d’accessibilità</entry>
 		<entry lang="co" key="DISABLE_MEMORY_PROTECTION_WARNING">AVERTIMENTU : A disattivazione di prutezzione di memoria riduce a sicurità d’una manera significativa. Attivà st’ozzione SOLU s’è vo impiegate l’attrezzi d’accessibilità, cum’è i lettori di screnu, per interagisce cù l’interfaccia grafica di VeraCrypt.</entry>
+		<entry lang="co" key="LINUX_LANGUAGE">Lingua</entry>
+		<entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
+		<entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">

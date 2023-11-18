@@ -130,6 +130,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	MainMenuBar->Append( ToolsMenu, _("MENU_TOOLS") );
 
 	SettingsMenu = new wxMenu();
+	wxMenuItem* LanguageMenuItem;
+	LanguageMenuItem = new wxMenuItem( SettingsMenu, wxID_ANY, wxString( _("IDM_LANGUAGE") ) , wxEmptyString, wxITEM_NORMAL );
+	SettingsMenu->Append( LanguageMenuItem );
+
 	HotkeysMenuItem = new wxMenuItem( SettingsMenu, wxID_ANY, wxString( _("IDM_HOTKEY_SETTINGS") ) , wxEmptyString, wxITEM_NORMAL );
 	SettingsMenu->Append( HotkeysMenuItem );
 
@@ -434,6 +438,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnManageSecurityTokenKeyfilesMenuItemSelected ), this, ManageSecurityTokenKeyfilesMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnCloseAllSecurityTokenSessionsMenuItemSelected ), this, CloseAllSecurityTokenSessionsMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnWipeCacheButtonClick ), this, WipeCachedPasswordsMenuItem->GetId());
+	SettingsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnLanguageMenuItemSelected ), this, LanguageMenuItem->GetId());
 	SettingsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnHotkeysMenuItemSelected ), this, HotkeysMenuItem->GetId());
 	SettingsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnDefaultKeyfilesMenuItemSelected ), this, DefaultKeyfilesMenuItem->GetId());
 	SettingsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnDefaultMountParametersMenuItemSelected ), this, DefaultMountParametersMenuItem->GetId());
@@ -444,7 +449,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 #else
 	SettingsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnPreferencesMenuItemSelected ), this, PreferencesMenuItem->GetId());
 	HelpMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnUserGuideMenuItemSelected ), this, UserGuideMenuItem->GetId());
-#endif	
+#endif
 	HelpMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnOnlineHelpMenuItemSelected ), this, OnlineHelpMenuItem->GetId());
 	HelpMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnBeginnersTutorialMenuItemSelected ), this, BeginnersTutorialMenuItem->GetId());
 	HelpMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnFaqMenuItemSelected ), this, FaqMenuItem->GetId());
@@ -2250,6 +2255,67 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	HotkeysPage->Layout();
 	bSizer51->Fit( HotkeysPage );
 	PreferencesNotebook->AddPage( HotkeysPage, _("LINUX_HOTKEYS"), false );
+	LanguagesPage = new wxPanel( PreferencesNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer170;
+	bSizer170 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer171;
+	bSizer171 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer173;
+	bSizer173 = new wxBoxSizer( wxVERTICAL );
+
+	wxStaticBoxSizer* sbSizer49;
+	sbSizer49 = new wxStaticBoxSizer( new wxStaticBox( LanguagesPage, wxID_ANY, _("LINUX_LANGUAGE") ), wxVERTICAL );
+
+	wxBoxSizer* bSizer174;
+	bSizer174 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText73 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("IDT_ACTIVE_LANG_PACK"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText73->Wrap( -1 );
+	bSizer174->Add( m_staticText73, 0, wxLEFT|wxTOP, 5 );
+
+	m_staticText74 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("CURRENT_LANGUAGE_PACK"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText74->Wrap( -1 );
+	bSizer174->Add( m_staticText74, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+
+
+	sbSizer49->Add( bSizer174, 0, wxBOTTOM, 5 );
+
+	wxWrapSizer* wSizer1;
+	wSizer1 = new wxWrapSizer( wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS );
+
+	m_staticText72 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("IDT_LANGPACK_AUTHORS"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText72->Wrap( -1 );
+	wSizer1->Add( m_staticText72, 0, wxBOTTOM|wxLEFT, 5 );
+
+	m_staticText71 = new wxStaticText( sbSizer49->GetStaticBox(), wxID_ANY, _("LANGUAGE_TRANSLATORS"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText71->Wrap( -1 );
+	wSizer1->Add( m_staticText71, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+
+
+	sbSizer49->Add( wSizer1, 0, 0, 5 );
+
+	LanguageListBox = new wxListBox( sbSizer49->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_SINGLE|wxLB_SORT );
+	sbSizer49->Add( LanguageListBox, 1, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+
+	SysDefaultLangButton = new wxButton( sbSizer49->GetStaticBox(), wxID_ANY, _("LINUX_SELECT_SYS_DEFAULT_LANG"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer49->Add( SysDefaultLangButton, 0, wxALIGN_BOTTOM|wxALL|wxEXPAND, 5 );
+
+
+	bSizer173->Add( sbSizer49, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer171->Add( bSizer173, 1, wxEXPAND, 5 );
+
+
+	bSizer170->Add( bSizer171, 1, wxALL|wxEXPAND, 5 );
+
+
+	LanguagesPage->SetSizer( bSizer170 );
+	LanguagesPage->Layout();
+	bSizer170->Fit( LanguagesPage );
+	PreferencesNotebook->AddPage( LanguagesPage, _("LINUX_LANGUAGE"), false );
 
 	bSizer178->Add( PreferencesNotebook, 1, wxEXPAND | wxALL, 5 );
 
@@ -2280,6 +2346,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( PreferencesDialogBase::OnClose ) );
+	PreferencesNotebook->Connect( wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler( PreferencesDialogBase::OnPageChanged ), NULL, this );
 	DismountOnScreenSaverCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnScreenSaverCheckBoxClick ), NULL, this );
 	DismountOnPowerSavingCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnPowerSavingCheckBoxClick ), NULL, this );
 	ForceAutoDismountCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnForceAutoDismountCheckBoxClick ), NULL, this );
@@ -2292,6 +2359,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	HotkeyListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PreferencesDialogBase::OnHotkeyListItemSelected ), NULL, this );
 	AssignHotkeyButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnAssignHotkeyButtonClick ), NULL, this );
 	RemoveHotkeyButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnRemoveHotkeyButtonClick ), NULL, this );
+	SysDefaultLangButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnSysDefaultLangButtonClick ), NULL, this );
 	OKButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnOKButtonClick ), NULL, this );
 }
 
@@ -2299,6 +2367,7 @@ PreferencesDialogBase::~PreferencesDialogBase()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( PreferencesDialogBase::OnClose ) );
+	PreferencesNotebook->Disconnect( wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler( PreferencesDialogBase::OnPageChanged ), NULL, this );
 	DismountOnScreenSaverCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnScreenSaverCheckBoxClick ), NULL, this );
 	DismountOnPowerSavingCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnPowerSavingCheckBoxClick ), NULL, this );
 	ForceAutoDismountCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnForceAutoDismountCheckBoxClick ), NULL, this );
@@ -2311,6 +2380,7 @@ PreferencesDialogBase::~PreferencesDialogBase()
 	HotkeyListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PreferencesDialogBase::OnHotkeyListItemSelected ), NULL, this );
 	AssignHotkeyButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnAssignHotkeyButtonClick ), NULL, this );
 	RemoveHotkeyButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnRemoveHotkeyButtonClick ), NULL, this );
+	SysDefaultLangButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnSysDefaultLangButtonClick ), NULL, this );
 	OKButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnOKButtonClick ), NULL, this );
 
 }
@@ -2715,19 +2785,19 @@ KeyfilesPanelBase::KeyfilesPanelBase( wxWindow* parent, wxWindowID id, const wxP
 	bSizer137 = new wxBoxSizer( wxHORIZONTAL );
 
 	AddFilesButton = new wxButton( this, wxID_ANY, _("IDC_KEYADD"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer137->Add( AddFilesButton, 0, wxEXPAND|wxTOP|wxBOTTOM|wxLEFT, 5 );
+	bSizer137->Add( AddFilesButton, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxTOP, 5 );
 
 	AddDirectoryButton = new wxButton( this, wxID_ANY, _("IDC_ADD_KEYFILE_PATH"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer137->Add( AddDirectoryButton, 0, wxEXPAND|wxTOP|wxBOTTOM|wxLEFT, 5 );
+	bSizer137->Add( AddDirectoryButton, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxTOP, 5 );
 
 	AddSecurityTokenSignatureButton = new wxButton( this, wxID_ANY, _("IDC_TOKEN_FILES_ADD"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer137->Add( AddSecurityTokenSignatureButton, 0, wxEXPAND|wxTOP|wxBOTTOM|wxLEFT, 5 );
+	bSizer137->Add( AddSecurityTokenSignatureButton, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxTOP, 5 );
 
 	RemoveButton = new wxButton( this, wxID_ANY, _("IDC_KEYREMOVE"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer137->Add( RemoveButton, 0, wxEXPAND|wxTOP|wxBOTTOM|wxLEFT, 5 );
+	bSizer137->Add( RemoveButton, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxTOP, 5 );
 
 	RemoveAllButton = new wxButton( this, wxID_ANY, _("IDC_KEYREMOVEALL"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer137->Add( RemoveAllButton, 0, wxEXPAND|wxALL, 5 );
+	bSizer137->Add( RemoveAllButton, 0, wxALL|wxEXPAND, 5 );
 
 
 	bSizer21->Add( bSizer137, 0, wxEXPAND, 5 );

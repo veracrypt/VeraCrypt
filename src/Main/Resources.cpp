@@ -23,6 +23,7 @@
 #include "Platform/File.h"
 #include "Platform/StringConverter.h"
 #include <stdio.h>
+#include "UserPreferences.h"
 #endif
 
 namespace VeraCrypt
@@ -46,7 +47,6 @@ namespace VeraCrypt
 	}
 #endif // TC_WINDOWS
 
-
 	string Resources::GetLanguageXml ()
 	{
 #ifdef TC_WINDOWS
@@ -68,53 +68,65 @@ namespace VeraCrypt
 #endif
 		string filenamePost(".xml");
 		string filename = filenamePrefix + defaultLang + filenamePost;
-		if(const char* env_p = getenv("LANG")){
-		    string lang(env_p);
+
+		UserPreferences Preferences;
+		Preferences.Load();
+		wstring preferredLang = Preferences.Language;
 #ifdef DEBUG
-			std::cout << lang << std::endl;
+		std::cout << "Config language: " << preferredLang << std::endl;
 #endif
-			if ( lang.size() > 1 ){
-				int found = lang.find(".");
-				if ( found > 1 ){
-					string langTag = lang.substr (0,found);
-					string lowerLangTag(StringConverter::ToLower (langTag) );
-					int foundUnderscore = lowerLangTag.find("_");
-					if ( foundUnderscore > 0 ) {
-						lowerLangTag.replace(foundUnderscore,1,1,'-');
-						filename = filenamePrefix + lowerLangTag + filenamePost;
-						FilesystemPath xml(filename);
-						if (! xml.IsFile()){
-							string shortLangTag = lowerLangTag.substr(0,foundUnderscore);
-							filename = filenamePrefix + shortLangTag + filenamePost;
+
+		if (preferredLang == L"system") {
+			if (const char *env_p = getenv("LANG")) {
+				string lang(env_p);
+#ifdef DEBUG
+				std::cout << "env $LANG: " << lang << std::endl;
+#endif
+				if (lang.size() > 1) {
+					int found = lang.find(".");
+					if (found > 1) {
+						string langTag = lang.substr(0, found);
+						string lowerLangTag(StringConverter::ToLower(langTag));
+						int foundUnderscore = lowerLangTag.find("_");
+						if (foundUnderscore > 0) {
+							lowerLangTag.replace(foundUnderscore, 1, 1, '-');
+							filename = filenamePrefix + lowerLangTag + filenamePost;
 							FilesystemPath xml(filename);
-							if (! xml.IsFile()){
+							if (!xml.IsFile()) {
+								string shortLangTag = lowerLangTag.substr(0, foundUnderscore);
+								filename = filenamePrefix + shortLangTag + filenamePost;
+								FilesystemPath xml(filename);
+								if (!xml.IsFile()) {
+									filename = filenamePrefix + defaultLang + filenamePost;
+								}
+							}
+						} else {
+							filename = filenamePrefix + langTag + filenamePost;
+							FilesystemPath xml(filename);
+							if (!xml.IsFile()) {
 								filename = filenamePrefix + defaultLang + filenamePost;
 							}
 						}
-					}else{
-						filename = filenamePrefix + langTag + filenamePost;
+					} else {
+						string lowerLang(StringConverter::ToLower(lang));
+						filename = filenamePrefix + lowerLang + filenamePost;
 						FilesystemPath xml(filename);
-						if (! xml.IsFile()){
-							filename = filenamePrefix + defaultLang + filenamePost;
-						}
-					}
-				}else{
-					string lowerLang(StringConverter::ToLower (lang) );
-					filename = filenamePrefix + lowerLang + filenamePost;
-					FilesystemPath xml(filename);
-					if (! xml.IsFile()){
-						int foundUnderscore = lowerLang.find("_");
-						if ( foundUnderscore > 0 ) {
-							lowerLang.replace(foundUnderscore,1,1,'-');
-							filename = filenamePrefix + lowerLang + filenamePost;
-							FilesystemPath xml(filename);
-							if (! xml.IsFile()){
-								filename = filenamePrefix + defaultLang + filenamePost;
+						if (!xml.IsFile()) {
+							int foundUnderscore = lowerLang.find("_");
+							if (foundUnderscore > 0) {
+								lowerLang.replace(foundUnderscore, 1, 1, '-');
+								filename = filenamePrefix + lowerLang + filenamePost;
+								FilesystemPath xml(filename);
+								if (!xml.IsFile()) {
+									filename = filenamePrefix + defaultLang + filenamePost;
+								}
 							}
 						}
 					}
 				}
 			}
+		} else {
+			filename = filenamePrefix + preferredLang + filenamePost;
 		}
 		FilesystemPath xml(filename);
 		if ( xml.IsFile() ){

@@ -128,6 +128,7 @@ namespace VeraCrypt
 		void OnHiddenVolumeProtectionTriggered (shared_ptr <VolumeInfo> protectedVolume);
 		void OnHotkey (wxKeyEvent& event);
 		void OnHotkeysMenuItemSelected (wxCommandEvent& event);
+		void OnLanguageMenuItemSelected (wxCommandEvent& event);
 		void OnLegalNoticesMenuItemSelected (wxCommandEvent& event);
 		void OnListChanged ();
 		void OnListItemActivated (wxListEvent& event);

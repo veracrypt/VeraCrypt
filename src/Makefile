@@ -507,7 +507,7 @@ WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --dis
 	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm --disable-svg \
 	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib
 	
-ifeq "$(PLATFORM)" "Linux"
+ifneq (,$(filter Linux FreeBSD,$(PLATFORM)))
 WX_CONFIGURE_FLAGS += --disable-tooltips
 ifneq "$(origin WITHGTK3)" "command line"
 	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
