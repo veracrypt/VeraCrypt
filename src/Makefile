@@ -189,8 +189,8 @@ endif
 
 ifeq "$(origin WOLFCRYPT)" "command line"
 	ENABLE_WOLFCRYPT := 1
-        C_CXX_FLAGS += -DWOLFCRYPT_BACKEND
-        export LIBS += -lwolfssl
+	C_CXX_FLAGS += -DWOLFCRYPT_BACKEND
+	export LIBS += -lwolfssl
 	export LD_LIBRARY_PATH=/usr/local/lib
 endif
 

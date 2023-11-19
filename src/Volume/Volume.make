@@ -36,56 +36,56 @@ OBJS += EncryptionModeWolfCryptXTS.o
 endif
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
-    ifeq "$(PLATFORM)" "MacOSX"
-        OBJSEX += ../Crypto/Aes_asm.oo
-        OBJS += ../Crypto/Aes_hw_cpu.o
-        OBJS += ../Crypto/Aescrypt.o
-        OBJSEX += ../Crypto/Twofish_asm.oo
-        OBJSEX += ../Crypto/Camellia_asm.oo
-            OBJSEX += ../Crypto/Camellia_aesni_asm.oo
-            OBJSEX += ../Crypto/sha256-nayuki.oo
-            OBJSEX += ../Crypto/sha512-nayuki.oo
-            OBJSEX += ../Crypto/sha256_avx1.oo
-            OBJSEX += ../Crypto/sha256_avx2.oo
-            OBJSEX += ../Crypto/sha256_sse4.oo
-            OBJSEX += ../Crypto/sha512_avx1.oo
-            OBJSEX += ../Crypto/sha512_avx2.oo
-            OBJSEX += ../Crypto/sha512_sse4.oo
-    else ifeq "$(CPU_ARCH)" "x86"
-            OBJS += ../Crypto/Aes_x86.o
-    ifeq "$(DISABLE_AESNI)" "0"
-            OBJS += ../Crypto/Aes_hw_cpu.o
-    endif
-            OBJS += ../Crypto/sha256-x86-nayuki.o
-            OBJS += ../Crypto/sha512-x86-nayuki.o
-    else ifeq "$(CPU_ARCH)" "x64"
-            OBJS += ../Crypto/Aes_x64.o
-    ifeq "$(DISABLE_AESNI)" "0"
-            OBJS += ../Crypto/Aes_hw_cpu.o
-    endif
-            OBJS += ../Crypto/Twofish_x64.o
-            OBJS += ../Crypto/Camellia_x64.o
-            OBJS += ../Crypto/Camellia_aesni_x64.o
-            OBJS += ../Crypto/sha512-x64-nayuki.o
-            OBJS += ../Crypto/sha256_avx1_x64.o
-            OBJS += ../Crypto/sha256_avx2_x64.o
-            OBJS += ../Crypto/sha256_sse4_x64.o
-            OBJS += ../Crypto/sha512_avx1_x64.o
-            OBJS += ../Crypto/sha512_avx2_x64.o
-            OBJS += ../Crypto/sha512_sse4_x64.o
-    else
-            OBJS += ../Crypto/Aescrypt.o
-    endif
-
-    ifeq "$(GCC_GTEQ_430)" "1"
-    OBJSSSE41 += ../Crypto/blake2s_SSE41.osse41
-    OBJSSSSE3 += ../Crypto/blake2s_SSSE3.ossse3
-    else
-    OBJS += ../Crypto/blake2s_SSE41.o
-    OBJS += ../Crypto/blake2s_SSSE3.o
-    endif
+ifeq "$(PLATFORM)" "MacOSX"
+	OBJSEX += ../Crypto/Aes_asm.oo
+	OBJS += ../Crypto/Aes_hw_cpu.o
+	OBJS += ../Crypto/Aescrypt.o
+	OBJSEX += ../Crypto/Twofish_asm.oo
+	OBJSEX += ../Crypto/Camellia_asm.oo
+	OBJSEX += ../Crypto/Camellia_aesni_asm.oo
+	OBJSEX += ../Crypto/sha256-nayuki.oo
+	OBJSEX += ../Crypto/sha512-nayuki.oo
+	OBJSEX += ../Crypto/sha256_avx1.oo
+	OBJSEX += ../Crypto/sha256_avx2.oo
+	OBJSEX += ../Crypto/sha256_sse4.oo
+	OBJSEX += ../Crypto/sha512_avx1.oo
+	OBJSEX += ../Crypto/sha512_avx2.oo
+	OBJSEX += ../Crypto/sha512_sse4.oo
+else ifeq "$(CPU_ARCH)" "x86"
+	OBJS += ../Crypto/Aes_x86.o
+	ifeq "$(DISABLE_AESNI)" "0"
+		OBJS += ../Crypto/Aes_hw_cpu.o
+	endif
+	OBJS += ../Crypto/sha256-x86-nayuki.o
+	OBJS += ../Crypto/sha512-x86-nayuki.o
+else ifeq "$(CPU_ARCH)" "x64"
+	OBJS += ../Crypto/Aes_x64.o
+	ifeq "$(DISABLE_AESNI)" "0"
+		OBJS += ../Crypto/Aes_hw_cpu.o
+	endif
+	OBJS += ../Crypto/Twofish_x64.o
+	OBJS += ../Crypto/Camellia_x64.o
+	OBJS += ../Crypto/Camellia_aesni_x64.o
+	OBJS += ../Crypto/sha512-x64-nayuki.o
+	OBJS += ../Crypto/sha256_avx1_x64.o
+	OBJS += ../Crypto/sha256_avx2_x64.o
+	OBJS += ../Crypto/sha256_sse4_x64.o
+	OBJS += ../Crypto/sha512_avx1_x64.o
+	OBJS += ../Crypto/sha512_avx2_x64.o
+	OBJS += ../Crypto/sha512_sse4_x64.o
 else
-    OBJS += ../Crypto/wolfCrypt.o
+	OBJS += ../Crypto/Aescrypt.o
+endif
+
+ifeq "$(GCC_GTEQ_430)" "1"
+	OBJSSSE41 += ../Crypto/blake2s_SSE41.osse41
+	OBJSSSSE3 += ../Crypto/blake2s_SSSE3.ossse3
+else
+	OBJS += ../Crypto/blake2s_SSE41.o
+	OBJS += ../Crypto/blake2s_SSSE3.o
+endif
+else
+OBJS += ../Crypto/wolfCrypt.o
 endif
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
@@ -128,50 +128,50 @@ OBJS += ../Common/SecurityToken.o
 VolumeLibrary: Volume.a
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
-    ifeq "$(PLATFORM)" "MacOSX"
-    ../Crypto/Aes_asm.oo: ../Crypto/Aes_x86.asm ../Crypto/Aes_x64.asm
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS32) -o ../Crypto/Aes_x86.o ../Crypto/Aes_x86.asm
-            $(AS) $(ASFLAGS64) -o ../Crypto/Aes_x64.o ../Crypto/Aes_x64.asm
-            lipo -create ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o -output ../Crypto/Aes_asm.oo
-            rm -fr ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o
-    ../Crypto/Twofish_asm.oo: ../Crypto/Twofish_x64.S
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -p gas -o ../Crypto/Twofish_asm.oo ../Crypto/Twofish_x64.S 
-    ../Crypto/Camellia_asm.oo: ../Crypto/Camellia_x64.S
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -p gas -o ../Crypto/Camellia_asm.oo ../Crypto/Camellia_x64.S
-    ../Crypto/Camellia_aesni_asm.oo: ../Crypto/Camellia_aesni_x64.S
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -p gas -o ../Crypto/Camellia_aesni_asm.oo ../Crypto/Camellia_aesni_x64.S
-    ../Crypto/sha256-nayuki.oo: ../Crypto/sha256-x86-nayuki.S
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS32) -p gas -o ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x86-nayuki.S
-            $(AS) $(ASFLAGS64) -p gas -o ../Crypto/sha256-x64-nayuki.o ../Crypto/sha256-x64-nayuki.S
-            lipo -create ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x64-nayuki.o -output ../Crypto/sha256-nayuki.oo
-            rm -fr ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x64-nayuki.o
-    ../Crypto/sha256_avx1.oo: ../Crypto/sha256_avx1_x64.asm
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -o ../Crypto/sha256_avx1.oo ../Crypto/sha256_avx1_x64.asm
-    ../Crypto/sha256_avx2.oo: ../Crypto/sha256_avx2_x64.asm
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -o ../Crypto/sha256_avx2.oo ../Crypto/sha256_avx2_x64.asm
-    ../Crypto/sha256_sse4.oo: ../Crypto/sha256_sse4_x64.asm
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -o ../Crypto/sha256_sse4.oo ../Crypto/sha256_sse4_x64.asm
-    ../Crypto/sha512-nayuki.oo: ../Crypto/sha512-x64-nayuki.S
-            @echo Assembling $(<F)
-            $(AS) -p gas $(ASFLAGS64) -o ../Crypto/sha512-nayuki.oo ../Crypto/sha512-x64-nayuki.S
-    ../Crypto/sha512_avx1.oo: ../Crypto/sha512_avx1_x64.asm
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -o ../Crypto/sha512_avx1.oo ../Crypto/sha512_avx1_x64.asm
-    ../Crypto/sha512_avx2.oo: ../Crypto/sha512_avx2_x64.asm
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -o ../Crypto/sha512_avx2.oo ../Crypto/sha512_avx2_x64.asm
-    ../Crypto/sha512_sse4.oo: ../Crypto/sha512_sse4_x64.asm
-            @echo Assembling $(<F)
-            $(AS) $(ASFLAGS64) -o ../Crypto/sha512_sse4.oo ../Crypto/sha512_sse4_x64.asm
-    endif
+ifeq "$(PLATFORM)" "MacOSX"
+../Crypto/Aes_asm.oo: ../Crypto/Aes_x86.asm ../Crypto/Aes_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS32) -o ../Crypto/Aes_x86.o ../Crypto/Aes_x86.asm
+	$(AS) $(ASFLAGS64) -o ../Crypto/Aes_x64.o ../Crypto/Aes_x64.asm
+	lipo -create ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o -output ../Crypto/Aes_asm.oo
+	rm -fr ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o
+../Crypto/Twofish_asm.oo: ../Crypto/Twofish_x64.S
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/Twofish_asm.oo ../Crypto/Twofish_x64.S 
+../Crypto/Camellia_asm.oo: ../Crypto/Camellia_x64.S
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/Camellia_asm.oo ../Crypto/Camellia_x64.S
+../Crypto/Camellia_aesni_asm.oo: ../Crypto/Camellia_aesni_x64.S
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/Camellia_aesni_asm.oo ../Crypto/Camellia_aesni_x64.S
+../Crypto/sha256-nayuki.oo: ../Crypto/sha256-x86-nayuki.S
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS32) -p gas -o ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x86-nayuki.S
+	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/sha256-x64-nayuki.o ../Crypto/sha256-x64-nayuki.S
+	lipo -create ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x64-nayuki.o -output ../Crypto/sha256-nayuki.oo
+	rm -fr ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x64-nayuki.o
+../Crypto/sha256_avx1.oo: ../Crypto/sha256_avx1_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -o ../Crypto/sha256_avx1.oo ../Crypto/sha256_avx1_x64.asm
+../Crypto/sha256_avx2.oo: ../Crypto/sha256_avx2_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -o ../Crypto/sha256_avx2.oo ../Crypto/sha256_avx2_x64.asm
+../Crypto/sha256_sse4.oo: ../Crypto/sha256_sse4_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -o ../Crypto/sha256_sse4.oo ../Crypto/sha256_sse4_x64.asm
+../Crypto/sha512-nayuki.oo: ../Crypto/sha512-x64-nayuki.S
+	@echo Assembling $(<F)
+	$(AS) -p gas $(ASFLAGS64) -o ../Crypto/sha512-nayuki.oo ../Crypto/sha512-x64-nayuki.S
+../Crypto/sha512_avx1.oo: ../Crypto/sha512_avx1_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -o ../Crypto/sha512_avx1.oo ../Crypto/sha512_avx1_x64.asm
+../Crypto/sha512_avx2.oo: ../Crypto/sha512_avx2_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -o ../Crypto/sha512_avx2.oo ../Crypto/sha512_avx2_x64.asm
+../Crypto/sha512_sse4.oo: ../Crypto/sha512_sse4_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS64) -o ../Crypto/sha512_sse4.oo ../Crypto/sha512_sse4_x64.asm
+endif
 endif
 
 include $(BUILD_INC)/Makefile.inc
