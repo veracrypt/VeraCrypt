@@ -1635,6 +1635,9 @@
     <entry lang="tr" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Üçüncü taraf dosya uzantılarının kullanımıyla ilgili önemli bilgiler</entry>
     <entry lang="tr" key="IDC_DISABLE_MEMORY_PROTECTION">Erişilebilirlik araçlarıyla uyumluluk için bellek koruması kapatılsın</entry>
     <entry lang="tr" key="DISABLE_MEMORY_PROTECTION_WARNING">UYARI: Bellek korumasını kapatmak güvenliği önemli ölçüde azaltır. Bu seçeneği YALNIZCA VeraCrypt kullanıcı arayüzüyle etkileşim için ekran okuyucular gibi erişilebilirlik araçları kullanıyorsanız açın.</entry>
+    <entry lang="tr" key="LINUX_LANGUAGE">Dil</entry>
+    <entry lang="tr" key="LINUX_SELECT_SYS_DEFAULT_LANG">Sistemin varsayılan dilini seçin</entry>
+    <entry lang="tr" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Dil değişikliğinin yürürlüğe girmesi için VeraCrypt'in yeniden başlatılması gerekir.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
