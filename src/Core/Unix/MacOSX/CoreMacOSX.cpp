@@ -107,7 +107,13 @@ namespace VeraCrypt
 	void CoreMacOSX::CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair) const
 	{
 		list <string> args;
-		args.push_back ("/Applications/Utilities/Disk Utility.app");
+		struct stat sb;
+
+		if (stat("/Applications/Utilities/Disk Utility.app", &sb) == 0)
+			args.push_back ("/Applications/Utilities/Disk Utility.app");
+		else
+			args.push_back ("/System/Applications/Utilities/Disk Utility.app");
+
 		Process::Execute ("open", args);
 	}
 
