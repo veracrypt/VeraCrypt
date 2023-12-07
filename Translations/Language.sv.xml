@@ -1632,7 +1632,7 @@
     <entry lang="sv" key="EXPANDER_UNMOUNTING_VOLUME">Demonterar volym ...\n</entry>
     <entry lang="sv" key="EXPANDER_EXTENDING_FILESYSTEM">Utökar filsystem ...\n</entry>
     <entry lang="sv" key="PARTIAL_SYSENC_MOUNT_READONLY">Varning: Systempartitionen du försökte montera var inte helt krypterad. Som en säkerhetsåtgärd för att förhindra potentiell korruption eller oönskade ändringar, monterades volymen '%s' som skrivskyddad.</entry>
-    <entry lang="sv" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Viktig information om hur du använder filtillägg från tredje part</entry>
+    <entry lang="sv" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Viktig information om hur du använder filändelser från tredje part</entry>
     <entry lang="sv" key="IDC_DISABLE_MEMORY_PROTECTION">Inaktivera minnesskydd för kompatibilitet med tillgänglighetsverktyg</entry>
     <entry lang="sv" key="DISABLE_MEMORY_PROTECTION_WARNING">VARNING: Att inaktivera minnesskydd minskar säkerheten avsevärt. Aktivera det här alternativet ENDAST om du litar på tillgänglighetsverktyg, som skärmläsare, för att interagera med VeraCrypts användargränssnitt.</entry>
     <entry lang="sv" key="LINUX_LANGUAGE">Språk</entry>
