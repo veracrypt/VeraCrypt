@@ -97,32 +97,7 @@ namespace VeraCrypt
 
 	void VolumePimWizardPage::OnDisplayPimCheckBoxClick( wxCommandEvent& event )
 	{
-		FreezeScope freeze (this);
-
-		bool display = event.IsChecked ();
-
-		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
-		newTextCtrl->SetMaxLength (MAX_PIM_DIGITS);
-		newTextCtrl->SetValue (VolumePimTextCtrl->GetValue());
-		newTextCtrl->SetMinSize (VolumePimTextCtrl->GetSize());
-
-		PimSizer->Replace (VolumePimTextCtrl, newTextCtrl);
-		VolumePimTextCtrl->Show (false);
-		int txtLen = VolumePimTextCtrl->GetLineLength(0);
-		if (txtLen > 0)
-		{
-			VolumePimTextCtrl->SetValue (wxString (L'X', txtLen));
-		}
-		GetVolumePim ();
-
-		Fit();
-		Layout();
-		newTextCtrl->SetMinSize (VolumePimTextCtrl->GetMinSize());
-
-		newTextCtrl->Connect (wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (VolumePimWizardPage::OnPimChanged), nullptr, this);
-		delete VolumePimTextCtrl;
-		VolumePimTextCtrl = newTextCtrl;
-		SetPimValidator ();
-		OnPimValueChanged (GetVolumePim ());
+		VolumePimTextCtrl->SetWindowStyle(VolumePimTextCtrl->GetWindowStyle() ? 0 : wxTE_PASSWORD);
+		VolumePimTextCtrl->Refresh();
 	}
 }
