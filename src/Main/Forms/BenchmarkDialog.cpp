@@ -45,7 +45,9 @@ namespace VeraCrypt
 		BufferSizeChoice->Select (1);
 		
 		UpdateBenchmarkList ();
-		
+
+		VolumePimText->SetMinSize (wxSize (Gui->GetCharWidth (VolumePimText) * 10, -1));
+
 		wxTextValidator validator (wxFILTER_DIGITS);
 		VolumePimText->SetValidator (validator);
 

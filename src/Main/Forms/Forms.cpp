@@ -3529,11 +3529,11 @@ VolumePimWizardPageBase::VolumePimWizardPageBase( wxWindow* parent, wxWindowID i
 	#else
 	VolumePimTextCtrl->SetMaxLength( 7 );
 	#endif
-	PimSizer->Add( VolumePimTextCtrl, 1, wxALL, 5 );
+	PimSizer->Add( VolumePimTextCtrl, 0, wxALL, 5 );
 
 	VolumePimHelpStaticText = new wxStaticText( this, wxID_ANY, _("IDC_PIM_HELP"), wxDefaultPosition, wxDefaultSize, 0 );
 	VolumePimHelpStaticText->Wrap( -1 );
-	PimSizer->Add( VolumePimHelpStaticText, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	PimSizer->Add( VolumePimHelpStaticText, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
 
 	PimPanelSizer->Add( PimSizer, 1, wxEXPAND, 5 );
