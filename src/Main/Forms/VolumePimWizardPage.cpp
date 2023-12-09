@@ -23,7 +23,7 @@ namespace VeraCrypt
 	VolumePimWizardPage::VolumePimWizardPage (wxPanel* parent)
 		: VolumePimWizardPageBase (parent)
 	{
-		VolumePimTextCtrl->SetMinSize (wxSize (Gui->GetCharWidth (VolumePimTextCtrl) * 10, -1));
+		VolumePimTextCtrl->SetMinSize (wxSize (Gui->GetCharWidth (VolumePimTextCtrl) * 15, -1));
 		SetPimValidator ();
 	}
 

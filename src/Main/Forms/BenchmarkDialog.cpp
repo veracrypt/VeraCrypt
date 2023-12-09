@@ -46,7 +46,7 @@ namespace VeraCrypt
 		
 		UpdateBenchmarkList ();
 
-		VolumePimText->SetMinSize (wxSize (Gui->GetCharWidth (VolumePimText) * 10, -1));
+		VolumePimText->SetMinSize (wxSize (Gui->GetCharWidth (VolumePimText) * 15, -1));
 
 		wxTextValidator validator (wxFILTER_DIGITS);
 		VolumePimText->SetValidator (validator);
