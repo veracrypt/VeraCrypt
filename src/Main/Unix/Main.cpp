@@ -76,7 +76,7 @@ int main (int argc, char **argv)
 #endif
 
 #ifdef __WXGTK__
-		if (!getenv ("DISPLAY"))
+		if (!getenv ("DISPLAY") && !getenv ("WAYLAND_DISPLAY"))
 			forceTextUI = true;
 #endif
 
