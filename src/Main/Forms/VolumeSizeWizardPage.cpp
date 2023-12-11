@@ -73,9 +73,7 @@ namespace VeraCrypt
 
 		VolumeSizeTextCtrl->SetMinSize (wxSize (Gui->GetCharWidth (VolumeSizeTextCtrl) * 20, -1));
 
-		wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);  // wxFILTER_NUMERIC does not exclude - . , etc.
-		const wxChar *valArr[] = { L"0", L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9" };
-		validator.SetIncludes (wxArrayString (array_capacity (valArr), (const wxChar **) &valArr));
+		wxTextValidator validator (wxFILTER_DIGITS);
 		VolumeSizeTextCtrl->SetValidator (validator);
 	}
 
