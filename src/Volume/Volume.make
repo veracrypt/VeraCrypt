@@ -37,7 +37,7 @@ endif
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
 ifeq "$(PLATFORM)" "MacOSX"
-ifeq "$(COMPILE_ASM)" "true"
+ifneq "$(COMPILE_ASM)" "false"
 	OBJSEX += ../Crypto/Aes_asm.oo
 	OBJS += ../Crypto/Aes_hw_cpu.o
 	OBJS += ../Crypto/Aescrypt.o
@@ -131,7 +131,7 @@ VolumeLibrary: Volume.a
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
 ifeq "$(PLATFORM)" "MacOSX"
-ifeq "$(COMPILE_ASM)" "true"
+ifneq "$(COMPILE_ASM)" "false"
 ../Crypto/Aes_asm.oo: ../Crypto/Aes_x86.asm ../Crypto/Aes_x64.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS32) -o ../Crypto/Aes_x86.o ../Crypto/Aes_x86.asm
