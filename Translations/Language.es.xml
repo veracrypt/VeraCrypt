@@ -1441,14 +1441,14 @@
     <entry lang="es" key="IDC_DISABLE_MOUNT_MANAGER">Sólo crear dispositivo virtual sin montar en la letra de unidad seleccionada</entry>
     <entry lang="es" key="LEGACY_PASSWORD_UTF8_TOO_LONG">La contraseña introducida es demasiado larga: su representación en UTF-8 excede de 64 bytes.</entry>
     <entry lang="es" key="HIDDEN_CREDS_SAME_AS_OUTER">El volumen oculto no puede tener la misma contraseña, PIM y archivos de claves que el volumen externo.</entry>
-    <entry lang="es" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt no permite encriptar una unidad del sistema que ya esté encriptada por BitLocker..</entry>
+    <entry lang="es" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt no permite encriptar una unidad del sistema que ya esté encriptada por BitLocker.</entry>
     <entry lang="es" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Soluciona automáticamente los problemas de configuración de arranque que pueden impedir que se inicie Windows.</entry>
     <entry lang="es" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Forzar a la máquina a arrancar con VeraCrypt en el siguiente inicio</entry>
     <entry lang="es" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Forzar la presencia de la entrada VeraCrypt en el menú de arranque del firmware EFI</entry>
     <entry lang="es" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Forzar que la entrada VeraCrypt sea la primera en el menú de arranque del firmware EFI.</entry>
     <entry lang="es" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">ADVERTENCIA: La encriptación de RAM no es compatible con las funciones Hibernar e Inicio rápido de Windows. VeraCrypt necesita desactivarlas antes de activar la encriptación de RAM.\n\n¿Continua?</entry>
-    <entry lang="es" key="CONFIRM_DISABLE_FAST_STARTUP">ADVERTENCIA: El inicio rápido de Windows está activado y se sabe que causa problemas cuando se trabaja con volúmenes VeraCrypt. Se recomienda desactivarlo para mejorar la seguridad y la usabilidad.\n\n¿Quiere desabilitar el inicio rápido de Windows?</entry>
-    <entry lang="es" key="QUICK_FORMAT_HELP">Para que tu sistema operativo pueda montar tu nuevo volumen, tiene que estar formateado con un sistema de ficheros. Por favor, seleccione un tipo de sistema de archivos.\n\nSi su volumen va a ser alojado en un dispositivo o partición, puede utilizar 'Formato rápido' para omitir la encriptación del espacio libre del volumen..</entry>
+    <entry lang="es" key="CONFIRM_DISABLE_FAST_STARTUP">ADVERTENCIA: El inicio rápido de Windows está activado y se sabe que causa problemas cuando se trabaja con volúmenes VeraCrypt. Se recomienda desactivarlo para mejorar la seguridad y la usabilidad.\n\n¿Quiere deshabilitar el inicio rápido de Windows?</entry>
+    <entry lang="es" key="QUICK_FORMAT_HELP">Para que tu sistema operativo pueda montar tu nuevo volumen, tiene que estar formateado con un sistema de ficheros. Por favor, seleccione un tipo de sistema de archivos.\n\nSi va a alojar su volumen en un dispositivo o partición, puede optar por el 'Formato rápido', que omite la encriptación del espacio libre del volumen.</entry>
     <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
     <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
