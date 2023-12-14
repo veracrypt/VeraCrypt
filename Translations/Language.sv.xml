@@ -1383,7 +1383,7 @@
     <entry lang="sv" key="PASSWORD_UTF8_TOO_LONG">Det angivna lösenordet är för långt: dess UTF-8-representation överstiger  %d byte.</entry>
     <entry lang="sv" key="PASSWORD_UTF8_INVALID">Det angivna lösenordet innehåller Unicode-tecken som inte kunde konverteras till UTF-8-representation.</entry>
     <entry lang="sv" key="INIT_DLL">Fel: Det gick inte att läsa in ett systembibliotek.</entry>
-    <entry lang="sv" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Volymfilstorleken som anges på kommandoraden är inkompatibel med det valt exFAT-filsystem.</entry>
+    <entry lang="sv" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Volymfilstorleken som anges på kommandoraden är inkompatibel med valt exFAT-filsystem.</entry>
     <entry lang="sv" key="IDT_ENTROPY_BAR">Slumpmässighet insamlad från musrörelser</entry>
     <entry lang="sv" key="IDT_VOLUME_ID">Volym-ID:</entry>
     <entry lang="sv" key="VOLUME_ID">Volym-ID</entry>
