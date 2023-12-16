@@ -163,7 +163,8 @@ After installating dependencies via brew, you can build a local development buil
 
 	$ ./src/Build/build_veracrypt_macosx.sh -b
 
-If you want to build the package, you also need to pass `-p` to the build script above
+If you want to build the package, you also need to pass `-p` to the build script above. The built
+executable will be in `.src/Main`
 
 If you prefer to build from sources, or without homebrew, pkg-config and packages must be installed.
 
