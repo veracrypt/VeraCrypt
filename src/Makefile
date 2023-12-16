@@ -366,7 +366,6 @@ ifeq "$(shell uname -s)" "Darwin"
 			C_CXX_FLAGS += -gfull -arch x86_64
 			LFLAGS += -Wl,-dead_strip -arch x86_64
 		endif
-
 		
 		WX_CONFIGURE_FLAGS += --without-libpng --disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-svg
 
@@ -376,12 +375,20 @@ ifeq "$(shell uname -s)" "Darwin"
 			LFLAGS += -arch i386
 			WX_CONFIGURE_FLAGS += --enable-universal_binary=i386,x86_64
 		else
-			CXXFLAGS += -std=c++11			
-			C_CXX_FLAGS += -arch arm64
-			LFLAGS += -arch arm64
+			CXXFLAGS += -std=c++11
 			ifeq "$(LOCAL_DEVELOPMENT_BUILD)" "true"
+				ifeq "$(CPU_ARCH)" "arm64"
+					C_CXX_FLAGS += -arch arm64
+					LFLAGS += -arch arm64
+				else
+					C_CXX_FLAGS += -arch x86_64
+					LFLAGS += -arch x86_64
+				endif
 				WX_CONFIGURE_FLAGS += --disable-universal_binary
 			else
+				# leave previous logic as is
+				C_CXX_FLAGS += -arch arm64
+				LFLAGS += -arch arm64
 				WX_CONFIGURE_FLAGS += --enable-universal_binary=arm64,x86_64
 			endif
 		endif
