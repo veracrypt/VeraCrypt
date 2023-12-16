@@ -295,7 +295,7 @@ ifeq "$(shell uname -s)" "Darwin"
 	PLATFORM := MacOSX
 	APPNAME := VeraCrypt
 
-	export VC_OSX_TARGET ?= 10.9
+	export VC_OSX_TARGET ?= 12
 	export VC_OSX_SDK ?= $(VC_OSX_TARGET)
 
 	#check to see if XCode 3 path exists.Otherwise, use XCode 4 path

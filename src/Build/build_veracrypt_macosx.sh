@@ -23,8 +23,8 @@ do
 done
 
 if [ -n "$brew" ]; then
-    export VC_OSX_TARGET=10.9
     export VC_OSX_SDK=$(xcrun --show-sdk-version) #use the latest version installed, this might fail
+    export VC_OSX_TARGET=${VC_OSX_SDK}
     echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
     cd $SOURCEPATH
 
@@ -52,7 +52,7 @@ echo "Using wxWidgets sources in $WX_ROOT"
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuild-3.2.2.1
 
-# define the SDK version to use and OSX minimum target. We target 10.9 by default
+# define the SDK version to use and OSX minimum target. We target 12 by default
 export VC_OSX_TARGET=12
 export VC_OSX_SDK=13
 echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
