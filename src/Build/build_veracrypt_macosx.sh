@@ -32,9 +32,9 @@ if [ -n "$brew" ]; then
     cellar=$(brew --cellar "wxwidgets")
     version=$(brew list --versions "wxwidgets" | head -1 | awk '{print $2}')
     export WX_BUILD_DIR="$cellar/$version/bin"
-    # skips signing
+    # skip signing and build only for local arch
     export LOCAL_DEVELOPMENT_BUILD=true
-    # don't build a universal binary, just build for the local arch
+    # set the correct CPU arch for Makefile
     export CPU_ARCH=$(uname -m)
     export AS=$(which yasm)
     export COMPILE_ASM=$( if [[ "$CPU_ARCH" != "arm64" ]]; then echo true; else echo false; fi )

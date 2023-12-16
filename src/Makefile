@@ -352,8 +352,21 @@ ifeq "$(shell uname -s)" "Darwin"
 		S := $(C_CXX_FLAGS)
 		C_CXX_FLAGS = $(subst -MMD,,$(S))
 
-		C_CXX_FLAGS += -gfull -arch $(CPU_ARCH)
-		LFLAGS += -Wl,-dead_strip -arch $(CPU_ARCH)
+		# only build local arch in development builds
+		ifeq "$(LOCAL_DEVELOPMENT_BUILD)" "true"
+			ifeq "$(CPU_ARCH)" "arm64"
+				C_CXX_FLAGS += -gfull -arch $(CPU_ARCH)
+				LFLAGS += -Wl,-dead_strip -arch $(CPU_ARCH)
+			else
+				C_CXX_FLAGS += -gfull -arch x86_64
+				LFLAGS += -Wl,-dead_strip -arch x86_64
+			endif
+		else
+			# leave previous logic as is
+			C_CXX_FLAGS += -gfull -arch x86_64
+			LFLAGS += -Wl,-dead_strip -arch x86_64
+		endif
+
 		
 		WX_CONFIGURE_FLAGS += --without-libpng --disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-svg
 
