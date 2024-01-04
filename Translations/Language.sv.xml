@@ -957,7 +957,7 @@
     <entry lang="sv" key="HEADER_RESTORE_INTERNAL">Återställ volymhuvudet från volymens inbäddade säkerhetskopia</entry>
     <entry lang="sv" key="HEADER_RESTORE_EXTERNAL">Återställ volymhuvudet från en extern säkerhetskopia</entry>
     <entry lang="sv" key="HEADER_BACKUP_SIZE_INCORRECT">Storleken på volymhuvudets säkerhetskopia är felaktig.</entry>
-    <entry lang="sv" key="VOLUME_HAS_NO_BACKUP_HEADER">Det finns inget säkerhetskopieringshuvud inbäddad i denna volym (observera att endast volymer skapade av VeraCrypt 6.0 eller senare innehåller inbäddade säkerhetskopieringshuvuden).</entry>
+    <entry lang="sv" key="VOLUME_HAS_NO_BACKUP_HEADER">Det finns inget säkerhetskopieringshuvud inbäddat i denna volym (observera att endast volymer skapade av VeraCrypt 6.0 eller senare innehåller inbäddade säkerhetskopieringshuvuden).</entry>
     <entry lang="sv" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Du försöker säkerhetskopiera huvudet på systempartitionen/enheten. Detta är inte tillåtet. Säkerhetskopiering/återställning av systempartitionen/enheten kan endast utföras med hjälp av VeraCrypt-återställningsdisk.\n\nVill du skapa en VeraCrypt-återställningsdisk?</entry>
     <entry lang="sv" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Du försöker återställa huvudet för en virtuell VeraCrypt-volym men du valde systempartitionen/enheten. Detta är inte tillåtet. Säkerhetskopiering/återställning av systempartitionen/enheten kan endast utföras med hjälp av VeraCrypt-återställningsdisk.\n\nVill du skapa en VeraCrypt-återställningsdisk?</entry>
     <entry lang="sv" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">När du klickat på OK väljer du ett filnamn för den nya avbildningen av VeraCrypt-återställningsdisken och platsen där du vill placera den.</entry>
