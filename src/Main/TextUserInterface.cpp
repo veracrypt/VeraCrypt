@@ -1409,7 +1409,6 @@ namespace VeraCrypt
 			{
 				ShowInfo (e);
 				options.Password.reset();
-				options.Pim = -1;
 			}
 		}
 
