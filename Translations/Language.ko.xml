@@ -897,30 +897,30 @@
     <entry lang="ko" key="TRAVELER_UAC_NOTE">VeraCrypt를 휴대용 모드로 실행하기로 결정한 경우 (VeraCrypt의 설치된 복사본을 실행하는 것과 달리) 시스템은 실행할 때마다 VeraCrypt (UAC 프롬프트) 실행 권한을 요청할 것입니다.\n\n그 이유는 휴대용 모드에서 VeraCrypt를 실행하면 VeraCrypt가 VeraCrypt 장치 드라이버를로드하고 시작해야합니다. VeraCrypt는 투명하고 즉각적인 암호화/해독을 제공하기 위해 장치 드라이버가 필요하며 관리자 권한이없는 사용자는 Windows에서 장치 드라이버를 시작할 수 없습니다. 따라서 시스템은 관리자 권한 (UAC 프롬프트)으로 VeraCrypt를 실행할 수있는 권한을 요청할 것입니다.\n\n(VeraCrypt를 휴대용 모드로 실행하는 대신) 시스템에 VeraCrypt를 설치하면 시스템에서 실행을 시도 할 때마다 VeraCrypt (UAC 프롬프트)를 실행할 수있는 권한.\n\n파일을 추출 하시겠습니까?</entry>
     <entry lang="ko" key="CONTAINER_ADMIN_WARNING">경고: 볼륨 생성 마법사의이 인스턴스는 관리자 권한을가집니다.\n\n마운트 할 때 볼륨에 쓸 수 없도록하는 권한으로 새 볼륨을 만들 수 있습니다. 이를 피하려면 볼륨 생성 마법사의이 인스턴스를 닫고 관리자 권한없이 새 볼륨을 실행하세요.\n\n볼륨 생성 마법사의이 인스턴스를 닫으시겠습니까?</entry>
     <entry lang="ko" key="CANNOT_DISPLAY_LICENSE">오류: 라이센스를 표시 할 수 없습니다.</entry>
-    <entry lang="ko" key="OUTER_VOL_WRITE_PREVENTED">밖의(!)</entry>
+    <entry lang="ko" key="OUTER_VOL_WRITE_PREVENTED">외부(!)</entry>
     <entry lang="ko" key="DAYS">일</entry>
     <entry lang="ko" key="HOURS">시간</entry>
-    <entry lang="ko" key="MINUTES">의사록</entry>
-    <entry lang="ko" key="SECONDS">에스</entry>
-    <entry lang="ko" key="OPEN">열다</entry>
-    <entry lang="ko" key="DISMOUNT">내리다</entry>
+    <entry lang="ko" key="MINUTES">분</entry>
+    <entry lang="ko" key="SECONDS">초</entry>
+    <entry lang="ko" key="OPEN">열기</entry>
+    <entry lang="ko" key="DISMOUNT">마운트 해제</entry>
     <entry lang="ko" key="SHOW_TC">VeraCrypt 표시</entry>
     <entry lang="ko" key="HIDE_TC">VeraCrypt 숨기기</entry>
     <entry lang="ko" key="TOTAL_DATA_READ">마운트 이후의 데이터 읽기</entry>
     <entry lang="ko" key="TOTAL_DATA_WRITTEN">마운트 이후 작성된 데이터</entry>
     <entry lang="ko" key="ENCRYPTED_PORTION">암호화 된 부분</entry>
-    <entry lang="ko" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100% (완전히 암호화 됨)</entry>
+    <entry lang="ko" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100% (완전히 암호화됨)</entry>
     <entry lang="ko" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (암호화되지 않음)</entry>
     <entry lang="ko" key="PROCESSED_PORTION_X_PERCENT">%.3f%%</entry>
     <entry lang="ko" key="PROCESSED_PORTION_100_PERCENT">100%</entry>
-    <entry lang="ko" key="PROGRESS_STATUS_WAITING">기다리는</entry>
-    <entry lang="ko" key="PROGRESS_STATUS_PREPARING">준비중 인</entry>
-    <entry lang="ko" key="PROGRESS_STATUS_RESIZING">크기 조정</entry>
-    <entry lang="ko" key="PROGRESS_STATUS_ENCRYPTING">암호화</entry>
-    <entry lang="ko" key="PROGRESS_STATUS_DECRYPTING">해독</entry>
-    <entry lang="ko" key="PROGRESS_STATUS_FINALIZING">마무리</entry>
+    <entry lang="ko" key="PROGRESS_STATUS_WAITING">기다리는 중</entry>
+    <entry lang="ko" key="PROGRESS_STATUS_PREPARING">준비 중</entry>
+    <entry lang="ko" key="PROGRESS_STATUS_RESIZING">크기 조정 중</entry>
+    <entry lang="ko" key="PROGRESS_STATUS_ENCRYPTING">암호화 중</entry>
+    <entry lang="ko" key="PROGRESS_STATUS_DECRYPTING">해독 중</entry>
+    <entry lang="ko" key="PROGRESS_STATUS_FINALIZING">마무리 중</entry>
     <entry lang="ko" key="PROGRESS_STATUS_PAUSED">일시 중지됨</entry>
-    <entry lang="ko" key="PROGRESS_STATUS_FINISHED">끝마친</entry>
+    <entry lang="ko" key="PROGRESS_STATUS_FINISHED">완료</entry>
     <entry lang="ko" key="PROGRESS_STATUS_ERROR">오류</entry>
     <entry lang="ko" key="FAVORITE_DISCONNECTED_DEV">기기 분리됨</entry>
     <entry lang="ko" key="SYS_FAVORITE_VOLUMES_SAVED">시스템 즐겨 찾기 볼륨이 저장되었습니다.\n\n시스템 시작시 시스템 즐겨 찾기 볼륨을 마운트하려면 '설정'> '시스템 즐겨 찾기 볼륨'> 'Windows 시작시 시스템 즐겨 찾기 볼륨 마운트'를 선택하세요.</entry>
