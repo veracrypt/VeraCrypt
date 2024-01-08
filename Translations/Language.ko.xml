@@ -1040,7 +1040,7 @@
     <entry lang="ko" key="DO_NOT_PROMPT_ME">아니, 나에게 묻지마.</entry>
     <entry lang="ko" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">중요: '볼륨'&gt;을 선택하여 비 시스템 파티션/볼륨의 암호화/암호 해독 프로세스를 재개 할 수 있습니다. VeraCrypt 메인 윈도우의 메뉴 바에서 '중단 된 프로세스 재개'를 선택하세요.</entry>
     <entry lang="ko" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">시스템 파티션/드라이브의 암호화 또는 암호 해독 프로세스를 예약했습니다. 그러나 사전 부팅 인증이 실패했거나 무시되었습니다.\n\n참고: 부팅 전 환경에서 시스템 파티션/드라이브의 암호를 해독 한 경우 '시스템'&gt;VeraCrypt 메인 윈도우의 메뉴 막대에서 '영구적으로 시스템 파티션/드라이브 해독'을 선택하세요.</entry>
-    <entry lang="ko" key="CONFIRM_EXIT">\n\n1) 핫 키\n2) 자동 마운트 해제 (예: 로그 오프, 부주의 한 호스트 장치 제거, 타임 아웃 등)\n3) 자동으로 마운트 해제합니다.\n\n참고: VeraCrypt를 백그라운드에서 실행하지 않으려면 환경 설정에서 VeraCrypt 백그라운드 작업을 사용하지 않도록 설정하십시오 (그리고 필요한 경우, 예를 들어, 숨긴 볼륨이 손상되지 않은 경우) 환경 설정에서 VeraCrypt의 자동 시작을 비활성화하세요.)\n\nVeraCrypt를 종료 하시겠습니까?</entry>
+    <entry lang="ko" key="CONFIRM_EXIT">경고: VeraCrypt를 지금 종료하면, 다음 기능들이 비활성화됩니다.\n\n1) 핫 키\n2) 자동 마운트 해제 (예: 로그 오프, 부주의 한 호스트 장치 제거, 시간 초과 등)\n3 ) 좋아하는 볼륨의 자동 마운트\n4) 알림 (예: 숨겨진 볼륨의 손상이 방지 된 경우)\n\n참고: VeraCrypt를 백그라운드에서 실행하지 않으려면 환경 설정에서 VeraCrypt 백그라운드 작업을 사용하지 않도록 설정하십시오 (그리고 필요한 경우, 예를 들어, 숨긴 볼륨이 손상되지 않은 경우 환경 설정에서 VeraCrypt의 자동 시작을 비활성화하세요.)\n\nVeraCrypt를 종료 하시겠습니까?</entry>
     <entry lang="ko" key="CONFIRM_EXIT_UNIVERSAL">나가기?</entry>
     <entry lang="ko" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt에 암호화 또는 암호 해독 여부를 결정하는 데 필요한 충분한 정보가 없습니다.</entry>
     <entry lang="ko" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt에 암호화 또는 암호 해독 여부를 결정하는 데 필요한 충분한 정보가 없습니다.\n\n참고: 사전 부트 환경에서 시스템 파티션/드라이브의 암호를 해독하는 경우 암호 해독을 클릭하여 프로세스를 완료해야 할 수 있습니다.</entry>
