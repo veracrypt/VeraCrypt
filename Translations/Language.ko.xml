@@ -97,7 +97,7 @@
     <entry lang="ko" key="IDT_SPEED">속도</entry>
     <entry lang="ko" key="IDT_STATUS">상태</entry>
     <entry lang="ko" key="IDT_SYSENC_KEYS_GEN_INFO">키, 소금, 기타 데이터가 성공적으로 생성되었습니다. 새 키를 생성하려면 뒤로가기 버튼을 누르고 다음을 누르세요. 그렇지 않으면 다음을 눌러 계속하세요.</entry>
-    <entry lang="ko" key="IDT_SYS_DEVICE">Windows가 설치된 파티션/드라이브가 암호화되었습니다. 접근 권한을 얻고 시스템, 파일 읽기 및 쓰기 등을 원하는 사람은 Windows 가 부팅되기 전에 매번 정확한 암호를 입력해야 합니다. 선택적으로 숨겨진 시스템을 생성하세요.</entry>
+    <entry lang="ko" key="IDT_SYS_DEVICE">Windows가 설치된 파티션/드라이브를 암호화합니다. 접근 권한을 얻고 시스템, 파일 읽기 및 쓰기 등을 원하는 사람은 Windows가 부팅되기 전에 매번 정확한 암호를 입력해야 합니다. 선택적으로 숨겨진 시스템을 생성할 수도 있습니다.</entry>
     <entry lang="ko" key="IDT_SYS_PARTITION">현재 실행 중인 Windows 운영 체제가 설치된 파티션을 암호화하려면 이 옵션을 선택하세요.</entry>
     <entry lang="ko" key="IDT_VOLUME_LABEL">Windows 볼륨 레이블:</entry>
     <entry lang="ko" key="IDT_WIPE_MODE">초기화 방식:</entry>
@@ -1571,73 +1571,73 @@
     <entry lang="ko" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt가 MSI 패키지(.msi)로 설치되어 표준 설치 프로그램으로 업데이트 할 수 없습니다.\n\nMSI 패키지를 사용하여 VeraCrypt를 업데이트하십시오.</entry>
     <entry lang="ko" key="IDC_USE_ALL_FREE_SPACE">사용 가능한 모든 여유 공간 사용</entry>
     <entry lang="ko" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">시스템 파티션/드라이브가 더 이상 지원되지 않는 알고리즘으로 암호화되었기 때문에 VeraCrypt를 업데이트할 수 없습니다.\nVeraCrypt를 업데이트 하기 전에 시스템 암호를 해독한 다음 다시 암호화하십시오.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
-    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CLPC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_TERMINALNOTFOUND">지원되는 터미널 앱을 찾을 수 없습니다. (dbus-x11을 지원하는 xterm, konsole 혹은 gnome-terminal이 필요합니다)</entry>
+    <entry lang="ko" key="IDM_MOUNT_NO_CACHE">캐시 없이 마운트</entry>
+    <entry lang="ko" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nVeraCrypt 볼륨을 다시 포맷하지 않고 바로 확장합니다\n\n\nNTFS로 포맷된 모든 유형의 볼륨(컨테이너 파일, 디스크와 파티션)이 지원됩니다. VeraCrypt 볼륨의 호스트 드라이브나 호스트 기기에 충분한 공간이 있어야 합니다.\n\n이 소프트웨어를 숨겨진 볼륨을 포함하는 외부 볼륨에 사용하지 마십시오. 숨겨진 볼륨을 파괴할 것입니다!\n</entry>
+    <entry lang="ko" key="IDC_STEPSEXPAND">1. 확장할 VeraCrypt 볼륨 선택\n2. '마운트' 버튼 클릭</entry>
+    <entry lang="ko" key="IDT_VOL_NAME">볼륨: </entry>
+    <entry lang="ko" key="IDT_FILE_SYS">파일 시스템: </entry>
+    <entry lang="ko" key="IDT_CURRENT_SIZE">현재 크기: </entry>
+    <entry lang="ko" key="IDT_NEW_SIZE">새 크기: </entry>
+    <entry lang="ko" key="IDT_NEW_SIZE_BOX_TITLE">새 볼륨 크기 입력</entry>
+    <entry lang="ko" key="IDC_INIT_NEWSPACE">새 공간을 무작위 데이터로 채우기</entry>
+    <entry lang="ko" key="IDC_QUICKEXPAND">빠른 확장</entry>
+    <entry lang="ko" key="IDT_INIT_SPACE">새 공간 채움: </entry>
+    <entry lang="ko" key="EXPANDER_FREE_SPACE">호스트 드라이브에 %s 공간 남음</entry>
+    <entry lang="ko" key="EXPANDER_HELP_DEVICE">이 볼륨은 기기 기반 VeraCrypt 볼륨입니다.\n\n새 볼륨 크기는 호스트 기기의 크기에 따라 자동으로 설정될 것입니다.</entry>
+    <entry lang="ko" key="EXPANDER_HELP_FILE">VeraCrypt 볼륨의 새 크기를 지정하세요. (현재 크기보다 %I64u KB 만큼 커야 합니다)</entry>
+    <entry lang="ko" key="QUICK_EXPAND_WARNING">경고: 다음 경우에만 빠른 확장을 사용해야 합니다:\n\n1) 파일 컨테이너가 있는 기기에 중요한 데이터가 없고 그럴듯한 부인성이 필요 없는 경우.\n2) 파일 컨테이너가 있는 기기가 이미 안전하고 완전히 암호화된 경우.\n\n정말로 빠른 확장을 사용하시겠습니까?</entry>
+    <entry lang="ko" key="EXPANDER_STATUS_TEXT">중요: 이 창에서 마우스를 가능한 한 무작위로 이동하세요. 오래 움직일수록 좋으며, 이렇게 하면 보안이 대폭 강화됩니다. 완료되면 '계속'을 클릭해 볼륨을 확장하세요.</entry>
+    <entry lang="ko" key="EXPANDER_STATUS_TEXT_LEGACY">'계속'을 클릭해 볼륨을 확장하세요.</entry>
+    <entry lang="ko" key="EXPANDER_FINISH_ERROR">오류: 볼륨 확장에 실패했습니다.</entry>
+    <entry lang="ko" key="EXPANDER_FINISH_ABORT">오류: 작업이 사용자에 의해 취소되었습니다.</entry>
+    <entry lang="ko" key="EXPANDER_FINISH_OK">완료되었습니다. 볼륨이 성공적으로 확장되었습니다.</entry>
+    <entry lang="ko" key="EXPANDER_CANCEL_WARNING">경고: 볼륨 확장이 진행 중입니다!\n\n지금 멈추는 것은 볼륨을 손상시킬 수 있습니다.\n\n정말 취소하시겠습니까?</entry>
+    <entry lang="ko" key="EXPANDER_STARTING_STATUS">볼륨 확장 시작 중 ...\n</entry>
+    <entry lang="ko" key="EXPANDER_HIDDEN_VOLUME_ERROR">외부 볼륨이 숨겨진 볼륨을 포함하고 있는 경우 확장할 수 없습니다. 이 경우 숨겨진 볼륨이 파괴되기 때문입니다.\n</entry>
+    <entry lang="ko" key="EXPANDER_SYSTEM_VOLUME_ERROR">VeraCrypt 시스템 볼륨은 확장할 수 없습니다.</entry>
+    <entry lang="ko" key="EXPANDER_NO_FREE_SPACE">볼륨을 확장할 여유 공간이 부족합니다</entry>
+    <entry lang="ko" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">경고: 컨테이너 파일이 VeraCrypt 볼륨 공간보다 큽니다. VeraCrypt 볼륨 공간 이후에 있는 데이터는 덮어씌워질 것입니다.\n\n정말 계속하시겠습니까?</entry>
+    <entry lang="ko" key="EXPANDER_WARNING_FAT">경고: VeraCrypt 볼륨이 FAT 파일 시스템을 포함하고 있습니다!\n\n파일 시스템을 제외한 VeraCrypt 볼륨만 확장될 것입니다.\n\n정말 계속하시겠습니까?</entry>
+    <entry lang="ko" key="EXPANDER_WARNING_EXFAT">경고: VeraCrypt 볼륨이 exFAT 파일 시스템을 포함하고 있습니다!\n\n파일 시스템을 제외한 VeraCrypt 볼륨만 확장될 것입니다.\n\n정말 계속하시겠습니까?</entry>
+    <entry lang="ko" key="EXPANDER_WARNING_UNKNOWN_FS">경고: VeraCrypt 볼륨이 알 수 없는 파일 시스템을 포함하고 있거나 파일 시스템이 없습니다!\n\nVeraCrypt 볼륨만 확장되고 파일 시스템은 그대로 남을 것입니다.\n\n정말 계속하시겠습니까?</entry>
+    <entry lang="ko" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">새 볼륨 크기가 너무 작습니다. 현재 크기보다 최소 %I64u kB 만큼 커야 합니다.</entry>
+    <entry lang="ko" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">새 볼륨 크기가 너무 큽니다. 호스트 드라이브에 여유 공간이 부족합니다.</entry>
+    <entry lang="ko" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">호스트 드라이브의 최대 파일 크기인 %I64u MB를 초과했습니다.</entry>
+    <entry lang="ko" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">오류: 빠른 확장을 활성화하는데 필요한 권한을 얻지 못했습니다!\n빠른 확장 옵션을 체크 해제하고 다시 시도하십시오.</entry>
+    <entry lang="ko" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">최대 VeraCrypt 볼륨 크기인 %I64u TB를 초과했습니다!\n</entry>
+    <entry lang="ko" key="FULL_FORMAT">전체 포맷</entry>
+    <entry lang="ko" key="FAST_CREATE">빠른 생성</entry>
+    <entry lang="ko" key="WARN_FAST_CREATE">경고: 다음 경우에만 빠른 생성을 사용해야 합니다:\n\n1) 파일 컨테이너가 있는 기기에 중요한 데이터가 없고 그럴듯한 부인성이 필요 없는 경우.\n2) 파일 컨테이너가 있는 기기가 이미 안전하고 완전히 암호화된 경우.\n\n정말로 빠른 생성을 사용하시겠습니까?</entry>
+    <entry lang="ko" key="IDC_ENABLE_EMV_SUPPORT">EMV 지원 활성화</entry>
+    <entry lang="ko" key="COMMAND_APDU_INVALID">카드로 보낸 APDU 명령어가 유효하지 않습니다.</entry>
+    <entry lang="ko" key="EXTENDED_APDU_UNSUPPORTED">확장 APDU 명령어는 현재 토큰과 같이 사용할 수 없습니다.</entry>
+    <entry lang="ko" key="SCARD_MODULE_INIT_FAILED">WinSCard / PCSC 라이브러리를 불러오는 중에 오류가 발생했습니다.</entry>
+    <entry lang="ko" key="EMV_UNKNOWN_CARD_TYPE">리더에 있는 카드는 지원되는 EMV 카드가 아닙니다.</entry>
+    <entry lang="ko" key="EMV_SELECT_AID_FAILED">리더에 있는 카드의 AID는 선택할 수 없습니다.</entry>
+    <entry lang="ko" key="EMV_ICC_CERT_NOTFOUND">카드에서 ICC 공개 키 인증서를 찾을 수 없습니다.</entry>
+    <entry lang="ko" key="EMV_ISSUER_CERT_NOTFOUND">카드에서 발급자 공개 키 인증서를 찾을 수 없습니다.</entry>
+    <entry lang="ko" key="EMV_CPLC_NOTFOUND">EMV 카드에서 CLPC를 찾을 수 없습니다.</entry>
+    <entry lang="ko" key="EMV_PAN_NOTFOUND">EMV 카드에서 주 계정 번호 (PAN)를 찾을 수 없습니다.</entry>
+    <entry lang="ko" key="INVALID_EMV_PATH">EMV 경로가 올바르지 않습니다.</entry>
+    <entry lang="ko" key="EMV_KEYFILE_DATA_NOTFOUND">EMV 카드의 데이터에서 키 파일을 빌드할 수 없습니다.\n\n다음 중 하나가 없습니다:\n- ICC 공개 키 인증서.\n- 발급자 공개 키 인증서.\n- CPCL 데이터.</entry>
+    <entry lang="ko" key="SCARD_W_REMOVED_CARD">리더에 카드가 없습니다.\n\n카드가 잘 삽입되었는지 확인하십시오.</entry>
+    <entry lang="ko" key="FORMAT_EXTERNAL_FAILED">Windows format.com 명령어가 볼륨을 NTFS/exFAT/ReFS로 포맷하는 데 실패했습니다: 오류 0x%.8X.\n\nWindows FormatEx API를 대신 사용합니다.</entry>
+    <entry lang="ko" key="FORMATEX_API_FAILED">Windows FormatEx API가 볼륨을 NTFS/exFAT/ReFS로 포맷하는 데 실패했습니다.\n\n실패 상태 = %s.</entry>
+    <entry lang="ko" key="EXPANDER_WRITING_RANDOM_DATA">새로운 공간에 무작위 데이터 쓰는 중 ...\n</entry>
+    <entry lang="ko" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">재암호화된 백업 헤더 쓰는 중 ...\n</entry>
+    <entry lang="ko" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">재암호화된 주 헤더 쓰는 중 ...\n</entry>
+    <entry lang="ko" key="EXPANDER_WIPING_OLD_HEADER">오래된 백업 헤더 지우는 중 ...\n</entry>
+    <entry lang="ko" key="EXPANDER_MOUNTING_VOLUME">볼륨 마운트 중 ...\n</entry>
+    <entry lang="ko" key="EXPANDER_UNMOUNTING_VOLUME">볼륨 마운트 해제 중 ...\n</entry>
+    <entry lang="ko" key="EXPANDER_EXTENDING_FILESYSTEM">파일 시스템 확장 중 ...\n</entry>
+    <entry lang="ko" key="PARTIAL_SYSENC_MOUNT_READONLY">경고: 마운트하려고 한 시스템 파티션이 완전히 암호화되지 않았습니다. 손상 및 원치 않는 변경을 방지하기 위해서, 볼륨 '%s'가 읽기 전용으로 마운트되었습니다.</entry>
+    <entry lang="ko" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">제3자 파일 확장자 사용에 대한 중요한 정보</entry>
+    <entry lang="ko" key="IDC_DISABLE_MEMORY_PROTECTION">접근성 도구 호환성을 위해 메모리 보호 비활성화하기</entry>
+    <entry lang="ko" key="DISABLE_MEMORY_PROTECTION_WARNING">경고: 메모리 보호를 비활성화하면 보안이 상당히 저하됩니다. 당신이 스크린 리더와 같은 VeraCrypt의 UI와 상호작용하는 접근성 도구에 의존하는 경우에만 이 옵션을 활성화하세요.</entry>
     <entry lang="ko" key="LINUX_LANGUAGE">언어</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
+    <entry lang="ko" key="LINUX_SELECT_SYS_DEFAULT_LANG">시스템의 기본 언어를 선택합니다</entry>
+    <entry lang="ko" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">언어 변경을 적용하려면, VeraCrypt를 다시 시작해야 합니다.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
