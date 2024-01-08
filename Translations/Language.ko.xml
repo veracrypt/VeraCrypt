@@ -1054,7 +1054,7 @@
     <entry lang="ko" key="FAILED_TO_START_WIPING">오류: 지우는 프로세스를 시작하지 못했습니다.</entry>
     <entry lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결됨.\n\n\n(이 문제와 관련하여 버그를 보고하는 경우 버그 보고서에 다음 기술 정보를 포함시켜 주십시오.\n%hs)</entry>
     <entry lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이 문제와 관련하여 버그를 보고하는 경우 버그 보고서에 다음 기술 정보를 포함시켜 주십시오.\n%hs)</entry>
-    <entry lang="ko" key="NO_SYS_ENC_PROCESS_TO_RESUME">재개할 시스템 파티션/드라이브의 암호화/암호화 프로세스가 중단되지 않습니다.\n\n참고: 시스템 파티션이 아닌 파티션/볼륨의 암호화/암호 해독 프로세스를 재개하려면 '볼륨' &gt; '휴지된 프로세스 재개'를 선택합니다.</entry>
+    <entry lang="ko" key="NO_SYS_ENC_PROCESS_TO_RESUME">재개할 시스템 파티션/드라이브의 암호화/암호화 프로세스가 중단되지 않았습니다.\n\n참고: 시스템 파티션이 아닌 파티션/볼륨의 암호화/암호 해독 프로세스를 재개하려면 '볼륨' &gt; '중단 프로세스 재개'를 선택합니다.</entry>
     <entry lang="ko" key="HIDVOL_PROT_BKG_TASK_WARNING">경고: VeraCrypt 백그라운드 작업이 비활성화되었습니다. VeraCrypt를 종료한 후 숨겨진 볼륨의 손상이 방지되면 알림이 표시되지 않습니다.\n\n참고: VeraCrypt 트레이 아이콘을 마우스 오른쪽 버튼으로 클릭하고 '종료'를 선택하여 언제든지 백그라운드 작업을 종료할 수 있습니다.\n\nVeraCrypt 백그라운드 작업을 활성화 하시겠습니까?</entry>
     <entry lang="ko" key="LANG_PACK_VERSION">언어 팩 버전: %s</entry>
     <entry lang="ko" key="CHECKING_FS">%s로 마운트된 VeraCrypt 볼륨에서 파일 시스템을 확인하는 중입니다...</entry>
