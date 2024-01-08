@@ -824,7 +824,7 @@
     <entry lang="ko" key="FIRST_AVAILABLE">처음 사용 가능</entry>
     <entry lang="ko" key="REMOVABLE_DISK">이동식 디스크</entry>
     <entry lang="ko" key="HARDDISK">하드 디스크</entry>
-    <entry lang="ko" key="UNCHANGED">변하지 않은</entry>
+    <entry lang="ko" key="UNCHANGED">변경 안 함</entry>
     <entry lang="ko" key="AUTODETECTION">자동 감지</entry>
     <entry lang="ko" key="SETUP_MODE_TITLE">마법사 모드</entry>
     <entry lang="ko" key="SETUP_MODE_INFO">모드 중 하나를 선택하세요. 선택 해야할지 확실하지 않은 경우 기본 모드를 사용하세요.</entry>
