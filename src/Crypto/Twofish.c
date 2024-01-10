@@ -57,7 +57,7 @@
 #if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 
 /* these are 64-bit assembly implementation taken from https://github.com/jkivilin/supercop-blockciphers
-   Copyright � 2011-2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
+   Copyright © 2011-2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  */
 #if defined(__cplusplus)
 extern "C"

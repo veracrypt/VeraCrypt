@@ -11,10 +11,10 @@
  * NTT (Nippon Telegraph and Telephone Corporation) . All rights reserved.
  *
  * SuperCop integration:
- * Copyright � 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
+ * Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * VeraCrypt integration:
- * Copyright � 2017 Mounir IDRASSI <mounir.idrassi@idrix.fr>
+ * Copyright © 2017 Mounir IDRASSI <mounir.idrassi@idrix.fr>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
