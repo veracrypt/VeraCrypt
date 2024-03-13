@@ -732,7 +732,7 @@
     <entry lang="ko" key="CANT_DISMOUNT_VOLUME">볼륨을 마운트 해제 할 수 없습니다.</entry>
     <entry lang="ko" key="FORMAT_NTFS_FAILED">Windows에서 볼륨을 NTFS/exFAT/ReFS로 포맷하지 못했습니다.\n\n가능한 경우 다른 유형의 파일 시스템을 선택하고 다시 시도하세요. 또는 볼륨을 포맷하지 않고 (파일 시스템으로 '없음'을 선택)이 마법사를 종료하고 볼륨을 마운트 한 다음 시스템 또는 타사 도구를 사용하여 마운트 된 볼륨을 포맷 할 수 있습니다(볼륨은 암호화 된 상태로 유지됨).</entry>
     <entry lang="ko" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows에서 볼륨을 NTFS/exFAT/ReFS로 포맷하지 못했습니다.\n\n대신 볼륨을 FAT로 포맷 하시겠습니까?</entry>
-    <entry lang="ko" key="DEFAULT">태만</entry>
+    <entry lang="ko" key="DEFAULT">기본값</entry>
     <entry lang="ko" key="PARTITION_LOWER_CASE">분할</entry>
     <entry lang="ko" key="PARTITION_UPPER_CASE">분할</entry>
     <entry lang="ko" key="DEVICE">장치</entry>
@@ -900,10 +900,10 @@
     <entry lang="ko" key="OUTER_VOL_WRITE_PREVENTED">밖의(!)</entry>
     <entry lang="ko" key="DAYS">일</entry>
     <entry lang="ko" key="HOURS">시간</entry>
-    <entry lang="ko" key="MINUTES">의사록</entry>
-    <entry lang="ko" key="SECONDS">에스</entry>
-    <entry lang="ko" key="OPEN">열다</entry>
-    <entry lang="ko" key="DISMOUNT">내리다</entry>
+    <entry lang="ko" key="MINUTES">분</entry>
+    <entry lang="ko" key="SECONDS">초</entry>
+    <entry lang="ko" key="OPEN">열기</entry>
+    <entry lang="ko" key="DISMOUNT">언마운트</entry>
     <entry lang="ko" key="SHOW_TC">VeraCrypt 표시</entry>
     <entry lang="ko" key="HIDE_TC">VeraCrypt 숨기기</entry>
     <entry lang="ko" key="TOTAL_DATA_READ">마운트 이후의 데이터 읽기</entry>
