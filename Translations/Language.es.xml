@@ -1532,7 +1532,7 @@
     <entry lang="es" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Desajuste entre el tamaño del sector del dispositivo de almacenamiento y el volumen VC</entry>
     <entry lang="es" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Esta operación sólo debe realizarse cuando el sistema alojado en el volumen se está ejecutando.</entry>
     <entry lang="es" key="LINUX_EX2MSG_INSUFFICIENTDATA">Datos disponibles insuficientes.</entry>
-    <entry lang="es" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Falló la prueba del servicio criptográfico del kernel. Lo más probable es que el servicio criptográfico de su kernel no admita volúmenes superiores a 2 TB.\nPosibles soluciones:\n- Actualice el kernel de Linux a la versión 2.6.33 o posterior.\n- Desactive el uso de los servicios criptográficos del kernel (Configuración > Preferencias > Integración del sistema) o utilice la opción de montaje 'nokernelcrypto' en la línea de comandos..</entry>
+    <entry lang="es" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Falló la prueba del servicio criptográfico del kernel. Lo más probable es que el servicio criptográfico de su kernel no admita volúmenes superiores a 2 TB.\nPosibles soluciones:\n- Actualice el kernel de Linux a la versión 2.6.33 o posterior.\n- Desactive el uso de los servicios criptográficos del kernel (Configuración > Preferencias > Integración del sistema) o utilice la opción de montaje 'nokernelcrypto' en la línea de comandos.</entry>
     <entry lang="es" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Error al configurar un dispositivo de bucle.</entry>
     <entry lang="es" key="LINUX_EX2MSG_MISSINGARGUMENT">Falta un argumento obligatorio.</entry>
     <entry lang="es" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Faltan datos de volumen.</entry>
