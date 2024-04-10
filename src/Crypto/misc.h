@@ -151,7 +151,7 @@ VC_INLINE uint64 ByteReverseWord64(uint64 value)
 #endif
 }
 
-VC_INLINE void CorrectEndianess(uint64 *out, const uint64 *in, size_t byteCount)
+VC_INLINE void CorrectEndianness(uint64 *out, const uint64 *in, size_t byteCount)
 
 {
 	size_t i, count = byteCount/sizeof(uint64);
