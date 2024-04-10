@@ -1528,17 +1528,17 @@
     <entry lang="es" key="LINUX_CANT_GET_ADMIN_PRIV">Fallo al obtener privilegios de administrador</entry>
     <entry lang="es" key="LINUX_COMMAND_GET_ERROR">El comando {0} devolvió el error {1}.</entry>
     <entry lang="es" key="LINUX_CMD_HELP">Ayuda de Línea de Comandos de VeraCrypt</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
+    <entry lang="es" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nAdvertencia: Los archivos ocultos están presentes en una ruta de archivo de claves. Si necesita utilizarlos como archivos de claves, elimine el punto inicial de sus nombres. Los archivos ocultos sólo son visibles si están activados en las opciones del sistema.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Desajuste entre el tamaño del sector del dispositivo de almacenamiento y el volumen VC</entry>
+    <entry lang="es" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Esta operación sólo debe realizarse cuando el sistema alojado en el volumen se está ejecutando.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_INSUFFICIENTDATA">Datos disponibles insuficientes.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Falló la prueba del servicio criptográfico del kernel. Lo más probable es que el servicio criptográfico de su kernel no admita volúmenes superiores a 2 TB.\nPosibles soluciones:\n- Actualice el kernel de Linux a la versión 2.6.33 o posterior.\n- Desactive el uso de los servicios criptográficos del kernel (Configuración > Preferencias > Integración del sistema) o utilice la opción de montaje 'nokernelcrypto' en la línea de comandos..</entry>
+    <entry lang="es" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Error al configurar un dispositivo de bucle.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_MISSINGARGUMENT">Falta un argumento obligatorio.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Faltan datos de volumen.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Punto de montaje requerido.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">El punto de montaje ya está en uso.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_PASSWORDEMPTY">No se ha especificado contraseña ni archivo de claves.</entry>
     <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
     <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
     <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
