@@ -47,7 +47,7 @@
     <entry lang="pt-br" key="IDC_KEY_FILES">&amp;Arquivos-chave...</entry>
     <entry lang="pt-br" key="IDC_LINK_HASH_INFO">Informação sobre algoritmos hash</entry>
     <entry lang="pt-br" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Mais Informações</entry>
-    <entry lang="pt-br" key="IDC_LINK_PIM_INFO">Informações sobre o MIP</entry>
+    <entry lang="pt-br" key="IDC_LINK_PIM_INFO">Informações sobre o PIM</entry>
     <entry lang="pt-br" key="IDC_MB">&amp;MB</entry>
     <entry lang="pt-br" key="IDC_MORE_INFO_ON_CONTAINERS">Mais informações</entry>
     <entry lang="pt-br" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Mais informações sobre criptografia do sistema</entry>
@@ -58,11 +58,11 @@
     <entry lang="pt-br" key="IDC_OPEN_OUTER_VOLUME">Abrir volume externo</entry>
     <entry lang="pt-br" key="IDC_PAUSE">&amp;Pausar</entry>
     <entry lang="pt-br" key="IDC_PIM_ENABLE">Usar P&amp;IM</entry>
-    <entry lang="pt-br" key="IDC_NEW_PIM_ENABLE">Usar MIP</entry>
+    <entry lang="pt-br" key="IDC_NEW_PIM_ENABLE">Usar PIM</entry>
     <entry lang="pt-br" key="IDC_QUICKFORMAT">Formatação rápida</entry>
     <entry lang="pt-br" key="IDC_SHOW_PASSWORD">&amp;Mostrar senha</entry>
     <entry lang="pt-br" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Mostrar senha</entry>
-    <entry lang="pt-br" key="IDC_SHOW_PIM">&amp;Exibir MIP</entry>
+    <entry lang="pt-br" key="IDC_SHOW_PIM">&amp;Exibir PIM</entry>
     <entry lang="pt-br" key="IDC_SINGLE_BOOT">Boot Único</entry>
     <entry lang="pt-br" key="IDC_STD_VOL">Volume VeraCrypt padrão</entry>
     <entry lang="pt-br" key="IDC_SYSENC_HIDDEN">O&amp;culto</entry>
@@ -89,8 +89,8 @@
     <entry lang="pt-br" key="IDT_PARTIAL_POOL_CONTENTS">Conteúdo atual do pool (parcial)</entry>
     <entry lang="pt-br" key="IDT_PASS">Passar</entry>
     <entry lang="pt-br" key="IDT_PASSWORD">Senha:</entry>
-    <entry lang="pt-br" key="IDT_PIM">Volume MIP:</entry>
-    <entry lang="pt-br" key="IDT_OLD_PIM">Volume MIP:</entry>
+    <entry lang="pt-br" key="IDT_PIM">Volume PIM:</entry>
+    <entry lang="pt-br" key="IDT_OLD_PIM">Volume PIM:</entry>
     <entry lang="pt-br" key="IDT_PROGRESS">Progresso:</entry>
     <entry lang="pt-br" key="IDT_RANDOM_POOL">Pool aleatório: </entry>
     <entry lang="pt-br" key="IDT_SINGLE_BOOT">Selecione esta opção se houver apenas um sistema operacional instalado neste computador(mesmo se ele tiver vários usuários).</entry>
@@ -98,7 +98,7 @@
     <entry lang="pt-br" key="IDT_STATUS">Status</entry>
     <entry lang="pt-br" key="IDT_SYSENC_KEYS_GEN_INFO">As chaves, salt e outros dados foram gerados com sucesso. Se você deseja gerar novas chaves, clique em Voltar e depois em Avançar. Caso contrário, clique em Avançar para continuar.</entry>
     <entry lang="pt-br" key="IDT_SYS_DEVICE">Criptografa a partição/unidade onde o Windows está instalado. Quem quiser ter acesso e utilizar o sistema, ler e escrever arquivos, etc, precisará digitar a senha correta toda vez antes de inicializar o Windows. Opcionalmente, cria um sistema oculto.</entry>
-    <entry lang="pt-br" key="IDT_SYS_PARTITION">Selecione esta opção para criptografar a partição onde o sistema operacional Windows atualmente em execução está instalado..</entry>
+    <entry lang="pt-br" key="IDT_SYS_PARTITION">Selecione esta opção para criptografar a partição onde o sistema operacional Windows atualmente em execução está instalado.</entry>
     <entry lang="pt-br" key="IDT_VOLUME_LABEL">Nome do Volume no Windows:</entry>
     <entry lang="pt-br" key="IDT_WIPE_MODE">Modo de limpeza:</entry>
     <entry lang="pt-br" key="IDCLOSE">Fechar</entry>
@@ -605,7 +605,7 @@
     <entry lang="pt-br" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">AVISO: A PARTIÇÃO SELECIONADA CONTÉM UMA GRANDE QUANTIDADE DE DADOS! Todos os arquivos armazenados na partição serão apagados e perdidos (eles não serão criptografados)!</entry>
     <entry lang="pt-br" key="ERASE_FILES_BY_CREATING_VOLUME">Apague todos os arquivos armazenados na partição, criando um volume VeraCrypt dentro dele</entry>
     <entry lang="pt-br" key="PASSWORD">Senha</entry>
-    <entry lang="en" key="PIM">MIP</entry>
+    <entry lang="en" key="PIM">PIM</entry>
     <entry lang="pt-br" key="IDD_PCDM_CHANGE_PKCS5_PRF">Definir Algoritmo de Derivação da Chave de Cabeçalho</entry>
     <entry lang="pt-br" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Adicionar/Remover Arquivo-chave do disco</entry>
     <entry lang="pt-br" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Remover Todos os Arquivos-chave do disco</entry>
@@ -649,7 +649,7 @@
     <entry lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</entry>
     <entry lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</entry>
     <entry lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</entry>
-    <entry lang="pt-br" key="PIM_TITLE">Volume MIP</entry>
+    <entry lang="pt-br" key="PIM_TITLE">Volume PIM</entry>
     <entry lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer > Organize > 'Folder and search options' > View).</entry>
     <entry lang="pt-br" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Se você está tentando proteger um volume oculto contendo um sistema oculto, certifique-se de estar usando uma configuração de teclado padrão US quando digitar a senha do volume oculto. Isto porque tal senha precisará ser digitada no ambiente pré-boot (antes do Windows iniciar) onde configurações diferentes do padrão US de teclado não estão disponíveis.</entry>
     <entry lang="pt-br" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">O VeraCrypt não encontrou nenhum volume onde a criptografia não-sistema tenha sido interrompida e onde o cabeçalho do volume pode ser descriptografado usando a senha e/ou arquivo(s)-chave fornecidos.\n\nPor favor, certifique-se que a senha e/ou arquivo(s)-chave estão corretos e que a partição/volume não está sendo usada pelo sistema ou aplicativos (incluindo software antivírus).</entry>
@@ -1393,7 +1393,7 @@
     <entry lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</entry>
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</entry>
     <entry lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</entry>
-    <entry lang="pt-br" key="PIM_TOO_BIG">O valor máximo do Multiplicador de Iterações Pessoais (MIP) é 2147468.</entry>
+    <entry lang="pt-br" key="PIM_TOO_BIG">O valor máximo do Multiplicador de Iterações Pessoais (PIM) é 2147468.</entry>
     <entry lang="pt-br" key="IDC_SKIP_RESCUE_VERIFICATION">Ignorar verificação do Disco de Recuperação</entry>
     <entry lang="pt-br" key="IDC_HIDE_WAITING_DIALOG">Não mostrar caixa de diálogo de mensagem de espera ao realizar operações</entry>
     <entry lang="pt-br" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Não solicite algoritmo Hash na tela de autenticação pré-inicialização</entry>
@@ -1558,14 +1558,14 @@
     <entry lang="pt-br" key="ENTER_PASSWORD">Digite a senha</entry>
     <entry lang="pt-br" key="ENTER_TC_VOL_PASSWORD">Digitar a Senha do Volume VeraCrypt</entry>
     <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
+    <entry lang="pt-br" key="MOUNT_POINT">Diretório de Montagem</entry>
     <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
     <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
     <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
     <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
     <entry lang="en" key="START_TC">Start VeraCrypt</entry>
     <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
+    <entry lang="pt-br" key="UNKNOWN_OPTION">Opção desconhecida</entry>
     <entry lang="pt-br" key="VOLUME_LOCATION">Localização do Volume</entry>
     <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
     <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
@@ -1575,8 +1575,8 @@
     <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
     <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
     <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
+    <entry lang="pt-br" key="IDT_VOL_NAME">Volume: </entry>
+    <entry lang="pt-br" key="IDT_FILE_SYS">Sistema de arquivo: </entry>
     <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
     <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
     <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
