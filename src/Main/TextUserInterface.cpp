@@ -668,7 +668,7 @@ namespace VeraCrypt
 				{
 					parentDir = wxT(".");
 				}
-				if (wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
+				if (options->Type == VolumeType::Normal && wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
 				{
 					AvailableDiskSpace = (uint64) diskSpace.GetValue ();
 					if (maxVolumeSize > AvailableDiskSpace)
@@ -678,10 +678,13 @@ namespace VeraCrypt
 
 			if (options->Size == (uint64) (-1))
 			{
-				if (AvailableDiskSpace)
+				if (options->Type == VolumeType::Hidden) {
+					throw_err (_("Please do not use maximum size for hidden volume. As we do not mount the outer volume to determine the available space, it is your responsibility to choose a value so that the hidden volume does not overlap the outer volume."));
+				}
+				else if (AvailableDiskSpace)
 				{
 					// caller requesting maximum size
-					// we use maxVolumeSize because it is guaranteed to be less of equal to AvailableDiskSpace
+					// we use maxVolumeSize because it is guaranteed to be less or equal to AvailableDiskSpace for outer volumes
 					options->Size = maxVolumeSize;
 				}
 				else
@@ -702,14 +705,17 @@ namespace VeraCrypt
 					throw MissingArgument (SRC_POS);
 
 				uint64 multiplier = 1024 * 1024;
-				wxString sizeStr = AskString (options->Type == VolumeType::Hidden ? _("\nEnter hidden volume size (sizeK/size[M]/sizeG/sizeT/max): ") : _("\nEnter volume size (sizeK/size[M]/sizeG.sizeT/max): "));
+				wxString sizeStr = AskString (options->Type == VolumeType::Hidden ? _("\nEnter hidden volume size (sizeK/size[M]/sizeG/sizeT): ") : _("\nEnter volume size (sizeK/size[M]/sizeG.sizeT/max): "));
 				if (sizeStr.CmpNoCase(wxT("max")) == 0)
 				{
 					multiplier = 1;
-					if (AvailableDiskSpace)
+					if (options->Type == VolumeType::Hidden) {
+						throw_err (_("Please do not use maximum size for hidden volume. As we do not mount the outer volume to determine the available space, it is your responsibility to choose a value so that the hidden volume does not overlap the outer volume."));
+					}
+					else if (AvailableDiskSpace)
 					{
 						// caller requesting maximum size
-						// we use maxVolumeSize because it is guaranteed to be less of equal to AvailableDiskSpace
+						// we use maxVolumeSize because it is guaranteed to be less or equal to AvailableDiskSpace for outer volumes
 						options->Size = maxVolumeSize;
 					}
 					else
