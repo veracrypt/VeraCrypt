@@ -14240,9 +14240,11 @@ BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void
 	return bRet;
 }
 
-/* Implementation borrowed from KeePassXC source code (https://github.com/keepassxreboot/keepassxc/blob/release/2.4.0/src/core/Bootstrap.cpp#L150) 
+/* Implementation borrowed from KeePassXC source code (https://github.com/keepassxreboot/keepassxc/blob/2.7.8/src/core/Bootstrap.cpp#L121) 
  *
  * Reduce current user acess rights for this process to the minimum in order to forbid non-admin users from reading the process memory.
+ * Restrict access to changing DACL's after the process is started. This prevents the creator of veracrypt process from simply adding 
+ * the permission to read memory back to the DACL list.
  */
 BOOL ActivateMemoryProtection()
 {
@@ -14252,6 +14254,8 @@ BOOL ActivateMemoryProtection()
     HANDLE hToken = NULL;
     PTOKEN_USER pTokenUser = NULL;
     DWORD cbBufferSize = 0;
+    PSID pOwnerRightsSid = NULL;
+    DWORD pOwnerRightsSidSize = SECURITY_MAX_SID_SIZE;
 
     // Access control list
     PACL pACL = NULL;
@@ -14292,8 +14296,19 @@ BOOL ActivateMemoryProtection()
         goto Cleanup;
     }
 
+    // Retrieve CreaterOwnerRights SID
+    pOwnerRightsSid = (PSID) HeapAlloc(GetProcessHeap(), 0, pOwnerRightsSidSize);
+    if (pOwnerRightsSid == NULL) {
+        goto Cleanup;
+    }
+
+    if (!CreateWellKnownSid(WinCreatorOwnerRightsSid, NULL, pOwnerRightsSid, &pOwnerRightsSidSize)) {
+        goto Cleanup;
+    }
+
     // Calculate the amount of memory that must be allocated for the DACL
-    cbACL = sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(pTokenUser->User.Sid);
+    cbACL = sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(pTokenUser->User.Sid) 
+        + sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(pOwnerRightsSid);
 
     // Create and initialize an ACL
     pACL = (PACL) HeapAlloc(GetProcessHeap(), 0, cbACL);
@@ -14315,6 +14330,17 @@ BOOL ActivateMemoryProtection()
         goto Cleanup;
     }
 
+    // Explicitly set "Process Owner" rights to Read Only. The default is Full Control.
+    if (!AddAccessAllowedAce(
+            pACL,
+            ACL_REVISION,
+            READ_CONTROL,
+            pOwnerRightsSid
+            )) {
+        goto Cleanup;
+    }
+
+
     // Set discretionary access control list
     bSuccess = (ERROR_SUCCESS == SetSecurityInfo(GetCurrentProcess(), // object handle
                                     SE_KERNEL_OBJECT, // type of object
@@ -14332,6 +14358,9 @@ Cleanup:
 
     if (pACL != NULL) {
         HeapFree(GetProcessHeap(), 0, pACL);
+    }
+    if (pOwnerRightsSid != NULL) {
+        HeapFree(GetProcessHeap(), 0, pOwnerRightsSid);
     }
     if (pTokenUser != NULL) {
         HeapFree(GetProcessHeap(), 0, pTokenUser);
