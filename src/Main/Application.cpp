@@ -89,7 +89,7 @@ namespace VeraCrypt
 
 	FilePath Application::GetConfigFilePath (const wxString &configFileName, bool createConfigDir)
 	{
-		static wxScopedPtr<const wxString> configDirC;
+		static std::unique_ptr<const wxString> configDirC;
 		static bool configDirExists = false;
 
 		if (!configDirExists)
