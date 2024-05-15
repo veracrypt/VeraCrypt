@@ -71,12 +71,12 @@ namespace VeraCrypt
 
 		UserPreferences Preferences;
 		Preferences.Load();
-		wstring preferredLang = Preferences.Language;
+		string preferredLang = string(Preferences.Language.begin(), Preferences.Language.end());
 #ifdef DEBUG
 		std::cout << "Config language: " << preferredLang << std::endl;
 #endif
 
-		if (preferredLang == L"system") {
+		if (preferredLang == "system") {
 			if (const char *env_p = getenv("LANG")) {
 				string lang(env_p);
 #ifdef DEBUG
