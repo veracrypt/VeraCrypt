@@ -83,7 +83,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		const string busType = "rdisk";
 #else
-		foreach (const string &busType, StringConverter::Split ("ad da"))
+		foreach (const string &busType, StringConverter::Split ("ad da vtbd"))
 #endif
 		{
 			for (int devNumber = 0; devNumber < 64; devNumber++)
