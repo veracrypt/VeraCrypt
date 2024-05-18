@@ -185,10 +185,41 @@ namespace VeraCrypt
 
 	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
 	{
+		std::string chosenFilesystem = "msdos";
+
+		// No filesystem type specified through CLI, attempt to identify with blkid
+		// as mount is unable to probe filesystem type on BSD
+		if (filesystemType.empty()) {
+			std::vector<char> buffer(128,0);
+			std::string result;
+			std::string command = std::string("blkid -o value -s TYPE ") + static_cast<std::string>(devicePath);
+
+			FILE* pipe = popen(command.c_str(), "r");
+			if (pipe) {
+				while (!feof(pipe)) {
+					if (fgets(buffer.data(), 128, pipe) != nullptr)
+						result += buffer.data();
+				}
+				fflush(pipe);
+				pclose(pipe);
+				pipe = nullptr;
+
+				if (!result.empty() && strlen(result.c_str()) != 0) {
+					if (result.find("ext") == 0)
+						chosenFilesystem = "ext2fs";
+				}
+			}
+		// Filesystem is specified through CLI, if starts with Ext, change to use ext2fs
+		} else if (StringConverter::ToLower(filesystemType).find("ext") == 0) {
+			chosenFilesystem = "ext2fs";
+		// Filesystem is specified but not Ext, supply as is
+		} else {
+			chosenFilesystem = filesystemType;
+		}
+
 		try
 		{
-			// Try to mount FAT by default as mount is unable to probe filesystem type on BSD
-			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType.empty() ? "msdos" : filesystemType, readOnly, systemMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, chosenFilesystem, readOnly, systemMountOptions);
 		}
 		catch (ExecutedProcessFailed&)
 		{
