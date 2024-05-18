@@ -390,7 +390,7 @@ namespace VeraCrypt
 			errOutput += StringConverter::ToWide (execEx->GetErrorOutput());
 
 			if (errOutput.empty())
-				return errOutput + StringFormatter (LangString["LINUX_COMMAND_GET_ERROR"], execEx->GetCommand(), execEx->GetExitCode());
+				return errOutput + static_cast<wstring>(StringFormatter (LangString["LINUX_COMMAND_GET_ERROR"], execEx->GetCommand(), execEx->GetExitCode()));
 
 			return wxString (errOutput).Trim (true);
 		}
@@ -1516,7 +1516,7 @@ namespace VeraCrypt
 		EncryptionTest::TestAll();
 
 		// StringFormatter
-		if (StringFormatter (L"{9} {8} {7} {6} {5} {4} {3} {2} {1} {0} {{0}}", "1", L"2", '3', L'4', 5, 6, 7, 8, 9, 10) != L"10 9 8 7 6 5 4 3 2 1 {0}")
+		if (static_cast<wstring>(StringFormatter (L"{9} {8} {7} {6} {5} {4} {3} {2} {1} {0} {{0}}", "1", L"2", '3', L'4', 5, 6, 7, 8, 9, 10)) != L"10 9 8 7 6 5 4 3 2 1 {0}")
 			throw TestFailed (SRC_POS);
 		try
 		{

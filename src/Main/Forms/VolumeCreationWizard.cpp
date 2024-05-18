@@ -975,7 +975,7 @@ namespace VeraCrypt
 						if (OuterVolume && VolumeSize > TC_MAX_FAT_SECTOR_COUNT * SectorSize)
 						{
 							uint64 limit = TC_MAX_FAT_SECTOR_COUNT * SectorSize / BYTES_PER_TB;
-							wstring err = StringFormatter (LangString["LINUX_ERROR_SIZE_HIDDEN_VOL"], limit, limit * 1024);
+							wstring err = static_cast<wstring>(StringFormatter (LangString["LINUX_ERROR_SIZE_HIDDEN_VOL"], limit, limit * 1024));
 
 							if (SectorSize < 4096)
 							{
