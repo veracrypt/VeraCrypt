@@ -247,11 +247,24 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	
 	if (NOGUI)
 		# Link against statically built wxWidgets so that we don't depend on any GTK library
-		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )
+		# In case of Ubuntu 24.04/ Debian 13 or newer, libfuse2 package was renamed libfuse2t64
+		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) ) 
+			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) ) )
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2t64, dmsetup, sudo, libpcsclite1, pcscd" )
+		else ()
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )
+		endif()
 	else ()
 		# Link against gtk3 version of wxWidgets if >= Debian 10 or >= Ubuntu 18.04
 		# Otherwise, link against gtk2 version of wxWidgets
-		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "12" ) ) 
+		# In case of Ubuntu 24.04, we depend on libfuse2t64 instead of libfuse2 and we link statically against wxWidgets
+		# because there is a bug in wxWidgets that ships with Ubuntu 24.04 and which was fixed in wxWidgets 3.2.5
+		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) ) 
+			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) ) )
+			
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk-3-0t64, libayatana-appindicator3-1, libfuse2t64, dmsetup, sudo, libpcsclite1, pcscd" )										
+
+		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "12" ) ) 
 			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "23.04" ) ) )
 			
 			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1, libayatana-appindicator3-1, libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )										
