@@ -187,13 +187,14 @@ namespace VeraCrypt
 	{
 		std::string chosenFilesystem = "msdos";
 		std::string modifiedMountOptions = systemMountOptions;
-		std::string result;
 
-		if (filesystemType.empty()) {
+		if (filesystemType.empty() && modifiedMountOptions.find("mountprog") == string::npos) {
 			// No filesystem type specified through CLI, attempt to identify with blkid
 			// as mount is unable to probe filesystem type on BSD
+			// Make sure we don't override user defined mountprog
 			std::vector<char> buffer(128,0);
 			std::string cmd = "blkid -o value -s TYPE " + static_cast<std::string>(devicePath) + " 2>/dev/null";
+			std::string result;
 
 			FILE* pipe = popen(cmd.c_str(), "r");
 			if (pipe) {
@@ -205,10 +206,7 @@ namespace VeraCrypt
 				pclose(pipe);
 				pipe = nullptr;
 			}
-		}
-		
-		if (modifiedMountOptions.find("mountprog") == string::npos) {
-			// Make sure we don't override user defined mountprog
+
 			if (result.find("ext") == 0 || StringConverter::ToLower(filesystemType).find("ext") == 0) {
 				chosenFilesystem = "ext2fs";
 			}
@@ -226,7 +224,7 @@ namespace VeraCrypt
 				// Filesystem is specified but is none of the above, then supply as is
 				chosenFilesystem = filesystemType;
 			}
-		} else if (!filesystemType.empty())
+		} else
 			chosenFilesystem = filesystemType;
 
 		try
