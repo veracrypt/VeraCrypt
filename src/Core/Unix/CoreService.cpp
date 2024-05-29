@@ -309,7 +309,7 @@ namespace VeraCrypt
 					std::vector<char> buffer(128, 0);
 					std::string result;
 					
-					FILE* pipe = popen("sudo -n uptime 2>&1 | grep 'load average' | wc -l", "r");	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+					FILE* pipe = popen("sudo -n uptime 2>&1 | grep 'load average' | wc -l | tr -d '[:blank:]'", "r");	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
 					if (pipe)
 					{
 						while (!feof(pipe))
