@@ -226,7 +226,8 @@ namespace VeraCrypt
 				// Filesystem is specified but is none of the above, then supply as is
 				chosenFilesystem = filesystemType;
 			}
-		}
+		} else if (!filesystemType.empty())
+			chosenFilesystem = filesystemType;
 
 		try
 		{
