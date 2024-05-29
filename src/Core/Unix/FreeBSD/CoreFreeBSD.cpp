@@ -207,20 +207,25 @@ namespace VeraCrypt
 			}
 		}
 		
-		if ((result.find("ext") == 0) || StringConverter::ToLower(filesystemType).find("ext") == 0) {
-			chosenFilesystem = "ext2fs";
-		}
-		else if ((result.find("exfat") == 0) || StringConverter::ToLower(filesystemType).find("exfat") == 0) {
-			chosenFilesystem = "exfat";
-			modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "") + "mountprog=/usr/local/sbin/mount.exfat";
-		}
-		else if ((result.find("ntfs") == 0) || StringConverter::ToLower(filesystemType).find("ntfs") == 0) {
-			chosenFilesystem = "ntfs-3g";
-			modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "") + "mountprog=/usr/local/bin/ntfs-3g";
-		}
-		else if (!filesystemType.empty()) {
-			// Filesystem is specified but is none of the above, then supply as is
-			chosenFilesystem = filesystemType;
+		if (modifiedMountOptions.find("mountprog") == string::npos) {
+			// Make sure we don't override user defined mountprog
+			if (result.find("ext") == 0 || StringConverter::ToLower(filesystemType).find("ext") == 0) {
+				chosenFilesystem = "ext2fs";
+			}
+			else if (result.find("exfat") == 0 || StringConverter::ToLower(filesystemType) == "exfat") {
+				chosenFilesystem = "exfat";
+				modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "")
+							+ "mountprog=/usr/local/sbin/mount.exfat";
+			}
+			else if (result.find("ntfs") == 0 || StringConverter::ToLower(filesystemType) == "ntfs") {
+				chosenFilesystem = "ntfs";
+				modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "")
+							+ "mountprog=/usr/local/bin/ntfs-3g";
+			}
+			else if (!filesystemType.empty()) {
+				// Filesystem is specified but is none of the above, then supply as is
+				chosenFilesystem = filesystemType;
+			}
 		}
 
 		try
