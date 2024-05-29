@@ -186,12 +186,13 @@ namespace VeraCrypt
 	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
 	{
 		std::string chosenFilesystem = "msdos";
+		std::string modifiedMountOptions = systemMountOptions;
+		std::string result;
 
 		if (filesystemType.empty()) {
 			// No filesystem type specified through CLI, attempt to identify with blkid
 			// as mount is unable to probe filesystem type on BSD
 			std::vector<char> buffer(128,0);
-			std::string result;
 			std::string cmd = "blkid -o value -s TYPE " + static_cast<std::string>(devicePath) + " 2>/dev/null";
 
 			FILE* pipe = popen(cmd.c_str(), "r");
@@ -203,30 +204,35 @@ namespace VeraCrypt
 				fflush(pipe);
 				pclose(pipe);
 				pipe = nullptr;
-
-				if (!result.empty() && strlen(result.c_str()) != 0) {
-					if (result.find("ext") == 0)
-						chosenFilesystem = "ext2fs";
-				}
 			}
-		} else if (StringConverter::ToLower(filesystemType).find("ext") == 0) {
-			// Filesystem is specified and it starts with Ext, change to use ext2fs
+		}
+		
+		if ((result.find("ext") == 0) || StringConverter::ToLower(filesystemType).find("ext") == 0) {
 			chosenFilesystem = "ext2fs";
-		} else {
-			// Filesystem is specified but not Ext, supply as is
+		}
+		else if ((result.find("exfat") == 0) || StringConverter::ToLower(filesystemType).find("exfat") == 0) {
+			chosenFilesystem = "exfat";
+			modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "") + "mountprog=/usr/local/sbin/mount.exfat";
+		}
+		else if ((result.find("ntfs") == 0) || StringConverter::ToLower(filesystemType).find("ntfs") == 0) {
+			chosenFilesystem = "ntfs-3g";
+			modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "") + "mountprog=/usr/local/bin/ntfs-3g";
+		}
+		else if (!filesystemType.empty()) {
+			// Filesystem is specified but is none of the above, then supply as is
 			chosenFilesystem = filesystemType;
 		}
 
 		try
 		{
-			CoreUnix::MountFilesystem (devicePath, mountPoint, chosenFilesystem, readOnly, systemMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, chosenFilesystem, readOnly, modifiedMountOptions);
 		}
 		catch (ExecutedProcessFailed&)
 		{
 			if (!filesystemType.empty())
 				throw;
 
-			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, modifiedMountOptions);
 		}
 	}
 

@@ -353,6 +353,10 @@ namespace VeraCrypt
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::Ext3;
 				else if (str.IsSameAs (L"Ext4", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::Ext4;
+				else if (str.IsSameAs (L"NTFS", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::NTFS;
+				else if (str.IsSameAs (L"exFAT", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
 #endif
 				else
 					throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
