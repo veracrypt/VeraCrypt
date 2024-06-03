@@ -82,14 +82,16 @@ namespace VeraCrypt
 		LanguageListBox->Append("System default");
 		LanguageListBox->Append("English");
 
-		size_t langCount;
-		langCount = wxDir::GetAllFiles(languagesFolder.GetName(), &langArray, wxEmptyString, wxDIR_FILES);
-		for (size_t i = 0; i < langCount; ++i) {
-			wxFileName filename(langArray[i]);
-			wxString langId = filename.GetName().AfterLast('.');
-			wxString langNative = langEntries[langId];
-			if (!langNative.empty()) {
-				LanguageListBox->Append(langNative);
+		if (wxDir::Exists(languagesFolder.GetName())) {
+			size_t langCount;
+			langCount = wxDir::GetAllFiles(languagesFolder.GetName(), &langArray, wxEmptyString, wxDIR_FILES);
+			for (size_t i = 0; i < langCount; ++i) {
+				wxFileName filename(langArray[i]);
+				wxString langId = filename.GetName().AfterLast('.');
+				wxString langNative = langEntries[langId];
+				if (!langNative.empty()) {
+					LanguageListBox->Append(langNative);
+				}
 			}
 		}
 #endif
