@@ -83,7 +83,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		const string busType = "rdisk";
 #else
-		foreach (const string &busType, StringConverter::Split ("ad da"))
+		foreach (const string &busType, StringConverter::Split ("ad da vtbd"))
 #endif
 		{
 			for (int devNumber = 0; devNumber < 64; devNumber++)
@@ -185,10 +185,51 @@ namespace VeraCrypt
 
 	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
 	{
+		std::string chosenFilesystem = "msdos";
+		std::string modifiedMountOptions = systemMountOptions;
+
+		if (filesystemType.empty() && modifiedMountOptions.find("mountprog") == string::npos) {
+			// No filesystem type specified through CLI, attempt to identify with blkid
+			// as mount is unable to probe filesystem type on BSD
+			// Make sure we don't override user defined mountprog
+			std::vector<char> buffer(128,0);
+			std::string cmd = "blkid -o value -s TYPE " + static_cast<std::string>(devicePath) + " 2>/dev/null";
+			std::string result;
+
+			FILE* pipe = popen(cmd.c_str(), "r");
+			if (pipe) {
+				while (!feof(pipe)) {
+					if (fgets(buffer.data(), 128, pipe) != nullptr)
+						result += buffer.data();
+				}
+				fflush(pipe);
+				pclose(pipe);
+				pipe = nullptr;
+			}
+
+			if (result.find("ext") == 0 || StringConverter::ToLower(filesystemType).find("ext") == 0) {
+				chosenFilesystem = "ext2fs";
+			}
+			else if (result.find("exfat") == 0 || StringConverter::ToLower(filesystemType) == "exfat") {
+				chosenFilesystem = "exfat";
+				modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "")
+							+ "mountprog=/usr/local/sbin/mount.exfat";
+			}
+			else if (result.find("ntfs") == 0 || StringConverter::ToLower(filesystemType) == "ntfs") {
+				chosenFilesystem = "ntfs";
+				modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "")
+							+ "mountprog=/usr/local/bin/ntfs-3g";
+			}
+			else if (!filesystemType.empty()) {
+				// Filesystem is specified but is none of the above, then supply as is
+				chosenFilesystem = filesystemType;
+			}
+		} else
+			chosenFilesystem = filesystemType;
+
 		try
 		{
-			// Try to mount FAT by default as mount is unable to probe filesystem type on BSD
-			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType.empty() ? "msdos" : filesystemType, readOnly, systemMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, chosenFilesystem, readOnly, modifiedMountOptions);
 		}
 		catch (ExecutedProcessFailed&)
 		{
