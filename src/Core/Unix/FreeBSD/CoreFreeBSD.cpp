@@ -236,7 +236,7 @@ namespace VeraCrypt
 			if (!filesystemType.empty())
 				throw;
 
-			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, modifiedMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions);
 		}
 	}
 
