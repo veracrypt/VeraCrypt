@@ -27,12 +27,12 @@ namespace VeraCrypt
 	{
 	}
 
-	void EncryptionMode::DecryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionMode::DecryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		EncryptionThreadPool::DoWork (EncryptionThreadPool::WorkType::DecryptDataUnits, this, data, sectorIndex, sectorCount, sectorSize);
 	}
 
-	void EncryptionMode::EncryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionMode::EncryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		EncryptionThreadPool::DoWork (EncryptionThreadPool::WorkType::EncryptDataUnits, this, data, sectorIndex, sectorCount, sectorSize);
 	}
@@ -56,13 +56,13 @@ namespace VeraCrypt
 			throw NotInitialized (SRC_POS);
 	}
 
-	void EncryptionMode::ValidateParameters (byte *data, uint64 length) const
+	void EncryptionMode::ValidateParameters (uint8 *data, uint64 length) const
 	{
 		if ((Ciphers.size() > 0 && (length % Ciphers.front()->GetBlockSize()) != 0))
 			throw ParameterIncorrect (SRC_POS);
 	}
 
-	void EncryptionMode::ValidateParameters (byte *data, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionMode::ValidateParameters (uint8 *data, uint64 sectorCount, size_t sectorSize) const
 	{
 		if (sectorCount == 0 || sectorSize == 0 || (sectorSize % EncryptionDataUnitSize) != 0)
 			throw ParameterIncorrect (SRC_POS);

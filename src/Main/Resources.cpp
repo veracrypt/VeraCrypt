@@ -40,7 +40,7 @@ namespace VeraCrypt
 		hResL = LoadResource (NULL, hRes);
 		throw_sys_if (!hResL);
 
-		const byte *resPtr = (const byte *) LockResource (hResL);
+		const uint8 *resPtr = (const uint8 *) LockResource (hResL);
 		throw_sys_if (!resPtr);
 
 		return ConstBufferPtr (resPtr, SizeofResource (NULL, hRes));
@@ -132,14 +132,14 @@ namespace VeraCrypt
 		if ( xml.IsFile() ){
 			File file;
 			file.Open (xml, File::OpenRead, File::ShareRead);
-			vector <byte> keyfileData (file.Length());
+			vector <uint8> keyfileData (file.Length());
 			BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 			file.ReadCompleteBuffer (keyfileDataBuf);
 			file.Close();
 			string langxml(keyfileData.begin(), keyfileData.end());
 			return langxml;
 		}
-		static byte LanguageXml[] =
+		static uint8 LanguageXml[] =
 		{
 #			include "Common/Language.xml.h"
 			, 0
@@ -158,7 +158,7 @@ namespace VeraCrypt
 		strBuf.CopyFrom (res);
 		return string (reinterpret_cast <char *> (strBuf.Ptr()));
 #else
-		static byte License[] =
+		static uint8 License[] =
 		{
 #			include "License.txt.h"
 			, 0
@@ -176,7 +176,7 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		return wxBitmap (L"IDB_DRIVE_ICON", wxBITMAP_TYPE_BMP_RESOURCE).ConvertToImage().Resize (wxSize (16, 12), wxPoint (0, 0));
 #else
-		static const byte DriveIcon[] =
+		static const uint8 DriveIcon[] =
 		{
 #			include "Mount/Drive_icon_96dpi.bmp.h"
 		};
@@ -192,7 +192,7 @@ namespace VeraCrypt
 		wxImage image = wxBitmap (L"IDB_DRIVE_ICON_MASK", wxBITMAP_TYPE_BMP_RESOURCE).ConvertToImage().Resize (wxSize (16, 12), wxPoint (0, 0));
 		return wxBitmap (image.ConvertToMono (0, 0, 0), 1);
 #else
-		static const byte DriveIconMask[] =
+		static const uint8 DriveIconMask[] =
 		{
 #			include "Mount/Drive_icon_mask_96dpi.bmp.h"
 		};
@@ -215,7 +215,7 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		return wxBitmap (L"IDB_LOGO", wxBITMAP_TYPE_BMP_RESOURCE);
 #else
-		static const byte Logo[] =
+		static const uint8 Logo[] =
 		{
 #			include "Mount/Logo_96dpi.bmp.h"
 		};
@@ -230,7 +230,7 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		return wxBitmap (L"IDB_TEXTUAL_LOGO", wxBITMAP_TYPE_BMP_RESOURCE);
 #else
-		static const byte Logo[] =
+		static const uint8 Logo[] =
 		{
 #			include "Common/Textual_logo_96dpi.bmp.h"
 		};
@@ -255,7 +255,7 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		return wxBitmap (L"IDB_VOLUME_WIZARD_BITMAP", wxBITMAP_TYPE_BMP_RESOURCE);
 #else
-		static const byte VolumeWizardIcon[] =
+		static const uint8 VolumeWizardIcon[] =
 		{
 #			include "Format/VeraCrypt_Wizard.bmp.h"
 		};

@@ -28,17 +28,17 @@ enum
 
 struct PartitionEntryMBR
 {
-	byte BootIndicator;
+	uint8 BootIndicator;
 
-	byte StartHead;
-	byte StartCylSector;
-	byte StartCylinder;
+	uint8 StartHead;
+	uint8 StartCylSector;
+	uint8 StartCylinder;
 
-	byte Type;
+	uint8 Type;
 
-	byte EndHead;
-	byte EndSector;
-	byte EndCylinder;
+	uint8 EndHead;
+	uint8 EndSector;
+	uint8 EndCylinder;
 
 	uint32 StartLBA;
 	uint32 SectorCountLBA;
@@ -46,15 +46,15 @@ struct PartitionEntryMBR
 
 struct MBR
 {
-	byte Code[446];
+	uint8 Code[446];
 	PartitionEntryMBR Partitions[4];
 	uint16 Signature;
 };
 
 struct BiosLbaPacket
 {
-	byte Size;
-	byte Reserved;
+	uint8 Size;
+	uint8 Reserved;
 	uint16 SectorCount;
 	uint32 Buffer;
 	uint64 Sector;
@@ -66,27 +66,27 @@ struct BiosLbaPacket
 struct ChsAddress
 {
 	uint16 Cylinder;
-	byte Head;
-	byte Sector;
+	uint8 Head;
+	uint8 Sector;
 };
 
 struct Partition
 {
-	byte Number;
-	byte Drive;
+	uint8 Number;
+	uint8 Drive;
 	bool Active;
 	uint64 EndSector;
 	bool Primary;
 	uint64 SectorCount;
 	uint64 StartSector;
-	byte Type;
+	uint8 Type;
 };
 
 struct DriveGeometry
 {
 	uint16 Cylinders;
-	byte Heads;
-	byte Sectors;
+	uint8 Heads;
+	uint8 Sectors;
 };
 
 
@@ -99,23 +99,23 @@ void ReleaseSectorBuffer ();
 #endif
 
 void ChsToLba (const DriveGeometry &geometry, const ChsAddress &chs, uint64 &lba);
-bool GetActivePartition (byte drive);
-BiosResult GetDriveGeometry (byte drive, DriveGeometry &geometry, bool silent = false);
-BiosResult GetDrivePartitions (byte drive, Partition *partitionArray, size_t partitionArrayCapacity, size_t &partitionCount, bool activeOnly = false, Partition *findPartitionFollowingThis = nullptr, bool silent = false);
-bool IsLbaSupported (byte drive);
+bool GetActivePartition (uint8 drive);
+BiosResult GetDriveGeometry (uint8 drive, DriveGeometry &geometry, bool silent = false);
+BiosResult GetDrivePartitions (uint8 drive, Partition *partitionArray, size_t partitionArrayCapacity, size_t &partitionCount, bool activeOnly = false, Partition *findPartitionFollowingThis = nullptr, bool silent = false);
+bool IsLbaSupported (uint8 drive);
 void LbaToChs (const DriveGeometry &geometry, const uint64 &lba, ChsAddress &chs);
 void Print (const ChsAddress &chs);
-void PrintDiskError (BiosResult error, bool write, byte drive, const uint64 *sector, const ChsAddress *chs = nullptr);
+void PrintDiskError (BiosResult error, bool write, uint8 drive, const uint64 *sector, const ChsAddress *chs = nullptr);
 void PrintSectorCountInMB (const uint64 &sectorCount);
-BiosResult ReadWriteMBR (bool write, byte drive, bool silent = false);
-BiosResult ReadSectors (uint16 bufferSegment, uint16 bufferOffset, byte drive, const uint64 &sector, uint16 sectorCount, bool silent = false);
-BiosResult ReadSectors (byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent = false);
-BiosResult ReadSectors (byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent = false);
-BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffset, byte drive, const uint64 &sector, uint16 sectorCount, bool silent);
-BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent);
-BiosResult WriteSectors (byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent = false);
-BiosResult WriteSectors (byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent = false);
+BiosResult ReadWriteMBR (bool write, uint8 drive, bool silent = false);
+BiosResult ReadSectors (uint16 bufferSegment, uint16 bufferOffset, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent = false);
+BiosResult ReadSectors (uint8 *buffer, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent = false);
+BiosResult ReadSectors (uint8 *buffer, uint8 drive, const ChsAddress &chs, uint8 sectorCount, bool silent = false);
+BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffset, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent);
+BiosResult ReadWriteSectors (bool write, uint8 *buffer, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent);
+BiosResult WriteSectors (uint8 *buffer, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent = false);
+BiosResult WriteSectors (uint8 *buffer, uint8 drive, const ChsAddress &chs, uint8 sectorCount, bool silent = false);
 
-extern byte SectorBuffer[TC_LB_SIZE];
+extern uint8 SectorBuffer[TC_LB_SIZE];
 
 #endif // TC_HEADER_Boot_BootDiskIo

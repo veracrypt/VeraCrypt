@@ -2253,7 +2253,7 @@ stage3(STREEBOG_CTX *CTX)
     memcpy((CTX->hash), (CTX->h), 8 * sizeof(unsigned long long));
 }
 
-void STREEBOG_add(STREEBOG_CTX *CTX, const byte *data, size_t len)
+void STREEBOG_add(STREEBOG_CTX *CTX, const uint8 *data, size_t len)
 {
     size_t chunksize;
 
@@ -2286,7 +2286,7 @@ void STREEBOG_add(STREEBOG_CTX *CTX, const byte *data, size_t len)
     }
 }
 
-void STREEBOG_finalize(STREEBOG_CTX *CTX, byte *digest)
+void STREEBOG_finalize(STREEBOG_CTX *CTX, uint8 *digest)
 {
 	stage3(CTX);
 

@@ -27,7 +27,7 @@ namespace VeraCrypt
 		virtual ~Serializer () { }
 
 		void Deserialize (const string &name, bool &data);
-		void Deserialize (const string &name, byte &data);
+		void Deserialize (const string &name, uint8 &data);
 		void Deserialize (const string &name, int32 &data);
 		void Deserialize (const string &name, int64 &data);
 		void Deserialize (const string &name, uint32 &data);
@@ -45,7 +45,7 @@ namespace VeraCrypt
 		wstring DeserializeWString (const string &name);
 		list <wstring> DeserializeWStringList (const string &name);
 		void Serialize (const string &name, bool data);
-		void Serialize (const string &name, byte data);
+		void Serialize (const string &name, uint8 data);
 		void Serialize (const string &name, const char *data);
 		void Serialize (const string &name, int32 data);
 		void Serialize (const string &name, int64 data);

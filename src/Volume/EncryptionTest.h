@@ -33,12 +33,12 @@ namespace VeraCrypt
 
 	struct XtsTestVector
 	{
-		byte key1[32];
-		byte key2[32];
-		byte dataUnitNo[8];
+		uint8 key1[32];
+		uint8 key2[32];
+		uint8 dataUnitNo[8];
 		unsigned int blockNo;
-		byte plaintext[ENCRYPTION_DATA_UNIT_SIZE];
-		byte ciphertext[ENCRYPTION_DATA_UNIT_SIZE];
+		uint8 plaintext[ENCRYPTION_DATA_UNIT_SIZE];
+		uint8 ciphertext[ENCRYPTION_DATA_UNIT_SIZE];
 	};
 
 	static const XtsTestVector XtsTestVectors[];

@@ -29,11 +29,11 @@ namespace VeraCrypt
         // After the card has been read, and if some or all fields cannot be read, the EMVCard
         // object will be considered invalid and will not be included in the list of available cards
         // of EMVToken.
-        vector<byte> m_aid;
-        vector<vector<byte>> m_supportedAids;
-        vector<byte> m_iccCert;
-        vector<byte> m_issuerCert;
-        vector<byte> m_cplcData;
+        vector<uint8> m_aid;
+        vector<vector<uint8>> m_supportedAids;
+        vector<uint8> m_iccCert;
+        vector<uint8> m_issuerCert;
+        vector<uint8> m_cplcData;
         wstring m_lastPANDigits;
 
 	public:
@@ -41,10 +41,10 @@ namespace VeraCrypt
         // Add other AIDS
 		// https://gist.github.com/pvieito/6224eed92c99b069f6401996c548d0e4
 		// https://ambimat.com/developer-resources/list-of-application-identifiers-aid/
-		const static byte AMEX_AID[7];
-		const static byte MASTERCARD_AID[7];
-		const static byte VISA_AID[7];
-		const static map<EMVCardType, vector<byte>> SUPPORTED_AIDS;
+		const static uint8 AMEX_AID[7];
+		const static uint8 MASTERCARD_AID[7];
+		const static uint8 VISA_AID[7];
+		const static map<EMVCardType, vector<uint8>> SUPPORTED_AIDS;
 
         EMVCard();
 		EMVCard(size_t slotId);
@@ -59,9 +59,9 @@ namespace VeraCrypt
 		// Retrieves the card's AID.
 		// It first checks the card against a list of supported AIDs.
 		// If that fails, it tries getting the AID from the card using PSE
-		vector<byte> GetCardAID(bool forceContactless = false);
+		vector<uint8> GetCardAID(bool forceContactless = false);
 
-		void GetCardContent(vector<byte>& iccCert, vector<byte>& issuerCert, vector<byte>& cplcData);
+		void GetCardContent(vector<uint8>& iccCert, vector<uint8>& issuerCert, vector<uint8>& cplcData);
 		void GetCardPAN(wstring& lastPANDigits);
 	};
 }

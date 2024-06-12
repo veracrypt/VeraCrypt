@@ -149,7 +149,7 @@ namespace VeraCrypt
 		}
 	}
 
-	static void PutBoot (fatparams * ft, byte *boot, uint32 volumeId)
+	static void PutBoot (fatparams * ft, uint8 *boot, uint32 volumeId)
 	{
 		int cnt = 0;
 
@@ -244,7 +244,7 @@ namespace VeraCrypt
 
 
 	/* FAT32 FSInfo */
-	static void PutFSInfo (byte *sector, fatparams *ft)
+	static void PutFSInfo (uint8 *sector, fatparams *ft)
 	{
 		memset (sector, 0, ft->sector_size);
 		sector[3] = 0x41; /* LeadSig */
@@ -294,16 +294,16 @@ namespace VeraCrypt
 		sector.Zero();
 
 		uint32 volumeId;
-		RandomNumberGenerator::GetDataFast (BufferPtr ((byte *) &volumeId, sizeof (volumeId)));
+		RandomNumberGenerator::GetDataFast (BufferPtr ((uint8 *) &volumeId, sizeof (volumeId)));
 
-		PutBoot (ft, (byte *) sector, volumeId);
+		PutBoot (ft, (uint8 *) sector, volumeId);
 		writeSector (sector); ++sectorNumber;
 
 		/* fat32 boot area */
 		if (ft->size_fat == 32)
 		{
 			/* fsinfo */
-			PutFSInfo((byte *) sector, ft);
+			PutFSInfo((uint8 *) sector, ft);
 			writeSector (sector); ++sectorNumber;
 
 			/* reserved */
@@ -317,10 +317,10 @@ namespace VeraCrypt
 
 			/* bootsector backup */
 			sector.Zero();
-			PutBoot (ft, (byte *) sector, volumeId);
+			PutBoot (ft, (uint8 *) sector, volumeId);
 			writeSector (sector); ++sectorNumber;
 
-			PutFSInfo((byte *) sector, ft);
+			PutFSInfo((uint8 *) sector, ft);
 			writeSector (sector); ++sectorNumber;
 		}
 
@@ -340,10 +340,10 @@ namespace VeraCrypt
 
 				if (n == 0)
 				{
-					byte fat_sig[12];
+					uint8 fat_sig[12];
 					if (ft->size_fat == 32)
 					{
-						fat_sig[0] = (byte) ft->media;
+						fat_sig[0] = (uint8) ft->media;
 						fat_sig[1] = fat_sig[2] = 0xff;
 						fat_sig[3] = 0x0f;
 						fat_sig[4] = fat_sig[5] = fat_sig[6] = 0xff;
@@ -354,7 +354,7 @@ namespace VeraCrypt
 					}
 					else if (ft->size_fat == 16)
 					{
-						fat_sig[0] = (byte) ft->media;
+						fat_sig[0] = (uint8) ft->media;
 						fat_sig[1] = 0xff;
 						fat_sig[2] = 0xff;
 						fat_sig[3] = 0xff;
@@ -362,7 +362,7 @@ namespace VeraCrypt
 					}
 					else if (ft->size_fat == 12)
 					{
-						fat_sig[0] = (byte) ft->media;
+						fat_sig[0] = (uint8) ft->media;
 						fat_sig[1] = 0xff;
 						fat_sig[2] = 0xff;
 						fat_sig[3] = 0x00;

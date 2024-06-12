@@ -41,7 +41,7 @@ namespace VeraCrypt
 	{
 		virtual ~TokenKeyfile() {}
 		virtual operator TokenKeyfilePath () const = 0;
-		virtual void GetKeyfileData(vector <byte>& keyfileData) const = 0;
+		virtual void GetKeyfileData(vector <uint8>& keyfileData) const = 0;
 
 		shared_ptr<TokenInfo> Token;
 		wstring Id;

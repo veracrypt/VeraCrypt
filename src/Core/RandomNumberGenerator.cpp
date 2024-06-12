@@ -114,7 +114,7 @@ namespace VeraCrypt
 
 		ScopeLock lock (AccessMutex);
 		size_t bufferLen = buffer.Size(), loopLen;
-		byte* pbBuffer = buffer.Get();
+		uint8* pbBuffer = buffer.Get();
 		
 		// Initialize JitterEntropy RNG for this call
 		if (0 == jent_entropy_init ())
@@ -267,7 +267,7 @@ namespace VeraCrypt
 		Buffer buffer (1);
 		for (size_t i = 0; i < PoolSize * 10; ++i)
 		{
-			buffer[0] = (byte) i;
+			buffer[0] = (uint8) i;
 			AddToPool (buffer);
 		}
 

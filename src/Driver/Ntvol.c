@@ -98,7 +98,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		LARGE_INTEGER diskLengthInfo;
 		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
-		byte* dgBuffer;
+		uint8* dgBuffer;
 		STORAGE_DEVICE_NUMBER storageDeviceNumber;
 
 		ntStatus = IoGetDeviceObjectPointer (&FullFileName,

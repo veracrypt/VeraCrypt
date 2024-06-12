@@ -51,52 +51,52 @@ namespace VeraCrypt
 	/* ================================================================================================ */
 	/* CLA values																						*/
 	/* ================================================================================================ */
-	const byte CLA_ISO7816 = (byte)0x00;
-	const byte CLA_COMMAND_CHAINING = (byte)0x10;
+	const uint8 CLA_ISO7816 = (uint8)0x00;
+	const uint8 CLA_COMMAND_CHAINING = (uint8)0x10;
 
 	/* ================================================================================================ */
 	/* INS values																						*/
 	/* ================================================================================================ */
-	const byte INS_ERASE_BINARY = 0x0E;
-	const byte INS_VERIFY = 0x20;
-	const byte INS_CHANGE_CHV = 0x24;
-	const byte INS_UNBLOCK_CHV = 0x2C;
-	const byte INS_DECREASE = 0x30;
-	const byte INS_INCREASE = 0x32;
-	const byte INS_DECREASE_STAMPED = 0x34;
-	const byte INS_REHABILITATE_CHV = 0x44;
-	const byte INS_MANAGE_CHANNEL = 0x70;
-	const byte INS_EXTERNAL_AUTHENTICATE = (byte)0x82;
-	const byte INS_MUTUAL_AUTHENTICATE = (byte)0x82;
-	const byte INS_GET_CHALLENGE = (byte)0x84;
-	const byte INS_ASK_RANDOM = (byte)0x84;
-	const byte INS_GIVE_RANDOM = (byte)0x86;
-	const byte INS_INTERNAL_AUTHENTICATE = (byte)0x88;
-	const byte INS_SEEK = (byte)0xA2;
-	const byte INS_SELECT = (byte)0xA4;
-	const byte INS_SELECT_FILE = (byte)0xA4;
-	const byte INS_CLOSE_APPLICATION = (byte)0xAC;
-	const byte INS_READ_BINARY = (byte)0xB0;
-	const byte INS_READ_BINARY2 = (byte)0xB1;
-	const byte INS_READ_RECORD = (byte)0xB2;
-	const byte INS_READ_RECORD2 = (byte)0xB3;
-	const byte INS_READ_RECORDS = (byte)0xB2;
-	const byte INS_READ_BINARY_STAMPED = (byte)0xB4;
-	const byte INS_READ_RECORD_STAMPED = (byte)0xB6;
-	const byte INS_GET_RESPONSE = (byte)0xC0;
-	const byte INS_ENVELOPE = (byte)0xC2;
-	const byte INS_GET_DATA = (byte)0xCA;
-	const byte INS_WRITE_BINARY = (byte)0xD0;
-	const byte INS_WRITE_RECORD = (byte)0xD2;
-	const byte INS_UPDATE_BINARY = (byte)0xD6;
-	const byte INS_LOAD_KEY_FILE = (byte)0xD8;
-	const byte INS_PUT_DATA = (byte)0xDA;
-	const byte INS_UPDATE_RECORD = (byte)0xDC;
-	const byte INS_CREATE_FILE = (byte)0xE0;
-	const byte INS_APPEND_RECORD = (byte)0xE2;
-	const byte INS_DELETE_FILE = (byte)0xE4;
-	const byte INS_PSO = (byte)0x2A;
-	const byte INS_MSE = (byte)0x22;
+	const uint8 INS_ERASE_BINARY = 0x0E;
+	const uint8 INS_VERIFY = 0x20;
+	const uint8 INS_CHANGE_CHV = 0x24;
+	const uint8 INS_UNBLOCK_CHV = 0x2C;
+	const uint8 INS_DECREASE = 0x30;
+	const uint8 INS_INCREASE = 0x32;
+	const uint8 INS_DECREASE_STAMPED = 0x34;
+	const uint8 INS_REHABILITATE_CHV = 0x44;
+	const uint8 INS_MANAGE_CHANNEL = 0x70;
+	const uint8 INS_EXTERNAL_AUTHENTICATE = (uint8)0x82;
+	const uint8 INS_MUTUAL_AUTHENTICATE = (uint8)0x82;
+	const uint8 INS_GET_CHALLENGE = (uint8)0x84;
+	const uint8 INS_ASK_RANDOM = (uint8)0x84;
+	const uint8 INS_GIVE_RANDOM = (uint8)0x86;
+	const uint8 INS_INTERNAL_AUTHENTICATE = (uint8)0x88;
+	const uint8 INS_SEEK = (uint8)0xA2;
+	const uint8 INS_SELECT = (uint8)0xA4;
+	const uint8 INS_SELECT_FILE = (uint8)0xA4;
+	const uint8 INS_CLOSE_APPLICATION = (uint8)0xAC;
+	const uint8 INS_READ_BINARY = (uint8)0xB0;
+	const uint8 INS_READ_BINARY2 = (uint8)0xB1;
+	const uint8 INS_READ_RECORD = (uint8)0xB2;
+	const uint8 INS_READ_RECORD2 = (uint8)0xB3;
+	const uint8 INS_READ_RECORDS = (uint8)0xB2;
+	const uint8 INS_READ_BINARY_STAMPED = (uint8)0xB4;
+	const uint8 INS_READ_RECORD_STAMPED = (uint8)0xB6;
+	const uint8 INS_GET_RESPONSE = (uint8)0xC0;
+	const uint8 INS_ENVELOPE = (uint8)0xC2;
+	const uint8 INS_GET_DATA = (uint8)0xCA;
+	const uint8 INS_WRITE_BINARY = (uint8)0xD0;
+	const uint8 INS_WRITE_RECORD = (uint8)0xD2;
+	const uint8 INS_UPDATE_BINARY = (uint8)0xD6;
+	const uint8 INS_LOAD_KEY_FILE = (uint8)0xD8;
+	const uint8 INS_PUT_DATA = (uint8)0xDA;
+	const uint8 INS_UPDATE_RECORD = (uint8)0xDC;
+	const uint8 INS_CREATE_FILE = (uint8)0xE0;
+	const uint8 INS_APPEND_RECORD = (uint8)0xE2;
+	const uint8 INS_DELETE_FILE = (uint8)0xE4;
+	const uint8 INS_PSO = (uint8)0x2A;
+	const uint8 INS_MSE = (uint8)0x22;
 
 	/* ================================================================================================ */
 	/* EMV values																						*/
@@ -104,19 +104,19 @@ namespace VeraCrypt
 	const uint16 EMV_CPLC_TAG = (uint16)0x9F7F;
 	const uint16 EMV_ICC_PK_CERT_TAG = (uint16)0x9F46;
 	const uint16 EMV_FCI_ISSUER_DISCRETIONARY_DATA_TAG = (uint16)0xBF0C;
-	const byte EMV_ISS_PK_CERT_TAG = (byte)0x90;
-	const byte EMV_PAN_TAG = (byte)0x5A;
-	const byte EMV_FCI_TAG = (byte)0x6F;
-	const byte EMV_DFNAME_TAG = (byte)0x84;
-	const byte EMV_FCI_ISSUER_TAG = (byte)0xA5;
-	const byte EMV_DIRECTORY_ENTRY_TAG = (byte)0x61;
-	const byte EMV_SFI_TAG = (byte)0x88;
-	const byte EMV_TEMPLATE_TAG = (byte)0x70;
-	const byte EMV_AID_TAG = (byte)0x4F;
-	const byte EMV_LABEL_TAG = (byte)0x50;
-	const byte EMV_PRIORITY_TAG = (byte)0x87;
-	const byte EMV_PSE1[] = { 0x31, 0x50, 0x41, 0x59, 0x2E, 0x53, 0x59, 0x53, 0x2E, 0x44, 0x44, 0x46, 0x30, 0x31 }; // "1PAY.SYS.DDF01" (contact)
-	const byte EMV_PSE2[] = { 0x32, 0x50, 0x41, 0x59, 0x2E, 0x53, 0x59, 0x53, 0x2E, 0x44, 0x44, 0x46, 0x30, 0x31 }; // "2PAY.SYS.DDF01" (contactless)
+	const uint8 EMV_ISS_PK_CERT_TAG = (uint8)0x90;
+	const uint8 EMV_PAN_TAG = (uint8)0x5A;
+	const uint8 EMV_FCI_TAG = (uint8)0x6F;
+	const uint8 EMV_DFNAME_TAG = (uint8)0x84;
+	const uint8 EMV_FCI_ISSUER_TAG = (uint8)0xA5;
+	const uint8 EMV_DIRECTORY_ENTRY_TAG = (uint8)0x61;
+	const uint8 EMV_SFI_TAG = (uint8)0x88;
+	const uint8 EMV_TEMPLATE_TAG = (uint8)0x70;
+	const uint8 EMV_AID_TAG = (uint8)0x4F;
+	const uint8 EMV_LABEL_TAG = (uint8)0x50;
+	const uint8 EMV_PRIORITY_TAG = (uint8)0x87;
+	const uint8 EMV_PSE1[] = { 0x31, 0x50, 0x41, 0x59, 0x2E, 0x53, 0x59, 0x53, 0x2E, 0x44, 0x44, 0x46, 0x30, 0x31 }; // "1PAY.SYS.DDF01" (contact)
+	const uint8 EMV_PSE2[] = { 0x32, 0x50, 0x41, 0x59, 0x2E, 0x53, 0x59, 0x53, 0x2E, 0x44, 0x44, 0x46, 0x30, 0x31 }; // "2PAY.SYS.DDF01" (contactless)
 
 	/* ================================================================================================ */
 
@@ -173,7 +173,7 @@ namespace VeraCrypt
 		//	Card Connection management methods																									
 		// ------------------------------------------------------------------------------------------------------------------------------------- //
 
-		bool IsCardPresent(vector<byte>& cardAtr);
+		bool IsCardPresent(vector<uint8>& cardAtr);
 		bool IsCardPresent();
 
 		LONG CardHandleStatus();
@@ -193,7 +193,7 @@ namespace VeraCrypt
 
 		void ApduProcessData(CommandAPDU commandAPDU, ResponseAPDU& responseAPDU) const;
 
-		void GetATRFromHandle(vector<byte>& atrValue);
+		void GetATRFromHandle(vector<uint8>& atrValue);
 	};
 };
 

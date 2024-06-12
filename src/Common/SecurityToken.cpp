@@ -123,7 +123,7 @@ namespace VeraCrypt
 		Sessions.erase(Sessions.find(slotId));
 	}
 
-	void SecurityToken::CreateKeyfile(CK_SLOT_ID slotId, vector <byte>& keyfileData, const string& name)
+	void SecurityToken::CreateKeyfile(CK_SLOT_ID slotId, vector <uint8>& keyfileData, const string& name)
 	{
 		if (name.empty())
 			throw ParameterIncorrect(SRC_POS);
@@ -167,10 +167,10 @@ namespace VeraCrypt
 			throw Pkcs11Exception(status);
 
 		// Some tokens report success even if the new object was truncated to fit in the available memory
-		vector <byte> objectData;
+		vector <uint8> objectData;
 
 		GetObjectAttribute(slotId, keyfileHandle, CKA_VALUE, objectData);
-		finally_do_arg(vector <byte> *, &objectData, { if (!finally_arg->empty()) burn(&finally_arg->front(), finally_arg->size()); });
+		finally_do_arg(vector <uint8> *, &objectData, { if (!finally_arg->empty()) burn(&finally_arg->front(), finally_arg->size()); });
 
 		if (objectData.size() != keyfileData.size())
 		{
@@ -227,13 +227,13 @@ namespace VeraCrypt
 				keyfile.Token->SlotId = slotId;
 				keyfile.Token = shared_ptr<SecurityTokenInfo>(new SecurityTokenInfo(token));
 
-				vector <byte> privateAttrib;
+				vector <uint8> privateAttrib;
 				GetObjectAttribute(slotId, dataHandle, CKA_PRIVATE, privateAttrib);
 
 				if (privateAttrib.size() == sizeof(CK_BBOOL) && *(CK_BBOOL*)&privateAttrib.front() != CK_TRUE)
 					continue;
 
-				vector <byte> label;
+				vector <uint8> label;
 				GetObjectAttribute(slotId, dataHandle, CKA_LABEL, label);
 				label.push_back(0);
 
@@ -320,7 +320,7 @@ namespace VeraCrypt
 		return token;
 	}
 
-	void SecurityTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
+	void SecurityTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const
 	{
 		SecurityToken::LoginUserIfRequired(Token->SlotId);
 		SecurityToken::GetObjectAttribute(Token->SlotId, Handle, CKA_VALUE, keyfileData);
@@ -361,7 +361,7 @@ namespace VeraCrypt
 		return objects;
 	}
 
-	void SecurityToken::GetObjectAttribute(CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <byte>& attributeValue)
+	void SecurityToken::GetObjectAttribute(CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <uint8>& attributeValue)
 	{
 		attributeValue.clear();
 
@@ -379,7 +379,7 @@ namespace VeraCrypt
 		if (attribute.ulValueLen == 0)
 			return;
 
-		attributeValue = vector <byte>(attribute.ulValueLen);
+		attributeValue = vector <uint8>(attribute.ulValueLen);
 		attribute.pValue = &attributeValue.front();
 
 		status = Pkcs11Functions->C_GetAttributeValue(Sessions[slotId].Handle, tokenObject, &attribute, 1);

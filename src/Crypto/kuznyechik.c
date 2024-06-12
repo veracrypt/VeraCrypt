@@ -12,16 +12,16 @@ and released into public domain.
 #endif
 
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
-void kuznyechik_set_key_simd(const byte* key, kuznyechik_kds *kds);
-void kuznyechik_encrypt_block_simd(byte* out, const byte* in, kuznyechik_kds* kds);
-void kuznyechik_encrypt_blocks_simd(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds);
-void kuznyechik_decrypt_block_simd(byte* out, const byte* in, kuznyechik_kds* kds);
-void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds);
+void kuznyechik_set_key_simd(const uint8* key, kuznyechik_kds *kds);
+void kuznyechik_encrypt_block_simd(uint8* out, const uint8* in, kuznyechik_kds* kds);
+void kuznyechik_encrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, kuznyechik_kds* kds);
+void kuznyechik_decrypt_block_simd(uint8* out, const uint8* in, kuznyechik_kds* kds);
+void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, kuznyechik_kds* kds);
 #endif
 
 //#define CPPCRYPTO_DEBUG
 
-	static const byte S[256] = {
+	static const uint8 S[256] = {
 		252, 238, 221, 17, 207, 110, 49, 22, 251, 196, 250, 218, 35, 197, 4, 77, 233, 119, 240, 219, 147, 46, 153, 186, 23, 54, 241, 187, 20, 205, 95, 193,
 		249, 24, 101, 90, 226, 92, 239, 33, 129, 28, 60, 66, 139, 1, 142, 79, 5, 132, 2, 174, 227, 106, 143, 160, 6, 11, 237, 152, 127, 212, 211, 31,
 		235, 52, 44, 81, 234, 200, 72, 171, 242, 42, 104, 162, 253, 58, 206, 204, 181, 112, 14, 86, 8, 12, 118, 18, 191, 114, 19, 71, 156, 183, 93, 135,
@@ -32,7 +32,7 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 		32, 113, 103, 164, 45, 43, 9, 91, 203, 155, 37, 208, 190, 229, 108, 82, 89, 166, 116, 210, 230, 244, 180, 192, 209, 102, 175, 194, 57, 75, 99, 182
 	};
 
-	static const byte IS[256] = {
+	static const uint8 IS[256] = {
 		165, 45, 50, 143, 14, 48, 56, 192, 84, 230, 158, 57, 85, 126, 82, 145, 100, 3, 87, 90, 28, 96, 7, 24, 33, 114, 168, 209, 41, 198, 164, 63,
 		224, 39, 141, 12, 130, 234, 174, 180, 154, 99, 73, 229, 66, 228, 21, 183, 200, 6, 112, 157, 65, 117, 25, 201, 170, 252, 77, 191, 42, 115, 132, 213,
 		195, 175, 43, 134, 167, 177, 178, 91, 70, 211, 159, 253, 212, 15, 156, 47, 155, 67, 239, 217, 121, 182, 83, 127, 193, 240, 35, 231, 37, 94, 181, 30,
@@ -2144,30 +2144,30 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 	};
 
 #define LS(x1,x2,t1,t2) { \
-		t1 = T[0][(byte)(x1)][0] ^ T[1][(byte)(x1 >> 8)][0] ^ T[2][(byte)(x1 >> 16)][0] ^ T[3][(byte)(x1 >> 24)][0] ^ T[4][(byte)(x1 >> 32)][0] ^ T[5][(byte)(x1 >> 40)][0] ^ \
-			T[6][(byte)(x1 >> 48)][0] ^ T[7][(byte)(x1 >> 56)][0] ^ T[8][(byte)(x2)][0] ^ T[9][(byte)(x2 >> 8)][0] ^ T[10][(byte)(x2 >> 16)][0] ^ T[11][(byte)(x2 >> 24)][0] ^ \
-			T[12][(byte)(x2 >> 32)][0] ^ T[13][(byte)(x2 >> 40)][0] ^ T[14][(byte)(x2 >> 48)][0] ^ T[15][(byte)(x2 >> 56)][0]; \
-		t2 = T[0][(byte)(x1)][1] ^ T[1][(byte)(x1 >> 8)][1] ^ T[2][(byte)(x1 >> 16)][1] ^ T[3][(byte)(x1 >> 24)][1] ^ T[4][(byte)(x1 >> 32)][1] ^ T[5][(byte)(x1 >> 40)][1] ^ \
-			T[6][(byte)(x1 >> 48)][1] ^ T[7][(byte)(x1 >> 56)][1] ^ T[8][(byte)(x2)][1] ^ T[9][(byte)(x2 >> 8)][1] ^ T[10][(byte)(x2 >> 16)][1] ^ T[11][(byte)(x2 >> 24)][1] ^ \
-			T[12][(byte)(x2 >> 32)][1] ^ T[13][(byte)(x2 >> 40)][1] ^ T[14][(byte)(x2 >> 48)][1] ^ T[15][(byte)(x2 >> 56)][1]; \
+		t1 = T[0][(uint8)(x1)][0] ^ T[1][(uint8)(x1 >> 8)][0] ^ T[2][(uint8)(x1 >> 16)][0] ^ T[3][(uint8)(x1 >> 24)][0] ^ T[4][(uint8)(x1 >> 32)][0] ^ T[5][(uint8)(x1 >> 40)][0] ^ \
+			T[6][(uint8)(x1 >> 48)][0] ^ T[7][(uint8)(x1 >> 56)][0] ^ T[8][(uint8)(x2)][0] ^ T[9][(uint8)(x2 >> 8)][0] ^ T[10][(uint8)(x2 >> 16)][0] ^ T[11][(uint8)(x2 >> 24)][0] ^ \
+			T[12][(uint8)(x2 >> 32)][0] ^ T[13][(uint8)(x2 >> 40)][0] ^ T[14][(uint8)(x2 >> 48)][0] ^ T[15][(uint8)(x2 >> 56)][0]; \
+		t2 = T[0][(uint8)(x1)][1] ^ T[1][(uint8)(x1 >> 8)][1] ^ T[2][(uint8)(x1 >> 16)][1] ^ T[3][(uint8)(x1 >> 24)][1] ^ T[4][(uint8)(x1 >> 32)][1] ^ T[5][(uint8)(x1 >> 40)][1] ^ \
+			T[6][(uint8)(x1 >> 48)][1] ^ T[7][(uint8)(x1 >> 56)][1] ^ T[8][(uint8)(x2)][1] ^ T[9][(uint8)(x2 >> 8)][1] ^ T[10][(uint8)(x2 >> 16)][1] ^ T[11][(uint8)(x2 >> 24)][1] ^ \
+			T[12][(uint8)(x2 >> 32)][1] ^ T[13][(uint8)(x2 >> 40)][1] ^ T[14][(uint8)(x2 >> 48)][1] ^ T[15][(uint8)(x2 >> 56)][1]; \
 	}
 
 #define ILS(x1,x2,t1,t2) { \
-		t1 = IT[0][(byte)(x1)][0] ^ IT[1][(byte)(x1 >> 8)][0] ^ IT[2][(byte)(x1 >> 16)][0] ^ IT[3][(byte)(x1 >> 24)][0] ^ IT[4][(byte)(x1 >> 32)][0] ^ IT[5][(byte)(x1 >> 40)][0] ^ \
-			IT[6][(byte)(x1 >> 48)][0] ^ IT[7][(byte)(x1 >> 56)][0] ^ IT[8][(byte)(x2)][0] ^ IT[9][(byte)(x2 >> 8)][0] ^ IT[10][(byte)(x2 >> 16)][0] ^ IT[11][(byte)(x2 >> 24)][0] ^ \
-			IT[12][(byte)(x2 >> 32)][0] ^ IT[13][(byte)(x2 >> 40)][0] ^ IT[14][(byte)(x2 >> 48)][0] ^ IT[15][(byte)(x2 >> 56)][0]; \
-		t2 = IT[0][(byte)(x1)][1] ^ IT[1][(byte)(x1 >> 8)][1] ^ IT[2][(byte)(x1 >> 16)][1] ^ IT[3][(byte)(x1 >> 24)][1] ^ IT[4][(byte)(x1 >> 32)][1] ^ IT[5][(byte)(x1 >> 40)][1] ^ \
-			IT[6][(byte)(x1 >> 48)][1] ^ IT[7][(byte)(x1 >> 56)][1] ^ IT[8][(byte)(x2)][1] ^ IT[9][(byte)(x2 >> 8)][1] ^ IT[10][(byte)(x2 >> 16)][1] ^ IT[11][(byte)(x2 >> 24)][1] ^ \
-			IT[12][(byte)(x2 >> 32)][1] ^ IT[13][(byte)(x2 >> 40)][1] ^ IT[14][(byte)(x2 >> 48)][1] ^ IT[15][(byte)(x2 >> 56)][1]; \
+		t1 = IT[0][(uint8)(x1)][0] ^ IT[1][(uint8)(x1 >> 8)][0] ^ IT[2][(uint8)(x1 >> 16)][0] ^ IT[3][(uint8)(x1 >> 24)][0] ^ IT[4][(uint8)(x1 >> 32)][0] ^ IT[5][(uint8)(x1 >> 40)][0] ^ \
+			IT[6][(uint8)(x1 >> 48)][0] ^ IT[7][(uint8)(x1 >> 56)][0] ^ IT[8][(uint8)(x2)][0] ^ IT[9][(uint8)(x2 >> 8)][0] ^ IT[10][(uint8)(x2 >> 16)][0] ^ IT[11][(uint8)(x2 >> 24)][0] ^ \
+			IT[12][(uint8)(x2 >> 32)][0] ^ IT[13][(uint8)(x2 >> 40)][0] ^ IT[14][(uint8)(x2 >> 48)][0] ^ IT[15][(uint8)(x2 >> 56)][0]; \
+		t2 = IT[0][(uint8)(x1)][1] ^ IT[1][(uint8)(x1 >> 8)][1] ^ IT[2][(uint8)(x1 >> 16)][1] ^ IT[3][(uint8)(x1 >> 24)][1] ^ IT[4][(uint8)(x1 >> 32)][1] ^ IT[5][(uint8)(x1 >> 40)][1] ^ \
+			IT[6][(uint8)(x1 >> 48)][1] ^ IT[7][(uint8)(x1 >> 56)][1] ^ IT[8][(uint8)(x2)][1] ^ IT[9][(uint8)(x2 >> 8)][1] ^ IT[10][(uint8)(x2 >> 16)][1] ^ IT[11][(uint8)(x2 >> 24)][1] ^ \
+			IT[12][(uint8)(x2 >> 32)][1] ^ IT[13][(uint8)(x2 >> 40)][1] ^ IT[14][(uint8)(x2 >> 48)][1] ^ IT[15][(uint8)(x2 >> 56)][1]; \
 	}
 
 #define ILSS(x1,x2,t1,t2) { \
-		t1 = IT[0][S[(byte)(x1)]][0] ^ IT[1][S[(byte)(x1 >> 8)]][0] ^ IT[2][S[(byte)(x1 >> 16)]][0] ^ IT[3][S[(byte)(x1 >> 24)]][0] ^ IT[4][S[(byte)(x1 >> 32)]][0] ^ IT[5][S[(byte)(x1 >> 40)]][0] ^ \
-			IT[6][S[(byte)(x1 >> 48)]][0] ^ IT[7][S[(byte)(x1 >> 56)]][0] ^ IT[8][S[(byte)(x2)]][0] ^ IT[9][S[(byte)(x2 >> 8)]][0] ^ IT[10][S[(byte)(x2 >> 16)]][0] ^ IT[11][S[(byte)(x2 >> 24)]][0] ^ \
-			IT[12][S[(byte)(x2 >> 32)]][0] ^ IT[13][S[(byte)(x2 >> 40)]][0] ^ IT[14][S[(byte)(x2 >> 48)]][0] ^ IT[15][S[(byte)(x2 >> 56)]][0]; \
-		t2 = IT[0][S[(byte)(x1)]][1] ^ IT[1][S[(byte)(x1 >> 8)]][1] ^ IT[2][S[(byte)(x1 >> 16)]][1] ^ IT[3][S[(byte)(x1 >> 24)]][1] ^ IT[4][S[(byte)(x1 >> 32)]][1] ^ IT[5][S[(byte)(x1 >> 40)]][1] ^ \
-			IT[6][S[(byte)(x1 >> 48)]][1] ^ IT[7][S[(byte)(x1 >> 56)]][1] ^ IT[8][S[(byte)(x2)]][1] ^ IT[9][S[(byte)(x2 >> 8)]][1] ^ IT[10][S[(byte)(x2 >> 16)]][1] ^ IT[11][S[(byte)(x2 >> 24)]][1] ^ \
-			IT[12][S[(byte)(x2 >> 32)]][1] ^ IT[13][S[(byte)(x2 >> 40)]][1] ^ IT[14][S[(byte)(x2 >> 48)]][1] ^ IT[15][S[(byte)(x2 >> 56)]][1]; \
+		t1 = IT[0][S[(uint8)(x1)]][0] ^ IT[1][S[(uint8)(x1 >> 8)]][0] ^ IT[2][S[(uint8)(x1 >> 16)]][0] ^ IT[3][S[(uint8)(x1 >> 24)]][0] ^ IT[4][S[(uint8)(x1 >> 32)]][0] ^ IT[5][S[(uint8)(x1 >> 40)]][0] ^ \
+			IT[6][S[(uint8)(x1 >> 48)]][0] ^ IT[7][S[(uint8)(x1 >> 56)]][0] ^ IT[8][S[(uint8)(x2)]][0] ^ IT[9][S[(uint8)(x2 >> 8)]][0] ^ IT[10][S[(uint8)(x2 >> 16)]][0] ^ IT[11][S[(uint8)(x2 >> 24)]][0] ^ \
+			IT[12][S[(uint8)(x2 >> 32)]][0] ^ IT[13][S[(uint8)(x2 >> 40)]][0] ^ IT[14][S[(uint8)(x2 >> 48)]][0] ^ IT[15][S[(uint8)(x2 >> 56)]][0]; \
+		t2 = IT[0][S[(uint8)(x1)]][1] ^ IT[1][S[(uint8)(x1 >> 8)]][1] ^ IT[2][S[(uint8)(x1 >> 16)]][1] ^ IT[3][S[(uint8)(x1 >> 24)]][1] ^ IT[4][S[(uint8)(x1 >> 32)]][1] ^ IT[5][S[(uint8)(x1 >> 40)]][1] ^ \
+			IT[6][S[(uint8)(x1 >> 48)]][1] ^ IT[7][S[(uint8)(x1 >> 56)]][1] ^ IT[8][S[(uint8)(x2)]][1] ^ IT[9][S[(uint8)(x2 >> 8)]][1] ^ IT[10][S[(uint8)(x2 >> 16)]][1] ^ IT[11][S[(uint8)(x2 >> 24)]][1] ^ \
+			IT[12][S[(uint8)(x2 >> 32)]][1] ^ IT[13][S[(uint8)(x2 >> 40)]][1] ^ IT[14][S[(uint8)(x2 >> 48)]][1] ^ IT[15][S[(uint8)(x2 >> 56)]][1]; \
 	}
 
 #define ISI(val) { \
@@ -2199,7 +2199,7 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 		} \
 	}
 
-	void kuznyechik_set_key(const byte* key, kuznyechik_kds* kds)
+	void kuznyechik_set_key(const uint8* key, kuznyechik_kds* kds)
 	{
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
 		if(HasSSE2())
@@ -2258,7 +2258,7 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 
 	}
 
-	void kuznyechik_encrypt_block(byte* out, const byte* in, kuznyechik_kds* kds)
+	void kuznyechik_encrypt_block(uint8* out, const uint8* in, kuznyechik_kds* kds)
 	{
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
 		if(HasSSE2())
@@ -2305,7 +2305,7 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 		}
 	}
 
-	void kuznyechik_encrypt_blocks(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds)
+	void kuznyechik_encrypt_blocks(uint8* out, const uint8* in, size_t blocks, kuznyechik_kds* kds)
 	{
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (DEBUG) || !defined (TC_WINDOWS_DRIVER))
 		if(HasSSE2())
@@ -2325,7 +2325,7 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 		}
 	}
 
-	void kuznyechik_decrypt_block(byte* out, const byte* in, kuznyechik_kds* kds)
+	void kuznyechik_decrypt_block(uint8* out, const uint8* in, kuznyechik_kds* kds)
 	{
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
 		if(HasSSE2())
@@ -2366,8 +2366,8 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 			ILS(x1, x2, t1, t2);
 			t1 ^= kds->rkd[2];
 			t2 ^= kds->rkd[3];
-			ISI((byte*)&t1);
-			ISI((byte*)&t2);
+			ISI((uint8*)&t1);
+			ISI((uint8*)&t2);
 			t1 ^= kds->rkd[0];
 			t2 ^= kds->rkd[1];
 			*(uint64*)out = t1;
@@ -2375,7 +2375,7 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 		}
 	}
 
-	void kuznyechik_decrypt_blocks(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds)
+	void kuznyechik_decrypt_blocks(uint8* out, const uint8* in, size_t blocks, kuznyechik_kds* kds)
 	{
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (DEBUG) || !defined (TC_WINDOWS_DRIVER))
 		if(HasSSE2())

@@ -55,10 +55,10 @@ typedef struct
 /* in_key must be 32-bytes long */
 void twofish_set_key(TwofishInstance *instance, const u4byte in_key[]);
 #if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
-void twofish_encrypt_blocks(TwofishInstance *instance, const byte* in_blk, byte* out_blk, uint32 blockCount);
-void twofish_decrypt_blocks(TwofishInstance *instance, const byte* in_blk, byte* out_blk, uint32 blockCount);
-#define twofish_encrypt(instance,in_blk,out_blk)   twofish_encrypt_blocks(instance, (const byte*) in_blk, (byte*) out_blk, 1)
-#define twofish_decrypt(instance,in_blk,out_blk)   twofish_decrypt_blocks(instance, (const byte*) in_blk, (byte*) out_blk, 1)
+void twofish_encrypt_blocks(TwofishInstance *instance, const uint8* in_blk, uint8* out_blk, uint32 blockCount);
+void twofish_decrypt_blocks(TwofishInstance *instance, const uint8* in_blk, uint8* out_blk, uint32 blockCount);
+#define twofish_encrypt(instance,in_blk,out_blk)   twofish_encrypt_blocks(instance, (const uint8*) in_blk, (uint8*) out_blk, 1)
+#define twofish_decrypt(instance,in_blk,out_blk)   twofish_decrypt_blocks(instance, (const uint8*) in_blk, (uint8*) out_blk, 1)
 #else
 void twofish_encrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte out_blk[4]);
 void twofish_decrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte out_blk[4]);

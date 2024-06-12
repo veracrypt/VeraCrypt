@@ -386,7 +386,7 @@ namespace VeraCrypt
 					dmCreateArgs << nativeDevPath << " 0";
 
 				SecureBuffer dmCreateArgsBuf (dmCreateArgs.str().size());
-				dmCreateArgsBuf.CopyFrom (ConstBufferPtr ((byte *) dmCreateArgs.str().c_str(), dmCreateArgs.str().size()));
+				dmCreateArgsBuf.CopyFrom (ConstBufferPtr ((uint8 *) dmCreateArgs.str().c_str(), dmCreateArgs.str().size()));
 
 				// Keys
 				const SecureBuffer &cipherKey = cipher.GetKey();

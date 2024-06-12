@@ -223,11 +223,11 @@ namespace VeraCrypt
 						SecureBuffer alignedBuffer (alignedSize);
 
 						FuseService::ReadVolumeSectors (alignedBuffer, alignedOffset);
-						BufferPtr ((byte *) buf, size).CopyFrom (alignedBuffer.GetRange (offset % sectorSize, size));
+						BufferPtr ((uint8 *) buf, size).CopyFrom (alignedBuffer.GetRange (offset % sectorSize, size));
 					}
 					else
 					{
-						FuseService::ReadVolumeSectors (BufferPtr ((byte *) buf, size), offset);
+						FuseService::ReadVolumeSectors (BufferPtr ((uint8 *) buf, size), offset);
 					}
 				}
 				catch (MissingVolumeData&)
@@ -241,7 +241,7 @@ namespace VeraCrypt
 			if (strcmp (path, FuseService::GetControlPath()) == 0)
 			{
 				shared_ptr <Buffer> infoBuf = FuseService::GetVolumeInfo();
-				BufferPtr outBuf ((byte *)buf, size);
+				BufferPtr outBuf ((uint8 *)buf, size);
 
 				if (offset >= (off_t) infoBuf->Size())
 					return 0;
@@ -293,7 +293,7 @@ namespace VeraCrypt
 
 			if (strcmp (path, FuseService::GetVolumeImagePath()) == 0)
 			{
-				FuseService::WriteVolumeSectors (BufferPtr ((byte *) buf, size), offset);
+				FuseService::WriteVolumeSectors (BufferPtr ((uint8 *) buf, size), offset);
 				return size;
 			}
 
@@ -302,7 +302,7 @@ namespace VeraCrypt
 				if (FuseService::AuxDeviceInfoReceived())
 					return -EACCES;
 
-				FuseService::ReceiveAuxDeviceInfo (ConstBufferPtr ((const byte *)buf, size));
+				FuseService::ReceiveAuxDeviceInfo (ConstBufferPtr ((const uint8 *)buf, size));
 				return size;
 			}
 		}
@@ -584,7 +584,7 @@ namespace VeraCrypt
 			sigaction (SIGTERM, &action, nullptr);
 
 			// Wait for the exit of the main service
-			byte buf[1];
+			uint8 buf[1];
 			if (read (SignalHandlerPipe->GetReadFD(), buf, sizeof (buf))) { } // Errors ignored
 
 			_exit (0);

@@ -9,7 +9,7 @@ namespace VeraCrypt
 	{
 	protected:
 
-		vector<byte> m_data;
+		vector<uint8> m_data;
 
 		uint16 m_SW;
 
@@ -19,25 +19,25 @@ namespace VeraCrypt
 
 		ResponseAPDU();
 
-		ResponseAPDU(const vector<byte>& data, uint16 SW);
+		ResponseAPDU(const vector<uint8>& data, uint16 SW);
 
 		uint32 getNr();
 
-		const vector<byte> getData();
+		const vector<uint8> getData();
 
-		byte getSW1();
+		uint8 getSW1();
 
-		byte getSW2();
+		uint8 getSW2();
 
 		uint16 getSW();
 
-		const vector<byte> getBytes();
+		const vector<uint8> getBytes();
 
 		void setSW(uint16 SW);
-		void setBytes(const vector<byte>& bytes);
+		void setBytes(const vector<uint8>& bytes);
 
-		void appendData(const vector<byte>& data);
-		void appendData(const byte* data, size_t dataLen);
+		void appendData(const vector<uint8>& data);
+		void appendData(const uint8* data, size_t dataLen);
 	};
 };
 

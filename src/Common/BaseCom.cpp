@@ -450,7 +450,7 @@ DWORD BaseCom::WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMe
 			msg [maxSize - 1] = 0;
 		std::string msgStr = maxSize > 0 ? msg : "";
 		BootEncryption bootEnc (NULL);
-		bootEnc.WriteEfiBootSectorUserConfig ((byte) userConfig,  msgStr, pim, hashAlg);
+		bootEnc.WriteEfiBootSectorUserConfig ((uint8) userConfig,  msgStr, pim, hashAlg);
 	}
 	catch (SystemException &)
 	{

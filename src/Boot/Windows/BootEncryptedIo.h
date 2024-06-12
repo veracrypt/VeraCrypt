@@ -15,8 +15,8 @@
 
 #include "Platform.h"
 
-BiosResult ReadEncryptedSectors (uint16 destSegment, uint16 destOffset, byte drive, uint64 sector, uint16 sectorCount);
-BiosResult WriteEncryptedSectors (uint16 sourceSegment, uint16 sourceOffset, byte drive, uint64 sector, uint16 sectorCount);
+BiosResult ReadEncryptedSectors (uint16 destSegment, uint16 destOffset, uint8 drive, uint64 sector, uint16 sectorCount);
+BiosResult WriteEncryptedSectors (uint16 sourceSegment, uint16 sourceOffset, uint8 drive, uint64 sector, uint16 sectorCount);
 static bool ReadWritePartiallyCoversEncryptedArea (const uint64 &sector, uint16 sectorCount);
 
 #endif // TC_HEADER_Boot_BootEncryptionIo

@@ -43,7 +43,7 @@
 
 typedef struct
 {
-	byte Flags;
+	uint8 Flags;
 } BootSectorConfiguration;
 
 
@@ -120,7 +120,7 @@ typedef struct {
 	uint32  Data1;
 	uint16  Data2;
 	uint16  Data3;
-	byte    Data4[8];
+	uint8    Data4[8];
 } DCS_GUID;
 
 // DE types
@@ -155,7 +155,7 @@ typedef struct _DCS_DISK_ENTRY {
 		struct {
 			uint32      Type;
 			uint32      Offset;
-			byte        reserved[16];
+			uint8        reserved[16];
 			uint64      Length;           // size of structure at Offset
 		};
 		DCS_DISK_ENTRY_SECTORS Sectors;
@@ -208,7 +208,7 @@ typedef struct _DCS_DEP_PWD_CACHE {
 	uint32       Count;
 	PasswordLegacy     Pwd[4];
 	int32        Pim[4];
-	byte         pad[512 - 8 - 4 - 4 - (sizeof(PasswordLegacy) + 4) * 4];
+	uint8         pad[512 - 8 - 4 - 4 - (sizeof(PasswordLegacy) + 4) * 4];
 } DCS_DEP_PWD_CACHE;
 CSTATIC_ASSERT(sizeof(DCS_DEP_PWD_CACHE) == 512, Wrong_size_DCS_DEP_PWD_CACHE);
 #pragma pack()

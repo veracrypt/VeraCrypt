@@ -55,7 +55,7 @@ namespace VeraCrypt
 				struct
 				{
 					const EncryptionMode *Mode;
-					byte *Data;
+					uint8 *Data;
 					uint64 StartUnitNo;
 					uint64 UnitCount;
 					size_t SectorSize;
@@ -63,7 +63,7 @@ namespace VeraCrypt
 			};
 		};
 
-		static void DoWork (WorkType::Enum type, const EncryptionMode *mode, byte *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize);
+		static void DoWork (WorkType::Enum type, const EncryptionMode *mode, uint8 *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize);
 		static bool IsRunning () { return ThreadPoolRunning; }
 		static void Start ();
 		static void Stop ();

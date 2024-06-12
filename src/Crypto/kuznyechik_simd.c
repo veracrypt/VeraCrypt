@@ -9169,7 +9169,7 @@ VC_INLINE void scheduleDecryptionRoundKeysForGost15(
 	applyLSTransformation_4(data1_, data2_, data3_,data4_); \
 }
 
-void kuznyechik_encrypt_block_simd(byte* out, const byte* in, kuznyechik_kds* kds)
+void kuznyechik_encrypt_block_simd(uint8* out, const uint8* in, kuznyechik_kds* kds)
 {
 	const uint_64t *roundKeys_ = (const uint_64t *) kds->rke;
 	__m128i data_;
@@ -9200,7 +9200,7 @@ void kuznyechik_encrypt_block_simd(byte* out, const byte* in, kuznyechik_kds* kd
 	_mm_storeu_si128((__m128i*) out, data_);
 }
 
-void kuznyechik_encrypt_blocks_simd(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds)
+void kuznyechik_encrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, kuznyechik_kds* kds)
 {
 	const uint_64t *roundKeys_ = (const uint_64t *) kds->rke;
 	__m128i data1_, data2_, data3_, data4_;
@@ -9347,7 +9347,7 @@ void kuznyechik_encrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 	data4_ = _mm_xor_si128(data4_, cache11_); \
 }
 
-void kuznyechik_decrypt_block_simd(byte* out, const byte* in, kuznyechik_kds* kds)
+void kuznyechik_decrypt_block_simd(uint8* out, const uint8* in, kuznyechik_kds* kds)
 {
 	const uint_64t *roundKeys_ = kds->rkd;
 	__m128i data_;
@@ -9383,7 +9383,7 @@ void kuznyechik_decrypt_block_simd(byte* out, const byte* in, kuznyechik_kds* kd
 	_mm_storeu_si128((__m128i*) out, data_);
 }
 
-void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds)
+void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, kuznyechik_kds* kds)
 {
 	const uint_64t *roundKeys_ = kds->rkd;
 	__m128i data1_, data2_,data3_,data4_;
@@ -9508,7 +9508,7 @@ void kuznyechik_decrypt_blocks_simd(byte* out, const byte* in, size_t blocks, ku
 		kuznyechik_decrypt_block_simd (out, in, kds);
 }
 
-void kuznyechik_set_key_simd(const byte* key, kuznyechik_kds *kds)
+void kuznyechik_set_key_simd(const uint8* key, kuznyechik_kds *kds)
 {
 	scheduleEncryptionRoundKeysForGost15 (kds->rke, key);
 	scheduleDecryptionRoundKeysForGost15 (kds->rkd, key);

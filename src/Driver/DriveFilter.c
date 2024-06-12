@@ -35,7 +35,7 @@ static BOOL DeviceFilterActive = FALSE;
 
 BOOL BootArgsValid = FALSE;
 BootArguments BootArgs;
-byte*  BootSecRegionData = NULL;
+uint8*  BootSecRegionData = NULL;
 uint32 BootSecRegionSize = 0;
 uint32 BootPkcs5 = 0;
 
@@ -47,13 +47,13 @@ static KMUTEX MountMutex;
 static volatile BOOL BootDriveFound = FALSE;
 static DriveFilterExtension *BootDriveFilterExtension = NULL;
 static LARGE_INTEGER BootDriveLength;
-static byte BootLoaderFingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
+static uint8 BootLoaderFingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
 
 static BOOL CrashDumpEnabled = FALSE;
 static BOOL HibernationEnabled = FALSE;
 
 static BOOL LegacyHibernationDriverFilterActive = FALSE;
-static byte *HibernationWriteBuffer = NULL;
+static uint8 *HibernationWriteBuffer = NULL;
 static MDL *HibernationWriteBufferMdl = NULL;
 
 static uint32 HibernationPreventionCount = 0;
@@ -82,8 +82,8 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
 	PHYSICAL_ADDRESS bootArgsAddr;
-	byte *mappedBootArgs;
-	byte *mappedCryptoInfo = NULL;
+	uint8 *mappedBootArgs;
+	uint8 *mappedCryptoInfo = NULL;
 	uint16 bootLoaderArgsIndex;
 	uint64* BootArgsRegionsPtr = bIsEfi? BootArgsRegionsEFI : BootArgsRegionsDefault;
 	size_t BootArgsRegionsCount = bIsEfi? sizeof(BootArgsRegionsEFI)/ sizeof(BootArgsRegionsEFI[0]) : sizeof(BootArgsRegionsDefault)/ sizeof(BootArgsRegionsDefault[0]);
@@ -109,7 +109,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 			DumpMem (mappedBootArgs, sizeof (BootArguments));
 
 			if (bootArguments->BootLoaderVersion == VERSION_NUM
-				&& bootArguments->BootArgumentsCrc32 != GetCrc32 ((byte *) bootArguments, (int) ((byte *) &bootArguments->BootArgumentsCrc32 - (byte *) bootArguments)))
+				&& bootArguments->BootArgumentsCrc32 != GetCrc32 ((uint8 *) bootArguments, (int) ((uint8 *) &bootArguments->BootArgumentsCrc32 - (uint8 *) bootArguments)))
 			{
 				Dump ("BootArguments CRC incorrect\n");
 				burn (mappedBootArgs, sizeof (BootArguments));
@@ -166,13 +166,13 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 							uint32   crc;
 							PHYSICAL_ADDRESS SecRegionAddress;
 							SECREGION_BOOT_PARAMS* SecRegionParams = (SECREGION_BOOT_PARAMS*) (mappedCryptoInfo + sizeof(BOOT_CRYPTO_HEADER) + 2);
-							byte *secRegionData = NULL;
+							uint8 *secRegionData = NULL;
 
 							SecRegionAddress.QuadPart = SecRegionParams->Ptr;
 							Dump ("SecRegion memory 0x%x %d\n", SecRegionAddress.LowPart, SecRegionParams->Size);
 							// SecRegion correct?
 							if( (SecRegionParams->Ptr != 0) && (SecRegionParams->Size > 0)) {
-								crc = GetCrc32((byte*)SecRegionParams, 12);
+								crc = GetCrc32((uint8*)SecRegionParams, 12);
 								if(crc == SecRegionParams->Crc) {
 									Dump ("SecRegion crc ok\n");
 									secRegionData = MmMapIoSpace (SecRegionAddress, SecRegionParams->Size, MmCached);
@@ -329,7 +329,7 @@ static void InvalidateDriveFilterKeys (DriveFilterExtension *Extension)
 	Dump ("Drive filter encryption keys invalidated!\n");
 }
 
-static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte* ioBuffer /* ioBuffer must be at least 512 bytes long */)
+static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, uint8* ioBuffer /* ioBuffer must be at least 512 bytes long */)
 {
 	NTSTATUS status;
 	LARGE_INTEGER offset;
@@ -433,7 +433,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 
 	// Check disk MBR id and GPT ID if BootSecRegion is available to detect boot drive
 	if (BootSecRegionData != NULL && BootSecRegionSize >= 1024) {
-		byte mbr[TC_SECTOR_SIZE_BIOS];
+		uint8 mbr[TC_SECTOR_SIZE_BIOS];
 		DCS_DISK_ENTRY_LIST* DeList = (DCS_DISK_ENTRY_LIST*)(BootSecRegionData + 512);
 		offset.QuadPart = 0;
 		status = TCReadDevice (Extension->LowerDeviceObject, mbr, offset, TC_SECTOR_SIZE_BIOS);
@@ -459,7 +459,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		// Check boot drive signature first (header CRC search could fail if a user restored the header to a non-boot drive)
 		if (BootDriveSignatureValid)
 		{
-			byte mbr[TC_SECTOR_SIZE_BIOS];
+			uint8 mbr[TC_SECTOR_SIZE_BIOS];
 
 			offset.QuadPart = 0;
 			status = TCReadDevice (Extension->LowerDeviceObject, mbr, offset, TC_SECTOR_SIZE_BIOS);
@@ -585,7 +585,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 			uint32 crcSaved;
 			crcSaved = DeList->CRC32;
 			DeList->CRC32 = 0;
-			crc = GetCrc32((byte*)DeList, 512);
+			crc = GetCrc32((uint8*)DeList, 512);
 			if(crc == crcSaved){
 				if(DeList->DE[DE_IDX_PWDCACHE].Type == DE_PwdCache) {
 					uint64 sector = 0;
@@ -696,7 +696,7 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 {
 	NTSTATUS status = STATUS_SUCCESS;
 	LARGE_INTEGER offset;
-	byte *header;
+	uint8 *header;
 
 	header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
 	if (!header)
@@ -727,7 +727,7 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 	{
 		uint32 headerCrc32;
 		uint64 encryptedAreaLength = Extension->Queue.EncryptedAreaEnd + 1 - Extension->Queue.EncryptedAreaStart;
-		byte *fieldPos = header + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
+		uint8 *fieldPos = header + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
 		PCRYPTO_INFO pCryptoInfo = Extension->HeaderCryptoInfo;
 #ifdef _WIN64
 		CRYPTO_INFO tmpCI;
@@ -1234,16 +1234,16 @@ typedef NTSTATUS (*HiberDriverWriteFunctionB) (PLARGE_INTEGER writeOffset, PMDL 
 typedef struct
 {
 #ifdef _WIN64
-	byte FieldPad1[64];
+	uint8 FieldPad1[64];
 	HiberDriverWriteFunctionB WriteFunctionB;
-	byte FieldPad2[56];
+	uint8 FieldPad2[56];
 #else
-	byte FieldPad1[48];
+	uint8 FieldPad1[48];
 	HiberDriverWriteFunctionB WriteFunctionB;
-	byte FieldPad2[32];
+	uint8 FieldPad2[32];
 #endif
 	HiberDriverWriteFunctionA WriteFunctionA;
-	byte FieldPad3[24];
+	uint8 FieldPad3[24];
 	LARGE_INTEGER PartitionStartOffset;
 } HiberDriverContext;
 
@@ -1253,16 +1253,16 @@ typedef struct
 {
 	LIST_ENTRY ModuleList;
 #ifdef _WIN64
-	byte FieldPad1[32];
+	uint8 FieldPad1[32];
 #else
-	byte FieldPad1[16];
+	uint8 FieldPad1[16];
 #endif
 	PVOID ModuleBaseAddress;
 	HiberDriverEntry ModuleEntryAddress;
 #ifdef _WIN64
-	byte FieldPad2[24];
+	uint8 FieldPad2[24];
 #else
-	byte FieldPad2[12];
+	uint8 FieldPad2[12];
 #endif
 	UNICODE_STRING ModuleName;
 } ModuleTableItem;
@@ -1572,10 +1572,10 @@ static VOID SetupThreadProc (PVOID threadArg)
 	BOOL headerUpdateRequired = FALSE;
 	int64 bytesWrittenSinceHeaderUpdate = 0;
 
-	byte *buffer = NULL;
-	byte *wipeBuffer = NULL;
-	byte wipeRandChars[TC_WIPE_RAND_CHAR_COUNT];
-	byte wipeRandCharsUpdate[TC_WIPE_RAND_CHAR_COUNT];
+	uint8 *buffer = NULL;
+	uint8 *wipeBuffer = NULL;
+	uint8 wipeRandChars[TC_WIPE_RAND_CHAR_COUNT];
+	uint8 wipeRandCharsUpdate[TC_WIPE_RAND_CHAR_COUNT];
 	
 	KIRQL irql;
 	NTSTATUS status;
@@ -1583,7 +1583,7 @@ static VOID SetupThreadProc (PVOID threadArg)
 	// generate real random values for wipeRandChars and 
 	// wipeRandCharsUpdate instead of relying on uninitialized stack memory
 	ChaCha20RngCtx rngCtx;
-	byte pbSeed[CHACHA20RNG_KEYSZ + CHACHA20RNG_IVSZ];
+	uint8 pbSeed[CHACHA20RNG_KEYSZ + CHACHA20RNG_IVSZ];
 
 	GetDriverRandomSeed (pbSeed, sizeof (pbSeed));
 	ChaCha20RngInit (&rngCtx, pbSeed, GetDriverRandomSeed, 0);
@@ -1757,7 +1757,7 @@ static VOID SetupThreadProc (PVOID threadArg)
 
 			if (SetupRequest.WipeAlgorithm != TC_WIPE_NONE)
 			{
-				byte wipePass;
+				uint8 wipePass;
 				int wipePassCount = GetWipePassCount (SetupRequest.WipeAlgorithm);
 				if (wipePassCount <= 0)
 				{
@@ -2193,9 +2193,9 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 	ULONG wipeBlockSize = TC_ENCRYPTION_SETUP_IO_BLOCK_SIZE;
 
 	CRYPTO_INFO *wipeCryptoInfo = NULL;
-	byte *wipeBuffer = NULL;
-	byte *wipeRandBuffer = NULL;
-	byte wipeRandChars[TC_WIPE_RAND_CHAR_COUNT];
+	uint8 *wipeBuffer = NULL;
+	uint8 *wipeRandBuffer = NULL;
+	uint8 wipeRandChars[TC_WIPE_RAND_CHAR_COUNT];
 	int wipePass, wipePassCount;
 	int ea = Extension->Queue.CryptoInfo->ea;
 

@@ -38,7 +38,7 @@ bool Int13Filter ()
 	static int ReEntryCount = -1;
 	++ReEntryCount;
 
-	byte function = (byte) (regs.AX >> 8);
+	uint8 function = (uint8) (regs.AX >> 8);
 
 #ifdef TC_TRACE_INT13
 	DisableScreenOutput();
@@ -63,14 +63,14 @@ bool Int13Filter ()
 	case 0x2: // Read sectors
 	case 0x3: // Write sectors
 		{
-			byte drive = (byte) regs.DX;
+			uint8 drive = (uint8) regs.DX;
 
 			ChsAddress chs;
 			chs.Cylinder = ((regs.CX << 2) & 0x300) | (regs.CX >> 8);
 			chs.Head = regs.DX >> 8;
 			chs.Sector = regs.CX & 0x3f;
 
-			byte sectorCount = (byte) regs.AX;
+			uint8 sectorCount = (uint8) regs.AX;
 
 #ifdef TC_TRACE_INT13
 			PrintVal (": Drive", drive - TC_FIRST_BIOS_DRIVE, false);
@@ -125,10 +125,10 @@ bool Int13Filter ()
 	case 0x42: // Read sectors LBA
 	case 0x43: // Write sectors LBA
 		{
-			byte drive = (byte) regs.DX;
+			uint8 drive = (uint8) regs.DX;
 
 			BiosLbaPacket lba;
-			CopyMemory (regs.DS, regs.SI, (byte *) &lba, sizeof (lba));
+			CopyMemory (regs.DS, regs.SI, (uint8 *) &lba, sizeof (lba));
 
 #ifdef TC_TRACE_INT13
 			PrintVal (": Drive", drive - TC_FIRST_BIOS_DRIVE, false);
@@ -337,7 +337,7 @@ bool Int15Filter ()
 	}
 	else
 	{
-		CopyMemory ((byte *) &BiosMemoryMap[IntRegisters.EBX], IntRegisters.ES, IntRegisters.DI, sizeof (BiosMemoryMap[0]));
+		CopyMemory ((uint8 *) &BiosMemoryMap[IntRegisters.EBX], IntRegisters.ES, IntRegisters.DI, sizeof (BiosMemoryMap[0]));
 
 		IntRegisters.Flags &= ~TC_X86_CARRY_FLAG;
 		IntRegisters.EAX = 0x534D4150UL;
@@ -380,7 +380,7 @@ bool Int15Filter ()
 
 #ifdef TC_TRACE_INT15
 	BiosMemoryMapEntry entry;
-	CopyMemory (IntRegisters.ES, IntRegisters.DI, (byte *) &entry, sizeof (entry));
+	CopyMemory (IntRegisters.ES, IntRegisters.DI, (uint8 *) &entry, sizeof (entry));
 	PrintHex (entry.Type); PrintChar (' ');
 	PrintHex (entry.BaseAddress); PrintChar (' ');
 	PrintHex (entry.Length); PrintChar (' ');

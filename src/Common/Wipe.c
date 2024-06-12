@@ -14,7 +14,7 @@
 #include "Wipe.h"
 
 
-static BOOL Wipe1PseudoRandom (int pass, byte *buffer, size_t size)
+static BOOL Wipe1PseudoRandom (int pass, uint8 *buffer, size_t size)
 {
 	return FALSE;
 }
@@ -23,9 +23,9 @@ static BOOL Wipe1PseudoRandom (int pass, byte *buffer, size_t size)
 // Fill buffer with wipe patterns defined in "National Industrial Security Program Operating Manual", US DoD 5220.22-M.
 // Return: FALSE = buffer must be filled with random data
 
-static BOOL Wipe3Dod5220 (int pass, byte *buffer, size_t size)
+static BOOL Wipe3Dod5220 (int pass, uint8 *buffer, size_t size)
 {
-	byte wipeChar;
+	uint8 wipeChar;
 
 	switch (pass)
 	{
@@ -46,9 +46,9 @@ static BOOL Wipe3Dod5220 (int pass, byte *buffer, size_t size)
 }
 
 
-static BOOL Wipe7Dod5220 (int pass, byte randChars[TC_WIPE_RAND_CHAR_COUNT], byte *buffer, size_t size)
+static BOOL Wipe7Dod5220 (int pass, uint8 randChars[TC_WIPE_RAND_CHAR_COUNT], uint8 *buffer, size_t size)
 {
-	byte wipeChar;
+	uint8 wipeChar;
 
 	switch (pass)
 	{
@@ -84,9 +84,9 @@ static BOOL Wipe7Dod5220 (int pass, byte randChars[TC_WIPE_RAND_CHAR_COUNT], byt
 // Fill the buffer with wipe patterns defined in the paper "Secure Deletion of Data from Magnetic and Solid-State Memory" by Peter Gutmann.
 // Return: FALSE = buffer must be filled with random data
 
-static BOOL Wipe35Gutmann (int pass, byte *buffer, size_t size)
+static BOOL Wipe35Gutmann (int pass, uint8 *buffer, size_t size)
 {
-	byte wipePat3[] = { 0x92, 0x49, 0x24 };
+	uint8 wipePat3[] = { 0x92, 0x49, 0x24 };
 	int wipePat3Pos;
 	size_t i;
 
@@ -167,7 +167,7 @@ int GetWipePassCount (WipeAlgorithmId algorithm)
 }
 
 
-BOOL WipeBuffer (WipeAlgorithmId algorithm, byte randChars[TC_WIPE_RAND_CHAR_COUNT], int pass, byte *buffer, size_t size)
+BOOL WipeBuffer (WipeAlgorithmId algorithm, uint8 randChars[TC_WIPE_RAND_CHAR_COUNT], int pass, uint8 *buffer, size_t size)
 {
 	switch (algorithm)
 	{

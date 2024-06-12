@@ -11,10 +11,10 @@
  * NTT (Nippon Telegraph and Telephone Corporation) . All rights reserved.
  *
  * SuperCop integration:
- * Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
+ * Copyright Â© 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * VeraCrypt integration:
- * Copyright © 2017 Mounir IDRASSI <mounir.idrassi@idrix.fr>
+ * Copyright Â© 2017 Mounir IDRASSI <mounir.idrassi@idrix.fr>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -51,12 +51,12 @@
 extern int IsAesHwCpuSupported ();
 #endif
 
-void camellia_encrypt_asm(const byte *ctx, void *dst, const void *src);
-void camellia_decrypt_asm(const byte *ctx, void *dst, const void *src);
-void camellia_enc_blk2(const byte *ctx, byte *dst, const byte *src);
-void camellia_dec_blk2(const byte *ctx, byte *dst, const byte *src);
-void camellia_ecb_enc_16way(const byte *ctx, byte *dst, const byte *src);
-void camellia_ecb_dec_16way(const byte *ctx, byte *dst, const byte *src);
+void camellia_encrypt_asm(const uint8 *ctx, void *dst, const void *src);
+void camellia_decrypt_asm(const uint8 *ctx, void *dst, const void *src);
+void camellia_enc_blk2(const uint8 *ctx, uint8 *dst, const uint8 *src);
+void camellia_dec_blk2(const uint8 *ctx, uint8 *dst, const uint8 *src);
+void camellia_ecb_enc_16way(const uint8 *ctx, uint8 *dst, const uint8 *src);
+void camellia_ecb_dec_16way(const uint8 *ctx, uint8 *dst, const uint8 *src);
 
 /* key constants */
 
@@ -1093,7 +1093,7 @@ void camellia_decrypt(const unsigned __int8 *inBlock,  unsigned __int8 *outBlock
 	camellia_decrypt_asm (ks, outBlock, inBlock);
 }
 
-void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte* out_blk, uint32 blockCount)
+void camellia_encrypt_blocks(unsigned __int8 *instance, const uint8* in_blk, uint8* out_blk, uint32 blockCount)
 {
 #if !defined (_UEFI)
 	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
@@ -1129,7 +1129,7 @@ void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 		camellia_encrypt (in_blk, out_blk, instance);		
 }
 
-void camellia_decrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte* out_blk, uint32 blockCount)
+void camellia_decrypt_blocks(unsigned __int8 *instance, const uint8* in_blk, uint8* out_blk, uint32 blockCount)
 {
 #if !defined (_UEFI)
 	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */

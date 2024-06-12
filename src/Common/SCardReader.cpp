@@ -117,7 +117,7 @@ namespace VeraCrypt
 		return name;
 	}
 
-	bool SCardReader::IsCardPresent(vector<byte>& cardAtr)
+	bool SCardReader::IsCardPresent(vector<uint8>& cardAtr)
 	{
 		LONG				lRet = SCARD_S_SUCCESS;
 		SCARD_READERSTATE	state;
@@ -165,7 +165,7 @@ namespace VeraCrypt
 
 	bool SCardReader::IsCardPresent()
 	{
-		vector<byte> dummy;
+		vector<uint8> dummy;
 		return IsCardPresent(dummy);
 	}
 
@@ -398,8 +398,8 @@ namespace VeraCrypt
 		size_t indexOfLe = 0;
 		size_t indexOfLcData = 0;
 
-		vector<byte> pbSendBuffer;
-		vector<byte> pbRecvBuffer;
+		vector<uint8> pbSendBuffer;
+		vector<uint8> pbRecvBuffer;
 		DWORD cbSendLength = 0;
 		DWORD cbRecvLength = 0;
 	
@@ -460,7 +460,7 @@ namespace VeraCrypt
 					//	256 is encoded as 0x00
 					pbSendBuffer[4] = (BYTE)ne;
 					indexOfLe = 4;
-					cbSendLength = 4 + 1;	//	header || Le (1 byte)
+					cbSendLength = 4 + 1;	//	header || Le (1 uint8)
 				}
 				else
 				{
@@ -494,7 +494,7 @@ namespace VeraCrypt
 					//	case 3s
 					pbSendBuffer[4] = (BYTE)nc;
 					indexOfLcData = 5;
-					cbSendLength = 4 + 1 + nc;	//	header || Lc (1 byte) || Data
+					cbSendLength = 4 + 1 + nc;	//	header || Lc (1 uint8) || Data
 					memcpy(&pbSendBuffer[indexOfLcData], commandAPDU.getData().data(), nc);
 				}
 				else
@@ -518,7 +518,7 @@ namespace VeraCrypt
 					//	case 4s
 					pbSendBuffer[4] = (BYTE)nc;
 					indexOfLcData = 5;
-					cbSendLength = 4 + 1 + nc + 1;	//	header || Lc (1 byte) || Data || Le (1 byte)
+					cbSendLength = 4 + 1 + nc + 1;	//	header || Lc (1 uint8) || Data || Le (1 uint8)
 					memcpy(&pbSendBuffer[indexOfLcData], commandAPDU.getData().data(), nc);
 					pbSendBuffer[indexOfLcData + nc] = (ne != 256) ? (BYTE)ne : 0;
 					indexOfLe = indexOfLcData + nc;
@@ -646,9 +646,9 @@ namespace VeraCrypt
 			throw PCSCException(lRet);
 	}
 
-	void SCardReader::GetATRFromHandle(vector<byte>& atrValue)
+	void SCardReader::GetATRFromHandle(vector<uint8>& atrValue)
 	{
-		vector<byte> pbATR;
+		vector<uint8> pbATR;
 		DWORD cByte = 0;
 		LONG  lRet = 0;
 

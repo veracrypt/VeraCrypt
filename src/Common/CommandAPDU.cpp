@@ -116,7 +116,7 @@ namespace VeraCrypt
 		clear();
 	}
 
-	void CommandAPDU::init(byte cla, byte ins, byte p1, byte p2, const byte* data, uint32 dataOffset, uint32 dataLength, uint32 ne)
+	void CommandAPDU::init(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const uint8* data, uint32 dataOffset, uint32 dataLength, uint32 ne)
 	{
 		m_nc = 0;
 		m_ne = 0;
@@ -156,7 +156,7 @@ namespace VeraCrypt
 				{
 					//	case 2s
 					//	256 is encoded as 0x00
-					byte len = (m_ne != 256) ? (byte)m_ne : 0;
+					uint8 len = (m_ne != 256) ? (uint8)m_ne : 0;
 					m_apdu.resize(5, 0);
 					setHeader(cla, ins, p1, p2);
 					m_apdu[4] = len;
@@ -164,7 +164,7 @@ namespace VeraCrypt
 				else
 				{
 					//	case 2e
-					byte l1, l2;
+					uint8 l1, l2;
 					//	65536 is encoded as 0x00 0x00
 					if (m_ne == 65536)
 					{
@@ -173,8 +173,8 @@ namespace VeraCrypt
 					}
 					else
 					{
-						l1 = (byte)(m_ne >> 8);
-						l2 = (byte)m_ne;
+						l1 = (uint8)(m_ne >> 8);
+						l2 = (uint8)m_ne;
 					}
 					m_apdu.resize(7, 0);
 					setHeader(cla, ins, p1, p2);
@@ -194,7 +194,7 @@ namespace VeraCrypt
 					//	case 3s
 					m_apdu.resize(4 + 1 + dataLength, 0);
 					setHeader(cla, ins, p1, p2);
-					m_apdu[4] = (byte)dataLength;
+					m_apdu[4] = (uint8)dataLength;
 					m_dataOffset = 5;
 					memcpy(m_apdu.data() + 5, data + dataOffset, dataLength);
 				}
@@ -204,8 +204,8 @@ namespace VeraCrypt
 					m_apdu.resize(4 + 3 + dataLength, 0);
 					setHeader(cla, ins, p1, p2);
 					m_apdu[4] = 0;
-					m_apdu[5] = (byte)(dataLength >> 8);
-					m_apdu[6] = (byte)dataLength;
+					m_apdu[5] = (uint8)(dataLength >> 8);
+					m_apdu[6] = (uint8)dataLength;
 					m_dataOffset = 7;
 					memcpy(m_apdu.data() + 7, data + dataOffset, dataLength);
 					m_isExtendedAPDU = true;
@@ -219,10 +219,10 @@ namespace VeraCrypt
 					//	case 4s
 					m_apdu.resize(4 + 2 + dataLength, 0);
 					setHeader(cla, ins, p1, p2);
-					m_apdu[4] = (byte)dataLength;
+					m_apdu[4] = (uint8)dataLength;
 					m_dataOffset = 5;
 					memcpy(m_apdu.data() + 5, data + dataOffset, dataLength);
-					m_apdu[m_apdu.size() - 1] = (m_ne != 256) ? (byte)m_ne : 0;
+					m_apdu[m_apdu.size() - 1] = (m_ne != 256) ? (uint8)m_ne : 0;
 				}
 				else
 				{
@@ -230,15 +230,15 @@ namespace VeraCrypt
 					m_apdu.resize(4 + 5 + dataLength, 0);
 					setHeader(cla, ins, p1, p2);
 					m_apdu[4] = 0;
-					m_apdu[5] = (byte)(dataLength >> 8);
-					m_apdu[6] = (byte)dataLength;
+					m_apdu[5] = (uint8)(dataLength >> 8);
+					m_apdu[6] = (uint8)dataLength;
 					m_dataOffset = 7;
 					memcpy(m_apdu.data() + 7, data + dataOffset, dataLength);
 					if (ne != 65536)
 					{
 						size_t leOfs = m_apdu.size() - 2;
-						m_apdu[leOfs] = (byte)(m_ne >> 8);
-						m_apdu[leOfs + 1] = (byte)m_ne;
+						m_apdu[leOfs] = (uint8)(m_ne >> 8);
+						m_apdu[leOfs + 1] = (uint8)m_ne;
 					} // else le == 65536: no need to fill in, encoded as 0
 					m_isExtendedAPDU = true;
 				}
@@ -248,12 +248,12 @@ namespace VeraCrypt
 		m_parsedSuccessfully = true;
 	}
 
-	void CommandAPDU::setHeader(byte cla, byte ins, byte p1, byte p2)
+	void CommandAPDU::setHeader(uint8 cla, uint8 ins, uint8 p1, uint8 p2)
 	{
-		m_apdu[0] = (byte)cla;
-		m_apdu[1] = (byte)ins;
-		m_apdu[2] = (byte)p1;
-		m_apdu[3] = (byte)p2;
+		m_apdu[0] = (uint8)cla;
+		m_apdu[1] = (uint8)ins;
+		m_apdu[2] = (uint8)p1;
+		m_apdu[3] = (uint8)p2;
 	}
 
 	void CommandAPDU::clear()
@@ -264,58 +264,58 @@ namespace VeraCrypt
 		m_dataOffset = 0;
 	}
 
-	CommandAPDU::CommandAPDU(byte cla, byte ins, byte p1, byte p2, const byte* data, uint32 dataOffset, uint32 dataLength, uint32 ne)
+	CommandAPDU::CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const uint8* data, uint32 dataOffset, uint32 dataLength, uint32 ne)
 	{
 		init(cla, ins, p1, p2, data, dataOffset, dataLength, ne);
 	}
 
-	CommandAPDU::CommandAPDU(byte cla, byte ins, byte p1, byte p2)
+	CommandAPDU::CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2)
 	{
 		init(cla, ins, p1, p2, NULL, 0, 0, 0);
 	}
 
-	CommandAPDU::CommandAPDU(byte cla, byte ins, byte p1, byte p2, uint32 ne)
+	CommandAPDU::CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, uint32 ne)
 	{
 		init(cla, ins, p1, p2, NULL, 0, 0, ne);
 	}
 
-	CommandAPDU::CommandAPDU(byte cla, byte ins, byte p1, byte p2, const vector<byte>& data)
+	CommandAPDU::CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const vector<uint8>& data)
 	{
 		init(cla, ins, p1, p2, data.data(), 0, (uint32)data.size(), 0);
 	}
 
-	CommandAPDU::CommandAPDU(byte cla, byte ins, byte p1, byte p2, const byte* data, uint32 dataOffset, uint32 dataLength)
+	CommandAPDU::CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const uint8* data, uint32 dataOffset, uint32 dataLength)
 	{
 		init(cla, ins, p1, p2, data, dataOffset, dataLength, 0);
 	}
 
-	CommandAPDU::CommandAPDU(byte cla, byte ins, byte p1, byte p2, const vector<byte>& data, uint32 ne)
+	CommandAPDU::CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const vector<uint8>& data, uint32 ne)
 	{
 		init(cla, ins, p1, p2, data.data(), 0, (uint32)data.size(), ne);
 	}
 
-	CommandAPDU::CommandAPDU(const vector<byte>& apdu) : m_nc(0), m_ne(0), m_dataOffset(0), m_isExtendedAPDU(false)
+	CommandAPDU::CommandAPDU(const vector<uint8>& apdu) : m_nc(0), m_ne(0), m_dataOffset(0), m_isExtendedAPDU(false)
 	{
 		m_apdu = apdu;
 		parse();
 	}
 
-	byte CommandAPDU::getCLA()
+	uint8 CommandAPDU::getCLA()
 	{
 		return m_apdu[0] & 0xff;
 	}
 
-	byte CommandAPDU::getINS()
+	uint8 CommandAPDU::getINS()
 	{
 		return m_apdu[1] & 0xff;
 	}
 
-	byte CommandAPDU::getP1()
+	uint8 CommandAPDU::getP1()
 	{
 		return m_apdu[2] & 0xff;
 	}
 
-	byte CommandAPDU::getP2()
+	uint8 CommandAPDU::getP2()
 	{
 		return m_apdu[3] & 0xff;
 	}
@@ -325,9 +325,9 @@ namespace VeraCrypt
 		return m_nc;
 	}
 
-	const vector<byte> CommandAPDU::getData()
+	const vector<uint8> CommandAPDU::getData()
 	{
-		vector<byte> data;
+		vector<uint8> data;
 
 		if (m_nc > 0)
 		{
@@ -343,7 +343,7 @@ namespace VeraCrypt
 		return m_ne;
 	}
 
-	const vector<byte> CommandAPDU::getAPDU()
+	const vector<uint8> CommandAPDU::getAPDU()
 	{
 		return m_apdu;
 	}

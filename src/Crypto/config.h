@@ -209,8 +209,8 @@
 #define GETBYTE(x, y) (unsigned int)((unsigned char)((x)>>(8*(y))))
 // these may be faster on other CPUs/compilers
 // #define GETBYTE(x, y) (unsigned int)(((x)>>(8*(y)))&255)
-// #define GETBYTE(x, y) (((byte *)&(x))[y])
+// #define GETBYTE(x, y) (((uint8 *)&(x))[y])
 
-#define CRYPTOPP_GET_BYTE_AS_BYTE(x, y) ((byte)((x)>>(8*(y))))
+#define CRYPTOPP_GET_BYTE_AS_BYTE(x, y) ((uint8)((x)>>(8*(y))))
 
 #endif

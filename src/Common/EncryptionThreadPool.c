@@ -88,7 +88,7 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 		struct
 		{
 			PCRYPTO_INFO CryptoInfo;
-			byte *Data;
+			uint8 *Data;
 			UINT64_STRUCT StartUnitNo;
 			uint32 UnitCount;
 
@@ -606,13 +606,13 @@ void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivat
 }
 
 
-void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo)
+void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo)
 {
 	uint32 fragmentCount;
 	uint32 unitsPerFragment;
 	uint32 remainder;
 
-	byte *fragmentData;
+	uint8 *fragmentData;
 	uint64 fragmentStartUnitNo;
 
 	EncryptionThreadPoolWorkItem *workItem;

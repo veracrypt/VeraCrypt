@@ -26,7 +26,7 @@ namespace VeraCrypt
 		outputString.erase();
 
 		char c;
-		while (InputStream->Read (BufferPtr ((byte *) &c, sizeof (c))) == sizeof (c))
+		while (InputStream->Read (BufferPtr ((uint8 *) &c, sizeof (c))) == sizeof (c))
 		{
 			if (c == '\r')
 				continue;

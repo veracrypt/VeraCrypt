@@ -101,7 +101,7 @@ void Print (const uint64 &number)
 }
 
 
-void PrintHex (byte b)
+void PrintHex (uint8 b)
 {
 	PrintChar (((b >> 4) >= 0xA ? 'A' - 0xA : '0') + (b >> 4));
 	PrintChar (((b & 0xF) >= 0xA ? 'A' - 0xA : '0') + (b & 0xF));
@@ -110,8 +110,8 @@ void PrintHex (byte b)
 
 void PrintHex (uint16 data)
 {
-	PrintHex (byte (data >> 8));
-	PrintHex (byte (data));
+	PrintHex (uint8 (data >> 8));
+	PrintHex (uint8 (data));
 }
 
 
@@ -219,9 +219,9 @@ void PrintErrorNoEndl (const char *message)
 }
 
 
-byte GetShiftFlags ()
+uint8 GetShiftFlags ()
 {
-	byte flags;
+	uint8 flags;
 	__asm
 	{
 		mov ah, 2
@@ -233,7 +233,7 @@ byte GetShiftFlags ()
 }
 
 
-byte GetKeyboardChar ()
+uint8 GetKeyboardChar ()
 {
 	return GetKeyboardChar (nullptr);
 }
@@ -253,7 +253,7 @@ inline void Sleep ()
 }
 */
 
-byte GetKeyboardChar (byte *scanCode)
+uint8 GetKeyboardChar (uint8 *scanCode)
 {
 	// Work around potential BIOS bugs (Windows boot manager polls the keystroke buffer)
 	while (!IsKeyboardCharAvailable())
@@ -265,8 +265,8 @@ byte GetKeyboardChar (byte *scanCode)
 		}
 	}
 
-	byte asciiCode;
-	byte scan;
+	uint8 asciiCode;
+	uint8 scan;
 	__asm
 	{
 		mov ah, 0
@@ -302,7 +302,7 @@ bool EscKeyPressed ()
 {
 	if (IsKeyboardCharAvailable ())
 	{
-		byte keyScanCode;
+		uint8 keyScanCode;
 		GetKeyboardChar (&keyScanCode);
 		return keyScanCode == TC_BIOS_KEY_ESC;
 	}
@@ -346,8 +346,8 @@ bool IsDigit (char c)
 
 int GetString (char *buffer, size_t bufferSize)
 {
-	byte c;
-	byte scanCode;
+	uint8 c;
+	uint8 scanCode;
 	size_t pos = 0;
 
 	while (pos < bufferSize)

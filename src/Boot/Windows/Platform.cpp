@@ -84,7 +84,7 @@ uint64 operator>> (const uint64 &a, int shiftCount)
 	{
 		r.LowPart >>= 1;
 
-		if ((byte) r.HighPart & 1)
+		if ((uint8) r.HighPart & 1)
 			r.LowPart |= 0x80000000UL;
 
 		r.HighPart >>= 1;

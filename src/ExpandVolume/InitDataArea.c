@@ -216,7 +216,7 @@ static volatile BOOL WriteThreadRunning;
 static volatile BOOL WriteThreadExitRequested;
 static HANDLE WriteThreadHandle;
 
-static byte *WriteThreadBuffer;
+static uint8 *WriteThreadBuffer;
 static HANDLE WriteBufferEmptyEvent;
 static HANDLE WriteBufferFullEvent;
 

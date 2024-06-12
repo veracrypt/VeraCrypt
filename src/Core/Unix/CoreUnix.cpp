@@ -241,7 +241,7 @@ namespace VeraCrypt
 		device.SeekAt (0);
 		device.ReadCompleteBuffer (bootSector);
 
-		byte *b = bootSector.Ptr();
+		uint8 *b = bootSector.Ptr();
 
 		return memcmp (b + 3,  "NTFS", 4) != 0
 			&& memcmp (b + 54, "FAT", 3) != 0

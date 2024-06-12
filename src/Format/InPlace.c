@@ -600,7 +600,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		}
 
 		// Write the backup header to the partition
-		if (!WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
+		if (!WriteEffectiveVolumeHeader (TRUE, dev, (uint8 *) header))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -646,7 +646,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		}
 
 		// Write the fake hidden backup header to the partition
-		if (!WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
+		if (!WriteEffectiveVolumeHeader (TRUE, dev, (uint8 *) header))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -754,9 +754,9 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	PCRYPTO_INFO masterCryptoInfo = NULL, headerCryptoInfo = NULL, tmpCryptoInfo = NULL;
 	UINT64_STRUCT unitNo;
 	char *buf = NULL, *header = NULL;
-	byte *wipeBuffer = NULL;
-	byte wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
-	byte wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
+	uint8 *wipeBuffer = NULL;
+	uint8 wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
+	uint8 wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
 	WCHAR dosDev[TC_MAX_PATH] = {0};
 	WCHAR devName[MAX_PATH] = {0};
 	WCHAR deviceName[MAX_PATH];
@@ -801,7 +801,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 
 	if (wipeAlgorithm != TC_WIPE_NONE)
 	{
-		wipeBuffer = (byte *) TCalloc (TC_MAX_NONSYS_INPLACE_ENC_WORK_CHUNK_SIZE);
+		wipeBuffer = (uint8 *) TCalloc (TC_MAX_NONSYS_INPLACE_ENC_WORK_CHUNK_SIZE);
 		if (!wipeBuffer)
 		{
 			nStatus = ERR_OUTOFMEMORY;
@@ -974,14 +974,14 @@ inplace_enc_read:
 
 		// Encrypt the plaintext in RAM
 
-		EncryptDataUnits ((byte *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
+		EncryptDataUnits ((uint8 *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
 
 
 		// If enabled, wipe the area to which we will write the ciphertext
 
 		if (wipeAlgorithm != TC_WIPE_NONE)
 		{
-			byte wipePass;
+			uint8 wipePass;
 			int wipePassCount = GetWipePassCount (wipeAlgorithm);
 
 			if (wipePassCount <= 0)
@@ -1016,7 +1016,7 @@ inplace_enc_read:
 					// Undo failed write operation
 					if (workChunkSize > TC_VOLUME_DATA_OFFSET && MoveFilePointer (dev, offset))
 					{
-						DecryptDataUnits ((byte *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
+						DecryptDataUnits ((uint8 *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
 						WriteFile (dev, buf + TC_VOLUME_DATA_OFFSET, workChunkSize - TC_VOLUME_DATA_OFFSET, &n, NULL);
 					}
 
@@ -1048,7 +1048,7 @@ inplace_enc_read:
 			// Undo failed write operation
 			if (workChunkSize > TC_VOLUME_DATA_OFFSET && MoveFilePointer (dev, offset))
 			{
-				DecryptDataUnits ((byte *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
+				DecryptDataUnits ((uint8 *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
 				WriteFile (dev, buf + TC_VOLUME_DATA_OFFSET, workChunkSize - TC_VOLUME_DATA_OFFSET, &n, NULL);
 			}
 
@@ -1149,7 +1149,7 @@ inplace_enc_read:
 			offset.QuadPart = TC_VOLUME_HEADER_OFFSET;
 
 			if (MoveFilePointer (dev, offset) == 0
-				|| !WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
+				|| !WriteEffectiveVolumeHeader (TRUE, dev, (uint8 *) header))
 			{
 				nStatus = ERR_OS_ERROR;
 				goto closing_seq;
@@ -1208,7 +1208,7 @@ inplace_enc_read:
 			offset.QuadPart += TC_HIDDEN_VOLUME_HEADER_OFFSET;
 
 			if (MoveFilePointer (dev, offset) == 0
-				|| !WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
+				|| !WriteEffectiveVolumeHeader (TRUE, dev, (uint8 *) header))
 			{
 				nStatus = ERR_OS_ERROR;
 				goto closing_seq;
@@ -1316,7 +1316,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	PCRYPTO_INFO masterCryptoInfo = NULL, headerCryptoInfo = NULL;
 	UINT64_STRUCT unitNo;
 	char *buf = NULL;
-	byte *tmpSectorBuf = NULL;
+	uint8 *tmpSectorBuf = NULL;
 	WCHAR dosDev[TC_MAX_PATH] = {0};
 	WCHAR devName[MAX_PATH] = {0};
 	WCHAR deviceName[MAX_PATH];
@@ -1432,7 +1432,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	sectorSize = driveGeometry.BytesPerSector;
 
 
-	tmpSectorBuf = (byte *) TCalloc (sectorSize);
+	tmpSectorBuf = (uint8 *) TCalloc (sectorSize);
 	if (!tmpSectorBuf)
 	{
 		nStatus = ERR_OUTOFMEMORY;
@@ -1620,7 +1620,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 
 		// Decrypt the ciphertext in RAM
 
-		DecryptDataUnits ((byte *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
+		DecryptDataUnits ((uint8 *) buf, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);
 
 
 
@@ -1843,16 +1843,16 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 	LARGE_INTEGER offset;
 	DWORD n;
 	int nStatus = ERR_SUCCESS;
-	byte *header;
+	uint8 *header;
 	DWORD dwError;
 	uint32 headerCrc32;
-	byte *fieldPos;
+	uint8 *fieldPos;
 	PCRYPTO_INFO pCryptoInfo = headerCryptoInfo;
 #ifdef _WIN64
 	BOOL bIsRamEncryptionEnabled = IsRamEncryptionEnabled();
 #endif
 
-	header = (byte *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+	header = (uint8 *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 
 	if (!header)
 		return ERR_OUTOFMEMORY;
@@ -1860,7 +1860,7 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 	VirtualLock (header, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 
 
-	fieldPos = (byte *) header + TC_HEADER_OFFSET_ENCRYPTED_AREA_START;
+	fieldPos = (uint8 *) header + TC_HEADER_OFFSET_ENCRYPTED_AREA_START;
 
 	offset.QuadPart = deviceSize - TC_VOLUME_HEADER_GROUP_SIZE;
 
@@ -1902,12 +1902,12 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 	// were decrypted in place, it would be possible to mount them partially encrypted and it wouldn't be possible
 	// to resume interrupted decryption after the wizard exits.
 	masterCryptoInfo->HeaderFlags |= TC_HEADER_FLAG_NONSYS_INPLACE_ENC;
-	fieldPos = (byte *) header + TC_HEADER_OFFSET_FLAGS;
+	fieldPos = (uint8 *) header + TC_HEADER_OFFSET_FLAGS;
 	mputLong (fieldPos, (masterCryptoInfo->HeaderFlags));
 
 
 	headerCrc32 = GetCrc32 (header + TC_HEADER_OFFSET_MAGIC, TC_HEADER_OFFSET_HEADER_CRC - TC_HEADER_OFFSET_MAGIC);
-	fieldPos = (byte *) header + TC_HEADER_OFFSET_HEADER_CRC;
+	fieldPos = (uint8 *) header + TC_HEADER_OFFSET_HEADER_CRC;
 	mputLong (fieldPos, headerCrc32);
 
 	EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
@@ -2239,12 +2239,12 @@ int ZeroUnreadableSectors (HANDLE dev, LARGE_INTEGER startOffset, int64 size, in
 	DWORD n;
 	int64 sectorCount;
 	LARGE_INTEGER workOffset;
-	byte *sectorBuffer = NULL;
+	uint8 *sectorBuffer = NULL;
 	DWORD dwError;
 
 	workOffset.QuadPart = startOffset.QuadPart;
 
-	sectorBuffer = (byte *) TCalloc (sectorSize);
+	sectorBuffer = (uint8 *) TCalloc (sectorSize);
 
 	if (!sectorBuffer)
 		return ERR_OUTOFMEMORY;
@@ -2315,7 +2315,7 @@ static int OpenBackupHeader (HANDLE dev, const wchar_t *devicePath, Password *pa
 	offset.QuadPart = deviceSize - TC_VOLUME_HEADER_GROUP_SIZE;
 
 	if (MoveFilePointer (dev, offset) == 0
-		|| !ReadEffectiveVolumeHeader (TRUE, dev, (byte *) header, &n) || n < TC_VOLUME_HEADER_EFFECTIVE_SIZE)
+		|| !ReadEffectiveVolumeHeader (TRUE, dev, (uint8 *) header, &n) || n < TC_VOLUME_HEADER_EFFECTIVE_SIZE)
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
@@ -2347,7 +2347,7 @@ closing_seq:
 static BOOL GetFreeClusterBeforeThreshold (HANDLE volumeHandle, int64 *freeCluster, int64 clusterThreshold)
 {
 	const int bitmapSize = 65536;
-	byte bitmapBuffer[bitmapSize + sizeof (VOLUME_BITMAP_BUFFER)];
+	uint8 bitmapBuffer[bitmapSize + sizeof (VOLUME_BITMAP_BUFFER)];
 	VOLUME_BITMAP_BUFFER *bitmap = (VOLUME_BITMAP_BUFFER *) bitmapBuffer;
 	STARTING_LCN_INPUT_BUFFER startLcn;
 	startLcn.StartingLcn.QuadPart = 0;

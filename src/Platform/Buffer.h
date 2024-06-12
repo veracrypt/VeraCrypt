@@ -24,20 +24,20 @@ namespace VeraCrypt
 	public:
 		ConstBufferPtr ()
 			: DataPtr (nullptr), DataSize (0) { }
-		ConstBufferPtr (const byte *data, size_t size)
+		ConstBufferPtr (const uint8 *data, size_t size)
 			: DataPtr (data), DataSize (size) { }
 		virtual ~ConstBufferPtr () { }
 
-		operator const byte * () const { return DataPtr; }
+		operator const uint8 * () const { return DataPtr; }
 
 		bool IsDataEqual (const ConstBufferPtr &other) const { return Memory::Compare (DataPtr, DataSize, other.DataPtr, other.DataSize) == 0; }
-		const byte *Get () const { return DataPtr; }
+		const uint8 *Get () const { return DataPtr; }
 		ConstBufferPtr GetRange (size_t offset, size_t size) const;
-		void Set (const byte *data, size_t size) { DataPtr = data; DataSize = size; }
+		void Set (const uint8 *data, size_t size) { DataPtr = data; DataSize = size; }
 		size_t Size () const { return DataSize; }
 
 	protected:
-		const byte *DataPtr;
+		const uint8 *DataPtr;
 		size_t DataSize;
 	};
 
@@ -47,23 +47,23 @@ namespace VeraCrypt
 	public:
 		BufferPtr ()
 			: DataPtr (nullptr), DataSize (0) { }
-		BufferPtr (byte *data, size_t size)
+		BufferPtr (uint8 *data, size_t size)
 			: DataPtr (data), DataSize (size) { }
 		virtual ~BufferPtr () { }
 
-		operator byte * () const { return DataPtr; }
+		operator uint8 * () const { return DataPtr; }
 		void CopyFrom (const ConstBufferPtr &bufferPtr) const;
 		void Erase () const { Zero(); }
-		byte *Get () const { return DataPtr; }
+		uint8 *Get () const { return DataPtr; }
 		BufferPtr GetRange (size_t offset, size_t size) const;
-		void Set (byte *data, size_t size) { DataPtr = data; DataSize = size; }
+		void Set (uint8 *data, size_t size) { DataPtr = data; DataSize = size; }
 		size_t Size () const { return DataSize; }
 		void Zero () const { Memory::Zero (DataPtr, DataSize); }
 
 		operator ConstBufferPtr () const { return ConstBufferPtr (DataPtr, DataSize); }
 
 	protected:
-		byte *DataPtr;
+		uint8 *DataPtr;
 		size_t DataSize;
 	};
 
@@ -77,7 +77,7 @@ namespace VeraCrypt
 
 		virtual void Allocate (size_t size, size_t alignment = 0);
 		virtual void CopyFrom (const ConstBufferPtr &bufferPtr, size_t alignment = 0);
-		virtual byte *Ptr () const { return DataPtr; }
+		virtual uint8 *Ptr () const { return DataPtr; }
 		virtual void Erase ();
 		virtual void Free ();
 		virtual BufferPtr GetRange (size_t offset, size_t size) const;
@@ -86,12 +86,12 @@ namespace VeraCrypt
 		virtual bool IsAllocated () const { return DataSize != 0; }
 		virtual void Zero ();
 
-		virtual operator byte * () const { return DataPtr; }
+		virtual operator uint8 * () const { return DataPtr; }
 		virtual operator BufferPtr () const { return BufferPtr (DataPtr, DataSize); }
 		virtual operator ConstBufferPtr () const { return ConstBufferPtr (DataPtr, DataSize); }
 
 	protected:
-		byte *DataPtr;
+		uint8 *DataPtr;
 		size_t DataSize;
 		size_t DataAlignment;
 

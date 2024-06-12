@@ -2884,7 +2884,7 @@ LRESULT CALLBACK CustomDlgProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 static BOOL IsReturnAddress (DWORD64 address)
 {
 	static size_t codeEnd = 0;
-	byte *sp = (byte *) address;
+	uint8 *sp = (uint8 *) address;
 
 	if (codeEnd == 0)
 	{
@@ -3018,7 +3018,7 @@ void ExceptionHandlerThread (void *threadArg)
 
 	MEMORY_BASIC_INFORMATION mi;
 	VirtualQuery (sp, &mi, sizeof (mi));
-	PDWORD stackTop = (PDWORD)((byte *) mi.BaseAddress + mi.RegionSize);
+	PDWORD stackTop = (PDWORD)((uint8 *) mi.BaseAddress + mi.RegionSize);
 	int i = 0;
 
 	while (retAddrs.size() < 16 && &sp[i] < stackTop)
@@ -5796,24 +5796,24 @@ wstring ArrayToHexWideString (const unsigned char* pbData, int cbData)
 	return result;
 }
 
-bool HexToByte (wchar_t c, byte& b)
+bool HexToByte (wchar_t c, uint8& b)
 {
 	bool bRet = true;
 	if (c >= L'0' && c <= L'9')
-		b = (byte) (c - L'0');
+		b = (uint8) (c - L'0');
 	else if (c >= L'a' && c <= L'z')
-		b = (byte) (c - L'a' + 10);
+		b = (uint8) (c - L'a' + 10);
 	else if (c >= L'A' && c <= L'Z')
-		b = (byte) (c - L'A' + 10);
+		b = (uint8) (c - L'A' + 10);
 	else
 		bRet = false;
 
 	return bRet;
 }
 
-bool HexWideStringToArray (const wchar_t* hexStr, std::vector<byte>& arr)
+bool HexWideStringToArray (const wchar_t* hexStr, std::vector<uint8>& arr)
 {
-	byte b1, b2;
+	uint8 b1, b2;
 	size_t i, len = wcslen (hexStr);
 
 	arr.clear();
@@ -8716,7 +8716,7 @@ retry:
 
 	if ((path.length () >= 3) && (_wcsnicmp (path.c_str(), L"ID:", 3) == 0))
 	{
-		std::vector<byte> arr;
+		std::vector<uint8> arr;
 		if (	(path.length() == (3 + 2*VOLUME_ID_SIZE)) 
 			&& HexWideStringToArray (path.c_str() + 3, arr)
 			&& (arr.size() == VOLUME_ID_SIZE)
@@ -9168,7 +9168,7 @@ BOOL IsMountedVolume (const wchar_t *volname)
 	if ((wcslen (volname) == (3 + 2*VOLUME_ID_SIZE)) && _wcsnicmp (volname, L"ID:", 3) == 0)
 	{
 		/* Volume ID specified. Use it for matching mounted volumes. */
-		std::vector<byte> arr;
+		std::vector<uint8> arr;
 		if (HexWideStringToArray (&volname[3], arr) && (arr.size() == VOLUME_ID_SIZE))
 		{
 			return IsMountedVolumeID (&arr[0]);
@@ -11577,7 +11577,7 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 
 		// Read volume header
 		DWORD bytesRead;
-		if (!ReadEffectiveVolumeHeader (context->IsDevice, context->HostFileHandle, (byte *) buffer, &bytesRead))
+		if (!ReadEffectiveVolumeHeader (context->IsDevice, context->HostFileHandle, (uint8 *) buffer, &bytesRead))
 		{
 			status = ERR_OS_ERROR;
 			goto error;
@@ -12162,7 +12162,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 					if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE))
 					{
 						DWORD keyfileSize;
-						byte *keyfileData = (byte *) LoadFile (keyfilePath, &keyfileSize);
+						uint8 *keyfileData = (uint8 *) LoadFile (keyfilePath, &keyfileSize);
 						if (!keyfileData)
 						{
 							handleWin32Error (hwndDlg, SRC_POS);
@@ -12180,7 +12180,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 							if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_NEW_TOKEN_KEYFILE), hwndDlg, (DLGPROC) NewSecurityTokenKeyfileDlgProc, (LPARAM) &newParams) == IDOK)
 							{
-								vector <byte> keyfileDataVector (keyfileSize);
+								vector <uint8> keyfileDataVector (keyfileSize);
 								memcpy (&keyfileDataVector.front(), keyfileData, keyfileSize);
 
 								try
@@ -12229,7 +12229,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 								WaitCursor();
 								finally_do ({ NormalCursor(); });
 
-								vector <byte> keyfileData;
+								vector <uint8> keyfileData;
 
 								keyfile->GetKeyfileData (keyfileData);
 
@@ -12240,7 +12240,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 									return 1;
 								}
 
-								finally_do_arg (vector <byte> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
+								finally_do_arg (vector <uint8> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
 
 								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE, FALSE))
 									throw SystemException (SRC_POS);
@@ -13023,7 +13023,7 @@ void CheckFilesystem (HWND hwndDlg, int driveNo, BOOL fixErrors)
 	ShellExecuteW (NULL, (!IsAdmin() && IsUacSupported()) ? L"runas" : L"open", cmdPath, param, NULL, SW_SHOW);
 }
 
-BOOL BufferContainsPattern (const byte *buffer, size_t bufferSize, const byte *pattern, size_t patternSize)
+BOOL BufferContainsPattern (const uint8 *buffer, size_t bufferSize, const uint8 *pattern, size_t patternSize)
 {
 	if (bufferSize < patternSize)
 		return FALSE;
@@ -13040,14 +13040,14 @@ BOOL BufferContainsPattern (const byte *buffer, size_t bufferSize, const byte *p
 }
 
 
-BOOL BufferContainsString (const byte *buffer, size_t bufferSize, const char *str)
+BOOL BufferContainsString (const uint8 *buffer, size_t bufferSize, const char *str)
 {
-	return BufferContainsPattern (buffer, bufferSize, (const byte*) str, strlen (str));
+	return BufferContainsPattern (buffer, bufferSize, (const uint8*) str, strlen (str));
 }
 
-BOOL BufferContainsWideString (const byte *buffer, size_t bufferSize, const wchar_t *str)
+BOOL BufferContainsWideString (const uint8 *buffer, size_t bufferSize, const wchar_t *str)
 {
-	return BufferContainsPattern (buffer, bufferSize, (const byte*) str, 2 * wcslen (str));
+	return BufferContainsPattern (buffer, bufferSize, (const uint8*) str, 2 * wcslen (str));
 }
 
 
@@ -13507,7 +13507,7 @@ void RegisterDriverInf (bool registerFilter, const string& filter, const string&
 					"[veracrypt_reg]\r\n"
 					"HKR,,\"" + filterReg + "\",0x0001" + string (registerFilter ? "0008" : "8002") + ",\"" + filter + "\"\r\n";
 
-	infFile.Write ((byte *) infTxt.c_str(), (DWORD) infTxt.size());
+	infFile.Write ((uint8 *) infTxt.c_str(), (DWORD) infTxt.size());
 	infFile.Close();
 
 	HINF hInf = SetupOpenInfFileW (infFileName.c_str(), NULL, INF_STYLE_OLDNT | INF_STYLE_WIN4, NULL);
@@ -13582,7 +13582,7 @@ void AllowMessageInUIPI (UINT msg)
 	ChangeWindowMessageFilter (msg, MSGFLT_ADD);
 }
 
-BOOL IsRepeatedByteArray (byte value, const byte* buffer, size_t bufferSize)
+BOOL IsRepeatedByteArray (uint8 value, const uint8* buffer, size_t bufferSize)
 {
 	if (buffer && bufferSize)
 	{
@@ -13606,7 +13606,7 @@ BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue)
 	size_t pathLen = pathValue? wcslen (pathValue) : 0;
 	if ((pathLen >= 3) && (_wcsnicmp (pathValue, L"ID:", 3) == 0))
 	{
-		std::vector<byte> arr;
+		std::vector<uint8> arr;
 		if (	(pathLen == (3 + 2*VOLUME_ID_SIZE))
 			&& HexWideStringToArray (pathValue + 3, arr)
 			&& (arr.size() == VOLUME_ID_SIZE)
@@ -14758,7 +14758,7 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 {
 	LARGE_INTEGER iSeed;
 	SYSTEMTIME sysTime;
-	byte digest[WHIRLPOOL_DIGESTSIZE];
+	uint8 digest[WHIRLPOOL_DIGESTSIZE];
 	WHIRLPOOL_CTX tctx;
 	size_t count;
 

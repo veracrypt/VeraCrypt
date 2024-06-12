@@ -344,23 +344,23 @@ typedef struct
 
 typedef struct
 {
-	byte Fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
+	uint8 Fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
 } BootLoaderFingerprintRequest;
 
 typedef struct
 {
 	wchar_t DevicePath[TC_MAX_PATH];
-	byte Configuration;
+	uint8 Configuration;
 	BOOL DriveIsDynamic;
 	uint16 BootLoaderVersion;
-	byte UserConfiguration;
+	uint8 UserConfiguration;
 	char CustomUserMessage[TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH + 1];
 } GetSystemDriveConfigurationRequest;
 
 typedef struct
 {
 	WipeAlgorithmId WipeAlgorithm;
-	CRYPTOPP_ALIGN_DATA(16) byte WipeKey[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) uint8 WipeKey[MASTER_KEYDATA_SIZE];
 } WipeDecoySystemRequest;
 
 typedef struct
@@ -373,7 +373,7 @@ typedef struct
 typedef struct
 {
 	LARGE_INTEGER Offset;
-	byte Data[TC_SECTOR_SIZE_BIOS];
+	uint8 Data[TC_SECTOR_SIZE_BIOS];
 } WriteBootDriveSectorRequest;
 
 typedef struct

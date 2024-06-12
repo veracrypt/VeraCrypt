@@ -129,9 +129,9 @@ extern "C" {
 
 extern BOOL ReadVolumeHeaderRecoveryMode;
 
-uint16 GetHeaderField16 (byte *header, int offset);
-uint32 GetHeaderField32 (byte *header, int offset);
-UINT64_STRUCT GetHeaderField64 (byte *header, int offset);
+uint16 GetHeaderField16 (uint8 *header, int offset);
+uint32 GetHeaderField32 (uint8 *header, int offset);
+UINT64_STRUCT GetHeaderField64 (uint8 *header, int offset);
 #if defined(TC_WINDOWS_BOOT)
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 #elif defined(_UEFI)
@@ -141,14 +141,14 @@ BOOL RandgetBytes(unsigned char *buf, int len, BOOL forceSlowPoll);
 #else
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 #if defined(_WIN32) && !defined(_UEFI)
-void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderSize, byte* fingerprint);
+void ComputeBootloaderFingerprint (uint8 *bootLoaderBuf, unsigned int bootLoaderSize, uint8* fingerprint);
 #endif
 #endif
 
 #if !defined (DEVICE_DRIVER) && !defined (TC_WINDOWS_BOOT) && !defined(_UEFI)
 int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *encryptedHeader, int ea, int mode, Password *password, int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo, unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize, unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode);
-BOOL ReadEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header, DWORD *bytesRead);
-BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header);
+BOOL ReadEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, uint8 *header, DWORD *bytesRead);
+BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, uint8 *header);
 int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO *cryptoInfo, uint64 dataAreaSize, BOOL bPrimaryOnly, BOOL bBackupOnly);
 #endif
 

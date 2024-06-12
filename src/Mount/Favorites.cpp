@@ -617,7 +617,7 @@ namespace VeraCrypt
 			XmlGetAttributeText (xml, "ID", label, sizeof (label));
 			if (strlen (label) == (2*VOLUME_ID_SIZE))
 			{
-				std::vector<byte> arr;
+				std::vector<uint8> arr;
 				if (HexWideStringToArray (Utf8StringToWide (label).c_str(), arr) && arr.size() == VOLUME_ID_SIZE)
 				{
 					memcpy (favorite.VolumeID, &arr[0], VOLUME_ID_SIZE);

@@ -43,7 +43,6 @@ __inline __m128i _mm_set1_epi64x(int64 a)
 #endif
 #endif
 
-#define uint8 byte
 
 #define U32V(v) (v)
 #define ROTL32(x,n)	rotl32(x, n)

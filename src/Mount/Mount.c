@@ -10822,8 +10822,8 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const wchar_t *
 	OpenVolumeContext hiddenVolume;
 	Password hiddenVolPassword;
 	int hiddenVolPkcs5 = 0, hiddenVolPim = 0;
-	CRYPTOPP_ALIGN_DATA(16) byte temporaryKey[MASTER_KEYDATA_SIZE];
-	CRYPTOPP_ALIGN_DATA(16) byte originalK2[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) uint8 temporaryKey[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) uint8 originalK2[MASTER_KEYDATA_SIZE];
 	int EffectiveVolumePkcs5 = CmdVolumePkcs5;
 	int EffectiveVolumePim = CmdVolumePim;
 
@@ -10969,7 +10969,7 @@ noHidden:
 
 	// Backup headers
 
-	byte backup[TC_VOLUME_HEADER_GROUP_SIZE];
+	uint8 backup[TC_VOLUME_HEADER_GROUP_SIZE];
 
 	bool legacyVolume = volume.CryptoInfo->LegacyVolume ? true : false;
 	int backupFileSize = legacyVolume ? TC_VOLUME_HEADER_SIZE_LEGACY * 2 : TC_VOLUME_HEADER_GROUP_SIZE;
@@ -11221,7 +11221,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 			goto error;
 		}
 
-		if (!WriteEffectiveVolumeHeader (volume.IsDevice, volume.HostFileHandle, (byte *) buffer))
+		if (!WriteEffectiveVolumeHeader (volume.IsDevice, volume.HostFileHandle, (uint8 *) buffer))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto error;
@@ -11472,7 +11472,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 			goto error;
 		}
 
-		if (!WriteEffectiveVolumeHeader (bDevice, dev, (byte *) buffer))
+		if (!WriteEffectiveVolumeHeader (bDevice, dev, (uint8 *) buffer))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto error;
@@ -11491,7 +11491,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 				goto error;
 			}
 
-			if (!WriteEffectiveVolumeHeader (bDevice, dev, (byte *) buffer))
+			if (!WriteEffectiveVolumeHeader (bDevice, dev, (uint8 *) buffer))
 			{
 				nStatus = ERR_OS_ERROR;
 				goto error;
@@ -11714,7 +11714,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 
 					if (BootEncStatus.DriveMounted && !bSystemIsGPT)
 					{
-						byte userConfig;
+						uint8 userConfig;
 						string customUserMessage;
 						uint16 bootLoaderVersion;
 
@@ -12117,7 +12117,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 {
 	WORD lw = LOWORD (wParam);
 	static std::string platforminfo;
-	static byte currentUserConfig;
+	static uint8 currentUserConfig;
 	static string currentCustomUserMessage;
 
 	switch (msg)
@@ -12137,7 +12137,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				LocalizeDialog (hwndDlg, "IDD_SYSENC_SETTINGS");
 				uint32 driverConfig = ReadDriverConfigurationFlags();
 				uint32 serviceConfig = ReadServiceConfigurationFlags();
-				byte userConfig;
+				uint8 userConfig;
 				string customUserMessage;
 				uint16 bootLoaderVersion = 0;
 				BOOL bPasswordCacheEnabled = (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD)? TRUE : FALSE;
@@ -12314,7 +12314,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				if (!bSystemIsGPT)
 					GetDlgItemTextA (hwndDlg, IDC_CUSTOM_BOOT_LOADER_MESSAGE, customUserMessage, sizeof (customUserMessage));
 
-				byte userConfig = currentUserConfig;
+				uint8 userConfig = currentUserConfig;
 
 				if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_PIM_PROMPT))
 					userConfig |= TC_BOOT_USER_CFG_FLAG_DISABLE_PIM;

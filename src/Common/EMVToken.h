@@ -23,7 +23,7 @@ namespace VeraCrypt
 		virtual ~EMVTokenKeyfile() {};
 
 		virtual operator TokenKeyfilePath () const;
-		virtual void GetKeyfileData(vector <byte>& keyfileData) const;
+		virtual void GetKeyfileData(vector <uint8>& keyfileData) const;
 	};
 
 	class EMVToken
@@ -33,7 +33,7 @@ namespace VeraCrypt
 		static vector<EMVTokenKeyfile> GetAvailableKeyfiles(unsigned long int* slotIdFilter = nullptr, const wstring& keyfileIdFilter = wstring());
 		static EMVTokenInfo GetTokenInfo(unsigned long int slotId);
 
-		friend void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const;
+		friend void EMVTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const;
 
 		static map <unsigned long int, shared_ptr<EMVCard>> EMVCards;
 	};

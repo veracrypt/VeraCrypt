@@ -183,7 +183,7 @@ extern "C" {
 #define T1HA_ALIGN_SUFFIX
 
 #ifdef _MSC_VER
-#define uint8_t byte
+#define uint8_t uint8
 #define uint16_t uint16
 #define uint32_t uint32
 #define uint64_t uint64

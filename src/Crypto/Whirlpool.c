@@ -936,7 +936,7 @@ void WHIRLPOOL_add(const unsigned char * input,
 	else
 	{
 		uint64* dataBuf = ctx->data;
-		byte* data = (byte *)dataBuf;		
+		uint8* data = (uint8 *)dataBuf;		
 		num = oldCountLo & 63;
 
 		if (num != 0)	// process left over data
@@ -996,7 +996,7 @@ void WHIRLPOOL_finalize(WHIRLPOOL_CTX * const ctx,
 	unsigned int num = ctx->countLo & 63;
 	uint64* dataBuf = ctx->data;
 	uint64* stateBuf = ctx->state;
-	byte* data = (byte *)dataBuf;
+	uint8* data = (uint8 *)dataBuf;
 
 	data[num++] = 0x80;
 	if (num <= 32)

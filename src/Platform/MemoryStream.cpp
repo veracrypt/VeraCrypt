@@ -18,7 +18,7 @@ namespace VeraCrypt
 	MemoryStream::MemoryStream (const ConstBufferPtr &data) :
 		ReadPosition (0)
 	{
-		Data = vector <byte> (data.Size());
+		Data = vector <uint8> (data.Size());
 		BufferPtr (&Data[0], Data.size()).CopyFrom (data);
 	}
 

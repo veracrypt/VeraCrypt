@@ -18,8 +18,8 @@ void camellia_encrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock,
 void camellia_decrypt(const unsigned __int8 *inBlock,  unsigned __int8 *outBlock, unsigned __int8 *ks);
 
 #if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
-void camellia_encrypt_blocks(unsigned __int8 *ks, const byte* in_blk, byte* out_blk, uint32 blockCount);
-void camellia_decrypt_blocks(unsigned __int8 *ks, const byte* in_blk, byte* out_blk, uint32 blockCount);
+void camellia_encrypt_blocks(unsigned __int8 *ks, const uint8* in_blk, uint8* out_blk, uint32 blockCount);
+void camellia_decrypt_blocks(unsigned __int8 *ks, const uint8* in_blk, uint8* out_blk, uint32 blockCount);
 #endif
 
 #ifdef __cplusplus

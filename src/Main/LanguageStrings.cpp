@@ -43,7 +43,7 @@ namespace VeraCrypt
 
 	void LanguageStrings::Init ()
 	{
-		static byte LanguageXml[] =
+		static uint8 LanguageXml[] =
         {
 #           include "Common/Language.xml.h"
             , 0

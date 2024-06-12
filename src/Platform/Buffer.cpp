@@ -44,7 +44,7 @@ namespace VeraCrypt
 
 		try
 		{
-			DataPtr = static_cast<byte *> ((alignment > 0)? Memory::AllocateAligned (size, alignment) : Memory::Allocate (size));
+			DataPtr = static_cast<uint8 *> ((alignment > 0)? Memory::AllocateAligned (size, alignment) : Memory::Allocate (size));
 			DataSize = size;
 			DataAlignment = alignment;
 		}

@@ -14,7 +14,7 @@
 #include <PCSC/wintypes.h>
 #include "reader.h"
 typedef LPSCARD_READERSTATE_A LPSCARD_READERSTATE;
-using VeraCrypt::byte;
+using VeraCrypt::uint8;
 #define BOOL int
 #else
 #undef BOOL
@@ -22,7 +22,7 @@ using VeraCrypt::byte;
 #include <winscard.h>
 #include <wintypes.h>
 #include <reader.h>
-using VeraCrypt::byte;
+using VeraCrypt::uint8;
 #define BOOL int
 #endif
 #endif

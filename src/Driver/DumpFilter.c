@@ -18,7 +18,7 @@
 
 static DriveFilterExtension *BootDriveFilterExtension = NULL;
 static LARGE_INTEGER DumpPartitionOffset;
-static byte *WriteFilterBuffer = NULL;
+static uint8 *WriteFilterBuffer = NULL;
 static SIZE_T WriteFilterBufferSize;
 
 

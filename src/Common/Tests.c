@@ -1340,13 +1340,13 @@ static BOOL DoAutoTestAlgorithms (void)
 
 	// AES EncipherBlocks()/DecipherBlocks()
 	{
-		byte testData[1024];
+		uint8 testData[1024];
 		uint32 origCrc;
 		size_t i;
 
 		for (i = 0; i < sizeof (testData); ++i)
 		{
-			testData[i] = (byte) i;
+			testData[i] = (uint8) i;
 		}
 
 		origCrc = GetCrc32 (testData, sizeof (testData));

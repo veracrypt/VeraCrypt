@@ -47,12 +47,12 @@
 
 namespace VeraCrypt
 {
-	void EncryptionModeXTS::Encrypt (byte *data, uint64 length) const
+	void EncryptionModeXTS::Encrypt (uint8 *data, uint64 length) const
 	{
 		EncryptBuffer (data, length, 0);
 	}
 
-	void EncryptionModeXTS::EncryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const
+	void EncryptionModeXTS::EncryptBuffer (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
 		if_debug (ValidateState());
 
@@ -67,12 +67,12 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.end());
 	}
 
-	void EncryptionModeXTS::EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeXTS::EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-                byte finalCarry;
-		byte whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
-		byte whiteningValue [BYTES_PER_XTS_BLOCK];
-		byte byteBufUnitNo [BYTES_PER_XTS_BLOCK];
+                uint8 finalCarry;
+		uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
+		uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
+		uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 		uint64 *whiteningValuesPtr64 = (uint64 *) whiteningValues;
 		uint64 *whiteningValuePtr64 = (uint64 *) whiteningValue;
 		uint64 *bufPtr = (uint64 *) buffer;
@@ -182,7 +182,7 @@ namespace VeraCrypt
 			}
 #endif
 			// Actual encryption
-			cipher.EncryptBlocks ((byte *) dataUnitBufPtr, countBlock);
+			cipher.EncryptBlocks ((uint8 *) dataUnitBufPtr, countBlock);
 
 			bufPtr = dataUnitBufPtr;
 			whiteningValuesPtr64 = (uint64 *) whiteningValues;
@@ -207,7 +207,7 @@ namespace VeraCrypt
 		FAST_ERASE64 (whiteningValues, sizeof (whiteningValues));
 	}
 
-	void EncryptionModeXTS::EncryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionModeXTS::EncryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		EncryptBuffer (data, sectorCount * sectorSize, sectorIndex * sectorSize / ENCRYPTION_DATA_UNIT_SIZE);
 	}
@@ -226,12 +226,12 @@ namespace VeraCrypt
 		return keySize;
 	}
 
-	void EncryptionModeXTS::Decrypt (byte *data, uint64 length) const
+	void EncryptionModeXTS::Decrypt (uint8 *data, uint64 length) const
 	{
 		DecryptBuffer (data, length, 0);
 	}
 
-	void EncryptionModeXTS::DecryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const
+	void EncryptionModeXTS::DecryptBuffer (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
 		if_debug (ValidateState());
 
@@ -246,12 +246,12 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.begin());
 	}
 
-	void EncryptionModeXTS::DecryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeXTS::DecryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-		byte finalCarry;
-		byte whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
-		byte whiteningValue [BYTES_PER_XTS_BLOCK];
-		byte byteBufUnitNo [BYTES_PER_XTS_BLOCK];
+		uint8 finalCarry;
+		uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
+		uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
+		uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 		uint64 *whiteningValuesPtr64 = (uint64 *) whiteningValues;
 		uint64 *whiteningValuePtr64 = (uint64 *) whiteningValue;
 		uint64 *bufPtr = (uint64 *) buffer;
@@ -352,7 +352,7 @@ namespace VeraCrypt
 				*bufPtr++ ^= *whiteningValuesPtr64++;
 			}
 #endif
-			cipher.DecryptBlocks ((byte *) dataUnitBufPtr, countBlock);
+			cipher.DecryptBlocks ((uint8 *) dataUnitBufPtr, countBlock);
 
 			bufPtr = dataUnitBufPtr;
 			whiteningValuesPtr64 = (uint64 *) whiteningValues;
@@ -376,7 +376,7 @@ namespace VeraCrypt
 		FAST_ERASE64 (whiteningValues, sizeof (whiteningValues));
         }
 
-	void EncryptionModeXTS::DecryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionModeXTS::DecryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		DecryptBuffer (data, sectorCount * sectorSize, sectorIndex * sectorSize / ENCRYPTION_DATA_UNIT_SIZE);
 	}

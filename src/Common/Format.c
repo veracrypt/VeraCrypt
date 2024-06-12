@@ -532,7 +532,7 @@ begin_format:
 		// To prevent fragmentation, write zeroes to reserved header sectors which are going to be filled with random data
 		if (!volParams->bDevice && !volParams->hiddenVol)
 		{
-			byte buf[TC_VOLUME_HEADER_GROUP_SIZE - TC_VOLUME_HEADER_EFFECTIVE_SIZE];
+			uint8 buf[TC_VOLUME_HEADER_GROUP_SIZE - TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 			DWORD bytesWritten;
 			ZeroMemory (buf, sizeof (buf));
 
@@ -1392,7 +1392,7 @@ static volatile BOOL WriteThreadRunning;
 static volatile BOOL WriteThreadExitRequested;
 static HANDLE WriteThreadHandle;
 
-static byte *WriteThreadBuffer;
+static uint8 *WriteThreadBuffer;
 static HANDLE WriteBufferEmptyEvent;
 static HANDLE WriteBufferFullEvent;
 

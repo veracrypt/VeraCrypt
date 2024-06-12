@@ -32,7 +32,7 @@ namespace VeraCrypt
 		virtual void Write (const ConstBufferPtr &data);
 
 	protected:
-		vector <byte> Data;
+		vector <uint8> Data;
 		size_t ReadPosition;
 	};
 }

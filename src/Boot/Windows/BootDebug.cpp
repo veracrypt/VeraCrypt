@@ -34,7 +34,7 @@ void InitDebugPort ()
 }
 
 
-void WriteDebugPort (byte dataByte)
+void WriteDebugPort (uint8 dataByte)
 {
 	__asm
 	{
@@ -82,7 +82,7 @@ void PrintVal (const char *message, const uint64 &value, bool newLine, bool hex)
 }
 
 
-void PrintHexDump (byte *mem, size_t size, uint16 *memSegment)
+void PrintHexDump (uint8 *mem, size_t size, uint16 *memSegment)
 {
 	const size_t width = 16;
 	for (size_t pos = 0; pos < size; )
@@ -92,7 +92,7 @@ void PrintHexDump (byte *mem, size_t size, uint16 *memSegment)
 			size_t i;
 			for (i = 0; i < width && pos < size; ++i)
 			{
-				byte dataByte;
+				uint8 dataByte;
 				if (memSegment)
 				{
 					__asm
@@ -134,7 +134,7 @@ void PrintHexDump (byte *mem, size_t size, uint16 *memSegment)
 
 void PrintHexDump (uint16 memSegment, uint16 memOffset, size_t size)
 {
-	PrintHexDump ((byte *) memOffset, size, &memSegment);
+	PrintHexDump ((uint8 *) memOffset, size, &memSegment);
 }
 
 #endif // TC_BOOT_DEBUG_ENABLED

@@ -26,18 +26,18 @@ namespace VeraCrypt
 	public:
 		virtual ~Cipher ();
 
-		virtual void DecryptBlock (byte *data) const;
-		virtual void DecryptBlocks (byte *data, size_t blockCount) const;
+		virtual void DecryptBlock (uint8 *data) const;
+		virtual void DecryptBlocks (uint8 *data, size_t blockCount) const;
             #ifndef WOLFCRYPT_BACKEND
                 static void EnableHwSupport (bool enable) { HwSupportEnabled = enable; }
 	    #else
                 static void EnableHwSupport (bool enable) { HwSupportEnabled = false; }
-                virtual void EncryptBlockXTS (byte *data, uint64 length, uint64 startDataUnitNo) const;
-                virtual void DecryptBlockXTS (byte *data, uint64 length, uint64 startDataUnitNo) const;
+                virtual void EncryptBlockXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const;
+                virtual void DecryptBlockXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const;
                 virtual void SetKeyXTS (const ConstBufferPtr &key);
           #endif        
-                virtual void EncryptBlock (byte *data) const;
-		virtual void EncryptBlocks (byte *data, size_t blockCount) const;
+                virtual void EncryptBlock (uint8 *data) const;
+		virtual void EncryptBlocks (uint8 *data, size_t blockCount) const;
 		static CipherList GetAvailableCiphers ();
 		virtual size_t GetBlockSize () const = 0;
 		virtual const SecureBuffer &GetKey () const { return Key; }
@@ -53,14 +53,14 @@ namespace VeraCrypt
 	protected:
 		Cipher ();
 
-		virtual void Decrypt (byte *data) const = 0;
-		virtual void Encrypt (byte *data) const = 0;
+		virtual void Decrypt (uint8 *data) const = 0;
+		virtual void Encrypt (uint8 *data) const = 0;
 		virtual size_t GetScheduledKeySize () const = 0;
-		virtual void SetCipherKey (const byte *key) = 0;
+		virtual void SetCipherKey (const uint8 *key) = 0;
             #ifdef WOLFCRYPT_BACKEND
-                virtual void DecryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const = 0;
-		virtual void EncryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const = 0;
-                virtual void SetCipherKeyXTS (const byte *key) = 0;
+                virtual void DecryptXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const = 0;
+		virtual void EncryptXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const = 0;
+                virtual void SetCipherKeyXTS (const uint8 *key) = 0;
             #endif
 
 		static bool HwSupportEnabled;
@@ -97,13 +97,13 @@ namespace VeraCrypt
 		TC_CIPHER_ADD_METHODS \
 \
 	protected: \
-		virtual void Decrypt (byte *data) const; \
-		virtual void Encrypt (byte *data) const; \
+		virtual void Decrypt (uint8 *data) const; \
+		virtual void Encrypt (uint8 *data) const; \
 		virtual size_t GetScheduledKeySize () const; \
-		virtual void SetCipherKey (const byte *key); \
-                virtual void DecryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const; \
-		virtual void SetCipherKeyXTS (const byte *key); \
-                virtual void EncryptXTS (byte *data, uint64 length, uint64 startDataUnitNo) const; \
+		virtual void SetCipherKey (const uint8 *key); \
+                virtual void DecryptXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const; \
+		virtual void SetCipherKeyXTS (const uint8 *key); \
+                virtual void EncryptXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const; \
 \
 	private: \
 		TC_JOIN (Cipher,NAME) (const TC_JOIN (Cipher,NAME) &); \
@@ -126,10 +126,10 @@ namespace VeraCrypt
 		TC_CIPHER_ADD_METHODS \
 \
 	protected: \
-		virtual void Decrypt (byte *data) const; \
-		virtual void Encrypt (byte *data) const; \
+		virtual void Decrypt (uint8 *data) const; \
+		virtual void Encrypt (uint8 *data) const; \
 		virtual size_t GetScheduledKeySize () const; \
-		virtual void SetCipherKey (const byte *key); \
+		virtual void SetCipherKey (const uint8 *key); \
 \
 	private: \
 		TC_JOIN (Cipher,NAME) (const TC_JOIN (Cipher,NAME) &); \
@@ -139,8 +139,8 @@ namespace VeraCrypt
 #endif
 
 #define TC_CIPHER_ADD_METHODS \
-	virtual void DecryptBlocks (byte *data, size_t blockCount) const; \
-	virtual void EncryptBlocks (byte *data, size_t blockCount) const; \
+	virtual void DecryptBlocks (uint8 *data, size_t blockCount) const; \
+	virtual void EncryptBlocks (uint8 *data, size_t blockCount) const; \
 	virtual bool IsHwSupportAvailable () const;
 
 	TC_CIPHER (AES, 16, 32);

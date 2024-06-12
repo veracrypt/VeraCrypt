@@ -216,7 +216,7 @@ BOOL IsUefiBoot ()
 void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 {
 	LARGE_INTEGER iSeed, iSeed2;
-	byte digest[WHIRLPOOL_DIGESTSIZE];
+	uint8 digest[WHIRLPOOL_DIGESTSIZE];
 	WHIRLPOOL_CTX tctx;
 	size_t count;
 
@@ -2070,7 +2070,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 				if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem || opentest->bComputeVolumeIDs)
 				{
-					byte *readBuffer = TCalloc (TC_MAX_VOLUME_SECTOR_SIZE);
+					uint8 *readBuffer = TCalloc (TC_MAX_VOLUME_SECTOR_SIZE);
 					if (!readBuffer)
 					{
 						ntStatus = STATUS_INSUFFICIENT_RESOURCES;
@@ -2233,7 +2233,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 			if (NT_SUCCESS (ntStatus))
 			{
-				byte *readBuffer = TCalloc (TC_MAX_VOLUME_SECTOR_SIZE);
+				uint8 *readBuffer = TCalloc (TC_MAX_VOLUME_SECTOR_SIZE);
 				if (!readBuffer)
 				{
 					Irp->IoStatus.Status = STATUS_INSUFFICIENT_RESOURCES;
@@ -3717,7 +3717,7 @@ NTSTATUS ProbeRealDriveSize (PDEVICE_OBJECT driveDeviceObject, LARGE_INTEGER *dr
 	NTSTATUS status;
 	LARGE_INTEGER sysLength;
 	LARGE_INTEGER offset;
-	byte *sectorBuffer;
+	uint8 *sectorBuffer;
 	ULONGLONG startTime;
 	ULONG sectorSize;
 
@@ -4919,7 +4919,7 @@ NTSTATUS ZeroUnreadableSectors (PDEVICE_OBJECT deviceObject, LARGE_INTEGER start
 	NTSTATUS status;
 	ULONG sectorSize;
 	ULONG sectorCount;
-	byte *sectorBuffer = NULL;
+	uint8 *sectorBuffer = NULL;
 
 	*zeroedSectorCount = 0;
 
@@ -4957,7 +4957,7 @@ err:
 }
 
 
-NTSTATUS ReadDeviceSkipUnreadableSectors (PDEVICE_OBJECT deviceObject, byte *buffer, LARGE_INTEGER startOffset, ULONG size, uint64 *badSectorCount)
+NTSTATUS ReadDeviceSkipUnreadableSectors (PDEVICE_OBJECT deviceObject, uint8 *buffer, LARGE_INTEGER startOffset, ULONG size, uint64 *badSectorCount)
 {
 	NTSTATUS status;
 	ULONG sectorSize;

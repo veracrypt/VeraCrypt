@@ -76,7 +76,7 @@ namespace VeraCrypt
 
 		Buffer buffer (10);
 		for (size_t i = 0; i < buffer.Size(); i++)
-			buffer[i] = (byte) i;
+			buffer[i] = (uint8) i;
 
 		ser.Serialize ("int32", i32);
 		ser.Serialize ("int64", i64);
@@ -141,7 +141,7 @@ namespace VeraCrypt
 		Buffer dbuffer (10);
 		ser.Deserialize ("buffer", buffer);
 		for (size_t i = 0; i < buffer.Size(); i++)
-			if (buffer[i] != (byte) i)
+			if (buffer[i] != (uint8) i)
 				throw TestFailed (SRC_POS);
 
 		shared_ptr <ExecutedProcessFailed> dex = Serializable::DeserializeNew <ExecutedProcessFailed> (stream);
@@ -238,7 +238,7 @@ namespace VeraCrypt
 	bool PlatformTest::TestAll ()
 	{
 		// Integer types
-		if (sizeof (byte)   != 1 || sizeof (int8)  != 1 || sizeof (__int8)  != 1) throw TestFailed (SRC_POS);
+		if (sizeof (uint8)   != 1 || sizeof (int8)  != 1 || sizeof (__int8)  != 1) throw TestFailed (SRC_POS);
 		if (sizeof (uint16) != 2 || sizeof (int16) != 2 || sizeof (__int16) != 2) throw TestFailed (SRC_POS);
 		if (sizeof (uint32) != 4 || sizeof (int32) != 4 || sizeof (__int32) != 4) throw TestFailed (SRC_POS);
 		if (sizeof (uint64) != 8 || sizeof (int64) != 8) throw TestFailed (SRC_POS);

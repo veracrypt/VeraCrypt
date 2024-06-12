@@ -100,7 +100,7 @@ namespace VeraCrypt
 		finally_do ({ TextUserInterface::SetTerminalEcho (true); });
 
 		wchar_t passwordBuf[4096];
-		finally_do_arg (BufferPtr, BufferPtr (reinterpret_cast <byte *> (passwordBuf), sizeof (passwordBuf)), { finally_arg.Erase(); });
+		finally_do_arg (BufferPtr, BufferPtr (reinterpret_cast <uint8 *> (passwordBuf), sizeof (passwordBuf)), { finally_arg.Erase(); });
 
 		shared_ptr<VolumePassword> password;
 
@@ -1077,7 +1077,7 @@ namespace VeraCrypt
 
         shared_ptr<TokenKeyfile> tokenKeyfile = Token::getTokenKeyfile(keyfilePath);
 
-		vector <byte> keyfileData;
+		vector <uint8> keyfileData;
 		tokenKeyfile->GetKeyfileData (keyfileData);
 
 		BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
@@ -1164,7 +1164,7 @@ namespace VeraCrypt
 
 			if (keyfile.Length() > 0)
 			{
-				vector <byte> keyfileData (keyfile.Length());
+				vector <uint8> keyfileData (keyfile.Length());
 				BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 
 				keyfile.ReadCompleteBuffer (keyfileDataBuf);
@@ -1784,7 +1784,7 @@ namespace VeraCrypt
 			while (randCharsRequired > 0)
 			{
 				wstring randStr = AskString();
-				RandomNumberGenerator::AddToPool (ConstBufferPtr ((byte *) randStr.c_str(), randStr.size() * sizeof (wchar_t)));
+				RandomNumberGenerator::AddToPool (ConstBufferPtr ((uint8 *) randStr.c_str(), randStr.size() * sizeof (wchar_t)));
 
 				randCharsRequired -= randStr.size();
 

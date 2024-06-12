@@ -43,7 +43,7 @@ namespace VeraCrypt
 			vector <char> buffer (4096);
 			uint64 len;
 
-			while ((len = DataFile->Read (BufferPtr (reinterpret_cast <byte *> (&buffer[0]), buffer.size()))) > 0)
+			while ((len = DataFile->Read (BufferPtr (reinterpret_cast <uint8 *> (&buffer[0]), buffer.size()))) > 0)
 				str.insert (str.end(), buffer.begin(), buffer.begin() + static_cast <int> (len));
 
 			return str;

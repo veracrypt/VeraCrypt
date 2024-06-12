@@ -22,7 +22,7 @@ using namespace std;
 
 namespace VeraCrypt
 {
-	void AppendData(vector<byte>& buffer, const unsigned char* pbData, size_t cbData, size_t from, size_t length, bool bEncodeLength = false)
+	void AppendData(vector<uint8>& buffer, const unsigned char* pbData, size_t cbData, size_t from, size_t length, bool bEncodeLength = false)
 	{
 		if (cbData > 0 && from <= cbData - 2 && length > 0 && length <= cbData - from)
 		{
@@ -74,13 +74,13 @@ namespace VeraCrypt
 		return path.str();
 	}
 
-	void EMVTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const
+	void EMVTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const
 	{
 		map <unsigned long int, shared_ptr<EMVCard>>::iterator emvCardsIt;
 		shared_ptr<EMVCard> card;
-		vector<byte> iccCert;
-		vector<byte> issuerCert;
-		vector<byte> cplcData;
+		vector<uint8> iccCert;
+		vector<uint8> issuerCert;
+		vector<uint8> cplcData;
 		bool addNewCard = true;
 
 		keyfileData.clear();

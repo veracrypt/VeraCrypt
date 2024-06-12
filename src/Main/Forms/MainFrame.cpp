@@ -1437,7 +1437,7 @@ namespace VeraCrypt
 #if defined(TC_UNIX) && !defined(TC_MACOSX)
 			try
 			{
-				byte buf[128];
+				uint8 buf[128];
 				if (read (ShowRequestFifo, buf, sizeof (buf)) > 0 && Gui->IsInBackgroundMode())
 					Gui->SetBackgroundMode (false);
 			}

@@ -36,7 +36,7 @@ typedef enum
 #define TC_WIPE_RAND_CHAR_COUNT 3
 
 int GetWipePassCount (WipeAlgorithmId algorithm);
-BOOL WipeBuffer (WipeAlgorithmId algorithm, byte randChars[TC_WIPE_RAND_CHAR_COUNT], int pass, byte *buffer, size_t size);
+BOOL WipeBuffer (WipeAlgorithmId algorithm, uint8 randChars[TC_WIPE_RAND_CHAR_COUNT], int pass, uint8 *buffer, size_t size);
 
 #ifdef __cplusplus
 }

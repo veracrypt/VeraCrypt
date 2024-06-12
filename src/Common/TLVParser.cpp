@@ -13,7 +13,7 @@ namespace VeraCrypt
 	}
 
 	/* Check if the bit is correct */
-	uint16 TLVParser::CheckBit(byte value, int bit)
+	uint16 TLVParser::CheckBit(uint8 value, int bit)
 	{
 		unsigned char bitvalue[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
@@ -36,13 +36,13 @@ namespace VeraCrypt
 	}
 
 	/* Parsing one TLV node */
-	shared_ptr<TLVNode> TLVParser::TLV_Parse_One(byte* buf, size_t size)
+	shared_ptr<TLVNode> TLVParser::TLV_Parse_One(uint8* buf, size_t size)
 	{
 		size_t index = 0;
 		size_t i = 0;
-		byte tag1, tag2, tagsize;
-		byte len, lensize;
-		shared_ptr<vector<byte>> value = make_shared<vector<byte>>();
+		uint8 tag1, tag2, tagsize;
+		uint8 len, lensize;
+		shared_ptr<vector<uint8>> value = make_shared<vector<uint8>>();
 		shared_ptr<TLVNode> node = TLV_CreateNode();
 
 		tag1 = tag2 = 0;
@@ -157,7 +157,7 @@ namespace VeraCrypt
 	}
 
 	/* Parsing TLV from a buffer and constructing TLV structure */
-	shared_ptr<TLVNode> TLVParser::TLV_Parse(byte* buf, size_t size)
+	shared_ptr<TLVNode> TLVParser::TLV_Parse(uint8* buf, size_t size)
 	{
 		shared_ptr<TLVNode> node = TLV_Parse_One(buf, size);
 		TLV_Parse_Sub(node);

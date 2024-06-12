@@ -385,9 +385,9 @@ namespace VeraCrypt
 		}
 
 		BufferPtr (
-			(byte *) buffer,
+			(uint8 *) buffer,
 			bufferSize).CopyFrom (
-				ConstBufferPtr ((byte *) (wstring (str).c_str()),
+				ConstBufferPtr ((uint8 *) (wstring (str).c_str()),
 				(str.length() + 1) * sizeof (wchar_t)
 			)
 		);

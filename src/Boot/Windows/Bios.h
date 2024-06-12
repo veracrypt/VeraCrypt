@@ -28,6 +28,6 @@ enum
 	BiosResultTimeout = 0x80
 };
 
-typedef byte BiosResult;
+typedef uint8 BiosResult;
 
 #endif // TC_HEADER_Boot_Bios

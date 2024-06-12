@@ -22,7 +22,7 @@ namespace VeraCrypt
 	{
 	public:
 		VolumePassword ();
-		VolumePassword (const byte *password, size_t size) { Set (password, size); }
+		VolumePassword (const uint8 *password, size_t size) { Set (password, size); }
 		VolumePassword (const SecureBuffer &password) { Set (password.Ptr (), password.Size ()); }
 		VolumePassword (const VolumePassword &password) { Set (password); }
 		virtual ~VolumePassword ();
@@ -33,10 +33,10 @@ namespace VeraCrypt
 
 		operator BufferPtr () const { return BufferPtr (PasswordBuffer); }
 
-		byte *DataPtr () const { return PasswordBuffer; }
+		uint8 *DataPtr () const { return PasswordBuffer; }
 		bool IsEmpty () const { return PasswordSize == 0; }
 		size_t Size () const { return PasswordSize; }
-		void Set (const byte *password, size_t size);
+		void Set (const uint8 *password, size_t size);
 		void Set (const VolumePassword &password);
 
 		TC_SERIALIZABLE (VolumePassword);

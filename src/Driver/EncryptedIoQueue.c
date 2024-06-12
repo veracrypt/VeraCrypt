@@ -191,7 +191,7 @@ static NTSTATUS CompleteOriginalIrp (EncryptedIoQueueItem *item, NTSTATUS status
 }
 
 
-static void AcquireFragmentBuffer (EncryptedIoQueue *queue, byte *buffer)
+static void AcquireFragmentBuffer (EncryptedIoQueue *queue, uint8 *buffer)
 {
 	NTSTATUS status = STATUS_INVALID_PARAMETER;
 
@@ -209,7 +209,7 @@ static void AcquireFragmentBuffer (EncryptedIoQueue *queue, byte *buffer)
 }
 
 
-static void ReleaseFragmentBuffer (EncryptedIoQueue *queue, byte *buffer)
+static void ReleaseFragmentBuffer (EncryptedIoQueue *queue, uint8 *buffer)
 {
 	if (buffer == queue->FragmentBufferA)
 	{
@@ -227,8 +227,8 @@ static void ReleaseFragmentBuffer (EncryptedIoQueue *queue, byte *buffer)
 
 BOOL 
 UpdateBuffer(
-	byte*     buffer,
-	byte*     secRegion,
+	uint8*     buffer,
+	uint8*     secRegion,
 	uint64    bufferDiskOffset,
 	uint32    bufferLength,
 	BOOL      doUpadte
@@ -393,7 +393,7 @@ static VOID IoThreadProc (PVOID threadArg)
 						{
 							// Up to three subfragments may be required to handle a partially remapped fragment
 							int subFragment;
-							byte *subFragmentData = request->Data;
+							uint8 *subFragmentData = request->Data;
 
 							for (subFragment = 0 ; subFragment < 3; ++subFragment)
 							{
@@ -615,7 +615,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				&& (item->OriginalLength & (ENCRYPTION_DATA_UNIT_SIZE - 1)) == 0
 				&& (item->OriginalOffset.QuadPart & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
 			{
-				byte *buffer;
+				uint8 *buffer;
 				ULONG alignedLength;
 				LARGE_INTEGER alignedOffset;
 				hResult = ULongAdd(item->OriginalLength, ENCRYPTION_DATA_UNIT_SIZE, &alignedLength);

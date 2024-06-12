@@ -103,7 +103,7 @@ namespace VeraCrypt
 				{
 					wxBusyCursor busy;
 
-					vector <byte> keyfileData;
+					vector <uint8> keyfileData;
 					keyfile->GetKeyfileData (keyfileData);
 
 					BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
@@ -141,7 +141,7 @@ namespace VeraCrypt
 
 			if (keyfile.Length() > 0)
 			{
-				vector <byte> keyfileData (keyfile.Length());
+				vector <uint8> keyfileData (keyfile.Length());
 				BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 
 				keyfile.ReadCompleteBuffer (keyfileDataBuf);

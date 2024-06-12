@@ -275,10 +275,10 @@ bool ZipAdd (zip_t *z, const char* name, const unsigned char* pbData, DWORD cbDa
 	return true;
 }
 
-static BOOL IsWindowsMBR (const byte *buffer, size_t bufferSize)
+static BOOL IsWindowsMBR (const uint8 *buffer, size_t bufferSize)
 {
 	BOOL bRet = FALSE;
-	byte g_pbMsSignature[4] = {0x33, 0xc0, 0x8e, 0xd0};
+	uint8 g_pbMsSignature[4] = {0x33, 0xc0, 0x8e, 0xd0};
 	const char* g_szStr1 = "Invalid partition table";
 	const char* g_szStr2 = "Error loading operating system";
 	const char* g_szStr3 = "Missing operating system";
@@ -390,7 +390,7 @@ namespace VeraCrypt
 			}
 		}
 
-		static void ReadWriteFile (BOOL write, BOOL device, const wstring &filePath, byte *buffer, uint64 offset, uint32 size, DWORD *sizeDone)
+		static void ReadWriteFile (BOOL write, BOOL device, const wstring &filePath, uint8 *buffer, uint64 offset, uint32 size, DWORD *sizeDone)
 		{
 			Elevate();
 
@@ -631,7 +631,7 @@ namespace VeraCrypt
 			}
 		}
 
-		static void WriteEfiBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg)
+		static void WriteEfiBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg)
 		{
 			Elevate();
 
@@ -742,7 +742,7 @@ namespace VeraCrypt
 	public:
 		static void AddReference () { }
 		static void CallDriver (DWORD ioctl, void *input, DWORD inputSize, void *output, DWORD outputSize) { throw ParameterIncorrect (SRC_POS); }
-		static void ReadWriteFile (BOOL write, BOOL device, const wstring &filePath, byte *buffer, uint64 offset, uint32 size, DWORD *sizeDone) { throw ParameterIncorrect (SRC_POS); }
+		static void ReadWriteFile (BOOL write, BOOL device, const wstring &filePath, uint8 *buffer, uint64 offset, uint32 size, DWORD *sizeDone) { throw ParameterIncorrect (SRC_POS); }
 		static void RegisterFilterDriver (bool registerDriver, BootEncryption::FilterType filterType) { throw ParameterIncorrect (SRC_POS); }
 		static void Release () { }
 		static void SetDriverServiceStartType (DWORD startType) { throw ParameterIncorrect (SRC_POS); }
@@ -752,7 +752,7 @@ namespace VeraCrypt
 		static void BackupEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
 		static void RestoreEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
 		static void GetEfiBootDeviceNumber (PSTORAGE_DEVICE_NUMBER pSdn) { throw ParameterIncorrect (SRC_POS); }
-		static void WriteEfiBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
+		static void WriteEfiBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
 		static void UpdateSetupConfigFile (bool bForInstall) { throw ParameterIncorrect (SRC_POS); }
 		static void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded) { throw ParameterIncorrect (SRC_POS); }
 	};
@@ -796,7 +796,7 @@ namespace VeraCrypt
 		FileOpen = false;
 	}
 
-	DWORD File::Read (byte *buffer, DWORD size)
+	DWORD File::Read (uint8 *buffer, DWORD size)
 	{
 		DWORD bytesRead;
 
@@ -901,7 +901,7 @@ namespace VeraCrypt
 		dwSize = (DWORD) size64;
 	}
 
-	void File::Write (byte *buffer, DWORD size)
+	void File::Write (uint8 *buffer, DWORD size)
 	{
 		DWORD bytesWritten;
 
@@ -1423,7 +1423,7 @@ namespace VeraCrypt
 		return version;
 	}
 
-	void BootEncryption::GetInstalledBootLoaderFingerprint (byte fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE])
+	void BootEncryption::GetInstalledBootLoaderFingerprint (uint8 fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE])
 	{
 		BootLoaderFingerprintRequest request;
 		CallDriver (VC_IOCTL_GET_BOOT_LOADER_FINGERPRINT, NULL, 0, &request, sizeof (request));
@@ -1485,12 +1485,12 @@ namespace VeraCrypt
 	}
 
 
-	bool BootEncryption::SystemDriveContainsPartitionType (byte type)
+	bool BootEncryption::SystemDriveContainsPartitionType (uint8 type)
 	{
 		Device device (GetSystemDriveConfiguration().DevicePath, true);
 		device.CheckOpened (SRC_POS);
 
-		byte mbrBuf[TC_SECTOR_SIZE_BIOS];
+		uint8 mbrBuf[TC_SECTOR_SIZE_BIOS];
 		device.SeekAt (0);
 		device.Read (mbrBuf, sizeof (mbrBuf));
 
@@ -1532,7 +1532,7 @@ namespace VeraCrypt
 				continue;
 			}
 
-			if (SystemDriveContainsPartitionType ((byte) partitionType))
+			if (SystemDriveContainsPartitionType ((uint8) partitionType))
 				return true;
 		}
 
@@ -1650,7 +1650,7 @@ namespace VeraCrypt
 	}
 
 
-	uint32 BootEncryption::GetChecksum (byte *data, size_t size)
+	uint32 BootEncryption::GetChecksum (uint8 *data, size_t size)
 	{
 		uint32 sum = 0;
 
@@ -1664,7 +1664,7 @@ namespace VeraCrypt
 	}
 
 
-	void BootEncryption::CreateBootLoaderInMemory (byte *buffer, size_t bufferSize, bool rescueDisk, bool hiddenOSCreation)
+	void BootEncryption::CreateBootLoaderInMemory (uint8 *buffer, size_t bufferSize, bool rescueDisk, bool hiddenOSCreation)
 	{
 		if (bufferSize < TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE)
 			throw ParameterIncorrect (SRC_POS);
@@ -1809,7 +1809,7 @@ namespace VeraCrypt
 
 		// Boot sector
 		DWORD size;
-		byte *bootSecResourceImg = MapResource (L"BIN", bootSectorId, &size);
+		uint8 *bootSecResourceImg = MapResource (L"BIN", bootSectorId, &size);
 		if (!bootSecResourceImg || size != TC_SECTOR_SIZE_BIOS)
 			throw ParameterIncorrect (SRC_POS);
 
@@ -1827,7 +1827,7 @@ namespace VeraCrypt
 		{
 			Device device (GetSystemDriveConfiguration().DevicePath);
 			device.CheckOpened (SRC_POS);
-			byte headerSector[TC_SECTOR_SIZE_BIOS];
+			uint8 headerSector[TC_SECTOR_SIZE_BIOS];
 
 			device.SeekAt (HiddenOSCandidatePartition.Info.StartingOffset.QuadPart + HiddenOSCandidatePartition.Info.PartitionLength.QuadPart - TC_VOLUME_HEADER_GROUP_SIZE + TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 			device.Read (headerSector, sizeof (headerSector));
@@ -1836,14 +1836,14 @@ namespace VeraCrypt
 		}
 
 		// Decompressor
-		byte *decompressor = MapResource (L"BIN", IDR_BOOT_LOADER_DECOMPRESSOR, &size);
+		uint8 *decompressor = MapResource (L"BIN", IDR_BOOT_LOADER_DECOMPRESSOR, &size);
 		if (!decompressor || size > TC_BOOT_LOADER_DECOMPRESSOR_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS)
 			throw ParameterIncorrect (SRC_POS);
 
 		memcpy (buffer + TC_SECTOR_SIZE_BIOS, decompressor, size);
 
 		// Compressed boot loader
-		byte *bootLoader = MapResource (L"BIN", bootLoaderId, &size);
+		uint8 *bootLoader = MapResource (L"BIN", bootLoaderId, &size);
 		if (!bootLoader || size > TC_MAX_BOOT_LOADER_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS)
 			throw ParameterIncorrect (SRC_POS);
 
@@ -1869,7 +1869,7 @@ namespace VeraCrypt
 	}
 
 	// return false when the user cancel an elevation request
-	bool BootEncryption::ReadBootSectorConfig (byte *config, size_t bufLength, byte *userConfig, string *customUserMessage, uint16 *bootLoaderVersion)
+	bool BootEncryption::ReadBootSectorConfig (uint8 *config, size_t bufLength, uint8 *userConfig, string *customUserMessage, uint16 *bootLoaderVersion)
 	{
 		bool bCanceled = false, bExceptionOccured = false;
 		try
@@ -1962,11 +1962,11 @@ namespace VeraCrypt
 	}
 
 
-	void BootEncryption::WriteBootSectorConfig (const byte newConfig[])
+	void BootEncryption::WriteBootSectorConfig (const uint8 newConfig[])
 	{
 		Device device (GetSystemDriveConfiguration().DevicePath);
 		device.CheckOpened (SRC_POS);
-		byte mbr[TC_SECTOR_SIZE_BIOS];
+		uint8 mbr[TC_SECTOR_SIZE_BIOS];
 
 		device.SeekAt (0);
 		device.Read (mbr, sizeof (mbr));
@@ -1976,7 +1976,7 @@ namespace VeraCrypt
 		device.SeekAt (0);
 		device.Write (mbr, sizeof (mbr));
 
-		byte mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
+		uint8 mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
 		device.SeekAt (0);
 		device.Read (mbrVerificationBuf, sizeof (mbr));
 
@@ -1984,7 +1984,7 @@ namespace VeraCrypt
 			throw ErrorException ("ERROR_MBR_PROTECTED", SRC_POS);
 	}
 
-	void BootEncryption::WriteEfiBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg)
+	void BootEncryption::WriteEfiBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg)
 	{
 		if (!IsAdmin() && IsUacSupported())
 		{
@@ -2003,7 +2003,7 @@ namespace VeraCrypt
 		}
 	}
 
-	void BootEncryption::WriteBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg)
+	void BootEncryption::WriteBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg)
 	{
 		if (GetSystemDriveConfiguration().SystemPartition.IsGPT)
 		{
@@ -2013,7 +2013,7 @@ namespace VeraCrypt
 		{
 			Device device (GetSystemDriveConfiguration().DevicePath);
 			device.CheckOpened (SRC_POS);
-			byte mbr[TC_SECTOR_SIZE_BIOS];
+			uint8 mbr[TC_SECTOR_SIZE_BIOS];
 
 			device.SeekAt (0);
 			device.Read (mbr, sizeof (mbr));
@@ -2048,7 +2048,7 @@ namespace VeraCrypt
 			device.SeekAt (0);
 			device.Write (mbr, sizeof (mbr));
 
-			byte mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
+			uint8 mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
 			device.SeekAt (0);
 			device.Read (mbrVerificationBuf, sizeof (mbr));
 
@@ -2060,7 +2060,7 @@ namespace VeraCrypt
 
 	unsigned int BootEncryption::GetHiddenOSCreationPhase ()
 	{
-		byte configFlags [TC_BOOT_CFG_FLAG_AREA_SIZE];
+		uint8 configFlags [TC_BOOT_CFG_FLAG_AREA_SIZE];
 
 		ReadBootSectorConfig (configFlags, sizeof(configFlags));
 
@@ -2073,11 +2073,11 @@ namespace VeraCrypt
 #if TC_BOOT_CFG_FLAG_AREA_SIZE != 1
 #	error TC_BOOT_CFG_FLAG_AREA_SIZE != 1; revise GetHiddenOSCreationPhase() and SetHiddenOSCreationPhase()
 #endif
-		byte configFlags [TC_BOOT_CFG_FLAG_AREA_SIZE];
+		uint8 configFlags [TC_BOOT_CFG_FLAG_AREA_SIZE];
 
 		ReadBootSectorConfig (configFlags, sizeof(configFlags));
 
-		configFlags[0] &= (byte) ~TC_BOOT_CFG_MASK_HIDDEN_OS_CREATION_PHASE;
+		configFlags[0] &= (uint8) ~TC_BOOT_CFG_MASK_HIDDEN_OS_CREATION_PHASE;
 
 		configFlags[0] |= newPhase;
 
@@ -2154,7 +2154,7 @@ namespace VeraCrypt
 
 		Device device (GetSystemDriveConfiguration().DevicePath);
 		device.CheckOpened(SRC_POS);
-		byte mbr[TC_SECTOR_SIZE_BIOS];
+		uint8 mbr[TC_SECTOR_SIZE_BIOS];
 
 		device.SeekAt (0);
 		device.Read (mbr, sizeof (mbr));
@@ -2171,7 +2171,7 @@ namespace VeraCrypt
 #	error PRAND_DISK_WIPE_PASSES > RNG_POOL_SIZE
 #endif
 
-		byte randData[PRAND_DISK_WIPE_PASSES];
+		uint8 randData[PRAND_DISK_WIPE_PASSES];
 		if (!RandgetBytes (ParentWindow, randData, sizeof (randData), FALSE))
 			throw ParameterIncorrect (SRC_POS);
 
@@ -2182,7 +2182,7 @@ namespace VeraCrypt
 				mbr[TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET + i] = randData[wipePass];
 			}
 
-			mbr[TC_BOOT_SECTOR_CONFIG_OFFSET] &= (byte) ~TC_BOOT_CFG_MASK_HIDDEN_OS_CREATION_PHASE;
+			mbr[TC_BOOT_SECTOR_CONFIG_OFFSET] &= (uint8) ~TC_BOOT_CFG_MASK_HIDDEN_OS_CREATION_PHASE;
 			mbr[TC_BOOT_SECTOR_CONFIG_OFFSET] |= randData[wipePass] & TC_BOOT_CFG_MASK_HIDDEN_OS_CREATION_PHASE;
 
 			if (wipePass == PRAND_DISK_WIPE_PASSES - 1)
@@ -2384,7 +2384,7 @@ namespace VeraCrypt
 
 			if (loaderSize > 32768)
 			{
-				std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+				std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
 				EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
 
@@ -2699,8 +2699,8 @@ namespace VeraCrypt
 			uint32 varSize = 56;
 			varSize += ((uint32) description.length()) * 2 + 2;
 			varSize += ((uint32) execPath.length()) * 2 + 2;
-			byte *startVar = new byte[varSize];
-			byte *pVar = startVar;
+			uint8 *startVar = new uint8[varSize];
+			uint8 *pVar = startVar;
 
 			// Attributes (1b Active, 1000b - Hidden)
 			*(uint32 *)pVar = attr;
@@ -2721,12 +2721,12 @@ namespace VeraCrypt
 			/* EFI_DEVICE_PATH_PROTOCOL (HARDDRIVE_DEVICE_PATH \ FILE_PATH \ END) */
 
 			// Type
-			*(byte *)pVar = 0x04;
-			pVar += sizeof(byte);
+			*(uint8 *)pVar = 0x04;
+			pVar += sizeof(uint8);
 
 			// SubType
-			*(byte *)pVar = 0x01;
-			pVar += sizeof(byte);
+			*(uint8 *)pVar = 0x01;
+			pVar += sizeof(uint8);
 
 			// HDD dev path length
 			*(uint16 *)pVar = 0x2A; // 42
@@ -2749,12 +2749,12 @@ namespace VeraCrypt
 			pVar += 16;
 
 			// MbrType
-			*(byte *)pVar = 0x02;
-			pVar += sizeof(byte);
+			*(uint8 *)pVar = 0x02;
+			pVar += sizeof(uint8);
 
 			// SigType
-			*(byte *)pVar = 0x02;
-			pVar += sizeof(byte);
+			*(uint8 *)pVar = 0x02;
+			pVar += sizeof(uint8);
 
 			// Type and sub type 04 04 (file path)
 			*(uint16 *)pVar = 0x0404;
@@ -2781,7 +2781,7 @@ namespace VeraCrypt
 			StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
 
 			// only set value if it doesn't already exist
-			byte* existingVar = new byte[varSize];
+			uint8* existingVar = new uint8[varSize];
 			DWORD existingVarLen = GetFirmwareEnvironmentVariableW (varName, EfiVarGuid, existingVar, varSize);
 			if ((existingVarLen != varSize) || (0 != memcmp (existingVar, startVar, varSize)))
 				SetFirmwareEnvironmentVariable(varName, EfiVarGuid, startVar, varSize);
@@ -2813,7 +2813,7 @@ namespace VeraCrypt
 				wchar_t	varName[256];
 				StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, startOrder[0]);
 
-				byte* existingVar = new byte[512];
+				uint8* existingVar = new uint8[512];
 				DWORD existingVarLen = GetFirmwareEnvironmentVariableW (varName, EfiVarGuid, existingVar, 512);
 				if (existingVarLen > 0)
 				{
@@ -2884,8 +2884,8 @@ namespace VeraCrypt
 				if (size1 == size2)
 				{
 					// same size, so now we compare content
-					std::vector<byte> file1Buf (8096);
-					std::vector<byte> file2Buf (8096);
+					std::vector<uint8> file1Buf (8096);
+					std::vector<uint8> file2Buf (8096);
 					DWORD remainingBytes = size1, dataToRead;
 
 					while (remainingBytes)
@@ -2920,7 +2920,7 @@ namespace VeraCrypt
 		return bRet;
 	}
 
-	bool EfiBoot::CompareFileData (const wchar_t* fileName, const byte* data, DWORD size)
+	bool EfiBoot::CompareFileData (const wchar_t* fileName, const uint8* data, DWORD size)
 	{
 		bool bRet = false;
 
@@ -2937,7 +2937,7 @@ namespace VeraCrypt
 				
 				if (existingSize == size)
 				{
-					std::vector<byte> fileBuf (8096);
+					std::vector<uint8> fileBuf (8096);
 					DWORD remainingBytes = size, dataOffset = 0, dataToRead;
 
 					while (remainingBytes)
@@ -2971,7 +2971,7 @@ namespace VeraCrypt
 		return bRet;
 	}
 
-	void EfiBoot::SaveFile(const wchar_t* name, byte* data, DWORD size) {
+	void EfiBoot::SaveFile(const wchar_t* name, uint8* data, DWORD size) {
 		wstring path = EfiBootPartPath;
 		path += name;
 
@@ -3000,7 +3000,7 @@ namespace VeraCrypt
 		f.Close();
 	}
 
-	void EfiBoot::ReadFile(const wchar_t* name, byte* data, DWORD size) {
+	void EfiBoot::ReadFile(const wchar_t* name, uint8* data, DWORD size) {
 		wstring path = EfiBootPartPath;
 		path += name;
 		File f(path, true);
@@ -3297,51 +3297,51 @@ namespace VeraCrypt
 			}
 			DWORD sizeDcsBoot;
 #ifdef _WIN64
-			byte *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
+			uint8 *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
 #else
-			byte *dcsBootImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBOOT : IDR_EFI_DCSBOOT32, &sizeDcsBoot);
+			uint8 *dcsBootImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBOOT : IDR_EFI_DCSBOOT32, &sizeDcsBoot);
 #endif
 			if (!dcsBootImg)
 				throw ErrorException(L"Out of resource DcsBoot", SRC_POS);
 			DWORD sizeDcsInt;
 #ifdef _WIN64
-			byte *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
+			uint8 *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
 #else
-			byte *dcsIntImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINT: IDR_EFI_DCSINT32, &sizeDcsInt);
+			uint8 *dcsIntImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINT: IDR_EFI_DCSINT32, &sizeDcsInt);
 #endif
 			if (!dcsIntImg)
 				throw ErrorException(L"Out of resource DcsInt", SRC_POS);
 			DWORD sizeDcsCfg;
 #ifdef _WIN64
-			byte *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
+			uint8 *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
 #else
-			byte *dcsCfgImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSCFG: IDR_EFI_DCSCFG32, &sizeDcsCfg);
+			uint8 *dcsCfgImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSCFG: IDR_EFI_DCSCFG32, &sizeDcsCfg);
 #endif
 			if (!dcsCfgImg)
 				throw ErrorException(L"Out of resource DcsCfg", SRC_POS);
 			DWORD sizeLegacySpeaker;
 #ifdef _WIN64
-			byte *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
+			uint8 *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
 #else
-			byte *LegacySpeakerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_LEGACYSPEAKER: IDR_EFI_LEGACYSPEAKER32, &sizeLegacySpeaker);
+			uint8 *LegacySpeakerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_LEGACYSPEAKER: IDR_EFI_LEGACYSPEAKER32, &sizeLegacySpeaker);
 #endif
 			if (!LegacySpeakerImg)
 				throw ErrorException(L"Out of resource LegacySpeaker", SRC_POS);
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
 #ifdef _WIN64
-			byte *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
+			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
 #else
-			byte *BootMenuLockerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBML: IDR_EFI_DCSBML32, &sizeBootMenuLocker);
+			uint8 *BootMenuLockerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBML: IDR_EFI_DCSBML32, &sizeBootMenuLocker);
 #endif
 			if (!BootMenuLockerImg)
 				throw ErrorException(L"Out of resource DcsBml", SRC_POS);
 #endif
 			DWORD sizeDcsInfo;
 #ifdef _WIN64
-			byte *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
+			uint8 *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
 #else
-			byte *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
+			uint8 *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
 #endif
 			if (!DcsInfoImg)
 				throw ErrorException(L"Out of resource DcsInfo", SRC_POS);
@@ -3373,7 +3373,7 @@ namespace VeraCrypt
 					{
 						if (loaderSize > 32768)
 						{
-							std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+							std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
 							EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
 
@@ -3391,7 +3391,7 @@ namespace VeraCrypt
 						// DcsBoot.efi is always smaller than 32KB
 						if (loaderSize > 32768)
 						{
-							std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+							std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
 							EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
 
@@ -3420,7 +3420,7 @@ namespace VeraCrypt
 									{
 										// look for bootmgfw.efi identifiant string
 										EfiBootInst.GetFileSize(loaderPath.c_str(), loaderSize);
-										std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+										std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
 										EfiBootInst.ReadFile(loaderPath.c_str(), &bootLoaderBuf[0], (DWORD) loaderSize);
 
@@ -3453,7 +3453,7 @@ namespace VeraCrypt
 							EfiBootInst.GetFileSize(szStdEfiBootloader, loaderSize);
 							if (loaderSize > 32768)
 							{
-								std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+								std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
 								EfiBootInst.ReadFile(szStdEfiBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
 
@@ -3487,7 +3487,7 @@ namespace VeraCrypt
 					// check if standard bootloader under EFI\Boot is Microsoft one or if it is ours
 					// if both cases, replace it with our bootloader otherwise do nothing
 					EfiBootInst.GetFileSize(szStdEfiBootloader, loaderSize);
-					std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+					std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 					EfiBootInst.ReadFile(szStdEfiBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
 
 					// look for bootmgfw.efi or VeraCrypt identifiant strings
@@ -3539,11 +3539,11 @@ namespace VeraCrypt
 		{
 			try
 			{
-				byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
+				uint8 bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
 				CreateBootLoaderInMemory (bootLoaderBuf, sizeof (bootLoaderBuf), false, hiddenOSCreation);
 
 				// Write MBR
-				byte mbr[TC_SECTOR_SIZE_BIOS];
+				uint8 mbr[TC_SECTOR_SIZE_BIOS];
 
 				device.SeekAt (0);
 				device.Read (mbr, sizeof (mbr));
@@ -3578,7 +3578,7 @@ namespace VeraCrypt
 					device.SeekAt (0);
 					device.Write (mbr, sizeof (mbr));
 
-					byte mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
+					uint8 mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
 					device.SeekAt (0);
 					device.Read (mbrVerificationBuf, sizeof (mbr));
 
@@ -3620,9 +3620,9 @@ namespace VeraCrypt
 		if (config.SystemPartition.IsGPT)
 			return true;
 
-		byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
-		byte fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
-		byte expectedFingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
+		uint8 bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
+		uint8 fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
+		uint8 expectedFingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
 		bool bRet = false;
 
 		try
@@ -3694,59 +3694,59 @@ namespace VeraCrypt
 			// create EFI disk structure
 			DWORD sizeDcsBoot;
 #ifdef _WIN64
-			byte *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
+			uint8 *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
 #else
-			byte *dcsBootImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBOOT : IDR_EFI_DCSBOOT32, &sizeDcsBoot);
+			uint8 *dcsBootImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBOOT : IDR_EFI_DCSBOOT32, &sizeDcsBoot);
 #endif
 			if (!dcsBootImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeDcsInt;
 #ifdef _WIN64
-			byte *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
+			uint8 *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
 #else
-			byte *dcsIntImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINT: IDR_EFI_DCSINT32, &sizeDcsInt);
+			uint8 *dcsIntImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINT: IDR_EFI_DCSINT32, &sizeDcsInt);
 #endif
 			if (!dcsIntImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeDcsCfg;
 #ifdef _WIN64
-			byte *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
+			uint8 *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
 #else
-			byte *dcsCfgImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSCFG: IDR_EFI_DCSCFG32, &sizeDcsCfg);
+			uint8 *dcsCfgImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSCFG: IDR_EFI_DCSCFG32, &sizeDcsCfg);
 #endif
 			if (!dcsCfgImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeLegacySpeaker;
 #ifdef _WIN64
-			byte *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
+			uint8 *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
 #else
-			byte *LegacySpeakerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_LEGACYSPEAKER: IDR_EFI_LEGACYSPEAKER32, &sizeLegacySpeaker);
+			uint8 *LegacySpeakerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_LEGACYSPEAKER: IDR_EFI_LEGACYSPEAKER32, &sizeLegacySpeaker);
 #endif
 			if (!LegacySpeakerImg)
 				throw ParameterIncorrect (SRC_POS);
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
 #ifdef _WIN64
-			byte *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
+			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
 #else
-			byte *BootMenuLockerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBML: IDR_EFI_DCSBML32, &sizeBootMenuLocker);
+			uint8 *BootMenuLockerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBML: IDR_EFI_DCSBML32, &sizeBootMenuLocker);
 #endif
 			if (!BootMenuLockerImg)
 				throw ParameterIncorrect (SRC_POS);
 #endif
 			DWORD sizeDcsRescue;
 #ifdef _WIN64
-			byte *DcsRescueImg = MapResource(L"BIN", IDR_EFI_DCSRE, &sizeDcsRescue);
+			uint8 *DcsRescueImg = MapResource(L"BIN", IDR_EFI_DCSRE, &sizeDcsRescue);
 #else
-			byte *DcsRescueImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSRE: IDR_EFI_DCSRE32, &sizeDcsRescue);
+			uint8 *DcsRescueImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSRE: IDR_EFI_DCSRE32, &sizeDcsRescue);
 #endif
 			if (!DcsRescueImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeDcsInfo;
 #ifdef _WIN64
-			byte *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
+			uint8 *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
 #else
-			byte *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
+			uint8 *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
 #endif
 			if (!DcsInfoImg)
 				throw ParameterIncorrect (SRC_POS);
@@ -3866,7 +3866,7 @@ namespace VeraCrypt
 			finally_do_arg (FILE*, ftmpFile, { fclose (finally_arg); });
 
 			unsigned long ulZipSize = (unsigned long) _filelength (_fileno (ftmpFile));
-			RescueZipData = new byte[ulZipSize];
+			RescueZipData = new uint8[ulZipSize];
 			if (!RescueZipData)
 				throw bad_alloc();
 
@@ -3889,7 +3889,7 @@ namespace VeraCrypt
 		{
 			Buffer imageBuf (RescueIsoImageSize);
 		
-			byte *image = imageBuf.Ptr();
+			uint8 *image = imageBuf.Ptr();
 			memset (image, 0, RescueIsoImageSize);
 
 			// Primary volume descriptor
@@ -3997,7 +3997,7 @@ namespace VeraCrypt
 			// Boot loader backup
 			CreateBootLoaderInMemory (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_LOADER_BACKUP_RESCUE_DISK_SECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE, false);
 
-			RescueIsoImage = new byte[RescueIsoImageSize];
+			RescueIsoImage = new uint8[RescueIsoImageSize];
 			if (!RescueIsoImage)
 				throw bad_alloc();
 			memcpy (RescueIsoImage, image, RescueIsoImageSize);
@@ -4370,7 +4370,7 @@ namespace VeraCrypt
 		if (GetHeaderField32 (RescueVolumeHeader, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
 			throw ParameterIncorrect (SRC_POS);
 
-		byte *fieldPos = RescueVolumeHeader + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
+		uint8 *fieldPos = RescueVolumeHeader + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
 		mputInt64 (fieldPos, volumeSize);
 
 		// CRC of the header fields
@@ -4394,7 +4394,7 @@ namespace VeraCrypt
 		device.CheckOpened (SRC_POS);
 
 		device.SeekAt (TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET);
-		device.Write ((byte *) VolumeHeader, sizeof (VolumeHeader));
+		device.Write ((uint8 *) VolumeHeader, sizeof (VolumeHeader));
 	}
 
 
@@ -4435,7 +4435,7 @@ namespace VeraCrypt
 				}
 			}
 			unsigned __int64 loaderSize = 0;
-			std::vector<byte> bootLoaderBuf;
+			std::vector<uint8> bootLoaderBuf;
 			const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
 			const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
 			const char* g_szMsBootString = "bootmgfw.pdb";
@@ -4495,7 +4495,7 @@ namespace VeraCrypt
 		{
 			Device device (GetSystemDriveConfiguration().DevicePath, true);
 			device.CheckOpened (SRC_POS);
-			byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS];
+			uint8 bootLoaderBuf[TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS];
 
 			device.SeekAt (0);
 			device.Read (bootLoaderBuf, sizeof (bootLoaderBuf));
@@ -4558,7 +4558,7 @@ namespace VeraCrypt
 							const char* g_szMsBootString = "bootmgfw.pdb";
 							unsigned __int64 loaderSize = 0;
 							EfiBootInst.GetFileSize(loaderPath.c_str(), loaderSize);
-							std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+							std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
 							EfiBootInst.ReadFile(loaderPath.c_str(), &bootLoaderBuf[0], (DWORD) loaderSize);
 
@@ -4592,7 +4592,7 @@ namespace VeraCrypt
 		}
 		else
 		{
-			byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS];
+			uint8 bootLoaderBuf[TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS];
 
 			File backupFile (GetSystemLoaderBackupPath(), true);
 			backupFile.CheckOpened(SRC_POS);
@@ -4603,7 +4603,7 @@ namespace VeraCrypt
 			device.CheckOpened (SRC_POS);
 
 			// Preserve current partition table
-			byte mbr[TC_SECTOR_SIZE_BIOS];
+			uint8 mbr[TC_SECTOR_SIZE_BIOS];
 			device.SeekAt (0);
 			device.Read (mbr, sizeof (mbr));
 			memcpy (bootLoaderBuf + TC_MAX_MBR_BOOT_CODE_SIZE, mbr + TC_MAX_MBR_BOOT_CODE_SIZE, sizeof (mbr) - TC_MAX_MBR_BOOT_CODE_SIZE);
@@ -4743,7 +4743,7 @@ namespace VeraCrypt
 				// Register class filter below all other filters in the stack
 
 				size_t strSize = filter.size() + 1;
-				byte regKeyBuf[65536];
+				uint8 regKeyBuf[65536];
 				DWORD size = (DWORD) (sizeof (regKeyBuf) - strSize);
 
 				// SetupInstallFromInfSection() does not support prepending of values so we have to modify the registry directly
@@ -4761,8 +4761,8 @@ namespace VeraCrypt
 				// read initial value
 				DWORD strSize = (DWORD) filter.size() + 1, expectedSize;
 				Buffer expectedRegKeyBuf(65536), outputRegKeyBuf(65536);
-				byte* pbExpectedRegKeyBuf = expectedRegKeyBuf.Ptr ();
-				byte* pbOutputRegKeyBuf = outputRegKeyBuf.Ptr ();
+				uint8* pbExpectedRegKeyBuf = expectedRegKeyBuf.Ptr ();
+				uint8* pbOutputRegKeyBuf = outputRegKeyBuf.Ptr ();
 				DWORD initialSize = (DWORD) (expectedRegKeyBuf.Size() - strSize - 2);				
 
 				if (RegQueryValueExA (regKey, filterReg.c_str(), NULL, NULL, pbExpectedRegKeyBuf, &initialSize) != ERROR_SUCCESS)
@@ -4814,7 +4814,7 @@ namespace VeraCrypt
 
 			// remove value in case it was not done properly
 			Buffer regKeyBuf(65536);
-			byte* pbRegKeyBuf = regKeyBuf.Ptr ();
+			uint8* pbRegKeyBuf = regKeyBuf.Ptr ();
 
 			DWORD initialSize = (DWORD) regKeyBuf.Size() - 2;				
 
@@ -5302,12 +5302,12 @@ namespace VeraCrypt
             // Verify CRC of header salt
             Device device(config.DevicePath, true);
             device.CheckOpened(SRC_POS);
-            byte header[TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];
+            uint8 header[TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];
 
             device.SeekAt(TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET);
             device.Read(header, sizeof(header));
 
-            if (encStatus.VolumeHeaderSaltCrc32 != GetCrc32((byte *)header, PKCS5_SALT_SIZE))
+            if (encStatus.VolumeHeaderSaltCrc32 != GetCrc32((uint8 *)header, PKCS5_SALT_SIZE))
                throw ParameterIncorrect(SRC_POS);
          }
       }
@@ -5394,7 +5394,7 @@ namespace VeraCrypt
 		}
 
 		device.SeekAt (headerOffset);
-		device.Read ((byte *) header, sizeof (header));
+		device.Read ((uint8 *) header, sizeof (header));
 
 		PCRYPTO_INFO cryptoInfo = NULL;
 		
@@ -5482,7 +5482,7 @@ namespace VeraCrypt
 					}
 
 					device.SeekAt (headerOffset);
-					device.Write ((byte *) header, sizeof (header));
+					device.Write ((uint8 *) header, sizeof (header));
 					headerUpdated = true;
 				}
 
@@ -5513,7 +5513,7 @@ namespace VeraCrypt
 				try
 				{
 					// check if PIM is stored in MBR
-					byte userConfig = 0;
+					uint8 userConfig = 0;
 					if (	ReadBootSectorConfig (nullptr, 0, &userConfig)
 						&& (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
 						)
@@ -5790,7 +5790,7 @@ namespace VeraCrypt
 		return configMap;
 	}
 
-	void BootEncryption::WriteBootDriveSector (uint64 offset, byte *data)
+	void BootEncryption::WriteBootDriveSector (uint64 offset, uint8 *data)
 	{
 		WriteBootDriveSectorRequest request;
 		request.Offset.QuadPart = offset;

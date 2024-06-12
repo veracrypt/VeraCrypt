@@ -141,7 +141,7 @@ namespace VeraCrypt
 
 	void EncryptionTestDialog::GetTextCtrlData (wxTextCtrl *textCtrl, Buffer &buffer) const
 	{
-		vector <byte> data;
+		vector <uint8> data;
 		string dataStr = StringConverter::ToSingle (wstring (textCtrl->GetValue()));
 
 		for (size_t i = 0; i < dataStr.size() / 2; ++i)
@@ -153,7 +153,7 @@ namespace VeraCrypt
 				throw StringConversionFailed (SRC_POS);
 			}
 
-			data.push_back ((byte) dataByte);
+			data.push_back ((uint8) dataByte);
 		}
 
 		if (data.empty())

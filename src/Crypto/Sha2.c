@@ -447,7 +447,7 @@ static void CRYPTOPP_FASTCALL X86_SHA256_HashBlocks(uint_32t *state, const uint_
 
 #if defined(__GNUC__)
 	#if CRYPTOPP_BOOL_X64
-		CRYPTOPP_ALIGN_DATA(16) byte workspace[LOCALS_SIZE] ;
+		CRYPTOPP_ALIGN_DATA(16) uint8 workspace[LOCALS_SIZE] ;
 	#endif
 	__asm__ __volatile__
 	(

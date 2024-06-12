@@ -26,7 +26,7 @@ namespace VeraCrypt
 	{
 	}
 
-	void EncryptionAlgorithm::Decrypt (byte *data, uint64 length) const
+	void EncryptionAlgorithm::Decrypt (uint8 *data, uint64 length) const
 	{
 		if_debug (ValidateState ());
 		Mode->Decrypt (data, length);
@@ -37,13 +37,13 @@ namespace VeraCrypt
 		Decrypt (data, data.Size());
 	}
 
-	void EncryptionAlgorithm::DecryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionAlgorithm::DecryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		if_debug (ValidateState());
 		Mode->DecryptSectors (data, sectorIndex, sectorCount, sectorSize);
 	}
 
-	void EncryptionAlgorithm::Encrypt (byte *data, uint64 length) const
+	void EncryptionAlgorithm::Encrypt (uint8 *data, uint64 length) const
 	{
 		if_debug (ValidateState());
 		Mode->Encrypt (data, length);
@@ -54,7 +54,7 @@ namespace VeraCrypt
 		Encrypt (data, data.Size());
 	}
 
-	void EncryptionAlgorithm::EncryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionAlgorithm::EncryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		if_debug (ValidateState ());
 		Mode->EncryptSectors (data, sectorIndex, sectorCount, sectorSize);

@@ -174,7 +174,7 @@ namespace VeraCrypt
 
 			try
 			{
-				shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr ((byte *) &exOutput[0], exOutput.size())));
+				shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr ((uint8 *) &exOutput[0], exOutput.size())));
 				deserializedObject.reset (Serializable::DeserializeNew (stream));
 				deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
 			}

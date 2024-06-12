@@ -16,16 +16,16 @@
 #include "TCdefs.h"
 #include "Platform.h"
 
-static byte AskPassword (Password &password, int& pim);
+static uint8 AskPassword (Password &password, int& pim);
 static int AskSelection (const char *options[], size_t optionCount);
 static bool AskYesNo (const char *message);
-static byte BootEncryptedDrive ();
+static uint8 BootEncryptedDrive ();
 static void BootMenu ();
-static void ExecuteBootSector (byte drive, byte *sectorBuffer);
+static void ExecuteBootSector (uint8 drive, uint8 *sectorBuffer);
 static void InitScreen ();
-static bool IsMenuKey (byte scanCode);
-static bool MountVolume (byte drive, byte &exitKey);
-static bool OpenVolume (byte drive, Password &password, CRYPTO_INFO **cryptoInfo, uint32 *headerSaltCrc32 = nullptr, bool skipNormal = false, bool skipHidden = false);
+static bool IsMenuKey (uint8 scanCode);
+static bool MountVolume (uint8 drive, uint8 &exitKey);
+static bool OpenVolume (uint8 drive, Password &password, CRYPTO_INFO **cryptoInfo, uint32 *headerSaltCrc32 = nullptr, bool skipNormal = false, bool skipHidden = false);
 static void PrintMainMenu ();
 static void RepairMenu ();
 

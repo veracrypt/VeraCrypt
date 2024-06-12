@@ -10,16 +10,16 @@ namespace VeraCrypt
 	{
 		uint16 Tag;							/*	T 	*/
 		uint16 Length;						/*	L 	*/
-		shared_ptr<vector<byte>> Value;		/*	V 	*/
-		byte TagSize;
-		byte LengthSize;
+		shared_ptr<vector<uint8>> Value;		/*	V 	*/
+		uint8 TagSize;
+		uint8 LengthSize;
 		uint16 MoreFlag;					/* Used In Sub */
 		uint16 SubFlag;						/* Does it have sub-nodes? */
 		shared_ptr<vector<shared_ptr<TLVNode>>> Subs;
 
 		TLVNode() : Tag(0), Length(0), TagSize(0), LengthSize(0), MoreFlag(0), SubFlag(0)
 		{
-			Value = make_shared<vector<byte>>();
+			Value = make_shared<vector<uint8>>();
 			Subs = make_shared<vector<shared_ptr<TLVNode>>>();
 		}
 
@@ -37,10 +37,10 @@ namespace VeraCrypt
 		static shared_ptr<TLVNode> TLV_CreateNode();
 
 		/* Check if the bit is correct */
-		static uint16 CheckBit(byte value, int bit);
+		static uint16 CheckBit(uint8 value, int bit);
 
 		/* Parsing one TLV node */
-		static shared_ptr<TLVNode> TLV_Parse_One(byte* buf, size_t size);
+		static shared_ptr<TLVNode> TLV_Parse_One(uint8* buf, size_t size);
 
 		/* Parsing all TLV nodes */
 		static int TLV_Parse_SubNodes(shared_ptr<TLVNode> parent);
@@ -54,7 +54,7 @@ namespace VeraCrypt
 	public:
 
 		/* Parsing TLV from a buffer and constructing TLV structure */
-		static shared_ptr<TLVNode> TLV_Parse(byte* buf, size_t size);
+		static shared_ptr<TLVNode> TLV_Parse(uint8* buf, size_t size);
 
 		/* Finding a TLV node with a particular tag */
 		static shared_ptr<TLVNode> TLV_Find(shared_ptr<TLVNode> node, uint16 tag);

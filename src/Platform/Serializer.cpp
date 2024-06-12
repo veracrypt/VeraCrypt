@@ -21,13 +21,13 @@ namespace VeraCrypt
 	T Serializer::Deserialize ()
 	{
 		uint64 size;
-		DataStream->ReadCompleteBuffer (BufferPtr ((byte *) &size, sizeof (size)));
+		DataStream->ReadCompleteBuffer (BufferPtr ((uint8 *) &size, sizeof (size)));
 
 		if (Endian::Big (size) != sizeof (T))
 			throw ParameterIncorrect (SRC_POS);
 
 		T data;
-		DataStream->ReadCompleteBuffer (BufferPtr ((byte *) &data, sizeof (data)));
+		DataStream->ReadCompleteBuffer (BufferPtr ((uint8 *) &data, sizeof (data)));
 
 		return Endian::Big (data);
 	}
@@ -35,13 +35,13 @@ namespace VeraCrypt
 	void Serializer::Deserialize (const string &name, bool &data)
 	{
 		ValidateName (name);
-		data = Deserialize <byte> () == 1;
+		data = Deserialize <uint8> () == 1;
 	}
 
-	void Serializer::Deserialize (const string &name, byte &data)
+	void Serializer::Deserialize (const string &name, uint8 &data)
 	{
 		ValidateName (name);
-		data = Deserialize <byte> ();
+		data = Deserialize <uint8> ();
 	}
 
 	void Serializer::Deserialize (const string &name, int32 &data)
@@ -127,7 +127,7 @@ namespace VeraCrypt
 		uint64 size = Deserialize <uint64> ();
 
 		vector <char> data ((size_t) size);
-		DataStream->ReadCompleteBuffer (BufferPtr ((byte *) &data[0], (size_t) size));
+		DataStream->ReadCompleteBuffer (BufferPtr ((uint8 *) &data[0], (size_t) size));
 
 		return string (&data[0]);
 	}
@@ -155,7 +155,7 @@ namespace VeraCrypt
 		uint64 size = Deserialize <uint64> ();
 
 		vector <wchar_t> data ((size_t) size / sizeof (wchar_t));
-		DataStream->ReadCompleteBuffer (BufferPtr ((byte *) &data[0], (size_t) size));
+		DataStream->ReadCompleteBuffer (BufferPtr ((uint8 *) &data[0], (size_t) size));
 
 		return wstring (&data[0]);
 	}
@@ -182,20 +182,20 @@ namespace VeraCrypt
 	void Serializer::Serialize (T data)
 	{
 		uint64 size = Endian::Big (uint64 (sizeof (data)));
-		DataStream->Write (ConstBufferPtr ((byte *) &size, sizeof (size)));
+		DataStream->Write (ConstBufferPtr ((uint8 *) &size, sizeof (size)));
 
 		data = Endian::Big (data);
-		DataStream->Write (ConstBufferPtr ((byte *) &data, sizeof (data)));
+		DataStream->Write (ConstBufferPtr ((uint8 *) &data, sizeof (data)));
 	}
 
 	void Serializer::Serialize (const string &name, bool data)
 	{
 		SerializeString (name);
-		byte d = data ? 1 : 0;
+		uint8 d = data ? 1 : 0;
 		Serialize (d);
 	}
 
-	void Serializer::Serialize (const string &name, byte data)
+	void Serializer::Serialize (const string &name, uint8 data)
 	{
 		SerializeString (name);
 		Serialize (data);
@@ -282,14 +282,14 @@ namespace VeraCrypt
 	void Serializer::SerializeString (const string &data)
 	{
 		Serialize ((uint64) data.size() + 1);
-		DataStream->Write (ConstBufferPtr ((byte *) (data.data() ? data.data() : data.c_str()), data.size() + 1));
+		DataStream->Write (ConstBufferPtr ((uint8 *) (data.data() ? data.data() : data.c_str()), data.size() + 1));
 	}
 
 	void Serializer::SerializeWString (const wstring &data)
 	{
 		uint64 size = (data.size() + 1) * sizeof (wchar_t);
 		Serialize (size);
-		DataStream->Write (ConstBufferPtr ((byte *) (data.data() ? data.data() : data.c_str()), (size_t) size));
+		DataStream->Write (ConstBufferPtr ((uint8 *) (data.data() ? data.data() : data.c_str()), (size_t) size));
 	}
 
 	void Serializer::ValidateName (const string &name)

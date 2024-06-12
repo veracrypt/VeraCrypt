@@ -253,7 +253,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			if (Token::IsKeyfilePathValid (kf->FileName, EMVSupportEnabled? true : false))
 			{
 				// Apply security token keyfile
-				vector <byte> keyfileData;
+				vector <uint8> keyfileData;
 				TokenKeyfilePath secPath (kf->FileName);
 				Token::getTokenKeyfile (secPath)->GetKeyfileData (keyfileData);
 

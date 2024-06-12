@@ -26,14 +26,14 @@ namespace VeraCrypt
 
 		uint32 Get () const { return CrcValue ^ 0xffffFFFF; }
 
-		uint32 Process (byte data)
+		uint32 Process (uint8 data)
 		{
-			return CrcValue = crc_32_tab[(byte) (CrcValue ^ data)] ^ (CrcValue >> 8);
+			return CrcValue = crc_32_tab[(uint8) (CrcValue ^ data)] ^ (CrcValue >> 8);
 		}
 
 		static uint32 ProcessBuffer (const ConstBufferPtr &buffer)
 		{
-			return ::GetCrc32 (const_cast<byte *> (buffer.Get()), static_cast<int> (buffer.Size()));
+			return ::GetCrc32 (const_cast<uint8 *> (buffer.Get()), static_cast<int> (buffer.Size()));
 		}
 
 	protected:

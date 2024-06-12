@@ -12,10 +12,10 @@
 
 #include "BootConfig.h"
 
-byte BootSectorFlags;
+uint8 BootSectorFlags;
 
-byte BootLoaderDrive;
-byte BootDrive;
+uint8 BootLoaderDrive;
+uint8 BootDrive;
 bool BootDriveGeometryValid = false;
 bool PreventNormalSystemBoot = false;
 bool PreventBootMenu = false;
@@ -39,7 +39,7 @@ uint64 HiddenVolumeStartSector;
 
 void ReadBootSectorUserConfiguration ()
 {
-	byte userConfig;
+	uint8 userConfig;
 
 	AcquireSectorBuffer();
 
@@ -83,7 +83,7 @@ ret:
 }
 
 
-BiosResult UpdateBootSectorConfiguration (byte drive)
+BiosResult UpdateBootSectorConfiguration (uint8 drive)
 {
 	uint64 mbrSector;
 	mbrSector.HighPart = 0;

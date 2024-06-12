@@ -17,10 +17,10 @@
 #include "Platform.h"
 #include "BootDiskIo.h"
 
-extern byte BootSectorFlags;
+extern uint8 BootSectorFlags;
 
-extern byte BootLoaderDrive;
-extern byte BootDrive;
+extern uint8 BootLoaderDrive;
+extern uint8 BootDrive;
 extern bool BootDriveGeometryValid;
 extern DriveGeometry BootDriveGeometry;
 extern bool PreventNormalSystemBoot;
@@ -41,6 +41,6 @@ extern uint64 HiddenVolumeStartSector;
 
 
 void ReadBootSectorUserConfiguration ();
-BiosResult UpdateBootSectorConfiguration (byte drive);
+BiosResult UpdateBootSectorConfiguration (uint8 drive);
 
 #endif // TC_HEADER_Boot_BootConfig

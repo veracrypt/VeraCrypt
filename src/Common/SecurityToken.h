@@ -76,7 +76,7 @@ namespace VeraCrypt
 
 		operator TokenKeyfilePath () const;
 
-		void GetKeyfileData(vector<byte>& keyfileData) const;
+		void GetKeyfileData(vector<uint8>& keyfileData) const;
 
 		string IdUtf8;
 		CK_OBJECT_HANDLE Handle;
@@ -181,7 +181,7 @@ namespace VeraCrypt
 	public:
 		static void CloseAllSessions() throw ();
 		static void CloseLibrary();
-		static void CreateKeyfile(CK_SLOT_ID slotId, vector <byte>& keyfileData, const string& name);
+		static void CreateKeyfile(CK_SLOT_ID slotId, vector <uint8>& keyfileData, const string& name);
 		static void DeleteKeyfile(const SecurityTokenKeyfile& keyfile);
 		static vector <SecurityTokenKeyfile> GetAvailableKeyfiles(CK_SLOT_ID* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
 		static list <SecurityTokenInfo> GetAvailableTokens();
@@ -199,7 +199,7 @@ namespace VeraCrypt
 	protected:
 		static void CloseSession(CK_SLOT_ID slotId);
 		static vector <CK_OBJECT_HANDLE> GetObjects(CK_SLOT_ID slotId, CK_ATTRIBUTE_TYPE objectClass);
-		static void GetObjectAttribute(CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <byte>& attributeValue);
+		static void GetObjectAttribute(CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <uint8>& attributeValue);
 		static list <CK_SLOT_ID> GetTokenSlots();
 		static void Login(CK_SLOT_ID slotId, const char* pin);
 		static void LoginUserIfRequired(CK_SLOT_ID slotId);
@@ -217,7 +217,7 @@ namespace VeraCrypt
 		static map <CK_SLOT_ID, Pkcs11Session> Sessions;
 		static unique_ptr <SendExceptionFunctor> WarningCallback;
 
-		friend void SecurityTokenKeyfile::GetKeyfileData(vector <byte>& keyfileData) const;
+		friend void SecurityTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const;
 	};
 }
 

@@ -6,12 +6,12 @@
 
 namespace VeraCrypt
 {
-	void EncryptionModeWolfCryptXTS::Encrypt (byte *data, uint64 length) const
+	void EncryptionModeWolfCryptXTS::Encrypt (uint8 *data, uint64 length) const
 	{
 		EncryptBuffer (data, length, 0);
 	}
 
-	void EncryptionModeWolfCryptXTS::EncryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const
+	void EncryptionModeWolfCryptXTS::EncryptBuffer (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
 		if_debug (ValidateState());
 
@@ -26,12 +26,12 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.end());
 	}
 
-	void EncryptionModeWolfCryptXTS::EncryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeWolfCryptXTS::EncryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
                 cipher.EncryptBlockXTS(buffer, length, startDataUnitNo);
 	}
 
-	void EncryptionModeWolfCryptXTS::EncryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionModeWolfCryptXTS::EncryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		EncryptBuffer (data, sectorCount * sectorSize, sectorIndex * sectorSize / ENCRYPTION_DATA_UNIT_SIZE);
 	}
@@ -50,12 +50,12 @@ namespace VeraCrypt
 		return keySize;
 	}
 
-	void EncryptionModeWolfCryptXTS::Decrypt (byte *data, uint64 length) const
+	void EncryptionModeWolfCryptXTS::Decrypt (uint8 *data, uint64 length) const
 	{
 		DecryptBuffer (data, length, 0);
 	}
 
-	void EncryptionModeWolfCryptXTS::DecryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const
+	void EncryptionModeWolfCryptXTS::DecryptBuffer (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
 		if_debug (ValidateState());
 
@@ -70,12 +70,12 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.begin());
 	}
 
-	void EncryptionModeWolfCryptXTS::DecryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeWolfCryptXTS::DecryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
                 cipher.DecryptBlockXTS(buffer, length, startDataUnitNo);
         }
 
-	void EncryptionModeWolfCryptXTS::DecryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionModeWolfCryptXTS::DecryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		DecryptBuffer (data, sectorCount * sectorSize, sectorIndex * sectorSize / ENCRYPTION_DATA_UNIT_SIZE);
 	}

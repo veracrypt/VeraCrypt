@@ -144,7 +144,7 @@ namespace VeraCrypt
 		outerVolume->ReadSectors (bootSectorBuffer, 0);
 
 		int fatType;
-		byte *bootSector = bootSectorBuffer.Ptr();
+		uint8 *bootSector = bootSectorBuffer.Ptr();
 
 		if (memcmp (bootSector + 54, "FAT12", 5) == 0)
 			fatType = 12;

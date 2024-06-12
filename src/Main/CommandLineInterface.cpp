@@ -834,7 +834,7 @@ namespace VeraCrypt
 			if (wxCONV_FAILED == ulen)
 				throw PasswordUTF8Invalid (SRC_POS);
 			SecureBuffer passwordBuf(ulen);
-			ulen = utf8.FromWChar ((char*) (byte*) passwordBuf, ulen, str, charCount);
+			ulen = utf8.FromWChar ((char*) (uint8*) passwordBuf, ulen, str, charCount);
 			if (wxCONV_FAILED == ulen)
 				throw PasswordUTF8Invalid (SRC_POS);
 			if (ulen > maxUtf8Len)
@@ -845,7 +845,7 @@ namespace VeraCrypt
 					throw PasswordUTF8TooLong (SRC_POS);
 			}
 
-			ConstBufferPtr utf8Buffer ((byte*) passwordBuf, ulen);
+			ConstBufferPtr utf8Buffer ((uint8*) passwordBuf, ulen);
 			return shared_ptr<SecureBuffer>(new SecureBuffer (utf8Buffer));
 		}
 		else

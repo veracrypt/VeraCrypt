@@ -108,7 +108,7 @@ namespace VeraCrypt
 			*TextOutStream << L"</VeraCrypt>" << endl;
 
 			wxStreamBuffer *buf = MemOutStream->GetOutputStreamBuffer();
-			OutFile.Write (ConstBufferPtr (reinterpret_cast <byte *> (buf->GetBufferStart()), buf->GetBufferSize()));
+			OutFile.Write (ConstBufferPtr (reinterpret_cast <uint8 *> (buf->GetBufferStart()), buf->GetBufferSize()));
 			OutFile.Close();
 
 			TextOutStream.reset();

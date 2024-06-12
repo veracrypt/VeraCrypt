@@ -60,7 +60,7 @@ namespace VeraCrypt
 		sr.Serialize ("WipeData", ConstBufferPtr (wipeBuffer));
 	}
 
-	void VolumePassword::Set (const byte *password, size_t size)
+	void VolumePassword::Set (const uint8 *password, size_t size)
 	{
 		AllocateBuffer ();
 

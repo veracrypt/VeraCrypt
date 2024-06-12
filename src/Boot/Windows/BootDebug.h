@@ -51,8 +51,8 @@
 
 void InitDebugPort ();
 void InitStackChecker ();
-void WriteDebugPort (byte dataByte);
-void PrintHexDump (byte *mem, size_t size, uint16 *memSegment = nullptr);
+void WriteDebugPort (uint8 dataByte);
+void PrintHexDump (uint8 *mem, size_t size, uint16 *memSegment = nullptr);
 void PrintHexDump (uint16 memSegment, uint16 memOffset, size_t size);
 void PrintVal (const char *message, const uint32 value, bool newLine = true, bool hex = false);
 void PrintVal (const char *message, const uint64 &value, bool newLine = true, bool hex = false);

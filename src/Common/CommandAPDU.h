@@ -34,7 +34,7 @@ namespace VeraCrypt
 	{
 	protected:
 
-		vector<byte> m_apdu;
+		vector<uint8> m_apdu;
 		uint32 m_nc;
 		uint32 m_ne;
 		uint32 m_dataOffset;
@@ -43,8 +43,8 @@ namespace VeraCrypt
 		bool m_parsedSuccessfully;
 
 		void parse();
-		void init(byte cla, byte ins, byte p1, byte p2, const byte* data, uint32 dataOffset, uint32 dataLength, uint32 ne);
-		void setHeader(byte cla, byte ins, byte p1, byte p2);
+		void init(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const uint8* data, uint32 dataOffset, uint32 dataLength, uint32 ne);
+		void setHeader(uint8 cla, uint8 ins, uint8 p1, uint8 p2);
 
 	public:
 
@@ -52,35 +52,35 @@ namespace VeraCrypt
 
 		CommandAPDU();
 
-		CommandAPDU(byte cla, byte ins, byte p1, byte p2, const byte* data, uint32 dataOffset, uint32 dataLength, uint32 ne);
+		CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const uint8* data, uint32 dataOffset, uint32 dataLength, uint32 ne);
 
-		CommandAPDU(byte cla, byte ins, byte p1, byte p2);
+		CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2);
 
-		CommandAPDU(byte cla, byte ins, byte p1, byte p2, uint32 ne);
+		CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, uint32 ne);
 
-		CommandAPDU(byte cla, byte ins, byte p1, byte p2, const vector<byte>& data);
+		CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const vector<uint8>& data);
 
-		CommandAPDU(byte cla, byte ins, byte p1, byte p2, const byte* data, uint32 dataOffset, uint32 dataLength);
+		CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const uint8* data, uint32 dataOffset, uint32 dataLength);
 
-		CommandAPDU(byte cla, byte ins, byte p1, byte p2, const vector<byte>& data, uint32 ne);
+		CommandAPDU(uint8 cla, uint8 ins, uint8 p1, uint8 p2, const vector<uint8>& data, uint32 ne);
 
-		CommandAPDU(const vector<byte>& apdu);
+		CommandAPDU(const vector<uint8>& apdu);
 
-		byte getCLA();
+		uint8 getCLA();
 
-		byte getINS();
+		uint8 getINS();
 
-		byte getP1();
+		uint8 getP1();
 
-		byte getP2();
+		uint8 getP2();
 
 		uint32 getNc();
 
-		const vector<byte> getData();
+		const vector<uint8> getData();
 
 		uint32 getNe();
 
-		const vector<byte> getAPDU();
+		const vector<uint8> getAPDU();
 
 		bool isValid();
 

@@ -20,7 +20,7 @@
 #pragma optimize ("tl", on)
 
 typedef unsigned __int32 uint32;
-typedef unsigned __int8 byte;
+typedef unsigned __int8 uint8;
 
 #include <stdlib.h>
 #pragma intrinsic(_lrotr)

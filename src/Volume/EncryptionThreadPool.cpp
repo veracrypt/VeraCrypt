@@ -26,13 +26,13 @@
 
 namespace VeraCrypt
 {
-	void EncryptionThreadPool::DoWork (WorkType::Enum type, const EncryptionMode *encryptionMode, byte *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize)
+	void EncryptionThreadPool::DoWork (WorkType::Enum type, const EncryptionMode *encryptionMode, uint8 *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize)
 	{
 		size_t fragmentCount;
 		size_t unitsPerFragment;
 		size_t remainder;
 
-		byte *fragmentData;
+		uint8 *fragmentData;
 		uint64 fragmentStartUnitNo;
 
 		WorkItem *workItem;

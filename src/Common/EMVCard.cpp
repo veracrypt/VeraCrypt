@@ -40,19 +40,19 @@ namespace VeraCrypt
 	}
 #endif
 
-	map<EMVCardType, vector<byte>> InitializeSupportedAIDs()
+	map<EMVCardType, vector<uint8>> InitializeSupportedAIDs()
 	{
-		map<EMVCardType, vector<byte>> supportedAIDs;
-		supportedAIDs.insert(std::make_pair(EMVCardType::AMEX, vector<byte>(EMVCard::AMEX_AID, EMVCard::AMEX_AID + sizeof(EMVCard::AMEX_AID))));
-		supportedAIDs.insert(std::make_pair(EMVCardType::MASTERCARD, vector<byte>(EMVCard::MASTERCARD_AID, EMVCard::MASTERCARD_AID + sizeof(EMVCard::MASTERCARD_AID))));
-		supportedAIDs.insert(std::make_pair(EMVCardType::VISA, vector<byte>(EMVCard::VISA_AID, EMVCard::VISA_AID + sizeof(EMVCard::VISA_AID))));
+		map<EMVCardType, vector<uint8>> supportedAIDs;
+		supportedAIDs.insert(std::make_pair(EMVCardType::AMEX, vector<uint8>(EMVCard::AMEX_AID, EMVCard::AMEX_AID + sizeof(EMVCard::AMEX_AID))));
+		supportedAIDs.insert(std::make_pair(EMVCardType::MASTERCARD, vector<uint8>(EMVCard::MASTERCARD_AID, EMVCard::MASTERCARD_AID + sizeof(EMVCard::MASTERCARD_AID))));
+		supportedAIDs.insert(std::make_pair(EMVCardType::VISA, vector<uint8>(EMVCard::VISA_AID, EMVCard::VISA_AID + sizeof(EMVCard::VISA_AID))));
 		return supportedAIDs;
 	}
 
-	const byte EMVCard::AMEX_AID[7]										= {0xA0, 0x00, 0x00, 0x00, 0x00, 0x25, 0x10};
-	const byte EMVCard::MASTERCARD_AID[7]								= {0xA0, 0x00, 0x00, 0x00, 0x04, 0x10, 0x10};
-	const byte EMVCard::VISA_AID[7]										= {0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10};
-	const map<EMVCardType, vector<byte>> EMVCard::SUPPORTED_AIDS		= InitializeSupportedAIDs();
+	const uint8 EMVCard::AMEX_AID[7]										= {0xA0, 0x00, 0x00, 0x00, 0x00, 0x25, 0x10};
+	const uint8 EMVCard::MASTERCARD_AID[7]								= {0xA0, 0x00, 0x00, 0x00, 0x04, 0x10, 0x10};
+	const uint8 EMVCard::VISA_AID[7]										= {0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10};
+	const map<EMVCardType, vector<uint8>> EMVCard::SUPPORTED_AIDS		= InitializeSupportedAIDs();
 
 	EMVCard::EMVCard() : SCard(), m_lastPANDigits(L"")
 	{
@@ -130,15 +130,15 @@ namespace VeraCrypt
 		m_lastPANDigits.clear();
 	}
 
-	vector<byte> EMVCard::GetCardAID(bool forceContactless)
+	vector<uint8> EMVCard::GetCardAID(bool forceContactless)
 	{
-		vector<vector<byte>> 				supportedAIDs;
-		vector<byte> 						supportedAIDsPriorities;
-		vector<pair<byte, vector<byte>>> 	supportedAIDsSorted;
+		vector<vector<uint8>> 				supportedAIDs;
+		vector<uint8> 						supportedAIDsPriorities;
+		vector<pair<uint8, vector<uint8>>> 	supportedAIDsSorted;
 		bool 								hasBeenReset = false;
 		CommandAPDU 						command;
 		ResponseAPDU 						response;
-		vector<byte> 						responseData;
+		vector<uint8> 						responseData;
 		shared_ptr<TLVNode> 				rootNode;
 		shared_ptr<TLVNode> 				fciNode;
 		shared_ptr<TLVNode> 				dfNameNode;
@@ -149,7 +149,7 @@ namespace VeraCrypt
 		vector<shared_ptr<TLVNode>> 		pseDirectoryNodes;
 		unsigned char 						sfi;
 		bool 								usingContactless = false;
-		vector<byte>						tokenAID;
+		vector<uint8>						tokenAID;
 
 		if (m_aid.size())
 			return m_aid;
@@ -241,7 +241,7 @@ namespace VeraCrypt
 											{
 												sfi = sfiNode->Value->at(0);
 
-												byte rec = 1;
+												uint8 rec = 1;
 												do
 												{
 													command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec++, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
@@ -316,20 +316,20 @@ namespace VeraCrypt
 		return tokenAID;
 	}
 
-	void EMVCard::GetCardContent(vector<byte>& iccCert, vector<byte>& issuerCert, vector<byte>& cplcData)
+	void EMVCard::GetCardContent(vector<uint8>& iccCert, vector<uint8>& issuerCert, vector<uint8>& cplcData)
 	{
 		bool						hasBeenReset	= false;
 		bool						aidSelected		= false;
 		bool						iccFound		= false;
 		bool						issuerFound		= false;
 		bool						cplcFound		= false;
-		vector<byte>				emvCardAid;
+		vector<uint8>				emvCardAid;
 		shared_ptr<TLVNode>			rootNode;
 		shared_ptr<TLVNode>			iccPublicKeyCertNode;
 		shared_ptr<TLVNode>			issuerPublicKeyCertNode;
 		CommandAPDU					command;
 		ResponseAPDU				response;
-		vector<byte>				responseData;
+		vector<uint8>				responseData;
 
 		iccCert.clear();
 		issuerCert.clear();
@@ -374,9 +374,9 @@ namespace VeraCrypt
 
 						// TODO: Send GET PROCESSING OPTIONS to get the AIL and AFL,
 						//		 which will then be used to get the actual start and end of sfi and rec.
-						for (byte sfi = 1; sfi < 32 && (!iccFound || !issuerFound); sfi++)
+						for (uint8 sfi = 1; sfi < 32 && (!iccFound || !issuerFound); sfi++)
 						{
-							for (byte rec = 1; rec < 17 && (!iccFound || !issuerFound); rec++)
+							for (uint8 rec = 1; rec < 17 && (!iccFound || !issuerFound); rec++)
 							{
 								command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
 								m_reader->ApduProcessData(command, response);
@@ -436,13 +436,13 @@ namespace VeraCrypt
 		bool						hasBeenReset	= false;
 		bool						panFound		= false;
 		bool						aidSelected		= false;
-		vector<byte>				EMVCardAid;
-		vector<byte>				panData;
+		vector<uint8>				EMVCardAid;
+		vector<uint8>				panData;
 		shared_ptr<TLVNode>			rootNode;
 		shared_ptr<TLVNode>			panNode;
 		CommandAPDU					command;
 		ResponseAPDU				response;
-		vector<byte>				responseData;
+		vector<uint8>				responseData;
 
 		lastPANDigits = L"";
 
@@ -474,9 +474,9 @@ namespace VeraCrypt
 
 					// TODO: Send GET PROCESSING OPTIONS to get the AIL and AFL,
 					//		 which will then be used to get the actual start and end of sfi and rec.
-					for (byte sfi = 1; sfi < 32 && !panFound; sfi++)
+					for (uint8 sfi = 1; sfi < 32 && !panFound; sfi++)
 					{
-						for (byte rec = 1; rec < 17 && !panFound; rec++)
+						for (uint8 rec = 1; rec < 17 && !panFound; rec++)
 						{
 							command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
 							m_reader->ApduProcessData(command, response);
@@ -498,7 +498,7 @@ namespace VeraCrypt
 								{
 									panFound = true;
 									panData = *panNode->Value.get();
-									panData = vector<byte>(panData.rbegin(), panData.rbegin() + 2); // only interested in last digits
+									panData = vector<uint8>(panData.rbegin(), panData.rbegin() + 2); // only interested in last digits
 									std::swap(panData[0], panData[1]);
 									lastPANDigits = ArrayToHexWideString(panData.data(), (int) panData.size());
 								}

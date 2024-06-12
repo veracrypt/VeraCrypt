@@ -6,8 +6,8 @@
 #include "cpu.h"
 #include "misc.h"
 
-void CRYPTOPP_FASTCALL MASM_RDRAND_GenerateBlock(byte*, size_t);
-void CRYPTOPP_FASTCALL MASM_RDSEED_GenerateBlock(byte*, size_t);
+void CRYPTOPP_FASTCALL MASM_RDRAND_GenerateBlock(uint8*, size_t);
+void CRYPTOPP_FASTCALL MASM_RDSEED_GenerateBlock(uint8*, size_t);
 
 int RDRAND_getBytes(unsigned char* buf, size_t bufLen)
 {
