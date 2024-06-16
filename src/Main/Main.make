@@ -210,7 +210,7 @@ else
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 endif
 	chmod -R go-w $(APPNAME).app
-ifneq ($(LOCAL_DEVELOPMENT_BUILD),"true")
+ifneq ("$(LOCAL_DEVELOPMENT_BUILD)","true")
 	codesign -s "Developer ID Application: IDRIX (Z933746L2S)" --timestamp $(APPNAME).app
 endif
 
@@ -224,7 +224,12 @@ ifdef VC_LEGACY_BUILD
 	rm -f $(APPNAME)_Legacy_$(TC_VERSION).dmg
 else
 	/usr/local/bin/packagesbuild $(BASE_DIR)/Setup/MacOSX/veracrypt.pkgproj
+ifneq ("$(LOCAL_DEVELOPMENT_BUILD)","true")
 	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
+else
+	# copy the unsigned package to the expected location
+	cp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
+end
 	rm -f $(APPNAME)_$(TC_VERSION).dmg
 endif
 	rm -f "$(BASE_DIR)/Setup/MacOSX/template.dmg"
