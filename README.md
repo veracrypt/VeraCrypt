@@ -151,9 +151,24 @@ of the SDK (i.e. 10.15), you can export the environment variable VC_OSX_TARGET:
 
 	$ export VC_OSX_TARGET=10.15
 
+For development dependencies management, you can use [homebrew](https://brew.sh).
 
-Before building under MacOSX, pkg-config must be installed if not yet available.
-Get it from https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
+	$ brew install pkg-config yasm wxwidgets
+
+You also need system dependencies
+
+	$ brew install --cask macfuse packages
+
+After installating dependencies via brew, you can build a local development build
+
+	$ ./src/Build/build_veracrypt_macosx.sh -b
+
+If you want to build the package, you also need to pass `-p` to the build script above. The built
+executable will be in `.src/Main`
+
+If you prefer to build from sources, or without homebrew, pkg-config and packages must be installed.
+
+Get pkg-config from https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
 compile using the following commands :
 
 	$ ./configure --with-internal-glib
@@ -178,7 +193,7 @@ Because of incompatibility issues with OSXFUSE, the SDK 10.9 generates a
 VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension.
 Thus, we recommend using a different OSX SDK version for building VeraCrypt.
 
-
+To build the installation package, you will need [packages](http://s.sudre.free.fr/Software/Packages/about.html)
 
 III. FreeBSD
 ============================
