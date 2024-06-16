@@ -321,14 +321,14 @@ ifeq "$(shell uname -s)" "Darwin"
 	# To suppress this warning, we need to use -Wl,-ld_classic flag in order to use the old ld64 linker
 	# https://mjtsai.com/blog/2024/03/15/xcode-15-no-platform-load-command-found/
 	# Check Xcode version for using specific linker flag
-    XCODE_VERSION := $(shell xcodebuild -version 2>/dev/null | grep 'Xcode' | sed -E 's/Xcode ([0-9]+).*/\1/')
-    ifneq ($(XCODE_VERSION),)
-        ifeq "$(shell expr $(XCODE_VERSION) \>= 15)" "1"
-            LFLAGS += -Wl,-ld_classic
-        endif
-    else
-        $(error Xcode not found, please check your installation)
-    endif
+	XCODE_VERSION := $(shell xcodebuild -version 2>/dev/null | grep 'Xcode' | sed -E 's/Xcode ([0-9]+).*/\1/')
+	ifneq ($(XCODE_VERSION),)
+		ifeq "$(shell expr $(XCODE_VERSION) \>= 15)" "1"
+			LFLAGS += -Wl,-ld_classic
+		endif
+	else
+		$(error Xcode not found, please check your installation)
+	endif
 
 	WX_CONFIGURE_FLAGS += --with-macosx-version-min=$(VC_OSX_TARGET) --with-macosx-sdk=$(VC_OSX_SDK_PATH)
 
@@ -336,22 +336,22 @@ ifeq "$(shell uname -s)" "Darwin"
 	# Set x86 assembly flags (-msse2, -mssse3, -msse4.1)
 	# Apply flags if SIMD_SUPPORTED is 1 or if not in local development build (we are creating universal binary in this case)
 	ifneq "$(LOCAL_DEVELOPMENT_BUILD)" "true"
-    	SIMD_SUPPORTED = 1
+		SIMD_SUPPORTED = 1
 	endif
 
 	ifeq "$(SIMD_SUPPORTED)" "1"
-    	CFLAGS += -msse2
-    	CXXFLAGS += -msse2
+		CFLAGS += -msse2
+		CXXFLAGS += -msse2
 
-    	ifeq "$(origin SSSE3)" "command line"
-        	CFLAGS += -mssse3
-        	CXXFLAGS += -mssse3
-    	endif
+		ifeq "$(origin SSSE3)" "command line"
+			CFLAGS += -mssse3
+			CXXFLAGS += -mssse3
+		endif
 
-    	ifeq "$(origin SSE41)" "command line"
-        	CFLAGS += -mssse3 -msse4.1
-        	CXXFLAGS += -mssse3 -msse4.1
-    	endif
+		ifeq "$(origin SSE41)" "command line"
+			CFLAGS += -mssse3 -msse4.1
+			CXXFLAGS += -mssse3 -msse4.1
+		endif
 	endif
 
 	AS ?= $(BASE_DIR)/Build/Tools/MacOSX/yasm
@@ -362,19 +362,19 @@ ifeq "$(shell uname -s)" "Darwin"
 
     	export DISABLE_PRECOMPILED_HEADERS := 1
 
-    	C_CXX_FLAGS := $(subst -MMD,,$(C_CXX_FLAGS)) -gfull
-    	LFLAGS += -Wl,-dead_strip
+		C_CXX_FLAGS := $(subst -MMD,,$(C_CXX_FLAGS)) -gfull
+		LFLAGS += -Wl,-dead_strip
 
-    	# Initialize architecture flag
-    	ARCH_FLAG := -arch x86_64
+		# Initialize architecture flag
+		ARCH_FLAG := -arch x86_64
 
-    	# Set architecture flags based on build type and CPU architecture
-    	ifeq "$(LOCAL_DEVELOPMENT_BUILD)" "true"
-        	ifeq "$(CPU_ARCH)" "arm64"
-            	ARCH_FLAG := -arch arm64
-        	endif
-        	WX_CONFIGURE_FLAGS += --disable-universal_binary
-    	else
+		# Set architecture flags based on build type and CPU architecture
+		ifeq "$(LOCAL_DEVELOPMENT_BUILD)" "true"
+			ifeq "$(CPU_ARCH)" "arm64"
+				ARCH_FLAG := -arch arm64
+			endif
+			WX_CONFIGURE_FLAGS += --disable-universal_binary
+		else
 			# Legacy build settings
 			ifdef VC_LEGACY_BUILD
 				ARCH_FLAG += -arch i386
