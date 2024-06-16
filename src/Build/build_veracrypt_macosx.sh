@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Copyright (c) 2013-2019 IDRIX
+# Copyright (c) 2013-2024 IDRIX
 # Governed by the Apache License 2.0 the full text of which is contained
 # in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -14,7 +14,7 @@ SOURCEPATH=$(cd "$(dirname "$SCRIPTPATH/../.")"; pwd)
 # directory where the VeraCrypt project has been checked out
 PARENTDIR=$(cd "$(dirname "$SCRIPTPATH/../../../.")"; pwd)
 
-while getopts bpr flag
+while getopts bp flag
 do
     case "${flag}" in
         b) brew=true;;
@@ -45,16 +45,16 @@ if [ -n "$brew" ]; then
     exit 0
 fi
 
-# the sources of wxWidgets 3.1.2 must be extracted to the parent directory (for night mode)
-export WX_ROOT=$PARENTDIR/wxWidgets-3.2.2.1
+# the sources of wxWidgets 3.2.5 must be extracted to the parent directory (for night mode)
+export WX_ROOT=$PARENTDIR/wxWidgets-3.2.5
 echo "Using wxWidgets sources in $WX_ROOT"
 
 # this will be the temporary wxWidgets directory
-export WX_BUILD_DIR=$PARENTDIR/wxBuild-3.2.2.1
+export WX_BUILD_DIR=$PARENTDIR/wxBuild-3.2.5
 
 # define the SDK version to use and OSX minimum target. We target 12 by default
 export VC_OSX_TARGET=12
-export VC_OSX_SDK=13
+export VC_OSX_SDK=$(xcrun --show-sdk-version) #use the latest version installed
 echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
 
 cd $SOURCEPATH
