@@ -146,10 +146,10 @@ On MacOSX, building a console-only executable is not supported.
 Mac OS X specifics:
 -----------------------------------------------------------
 
-Under MacOSX, the SDK for OSX 11.3 is used by default. To use another version
-of the SDK (i.e. 10.15), you can export the environment variable VC_OSX_TARGET:
+Under MacOSX, the lastest installed SDK is used by default. To use a different version
+of the SDK when building using make, you can export the environment variable VC_OSX_SDK:
 
-	$ export VC_OSX_TARGET=10.15
+	$ export VC_OSX_SDK=13.0
 
 For development dependencies management, you can use [homebrew](https://brew.sh).
 
@@ -168,10 +168,10 @@ executable will be in `.src/Main`
 
 If you prefer to build from sources, or without homebrew, pkg-config and packages must be installed.
 
-Get pkg-config from https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
+Get pkg-config from https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz and
 compile using the following commands :
 
-	$ ./configure --with-internal-glib
+	$ CFLAGS="-Wno-int-conversion" CXXFLAGS="-Wno-int-conversion" ./configure --with-internal-glib
 	$ make
 	$ sudo make install
 
@@ -180,11 +180,11 @@ https://osxfuse.github.io/
 
 The script build_veracrypt_macosx.sh available under "src/Build" performs the
 full build of VeraCrypt including the creation of the installer pkg. It expects
-to find the wxWidgets 3.1.2 sources at the same level as where you put
+to find the wxWidgets 3.2.5 sources at the same level as where you put
 VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
-then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.1.2")
+then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.2.5")
 
-The build process uses Code Signing certificates whose ID is specified in
+The make build process uses Code Signing certificates whose ID is specified in
 src/Main/Main.make (look for lines containing "Developer ID Application" and
 "Developer ID Installer"). You'll have to modify these lines to put the ID of
 your Code Signing certificates or comment them if you don't have one.
@@ -194,6 +194,8 @@ VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension
 Thus, we recommend using a different OSX SDK version for building VeraCrypt.
 
 To build the installation package, you will need [packages](http://s.sudre.free.fr/Software/Packages/about.html)
+The Packages installer that is used for VeraCrypt official build has been notarized by IDRIX and it is available at
+https://github.com/idrassi/packages/releases
 
 III. FreeBSD
 ============================
