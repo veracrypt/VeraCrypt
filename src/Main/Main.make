@@ -229,7 +229,7 @@ ifneq ("$(LOCAL_DEVELOPMENT_BUILD)","true")
 else
 	# copy the unsigned package to the expected location
 	cp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
-end
+endif
 	rm -f $(APPNAME)_$(TC_VERSION).dmg
 endif
 	rm -f "$(BASE_DIR)/Setup/MacOSX/template.dmg"
