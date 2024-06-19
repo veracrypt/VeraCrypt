@@ -52,6 +52,7 @@ ifneq "$(COMPILE_ASM)" "false"
 	OBJSEX += ../Crypto/sha512_avx1.oo
 	OBJSEX += ../Crypto/sha512_avx2.oo
 	OBJSEX += ../Crypto/sha512_sse4.oo
+endif
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
 	ifeq "$(DISABLE_AESNI)" "0"
@@ -76,7 +77,6 @@ else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/sha512_sse4_x64.o
 else
 	OBJS += ../Crypto/Aescrypt.o
-endif
 endif
 
 ifeq "$(GCC_GTEQ_430)" "1"
