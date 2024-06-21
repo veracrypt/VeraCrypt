@@ -119,6 +119,7 @@ namespace VeraCrypt
 
 	void CoreMacOSX::MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const
 	{
+#ifndef VC_MACOSX_FUSET
 		// Check FUSE version
 		char fuseVersionString[MAXHOSTNAMELEN + 1] = { 0 };
 		size_t fuseVersionStringLength = MAXHOSTNAMELEN;
@@ -153,7 +154,7 @@ namespace VeraCrypt
 
 		if (fuseVersionMajor < 2 || (fuseVersionMajor == 2 && fuseVersionMinor < 5))
 			throw HigherFuseVersionRequired (SRC_POS);
-
+#endif
 		// Mount volume image
 		string volImage = string (auxMountPoint) + FuseService::GetVolumeImagePath();
 

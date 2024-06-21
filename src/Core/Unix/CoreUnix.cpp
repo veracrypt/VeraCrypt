@@ -303,17 +303,39 @@ namespace VeraCrypt
 				continue;
 
 			shared_ptr <VolumeInfo> mountedVol;
-			try
+			// Introduce a retry mechanism with a timeout for control file access
+			int controlFileRetries = 5;
+			while (controlFileRetries-- > 0)
 			{
-				shared_ptr <File> controlFile (new File);
-				controlFile->Open (string (mf.MountPoint) + FuseService::GetControlPath());
+				try 
+				{
+					shared_ptr <File> controlFile (new File);
+					controlFile->Open (string (mf.MountPoint) + FuseService::GetControlPath());
 
-				shared_ptr <Stream> controlFileStream (new FileStream (controlFile));
-				mountedVol = Serializable::DeserializeNew <VolumeInfo> (controlFileStream);
+					shared_ptr <Stream> controlFileStream (new FileStream (controlFile));
+					mountedVol = Serializable::DeserializeNew <VolumeInfo> (controlFileStream);
+					break; // Control file opened successfully
+				}
+				catch (const std::exception& e)
+				{
+					// if exception starts with "VeraCrypt::Serializer::ValidateName", then 
+					// serialization is not ready yet and we need to wait before retrying
+					// this happens when FUSE-T is used under macOS and if it is the first time
+					// the volume is mounted
+					if (string (e.what()).find ("VeraCrypt::Serializer::ValidateName") != string::npos)
+					{
+						Thread::Sleep(250); // Wait before retrying
+					}
+					else
+					{
+						break; // Control file not found
+					}
+				}
 			}
-			catch (...)
+
+			if (!mountedVol) 
 			{
-				continue;
+				continue; // Skip to the next mounted filesystem
 			}
 
 			if (!volumePath.IsEmpty() && wstring (mountedVol->Path).compare (volumePath) != 0)
@@ -700,6 +722,7 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
+			wcout << L"Exception. Error mounting volume: " << wstring(*options.Path) << endl;
 			try
 			{
 				VolumeInfoList mountedVolumes = GetMountedVolumes (*options.Path);

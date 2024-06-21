@@ -102,7 +102,7 @@ endif
 
 #------ FUSE configuration ------
 
-FUSE_LIBS = $(shell $(PKG_CONFIG) fuse --libs)
+FUSE_LIBS = $(shell $(PKG_CONFIG) $(VC_FUSE_PACKAGE) --libs)
 
 #------ Executable ------
 
@@ -223,7 +223,11 @@ ifdef VC_LEGACY_BUILD
 	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt Legacy $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_Legacy_$(TC_VERSION).dmg
 else
+ifeq "$(VC_OSX_FUSET)" "1"
+	/usr/local/bin/packagesbuild $(BASE_DIR)/Setup/MacOSX/veracrypt_fuse-t.pkgproj
+else
 	/usr/local/bin/packagesbuild $(BASE_DIR)/Setup/MacOSX/veracrypt.pkgproj
+endif
 ifneq ("$(LOCAL_DEVELOPMENT_BUILD)","true")
 	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 else

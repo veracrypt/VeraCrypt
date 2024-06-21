@@ -24,7 +24,8 @@
 # SSE41:		Enable SSE4.1 support in compiler
 # NOSSE2:		Disable SEE2 support in compiler
 # WITHGTK3:		Build wxWidgets against GTK3
-# WOLFCRYPT:		Build with wolfCrypt as crypto provider (see Crypto/wolfCrypt.md)
+# WOLFCRYPT:	Build with wolfCrypt as crypto provider (see Crypto/wolfCrypt.md)
+# WITHFUSET:	Build with FUSE-T support on macOS instead of MacFUSE
 
 #------ Targets ------
 # all
@@ -52,6 +53,8 @@ export LFLAGS :=
 
 export PKG_CONFIG ?= pkg-config
 export PKG_CONFIG_PATH ?= /usr/local/lib/pkgconfig
+export VC_FUSE_PACKAGE := fuse
+export VC_OSX_FUSET ?= 0
 
 export WX_CONFIG ?= wx-config
 export WX_CONFIG_ARGS := --unicode
@@ -61,6 +64,12 @@ export WXCONFIG_CXXFLAGS :=
 WX_ROOT ?= $(BASE_DIR)/wxWidgets
 
 export TC_BUILD_CONFIG := Release
+
+ifeq "$(origin WITHFUSET)" "command line"
+	ifneq "$(WITHFUSET)" "0"
+		VC_OSX_FUSET := 1
+	endif
+endif
 
 ifeq "$(origin DEBUG)" "command line"
 	ifneq "$(DEBUG)" "0"
@@ -333,6 +342,10 @@ ifeq "$(shell uname -s)" "Darwin"
 
 	WX_CONFIGURE_FLAGS += --with-macosx-version-min=$(VC_OSX_TARGET) --with-macosx-sdk=$(VC_OSX_SDK_PATH)
 
+	ifneq "$(VC_OSX_FUSET)" "0"
+		C_CXX_FLAGS += -DVC_MACOSX_FUSET
+		VC_FUSE_PACKAGE := fuse-t
+	endif
 
 	# Set x86 assembly flags (-msse2, -mssse3, -msse4.1)
 	# Apply flags if SIMD_SUPPORTED is 1 or if not in local development build (we are creating universal binary in this case)

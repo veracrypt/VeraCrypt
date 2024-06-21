@@ -14,13 +14,23 @@ SOURCEPATH=$(cd "$(dirname "$SCRIPTPATH/../.")"; pwd)
 # directory where the VeraCrypt project has been checked out
 PARENTDIR=$(cd "$(dirname "$SCRIPTPATH/../../../.")"; pwd)
 
-while getopts bp flag
+while getopts bpf flag
 do
     case "${flag}" in
         b) brew=true;;
         p) package=true;;
+        f) fuset=true;;
     esac
 done
+
+export VC_OSX_FUSET=0
+
+if [ -n "$fuset" ]; then
+    echo "Building VeraCrypt with FUSE-T support"
+    VC_OSX_FUSET=1
+else
+    echo "Building VeraCrypt with MacFUSE support"
+fi
 
 if [ -n "$brew" ]; then
     export VC_OSX_SDK=$(xcrun --show-sdk-version) #use the latest version installed, this might fail
