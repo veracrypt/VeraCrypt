@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.11</strong> (June 22<sup>th</sup>, 2024):</p>
+<p><strong style="text-align:left">1.26.12</strong> (June 23<sup>th</sup>, 2024):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -63,7 +63,7 @@
 	<ul>
 	<li>Focus PIM field when selected (#1239)</li>
 	<li>Fix generic installation script on Konsole in Wayland (#1244)</li>
-	<li>Add optional support for building against WolfCrypt as crypto backend</li>
+	<li>Added the ability to build using wolfCrypt as the cryptographic backend. Disabled by default. (Contributed by wolfSSL, GH PR #1227)</li>
 	<li>Allows GUI to launch in a Wayland-only environment (GH #1264)</li>
 	<li>CLI: Don't initially re-ask PIM if it was already specified (GH #1288)</li>
 	<li>CLI: Fix incorrect max hidden volume size for file containers (GH #1338))</li>
