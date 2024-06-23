@@ -553,6 +553,11 @@ endif
 else
 	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
 endif
+else
+# Disable libtiff on macOS
+ifeq "$(PLATFORM)" "MacOSX"
+	WX_CONFIGURE_FLAGS += --without-libtiff
+endif
 endif
 
 
