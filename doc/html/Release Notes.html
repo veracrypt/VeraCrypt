@@ -39,11 +39,13 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.26.10</strong> (November 8<sup>th</sup>, 2023):</p>
+<p><strong style="text-align:left">1.26.11</strong> (June 22<sup>th</sup>, 2024):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
 <li>Update translations and documentation</li>
+<li>Implement language selection settings in non-Windows versions.</li>
+<li>Make codebase compatible with wxWidgets 3.3 in non-Windows versions.</li>
 </ul>
 </li>
 <li><strong>Windows:</strong>
@@ -54,17 +56,32 @@
 	<li>Don't close Setup when exiting VeraCrypt process through system tray Exit menu</li>
 	<li>Fix failure to format some disks (e.g. VHDX) caused by virtual partition offset not 4K aligned</li>
 	<li>Fallback to absolute positioning when accessing disks if relative positioning fails</li>
+	<li>Update zlib to version 1.3.1</li>
 	</ul>
 </li>
 <li><strong>Linux:</strong>
 	<ul>
 	<li>Focus PIM field when selected (#1239)</li>
 	<li>Fix generic installation script on Konsole in Wayland (#1244)</li>
+	<li>Add optional support for building against WolfCrypt as crypto backend</li>
+	<li>Allows GUI to launch in a Wayland-only environment (GH #1264)</li>
+	<li>CLI: Don't initially re-ask PIM if it was already specified (GH #1288)</li>
+	<li>CLI: Fix incorrect max hidden volume size for file containers (GH #1338))</li>
 	</ul>
 </li>
 <li><strong>macOS:</strong>
 	<ul>
 	<li>Fix corrupted disk icon in main UI (GH #1218)</li>
+	<li>Fix near zero width PIM input box and simplify wxTextValidator logic (GH #1274)</li>
+	<li>Use correct Disk Utility location when "check filesystem" is ran (GH #1273)</li>
+	<li>Add support for FUSE-T as an alternative to MacFUSE (GH #1055)</li>
+	</ul>
+</li>
+<li><strong>FreeBSD:</strong>
+	<ul>
+	<li>Fix privilege escalation prompts not showing up (GH #1349)</li>
+	<li>Support automatic detection and mounting of ext2/3/4, exFAT, NTFS filesystems (GH #1350)</li>
+	<li>Use correct Disk Utility location when "check filesystem" is ran (GH #1273)</li>
 	</ul>
 </li>
 </ul>
