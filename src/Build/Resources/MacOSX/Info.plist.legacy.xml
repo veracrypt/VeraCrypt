@@ -74,7 +74,7 @@
 	<string>TRUE</string>
 
 	<key>CFBundleVersion</key>
-	<string>1.26.10</string>
+	<string>_VERSION_</string>
 
 	<key>CFBundleShortVersionString</key>
 	<string>_VERSION_</string>
