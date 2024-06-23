@@ -27,7 +27,11 @@ namespace VeraCrypt
 		versionStaticTextFont.SetWeight (wxFONTWEIGHT_BOLD);
 		VersionStaticText->SetFont (versionStaticTextFont);
 
-		VersionStaticText->SetLabel (Application::GetName() + L" " + StringConverter::ToWide (Version::String()));
+		wstring versionStr = StringConverter::ToWide (Version::String());
+#ifdef VC_MACOSX_FUSET
+		versionStr += L" (FUSE-T build)";
+#endif
+		VersionStaticText->SetLabel (Application::GetName() + L" " + versionStr);
 		CopyrightStaticText->SetLabel (TC_STR_RELEASED_BY);
 		WebsiteHyperlink->SetLabel (L"www.idrix.fr");
 
