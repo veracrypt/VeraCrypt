@@ -80,7 +80,7 @@ namespace VeraCrypt
 			m_bThreadRunning = true;
 		}
 
-		int GetCharWidth (wxWindow *window) const
+		static int ComputeCharWidth (wxWindow *window)
 		{
 			int width;
 			int height;
@@ -179,7 +179,7 @@ namespace VeraCrypt
 		{
 
 			wxPasswordEntryDialog dialog (this, wxString::Format (LangString["ENTER_TOKEN_PASSWORD"], e.GetString()), LangString["IDD_TOKEN_PASSWORD"]);
-			dialog.SetSize (wxSize (GetCharWidth (&dialog) * 50, -1));
+			dialog.SetSize (wxSize (ComputeCharWidth (&dialog) * 50, -1));
 
 			if (dialog.ShowModal() != wxID_OK)
 				m_queue.Post(wxT(""));

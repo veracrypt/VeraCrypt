@@ -38,7 +38,7 @@ namespace VeraCrypt
 			VolumeSlotNumber SlotNumber;
 		};
 
-		friend class ExecFunctor;
+		friend struct ExecFunctor;
 
 	public:
 		static bool AuxDeviceInfoReceived () { return !OpenVolumeInfo.VirtualDevice.IsEmpty(); }
