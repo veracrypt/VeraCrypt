@@ -304,8 +304,13 @@ namespace VeraCrypt
 
 			shared_ptr <VolumeInfo> mountedVol;
 			// Introduce a retry mechanism with a timeout for control file access
-			int controlFileRetries = 5;
-			while (controlFileRetries-- > 0)
+			// This workaround is limited to FUSE-T mounted volume under macOS for
+			// which md.Device starts with "fuse-t:"
+#ifdef VC_MACOSX_FUSET
+			bool isFuseT = wstring(mf.Device).find(L"fuse-t:") == 0;
+			int controlFileRetries = 10; // 10 retries with 500ms sleep each, total 5 seconds
+			while (!mountedVol && (controlFileRetries-- > 0))
+#endif
 			{
 				try 
 				{
@@ -314,22 +319,23 @@ namespace VeraCrypt
 
 					shared_ptr <Stream> controlFileStream (new FileStream (controlFile));
 					mountedVol = Serializable::DeserializeNew <VolumeInfo> (controlFileStream);
-					break; // Control file opened successfully
 				}
 				catch (const std::exception& e)
 				{
+#ifdef VC_MACOSX_FUSET
 					// if exception starts with "VeraCrypt::Serializer::ValidateName", then 
 					// serialization is not ready yet and we need to wait before retrying
 					// this happens when FUSE-T is used under macOS and if it is the first time
 					// the volume is mounted
-					if (string (e.what()).find ("VeraCrypt::Serializer::ValidateName") != string::npos)
+					if (isFuseT && string (e.what()).find ("VeraCrypt::Serializer::ValidateName") != string::npos)
 					{
-						Thread::Sleep(250); // Wait before retrying
+						Thread::Sleep(500); // Wait before retrying
 					}
 					else
 					{
-						break; // Control file not found
+						break; // Control file not found or other error
 					}
+#endif
 				}
 			}
 
