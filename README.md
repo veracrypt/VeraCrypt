@@ -85,7 +85,7 @@ it is also available [online](https://www.veracrypt.fr/en/CompilingGuidelineLinu
 
 - GNU Make
 - GNU C++ Compiler 4.0 or compatible
-- Apple Xcode (Mac OS X only)
+- Apple Xcode or Xcode command line tools (Mac OS X only)
 - YASM 1.3.0 or newer (Linux only, x86/x64 architecture only)
 - pkg-config
 - wxWidgets 3.0 shared library and header files installed or
