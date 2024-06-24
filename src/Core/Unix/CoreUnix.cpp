@@ -728,7 +728,6 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
-			wcout << L"Exception. Error mounting volume: " << wstring(*options.Path) << endl;
 			try
 			{
 				VolumeInfoList mountedVolumes = GetMountedVolumes (*options.Path);
