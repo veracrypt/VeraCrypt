@@ -44,7 +44,7 @@
     <entry lang="sv" key="IDC_KEYFILES_ENABLE">&amp;Använd nyckelfiler</entry>
     <entry lang="sv" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Försök först att montera med ett tomt lösenord</entry>
     <entry lang="sv" key="IDC_KEYFILES_RANDOM_SIZE">Slumpmässig storlek ( 64 &lt;-&gt; 1048576 )</entry>
-    <entry lang="sv" key="IDC_KEY_FILES">N&amp;&yckelfiler...</entry>
+    <entry lang="sv" key="IDC_KEY_FILES">N&amp;yckelfiler...</entry>
     <entry lang="sv" key="IDC_LINK_HASH_INFO">Information om hashalgoritmer</entry>
     <entry lang="sv" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Mer information</entry>
     <entry lang="sv" key="IDC_LINK_PIM_INFO">Information on PIM</entry>
