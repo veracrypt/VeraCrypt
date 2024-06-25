@@ -318,17 +318,13 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) )
 	if (NOGUI)
 		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, sudo" )
 	else ()
-		if ( PLATFORM STREQUAL "CentOS" )
-				
-			if ( DEFINED WITHGTK3 AND WITHGTK3 )
-				set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk3, sudo, pcsc-lite" )
-			else ()
-				set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2, sudo, pcsc-lite" )
-			endif()
-			
-		elseif ( PLATFORM STREQUAL "openSUSE" )
-			
-			set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2, sudo, pcsc-lite" )
+		find_package(PkgConfig REQUIRED)
+		pkg_check_modules(GTK3 gtk+-3.0)
+		
+		if(GTK3_FOUND)
+			set( CPACK_RPM_PACKAGE_REQUIRES     "fuse, device-mapper, gtk3, sudo, pcsc-lite" )
+		else()
+			set( CPACK_RPM_PACKAGE_REQUIRES     "fuse, device-mapper, gtk2, sudo, pcsc-lite" )
 		endif()
 	endif()
 

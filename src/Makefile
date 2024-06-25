@@ -23,7 +23,6 @@
 # SSSE3:		Enable SSSE3 support in compiler
 # SSE41:		Enable SSE4.1 support in compiler
 # NOSSE2:		Disable SEE2 support in compiler
-# WITHGTK3:		Build wxWidgets against GTK3
 # WOLFCRYPT:	Build with wolfCrypt as crypto provider (see Crypto/wolfCrypt.md)
 # WITHFUSET:	Build with FUSE-T support on macOS instead of MacFUSE
 
@@ -106,16 +105,6 @@ ifeq "$(origin WXSTATIC)" "command line"
 	endif
 endif
 
-ifeq "$(origin INDICATOR)" "command line"
-	ifneq (,$(findstring gtk3,$(shell $(WX_CONFIG) --selected-config)))
-		INDICATOR_LIBRARY=ayatana-appindicator3-0.1
-	else
-		INDICATOR_LIBRARY=ayatana-appindicator-0.1
-	endif
-	export AYATANA_LIBS += $(shell $(PKG_CONFIG) --libs $(INDICATOR_LIBRARY))
-	C_CXX_FLAGS += $(shell $(PKG_CONFIG) --cflags $(INDICATOR_LIBRARY)) -DHAVE_INDICATORS
-endif
-
 #------ Release configuration ------
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
@@ -159,6 +148,7 @@ export ENABLE_WOLFCRYPT ?= 0
 
 export GCC_GTEQ_440 := 0
 export GCC_GTEQ_430 := 0
+export GTK_VERSION := 0
 
 ARCH ?= $(shell uname -m)
 
@@ -211,7 +201,7 @@ ifeq "$(shell uname -s)" "Linux"
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
 	
 	# PCSC
-	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+	C_CXX_FLAGS += $(shell $(PKG_CONFIG) --cflags libpcsclite)
 
 	# Extract the major and minor version numbers of GCC in a combined format for easy comparison
 	GCC_VERSION := $(shell $(CC) -dumpversion | awk -F. '{printf "%d%02d", $$1, $$2}')
@@ -288,13 +278,6 @@ ifeq "$(shell uname -s)" "Linux"
 		WXCONFIG_CFLAGS += -mno-sse2
 		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif
-	
-	ifeq "$(origin WITHGTK3)" "command line"
-		WX_CONFIGURE_FLAGS += --with-gtk=3
-	else
-		WX_CONFIGURE_FLAGS += --with-gtk=2
-	endif
-
 endif
 
 #------ Mac OS X configuration ------
@@ -426,7 +409,7 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_FREEBSD
 
 	# PCSC
-	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+	C_CXX_FLAGS += $(shell $(PKG_CONFIG) --cflags libpcsclite)
 	
 	CC := cc
 	CXX := c++
@@ -487,7 +470,7 @@ ifeq "$(shell uname -s)" "OpenBSD"
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_OPENBSD
 
 	# PCSC
-	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+	C_CXX_FLAGS += $(shell $(PKG_CONFIG) --cflags libpcsclite)
 
 	CC := cc
 	CXX := c++
@@ -514,10 +497,29 @@ ifeq "$(shell uname -s)" "SunOS"
 	WX_CONFIGURE_FLAGS += --with-gtk
 
 	# PCSC
-	C_CXX_FLAGS += $(shell pkg-config --cflags libpcsclite)
+	C_CXX_FLAGS += $(shell $(PKG_CONFIG) --cflags libpcsclite)
 
 endif
 
+ifneq (,$(filter Linux FreeBSD OpenBSD,$(PLATFORM)))
+	# Determine GTK version
+	GTK_VERSION := $(shell $(PKG_CONFIG) --modversion gtk+-3.0 2>/dev/null | grep -o '^3' || echo 2)
+	ifeq ($(GTK_VERSION),3)
+		WX_CONFIGURE_FLAGS += --with-gtk=3
+	else
+		WX_CONFIGURE_FLAGS += --with-gtk=2
+	endif
+
+	ifeq "$(origin INDICATOR)" "command line"
+		ifeq ($(GTK_VERSION),3)
+			INDICATOR_LIBRARY=ayatana-appindicator3-0.1
+		else
+			INDICATOR_LIBRARY=ayatana-appindicator-0.1
+		endif
+		export AYATANA_LIBS += $(shell $(PKG_CONFIG) --libs $(INDICATOR_LIBRARY))
+		C_CXX_FLAGS += $(shell $(PKG_CONFIG) --cflags $(INDICATOR_LIBRARY)) -DHAVE_INDICATORS
+	endif
+endif
 
 #------ Common configuration ------
 
@@ -547,7 +549,7 @@ WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --dis
 	
 ifneq (,$(filter Linux FreeBSD,$(PLATFORM)))
 WX_CONFIGURE_FLAGS += --disable-tooltips
-ifneq "$(origin WITHGTK3)" "command line"
+ifneq ($(GTK_VERSION),3)
 	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
 endif
 else
