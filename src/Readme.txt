@@ -232,7 +232,7 @@ Copyright Information
 ---------------------
 
 This software as a whole:  
-Copyright (c) 2013-2024 IDRIX. All rights reserved.
+Copyright (c) 2013-2024 IDRIX. All rights reserved.  
 
 Portions of this software:  
 Copyright (c) 2013-2024 IDRIX. All rights reserved.  
