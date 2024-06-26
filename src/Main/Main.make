@@ -129,14 +129,14 @@ endif
 
 ifeq "$(origin NOSSE2)" "command line"
 INTERNAL_INSTALLER_NAME := veracrypt_install_$(INSTALLER_TYPE)_$(CPU_ARCH)_legacy.sh
-ifeq "$(and $(filter gui,$(INSTALLER_TYPE)),$(filter 2,$(GTK_VERSION)))"
+ifeq ($(and $(filter gui,$(INSTALLER_TYPE)),$(filter 2,$(GTK_VERSION))),1)
 INSTALLER_NAME := veracrypt-$(TC_VERSION)-setup-gtk2-gui-$(CPU_ARCH)-legacy
 else
 INSTALLER_NAME := veracrypt-$(TC_VERSION)-setup-$(INSTALLER_TYPE)-$(CPU_ARCH)-legacy
 endif
 else
 INTERNAL_INSTALLER_NAME := veracrypt_install_$(INSTALLER_TYPE)_$(CPU_ARCH).sh
-ifeq "$(and $(filter gui,$(INSTALLER_TYPE)),$(filter 2,$(GTK_VERSION)))"
+ifeq ($(and $(filter gui,$(INSTALLER_TYPE)),$(filter 2,$(GTK_VERSION))),1)
 INSTALLER_NAME := veracrypt-$(TC_VERSION)-setup-gtk2-gui-$(CPU_ARCH)
 else
 INSTALLER_NAME := veracrypt-$(TC_VERSION)-setup-$(INSTALLER_TYPE)-$(CPU_ARCH)
@@ -160,7 +160,7 @@ PACKAGE_NAME := $(APPNAME)_$(TC_VERSION)_$(SYSTEMNAME)_$(PLATFORM_ARCH).tar.gz
 endif
 
 INTERNAL_INSTALLER_NAME := veracrypt_install_f$(SYSTEMNAME)_$(INSTALLER_TYPE)_$(CPU_ARCH).sh
-ifeq "$(and $(filter gui,$(INSTALLER_TYPE)),$(filter 2,$(GTK_VERSION)))"
+ifeq ($(and $(filter gui,$(INSTALLER_TYPE)),$(filter 2,$(GTK_VERSION))),1)
 INSTALLER_NAME := veracrypt-$(TC_VERSION)-$(SYSTEMNAME)-setup-gtk2-gui-$(CPU_ARCH)
 else
 INSTALLER_NAME := veracrypt-$(TC_VERSION)-$(SYSTEMNAME)-setup-$(INSTALLER_TYPE)-$(CPU_ARCH)
