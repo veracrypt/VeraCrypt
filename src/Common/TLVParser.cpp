@@ -169,7 +169,7 @@ namespace VeraCrypt
 	shared_ptr<TLVNode> TLVParser::TLV_Find(shared_ptr<TLVNode> node, uint16 tag)
 	{
 		size_t i = 0;
-		shared_ptr<TLVNode> tmpnode = NULL;
+		shared_ptr<TLVNode> tmpnode;
 		if (node->Tag == tag)
 		{
 			return node;
@@ -177,11 +177,11 @@ namespace VeraCrypt
 		for (i = 0; i < node->Subs->size(); i++)
 		{
 			tmpnode = TLV_Find(node->Subs->at(i),tag);
-			if (tmpnode != NULL)
+			if (tmpnode)
 			{
 				return tmpnode;
 			}
 		}
-		return NULL;
+		return shared_ptr<TLVNode>();
 	}
 }

@@ -60,50 +60,7 @@ namespace VeraCrypt
 		UserPreferences Preferences;
 		bool RestoreValidatorBell;
 		HotkeyList UnregisteredHotkeys;
-		map<wxString, wstring> langEntries = {
-				{"system", L"System default"},
-				{"ar", L"العربية"},
-				{"be", L"Беларуская"},
-				{"bg", L"Български"},
-				{"ca", L"Català"},
-				{"co", L"Corsu"},
-				{"cs", L"Čeština"},
-				{"da", L"Dansk"},
-				{"de", L"Deutsch"},
-				{"el", L"Ελληνικά"},
-				{"en", L"English"},
-				{"es", L"Español"},
-				{"et", L"Eesti"},
-				{"eu", L"Euskara"},
-				{"fa", L"فارسي"},
-				{"fi", L"Suomi"},
-				{"fr", L"Français"},
-				{"he", L"עברית"},
-				{"hu", L"Magyar"},
-				{"id", L"Bahasa Indonesia"},
-				{"it", L"Italiano"},
-				{"ja", L"日本語"},
-				{"ka", L"ქართული"},
-				{"ko", L"한국어"},
-				{"lv", L"Latviešu"},
-				{"nl", L"Nederlands"},
-				{"nn", L"Norsk Nynorsk"},
-				{"pl", L"Polski"},
-				{"ro", L"Română"},
-				{"ru", L"Русский"},
-				{"pt-br", L"Português-Brasil"},
-				{"sk", L"Slovenčina"},
-				{"sl", L"Slovenščina"},
-				{"sv", L"Svenska"},
-				{"th", L"ภาษาไทย"},
-				{"tr", L"Türkçe"},
-				{"uk", L"Українська"},
-				{"uz", L"Ўзбекча"},
-				{"vi", L"Tiếng Việt"},
-				{"zh-cn", L"简体中文"},
-				{"zh-hk", L"繁體中文(香港)"},
-				{"zh-tw", L"繁體中文"}
-		};
+		map<wxString, wstring> langEntries;
 	};
 }
 

@@ -37,6 +37,19 @@
 
 namespace VeraCrypt
 {
+	class OpenOuterVolumeFunctor : public Functor
+	{
+		public:
+		OpenOuterVolumeFunctor (const DirectoryPath &outerVolumeMountPoint) : OuterVolumeMountPoint (outerVolumeMountPoint) { }
+
+		virtual void operator() ()
+		{
+			Gui->OpenExplorerWindow (OuterVolumeMountPoint);
+		}
+
+		DirectoryPath OuterVolumeMountPoint;
+	};
+
 #ifdef TC_MACOSX
 
 	bool VolumeCreationWizard::ProcessEvent(wxEvent& event)
@@ -337,18 +350,6 @@ namespace VeraCrypt
 					Close();
 					return new InfoWizardPage (GetPageParent());
 				}
-
-				struct OpenOuterVolumeFunctor : public Functor
-				{
-					OpenOuterVolumeFunctor (const DirectoryPath &outerVolumeMountPoint) : OuterVolumeMountPoint (outerVolumeMountPoint) { }
-
-					virtual void operator() ()
-					{
-						Gui->OpenExplorerWindow (OuterVolumeMountPoint);
-					}
-
-					DirectoryPath OuterVolumeMountPoint;
-				};
 
 				InfoWizardPage *page = new InfoWizardPage (GetPageParent(), LangString["LINUX_OPEN_OUTER_VOL"],
 					shared_ptr <Functor> (new OpenOuterVolumeFunctor (MountedOuterVolume->MountPoint)));

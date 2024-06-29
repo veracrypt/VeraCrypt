@@ -13,8 +13,6 @@
 #include <PCSC/winscard.h>
 #include <PCSC/wintypes.h>
 #include "reader.h"
-typedef LPSCARD_READERSTATE_A LPSCARD_READERSTATE;
-using VeraCrypt::uint8;
 #define BOOL int
 #else
 #undef BOOL
@@ -22,7 +20,6 @@ using VeraCrypt::uint8;
 #include <winscard.h>
 #include <wintypes.h>
 #include <reader.h>
-using VeraCrypt::uint8;
 #define BOOL int
 #endif
 #endif
@@ -48,7 +45,7 @@ namespace VeraCrypt
 	typedef LONG (SCARD_CALL_SPEC *SCardBeginTransactionPtr)(SCARDHANDLE hCard);
 	typedef LONG (SCARD_CALL_SPEC *SCardEndTransactionPtr)(SCARDHANDLE hCard, DWORD dwDisposition);
 	typedef LONG (SCARD_CALL_SPEC *SCardStatusPtr)(SCARDHANDLE hCard, LPTSTR mszReaderNames, LPDWORD pcchReaderLen, LPDWORD pdwState, LPDWORD pdwProtocol, BYTE* pbAtr, LPDWORD pcbAtrLen);
-	typedef LONG (SCARD_CALL_SPEC *SCardGetStatusChangePtr)(SCARDCONTEXT hContext, DWORD dwTimeout, LPSCARD_READERSTATE rgReaderStates, DWORD cReaders);
+	typedef LONG (SCARD_CALL_SPEC *SCardGetStatusChangePtr)(SCARDCONTEXT hContext, DWORD dwTimeout, SCARD_READERSTATE* rgReaderStates, DWORD cReaders);
 	typedef LONG (SCARD_CALL_SPEC *SCardControlPtr)(SCARDHANDLE hCard, DWORD dwControlCode, LPCVOID pbSendBuffer, DWORD cbSendLength, LPVOID pbRecvBuffer, DWORD cbRecvLength, LPDWORD lpBytesReturned);
 	typedef LONG (SCARD_CALL_SPEC *SCardTransmitPtr)(SCARDHANDLE hCard, LPCSCARD_IO_REQUEST pioSendPci, const BYTE* pbSendBuffer, DWORD cbSendLength, LPSCARD_IO_REQUEST pioRecvPci, BYTE* pbRecvBuffer, LPDWORD pcbRecvLength);
 	typedef LONG (SCARD_CALL_SPEC *SCardListReaderGroupsPtr)(SCARDCONTEXT hContext, LPTSTR mszGroups, LPDWORD pcchGroups);
@@ -111,7 +108,7 @@ namespace VeraCrypt
 		static LONG SCardBeginTransaction(SCARDHANDLE hCard);
 		static LONG SCardEndTransaction(SCARDHANDLE hCard, DWORD dwDisposition);
 		static LONG SCardStatus(SCARDHANDLE hCard, LPTSTR mszReaderNames, LPDWORD pcchReaderLen, LPDWORD pdwState, LPDWORD pdwProtocol, BYTE* pbAtr, LPDWORD pcbAtrLen);
-		static LONG SCardGetStatusChange(SCARDCONTEXT hContext, DWORD dwTimeout, LPSCARD_READERSTATE rgReaderStates, DWORD cReaders);
+		static LONG SCardGetStatusChange(SCARDCONTEXT hContext, DWORD dwTimeout, SCARD_READERSTATE* rgReaderStates, DWORD cReaders);
 		static LONG SCardControl(SCARDHANDLE hCard, DWORD dwControlCode, LPCVOID pbSendBuffer, DWORD cbSendLength, LPVOID pbRecvBuffer, DWORD cbRecvLength, LPDWORD lpBytesReturned);
 		static LONG SCardTransmit(SCARDHANDLE hCard, LPCSCARD_IO_REQUEST pioSendPci, const BYTE* pbSendBuffer, DWORD cbSendLength, LPSCARD_IO_REQUEST pioRecvPci, BYTE* pbRecvBuffer, LPDWORD pcbRecvLength);
 		static LONG SCardListReaderGroups(SCARDCONTEXT hContext, LPTSTR mszGroups, LPDWORD pcchGroups);

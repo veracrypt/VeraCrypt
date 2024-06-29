@@ -17,7 +17,7 @@ namespace VeraCrypt
 		}
 		else 
 		{
-			m_scardLoader = NULL;
+			m_scardLoader.reset();
 			m_hSCReaderContext = 0;
 		}
 		m_hCard = hCard;
@@ -84,7 +84,7 @@ namespace VeraCrypt
 	void SCardReader::Clear(void)
 	{
 		m_szSCReaderName = L"";
-		m_scardLoader = NULL;
+		m_scardLoader.reset();
 		m_hSCReaderContext = 0;
 		m_hCard = 0;
 		m_dwProtocol = 0;

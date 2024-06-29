@@ -30,6 +30,27 @@
 
 namespace VeraCrypt
 {
+	class AdminPasswordRequestHandler : public GetStringFunctor
+	{
+		public:
+		AdminPasswordRequestHandler (TextUserInterface *userInterface) : UI (userInterface) { }
+		virtual void operator() (string &passwordStr)
+		{
+			UI->ShowString (_("Enter your user password or administrator password: "));
+
+			TextUserInterface::SetTerminalEcho (false);
+			finally_do ({ TextUserInterface::SetTerminalEcho (true); });
+
+			wstring wPassword (UI->ReadInputStreamLine());
+			finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
+
+			UI->ShowString (L"\n");
+
+			StringConverter::ToSingle (wPassword, passwordStr);
+		}
+		TextUserInterface *UI;
+	};
+
 	TextUserInterface::TextUserInterface ()
 	{
 #ifdef TC_UNIX
@@ -1095,26 +1116,6 @@ namespace VeraCrypt
 
 	shared_ptr <GetStringFunctor> TextUserInterface::GetAdminPasswordRequestHandler ()
 	{
-		struct AdminPasswordRequestHandler : public GetStringFunctor
-		{
-			AdminPasswordRequestHandler (TextUserInterface *userInterface) : UI (userInterface) { }
-			virtual void operator() (string &passwordStr)
-			{
-				UI->ShowString (_("Enter your user password or administrator password: "));
-
-				TextUserInterface::SetTerminalEcho (false);
-				finally_do ({ TextUserInterface::SetTerminalEcho (true); });
-
-				wstring wPassword (UI->ReadInputStreamLine());
-				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
-
-				UI->ShowString (L"\n");
-
-				StringConverter::ToSingle (wPassword, passwordStr);
-			}
-			TextUserInterface *UI;
-		};
-
 		return shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler (this));
 	}
 
