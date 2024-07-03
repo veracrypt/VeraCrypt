@@ -487,7 +487,7 @@
     <entry lang="fr" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Êtes-vous sûr de vouloir choisir ’Oui’ ?</entry>
     <entry lang="fr" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Mode création de volume</entry>
     <entry lang="fr" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">C’est le moyen le plus rapide pour créer un volume VeraCrypt hébergé sur une partition ou sur un périphérique (le chiffrement sur place, qui est l’autre option, est plus lent parce que le contenu de chaque secteur doit être d’abord lu, chiffré puis écrit). Toutes les données actuellement stockées sur la partition/périphérique sélectionné seront perdues (les données ne seront pas chiffrées ; elles seront remplacées par des données aléatoires). Si vous souhaitez chiffrer les données existantes sur une partition, choisissez l’autre option.</entry>
-    <entry lang="fr" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">La partition sélectionnée et toutes les données stockées dessus seront chiffrées sur place. Si la partition est vide, vous deriez choisir l’autre option (le volume sera créé beaucoup plus vite).</entry>
+    <entry lang="fr" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">La partition sélectionnée et toutes les données stockées dessus seront chiffrées sur place. Si la partition est vide, vous devriez choisir l’autre option (le volume sera créé beaucoup plus vite).</entry>
     <entry lang="fr" key="NOTE_BEGINNING">Remarque : </entry>
     <entry lang="fr" key="RESUME">&amp;Reprendre</entry>
     <entry lang="fr" key="DEFER">&amp;Différer</entry>
