@@ -219,6 +219,12 @@ ifeq "$(shell uname -s)" "Linux"
 		CXXFLAGS += -std=gnu++14
 	endif
 
+	# Linked in GCC versions below 6 was setting large value for MAXPAGESIZE which is not good for ASLR security
+	# So, we need to manually add the linker flag "-z max-page-size=4096" to set the maximum page size to 4KB
+	# in order to improve ASLR security. Starting from GCC 6, the default value of MAXPAGESIZE is 4KB.
+	ifeq ($(shell expr $(GCC_VERSION) \< 600), 1)
+		LFLAGS += -Wl,-z,max-page-size=4096
+	endif
 	
 	ifeq "$(SIMD_SUPPORTED)" "1"
 		CFLAGS += -msse2
