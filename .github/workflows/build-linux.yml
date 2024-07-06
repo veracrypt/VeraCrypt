@@ -95,13 +95,13 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: veracrypt-gui-debs
-        path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.deb
+        path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.*
 
     - name: Upload Console .deb packages
       uses: actions/upload-artifact@v3
       with:
         name: veracrypt-console-debs
-        path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.deb
+        path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.*
 
     - name: Install and test VeraCrypt GUI .deb packages
       run: |
