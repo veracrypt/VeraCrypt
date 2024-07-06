@@ -1,0 +1,213 @@
+name: Build and test Linux
+
+on:
+  push:
+    branches: [ "CI" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Build/CMakeLists.txt'
+      - 'src/Build/build_cmake_deb.sh'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/PKCS11/**'
+      - 'src/Platform/**'
+      - 'src/Resources/**'
+      - 'src/Setup/Linux/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - '.github/workflows/build-linux.yml'
+  pull_request:
+    branches: [ "CI" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Build/CMakeLists.txt'
+      - 'src/Build/build_cmake_deb.sh'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/PKCS11/**'
+      - 'src/Platform/**'
+      - 'src/Resources/**'
+      - 'src/Setup/Linux/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - '.github/workflows/build-linux.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  WXWIDGETS_VERSION: 3.2.5
+
+jobs:
+  ubuntu-build:
+
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Generate cache key
+      id: cache-key
+      run: |
+        echo "cache_key=$(echo ${{ env.WXWIDGETS_VERSION }}-$(sha256sum src/Makefile .github/workflows/build-linux.yml | awk '{print $1}'))" >> $GITHUB_OUTPUT
+
+    - name: Cache wxBuildConsole
+      uses: actions/cache@v3
+      id: cache-wxbuildconsole
+      with:
+        path: /tmp/wxBuildConsole
+        key: wxBuildConsole-${{ steps.cache-key.outputs.cache_key }}
+
+    - name: Cache wxBuildGUI
+      uses: actions/cache@v3
+      id: cache-wxbuildgui
+      with:
+        path: /tmp/wxBuildGUI
+        key: wxBuildGUI-${{ steps.cache-key.outputs.cache_key }}
+
+    - name: Cache wxWidgets
+      uses: actions/cache@v3
+      id: cache-wxwidgets
+      with:
+        path: /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        key: wxWidgets-${{ steps.cache-key.outputs.cache_key }}
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y wget tar libpcsclite-dev libfuse-dev yasm libgtk-3-dev libayatana-appindicator3-dev cmake debhelper
+
+    - name: Download and extract wxWidgets to /tmp if build folders are missing
+      if: steps.cache-wxbuildconsole.outputs.cache-hit != 'true' || steps.cache-wxbuildgui.outputs.cache-hit != 'true' || steps.cache-wxwidgets.outputs.cache-hit != 'true'
+      run: |
+        wget https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2
+        mkdir -p /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        tar -xjf /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -C /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }} --strip-components=1
+
+    - name: Build VeraCrypt .deb packages
+      run: |
+        chmod +x src/Build/build_cmake_deb.sh
+        src/Build/build_cmake_deb.sh WXSTATIC INDICATOR
+
+    - name: Upload GUI .deb packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: veracrypt-gui-debs
+        path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.*
+
+    - name: Upload Console .deb packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: veracrypt-console-debs
+        path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.*
+
+    - name: Install and test VeraCrypt GUI .deb packages
+      run: |
+        sudo apt install -y /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.deb
+        veracrypt --text --test && veracrypt --text --version
+        sudo veracrypt --text --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
+        sudo veracrypt --text --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro
+        sudo veracrypt --text --non-interactive Tests/test.streebog.hc --hash streebog --slot 3 --password test --mount-options=ro
+        sudo veracrypt --text --non-interactive Tests/test.whirlpool.hc --hash whirlpool --slot 4 --password test --mount-options=ro
+        sudo veracrypt --text --list
+        echo -n "Dummy" > /tmp/expected_content.txt
+        if cmp -s /media/veracrypt1/Dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha256.hc is valid."
+        else
+          echo "Content of test.sha256.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt2/Dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha512.hc is valid."
+        else
+          echo "Content of test.sha512.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt3/Dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.streebog.hc is valid."
+        else
+          echo "Content of test.streebog.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt4/Dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.whirlpool.hc is valid."
+        else
+          echo "Content of test.whirlpool.hc is invalid!"
+          exit 1
+        fi
+        sudo veracrypt -d
+        sudo apt remove -y veracrypt
+
+    - name: Install and test VeraCrypt Console .deb packages
+      run: |
+        sudo apt install -y /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.deb
+        veracrypt --test && veracrypt --version
+        sudo veracrypt --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
+        sudo veracrypt --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro
+        sudo veracrypt --non-interactive Tests/test.streebog.hc --hash streebog --slot 3 --password test --mount-options=ro
+        sudo veracrypt --non-interactive Tests/test.whirlpool.hc --hash whirlpool --slot 4 --password test --mount-options=ro
+        sudo veracrypt --list
+        echo -n "Dummy" > /tmp/expected_content.txt
+        if cmp -s /media/veracrypt1/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha256.hc is valid."
+        else
+          echo "Content of test.sha256.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt2/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha512.hc is valid."
+        else
+          echo "Content of test.sha512.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt3/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.streebog.hc is valid."
+        else
+          echo "Content of test.streebog.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt4/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.whirlpool.hc is valid."
+        else
+          echo "Content of test.whirlpool.hc is invalid!"
+          exit 1
+        fi
+        sudo veracrypt -d
+        sudo apt remove -y veracrypt-console
+
+    - name: Cleanup old caches
+      uses: actions/github-script@v6
+      if: always()
+      with:
+        github-token: ${{ secrets.WORKFLOW_TOKEN }}
+        script: |
+          const caches = await github.rest.actions.getActionsCacheList({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          })
+          for (const cache of caches.data.actions_caches) {
+            if (cache.key.startsWith('wxBuildConsole-') || cache.key.startsWith('wxBuildGUI-') || cache.key.startsWith('wxWidgets-')) {
+              if (cache.key !== `wxBuildConsole-${{ steps.cache-key.outputs.cache_key }}` &&
+                  cache.key !== `wxBuildGUI-${{ steps.cache-key.outputs.cache_key }}` &&
+                  cache.key !== `wxWidgets-${{ steps.cache-key.outputs.cache_key }}`) {
+                console.log(`Deleting cache with key: ${cache.key}`)
+                await github.rest.actions.deleteActionsCacheById({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  cache_id: cache.id,
+                })
+              }
+            }
+          }
+

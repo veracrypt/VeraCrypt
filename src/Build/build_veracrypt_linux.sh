@@ -20,9 +20,26 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-# the sources of wxWidgets 3.2.5 must be extracted to the parent directory
+# Check the condition of wxBuildConsole and wxWidgets-3.2.5 in the original PARENTDIR
+if [ -d "$PARENTDIR/wxBuildConsole" ]; then
+    echo "Using existing PARENTDIR: $PARENTDIR, wxBuildConsole is present."
+elif [ -d "$PARENTDIR/wxWidgets-3.2.5" ]; then
+    echo "Using existing PARENTDIR: $PARENTDIR, wxWidgets-3.2.5 is present."
+else
+    # Change PARENTDIR to /tmp and check conditions again
+    export PARENTDIR="/tmp"
+    if [ -d "$PARENTDIR/wxBuildConsole" ]; then
+        echo "Switched to PARENTDIR: /tmp, wxBuildConsole is present in /tmp."
+    elif [ -d "$PARENTDIR/wxWidgets-3.2.5" ]; then
+        echo "Switched to PARENTDIR: /tmp, wxWidgets-3.2.5 is present in /tmp."
+    else
+        echo "Error: Neither wxBuildConsole nor wxWidgets-3.2.5 found in /tmp. Exiting."
+        exit 1
+    fi
+fi
+
+# The sources of wxWidgets 3.2.5 must be extracted to the parent directory
 export WX_ROOT=$PARENTDIR/wxWidgets-3.2.5
-echo "Using wxWidgets sources in $WX_ROOT"
 
 cd $SOURCEPATH
 
@@ -31,17 +48,29 @@ echo "Building GUI version of VeraCrypt"
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildGui
 
-make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1 && make WXSTATIC=1 package
-
-# Uncomment below and comment line above to reuse existing wxWidgets build
-# make WXSTATIC=1 clean && make WXSTATIC=1 && make WXSTATIC=1 package
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    echo "Using wxWidgets sources in $WX_ROOT"
+    make WXSTATIC=1 wxbuild || exit 1
+fi
+make WXSTATIC=1 clean || exit 1
+make WXSTATIC=1 || exit 1
+make WXSTATIC=1 package || exit 1
 
 echo "Building console version of VeraCrypt"
 
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
 
-make WXSTATIC=1 NOGUI=1 wxbuild && make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1 && make WXSTATIC=1 NOGUI=1 package
-
-# Uncomment below and comment line above to reuse existing wxWidgets build
-# make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1 && make WXSTATIC=1 NOGUI=1 package
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    echo "Using wxWidgets sources in $WX_ROOT"
+    make WXSTATIC=1 NOGUI=1 wxbuild || exit 1
+fi
+make WXSTATIC=1 NOGUI=1 clean || exit 1
+make WXSTATIC=1 NOGUI=1 || exit 1
+make WXSTATIC=1 NOGUI=1 package || exit 1
