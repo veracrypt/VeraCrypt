@@ -89,7 +89,7 @@ jobs:
     - name: Build VeraCrypt .deb packages
       run: |
         chmod +x src/Build/build_cmake_deb.sh
-        src/Build/build_cmake_deb.sh INDICATOR
+        src/Build/build_cmake_deb.sh WXSTATIC INDICATOR
 
     - name: Upload GUI .deb packages
       uses: actions/upload-artifact@v3
