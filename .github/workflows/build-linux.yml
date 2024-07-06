@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/Build/Include/Makefile.inc'
       - 'src/Build/CMakeLists.txt'
+      - 'src/Build/build_cmake_deb.sh'
       - 'src/Common/*.h'
       - 'src/Common/*.cpp'
       - 'src/Common/*.c'
@@ -25,6 +26,7 @@ on:
     paths:
       - 'src/Build/Include/Makefile.inc'
       - 'src/Build/CMakeLists.txt'
+      - 'src/Build/build_cmake_deb.sh'
       - 'src/Common/*.h'
       - 'src/Common/*.cpp'
       - 'src/Common/*.c'
