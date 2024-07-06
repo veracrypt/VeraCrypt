@@ -149,7 +149,7 @@ jobs:
         sudo veracrypt --non-interactive Tests/test.streebog.hc --hash streebog --slot 3 --password test --mount-options=ro
         sudo veracrypt --non-interactive Tests/test.whirlpool.hc --hash whirlpool --slot 4 --password test --mount-options=ro
         sudo veracrypt --list
-        echo -n "dummy" > /tmp/expected_content.txt
+        echo -n "Dummy" > /tmp/expected_content.txt
         if cmp -s /media/veracrypt1/dummy.txt /tmp/expected_content.txt; then
           echo "Content of test.sha256.hc is valid."
         else
