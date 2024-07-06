@@ -2,7 +2,7 @@ name: Build and test Linux
 
 on:
   push:
-    branches: [ "CI" ]
+    branches: [ "main" ]
     paths:
       - 'src/Build/Include/Makefile.inc'
       - 'src/Build/CMakeLists.txt'
@@ -22,7 +22,7 @@ on:
       - 'src/Makefile'
       - '.github/workflows/build-linux.yml'
   pull_request:
-    branches: [ "CI" ]
+    branches: [ "main" ]
     paths:
       - 'src/Build/Include/Makefile.inc'
       - 'src/Build/CMakeLists.txt'
