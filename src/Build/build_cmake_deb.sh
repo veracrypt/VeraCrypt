@@ -18,8 +18,20 @@ export SOURCEPATH=$(readlink -f "$SCRIPTPATH/..")
 # Directory where the VeraCrypt has been checked out
 export PARENTDIR=$(readlink -f "$SCRIPTPATH/../../..")
 
+# Check if wxWidgets-3.2.5 exists in PARENTDIR; if not, use /tmp
+if [ ! -d "$PARENTDIR/wxWidgets-3.2.5" ]; then
+    export PARENTDIR="/tmp"
+fi
+
 # The sources of wxWidgets 3.2.5 must be extracted to the parent directory
 export WX_ROOT=$PARENTDIR/wxWidgets-3.2.5
+
+# Exit with error if wxWidgets is not found
+if [ ! -d "$WX_ROOT" ]; then
+    echo "Error: wxWidgets-3.2.5 not found in either the default PARENTDIR or /tmp. Exiting."
+    exit 1
+fi
+
 echo "Using wxWidgets sources in $WX_ROOT"
 
 cd $SOURCEPATH
