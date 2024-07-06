@@ -1,0 +1,167 @@
+name: Build and test Linux
+
+on:
+  push:
+    branches: [ "CI" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Build/CMakeLists.txt'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/PKCS11/**'
+      - 'src/Platform/**'
+      - 'src/Resources/**'
+      - 'src/Setup/Linux/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - '.github/workflows/build-linux.yml'
+  pull_request:
+    branches: [ "CI" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Build/CMakeLists.txt'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/PKCS11/**'
+      - 'src/Platform/**'
+      - 'src/Resources/**'
+      - 'src/Setup/Linux/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - '.github/workflows/build-linux.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  WXWIDGETS_VERSION: 3.2.5
+
+jobs:
+  ubuntu-build:
+
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Cache wxWidgets
+      uses: actions/cache@v3
+      id: cache-wxwidgets
+      with:
+        path: /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        key: wxWidgets-${{ env.WXWIDGETS_VERSION }}-${{ hashFiles('src/Build/build_cmake_deb.sh', 'src/Makefile') }}
+        restore-keys: |
+          wxWidgets-${{ env.WXWIDGETS_VERSION }}-
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y wget tar libpcsclite-dev libfuse-dev yasm libgtk-3-dev libwxgtk3.0-gtk3-dev libayatana-appindicator3-dev cmake debhelper
+
+    - name: Download and extract wxWidgets to /tmp
+      if: steps.cache-wxwidgets.outputs.cache-hit != 'true'
+      run: |
+        wget https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2
+        tar -xjf /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -C /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }} --strip-components=1
+
+    - name: Build VeraCrypt .deb packages
+      run: |
+        chmod +x src/Build/build_cmake_deb.sh
+        src/Build/build_cmake_deb.sh INDICATOR
+
+    - name: Upload GUI .deb packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: veracrypt-gui-debs
+        path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.{deb,sha256}
+
+    - name: Upload Console .deb packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: veracrypt-console-debs
+        path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.{deb,sha256}
+
+    - name: Install and test VeraCrypt GUI .deb packages
+      run: |
+        sudo apt install -y /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.deb
+        veracrypt --text --test && veracrypt --text --version
+        sudo veracrypt --text --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
+        sudo veracrypt --text --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro
+        sudo veracrypt --text --non-interactive Tests/test.streebog.hc --hash streebog --slot 3 --password test --mount-options=ro
+        sudo veracrypt --text --non-interactive Tests/test.whirlpool.hc --hash whirlpool --slot 4 --password test --mount-options=ro
+        sudo veracrypt --text --list
+        echo -n "dummy" > /tmp/expected_content.txt
+        if cmp -s /media/veracrypt1/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha256.hc is valid."
+        else
+          echo "Content of test.sha256.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt2/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha512.hc is valid."
+        else
+          echo "Content of test.sha512.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt3/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.streebog.hc is valid."
+        else
+          echo "Content of test.streebog.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt4/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.whirlpool.hc is valid."
+        else
+          echo "Content of test.whirlpool.hc is invalid!"
+          exit 1
+        fi
+        sudo veracrypt -d
+        sudo apt remove -y veracrypt
+
+    - name: Install and test VeraCrypt Console .deb packages
+      run: |
+        sudo apt install -y /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.deb
+        veracrypt --test && veracrypt --version
+        sudo veracrypt --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
+        sudo veracrypt --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro
+        sudo veracrypt --non-interactive Tests/test.streebog.hc --hash streebog --slot 3 --password test --mount-options=ro
+        sudo veracrypt --non-interactive Tests/test.whirlpool.hc --hash whirlpool --slot 4 --password test --mount-options=ro
+        sudo veracrypt --list
+        echo -n "dummy" > /tmp/expected_content.txt
+        if cmp -s /media/veracrypt1/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha256.hc is valid."
+        else
+          echo "Content of test.sha256.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt2/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.sha512.hc is valid."
+        else
+          echo "Content of test.sha512.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt3/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.streebog.hc is valid."
+        else
+          echo "Content of test.streebog.hc is invalid!"
+          exit 1
+        fi
+        if cmp -s /media/veracrypt4/dummy.txt /tmp/expected_content.txt; then
+          echo "Content of test.whirlpool.hc is valid."
+        else
+          echo "Content of test.whirlpool.hc is invalid!"
+          exit 1
+        fi
+        sudo veracrypt -d
+        sudo apt remove -y veracrypt
