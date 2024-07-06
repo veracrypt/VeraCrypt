@@ -41,17 +41,17 @@ echo "Building GUI version of VeraCrypt for RPM using wxWidgets static libraries
 # This will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildGui
 
-# To build wxWidgets using native GTK version
-make WXSTATIC=1 wxbuild 	|| exit 1
-ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    make WXSTATIC=1 wxbuild || exit 1
+    ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
+fi
+
 make WXSTATIC=1 clean 				|| exit 1
 make WXSTATIC=1 					|| exit 1
 make WXSTATIC=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
-
-# Uncomment below and comment lines above to reuse existing wxWidgets build
-# make WXSTATIC=1 clean || exit 1
-# make WXSTATIC=1		|| exit 1
-# make WXSTATIC=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
 
 echo "Building console version of VeraCrypt for RPM using wxWidgets static libraries"
 
@@ -62,17 +62,17 @@ echo "Building console version of VeraCrypt for RPM using wxWidgets static libra
 # This will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
 
-# To build wxWidgets using native GTK version
-make WXSTATIC=1 NOGUI=1 wxbuild 	|| exit 1
-ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    make WXSTATIC=1 NOGUI=1 wxbuild || exit 1
+    ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
+fi
+
 make WXSTATIC=1 NOGUI=1 clean 				|| exit 1
 make WXSTATIC=1 NOGUI=1 					|| exit 1
 make WXSTATIC=1 NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
-
-# Uncomment below and comment lines above to reuse existing wxWidgets build
-# make WXSTATIC=1 NOGUI=1 clean || exit 1
-# make WXSTATIC=1 NOGUI=1		|| exit 1
-# make WXSTATIC=1 NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
 
 echo "Creating VeraCrypt RPM packages "
 

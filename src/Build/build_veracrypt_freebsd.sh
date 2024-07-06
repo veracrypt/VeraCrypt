@@ -44,17 +44,28 @@ echo "Building GUI version of VeraCrypt"
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildGui
 
-gmake WXSTATIC=1 wxbuild && gmake WXSTATIC=1 clean && gmake WXSTATIC=1 && gmake WXSTATIC=1 package
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    gmake WXSTATIC=1 wxbuild || exit 1
+fi
 
-# Uncomment below and comment line above to reuse existing wxWidgets build
-#gmake WXSTATIC=1 clean && gmake WXSTATIC=1 && gmake WXSTATIC=1 package
+gmake WXSTATIC=1 clean || exit 1
+gmake WXSTATIC=1 || exit 1
+gmake WXSTATIC=1 package || exit 1
 
 echo "Building console version of VeraCrypt"
 
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
 
-gmake WXSTATIC=1 NOGUI=1 wxbuild && gmake WXSTATIC=1 NOGUI=1 clean && gmake WXSTATIC=1 NOGUI=1 && gmake WXSTATIC=1 NOGUI=1 package
-
-# Uncomment below and comment line above to reuse existing wxWidgets build
-#gmake WXSTATIC=1 NOGUI=1 clean && gmake WXSTATIC=1 NOGUI=1 && gmake WXSTATIC=1 NOGUI=1 package
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    gmake WXSTATIC=1 NOGUI=1 wxbuild || exit 1
+fi
+gmake WXSTATIC=1 NOGUI=1 clean || exit 1
+gmake WXSTATIC=1 NOGUI=1 || exit 1
+gmake WXSTATIC=1 NOGUI=1 package || exit 1

@@ -82,8 +82,12 @@ echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
 cd $SOURCEPATH
 
 echo "Building VeraCrypt"
-make WXSTATIC=FULL wxbuild && make WXSTATIC=FULL clean && make WXSTATIC=FULL && make WXSTATIC=FULL package
-
-# Uncomment below and comment line above to reuse existing wxWidgets build
-# make WXSTATIC=FULL clean && make WXSTATIC=FULL && make WXSTATIC=FULL package
-
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    make WXSTATIC=FULL wxbuild || exit 1
+fi
+make WXSTATIC=FULL clean || exit 1
+make WXSTATIC=FULL || exit 1
+make WXSTATIC=FULL package || exit 1

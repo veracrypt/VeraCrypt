@@ -53,7 +53,12 @@ build_and_install() {
     wxstatic_value=""
     if [ "$wxstatic" = "WXSTATIC" ]; then
         wxstatic_value="WXSTATIC=1"
-        make $wxstatic_value $nogui wxbuild || exit 1
+        # Check if wx-config exists in WX_BUILD_DIR
+        if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+            echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+        else
+            make $wxstatic_value $nogui wxbuild || exit 1
+        fi
     fi
 
     indicator_value=""

@@ -43,17 +43,27 @@ echo "Building GUI version of VeraCrypt"
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildGuiNoSSE2
 
-make WXSTATIC=1 NOSSE2=1 wxbuild && make WXSTATIC=1 NOSSE2=1 clean && make WXSTATIC=1 NOSSE2=1 && make WXSTATIC=1 NOSSE2=1 package
-
-# Uncomment below and comment line above to reuse existing wxWidgets build
-# make WXSTATIC=1 NOSSE2=1 clean && make WXSTATIC=1 NOSSE2=1 && make WXSTATIC=1 NOSSE2=1 package
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    make WXSTATIC=1 NOSSE2=1 wxbuild || exit 1
+fi
+make WXSTATIC=1 NOSSE2=1 clean || exit 1
+make WXSTATIC=1 NOSSE2=1 || exit 1
+make WXSTATIC=1 NOSSE2=1 package || exit 1
 
 echo "Building console version of VeraCrypt"
 
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsoleNoSSE2
 
-make WXSTATIC=1 NOGUI=1 NOSSE2=1 wxbuild && make WXSTATIC=1 NOGUI=1 NOSSE2=1 clean && make WXSTATIC=1 NOGUI=1 NOSSE2=1 && make WXSTATIC=1 NOGUI=1 NOSSE2=1 package
-
-# Uncomment below and comment line above to reuse existing wxWidgets build
-# make WXSTATIC=1 NOGUI=1 NOSSE2=1 clean && make WXSTATIC=1 NOGUI=1 NOSSE2=1 && make WXSTATIC=1 NOGUI=1 NOSSE2=1 package
+# Check if wx-config exists in WX_BUILD_DIR
+if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
+    echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
+else
+    make WXSTATIC=1 NOGUI=1 NOSSE2=1 wxbuild || exit 1
+fi
+make WXSTATIC=1 NOGUI=1 NOSSE2=1 clean || exit 1
+make WXSTATIC=1 NOGUI=1 NOSSE2=1 || exit 1
+make WXSTATIC=1 NOGUI=1 NOSSE2=1 package || exit 
