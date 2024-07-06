@@ -18,21 +18,26 @@ export SOURCEPATH=$(readlink -f "$SCRIPTPATH/..")
 # Directory where the VeraCrypt has been checked out
 export PARENTDIR=$(readlink -f "$SCRIPTPATH/../../..")
 
-# Check if wxWidgets-3.2.5 exists in PARENTDIR; if not, use /tmp
-if [ ! -d "$PARENTDIR/wxWidgets-3.2.5" ]; then
+# Check the condition of wxBuildConsole and wxWidgets-3.2.5 in the original PARENTDIR
+if [ -d "$PARENTDIR/wxBuildConsole" ]; then
+    echo "Using existing PARENTDIR: $PARENTDIR, wxBuildConsole is present."
+elif [ -d "$PARENTDIR/wxWidgets-3.2.5" ]; then
+    echo "Using existing PARENTDIR: $PARENTDIR, wxWidgets-3.2.5 is present."
+else
+    # Change PARENTDIR to /tmp and check conditions again
     export PARENTDIR="/tmp"
+    if [ -d "$PARENTDIR/wxBuildConsole" ]; then
+        echo "Switched to PARENTDIR: /tmp, wxBuildConsole is present in /tmp."
+    elif [ -d "$PARENTDIR/wxWidgets-3.2.5" ]; then
+        echo "Switched to PARENTDIR: /tmp, wxWidgets-3.2.5 is present in /tmp."
+    else
+        echo "Error: Neither wxBuildConsole nor wxWidgets-3.2.5 found in /tmp. Exiting."
+        exit 1
+    fi
 fi
 
 # The sources of wxWidgets 3.2.5 must be extracted to the parent directory
 export WX_ROOT=$PARENTDIR/wxWidgets-3.2.5
-
-# Exit with error if wxWidgets is not found
-if [ ! -d "$WX_ROOT" ]; then
-    echo "Error: wxWidgets-3.2.5 not found in either the default PARENTDIR or /tmp. Exiting."
-    exit 1
-fi
-
-echo "Using wxWidgets sources in $WX_ROOT"
 
 cd $SOURCEPATH
 
@@ -57,6 +62,7 @@ build_and_install() {
         if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
             echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
         else
+            echo "Using wxWidgets sources in $WX_ROOT"
             make $wxstatic_value $nogui wxbuild || exit 1
         fi
     fi
