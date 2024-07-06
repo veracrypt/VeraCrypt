@@ -73,7 +73,8 @@ jobs:
       if: steps.cache-wxwidgets.outputs.cache-hit != 'true'
       run: |
         wget https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2
-        tar -xjf /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -C /tmp --strip-components=1
+        mkdir -p /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        tar -xjf /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -C /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }} --strip-components=1
 
     - name: Build VeraCrypt .deb packages
       run: |
