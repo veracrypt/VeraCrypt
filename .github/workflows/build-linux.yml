@@ -62,7 +62,7 @@ jobs:
     - name: Generate cache key
       id: cache-key
       run: |
-        echo "cache_key=$(echo ${{ env.WXWIDGETS_VERSION }}-$(sha256sum src/Makefile | awk '{print $1}'))" >> $GITHUB_OUTPUT
+        echo "cache_key=$(echo ${{ env.WXWIDGETS_VERSION }}-$(sha256sum src/Makefile .github/workflows/build-linux.yml | awk '{print $1}'))" >> $GITHUB_OUTPUT
 
     - name: Cache wxBuildConsole
       uses: actions/cache@v3
@@ -78,11 +78,18 @@ jobs:
         path: /tmp/wxBuildGUI
         key: wxBuildGUI-${{ steps.cache-key.outputs.cache_key }}
 
+    - name: Cache wxWidgets
+      uses: actions/cache@v3
+      id: cache-wxwidgets
+      with:
+        path: /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        key: wxWidgets-${{ steps.cache-key.outputs.cache_key }}
+
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y wget tar libpcsclite-dev libfuse-dev yasm libgtk-3-dev libwxgtk3.0-gtk3-dev libayatana-appindicator3-dev cmake debhelper
+      run: sudo apt-get update && sudo apt-get install -y wget tar libpcsclite-dev libfuse-dev yasm libgtk-3-dev libayatana-appindicator3-dev cmake debhelper
 
     - name: Download and extract wxWidgets to /tmp if build folders are missing
-      if: steps.cache-wxbuildconsole.outputs.cache-hit != 'true' || steps.cache-wxbuildgui.outputs.cache-hit != 'true'
+      if: steps.cache-wxbuildconsole.outputs.cache-hit != 'true' || steps.cache-wxbuildgui.outputs.cache-hit != 'true' || steps.cache-wxwidgets.outputs.cache-hit != 'true'
       run: |
         wget https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2
         mkdir -p /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
@@ -183,15 +190,17 @@ jobs:
       uses: actions/github-script@v6
       if: always()
       with:
+        github-token: ${{ secrets.WORKFLOW_TOKEN }}
         script: |
           const caches = await github.rest.actions.getActionsCacheList({
             owner: context.repo.owner,
             repo: context.repo.repo,
           })
           for (const cache of caches.data.actions_caches) {
-            if (cache.key.startsWith('wxBuildConsole-') || cache.key.startsWith('wxBuildGUI-')) {
+            if (cache.key.startsWith('wxBuildConsole-') || cache.key.startsWith('wxBuildGUI-') || cache.key.startsWith('wxWidgets-')) {
               if (cache.key !== `wxBuildConsole-${{ steps.cache-key.outputs.cache_key }}` &&
-                  cache.key !== `wxBuildGUI-${{ steps.cache-key.outputs.cache_key }}`) {
+                  cache.key !== `wxBuildGUI-${{ steps.cache-key.outputs.cache_key }}` &&
+                  cache.key !== `wxWidgets-${{ steps.cache-key.outputs.cache_key }}`) {
                 console.log(`Deleting cache with key: ${cache.key}`)
                 await github.rest.actions.deleteActionsCacheById({
                   owner: context.repo.owner,
