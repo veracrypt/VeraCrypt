@@ -85,13 +85,13 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: veracrypt-gui-debs
-        path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.{deb,sha256}
+        path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.deb
 
     - name: Upload Console .deb packages
       uses: actions/upload-artifact@v3
       with:
         name: veracrypt-console-debs
-        path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.{deb,sha256}
+        path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.deb
 
     - name: Install and test VeraCrypt GUI .deb packages
       run: |
@@ -102,26 +102,26 @@ jobs:
         sudo veracrypt --text --non-interactive Tests/test.streebog.hc --hash streebog --slot 3 --password test --mount-options=ro
         sudo veracrypt --text --non-interactive Tests/test.whirlpool.hc --hash whirlpool --slot 4 --password test --mount-options=ro
         sudo veracrypt --text --list
-        echo -n "dummy" > /tmp/expected_content.txt
-        if cmp -s /media/veracrypt1/dummy.txt /tmp/expected_content.txt; then
+        echo -n "Dummy" > /tmp/expected_content.txt
+        if cmp -s /media/veracrypt1/Dummy.txt /tmp/expected_content.txt; then
           echo "Content of test.sha256.hc is valid."
         else
           echo "Content of test.sha256.hc is invalid!"
           exit 1
         fi
-        if cmp -s /media/veracrypt2/dummy.txt /tmp/expected_content.txt; then
+        if cmp -s /media/veracrypt2/Dummy.txt /tmp/expected_content.txt; then
           echo "Content of test.sha512.hc is valid."
         else
           echo "Content of test.sha512.hc is invalid!"
           exit 1
         fi
-        if cmp -s /media/veracrypt3/dummy.txt /tmp/expected_content.txt; then
+        if cmp -s /media/veracrypt3/Dummy.txt /tmp/expected_content.txt; then
           echo "Content of test.streebog.hc is valid."
         else
           echo "Content of test.streebog.hc is invalid!"
           exit 1
         fi
-        if cmp -s /media/veracrypt4/dummy.txt /tmp/expected_content.txt; then
+        if cmp -s /media/veracrypt4/Dummy.txt /tmp/expected_content.txt; then
           echo "Content of test.whirlpool.hc is valid."
         else
           echo "Content of test.whirlpool.hc is invalid!"
