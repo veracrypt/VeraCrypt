@@ -457,7 +457,7 @@
 				<File Id="fil63E5CE3D0A91ACFF543B523A58476CCF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\bank_30x30.png" DiskId="1" />
 			</Component>
 			<Component Id="cmp32E7F4F5C0F44D00B53E3946E7E1FCF9" Guid="{4A9AD9E2-8ADA-41BF-B2EC-643579DF9B35}">
-				<File Id="filD1052E711F1CD089D66C27B04EDD6113" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\BCH_Logo_48x30.png" DiskId="1" />
+				<File Id="filD1052E711F1CD089D66C27B04EDD6113" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\BCH_Logo_30x30.png" DiskId="1" />
 			</Component>
 			<Component Id="cmp989B890D94671F634D04D8F945090F21" Guid="{4C123649-753C-404B-908D-AF1B48CBB844}">
 				<File Id="fil02D4C60C8A30C22AE1F14E33DA3DA38C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\BC_Logo_30x30.png" DiskId="1" />
