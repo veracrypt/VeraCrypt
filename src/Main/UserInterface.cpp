@@ -32,15 +32,6 @@
 
 namespace VeraCrypt
 {
-	class AdminPasswordRequestHandler : public GetStringFunctor
-	{
-		public:
-		virtual void operator() (string &str)
-		{
-			throw ElevationFailed (SRC_POS, "sudo", 1, "");
-		}
-	};
-
 	UserInterface::UserInterface ()
 	{
 	}
@@ -567,6 +558,14 @@ namespace VeraCrypt
 		}
 		else
 		{
+			struct AdminPasswordRequestHandler : public GetStringFunctor
+			{
+				virtual void operator() (string &str)
+				{
+					throw ElevationFailed (SRC_POS, "sudo", 1, "");
+				}
+			};
+
 			Core->SetAdminPasswordCallback (shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler));
 		}
 

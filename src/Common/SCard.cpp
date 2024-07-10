@@ -6,7 +6,7 @@ namespace VeraCrypt
 {
 	SCardManager SCard::manager;
 
-	SCard::SCard()
+	SCard::SCard() : m_reader(NULL)
 	{
 	}
 

@@ -52,10 +52,7 @@ namespace VeraCrypt
 		StringFormatter (const wxString &format, StringFormatterArg arg0 = StringFormatterArg(), StringFormatterArg arg1 = StringFormatterArg(), StringFormatterArg arg2 = StringFormatterArg(), StringFormatterArg arg3 = StringFormatterArg(), StringFormatterArg arg4 = StringFormatterArg(), StringFormatterArg arg5 = StringFormatterArg(), StringFormatterArg arg6 = StringFormatterArg(), StringFormatterArg arg7 = StringFormatterArg(), StringFormatterArg arg8 = StringFormatterArg(), StringFormatterArg arg9 = StringFormatterArg());
 		virtual ~StringFormatter ();
 
-#if (__cplusplus >= 201103L)
-		explicit 
-#endif
-		operator wstring () const { return wstring (FormattedString); }
+		explicit operator wstring () const { return wstring (FormattedString); }
 		operator wxString () const { return FormattedString; }
 		operator StringFormatterArg () const { return FormattedString; }
 
