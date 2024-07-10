@@ -454,7 +454,7 @@ namespace VeraCrypt
 	{
 		class AdminPasswordRequestHandler : public GetStringFunctor
 		{
-			public;
+			public:
 			virtual void operator() (string &passwordStr)
 			{
 
