@@ -190,7 +190,7 @@ jobs:
       uses: actions/github-script@v6
       if: always()
       with:
-        github-token: ${{ secrets.WORKFLOW_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const caches = await github.rest.actions.getActionsCacheList({
             owner: context.repo.owner,
