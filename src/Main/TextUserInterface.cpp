@@ -30,10 +30,10 @@
 
 namespace VeraCrypt
 {
-	class AdminPasswordRequestHandler : public GetStringFunctor
+	class AdminPasswordTextRequestHandler : public GetStringFunctor
 	{
 		public:
-		AdminPasswordRequestHandler (TextUserInterface *userInterface) : UI (userInterface) { }
+		AdminPasswordTextRequestHandler (TextUserInterface *userInterface) : UI (userInterface) { }
 		virtual void operator() (string &passwordStr)
 		{
 			UI->ShowString (_("Enter your user password or administrator password: "));
@@ -1116,7 +1116,7 @@ namespace VeraCrypt
 
 	shared_ptr <GetStringFunctor> TextUserInterface::GetAdminPasswordRequestHandler ()
 	{
-		return shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler (this));
+		return shared_ptr <GetStringFunctor> (new AdminPasswordTextRequestHandler (this));
 	}
 
 	void TextUserInterface::ImportTokenKeyfiles () const

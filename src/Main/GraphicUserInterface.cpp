@@ -37,6 +37,32 @@
 
 namespace VeraCrypt
 {
+	class AdminPasswordGUIRequestHandler : public GetStringFunctor
+	{
+		public:
+		virtual void operator() (string &passwordStr)
+		{
+
+			wxString sValue;
+			if (Gui->GetWaitDialog())
+			{
+				Gui->GetWaitDialog()->RequestAdminPassword(sValue);
+				if (sValue.IsEmpty())
+					throw UserAbort (SRC_POS);
+			}
+			else
+			{
+				wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), LangString["LINUX_ADMIN_PW_QUERY"], LangString["LINUX_ADMIN_PW_QUERY_TITLE"]);
+				if (dialog.ShowModal() != wxID_OK)
+					throw UserAbort (SRC_POS);
+				sValue = dialog.GetValue();
+			}
+			wstring wPassword (sValue);	// A copy of the password is created here by wxWidgets, which cannot be erased
+			finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
+
+			StringConverter::ToSingle (wPassword, passwordStr);
+		}
+	};
 #ifdef TC_MACOSX
 	int GraphicUserInterface::g_customIdCmdV = 0;
 	int GraphicUserInterface::g_customIdCmdA = 0;
@@ -452,33 +478,7 @@ namespace VeraCrypt
 
 	shared_ptr <GetStringFunctor> GraphicUserInterface::GetAdminPasswordRequestHandler ()
 	{
-		class AdminPasswordRequestHandler : public GetStringFunctor
-		{
-			public:
-			virtual void operator() (string &passwordStr)
-			{
-
-				wxString sValue;
-				if (Gui->GetWaitDialog())
-				{
-					Gui->GetWaitDialog()->RequestAdminPassword(sValue);
-					if (sValue.IsEmpty())
-						throw UserAbort (SRC_POS);
-				}
-				else
-				{
-					wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), LangString["LINUX_ADMIN_PW_QUERY"], LangString["LINUX_ADMIN_PW_QUERY_TITLE"]);
-					if (dialog.ShowModal() != wxID_OK)
-						throw UserAbort (SRC_POS);
-					sValue = dialog.GetValue();
-				}
-				wstring wPassword (sValue);	// A copy of the password is created here by wxWidgets, which cannot be erased
-				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
-
-				StringConverter::ToSingle (wPassword, passwordStr);
-			}
-		};
-		return shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler);
+		return shared_ptr <GetStringFunctor> (new AdminPasswordGUIRequestHandler);
 	}
 
 	int GraphicUserInterface::GetCharHeight (wxWindow *window) const
