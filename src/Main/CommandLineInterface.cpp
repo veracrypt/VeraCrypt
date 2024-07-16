@@ -432,7 +432,9 @@ namespace VeraCrypt
 				else if (token == L"removable" || token == L"rm")
 					ArgMountOptions.Removable = true;
 #endif
-				else
+				else if (token == L"noattach"){
+					// allow code to progress. will then be effective in Mount.c->ExtractCommandLine(OptionMountOption)
+				}else
 					throw_err (LangString["UNKNOWN_OPTION"] + L": " + token);
 			}
 		}
