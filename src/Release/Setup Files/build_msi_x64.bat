@@ -2,14 +2,16 @@
 ::Define search paths here for Wix ToolSet and SDK (and SignTool optionnally)
 ::------------------------------------
 
-@set SEARCH_WIX_PATH=C:\Program Files (x86)\WiX Toolset v3.11\bin
+@set SEARCH_WIX_PATH=C:\Program Files (x86)\WiX Toolset v3.14\bin
 
-@set SEARCH_VC_DIR_PLATFORMSDK_1=C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86
-@set SEARCH_VC_DIR_PLATFORMSDK_2=C:\Program Files (x86)\Windows Kits\10\bin\x86
-@set SEARCH_VC_DIR_PLATFORMSDK_3=C:\Program Files\Microsoft Platform SDK\bin
-@set SEARCH_VC_DIR_PLATFORMSDK_4=C:\Program Files (x86)\Windows Kits\8.1\bin\x86
-@set SEARCH_VC_DIR_PLATFORMSDK_5=C:\Program Files (x86)\Windows Kits\8.0\bin\x86
-@set SEARCH_VC_DIR_PLATFORMSDK_6=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\bin
+@set SEARCH_VC_DIR_PLATFORMSDK_1=C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86
+@set SEARCH_VC_DIR_PLATFORMSDK_2=C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86
+@set SEARCH_VC_DIR_PLATFORMSDK_3=C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x86
+@set SEARCH_VC_DIR_PLATFORMSDK_4=C:\Program Files (x86)\Windows Kits\10\bin\x86
+@set SEARCH_VC_DIR_PLATFORMSDK_5=C:\Program Files\Microsoft Platform SDK\bin
+@set SEARCH_VC_DIR_PLATFORMSDK_6=C:\Program Files (x86)\Windows Kits\8.1\bin\x86
+@set SEARCH_VC_DIR_PLATFORMSDK_7=C:\Program Files (x86)\Windows Kits\8.0\bin\x86
+@set SEARCH_VC_DIR_PLATFORMSDK_8=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\bin
 
 ::end of search paths
 
