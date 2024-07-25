@@ -36,6 +36,12 @@ if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
 echo SHA-512 (Normal) = %hh%:%mm%:%ss%,%cc%
 
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
+
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
 rem Get start time:
@@ -62,6 +68,12 @@ if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
 echo SHA-512 (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
+
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
@@ -93,6 +105,12 @@ if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
 echo Whirlpool (Normal) = %hh%:%mm%:%ss%,%cc%
 
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
+
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
 rem Get start time:
@@ -120,11 +138,17 @@ if %cc% lss 10 set cc=0%cc%
 echo Whirlpool (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
 
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
+
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
 :sha256
 
-IF NOT EXIST test.sha256.hc GOTO :ripemd160
+IF NOT EXIST test.sha256.hc GOTO :blake2s
 
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -149,6 +173,12 @@ if %mm% lss 10 set mm=0%mm%
 if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
 echo SHA-256 (Normal) = %hh%:%mm%:%ss%,%cc%
+
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
@@ -177,19 +207,25 @@ if %cc% lss 10 set cc=0%cc%
 echo SHA-256 (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
 
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
+
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
-:ripemd160
+:blake2s
 
-IF NOT EXIST test.ripemd160.hc GOTO :streebog
+IF NOT EXIST test.blake2s.hc GOTO :streebog
 
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
    set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
 )
 
-rem Mount RIPEMD-160 container (Normal)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.ripemd160.hc /hash ripemd160 /l %mydriveletter% /password test /q /silent /m ro
+rem Mount BLAKE2s container (Normal)
+"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.blake2s.hc /hash blake2s /l %mydriveletter% /password test /q /silent /m ro
 
 rem Get end time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -205,7 +241,13 @@ if %hh% lss 10 set hh=0%hh%
 if %mm% lss 10 set mm=0%mm%
 if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
-echo RIPEMD-160 (Normal) = %hh%:%mm%:%ss%,%cc%
+echo BLAKE2s (Normal) = %hh%:%mm%:%ss%,%cc%
+
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
@@ -214,8 +256,8 @@ for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
    set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
 )
 
-rem Mount RIPEMD-160 container (Hidden)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.ripemd160.hc /hash ripemd160 /l %mydriveletter% /password testhidden /q /silent /m ro
+rem Mount BLAKE2s container (Hidden)
+"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.blake2s.hc /hash blake2s /l %mydriveletter% /password testhidden /q /silent /m ro
 
 rem Get end time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -231,8 +273,14 @@ if %hh% lss 10 set hh=0%hh%
 if %mm% lss 10 set mm=0%mm%
 if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
-echo RIPEMD-160 (Hidden) = %hh%:%mm%:%ss%,%cc%
+echo BLAKE2s (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
+
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
@@ -264,6 +312,12 @@ if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
 echo Streebog (Normal) = %hh%:%mm%:%ss%,%cc%
 
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
+
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
 rem Get start time:
@@ -290,6 +344,12 @@ if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
 echo Streebog (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
+
+rem Check if the drive letter exists after mount operation
+if not exist %mydriveletter%:\ (
+    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+    goto :exit
+)
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
@@ -364,7 +424,7 @@ endlocal & set "%output_var%=%drive%" & exit /b %exitcode%
 setlocal EnableDelayedExpansion
 set exitcode=0
 set "output_var=%~1"
-for %%i in (test.sha512.hc,test.sha256.hc,test.whirlpool.hc,test.ripemd160.hc) do (
+for %%i in (test.sha512.hc,test.sha256.hc,test.whirlpool.hc,test.blake2s.hc) do (
     if exist %%i (
         set "volume=%%i"
         goto :availablevolume0
