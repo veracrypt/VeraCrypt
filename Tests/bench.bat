@@ -1,391 +1,90 @@
 @echo off
+setlocal EnableDelayedExpansion
 
-setlocal
+:: Define constants
+set "VERACRYPT_PATH=c:\Program Files\VeraCrypt\veracrypt.exe"
+set "PASSWORD=test"
+set "HIDDEN_PASSWORD=testhidden"
 
-call :freedrive mydriveletter && goto :cont
-echo ERROR: No free drive letter found.
+:: Find a free drive letter
+call :freedrive mydriveletter || (
+    echo ERROR: No free drive letter found.
+    goto :exit
+)
+
+echo Using drive letter !mydriveletter!: for our tests
+echo.
+
+:: Define an array of hash algorithms and their corresponding container files
+set "algorithms[0]=sha512,test.sha512.hc"
+set "algorithms[1]=whirlpool,test.whirlpool.hc"
+set "algorithms[2]=sha256,test.sha256.hc"
+set "algorithms[3]=blake2s,test.blake2s.hc"
+set "algorithms[4]=streebog,test.streebog.hc"
+
+:: Loop through each algorithm
+for /L %%i in (0,1,4) do (
+    for /F "tokens=1,2 delims=," %%a in ("!algorithms[%%i]!") do (
+        set "hash=%%a"
+        set "container=%%b"
+        
+        if exist "!container!" (
+            call :mount_and_measure "!hash!" "!container!" "Normal" "!PASSWORD!"
+            call :mount_and_measure "!hash!" "!container!" "Hidden" "!HIDDEN_PASSWORD!"
+            echo.
+        )
+    )
+)
+
+:: Autodetect test
+call :availablevolume testvolume || goto :exit
+
+call :measure_time "Wrong Password (PRF Auto-detection)" ^
+    "/volume !testvolume! /l !mydriveletter! /password wrongpassword /q /silent /m ro"
+
+echo.
 goto :exit
-:cont
 
-echo Using drive letter %mydriveletter%: for our tests
-echo.
+:: Subroutine to mount a volume and measure the time taken
+:mount_and_measure
+setlocal 
+set "hash=%~1"
+set "container=%~2"
+set "type=%~3"
+set "volumepassword=%~4"
 
-IF NOT EXIST test.sha512.hc GOTO :whirlpool
+call :measure_time "%hash% (%type%)" ^
+    "/volume !container! /hash !hash! /l !mydriveletter! /password !volumepassword! /q /silent /m ro"
 
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount SHA-512 container (Normal)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.sha512.hc /hash sha512 /l %mydriveletter% /password test /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo SHA-512 (Normal) = %hh%:%mm%:%ss%,%cc%
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
+if not exist !mydriveletter!:\ (
+    echo ERROR: Drive letter !mydriveletter!: does not exist after mount operation.
     goto :exit
 )
 
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
+"!VERACRYPT_PATH!" /dismount !mydriveletter! /silent /q
+exit /b
 
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
+:: Subroutine to measure the time taken for a command to execute
+:measure_time
+setlocal 
+set "oper=%~1"
+set "command=%~2"
 
-rem Mount SHA-512 container (Hidden)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.sha512.hc /hash sha512 /l %mydriveletter% /password testhidden /q /silent /m ro
+for /F "tokens=1-4 delims=:.," %%a in ("!time!") do set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
 
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
+"!VERACRYPT_PATH!" %command%
 
-rem Get elapsed time:
+for /F "tokens=1-4 delims=:.," %%a in ("!time!") do set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+
 set /A elapsed=end-start
-
-rem Show elapsed time:
 set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
 if %hh% lss 10 set hh=0%hh%
 if %mm% lss 10 set mm=0%mm%
 if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
-echo SHA-512 (Hidden) = %hh%:%mm%:%ss%,%cc%
-echo.
 
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-:whirlpool
-
-IF NOT EXIST test.whirlpool.hc GOTO :sha256
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount Whirlpool container (Normal).
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.whirlpool.hc /hash whirlpool /l %mydriveletter% /password test /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo Whirlpool (Normal) = %hh%:%mm%:%ss%,%cc%
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount Whirlpool container (Hidden).
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.whirlpool.hc /hash whirlpool /l %mydriveletter% /password testhidden /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo Whirlpool (Hidden) = %hh%:%mm%:%ss%,%cc%
-echo.
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-:sha256
-
-IF NOT EXIST test.sha256.hc GOTO :blake2s
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount SHA-256 container (Normal)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.sha256.hc /hash sha256 /l %mydriveletter% /password test /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo SHA-256 (Normal) = %hh%:%mm%:%ss%,%cc%
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount SHA-256 container (Hidden)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.sha256.hc /hash sha256 /l %mydriveletter% /password testhidden /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo SHA-256 (Hidden) = %hh%:%mm%:%ss%,%cc%
-echo.
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-:blake2s
-
-IF NOT EXIST test.blake2s.hc GOTO :streebog
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount BLAKE2s container (Normal)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.blake2s.hc /hash blake2s /l %mydriveletter% /password test /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo BLAKE2s (Normal) = %hh%:%mm%:%ss%,%cc%
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount BLAKE2s container (Hidden)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.blake2s.hc /hash blake2s /l %mydriveletter% /password testhidden /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo BLAKE2s (Hidden) = %hh%:%mm%:%ss%,%cc%
-echo.
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-:streebog
-
-IF NOT EXIST test.streebog.hc GOTO :autodetect
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount Streebog container (Normal)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.streebog.hc /hash streebog /l %mydriveletter% /password test /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo Streebog (Normal) = %hh%:%mm%:%ss%,%cc%
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Mount Streebog container (Hidden)
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.streebog.hc /hash streebog /l %mydriveletter% /password testhidden /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo Streebog (Hidden) = %hh%:%mm%:%ss%,%cc%
-echo.
-
-rem Check if the drive letter exists after mount operation
-if not exist %mydriveletter%:\ (
-    echo ERROR: Drive letter %mydriveletter%: does not exist after mount operation.
-    goto :exit
-)
-
-"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
-
-:autodetect
-
-call :availablevolume testvolume && goto :contautodetect
-goto :exit
-:contautodetect
-
-rem Get start time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Try to mount with a wrong password and PRF autodetection
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume %testvolume% /l %mydriveletter% /password wrongpassword /q /silent /m ro
-
-rem Get end time:
-for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
-   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
-)
-
-rem Get elapsed time:
-set /A elapsed=end-start
-
-rem Show elapsed time:
-set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
-if %hh% lss 10 set hh=0%hh%
-if %mm% lss 10 set mm=0%mm%
-if %ss% lss 10 set ss=0%ss%
-if %cc% lss 10 set cc=0%cc%
-echo Wrong Password (PRF Auto-detection)= %hh%:%mm%:%ss%,%cc%
-echo.
-
-
-goto :exit
+echo %oper% = %hh%:%mm%:%ss%,%cc%
+exit /b
 
 rem Finds a free drive letter.
 rem
@@ -420,6 +119,7 @@ set drive=
 :freedrive0
 endlocal & set "%output_var%=%drive%" & exit /b %exitcode%
 
+:: Subroutine to find an available volume
 :availablevolume
 setlocal EnableDelayedExpansion
 set exitcode=0
