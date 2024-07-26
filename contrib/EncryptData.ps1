@@ -23,7 +23,7 @@ The desired path for the VeraCrypt container. If not specified, it defaults to t
 .NOTES
 Author: Mounir IDRASSI
 Email: mounir.idrassi@idrix.fr
-Date: July 2023
+Date: 26 July 2024
 License: This script is licensed under the Apache License 2.0
 #>
 
@@ -77,8 +77,10 @@ $veraCryptFormatExe = Join-Path $veracryptPath "VeraCrypt Format.exe"
 
 # Constants used to calculate the size of the exFAT filesystem
 $InitialVBRSize = 32KB
+$BackupVBRSize = 32KB
 $InitialFATSize = 128KB
 $ClusterSize = 32KB # TODO : make this configurable
+$UpCaseTableSize = 128KB # Typical size
 
 function Get-ExFATSizeRec {
     param(
@@ -142,7 +144,7 @@ function Get-ExFATSize {
 
     try {
         # Initialize total size
-        $totalSize = $InitialVBRSize + $InitialFATSize
+        $totalSize = $InitialVBRSize + $BackupVBRSize + $InitialFATSize + $UpCaseTableSize
 
         # Call the recursive function
         $totalSize = Get-ExFATSizeRec -Path $Path -TotalSize $totalSize
@@ -151,13 +153,24 @@ function Get-ExFATSize {
         $totalSize += $ClusterSize
 
         # Calculate the size of the Bitmap Allocation Table
-        $numClusters = $totalSize / $ClusterSize
+        $numClusters = [math]::Ceiling($totalSize / $ClusterSize)
         $bitmapSize = [math]::Ceiling($numClusters / 8)
         $totalSize += $bitmapSize
 
         # Adjust the size of the FAT
         $fatSize = $numClusters * 4
         $totalSize += $fatSize - $InitialFATSize
+		
+        # Add safety factor to account for potential filesystem overhead
+        # For smaller datasets (<100MB), we add 1% or 64KB (whichever is larger)
+        # For larger datasets (>=100MB), we add 0.1% or 1MB (whichever is larger)
+        # This scaled approach ensures adequate extra space without excessive overhead
+        $safetyFactor = if ($totalSize -lt 100MB) {
+            [math]::Max(64KB, $totalSize * 0.01)
+        } else {
+            [math]::Max(1MB, $totalSize * 0.001)
+        }
+        $totalSize += $safetyFactor
 
         # Return the minimum disk size needed to store the exFAT filesystem
         return $totalSize
@@ -171,10 +184,25 @@ function Get-ExFATSize {
 # Calculate size of the container
 $containerSize = Get-ExFATSize -Path $inputPath
 
+# Convert to MB and round up to the nearest MB
 $containerSize = [math]::Ceiling($containerSize / 1MB)
 
-# Add 1 MiB to account for the VeraCrypt headers and reserved areas (256 KiB), plus other overhead
-$containerSize += 1
+# Add extra space for VeraCrypt headers, reserved areas, and potential alignment requirements
+# We use a sliding scale to balance efficiency for small datasets and adequacy for large ones:
+# - For very small datasets (<10MB), add 1MB
+# - For small to medium datasets (10-100MB), add 2MB
+# - For larger datasets (>100MB), add 1% of the total size
+# This approach ensures sufficient space across a wide range of dataset sizes
+if ($containerSize -lt 10) {
+    $containerSize += 1  # Add 1 MB for very small datasets
+} elseif ($containerSize -lt 100) {
+    $containerSize += 2  # Add 2 MB for small datasets
+} else {
+    $containerSize += [math]::Ceiling($containerSize * 0.01)  # Add 1% for larger datasets
+}
+
+# Ensure a minimum container size of 2 MB
+$containerSize = [math]::Max(2, $containerSize)
 
 # Specify encryption algorithm, and hash algorithm
 $encryption = "AES"
