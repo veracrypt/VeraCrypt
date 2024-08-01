@@ -1636,8 +1636,11 @@
     <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
     <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
     <entry lang="fr" key="LINUX_LANGUAGE">Langue</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
+    <entry lang="fr" key="LINUX_SELECT_SYS_DEFAULT_LANG">Sélectionner la langue par défaut du système</entry>
+    <entry lang="fr" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Pour que le changement de langue prenne effet, VeraCrypt doit être redémarré.</entry>
+    <entry lang="fr" key="ERR_XTS_MASTERKEY_VULNERABLE">AVERTISSEMENT : La clé principale du volume est vulnérable à une attaque compromettant la sécurité des données.\n\nVeuillez créer un nouveau volume et y transférer les données.</entry>
+    <entry lang="fr" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">AVERTISSEMENT : La clé principale du système chiffré est vulnérable à une attaque compromettant la sécurité des données.\nVeuillez déchiffrer la partition/le disque système puis le chiffrer à nouveau.</entry>
+    <entry lang="fr" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">AVERTISSEMENT : La clé principale du volume présente une vulnérabilité de sécurité.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
