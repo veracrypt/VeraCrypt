@@ -1259,6 +1259,20 @@ static BOOL SysEncryptionOrDecryptionRequired (void)
 	);
 }
 
+// Returns TRUE if system encryption master key is vulnerable
+static BOOL SysEncryptionMasterKeyVulnerable (void)
+{
+	try
+	{
+		BootEncStatus = BootEncObj->GetStatus();
+		return (BootEncStatus.DriveMounted || BootEncStatus.DriveEncrypted) && BootEncStatus.MasterKeyVulnerable;
+	}
+	catch (Exception &)
+	{
+		return FALSE;
+	}
+}
+
 // Returns TRUE if the system partition/drive is completely encrypted
 static BOOL SysDriveOrPartitionFullyEncrypted (BOOL bSilent)
 {
@@ -7435,10 +7449,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (!Quit)	// Do not care about system encryption or in-place encryption if we were launched from the system startup sequence (the wizard was added to it too).
 			{
+				BOOL bActionPerformed = FALSE;
 				if (SysEncryptionOrDecryptionRequired ())
 				{
 					if (!MutexExistsOnSystem (TC_MUTEX_NAME_SYSENC))	// If no instance of the wizard is currently taking care of system encryption
 					{
+						bActionPerformed = TRUE;
 						// We shouldn't block the mutex at this point
 
 						if (SystemEncryptionStatus == SYSENC_STATUS_PRETEST
@@ -7465,7 +7481,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					BOOL bDecrypt = FALSE;
 					if (AskNonSysInPlaceEncryptionResume(hwndDlg, &bDecrypt) == IDYES)
+					{
+						bActionPerformed = TRUE;
 						ResumeInterruptedNonSysInplaceEncProcess (bDecrypt);
+					}
+				}
+
+				if (!bActionPerformed)
+				{
+					// display warning if the master key is vulnerable
+					if (SysEncryptionMasterKeyVulnerable())
+						WarningTopMost ("ERR_SYSENC_XTS_MASTERKEY_VULNERABLE", hwndDlg);
 				}
 			}
 
@@ -11445,6 +11471,12 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 				goto error;
 
 			handleError (hwndDlg, nStatus, SRC_POS);
+		}
+
+		// display a warning if the master key is vulnerable
+		if (restoredCryptoInfo->bVulnerableMasterKey)
+		{
+			Warning ("ERR_XTS_MASTERKEY_VULNERABLE", hwndDlg);
 		}
 
 		BOOL hiddenVol = restoredCryptoInfo->hiddenVolume;

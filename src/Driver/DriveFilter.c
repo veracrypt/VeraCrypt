@@ -522,9 +522,15 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 
 	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, pim, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
 	{
-		// Header decrypted
+		// Header decrypted		
 		status = STATUS_SUCCESS;
 		Dump ("Header decrypted\n");
+
+		if (Extension->HeaderCryptoInfo->bVulnerableMasterKey)
+		{
+			// The volume header master key is vulnerable
+			Dump ("The volume header master key is vulnerable\n");
+		}
 
 		// calculate Fingerprint
 		ComputeBootLoaderFingerprint (Extension->LowerDeviceObject, header);
@@ -2017,6 +2023,7 @@ void GetBootEncryptionStatus (PIRP irp, PIO_STACK_LOCATION irpSp)
 			bootEncStatus->ConfiguredEncryptedAreaStart = Extension->ConfiguredEncryptedAreaStart;
 			bootEncStatus->ConfiguredEncryptedAreaEnd = Extension->ConfiguredEncryptedAreaEnd;
 			bootEncStatus->EncryptedAreaStart = Extension->Queue.EncryptedAreaStart;
+			bootEncStatus->MasterKeyVulnerable = Extension->HeaderCryptoInfo->bVulnerableMasterKey;
 
 			if (SetupInProgress)
 			{

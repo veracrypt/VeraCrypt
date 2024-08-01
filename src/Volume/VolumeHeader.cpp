@@ -47,6 +47,7 @@ namespace VeraCrypt
 		EncryptedAreaLength = 0;
 		Flags = 0;
 		SectorSize = 0;
+		XtsKeyVulnerable = false;
 	}
 
 	void VolumeHeader::Create (const BufferPtr &headerBuffer, VolumeHeaderCreationOptions &options)
@@ -61,6 +62,9 @@ namespace VeraCrypt
 
 		DataAreaKey.Zero();
 		DataAreaKey.CopyFrom (options.DataKey);
+
+		// check if the XTS key is vulnerable by comparing the two parts of the key
+		XtsKeyVulnerable = (memcmp (options.DataKey.Get() + options.EA->GetKeySize(), options.DataKey.Get(), options.EA->GetKeySize()) == 0);
 
 		VolumeCreationTime = 0;
 		HiddenVolumeDataSize = (options.Type == VolumeType::Hidden ? options.VolumeDataSize : 0);
@@ -235,6 +239,9 @@ namespace VeraCrypt
 			ea->SetKeyXTS (header.GetRange (offset + ea->GetKeySize(), ea->GetKeySize()));
             #endif
 			mode->SetKey (header.GetRange (offset + ea->GetKeySize(), ea->GetKeySize()));
+
+			// check if the XTS key is vulnerable by comparing the two parts of the key
+			XtsKeyVulnerable = (memcmp (DataAreaKey.Ptr() + ea->GetKeySize(), DataAreaKey.Ptr(), ea->GetKeySize()) == 0);
 		}
 		else
 		{

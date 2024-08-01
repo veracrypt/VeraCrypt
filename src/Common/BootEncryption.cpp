@@ -1462,6 +1462,7 @@ namespace VeraCrypt
 		/* IMPORTANT: Do NOT add any potentially time-consuming operations to this function. */
 
 		BootEncryptionStatus status;
+		memset (&status, 0, sizeof(status));
 		CallDriver (TC_IOCTL_GET_BOOT_ENCRYPTION_STATUS, NULL, 0, &status, sizeof (status));
 		return status;
 	}
@@ -5400,6 +5401,10 @@ namespace VeraCrypt
 		
 		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, old_pkcs5, old_pim, &cryptoInfo, NULL);
 		finally_do_arg (PCRYPTO_INFO, cryptoInfo, { if (finally_arg) crypto_close (finally_arg); });
+
+		// if the XTS master key is vulnerable, return error and do not allow the user to change the password since the master key will not be changed
+		if (cryptoInfo->bVulnerableMasterKey)
+			status = ERR_SYSENC_XTS_MASTERKEY_VULNERABLE;
 
 		if (status != 0)
 		{

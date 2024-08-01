@@ -114,6 +114,7 @@ namespace VeraCrypt
 		void ReEncryptHeader (bool backupHeader, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf);
 		void WriteSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
 		bool IsEncryptionNotCompleted () const { return EncryptionNotCompleted; }
+		bool IsMasterKeyVulnerable() const { return Header && Header->IsMasterKeyVulnerable(); }
 
 	protected:
 		void CheckProtectedRange (uint64 writeHostOffset, uint64 writeLength);

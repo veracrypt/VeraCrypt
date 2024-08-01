@@ -191,6 +191,7 @@ namespace VeraCrypt
 		hiddenVolumeMountOptions.Path = volumePath;
 
 		VolumeType::Enum volumeType = VolumeType::Normal;
+		bool masterKeyVulnerable = false;
 
 		// Open both types of volumes
 		while (true)
@@ -271,6 +272,13 @@ namespace VeraCrypt
 					else
 						ShowWarning ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
 				}
+			}
+
+			// check if volume master key is vulnerable
+			if (volume->IsMasterKeyVulnerable())
+			{
+				masterKeyVulnerable = true;
+				ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
 			}
 
 			if (volumeType == VolumeType::Hidden)
@@ -366,6 +374,10 @@ namespace VeraCrypt
 		}
 
 		ShowWarning ("VOL_HEADER_BACKED_UP");
+
+		// display again warning that master key is vulnerable
+		if (masterKeyVulnerable)
+			ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
 	}
 
 	void GraphicUserInterface::BeginInteractiveBusyState (wxWindow *window)
@@ -1440,6 +1452,7 @@ namespace VeraCrypt
 		/* force the display of the random enriching interface */
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 
+		bool masterKeyVulnerable = false;
 		if (restoreInternalBackup)
 		{
 			// Restore header from the internal backup
@@ -1491,6 +1504,8 @@ namespace VeraCrypt
 				ShowError ("VOLUME_HAS_NO_BACKUP_HEADER");
 				return;
 			}
+
+			masterKeyVulnerable = volume->IsMasterKeyVulnerable();
 
 			RandomNumberGenerator::Start();
 			UserEnrichRandomPool (nullptr);
@@ -1590,6 +1605,7 @@ namespace VeraCrypt
 
 						if (decryptRoutine.m_bResult)
 						{
+							masterKeyVulnerable = layout->GetHeader()->IsMasterKeyVulnerable();
 							decryptedLayout = layout;
 							break;
 						}
@@ -1645,6 +1661,12 @@ namespace VeraCrypt
 		}
 
 		ShowInfo ("VOL_HEADER_RESTORED");
+
+		// display warning if the volume master key is vulnerable
+		if (masterKeyVulnerable)
+		{
+			ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+		}
 	}
 
 	DevicePath GraphicUserInterface::SelectDevice (wxWindow *parent) const

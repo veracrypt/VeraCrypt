@@ -277,6 +277,8 @@ typedef struct CRYPTO_INFO_t
 
 	uint32 SectorSize;
 
+	BOOL bVulnerableMasterKey; // TRUE if XTS primary key is identical to secondary key (i.e. the volume is vulnerable to attack on XTS mode)
+
 #endif // !TC_WINDOWS_BOOT
 
 	UINT64_STRUCT VolumeSize;

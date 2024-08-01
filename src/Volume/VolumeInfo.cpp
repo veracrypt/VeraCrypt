@@ -55,6 +55,7 @@ namespace VeraCrypt
 		VirtualDevice = sr.DeserializeWString ("VirtualDevice");
 		sr.Deserialize ("VolumeCreationTime", VolumeCreationTime);
 		sr.Deserialize ("Pim", Pim);
+		sr.Deserialize ("MasterKeyVulnerable", MasterKeyVulnerable);
 	}
 
 	bool VolumeInfo::FirstVolumeMountedAfterSecond (shared_ptr <VolumeInfo> first, shared_ptr <VolumeInfo> second)
@@ -95,6 +96,7 @@ namespace VeraCrypt
 		sr.Serialize ("VirtualDevice", wstring (VirtualDevice));
 		sr.Serialize ("VolumeCreationTime", VolumeCreationTime);
 		sr.Serialize ("Pim", Pim);
+		sr.Serialize ("MasterKeyVulnerable", MasterKeyVulnerable);
 	}
 
 	void VolumeInfo::Set (const Volume &volume)
@@ -119,6 +121,7 @@ namespace VeraCrypt
 		TotalDataRead = volume.GetTotalDataRead();
 		TotalDataWritten = volume.GetTotalDataWritten();
 		Pim = volume.GetPim ();
+		MasterKeyVulnerable = volume.IsMasterKeyVulnerable();
 	}
 
 	TC_SERIALIZER_FACTORY_ADD_CLASS (VolumeInfo);

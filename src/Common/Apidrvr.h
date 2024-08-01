@@ -177,6 +177,7 @@ typedef struct
 	ULONG MaximumTransferLength;
 	ULONG MaximumPhysicalPages;
 	ULONG AlignmentMask;
+	BOOL VolumeMasterKeyVulnerable;
 } MOUNT_STRUCT;
 
 typedef struct
@@ -315,6 +316,8 @@ typedef struct
 	// Number of times the filter driver answered that an unencrypted volume
 	// is read-only (or mounted an outer/normal TrueCrypt volume as read only)
 	uint32 HiddenSysLeakProtectionCount;
+
+	BOOL MasterKeyVulnerable;
 
 } BootEncryptionStatus;
 

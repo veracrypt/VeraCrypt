@@ -597,6 +597,14 @@ KeyReady:	;
 					goto err;
 				}
 
+				// check that first half of keyInfo.master_keydata is different from the second half. If they are the same return error
+				if (memcmp (keyInfo->master_keydata, keyInfo->master_keydata + EAGetKeySize (cryptoInfo->ea), EAGetKeySize (cryptoInfo->ea)) == 0)
+				{
+					cryptoInfo->bVulnerableMasterKey = TRUE;
+					if (retHeaderCryptoInfo)
+						retHeaderCryptoInfo->bVulnerableMasterKey = TRUE;
+				}
+
 				status = ERR_SUCCESS;
 				goto ret;
 			}

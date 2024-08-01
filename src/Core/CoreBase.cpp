@@ -77,10 +77,11 @@ namespace VeraCrypt
 		}
 	}
 
-	void CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
+	shared_ptr <Volume> CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
 	{
 		shared_ptr <Volume> volume = OpenVolume (volumePath, preserveTimestamps, password, pim, kdf, keyfiles, emvSupportEnabled);
 		ChangePassword (volume, newPassword, newPim, newKeyfiles, emvSupportEnabled, newPkcs5Kdf, wipeCount);
+		return volume;
 	}
 
 	void CoreBase::CoalesceSlotNumberAndMountPoint (MountOptions &options) const

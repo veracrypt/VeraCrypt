@@ -314,6 +314,7 @@ namespace VeraCrypt
 		hiddenVolumeMountOptions.EMVSupportEnabled = true;
 
 		VolumeType::Enum volumeType = VolumeType::Normal;
+		bool masterKeyVulnerable = false;
 
 		// Open both types of volumes
 		while (true)
@@ -387,6 +388,13 @@ namespace VeraCrypt
 				}
 			}
 
+			// check if volume master key is vulnerable
+			if (volume->IsMasterKeyVulnerable())
+			{
+				masterKeyVulnerable = true;
+				ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+			}
+
 			if (volumeType == VolumeType::Hidden)
 				hiddenVolume = volume;
 			else
@@ -454,6 +462,10 @@ namespace VeraCrypt
 
 		ShowString (L"\n");
 		ShowInfo ("VOL_HEADER_BACKED_UP");
+
+		// display again warning that master key is vulnerable
+		if (masterKeyVulnerable)
+			ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
 	}
 
 	void TextUserInterface::ChangePassword (shared_ptr <VolumePath> volumePath, shared_ptr <VolumePassword> password, int pim, shared_ptr <Hash> currentHash, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Hash> newHash) const
@@ -530,6 +542,12 @@ namespace VeraCrypt
 			}
 
 			break;
+		}
+
+		// display warning if volume master key is vulnerable
+		if (volume->IsMasterKeyVulnerable())
+		{
+			ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
 		}
 
 		// New password
@@ -1539,6 +1557,7 @@ namespace VeraCrypt
 		/* force the display of the random enriching interface */
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 
+		bool masterKeyVulnerable = false;
 		if (restoreInternalBackup)
 		{
 			// Restore header from the internal backup
@@ -1585,6 +1604,8 @@ namespace VeraCrypt
 			{
 				throw_err (LangString ["VOLUME_HAS_NO_BACKUP_HEADER"]);
 			}
+
+			masterKeyVulnerable = volume->IsMasterKeyVulnerable();
 
 			RandomNumberGenerator::Start();
 			UserEnrichRandomPool();
@@ -1673,6 +1694,7 @@ namespace VeraCrypt
 						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, options.Pim, kdf, layout->GetSupportedKeyDerivationFunctions(), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
 						{
 							decryptedLayout = layout;
+							masterKeyVulnerable = layout->GetHeader()->IsMasterKeyVulnerable();
 							break;
 						}
 					}
@@ -1723,6 +1745,11 @@ namespace VeraCrypt
 
 		ShowString (L"\n");
 		ShowInfo ("VOL_HEADER_RESTORED");
+		// display warning if the volume master key is vulnerable
+		if (masterKeyVulnerable)
+		{
+			ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+		}
 	}
 
 	void TextUserInterface::SetTerminalEcho (bool enable)

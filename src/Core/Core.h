@@ -82,9 +82,13 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> m_newPkcs5Kdf;
 		int m_wipeCount;
 		bool m_emvSupportEnabled;
-		ChangePasswordThreadRoutine(shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount, bool emvSupportEnabled) : m_volumePath(volumePath), m_preserveTimestamps(preserveTimestamps), m_password(password), m_pim(pim), m_kdf(kdf), m_keyfiles(keyfiles), m_newPassword(newPassword), m_newPim(newPim), m_newKeyfiles(newKeyfiles), m_newPkcs5Kdf(newPkcs5Kdf), m_wipeCount(wipeCount), m_emvSupportEnabled(emvSupportEnabled)  {}
+		bool m_masterKeyVulnerable;
+		ChangePasswordThreadRoutine(shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount, bool emvSupportEnabled) : m_volumePath(volumePath), m_preserveTimestamps(preserveTimestamps), m_password(password), m_pim(pim), m_kdf(kdf), m_keyfiles(keyfiles), m_newPassword(newPassword), m_newPim(newPim), m_newKeyfiles(newKeyfiles), m_newPkcs5Kdf(newPkcs5Kdf), m_wipeCount(wipeCount), m_emvSupportEnabled(emvSupportEnabled), m_masterKeyVulnerable(false)  {}
 		virtual ~ChangePasswordThreadRoutine() { }
-		virtual void ExecutionCode(void) { Core->ChangePassword(m_volumePath, m_preserveTimestamps, m_password, m_pim, m_kdf, m_keyfiles, m_newPassword, m_newPim, m_newKeyfiles, m_emvSupportEnabled, m_newPkcs5Kdf, m_wipeCount); }
+		virtual void ExecutionCode(void) { 
+			shared_ptr <Volume> openVolume = Core->ChangePassword(m_volumePath, m_preserveTimestamps, m_password, m_pim, m_kdf, m_keyfiles, m_newPassword, m_newPim, m_newKeyfiles, m_emvSupportEnabled, m_newPkcs5Kdf, m_wipeCount); 
+			m_masterKeyVulnerable = openVolume->IsMasterKeyVulnerable();
+		}
 	};
 
 	class OpenVolumeThreadRoutine : public WaitThreadRoutine

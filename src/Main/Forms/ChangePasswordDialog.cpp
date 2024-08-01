@@ -171,6 +171,7 @@ namespace VeraCrypt
 			RandomNumberGenerator::SetEnrichedByUserStatus (false);
 			Gui->UserEnrichRandomPool (this, NewPasswordPanel->GetPkcs5Kdf() ? NewPasswordPanel->GetPkcs5Kdf()->GetHash() : shared_ptr <Hash>());
 
+			bool masterKeyVulnerable = false;
 			{
 #ifdef TC_UNIX
 				// Temporarily take ownership of a device if the user is not an administrator
@@ -193,6 +194,7 @@ namespace VeraCrypt
 					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
 					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount(), Gui->GetPreferences().EMVSupportEnabled);
 				Gui->ExecuteWaitThreadRoutine (this, &routine);
+				masterKeyVulnerable = routine.m_masterKeyVulnerable;
 			}
 
 			switch (DialogMode)
@@ -213,6 +215,9 @@ namespace VeraCrypt
 			default:
 				throw ParameterIncorrect (SRC_POS);
 			}
+
+			if (masterKeyVulnerable)
+				Gui->ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
 
 			EndModal (wxID_OK);
 		}

@@ -691,6 +691,12 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 		nStatus = 0;	// We can ignore this error here
 
+	// if the volume master key is vulnerable, print a warning to inform the user
+	if (cryptoInfo->bVulnerableMasterKey)
+	{
+		DebugAddProgressDlgStatus(hwndDlg, GetString ("ERR_XTS_MASTERKEY_VULNERABLE_SHORT"));
+	}
+
 	if (nStatus != 0)
 	{
 		cryptoInfo = NULL;

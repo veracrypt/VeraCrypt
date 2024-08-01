@@ -5577,6 +5577,14 @@ void handleError (HWND hwndDlg, int code, const char* srcPos)
 		break;
 #endif
 
+	case ERR_XTS_MASTERKEY_VULNERABLE:
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("ERR_XTS_MASTERKEY_VULNERABLE"), srcPos).c_str(), lpszTitle, ICON_HAND);
+		break;
+
+	case ERR_SYSENC_XTS_MASTERKEY_VULNERABLE:
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("ERR_SYSENC_XTS_MASTERKEY_VULNERABLE"), srcPos).c_str(), lpszTitle, ICON_HAND);
+		break;
+
 	default:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("ERR_UNKNOWN"), code);
 		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, ICON_HAND);
@@ -8952,6 +8960,12 @@ retry:
 	}
 	
 	LastMountedVolumeDirty = mount.FilesystemDirty;
+
+	if (mount.VolumeMasterKeyVulnerable
+		&& !Silent)
+	{
+		Warning ("ERR_XTS_MASTERKEY_VULNERABLE", hwndDlg);
+	}
 
 	if (mount.FilesystemDirty)
 	{

@@ -76,6 +76,7 @@ namespace VeraCrypt
 		uint64 GetVolumeDataSize () const { return VolumeDataSize; }
 		VolumeTime GetVolumeCreationTime () const { return VolumeCreationTime; }
 		void SetSize (uint32 headerSize);
+		bool IsMasterKeyVulnerable () const { return XtsKeyVulnerable; }
 
 	protected:
 		bool Deserialize (const ConstBufferPtr &header, shared_ptr <EncryptionAlgorithm> &ea, shared_ptr <EncryptionMode> &mode);
@@ -120,6 +121,7 @@ namespace VeraCrypt
 		uint32 SectorSize;
 
 		SecureBuffer DataAreaKey;
+		bool XtsKeyVulnerable;
 
 	private:
 		VolumeHeader (const VolumeHeader &);

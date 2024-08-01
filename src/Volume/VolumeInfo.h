@@ -61,7 +61,7 @@ namespace VeraCrypt
 		DevicePath VirtualDevice;
 		VolumeTime VolumeCreationTime;
 		int Pim;
-
+		bool MasterKeyVulnerable;
 	private:
 		VolumeInfo (const VolumeInfo &);
 		VolumeInfo &operator= (const VolumeInfo &);
