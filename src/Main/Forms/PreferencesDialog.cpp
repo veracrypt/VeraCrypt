@@ -108,6 +108,7 @@ namespace VeraCrypt
 				{"ka", L"ქართული"},
 				{"ko", L"한국어"},
 				{"lv", L"Latviešu"},
+				{"nb", L"Norsk Bokmål"},
 				{"nl", L"Nederlands"},
 				{"nn", L"Norsk Nynorsk"},
 				{"pl", L"Polski"},
