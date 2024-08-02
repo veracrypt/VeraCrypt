@@ -5,12 +5,13 @@ Information about Corsican localization:
 1. The latest update of Corsican translation file is available here:
 	https://github.com/veracrypt/VeraCrypt/blob/master/Translations/Language.co.xml
 
-2. History of Corsican translation for Notepad++:
+2. History of Corsican translation for VeraCrypt:
 
+	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13),
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
 	          June 29th (1.26.2), July 1st (1.26.3), July 30th (1.26.4), Aug. 14th (1.26.5), Sep. 8th (1.26.5),
-	          Sep. 20th (1.26.5), Sep. 24th (1.26.6), Nov. 20th (1.26.13)
+	          Sep. 20th (1.26.5), Sep. 24th (1.26.6), Nov. 20th (1.26.12)
 	- Updated on March 23rd, 2022 for version 1.26 by Patriccollu di Santa Maria è Sichè
 	- Created on March 6th, 2022 for version 1.25.9 by Patriccollu di Santa Maria è Sichè
 
@@ -19,7 +20,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.13">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.4" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.5" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -90,7 +91,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDC_WHOLE_SYS_DRIVE">Cifrà u discu sanu</entry>
 		<entry lang="co" key="IDD_VOL_CREATION_WIZARD_DLG">Assistente di creazione di vulume VeraCrypt</entry>
 		<entry lang="co" key="IDT_CLUSTER">Bloccu</entry>
-		<entry lang="co" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja cunsiderabilmente a forza crittografica di e chjavi di cifratura. Tandu, cliccu nant’à « Seguente » per cuntinuà.</entry>
+		<entry lang="co" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja assai assai a forza crittografica di e chjavi di cifratura. Tandu, cliccu nant’à « Seguente » per cuntinuà.</entry>
 		<entry lang="co" key="IDT_CONFIRM">&amp;Cunfirmà :</entry>
 		<entry lang="co" key="IDT_DONE">Fattu</entry>
 		<entry lang="co" key="IDT_DRIVE_LETTER">Lettera di u lettore :</entry>
@@ -165,7 +166,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDC_LIMIT_ENC_THREAD_POOL">Ùn impiegà micca quellu numeru di prucessori logichi per a cifratura è a diccifratura :</entry>
 		<entry lang="co" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Per sapene di più</entry>
 		<entry lang="co" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Per sapene di più</entry>
-		<entry lang="co" key="IDC_MORE_SETTINGS">Altre preferenze…</entry>
+		<entry lang="co" key="IDC_MORE_SETTINGS">Altri parametri…</entry>
 		<entry lang="co" key="IDC_MOUNTALL">Muntatura autumat&amp;ica</entry>
 		<entry lang="co" key="IDC_MOUNT_OPTIONS">&amp;Ozzioni di muntà…</entry>
 		<entry lang="co" key="IDC_MOUNT_READONLY">Muntà u vulume in &amp;lettura sola</entry>
@@ -371,7 +372,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_HIDDEN_PROT_PASSWD">Parolla d’intesa di u vulume piattatu :\n(s’ellu hè viotu, l’impiatta hè impiegata)</entry>
 		<entry lang="co" key="IDT_HIDDEN_VOL_PROTECTION">Prutezzione di u vulume piattatu</entry>
 		<entry lang="co" key="IDT_KEY">Dimensione di a chjave :</entry>
-		<entry lang="co" key="IDT_KEYFILE_GENERATOR_NOTE">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja cunsiderabilmente a forza crittografica di u schedariu chjave.</entry>
+		<entry lang="co" key="IDT_KEYFILE_GENERATOR_NOTE">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja assai assai a forza crittografica di u schedariu chjave.</entry>
 		<entry lang="co" key="IDT_KEYFILE_WARNING">AVERTIMENTU : S’è vo pirdite un schedariu chjave o s’è un solu bit di i so 1024 primi chiloottetti cambia, serà impussibule di muntà i vulumi chì impieganu stu schedariu chjave !</entry>
 		<entry lang="co" key="IDT_KEY_UNIT">bits</entry>
 		<entry lang="co" key="IDT_NUMBER_KEYFILES">Numeru di schedarii chjave :</entry>
@@ -382,7 +383,7 @@ Information about Corsican localization:
 		<entry lang="co" key="IDT_PLAINTEXT_SIZE_UNIT">bits</entry>
 		<entry lang="co" key="IDT_POOL_CONTENTS">Cuntenutu di a riserva</entry>
 		<entry lang="co" key="IDT_PRF">Mischju PRF :</entry>
-		<entry lang="co" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja cunsiderabilmente a sicurità. Quandu hè compiu, cliccu nant’à « Cuntinuà ».</entry>
+		<entry lang="co" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja assai assai a sicurità. Quandu hè compiu, cliccu nant’à « Cuntinuà ».</entry>
 		<entry lang="co" key="IDT_SECONDARY_KEY">Chjave secundaria (esadecimale)</entry>
 		<entry lang="co" key="IDT_SECURITY_TOKEN">Gettone di sicurità :</entry>
 		<entry lang="co" key="IDT_SORT_METHOD">Metoda d’ordine :</entry>
@@ -399,7 +400,7 @@ Information about Corsican localization:
 		<entry lang="co" key="MENU_VOLUMES">&amp;Vulumi</entry>
 		<entry lang="co" key="MENU_FAVORITES">&amp;Favuriti</entry>
 		<entry lang="co" key="MENU_TOOLS">&amp;Attrezzi</entry>
-		<entry lang="co" key="MENU_SETTINGS">&amp;Preferenze</entry>
+		<entry lang="co" key="MENU_SETTINGS">&amp;Parametri</entry>
 		<entry lang="co" key="MENU_HELP">Ai&amp;utu</entry>
 		<entry lang="co" key="MENU_WEBSITE">Situ &amp;web</entry>
 		<entry lang="co" key="ABOUTBOX">&amp;Apprupositu…</entry>
@@ -416,7 +417,7 @@ Information about Corsican localization:
 		<entry lang="co" key="ERR_SELF_TESTS_FAILED">FATE CASU : Omancu una cudificazione di cifratura o di tazzeghju hè fiascata à e prove autumatiche !\n\nL’installazione di VeraCrypt pò esse alterata.</entry>
 		<entry lang="co" key="ERR_NOT_ENOUGH_RANDOM_DATA">FATE CASU : Ùn ci hè abbastanza dati in a riserva di u generatore di numeri aleatorii per furnisce a quantità richiesta di dati aleatorii.\n\nHè ricumandatu d’ùn micca cuntinuà. Ci vole à selezziunà « Signalà un penseru » da u listinu d’aiutu per riferisce stu sbagliu.</entry>
 		<entry lang="co" key="ERR_HARDWARE_ERROR">U discu hè dannighjatu (ci hè un difettu fisicu) o un cavu hè dannighjatu, osinnò a memoria funziuneghja male.\n\nSappiate chì ghjè un prublema materiale, è micca cù VeraCrypt. Dunque, ùn ci vole MICCA à riferisce què cum’è un prublema in VeraCrypt è ùn ci vole MICCA à dumandà aiutu in i fori VeraCrypt. Ci vole à cuntattà a squadra tecnica di u vostru venditore per ottene assistenza. Vi ringraziemu.\n\nNota : s’è u sbagliu si ripete à a listessa piazza, ghjè sicuramente per via d’un bloccu di discu gattivu, ch’ella seria pussibule di currege grazia à un prugramma terzu (sappiate chì, in casi numerosi, a cumanda « chkdsk /r » ùn pò micca curregelu perchè funziuneghja solu à u livellu di u sistema di schedarii ; in certi casi, l’attrezzu « chkdsk » ùn scopre mancu u sbagliu).</entry>
-		<entry lang="co" key="DEVICE_NOT_READY_ERROR">S’è vo accidete à un lettore di medià amuvibule, assicuratevi chì u medià hè framessu in u lettore. U lettore o u medià ponu esse dannighjati dinù (ci hè forse un difettu fisicu) osinnò un cavu pò esse dannighjatu o disghjuntu.</entry>
+		<entry lang="co" key="DEVICE_NOT_READY_ERROR">S’è vo accidete à un lettore di medià amuvibule, assicuratevi chì u medià hè framessu in u lettore. U lettore o u medià puderia esse dannighjatu (ci hè forse un difettu fisicu) osinnò un cavu pò esse dannighjatu o discunnessu.</entry>
 		<entry lang="co" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">U vostru sistema pare impiegà qualchì pilotu persunalizatu di puce elettronica cuntenente un prublema chì impedisce a cifratura di u discu di u sistema sanu.\n\nCi vole à rinnuvà o disinstallà tuttu pilotu (micca Microsoft) persunalizatu di puce elettronica prima di cuntinuà. S’è què ùn funziuneghja micca, pruvate di cifrà solu a partizione di u sistema.</entry>
 		<entry lang="co" key="BAD_DRIVE_LETTER">Lettera di lettore inaccettevule.</entry>
 		<entry lang="co" key="INVALID_PATH">Chjassu inaccettevule.</entry>
@@ -465,7 +466,7 @@ Information about Corsican localization:
 		<entry lang="co" key="DISK_FREE_PB">U spaziu liberu nant’à u lettore %s hè di %.2f Po</entry>
 		<entry lang="co" key="DRIVELETTERS">Ùn si pò micca ottene lettere di lettore dispunibule.</entry>
 		<entry lang="co" key="DRIVER_NOT_FOUND">Sbagliu : Ùn si pò truvà u pilotu VeraCrypt.\n\nCi vole à cupià i schedarii « veracrypt.sys » è « veracrypt-x64.sys » in u cartulare induve l’appiecazione principale VeraCrypt (VeraCrypt.exe) si trova.</entry>
-		<entry lang="co" key="DRIVER_VERSION">Sbagliu : Una versione incumpatibile di u pilotu VeraCrypt funziuneghja dighjà.\n\nS’è vo circate à lancià VeraCrypt in modu purtavule (vole si dì senza installallu) è chì una versione sfarente di VeraCrypt hè dighjà installata, ci vole à disinstallalla in primu locu (o rinnuvalla impieghendu u stalladore VeraCrypt). Per disinstallalla, seguitate st’istruzzioni : Nant’à Windows Vista o una versione più recente, selezziunate « Menu Démarrer » &gt; Urdinatore &gt; « Disinstallà o cambià un prugramma » &gt; VeraCrypt &gt; Disinstallà. Nant’à Windows XP o una versione più recente, selezziunate « Menu Démarrer » &gt; Preferenze &gt; « Pannellu di cuntrollu » &gt; « Aghjunghje o caccià un prugramma » &gt; VeraCrypt &gt; Disinstallà. Di listessa manera, s’è vo circate à lancià VeraCrypt in modu purtavule (vole si dì senza installallu) è chì una versione sfarente di VeraCrypt funziuneghja dighjà in modu purtavule, ci vole à rilancià u sistema in primu locu eppò lancià solu sta nova versione.</entry>
+		<entry lang="co" key="DRIVER_VERSION">Sbagliu : Una versione incumpatibile di u pilotu VeraCrypt funziuneghja dighjà.\n\nS’è vo circate à lancià VeraCrypt in modu purtavule (vole si dì senza installallu) è chì una versione sfarente di VeraCrypt hè dighjà installata, ci vole à disinstallalla in primu locu (o rinnuvalla impieghendu u stalladore VeraCrypt). Per disinstallalla, seguitate st’istruzzioni : Nant’à Windows Vista o una versione più recente, selezziunate « Menu Démarrer » &gt; Urdinatore &gt; « Disinstallà o cambià un prugramma » &gt; VeraCrypt &gt; Disinstallà. Nant’à Windows XP o una versione più recente, selezziunate « Menu Démarrer » &gt; Parametri &gt; « Pannellu di cuntrollu » &gt; « Aghjunghje o caccià un prugramma » &gt; VeraCrypt &gt; Disinstallà. Di listessa manera, s’è vo circate à lancià VeraCrypt in modu purtavule (vole si dì senza installallu) è chì una versione sfarente di VeraCrypt funziuneghja dighjà in modu purtavule, ci vole à rilancià u sistema in primu locu eppò lancià solu sta nova versione.</entry>
 		<entry lang="co" key="ERR_CIPHER_INIT_FAILURE">Sbagliu : Fiascu à l’iniziu di u ciframentu.</entry>
 		<entry lang="co" key="ERR_CIPHER_INIT_WEAK_KEY">Sbagliu : Una chjave debule o putenzialmente debule hè stata scuperta. A chjave serà scartata. Pruvate torna.</entry>
 		<entry lang="co" key="EXCEPTION_REPORT">Un sbagliu disastrosu hè accadutu è VeraCrypt hà da piantassi. S’ellu hè cagiunatu da un prublema in VeraCrypt, vuleriamu curregelu. Per aiutacci, pudete mandacci un raportu di sbagliu ingeneratu autumaticamente cuntenendu quelli elementi :\n\n- A versione di u prugramma\n- A versione di u sistema operatoriu\n- U tipu di CPU\n- U nome di u cumpunente VeraCrypt\n- A somma di cuntrollu di « VeraCrypt.exe »\n- U nome simbolicu di a finestra di dialogu\n- A categuria di u sbagliu\n- L’indirizzu di u sbagliu\n- A pila di a chjama à VeraCrypt (call stack)\n\nS’è vo selezziunate « Sì », quellu indirizzu (chì cuntene u raportu sanu di u sbagliu) serà apertu in u vostru navigatore Internet predefinitu.\n\n%hs\n\nVulete mandacci u raportu di sbagliu quì sopra ?</entry>
@@ -531,7 +532,7 @@ Information about Corsican localization:
 		<entry lang="co" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Avertimentu : Per pudè accede à i dati dicifrati, ci hè bisognu chì una lettera di lettore sia attribuita à u vulume dicifratu. Per disgrazia, ùn ci hè alcuna lettera di lettore di dispunibule.\n\nCi vole à rivucà una lettera di lettore esistente (per indettu, via una scunnessione di chjave USB o di discu duru esternu, ecc.) è tandu cliccu nant’à « Vai ».</entry>
 		<entry lang="co" key="FORMAT_FINISHED_INFO">U vulume VeraCrypt hè statu creatu currettamente.</entry>
 		<entry lang="co" key="FORMAT_FINISHED_TITLE">Vulume creatu</entry>
-		<entry lang="co" key="FORMAT_HELP">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja cunsiderabilmente a forza crittografica di e chjavi di cifratura. Tandu, cliccu nant’à « Mette à u furmatu » per creà u vulume.</entry>
+		<entry lang="co" key="FORMAT_HELP">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja assai assai a forza crittografica di e chjavi di cifratura. Tandu, cliccu nant’à « Mette à u furmatu » per creà u vulume.</entry>
 		<entry lang="co" key="FORMAT_HIDVOL_HOST_HELP">Cliccu nant’à « Mette à u furmatu » per creà u vulume esternu. Per sapene di più, ci vole à leghje a documentazione.</entry>
 		<entry lang="co" key="FORMAT_HIDVOL_HOST_TITLE">Messa à u furmatu di u vulume esternu</entry>
 		<entry lang="co" key="FORMAT_HIDVOL_TITLE">Messa à u furmatu di u vulume piattatu</entry>
@@ -691,8 +692,8 @@ Information about Corsican localization:
 		<entry lang="co" key="SIZE_HELP_HIDDEN_VOL">Ci vole à specificà a dimensione di u vulume piattatu à creà. A dimensione minima pussibule d’un vulume piattatu hè 40 Ko (o 3664 Ko s’ellu hè messu à u furmatu NTFS). A dimensione massima pussibule ch’ella si pò specificà per u vulume piattatu hè affissata insù.</entry>
 		<entry lang="co" key="SIZE_HIDVOL_HOST_TITLE">Dimensione di u vulume esternu</entry>
 		<entry lang="co" key="SIZE_HIDVOL_TITLE">Dimensione di u vulume piattatu</entry>
-		<entry lang="co" key="SIZE_PARTITION_HELP">Ci vole à verificà chì a dimensione di l’apparechju o di a partizione selezziunatu(a)affissata insù hè curretta à cliccu nant’à « Seguente ».</entry>
-		<entry lang="co" key="SIZE_PARTITION_HIDDEN_SYSENC_HELP">U vulume esternu è u vulume piattatu (cuntenendu u sistema operatoriu piattatu) steranu nant’à a partizione insù. Duveria esse a prima partizione daretu a partizione di u sistema.\n\nCi vole à verificà chì a dimensione di a partizione è u so numeru affissati insù sò curretti, è in stu casu, cliccu nant’à « Seguente ».</entry>
+		<entry lang="co" key="SIZE_PARTITION_HELP">Ci vole à verificà chì a dimensione di l’apparechju o di a partizione selezziunatu(a) affissatu(a) insù hè curretta è fà un cliccu nant’à « Seguente ».</entry>
+		<entry lang="co" key="SIZE_PARTITION_HIDDEN_SYSENC_HELP">U vulume esternu è u vulume piattatu (cuntenendu u sistema operatoriu piattatu) steranu nant’à a partizione insù. Duveria esse a prima partizione daretu a partizione di u sistema.\n\nCi vole à verificà chì a dimensione di a partizione è u so numeru affissati insù sò curretti, è in stu casu, fà un cliccu nant’à « Seguente ».</entry>
 		<entry lang="co" key="SIZE_PARTITION_HIDDEN_VOL_HELP">A dimensione minima pussibule d’un vulume, dentru quellu un vulume piattatu deve esse creatu, hè 340 Ko.\n\nSappiate chì a dimensione minima pussibule d’un vulume, dentru quellu un vulume piattatu deve esse creatu, hè 340 Ko.</entry>
 		<entry lang="co" key="SIZE_TITLE">Dimensione di u vulume</entry>
 		<entry lang="co" key="SPARSE_FILE">Dinamicu</entry>
@@ -941,10 +942,10 @@ Information about Corsican localization:
 		<entry lang="co" key="PROGRESS_STATUS_FINISHED">Compiu</entry>
 		<entry lang="co" key="PROGRESS_STATUS_ERROR">Sbagliu</entry>
 		<entry lang="co" key="FAVORITE_DISCONNECTED_DEV">Apparechju scunnessu</entry>
-		<entry lang="co" key="SYS_FAVORITE_VOLUMES_SAVED">I vulumi favuriti di u sistema sò stati arregistrati.\n\nPer permette a muntatura di i vulumi favuriti di u sistema à l’avviu di u sistema, selezziunate Preferenze &gt; Vulumi favuriti di u sistema &gt; Muntà i vulumi favuriti di u sistema à l’avviu di Windows.</entry>
+		<entry lang="co" key="SYS_FAVORITE_VOLUMES_SAVED">I vulumi favuriti di u sistema sò stati arregistrati.\n\nPer permette a muntatura di i vulumi favuriti di u sistema à l’avviu di u sistema, selezziunate Parametri &gt; Vulumi favuriti di u sistema &gt; Muntà i vulumi favuriti di u sistema à l’avviu di Windows.</entry>
 		<entry lang="co" key="FAVORITE_ADD_DRIVE_DEV_WARNING">U vulume chì vò aghjunghjite à i favuriti ùn hè, ne una partizione, ne un vulume dinamicu. Dunque, VeraCrypt ùn puderà micca muntà stu vulume favuritu s’è u numeru d’apparechju cambia.</entry>
 		<entry lang="co" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">U vulume chì vò aghjunghjite à i favuriti hè una partizione chì ùn hè micca ricunnisciuta da Windows.\n\nVeraCrypt ùn puderà micca muntà stu vulume favuritu s’è u numeru d’apparechju cambia. Ci vole à definisce cum’è tipu di partizione, unu ricunnisciutu da Windows (impiegate a cumanda SETID di l’attrezzu « diskpart » di Windows. Eppò aghjunghjite torna a partizione à i favuriti.</entry>
-		<entry lang="co" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">A tacca di sfondulu VeraCrypt hè disattivata o cunfigurata per piantassi quandu ci hè nisunu vulume muntatu (o VeraCrypt hè lanciatu in modu purtavule). Què pò impedisce i vostri vulumi favuriti d’esse muntati autumaticamente quandu l’apparechji chì l’ospitanu sò cunnessi.\n\nNota : Per attivà a tacca di sfondulu VeraCrypt, selezziunate Preferenze &gt; Ozzioni è verificate chì l’ozzione « Attivata » hè scelta in a sezzione « Tacca di sfondulu VeraCrypt ».</entry>
+		<entry lang="co" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">A tacca di sfondulu VeraCrypt hè disattivata o cunfigurata per piantassi quandu ci hè nisunu vulume muntatu (o VeraCrypt hè lanciatu in modu purtavule). Què pò impedisce i vostri vulumi favuriti d’esse muntati autumaticamente quandu l’apparechji chì l’ospitanu sò cunnessi.\n\nNota : Per attivà a tacca di sfondulu VeraCrypt, selezziunate Parametri &gt; Ozzioni è verificate chì l’ozzione « Attivata » hè scelta in a sezzione « Tacca di sfondulu VeraCrypt ».</entry>
 		<entry lang="co" key="FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR">Un cuntenidore piazzatu in un sistema di schedarii alluntanatu, scumpartu nant’à a reta, ùn pò micca esse muntatu autumaticamente quandu u so apparechju ospite hè cunnessu.</entry>
 		<entry lang="co" key="FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR">L’apparechju affissatu quaghjò ùn hè, ne una partizione, ne un vulume dinamicu. In cunsequenza, u vulume ospitatu nant’à l’apparechju ùn pò micca esse muntatu autumaticamente quandu l’apparechju hè cunnessu.</entry>
 		<entry lang="co" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">Ci vole à definisce cum’è tipu di partizione affissatu quaghjò, unu ricunnisciutu da Windows (impiegate a cumanda SETID di l’attrezzu « diskpart » di Windows. Eppò cacciate a partizione da i favuriti è aghjunghjitela torna. Què permetterà à u vulume ospitatu nant’à l’apparechju d’esse muntatu autumaticamente quandu l’apparechju hè cunnessu.</entry>
@@ -1096,9 +1097,9 @@ Information about Corsican localization:
 		<entry lang="co" key="TC_BOOT_LOADER_ALREADY_INSTALLED">FATE CASU : U caricadore di piccera di VeraCrypt hè dighjà installatu nant’à u lettore di u vostru sistema !\n\nHè pussibule chì un altru sistema nant’à u vostru urdinatore sia dighjà cifratu.\n\nAVERTIMENTU : PRUCEDE À A CIFRATURA DI U SISTEMA CHÌ FUNZIUNEGHJA ATTUALMENTE PÒ RENDE L’ALTRU(I) SISTEMA(I) IMPUSSIBULE À AVVIÀ È I DATI CHÌ CI SÒ INACCESSIBILE.\n\nDa veru, vulete cuntinuà ?</entry>
 		<entry lang="co" key="SYS_LOADER_RESTORE_FAILED">Impussibule di risturà u caricadore d’origine di u sistema.\n\nImpiegate u vostru discu di succorsu VeraCrypt (« Ozzioni di riparazione » &gt; « Risturà u caricadore d’origine di u sistema ») o u medià d’installazione Windows per rimpiazzà u caricadore di piccera di VeraCrypt da u caricadore di sistema di Windows.</entry>
 		<entry lang="co" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">U caricadore d’origine di u sistema ùn serà micca piazzatu nant’à u discu di succorsu (A causa pussibule hè chì u schedariu di salvaguardia hè assente).</entry>
-		<entry lang="co" key="ERROR_MBR_PROTECTED">Impussibule di scrive u settore MBR.\n\nForse u vostru BIOS hè cunfiguratu per prutege u settore MBR. Verificate in e preferenze di u vostru BIOS (appughjate nant’à F2, Squassà, o Scap. dopu à l’avvia di u vostru urdinatore) s’ella ci hè una prutezzione di u MBR o una prutezzione da l’antivirus.</entry>
+		<entry lang="co" key="ERROR_MBR_PROTECTED">Impussibule di scrive u settore MBR.\n\nForse u vostru BIOS hè cunfiguratu per prutege u settore MBR. Verificate in i parametri di u vostru BIOS (appughjate nant’à F2, Squassà, o Scap. dopu à l’avvia di u vostru urdinatore) s’ella ci hè una prutezzione di u MBR o una prutezzione da l’antivirus.</entry>
 		<entry lang="co" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">AVERTIMENTU : A verificazione di l’impronta di u caricadore di piccera di VeraCrypt hè fiascata !\nForse u vostru discu hè statu deterioratu da un assaltadore (attaca « Evil Maid »).\n\nSt’avertimentu pò dinù esse scruchjatu s’è vò avete risturatu u caricadore di piccera di VeraCrypt cù un discu di succorsu ingeneratu da una versione VeraCrypt sfarente.\n\nHè ricumandatu di cambià a vostra parolla d’intesa subitu subitu, ciò chì permetterà dinù di risturà u caricadore di piccera currettu di VeraCrypt. Hè ricumandatu dinù d’installà torna VeraCrypt è di piglià e misure necessarie per prutege sta mascina contr’à l’accessi micca autorizati.</entry>
-		<entry lang="co" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">A versione richiesta di u caricadore di piccera di VeraCrypt ùn hè micca installata attualmente. Què pò impedisce certe preferenze d’ese arregistrate.</entry>
+		<entry lang="co" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">A versione richiesta di u caricadore di piccera di VeraCrypt ùn hè micca installata attualmente. Què pò impedisce certi prarametri d’esse arregistrati.</entry>
 		<entry lang="co" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">Nota : in certi casi, si pò vulè impedisce una persona (aversariu) chì vi vede avvià l’urdinatore di sapè chì vò impiegheghjite VeraCrypt. L’ozzioni quì sopra vi permettenu di fà què via una persunalizazione di u screnu di u caricadore di piccera di VeraCrypt. S’è vò attivate a prima ozzione, alcunu testu ùn serà affissatu da u caricadore di piccera (mancu s’è vò stampittate una parolla d’intesa falsa). L’urdinatore parerà cum’è « stampitivu » quandu vò stampittate a vostra parolla d’intesa. Di più, si pò affissà un messaghju persunalizatu per ingannà l’aversariu. Per indettu, un falsu messaghju di sbagliu tale chì «Sistema operatoriu assente » (chì hè, di regula, affissatu da u caricadore di piccera di Windows quand’ellu ùn trova micca di partizione di piccera Windows). Sarrimanenti, hè impurtante di sapè chì, s’è l’aversariu pò analizà u cuntenutu di u discu duru, puderà scopre ch’ellu cuntene u caricadore di piccera di VeraCrypt.</entry>
 		<entry lang="co" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">AVERTIMENTU : Tinite à mente chì s’è vò attivate st’ozzione, u caricadore di piccera di VeraCrypt ùn affisserà alcunu testu (mancu quandu vò stampittate una parolla d’intesa falsa). L’urdinatore parerà cum’è « stampitivu » (senza risposta) quandu vò stampittate a vostra parolla d’intesa (u cursore ùn si dispiazzerà MICCA è alcunu asteriscu (*) ùn serà affissatu quandu vò appughjate nant’à un tastu).\n\nDa veru, vulete attivà st’ozzione ?</entry>
 		<entry lang="co" key="SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED">A vostra partizione o u lettore di u vostru sistema pare esse tuttu cifratu.</entry>
@@ -1136,7 +1137,7 @@ Information about Corsican localization:
 		<entry lang="co" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">IMPURTANTE : Sappiate chì u schedariu deve esse scrittu nant’à u CD o u DVD cum’è un’imagine di discu ISO (micca cum’è un schedariu individuale). Per sapene di più annant’à a manera di fà què, fighjate puru a documentazione di u vostru prugramma d’arregistramentu di CD/DVD. S’è ùn avete micca prugramma d’arregistramentu di CD/DVD chì puderia scrive l’imagine di discu ISO nant’à un CD o un DVD, fate un cliccu nant’à u liame quì sottu per scaricà un prugramma simile di rigalu.\n\n</entry>
 		<entry lang="co" key="LAUNCH_WIN_ISOBURN">Lancià Microsoft Windows Disc Image Burner</entry>
 		<entry lang="co" key="RESCUE_DISK_BURN_NO_CHECK_WARN">AVERTIMENTU : S’è vò avete dighjà creatu un discu di succorsu VeraCrypt in u passatu, ùn pò micca esse impiegatu torna per sta partizione o stu lettore perch’ellu hè statu creatu per una chjave principale sfarente ! Ogni volta chì vò cifrate una partizione o un lettore di u sistema, duvete creà un novu discu di succorsu VeraCrypt, ancu s’è vò impiegate a listessa parolla d’intesa.</entry>
-		<entry lang="co" key="CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS">Sbagliu : Impussibule d’arregistrà e preferenze di cifratura di u sistema.</entry>
+		<entry lang="co" key="CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS">Sbagliu : Impussibule d’arregistrà i parametri di cifratura di u sistema.</entry>
 		<entry lang="co" key="CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST">Impussibule d’inizià a preprova di cifratura di u sistema.</entry>
 		<entry lang="co" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">Impussibule d’inizià u trattamentu di creazione di u sistema operatoriu piattatu.</entry>
 		<entry lang="co" key="WIPE_MODE_TITLE">Modu di nettata</entry>
@@ -1184,7 +1185,7 @@ Information about Corsican localization:
 		<entry lang="co" key="SYSENC_DRIVE_ANALYSIS_INFO">Aspettate mentre chì VeraCrypt scopri a presenza di i settori piattati à a fine di u lettore di u sistema. Sappiate chì què pò durà un bellu pezzu per compiesi.\n\nNota : In qualchì casu assai scarsu, nant’à certi urdinatori, u sistema pò parè senza risposta durante stu trattamentu di scuperta. S’ella accade, rilanciate l’urdinatore, lanciate VeraCrypt, ripitite e tappe precedente ma tralasciate stu trattamentu di scuperta. Sappiate chì stu prublema ùn hè micca cagiunatu da un sbagliu in VeraCrypt.</entry>
 		<entry lang="co" key="SYS_ENCRYPTION_SPAN_TITLE">Area à cifrà</entry>
 		<entry lang="co" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">Selezziunate st’ozzione s’è vò vulete cifrà u lettore sanu induve u sistema Windows in corsu di funziunamentu hè installatu. U lettore sanu, cuntenendu tutte e so partizioni, serà cifratu fora di a prima traccia induve sterà u caricadore di piccera di VeraCrypt. Quale chì vole accede à un sistema installatu nant’à u lettore, o à i schedarii chì ci sò arregistrati, duverà stampittà a parolla d’intesa curretta ogni volta nanzu l’avviu di u sistema. St’ozzione ùn pò micca esse impiegata per cifrà un lettore secundariu o esternu s’è Windows ùn ci hè micca installatu è s’ellu ùn ci hè micca avviatu.</entry>
-		<entry lang="co" key="COLLECTING_RANDOM_DATA_TITLE">Raccolta di dati aleatorii</entry>
+		<entry lang="co" key="COLLECTING_RANDOM_DATA_TITLE">Racolta di dati aleatorii</entry>
 		<entry lang="co" key="KEYS_GEN_TITLE">Chjavi ingenerate</entry>
 		<entry lang="co" key="CD_BURNER_NOT_PRESENT">VeraCrypt ùn hà trovu alcunu apparechju per impruntà un CD o DVD cunnessu à u vostru urdinatore. VeraCrypt hà bisognu d’un tale apparechju per impruntà un discu di succorsu VeraCrypt (chì si pò piccià) cuntenendu una salvaguardia di e chjavi di cifratura, u caricadore di piccera di VeraCrypt, u caricadore d’origine di u sistema, ecc.\n\nVi ricumandemu forte d’impruntà u discu di succorsu VeraCrypt.</entry>
 		<entry lang="co" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO">Ùn aghju micca apparechju per impruntà CD o DVD ma arregistreraghju l’imagine ISO di u discu di succorsu nant’à un lettore amuvibule (per indettu, una chjave USB).</entry>
@@ -1285,8 +1286,8 @@ Information about Corsican localization:
 		<entry lang="co" key="ENTER_TOKEN_PASSWORD">Stampittate a parolla d’intesa o u PIN per u gettone « %s » :</entry>
 		<entry lang="co" key="PKCS11_LIB_LOCATION_HELP">Per permette à VeraCrypt d’accede à un gettone di sicurità o à una carta à stampinu, ci vole à installà in primu locu una biblioteca di prugramma PKCS #11 per u gettone o per a carta à stampinu. Un tale biblioteca pò esse pruvista cù l’apparechju o esse dispunibule in scaricamentu nant’à u situ web di u venditore o d’altri terzi.\nDopu l’installazione di a biblioteca, pudete, sia selezziunalla manualmente via un cliccu nant’à « Selezziunà a bibliuteca », sia lascià VeraCrypt truvalla è selezziunalla autumaticamente via un cliccu nant’à « Scuperta autumatica di a bibliuteca » (a ricerca si ferà solu in u cartulare di u sistema di Windows).</entry>
 		<entry lang="co" key="SELECT_PKCS11_MODULE_HELP">Nota : Per sceglie u nome di schedariu è a lucalizazione di a biblioteca PKCS #11 installata per u vostru gettone di sicurità o a carta à stampinu, ci vole à leghje a documentazione pruvista cù u gettone, a carta, o u prugramma terzu.\n\nFate un cliccu nant’à « Vai » per selezziunà u chjassu è u nome di schedariu.</entry>
-		<entry lang="co" key="NO_PKCS11_MODULE_SPECIFIED">Per permette à VeraCrypt d’accede à un gettone di sicurità o à una carta à stampinu, ci vole à selezziunà in primu locu una biblioteca di prugramma PKCS #11 per u gettone o a carta à stampinu. Per fà què, selezziunate « Preferenze » &gt; « Gettoni di sicurità ».</entry>
-		<entry lang="co" key="PKCS11_MODULE_INIT_FAILED">Impussibule d’inizià a biblioteca PKCS #11 di gettone di sicurità.\n\nAssicuratevi chì u chjassu è u nome di schedariu specificati currispondenu à una biblioteca PKCS #11 reale. Per specificà un chjassu è un nome di schedariu per una biblioteca PKCS #11, selezziunate « Preferenze » &gt; « Gettoni di sicurità ».</entry>
+		<entry lang="co" key="NO_PKCS11_MODULE_SPECIFIED">Per permette à VeraCrypt d’accede à un gettone di sicurità o à una carta à stampinu, ci vole à selezziunà in primu locu una biblioteca di prugramma PKCS #11 per u gettone o a carta à stampinu. Per fà què, selezziunate « Parametri » &gt; « Gettoni di sicurità ».</entry>
+		<entry lang="co" key="PKCS11_MODULE_INIT_FAILED">Impussibule d’inizià a biblioteca PKCS #11 di gettone di sicurità.\n\nAssicuratevi chì u chjassu è u nome di schedariu specificati currispondenu à una biblioteca PKCS #11 reale. Per specificà un chjassu è un nome di schedariu per una biblioteca PKCS #11, selezziunate « Parametri » &gt; « Gettoni di sicurità ».</entry>
 		<entry lang="co" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">Ùn si trova alcuna biblioteca PKCS #11 in u cartulare di u sistema di Windows.\n\nAssicuratevi chì una biblioteca PKCS #11 per u vostru gettone di sicurità (o a vostra carta à stampinu) sia installata (un tale biblioteca pò esse pruvista cù u gettone, o a carta, o esse dispunibule in scaricamentu nant’à u situ web di u venditore o d’altri terzi). S’è a biblioteca hè installata in un cartulare altru chè quellu di u sistema, fate un cliccu nant’à « Selezziunà a bibliuteca » per lucalizà a biblioteca (i.e. in u cartulare induve u prugramma di u gettone, o a carta, hè installatu).</entry>
 		<entry lang="co" key="NO_TOKENS_FOUND">Nisunu gettone di sicurità truvatu.\n\nAssicuratevi chì u vostru gettone di sicurità sia cunnessu à u vostru urdinatore è chì u pilotu d’apparechju chì currisponde à u vostru gettone sia installatu.</entry>
 		<entry lang="co" key="TOKEN_KEYFILE_NOT_FOUND">Schedariu chjave di gettone di sicurità micca trovu.</entry>
@@ -1305,7 +1306,7 @@ Information about Corsican localization:
 		<entry lang="co" key="SYS_FAVORITES_KEYBOARD_WARNING">I vulumi favuriti di u sistema seranu muntati cù a parolla d’intesa d’autenticazione di prepiccera. Tuttu vulume favuritu di u sistema chì impiegheghja una parolla d’intesa sfarente ùn serà micca muntatu.</entry>
 		<entry lang="co" key="SYS_FAVORITES_ADMIN_ONLY_INFO">Sappiate chì s’è vò vulete impedisce l’azzioni nurmale di i vulumi VeraCrypt (cum’è « Tuttu smuntà », « Smuntatura autumatica », ecc.) d’affettà i vulumi favuriti di u sistema, duvete attivà l’ozzione « Permette solu à l’amministratori di vede è smuntà i vulumi favuriti di u sistema in VeraCrypt ». In più di què, quandu VeraCrypt hè lanciatu senza privileghji d‘amministratore (u valore predefinitu nant’à Windows Vista è e versioni più recente), i vulumi favuriti di u sistema ùn sò micca affissati in a lista di e lettere di lettore nant’à a finestra principale di l’appiecazione VeraCrypt.</entry>
 		<entry lang="co" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">IMPURTANTE : Tinite à mente chì, s’è st’ozzione hè attivata è chì VeraCrypt ùn hà micca privileghji d‘amministratore, i vulumi favuriti di u sistema chì sò muntati ùn seranu MICCA affissati nant’à a finestra di l’appiecazione VeraCrypt è ùn puderanu micca esse smuntati. In cunsequenza, s’ella hè bisognu, per indettu, à smuntà un vulume favuritu di u sistema, ci vole à fà un cliccu dirittu nant’à l’icona VeraCrypt (in u listinu « Démarrer ») eppò selezziunà l’ozzione « Lancià cum’è un amministratore » in primu locu. A listessa limitazione hè appiecata à e funzioni « Tuttu smuntà », « Smuntatura autumatica », i tasti di scelta rapida « Tuttu smuntà », ecc.</entry>
-		<entry lang="co" key="SETTING_REQUIRES_REBOOT">Sappiate chì sta preferenza hè pigliata in contu solu dopu un rilanciu di u sistema operatoriu.</entry>
+		<entry lang="co" key="SETTING_REQUIRES_REBOOT">Sappiate chì stu parametru hè pigliatu in contu solu dopu un rilanciu di u sistema operatoriu.</entry>
 		<entry lang="co" key="COMMAND_LINE_ERROR">Sbagliu durante l’analisa di a linea di cumanda.</entry>
 		<entry lang="co" key="RESCUE_DISK">Discu di succorsu</entry>
 		<entry lang="co" key="SELECT_FILE_AND_MOUNT">Selezziunà un &amp;schedariu è muntallu…</entry>
@@ -1320,10 +1321,10 @@ Information about Corsican localization:
 		<entry lang="co" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">U vulume « %s » hè statu muntatu in lettura sola perchè u sistema operatoriu hà signalatu chì l’apparechju ospite hè prutettu contr’à a scrittura.\n\nSappiate chì parechji piloti persunalizati di puce elettronica ponu cunsiderà certi medià scrivibile cum’è essendu falzamente prutetti contr’à a scrittura. Stu prublema ùn hè micca cagiunatu da VeraCrypt. Pò esse scioltu da a mudificazione o a disinstallazione di tutti i piloti persunalizati (non Microsoft) di puce elettronica chì sò installati attualmente nant’à stu sistema.</entry>
 		<entry lang="co" key="LIMIT_ENC_THREAD_POOL_NOTE">Sappiate chì a tecnolugia Hyper-Threading permette parechji cori logichi per un solu core fisicu. Quandu Hyper Threading hè attivatu, u numeru selezziunatu insù currisponde à u numeru di prucessori o cori logichi.</entry>
 		<entry lang="co" key="NUMBER_OF_THREADS">%d unità d’esecuzione</entry>
-		<entry lang="co" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Sappiate chì a cudificazione AES accelerata da u materiale hè disattivata, ciò chì affetterà i risultati di a calibrera di perfurmenza (pechju perfurmenze).\n\nPer attivà l’accelerazione materiale, selezziunate « Preferenze » &gt; « Perfurmenza » è attivate l’ozzione currispondente.</entry>
-		<entry lang="co" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Sappiate chì u numeru d’unità d’esecuzione hè limitatu attualmente, ciò chì affetterà i risultati di a calibrera di perfurmenza (pechju perfurmenze).\n\nPer impiegà a putenza sana di u(i) prucessore(i), selezziunate « Preferenze » &gt; « Perfurmenza » è disattivate l’ozzione currispondente.</entry>
+		<entry lang="co" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Sappiate chì a cudificazione AES accelerata da u materiale hè disattivata, ciò chì affetterà i risultati di a calibrera di perfurmenza (pechju perfurmenze).\n\nPer attivà l’accelerazione materiale, selezziunate « Parametri » &gt; « Perfurmenza » è attivate l’ozzione currispondente.</entry>
+		<entry lang="co" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Sappiate chì u numeru d’unità d’esecuzione hè limitatu attualmente, ciò chì affetterà i risultati di a calibrera di perfurmenza (pechju perfurmenze).\n\nPer impiegà a putenza sana di u(i) prucessore(i), selezziunate « Parametri » &gt; « Perfurmenza » è disattivate l’ozzione currispondente.</entry>
 		<entry lang="co" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Vulete chì VeraCrypt faccia un tentativu di disattivazione di a prutezzione contr’à a scrittura di a partizione o di u lettore ?</entry>
-		<entry lang="co" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">AVERTIMENTU : Sta preferenza pò sgradisce e perfurmenze.\n\nDa veru, vulete impiegà sta preferenza ?</entry>
+		<entry lang="co" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">AVERTIMENTU : Stu parametru pò sgradisce e perfurmenze.\n\nDa veru, vulete impiegà stu parametru ?</entry>
 		<entry lang="co" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Avertimentu : Vulume VeraCrypt smuntatu autumaticamente</entry>
 		<entry lang="co" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Prima di caccià fisicamente o spenghje un apparechju chì cuntene un vulume muntatu, duvete sempre smuntà, in primu locu, u vulume VeraCrypt nant’à a finestra di l’appiecazione VeraCrypt.\n\nA smuntatura imprevista è spuntanea hè, di solitu, cagiunata da un cavu, lettore (in un armadiu), o un altru materiale chì funziuneghja male.</entry>
 		<entry lang="co" key="UNSUPPORTED_TRUECRYPT_FORMAT">Stu vulume hè statu creatu cù TrueCrypt %x.%x ma VeraCrypt accetta solu i vulumi TrueCrypt creati cù e versioni 6.x/7.x di TrueCrypt</entry>
@@ -1402,7 +1403,7 @@ Information about Corsican localization:
 		<entry lang="co" key="PASSWORD_UTF8_INVALID">A parolla d’intesa stampittata cuntene caratteri Unicode chì ùn ponu micca esse cunvertiti in una riprisentazione UTF-8.</entry>
 		<entry lang="co" key="INIT_DLL">Sbagliu : Impussibule di caricà una biblioteca di u sistema.</entry>
 		<entry lang="co" key="ERR_EXFAT_INVALID_VOLUME_SIZE">A dimensione di u vulume specificata nant’à a linea di cumanda hè incumpatibile cù u sistema di schedarii exFAT selezziunatu.</entry>
-		<entry lang="co" key="IDT_ENTROPY_BAR">Dati aleatorii raccolti grazia à a mossa di u topu</entry>
+		<entry lang="co" key="IDT_ENTROPY_BAR">Dati aleatorii racolti grazia à a mossa di u topu</entry>
 		<entry lang="co" key="IDT_VOLUME_ID">N° di vulume :</entry>
 		<entry lang="co" key="VOLUME_ID">N° di vulume</entry>
 		<entry lang="co" key="IDC_FAVORITE_USE_VOLUME_ID">Impiegà u n° di vulume per muntà u favuritu</entry>
@@ -1511,10 +1512,10 @@ Information about Corsican localization:
 		<entry lang="co" key="LINUX_CONFIRM_AFTER_DISMOUNT">Affissà una finestra di cunfirmazione dopu à una smuntatura</entry>
 		<entry lang="co" key="LINUX_VC_QUITS">VeraCrypt si ne và</entry>
 		<entry lang="co" key="LINUX_OPEN_FINDER">Apre a finestra di u Finder s’è a smuntatura di u vulume hè riesciuta</entry>
-		<entry lang="co" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Sappiate chì sta preferenza hè pigliata in contu solu s’è l’usu di i servizii crittografichi di u kernel hè disattivatu.</entry>
+		<entry lang="co" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Sappiate chì stu parametru hè pigliatu in contu solu s’è l’usu di i servizii crittografichi di u kernel hè disattivatu.</entry>
 		<entry lang="co" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disattivà l’usu di i servizii crittografichi di u kernel pò sgradisce e perfurmenze.\n\nVulete veramente ?</entry>
 		<entry lang="co" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Sappiate chì a disattivazione di st’ozzione pò avè nisunu effettu nant’à i vulumi muntati impieghendu i servizii crittografichi di u kernel.</entry>
-		<entry lang="co" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Sappiate chì, prima di pudè impiegà sta preferenza, tutti i vulumi muntati attualmente devenu esse smuntati è muntati torna.</entry>
+		<entry lang="co" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Sappiate chì, prima di pudè impiegà stu parametru, tutti i vulumi muntati attualmente devenu esse smuntati è muntati torna.</entry>
 		<entry lang="co" key="LINUX_UNKNOWN_EXC_OCCURRED">Un’anumalia scunnisciuta hè accaduta.</entry>
 		<entry lang="co" key="LINUX_FIRST_AID">L’utilitariu di discu serà lanciatu dopu à un cliccu nant’à « Vai ».\n\nSelezziunate u vostru vulume in a finestra di l’utilitariu di discu è appughjate nant’à u buttone « Verificà u discu » o « Riparà u discu » di a pagina« Prontu Succorsu ».</entry>
 		<entry lang="co" key="LINUX_MOUNT_ALL_DEV">Muntà tutti l’apparechji</entry>
@@ -1605,7 +1606,7 @@ Information about Corsican localization:
 		<entry lang="co" key="EXPANDER_HELP_DEVICE">Ghjè un vulume VeraCrypt basatu nant’à un apparechju.\n\nA dimensione nova di u vulume serà scelta autumaticamente secondu à quella di u lettore di l’ospite.</entry>
 		<entry lang="co" key="EXPANDER_HELP_FILE">Ci vole à specificà a dimensione nova di u vulume VeraCrypt (deve esse omancu %I64u Ko più maiò chè a dimensione attuale).</entry>
 		<entry lang="co" key="QUICK_EXPAND_WARNING">AVERTIMENTU : Duveriate impiegà l’estensione rapida solu in quelli casi :\n\n1) L’apparechju - induve u cuntenidore di schedariu hè piazzatu - ùn cuntene micca dati impurtante è ùn avete micca bisognu di u dinegu verisimile.\n2) L’apparechju - induve u cuntenidore di schedariu hè piazzatu - hè statu tuttu cifratu è di manera sicura.\n\nDa veru, vulete impiegà a messa rapida à u furmatu ?\n\nDa veru, vulete impiegà l’estensione rapida ?</entry>
-		<entry lang="co" key="EXPANDER_STATUS_TEXT">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja cunsiderabilmente a forza crittografica di e chjavi di cifratura. Eppò, cliccu nant’à « Cuntinuà » per allargà u vulume.</entry>
+		<entry lang="co" key="EXPANDER_STATUS_TEXT">IMPURTANTE : Dispiazzate u vostru topu in sta finestra u più à l’azardu ch’ellu hè pussibule. Ancu megliu s’ella dura un pezzu. Què megliureghja assai assai a forza crittografica di e chjavi di cifratura. Eppò, cliccu nant’à « Cuntinuà » per allargà u vulume.</entry>
 		<entry lang="co" key="EXPANDER_STATUS_TEXT_LEGACY">Un cliccu nant’à « Cuntinuà » per allargà u vulume.</entry>
 		<entry lang="co" key="EXPANDER_FINISH_ERROR">Sbagliu : fiascu durante l’estensione di u vulume.</entry>
 		<entry lang="co" key="EXPANDER_FINISH_ABORT">Sbagliu ; operazione interrotta da l’utilizatore.</entry>
@@ -1656,9 +1657,9 @@ Information about Corsican localization:
 		<entry lang="co" key="LINUX_LANGUAGE">Lingua</entry>
 		<entry lang="co" key="LINUX_SELECT_SYS_DEFAULT_LANG">Selezziunà a lingua predefinita di u sistema</entry>
 		<entry lang="co" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">VeraCrypt deve esse rilanciatu per piglià in contu u cambiamentu di lingua.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
+		<entry lang="co" key="ERR_XTS_MASTERKEY_VULNERABLE">AVERTIMENTU : A chjave principale di u vulume hè vulnerevule à un attaccu chì cumprumette à sicurità di i dati.\n\nCi vole à creà un vulume novu è trasferisceci i dati.</entry>
+		<entry lang="co" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">AVERTIMENTU : A chjave principale di u sistema cifratu hè vulnerevule à un attaccu chì cumprumette à sicurità di i dati.\n\nCi vole à dicifrà a partizione o u lettore di u sistema eppò cifrallu torna.</entry>
+		<entry lang="co" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">AVERTIMENTU : A chjave principale di u vulume hà una vulnerabilità di sicurità.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
