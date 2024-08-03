@@ -2578,6 +2578,7 @@ static tLanguageEntry g_languagesEntries[] = {
 	{L"ქართული", IDR_LANG_KA, LANG_GEORGIAN, "ka", NULL},
 	{L"한국어", IDR_LANG_KO, LANG_KOREAN, "ko", NULL},
 	{L"Latviešu", IDR_LANG_LV, LANG_LATVIAN, "lv", NULL},
+	{L"Norsk Bokmål", IDR_LANG_NB, LANG_NORWEGIAN, "nb", NULL},
 	{L"Nederlands", IDR_LANG_NL, LANG_DUTCH, "nl", NULL},
 	{L"Norsk Nynorsk", IDR_LANG_NN, LANG_NORWEGIAN, "nn", NULL},
 	{L"Polski", IDR_LANG_PL, LANG_POLISH, "pl", NULL},
