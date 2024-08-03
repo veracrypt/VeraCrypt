@@ -1633,14 +1633,14 @@
     <entry lang="nl" key="EXPANDER_EXTENDING_FILESYSTEM">Bestandssysteem uitbreiden...\n</entry>
     <entry lang="nl" key="PARTIAL_SYSENC_MOUNT_READONLY">Waarschuwing: de systeempartitie die u probeerde te koppelen was niet volledig versleuteld. Als veiligheidsmaatregel om mogelijke beschadiging of ongewenste wijzigingen te voorkomen, is volume '%s' gekoppeld als alleen-lezen.</entry>
     <entry lang="nl" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Belangrijke informatie over het gebruik van bestandsextensies van derden</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="nl" key="IDC_DISABLE_MEMORY_PROTECTION">Geheugenbeveiliging uitschakelen voor compatibiliteit met toegankelijkheidshulpprogramma's</entry>
+    <entry lang="nl" key="DISABLE_MEMORY_PROTECTION_WARNING">WAARSCHUWING: het uitschakelen van geheugenbeveiliging vermindert de veiligheid aanzienlijk. Schakel deze optie ALLEEN in als u vertrouwt op toegankelijkheidstools, zoals schermlezers, voor interactie met de gebruikersinterface van VeraCrypt.</entry>
     <entry lang="nl" key="LINUX_LANGUAGE">Taal</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
+    <entry lang="nl" key="LINUX_SELECT_SYS_DEFAULT_LANG">Standaardtaal van systeem selecteren</entry>
+    <entry lang="nl" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">VeraCrypt moet opnieuw worden opgestart om de taalwijziging in werking te laten treden.</entry>
+    <entry lang="nl" key="ERR_XTS_MASTERKEY_VULNERABLE">WAARSCHUWING: De hoofdsleutel van het volume is kwetsbaar voor een aanval die de gegevensbeveiliging in gevaar brengt.\n\nMaak een nieuw volume aan en zet de gegevens daarnaar over.</entry>
+    <entry lang="nl" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WAARSCHUWING: De hoofdsleutel van het versleutelde systeem is kwetsbaar voor een aanval die de gegevensbeveiliging in gevaar brengt.\nOntsleutel de systeempartitie/-schijf en versleutel deze vervolgens opnieuw.</entry>
+    <entry lang="nl" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WAARSCHUWING: De hoofdsleutel van het volume heeft een beveiligingslek.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
