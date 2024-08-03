@@ -1638,6 +1638,9 @@
     <entry lang="nb" key="LINUX_LANGUAGE">Språk</entry>
     <entry lang="nb" key="LINUX_SELECT_SYS_DEFAULT_LANG">Velg systemets standardspråk</entry>
     <entry lang="nb" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For at språkendringen skal tre i kraft, må VeraCrypt startes på nytt.</entry>
+    <entry lang="nb" key="ERR_XTS_MASTERKEY_VULNERABLE">ADVARSEL: Volumets hovednøkkel er sårbar for et angrep som kompromitterer datasikkerheten.\n\nVennligst opprett et nytt volum og overfør dataene til det.</entry>
+    <entry lang="nb" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">ADVARSEL: Hovednøkkelen til det krypterte systemet er sårbar for et angrep som kompromitterer datasikkerheten.\nVennligst dekrypter systempartisjonen/-stasjonen og krypter den på nytt.</entry>
+    <entry lang="nb" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">ADVARSEL: Volumets hovednøkkel har en sikkerhetssårbarhet.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
