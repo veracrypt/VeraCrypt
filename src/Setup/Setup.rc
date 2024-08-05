@@ -109,6 +109,7 @@ IDR_LANG_ID             LANGUAGES               "..\\..\\Translations\\Language.
 IDR_LANG_KA             LANGUAGES               "..\\..\\Translations\\Language.ka.xml"
 IDR_LANG_KO             LANGUAGES               "..\\..\\Translations\\Language.ko.xml"
 IDR_LANG_LV             LANGUAGES               "..\\..\\Translations\\Language.lv.xml"
+IDR_LANG_NB             LANGUAGES               "..\\..\\Translations\\Language.nb.xml"
 IDR_LANG_NN             LANGUAGES               "..\\..\\Translations\\Language.nn.xml"
 IDR_LANG_PTBR           LANGUAGES               "..\\..\\Translations\\Language.pt-br.xml"
 IDR_LANG_SK             LANGUAGES               "..\\..\\Translations\\Language.sk.xml"

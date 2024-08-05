@@ -43,6 +43,7 @@
 #define IDR_LANG_UK                     57
 #define IDR_LANG_UZ                     58
 #define IDR_LANG_ZHTW                   59
+#define IDR_LANG_NB                     60
 #define IDD_INSTALL                     101
 #define IDD_INSTALL_OPTIONS_PAGE_DLG    102
 #define IDD_UNINSTALL                   103
