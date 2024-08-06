@@ -152,8 +152,8 @@
     <entry lang="fi" key="IDC_MOUNT_OPTIONS">Liittämis&amp;asetukset...</entry>
     <entry lang="fi" key="IDC_MOUNT_READONLY">Liitä taltio vain &amp;luku -tilassa</entry>
     <entry lang="fi" key="IDC_NEW_KEYFILES">Avaintiedostot...</entry>
-    <entry lang="fi" key="IDC_OLD_PIM_HELP">(Tyhjä tai 0 oletus iteraatiolle)</entry>
-    <entry lang="fi" key="IDC_PIM_HELP">(Tyhjä tai 0 oletus iteraatiolle)</entry>
+    <entry lang="fi" key="IDC_OLD_PIM_HELP">(Jätä tyhjäksi tai 0 oletusmäärälle iteraatioita)</entry>
+    <entry lang="fi" key="IDC_PIM_HELP">(Jätä tyhjäksi tai 0 oletusmäärälle iteraatioita)</entry>
     <entry lang="fi" key="IDC_PREF_BKG_TASK_ENABLE">Päällä</entry>
     <entry lang="fi" key="IDC_PREF_CACHE_PASSWORDS">Tallenna salasanat ajurin välimuistiin</entry>
     <entry lang="fi" key="IDC_PREF_DISMOUNT_INACTIVE">Irrota taltio automaattisesti kun dataa ei ole luettu/kirjoitettu aikaan</entry>
@@ -630,28 +630,28 @@
     <entry lang="fi" key="PASSWORD_HIDVOL_HOST_TITLE">Ulomman taltion salasana</entry>
     <entry lang="fi" key="PASSWORD_HIDVOL_TITLE">Piilotetun taltion salasana</entry>
     <entry lang="fi" key="PASSWORD_HIDDEN_OS_TITLE">Salasana piilotetulle käyttöjärjestelmälle</entry>
-    <entry lang="fi" key="PASSWORD_LENGTH_WARNING">VAROITUS: Lyhyt salasana on helppo murtaa brute force tekniikan avulla!\n\nSuosittelemme valitsemaan salasanan, joka sisältää enemmän kuin 20 merkkiä. Haluatko varmasti käyttää lyhyttä salasanaa?</entry>
+    <entry lang="fi" key="PASSWORD_LENGTH_WARNING">VAROITUS: Lyhyet salasanat ovat helposti murrettavissa brute force -hyökkäyksellä!\n\nSuosittelemme valitsemaan salasanan, joka sisältää vähintään 20 merkkiä. Haluatko varmasti käyttää lyhyttä salasanaa?</entry>
     <entry lang="fi" key="PASSWORD_TITLE">Taltion salasana</entry>
-    <entry lang="fi" key="PASSWORD_WRONG">Väärä salasana tai se ei ole VeraCrypt-taltio.</entry>
-    <entry lang="fi" key="PASSWORD_OR_KEYFILE_WRONG">Väärä avaintiedosto(t) ja/tai väärä salasana tai ei ole VeraCrypt-taltio.</entry>
-    <entry lang="fi" key="PASSWORD_OR_MODE_WRONG">Väärä yhteys tila, väärä salasana, tai väärä VeraCrypt-taltio.</entry>
-    <entry lang="fi" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Väärä yhteys tila, väärä avaintiedosto(t) ja/tai salasana, tai väärä VeraCrypt-taltio.</entry>
-    <entry lang="fi" key="PASSWORD_WRONG_AUTOMOUNT">Väärä salasana tai VeraCrypt-taltiota ei löydetty.</entry>
-    <entry lang="fi" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Automaattinen liittäminen epäonnistui syynä yksi tai useampi seuraavista:\n - Väärä avaintiedosto(t).\n - Väärä salasana.\n - Väärä taltion PIM luku.\n - Väärä PRF (hash).\n - Soveltuvaa taltiota ei löytynyt.</entry>
+    <entry lang="fi" key="PASSWORD_WRONG">Toiminto epäonnistui jostakin seuraavasta syystä:\n - Väärä salasana.\n - Väärä PIM-luku taltiolle.\n - Väärä PRF (hajautusalgoritmi).\n - Ei ole toimiva taltio.\n - Taltio käyttää vanhaa algoritmiä jota ei enää tueta.\n - TrueCrypt-taltioita ei enää tueta.</entry>
+    <entry lang="fi" key="PASSWORD_OR_KEYFILE_WRONG">Toiminto epäonnistui jostakin seuraavasta syystä:\n - Väärä tai väärät avaintiedostot.\n - Väärä salasana.\n - Väärä PIM-luku taltiolle.\n - Väärä PRF (hajautusalgoritmi).\n - Ei ole toimiva taltio.\n - Taltio käyttää vanhaa algoritmiä jota ei enää tueta.\n - TrueCrypt-taltioita ei enää tueta.</entry>
+    <entry lang="fi" key="PASSWORD_OR_MODE_WRONG">Toiminto epäonnistui jostakin seuraavasta syystä:\n - Väärä liittämistila.\n - Väärä salasana.\n - Väärä PIM-luku taltiolle.\n - Väärä PRF (hajautusalgoritmi).\n - Ei ole toimiva taltio.\n - Taltio käyttää vanhaa algoritmiä jota ei enää tueta.\n - TrueCrypt-taltioita ei enää tueta.</entry>
+    <entry lang="fi" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Toiminto epäonnistui jostakin seuraavasta syystä:\n - Väärä liittämistila.\n - Väärä tai väärät avaintiedostot.\n - Väärä salasana.\n - Väärä PIM-luku taltiolle.\n - Väärä PRF (hajautusalgoritmi).\n - Ei ole toimiva taltio.\n - Taltio käyttää vanhaa algoritmiä jota ei enää tueta.\n - TrueCrypt-taltioita ei enää tueta.</entry>
+    <entry lang="fi" key="PASSWORD_WRONG_AUTOMOUNT">Automaattinen liittäminen epäonnistui jostakin seuraavasta syystä:\n - Väärä salasana.\n - Väärä PIM-luku taltiolle.\n - Väärä PRF (hajautusalgoritmi).\n - Ei ole toimiva taltio.\n - Taltio käyttää vanhaa algoritmiä jota ei enää tueta.\n - TrueCrypt-taltioita ei enää tueta.</entry>
+    <entry lang="fi" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Automaattinen liittäminen epäonnistui jostakin seuraavasta syystä:\n - Väärä tai väärät avaintiedostot.\n - Väärä salasana.\n - Väärä PIM-luku taltiolle.\n - Väärä PRF (hajautusalgoritmi).\n - Soveltuvaa taltiota ei löytynyt.\n - Taltio käyttää vanhaa algoritmiä jota ei enää tueta.\n - TrueCrypt-taltioita ei enää tueta.</entry>
     <entry lang="fi" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nVaroitus: Caps Lock on päällä. Tämä saattaa johtaa siihen, että syötät salasanasi virheellisesti.</entry>
-    <entry lang="fi" key="PIM_CHANGE_WARNING">Muista numero taltion liittämiseen</entry>
+    <entry lang="fi" key="PIM_CHANGE_WARNING">Muista luku liittääksesi taltion</entry>
     <entry lang="fi" key="PIM_HIDVOL_HOST_TITLE">Ulomman taltion PIM</entry>
     <entry lang="fi" key="PIM_HIDVOL_TITLE">Piilotetun taltion PIM</entry>
     <entry lang="fi" key="PIM_HIDDEN_OS_TITLE">Piilotetun käyttöjärjestelmän PIM</entry>
-    <entry lang="fi" key="PIM_HELP">PIM (henkilökohtainen iteraatiokerroin) on arvo, joka määrää otsikkoavaimen johtamisalgoritmin käyttämien iterointien lukumäärän seuraavasti:\n      Iteraatiot = 15000 + (PIM x 1000).\n\nKun jätetty tyhjäksi tai 0, VeraCrypt käyttää oletusarvoa (485) mikä takaa korkean turvallisuuden.\n\nKun salasana on lyhyempi kuin 20 merkkiä, PIM ei voi olla pienempi kuin 485, jotta alin turvallisuustaso säilytetään.\nKun salasana on 20 merkkiä tai pidempi, PIM:lle voidaan asettaa mikä tahansa arvo.\n\nJos PIM arvo on suurempi kuin arvo 485, se johtaa hitaampaan taltion liittämiseen. Pieni PIM arvo (pienempi kuin 485) johtaa nopeaan liittämiseen, mutta voi heikentää turvallisuutta mikäli salasana ei ole tarpeeksi vahva.</entry>
-    <entry lang="fi" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) on arvo, joka ohjaa otsikkotulostuksen käyttämien iterointien lukumäärää seuraavasti: \n Iteraatio = PIM x 2048.\n\nJos jätetään tyhjäksi tai asetetaan arvoon 0, VeraCrypt käyttää oletusarvoa, joka takaa korkean turvallisuuden.\n\nKun salasana on alle 20 merkkiä, PIM ei voi olla pienempi kuin 98, jotta ylläpidetään minimaalinen suojaustaso.\nKun salasana on vähintään 20 merkkiä, PIM voidaan asettaa mihin tahansa arvoon.\n\nA PIM-arvo suurempi kuin 98 johtaa hitaampaan käynnistykseen. Pieni PIM-arvo (alle 98) johtaa nopeampaan käynnistykseen, mutta se voi vähentää suojausta, jos salasana ei ole tarpeeksi vahva.</entry>
-    <entry lang="fi" key="PIM_SYSENC_CHANGE_WARNING">Muista numero käynnistysjärjestelmään</entry>
+    <entry lang="fi" key="PIM_HELP">PIM (henkilökohtainen iteraatiokerroin) on arvo, joka määrää otsikkoavaimen johtamisalgoritmin käyttämien iterointien lukumäärän seuraavasti:\n      Iteraatiot = 15000 + (PIM x 1000).\n\nKun jätetty tyhjäksi tai 0, VeraCrypt käyttää oletusarvoa (485) mikä takaa korkean turvallisuuden.\n\nKun salasana on alle 20 merkkiä, PIM ei voi olla pienempi kuin 485, jotta alin turvallisuustaso säilytetään.\nKun salasana on 20 merkkiä tai pidempi, PIM:lle voidaan asettaa mikä tahansa arvo.\n\nJos PIM arvo on suurempi kuin arvo 485, se johtaa hitaampaan taltion liittämiseen. Pieni PIM arvo (pienempi kuin 485) johtaa nopeaan liittämiseen, mutta voi heikentää turvallisuutta mikäli salasana ei ole tarpeeksi vahva.</entry>
+    <entry lang="fi" key="PIM_SYSENC_HELP">PIM (henkilökohtainen iteraatiokerroin) on arvo, joka määrää otsikkoavaimen johtamisalgoritmin käyttämien iterointien lukumäärän seuraavasti:\n Iteraatiot = PIM x 2048.\n\nKun jätetty tyhjäksi tai 0, VeraCrypt käyttää oletusarvoa mikä takaa korkean turvallisuuden.\n\nKun salasana on alle 20 merkkiä, PIM ei voi olla pienempi kuin 98 vähimmäisen turvallisuuden säilyttämiseksi.\nKun salasana on vähintään 20 merkkiä, PIM:lle voidaan asettaa mikä tahansa arvo.\n\nPIM-luku joka ylittää arvon 98 johtaa hitaampaan käynnistykseen. Pienempi PIM-luku (alle 98) johtaa nopeampaan käynnistykseen, mutta se voi heikentää turvallisuutta mikäli salasana ei ole tarpeeksi vahva.</entry>
+    <entry lang="fi" key="PIM_SYSENC_CHANGE_WARNING">Muista luku jotta voit käynnistää järjestelmän</entry>
     <entry lang="fi" key="PIM_LARGE_WARNING">Olet valinnut PIM-arvon, joka on suurempi kuin VeraCryptin oletusarvo.\nHuomioi, että tämä johtaa paljon hitaampaan liittämiseen tai käynnistymiseen.</entry>
-    <entry lang="fi" key="PIM_SMALL_WARNING">Olet valinnut Personal Iterations Multiplier (PIM), joka on pienempi kuin VeraCryptin oletusarvo. Huomioi, että jos salasanasi ei ole tarpeeksi vahva, tämä voi heikentää tietoturvaa.\n\nVoitko vahvistaa, että käytät varmasti vahvaa salasanaa?</entry>
-    <entry lang="fi" key="PIM_SYSENC_TOO_BIG">Suurin mahdollinen luku Personal Iterations Multiplier (PIM) -arvolle on 65535.</entry>
+    <entry lang="fi" key="PIM_SMALL_WARNING">Olet valinnut henkilökohtaisen iteraatiokertoimen (PIM), joka on pienempi kuin VeraCryptin oletusarvo. Huomioi, että jos salasanasi ei ole tarpeeksi vahva, tämä voi heikentää tietoturvaa.\n\nVoitko vahvistaa, että käytät varmasti vahvaa salasanaa?</entry>
+    <entry lang="fi" key="PIM_SYSENC_TOO_BIG">Suurin mahdollinen arvo henkilökohtaiselle iteraatiokertoimelle (PIM) on 65535.</entry>
     <entry lang="fi" key="PIM_TITLE">Taltion PIM</entry>
-    <entry lang="fi" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nVAROITUS: Piilotetut tiedostot on löytynyt avainhakemistosta. Tällaisia piilotettuja tiedostoja ei voi käyttää avaintiedostoina. Jos haluat käyttää niitä avaintiedostoina, poista niiden piilotettu attribuutti (napsauta niitä hiiren kakkospainikkeella, valitse 'Ominaisuudet', poista 'Piilotettu' ja napsauta OK). Huomaa: Piilotetut tiedostot ovat näkyvissä vain, jos vastaava vaihtoehto on käytössä (Tietokone > Järjestä > 'Kansio ja hakuvalinnat' > View).</entry>
-    <entry lang="fi" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Jos yrität suojata piilotetussa säilössä olevan piilotetun järjestelmän, varmista, että käytät vakio näppäimistöäsi kun kirjoitat salasanan piilotetulle taltiolle. Tämä on vaadittu koska todellisuudessa salasana tulee kirjoittaa esikäynnistys ympäristössä (ennekuin Windows käynnistyy) kun Windows näppäimistösi ei vielä käytettävissä.</entry>
+    <entry lang="fi" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nVAROITUS: Avaintiedostojen polulta löytyy piilotettuja tiedostoja. Tällaisia piilotettuja tiedostoja ei voida käyttää avaintiedostoina. Jos haluat käyttää niitä avaintiedostoina, poista niiden piilotettu attribuutti (napsauta niitä hiiren kakkospainikkeella, valitse 'Ominaisuudet', poista 'Piilotettu' ja napsauta OK). Huomaa: Piilotetut tiedostot ovat näkyvissä vain, jos seuraava asetus on käytössä (Tietokone > Järjestä > 'Kansio ja hakuvalinnat' > View).</entry>
+    <entry lang="fi" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Jos yrität suojata piilotettua taltiota joka sisältää piilotetun järjestelmän, varmista, että käytät vakio US-näppäimistöasettelua syöttäessäsi salasanaa. Tämä vaaditaan, koska salasana syötetään käynnistystä edeltävässä ympäristössä (ennenkuin Windows käynnistyy), jossa muita näppäimistöasetteluja ei ole käytettävissä.</entry>
     <entry lang="fi" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt ei löytänyt mitään taltiota missä ei-järjestelmä taltion salaus olisi keskeytynyt ja missä taltion otsikko voitaisiin purkaa annetulla salasanalla ja/tai avaintiedosto(i)lla.\n\nVarmista, että salasana ja/tai avaintiedosto(t) ovat oikein ja ettei osio/taltio ole järjestelmän tai sovelluksien käytössä (mukaanlukien virustorjuntaohjelmiston).</entry>
     <entry lang="fi" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">Valittu osio/laite on jo täysin salattu.\nOtsikon bittimuuttujat = 0x%.8X</entry>
     <entry lang="fi" key="SELECTED_PARTITION_NOT_INPLACE_ENC">Valittu osio/laite ei käytä paikallaan suoritettua salausta.\nOtsikon bittimuuttujat = 0x%.8X</entry>
@@ -709,25 +709,25 @@
     <entry lang="fi" key="PASSWORD_CACHE_WIPED_SHORT">Salasana välimuisti on pyyhitty</entry>
     <entry lang="fi" key="PASSWORD_CACHE_WIPED">Salasanat (ja/tai käsitellyt avaintiedoston sisällöt) tallennettu VeraCrypt-aseman välimuistiin ovat pyyhitty pois.</entry>
     <entry lang="fi" key="WRONG_VOL_TYPE">VeraCrypt ei voi muuttaa salasanaa vieraalle taltiolle.</entry>
-    <entry lang="fi" key="SELECT_FREE_DRIVE">Valitse vapaa aseman kirjain listalta.</entry>
+    <entry lang="fi" key="SELECT_FREE_DRIVE">Valitse vapaa asemakirjain listalta.</entry>
     <entry lang="fi" key="SELECT_A_MOUNTED_VOLUME">Valitse liitetty taltio asemakirjainlistalta.</entry>
     <entry lang="fi" key="AMBIGUOUS_VOL_SELECTION">Varoitus: Tällä hetkellä valitaan kaksi eri taltiota/laitetta (ensimmäinen on valittu asemakirjain ja toinen on valittu syöttökirjamerkinnän alapuolella olevaan syöttökenttään).\n\nVahvista valintasi:</entry>
     <entry lang="fi" key="CANT_CREATE_AUTORUN">Virhe: Ei voida luoda autorun.inf tiedostoa</entry>
-    <entry lang="fi" key="ERR_PROCESS_KEYFILE">Virhe suoritettaessa avaintiedostoa!</entry>
-    <entry lang="fi" key="ERR_PROCESS_KEYFILE_PATH">Virhe suoritettaessa avaintiedosto polkua!</entry>
-    <entry lang="fi" key="ERR_KEYFILE_PATH_EMPTY">Avaintiedoston polku ei sisällä tiedostoja.\n\nHuomioi, että hakemisto (ja hakemiston tiedostot) löydetään avaintiedoston haulla ovat hylättyjä.</entry>
+    <entry lang="fi" key="ERR_PROCESS_KEYFILE">Virhe käsiteltäessä avaintiedostoa!</entry>
+    <entry lang="fi" key="ERR_PROCESS_KEYFILE_PATH">Virhe avaintiedoston polun käsittelyssä!</entry>
+    <entry lang="fi" key="ERR_KEYFILE_PATH_EMPTY">Avaintiedoston polku ei sisällä tiedostoja.\n\nHuomioi, että hakemistoja (ja niiden sisällä olevia tiedostoja) ei huomioida.</entry>
     <entry lang="fi" key="UNSUPPORTED_OS">VeraCrypt-ohjelma ei tue tätä käyttöjärjestelmää.</entry>
-    <entry lang="fi" key="UNSUPPORTED_BETA_OS">Virhe: VeraCrypt-ohjelma tukee ainoastaan vakaita versioita tästä käyttöjärjestelmästä (beeta/RC versiot eivät ole tuettuina.</entry>
-    <entry lang="fi" key="ERR_MEM_ALLOC">Virhe: Ei voida varata muistia.</entry>
-    <entry lang="fi" key="ERR_PERF_COUNTER">Virhe: Ei voida noutaa suorituskyky laskurin arvoa.</entry>
+    <entry lang="fi" key="UNSUPPORTED_BETA_OS">Virhe: VeraCrypt-ohjelma tukee ainoastaan tämän käyttöjärjestelmän vakaita versioita (beeta/RC versiot eivät ole tuettuina).</entry>
+    <entry lang="fi" key="ERR_MEM_ALLOC">Virhe: Muistia ei voida varata.</entry>
+    <entry lang="fi" key="ERR_PERF_COUNTER">Virhe: Ei voida noutaa suorituskykylaskurin arvoa.</entry>
     <entry lang="fi" key="ERR_VOL_FORMAT_BAD">Virhe: Virheellinen taltion formaatti.</entry>
     <entry lang="fi" key="ERR_HIDDEN_NOT_NORMAL_VOLUME">Virhe: Annoit salasanan piilotetulle taltiolle (et tavalliselle taltiolle).</entry>
     <entry lang="fi" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">Turvallisuussyistä, piilotettua VeraCrypt-taltiota ei voida luoda VeraCrypt-taltioon joka sisältää paikallaan salatun tiedostojärjestelmän (koska vapaata tilaa ei ole täytetty satunnaisella datalla).</entry>
-    <entry lang="fi" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - Lisenssi Tiedotukset</entry>
-    <entry lang="fi" key="ALL_FILES">Kaikki Tiedostot</entry>
-    <entry lang="fi" key="TC_VOLUMES">VeraCryptin Taltiot</entry>
-    <entry lang="fi" key="DLL_FILES">Kirjasto Moduulit</entry>
-    <entry lang="fi" key="FORMAT_NTFS_STOP">NTFS alustusta ei voida jatkaa.</entry>
+    <entry lang="fi" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - Oikeudelliset huomautukset</entry>
+    <entry lang="fi" key="ALL_FILES">Kaikki tiedostot</entry>
+    <entry lang="fi" key="TC_VOLUMES">VeraCrypt-taltiot</entry>
+    <entry lang="fi" key="DLL_FILES">Kirjastomoduulit</entry>
+    <entry lang="fi" key="FORMAT_NTFS_STOP">NTFS/exFAT/ReFS alustusta ei voida jatkaa.</entry>
     <entry lang="fi" key="CANT_MOUNT_VOLUME">Taltiota ei voida liittää.</entry>
     <entry lang="fi" key="CANT_DISMOUNT_VOLUME">Taltiota ei voida irrottaa.</entry>
     <entry lang="fi" key="FORMAT_NTFS_FAILED">Windows epäonnistui alustamaan taltiota NTFS/exFAT/ReFS.\n\nValitse toinen tiedostojärjestelmän tyyppi (jos mahdollista) ja yritä uudelleen. Vaihtoehtoisesti voit jättää taltio alustamatta (valitse 'Ei mitään' tiedostojärjestelmäksi), poistu tästä opastetusta toiminnosta, liitä taltio, ja sitten käytä joko järjestelmän tai kolmannen osapuolen työkalua alustaaksesi liitetyn taltion (asema pysyy yhä salattuna).</entry>
@@ -742,13 +742,13 @@
     <entry lang="fi" key="VOLUME_LOWER_CASE">taltio</entry>
     <entry lang="fi" key="VOLUME_UPPER_CASE">TALTIO</entry>
     <entry lang="fi" key="LABEL">Nimi</entry>
-    <entry lang="fi" key="CLUSTER_TOO_SMALL">Valittu ryhmä koko liian pieni tälle taltion koolle. Suurempaa ryhmä kokoa käytetään sen sijaan.</entry>
+    <entry lang="fi" key="CLUSTER_TOO_SMALL">Valittu klusterikoko on liian pieni tämänkokoiselle taltiolle. Suurempaa klusterikokoa tullaan käyttämään sen sijaan.</entry>
     <entry lang="fi" key="CANT_GET_VOLSIZE">Virhe: Taltion kokoa ei saatu!\n\nVarmista, että valittu taltio ei ole järjestelmän tai toisen sovelluksen käytössä.</entry>
-    <entry lang="fi" key="HIDDEN_VOL_HOST_SPARSE">Piilotettuja taltioita ei saa luoda dynaamisissa (harva tiedosto) säilöissä. Jotta saavutettaisiin uskottava luotettavuus, piilotettu VeraCrypt taltio on luotava ei-dynaamisessa säilössä.</entry>
-    <entry lang="fi" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">VeraCryptin Taltion Luonnin Ohjatullatoiminnolla voi luoda piilotetun taltio ainoastaan FAT tai NTFS taltiolle.</entry>
-    <entry lang="fi" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Windows 2000, VeraCryptin Taltion Luonnin Ohjattullatoiminnolla voi luoda Piilotetun VeraCrypt taltion ainoastaan FAT taltiolle.</entry>
-    <entry lang="fi" key="HIDDEN_VOL_HOST_NTFS">Huomio: FAT tiedostojärjestelmä on sopivampi ulkoiselle taltiolle kuin NTFS tiedostojärjestelmä (esimerkiksi, maksimi mahdollinen koko piilotetulle taltiolle olisi oltava  merkittävästi suurempi kun ulkoinen taltio on alustettuna FAT tyyppisenä).</entry>
-    <entry lang="fi" key="HIDDEN_VOL_HOST_NTFS_ASK">Huomio, että FAT tiedostojärjestelmä on sopivampi ulkoiselle taltiolle kuin NTFS tiedostojärjestelmä. Esimerkiksi, maksimi mahdollinen koko piilotetulle taltiolle olisi oltava  merkittävästi suurempi kun ulkoinen taltio on alustettuna FAT tyyppisenä (syy on tämä. NTFS tiedostojärjestelmä tallentaa aina sisäisen datan keskelle taltiota ja, siksi, piilotettu VeraCrypt taltio voi olla ainoastaan toisella puoliskolla ulkoista taltiota).\n\nOletko varma, että haluat alustaa ulkoisen taltion NTFS tyyppiseksi?</entry>
+    <entry lang="fi" key="HIDDEN_VOL_HOST_SPARSE">Piilotettuja taltioita ei tule luoda dynaamisiin (harva tiedosto) säilöihin. Uskottavan kiistettävyyden saavuttamiseksi piilotettu VeraCrypt-taltio on luotava ei-dynaamiseen säilöön.</entry>
+    <entry lang="fi" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">VeraCryptin opastetulla taltionluonnilla voi luoda piilotetun taltio ainoastaan FAT/exFAT tai NTFS taltioihin.</entry>
+    <entry lang="fi" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Windows 2000:lla VeraCryptin opastettu taltionluonti voi luoda piilotetun taltion ainoastaan FAT taltioihin.</entry>
+    <entry lang="fi" key="HIDDEN_VOL_HOST_NTFS">Huomio: FAT/exFAT tiedostojärjestelmä on sopivampi ulommille taltioille kuin NTFS tiedostojärjestelmä (esimerkiksi suurin mahdollinen koko piilotetulle taltiolle olisi todennäköisesti huomattavasti suurempi jos ulompi taltio on alustettu FAT/exFAT).</entry>
+    <entry lang="fi" key="HIDDEN_VOL_HOST_NTFS_ASK">Huomioi, että FAT/exFAT tiedostojärjestelmä on sopivampi ulommille taltioille kuin NTFS tiedostojärjestelmä. Esimerkiksi suurin mahdollinen koko piilotetulle taltiolle olisi todennäköisesti huomattavasti suurempi jos ulompi taltio on alustettu FAT/exFAT (syy tähän on se, että NTFS tiedostojärjestelmä aina säilöö sisäistä dataa juuri osion keskellä, josta johtuen piilotettu taltio voi siis sijaita vain ulomman taltion jälkimmäisellä puoliskolla).\n\nOletko varma, että haluat alustaa ulomman taltion NTFS tyyppiseksi?</entry>
     <entry lang="fi" key="OFFER_FAT_FORMAT_ALTERNATIVE">Haluatko alustaa taltion sen sijaan FAT tyyppiseksi?</entry>
     <entry lang="fi" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Huomaa: Tätä taltiota ei voi alustaa FAT:ksi, koska se ylittää FAT32-tiedostojärjestelmän tukeman maksimikoon taltiolle käytettävissä olevalla sektorikoolla. (2 TiB 512 tavun sektoreille ja 16 TiB 4096 tavun sektoreille).</entry>
     <entry lang="fi" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Virhe: Piilotetun käyttöjärjestelmän osion (eli ensimmäinen osio järjestelmäosion jälkeen) pitää olla vähintään 5% suurempi kuin järjestelmäosion (järjestelmäosio on se missä tällä hetkellä käynnissä oleva käyttöjärjestelmä on asennettuna).</entry>
@@ -768,7 +768,7 @@
     <entry lang="fi" key="CANT_GET_VOL_INFO">Virhe: Taltion ominaisuuksia ei saatu noudettua.</entry>
     <entry lang="fi" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">Virhe: Taltioon ei päästä käsiksi ja/tai taltion tietoja ei voitu noutaa.\n\nVarmista että valittu taltio on olemassa, ei ole jo valmiiksi liitettynä, ei ole järjestelmän tai jonkin ohjelmiston käytössä, sinulla on luku/kirjoitusoikeudet taltiolle ja että se ei ole kirjoitussuojattu.</entry>
     <entry lang="fi" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">Virhe: Taltioon ei päästä käsiksi ja/tai taltion tietoja ei voitu noutaa. Varmista että valittu taltio on olemassa, ei ole jo valmiiksi liitettynä, ei ole järjestelmän tai jonkin ohjelmiston käytössä, sinulla on luku/kirjoitusoikeudet taltiolle ja että se ei ole kirjoitussuojattu.\n\nJos ongelmaa edelleen esiintyy, alla olevat ohjeet voivat auttaa.</entry>
-    <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Virhe estettäessä VeraCrypt-salauksen osiolle. Yritä korjata mikä tahansa edellinen raportoitu ongelma ja sitten yritä uudelleen. Jos ongelma yhä esiintyy, saattaa auttaa kun seuraat seuraavia askeleita.</entry>
+    <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Virhe esti VeraCryptiä salaamasta osiota. Yritä korjata aikaisemmin ilmoitetut ongelmat, ja yritä sitten uudelleen. Jos ongelma yhä esiintyy, seuraavien kohtien seuraaminen voi auttaa.</entry>
     <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_RESUME">Virhe esti VeraCryptiä jatkamasta osion/taltion salaus-/purkuprosessia.\n\nYritä korjata kaikki aikaisemmin ilmoitetut ongelmat ja yritä jatkaa prosessia uudelleen. Huomioi, että taltiota ei voida liittää ennen kuin se on täysin salattu tai salaus purettu.</entry>
     <entry lang="fi" key="INPLACE_DEC_GENERIC_ERR">Virhe esti VeraCryptiä purkamasta taltion salausta. Yritä korjata kaikki aikaisemmin ilmoitetut ongelmat ja yritä sitten uudelleen, jos mahdollista.</entry>
     <entry lang="fi" key="CANT_DISMOUNT_OUTER_VOL">Virhe: Ulompaa taltiota ei voida irrottaa!\n\nTaltiolta ei voida irrottaa jos se sisältää tiedostoja tai hakemistoja, jotka ovat jonkin ohjelman tai järjestelmän käytössä.\n\nSulje ohjelmat jotka mahdollisesti käyttävät tiedostoja tai hakemistoja taltiolta ja paina Yritä uudelleen.</entry>
@@ -1101,8 +1101,8 @@
     <entry lang="fi" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nYlimääräinen käynnistysosio voidaan poistaa ennen Windowsin asentamista. Voit tehdä tämän seuraavasti:\n\n1) Käynnistä Windows-asennuslevy.\n\n2) Napsauta Windowsin asennusohjelmanäytössä 'Asenna nyt'> 'Mukautettu (edistynyt)'.\n\n3) Napsauta 'Drive Options'.\n\n4) Valitse pääjärjestelmän osio ja poista se napsauttamalla 'Poista' ja 'OK'.\n\n5) Valitse System Reserved -osio, klikkaa 'Laajenna' ja lisää sen kokoa\n\n6) Napsauta 'Hyväksy' ja 'OK'.\n\n7) Asenna Windows "System Reserved" -osioon.\n\n\nKun hyökkääjä kysyy, miksi poistit ylimääräinen käynnistysosio, voit vastata siihen, että halusit estää mahdollisten tietojen vuotamisen salaamattomalle käynnistysosiolle.\n\nHuomaa: Voit tulostaa tämän tekstin napsauttamalla alla olevaa 'Tulosta'-painiketta. Jos tallennat kopion tästä tekstistä tai tulosta se (suositeltavaa, ellei tulostimesi tallenna kopioita asiakirjoista, jotka tallennetaa sen sisäiseen muistiin), sinun on tuhottava kaikki sen kopiot sen jälkeen, kun ylimääräinen käynnistysosio on poistettu (muuten, jos tällainen kopio se saattaa tarkoittaa, että tietokoneessa on piilotettu käyttöjärjestelmä).</entry>
     <entry lang="fi" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varoitus: Siellä on allokoimatonta tilaa järjestelmäosion ja ensimmäisen osion takana. Kun olet luonut piilotetun käyttöjärjestelmän, sinun täytyy luoda uudet osiot tälle allokoimattomalle tilalle. Muutoin, piilotettu käyttöjärjestelmä ei ole mahdollista käynnistää (ennen kuin poistat sellaisen vasta luodun osion).</entry>
     <entry lang="fi" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Tämä algoritmi ei ole tuettuna järjestelmän salauksessa.</entry>
-    <entry lang="fi" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Tämä algoritmi ei ole tuettuna TrueCrypt -tilassa.</entry>
-    <entry lang="fi" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) ei ole tuettu TrueCrypt-tilassa.</entry>
+    <entry lang="fi" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Tämä algoritmi ei ole tuettuna TrueCrypt-tilassa.</entry>
+    <entry lang="fi" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (henkilökohtainen iteraatiokerroin) ei ole tuettu TrueCrypt-tilassa.</entry>
     <entry lang="fi" key="PIM_REQUIRE_LONG_PASSWORD">Salasanassa on oltava vähintään 20 merkkiä määritellyn PIM:n käyttämiseksi.\nLyhyempiä salasanoja voidaan käyttää vain, jos PIM on 485 tai suurempi.</entry>
     <entry lang="fi" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Esikäynnistys varmistus Salasanan on sisällettävä 20 tai useampia merkkejä määritetyn PIM:n käyttämiseksi.\nLyhyempiä salasanoja voidaan käyttää vain, jos PIM on 98 tai suurempi.</entry>
     <entry lang="fi" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Avaintiedostot eivät ole nykyisin tuettuna järjestelmän salaukselle.</entry>
@@ -1638,9 +1638,9 @@
     <entry lang="fi" key="LINUX_LANGUAGE">Kieli</entry>
     <entry lang="fi" key="LINUX_SELECT_SYS_DEFAULT_LANG">Valitse järjestelmän oletuskieli</entry>
     <entry lang="fi" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Kielenmuutos tulee voimaan vasta VeraCryptin uudelleenkäynnistyksen jälkeen.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
+    <entry lang="fi" key="ERR_XTS_MASTERKEY_VULNERABLE">VAROITUS: Taltion pääavain on haavoittuva hyökkäykselle joka vaarantaa tietojen turvallisuuden.\n\nLuo uusi taltio ja siirrä tiedot sille.</entry>
+    <entry lang="fi" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">VAROITUS: Salatun järjestelmän pääavain on haavoittuva hyökkäykselle joka vaarantaa tietojen turvallisuuden.\nPura järjestelmäosion tai -levyn salaus ja salaa se uudelleen.</entry>
+    <entry lang="fi" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">VAROITUS: Taltion pääavaimessa on tietoturvahaavoittuvuus.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

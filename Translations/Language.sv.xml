@@ -116,7 +116,7 @@
     <entry lang="sv" key="IDC_COPY_EXPANDER">Inkludera VeraCrypt-volymutökare</entry>
     <entry lang="sv" key="IDC_COPY_WIZARD">Inkludera guiden Skapa VeraCrypt-volym</entry>
     <entry lang="sv" key="IDC_CREATE">Skapa</entry>
-    <entry lang="sv" key="IDC_CREATE_VOLUME">S&amp;&kapa volym</entry>
+    <entry lang="sv" key="IDC_CREATE_VOLUME">S&amp;kapa volym</entry>
     <entry lang="sv" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">&amp;Visa inte några texter på skärmen vid autentiseringen före start (förutom det anpassade meddelandet nedan)</entry>
     <entry lang="sv" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Inaktivera "Evil Maid"-attackdetektering</entry>
     <entry lang="sv" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerera AES-kryptering/dekryptering genom att använda AES-instruktionerna från processorn (om tillgängligt)</entry>
