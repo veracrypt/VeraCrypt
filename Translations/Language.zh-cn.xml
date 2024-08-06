@@ -633,12 +633,12 @@
     <entry lang="zh-cn" key="PASSWORD_HIDDEN_OS_TITLE">隐形操作系统的密码</entry>
     <entry lang="zh-cn" key="PASSWORD_LENGTH_WARNING">警告：简短密码容易被暴力破解技术破解！\n\n我们建议选择一个超过 20 个字符的密码。\n\n您确定要使用简短密码吗？</entry>
     <entry lang="zh-cn" key="PASSWORD_TITLE">加密卷密码</entry>
-    <entry lang="zh-cn" key="PASSWORD_WRONG">由于以下一个或多个原因，操作失败：\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG">由于以下一个或多个原因，操作失败：\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_MODE_WRONG">由于以下一个或多个原因，操作失败：\n-加载模式错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">由于以下一个或多个原因，操作失败：\n-加载模式错误。\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">由于以下一个或多个原因，操作失败：\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
-    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">由于以下一个或多个原因，操作失败：\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\nPRF（哈希）错误。\n-不是有效的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_WRONG">由于以下一个或多个原因，操作失败：\n-密码错误。\n-卷PIM号错误。\n-PRF（哈希）错误。\n-不是有效的卷。\n-卷使用了已被移除的旧算法。\n-不再支持 TrueCrypt 格式的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG">由于以下一个或多个原因，操作失败：\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\n-PRF（哈希）错误。\n-不是有效的卷。\n-卷使用了已被移除的旧算法。\n-不再支持 TrueCrypt 格式的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_MODE_WRONG">由于以下一个或多个原因，操作失败：\n-加载模式错误。\n-密码错误。\n-卷PIM号错误。\n-PRF（哈希）错误。\n-不是有效的卷。\n-卷使用了已被移除的旧算法。\n-不再支持 TrueCrypt 格式的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">由于以下一个或多个原因，操作失败：\n-加载模式错误。\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\n-PRF（哈希）错误。\n-不是有效的卷。\n-卷使用了已被移除的旧算法。\n-不再支持 TrueCrypt 格式的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">由于以下一个或多个原因，操作失败：\n-密码错误。\n-卷PIM号错误。\n-PRF（哈希）错误。\n-不是有效的卷。\n-卷使用了已被移除的旧算法。\n-不再支持 TrueCrypt 格式的卷。</entry>
+    <entry lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">由于以下一个或多个原因，操作失败：\n-密钥错误。\n-密码错误。\n-卷PIM号错误。\n-PRF（哈希）错误。\n-不是有效的卷。\n-卷使用了已被移除的旧算法。\n-不再支持 TrueCrypt 格式的卷。</entry>
     <entry lang="zh-cn" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock 已经开启。 这可能导致您密码输入错误。</entry>
     <entry lang="zh-cn" key="PIM_CHANGE_WARNING">记住所挂载的卷的PIM</entry>
     <entry lang="zh-cn" key="PIM_HIDVOL_HOST_TITLE">外层卷 PIM</entry>
