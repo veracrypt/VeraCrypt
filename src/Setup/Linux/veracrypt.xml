@@ -2,10 +2,12 @@
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
 	<mime-type type="application/x-veracrypt-volume">
 		<comment>VeraCrypt Volume</comment>
+		<icon name="veracrypt"></icon>
 		<glob pattern="*.hc"/>
 	</mime-type>
 	<mime-type type="application/x-truecrypt-volume">
 		<comment>TrueCrypt Volume</comment>
+		<icon name="veracrypt"></icon>
 		<glob pattern="*.tc"/>
 	</mime-type>
 </mime-info>
