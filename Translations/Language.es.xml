@@ -1539,109 +1539,109 @@
     <entry lang="es" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Punto de montaje requerido.</entry>
     <entry lang="es" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">El punto de montaje ya está en uso.</entry>
     <entry lang="es" key="LINUX_EX2MSG_PASSWORDEMPTY">No se ha especificado contraseña ni archivo de claves.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
-    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CLPC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nTenga en cuenta que las contraseñas de autenticación de pre-arranque deben escribirse en el entorno de pre-arranque donde no están disponibles las distribuciones de teclado que no son de EE. UU. Por lo tanto, las contraseñas de autenticación de pre-arranque siempre deben escribirse utilizando la disposición de teclado estándar de EE. UU. (De lo contrario, la contraseña se escribirá incorrectamente en la mayoría de los casos). Sin embargo, tenga en cuenta que NO necesita un teclado estadounidense real; solo necesita cambiar la disposición del teclado en su sistema operativo.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNota: Si está intentando montar una partición ubicada en una unidad de sistema cifrada sin autenticación de pre-arranque o para montar la partición de sistema cifrada de un sistema operativo que no se está ejecutando, puede hacerlo seleccionando 'Opciones' > 'Montar partición usando cifrado de sistema'.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_PASSWORDTOOLONG">La contraseña contiene más de {0} caracteres.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partición de dispositivo requerida.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Contraseña incorrecta para el volumen oculto protegido o el volumen oculto no existe.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Archivo(s) de claves y/o contraseña incorrectos para el volumen oculto protegido o el volumen oculto no existe.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Se encontraron caracteres inválidos.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error al analizar la cadena formateada.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">No se pudo crear un archivo o directorio en un directorio temporal.\n\nAsegúrese de que el directorio temporal exista, que sus permisos de acceso le permitan acceder a él y que haya suficiente espacio en disco.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: La unidad utiliza un tamaño de sector diferente a 512 bytes.\n\nDebido a las limitaciones de los componentes disponibles en su plataforma, los volúmenes externos alojados en la unidad no se pueden montar utilizando la protección de volumen oculto.\n\nPosibles soluciones:\n- Utilice una unidad con sectores de 512 bytes.\n- Cree un volumen alojado en un archivo (contenedor) en la unidad.\n- Haga una copia de seguridad del contenido del volumen oculto y luego actualice el volumen externo.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: La unidad utiliza un tamaño de sector diferente a 512 bytes.\n\nDebido a las limitaciones de los componentes disponibles en su plataforma, los volúmenes alojados en particiones/dispositivos en la unidad solo se pueden montar utilizando los servicios criptográficos del kernel.\n\nPosibles soluciones:\n- Habilite el uso de los servicios criptográficos del kernel (Preferencias > Integración del sistema).\n- Utilice un dispositivo con sectores de 512 bytes.\n- Cree un volumen alojado en un archivo (contenedor) en la unidad.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: La unidad utiliza un tamaño de sector diferente a 512 bytes.\n\nDebido a las limitaciones de los componentes disponibles en su plataforma, los volúmenes alojados en particiones/dispositivos no se pueden crear/utilizar en la unidad.\n\nPosibles soluciones:\n- Cree un volumen alojado en un archivo (contenedor) en la unidad.\n- Utilice una unidad con sectores de 512 bytes.\n- Utilice VeraCrypt en otra plataforma.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">El archivo/dispositivo anfitrión ya está en uso.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Ranura de volumen no disponible.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requiere OSXFUSE 2.5 o superior.</entry>
+    <entry lang="es" key="EXCEPTION_OCCURRED">Se produjo una excepción</entry>
+    <entry lang="es" key="ENTER_PASSWORD">Introducir contraseña</entry>
+    <entry lang="es" key="ENTER_TC_VOL_PASSWORD">Introducir contraseña de volumen VeraCrypt</entry>
+    <entry lang="es" key="MOUNT">Montar</entry>
+    <entry lang="es" key="MOUNT_POINT">Directorio de montaje</entry>
+    <entry lang="es" key="NO_VOLUMES_MOUNTED">No hay volúmenes montados.</entry>
+    <entry lang="es" key="OPEN_NEW_VOLUME">Especificar un nuevo volumen VeraCrypt</entry>
+    <entry lang="es" key="PARAMETER_INCORRECT">Parámetro incorrecto</entry>
+    <entry lang="es" key="SELECT_KEYFILES">Seleccionar archivos de claves</entry>
+    <entry lang="es" key="START_TC">Iniciar VeraCrypt</entry>
+    <entry lang="es" key="VOLUME_ALREADY_MOUNTED">El volumen {0} ya está montado.</entry>
+    <entry lang="es" key="UNKNOWN_OPTION">Opción desconocida</entry>
+    <entry lang="es" key="VOLUME_LOCATION">Ubicación del volumen</entry>
+    <entry lang="es" key="VOLUME_HOST_IN_USE">ADVERTENCIA: ¡El archivo/dispositivo host {0} ya está en uso!\n\nIgnorar esto puede causar resultados no deseados, incluida la inestabilidad del sistema. Todas las aplicaciones que puedan estar utilizando el archivo/dispositivo host deben cerrarse antes de montar el volumen.\n\n¿Continuar con el montaje?</entry>
+    <entry lang="es" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt se instaló previamente utilizando un paquete MSI, por lo que no se puede actualizar utilizando el instalador estándar.\n\nUtilice el paquete MSI para actualizar su instalación de VeraCrypt.</entry>
+    <entry lang="es" key="IDC_USE_ALL_FREE_SPACE">Utilizar todo el espacio libre disponible</entry>
+    <entry lang="es" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt no se puede actualizar porque la partición/unidad del sistema se cifró utilizando un algoritmo que ya no es compatible.\nDescifre su sistema antes de actualizar VeraCrypt y luego vuelva a cifrarlo.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_TERMINALNOTFOUND">No se pudo encontrar la aplicación de terminal compatible, necesita xterm, konsole o gnome-terminal (con dbus-x11).</entry>
+    <entry lang="es" key="IDM_MOUNT_NO_CACHE">Montar sin caché</entry>
+    <entry lang="es" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpande un volumen VeraCrypt sobre la marcha sin reformatear\n\n\nSe admiten todo tipo de volúmenes (archivos contenedores, discos y particiones) formateados con NTFS. La única condición es que debe haber suficiente espacio libre en la unidad host o dispositivo host del volumen VeraCrypt.\n\n¡No utilice este software para expandir un volumen externo que contenga un volumen oculto, porque esto destruye el volumen oculto!</entry>
+    <entry lang="es" key="IDC_STEPSEXPAND">1. Seleccione el volumen VeraCrypt que desea expandir\n2. Haga clic en el botón 'Montar'</entry>
+    <entry lang="es" key="IDT_VOL_NAME">Volumen: </entry>
+    <entry lang="es" key="IDT_FILE_SYS">Sistema de archivos: </entry>
+    <entry lang="es" key="IDT_CURRENT_SIZE">Tamaño actual: </entry>
+    <entry lang="es" key="IDT_NEW_SIZE">Nuevo tamaño: </entry>
+    <entry lang="es" key="IDT_NEW_SIZE_BOX_TITLE">Introduzca el nuevo tamaño del volumen</entry>
+    <entry lang="es" key="IDC_INIT_NEWSPACE">Llenar nuevo espacio con datos aleatorios</entry>
+    <entry lang="es" key="IDC_QUICKEXPAND">Expansión rápida</entry>
+    <entry lang="es" key="IDT_INIT_SPACE">Llenar nuevo espacio: </entry>
+    <entry lang="es" key="EXPANDER_FREE_SPACE">%s espacio libre disponible en la unidad host</entry>
+    <entry lang="es" key="EXPANDER_HELP_DEVICE">Este es un volumen VeraCrypt basado en dispositivo.\n\nEl nuevo tamaño del volumen se elegirá automáticamente como el tamaño del dispositivo host.</entry>
+    <entry lang="es" key="EXPANDER_HELP_FILE">Especifique el nuevo tamaño del volumen VeraCrypt (debe ser al menos %I64u KB más grande que el tamaño actual).</entry>
+    <entry lang="es" key="QUICK_EXPAND_WARNING">ADVERTENCIA: Debe utilizar Expansión rápida solo en los siguientes casos:\n\n1) El dispositivo donde se encuentra el archivo contenedor no contiene datos confidenciales y no necesita una negación plausible.\n2) El dispositivo donde se encuentra el archivo contenedor ya se ha cifrado de forma segura y completa.\n\n¿Está seguro de que desea utilizar Expansión rápida?</entry>
+    <entry lang="es" key="EXPANDER_STATUS_TEXT">IMPORTANTE: Mueva el mouse de la forma más aleatoria posible dentro de esta ventana. Cuanto más tiempo lo mueva, mejor. Esto aumenta significativamente la fuerza criptográfica de las claves de cifrado. Luego haga clic en 'Continuar' para expandir el volumen.</entry>
+    <entry lang="es" key="EXPANDER_STATUS_TEXT_LEGACY">Haga clic en 'Continuar' para expandir el volumen.</entry>
+    <entry lang="es" key="EXPANDER_FINISH_ERROR">Error: la expansión del volumen falló.</entry>
+    <entry lang="es" key="EXPANDER_FINISH_ABORT">Error: operación abortada por el usuario.</entry>
+    <entry lang="es" key="EXPANDER_FINISH_OK">Terminado. Volumen expandido con éxito.</entry>
+    <entry lang="es" key="EXPANDER_CANCEL_WARNING">Advertencia: ¡La expansión del volumen está en progreso!\n\nDetenerse ahora puede resultar en un volumen dañado.\n\n¿Realmente quieres cancelar?</entry>
+    <entry lang="es" key="EXPANDER_STARTING_STATUS">Iniciando la expansión del volumen ...\n</entry>
+    <entry lang="es" key="EXPANDER_HIDDEN_VOLUME_ERROR">No se puede expandir un volumen externo que contenga un volumen oculto, porque esto destruye el volumen oculto.\n</entry>
+    <entry lang="es" key="EXPANDER_SYSTEM_VOLUME_ERROR">No se puede expandir un volumen del sistema VeraCrypt.</entry>
+    <entry lang="es" key="EXPANDER_NO_FREE_SPACE">No hay suficiente espacio libre para expandir el volumen</entry>
+    <entry lang="es" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Advertencia: El archivo contenedor es más grande que el área asignada al volumen VeraCrypt. Los datos después del área del volumen VeraCrypt se sobrescribirán.\n\n¿Quiere continuar?</entry>
+    <entry lang="es" key="EXPANDER_WARNING_FAT">Advertencia: ¡El volumen VeraCrypt contiene un sistema de archivos FAT!\n\nSolo se expandirá el volumen VeraCrypt en sí, pero no el sistema de archivos.\n\n¿Quiere continuar?</entry>
+    <entry lang="es" key="EXPANDER_WARNING_EXFAT">Advertencia: ¡El volumen VeraCrypt contiene un sistema de archivos exFAT!\n\nSolo se expandirá el volumen VeraCrypt en sí, pero no el sistema de archivos.\n\n¿Quiere continuar?</entry>
+    <entry lang="es" key="EXPANDER_WARNING_UNKNOWN_FS">Advertencia: ¡El volumen VeraCrypt contiene un sistema de archivos desconocido o ninguno!\n\nSolo se expandirá el volumen VeraCrypt en sí, el sistema de archivos permanece sin cambios.\n\n¿Quiere continuar?</entry>
+    <entry lang="es" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Nuevo tamaño de volumen demasiado pequeño, debe ser al menos %I64u kB más grande que el tamaño actual.</entry>
+    <entry lang="es" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Nuevo tamaño de volumen demasiado grande, no hay suficiente espacio en la unidad host.</entry>
+    <entry lang="es" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">¡Se excedió el tamaño máximo de archivo de %I64u MB en el dispositivo anfitrión!</entry>
+    <entry lang="es" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: ¡No se pudieron obtener los privilegios necesarios para habilitar la Expansión rápida!\nDesmarque la opción Expansión rápida e inténtelo de nuevo.</entry>
+    <entry lang="es" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">¡Se excedió el tamaño máximo de volumen de VeraCrypt de %I64u TB!\n</entry>
+    <entry lang="es" key="FULL_FORMAT">Formato completo</entry>
+    <entry lang="es" key="FAST_CREATE">Creación rápida</entry>
+    <entry lang="es" key="WARN_FAST_CREATE">ADVERTENCIA: Debe utilizar Creación rápida solo en los siguientes casos:\n\n1) El dispositivo no contiene datos confidenciales y no necesita una negación plausible.\n2) El dispositivo ya se ha cifrado de forma segura y completa.\n\n¿Está seguro de que desea utilizar Creación rápida?</entry>
+    <entry lang="es" key="IDC_ENABLE_EMV_SUPPORT">Habilitar soporte EMV</entry>
+    <entry lang="es" key="COMMAND_APDU_INVALID">El comando APDU enviado a la tarjeta no es válido.</entry>
+    <entry lang="es" key="EXTENDED_APDU_UNSUPPORTED">Los comandos APDU extendidos no se pueden usar con el token actual.</entry>
+    <entry lang="es" key="SCARD_MODULE_INIT_FAILED">Error al cargar la biblioteca WinSCard / PCSC.</entry>
+    <entry lang="es" key="EMV_UNKNOWN_CARD_TYPE">La tarjeta en el lector no es una tarjeta EMV compatible.</entry>
+    <entry lang="es" key="EMV_SELECT_AID_FAILED">No se pudo seleccionar el AID de la tarjeta en el lector.</entry>
+    <entry lang="es" key="EMV_ICC_CERT_NOTFOUND">El certificado de clave pública ICC no se encontró en la tarjeta.</entry>
+    <entry lang="es" key="EMV_ISSUER_CERT_NOTFOUND">El certificado de clave pública del emisor no se encontró en la tarjeta.</entry>
+    <entry lang="es" key="EMV_CPLC_NOTFOUND">No se encontró CLPC en la tarjeta EMV.</entry>
+    <entry lang="es" key="EMV_PAN_NOTFOUND">No se encontró ningún número de cuenta principal (PAN) en la tarjeta EMV.</entry>
+    <entry lang="es" key="INVALID_EMV_PATH">La ruta EMV no es válida.</entry>
+    <entry lang="es" key="EMV_KEYFILE_DATA_NOTFOUND">No se puede crear un archivo de claves a partir de los datos de la tarjeta EMV.\n\nFalta uno de los siguientes:\n- Certificado de clave pública ICC.\n- Certificado de clave pública del emisor.\n- Datos de CPCL.</entry>
+    <entry lang="es" key="SCARD_W_REMOVED_CARD">No hay tarjeta en el lector.\n\nAsegúrese de que la tarjeta esté correctamente insertada.</entry>
+    <entry lang="es" key="FORMAT_EXTERNAL_FAILED">El comando format.com de Windows no pudo formatear el volumen como NTFS/exFAT/ReFS: Error 0x%.8X.\n\nRecurriendo al uso de la API FormatEx de Windows.</entry>
+    <entry lang="es" key="FORMATEX_API_FAILED">La API FormatEx de Windows no pudo formatear el volumen como NTFS/exFAT/ReFS.\n\nEstado de error = %s.</entry>
+    <entry lang="es" key="EXPANDER_WRITING_RANDOM_DATA">Escribiendo datos aleatorios en el nuevo espacio ...\n</entry>
+    <entry lang="es" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Escribiendo encabezado de copia de seguridad recifrado ...\n</entry>
+    <entry lang="es" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Escribiendo encabezado principal recifrado ...\n</entry>
+    <entry lang="es" key="EXPANDER_WIPING_OLD_HEADER">Borrando el encabezado de copia de seguridad anterior ...\n</entry>
+    <entry lang="es" key="EXPANDER_MOUNTING_VOLUME">Montando volumen ...\n</entry>
+    <entry lang="es" key="EXPANDER_UNMOUNTING_VOLUME">Desmontando volumen ...\n</entry>
+    <entry lang="es" key="EXPANDER_EXTENDING_FILESYSTEM">Extendiendo el sistema de archivos ...\n</entry>
+    <entry lang="es" key="PARTIAL_SYSENC_MOUNT_READONLY">Advertencia: La partición del sistema que intentó montar no estaba completamente cifrada. Como medida de seguridad para evitar posibles daños o modificaciones no deseadas, el volumen '%s' se montó como de solo lectura.</entry>
+    <entry lang="es" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Información importante sobre el uso de extensiones de archivo de terceros</entry>
+    <entry lang="es" key="IDC_DISABLE_MEMORY_PROTECTION">Deshabilitar la protección de memoria para compatibilidad con herramientas de accesibilidad</entry>
+    <entry lang="es" key="DISABLE_MEMORY_PROTECTION_WARNING">ADVERTENCIA: Deshabilitar la protección de memoria reduce significativamente la seguridad. Habilite esta opción SOLO si confía en las herramientas de accesibilidad, como los lectores de pantalla, para interactuar con la interfaz de usuario de VeraCrypt.</entry>
     <entry lang="es" key="LINUX_LANGUAGE">Idioma</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
-  </localization>
+    <entry lang="es" key="LINUX_SELECT_SYS_DEFAULT_LANG">Seleccionar el idioma predeterminado del sistema</entry>
+    <entry lang="es" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Para que el cambio de idioma surta efecto, VeraCrypt necesita reiniciarse.</entry>
+    <entry lang="es" key="ERR_XTS_MASTERKEY_VULNERABLE">ADVERTENCIA: La clave maestra del volumen es vulnerable a un ataque que compromete la seguridad de los datos.\n\nCree un nuevo volumen y transfiera los datos a él.</entry>
+    <entry lang="es" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">ADVERTENCIA: La clave maestra del sistema cifrado es vulnerable a un ataque que compromete la seguridad de los datos.\nDescifre la partición/unidad del sistema y luego vuelva a cifrarla.</entry>
+    <entry lang="es" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">ADVERTENCIA: La clave maestra del volumen tiene una vulnerabilidad de seguridad.</entry>
+</localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
       <xs:complexType>
