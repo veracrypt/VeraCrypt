@@ -1617,7 +1617,7 @@
     <entry lang="ru" key="EMV_SELECT_AID_FAILED">Не удалось выбрать AID (идентификатор приложения) карты в считывателе.</entry>
     <entry lang="ru" key="EMV_ICC_CERT_NOTFOUND">На карте не найден сертификат открытого ключа ICC.</entry>
     <entry lang="ru" key="EMV_ISSUER_CERT_NOTFOUND">На карте не найден сертификат открытого ключа эмитента.</entry>
-    <entry lang="ru" key="EMV_CPLC_NOTFOUND">На карте EMV не найдены данные CLPC (жизненный цикл производства карты).</entry>
+    <entry lang="ru" key="EMV_CPLC_NOTFOUND">На карте EMV не найдены данные CPLC (жизненный цикл производства карты).</entry>
     <entry lang="ru" key="EMV_PAN_NOTFOUND">На карте EMV не найден номер платёжной карты (PAN).</entry>
     <entry lang="ru" key="INVALID_EMV_PATH">Неверный путь EMV.</entry>
     <entry lang="ru" key="EMV_KEYFILE_DATA_NOTFOUND">Не удалось создать ключевой файл из данных карты EMV.\n\nОтсутствует одно из следующего:\n- Сертификат открытого ключа ICC.\n- Сертификат открытого ключа эмитента.\n- Данные CPCL.</entry>

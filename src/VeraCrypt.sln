@@ -453,7 +453,6 @@ Global
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.All CustomEFI|Win32.Build.0 = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.All CustomEFI|x64.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.All Debug|Win32.ActiveCfg = Release|Win32
-		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.All Debug|Win32.Build.0 = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.All Debug|x64.ActiveCfg = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.All_SkipOsDriverReqCheck|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.All_SkipOsDriverReqCheck|x64.ActiveCfg = Release|Win32

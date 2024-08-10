@@ -1617,7 +1617,7 @@
     <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
     <entry lang="zh-hk" key="EMV_ICC_CERT_NOTFOUND">卡片中無法找到ICC 公開鑰匙證書。</entry>
     <entry lang="zh-hk" key="EMV_ISSUER_CERT_NOTFOUND">卡片中無法找到發行者公開鑰匙證書。</entry>
-    <entry lang="zh-hk" key="EMV_CPLC_NOTFOUND">EMV 卡片中無法找到 CLPC。</entry>
+    <entry lang="zh-hk" key="EMV_CPLC_NOTFOUND">EMV 卡片中無法找到 CPLC。</entry>
     <entry lang="zh-hk" key="EMV_PAN_NOTFOUND">在 EMV 卡片中找不到 Primary Account Number (PAN)。</entry>
     <entry lang="zh-hk" key="INVALID_EMV_PATH">EMV 路徑無效。</entry>
     <entry lang="zh-hk" key="EMV_KEYFILE_DATA_NOTFOUND">無法使用 ENV 卡片中的數據建立加密鑰匙檔案。\n\n缺少以下任何一項：\n- ICC 公開鑰匙證書。\n- 發行者公開鑰匙證書。\n- CPCL 數據。</entry>

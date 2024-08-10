@@ -1617,7 +1617,7 @@
     <entry lang="es" key="EMV_SELECT_AID_FAILED">No se pudo seleccionar el AID de la tarjeta en el lector.</entry>
     <entry lang="es" key="EMV_ICC_CERT_NOTFOUND">El certificado de clave pública ICC no se encontró en la tarjeta.</entry>
     <entry lang="es" key="EMV_ISSUER_CERT_NOTFOUND">El certificado de clave pública del emisor no se encontró en la tarjeta.</entry>
-    <entry lang="es" key="EMV_CPLC_NOTFOUND">No se encontró CLPC en la tarjeta EMV.</entry>
+    <entry lang="es" key="EMV_CPLC_NOTFOUND">No se encontró CPLC en la tarjeta EMV.</entry>
     <entry lang="es" key="EMV_PAN_NOTFOUND">No se encontró ningún número de cuenta principal (PAN) en la tarjeta EMV.</entry>
     <entry lang="es" key="INVALID_EMV_PATH">La ruta EMV no es válida.</entry>
     <entry lang="es" key="EMV_KEYFILE_DATA_NOTFOUND">No se puede crear un archivo de claves a partir de los datos de la tarjeta EMV.\n\nFalta uno de los siguientes:\n- Certificado de clave pública ICC.\n- Certificado de clave pública del emisor.\n- Datos de CPCL.</entry>

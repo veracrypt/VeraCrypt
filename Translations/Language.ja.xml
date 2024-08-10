@@ -1617,7 +1617,7 @@
     <entry lang="ja" key="EMV_SELECT_AID_FAILED">リーダー内のカードの AID を選択できませんでした。</entry>
     <entry lang="ja" key="EMV_ICC_CERT_NOTFOUND">ICC 公開鍵証明書がカードに見つかりませんでした。</entry>
     <entry lang="ja" key="EMV_ISSUER_CERT_NOTFOUND">発行者公開鍵証明書がカードに見つかりませんでした。</entry>
-    <entry lang="ja" key="EMV_CPLC_NOTFOUND">CLPC が EMV カードに見つかりませんでした。</entry>
+    <entry lang="ja" key="EMV_CPLC_NOTFOUND">CPLC が EMV カードに見つかりませんでした。</entry>
     <entry lang="ja" key="EMV_PAN_NOTFOUND">EMV カードにプライマリアカウント番号（PAN）が見つかりませんでした。</entry>
     <entry lang="ja" key="INVALID_EMV_PATH">EMV パスが無効です。</entry>
     <entry lang="ja" key="EMV_KEYFILE_DATA_NOTFOUND">EMV カードのデータからキーファイルを作成できません。\n\n次のいずれかがありません:\n- ICC 公開鍵証明書。\n- 発行者公開鍵証明書。\n- CPCL データ。</entry>

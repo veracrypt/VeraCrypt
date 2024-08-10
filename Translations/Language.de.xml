@@ -1620,7 +1620,7 @@
     <entry lang="de" key="EMV_SELECT_AID_FAILED">Die AID der Karte im Lesegerät konnte nicht ausgewählt werden.</entry>
     <entry lang="de" key="EMV_ICC_CERT_NOTFOUND">ICC-Zertifikat des öffentlichen Schlüssels wurde auf der Karte nicht gefunden.</entry>
     <entry lang="de" key="EMV_ISSUER_CERT_NOTFOUND">Das Zertifikat des öffentlichen Schlüssels des Ausstellers wurde auf der Karte nicht gefunden.</entry>
-    <entry lang="de" key="EMV_CPLC_NOTFOUND">CLPC wurde auf der EMV-Karte nicht gefunden.</entry>
+    <entry lang="de" key="EMV_CPLC_NOTFOUND">CPLC wurde auf der EMV-Karte nicht gefunden.</entry>
     <entry lang="de" key="EMV_PAN_NOTFOUND">Keine primäre Kontonummer (PAN) auf der EMV-Karte gefunden.</entry>
     <entry lang="de" key="INVALID_EMV_PATH">Der EMV-Pfad ist ungültig.</entry>
     <entry lang="de" key="EMV_KEYFILE_DATA_NOTFOUND">Es konnte keine Schlüsseldatei aus den Daten der EMV-Karte erstellt werden.\n\nEine der folgenden Angaben fehlt:\n- ICC-Zertifikat des öffentlichen Schlüssels.\n- Zertifikat des öffentlichen Schlüssels des Ausstellers.\n- CPCL-Daten.</entry>

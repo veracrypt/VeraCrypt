@@ -1617,7 +1617,7 @@
     <entry lang="ko" key="EMV_SELECT_AID_FAILED">리더에 있는 카드의 AID는 선택할 수 없습니다.</entry>
     <entry lang="ko" key="EMV_ICC_CERT_NOTFOUND">카드에서 ICC 공개 키 인증서를 찾을 수 없습니다.</entry>
     <entry lang="ko" key="EMV_ISSUER_CERT_NOTFOUND">카드에서 발급자 공개 키 인증서를 찾을 수 없습니다.</entry>
-    <entry lang="ko" key="EMV_CPLC_NOTFOUND">EMV 카드에서 CLPC를 찾을 수 없습니다.</entry>
+    <entry lang="ko" key="EMV_CPLC_NOTFOUND">EMV 카드에서 CPLC를 찾을 수 없습니다.</entry>
     <entry lang="ko" key="EMV_PAN_NOTFOUND">EMV 카드에서 주 계정 번호 (PAN)를 찾을 수 없습니다.</entry>
     <entry lang="ko" key="INVALID_EMV_PATH">EMV 경로가 올바르지 않습니다.</entry>
     <entry lang="ko" key="EMV_KEYFILE_DATA_NOTFOUND">EMV 카드의 데이터에서 키 파일을 빌드할 수 없습니다.\n\n다음 중 하나가 없습니다:\n- ICC 공개 키 인증서.\n- 발급자 공개 키 인증서.\n- CPCL 데이터.</entry>

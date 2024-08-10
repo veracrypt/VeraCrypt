@@ -1617,7 +1617,7 @@
     <entry lang="ro" key="EMV_SELECT_AID_FAILED">AID-ul cardului din cititor nu a putut fi selectat.</entry>
     <entry lang="ro" key="EMV_ICC_CERT_NOTFOUND">Certificatul de cheie publică ICC nu a fost găsit în card.</entry>
     <entry lang="ro" key="EMV_ISSUER_CERT_NOTFOUND">Certificatul cheii publice al emitentului nu a fost găsit în card.</entry>
-    <entry lang="ro" key="EMV_CPLC_NOTFOUND">CLPC nu a fost găsit în cardul EMV.</entry>
+    <entry lang="ro" key="EMV_CPLC_NOTFOUND">CPLC nu a fost găsit în cardul EMV.</entry>
     <entry lang="ro" key="EMV_PAN_NOTFOUND">Nu s-a găsit niciun număr de cont principal (PAN) în cardul EMV.</entry>
     <entry lang="ro" key="INVALID_EMV_PATH">Calea EMV nu este validă.</entry>
     <entry lang="ro" key="EMV_KEYFILE_DATA_NOTFOUND">Nu se poate crea un fișier-cheie din datele cardului EMV.\n\nUnul dintre următoarele lipsește:\n- Certificatul cheii publice ICC.\n- Certificatul cheii publice al emitentului.\n- Date CPCL.</entry>
