@@ -7,7 +7,7 @@ Information about Corsican localization:
 
 2. History of Corsican translation for VeraCrypt:
 
-	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13),
+	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
 	          June 29th (1.26.2), July 1st (1.26.3), July 30th (1.26.4), Aug. 14th (1.26.5), Sep. 8th (1.26.5),
@@ -20,7 +20,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.13">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.5" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.6" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -651,12 +651,12 @@ Information about Corsican localization:
 		<entry lang="co" key="PASSWORD_HIDDEN_OS_TITLE">Parolla d’intesa per u sistema operatoriu piattatu</entry>
 		<entry lang="co" key="PASSWORD_LENGTH_WARNING">AVERTIMENTU : E parolle d’intesa corte sò faciule à sfurzà impieghendu e tecniche di forza bruttale !\n\nVi ricumandemu di sceglie una parolla d’intesa d’omancu 20 caratteri. Da veru, vulete impiegà una parolla d’intesa corta ?</entry>
 		<entry lang="co" key="PASSWORD_TITLE">Parolla d’intesa di u vulume</entry>
-		<entry lang="co" key="PASSWORD_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.</entry>
-		<entry lang="co" key="PASSWORD_OR_KEYFILE_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Schedariu(i) chjave incurrettu(i).\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.</entry>
-		<entry lang="co" key="PASSWORD_OR_MODE_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Modu di muntatura gattivu.\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.</entry>
-		<entry lang="co" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Modu di muntatura gattivu.\n - Schedariu(i) chjave incurrettu(i).\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.</entry>
-		<entry lang="co" key="PASSWORD_WRONG_AUTOMOUNT">A muntatura autumatica hè fiascata per via d’una (o più) di ste ragioni :\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Ùn si trova alcunu vulume accettevule.</entry>
-		<entry lang="co" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">A muntatura autumatica hè fiascata per via d’una (o più) di ste ragioni :\n - Schedariu(i) chjave incurrettu(i).\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Ùn si trova alcunu vulume accettevule.</entry>
+		<entry lang="co" key="PASSWORD_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.\n - U vulume impiegheghja una cifratura anziana chì hè stata cacciata.\n - I vulumi à u furmatu TrueCrypt ùn sò più accettati.</entry>
+		<entry lang="co" key="PASSWORD_OR_KEYFILE_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Schedariu(i) chjave incurrettu(i).\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.\n - U vulume impiegheghja una cifratura anziana chì hè stata cacciata.\n - I vulumi à u furmatu TrueCrypt ùn sò più accettati.</entry>
+		<entry lang="co" key="PASSWORD_OR_MODE_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Modu di muntatura gattivu.\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.\n - U vulume impiegheghja una cifratura anziana chì hè stata cacciata.\n - I vulumi à u furmatu TrueCrypt ùn sò più accettati.</entry>
+		<entry lang="co" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">L’operazione hè fiascata per via d’una (o più) di ste ragioni :\n - Modu di muntatura gattivu.\n - Schedariu(i) chjave incurrettu(i).\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Vulume inaccettevule.\n - U vulume impiegheghja una cifratura anziana chì hè stata cacciata.\n - I vulumi à u furmatu TrueCrypt ùn sò più accettati.</entry>
+		<entry lang="co" key="PASSWORD_WRONG_AUTOMOUNT">A muntatura autumatica hè fiascata per via d’una (o più) di ste ragioni :\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Ùn si trova alcunu vulume accettevule.\n - U vulume impiegheghja una cifratura anziana chì hè stata cacciata.\n - I vulumi à u furmatu TrueCrypt ùn sò più accettati.</entry>
+		<entry lang="co" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">A muntatura autumatica hè fiascata per via d’una (o più) di ste ragioni :\n - Schedariu(i) chjave incurrettu(i).\n - Parolla d’intesa incurretta.\n - Numeru PIM di vulume incurrettu.\n - PRF (tazzeghju) incurrettu.\n - Ùn si trova alcunu vulume accettevule.\n - U vulume impiegheghja una cifratura anziana chì hè stata cacciata.\n - I vulumi à u furmatu TrueCrypt ùn sò più accettati.</entry>
 		<entry lang="co" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nAvertimentu : U tastu maiuscule hè ammarchjunatu. Què vi pò impedisce di stampittà currettamente a vostra parolla d’intesa.</entry>
 		<entry lang="co" key="PIM_CHANGE_WARNING">Arricurdassi di u numeru per muntà u vulume</entry>
 		<entry lang="co" key="PIM_HIDVOL_HOST_TITLE">PIM di u vulume esternu</entry>
