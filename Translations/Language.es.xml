@@ -1620,7 +1620,7 @@
     <entry lang="es" key="EMV_CPLC_NOTFOUND">No se encontró CPLC en la tarjeta EMV.</entry>
     <entry lang="es" key="EMV_PAN_NOTFOUND">No se encontró ningún número de cuenta principal (PAN) en la tarjeta EMV.</entry>
     <entry lang="es" key="INVALID_EMV_PATH">La ruta EMV no es válida.</entry>
-    <entry lang="es" key="EMV_KEYFILE_DATA_NOTFOUND">No se puede crear un archivo de claves a partir de los datos de la tarjeta EMV.\n\nFalta uno de los siguientes:\n- Certificado de clave pública ICC.\n- Certificado de clave pública del emisor.\n- Datos de CPCL.</entry>
+    <entry lang="es" key="EMV_KEYFILE_DATA_NOTFOUND">No se puede crear un archivo de claves a partir de los datos de la tarjeta EMV.\n\nFalta uno de los siguientes:\n- Certificado de clave pública ICC.\n- Certificado de clave pública del emisor.\n- Datos de CPLC.</entry>
     <entry lang="es" key="SCARD_W_REMOVED_CARD">No hay tarjeta en el lector.\n\nAsegúrese de que la tarjeta esté correctamente insertada.</entry>
     <entry lang="es" key="FORMAT_EXTERNAL_FAILED">El comando format.com de Windows no pudo formatear el volumen como NTFS/exFAT/ReFS: Error 0x%.8X.\n\nRecurriendo al uso de la API FormatEx de Windows.</entry>
     <entry lang="es" key="FORMATEX_API_FAILED">La API FormatEx de Windows no pudo formatear el volumen como NTFS/exFAT/ReFS.\n\nEstado de error = %s.</entry>

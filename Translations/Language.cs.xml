@@ -1620,7 +1620,7 @@
     <entry lang="cs" key="EMV_CPLC_NOTFOUND">CPLC nebyl na kartě EMV nalezen.</entry>
     <entry lang="cs" key="EMV_PAN_NOTFOUND">Na kartě EMV nebylo nalezeno žádné číslo primárního účtu (PAN).</entry>
     <entry lang="cs" key="INVALID_EMV_PATH">Cesta k EMV je neplatná.</entry>
-    <entry lang="cs" key="EMV_KEYFILE_DATA_NOTFOUND">Není možné sestavit soubor klíče z dat karty EMV.\n\nNení k dispozici jeden z následujících údajů:\n- Certifikát veřejného klíče ICC.\n- Certifikát veřejného klíče vydavatele.\n- Data CPCL.</entry>
+    <entry lang="cs" key="EMV_KEYFILE_DATA_NOTFOUND">Není možné sestavit soubor klíče z dat karty EMV.\n\nNení k dispozici jeden z následujících údajů:\n- Certifikát veřejného klíče ICC.\n- Certifikát veřejného klíče vydavatele.\n- Data CPLC.</entry>
     <entry lang="cs" key="SCARD_W_REMOVED_CARD">Ve čtečce není žádná karta.\n\nZkontrolujte, zda je karta správně zasunuta.</entry>
     <entry lang="cs" key="FORMAT_EXTERNAL_FAILED">Příkaz Windows format.com selhal při formátování svazku jako NTFS/exFAT/ReFS: Chyba 0x%.8X.\n\nPřechod zpět pro použití Windows FormatEx API.</entry>
     <entry lang="cs" key="FORMATEX_API_FAILED">Windows FormatEx API se nepodařilo naformátovat svazek jako NTFS/exFAT/ReFS.\n\nStav selhání = %s.</entry>

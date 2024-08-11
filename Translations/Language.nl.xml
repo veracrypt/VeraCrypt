@@ -1620,7 +1620,7 @@
     <entry lang="nl" key="EMV_CPLC_NOTFOUND">CPLC is niet gevonden op de EMV-kaart.</entry>
     <entry lang="nl" key="EMV_PAN_NOTFOUND">Geen Primair AccountNummer (PAN) gevonden in de EMV-kaart.</entry>
     <entry lang="nl" key="INVALID_EMV_PATH">EMV-pad is ongeldig.</entry>
-    <entry lang="nl" key="EMV_KEYFILE_DATA_NOTFOUND">Kan geen sleutelbestand maken van de gegevens van de EMV-kaart.\n\nEen van de volgende gegevens ontbreekt:\n- ICC Public Key Certificate.\n- Public Key Certificate van de uitgever.\n- CPCL-gegevens.</entry>
+    <entry lang="nl" key="EMV_KEYFILE_DATA_NOTFOUND">Kan geen sleutelbestand maken van de gegevens van de EMV-kaart.\n\nEen van de volgende gegevens ontbreekt:\n- ICC Public Key Certificate.\n- Public Key Certificate van de uitgever.\n- CPLC-gegevens.</entry>
     <entry lang="nl" key="SCARD_W_REMOVED_CARD">Geen kaart in de lezer.\n\nControleer of de kaart goed in de lezer zit.</entry>
     <entry lang="nl" key="FORMAT_EXTERNAL_FAILED">Windows format.com opdracht kon het volume niet formatteren als NTFS/exFAT/ReFS: Fout 0x%.8X.\n\nTerugvallen op het gebruik van Windows FormatEx API.</entry>
     <entry lang="nl" key="FORMATEX_API_FAILED">Windows FormatEx API kon het volume niet formatteren als NTFS/exFAT/ReFS.\n\nFoutstatus = %s.</entry>

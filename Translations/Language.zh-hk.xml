@@ -1620,7 +1620,7 @@
     <entry lang="zh-hk" key="EMV_CPLC_NOTFOUND">EMV 卡片中無法找到 CPLC。</entry>
     <entry lang="zh-hk" key="EMV_PAN_NOTFOUND">在 EMV 卡片中找不到 Primary Account Number (PAN)。</entry>
     <entry lang="zh-hk" key="INVALID_EMV_PATH">EMV 路徑無效。</entry>
-    <entry lang="zh-hk" key="EMV_KEYFILE_DATA_NOTFOUND">無法使用 ENV 卡片中的數據建立加密鑰匙檔案。\n\n缺少以下任何一項：\n- ICC 公開鑰匙證書。\n- 發行者公開鑰匙證書。\n- CPCL 數據。</entry>
+    <entry lang="zh-hk" key="EMV_KEYFILE_DATA_NOTFOUND">無法使用 ENV 卡片中的數據建立加密鑰匙檔案。\n\n缺少以下任何一項：\n- ICC 公開鑰匙證書。\n- 發行者公開鑰匙證書。\n- CPLC 數據。</entry>
     <entry lang="zh-hk" key="SCARD_W_REMOVED_CARD">讀卡機中沒有卡片。\n\n請確認卡片已正確地插入。</entry>
     <entry lang="zh-hk" key="FORMAT_EXTERNAL_FAILED">Windows format.com 指令無法格式化加密區為 NTFS/exFAT/ReFS： 錯誤 0x%.8X.\n\n退而轉用 Windows FormatEx API。</entry>
     <entry lang="zh-hk" key="FORMATEX_API_FAILED">Windows FormatEx API 無法格式化加密區為 NTFS/exFAT/ReFS。\n\n錯誤狀態 = %s.</entry>

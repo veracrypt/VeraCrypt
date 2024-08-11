@@ -1620,7 +1620,7 @@
     <entry lang="ko" key="EMV_CPLC_NOTFOUND">EMV 카드에서 CPLC를 찾을 수 없습니다.</entry>
     <entry lang="ko" key="EMV_PAN_NOTFOUND">EMV 카드에서 주 계정 번호 (PAN)를 찾을 수 없습니다.</entry>
     <entry lang="ko" key="INVALID_EMV_PATH">EMV 경로가 올바르지 않습니다.</entry>
-    <entry lang="ko" key="EMV_KEYFILE_DATA_NOTFOUND">EMV 카드의 데이터에서 키 파일을 빌드할 수 없습니다.\n\n다음 중 하나가 없습니다:\n- ICC 공개 키 인증서.\n- 발급자 공개 키 인증서.\n- CPCL 데이터.</entry>
+    <entry lang="ko" key="EMV_KEYFILE_DATA_NOTFOUND">EMV 카드의 데이터에서 키 파일을 빌드할 수 없습니다.\n\n다음 중 하나가 없습니다:\n- ICC 공개 키 인증서.\n- 발급자 공개 키 인증서.\n- CPLC 데이터.</entry>
     <entry lang="ko" key="SCARD_W_REMOVED_CARD">리더에 카드가 없습니다.\n\n카드가 잘 삽입되었는지 확인하십시오.</entry>
     <entry lang="ko" key="FORMAT_EXTERNAL_FAILED">Windows format.com 명령어가 볼륨을 NTFS/exFAT/ReFS로 포맷하는 데 실패했습니다: 오류 0x%.8X.\n\nWindows FormatEx API를 대신 사용합니다.</entry>
     <entry lang="ko" key="FORMATEX_API_FAILED">Windows FormatEx API가 볼륨을 NTFS/exFAT/ReFS로 포맷하는 데 실패했습니다.\n\n실패 상태 = %s.</entry>

@@ -1639,7 +1639,7 @@ Information about Corsican localization:
 		<entry lang="co" key="EMV_CPLC_NOTFOUND">CPLC ùn si trova micca in a carta EMV.</entry>
 		<entry lang="co" key="EMV_PAN_NOTFOUND">Ùn si trova alcunu numeru principale di contu in a carta EMV.</entry>
 		<entry lang="co" key="INVALID_EMV_PATH">U chjassu EMV hè inaccettevule.</entry>
-		<entry lang="co" key="EMV_KEYFILE_DATA_NOTFOUND">Impussibule di custruisce un schedariu chjave cù i dati di a carta EMV.\n\nUna di ste cundizione hè assente :\n- U certificatu di chjave publica ICC.\n- U certificatu di chjave publica di l’emettore.\n- I dati CPCL.</entry>
+		<entry lang="co" key="EMV_KEYFILE_DATA_NOTFOUND">Impussibule di custruisce un schedariu chjave cù i dati di a carta EMV.\n\nUna di ste cundizione hè assente :\n- U certificatu di chjave publica ICC.\n- U certificatu di chjave publica di l’emettore.\n- I dati CPLC.</entry>
 		<entry lang="co" key="SCARD_W_REMOVED_CARD">Alcuna carta in u lettore.\n\nAssicuratevi chì a carta hè framessa currettamente.</entry>
 		<entry lang="co" key="FORMAT_EXTERNAL_FAILED">A cumanda « format.com » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS : Sbagliu 0x%.8X.\n\nRivultata à impiegà l’API « FormatEx » di Windows.</entry>
 		<entry lang="co" key="FORMATEX_API_FAILED">L’API « FormatEx » di Windows ùn hà micca riesciutu à mette u vulume à u furmatu NTFS/exFAT/ReFS.\n\nStatu di u fiascu = %s.</entry>

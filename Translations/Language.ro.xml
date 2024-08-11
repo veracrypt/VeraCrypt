@@ -1620,7 +1620,7 @@
     <entry lang="ro" key="EMV_CPLC_NOTFOUND">CPLC nu a fost găsit în cardul EMV.</entry>
     <entry lang="ro" key="EMV_PAN_NOTFOUND">Nu s-a găsit niciun număr de cont principal (PAN) în cardul EMV.</entry>
     <entry lang="ro" key="INVALID_EMV_PATH">Calea EMV nu este validă.</entry>
-    <entry lang="ro" key="EMV_KEYFILE_DATA_NOTFOUND">Nu se poate crea un fișier-cheie din datele cardului EMV.\n\nUnul dintre următoarele lipsește:\n- Certificatul cheii publice ICC.\n- Certificatul cheii publice al emitentului.\n- Date CPCL.</entry>
+    <entry lang="ro" key="EMV_KEYFILE_DATA_NOTFOUND">Nu se poate crea un fișier-cheie din datele cardului EMV.\n\nUnul dintre următoarele lipsește:\n- Certificatul cheii publice ICC.\n- Certificatul cheii publice al emitentului.\n- Date CPLC.</entry>
     <entry lang="ro" key="SCARD_W_REMOVED_CARD">Niciun card în cititor.\n\nAsigurați-vă că acesta este introdus corect.</entry>
     <entry lang="ro" key="FORMAT_EXTERNAL_FAILED">Comanda Windows format.com nu a reușit să formateze volumul ca NTFS/exFAT/ReFS: Eroare 0x%.8X.\n\nRevenire la utilizarea API-ului Windows FormatEx.</entry>
     <entry lang="ro" key="FORMATEX_API_FAILED">API-ul Windows FormatEx nu a reușit să formateze volumul ca NTFS/exFAT/ReFS.\n\nStarea eșecului = %s.</entry>

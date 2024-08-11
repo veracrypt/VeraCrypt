@@ -1623,7 +1623,7 @@
     <entry lang="de" key="EMV_CPLC_NOTFOUND">CPLC wurde auf der EMV-Karte nicht gefunden.</entry>
     <entry lang="de" key="EMV_PAN_NOTFOUND">Keine primäre Kontonummer (PAN) auf der EMV-Karte gefunden.</entry>
     <entry lang="de" key="INVALID_EMV_PATH">Der EMV-Pfad ist ungültig.</entry>
-    <entry lang="de" key="EMV_KEYFILE_DATA_NOTFOUND">Es konnte keine Schlüsseldatei aus den Daten der EMV-Karte erstellt werden.\n\nEine der folgenden Angaben fehlt:\n- ICC-Zertifikat des öffentlichen Schlüssels.\n- Zertifikat des öffentlichen Schlüssels des Ausstellers.\n- CPCL-Daten.</entry>
+    <entry lang="de" key="EMV_KEYFILE_DATA_NOTFOUND">Es konnte keine Schlüsseldatei aus den Daten der EMV-Karte erstellt werden.\n\nEine der folgenden Angaben fehlt:\n- ICC-Zertifikat des öffentlichen Schlüssels.\n- Zertifikat des öffentlichen Schlüssels des Ausstellers.\n- CPLC-Daten.</entry>
     <entry lang="de" key="SCARD_W_REMOVED_CARD">Keine Karte im Lesegerät.\n\nVergewissern Sie sich, dass die Karte richtig eingesteckt ist.</entry>
     <entry lang="de" key="FORMAT_EXTERNAL_FAILED">Der Windows-Befehl format.com konnte das Volume nicht als NTFS/exFAT/ReFS formatieren: Fehler 0x%.8X.\n\nZurückfallen auf die Verwendung der Windows FormatEx-API.</entry>
     <entry lang="de" key="FORMATEX_API_FAILED">Windows FormatEx-API konnte das Volume nicht als NTFS/exFAT/ReFS formatieren.\n\nFehlerstatus = %s.</entry>

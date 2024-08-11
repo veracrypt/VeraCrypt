@@ -1620,7 +1620,7 @@
     <entry lang="ja" key="EMV_CPLC_NOTFOUND">CPLC が EMV カードに見つかりませんでした。</entry>
     <entry lang="ja" key="EMV_PAN_NOTFOUND">EMV カードにプライマリアカウント番号（PAN）が見つかりませんでした。</entry>
     <entry lang="ja" key="INVALID_EMV_PATH">EMV パスが無効です。</entry>
-    <entry lang="ja" key="EMV_KEYFILE_DATA_NOTFOUND">EMV カードのデータからキーファイルを作成できません。\n\n次のいずれかがありません:\n- ICC 公開鍵証明書。\n- 発行者公開鍵証明書。\n- CPCL データ。</entry>
+    <entry lang="ja" key="EMV_KEYFILE_DATA_NOTFOUND">EMV カードのデータからキーファイルを作成できません。\n\n次のいずれかがありません:\n- ICC 公開鍵証明書。\n- 発行者公開鍵証明書。\n- CPLC データ。</entry>
     <entry lang="ja" key="SCARD_W_REMOVED_CARD">リーダーにカードが挿入されていません。\n\nカードが正しく挿入されていることを確認してください。</entry>
     <entry lang="ja" key="FORMAT_EXTERNAL_FAILED">Windows format.com コマンドがボリュームを NTFS/exFAT/ReFS としてフォーマットできませんでした: エラー 0x%.8X。\n\nWindows FormatEx API の使用にフォールバックしています。</entry>
     <entry lang="ja" key="FORMATEX_API_FAILED">Windows FormatEx API がボリュームを NTFS/exFAT/ReFS としてフォーマットできませんでした。\n\n失敗ステータス = %s。</entry>

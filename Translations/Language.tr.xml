@@ -1620,7 +1620,7 @@
     <entry lang="tr" key="EMV_CPLC_NOTFOUND">EMV kartında CPLC bulunamadı.</entry>
     <entry lang="tr" key="EMV_PAN_NOTFOUND">EMV kartında birincil hesap numarası (PAN) bulunamadı.</entry>
     <entry lang="tr" key="INVALID_EMV_PATH">EMV yolu geçersiz.</entry>
-    <entry lang="tr" key="EMV_KEYFILE_DATA_NOTFOUND">EMV kartı verilerinden anahtar dosyası oluşturulamadı.\n\nŞunlardan biri eksik:\n- ICC herkese açık anahtar sertifikası.\n- Yayıncının herkese açık anahtar sertifikası.\n- CPCL verileri.</entry>
+    <entry lang="tr" key="EMV_KEYFILE_DATA_NOTFOUND">EMV kartı verilerinden anahtar dosyası oluşturulamadı.\n\nŞunlardan biri eksik:\n- ICC herkese açık anahtar sertifikası.\n- Yayıncının herkese açık anahtar sertifikası.\n- CPLC verileri.</entry>
     <entry lang="tr" key="SCARD_W_REMOVED_CARD">Okuyucuda bir kart yok.\n\nLütfen kartın doğru şekilde yerleştirildiğinden emin olun.</entry>
     <entry lang="tr" key="FORMAT_EXTERNAL_FAILED">Windows format.com komutu, birimi NTFS/exFAT/ReFS olarak biçimlendiremedi: Hata kodu: 0x%.8X.\n\nWindows FormatEx API uygulamasını kullanmaya geri dönülüyor.</entry>
     <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API uygulaması birimi NTFS/exFAT/ReFS olarak biçimlendiremedi.\n\nHata durumu = %s.</entry>
