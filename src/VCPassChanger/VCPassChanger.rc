@@ -118,8 +118,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,25,9,0
- PRODUCTVERSION 1,25,9,0
+ FILEVERSION 1,25,9,1
+ PRODUCTVERSION 1,25,9,1
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -135,10 +135,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "IDRIX"
-            VALUE "FileDescription", "VeraCrypt"
+            VALUE "FileDescription", "VeraCrypt Password Changer"
             VALUE "FileVersion", "1.25"
             VALUE "LegalTrademarks", "VeraCrypt"
-            VALUE "OriginalFilename", "VeraCrypt.exe"
+            VALUE "OriginalFilename", "VCPassChanger.exe"
             VALUE "ProductName", "VeraCrypt"
             VALUE "ProductVersion", "1.25"
         END
