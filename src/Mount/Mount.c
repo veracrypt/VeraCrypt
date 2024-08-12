@@ -1589,7 +1589,7 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const wchar_t *arg, BOOL bEle
 
 			if (bElevation && !IsAdmin() && IsUacSupported())
 			{
-				LaunchElevatedProcess (hwndDlg, t, arg);
+				LaunchElevatedProcess (hwndDlg, t, arg, TRUE);
 			}
 			else
 			{

@@ -1,0 +1,212 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+#include "..\\common\\resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HEADER
+//
+
+IDR_MOUNT_RSRC_HEADER   HEADER                  "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PASSWORDCHANGE_DLG DIALOGEX 0, 0, 346, 245
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Change Password or Keyfiles"
+CLASS "VeraCryptCustomDlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_OLD_PASSWORD,89,14,181,13,ES_PASSWORD | ES_AUTOHSCROLL
+    COMBOBOX        IDC_PKCS5_OLD_PRF_ID,89,33,97,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,35,83,10
+    EDITTEXT        IDC_OLD_PIM,89,51,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,59,115,10
+    CONTROL         "Use keyfiles",IDC_ENABLE_KEYFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,72,109,10
+    PUSHBUTTON      "Keyfiles...",IDC_KEYFILES,203,70,67,14
+    CONTROL         "Display password",IDC_SHOW_PASSWORD_CHPWD_ORI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,85,138,10,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_PASSWORD,89,121,181,13,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_VERIFY,89,137,181,13,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_PIM,89,154,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    CONTROL         "Use PIM",IDC_NEW_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,161,97,10
+    CONTROL         "Use keyfiles",IDC_ENABLE_NEW_KEYFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,172,110,11
+    PUSHBUTTON      "Keyfiles...",IDC_NEW_KEYFILES,202,170,68,14
+    CONTROL         "Display password",IDC_SHOW_PASSWORD_CHPWD_NEW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,184,180,11,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_PKCS5_PRF_ID,89,199,181,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    COMBOBOX        IDC_WIPE_MODE,89,218,181,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,280,7,59,14
+    PUSHBUTTON      "Cancel",IDCANCEL,280,24,59,14
+    RTEXT           "Password:",IDT_PASSWORD,12,16,72,8
+    RTEXT           "Password:",IDT_NEW_PASSWORD,8,124,76,8
+    RTEXT           "Confirm Password:",IDT_CONFIRM_PASSWORD,9,140,75,16
+    RTEXT           "PKCS-5 PRF:",IDT_NEW_PKCS5_PRF,9,200,74,10,SS_CENTERIMAGE
+    GROUPBOX        "Current",IDT_CURRENT,6,3,270,97
+    GROUPBOX        "New",IDT_NEW,6,108,270,130
+    RTEXT           "Wipe mode:",IDT_WIPE_MODE,9,220,74,8,0,WS_EX_RIGHT
+    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,12,34,74,10,SS_CENTERIMAGE
+    RTEXT           "Volume PIM:",IDT_OLD_PIM,12,54,74,10,NOT WS_VISIBLE
+    LTEXT           "(Empty or 0 for default iterations)",IDC_OLD_PIM_HELP,135,54,196,8,NOT WS_VISIBLE
+    RTEXT           "Volume PIM:",IDT_PIM,9,157,75,16,NOT WS_VISIBLE
+    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,135,157,197,8,NOT WS_VISIBLE
+END
+
+IDD_MOUNT_DLG DIALOGEX 0, 0, 375, 94
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "VeraCrypt Password Changer"
+CLASS "VeraCryptCustomDlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_VOLUME,56,44,212,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Volume &Tools...",IDC_VOLUME_TOOLS,184,62,84,14
+    PUSHBUTTON      "Select &File...",IDC_SELECT_FILE,276,43,84,14
+    PUSHBUTTON      "Select D&evice...",IDC_SELECT_DEVICE,276,62,84,14
+    CONTROL         112,IDC_LOGO,"Static",SS_BITMAP | SS_NOTIFY | WS_BORDER,13,41,29,25
+    GROUPBOX        "Volume",IDT_VOLUME,8,30,360,53
+    CONTROL         "",IDC_LOWER_BOX,"Static",SS_ETCHEDFRAME,2,2,372,89
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_PASSWORDCHANGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 339
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 238
+    END
+
+    IDD_MOUNT_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 369
+        BOTTOMMARGIN, 92
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,25,9,0
+ PRODUCTVERSION 1,25,9,0
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "IDRIX"
+            VALUE "FileDescription", "VeraCrypt"
+            VALUE "FileVersion", "1.25"
+            VALUE "LegalTrademarks", "VeraCrypt"
+            VALUE "OriginalFilename", "VeraCrypt.exe"
+            VALUE "ProductName", "VeraCrypt"
+            VALUE "ProductVersion", "1.25"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "#include ""..\\\\common\\\\resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#include ""..\\\\common\\\\common.rc""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_LOGO_96DPI          BITMAP                  "Logo_96dpi.bmp"
+IDB_LOGO_288DPI         BITMAP                  "Logo_288dpi.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_UACSTRING           "VeraCrypt"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "..\\common\\common.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

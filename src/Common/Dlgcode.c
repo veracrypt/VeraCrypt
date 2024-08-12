@@ -28,7 +28,7 @@
 #include <time.h>
 #include <tchar.h>
 #include <Richedit.h>
-#if defined (TCMOUNT) || defined (VOLFORMAT)
+#if defined (TCMOUNT) || defined (VOLFORMAT) || defined(VCPASSCHANGER)
 #include <process.h>
 #include <Tlhelp32.h>
 #endif
@@ -1514,6 +1514,7 @@ void cleanup ()
 	/* Close the device driver handle */
 	if (hDriver != INVALID_HANDLE_VALUE)
 	{
+#ifndef VCPASSCHANGER
 		// Unload driver mode if possible (non-install mode) 
 		if (IsNonInstallMode ())
 		{
@@ -1534,6 +1535,7 @@ void cleanup ()
 			}
 		}
 		else
+#endif
 		{
 			CloseHandle (hDriver);
 			hDriver = INVALID_HANDLE_VALUE;
@@ -2328,20 +2330,20 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Based on TrueCrypt 7.1a, freely available at http://www.truecrypt.org/ .\r\n\r\n"
 
 			L"Portions of this software:\r\n"
-			L"Copyright \xA9 2013-2022 IDRIX. All rights reserved.\r\n"
+			L"Copyright \xA9 2013-2024 IDRIX. All rights reserved.\r\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\r\n"
-			L"Copyright \xA9 1995-2017 Jean-loup Gailly and Mark Adler.\r\n"
+			L"Copyright \xA9 1995-2023 Jean-loup Gailly and Mark Adler.\r\n"
 			L"Copyright \xA9 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov.\r\n"
-			L"Copyright \xA9 1999-2017 Dieter Baron and Thomas Klausner.\r\n"
+			L"Copyright \xA9 1999-2023 Dieter Baron and Thomas Klausner.\r\n"
 			L"Copyright \xA9 2013, Alexey Degtyarev. All rights reserved.\r\n"
 			L"Copyright \xA9 1999-2016 Jack Lloyd. All rights reserved.\r\n"
 			L"Copyright \xA9 2013-2019 Stephan Mueller <smueller@chronox.de>\r\n"
-			L"Copyright \xA9 1999-2021 Igor Pavlov\r\n\r\n"
+			L"Copyright \xA9 1999-2023 Igor Pavlov\r\n\r\n"
 
 			L"This software as a whole:\r\n"
-			L"Copyright \xA9 2013-2022 IDRIX. All rights reserved.\r\n\r\n"
+			L"Copyright \xA9 2013-2024 IDRIX. All rights reserved.\r\n\r\n"
 
 			L"An IDRIX Release");
 
@@ -3281,7 +3283,7 @@ static LRESULT CALLBACK NonInstallUacWndProc (HWND hWnd, UINT message, WPARAM wP
 	return DefWindowProcW (hWnd, message, wParam, lParam);
 }
 
-BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_t* args)
+BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_t* args, BOOL exitSleep)
 {
 	wchar_t newCmdLine[4096];
 	WNDCLASSEXW wcex;
@@ -3315,7 +3317,8 @@ BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_
 	}
 	else
 	{
-		Sleep (2000);
+		if (exitSleep)
+			Sleep (2000);
 		return TRUE;
 	}
 }
@@ -3908,7 +3911,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	LoadLanguageFile ();
 
-#ifndef SETUP
+#if !defined(SETUP) & !defined(VCPASSCHANGER)
 	// UAC elevation moniker cannot be used in portable mode.
 	// A new instance of the application must be created with elevated privileges.
 	if (IsNonInstallMode () && !IsAdmin () && IsUacSupported ())
@@ -3921,7 +3924,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		}
 
 
-		if (LaunchElevatedProcess (NULL, modPath, lpszCommandLine))
+		if (LaunchElevatedProcess (NULL, modPath, lpszCommandLine, TRUE))
 			exit (0);
 		else
 			exit (1);
@@ -5124,7 +5127,7 @@ error:
 	return bOK;
 }
 
-
+#ifndef VCPASSCHANGER
 // Install and start driver service and mark it for removal (non-install mode)
 static int DriverLoad ()
 {
@@ -5200,7 +5203,6 @@ static int DriverLoad ()
 
 	return !res ? ERR_OS_ERROR : ERROR_SUCCESS;
 }
-
 
 BOOL DriverUnload ()
 {
@@ -5304,13 +5306,13 @@ error:
 
 	return FALSE;
 }
-
+#endif
 
 int DriverAttach (void)
 {
 	/* Try to open a handle to the device driver. It will be closed later. */
 
-#ifndef SETUP
+#if !defined(SETUP) && !defined(VCPASSCHANGER)
 
 	int nLoadRetryCount = 0;
 start:
@@ -5321,7 +5323,7 @@ start:
 
 	if (hDriver == INVALID_HANDLE_VALUE)
 	{
-#ifndef SETUP
+#if !defined(SETUP) && !defined(VCPASSCHANGER)
 
 		LoadSysEncSettings ();
 
@@ -5405,7 +5407,7 @@ load:
 		if (!bResult)
 			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &DriverVersion, sizeof (DriverVersion), &dwResult, NULL);
 
-#ifndef SETUP // Don't check version during setup to allow removal of another version
+#if !defined(SETUP) && !defined(VCPASSCHANGER) // Don't check version during setup to allow removal of another version
 		if (bResult == FALSE)
 		{
 			return ERR_OS_ERROR;
@@ -11157,7 +11159,7 @@ BOOL IsServerOS ()
 	return (osVer.wProductType == VER_NT_SERVER || osVer.wProductType == VER_NT_DOMAIN_CONTROLLER);
 }
 
-
+#ifndef VCPASSCHANGER
 // Returns TRUE, if the currently running operating system is installed in a hidden volume. If it's not, or if
 // there's an error, returns FALSE.
 BOOL IsHiddenOSRunning (void)
@@ -11181,6 +11183,7 @@ BOOL IsHiddenOSRunning (void)
 
 	return hiddenOSRunning;
 }
+#endif
 
 
 BOOL EnableWow64FsRedirection (BOOL enable)
@@ -13731,6 +13734,7 @@ void HandleShowPasswordFieldAction (HWND hwndDlg, UINT checkBoxId, UINT edit1Id,
 	}
 }
 
+#ifndef VCPASSCHANGER
 void RegisterDriverInf (bool registerFilter, const string& filter, const string& filterReg, HWND ParentWindow, HKEY regKey)
 {
 	wstring infFileName = GetTempPathString() + L"\\veracrypt_driver_setup.inf";
@@ -13752,7 +13756,7 @@ void RegisterDriverInf (bool registerFilter, const string& filter, const string&
 
 	throw_sys_if (!SetupInstallFromInfSectionWFn (ParentWindow, hInf, L"veracrypt", SPINST_REGISTRY, regKey, NULL, 0, NULL, NULL, NULL, NULL));
 }
-
+#endif
 HKEY OpenDeviceClassRegKey (const GUID *deviceClassGuid)
 {
 	return SetupDiOpenClassRegKeyFn (deviceClassGuid, KEY_READ | KEY_WRITE);
@@ -13973,7 +13977,7 @@ BOOL DeleteDirectory (const wchar_t* szDirName)
 	return bStatus;
 }
 
-#if defined (TCMOUNT) || defined (VOLFORMAT)
+#if defined (TCMOUNT) || defined (VOLFORMAT) || defined(VCPASSCHANGER)
 /*********************************************************************/
 
 static BOOL GenerateRandomString (HWND hwndDlg, LPTSTR szName, DWORD maxCharsCount)

@@ -22,6 +22,10 @@
 #include "../Mount/Resource.h"
 #endif
 
+#if defined(VCPASSCHANGER)
+#include "../Mount/Resource.h"
+#endif
+
 #ifdef VOLFORMAT
 #include "../Format/Resource.h"
 #endif
@@ -194,7 +198,7 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 
 	char *xmlElements[] = {"entry", 0};
 
-#ifdef TCMOUNT
+#if defined(TCMOUNT) || defined(VCPASSCHANGER)
 	int headers[] = { IDR_COMMON_RSRC_HEADER, IDR_MOUNT_RSRC_HEADER, 0 };
 #endif
 
@@ -225,6 +229,7 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 		// Required TrueCrypt version
 		XmlGetAttributeText (xml, "prog-version", attr, sizeof (attr));
 
+#ifndef VCPASSCHANGER
 		// Check version of external language file
 		if (defaultLangParsed && strcmp (attr, VERSION_STRING) && strcmp (attr, "DEBUG"))
 		{
@@ -234,7 +239,7 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 				MessageBoxW (NULL, m, L"VeraCrypt", MB_ICONERROR);
 			continue;
 		}
-
+#endif
 		// Search language id in language file
 		if (defaultLangParsed)
 		{
