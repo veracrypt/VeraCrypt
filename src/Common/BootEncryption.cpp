@@ -2640,10 +2640,27 @@ namespace VeraCrypt
 	}
 
 	void EfiBoot::DeleteStartExec(uint16 statrtOrderNum, wchar_t* type) {
-		SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
+		DWORD dwLastError;
+		BOOL bPrivilegesSet = IsPrivilegeEnabled (SE_SYSTEM_ENVIRONMENT_NAME);
+		if (!bPrivilegesSet && !SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE))
+		{
+			dwLastError = GetLastError();
+			wchar_t szMsg[128];
+			StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to set SE_SYSTEM_ENVIRONMENT_NAME privilege (error code 0x.8X)", dwLastError);
+			throw ErrorException(szMsg, SRC_POS);
+		}
 		// Check EFI
 		if (!IsEfiBoot()) {
-			throw ErrorException(L"can not detect EFI environment", SRC_POS);
+			dwLastError = GetLastError();
+			if (dwLastError != ERROR_SUCCESS)
+			{
+				if (!bPrivilegesSet)
+					SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
+				// format message to append the error code to the exception message
+				wchar_t szMsg[128];
+				StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to detect EFI environment (error code 0x.8X)", dwLastError);
+				throw ErrorException(szMsg, SRC_POS);
+			}
 		}
 		wchar_t	varName[256];
 		StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
@@ -2686,13 +2703,33 @@ namespace VeraCrypt
 				SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, startOrder, 0);
 			}
 		}
+
+		if (!bPrivilegesSet)
+			SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
 	}
 
 	void EfiBoot::SetStartExec(wstring description, wstring execPath, bool setBootEntry, bool forceFirstBootEntry, bool setBootNext, uint16 statrtOrderNum , wchar_t* type, uint32 attr) {
-		SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
+		DWORD dwLastError;
+		BOOL bPrivilegesSet = IsPrivilegeEnabled (SE_SYSTEM_ENVIRONMENT_NAME);
+		if (!bPrivilegesSet && !SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE))
+		{
+			dwLastError = GetLastError();
+			wchar_t szMsg[128];
+			StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to set SE_SYSTEM_ENVIRONMENT_NAME privilege (error code 0x.8X)", dwLastError);
+			throw ErrorException(szMsg, SRC_POS);
+		}
 		// Check EFI
 		if (!IsEfiBoot()) {
-			throw ErrorException(L"can not detect EFI environment", SRC_POS);
+			dwLastError = GetLastError();
+			if (dwLastError != ERROR_SUCCESS)
+			{
+				if (!bPrivilegesSet)
+					SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
+				// format message to append the error code to the exception message
+				wchar_t szMsg[1024];
+				StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to detect EFI environment (error code 0x.8X)", dwLastError);
+				throw ErrorException(szMsg, SRC_POS);
+			}
 		}
 		
 		if (bDeviceInfoValid)
@@ -2866,6 +2903,9 @@ namespace VeraCrypt
 			SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, &statrtOrderNum, 2);
 
 		}
+
+		if (!bPrivilegesSet)
+			SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
 	}
 
 	bool EfiBoot::CompareFiles (const wchar_t* fileName1, const wchar_t* fileName2)
