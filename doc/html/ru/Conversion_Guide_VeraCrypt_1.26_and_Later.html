@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Руководство по конвертации для версий 1.26 и выше</title>
+<meta name="description" content="Руководство по устранению устаревших функций и конвертации томов TrueCrypt в VeraCrypt версий 1.26 и выше."/>
+<meta name="keywords" content="VeraCrypt, TrueCrypt, конвертация, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Conversion_Guide_VeraCrypt_1.26_and_Later.html">Руководство по конвертации для версий 1.26 и выше</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Руководство по конвертации для версий 1.26 и выше</h1>
+
+<h2>1. Введение</h2>
+<p>В версиях 1.26 и выше VeraCrypt были внесены значительные изменения, включая удаление поддержки некоторых функций. Если у вас возникли проблемы с монтированием томов, это руководство поможет вам разобраться и найти решение.</p>
+
+<h2>2. Устаревшие функции в VeraCrypt 1.26 и выше</h2>
+<p>Были удалены следующие функции:</p>
+<ul>
+<li>Режим TrueCrypt</li>
+<li>Хеш-алгоритм HMAC-RIPEMD-160</li>
+<li>Алгоритм шифрования GOST89</li>
+</ul>
+<p>Если у вас возникают ошибки при монтировании томов, созданных в версии VeraCrypt 1.25.9 или старше, используйте VeraCrypt 1.25.9, чтобы проверить, используются ли в томах устаревшие функции. Выделите том и нажмите "Свойства тома" в интерфейсе для проверки.</p>
+
+<h2>3. Процедуры устранения проблем в зависимости от версии</h2>
+
+<h3>3.1 Сценарий 1: Использование VeraCrypt 1.25.9 или старше</h3>
+<p>Если вы используете VeraCrypt 1.25.9 или можете обновиться до этой версии, выполните следующие действия:</p>
+<ul>
+<li>Конвертируйте тома TrueCrypt в тома VeraCrypt</li>
+<li>Измените устаревший хеш-алгоритм HMAC-RIPEMD-160</li>
+<li>Пересоздайте том VeraCrypt, если используется алгоритм шифрования GOST89</li>
+</ul>
+<p>Загрузите версию 1.25.9 <a href="https://veracrypt.fr/en/Downloads_1.25.9.html">здесь</a>.</p>
+
+<h3>3.2 Сценарий 2: Использование VeraCrypt версии 1.26 и выше</h3>
+<p>Если вы уже используете VeraCrypt версии 1.26 и выше, выполните следующие действия:</p>
+<ul>
+<li>Конвертируйте тома TrueCrypt в тома VeraCrypt</li>
+<li>Измените устаревший хеш-алгоритм HMAC-RIPEMD-160</li>
+</ul>
+<p>Если вы используете Linux или Mac, временно понизьте версию до VeraCrypt 1.25.9. Пользователи Windows могут использовать инструмент VCPassChanger, который можно <a href="https://launchpad.net/veracrypt/trunk/1.25.9/+download/VCPassChanger_%28TrueCrypt_Convertion%29.zip">скачать здесь</a>.</p>
+
+<h2>4. Процедуры конвертации и устранения проблем</h2>
+
+<h3>4.1 Конвертация файлов-контейнеров и разделов TrueCrypt в VeraCrypt</h3>
+<p>Файлы-контейнеры и разделы TrueCrypt могут быть конвертированы в VeraCrypt, если они были созданы с использованием версий TrueCrypt 6.x или 7.x.</p>
+<p>После конвертации расширение файла останется <code>.tc</code>. Измените его на <code>.hc</code> вручную, если вы хотите, чтобы VeraCrypt версии 1.26 и выше автоматически распознавал файл.</p>
+
+<h3>4.2 Изменение устаревшего хеш-алгоритма HMAC-RIPEMD-160</h3>
+<p>Используйте функцию "Изменить алгоритм формирования ключа заголовка", чтобы изменить хеш-алгоритм HMAC-RIPEMD-160 на поддерживаемый в VeraCrypt версии 1.26 и выше. Ознакомьтесь с <a href="Hash%20Algorithms.html">документацией</a> для получения дополнительных сведений.</p>
+
+<h3>4.3 Пересоздание тома VeraCrypt при использовании алгоритма шифрования GOST89</h3>
+<p>Если ваш том использует алгоритм шифрования GOST89, вам нужно скопировать данные в другое место и пересоздать том, используя поддерживаемый алгоритм шифрования. Дополнительную информацию можно найти в <a href="Encryption%20Algorithms.html">документации по алгоритмам шифрования</a>.</p>
+
+<h2>5. Важные примечания</h2>
+<p><strong>Примечание для пользователей, создавших тома с версиями VeraCrypt до 1.17:</strong></p>
+<blockquote>
+<p>Чтобы избежать раскрытия информации о том, содержат ли ваши тома скрытый раздел, или если вы полагаетесь на правдоподобное отрицание, вам необходимо пересоздать как внешний, так и скрытый тома, включая системное шифрование и скрытую ОС. Удалите существующие тома, созданные в версиях до VeraCrypt 1.18a.</p>
+</blockquote>
+
+<p>Для получения дополнительной информации посетите:</p>
+<ul>
+<li><a href="TrueCrypt%20Support.html">Поддержка TrueCrypt</a></li>
+<li><a href="Converting%20TrueCrypt%20volumes%20and%20partitions.html">Конвертация томов и разделов TrueCrypt</a></li>
+</ul>
+
+</div>
+
+<div class="ClearBoth"></div>
+</body>
+</html>

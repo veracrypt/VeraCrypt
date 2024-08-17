@@ -35,10 +35,12 @@
 <div class="wikidoc">
 <h1>Converting TrueCrypt volumes and partitions</h1>
 <p><strong>⚠️ Warning:</strong> <span style="color: red;">After conversion, ensure that the "TrueCrypt Mode" checkbox is not selected during the mount of the converted volume. Since it is no longer a TrueCrypt volume, mounting it with this option will lead to a mount failure.</span></p>
+<p><strong>⚠️ Important Notice:</strong> As of version 1.26, VeraCrypt has removed support for "TrueCrypt Mode." Consequently, the conversion of TrueCrypt volumes and partitions using this method is no longer possible. Please refer to <a href="Conversion_Guide_VeraCrypt_1.26_and_Later.html">this documentation page</a> for guidance on how to proceed with TrueCrypt volumes in VeraCrypt versions 1.26 and later.</p>
 <p>Starting from version 1.0f, TrueCrypt volumes and <strong>non-system</strong> partitions can be converted to VeraCrypt format using any of the following actions:</p>
 <ul>
 <li>Change Volume Password </li><li>Set Header Key Derivation Algorithm </li><li>Add/Remove key files </li><li>Remove all key files </li></ul>
-<p>&ldquo;TrueCrypt Mode&rdquo; must be checked in the dialog as show below:</p>
+<p>If the TrueCrypt volume contains a hidden volume, it should also be converted using the same approach, by specifying the hidden volume password and/or keyfiles.</p>
+<p>&ldquo;TrueCrypt Mode&rdquo; must be checked in the dialog as shown below:</p>
 <p>&nbsp;<img src="Converting TrueCrypt volumes and partitions_truecrypt_convertion.jpg" alt=""></p>
 <p><strong>Note: </strong>Converting system partitions encrypted with TrueCrypt is not supported.</p>
 </div><div class="ClearBoth"></div></body></html>
