@@ -140,6 +140,10 @@
 		<param name="Local" value="Converting TrueCrypt volumes and partitions.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Conversion Guide for Versions 1.26 and Later">
+		<param name="Local" value="Conversion_Guide_VeraCrypt_1.26_and_Later.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Default Mount Parameters">
 		<param name="Local" value="Default Mount Parameters.html">
 		</OBJECT>
