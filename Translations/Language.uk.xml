@@ -1605,7 +1605,7 @@
     <entry lang="uk" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Новий розмір тому надто великий, недостатньо місця на хост-диску.</entry>
     <entry lang="uk" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Перевищено максимальний розмір файлу %I64u МБ на хост-диску.</entry>
     <entry lang="uk" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Помилка: не вдалося отримати необхідні права для увімкнення швидкого розширення!\nБудь ласка, зніміть позначку «Швидке розширення» та спробуйте ще раз.</entry>
-    <entry lang="uk" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXEEDED">Перевищено максимальний розмір тому VeraCrypt %I64u ТБ!\n</entry>
+    <entry lang="uk" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Перевищено максимальний розмір тому VeraCrypt %I64u ТБ!\n</entry>
     <entry lang="uk" key="FULL_FORMAT">Повне форматування</entry>
     <entry lang="uk" key="FAST_CREATE">Швидке створення</entry>
     <entry lang="uk" key="WARN_FAST_CREATE">ПОПЕРЕДЖЕННЯ: Ви повинні використовувати «Швидке створення» лише в таких випадках:\n\n1) Пристрій не містить конфіденційних даних, і вам не потрібна правдоподібна відмова.\n2) Пристрій вже був надійно та повністю зашифрований.\n\nВи впевнені, що хочете використовувати «Швидке створення»?</entry>
