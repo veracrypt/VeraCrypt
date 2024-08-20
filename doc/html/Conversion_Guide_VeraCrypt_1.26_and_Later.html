@@ -64,12 +64,15 @@
 <li>Convert TrueCrypt Volumes to VeraCrypt Volumes</li>
 <li>Change from Deprecated HMAC-RIPEMD-160 Hash Algorithm</li>
 </ul>
-<p>If you're on Linux or Mac, temporarily downgrade to VeraCrypt 1.25.9. Windows users can use the VCPassChanger tool <a href="https://launchpad.net/veracrypt/trunk/1.25.9/+download/VCPassChanger_%28TrueCrypt_Convertion%29.zip">that can be downloaded from here</a>.</p>
-
+<p>If you are on Linux or Mac, temporarily downgrade to VeraCrypt 1.25.9. Windows users can use the VCPassChanger tool <a href="https://launchpad.net/veracrypt/trunk/1.25.9/+download/VCPassChanger_%28TrueCrypt_Convertion%29.zip">that can be downloaded from here</a>.</p>
+<ul>
+<li>Recreate VeraCrypt Volume if Using GOST89 Encryption Algorithm</li>
+</ul>
+All OSes temporarily downgrade to 1.25.9 version.
 <h2>4. Conversion and Remediation Procedures</h2>
 
 <h3>4.1 Converting TrueCrypt Volumes to VeraCrypt</h3>
-<p>TrueCrypt file containers and partitions can be converted to VeraCrypt if created with TrueCrypt versions 6.x or 7.x.</p>
+<p>TrueCrypt file containers and partitions created with TrueCrypt versions 6.x or 7.x can be converted to VeraCrypt using VeraCrypt 1.25.9 or the VCPassChanger tool on Windows. For more details, refer to the <a href="Converting%20TrueCrypt%20volumes%20and%20partitions.html">documentation</a>.</p>
 <p>After conversion, the file extension will remain as <code>.tc</code>. Manually change it to <code>.hc</code> if you want VeraCrypt 1.26 or newer to automatically recognize it.</p>
 
 <h3>4.2 Changing Deprecated HMAC-RIPEMD-160 Hash Algorithm</h3>
