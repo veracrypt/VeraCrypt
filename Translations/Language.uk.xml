@@ -292,7 +292,7 @@
     <entry lang="uk" key="IDT_PARALLELIZATION_OPTIONS">Потокове Розпаралелювання</entry>
     <entry lang="uk" key="IDT_PKCS11_LIB_PATH">Шлях до бібліотеки PKCS #11</entry>
     <entry lang="uk" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="uk" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="uk" key="IDT_PW_CACHE_OPTIONS">Кешування (запамятовування) паролів</entry>
     <entry lang="uk" key="IDT_SECURITY_OPTIONS">Параметри безпеки</entry>
     <entry lang="uk" key="IDT_EMV_OPTIONS">Параметри EMV</entry>
@@ -506,11 +506,11 @@
     <entry lang="uk" key="FORMAT_FINISHED_HELP">\n\nТом VeraCrypt створений та готовий до використання. Якщо ви бажаєте створити ще один том VeraCrypt, натисніть 'Далі'. В іншому пипадку, натисніть 'Вихід'.</entry>
     <entry lang="uk" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nПрихований том VeraCrypt успішно створений (всередині нього буде знаходитися прихована ОС).\n\nНатисніть 'Далі' для продовження.</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Том повністю зашифрований</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Том повністю дешифровано</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_FINISHED_INFO">ВАЖЛИВО: ДЛЯ МОНТУВАННЯ ЦЬОГО ТОМУ VERACRYPT І ДОСТУПУ ДО ДАНИХ, ЩО МІСТЯТЬСЯ В НЬОМУ НАТИСНІТЬ 'Автомонтування' В ГОЛОВНОМУ ВІКНІ VERACRYPT. Після вводу правильного паролю (і/або ключових файлів) том буде змонтовано на букву диска, вибрану вами в головному вікні VeraCrypt (доступ до зашифрованих даних буде поцій букві диску).\n\nЗАПАМЯТАЙТЕ АБО ЗАПИШІТЬ НАСТУПНІ ЕТАПИ.ВИ ПОВИННІ ВИКОНУВАТИ ЇХ ДЛЯ МОНТУВАННЯ ТОМУ І ДОСТУПУ ДО ЙОГО ДАНИХ. Інший спосіб: натисніть кнопку 'Пристрій' в головному вікні VeraCrypt, виберіть цей розділ/том і натисніть 'Монтувати'.\n\nРозділ/том успішно зашифрований (зараз він містить повністю зашифрований том VeraCrypt) і готовий до використання.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DEC_FINISHED_INFO">Том VeraCrypt було успішно дешифровано.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">Том VeraCrypt було успішно дешифровано.\n\nБудь ласка, виберіть літеру диска, яку ви бажаєте призначити дешифрованому тому, і натисніть Завершити.\n\nВАЖЛИВО: Поки літеру диска не буде призначено дешифрованому тому, ви не зможете отримати доступ до даних, збережених на ньому.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Попередження: Щоб мати можливість отримати доступ до дешифрованих даних, необхідно призначити літеру диска дешифрованому тому. Однак, в даний момент жодна літера диска недоступна.\n\nБудь ласка, звільніть літеру диска (наприклад, відключивши USB-флешку або зовнішній жорсткий диск тощо) і натисніть OK.</entry>
     <entry lang="uk" key="FORMAT_FINISHED_INFO">Том VeraCrypt успішно створено.</entry>
     <entry lang="uk" key="FORMAT_FINISHED_TITLE">Том створено</entry>
     <entry lang="uk" key="FORMAT_HELP">ВАЖЛИВО: як можна довільніше рухайте мишою всередині цього вікна. Чим довше - тим краще. Це значно збільшить криптографічну стійкість ключів шифрування. Потім натискайте 'Форматувати', щоб створити том.</entry>
@@ -546,18 +546,18 @@
     <entry lang="uk" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">Примітка: якщо потрібно безпечно перенести файли із підставної системи в приховану, виконайте наступне: 1) Загрузіть підставну систему. 2) Збережіть потрібні вам файли на незашифрованому томі або на зовнішньому/звичайному томі VeraCrypt. 3) Завантажте приховану систему. 4) Якщо ви зберегли файли на томі VeraCrypt, змонтуйте його (вон буде автоматично змонтована як 'тільки для читання'). 5) Скопіюйте файли в прихований системний розділ або в інший прихований том.</entry>
     <entry lang="uk" key="CONFIRM_RESTART">Комп'ютер потрібно перезавантажити.\n\nПерезавантажити зараз?</entry>
     <entry lang="uk" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">При отриманні статусу системного шифрування виникла помилка.</entry>
-    <entry lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</entry>
-    <entry lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</entry>
-    <entry lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</entry>
-    <entry lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</entry>
-    <entry lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</entry>
-    <entry lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</entry>
+    <entry lang="uk" key="ERR_PASSWORD_MISSING">Пароль не вказано в командному рядку. Тому не може бути створено.</entry>
+    <entry lang="uk" key="ERR_SIZE_MISSING">Розмір тому не вказано в командному рядку. Тому не може бути створено.</entry>
+    <entry lang="uk" key="ERR_NTFS_INVALID_VOLUME_SIZE">Розмір файлу тому, вказаний у командному рядку, несумісний з вибраною файловою системою NTFS.</entry>
+    <entry lang="uk" key="ERR_FAT_INVALID_VOLUME_SIZE">Розмір файлу тому, вказаний у командному рядку, несумісний з вибраною файловою системою FAT32.</entry>
+    <entry lang="uk" key="ERR_DYNAMIC_NOT_SUPPORTED">Файлова система на цільовому диску не підтримує створення розріджених файлів, що необхідно для динамічних томів.</entry>
+    <entry lang="uk" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Через командний рядок можна створювати лише контейнерні файли.</entry>
+    <entry lang="uk" key="ERR_CONTAINER_SIZE_TOO_BIG">Розмір файлу контейнера, вказаний у командному рядку, перевищує доступний вільний простір на диску. Тому не може бути створено.</entry>
+    <entry lang="uk" key="ERR_VOLUME_SIZE_TOO_SMALL">Розмір тому, зазначений у командному рядку, занадто малий. Тому не може бути створено.</entry>
+    <entry lang="uk" key="ERR_VOLUME_SIZE_TOO_BIG">Розмір тому, зазначений у командному рядку, занадто великий. Тому не може бути створено.</entry>
     <entry lang="uk" key="INIT_SYS_ENC">Неможливо ініціалізувати компонент застосунку для системного шифрування.</entry>
     <entry lang="uk" key="INIT_RAND">Невдала ініціалізація генератора випадкових чисел!</entry>
-    <entry lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</entry>
+    <entry lang="uk" key="CAPI_RAND">Помилка у Windows Crypto API!\n\n\n(Якщо ви повідомляєте про помилку у зв'язку з цим, будь ласка, включіть наступну технічну інформацію у звіт про помилку:\n%hs, Остання помилка = 0x%.8X)</entry>
     <entry lang="uk" key="INIT_REGISTER">Неможливо ініціалізувати застосунок. Невдала реєстрація класу Dialog.</entry>
     <entry lang="uk" key="INIT_RICHEDIT">Помилка завантаження системної бібліотеки Rich Edit.</entry>
     <entry lang="uk" key="INTRO_TITLE">Майстер створення тому VeraCrypt</entry>
@@ -571,7 +571,7 @@
     <entry lang="uk" key="MOUNT_BUTTON">&amp;Монтувати</entry>
     <entry lang="uk" key="NEW_VERSION_REQUIRED">Для монтування цього тому потрібна більш нова версія VeraCrypt.</entry>
     <entry lang="uk" key="VOL_CREATION_WIZARD_NOT_FOUND">Помилка: не знайдено Майстра створення тому.\n\nПеревірте наявність файлу 'VeraCrypt Format.exe' у теці запущеного файлу 'VeraCrypt.exe'. Якщо його немає, будь ласка перевстановіть VeraCrypt або знайдіть файл 'VeraCrypt Format.exe' та запустіть його.</entry>
-    <entry lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</entry>
+    <entry lang="uk" key="VOL_EXPANDER_NOT_FOUND">Помилка: Volume Expander не знайдено.\n\nБудь ласка, переконайтеся, що файл 'VeraCryptExpander.exe' знаходиться в папці, з якої був запущений 'VeraCrypt.exe'. Якщо його там немає, будь ласка, перевстановіть VeraCrypt або знайдіть 'VeraCryptExpander.exe' на вашому диску і запустіть його.</entry>
     <entry lang="uk" key="NEXT">&amp;Далі &gt;</entry>
     <entry lang="uk" key="FINALIZE">&amp;Завершити</entry>
     <entry lang="uk" key="INSTALL">&amp;Встановити</entry>
@@ -579,7 +579,7 @@
     <entry lang="uk" key="NODRIVER">Неможливо з'єднатись із драйвером пристрою VeraCrypt. VeraCrypt не може працювати, якщо не запущено драйвер пристрою.\n\nБудь ласка, пам'ятайте, в залежності від настроювань Windows, можливо прийдеться завершити сеанс або перезавантажити систему, щоб запустити драйвер пристрою.</entry>
     <entry lang="uk" key="NOFONT">Помилка завантаження/підготовки шрифтів.</entry>
     <entry lang="uk" key="NOT_FOUND">Таку літеру диску не знайдено, або не обрано жодної літери диску.</entry>
-    <entry lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</entry>
+    <entry lang="uk" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Помилка: Неможливо призначити літеру диска.\n\nПоки літеру диска не буде призначено дешифрованому тому, ви не зможете отримати доступ до даних, збережених на ньому.\n\nСпробувати ще раз?</entry>
     <entry lang="uk" key="DRIVE_LETTER_UNAVAILABLE">Літера диску не доступна.</entry>
     <entry lang="uk" key="NO_FILE_SELECTED">Не обрано файл!</entry>
     <entry lang="uk" key="NO_FREE_DRIVES">Немає доступних літер дисків.</entry>
@@ -599,18 +599,18 @@
     <entry lang="uk" key="OVERWRITEPROMPT">УВАГА: файл '%s' вже існує!\n\nВАЖЛИВО: VERACRYPT НЕ БУДЕ ШИФРУВАТИ ЦЕЙ ФАЙЛ, А ЗНИЩИТЬ ЙОГО. Ви дійсно бажаєте видалити цей файл та замінити його новим контейнером VeraCrypt?</entry>
     <entry lang="uk" key="OVERWRITEPROMPT_DEVICE">ОБЕРЕЖНО: ВСІ ФАЙЛИ, ЩО МІСТЯТЬСЯ У %s '%s'%s, БУДЕ ВИДАЛЕНО ТА ВТРАЧЕНО (ЇХ НЕ БУДЕ ЗАШИФРОВАНО)!\n\nВи наполягаєте на форматуванні?</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_CONFIRM">УВАГА: Монтування тома і доступ до файлів , що в ньому зберігаються неможливе, поки том не буде повністю зашифрований.\n\nВи дійсно бажаєте розпочати шифрування %s '%s'%s?</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%s'%s?</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DEC_CONFIRM">ПОПЕРЕДЖЕННЯ: Ви не зможете змонтувати том або отримати доступ до будь-яких файлів, збережених на ньому, доки він не буде повністю дешифрований.\n\nВи впевнені, що хочете почати дешифрування вибраного %s '%s'%s?</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">УВАГА: Неочікуване зникнення електро живлення під час шифрування даних 'на місці' або збій операційної системи через програмну/апаратну помилку може призвести до часткового пошкодження або втраті даних. Тому перш ніж приступити до шифрування, зробіть резервну копію файлів, які ви бажаєте зашифрувати.\n\nВи зробили резервну копію?</entry>
     <entry lang="uk" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">ОБЕРЕЖНО: ВСІ ФАЙЛИ НА РОЗДІЛІ '%s'%s (Т.Т. НА ПЕРШОМУ РОЗДІЛІ ЗА СИСТЕМНИМ) БУДУТЬ ЗНИЩЕНІ (ВОНИ НЕ БУДУТЬ ЗАШИФРОВАНІ)!\n\nВи наполягаєте на форматуванні?</entry>
     <entry lang="uk" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">УВАГА: ВИБРАНИЙ РОЗДІЛ МІСТИТЬ ВЕЛИКИЙ ОБЄМ ДАНИХ! Всі файли на цьому розділі будуть видалені (вони НЕ будуть зашифровані)!</entry>
     <entry lang="uk" key="ERASE_FILES_BY_CREATING_VOLUME">Стерти файли на розділі при створені тому VeraCrypt всередині нього</entry>
     <entry lang="uk" key="PASSWORD">Пароль</entry>
-    <entry lang="en" key="PIM">PIM</entry>
+    <entry lang="uk" key="PIM">PIM</entry>
     <entry lang="uk" key="IDD_PCDM_CHANGE_PKCS5_PRF">Встановити алгоритм походження ключа заголовка</entry>
     <entry lang="uk" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Додати/видалити файл-ключі до/з тому</entry>
     <entry lang="uk" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Видалити всі файл-ключі з тому</entry>
     <entry lang="uk" key="PASSWORD_CHANGED">Пароль, PIM та/або файл-ключ успішно змінено.\n\nВАЖЛИВО: обов'язково прочитайте розділ 'Changing Passwords and Keyfiles' у главі 'Security Precautions' Посібника Користувача VeraCrypt.</entry>
-    <entry lang="en" key="FAVORITE_PIM_CHANGED">This volume is registered as a System Favorite and its PIM was changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
+    <entry lang="uk" key="FAVORITE_PIM_CHANGED">Цей том зареєстровано як системний улюблений, і його PIM було змінено.\nЧи хочете ви, щоб VeraCrypt автоматично оновив конфігурацію системного улюбленого (потрібні права адміністратора)?\n\nЗверніть увагу, що якщо ви відповісте «ні», вам доведеться оновити системний улюблений вручну.</entry>
     <entry lang="uk" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">ВФЖЛІВО: Якщо ви не знищили свій диск відновлення VeraCrypt (Rescue Disk), ваш системний розділ/диск можна розшифрувати з допомогою старого пароля (завантажившись з диска відновлення VeraCrypt і ввівши старий пароль). Вам потрібно створити новий диск відновлення VeraCrypt, після чого знищити прихований.\n\nБажаєте створити новий диск відновлення VeraCrypt?</entry>
     <entry lang="uk" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">Пам'ятайте, ваш Диск Відновлення VeraCrypt ще використовує попередній алгоритм. Якщо стійкість попереднього алгоритму вас не задовільняє, вам слід створити новий Диск Відновлення VeraCrypt, а потім знищити старий.\n\nБажаєте створити новий диск відновлення VeraCrypt?</entry>
     <entry lang="uk" key="KEYFILES_NOTE">Зверніть увагу, що VeraCrypt не змінює вміст ключового файлу. Допускається вибрати більше одного ключового файлу (порядок вибору немає значення). Якщо додати теку, то всі файли всередині неї будуть використовуватися як ключові. Натисніть 'Добавити токен-файл', щоб вибрати ключові файли, що знаходяться на токенах безпеки або смарт-картах (або для імпортування кдючових файлів на токени/смарт-карти).</entry>
@@ -619,7 +619,7 @@
     <entry lang="uk" key="PKCS5_PRF_CHANGED">Алгоритм деривації ключа заголовку успішно встановлено.</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">Введіть пароль і/або ключові файли для несистемного тому, де ви хочете відновити шифрування 'на місці'.\n\n\nПримітка: після нетиснення 'Далі' VeraCrypt спробує знайти всі несистемні томи, на яких був перерваний процес шифрування, і де можна розшифрувати заголовок тома VeraCrypt з допомогою вказаного проля і/або ключових файлів. Якщо таких томів виявиться декілька, на наступному етапі вам буде потрібно вибрати один із них.</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Виберіть один із перечислених томів. Це не системні томи з перерваним процесом шифрування, заголовок яких вдалося розшифрувати з допомогою вказаного пароля і/або ключових файлів.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Будь ласка, введіть пароль та/або ключовий файл(и) для не системного тому VeraCrypt, який ви хочете дешифрувати.</entry>
     <entry lang="uk" key="PASSWORD_HELP">Дуже важливо вибрати хороший пароль. Уникайте вказувати паролі з одного або декількох слів, які можна знайти в словнику (або комбінацій з 2, 3 або 4 таких слів). Пароль не повинен містити імен або дат народження. Він має бути важкий для вгадування. Хороший пароль -- випадкова комбінація прописних і рядкових букв, цифр і особливих символів (@ ^ = $ * + і так далі).\n\nРекомендуємо вибирати паролі, що складаються більш ніж з 20 знаків (чим довше, тим краще). Макс. довжина -- 128 символи.</entry>
     <entry lang="uk" key="PASSWORD_HIDDENVOL_HELP">Будь ласка, оберіть пароль для прихованого тому. </entry>
     <entry lang="uk" key="PASSWORD_HIDDEN_OS_HELP">Выберіть пароль для прихованої операційної системи (т.т. для прихованого тому). </entry>
@@ -639,34 +639,34 @@
     <entry lang="uk" key="PASSWORD_WRONG_AUTOMOUNT">Невірний пароль, або не знайдено том VeraCrypt.</entry>
     <entry lang="uk" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Невірні файл-ключі/пароль, або не знайдено том VeraCrypt.</entry>
     <entry lang="uk" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nУвага: ввімкнено режим Caps Lock. Зверніть увагу на правильність введення паролю.</entry>
-    <entry lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</entry>
-    <entry lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</entry>
-    <entry lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</entry>
-    <entry lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</entry>
-    <entry lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</entry>
-    <entry lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</entry>
-    <entry lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</entry>
-    <entry lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</entry>
-    <entry lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</entry>
-    <entry lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</entry>
-    <entry lang="en" key="PIM_TITLE">Volume PIM</entry>
+    <entry lang="uk" key="PIM_CHANGE_WARNING">Запам’ятайте номер для монтування тому</entry>
+    <entry lang="uk" key="PIM_HIDVOL_HOST_TITLE">PIM зовнішнього тому</entry>
+    <entry lang="uk" key="PIM_HIDVOL_TITLE">PIM прихованого тому</entry>
+    <entry lang="uk" key="PIM_HIDDEN_OS_TITLE">PIM для прихованої операційної системи</entry>
+    <entry lang="uk" key="PIM_HELP">PIM (Приватний Множник Ітерацій) - це величина, яка контролює кількість ітерацій, використовуваних для виведення ключа заголовка наступним чином:\n      Ітерації = 15000 + (PIM x 1000).\n\nЯкщо залишити порожнім або встановити на 0, VeraCrypt буде використовувати значення за замовчуванням (485), яке забезпечує високий рівень безпеки.\n\nЯкщо пароль менше 20 символів, PIM не може бути менше 485, щоб підтримувати мінімальний рівень безпеки.\nЯкщо пароль містить 20 або більше символів, PIM може бути встановлений на будь-яке значення.\n\nЗначення PIM більше 485 призведе до повільнішого монтування. Маленьке значення PIM (менше 485) призведе до швидшого монтування, але може знизити безпеку, якщо пароль недостатньо сильний.</entry>
+    <entry lang="uk" key="PIM_SYSENC_HELP">PIM (Приватний Множник Ітерацій) - це величина, яка контролює кількість ітерацій, використовуваних для виведення ключа заголовка наступним чином:\n      Ітерації = PIM x 2048.\n\nЯкщо залишити порожнім або встановити на 0, VeraCrypt буде використовувати значення за замовчуванням, яке забезпечує високий рівень безпеки.\n\nЯкщо пароль менше 20 символів, PIM не може бути менше 98, щоб підтримувати мінімальний рівень безпеки.\nЯкщо пароль містить 20 або більше символів, PIM може бути встановлений на будь-яке значення.\n\nЗначення PIM більше 98 призведе до повільнішого завантаження. Маленьке значення PIM (менше 98) призведе до швидшого завантаження, але може знизити безпеку, якщо пароль недостатньо сильний.</entry>
+    <entry lang="uk" key="PIM_SYSENC_CHANGE_WARNING">Запам’ятайте номер для завантаження системи</entry>
+    <entry lang="uk" key="PIM_LARGE_WARNING">Ви вибрали значення PIM, яке більше значення за замовчуванням у VeraCrypt.\nБудь ласка, зверніть увагу, що це призведе до значно повільнішого монтування/завантаження.</entry>
+    <entry lang="uk" key="PIM_SMALL_WARNING">Ви вибрали Приватний Множник Ітерацій (PIM), який менший за значення за замовчуванням у VeraCrypt. Будь ласка, зверніть увагу, що якщо ваш пароль недостатньо сильний, це може спричинити меншу безпеку.\n\nВи підтверджуєте, що використовуєте сильний пароль?</entry>
+    <entry lang="uk" key="PIM_SYSENC_TOO_BIG">Максимальне значення Приватного Множника Ітерацій (PIM) для системного шифрування становить 65535.</entry>
+    <entry lang="uk" key="PIM_TITLE">PIM тому</entry>
     <entry lang="uk" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nУвага! У шляху пошуку ключових файлів виявлені приховані файли. Приховані файли не можуть бути ключовими. Якщо ви бажаєте використовувати їх як ключові, зніміть у них атрибут 'Прихований' (на кожному з них правою кнопкою миші, виберіть 'Властивості', зніміть прапорець 'Прихований' і натисніть ГАРАЗД). Врахуйте, що приховані файли видно тільки при відповідному системному налаштуванні (Комп'ютер &gt; Сервіс &gt; Параметри тек (Властивості теки) &gt; Вигляд).</entry>
     <entry lang="uk" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Якщо ви намагаєтеся захистити прихований том, що містить приховану систему, перевірте, щоб при введенні пароля для прихованого тому була увімкнена стандартна американська розкладка клавіатури. Це необхідно, тому що даний пароль запитується на етапі дозавантажувальної аутентифікації (до запуску Windows), коли інші розкладки клавіатури недоступні.</entry>
     <entry lang="uk" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">Не знайдено ні одного несистемного тому з перерваною операцією шифрування і заголовком, для якого підходить вказаний пароль і/або ключові файли.\n\nПеревірте, чи правильно вказаний пароль і/або ключові файли, і чи не використовується розділ/том системою або додатками (включаючи антивірусне ПЗ).</entry>
-    <entry lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</entry>
-    <entry lang="en" key="SELECTED_PARTITION_NOT_INPLACE_ENC">The selected partition/device is not using in-place encryption.\nHeader Flags = 0x%.8X</entry>
+    <entry lang="uk" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">Вибраний розділ/пристрій уже повністю зашифровано.\nПрапорці заголовка = 0x%.8X</entry>
+    <entry lang="uk" key="SELECTED_PARTITION_NOT_INPLACE_ENC">Вибраний розділ/пристрій не використовує шифрування на місці.\nПрапорці заголовка = 0x%.8X</entry>
     <entry lang="uk" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\nПам'ятайте: якщо ви намагаєтесь монтувати розділ, що розміщено на зашифрованому системному пристрої, без початкової аутентифікації або монтувати зашифрований системний розділ операційної системи, яка не запущена, ви можете зробити це обравши 'Система' &gt; 'Монтувати без початкової аутентифікації'.</entry>
     <entry lang="uk" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">В цьому режимі ви не можете монтувати розділ, розміщений на диску, частина якого знаходиться в ключових межах шифрування активної системи.\n\nСпочатку ніж ви зможете монтувати цей розділ в данному режимі, потрібно або завантажити операційну систему, встановлену на іншому диску (зашифрованому або ні), або завантажити незашифровану ОС.</entry>
-    <entry lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive).</entry>
-    <entry lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</entry>
+    <entry lang="uk" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt не може дешифрувати окремий розділ на повністю зашифрованому системному диску (ви можете дешифрувати тільки весь системний диск).</entry>
+    <entry lang="uk" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Попередження: Оскільки диск містить завантажувач VeraCrypt, можливо, це повністю зашифрований системний диск. Якщо це так, зверніть увагу, що VeraCrypt не може дешифрувати окремий розділ на повністю зашифрованому системному диску (ви можете дешифрувати тільки весь системний диск). У такому випадку ви зможете продовжити зараз, але пізніше отримаєте повідомлення про помилку 'Неправильний пароль'.</entry>
     <entry lang="uk" key="PREV">&lt; &amp;Назад</entry>
     <entry lang="uk" key="RAWDEVICES">Неможливо показати перелік установлених у системі raw-пристроїв.</entry>
     <entry lang="uk" key="READONLYPROMPT">Том '%s' існує й призначений лише для читання. Ви дійсно бажаєте його замінити?</entry>
     <entry lang="uk" key="SELECT_DEST_DIR">Оберіть теку призначення</entry>
     <entry lang="uk" key="SELECT_KEYFILE">Оберіть файл-ключ</entry>
     <entry lang="uk" key="SELECT_KEYFILE_PATH">Оберіть шлях пошуку файл-ключів. УВАГА: запам'ятовується лише шлях, але не імена файлів!</entry>
-    <entry lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</entry>
-    <entry lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</entry>
+    <entry lang="uk" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Виберіть каталог для збереження ключових файлів.</entry>
+    <entry lang="uk" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">Поточний контейнерний файл було вибрано як ключовий файл. Його буде пропущено.</entry>
     <entry lang="uk" key="SERPENT_HELP">Автори: Ross Anderson, Eli Biham та Lars Knudsen. Опублікований у 1998 р. 256-біт ключ, 128-біт блок. Режим роботи - XTS. Алгоритм Serpent - один з фіналістів AES.</entry>
     <entry lang="uk" key="SIZE_HELP">Вкажіть розмір контейнера.\n\nПри створені динамічного ('розтягуючого' по мірі заповнення) контейнера, цей приклад визначає його максимальний розмір.\n\nМнімальний обєм для тома FAT рівний 275 Кб, для тому NTFS -- 2829 Кб.</entry>
     <entry lang="uk" key="SIZE_HELP_HIDDEN_HOST_VOL">Вкажіть розмір нового зовнішнього тому (спочатку створюється зовнішній том, а потім всередині нього -- прихований). Мінімально можливий розмір тому, призначеного для створення прихованого тому, складає 305 Кб.</entry>
@@ -759,18 +759,18 @@
     <entry lang="uk" key="FOR_MORE_INFO_ON_PARTITIONS">Інформацію про створення і управління розділами дв. в документації до вашої операційної системи, або проконсольтуйтеся в службі техпідтримки постачальника вашого обладнання.</entry>
     <entry lang="uk" key="SYSTEM_PARTITION_NOT_ACTIVE">Помилка! Виконуюча в данний момент операційна система встановлена не в загрузочному розділі (першому розділі з поміткою 'Активний'). Це не підтримується.</entry>
     <entry lang="uk" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">Ви вказали, що збираєтеся зберігати в цьому томі VeraCrypt файли розміром більше 4 Гбайт, але при цьому вибрали файлову систему FAT, в якій збереження файлів обємом 4 Гбайт не підтримується.\n\nВи дійсно хочете відформатувати зовнішній том як FAT?</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DECRYPTION_BAD_VOL_FORMAT">Error: VeraCrypt does not support in-place decryption of legacy non-system volumes created by VeraCrypt 1.0b or earlier.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DECRYPTION_CANT_DECRYPT_HID_VOL">Error: VeraCrypt cannot in-place decrypt a hidden VeraCrypt volume.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</entry>
-    <entry lang="en" key="CONFIRM_VOL_CONTAINS_NO_HIDDEN_VOL">Warning: Note that VeraCrypt cannot in-place decrypt a volume that contains a hidden VeraCrypt volume (the hidden volume would be overwritten with pseudorandom data).\n\nPlease confirm that the volume you are about to decrypt contains no hidden volume.\n\nNote: If the volume contains a hidden volume but you do not mind losing the hidden volume, you can select Proceed (the outer volume will be safely decrypted).</entry>
-    <entry lang="en" key="VOL_CONTAINS_NO_HIDDEN_VOL">The volume does not contain any hidden volume. Proceed.</entry>
-    <entry lang="en" key="VOL_CONTAINS_A_HIDDEN_VOL">The volume contains a hidden volume. Cancel.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DECRYPTION_BAD_VOL_FORMAT">Помилка: VeraCrypt не підтримує розшифровку за місцем старих несистемних томів, створених VeraCrypt 1.0b або раніше.\n\nПримітка: Ви все ще можете розшифрувати файли, збережені на томі, копіюючи/переміщуючи їх на будь-який незашифрований том.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DECRYPTION_CANT_DECRYPT_HID_VOL">Помилка: VeraCrypt не може розшифрувати за місцем прихований том VeraCrypt.\n\nПримітка: Ви все ще можете розшифрувати файли, збережені на томі, копіюючи/переміщуючи їх на будь-який незашифрований том.</entry>
+    <entry lang="uk" key="CONFIRM_VOL_CONTAINS_NO_HIDDEN_VOL">Попередження: зверніть увагу, що VeraCrypt не може розшифрувати за місцем том, який містить прихований том VeraCrypt (прихований том буде перезаписаний псевдовипадковими даними).\n\nБудь ласка, підтвердіть, що том, який ви збираєтесь розшифрувати, не містить прихованого тому.\n\nПримітка: якщо том містить прихований том, але ви не заперечуєте проти втрати прихованого тому, ви можете вибрати «Продовжити» (зовнішній том буде безпечно розшифрований).</entry>
+    <entry lang="uk" key="VOL_CONTAINS_NO_HIDDEN_VOL">Том не містить прихованих томів. Продовжити.</entry>
+    <entry lang="uk" key="VOL_CONTAINS_A_HIDDEN_VOL">Том містить прихований том. Скасувати.</entry>
     <entry lang="uk" key="CANT_ACCESS_VOL">Помилка! Немає доступу до тому.\n\nПеревірте, чи існує цей том, чи не змонтований він, не використовіється системою або якоюсь програмою, якій ви дали права читання/запису цього тому, і чи не захищений він від запису.</entry>
-    <entry lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</entry>
+    <entry lang="uk" key="CANT_GET_VOL_INFO">Помилка: Не вдається отримати властивості тому.</entry>
     <entry lang="uk" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">Помилка! Немає доступу до тому і/або неможливо получити відомості про том.\n\nПеревірте, чи існує вибраний том, чи не використовується він системою або додатками, чи є увас права для читання/запису цього тому, і чи не захищений том від запису.</entry>
     <entry lang="uk" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">Помилка! Немає доступу до тому і/або неможливо отримати відомості про том. Перевірте, чи існує вибраний том, чи не використовується він системою або додатками, чи є увас права для читання/запису цього тому, і чи не захищений том від запису.\n\nЯкщо проблема не вирішується, попробуйте виконати кроки, вказані нижче.</entry>
     <entry lang="uk" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Зашифрувати розділ не вдалося через помилку. Спробуйте вирішити всі вказані проблеми і повторіть спробу. Якщо проблеми не вирішуються, спробуйте виконати дії, вказані нижче.</entry>
     <entry lang="uk" key="INPLACE_ENC_GENERIC_ERR_RESUME">Продовжити процес шифрувння розділу не вдалося через помилку.\n\nСпробуйте усунути всі раніше вказані прблми і знову продовжити процес шифрування. Том неможливо монтувати до тих пір, поки він не буде повністю зашифрований.</entry>
-    <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
+    <entry lang="uk" key="INPLACE_DEC_GENERIC_ERR">Помилка перешкодила VeraCrypt розшифрувати том. Будь ласка, спробуйте виправити будь-які раніше повідомлені проблеми і потім спробуйте ще раз, якщо це можливо.</entry>
     <entry lang="uk" key="CANT_DISMOUNT_OUTER_VOL">Помилка: неможливо розмонтувати зовнішній том.\n\nТом неможна розмонтувати, якщо він містить файли або теки, що використовуються будь-яким застосунком або системою.\n\nЗакрийте всі такі застосунки й натисніть 'Повторити'.</entry>
     <entry lang="uk" key="CANT_GET_OUTER_VOL_INFO">Помилка: неможливо отримати інформацю про зовнішній том! Створення тому не може бути продовжено.</entry>
     <entry lang="uk" key="CANT_ACCESS_OUTER_VOL">Помилка: немає доступу до зовнішнього тому. Продовження створення тому неможливе.</entry>
@@ -825,7 +825,7 @@
     <entry lang="uk" key="REMOVABLE_DISK">Змінний диск</entry>
     <entry lang="uk" key="HARDDISK">Жорсткий диск</entry>
     <entry lang="uk" key="UNCHANGED">Не змінювати</entry>
-    <entry lang="en" key="AUTODETECTION">Autodetection</entry>
+    <entry lang="uk" key="AUTODETECTION">Автовизначення</entry>
     <entry lang="uk" key="SETUP_MODE_TITLE">Режим Майстра встановлення</entry>
     <entry lang="uk" key="SETUP_MODE_INFO">Виберіть режим. Якщо не знаєте, який вибрати, використовуйте запропонований.</entry>
     <entry lang="uk" key="SETUP_MODE_HELP_INSTALL">Оберіть цю опцію, якщо бажаєте встановити або поновити VeraCrypt на цій системі.</entry>
@@ -939,11 +939,11 @@
     <entry lang="uk" key="ENTER_HIDDEN_VOL_PASSWORD">Введіть пароль для прихованого тому</entry>
     <entry lang="uk" key="ENTER_HEADER_BACKUP_PASSWORD">Введіть пароль для заголовку в файлі резервної копії</entry>
     <entry lang="uk" key="KEYFILE_CREATED">Файл-ключ успішно створено.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
-    <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
-    <entry lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</entry>
-    <entry lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</entry>
+    <entry lang="uk" key="KEYFILE_INCORRECT_NUMBER">Кількість наданих вами ключових файлів є недійсною.</entry>
+    <entry lang="uk" key="KEYFILE_INCORRECT_SIZE">Розмір ключового файлу повинен бути не менше 64 байт.</entry>
+    <entry lang="uk" key="KEYFILE_EMPTY_BASE_NAME">Будь ласка, введіть ім’я для генерованого(их) ключового(их) файлу(ів)</entry>
+    <entry lang="uk" key="KEYFILE_INVALID_BASE_NAME">Основне ім’я ключового(их) файлу(ів) є недійсним</entry>
+    <entry lang="uk" key="KEYFILE_ALREADY_EXISTS">Ключовий файл '%s' вже існує.\nВи хочете перезаписати його? Процес генерації буде зупинено, якщо ви відповісте Ні.</entry>
     <entry lang="uk" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">УВАГА: Заголовок цього тому пошкоджений! VeraCrypt автоматично задіяв резервну копію заголовку, вмонтовану в том.\n\nВам потрібно виправити заголовок, вибравши 'Сервіс' &gt; 'Відновити заголовок тому'.</entry>
     <entry lang="uk" key="VOL_HEADER_BACKED_UP">Резервну копію заголовку тому успішно створено.\n\nВАЖЛИВО: при відновленні заголовку з цієї резерної копії також буде відновлено і поточний пароль тому. Більш того, якщо для монтування тому потрібні файл-ключі, після відновлення заголовку з копії для монтування тому будуть потрібні ті ж файл-ключі.\n\nУВАГА: ця резервна копія заголовку тому може бути використована для відновлення заголовку ЛИШЕ цього конкретного тому. Якщо ви використаєте цю резервну копію для відновлення заголовку інших томів, ви зможете монтувати такі томи, але НЕ зможете розшифрувати будь-яку інформацію з нього (тому що зміниться головний ключ).</entry>
     <entry lang="uk" key="VOL_HEADER_RESTORED">Заголовок тому успішно відновлений.\n\nВАЖЛИВО: майте на увазі, що разом із заголовком також міг бути відновлений і колишній пароль. Більш того, якщо на момент створення резервної копії для монтування тому були потрібні файл-ключі, ці ж файл-ключі знадобляться для монтування цього тому й зараз.</entry>
@@ -966,8 +966,8 @@
     <entry lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Будь ласка, вставте Диск Відновлення VeraCrypt у CD/DVD-пристрій та натисніть 'Добре' для перевірки.</entry>
     <entry lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">Диск Відновлення VeraCrypt успішно перевірено.</entry>
     <entry lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Неможливо перевірити чи коректно записано Диск Відновлення.\n\nЯкщо у вас є записаний Диск Відновлення, будь ласка, дістаньте, вставте CD/DVD; потім спробуйте ще. Якщо це не допоможе, будь ласка спробуйте іншу CD/DVD-записувальну програму та/або носій.\n\nЯкщо ви захочете перевірити Диск Відновлення VeraCrypt, створений з іншим головний ключем, паролем, "сіллю" тощо, будь ласка пам'ятайте, що перевірка такого Диску Відновлення завжди буде невдалою. Щоб створити новий Диск Відновлення повністю сумісний з вашою поточною конфігурацією, оберіть 'Система' &gt; 'Створити Диск Відновлення'.</entry>
-    <entry lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk image has been successfully verified.</entry>
-    <entry lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk image created for a different master key, password, salt, etc., please note that such Rescue Disk image will always fail this verification. To create a new Rescue Disk image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</entry>
+    <entry lang="uk" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">Obraz диска відновлення VeraCrypt успішно пройшов перевірку.</entry>
+    <entry lang="uk" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">Перевірка образу диска відновлення не вдалася.\n\nЯкщо ви спробували перевірити образ диска відновлення VeraCrypt, створений для іншого головного ключа, пароля, солі тощо, зверніть увагу, що такий образ диска відновлення завжди провалює цю перевірку. Щоб створити новий образ диска відновлення, який повністю сумісний з вашою поточною конфігурацією, оберіть «Система» > «Створити диск відновлення».</entry>
     <entry lang="uk" key="ERROR_CREATING_RESCUE_DISK">Помилка створення Диску Відновлення VeraCrypt.</entry>
     <entry lang="uk" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">Диск відновлення VeraCrypt неможна створити при запущеній прихованій операційній системі.\n\nЩоб створити диск відновлення, завантажте підставну операційну систему, а потім виберіть 'Система' &gt; 'Створити диск відновлення'.</entry>
     <entry lang="uk" key="RESCUE_DISK_CHECK_FAILED">Неможливо перевірити чи коректно записано Диск Відновлення.\n\nЯкщо у вас є записаний Диск Відновлення, будь ласка, вставте в CD/DVD; потім натисніть 'Далі' для наступної спроби. Якщо це не допоможе, будь ласка спробуйте іншу CD/DVD-записувальну програму та/або носій.%s\n\nЯкщо у вас ще немає записаного Диску Відновлення, будь ласка, запишіть його та потім натисніть 'Далі'.\n\nЯкщо ви захочете перевірити Диск Відновлення VeraCrypt, створений перед запуском цього майстра, будь ласка памятайте, що такий Диск Відновлення не можна використовувати, тому що він створений з іншим головним ключем. Вам потрібно записати заново створений Диск Відновлення.</entry>
@@ -1044,7 +1044,7 @@
     <entry lang="uk" key="CONFIRM_EXIT_UNIVERSAL">Завершити роботу?</entry>
     <entry lang="uk" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt не має достатньої інформації, щоб визначитись, чи зашифровувати, чи розшифровувати.</entry>
     <entry lang="uk" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt не має достатньої інформації, щоб визначитись, чи зашифровувати, чи розшифровувати.\n\nПам'ятайте: якщо ви розшифровували системний розділ/пристрій у передзавантажувальному оточенні, можливо вам потрібно завершити цей процес, натиснувши 'Розшифрувати'.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Примітка: коли ви шифруєте несистемний розділ/том за місцем і помилка постійно заважає вам завершити процес, ви не зможете монтувати том (і отримати доступ до даних, збережених на ньому), поки повністю не РОЗШИФРУЄТЕ том (тобто не скасуєте процес).\n\nЯкщо вам потрібно це зробити, виконайте наступні кроки:\n1) Вийдіть з цього майстра.\n2) У головному вікні VeraCrypt виберіть «Томи» &gt; «Відновити перерваний процес».\n3) Виберіть «Розшифрувати».</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">Ви хочете перерватиь процес шифрування розділу/тому, відклавши його на майбутє?\n\nПримітка: памятайте, що поки том не буде повністю зашифрований, його неможливо монтувати. пізніше процес шифрування можна буде поновити з того місця де він був зупинений. Це можна зробити, наприклад, вибравши команду 'Томи' &gt; 'Продщовжити перерваний процес' в меню головного вікна VeraCrypt.</entry>
     <entry lang="uk" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">Ви бажаєте припинити та відкласти шифрування системного розділу/пристрою?\n\nПам'ятайте: ви можете припинити процес та продовжити з моменту зупинки. Зробити це можна, наприклад, обравши 'Система' &gt; 'Продовжити припинений процес' зі строки меню головного вікна VeraCrypt. Якщо ви бажаєте повністю зупинити або повернути процес шифрування, оберіть 'Система' &gt; 'Назавжди розшифрувати системний розділ/пристрій'.</entry>
     <entry lang="uk" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">Ви бажаєте припинити та відкласти розшифрування системного розділу/пристрою?\n\nПам'ятайте: ви можете припинити процес та продовжити з моменту зупинки. Зробити це можна, наприклад, обравши 'Система' &gt; 'Продовжити припинений процес' зі строки меню головного вікна VeraCrypt. Якщо ви бажаєте повністю зупинити або повернути процес розшифрування, оберіть 'Система' &gt; 'Зашифрувати системний розділ/пристрій...'.</entry>
@@ -1054,7 +1054,7 @@
     <entry lang="uk" key="FAILED_TO_START_WIPING">Помилка! Неможливо почати процес очищення (видалення даних).</entry>
     <entry lang="uk" key="INCONSISTENCY_RESOLVED">Несумісність рішення.\n\n\n(якщо ви повідомляєте про помилку, будь ласка, додайте наступну технічну інформацію до повідомлення про помилку: %hs)</entry>
     <entry lang="uk" key="UNEXPECTED_STATE">Помилка! Невідомий стан.\n\n\n(Якщо ви повідомите про помилку, будь ласка, додайте наступну технічну інформацію до повідомлення про помилку: %hs)</entry>
-    <entry lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</entry>
+    <entry lang="uk" key="NO_SYS_ENC_PROCESS_TO_RESUME">Немає перерваного процесу шифрування/розшифрування системного розділу/диска для відновлення.\n\nПримітка: Якщо ви хочете відновити перерваний процес шифрування/розшифрування несистемного розділу/тому, виберіть «Томи» &gt; «Відновити перерваний процес».</entry>
     <entry lang="uk" key="HIDVOL_PROT_BKG_TASK_WARNING">УВАГА: фоновий процес VeraCrypt вимкнений. При виході з VeraCrypt ви не будете попереджені про запобігання пошкодження прихованого тому.\n\nПам'ятайте: фоновий процес можна завершити у будь-який момент, натиснувши правою кнопкою миші на значок VeraCrypt у системному треї й обравши пункт 'Вихід'.\n\nВвімкнути фоновий процес VeraCrypt?</entry>
     <entry lang="uk" key="LANG_PACK_VERSION">Версія мовного модулю: %s</entry>
     <entry lang="uk" key="CHECKING_FS">Перевірка файлової системи тому VeraCrypt, змонтованого як %s...</entry>
@@ -1079,7 +1079,7 @@
     <entry lang="uk" key="SYS_LOADER_RESTORE_FAILED">Помилка відновлення початкового завантажувача системи.\n\nВикористовується інсталяційний диск Windows, щоб замінити завантажувач VeraCrypt системний завантажувач Windows.</entry>
     <entry lang="uk" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Вихідний системний завантажувач не буде збережений на диску відновлення (можлива причина: немає файлу з резервної копією).</entry>
     <entry lang="uk" key="ERROR_MBR_PROTECTED">Помилка записи сектора MBR.\n\nBIOS в вашем ПК может быть настроена на защиту сектора MBR. Проверьте в настройках BIOS (нажмите клавишу F2, Delete или Esc сразу после включения комп'ютера), не включена ли антивирусная/MBR защита.</entry>
-    <entry lang="en" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">WARNING: The verification of VeraCrypt bootloader fingerprint failed!\nYour disk may have been tampered with by an attacker ("Evil Maid" attack).\n\nThis warning can also be triggered if you restored VeraCrypt boot loader using an Rescue Disk generated using a different VeraCrypt version.\n\nYou are advised to change your password immediately which will also restore the correct VeraCrypt bootloader. It is recommended to reinstall VeraCrypt and to take measures to avoid access to this machine by untrusted entities.</entry>
+    <entry lang="uk" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">ПОПЕРЕДЖЕННЯ: Перевірка відбитка завантажувача VeraCrypt не вдалася!\nВаш диск може бути підроблений зловмисником (атака "Evil Maid").\n\nЦе попередження також може з’явитися, якщо ви відновили завантажувач VeraCrypt за допомогою диска відновлення, створеного за допомогою іншої версії VeraCrypt.\n\nРекомендується негайно змінити пароль, що також відновить правильний завантажувач VeraCrypt. Рекомендується перевстановити VeraCrypt та вжити заходів для уникнення доступу до цього пристрою ненадійних осіб.</entry>
     <entry lang="uk" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">Завантажувач VeraCrypt (Boot Loader) потрібної версії зараз не встановлений. Це може перешкодити збереженню ряду налаштувань</entry>
     <entry lang="uk" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">Примітка: в певних ситуаціях може знадобитися, щоб сторонній (ворог), спостерігали за стартом ПК, не знав, що ви користуєтесь VeraCrypt. Параметри вище дозволяють модифіковані екран завантаження VeraCrypt. Якщо Ви включите першу опцію, то на екрані завантажувача не буде відображатися ніякої текст (навіть якщо ви введете неправильний пароль). При введенні пароля комп'ютер буде виглядати "завислих". Крім того, щоб ввести супротивника в оману, можна включити висновок свого повідомлення. Наприклад, відображати помилкові повідомлення про помилки на кшталт "Missing operating system" (ця напис зазвичай виводиться завантажників Windows, якщо він не може знайти завантажувальний розділ Windows). Однак при цьому важливо пам'ятати, що якщо ворог зможе проаналізувати вміст жорсткого диска, то він зуміє знайти на ньому завантажувач VeraCrypt.</entry>
     <entry lang="uk" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">УВАГА: Будь ласка, майте на увазі, що якщо Ви включите цю опцію, VeraCrypt Завантажувач не буде відображати будь-які тексти (навіть коли ви вводите неправильний пароль). Комп'ютер виявиться "замороженим" (не працює), тоді як ви можете ввести свій пароль (курсор не буде рухатися і зірочки не буде відображатися при натисканні клавіш).\n\nВи дійсно хочете включити цю опцію?</entry>
@@ -1101,10 +1101,10 @@
     <entry lang="uk" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nДодатковий завантажувальний розділ можна видалити до встановлення Windows. Для цього виконайте наступні дії:\n\n1) Завантажте Windows з інсталяційного компакт-диска.\n\n2) На екрані встановлення Windows натисніть 'Install now' &gt; 'Custom (advanced)'.\n\n3) Натисніть 'Drive Options'.\n\n4) Виберіть основний системний розділ і видаліть його, натиснувши 'Delete' та 'OK'.\n\n5) Виберіть розділ 'System Reserved', натисніть 'Extend' і збільшіть його розмір відповідно до встановлюваної ОС.\n\n6) Натисніть 'Apply' і 'OK'.\n\n7) Встановіть Windows у розділ 'System Reserved'.\n\n\nЯкщо ворог запитає вас, навіщо ви видалили додатковий завантажувальний розділ, ви можете відповісти, що хотіли запобігти можливості витоку даних у незашифрований завантажувальний розділ.\n\n!! Щоб роздрукувати цей текст, натисніть кнопку 'Друк' нижче. Якщо ви збережете або роздрукуєте копію цього тексту (це рекомендується зробити, якщо тільки ваш принтер не зберігає копії завдань на своєму внутрішньому накопичувачі), то після видалення додаткового завантажувального розділу всі копії цього тексту слід знищити (інакше якщо таку копію виявлять, це може навести на думку про наявність в ПК прихованої ОС).</entry>
     <entry lang="uk" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Увага! Між системним розділом і першим розділом за ним є нерозподілене місце. Після створення прихованої операційної системи ви не повинні створювати в цій нерозподіленій області жодних нових розділів. В іншому випадку прихована ОС не зможе завантажитися (до тих пір, поки не будуть вилучені такі знову створені розділи).</entry>
     <entry lang="uk" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">У даний момент цей алгоритм для шифрування системи не підтримується.</entry>
-    <entry lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</entry>
-    <entry lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</entry>
-    <entry lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</entry>
-    <entry lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</entry>
+    <entry lang="uk" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Цей алгоритм не підтримується в режимі TrueCrypt.</entry>
+    <entry lang="uk" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Персональний множник ітерацій) не підтримується в режимі TrueCrypt.</entry>
+    <entry lang="uk" key="PIM_REQUIRE_LONG_PASSWORD">Пароль повинен містити 20 або більше символів для використання вказаного PIM.\nКоротші паролі можна використовувати лише якщо PIM становить 485 або більше.</entry>
+    <entry lang="uk" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Пароль автентифікації до завантаження повинен містити 20 або більше символів для використання вказаного PIM.\nКоротші паролі можна використовувати лише якщо PIM становить 98 або більше.</entry>
     <entry lang="uk" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">В даний момент ключові файли для шифрування системи не підтримуються.</entry>
     <entry lang="uk" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Увага! VeraCrypt не може відновити первісну розкладку клавіатури. Це може призвести до неправильного введення пароля.</entry>
     <entry lang="uk" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Помилка! Неможливо встановити розкладку клавіатури для VeraCrypt в стандартну американську (US).\n\nЗверніть увагу, що пароль вводиться ДО завантаження Windows, коли будь-які розкладки клавіатури, що відрізняються від американської, ще недоступні. Тому пароль завжди повинен вводиться при стандартній американської розкладці.</entry>
@@ -1189,7 +1189,7 @@
     <entry lang="uk" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">Попередній тест успішно завершено.\n\nУВАГА: Якщо під час шифрування станеться збій живлення або з-за програмної/апаратної помилки зависне операційна система, в той час, як VeraCrypt шифрує наявні дані 'на місці', деякі дані майже напевно виявляться пошкодженими або загубленими. Тому, перш ніж почати шифрування, переконайтеся, що зробили резервну копію файлів, які збираєтеся зашифрувати. Якщо ні, то зробіть це зараз (натисніть 'Відкласти', скопіюйте файли, а потім у будь-який час знову запустіть VeraCrypt, виберіть 'Система' &gt; 'Відновити перерваний процес', щоб розпочати шифрування).\n\nКогда будете готові, натисніть 'шифрація', щоб приступити до шифрування.</entry>
     <entry lang="uk" key="SYSENC_ENCRYPTION_PAGE_INFO">Ви можете в будь-який момент натиснути 'Пауза' або 'Відкласти', перервавши (де) шифрування, вийти з цього майстра, перезавантажити або вимкнути ПК, а потім продовжити процес (він відновиться з тієї точки, де був призупинений). Для запобігання уповільнення, коли система або програми виконують читання або запис на системному диску, VeraCrypt чекає, поки дані будуть записані або прочитано (див. Статус вище), а потім продовжує (де) шифрування.</entry>
     <entry lang="uk" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\nВи можете в будь-який момент натиснути 'Пауза' або 'Відкласти', перервавши шифрування, вийти з цього майстра, перезавантажити або вимкнути ПК, а потім продовжити процес (він відновиться з тієї точки, де був призупинений). Врахуйте, що тому не може бути змонтований, поки не буде повністю зашифровано.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</entry>
+    <entry lang="uk" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nВи можете натиснути «Призупинити» або «Відкласти» в будь-який момент, щоб перервати процес розшифрування, вийти з цього майстра, перезавантажити або вимкнути комп’ютер, і потім продовжити процес, який продовжиться з місця, де він був зупинений. Зверніть увагу, що том не можна монтувати, поки він не буде повністю розшифрований.</entry>
     <entry lang="uk" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">Прихована система запущена</entry>
     <entry lang="uk" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">Вихідна система</entry>
     <entry lang="uk" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows створює (зазвичай без вашого відома або згоди) різні файли звітів, тимчасові файли і т.п. на системному розділі. Крім того, там же вона зберігає вміст ОЗП для сну/гібернаціі та файли підкачки. Тому якщо ворог проаналізує файли на розділі з вихідною системою (клоном якої є прихована ОС), він може дізнатися, наприклад, що ви користувалися майстром VeraCrypt в режимі створення прихованої системи (і запідозрити наявність прихованої ОС у вашому ПК).\n\nЩоб це запобігти, на наступних етапах VeraCrypt надійно знищить всі вміст розділу, де знаходиться вихідна система. Потім для правдоподобно заперечення вам буде потрібно встановити в розділ нову систему і зашифрувати її. Таким чином ви створите обманним ОС, і на цьому процес створення прихованої ОС буде завершено.</entry>
@@ -1246,8 +1246,8 @@
     <entry lang="uk" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">Ви обрали системний розділ/пристрій, але обраний режим Майстра застосовується лише для несистемних пристроїв.\n\nВи бажаєте встановити початкову аутентифікацію (що означає необхідність введення паролю щоразу перед запуском Windows) та зашифрувати цей системний розділ/пристрій?</entry>
     <entry lang="uk" key="CONFIRM_DECRYPT_SYS_DEVICE">Ви дійсно бажаєте назавжди розшифрувати системний розділ/пристрій?</entry>
     <entry lang="uk" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">ОБЕРЕЖНО: якщо ви назавжди розшифруєте системний розділ/пристрій, на ньому буде записано незашифровані дані.\n\nВи дійсно бажаєте назавжди розшифрувати системний розділ/пристрій?</entry>
-    <entry lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</entry>
-    <entry lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">CAUTION: If you permanently decrypt the VeraCrypt volume, unencrypted data will be written to the disk.\n\nAre you really sure you want to permanently decrypt the selected volume?</entry>
+    <entry lang="uk" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Ви впевнені, що хочете назавжди розшифрувати наступний том?</entry>
+    <entry lang="uk" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">УВАГА: Якщо ви назавжди розшифруєте том VeraCrypt, незашифровані дані будуть записані на диск.\n\nВи дійсно впевнені, що хочете назавжди розшифрувати вибраний том?</entry>
     <entry lang="uk" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">УВАГА! При використанні каскадних шифрів для шифрування системи ви можете зіткнутися з наступними проблемами:\n\n1) Завантажувач VeraCrypt більше, ніж стандартний, тому в першому циліндрі диска недостатньо місця для резервного копіювання завантажувача. Відповідно, якщо він буде пошкоджений (що часто трапляється, наприклад, при неякісно реалізованих анти-піратських процедурах активації деяких програм), для завантаження або ремонту завантажувача VeraCrypt вам знадобиться диск відновлення (VeraCrypt Rescue Disk).\n\n2) При підвищиних вимогах до памяті, на деяких комп'ютерах системний розділ/диск зашифрувати неможливо.\n\n3) Вихід із стану сну на деяких комп'ютерах триває довше ніж звичайно.\n\nЦих потенційних проблем можливо уникнути, якщо выбрати не-каскадний алгоритм шифрування (наприклад, AES).\n\nВи дійсно хочете використовувати каскадне шифрування?</entry>
     <entry lang="uk" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">Якщо вам трапилась якась проблема з попередньо згаданих, розшифруйте розділ/пристрій (якщо він зашифрований) та спробуйте зашифрувати його знову, використовуючи не-каскадний алгоритм шифрування (наприклад AES).</entry>
     <entry lang="uk" key="UPDATE_TC_IN_DECOY_OS_FIRST">УВАГА: В цілях безпеки і надійності, вам потрібно оновити VeraCrypt в підставній операційній системі, перед тимяк як ви оновите його в прихованій ОС.\n\nЩоб це зробити, заавнтажте підставну ОС і запустіть в ній інсталятор VeraCrypt. Потім завантажте приховану систему і знову запустіть інсталятор.\n\nПримітка: підставна і прихована системи використовують один і той самий завантажувач. Якщо ви оновите VeraCrypt тільки на прихованій системі (но не на підставній), в підставній системі можуть залишитися драйвер і додаток VeraCrypt, чиї версії будуть відрізнятися від версії завантажувача VeraCrypt. Така різниця може свідчити про присутність в даному ПК прихованої операційної системи.\n\n\nХочете продовжити? (Не рекомендується.)</entry>
@@ -1263,7 +1263,7 @@
     <entry lang="uk" key="ENABLE_BAD_SECTOR_ZEROING">Помилка: Не вдається прочитати один чи декілька секторів на диску.\n\nШифрування 'на місці' може бути продовжено, тільки коли сектори знову будуть доступні для чтитання. VeraCrypt може спробувати зробити ці сектори читаючими шляхом запису в них нулів (всі нулі блоки будуть зашифровані). При цьому, однак, дані в нечитаючих секторах будуть втрачені. Якщо ви хочете цього уникнути, попробуйте відновити пошкоджені данні (ігноруючи помилки контрольних сум) з допомогою відповідних програм сторонніх фірм.\n\nПримітка: якщо сектори пошкоджені фізично (в відмінності від простого порчення данних і помилок контрольних сум), більшість пристрої зберігання інформації внутрішньо перерозприділяють сектори при спробі записати в них дані (тому поточні дані в пошкоджених секторах можуть залишатися на диску незашифрованими).\n\nХочете, щоб VeraCrypt запвнив нулями нечитаючі сектори?</entry>
     <entry lang="uk" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">ПОМИЛКА: Неможливо прочитати вміст одного або декількох секторів диску (ймовірно, через фізичний дефект).\n\nПродовжити шифрування, VeraCrypt відкине вміст нечитаних секторів (воно буде замінено псевдовипадковими даними). Перш ніж продовжити, ви можете спробувати хоча б частково відновити пошкоджені дані за допомогою відповідних програм сторонніх розробників.\n\nБажаєте, щоб VeraCrypt відкинув зараз дані в нечитаних секторах?</entry>
     <entry lang="uk" key="ZEROED_BAD_SECTOR_COUNT">Примітка: VeraCrypt замінив вміст %I64d нечитаючих секторів (%s) зашифрованими блоками із звичайним нулювим текстом.</entry>
-    <entry lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</entry>
+    <entry lang="uk" key="SKIPPED_BAD_SECTOR_COUNT">Примітка: VeraCrypt замінив вміст %I64d нерозбірливих секторів (%s) псевдовипадковими даними.</entry>
     <entry lang="uk" key="ENTER_TOKEN_PASSWORD">Введіть пароль/PIN для токену '%s':</entry>
     <entry lang="uk" key="PKCS11_LIB_LOCATION_HELP">Щоб забезпечити VeraCrypt доступ до токена безпеки чи смарт-карті, зпочатку потрібно встановитв програмну бібліотеку PKCS #11 для токену або смарт-карти. Ця бібліотека може поставлятися разом з пристроєм або знаходиться на сайті постачальника або сторонньої фірми.\n\nВстановивше бібліотеку, ви можете або выбрати її вручну, нажавши  'Бібліотека', або дозволити VeraCrypt найти її автоматично, натиснувши 'Автовизначення бібліотеки' (пошук виконується тільки в системній теці Windows).</entry>
     <entry lang="uk" key="SELECT_PKCS11_MODULE_HELP">Примітка: ім'я і розташування файлу бібліотеки PKCS #11 для токена або смарт-карти див. в документації до токена, смарт-карти чи ПЗ сторонніх фірм.\n\nНатисніть 'OK', щоб вибрати шлях і ім'я файла.</entry>
@@ -1308,7 +1308,7 @@
     <entry lang="uk" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">УВАГА: Цей параметр може знизити продуктивність.\n\nвикористовувати цей параметр?</entry>
     <entry lang="uk" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Увага: VeraCrypt авто-розмонтував пристрої</entry>
     <entry lang="uk" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Перед тим, як фізично видалити або відключити пристрій, що містить встановлений обсяг, ви повинні демонтувати спершу том VeraCrypt.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
-    <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
+    <entry lang="uk" key="UNSUPPORTED_TRUECRYPT_FORMAT">Цей том був створений за допомогою TrueCrypt %x.%x, але VeraCrypt підтримує лише томи TrueCrypt, створені за допомогою версій TrueCrypt 6.x/7.x</entry>
     <entry lang="uk" key="TEST">Тест</entry>
     <entry lang="uk" key="KEYFILE">Файл-ключ</entry>
     <entry lang="uk" key="VKEY_08">Backspace</entry>
@@ -1377,270 +1377,270 @@
     <entry lang="uk" key="TB_PER_SEC">Тб/с</entry>
     <entry lang="uk" key="PB_PER_SEC">Пб/с</entry>
     <entry lang="uk" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</entry>
-    <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</entry>
-    <entry lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</entry>
-    <entry lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</entry>
-    <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds %d bytes.</entry>
-    <entry lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</entry>
-    <entry lang="en" key="INIT_DLL">Error: Failed to load a system library.</entry>
-    <entry lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</entry>
-    <entry lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</entry>
-    <entry lang="en" key="IDT_VOLUME_ID">Volume ID:</entry>
-    <entry lang="en" key="VOLUME_ID">Volume ID</entry>
-    <entry lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</entry>
-    <entry lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</entry>
-    <entry lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</entry>
-    <entry lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</entry>
-    <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</entry>
-    <entry lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</entry>
-    <entry lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</entry>
-    <entry lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</entry>
-    <entry lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</entry>
-    <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</entry>
-    <entry lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</entry>
-    <entry lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</entry>
-    <entry lang="en" key="TIME">Time</entry>
-    <entry lang="en" key="ITERATIONS">Iterations</entry>
-    <entry lang="en" key="PRE-BOOT">Pre-Boot</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' &gt; 'Create Rescue Disk'.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly created.</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</entry>
-    <entry lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</entry>
-    <entry lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</entry>
-    <entry lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</entry>
-    <entry lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</entry>
-    <entry lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</entry>
-    <entry lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</entry>
-    <entry lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</entry>
+    <entry lang="uk" key="IDC_BOOT_LOADER_CACHE_PIM">Включити &amp;PIM при кешуванні пароля передзавантажувальної автентифікації</entry>
+    <entry lang="uk" key="IDC_PREF_CACHE_PIM">Включити PIM при кешуванні пароля</entry>
+    <entry lang="uk" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Зробити відключені мережеві диски доступними для монтування</entry>
+    <entry lang="uk" key="PASSWORD_UTF8_TOO_LONG">Введений пароль занадто довгий: його подання в UTF-8 перевищує %d байтів.</entry>
+    <entry lang="uk" key="PASSWORD_UTF8_INVALID">Введений пароль містить символи Unicode, які не вдалося перетворити на подання в UTF-8.</entry>
+    <entry lang="uk" key="INIT_DLL">Помилка: Не вдалося завантажити системну бібліотеку.</entry>
+    <entry lang="uk" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Розмір файлу тому, вказаний у командному рядку, несумісний з вибраною файловою системою exFAT.</entry>
+    <entry lang="uk" key="IDT_ENTROPY_BAR">Зібраність випадковості при рухах миші</entry>
+    <entry lang="uk" key="IDT_VOLUME_ID">ID тому:</entry>
+    <entry lang="uk" key="VOLUME_ID">ID тому</entry>
+    <entry lang="uk" key="IDC_FAVORITE_USE_VOLUME_ID">Використовувати ID тому для монтування вибраного</entry>
+    <entry lang="uk" key="VOLUME_ID_INVALID">Значення ID тому є недійсним</entry>
+    <entry lang="uk" key="VOLUME_ID_NOT_FOUND">На системі не знайдено тому з вказаним ID</entry>
+    <entry lang="uk" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Копіювати значення до буфера обміну...</entry>
+    <entry lang="uk" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Не запитувати PIM на екрані передзавантажувальної автентифікації (значення PIM зберігається не зашифрованим на диску)</entry>
+    <entry lang="uk" key="DISABLE_BOOT_LOADER_PIM_PROMPT">ПОПЕРЕДЖЕННЯ: Будь ласка, майте на увазі, що якщо ви ввімкнете цю опцію, значення PIM буде зберігатися на диску без шифрування.\n\nВи впевнені, що хочете ввімкнути цю опцію?</entry>
+    <entry lang="uk" key="PIM_TOO_BIG">Максимальне значення особистого множника ітерацій (PIM) становить 2147468.</entry>
+    <entry lang="uk" key="IDC_SKIP_RESCUE_VERIFICATION">Пропустити перевірку рятувального диска</entry>
+    <entry lang="uk" key="IDC_HIDE_WAITING_DIALOG">Не показувати діалогове вікно очікування під час виконання операцій</entry>
+    <entry lang="uk" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Не запитувати хеш-алгоритм на екрані передзавантажувальної автентифікації</entry>
+    <entry lang="uk" key="KUZNYECHIK_HELP">Kuznyechik – це алгоритм блочного шифрування, вперше опублікований у 2015 році та визначений у національному стандарті Російської Федерації ГОСТ Р 34.12-2015, а також у RFC 7801. 256-бітний ключ, блок 128 біт. Режим роботи – XTS.</entry>
+    <entry lang="uk" key="CAMELLIA_HELP">Спільно розроблений Mitsubishi Electric та NTT of Japan. Вперше опублікований у 2000 році. 256-бітний ключ, блок 128 біт. Режим роботи – XTS. Він був схвалений для використання ISO/IEC, проектом NESSIE Європейського Союзу та проектом CRYPTREC Японії.</entry>
+    <entry lang="uk" key="TIME">Час</entry>
+    <entry lang="uk" key="ITERATIONS">Ітерації</entry>
+    <entry lang="uk" key="PRE-BOOT">Передзавантаження</entry>
+    <entry lang="uk" key="RESCUE_DISK_EFI_INFO">Перш ніж ви зможете зашифрувати розділ, ви повинні створити рятувальний диск VeraCrypt (VRD), який призначено для наступних цілей:\n\n- Якщо завантажувач VeraCrypt, головний ключ або інші критичні дані пошкоджено, VRD дозволяє відновити їх (однак зауважте, що вам все одно доведеться ввести правильний пароль).\n\n- Якщо Windows буде пошкоджено і не зможе запуститися, VRD дозволить вам назавжди дешифрувати розділ перед початком завантаження Windows.\n\n- VRD міститиме резервну копію поточного завантажувача EFI і дозволить відновити його за необхідності.\n\nОбраз ZIP рятувального диска VeraCrypt буде створено в зазначеному нижче місці.</entry>
+    <entry lang="uk" key="RESCUE_DISK_EFI_EXTRACT_INFO">Образ ZIP рятувального диска створено та збережено у цьому файлі:\n%s\n\nТепер вам потрібно витягти його на USB-накопичувач, відформатований у FAT/FAT32.\n\n%lsПісля створення рятувального диска натисніть Далі, щоб переконатися, що його створено правильно.</entry>
+    <entry lang="uk" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">Образ ZIP рятувального диска створено і збережено у цьому файлі:\n%s\n\nТепер вам слід або витягти образ на USB-накопичувач, відформатований у FAT/FAT32, або перемістити його в безпечне місце для подальшого використання.\n\n%lsНатисніть Далі, щоб продовжити.</entry>
+    <entry lang="uk" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">ВАЖЛИВО: Зверніть увагу, що файл zip має бути витягнутий безпосередньо в корінь USB-накопичувача. Наприклад, якщо літера диска USB-накопичувача E:, то розпакування zip-файлу повинно створити папку E:\\EFI на USB-накопичувачі.\n\n</entry>
+    <entry lang="uk" key="RESCUE_DISK_EFI_CHECK_FAILED">Не вдається перевірити, чи було правильно витягнуто рятувальний диск.\n\nЯкщо ви витягли рятувальний диск, будь ласка, витягніть і вставте USB-накопичувач; потім натисніть Далі, щоб спробувати ще раз. Якщо це не допоможе, спробуйте інший USB-накопичувач та/або інше програмне забезпечення для роботи з ZIP.\n\nЯкщо ви ще не витягли рятувальний диск, будь ласка, зробіть це, а потім натисніть Далі.\n\nЯкщо ви намагалися перевірити рятувальний диск VeraCrypt, створений до початку цього майстра, зверніть увагу, що такий рятувальний диск не можна використовувати, оскільки він був створений для іншого головного ключа. Вам потрібно витягти новостворений образ ZIP рятувального диска.</entry>
+    <entry lang="uk" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Не вдається перевірити, чи було правильно витягнуто рятувальний диск.\n\nЯкщо ви витягли образ рятувального диска на USB-накопичувач, будь ласка, витягніть його і вставте знову; потім спробуйте ще раз. Якщо це не допоможе, спробуйте інше програмне забезпечення для ZIP та/або інший носій.\n\nЯкщо ви намагалися перевірити рятувальний диск VeraCrypt, створений для іншого головного ключа, пароля, солі тощо, зверніть увагу, що такий рятувальний диск завжди не пройде цю перевірку. Щоб створити новий рятувальний диск, повністю сумісний з вашою поточною конфігурацією, виберіть «Система» &gt; «Створити рятувальний диск».</entry>
+    <entry lang="uk" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Образ рятувального диска створено та збережено у цьому файлі:\n%s\n\nТепер вам потрібно витягти образ рятувального диска на USB-накопичувач, відформатований у FAT/FAT32.\n\nВАЖЛИВО: Зверніть увагу, що файл zip має бути витягнутий безпосередньо в корінь USB-накопичувача. Наприклад, якщо літера диска USB-накопичувача E:, то розпакування zip-файлу повинно створити папку E:\\EFI на USB-накопичувачі.\n\nПісля створення рятувального диска виберіть «Система» &gt; «Перевірити рятувальний диск», щоб переконатися, що його створено правильно.</entry>
+    <entry lang="uk" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Використовувати безпечний робочий стіл для введення пароля</entry>
+    <entry lang="uk" key="ERR_REFS_INVALID_VOLUME_SIZE">Розмір файлу тому, вказаний у командному рядку, несумісний з вибраною файловою системою ReFS.</entry>
+    <entry lang="uk" key="IDC_EDIT_DCSPROP">Редагувати конфігурацію завантажувача</entry>
+    <entry lang="uk" key="IDC_SHOW_PLATFORMINFO">Відобразити інформацію про платформу EFI</entry>
+    <entry lang="uk" key="BOOT_LOADER_CONFIGURATION_FILE">Файл конфігурації завантажувача</entry>
+    <entry lang="uk" key="EFI_PLATFORM_INFORMATION">Інформація про платформу EFI</entry>
+    <entry lang="uk" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">ПОПЕРЕДЖЕННЯ: Недосвідчені користувачі ніколи не повинні намагатися вручну редагувати конфігурацію завантажувача.\n\nПродовжити?</entry>
+    <entry lang="uk" key="DCSPROP_XML_VALIDATION_FAILED">ПОПЕРЕДЖЕННЯ: Не вдалося перевірити формат XML конфігурації завантажувача. Будь ласка, перевірте свої зміни.</entry>
     <entry lang="uk" key="IDT_ADVANCED_OPTIONS">Розширені Параметри</entry>
-    <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' &gt; 'Create Rescue Disk'.\nDo you want to do it now?</entry>
-    <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
-    <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
-    <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
-    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
-    <entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is %d characters</entry>
-    <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of %d characters.\nNo additional character is allowed.</entry>
+    <entry lang="uk" key="AFTER_UPGRADE_RESCUE_DISK">Настійно рекомендується створити новий диск відновлення VeraCrypt (який міститиме нову версію завантажувача VeraCrypt) за допомогою вибору «Система» &gt; «Створити диск відновлення».\nВи хочете зробити це зараз?</entry>
+    <entry lang="uk" key="IDC_ALLOW_TRIM_NONSYS_SSD">Дозволити команду TRIM для несистемного розділу/диску SSD</entry>
+    <entry lang="uk" key="IDC_BLOCK_SYSENC_TRIM">Блокувати команду TRIM на системному розділі/диску</entry>
+    <entry lang="uk" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ПОМИЛКА: Завантажувач Windows EFI не вдалося знайти на диску. Операцію буде припинено.</entry>
+    <entry lang="uk" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Зараз неможливо зашифрувати систему, якщо ввімкнено SecureBoot і спеціальні ключі VeraCrypt не завантажено у мікропрограму машини. SecureBoot потрібно вимкнути в конфігурації BIOS, щоб дозволити шифрування системи.</entry>
+    <entry lang="uk" key="PASSWORD_PASTED_TRUNCATED">Вставлений текст обрізано, оскільки максимальна довжина пароля становить %d символів</entry>
+    <entry lang="uk" key="PASSWORD_MAXLENGTH_REACHED">Пароль уже досяг своєї максимальної довжини %d символів.\nНе дозволено жодного додаткового символу.</entry>
     <entry lang="uk" key="IDC_SELECT_LANGUAGE_LABEL">Виберіть мову, яка буде використовуватися під час встановлення:</entry>
-    <entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
-    <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>
-    <entry lang="en" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNING: Defragmenting non-system partitions/drives may leak metadata about their content or cause issues with hidden volumes they may contain.\n\nContinue?</entry>
-    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
-    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
-    <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
-    <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
-    <entry lang="en" key="STARTING">Starting</entry>
-    <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
-    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
-    <entry lang="en" key="IDC_ENABLE_RAM_ENCRYPTION">Activate encryption of keys and passwords stored in RAM</entry>
+    <entry lang="uk" key="VOLUME_TOO_LARGE_FOR_HOST">ПОМИЛКА: Розмір файлу контейнера перевищує доступний вільний простір на диску.</entry>
+    <entry lang="uk" key="IDC_ALLOW_WINDOWS_DEFRAG">Дозволити дефрагментацію несистемного розділу/диска засобом дефрагментації диска Windows</entry>
+    <entry lang="uk" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">ПОПЕРЕДЖЕННЯ: Дефрагментація несистемних розділів/дисків може призвести до витоку метаданих про їхній вміст або спричинити проблеми з прихованими томами, які вони можуть містити.\n\nПродовжити?</entry>
+    <entry lang="uk" key="VIRTUAL_DEVICE">Віртуальний пристрій</entry>
+    <entry lang="uk" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Вибраний змонтований том не пов'язаний з літерою диска в Windows, тому його не можна відкрити в Провіднику Windows.</entry>
+    <entry lang="uk" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Очистити ключі шифрування з пам'яті при вставленні нового пристрою</entry>
+    <entry lang="uk" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">ВАЖЛИВІ НОТАТКИ:\n - Будь ласка, майте на увазі, що цей параметр не зберігається після вимкнення/перезавантаження, тому вам доведеться вибрати його знову наступного разу з початком роботи машини.\n\n - З увімкненим цим параметром і після підключення нового пристрою, машина зависне і зрештою зіб'ється з BSOD, оскільки Windows не може отримати доступ до зашифрованого диска після того, як його ключі очищено з пам'яті.\n</entry>
+    <entry lang="uk" key="STARTING">Запуск</entry>
+    <entry lang="uk" key="IDC_ENABLE_CPU_RNG">Використовувати апаратний генератор випадкових чисел ЦП як додаткове джерело ентропії</entry>
+    <entry lang="uk" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Використовувати максимальну довжину пароля за спадщиною (64 символи)</entry>
+    <entry lang="uk" key="IDC_ENABLE_RAM_ENCRYPTION">Активувати шифрування ключів і паролів, збережених у оперативній пам'яті (RAM)</entry>
     <entry lang="uk" key="IDT_BENCHMARK">Тест швидкості:</entry>
-    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
-    <entry lang="en" key="LEGACY_PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</entry>
-    <entry lang="en" key="HIDDEN_CREDS_SAME_AS_OUTER">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt does not support encrypting a system drive that is already encrypted by BitLocker.</entry>
-    <entry lang="en" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Automatically fix boot configuration issues that may prevent Windows from starting</entry>
-    <entry lang="en" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Force machine to boot on VeraCrypt in the next startup</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Force the presence of VeraCrypt entry in the EFI firmware boot menu</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Force VeraCrypt entry to be the first in the EFI firmware boot menu</entry>
-    <entry lang="en" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNING: RAM encryption is not compatible with Windows Hibernate and Windows Fast Startup features. VeraCrypt needs to disable them before activating RAM encryption.\n\nContinue?</entry>
-    <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
-    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CPLC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPLC data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="uk" key="IDC_DISABLE_MOUNT_MANAGER">Тільки створити віртуальний пристрій без монтування на вибрану літеру диска</entry>
+    <entry lang="uk" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Введений пароль занадто довгий: його подання в UTF-8 перевищує 64 байти.</entry>
+    <entry lang="uk" key="HIDDEN_CREDS_SAME_AS_OUTER">Прихований том не може мати такий самий пароль, PIM і ключові файли, як зовнішній том</entry>
+    <entry lang="uk" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt не підтримує шифрування системного диска, який уже зашифрований BitLocker.</entry>
+    <entry lang="uk" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Автоматично виправляти проблеми конфігурації завантаження, які можуть перешкоджати запуску Windows</entry>
+    <entry lang="uk" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Примусово завантажити машину з VeraCrypt при наступному запуску</entry>
+    <entry lang="uk" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Примусово включити запис VeraCrypt у меню завантаження прошивки EFI</entry>
+    <entry lang="uk" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Примусово зробити запис VeraCrypt першою в меню завантаження прошивки EFI</entry>
+    <entry lang="uk" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">ПОПЕРЕДЖЕННЯ: Шифрування оперативної пам'яті не сумісне з функціями гібернації Windows та швидкого запуску Windows. VeraCrypt потрібно вимкнути їх перед активацією шифрування оперативної пам'яті.\n\nПродовжити?</entry>
+    <entry lang="uk" key="CONFIRM_DISABLE_FAST_STARTUP">ПОПЕРЕДЖЕННЯ: Функція швидкого запуску Windows увімкнена і є відомі проблеми при роботі з томами VeraCrypt. Рекомендується вимкнути її для покращення безпеки та зручності використання.\n\nВи хочете вимкнути швидкий запуск Windows?</entry>
+    <entry lang="uk" key="QUICK_FORMAT_HELP">Щоб ваша операційна система могла монтувати новий том, його потрібно відформатувати файловою системою. Будь ласка, виберіть тип файлової системи.\n\nЯкщо ваш том буде розміщено на пристрої або розділі, ви можете використовувати «Швидке форматування», щоб пропустити шифрування вільного місця на томі.</entry>
+    <entry lang="uk" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Не прискорювати шифрування/дешифрування AES за допомогою інструкцій AES процесора</entry>
+    <entry lang="uk" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Додати всі змонтовані томи до улюблених...</entry>
+    <entry lang="uk" key="TASKICON_PREF_MENU_ITEMS">Пункти меню значка завдання</entry>
+    <entry lang="uk" key="TASKICON_PREF_OPEN_VOL">Відкрити змонтовані томи</entry>
+    <entry lang="uk" key="TASKICON_PREF_DISMOUNT_VOL">Відмонтувати змонтовані томи</entry>
+    <entry lang="uk" key="DISK_FREE">Доступне місце: {0}</entry>
+    <entry lang="uk" key="VOLUME_SIZE_HELP">Будь ласка, вкажіть розмір контейнера для створення. Зверніть увагу, що мінімальний можливий розмір тому становить 292 КіБ.</entry>
+    <entry lang="uk" key="LINUX_CONFIRM_INNER_VOLUME_CALC">ПОПЕРЕДЖЕННЯ: Ви вибрали файлову систему, відмінну від FAT для зовнішнього тому.\nБудь ласка, зауважте, що в цьому випадку VeraCrypt не зможе точно обчислити максимальний допустимий розмір прихованого тому і використовуватиме лише оцінку, яка може бути неточною.\nТаким чином, це ваша відповідальність – використовувати адекватне значення для розміру прихованого тому, щоб він не перекривався з зовнішнім томом.\n\nВи хочете продовжити використання вибраної файлової системи для зовнішнього тому?</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_SECURITY">Безпека</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Опції монтажу</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_BACKGROUND_TASK">Фонова задача</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">Інтеграція з системою</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Провідник файлової системи</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_PERFORMANCE">Продуктивність</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_KEYFILES">Ключові файли</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_TOKENS">Маркер безпеки</entry>
+    <entry lang="uk" key="LINUX_PREF_KERNEL_SERVICES">Сервіси ядра</entry>
+    <entry lang="uk" key="LINUX_PREF_KERNEL_CRYPT">Не використовувати криптографічні сервіси ядра</entry>
+    <entry lang="uk" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Файлова система</entry>
+    <entry lang="uk" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Опції монтажу:</entry>
+    <entry lang="uk" key="LINUX_CROSS_SUPPORT">Кроссплатформна підтримка</entry>
+    <entry lang="uk" key="LINUX_CROSS_SUPPORT_OTHER">Я буду монтувати том на інших платформах</entry>
+    <entry lang="uk" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Увімкніть цей параметр, якщо вам потрібно використовувати том на інших платформах.</entry>
+    <entry lang="uk" key="LINUX_CROSS_SUPPORT_ONLY">Я буду монтувати том тільки на {0}</entry>
+    <entry lang="uk" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Виберіть цей варіант, якщо вам не потрібно використовувати том на інших платформах.</entry>
+    <entry lang="uk" key="LINUX_DESELECT">Зніми виділення</entry>
+    <entry lang="uk" key="LINUX_ADMIN_PW_QUERY">Введіть свій користувацький пароль або пароль адміністратора:</entry>
+    <entry lang="uk" key="LINUX_ADMIN_PW_QUERY_TITLE">Потрібні права адміністратора</entry>
+    <entry lang="uk" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt вже запущено.</entry>
+    <entry lang="uk" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">Пароль шифрування системи довший за {0} символів.</entry>
+    <entry lang="uk" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Монтувати розділ &amp;використовуючи шифрування системи (передзавантажувальна автентифікація)</entry>
+    <entry lang="uk" key="LINUX_DO_NOT_MOUNT">Не монтувати</entry>
+    <entry lang="uk" key="LINUX_MOUNT_AT_DIR">Монтувати в каталог:</entry>
+    <entry lang="uk" key="LINUX_SELECT">Виберіть</entry>
+    <entry lang="uk" key="LINUX_DISMOUNT_ALL_WHEN">Відмонтувати всі томи коли</entry>
+    <entry lang="uk" key="LINUX_ENTERING_POWERSAVING">Система переходить у режим економії енергії</entry>
+    <entry lang="uk" key="LINUX_LOGIN_ACTION">Дії, які потрібно виконати під час входу користувача до системи</entry>
+    <entry lang="uk" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Закрити всі вікна провідника тому, який відмонтовується</entry>
+    <entry lang="uk" key="LINUX_HOTKEYS">Гарячі клавіші</entry>
+    <entry lang="uk" key="LINUX_SYSTEM_HOTKEYS">Системні гарячі клавіші</entry>
+    <entry lang="uk" key="LINUX_SOUND_NOTIFICATION">Відтворити системний звуковий сигнал після монтажу/відмонтажу</entry>
+    <entry lang="uk" key="LINUX_CONFIRM_AFTER_DISMOUNT">Показувати повідомлення про підтвердження після відмонтажу</entry>
+    <entry lang="uk" key="LINUX_VC_QUITS">VeraCrypt виходить</entry>
+    <entry lang="uk" key="LINUX_OPEN_FINDER">Відкрити вікно Finder для успішно змонтованого тому</entry>
+    <entry lang="uk" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Зверніть увагу, що цей параметр набуває чинності лише якщо використання криптографічних служб ядра вимкнено.</entry>
+    <entry lang="uk" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Вимкнення використання криптографічних сервісів ядра може погіршити продуктивність.\n\nВи впевнені?</entry>
+    <entry lang="uk" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Зверніть увагу, що вимкнення цього параметра не матиме ефекту на томи, змонтовані за допомогою криптографічних сервісів ядра.</entry>
+    <entry lang="uk" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Зверніть увагу, що всі томи, які зараз змонтовані, повинні бути перемонтовані перед тим, як вони зможуть використовувати цей параметр.</entry>
+    <entry lang="uk" key="LINUX_UNKNOWN_EXC_OCCURRED">Сталася невідома помилка.</entry>
+    <entry lang="uk" key="LINUX_FIRST_AID">"Утиліта Диска буде запущена після натискання 'OK'.\n\nБудь ласка, виберіть свій том у вікні Утиліти Диска та натисніть кнопку 'Перевірити диск' або 'Відновити диск' на сторінці 'Перша допомога'.</entry>
+    <entry lang="uk" key="LINUX_MOUNT_ALL_DEV">Монтувати всі пристрої</entry>
+    <entry lang="uk" key="LINUX_ERROR_LOADING_CONFIG">Помилка під час завантаження файлів конфігурації, розташованих в </entry>
+    <entry lang="uk" key="LINUX_SELECT_FREE_SLOT">Будь ласка, виберіть вільний слот для диска зі списку.</entry>
+    <entry lang="uk" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nВи хочете показувати це повідомлення наступного разу, коли ви монтуватимете такий том?</entry>
+    <entry lang="uk" key="LINUX_WARNING">Попередження</entry>
+    <entry lang="uk" key="LINUX_ERROR">Помилка</entry>
+    <entry lang="uk" key="LINUX_ONLY_TEXTMODE">Ця функція наразі підтримується лише в текстовому режимі.</entry>
+    <entry lang="uk" key="LINUX_FREE_SPACE_ON_DRIVE">Вільне місце на диску {0}: {1}.</entry>
+    <entry lang="uk" key="LINUX_DYNAMIC_NOTICE">Зверніть увагу, що якщо ваша операційна система не виділяє файли з початку вільного місця, максимальний можливий розмір прихованого тому може бути значно меншим, ніж розмір вільного місця на зовнішньому томі. Це не помилка в VeraCrypt, а обмеження операційної системи.</entry>
+    <entry lang="uk" key="LINUX_MAX_HIDDEN_SIZE">Максимальний можливий розмір прихованого тому для цього тому становить {0}.</entry>
+    <entry lang="uk" key="LINUX_OPEN_OUTER_VOL">Відкрити зовнішній том</entry>
+    <entry lang="uk" key="LINUX_OUTER_VOL_IS_MOUNTED">Зовнішній том було успішно створено та змонтовано як '{0}'. До цього тому тепер слід скопіювати деякі файли, які виглядають конфіденційними, але насправді ви не хочете їх приховувати. Ці файли будуть для тих, хто змусить вас розкрити пароль. Ви розкриєте лише пароль для цього зовнішнього тому, а не для прихованого. Файли, які мають для вас значення, будуть збережені у прихованому томі, який буде створений пізніше. Після завершення копіювання натисніть Далі. Не відмонтовуйте том.\n\nПримітка: Після натискання Далі зовнішній том буде проаналізовано, щоб визначити розмір безперервної області вільного місця, кінець якого вирівняний із кінцем тому. Ця область прийматиме прихований том, тому вона обмежить його максимальний можливий розмір. Процедура гарантує, що дані на зовнішньому томі не будуть перезаписані прихованим томом.</entry>
+    <entry lang="uk" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Помилка: Ви намагаєтеся зашифрувати системний диск.\n\nVeraCrypt може шифрувати системний диск лише під Windows.</entry>
+    <entry lang="uk" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Помилка: Ви намагаєтеся зашифрувати системний розділ.\n\nVeraCrypt може шифрувати системні розділи лише під Windows.</entry>
+    <entry lang="uk" key="LINUX_WARNING_FORMAT_DESTROY_FS">ПОПЕРЕДЖЕННЯ: Форматування пристрою знищить усі дані на файловій системі '{0}'.\n\nВи хочете продовжити?</entry>
+    <entry lang="uk" key="LINUX_MOUNTET_HINT">Файлова система вибраного пристрою наразі змонтована. Будь ласка, відмонтируйте '{0}' перед продовженням.</entry>
+    <entry lang="uk" key="LINUX_HIDDEN_PASS_NO_DIFF">Прихований том не може мати однаковий пароль, PIM і ключові файли, як зовнішній том</entry>
+    <entry lang="uk" key="LINUX_NOT_FAT_HINT">Будь ласка, зверніть увагу, що том не буде відформатовано файловою системою FAT, і тому вам може знадобитися встановити додаткові драйвери файлової системи на інших платформах, окрім {0}, що дозволить вам монтувати том.</entry>
+    <entry lang="uk" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Помилка: прихований том, який буде створено, більший за {0} ТБ ({1} ГБ).\n\nМожливі рішення:\n- Створити контейнер/розділ, менший за {0} ТБ.\n</entry>
+    <entry lang="uk" key="LINUX_MAX_SIZE_HINT">- Використовуйте накопичувач із 4096-байтовими секторами, щоб створити розділи/пристрої, що розміщують приховані томи, розміром до 16 ТБ </entry>
+    <entry lang="uk" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="uk" key="LINUX_NOT_SUPPORTED"> (не підтримується компонентами, доступними на цій платформі).\n</entry>
+    <entry lang="uk" key="LINUX_KERNEL_OLD">Ваша система використовує стару версію ядра Linux.\n\nЧерез помилку в ядрі Linux ваша система може перестати відповідати під час запису даних на томи VeraCrypt. Цю проблему можна вирішити, оновивши ядро до версії 2.6.24 або новішої.</entry>
+    <entry lang="uk" key="LINUX_VOL_DISMOUNTED">Том {0} було відмонтовано.</entry>
+    <entry lang="uk" key="LINUX_VOL_MOUNTED">Том {0} було змонтовано.</entry>
+    <entry lang="uk" key="LINUX_OOM">Закінчилася пам'ять.</entry>
+    <entry lang="uk" key="LINUX_CANT_GET_ADMIN_PRIV">Не вдалося отримати права адміністратора</entry>
+    <entry lang="uk" key="LINUX_COMMAND_GET_ERROR">Команда {0} повернула помилку {1}.</entry>
+    <entry lang="uk" key="LINUX_CMD_HELP">Довідка з командного рядка VeraCrypt</entry>
+    <entry lang="uk" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nПопередження: приховані файли присутні на шляху до ключового файлу. Якщо вам потрібно використовувати їх як ключові файли, видаліть ведучий крапку з їхніх назв файлів. Приховані файли видно лише, якщо увімкнено у параметрах системи.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Невідповідність розміру секторів пристрою збереження та тому VeraCrypt</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Цю операцію необхідно виконувати лише тоді, коли система, розміщена на томі, працює.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_INSUFFICIENTDATA">Недостатньо даних.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Тест криптографічної служби ядра не пройдено. Ймовірно, криптографічна служба вашого ядра не підтримує томи більші за 2 ТБ.\n\nМожливі рішення:\n- Оновіть ядро Linux до версії 2.6.33 або пізнішої.\n- Вимкніть використання криптографічних служб ядра (Налаштування > Переваги > Інтеграція системи) або використовуйте опцію монтування 'nokernelcrypto' у командному рядку.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Не вдалося налаштувати пристрій зворотного зв'язку.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_MISSINGARGUMENT">Відсутній необхідний аргумент.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Дані тому відсутні.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Потрібна точка монтування.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Точка монтування вже використовується.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PASSWORDEMPTY">Не вказано пароль або ключовий файл.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nЗверніть увагу, що паролі автентифікації до завантаження потрібно вводити в середовищі до завантаження, де доступний лише стандартний розклад клавіатури США. Тому паролі автентифікації до завантаження необхідно завжди вводити, використовуючи стандартний розклад клавіатури США (в іншому разі, пароль у більшості випадків буде введений неправильно). Проте зверніть увагу, що для цього вам НЕ потрібна справжня клавіатура США; вам просто потрібно змінити розклад клавіатури в операційній системі.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nПримітка: Якщо ви намагаєтеся змонтувати розділ, розташований на зашифрованому системному диску без автентифікації до завантаження, або змонтувати зашифрований системний розділ операційної системи, яка не працює, ви можете зробити це, вибравши «Параметри > » > «Змонтувати розділ із використанням системного шифрування».</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PASSWORDTOOLONG">Пароль довший ніж {0} символів.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Потрібен пристрій розділу.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Неправильний пароль для захищеного прихованого тому або прихованого тому не існує.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Неправильний(і) ключовий(і) файл(и) та/або пароль для захищеного прихованого тому або прихованого тому не існує.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Виявлено недійсні символи.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Помилка під час аналізу форматованого рядка.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Не вдалося створити файл або каталог у тимчасовому каталозі.\n\nПереконайтеся, що тимчасовий каталог існує, його параметри безпеки дозволяють вам отримати до нього доступ і на диску достатньо місця.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, зовнішні томи, розташовані на диску, не можна змонтувати з використанням захисту прихованого тому.\n\nМожливі рішення:\n- Використовуйте диск із секторами розміром 512 байт.\n- Створіть том (контейнер) на диску.\n- Створіть резервну копію вмісту прихованого тому, а потім оновіть зовнішній том.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, томи на диску, що розміщені на розділі/пристрої, можна змонтувати лише з використанням криптографічних служб ядра.\n\nМожливі рішення:\n- Увімкніть використання криптографічних служб ядра (Налаштування > Переваги > Інтеграція системи).\n- Використовуйте диск із секторами розміром 512 байт.\n- Створіть том (контейнер) на диску.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, томи, що розміщені на розділі/пристрої, не можна створити/використовувати на диску.\n\nМожливі рішення:\n- Створіть том (контейнер) на диску.\n- Використовуйте диск із секторами розміром 512 байт.\n- Використовуйте VeraCrypt на іншій платформі.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Файл/пристрій, що розміщує том, уже використовується.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Слот тому недоступний.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt потребує OSXFUSE 2.5 або вище.</entry>
+    <entry lang="uk" key="EXCEPTION_OCCURRED">Сталася виняткова ситуація</entry>
+    <entry lang="uk" key="ENTER_PASSWORD">Введіть пароль</entry>
+    <entry lang="uk" key="ENTER_TC_VOL_PASSWORD">Введіть пароль до тому VeraCrypt</entry>
+    <entry lang="uk" key="MOUNT">Змонтувати</entry>
+    <entry lang="uk" key="MOUNT_POINT">Каталог монтування</entry>
+    <entry lang="uk" key="NO_VOLUMES_MOUNTED">Не змонтовано жодного тому.</entry>
+    <entry lang="uk" key="OPEN_NEW_VOLUME">Вкажіть новий том VeraCrypt</entry>
+    <entry lang="uk" key="PARAMETER_INCORRECT">Параметр недійсний</entry>
+    <entry lang="uk" key="SELECT_KEYFILES">Виберіть ключові файли</entry>
+    <entry lang="uk" key="START_TC">Запустити VeraCrypt</entry>
+    <entry lang="uk" key="VOLUME_ALREADY_MOUNTED">Том {0} уже змонтовано.</entry>
+    <entry lang="uk" key="UNKNOWN_OPTION">Невідома опція</entry>
+    <entry lang="uk" key="VOLUME_LOCATION">Розташування тому</entry>
+    <entry lang="uk" key="VOLUME_HOST_IN_USE">ПОПЕРЕДЖЕННЯ: Файл/пристрій, що розміщує том {0}, уже використовується!\n\nІгнорування цього може призвести до небажаних результатів, включаючи нестабільність системи. Усі програми, які можуть використовувати файл/пристрій, що розміщує том, повинні бути закриті перед монтуванням тому.\n\nПродовжити монтування?</entry>
+    <entry lang="uk" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt був раніше встановлений за допомогою пакету MSI, тому його не можна оновити за допомогою стандартного інсталятора.\n\nБудь ласка, використовуйте пакет MSI для оновлення вашої установки VeraCrypt.</entry>
+    <entry lang="uk" key="IDC_USE_ALL_FREE_SPACE">Використовувати весь доступний вільний простір</entry>
+    <entry lang="uk" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt не можна оновити, тому що системний розділ/диск було зашифровано за допомогою алгоритму, який більше не підтримується.\nБудь ласка, розшифруйте систему перед оновленням VeraCrypt, а потім знову зашифруйте її.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_TERMINALNOTFOUND">Не вдалося знайти підтримувану програму термінала, вам потрібні xterm, konsole або gnome-terminal (з dbus-x11).</entry>
+    <entry lang="uk" key="IDM_MOUNT_NO_CACHE">Змонтувати без кешу</entry>
+    <entry lang="uk" key="EXPANDER_INFO">:: Розширювач VeraCrypt ::\n\nРозширте том VeraCrypt на льоту без переформатування\n\n\nПідтримуються всі види томів (файли контейнерів, диски та розділи), відформатовані за допомогою NTFS. Єдина умова полягає в тому, що на диску або пристрої, що розміщує том VeraCrypt, має бути достатньо вільного місця.\n\nНе використовуйте це програмне забезпечення для розширення зовнішнього тому, що містить прихований том, оскільки це знищує прихований том!\n</entry>
+    <entry lang="uk" key="IDC_STEPSEXPAND">1. Виберіть том VeraCrypt, для розширення\n2. Натисніть кнопку «Змонтувати»</entry>
+    <entry lang="uk" key="IDT_VOL_NAME">Том: </entry>
+    <entry lang="uk" key="IDT_FILE_SYS">Файлова система: </entry>
+    <entry lang="uk" key="IDT_CURRENT_SIZE">Поточний розмір: </entry>
+    <entry lang="uk" key="IDT_NEW_SIZE">Новий розмір: </entry>
+    <entry lang="uk" key="IDT_NEW_SIZE_BOX_TITLE">Введіть новий розмір тому</entry>
+    <entry lang="uk" key="IDC_INIT_NEWSPACE">Заповнити новий простір випадковими даними</entry>
+    <entry lang="uk" key="IDC_QUICKEXPAND">Швидке розширення</entry>
+    <entry lang="uk" key="IDT_INIT_SPACE">Заповнити новий простір: </entry>
+    <entry lang="uk" key="EXPANDER_FREE_SPACE">%s вільного простору доступно на хост-диску</entry>
+    <entry lang="uk" key="EXPANDER_HELP_DEVICE">Це том на базі пристрою VeraCrypt.\n\nНовий розмір тому буде автоматично обраний як розмір пристрою господаря.</entry>
+    <entry lang="uk" key="EXPANDER_HELP_FILE">Будь ласка, вкажіть новий розмір тому VeraCrypt (повинен бути принаймні на %I64u КБ більше поточного розміру).</entry>
+    <entry lang="uk" key="QUICK_EXPAND_WARNING">ПОПЕРЕДЖЕННЯ: Ви повинні використовувати швидке розширення лише в таких випадках:\n\n1) Пристрій, де розташовано файл контейнера, не містить конфіденційних даних, і вам не потрібна правдоподібна відмова.\n2) Пристрій, де розташовано файл контейнера, вже було надійно та повністю зашифровано.\n\nВи впевнені, що хочете використовувати швидке розширення?</entry>
+    <entry lang="uk" key="EXPANDER_STATUS_TEXT">ВАЖЛИВО: Рухайте мишею якомога випадковіше в межах цього вікна. Чим довше ви рухаєтеся, тим краще. Це значно підвищує криптографічну стійкість ключів шифрування. Потім натисніть «Продовжити», щоб розширити том.</entry>
+    <entry lang="uk" key="EXPANDER_STATUS_TEXT_LEGACY">Натисніть «Продовжити» для розширення тому.</entry>
+    <entry lang="uk" key="EXPANDER_FINISH_ERROR">Помилка: розширення тому не вдалося.</entry>
+    <entry lang="uk" key="EXPANDER_FINISH_ABORT">Помилка: операцію перервано користувачем.</entry>
+    <entry lang="uk" key="EXPANDER_FINISH_OK">Готово. Том успішно розширено.</entry>
+    <entry lang="uk" key="EXPANDER_CANCEL_WARNING">Попередження: розширення тому триває!\n\nЗупинка зараз може призвести до пошкодження тому.\n\nВи дійсно хочете скасувати?</entry>
+    <entry lang="uk" key="EXPANDER_STARTING_STATUS">Початок розширення тому ...\n</entry>
+    <entry lang="uk" key="EXPANDER_HIDDEN_VOLUME_ERROR">Зовнішній том, що містить прихований том, не можна розширити, оскільки це знищить прихований том.\n</entry>
+    <entry lang="uk" key="EXPANDER_SYSTEM_VOLUME_ERROR">Системний том VeraCrypt не можна розширити.</entry>
+    <entry lang="uk" key="EXPANDER_NO_FREE_SPACE">Недостатньо вільного місця для розширення тому</entry>
+    <entry lang="uk" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Попередження: файл контейнера більший за область тому VeraCrypt. Дані після області тому VeraCrypt будуть перезаписані.\n\nВи хочете продовжити?</entry>
+    <entry lang="uk" key="EXPANDER_WARNING_FAT">Попередження: том VeraCrypt містить файлову систему FAT!\n\nБуде розширено лише том VeraCrypt, але не файлова система.\n\nВи хочете продовжити?</entry>
+    <entry lang="uk" key="EXPANDER_WARNING_EXFAT">Попередження: том VeraCrypt містить файлову систему exFAT!\n\nБуде розширено лише сам том VeraCrypt, але не файлова система.\n\nВи хочете продовжити?</entry>
+    <entry lang="uk" key="EXPANDER_WARNING_UNKNOWN_FS">Попередження: том VeraCrypt містить невідому або відсутню файлову систему!\n\nБуде розширено лише том VeraCrypt, файлова система залишиться незмінною.\n\nВи хочете продовжити?</entry>
+    <entry lang="uk" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Новий розмір тому надто малий, повинен бути принаймні на %I64u кБ більшим за поточний розмір.</entry>
+    <entry lang="uk" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Новий розмір тому надто великий, недостатньо місця на хост-диску.</entry>
+    <entry lang="uk" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Перевищено максимальний розмір файлу %I64u МБ на хост-диску.</entry>
+    <entry lang="uk" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Помилка: не вдалося отримати необхідні права для увімкнення швидкого розширення!\nБудь ласка, зніміть позначку «Швидке розширення» та спробуйте ще раз.</entry>
+    <entry lang="uk" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXEEDED">Перевищено максимальний розмір тому VeraCrypt %I64u ТБ!\n</entry>
+    <entry lang="uk" key="FULL_FORMAT">Повне форматування</entry>
+    <entry lang="uk" key="FAST_CREATE">Швидке створення</entry>
+    <entry lang="uk" key="WARN_FAST_CREATE">ПОПЕРЕДЖЕННЯ: Ви повинні використовувати «Швидке створення» лише в таких випадках:\n\n1) Пристрій не містить конфіденційних даних, і вам не потрібна правдоподібна відмова.\n2) Пристрій вже був надійно та повністю зашифрований.\n\nВи впевнені, що хочете використовувати «Швидке створення»?</entry>
+    <entry lang="uk" key="IDC_ENABLE_EMV_SUPPORT">Увімкнути підтримку EMV</entry>
+    <entry lang="uk" key="COMMAND_APDU_INVALID">Команда APDU, надіслана на картку, недійсна.</entry>
+    <entry lang="uk" key="EXTENDED_APDU_UNSUPPORTED">Розширені команди APDU не можна використовувати з поточним токеном.</entry>
+    <entry lang="uk" key="SCARD_MODULE_INIT_FAILED">Помилка під час завантаження бібліотеки WinSCard / PCSC.</entry>
+    <entry lang="uk" key="EMV_UNKNOWN_CARD_TYPE">Картка в зчитувачі не є підтримуваною EMV карткою.</entry>
+    <entry lang="uk" key="EMV_SELECT_AID_FAILED">Не вдалося вибрати AID картки в зчитувачі.</entry>
+    <entry lang="uk" key="EMV_ICC_CERT_NOTFOUND">Сертифікат загального ключа ICC не було знайдено на картці.</entry>
+    <entry lang="uk" key="EMV_ISSUER_CERT_NOTFOUND">Сертифікат загального ключа емітента не було знайдено на картці.</entry>
+    <entry lang="uk" key="EMV_CPLC_NOTFOUND">CPLC не було знайдено на EMV картці.</entry>
+    <entry lang="uk" key="EMV_PAN_NOTFOUND">Основний номер рахунку (PAN) не знайдено на EMV картці.</entry>
+    <entry lang="uk" key="INVALID_EMV_PATH">Шлях EMV недійсний.</entry>
+    <entry lang="uk" key="EMV_KEYFILE_DATA_NOTFOUND">Не вдалося створити ключовий файл з даних EMV картки.\n\nВідсутній один з наступних елементів:\n- Сертифікат загального ключа ICC.\n- Сертифікат загального ключа емітента.\n- Дані CPLC.</entry>
+    <entry lang="uk" key="SCARD_W_REMOVED_CARD">У зчитувачі немає картки.\n\nБудь ласка, переконайтеся, що картка вставлена правильно.</entry>
+    <entry lang="uk" key="FORMAT_EXTERNAL_FAILED">Команді Windows format.com не вдалося відформатувати том як NTFS/exFAT/ReFS: Помилка 0x%.8X.\n\nПовернення до використання API FormatEx Windows.</entry>
+    <entry lang="uk" key="FORMATEX_API_FAILED">API Windows FormatEx не вдалося відформатувати том як NTFS/exFAT/ReFS.\n\nСтатус відмови = %s.</entry>
+    <entry lang="uk" key="EXPANDER_WRITING_RANDOM_DATA">Запис випадкових даних у новий простір ...\n</entry>
+    <entry lang="uk" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Запис повторно зашифрованого резервного заголовка ...\n</entry>
+    <entry lang="uk" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Запис повторно зашифрованого основного заголовка ...\n</entry>
+    <entry lang="uk" key="EXPANDER_WIPING_OLD_HEADER">Стирання старого резервного заголовка ...\n</entry>
+    <entry lang="uk" key="EXPANDER_MOUNTING_VOLUME">Монтування тому ...\n</entry>
+    <entry lang="uk" key="EXPANDER_UNMOUNTING_VOLUME">Розмонтування тому ...\n</entry>
+    <entry lang="uk" key="EXPANDER_EXTENDING_FILESYSTEM">Розширення файлової системи ...\n</entry>
+    <entry lang="uk" key="PARTIAL_SYSENC_MOUNT_READONLY">Попередження: системний розділ, який ви намагалися змонтувати, не був повністю зашифрований. Як захід безпеки, щоб уникнути потенційного пошкодження або небажаних змін, том '%s' був змонтований як тільки для читання.</entry>
+    <entry lang="uk" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Важлива інформація про використання розширень файлів сторонніх розробників</entry>
+    <entry lang="uk" key="IDC_DISABLE_MEMORY_PROTECTION">Вимкнути захист пам'яті для сумісності з інструментами доступності</entry>
+    <entry lang="uk" key="DISABLE_MEMORY_PROTECTION_WARNING">ПОПЕРЕДЖЕННЯ: Вимкнення захисту пам'яті значно знижує безпеку. Увімкніть цю опцію ТІЛЬКИ якщо ви покладаєтеся на інструменти доступності, як-от програми для зчитування з екрана, для взаємодії з інтерфейсом користувача VeraCrypt.</entry>
     <entry lang="uk" key="LINUX_LANGUAGE">Мова</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
+    <entry lang="uk" key="LINUX_SELECT_SYS_DEFAULT_LANG">Виберіть мову системи за замовчуванням</entry>
+    <entry lang="uk" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Для того, щоб зміна мови набула чинності, необхідно перезавантажити VeraCrypt.</entry>
+    <entry lang="uk" key="ERR_XTS_MASTERKEY_VULNERABLE">ПОПЕРЕДЖЕННЯ: Головний ключ тому є вразливим до атаки, яка компрометує безпеку даних.\n\nБудь ласка, створіть новий том і перенесіть дані до нього.</entry>
+    <entry lang="uk" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">ПОПЕРЕДЖЕННЯ: Головний ключ зашифрованої системи є вразливим до атаки, яка компрометує безпеку даних.\nБудь ласка, розшифруйте системний розділ/диск, а потім знову зашифруйте його.</entry>
+    <entry lang="uk" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">ПОПЕРЕДЖЕННЯ: Головний ключ тому має уразливість безпеки.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
