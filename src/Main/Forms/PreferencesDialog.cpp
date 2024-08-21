@@ -100,6 +100,7 @@ namespace VeraCrypt
 				{"fa", L"فارسي"},
 				{"fi", L"Suomi"},
 				{"fr", L"Français"},
+				{"ha", L"(ḥawsa) حَوْسَ"},
 				{"he", L"עברית"},
 				{"hu", L"Magyar"},
 				{"id", L"Bahasa Indonesia"},
