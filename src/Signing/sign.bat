@@ -25,7 +25,23 @@ copy ..\..\Setup\Setup.ico .
 del *.xml
 rmdir /S /Q Languages
 mkdir Languages
-copy /V /Y ..\..\..\Translations\*.xml Languages\.
+
+@echo off
+setlocal
+
+rem Define the source and target directories
+set "SOURCE_DIR=..\..\..\Translations"
+set "TARGET_DIR=Languages"
+
+rem Copy files matching Language.xx.xml where xx is any two characters
+copy /V /Y "%SOURCE_DIR%\Language.??.xml" "%TARGET_DIR%\."
+
+rem Copy files matching Language.xx-yy.xml where xx and yy are any two characters
+copy /V /Y "%SOURCE_DIR%\Language.??-??.xml" "%TARGET_DIR%\."
+
+endlocal
+@echo on
+
 del Languages.zip
 7z a -y Languages.zip Languages
 rmdir /S /Q docs
