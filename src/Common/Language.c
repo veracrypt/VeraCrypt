@@ -83,6 +83,31 @@ static char *MapFirstLanguageFile ()
 	return LanguageFileBuffer;
 }
 
+static int IsValidLanguageFileName(const wchar_t* filename) {
+    size_t len = wcslen(filename);
+    
+    // Check the base format and length directly
+    if (_wcsnicmp(filename, L"Language.", 9) != 0 || (len != 15 && len != 18))
+        return 0; // Does not start with "Language." or has incorrect length
+
+    // Check for the ".xml" suffix
+    if (_wcsicmp(filename + len - 4, L".xml") != 0)
+        return 0; // Does not end with ".xml"
+
+    // Detailed checks based on the specific length
+    if (len == 15) {
+        // Format should be Language.xx.xml
+        if (iswalpha(filename[9]) && iswalpha(filename[10]))
+            return 1; // Valid format for short code
+    } else if (len == 18) {
+        // Format should be Language.xx-yy.xml
+        if (iswalpha(filename[9]) && iswalpha(filename[10]) && filename[11] == L'-' &&
+            iswalpha(filename[12]) && iswalpha(filename[13]))
+            return 1; // Valid format for long code
+    }
+
+    return 0; // If none of the conditions are met, the filename is invalid
+}
 
 static char *MapNextLanguageFile (int resourceid)
 {
@@ -91,6 +116,7 @@ static char *MapNextLanguageFile (int resourceid)
 	HANDLE file;
 	DWORD read;
 	BOOL bStatus;
+	BOOL validFileFound = FALSE;
 
 	/* free memory here to avoid leaks */
 	if (LanguageFileBuffer != NULL)
@@ -121,6 +147,24 @@ static char *MapNextLanguageFile (int resourceid)
 
 		if (LanguageFileFindHandle == INVALID_HANDLE_VALUE) return NULL;
 		if (find.nFileSizeHigh != 0) return NULL;
+
+        // Validate the file name format
+        while (!validFileFound)
+        {
+            if (!IsValidLanguageFileName(find.cFileName))
+            {
+                if (!FindNextFileW(LanguageFileFindHandle, &find))
+                {
+                    FindClose(LanguageFileFindHandle);
+                    LanguageFileFindHandle = INVALID_HANDLE_VALUE;
+                    return NULL;
+                }
+            }
+            else
+            {
+                validFileFound = TRUE;
+            }
+        }
 
 		LanguageFileBuffer = malloc(find.nFileSizeLow + 1);
 		if (LanguageFileBuffer == NULL) return NULL;
