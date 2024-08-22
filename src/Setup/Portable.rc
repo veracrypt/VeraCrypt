@@ -96,7 +96,6 @@ IDR_LANG_ET             LANGUAGES               "..\\..\\Translations\\Language.
 IDR_LANG_EU             LANGUAGES               "..\\..\\Translations\\Language.eu.xml"
 IDR_LANG_FA             LANGUAGES               "..\\..\\Translations\\Language.fa.xml"
 IDR_LANG_FI             LANGUAGES               "..\\..\\Translations\\Language.fi.xml"
-IDR_LANG_HA             LANGUAGES               "..\\..\\Translations\\Language.ha.xml"
 IDR_LANG_HE             LANGUAGES               "..\\..\\Translations\\Language.he.xml"
 IDR_LANG_HU             LANGUAGES               "..\\..\\Translations\\Language.hu.xml"
 IDR_LANG_ID             LANGUAGES               "..\\..\\Translations\\Language.id.xml"

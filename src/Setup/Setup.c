@@ -2570,7 +2570,6 @@ static tLanguageEntry g_languagesEntries[] = {
 	{L"فارسي", IDR_LANG_FA, LANG_PERSIAN, "fa", NULL},
 	{L"Suomi", IDR_LANG_FI, LANG_FINNISH, "fi", NULL},
 	{L"Français", IDR_LANG_FR, LANG_FRENCH, "fr", NULL},
-	{L"(ḥawsa) حَوْسَ", IDR_LANG_HA, LANG_HAUSA, "ha", NULL},
 	{L"עברית", IDR_LANG_HE, LANG_HEBREW, "he", NULL},
 	{L"Magyar", IDR_LANG_HU, LANG_HUNGARIAN, "hu", NULL},
 	{L"Bahasa Indonesia", IDR_LANG_ID, LANG_INDONESIAN, "id", NULL},
