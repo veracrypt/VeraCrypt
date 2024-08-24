@@ -6289,6 +6289,10 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		{
 			if (benchmarkPreBoot && !benchmarkGPT && !HashForSystemEncryption (thid))
 				continue;
+			
+			// we don't support Argon2 for system encryption
+			if (benchmarkPreBoot && thid == ARGON2)
+				continue;
 
 			if (QueryPerformanceCounter (&performanceCountStart) == 0)
 				goto counter_error;
@@ -6800,7 +6804,7 @@ static BOOL CALLBACK RandomPoolEnrichementDlgProc (HWND hwndDlg, UINT msg, WPARA
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 			{
-				if (!HashIsDeprecated (hid))
+				if (!HashIsDeprecated (hid) && HashIsAvailable (hid))
 					AddComboPair (hComboBox, HashGetName(hid), hid);
 			}
 			SelectAlgo (hComboBox, &hash_algo);
@@ -6995,7 +6999,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 			{
-				if (!HashIsDeprecated (hid))
+				if (!HashIsDeprecated (hid) && HashIsAvailable (hid))
 					AddComboPair (hComboBox, HashGetName(hid), hid);
 			}
 			SelectAlgo (hComboBox, &hash_algo);

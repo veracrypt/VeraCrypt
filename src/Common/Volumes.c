@@ -308,6 +308,14 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 		// if a PRF is specified, we skip all other PRFs
 		if (selected_pkcs5_prf != 0 && enqPkcs5Prf != selected_pkcs5_prf)
 			continue;
+		
+		// we don't support Argon2 in pre-boot authentication
+		if (bBoot && (enqPkcs5Prf == ARGON2))
+			continue;
+
+		// For now, we don't included Argon2 in automatic detection
+		if (selected_pkcs5_prf == 0 && enqPkcs5Prf == ARGON2)
+			continue;
 
 #if !defined(_UEFI)
 		if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
@@ -922,6 +930,13 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	// if no PIM specified, use default value
 	if (pim < 0)
 		pim = 0;
+
+	// we don't support Argon2 in pre-boot authentication
+	if (bBoot && (pkcs5_prf == ARGON2))
+	{
+		crypto_close (cryptoInfo);
+		return ERR_PARAMETER_INCORRECT;
+	}
 
 	memset (header, 0, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 #if !defined(_UEFI)

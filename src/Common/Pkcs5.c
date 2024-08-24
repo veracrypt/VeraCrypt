@@ -1349,6 +1349,9 @@ int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
 		|| (bootType != PRF_BOOT_MBR && (pkcs5_prf_id < FIRST_PRF_ID || pkcs5_prf_id > LAST_PRF_ID))
 		)
       return 0;
+   // we don't support Argon2 in pre-boot authentication
+   if ((bootType == PRF_BOOT_MBR || bootType == PRF_BOOT_GPT) && pkcs5_prf_id == ARGON2)
+	  return 0;	
 
    return 1;
 
@@ -1358,6 +1361,7 @@ void derive_key_argon2(char *pwd, int pwd_len, char *salt, int salt_len, uint32 
 {
 	//TODO: Implement Argon2 derivation
 	// In case of failure, just fill the derived key dk with zeroes
+	memset(dk, 0, dklen);
 }
 
 void get_argon2_params(int pim, int* pIterations, int* pMemcost)

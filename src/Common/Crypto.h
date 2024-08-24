@@ -378,6 +378,7 @@ Hash *HashGet (int id);
 void HashGetName2 (wchar_t *buf, size_t bufLen, int hashId);
 BOOL HashIsDeprecated (int hashId);
 BOOL HashForSystemEncryption (int hashId);
+BOOL HashIsAvailable (int hashId);
 int GetMaxPkcs5OutSize (void);
 #endif
 

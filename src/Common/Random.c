@@ -364,7 +364,8 @@ BOOL Randmix ()
 			break;
 
         #ifndef WOLFCRYPT_BACKEND
-               case BLAKE2S:
+		case ARGON2: // in case of Argon2, we use Blake2s
+        case BLAKE2S:
 			burn (&bctx, sizeof(bctx));
 			break;
 

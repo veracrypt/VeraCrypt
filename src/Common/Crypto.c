@@ -822,6 +822,11 @@ BOOL HashForSystemEncryption (int hashId)
 
 }
 
+BOOL HashIsAvailable (int hashId)
+{
+   return (hashId != ARGON2) && (HashGet(hashId) != 0); // Argon2 is not a hash function
+}
+
 // Returns the largest key size needed by an EA for the specified mode of operation
 int EAGetLargestKeyForMode (int mode)
 {
