@@ -5443,7 +5443,7 @@ namespace VeraCrypt
 		finally_do_arg (PCRYPTO_INFO, cryptoInfo, { if (finally_arg) crypto_close (finally_arg); });
 
 		// if the XTS master key is vulnerable, return error and do not allow the user to change the password since the master key will not be changed
-		if (cryptoInfo->bVulnerableMasterKey)
+		if ((status == 0) && cryptoInfo->bVulnerableMasterKey)
 			status = ERR_SYSENC_XTS_MASTERKEY_VULNERABLE;
 
 		if (status != 0)

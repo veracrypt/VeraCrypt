@@ -692,7 +692,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 		nStatus = 0;	// We can ignore this error here
 
 	// if the volume master key is vulnerable, print a warning to inform the user
-	if (cryptoInfo->bVulnerableMasterKey)
+	if ((nStatus == 0) && cryptoInfo->bVulnerableMasterKey)
 	{
 		DebugAddProgressDlgStatus(hwndDlg, GetString ("ERR_XTS_MASTERKEY_VULNERABLE_SHORT"));
 	}

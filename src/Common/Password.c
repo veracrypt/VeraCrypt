@@ -372,7 +372,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 			nStatus = 0;	// We can ignore this error here
 
 		// if the XTS master key is vulnerable, return error and do not allow the user to change the password since the master key will not be changed
-		if (cryptoInfo->bVulnerableMasterKey)
+		if ((nStatus == 0) && cryptoInfo->bVulnerableMasterKey)
 			nStatus = ERR_XTS_MASTERKEY_VULNERABLE;
 
 		if (nStatus == ERR_PASSWORD_WRONG)
