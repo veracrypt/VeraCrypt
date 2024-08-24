@@ -1707,6 +1707,8 @@ namespace VeraCrypt
 					pkcs5_prf = WHIRLPOOL;
 				else if (_stricmp(request.BootPrfAlgorithmName, "Streebog") == 0)
 					pkcs5_prf = STREEBOG;
+				else if (_stricmp(request.BootPrfAlgorithmName, "Argon2") == 0)
+					pkcs5_prf = ARGON2;
                         #endif
 				else if (strlen(request.BootPrfAlgorithmName) == 0) // case of version < 1.0f
 					pkcs5_prf = BLAKE2S;

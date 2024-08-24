@@ -100,6 +100,7 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 			LONG *CompletionFlag;
 			char *DerivedKey;
 			int IterationCount;
+			int Memorycost;
 			TC_EVENT *NoOutstandingWorkItemEvent;
 			LONG *OutstandingWorkItemCount;
 			char *Password;
@@ -271,6 +272,11 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			case STREEBOG:
 				derive_key_streebog(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
 					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+				break;
+
+			case ARGON2:
+				derive_key_argon2(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
 				break;
 
 			default:
@@ -533,7 +539,7 @@ void EncryptionThreadPoolStop ()
 }
 
 
-void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, char *password, int passwordLength, char *salt, int iterationCount, char *derivedKey)
+void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, char *password, int passwordLength, char *salt, int iterationCount, int memoryCost, char *derivedKey)
 {
 	EncryptionThreadPoolWorkItem *workItem;
 
@@ -556,6 +562,7 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	workItem->KeyDerivation.CompletionFlag = completionFlag;
 	workItem->KeyDerivation.DerivedKey = derivedKey;
 	workItem->KeyDerivation.IterationCount = iterationCount;
+	workItem->KeyDerivation.Memorycost = memoryCost;
 	workItem->KeyDerivation.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
 	workItem->KeyDerivation.OutstandingWorkItemCount = outstandingWorkItemCount;
 	workItem->KeyDerivation.Password = password;

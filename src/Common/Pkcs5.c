@@ -1271,6 +1271,9 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 	case STREEBOG:
 		return L"HMAC-STREEBOG";
 
+	case ARGON2:
+		return L"Argon2";
+
 	default:		
 		return L"(Unknown)";
 	}
@@ -1278,13 +1281,16 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 
 
 
-int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot)
+int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot, int* pMemoryCost)
 {
 	if (	(pim < 0)
 		)
 	{
+		*pMemoryCost = 0;
 		return 0;
 	}
+
+	*pMemoryCost = 0;
 
 	switch (pkcs5_prf_id)
 	{
@@ -1319,6 +1325,13 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot)
 			return bBoot? pim * 2048 : 15000 + pim * 1000;
 		}
 
+	case ARGON2:
+		{
+			int iterations;
+			get_argon2_params (pim, &iterations, pMemoryCost);
+			return iterations;
+		}
+
 	default:		
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
@@ -1339,6 +1352,29 @@ int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
 
    return 1;
 
+}
+
+void derive_key_argon2(char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, uint32 memcost, char *dk, int dklen)
+{
+	//TODO: Implement Argon2 derivation
+	// In case of failure, just fill the derived key dk with zeroes
+}
+
+void get_argon2_params(int pim, int* pIterations, int* pMemcost)
+{
+	int memcost = 16 * 1024 + pim * 512;
+	int iterations;
+
+	if (memcost <= 64 * 1024) {
+		// For memory costs up to 64 MB
+		iterations = 100 - (pim * 85) / 96;
+	} else {
+		// For memory costs above 64 MB
+		iterations = 15 - ((pim - 96) * 10) / 192;
+	}
+
+	*pIterations = iterations;
+	*pMemcost = memcost;
 }
 
 #endif //!TC_WINDOWS_BOOT

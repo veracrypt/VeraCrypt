@@ -367,6 +367,8 @@ typedef struct
 	unsigned __int64 encSpeed;
 	unsigned __int64 decSpeed;
 	unsigned __int64 meanBytesPerSec;
+	unsigned __int64 iterations;
+	unsigned __int64 memoryCost;
 } BENCHMARK_REC;
 
 BENCHMARK_REC benchmarkTable [BENCHMARK_MAX_ITEMS];
@@ -6014,6 +6016,11 @@ static void ResetBenchmarkList (HWND hwndDlg)
 		LvCol.cx = CompensateXDPI (80);
 		LvCol.fmt = LVCFMT_RIGHT;
 		SendMessageW (hList,LVM_INSERTCOLUMNW,2,(LPARAM)&LvCol);
+
+		LvCol.pszText = GetString ("MEMORY_COST");
+		LvCol.cx = CompensateXDPI (80);
+		LvCol.fmt = LVCFMT_RIGHT;
+		SendMessageW (hList,LVM_INSERTCOLUMNW,3,(LPARAM)&LvCol);
 		break;
 	}
 }
@@ -6111,8 +6118,12 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 			LvItem.iSubItem = 1;
 			LvItem.pszText = item1;
 			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
-			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d", (int) benchmarkTable[i].decSpeed);
+			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d", (int) benchmarkTable[i].iterations);
 			LvItem.iSubItem = 2;
+			LvItem.pszText = item1;
+			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
+			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d", (int) benchmarkTable[i].memoryCost);
+			LvItem.iSubItem = 3;
 			LvItem.pszText = item1;
 			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
 			break;
@@ -6203,6 +6214,9 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++) 
 			{
+				// Skip Argon2 since it is not a hash function
+				if (hid == ARGON2)
+					continue;
 				if (QueryPerformanceCounter (&performanceCountStart) == 0)
 					goto counter_error;
 
@@ -6268,6 +6282,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		int thid, i;
 		char dk[MASTER_KEYDATA_SIZE];
 		char *tmp_salt = {"\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF\x01\x23\x45\x67\x89\xAB\xCD\xEF\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF\x01\x23\x45\x67\x89\xAB\xCD\xEF\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF"};
+		int memoryCost = 0;
+		int iterations = 0;
 
 		for (thid = FIRST_PRF_ID; thid <= LAST_PRF_ID; thid++) 
 		{
@@ -6279,32 +6295,38 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			for (i = 1; i <= 2; i++) 
 			{
+				iterations = get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot, &memoryCost);
 				switch (thid)
 				{
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
 					break;
                           #ifndef WOLFCRYPT_BACKEND
 				case BLAKE2S:
 					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
-					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_blake2s ("passphrase-1234567890", 21, tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case STREEBOG:
 					/* PKCS-5 test with HMAC-STREEBOG used as the PRF */
-					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
+					break;
+				
+				case ARGON2:
+					/* test with ARGON2 used as the PRF */
+					derive_key_argon2 ("passphrase-1234567890", 21, tmp_salt, 64, iterations, memoryCost, dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 	                   #endif	
@@ -6315,7 +6337,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 			benchmarkTable[benchmarkTotalItems].id = thid;
-			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, benchmarkPreBoot);
+			benchmarkTable[benchmarkTotalItems].iterations = iterations;
+			benchmarkTable[benchmarkTotalItems].memoryCost = memoryCost;
 			benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (unsigned __int64) (1000 * ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart / 2));
 			if (benchmarkPreBoot)
 			{

@@ -132,6 +132,7 @@ static Hash Hashes[] =
         { BLAKE2S,		L"BLAKE2s-256",				FALSE,	TRUE },
         { WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
 	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
+	{ ARGON2,		L"Argon2",	FALSE,	FALSE },
     #endif
         { 0, 0, 0 }
 };
