@@ -130,13 +130,22 @@ namespace VeraCrypt
 
 		if (wxDir::Exists(languagesFolder.GetName())) {
 			size_t langCount;
-			langCount = wxDir::GetAllFiles(languagesFolder.GetName(), &langArray, wxEmptyString, wxDIR_FILES);
+			langCount = wxDir::GetAllFiles(languagesFolder.GetName(), &langArray, "*.xml", wxDIR_FILES);
 			for (size_t i = 0; i < langCount; ++i) {
 				wxFileName filename(langArray[i]);
-				wxString langId = filename.GetName().AfterLast('.');
-				wxString langNative = langEntries[langId];
-				if (!langNative.empty()) {
-					LanguageListBox->Append(langNative);
+
+				// Get the name part of the file (without extension)
+				wxString basename = filename.GetName();
+
+				// Check if the basename matches the pattern "Language.langId"
+				if (basename.StartsWith("Language.")) {
+					wxString langId = basename.AfterFirst('.');
+
+					// Verify if the language ID exists in langEntries map
+					wxString langNative = langEntries[langId];
+					if (!langNative.empty()) {
+						LanguageListBox->Append(langNative);
+					}
 				}
 			}
 		}
