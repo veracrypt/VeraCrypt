@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.15">
-    <language langid="ru" name="Русский" en-name="Russian" version="1.26.15" translators="Dmitry Yerokhin [erodim@mail.ru] (240825)" />
+    <language langid="ru" name="Русский" en-name="Russian" version="1.26.15" translators="Dmitry Yerokhin [erodim@mail.ru] (240826)" />
     <font lang="ru" class="normal" size="11" face="default" />
     <font lang="ru" class="bold" size="13" face="Arial" />
     <font lang="ru" class="fixed" size="12" face="Lucida Console" />
@@ -1638,7 +1638,7 @@
     <entry lang="ru" key="LINUX_LANGUAGE">Язык</entry>
     <entry lang="ru" key="LINUX_SELECT_SYS_DEFAULT_LANG">Выберите язык системы по умолчанию</entry>
     <entry lang="ru" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Язык изменится после перезапуска VeraCrypt.</entry>
-    <entry lang="ru" key="ERR_XTS_MASTERKEY_VULNERABLE">ВНИМАНИЕ: Мастер-ключ тома уязвим для атаки, которая ставит под угрозу безопасность данных.</entry>
+    <entry lang="ru" key="ERR_XTS_MASTERKEY_VULNERABLE">ВНИМАНИЕ: Мастер-ключ тома уязвим для атаки, которая ставит под угрозу безопасность данных.\n\nСоздайте новый том и перенесите в него данные.</entry>
     <entry lang="ru" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">ВНИМАНИЕ: Мастер-ключ зашифрованной системы уязвим для атаки, которая ставит под угрозу безопасность данных.\nРасшифруйте системный раздел/диск, а затем повторно зашифруйте его.</entry>
     <entry lang="ru" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">ВНИМАНИЕ: Мастер-ключ тома содержит уязвимость в системе безопасности.</entry>
   </localization>
