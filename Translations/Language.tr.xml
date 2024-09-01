@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <VeraCrypt>
-  <localization prog-version= "1.26.14">
-    <language langid="tr" name="Türkçe" en-name="Turkish" version="1.26.14" translators="FabSec; By Fabriel, Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci, Kaya Zeren" />
+  <localization prog-version= "1.26.15">
+    <language langid="tr" name="Türkçe" en-name="Turkish" version="1.26.15" translators="FabSec; By Fabriel, Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci, Kaya Zeren" />
     <font lang="tr" class="normal" size="11" face="default" />
     <font lang="tr" class="bold" size="13" face="Arial" />
     <font lang="tr" class="fixed" size="12" face="Lucida Console" />

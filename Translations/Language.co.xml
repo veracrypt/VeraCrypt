@@ -7,7 +7,7 @@ Information about Corsican localization:
 
 2. History of Corsican translation for VeraCrypt:
 
-	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.14), Aug. 10th (1.26.14)
+	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.15), Aug. 10th (1.26.15)
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
 	          June 29th (1.26.2), July 1st (1.26.3), July 30th (1.26.4), Aug. 14th (1.26.5), Sep. 8th (1.26.5),
@@ -19,7 +19,7 @@ Information about Corsican localization:
 	https://github.com/Patriccollu/Lingua_Corsa-Infurmatica/blob/ceppu/Prughjetti/VeraCrypt/Traduzzione.md
 -->
 <VeraCrypt>
-	<localization prog-version="1.26.14">
+	<localization prog-version="1.26.15">
 		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.6" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>

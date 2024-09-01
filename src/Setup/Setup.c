@@ -2016,6 +2016,37 @@ error:
 	return bOK;
 }
 
+void RemoveLegacyFiles (wchar_t *szDestDir)
+{
+	const wchar_t* 	oldFileNames[] = {
+		L"docs\\html\\en\\BCH_Logo_48x30.png",
+		L"docs\\html\\en\\LinuxPrepAndBuild.sh",
+		L"docs\\html\\en\\LinuxPrepAndBuild.zip",
+		L"docs\\html\\en\\RIPEMD-160.html",
+		L"docs\\html\\en\\ru\\BCH_Logo_48x30.png",
+		L"Languages\\Language.ru - Copy.xml",
+	};
+	wchar_t szDir[TC_MAX_PATH];
+	wchar_t oldPath[TC_MAX_PATH];
+	BOOL bSlash;
+	size_t x, i;
+
+	StringCbCopyW (szDir, sizeof(szDir), szDestDir);
+	x = wcslen (szDestDir);
+	if (szDestDir[x - 1] == L'\\')
+		bSlash = TRUE;
+	else
+		bSlash = FALSE;
+
+	if (bSlash == FALSE)
+		StringCbCatW (szDir, sizeof(szDir), L"\\");
+
+	for (i = 0; i < ARRAYSIZE(oldFileNames); i++)
+	{
+		StringCbPrintfW (oldPath, sizeof(oldPath), L"%s%s", szDestDir, oldFileNames[i]);
+		StatDeleteFile (oldPath, FALSE);
+	}
+}
 
 void OutcomePrompt (HWND hwndDlg, BOOL bOK)
 {
@@ -2199,7 +2230,6 @@ void DoInstall (void *arg)
 	HWND hwndDlg = (HWND) arg;
 	BOOL bOK = TRUE;
 	wchar_t path[MAX_PATH];
-
 	BootEncryption bootEnc (hwndDlg);
 
 	// Refresh the main GUI (wizard thread)
@@ -2341,6 +2371,12 @@ void DoInstall (void *arg)
 	{
 		WriteMemoryProtectionConfig(bDisableMemoryProtection? FALSE : TRUE);
 		bRestartRequired = TRUE; // Restart is required to apply the new memory protection settings
+	}
+
+	if (bOK && bUpgrade)
+	{
+		// delete legacy files
+		RemoveLegacyFiles (InstallationPath);
 	}
 
 	if (bOK)

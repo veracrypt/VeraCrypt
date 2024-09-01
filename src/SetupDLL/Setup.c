@@ -2336,6 +2336,38 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	UINT			uiRet           = ERROR_INSTALL_FAILURE;
 	BOOL			bOK				= TRUE;
 	WCHAR			szCurrentDir[MAX_PATH];
+	const wchar_t* 	oldFileNames[] = {
+		L"docs\\html\\en\\AddNewSystemVar.jpg",
+		L"docs\\html\\en\\CertificateCannotBeVerified.jpg",
+		L"docs\\html\\en\\CertVerifyFails.jpg",
+		L"docs\\html\\en\\DistributionPackageDamaged.jpg",
+		L"docs\\html\\en\\DownloadVS2010.jpg",
+		L"docs\\html\\en\\DownloadVS2019.jpg",
+		L"docs\\html\\en\\DownloadVSBuildTools.jpg",
+		L"docs\\html\\en\\gzipCommandLine.jpg",
+		L"docs\\html\\en\\NasmCommandLine.jpg",
+		L"docs\\html\\en\\RegeditPermissions-1.jpg",
+		L"docs\\html\\en\\RegeditPermissions-2.jpg",
+		L"docs\\html\\en\\RegeditPermissions-3.jpg",
+		L"docs\\html\\en\\RegeditPermissions-4.jpg",
+		L"docs\\html\\en\\SelectAdvancedSystemSettings.jpg",
+		L"docs\\html\\en\\SelectEnvironmentVariables.jpg",
+		L"docs\\html\\en\\SelectPathVariable.jpg",
+		L"docs\\html\\en\\SelectThisPC.jpg",
+		L"docs\\html\\en\\upxCommandLine.jpg",
+		L"docs\\html\\en\\VS2010BuildSolution.jpg",
+		L"docs\\html\\en\\VS2010Win32Config.jpg",
+		L"docs\\html\\en\\VS2010X64Config.jpg",
+		L"docs\\html\\en\\VS2019ARM64Config.jpg",
+		L"docs\\html\\en\\VS2019BuildSolution.jpg",
+		L"docs\\html\\en\\YasmCommandLine.jpg",
+		L"docs\\html\\en\\BCH_Logo_48x30.png",
+		L"docs\\html\\en\\LinuxPrepAndBuild.sh",
+		L"docs\\html\\en\\LinuxPrepAndBuild.zip",
+		L"docs\\html\\en\\RIPEMD-160.html",
+		L"docs\\html\\en\\ru\\BCH_Logo_48x30.png",
+		L"Languages\\Language.ru - Copy.xml",
+	};
 
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"Begin VC_CustomAction_PostInstall");
 
@@ -2446,12 +2478,23 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		WIN32_FIND_DATA f;
 		HANDLE h;
 		wchar_t szTmp[TC_MAX_PATH];
+		size_t i;
 
 		// delete "VeraCrypt Setup.exe" if it exists
 		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"VeraCrypt Setup.exe");
 		if (FileExists(szTmp))
 		{
 			ForceDeleteFile(szTmp);
+		}
+
+		// delete files wrongly installed by previous versions in installation folder
+		for (i = 0; i < ARRAYSIZE(oldFileNames); i++)
+		{
+			StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), oldFileNames[i]);
+			if (FileExists(szTmp))
+			{
+				ForceDeleteFile(szTmp);
+			}
 		}
 
 		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"VeraCrypt.exe");
@@ -3153,6 +3196,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 
 			EnableWow64FsRedirection (TRUE);
 		}
+
 	}
 
 	if (bSystemRestore && !bTempSkipSysRestore)
