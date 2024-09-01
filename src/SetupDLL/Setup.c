@@ -3020,6 +3020,70 @@ end:
 	return uiRet;
 }
 
+static BOOL DirectoryExists (const wchar_t *dirName)
+{
+	DWORD attrib = GetFileAttributes (dirName);
+	return (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY));
+}
+
+static BOOL DeleteContentsOnReboot(LPCTSTR pszDir) {
+    TCHAR szPath[MAX_PATH];
+	TCHAR szSubPath[MAX_PATH];
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hFind;
+	BOOL bHasBackslash = FALSE;
+	// check if pszDir ends with a backslash
+	if (pszDir[_tcslen(pszDir) - 1] == '\\')
+	{
+		bHasBackslash = TRUE;
+	}
+
+    // Prepare the path for FindFirstFile
+	if (bHasBackslash)
+		StringCchPrintf(szPath, MAX_PATH, TEXT("%s*"), pszDir);
+	else
+    	StringCchPrintf(szPath, MAX_PATH, TEXT("%s\\*"), pszDir);
+
+    hFind = FindFirstFile(szPath, &FindFileData);
+    if (hFind == INVALID_HANDLE_VALUE) {
+        return FALSE;
+    }
+
+    BOOL result = TRUE;
+
+    do {
+        if (_tcscmp(FindFileData.cFileName, TEXT(".")) != 0 &&
+            _tcscmp(FindFileData.cFileName, TEXT("..")) != 0) {
+
+			if (bHasBackslash)
+				StringCchPrintf(szSubPath, MAX_PATH, TEXT("%s%s"), pszDir, FindFileData.cFileName);
+			else
+            	StringCchPrintf(szSubPath, MAX_PATH, TEXT("%s\\%s"), pszDir, FindFileData.cFileName);
+
+            if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                // Recursive call to handle subdirectories
+                if (!DeleteContentsOnReboot(szSubPath)) {
+                    result = FALSE; // Track failures but attempt to continue
+                }
+            } else {
+                // Schedule the file for deletion
+                if (!MoveFileEx(szSubPath, NULL, MOVEFILE_DELAY_UNTIL_REBOOT)) {
+                    result = FALSE; // Track failures
+                }
+            }
+        }
+    } while (FindNextFile(hFind, &FindFileData) != 0);
+
+    FindClose(hFind);
+
+    // Schedule the root directory for deletion, only if not done already
+    if (!MoveFileEx(pszDir, NULL, MOVEFILE_DELAY_UNTIL_REBOOT)) {
+        result = FALSE;
+    }
+
+    return result;
+}
+
 /* 
  * Same as Setup.c, function DoUninstall(), but 
  * without the actual installation, it only performs 
@@ -3197,6 +3261,32 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 			EnableWow64FsRedirection (TRUE);
 		}
 
+		// remove the installation folder is case it remains after uninstall
+		if (DirectoryExists (szInstallDir.c_str()))
+		{
+			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", szInstallDir.c_str());
+			if(DeleteDirectory (szInstallDir.c_str()))
+			{
+				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s removed", szInstallDir.c_str());
+			}
+			else
+			{
+				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s could not be removed. Scheduling removal on reboot", szInstallDir.c_str());
+				if (DeleteContentsOnReboot(szInstallDir.c_str()))
+				{
+					bRestartRequired = TRUE;
+					MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s scheduled for removal on reboot", szInstallDir.c_str());
+				}
+				else
+				{
+					MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s could not be scheduled for removal on reboot", szInstallDir.c_str());
+				}
+			}
+		}
+		else
+		{
+			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s does not exist", szInstallDir.c_str());
+		}
 	}
 
 	if (bSystemRestore && !bTempSkipSysRestore)
