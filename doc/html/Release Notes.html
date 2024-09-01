@@ -39,6 +39,23 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
+
+<p><strong style="text-align:left">1.26.15</strong> (September 2<sup>nd</sup>, 2024):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+	<li>Fix MSI install/uninstall issues:
+		<ul>
+			<li>Fixed error 1603 returned by MSI silent install when REBOOT=ReallySuppress is specified and a reboot is required.</li>
+			<li>Fixed missing documentation and language files from the MSI package.</li>
+			<li>Fixed MSI not installing new documentation and language files when upgrading from an EXE-based installation.</li>
+			<li>Fixed installation folder not being removed after MSI uninstall in some cases.</li>
+		</ul>
+	</li>
+</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.26.14</strong> (August 25<sup>th</sup>, 2024):</p>
 <ul>
 <li><strong>All OSes:</strong>
