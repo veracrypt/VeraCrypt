@@ -2646,7 +2646,7 @@ namespace VeraCrypt
 		{
 			dwLastError = GetLastError();
 			wchar_t szMsg[128];
-			StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to set SE_SYSTEM_ENVIRONMENT_NAME privilege (error code 0x.8X)", dwLastError);
+			StringCchPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to set SE_SYSTEM_ENVIRONMENT_NAME privilege (error code 0x%.8X)", dwLastError);
 			throw ErrorException(szMsg, SRC_POS);
 		}
 		// Check EFI
@@ -2658,7 +2658,7 @@ namespace VeraCrypt
 					SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
 				// format message to append the error code to the exception message
 				wchar_t szMsg[128];
-				StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to detect EFI environment (error code 0x.8X)", dwLastError);
+				StringCchPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to detect EFI environment (error code 0x%.8X)", dwLastError);
 				throw ErrorException(szMsg, SRC_POS);
 			}
 		}
@@ -2715,7 +2715,7 @@ namespace VeraCrypt
 		{
 			dwLastError = GetLastError();
 			wchar_t szMsg[128];
-			StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to set SE_SYSTEM_ENVIRONMENT_NAME privilege (error code 0x.8X)", dwLastError);
+			StringCchPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to set SE_SYSTEM_ENVIRONMENT_NAME privilege (error code 0x%.8X)", dwLastError);
 			throw ErrorException(szMsg, SRC_POS);
 		}
 		// Check EFI
@@ -2727,7 +2727,7 @@ namespace VeraCrypt
 					SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
 				// format message to append the error code to the exception message
 				wchar_t szMsg[1024];
-				StringCbPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to detect EFI environment (error code 0x.8X)", dwLastError);
+				StringCchPrintfW(szMsg, ARRAYSIZE(szMsg), L"Failed to detect EFI environment (error code 0x%.8X)", dwLastError);
 				throw ErrorException(szMsg, SRC_POS);
 			}
 		}
