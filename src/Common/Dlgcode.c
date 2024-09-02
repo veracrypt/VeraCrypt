@@ -13706,11 +13706,11 @@ BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 				&tkp.Privileges[0].Luid))
 		{
 			tkp.PrivilegeCount = 1;
-			tkp.Privileges[0].Attributes = bEnable? SE_PRIVILEGE_ENABLED : SE_PRIVILEGE_REMOVED;
+			tkp.Privileges[0].Attributes = bEnable? SE_PRIVILEGE_ENABLED : 0;
 			
 			bRet = AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, NULL, NULL);
 			dwLastError = GetLastError ();
-			if ( ERROR_SUCCESS != dwLastError)
+			if (bRet && (ERROR_NOT_ALL_ASSIGNED == dwLastError))
 			{
 				bRet = FALSE;
 			}
