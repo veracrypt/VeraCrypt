@@ -27,7 +27,7 @@ extern "C"
 #endif
 	
 #if CRYPTOPP_BOOL_X64 || ((CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32) && !defined (TC_MACOSX))
-	void sha512_compress_nayuki(uint_64t state[8], const uint_8t block[128]);
+	void VC_CDECL sha512_compress_nayuki(uint_64t state[8], const uint_8t block[128]);
 #endif
 #if defined(__cplusplus)
 }
@@ -309,7 +309,7 @@ extern "C"
 #endif
 
 #if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
-	void sha256_compress_nayuki(uint_32t state[8], const uint_8t block[64]);
+	void VC_CDECL sha256_compress_nayuki(uint_32t state[8], const uint_8t block[64]);
 #endif
 
 #if defined(__cplusplus)

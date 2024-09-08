@@ -108,6 +108,12 @@ typedef unsigned __int64 uint64;
 #define LL(x) x##ui64
 #endif
 
+#if _MSC_VER > 1900
+#define VC_CDECL	__cdecl // this is needed because Windows driver on VS2019 uses stdcall for build
+#else
+#define VC_CDECL
+#endif
+
 #pragma warning( disable : 4201 )  // disable: 4201 nonstandard extension used : nameless struct/union
 #pragma warning( disable : 4324 )  // disable: 4324 structure was padded due to __declspec(align())
 

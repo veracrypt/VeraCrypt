@@ -264,6 +264,9 @@
     <ClInclude Include="..\Crypto\AesSmall.h">
       <Filter>Crypto\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Tcdefs.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\Crypto\Aes_hw_cpu.asm">
