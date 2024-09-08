@@ -65,58 +65,58 @@ mkfulldir (wchar_t *oriPath, BOOL bCheckonly)
 
 
 int
-mkfulldir_internal (wchar_t *path)
+mkfulldir_internal(wchar_t* path)
 {
-	wchar_t *token;
-	struct _stat st;
-	static wchar_t tokpath[_MAX_PATH];
-	static wchar_t trail[_MAX_PATH];
+    wchar_t* token;
+    wchar_t* next_token = NULL;
+    struct _stat st;
+    static wchar_t tokpath[_MAX_PATH];
+    static wchar_t trail[_MAX_PATH];
 
-	if (wcslen(path) >= _MAX_PATH)
-	{
-		// directory name will be truncated so return failure to avoid unexepected behavior
-		return -1;
-	}
+    if (wcslen(path) >= _MAX_PATH)
+    {
+        // directory name will be truncated so return failure to avoid unexpected behavior
+        return -1;
+    }
 
-	StringCbCopyW (tokpath, _MAX_PATH, path);
-	trail[0] = L'\0';
+    StringCbCopyW(tokpath, _MAX_PATH, path);
+    trail[0] = L'\0';
 
-	token = wcstok (tokpath, L"\\/");
+    token = wcstok_s(tokpath, L"\\/", &next_token);
+    if (tokpath[0] == L'\\' && tokpath[1] == L'\\')
+    {           /* unc */
+        trail[0] = tokpath[0];
+        trail[1] = tokpath[1];
+        trail[2] = L'\0';
+        if (token)
+        {
+            StringCbCatW(trail, _MAX_PATH, token);
+            StringCbCatW(trail, _MAX_PATH, L"\\");
+            token = wcstok_s(NULL, L"\\/", &next_token);
+            if (token)
+            {       /* get share name */
+                StringCbCatW(trail, _MAX_PATH, token);
+                StringCbCatW(trail, _MAX_PATH, L"\\");
+            }
+            token = wcstok_s(NULL, L"\\/", &next_token);
+        }
+    }
 
-	if (tokpath[0] == L'\\' && tokpath[1] == L'\\')
-	{			/* unc */
-		trail[0] = tokpath[0];
-		trail[1] = tokpath[1];
-		trail[2] = L'\0';
-		if (token)
-		{
-			StringCbCatW (trail, _MAX_PATH, token);
-			StringCbCatW (trail, _MAX_PATH, L"\\");
-			token = wcstok (NULL, L"\\/");
-			if (token)
-			{		/* get share name */
-				StringCbCatW (trail, _MAX_PATH, token);
-				StringCbCatW (trail, _MAX_PATH, L"\\");
-			}
-			token = wcstok (NULL, L"\\/");
-		}
-	}
+    if (tokpath[1] == L':')
+    {           /* drive letter */
+        StringCbCatW(trail, _MAX_PATH, tokpath);
+        StringCbCatW(trail, _MAX_PATH, L"\\");
+        token = wcstok_s(NULL, L"\\/", &next_token);
+    }
 
-	if (tokpath[1] == L':')
-	{			/* drive letter */
-		StringCbCatW (trail, _MAX_PATH, tokpath);
-		StringCbCatW (trail, _MAX_PATH, L"\\");
-		token = wcstok (NULL, L"\\/");
-	}
+    while (token != NULL)
+    {
+        int x;
+        StringCbCatW(trail, _MAX_PATH, token);
+        x = _wmkdir(trail);
+        StringCbCatW(trail, _MAX_PATH, L"\\");
+        token = wcstok_s(NULL, L"\\/", &next_token);
+    }
 
-	while (token != NULL)
-	{
-		int x;
-		StringCbCatW (trail, _MAX_PATH, token);
-		x = _wmkdir (trail);
-		StringCbCatW (trail, _MAX_PATH, L"\\");
-		token = wcstok (NULL, L"\\/");
-	}
-
-	return _wstat (path, &st);
+    return _wstat(path, &st);
 }
