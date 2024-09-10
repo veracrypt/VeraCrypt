@@ -1177,7 +1177,7 @@
     <entry lang="sv" key="RESCUE_DISK_CREATED_TITLE">Återställningsdisk skapad</entry>
     <entry lang="sv" key="SYS_ENCRYPTION_PRETEST_TITLE">Systemkrypteringsförtest</entry>
     <entry lang="sv" key="RESCUE_DISK_DISK_VERIFIED_TITLE">Återställningsdisk verifierad</entry>
-    <entry lang="sv" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCrypt-återställningsdisk har verifierats. Ta bort den från enheten nu och förvara den på ett säkert ställe.\on\onKlicka på Nästa för att fortsätta.</entry>
+    <entry lang="sv" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCrypt-återställningsdisk har verifierats. Ta bort den från enheten nu och förvara den på ett säkert ställe.\n\nKlicka på Nästa för att fortsätta.</entry>
     <entry lang="sv" key="REMOVE_RESCUE_DISK_FROM_DRIVE">VARNING: Under nästa steg får VeraCrypt-återställningsdisk inte finnas i enheten. Annars kommer det inte att vara möjligt att slutföra stegen korrekt.\n\nTa bort den från enheten nu och förvara den på ett säkert ställe. Klicka sedan på OK.</entry>
     <entry lang="sv" key="PREBOOT_NOT_LOCALIZED">Varning: På grund av tekniska begränsningar i miljön före start kan texter som visas av VeraCrypt i miljön före start (dvs. innan Windows startar) inte lokaliseras. Användargränssnittet för VeraCrypt-startinläsaren är helt på engelska.\n\nFortsätt?</entry>
     <entry lang="sv" key="SYS_ENCRYPTION_PRETEST_INFO">Innan du krypterar din systempartition eller enhet måste VeraCrypt verifiera att allt fungerar korrekt.\n\nNär du klickar på Testa kommer alla nödvändiga komponenter (till exempel autentiseringskomponenten före start, dvs. VeraCrypt-startinläsaren) att installeras och din dator kommer att startas om. Sedan måste du ange ditt lösenord i skärmen för VeraCrypt-startinläsaren som visas innan Windows startar. När Windows startar kommer du automatiskt att informeras om resultatet av detta förtest.\n\nFöljande enhet kommer att ändras: Drive #%d\n\n\nOm du klickar på Avbryt nu kommer ingenting att installeras och förtestet kommer inte att utföras.</entry>
@@ -1511,8 +1511,8 @@
     <entry lang="sv" key="LINUX_MAX_HIDDEN_SIZE">Högsta möjliga dolda volymstorlek för den här volymen är {0}.</entry>
     <entry lang="sv" key="LINUX_OPEN_OUTER_VOL">Öppna yttre volym</entry>
     <entry lang="sv" key="LINUX_OUTER_VOL_IS_MOUNTED">Yttre volym har skapats och monterats som "{0}". Till den här volymen ska du nu kopiera några känsliga filer som du faktiskt INTE vill dölja. Filerna kommer att finnas där för alla som tvingar dig att avslöja ditt lösenord. Du kommer bara att avslöja lösenordet för denna yttre volym, inte för den dolda. Filerna som du verkligen bryr dig om kommer att lagras i den dolda volymen, som kommer att skapas senare. När du är klar med kopieringen klickar du på Nästa. Demontera inte volymen.\n\nObs: När du har klickat på Nästa kommer den yttre volymen att analyseras för att bestämma storleken på ett oavbrutet område med ledigt utrymme vars ände är i linje med slutet av volymen. Detta område kommer att rymma den dolda volymen, så det kommer att begränsa dess maximala storlek. Proceduren säkerställer att inga data på den yttre volymen skrivs över av den dolda volymen.</entry>
-    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Fel: Du försöker kryptera en systemenhet.\n\VeraCrypt kan inte kryptera en systemenhet endast under Windows.</entry>
-    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Fel: Du försöker kryptera en systempartition.\n\VeraCrypt kan inte kryptera systempartitioner endast under Windows.</entry>
+    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Fel: Du försöker kryptera en systemenhet.\nVeraCrypt kan inte kryptera en systemenhet endast under Windows.</entry>
+    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Fel: Du försöker kryptera en systempartition.\nVeraCrypt kan inte kryptera systempartitioner endast under Windows.</entry>
     <entry lang="sv" key="LINUX_WARNING_FORMAT_DESTROY_FS">VARNING: Formatering av enheten kommer att förstöra alla data på filsystemet "{0}".\n\nVill du fortsätta?</entry>
     <entry lang="sv" key="LINUX_MOUNTET_HINT">Filsystemet för den valda enheten är för närvarande monterat. Demontera "{0}" innan du fortsätter.</entry>
     <entry lang="sv" key="LINUX_HIDDEN_PASS_NO_DIFF">Den dolda volymen kan inte ha samma lösenord, PIM och nyckelfiler som den yttre volymen</entry>
@@ -1620,7 +1620,7 @@
     <entry lang="sv" key="EMV_CPLC_NOTFOUND">CPLC hittades inte i EMV-kortet.</entry>
     <entry lang="sv" key="EMV_PAN_NOTFOUND">Inget primärt kontonummer (PAN) hittades i EMV-kortet.</entry>
     <entry lang="sv" key="INVALID_EMV_PATH">EMV-sökvägen är ogiltig.</entry>
-    <entry lang="sv" key="EMV_KEYFILE_DATA_NOTFOUND">Det går inte att bygga en nyckelfil från EMV-kortdata.\och\nNågot av följande saknas:\n- ICC Public Key Certificate.\n- Utfärdarens Public Key Certificate.\n- CPLC-data.</entry>
+    <entry lang="sv" key="EMV_KEYFILE_DATA_NOTFOUND">Det går inte att bygga en nyckelfil från EMV-kortdata. Något av följande saknas:\n- ICC Public Key Certificate.\n- Utfärdarens Public Key Certificate.\n- CPLC-data.</entry>
     <entry lang="sv" key="SCARD_W_REMOVED_CARD">Inget kort i läsaren.\n\nSe till att kortet är korrekt placerat.</entry>
     <entry lang="sv" key="FORMAT_EXTERNAL_FAILED">Windows format.com-kommandot misslyckades med att formatera volymen som NTFS/exFAT/ReFS: Fel 0x%.8X.\n\nÅtergår till att använda Windows FormatEx API.</entry>
     <entry lang="sv" key="FORMATEX_API_FAILED">Windows FormatEx API kunde inte formatera volymen som NTFS/exFAT/ReFS.\n\nFelstatus = %s.</entry>
