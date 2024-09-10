@@ -157,6 +157,8 @@ typedef uint64 TC_LARGEST_COMPILER_UINT;
 #define TRUE 1
 #endif
 
+#define VC_CDECL
+
 #endif // !_MSC_VER
 
 #define TC_INT_TYPES_DEFINED
