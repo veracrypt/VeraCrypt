@@ -1511,8 +1511,8 @@
     <entry lang="sv" key="LINUX_MAX_HIDDEN_SIZE">Högsta möjliga dolda volymstorlek för den här volymen är {0}.</entry>
     <entry lang="sv" key="LINUX_OPEN_OUTER_VOL">Öppna yttre volym</entry>
     <entry lang="sv" key="LINUX_OUTER_VOL_IS_MOUNTED">Yttre volym har skapats och monterats som "{0}". Till den här volymen ska du nu kopiera några känsliga filer som du faktiskt INTE vill dölja. Filerna kommer att finnas där för alla som tvingar dig att avslöja ditt lösenord. Du kommer bara att avslöja lösenordet för denna yttre volym, inte för den dolda. Filerna som du verkligen bryr dig om kommer att lagras i den dolda volymen, som kommer att skapas senare. När du är klar med kopieringen klickar du på Nästa. Demontera inte volymen.\n\nObs: När du har klickat på Nästa kommer den yttre volymen att analyseras för att bestämma storleken på ett oavbrutet område med ledigt utrymme vars ände är i linje med slutet av volymen. Detta område kommer att rymma den dolda volymen, så det kommer att begränsa dess maximala storlek. Proceduren säkerställer att inga data på den yttre volymen skrivs över av den dolda volymen.</entry>
-    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Fel: Du försöker kryptera en systemenhet.\nVeraCrypt kan inte kryptera en systemenhet endast under Windows.</entry>
-    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Fel: Du försöker kryptera en systempartition.\nVeraCrypt kan inte kryptera systempartitioner endast under Windows.</entry>
+    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Fel: Du försöker kryptera en systemenhet.\n\nVeraCrypt kan endast kryptera en systemenhet under Windows.</entry>
+    <entry lang="sv" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Fel: Du försöker kryptera en systempartition.\n\nVeraCrypt kan endast kryptera systempartitioner under Windows.</entry>
     <entry lang="sv" key="LINUX_WARNING_FORMAT_DESTROY_FS">VARNING: Formatering av enheten kommer att förstöra alla data på filsystemet "{0}".\n\nVill du fortsätta?</entry>
     <entry lang="sv" key="LINUX_MOUNTET_HINT">Filsystemet för den valda enheten är för närvarande monterat. Demontera "{0}" innan du fortsätter.</entry>
     <entry lang="sv" key="LINUX_HIDDEN_PASS_NO_DIFF">Den dolda volymen kan inte ha samma lösenord, PIM och nyckelfiler som den yttre volymen</entry>
@@ -1620,7 +1620,7 @@
     <entry lang="sv" key="EMV_CPLC_NOTFOUND">CPLC hittades inte i EMV-kortet.</entry>
     <entry lang="sv" key="EMV_PAN_NOTFOUND">Inget primärt kontonummer (PAN) hittades i EMV-kortet.</entry>
     <entry lang="sv" key="INVALID_EMV_PATH">EMV-sökvägen är ogiltig.</entry>
-    <entry lang="sv" key="EMV_KEYFILE_DATA_NOTFOUND">Det går inte att bygga en nyckelfil från EMV-kortdata. Något av följande saknas:\n- ICC Public Key Certificate.\n- Utfärdarens Public Key Certificate.\n- CPLC-data.</entry>
+    <entry lang="sv" key="EMV_KEYFILE_DATA_NOTFOUND">Det går inte att bygga en nyckelfil från EMV-kortdata.\n\nNågot av följande saknas:\n- ICC-publiknyckelcertifikat.\n- Utfärdarens publiknyckelcertifikat.\n- CPLC-data.</entry>
     <entry lang="sv" key="SCARD_W_REMOVED_CARD">Inget kort i läsaren.\n\nSe till att kortet är korrekt placerat.</entry>
     <entry lang="sv" key="FORMAT_EXTERNAL_FAILED">Windows format.com-kommandot misslyckades med att formatera volymen som NTFS/exFAT/ReFS: Fel 0x%.8X.\n\nÅtergår till att använda Windows FormatEx API.</entry>
     <entry lang="sv" key="FORMATEX_API_FAILED">Windows FormatEx API kunde inte formatera volymen som NTFS/exFAT/ReFS.\n\nFelstatus = %s.</entry>
