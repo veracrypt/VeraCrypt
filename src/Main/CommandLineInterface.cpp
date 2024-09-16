@@ -42,7 +42,9 @@ namespace VeraCrypt
 
 		parser.SetSwitchChars (L"-");
 
+#if defined(TC_WINDOWS) || defined(TC_MACOSX)
 		parser.AddSwitch (L"",  L"allow-screencapture",	_("Allow window to be included in screenshots and screen captures (Windows/MacOS)"));
+#endif
 		parser.AddOption (L"",  L"auto-mount",			_("Auto mount device-hosted/favorite volumes"));
 		parser.AddSwitch (L"",  L"backup-headers",		_("Backup volume headers"));
 		parser.AddSwitch (L"",  L"background-task",		_("Start Background Task"));
