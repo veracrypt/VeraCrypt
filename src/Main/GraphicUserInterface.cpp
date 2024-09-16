@@ -1874,6 +1874,14 @@ namespace VeraCrypt
 		listCtrl->SetMinSize (wxSize (width, listCtrl->GetMinSize().GetHeight()));
 	}
 
+
+	void GraphicUserInterface::SetContentProtection (bool enable) const
+	{
+#if defined(TC_WINDOWS) || defined(TC_MACOSX)
+		GetActiveWindow()->SetContentProtection(enable ? wxCONTENT_PROTECTION_ENABLED : wxCONTENT_PROTECTION_NONE);
+#endif
+	}
+
 	void GraphicUserInterface::ShowErrorTopMost (const wxString &message) const
 	{
 		ShowMessage (message, wxOK | wxICON_ERROR, true);

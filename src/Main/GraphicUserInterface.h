@@ -86,6 +86,7 @@ namespace VeraCrypt
 		virtual void SetListCtrlColumnWidths (wxListCtrl *listCtrl, list <int> columnWidthPermilles, bool hasVerticalScrollbar = true) const;
 		virtual void SetListCtrlHeight (wxListCtrl *listCtrl, size_t rowCount) const;
 		virtual void SetListCtrlWidth (wxListCtrl *listCtrl, size_t charCount, bool hasVerticalScrollbar = true) const;
+		virtual void SetContentProtection(bool enable) const;
 		virtual void ShowErrorTopMost (char *langStringId) const { ShowErrorTopMost (LangString[langStringId]); }
 		virtual void ShowErrorTopMost (const wxString &message) const;
 		virtual void ShowInfoTopMost (char *langStringId) const { ShowInfoTopMost (LangString[langStringId]); }
