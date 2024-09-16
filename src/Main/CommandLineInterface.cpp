@@ -29,6 +29,7 @@ namespace VeraCrypt
 		ArgPim (-1),
 		ArgSize (0),
 		ArgVolumeType (VolumeType::Unknown),
+		ArgAllowScreencapture (false),
 		ArgDisableFileSizeCheck (false),
 		ArgUseLegacyPassword (false),
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
@@ -41,6 +42,7 @@ namespace VeraCrypt
 
 		parser.SetSwitchChars (L"-");
 
+		parser.AddSwitch (L"",  L"allow-screencapture",	_("Allow window to be included in screenshots and screen captures (Windows/MacOS)"));
 		parser.AddOption (L"",  L"auto-mount",			_("Auto mount device-hosted/favorite volumes"));
 		parser.AddSwitch (L"",  L"backup-headers",		_("Backup volume headers"));
 		parser.AddSwitch (L"",  L"background-task",		_("Start Background Task"));
@@ -141,6 +143,8 @@ namespace VeraCrypt
 			Preferences.Load();
 			ArgMountOptions = Preferences.DefaultMountOptions;
 		}
+
+		ArgAllowScreencapture = parser.Found (L"allow-screencapture");
 
 		// Commands
 		if (parser.Found (L"auto-mount", &str))

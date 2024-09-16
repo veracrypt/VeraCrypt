@@ -84,6 +84,7 @@ namespace VeraCrypt
 		VolumeInfoList ArgVolumes;
 		VolumeType::Enum ArgVolumeType;
         shared_ptr<SecureBuffer> ArgTokenPin;
+        bool ArgAllowScreencapture;
         bool ArgDisableFileSizeCheck;
         bool ArgUseLegacyPassword;
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)

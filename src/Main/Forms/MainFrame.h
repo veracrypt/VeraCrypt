@@ -84,6 +84,7 @@ namespace VeraCrypt
 		void InitMessageFilter ();
 		void InitPreferences ();
 		void InitTaskBarIcon ();
+		void InitWindowPrivacy();
 		bool IsFreeSlotSelected () const { return SlotListCtrl->GetSelectedItemCount() == 1 && Gui->GetListCtrlSubItemText (SlotListCtrl, SelectedItemIndex, ColumnPath).empty(); }
 		bool IsMountedSlotSelected () const { return SlotListCtrl->GetSelectedItemCount() == 1 && !Gui->GetListCtrlSubItemText (SlotListCtrl, SelectedItemIndex, ColumnPath).empty(); }
 		void LoadFavoriteVolumes ();
