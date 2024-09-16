@@ -2636,7 +2636,7 @@ namespace VeraCrypt
 	bool EfiBoot::IsEfiBoot() {
 		DWORD BootOrderLen;
 		BootOrderLen = GetFirmwareEnvironmentVariable(L"BootOrder", EfiVarGuid, tempBuf, sizeof(tempBuf));
-		return BootOrderLen != 0;
+		return (BootOrderLen != 0) || (GetLastError() != ERROR_INVALID_FUNCTION);
 	}
 
 	void EfiBoot::DeleteStartExec(uint16 statrtOrderNum, wchar_t* type) {
