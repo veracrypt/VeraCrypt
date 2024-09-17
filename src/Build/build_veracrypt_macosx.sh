@@ -60,7 +60,7 @@ do
     esac
 done
 
-export VC_OSX_FUSET=$((fuset ? 1 : 0))
+export VC_OSX_FUSET=$([ "$fuset" = true ] && echo 1 || echo 0)
 
 if [ "$fuset" = true ]; then
     echo "Building VeraCrypt with FUSE-T support"
