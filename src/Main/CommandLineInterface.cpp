@@ -146,8 +146,11 @@ namespace VeraCrypt
 			ArgMountOptions = Preferences.DefaultMountOptions;
 		}
 
+#if defined(TC_WINDOWS) || defined(TC_MACOSX)
 		ArgAllowScreencapture = parser.Found (L"allow-screencapture");
-
+#else
+		ArgAllowScreencapture = true; // Protection against screenshots is supported only on Windows and MacOS
+#endif
 		// Commands
 		if (parser.Found (L"auto-mount", &str))
 		{
