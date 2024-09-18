@@ -4165,6 +4165,7 @@ BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		{
 			prm = (TEXT_INFO_DIALOG_PARAM_PTR)lParam;
+			LocalizeDialog (hwndDlg, NULL);
 			// increase size limit of rich edit control
 			SendMessage(GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), EM_EXLIMITTEXT, 0, -1);
 
@@ -4175,9 +4176,43 @@ BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (prm->ReadOnly)
 			{
 				// switch rich edit control to ReadOnly
-				SendMessage(GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), ES_READONLY, TRUE, 0);
+				SendMessage(GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), EM_SETREADONLY , TRUE, 0);
 				// hide cancel button
-				ShowWindow(GetDlgItem(hwndDlg, IDCANCEL), SW_HIDE);
+				HWND hwndCancel = GetDlgItem(hwndDlg, IDCANCEL);
+				ShowWindow(hwndCancel, SW_HIDE);
+
+				// Reposition OK button to Cancel button's position
+				HWND hwndOK = GetDlgItem(hwndDlg, IDOK);
+				if (hwndOK && hwndCancel)
+				{
+					// Get Cancel button's position in screen coordinates
+					RECT rectCancel;
+					if (GetWindowRect(hwndCancel, &rectCancel))
+					{
+						// Convert Cancel button's position to dialog's client coordinates
+						POINT ptCancel = { rectCancel.left, rectCancel.top };
+						ScreenToClient(hwndDlg, &ptCancel);
+
+						// Get OK button's current size
+						RECT rectOK;
+						if (GetWindowRect(hwndOK, &rectOK))
+						{
+							int width = rectOK.right - rectOK.left;
+							int height = rectOK.bottom - rectOK.top;
+
+							// Move OK button to Cancel button's position
+							SetWindowPos(
+								hwndOK,
+								NULL,
+								ptCancel.x,
+								ptCancel.y,
+								width,
+								height,
+								SWP_NOZORDER | SWP_NOACTIVATE
+							);
+						}
+					}
+				}
 			}
 
 			SendMessage (hwndDlg, TC_APPMSG_LOAD_TEXT_BOX_CONTENT, 0, 0);
@@ -4189,8 +4224,12 @@ BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		{
 			if (!prm->ReadOnly)
 			{
-				prm->Text.resize(GetWindowTextLengthA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT)) + 1);
-				GetWindowTextA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), &(prm->Text)[0], (int) prm->Text.size());
+				// read content of the text box as UTF16 and then convert it to UTF8
+				HWND hEdit = GetDlgItem(hwndDlg, IDC_INFO_BOX_TEXT);
+				int size = GetWindowTextLengthW(hEdit);
+				std::vector<WCHAR> buffer(size + 1);
+				GetWindowTextW(hEdit, buffer.data(), size + 1);
+				prm->Text = WideToUtf8String(buffer.data());
 			}
 			NormalCursor ();
 			EndDialog (hwndDlg, IDOK);
@@ -4207,7 +4246,8 @@ BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 	case TC_APPMSG_LOAD_TEXT_BOX_CONTENT:
 		{
-			SetWindowTextA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), prm->Text.c_str());
+			// convert prm->Text to UTF16 using Utf8StringToWide
+			SetWindowTextW(GetDlgItem(hwndDlg, IDC_INFO_BOX_TEXT), Utf8StringToWide(prm->Text).c_str());
 		}
 		return 0;
 
