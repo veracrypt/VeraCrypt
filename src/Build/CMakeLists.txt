@@ -111,6 +111,15 @@ if ( UNIX )
 		file(READ "/etc/centos-release" CENTOS_RELEASE)
 		string(REGEX MATCH "release ([0-9 /\\.]+)" _ ${CENTOS_RELEASE})
         set(PLATFORM_VERSION ${CMAKE_MATCH_1})
+        
+	# Get fedora release version
+	elseif(EXISTS "/etc/fedora-release")	
+	
+		set ( PLATFORM "Fedora" )
+		
+		file(READ "/etc/fedora-release" FEDORA_RELEASE)
+		string(REGEX MATCH "release ([0-9 /\\.]+)" _ ${FEDORA_RELEASE})
+		set(PLATFORM_VERSION ${CMAKE_MATCH_1})
 	
 	# Only if distribution uses systemd and if all previous files didn't exist
 	# i.e OpenSUSE
@@ -128,6 +137,8 @@ if ( UNIX )
 			set ( PLATFORM "Debian" )
 		elseif ( FULL_PLATFORM MATCHES "^.*CentOS.*$" )
 			set ( PLATFORM "CentOS" )
+		elseif ( FULL_PLATFORM MATCHES "^.*Fedora.*$" )
+			set ( PLATFORM "Fedora" )
 		endif ( )
 		
 		# Get ditribution release version
@@ -164,7 +175,7 @@ if ( PLATFORM STREQUAL "Debian" OR PLATFORM STREQUAL "Ubuntu" )
 		execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE ARCHITECTURE OUTPUT_STRIP_TRAILING_WHITESPACE)
 	endif( )
 	
-elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) )
+elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR ( PLATFORM STREQUAL "Fedora" ))
 
 	execute_process(COMMAND arch OUTPUT_VARIABLE ARCHITECTURE OUTPUT_STRIP_TRAILING_WHITESPACE)
 	
@@ -295,7 +306,7 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA 	${DEBIAN_PREINST};${DEBIAN_POSTINST};${DEBIAN_PRERM};${DEBIAN_POSTRM})
 	set(CPACK_DEBIAN_PACKAGE_CONFLICTS 		"${CONFLICT_PACKAGE}")
 	
-elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) )
+elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR ( PLATFORM STREQUAL "Fedora" ))
 	
 	# RPM control script(s)
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control)
