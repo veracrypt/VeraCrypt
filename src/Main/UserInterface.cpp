@@ -873,6 +873,14 @@ namespace VeraCrypt
 		ShowWarning (e.mException);
 	}
 
+#if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
+// Function to check if a given executable exists and is executable
+static bool IsExecutable(const string& exe) {
+    return wxFileName::IsFileExecutable("/usr/bin/" + exe) ||
+           wxFileName::IsFileExecutable("/usr/local/bin/" + exe);
+}
+#endif
+
 	void UserInterface::OpenExplorerWindow (const DirectoryPath &path)
 	{
 		if (path.IsEmpty())
@@ -897,60 +905,58 @@ namespace VeraCrypt
 		catch (exception &e) { ShowError (e); }
 
 #else
-		// MIME handler for directory seems to be unavailable through wxWidgets
-		wxString desktop = GetTraits()->GetDesktopEnvironment();
-		bool xdgOpenPresent = wxFileName::IsFileExecutable (wxT("/usr/bin/xdg-open")) || wxFileName::IsFileExecutable (wxT("/usr/local/bin/xdg-open"));
-		bool nautilusPresent = wxFileName::IsFileExecutable (wxT("/usr/bin/nautilus")) || wxFileName::IsFileExecutable (wxT("/usr/local/bin/nautilus"));
-
-		if (desktop == L"GNOME" || (desktop.empty() && !xdgOpenPresent && nautilusPresent))
-		{
-			// args.push_back ("--no-default-window"); // This option causes nautilus not to launch under FreeBSD 11
-			args.push_back ("--no-desktop");
-			args.push_back (string (path));
-			try
-			{
-				Process::Execute ("nautilus", args, 2000);
+		string directoryPath = string(path);
+		// Primary attempt: Use xdg-open
+		if (IsExecutable("xdg-open")) {
+			try {
+				args.push_back(directoryPath);
+				Process::Execute("xdg-open", args, 2000);
+				return;
 			}
 			catch (TimeOut&) { }
-			catch (exception &e) { ShowError (e); }
+			catch (exception&) {}
 		}
-		else if (desktop == L"KDE")
-		{
-			try
-			{
-				args.push_back (string (path));
-				Process::Execute ("dolphin", args, 2000);
-			}
-			catch (TimeOut&) { }
-			catch (exception&)
-			{
+
+		// Fallback attempts: Try known file managers
+		const char* fallbackFileManagers[] = { "gio", "kioclient5", "kfmclient", "exo-open", "nautilus", "dolphin", "caja", "thunar", "pcmanfm" };
+		const size_t numFileManagers = sizeof(fallbackFileManagers) / sizeof(fallbackFileManagers[0]);
+
+		for (size_t i = 0; i < numFileManagers; ++i) {
+			const char* fm = fallbackFileManagers[i];
+			if (IsExecutable(fm)) {
 				args.clear();
-				args.push_back ("openURL");
-				args.push_back (string (path));
-				try
-				{
-					Process::Execute ("kfmclient", args, 2000);
+				if (strcmp(fm, "gio") == 0) {
+					args.push_back("open");
+					args.push_back(directoryPath);
+				}
+				else if (strcmp(fm, "kioclient5") == 0) {
+					args.push_back("exec");
+					args.push_back(directoryPath);
+				}
+				else if (strcmp(fm, "kfmclient") == 0) {
+					args.push_back("openURL");
+					args.push_back(directoryPath);
+				}
+				else if (strcmp(fm, "exo-open") == 0) {
+					args.push_back("--launch");
+					args.push_back("FileManager");
+					args.push_back(directoryPath);
+				}
+				else {
+					args.push_back(directoryPath);
+				}
+
+				try {
+					Process::Execute(fm, args, 2000);
+					return; // Success
 				}
 				catch (TimeOut&) { }
-				catch (exception &e) { ShowError (e); }
+				catch (exception &) {}
 			}
 		}
-		else if (xdgOpenPresent)
-		{
-			// Fallback on the standard xdg-open command
-			// which is not always available by default
-			args.push_back (string (path));
-			try
-			{
-				Process::Execute ("xdg-open", args, 2000);
-			}
-			catch (TimeOut&) { }
-			catch (exception &e) { ShowError (e); }
-		}
-		else
-		{
-			ShowWarning (wxT("Unable to find a file manager to open the mounted volume"));
-		}
+
+		ShowWarning(wxT("Unable to find a file manager to open the mounted volume.\n"
+					"Please install xdg-utils or set a default file manager."));
 #endif
 	}
 
