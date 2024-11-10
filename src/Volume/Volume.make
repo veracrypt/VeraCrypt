@@ -13,6 +13,9 @@
 OBJS :=
 OBJSEX :=
 OBJSNOOPT :=
+OBJSSSE41 :=
+OBJSSSSE3 :=
+OBJSHANI :=
 OBJS += Cipher.o
 OBJS += EncryptionAlgorithm.o
 OBJS += EncryptionMode.o
