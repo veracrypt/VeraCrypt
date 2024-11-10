@@ -55,6 +55,16 @@ static void SigIllHandlerAESNI(int p)
 
 #endif
 
+#if !defined (_UEFI) && (defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE)
+
+static jmp_buf s_jmpNoSHA;
+static void SigIllHandlerSHA(int p)
+{
+	longjmp(s_jmpNoSHA, 1);
+}
+
+#endif
+
 #if CRYPTOPP_BOOL_X64 == 0
 static jmp_buf s_jmpNoSSE2;
 static void SigIllHandlerSSE2(int p)
@@ -311,6 +321,55 @@ static int Detect_MS_HyperV_AES ()
 
 #endif
 
+#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+static int TrySHA256()
+{
+    volatile int result = 0;
+#ifdef _MSC_VER
+    __try
+#else
+    SigHandler oldHandler = signal(SIGILL, SigIllHandlerSHA);
+    if (oldHandler == SIG_ERR)
+        return 0;
+    if (setjmp(s_jmpNoSHA))
+        result = 0;
+    else
+#endif
+    {
+        // Known input message block
+        __m128i msg0 = _mm_setr_epi32(0x12345678, 0x9ABCDEF0, 0x87654321, 0x0FEDCBA9);
+        __m128i msg1 = _mm_setr_epi32(0x11111111, 0x22222222, 0x33333333, 0x44444444);
+        
+        // SHA256 message schedule update
+        __m128i tmp = _mm_sha256msg1_epu32(msg0, msg1);
+        
+        // Verify result - these values were pre-computed for the given input
+#ifdef _MSC_VER
+        if (tmp.m128i_u32[0] == 0xD8131B44 &&
+            tmp.m128i_u32[1] == 0x9DE6E22B &&
+            tmp.m128i_u32[2] == 0xA86D643A &&
+            tmp.m128i_u32[3] == 0x74320FED)
+#else
+        if (((uint32_t*)(&tmp))[0] == 0xD8131B44 &&
+            ((uint32_t*)(&tmp))[1] == 0x9DE6E22B &&
+            ((uint32_t*)(&tmp))[2] == 0xA86D643A &&
+            ((uint32_t*)(&tmp))[3] == 0x74320FED)
+#endif
+            result = 1;
+    }
+#ifdef _MSC_VER
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    {
+        // ignore error if SHA instructions not supported
+    }
+#else
+    signal(SIGILL, oldHandler);
+#endif
+
+    return result;
+}
+#endif
+
 static BOOL CheckSHA256Support() {
 #if CRYPTOPP_BOOL_X64 && CRYPTOPP_SHANI_AVAILABLE
 #if defined(_MSC_VER) // Windows with MSVC
@@ -376,6 +435,13 @@ void DetectX86Features()
 	if (!g_hasAESNI && (cpuid1[2] & (1<<31)))
 	{
 		g_hasAESNI = Detect_MS_HyperV_AES ();
+	}
+#endif
+
+#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+	if (!g_hasSHA256)
+	{
+		g_hasSHA256 = TrySHA256();
 	}
 #endif
 
