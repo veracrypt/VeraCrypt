@@ -87,6 +87,9 @@
     <ClCompile Include="blake2s_SSSE3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sha2Intel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">

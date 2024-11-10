@@ -89,6 +89,12 @@
       <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdCall</CallingConvention>
       <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdCall</CallingConvention>
     </ClCompile>
+    <ClCompile Include="..\Crypto\Sha2Intel.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Crypto\Streebog.c" />
     <ClCompile Include="..\Crypto\t1ha2.c" />
     <ClCompile Include="..\Crypto\t1ha2_selfcheck.c" />

@@ -148,6 +148,7 @@ export ENABLE_WOLFCRYPT ?= 0
 
 export GCC_GTEQ_440 := 0
 export GCC_GTEQ_430 := 0
+export GCC_GTEQ_500 := 0
 export GTK_VERSION := 0
 
 ARCH ?= $(shell uname -m)
@@ -232,6 +233,7 @@ ifeq "$(shell uname -s)" "Linux"
 
 		GCC_GTEQ_440 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
 		GCC_GTEQ_430 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
+		GCC_GTEQ_500 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 50000)
 
 		ifeq "$(DISABLE_AESNI)" "1"
 			CFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
@@ -315,6 +317,7 @@ $(error Specified SDK version was not found, ensure your active developer direct
 	CXX := g++
 
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_500 := 1
 
 	CXXFLAGS += -std=c++11
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_MACOSX -mmacosx-version-min=$(VC_OSX_TARGET) -isysroot $(VC_OSX_SDK_PATH)
@@ -419,6 +422,7 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	CXX := c++
 
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_500 := 1
 	
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
 		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
@@ -480,6 +484,7 @@ ifeq "$(shell uname -s)" "OpenBSD"
 	CXX := c++
 
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_500 := 1
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
 		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie

@@ -339,6 +339,7 @@
     <ClCompile Include="SerpentFast.c" />
     <ClCompile Include="SerpentFast_simd.cpp" />
     <ClCompile Include="Sha2.c" />
+    <ClCompile Include="Sha2Intel.c" />
     <ClCompile Include="Streebog.c" />
     <ClCompile Include="t1ha2.c" />
     <ClCompile Include="t1ha2_selfcheck.c" />
