@@ -375,7 +375,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	PCRYPTO_INFO cryptoInfo2 = NULL;
 	HANDLE dev = INVALID_HANDLE_VALUE;
 	DWORD dwError;
-	char *header;
+	unsigned char *header;
 	WCHAR dosDev[TC_MAX_PATH] = {0};
 	WCHAR devName[MAX_PATH] = {0};
 	int driveLetter = -1;
@@ -393,7 +393,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		return ERR_DONT_REPORT;
 
 
-	header = (char *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+	header = (unsigned char *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 	if (!header)
 		return ERR_OUTOFMEMORY;
 
@@ -600,7 +600,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		}
 
 		// Write the backup header to the partition
-		if (!WriteEffectiveVolumeHeader (TRUE, dev, (uint8 *) header))
+		if (!WriteEffectiveVolumeHeader (TRUE, dev, header))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -753,7 +753,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 {
 	PCRYPTO_INFO masterCryptoInfo = NULL, headerCryptoInfo = NULL, tmpCryptoInfo = NULL;
 	UINT64_STRUCT unitNo;
-	char *buf = NULL, *header = NULL;
+	unsigned char *buf = NULL, *header = NULL;
 	uint8 *wipeBuffer = NULL;
 	uint8 wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
 	uint8 wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
@@ -783,14 +783,14 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 
 	bInPlaceEncNonSysResumed = TRUE;
 
-	buf = (char *) TCalloc (TC_MAX_NONSYS_INPLACE_ENC_WORK_CHUNK_SIZE);
+	buf = (unsigned char *) TCalloc (TC_MAX_NONSYS_INPLACE_ENC_WORK_CHUNK_SIZE);
 	if (!buf)
 	{
 		nStatus = ERR_OUTOFMEMORY;
 		goto closing_seq;
 	}
 
-	header = (char *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+	header = (unsigned char *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 	if (!header)
 	{
 		nStatus = ERR_OUTOFMEMORY;
@@ -2301,10 +2301,10 @@ static int OpenBackupHeader (HANDLE dev, const wchar_t *devicePath, Password *pa
 	LARGE_INTEGER offset;
 	DWORD n;
 	int nStatus = ERR_SUCCESS;
-	char *header;
+	unsigned char *header;
 	DWORD dwError;
 
-	header = (char *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+	header = (unsigned char *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 	if (!header)
 		return ERR_OUTOFMEMORY;
 
@@ -2315,7 +2315,7 @@ static int OpenBackupHeader (HANDLE dev, const wchar_t *devicePath, Password *pa
 	offset.QuadPart = deviceSize - TC_VOLUME_HEADER_GROUP_SIZE;
 
 	if (MoveFilePointer (dev, offset) == 0
-		|| !ReadEffectiveVolumeHeader (TRUE, dev, (uint8 *) header, &n) || n < TC_VOLUME_HEADER_EFFECTIVE_SIZE)
+		|| !ReadEffectiveVolumeHeader (TRUE, dev, header, &n) || n < TC_VOLUME_HEADER_EFFECTIVE_SIZE)
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;

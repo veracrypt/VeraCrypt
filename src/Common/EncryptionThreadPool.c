@@ -98,14 +98,14 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 		{
 			TC_EVENT *CompletionEvent;
 			LONG *CompletionFlag;
-			char *DerivedKey;
+			unsigned char *DerivedKey;
 			int IterationCount;
 			TC_EVENT *NoOutstandingWorkItemEvent;
 			LONG *OutstandingWorkItemCount;
-			char *Password;
+			unsigned char *Password;
 			int PasswordLength;
 			int Pkcs5Prf;
-			char *Salt;
+			unsigned char *Salt;
 
 		} KeyDerivation;
 
@@ -533,7 +533,7 @@ void EncryptionThreadPoolStop ()
 }
 
 
-void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, char *password, int passwordLength, char *salt, int iterationCount, char *derivedKey)
+void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount, unsigned char *derivedKey)
 {
 	EncryptionThreadPoolWorkItem *workItem;
 

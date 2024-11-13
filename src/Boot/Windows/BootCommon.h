@@ -58,7 +58,7 @@ typedef struct
 	uint16 CryptoInfoOffset;
 	uint16 CryptoInfoLength;
 	uint32 HeaderSaltCrc32;
-	PasswordLegacy BootPassword;
+	__declspec(align(8)) PasswordLegacy BootPassword;
 	uint64 HiddenSystemPartitionStart;
 	uint64 DecoySystemPartitionStart;
 	uint32 Flags;

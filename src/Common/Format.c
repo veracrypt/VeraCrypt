@@ -84,7 +84,7 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 	PCRYPTO_INFO cryptoInfo = NULL;
 	HANDLE dev = INVALID_HANDLE_VALUE;
 	DWORD dwError;
-	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
+	unsigned char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	unsigned __int64 num_sectors, startSector;
 	fatparams ft;
 	FILETIME ftCreationTime;

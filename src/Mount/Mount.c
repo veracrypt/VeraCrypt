@@ -4242,7 +4242,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				StringCbPrintfW (sw, sizeof(sw), L"%d %s", size * 8, GetString ("BITS"));
 				ListSubItemSet (list, i++, 1, sw);
 
-				if (wcscmp (EAGetModeName (prop.ea, prop.mode, TRUE), L"XTS") == 0)
+				if (wcscmp (EAGetModeName (prop.mode), L"XTS") == 0)
 				{
 					// Secondary key (XTS)
 
@@ -4260,7 +4260,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			// Mode
 			ListItemAdd (list, i, GetString ("MODE_OF_OPERATION"));
-			ListSubItemSet (list, i++, 1, EAGetModeName (prop.ea, prop.mode, TRUE));
+			ListSubItemSet (list, i++, 1, EAGetModeName (prop.mode));
 
 			// PKCS 5 PRF
 			ListItemAdd (list, i, GetString ("PKCS5_PRF"));
@@ -11047,13 +11047,13 @@ noHidden:
 	}
 
 	// Store header encrypted with a new key
-	nStatus = ReEncryptVolumeHeader (hwndDlg, (char *) backup, FALSE, volume.CryptoInfo, &VolumePassword, VolumePim, FALSE);
+	nStatus = ReEncryptVolumeHeader (hwndDlg, backup, FALSE, volume.CryptoInfo, &VolumePassword, VolumePim, FALSE);
 	if (nStatus != ERR_SUCCESS)
 		goto error;
 
 	if (hiddenVolume.VolumeIsOpen)
 	{
-		nStatus = ReEncryptVolumeHeader (hwndDlg, (char *) backup + (legacyVolume ? TC_VOLUME_HEADER_SIZE_LEGACY : TC_VOLUME_HEADER_SIZE),
+		nStatus = ReEncryptVolumeHeader (hwndDlg, backup + (legacyVolume ? TC_VOLUME_HEADER_SIZE_LEGACY : TC_VOLUME_HEADER_SIZE),
 			 FALSE, hiddenVolume.CryptoInfo, &hiddenVolPassword, hiddenVolPim, FALSE);
 
 		if (nStatus != ERR_SUCCESS)
@@ -11238,7 +11238,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 		}
 
 		// Create a new header with a new salt
-		char buffer[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
+		unsigned char buffer[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 
 		nStatus = ReEncryptVolumeHeader (hwndDlg, buffer, FALSE, volume.CryptoInfo, &VolumePassword, VolumePim, FALSE);
 		if (nStatus != 0)
@@ -11398,7 +11398,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 
 
 		/* Read the volume header from the backup file */
-		char buffer[TC_VOLUME_HEADER_GROUP_SIZE];
+		unsigned char buffer[TC_VOLUME_HEADER_GROUP_SIZE];
 
 		DWORD bytesRead;
 		if (!ReadFile (fBackup, buffer, sizeof (buffer), &bytesRead, NULL))

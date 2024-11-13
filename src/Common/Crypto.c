@@ -659,8 +659,8 @@ int EAGetNextMode (int ea, int previousModeId)
 	return 0;
 }
 
-// Returns the name of the mode of operation of the whole EA
-wchar_t *EAGetModeName (int ea, int mode, BOOL capitalLetters)
+// Returns the name of the mode of operation
+const wchar_t *EAGetModeName (int mode)
 {
 	switch (mode)
 	{
@@ -669,7 +669,7 @@ wchar_t *EAGetModeName (int ea, int mode, BOOL capitalLetters)
 		return L"XTS";
 
 	}
-	return L"[unknown]";
+	return L"[UNKNOWN]";
 }
 
 #endif // TC_WINDOWS_BOOT
@@ -891,7 +891,7 @@ PCRYPTO_INFO crypto_open ()
 }
 
 #ifndef TC_WINDOWS_BOOT
-void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen)
+void crypto_loadkey (PKEY_INFO keyInfo, unsigned char *lpszUserKey, int nUserKeyLen)
 {
 	keyInfo->keyLength = nUserKeyLen;
 	burn (keyInfo->userKey, sizeof (keyInfo->userKey));
@@ -1239,9 +1239,11 @@ static BOOL RamEncryptionEnabled = FALSE;
 
 BOOL IsCpuRngSupported ()
 {
+#ifndef _M_ARM64
 	if (HasRDSEED() || HasRDRAND())
 		return TRUE;
 	else
+#endif
 		return FALSE;
 }
 
@@ -1313,7 +1315,7 @@ uint8 GetRandomIndex (ChaCha20RngCtx* pCtx, uint8 elementsCount)
 	return index;
 }
 
-#if defined(_WIN64) && !defined (_UEFI)
+#if !defined (_UEFI)
 /* declaration of variables and functions used for RAM encryption on 64-bit build */
 static uint8* pbKeyDerivationArea = NULL;
 static ULONG cbKeyDerivationArea = 0;

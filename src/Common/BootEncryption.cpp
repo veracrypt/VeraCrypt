@@ -4382,14 +4382,14 @@ namespace VeraCrypt
 		if (!IsRandomNumberGeneratorStarted())
 			throw ParameterIncorrect (SRC_POS);
 
-		throw_sys_if (CreateVolumeHeaderInMemory (ParentWindow, TRUE, (char *) VolumeHeader, ea, mode, password, pkcs5, pim, NULL, &cryptoInfo,
+		throw_sys_if (CreateVolumeHeaderInMemory (ParentWindow, TRUE, VolumeHeader, ea, mode, password, pkcs5, pim, NULL, &cryptoInfo,
 			volumeSize, 0, encryptedAreaStart, 0, TC_SYSENC_KEYSCOPE_MIN_REQ_PROG_VERSION, TC_HEADER_FLAG_ENCRYPTED_SYSTEM, TC_SECTOR_SIZE_BIOS, FALSE) != 0);
 
 		finally_do_arg (PCRYPTO_INFO*, &cryptoInfo, { crypto_close (*finally_arg); });
 
 		// Initial rescue disk assumes encryption of the drive has been completed (EncryptedAreaLength == volumeSize)
 		memcpy (RescueVolumeHeader, VolumeHeader, sizeof (RescueVolumeHeader));
-		if (0 != ReadVolumeHeader (TRUE, (char *) RescueVolumeHeader, password, pkcs5, pim, NULL, cryptoInfo))
+		if (0 != ReadVolumeHeader (TRUE, RescueVolumeHeader, password, pkcs5, pim, NULL, cryptoInfo))
 			throw ParameterIncorrect (SRC_POS);
 
 		DecryptBuffer (RescueVolumeHeader + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
@@ -5391,7 +5391,7 @@ namespace VeraCrypt
 
 		SystemDriveConfiguration config = GetSystemDriveConfiguration ();
 
-		char header[TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];
+		unsigned char header[TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];
 		Device device (config.DevicePath);
 		device.CheckOpened (SRC_POS);
 
@@ -5421,7 +5421,7 @@ namespace VeraCrypt
 		}
 
 		device.SeekAt (headerOffset);
-		device.Read ((uint8 *) header, sizeof (header));
+		device.Read (header, sizeof (header));
 
 		PCRYPTO_INFO cryptoInfo = NULL;
 		

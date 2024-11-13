@@ -43,13 +43,13 @@ typedef struct hmac_sha256_ctx_struct
 	sha256_ctx ctx;
 	sha256_ctx inner_digest_ctx; /*pre-computed inner digest context */
 	sha256_ctx outer_digest_ctx; /*pre-computed outer digest context */
-	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the SHA256 hash */
-	char u[SHA256_DIGESTSIZE];
+	unsigned char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the SHA256 hash */
+	unsigned char u[SHA256_DIGESTSIZE];
 } hmac_sha256_ctx;
 
 void hmac_sha256_internal
 (
-	  char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
+	unsigned char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
 	  int ld,		/* length of input data in bytes */
 	  hmac_sha256_ctx* hmac /* HMAC-SHA256 context which holds temporary variables */
 )
@@ -60,44 +60,38 @@ void hmac_sha256_internal
 
 	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (sha256_ctx));
 
-	sha256_hash ((unsigned char *) d, ld, ctx);
+	sha256_hash (d, ld, ctx);
 
-	sha256_end ((unsigned char *) d, ctx); /* d = inner digest */
+	sha256_end (d, ctx); /* d = inner digest */
 
 	/**** Restore Precomputed Outer Digest Context ****/
 
 	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (sha256_ctx));
 
-	sha256_hash ((unsigned char *) d, SHA256_DIGESTSIZE, ctx);
+	sha256_hash (d, SHA256_DIGESTSIZE, ctx);
 
-	sha256_end ((unsigned char *) d, ctx); /* d = outer digest */
+	sha256_end (d, ctx); /* d = outer digest */
 }
 
 #ifndef TC_WINDOWS_BOOT
 void hmac_sha256
 (
-	char *k,    /* secret key */
+	unsigned char *k,    /* secret key */
 	int lk,    /* length of the key in bytes */
-	char *d,    /* data */
+	unsigned char *d,    /* data */
 	int ld    /* length of data in bytes */
 )
 {
 	hmac_sha256_ctx hmac;
 	sha256_ctx* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b;
-	char key[SHA256_DIGESTSIZE];
-#if defined (DEVICE_DRIVER)
+	unsigned char key[SHA256_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-#ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
-#else
-	KFLOATING_SAVE floatingPointState;	
-	if (HasSSE2())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
 #endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha256(key), as per HMAC specifications. */
@@ -106,8 +100,8 @@ void hmac_sha256
 		sha256_ctx tctx;
 
 		sha256_begin (&tctx);
-		sha256_hash ((unsigned char *) k, lk, &tctx);
-		sha256_end ((unsigned char *) key, &tctx);
+		sha256_hash (k, lk, &tctx);
+		sha256_end (key, &tctx);
 
 		k = key;
 		lk = SHA256_DIGESTSIZE;
@@ -122,10 +116,10 @@ void hmac_sha256
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x36);
+		buf[b] = (unsigned char) (k[b] ^ 0x36);
 	memset (&buf[lk], 0x36, SHA256_BLOCKSIZE - lk);
 
-	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+	sha256_hash (buf, SHA256_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -133,20 +127,16 @@ void hmac_sha256
 	sha256_begin (ctx);
 
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x5C);
+		buf[b] = (unsigned char) (k[b] ^ 0x5C);
 	memset (&buf[lk], 0x5C, SHA256_BLOCKSIZE - lk);
 
-	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+	sha256_hash (buf, SHA256_BLOCKSIZE, ctx);
 
 	hmac_sha256_internal(d, ld, &hmac);
 
-#if defined (DEVICE_DRIVER)
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-#ifdef _WIN64
 		KeRestoreExtendedProcessorStateVC(&SaveState);
-#else
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 #endif
 
 	/* Prevent leaks */
@@ -155,10 +145,10 @@ void hmac_sha256
 }
 #endif
 
-static void derive_u_sha256 (char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
+static void derive_u_sha256 (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
 {
-	char* k = hmac->k;
-	char* u = hmac->u;
+	unsigned char* k = hmac->k;
+	unsigned char* u = hmac->u;
 	uint32 c;
 	int i;	
 
@@ -184,7 +174,7 @@ static void derive_u_sha256 (char *salt, int salt_len, uint32 iterations, int b,
 #ifdef TC_WINDOWS_BOOT
     /* specific case of 16-bit bootloader: b is a 16-bit integer that is always < 256 */
 	memset (&k[salt_len], 0, 3);
-	k[salt_len + 3] = (char) b;
+	k[salt_len + 3] = (unsigned char) b;
 #else
     b = bswap_32 (b);
     memcpy (&k[salt_len], &b, 4);
@@ -206,25 +196,19 @@ static void derive_u_sha256 (char *salt, int salt_len, uint32 iterations, int b,
 }
 
 
-void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
+void derive_key_sha256 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {	
 	hmac_sha256_ctx hmac;
 	sha256_ctx* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b, l, r;
 #ifndef TC_WINDOWS_BOOT
-	char key[SHA256_DIGESTSIZE];
-#if defined (DEVICE_DRIVER)
+	unsigned char key[SHA256_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-#ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
-#else
-	KFLOATING_SAVE floatingPointState;	
-	if (HasSSE2())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
 #endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = sha256(pwd), as per HMAC specifications. */
@@ -233,8 +217,8 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 		sha256_ctx tctx;
 
 		sha256_begin (&tctx);
-		sha256_hash ((unsigned char *) pwd, pwd_len, &tctx);
-		sha256_end ((unsigned char *) key, &tctx);
+		sha256_hash (pwd, pwd_len, &tctx);
+		sha256_end (key, &tctx);
 
 		pwd = key;
 		pwd_len = SHA256_DIGESTSIZE;
@@ -261,10 +245,10 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x36);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x36);
 	memset (&buf[pwd_len], 0x36, SHA256_BLOCKSIZE - pwd_len);
 
-	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+	sha256_hash (buf, SHA256_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -272,10 +256,10 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	sha256_begin (ctx);
 
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x5C);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x5C);
 	memset (&buf[pwd_len], 0x5C, SHA256_BLOCKSIZE - pwd_len);
 
-	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+	sha256_hash (buf, SHA256_BLOCKSIZE, ctx);
 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
@@ -289,13 +273,9 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	derive_u_sha256 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
-#if defined (DEVICE_DRIVER)
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-#ifdef _WIN64
 		KeRestoreExtendedProcessorStateVC(&SaveState);
-#else
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 #endif
 
 	/* Prevent possible leaks. */
@@ -314,13 +294,13 @@ typedef struct hmac_sha512_ctx_struct
 	sha512_ctx ctx;
 	sha512_ctx inner_digest_ctx; /*pre-computed inner digest context */
 	sha512_ctx outer_digest_ctx; /*pre-computed outer digest context */
-	char k[SHA512_BLOCKSIZE]; /* enough to hold (salt_len + 4) and also the SHA512 hash */
-	char u[SHA512_DIGESTSIZE];
+	unsigned char k[SHA512_BLOCKSIZE]; /* enough to hold (salt_len + 4) and also the SHA512 hash */
+	unsigned char u[SHA512_DIGESTSIZE];
 } hmac_sha512_ctx;
 
 void hmac_sha512_internal
 (
-	  char *d,		/* data and also output buffer of at least 64 bytes */
+	unsigned char *d,		/* data and also output buffer of at least 64 bytes */
 	  int ld,			/* length of data in bytes */
 	  hmac_sha512_ctx* hmac
 )
@@ -331,43 +311,37 @@ void hmac_sha512_internal
 
 	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (sha512_ctx));
 
-	sha512_hash ((unsigned char *) d, ld, ctx);
+	sha512_hash (d, ld, ctx);
 
-	sha512_end ((unsigned char *) d, ctx);
+	sha512_end (d, ctx);
 
 	/**** Restore Precomputed Outer Digest Context ****/
 
 	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (sha512_ctx));
 
-	sha512_hash ((unsigned char *) d, SHA512_DIGESTSIZE, ctx);
+	sha512_hash (d, SHA512_DIGESTSIZE, ctx);
 
-	sha512_end ((unsigned char *) d, ctx);
+	sha512_end (d, ctx);
 }
 
 void hmac_sha512
 (
-	  char *k,		/* secret key */
+	  unsigned char *k,		/* secret key */
 	  int lk,		/* length of the key in bytes */
-	  char *d,		/* data and also output buffer of at least 64 bytes */
+ 	  unsigned char *d,		/* data and also output buffer of at least 64 bytes */
 	  int ld			/* length of data in bytes */	  
 )
 {
 	hmac_sha512_ctx hmac;
 	sha512_ctx* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b;
-	char key[SHA512_DIGESTSIZE];
-#if defined (DEVICE_DRIVER)
+	unsigned char key[SHA512_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-#ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
-#else
-	KFLOATING_SAVE floatingPointState;	
-	if (HasSSSE3() && HasMMX())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
 #endif
 
     /* If the key is longer than the hash algorithm block size,
@@ -377,8 +351,8 @@ void hmac_sha512
 		sha512_ctx tctx;
 
 		sha512_begin (&tctx);
-		sha512_hash ((unsigned char *) k, lk, &tctx);
-		sha512_end ((unsigned char *) key, &tctx);
+		sha512_hash (k, lk, &tctx);
+		sha512_end (key, &tctx);
 
 		k = key;
 		lk = SHA512_DIGESTSIZE;
@@ -393,10 +367,10 @@ void hmac_sha512
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x36);
+		buf[b] = (unsigned char) (k[b] ^ 0x36);
 	memset (&buf[lk], 0x36, SHA512_BLOCKSIZE - lk);
 
-	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
+	sha512_hash (buf, SHA512_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -404,20 +378,16 @@ void hmac_sha512
 	sha512_begin (ctx);
 
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x5C);
+		buf[b] = (unsigned char) (k[b] ^ 0x5C);
 	memset (&buf[lk], 0x5C, SHA512_BLOCKSIZE - lk);
 
-	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
+	sha512_hash (buf, SHA512_BLOCKSIZE, ctx);
 
 	hmac_sha512_internal (d, ld, &hmac);
 
-#if defined (DEVICE_DRIVER)
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-#ifdef _WIN64
 		KeRestoreExtendedProcessorStateVC(&SaveState);
-#else
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 #endif
 
 	/* Prevent leaks */
@@ -425,10 +395,10 @@ void hmac_sha512
 	burn (key, sizeof(key));
 }
 
-static void derive_u_sha512 (char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
+static void derive_u_sha512 (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
 {
-	char* k = hmac->k;
-	char* u = hmac->u;
+	unsigned char* k = hmac->k;
+	unsigned char* u = hmac->u;
 	uint32 c, i;
 
 	/* iteration 1 */
@@ -452,24 +422,18 @@ static void derive_u_sha512 (char *salt, int salt_len, uint32 iterations, int b,
 }
 
 
-void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
+void derive_key_sha512 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {
 	hmac_sha512_ctx hmac;
 	sha512_ctx* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b, l, r;
-	char key[SHA512_DIGESTSIZE];
-#if defined (DEVICE_DRIVER)
+	unsigned char key[SHA512_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-#ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
-#else
-	KFLOATING_SAVE floatingPointState;	
-	if (HasSSSE3() && HasMMX())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
 #endif
 
     /* If the password is longer than the hash algorithm block size,
@@ -479,8 +443,8 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 		sha512_ctx tctx;
 
 		sha512_begin (&tctx);
-		sha512_hash ((unsigned char *) pwd, pwd_len, &tctx);
-		sha512_end ((unsigned char *) key, &tctx);
+		sha512_hash (pwd, pwd_len, &tctx);
+		sha512_end (key, &tctx);
 
 		pwd = key;
 		pwd_len = SHA512_DIGESTSIZE;
@@ -506,10 +470,10 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x36);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x36);
 	memset (&buf[pwd_len], 0x36, SHA512_BLOCKSIZE - pwd_len);
 
-	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
+	sha512_hash (buf, SHA512_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -517,10 +481,10 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	sha512_begin (ctx);
 
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x5C);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x5C);
 	memset (&buf[pwd_len], 0x5C, SHA512_BLOCKSIZE - pwd_len);
 
-	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
+	sha512_hash (buf, SHA512_BLOCKSIZE, ctx);
 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
@@ -534,13 +498,9 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	derive_u_sha512 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
-#if defined (DEVICE_DRIVER)
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-#ifdef _WIN64
 		KeRestoreExtendedProcessorStateVC(&SaveState);
-#else
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 #endif
 
 	/* Prevent possible leaks. */
@@ -557,13 +517,13 @@ typedef struct hmac_blake2s_ctx_struct
 	blake2s_state ctx;
 	blake2s_state inner_digest_ctx; /*pre-computed inner digest context */
 	blake2s_state outer_digest_ctx; /*pre-computed outer digest context */
-	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Blake2s hash */
-	char u[BLAKE2S_DIGESTSIZE];
+	unsigned char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Blake2s hash */
+	unsigned char u[BLAKE2S_DIGESTSIZE];
 } hmac_blake2s_ctx;
 
 void hmac_blake2s_internal
 (
-	  char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
+	unsigned char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
 	  int ld,		/* length of input data in bytes */
 	  hmac_blake2s_ctx* hmac /* HMAC-BLAKE2S context which holds temporary variables */
 )
@@ -576,7 +536,7 @@ void hmac_blake2s_internal
 
 	blake2s_update (ctx, d, ld);
 
-	blake2s_final (ctx, (unsigned char*) d); /* d = inner digest */
+	blake2s_final (ctx, d); /* d = inner digest */
 
 	/**** Restore Precomputed Outer Digest Context ****/
 
@@ -584,34 +544,28 @@ void hmac_blake2s_internal
 
 	blake2s_update (ctx, d, BLAKE2S_DIGESTSIZE);
 
-	blake2s_final (ctx, (unsigned char *) d); /* d = outer digest */
+	blake2s_final (ctx, d); /* d = outer digest */
 }
 
 #ifndef TC_WINDOWS_BOOT
 void hmac_blake2s
 (
-	char *k,    /* secret key */
+	unsigned char *k,    /* secret key */
 	int lk,    /* length of the key in bytes */
-	char *d,    /* data */
+	unsigned char *d,    /* data */
 	int ld    /* length of data in bytes */
 )
 {
 	hmac_blake2s_ctx hmac;
 	blake2s_state* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b;
-	char key[BLAKE2S_DIGESTSIZE];
-#if defined (DEVICE_DRIVER)
+	unsigned char key[BLAKE2S_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-#ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
-#else
-	KFLOATING_SAVE floatingPointState;	
-	if (HasSSE2())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
 #endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = blake2s(key), as per HMAC specifications. */
@@ -621,7 +575,7 @@ void hmac_blake2s
 
 		blake2s_init (&tctx);
 		blake2s_update (&tctx, k, lk);
-		blake2s_final (&tctx, (unsigned char *) key);
+		blake2s_final (&tctx, key);
 
 		k = key;
 		lk = BLAKE2S_DIGESTSIZE;
@@ -636,10 +590,10 @@ void hmac_blake2s
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x36);
+		buf[b] = (unsigned char) (k[b] ^ 0x36);
 	memset (&buf[lk], 0x36, BLAKE2S_BLOCKSIZE - lk);
 
-	blake2s_update (ctx, (unsigned char *) buf, BLAKE2S_BLOCKSIZE);
+	blake2s_update (ctx, buf, BLAKE2S_BLOCKSIZE);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -647,20 +601,16 @@ void hmac_blake2s
 	blake2s_init (ctx);
 
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x5C);
+		buf[b] = (unsigned char) (k[b] ^ 0x5C);
 	memset (&buf[lk], 0x5C, BLAKE2S_BLOCKSIZE - lk);
 
-	blake2s_update (ctx, (unsigned char *) buf, BLAKE2S_BLOCKSIZE);
+	blake2s_update (ctx, buf, BLAKE2S_BLOCKSIZE);
 
 	hmac_blake2s_internal(d, ld, &hmac);
 
-#if defined (DEVICE_DRIVER)
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-#ifdef _WIN64
 		KeRestoreExtendedProcessorStateVC(&SaveState);
-#else
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 #endif
 
 	/* Prevent leaks */
@@ -669,10 +619,10 @@ void hmac_blake2s
 }
 #endif
 
-static void derive_u_blake2s (char *salt, int salt_len, uint32 iterations, int b, hmac_blake2s_ctx* hmac)
+static void derive_u_blake2s (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_blake2s_ctx* hmac)
 {
-	char* k = hmac->k;
-	char* u = hmac->u;
+	unsigned char* k = hmac->k;
+	unsigned char* u = hmac->u;
 	uint32 c;
 	int i;	
 
@@ -698,7 +648,7 @@ static void derive_u_blake2s (char *salt, int salt_len, uint32 iterations, int b
 #ifdef TC_WINDOWS_BOOT
     /* specific case of 16-bit bootloader: b is a 16-bit integer that is always < 256 */
 	memset (&k[salt_len], 0, 3);
-	k[salt_len + 3] = (char) b;
+	k[salt_len + 3] = (unsigned char) b;
 #else
     b = bswap_32 (b);
     memcpy (&k[salt_len], &b, 4);
@@ -720,25 +670,22 @@ static void derive_u_blake2s (char *salt, int salt_len, uint32 iterations, int b
 }
 
 
-void derive_key_blake2s (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
+void derive_key_blake2s (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {	
 	hmac_blake2s_ctx hmac;
 	blake2s_state* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b, l, r;
 #ifndef TC_WINDOWS_BOOT
-	char key[BLAKE2S_DIGESTSIZE];
-#if defined (DEVICE_DRIVER)
+	unsigned char key[BLAKE2S_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-#ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
-#else
 	KFLOATING_SAVE floatingPointState;	
 	if (HasSSE2())
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
 #endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = blake2s(pwd), as per HMAC specifications. */
@@ -748,7 +695,7 @@ void derive_key_blake2s (char *pwd, int pwd_len, char *salt, int salt_len, uint3
 
 		blake2s_init (&tctx);
 		blake2s_update (&tctx, pwd, pwd_len);
-		blake2s_final (&tctx, (unsigned char *) key);
+		blake2s_final (&tctx, key);
 
 		pwd = key;
 		pwd_len = BLAKE2S_DIGESTSIZE;
@@ -775,7 +722,7 @@ void derive_key_blake2s (char *pwd, int pwd_len, char *salt, int salt_len, uint3
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x36);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x36);
 	memset (&buf[pwd_len], 0x36, BLAKE2S_BLOCKSIZE - pwd_len);
 
 	blake2s_update (ctx, buf, BLAKE2S_BLOCKSIZE);
@@ -786,7 +733,7 @@ void derive_key_blake2s (char *pwd, int pwd_len, char *salt, int salt_len, uint3
 	blake2s_init (ctx);
 
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x5C);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x5C);
 	memset (&buf[pwd_len], 0x5C, BLAKE2S_BLOCKSIZE - pwd_len);
 
 	blake2s_update (ctx, buf, BLAKE2S_BLOCKSIZE);
@@ -803,13 +750,9 @@ void derive_key_blake2s (char *pwd, int pwd_len, char *salt, int salt_len, uint3
 	derive_u_blake2s (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
-#if defined (DEVICE_DRIVER)
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-#ifdef _WIN64
 		KeRestoreExtendedProcessorStateVC(&SaveState);
-#else
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 #endif
 
 	/* Prevent possible leaks. */
@@ -828,13 +771,13 @@ typedef struct hmac_whirlpool_ctx_struct
 	WHIRLPOOL_CTX ctx;
 	WHIRLPOOL_CTX inner_digest_ctx; /*pre-computed inner digest context */
 	WHIRLPOOL_CTX outer_digest_ctx; /*pre-computed outer digest context */
-	CRYPTOPP_ALIGN_DATA(16) char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Whirlpool hash */
-	char u[WHIRLPOOL_DIGESTSIZE];
+	CRYPTOPP_ALIGN_DATA(16) unsigned char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Whirlpool hash */
+	unsigned char u[WHIRLPOOL_DIGESTSIZE];
 } hmac_whirlpool_ctx;
 
 void hmac_whirlpool_internal
 (
-	  char *d,		/* input/output data. d pointer is guaranteed to be at least 64-bytes long */
+	unsigned char *d,		/* input/output data. d pointer is guaranteed to be at least 64-bytes long */
 	  int ld,		/* length of input data in bytes */
 	  hmac_whirlpool_ctx* hmac /* HMAC-Whirlpool context which holds temporary variables */
 )
@@ -845,38 +788,32 @@ void hmac_whirlpool_internal
 
 	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (WHIRLPOOL_CTX));
 
-	WHIRLPOOL_add ((unsigned char *) d, ld, ctx);
+	WHIRLPOOL_add (d, ld, ctx);
 
-	WHIRLPOOL_finalize (ctx, (unsigned char *) d);
+	WHIRLPOOL_finalize (ctx, d);
 
 	/**** Restore Precomputed Outer Digest Context ****/
 
 	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (WHIRLPOOL_CTX));
 
-	WHIRLPOOL_add ((unsigned char *) d, WHIRLPOOL_DIGESTSIZE, ctx);
+	WHIRLPOOL_add (d, WHIRLPOOL_DIGESTSIZE, ctx);
 
-	WHIRLPOOL_finalize (ctx, (unsigned char *) d);
+	WHIRLPOOL_finalize (ctx, d);
 }
 
 void hmac_whirlpool
 (
-	  char *k,		/* secret key */
+	  unsigned char *k,		/* secret key */
 	  int lk,		/* length of the key in bytes */
-	  char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
+	  unsigned char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
 	  int ld		/* length of data in bytes */
 )
 {
 	hmac_whirlpool_ctx hmac;
 	WHIRLPOOL_CTX* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b;
-	char key[WHIRLPOOL_DIGESTSIZE];
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	if (HasISSE())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
+	unsigned char key[WHIRLPOOL_DIGESTSIZE];
     /* If the key is longer than the hash algorithm block size,
 	   let key = whirlpool(key), as per HMAC specifications. */
 	if (lk > WHIRLPOOL_BLOCKSIZE)
@@ -884,8 +821,8 @@ void hmac_whirlpool
 		WHIRLPOOL_CTX tctx;
 
 		WHIRLPOOL_init (&tctx);
-		WHIRLPOOL_add ((unsigned char *) k, lk, &tctx);
-		WHIRLPOOL_finalize (&tctx, (unsigned char *) key);
+		WHIRLPOOL_add (k, lk, &tctx);
+		WHIRLPOOL_finalize (&tctx, key);
 
 		k = key;
 		lk = WHIRLPOOL_DIGESTSIZE;
@@ -900,10 +837,10 @@ void hmac_whirlpool
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x36);
+		buf[b] = (unsigned char) (k[b] ^ 0x36);
 	memset (&buf[lk], 0x36, WHIRLPOOL_BLOCKSIZE - lk);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
+	WHIRLPOOL_add (buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -911,25 +848,21 @@ void hmac_whirlpool
 	WHIRLPOOL_init (ctx);
 
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x5C);
+		buf[b] = (unsigned char) (k[b] ^ 0x5C);
 	memset (&buf[lk], 0x5C, WHIRLPOOL_BLOCKSIZE - lk);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
+	WHIRLPOOL_add (buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	hmac_whirlpool_internal(d, ld, &hmac);
 
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	/* Prevent leaks */
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_whirlpool (char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
+static void derive_u_whirlpool (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
 {
-	char* u = hmac->u;
-	char* k = hmac->k;
+	unsigned char* u = hmac->u;
+	unsigned char* k = hmac->k;
 	uint32 c, i;
 
 	/* iteration 1 */
@@ -952,19 +885,13 @@ static void derive_u_whirlpool (char *salt, int salt_len, uint32 iterations, int
 	}
 }
 
-void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
+void derive_key_whirlpool (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {
 	hmac_whirlpool_ctx hmac;
 	WHIRLPOOL_CTX* ctx;
-	char* buf = hmac.k;
-	char key[WHIRLPOOL_DIGESTSIZE];
+	unsigned char* buf = hmac.k;
+	unsigned char key[WHIRLPOOL_DIGESTSIZE];
 	int b, l, r;
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	if (HasISSE())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = whirlpool(pwd), as per HMAC specifications. */
 	if (pwd_len > WHIRLPOOL_BLOCKSIZE)
@@ -972,8 +899,8 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 		WHIRLPOOL_CTX tctx;
 
 		WHIRLPOOL_init (&tctx);
-		WHIRLPOOL_add ((unsigned char *) pwd, pwd_len, &tctx);
-		WHIRLPOOL_finalize (&tctx, (unsigned char *) key);
+		WHIRLPOOL_add (pwd, pwd_len, &tctx);
+		WHIRLPOOL_finalize (&tctx, key);
 
 		pwd = key;
 		pwd_len = WHIRLPOOL_DIGESTSIZE;
@@ -999,10 +926,10 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x36);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x36);
 	memset (&buf[pwd_len], 0x36, WHIRLPOOL_BLOCKSIZE - pwd_len);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
+	WHIRLPOOL_add (buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -1010,10 +937,10 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	WHIRLPOOL_init (ctx);
 
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x5C);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x5C);
 	memset (&buf[pwd_len], 0x5C, WHIRLPOOL_BLOCKSIZE - pwd_len);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
+	WHIRLPOOL_add (buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
@@ -1027,11 +954,6 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	derive_u_whirlpool (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
-
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 	burn (key, sizeof(key));
@@ -1043,13 +965,13 @@ typedef struct hmac_streebog_ctx_struct
 	STREEBOG_CTX ctx;
 	STREEBOG_CTX inner_digest_ctx; /*pre-computed inner digest context */
 	STREEBOG_CTX outer_digest_ctx; /*pre-computed outer digest context */
-	CRYPTOPP_ALIGN_DATA(16) char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Streebog hash */
-	char u[STREEBOG_DIGESTSIZE];
+	CRYPTOPP_ALIGN_DATA(16) unsigned char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Streebog hash */
+	unsigned char u[STREEBOG_DIGESTSIZE];
 } hmac_streebog_ctx;
 
 void hmac_streebog_internal
 (
-	  char *d,		/* input/output data. d pointer is guaranteed to be at least 64-bytes long */
+	  unsigned char *d,		/* input/output data. d pointer is guaranteed to be at least 64-bytes long */
 	  int ld,		/* length of input data in bytes */
 	  hmac_streebog_ctx* hmac /* HMAC-Whirlpool context which holds temporary variables */
 )
@@ -1060,38 +982,32 @@ void hmac_streebog_internal
 
 	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (STREEBOG_CTX));
 
-	STREEBOG_add (ctx, (unsigned char *) d, ld);
+	STREEBOG_add (ctx, d, ld);
 
-	STREEBOG_finalize (ctx, (unsigned char *) d);
+	STREEBOG_finalize (ctx, d);
 
 	/**** Restore Precomputed Outer Digest Context ****/
 
 	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (STREEBOG_CTX));
 
-	STREEBOG_add (ctx, (unsigned char *) d, STREEBOG_DIGESTSIZE);
+	STREEBOG_add (ctx, d, STREEBOG_DIGESTSIZE);
 
-	STREEBOG_finalize (ctx, (unsigned char *) d);
+	STREEBOG_finalize (ctx, d);
 }
 
 void hmac_streebog
 (
-	  char *k,		/* secret key */
+	  unsigned char *k,		/* secret key */
 	  int lk,		/* length of the key in bytes */
-	  char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
+	  unsigned char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
 	  int ld		/* length of data in bytes */
 )
 {
 	hmac_streebog_ctx hmac;
 	STREEBOG_CTX* ctx;
-	char* buf = hmac.k;
+	unsigned char* buf = hmac.k;
 	int b;
-	CRYPTOPP_ALIGN_DATA(16) char key[STREEBOG_DIGESTSIZE];
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	if (HasSSE2() || HasSSE41())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
+	CRYPTOPP_ALIGN_DATA(16) unsigned char key[STREEBOG_DIGESTSIZE];
     /* If the key is longer than the hash algorithm block size,
 	   let key = streebog(key), as per HMAC specifications. */
 	if (lk > STREEBOG_BLOCKSIZE)
@@ -1099,8 +1015,8 @@ void hmac_streebog
 		STREEBOG_CTX tctx;
 
 		STREEBOG_init (&tctx);
-		STREEBOG_add (&tctx, (unsigned char *) k, lk);
-		STREEBOG_finalize (&tctx, (unsigned char *) key);
+		STREEBOG_add (&tctx, k, lk);
+		STREEBOG_finalize (&tctx, key);
 
 		k = key;
 		lk = STREEBOG_DIGESTSIZE;
@@ -1115,10 +1031,10 @@ void hmac_streebog
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x36);
+		buf[b] = (unsigned char) (k[b] ^ 0x36);
 	memset (&buf[lk], 0x36, STREEBOG_BLOCKSIZE - lk);
 
-	STREEBOG_add (ctx, (unsigned char *) buf, STREEBOG_BLOCKSIZE);
+	STREEBOG_add (ctx, buf, STREEBOG_BLOCKSIZE);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -1126,25 +1042,21 @@ void hmac_streebog
 	STREEBOG_init (ctx);
 
 	for (b = 0; b < lk; ++b)
-		buf[b] = (char) (k[b] ^ 0x5C);
+		buf[b] = (unsigned char) (k[b] ^ 0x5C);
 	memset (&buf[lk], 0x5C, STREEBOG_BLOCKSIZE - lk);
 
-	STREEBOG_add (ctx, (unsigned char *) buf, STREEBOG_BLOCKSIZE);
+	STREEBOG_add (ctx, buf, STREEBOG_BLOCKSIZE);
 
 	hmac_streebog_internal(d, ld, &hmac);
 
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	/* Prevent leaks */
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_streebog (char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac)
+static void derive_u_streebog (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac)
 {
-	char* u = hmac->u;
-	char* k = hmac->k;
+	unsigned char* u = hmac->u;
+	unsigned char* k = hmac->k;
 	uint32 c, i;
 
 	/* iteration 1 */
@@ -1167,19 +1079,13 @@ static void derive_u_streebog (char *salt, int salt_len, uint32 iterations, int 
 	}
 }
 
-void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
+void derive_key_streebog (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {
 	hmac_streebog_ctx hmac;
 	STREEBOG_CTX* ctx;
-	char* buf = hmac.k;
-	char key[STREEBOG_DIGESTSIZE];
+	unsigned char* buf = hmac.k;
+	unsigned char key[STREEBOG_DIGESTSIZE];
 	int b, l, r;
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	if (HasSSE2() || HasSSE41())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = streebog(pwd), as per HMAC specifications. */
 	if (pwd_len > STREEBOG_BLOCKSIZE)
@@ -1187,8 +1093,8 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 		STREEBOG_CTX tctx;
 
 		STREEBOG_init (&tctx);
-		STREEBOG_add (&tctx, (unsigned char *) pwd, pwd_len);
-		STREEBOG_finalize (&tctx, (unsigned char *) key);
+		STREEBOG_add (&tctx, pwd, pwd_len);
+		STREEBOG_finalize (&tctx, key);
 
 		pwd = key;
 		pwd_len = STREEBOG_DIGESTSIZE;
@@ -1214,10 +1120,10 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x36);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x36);
 	memset (&buf[pwd_len], 0x36, STREEBOG_BLOCKSIZE - pwd_len);
 
-	STREEBOG_add (ctx, (unsigned char *) buf, STREEBOG_BLOCKSIZE);
+	STREEBOG_add (ctx, buf, STREEBOG_BLOCKSIZE);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -1225,10 +1131,10 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 	STREEBOG_init (ctx);
 
 	for (b = 0; b < pwd_len; ++b)
-		buf[b] = (char) (pwd[b] ^ 0x5C);
+		buf[b] = (unsigned char) (pwd[b] ^ 0x5C);
 	memset (&buf[pwd_len], 0x5C, STREEBOG_BLOCKSIZE - pwd_len);
 
-	STREEBOG_add (ctx, (unsigned char *) buf, STREEBOG_BLOCKSIZE);
+	STREEBOG_add (ctx, buf, STREEBOG_BLOCKSIZE);
 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
@@ -1241,11 +1147,6 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 	/* last block */
 	derive_u_streebog (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
-
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));

@@ -14,11 +14,6 @@
 #include "Wipe.h"
 
 
-static BOOL Wipe1PseudoRandom (int pass, uint8 *buffer, size_t size)
-{
-	return FALSE;
-}
-
 
 // Fill buffer with wipe patterns defined in "National Industrial Security Program Operating Manual", US DoD 5220.22-M.
 // Return: FALSE = buffer must be filled with random data
@@ -173,7 +168,7 @@ BOOL WipeBuffer (WipeAlgorithmId algorithm, uint8 randChars[TC_WIPE_RAND_CHAR_CO
 	{
 	case TC_WIPE_1_RAND:
 	case TC_WIPE_256:
-		return Wipe1PseudoRandom (pass, buffer, size);
+		return FALSE; // Delegate buffer filling to the caller
 
 	case TC_WIPE_3_DOD_5220:
 		return Wipe3Dod5220 (pass, buffer, size);

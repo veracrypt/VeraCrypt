@@ -228,9 +228,9 @@ typedef struct keyInfo_t
 	int noIterations;					/* Number of times to iterate (PKCS-5) */
 	int keyLength;						/* Length of the key */
 	uint64 dummy;						/* Dummy field to ensure 16-byte alignment of this structure */
-	__int8 salt[PKCS5_SALT_SIZE];		/* PKCS-5 salt */
-	CRYPTOPP_ALIGN_DATA(16) __int8 master_keydata[MASTER_KEYDATA_SIZE];		/* Concatenated master primary and secondary key(s) (XTS mode). For LRW (deprecated/legacy), it contains the tweak key before the master key(s). For CBC (deprecated/legacy), it contains the IV seed before the master key(s). */
-	CRYPTOPP_ALIGN_DATA(16) __int8 userKey[MAX_PASSWORD];		/* Password (to which keyfiles may have been applied). WITHOUT +1 for the null terminator. */
+	unsigned __int8 salt[PKCS5_SALT_SIZE];		/* PKCS-5 salt */
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 master_keydata[MASTER_KEYDATA_SIZE];		/* Concatenated master primary and secondary key(s) (XTS mode). For LRW (deprecated/legacy), it contains the tweak key before the master key(s). For CBC (deprecated/legacy), it contains the IV seed before the master key(s). */
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 userKey[MAX_PASSWORD];		/* Password (to which keyfiles may have been applied). WITHOUT +1 for the null terminator. */
 } KEY_INFO, *PKEY_INFO;
 
 #endif
@@ -309,7 +309,7 @@ typedef struct BOOT_CRYPTO_HEADER_t
 
 PCRYPTO_INFO crypto_open (void);
 #ifndef TC_WINDOWS_BOOT
-void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen);
+void crypto_loadkey (PKEY_INFO keyInfo, unsigned char *lpszUserKey, int nUserKeyLen);
 void crypto_eraseKeys (PCRYPTO_INFO cryptoInfo);
 #endif
 void crypto_close (PCRYPTO_INFO cryptoInfo);
@@ -348,7 +348,7 @@ int EAGetKeySize (int ea);
 int EAGetFirstMode (int ea);
 int EAGetNextMode (int ea, int previousModeId);
 #ifndef TC_WINDOWS_BOOT
-wchar_t * EAGetModeName (int ea, int mode, BOOL capitalLetters);
+const wchar_t * EAGetModeName (int mode);
 #endif
 int EAGetKeyScheduleSize (int ea);
 int EAGetLargestKey ();

@@ -160,7 +160,7 @@ UINT64_STRUCT GetHeaderField64 (uint8 *header, int offset)
 
 typedef struct
 {
-	char DerivedKey[MASTER_KEYDATA_SIZE];
+	unsigned char DerivedKey[MASTER_KEYDATA_SIZE];
 	BOOL Free;
 	LONG KeyReady;
 	int Pkcs5Prf;
@@ -169,15 +169,15 @@ typedef struct
 
 BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 
-int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
-	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
+	unsigned char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	unsigned char* keyInfoBuffer = NULL;
 	int keyInfoBufferSize = sizeof (KEY_INFO) + 16;
 	size_t keyInfoBufferOffset;
 	PKEY_INFO keyInfo;
 	PCRYPTO_INFO cryptoInfo;
-	CRYPTOPP_ALIGN_DATA(16) char dk[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) unsigned char dk[MASTER_KEYDATA_SIZE];
 	int enqPkcs5Prf, pkcs5_prf;
 	uint16 headerVersion;
 	int status = ERR_PARAMETER_INCORRECT;
@@ -704,12 +704,12 @@ void ComputeBootloaderFingerprint (uint8 *bootLoaderBuf, unsigned int bootLoader
 
 #else // TC_WINDOWS_BOOT
 
-int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeader (BOOL bBoot, unsigned char *header, Password *password, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
 #ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
-	char dk[32 * 2];			// 2 * 256-bit key
+	unsigned char dk[32 * 2];			// 2 * 256-bit key
 #else
-	char dk[32 * 2 * 3];		// 6 * 256-bit key
+	unsigned char dk[32 * 2 * 3];		// 6 * 256-bit key
 #endif
 
 	PCRYPTO_INFO cryptoInfo;
@@ -882,18 +882,18 @@ ret:
 
 // Creates a volume header in memory
 #if defined(_UEFI)
-int CreateVolumeHeaderInMemory(BOOL bBoot, char *header, int ea, int mode, Password *password,
+int CreateVolumeHeaderInMemory(BOOL bBoot, unsigned char *header, int ea, int mode, Password *password,
 	int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo,
 	unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize,
 	unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode)
 #else
-int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, int mode, Password *password,
+int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header, int ea, int mode, Password *password,
 		   int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo,
 		   unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize,
 		   unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode)
 #endif // !defined(_UEFI)
 {
-	unsigned char *p = (unsigned char *) header;
+	unsigned char *p = header;
 	static CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
 
 	int nUserKeyLen = password? password->Length : 0;
