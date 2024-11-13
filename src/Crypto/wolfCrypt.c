@@ -232,12 +232,12 @@ void sha512(unsigned char * result, const unsigned char* source, uint_64t source
     wc_Sha512Free(&sha512);
 }
 
-void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen) {
+void derive_key_sha512 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen) {
     (void) iterations;
     wc_HKDF(WC_SHA512, (uint8*)pwd, (word32)pwd_len, (uint8*)salt, (word32)salt_len, NULL, 0, (uint8*)dk, (word32)dklen);
 }
 
-void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen) {
+void derive_key_sha256 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen) {
     (void) iterations;
     wc_HKDF(WC_SHA256, (uint8*)pwd, (word32)pwd_len, (uint8*)salt, (word32)salt_len, NULL, 0, (uint8*)dk, (word32)dklen);
 }
