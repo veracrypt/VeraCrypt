@@ -22,23 +22,23 @@ extern "C"
 #endif
 /* output written to input_digest which must be at lease 32 bytes long */
 void hmac_blake2s (unsigned char *key, int keylen, unsigned char *input_digest, int len);
-void derive_key_blake2s (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
+void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
 
 /* output written to d which must be at lease 32 bytes long */
 void hmac_sha256 (unsigned char *k, int lk, unsigned char *d, int ld);
-void derive_key_sha256 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
+void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
 
 #ifndef TC_WINDOWS_BOOT
 /* output written to d which must be at lease 64 bytes long */
 void hmac_sha512 (unsigned char *k, int lk, unsigned char *d, int ld);
-void derive_key_sha512 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
+void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
 
 /* output written to d which must be at lease 64 bytes long */
 void hmac_whirlpool (unsigned char *k, int lk, unsigned char *d, int ld);
-void derive_key_whirlpool (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
+void derive_key_whirlpool (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
 
-void hmac_streebog (unsigned char *k, int32 lk, unsigned char *d, int32 ld);
-void derive_key_streebog (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
+void hmac_streebog (unsigned char *k, int lk, unsigned char *d, int ld);
+void derive_key_streebog (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen);
 
 int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot);
 wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id);

@@ -145,7 +145,7 @@ void hmac_sha256
 }
 #endif
 
-static void derive_u_sha256 (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
+static void derive_u_sha256 (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
 {
 	unsigned char* k = hmac->k;
 	unsigned char* u = hmac->u;
@@ -196,7 +196,7 @@ static void derive_u_sha256 (unsigned char *salt, int salt_len, uint32 iteration
 }
 
 
-void derive_key_sha256 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {	
 	hmac_sha256_ctx hmac;
 	sha256_ctx* ctx;
@@ -395,7 +395,7 @@ void hmac_sha512
 	burn (key, sizeof(key));
 }
 
-static void derive_u_sha512 (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
+static void derive_u_sha512 (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
 {
 	unsigned char* k = hmac->k;
 	unsigned char* u = hmac->u;
@@ -422,7 +422,7 @@ static void derive_u_sha512 (unsigned char *salt, int salt_len, uint32 iteration
 }
 
 
-void derive_key_sha512 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {
 	hmac_sha512_ctx hmac;
 	sha512_ctx* ctx;
@@ -619,7 +619,7 @@ void hmac_blake2s
 }
 #endif
 
-static void derive_u_blake2s (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_blake2s_ctx* hmac)
+static void derive_u_blake2s (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_blake2s_ctx* hmac)
 {
 	unsigned char* k = hmac->k;
 	unsigned char* u = hmac->u;
@@ -670,7 +670,7 @@ static void derive_u_blake2s (unsigned char *salt, int salt_len, uint32 iteratio
 }
 
 
-void derive_key_blake2s (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {	
 	hmac_blake2s_ctx hmac;
 	blake2s_state* ctx;
@@ -859,7 +859,7 @@ void hmac_whirlpool
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_whirlpool (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
+static void derive_u_whirlpool (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
 {
 	unsigned char* u = hmac->u;
 	unsigned char* k = hmac->k;
@@ -885,7 +885,7 @@ static void derive_u_whirlpool (unsigned char *salt, int salt_len, uint32 iterat
 	}
 }
 
-void derive_key_whirlpool (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_whirlpool (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {
 	hmac_whirlpool_ctx hmac;
 	WHIRLPOOL_CTX* ctx;
@@ -1053,7 +1053,7 @@ void hmac_streebog
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_streebog (unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac)
+static void derive_u_streebog (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac)
 {
 	unsigned char* u = hmac->u;
 	unsigned char* k = hmac->k;
@@ -1079,7 +1079,7 @@ static void derive_u_streebog (unsigned char *salt, int salt_len, uint32 iterati
 	}
 }
 
-void derive_key_streebog (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_streebog (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
 {
 	hmac_streebog_ctx hmac;
 	STREEBOG_CTX* ctx;
