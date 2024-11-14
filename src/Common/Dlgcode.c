@@ -14,6 +14,7 @@
 #include "Tcdefs.h"
 
 #include <windowsx.h>
+#include <versionhelpers.h>
 #include <dbghelp.h>
 #include <dbt.h>
 #include <Setupapi.h>
@@ -1082,9 +1083,6 @@ static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
 		if (ERROR_SUCCESS == RtlGetVersionFn (lpVersionInformation))
 			bRet = TRUE;
 	}
-
-	if (!bRet)
-		bRet = GetVersionExW (lpVersionInformation);
 
 #ifdef SETUP_DLL
 	// we get real version from Kernel32.dll version since MSI always sets current version to 6.0
@@ -3166,7 +3164,7 @@ BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_
 	StringCbCopyW (newCmdLine, sizeof(newCmdLine), L"/q UAC ");
 	StringCbCatW (newCmdLine, sizeof (newCmdLine), args);
 
-	if ((int)ShellExecuteW (hWnd, L"runas", szModPath, newCmdLine, NULL, SW_SHOWNORMAL) <= 32)
+	if ((INT_PTR)ShellExecuteW (hWnd, L"runas", szModPath, newCmdLine, NULL, SW_SHOWNORMAL) <= 32)
 	{
 		if (hwndDlg)
 			handleWin32Error (hwndDlg, SRC_POS);
@@ -3911,7 +3909,7 @@ void NotifyDriverOfPortableMode (void)
 BOOL GetDriveLabel (int driveNo, wchar_t *label, int labelSize)
 {
 	DWORD fileSystemFlags;
-	wchar_t root[] = { L'A' + (wchar_t) driveNo, L':', L'\\', 0 };
+	wchar_t root[] = { (wchar_t) (L'A' + driveNo), L':', L'\\', 0 };
 
 	return GetVolumeInformationW (root, label, labelSize / 2, NULL, NULL, &fileSystemFlags, NULL, 0);
 }
@@ -3941,11 +3939,12 @@ BOOL GetSysDevicePaths (HWND hwndDlg)
 		}
 
 		// Find extra boot partition
-		foreach (const HostDevice &drive, GetAvailableHostDevices (false, false))
+		std::vector <HostDevice> devices = GetAvailableHostDevices(false, false);
+		for (const HostDevice& drive : devices)
 		{
 			if (drive.ContainsSystem)
 			{
-				foreach (const HostDevice &sysDrivePartition, drive.Partitions)
+				for (const HostDevice &sysDrivePartition : drive.Partitions)
 				{
 					if (sysDrivePartition.Bootable)
 					{
@@ -5389,7 +5388,7 @@ BOOL SelectMultipleFiles(HWND hwndDlg, const char *stringId, BOOL keepHistory, s
 	return status;
 }
 
-BOOL BrowseDirectories(HWND hwndDlg, char *lpszTitle, wchar_t *dirName, const wchar_t *initialDir)
+BOOL BrowseDirectories(HWND hwndDlg, char *lpszDlgTitle, wchar_t *dirName, const wchar_t *initialDir)
 {
 	IFileDialog *pfd = NULL;
 	HRESULT hr;
@@ -5414,9 +5413,9 @@ BOOL BrowseDirectories(HWND hwndDlg, char *lpszTitle, wchar_t *dirName, const wc
 		}
 
 		// Set the title.
-		if (lpszTitle)
+		if (lpszDlgTitle)
 		{
-			pfd->SetTitle(GetString(lpszTitle));
+			pfd->SetTitle(GetString(lpszDlgTitle));
 		}
 
 		IShellItem *psi;
@@ -5754,7 +5753,7 @@ BOOL CloseVolumeExplorerWindows (HWND hwnd, int driveNo)
 BOOL UpdateDriveCustomLabel (int driveNo, wchar_t* effectiveLabel, BOOL bSetValue)
 {
 	wchar_t wszRegPath[MAX_PATH];
-	wchar_t driveStr[] = {L'A' + (wchar_t) driveNo, 0};
+	wchar_t driveStr[] = { (wchar_t) (L'A' + driveNo), 0};
 	HKEY hKey;
 	LSTATUS lStatus;
 	DWORD cbLabelLen = (DWORD) ((wcslen (effectiveLabel) + 1) * sizeof (wchar_t));
@@ -8256,7 +8255,7 @@ void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap)
 		{
 			if (driveMap & (1 << i))
 			{
-				wchar_t root[] = { (wchar_t) i + L'A', L':', L'\\', 0 };
+				wchar_t root[] = { (wchar_t) (i + L'A'), L':', L'\\', 0 };
 				SHChangeNotify (eventId, SHCNF_PATH, root, NULL);
 
 
@@ -8813,12 +8812,12 @@ retry:
 				wstring drivePath = L"\\\\.\\X:";
 				HANDLE dev = INVALID_HANDLE_VALUE;
 				VOLUME_DISK_EXTENTS extents = {0};
-				DWORD dwResult = 0;
+				DWORD cbReturnedBytes = 0;
 				drivePath[4] = root[0];
 
 				if ((dev = CreateFile (drivePath.c_str(),0, 0, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
 				{
-					if (DeviceIoControl (dev, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &extents, sizeof(extents), &dwResult, NULL))
+					if (DeviceIoControl (dev, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &extents, sizeof(extents), &cbReturnedBytes, NULL))
 					{
 						if (extents.NumberOfDiskExtents > 0)
 						{
@@ -8955,18 +8954,18 @@ retry:
 
 				if (bDevice && mount.bProtectHiddenVolume)
 				{
-					int driveNo;
+					int diskNo;
 
-					if (swscanf (volumePath, L"\\Device\\Harddisk%d\\Partition", &driveNo) == 1)
+					if (swscanf (volumePath, L"\\Device\\Harddisk%d\\Partition", &diskNo) == 1)
 					{
 						OPEN_TEST_STRUCT openTestStruct;
 						memset (&openTestStruct, 0, sizeof (openTestStruct));
 
 						openTestStruct.bDetectTCBootLoader = TRUE;
-						StringCchPrintfW ((wchar_t *) openTestStruct.wszFileName, array_capacity (openTestStruct.wszFileName), L"\\Device\\Harddisk%d\\Partition0", driveNo);
+						StringCchPrintfW ((wchar_t *) openTestStruct.wszFileName, array_capacity (openTestStruct.wszFileName), L"\\Device\\Harddisk%d\\Partition0", diskNo);
 
-						DWORD dwResult;
-						if (DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST, &openTestStruct, sizeof (OPEN_TEST_STRUCT), &openTestStruct, sizeof (OPEN_TEST_STRUCT), &dwResult, NULL) && openTestStruct.TCBootLoaderDetected)
+						DWORD cbBytesReturned;
+						if (DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST, &openTestStruct, sizeof (OPEN_TEST_STRUCT), &openTestStruct, sizeof (OPEN_TEST_STRUCT), &cbBytesReturned, NULL) && openTestStruct.TCBootLoaderDetected)
 							WarningDirect ((GetWrongPasswordErrorMessage (hwndDlg) + L"\n\n" + GetString ("HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT")).c_str(), hwndDlg);
 						else
 							handleError (hwndDlg, mount.nReturnCode, SRC_POS);
@@ -9005,7 +9004,7 @@ retry:
 	if (mount.FilesystemDirty)
 	{
 		wchar_t msg[1024];
-		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
+		wchar_t mountPoint[] = { (wchar_t) (L'A' + driveNo), L':', 0 };
 		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_VOLUME_DIRTY"), mountPoint);
 
 		if (AskWarnYesNoStringTopmost (msg, hwndDlg) == IDYES)
@@ -9019,7 +9018,7 @@ retry:
 		&& !IsFileOnReadOnlyFilesystem (volumePath))
 	{
 		wchar_t msg[1024];
-		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
+		wchar_t mountPoint[] = { (wchar_t) (L'A' + driveNo), L':', 0 };
 		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_CONTAINER_FORCED_READ_ONLY"), mountPoint);
 
 		WarningDirect (msg, hwndDlg);
@@ -9030,7 +9029,7 @@ retry:
 		&& bDevice)
 	{
 		wchar_t msg[1024];
-		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
+		wchar_t mountPoint[] = { (wchar_t)(L'A' + driveNo), L':', 0 };
 		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_DEVICE_FORCED_READ_ONLY"), mountPoint);
 
 		WarningDirect (msg, hwndDlg);
@@ -9041,7 +9040,7 @@ retry:
 		&& wcsstr (volumePath, L"\\Device\\Harddisk") == volumePath)
 	{
 		wchar_t msg[1024];
-		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
+		wchar_t mountPoint[] = { (wchar_t) (L'A' + driveNo), L':', 0 };
 		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION"), mountPoint);
 
 		WarningDirect (msg, hwndDlg);
@@ -9059,7 +9058,7 @@ retry:
 		&& bDevice)
 	{
 		wchar_t msg[1024];
-		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
+		wchar_t mountPoint[] = { (wchar_t) (L'A' + driveNo), L':', 0 };
 		StringCbPrintfW (msg, sizeof(msg), GetString ("PARTIAL_SYSENC_MOUNT_READONLY"), mountPoint);
 
 		WarningDirect (msg, hwndDlg);
@@ -9152,7 +9151,7 @@ retry:
 			}
 
 			// Undo SHCNE_DRIVEREMOVED
-			wchar_t root[] = { (wchar_t) nDosDriveNo + L'A', L':', L'\\', 0 };
+			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
 			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
 
 			return FALSE;
@@ -9506,7 +9505,7 @@ int GetDiskDeviceDriveLetter (PWSTR deviceName)
 
 	for (i = 0; i < 26; i++)
 	{
-		WCHAR drive[] = { (WCHAR) i + L'A', L':', 0 };
+		WCHAR drive[] = { (WCHAR) (i + L'A'), L':', 0 };
 
 		StringCchCopyW (link, MAX_PATH, L"\\DosDevices\\");
 		StringCchCatW (link, MAX_PATH, drive);
@@ -10704,12 +10703,12 @@ void OpenPageHelp (HWND hwndDlg, int nPage)
 	}
 	else
 	{
-		int r = (int)ShellExecuteW (NULL, L"open", szHelpFile, NULL, NULL, SW_SHOWNORMAL);
+		INT_PTR r = (INT_PTR)ShellExecuteW (NULL, L"open", szHelpFile, NULL, NULL, SW_SHOWNORMAL);
 
 		if (r == ERROR_FILE_NOT_FOUND)
 		{
 			// Try the secondary help file
-			r = (int)ShellExecuteW (NULL, L"open", szHelpFile2, NULL, NULL, SW_SHOWNORMAL);
+			r = (INT_PTR)ShellExecuteW (NULL, L"open", szHelpFile2, NULL, NULL, SW_SHOWNORMAL);
 
 			if (r == ERROR_FILE_NOT_FOUND)
 			{
@@ -10936,12 +10935,9 @@ BOOL IsARM()
 
 BOOL IsServerOS ()
 {
-	OSVERSIONINFOEXW osVer;
-	osVer.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
-	GetVersionExW ((LPOSVERSIONINFOW) &osVer);
-
-	return (osVer.wProductType == VER_NT_SERVER || osVer.wProductType == VER_NT_DOMAIN_CONTROLLER);
+	return IsWindowsServer()? TRUE : FALSE;
 }
+
 
 
 // Returns TRUE, if the currently running operating system is installed in a hidden volume. If it's not, or if
@@ -11018,100 +11014,106 @@ std::wstring GetWindowsEdition ()
 {
 	wstring osname = L"win";
 
-	OSVERSIONINFOEXW osVer;
+	OSVERSIONINFOEXW osVer = { 0 };
 	osVer.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
-	GetVersionExW ((LPOSVERSIONINFOW) &osVer);
-
-	BOOL home = (osVer.wSuiteMask & VER_SUITE_PERSONAL);
-	BOOL server = (osVer.wProductType == VER_NT_SERVER || osVer.wProductType == VER_NT_DOMAIN_CONTROLLER);
-
-	HKEY hkey;
-	wchar_t productName[300] = {0};
-	DWORD productNameSize = sizeof (productName);
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+	if (GetWindowsVersion((LPOSVERSIONINFOW)&osVer))
 	{
-		if (RegQueryValueEx (hkey, L"ProductName", 0, 0, (LPBYTE) &productName, &productNameSize) != ERROR_SUCCESS || productNameSize < 1)
-			productName[0] = 0;
 
-		RegCloseKey (hkey);
+		BOOL home = (osVer.wSuiteMask & VER_SUITE_PERSONAL);
+		BOOL server = (osVer.wProductType == VER_NT_SERVER || osVer.wProductType == VER_NT_DOMAIN_CONTROLLER);
+
+		HKEY hkey;
+		wchar_t productName[300] = { 0 };
+		DWORD productNameSize = sizeof(productName);
+		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+		{
+			if (RegQueryValueEx(hkey, L"ProductName", 0, 0, (LPBYTE)&productName, &productNameSize) != ERROR_SUCCESS || productNameSize < 1)
+				productName[0] = 0;
+
+			RegCloseKey(hkey);
+		}
+
+		switch (nCurrentOS)
+		{
+		case WIN_2000:
+			osname += L"2000";
+			break;
+
+		case WIN_XP:
+		case WIN_XP64:
+			osname += L"xp";
+			osname += home ? L"-home" : L"-pro";
+			break;
+
+		case WIN_SERVER_2003:
+			osname += L"2003";
+			break;
+
+		case WIN_VISTA:
+			osname += L"vista";
+			break;
+
+		case WIN_SERVER_2008:
+			osname += L"2008";
+			break;
+
+		case WIN_7:
+			osname += L"7";
+			break;
+
+		case WIN_SERVER_2008_R2:
+			osname += L"2008r2";
+			break;
+
+		default:
+			wstringstream s;
+			s << CurrentOSMajor << L"." << CurrentOSMinor;
+			osname += s.str();
+			break;
+		}
+
+		if (server)
+			osname += L"-server";
+
+		if (IsOSAtLeast(WIN_VISTA))
+		{
+			if (home)
+				osname += L"-home";
+			else if (wcsstr(productName, L"Standard") != 0)
+				osname += L"-standard";
+			else if (wcsstr(productName, L"Professional") != 0)
+				osname += L"-pro";
+			else if (wcsstr(productName, L"Business") != 0)
+				osname += L"-business";
+			else if (wcsstr(productName, L"Enterprise") != 0)
+				osname += L"-enterprise";
+			else if (wcsstr(productName, L"Datacenter") != 0)
+				osname += L"-datacenter";
+			else if (wcsstr(productName, L"Ultimate") != 0)
+				osname += L"-ultimate";
+		}
+
+		if (GetSystemMetrics(SM_STARTER))
+			osname += L"-starter";
+		else if (wcsstr(productName, L"Basic") != 0)
+			osname += L"-basic";
+
+		if (Is64BitOs())
+			osname += IsARM() ? L"-arm64" : L"-x64";
+
+		if (CurrentOSServicePack > 0)
+		{
+			wstringstream s;
+			s << L"-sp" << CurrentOSServicePack;
+			osname += s.str();
+		}
+
+		return osname;
 	}
-
-	switch (nCurrentOS)
+	else
 	{
-	case WIN_2000:
-		osname += L"2000";
-		break;
-
-	case WIN_XP:
-	case WIN_XP64:
-		osname += L"xp";
-		osname += home ? L"-home" : L"-pro";
-		break;
-
-	case WIN_SERVER_2003:
-		osname += L"2003";
-		break;
-
-	case WIN_VISTA:
-		osname += L"vista";
-		break;
-
-	case WIN_SERVER_2008:
-		osname += L"2008";
-		break;
-
-	case WIN_7:
-		osname += L"7";
-		break;
-
-	case WIN_SERVER_2008_R2:
-		osname += L"2008r2";
-		break;
-
-	default:
-		wstringstream s;
-		s << CurrentOSMajor << L"." << CurrentOSMinor;
-		osname += s.str();
-		break;
+		return L"";
 	}
-
-	if (server)
-		osname += L"-server";
-
-	if (IsOSAtLeast (WIN_VISTA))
-	{
-		if (home)
-			osname += L"-home";
-		else if (wcsstr (productName, L"Standard") != 0)
-			osname += L"-standard";
-		else if (wcsstr (productName, L"Professional") != 0)
-			osname += L"-pro";
-		else if (wcsstr (productName, L"Business") != 0)
-			osname += L"-business";
-		else if (wcsstr (productName, L"Enterprise") != 0)
-			osname += L"-enterprise";
-		else if (wcsstr (productName, L"Datacenter") != 0)
-			osname += L"-datacenter";
-		else if (wcsstr (productName, L"Ultimate") != 0)
-			osname += L"-ultimate";
-	}
-
-	if (GetSystemMetrics (SM_STARTER))
-		osname += L"-starter";
-	else if (wcsstr (productName, L"Basic") != 0)
-		osname += L"-basic";
-
-	if (Is64BitOs())
-		osname += IsARM()? L"-arm64" : L"-x64";
-
-	if (CurrentOSServicePack > 0)
-	{
-		wstringstream s;
-		s << L"-sp" << CurrentOSServicePack;
-		osname += s.str();
-	}
-
-	return osname;
 }
 
 #ifdef SETUP
@@ -11124,7 +11126,7 @@ void Applink (const char *dest)
 	wchar_t page[TC_MAX_PATH] = {0};
 	wchar_t installDir[TC_MAX_PATH] = {0};
 	BOOL buildUrl = TRUE;
-	int r;
+	INT_PTR r;
 
 	ArrowWaitCursor ();
 	
@@ -11328,7 +11330,7 @@ void Applink (const char *dest)
 	}
 	else
 	{
-		r = (int) ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
+		r = (INT_PTR) ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
 
 		if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
 		{
@@ -13054,7 +13056,7 @@ BOOL IsFileOnReadOnlyFilesystem (const wchar_t *path)
 void CheckFilesystem (HWND hwndDlg, int driveNo, BOOL fixErrors)
 {
 	wchar_t msg[1024], param[1024], cmdPath[MAX_PATH];
-	wchar_t driveRoot[] = { L'A' + (wchar_t) driveNo, L':', 0 };
+	wchar_t driveRoot[] = { (wchar_t) (L'A' + driveNo), L':', 0 };
 
 	if (fixErrors && AskWarnYesNo ("FILESYS_REPAIR_CONFIRM_BACKUP", hwndDlg) == IDNO)
 		return;
@@ -13300,18 +13302,18 @@ BOOL IsWindowsIsoBurnerAvailable ()
 BOOL LaunchWindowsIsoBurner (HWND hwnd, const wchar_t *isoPath)
 {
 	wchar_t path[MAX_PATH*2] = { 0 };
-	int r;
+	INT_PTR r;
 
 	if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_SYSTEM, NULL, 0, path)))
 		StringCbCatW (path, MAX_PATH*2, L"\\" ISO_BURNER_TOOL);
 	else
 		StringCbCopyW (path, MAX_PATH*2, L"C:\\Windows\\System32\\" ISO_BURNER_TOOL);
 
-	r = (int) ShellExecute (hwnd, L"open", path, (wstring (L"\"") + isoPath + L"\"").c_str(), NULL, SW_SHOWNORMAL);
+	r = (INT_PTR) ShellExecute (hwnd, L"open", path, (wstring (L"\"") + isoPath + L"\"").c_str(), NULL, SW_SHOWNORMAL);
 
 	if (r <= 32)
 	{
-		SetLastError (r);
+		SetLastError ((DWORD) r);
 		handleWin32Error (hwnd, SRC_POS);
 
 		return FALSE;
@@ -15259,7 +15261,7 @@ void PasswordEditDropTarget::GotLeave(void)
 DWORD PasswordEditDropTarget::GotEnter(void)
 {
 	TCHAR szClassName[64];
-	DWORD dwStyles;
+	DWORD_PTR dwStyles;
 	int maxLen;
 	HWND hChild = WindowFromPoint (m_DropPoint);
 	// check that we are on password edit control (we use maximum length to correctly identify password fields since they don't always have ES_PASSWORD style (if the the user checked show password)
@@ -15285,7 +15287,7 @@ void PasswordEditDropTarget::GotDrop(CLIPFORMAT format)
 	if(m_Data)
 	{
 		TCHAR szClassName[64];
-		DWORD dwStyles;
+		DWORD_PTR dwStyles;
 		int maxLen;
 		HWND hChild = WindowFromPoint (m_DropPoint);
 		if (hChild && GetClassName (hChild, szClassName, ARRAYSIZE (szClassName)) && (0 == _tcsicmp (szClassName, _T("EDIT")))

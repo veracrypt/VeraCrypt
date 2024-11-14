@@ -1141,7 +1141,7 @@ namespace VeraCrypt
 //				throw ParameterIncorrect (SRC_POS);	// It is assumed that CheckRequirements() had been called
 
 			// Find the first active partition on the system drive
-			foreach (const Partition &partition, config.Partitions)
+			for (const Partition& partition : config.Partitions)
 			{
 				if (partition.Info.BootIndicator)
 				{
@@ -1154,13 +1154,13 @@ namespace VeraCrypt
 							Partition bootPartition = partition;
 							Partition partitionBehindBoot;
 
-							foreach (const Partition &partition, config.Partitions)
+							for (const Partition &otherPartition : config.Partitions)
 							{
-								if (partition.Info.StartingOffset.QuadPart > bootPartition.Info.StartingOffset.QuadPart
-									&& partition.Info.StartingOffset.QuadPart < minOffsetFound)
+								if (otherPartition.Info.StartingOffset.QuadPart > bootPartition.Info.StartingOffset.QuadPart
+									&& otherPartition.Info.StartingOffset.QuadPart < minOffsetFound)
 								{
-									minOffsetFound = partition.Info.StartingOffset.QuadPart;
-									partitionBehindBoot = partition;
+									minOffsetFound = otherPartition.Info.StartingOffset.QuadPart;
+									partitionBehindBoot = otherPartition;
 								}
 							}
 
@@ -1351,11 +1351,11 @@ namespace VeraCrypt
 				part.IsGPT = diskPartInfo.IsGPT;
 
 				// Mount point
-				int driveNumber = GetDiskDeviceDriveLetter ((wchar_t *) partPath.str().c_str());
+				int driveLetter = GetDiskDeviceDriveLetter ((wchar_t *) partPath.str().c_str());
 
-				if (driveNumber >= 0)
+				if (driveLetter >= 0)
 				{
-					part.MountPoint += (wchar_t) (driveNumber + L'A');
+					part.MountPoint += (wchar_t) (driveLetter + L'A');
 					part.MountPoint += L":";
 				}
 
@@ -2441,7 +2441,8 @@ namespace VeraCrypt
 		if (!fieldValue.empty() && strlen (fieldValue.c_str()))
 		{
 			string  copieValue = fieldValue;
-			std::transform(copieValue.begin(), copieValue.end(), copieValue.begin(), ::tolower);
+			std::transform(copieValue.begin(), copieValue.end(), copieValue.begin(),
+				[](unsigned char c) { return static_cast<char>(std::tolower(c)); });
 
 			if (strstr (copieValue.c_str(), "postexec") && strstr (copieValue.c_str(), "file("))
 			{

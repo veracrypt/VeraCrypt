@@ -51,7 +51,7 @@
 #endif
 
 #ifndef CRYPTOPP_ALIGN_DATA
-	#if defined(_MSC_VER)
+	#if defined(_MSC_VER) && !defined(TC_WINDOWS_BOOT)
 		#define CRYPTOPP_ALIGN_DATA(x) __declspec(align(x))
 	#elif defined(__GNUC__)
 		#define CRYPTOPP_ALIGN_DATA(x) __attribute__((aligned(x)))

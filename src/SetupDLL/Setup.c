@@ -2654,7 +2654,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 			}
 		
 			// remvove legacy files that are not needed anymore
-			for (int i = 0; i < sizeof (szLegacyFiles) / sizeof (szLegacyFiles[0]); i++)
+			for (i = 0; i < sizeof (szLegacyFiles) / sizeof (szLegacyFiles[0]); i++)
 			{
 				StatDeleteFile (szLegacyFiles [i], TRUE);
 			}

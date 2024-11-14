@@ -997,10 +997,10 @@ inplace_enc_read:
 			{
 				if (!WipeBuffer (wipeAlgorithm, wipeRandChars, wipePass, wipeBuffer, workChunkSize))
 				{
-					ULONG i;
-					for (i = 0; i < workChunkSize; ++i)
+					ULONG index;
+					for (index = 0; index < workChunkSize; ++index)
 					{
-						wipeBuffer[i] = buf[i] + wipePass;
+						wipeBuffer[index] = buf[index] + wipePass;
 					}
 
 					EncryptDataUnits (wipeBuffer, &unitNo, workChunkSize / ENCRYPTION_DATA_UNIT_SIZE, masterCryptoInfo);

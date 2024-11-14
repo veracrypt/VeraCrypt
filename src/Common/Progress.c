@@ -36,9 +36,9 @@ static wchar_t *seconds, *minutes, *hours, *days;
 // the speed of the "transform cursor").
 void InitProgressBar (__int64 totalBytes, __int64 bytesDone, BOOL bReverse, BOOL bIOThroughput, BOOL bDisplayStatus, BOOL bShowPercent)
 {
-	HWND hProgressBar = GetDlgItem (hCurPage, nPbar);
-	SendMessage (hProgressBar, PBM_SETRANGE32, 0, 10000);
-	SendMessage (hProgressBar, PBM_SETSTEP, 1, 0);
+	HWND hCurProgressBar = GetDlgItem (hCurPage, nPbar);
+	SendMessage (hCurProgressBar, PBM_SETRANGE32, 0, 10000);
+	SendMessage (hCurProgressBar, PBM_SETSTEP, 1, 0);
 
 	bProgressBarReverse = bReverse;
 	bRWThroughput = bIOThroughput;
@@ -66,7 +66,7 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 {
 	wchar_t text[100];
 	wchar_t speed[100];
-	HWND hProgressBar = GetDlgItem (hCurPage, nPbar);
+	HWND hCurProgressBar = GetDlgItem (hCurPage, nPbar);
 	int time = GetTickCount ();
 	int elapsed = (time - startTime) / 1000;
 
@@ -126,7 +126,7 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 
 	prevTime = time;
 
-	SendMessage (hProgressBar, PBM_SETPOS,
+	SendMessage (hCurProgressBar, PBM_SETPOS,
 		(int) (10000.0 * (bProgressBarReverse ? (TotalSize - byteOffset) : byteOffset) / (TotalSize == 0 ? 1 : TotalSize)),
 		0);
 

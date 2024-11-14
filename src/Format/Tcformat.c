@@ -220,7 +220,7 @@ volatile HWND hVerifyPasswordInputField = NULL;		/* Verify-password input field 
 
 HBITMAP hbmWizardBitmapRescaled = NULL;
 
-wchar_t OrigKeyboardLayout [8+1] = L"00000409";
+wchar_t OrigKeyboardLayout [KL_NAMELENGTH] = L"00000409";
 BOOL bKeyboardLayoutChanged = FALSE;		/* TRUE if the keyboard layout was changed to the standard US keyboard layout (from any other layout). */
 BOOL bKeybLayoutAltKeyWarningShown = FALSE;	/* TRUE if the user has been informed that it is not possible to type characters by pressing keys while the right Alt key is held down. */
 
@@ -401,7 +401,7 @@ static BOOL ElevateWholeWizardProcess (wstring arguments)
 
 	while (true)
 	{
-		if ((int)ShellExecute (MainDlg, L"runas", modPath, (wstring(L"/q UAC ") + arguments).c_str(), NULL, SW_SHOWNORMAL) > 32)
+		if ((intptr_t)ShellExecute (MainDlg, L"runas", modPath, (wstring(L"/q UAC ") + arguments).c_str(), NULL, SW_SHOWNORMAL) > 32)
 		{
 			exit (0);
 		}
@@ -3187,21 +3187,21 @@ static void LoadPage (HWND hwndDlg, int nPageNo)
 __int64 PrintFreeSpace (HWND hwndTextBox, wchar_t *lpszDrive, PLARGE_INTEGER lDiskFree)
 {
 	char *nResourceString;
-	__int64 nMultiplier;
+	__int64 nPrintMultiplier;
 	wchar_t szTmp2[256];
 
 	if (lDiskFree->QuadPart < BYTES_PER_KB)
-		nMultiplier = 1;
+		nPrintMultiplier = 1;
 	else if (lDiskFree->QuadPart < BYTES_PER_MB)
-		nMultiplier = BYTES_PER_KB;
+		nPrintMultiplier = BYTES_PER_KB;
 	else if (lDiskFree->QuadPart < BYTES_PER_GB)
-		nMultiplier = BYTES_PER_MB;
+		nPrintMultiplier = BYTES_PER_MB;
 	else if (lDiskFree->QuadPart < BYTES_PER_TB)
-		nMultiplier = BYTES_PER_GB;
+		nPrintMultiplier = BYTES_PER_GB;
 	else
-		nMultiplier = BYTES_PER_TB;
+		nPrintMultiplier = BYTES_PER_TB;
 
-	if (nMultiplier == 1)
+	if (nPrintMultiplier == 1)
 	{
 		if (bHiddenVol && !bHiddenVolHost)	// If it's a hidden volume
 			nResourceString = "MAX_HIDVOL_SIZE_BYTES";
@@ -3210,7 +3210,7 @@ __int64 PrintFreeSpace (HWND hwndTextBox, wchar_t *lpszDrive, PLARGE_INTEGER lDi
 		else
 			nResourceString = "DISK_FREE_BYTES";
 	}
-	else if (nMultiplier == BYTES_PER_KB)
+	else if (nPrintMultiplier == BYTES_PER_KB)
 	{
 		if (bHiddenVol && !bHiddenVolHost)	// If it's a hidden volume
 			nResourceString = "MAX_HIDVOL_SIZE_KB";
@@ -3219,7 +3219,7 @@ __int64 PrintFreeSpace (HWND hwndTextBox, wchar_t *lpszDrive, PLARGE_INTEGER lDi
 		else
 			nResourceString = "DISK_FREE_KB";
 	}
-	else if (nMultiplier == BYTES_PER_MB)
+	else if (nPrintMultiplier == BYTES_PER_MB)
 	{
 		if (bHiddenVol && !bHiddenVolHost)	// If it's a hidden volume
 			nResourceString = "MAX_HIDVOL_SIZE_MB";
@@ -3228,7 +3228,7 @@ __int64 PrintFreeSpace (HWND hwndTextBox, wchar_t *lpszDrive, PLARGE_INTEGER lDi
 		else
 			nResourceString = "DISK_FREE_MB";
 	}
-	else if (nMultiplier == BYTES_PER_GB)
+	else if (nPrintMultiplier == BYTES_PER_GB)
 	{
 		if (bHiddenVol && !bHiddenVolHost)	// If it's a hidden volume
 			nResourceString = "MAX_HIDVOL_SIZE_GB";
@@ -3249,20 +3249,20 @@ __int64 PrintFreeSpace (HWND hwndTextBox, wchar_t *lpszDrive, PLARGE_INTEGER lDi
 
 	if (bHiddenVol && !bHiddenVolHost)	// If it's a hidden volume
 	{
-		StringCbPrintfW (szTmp2, sizeof szTmp2, GetString (nResourceString), ((double) lDiskFree->QuadPart) / nMultiplier);
+		StringCbPrintfW (szTmp2, sizeof szTmp2, GetString (nResourceString), ((double) lDiskFree->QuadPart) / nPrintMultiplier);
 		SetWindowTextW (GetDlgItem (hwndTextBox, IDC_SIZEBOX), szTmp2);
 	}
 	else if (lpszDrive)
-		StringCbPrintfW (szTmp2, sizeof szTmp2, GetString (nResourceString), lpszDrive, ((double) lDiskFree->QuadPart) / nMultiplier);
+		StringCbPrintfW (szTmp2, sizeof szTmp2, GetString (nResourceString), lpszDrive, ((double) lDiskFree->QuadPart) / nPrintMultiplier);
 	else
 		szTmp2 [0] = 0;
 
 	SetWindowTextW (hwndTextBox, szTmp2);
 
 	if (lDiskFree->QuadPart % (__int64) BYTES_PER_MB != 0)
-		nMultiplier = BYTES_PER_KB;
+		nPrintMultiplier = BYTES_PER_KB;
 
-	return nMultiplier;
+	return nPrintMultiplier;
 }
 
 void DisplaySizingErrorText (HWND hwndTextBox)
@@ -3662,7 +3662,7 @@ void HandleOldAssignedDriveLetter (void)
 			&& !bHiddenOS
 			&& driveLetter >= 0)
 		{
-			wchar_t rootPath[] = { (wchar_t) driveLetter + L'A', L':', L'\\', 0 };
+			wchar_t rootPath[] = { (wchar_t) (driveLetter + L'A'), L':', L'\\', 0 };
 			wchar_t szTmp[8192];
 
 			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("AFTER_FORMAT_DRIVE_LETTER_WARN"), rootPath[0], rootPath[0], rootPath[0], rootPath[0]);
@@ -4386,11 +4386,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					ToBootPwdField (hwndDlg, IDC_PASSWORD);
 					ToBootPwdField (hwndDlg, IDC_VERIFY);
 
-					StringCbPrintfW (OrigKeyboardLayout, sizeof(OrigKeyboardLayout), L"%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
-
-					if ((DWORD) GetKeyboardLayout (NULL) != 0x00000409 && (DWORD) GetKeyboardLayout (NULL) != 0x04090409)
+					if (!GetKeyboardLayoutNameW(OrigKeyboardLayout))
 					{
-						DWORD keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
+						StringCbPrintfW(OrigKeyboardLayout, sizeof(OrigKeyboardLayout), L"%08X", (DWORD)(DWORD_PTR)GetKeyboardLayout(NULL) & 0xFFFF);
+					}
+
+					if ((DWORD)(DWORD_PTR)GetKeyboardLayout (NULL) != 0x00000409 && (DWORD)(DWORD_PTR)GetKeyboardLayout (NULL) != 0x04090409)
+					{
+						DWORD keybLayout = (DWORD)(DWORD_PTR)LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 						if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 						{
@@ -5319,7 +5322,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetBkMode((HDC)wParam,TRANSPARENT);
 				SetTextColor((HDC)wParam, RGB(255,0,0));
 				// NOTE: per documentation as pointed out by selbie, GetSolidBrush would leak a GDI handle.
-				return (BOOL)GetSysColorBrush(COLOR_MENU);
+				return (BOOL) (INT_PTR)GetSysColorBrush(COLOR_MENU);
 			}
 		}
 		return 0;
@@ -6698,7 +6701,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		case TIMER_ID_KEYB_LAYOUT_GUARD:
 			if (SysEncInEffect ())
 			{
-				DWORD keybLayout = (DWORD) GetKeyboardLayout (NULL);
+				DWORD keybLayout = (DWORD)(DWORD_PTR) GetKeyboardLayout (NULL);
 
 				/* Watch the keyboard layout */
 
@@ -6711,7 +6714,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SetPassword (hCurPage, IDC_PASSWORD, szRawPassword);
 					SetPassword (hCurPage, IDC_VERIFY, szVerify);
 
-					keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
+					keybLayout = (DWORD)(DWORD_PTR)LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 					if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 					{
@@ -9700,7 +9703,7 @@ int DetermineMaxHiddenVolSize (HWND hwndDlg)
 // Tests whether the file system of the given volume is suitable to host a hidden volume,
 // retrieves the cluster size, and scans the volume cluster bitmap. In addition, checks
 // the TrueCrypt volume format version and the type of volume.
-int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *pnbrFreeClusters)
+int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *pRealClusterSize, __int64 *pnbrFreeClusters)
 {
 	HANDLE hDevice;
 	DWORD bytesReturned;
@@ -9708,8 +9711,8 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 	DWORD dwResult;
 	int result;
 	wchar_t szFileSystemNameBuffer[256];
-	wchar_t tmpPath[7] = {L'\\',L'\\',L'.',L'\\',(wchar_t) *driveNo + L'A',L':',0};
-	wchar_t szRootPathName[4] = {(wchar_t) *driveNo + L'A', L':', L'\\', 0};
+	wchar_t tmpPath[7] = {L'\\',L'\\',L'.',L'\\',(wchar_t) (*driveNo + L'A'),L':',0};
+	wchar_t szRootPathName[4] = {(wchar_t) (*driveNo + L'A'), L':', L'\\', 0};
 	BYTE readBuffer[TC_MAX_VOLUME_SECTOR_SIZE * 2];
 	LARGE_INTEGER offset, offsetNew;
 	VOLUME_PROPERTIES_STRUCT volProp;
@@ -9784,17 +9787,17 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 		// FAT12/FAT16/FAT32
 
 		// Retrieve the cluster size
-		*realClusterSize = ((int) readBuffer[0xb] + ((int) readBuffer[0xc] << 8)) * (int) readBuffer[0xd];
+		*pRealClusterSize = ((int) readBuffer[0xb] + ((int) readBuffer[0xc] << 8)) * (int) readBuffer[0xd];
 
 		// Get the map of the clusters that are free and in use on the outer volume.
 		// The map will be scanned to determine the size of the uninterrupted block of free
 		// space (provided there is any) whose end is aligned with the end of the volume.
 		// The value will then be used to determine the maximum possible size of the hidden volume.
-		if (*realClusterSize > 0)
+		if (*pRealClusterSize > 0)
 		{
 			return ScanVolClusterBitmap (hwndDlg,
 				driveNo,
-				hiddenVolHostSize / *realClusterSize,
+				hiddenVolHostSize / *pRealClusterSize,
 				pnbrFreeClusters);
 		}
 		else
@@ -9822,7 +9825,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 			return -1;
 		};
 
-		*realClusterSize = dwBytesPerSector * dwSectorsPerCluster;
+		*pRealClusterSize = dwBytesPerSector * dwSectorsPerCluster;
 
 		// Get the map of the clusters that are free and in use on the outer volume.
 		// The map will be scanned to determine the size of the uninterrupted block of free
@@ -9831,7 +9834,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 
 		return ScanVolClusterBitmap (hwndDlg,
 			driveNo,
-			hiddenVolHostSize / *realClusterSize,
+			hiddenVolHostSize / *pRealClusterSize,
 			pnbrFreeClusters);
 	}
 	else
@@ -9887,7 +9890,7 @@ int MountHiddenVolHost (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Passwor
    area of free space (provided there is any) whose end is aligned with the end
    of the volume. The value will then be used to determine the maximum possible size
    of the hidden volume. */
-int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int64 *nbrFreeClusters)
+int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int64 *pnbrFreeClusters)
 {
 	PVOLUME_BITMAP_BUFFER lpOutBuffer;
 	STARTING_LCN_INPUT_BUFFER lpInBuffer;
@@ -9895,7 +9898,7 @@ int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int
 	HANDLE hDevice;
 	DWORD lBytesReturned;
 	BYTE rmnd;
-	wchar_t tmpPath[7] = {L'\\',L'\\',L'.',L'\\', (wchar_t) *driveNo + L'A', L':', 0};
+	wchar_t tmpPath[7] = {L'\\',L'\\',L'.',L'\\', (wchar_t) (*driveNo + L'A'), L':', 0};
 
 	DWORD bufLen;
 	__int64 bitmapCnt;
@@ -9941,11 +9944,11 @@ int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int
 	if ((rmnd != 0)
 	&& ((lpOutBuffer->Buffer[lpOutBuffer->BitmapSize.QuadPart / 8] & ((1 << rmnd)-1) ) != 0))
 	{
-		*nbrFreeClusters = 0;
+		*pnbrFreeClusters = 0;
 	}
 	else
 	{
-		*nbrFreeClusters = lpOutBuffer->BitmapSize.QuadPart;
+		*pnbrFreeClusters = lpOutBuffer->BitmapSize.QuadPart;
 		bitmapCnt = lpOutBuffer->BitmapSize.QuadPart / 8;
 
 		// Scan the bitmap from the end
@@ -9955,7 +9958,7 @@ int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int
 			{
 				// There might be up to 7 extra free clusters in this byte of the bitmap.
 				// These are ignored because there is always a cluster reserve added anyway.
-				*nbrFreeClusters = lpOutBuffer->BitmapSize.QuadPart - ((bitmapCnt + 1) * 8);
+				*pnbrFreeClusters = lpOutBuffer->BitmapSize.QuadPart - ((bitmapCnt + 1) * 8);
 				break;
 			}
 		}

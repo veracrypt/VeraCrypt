@@ -511,9 +511,9 @@ begin_format:
 		// The previous file system format failed and the user wants to try again with a different file system.
 		// The volume header had been written successfully so we need to seek to the byte after the header.
 
-		LARGE_INTEGER offset;
-		offset.QuadPart = TC_VOLUME_DATA_OFFSET;
-		if (!SetFilePointerEx ((HANDLE) dev, offset, NULL, FILE_BEGIN))
+		LARGE_INTEGER volDataOffset;
+		volDataOffset.QuadPart = TC_VOLUME_DATA_OFFSET;
+		if (!SetFilePointerEx ((HANDLE) dev, volDataOffset, NULL, FILE_BEGIN))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto error;

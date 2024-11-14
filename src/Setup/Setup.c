@@ -1646,7 +1646,6 @@ BOOL DoDriverUnload (HWND hwndDlg)
 
 	if (hDriver != INVALID_HANDLE_VALUE)
 	{
-		MOUNT_LIST_STRUCT driver;
 		LONG driverVersion = VERSION_NUM;
 		int refCount;
 		DWORD dwResult;
@@ -1895,7 +1894,7 @@ error:
 	return bOK;
 }
 
-BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL bDesktopIcon)
+BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL bUseDesktopIcon)
 {
 	wchar_t szLinkDir[TC_MAX_PATH], szDir[TC_MAX_PATH];
 	wchar_t szTmp[TC_MAX_PATH], szTmp2[TC_MAX_PATH];
@@ -1903,7 +1902,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 	HRESULT hOle;
 	int x;
 
-	if (bProgGroup == FALSE && bDesktopIcon == FALSE)
+	if (bProgGroup == FALSE && bUseDesktopIcon == FALSE)
 		return TRUE;
 
 	hOle = OleInitialize (NULL);
@@ -1982,7 +1981,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 		StatDeleteFile (szTmp2, FALSE);
 	}
 
-	if (bDesktopIcon)
+	if (bUseDesktopIcon)
 	{
 		StringCbCopyW (szDir, sizeof(szDir), szDestDir);
 		x = wcslen (szDestDir);

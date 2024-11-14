@@ -452,13 +452,13 @@ namespace VeraCrypt
 		case WM_CTLCOLORSTATIC:
 			{
 				HDC hdc = (HDC)	wParam;
-				HWND hw = (HWND) lParam;
-				if (hw == GetDlgItem(hwndDlg, IDC_FAVORITE_VOLUME_ID))
+				HWND hwnd = (HWND) lParam;
+				if (hwnd == GetDlgItem(hwndDlg, IDC_FAVORITE_VOLUME_ID))
 				{
 					// This the favorite ID field. Make its background like normal edit
 					HBRUSH hbr = GetSysColorBrush (COLOR_WINDOW);
 					::SelectObject(hdc, hbr);
-					return (BOOL) hbr;
+					return (BOOL)(INT_PTR)hbr;
 				}
 			}
 			break;
@@ -731,7 +731,7 @@ namespace VeraCrypt
 
 		FavoritesOnArrivalMountRequired.clear();
 
-		foreach (const FavoriteVolume favorite, FavoriteVolumes)
+		for (const FavoriteVolume favorite: FavoriteVolumes)
 		{
 			if (favorite.MountOnArrival)
 			{
@@ -741,7 +741,7 @@ namespace VeraCrypt
 				{
 					bool present = false;
 
-					foreach (const FavoriteVolume favoriteConnected, FavoritesMountedOnArrivalStillConnected)
+					for (const FavoriteVolume favoriteConnected: FavoritesMountedOnArrivalStillConnected)
 					{
 						if (favorite.Path == favoriteConnected.Path)
 						{

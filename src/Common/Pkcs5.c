@@ -1223,9 +1223,9 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot)
 	default:		
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
-#if _MSC_VER < 1900
+
 	return 0;
-#endif
+
 }
 
 int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
