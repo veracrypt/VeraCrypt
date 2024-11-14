@@ -240,6 +240,9 @@ void ThrowFatalException(int line);
     || (defined(__GNUC__ ) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3))) \
     || (__has_builtin(__builtin_trap))
 #   define TC_THROW_FATAL_EXCEPTION __builtin_trap()
+#elif defined(_MSC_VER)
+#include <intrin.h>
+#	define TC_THROW_FATAL_EXCEPTION	__fastfail(FAST_FAIL_FATAL_APP_EXIT)
 #else
 #	define TC_THROW_FATAL_EXCEPTION	*(char *) 0 = 0
 #endif
