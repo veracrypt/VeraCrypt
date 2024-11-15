@@ -44,14 +44,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>VeraCryptCOMRegBase</TargetName>
-    <OutDir>$(ProjectDir)$(ConfigurationName)\</OutDir>
-    <IntDir>$(ProjectDir)$(ConfigurationName)\</IntDir>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>VeraCryptCOMRegBase</TargetName>
-    <OutDir>$(ProjectDir)$(ConfigurationName)\</OutDir>
-    <IntDir>$(ProjectDir)$(ConfigurationName)\</IntDir>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
