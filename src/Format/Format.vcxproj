@@ -568,12 +568,14 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Lzma_vs2019.vcxproj">
+    <ProjectReference Include="..\Common\Lzma.vcxproj">
       <Project>{b896fe1f-6bf3-4f75-9148-f841829073d9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Crypto\Crypto_vs2019.vcxproj">
+    <ProjectReference Include="..\Common\Zip.vcxproj">
+      <Project>{6316ee71-0210-4ca4-bcc7-cfb7a3c090fc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Crypto\Crypto.vcxproj">
       <Project>{993245cf-6b70-47ee-91bb-39f8fc6dc0e7}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

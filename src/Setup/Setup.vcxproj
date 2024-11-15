@@ -325,6 +325,11 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">true</ExcludedFromBuild>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Lzma.vcxproj">
+      <Project>{b896fe1f-6bf3-4f75-9148-f841829073d9}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
