@@ -16,7 +16,6 @@
 #include "Xts.h"
 #include "Crc.h"
 #include "Common/Endian.h"
-#include "Crypto/t1ha.h"
 #if !defined(_UEFI)
 #include <string.h>
 #ifndef TC_WINDOWS_BOOT
@@ -27,6 +26,7 @@
 #else
 #include <strsafe.h>
 #endif
+#include "Crypto/t1ha.h"
 #include "EncryptionThreadPool.h"
 #endif
 #endif
