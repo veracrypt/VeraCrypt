@@ -1672,7 +1672,7 @@ BOOL test_pkcs5 ()
 		return FALSE;
 
 	/* Blake2s hash tests */
-	if (RunHashTest (Blake2sHash, Blake2sTestVectors))
+	if (RunHashTest (Blake2sHash, Blake2sTestVectors) == FALSE)
 		return FALSE;
 
 	/* HMAC-Whirlpool tests */
@@ -1684,7 +1684,7 @@ BOOL test_pkcs5 ()
 		return FALSE;
 
 	/* STREEBOG hash tests */
-	if (RunHashTest (StreebogHash, Streebog512TestVectors))
+	if (RunHashTest (StreebogHash, Streebog512TestVectors) == FALSE)
 		return FALSE;
 #endif
 	/* PKCS-5 test 1 with HMAC-SHA-256 used as the PRF (https://tools.ietf.org/html/draft-josefsson-scrypt-kdf-00) */
