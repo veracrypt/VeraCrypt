@@ -773,11 +773,13 @@ namespace VeraCrypt
 		else
 		{
 			LastError = GetLastError();
+#ifndef SETUP
 			if (LastError == ERROR_ACCESS_DENIED && IsUacSupported())
 			{
 				Elevated = true;
 				FileOpen = true;
 			}
+#endif
 		}
 
 		FilePointerPosition = 0;
@@ -806,12 +808,14 @@ namespace VeraCrypt
 			throw SystemException (SRC_POS);
 		}
 
+#ifndef SETUP
 		if (Elevated)
 		{
 			Elevator::ReadWriteFile (false, IsDevice, Path, buffer, FilePointerPosition, size, &bytesRead);
 			FilePointerPosition += bytesRead;
 			return bytesRead;
 		}
+#endif
 
 		if (!ReadFile (Handle, buffer, size, &bytesRead, NULL))
 		{
@@ -913,6 +917,7 @@ namespace VeraCrypt
 
 		try
 		{
+#ifndef SETUP
 			if (Elevated)
 			{
 				Elevator::ReadWriteFile (true, IsDevice, Path, buffer, FilePointerPosition, size, &bytesWritten);
@@ -920,6 +925,7 @@ namespace VeraCrypt
 				throw_sys_if (bytesWritten != size);
 			}
 			else
+#endif
 			{
 				if (!WriteFile (Handle, buffer, size, &bytesWritten, NULL))
 				{
@@ -1046,11 +1052,13 @@ namespace VeraCrypt
 		else
 		{
 			LastError = GetLastError ();
+#ifndef SETUP
 			if (LastError == ERROR_ACCESS_DENIED && IsUacSupported())
 			{
 				Elevated = true;
 				FileOpen = true;
 			}
+#endif
 		}
 
 		FilePointerPosition = 0;
