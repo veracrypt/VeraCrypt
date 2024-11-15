@@ -1179,53 +1179,49 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 
 
 
-int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot)
+int get_pkcs5_iteration_count(int pkcs5_prf_id, int pim, BOOL bBoot)
 {
-	if (	(pim < 0)
-		)
+	int iteration_count = 0;
+
+	if (pim >= 0)
 	{
-		return 0;
+		switch (pkcs5_prf_id)
+		{
+		case BLAKE2S:
+			if (pim == 0)
+				iteration_count = bBoot ? 200000 : 500000;
+			else
+				iteration_count = bBoot ? pim * 2048 : 15000 + pim * 1000;
+			break;
+
+		case SHA512:
+			iteration_count = (pim == 0) ? 500000 : 15000 + pim * 1000;
+			break;
+
+		case WHIRLPOOL:
+			iteration_count = (pim == 0) ? 500000 : 15000 + pim * 1000;
+			break;
+
+		case SHA256:
+			if (pim == 0)
+				iteration_count = bBoot ? 200000 : 500000;
+			else
+				iteration_count = bBoot ? pim * 2048 : 15000 + pim * 1000;
+			break;
+
+		case STREEBOG:
+			if (pim == 0)
+				iteration_count = bBoot ? 200000 : 500000;
+			else
+				iteration_count = bBoot ? pim * 2048 : 15000 + pim * 1000;
+			break;
+
+		default:
+			TC_THROW_FATAL_EXCEPTION; // Unknown/wrong ID
+		}
 	}
 
-	switch (pkcs5_prf_id)
-	{
-
-	case BLAKE2S:	
-		if (pim == 0)
-			return bBoot? 200000 : 500000;
-		else
-		{
-			return bBoot? pim * 2048 : 15000 + pim * 1000;
-		}
-
-	case SHA512:	
-		return ((pim == 0)? 500000 : 15000 + pim * 1000);
-
-	case WHIRLPOOL:	
-		return ((pim == 0)? 500000 : 15000 + pim * 1000);
-
-	case SHA256:
-		if (pim == 0)
-			return bBoot? 200000 : 500000;
-		else
-		{
-			return bBoot? pim * 2048 : 15000 + pim * 1000;
-		}
-
-	case STREEBOG:	
-		if (pim == 0)
-			return bBoot? 200000 : 500000;
-		else
-		{
-			return bBoot? pim * 2048 : 15000 + pim * 1000;
-		}
-
-	default:		
-		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
-	}
-
-	return 0;
-
+	return iteration_count;
 }
 
 int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
