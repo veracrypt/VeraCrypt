@@ -1,0 +1,91 @@
+;;;
+;;; VeraCrypt
+;;;
+;;;
+;;; Copyright (c) 2024, IDRIX
+;;;
+
+[Version]
+signature   = "$Windows NT$"
+Class       = "Encryption"                              ;This is determined by the work this filter driver does
+ClassGuid   = {a0a701c0-a511-42ff-aa6c-06dc0395576f}    ;This value is determined by the Class
+Provider    = %ProviderString%
+DriverVer   = ;
+CatalogFile = veracrypt.cat
+PnpLockdown = 1
+
+[DestinationDirs]
+DefaultDestDir          = 12
+veracrypt.DriverFiles  = 12            ;%windir%\system32\drivers
+
+;;
+;; Default install sections
+;;
+
+[DefaultInstall.NTx86]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = veracrypt.DriverFiles
+AddReg              = veracrypt.AddReg
+
+[DefaultInstall.NTamd64]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = veracrypt.DriverFiles
+AddReg              = veracrypt.AddReg
+
+[DefaultInstall.NTarm64]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = veracrypt.DriverFiles
+AddReg              = veracrypt.AddReg
+
+[DefaultInstall.NTx86.Services]
+AddService          = veracrypt,,veracrypt.Service
+
+[DefaultInstall.NTamd64.Services]
+AddService          = veracrypt,,veracrypt.Service
+
+[DefaultInstall.NTarm64.Services]
+AddService          = veracrypt,,veracrypt.Service
+
+;
+; Services Section
+;
+
+[veracrypt.Service]
+DisplayName      = %ServiceDescription%
+Description      = %ServiceDescription%
+ServiceBinary    = %12%\veracrypt.sys        ;%windir%\system32\drivers\
+ServiceType      = 2                            ;SERVICE_FILE_SYSTEM_DRIVER
+StartType        = 0                           ;SERVICE_BOOT_START
+ErrorControl     = 1                            ;SERVICE_ERROR_NORMAL
+LoadOrderGroup   = "Filter"
+
+;
+; Copy Files
+;
+
+[veracrypt.DriverFiles]
+veracrypt.sys
+
+[SourceDisksFiles]
+veracrypt.sys = 1,,
+
+[SourceDisksNames]
+1 = %DiskId1%,,,
+
+;
+; Registry Entries
+;
+
+[veracrypt.AddReg]
+HKLM, System\CurrentControlSet\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318}, UpperFilters, 0x00010008, veracrypt
+HKLM, System\CurrentControlSet\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318}, UpperFilters, 0x00010008, PartMgr
+
+;;
+;; String Section
+;;
+
+[Strings]
+ProviderString          = "IDRIX"
+ServiceDescription      = "veracrypt"
+DiskId1                 = "VeraCrypt Device Installation Disk"
+

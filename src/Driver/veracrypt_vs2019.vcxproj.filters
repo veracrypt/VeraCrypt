@@ -17,39 +17,77 @@
       <UniqueIdentifier>{8E41214B-6785-4CFE-B992-037D68949A14}</UniqueIdentifier>
       <Extensions>inf;inv;inx;mof;mc;</Extensions>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{a57937a1-39b7-4056-8a0d-91007f1df0dc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Crypto">
-      <UniqueIdentifier>{27c1f176-3bb2-46ab-abe5-d5ea01d8d4c9}</UniqueIdentifier>
+      <UniqueIdentifier>{4faf760c-3bff-4dcc-b99d-cde043309fcd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Crypto\Source Files">
-      <UniqueIdentifier>{a5c1dc1f-29ec-4ea8-b535-61dd2c5e4342}</UniqueIdentifier>
+      <UniqueIdentifier>{724c69a8-c0a8-4c7b-83f3-f303bc8733eb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Crypto\Header Files">
-      <UniqueIdentifier>{e69db28f-0030-4532-9d70-5c11b63d1e2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common">
-      <UniqueIdentifier>{c9095cb6-8efa-4261-902e-a9b8afa443d6}</UniqueIdentifier>
+      <UniqueIdentifier>{1cc3d97e-dee8-429c-88d1-893306f9ec32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DriveFilter.c">
-      <Filter>Source Files</Filter>
+    <Inf Include="veracrypt.inf">
+      <Filter>Driver Files</Filter>
+    </Inf>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Common\Cache.c">
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="DumpFilter.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Common\Crc.c">
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="EncryptedIoQueue.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Common\Crypto.c">
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Ntvol.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Common\EncryptionThreadPool.c">
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="VolumeFilter.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Common\Endian.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\GfMul.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Pkcs5.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tests.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Volumes.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Wipe.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Xts.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Aescrypt.c">
+      <Filter>Crypto\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Crypto\Aeskey.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Crypto\Aestab.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSE2.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSE41.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\blake2s_SSSE3.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Crypto\Camellia.c">
@@ -88,6 +126,9 @@
     <ClCompile Include="..\Crypto\Sha2.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Crypto\Sha2Intel.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\Crypto\Streebog.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
@@ -106,93 +147,42 @@
     <ClCompile Include="..\Crypto\Whirlpool.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Cache.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Crc.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Crypto.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\EncryptionThreadPool.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Endian.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\GfMul.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Pkcs5.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Tests.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Volumes.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Wipe.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Xts.c">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Crypto\Aescrypt.c">
-      <Filter>Crypto\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ntdriver.c">
+    <ClCompile Include="..\Driver\DriveFilter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\blake2s.c">
-      <Filter>Crypto\Source Files</Filter>
+    <ClCompile Include="..\Driver\DumpFilter.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\blake2s_SSE2.c">
-      <Filter>Crypto\Source Files</Filter>
+    <ClCompile Include="..\Driver\EncryptedIoQueue.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\blake2s_SSE41.c">
-      <Filter>Crypto\Source Files</Filter>
+    <ClCompile Include="..\Driver\Ntdriver.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\blake2s_SSSE3.c">
-      <Filter>Crypto\Source Files</Filter>
+    <ClCompile Include="..\Driver\Ntvol.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\Sha2Intel.c">
-      <Filter>Crypto\Source Files</Filter>
+    <ClCompile Include="..\Driver\VolumeFilter.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DriveFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DumpFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EncryptedIoQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ntdriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ntvol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VolumeFilter.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\Common\Tcdefs.h">
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\Crypto\Aes.h">
-      <Filter>Crypto\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Crypto\Aes_hw_cpu.h">
       <Filter>Crypto\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Crypto\Aesopt.h">
       <Filter>Crypto\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Crypto\AesSmall.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Crypto\Aestab.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Aes_hw_cpu.h">
       <Filter>Crypto\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Crypto\Camellia.h">
@@ -264,11 +254,26 @@
     <ClInclude Include="..\Crypto\Whirlpool.h">
       <Filter>Crypto\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Crypto\AesSmall.h">
-      <Filter>Crypto\Header Files</Filter>
+    <ClInclude Include="..\Driver\DriveFilter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Tcdefs.h">
-      <Filter>Common</Filter>
+    <ClInclude Include="..\Driver\DumpFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Driver\EncryptedIoQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Driver\Ntdriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Driver\Ntvol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Driver\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Driver\VolumeFilter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -325,7 +330,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Driver.rc">
+    <ResourceCompile Include="..\Driver\Driver.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
