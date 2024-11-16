@@ -683,9 +683,6 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
-	KFLOATING_SAVE floatingPointState;	
-	if (HasSSE2())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = blake2s(pwd), as per HMAC specifications. */
