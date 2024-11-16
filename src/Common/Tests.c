@@ -725,10 +725,8 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 			if (!EAInitMode (ci, key2))
 				return FALSE;
 
-#ifdef _WIN64
 			if (IsRamEncryptionEnabled ())
 				VcProtectKeys (ci, VcGetEncryptionID (ci));
-#endif
 
 			// Each data unit will contain the same plaintext
 			for (i = 0; i < nbrUnits; i++)

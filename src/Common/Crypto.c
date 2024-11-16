@@ -193,8 +193,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 	switch (cipher)
 	{
 	case AES:	
-		// In 32-bit kernel mode, due to KeSaveFloatingPointState() overhead, AES instructions can be used only when processing the whole data unit.
-#if (defined (_WIN64) || !defined (TC_WINDOWS_DRIVER)) && !defined (TC_WINDOWS_BOOT)
+#if !defined (TC_WINDOWS_BOOT)
 		if (IsAesHwCpuSupported())
 			aes_hw_cpu_encrypt (ks, data);
 		else
@@ -221,16 +220,10 @@ void EncipherBlock(int cipher, void *data, void *ks)
 void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 {
 	uint8 *data = dataPtr;
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-#endif
 
 	if (cipher == AES
 		&& (blockCount & (32 - 1)) == 0
 		&& IsAesHwCpuSupported()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		&& NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		while (blockCount > 0)
@@ -241,24 +234,15 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 			blockCount -= 32;
 		}
 
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	}
 #ifndef WOLFCRYPT_BACKEND	
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == SERPENT
 			&& (blockCount >= 4)
 			&& HasSSE2()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-			&& NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		serpent_encrypt_blocks (data, data, blockCount, ks);
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	}
 #endif
 #if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
@@ -272,15 +256,9 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == KUZNYECHIK
 			&& HasSSE2()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-			&& (blockCount >= 4) && NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		kuznyechik_encrypt_blocks (data, data, blockCount, ks);
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	}
 #endif
 #endif
@@ -316,11 +294,9 @@ void DecipherBlock(int cipher, void *data, void *ks)
 #ifndef TC_WINDOWS_BOOT
 
 	case AES:
-#if defined (_WIN64) || !defined (TC_WINDOWS_DRIVER)
 		if (IsAesHwCpuSupported())
 			aes_hw_cpu_decrypt ((uint8 *) ks + sizeof (aes_encrypt_ctx), data);
 		else
-#endif
 			aes_decrypt (data, data, (void *) ((char *) ks + sizeof(aes_encrypt_ctx)));
 		break;
 
@@ -336,16 +312,10 @@ void DecipherBlock(int cipher, void *data, void *ks)
 void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 {
 	uint8 *data = dataPtr;
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-#endif
 
 	if (cipher == AES
 		&& (blockCount & (32 - 1)) == 0
 		&& IsAesHwCpuSupported()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		&& NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		while (blockCount > 0)
@@ -356,24 +326,15 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 			blockCount -= 32;
 		}
 
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	}
 #ifndef WOLFCRYPT_BACKEND	
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == SERPENT
 			&& (blockCount >= 4)
 			&& HasSSE2()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-			&& NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		serpent_decrypt_blocks (data, data, blockCount, ks);
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	}
 #endif
 #if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
@@ -387,15 +348,9 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == KUZNYECHIK			
 			&& HasSSE2()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-			&& (blockCount >= 4) && NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		kuznyechik_decrypt_blocks (data, data, blockCount, ks);
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 	}
 #endif
 #endif
@@ -1260,14 +1215,10 @@ BOOL IsCpuRngEnabled ()
 
 BOOL IsRamEncryptionSupported ()
 {
-#ifdef _WIN64
 	if (t1ha_selfcheck__t1ha2() == 0)
 		return TRUE;
 	else
 		return FALSE;
-#else
-	return FALSE;
-#endif
 }
 
 void EnableRamEncryption (BOOL enable)

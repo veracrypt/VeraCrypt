@@ -217,13 +217,6 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 	WHIRLPOOL_CTX tctx;
 	size_t count;
 
-#ifndef _WIN64
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	if (HasISSE())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
-
 	while (cbRandSeed)
 	{	
 		WHIRLPOOL_init (&tctx);
@@ -278,11 +271,6 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 		cbRandSeed -= count;
 		pbRandSeed += count;
 	}
-
-#if !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
 
 	FAST_ERASE64 (digest, sizeof (digest));
 	FAST_ERASE64 (&iSeed.QuadPart, 8);

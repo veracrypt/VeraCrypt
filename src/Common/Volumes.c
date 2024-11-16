@@ -559,21 +559,11 @@ KeyReady:	;
 #ifdef TC_WINDOWS_DRIVER
 				{
 					blake2s_state ctx;
-#ifndef _WIN64
-					NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-					KFLOATING_SAVE floatingPointState;	
-					if (HasSSE2())
-						saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
 					blake2s_init (&ctx);
 					blake2s_update (&ctx, keyInfo->master_keydata, MASTER_KEYDATA_SIZE);
 					blake2s_update (&ctx, header, sizeof(header));
 					blake2s_final (&ctx, cryptoInfo->master_keydata_hash);
 					burn(&ctx, sizeof (ctx));
-#ifndef _WIN64
-					if (NT_SUCCESS (saveStatus))
-						KeRestoreFloatingPointState (&floatingPointState);
-#endif
 				}
 #else
 				memcpy (cryptoInfo->master_keydata, keyInfo->master_keydata, MASTER_KEYDATA_SIZE);

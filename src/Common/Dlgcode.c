@@ -2126,12 +2126,8 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 			// Version
 			SendMessage (GetDlgItem (hwndDlg, IDT_ABOUT_VERSION), WM_SETFONT, (WPARAM) hUserBoldFont, 0);
-			StringCbPrintfW (szTmp, sizeof(szTmp), L"VeraCrypt %s", _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
-#ifdef _WIN64
-			StringCbCatW (szTmp, sizeof(szTmp), L"  (64-bit)");
-#else
-			StringCbCatW (szTmp, sizeof(szTmp), L"  (32-bit)");
-#endif
+			StringCbPrintfW (szTmp, sizeof(szTmp), L"VeraCrypt %s", _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX) L"  (64-bit)");
+
 #if (defined(_DEBUG) || defined(DEBUG))
 			StringCbCatW (szTmp, sizeof(szTmp), L"  (debug)");
 #endif
@@ -3602,6 +3598,12 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		AbortProcessDirect(L"VeraCrypt requires at least Windows 10 to run.");
 	}
 
+	if (!Is64BitOs())
+	{
+		// abort using a message that says that VeraCrypt can run only on 64-bit Windows
+		AbortProcessDirect(L"VeraCrypt requires a 64-bit version of Windows to run.");
+	}
+
 	SetDefaultDllDirectoriesFn = (SetDefaultDllDirectoriesPtr) GetProcAddress (GetModuleHandle(L"kernel32.dll"), "SetDefaultDllDirectories");
 	if (!SetDefaultDllDirectoriesFn)
 	{
@@ -3787,14 +3789,14 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	InitHelpFileName ();
 
 #ifndef SETUP
-#ifdef _WIN64
+
 	EnableRamEncryption ((ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE);
 	if (IsRamEncryptionEnabled())
 	{
 		if (!InitializeSecurityParameters(GetAppRandomSeed))
 			AbortProcess("OUTOFMEMORY");
 	}
-#endif
+
 	if (!EncryptionThreadPoolStart (ReadEncryptionThreadPoolFreeCpuCountLimit()))
 	{
 		handleWin32Error (NULL, SRC_POS);
@@ -4864,7 +4866,7 @@ static int DriverLoad ()
 	else
 		*tmp = 0;
 
-	StringCbCatW (driverPath, sizeof(driverPath), !Is64BitOs () ? L"\\veracrypt.sys" : IsARM()? L"\\veracrypt-arm64.sys" : L"\\veracrypt-x64.sys");
+	StringCbCatW (driverPath, sizeof(driverPath), IsARM()? L"\\veracrypt-arm64.sys" : L"\\veracrypt-x64.sys");
 
 	file = FindFirstFile (driverPath, &find);
 
@@ -6322,19 +6324,11 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				{
 					if (thid == SHA256)
 					{
-#ifdef  _WIN64
 						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 26);
-#else
-						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 24);
-#endif
 					}
 					else
 					{
-#ifdef _WIN64
 						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 21) / 5;
-#else
-						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 18) / 5;
-#endif
 					}
 				}
 			}
@@ -6357,10 +6351,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				if (EAInitMode (ci, ci->k2))
 				{
 					int i;
-#ifdef _WIN64
 					if (IsRamEncryptionEnabled ())
 						VcProtectKeys (ci, VcGetEncryptionID (ci));
-#endif
 
 					for (i = 0; i < 10; i++)
 					{
@@ -6382,10 +6374,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				if (!EAInitMode (ci, ci->k2))
 					goto counter_error;
 
-#ifdef _WIN64
 				if (IsRamEncryptionEnabled ())
 					VcProtectKeys (ci, VcGetEncryptionID (ci));
-#endif
 
 				if (QueryPerformanceCounter (&performanceCountStart) == 0)
 					goto counter_error;
@@ -10198,7 +10188,7 @@ std::wstring GetServiceConfigPath (const wchar_t *fileName, bool useLegacy)
 {
 	wchar_t sysPath[TC_MAX_PATH];
 
-	if (Is64BitOs() && useLegacy)
+	if (useLegacy)
 	{
 		typedef UINT (WINAPI *GetSystemWow64Directory_t) (LPWSTR lpBuffer, UINT uSize);
 
@@ -11098,8 +11088,7 @@ std::wstring GetWindowsEdition ()
 		else if (wcsstr(productName, L"Basic") != 0)
 			osname += L"-basic";
 
-		if (Is64BitOs())
-			osname += IsARM() ? L"-arm64" : L"-x64";
+		osname += IsARM() ? L"-arm64" : L"-x64";
 
 		if (CurrentOSServicePack > 0)
 		{
@@ -14237,17 +14226,14 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 		SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList);
 		SHGetPathFromIDList (itemList, path);
 
-		if (Is64BitOs())
+		// Use a unified default installation path (registry redirection of %ProgramFiles% does not work if the installation path is user-selectable)
+		wstring s = path;
+		size_t p = s.find (L" (x86)");
+		if (p != wstring::npos)
 		{
-			// Use a unified default installation path (registry redirection of %ProgramFiles% does not work if the installation path is user-selectable)
-			wstring s = path;
-			size_t p = s.find (L" (x86)");
-			if (p != wstring::npos)
-			{
-				s = s.substr (0, p);
-				if (_waccess (s.c_str(), 0) != -1)
-					StringCbCopyW (path, sizeof (path), s.c_str());
-			}
+			s = s.substr (0, p);
+			if (_waccess (s.c_str(), 0) != -1)
+				StringCbCopyW (path, sizeof (path), s.c_str());
 		}
 
 		StringCbCatW (path, sizeof(path), L"\\VeraCrypt\\");
@@ -14820,7 +14806,7 @@ void SafeOpenURL (LPCWSTR szUrl)
 	}
 }
 
-#if !defined(SETUP) && defined(_WIN64)
+#if !defined(SETUP)
 
 #define RtlGenRandom SystemFunction036
 extern "C" BOOLEAN NTAPI RtlGenRandom(PVOID RandomBuffer, ULONG RandomBufferLength);

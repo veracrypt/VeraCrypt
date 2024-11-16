@@ -73,14 +73,7 @@
 #define IDR_EFI_LEGACYSPEAKER           569
 #define IDR_EFI_DCSBML                  570
 #define IDR_EFI_DCSRE                   571
-#define IDR_EFI_DCSBOOT32               572
-#define IDR_EFI_DCSINT32                573
-#define IDR_EFI_DCSCFG32                574
-#define IDR_EFI_LEGACYSPEAKER32         575
-#define IDR_EFI_DCSBML32                576
-#define IDR_EFI_DCSRE32                 577
 #define IDR_EFI_DCSINFO                 578
-#define IDR_EFI_DCSINFO32               579
 #define IDC_HW_AES_LABEL_LINK           5000
 #define IDC_HW_AES                      5001
 #define IDC_PARALLELIZATION_LABEL_LINK  5002

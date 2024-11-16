@@ -644,13 +644,11 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 			Extension->Queue.MaxReadAheadOffset = BootDriveLength;
 
 		/* encrypt keys */
-#ifdef _WIN64
 		if (IsRamEncryptionEnabled())
 		{
 			VcProtectKeys (Extension->HeaderCryptoInfo, VcGetEncryptionID (Extension->HeaderCryptoInfo));
 			VcProtectKeys (Extension->Queue.CryptoInfo, VcGetEncryptionID (Extension->Queue.CryptoInfo));
 		}
-#endif
 		
 		status = EncryptedIoQueueStart (&Extension->Queue);
 		if (!NT_SUCCESS (status))
@@ -722,7 +720,6 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		uint64 encryptedAreaLength = Extension->Queue.EncryptedAreaEnd + 1 - Extension->Queue.EncryptedAreaStart;
 		uint8 *fieldPos = header + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
 		PCRYPTO_INFO pCryptoInfo = Extension->HeaderCryptoInfo;
-#ifdef _WIN64
 		CRYPTO_INFO tmpCI;
 		if (IsRamEncryptionEnabled())
 		{
@@ -730,7 +727,6 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 			VcUnprotectKeys (&tmpCI, VcGetEncryptionID (pCryptoInfo));
 			pCryptoInfo = &tmpCI;
 		}
-#endif
 
 		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
 
@@ -748,12 +744,10 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		mputLong (fieldPos, headerCrc32);
 
 		EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
-#ifdef _WIN64
 		if (IsRamEncryptionEnabled())
 		{
 			burn (&tmpCI, sizeof (CRYPTO_INFO));
 		}
-#endif
 	}
 
 	status = TCWriteDevice (Extension->LowerDeviceObject, header, offset, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
@@ -991,9 +985,7 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 		&& irpSp->Parameters.Power.Type == DevicePowerState)
 	{
 		DismountDrive (Extension, TRUE);
-#ifdef _WIN64
 		ClearSecurityParameters ();
-#endif
 	}
 
 	PoStartNextPowerIrp (Irp);
@@ -1224,15 +1216,9 @@ typedef NTSTATUS (*HiberDriverWriteFunctionB) (PLARGE_INTEGER writeOffset, PMDL 
 
 typedef struct
 {
-#ifdef _WIN64
 	uint8 FieldPad1[64];
 	HiberDriverWriteFunctionB WriteFunctionB;
 	uint8 FieldPad2[56];
-#else
-	uint8 FieldPad1[48];
-	HiberDriverWriteFunctionB WriteFunctionB;
-	uint8 FieldPad2[32];
-#endif
 	HiberDriverWriteFunctionA WriteFunctionA;
 	uint8 FieldPad3[24];
 	LARGE_INTEGER PartitionStartOffset;
@@ -1243,18 +1229,10 @@ typedef NTSTATUS (*HiberDriverEntry) (PVOID arg0, HiberDriverContext *hiberDrive
 typedef struct
 {
 	LIST_ENTRY ModuleList;
-#ifdef _WIN64
 	uint8 FieldPad1[32];
-#else
-	uint8 FieldPad1[16];
-#endif
 	PVOID ModuleBaseAddress;
 	HiberDriverEntry ModuleEntryAddress;
-#ifdef _WIN64
 	uint8 FieldPad2[24];
-#else
-	uint8 FieldPad2[12];
-#endif
 	UNICODE_STRING ModuleName;
 } ModuleTableItem;
 
@@ -2180,10 +2158,8 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 		goto err;
 	}
 
-#ifdef _WIN64
 	if (IsRamEncryptionEnabled ())
 		VcProtectKeys (wipeCryptoInfo, VcGetEncryptionID (wipeCryptoInfo));
-#endif
 
 	EncryptDataUnits (wipeRandBuffer, &dataUnit, wipeBlockSize / ENCRYPTION_DATA_UNIT_SIZE, wipeCryptoInfo);
 	memcpy (wipeRandChars, wipeRandBuffer, sizeof (wipeRandChars));

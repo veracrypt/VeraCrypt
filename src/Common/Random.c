@@ -43,11 +43,7 @@ static HANDLE PeriodicFastPollThreadHandle = NULL;
 /* Macro to add four bytes to the pool */
 #define RandaddInt32(x) RandAddInt((unsigned __int32)x);
 
-#ifdef _WIN64
 #define RandaddIntPtr(x) RandAddInt64((unsigned __int64)x);
-#else
-#define RandaddIntPtr(x) RandAddInt((unsigned __int32)x);
-#endif
 
 void RandAddInt (unsigned __int32 x)
 {

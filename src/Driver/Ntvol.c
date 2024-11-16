@@ -634,10 +634,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				goto error;
 			}
 
-#ifdef _WIN64
 			if (IsRamEncryptionEnabled() && (volumeType == TC_VOLUME_TYPE_NORMAL || !mount->bProtectHiddenVolume))
 				VcProtectKeys (Extension->cryptoInfo, VcGetEncryptionID (Extension->cryptoInfo));
-#endif
 
 			Dump ("Volume header decrypted\n");
 			Dump ("Required program version = %x\n", (int) Extension->cryptoInfo->RequiredProgramVersion);

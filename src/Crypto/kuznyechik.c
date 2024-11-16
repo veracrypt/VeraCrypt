@@ -2201,7 +2201,7 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 
 	void kuznyechik_set_key(const uint8* key, kuznyechik_kds* kds)
 	{
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG)))
 		if(HasSSE2())
 		{
 			kuznyechik_set_key_simd (key, kds);
@@ -2260,7 +2260,7 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 
 	void kuznyechik_encrypt_block(uint8* out, const uint8* in, kuznyechik_kds* kds)
 	{
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG)))
 		if(HasSSE2())
 		{
 			kuznyechik_encrypt_block_simd (out, in, kds);
@@ -2327,7 +2327,7 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 
 	void kuznyechik_decrypt_block(uint8* out, const uint8* in, kuznyechik_kds* kds)
 	{
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG)))
 		if(HasSSE2())
 		{
 			kuznyechik_decrypt_block_simd (out, in, kds);

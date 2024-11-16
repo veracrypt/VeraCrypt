@@ -140,11 +140,6 @@ static int TrySSE2()
 	return 1;
 #elif defined(CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY) && !defined(_UEFI)
 	volatile int result = 1;
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
-	{
-#endif
     __try
 	{
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
@@ -158,12 +153,6 @@ static int TrySSE2()
 	{
 		result = 0;
 	}
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KeRestoreFloatingPointState (&floatingPointState);
-	}
-	else
-		return 0;
-#endif
 	return result;
 #elif !defined(_UEFI)
 	// longjmp and clobber warnings. Volatile is required.
@@ -293,17 +282,7 @@ static int Detect_MS_HyperV_AES ()
 	HvProductName[12] = 0;
 	if (_stricmp(HvProductName, "Microsoft Hv") == 0)
 	{
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KFLOATING_SAVE floatingPointState;
-		if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
-		{
-#endif
 		hasAesNI = TryAESNI ();
-
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-		}
-#endif
 	}
 
 	return hasAesNI;

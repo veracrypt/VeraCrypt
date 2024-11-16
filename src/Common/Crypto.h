@@ -208,9 +208,7 @@ typedef struct
 #	include "Camellia.h"
 #if !defined (_UEFI)
 #   include "chachaRng.h"
-#   ifdef _WIN64
 #   include "t1ha.h"
-#   endif
 #endif
 #else
 #	include "CamelliaSmall.h"
@@ -386,7 +384,7 @@ void DecryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *s
 void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
 void DecryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
 
-#if defined(_WIN64) && !defined (_UEFI)
+#if !defined (TC_WINDOWS_BOOT) && !defined (_UEFI)
 BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback);
 void ClearSecurityParameters();
 #ifdef TC_WINDOWS_DRIVER

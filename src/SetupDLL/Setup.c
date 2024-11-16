@@ -2499,16 +2499,14 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"VeraCrypt.exe");
 
-		if (Is64BitOs ())
-			EnableWow64FsRedirection (FALSE);
+		EnableWow64FsRedirection (FALSE);
 
 		wstring servicePath = GetServiceConfigPath (_T(TC_APP_NAME) L".exe", false);
 		wstring serviceLegacyPath = GetServiceConfigPath (_T(TC_APP_NAME) L".exe", true);
 		wstring favoritesFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false);
 		wstring favoritesLegacyFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, true);
 
-		if (Is64BitOs ()
-			&& FileExists (favoritesLegacyFile.c_str())
+		if (FileExists (favoritesLegacyFile.c_str())
 			&& !FileExists (favoritesFile.c_str()))
 		{
 			// copy the favorites XML file to the native system directory
@@ -2565,23 +2563,20 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 			catch (...) {}
 		}
 
-		if (Is64BitOs ())
+		// delete files from legacy path
+		if (FileExists (favoritesLegacyFile.c_str()))
 		{
-			// delete files from legacy path
-			if (FileExists (favoritesLegacyFile.c_str()))
-			{
-				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", favoritesLegacyFile.c_str());
-				ForceDeleteFile (favoritesLegacyFile.c_str());
-			}
-
-			if (FileExists (serviceLegacyPath.c_str()))
-			{
-				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", serviceLegacyPath.c_str());
-				ForceDeleteFile (serviceLegacyPath.c_str());
-			}
-
-			EnableWow64FsRedirection (TRUE);
+			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", favoritesLegacyFile.c_str());
+			ForceDeleteFile (favoritesLegacyFile.c_str());
 		}
+
+		if (FileExists (serviceLegacyPath.c_str()))
+		{
+			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", serviceLegacyPath.c_str());
+			ForceDeleteFile (serviceLegacyPath.c_str());
+		}
+
+		EnableWow64FsRedirection (TRUE);
 
 		if (bResult == FALSE)
 		{
@@ -3223,8 +3218,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 
 	//	Last part of DoFilesInstall()
 	{
-		if (Is64BitOs ())
-			EnableWow64FsRedirection (FALSE);
+		EnableWow64FsRedirection (FALSE);
 
 		wstring servicePath = GetServiceConfigPath (_T(TC_APP_NAME) L".exe", false);
 		wstring serviceLegacyPath = GetServiceConfigPath (_T(TC_APP_NAME) L".exe", true);
@@ -3244,22 +3238,19 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 			ForceDeleteFile (servicePath.c_str());
 		}
 
-		if (Is64BitOs ())
+		if (FileExists (favoritesLegacyFile.c_str()))
 		{
-			if (FileExists (favoritesLegacyFile.c_str()))
-			{
-				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", favoritesLegacyFile.c_str());
-				ForceDeleteFile (favoritesLegacyFile.c_str());
-			}
-
-			if (FileExists (serviceLegacyPath.c_str()))
-			{
-				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", serviceLegacyPath.c_str());
-				ForceDeleteFile (serviceLegacyPath.c_str());
-			}
-
-			EnableWow64FsRedirection (TRUE);
+			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", favoritesLegacyFile.c_str());
+			ForceDeleteFile (favoritesLegacyFile.c_str());
 		}
+
+		if (FileExists (serviceLegacyPath.c_str()))
+		{
+			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", serviceLegacyPath.c_str());
+			ForceDeleteFile (serviceLegacyPath.c_str());
+		}
+
+		EnableWow64FsRedirection (TRUE);
 
 		// remove the installation folder is case it remains after uninstall
 		if (DirectoryExists (szInstallDir.c_str()))

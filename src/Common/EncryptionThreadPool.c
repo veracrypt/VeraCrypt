@@ -143,7 +143,6 @@ static TC_MUTEX DequeueMutex;
 static TC_EVENT WorkItemReadyEvent;
 static TC_EVENT WorkItemCompletedEvent;
 
-#if defined(_WIN64)
 void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
 {
 	if (IsRamEncryptionEnabled())
@@ -175,11 +174,6 @@ void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT 
 	else
 		DecryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, ci);
 }
-
-#else
-#define EncryptDataUnitsCurrentThreadEx EncryptDataUnitsCurrentThread
-#define DecryptDataUnitsCurrentThreadEx DecryptDataUnitsCurrentThread
-#endif
 
 static WorkItemState GetWorkItemState (EncryptionThreadPoolWorkItem *workItem)
 {

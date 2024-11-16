@@ -24,8 +24,6 @@ int	 CachedPim[CACHE_SIZE];
 int cacheEmpty = 1;
 static int nPasswordIdx = 0;
 
-#ifdef _WIN64
-
 uint64 VcGetPasswordEncryptionID (Password* pPassword)
 {
 	return ((uint64) pPassword->Text) + ((uint64) pPassword);
@@ -41,8 +39,6 @@ void VcUnprotectPassword (Password* pPassword, uint64 encID)
 	VcProtectPassword (pPassword, encID);
 }
 
-#endif
-
 int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo)
 {
 	int nReturnCode = ERR_PASSWORD_WRONG;
@@ -56,37 +52,29 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned ch
 		/* Save mount passwords back into cache if asked to do so */
 		if (bCache && (nReturnCode == 0 || nReturnCode == ERR_CIPHER_INIT_WEAK_KEY))
 		{
-#ifdef _WIN64
 			Password tmpPass;
-#endif
 			for (i = 0; i < CACHE_SIZE; i++)
 			{
 				Password* pCurrentPassword = &CachedPasswords[i];
-#ifdef _WIN64
 				if (IsRamEncryptionEnabled())
 				{
 					memcpy (&tmpPass, pCurrentPassword, sizeof (Password));
 					VcUnprotectPassword (&tmpPass, VcGetPasswordEncryptionID (pCurrentPassword));
 					pCurrentPassword = &tmpPass;
 				}
-#endif
 				if (memcmp (pCurrentPassword, password, sizeof (Password)) == 0)
 					break;
 			}
 
-#ifdef _WIN64
 			if (IsRamEncryptionEnabled())
 				burn (&tmpPass, sizeof (Password));
-#endif
 
 			if (i == CACHE_SIZE)
 			{
 				/* Store the password */
 				CachedPasswords[nPasswordIdx] = *password;
-#ifdef _WIN64
 				if (IsRamEncryptionEnabled ())
 					VcProtectPassword (&CachedPasswords[nPasswordIdx], VcGetPasswordEncryptionID (&CachedPasswords[nPasswordIdx]));
-#endif
 
 				/* Store also PIM if requested, otherwise set to default */
 				if (bCachePim && (pim > 0))
@@ -107,21 +95,18 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned ch
 	}
 	else if (!cacheEmpty)
 	{
-#ifdef _WIN64
 		Password tmpPass;
-#endif
 		/* Attempt to recognize volume using cached passwords */
 		for (i = 0; i < CACHE_SIZE; i++)
 		{
 			Password* pCurrentPassword = &CachedPasswords[i];
-#ifdef _WIN64
 			if (IsRamEncryptionEnabled())
 			{
 				memcpy (&tmpPass, pCurrentPassword, sizeof (Password));
 				VcUnprotectPassword (&tmpPass, VcGetPasswordEncryptionID (pCurrentPassword));
 				pCurrentPassword = &tmpPass;
 			}
-#endif
+
 			if ((pCurrentPassword->Length > 0) && (pCurrentPassword->Length <= (unsigned int) ((bBoot? MAX_LEGACY_PASSWORD: MAX_PASSWORD))))
 			{
 				if (pim == -1)
@@ -134,10 +119,10 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned ch
 					break;
 			}
 		}
-#ifdef _WIN64
+
 		if (IsRamEncryptionEnabled())
 			burn (&tmpPass, sizeof (Password));
-#endif
+
 	}
 
 	return nReturnCode;
@@ -146,21 +131,18 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned ch
 
 void AddPasswordToCache (Password *password, int pim, BOOL bCachePim)
 {
-#ifdef _WIN64
 	Password tmpPass;
-#endif
 	int i;
 	for (i = 0; i < CACHE_SIZE; i++)
 	{
 		Password* pCurrentPassword = &CachedPasswords[i];
-#ifdef _WIN64
 		if (IsRamEncryptionEnabled())
 		{
 			memcpy (&tmpPass, pCurrentPassword, sizeof (Password));
 			VcUnprotectPassword (&tmpPass, VcGetPasswordEncryptionID (pCurrentPassword));
 			pCurrentPassword = &tmpPass;
 		}
-#endif
+
 		if (memcmp (pCurrentPassword, password, sizeof (Password)) == 0)
 			break;
 	}
@@ -168,10 +150,9 @@ void AddPasswordToCache (Password *password, int pim, BOOL bCachePim)
 	if (i == CACHE_SIZE)
 	{
 		CachedPasswords[nPasswordIdx] = *password;
-#ifdef _WIN64
 		if (IsRamEncryptionEnabled ())
 			VcProtectPassword (&CachedPasswords[nPasswordIdx], VcGetPasswordEncryptionID (&CachedPasswords[nPasswordIdx]));
-#endif
+
 		/* Store also PIM if requested, otherwise set to default */
 		if (bCachePim && (pim > 0))
 			CachedPim[nPasswordIdx] = pim;
@@ -184,10 +165,9 @@ void AddPasswordToCache (Password *password, int pim, BOOL bCachePim)
 	{
 		CachedPim[i] = pim > 0? pim : 0;
 	}
-#ifdef _WIN64
+
 	if (IsRamEncryptionEnabled())
 		burn (&tmpPass, sizeof (Password));
-#endif
 }
 
 void AddLegacyPasswordToCache (PasswordLegacy *password, int pim)

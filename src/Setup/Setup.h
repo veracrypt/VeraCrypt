@@ -42,9 +42,6 @@ static wchar_t *szCompressedFiles[]=
 	L"License.txt",
 	L"LICENSE",
 	L"NOTICE",
-	L"VeraCrypt.exe",
-	L"VeraCryptExpander.exe",
-	L"VeraCrypt Format.exe",
 	L"VeraCrypt-x64.exe",
 	L"VeraCryptExpander-x64.exe",
 	L"VeraCrypt Format-x64.exe",
@@ -52,8 +49,6 @@ static wchar_t *szCompressedFiles[]=
 	L"VeraCryptExpander-arm64.exe",
 	L"VeraCrypt Format-arm64.exe",
 	L"veracrypt.inf",
-	L"veracrypt.cat",
-	L"veracrypt.sys",
 	L"veracrypt-x64.cat",
 	L"veracrypt-x64.sys",
 	L"veracrypt-arm64.cat",
@@ -74,7 +69,6 @@ static wchar_t *szLegacyFiles[]=
 	L"veracrypt-x64.sys",
 };
 
-#define FILENAME_64BIT_DRIVER	L"veracrypt-x64.sys"
 #define NBR_COMPRESSED_FILES (sizeof(szCompressedFiles) / sizeof(szCompressedFiles[0]))
 
 void localcleanup (void);

@@ -20,7 +20,7 @@ void chacha_ECRYPT_encrypt_bytes(size_t bytes, uint32* x, const unsigned char* m
 
 static VC_INLINE void xor_block_512(const unsigned char* in, const unsigned char* prev, unsigned char* out)
 {
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG)))
     if (HasSSE2())
     {
         __m128i b1 = _mm_loadu_si128((const __m128i*) in);
@@ -161,7 +161,7 @@ static VC_INLINE void do_encrypt(const unsigned char* in, size_t len, unsigned c
     if (len)
         pos = 0;
 
-#if CRYPTOPP_SSSE3_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG) && defined (_WIN64)))
+#if CRYPTOPP_SSSE3_AVAILABLE && !defined(_UEFI) && (!defined (TC_WINDOWS_DRIVER) || (!defined (DEBUG)))
     if (HasSSSE3())
     {
         size_t fullblocks = len - len % 64;

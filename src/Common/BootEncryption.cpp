@@ -3332,53 +3332,29 @@ namespace VeraCrypt
 				}
 			}
 			DWORD sizeDcsBoot;
-#ifdef _WIN64
 			uint8 *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
-#else
-			uint8 *dcsBootImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBOOT : IDR_EFI_DCSBOOT32, &sizeDcsBoot);
-#endif
 			if (!dcsBootImg)
 				throw ErrorException(L"Out of resource DcsBoot", SRC_POS);
 			DWORD sizeDcsInt;
-#ifdef _WIN64
 			uint8 *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
-#else
-			uint8 *dcsIntImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINT: IDR_EFI_DCSINT32, &sizeDcsInt);
-#endif
 			if (!dcsIntImg)
 				throw ErrorException(L"Out of resource DcsInt", SRC_POS);
 			DWORD sizeDcsCfg;
-#ifdef _WIN64
 			uint8 *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
-#else
-			uint8 *dcsCfgImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSCFG: IDR_EFI_DCSCFG32, &sizeDcsCfg);
-#endif
 			if (!dcsCfgImg)
 				throw ErrorException(L"Out of resource DcsCfg", SRC_POS);
 			DWORD sizeLegacySpeaker;
-#ifdef _WIN64
 			uint8 *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
-#else
-			uint8 *LegacySpeakerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_LEGACYSPEAKER: IDR_EFI_LEGACYSPEAKER32, &sizeLegacySpeaker);
-#endif
 			if (!LegacySpeakerImg)
 				throw ErrorException(L"Out of resource LegacySpeaker", SRC_POS);
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
-#ifdef _WIN64
 			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
-#else
-			uint8 *BootMenuLockerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBML: IDR_EFI_DCSBML32, &sizeBootMenuLocker);
-#endif
 			if (!BootMenuLockerImg)
 				throw ErrorException(L"Out of resource DcsBml", SRC_POS);
 #endif
 			DWORD sizeDcsInfo;
-#ifdef _WIN64
 			uint8 *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
-#else
-			uint8 *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
-#endif
 			if (!DcsInfoImg)
 				throw ErrorException(L"Out of resource DcsInfo", SRC_POS);
 
@@ -3390,8 +3366,8 @@ namespace VeraCrypt
 				bool bAlreadyExist;
 				const char* g_szMsBootString = "bootmgfw.pdb";
 				unsigned __int64 loaderSize = 0;
-				const wchar_t * szStdEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi";
-				const wchar_t * szBackupEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\original_bootx64.vc_backup": L"\\EFI\\Boot\\original_bootia32.vc_backup";
+				const wchar_t * szStdEfiBootloader = L"\\EFI\\Boot\\bootx64.efi";
+				const wchar_t * szBackupEfiBootloader = L"\\EFI\\Boot\\original_bootx64.vc_backup";
 
 				if (preserveUserConfig)
 				{
@@ -3547,10 +3523,7 @@ namespace VeraCrypt
 
 				// move the original bootloader backup from old location (if it exists) to new location
 				// we don't force the move operation if the new location already exists
-				if (Is64BitOs())
-					EfiBootInst.RenameFile (L"\\EFI\\Boot\\original_bootx64_vc_backup.efi", L"\\EFI\\Boot\\original_bootx64.vc_backup", FALSE);
-				else
-					EfiBootInst.RenameFile (L"\\EFI\\Boot\\original_bootia32_vc_backup.efi", L"\\EFI\\Boot\\original_bootia32.vc_backup", FALSE);
+				EfiBootInst.RenameFile (L"\\EFI\\Boot\\original_bootx64_vc_backup.efi", L"\\EFI\\Boot\\original_bootx64.vc_backup", FALSE);
 
 				// Clean beta9
 				EfiBootInst.DelFile(L"\\DcsBoot.efi");
@@ -3729,61 +3702,33 @@ namespace VeraCrypt
 		{
 			// create EFI disk structure
 			DWORD sizeDcsBoot;
-#ifdef _WIN64
 			uint8 *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
-#else
-			uint8 *dcsBootImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBOOT : IDR_EFI_DCSBOOT32, &sizeDcsBoot);
-#endif
 			if (!dcsBootImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeDcsInt;
-#ifdef _WIN64
 			uint8 *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
-#else
-			uint8 *dcsIntImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINT: IDR_EFI_DCSINT32, &sizeDcsInt);
-#endif
 			if (!dcsIntImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeDcsCfg;
-#ifdef _WIN64
 			uint8 *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
-#else
-			uint8 *dcsCfgImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSCFG: IDR_EFI_DCSCFG32, &sizeDcsCfg);
-#endif
 			if (!dcsCfgImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeLegacySpeaker;
-#ifdef _WIN64
 			uint8 *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
-#else
-			uint8 *LegacySpeakerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_LEGACYSPEAKER: IDR_EFI_LEGACYSPEAKER32, &sizeLegacySpeaker);
-#endif
 			if (!LegacySpeakerImg)
 				throw ParameterIncorrect (SRC_POS);
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
-#ifdef _WIN64
 			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
-#else
-			uint8 *BootMenuLockerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBML: IDR_EFI_DCSBML32, &sizeBootMenuLocker);
-#endif
 			if (!BootMenuLockerImg)
 				throw ParameterIncorrect (SRC_POS);
 #endif
 			DWORD sizeDcsRescue;
-#ifdef _WIN64
 			uint8 *DcsRescueImg = MapResource(L"BIN", IDR_EFI_DCSRE, &sizeDcsRescue);
-#else
-			uint8 *DcsRescueImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSRE: IDR_EFI_DCSRE32, &sizeDcsRescue);
-#endif
 			if (!DcsRescueImg)
 				throw ParameterIncorrect (SRC_POS);
 			DWORD sizeDcsInfo;
-#ifdef _WIN64
 			uint8 *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
-#else
-			uint8 *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
-#endif
 			if (!DcsInfoImg)
 				throw ParameterIncorrect (SRC_POS);
 
@@ -3809,7 +3754,7 @@ namespace VeraCrypt
 
 			finally_do_arg (zip_t**, &z, { if (*finally_arg) zip_discard (*finally_arg);});
 
-			if (!ZipAdd (z, Is64BitOs()? "EFI/Boot/bootx64.efi": "EFI/Boot/bootia32.efi", DcsRescueImg, sizeDcsRescue))
+			if (!ZipAdd (z, "EFI/Boot/bootx64.efi", DcsRescueImg, sizeDcsRescue))
 				throw ParameterIncorrect (SRC_POS);
 #ifdef VC_EFI_CUSTOM_MODE
 			if (!ZipAdd (z, "EFI/VeraCrypt/DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker))
@@ -3858,7 +3803,7 @@ namespace VeraCrypt
 				sysBakFile.GetFileSize(fileSize);
 				fileBuf.Resize ((DWORD) fileSize);
 				DWORD sizeLoader = sysBakFile.Read (fileBuf.Ptr (), fileSize);
-				bLoadAdded = ZipAdd (z, Is64BitOs()? "EFI/Boot/original_bootx64.vc_backup": "EFI/Boot/original_bootia32.vc_backup", fileBuf.Ptr (), sizeLoader);				
+				bLoadAdded = ZipAdd (z, "EFI/Boot/original_bootx64.vc_backup", fileBuf.Ptr (), sizeLoader);				
 			}
 			catch (Exception &e)
 			{
@@ -4085,19 +4030,6 @@ namespace VeraCrypt
 				L"EFI/VeraCrypt/svh_bak",
 				L"EFI/Boot/original_bootx64.vc_backup"
 			};
-			
-			const wchar_t* efi32Files[] = {
-				L"EFI/Boot/bootia32.efi",
-#ifdef VC_EFI_CUSTOM_MODE
-				L"EFI/VeraCrypt/DcsBml.dcs",
-#endif
-				L"EFI/VeraCrypt/DcsBoot.efi",
-				L"EFI/VeraCrypt/DcsCfg.dcs",
-				L"EFI/VeraCrypt/DcsInt.dcs",
-				L"EFI/VeraCrypt/LegacySpeaker.dcs",
-				L"EFI/VeraCrypt/svh_bak",
-				L"EFI/Boot/original_bootia32.vc_backup"
-			};
 
 			zip_error_t zerr;
 			zip_source_t* zsrc = zip_source_buffer_create (RescueZipData, RescueZipSize, 0, &zerr);
@@ -4126,8 +4058,8 @@ namespace VeraCrypt
 								&& !wcsncmp (szNameBuffer, L"FAT", 3))
 						{
 							int i;		
-							const wchar_t** efiFiles = Is64BitOs()? efi64Files: efi32Files;
-							int efiFilesSize = Is64BitOs()? ARRAYSIZE(efi64Files): ARRAYSIZE(efi32Files);
+							const wchar_t** efiFiles = efi64Files;
+							int efiFilesSize = ARRAYSIZE(efi64Files);
 							for (i = 0; i < efiFilesSize; i++)
 							{
 								bool bMatch = false;
@@ -4280,25 +4212,12 @@ namespace VeraCrypt
 						L"EFI/VeraCrypt/svh_bak",
 						L"EFI/Boot/original_bootx64.vc_backup"
 					};
-					
-					const wchar_t* efi32Files[] = {
-						L"EFI/Boot/bootia32.efi",
-#ifdef VC_EFI_CUSTOM_MODE
-						L"EFI/VeraCrypt/DcsBml.dcs",
-#endif
-						L"EFI/VeraCrypt/DcsBoot.efi",
-						L"EFI/VeraCrypt/DcsCfg.dcs",
-						L"EFI/VeraCrypt/DcsInt.dcs",
-						L"EFI/VeraCrypt/LegacySpeaker.dcs",
-						L"EFI/VeraCrypt/svh_bak",
-						L"EFI/Boot/original_bootia32.vc_backup"
-					};
 
 					int i;
 					zip_stat_t statMem, statFile;
 					zip_int64_t indexMem, indexFile;
-					const wchar_t** efiFiles = Is64BitOs()? efi64Files: efi32Files;
-					int efiFilesSize = Is64BitOs()? ARRAYSIZE(efi64Files): ARRAYSIZE(efi32Files);
+					const wchar_t** efiFiles = efi64Files;
+					int efiFilesSize = ARRAYSIZE(efi64Files);
 					for (i = 0; i < efiFilesSize; i++)
 					{
 						bool bMatch = false;
@@ -4573,10 +4492,7 @@ namespace VeraCrypt
 
 			EfiBootInst.DeleteStartExec();
 			EfiBootInst.DeleteStartExec(0xDC5B, L"Driver"); // remove DcsBml boot driver it was installed
-			if (Is64BitOs())
-				EfiBootInst.RenameFile(L"\\EFI\\Boot\\original_bootx64.vc_backup", L"\\EFI\\Boot\\bootx64.efi", TRUE);
-			else
-				EfiBootInst.RenameFile(L"\\EFI\\Boot\\original_bootia32.vc_backup", L"\\EFI\\Boot\\bootia32.efi", TRUE);
+			EfiBootInst.RenameFile(L"\\EFI\\Boot\\original_bootx64.vc_backup", L"\\EFI\\Boot\\bootx64.efi", TRUE);
 
 			if (!EfiBootInst.RenameFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE))
 			{

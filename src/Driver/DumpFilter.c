@@ -61,15 +61,6 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 		goto err;
 	}
 
-	// KeSaveFloatingPointState() may generate a bug check during crash dump
-#if !defined (_WIN64)
-	if (filterExtension->DumpType == DumpTypeCrashdump)
-	{
-		dumpConfig.HwEncryptionEnabled = FALSE;
-		// disable also CPU extended features used in optimizations
-		DisableCPUExtendedFeatures ();
-	}
-#endif
 
 	EnableHwEncryption (dumpConfig.HwEncryptionEnabled);
 
@@ -129,11 +120,7 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 
 	WriteFilterBufferSize = ((SIZE_T)filterInitData->MaxPagesPerWrite) * PAGE_SIZE;
 
-#ifdef _WIN64
 	highestAcceptableWriteBufferAddr.QuadPart = 0x7FFffffFFFFLL;
-#else
-	highestAcceptableWriteBufferAddr.QuadPart = 0xffffFFFFLL;
-#endif
 
 	WriteFilterBuffer = MmAllocateContiguousMemory (WriteFilterBufferSize, highestAcceptableWriteBufferAddr);
 	if (!WriteFilterBuffer)
