@@ -14,7 +14,6 @@
 #define TC_HEADER_Boot_BootCommon
 
 #include "Common/Password.h"
-#include "Crypto/config.h"
 #include "BootDefs.h"
 
 // The user will be advised to upgrade the rescue disk if upgrading from the following or any previous version
@@ -59,7 +58,7 @@ typedef struct
 	uint16 CryptoInfoOffset;
 	uint16 CryptoInfoLength;
 	uint32 HeaderSaltCrc32;
-	CRYPTOPP_ALIGN_DATA(8) PasswordLegacy BootPassword;
+	PasswordLegacy BootPassword;
 	uint64 HiddenSystemPartitionStart;
 	uint64 DecoySystemPartitionStart;
 	uint32 Flags;

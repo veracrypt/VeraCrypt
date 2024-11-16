@@ -170,7 +170,7 @@ void AddPasswordToCache (Password *password, int pim, BOOL bCachePim)
 		burn (&tmpPass, sizeof (Password));
 }
 
-void AddLegacyPasswordToCache (PasswordLegacy *password, int pim)
+void AddLegacyPasswordToCache (__unaligned PasswordLegacy *password, int pim)
 {
 	Password inputPass = {0};
 	inputPass.Length = password->Length;

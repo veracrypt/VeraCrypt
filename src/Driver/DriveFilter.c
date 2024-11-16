@@ -411,7 +411,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, uint8
 }
 
 
-static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password, uint32 *headerSaltCrc32)
+static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password, __unaligned uint32 *headerSaltCrc32)
 {
 	BOOL hiddenVolume = (BootArgs.HiddenSystemPartitionStart != 0);
 	int64 hiddenHeaderOffset = BootArgs.HiddenSystemPartitionStart + TC_HIDDEN_VOLUME_HEADER_OFFSET;
