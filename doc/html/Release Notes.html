@@ -40,6 +40,37 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
+<p><strong style="text-align:left">1.26.16</strong> (November 17<sup>th</sup>, 2024):</p>
+<ul>
+<li><strong>All OSes:</strong>
+<ul>
+<li>Added support for SHA-256 x86 intrinsic to enhance the performance of PBKDF2-HMAC-SHA256.</li>
+<li>Updated translations</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+	<ul>
+	<li>Dropped support for Windows 32-bit.</li>
+	<li>Set Windows 10 May 2020 Update (version 2004) as the minimum supported version.</li>
+	<li>Fixed driver deadlock under low-memory scenarios caused by re-entrant IRP completions.</li>
+	<li>Fixed failed EFI detection on some PCs where the BootOrder variable is not defined (proposed by @kriegste, GH #360).</li>
+	<li>Fixed various issues affecting the EFI system encryption configuration editor.</li>
+	<li>Replaced the deprecated CryptGenRandom with BCryptGenRandom for generating secure random bytes.</li>
+	</ul>
+</li>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>Fixed an assertion issue with the wxWidgets library included in Ubuntu.</li>
+	<li>Improved directory-opening logic by prioritizing xdg-open and adding fallback mechanisms.</li>
+	</ul>
+</li>
+<li><strong>macOS:</strong>
+	<ul>
+	<li>Disabled screen capture by default. Added the --allow-screencapture CLI switch to enable it if needed.</li>
+	</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.26.15</strong> (September 2<sup>nd</sup>, 2024):</p>
 <ul>
 <li><strong>Windows:</strong>
