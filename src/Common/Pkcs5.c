@@ -91,7 +91,7 @@ void hmac_sha256
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha256(key), as per HMAC specifications. */
@@ -136,7 +136,7 @@ void hmac_sha256
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorStateVC(&SaveState);
+		KeRestoreExtendedProcessorState(&SaveState);
 #endif
 
 	/* Prevent leaks */
@@ -208,7 +208,7 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = sha256(pwd), as per HMAC specifications. */
@@ -275,7 +275,7 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorStateVC(&SaveState);
+		KeRestoreExtendedProcessorState(&SaveState);
 #endif
 
 	/* Prevent possible leaks. */
@@ -341,7 +341,7 @@ void hmac_sha512
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
 
     /* If the key is longer than the hash algorithm block size,
@@ -387,7 +387,7 @@ void hmac_sha512
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorStateVC(&SaveState);
+		KeRestoreExtendedProcessorState(&SaveState);
 #endif
 
 	/* Prevent leaks */
@@ -433,7 +433,7 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
 
     /* If the password is longer than the hash algorithm block size,
@@ -500,7 +500,7 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorStateVC(&SaveState);
+		KeRestoreExtendedProcessorState(&SaveState);
 #endif
 
 	/* Prevent possible leaks. */
@@ -565,7 +565,7 @@ void hmac_blake2s
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = blake2s(key), as per HMAC specifications. */
@@ -610,7 +610,7 @@ void hmac_blake2s
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorStateVC(&SaveState);
+		KeRestoreExtendedProcessorState(&SaveState);
 #endif
 
 	/* Prevent leaks */
@@ -682,7 +682,7 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = blake2s(pwd), as per HMAC specifications. */
@@ -749,7 +749,7 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorStateVC(&SaveState);
+		KeRestoreExtendedProcessorState(&SaveState);
 #endif
 
 	/* Prevent possible leaks. */

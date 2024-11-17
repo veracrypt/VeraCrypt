@@ -142,14 +142,6 @@ static BOOL PagingFileCreationPrevented = FALSE;
 static BOOL EnableExtendedIoctlSupport = FALSE;
 static BOOL AllowTrimCommand = FALSE;
 static BOOL RamEncryptionActivated = FALSE;
-static KeSaveExtendedProcessorStateFn KeSaveExtendedProcessorStatePtr = NULL;
-static KeRestoreExtendedProcessorStateFn KeRestoreExtendedProcessorStatePtr = NULL;
-static ExGetFirmwareEnvironmentVariableFn ExGetFirmwareEnvironmentVariablePtr = NULL;
-static KeQueryInterruptTimePreciseFn KeQueryInterruptTimePrecisePtr = NULL;
-static KeAreAllApcsDisabledFn KeAreAllApcsDisabledPtr = NULL;
-static KeSetSystemGroupAffinityThreadFn KeSetSystemGroupAffinityThreadPtr = NULL;
-static KeQueryActiveGroupCountFn KeQueryActiveGroupCountPtr = NULL;
-static KeQueryActiveProcessorCountExFn KeQueryActiveProcessorCountExPtr = NULL;
 int EncryptionIoRequestCount = 0;
 int EncryptionItemCount = 0;
 int EncryptionFragmentSize = 0;
@@ -187,22 +179,15 @@ BOOL IsUefiBoot ()
 	Dump ("IsUefiBoot BEGIN\n");
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
-	if (ExGetFirmwareEnvironmentVariablePtr)
-	{
-		ULONG valueLengh = 0;
-		UNICODE_STRING emptyName;
-		GUID guid;
-		RtlInitUnicodeString(&emptyName, L"");
-		memset (&guid, 0, sizeof(guid));
-		Dump ("IsUefiBoot calling ExGetFirmwareEnvironmentVariable\n");
-		ntStatus = ExGetFirmwareEnvironmentVariablePtr (&emptyName, &guid, NULL, &valueLengh, NULL);
-		Dump ("IsUefiBoot ExGetFirmwareEnvironmentVariable returned 0x%08x\n", ntStatus);
-	}
-	else
-	{
-		Dump ("IsUefiBoot ExGetFirmwareEnvironmentVariable not found on the system\n");
-	}
-	
+	ULONG valueLengh = 0;
+	UNICODE_STRING emptyName;
+	GUID guid;
+	RtlInitUnicodeString(&emptyName, L"");
+	memset (&guid, 0, sizeof(guid));
+	Dump ("IsUefiBoot calling ExGetFirmwareEnvironmentVariable\n");
+	ntStatus = ExGetFirmwareEnvironmentVariable (&emptyName, &guid, NULL, &valueLengh, NULL);
+	Dump ("IsUefiBoot ExGetFirmwareEnvironmentVariable returned 0x%08x\n", ntStatus);
+
 	if (STATUS_NOT_IMPLEMENTED != ntStatus)
 		bStatus = TRUE;
 
@@ -229,17 +214,10 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 		iSeed = KeQueryPerformanceCounter (&iSeed2);
 		WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
 		WHIRLPOOL_add ((unsigned char *) &(iSeed2.QuadPart), sizeof(iSeed2.QuadPart), &tctx);
-		if (KeQueryInterruptTimePrecisePtr)
-		{
-			iSeed.QuadPart = KeQueryInterruptTimePrecisePtr ((PULONG64)  & iSeed2.QuadPart);
-			WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
-			WHIRLPOOL_add ((unsigned char *) &(iSeed2.QuadPart), sizeof(iSeed2.QuadPart), &tctx);
-		}
-		else
-		{
-			iSeed.QuadPart = KeQueryInterruptTime ();
-			WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
-		}
+
+		iSeed.QuadPart = KeQueryInterruptTimePrecise ((PULONG64)  & iSeed2.QuadPart);
+		WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+		WHIRLPOOL_add ((unsigned char *) &(iSeed2.QuadPart), sizeof(iSeed2.QuadPart), &tctx);
 
 		/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
 		if (0 == jent_entropy_init ())
@@ -292,48 +270,6 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	PsGetVersion(&OsMajorVersion, &OsMinorVersion, NULL, NULL);
 
 	Dump("OsMajorVersion=%d OsMinorVersion=%d\n", OsMajorVersion, OsMinorVersion);
-
-	// KeAreAllApcsDisabled is available starting from Windows Server 2003
-	if ((OsMajorVersion > 5) || (OsMajorVersion == 5 && OsMinorVersion >= 2))
-	{
-		UNICODE_STRING KeAreAllApcsDisabledFuncName;
-		RtlInitUnicodeString(&KeAreAllApcsDisabledFuncName, L"KeAreAllApcsDisabled");
-
-		KeAreAllApcsDisabledPtr = (KeAreAllApcsDisabledFn)MmGetSystemRoutineAddress(&KeAreAllApcsDisabledFuncName);
-	}
-
-	// KeSaveExtendedProcessorState/KeRestoreExtendedProcessorState are available starting from Windows 7
-	// KeQueryActiveGroupCount/KeQueryActiveProcessorCountEx/KeSetSystemGroupAffinityThread are available starting from Windows 7
-	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 1))
-	{
-		UNICODE_STRING saveFuncName, restoreFuncName, groupCountFuncName, procCountFuncName, setAffinityFuncName;
-		RtlInitUnicodeString(&saveFuncName, L"KeSaveExtendedProcessorState");
-		RtlInitUnicodeString(&restoreFuncName, L"KeRestoreExtendedProcessorState");
-		RtlInitUnicodeString(&groupCountFuncName, L"KeQueryActiveGroupCount");
-		RtlInitUnicodeString(&procCountFuncName, L"KeQueryActiveProcessorCountEx");
-		RtlInitUnicodeString(&setAffinityFuncName, L"KeSetSystemGroupAffinityThread");
-		KeSaveExtendedProcessorStatePtr = (KeSaveExtendedProcessorStateFn)MmGetSystemRoutineAddress(&saveFuncName);
-		KeRestoreExtendedProcessorStatePtr = (KeRestoreExtendedProcessorStateFn)MmGetSystemRoutineAddress(&restoreFuncName);
-		KeSetSystemGroupAffinityThreadPtr = (KeSetSystemGroupAffinityThreadFn)MmGetSystemRoutineAddress(&setAffinityFuncName);
-		KeQueryActiveGroupCountPtr = (KeQueryActiveGroupCountFn)MmGetSystemRoutineAddress(&groupCountFuncName);
-		KeQueryActiveProcessorCountExPtr = (KeQueryActiveProcessorCountExFn)MmGetSystemRoutineAddress(&procCountFuncName);
-	}
-
-	// ExGetFirmwareEnvironmentVariable is available starting from Windows 8
-	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 2))
-	{
-		UNICODE_STRING funcName;
-		RtlInitUnicodeString(&funcName, L"ExGetFirmwareEnvironmentVariable");
-		ExGetFirmwareEnvironmentVariablePtr = (ExGetFirmwareEnvironmentVariableFn)MmGetSystemRoutineAddress(&funcName);
-	}
-
-	// KeQueryInterruptTimePrecise is available starting from Windows 8.1
-	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 3))
-	{
-		UNICODE_STRING funcName;
-		RtlInitUnicodeString(&funcName, L"KeQueryInterruptTimePrecise");
-		KeQueryInterruptTimePrecisePtr = (KeQueryInterruptTimePreciseFn)MmGetSystemRoutineAddress(&funcName);
-	}
 
 	// Load dump filter if the main driver is already loaded
 	if (NT_SUCCESS(TCDeviceIoControl(NT_ROOT_PREFIX, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &version, sizeof(version))))
@@ -994,7 +930,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	case IOCTL_DISK_GET_DRIVE_GEOMETRY_EX:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_GEOMETRY_EX)\n");
 		{
-			ULONG minOutputSize = IsOSAtLeast (WIN_SERVER_2003)? sizeof (DISK_GEOMETRY_EX) : sizeof (DISK_GEOMETRY) + sizeof (LARGE_INTEGER);
+			ULONG minOutputSize = sizeof (DISK_GEOMETRY_EX);
 			ULONG fullOutputSize = sizeof (DISK_GEOMETRY) + sizeof (LARGE_INTEGER) + sizeof (DISK_PARTITION_INFO) + sizeof (DISK_DETECTION_INFO);
 
 			if (ValidateIOBufferSize (Irp, minOutputSize, ValidateOutput))
@@ -3463,7 +3399,7 @@ NTSTATUS TCDeviceIoControl (PWSTR deviceName, ULONG IoControlCode, void *InputBu
 	KEVENT event;
 	UNICODE_STRING name;
 
-	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || KeAreAllApcsDisabled())
 	{
 		TCDeviceIoControlWorkItemArgs args;
 
@@ -3548,7 +3484,7 @@ NTSTATUS SendDeviceIoControlRequest (PDEVICE_OBJECT deviceObject, ULONG ioContro
 	PIRP irp;
 	KEVENT event;
 
-	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || KeAreAllApcsDisabled())
 	{
 		SendDeviceIoControlRequestWorkItemArgs args;
 
@@ -3893,7 +3829,7 @@ static NTSTATUS UpdateFsVolumeInformation (MOUNT_STRUCT* mount, PEXTENSION NewEx
 	BOOL bIsNTFS = FALSE;
 	ULONG labelMaxLen, labelEffectiveLen;
 
-	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || KeAreAllApcsDisabled())
 	{
 		UpdateFsVolumeInformationWorkItemArgs args;
 
@@ -4160,7 +4096,7 @@ NTSTATUS UnmountDevice (UNMOUNT_STRUCT *unmountRequest, PDEVICE_OBJECT deviceObj
 	HANDLE volumeHandle;
 	PFILE_OBJECT volumeFileObject;
 
-	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || KeAreAllApcsDisabled())
 	{
 		UnmountDeviceWorkItemArgs args;
 
@@ -4190,7 +4126,7 @@ NTSTATUS UnmountDevice (UNMOUNT_STRUCT *unmountRequest, PDEVICE_OBJECT deviceObj
 		int dismountRetry;
 
 		// Dismounting a writable NTFS filesystem prevents the driver from being unloaded on Windows 7
-		if (IsOSAtLeast (WIN_7) && !extension->bReadOnly)
+		if (!extension->bReadOnly)
 		{
 			NTFS_VOLUME_DATA_BUFFER ntfsData;
 
@@ -4454,33 +4390,14 @@ NTSTATUS TCCompleteDiskIrp (PIRP irp, NTSTATUS status, ULONG_PTR information)
 size_t GetCpuCount (WORD* pGroupCount)
 {
 	size_t cpuCount = 0;
-	if (KeQueryActiveGroupCountPtr && KeQueryActiveProcessorCountExPtr)
+	USHORT i, groupCount = KeQueryActiveGroupCount ();
+	for (i = 0; i < groupCount; i++)
 	{
-		USHORT i, groupCount = KeQueryActiveGroupCountPtr ();
-		for (i = 0; i < groupCount; i++)
-		{
-			cpuCount += (size_t) KeQueryActiveProcessorCountExPtr (i);
-		}
-
-		if (pGroupCount)
-			*pGroupCount = groupCount;
+		cpuCount += (size_t) KeQueryActiveProcessorCountEx (i);
 	}
-	else
-	{
-		KAFFINITY activeCpuMap = KeQueryActiveProcessors();
-		size_t mapSize = sizeof (activeCpuMap) * 8;		
 
-		while (mapSize--)
-		{
-			if (activeCpuMap & 1)
-				++cpuCount;
-
-			activeCpuMap >>= 1;
-		}
-
-		if (pGroupCount)
-			*pGroupCount = 1;
-	}
+	if (pGroupCount)
+		*pGroupCount = groupCount;
 
 	if (cpuCount == 0)
 		return 1;
@@ -4490,17 +4407,14 @@ size_t GetCpuCount (WORD* pGroupCount)
 
 USHORT GetCpuGroup (size_t index)
 {
-	if (KeQueryActiveGroupCountPtr && KeQueryActiveProcessorCountExPtr)
+	USHORT i, groupCount = KeQueryActiveGroupCount ();
+	size_t cpuCount = 0;
+	for (i = 0; i < groupCount; i++)
 	{
-		USHORT i, groupCount = KeQueryActiveGroupCountPtr ();
-		size_t cpuCount = 0;
-		for (i = 0; i < groupCount; i++)
+		cpuCount += (size_t) KeQueryActiveProcessorCountEx (i);
+		if (cpuCount >= index)
 		{
-			cpuCount += (size_t) KeQueryActiveProcessorCountExPtr (i);
-			if (cpuCount >= index)
-			{
-				return i;
-			}
+			return i;
 		}
 	}
 	
@@ -4509,13 +4423,10 @@ USHORT GetCpuGroup (size_t index)
 
 void SetThreadCpuGroupAffinity (USHORT index)
 {
-	if (KeSetSystemGroupAffinityThreadPtr)
-	{
-		GROUP_AFFINITY groupAffinity = {0};
-		groupAffinity.Mask = ~0ULL;
-		groupAffinity.Group = index;
-		KeSetSystemGroupAffinityThreadPtr (&groupAffinity, NULL);
-	}
+	GROUP_AFFINITY groupAffinity = {0};
+	groupAffinity.Mask = ~0ULL;
+	groupAffinity.Group = index;
+	KeSetSystemGroupAffinityThread (&groupAffinity, NULL);
 }
 
 void EnsureNullTerminatedString (wchar_t *str, size_t maxSizeInBytes)
@@ -4957,37 +4868,4 @@ BOOL IsOSAtLeast (OSVersionEnum reqMinOS)
 
 	return ((OsMajorVersion << 16 | OsMinorVersion << 8)
 		>= (major << 16 | minor << 8));
-}
-
-NTSTATUS NTAPI KeSaveExtendedProcessorStateVC (
-    __in ULONG64 Mask,
-    PXSTATE_SAVE XStateSave
-    )
-{
-	if (KeSaveExtendedProcessorStatePtr)
-	{
-		return (KeSaveExtendedProcessorStatePtr) (Mask, XStateSave);
-	}
-	else
-	{
-		return STATUS_SUCCESS;
-	}
-}
-
-VOID NTAPI KeRestoreExtendedProcessorStateVC (
-	PXSTATE_SAVE XStateSave
-	)
-{
-	if (KeRestoreExtendedProcessorStatePtr)
-	{
-		(KeRestoreExtendedProcessorStatePtr) (XStateSave);
-	}
-}
-
-BOOLEAN VC_KeAreAllApcsDisabled (VOID)
-{
-	if (KeAreAllApcsDisabledPtr)
-		return (KeAreAllApcsDisabledPtr) ();
-	else
-		return FALSE;
 }

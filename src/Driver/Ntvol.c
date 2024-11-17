@@ -947,7 +947,7 @@ NTSTATUS TCSendHostDeviceIoControlRequestEx (PDEVICE_OBJECT DeviceObject,
 
 	UNREFERENCED_PARAMETER(DeviceObject);	/* Remove compiler warning */
 
-	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || KeAreAllApcsDisabled())
 	{
 		TCSendHostDeviceIoControlRequestExWorkItemArgs args;
 

@@ -286,53 +286,6 @@ typedef unsigned char  BOOLEAN;
 #define FALSE !TRUE
 #endif
 
-typedef NTSTATUS (NTAPI *KeSaveExtendedProcessorStateFn) (
-    __in ULONG64 Mask,
-    PXSTATE_SAVE XStateSave
-    );
-
-
-typedef VOID (NTAPI *KeRestoreExtendedProcessorStateFn) (
-	PXSTATE_SAVE XStateSave
-	);
-
-typedef NTSTATUS (NTAPI *ExGetFirmwareEnvironmentVariableFn) (
-  PUNICODE_STRING VariableName,
-  LPGUID          VendorGuid,
-  PVOID           Value,
-  PULONG          ValueLength,
-  PULONG          Attributes
-);
-
-typedef ULONG64 (NTAPI *KeQueryInterruptTimePreciseFn)(
-  PULONG64 QpcTimeStamp
-);
-
-typedef BOOLEAN (NTAPI *KeAreAllApcsDisabledFn) ();
-
-typedef void (NTAPI *KeSetSystemGroupAffinityThreadFn)(
-  PGROUP_AFFINITY Affinity,
-  PGROUP_AFFINITY PreviousAffinity
-);
-
-typedef USHORT (NTAPI *KeQueryActiveGroupCountFn)();
-
-typedef ULONG (NTAPI *KeQueryActiveProcessorCountExFn)(
-  USHORT GroupNumber
-);
-
-extern NTSTATUS NTAPI KeSaveExtendedProcessorStateVC (
-    __in ULONG64 Mask,
-    PXSTATE_SAVE XStateSave
-    );
-
-
-extern VOID NTAPI KeRestoreExtendedProcessorStateVC (
-	PXSTATE_SAVE XStateSave
-	);
-
-extern BOOLEAN VC_KeAreAllApcsDisabled (VOID);
-
 
 #else				/* !TC_WINDOWS_DRIVER */
 #if !defined(_UEFI)

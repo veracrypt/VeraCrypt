@@ -363,7 +363,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, uint8
 		NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 		XSTATE_SAVE SaveState;
 		if (IsCpuIntel() && HasSAVX())
-			saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
+			saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
 		WHIRLPOOL_add (ioBuffer, TC_BOOT_SECTOR_PIM_VALUE_OFFSET, &whirlpool);
 		WHIRLPOOL_add (ioBuffer + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, (TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)), &whirlpool);
@@ -401,7 +401,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, uint8
 
 #ifndef _M_ARM64
 		if (NT_SUCCESS(saveStatus))
-			KeRestoreExtendedProcessorStateVC(&SaveState);
+			KeRestoreExtendedProcessorState(&SaveState);
 #endif
 	}
 	else
@@ -978,7 +978,6 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 	// Dismount the system drive on shutdown on Windows 7 and later
 	if (DriverShuttingDown
 		&& EraseKeysOnShutdown
-		&& IsOSAtLeast (WIN_7)
 		&& Extension->BootDrive
 		&& Extension->DriveMounted
 		&& irpSp->MinorFunction == IRP_MN_SET_POWER
