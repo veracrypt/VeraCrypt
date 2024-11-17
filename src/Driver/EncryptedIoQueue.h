@@ -26,6 +26,7 @@
 #define TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_COUNT 16
 #define TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_MAX_COUNT 8192
 
+#define VC_MAX_WORK_ITEMS 256 
 
 typedef struct EncryptedIoQueueBufferStruct
 {
@@ -37,6 +38,15 @@ typedef struct EncryptedIoQueueBufferStruct
 
 } EncryptedIoQueueBuffer;
 
+typedef struct _COMPLETE_IRP_WORK_ITEM
+{
+	PIO_WORKITEM WorkItem;
+	PIRP Irp;
+	NTSTATUS Status;
+	ULONG_PTR Information;
+	void* Item;
+	LIST_ENTRY ListEntry; // For managing free work items
+} COMPLETE_IRP_WORK_ITEM, * PCOMPLETE_IRP_WORK_ITEM;
 
 typedef struct
 {
@@ -97,9 +107,9 @@ typedef struct
 	uint8 *ReadAheadBuffer;
 	LARGE_INTEGER MaxReadAheadOffset;
 
-	LONG OutstandingIoCount;
+	volatile LONG OutstandingIoCount;
 	KEVENT NoOutstandingIoEvent;
-	LONG IoThreadPendingRequestCount;
+	volatile LONG IoThreadPendingRequestCount;
 
 	KEVENT PoolBufferFreeEvent;
 
@@ -125,6 +135,16 @@ typedef struct
 	volatile BOOL ThreadBlockReadWrite;
 
 	int FragmentSize;
+
+	// Pre-allocated work items
+	PCOMPLETE_IRP_WORK_ITEM WorkItemPool;
+	ULONG MaxWorkItems;
+	LIST_ENTRY FreeWorkItemsList;
+	KSEMAPHORE WorkItemSemaphore;
+	KSPIN_LOCK WorkItemLock;
+
+	volatile LONG ActiveWorkItems;
+	KEVENT NoActiveWorkItemsEvent;
 }  EncryptedIoQueue;
 
 
