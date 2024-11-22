@@ -271,6 +271,7 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	PCOMPLETE_IRP_WORK_ITEM workItem = (PCOMPLETE_IRP_WORK_ITEM)Context;
 	EncryptedIoQueueItem* item = (EncryptedIoQueueItem * ) workItem->Item;
 	EncryptedIoQueue* queue = item->Queue;
+	KIRQL oldIrql;
 	UNREFERENCED_PARAMETER(DeviceObject);
 
 	__try
@@ -283,19 +284,14 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	}
 	__finally
 	{
-		// Return the work item to the free list
-		KIRQL oldIrql;
-		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
-
-		// Decrement ActiveWorkItems
-		LONG activeWorkItems = InterlockedDecrement(&queue->ActiveWorkItems);
-
 		// If no active work items remain, signal the event
-		if (activeWorkItems == 0)
+		if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
 		{
 			KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_NO_INCREMENT, FALSE);
 		}
 
+		// Return the work item to the free list
+		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
 		InsertTailList(&queue->FreeWorkItemsList, &workItem->ListEntry);
 		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
 
