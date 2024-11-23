@@ -396,6 +396,7 @@ typedef struct
 	int EncryptionIoRequestCount;
 	int EncryptionItemCount;
 	int EncryptionFragmentSize;
+	int EncryptionMaxWorkItems;
 } EncryptionQueueParameters;
 
 #pragma pack (pop)
@@ -418,6 +419,7 @@ typedef struct
 #define VC_ENCRYPTION_IO_REQUEST_COUNT DRIVER_STR("VeraCryptEncryptionIoRequestCount")
 #define VC_ENCRYPTION_ITEM_COUNT DRIVER_STR("VeraCryptEncryptionItemCount")
 #define VC_ENCRYPTION_FRAGMENT_SIZE DRIVER_STR("VeraCryptEncryptionFragmentSize")
+#define VC_ENCRYPTION_MAX_WORK_ITEMS DRIVER_STR("VeraCryptEncryptionMaxWorkItems")
 
 #define VC_ERASE_KEYS_SHUTDOWN DRIVER_STR("VeraCryptEraseKeysShutdown")
 

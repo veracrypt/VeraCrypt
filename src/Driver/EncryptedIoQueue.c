@@ -303,8 +303,43 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	}
 }
 
+// Handles the completion of the original IRP.
+static VOID HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoRequest* request)
+{
+	NTSTATUS status = KeWaitForSingleObject(&queue->WorkItemSemaphore, Executive, KernelMode, FALSE, NULL);
+	if (queue->ThreadExitRequested)
+		return;
 
+	if (!NT_SUCCESS(status))
+	{
+		// Handle wait failure: we call the completion routine directly. 
+		// This is not ideal since it can cause deadlock that we are trying to fix but it is better than losing the IRP.
+		CompleteOriginalIrp(request->Item, STATUS_INSUFFICIENT_RESOURCES, 0);
+	}
+	else
+	{
+		// Obtain a work item from the free list.
+		KIRQL oldIrql;
+		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
+		PLIST_ENTRY freeEntry = RemoveHeadList(&queue->FreeWorkItemsList);
+		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
 
+		PCOMPLETE_IRP_WORK_ITEM workItem = CONTAINING_RECORD(freeEntry, COMPLETE_IRP_WORK_ITEM, ListEntry);
+
+		// Increment ActiveWorkItems.
+		InterlockedIncrement(&queue->ActiveWorkItems);
+		KeResetEvent(&queue->NoActiveWorkItemsEvent);
+
+		// Prepare the work item.
+		workItem->Irp = request->Item->OriginalIrp;
+		workItem->Status = request->Item->Status;
+		workItem->Information = NT_SUCCESS(request->Item->Status) ? request->Item->OriginalLength : 0;
+		workItem->Item = request->Item;
+
+		// Queue the work item.
+		IoQueueWorkItem(workItem->WorkItem, CompleteIrpWorkItemRoutine, DelayedWorkQueue, workItem);
+	}
+}
 
 static VOID CompletionThreadProc(PVOID threadArg)
 {
@@ -348,39 +383,7 @@ static VOID CompletionThreadProc(PVOID threadArg)
 
 			if (request->CompleteOriginalIrp)
 			{
-				// Wait for a work item to become available
-				NTSTATUS status = KeWaitForSingleObject(&queue->WorkItemSemaphore, Executive, KernelMode, FALSE, NULL);
-				if (queue->ThreadExitRequested)
-					break;
-				if (!NT_SUCCESS(status))
-				{
-					// Handle wait failure: we call the completion routine directly. 
-					// This is not ideal since it can cause deadlock that we are trying to fix but it is better than losing the IRP.
-					CompleteOriginalIrp(request->Item, STATUS_INSUFFICIENT_RESOURCES, 0);
-				}
-				else
-				{
-					// Obtain a work item from the free list
-					KIRQL oldIrql;
-					KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
-					PLIST_ENTRY freeEntry = RemoveHeadList(&queue->FreeWorkItemsList);
-					KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
-
-					PCOMPLETE_IRP_WORK_ITEM workItem = CONTAINING_RECORD(freeEntry, COMPLETE_IRP_WORK_ITEM, ListEntry);
-
-					// Increment ActiveWorkItems
-					InterlockedIncrement(&queue->ActiveWorkItems);
-					KeResetEvent(&queue->NoActiveWorkItemsEvent);
-
-					// Prepare the work item
-					workItem->Irp = request->Item->OriginalIrp;
-					workItem->Status = request->Item->Status;
-					workItem->Information = NT_SUCCESS(request->Item->Status) ? request->Item->OriginalLength : 0;
-					workItem->Item = request->Item;
-
-					// Queue the work item
-					IoQueueWorkItem(workItem->WorkItem, CompleteIrpWorkItemRoutine, DelayedWorkQueue, workItem);
-				}
+				HandleCompleteOriginalIrp(queue, request);
 			}
 
 			ReleasePoolBuffer(queue, request);
@@ -541,8 +544,7 @@ static VOID IoThreadProc (PVOID threadArg)
 
 				if (request->CompleteOriginalIrp)
 				{
-					CompleteOriginalIrp (request->Item, request->Item->Status,
-						NT_SUCCESS (request->Item->Status) ? request->Item->OriginalLength : 0);
+					HandleCompleteOriginalIrp(queue, request);
 				}
 
 				ReleasePoolBuffer (queue, request);
@@ -1148,10 +1150,10 @@ retry_preallocated:
 
 	// Initialize the free work item list
 	InitializeListHead(&queue->FreeWorkItemsList);
-	KeInitializeSemaphore(&queue->WorkItemSemaphore, VC_MAX_WORK_ITEMS, VC_MAX_WORK_ITEMS);
+	KeInitializeSemaphore(&queue->WorkItemSemaphore, EncryptionMaxWorkItems, EncryptionMaxWorkItems);
 	KeInitializeSpinLock(&queue->WorkItemLock);
 
-	queue->MaxWorkItems = VC_MAX_WORK_ITEMS;
+	queue->MaxWorkItems = EncryptionMaxWorkItems;
 	queue->WorkItemPool = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(sizeof(COMPLETE_IRP_WORK_ITEM) * queue->MaxWorkItems);
 	if (!queue->WorkItemPool)
 	{

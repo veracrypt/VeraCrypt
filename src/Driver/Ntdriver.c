@@ -145,6 +145,7 @@ static BOOL RamEncryptionActivated = FALSE;
 int EncryptionIoRequestCount = 0;
 int EncryptionItemCount = 0;
 int EncryptionFragmentSize = 0;
+int EncryptionMaxWorkItems = 0;
 
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
 
@@ -2776,6 +2777,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		if (ValidateIOBufferSize (Irp, sizeof (EncryptionQueueParameters), ValidateOutput))
 		{
 			EncryptionQueueParameters* pParams = (EncryptionQueueParameters*) Irp->AssociatedIrp.SystemBuffer;
+			pParams->EncryptionMaxWorkItems = EncryptionMaxWorkItems;
 			pParams->EncryptionFragmentSize = EncryptionFragmentSize;
 			pParams->EncryptionIoRequestCount = EncryptionIoRequestCount;
 			pParams->EncryptionItemCount = EncryptionItemCount;
@@ -4646,6 +4648,14 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 		TCfree (data);
 	}
 
+	if (driverEntry && NT_SUCCESS(TCReadRegistryKey(&name, VC_ENCRYPTION_MAX_WORK_ITEMS, &data)))
+	{
+		if (data->Type == REG_DWORD)
+			EncryptionMaxWorkItems = *(uint32*)data->Data;
+
+		TCfree(data);
+	}
+
 	if (driverEntry)
 	{
 		if (EncryptionIoRequestCount < TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_COUNT)
@@ -4663,6 +4673,9 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			EncryptionFragmentSize = TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;
 		else if (EncryptionFragmentSize > (8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE))
 			EncryptionFragmentSize = 8 * TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;
+
+		if (EncryptionMaxWorkItems == 0)
+			EncryptionMaxWorkItems = VC_MAX_WORK_ITEMS;
 		
 		
 	}
