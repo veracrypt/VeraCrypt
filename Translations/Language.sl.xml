@@ -118,7 +118,7 @@
     <entry lang="sl" key="IDC_CREATE">Ustvari</entry>
     <entry lang="sl" key="IDC_CREATE_VOLUME">&amp;Ustvari nosilec</entry>
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Do not &amp;show any texts in the pre-boot authentication screen (except the below custom message)</entry>
-    <entry lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Onemogoči razpoznavo napada "Evil Maid"</entry>
+    <entry lang="sl" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Onemogoči razpoznavo napada "Evil Maid"</entry>
     <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</entry>
     <entry lang="sl" key="IDC_ENABLE_KEYFILES">Uporabi ključne dat.</entry>
     <entry lang="sl" key="IDC_ENABLE_NEW_KEYFILES">Uporabi ključne datoteke</entry>
@@ -131,7 +131,7 @@
     <entry lang="sl" key="IDC_FAVORITE_MOUNT_REMOVABLE">Priklopi izbrani nosilec kot odstranljiv medij</entry>
     <entry lang="sl" key="IDC_FAVORITE_MOVE_DOWN">Premik &amp;dol</entry>
     <entry lang="sl" key="IDC_FAVORITE_MOVE_UP">Premik &amp;gor</entry>
-    <entry lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Po uspešnem priklopu izbranega nosilca odpri zanj okno z Raziskovalcem</entry>
+    <entry lang="sl" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Po uspešnem priklopu izbranega nosilca odpri zanj okno z Raziskovalcem</entry>
     <entry lang="sl" key="IDC_FAVORITE_REMOVE">&amp;Odstrani</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="sl" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Splošne nastavitve</entry>
@@ -180,7 +180,7 @@
     <entry lang="sl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Prikaži geslo</entry>
     <entry lang="sl" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Odpri okno Raziskovalca za priklopljeni nosilec</entry>
     <entry lang="sl" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Shrani geslo v pomnilnik gonilnika</entry>
-    <entry lang="sl" key="IDC_TRUECRYPT_MODE">Način &amp;TrueCrypt/entry>
+    <entry lang="sl" key="IDC_TRUECRYPT_MODE">Način &amp;TrueCrypt</entry>
     <entry lang="sl" key="IDC_UNMOUNTALL">&amp;Odklopi vse</entry>
     <entry lang="sl" key="IDC_VOLUME_PROPERTIES">&amp;Lastnosti nosilca...</entry>
     <entry lang="sl" key="IDC_VOLUME_TOOLS">&amp;Orodja za nosilce...</entry>
@@ -300,9 +300,9 @@
     <entry lang="sl" key="IDT_TRAVELER_MOUNT">Priklop VeraCryptovega nosilca (relativno do korena prenosnega medija):</entry>
     <entry lang="sl" key="IDT_TRAVEL_INSERTION">Po vstavitvi potovalnega (prenosnega) medija: </entry>
     <entry lang="sl" key="IDT_TRAVEL_ROOT">Ustvari prenosne datoteke medija pri (koren mesta potovalnega medija):</entry>
-    <entry lang="sl" key="IDT_VOLUME">>Nosilec</entry>
+    <entry lang="sl" key="IDT_VOLUME">Nosilec</entry>
     <entry lang="sl" key="IDT_WINDOWS_RELATED_SETTING">Okna</entry>
-    <entry lang="sl" key="IDC_ADD_KEYFILE_PATH">&amp;Dodaj mesto...</entry>i
+    <entry lang="sl" key="IDC_ADD_KEYFILE_PATH">&amp;Dodaj mesto...</entry>
     <entry lang="sl" key="IDC_AUTO">&amp;Samotestiraj vse</entry>
     <entry lang="sl" key="IDC_CONTINUE">&amp;Nadaljuj</entry>
     <entry lang="sl" key="IDC_DECRYPT">&amp;Dešifriraj</entry>
@@ -573,28 +573,28 @@
     <entry lang="en" key="VOL_CREATION_WIZARD_NOT_FOUND">Error: Volume Creation Wizard not found.\n\nPlease make sure that the file 'VeraCrypt Format.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCrypt Format.exe' on your disk and run it.</entry>
     <entry lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</entry>
     <entry lang="sl" key="NEXT">&amp;Naprej &gt;</entry>
-    <entry lang="en" key="FINALIZE">&amp;Končaj</entry>
-    <entry lang="en" key="INSTALL">&amp;Namesti</entry>
+    <entry lang="sl" key="FINALIZE">&amp;Končaj</entry>
+    <entry lang="sl" key="INSTALL">&amp;Namesti</entry>
     <entry lang="en" key="EXTRACT">E&amp;xtract</entry>
     <entry lang="en" key="NODRIVER">Unable to connect to the VeraCrypt device driver. VeraCrypt cannot work if the device driver is not running.\n\nPlease note that, due to a Windows issue, it may be necessary to log off or restart the system before the device driver can be loaded.</entry>
     <entry lang="en" key="NOFONT">Error occurred when loading/preparing fonts.</entry>
     <entry lang="en" key="NOT_FOUND">The drive letter was not found or no drive letter was specified.</entry>
     <entry lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</entry>
-    <entry lang="en" key="DRIVE_LETTER_UNAVAILABLE">Črka pogona ni na voljo.</entry>
-    <entry lang="en" key="NO_FILE_SELECTED">Nobena datoteka ni izbrana!</entry>
-    <entry lang="en" key="NO_FREE_DRIVES">Nobena črka pogona ni na voljo.</entry>
+    <entry lang="sl" key="DRIVE_LETTER_UNAVAILABLE">Črka pogona ni na voljo.</entry>
+    <entry lang="sl" key="NO_FILE_SELECTED">Nobena datoteka ni izbrana!</entry>
+    <entry lang="sl" key="NO_FREE_DRIVES">Nobena črka pogona ni na voljo.</entry>
     <entry lang="en" key="NO_FREE_DRIVE_FOR_OUTER_VOL">No free drive letter for the outer volume! Volume creation cannot continue.</entry>
     <entry lang="en" key="NO_OS_VER">Could not determine your operating system version or you are using an unsupported operating system.</entry>
-    <entry lang="en" key="NO_PATH_SELECTED">Pot ni izbrana!</entry>
+    <entry lang="sl" key="NO_PATH_SELECTED">Pot ni izbrana!</entry>
     <entry lang="en" key="NO_SPACE_FOR_HIDDEN_VOL">Not enough free space for the hidden volume! Volume creation cannot continue.</entry>
     <entry lang="en" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Error: The files you copied to the outer volume occupy too much space. Therefore, there is not enough free space on the outer volume for the hidden volume.\n\nNote that the hidden volume must be as large as the system partition (the partition where the currently running operating system is installed). The reason is that the hidden operating system needs to be created by copying the content of the system partition to the hidden volume.\n\n\nThe process of creation of the hidden operating system cannot continue.</entry>
     <entry lang="en" key="OPENFILES_DRIVER">The driver is unable to dismount the volume. Some files located on the volume are probably still open.</entry>
     <entry lang="en" key="OPENFILES_LOCK">Unable to lock the volume. There are still open files on the volume. Therefore, it cannot be dismounted.</entry>
     <entry lang="en" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt cannot lock the volume because it is in use by the system or applications (there may be open files on the volume).\n\nDo you want to force dismount on the volume?</entry>
     <entry lang="sl" key="OPEN_VOL_TITLE">Izberi VeraCryptov nosilec</entry>
-    <entry lang="en" key="OPEN_TITLE">Določi pot in ime datoteke</entry>
+    <entry lang="sl" key="OPEN_TITLE">Določi pot in ime datoteke</entry>
     <entry lang="en" key="SELECT_PKCS11_MODULE">Select PKCS #11 Library</entry>
-    <entry lang="en" key="OUTOFMEMORY">Premalo spomina</entry>
+    <entry lang="sl" key="OUTOFMEMORY">Premalo spomina</entry>
     <entry lang="en" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANT: We strongly recommend that inexperienced users create a VeraCrypt file container on the selected device/partition, instead of attempting to encrypt the entire device/partition.\n\nWhen you create a VeraCrypt file container (as opposed to encrypting a device or partition) there is, for example, no risk of destroying a large number of files. Note that a VeraCrypt file container (even though it contains a virtual encrypted disk) is actually just like any normal file. For more information, see the chapter Beginner's Tutorial in the VeraCrypt User Guide.\n\nAre you sure you want to encrypt the entire device/partition?</entry>
     <entry lang="en" key="OVERWRITEPROMPT">WARNING: The file '%s' already exists!\n\nIMPORTANT: VERACRYPT WILL NOT ENCRYPT THE FILE, BUT IT WILL DELETE IT. Are you sure you want to delete the file and replace it with a new VeraCrypt container?</entry>
     <entry lang="sl" key="OVERWRITEPROMPT_DEVICE">PREVIDNO: VSE DATOTEKE, KI SO TRENUTNO SHRANJENE NA IZBRANEM RAZDELKU %s '%s'%s BODO POBRISANE IN IZGUBLJENE (NE BODO ŠIFRIRANE) !\n\nAli ste prepričani, da želite nadaljevati s formatiranjem ?</entry>
@@ -689,14 +689,14 @@
     <entry lang="sl" key="THREE_LAYER_CASCADE_HELP">Tri šifre, ki se izvajajo kaskadno v XTS načinu. Vsak blok je prvo šifriran z %s (%d-bitni ključ), zatem z %s (%d-bitni ključ) in končno z %s (%d-bitni ključ). Vsaka šifra uporablja svoj ključ. Vsi ključi so si med seboj neodvisni.</entry>
     <entry lang="en" key="AUTORUN_MAY_NOT_ALWAYS_WORK">Note that, depending on the operating system configuration, these auto-run and auto-mount features may work only when the traveler disk files are created on a non-writable CD/DVD-like medium. Also note that this is not a bug in VeraCrypt (it is a limitation of Windows).</entry>
     <entry lang="en" key="TRAVELER_DISK_CREATED">VeraCrypt traveler disk has been successfully created.\n\nNote that you need administrator privileges to run VeraCrypt in portable mode. Also note that, after examining the registry file, it may be possible to tell that VeraCrypt was run on a Windows system even if it is run in portable mode.</entry>
-    <entry lang="en" key="TC_TRAVELER_DISK">Popotni disk VeraCrypt</entry>
+    <entry lang="sl" key="TC_TRAVELER_DISK">Popotni disk VeraCrypt</entry>
     <entry lang="sl" key="TWOFISH_HELP">Zasnoval ga je Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall in Niels Ferguson. Objavljen je bil leta 1998. Uporablja 256-bitni ključ in 128-bitni blok. Način delovanja je XTS. Twofish je bil eden izmed AES-ovih finalistov.</entry>
     <entry lang="sl" key="MORE_INFO_ABOUT">Več informacij o %s</entry>
-    <entry lang="en" key="UNKNOWN">Neznano</entry>
-    <entry lang="en" key="ERR_UNKNOWN">Prišlo je do neznane napake (%d).</entry>
+    <entry lang="sl" key="UNKNOWN">Neznano</entry>
+    <entry lang="sl" key="ERR_UNKNOWN">Prišlo je do neznane napake (%d).</entry>
     <entry lang="en" key="UNMOUNTALL_LOCK_FAILED">Some volumes contain files or folders being used by applications or system.\n\nForce dismount?</entry>
     <entry lang="sl" key="UNMOUNT_BUTTON">&amp;Odklopi</entry>
-    <entry lang="en" key="UNMOUNT_FAILED">Odklop ni uspel!</entry>
+    <entry lang="sl" key="UNMOUNT_FAILED">Odklop ni uspel!</entry>
     <entry lang="sl" key="UNMOUNT_LOCK_FAILED">Nosilec vsebuje datoteke ali mape, ki so trenutno v uporabi drugega programa ali sistema.\n\nNaj odklopim na silo ?</entry>
     <entry lang="sl" key="NO_VOLUME_MOUNTED_TO_DRIVE">Noben znosilec ni priklopljen na pogon s podano črko.</entry>
     <entry lang="sl" key="VOL_ALREADY_MOUNTED">Nosilec, ki jga želiš priklopii, je že priklopljen. </entry>
@@ -708,7 +708,7 @@
     <entry lang="en" key="SPARSE_FILE_SIZE_NOTE">Note that the size of the dynamic container reported by Windows and by VeraCrypt will always be equal to its maximum size. To find out current physical size of the container (actual disk space it uses), right-click the container file (in a Windows Explorer window, not in VeraCrypt), then select 'Properties' and see the 'Size on disk' value.\n\nAlso note that if you move a dynamic container to another volume or drive, the physical size of the container will be extended to the maximum. (You can prevent that by creating a new dynamic container in the destination location, mounting it and then moving the files from the old container to the new one.)</entry>
     <entry lang="sl" key="PASSWORD_CACHE_WIPED_SHORT">Predpomnilnik gesla je zbrisan</entry>
     <entry lang="en" key="PASSWORD_CACHE_WIPED">Passwords (and/or processed keyfile contents) stored in the VeraCrypt driver cache have been wiped.</entry>
-    <entry lang="en" key="WRONG_VOL_TYPE">VeraCrypt ne more spremeniti gesla za tuj nosilec.</entry>
+    <entry lang="sl" key="WRONG_VOL_TYPE">VeraCrypt ne more spremeniti gesla za tuj nosilec.</entry>
     <entry lang="sl" key="SELECT_FREE_DRIVE">Prosim, da izberete prost pogon iz seznama.</entry>
     <entry lang="en" key="SELECT_A_MOUNTED_VOLUME">Please select a mounted volume in the drive letter list.</entry>
     <entry lang="en" key="AMBIGUOUS_VOL_SELECTION">Warning: Two different volumes/devices are currently selected (the first is selected in the drive letter list and the second is selected in the input field below the drive letter list).\n\nPlease confirm your choice:</entry>
@@ -747,11 +747,11 @@
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">The VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT or NTFS volume.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Under Windows 2000, the VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT volume.</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Opomba: The FAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT).</entry>
+    <entry lang="sl" key="HIDDEN_VOL_HOST_NTFS">Opomba: Datotečni sistem FAT je bolj primeren za zunanje nosilce kot datotečni sistem NTFS (na primer, največja možna velikost skritega nosilca bi bila zelo verjetno znatno večja, če bi bil zunanji nosilec formatiran kot FAT).</entry>
     <entry lang="sl" key="HIDDEN_VOL_HOST_NTFS_ASK">Zabeleži si, da je datotečni sistem FAT bolj primeren za zunanje nosilce kot datotečni sistem NTFS. Kot primer, največja možna velikost zunanjega nosilca bo zelo verjetno znatno večja, če bo zunanji nosilec formatiran kot FAT (razlog za to je, da datotečni sistem NTFS vedno shranjuje notranje podatke točno na sredini nosilca, torej se skriti nosilec lahko nahaja samo v drugi polovici zunanjega nosilca).\n\nSi prepričan, da želiš zunanji nosilec formatirati kot NTFS?</entry>
     <entry lang="en" key="OFFER_FAT_FORMAT_ALTERNATIVE">Do you want to format the volume as FAT instead?</entry>
-    <entry lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Opomba: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</entry>
-    <entry lang="en" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Napaka: The partition for the hidden operating system (i.e. the first partition behind the system partition) must be at least 5% larger than the system partition (the system partition is the one where the currently running operating system is installed).</entry>
+    <entry lang="sl" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Opomba: Ta nosilec ne more biti formatiran kot FAT, ker presega največjo velikost nosilca, ki jo podpira datotečni sistem FAT32 za uporabljeno velikost sektorja (2 TB za 512-bajtne sektorje in 16 TB za 4096-bajtne sektorje).</entry>
+    <entry lang="sl" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Napaka: Particija za skriti operacijski sistem (t.j. prva particija za sistemsko particijo) mora biti vsaj 5% večja od sistemske particije (sistemska particija je tista, kjer je nameščen trenutno delujoč operacijski sistem).</entry>
     <entry lang="en" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS_NTFS">Error: The partition for the hidden operating system (i.e. the first partition behind the system partition) must be at least 110% (2.1 times) larger than the system partition (the system partition is the one where the currently running operating system is installed). The reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume (which is to contain a clone of the system partition) can reside only in the second half of the partition.</entry>
     <entry lang="en" key="OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS">Error: If the outer volume is formatted as NTFS, it must be at least 110% (2.1 times) larger than the system partition. The reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume (which is to contain a clone of the system partition) can reside only in the second half of the outer volume.\n\nNote: The outer volume needs to reside within the same partition as the hidden operating system (i.e. within the first partition behind the system partition).</entry>
     <entry lang="en" key="NO_PARTITION_FOLLOWS_BOOT_PARTITION">Error: There is no partition behind the system partition.\n\nNote that before you can create a hidden operating system, you need to create a partition for it on the system drive. It must be the first partition behind the system partition and it must be at least 5% larger than the system partition (the system partition is the one where the currently running operating system is installed). However, if the outer volume (not to be confused with the system partition) is formatted as NTFS, the partition for the hidden operating system must be at least 110% (2.1 times) larger than the system partition (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume, which is to contain a clone of the system partition, can reside only in the second half of the partition).</entry>
@@ -797,12 +797,12 @@
     <entry lang="en" key="SYSTEM_VOLUME_TYPE_ADJECTIVE">System</entry>
     <entry lang="en" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">Hidden (system)</entry>
     <entry lang="sl" key="READ_ONLY">Samo za branje</entry>
-    <entry lang="en" key="SYSTEM_DRIVE">Sistemski pogon</entry>
+    <entry lang="sl" key="SYSTEM_DRIVE">Sistemski pogon</entry>
     <entry lang="en" key="SYSTEM_DRIVE_ENCRYPTING">System drive (encrypting - %.2f%% done)</entry>
     <entry lang="en" key="SYSTEM_DRIVE_DECRYPTING">System drive (decrypting - %.2f%% done)</entry>
     <entry lang="en" key="SYSTEM_DRIVE_PARTIALLY_ENCRYPTED">System drive (%.2f%% encrypted)</entry>
-    <entry lang="en" key="SYSTEM_PARTITION">Sistemska particija</entry>
-    <entry lang="en" key="HIDDEN_SYSTEM_PARTITION">Skrita sistemska particija</entry>
+    <entry lang="sl" key="SYSTEM_PARTITION">Sistemska particija</entry>
+    <entry lang="sl" key="HIDDEN_SYSTEM_PARTITION">Skrita sistemska particija</entry>
     <entry lang="en" key="SYSTEM_PARTITION_ENCRYPTING">System partition (encrypting - %.2f%% done)</entry>
     <entry lang="en" key="SYSTEM_PARTITION_DECRYPTING">System partition (decrypting - %.2f%% done)</entry>
     <entry lang="en" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">System partition (%.2f%% encrypted)</entry>
@@ -822,8 +822,8 @@
     <entry lang="sl" key="BACKUP_HEADER">Vgrajena pomožna glava</entry>
     <entry lang="en" key="VC_BOOT_LOADER_VERSION">VeraCrypt Boot Loader Version</entry>
     <entry lang="sl" key="FIRST_AVAILABLE">prvi možni</entry>
-    <entry lang="en" key="REMOVABLE_DISK">Prenosni disk</entry>
-    <entry lang="en" key="HARDDISK">Trdi disk</entry>
+    <entry lang="sl" key="REMOVABLE_DISK">Prenosni disk</entry>
+    <entry lang="sl" key="HARDDISK">Trdi disk</entry>
     <entry lang="sl" key="UNCHANGED">Nespremenjeno</entry>
     <entry lang="en" key="AUTODETECTION">Autodetection</entry>
     <entry lang="en" key="SETUP_MODE_TITLE">Wizard Mode</entry>
@@ -833,7 +833,7 @@
     <entry lang="en" key="SETUP_MODE_HELP_EXTRACT">If you select this option, all files will be extracted from this package but nothing will be installed on the system. Do not select it if you intend to encrypt the system partition or system drive. Selecting this option can be useful, for example, if you want to run VeraCrypt in so-called portable mode. VeraCrypt does not have to be installed on the operating system under which it is run. After all files are extracted, you can directly run the extracted file 'VeraCrypt.exe' (then VeraCrypt will run in portable mode).</entry>
     <entry lang="en" key="SETUP_OPTIONS_TITLE">Setup Options</entry>
     <entry lang="en" key="SETUP_OPTIONS_INFO">Here you can set various options to control the installation process.</entry>
-    <entry lang="en" key="SETUP_PROGRESS_TITLE">Nameščanje</entry>
+    <entry lang="sl" key="SETUP_PROGRESS_TITLE">Nameščanje</entry>
     <entry lang="en" key="SETUP_PROGRESS_INFO">Please wait while VeraCrypt is being installed.</entry>
     <entry lang="en" key="SETUP_FINISHED_TITLE_DON">VeraCrypt has been successfully installed</entry>
     <entry lang="en" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCrypt has been successfully upgraded</entry>
@@ -849,8 +849,8 @@
     <entry lang="en" key="AFTER_INSTALL_TUTORIAL">If you have never used VeraCrypt before, we recommend that you read the chapter Beginner's Tutorial in the VeraCrypt User Guide. Do you want to view the tutorial?</entry>
     <entry lang="en" key="SELECT_AN_ACTION">Please select an action to perform from the following:</entry>
     <entry lang="en" key="REPAIR_REINSTALL">Repair/Reinstall</entry>
-    <entry lang="en" key="UPGRADE">Nadgradnja</entry>
-    <entry lang="en" key="UNINSTALL">Odstrani</entry>
+    <entry lang="sl" key="UPGRADE">Nadgradnja</entry>
+    <entry lang="sl" key="UNINSTALL">Odstrani</entry>
     <entry lang="en" key="SETUP_ADMIN">To successfully install/uninstall VeraCrypt, you must have administrator privileges. Do you want to continue?</entry>
     <entry lang="en" key="TC_INSTALLER_IS_RUNNING">VeraCrypt Installer is currently running on this system and performing or preparing installation or update of VeraCrypt. Before you proceed, please wait for it to finish or close it. If you cannot close it, please restart your computer before proceeding.</entry>
     <entry lang="en" key="INSTALL_FAILED">Installation failed.</entry>
@@ -1290,8 +1290,8 @@
     <entry lang="en" key="SETTING_REQUIRES_REBOOT">Note that this setting takes effect only after the operating system is restarted.</entry>
     <entry lang="en" key="COMMAND_LINE_ERROR">Error while parsing command line.</entry>
     <entry lang="sl" key="RESCUE_DISK">Rešilni Disk</entry>
-    <entry lang="en" key="SELECT_FILE_AND_MOUNT">Izberi &amp;datoteko in jo priklopi...</entry>
-    <entry lang="en" key="SELECT_DEVICE_AND_MOUNT">Izberi &amp;napravo in jo priklopi...</entry>
+    <entry lang="sl" key="SELECT_FILE_AND_MOUNT">Izberi &amp;datoteko in jo priklopi...</entry>
+    <entry lang="sl" key="SELECT_DEVICE_AND_MOUNT">Izberi &amp;napravo in jo priklopi...</entry>
     <entry lang="en" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">Allow only administrators to view and dismount system favorite volumes in VeraCrypt</entry>
     <entry lang="en" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Mount system favorite volumes when Windows starts (in the initial phase of the startup procedure)</entry>
     <entry lang="en" key="MOUNTED_VOLUME_DIRTY">Warning: The filesystem on the volume mounted as '%s' was not cleanly dismounted and thus may contain errors. Using a corrupted filesystem can cause data loss or data corruption.\n\nNote: Before you physically remove or switch off a device (such as a USB flash drive or an external hard drive) where a mounted VeraCrypt volume resides, you should always dismount the VeraCrypt volume in VeraCrypt first.\n\n\nDo you want Windows to attempt to detect and fix errors (if any) on the filesystem?</entry>
@@ -1301,7 +1301,7 @@
     <entry lang="en" key="MOUNTED_DEVICE_FORCED_READ_ONLY">Volume '%s' had to be mounted as read-only because write access was denied.\n\nPlease make sure no other application (e.g. antivirus software) is accessing the partition/device on which the volume is hosted.</entry>
     <entry lang="en" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">Volume '%s' has been mounted as read-only because the operating system reported the host device to be write-protected.\n\nPlease note that some custom chipset drivers have been reported to cause writable media to falsely appear write-protected. This problem is not caused by VeraCrypt. It may be solved by updating or uninstalling any custom (non-Microsoft) chipset drivers that are currently installed on this system.</entry>
     <entry lang="en" key="LIMIT_ENC_THREAD_POOL_NOTE">Note that the Hyper-Threading technology provides multiple logical cores per a single physical core. When Hyper Threading is enabled, the number selected above represents the number of logical processors/cores.</entry>
-    <entry lang="en" key="NUMBER_OF_THREADS">%d niti</entry>
+    <entry lang="sl" key="NUMBER_OF_THREADS">%d niti</entry>
     <entry lang="en" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Note that hardware-accelerated AES is disabled, which will affect benchmark results (worse performance).\n\nTo enable hardware acceleration, select 'Settings' > 'Performance' and enable the corresponding option.</entry>
     <entry lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' > 'Performance' and disable the corresponding option.</entry>
     <entry lang="en" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Do you want VeraCrypt to attempt to disable write protection of the partition/drive?</entry>
@@ -1343,17 +1343,17 @@
     <entry lang="en" key="VKEY_AA">Browser Search</entry>
     <entry lang="en" key="VKEY_AB">Browser Favorites</entry>
     <entry lang="en" key="VKEY_AC">Browser Home</entry>
-    <entry lang="en" key="VKEY_AD">Utihni</entry>
-    <entry lang="en" key="VKEY_AE">Glasneje</entry>
-    <entry lang="en" key="VKEY_AF">Tišje</entry>
-    <entry lang="en" key="VKEY_B0">Naslednja steza</entry>
-    <entry lang="en" key="VKEY_B1">Prejšnja steza</entry>
-    <entry lang="en" key="VKEY_B2">Ustavi medij</entry>
-    <entry lang="en" key="VKEY_B3">Igraj/Pavza Medija</entry>
+    <entry lang="sl" key="VKEY_AD">Utihni</entry>
+    <entry lang="sl" key="VKEY_AE">Glasneje</entry>
+    <entry lang="sl" key="VKEY_AF">Tišje</entry>
+    <entry lang="sl" key="VKEY_B0">Naslednja steza</entry>
+    <entry lang="sl" key="VKEY_B1">Prejšnja steza</entry>
+    <entry lang="sl" key="VKEY_B2">Ustavi medij</entry>
+    <entry lang="sl" key="VKEY_B3">Igraj/Pavza Medija</entry>
     <entry lang="en" key="VKEY_B4">Start Mail Key</entry>
     <entry lang="en" key="VKEY_B5">Select Media Key</entry>
-    <entry lang="en" key="VKEY_B6">Applikacija 1</entry>
-    <entry lang="en" key="VKEY_B7">Applikacija 2</entry>
+    <entry lang="sl" key="VKEY_B6">Applikacija 1</entry>
+    <entry lang="sl" key="VKEY_B7">Applikacija 2</entry>
     <entry lang="en" key="VKEY_F6">Attn</entry>
     <entry lang="en" key="VKEY_F7">CrSel</entry>
     <entry lang="en" key="VKEY_F8">ExSel</entry>
@@ -1399,8 +1399,8 @@
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</entry>
     <entry lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</entry>
     <entry lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</entry>
-    <entry lang="en" key="TIME">Čas</entry>
-    <entry lang="en" key="ITERATIONS">Iteracije</entry>
+    <entry lang="sl" key="TIME">Čas</entry>
+    <entry lang="sl" key="ITERATIONS">Iteracije</entry>
     <entry lang="en" key="PRE-BOOT">Pre-Boot</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</entry>
@@ -1411,7 +1411,7 @@
     <entry lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</entry>
     <entry lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</entry>
     <entry lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</entry>
-    <entry lang="en" key="IDC_EDIT_DCSPROP">Uredi konfiguracijo zagonskega nalagalnika</entry>
+    <entry lang="sl" key="IDC_EDIT_DCSPROP">Uredi konfiguracijo zagonskega nalagalnika</entry>
     <entry lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</entry>
     <entry lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</entry>
     <entry lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</entry>
@@ -1450,7 +1450,7 @@
     <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
     <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
     <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Dodaj vse priklopljene nosilce k priljubljenim...</entry>
+    <entry lang="sl" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Dodaj vse priklopljene nosilce k priljubljenim...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="sl" key="TASKICON_PREF_OPEN_VOL">Odpri priklopljene nosilce</entry>
     <entry lang="sl" key="TASKICON_PREF_DISMOUNT_VOL">Odklop priklopljenih nosilcev</entry>
@@ -1458,7 +1458,7 @@
     <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
     <entry lang="sl" key="LINUX_PREF_TAB_SECURITY">Varnost</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Opcije priklopa</entry>
+    <entry lang="sl" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Opcije priklopa</entry>
     <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
     <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
     <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
@@ -1474,14 +1474,14 @@
     <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
     <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
     <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Preklic izbire</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Vnesi geslo uporabnika ali administratorja:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Potrebna so dovoljenja administratorja</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt že teče.</entry>
+    <entry lang="sl" key="LINUX_DESELECT">Preklic izbire</entry>
+    <entry lang="sl" key="LINUX_ADMIN_PW_QUERY">Vnesi geslo uporabnika ali administratorja:</entry>
+    <entry lang="sl" key="LINUX_ADMIN_PW_QUERY_TITLE">Potrebna so dovoljenja administratorja</entry>
+    <entry lang="sl" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt že teče.</entry>
     <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
     <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Ne &amp;priklopi</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Priklop na direktorij:</entry>
+    <entry lang="sl" key="LINUX_DO_NOT_MOUNT">Ne &amp;priklopi</entry>
+    <entry lang="sl" key="LINUX_MOUNT_AT_DIR">Priklop na direktorij:</entry>
     <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
     <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
@@ -1503,10 +1503,10 @@
     <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
     <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
     <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Opozorilo</entry>
-    <entry lang="en" key="LINUX_ERROR">Napaka</entry>
+    <entry lang="sl" key="LINUX_WARNING">Opozorilo</entry>
+    <entry lang="sl" key="LINUX_ERROR">Napaka</entry>
     <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Prostora na pogonu {0}: je {1}.</entry>
+    <entry lang="sl" key="LINUX_FREE_SPACE_ON_DRIVE">Prostora na pogonu {0}: je {1}.</entry>
     <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
     <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
     <entry lang="sl" key="LINUX_OPEN_OUTER_VOL">Odpri zunanji nosilec</entry>
@@ -1592,7 +1592,7 @@
     <entry lang="sl" key="EXPANDER_FINISH_ERROR">Napaka: širitev nosilca ni uspela.</entry>
     <entry lang="sl" key="EXPANDER_FINISH_ABORT">Napaka: operacijo je prekinil uporabnik.</entry>
     <entry lang="sl" key="EXPANDER_FINISH_OK">Končano. Nosilec je uspešno razširjen.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Opozorilo: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
+    <entry lang="sl" key="EXPANDER_CANCEL_WARNING">Opozorilo: Širitev nosilca je v teku!\n\nPrekinitev lahko povzroči poškodbo nosilca.\n\nAli res želiš preklicati?</entry>
     <entry lang="sl" key="EXPANDER_STARTING_STATUS">Začetek širitve nosilca ...\n</entry>
     <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
     <entry lang="sl" key="EXPANDER_SYSTEM_VOLUME_ERROR">VeraCryptov nosilec sistema ne more biti razširjen</entry>
@@ -1617,10 +1617,10 @@
     <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
     <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
     <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CLPC was not found in the EMV card.</entry>
+    <entry lang="en" key="EMV_CPLC_NOTFOUND">CPLC was not found in the EMV card.</entry>
     <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
     <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPCL data.</entry>
+    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPLC data.</entry>
     <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
     <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
     <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
@@ -1634,7 +1634,7 @@
     <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
     <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
     <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">Opozorilo: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="sl" key="DISABLE_MEMORY_PROTECTION_WARNING">Opozorilo: Onemogočanje zaščite pomnilnika občutno zmanjša varnost. To možnost omogoči SAMO, če za uporabo VeraCryptovega vmesnika potrebuješ orodja za dostopnost, kot so bralniki zaslona.</entry>
     <entry lang="sl" key="LINUX_LANGUAGE">Jezik</entry>
     <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
     <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
