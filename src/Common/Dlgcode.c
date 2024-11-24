@@ -591,18 +591,27 @@ BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, 
 	DWORD bytesWritten;
 	BOOL res = TRUE;
 	DWORD dwLastError = 0;
+#if defined(SETUP) && !defined (PORTABLE)
+	BOOL securityModified = FALSE;
+	SECURITY_INFO_BACKUP secBackup = { 0 };
+	const wchar_t* existingFile = destinationFile;
+#endif
 
 	dst = CreateFile (destinationFile,
 		GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, bAppend ? OPEN_EXISTING : CREATE_ALWAYS, 0, NULL);
 
 	dwLastError = GetLastError();
-	if (!bAppend && bRenameIfFailed && (dst == INVALID_HANDLE_VALUE) && (GetLastError () == ERROR_SHARING_VIOLATION))
+	if (!bAppend && bRenameIfFailed && (dst == INVALID_HANDLE_VALUE) && (GetLastError () == ERROR_SHARING_VIOLATION || GetLastError() == ERROR_ACCESS_DENIED))
 	{
 		wchar_t renamedPath[TC_MAX_PATH + 1];
 		StringCbCopyW (renamedPath, sizeof(renamedPath), destinationFile);
 		StringCbCatW  (renamedPath, sizeof(renamedPath), VC_FILENAME_RENAMED_SUFFIX);
 
+#if defined(SETUP) && !defined (PORTABLE)
+		// Take ownership of the file
+		securityModified = ModifyFileSecurityPermissions(destinationFile, &secBackup);
+#endif
 		/* rename the locked file in order to be able to create a new one */
 		if (MoveFileEx (destinationFile, renamedPath, MOVEFILE_REPLACE_EXISTING))
 		{
@@ -617,10 +626,20 @@ BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, 
 			}
 			else
 			{
+#if defined(SETUP) && !defined (PORTABLE)
+				existingFile = renamedPath;
+#endif
 				/* delete the renamed file when the machine reboots */
 				MoveFileEx (renamedPath, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
 			}
 		}
+#if defined(SETUP) && !defined (PORTABLE)
+		if (securityModified)
+		{
+			RestoreSecurityInfo(existingFile, &secBackup);
+			FreeSecurityBackup(&secBackup);
+		}
+#endif
 	}
 
 	if (dst == INVALID_HANDLE_VALUE)
@@ -15762,3 +15781,201 @@ DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize)
 	return dwRet;
 }
 #endif // VC_COMREG
+
+#if defined(SETUP) && !defined (PORTABLE)
+
+// Helper function to save the current state of the required privileges
+BOOL SaveCurrentPrivilegeState(PPRIVILEGE_STATE state) {
+	if (!state) return FALSE;
+
+	state->takeOwnership = IsPrivilegeEnabled(SE_TAKE_OWNERSHIP_NAME);
+	state->backup = IsPrivilegeEnabled(SE_BACKUP_NAME);
+	state->restore = IsPrivilegeEnabled(SE_RESTORE_NAME);
+
+	return TRUE;
+}
+
+// Helper function to restore the saved state of the required privileges
+BOOL RestorePrivilegeState(const PPRIVILEGE_STATE state) {
+	if (!state) return FALSE;
+
+	BOOL result = TRUE;
+	result &= SetPrivilege(SE_TAKE_OWNERSHIP_NAME, state->takeOwnership);
+	result &= SetPrivilege(SE_BACKUP_NAME, state->backup);
+	result &= SetPrivilege(SE_RESTORE_NAME, state->restore);
+
+	return result;
+}
+
+// Helper function to enable required privileges for file operations
+BOOL EnableRequiredSetupPrivileges(PPRIVILEGE_STATE currentState)
+{
+	BOOL result = TRUE;
+
+	// save the current state of the required privileges
+	ZeroMemory(currentState, sizeof(PRIVILEGE_STATE));
+	SaveCurrentPrivilegeState(currentState);
+
+	// Enable required privileges using the existing SetPrivilege function
+	result &= SetPrivilege(SE_TAKE_OWNERSHIP_NAME, TRUE);
+	result &= SetPrivilege(SE_BACKUP_NAME, TRUE);
+	result &= SetPrivilege(SE_RESTORE_NAME, TRUE);
+
+	return result;
+}
+
+// Helper function to backup security information
+BOOL BackupSecurityInfo(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup)
+{
+	BOOL result = FALSE;
+	PSECURITY_DESCRIPTOR pSD = NULL;
+	DWORD dwRes;
+
+	ZeroMemory(pBackup, sizeof(SECURITY_INFO_BACKUP));
+
+	// Get the security descriptor
+	dwRes = GetNamedSecurityInfoW(
+		(LPWSTR)filePath,
+		SE_FILE_OBJECT,
+		OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION |
+		DACL_SECURITY_INFORMATION | SACL_SECURITY_INFORMATION,
+		&pBackup->pOrigOwner,
+		&pBackup->pOrigGroup,
+		&pBackup->pOrigDacl,
+		&pBackup->pOrigSacl,
+		&pSD);
+
+	if (dwRes == ERROR_SUCCESS)
+	{
+		// The individual pointers (pOrigOwner, etc.) are now valid
+		// and point to the copied data
+		result = TRUE;
+	}
+
+	if (pSD)
+		LocalFree(pSD);
+
+	return result;
+}
+
+// Helper function to restore security information
+BOOL RestoreSecurityInfo(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup)
+{
+	DWORD dwRes;
+	SECURITY_INFORMATION secInfo = 0;
+
+	if (pBackup->pOrigOwner)
+		secInfo |= OWNER_SECURITY_INFORMATION;
+	if (pBackup->pOrigGroup)
+		secInfo |= GROUP_SECURITY_INFORMATION;
+	if (pBackup->pOrigDacl)
+		secInfo |= DACL_SECURITY_INFORMATION;
+	if (pBackup->pOrigSacl)
+		secInfo |= SACL_SECURITY_INFORMATION;
+
+	if (secInfo == 0)
+		return TRUE; // Nothing to restore
+
+	dwRes = SetNamedSecurityInfoW(
+		(LPWSTR)filePath,
+		SE_FILE_OBJECT,
+		secInfo,
+		pBackup->pOrigOwner,
+		pBackup->pOrigGroup,
+		pBackup->pOrigDacl,
+		pBackup->pOrigSacl);
+
+	return (dwRes == ERROR_SUCCESS);
+}
+
+// Helper function to free security backup
+void FreeSecurityBackup(PSECURITY_INFO_BACKUP pBackup)
+{
+	if (pBackup->pOrigOwner)
+		LocalFree(pBackup->pOrigOwner);
+	if (pBackup->pOrigGroup)
+		LocalFree(pBackup->pOrigGroup);
+	if (pBackup->pOrigDacl)
+		LocalFree(pBackup->pOrigDacl);
+	if (pBackup->pOrigSacl)
+		LocalFree(pBackup->pOrigSacl);
+	ZeroMemory(pBackup, sizeof(SECURITY_INFO_BACKUP));
+}
+
+// Helper function to take ownership and modify file permissions
+BOOL ModifyFileSecurityPermissions(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup)
+{
+	BOOL result = FALSE;
+	PSID pAdminSID = NULL;
+	PACL pNewDACL = NULL;
+	BOOL bBackupDone = FALSE;
+
+	// Get Administrator SID
+	SID_IDENTIFIER_AUTHORITY SIDAuthNT = SECURITY_NT_AUTHORITY;
+	if (!AllocateAndInitializeSid(&SIDAuthNT, 2,
+		SECURITY_BUILTIN_DOMAIN_RID,
+		DOMAIN_ALIAS_RID_ADMINS,
+		0, 0, 0, 0, 0, 0,
+		&pAdminSID))
+	{
+		goto cleanup;
+	}
+
+	// Backup original security info
+	if (!BackupSecurityInfo(filePath, pBackup))
+		goto cleanup;
+
+	bBackupDone = TRUE;
+
+	// Take ownership
+	DWORD dwRes = SetNamedSecurityInfoW(
+		(LPWSTR)filePath,
+		SE_FILE_OBJECT,
+		OWNER_SECURITY_INFORMATION,
+		pAdminSID,
+		NULL,
+		NULL,
+		NULL);
+
+	if (dwRes != ERROR_SUCCESS)
+		goto cleanup;
+
+	// Modify DACL
+	EXPLICIT_ACCESS ea;
+	ZeroMemory(&ea, sizeof(EXPLICIT_ACCESS));
+	ea.grfAccessPermissions = GENERIC_ALL;
+	ea.grfAccessMode = SET_ACCESS;
+	ea.grfInheritance = NO_INHERITANCE;
+	ea.Trustee.TrusteeForm = TRUSTEE_IS_SID;
+	ea.Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+	ea.Trustee.ptstrName = (LPTSTR)pAdminSID;
+
+	dwRes = SetEntriesInAcl(1, &ea, NULL, &pNewDACL);
+	if (dwRes != ERROR_SUCCESS)
+		goto cleanup;
+
+	// Apply new DACL
+	dwRes = SetNamedSecurityInfoW(
+		(LPWSTR)filePath,
+		SE_FILE_OBJECT,
+		DACL_SECURITY_INFORMATION,
+		NULL,
+		NULL,
+		pNewDACL,
+		NULL);
+
+	result = (dwRes == ERROR_SUCCESS);
+
+cleanup:
+	if (!result && bBackupDone)
+	{
+		FreeSecurityBackup(pBackup);
+	}
+	if (pNewDACL)
+		LocalFree(pNewDACL);
+	if (pAdminSID)
+		FreeSid(pAdminSID);
+
+	return result;
+}
+#endif

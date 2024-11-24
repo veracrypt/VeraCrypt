@@ -598,6 +598,27 @@ DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif
 BOOL IsInternetConnected();
+#if defined(SETUP) && !defined (PORTABLE)
+typedef struct _SECURITY_INFO_BACKUP {
+	PSID pOrigOwner;
+	PSID pOrigGroup;
+	PACL pOrigDacl;
+	PACL pOrigSacl;
+} SECURITY_INFO_BACKUP, * PSECURITY_INFO_BACKUP;
+
+typedef struct _PRIVILEGE_STATE {
+	BOOL takeOwnership;
+	BOOL backup;
+	BOOL restore;
+} PRIVILEGE_STATE, * PPRIVILEGE_STATE;
+
+BOOL RestoreSecurityInfo(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup);
+void FreeSecurityBackup(PSECURITY_INFO_BACKUP pBackup);
+BOOL SaveCurrentPrivilegeState(PPRIVILEGE_STATE state);
+BOOL RestorePrivilegeState(const PPRIVILEGE_STATE state);
+BOOL EnableRequiredSetupPrivileges(PPRIVILEGE_STATE currentState);
+BOOL ModifyFileSecurityPermissions(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup);
+#endif
 #ifdef __cplusplus
 }
 
