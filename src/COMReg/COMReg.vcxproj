@@ -14,18 +14,22 @@
     <ProjectGuid>{C8914211-32AC-4F48-ACD9-8212E8DE53F3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>COMReg</RootNamespace>
+    <ProjectName>COMReg</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -40,14 +44,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>VeraCryptCOMRegBase</TargetName>
-    <OutDir>Debug\</OutDir>
-    <IntDir>Debug\</IntDir>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>VeraCryptCOMRegBase</TargetName>
-    <OutDir>Release\</OutDir>
-    <IntDir>Release\</IntDir>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -77,13 +81,15 @@
       <PreprocessorDefinitions>WIN32;VC_COMREG;NDEBUG;_WINDOWS;HAVE_CONFIG_H;ZIP_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\Setup;..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
     <PostBuildEvent>
       <Command>copy Release\VeraCryptCOMRegBase.exe "..\Release\Setup Files\VeraCryptCOMRegBase.exe"</Command>
@@ -107,11 +113,6 @@
     <ClInclude Include="..\Common\Crc.h" />
     <ClInclude Include="..\Common\Dlgcode.h" />
     <ClInclude Include="..\Setup\SelfExtract.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Lzma.vcxproj">
-      <Project>{b896fe1f-6bf3-4f75-9148-f841829073d9}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

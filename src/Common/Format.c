@@ -84,7 +84,7 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 	PCRYPTO_INFO cryptoInfo = NULL;
 	HANDLE dev = INVALID_HANDLE_VALUE;
 	DWORD dwError;
-	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
+	unsigned char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	unsigned __int64 num_sectors, startSector;
 	fatparams ft;
 	FILETIME ftCreationTime;
@@ -100,10 +100,8 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 	LARGE_INTEGER offset;
 	BOOL bFailedRequiredDASD = FALSE;
 	HWND hwndDlg = volParams->hwndDlg;
-#ifdef _WIN64
 	CRYPTO_INFO tmpCI;
 	PCRYPTO_INFO cryptoInfoBackup = NULL;
-#endif
 
 	FormatSectorSize = volParams->sectorSize;
 
@@ -175,12 +173,10 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 		return nStatus? nStatus : ERR_OUTOFMEMORY;
 	}
 
-#ifdef _WIN64
 	if (IsRamEncryptionEnabled ())
 	{
 		VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
 	}
-#endif
 
 begin_format:
 
@@ -511,9 +507,9 @@ begin_format:
 		// The previous file system format failed and the user wants to try again with a different file system.
 		// The volume header had been written successfully so we need to seek to the byte after the header.
 
-		LARGE_INTEGER offset;
-		offset.QuadPart = TC_VOLUME_DATA_OFFSET;
-		if (!SetFilePointerEx ((HANDLE) dev, offset, NULL, FILE_BEGIN))
+		LARGE_INTEGER volDataOffset;
+		volDataOffset.QuadPart = TC_VOLUME_DATA_OFFSET;
+		if (!SetFilePointerEx ((HANDLE) dev, volDataOffset, NULL, FILE_BEGIN))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto error;
@@ -640,7 +636,6 @@ begin_format:
 		goto error;
 	}
 
-#ifdef _WIN64
 	if (IsRamEncryptionEnabled ())
 	{
 		VirtualLock (&tmpCI, sizeof (tmpCI));
@@ -649,7 +644,6 @@ begin_format:
 		cryptoInfoBackup = cryptoInfo;
 		cryptoInfo = &tmpCI;
 	}
-#endif
 
 	nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 		header,
@@ -669,14 +663,12 @@ begin_format:
 		FormatSectorSize,
 		FALSE);
 
-#ifdef _WIN64
 	if (IsRamEncryptionEnabled ())
 	{
 		cryptoInfo = cryptoInfoBackup;
 		burn (&tmpCI, sizeof (CRYPTO_INFO));
 		VirtualUnlock (&tmpCI, sizeof (tmpCI));
 	}
-#endif
 
 	if (!WriteEffectiveVolumeHeader (volParams->bDevice, dev, header))
 	{
@@ -689,7 +681,6 @@ begin_format:
 	{
 		BOOL bUpdateBackup = FALSE;
 
-#ifdef _WIN64
 		if (IsRamEncryptionEnabled ())
 		{
 			VirtualLock (&tmpCI, sizeof (tmpCI));
@@ -698,18 +689,15 @@ begin_format:
 			cryptoInfoBackup = cryptoInfo;
 			cryptoInfo = &tmpCI;
 		}
-#endif
 
 		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, FALSE);
 
-#ifdef _WIN64
 		if (IsRamEncryptionEnabled ())
 		{
 			cryptoInfo = cryptoInfoBackup;
 			burn (&tmpCI, sizeof (CRYPTO_INFO));
 			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 		}
-#endif
 
 		if (nStatus != ERR_SUCCESS)
 			goto error;
@@ -915,9 +903,7 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
 
-#ifdef _WIN64
 	CRYPTO_INFO tmpCI;
-#endif
 
 	// Seek to start sector
 	startOffset.QuadPart = startSector * FormatSectorSize;
@@ -936,7 +922,6 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 
 	memset (sector, 0, sizeof (sector));
 
-#ifdef _WIN64
 	if (IsRamEncryptionEnabled ())
 	{
 		VirtualLock (&tmpCI, sizeof (tmpCI));
@@ -944,7 +929,6 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
 		cryptoInfo = &tmpCI;
 	}
-#endif
 
 	// Remember the original secondary key (XTS mode) before generating a temporary one
 	memcpy (originalK2, cryptoInfo->k2, sizeof (cryptoInfo->k2));
@@ -975,10 +959,8 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 			goto fail;
 		}
 
-#ifdef _WIN64
 		if (IsRamEncryptionEnabled ())
 			VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
-#endif
 
 		while (num_sectors--)
 		{
@@ -1051,13 +1033,11 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 	VirtualUnlock (temporaryKey, sizeof (temporaryKey));
 	VirtualUnlock (originalK2, sizeof (originalK2));
 	TCfree (write_buf);
-#ifdef _WIN64
 	if (IsRamEncryptionEnabled ())
 	{
 		burn (&tmpCI, sizeof (CRYPTO_INFO));
 		VirtualUnlock (&tmpCI, sizeof (tmpCI));
 	}
-#endif
 
 	return 0;
 
@@ -1069,13 +1049,11 @@ fail:
 	VirtualUnlock (temporaryKey, sizeof (temporaryKey));
 	VirtualUnlock (originalK2, sizeof (originalK2));
 	TCfree (write_buf);
-#ifdef _WIN64
 	if (IsRamEncryptionEnabled ())
 	{
 		burn (&tmpCI, sizeof (CRYPTO_INFO));
 		VirtualUnlock (&tmpCI, sizeof (tmpCI));
 	}
-#endif
 
 	SetLastError (err);
 	return (retVal ? retVal : ERR_OS_ERROR);

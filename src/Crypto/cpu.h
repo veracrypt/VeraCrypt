@@ -207,6 +207,22 @@ extern __m128i _mm_aesdeclast_si128(__m128i v, __m128i rkey);
 #endif
 #endif
 
+#if CRYPTOPP_SHANI_AVAILABLE
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern __m128i __cdecl _mm_sha256msg1_epu32(__m128i, __m128i);
+extern __m128i __cdecl _mm_sha256msg2_epu32(__m128i, __m128i);
+extern __m128i __cdecl _mm_sha256rnds2_epu32(__m128i, __m128i, __m128i);
+#if defined(__cplusplus)
+}
+#endif
+#else
+#include <immintrin.h>
+#endif
+#endif
+
 #if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
 
 #if defined(__cplusplus)
@@ -234,6 +250,7 @@ extern volatile int g_hasCLMUL;
 extern volatile int g_isP4;
 extern volatile int g_hasRDRAND;
 extern volatile int g_hasRDSEED;
+extern volatile int g_hasSHA256;
 extern volatile int g_isIntel;
 extern volatile int g_isAMD;
 extern volatile uint32 g_cacheLineSize;
@@ -262,6 +279,7 @@ void DisableCPUExtendedFeatures ();
 #define IsP4() g_isP4
 #define HasRDRAND() g_hasRDRAND
 #define HasRDSEED() g_hasRDSEED
+#define HasSHA256() g_hasSHA256
 #define IsCpuIntel() g_isIntel
 #define IsCpuAMD() g_isAMD
 #define GetCacheLineSize() g_cacheLineSize

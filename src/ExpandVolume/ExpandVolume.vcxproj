@@ -1,33 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
+    <ProjectConfiguration Include="Debug|ARM64">
       <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>ARM64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseCustomEFI|Win32">
+    <ProjectConfiguration Include="ReleaseCustomEFI|ARM64">
       <Configuration>ReleaseCustomEFI</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>ARM64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="ReleaseCustomEFI|x64">
       <Configuration>ReleaseCustomEFI</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_SkipOsDriverReqCheck|Win32">
-      <Configuration>Release_SkipOsDriverReqCheck</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_SkipOsDriverReqCheck|x64">
-      <Configuration>Release_SkipOsDriverReqCheck</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
+    <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>ARM64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -38,72 +30,50 @@
     <ProjectGuid>{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}</ProjectGuid>
     <RootNamespace>ExpandVolume</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ExpandVolume</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
+    <SpectreMitigation>Spectre</SpectreMitigation>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
+    <SpectreMitigation>Spectre</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
@@ -111,107 +81,52 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">Release\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">Release\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">Release\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">false</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">true</GenerateManifest>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">$(Platform)\$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">true</GenerateManifest>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">true</GenerateManifest>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VeraCryptExpander</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VeraCryptExpander</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">VeraCryptExpander</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">VeraCryptExpander</TargetName>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">true</GenerateManifest>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VeraCryptExpander</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">VeraCryptExpander</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VeraCryptExpander</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">VeraCryptExpander</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">VeraCryptExpander</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">VeraCryptExpander</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">VeraCryptExpander</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
-    <Midl>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TypeLibraryName>$(SolutionDir)/$(ProjectName)/$(ProjectName).tlb</TypeLibraryName>
-      <OutputDirectory>
-      </OutputDirectory>
-    </Midl>
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <BrowseInformation>
-      </BrowseInformation>
-      <BrowseInformationFile>
-      </BrowseInformationFile>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>..\Crypto\Debug\crypto.lib;..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(OutDir)ExpandVolume.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>true</DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-    </Link>
-    <Manifest>
-      <AdditionalManifestFiles>VeraCryptExpander.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-    </Manifest>
-    <PostBuildEvent>
-      <Command>md "..\Debug\Setup Files" 2&gt;NUL:
-copy Debug\VeraCryptExpander.exe "..\Debug\Setup Files" &gt;NUL:
-</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CustomBuildStep>
       <Command>
@@ -233,7 +148,8 @@ copy Debug\VeraCryptExpander.exe "..\Debug\Setup Files" &gt;NUL:
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <BrowseInformation>
@@ -245,10 +161,10 @@ copy Debug\VeraCryptExpander.exe "..\Debug\Setup Files" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\x64\Debug\crypto.lib;..\Common\x64\Debug\Zip.lib;..\Common\x64\Debug\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\x64\Debug\crypto.lib;..\Common\x64\Debug\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)ExpandVolume.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -256,6 +172,7 @@ copy Debug\VeraCryptExpander.exe "..\Debug\Setup Files" &gt;NUL:
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>VeraCryptExpander.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -269,139 +186,60 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
     <Midl>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TypeLibraryName>$(SolutionDir)/Mount/$(ProjectName).tlb</TypeLibraryName>
+      <TypeLibraryName>$(SolutionDir)/$(ProjectName)/$(ProjectName).tlb</TypeLibraryName>
       <OutputDirectory>
       </OutputDirectory>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AssemblerOutput>All</AssemblerOutput>
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <BrowseInformationFile>
+      </BrowseInformationFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\ARM64\Debug\crypto.lib;..\Common\ARM64\Debug\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
+      <ProgramDatabaseFile>$(OutDir)ExpandVolume.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>true</DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>VeraCryptExpander.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy Release\VeraCryptExpander.exe "..\Release\Setup Files\"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">
-    <Midl>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TypeLibraryName>$(SolutionDir)/Mount/$(ProjectName).tlb</TypeLibraryName>
-      <OutputDirectory>
-      </OutputDirectory>
-    </Midl>
-    <ClCompile>
-      <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
-      <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;VC_SKIP_OS_DRIVER_REQ_CHECK;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <AssemblerOutput>All</AssemblerOutput>
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <DataExecutionPrevention>true</DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-    </Link>
-    <Manifest>
-      <AdditionalManifestFiles>VeraCryptExpander.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-    </Manifest>
-    <PostBuildEvent>
-      <Command>copy Release\VeraCryptExpander.exe "..\Release\Setup Files\"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">
-    <Midl>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TypeLibraryName>$(SolutionDir)/Mount/$(ProjectName).tlb</TypeLibraryName>
-      <OutputDirectory>
-      </OutputDirectory>
-    </Midl>
-    <ClCompile>
-      <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
-      <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VCEXPANDER;VC_EFI_CUSTOM_MODE;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <AssemblerOutput>All</AssemblerOutput>
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>..\Crypto\Release\crypto.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <DataExecutionPrevention>true</DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-    </Link>
-    <Manifest>
-      <AdditionalManifestFiles>VeraCryptExpander.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-    </Manifest>
-    <PostBuildEvent>
-      <Command>copy Release\VeraCryptExpander.exe "..\Release\Setup Files\"</Command>
+      <Command>md "..\Debug\Setup Files" 2&gt;NUL:
+copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" &gt;NUL:
+</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;ARM64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -426,12 +264,13 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;..\Common\x64\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -452,10 +291,9 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <Midl>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TargetEnvironment>X64</TargetEnvironment>
       <TypeLibraryName>$(SolutionDir)/Mount/$(ProjectName).tlb</TypeLibraryName>
       <OutputDirectory>
       </OutputDirectory>
@@ -464,7 +302,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;VC_SKIP_OS_DRIVER_REQ_CHECK;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -474,12 +312,13 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;..\Common\x64\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\ARM64\Release\crypto.lib;..\Common\ARM64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -487,17 +326,16 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>true</DataExecutionPrevention>
-      <TargetMachine>MachineX64</TargetMachine>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>VeraCryptExpander.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCryptExpander-x64.exe"</Command>
+      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCryptExpander-arm64.exe"</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;ARM64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">
@@ -524,10 +362,10 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;..\Common\x64\Release\lzma.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -548,32 +386,52 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
       <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Boot\Windows\Boot.vcxproj">
-      <Project>{8b7f059f-e4c7-4e11-88f5-ee8b8433072e}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Lzma.vcxproj">
-      <Project>{b896fe1f-6bf3-4f75-9148-f841829073d9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Crypto\Crypto.vcxproj">
-      <Project>{993245cf-6b70-47ee-91bb-39f8fc6dc0e7}</Project>
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Driver\Driver.vcxproj">
-      <Project>{ef5ef444-18d0-40d7-8dfa-775ec4448602}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Format\Format.vcxproj">
-      <Project>{9dc1abe2-d18b-48fb-81d2-8c50adc57bcf}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Mount\Mount.vcxproj">
-      <Project>{e4c40f94-e7f9-4981-86e4-186b46f993f3}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TypeLibraryName>$(SolutionDir)/Mount/$(ProjectName).tlb</TypeLibraryName>
+      <OutputDirectory>
+      </OutputDirectory>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>VCEXPANDER;VC_EFI_CUSTOM_MODE;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <AssemblerOutput>All</AssemblerOutput>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\Crypto\AMD64\Release\crypto.lib;..\Common\AMD64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>VeraCryptExpander.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCryptExpander-arm64.exe"</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\CommandAPDU.cpp" />
     <ClCompile Include="..\Common\EMVCard.cpp" />
@@ -591,14 +449,12 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     <ClCompile Include="ExpandVolume.c" />
     <ClCompile Include="InitDataArea.c" />
     <ClCompile Include="WinMain.cpp">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\Common\BaseCom.cpp" />
     <ClCompile Include="..\Common\BootEncryption.cpp" />
@@ -607,37 +463,31 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     <ClCompile Include="..\Common\Crc.c" />
     <ClCompile Include="..\Common\Crypto.c" />
     <ClCompile Include="..\Common\Dictionary.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\Common\Dlgcode.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\Common\EncryptionThreadPool.c" />
     <ClCompile Include="..\Common\Endian.c" />
     <ClCompile Include="..\Common\GfMul.c" />
     <ClCompile Include="..\Common\Keyfiles.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\Common\Language.c" />
     <ClCompile Include="..\Common\Password.c" />
@@ -655,14 +505,12 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     <ClCompile Include="..\Mount\Hotkeys.c" />
     <ClCompile Include="..\Mount\MainCom.cpp" />
     <ClCompile Include="..\Mount\Mount.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">CompileAsCpp</CompileAs>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -714,35 +562,29 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\Mount\MainCom.idl">
-      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)/Mount</OutputDirectory>
-      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
       <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)/Mount</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)/Mount</OutputDirectory>
       <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
-      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/Mount</OutputDirectory>
-      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">$(SolutionDir)/Mount</OutputDirectory>
-      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">$(SolutionDir)/Mount</OutputDirectory>
-      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
-      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
-      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
       <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)/Mount</OutputDirectory>
-      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">$(SolutionDir)/Mount</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)/Mount</OutputDirectory>
       <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">$(SolutionDir)/Mount</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">$(SolutionDir)/Mount</OutputDirectory>
       <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
-      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
       <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">$(SolutionDir)/Mount/%(Filename)_h.h</HeaderFileName>
     </Midl>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ExpandVolume.rc" />
     <ResourceCompile Include="..\Common\Common.rc">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">true</ExcludedFromBuild>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
@@ -758,6 +600,20 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="VeraCryptExpander.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Lzma.vcxproj">
+      <Project>{b896fe1f-6bf3-4f75-9148-f841829073d9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Crypto\Crypto.vcxproj">
+      <Project>{993245cf-6b70-47ee-91bb-39f8fc6dc0e7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Format\Format.vcxproj">
+      <Project>{9dc1abe2-d18b-48fb-81d2-8c50adc57bcf}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mount\Mount.vcxproj">
+      <Project>{e4c40f94-e7f9-4981-86e4-186b46f993f3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

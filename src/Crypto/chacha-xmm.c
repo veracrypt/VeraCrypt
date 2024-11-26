@@ -81,45 +81,6 @@ static void salsa20_wordtobyte(uint8 output[64],const uint32 input[16], unsigned
   for (i = 0;i < 16;++i) U32TO8_LITTLE(output + 4 * i,x[i]);
 }
 
-void chacha_ECRYPT_init(void)
-{
-  return;
-}
-
-static const char sigma[17] = "expand 32-byte k";
-static const char tau[17] = "expand 16-byte k";
-
-void chacha_ECRYPT_keysetup(uint32* input,const uint8 *k,uint32 kbits,uint32 ivbits)
-{
-  const char *constants;
-
-  input[4] = U8TO32_LITTLE(k + 0);
-  input[5] = U8TO32_LITTLE(k + 4);
-  input[6] = U8TO32_LITTLE(k + 8);
-  input[7] = U8TO32_LITTLE(k + 12);
-  if (kbits == 256) { /* recommended */
-    k += 16;
-    constants = sigma;
-  } else { /* kbits == 128 */
-    constants = tau;
-  }
-  input[8] = U8TO32_LITTLE(k + 0);
-  input[9] = U8TO32_LITTLE(k + 4);
-  input[10] = U8TO32_LITTLE(k + 8);
-  input[11] = U8TO32_LITTLE(k + 12);
-  input[0] = U8TO32_LITTLE(constants + 0);
-  input[1] = U8TO32_LITTLE(constants + 4);
-  input[2] = U8TO32_LITTLE(constants + 8);
-  input[3] = U8TO32_LITTLE(constants + 12);
-}
-
-void chacha_ECRYPT_ivsetup(uint32* input,const uint8 *iv)
-{
-  input[12] = 0;
-  input[13] = 0;
-  input[14] = U8TO32_LITTLE(iv + 0);
-  input[15] = U8TO32_LITTLE(iv + 4);
-}
 
 void chacha_ECRYPT_encrypt_bytes(size_t bytes, uint32* x, const uint8* m, uint8* out, uint8* output, unsigned int r)
 {

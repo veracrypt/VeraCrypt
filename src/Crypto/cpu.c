@@ -17,6 +17,10 @@
 
 #ifdef CRYPTOPP_CPUID_AVAILABLE
 
+#if defined(__GNUC__) || defined(__clang__)
+	#include <cpuid.h> // for __get_cpuid and __get_cpuid_count
+#endif
+
 #if _MSC_VER >= 1400 && CRYPTOPP_BOOL_X64
 
 int CpuId(uint32 input, uint32 output[4])
@@ -136,11 +140,6 @@ static int TrySSE2()
 	return 1;
 #elif defined(CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY) && !defined(_UEFI)
 	volatile int result = 1;
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
-	{
-#endif
     __try
 	{
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
@@ -154,12 +153,6 @@ static int TrySSE2()
 	{
 		result = 0;
 	}
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KeRestoreFloatingPointState (&floatingPointState);
-	}
-	else
-		return 0;
-#endif
 	return result;
 #elif !defined(_UEFI)
 	// longjmp and clobber warnings. Volatile is required.
@@ -207,6 +200,7 @@ volatile int g_x86DetectionDone = 0;
 volatile int g_hasISSE = 0, g_hasSSE2 = 0, g_hasSSSE3 = 0, g_hasMMX = 0, g_hasAESNI = 0, g_hasCLMUL = 0, g_isP4 = 0;
 volatile int g_hasAVX = 0, g_hasAVX2 = 0, g_hasBMI2 = 0, g_hasSSE42 = 0, g_hasSSE41 = 0, g_isIntel = 0, g_isAMD = 0;
 volatile int g_hasRDRAND = 0, g_hasRDSEED = 0;
+volatile int g_hasSHA256 = 0;
 volatile uint32 g_cacheLineSize = CRYPTOPP_L1_CACHE_LINE_SIZE;
 
 VC_INLINE int IsIntel(const uint32 output[4])
@@ -288,23 +282,46 @@ static int Detect_MS_HyperV_AES ()
 	HvProductName[12] = 0;
 	if (_stricmp(HvProductName, "Microsoft Hv") == 0)
 	{
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KFLOATING_SAVE floatingPointState;
-		if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
-		{
-#endif
 		hasAesNI = TryAESNI ();
-
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
-		}
-#endif
 	}
 
 	return hasAesNI;
 }
 
 #endif
+
+#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+extern int TrySHA256();
+#endif
+
+static BOOL CheckSHA256Support() {
+#if CRYPTOPP_BOOL_X64 && CRYPTOPP_SHANI_AVAILABLE
+#if defined(_MSC_VER) // Windows with MSVC
+    int cpuInfo[4] = { 0 };
+    __cpuidex(cpuInfo, 7, 0);
+    return (cpuInfo[1] & (1 << 29)) != 0? TRUE : FALSE;
+
+#elif defined(__GNUC__) || defined(__clang__) // Linux, FreeBSD, macOS with GCC/Clang
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+    // First check if CPUID leaf 7 is supported
+    if (__get_cpuid(0, &eax, &ebx, &ecx, &edx)) {
+        if (eax >= 7) {
+            // Now check SHA-256 support in leaf 7, sub-leaf 0
+            if (__get_cpuid_count(7, 0, &eax, &ebx, &ecx, &edx)) {
+                return (ebx & (1 << 29)) != 0? TRUE : FALSE;
+            }
+        }
+    }
+    return FALSE;
+
+#else
+    #error "Unsupported compiler"
+#endif
+#else
+	return FALSE;
+#endif
+}
+
 
 void DetectX86Features()
 {
@@ -334,6 +351,7 @@ void DetectX86Features()
 	g_hasAESNI = g_hasSSE2 && (cpuid1[2] & (1<<25));
 #endif
 	g_hasCLMUL = g_hasSSE2 && (cpuid1[2] & (1<<1));
+	g_hasSHA256 = CheckSHA256Support();
 
 #if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
 	// Hypervisor = bit 31 of ECX of CPUID leaf 0x1
@@ -341,6 +359,13 @@ void DetectX86Features()
 	if (!g_hasAESNI && (cpuid1[2] & (1<<31)))
 	{
 		g_hasAESNI = Detect_MS_HyperV_AES ();
+	}
+#endif
+
+#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+	if (!g_hasSHA256)
+	{
+		g_hasSHA256 = TrySHA256();
 	}
 #endif
 
@@ -439,6 +464,7 @@ void DisableCPUExtendedFeatures ()
 	g_hasSSSE3 = 0;
 	g_hasAESNI = 0;
 	g_hasCLMUL = 0;
+	g_hasSHA256 = 0;
 }
 
 #endif

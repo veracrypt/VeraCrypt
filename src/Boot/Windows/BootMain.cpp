@@ -369,7 +369,7 @@ static bool OpenVolume (uint8 drive, Password &password, int pim, CRYPTO_INFO **
 		if (ReadSectors (SectorBuffer, drive, headerSec, 1) != BiosResultSuccess)
 			continue;
 
-		if (ReadVolumeHeader (!hiddenVolume, (char *) SectorBuffer, &password, pim, cryptoInfo, nullptr) == ERR_SUCCESS)
+		if (ReadVolumeHeader (!hiddenVolume, SectorBuffer, &password, pim, cryptoInfo, nullptr) == ERR_SUCCESS)
 		{
 			// Prevent opening a non-system hidden volume
 			if (hiddenVolume && !((*cryptoInfo)->HeaderFlags & TC_HEADER_FLAG_ENCRYPTED_SYSTEM))
@@ -917,7 +917,7 @@ askBadSectorSkip:
 		CRYPTO_INFO *headerCryptoInfo = crypto_open();
 		while (ReadSectors (SectorBuffer, drive, headerSector, 1) != BiosResultSuccess);
 
-		if (ReadVolumeHeader (TRUE, (char *) SectorBuffer, &bootArguments->BootPassword, (int) (bootArguments->Flags >> 16), NULL, headerCryptoInfo) == 0)
+		if (ReadVolumeHeader (TRUE, SectorBuffer, &bootArguments->BootPassword, (int) (bootArguments->Flags >> 16), NULL, headerCryptoInfo) == 0)
 		{
 			DecryptBuffer (SectorBuffer + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, headerCryptoInfo);
 
@@ -1094,7 +1094,7 @@ static void RepairMenu ()
 						AcquireSectorBuffer();
 						CopyMemory (TC_BOOT_LOADER_BUFFER_SEGMENT, 0, SectorBuffer, TC_LB_SIZE);
 
-						if (ReadVolumeHeader (TRUE, (char *) SectorBuffer, &password, pim, &cryptoInfo, nullptr) == 0)
+						if (ReadVolumeHeader (TRUE, SectorBuffer, &password, pim, &cryptoInfo, nullptr) == 0)
 						{
 							if (validHeaderPresent)
 							{

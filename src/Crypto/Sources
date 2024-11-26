@@ -39,6 +39,7 @@ SOURCES = \
 	SerpentFast.c \
 	SerpentFast_simd.cpp \
 	Sha2.c \
+	Sha2Intel.c \
 	t1ha_selfcheck.c \
 	t1ha2.c \
 	t1ha2_selfcheck.c \

@@ -17,7 +17,7 @@ extern "C" {
 
 extern unsigned char ks_tmp[MAX_EXPANDED_KEY];
 
-void CipherInit2(int cipher, void* key, void* ks, int key_len);
+void CipherInit2(int cipher, void* key, void* ks);
 BOOL test_hmac_sha512 (void);
 BOOL test_hmac_blake2s (void);
 BOOL test_hmac_whirlpool (void);

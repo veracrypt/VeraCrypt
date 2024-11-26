@@ -59,7 +59,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.26.15"
+#define VERSION_STRING					"1.26.17"
 
 #ifdef VC_EFI_CUSTOM_MODE
 #define VERSION_STRING_SUFFIX			"-CustomEFI"
@@ -73,9 +73,9 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0126
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"September 2, 2024"
+#define TC_STR_RELEASE_DATE			L"November 19, 2024"
 #define TC_RELEASE_DATE_YEAR			2024
-#define TC_RELEASE_DATE_MONTH			 9
+#define TC_RELEASE_DATE_MONTH			 11
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -240,6 +240,9 @@ void ThrowFatalException(int line);
     || (defined(__GNUC__ ) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3))) \
     || (__has_builtin(__builtin_trap))
 #   define TC_THROW_FATAL_EXCEPTION __builtin_trap()
+#elif defined(_MSC_VER)
+#include <intrin.h>
+#	define TC_THROW_FATAL_EXCEPTION	__fastfail(FAST_FAIL_FATAL_APP_EXIT)
 #else
 #	define TC_THROW_FATAL_EXCEPTION	*(char *) 0 = 0
 #endif
@@ -255,20 +258,10 @@ void ThrowFatalException(int line);
 #include <ntddk.h>		/* Standard header file for nt drivers */
 #include <ntdddisk.h>		/* Standard I/O control codes  */
 
-/* defines needed for using enhanced protection of NX pool under Windows 8 and later */
-#define NonPagedPoolNx  512
-#define MdlMappingNoExecute     0x40000000
 
-/* variables used in the implementation of enhanced protection of NX pool under Windows 8 and later */
-extern POOL_TYPE ExDefaultNonPagedPoolType;
-extern ULONG ExDefaultMdlProtection;
-#ifdef _WIN64
 extern ULONG AllocTag;
-#else
-#define AllocTag 'MMCV'
-#endif
 
-#define TCalloc(size) ((void *) ExAllocatePoolWithTag( ExDefaultNonPagedPoolType, size, AllocTag ))
+#define TCalloc(size) ((void *) ExAllocatePool2( POOL_FLAG_NON_PAGED, size, AllocTag ))
 #define TCfree(memblock) ExFreePoolWithTag( memblock, AllocTag )
 
 #define DEVICE_DRIVER
@@ -292,53 +285,6 @@ typedef unsigned char  BOOLEAN;
 #ifndef FALSE
 #define FALSE !TRUE
 #endif
-
-typedef NTSTATUS (NTAPI *KeSaveExtendedProcessorStateFn) (
-    __in ULONG64 Mask,
-    PXSTATE_SAVE XStateSave
-    );
-
-
-typedef VOID (NTAPI *KeRestoreExtendedProcessorStateFn) (
-	PXSTATE_SAVE XStateSave
-	);
-
-typedef NTSTATUS (NTAPI *ExGetFirmwareEnvironmentVariableFn) (
-  PUNICODE_STRING VariableName,
-  LPGUID          VendorGuid,
-  PVOID           Value,
-  PULONG          ValueLength,
-  PULONG          Attributes
-);
-
-typedef ULONG64 (NTAPI *KeQueryInterruptTimePreciseFn)(
-  PULONG64 QpcTimeStamp
-);
-
-typedef BOOLEAN (NTAPI *KeAreAllApcsDisabledFn) ();
-
-typedef void (NTAPI *KeSetSystemGroupAffinityThreadFn)(
-  PGROUP_AFFINITY Affinity,
-  PGROUP_AFFINITY PreviousAffinity
-);
-
-typedef USHORT (NTAPI *KeQueryActiveGroupCountFn)();
-
-typedef ULONG (NTAPI *KeQueryActiveProcessorCountExFn)(
-  USHORT GroupNumber
-);
-
-extern NTSTATUS NTAPI KeSaveExtendedProcessorStateVC (
-    __in ULONG64 Mask,
-    PXSTATE_SAVE XStateSave
-    );
-
-
-extern VOID NTAPI KeRestoreExtendedProcessorStateVC (
-	PXSTATE_SAVE XStateSave
-	);
-
-extern BOOLEAN VC_KeAreAllApcsDisabled (VOID);
 
 
 #else				/* !TC_WINDOWS_DRIVER */

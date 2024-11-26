@@ -22,27 +22,29 @@
     <ProjectGuid>{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}</ProjectGuid>
     <RootNamespace>Portable</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>Portable</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -66,17 +68,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PortableDebug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PortableDebug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)PortableDebug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)PortableDebug\Int\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</EmbedManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PortableRelease\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">PortableRelease\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">PortableRelease\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PortableRelease\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">PortableRelease\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">PortableRelease\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)PortableRelease\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">$(ProjectDir)PortableRelease\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">$(ProjectDir)PortableRelease\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)PortableRelease\Int\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">$(ProjectDir)PortableRelease\Int\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">$(ProjectDir)PortableRelease\Int\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">false</LinkIncremental>
@@ -105,16 +107,17 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;atls.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Portable.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>Portable.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -140,13 +143,14 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4057;4100;4127;4201;4505;4701;4706;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>atls.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -184,7 +188,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -222,7 +226,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;comdlg32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -317,27 +321,6 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="Portable.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Boot\Windows\Boot.vcxproj">
-      <Project>{8b7f059f-e4c7-4e11-88f5-ee8b8433072e}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Lzma.vcxproj">
-      <Project>{b896fe1f-6bf3-4f75-9148-f841829073d9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ExpandVolume\ExpandVolume.vcxproj">
-      <Project>{9715ff1d-599b-4bbc-ad96-bef6e08ff827}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Format\Format.vcxproj">
-      <Project>{9dc1abe2-d18b-48fb-81d2-8c50adc57bcf}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Mount\Mount.vcxproj">
-      <Project>{e4c40f94-e7f9-4981-86e4-186b46f993f3}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

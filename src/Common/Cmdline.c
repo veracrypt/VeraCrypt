@@ -51,12 +51,7 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		*tmp = 0;
 
-		StringCchCopyW (tmp, 8192, L"VeraCrypt " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
-#ifdef _WIN64
-		StringCchCatW (tmp, 8192, L"  (64-bit)");
-#else
-		StringCchCatW (tmp, 8192, L"  (32-bit)");
-#endif
+		StringCchCopyW (tmp, 8192, L"VeraCrypt " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX) L"  (64-bit)");
 #if (defined(_DEBUG) || defined(DEBUG))
 		StringCchCatW (tmp, 8192, L"  (debug)");
 #endif

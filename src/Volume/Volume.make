@@ -13,6 +13,9 @@
 OBJS :=
 OBJSEX :=
 OBJSNOOPT :=
+OBJSSSE41 :=
+OBJSSSSE3 :=
+OBJSHANI :=
 OBJS += Cipher.o
 OBJS += EncryptionAlgorithm.o
 OBJS += EncryptionMode.o
@@ -85,6 +88,11 @@ ifeq "$(GCC_GTEQ_430)" "1"
 else
 	OBJS += ../Crypto/blake2s_SSE41.o
 	OBJS += ../Crypto/blake2s_SSSE3.o
+endif
+ifeq "$(GCC_GTEQ_500)" "1"
+	OBJSHANI += ../Crypto/Sha2Intel.oshani
+else
+	OBJS += ../Crypto/Sha2Intel.o
 endif
 else
 OBJS += ../Crypto/wolfCrypt.o

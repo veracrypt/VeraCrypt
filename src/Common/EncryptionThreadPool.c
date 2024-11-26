@@ -98,14 +98,14 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 		{
 			TC_EVENT *CompletionEvent;
 			LONG *CompletionFlag;
-			char *DerivedKey;
+			unsigned char *DerivedKey;
 			int IterationCount;
 			TC_EVENT *NoOutstandingWorkItemEvent;
 			LONG *OutstandingWorkItemCount;
-			char *Password;
+			unsigned char *Password;
 			int PasswordLength;
 			int Pkcs5Prf;
-			char *Salt;
+			unsigned char *Salt;
 
 		} KeyDerivation;
 
@@ -143,7 +143,6 @@ static TC_MUTEX DequeueMutex;
 static TC_EVENT WorkItemReadyEvent;
 static TC_EVENT WorkItemCompletedEvent;
 
-#if defined(_WIN64)
 void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
 {
 	if (IsRamEncryptionEnabled())
@@ -175,11 +174,6 @@ void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT 
 	else
 		DecryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, ci);
 }
-
-#else
-#define EncryptDataUnitsCurrentThreadEx EncryptDataUnitsCurrentThread
-#define DecryptDataUnitsCurrentThreadEx DecryptDataUnitsCurrentThread
-#endif
 
 static WorkItemState GetWorkItemState (EncryptionThreadPoolWorkItem *workItem)
 {
@@ -533,7 +527,7 @@ void EncryptionThreadPoolStop ()
 }
 
 
-void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, char *password, int passwordLength, char *salt, int iterationCount, char *derivedKey)
+void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount, unsigned char *derivedKey)
 {
 	EncryptionThreadPoolWorkItem *workItem;
 

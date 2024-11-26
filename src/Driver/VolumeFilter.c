@@ -155,6 +155,7 @@ static BOOL IsSystemVolumePartition (VolumeFilterExtension *Extension)
 static NTSTATUS DispatchControl (PDEVICE_OBJECT DeviceObject, PIRP Irp, VolumeFilterExtension *Extension, PIO_STACK_LOCATION irpSp)
 {
 	NTSTATUS status = IoAcquireRemoveLock (&Extension->Queue.RemoveLock, Irp);
+	UNREFERENCED_PARAMETER(DeviceObject);
 	if (!NT_SUCCESS (status))
 		return TCCompleteIrp (Irp, status, 0);
 
@@ -270,9 +271,10 @@ static NTSTATUS DispatchPnp (PDEVICE_OBJECT DeviceObject, PIRP Irp, VolumeFilter
 }
 
 
-static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, VolumeFilterExtension *Extension, PIO_STACK_LOCATION irpSp)
+static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, VolumeFilterExtension *Extension)
 {
 	NTSTATUS status;
+	UNREFERENCED_PARAMETER(DeviceObject);
 	PoStartNextPowerIrp (Irp);
 
 	status = IoAcquireRemoveLock (&Extension->Queue.RemoveLock, Irp);
@@ -304,7 +306,7 @@ NTSTATUS VolumeFilterDispatchIrp (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 		return DispatchPnp (DeviceObject, Irp, Extension, irpSp);
 
 	case IRP_MJ_POWER:
-		return DispatchPower (DeviceObject, Irp, Extension, irpSp);
+		return DispatchPower (DeviceObject, Irp, Extension);
 
 	default:
 		status = IoAcquireRemoveLock (&Extension->Queue.RemoveLock, Irp);

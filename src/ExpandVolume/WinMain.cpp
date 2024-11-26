@@ -131,7 +131,7 @@ MountOptions defaultMountOptions;
 KeyFile *FirstCmdKeyFile;
 
 HBITMAP hbmLogoBitmapRescaled = NULL;
-wchar_t OrigKeyboardLayout [8+1] = L"00000409";
+wchar_t OrigKeyboardLayout [KL_NAMELENGTH] = L"00000409";
 BOOL bKeyboardLayoutChanged = FALSE;		/* TRUE if the keyboard layout was changed to the standard US keyboard layout (from any other layout). */
 BOOL bKeybLayoutAltKeyWarningShown = FALSE;	/* TRUE if the user has been informed that it is not possible to type characters by pressing keys while the right Alt key is held down. */
 
@@ -552,9 +552,12 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), tmp);
 			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), L"");
 
-			StringCbPrintfW (OrigKeyboardLayout, sizeof(OrigKeyboardLayout),L"%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
+			if (!GetKeyboardLayoutNameW(OrigKeyboardLayout))
+			{
+				StringCbPrintfW(OrigKeyboardLayout, sizeof(OrigKeyboardLayout), L"%08X", (DWORD) (DWORD_PTR) GetKeyboardLayout(NULL) & 0xFFFF);
+			}
 
-			DWORD keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
+			DWORD keybLayout = (DWORD) (DWORD_PTR) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 			if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 			{
@@ -594,7 +597,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case TIMER_ID_KEYB_LAYOUT_GUARD:
 			if (bPrebootPasswordDlgMode)
 			{
-				DWORD keybLayout = (DWORD) GetKeyboardLayout (NULL);
+				DWORD keybLayout = (DWORD) (DWORD_PTR) GetKeyboardLayout (NULL);
 
 				if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 				{
@@ -607,7 +610,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), tmp);
 					SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), L"");
 
-					keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
+					keybLayout = (DWORD) (DWORD_PTR) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 					if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 					{
