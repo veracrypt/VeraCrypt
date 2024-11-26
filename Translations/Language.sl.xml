@@ -119,7 +119,7 @@
     <entry lang="sl" key="IDC_CREATE_VOLUME">&amp;Ustvari nosilec</entry>
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Do not &amp;show any texts in the pre-boot authentication screen (except the below custom message)</entry>
     <entry lang="sl" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Onemogoči razpoznavo napada "Evil Maid"</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</entry>
+    <entry lang="sl" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Pospeši šifriranje/dešifriranje AES z uporabo procesorjevih inštrukcij AES (če so na voljo)</entry>
     <entry lang="sl" key="IDC_ENABLE_KEYFILES">Uporabi ključne dat.</entry>
     <entry lang="sl" key="IDC_ENABLE_NEW_KEYFILES">Uporabi ključne datoteke</entry>
     <entry lang="sl" key="IDC_EXIT">&amp;Izhod</entry>
@@ -133,18 +133,18 @@
     <entry lang="sl" key="IDC_FAVORITE_MOVE_UP">Premik &amp;gor</entry>
     <entry lang="sl" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Po uspešnem priklopu izbranega nosilca odpri zanj okno z Raziskovalcem</entry>
     <entry lang="sl" key="IDC_FAVORITE_REMOVE">&amp;Odstrani</entry>
-    <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
+    <entry lang="sl" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Uporabi priljubljeno oznako pri oznaki pogona Raziskovalca</entry>
     <entry lang="sl" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Splošne nastavitve</entry>
     <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
-    <entry lang="en" key="IDC_HK_MOD_ALT">Alt</entry>
-    <entry lang="en" key="IDC_HK_MOD_CTRL">Ctrl</entry>
-    <entry lang="en" key="IDC_HK_MOD_SHIFT">Shift</entry>
-    <entry lang="en" key="IDC_HK_MOD_WIN">Win</entry>
+    <entry lang="sl" key="IDC_HK_DISMOUNT_PLAY_SOUND">Po uspešnem odklopu vroče tipke zaigraj sistemski zvok za obvestilo</entry>
+    <entry lang="sl" key="IDC_HK_MOD_ALT">Alt</entry>
+    <entry lang="sl" key="IDC_HK_MOD_CTRL">Ctrl</entry>
+    <entry lang="sl" key="IDC_HK_MOD_SHIFT">Shift</entry>
+    <entry lang="sl" key="IDC_HK_MOD_WIN">Win</entry>
     <entry lang="sl" key="IDC_HOTKEY_ASSIGN">Dodeli</entry>
     <entry lang="sl" key="IDC_HOTKEY_REMOVE">Odstrani</entry>
     <entry lang="sl" key="IDC_KEYFILES">Ključne dat. ...</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
+    <entry lang="sl" key="IDC_LIMIT_ENC_THREAD_POOL">Pri šifriranju/dešifriranju ne uporabljaj naslednjega števila logičnih procesorjev:</entry>
     <entry lang="sl" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Več informacij</entry>
     <entry lang="sl" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Več informacij</entry>
     <entry lang="sl" key="IDC_MORE_SETTINGS">Več nastavitev...</entry>
@@ -152,8 +152,8 @@
     <entry lang="sl" key="IDC_MOUNT_OPTIONS">&amp;Možnosti prikl. ...</entry>
     <entry lang="sl" key="IDC_MOUNT_READONLY">&amp;Priklopi nosilec samo za branje</entry>
     <entry lang="sl" key="IDC_NEW_KEYFILES">Ključne dat. ...</entry>
-    <entry lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</entry>
-    <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</entry>
+    <entry lang="sl" key="IDC_OLD_PIM_HELP">(Prazno ali 0 za privzete iteracije)</entry>
+    <entry lang="sl" key="IDC_PIM_HELP">(Prazno ali 0 za privzete iteracije)</entry>
     <entry lang="sl" key="IDC_PREF_BKG_TASK_ENABLE">Omogočeno</entry>
     <entry lang="sl" key="IDC_PREF_CACHE_PASSWORDS">Shranjuj gesla v pomnilnik gonilnika</entry>
     <entry lang="sl" key="IDC_PREF_DISMOUNT_INACTIVE">Samoizkl. nosilca, ko iz njega ni bilo prebr./zapis. nobenih podat.</entry>
@@ -168,7 +168,7 @@
     <entry lang="sl" key="IDC_PREF_MOUNT_REMOVABLE">Priklopi nosilce kot zamenljiv medij</entry>
     <entry lang="sl" key="IDC_PREF_OPEN_EXPLORER">Odpri okno Raziskovalca za uspešno priklopljeni nosilec</entry>
     <entry lang="sl" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Začasno predpomnenje gesla med operacijami "Priklop priljubljenih nosilcev"</entry>
-    <entry lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</entry>
+    <entry lang="sl" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Ko imamo priklopljene nosilce uporabljaj drugačno ikono opravilne vrstice</entry>
     <entry lang="sl" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Pobriši gesla shranjena v predpomnilniku ob samodejnem odklopu</entry>
     <entry lang="sl" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Pobriši gesla v predpomnilniku ob izhodu</entry>
     <entry lang="en" key="IDC_PRESERVE_TIMESTAMPS">Preserve modification timestamp of file containers</entry>
@@ -671,8 +671,8 @@
     <entry lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</entry>
     <entry lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</entry>
     <entry lang="en" key="SIZE_HELP_HIDDEN_VOL">Please specify the size of the hidden volume to create. The minimum possible size of a hidden volume is 40 KB (or 3664 KB if it is formatted as NTFS). The maximum possible size you can specify for the hidden volume is displayed above.</entry>
-    <entry lang="sl" key="SIZE_HIDVOL_HOST_TITLE">Velikost zunanjega nosilca</entry>
-    <entry lang="sl" key="SIZE_HIDVOL_TITLE">Velikost skritega nosilca</entry>
+    <entry lang="sl" key="SIZE_HIDVOL_HOST_TITLE">Velikost zunanjega zbirnika</entry>
+    <entry lang="sl" key="SIZE_HIDVOL_TITLE">Velikost skritega zbirnika</entry>
     <entry lang="sl" key="SIZE_PARTITION_HELP">Prosim, da potrdite da je velikost izbrane naprave/razdelka, navedene-ga zgoraj, pravilna in nato kliknite Naprej.</entry>
     <entry lang="en" key="SIZE_PARTITION_HIDDEN_SYSENC_HELP">The outer volume and the hidden volume (containing the hidden operating system) will reside within the above partition. It should be the first partition behind the system partition.\n\nPlease verify that the size of the partition and its number shown above are correct, and if they are, click Next.</entry>
     <entry lang="en" key="SIZE_PARTITION_HIDDEN_VOL_HELP">\n\nNote that the minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</entry>
@@ -792,94 +792,94 @@
     <entry lang="sl" key="LOCATION">Mesto</entry>
     <entry lang="sl" key="BYTES">bajtov</entry>
     <entry lang="sl" key="HIDDEN">Skriti</entry>
-    <entry lang="en" key="OUTER">Outer</entry>
+    <entry lang="sl" key="OUTER">Zunanji</entry>
     <entry lang="sl" key="NORMAL">Običajen</entry>
-    <entry lang="en" key="SYSTEM_VOLUME_TYPE_ADJECTIVE">System</entry>
-    <entry lang="en" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">Hidden (system)</entry>
+    <entry lang="sl" key="SYSTEM_VOLUME_TYPE_ADJECTIVE">Sistem</entry>
+    <entry lang="sl" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">Skriti (sistem)</entry>
     <entry lang="sl" key="READ_ONLY">Samo za branje</entry>
     <entry lang="sl" key="SYSTEM_DRIVE">Sistemski pogon</entry>
-    <entry lang="en" key="SYSTEM_DRIVE_ENCRYPTING">System drive (encrypting - %.2f%% done)</entry>
-    <entry lang="en" key="SYSTEM_DRIVE_DECRYPTING">System drive (decrypting - %.2f%% done)</entry>
-    <entry lang="en" key="SYSTEM_DRIVE_PARTIALLY_ENCRYPTED">System drive (%.2f%% encrypted)</entry>
+    <entry lang="sl" key="SYSTEM_DRIVE_ENCRYPTING">Sistemski pogon (šifriranje - opravljeno %.2f%% )</entry>
+    <entry lang="sl" key="SYSTEM_DRIVE_DECRYPTING">Sistemski pogon (dešifriranje - opravljeno %.2f%% )</entry>
+    <entry lang="sl" key="SYSTEM_DRIVE_PARTIALLY_ENCRYPTED">Sistemski pogon (šifrirano %.2f%%)</entry>
     <entry lang="sl" key="SYSTEM_PARTITION">Sistemska particija</entry>
     <entry lang="sl" key="HIDDEN_SYSTEM_PARTITION">Skrita sistemska particija</entry>
-    <entry lang="en" key="SYSTEM_PARTITION_ENCRYPTING">System partition (encrypting - %.2f%% done)</entry>
-    <entry lang="en" key="SYSTEM_PARTITION_DECRYPTING">System partition (decrypting - %.2f%% done)</entry>
-    <entry lang="en" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">System partition (%.2f%% encrypted)</entry>
-    <entry lang="en" key="HID_VOL_DAMAGE_PREVENTED">Yes (damage prevented!)</entry>
+    <entry lang="sl" key="SYSTEM_PARTITION_ENCRYPTING">Sistemska particija (šifriranje - opravljeno %.2f%% )</entry>
+    <entry lang="sl" key="SYSTEM_PARTITION_DECRYPTING">Sistemska particija (dešifriranje - opravljeno %.2f%% )</entry>
+    <entry lang="sl" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">Sistemska particija (%.2f%% šifrirano)</entry>
+    <entry lang="sl" key="HID_VOL_DAMAGE_PREVENTED">Da (preprečena bo poškodba!)</entry>
     <entry lang="sl" key="NONE">Nič</entry>
     <entry lang="sl" key="KEY_SIZE">Velikost primarnega ključa</entry>
     <entry lang="sl" key="SECONDARY_KEY_SIZE_XTS">Velikost sekundarnega ključa (XTS način)</entry>
     <entry lang="en" key="SECONDARY_KEY_SIZE_LRW">Tweak Key Size (LRW Mode)</entry>
     <entry lang="sl" key="BITS">bitov</entry>
     <entry lang="sl" key="BLOCK_SIZE">Velikost bloka</entry>
-    <entry lang="en" key="PKCS5_PRF">PKCS-5 PRF</entry>
-    <entry lang="en" key="PKCS5_ITERATIONS">PKCS-5 Iteration Count</entry>
-    <entry lang="en" key="VOLUME_CREATE_DATE">Volume Created</entry>
-    <entry lang="en" key="VOLUME_HEADER_DATE">Header Last Modified</entry>
-    <entry lang="en" key="VOLUME_HEADER_DAYS"> (%I64d days ago)</entry>
+    <entry lang="sl" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="sl" key="PKCS5_ITERATIONS">PKCS-5 število iteracij</entry>
+    <entry lang="sl" key="VOLUME_CREATE_DATE">Nosilec je ustvarjen</entry>
+    <entry lang="sl" key="VOLUME_HEADER_DATE">Zadnja sprememba glave</entry>
+    <entry lang="sl" key="VOLUME_HEADER_DAYS"> ( pred %I64d dnevi)</entry>
     <entry lang="sl" key="VOLUME_FORMAT_VERSION">Različica formata zbirnika</entry>
     <entry lang="sl" key="BACKUP_HEADER">Vgrajena pomožna glava</entry>
-    <entry lang="en" key="VC_BOOT_LOADER_VERSION">VeraCrypt Boot Loader Version</entry>
+    <entry lang="sl" key="VC_BOOT_LOADER_VERSION">Verzija zagonskega nalagalnika VeraCrypt</entry>
     <entry lang="sl" key="FIRST_AVAILABLE">prvi možni</entry>
     <entry lang="sl" key="REMOVABLE_DISK">Prenosni disk</entry>
     <entry lang="sl" key="HARDDISK">Trdi disk</entry>
     <entry lang="sl" key="UNCHANGED">Nespremenjeno</entry>
-    <entry lang="en" key="AUTODETECTION">Autodetection</entry>
-    <entry lang="en" key="SETUP_MODE_TITLE">Wizard Mode</entry>
+    <entry lang="sl" key="AUTODETECTION">Samodejna razpoznava</entry>
+    <entry lang="sl" key="SETUP_MODE_TITLE">Način čarovnika</entry>
     <entry lang="en" key="SETUP_MODE_INFO">Select one of the modes. If you are not sure which to select, use the default mode.</entry>
     <entry lang="en" key="SETUP_MODE_HELP_INSTALL">Select this option if you want to install VeraCrypt on this system.</entry>
     <entry lang="en" key="SETUP_MODE_HELP_UPGRADE">Note: You can upgrade without decrypting even if the system partition/drive is encrypted or you use a hidden operating system.</entry>
     <entry lang="en" key="SETUP_MODE_HELP_EXTRACT">If you select this option, all files will be extracted from this package but nothing will be installed on the system. Do not select it if you intend to encrypt the system partition or system drive. Selecting this option can be useful, for example, if you want to run VeraCrypt in so-called portable mode. VeraCrypt does not have to be installed on the operating system under which it is run. After all files are extracted, you can directly run the extracted file 'VeraCrypt.exe' (then VeraCrypt will run in portable mode).</entry>
-    <entry lang="en" key="SETUP_OPTIONS_TITLE">Setup Options</entry>
-    <entry lang="en" key="SETUP_OPTIONS_INFO">Here you can set various options to control the installation process.</entry>
+    <entry lang="sl" key="SETUP_OPTIONS_TITLE">Možnosti namestitve</entry>
+    <entry lang="sl" key="SETUP_OPTIONS_INFO">Tu lahko nastaviš različne možnosti nadzora nameščanja.</entry>
     <entry lang="sl" key="SETUP_PROGRESS_TITLE">Nameščanje</entry>
-    <entry lang="en" key="SETUP_PROGRESS_INFO">Please wait while VeraCrypt is being installed.</entry>
-    <entry lang="en" key="SETUP_FINISHED_TITLE_DON">VeraCrypt has been successfully installed</entry>
-    <entry lang="en" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCrypt has been successfully upgraded</entry>
-    <entry lang="en" key="SETUP_FINISHED_INFO_DON">Please consider making a donation. You can click Finish anytime to close the installer.</entry>
-    <entry lang="en" key="EXTRACTION_OPTIONS_TITLE">Extraction Options</entry>
+    <entry lang="sl" key="SETUP_PROGRESS_INFO">Počakaj konec nameščanja VeraCrypt.</entry>
+    <entry lang="sl" key="SETUP_FINISHED_TITLE_DON">VeraCrypt je bil uspešno nmameščen</entry>
+    <entry lang="sl" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCrypt je bil uspešno nadgrajen</entry>
+    <entry lang="sl" key="SETUP_FINISHED_INFO_DON">Pomisli na donacijo. Nameščanje lahko zapreš kadarkoli s klikom na 'Končaj'.</entry>
+    <entry lang="sl" key="EXTRACTION_OPTIONS_TITLE">Možnosti ekstrakcije</entry>
     <entry lang="en" key="EXTRACTION_OPTIONS_INFO">Here you can set various options to control the extraction process.</entry>
-    <entry lang="en" key="EXTRACTION_PROGRESS_INFO">Please wait while files are being extracted.</entry>
-    <entry lang="en" key="EXTRACTION_FINISHED_TITLE_DON">Files successfully extracted</entry>
+    <entry lang="sl" key="EXTRACTION_PROGRESS_INFO">Počakaj na konec ekstrakcije datotek.</entry>
+    <entry lang="sl" key="EXTRACTION_FINISHED_TITLE_DON">Ekstrakcija datotek je uspešna</entry>
     <entry lang="en" key="EXTRACTION_FINISHED_INFO">All files have been successfully extracted to the destination location.</entry>
     <entry lang="en" key="AUTO_FOLDER_CREATION">If the specified folder does not exist, it will be automatically created.</entry>
     <entry lang="en" key="SETUP_UPGRADE_DESTINATION">The VeraCrypt program files will be upgraded in the location where VeraCrypt is installed. If you need to select a different location, please uninstall VeraCrypt first.</entry>
     <entry lang="en" key="AFTER_UPGRADE_RELEASE_NOTES">Do you want to view release notes for the current (latest stable) version of VeraCrypt?</entry>
     <entry lang="en" key="AFTER_INSTALL_TUTORIAL">If you have never used VeraCrypt before, we recommend that you read the chapter Beginner's Tutorial in the VeraCrypt User Guide. Do you want to view the tutorial?</entry>
-    <entry lang="en" key="SELECT_AN_ACTION">Please select an action to perform from the following:</entry>
-    <entry lang="en" key="REPAIR_REINSTALL">Repair/Reinstall</entry>
+    <entry lang="sl" key="SELECT_AN_ACTION">Izberi eno od naslednjih akcij:</entry>
+    <entry lang="sl" key="REPAIR_REINSTALL">Popravi/ponovno namesti</entry>
     <entry lang="sl" key="UPGRADE">Nadgradnja</entry>
     <entry lang="sl" key="UNINSTALL">Odstrani</entry>
     <entry lang="en" key="SETUP_ADMIN">To successfully install/uninstall VeraCrypt, you must have administrator privileges. Do you want to continue?</entry>
     <entry lang="en" key="TC_INSTALLER_IS_RUNNING">VeraCrypt Installer is currently running on this system and performing or preparing installation or update of VeraCrypt. Before you proceed, please wait for it to finish or close it. If you cannot close it, please restart your computer before proceeding.</entry>
-    <entry lang="en" key="INSTALL_FAILED">Installation failed.</entry>
-    <entry lang="en" key="UNINSTALL_FAILED">Uninstallation failed.</entry>
+    <entry lang="sl" key="INSTALL_FAILED">Namestitev ni uspela.</entry>
+    <entry lang="sl" key="UNINSTALL_FAILED">Odstranitev ni uspela.</entry>
     <entry lang="en" key="DIST_PACKAGE_CORRUPTED">This distribution package is damaged. Please try downloading it again (preferably from the official VeraCrypt website at https://www.veracrypt.fr).</entry>
-    <entry lang="en" key="CANNOT_WRITE_FILE_X">Cannot write file %s</entry>
-    <entry lang="en" key="EXTRACTING_VERB">Extracting</entry>
-    <entry lang="en" key="CANNOT_READ_FROM_PACKAGE">Cannot read data from the package.</entry>
+    <entry lang="sl" key="CANNOT_WRITE_FILE_X">Ne morem zapisati datoteke %s</entry>
+    <entry lang="sl" key="EXTRACTING_VERB">Ekstrakcija</entry>
+    <entry lang="sl" key="CANNOT_READ_FROM_PACKAGE">Ne morem brati podatkov iz paketa.</entry>
     <entry lang="en" key="CANT_VERIFY_PACKAGE_INTEGRITY">Cannot verify the integrity of this distribution package.</entry>
-    <entry lang="en" key="EXTRACTION_FAILED">Extraction failed.</entry>
+    <entry lang="sl" key="EXTRACTION_FAILED">Ekstrakcija ni uspela.</entry>
     <entry lang="en" key="ROLLBACK">The installation has been rolled back.</entry>
-    <entry lang="en" key="INSTALL_OK">VeraCrypt has been successfully installed.</entry>
-    <entry lang="en" key="SETUP_UPDATE_OK">VeraCrypt has been successfully updated.</entry>
+    <entry lang="sl" key="INSTALL_OK">VeraCrypt je bil uspešno nameščen.</entry>
+    <entry lang="sl" key="SETUP_UPDATE_OK">VeraCrypt je bil uspešno posodobljen.</entry>
     <entry lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</entry>
     <entry lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu > All programs > Accessories > System Tools > System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</entry>
     <entry lang="en" key="UNINSTALL_OK">VeraCrypt has been successfully uninstalled.\n\nClick 'Finish' to remove the VeraCrypt installer and the folder %s. Note that the folder will not be removed if it contains any files that were not installed by the VeraCrypt installer or created by VeraCrypt.</entry>
     <entry lang="en" key="REMOVING_REG">Removing VeraCrypt registry entries</entry>
     <entry lang="en" key="ADDING_REG">Adding registry entry</entry>
     <entry lang="en" key="REMOVING_APPDATA">Removing application-specific data</entry>
-    <entry lang="en" key="INSTALLING">Installing</entry>
-    <entry lang="en" key="STOPPING">Stopping</entry>
-    <entry lang="en" key="REMOVING">Removing</entry>
-    <entry lang="en" key="ADDING_ICON">Adding icon</entry>
-    <entry lang="en" key="CREATING_SYS_RESTORE">Creating System Restore point</entry>
-    <entry lang="en" key="FAILED_SYS_RESTORE">Failed to create System Restore point!</entry>
-    <entry lang="en" key="INSTALLER_UPDATING_BOOT_LOADER">Updating boot loader</entry>
+    <entry lang="sl" key="INSTALLING">Nameščanje</entry>
+    <entry lang="sl" key="STOPPING">Ustavljanje</entry>
+    <entry lang="sl" key="REMOVING">Odstranjevanje</entry>
+    <entry lang="sl" key="ADDING_ICON">Dodajanje ikone</entry>
+    <entry lang="sl" key="CREATING_SYS_RESTORE">Tvorba obnovitvene točke sistema</entry>
+    <entry lang="sl" key="FAILED_SYS_RESTORE">Tvorba obnovitvene točke sistema ni uspela!</entry>
+    <entry lang="sl" key="INSTALLER_UPDATING_BOOT_LOADER">Posodabljanje zagonskega nalagalnika</entry>
     <entry lang="en" key="INSTALL_OF_FAILED">Failed to install '%s'. %s\nDo you want to continue installing?</entry>
     <entry lang="en" key="UNINSTALL_OF_FAILED">Failed to uninstall '%s'. %s\nDo you want to continue uninstalling?</entry>
-    <entry lang="en" key="INSTALL_COMPLETED">Installation completed.</entry>
+    <entry lang="sl" key="INSTALL_COMPLETED">Namestitev je zaključena.</entry>
     <entry lang="en" key="CANT_CREATE_FOLDER">The folder '%s' could not be created</entry>
     <entry lang="en" key="CLOSE_TC_FIRST">The VeraCrypt device driver cannot be unloaded.\n\nPlease close all open VeraCrypt windows first. If it does not help, please restart Windows and then try again.</entry>
     <entry lang="en" key="DISMOUNT_ALL_FIRST">All VeraCrypt volumes must be dismounted before installing or uninstalling VeraCrypt.</entry>
@@ -898,31 +898,31 @@
     <entry lang="en" key="CONTAINER_ADMIN_WARNING">Warning: This instance of the Volume Creation Wizard has administrator privileges.\n\nYour new volume may be created with permissions that will not allow you to write to the volume when it is mounted. If you want to avoid that, close this instance of the Volume Creation Wizard and launch a new one without administrator privileges.\n\nDo you want to close this instance of the Volume Creation Wizard?</entry>
     <entry lang="en" key="CANNOT_DISPLAY_LICENSE">Error: Cannot display license.</entry>
     <entry lang="en" key="OUTER_VOL_WRITE_PREVENTED">Outer(!)</entry>
-    <entry lang="sl" key="DAYS">dan-i</entry>
-    <entry lang="sl" key="HOURS">ur-o-i-e</entry>
+    <entry lang="sl" key="DAYS">dnevi</entry>
+    <entry lang="sl" key="HOURS">ure</entry>
     <entry lang="sl" key="MINUTES">min.</entry>
     <entry lang="sl" key="SECONDS">sek.</entry>
     <entry lang="sl" key="OPEN">Odpri</entry>
     <entry lang="sl" key="DISMOUNT">Odklopi</entry>
-    <entry lang="en" key="SHOW_TC">Show VeraCrypt</entry>
-    <entry lang="en" key="HIDE_TC">Hide VeraCrypt</entry>
-    <entry lang="sl" key="TOTAL_DATA_READ">Prebrani podatki odkar je bil izveden priklop</entry>
+    <entry lang="sl" key="SHOW_TC">Prikaži VeraCrypt</entry>
+    <entry lang="sl" key="HIDE_TC">Skrij VeraCrypt</entry>
+    <entry lang="sl" key="TOTAL_DATA_READ">Prebrani podatki, odkar je bil izveden priklop</entry>
     <entry lang="sl" key="TOTAL_DATA_WRITTEN">Zapisani podatki odkar je bil izveden priklop</entry>
-    <entry lang="en" key="ENCRYPTED_PORTION">Encrypted Portion</entry>
-    <entry lang="en" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100% (fully encrypted)</entry>
-    <entry lang="en" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (not encrypted)</entry>
+    <entry lang="sl" key="ENCRYPTED_PORTION">Šifrirani del</entry>
+    <entry lang="sl" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100% (polno šifrirano)</entry>
+    <entry lang="sl" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (nešifrirano)</entry>
     <entry lang="en" key="PROCESSED_PORTION_X_PERCENT">%.3f%%</entry>
     <entry lang="en" key="PROCESSED_PORTION_100_PERCENT">100%</entry>
-    <entry lang="en" key="PROGRESS_STATUS_WAITING">Waiting</entry>
-    <entry lang="en" key="PROGRESS_STATUS_PREPARING">Preparing</entry>
-    <entry lang="en" key="PROGRESS_STATUS_RESIZING">Resizing</entry>
-    <entry lang="en" key="PROGRESS_STATUS_ENCRYPTING">Encrypting</entry>
-    <entry lang="en" key="PROGRESS_STATUS_DECRYPTING">Decrypting</entry>
-    <entry lang="en" key="PROGRESS_STATUS_FINALIZING">Finalizing</entry>
-    <entry lang="en" key="PROGRESS_STATUS_PAUSED">Paused</entry>
-    <entry lang="en" key="PROGRESS_STATUS_FINISHED">Finished</entry>
-    <entry lang="en" key="PROGRESS_STATUS_ERROR">Error</entry>
-    <entry lang="en" key="FAVORITE_DISCONNECTED_DEV">Device disconnected</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_WAITING">Čakam</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_PREPARING">Pripravljam</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_RESIZING">Spreminjam velikost</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_ENCRYPTING">Šifriram</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_DECRYPTING">Dešifriram</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_FINALIZING">Končujem</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_PAUSED">Pavza</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_FINISHED">Končano</entry>
+    <entry lang="sl" key="PROGRESS_STATUS_ERROR">Napaka</entry>
+    <entry lang="sl" key="FAVORITE_DISCONNECTED_DEV">Naprava je odklopljena</entry>
     <entry lang="en" key="SYS_FAVORITE_VOLUMES_SAVED">System favorite volumes saved.\n\nTo enable mounting of system favorite volumes when the system starts, please select 'Settings' &gt; 'System Favorite Volumes' &gt; 'Mount system favorite volumes when Windows starts'.</entry>
     <entry lang="en" key="FAVORITE_ADD_DRIVE_DEV_WARNING">The volume you are adding to favorites is neither a partition nor a dynamic volume. Therefore, VeraCrypt will be unable to mount this favorite volume if the device number changes.</entry>
     <entry lang="en" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">The volume you are adding to favorites is a partition not recognized by Windows.\n\nVeraCrypt will be unable to mount this favorite volume if the device number changes. Please set the type of the partition to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then add the partition to favorites again.</entry>
@@ -933,10 +933,10 @@
     <entry lang="en" key="FAVORITE_LABEL_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, no label can be assigned to it.</entry>
     <entry lang="en" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable VeraCrypt to assign a label to the partition.</entry>
     <entry lang="en" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">Due to a Windows limitation, a container stored in a remote filesystem shared over a network cannot be mounted as a system favorite volume (however, it can be mounted as a non-system favorite volume when a user logs on).</entry>
-    <entry lang="sl" key="ENTER_PASSWORD_FOR">Vnesite geslo za %s</entry>
-    <entry lang="en" key="ENTER_PASSWORD_FOR_LABEL">Enter password for '%s'</entry>
-    <entry lang="en" key="ENTER_NORMAL_VOL_PASSWORD">Enter password for the normal/outer volume</entry>
-    <entry lang="en" key="ENTER_HIDDEN_VOL_PASSWORD">Enter password for the hidden volume</entry>
+    <entry lang="sl" key="ENTER_PASSWORD_FOR">Vnesi geslo za %s</entry>
+    <entry lang="sl" key="ENTER_PASSWORD_FOR_LABEL">Vnesi geslo za '%s'</entry>
+    <entry lang="sl" key="ENTER_NORMAL_VOL_PASSWORD">Vnesi geslo za normalen/zunanji nosilec</entry>
+    <entry lang="sl" key="ENTER_HIDDEN_VOL_PASSWORD">Vnesi geslo za skriti nosilec</entry>
     <entry lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</entry>
     <entry lang="en" key="KEYFILE_CREATED">Keyfile has been successfully created.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
@@ -1499,7 +1499,7 @@
     <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
     <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
     <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Priklopi vse naprave</entry>
+    <entry lang="sl" key="LINUX_MOUNT_ALL_DEV">Priklopi vse naprave</entry>
     <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
     <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
     <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
