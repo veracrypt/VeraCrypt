@@ -765,6 +765,9 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 	BOOL bOK = TRUE;
 	int i, x, fileNo;
 	wchar_t curFileName [TC_MAX_PATH] = {0};
+#ifndef PORTABLE
+	PRIVILEGE_STATE originalPrivileges = { 0 };
+#endif
 
 	if (!bUninstall && !bDevm)
 	{
@@ -782,6 +785,10 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 	if (szDestDir[x - 1] != L'\\')
 		StringCbCatW (szDestDir, MAX_PATH, L"\\");
+
+#ifndef PORTABLE
+	EnableRequiredSetupPrivileges(&originalPrivileges);
+#endif
 
 	for (i = 0; i < sizeof (szFiles) / sizeof (szFiles[0]); i++)
 	{
@@ -1114,10 +1121,19 @@ err:
 
 			if (lpMsgBuf) LocalFree (lpMsgBuf);
 
-			if (!Silent && MessageBoxW (hwndDlg, szTmp2, lpszTitle, MB_YESNO | MB_ICONHAND) != IDYES)
+			if (!Silent && MessageBoxW(hwndDlg, szTmp2, lpszTitle, MB_YESNO | MB_ICONHAND) != IDYES)
+			{
+#ifndef PORTABLE
+				RestorePrivilegeState(&originalPrivileges);
+#endif
 				return FALSE;
+			}
 		}
 	}
+
+#ifndef PORTABLE
+	RestorePrivilegeState(&originalPrivileges);
+#endif
 	
 	if (bUninstall == FALSE)
 	{
