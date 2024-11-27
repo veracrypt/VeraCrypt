@@ -15828,7 +15828,6 @@ BOOL EnableRequiredSetupPrivileges(PPRIVILEGE_STATE currentState)
 BOOL BackupSecurityInfo(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup)
 {
 	BOOL result = FALSE;
-	PSECURITY_DESCRIPTOR pSD = NULL;
 	DWORD dwRes;
 
 	ZeroMemory(pBackup, sizeof(SECURITY_INFO_BACKUP));
@@ -15843,7 +15842,7 @@ BOOL BackupSecurityInfo(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup)
 		&pBackup->pOrigGroup,
 		&pBackup->pOrigDacl,
 		&pBackup->pOrigSacl,
-		&pSD);
+		&pBackup->pOrigSD);
 
 	if (dwRes == ERROR_SUCCESS)
 	{
@@ -15851,9 +15850,6 @@ BOOL BackupSecurityInfo(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup)
 		// and point to the copied data
 		result = TRUE;
 	}
-
-	if (pSD)
-		LocalFree(pSD);
 
 	return result;
 }
@@ -15891,14 +15887,8 @@ BOOL RestoreSecurityInfo(const wchar_t* filePath, PSECURITY_INFO_BACKUP pBackup)
 // Helper function to free security backup
 void FreeSecurityBackup(PSECURITY_INFO_BACKUP pBackup)
 {
-	if (pBackup->pOrigOwner)
-		LocalFree(pBackup->pOrigOwner);
-	if (pBackup->pOrigGroup)
-		LocalFree(pBackup->pOrigGroup);
-	if (pBackup->pOrigDacl)
-		LocalFree(pBackup->pOrigDacl);
-	if (pBackup->pOrigSacl)
-		LocalFree(pBackup->pOrigSacl);
+	if (pBackup->pOrigSD)
+		LocalFree(pBackup->pOrigSD);
 	ZeroMemory(pBackup, sizeof(SECURITY_INFO_BACKUP));
 }
 
