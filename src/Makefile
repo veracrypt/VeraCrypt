@@ -19,7 +19,7 @@
 # NOTEST:		Do not test release binary
 # RESOURCEDIR:	Run-time resource directory
 # VERBOSE:		Enable verbose messages
-# WXSTATIC:		Use static wxWidgets library
+# WXSTATIC:		Use static wxWidgets library. If FULL, builds everything. If other value, builds only bare essentials.
 # SSSE3:		Enable SSSE3 support in compiler
 # SSE41:		Enable SSE4.1 support in compiler
 # NOSSE2:		Disable SEE2 support in compiler
@@ -118,7 +118,12 @@ else
 #------ Debug configuration ------
 
 	C_CXX_FLAGS += -DDEBUG
-	CXXFLAGS += -fno-default-inline -Wno-unused-function -Wno-unused-variable
+	ifeq '' '$(findstring clang++,$(CXX))'
+  		C_CXX_FLAGS += 
+	else
+  		C_CXX_FLAGS += -fno-default-inline
+	endif
+	CXXFLAGS += -Wno-unused-function -Wno-unused-variable
 	export WX_BUILD_DIR ?= $(BASE_DIR)/wxdebug
 	WX_CONFIGURE_FLAGS += --enable-debug_flag --disable-debug_gdb --disable-debug_info
 
@@ -547,17 +552,19 @@ WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --dis
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
 	--disable-animatectrl --disable-bmpcombobox --disable-calendar --disable-caret --disable-checklst --disable-collpane --disable-colourpicker --disable-comboctrl \
-	--disable-datepick --disable-display --disable-dirpicker --disable-filepicker --disable-fontpicker --disable-grid --disable-dataviewctrl \
+	--disable-datepick --disable-timepick --disable-display --disable-fontpicker --disable-grid --disable-dataviewctrl \
 	--disable-listbook --disable-odcombobox --disable-sash --disable-searchctrl --disable-slider --disable-splitter --disable-togglebtn \
 	--disable-toolbar --disable-tbarnative --disable-treebook --disable-toolbook --disable-tipwindow --disable-popupwin \
 	--disable-commondlg --disable-aboutdlg --disable-coldlg --disable-finddlg --disable-fontdlg --disable-numberdlg --disable-splash \
 	--disable-tipdlg --disable-progressdlg --disable-wizarddlg --disable-miniframe --disable-splines --disable-palette \
 	--disable-richtext --disable-dialupman --disable-debugreport --disable-filesystem --disable-rearrangectrl --disable-treelist --disable-richmsgdlg \
 	--disable-richtooltip --disable-propgrid --disable-stc --without-libnotify \
-	--without-gtkprint --without-gnomevfs --disable-fsvolume --disable-fswatcher \
+	--without-gtkprint --without-gnomevfs --disable-fswatcher \
 	--disable-sound --disable-mediactrl --disable-joystick --disable-apple_ieee \
 	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm --disable-svg \
-	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib
+	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib \
+	--disable-webrequest --without-liblzma
+	
 	
 ifneq (,$(filter Linux FreeBSD,$(PLATFORM)))
 WX_CONFIGURE_FLAGS += --disable-tooltips
@@ -577,7 +584,7 @@ endif
 
 #------ Project build ------
 
-PROJ_DIRS := Platform Volume Driver/Fuse Core Main
+PROJ_DIRS := Testing Platform Volume Driver/Fuse Core Main
 
 .PHONY: all clean wxbuild
 
@@ -586,8 +593,14 @@ all clean:
 
 	@for DIR in $(PROJ_DIRS); do \
 		PROJ=$$(echo $$DIR | cut -d/ -f1); \
+		echo "Building $$PROJ"; \
 		$(MAKE) -C $$DIR -f $$PROJ.make NAME=$$PROJ $(MAKECMDGOALS) || exit $?; \
-		export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
+		if [ -e $(BASE_DIR)/$$DIR/$$PROJ.a ]; then \
+			export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
+		fi; \
+		if [ -e $(BASE_DIR)/$$DIR/$${PROJ}Test.a ]; then \
+			export TEST_LIBS="$(BASE_DIR)/$$DIR/$${PROJ}Test.a $$TEST_LIBS"; \
+		fi; \
 	done
 
 install:

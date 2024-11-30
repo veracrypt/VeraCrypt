@@ -1218,6 +1218,18 @@ namespace VeraCrypt
 		}
 	}
 
+	void MainFrame::OnRevealRedkeyMenuItemSelected (wxCommandEvent& event)
+	{
+		try
+		{
+			Gui->RevealRedkey (GetSelectedVolumePath());
+		}
+		catch (exception &e)
+		{
+			Gui->ShowError (e);
+		}
+	}
+
 	void MainFrame::OnMountAllDevicesButtonClick (wxCommandEvent& event)
 	{
 		MountAllDevices();

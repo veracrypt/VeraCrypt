@@ -97,6 +97,7 @@ namespace VeraCrypt
 		void OnAddAllMountedToFavoritesMenuItemSelected (wxCommandEvent& event);
 		void OnAddToFavoritesMenuItemSelected (wxCommandEvent& event);
 		void OnBackupVolumeHeadersMenuItemSelected (wxCommandEvent& event);
+		void OnRevealRedkeyMenuItemSelected (wxCommandEvent& event);
 		void OnBeginnersTutorialMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"tutorial"); }
 		void OnBenchmarkMenuItemSelected (wxCommandEvent& event);
 		void OnChangeKeyfilesMenuItemSelected (wxCommandEvent& event) { ChangePassword (ChangePasswordDialog::Mode::ChangeKeyfiles); }

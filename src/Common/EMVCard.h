@@ -30,7 +30,7 @@ namespace VeraCrypt
         // object will be considered invalid and will not be included in the list of available cards
         // of EMVToken.
         vector<uint8> m_aid;
-        vector<vector<uint8>> m_supportedAids;
+        vector<vector<uint8> > m_supportedAids;
         vector<uint8> m_iccCert;
         vector<uint8> m_issuerCert;
         vector<uint8> m_cplcData;
@@ -44,7 +44,7 @@ namespace VeraCrypt
 		const static uint8 AMEX_AID[7];
 		const static uint8 MASTERCARD_AID[7];
 		const static uint8 VISA_AID[7];
-		const static map<EMVCardType, vector<uint8>> SUPPORTED_AIDS;
+		const static map<EMVCardType, vector<uint8> > SUPPORTED_AIDS;
 
         EMVCard();
 		EMVCard(size_t slotId);

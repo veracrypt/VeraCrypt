@@ -10,8 +10,8 @@
 </head>
 <body>
 
-<div>
-<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
 </div>
 
 <div id="menu">
@@ -27,18 +27,16 @@
 
 <div>
 <p>
-<a href="Documentation.html">Documentation</a>
+<a href="Documentation.html">Documentation</a>           
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
-<a href="Security%20Tokens%20%26%20Smart%20Cards.html">Security Tokens &amp; Smart Cards</a>
+<a href="Bluekeys.html">Bluekeys</a>
 </p></div>
 
 <div class="wikidoc">
-<h1>Security Tokens &amp; Smart Cards</h1>
+<h1>Bluekeys</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-VeraCrypt supports security (or cryptographic) tokens and smart cards that can be accessed using the PKCS&nbsp;#11 (2.0 or later) protocol [23]. There are two way these devices can be used with VeraCrypt.
-<ul><li>As a secured storage for keyfiles. For more information, please see the section
-<em style="text-align:left">Security Tokens and Smart Cards</em> in the chapter <a href="Keyfiles%20in%20VeraCrypt.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-<em style="text-align:left">Keyfiles</em></a></li>
-<li>As an additional encryption layer. For more infromation, please see <a href="Bluekeys.html" style="text-align:left; color:#0080c0; text-decoration:none"><em style="text-align:left">Bluekeys</em></a></li>
-</ul>.<br><p>Please note that security tokens and smart cards are currently not supported for Pre-Boot authentication of system encryption.</p></div>
+Security Tokens and Smart Cards, which support encryption (e.g. there are assymetric cryptography key on the card), can be used to issue blue key. 
+Blue key is just an ordinary keyfile encrypted using key stored on the smart card. Because usually it is not possible to extract the key from the smart card, 
+such a file could not be used independently from the card to decrypt the volume.<br><p>Please note that security tokens and smart cards are currently not 
+supported for Pre-Boot authentication of system encryption.</p></div>
 </div><div class="ClearBoth"></div></body></html>

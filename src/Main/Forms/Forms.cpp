@@ -118,6 +118,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	ManageSecurityTokenKeyfilesMenuItem = new wxMenuItem( ToolsMenu, wxID_ANY, wxString( _("IDM_MANAGE_TOKEN_KEYFILES") ) , wxEmptyString, wxITEM_NORMAL );
 	ToolsMenu->Append( ManageSecurityTokenKeyfilesMenuItem );
 
+	wxMenuItem* RevealRedkeyMenuItem;
+	RevealRedkeyMenuItem = new wxMenuItem( ToolsMenu, wxID_ANY, wxString( _("IDM_REVEAL_REDKEY") ), wxEmptyString, wxITEM_NORMAL );
+	ToolsMenu->Append( RevealRedkeyMenuItem );
+	
 	wxMenuItem* CloseAllSecurityTokenSessionsMenuItem;
 	CloseAllSecurityTokenSessionsMenuItem = new wxMenuItem( ToolsMenu, wxID_ANY, wxString( _("IDM_CLOSE_ALL_TOKEN_SESSIONS") ) , wxEmptyString, wxITEM_NORMAL );
 	ToolsMenu->Append( CloseAllSecurityTokenSessionsMenuItem );
@@ -435,6 +439,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnBackupVolumeHeadersMenuItemSelected ), this, BackupVolumeHeadersMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnRestoreVolumeHeaderMenuItemSelected ), this, RestoreVolumeHeaderMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnCreateKeyfileMenuItemSelected ), this, CreateKeyfileMenuItem->GetId());
+	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnRevealRedkeyMenuItemSelected ), this, RevealRedkeyMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnManageSecurityTokenKeyfilesMenuItemSelected ), this, ManageSecurityTokenKeyfilesMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnCloseAllSecurityTokenSessionsMenuItemSelected ), this, CloseAllSecurityTokenSessionsMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnWipeCacheButtonClick ), this, WipeCachedPasswordsMenuItem->GetId());
@@ -1419,7 +1424,7 @@ KeyfileGeneratorDialogBase::KeyfileGeneratorDialogBase( wxWindow* parent, wxWind
 	bSizer162 = new wxBoxSizer( wxVERTICAL );
 
 	wxFlexGridSizer* fgSizer8;
-	fgSizer8 = new wxFlexGridSizer( 3, 3, 0, 0 );
+	fgSizer8 = new wxFlexGridSizer( 4, 3, 0, 0 );
 	fgSizer8->AddGrowableCol( 2 );
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
@@ -1450,6 +1455,21 @@ KeyfileGeneratorDialogBase::KeyfileGeneratorDialogBase( wxWindow* parent, wxWind
 
 	KeyfilesBaseName = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer8->Add( KeyfilesBaseName, 0, wxALL, 5 );
+
+	m_panel20 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	fgSizer8->Add( m_panel20, 1, wxEXPAND | wxALL, 5 );
+
+	m_staticText66 = new wxStaticText( this, wxID_ANY, _("IDC_SECURITY_TOKEN_KEY"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText66->Wrap( -1 );
+	
+	fgSizer8->Add( m_staticText66, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	SecurityTokenKeyDesc = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	ChooseSecurityTokenButton = new wxButton( this, wxID_ANY, _("IDC_SECURITY_TOKEN_KEY"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer8->Add(SecurityTokenKeyDesc, 0, wxALL, 5 );
+	fgSizer8->Add(ChooseSecurityTokenButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	
 
 	m_panel19 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	fgSizer8->Add( m_panel19, 1, wxEXPAND | wxALL, 5 );
@@ -1490,6 +1510,7 @@ KeyfileGeneratorDialogBase::KeyfileGeneratorDialogBase( wxWindow* parent, wxWind
 	ShowRandomPoolCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnShowRandomPoolCheckBoxClicked ), NULL, this );
 	RandomSizeCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnRandomSizeCheckBoxClicked ), NULL, this );
 	GenerateButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnGenerateButtonClick ), NULL, this );
+	ChooseSecurityTokenButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnSelectSecurityTokenKeyClick ), NULL, this);
 }
 
 KeyfileGeneratorDialogBase::~KeyfileGeneratorDialogBase()
@@ -1500,7 +1521,7 @@ KeyfileGeneratorDialogBase::~KeyfileGeneratorDialogBase()
 	ShowRandomPoolCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnShowRandomPoolCheckBoxClicked ), NULL, this );
 	RandomSizeCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnRandomSizeCheckBoxClicked ), NULL, this );
 	GenerateButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnGenerateButtonClick ), NULL, this );
-
+	ChooseSecurityTokenButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnSelectSecurityTokenKeyClick ), NULL, this);
 }
 
 LegalNoticesDialogBase::LegalNoticesDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -2590,6 +2611,65 @@ SecurityTokenKeyfilesDialogBase::~SecurityTokenKeyfilesDialogBase()
 
 }
 
+SecurityTokenKeysDialogBase::SecurityTokenKeysDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style )  : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxSize( -1,-1 ), wxDefaultSize );
+	this->SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
+	
+	// whole dialog sizer
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer( wxVERTICAL );
+	
+	// list control sizer for list control and buttons sizer (remove)
+	wxBoxSizer* bSizer138;
+	bSizer138 = new wxBoxSizer( wxHORIZONTAL );
+	
+	// sizer for list control only
+	wxBoxSizer* bSizer142;
+	bSizer142 = new wxBoxSizer( wxVERTICAL );
+	
+	SecurityTokenKeyListCtrl = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_SORT_HEADER|wxLC_REPORT|wxLC_VRULES|wxSUNKEN_BORDER );
+	bSizer142->Add( SecurityTokenKeyListCtrl, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizer138->Add( bSizer142, 1, wxEXPAND, 5 );
+
+	// ok cancel buttons
+	wxBoxSizer* bSizer139;
+	bSizer139 = new wxBoxSizer( wxVERTICAL );
+	
+	OKButton = new wxButton( this, wxID_OK, _("IDOK"), wxDefaultPosition, wxDefaultSize, 0 );
+	OKButton->SetDefault(); 
+	bSizer139->Add( OKButton, 0, wxALL, 5 );
+	
+	CancelButton = new wxButton( this, wxID_CANCEL, _("IDCANCEL"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer139->Add( CancelButton, 0, wxALL, 5 );
+	
+	
+	bSizer138->Add( bSizer139, 0, wxEXPAND, 5 );
+	
+	
+	bSizer3->Add( bSizer138, 1, wxEXPAND|wxALL, 5 );
+
+	this->SetSizer( bSizer3 );
+	this->Layout();
+	bSizer3->Fit( this );
+	
+	// Connect Events
+	SecurityTokenKeyListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( SecurityTokenKeysDialogBase::OnListItemActivated ), NULL, this );
+	SecurityTokenKeyListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( SecurityTokenKeysDialogBase::OnListItemDeselected ), NULL, this );
+	SecurityTokenKeyListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( SecurityTokenKeysDialogBase::OnListItemSelected ), NULL, this );
+	OKButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SecurityTokenKeysDialogBase::OnOKButtonClick ), NULL, this );
+}
+
+SecurityTokenKeysDialogBase::~SecurityTokenKeysDialogBase()
+{
+	SecurityTokenKeyListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( SecurityTokenKeysDialogBase::OnListItemActivated ), NULL, this );
+	SecurityTokenKeyListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( SecurityTokenKeysDialogBase::OnListItemDeselected ), NULL, this );
+	SecurityTokenKeyListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( SecurityTokenKeysDialogBase::OnListItemSelected ), NULL, this );
+	OKButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SecurityTokenKeysDialogBase::OnOKButtonClick ), NULL, this );
+}
+
 VolumePropertiesDialogBase::VolumePropertiesDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
@@ -3407,6 +3487,11 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	KeyfilesButton = new wxButton( this, wxID_ANY, _("IDC_KEYFILES_HIDVOL_PROT"), wxDefaultPosition, wxDefaultSize, 0 );
 	GridBagSizer->Add( KeyfilesButton, wxGBPosition( 7, 2 ), wxGBSpan( 1, 1 ), wxALIGN_RIGHT|wxALIGN_BOTTOM|wxLEFT, 5 );
 
+	SecurityTokenKeySpecText = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	SecurityTokenKeySpecButton = new wxButton(this, wxID_ANY, _("IDC_SECURITY_TOKEN_KEY"), wxDefaultPosition, wxDefaultSize, 0);
+	GridBagSizer->Add (SecurityTokenKeySpecText, wxGBPosition(8, 1), wxGBSpan( 1, 1), wxTOP | wxRIGHT | wxLEFT, 5);
+	GridBagSizer->Add (SecurityTokenKeySpecButton, wxGBPosition (8, 2), wxGBSpan( 1, 1), wxALIGN_RIGHT|wxALIGN_BOTTOM|wxLEFT, 5);
+
 	Pkcs5PrfSizer = new wxBoxSizer( wxVERTICAL );
 
 
@@ -3457,6 +3542,7 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	KeyfilesButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonClick ), NULL, this );
 	KeyfilesButton->Connect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonRightDown ), NULL, this );
 	KeyfilesButton->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonRightClick ), NULL, this );
+	SecurityTokenKeySpecButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED,  wxMouseEventHandler( VolumePasswordPanelBase::OnSecurityTokenKeySpecButtonClick ), NULL, this );
 }
 
 VolumePasswordPanelBase::~VolumePasswordPanelBase()
@@ -3471,7 +3557,7 @@ VolumePasswordPanelBase::~VolumePasswordPanelBase()
 	KeyfilesButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonClick ), NULL, this );
 	KeyfilesButton->Disconnect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonRightDown ), NULL, this );
 	KeyfilesButton->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonRightClick ), NULL, this );
-
+	SecurityTokenKeySpecButton->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED,  wxMouseEventHandler( VolumePasswordPanelBase::OnSecurityTokenKeySpecButtonClick ), NULL, this );
 }
 
 VolumePasswordWizardPageBase::VolumePasswordWizardPageBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : WizardPage( parent, id, pos, size, style, name )

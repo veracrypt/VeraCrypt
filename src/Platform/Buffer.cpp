@@ -24,6 +24,10 @@ namespace VeraCrypt
 		Allocate (size, alignment);
 	}
 
+	Buffer::Buffer (const ConstBufferPtr &bufferPtr, size_t alignment) : DataPtr(nullptr), DataSize(0), DataAlignment(0) {
+		CopyFrom (bufferPtr, alignment);
+	}
+
 	Buffer::~Buffer ()
 	{
 		if (DataPtr != nullptr)

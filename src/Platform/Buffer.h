@@ -72,7 +72,7 @@ namespace VeraCrypt
 	public:
 		Buffer ();
 		Buffer (size_t size, size_t alignment = 0);
-		Buffer (const ConstBufferPtr &bufferPtr, size_t alignment = 0) { CopyFrom (bufferPtr, alignment); }
+		Buffer (const ConstBufferPtr &bufferPtr, size_t alignment = 0);
 		virtual ~Buffer ();
 
 		virtual void Allocate (size_t size, size_t alignment = 0);

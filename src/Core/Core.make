@@ -1,4 +1,3 @@
-#
 # Derived from source code of TrueCrypt 7.1a, which is
 # Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 # by the TrueCrypt License 3.0.
@@ -23,9 +22,18 @@ OBJS += Unix/CoreServiceRequest.o
 OBJS += Unix/CoreServiceResponse.o
 OBJS += Unix/CoreUnix.o
 OBJS += Unix/$(PLATFORM)/Core$(PLATFORM).o
-OBJS += Unix/$(PLATFORM)/Core$(PLATFORM).o
+
 ifeq "$(PLATFORM)" "MacOSX"
 OBJS += Unix/FreeBSD/CoreFreeBSD.o
 endif
 
+TEST_EXECS := CoreTest.o
+
+TEST_EXT_LIBS += $(shell pkg-config fuse --libs)
+TEST_LFLAGS += -ldl
+
 include $(BUILD_INC)/Makefile.inc
+
+
+
+
