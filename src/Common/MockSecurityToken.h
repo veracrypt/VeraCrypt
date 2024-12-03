@@ -14,7 +14,7 @@ namespace VeraCrypt
 
     class MockSecurityTokenImpl : public SecurityTokenIface {
             public:
-                MockSecurityTokenImpl() {};
+                MockSecurityTokenImpl() : Initialized(false) {} ;
                 virtual ~MockSecurityTokenImpl() {};
                 void CloseAllSessions () throw () {};
                 void CloseLibrary () {};

@@ -259,7 +259,7 @@ namespace VeraCrypt
 
 	class SecurityTokenImpl : public SecurityTokenIface {
 		public:
-			SecurityTokenImpl() {} ;
+			SecurityTokenImpl() : Initialized(false), Pkcs11Functions(NULL_PTR), Pkcs11LibraryHandle(nullptr) {} ;
 			virtual ~SecurityTokenImpl() {};
 			void CloseAllSessions () throw ();
 			void CloseLibrary ();
