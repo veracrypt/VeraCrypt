@@ -315,7 +315,7 @@ namespace VeraCrypt
 
 			// Header key
 			HeaderKey.Allocate (VolumeHeader::GetLargestSerializedKeySize());
-			PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password, options->EMVSupportEnabled);
+			PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password, options->SecurityTokenKeySpec, options->EMVSupportEnabled);
 			options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, options->Pim, salt);
 			headerOptions.HeaderKey = HeaderKey;
 

@@ -1036,8 +1036,9 @@ static bool IsExecutable(const string& exe) {
 					if (Preferences.NonInteractive)
 					{
 						// Volume path
-						if (!cmdLine.ArgMountOptions.Path)
+						if (!cmdLine.ArgMountOptions.Path) {
 							throw MissingArgument (SRC_POS);
+						}
 
 						mountedVolumes.push_back (Core->MountVolume (cmdLine.ArgMountOptions));
 					}
@@ -1076,7 +1077,7 @@ static bool IsExecutable(const string& exe) {
 			return true;
 
 		case CommandId::ChangePassword:
-			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgPim, cmdLine.ArgHash, cmdLine.ArgKeyfiles, cmdLine.ArgNewPassword, cmdLine.ArgNewPim, cmdLine.ArgNewKeyfiles, cmdLine.ArgNewHash);
+			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgPim, cmdLine.ArgHash, cmdLine.ArgKeyfiles, cmdLine.ArgSecurityTokenKeySpec, cmdLine.ArgNewPassword, cmdLine.ArgNewPim, cmdLine.ArgNewKeyfiles, cmdLine.ArgNewHash);
 			return true;
 
 		case CommandId::CreateKeyfile:

@@ -70,6 +70,7 @@ namespace VeraCrypt
 		unique_ptr <wxTimer> ProgressTimer;
 		unique_ptr <wxTimer> RandomPoolUpdateTimer;
 		shared_ptr <KeyfileList> Keyfiles;
+		wstring SecurityTokenKeySpec;
 		bool LargeFilesSupport;
 		uint64 MaxHiddenVolumeSize;
 		shared_ptr <VolumeInfo> MountedOuterVolume;
