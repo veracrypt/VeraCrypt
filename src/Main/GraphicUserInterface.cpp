@@ -826,6 +826,19 @@ namespace VeraCrypt
 			return volume;
 		}
 
+
+		// check if the volume path exists using stat function. Only ENOENT error is handled to exclude permission denied error
+		struct stat statBuf;
+		if (stat (string (*options.Path).c_str(), &statBuf) != 0)
+		{
+			if (errno == ENOENT)
+			{
+				SystemException ex (SRC_POS);
+				ShowError (ex);
+				return volume;
+			}
+		}
+
 		try
 		{
 			if ((!options.Password || options.Password->IsEmpty())
