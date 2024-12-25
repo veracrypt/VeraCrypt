@@ -292,41 +292,33 @@ namespace VeraCrypt
 			while (!ElevatedServiceAvailable)
 			{
 				//	Test if the user has an active "sudo" session.
-				//	This is only done under Linux / FreeBSD by executing the command 'sudo -n uptime'.
-				//	In case a "sudo" session is active, the result of the command contains the string 'load average'.
-				//	Otherwise, the result contains "sudo: a password is required".
-				//	This may not work on all OSX versions because of a bug in sudo in its version 1.7.10,
-				//	therefore we keep the old behaviour of sending a 'dummy' password under OSX.
-				//	See : https://superuser.com/questions/902826/why-does-sudo-n-on-mac-os-x-always-return-0
-				//
-				//	If for some reason we are getting empty output from pipe, we revert to old behavior
-				//	We also use the old way if the user is forcing the use of dummy password for sudo
-				
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
 				bool authCheckDone = false;
 				if (!Core->GetUseDummySudoPassword ())
-				{
-					std::vector<char> buffer(128, 0);
-					std::string result;
-					
-					FILE* pipe = popen("sudo -n uptime 2>&1 | grep 'load average' | wc -l | tr -d '[:blank:]'", "r");	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+				{	
+					// sudo man page: "If the -l option was specified without a command, sudo, will exit 
+					//                 with a value of 0 if the user is allowed to run sudo, and they authenticated successfully"
+					// We are using -n to avoid prompting the user for a password.
+					// We are redirecting stderr to stdout and discarding both to avoid any output.
+					// This approach also works on newer macOS versions (12.0 and later).
+					FILE* pipe = popen("sudo -n -l > /dev/null 2>&1", "r");	// redirect stderr to stdout and discard both.
 					if (pipe)
 					{
-						while (!feof(pipe))
-						{
-							if (fgets(buffer.data(), 128, pipe) != nullptr)
-								result += buffer.data();
-						}
-						
-						fflush(pipe);
-						pclose(pipe);
+						// We only care about the exit code  
+						char buf[128];  
+						while (!feof(pipe))  
+						{  
+							if (fgets(buf, sizeof(buf), pipe) == NULL)  
+								break;  
+						}  
+						int status = pclose(pipe);  
 						pipe = NULL;
 						
-						if (!result.empty() && strlen(result.c_str()) != 0)
-						{
-							authCheckDone = true;
-							if (result[0] == '0') // no line found with "load average" text, rerquest admin password
-								(*AdminPasswordCallback) (request.AdminPassword);
+						authCheckDone = true;  
+  
+						// If exit code != 0, user does NOT have an active session => request password  
+						if (status != 0)  
+						{  
+							(*AdminPasswordCallback)(request.AdminPassword);  
 						}
 					}
 					
@@ -336,7 +328,7 @@ namespace VeraCrypt
 						request.FastElevation = false;
 					}
 				}
-#endif				
+			
 				try
 				{
 					request.Serialize (ServiceInputStream);
@@ -353,9 +345,8 @@ namespace VeraCrypt
 					}
 
 					request.FastElevation = false;
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
+
 					if(!authCheckDone)
-#endif
 						(*AdminPasswordCallback) (request.AdminPassword);
 				}
 			}

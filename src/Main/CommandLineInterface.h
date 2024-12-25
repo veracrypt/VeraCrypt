@@ -87,9 +87,7 @@ namespace VeraCrypt
         bool ArgAllowScreencapture;
         bool ArgDisableFileSizeCheck;
         bool ArgUseLegacyPassword;
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
         bool ArgUseDummySudoPassword;
-#endif
 
 		bool StartBackgroundTask;
 		UserPreferences Preferences;

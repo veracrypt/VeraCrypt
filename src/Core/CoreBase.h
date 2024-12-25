@@ -77,10 +77,8 @@ namespace VeraCrypt
 		virtual void SetFileOwner (const FilesystemPath &path, const UserId &owner) const = 0;
 		virtual DirectoryPath SlotNumberToMountPoint (VolumeSlotNumber slotNumber) const = 0;
 		virtual void WipePasswordCache () const = 0;
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		virtual void ForceUseDummySudoPassword (bool useDummySudoPassword) { UseDummySudoPassword = useDummySudoPassword;}
 		virtual bool GetUseDummySudoPassword () const { return UseDummySudoPassword;}
-#endif
 
 		Event VolumeDismountedEvent;
 		Event VolumeMountedEvent;
@@ -91,9 +89,7 @@ namespace VeraCrypt
 
 		bool DeviceChangeInProgress;
 		FilePath ApplicationExecutablePath;
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		bool UseDummySudoPassword;
-#endif
 
 	private:
 		CoreBase (const CoreBase &);
