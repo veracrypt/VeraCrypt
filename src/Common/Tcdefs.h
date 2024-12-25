@@ -261,7 +261,7 @@ void ThrowFatalException(int line);
 
 extern ULONG AllocTag;
 
-#define TCalloc(size) ((void *) ExAllocatePool2( POOL_FLAG_NON_PAGED, size, AllocTag ))
+#define TCalloc(size) ((void *) ExAllocatePoolUninitialized( NonPagedPoolNx , size, AllocTag ))
 #define TCfree(memblock) ExFreePoolWithTag( memblock, AllocTag )
 
 #define DEVICE_DRIVER
