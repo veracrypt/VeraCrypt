@@ -327,7 +327,7 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 		// If no active work items remain, signal the event
 		if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
 		{
-			KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_NO_INCREMENT, FALSE);
+			KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_DISK_INCREMENT, FALSE);
 		}
 
 		// Return the work item to the free list
@@ -336,7 +336,7 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
 
 		// Release the semaphore to signal that a work item is available
-		KeReleaseSemaphore(&queue->WorkItemSemaphore, IO_NO_INCREMENT, 1, FALSE);
+		KeReleaseSemaphore(&queue->WorkItemSemaphore, IO_DISK_INCREMENT, 1, FALSE);
 
 		// Free the item
 		ReleasePoolBuffer(queue, item);
