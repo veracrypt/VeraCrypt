@@ -225,39 +225,79 @@ static void ReleaseFragmentBuffer (EncryptedIoQueue *queue, uint8 *buffer)
 	}
 }
 
-BOOL 
+BOOL
 UpdateBuffer(
-	uint8*     buffer,
-	uint8*     secRegion,
-	uint64    bufferDiskOffset,
-	uint32    bufferLength,
-	BOOL      doUpadte
-	) 
+	uint8* buffer,
+	uint8* secRegion,
+	SIZE_T     secRegionSize,
+	uint64     bufferDiskOffset,
+	uint32     bufferLength,
+	BOOL       doUpadte
+)
 {
 	uint64       intersectStart;
 	uint32       intersectLength;
 	uint32       i;
-	DCS_DISK_ENTRY_LIST *DeList = (DCS_DISK_ENTRY_LIST*)(secRegion + 512);
+	DCS_DISK_ENTRY_LIST *DeList = NULL;
 	BOOL         updated = FALSE;
 
-	if (secRegion == NULL) return FALSE;
+	if (secRegion == NULL)
+		return FALSE;
+
+	// Check if secRegion is large enough to hold the DCS_DISK_ENTRY_LIST structure 
+	// starting at offset 512
+	if (secRegionSize < (512 + sizeof(DCS_DISK_ENTRY_LIST)))
+		return FALSE;
+
+	DeList = (DCS_DISK_ENTRY_LIST*)(secRegion + 512);
+
+	// Ensure Count doesn't exceed the fixed array size
+	if (DeList->Count > 15)
+		return FALSE;
+
 	for (i = 0; i < DeList->Count; ++i) {
 		if (DeList->DE[i].Type == DE_Sectors) {
+			uint64 sectorStart = DeList->DE[i].Sectors.Start;
+			uint64 sectorLength = DeList->DE[i].Sectors.Length;
+			uint64 sectorOffset = DeList->DE[i].Sectors.Offset;
+
+			// Check that sectorOffset and sectorLength are valid within secRegion
+			if (sectorOffset > secRegionSize ||
+				sectorLength == 0 ||
+				(sectorOffset + sectorLength) > secRegionSize)
+			{
+				// Invalid entry - skip
+				continue;
+			}
+
 			GetIntersection(
 				bufferDiskOffset, bufferLength,
-				DeList->DE[i].Sectors.Start, DeList->DE[i].Sectors.Start + DeList->DE[i].Sectors.Length - 1,
+				sectorStart, sectorStart + sectorLength - 1,
 				&intersectStart, &intersectLength
-				);
+			);
+
 			if (intersectLength != 0) {
+				uint64 bufferPos = intersectStart - bufferDiskOffset;
+				uint64 regionPos = sectorOffset + (intersectStart - sectorStart);
+
+				// Check buffer boundaries
+				if (bufferPos + intersectLength > bufferLength)
+					continue; // Intersection out of buffer range
+
+				// Check secRegion boundaries
+				if (regionPos + intersectLength > secRegionSize)
+					continue; // Intersection out of secRegion range
+
 				updated = TRUE;
-				if(doUpadte && buffer != NULL) {
-//					Dump("Subst data\n");
+				if (doUpadte && buffer != NULL) {
 					memcpy(
-						buffer + (intersectStart - bufferDiskOffset),
-						secRegion + DeList->DE[i].Sectors.Offset + (intersectStart - DeList->DE[i].Sectors.Start),
+						buffer + bufferPos,
+						secRegion + regionPos,
 						intersectLength
-						);
-				} else {
+					);
+				}
+				else {
+					// If no update is needed but intersection found
 					return TRUE;
 				}
 			}
@@ -378,7 +418,7 @@ static VOID CompletionThreadProc(PVOID threadArg)
 //			Dump("Read sector %lld count %d\n", request->Offset.QuadPart >> 9, request->Length >> 9);
 			// Update subst sectors
 			if((queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)) {
-				UpdateBuffer(request->Data, queue->SecRegionData, request->Offset.QuadPart, request->Length, TRUE);
+				UpdateBuffer(request->Data, queue->SecRegionData, queue->SecRegionSize, request->Offset.QuadPart, request->Length, TRUE);
 			}
 
 			if (request->CompleteOriginalIrp)
@@ -731,7 +771,7 @@ static VOID MainThreadProc (PVOID threadArg)
 					}
 					// Update subst sectors
  					if((queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)) {
- 						UpdateBuffer(buffer, queue->SecRegionData, alignedOffset.QuadPart, alignedLength, TRUE);
+ 						UpdateBuffer(buffer, queue->SecRegionData, queue->SecRegionSize, alignedOffset.QuadPart, alignedLength, TRUE);
  					}
 
 					memcpy (dataBuffer, buffer + (item->OriginalOffset.LowPart & (ENCRYPTION_DATA_UNIT_SIZE - 1)), item->OriginalLength);
@@ -824,7 +864,7 @@ static VOID MainThreadProc (PVOID threadArg)
 			} 
 			else if (item->Write
 				&& (queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)
-				&& UpdateBuffer (NULL, queue->SecRegionData, item->OriginalOffset.QuadPart, (uint32)(item->OriginalOffset.QuadPart + item->OriginalLength - 1), FALSE))
+				&& UpdateBuffer (NULL, queue->SecRegionData, queue->SecRegionSize, item->OriginalOffset.QuadPart, (uint32)(item->OriginalOffset.QuadPart + item->OriginalLength - 1), FALSE))
 			{
 				// Prevent inappropriately designed software from damaging important data
 				Dump ("Preventing write to the system GPT area\n");
