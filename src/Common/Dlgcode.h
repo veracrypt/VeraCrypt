@@ -286,6 +286,9 @@ typedef NTSTATUS (WINAPI *NtQuerySystemInformationFn)(
 #define	ISO_BURNER_TOOL L"isoburn.exe"
 #define PRINT_TOOL L"notepad.exe"
 
+#define WIN_10_1607_BUILD 14393  // Windows 10 version 1607 corresponds to build 14393
+#define WIN_10_1809_BUILD 17763  // Windows 10 version 1809 corresponds to build 17763
+
 void InitGlobalLocks ();
 void FinalizeGlobalLocks ();
 void cleanup ( void );
@@ -500,6 +503,7 @@ void Debug (char *format, ...);
 void DebugMsgBox (char *format, ...);
 BOOL IsOSAtLeast (OSVersionEnum reqMinOS);
 BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack);
+BOOL IsWin10BuildAtLeast(DWORD minBuild);
 BOOL IsSupportedOS ();
 BOOL Is64BitOs ();
 BOOL IsARM();

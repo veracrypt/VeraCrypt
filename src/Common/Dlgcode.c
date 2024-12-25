@@ -1046,6 +1046,20 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 		>= (major << 16 | minor << 8 | reqMinServicePack));
 }
 
+BOOL IsWin10BuildAtLeast(DWORD minBuild)
+{
+	// Must first be recognized as Windows 10 or higher  
+	if (nCurrentOS < WIN_10)
+		return FALSE;
+
+	// If we’re on Windows 10, check build number  
+	if (nCurrentOS == WIN_10 && CurrentOSBuildNumber < minBuild)
+		return FALSE;
+
+	// If we are on a higher version of Windows, we are good to go
+	return TRUE;
+}
+
 #ifdef SETUP_DLL
 static BOOL GetWindowVersionFromFile(DWORD* pdwMajor, DWORD* pdwMinor, DWORD* pdwBuildNumber)
 {
@@ -3611,10 +3625,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	InitOSVersionInfo();
 
-	if (!IsOSAtLeast (WIN_10))
+	if (!IsWin10BuildAtLeast(WIN_10_1809_BUILD))
 	{
-		// abort using a message that says that VeraCrypt can run only on Windows 10 and later
-		AbortProcessDirect(L"VeraCrypt requires at least Windows 10 to run.");
+		// abort using a message that says that VeraCrypt can run only on Windows 10 version 1809 or later
+		AbortProcessDirect(L"VeraCrypt requires at least Windows 10 version 1809 (October 2018 Update) to run.");
 	}
 
 	if (!Is64BitOs())

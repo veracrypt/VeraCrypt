@@ -3202,7 +3202,7 @@ namespace VeraCrypt
 	void BootEncryption::UpdateSetupConfigFile (bool bForInstall)
 	{
 		// starting from Windows 10 1607 (Build 14393), ReflectDrivers in Setupconfig.ini is supported
-		if (IsOSVersionAtLeast (WIN_10, 0) && CurrentOSBuildNumber >= 14393)
+		if (IsWin10BuildAtLeast(WIN_10_1607_BUILD))
 		{
 			wchar_t szInstallPath [TC_MAX_PATH];
 			wchar_t szSetupconfigLocation [TC_MAX_PATH + 20];
