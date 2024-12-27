@@ -546,15 +546,15 @@
     <entry lang="eu" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">Oharra: Amu sistematik ezkutuko sistemara fitxategiak sekurtasunez mugitu behar badituzu, hurrengo pausoak jarraitu itzazu:\n1) Amu sistema abiatu.\n2) Fitxategiak zifratu gabeko bolumen batera edo kanpoko/ohiko VeraCrypt bolumen batera kopiatu itzazu.\n3) Ezkutuko sistema abiatu.\n4)Fitxategiak TrueCryp bolumen batera kopiatu badituzu, muntatu ezazu (automatikoki irakurtzeko bakarrik muntatuko da).\n5) Fitxategiak ezkutuko sistemaren partiziora edo beste ezkutuko bolumen batera kopiatu itzazu.</entry>
     <entry lang="eu" key="CONFIRM_RESTART">Zure ordenagailua berpiztu behar da.\n\nOrain berpiztu nahi al duzu?</entry>
     <entry lang="eu" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Errore bat jazo da sistemaren enkripzio egoera irakurtzen ari zenean.</entry>
-    <entry lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</entry>
-    <entry lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</entry>
-    <entry lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</entry>
-    <entry lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</entry>
-    <entry lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</entry>
-    <entry lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</entry>
-    <entry lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</entry>
+    <entry lang="eu" key="ERR_PASSWORD_MISSING">Ez dago pasahitzik komando lerroan zehaztu. Bolumena ezin da sortu.</entry>
+    <entry lang="eu" key="ERR_SIZE_MISSING">Ez dago komando-lerroko bolumen-tamainarik zehaztu. Bolumena ezin da sortu.</entry>
+    <entry lang="eu" key="ERR_NTFS_INVALID_VOLUME_SIZE">Komando lerroan zehaztutako bolumen-fitxategiaren tamaina bateraezina da hautatutako NTFS fitxategi-sistemarekin.</entry>
+    <entry lang="eu" key="ERR_FAT_INVALID_VOLUME_SIZE">Komando lerroan zehaztutako bolumen-fitxategiaren tamaina bateraezina da hautatutako FAT32 fitxategi-sistemarekin.</entry>
+    <entry lang="eu" key="ERR_DYNAMIC_NOT_SUPPORTED">Xede unitateko fitxategi-sistemak ez du onartzen bolumen dinamikoetarako beharrezkoak diren fitxategi urriak sortzea.</entry>
+    <entry lang="eu" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Komando-lerroaren bidez edukiontzi-fitxategiak soilik sor daitezke.</entry>
+    <entry lang="eu" key="ERR_CONTAINER_SIZE_TOO_BIG">Komando-lerroan zehaztutako edukiontzi-fitxategiaren tamaina disko libreko espazio librea baino handiagoa da. Bolumena ezin da sortu.</entry>
+    <entry lang="eu" key="ERR_VOLUME_SIZE_TOO_SMALL">Komando lerroan zehaztutako bolumenaren tamaina txikiegia da. Bolumena ezin da sortu.</entry>
+    <entry lang="eu" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</entry>
     <entry lang="eu" key="INIT_SYS_ENC">Ezin izan dira aplikazioaren osagaiak hasieratu sistema zifratzeko.</entry>
     <entry lang="eu" key="INIT_RAND">Ausazko zenbakien sortzailea hasieratzerakoan hutse egin du!</entry>
     <entry lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</entry>
