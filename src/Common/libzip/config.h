@@ -10,6 +10,9 @@
 #define HAVE__DUP
 #define HAVE__FDOPEN
 #define HAVE__FILENO
+#define HAVE__FSEEKI64
+#define HAVE__FSTAT64
+#define HAVE__FTELLI64
 #define HAVE__SETMODE
 #if defined(_MSC_VER) && _MSC_VER < 1900
 #define HAVE__SNPRINTF
@@ -18,6 +21,7 @@
 #endif
 #define HAVE__SNPRINTF_S
 #define HAVE__SNWPRINTF_S
+#define HAVE__STAT64
 #define HAVE__STRDUP
 #define HAVE__STRICMP
 #define HAVE__STRTOI64
@@ -88,6 +92,6 @@
 #define HAVE_SHARED
 /* END DEFINES */
 #define PACKAGE "libzip"
-#define VERSION "1.10.1"
+#define VERSION "1.11.2"
 
 #endif /* HAD_CONFIG_H */

@@ -1,6 +1,6 @@
 /*
  zip_io_util.c -- I/O helper functions
- Copyright (C) 1999-2021 Dieter Baron and Thomas Klausner
+ Copyright (C) 1999-2024 Dieter Baron and Thomas Klausner
 
  This file is part of libzip, a library to manipulate ZIP archives.
  The authors can be contacted at <info@libzip.org>
@@ -69,8 +69,14 @@ _zip_read_data(zip_buffer_t *buffer, zip_source_t *src, size_t length, bool nulp
         return NULL;
     }
 
+// VS2022: Workaround an Internal compiler error for Release ARM (32-bit) build.
+#if _MSC_VER >= 1940 && _MSC_VER < 1950 && defined(_M_ARM) && defined(NDEBUG)
+    size_t l = length + (nulp ? 1 : 0);
+    r = (zip_uint8_t *)malloc(l);
+#else
     r = (zip_uint8_t *)malloc(length + (nulp ? 1 : 0));
-    if (!r) {
+#endif
+    if (r == NULL) {
         zip_error_set(error, ZIP_ER_MEMORY, 0);
         return NULL;
     }

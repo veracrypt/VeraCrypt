@@ -1,3 +1,20 @@
+# 1.11.2 [2024-10-31]
+
+* Fix performance regression in `zip_stat` introduced in 1.11.
+
+# 1.11.1 [2024-09-19]
+
+* Fix zipconf.h for version number with missing third component.
+
+# 1.11 [2024-09-19]
+
+* Stop searching after finding acceptable central directory, even if it contains inconsistencies.
+* Only write Zip64 EOCD if fields don't fit in normal EOCD. Previously libzip also wrote it when any directory entry required Zip64.
+* Allow bytes from 0x00-0x1F as UTF-8.
+* Add new error code `ZIP_ER_TRUNCATED_ZIP` for files that start with a valid local header signature.
+* `zipcmp`: add `-T` option for comparing timestamps.
+* `zip_file_replace` now removes the target's extra field information.
+
 # 1.10.1 [2023-08-23]
 
 * Add `ZIP_LENGTH_TO_END` and `ZIP_LENGTH_UNCHECKED`. Unless `ZIP_LENGTH_UNCHECKED` is used as `length`, it is an error for a file to shrink between the time when the source is created and when its data is read.
