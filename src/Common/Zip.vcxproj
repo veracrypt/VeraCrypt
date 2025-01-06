@@ -114,6 +114,7 @@
     <ClCompile Include="libzip\zip_source_file_win32_utf8.c" />
     <ClCompile Include="libzip\zip_source_free.c" />
     <ClCompile Include="libzip\zip_source_function.c" />
+    <ClCompile Include="libzip\zip_source_get_dostime.c" />
     <ClCompile Include="libzip\zip_source_get_file_attributes.c" />
     <ClCompile Include="libzip\zip_source_is_deleted.c" />
     <ClCompile Include="libzip\zip_source_layered.c" />
