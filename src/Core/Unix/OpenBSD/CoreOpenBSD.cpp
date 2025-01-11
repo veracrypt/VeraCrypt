@@ -75,7 +75,7 @@ namespace VeraCrypt
 
 		args.push_back (filePath);
 
-		Process::Execute ("vnconfig", args);
+		Process::Execute ("/sbin/vnconfig", args);
 
 		return "/dev/" + freePath.str() + "c";
 	}
@@ -90,7 +90,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Process::Execute ("vnconfig", args);
+				Process::Execute ("/sbin/vnconfig", args);
 				break;
 			}
 			catch (ExecutedProcessFailed&)

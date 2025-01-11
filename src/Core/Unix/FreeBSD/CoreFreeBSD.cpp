@@ -46,7 +46,7 @@ namespace VeraCrypt
 		args.push_back ("-f");
 		args.push_back (filePath);
 
-		string dev = StringConverter::Trim (Process::Execute ("mdconfig", args));
+		string dev = StringConverter::Trim (Process::Execute ("/sbin/mdconfig", args));
 
 		if (dev.find ("/") == string::npos)
 			dev = string ("/dev/") + dev;
@@ -65,7 +65,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Process::Execute ("mdconfig", args);
+				Process::Execute ("/sbin/mdconfig", args);
 				break;
 			}
 			catch (ExecutedProcessFailed&)

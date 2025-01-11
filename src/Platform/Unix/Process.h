@@ -31,6 +31,8 @@ namespace VeraCrypt
 		Process ();
 		virtual ~Process ();
 
+		static bool IsExecutable(const std::string& path);
+		static std::string FindSystemBinary(const char* name, std::string& errorMsg);
 		static string Execute (const string &processName, const list <string> &arguments, int timeOut = -1, ProcessExecFunctor *execFunctor = nullptr, const Buffer *inputData = nullptr);
 
 	protected:

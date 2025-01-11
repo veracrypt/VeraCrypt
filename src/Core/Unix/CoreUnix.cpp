@@ -29,6 +29,41 @@ namespace VeraCrypt
 	static bool SamePath (const string& path1, const string& path2);
 #endif
 
+	// Struct to hold terminal emulator information
+	struct TerminalInfo {
+		const char* name;
+		const char** args;
+		const char** dependency_path;
+	};
+
+	// Popular terminal emulators data and arguments
+	static const char* xterm_args[] = {"-T", "fsck", "-e", NULL};
+
+	static const char* gnome_args[] = {"--title", "fsck", "--", "sh", "-c", NULL};
+	static const char* gnome_deps[] = {"dbus-launch", NULL};
+
+	static const char* konsole_args[] = {"--hold", "-p", "tabtitle=fsck", "-e", "sh", "-c", NULL};
+	static const char* xfce4_args[] = {"--title=fsck", "-x", "sh", "-c", NULL};
+	static const char* mate_args[] = {"--title", "fsck", "--", "sh", "-c", NULL};
+	static const char* lxterminal_args[] = {"--title=fsck", "-e", "sh", "-c", NULL};
+	static const char* terminator_args[] = {"-T", "fsck", "-x", "sh", "-c", NULL};
+	static const char* urxvt_args[] = {"-title", "fsck", "-e", "sh", "-c", NULL};
+	static const char* st_args[] = {"-t", "fsck", "-e", "sh", "-c", NULL};
+
+	// List of popular terminal emulators
+	static const TerminalInfo TERMINALS[] = {
+		{"xterm", xterm_args, NULL},
+		{"gnome-terminal", gnome_args, gnome_deps},
+		{"konsole", konsole_args, NULL},
+		{"xfce4-terminal", xfce4_args, NULL},
+		{"mate-terminal", mate_args, NULL},
+		{"lxterminal", lxterminal_args, NULL},
+		{"terminator", terminator_args, NULL},
+		{"urxvt", urxvt_args, NULL},
+		{"st", st_args, NULL},
+		{NULL, NULL, NULL}
+	};
+
 	CoreUnix::CoreUnix ()
 	{
 		signal (SIGPIPE, SIG_IGN);
@@ -47,14 +82,16 @@ namespace VeraCrypt
 		if (!mountedVolume->MountPoint.IsEmpty())
 			DismountFilesystem (mountedVolume->MountPoint, false);
 
+		// Find system fsck first
+		std::string errorMsg;
+		std::string fsckPath = Process::FindSystemBinary("fsck", errorMsg);
+		if (fsckPath.empty()) {
+			throw SystemException(SRC_POS, errorMsg);
+		}
+
 		list <string> args;
 
-		args.push_back ("-T");
-		args.push_back ("fsck");
-
-		args.push_back ("-e");
-
-		string xargs = "fsck ";
+		string xargs = fsckPath + " ";  // Use absolute fsck path
 
 #ifdef TC_LINUX
 		if (!repair)
@@ -64,49 +101,48 @@ namespace VeraCrypt
 #endif
 
 		xargs += string (mountedVolume->VirtualDevice) + "; echo '[Done]'; read W";
-		args.push_back (xargs);
+		// Try each terminal
+		for (const TerminalInfo* term = TERMINALS; term->name != NULL; ++term) {
+			errno = 0;
+			std::string termPath = Process::FindSystemBinary(term->name, errorMsg);
+			if (termPath.length() > 0) {
+				// check dependencies
+				if (term->dependency_path) {
+					bool depFound = true;
+					for (const char** dep = term->dependency_path; *dep != NULL; ++dep) {
+						string depPath = Process::FindSystemBinary(*dep, errorMsg);
+						if (depPath.empty()) {
+							depFound = false;
+							break;
+						}
+					}
 
-		try
-		{
-			Process::Execute ("xterm", args, 1000);
-		} catch (TimeOut&) { }
-#ifdef TC_LINUX
-		catch (SystemException&)
-		{
-			// xterm not available. Try with KDE konsole if it exists
-			struct stat sb;
-			if (stat("/usr/bin/konsole", &sb) == 0)
-			{
-				args.clear ();
-				args.push_back ("-p");
-				args.push_back ("tabtitle=fsck");
-				args.push_back ("-e");
-				args.push_back ("sh");
-				args.push_back ("-c");
-				args.push_back (xargs);
-				try
-				{
-					Process::Execute ("konsole", args, 1000);
-				} catch (TimeOut&) { }
+					if (!depFound) {
+						continue; // dependency not found, skip 
+					}
+				}
+
+				// Build args
+				std::list<std::string> args;
+				for (const char** arg = term->args; *arg != NULL; ++arg) {
+					args.push_back(*arg);
+				}
+				args.push_back(xargs);
+
+				try {
+					Process::Execute (termPath, args, 1000);
+					return;
+				}
+				catch (TimeOut&) {
+					return;
+				}
+				catch (SystemException&) {
+					// Continue to next terminal
+				}
 			}
-			else if (stat("/usr/bin/gnome-terminal", &sb) == 0 && stat("/usr/bin/dbus-launch", &sb) == 0)
-			{
-				args.clear ();
-				args.push_back ("--title");
-				args.push_back ("fsck");
-				args.push_back ("--");
-				args.push_back ("sh");
-				args.push_back ("-c");
-				args.push_back (xargs);
-				try
-				{
-					Process::Execute ("gnome-terminal", args, 1000);
-				} catch (TimeOut&) { }
-			}
-			else
-				throw TerminalNotFound();
 		}
-#endif
+
+		throw TerminalNotFound();
 	}
 
 	void CoreUnix::DismountFilesystem (const DirectoryPath &mountPoint, bool force) const

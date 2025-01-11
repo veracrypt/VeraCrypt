@@ -47,7 +47,7 @@ namespace VeraCrypt
 
 			try
 			{
-				Process::Execute ("hdiutil", args);
+				Process::Execute ("/usr/bin/hdiutil", args);
 			}
 			catch (ExecutedProcessFailed &e)
 			{
@@ -84,7 +84,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Process::Execute ("umount", args);
+				Process::Execute ("/usr/bin/umount", args);
 				break;
 			}
 			catch (ExecutedProcessFailed&)
@@ -114,7 +114,7 @@ namespace VeraCrypt
 		else
 			args.push_back ("/System/Applications/Utilities/Disk Utility.app");
 
-		Process::Execute ("open", args);
+		Process::Execute ("/usr/bin/open", args);
 	}
 
 	void CoreMacOSX::MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const
@@ -190,7 +190,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				xml = Process::Execute ("hdiutil", args);
+				xml = Process::Execute ("/usr/bin/hdiutil", args);
 				break;
 			}
 			catch (ExecutedProcessFailed &e)
@@ -233,7 +233,7 @@ namespace VeraCrypt
 				args.push_back (volImage);
 				args.push_back ("-force");
 
-				Process::Execute ("hdiutil", args);
+				Process::Execute ("/usr/bin/hdiutil", args);
 			}
 			catch (ExecutedProcessFailed&) { }
 			throw;

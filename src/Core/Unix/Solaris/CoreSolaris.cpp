@@ -35,7 +35,7 @@ namespace VeraCrypt
 		args.push_back ("-a");
 		args.push_back (filePath);
 
-		return StringConverter::Trim (Process::Execute ("lofiadm", args));
+		return StringConverter::Trim (Process::Execute ("/usr/sbin/lofiadm", args));
 	}
 
 	void CoreSolaris::DetachLoopDevice (const DevicePath &devicePath) const
@@ -48,7 +48,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Process::Execute ("lofiadm", args);
+				Process::Execute ("/usr/sbin/lofiadm", args);
 				break;
 			}
 			catch (ExecutedProcessFailed&)
