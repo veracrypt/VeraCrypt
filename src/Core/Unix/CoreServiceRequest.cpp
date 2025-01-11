@@ -23,6 +23,9 @@ namespace VeraCrypt
 		ApplicationExecutablePath = sr.DeserializeWString ("ApplicationExecutablePath");
 		sr.Deserialize ("ElevateUserPrivileges", ElevateUserPrivileges);
 		sr.Deserialize ("FastElevation", FastElevation);
+		sr.Deserialize ("UserEnvPATH", UserEnvPATH);
+		sr.Deserialize ("UseDummySudoPassword", UseDummySudoPassword);
+		sr.Deserialize ("AllowInsecureMount", AllowInsecureMount);
 	}
 
 	void CoreServiceRequest::Serialize (shared_ptr <Stream> stream) const
@@ -33,6 +36,9 @@ namespace VeraCrypt
 		sr.Serialize ("ApplicationExecutablePath", wstring (ApplicationExecutablePath));
 		sr.Serialize ("ElevateUserPrivileges", ElevateUserPrivileges);
 		sr.Serialize ("FastElevation", FastElevation);
+		sr.Serialize ("UserEnvPATH", UserEnvPATH);
+		sr.Serialize ("UseDummySudoPassword", UseDummySudoPassword);
+		sr.Serialize ("AllowInsecureMount", AllowInsecureMount);
 	}
 
 	// CheckFilesystemRequest

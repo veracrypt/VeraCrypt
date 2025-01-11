@@ -33,6 +33,9 @@ namespace VeraCrypt
 		ArgDisableFileSizeCheck (false),
 		ArgUseLegacyPassword (false),
 		ArgUseDummySudoPassword (false),
+#if defined(TC_UNIX)
+		ArgAllowInsecureMount (false),
+ #endif
 		StartBackgroundTask (false)
 	{
 		wxCmdLineParser parser;
@@ -107,6 +110,9 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"legacy-password-maxlength", _("Use legacy maximum password length (64 UTF-8 bytes)"));
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		parser.AddSwitch (L"",	L"use-dummy-sudo-password",	_("Use dummy password in sudo to detect if it is already authenticated"));
+#endif
+#if defined(TC_UNIX)
+		parser.AddSwitch (L"",	L"allow-insecure-mount",	_("Allow mounting volumes on mount points that are in the user's PATH"));
 #endif
 		wxString str;
 		bool param1IsVolume = false;
@@ -375,6 +381,10 @@ namespace VeraCrypt
 		ArgDisableFileSizeCheck = parser.Found (L"no-size-check");
 		ArgUseLegacyPassword = parser.Found (L"legacy-password-maxlength");		
 		ArgUseDummySudoPassword = parser.Found (L"use-dummy-sudo-password");
+
+#if defined(TC_UNIX)
+		ArgAllowInsecureMount = parser.Found (L"allow-insecure-mount");
+#endif
 
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
 		if (parser.Found (L"fs-options", &str))

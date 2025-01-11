@@ -1660,6 +1660,9 @@ Information about Corsican localization:
 		<entry lang="co" key="ERR_XTS_MASTERKEY_VULNERABLE">AVERTIMENTU : A chjave principale di u vulume hè vulnerevule à un attaccu chì cumprumette à sicurità di i dati.\n\nCi vole à creà un vulume novu è trasferisceci i dati.</entry>
 		<entry lang="co" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">AVERTIMENTU : A chjave principale di u sistema cifratu hè vulnerevule à un attaccu chì cumprumette à sicurità di i dati.\n\nCi vole à dicifrà a partizione o u lettore di u sistema eppò cifrallu torna.</entry>
 		<entry lang="co" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">AVERTIMENTU : A chjave principale di u vulume hà una vulnerabilità di sicurità.</entry>
+		<entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
+		<entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
+		<entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">

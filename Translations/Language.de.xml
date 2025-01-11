@@ -1644,6 +1644,9 @@
     <entry lang="de" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNUNG: Der Hauptschlüssel des Volumes ist anfällig für einen Angriff, der die Datensicherheit gefährdet.\n\nBitte erstellen Sie ein neues Volume und übertragen Sie die Daten auf dieses.</entry>
     <entry lang="de" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNUNG: Der Hauptschlüssel des verschlüsselten Systems ist anfällig für einen Angriff, der die Datensicherheit gefährdet.\nBitte entschlüsseln Sie die Systempartition/das Laufwerk und verschlüsseln Sie es anschließend erneut.</entry>
     <entry lang="de" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNUNG: Der Hauptschlüssel des Volumes weist eine Sicherheitslücke auf.</entry>
+    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

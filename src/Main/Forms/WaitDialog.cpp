@@ -117,6 +117,9 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
 		VC_CONVERT_EXCEPTION (EMVPANNotFound);
 
+		VC_CONVERT_EXCEPTION (MountPointBlocked);
+		VC_CONVERT_EXCEPTION (MountPointNotAllowed);
+
 		throw *ex;
 	}
 }

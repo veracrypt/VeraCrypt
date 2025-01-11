@@ -99,6 +99,11 @@ namespace VeraCrypt
 			{
 				shared_ptr <CoreServiceRequest> request = Serializable::DeserializeNew <CoreServiceRequest> (inputStream);
 
+				// Update Core properties based on the received request
+				Core->SetUserEnvPATH (request->UserEnvPATH);
+				Core->ForceUseDummySudoPassword(request->UseDummySudoPassword);
+				Core->SetAllowInsecureMount(request->AllowInsecureMount);
+
 				try
 				{
 					// ExitRequest
@@ -283,12 +288,17 @@ namespace VeraCrypt
 		static Mutex mutex;
 		ScopeLock lock (mutex);
 
+		// Copy Core properties to the request so that they can be transferred to the elevated process
+		request.ApplicationExecutablePath = Core->GetApplicationExecutablePath();
+		request.UserEnvPATH = Core->GetUserEnvPATH();
+		request.UseDummySudoPassword = Core->GetUseDummySudoPassword();
+		request.AllowInsecureMount = Core->GetAllowInsecureMount();
+
 		if (request.RequiresElevation())
 		{
 			request.ElevateUserPrivileges = true;
 			request.FastElevation = !ElevatedServiceAvailable;
-			request.ApplicationExecutablePath = Core->GetApplicationExecutablePath();
-
+			
 			while (!ElevatedServiceAvailable)
 			{
 				//	Test if the user has an active "sudo" session.

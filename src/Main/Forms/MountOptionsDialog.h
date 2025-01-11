@@ -40,7 +40,16 @@ namespace VeraCrypt
 		void OnReadOnlyCheckBoxClick (wxCommandEvent& event) { UpdateDialog(); }
 		void UpdateDialog ();
 
+#ifdef TC_UNIX
+		// Used for displaying a red border around the dialog window when insecure mode is enabled
+		void OnPaint(wxPaintEvent& event);
+		void OnSize(wxSizeEvent& event);
+#endif
+
 		MountOptions &Options;
+#ifdef TC_UNIX
+		bool m_showRedBorder;
+#endif
 		wxString OptionsButtonLabel;
 		VolumePasswordPanel *PasswordPanel;
 		VolumePasswordPanel *ProtectionPasswordPanel;

@@ -1082,7 +1082,12 @@ namespace VeraCrypt
 #endif
 
 			mMainFrame = new MainFrame (nullptr);
-
+#if defined(TC_UNIX)
+			if (CmdLine->ArgAllowInsecureMount)
+			{
+				mMainFrame->SetTitle (mMainFrame->GetTitle() + wxT(" ") + LangString["INSECURE_MODE"]);
+			}
+#endif
 			if (CmdLine->StartBackgroundTask)
 			{
 				UserPreferences prefs = GetPreferences ();

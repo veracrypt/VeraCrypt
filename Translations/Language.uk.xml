@@ -1641,6 +1641,9 @@
     <entry lang="uk" key="ERR_XTS_MASTERKEY_VULNERABLE">ПОПЕРЕДЖЕННЯ: Головний ключ тому є вразливим до атаки, яка компрометує безпеку даних.\n\nБудь ласка, створіть новий том і перенесіть дані до нього.</entry>
     <entry lang="uk" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">ПОПЕРЕДЖЕННЯ: Головний ключ зашифрованої системи є вразливим до атаки, яка компрометує безпеку даних.\nБудь ласка, розшифруйте системний розділ/диск, а потім знову зашифруйте його.</entry>
     <entry lang="uk" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">ПОПЕРЕДЖЕННЯ: Головний ключ тому має уразливість безпеки.</entry>
+    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

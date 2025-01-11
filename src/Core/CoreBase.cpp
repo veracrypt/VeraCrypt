@@ -23,6 +23,9 @@ namespace VeraCrypt
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		, UseDummySudoPassword (false)
 #endif
+#if defined(TC_UNIX)
+		,AllowInsecureMount (false)
+#endif
 	{
 	}
 

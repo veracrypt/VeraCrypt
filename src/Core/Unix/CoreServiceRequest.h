@@ -20,7 +20,7 @@ namespace VeraCrypt
 {
 	struct CoreServiceRequest : public Serializable
 	{
-		CoreServiceRequest () : ElevateUserPrivileges (false), FastElevation (false) { }
+		CoreServiceRequest () : ElevateUserPrivileges (false), FastElevation (false), UseDummySudoPassword (false), AllowInsecureMount (false) { }
 		TC_SERIALIZABLE (CoreServiceRequest);
 
 		virtual bool RequiresElevation () const { return false; }
@@ -29,6 +29,9 @@ namespace VeraCrypt
 		FilePath ApplicationExecutablePath;
 		bool ElevateUserPrivileges;
 		bool FastElevation;
+		string UserEnvPATH;
+		bool UseDummySudoPassword;
+		bool AllowInsecureMount;
 	};
 
 	struct CheckFilesystemRequest : CoreServiceRequest

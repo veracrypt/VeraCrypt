@@ -34,6 +34,9 @@ namespace VeraCrypt
 		, wxDefaultPosition, wxSize (-1,-1), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
 #endif
 		), Options (options)
+#ifdef TC_UNIX
+		, m_showRedBorder(false)
+#endif
 	{
 		if (!title.empty())
 			this->SetTitle (title);
@@ -41,6 +44,16 @@ namespace VeraCrypt
 			this->SetTitle (StringFormatter (LangString["ENTER_PASSWORD_FOR"], wstring (*options.Path)));
 		else
 			this->SetTitle (LangString["ENTER_TC_VOL_PASSWORD"]);
+
+#ifdef TC_UNIX
+		if (Gui->InsecureMountAllowed())
+		{
+			this->SetTitle (LangString["INSECURE_MODE"] + L" - " + this->GetTitle());
+			m_showRedBorder = true;
+			Bind(wxEVT_PAINT, &MountOptionsDialog::OnPaint, this);  
+			Bind(wxEVT_SIZE, &MountOptionsDialog::OnSize, this);
+		}
+#endif
 
 		if (disableMountOptions)
 			OptionsButton->Show (false);
@@ -230,4 +243,27 @@ namespace VeraCrypt
 		Layout();
 		MainSizer->Fit( this );
 	}
+
+#ifdef TC_UNIX
+	void MountOptionsDialog::OnPaint(wxPaintEvent& event)  
+	{  
+		wxPaintDC dc(this);  
+		if (m_showRedBorder)  
+		{  
+			wxSize size = GetClientSize();  
+			wxPen pen(*wxRED, 3); // 3 pixels width  
+			dc.SetPen(pen);  
+			dc.SetBrush(*wxTRANSPARENT_BRUSH);  
+			dc.DrawRectangle(0, 0, size.GetWidth(), size.GetHeight());  
+		}  
+		event.Skip();  
+	}  
+	
+	void MountOptionsDialog::OnSize(wxSizeEvent& event)  
+	{  
+		event.Skip();  
+		if (m_showRedBorder)  
+			Refresh();  
+	}
+#endif
 }

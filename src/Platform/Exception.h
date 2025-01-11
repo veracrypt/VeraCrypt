@@ -96,7 +96,9 @@ namespace VeraCrypt
 	TC_EXCEPTION (TestFailed); \
 	TC_EXCEPTION (TimeOut); \
 	TC_EXCEPTION (UnknownException); \
-	TC_EXCEPTION (UserAbort)
+	TC_EXCEPTION (UserAbort); \
+	TC_EXCEPTION (MountPointBlocked); \
+	TC_EXCEPTION (MountPointNotAllowed)
 
 	TC_EXCEPTION_SET;
 

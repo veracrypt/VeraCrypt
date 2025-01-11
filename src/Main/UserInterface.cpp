@@ -541,6 +541,9 @@ namespace VeraCrypt
 		EX2MSG (HigherFuseVersionRequired,			LangString["LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED"]);
 #endif
 
+		EX2MSG (MountPointBlocked,					LangString["MOUNTPOINT_BLOCKED"]);
+		EX2MSG (MountPointNotAllowed,				LangString["MOUNTPOINT_NOTALLOWED"]);
+
 #undef EX2MSG
 		return L"";
 	}
@@ -560,6 +563,7 @@ namespace VeraCrypt
 		SetPreferences (CmdLine->Preferences);
 
 		Core->SetApplicationExecutablePath (Application::GetExecutablePath());
+		Core->SetUserEnvPATH (getenv ("PATH"));
 
 		if (!Preferences.NonInteractive)
 		{
@@ -571,6 +575,10 @@ namespace VeraCrypt
 		}
 
 		Core->ForceUseDummySudoPassword (CmdLine->ArgUseDummySudoPassword);
+
+#if defined(TC_UNIX)
+		Core->SetAllowInsecureMount (CmdLine->ArgAllowInsecureMount);
+#endif
 
 		Core->WarningEvent.Connect (EventConnector <UserInterface> (this, &UserInterface::OnWarning));
 		Core->VolumeMountedEvent.Connect (EventConnector <UserInterface> (this, &UserInterface::OnVolumeMounted));
@@ -1646,6 +1654,13 @@ const FileManager fileManagers[] = {
 		return sResult;
 	}
 
+#ifdef TC_UNIX
+	bool UserInterface::InsecureMountAllowed () const
+	{
+		return CmdLine->ArgAllowInsecureMount;
+	}
+#endif
+
 	#define VC_CONVERT_EXCEPTION(NAME) if (dynamic_cast<NAME*> (ex)) throw (NAME&) *ex;
 
 	void UserInterface::ThrowException (Exception* ex)
@@ -1733,6 +1748,9 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (InvalidEMVPath);
 		VC_CONVERT_EXCEPTION (EMVKeyfileDataNotFound);
 		VC_CONVERT_EXCEPTION (EMVPANNotFound);
+
+		VC_CONVERT_EXCEPTION (MountPointBlocked);
+		VC_CONVERT_EXCEPTION (MountPointNotAllowed);
 
 		throw *ex;
 	}

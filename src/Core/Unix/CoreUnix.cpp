@@ -596,6 +596,17 @@ namespace VeraCrypt
 		if (IsVolumeMounted (*options.Path))
 			throw VolumeAlreadyMounted (SRC_POS);
 
+		if (options.MountPoint && !options.MountPoint->IsEmpty())
+		{
+			// Reject if the mount point is a system directory
+			if (IsProtectedSystemDirectory(*options.MountPoint))
+				throw MountPointBlocked (SRC_POS);
+
+			// Reject if the mount point is in the user's PATH and the user has not explicitly allowed insecure mount points
+			if (!GetAllowInsecureMount() && IsDirectoryOnUserPath(*options.MountPoint))
+				throw MountPointNotAllowed (SRC_POS);
+		}
+
 		Cipher::EnableHwSupport (!options.NoHardwareCrypto);
 
 		shared_ptr <Volume> volume;
@@ -827,5 +838,101 @@ namespace VeraCrypt
 		stringstream s;
 		s << GetDefaultMountPointPrefix() << slotNumber;
 		return s.str();
+	}
+
+	bool CoreUnix::IsProtectedSystemDirectory (const DirectoryPath &directory) const
+	{
+		static const char* systemDirs[] = {
+			"/usr",
+			"/bin",
+			"/sbin",
+			"/lib",
+#ifdef TC_LINUX
+			"/lib32",
+			"/lib64",
+			"/libx32",
+#endif
+			"/etc",
+			"/boot",
+			"/root",
+			"/proc",
+			"/sys",
+			"/dev",
+			NULL
+		};
+
+		// Resolve any symlinks in the path
+		string path(directory);
+		char* resolvedPathCStr = realpath(path.c_str(), NULL);
+		if (resolvedPathCStr)
+		{
+			path = resolvedPathCStr;
+			free(resolvedPathCStr); // Free the allocated memory
+		}
+
+		// reject of the path is the root directory "/"
+		if (path == "/")
+			return true;
+
+		// Check if resolved path matches any system directory
+		for (int i = 0; systemDirs[i] != NULL; ++i)
+		{
+			if (path == systemDirs[i] || path.find(string(systemDirs[i]) + "/") == 0)
+				return true;
+		}
+
+		return false;
+	}
+
+	bool CoreUnix::IsDirectoryOnUserPath(const DirectoryPath &directory) const
+	{
+		// Obtain the PATH environment variable
+		const char* pathEnv = UserEnvPATH.c_str();
+		if (!pathEnv[0])
+			return false;
+
+		// Resolve the given directory
+		string dirPath(directory);
+		char* resolvedDir = realpath(dirPath.c_str(), NULL);
+		if (resolvedDir)
+		{
+			dirPath = resolvedDir;
+			free(resolvedDir);
+		}
+
+		// Split PATH and compare each entry
+		stringstream ss(pathEnv);
+		string token;
+		while (getline(ss, token, ':'))
+		{
+			// remove any trailing slashes from the token
+			while (!token.empty() && token.back() == '/')
+				token.pop_back();
+
+			if (token.empty())
+				continue;
+
+			// check if the directory is the same as the entry or a subdirectory
+			if (dirPath == token || dirPath.find(token + "/") == 0)
+				return true;
+
+			// handle the case where the PATH entry is a symlink
+			char* resolvedEntry = realpath(token.c_str(), NULL);
+			if (!resolvedEntry)
+				continue; // skip to the next entry since the path does not exist
+
+			string entryPath(resolvedEntry);
+			free(resolvedEntry);
+
+			// remove any trailing slashes from the token
+			while (!entryPath.empty() && entryPath.back() == '/')
+				entryPath.pop_back();
+
+			// perform check again if the resolved path is different from the original (symlink)
+			if (dirPath == entryPath || dirPath.find(entryPath + "/") == 0)
+				return true;
+		}
+
+		return false;
 	}
 }

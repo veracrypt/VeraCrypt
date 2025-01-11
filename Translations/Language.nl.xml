@@ -1641,6 +1641,9 @@
     <entry lang="nl" key="ERR_XTS_MASTERKEY_VULNERABLE">WAARSCHUWING: De hoofdsleutel van het volume is kwetsbaar voor een aanval die de gegevensbeveiliging in gevaar brengt.\n\nMaak een nieuw volume aan en zet de gegevens daarnaar over.</entry>
     <entry lang="nl" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WAARSCHUWING: De hoofdsleutel van het versleutelde systeem is kwetsbaar voor een aanval die de gegevensbeveiliging in gevaar brengt.\nOntsleutel de systeempartitie/-schijf en versleutel deze vervolgens opnieuw.</entry>
     <entry lang="nl" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WAARSCHUWING: De hoofdsleutel van het volume heeft een beveiligingslek.</entry>
+    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

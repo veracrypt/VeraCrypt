@@ -80,6 +80,16 @@ namespace VeraCrypt
 		virtual void ForceUseDummySudoPassword (bool useDummySudoPassword) { UseDummySudoPassword = useDummySudoPassword;}
 		virtual bool GetUseDummySudoPassword () const { return UseDummySudoPassword;}
 
+#if defined(TC_UNIX)
+		virtual bool IsProtectedSystemDirectory (const DirectoryPath &directory) const = 0;
+		virtual bool IsDirectoryOnUserPath(const DirectoryPath &directory) const = 0;
+		virtual void SetAllowInsecureMount (bool allowInsecureMount) { AllowInsecureMount = allowInsecureMount; }
+		virtual bool GetAllowInsecureMount () const { return AllowInsecureMount; }
+#endif
+
+		virtual void SetUserEnvPATH (const string &path) { UserEnvPATH = path; }
+		virtual string GetUserEnvPATH () const { return UserEnvPATH; }
+
 		Event VolumeDismountedEvent;
 		Event VolumeMountedEvent;
 		Event WarningEvent;
@@ -89,7 +99,12 @@ namespace VeraCrypt
 
 		bool DeviceChangeInProgress;
 		FilePath ApplicationExecutablePath;
+		string UserEnvPATH;
 		bool UseDummySudoPassword;
+
+#if defined(TC_UNIX)
+		bool AllowInsecureMount;
+#endif
 
 	private:
 		CoreBase (const CoreBase &);

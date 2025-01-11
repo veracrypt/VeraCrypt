@@ -89,6 +89,10 @@ namespace VeraCrypt
         bool ArgUseLegacyPassword;
         bool ArgUseDummySudoPassword;
 
+#if defined(TC_UNIX)
+		bool ArgAllowInsecureMount;
+#endif
+
 		bool StartBackgroundTask;
 		UserPreferences Preferences;
 

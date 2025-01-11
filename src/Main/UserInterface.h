@@ -86,7 +86,9 @@ namespace VeraCrypt
 		virtual wxDateTime VolumeTimeToDateTime (VolumeTime volumeTime) const { return wxDateTime ((time_t) (volumeTime / 1000ULL / 1000 / 10 - 134774ULL * 24 * 3600)); }
 		virtual wxString VolumeTimeToString (VolumeTime volumeTime) const;
 		virtual wxString VolumeTypeToString (VolumeType::Enum type, VolumeProtection::Enum protection) const;
-
+#ifdef TC_UNIX
+		virtual bool InsecureMountAllowed () const;
+#endif
 		Event PreferencesUpdatedEvent;
 
 		struct BusyScope

@@ -48,6 +48,8 @@ namespace VeraCrypt
 		virtual void SetFileOwner (const FilesystemPath &path, const UserId &owner) const;
 		virtual DirectoryPath SlotNumberToMountPoint (VolumeSlotNumber slotNumber) const;
 		virtual void WipePasswordCache () const { throw NotApplicable (SRC_POS); }
+		virtual bool IsProtectedSystemDirectory (const DirectoryPath &directory) const;
+		virtual bool IsDirectoryOnUserPath(const DirectoryPath &directory) const;
 
 	protected:
 		virtual DevicePath AttachFileToLoopDevice (const FilePath &filePath, bool readOnly) const { throw NotApplicable (SRC_POS); }

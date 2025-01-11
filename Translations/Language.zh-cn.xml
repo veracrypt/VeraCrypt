@@ -1642,6 +1642,9 @@
     <entry lang="zh-cn" key="ERR_XTS_MASTERKEY_VULNERABLE">警告：卷的主密钥容易受到危及数据安全性的攻击。\n\n请创建新的卷并将数据传输到其中。</entry>
     <entry lang="zh-cn" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">警告：加密系统的主密钥容易受到危及数据安全性的攻击。\n请解密系统分区/驱动器，然后重新加密。</entry>
     <entry lang="zh-cn" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">警告：卷的主密钥存在安全漏洞。</entry>
+    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
