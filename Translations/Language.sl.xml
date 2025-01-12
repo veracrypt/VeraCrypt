@@ -1636,14 +1636,14 @@
     <entry lang="sl" key="IDC_DISABLE_MEMORY_PROTECTION">Onemogoči zaščito pomnilnika za orodja za ljudi s posebnimi potrebami</entry>
     <entry lang="sl" key="DISABLE_MEMORY_PROTECTION_WARNING">Opozorilo: Onemogočanje zaščite pomnilnika bistveno zmanjša varnost. Omogoči to možnost SAMO, če se za interakcijo z uporabniškim vmesnikom VeraCrypt zanašaš na orodja za dostopnost, kot so bralniki zaslona.</entry>
     <entry lang="sl" key="LINUX_LANGUAGE">Jezik</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
-    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
+    <entry lang="sl" key="LINUX_SELECT_SYS_DEFAULT_LANG">Izberite privzeti jezik sistema</entry>
+    <entry lang="sl" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Za uveljavitev spremembe jezika je potrebno znova zagnati VeraCrypt.</entry>
+    <entry lang="sl" key="ERR_XTS_MASTERKEY_VULNERABLE">OPOZORILO: Glavni ključ nosilca je ranljiv za napad, ki lahko ogrozi varnost podatkov.\n\nUstvarite nov nosilec in vanj prenesite podatke.</entry>
+    <entry lang="sl" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">OPOZORILO: Glavni ključ šifriranega sistema je ranljiv za napad, ki lahko ogrozi varnost podatkov.\nProsimo, dešifrirajte sistemsko particijo/pogon in jo nato ponovno šifrirajte.</entry>
+    <entry lang="sl" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">OPOZORILO: Glavni ključ nosilca ima varnostno ranljivost.</entry>
+    <entry lang="sl" key="MOUNTPOINT_BLOCKED">NAPAKA: Tocka priklopa nosilca je blokirana, ker prekriva zašciteno sistemsko mapo.\n\nIzberite drugo tocko priklopa.</entry>
+    <entry lang="sl" key="MOUNTPOINT_NOTALLOWED">NAPAKA: Tocka priklopa nosilca ni dovoljena, ker prekriva mapo, ki je del okoljske spremenljivke PATH.\n\nIzberite drugo tocko priklopa.</entry>
+    <entry lang="sl" key="INSECURE_MODE">[NEVAREN NACIN]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

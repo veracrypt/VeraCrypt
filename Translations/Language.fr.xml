@@ -1641,9 +1641,9 @@
     <entry lang="fr" key="ERR_XTS_MASTERKEY_VULNERABLE">AVERTISSEMENT : La clé principale du volume est vulnérable à une attaque compromettant la sécurité des données.\n\nVeuillez créer un nouveau volume et y transférer les données.</entry>
     <entry lang="fr" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">AVERTISSEMENT : La clé principale du système chiffré est vulnérable à une attaque compromettant la sécurité des données.\nVeuillez déchiffrer la partition/le disque système puis le chiffrer à nouveau.</entry>
     <entry lang="fr" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">AVERTISSEMENT : La clé principale du volume présente une vulnérabilité de sécurité.</entry>
-    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
+    <entry lang="fr" key="MOUNTPOINT_BLOCKED">ERREUR : Le point de montage du volume est bloqué car il remplace un répertoire système protégé.\n\nVeuillez choisir un autre point de montage.</entry>
+    <entry lang="fr" key="MOUNTPOINT_NOTALLOWED">ERREUR : Le point de montage du volume n'est pas autorisé car il remplace un répertoire faisant partie de la variable d'environnement PATH.\n\nVeuillez choisir un autre point de montage.</entry>
+    <entry lang="fr" key="INSECURE_MODE">[MODE NON SÉCURISÉ]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
