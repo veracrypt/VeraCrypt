@@ -1,0 +1,128 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  create:
+    tags:
+      - '*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  WX_BUILD_DIR: ${{ github.workspace }}/wxbuild
+  WX_ROOT: ${{ github.workspace }}/wxsrc
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ${{matrix.runner}}
+    strategy:
+      matrix:
+        runner: [macos-13]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      - name: Download Packages
+        uses: carlosperate/download-file-action@v1.0.3
+        id: download-packages
+        with:
+          file-url: 'http://s.sudre.free.fr/Software/files/Packages.dmg'
+          file-name: 'Packages.dmg'
+          location: '.'
+
+      - name: Download macFUSE
+        uses: carlosperate/download-file-action@v1.0.3
+        id: download-macfuse
+        with:
+          file-url: 'https://github.com/osxfuse/osxfuse/releases/download/macfuse-4.5.0/macfuse-4.5.0.dmg'
+          file-name: 'macfuse.dmg'
+          location: '.'
+
+      - name: Download pkg-config
+        uses: carlosperate/download-file-action@v1.0.3
+        id: download-pkg-config
+        with:
+          file-url: 'https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz'
+          file-name: pkg-config-0.28.tar.gz
+          location: '.'
+          
+      - name: Mount Packages
+        run: sudo hdiutil attach Packages.dmg
+
+      - name: Mount macFUSE
+        run: sudo hdiutil attach macfuse.dmg 
+
+      - name: List Volumes directory context
+        run: ls -latr /Volumes || true
+
+      - name: Install Packages
+        run: sudo installer -pkg "/Volumes/Packages 1.2.10/Install Packages.pkg" -target /
+      
+      - name: Install macFUSE
+        run: sudo installer -pkg "/Volumes/macFUSE/Install macFUSE.pkg" -target /     
+          
+      - name: Build and install pkg-config
+        run: tar xvf pkg-config-0.28.tar.gz && cd pkg-config-0.28 && ./configure && make && sudo make install
+
+      - name: Install yasm
+        run: brew install yasm
+      
+      - uses: actions/cache@v2
+        name: Cache/restore wxWidgets
+        id: cache-wxwidgets
+        with:
+          path: |
+            ${{ env.WX_ROOT }}
+            ${{ env.WX_BUILD_DIR }}
+          key: wxwidgets
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - uses: actions/checkout@v2
+        name: Checkout wxWidgets
+        with:
+          repository: 'wxWidgets/wxWidgets'
+          ref: 'v3.2.5'
+          path: ${{ env.WX_ROOT }}
+          submodules: 'recursive'
+
+      - name: Show Xcode used
+        run: |
+          SDK_VERSION=$(xcrun --show-sdk-version); xcrun --show-sdk-path; xcrun --sdk macosx${SDK_VERSION} --show-sdk-path
+          
+      - name: Build wxWidgets
+        if: steps.cache-wxwidgets.outputs.cache-hit != 'true'
+        run: |
+          ls -l ${{env.WX_ROOT}}
+          (cd src && make WXSTATIC=FULL WX_ROOT=${{env.WX_ROOT}} WX_BUILD_DIR=${{env.WX_BUILD_DIR}} wxbuild); cat ${{ env.WX_BUILD_DIR }}/config.log
+
+      - name: Build Veracrypt
+        run: cd src && make LOCAL_DEVELOPMENT_BUILD=true WXSTATIC=FULL WX_ROOT=${{env.WX_ROOT}} WX_BUILD_DIR=${{env.WX_BUILD_DIR}} && make LOCAL_DEVELOPMENT_BUILD=true WXSTATIC=1 package
+
+      - name: Show directory structure
+        run: |
+          ls -R .
+          ls -l src || true
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: '**/VeraCrypt*.dmg'
+
+      

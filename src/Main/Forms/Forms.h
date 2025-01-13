@@ -116,6 +116,7 @@ namespace VeraCrypt
 			virtual void OnRestoreVolumeHeaderMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnCreateKeyfileMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnManageSecurityTokenKeyfilesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnRevealRedkeyMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnCloseAllSecurityTokenSessionsMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnWipeCacheButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnLanguageMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
@@ -436,6 +437,10 @@ namespace VeraCrypt
 			wxCheckBox* RandomSizeCheckBox;
 			wxStaticText* m_staticText65;
 			wxTextCtrl* KeyfilesBaseName;
+			wxTextCtrl* SecurityTokenKeyDesc;
+			wxStaticText* m_staticText66;
+			wxPanel* m_panel20;
+			wxButton *ChooseSecurityTokenButton;
 			wxPanel* m_panel19;
 			wxButton* GenerateButton;
 
@@ -445,8 +450,9 @@ namespace VeraCrypt
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnRandomSizeCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnGenerateButtonClick( wxCommandEvent& event ) { event.Skip(); }
-
-
+			virtual void OnSelectSecurityTokenKeyClick( wxCommandEvent& event) { event.Skip(); }
+			
+		
 		public:
 
 			KeyfileGeneratorDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
@@ -718,6 +724,25 @@ namespace VeraCrypt
 
 			~SecurityTokenKeyfilesDialogBase();
 
+	};
+
+	class SecurityTokenKeysDialogBase : public wxDialog
+	{
+		private:
+
+		protected:
+			wxListCtrl* SecurityTokenKeyListCtrl;
+			wxButton* OKButton;
+			wxButton* CancelButton;
+
+			virtual void OnListItemActivated( wxListEvent& event ) { event.Skip(); }
+			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
+			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+
+		public:
+			SecurityTokenKeysDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Security Token Keys"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1, -1 ), long style = wxDEFAULT_DIALOG_STYLE );
+			~SecurityTokenKeysDialogBase();
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -1015,6 +1040,8 @@ namespace VeraCrypt
 			wxCheckBox* DisplayPasswordCheckBox;
 			wxCheckBox* UseKeyfilesCheckBox;
 			wxButton* KeyfilesButton;
+			wxTextCtrl* SecurityTokenKeySpecText;
+			wxButton* SecurityTokenKeySpecButton;
 			wxBoxSizer* Pkcs5PrfSizer;
 			wxStaticText* Pkcs5PrfStaticText;
 			wxChoice* Pkcs5PrfChoice;
@@ -1031,6 +1058,7 @@ namespace VeraCrypt
 			virtual void OnKeyfilesButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightDown( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightClick( wxMouseEvent& event ) { event.Skip(); }
+			virtual void OnSecurityTokenKeySpecButtonClick( wxMouseEvent& event ) { event.Skip(); }
 
 
 		public:
