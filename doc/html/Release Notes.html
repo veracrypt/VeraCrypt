@@ -40,7 +40,7 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.17</strong> (November 24<sup>th</sup>, 2024):</p>
+<p><strong style="text-align:left">1.26.18</strong> (January 13<sup>th</sup>, 2025):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -51,23 +51,32 @@
 <li><strong>Windows:</strong>
 	<ul>
 	<li>Dropped support for Windows 32-bit.</li>
-	<li>Set Windows 10 May 2020 Update (version 2004) as the minimum supported version.</li>
-	<li>Fixed driver deadlock under low-memory scenarios caused by re-entrant IRP completions.</li>
+	<li>Set Windows 10 October 2018 Update (version 1809) as the minimum supported version.</li>
+	<li>Reduce driver deadlock occurences under low-memory scenarios caused by re-entrant IRP completions.</li>
 	<li>Fixed failed EFI detection on some PCs where the BootOrder variable is not defined (proposed by @kriegste, GH #360).</li>
 	<li>Fixed "Access Denied" error when updating VeraCrypt using EXE setup following a Windows upgrade.</li>
 	<li>Fixed various issues affecting the EFI system encryption configuration editor.</li>
+	<li>Fixed regression in Traveler Disk creation (GH #886)</li>
 	<li>Replaced the deprecated CryptGenRandom with BCryptGenRandom for generating secure random bytes.</li>
+	<li>Use modern API to gather system entropy for random generation instead of obsolete ones.</li>
+	<li> Update LZMA SDK to version 24.09</li>
+	<li>Update libzip to version 1.11.2</li>
 	</ul>
 </li>
 <li><strong>Linux:</strong>
 	<ul>
 	<li>Fixed an assertion issue with the wxWidgets library included in Ubuntu.</li>
 	<li>Improved directory-opening logic by prioritizing xdg-open and adding fallback mechanisms.</li>
+	<li>Ensure that volume exists before starting the mount operation.</li>
+	<li>Fix "Password too long" error message not expanded to include max length (GH #1456)</li>
+	<li>Simplify sudo session detection logic.</li>
 	</ul>
 </li>
 <li><strong>macOS:</strong>
 	<ul>
 	<li>Disabled screen capture by default. Added the --allow-screencapture CLI switch to enable it if needed.</li>
+	<li>Ensure that volume exists before starting the mount operation.</li>
+	<li>Implement sudo session detection logic</li>
 	</ul>
 </li>
 </ul>
