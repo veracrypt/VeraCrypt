@@ -65,6 +65,8 @@
 </li>
 <li><strong>Linux:</strong>
 	<ul>
+	<li>CVE-2024-54187: Added absolute paths when executing system binaries to prevent path hijacking (collaboration with SivertPL @__tfr)</li>
+	<li>CVE-2025-23021: Prevent mounting volumes on system directories and PATH (reported by SivertPL @__tfr)</li>
 	<li>Fixed an assertion issue with the wxWidgets library included in Ubuntu.</li>
 	<li>Improved directory-opening logic by prioritizing xdg-open and adding fallback mechanisms.</li>
 	<li>Ensure that volume exists before starting the mount operation.</li>
@@ -74,6 +76,8 @@
 </li>
 <li><strong>macOS:</strong>
 	<ul>
+	<li>CVE-2024-54187: Added absolute paths when executing system binaries to prevent path hijacking (collaboration with SivertPL @__tfr)</li>
+	<li>CVE-2025-23021: Prevent mounting volumes on system directories and PATH (reported by SivertPL @__tfr)</li>
 	<li>Disabled screen capture by default. Added the --allow-screencapture CLI switch to enable it if needed.</li>
 	<li>Ensure that volume exists before starting the mount operation.</li>
 	<li>Implement sudo session detection logic</li>
