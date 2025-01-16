@@ -556,6 +556,9 @@ namespace VeraCrypt
 #ifdef CRYPTOPP_CPUID_AVAILABLE
 		DetectX86Features ();
 #endif
+#if CRYPTOPP_BOOL_ARMV8
+		DetectArmFeatures();
+#endif
 		LangString.Init();
 		Core->Init();
 
@@ -972,7 +975,7 @@ const FileManager fileManagers[] = {
 		}
 
 		ShowWarning(wxT("Unable to find a file manager to open the mounted volume.\n"
-				"Please install xdg-utils or set a default file manager."));
+					"Please install xdg-utils or set a default file manager."));
 #endif
 	}
 

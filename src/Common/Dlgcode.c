@@ -1046,7 +1046,7 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 		>= (major << 16 | minor << 8 | reqMinServicePack));
 }
 
-BOOL IsWin10BuildAtLeast(DWORD minBuild)
+BOOL IsWin10BuildAtLeast(int minBuild)
 {
 	// Must first be recognized as Windows 10 or higher  
 	if (nCurrentOS < WIN_10)
@@ -14883,6 +14883,7 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 			}
 		}
 
+#ifndef _M_ARM64
 		// use RDSEED or RDRAND from CPU as source of entropy if enabled
 		if (	IsCpuRngEnabled() && 
 			(	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
@@ -14891,6 +14892,7 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 		{
 			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
 		}
+#endif
 		WHIRLPOOL_finalize (&tctx, digest);
 
 		count = VC_MIN (cbRandSeed, sizeof (digest));

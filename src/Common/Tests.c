@@ -1490,7 +1490,9 @@ BOOL AutoTestAlgorithms (void)
 	{
 		/* unexepected exception raised. Disable all CPU extended feature and try again */
 		EnableHwEncryption (hwEncryptionEnabled);
+#ifndef _M_ARM64
 		DisableCPUExtendedFeatures ();
+#endif
 		__try
 		{
 			result = DoAutoTestAlgorithms();

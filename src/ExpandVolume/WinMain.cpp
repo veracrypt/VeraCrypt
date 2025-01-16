@@ -1093,7 +1093,11 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	/* application title */
 	lpszTitle = L"VeraCrypt Expander";
 
-	DetectX86Features ();
+#ifndef _M_ARM64
+	DetectX86Features();
+#else
+	DetectArmFeatures();
+#endif
 
 	status = DriverAttach ();
 	if (status != 0)

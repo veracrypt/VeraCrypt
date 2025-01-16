@@ -228,6 +228,10 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
     </ClCompile>
     <ClCompile Include="..\Crypto\Aeskey.c" />
     <ClCompile Include="..\Crypto\Aestab.c" />
+    <ClCompile Include="..\Crypto\Aes_hw_armv8.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Crypto\blake2s.c" />
     <ClCompile Include="..\Crypto\blake2s_SSE2.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>

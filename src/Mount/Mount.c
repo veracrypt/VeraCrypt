@@ -10132,7 +10132,11 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	VirtualLock (&defaultMountOptions, sizeof (defaultMountOptions));
 	VirtualLock (&szFileName, sizeof(szFileName));	
 
-	DetectX86Features ();
+#ifndef _M_ARM64
+	DetectX86Features();
+#else
+	DetectArmFeatures();
+#endif
 
 	try
 	{

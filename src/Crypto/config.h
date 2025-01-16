@@ -29,6 +29,11 @@
 	#define CRYPTOPP_CLANG_INTEGRATED_ASSEMBLER 1
 #endif
 
+#if defined(_MSC_VER) && !defined(__clang__)
+# undef CRYPTOPP_LLVM_CLANG_VERSION
+# define CRYPTOPP_MSC_VERSION (_MSC_VER)
+#endif
+
 // Clang due to "Inline assembly operands don't work with .intel_syntax", http://llvm.org/bugs/show_bug.cgi?id=24232
 //   TODO: supply the upper version when LLVM fixes it. We set it to 20.0 for compilation purposes.
 #if (defined(CRYPTOPP_LLVM_CLANG_VERSION) && CRYPTOPP_LLVM_CLANG_VERSION <= 200000) || (defined(CRYPTOPP_APPLE_CLANG_VERSION) && CRYPTOPP_APPLE_CLANG_VERSION <= 200000) || defined(CRYPTOPP_CLANG_INTEGRATED_ASSEMBLER)
@@ -199,6 +204,40 @@
     #define CRYPTOPP_BOOL_X64 1
 #else
     #define CRYPTOPP_BOOL_X64 0
+#endif
+
+#if defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM64)
+	#define CRYPTOPP_BOOL_ARMV8 1
+	#define CRYPTOPP_BOOL_ARM64 1
+#else
+	#define CRYPTOPP_BOOL_ARMV8 0
+	#define CRYPTOPP_BOOL_ARM64 0
+#endif
+
+// ARMv8 and ASIMD. -march=armv8-a or above must be present
+// Requires GCC 4.8, Clang 3.3 or Visual Studio 2017
+// Do not use APPLE_CLANG_VERSION; use __ARM_FEATURE_XXX instead.
+#if !defined(CRYPTOPP_ARM_ASIMD_AVAILABLE) && !defined(CRYPTOPP_DISABLE_ARM_ASIMD)
+# if defined(__aarch32__) || defined(__aarch64__) || defined(__arm64__) || defined(_M_ARM64)
+#  if defined(__ARM_NEON) || defined(__ARM_ASIMD) || defined(__ARM_FEATURE_NEON) || defined(__ARM_FEATURE_ASIMD) || \
+      (CRYPTOPP_GCC_VERSION >= 40800) || (CRYPTOPP_LLVM_CLANG_VERSION >= 30300) || \
+      (CRYPTOPP_APPLE_CLANG_VERSION >= 40000) || (CRYPTOPP_MSC_VERSION >= 1916)
+#   define CRYPTOPP_ARM_NEON_AVAILABLE 1
+#   define CRYPTOPP_ARM_ASIMD_AVAILABLE 1
+#  endif  // Compilers
+# endif  // Platforms
+#endif
+
+// ARMv8 and AES. -march=armv8-a+crypto or above must be present
+// Requires GCC 4.8, Clang 3.3 or Visual Studio 2017
+#if !defined(CRYPTOPP_ARM_AES_AVAILABLE) && !defined(CRYPTOPP_DISABLE_ARM_AES)
+# if defined(__aarch32__) || defined(__aarch64__) || defined(_M_ARM64)
+#  if defined(__ARM_FEATURE_CRYPTO) || (CRYPTOPP_GCC_VERSION >= 40800) || \
+      (CRYPTOPP_LLVM_CLANG_VERSION >= 30300) || (CRYPTOPP_APPLE_CLANG_VERSION >= 40300) || \
+      (CRYPTOPP_MSC_VERSION >= 1916)
+#   define CRYPTOPP_ARM_AES_AVAILABLE 1
+#  endif  // Compilers
+# endif  // Platforms
 #endif
 
 // Undo the ASM and Intrinsic related defines due to X32.

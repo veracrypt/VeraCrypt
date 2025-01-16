@@ -503,7 +503,7 @@ void Debug (char *format, ...);
 void DebugMsgBox (char *format, ...);
 BOOL IsOSAtLeast (OSVersionEnum reqMinOS);
 BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack);
-BOOL IsWin10BuildAtLeast(DWORD minBuild);
+BOOL IsWin10BuildAtLeast(int minBuild);
 BOOL IsSupportedOS ();
 BOOL Is64BitOs ();
 BOOL IsARM();

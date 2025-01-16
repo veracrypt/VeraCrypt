@@ -162,6 +162,9 @@ else ifneq (,$(filter x86_64 x86-64 amd64 x64,$(ARCH)))
 else ifneq (,$(filter armv7l,$(ARCH)))
 	PLATFORM_ARCH := armv7
 	CPU_ARCH = armv7
+else ifneq (,$(filter aarch64 arm64 armv8l,$(ARCH)))
+	PLATFORM_ARCH := arm64
+	CPU_ARCH = arm64
 endif
 
 ifeq "$(origin NOASM)" "command line"
@@ -337,6 +340,9 @@ $(error Specified SDK version was not found, ensure your active developer direct
 		C_CXX_FLAGS += -DVC_MACOSX_FUSET
 		VC_FUSE_PACKAGE := fuse-t
 	endif
+
+	export CFLAGS_ARM64 := $(CFLAGS) $(C_CXX_FLAGS) -arch arm64 -march=armv8-a+crypto
+	export CFLAGS_X64 := $(CFLAGS) $(C_CXX_FLAGS) -arch x86_64
 
 	# Set x86 assembly flags (-msse2, -mssse3, -msse4.1)
 	# Apply flags if SIMD_SUPPORTED is 1 or if not in local development build (we are creating universal binary in this case)

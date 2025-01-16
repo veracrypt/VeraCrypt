@@ -232,7 +232,7 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 				jent_entropy_collector_free (ec);
 			}
 		}
-
+#ifndef _M_ARM64
 		// use RDSEED or RDRAND from CPU as source of entropy if enabled
 		if (	IsCpuRngEnabled() && 
 			(	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
@@ -241,6 +241,7 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 		{
 			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
 		}
+#endif
 		WHIRLPOOL_finalize (&tctx, digest);
 
 		count = VC_MIN (cbRandSeed, sizeof (digest));
@@ -266,7 +267,11 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 
 	Dump("DriverEntry " TC_APP_NAME " " VERSION_STRING VERSION_STRING_SUFFIX "\n");
 
+#ifndef _M_ARM64
 	DetectX86Features();
+#else
+	DetectArmFeatures();
+#endif
 
 	PsGetVersion(&OsMajorVersion, &OsMinorVersion, NULL, NULL);
 
@@ -293,7 +298,11 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 			{
 				// in case of system encryption, if self-tests fail, disable all extended CPU
 				// features and try again in order to workaround faulty configurations
+#ifndef _M_ARM64
 				DisableCPUExtendedFeatures();
+#else
+				EnableHwEncryption(FALSE);
+#endif
 				SelfTestsPassed = AutoTestAlgorithms();
 
 				// BUG CHECK if the self-tests still fail

@@ -165,6 +165,9 @@
     <ClCompile Include="..\Driver\VolumeFilter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Crypto\Aes_hw_armv8.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Tcdefs.h">

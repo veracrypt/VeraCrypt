@@ -288,6 +288,24 @@ void DisableCPUExtendedFeatures ();
 }
 #endif
 
+#elif CRYPTOPP_BOOL_ARMV8
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+#if !defined(CRYPTOPP_DISABLE_AESNI) && !defined(WOLFCRYPT_BACKEND)
+#define TC_AES_HW_CPU
+#endif
+
+extern volatile int g_hasAESARM;
+void DetectArmFeatures();
+
+#define HasAESNI() g_hasAESARM
+
+#if defined(__cplusplus)
+}
+#endif
+
 #else
 
 #define HasSSE2()	0

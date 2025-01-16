@@ -10588,7 +10588,11 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	VirtualLock (&szFileName, sizeof(szFileName));
 	VirtualLock (&szDiskFile, sizeof(szDiskFile));
 
-	DetectX86Features ();
+#ifndef _M_ARM64
+	DetectX86Features();
+#else
+	DetectArmFeatures();
+#endif
 
 	try
 	{
