@@ -17,6 +17,7 @@ src/Main/veracrypt
 *.osse41
 *.ossse3
 *.oshani
+*.oarmv8crypto
 
 # VC macOS build artifacts
 src/Main/VeraCrypt

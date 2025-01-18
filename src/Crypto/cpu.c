@@ -470,12 +470,14 @@ void DisableCPUExtendedFeatures ()
 #endif
 
 #if CRYPTOPP_BOOL_ARMV8
-
-volatile int g_hasAESARM = 0;
-
+#if defined(__linux__) && defined(__aarch64__)
+#include <sys/auxv.h>
 #ifndef HWCAP_AES
 # define HWCAP_AES (1 << 3)
 #endif
+#endif
+
+volatile int g_hasAESARM = 0;
 
 inline int CPU_QueryAES()
 {
