@@ -84,7 +84,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Process::Execute ("/usr/bin/umount", args);
+				Process::Execute ("/sbin/umount", args);
 				break;
 			}
 			catch (ExecutedProcessFailed&)
