@@ -101,13 +101,13 @@ jobs:
         src/Build/build_cmake_deb.sh WXSTATIC INDICATOR
 
     - name: Upload GUI .deb packages
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: veracrypt-gui-debs
         path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.*
 
     - name: Upload Console .deb packages
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: veracrypt-console-debs
         path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.*
