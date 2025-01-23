@@ -380,7 +380,9 @@ namespace VeraCrypt
 
 		ArgDisableFileSizeCheck = parser.Found (L"no-size-check");
 		ArgUseLegacyPassword = parser.Found (L"legacy-password-maxlength");		
+#if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		ArgUseDummySudoPassword = parser.Found (L"use-dummy-sudo-password");
+#endif
 
 #if defined(TC_UNIX)
 		ArgAllowInsecureMount = parser.Found (L"allow-insecure-mount");
