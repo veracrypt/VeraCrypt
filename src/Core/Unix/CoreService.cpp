@@ -305,8 +305,6 @@ namespace VeraCrypt
 				bool authCheckDone = false;
 				if (!Core->GetUseDummySudoPassword ())
 				{	
-					// sudo man page: "If the -l option was specified without a command, sudo, will exit 
-					//                 with a value of 0 if the user is allowed to run sudo, and they authenticated successfully"
 					// We are using -n to avoid prompting the user for a password.
 					// We are redirecting stderr to stdout and discarding both to avoid any output.
 					// This approach also works on newer macOS versions (12.0 and later).
@@ -316,7 +314,7 @@ namespace VeraCrypt
 					if (sudoAbsolutePath.empty())
 						throw SystemException(SRC_POS, errorMsg);
 
-					std::string popenCommand = sudoAbsolutePath + " -n -l > /dev/null 2>&1";	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+					std::string popenCommand = sudoAbsolutePath + " -n true > /dev/null 2>&1";	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
 					FILE* pipe = popen(popenCommand.c_str(), "r");
 					if (pipe)
 					{
