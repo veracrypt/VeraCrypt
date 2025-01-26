@@ -240,6 +240,19 @@
 # endif  // Platforms
 #endif
 
+// ARMv8 and SHA-1, SHA-256. -march=armv8-a+crypto or above must be present
+// Requires GCC 4.8, Clang 3.3 or Visual Studio 2017
+#if !defined(CRYPTOPP_ARM_SHA_AVAILABLE) && !defined(CRYPTOPP_DISABLE_ARM_SHA)
+# if defined(__aarch32__) || defined(__aarch64__) || defined(_M_ARM64)
+#  if defined(__ARM_FEATURE_CRYPTO) || (CRYPTOPP_GCC_VERSION >= 40800) || \
+      (CRYPTOPP_LLVM_CLANG_VERSION >= 30300) || (CRYPTOPP_APPLE_CLANG_VERSION >= 40300) || \
+      (CRYPTOPP_MSC_VERSION >= 1916)
+#   define CRYPTOPP_ARM_SHA1_AVAILABLE 1
+#   define CRYPTOPP_ARM_SHA2_AVAILABLE 1
+#  endif  // Compilers
+# endif  // Platforms
+#endif
+
 // Undo the ASM and Intrinsic related defines due to X32.
 #if CRYPTOPP_BOOL_X32
 # undef CRYPTOPP_BOOL_X64

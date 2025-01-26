@@ -298,9 +298,11 @@ extern "C" {
 #endif
 
 extern volatile int g_hasAESARM;
+extern volatile int g_hasSHA256ARM;
 void DetectArmFeatures();
 
 #define HasAESNI() g_hasAESARM
+#define HasSHA256() g_hasSHA256ARM
 
 #if defined(__cplusplus)
 }

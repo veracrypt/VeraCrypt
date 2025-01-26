@@ -255,6 +255,10 @@
     <ClCompile Include="SerpentFast.c" />
     <ClCompile Include="SerpentFast_simd.cpp" />
     <ClCompile Include="Sha2.c" />
+    <ClCompile Include="sha256_armv8.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Sha2Intel.c" />
     <ClCompile Include="Streebog.c" />
     <ClCompile Include="t1ha2.c" />

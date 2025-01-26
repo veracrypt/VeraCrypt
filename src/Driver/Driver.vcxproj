@@ -272,6 +272,10 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Crypto\Sha2.c" />
+    <ClCompile Include="..\Crypto\sha256_armv8.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Crypto\Sha2Intel.c" />
     <ClCompile Include="..\Crypto\Streebog.c" />
     <ClCompile Include="..\Crypto\t1ha2.c" />

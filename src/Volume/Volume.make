@@ -50,6 +50,7 @@ ifneq "$(COMPILE_ASM)" "false"
 	OBJSEX += ../Crypto/Camellia_aesni_asm.oo
 	OBJSEX += ../Crypto/sha256-nayuki.oo
 	OBJSEX += ../Crypto/sha512-nayuki.oo
+	OBJSEX += ../Crypto/sha256_armv8.oo
 	OBJSEX += ../Crypto/sha256_avx1.oo
 	OBJSEX += ../Crypto/sha256_avx2.oo
 	OBJSEX += ../Crypto/sha256_sse4.oo
@@ -82,6 +83,7 @@ else ifeq "$(CPU_ARCH)" "x64"
 else ifeq "$(CPU_ARCH)" "arm64"
 	OBJARMV8CRYPTO += ../Crypto/Aes_hw_armv8.oarmv8crypto
 	OBJS += ../Crypto/Aescrypt.o
+	OBJARMV8CRYPTO += ../Crypto/sha256_armv8.oarmv8crypto
 else
 	OBJS += ../Crypto/Aescrypt.o
 endif
@@ -150,6 +152,12 @@ ifneq "$(COMPILE_ASM)" "false"
 	$(CC) $(CFLAGS_X64) -c ../Crypto/Aes_hw_armv8.c -o ../Crypto/Aes_hw_armv8_x64.o
 	lipo -create ../Crypto/Aes_hw_armv8_arm64.o ../Crypto/Aes_hw_armv8_x64.o -output ../Crypto/Aes_hw_armv8.oo
 	rm -fr ../Crypto/Aes_hw_armv8_arm64.o ../Crypto/Aes_hw_armv8_x64.o
+../Crypto/sha256_armv8.oo: ../Crypto/sha256_armv8.c
+	@echo Compiling $(<F)
+	$(CC) $(CFLAGS_ARM64) -c ../Crypto/sha256_armv8.c -o ../Crypto/sha256_armv8_arm64.o
+	$(CC) $(CFLAGS_X64) -c ../Crypto/sha256_armv8.c -o ../Crypto/sha256_armv8_x64.o
+	lipo -create ../Crypto/sha256_armv8_arm64.o ../Crypto/sha256_armv8_x64.o -output ../Crypto/sha256_armv8.oo
+	rm -fr ../Crypto/sha256_armv8_arm64.o ../Crypto/sha256_armv8_x64.o
 ../Crypto/Aes_asm.oo: ../Crypto/Aes_x86.asm ../Crypto/Aes_x64.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS32) -o ../Crypto/Aes_x86.o ../Crypto/Aes_x86.asm

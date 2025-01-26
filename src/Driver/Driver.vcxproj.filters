@@ -168,6 +168,9 @@
     <ClCompile Include="..\Crypto\Aes_hw_armv8.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Crypto\sha256_armv8.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Tcdefs.h">

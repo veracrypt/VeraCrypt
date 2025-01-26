@@ -96,6 +96,9 @@
     <ClCompile Include="Aes_hw_armv8.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sha256_armv8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
