@@ -221,7 +221,7 @@
     <entry lang="pl" key="IDM_ENCRYPT_SYSTEM_DEVICE">Szyfruj partycję lub dysk systemowy...</entry>
     <entry lang="pl" key="IDM_FAQ">Często zadawane pytania (FAQ)</entry>
     <entry lang="pl" key="IDM_HELP">Podręcznik użytkownika</entry>
-    <entry lang="pl" key="IDM_HOMEPAGE">St&amp;rona WWW </entry>
+    <entry lang="pl" key="IDM_HOMEPAGE">St&amp;rona WWW</entry>
     <entry lang="pl" key="IDM_HOTKEY_SETTINGS">Skróty klawiaturowe...</entry>
     <entry lang="pl" key="IDM_KEYFILE_GENERATOR">Generator plików-kluczy</entry>
     <entry lang="pl" key="IDM_LANGUAGE">Język...</entry>
@@ -383,7 +383,7 @@
     <entry lang="pl" key="MENU_TOOLS">Nar&amp;zędzia</entry>
     <entry lang="pl" key="MENU_SETTINGS">Usta&amp;wienia</entry>
     <entry lang="pl" key="MENU_HELP">Pomo&amp;c</entry>
-    <entry lang="pl" key="MENU_WEBSITE">   St&amp;rona WWW   </entry>
+    <entry lang="pl" key="MENU_WEBSITE">St&amp;rona WWW</entry>
     <entry lang="pl" key="ABOUTBOX">I&amp;nformacje...</entry>
     <entry lang="pl" key="ACCESSMODEFAIL">Atrybut tylko do odczytu na starym wolumenie nie może być zmieniony. Sprawdź prawa dostępu do pliku.</entry>
     <entry lang="pl" key="ACCESS_DENIED">Błąd: Brak dostępu.\n\nPartycja, do której chcesz uzyskać dostęp, nie zawiera sektorów lub służy do uruchomienia systemu.</entry>
