@@ -58,7 +58,7 @@
     <li>The master keys are decrypted for every request, requiring a fast decryption algorithm. For this, ChaCha12 is utilized.</li>
     <li>Once a volume is mounted, its master keys are immediately encrypted using the described algorithm.</li>
     <li>For each I/O request for a volume, the master keys are decrypted only for the duration of that request and then securely wiped.</li>
-    <li>Upon volume dismounting, the encrypted master keys are securely removed from memory.</li>
+    <li>Upon volume unmounting, the encrypted master keys are securely removed from memory.</li>
     <li>At Windows shutdown or reboot, the memory region allocated during startup is securely wiped.</li>
 </ol>
 

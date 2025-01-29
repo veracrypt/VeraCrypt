@@ -51,7 +51,7 @@
  devices) have been permanently and irreversibly erased/lost. </li><li>Secure any data on a computer if an attacker can remotely intercept emanations from the computer hardware (e.g. the monitor or cables) while VeraCrypt is running on it (or otherwise remotely monitor the hardware and its use, directly or indirectly, while
  VeraCrypt is running on it). </li><li>Secure any data stored in a VeraCrypt volume&Dagger; if an attacker without administrator privileges can access the contents of the mounted volume (e.g. if file/folder/volume permissions do not prevent such an attacker from accessing it).
 </li><li>Preserve/verify the integrity or authenticity of encrypted or decrypted data.
-</li><li>Prevent traffic analysis when encrypted data is transmitted over a network. </li><li>Prevent an attacker from determining in which sectors of the volume the content changed (and when and how many times) if he or she can observe the volume (dismounted or mounted) before and after data is written to it, or if the storage medium/device allows
+</li><li>Prevent traffic analysis when encrypted data is transmitted over a network. </li><li>Prevent an attacker from determining in which sectors of the volume the content changed (and when and how many times) if he or she can observe the volume (unmounted or mounted) before and after data is written to it, or if the storage medium/device allows
  the attacker to determine such information (for example, the volume resides on a device that saves metadata that can be used to determine when data was written to a particular sector).
 </li><li>Encrypt any existing unencrypted data in place (or re-encrypt or erase data) on devices/filesystems that use wear-leveling or otherwise relocate data internally.
 </li><li>Ensure that users choose cryptographically strong passwords or keyfiles. </li><li>Secure any computer hardware component or a whole computer. </li><li>Secure any data on a computer where the security requirements or precautions listed in the chapter
@@ -65,9 +65,9 @@ Known Issues &amp; Limitations</a>). </li></ul>
 </li><li>Mount any partition/device-hosted VeraCrypt volume. </li><li>Complete the pre-boot authentication process and, thus, gain access to data on an encrypted system partition/drive (and start the encrypted operating system).
 </li><li>Skip the pre-boot authentication process (this can be prevented by disabling the option
 <em>Settings</em> &gt; &lsquo;<em>System Encryption</em>&rsquo; &gt; &lsquo;<em>Allow pre-boot authentication to be bypassed by pressing the Esc key</em>&rsquo;; note that this option can be enabled or disabled only by an administrator).
-</li><li>Dismount, using VeraCrypt, (and, in the VeraCrypt application window, see the path to and properties of) any VeraCrypt volume mounted by him or her. However, this does not apply to &lsquo;system favorite volumes&rsquo;, which he or she can dismount (etc.)
+</li><li>Unmount, using VeraCrypt, (and, in the VeraCrypt application window, see the path to and properties of) any VeraCrypt volume mounted by him or her. However, this does not apply to &lsquo;system favorite volumes&rsquo;, which he or she can unmount (etc.)
  regardless of who mounted them (this can be prevented by enabling the option <em>
-Settings</em> &gt; &lsquo;<em>System Favorite Volumes</em>&rsquo; &gt; &lsquo;<em>Allow</em> only administrators to view and dismount system favorite volumes in VeraCrypt&rsquo;; note that this option can be enabled or disabled only by an administrator).
+Settings</em> &gt; &lsquo;<em>System Favorite Volumes</em>&rsquo; &gt; &lsquo;<em>Allow</em> only administrators to view and unmount system favorite volumes in VeraCrypt&rsquo;; note that this option can be enabled or disabled only by an administrator).
 </li><li>Create a file-hosted VeraCrypt volume containing a FAT or no file system (provided that the relevant folder permissions allow it).
 </li><li>Change the password, keyfiles, and header key derivation algorithm for, and restore or back up the header of, a file-hosted VeraCrypt volume (provided that the file permissions allow it).
 </li><li>Access the filesystem residing within a VeraCrypt volume mounted by another user on the system (however, file/folder/volume permissions can be set to prevent this).
@@ -87,7 +87,7 @@ Settings</em> &gt; &lsquo;<em>System Favorite Volumes</em>&rsquo; &gt; &lsquo;<e
 <p>Under <strong>Mac OS X</strong>, a user without administrator privileges can (assuming the default VeraCrypt and operating system configurations):</p>
 <ul>
 <li>Mount any file-hosted or partition/device-hosted VeraCrypt volume provided that the file/device permissions allow it.
-</li><li>Dismount, using VeraCrypt, (and, in the VeraCrypt application window, see the path to and properties of) any VeraCrypt volume mounted by him or her.
+</li><li>Unmount, using VeraCrypt, (and, in the VeraCrypt application window, see the path to and properties of) any VeraCrypt volume mounted by him or her.
 </li><li>Create a file-hosted or partition/device-hosted VeraCrypt volume provided that the relevant folder/device permissions allow it.
 </li><li>Change the password, keyfiles, and header key derivation algorithm for, and restore or back up the header of, a file-hosted or partition/device-hosted VeraCrypt volume (provided that the file/device permissions allow it).
 </li><li>Access the filesystem residing within a VeraCrypt volume mounted by another user on the system (however, file/folder/volume permissions can be set to prevent this).

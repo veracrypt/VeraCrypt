@@ -44,7 +44,7 @@
 <em>System Encryption</em></a>) and if the hibernation file is located on one the partitions within the key scope of system encryption (which it typically is, by default), for example, on the partition where Windows is installed. When the computer hibernates,
  data are encrypted on the fly before they are written to the hibernation file.</p>
 <p>When a computer hibernates (or enters a power-saving mode), the content of its system memory is written to a so-called hibernation file on the hard drive. You can configure VeraCrypt (<em>Settings</em> &gt;
-<em>Preferences</em> &gt; <em>Dismount all when: Entering power saving mode</em>) to automatically dismount all mounted VeraCrypt volumes, erase their master keys stored in RAM, and cached passwords (stored in RAM), if there are any, before a computer hibernates
+<em>Preferences</em> &gt; <em>Unmount all when: Entering power saving mode</em>) to automatically unmount all mounted VeraCrypt volumes, erase their master keys stored in RAM, and cached passwords (stored in RAM), if there are any, before a computer hibernates
  (or enters a power-saving mode). However, keep in mind, that if you do not use system encryption (see the chapter
 <a href="System%20Encryption.html"><em>System Encryption</em></a>), VeraCrypt still cannot reliably prevent the contents of sensitive files opened in RAM from being saved unencrypted to a hibernation file. Note that
  when you open a file stored on a VeraCrypt volume, for example, in a text editor, then the content of the file is stored unencrypted in RAM (and it may remain unencrypted in RAM until the computer is turned off).<br>

@@ -40,11 +40,11 @@
 It is important to note that VeraCrypt is <em style="text-align:left">disk</em> encryption software, which encrypts only disks, not RAM (memory).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Keep in mind that most programs do not clear the memory area (buffers) in which they store unencrypted (portions of) files they load from a VeraCrypt volume. This means that after you exit such a program, unencrypted data it worked with may remain in memory
- (RAM) until the computer is turned off (and, according to some researchers, even for some time after the power is turned off*). Also note that if you open a file stored on a VeraCrypt volume, for example, in a text editor and then force dismount on the VeraCrypt
- volume, then the file will remain unencrypted in the area of memory (RAM) used by (allocated to) the text editor. This also applies to forced auto-dismount.</div>
+ (RAM) until the computer is turned off (and, according to some researchers, even for some time after the power is turned off*). Also note that if you open a file stored on a VeraCrypt volume, for example, in a text editor and then force unmount on the VeraCrypt
+ volume, then the file will remain unencrypted in the area of memory (RAM) used by (allocated to) the text editor. This also applies to forced auto-unmount.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-Inherently, unencrypted master keys have to be stored in RAM too. When a non-system VeraCrypt volume is dismounted, VeraCrypt erases its master keys (stored in RAM). When the computer is cleanly restarted (or cleanly shut down), all non-system VeraCrypt volumes
- are automatically dismounted and, thus, all master keys stored in RAM are erased by the VeraCrypt driver (except master keys for system partitions/drives &mdash; see below). However, when power supply is abruptly interrupted, when the computer is reset (not
+Inherently, unencrypted master keys have to be stored in RAM too. When a non-system VeraCrypt volume is unmounted, VeraCrypt erases its master keys (stored in RAM). When the computer is cleanly restarted (or cleanly shut down), all non-system VeraCrypt volumes
+ are automatically unmounted and, thus, all master keys stored in RAM are erased by the VeraCrypt driver (except master keys for system partitions/drives &mdash; see below). However, when power supply is abruptly interrupted, when the computer is reset (not
  cleanly restarted), or when the system crashes, <strong style="text-align:left">
 VeraCrypt naturally stops running and therefore cannot </strong>erase any keys or any other sensitive data. Furthermore, as Microsoft does not provide any appropriate API for handling hibernation and shutdown, master keys used for system encryption cannot be
  reliably (and are not) erased from RAM when the computer hibernates, is shut down or restarted.**</div>
@@ -70,8 +70,8 @@ Hibernation File</a>).</td>
 <hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
 <p><span style="text-align:left; font-size:10px; line-height:12px">* Allegedly, for 1.5-35 seconds under normal operating temperatures (26-44 &deg;C) and up to several hours when the memory modules are cooled (when the computer is running) to very low temperatures
  (e.g. -50&nbsp;&deg;C). New types of memory modules allegedly exhibit a much shorter decay time (e.g. 1.5-2.5 seconds) than older types (as of 2008).</span><br style="text-align:left">
-<span style="text-align:left; font-size:10px; line-height:12px">** Before a key can be erased from RAM, the corresponding VeraCrypt volume must be dismounted. For non-system volumes, this does not cause any problems. However, as Microsoft currently does not
- provide any appropriate API for handling the final phase of the system shutdown process, paging files located on encrypted system volumes that are dismounted during the system shutdown process may still contain valid swapped-out memory pages (including portions
- of Windows system files). This could cause 'blue screen' errors. Therefore, to prevent 'blue screen' errors, VeraCrypt does not dismount encrypted system volumes and consequently cannot clear the master keys of the system volumes when the system is shut down
+<span style="text-align:left; font-size:10px; line-height:12px">** Before a key can be erased from RAM, the corresponding VeraCrypt volume must be unmounted. For non-system volumes, this does not cause any problems. However, as Microsoft currently does not
+ provide any appropriate API for handling the final phase of the system shutdown process, paging files located on encrypted system volumes that are unmounted during the system shutdown process may still contain valid swapped-out memory pages (including portions
+ of Windows system files). This could cause 'blue screen' errors. Therefore, to prevent 'blue screen' errors, VeraCrypt does not unmount encrypted system volumes and consequently cannot clear the master keys of the system volumes when the system is shut down
  or restarted.</span></p>
 </div><div class="ClearBoth"></div></body></html>
