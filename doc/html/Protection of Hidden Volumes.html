@@ -61,12 +61,12 @@ OK</em>.</div>
 <br style="text-align:left">
 Both passwords must be correct; otherwise, the outer volume will not be mounted. When hidden volume protection is enabled, VeraCrypt does
 <em style="text-align:left">not</em> actually mount the hidden volume. It only decrypts its header (in RAM) and retrieves information about the size of the hidden volume (from the decrypted header). Then, the outer volume is mounted and any attempt to save
- data to the area of the hidden volume will be rejected (until the outer volume is dismounted).
-<strong style="text-align:left">Note that VeraCrypt never modifies the filesystem (e.g., information about allocated clusters, amount of free space, etc.) within the outer volume in any way. As soon as the volume is dismounted, the protection is lost. When
+ data to the area of the hidden volume will be rejected (until the outer volume is unmounted).
+<strong style="text-align:left">Note that VeraCrypt never modifies the filesystem (e.g., information about allocated clusters, amount of free space, etc.) within the outer volume in any way. As soon as the volume is unmounted, the protection is lost. When
  the volume is mounted again, it is not possible to determine whether the volume has used hidden volume protection or not. The hidden volume protection can be activated only by users who supply the correct password (and/or keyfiles) for the hidden volume (each
  time they mount the outer volume). <br style="text-align:left">
 </strong><br style="text-align:left">
-As soon as a write operation to the hidden volume area is denied/prevented (to protect the hidden volume), the entire host volume (both the outer and the hidden volume) becomes write-protected until dismounted (the VeraCrypt driver reports the 'invalid parameter'
+As soon as a write operation to the hidden volume area is denied/prevented (to protect the hidden volume), the entire host volume (both the outer and the hidden volume) becomes write-protected until unmounted (the VeraCrypt driver reports the 'invalid parameter'
  error to the system upon each attempt to write data to the volume). This preserves plausible deniability (otherwise certain kinds of inconsistency within the file system could indicate that this volume has used hidden volume protection). When damage to hidden
  volume is prevented, a warning is displayed (provided that the VeraCrypt Background Task is enabled &ndash; see the chapter
 <a href="VeraCrypt%20Background%20Task.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
@@ -81,7 +81,7 @@ Moreover, the field <em style="text-align:left">Hidden Volume Protected </em>in 
 '<em style="text-align:left">Yes (damage prevented!)</em>'<em style="text-align:left">.</em><br style="text-align:left">
 <br style="text-align:left">
 Note that when damage to hidden volume is prevented, <em style="text-align:left">
-no</em> information about the event is written to the volume. When the outer volume is dismounted and mounted again, the volume properties will
+no</em> information about the event is written to the volume. When the outer volume is unmounted and mounted again, the volume properties will
 <em style="text-align:left">not </em>display the string &quot;<em style="text-align:left">damage prevented</em>&quot;.<em style="text-align:left"><br style="text-align:left">
 </em></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -100,7 +100,7 @@ The type of the mounted outer volume is <em style="text-align:left">Outer</em>: 
 <strong style="text-align:left">Important: You are the only person who can mount your outer volume with the hidden volume protection enabled (since nobody else knows your hidden volume password). When an adversary asks you to mount an outer volume, you of course
  must </strong></em><strong style="text-align:left">not</strong><em style="text-align:left"><strong style="text-align:left"> mount it with the hidden volume protection enabled. You must mount it as a normal volume (and then VeraCrypt will not show the volume
  type &quot;Outer&quot; but &quot;Normal&quot;). The reason is that, during the time when an outer volume is mounted with the hidden volume protection enabled, the adversary
-</strong></em><strong style="text-align:left">can</strong><em style="text-align:left"><strong style="text-align:left"> find out that a hidden volume exists within the outer volume (he/she will be able to find it out until the volume is dismounted and possibly
+</strong></em><strong style="text-align:left">can</strong><em style="text-align:left"><strong style="text-align:left"> find out that a hidden volume exists within the outer volume (he/she will be able to find it out until the volume is unmounted and possibly
  even some time after the computer has been powered off - see <a href="Unencrypted%20Data%20in%20RAM.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
 Unencrypted Data in RAM</a>).</strong></em> <br style="text-align:left">
 <br style="text-align:left">

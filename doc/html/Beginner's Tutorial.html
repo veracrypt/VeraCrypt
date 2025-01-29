@@ -188,14 +188,14 @@ You can copy files (or folders) to and from the VeraCrypt volume just as you wou
  on the fly in RAM (memory). Similarly, files that are being written or copied to the VeraCrypt volume are automatically encrypted on the fly in RAM (right before they are written to the disk).<br>
 <br>
 Note that VeraCrypt never saves any decrypted data to a disk &ndash; it only stores them temporarily in RAM (memory). Even when the volume is mounted, data stored in the volume is still encrypted. When you restart Windows or turn off your computer, the volume
- will be dismounted and all files stored on it will be inaccessible (and encrypted). Even when power supply is suddenly interrupted (without proper system shut down), all files stored on the volume will be inaccessible (and encrypted). To make them accessible
+ will be unmounted and all files stored on it will be inaccessible (and encrypted). Even when power supply is suddenly interrupted (without proper system shut down), all files stored on the volume will be inaccessible (and encrypted). To make them accessible
  again, you have to mount the volume. To do so, repeat Steps 13-18.</p>
-<p>If you want to close the volume and make files stored on it inaccessible, either restart your operating system or dismount the volume. To do so, follow these steps:<br>
+<p>If you want to close the volume and make files stored on it inaccessible, either restart your operating system or unmount the volume. To do so, follow these steps:<br>
 <br>
 <img src="Beginner's Tutorial_Image_022.jpg" alt=""><br>
 <br>
 Select the volume from the list of mounted volumes in the main VeraCrypt window (marked with a red rectangle in the screenshot above) and then click
-<strong>Dismount </strong>(also marked with a red rectangle in the screenshot above). To make files stored on the volume accessible again, you will have to mount the volume. To do so, repeat Steps 13-18.</p>
+<strong>Unmount </strong>(also marked with a red rectangle in the screenshot above). To make files stored on the volume accessible again, you will have to mount the volume. To do so, repeat Steps 13-18.</p>
 <h2>How to Create and Use a VeraCrypt-Encrypted Partition/Device</h2>
 <p>Instead of creating file containers, you can also encrypt physical partitions or drives (i.e., create VeraCrypt device-hosted volumes). To do so, repeat the steps 1-3 but in the step 3 select the second or third option. Then follow the remaining instructions
  in the wizard. When you create a device-hosted VeraCrypt volume within a <em>non-system

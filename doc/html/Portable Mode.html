@@ -64,9 +64,9 @@ Note: To extract files from the VeraCrypt self-extracting package, run it, and t
 </li></ol>
 <p>The second option has several advantages, which are described in the following sections in this chapter.</p>
 <p>Note: When running in &lsquo;portable&rsquo; mode, the VeraCrypt driver is unloaded when it is no longer needed (e.g., when all instances of the main application and/or of the Volume Creation Wizard are closed and no VeraCrypt volumes are mounted). However,
- if you force dismount on a VeraCrypt volume when VeraCrypt runs in portable mode, or mount a writable NTFS-formatted volume on Windows Vista or later, the VeraCrypt driver may
+ if you force unmount on a VeraCrypt volume when VeraCrypt runs in portable mode, or mount a writable NTFS-formatted volume on Windows Vista or later, the VeraCrypt driver may
 <em>not</em> be unloaded when you exit VeraCrypt (it will be unloaded only when you shut down or restart the system). This prevents various problems caused by a bug in Windows (for instance, it would be impossible to start VeraCrypt again as long as there are
- applications using the dismounted volume).</p>
+ applications using the unmounted volume).</p>
 <h3>Tools -&gt; Traveler Disk Setup</h3>
 <p>You can use this facility to prepare a special traveler disk and launch VeraCrypt from there. Note that VeraCrypt &lsquo;traveler disk&rsquo; is
 <em>not</em> a VeraCrypt volume but an <em>unencrypted</em> volume. A &lsquo;traveler disk&rsquo; contains VeraCrypt executable files and optionally the &lsquo;autorun.inf&rsquo; script (see the section

@@ -58,7 +58,7 @@
     <li>The master keys are decrypted for every request, requiring a fast decryption algorithm. For this, ChaCha12 is utilized.</li>
     <li>Once a volume is mounted, its master keys are immediately encrypted using the described algorithm.</li>
     <li>For each I/O request for a volume, the master keys are decrypted only for the duration of that request and then securely wiped.</li>
-    <li>Upon volume dismounting, the encrypted master keys are securely removed from memory.</li>
+    <li>Upon volume unmounting, the encrypted master keys are securely removed from memory.</li>
     <li>At Windows shutdown or reboot, the memory region allocated during startup is securely wiped.</li>
 </ol>
 
@@ -123,7 +123,7 @@
       - None; memory at pbData is encrypted in place
     - Steps:
       - Derive hashSeed: hashSeed = (((uint64) pbKeyDerivationArea) + encID) ^ HashSeedMask
-      - Compute 128-bit hash: hash128 = t1h2 (pbKeyDerivationArea,hashSeed). 
+      - Compute 128-bit hash: hash128 = t1h2 (pbKeyDerivationArea,hashSeed).
       - Decompose hash128 into two 64-bit integers: hash128 = hash128_1 || hash128_2
       - Create a 256-bit key for ChaCha12: chachaKey = hash128_1 || hash128_2 || (hash128_1 OR hash128_2) || (hash128_1 + hash128_2)
       - Encrypt chachaKey by itself using ChaCha12 using hashSeed as an IV: ChaCha256Encrypt (chachaKey, hashSeed, chachaKey)

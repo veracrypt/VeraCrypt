@@ -45,7 +45,7 @@ Note: There is a more comfortable way of mounting VeraCrypt partitions/devices &
 <h3>Mount</h3>
 <p>After you click &lsquo;Mount&rsquo;, VeraCrypt will try to mount the selected volume using cached passwords (if there are any) and if none of them works, it prompts you for a password. If you enter the correct password (and/or provide correct keyfiles),
  the volume will be mounted.</p>
-<p>Important: Note that when you exit the VeraCrypt application, the VeraCrypt driver continues working and no VeraCrypt volume is dismounted.</p>
+<p>Important: Note that when you exit the VeraCrypt application, the VeraCrypt driver continues working and no VeraCrypt volume is unmounted.</p>
 <h3 id="AutoMountDevices">Auto-Mount Devices</h3>
 <p>This function allows you to mount VeraCrypt partitions/devices without having to select them manually (by clicking &lsquo;Select Device&rsquo;). VeraCrypt scans headers of all available partitions/devices on your system (except DVD drives and similar devices)
  one by one and tries to mount each of them as a VeraCrypt volume. Note that a VeraCrypt partition/device cannot be identified, nor the cipher it has been encrypted with. Therefore, the program cannot directly &ldquo;find&rdquo; VeraCrypt partitions. Instead,
@@ -56,18 +56,18 @@ If the password you enter is wrong, mounting is attempted using cached passwords
 <em>Shift</em> key when clicking <em>Auto- Mount Devices</em> (only cached passwords will be used, if there are any).<br>
 <br>
 Drive letters will be assigned starting from the one that is selected in the drive list in the main window.</p>
-<h3>Dismount</h3>
-<p>This function allows you to dismount the VeraCrypt volume selected in the drive list in the main window. To dismount a VeraCrypt volume means to close it and make it impossible to read/write from/to the volume.</p>
-<h3>Dismount All</h3>
+<h3>Unmount</h3>
+<p>This function allows you to unmount the VeraCrypt volume selected in the drive list in the main window. To unmount a VeraCrypt volume means to close it and make it impossible to read/write from/to the volume.</p>
+<h3>Unmount All</h3>
 <p>Note: The information in this section applies to all menu items and buttons with the same or similar caption (for example, it also applies to the system tray menu item
-<em>Dismount All</em>).<br>
+<em>Unmount All</em>).<br>
 <br>
-This function allows you to dismount multiple VeraCrypt volumes. To dismount a VeraCrypt volume means to close it and make it impossible to read/write from/to the volume. This function dismounts all mounted VeraCrypt volumes except the following:</p>
+This function allows you to unmount multiple VeraCrypt volumes. To unmount a VeraCrypt volume means to close it and make it impossible to read/write from/to the volume. This function unmounts all mounted VeraCrypt volumes except the following:</p>
 <ul>
 <li>Partitions/drives within the key scope of active system encryption (e.g., a system partition encrypted by VeraCrypt, or a non-system partition located on a system drive encrypted by VeraCrypt, mounted when the encrypted operating system is running).
 </li><li>VeraCrypt volumes that are not fully accessible to the user account (e.g. a volume mounted from within another user account).
-</li><li>VeraCrypt volumes that are not displayed in the VeraCrypt application window. For example, system favorite volumes attempted to be dismounted by an instance of VeraCrypt without administrator privileges when the option '<em>Allow only administrators to
- view and dismount system favorite volumes in VeraCrypt</em>' is enabled. </li></ul>
+</li><li>VeraCrypt volumes that are not displayed in the VeraCrypt application window. For example, system favorite volumes attempted to be unmounted by an instance of VeraCrypt without administrator privileges when the option '<em>Allow only administrators to
+ view and unmount system favorite volumes in VeraCrypt</em>' is enabled. </li></ul>
 <h3>Wipe Cache</h3>
 <p>Clears all passwords (which may also contain processed keyfile contents) cached in driver memory. When there are no passwords in the cache, this button is disabled. For information on password cache, see the section
 <a href="Mounting%20VeraCrypt%20Volumes.html">
@@ -87,11 +87,11 @@ Furthermore, if this option is enabled, the volume path input field in the main 
 <br>
 Note: You can clear the volume history by selecting <em>Tools</em> -&gt; <em>Clear Volume History</em>.</p>
 <h3>Exit</h3>
-<p>Terminates the VeraCrypt application. The driver continues working and no VeraCrypt volumes are dismounted. When running in &lsquo;portable&rsquo; mode, the VeraCrypt driver is unloaded when it is no longer needed (e.g., when all instances of the main application
- and/or of the Volume Creation Wizard are closed and no VeraCrypt volumes are mounted). However, if you force dismount on a</p>
+<p>Terminates the VeraCrypt application. The driver continues working and no VeraCrypt volumes are unmounted. When running in &lsquo;portable&rsquo; mode, the VeraCrypt driver is unloaded when it is no longer needed (e.g., when all instances of the main application
+ and/or of the Volume Creation Wizard are closed and no VeraCrypt volumes are mounted). However, if you force unmount on a</p>
 <p>VeraCrypt volume when VeraCrypt runs in portable mode, or mount a writable NTFS-formatted volume on Windows Vista or later, the VeraCrypt driver may
 <em>not</em> be unloaded when you exit VeraCrypt (it will be unloaded only when you shut down or restart the system). This prevents various problems caused by a bug in Windows (for instance, it would be impossible to start VeraCrypt again as long as there are
- applications using the dismounted volume).</p>
+ applications using the unmounted volume).</p>
 <h3>Volume Tools</h3>
 <h4>Change Volume Password</h4>
 <p>See the section <a href="Program%20Menu.html">
