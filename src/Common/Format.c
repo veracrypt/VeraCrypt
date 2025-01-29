@@ -194,7 +194,7 @@ begin_format:
 		{
 			if ((dev = DismountDrive (devName, volParams->volumePath)) == INVALID_HANDLE_VALUE)
 			{
-				Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
+				Error ("FORMAT_CANT_UNMOUNT_FILESYS", hwndDlg);
 				nStatus = ERR_DONT_REPORT;
 				goto error;
 			}
@@ -332,7 +332,7 @@ begin_format:
 
 		if (DeviceIoControl (dev, FSCTL_IS_VOLUME_MOUNTED, NULL, 0, NULL, 0, &dwResult, NULL))
 		{
-			Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
+			Error ("FORMAT_CANT_UNMOUNT_FILESYS", hwndDlg);
 			nStatus = ERR_DONT_REPORT;
 			goto error;
 		}
@@ -850,7 +850,7 @@ error:
 		if (retCode != 0)
 		{
 			if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo) && !Silent)
-				MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
+				MessageBoxW (volParams->hwndDlg, GetString ("CANT_UNMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 
 			if (dataAreaSize <= TC_MAX_FAT_SECTOR_COUNT * FormatSectorSize)
 			{
@@ -872,7 +872,7 @@ error:
 		}
 
 		if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo) && !Silent)
-			MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
+			MessageBoxW (volParams->hwndDlg, GetString ("CANT_UNMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 	}
 
 fv_end:

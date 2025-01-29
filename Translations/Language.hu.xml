@@ -135,8 +135,8 @@
     <entry lang="hu" key="IDC_FAVORITE_REMOVE">Eltávolítás</entry>
     <entry lang="hu" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Kedvenc címke használata az Intéző meghajtó címkéjeként</entry>
     <entry lang="hu" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Globális beállítások</entry>
-    <entry lang="hu" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Buborék elemleírás megjelenítése a gyorsbillentyű sikeres leválasztása után</entry>
-    <entry lang="hu" key="IDC_HK_DISMOUNT_PLAY_SOUND">Rendszerértesítési hang lejátszása a gyorsbillentyű sikeres leválasztása után</entry>
+    <entry lang="hu" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Buborék elemleírás megjelenítése a gyorsbillentyű sikeres leválasztása után</entry>
+    <entry lang="hu" key="IDC_HK_UNMOUNT_PLAY_SOUND">Rendszerértesítési hang lejátszása a gyorsbillentyű sikeres leválasztása után</entry>
     <entry lang="hu" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="hu" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="hu" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="hu" key="IDC_PIM_HELP">(Üres vagy 0 alapértelmezett ismétlések esetén)</entry>
     <entry lang="hu" key="IDC_PREF_BKG_TASK_ENABLE">Engedélyezve</entry>
     <entry lang="hu" key="IDC_PREF_CACHE_PASSWORDS">Jelszavak gyorsítótárazása az illesztőprogram memóriájában</entry>
-    <entry lang="hu" key="IDC_PREF_DISMOUNT_INACTIVE">A kötet automatikus leválasztása, ha nincs ráírva adat</entry>
-    <entry lang="hu" key="IDC_PREF_DISMOUNT_LOGOFF">Felhasználói kijelentkezés</entry>
-    <entry lang="hu" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Felhasználói munkamenet zárolva</entry>
-    <entry lang="hu" key="IDC_PREF_DISMOUNT_POWERSAVING">Belépés energiatakarékos üzemmódba</entry>
-    <entry lang="hu" key="IDC_PREF_DISMOUNT_SCREENSAVER">Képernyővédő elindítva</entry>
-    <entry lang="hu" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Automatikus leválasztás kényszerítése akkor is, ha a kötet megnyitott fájlokat vagy könyvtárakat tartalmaz</entry>
+    <entry lang="hu" key="IDC_PREF_UNMOUNT_INACTIVE">A kötet automatikus leválasztása, ha nincs ráírva adat</entry>
+    <entry lang="hu" key="IDC_PREF_UNMOUNT_LOGOFF">Felhasználói kijelentkezés</entry>
+    <entry lang="hu" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Felhasználói munkamenet zárolva</entry>
+    <entry lang="hu" key="IDC_PREF_UNMOUNT_POWERSAVING">Belépés energiatakarékos üzemmódba</entry>
+    <entry lang="hu" key="IDC_PREF_UNMOUNT_SCREENSAVER">Képernyővédő elindítva</entry>
+    <entry lang="hu" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Automatikus leválasztás kényszerítése akkor is, ha a kötet megnyitott fájlokat vagy könyvtárakat tartalmaz</entry>
     <entry lang="hu" key="IDC_PREF_LOGON_MOUNT_DEVICES">Az összes eszköz által tárolt VeraCrypt kötet csatlakoztatása</entry>
     <entry lang="hu" key="IDC_PREF_LOGON_START">VeraCrypt háttérfeladat indítása</entry>
     <entry lang="hu" key="IDC_PREF_MOUNT_READONLY">Kötetek csatlakoztatása csak-olvashatóként</entry>
@@ -169,7 +169,7 @@
     <entry lang="hu" key="IDC_PREF_OPEN_EXPLORER">Az Intéző ablakának megnyitása a sikeresen csatlakoztatott kötethez</entry>
     <entry lang="hu" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">A jelszó ideiglenes gyorsítótárazása a 'Kedvenc kötetek csatlakoztatása' műveletek során</entry>
     <entry lang="hu" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Másik tálcaikon használata csatlakoztatott kötetek esetén</entry>
-    <entry lang="hu" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Gyorsítótárazott jelszavak törlése automatikus leválasztáskor</entry>
+    <entry lang="hu" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Gyorsítótárazott jelszavak törlése automatikus leválasztáskor</entry>
     <entry lang="hu" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Gyorsítótárazott jelszavak törlése kilépéskor</entry>
     <entry lang="hu" key="IDC_PRESERVE_TIMESTAMPS">Fájltárolók módosítási időbélyegének megőrzése</entry>
     <entry lang="hu" key="IDC_RESET_HOTKEYS">Visszaállítás</entry>
@@ -269,14 +269,14 @@
     <entry lang="hu" key="IDT_ACCELERATION_OPTIONS">Hardveres gyorsítás</entry>
     <entry lang="hu" key="IDT_ASSIGN_HOTKEY">Billentyűparancs</entry>
     <entry lang="hu" key="IDT_AUTORUN">Automatikus futtatás konfigurációja (autorun.inf)</entry>
-    <entry lang="hu" key="IDT_AUTO_DISMOUNT">Automatikus leválasztás</entry>
-    <entry lang="hu" key="IDT_AUTO_DISMOUNT_ON">Összes leválasztása, ha:</entry>
+    <entry lang="hu" key="IDT_AUTO_UNMOUNT">Automatikus leválasztás</entry>
+    <entry lang="hu" key="IDT_AUTO_UNMOUNT_ON">Összes leválasztása, ha:</entry>
     <entry lang="hu" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Rendszertöltő képernyő opciók</entry>
     <entry lang="hu" key="IDT_CONFIRM_PASSWORD">Jelszó megerősítése:</entry>
     <entry lang="hu" key="IDT_CURRENT">Jelenlegi</entry>
     <entry lang="hu" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">A következő egyéni üzenet megjelenítése a rendszerindítás előtti hitelesítési képernyőn (legfeljebb 24 karakter):</entry>
     <entry lang="hu" key="IDT_DEFAULT_MOUNT_OPTIONS">Alapértelmezett csatolási lehetőségek</entry>
-    <entry lang="hu" key="IDT_DISMOUNT_ACTION">Gyorsbillentyűk opciók</entry>
+    <entry lang="hu" key="IDT_UNMOUNT_ACTION">Gyorsbillentyűk opciók</entry>
     <entry lang="hu" key="IDT_DRIVER_OPTIONS">Illesztőprogram-konfiguráció</entry>
     <entry lang="hu" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Kiterjesztett lemezvezérlő kódok támogatásának engedélyezése</entry>
     <entry lang="hu" key="IDT_FAVORITE_LABEL">A kiválasztott kedvenc kötet címkéje:</entry>
@@ -423,8 +423,8 @@
     <entry lang="hu" key="DEVICE_FREE_PB">%s mérete: %.2f PB</entry>
     <entry lang="hu" key="DEVICE_IN_USE_FORMAT">FiGYELEM: az eszközt/partíciót az operációs rendszer vagy alkalmazások használják. Az eszköz/partíció formázása adatvesztést és a rendszer instabilitását okozhatja.\n\nFolytatja?</entry>
     <entry lang="hu" key="DEVICE_IN_USE_INPLACE_ENC">FiGYELEM: A partíciót az operációs rendszer vagy alkalmazások használják. Zárjon be minden olyan alkalmazást, amely esetleg a partíciót használhatja (beleértve a víruskereső szoftvert is).\n\nFolytatja?</entry>
-    <entry lang="hu" key="FORMAT_CANT_DISMOUNT_FILESYS">Hiba: Az eszköz/partíció olyan fájlrendszert tartalmaz, amelyet nem lehetett leválasztani. Lehet, hogy a fájlrendszert az operációs rendszer használja. Az eszköz/partíció formázása nagy valószínűséggel adatsérüléshez és a rendszer instabilitásához vezetne.\n\nA probléma megoldásához javasoljuk, hogy először törölje a partíciót, majd formázás nélkül hozza létre újra. Ehhez hajtsa végre az alábbi lépéseket:\n1) Kattintson a jobb gombbal a 'Számítógép' (vagy ' Ez a gép') ikonra a 'Start Menü'-ben, és válassza a 'Kezelés' lehetőséget. Meg kell jelennie a 'Számítógép-kezelés' ablaknak.\n2) A 'Számítógép-kezelés' ablakban, válassza a 'Tárolás' &gt; 'Lemezkezelés' elemet.\n3) Kattintson jobb gombbal a titkosítani kívánt partícióra, és válassza a 'Partíció törlése', 'Törlés' vagy 'Logikai meghajtó törlése' elemet.\n4) Kattintson az 'Igen' gombra. Ha a Windows a számítógép újraindítását kéri, tegye meg. Ezután ismételje meg az 1. és 2. lépést, majd folytassa az 5. lépéstől.\n5) Kattintson jobb gombbal a szabad területre, és válassza az 'Új partíció', vagy az 'Új egyszerű kötet' vagy az 'Új logikai meghajtó' lehetőséget.\n6) Ekkor megjelenik az 'Új partíció varázsló' vagy az 'Új egyszerű kötet varázsló' ablaka; kövesse az utasításokat. A 'Partíció formázása' címkéjű varázsló lapon válassza a 'Ne formázza meg ezt a partíciót' vagy a 'Ne formázza ezt a kötetet' lehetőséget. Ugyanebben a varázslóban előbb kattintson a 'Tovább', majd a 'Befejezés' gombra.\n7) Ne feledje, hogy a VeraCrypt programban kiválasztott eszköz elérési útvonal most hibás lehet. Ezért lépjen ki a VeraCrypt kötetkészítő varázslóból (ha még mindig fut), majd indítsa újra.\n8) Próbálja meg újra titkosítani az eszközt/partíciót.\n\nHa a VeraCrypt újra nem titkosítja az eszközt/partíciót, érdemes lehet inkább egy fájltárolót létrehozni.</entry>
-    <entry lang="hu" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Hiba: A fájlrendszert nem lehetett zárolni és/vagy leválasztani. Lehetséges, hogy azt az operációs rendszer vagy az alkalmazások (például víruskereső szoftverek) használják. A partíció titkosítása adatvesztést és a rendszer instabilitását okozhatja.\n\nZárjon be minden olyan alkalmazást, amely a fájlrendszert használhatja (beleértve a víruskereső szoftvert is), majd próbálja újra. Ha ez nem segít, kövesse az alábbi lépéseket.</entry>
+    <entry lang="hu" key="FORMAT_CANT_UNMOUNT_FILESYS">Hiba: Az eszköz/partíció olyan fájlrendszert tartalmaz, amelyet nem lehetett leválasztani. Lehet, hogy a fájlrendszert az operációs rendszer használja. Az eszköz/partíció formázása nagy valószínűséggel adatsérüléshez és a rendszer instabilitásához vezetne.\n\nA probléma megoldásához javasoljuk, hogy először törölje a partíciót, majd formázás nélkül hozza létre újra. Ehhez hajtsa végre az alábbi lépéseket:\n1) Kattintson a jobb gombbal a 'Számítógép' (vagy ' Ez a gép') ikonra a 'Start Menü'-ben, és válassza a 'Kezelés' lehetőséget. Meg kell jelennie a 'Számítógép-kezelés' ablaknak.\n2) A 'Számítógép-kezelés' ablakban, válassza a 'Tárolás' &gt; 'Lemezkezelés' elemet.\n3) Kattintson jobb gombbal a titkosítani kívánt partícióra, és válassza a 'Partíció törlése', 'Törlés' vagy 'Logikai meghajtó törlése' elemet.\n4) Kattintson az 'Igen' gombra. Ha a Windows a számítógép újraindítását kéri, tegye meg. Ezután ismételje meg az 1. és 2. lépést, majd folytassa az 5. lépéstől.\n5) Kattintson jobb gombbal a szabad területre, és válassza az 'Új partíció', vagy az 'Új egyszerű kötet' vagy az 'Új logikai meghajtó' lehetőséget.\n6) Ekkor megjelenik az 'Új partíció varázsló' vagy az 'Új egyszerű kötet varázsló' ablaka; kövesse az utasításokat. A 'Partíció formázása' címkéjű varázsló lapon válassza a 'Ne formázza meg ezt a partíciót' vagy a 'Ne formázza ezt a kötetet' lehetőséget. Ugyanebben a varázslóban előbb kattintson a 'Tovább', majd a 'Befejezés' gombra.\n7) Ne feledje, hogy a VeraCrypt programban kiválasztott eszköz elérési útvonal most hibás lehet. Ezért lépjen ki a VeraCrypt kötetkészítő varázslóból (ha még mindig fut), majd indítsa újra.\n8) Próbálja meg újra titkosítani az eszközt/partíciót.\n\nHa a VeraCrypt újra nem titkosítja az eszközt/partíciót, érdemes lehet inkább egy fájltárolót létrehozni.</entry>
+    <entry lang="hu" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Hiba: A fájlrendszert nem lehetett zárolni és/vagy leválasztani. Lehetséges, hogy azt az operációs rendszer vagy az alkalmazások (például víruskereső szoftverek) használják. A partíció titkosítása adatvesztést és a rendszer instabilitását okozhatja.\n\nZárjon be minden olyan alkalmazást, amely a fájlrendszert használhatja (beleértve a víruskereső szoftvert is), majd próbálja újra. Ha ez nem segít, kövesse az alábbi lépéseket.</entry>
     <entry lang="hu" key="DEVICE_IN_USE_INFO">FIGYELEM: Néhány a csatolt eszköz/partíció még használatban van!\n\nEnnek figyelmen kívül hagyása nemkívánatos eredményekhez, köztük a rendszer instabilitásához vezethet.\n\nJavasoljuk, hogy zárja be az eszközöket/partíciókat használó alkalmazásokat.</entry>
     <entry lang="hu" key="DEVICE_PARTITIONS_ERR">A kiválasztott eszköz partíciókat tartalmaz.\n\nAz eszköz formázása a rendszer instabilitását és/vagy az adatok sérülését okozhatja. Válasszon ki egy partíciót az eszközről, vagy távolítsa el az eszköz összes partícióját, hogy a VeraCrypt biztonságosan formázhassa.</entry>
     <entry lang="hu" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">A kiválasztott nem rendszer eszköz partíciókat tartalmaz.\n\nTitkosított eszköz által tárolt VeraCrypt kötetek olyan eszközökön hozhatók létre, amelyek nem tartalmaznak partíciókat (beleértve a merevlemezeket és a tartós állapotú meghajtókat). A partíciókat tartalmazó eszköz csak akkor titkosítható a helyén (egyetlen főkulcs használatával), ha az a meghajtó, amelyre a Windows telepítve van, és ahonnan indul.\n\nHa a kiválasztott nem rendszereszközt egyetlen főkulccsal szeretné titkosítani, először el kell távolítania az eszköz összes partícióját, hogy a VeraCrypt biztonságosan formázhassa (a partíciókat tartalmazó eszköz formázása a rendszer instabilitását és/vagy az adatok sérülését okozhatja). A meghajtó minden partícióját egyenként is titkosíthatja (minden partíció egy másik főkulccsal lesz titkosítva).\n\nMegjegyzés: Ha az összes partíciót el szeretné távolítani egy GPT-lemezről, előfordulhat, hogy a rejtett partíciók eltávolításához MBR-lemezzé kell konvertálnia (pl. a Számítógép-kezelés eszközzel).</entry>
@@ -590,7 +590,7 @@
     <entry lang="hu" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Hiba: A külső kötetre másolt fájlok túl sok helyet foglalnak. Ezért nincs elegendő szabad hely a külső köteten a rejtett kötet számára.\n\nVegye figyelembe, hogy a rejtett kötetnek olyan nagynak kell lennie, mint a rendszerpartíció (az a partíció, amelyre a jelenleg futó operációs rendszer telepítve van). Ennek az az oka, hogy a rejtett operációs rendszert úgy kell létrehozni, hogy a rendszerpartíció tartalmát a rejtett kötetre másolja.\n\n\nA rejtett operációs rendszer létrehozásának folyamata nem folytatható.</entry>
     <entry lang="hu" key="OPENFILES_DRIVER">Az illesztőprogram nem tudja leválasztani a kötetet. Néhány, a köteten lévő fájl valószínűleg még mindig meg van nyitva.</entry>
     <entry lang="hu" key="OPENFILES_LOCK">Nem lehet zárolni a kötetet. A köteten még vannak megnyitott fájlok. Ezért nem lehet leválasztani.</entry>
-    <entry lang="hu" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">A VeraCrypt nem tudja zárolni a kötetet, mivel a rendszer vagy az alkalmazások használják (előfordulhat, hogy a köteten megnyitott fájlok vannak).\n\nKényszeríti a kötetről való leválasztást?</entry>
+    <entry lang="hu" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">A VeraCrypt nem tudja zárolni a kötetet, mivel a rendszer vagy az alkalmazások használják (előfordulhat, hogy a köteten megnyitott fájlok vannak).\n\nKényszeríti a kötetről való leválasztást?</entry>
     <entry lang="hu" key="OPEN_VOL_TITLE">Válasszon egy VeraCrypt kötetet</entry>
     <entry lang="hu" key="OPEN_TITLE">Adja meg az elérési útvonalat és a fájlnevet</entry>
     <entry lang="hu" key="SELECT_PKCS11_MODULE">PKCS #11 könyvtár kiválasztása</entry>
@@ -729,7 +729,7 @@
     <entry lang="hu" key="DLL_FILES">Könyvtári modulok</entry>
     <entry lang="hu" key="FORMAT_NTFS_STOP">Az NTFS/exFAT/ReFS formázás nem folytatható.</entry>
     <entry lang="hu" key="CANT_MOUNT_VOLUME">A kötet nem csatlakoztatható.</entry>
-    <entry lang="hu" key="CANT_DISMOUNT_VOLUME">Nem lehet leválasztani a kötetet.</entry>
+    <entry lang="hu" key="CANT_UNMOUNT_VOLUME">Nem lehet leválasztani a kötetet.</entry>
     <entry lang="hu" key="FORMAT_NTFS_FAILED">A Windows nem tudta ntfs/exFAT/ReFS formátumúként formázni a kötetet.\n\nVálasszon másik fájlrendszer típust (ha lehetséges), és próbálja újra. Alternatív megoldásként hagyhatja a kötetet formázás nélkül (fájlrendszerként válassza a 'Nincs' lehetőséget), lépjen ki a varázslóból, csatlakoztassa a kötetet, majd a rendszer vagy harmadik fél eszközével formázza a csatolt kötetet (a kötet titkosítva marad) .</entry>
     <entry lang="hu" key="FORMAT_NTFS_FAILED_ASK_FAT">A Windows nem tudta ntfs/exFAT/ReFS formátumúként formázni a kötetet.\n\nA kötetet inkább FAT formátumban szeretné formázni?</entry>
     <entry lang="hu" key="DEFAULT">Alapértelmezett</entry>
@@ -771,7 +771,7 @@
     <entry lang="hu" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Egy hiba megakadályozta, hogy a VeraCrypt titkosítsa a partíciót. Próbálja meg kijavítani a korábban jelentett problémákat, majd próbálkozzon újra. Ha a problémák továbbra is fennállnak, az segíthet az alábbi lépések követésében.</entry>
     <entry lang="hu" key="INPLACE_ENC_GENERIC_ERR_RESUME">Egy hiba miatt a VeraCrypt nem folytathatja a partíció/kötet titkosítási/visszafejtési folyamatát.\n\nPróbálja meg kijavítani a korábban jelentett problémákat, majd kísérelje meg folytatni a műveletet, ha lehetséges. Ne feledje, hogy a kötetet nem lehet csatlakoztatni, amíg nincs teljesen titkosítva vagy visszafejtve.</entry>
     <entry lang="hu" key="INPLACE_DEC_GENERIC_ERR">Egy hiba megakadályozta, hogy a VeraCrypt visszafejtse a kötetet. Próbálja meg kijavítani a korábban jelentett problémákat, és ha lehetséges próbálja újra.</entry>
-    <entry lang="hu" key="CANT_DISMOUNT_OUTER_VOL">Hiba: Nem lehet leválasztani a külső kötetet!\n\nA kötet nem választható le, ha olyan fájlokat vagy mappákat tartalmaz, amelyeket egy program vagy a rendszer használ.\n\nZárjon be minden olyan programot, amely fájlokat vagy könyvtárakat használ a köteten, és kattintson az Újra gombra.</entry>
+    <entry lang="hu" key="CANT_UNMOUNT_OUTER_VOL">Hiba: Nem lehet leválasztani a külső kötetet!\n\nA kötet nem választható le, ha olyan fájlokat vagy mappákat tartalmaz, amelyeket egy program vagy a rendszer használ.\n\nZárjon be minden olyan programot, amely fájlokat vagy könyvtárakat használ a köteten, és kattintson az Újra gombra.</entry>
     <entry lang="hu" key="CANT_GET_OUTER_VOL_INFO">Hiba: Nem lehet információt szerezni a külső kötetről!\nA kötet létrehozása nem folytatható.</entry>
     <entry lang="hu" key="CANT_ACCESS_OUTER_VOL">Hiba: Nem érhető el a külső kötet! A kötet létrehozása nem folytatható.</entry>
     <entry lang="hu" key="CANT_MOUNT_OUTER_VOL">Hiba: Nem lehet csatlakoztatni a külső kötetet! A kötet létrehozása nem folytatható.</entry>
@@ -882,7 +882,7 @@
     <entry lang="hu" key="INSTALL_COMPLETED">A telepítés befejeződött.</entry>
     <entry lang="hu" key="CANT_CREATE_FOLDER">A(z) '%s' mappát nem sikerült létrehozni</entry>
     <entry lang="hu" key="CLOSE_TC_FIRST">A VeraCrypt eszközillesztő nem távolítható el a memóriából.\n\nElőször zárja be az összes megnyitott VeraCrypt ablakot. Ha ez nem segít, indítsa újra a Windows rendszert, majd próbálkozzon újra.</entry>
-    <entry lang="hu" key="DISMOUNT_ALL_FIRST">A VeraCrypt telepítése vagy eltávolítása előtt minden VeraCrypt kötetet le kell választani.</entry>
+    <entry lang="hu" key="UNMOUNT_ALL_FIRST">A VeraCrypt telepítése vagy eltávolítása előtt minden VeraCrypt kötetet le kell választani.</entry>
     <entry lang="hu" key="UNINSTALL_OLD_VERSION_FIRST">Egy elavult VeraCrypt verzió van telepítve a rendszerben. El kell távolítani, mielőtt telepíthetné ezt az új VeraCrypt verziót.\n\nAmint bezárja ezt az üzenetpanelt, elindul a régi verzió eltávolítója. Ne feledje, hogy a VeraCrypt eltávolításakor a program nem fejti vissza a kötetet. A VeraCrypt régi verziójának eltávolítása után futtassa újra a VeraCrypt új verziójának telepítőjét.</entry>
     <entry lang="hu" key="REG_INSTALL_FAILED">A rendszerleíró bejegyzések telepítése nem sikerült</entry>
     <entry lang="hu" key="DRIVER_INSTALL_FAILED">Az eszközillesztő telepítése sikertelen volt. Indítsa újra a Windows rendszert, majd próbálja újratelepíteni a VeraCrypt-et.</entry>
@@ -903,7 +903,7 @@
     <entry lang="hu" key="MINUTES">perc</entry>
     <entry lang="hu" key="SECONDS">mp</entry>
     <entry lang="hu" key="OPEN">Megnyitás</entry>
-    <entry lang="hu" key="DISMOUNT">Leválasztás</entry>
+    <entry lang="hu" key="UNMOUNT">Leválasztás</entry>
     <entry lang="hu" key="SHOW_TC">VeraCrypt megjelenítése</entry>
     <entry lang="hu" key="HIDE_TC">VeraCrypt elrejtése</entry>
     <entry lang="hu" key="TOTAL_DATA_READ">A csatlakoztatás óta olvasott adatok</entry>
@@ -975,7 +975,7 @@
     <entry lang="hu" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - A rendszer kedvenc kötetei</entry>
     <entry lang="hu" key="SYS_FAVORITES_HELP_LINK">Melyek a rendszer kedvenc kötetei?</entry>
     <entry lang="hu" key="SYS_FAVORITES_REQUIRE_PBA">Úgy tűnik, hogy a rendszerpartíció/meghajtó nincs titkosítva.\n\nA rendszer kedvenc kötetei csak rendszerindítás előtti hitelesítési jelszóval csatlakoztathatók. Ezért a rendszer kedvenc köteteinek használatához, először titkosítania kell a rendszerpartíciót/meghajtót.</entry>
-    <entry lang="hu" key="DISMOUNT_FIRST">Folytatás előtt válassza le a kötetet.</entry>
+    <entry lang="hu" key="UNMOUNT_FIRST">Folytatás előtt válassza le a kötetet.</entry>
     <entry lang="hu" key="CANNOT_SET_TIMER">Hiba: Nem lehet beállítani az időzítőt.</entry>
     <entry lang="hu" key="IDPM_CHECK_FILESYS">Fájlrendszer ellenőrzése</entry>
     <entry lang="hu" key="IDPM_REPAIR_FILESYS">Fájlrendszer javítása</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="hu" key="NO_SYSENC_PARTITION_SELECTED">Nincs kiválasztva partíció.\n\nKattintson az 'Eszköz kiválasztása' elemre olyan leválasztott partíció kiválasztásához, amely általában indítás előtti hitelesítést igényel (például egy másik partíció, amely egy másik operációs rendszer titkosított rendszermeghajtóján helyezkedik el, amely nem fut, vagy egy másik operációs rendszer titkosított rendszerpartíciója).\n\nMegjegyzés: A kiválasztott partíció hagyományos VeraCrypt kötetként lesz telepítve, indítás előtti hitelesítés nélkül. Ez hasznos például biztonsági mentési vagy javítási műveleteknél.</entry>
     <entry lang="hu" key="CONFIRM_SAVE_DEFAULT_KEYFILES">FIGYELEM: Ha az alapértelmezett kulcsfájlok be vannak állítva és engedélyezve lettek, akkor azokat a köteteket, amelyek nem használják ezeket a kulcsfájlokat, lehetetlen lesz csatlakoztatni. Ezért az alapértelmezett kulcsfájlok engedélyezése után, ne feledje törölni a jelet a 'Kulcsfájlok használata' jelölőnégyzetből (a jelszóbeviteli mező alatt) valahányszor ilyen köteteket csatlakoztat.\n\nBiztosan menti a kiválasztott kulcsfájlokat/elérési útvonalakat alapértelmezettként?</entry>
     <entry lang="hu" key="HK_AUTOMOUNT_DEVICES">Eszközök automatikus csatolása</entry>
-    <entry lang="hu" key="HK_DISMOUNT_ALL">Összes leválasztása</entry>
+    <entry lang="hu" key="HK_UNMOUNT_ALL">Összes leválasztása</entry>
     <entry lang="hu" key="HK_WIPE_CACHE">Gyorsítótár törlése</entry>
-    <entry lang="hu" key="HK_DISMOUNT_ALL_AND_WIPE">Összes leválasztása és a gyorsítótár törlése</entry>
-    <entry lang="hu" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Az összes leválasztásának kényszerítése és a gyorsítótár ürítése</entry>
-    <entry lang="hu" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Az összes leválasztásának kényszerítése, a gyorsítótár ürítése és kilépés</entry>
+    <entry lang="hu" key="HK_UNMOUNT_ALL_AND_WIPE">Összes leválasztása és a gyorsítótár törlése</entry>
+    <entry lang="hu" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Az összes leválasztásának kényszerítése és a gyorsítótár ürítése</entry>
+    <entry lang="hu" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Az összes leválasztásának kényszerítése, a gyorsítótár ürítése és kilépés</entry>
     <entry lang="hu" key="HK_MOUNT_FAVORITE_VOLUMES">Kedvenc kötetek csatolása</entry>
     <entry lang="hu" key="HK_SHOW_HIDE_MAIN_WINDOW">A VeraCrypt fő ablakának megjelenítése/elrejtése</entry>
     <entry lang="hu" key="PRESS_A_KEY_TO_ASSIGN">(Kattintson ide és nyomjon meg egy gombot)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="hu" key="PAGING_FILE_CREATION_PREVENTED">A lapozófájl létrehozása meg lett akadályozva.\n\nVegye figyelembe, hogy Windows problémák miatt, lapozófájl nem található a nem-rendszer VeraCrypt köteteken (beleértve a rendszer kedvenc köteteit). A VeraCrypt csak titkosított rendszerpartíción/meghajtón támogatja a lapozófájlok létrehozását.</entry>
     <entry lang="hu" key="SYS_ENC_HIBERNATION_PREVENTED">Egy hiba vagy összeférhetetlenség megakadályozza, hogy a VeraCrypt titkosítsa a hibernálási fájlt. Ezért a hibernálás meg lett akadályozva.\n\nMegjegyzés: Ha a számítógép hibernálódik (vagy energiatakarékos módba lép), a rendszermemória tartalma a rendszermeghajtón található hibernálási tárolófájlba kerül. A VeraCrypt nem tudja megakadályozni a titkosítási kulcsok és a memóriában megnyitott érzékeny fájlok tartalmának titkosítatlan mentését a hibernálási tárolófájlba.</entry>
     <entry lang="hu" key="HIDDEN_OS_HIBERNATION_PREVENTED">A hibernálás meg lett akadályozva.\n\nA VeraCrypt nem támogatja a hibernálást olyan rejtett operációs rendszereken, amelyek extra rendszerindító partíciót használnak. Vegye figyelembe, hogy a rendszerindító partíciót, mind a csali, mind pedig a rejtett rendszer megosztja. Ezért a hibernált állapotból való visszatérés során az adatszivárgások és problémák megelőzése érdekében a VeraCrypt-nek meg kell akadályoznia, hogy a rejtett rendszer a megosztott rendszerindító partícióra írjon, illetve hibernálja azt.</entry>
-    <entry lang="hu" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">A(z) %c:-ként csatlakoztatott kötet le lett választva.</entry>
-    <entry lang="hu" key="MOUNTED_VOLUMES_DISMOUNTED">A VeraCrypt kötetek le lettek választva.</entry>
-    <entry lang="hu" key="VOLUMES_DISMOUNTED_CACHE_WIPED">A VeraCrypt kötetek le lettek választva és a jelszó gyorsítótár törölve lett.</entry>
-    <entry lang="hu" key="SUCCESSFULLY_DISMOUNTED">Sikeresen leválasztva</entry>
+    <entry lang="hu" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">A(z) %c:-ként csatlakoztatott kötet le lett választva.</entry>
+    <entry lang="hu" key="MOUNTED_VOLUMES_UNMOUNTED">A VeraCrypt kötetek le lettek választva.</entry>
+    <entry lang="hu" key="VOLUMES_UNMOUNTED_CACHE_WIPED">A VeraCrypt kötetek le lettek választva és a jelszó gyorsítótár törölve lett.</entry>
+    <entry lang="hu" key="SUCCESSFULLY_UNMOUNTED">Sikeresen leválasztva</entry>
     <entry lang="hu" key="CONFIRM_BACKGROUND_TASK_DISABLED">FIGYELEM: Ha a VeraCrypt háttérfeladat le van tiltva, a következő funkciók nem engedélyezettek:\n\n1) Billentyűparancsok\n2) Automatikus leválasztás (pl., kijelentkezés, véletlen gazdagép eltávolítás, időtúllépés esetén, stb.)\n3) Kedvenc kötetek automatikus csatlakoztatása\n4) Értesítések (pl., ha a rejtett kötet sérülése meg lett akadályozva)\n5) Tálca ikon\n\nMegjegyzés: a háttérfeladat bármikor leállítható, ha a jobb gombbal a VeraCrypt tálca ikonra kattint, majd a 'Kilépés' lehetőséget választja.\n\nVéglegesen le szeretné tiltani a VeraCrypt háttérfeladatot?</entry>
-    <entry lang="hu" key="CONFIRM_NO_FORCED_AUTODISMOUNT">FIGYELEM: Ha ez a opció le van tiltva, a megnyitott fájlokat/könyvtárakat tartalmazó kötetek nem lesznek automatikusan leválaszthatók.\n\nBiztosan letiltja ezt az opciót?</entry>
-    <entry lang="hu" key="WARN_PREF_AUTO_DISMOUNT">FIGYELEM: A megnyitott fájlokat/könyvtárakat tartalmazó kötetek NEM lesznek automatikusan leválasztva.\n\nEnnek megakadályozása érdekében engedélyezze a következő opciót ebben a párbeszédablakban: 'Automatikus leválasztás kényszerítése akkor is, ha a kötet nyitott fájlokat vagy könyvtárakat tartalmaz'</entry>
-    <entry lang="hu" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">FIGYELEM: Ha a notebook akkumulátorának töltöttségi szintje alacsony, a Windows kihagyhatja a megfelelő üzenetek elküldését a futó alkalmazásoknak, amikor a számítógép energiatakarékos üzemmódba lép. Ezért előfordulhat, hogy a VeraCrypt-nek ilyen esetekben nem sikerül automatikusan leválasztania a köteteket.</entry>
+    <entry lang="hu" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">FIGYELEM: Ha ez a opció le van tiltva, a megnyitott fájlokat/könyvtárakat tartalmazó kötetek nem lesznek automatikusan leválaszthatók.\n\nBiztosan letiltja ezt az opciót?</entry>
+    <entry lang="hu" key="WARN_PREF_AUTO_UNMOUNT">FIGYELEM: A megnyitott fájlokat/könyvtárakat tartalmazó kötetek NEM lesznek automatikusan leválasztva.\n\nEnnek megakadályozása érdekében engedélyezze a következő opciót ebben a párbeszédablakban: 'Automatikus leválasztás kényszerítése akkor is, ha a kötet nyitott fájlokat vagy könyvtárakat tartalmaz'</entry>
+    <entry lang="hu" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">FIGYELEM: Ha a notebook akkumulátorának töltöttségi szintje alacsony, a Windows kihagyhatja a megfelelő üzenetek elküldését a futó alkalmazásoknak, amikor a számítógép energiatakarékos üzemmódba lép. Ezért előfordulhat, hogy a VeraCrypt-nek ilyen esetekben nem sikerül automatikusan leválasztania a köteteket.</entry>
     <entry lang="hu" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Egy partíció/kötet titkosítási/visszafejtési folyamatát ütemezte. A folyamat még nem fejeződött be.\n\nFolytatja a folyamatot most?</entry>
     <entry lang="hu" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Ütemezte a rendszerpartíció/meghajtó titkosításának vagy visszafejtésének folyamatát. A folyamat még nem fejeződött be.\n\nElindítja (folytatja) a folyamatot?</entry>
     <entry lang="hu" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Szeretné, ha a rendszer rákérdezne arra, hogy folytatni kívánja-e a nem rendszerpartíciók/kötetek titkosításának/visszafejtésének jelenleg ütemezett folyamatait?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="hu" key="SYS_AUTOMOUNT_DISABLED">A rendszer nincs beállítva új kötetek automatikus csatlakoztatására. Elképzelhető, hogy nem lehet csatlakoztatni az eszköz által tárolt VeraCrypt köteteket. Az automatikus csatlakoztatást a következő parancs végrehajtásával és a rendszer újraindításával lehet engedélyezni.\n\nmountvol.exe /E</entry>
     <entry lang="hu" key="SYS_ASSIGN_DRIVE_LETTER">Mielőtt folytatná, rendeljen meghajtóbetűjelet a partícióhoz/eszközhöz ('Vezérlőpult' &gt; 'Rendszer és karbantartás' &gt; 'Felügyeleti eszközök' - 'Merevlemez-partíciók létrehozása és formázása').\n\nNe feledje, hogy ez az operációs rendszer követelménye.</entry>
     <entry lang="hu" key="MOUNT_TC_VOLUME">VeraCrypt kötet csatolása</entry>
-    <entry lang="hu" key="DISMOUNT_ALL_TC_VOLUMES">Az összes VeraCrypt kötet leválasztása</entry>
+    <entry lang="hu" key="UNMOUNT_ALL_TC_VOLUMES">Az összes VeraCrypt kötet leválasztása</entry>
     <entry lang="hu" key="UAC_INIT_ERROR">A VeraCrypt nem kapott rendszergazdai jogosultságokat.</entry>
     <entry lang="hu" key="ERR_ACCESS_DENIED">Az operációs rendszer megtagadta a hozzáférést.\n\nLehetséges oka: Az operációs rendszer megköveteli, hogy olvasási/írási engedéllyel (vagy rendszergazdai jogosultságokkal) rendelkezzen bizonyos mappákhoz, fájlokhoz és eszközökhöz, hogy lehetővé tegye az adatok olvasását és írását. Általában egy rendszergazdai jogosultsággal nem rendelkező felhasználó létrehozhat, olvashat és módosíthat fájljait a Dokumentumok mappájában.</entry>
     <entry lang="hu" key="SECTOR_SIZE_UNSUPPORTED">Hiba: A meghajtó nem támogatott szektorméretet használ.\n\nJelenleg nem lehetséges partíció/eszközalapú kötetek létrehozása olyan meghajtókon, amelyek 4096 bájtnál nagyobb szektorokat használnak. Ne feledje azonban, hogy létrehozhat fájltárolt köteteket (tárolókat) az ilyen meghajtókon.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="hu" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Vegye figyelembe, hogy a végrehajtási szálak száma jelenleg korlátozott, amely hatással lesz a sebességteszt eredményeire (rosszabb teljesítmény).\n\nA processzor(ok) teljes potenciáljának kiaknázásához, válassza a 'Beállítások' &gt; 'Teljesítmény' lehetőséget és tiltsa le a megfelelő opciót.</entry>
     <entry lang="hu" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Szeretné, hogy a VeraCrypt megpróbálja letiltani a partíció/meghajtó írásvédelmét?</entry>
     <entry lang="hu" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">FIGYELEM: Ez a beállítás ronthatja a teljesítményt.\n\nBiztosan ezt a beállítást szeretné használni?</entry>
-    <entry lang="hu" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Figyelem: VeraCrypt kötet automatikusan leválasztva</entry>
-    <entry lang="hu" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Csatlakoztatott kötetet tartalmazó eszköz fizikai eltávolítása vagy kikapcsolása előtt, először mindig le kell választania a kötetet a VeraCrypt-ben.\n\nA váratlan spontán leválasztást általában egy időszakosan meghibásodó kábel, meghajtó, stb. okozza.</entry>
+    <entry lang="hu" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Figyelem: VeraCrypt kötet automatikusan leválasztva</entry>
+    <entry lang="hu" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Csatlakoztatott kötetet tartalmazó eszköz fizikai eltávolítása vagy kikapcsolása előtt, először mindig le kell választania a kötetet a VeraCrypt-ben.\n\nA váratlan spontán leválasztást általában egy időszakosan meghibásodó kábel, meghajtó, stb. okozza.</entry>
     <entry lang="hu" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ez a kötet a TrueCrypt %x.%x változattal lett létrehozva, de a VeraCrypt csak a TrueCrypt 6.x/7.x sorozattal létrehozott TrueCrypt köteteket támogatja</entry>
     <entry lang="hu" key="TEST">Teszt</entry>
     <entry lang="hu" key="KEYFILE">Kulcsfájl</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="hu" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Az összes csatolt kötet hozzáadása a kedvencekhez...</entry>
     <entry lang="hu" key="TASKICON_PREF_MENU_ITEMS">Feladat ikon menüelemek</entry>
     <entry lang="hu" key="TASKICON_PREF_OPEN_VOL">Csatolt kötetek megnyitása</entry>
-    <entry lang="hu" key="TASKICON_PREF_DISMOUNT_VOL">Csatolt kötetek leválasztása</entry>
+    <entry lang="hu" key="TASKICON_PREF_UNMOUNT_VOL">Csatolt kötetek leválasztása</entry>
     <entry lang="hu" key="DISK_FREE">Elérhető szabad hely: {0}</entry>
     <entry lang="hu" key="VOLUME_SIZE_HELP">Adja meg a létrehozandó tároló méretét. Ne feledje, hogy a kötet lehetséges minimális mérete 292 KiB.</entry>
     <entry lang="hu" key="LINUX_CONFIRM_INNER_VOLUME_CALC">FIGYELEM: A FAT-tól eltérő fájlrendszert választott a külső kötethez.\nFelhívjuk figyelmét, hogy ebben az esetben a VeraCrypt nem tudja kiszámítani a rejtett kötet maximálisan megengedett méretét, csak megbecsüli, amely téves lehet.\nÍgy az Ön felelőssége az, hogy megfelelő értéket használjon a rejtett kötet méretéhez, hogy az ne fedje át a külső kötetet.\n\nFolytatja a kijelölt fájlrendszer használatát a külső kötethez?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="hu" key="LINUX_DO_NOT_MOUNT">Ne csatolja</entry>
     <entry lang="hu" key="LINUX_MOUNT_AT_DIR">Csatolás a könyvtárban:</entry>
     <entry lang="hu" key="LINUX_SELECT">Válassza ki...</entry>
-    <entry lang="hu" key="LINUX_DISMOUNT_ALL_WHEN">Minden kötet leválasztása, amikor</entry>
+    <entry lang="hu" key="LINUX_UNMOUNT_ALL_WHEN">Minden kötet leválasztása, amikor</entry>
     <entry lang="hu" key="LINUX_ENTERING_POWERSAVING">A rendszer energiatakarékos üzemmódba lép</entry>
     <entry lang="hu" key="LINUX_LOGIN_ACTION">A felhasználó bejelentkezésekor végrehajtandó műveletek</entry>
-    <entry lang="hu" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Zárja be a leválasztani kívánt kötet összes Intéző ablakát</entry>
+    <entry lang="hu" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Zárja be a leválasztani kívánt kötet összes Intéző ablakát</entry>
     <entry lang="hu" key="LINUX_HOTKEYS">Gyorsbillentyűk</entry>
     <entry lang="hu" key="LINUX_SYSTEM_HOTKEYS">Rendszer-szintű gyorsbillentyűk</entry>
     <entry lang="hu" key="LINUX_SOUND_NOTIFICATION">Rendszerértesítési hang lejátszása csatlakoztatás/leválasztás után</entry>
-    <entry lang="hu" key="LINUX_CONFIRM_AFTER_DISMOUNT">Megerősítési üzenetablak megjelenítése a leválasztást követően</entry>
+    <entry lang="hu" key="LINUX_CONFIRM_AFTER_UNMOUNT">Megerősítési üzenetablak megjelenítése a leválasztást követően</entry>
     <entry lang="hu" key="LINUX_VC_QUITS">A VeraCrypt kilép</entry>
     <entry lang="hu" key="LINUX_OPEN_FINDER">Nyissa meg a keresőablakot a sikeresen csatlakoztatott kötethez</entry>
     <entry lang="hu" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Felhívjuk figyelmét, hogy ez a beállítás csak akkor lép érvénybe, ha a kernel kriptográfiai szolgáltatásainak használata le van tiltva.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="hu" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="hu" key="LINUX_NOT_SUPPORTED"> (az aktuális platformon elérhető összetevők nem támogatják).\n</entry>
     <entry lang="hu" key="LINUX_KERNEL_OLD">Rendszere a Linux kernel régi verzióját használja.\n\nA Linux kernel hibája miatt előfordulhat, hogy rendszere nem válaszol, miközben adatokat ír egy VeraCrypt kötetre. Ez a probléma megoldható a kernel 2.6.24-es vagy újabb verziójára történő frissítésével.</entry>
-    <entry lang="hu" key="LINUX_VOL_DISMOUNTED">A(z) {0} kötet le van választva.</entry>
+    <entry lang="hu" key="LINUX_VOL_UNMOUNTED">A(z) {0} kötet le van választva.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="hu" key="LINUX_OOM">Kevés a memória.</entry>
     <entry lang="hu" key="LINUX_CANT_GET_ADMIN_PRIV">Nem sikerült rendszergazdai jogosultságokat szerezni</entry>

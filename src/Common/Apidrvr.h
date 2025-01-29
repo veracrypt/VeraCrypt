@@ -42,11 +42,11 @@
 
 // Dismount volume
 // IN OUT - UNMOUNT_STRUCT
-#define TC_IOCTL_DISMOUNT_VOLUME						TC_IOCTL (4)
+#define TC_IOCTL_UNMOUNT_VOLUME						TC_IOCTL (4)
 
 // Dismount all volumes
 // IN OUT - UNMOUNT_STRUCT
-#define TC_IOCTL_DISMOUNT_ALL_VOLUMES					TC_IOCTL (5)
+#define TC_IOCTL_UNMOUNT_ALL_VOLUMES					TC_IOCTL (5)
 
 // Get list of all mounted volumes
 // IN OUT - MOUNT_LIST_STRUCT (only 26 volumes possible)

@@ -135,8 +135,8 @@
     <entry lang="sv" key="IDC_FAVORITE_REMOVE">&amp;Ta bort</entry>
     <entry lang="sv" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Använd favoritetikett som Utforskarens volymetikett</entry>
     <entry lang="sv" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Globala inställningar</entry>
-    <entry lang="sv" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Visa ett systemmeddelande efter en snabbtangentsdemontering</entry>
-    <entry lang="sv" key="IDC_HK_DISMOUNT_PLAY_SOUND">Spela upp systemaviseringsljud efter snabbtangentsdemontering</entry>
+    <entry lang="sv" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Visa ett systemmeddelande efter en snabbtangentsdemontering</entry>
+    <entry lang="sv" key="IDC_HK_UNMOUNT_PLAY_SOUND">Spela upp systemaviseringsljud efter snabbtangentsdemontering</entry>
     <entry lang="sv" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="sv" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="sv" key="IDC_HK_MOD_SHIFT">Skift</entry>
@@ -156,12 +156,12 @@
     <entry lang="sv" key="IDC_PIM_HELP">(Tom eller 0 för standarditerationer)</entry>
     <entry lang="sv" key="IDC_PREF_BKG_TASK_ENABLE">Aktiverad</entry>
     <entry lang="sv" key="IDC_PREF_CACHE_PASSWORDS">Lagra lösenord i drivrutinens minnescache</entry>
-    <entry lang="sv" key="IDC_PREF_DISMOUNT_INACTIVE">Demontera volym automatiskt efter att ingen data har lästs/skrivits till den</entry>
-    <entry lang="sv" key="IDC_PREF_DISMOUNT_LOGOFF">Användaren loggar ut</entry>
-    <entry lang="sv" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Användarsession låst</entry>
-    <entry lang="sv" key="IDC_PREF_DISMOUNT_POWERSAVING">Går in i strömsparläge</entry>
-    <entry lang="sv" key="IDC_PREF_DISMOUNT_SCREENSAVER">Skärmsläckaren startas</entry>
-    <entry lang="sv" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Tvinga automatisk demontering även om volymen innehåller öppna filer eller mappar</entry>
+    <entry lang="sv" key="IDC_PREF_UNMOUNT_INACTIVE">Demontera volym automatiskt efter att ingen data har lästs/skrivits till den</entry>
+    <entry lang="sv" key="IDC_PREF_UNMOUNT_LOGOFF">Användaren loggar ut</entry>
+    <entry lang="sv" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Användarsession låst</entry>
+    <entry lang="sv" key="IDC_PREF_UNMOUNT_POWERSAVING">Går in i strömsparläge</entry>
+    <entry lang="sv" key="IDC_PREF_UNMOUNT_SCREENSAVER">Skärmsläckaren startas</entry>
+    <entry lang="sv" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Tvinga automatisk demontering även om volymen innehåller öppna filer eller mappar</entry>
     <entry lang="sv" key="IDC_PREF_LOGON_MOUNT_DEVICES">Montera alla enhetsvärdade VeraCrypt-volymer</entry>
     <entry lang="sv" key="IDC_PREF_LOGON_START">Starta VeraCrypt-bakgrundsuppgift</entry>
     <entry lang="sv" key="IDC_PREF_MOUNT_READONLY">Montera volymer som skrivskyddade</entry>
@@ -169,7 +169,7 @@
     <entry lang="sv" key="IDC_PREF_OPEN_EXPLORER">Öppna Utforskaren för monterad volym</entry>
     <entry lang="sv" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Lagra lösenordet tillfälligt i cache under "Montera favoritvolymer"-operationer</entry>
     <entry lang="sv" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Använd en annan aktivitetsfältsikon när det finns monterade volymer</entry>
-    <entry lang="sv" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Rensa cachelagrade lösenord vid automatisk demontering</entry>
+    <entry lang="sv" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Rensa cachelagrade lösenord vid automatisk demontering</entry>
     <entry lang="sv" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Rensa cachelagrade lösenord vid avslut</entry>
     <entry lang="sv" key="IDC_PRESERVE_TIMESTAMPS">Bevara ändringstidsstämpel för filbehållare</entry>
     <entry lang="sv" key="IDC_RESET_HOTKEYS">Återställ</entry>
@@ -269,14 +269,14 @@
     <entry lang="sv" key="IDT_ACCELERATION_OPTIONS">Hårdvaruacceleration</entry>
     <entry lang="sv" key="IDT_ASSIGN_HOTKEY">Genväg</entry>
     <entry lang="sv" key="IDT_AUTORUN">AutoRun-konfiguration (autorun.inf)</entry>
-    <entry lang="sv" key="IDT_AUTO_DISMOUNT">Automatisk demontering</entry>
-    <entry lang="sv" key="IDT_AUTO_DISMOUNT_ON">Demontera alla när:</entry>
+    <entry lang="sv" key="IDT_AUTO_UNMOUNT">Automatisk demontering</entry>
+    <entry lang="sv" key="IDT_AUTO_UNMOUNT_ON">Demontera alla när:</entry>
     <entry lang="sv" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Skärmalternativ för startinläsaren</entry>
     <entry lang="sv" key="IDT_CONFIRM_PASSWORD">Bekräfta lösenord:</entry>
     <entry lang="sv" key="IDT_CURRENT">Aktuell</entry>
     <entry lang="sv" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Visa detta anpassade meddelande på skärmen för autentisering före start (maximum 24 tecken):</entry>
     <entry lang="sv" key="IDT_DEFAULT_MOUNT_OPTIONS">Standardmonteringsalternativ</entry>
-    <entry lang="sv" key="IDT_DISMOUNT_ACTION">Snabbtangentsalternativ</entry>
+    <entry lang="sv" key="IDT_UNMOUNT_ACTION">Snabbtangentsalternativ</entry>
     <entry lang="sv" key="IDT_DRIVER_OPTIONS">Drivrutinskonfiguration</entry>
     <entry lang="sv" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Aktivera stöd för utökade diskkontrollkoder</entry>
     <entry lang="sv" key="IDT_FAVORITE_LABEL">Etikett för vald favoritvolym:</entry>
@@ -423,8 +423,8 @@
     <entry lang="sv" key="DEVICE_FREE_PB">Storleken på %s är %.2f PiB</entry>
     <entry lang="sv" key="DEVICE_IN_USE_FORMAT">VARNING: Enheten/partitionen används av operativsystemet eller applikationerna. Formatering av enheten/partitionen kan orsaka datakorruption och systeminstabilitet.\n\nFortsätt?</entry>
     <entry lang="sv" key="DEVICE_IN_USE_INPLACE_ENC">Varning: Partitionen används av operativsystemet eller applikationerna. Du bör stänga alla program som kanske använder partitionen (inklusive antivirusprogram).\n\nFortsätt?</entry>
-    <entry lang="sv" key="FORMAT_CANT_DISMOUNT_FILESYS">Fel: Enheten/partitionen innehåller ett filsystem som inte kunde demonteras. Filsystemet kan användas av operativsystemet. Formatering av enheten/partitionen skulle med stor sannolikhet orsaka datakorruption och systeminstabilitet.\n\nFör att lösa det här problemet rekommenderar vi att du först tar bort partitionen och sedan återskapar den utan att formatera. För att göra det, följ dessa steg:\n1) Högerklicka på ikonen "Dator" (eller "Den här datorn") i "Start-menyn" och välj "Hantera". Fönstret "Datorhantering" bör visas.\n2) I fönstret "Datorhantering" väljer du "Lagring" &gt; "Diskhantering".\n3) Högerklicka på den partition du vill kryptera och välj antingen "Radera partition", eller "Radera volym" eller "Radera logisk enhet".\n4) Klicka på "Ja". Om Windows ber dig att starta om datorn, gör det. Upprepa sedan steg 1 och 2 och fortsätt från steg 5.\n5) Högerklicka på det otilldelade/fria utrymmesområdet och välj antingen "Ny partition" eller "Ny enkel volym" eller "Ny logisk enhet".\n6 ) Fönstret "Ny partitionsguide" eller "Ny enkel volymguide" bör visas nu; följ dess instruktioner. På guidens sida med titeln "Formatera partition", välj antingen "Formatera inte den här partitionen" eller "Formatera inte den här volymen". I samma guide klickar du på "Nästa" och sedan på "Slutför".\n7) Observera att sökvägen för enheten du har valt i VeraCrypt kan vara fel nu. Avsluta därför guiden Skapa VeraCrypt-volym (om den fortfarande körs) och starta den sedan igen.\n8) Försök att kryptera enheten/partitionen igen.\n\nOm VeraCrypt upprepade gånger misslyckas med att kryptera enheten/partitionen, kanske du vill överväg att skapa en filbehållare istället.</entry>
-    <entry lang="sv" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Fel: Filsystemet kunde inte låsas och/eller demonteras. Det kan användas av operativsystemet eller programmen (till exempel antivirusprogram). Kryptering av partitionen kan orsaka datakorruption och systeminstabilitet.\n\nStäng alla applikationer som kan använda filsystemet (inklusive antivirusprogram) och försök igen. Om det inte hjälper, följ stegen nedan.</entry>
+    <entry lang="sv" key="FORMAT_CANT_UNMOUNT_FILESYS">Fel: Enheten/partitionen innehåller ett filsystem som inte kunde demonteras. Filsystemet kan användas av operativsystemet. Formatering av enheten/partitionen skulle med stor sannolikhet orsaka datakorruption och systeminstabilitet.\n\nFör att lösa det här problemet rekommenderar vi att du först tar bort partitionen och sedan återskapar den utan att formatera. För att göra det, följ dessa steg:\n1) Högerklicka på ikonen "Dator" (eller "Den här datorn") i "Start-menyn" och välj "Hantera". Fönstret "Datorhantering" bör visas.\n2) I fönstret "Datorhantering" väljer du "Lagring" &gt; "Diskhantering".\n3) Högerklicka på den partition du vill kryptera och välj antingen "Radera partition", eller "Radera volym" eller "Radera logisk enhet".\n4) Klicka på "Ja". Om Windows ber dig att starta om datorn, gör det. Upprepa sedan steg 1 och 2 och fortsätt från steg 5.\n5) Högerklicka på det otilldelade/fria utrymmesområdet och välj antingen "Ny partition" eller "Ny enkel volym" eller "Ny logisk enhet".\n6 ) Fönstret "Ny partitionsguide" eller "Ny enkel volymguide" bör visas nu; följ dess instruktioner. På guidens sida med titeln "Formatera partition", välj antingen "Formatera inte den här partitionen" eller "Formatera inte den här volymen". I samma guide klickar du på "Nästa" och sedan på "Slutför".\n7) Observera att sökvägen för enheten du har valt i VeraCrypt kan vara fel nu. Avsluta därför guiden Skapa VeraCrypt-volym (om den fortfarande körs) och starta den sedan igen.\n8) Försök att kryptera enheten/partitionen igen.\n\nOm VeraCrypt upprepade gånger misslyckas med att kryptera enheten/partitionen, kanske du vill överväg att skapa en filbehållare istället.</entry>
+    <entry lang="sv" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Fel: Filsystemet kunde inte låsas och/eller demonteras. Det kan användas av operativsystemet eller programmen (till exempel antivirusprogram). Kryptering av partitionen kan orsaka datakorruption och systeminstabilitet.\n\nStäng alla applikationer som kan använda filsystemet (inklusive antivirusprogram) och försök igen. Om det inte hjälper, följ stegen nedan.</entry>
     <entry lang="sv" key="DEVICE_IN_USE_INFO">VARNING: Vissa av de monterade enheterna/partitionerna användes redan!\n\nIgnorering av detta kan orsaka oönskade resultat inklusive systeminstabilitet.\n\nVi rekommenderar starkt att du stänger alla applikationer som kan använda enheterna/partitionerna.</entry>
     <entry lang="sv" key="DEVICE_PARTITIONS_ERR">Den valda enheten innehåller partitioner.\n\nFormatering av enheten kan orsaka systeminstabilitet och/eller datakorruption. Välj antingen en partition på enheten eller ta bort alla partitioner på enheten för att VeraCrypt ska kunna formatera den på ett säkert sätt.</entry>
     <entry lang="sv" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Den valda icke-systemenheten innehåller partitioner.\n\nKrypterade enhetsvärdade VeraCrypt-volymer kan skapas inom enheter som inte innehåller några partitioner (inklusive hårddiskar och solid-state-enheter). En enhet som innehåller partitioner kan krypteras helt och hållet på plats (med en enda huvudnyckel) endast om det är enheten där Windows är installerat och från vilken det startar.\n\nOm du vill kryptera den valda icke-systemenheten med en enda huvudnyckel måste du först ta bort alla partitioner på enheten för att VeraCrypt ska kunna formatera den på ett säkert sätt (formatering av en enhet som innehåller partitioner kan orsaka systeminstabilitet och/eller datakorruption). Alternativt kan du kryptera varje partition på enheten individuellt (varje partition kommer att krypteras med en annan huvudnyckel).\n\nObs: Om du vill ta bort alla partitioner från en GPT-disk kan du behöva konvertera den till en MBR-disk (med t.ex. datorhanteringsverktyget) för att ta bort dolda partitioner.</entry>
@@ -590,7 +590,7 @@
     <entry lang="sv" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Fel: Filerna du kopierade till den yttre volymen tar för mycket utrymme. Därför finns det inte tillräckligt med ledigt utrymme på den yttre volymen för den dolda volymen.\n\nObservera att den dolda volymen måste vara lika stor som systempartitionen (partitionen där operativsystemet som körs för närvarande är installerat). Anledningen är att det dolda operativsystemet måste skapas genom att kopiera innehållet i systempartitionen till den dolda volymen.\n\n\nProcessen för att skapa det dolda operativsystemet kan inte fortsätta.</entry>
     <entry lang="sv" key="OPENFILES_DRIVER">Drivrutinen kan inte koppla ur volymen. Vissa filer som finns på volymen är förmodligen fortfarande öppna.</entry>
     <entry lang="sv" key="OPENFILES_LOCK">Det går inte att låsa volymen. Det finns fortfarande öppna filer på volymen. Därför kan den inte demonteras.</entry>
-    <entry lang="sv" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt kan inte låsa volymen eftersom den används av systemet eller applikationerna (det kan finnas öppna filer på volymen).\n\nVill du tvinga demontering av volymen?</entry>
+    <entry lang="sv" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt kan inte låsa volymen eftersom den används av systemet eller applikationerna (det kan finnas öppna filer på volymen).\n\nVill du tvinga demontering av volymen?</entry>
     <entry lang="sv" key="OPEN_VOL_TITLE">Välj en VeraCrypt-volym</entry>
     <entry lang="sv" key="OPEN_TITLE">Ange sökväg och filnamn</entry>
     <entry lang="sv" key="SELECT_PKCS11_MODULE">Välj PKCS #11-bibliotek</entry>
@@ -729,7 +729,7 @@
     <entry lang="sv" key="DLL_FILES">Biblioteksmoduler</entry>
     <entry lang="sv" key="FORMAT_NTFS_STOP">NTFS/exFAT/ReFS-formatering kan inte fortsätta.</entry>
     <entry lang="sv" key="CANT_MOUNT_VOLUME">Kan inte montera volymen.</entry>
-    <entry lang="sv" key="CANT_DISMOUNT_VOLUME">Kan inte demontera volym.</entry>
+    <entry lang="sv" key="CANT_UNMOUNT_VOLUME">Kan inte demontera volym.</entry>
     <entry lang="sv" key="FORMAT_NTFS_FAILED">Windows misslyckades med att formatera volymen som NTFS/exFAT/ReFS.\n\nVälj en annan typ av filsystem (om möjligt) och försök igen. Alternativt kan du lämna volymen oformaterad (välj "Ingen" som filsystem), avsluta den här guiden, montera volymen och sedan använda antingen ett system eller ett verktyg från tredje part för att formatera den monterade volymen (volymen kommer att förbli krypterad).</entry>
     <entry lang="sv" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows misslyckades med att formatera volymen som NTFS/exFAT/ReFS.\n\nVill du formatera volymen som FAT istället?</entry>
     <entry lang="sv" key="DEFAULT">Standard</entry>
@@ -771,7 +771,7 @@
     <entry lang="sv" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Ett fel hindrade VeraCrypt från att kryptera partitionen. Försök rätta till eventuella tidigare rapporterade problem och försök sedan igen. Om problemen kvarstår, kan det hjälpa att följa stegen nedan.</entry>
     <entry lang="sv" key="INPLACE_ENC_GENERIC_ERR_RESUME">Ett fel hindrade VeraCrypt från att återuppta processen för kryptering/dekryptering av partitionen/volymen.\n\nFörsök åtgärda eventuella tidigare rapporterade problem och försök sedan återuppta processen igen om möjligt. Observera att volymen inte kan monteras förrän den är helt krypterad eller helt dekrypterad.</entry>
     <entry lang="sv" key="INPLACE_DEC_GENERIC_ERR">Ett fel hindrade VeraCrypt från att dekryptera volymen. Försök att åtgärda eventuella tidigare rapporterade problem och försök sedan igen om möjligt.</entry>
-    <entry lang="sv" key="CANT_DISMOUNT_OUTER_VOL">Fel: Kan inte demontera den yttre volymen!\n\nVolymen kan inte demonteras om den innehåller filer eller mappar som används av ett program eller systemet.\n\nStäng alla program som kan använda filer eller mappar på volymen och klicka på Försök igen.</entry>
+    <entry lang="sv" key="CANT_UNMOUNT_OUTER_VOL">Fel: Kan inte demontera den yttre volymen!\n\nVolymen kan inte demonteras om den innehåller filer eller mappar som används av ett program eller systemet.\n\nStäng alla program som kan använda filer eller mappar på volymen och klicka på Försök igen.</entry>
     <entry lang="sv" key="CANT_GET_OUTER_VOL_INFO">Fel: Kan inte få information om den yttre volymen!\nVolymskapandet kan inte fortsätta.</entry>
     <entry lang="sv" key="CANT_ACCESS_OUTER_VOL">Fel: Kan inte komma åt den yttre volymen! Det går inte att fortsätta skapa volymer.</entry>
     <entry lang="sv" key="CANT_MOUNT_OUTER_VOL">Fel: Kan inte montera den yttre volymen! Det går inte att fortsätta skapa volymer.</entry>
@@ -882,7 +882,7 @@
     <entry lang="sv" key="INSTALL_COMPLETED">Installationen slutförd.</entry>
     <entry lang="sv" key="CANT_CREATE_FOLDER">Mappen "%s" kunde inte skapas</entry>
     <entry lang="sv" key="CLOSE_TC_FIRST">VeraCrypts drivrutin kan inte stängas.\n\nStäng först alla öppna VeraCrypt-fönster. Om detta inte hjälper, starta om Windows och försök sedan igen.</entry>
-    <entry lang="sv" key="DISMOUNT_ALL_FIRST">Alla VeraCrypt-volymer måste demonteras innan VeraCrypt kan installeras eller avinstalleras.</entry>
+    <entry lang="sv" key="UNMOUNT_ALL_FIRST">Alla VeraCrypt-volymer måste demonteras innan VeraCrypt kan installeras eller avinstalleras.</entry>
     <entry lang="sv" key="UNINSTALL_OLD_VERSION_FIRST">En föråldrad version av VeraCrypt är för närvarande installerad på detta system. Den måste avinstalleras innan du kan installera den här nya versionen av VeraCrypt.\n\nSå snart du stänger den här meddelanderutan kommer avinstallationsprogrammet för den gamla versionen att startas. Observera att ingen volym kommer att dekrypteras när du avinstallerar VeraCrypt. När du har avinstallerat den gamla versionen av VeraCrypt kör du installationsprogrammet för den nya versionen av VeraCrypt igen.</entry>
     <entry lang="sv" key="REG_INSTALL_FAILED">Installationen av registerposterna misslyckades</entry>
     <entry lang="sv" key="DRIVER_INSTALL_FAILED">Installationen av drivrutinen misslyckades. Starta om Windows och försök sedan installera VeraCrypt igen.</entry>
@@ -903,7 +903,7 @@
     <entry lang="sv" key="MINUTES">minuter</entry>
     <entry lang="sv" key="SECONDS">s</entry>
     <entry lang="sv" key="OPEN">Öppna</entry>
-    <entry lang="sv" key="DISMOUNT">Demontera</entry>
+    <entry lang="sv" key="UNMOUNT">Demontera</entry>
     <entry lang="sv" key="SHOW_TC">Visa VeraCrypt</entry>
     <entry lang="sv" key="HIDE_TC">Dölj VeraCrypt</entry>
     <entry lang="sv" key="TOTAL_DATA_READ">Data läst sedan montering</entry>
@@ -975,7 +975,7 @@
     <entry lang="sv" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Systemfavoritvolymer</entry>
     <entry lang="sv" key="SYS_FAVORITES_HELP_LINK">Vilka är systemfavoritvolymer?</entry>
     <entry lang="sv" key="SYS_FAVORITES_REQUIRE_PBA">Systempartitionen/-enheten verkar inte vara krypterad.\n\nSystemfavoritvolymer kan monteras med endast ett lösenord för autentisering före start. Därför, för att möjliggöra användning av systemfavoritvolymer, måste du först kryptera systempartitionen/enheten.</entry>
-    <entry lang="sv" key="DISMOUNT_FIRST">Demontera volymen innan du fortsätter.</entry>
+    <entry lang="sv" key="UNMOUNT_FIRST">Demontera volymen innan du fortsätter.</entry>
     <entry lang="sv" key="CANNOT_SET_TIMER">Fel: Det går inte att ställa in timer.</entry>
     <entry lang="sv" key="IDPM_CHECK_FILESYS">Kontrollera filsystem</entry>
     <entry lang="sv" key="IDPM_REPAIR_FILESYS">Reparera filsystem</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="sv" key="NO_SYSENC_PARTITION_SELECTED">Ingen partition har valts.\n\nKlicka på "Välj enhet" för att välja en demonterad partition som normalt kräver autentisering före start (till exempel en partition som finns på den krypterade systemenheten i ett annat operativsystem, som inte körs, eller det krypterade systemet partition av ett annat operativsystem).\n\nObs: Den valda partitionen kommer att monteras som en vanlig VeraCrypt-volym utan autentisering före start. Detta är användbart t.ex. för säkerhetskopiering eller reparation.</entry>
     <entry lang="sv" key="CONFIRM_SAVE_DEFAULT_KEYFILES">VARNING: Om standardnyckelfiler är inställda och aktiverade kommer volymer som inte använder dessa nyckelfiler att vara omöjliga att montera. När du har aktiverat standardnyckelfiler, kom därför ihåg att avmarkera kryssrutan "Använd nyckelfiler" (under ett lösenordsinmatningsfält) när du monterar sådana volymer.\n\nÄr du säker på att du vill spara de valda nyckelfilerna/sökvägarna som standard?</entry>
     <entry lang="sv" key="HK_AUTOMOUNT_DEVICES">Montera enheter automatiskt</entry>
-    <entry lang="sv" key="HK_DISMOUNT_ALL">Demontera alla</entry>
+    <entry lang="sv" key="HK_UNMOUNT_ALL">Demontera alla</entry>
     <entry lang="sv" key="HK_WIPE_CACHE">Rensa cache</entry>
-    <entry lang="sv" key="HK_DISMOUNT_ALL_AND_WIPE">Demontera alla  &amp;  rensa cache</entry>
-    <entry lang="sv" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Tvinga demontering av alla  &amp;  rensa cache</entry>
-    <entry lang="sv" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Tvinga demontering av alla, rensa cache  &amp;  avsluta</entry>
+    <entry lang="sv" key="HK_UNMOUNT_ALL_AND_WIPE">Demontera alla  &amp;  rensa cache</entry>
+    <entry lang="sv" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Tvinga demontering av alla  &amp;  rensa cache</entry>
+    <entry lang="sv" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Tvinga demontering av alla, rensa cache  &amp;  avsluta</entry>
     <entry lang="sv" key="HK_MOUNT_FAVORITE_VOLUMES">Montera favoritvolymer</entry>
     <entry lang="sv" key="HK_SHOW_HIDE_MAIN_WINDOW">Visa/dölj VeraCrypts huvudfönster</entry>
     <entry lang="sv" key="PRESS_A_KEY_TO_ASSIGN">(Klicka här och tryck ned en tangent)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="sv" key="PAGING_FILE_CREATION_PREVENTED">Skapande av växlingsfiler har förhindrats.\n\nObservera att på grund av Windows-problem kan växlingsfiler inte hittas på VeraCrypt-volymer som inte tillhör systemet (inklusive systemfavoritvolymer). VeraCrypt stöder skapande av personsökningsfiler endast på en krypterad systempartition/enhet.</entry>
     <entry lang="sv" key="SYS_ENC_HIBERNATION_PREVENTED">Ett fel eller inkompatibilitet hindrar VeraCrypt från att kryptera vilolägesfilen. Därför har viloläge förhindrats.\n\nObs: När en dator går i viloläge (eller går in i ett energisparläge), skrivs innehållet i dess systemminne till en vilolagringsfil som finns på systemenheten. VeraCrypt skulle inte kunna förhindra att krypteringsnycklar och innehållet i känsliga filer som öppnas i RAM-minnet sparas okrypterat till vilolagringsfilen.</entry>
     <entry lang="sv" key="HIDDEN_OS_HIBERNATION_PREVENTED">Viloläge har förhindrats.\n\nVeraCrypt stöder inte viloläge på dolda operativsystem som använder en extra startpartition. Observera att startpartitionen delas av både sken- och det dolda systemet. Därför måste VeraCrypt förhindra att det dolda systemet skriver till den delade startpartitionen och går i viloläge, för att förhindra dataläckor och problem när den återgår från viloläge.</entry>
-    <entry lang="sv" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">VeraCrypt-volymen monterad som %c: har demonterats.</entry>
-    <entry lang="sv" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt-volymer har demonterats.</entry>
-    <entry lang="sv" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt-volymer har demonterats och lösenordscachen har rensats.</entry>
-    <entry lang="sv" key="SUCCESSFULLY_DISMOUNTED">Demontering slutförd</entry>
+    <entry lang="sv" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">VeraCrypt-volymen monterad som %c: har demonterats.</entry>
+    <entry lang="sv" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt-volymer har demonterats.</entry>
+    <entry lang="sv" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt-volymer har demonterats och lösenordscachen har rensats.</entry>
+    <entry lang="sv" key="SUCCESSFULLY_UNMOUNTED">Demontering slutförd</entry>
     <entry lang="sv" key="CONFIRM_BACKGROUND_TASK_DISABLED">VARNING: Om VeraCrypt-bakgrundsuppgiften är inaktiverad kommer följande funktioner att inaktiveras:\n\n1) Snabbtangenter\n2) Automatisk demontering (t.ex. vid utloggning, oavsiktlig borttagning av värdenhet, tidsgräns, etc.)\n3 ) Automatisk montering av favoritvolymer\n4) Aviseringar (t.ex. när skada på dold volym förhindras)\n5) Fältikon\n\nObs: Du kan stänga av bakgrundsuppgiften när som helst genom att högerklicka på VeraCrypt-ikonen i fältet och välja "Avsluta".\n\nÄr du säker på att du vill inaktivera VeraCrypt-bakgrundsuppgiften permanent?</entry>
-    <entry lang="sv" key="CONFIRM_NO_FORCED_AUTODISMOUNT">VARNING: Om det här alternativet är inaktiverat kommer volymer som innehåller öppna filer/mappar inte att kunna demonteras automatiskt.\n\nÄr du säker på att du vill inaktivera det här alternativet?</entry>
-    <entry lang="sv" key="WARN_PREF_AUTO_DISMOUNT">VARNING: Volymer som innehåller öppna filer/mappar kommer INTE att demonteras automatiskt.\n\nFör att förhindra detta, aktivera följande alternativ i det här dialogfönstret: "Tvinga automatisk nedmontering även om volymen innehåller öppna filer eller mappar"</entry>
-    <entry lang="sv" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">VARNING: När en bärbar dators batterinivå är låg kan Windows utelämna att skicka lämpliga meddelanden till aktiva applikationer som körs när datorn går in i energisparläge. Därför kan VeraCrypt misslyckas med att automatiskt demontera volymer i sådana fall.</entry>
+    <entry lang="sv" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">VARNING: Om det här alternativet är inaktiverat kommer volymer som innehåller öppna filer/mappar inte att kunna demonteras automatiskt.\n\nÄr du säker på att du vill inaktivera det här alternativet?</entry>
+    <entry lang="sv" key="WARN_PREF_AUTO_UNMOUNT">VARNING: Volymer som innehåller öppna filer/mappar kommer INTE att demonteras automatiskt.\n\nFör att förhindra detta, aktivera följande alternativ i det här dialogfönstret: "Tvinga automatisk nedmontering även om volymen innehåller öppna filer eller mappar"</entry>
+    <entry lang="sv" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">VARNING: När en bärbar dators batterinivå är låg kan Windows utelämna att skicka lämpliga meddelanden till aktiva applikationer som körs när datorn går in i energisparläge. Därför kan VeraCrypt misslyckas med att automatiskt demontera volymer i sådana fall.</entry>
     <entry lang="sv" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Du har schemalagt processen för kryptering/dekryptering av en partition/volym. Processen har inte slutförts ännu.\n\nVill du återuppta processen nu?</entry>
     <entry lang="sv" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Du har schemalagt processen för kryptering eller dekryptering av systempartitionen/enheten. Processen har inte slutförts ännu.\n\nVill du starta (återuppta) processen nu?</entry>
     <entry lang="sv" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Vill du bli tillfrågad om du vill återuppta de för närvarande schemalagda processerna för kryptering/dekryptering av icke-systempartitioner/volymer?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="sv" key="SYS_AUTOMOUNT_DISABLED">Ditt system är inte konfigurerat för att automatiskt montera nya volymer. Det kan vara omöjligt att montera enhetsvärdade VeraCrypt-volymer. Automatisk montering kan aktiveras genom att utföra följande kommando och starta om systemet.\n\nmountvol.exe /E</entry>
     <entry lang="sv" key="SYS_ASSIGN_DRIVE_LETTER">Tilldela en enhetsbokstav till partitionen/enheten innan du fortsätter ("Kontrollpanelen" &gt; "System och underhåll" &gt; "Administrativa verktyg" - "Skapa och formatera hårddiskpartitioner").\n\nObservera att detta är ett krav för operativ system.</entry>
     <entry lang="sv" key="MOUNT_TC_VOLUME">Montera VeraCrypt-volym</entry>
-    <entry lang="sv" key="DISMOUNT_ALL_TC_VOLUMES">Demontera alla VeraCrypt-volymer</entry>
+    <entry lang="sv" key="UNMOUNT_ALL_TC_VOLUMES">Demontera alla VeraCrypt-volymer</entry>
     <entry lang="sv" key="UAC_INIT_ERROR">VeraCrypt kunde inte erhålla administratörsbehörighet.</entry>
     <entry lang="sv" key="ERR_ACCESS_DENIED">Åtkomst nekades av operativsystemet.\n\nMöjlig orsak: Operativsystemet kräver att du har läs-/skrivbehörighet (eller administratörsbehörighet) för vissa mappar, filer och enheter, för att du ska få läsa och skriva data till/från dem. Normalt får en användare utan administratörsbehörighet skapa, läsa och ändra filer i hans eller hennes dokumentmapp.</entry>
     <entry lang="sv" key="SECTOR_SIZE_UNSUPPORTED">Fel: Enheten använder en sektorstorlek som inte stöds.\n\nDet är för närvarande inte möjligt att skapa partitions-/enhetsvärdade volymer på enheter som använder sektorer större än 4096 byte. Observera dock att du kan skapa filvärdade volymer (behållare) på sådana enheter.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="sv" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Observera att antalet trådar för närvarande är begränsat, vilket kommer att påverka prestandamätningsresultatet (sämre prestanda).\n\nFör att utnyttja processorns/processorernas fulla potential, välj "Inställningar" &gt; "Prestanda" och inaktivera motsvarande alternativ.</entry>
     <entry lang="sv" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Vill du att VeraCrypt ska försöka inaktivera skrivskydd för partitionen/enheten?</entry>
     <entry lang="sv" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">VARNING: Denna inställning kan ge försämrade prestanda.\n\nÄr du säker på att du vill använda denna inställning?</entry>
-    <entry lang="sv" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Varning: VeraCrypt-volym automatiskt demonterad</entry>
-    <entry lang="sv" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Innan du fysiskt tar bort eller stänger av en enhet som innehåller en VeraCrypt-volym, bör du alltid demontera den i VeraCrypt.\n\nOväntade demonteringar orsakas oftast av en trasig kabel eller enhet (diskkabinett) etc.</entry>
+    <entry lang="sv" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Varning: VeraCrypt-volym automatiskt demonterad</entry>
+    <entry lang="sv" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Innan du fysiskt tar bort eller stänger av en enhet som innehåller en VeraCrypt-volym, bör du alltid demontera den i VeraCrypt.\n\nOväntade demonteringar orsakas oftast av en trasig kabel eller enhet (diskkabinett) etc.</entry>
     <entry lang="sv" key="UNSUPPORTED_TRUECRYPT_FORMAT">Den här volymen skapades med TrueCrypt %x.%x men VeraCrypt stöder endast TrueCrypt-volymer skapade med TrueCrypt 6.x/7.x-serien</entry>
     <entry lang="sv" key="TEST">Testa</entry>
     <entry lang="sv" key="KEYFILE">Nyckelfil</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="sv" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Lägg till alla monterade volymer till favoriter...</entry>
     <entry lang="sv" key="TASKICON_PREF_MENU_ITEMS">Menyalternativ för aktivitetsfältsikon</entry>
     <entry lang="sv" key="TASKICON_PREF_OPEN_VOL">Öppna monterade volymer</entry>
-    <entry lang="sv" key="TASKICON_PREF_DISMOUNT_VOL">Demontera monterade volymer</entry>
+    <entry lang="sv" key="TASKICON_PREF_UNMOUNT_VOL">Demontera monterade volymer</entry>
     <entry lang="sv" key="DISK_FREE">Ledigt utrymme tillgängligt: {0}</entry>
     <entry lang="sv" key="VOLUME_SIZE_HELP">Ange storleken på behållaren som ska skapas. Observera att minsta möjliga storlek på en volym är 292 KiB.</entry>
     <entry lang="sv" key="LINUX_CONFIRM_INNER_VOLUME_CALC">VARNING: Du har valt ett annat filsystem än FAT för den yttre volymen.\nObservera att i det här fallet kan VeraCrypt inte beräkna den exakta maximala tillåtna storleken för den dolda volymen och den kommer endast att använda en uppskattning som kan vara felaktig.\nDärför , det är ditt ansvar att använda ett adekvat värde för storleken på den dolda volymen så att den inte överlappar den yttre volymen.\n\nVill du fortsätta använda det valda filsystemet för den yttre volymen?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="sv" key="LINUX_DO_NOT_MOUNT">Montera i&amp;nte</entry>
     <entry lang="sv" key="LINUX_MOUNT_AT_DIR">Montera i mappen:</entry>
     <entry lang="sv" key="LINUX_SELECT">Vä&amp;lj...</entry>
-    <entry lang="sv" key="LINUX_DISMOUNT_ALL_WHEN">Demontera alla volymer när</entry>
+    <entry lang="sv" key="LINUX_UNMOUNT_ALL_WHEN">Demontera alla volymer när</entry>
     <entry lang="sv" key="LINUX_ENTERING_POWERSAVING">Systemet går in i energisparläge</entry>
     <entry lang="sv" key="LINUX_LOGIN_ACTION">Åtgärder som ska utföras när användaren loggar in</entry>
-    <entry lang="sv" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Stäng alla Utforskar-fönster för volym som demonteras</entry>
+    <entry lang="sv" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Stäng alla Utforskar-fönster för volym som demonteras</entry>
     <entry lang="sv" key="LINUX_HOTKEYS">Snabbtangenter</entry>
     <entry lang="sv" key="LINUX_SYSTEM_HOTKEYS">Systemomfattande snabbtangenter</entry>
     <entry lang="sv" key="LINUX_SOUND_NOTIFICATION">Spela upp systemaviseringsljud efter montering/demontering</entry>
-    <entry lang="sv" key="LINUX_CONFIRM_AFTER_DISMOUNT">Visa bekräftelsemeddelanderutan efter demontering</entry>
+    <entry lang="sv" key="LINUX_CONFIRM_AFTER_UNMOUNT">Visa bekräftelsemeddelanderutan efter demontering</entry>
     <entry lang="sv" key="LINUX_VC_QUITS">VeraCrypt avslutas</entry>
     <entry lang="sv" key="LINUX_OPEN_FINDER">Öppna Finder-fönstret för monterad volym</entry>
     <entry lang="sv" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Observera att den här inställningen endast träder i kraft om användningen av kärnans kryptografiska tjänster är inaktiverad.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="sv" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="sv" key="LINUX_NOT_SUPPORTED"> (stöds inte av komponenter tillgängliga på den här plattformen).\n</entry>
     <entry lang="sv" key="LINUX_KERNEL_OLD">Ditt system använder en gammal version av Linux-kärnan.\n\nPå grund av ett fel i Linux-kärnan kan ditt system sluta svara när du skriver data till en VeraCrypt-volym. Detta problem kan lösas genom att uppgradera kärnan till version 2.6.24 eller senare.</entry>
-    <entry lang="sv" key="LINUX_VOL_DISMOUNTED">Volymen {0} har demonterats.</entry>
+    <entry lang="sv" key="LINUX_VOL_UNMOUNTED">Volymen {0} har demonterats.</entry>
     <entry lang="sv" key="LINUX_VOL_MOUNTED">Volymen {0} har monterats.</entry>
     <entry lang="sv" key="LINUX_OOM">Slut på minne.</entry>
     <entry lang="sv" key="LINUX_CANT_GET_ADMIN_PRIV">Det gick inte att erhålla administratörsbehörighet</entry>

@@ -27,10 +27,10 @@ namespace VeraCrypt
 #define TC_HOTKEY(ID,LANG) hotkeys.push_back (shared_ptr <Hotkey> (new Hotkey (Id::##ID, L###ID, LangString[LANG])))
 
 		TC_HOTKEY (CloseAllSecurityTokenSessions, "IDM_CLOSE_ALL_TOKEN_SESSIONS");
-		TC_HOTKEY (DismountAll, "HK_DISMOUNT_ALL");
-		TC_HOTKEY (DismountAllWipeCache, "HK_DISMOUNT_ALL_AND_WIPE");
-		TC_HOTKEY (ForceDismountAllWipeCache, "HK_FORCE_DISMOUNT_ALL_AND_WIPE");
-		TC_HOTKEY (ForceDismountAllWipeCacheExit, "HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT");
+		TC_HOTKEY (DismountAll, "HK_UNMOUNT_ALL");
+		TC_HOTKEY (DismountAllWipeCache, "HK_UNMOUNT_ALL_AND_WIPE");
+		TC_HOTKEY (ForceDismountAllWipeCache, "HK_FORCE_UNMOUNT_ALL_AND_WIPE");
+		TC_HOTKEY (ForceDismountAllWipeCacheExit, "HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT");
 		TC_HOTKEY (MountAllDevices, "HK_AUTOMOUNT_DEVICES");
 		TC_HOTKEY (MountAllFavorites, "HK_MOUNT_FAVORITE_VOLUMES");
 		TC_HOTKEY (ShowHideApplication, "HK_SHOW_HIDE_MAIN_WINDOW");

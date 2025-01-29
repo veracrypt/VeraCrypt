@@ -135,8 +135,8 @@
     <entry lang="el" key="IDC_FAVORITE_REMOVE">&amp;Διαγραφή</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
     <entry lang="el" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="el" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="el" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</entry>
     <entry lang="el" key="IDC_PREF_BKG_TASK_ENABLE">Ενεργοποιημένο</entry>
     <entry lang="el" key="IDC_PREF_CACHE_PASSWORDS">Αποθ/ση κωδικών στη μνήμη του οδηγού</entry>
-    <entry lang="el" key="IDC_PREF_DISMOUNT_INACTIVE">Όταν δε διαβάζονται/γράφονται δεδομένα σ'αυτόν για</entry>
-    <entry lang="el" key="IDC_PREF_DISMOUNT_LOGOFF">Αποσύνδεση χρήστη</entry>
-    <entry lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</entry>
-    <entry lang="el" key="IDC_PREF_DISMOUNT_POWERSAVING">Λειτουργία χαμηλής κατανάλωσης</entry>
-    <entry lang="el" key="IDC_PREF_DISMOUNT_SCREENSAVER">Ενεργή προστασία οθόνης</entry>
-    <entry lang="el" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Εξαναγκασμένη ακόμα και αν ο τόμος έχει ανοικτά αρχεία/φακέλους</entry>
+    <entry lang="el" key="IDC_PREF_UNMOUNT_INACTIVE">Όταν δε διαβάζονται/γράφονται δεδομένα σ'αυτόν για</entry>
+    <entry lang="el" key="IDC_PREF_UNMOUNT_LOGOFF">Αποσύνδεση χρήστη</entry>
+    <entry lang="en" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">User session locked</entry>
+    <entry lang="el" key="IDC_PREF_UNMOUNT_POWERSAVING">Λειτουργία χαμηλής κατανάλωσης</entry>
+    <entry lang="el" key="IDC_PREF_UNMOUNT_SCREENSAVER">Ενεργή προστασία οθόνης</entry>
+    <entry lang="el" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Εξαναγκασμένη ακόμα και αν ο τόμος έχει ανοικτά αρχεία/φακέλους</entry>
     <entry lang="el" key="IDC_PREF_LOGON_MOUNT_DEVICES">Φόρτωση όλων των τόμων-συσκευών VeraCrypt</entry>
     <entry lang="en" key="IDC_PREF_LOGON_START">Start VeraCrypt Background Task</entry>
     <entry lang="el" key="IDC_PREF_MOUNT_READONLY">Φόρτωση τόμων ως μόνο για ανάγνωση</entry>
@@ -169,7 +169,7 @@
     <entry lang="el" key="IDC_PREF_OPEN_EXPLORER">Άνοιγμα Explorer για τους επιτυχώς φορτωμένους τόμους</entry>
     <entry lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</entry>
     <entry lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</entry>
-    <entry lang="el" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Διαγραφή κωδικών από τη μνήμη κατά την αυτοεκφόρτωση</entry>
+    <entry lang="el" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Διαγραφή κωδικών από τη μνήμη κατά την αυτοεκφόρτωση</entry>
     <entry lang="el" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Διαγρ. κωδικών από τη μνήμη κατά την έξοδο</entry>
     <entry lang="en" key="IDC_PRESERVE_TIMESTAMPS">Preserve modification timestamp of file containers</entry>
     <entry lang="el" key="IDC_RESET_HOTKEYS">Επαναρύθμιση</entry>
@@ -269,14 +269,14 @@
     <entry lang="en" key="IDT_ACCELERATION_OPTIONS">Hardware Acceleration</entry>
     <entry lang="el" key="IDT_ASSIGN_HOTKEY">Συντόμευση</entry>
     <entry lang="el" key="IDT_AUTORUN">Ρύθμιση αυτόματης εκκίνησης (autorun.inf)</entry>
-    <entry lang="el" key="IDT_AUTO_DISMOUNT">Αυτοεκφόρτωση</entry>
-    <entry lang="el" key="IDT_AUTO_DISMOUNT_ON">Εκφόρτωση όλων όταν:</entry>
+    <entry lang="el" key="IDT_AUTO_UNMOUNT">Αυτοεκφόρτωση</entry>
+    <entry lang="el" key="IDT_AUTO_UNMOUNT_ON">Εκφόρτωση όλων όταν:</entry>
     <entry lang="en" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Boot Loader Screen Options</entry>
     <entry lang="el" key="IDT_CONFIRM_PASSWORD">Επιβεβαίωση κωδικού:</entry>
     <entry lang="el" key="IDT_CURRENT">Τρέχων</entry>
     <entry lang="en" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Display this custom message in the pre-boot authentication screen (24 characters maximum):</entry>
     <entry lang="el" key="IDT_DEFAULT_MOUNT_OPTIONS">Εξ'ορισμού επιλογές φόρτωσης</entry>
-    <entry lang="el" key="IDT_DISMOUNT_ACTION">Επιλογές συντομεύσεων</entry>
+    <entry lang="el" key="IDT_UNMOUNT_ACTION">Επιλογές συντομεύσεων</entry>
     <entry lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</entry>
     <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</entry>
     <entry lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</entry>
@@ -423,8 +423,8 @@
     <entry lang="en" key="DEVICE_FREE_PB">Size of %s is %.2f PB</entry>
     <entry lang="el" key="DEVICE_IN_USE_FORMAT">ΠΡΟΣΟΧΗ: Η συσκευή/διαμέρισμα είναι σε χρήση από το λειτουργικό σύστημα ή εφαρμογές. Η διαμόρφωση της μπορεί να προκαλέσει απώλεια δεδομένων και αστάθεια συστήματος.\n\nΣυνέχεια;</entry>
     <entry lang="en" key="DEVICE_IN_USE_INPLACE_ENC">Warning: The partition is in use by the operating system or applications. You should close any applications that might be using the partition (including antivirus software).\n\nContinue?</entry>
-    <entry lang="el" key="FORMAT_CANT_DISMOUNT_FILESYS">Σφάλμα: Η συσκευή/διαμέρισμα περιέχει ένα σύστημα αρχείων που δεν μπόρεσε να εκφορτωθεί. Το σύστημα αρχείων μπορεί να είναι σε χρήση από το λειτουργικό σύστημα. Η διαμόρφωση της συσκευής/διαμερίσματος πιθανότατα θα προκαλέσει απώλεια δεδομένων και αστάθεια συστήματος.\n\nΓια να επιλύσετε το πρόβλημα προτείνουμε να διαγράψετε πρώτα το διαμέρισμα και να το ξαναδημιουργήσετε χωρίς διαμόρφωση.</entry>
-    <entry lang="en" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Error: The filesystem could not be locked and/or dismounted. It may be in use by the operating system or applications (for example, antivirus software). Encrypting the partition might cause data corruption and system instability.\n\nPlease close any applications that might be using the filesystem (including antivirus software) and try again. If it does not help, please follow the below steps.</entry>
+    <entry lang="el" key="FORMAT_CANT_UNMOUNT_FILESYS">Σφάλμα: Η συσκευή/διαμέρισμα περιέχει ένα σύστημα αρχείων που δεν μπόρεσε να εκφορτωθεί. Το σύστημα αρχείων μπορεί να είναι σε χρήση από το λειτουργικό σύστημα. Η διαμόρφωση της συσκευής/διαμερίσματος πιθανότατα θα προκαλέσει απώλεια δεδομένων και αστάθεια συστήματος.\n\nΓια να επιλύσετε το πρόβλημα προτείνουμε να διαγράψετε πρώτα το διαμέρισμα και να το ξαναδημιουργήσετε χωρίς διαμόρφωση.</entry>
+    <entry lang="en" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Error: The filesystem could not be locked and/or dismounted. It may be in use by the operating system or applications (for example, antivirus software). Encrypting the partition might cause data corruption and system instability.\n\nPlease close any applications that might be using the filesystem (including antivirus software) and try again. If it does not help, please follow the below steps.</entry>
     <entry lang="el" key="DEVICE_IN_USE_INFO">ΠΡΟΣΟΧΗ: Ορισμένες από τις φορτωμένες συσκευές/διαμερίσματα ήταν ήδη σε χρήση!\n\nΗ παράβλεψη μπορεί να οδηγήσει σε ανεπιθύμητα αποτελέσματα και αστάθεια συστήματος.\n\nΣυνιστούμε να κλείσετε κάθε εφαρμογή που μπορεί να χρησιμοποιεί τις συσκευές/διαμερίσματα.</entry>
     <entry lang="el" key="DEVICE_PARTITIONS_ERR">Η επιλεγμένη συσκευή περιέχει διαμερίσματα.\n\nΗ διαμόρφωση της μπορεί να δημιουργήσει αστάθεια συστήματος και/ή απώλεια δεδομένων. Παρακαλώ επιλέξτε ένα διαμέρισμα στη συσκευή ή διαγράψτε όλα τα διαμερίσματα από τη συσκευή για να τη διαμορφώσει το VeraCrypt εν ασφαλεία.</entry>
     <entry lang="en" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">The selected non-system device contains partitions.\n\nEncrypted device-hosted VeraCrypt volumes can be created within devices that do not contain any partitions (including hard disks and solid-state drives). A device that contains partitions can be entirely encrypted in place (using a single master key) only if it is the drive where Windows is installed and from which it boots.\n\nIf you want to encrypt the selected non-system device using a single master key, you will need to remove all partitions on the device first to enable VeraCrypt to format it safely (formatting a device that contains partitions might cause system instability and/or data corruption). Alternatively, you can encrypt each partition on the drive individually (each partition will be encrypted using a different master key).\n\nNote: If you want to remove all partitions from a GPT disk, you may need to convert it to a MBR disk (using e.g. the Computer Management tool) in order to remove hidden partitions.</entry>
@@ -590,7 +590,7 @@
     <entry lang="en" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Error: The files you copied to the outer volume occupy too much space. Therefore, there is not enough free space on the outer volume for the hidden volume.\n\nNote that the hidden volume must be as large as the system partition (the partition where the currently running operating system is installed). The reason is that the hidden operating system needs to be created by copying the content of the system partition to the hidden volume.\n\n\nThe process of creation of the hidden operating system cannot continue.</entry>
     <entry lang="el" key="OPENFILES_DRIVER">Ο οδηγός αδυνατεί να εκφορτώσει τον τόμο. Κάποια αρχεία του τόμου πιθανόν να είναι ακόμα σε χρήση.</entry>
     <entry lang="el" key="OPENFILES_LOCK">Αδύνατον να κλειδωθεί ο τόμος. Υπάρχουν ακόμα ανοιχτά αρχεία στον τόμο. Γι' αυτό δεν μπορεί να εκφορτωθεί.</entry>
-    <entry lang="en" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt cannot lock the volume because it is in use by the system or applications (there may be open files on the volume).\n\nDo you want to force dismount on the volume?</entry>
+    <entry lang="en" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt cannot lock the volume because it is in use by the system or applications (there may be open files on the volume).\n\nDo you want to force dismount on the volume?</entry>
     <entry lang="el" key="OPEN_VOL_TITLE">Επιλέξτε έναν τόμο VeraCrypt</entry>
     <entry lang="el" key="OPEN_TITLE">Καθορίστε διαδρομή και όνομα αρχείου</entry>
     <entry lang="en" key="SELECT_PKCS11_MODULE">Select PKCS #11 Library</entry>
@@ -729,7 +729,7 @@
     <entry lang="en" key="DLL_FILES">Library Modules</entry>
     <entry lang="el" key="FORMAT_NTFS_STOP">Η διαμόρφωση NTFS δεν μπορεί να συνεχιστεί.</entry>
     <entry lang="el" key="CANT_MOUNT_VOLUME">Αδύνατη η φόρτωση του τόμου.</entry>
-    <entry lang="el" key="CANT_DISMOUNT_VOLUME">Αδύνατη η εκφόρτωση του τόμου.</entry>
+    <entry lang="el" key="CANT_UNMOUNT_VOLUME">Αδύνατη η εκφόρτωση του τόμου.</entry>
     <entry lang="el" key="FORMAT_NTFS_FAILED">Τα Windows απέτυχαν στη διαμόρφωση του τόμου σε NTFS.\n\nΠαρακαλώ επιλέξτε έναν διαφορετικό τύπο συστήματος αρχείων (αν είναι δυνατόν) και προσπαθήστε ξανά. Εναλλακτικά θα μπορούσατε να αφήσετε τον τόμο αδιαμόρφωτο (επιλέξτε "Κανένα" ως σύστημα αρχείων), βγείτε από αυτόν τον Οδηγό, φορτώστε τον τόμο και κατόπιν χρησιμοποιείστε ένα εργαλείο είτε του συστήματος είτε ενός τρίτου κατασκευαστή για να διαμορφώσετε τον φορτωμένο τόμο (ο τόμος θα παραμείνει κρυπτογραφημένος).</entry>
     <entry lang="el" key="FORMAT_NTFS_FAILED_ASK_FAT">Τα Windows απέτυχαν στη διαμόρφωση του τόμου σε NTFS.\n\nΘέλετε να τον διαμορφώσετε σε FAT;</entry>
     <entry lang="el" key="DEFAULT">Εξ'ορισμού</entry>
@@ -771,7 +771,7 @@
     <entry lang="en" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">An error prevented VeraCrypt from encrypting the partition. Please try fixing any previously reported problems and then try again. If the problems persist, it might help to follow the below steps.</entry>
     <entry lang="en" key="INPLACE_ENC_GENERIC_ERR_RESUME">An error prevented VeraCrypt from resuming the process of encryption/decryption of the partition/volume.\n\nPlease try fixing any previously reported problems and then try resuming the process again if possible. Note that the volume cannot be mounted until it has been fully encrypted or fully decrypted.</entry>
     <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
-    <entry lang="el" key="CANT_DISMOUNT_OUTER_VOL">Σφάλμα: Αδυναμία εκφόρτωσης του εξωτερικού τόμου!\n\nΟ τόμος δεν μπορεί να εκφορτωθεί αν περιέχει αρχεία ή φακέλους σε χρήση.\n\nΠαρακαλώ κλείστε κάθε πρόγραμμα που μπορεί να χρησιμοποιεί αρχεία ή φακέλους του τόμου και επιλέξτε "Επανάληψη".</entry>
+    <entry lang="el" key="CANT_UNMOUNT_OUTER_VOL">Σφάλμα: Αδυναμία εκφόρτωσης του εξωτερικού τόμου!\n\nΟ τόμος δεν μπορεί να εκφορτωθεί αν περιέχει αρχεία ή φακέλους σε χρήση.\n\nΠαρακαλώ κλείστε κάθε πρόγραμμα που μπορεί να χρησιμοποιεί αρχεία ή φακέλους του τόμου και επιλέξτε "Επανάληψη".</entry>
     <entry lang="el" key="CANT_GET_OUTER_VOL_INFO">Σφάλμα: Αδυναμία ανάκτησης πληροφοριών για τον εξωτερικό τόμο! Η δημιουργία του τόμου δεν μπορεί να συνεχιστεί.</entry>
     <entry lang="el" key="CANT_ACCESS_OUTER_VOL">Σφάλμα: Αδυναμία πρόσβασης στον εξωτερικό τόμο! Η δημιουργία του τόμου δεν μπορεί να συνεχισθεί.</entry>
     <entry lang="el" key="CANT_MOUNT_OUTER_VOL">Σφάλμα: Αδυναμία φόρτωσης του εξωτερικού τόμου! Η δημιουργία του τόμου δεν μπορεί να συνεχισθεί.</entry>
@@ -882,7 +882,7 @@
     <entry lang="el" key="INSTALL_COMPLETED">Η εγκατάσταση ολοκληρώθηκε.</entry>
     <entry lang="el" key="CANT_CREATE_FOLDER">Ο φάκελος '%s' δεν μπόρεσε να δημιουργηθεί</entry>
     <entry lang="el" key="CLOSE_TC_FIRST">Ο οδηγός συσκευής του VeraCrypt δεν μπόρεσε να εκφορτωθεί.\n\nΠαρακαλώ κλείστε πρώτα όλα τα ανοιχτά παράθυρα του VeraCrypt. Αν αυτό δε βοηθήσει, επανεκκινήστε τα Windows και δοκιμάστε ξανά.</entry>
-    <entry lang="el" key="DISMOUNT_ALL_FIRST">Όλοι οι τόμοι VeraCrypt πρέπει να εκφορτωθούν πριν την εγκατάσταση ή απεγκατάσταση του VeraCrypt.</entry>
+    <entry lang="el" key="UNMOUNT_ALL_FIRST">Όλοι οι τόμοι VeraCrypt πρέπει να εκφορτωθούν πριν την εγκατάσταση ή απεγκατάσταση του VeraCrypt.</entry>
     <entry lang="en" key="UNINSTALL_OLD_VERSION_FIRST">An obsolete version of VeraCrypt is currently installed on this system. It needs to be uninstalled before you can install this new version of VeraCrypt.\n\nAs soon as you close this message box, the uninstaller of the old version will be launched. Note that no volume will be decrypted when you uninstall VeraCrypt. After you uninstall the old version of VeraCrypt, run the installer of the new version of VeraCrypt again.</entry>
     <entry lang="el" key="REG_INSTALL_FAILED">Η εγκατάσταση των καταχωρήσεων μητρώου απέτυχε</entry>
     <entry lang="el" key="DRIVER_INSTALL_FAILED">Η εγκατάσταση του οδηγού συσκευής απέτυχε. Παρακάλω επανεκκινήστε τα Windows και δοκιμάστε να ξαναεγκαταστήσετε το VeraCrypt.</entry>
@@ -903,7 +903,7 @@
     <entry lang="el" key="MINUTES">λεπτά</entry>
     <entry lang="el" key="SECONDS">δ</entry>
     <entry lang="el" key="OPEN">Άνοιγμα</entry>
-    <entry lang="el" key="DISMOUNT">Εκφόρτωση</entry>
+    <entry lang="el" key="UNMOUNT">Εκφόρτωση</entry>
     <entry lang="el" key="SHOW_TC">Δείξε το VeraCrypt</entry>
     <entry lang="el" key="HIDE_TC">Κρύψε το VeraCrypt</entry>
     <entry lang="el" key="TOTAL_DATA_READ">Αναγνωσμένα δεδομένα από την φόρτωση</entry>
@@ -975,7 +975,7 @@
     <entry lang="en" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - System Favorite Volumes</entry>
     <entry lang="en" key="SYS_FAVORITES_HELP_LINK">What are system favorite volumes?</entry>
     <entry lang="en" key="SYS_FAVORITES_REQUIRE_PBA">The system partition/drive does not appear to be encrypted.\n\nSystem favorite volumes can be mounted using only a pre-boot authentication password. Therefore, to enable use of system favorite volumes, you need to encrypt the system partition/drive first.</entry>
-    <entry lang="el" key="DISMOUNT_FIRST">Παρακαλώ εκφορτώστε τον τόμο πριν συνεχίσετε.</entry>
+    <entry lang="el" key="UNMOUNT_FIRST">Παρακαλώ εκφορτώστε τον τόμο πριν συνεχίσετε.</entry>
     <entry lang="el" key="CANNOT_SET_TIMER">Σφάλμα: Αδυναμία ορισμού χρονομετρητή.</entry>
     <entry lang="el" key="IDPM_CHECK_FILESYS">Ελέγχος συστήματος αρχείων</entry>
     <entry lang="el" key="IDPM_REPAIR_FILESYS">Διόρθωση συστήματος αρχείων</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="el" key="NO_SYSENC_PARTITION_SELECTED">Δεν επιλέχθηκε διαμέρισμα.\n\nΕπιλέξτε 'Επιλογή συσκευής' για να επιλέξετε ένα εκφορτωμένο διαμέρισμα που φυσιολογικά χρειάζεται προ-εκκίνησης έλεγχο αυθεντικότητας (π.χ. ένα διαμέρισμα που βρίσκεται στο κρυπτογραφημένο οδηγό συστήματος ενός άλλου λειτουργικού συστήματος που δεν τρέχει, ή το κρυπτογραφημένο διαμέρισμα του συστήματος ενός άλλου λειτουργικού συστήματος).\n\nΣημείωση: Το επιλεγμένο διαμέρισμα θα φορτωθεί σαν ένας κανονικός τόμος VeraCrypt χωρίς προ-εκκίνησης έλεγχο αυθεντικότητας. Αυτό είναι χρήσιμο π.χ. για λειτουργίες αντιγράφων ασφαλείας ή επιδιόρθωσης.</entry>
     <entry lang="el" key="CONFIRM_SAVE_DEFAULT_KEYFILES">ΠΡΟΣΟΧΗ: Αν ορισθούν και επιλεγούν εξ'ορισμού αρχεία-κλειδιά, τόμοι οι οποίοι δε χρησιμοποιούν αυτά τα αρχεία-κλειδιά δε θα μπορούν να φορτωθούν. Συνεπώς, αφού ενεργοποιήσετε εξ'ορισμού κλειδιά, έχετε υπόψη να αποεπιλέξετε το πεδίο "Χρήση αρχείων-κλειδιών" όποτε φορτώνετε τέτοιους τόμους.\n\nΕίστε σίγουρος ότι θέλετε να αποθηκεύσετε τα επιλεγμένα αρχεία-κλειδιά/διαδρομές ως εξ'ορισμού;</entry>
     <entry lang="el" key="HK_AUTOMOUNT_DEVICES">Αυτοφόρτωση συσκευών</entry>
-    <entry lang="el" key="HK_DISMOUNT_ALL">Εκφόρτωση όλων</entry>
+    <entry lang="el" key="HK_UNMOUNT_ALL">Εκφόρτωση όλων</entry>
     <entry lang="el" key="HK_WIPE_CACHE">Διαγραφή cache</entry>
-    <entry lang="en" key="HK_DISMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</entry>
-    <entry lang="el" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Εξαναγκασμένη εκφόρτωση όλων &amp; διαγραφή cache</entry>
-    <entry lang="el" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Εξαναγκασμένη εκφόρτωση όλων, διαγραφή cache &amp; έξοδος</entry>
+    <entry lang="en" key="HK_UNMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</entry>
+    <entry lang="el" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Εξαναγκασμένη εκφόρτωση όλων &amp; διαγραφή cache</entry>
+    <entry lang="el" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Εξαναγκασμένη εκφόρτωση όλων, διαγραφή cache &amp; έξοδος</entry>
     <entry lang="el" key="HK_MOUNT_FAVORITE_VOLUMES">Φόρτωση αγαπημένων τόμων</entry>
     <entry lang="el" key="HK_SHOW_HIDE_MAIN_WINDOW">Εμφάνιση/απόκρυψη κύριου παραθύρου VeraCrypt</entry>
     <entry lang="el" key="PRESS_A_KEY_TO_ASSIGN">(Κάντε κλικ εδώ και πιέστε ένα πλήκτρο)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="en" key="PAGING_FILE_CREATION_PREVENTED">Paging file creation has been prevented.\n\nPlease note that, due to Windows issues, paging files cannot be located on non-system VeraCrypt volumes (including system favorite volumes). VeraCrypt supports creation of paging files only on an encrypted system partition/drive.</entry>
     <entry lang="en" key="SYS_ENC_HIBERNATION_PREVENTED">An error or incompatibility prevents VeraCrypt from encrypting the hibernation file. Therefore, hibernation has been prevented.\n\nNote: When a computer hibernates (or enters a power-saving mode), the content of its system memory is written to a hibernation storage file residing on the system drive. VeraCrypt would not be able to prevent encryption keys and the contents of sensitive files opened in RAM from being saved unencrypted to the hibernation storage file.</entry>
     <entry lang="en" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernation has been prevented.\n\nVeraCrypt does not support hibernation on hidden operating systems that use an extra boot partition. Please note that the boot partition is shared by both the decoy and the hidden system. Therefore, in order to prevent data leaks and problems while resuming from hibernation, VeraCrypt has to prevent the hidden system from writing to the shared boot partition and from hibernating.</entry>
-    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
-    <entry lang="en" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt volumes have been dismounted.</entry>
-    <entry lang="en" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
-    <entry lang="en" key="SUCCESSFULLY_DISMOUNTED">Successfully dismounted</entry>
+    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
+    <entry lang="en" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt volumes have been dismounted.</entry>
+    <entry lang="en" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
+    <entry lang="en" key="SUCCESSFULLY_UNMOUNTED">Successfully dismounted</entry>
     <entry lang="en" key="CONFIRM_BACKGROUND_TASK_DISABLED">WARNING: If the VeraCrypt Background Task is disabled, the following functions will be disabled:\n\n1) Hot keys\n2) Auto-dismount (e.g., upon logoff, inadvertent host device removal, time-out, etc.)\n3) Auto-mount of favorite volumes\n4) Notifications (e.g., when damage to hidden volume is prevented)\n5) Tray icon\n\nNote: You can shut down the Background Task anytime by right-clicking the VeraCrypt tray icon and selecting 'Exit'.\n\nAre you sure you want to permanently disable the VeraCrypt Background Task?</entry>
-    <entry lang="el" key="CONFIRM_NO_FORCED_AUTODISMOUNT">ΠΡΟΣΟΧΗ: Αν αυτή η δυνατότητα απενεργοποιηθεί, οι τόμοι που περιέχουν ανοιχτά αρχεία/φακέλους δε θα μπορούν να εκφορτωθούν.\n\nΕίστε σίγουρος ότι θέλετε να απενεργοποιήσετε αυτή τη δυνατότητα;</entry>
-    <entry lang="el" key="WARN_PREF_AUTO_DISMOUNT">ΠΡΟΣΟΧΗ: Τόμοι που περιέχουν ανοιχτά αρχεία/φακέλους ΔΕ θα αυτοεκφορτωθούν.\n\nΓια να το αποφύγετε αυτό ενεργοποιήστε την ακόλουθη επιλογή σε αυτό το παράθυρο διαλόγου:"Ακόμα και αν ο τόμος περιέχει ανοιχτά αρχεία/φακέλους"</entry>
-    <entry lang="en" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">WARNING: When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-dismount volumes in such cases.</entry>
+    <entry lang="el" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">ΠΡΟΣΟΧΗ: Αν αυτή η δυνατότητα απενεργοποιηθεί, οι τόμοι που περιέχουν ανοιχτά αρχεία/φακέλους δε θα μπορούν να εκφορτωθούν.\n\nΕίστε σίγουρος ότι θέλετε να απενεργοποιήσετε αυτή τη δυνατότητα;</entry>
+    <entry lang="el" key="WARN_PREF_AUTO_UNMOUNT">ΠΡΟΣΟΧΗ: Τόμοι που περιέχουν ανοιχτά αρχεία/φακέλους ΔΕ θα αυτοεκφορτωθούν.\n\nΓια να το αποφύγετε αυτό ενεργοποιήστε την ακόλουθη επιλογή σε αυτό το παράθυρο διαλόγου:"Ακόμα και αν ο τόμος περιέχει ανοιχτά αρχεία/φακέλους"</entry>
+    <entry lang="en" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">WARNING: When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-dismount volumes in such cases.</entry>
     <entry lang="en" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">You have scheduled the process of encryption/decryption of a partition/volume. The process has not been completed yet.\n\nDo you want to resume the process now?</entry>
     <entry lang="el" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Έχετε προγραμματίσει τη διαδικασία κρυπτογράφησης ή αποκρυπτογράφησης του διαμερίσματος/συσκευής του συστήματος. Η διαδικασία δεν ολοκληρώθηκε ακόμα.\n\nΘέλετε να εκκινήσετε (συνεχίσετε) τη διαδικασία τώρα;</entry>
     <entry lang="en" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Do you want to be prompted about whether you want to resume the currently scheduled processes of encryption/decryption of non-system partitions/volumes?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="el" key="SYS_AUTOMOUNT_DISABLED">Το σύστημα σας δεν έχει ρυθμιστεί να αυτοφορτώνει νέους τόμους. Μπορεί να είναι αδύνατο να φορτωθούν τόμοι-συσκευές του VeraCrypt. Η αυτοφόρτωση μπορεί να ενεργοποιηθεί εκτελώντας την ακόλουθη εντολή και κάνοντας επανεκκίνηση.\n\nmountvol.exe /E</entry>
     <entry lang="el" key="SYS_ASSIGN_DRIVE_LETTER">Παρακαλώ ορίστε ένα γράμμα οδηγού για το διαμέρισμα/συσκευή πριν συνεχίσετε ("Πίνακας Ελέγχου" &gt; "Επιδόσεις και Συντήρηση" &gt; "Εργαλεία Διαχείρισης" &gt; "Διαχείριση Υπολογιστή" &gt; "Διαχείριση Δίσκων").\n\nΣημειώστε ότι αυτό είναι μια απαίτηση του λειτουργικού συστήματος.</entry>
     <entry lang="el" key="MOUNT_TC_VOLUME">Φόρτωση τόμου VeraCrypt</entry>
-    <entry lang="el" key="DISMOUNT_ALL_TC_VOLUMES">Εκφόρτωση όλων των τόμων VeraCrypt</entry>
+    <entry lang="el" key="UNMOUNT_ALL_TC_VOLUMES">Εκφόρτωση όλων των τόμων VeraCrypt</entry>
     <entry lang="el" key="UAC_INIT_ERROR">Το VeraCrypt απέτυχε να αποκτήσει δικαιώματα Διαχειριστή.</entry>
     <entry lang="el" key="ERR_ACCESS_DENIED">Η πρόσβαση απορρίφθηκε από το λειτουργικό σύστημα.\n\nΠιθανή αιτία: Το λειτουργικό σύστημα απαιτεί να έχετε άδεια ανάγνωσης/εγγραφής (ή δικαιώματα διαχειριστή) για συγκεκριμένους φακέλους, αρχεία και συσκευές για να σας επιτρέπεται να διαβάζετε και να γράφετε δεδομένα από/σε αυτά. Φυσιολογικά, σε ένα χρήστης χωρίς δικαιώματα διαχειριστή επιτρέπεται να δημιουργήσει, προσπελάσει και τροποποιήσει αρχεία στο φάκελο των Εγγράφων του.</entry>
     <entry lang="en" key="SECTOR_SIZE_UNSUPPORTED">Error: The drive uses an unsupported sector size.\n\nIt is currently not possible to create partition/device-hosted volumes on drives that use sectors larger than 4096 bytes. However, note that you can create file-hosted volumes (containers) on such drives.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' > 'Performance' and disable the corresponding option.</entry>
     <entry lang="en" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Do you want VeraCrypt to attempt to disable write protection of the partition/drive?</entry>
     <entry lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
     <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
     <entry lang="el" key="TEST">Έλεγχος</entry>
     <entry lang="el" key="KEYFILE">Αρχείο-κλειδί</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
+    <entry lang="en" key="TASKICON_PREF_UNMOUNT_VOL">Dismount Mounted Volumes</entry>
     <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
     <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
     <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
     <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
+    <entry lang="en" key="LINUX_UNMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
     <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Close all Explorer windows of volume being dismounted</entry>
     <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
     <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
     <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_UNMOUNT">Display confirmation message box after dismount</entry>
     <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
     <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
@@ -1523,7 +1523,7 @@
     <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
+    <entry lang="en" key="LINUX_VOL_UNMOUNTED">Volume {0} has been dismounted.</entry>
     <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
     <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
     <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>

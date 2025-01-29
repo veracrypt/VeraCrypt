@@ -525,7 +525,7 @@ namespace VeraCrypt
 
 				popup->AppendSeparator();
 				Gui->AppendToMenu (*popup, LangString["IDM_MOUNT_FAVORITE_VOLUMES"], this, wxCommandEventHandler (TaskBarIcon::OnMountAllFavoritesMenuItemSelected))->Enable (!Busy);
-				Gui->AppendToMenu (*popup, LangString["HK_DISMOUNT_ALL"], this, wxCommandEventHandler (TaskBarIcon::OnDismountAllMenuItemSelected))->Enable (!Busy);
+				Gui->AppendToMenu (*popup, LangString["HK_UNMOUNT_ALL"], this, wxCommandEventHandler (TaskBarIcon::OnDismountAllMenuItemSelected))->Enable (!Busy);
 
 				// Favorite volumes
 				if (Gui->GetPreferences().BackgroundTaskMenuMountItemsEnabled && !Frame->FavoriteVolumesMenuMap.empty())
@@ -565,7 +565,7 @@ namespace VeraCrypt
 						DismountMap.clear();
 						foreach (shared_ptr <VolumeInfo> volume, mountedVolumes)
 						{
-							wxString label = LangString["DISMOUNT"] + L" ";
+							wxString label = LangString["UNMOUNT"] + L" ";
 
 							if (!volume->MountPoint.IsEmpty())
 								label += wstring (volume->MountPoint) + L" (" + wstring (volume->Path) + L")";
@@ -1008,7 +1008,7 @@ namespace VeraCrypt
 				if (newMountedCount < mountedCount)
 				{
 					if (newMountedCount == 0 && GetPreferences().DisplayMessageAfterHotkeyDismount)
-						Gui->ShowInfo ("MOUNTED_VOLUMES_DISMOUNTED");
+						Gui->ShowInfo ("MOUNTED_VOLUMES_UNMOUNTED");
 					else if (GetPreferences().BeepAfterHotkeyMountDismount)
 						MessageBeep((UINT) -1);
 				}
@@ -1024,7 +1024,7 @@ namespace VeraCrypt
 				Gui->DismountAllVolumes (true, true);
 
 				if (mounted && GetPreferences().DisplayMessageAfterHotkeyDismount)
-					Gui->ShowInfo ("VOLUMES_DISMOUNTED_CACHE_WIPED");
+					Gui->ShowInfo ("VOLUMES_UNMOUNTED_CACHE_WIPED");
 				else if (mounted && GetPreferences().BeepAfterHotkeyMountDismount)
 					MessageBeep((UINT) -1);
 
@@ -1149,7 +1149,7 @@ namespace VeraCrypt
 		wxMenu popup;
 		if (IsMountedSlotSelected())
 		{
-			Gui->AppendToMenu (popup, LangString["DISMOUNT"], this, wxCommandEventHandler (MainFrame::OnDismountVolumeMenuItemSelected));
+			Gui->AppendToMenu (popup, LangString["UNMOUNT"], this, wxCommandEventHandler (MainFrame::OnDismountVolumeMenuItemSelected));
 			Gui->AppendToMenu (popup, LangString["OPEN"], this, wxCommandEventHandler (MainFrame::OnOpenVolumeMenuItemSelected));
 			Gui->AppendToMenu (popup, LangString["LINUX_DESELECT"], this, wxCommandEventHandler (MainFrame::OnClearSlotSelectionMenuItemSelected));
 
@@ -1621,7 +1621,7 @@ namespace VeraCrypt
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_mountfavorites);
 				g_signal_connect (indicator_item_mountfavorites, "activate", G_CALLBACK (IndicatorOnMountAllFavoritesMenuItemSelected), this);
 
-				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_DISMOUNT_ALL"]);
+				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_UNMOUNT_ALL"]);
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_dismountall);
 				g_signal_connect (indicator_item_dismountall, "activate", G_CALLBACK (IndicatorOnDismountAllMenuItemSelected), this);
 

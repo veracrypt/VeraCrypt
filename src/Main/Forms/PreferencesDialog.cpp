@@ -421,19 +421,19 @@ namespace VeraCrypt
 	void PreferencesDialog::OnDismountOnPowerSavingCheckBoxClick (wxCommandEvent& event)
 	{
 		if (event.IsChecked() && !ForceAutoDismountCheckBox->IsChecked())
-			Gui->ShowWarning ("WARN_PREF_AUTO_DISMOUNT");
+			Gui->ShowWarning ("WARN_PREF_AUTO_UNMOUNT");
 	}
 
 	void PreferencesDialog::OnDismountOnScreenSaverCheckBoxClick (wxCommandEvent& event)
 	{
 		if (event.IsChecked() && !ForceAutoDismountCheckBox->IsChecked())
-			Gui->ShowWarning ("WARN_PREF_AUTO_DISMOUNT");
+			Gui->ShowWarning ("WARN_PREF_AUTO_UNMOUNT");
 	}
 
 	void PreferencesDialog::OnForceAutoDismountCheckBoxClick (wxCommandEvent& event)
 	{
 		if (!event.IsChecked())
-			ForceAutoDismountCheckBox->SetValue (!Gui->AskYesNo (LangString["CONFIRM_NO_FORCED_AUTODISMOUNT"], false, true));
+			ForceAutoDismountCheckBox->SetValue (!Gui->AskYesNo (LangString["CONFIRM_NO_FORCED_AUTOUNMOUNT"], false, true));
 	}
 
 	void PreferencesDialog::OnHotkeyListItemDeselected (wxListEvent& event)

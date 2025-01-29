@@ -10954,7 +10954,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="0">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">IDT_AUTO_DISMOUNT</property>
+                                                            <property name="label">IDT_AUTO_UNMOUNT</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">AutoDismountSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -10966,7 +10966,7 @@
                                                                 <property name="proportion">0</property>
                                                                 <object class="wxStaticBoxSizer" expanded="0">
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">LINUX_DISMOUNT_ALL_WHEN</property>
+                                                                    <property name="label">LINUX_UNMOUNT_ALL_WHEN</property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">sbSizer13</property>
                                                                     <property name="orient">wxVERTICAL</property>
@@ -11005,7 +11005,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">IDC_PREF_DISMOUNT_LOGOFF</property>
+                                                                            <property name="label">IDC_PREF_UNMOUNT_LOGOFF</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -11069,7 +11069,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">IDC_PREF_DISMOUNT_SCREENSAVER</property>
+                                                                            <property name="label">IDC_PREF_UNMOUNT_SCREENSAVER</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -11210,7 +11210,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">IDC_PREF_DISMOUNT_INACTIVE</property>
+                                                                            <property name="label">IDC_PREF_UNMOUNT_INACTIVE</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -11399,7 +11399,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">IDC_PREF_FORCE_AUTO_DISMOUNT</property>
+                                                                    <property name="label">IDC_PREF_FORCE_AUTO_UNMOUNT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -11621,7 +11621,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT</property>
+                                                                    <property name="label">IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -12615,7 +12615,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">TASKICON_PREF_DISMOUNT_VOL</property>
+                                                                            <property name="label">TASKICON_PREF_UNMOUNT_VOL</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -13039,7 +13039,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">LINUX_CLOSE_EXPL_ON_DISMOUNT</property>
+                                                                    <property name="label">LINUX_CLOSE_EXPL_ON_UNMOUNT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -14847,7 +14847,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">LINUX_CONFIRM_AFTER_DISMOUNT</property>
+                                                                            <property name="label">LINUX_CONFIRM_AFTER_UNMOUNT</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>

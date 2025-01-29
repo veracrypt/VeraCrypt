@@ -135,8 +135,8 @@
     <entry lang="th" key="IDC_FAVORITE_REMOVE">ลบ</entry>
     <entry lang="th" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">ใช้ชื่อวอลลุมโปรดเป็นชื่อไดรฟ์ใน Explorer</entry>
     <entry lang="th" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">การตั้งค่าทั่วไป</entry>
-    <entry lang="th" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">แสดงบอลลูนแจ้งเตือนหลังการติดตั้งเมื่อสำเร็จ</entry>
-    <entry lang="th" key="IDC_HK_DISMOUNT_PLAY_SOUND">เล่นเสียงแจ้งเตือนของระบบหลังการติดตั้งเมื่อสำเร็จ</entry>
+    <entry lang="th" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">แสดงบอลลูนแจ้งเตือนหลังการติดตั้งเมื่อสำเร็จ</entry>
+    <entry lang="th" key="IDC_HK_UNMOUNT_PLAY_SOUND">เล่นเสียงแจ้งเตือนของระบบหลังการติดตั้งเมื่อสำเร็จ</entry>
     <entry lang="th" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="th" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="th" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="th" key="IDC_PIM_HELP">(เว้นว่างหรือ 0 สำหรับการใช้งานค่าเริ่มต้น)</entry>
     <entry lang="th" key="IDC_PREF_BKG_TASK_ENABLE">เปิดใช้งาน</entry>
     <entry lang="th" key="IDC_PREF_CACHE_PASSWORDS">บันทึกรหัสผ่านในหน่วยความจำ</entry>
-    <entry lang="th" key="IDC_PREF_DISMOUNT_INACTIVE">ปลดวอลลุ่มเมื่อไม่มีการอ่าน/เขียนข้อมูลในช่วง</entry>
-    <entry lang="th" key="IDC_PREF_DISMOUNT_LOGOFF">เมื่อผู้ใช้ล็อกเอาท์</entry>
-    <entry lang="th" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">เมื่อผู้ใช้งานล็อกเซสชั่น</entry>
-    <entry lang="th" key="IDC_PREF_DISMOUNT_POWERSAVING">เมื่อเข้าสู่โหมดประหยัดพลังงาน</entry>
-    <entry lang="th" key="IDC_PREF_DISMOUNT_SCREENSAVER">เมื่อเปิดใช้งานสกรีนเซฟเวอร์</entry>
-    <entry lang="th" key="IDC_PREF_FORCE_AUTO_DISMOUNT">บังคับการปลดวอลลุมแม้มีไฟล์หรือไดเรกทอรีที่เปิดอยู่</entry>
+    <entry lang="th" key="IDC_PREF_UNMOUNT_INACTIVE">ปลดวอลลุ่มเมื่อไม่มีการอ่าน/เขียนข้อมูลในช่วง</entry>
+    <entry lang="th" key="IDC_PREF_UNMOUNT_LOGOFF">เมื่อผู้ใช้ล็อกเอาท์</entry>
+    <entry lang="th" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">เมื่อผู้ใช้งานล็อกเซสชั่น</entry>
+    <entry lang="th" key="IDC_PREF_UNMOUNT_POWERSAVING">เมื่อเข้าสู่โหมดประหยัดพลังงาน</entry>
+    <entry lang="th" key="IDC_PREF_UNMOUNT_SCREENSAVER">เมื่อเปิดใช้งานสกรีนเซฟเวอร์</entry>
+    <entry lang="th" key="IDC_PREF_FORCE_AUTO_UNMOUNT">บังคับการปลดวอลลุมแม้มีไฟล์หรือไดเรกทอรีที่เปิดอยู่</entry>
     <entry lang="th" key="IDC_PREF_LOGON_MOUNT_DEVICES">ติดตั้งทุกวอลลุม VeraCrypt บนอุปกรณ์เมื่อเข้าสู่ระบบ</entry>
     <entry lang="th" key="IDC_PREF_LOGON_START">เริ่มทำงานพื้นหลังของ VeraCrypt</entry>
     <entry lang="th" key="IDC_PREF_MOUNT_READONLY">ติดตั้งวอลลุ่มเป็นอ่านอย่างเดียวโดยค่าเริ่มต้น</entry>
@@ -169,7 +169,7 @@
     <entry lang="th" key="IDC_PREF_OPEN_EXPLORER">เปิดหน้าต่าง Explorer เมื่อวอลลุมถูกติดตั้งสำเร็จ</entry>
     <entry lang="th" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">บันทึกรหัสผ่านชั่วคราวระหว่างการติดตั้ง "วอลลูมโปรด"</entry>
     <entry lang="th" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">ใช้ไอคอน Tray แตกต่างกันเมื่อมีวอลลุมที่ติดตั้งอยู่</entry>
-    <entry lang="th" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">ลบข้อมูลในแคชเมื่อปลดวอลลุมโดยอัตโนมัติ</entry>
+    <entry lang="th" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">ลบข้อมูลในแคชเมื่อปลดวอลลุมโดยอัตโนมัติ</entry>
     <entry lang="th" key="IDC_PREF_WIPE_CACHE_ON_EXIT">ลบข้อมูลในแคชเมื่อออกจากโปรแกรม</entry>
     <entry lang="th" key="IDC_PRESERVE_TIMESTAMPS">รักษาเวลาแก้ไขล่าสุดของไฟล์คอนเทนเนอร์</entry>
     <entry lang="th" key="IDC_RESET_HOTKEYS">รีเซ็ต</entry>
@@ -269,14 +269,14 @@
     <entry lang="th" key="IDT_ACCELERATION_OPTIONS">เร่งความเร็วโดยใช้ฮาร์ดแวร์</entry>
     <entry lang="th" key="IDT_ASSIGN_HOTKEY">คีย์ลัด</entry>
     <entry lang="th" key="IDT_AUTORUN">การกำหนดค่า AutoRun (autorun.inf)</entry>
-    <entry lang="th" key="IDT_AUTO_DISMOUNT">ปลดวอลลุมโดยอัตโนมัติ</entry>
-    <entry lang="th" key="IDT_AUTO_DISMOUNT_ON">ปลดวอลลุมทั้งหมดเมื่อ:</entry>
+    <entry lang="th" key="IDT_AUTO_UNMOUNT">ปลดวอลลุมโดยอัตโนมัติ</entry>
+    <entry lang="th" key="IDT_AUTO_UNMOUNT_ON">ปลดวอลลุมทั้งหมดเมื่อ:</entry>
     <entry lang="th" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">ตัวเลือกหน้าจอของโหลดเดอร์ก่อนจะบูต</entry>
     <entry lang="th" key="IDT_CONFIRM_PASSWORD">ยืนยันรหัสผ่าน:</entry>
     <entry lang="th" key="IDT_CURRENT">ปัจจุบัน</entry>
     <entry lang="th" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">แสดงข้อความที่กำหนดเองในหน้าจอยืนยันตัวตนก่อนบูต (สูงสุด 24 อักษร):</entry>
     <entry lang="th" key="IDT_DEFAULT_MOUNT_OPTIONS">ตัวเลือกการติดตั้งค่าเริ่มต้น</entry>
-    <entry lang="th" key="IDT_DISMOUNT_ACTION">ตัวเลือกคีย์ลัด</entry>
+    <entry lang="th" key="IDT_UNMOUNT_ACTION">ตัวเลือกคีย์ลัด</entry>
     <entry lang="th" key="IDT_DRIVER_OPTIONS">การกำหนดค่าไดรเวอร์</entry>
     <entry lang="th" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">เปิดใช้งานการควบคุมดิสก์เสริม</entry>
     <entry lang="th" key="IDT_FAVORITE_LABEL">ป้ายชื่อวอลลุมโปรดที่เลือก:</entry>
@@ -423,8 +423,8 @@
     <entry lang="th" key="DEVICE_FREE_PB">ขนาดของ</entry>
     <entry lang="th" key="DEVICE_IN_USE_FORMAT">คำเตือน: อุปกรณ์/พาร์ติชั่นในใช้งานระบบหรือแอปพลิเคชัน การฟอร์แมตอุปกรณ์/พาร์ติชั่นอาจทำให้ข้อมูลเสียหายและระบบไม่เสถียร \n\nดำเนินการต่อ?</entry>
     <entry lang="th" key="DEVICE_IN_USE_INPLACE_ENC">คำเตือน: พาร์ติชั่นนี้อยู่ในการใช้งานระบบหรือแอปพลิเคชัน คุณควรปิดแอปพลิเคชันที่อาจใช้งานพาร์ติชั่นนี้ คุณต้องการดำเนินการต่อ?</entry>
-    <entry lang="th" key="FORMAT_CANT_DISMOUNT_FILESYS">ข้อผิดพลาด: อุปกรณ์/พาร์ติชั่นมีระบบไฟล์ที่ไม่สามารถถอดการติดตั้งได้ ระบบไฟล์อาจถูกใช้งานระบบ การฟอร์แมตอุปกรณ์/พาร์ติชั่นอาจทำให้ข้อมูลเสียหายและระบบไม่เสถียร:</entry>
-    <entry lang="th" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">ข้อผิดพลาด: ระบบไฟล์ไม่สามารถล็อกและ/หรือถอดการติดตั้งได้อาจถูกใช้งานระบบหรือแอปพลิเคชัน (เช่นโปรแกรมแอนตี้ไวรัส) การเข้ารหัสพาร์ติชั่นอาจทำให้ข้อมูลเสียหายและระบบไม่เสถียร โปรดปิดแอปพลิเคชันที่อาจใช้งานระบบไฟล์และลองอีกครั้ง:</entry>
+    <entry lang="th" key="FORMAT_CANT_UNMOUNT_FILESYS">ข้อผิดพลาด: อุปกรณ์/พาร์ติชั่นมีระบบไฟล์ที่ไม่สามารถถอดการติดตั้งได้ ระบบไฟล์อาจถูกใช้งานระบบ การฟอร์แมตอุปกรณ์/พาร์ติชั่นอาจทำให้ข้อมูลเสียหายและระบบไม่เสถียร:</entry>
+    <entry lang="th" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">ข้อผิดพลาด: ระบบไฟล์ไม่สามารถล็อกและ/หรือถอดการติดตั้งได้อาจถูกใช้งานระบบหรือแอปพลิเคชัน (เช่นโปรแกรมแอนตี้ไวรัส) การเข้ารหัสพาร์ติชั่นอาจทำให้ข้อมูลเสียหายและระบบไม่เสถียร โปรดปิดแอปพลิเคชันที่อาจใช้งานระบบไฟล์และลองอีกครั้ง:</entry>
     <entry lang="th" key="DEVICE_IN_USE_INFO">คำเตือน: อุปกรณ์/พาร์ติชั่นบางตัวที่ติดตั้งอยู่อาจถูกใช้งานแล้ว</entry>
     <entry lang="th" key="DEVICE_PARTITIONS_ERR">อุปกรณ์ที่เลือกมีพาร์ติชั่น\n\nการฟอร์แมตอุปกรณ์อาจทำให้ระบบไม่เสถียรและ/หรือข้อมูลเสียหาย โปรดเลือกพาร์ติชั่นทั้งหมดบนอุปกรณ์หรือเลือกลบพาร์ติชั่นทั้งหมดบนอุปกรณ์เพื่อให้ VeraCrypt สามารถฟอร์แมตได้อย่างปลอดภัย</entry>
     <entry lang="th" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">อุปกรณ์ที่เลือกไม่มีการฟอร์แมตสามารถสร้างวอลลุ่ม VeraCrypt ได้เฉพาะในอุปกรณ์ที่ไม่มีพาร์ติชั่น\n\nหากคุณต้องการเข้ารหัสอุปกรณ์สามารถทำได้เฉพาะในกรณีที่ติดตั้งระบบ Windows และบูตจากระบบเท่านั้น</entry>
@@ -590,7 +590,7 @@
     <entry lang="th" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">ข้อผิดพลาด: ไฟล์ที่คุณคัดลอกไปยังไดรฟ์ภายนอกใช้พื้นที่มากเกินไป ดังนั้น จึงไม่มีพื้นที่ว่างเพียงพอในไดรฟ์ภายนอกสำหรับไดรฟ์ที่ซ่อน\n\nโปรดทราบว่าไดรฟ์ที่ซ่อนต้องมีขนาดเท่ากับพาร์ทิชันระบบ (พาร์ทิชันที่มีระบบปฏิบัติการที่กำลังทำงานอยู่) เหตุผลคือระบบปฏิบัติการที่ซ่อนจำเป็นต้องถูกสร้างโดยการคัดลอกเนื้อหาของพาร์ทิชันระบบไปยังไดรฟ์ที่ซ่อน\n\n\nกระบวนการสร้างระบบปฏิบัติการที่ซ่อนไม่สามารถดำเนินการต่อได้</entry>
     <entry lang="th" key="OPENFILES_DRIVER">ไดรฟ์ไม่สามารถดีเมานท์ไดรฟ์ได้ ไฟล์บางส่วนที่อยู่ในไดรฟ์ยังเปิดอยู่</entry>
     <entry lang="th" key="OPENFILES_LOCK">ไม่สามารถล็อคไดรฟ์ได้ มีไฟล์ที่เปิดอยู่ในไดรฟ์ ดังนั้นไดรฟ์ไม่สามารถดีเมานท์ได้</entry>
-    <entry lang="th" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt ไม่สามารถล็อคไดรฟ์ได้เพราะมีการใช้งานโดยระบบหรือแอปพลิเคชัน (อาจจะมีไฟล์ที่เปิดอยู่ในไดรฟ์)\n\nคุณต้องการให้อดใช้บังคับดีเมานท์ไดรฟ์หรือไม่?</entry>
+    <entry lang="th" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt ไม่สามารถล็อคไดรฟ์ได้เพราะมีการใช้งานโดยระบบหรือแอปพลิเคชัน (อาจจะมีไฟล์ที่เปิดอยู่ในไดรฟ์)\n\nคุณต้องการให้อดใช้บังคับดีเมานท์ไดรฟ์หรือไม่?</entry>
     <entry lang="th" key="OPEN_VOL_TITLE">เลือกไดรฟ์ VeraCrypt</entry>
     <entry lang="th" key="OPEN_TITLE">ระบุเส้นทางและชื่อไฟล์</entry>
     <entry lang="th" key="SELECT_PKCS11_MODULE">เลือกไลบรารี PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="th" key="DLL_FILES">โมดูลไลบรารี</entry>
     <entry lang="th" key="FORMAT_NTFS_STOP">การฟอร์แมท NTFS/exFAT/ReFS ไม่สามารถดำเนินการต่อได้.</entry>
     <entry lang="th" key="CANT_MOUNT_VOLUME">ไม่สามารถติดตั้งปริมาณ.</entry>
-    <entry lang="th" key="CANT_DISMOUNT_VOLUME">ไม่สามารถถอดติดตั้งปริมาณ.</entry>
+    <entry lang="th" key="CANT_UNMOUNT_VOLUME">ไม่สามารถถอดติดตั้งปริมาณ.</entry>
     <entry lang="th" key="FORMAT_NTFS_FAILED">Windows ไม่สามารถฟอร์แมทปริมาณเป็น NTFS/exFAT/ReFS ได้.\n\nโปรดเลือกประเภทของระบบไฟล์ที่แตกต่างกัน (ถ้าเป็นไปได้) และลองอีกครั้ง. หรืออีกทางหนึ่ง, คุณสามารถปล่อยให้ปริมาณยังไม่ฟอร์แมท (เลือก 'ไม่มี' เป็นระบบไฟล์), ออกจากวิซาร์ดนี้, ติดตั้งปริมาณ, และจากนั้นใช้เครื่องมือของระบบหรือบุคคลที่สามเพื่อฟอร์แมทปริมาณที่ติดตั้ง (ปริมาณจะยังถูกเข้ารหัสอยู่).</entry>
     <entry lang="th" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows ไม่สามารถฟอร์แมทปริมาณเป็น NTFS/exFAT/ReFS ได้.\n\nคุณต้องการฟอร์แมทปริมาณเป็น FAT แทนหรือไม่?</entry>
     <entry lang="th" key="DEFAULT">ค่าเริ่มต้น</entry>
@@ -771,7 +771,7 @@
     <entry lang="th" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">ข้อผิดพลาดป้องกันไม่ให้ VeraCrypt เข้ารหัสพาร์ทิชัน โปรดลองแก้ไขปัญหาที่รายงานก่อนหน้าแล้วลองอีกครั้ง หากปัญหายังคงอยู่ การทำตามขั้นตอนด้านล่างอาจช่วยได้</entry>
     <entry lang="th" key="INPLACE_ENC_GENERIC_ERR_RESUME">ข้อผิดพลาดป้องกันไม่ให้ VeraCrypt ทำการเข้ารหัส/ถอดรหัสพาร์ทิชัน/วอลุ่มต่อ\n\nโปรดลองแก้ไขปัญหาที่รายงานก่อนหน้าแล้วลองอีกครั้งหากเป็นไปได้ โปรดทราบว่าวอลุ่มไม่สามารถเมาท์ได้จนกว่ามันจะถูกเข้ารหัสหรือถอดรหัสเต็มที่</entry>
     <entry lang="th" key="INPLACE_DEC_GENERIC_ERR">ข้อผิดพลาดป้องกันไม่ให้ VeraCrypt ถอดรหัสวอลุ่ม โปรดลองแก้ไขปัญหาที่รายงานก่อนหน้าแล้วลองอีกครั้งหากเป็นไปได้</entry>
-    <entry lang="th" key="CANT_DISMOUNT_OUTER_VOL">ข้อผิดพลาด: ไม่สามารถยกเลิกการเมาท์วอลุ่มภายนอก!\n\nวอลุ่มไม่สามารถยกเลิกการเมาท์ได้หากมีไฟล์หรือโฟลเดอร์ที่ถูกใช้โดยโปรแกรมหรือระบบ\n\nโปรดปิดโปรแกรมใด ๆ ที่อาจใช้ไฟล์หรือไดเร็กทอรีในวอลุ่มแล้วคลิกลองอีกครั้ง</entry>
+    <entry lang="th" key="CANT_UNMOUNT_OUTER_VOL">ข้อผิดพลาด: ไม่สามารถยกเลิกการเมาท์วอลุ่มภายนอก!\n\nวอลุ่มไม่สามารถยกเลิกการเมาท์ได้หากมีไฟล์หรือโฟลเดอร์ที่ถูกใช้โดยโปรแกรมหรือระบบ\n\nโปรดปิดโปรแกรมใด ๆ ที่อาจใช้ไฟล์หรือไดเร็กทอรีในวอลุ่มแล้วคลิกลองอีกครั้ง</entry>
     <entry lang="th" key="CANT_GET_OUTER_VOL_INFO">ข้อผิดพลาด: ไม่สามารถรับข้อมูลเกี่ยวกับวอลุ่มภายนอก!\nการสร้างวอลุ่มไม่สามารถดำเนินต่อไป</entry>
     <entry lang="th" key="CANT_ACCESS_OUTER_VOL">ข้อผิดพลาด: ไม่สามารถเข้าถึงวอลุ่มภายนอก! การสร้างวอลุ่มไม่สามารถดำเนินต่อไป</entry>
     <entry lang="th" key="CANT_MOUNT_OUTER_VOL">ข้อผิดพลาด: ไม่สามารถเมาท์วอลุ่มภายนอก! การสร้างวอลุ่มไม่สามารถดำเนินต่อไป</entry>
@@ -882,7 +882,7 @@
     <entry lang="th" key="INSTALL_COMPLETED">การติดตั้งเสร็จสิ้น</entry>
     <entry lang="th" key="CANT_CREATE_FOLDER">ไม่สามารถสร้างโฟลเดอร์ '%s'</entry>
     <entry lang="th" key="CLOSE_TC_FIRST">ไม่สามารถปลดไดรเวอร์อุปกรณ์ VeraCrypt ได้\n\nโปรดปิดหน้าต่าง VeraCrypt ที่เปิดอยู่ทั้งหมดก่อน ถ้ามันไม่ช่วย โปรดรีสตาร์ท Windows แล้วลองใหม่อีกครั้ง</entry>
-    <entry lang="th" key="DISMOUNT_ALL_FIRST">วอลุ่ม VeraCrypt ทั้งหมดต้องถูกยกเลิกการเมาท์ก่อนการติดตั้งหรือถอนการติดตั้ง VeraCrypt</entry>
+    <entry lang="th" key="UNMOUNT_ALL_FIRST">วอลุ่ม VeraCrypt ทั้งหมดต้องถูกยกเลิกการเมาท์ก่อนการติดตั้งหรือถอนการติดตั้ง VeraCrypt</entry>
     <entry lang="th" key="UNINSTALL_OLD_VERSION_FIRST">มีเวอร์ชันเก่าของ VeraCrypt ที่ติดตั้งอยู่ในระบบนี้ มันจำเป็นต้องถูกถอนการติดตั้งก่อนที่คุณจะสามารถติดตั้งเวอร์ชันใหม่ของ VeraCrypt\n\nทันทีที่คุณปิดกล่องข้อความนี้ โปรแกรมถอนการติดตั้งเวอร์ชันเก่าจะเปิดขึ้น โปรดทราบว่าจะไม่มีการถอดรหัสวอลุ่มใดๆเมื่อคุณถอนการติดตั้ง VeraCrypt หลังจากที่คุณถอนการติดตั้งเวอร์ชันเก่าของ VeraCrypt เรียบร้อยแล้วให้รันโปรแกรมติดตั้งของเวอร์ชันใหม่ของ VeraCrypt อีกครั้ง</entry>
     <entry lang="th" key="REG_INSTALL_FAILED">การติดตั้งข้อมูลรีจิสเตอร์ล้มเหลว</entry>
     <entry lang="th" key="DRIVER_INSTALL_FAILED">การติดตั้งไดรเวอร์อุปกรณ์ล้มเหลว โปรดรีสตาร์ท Windows แล้วลองติดตั้ง VeraCrypt อีกครั้ง</entry>
@@ -903,7 +903,7 @@
     <entry lang="th" key="MINUTES">นาที</entry>
     <entry lang="th" key="SECONDS">วินาที</entry>
     <entry lang="th" key="OPEN">เปิด</entry>
-    <entry lang="th" key="DISMOUNT">ยกเลิกการเมาท์</entry>
+    <entry lang="th" key="UNMOUNT">ยกเลิกการเมาท์</entry>
     <entry lang="th" key="SHOW_TC">แสดง VeraCrypt</entry>
     <entry lang="th" key="HIDE_TC">ซ่อน VeraCrypt</entry>
     <entry lang="th" key="TOTAL_DATA_READ">ข้อมูลที่อ่านตั้งแต่การเมาท์</entry>
@@ -975,7 +975,7 @@
     <entry lang="th" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - วอลุ่มที่โปรดปรานของระบบ</entry>
     <entry lang="th" key="SYS_FAVORITES_HELP_LINK">อะไรคือวอลุ่มที่โปรดปรานของระบบ?</entry>
     <entry lang="th" key="SYS_FAVORITES_REQUIRE_PBA">พาร์ทิชัน/ไดรฟ์ของระบบดูเหมือนไม่ได้รับการเข้ารหัส\n\nวอลุ่มที่โปรดปรานของระบบสามารถเมาท์ได้โดยใช้พาสเวิร์ดการตรวจสอบก่อนบูตเท่านั้น ดังนั้นในการเปิดใช้งานการใช้วอลุ่มที่โปรดปรานของระบบ คุณต้องเข้ารหัสพาร์ทิชัน/ไดรฟ์ของระบบก่อน</entry>
-    <entry lang="th" key="DISMOUNT_FIRST">โปรดยกเลิกการเมาท์วอลุ่มก่อนดำเนินการต่อ</entry>
+    <entry lang="th" key="UNMOUNT_FIRST">โปรดยกเลิกการเมาท์วอลุ่มก่อนดำเนินการต่อ</entry>
     <entry lang="th" key="CANNOT_SET_TIMER">ข้อผิดพลาด: ไม่สามารถตั้งค่าเครื่องจับเวลาได้</entry>
     <entry lang="th" key="IDPM_CHECK_FILESYS">ตรวจสอบระบบไฟล์</entry>
     <entry lang="th" key="IDPM_REPAIR_FILESYS">ซ่อมระบบไฟล์</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="th" key="NO_SYSENC_PARTITION_SELECTED">ยังไม่ได้เลือกพาร์ทิชัน.\n\nคลิก 'เลือกอุปกรณ์' เพื่อเลือกพาร์ทิชันที่ไม่ได้เมาท์ซึ่งต้องการการตรวจสอบก่อนบูต (เช่น พาร์ทิชันที่อยู่บนไดรฟ์ระบบที่เข้ารหัสของระบบปฏิบัติการอื่น ที่ไม่ได้กำลังทำงาน อยู่ หรือพาร์ทิชันระบบที่เข้ารหัสของระบบปฏิบัติการอื่น)\n\nหมายเหตุ: พาร์ทิชันที่เลือกจะถูกเมาท์เป็นวอลุ่ม VeraCrypt ปกติโดยไม่ต้องผ่านการตรวจสอบก่อนบูต สิ่งนี้เป็นประโยชน์เช่นสำหรับการสำรองข้อมูลหรือการซ่อมแซม</entry>
     <entry lang="th" key="CONFIRM_SAVE_DEFAULT_KEYFILES">คำเตือน: หากตั้งค่าและเปิดใช้ไฟล์คีย์เริ่มต้น วอลุ่มที่ไม่ได้ใช้ไฟล์คีย์เหล่านี้จะไม่สามารถเมาท์ได้ ดังนั้น หลังจากที่คุณเปิดใช้ไฟล์คีย์เริ่มต้นแล้ว จำไว้ว่าให้ยกเลิกการเลือกช่องทำเครื่องหมาย 'ใช้ไฟล์คีย์' (ด้านล่างฟิลด์ป้อนพาสเวิร์ด) เมื่อเมาท์วอลุ่มดังกล่าว\n\nคุณแน่ใจหรือไม่ว่าต้องการบันทึกไฟล์คีย์/เส้นทางที่เลือกเป็นค่าดีฟอลต์?</entry>
     <entry lang="th" key="HK_AUTOMOUNT_DEVICES">เมาท์อุปกรณ์อัตโนมัติ</entry>
-    <entry lang="th" key="HK_DISMOUNT_ALL">ยกเลิกการเมาท์ทั้งหมด</entry>
+    <entry lang="th" key="HK_UNMOUNT_ALL">ยกเลิกการเมาท์ทั้งหมด</entry>
     <entry lang="th" key="HK_WIPE_CACHE">เช็ดแคช</entry>
-    <entry lang="th" key="HK_DISMOUNT_ALL_AND_WIPE">ยกเลิกการเมาท์ทั้งหมด  &amp;  เช็ดแคช</entry>
-    <entry lang="th" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">บังคับยกเลิกการเมาท์ทั้งหมด &amp; เช็ดแคช</entry>
-    <entry lang="th" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">บังคับยกเลิกการเมาท์ทั้งหมด, เช็ดแคช &amp; ออก</entry>
+    <entry lang="th" key="HK_UNMOUNT_ALL_AND_WIPE">ยกเลิกการเมาท์ทั้งหมด  &amp;  เช็ดแคช</entry>
+    <entry lang="th" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">บังคับยกเลิกการเมาท์ทั้งหมด &amp; เช็ดแคช</entry>
+    <entry lang="th" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">บังคับยกเลิกการเมาท์ทั้งหมด, เช็ดแคช &amp; ออก</entry>
     <entry lang="th" key="HK_MOUNT_FAVORITE_VOLUMES">เมาท์วอลุ่มที่โปรดปราน</entry>
     <entry lang="th" key="HK_SHOW_HIDE_MAIN_WINDOW">แสดง/ซ่อนหน้าต่างหลักของ VeraCrypt</entry>
     <entry lang="th" key="PRESS_A_KEY_TO_ASSIGN">(คลิกที่นี่และกดปุ่ม)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="th" key="PAGING_FILE_CREATION_PREVENTED">การสร้างไฟล์เพจถูกป้องกัน\n\nโปรดทราบว่าเนื่องจากปัญหาของ Windows ไฟล์เพจไม่สามารถอยู่บนวอลุ่ม VeraCrypt ที่ไม่ใช่ระบบ (รวมถึงวอลุ่มที่โปรดปรานของระบบ) VeraCrypt สนับสนุนการสร้างไฟล์เพจเฉพาะบนพาร์ทิชัน/ไดรฟ์ของระบบที่เข้ารหัส</entry>
     <entry lang="th" key="SYS_ENC_HIBERNATION_PREVENTED">ข้อผิดพลาดหรือความไม่เข้ากันป้องกันไม่ให้ VeraCrypt เข้ารหัสไฟล์จำศีล ดังนั้นการจำศีลถูกป้องกัน.\n\nหมายเหตุ: เมื่อคอมพิวเตอร์เข้าโหมดจำศีล (หรือเข้าโหมดประหยัดพลังงาน) ข้อมูลจากหน่วยความจำระบบจะถูกเขียนไปยังไฟล์การเก็บภาพจำศีลที่อยู่บนไดรฟ์ระบบ VeraCrypt ไม่สามารถป้องกันคีย์การเข้ารหัสและเนื้อหาของไฟล์ที่มีความอ่อนไหวที่ถูกเปิดใช้ใน RAM จากการถูกบันทึกโดยไม่มีการเข้ารหัสไปยังไฟล์เก็บภาพจำศีลได้</entry>
     <entry lang="th" key="HIDDEN_OS_HIBERNATION_PREVENTED">การจำศีลถูกป้องกัน\n\nVeraCrypt ไม่สนับสนุนการจำศีลในระบบปฏิบัติการที่ซ่อนอยู่ซึ่งใช้พาร์ทิชันบูตเพิ่มเติม โปรดทราบว่าพาร์ทิชันบูตถูกแชร์โดยทั้งระบบเหยื่อและระบบที่ซ่อนอยู่ ดังนั้นเพื่อป้องกันการรั่วไหลของข้อมูลและปัญหาเมื่อกลับมาจากการจำศีล VeraCrypt จึงต้องป้องกันไม่ให้ระบบที่ซ่อนอยู่เขียนไปยังพาร์ทิชันบูตร่วมและไม่ให้จำศีล</entry>
-    <entry lang="th" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">วอลุ่ม VeraCrypt เมาท์เป็น %c: ถูกยกเลิกการเมาท์แล้ว</entry>
-    <entry lang="th" key="MOUNTED_VOLUMES_DISMOUNTED">วอลุ่ม VeraCrypt ถูกยกเลิกการเมาท์แล้ว</entry>
-    <entry lang="th" key="VOLUMES_DISMOUNTED_CACHE_WIPED">วอลุ่ม VeraCrypt ถูกยกเลิกการเมาท์และแคชรหัสผ่านถูกเช็ดแล้ว</entry>
-    <entry lang="th" key="SUCCESSFULLY_DISMOUNTED">ยกเลิกการเมาท์เรียบร้อยแล้ว</entry>
+    <entry lang="th" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">วอลุ่ม VeraCrypt เมาท์เป็น %c: ถูกยกเลิกการเมาท์แล้ว</entry>
+    <entry lang="th" key="MOUNTED_VOLUMES_UNMOUNTED">วอลุ่ม VeraCrypt ถูกยกเลิกการเมาท์แล้ว</entry>
+    <entry lang="th" key="VOLUMES_UNMOUNTED_CACHE_WIPED">วอลุ่ม VeraCrypt ถูกยกเลิกการเมาท์และแคชรหัสผ่านถูกเช็ดแล้ว</entry>
+    <entry lang="th" key="SUCCESSFULLY_UNMOUNTED">ยกเลิกการเมาท์เรียบร้อยแล้ว</entry>
     <entry lang="th" key="CONFIRM_BACKGROUND_TASK_DISABLED">คำเตือน: หากกิจกรรมพื้นหลังของ VeraCrypt ถูกปิดใช้งาน ฟังก์ชันต่อไปนี้จะถูกปิดใช้งาน:\n\n1) คีย์ลัด\n2) ยกเลิกการเมาท์อัตโนมัติ (เช่นเมื่อออกจากระบบ การถอดอุปกรณ์โฮสต์โดยไม่ตั้งใจ หมดเวลา ฯลฯ)\n3) การเมาท์วอลุ่มที่โปรดปรานอัตโนมัติ\n4) การแจ้งเตือน (เช่นเมื่อการป้องกันความเสียหายของวอลุ่มที่ซ่อนไว้ถูกป้องกัน)\n5) ไอคอนถาด\n\nหมายเหตุ: คุณสามารถหยุดกิจกรรมพื้นหลังได้ตลอดเวลาโดยคลิกขวาที่ไอคอนถาด VeraCrypt และเลือก 'ออก'\n\nคุณแน่ใจหรือไม่ว่าต้องการปิดใช้งานกิจกรรมพื้นหลังของ VeraCrypt อย่างถาวร?</entry>
-    <entry lang="th" key="CONFIRM_NO_FORCED_AUTODISMOUNT">คำเตือน: หากปิดใช้ตัวเลือกนี้ วอลุ่มที่ประกอบด้วยไฟล์/ไดเร็กทอรี่ที่เปิดอยู่จะไม่สามารถยกเลิกการเมาท์อัตโนมัติได้.\n\nคุณแน่ใจหรือไม่ว่าต้องการปิดใช้ตัวเลือกนี้?</entry>
-    <entry lang="th" key="WARN_PREF_AUTO_DISMOUNT">คำเตือน: วอลุ่มที่ประกอบด้วยไฟล์/ไดเร็กทอรี่ที่เปิดอยู่จะไม่ได้รับการยกเลิกการเมาท์อัตโนมัติ\n\nเพื่อป้องกันสิ่งนี้ ให้เปิดตัวเลือกต่อไปนี้ในหน้าต่างการสนทนานี้: 'บังคับยกเลิกการเมาท์อัตโนมัติแม้วอลุ่มจะประกอบด้วยไฟล์หรือไดเร็กทอรี่ที่เปิดอยู่'</entry>
-    <entry lang="th" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">คำเตือน: เมื่อแบตเตอรี่โน้ตบุ๊คมีพลังงานต่ำ Windows อาจไม่ส่งข้อความที่เหมาะสมไปยังแอปพลิเคชันที่กำลังทำงานเมื่อคอมพิวเตอร์เข้าสู่โหมดประหยัดพลังงาน ดังนั้น VeraCrypt อาจไม่สามารถยกเลิกการเมาท์วอลุ่มในกรณีดังกล่าวได้</entry>
+    <entry lang="th" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">คำเตือน: หากปิดใช้ตัวเลือกนี้ วอลุ่มที่ประกอบด้วยไฟล์/ไดเร็กทอรี่ที่เปิดอยู่จะไม่สามารถยกเลิกการเมาท์อัตโนมัติได้.\n\nคุณแน่ใจหรือไม่ว่าต้องการปิดใช้ตัวเลือกนี้?</entry>
+    <entry lang="th" key="WARN_PREF_AUTO_UNMOUNT">คำเตือน: วอลุ่มที่ประกอบด้วยไฟล์/ไดเร็กทอรี่ที่เปิดอยู่จะไม่ได้รับการยกเลิกการเมาท์อัตโนมัติ\n\nเพื่อป้องกันสิ่งนี้ ให้เปิดตัวเลือกต่อไปนี้ในหน้าต่างการสนทนานี้: 'บังคับยกเลิกการเมาท์อัตโนมัติแม้วอลุ่มจะประกอบด้วยไฟล์หรือไดเร็กทอรี่ที่เปิดอยู่'</entry>
+    <entry lang="th" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">คำเตือน: เมื่อแบตเตอรี่โน้ตบุ๊คมีพลังงานต่ำ Windows อาจไม่ส่งข้อความที่เหมาะสมไปยังแอปพลิเคชันที่กำลังทำงานเมื่อคอมพิวเตอร์เข้าสู่โหมดประหยัดพลังงาน ดังนั้น VeraCrypt อาจไม่สามารถยกเลิกการเมาท์วอลุ่มในกรณีดังกล่าวได้</entry>
     <entry lang="th" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">คุณได้วางกำหนดการการเข้ารหัส/ถอดรหัสของพาร์ทิชัน/วอลุ่ม การกระบวนการยังไม่เสร็จสมบูรณ์\n\nคุณต้องการดำเนินการต่อเดี๋ยวนี้หรือไม่?</entry>
     <entry lang="th" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">คุณได้วางกำหนดการการเข้ารหัสหรือถอดรหัสของพาร์ทิชัน/ไดรฟ์ของระบบ แต่กระบวนการยังไม่เสร็จสมบูรณ์\n\nคุณต้องการเริ่ม (ดำเนินการต่อ) ตอนนี้หรือไม่?</entry>
     <entry lang="th" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">คุณต้องการถูกกระตุ้นคำถามทุกครั้งว่าจะดำเนินการต่อในกระบวนการการเข้ารหัส/ถอดรหัสของพาร์ทิชัน/วอลุ่มที่ไม่ได้เป็นระบบหรือไม่?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="th" key="SYS_AUTOMOUNT_DISABLED">ระบบของคุณไม่ได้ถูกตั้งค่าให้เมาท์วอลุ่มใหม่โดยอัตโนมัติ อาจจะไม่สามารถเมาท์วอลุ่ม VeraCrypt ที่โฮสต์ในอุปกรณ์ได้ การเมาท์อัตโนมัติสามารถเปิดใช้งานได้โดยการเรียกคำสั่งต่อไปนี้และรีสตาร์ทระบบ\n\nmountvol.exe /E</entry>
     <entry lang="th" key="SYS_ASSIGN_DRIVE_LETTER">โปรดกำหนดอักษรแทนไดรฟ์ไปยังพาร์ทิชัน/อุปกรณ์ก่อนดำเนินการต่อ ('แผงควบคุม' > 'ระบบและการบำรุงรักษา' > 'เครื่องมือการบริหาร' - 'สร้างและฟอร์แมตพาร์ทิชันดิสก์')\n\nสังเกตว่านี่เป็นข้อกำหนดของระบบปฏิบัติการ</entry>
     <entry lang="th" key="MOUNT_TC_VOLUME">เมาท์วอลุ่ม VeraCrypt</entry>
-    <entry lang="th" key="DISMOUNT_ALL_TC_VOLUMES">ยกเลิกการเมาท์วอลุ่ม VeraCrypt ทั้งหมด</entry>
+    <entry lang="th" key="UNMOUNT_ALL_TC_VOLUMES">ยกเลิกการเมาท์วอลุ่ม VeraCrypt ทั้งหมด</entry>
     <entry lang="th" key="UAC_INIT_ERROR">VeraCrypt ล้มเหลวในการรับสิทธิ์ผู้ดูแลระบบ</entry>
     <entry lang="th" key="ERR_ACCESS_DENIED">ถูกปฏิเสธการเข้าถึงโดยระบบปฏิบัติการ\n\nสาเหตุที่เป็นไปได้: ระบบปฏิบัติการต้องการให้คุณมีสิทธิ์ในการอ่าน/เขียน (หรือสิทธิ์ผู้ดูแลระบบ) สำหรับบางโฟลเดอร์, ไฟล์, และอุปกรณ์, เพื่อให้คุณสามารถอ่านและเขียนข้อมูลได้ตามต้องการ โดยทั่วไป, ผู้ใช้ที่ไม่มีสิทธิ์ผู้ดูแลระบบสามารถสร้าง, อ่าน และแก้ไขไฟล์ในโฟลเดอร์เอกสารของตนเองได้</entry>
     <entry lang="th" key="SECTOR_SIZE_UNSUPPORTED">ข้อผิดพลาด: ไดรฟ์นี้ใช้ขนาดเซ็กเตอร์ที่ไม่รองรับ\n\nปัจจุบัน VeraCrypt ไม่สามารถสร้างวอลุ่มที่โฮสต์ในพาร์ทิชัน/อุปกรณ์บนไดรฟ์ที่ใช้ขนาดเซ็กเตอร์ใหญ่กว่า 4096 ไบต์ได้ อย่างไรก็ตาม, คุณยังสามารถสร้างวอลุ่มในไฟล์ (container) บนไดรฟ์ดังกล่าวได้</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="th" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">โปรดทราบว่าจำนวนเธรดในปัจจุบันถูกจำกัด, ซึ่งจะส่งผลต่อผลการวัดประสิทธิภาพ (ประสิทธิภาพแย่ลง).\n\nเพื่อใช้ศักยภาพทั้งหมดของโปรเซสเซอร์, เลือก 'การตั้งค่า' > 'ประสิทธิภาพ' และปิดใช้งานตัวเลือกที่สอดคล้องกัน.</entry>
     <entry lang="th" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">คุณต้องการให้ VeraCrypt พยายามปิดป้องกันการเขียนของพาร์ติชัน/ไดรฟ์หรือไม่?</entry>
     <entry lang="th" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">คำเตือน: การตั้งค่านี้อาจทำให้ประสิทธิภาพลดลง.\n\nคุณแน่ใจหรือไม่ว่าคุณต้องการใช้การตั้งค่านี้?</entry>
-    <entry lang="th" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">คำเตือน: ปริมาณ VeraCrypt ถูกถอดติดตั้งอัตโนมัติ</entry>
-    <entry lang="th" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">ก่อนที่คุณจะถอดหรือปิดอุปกรณ์ที่มีปริมาณที่ติดตั้งอยู่, คุณควรถอดติดตั้งปริมาณใน VeraCrypt ก่อนเสมอ.\n\nการถอดติดตั้งอัตโนมัติแบบที่ไม่ได้ตั้งใจมักเกิดจากสายเคเบิลที่ล้มเหลวเป็นระยะๆ, ไดรฟ์ (ตัวเรือน), ฯลฯ.</entry>
+    <entry lang="th" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">คำเตือน: ปริมาณ VeraCrypt ถูกถอดติดตั้งอัตโนมัติ</entry>
+    <entry lang="th" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">ก่อนที่คุณจะถอดหรือปิดอุปกรณ์ที่มีปริมาณที่ติดตั้งอยู่, คุณควรถอดติดตั้งปริมาณใน VeraCrypt ก่อนเสมอ.\n\nการถอดติดตั้งอัตโนมัติแบบที่ไม่ได้ตั้งใจมักเกิดจากสายเคเบิลที่ล้มเหลวเป็นระยะๆ, ไดรฟ์ (ตัวเรือน), ฯลฯ.</entry>
     <entry lang="th" key="UNSUPPORTED_TRUECRYPT_FORMAT">ปริมาณนี้ถูกสร้างด้วย TrueCrypt %x.%x แต่ VeraCrypt สนับสนุนเฉพาะปริมาณ TrueCrypt ที่สร้างด้วย TrueCrypt เวอร์ชั่น 6.x/7.x series</entry>
     <entry lang="th" key="TEST">ทดสอบ</entry>
     <entry lang="th" key="KEYFILE">ไฟล์คีย์</entry>
@@ -1454,7 +1454,7 @@
     <entry lang="th" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">เพิ่มปริมาณที่ติดตั้งทั้งหมดไปยังโปรด...</entry>
     <entry lang="th" key="TASKICON_PREF_MENU_ITEMS">เมนูไอคอนงาน</entry>
     <entry lang="th" key="TASKICON_PREF_OPEN_VOL">เปิดปริมาณที่ติดตั้ง</entry>
-    <entry lang="th" key="TASKICON_PREF_DISMOUNT_VOL">ถอดติดตั้งปริมาณที่ติดตั้ง</entry>
+    <entry lang="th" key="TASKICON_PREF_UNMOUNT_VOL">ถอดติดตั้งปริมาณที่ติดตั้ง</entry>
     <entry lang="th" key="DISK_FREE">พื้นที่ว่างที่ใช้ได้: {0}</entry>
     <entry lang="th" key="VOLUME_SIZE_HELP">โปรดระบุขนาดของตัวเก็บที่ต้องการสร้าง. โปรดทราบว่าขนาดขั้นต่ำที่เป็นไปได้ของปริมาณคือ 292 KiB.</entry>
     <entry lang="th" key="LINUX_CONFIRM_INNER_VOLUME_CALC">คำเตือน: คุณได้เลือกระบบไฟล์ที่ไม่ใช่ FAT สำหรับปริมาณภายนอก.\nโปรดทราบว่าในกรณีนี้ VeraCrypt ไม่สามารถคำนวณขนาดสูงสุดที่อนุญาตสำหรับปริมาณที่ซ่อนอย่างแม่นยำและมันจะใช้เพียงการประมาณที่อาจผิดได้.\nดังนั้น, เป็นความรับผิดชอบของคุณในการใช้ค่าที่เหมาะสมสำหรับขนาดของปริมาณที่ซ่อนเพื่อไม่ให้ซ้อนทับกับปริมาณภายนอก.\n\nคุณต้องการใช้ระบบไฟล์ที่เลือกสำหรับปริมาณภายนอกหรือไม่?</entry>
@@ -1484,14 +1484,14 @@
     <entry lang="th" key="LINUX_DO_NOT_MOUNT">ไม่ติดตั้ง</entry>
     <entry lang="th" key="LINUX_MOUNT_AT_DIR">ติดตั้งที่ไดเร็กทอรี:</entry>
     <entry lang="th" key="LINUX_SELECT">เลือก...</entry>
-    <entry lang="th" key="LINUX_DISMOUNT_ALL_WHEN">ถอดติดตั้งปริมาณทั้งหมดเมื่อ</entry>
+    <entry lang="th" key="LINUX_UNMOUNT_ALL_WHEN">ถอดติดตั้งปริมาณทั้งหมดเมื่อ</entry>
     <entry lang="th" key="LINUX_ENTERING_POWERSAVING">ระบบกำลังเข้าสู่โหมดประหยัดพลังงาน</entry>
     <entry lang="th" key="LINUX_LOGIN_ACTION">การดำเนินการเมื่อผู้ใช้เข้าสู่ระบบ</entry>
-    <entry lang="th" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">ปิดหน้าต่าง Explorer ทั้งหมดของปริมาณที่ถูกถอดติดตั้ง</entry>
+    <entry lang="th" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">ปิดหน้าต่าง Explorer ทั้งหมดของปริมาณที่ถูกถอดติดตั้ง</entry>
     <entry lang="th" key="LINUX_HOTKEYS">ปุ่มลัด</entry>
     <entry lang="th" key="LINUX_SYSTEM_HOTKEYS">ปุ่มลัดทั่วระบบ</entry>
     <entry lang="th" key="LINUX_SOUND_NOTIFICATION">เล่นเสียงการแจ้งเตือนหลังจากติดตั้ง/ถอดติดตั้ง</entry>
-    <entry lang="th" key="LINUX_CONFIRM_AFTER_DISMOUNT">แสดงกล่องข้อความยืนยันหลังจากถอดติดตั้ง</entry>
+    <entry lang="th" key="LINUX_CONFIRM_AFTER_UNMOUNT">แสดงกล่องข้อความยืนยันหลังจากถอดติดตั้ง</entry>
     <entry lang="th" key="LINUX_VC_QUITS">VeraCrypt หยุดทำงาน</entry>
     <entry lang="th" key="LINUX_OPEN_FINDER">เปิดหน้าต่าง Finder สำหรับปริมาณที่ติดตั้งสำเร็จ</entry>
     <entry lang="th" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">โปรดทราบว่าการตั้งค่านี้จะมีผลเฉพาะถ้าการใช้บริการเข้ารหัสเคอร์เนลถูกปิด.</entry>
@@ -1523,7 +1523,7 @@
     <entry lang="th" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="th" key="LINUX_NOT_SUPPORTED"> (ไม่รองรับโดยส่วนประกอบที่มีอยู่ในแพลตฟอร์มนี้).\n</entry>
     <entry lang="th" key="LINUX_KERNEL_OLD">ระบบของคุณใช้เวอร์ชันเก่าของเคอร์เนล Linux.\n\nเนื่องจากบั๊กในเคอร์เนล Linux, ระบบของคุณอาจหยุดตอบสนองเมื่อเขียนข้อมูลไปยังปริมาณ VeraCrypt. ปัญหานี้สามารถแก้ได้โดยการอัปเกรดเคอร์เนลเป็นเวอร์ชัน 2.6.24 หรือใหม่กว่า.</entry>
-    <entry lang="th" key="LINUX_VOL_DISMOUNTED">ปริมาณ {0} ถูกถอดติดตั้งแล้ว.</entry>
+    <entry lang="th" key="LINUX_VOL_UNMOUNTED">ปริมาณ {0} ถูกถอดติดตั้งแล้ว.</entry>
     <entry lang="th" key="LINUX_VOL_MOUNTED">ปริมาณ {0} ถูกติดตั้งแล้ว.</entry>
     <entry lang="th" key="LINUX_OOM">หน่วยความจำหมด.</entry>
     <entry lang="th" key="LINUX_CANT_GET_ADMIN_PRIV">ไม่สามารถรับสิทธิ์ผู้ดูแลระบบได้</entry>

@@ -290,7 +290,7 @@ namespace VeraCrypt
 
 #ifdef TC_WINDOWS
 		if (Core->IsVolumeMounted (*volumePath))
-			throw_err (LangString["DISMOUNT_FIRST"]);
+			throw_err (LangString["UNMOUNT_FIRST"]);
 #endif
 
 		ShowInfo ("EXTERNAL_VOL_HEADER_BAK_FIRST_INFO");
@@ -1537,7 +1537,7 @@ namespace VeraCrypt
 
 #ifdef TC_WINDOWS
 		if (Core->IsVolumeMounted (*volumePath))
-			throw_err (LangString["DISMOUNT_FIRST"]);
+			throw_err (LangString["UNMOUNT_FIRST"]);
 #endif
 
 		// Ask whether to restore internal or external backup

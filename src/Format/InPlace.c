@@ -1361,7 +1361,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 			|| !UnmountVolume (hwndDlg, driveLetter, TRUE))
 		{
 			handleWin32Error (hwndDlg, SRC_POS);
-			AbortProcess ("CANT_DISMOUNT_VOLUME");
+			AbortProcess ("CANT_UNMOUNT_VOLUME");
 		}
 	}
 
@@ -2021,14 +2021,14 @@ static int DismountFileSystem (HWND hwndDlg, HANDLE dev,
 		if (!bForcedAllowed)
 		{
 			if (!bSilent)
-				ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
+				ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS", TRUE);
 
 			return ERR_DONT_REPORT;
 		}
 
 		if (bForcedRequiresConfirmation
 			&& !bSilent
-			&& AskWarnYesNo ("VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT", hwndDlg) == IDNO)
+			&& AskWarnYesNo ("VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT", hwndDlg) == IDNO)
 		{
 			return ERR_DONT_REPORT;
 		}
@@ -2048,7 +2048,7 @@ static int DismountFileSystem (HWND hwndDlg, HANDLE dev,
 	if (!bResult)
 	{
 		if (!bSilent)
-			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS", TRUE);
 
 		return ERR_DONT_REPORT;
 	}
