@@ -9170,6 +9170,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionDisableDeviceUpdate,
 				OptionEnableMemoryProtection,
 				OptionSignalExit,
+				CommandUnmount,
 			};
 
 			argument args[]=
@@ -9200,6 +9201,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionDisableDeviceUpdate,			L"/disableDeviceUpdate",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,			L"/protectMemory",	NULL, FALSE },
 				{ OptionSignalExit,			L"/signalExit",	NULL, FALSE },
+				{ CommandUnmount,				L"/unmount",		L"/u", FALSE },
 			};
 
 			argumentspec as;
@@ -9343,6 +9345,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				break;
 
 			case CommandDismount:
+			case CommandUnmount:
 
 				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
 				     szDriveLetter, ARRAYSIZE (szDriveLetter)))

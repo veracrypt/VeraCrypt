@@ -56,13 +56,14 @@ namespace VeraCrypt
 		parser.AddSwitch (L"c", L"create",				_("Create new volume"));
 		parser.AddSwitch (L"",	L"create-keyfile",		_("Create new keyfile"));
 		parser.AddSwitch (L"",	L"delete-token-keyfiles", _("Delete security token keyfiles"));
-		parser.AddSwitch (L"d", L"dismount",			_("Dismount volume"));
+		parser.AddSwitch (L"d", L"dismount",			_("Unmount volume (deprecated: use 'unmount')"));
+		parser.AddSwitch (L"u", L"unmount",				_("Unmount volume"));
 		parser.AddSwitch (L"",	L"display-password",	_("Display password while typing"));
 		parser.AddOption (L"",	L"encryption",			_("Encryption algorithm"));
 		parser.AddSwitch (L"",	L"explore",				_("Open explorer window for mounted volume"));
 		parser.AddSwitch (L"",	L"export-token-keyfile",_("Export keyfile from token"));
 		parser.AddOption (L"",	L"filesystem",			_("Filesystem type"));
-		parser.AddSwitch (L"f", L"force",				_("Force mount/dismount/overwrite"));
+		parser.AddSwitch (L"f", L"force",				_("Force mount/unmount/overwrite"));
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
 		parser.AddOption (L"",	L"fs-options",			_("Filesystem mount options"));
 #endif
@@ -222,7 +223,7 @@ namespace VeraCrypt
 			ArgCommand = CommandId::DeleteSecurityTokenKeyfiles;
 		}
 
-		if (parser.Found (L"dismount"))
+		if (parser.Found (L"unmount") || parser.Found (L"dismount"))
 		{
 			CheckCommandSingle();
 			ArgCommand = CommandId::DismountVolumes;
@@ -379,7 +380,7 @@ namespace VeraCrypt
 		ArgForce = parser.Found (L"force");
 
 		ArgDisableFileSizeCheck = parser.Found (L"no-size-check");
-		ArgUseLegacyPassword = parser.Found (L"legacy-password-maxlength");		
+		ArgUseLegacyPassword = parser.Found (L"legacy-password-maxlength");
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		ArgUseDummySudoPassword = parser.Found (L"use-dummy-sudo-password");
 #endif
