@@ -1361,7 +1361,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 			|| !UnmountVolume (hwndDlg, driveLetter, TRUE))
 		{
 			handleWin32Error (hwndDlg, SRC_POS);
-			AbortProcess ("CANT_DISMOUNT_VOLUME");
+			AbortProcess ("CANT_UNMOUNT_VOLUME");
 		}
 	}
 
@@ -2021,14 +2021,14 @@ static int DismountFileSystem (HWND hwndDlg, HANDLE dev,
 		if (!bForcedAllowed)
 		{
 			if (!bSilent)
-				ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
+				ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS", TRUE);
 
 			return ERR_DONT_REPORT;
 		}
 
 		if (bForcedRequiresConfirmation
 			&& !bSilent
-			&& AskWarnYesNo ("VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT", hwndDlg) == IDNO)
+			&& AskWarnYesNo ("VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT", hwndDlg) == IDNO)
 		{
 			return ERR_DONT_REPORT;
 		}
@@ -2038,7 +2038,7 @@ static int DismountFileSystem (HWND hwndDlg, HANDLE dev,
 
 	attempt = UNMOUNT_MAX_AUTO_RETRIES * 10;
 
-	while (!(bResult = DeviceIoControl (dev, FSCTL_DISMOUNT_VOLUME, NULL, 0, NULL, 0, &dwResult, NULL))
+	while (!(bResult = DeviceIoControl (dev, FSCTL_UNMOUNT_VOLUME, NULL, 0, NULL, 0, &dwResult, NULL))
 		&& attempt > 0)
 	{
 		Sleep (UNMOUNT_AUTO_RETRY_DELAY);
@@ -2048,7 +2048,7 @@ static int DismountFileSystem (HWND hwndDlg, HANDLE dev,
 	if (!bResult)
 	{
 		if (!bSilent)
-			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS", TRUE);
 
 		return ERR_DONT_REPORT;
 	}
@@ -2182,9 +2182,9 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm, 
 // calculates the difference between the current position and the desired position. Subsequently,
 // it moves the file pointer by the difference calculated using SetFilePointerEx() again.
 //
-// This approach of moving the file pointer relatively (instead of absolutely) was implemented 
+// This approach of moving the file pointer relatively (instead of absolutely) was implemented
 // as a workaround to address the performance issues related to in-place encryption. When using
-// SetFilePointerEx() with FILE_BEGIN as the reference point, reaching the end of large drives 
+// SetFilePointerEx() with FILE_BEGIN as the reference point, reaching the end of large drives
 // during in-place encryption can cause significant slowdowns. By moving the file pointer
 // relatively, these performance issues are mitigated.
 //

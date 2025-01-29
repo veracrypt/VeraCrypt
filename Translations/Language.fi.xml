@@ -135,8 +135,8 @@
     <entry lang="fi" key="IDC_FAVORITE_REMOVE">&amp;Poista</entry>
     <entry lang="fi" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Käytä suosikkitaltion nimeä tiedostonhallintaohjelman aseman nimenä</entry>
     <entry lang="fi" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Yleiset asetukset</entry>
-    <entry lang="fi" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Näytä kuplavihje, kun taltio irrotetaan pikanäppäimellä onnistuneesti</entry>
-    <entry lang="fi" key="IDC_HK_DISMOUNT_PLAY_SOUND">Toista järjestelmän ilmoitusääni, kun taltio irrotetaan pikanäppäimellä onnistuneesti</entry>
+    <entry lang="fi" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Näytä kuplavihje, kun taltio irrotetaan pikanäppäimellä onnistuneesti</entry>
+    <entry lang="fi" key="IDC_HK_UNMOUNT_PLAY_SOUND">Toista järjestelmän ilmoitusääni, kun taltio irrotetaan pikanäppäimellä onnistuneesti</entry>
     <entry lang="fi" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="fi" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="fi" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="fi" key="IDC_PIM_HELP">(Jätä tyhjäksi tai 0 oletusmäärälle iteraatioita)</entry>
     <entry lang="fi" key="IDC_PREF_BKG_TASK_ENABLE">Päällä</entry>
     <entry lang="fi" key="IDC_PREF_CACHE_PASSWORDS">Tallenna salasanat ajurin välimuistiin</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_INACTIVE">Irrota taltio automaattisesti kun dataa ei ole luettu/kirjoitettu aikaan</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_LOGOFF">Käyttäjän uloskirjautuessa</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Käyttäjän istunnon lukkiutuessa</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_POWERSAVING">Siirryttäessä virransäästötilaan</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_SCREENSAVER">Siirtyessä näytönsäästäjään</entry>
-    <entry lang="fi" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Pakota automaattinen irrottaminen vaikka taltiolla olisi avoimia tiedostoja tai hakemistoja</entry>
+    <entry lang="fi" key="IDC_PREF_UNMOUNT_INACTIVE">Irrota taltio automaattisesti kun dataa ei ole luettu/kirjoitettu aikaan</entry>
+    <entry lang="fi" key="IDC_PREF_UNMOUNT_LOGOFF">Käyttäjän uloskirjautuessa</entry>
+    <entry lang="fi" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Käyttäjän istunnon lukkiutuessa</entry>
+    <entry lang="fi" key="IDC_PREF_UNMOUNT_POWERSAVING">Siirryttäessä virransäästötilaan</entry>
+    <entry lang="fi" key="IDC_PREF_UNMOUNT_SCREENSAVER">Siirtyessä näytönsäästäjään</entry>
+    <entry lang="fi" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Pakota automaattinen irrottaminen vaikka taltiolla olisi avoimia tiedostoja tai hakemistoja</entry>
     <entry lang="fi" key="IDC_PREF_LOGON_MOUNT_DEVICES">Liitä kaikki laiteisännöidyt VeraCrypt-taltiot</entry>
     <entry lang="fi" key="IDC_PREF_LOGON_START">Käynnistä VeraCrypt taustaohjelma</entry>
     <entry lang="fi" key="IDC_PREF_MOUNT_READONLY">Liitä taltiot vain luku -tilassa</entry>
@@ -169,7 +169,7 @@
     <entry lang="fi" key="IDC_PREF_OPEN_EXPLORER">Avaa tiedostonhallintaohjelma onnistuneesti liitetylle taltiolle</entry>
     <entry lang="fi" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Tallenna salasana väliaikaisesti "Liitä suosikkitaltiot" -toimintojen ajaksi</entry>
     <entry lang="fi" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Käytä erilaista työkalupalkin kuvaketta kun taltioita on liitettynä</entry>
-    <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Tyhjennä välimuistiin tallennetut salasanat automaattisissa irrottamisissa</entry>
+    <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Tyhjennä välimuistiin tallennetut salasanat automaattisissa irrottamisissa</entry>
     <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Pyyhi tallennetut salasanat suljettaessa</entry>
     <entry lang="fi" key="IDC_PRESERVE_TIMESTAMPS">Säilytä tiedostosäilöjen muokkausaikaleima</entry>
     <entry lang="fi" key="IDC_RESET_HOTKEYS">Tyhjennä</entry>
@@ -269,14 +269,14 @@
     <entry lang="fi" key="IDT_ACCELERATION_OPTIONS">Laitteistokiihdytys</entry>
     <entry lang="fi" key="IDT_ASSIGN_HOTKEY">Pikanäppäin</entry>
     <entry lang="fi" key="IDT_AUTORUN">Automaattisen käynnistyksen konfiguraatio (autorun.inf)</entry>
-    <entry lang="fi" key="IDT_AUTO_DISMOUNT">Automaattinen irrottaminen</entry>
-    <entry lang="fi" key="IDT_AUTO_DISMOUNT_ON">Irrota kaikki:</entry>
+    <entry lang="fi" key="IDT_AUTO_UNMOUNT">Automaattinen irrottaminen</entry>
+    <entry lang="fi" key="IDT_AUTO_UNMOUNT_ON">Irrota kaikki:</entry>
     <entry lang="fi" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Käynnistysohjelmiston näytön asetukset</entry>
     <entry lang="fi" key="IDT_CONFIRM_PASSWORD">Vahvista salasana</entry>
     <entry lang="fi" key="IDT_CURRENT">Nykyinen</entry>
     <entry lang="fi" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Näytä tämä käyttäjän määrittämä viesti käynnistystä edeltävässä tunnistaumisruudussa (korkeintaan 24 merkkiä):</entry>
     <entry lang="fi" key="IDT_DEFAULT_MOUNT_OPTIONS">Liittämisen oletusasetukset</entry>
-    <entry lang="fi" key="IDT_DISMOUNT_ACTION">Pikanäppäinten asetukset</entry>
+    <entry lang="fi" key="IDT_UNMOUNT_ACTION">Pikanäppäinten asetukset</entry>
     <entry lang="fi" key="IDT_DRIVER_OPTIONS">Ajurien asetukset</entry>
     <entry lang="fi" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Ota käyttöön laajennetut levyohjauskoodit</entry>
     <entry lang="fi" key="IDT_FAVORITE_LABEL">Valitun suosikkitaltion nimi:</entry>
@@ -423,8 +423,8 @@
     <entry lang="fi" key="DEVICE_FREE_PB">%s koko on %.2f PiB</entry>
     <entry lang="fi" key="DEVICE_IN_USE_FORMAT">VAROITUS: Laite/osio on jo käyttöjärjestelmän tai sovelluksen käytössä. Laitteen/osion alustaminen voi aiheuttaa datan korruptoitumista ja järjestelmän epävakautta.\n\nJatketaanko?</entry>
     <entry lang="fi" key="DEVICE_IN_USE_INPLACE_ENC">Varoitus: Osio on käyttöjärjestelmän tai sovelluksien käytössä. Sinun tulee sulkea kaikki sovellukset jotka mahdollisesti käyttävät osiota (mukaanlukien antivirusohjelmisto).\n\nJatketaanko?</entry>
-    <entry lang="fi" key="FORMAT_CANT_DISMOUNT_FILESYS">Virhe: Laite/osio sisältää tiedostojärjestelmän jota ei voida irrottaa. Tiedostojärjestelmä saattaa olla käyttöjärjestelmän käytössä. Laitteen/osion alustaminen suurella todennäköisyydellä aiheuttaa datan vioittumisen ja järjestelmän epävakauden.\n\nOngelman ratkaisemiseksi, suosittelemme, että ensiksi poistat osion ja luot sen uudelleen ilman alustusta. Näin tehdäksesi, seuraa vaiheita: 1) Klikkaa hiiren oikealla 'Tämä tietokone' (tai 'My Computer') ikonia 'Käynnistä' menusta ja valitse 'Hallitse'. 'Tietokone hallinta' ikkuna ilmestyy. 2) 'Tietokoneen hallinta' -ikkunassa, valitse 'Storage' &gt; 'Disk Management'. 3) Klikkaa hiiren oikealla osio jonka haluat salata ja valitse joko 'Poista Osio', tai 'Poista Taltio', tai 'Poista Looginen Asema'. 4) Paina 'Kyllä'. Jos Windows pyytää sinua käynnistämään tietokoneen uudelleen, tee niin. Sitten toista kohdat 1 ja 2 ja jatka kohtaan 5. 5) Klikkaa hiiren oikealla allokoimaton/vapaa tilan alue ja valitse joko 'Uusi Osio', tai 'Uusi Yksinkertainen Taltio', tai 'Uusi Looginen Asema'. 6) 'Uuden Osio Ohjattutoiminto' tai 'Uuden Yksinkertaisen Taltion Ohjattutoiminto' ikkuna pitäisi nyt ilmestyä; seuraa sen ohjeita. Ohjattutoiminto sivulla nimetty 'Alusta Osio', valitse joko 'Älä alusta tätä osiota' tai 'Älä alusta tätä taltiota'. Samassa opastuksessa, paina 'Seuraava' ja sitten 'Valmis'. 7) Huomioi, että laitteen polku jonka valitsit VeraCryptissä voi nyt olla väärä. Tästä johtuen, poistu VeraCrypt-ohjelman Opastetusta Taltion Luonnista (jos se edelleen auki) ja aloita uudelleen. 8) Yritä salata laite/osio uudelleen.\n\nJos VeraCrypt toistuvasti epäonnistuu laitteen/osion salauksessa, kannattaa harkita tiedostosäilön luomista sen sijaan.</entry>
-    <entry lang="fi" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Virhe: Tiedostojärjestelmää ei voitu lukita ja/tai irrottaa. Se saattaa olla käyttöjärjestelmän tai sovelluksien (esimerkiksi, virustentorjuntaohjelmiston) käytössä. Osion salaus saattaa aiheuttaa korruptoitumisen ja järjestelmän epävakauden.\n\nOle hyvä ja sulje sovellukset jotka saattavat olla tiedostojärjestelmän käytössä (ml. virustentorjuntaohjelman) ja yritä uudelleen. Jos tämä ei auta, ole hyvä ja seuraa alla olevia ohjeita.</entry>
+    <entry lang="fi" key="FORMAT_CANT_UNMOUNT_FILESYS">Virhe: Laite/osio sisältää tiedostojärjestelmän jota ei voida irrottaa. Tiedostojärjestelmä saattaa olla käyttöjärjestelmän käytössä. Laitteen/osion alustaminen suurella todennäköisyydellä aiheuttaa datan vioittumisen ja järjestelmän epävakauden.\n\nOngelman ratkaisemiseksi, suosittelemme, että ensiksi poistat osion ja luot sen uudelleen ilman alustusta. Näin tehdäksesi, seuraa vaiheita: 1) Klikkaa hiiren oikealla 'Tämä tietokone' (tai 'My Computer') ikonia 'Käynnistä' menusta ja valitse 'Hallitse'. 'Tietokone hallinta' ikkuna ilmestyy. 2) 'Tietokoneen hallinta' -ikkunassa, valitse 'Storage' &gt; 'Disk Management'. 3) Klikkaa hiiren oikealla osio jonka haluat salata ja valitse joko 'Poista Osio', tai 'Poista Taltio', tai 'Poista Looginen Asema'. 4) Paina 'Kyllä'. Jos Windows pyytää sinua käynnistämään tietokoneen uudelleen, tee niin. Sitten toista kohdat 1 ja 2 ja jatka kohtaan 5. 5) Klikkaa hiiren oikealla allokoimaton/vapaa tilan alue ja valitse joko 'Uusi Osio', tai 'Uusi Yksinkertainen Taltio', tai 'Uusi Looginen Asema'. 6) 'Uuden Osio Ohjattutoiminto' tai 'Uuden Yksinkertaisen Taltion Ohjattutoiminto' ikkuna pitäisi nyt ilmestyä; seuraa sen ohjeita. Ohjattutoiminto sivulla nimetty 'Alusta Osio', valitse joko 'Älä alusta tätä osiota' tai 'Älä alusta tätä taltiota'. Samassa opastuksessa, paina 'Seuraava' ja sitten 'Valmis'. 7) Huomioi, että laitteen polku jonka valitsit VeraCryptissä voi nyt olla väärä. Tästä johtuen, poistu VeraCrypt-ohjelman Opastetusta Taltion Luonnista (jos se edelleen auki) ja aloita uudelleen. 8) Yritä salata laite/osio uudelleen.\n\nJos VeraCrypt toistuvasti epäonnistuu laitteen/osion salauksessa, kannattaa harkita tiedostosäilön luomista sen sijaan.</entry>
+    <entry lang="fi" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Virhe: Tiedostojärjestelmää ei voitu lukita ja/tai irrottaa. Se saattaa olla käyttöjärjestelmän tai sovelluksien (esimerkiksi, virustentorjuntaohjelmiston) käytössä. Osion salaus saattaa aiheuttaa korruptoitumisen ja järjestelmän epävakauden.\n\nOle hyvä ja sulje sovellukset jotka saattavat olla tiedostojärjestelmän käytössä (ml. virustentorjuntaohjelman) ja yritä uudelleen. Jos tämä ei auta, ole hyvä ja seuraa alla olevia ohjeita.</entry>
     <entry lang="fi" key="DEVICE_IN_USE_INFO">VAROITUS: Jotkin liitetyt laitteet/osiot ovat jo käytössä!\n\nTämän huomiotta jättäminen saattaa aiheuttaa epätoivottuja vaikutuksia ja järjestelmän epävakautta.\n\nSuosittelemme vakavasti että suljet kaikki sovellukset jotka mahdollisesti käyttävät tätä laitetta/osiota.</entry>
     <entry lang="fi" key="DEVICE_PARTITIONS_ERR">Valittu laite sisältää osioita.\n\nLaitteen alustaminen saattaa aiheuttaa järjestelmän epävakautta ja/tai tietojen vioittumista. Valitse joko laitteen osio, tai poista kaikki laitteen osiot, jotta VeraCrypt-salausohjelma voi alustaa sen turvallisesti.</entry>
     <entry lang="fi" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Valittu ei-järjestelmäasema sisältää osioita.\n\nSalattu laiteisännöity VeraCrypt-taltio voidaan luoda laitteen sisälle joka ei sisällä osioita (kuten kiintolevyjen tai SSD-levyjen). Laite joka sisältää osioita voidaan täysin salata (käyttäen yhtä pääavainta) ainoastaan jos se on se laite jonne Windows on asennettuna ja josta se myös käynnistyy.\n\nJos haluat salata valitun ei-järjestelmälaitteen käyttäen yhtä pääavainta, sinun tulee poistaa ensin kaikki osiot laitteelta, jotta VeraCrypt-salausohjelma voi alustaa sen turvallisesti (osioita sisältävän laitteen alustaminen voi johtaa järjestelmän epävakauteen ja/tai datan korruptoitumiseen). Vaihtoehtoisesti, voit salata jokaisen osion laitteelta yksittäin (jokainen osio salataan käyttäen omaa pääavaintaan).\n\nHuomioi: Jos haluat poistaa kaikki osiot GPT levyltä, sinun mahdollisesti pitää muuntaa se MBR levyksi (käyttäen esim. Computer Management työkalua) piilotettujen osioiden poistamiseksi.</entry>
@@ -590,7 +590,7 @@
     <entry lang="fi" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Virhe: Tiedostot, jotka kopioit ulommalle taltiolle, vievät liikaa tilaa. Tästä johtuen, ulommalla taltiolla ei ole tarpeeksi vapaata tilaa piilotetun taltion sisällyttämiseksi.\n\nHuomioi, että piilotetun taltion tulee olla yhtä suuri kuin järjestelmäosion (osio, jolle tällä hetkellä käynnissä oleva käyttöjärjestelmä on asennettu). Syy tälle on se, että piilotettu käyttöjärjestelmä tulee luoda kopioimalla järjestelmäosion sisältö piilotetulle järjestelmälle.\n\n\nPiilotetun käyttöjärjestelmän luontiprosessia ei voida jatkaa.</entry>
     <entry lang="fi" key="OPENFILES_DRIVER">Ajuri ei pysty irrottamaan taltiota. Jotkin taltiolla sijaitsevat tiedostot ovat luultavasti yhä auki tai käytössä.</entry>
     <entry lang="fi" key="OPENFILES_LOCK">Taltiota ei voida lukita, sillä se sisältää vielä avoimia tiedostoja. Tästä johtuen sitä ei voida irrottaa.</entry>
-    <entry lang="fi" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt ei voi lukita taltiota, koska se on järjestelmän tai muiden ohjelmien käytössä (taltiolla saattaa olla avoimia tiedostoja).\n\nHaluatko pakottaa taltion irrottamisen?</entry>
+    <entry lang="fi" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt ei voi lukita taltiota, koska se on järjestelmän tai muiden ohjelmien käytössä (taltiolla saattaa olla avoimia tiedostoja).\n\nHaluatko pakottaa taltion irrottamisen?</entry>
     <entry lang="fi" key="OPEN_VOL_TITLE">Valitse VeraCrypt-taltio</entry>
     <entry lang="fi" key="OPEN_TITLE">Määritä polku ja tiedostonimi</entry>
     <entry lang="fi" key="SELECT_PKCS11_MODULE">Valitse PKCS #11 kirjasto</entry>
@@ -729,7 +729,7 @@
     <entry lang="fi" key="DLL_FILES">Kirjastomoduulit</entry>
     <entry lang="fi" key="FORMAT_NTFS_STOP">NTFS/exFAT/ReFS alustusta ei voida jatkaa.</entry>
     <entry lang="fi" key="CANT_MOUNT_VOLUME">Taltiota ei voida liittää.</entry>
-    <entry lang="fi" key="CANT_DISMOUNT_VOLUME">Taltiota ei voida irrottaa.</entry>
+    <entry lang="fi" key="CANT_UNMOUNT_VOLUME">Taltiota ei voida irrottaa.</entry>
     <entry lang="fi" key="FORMAT_NTFS_FAILED">Windows epäonnistui alustamaan taltiota NTFS/exFAT/ReFS.\n\nValitse toinen tiedostojärjestelmän tyyppi (jos mahdollista) ja yritä uudelleen. Vaihtoehtoisesti voit jättää taltio alustamatta (valitse 'Ei mitään' tiedostojärjestelmäksi), poistu tästä opastetusta toiminnosta, liitä taltio, ja sitten käytä joko järjestelmän tai kolmannen osapuolen työkalua alustaaksesi liitetyn taltion (asema pysyy yhä salattuna).</entry>
     <entry lang="fi" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows epäonnistui alustamaan taltiota NTFS/exFAT/ReFS.\n\nHaluatko sen sijaan alustaa taltion FAT-tyyppiseksi?</entry>
     <entry lang="fi" key="DEFAULT">Oletus</entry>
@@ -771,7 +771,7 @@
     <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Virhe esti VeraCryptiä salaamasta osiota. Yritä korjata aikaisemmin ilmoitetut ongelmat, ja yritä sitten uudelleen. Jos ongelma yhä esiintyy, seuraavien kohtien seuraaminen voi auttaa.</entry>
     <entry lang="fi" key="INPLACE_ENC_GENERIC_ERR_RESUME">Virhe esti VeraCryptiä jatkamasta osion/taltion salaus-/purkuprosessia.\n\nYritä korjata kaikki aikaisemmin ilmoitetut ongelmat ja yritä jatkaa prosessia uudelleen. Huomioi, että taltiota ei voida liittää ennen kuin se on täysin salattu tai salaus purettu.</entry>
     <entry lang="fi" key="INPLACE_DEC_GENERIC_ERR">Virhe esti VeraCryptiä purkamasta taltion salausta. Yritä korjata kaikki aikaisemmin ilmoitetut ongelmat ja yritä sitten uudelleen, jos mahdollista.</entry>
-    <entry lang="fi" key="CANT_DISMOUNT_OUTER_VOL">Virhe: Ulompaa taltiota ei voida irrottaa!\n\nTaltiolta ei voida irrottaa jos se sisältää tiedostoja tai hakemistoja, jotka ovat jonkin ohjelman tai järjestelmän käytössä.\n\nSulje ohjelmat jotka mahdollisesti käyttävät tiedostoja tai hakemistoja taltiolta ja paina Yritä uudelleen.</entry>
+    <entry lang="fi" key="CANT_UNMOUNT_OUTER_VOL">Virhe: Ulompaa taltiota ei voida irrottaa!\n\nTaltiolta ei voida irrottaa jos se sisältää tiedostoja tai hakemistoja, jotka ovat jonkin ohjelman tai järjestelmän käytössä.\n\nSulje ohjelmat jotka mahdollisesti käyttävät tiedostoja tai hakemistoja taltiolta ja paina Yritä uudelleen.</entry>
     <entry lang="fi" key="CANT_GET_OUTER_VOL_INFO">Virhe: Ulomman taltion tietoja ei voida noutaa!\nTaltion luontia ei voida jatkaa.</entry>
     <entry lang="fi" key="CANT_ACCESS_OUTER_VOL">Virhe: Pääsy on estetty ulommalle taltiolle! Taltion luontia ei voida jatkaa.</entry>
     <entry lang="fi" key="CANT_MOUNT_OUTER_VOL">Virhe: Ulompaa taltiota ei voida liittää! Taltion luontia ei voida jatkaa.</entry>
@@ -882,7 +882,7 @@
     <entry lang="fi" key="INSTALL_COMPLETED">Asennus on valmis.</entry>
     <entry lang="fi" key="CANT_CREATE_FOLDER">Hakemistoa '%s' ei voitu luoda</entry>
     <entry lang="fi" key="CLOSE_TC_FIRST">VeraCryptin laiteajuria ei voitu poistaa käytöstä.\n\nSuljethan kaikki avoimet VeraCrypt ikkunat ensin. Jos tämä ei auta, käynnistä Windows uudelleen ja yritä taas.</entry>
-    <entry lang="fi" key="DISMOUNT_ALL_FIRST">Kaikki VeraCrypt-taltiot tulee irrottaa ennen VeraCryptin asennusta tai poistoa.</entry>
+    <entry lang="fi" key="UNMOUNT_ALL_FIRST">Kaikki VeraCrypt-taltiot tulee irrottaa ennen VeraCryptin asennusta tai poistoa.</entry>
     <entry lang="fi" key="UNINSTALL_OLD_VERSION_FIRST">Tällä järjestelmällä on tällä hetkellä asennettuna vanhentunut VeraCrypt-versio. Se on poistettava ennen kuin voit asentaa tämän uuden VeraCrypt-version.\n\nHeti kun suljet tämän viestikentän, vanhojen versioiden poistaminen käynnistetään. Huomaa, ettei mitään taltiota pureta, kun poistat VeraCryptin. Kun olet poistanut VeraCryptin vanhan version, suorita VeraCryptin uuden version asennusohjelma uudestaan.</entry>
     <entry lang="fi" key="REG_INSTALL_FAILED">Rekisteri merkinnän asennus on epäonnistunut</entry>
     <entry lang="fi" key="DRIVER_INSTALL_FAILED">Laite ohjaimen asennus on epäonnistunut. Käynnistä Windows uudelleen ja yritä asentaa VeraCrypt-ohjelma uudelleen.</entry>
@@ -903,7 +903,7 @@
     <entry lang="fi" key="MINUTES">min</entry>
     <entry lang="fi" key="SECONDS">sek</entry>
     <entry lang="fi" key="OPEN">Avaa</entry>
-    <entry lang="fi" key="DISMOUNT">Irrota</entry>
+    <entry lang="fi" key="UNMOUNT">Irrota</entry>
     <entry lang="fi" key="SHOW_TC">Näytä VeraCrypt</entry>
     <entry lang="fi" key="HIDE_TC">Piilota VeraCrypt</entry>
     <entry lang="fi" key="TOTAL_DATA_READ">Dataa luettu liittämisen jälkeen</entry>
@@ -975,7 +975,7 @@
     <entry lang="fi" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Järjestelmän suosikkitaltiot</entry>
     <entry lang="fi" key="SYS_FAVORITES_HELP_LINK">Mitä on järjestelmän suosikkitaltiot?</entry>
     <entry lang="fi" key="SYS_FAVORITES_REQUIRE_PBA">Järjestelmäosio/asema ei näytä olevan salattu.\n\nJärjestelmän suosikkitaltiot voidaan liittää vain käyttäen käynnistystä edeltävän tunnistautumisen salasanaa. Siksi, voidaksesi käyttää järjestelmän suosikkitaltioita, sinun tulee ensin salata järjestelmäosio/asema.</entry>
-    <entry lang="fi" key="DISMOUNT_FIRST">Irrota taltio ennen jatkamista.</entry>
+    <entry lang="fi" key="UNMOUNT_FIRST">Irrota taltio ennen jatkamista.</entry>
     <entry lang="fi" key="CANNOT_SET_TIMER">Virhe: Ajastinta ei voida asettaa.</entry>
     <entry lang="fi" key="IDPM_CHECK_FILESYS">Tarkista tiedostojärjestelmä</entry>
     <entry lang="fi" key="IDPM_REPAIR_FILESYS">Korjaa tiedostojärjestelmä</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="fi" key="NO_SYSENC_PARTITION_SELECTED">Osiota ei ole valittuna.\n\nPaina 'Valitse laite' valitaksesi osion jota ei ole liitettynä joka normaalisti vaatii käynnistystä edeltävän tunnistautumisen (esimerkiksi osio joka sijaitsee toisen ei käynnissä olevan käyttöjärjestelmän salatulla järjestelmälevyllä, tai toisen käyttöjärjestelmän salattu järjestelmäosio).\n\nHuomioi: Valittu osio liitetään tavallisen VeraCrypt-taltion tavoin ilman käynnistystä edeltävää tunnistautumista. Tämä on hyödyllistä esimerkiksi varmuuskopiointia tai korjaustoimenpiteitä varten.</entry>
     <entry lang="fi" key="CONFIRM_SAVE_DEFAULT_KEYFILES">VAROITUS: Jos oletus avaintiedostot on asetettu ja käytössä, taltioita jotka eivät käytä näitä asetettua avaintiedostoja on mahdotonta liittää. Siksi, oletus avaintiedostojen käyttöön ottamisen jälkeen, muista ottaa pois ruksi kohdasta 'Käytä avaintiedostoja' (salasanakentän alapuolella) kun liität tällaisia taltioita.\n\nOletko varma, että haluat tallentaa valitut avaintiedostot/polut oletusasetuksiksi?</entry>
     <entry lang="fi" key="HK_AUTOMOUNT_DEVICES">Liitä laitteet automaattisesti</entry>
-    <entry lang="fi" key="HK_DISMOUNT_ALL">Irrota liitetyt taltiot</entry>
+    <entry lang="fi" key="HK_UNMOUNT_ALL">Irrota liitetyt taltiot</entry>
     <entry lang="fi" key="HK_WIPE_CACHE">Tyhjennä välimuisti</entry>
-    <entry lang="fi" key="HK_DISMOUNT_ALL_AND_WIPE">Irrota kaikki  &amp;  tyhjennä välimuisti</entry>
-    <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Pakota kaikkien liitoksien irrotus &amp; tyhjennä välimuisti</entry>
-    <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Pakota kaikkien irrotus, tyhjennä välimuisti &amp; poistu</entry>
+    <entry lang="fi" key="HK_UNMOUNT_ALL_AND_WIPE">Irrota kaikki  &amp;  tyhjennä välimuisti</entry>
+    <entry lang="fi" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Pakota kaikkien liitoksien irrotus &amp; tyhjennä välimuisti</entry>
+    <entry lang="fi" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Pakota kaikkien irrotus, tyhjennä välimuisti &amp; poistu</entry>
     <entry lang="fi" key="HK_MOUNT_FAVORITE_VOLUMES">Liitä suosikkitaltiot</entry>
     <entry lang="fi" key="HK_SHOW_HIDE_MAIN_WINDOW">Näytä/piilota VeraCrypt pääikkuna</entry>
     <entry lang="fi" key="PRESS_A_KEY_TO_ASSIGN">(Klikkaa tästä ja paina näppäintä)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="fi" key="PAGING_FILE_CREATION_PREVENTED">Sivutustiedoston luominen on estetty.\n\nHuomioi, että Windowsin ongelmien vuoksi sivutustiedostoja ei voida sijoittaa VeraCrypt-taltioille, jotka eivät ole järjestelmätaltioita (ei myöskään järjestelmän suosikkitaltioille). VeraCrypt tukee sivutustiedoston luontia vain salatulle järjestelmäosiolle/levylle.</entry>
     <entry lang="fi" key="SYS_ENC_HIBERNATION_PREVENTED">Virhe tai yhteensopivuusongelma estää VeraCryptiä salaamasta horrostilatiedostoa. Tämän takia, horrostila on estetty.\n\nHuomioi: Kun tietokone siirtyy horrostilaan (tai virransäästötilaan), järjestelmän muistin sisältö tallennetaan horrostilatiedostoon järjestelmälevyllä. VeraCrypt ei voi estää salausavaimien ja muiden RAM-muistissa auki olevien arkaluontoisten tiedostojen tallennetuksi tulemista salaamattomana horrostilatiedostoon.</entry>
     <entry lang="fi" key="HIDDEN_OS_HIBERNATION_PREVENTED">Horrostila on estetty.\n\nVeraCrypt ei tue horrostilaa piilotetulla käyttöjärjestelmällä, joka käyttää lisäkäynnistysosiota. Varmista, että käynnistysosio on jaettu sekä harhautusjärjestelmän osion, että piilotetun järjestelmän kesken. Tietovuotojen ja ongelmien välttämiseksi horrostilasta palatessa, VeraCryptin täytyy estää piilotetun järjestelmän kirjoittamasta jaetulle käynnistysosiolle ja siirtymästä horrostilaan.</entry>
-    <entry lang="fi" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">VeraCrypt-taltio joka oli liitettynä %c: on nyt irrotettu.</entry>
-    <entry lang="fi" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt-taltiot on irrotettu.</entry>
-    <entry lang="fi" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt-taltiot on nyt irrotettu ja salasanat on pyyhitty välimuistista.</entry>
-    <entry lang="fi" key="SUCCESSFULLY_DISMOUNTED">Onnistuneesti irrotettu</entry>
+    <entry lang="fi" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">VeraCrypt-taltio joka oli liitettynä %c: on nyt irrotettu.</entry>
+    <entry lang="fi" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt-taltiot on irrotettu.</entry>
+    <entry lang="fi" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt-taltiot on nyt irrotettu ja salasanat on pyyhitty välimuistista.</entry>
+    <entry lang="fi" key="SUCCESSFULLY_UNMOUNTED">Onnistuneesti irrotettu</entry>
     <entry lang="fi" key="CONFIRM_BACKGROUND_TASK_DISABLED">VAROITUS: Jos VeraCryptin taustaohjelma on poistettu käytöstä, seuraavat toiminnot poistetaan käytöstä:\n\n1) Pikanäppäimet\n2) Automaattinen irrottaminen (esim. kun kirjaudutaan ulos, tahaton isännöivän laitteen irrottaminen, aikakatkaisu jne.)\n3) Suosikkitaltioiden automaattinen liittäminen\n4) Ilmoitukset (esim. kun piilotettu VeraCrypt-taltio suojataan vaurioiden välttämiseksi)\n5) Tehtäväpalkin kuvake\n\nHuom: Voit sulkea taustaohjelman milloin tahansa napsauttamalla VeraCrypt-kuvaketta hiiren oikealla kakkospainikkeella ja valitsemalla 'Poistu'.\n\nHaluatko varmasti poistaa VeraCryptin taustaohjelman käytöstä?</entry>
-    <entry lang="fi" key="CONFIRM_NO_FORCED_AUTODISMOUNT">VAROITUS: Jos tämä valinta otetaan pois käytöstä, taltioita jotka sisältävät avoimia tiedostoja/hakemistoja ei voida automaattisesti irrottaa.\n\nOletko varma, että haluat ottaa tämän pois käytöstä?</entry>
-    <entry lang="fi" key="WARN_PREF_AUTO_DISMOUNT">VAROITUS: Taltioita jotka sisältävät avoinna olevia tiedostoja/hakemistoja EI tulla irrottamaan automaattisesti.\n\nVälttääksesi tämän, ota käyttöön tästä dialogi-ikkunasta vaihtoehto: 'Pakota automaattinen irrottaminen vaikka taltiolla olisi avoimia tiedostoja tai hakemistoja'</entry>
-    <entry lang="fi" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">VAROITUS: Kun kannettavan akun virta on alhainen, Windows saattaa jättää lähettämättä tarkoituksenmukaisia viestejä käynnissä oleville ohjelmistoille, kun tietokone siirtyy virransäästötilaan. Siksi, VeraCrypt saattaa epäonnistua taltioiden automaattisessa irrottamisessa näissä tapauksissa.</entry>
+    <entry lang="fi" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">VAROITUS: Jos tämä valinta otetaan pois käytöstä, taltioita jotka sisältävät avoimia tiedostoja/hakemistoja ei voida automaattisesti irrottaa.\n\nOletko varma, että haluat ottaa tämän pois käytöstä?</entry>
+    <entry lang="fi" key="WARN_PREF_AUTO_UNMOUNT">VAROITUS: Taltioita jotka sisältävät avoinna olevia tiedostoja/hakemistoja EI tulla irrottamaan automaattisesti.\n\nVälttääksesi tämän, ota käyttöön tästä dialogi-ikkunasta vaihtoehto: 'Pakota automaattinen irrottaminen vaikka taltiolla olisi avoimia tiedostoja tai hakemistoja'</entry>
+    <entry lang="fi" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">VAROITUS: Kun kannettavan akun virta on alhainen, Windows saattaa jättää lähettämättä tarkoituksenmukaisia viestejä käynnissä oleville ohjelmistoille, kun tietokone siirtyy virransäästötilaan. Siksi, VeraCrypt saattaa epäonnistua taltioiden automaattisessa irrottamisessa näissä tapauksissa.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Olet ajastanut osion/taltion salaus- tai salauksen purkuprosessin. Prosessia ei ole vielä suoritettu loppuun.\n\nHaluatko jatkaa prosessia nyt?</entry>
     <entry lang="fi" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Olet ajastanut järjestelmäosion/levyn salaus- tai salauksen purkuprosessin. Prosessia ei ole vielä suoritettu loppuun.\n\nHaluatko aloittaa (jatkaa) prosessia nyt?</entry>
     <entry lang="fi" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Haluatko että sinua kehotetaan tällä hetkellä ajastetun ei-järjestelmäosion/taltion salaus-/salauksen purkuprosessin jatkamisesta?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="fi" key="SYS_AUTOMOUNT_DISABLED">Järjestelmäsi ei ole määritelty liittämään uusia taltioita automaattisesti. On mahdollista, että laiteisännöityjen VeraCrypt-taltioiden liittäminen ei onnistu. Automaattinen liittäminen voidaan ottaa käyttöön suorittamalla seuraava komento ja käynnistämällä järjestelmä uudelleen.\n\nmountvol.exe /E</entry>
     <entry lang="fi" key="SYS_ASSIGN_DRIVE_LETTER">Määrittele asemakirjain osiolle/laitteelle ennen jatkamista (Avaa Suorita tai paina Windows+R ja kirjoita kenttään "diskmgmt.msc").\n\nHuomioi, että tämä on käyttöjärjestelmän vaatimus.</entry>
     <entry lang="fi" key="MOUNT_TC_VOLUME">Liitä VeraCrypt-taltio</entry>
-    <entry lang="fi" key="DISMOUNT_ALL_TC_VOLUMES">Irrota kaikki VeraCrypt-taltiot</entry>
+    <entry lang="fi" key="UNMOUNT_ALL_TC_VOLUMES">Irrota kaikki VeraCrypt-taltiot</entry>
     <entry lang="fi" key="UAC_INIT_ERROR">VeraCrypt ei onnistunut saamaan järjestelmänvalvojan oikeuksia.</entry>
     <entry lang="fi" key="ERR_ACCESS_DENIED">Käyttöjärjestelmä evännyt pääsyn.\n\nMahdollinen syy: Käyttöjärjestelmä vaatii luku/kirjoitusoikeudet (tai järjestelmänvalvojan oikeudet) tiettyihin hakemistoihin, tiedostoihin ja laitteisiin, jotta dataa voidaan lukea/kirjoittaa niiltä/niille. Tavallisesti käyttäjä ilman järjestelmänvalvojan oikeuksia voi luoda, lukea ja muokata tiedostoja jotka sijaitsevät hänen Tiedostot-hakemistossa.</entry>
     <entry lang="fi" key="SECTOR_SIZE_UNSUPPORTED">Virhe: Asema käyttää sektorikokoa, joka ei ole tuettu.\n\nOsio-/laiteisännöityjen taltioiden luonti ei ole tällä hetkellä mahdollista levyillä, joiden sektorikoko on suurempi kuin 4096 tavua. Voit kuitenkin luoda tiedostoisännöityjä taltioita (säilöjä) tällaisille levyille.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="fi" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Huomaa, että säikeiden määrä on tällä hetkellä rajallinen, mikä vaikuttaa vertailuindikaattoreihin (huonompi suorituskyky).\n\nVoit käyttää prosessorin koko potentiaalia valitsemalla 'Asetukset' > 'Suorituskyky' ja poistamalla vastaava vaihtoehto.</entry>
     <entry lang="fi" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Haluatko, että VeraCrypt yrittää poistaa osion/levyn kirjoitussuojauksen?</entry>
     <entry lang="fi" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">VAROITUS: Tämä asetus saattaa heikentää suorituskykyä.\n\nHaluatko varmasti käyttää tätä asetusta?</entry>
-    <entry lang="fi" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Varoitus: VeraCrypt-taltio on automaattisesti irrotettu</entry>
-    <entry lang="fi" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Ennen kuin fyysisesti irrotat tai sammutat laitteen joka sisältää liitetyn taltion, sinun tulisi aina irrottaa taltio ensin VeraCryptissä.\n\nOdottamaton yhtäkkinen irrotus johtuu yleensä ajoittain oireilevasta viallisesta kaapelista, levystä (kotelo), jne.</entry>
+    <entry lang="fi" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Varoitus: VeraCrypt-taltio on automaattisesti irrotettu</entry>
+    <entry lang="fi" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Ennen kuin fyysisesti irrotat tai sammutat laitteen joka sisältää liitetyn taltion, sinun tulisi aina irrottaa taltio ensin VeraCryptissä.\n\nOdottamaton yhtäkkinen irrotus johtuu yleensä ajoittain oireilevasta viallisesta kaapelista, levystä (kotelo), jne.</entry>
     <entry lang="fi" key="UNSUPPORTED_TRUECRYPT_FORMAT">Tämä taltio luotiin TrueCrypt %x.%x:lla, mutta VeraCrypt tukee vain TrueCrypt-taltioita, jotka on luotu TrueCrypt 6.x/7.x -sarjoilla</entry>
     <entry lang="fi" key="TEST">Testi</entry>
     <entry lang="fi" key="KEYFILE">Avaintiedosto</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="fi" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Lisää kaikki liitetyt taltiot suosikkeihin...</entry>
     <entry lang="fi" key="TASKICON_PREF_MENU_ITEMS">Tehtäväpalkin kuvakkeet</entry>
     <entry lang="fi" key="TASKICON_PREF_OPEN_VOL">Avaa liitetyt taltiot</entry>
-    <entry lang="fi" key="TASKICON_PREF_DISMOUNT_VOL">Irrota liitetyt taltiot</entry>
+    <entry lang="fi" key="TASKICON_PREF_UNMOUNT_VOL">Irrota liitetyt taltiot</entry>
     <entry lang="fi" key="DISK_FREE">Tilaa vapaana: {0}</entry>
     <entry lang="fi" key="VOLUME_SIZE_HELP">Määritä luotavan säilön koko. Ota huomioon että vähimmäiskoko tälle taltiolle on 292 KiB.</entry>
     <entry lang="fi" key="LINUX_CONFIRM_INNER_VOLUME_CALC">VAROITUS: Olet valinnut ulommalle taltiolle jonkin muun tiedostojärjestelmän kuin FAT.\nOta huomioon että tässä tapauksessa VeraCrypt ei voi laskea tarkkaa maksimikokoa piilotetulle taltiolle vaan se käyttää arviota joka voi olla väärä.\nTästä johtuen, on sinun vastuullasi käyttää sopivaa arvoa piilotetun taltion koolle niin ettei se mene päällekkäin ulomman taltion kanssa.\n\nOletko varma että haluat jatkaa käyttäen valittua tiedostojärjestelmää ulommalle taltiolle?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="fi" key="LINUX_DO_NOT_MOUNT">Älä &amp;liitä</entry>
     <entry lang="fi" key="LINUX_MOUNT_AT_DIR">Liitä hakemistoon:</entry>
     <entry lang="fi" key="LINUX_SELECT">&amp;Valitse...</entry>
-    <entry lang="fi" key="LINUX_DISMOUNT_ALL_WHEN">Irrota kaikki taltiot kun</entry>
+    <entry lang="fi" key="LINUX_UNMOUNT_ALL_WHEN">Irrota kaikki taltiot kun</entry>
     <entry lang="fi" key="LINUX_ENTERING_POWERSAVING">Järjestelmä on siirtymässä virransäästötilaan</entry>
     <entry lang="fi" key="LINUX_LOGIN_ACTION">Suoritettavat toiminnot kun käyttäjä kirjautuu sisään</entry>
-    <entry lang="fi" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Sulje kaikki irrotettavan taltion tiedostonhallintaohjelmien ikkunat</entry>
+    <entry lang="fi" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Sulje kaikki irrotettavan taltion tiedostonhallintaohjelmien ikkunat</entry>
     <entry lang="fi" key="LINUX_HOTKEYS">Pikanäppäimet</entry>
     <entry lang="fi" key="LINUX_SYSTEM_HOTKEYS">Järjestelmänlaajuiset pikanäppäimet</entry>
     <entry lang="fi" key="LINUX_SOUND_NOTIFICATION">Soita järjestelmän ilmoitusääni liitoksen luomisesta ja poistamisesta</entry>
-    <entry lang="fi" key="LINUX_CONFIRM_AFTER_DISMOUNT">Näytä varmistus liitoksen poistamisen jälkeen</entry>
+    <entry lang="fi" key="LINUX_CONFIRM_AFTER_UNMOUNT">Näytä varmistus liitoksen poistamisen jälkeen</entry>
     <entry lang="fi" key="LINUX_VC_QUITS">VeraCrypt sammuu</entry>
     <entry lang="fi" key="LINUX_OPEN_FINDER">Avaa Finder-ikkuna onnistuneesti liitetylle taltiolle</entry>
     <entry lang="fi" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Ota huomioon että tämä asetus toimii vain jos ytimen kryptografiset palvelut ovat poissa käytöstä.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="fi" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="fi" key="LINUX_NOT_SUPPORTED"> (ei ole tuettu tällä alustalla saatavilla olevilla komponenteilla).\n</entry>
     <entry lang="fi" key="LINUX_KERNEL_OLD">Järjestelmässäsi on käytössä vanha Linux-ydin.\n\nLinux-ytimessä olevan vian vuoksi järjestelmäsi voi lakata vastaamasta kirjoittaessasi dataa VeraCrypt taltioon. Tämä ongelma voidaan ratkaista päivittämällä Linux-ydin versioon 2.6.24 tai uudempaan.</entry>
-    <entry lang="fi" key="LINUX_VOL_DISMOUNTED">Taltion {0} liitos on poistettu.</entry>
+    <entry lang="fi" key="LINUX_VOL_UNMOUNTED">Taltion {0} liitos on poistettu.</entry>
     <entry lang="fi" key="LINUX_VOL_MOUNTED">Taltio {0} on liitetty.</entry>
     <entry lang="fi" key="LINUX_OOM">RAM-muisti on loppu.</entry>
     <entry lang="fi" key="LINUX_CANT_GET_ADMIN_PRIV">Järjestelmänvalvojan oikeuksien saanti epäonnistui</entry>

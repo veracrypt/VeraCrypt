@@ -194,7 +194,7 @@ begin_format:
 		{
 			if ((dev = DismountDrive (devName, volParams->volumePath)) == INVALID_HANDLE_VALUE)
 			{
-				Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
+				Error ("FORMAT_CANT_UNMOUNT_FILESYS", hwndDlg);
 				nStatus = ERR_DONT_REPORT;
 				goto error;
 			}
@@ -332,7 +332,7 @@ begin_format:
 
 		if (DeviceIoControl (dev, FSCTL_IS_VOLUME_MOUNTED, NULL, 0, NULL, 0, &dwResult, NULL))
 		{
-			Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
+			Error ("FORMAT_CANT_UNMOUNT_FILESYS", hwndDlg);
 			nStatus = ERR_DONT_REPORT;
 			goto error;
 		}
@@ -704,7 +704,7 @@ begin_format:
 
 		// write fake hidden volume header to protect against attacks that use statistical entropy
 		// analysis to detect presence of hidden volumes.
-		
+
 		while (TRUE)
 		{
 			PCRYPTO_INFO dummyInfo = NULL;
@@ -838,7 +838,7 @@ error:
 				retCode = UacFormatFs (volParams->hwndDlg, driveNo, volParams->clusterSize, fsType);
 			else
 				retCode = FormatFs (driveNo, volParams->clusterSize, fsType, FALSE); /* no need to fallback to format.com since we have already tried it without elevation */
-			
+
 			if (retCode != 0)
 			{
 				wchar_t auxLine[2048];
@@ -850,7 +850,7 @@ error:
 		if (retCode != 0)
 		{
 			if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo) && !Silent)
-				MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
+				MessageBoxW (volParams->hwndDlg, GetString ("CANT_UNMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 
 			if (dataAreaSize <= TC_MAX_FAT_SECTOR_COUNT * FormatSectorSize)
 			{
@@ -872,7 +872,7 @@ error:
 		}
 
 		if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo) && !Silent)
-			MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
+			MessageBoxW (volParams->hwndDlg, GetString ("CANT_UNMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 	}
 
 fv_end:
@@ -979,7 +979,7 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 	{
 		// Quick format: write a zeroed sector every 128 MiB, leaving other sectors untouched
 		// This helps users visualize the progress of actual file creation while forcing Windows
-		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows 
+		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows
 		// would delay the allocation until we write the backup header at the end of the volume which
 		// would make the user think that the format process has stalled after progress bar reaches 100%.
 		while (num_sectors >= nSkipSectors)
@@ -991,21 +991,21 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 			{
 				goto fail;
 			}
-			
+
 			// sector array has been zeroed above
-			if (!WriteFile ((HANDLE) dev, sector, FormatSectorSize, &bytesWritten, NULL) 
+			if (!WriteFile ((HANDLE) dev, sector, FormatSectorSize, &bytesWritten, NULL)
 				|| bytesWritten != FormatSectorSize)
 			{
 				goto fail;
 			}
-			
+
 			nSecNo++;
 			num_sectors -= nSkipSectors;
 
 			if (UpdateProgressBar ((nSecNo - startSector)* FormatSectorSize))
 				goto fail;
 		}
-		
+
 		nSecNo += num_sectors;
 	}
 	else
@@ -1099,7 +1099,7 @@ LPCWSTR FormatExGetMessage (int command)
 	default:
 		StringCbPrintfW (h_szMsg, sizeof(h_szMsg), L"0x%.8X", command);
 		return h_szMsg;
-	}	
+	}
 }
 
 BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID parameter)
@@ -1247,7 +1247,7 @@ int ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 	TCHAR szCmdline[2 * MAX_PATH];
 	STARTUPINFO siStartInfo;
 	PROCESS_INFORMATION piProcInfo;
-	BOOL bSuccess = FALSE; 
+	BOOL bSuccess = FALSE;
 	int iRet = 0;
 
 	switch (fsType)
@@ -1271,9 +1271,9 @@ int ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 	}
 	else
 		StringCchCopyW(exePath, ARRAYSIZE(exePath), L"C:\\Windows\\System32\\format.com");
-	
+
 	StringCbPrintf (szCmdline, sizeof(szCmdline), L"%s %c: /FS:%s /Q /X /V:\"\" /Y", exePath, (WCHAR) driveNo + L'A', szFsFormat);
-	
+
 	if (clusterSize)
 	{
 		WCHAR szSize[8];
@@ -1291,27 +1291,27 @@ int ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 		StringCbCat (szCmdline, sizeof (szCmdline), szSize);
 	}
 
- 
-   ZeroMemory( &piProcInfo, sizeof(PROCESS_INFORMATION) ); 
 
-   /* Set up members of the STARTUPINFO structure. 
-	*/ 
+   ZeroMemory( &piProcInfo, sizeof(PROCESS_INFORMATION) );
+
+   /* Set up members of the STARTUPINFO structure.
+	*/
    ZeroMemory( &siStartInfo, sizeof(STARTUPINFO) );
-   siStartInfo.cb = sizeof(STARTUPINFO); 
+   siStartInfo.cb = sizeof(STARTUPINFO);
    siStartInfo.wShowWindow = SW_HIDE;
    siStartInfo.dwFlags |= STARTF_USESHOWWINDOW;
- 
+
    /* Create the child process.      */
-   bSuccess = CreateProcess(NULL, 
-      szCmdline,     // command line 
-      NULL,          // process security attributes 
-      NULL,          // primary thread security attributes 
-      TRUE,          // handles are inherited 
-      0,             // creation flags 
-      NULL,          // use parent's environment 
-      NULL,          // use parent's current directory 
-      &siStartInfo,  // STARTUPINFO pointer 
-      &piProcInfo);  // receives PROCESS_INFORMATION 
+   bSuccess = CreateProcess(NULL,
+      szCmdline,     // command line
+      NULL,          // process security attributes
+      NULL,          // primary thread security attributes
+      TRUE,          // handles are inherited
+      0,             // creation flags
+      NULL,          // use parent's environment
+      NULL,          // use parent's current directory
+      &siStartInfo,  // STARTUPINFO pointer
+      &piProcInfo);  // receives PROCESS_INFORMATION
 
    if (bSuccess)
    {
@@ -1320,7 +1320,7 @@ int ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 	   /* wait for the format process to finish */
 	   WaitForSingleObject (piProcInfo.hProcess, INFINITE);
 
-	   /* check if it was successfull */	   
+	   /* check if it was successfull */
 	   if (GetExitCodeProcess (piProcInfo.hProcess, &dwExitCode))
 	   {
 		   iRet = (int) dwExitCode; /* dwExitCode will be 0 in case of success */

@@ -135,8 +135,8 @@
     <entry lang="my" key="IDC_FAVORITE_REMOVE">ဖယ်ရှားရန်</entry>
     <entry lang="my" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">အနှစ်သက်ဆုံး အညွှန်းကို Explorer ဒရိုက်(ဗ်) အညွှန်းအဖြစ် အသုံးပြုရန်</entry>
     <entry lang="my" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">ဘုံသုံး ချိန်ညှိချက်များ</entry>
-    <entry lang="my" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">အထူး ကီးကို အောင်မြင်စွာ အဆုံးသတ်ပြီးပါက ပူပေါင်း လမ်းညွှန်ကို ပြပါ</entry>
-    <entry lang="my" key="IDC_HK_DISMOUNT_PLAY_SOUND">အထူး ကီးကို အောင်မြင်စွာ အဆုံးသတ်ပြီးပါက စက် အချက်ပြ အသံကို ဖွင့်ပါ</entry>
+    <entry lang="my" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">အထူး ကီးကို အောင်မြင်စွာ အဆုံးသတ်ပြီးပါက ပူပေါင်း လမ်းညွှန်ကို ပြပါ</entry>
+    <entry lang="my" key="IDC_HK_UNMOUNT_PLAY_SOUND">အထူး ကီးကို အောင်မြင်စွာ အဆုံးသတ်ပြီးပါက စက် အချက်ပြ အသံကို ဖွင့်ပါ</entry>
     <entry lang="my" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="my" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="my" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="my" key="IDC_PIM_HELP">(နဂိုမူလ ထပ်တလဲလဲပြုလုပ်ခြင်းများအတွက် အလွတ် သို့မဟုတ် 0)</entry>
     <entry lang="my" key="IDC_PREF_BKG_TASK_ENABLE">ဖွင့်ထားသည်</entry>
     <entry lang="my" key="IDC_PREF_CACHE_PASSWORDS">စကားဝှက်ကို ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲ၌ ခေတ္တ သိမ်းဆည်းရန်</entry>
-    <entry lang="my" key="IDC_PREF_DISMOUNT_INACTIVE">ဒေတာများကို ဖတ်ရှုခြင်း/ရေးသားခြင်း မပြုသည့်အခါ volume ကို အလိုအလျောက် အဆုံးသတ်ပါ</entry>
-    <entry lang="my" key="IDC_PREF_DISMOUNT_LOGOFF">သုံးစွဲသူ ထွက်ရန်</entry>
-    <entry lang="my" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">အသုံးပြုသူ အပိုင်းအခြားကာလ လော့ချထားသည်</entry>
-    <entry lang="my" key="IDC_PREF_DISMOUNT_POWERSAVING">စွမ်းအင် ချွေတာရေးစနစ်ကို သုံးစွဲရန်</entry>
-    <entry lang="my" key="IDC_PREF_DISMOUNT_SCREENSAVER">Screen saver ဖွင့်ထားသည်</entry>
-    <entry lang="my" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Volume ၌ ဖွင့်ထားသော ဖိုင်များ (သို့) ဖိုင်တွဲများ ပါ၀င်နေလျှင်လည်း ၎င်းကို အလိုအလျှောက် အတင်း အဆုံးသတ်ပါ</entry>
+    <entry lang="my" key="IDC_PREF_UNMOUNT_INACTIVE">ဒေတာများကို ဖတ်ရှုခြင်း/ရေးသားခြင်း မပြုသည့်အခါ volume ကို အလိုအလျောက် အဆုံးသတ်ပါ</entry>
+    <entry lang="my" key="IDC_PREF_UNMOUNT_LOGOFF">သုံးစွဲသူ ထွက်ရန်</entry>
+    <entry lang="my" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">အသုံးပြုသူ အပိုင်းအခြားကာလ လော့ချထားသည်</entry>
+    <entry lang="my" key="IDC_PREF_UNMOUNT_POWERSAVING">စွမ်းအင် ချွေတာရေးစနစ်ကို သုံးစွဲရန်</entry>
+    <entry lang="my" key="IDC_PREF_UNMOUNT_SCREENSAVER">Screen saver ဖွင့်ထားသည်</entry>
+    <entry lang="my" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Volume ၌ ဖွင့်ထားသော ဖိုင်များ (သို့) ဖိုင်တွဲများ ပါ၀င်နေလျှင်လည်း ၎င်းကို အလိုအလျှောက် အတင်း အဆုံးသတ်ပါ</entry>
     <entry lang="my" key="IDC_PREF_LOGON_MOUNT_DEVICES">စက်ထဲရှိ VeraCrypt volumes အားလုံးကို အစပျိုးရန်</entry>
     <entry lang="my" key="IDC_PREF_LOGON_START">VeraCrypt နောက်ခံ လုပ်ငန်းများ စတင်ရန်</entry>
     <entry lang="my" key="IDC_PREF_MOUNT_READONLY">Volumes များကို ဖတ်ရှုရန် အတွက်သာ အစပျိုးရန်</entry>
@@ -169,7 +169,7 @@
     <entry lang="my" key="IDC_PREF_OPEN_EXPLORER">အောင်မြင်စွာ အစပျိုးလိုက်သော volume အတွက် Explorer ၀င်းဒိုးကို ဖွင့်ရန်</entry>
     <entry lang="my" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">"အနှစ်သက်ဆုံး Volume များ အစပျိုးရန်" လုပ်ဆောင်ချက်များပြုလုပ်စဉ် စကားဝှက်ကို ယာယီ သိမ်းထားရန်</entry>
     <entry lang="my" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">အစပျိုးထားသော volumes များ ရှိပါက ခြားနားသော taskbar ပုံများကို သုံးစွဲရန်</entry>
-    <entry lang="my" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">အလိုအလျောက် အဆုံးသတ်သည့်အခါ ခေတ္တ မှတ်ထားသော စကားဝှက်များကို ရှင်းလင်းရန်</entry>
+    <entry lang="my" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">အလိုအလျောက် အဆုံးသတ်သည့်အခါ ခေတ္တ မှတ်ထားသော စကားဝှက်များကို ရှင်းလင်းရန်</entry>
     <entry lang="my" key="IDC_PREF_WIPE_CACHE_ON_EXIT">ထွက်သည့်အခါ ခေတ္တ မှတ်ထားသော စကားဝှက်များကို ရှင်းလင်းရန်</entry>
     <entry lang="my" key="IDC_PRESERVE_TIMESTAMPS">ဖိုင် သိမ်းဆည်းခန်းများ၏ ပြုပြင်မှု အချိန်စာရင်းကို ထိန်းသိမ်းရန်</entry>
     <entry lang="my" key="IDC_RESET_HOTKEYS">ပြန်ချိန်ရန်</entry>
@@ -269,14 +269,14 @@
     <entry lang="my" key="IDT_ACCELERATION_OPTIONS">Hardware စွမ်းရည်မြှင့်ခြင်း</entry>
     <entry lang="my" key="IDT_ASSIGN_HOTKEY">ဖြတ်လမ်း</entry>
     <entry lang="my" key="IDT_AUTORUN">AutoRun ပြုပြင်ဖန်တီးမှု (autorun.inf)</entry>
-    <entry lang="my" key="IDT_AUTO_DISMOUNT">အလိုအလျောက် အဆုံးသတ်ရန်</entry>
-    <entry lang="my" key="IDT_AUTO_DISMOUNT_ON">အားလုံး အဆုံးသတ်မည့် အချိန် -</entry>
+    <entry lang="my" key="IDT_AUTO_UNMOUNT">အလိုအလျောက် အဆုံးသတ်ရန်</entry>
+    <entry lang="my" key="IDT_AUTO_UNMOUNT_ON">အားလုံး အဆုံးသတ်မည့် အချိန် -</entry>
     <entry lang="my" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Boot Loader မျက်နှာပြင် ရွေးစရာများ</entry>
     <entry lang="my" key="IDT_CONFIRM_PASSWORD">စကားဝှက် အတည်ပြုရန် -</entry>
     <entry lang="my" key="IDT_CURRENT">လက်ရှိ</entry>
     <entry lang="my" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">စက်မတက်မီ စစ်ဆေးမှု မျက်နှာပြင်တွင် ဤစိတ်ကြိုက် စာတမ်းကို ပြရန် (စာလုံးရေ အများဆုံး ၂၄ လုံးသာ) -</entry>
     <entry lang="my" key="IDT_DEFAULT_MOUNT_OPTIONS">မူလ အစပျိုး ရွေးစရာများ</entry>
-    <entry lang="my" key="IDT_DISMOUNT_ACTION">အထူး ကီး ရွေးစရာများ</entry>
+    <entry lang="my" key="IDT_UNMOUNT_ACTION">အထူး ကီး ရွေးစရာများ</entry>
     <entry lang="my" key="IDT_DRIVER_OPTIONS">ဒရိုက်ဗာ အစိတ်အပိုင်းများဖွဲ့စည်းပုံ</entry>
     <entry lang="my" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">ချဲ့ထွင်ထားသော ဒစ်(စ်)ထိန်းချုပ်မှု ကုဒ်များ ပံ့ပိုးမှုကို ဖွင့်ရန်</entry>
     <entry lang="my" key="IDT_FAVORITE_LABEL">ရွေးချယ်ထားသော စိတ်ကြိုက် volume အညွှန်း -</entry>
@@ -423,8 +423,8 @@
     <entry lang="my" key="DEVICE_FREE_PB">%s ၏အရွယ်မှာ %.2f PB ဖြစ်သည်</entry>
     <entry lang="my" key="DEVICE_IN_USE_FORMAT">သတိပေးချက် - စက်ပစ္စည်း/အခန်းကန့်ကို OS မှ (သို့) အ​ပ္ပလီကေးရှင်းများမှ အသုံးပြုထားသည်။ စက်ပစ္စည်း/အခန်းကန့်ကို ဖော်မက်ချခြင်းဖြင့် ဒေတာ ပျက်စီမှုနှင့် စက်လည်ပတ်မှု မတည်မငြိမ် ဖြစ်စေနိုင်သည်။\n\nဆက်လုပ်မည်လား?</entry>
     <entry lang="my" key="DEVICE_IN_USE_INPLACE_ENC">သတိပေးချက် - စက်ပစ္စည်း/အခန်းကန့်ကို OS မှ (သို့) အ​ပ္ပလီကေးရှင်းများမှ အသုံးပြုထားသည်။  အခန်းကန့်ကို အသုံးပြုသော ​အပ္ပလီကေးရှင်းများ (ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲ အပါအဝင်)ကို ပိတ်ထားပါ။\n\n ဆက်လုပ်မည်လား?</entry>
-    <entry lang="my" key="FORMAT_CANT_DISMOUNT_FILESYS">ချို့ယွင်းချက် - စက်ပစ္စည်း/အခန်းကန့်၌ အဆုံးသတ်၍ မရနိုင်သော ဖိုင်စနစ် တစ်ခု ပါရှိနေသည်။ ​၎င်းဖိုင်စနစ်ကို စက်လည်ပတ်မှုစနစ်က အသုံးပြုထားနိုင်သည်။ စက်ပစ္စည်း/အခန်းကန့်ကို ဖော်မက်ချခြင်းဖြင့် ဒေတာ ပျက်စီခြင်းနှင့် စက်လည်ပတ်မှုစနစ် မတည်ငြိမ်မှုများ ဖြစ်ပေါ်စေနိုင်သည်။\n\nဤပြဿနာကို ဖြေရှင်းရန်၊ ထိုအခန်းကန့်ကို ဦးစွာ ပယ်ဖျက်ပြီး ၄င်းကို ဖော်မက်ချစရာ မလိုပဲ အသစ် ပြန်ဖန်တီးပါ။ ထိုသို့ ဆောင်ရွတ်ရန်၊ အောက်ပါ အဆင့်များကို လုပ်ဆောင်ပါ -\n၁) 'Start ​Menu' ရှိ 'Computer' ပုံကို ညာဖက် နှိပ်ပြီး 'Manage' ကို ရွေးပါ။ 'Computer Management' ၀င်းဒိုး ပေါ်လာလိမ့်မည်။\n၂) 'Disk Management' ဝင်းဒိုးထဲ၌ 'Storage' &gt; 'Disk Management' ကို ရွေးပါ။\n၃) သင် စာဝှက်လိုသော အခန်းကန့်ကို ညာဖက် နှိပ်ပြီး 'Delete Partition', (သို့) 'Delete Volume', (သို့) 'Delete Logical Drive' ကို ရွေးပါ။\n၄) 'Yes' ကို နှိပ်ပါ။ အကယ်၍ ဝင်းဒိုးက စက်ပြန်ဖွင့်ရန် တောင်းဆိုလာပါက ကွန်ပျူတာစက်ကို ပြန်စလိုက်ပါ။ ထို့နောက် အဆင့် ၁ နှင့် ၂ ကို ပြန်လုပ်ပြီး အဆင့် ၅ မှ ဆက်လုပ်ပါ။\n၅) နေရာမယူထားသော/နေရာလွတ်၌ ညာဖက် နှိပ်ပြီး 'New Partition', (သို့) 'New Simple Volume', (သို့) 'New Logical Drive' ကို ရွေးပါ။\n၆) ယခုအချိန်၌ 'New Partition Wizard' (သို့) 'New Simple Volume Wizard' ၀င်းဒိုး ပေါ်လာမည် ဖြစ်သည်။ ညွန်ကြားချက်အတိုင်း ဆက်လုပ်ပါ။ 'Format Partition' ခေါင်းစဉ်အောက်ရှိ 'Do not format this partition' (သို့) 'Do not format this volume' တစ်ခုခုကို ရွေးချယ်ပါ။ အညွှန်း တစ်ခုထဲ၌၊ 'Next' ကို နှိပ်ပြီးနောက် 'Finish' ကို နှိပ်ပါ။\n၇) VeraCrypt ၌ သင် ရွေးချယ်ခဲ့သော လမ်းကြောင်း မှားနေနိုင်သည်ကို သတိပြုပါ။ ထို့ကြောင့်၊ VeraCrypt Volume  ဖန်တီးမှု အညွှန်းမှ ထွက်ပြီး ပြန်ဖွင့်ပါ။\n၈) စက်ပစ္စည်း/အခန်းကန့်ကို တဖန် စာဝှက်လိုက်ပါ။\n\n အကယ်၍ VeraCrypt သည် စက်ပစ္စည်း/အခန်းကန့်ကို စာဝှက်ရန် အကြိမ်ကြိမ် မအောင်မြင်ပါက၊ ၄င်းအစား ဖိုင် သိမ်းဆည်းခန်းတစ်ခုကို ဖန်တီးရန် စဉ်းစားပါ။</entry>
-    <entry lang="my" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">ချို့ယွင်းချက် - filesystem ကို သော့ခတ်၍ မရ/အဆုံးသတ်၍ မရ ဖြစ်နေသည်။ ၎င်းကို စက်လည်ပတ်မှုစနစ် (သို့) အပ္ပလီကေးရှင်းများ (ဥပမာ - ဗိုင်းရပ်စ် ဖယ်ရှား ဆော့ဗ်ဝဲ) မှ အသုံးပြုနေခြင်း ဖြစ်နိုင်သည်။ ၎င်းအခန်းကန့်ကို စာဝှက်ခြင်းဖြင့် ဒေတာ ပျက်စီးခြင်းနှင့် စက်လည်ပတ်မှုစနစ် မတည်မငြိမ် ဖြစ်စေနိုင်သည်။\n\n Filesystem ကို အသုံးပြုနေသည့် အပ္ပလီကေးရှင်းများကို ပိတ်ပြီး ထပ်ကြိုးစားပါ။ အကြောင်းမထူးပါက၊ အောက်ပါ အဆင့်များကို လုပ်ဆောင်ပါ။</entry>
+    <entry lang="my" key="FORMAT_CANT_UNMOUNT_FILESYS">ချို့ယွင်းချက် - စက်ပစ္စည်း/အခန်းကန့်၌ အဆုံးသတ်၍ မရနိုင်သော ဖိုင်စနစ် တစ်ခု ပါရှိနေသည်။ ​၎င်းဖိုင်စနစ်ကို စက်လည်ပတ်မှုစနစ်က အသုံးပြုထားနိုင်သည်။ စက်ပစ္စည်း/အခန်းကန့်ကို ဖော်မက်ချခြင်းဖြင့် ဒေတာ ပျက်စီခြင်းနှင့် စက်လည်ပတ်မှုစနစ် မတည်ငြိမ်မှုများ ဖြစ်ပေါ်စေနိုင်သည်။\n\nဤပြဿနာကို ဖြေရှင်းရန်၊ ထိုအခန်းကန့်ကို ဦးစွာ ပယ်ဖျက်ပြီး ၄င်းကို ဖော်မက်ချစရာ မလိုပဲ အသစ် ပြန်ဖန်တီးပါ။ ထိုသို့ ဆောင်ရွတ်ရန်၊ အောက်ပါ အဆင့်များကို လုပ်ဆောင်ပါ -\n၁) 'Start ​Menu' ရှိ 'Computer' ပုံကို ညာဖက် နှိပ်ပြီး 'Manage' ကို ရွေးပါ။ 'Computer Management' ၀င်းဒိုး ပေါ်လာလိမ့်မည်။\n၂) 'Disk Management' ဝင်းဒိုးထဲ၌ 'Storage' &gt; 'Disk Management' ကို ရွေးပါ။\n၃) သင် စာဝှက်လိုသော အခန်းကန့်ကို ညာဖက် နှိပ်ပြီး 'Delete Partition', (သို့) 'Delete Volume', (သို့) 'Delete Logical Drive' ကို ရွေးပါ။\n၄) 'Yes' ကို နှိပ်ပါ။ အကယ်၍ ဝင်းဒိုးက စက်ပြန်ဖွင့်ရန် တောင်းဆိုလာပါက ကွန်ပျူတာစက်ကို ပြန်စလိုက်ပါ။ ထို့နောက် အဆင့် ၁ နှင့် ၂ ကို ပြန်လုပ်ပြီး အဆင့် ၅ မှ ဆက်လုပ်ပါ။\n၅) နေရာမယူထားသော/နေရာလွတ်၌ ညာဖက် နှိပ်ပြီး 'New Partition', (သို့) 'New Simple Volume', (သို့) 'New Logical Drive' ကို ရွေးပါ။\n၆) ယခုအချိန်၌ 'New Partition Wizard' (သို့) 'New Simple Volume Wizard' ၀င်းဒိုး ပေါ်လာမည် ဖြစ်သည်။ ညွန်ကြားချက်အတိုင်း ဆက်လုပ်ပါ။ 'Format Partition' ခေါင်းစဉ်အောက်ရှိ 'Do not format this partition' (သို့) 'Do not format this volume' တစ်ခုခုကို ရွေးချယ်ပါ။ အညွှန်း တစ်ခုထဲ၌၊ 'Next' ကို နှိပ်ပြီးနောက် 'Finish' ကို နှိပ်ပါ။\n၇) VeraCrypt ၌ သင် ရွေးချယ်ခဲ့သော လမ်းကြောင်း မှားနေနိုင်သည်ကို သတိပြုပါ။ ထို့ကြောင့်၊ VeraCrypt Volume  ဖန်တီးမှု အညွှန်းမှ ထွက်ပြီး ပြန်ဖွင့်ပါ။\n၈) စက်ပစ္စည်း/အခန်းကန့်ကို တဖန် စာဝှက်လိုက်ပါ။\n\n အကယ်၍ VeraCrypt သည် စက်ပစ္စည်း/အခန်းကန့်ကို စာဝှက်ရန် အကြိမ်ကြိမ် မအောင်မြင်ပါက၊ ၄င်းအစား ဖိုင် သိမ်းဆည်းခန်းတစ်ခုကို ဖန်တီးရန် စဉ်းစားပါ။</entry>
+    <entry lang="my" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">ချို့ယွင်းချက် - filesystem ကို သော့ခတ်၍ မရ/အဆုံးသတ်၍ မရ ဖြစ်နေသည်။ ၎င်းကို စက်လည်ပတ်မှုစနစ် (သို့) အပ္ပလီကေးရှင်းများ (ဥပမာ - ဗိုင်းရပ်စ် ဖယ်ရှား ဆော့ဗ်ဝဲ) မှ အသုံးပြုနေခြင်း ဖြစ်နိုင်သည်။ ၎င်းအခန်းကန့်ကို စာဝှက်ခြင်းဖြင့် ဒေတာ ပျက်စီးခြင်းနှင့် စက်လည်ပတ်မှုစနစ် မတည်မငြိမ် ဖြစ်စေနိုင်သည်။\n\n Filesystem ကို အသုံးပြုနေသည့် အပ္ပလီကေးရှင်းများကို ပိတ်ပြီး ထပ်ကြိုးစားပါ။ အကြောင်းမထူးပါက၊ အောက်ပါ အဆင့်များကို လုပ်ဆောင်ပါ။</entry>
     <entry lang="my" key="DEVICE_IN_USE_INFO">သတိပေးချက် - အစပျိုးထားသော စက်ပစ္စည်းများ/အခန်းကန့်များ အချို့ကို သုံးစွဲထားပြီး ဖြစ်နိုင်သည်။\n\n ၎င်းကို လျှစ်လျှူရှုခြင်းဖြင့် စက်လည်ပတ်ရာ၌ မတည်ငြိမ်မှုများကဲ့သို့ မလိုလားအပ်သော ရလဒ်များကို ဖြစ်ပေါ်စေနိုင်သည်။\n\n စက်ပစ္စည်းများ/အခန်းကန့်များကို အသုံးပြုနေနိုင်သော အပ္ပလီကေးရှင်းများကို ပိတ်ထားရန် အလေးအနက် အကြံပြုလိုပါသည်။</entry>
     <entry lang="my" key="DEVICE_PARTITIONS_ERR">ရွေးချယ်ထားသော စက်ပစ္စည်း၌ အခန်းကန့်များ ပါရှိသည်။\n\n စက်ပစ္စည်းကို ဖော်မက်ချခြင်းဖြင့် စက်လည်ပတ်မှု စနစ်ပိုင်းဆိုင်ရာ မတည်ငြိမ်မှုများ/ဒေတာ ပျက်စီးမှုများ ဖြစ်ပေါ်စေနိုင်သည်။ VeraCrypt ကို သုံးပြီး လုံခြုံ​စွာ ဖော်မက်ချနိုင်ရန် စက်ပစ္စည်းပေါ်၌ အခန်းကန့် တစ်ခုကို ရွေးချယ်ပါ၊ (သို့) စက်ပစ္စည်းပေါ်မှ အခန်းကန့် အားလုံးကို ဖယ်ရှားပါ။</entry>
     <entry lang="my" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">ကွန်ပျူတာစနစ် မဟုတ်သော စက်ပစ္စည်း၌ အခန်းကန့်များ ပါရှိသည်။\n\n အခန်းကန့်များ မရှိသော စက်ပစ္စည်းများထဲ၌ စာဝှက်ထားသော စက်ပစ္စည်း အခြေပြု VeraCrypt volumes များကို (hard disks နှင့် solid-state drives များ အပါအဝင်) ဖန်တီးနိုင်သည်။ ၄င်းစက်ပစ္စည်းထဲ၌ ဝင်းဒိုးတင်ထားပြီး ၎င်းမှ ဝင်းဒိုးတက်မည် ဆိုလျှင်၊ အခန်းကန့်များ ပါရှိသော စက်ပစ္စည်း တစ်ခုလုံးကို နေရာတကျ စာဝှက်နိုင်မည် ဖြစ်သည်။\n\nမာစတာကီး တစ်ခုတည်းကို သုံးပြီး ရွေးချယ်ထားသော ကွန်ပျူတာစနစ် မဟုတ်သည့် စက်ပစ္စည်းကို စာှက်လိုပါက၊ ၄င်းကို VeraCrypt ဖြင့် လုံခြုံစွာ ဖော်မက်ချနိုင်ရန် စက်ပစ္စည်းထဲရှိ အခန်းကန့် အားလုံးကို သင် ဖယ်ရှားရမည် (အခန်းကန့်များ ပါရှိသော စက်ပစ္စည်း တစ်ခုကို ဖော်မက်ချခြင်းကြောင့် စက်လည်ပတ်မှု စနစ်ကို မတည်ငြိမ်မှု/ ဒေတာ ပျက်စီးမှု ဖြစ်ပေါ်စေနိုင်သည်)။ တစ်နည်းအားဖြင့်၊ စက်ပစ္စည်းရှိ အခန်းကန့် တစ်ခုစီကို သီးခြား စာဝှက်နိုင်သည် (အခန်းကန့် တစ်ခုစီကို သီးခြား မာစတာကီး အသုံးပြုပြီး စာဝှက်နိုင်မည် ဖြစ်သည်)။ \n\n မှတ်ချက် - GPT disk မှ အခန်းကန့် အားလုံးကို သင် ဖယ်ရှားလိုပါက၊ လျှို့ဝှက် အခန်းကန့်များကို ဖယ်ရှားရန် MBR disk (ဥပမာ -Computer Management tool ကို အသုံးပြုပြီး) အဖြစ် ပြောင်းလဲရန် လိုအပ်သည်။</entry>
@@ -591,7 +591,7 @@
     <entry lang="my" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">ျို့ယွင်းချက် - ပြင်ပ volume ၌ သင် ကော်ပီးလိုက်သော ဖိုင်များသည် နေရာယူလွန်းသည်။ ထိုကြောင့်၊ ပြင်ပ volume ၌ လျှို့ဝှက် volume အတွက် နေရာလွတ် မလုံလောက်ပါ။\n\nလျှို့ဝှက် volume (လောလောဆယ် OS ထည့်သွင်းထားသော အခန်းကန့်) သည် ကွန်ပျူတာစနစ် အခန်းကန့်ကဲ့သို့ ကြီးနေရမည်။ အကြောင်းရင်းမှာ ကွန်ပျူတာစနစ် အခန်းကန့်ရှိ ​အကြောင်းအရာကို လျှို့ဝှက် volume ထဲ ကော်ပီးကူးပြီး လျှို့ဝှက် OS စနစ် ဖန်တီးရမည် ဖြစ်​​​သောကြောင့် ဖြစ်သည်။\n\n\nလျှို့ဝှက် OS စနစ် ဖန်တီးမှု လုပ်ငန်းစဉ်ကို ဆက်လက် မလုပ်ဆောင်နိုင်ပါ။</entry>
     <entry lang="my" key="OPENFILES_DRIVER">ဒရိုင်ဘာကို volume ကို အဆုံးမသတ်နိုင်ပါ။ volume ထဲရှိ အချို့ဖိုင်များကို ဖွင့်နေသေး၌ ဖြစ်မည်။</entry>
     <entry lang="my" key="OPENFILES_LOCK">Volume ကို ပိတ်ထား၌ မရပါ။ Volume ထဲ၌ ဖွင့်နေဆဲ ဖိုင်များ ရှိနေသေးသည်။ ထိုကြောင့်၊ ၄င်းကို အဆုံးသတ်၍ မရပါ။</entry>
-    <entry lang="my" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt သည် volume ကို ပိတ်​ထား၍ မရပါ၊ အဘယ်ကြောင့် ဆိုသော် ၄င်းကို ကွန်ပျူတာစနစ်က (သို့) အပ္ပလီကေးရှင်း () က အသုံးပြုနေသည်။\n\nVolume ကို အတင်း အဆုံးသတ်လိုသလား?</entry>
+    <entry lang="my" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt သည် volume ကို ပိတ်​ထား၍ မရပါ၊ အဘယ်ကြောင့် ဆိုသော် ၄င်းကို ကွန်ပျူတာစနစ်က (သို့) အပ္ပလီကေးရှင်း () က အသုံးပြုနေသည်။\n\nVolume ကို အတင်း အဆုံးသတ်လိုသလား?</entry>
     <entry lang="my" key="OPEN_VOL_TITLE">VeraCrypt Volume တစ်ခု ရွေးချယ်ရန်</entry>
     <entry lang="my" key="OPEN_TITLE">ဖိုင် လမ်းကြောင်းနှင့် ဖိုင်အမည် သတ်မှတ်ရန်</entry>
     <entry lang="my" key="SELECT_PKCS11_MODULE">PKCS #11 လိုင်ဘရာရီ ရွေးချယ်ရန်</entry>
@@ -731,7 +731,7 @@
     <entry lang="my" key="DLL_FILES">လိုင်ဘရာရီ အခန်းများ</entry>
     <entry lang="my" key="FORMAT_NTFS_STOP">NTFS ​ဖော်မက် ဆက်လုပ်၍ မရပါ</entry>
     <entry lang="my" key="CANT_MOUNT_VOLUME">Volume ကို အစပျိုး၍ မရပါ။</entry>
-    <entry lang="my" key="CANT_DISMOUNT_VOLUME">Volume ကို အဆုံးသတ်၍ မရပါ။</entry>
+    <entry lang="my" key="CANT_UNMOUNT_VOLUME">Volume ကို အဆုံးသတ်၍ မရပါ။</entry>
     <entry lang="my" key="FORMAT_NTFS_FAILED">ဝင်းဒိုးသည် volume ကို NTFS ဖော်မက်ချ၍ မရပါ။\n\nဖြစ်နိုင်ပါက အခြား ဖိုင်စနစ် အမျိုးအစား တစ်ခုခုကို ရွေးပြီး ထပ်ကြိုးစားပါ။ တနည်းအားဖြင့်၊ volume ကို ဖော်မက်မချပဲ ('ဘာမျှမရှိ' ဖိုင်စနစ်အဖြစ် ရွေးပြီး)၊ ဤအညွှန်းမှ ထွက်ပါ၊ volume ကို အစပျိုးပြီး၊ အစပျိုးထားသော volume ကို ဖော်မက်ချရန် ကွန်ပျူတာစနစ် တစ်ခု (သို့) အခြား ကိရိယာ တစ်ခုကို သုံးပါ (volume သည် ဆက်ပြီး စာဝှက်နေမည် ဖြစ်သည်)</entry>
     <entry lang="my" key="FORMAT_NTFS_FAILED_ASK_FAT">ဝင်းဒိုးသည် volume ကို NTFS အဖြစ် ဖော်မက်ချ၍ မရပါ။\n\nဤ volume ကို FAT အဖြစ် ဖော်မက်ချလိုသလား?</entry>
     <entry lang="my" key="DEFAULT">ပုံမှန်</entry>
@@ -773,7 +773,7 @@
     <entry lang="my" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">ချို့ယွင်းချက် တစ်ခုသည် VeraCrypt ကို အခန်းကန့် စာဝှက်၍ မရနိုင်အောင် တားဆီးနေသည်။ ယခင်က သတင်း​ပို့ထားသော ပြဿနာများကို ပြင်ဆင်ပြီး ထပ်ကြိုးစားပါ။ အကယ်၍ ပြဿနာ ဆက်ရှိနေပါက၊ အောက်ပါ အဆင့်များကို လိုက်နာခြင်းဖြင့် အ​ကူအညီ ရနိုင်သည်။</entry>
     <entry lang="my" key="INPLACE_ENC_GENERIC_ERR_RESUME">ချို့ယွင်းချက် တစ်ခုသည် VeraCrypt ကို အခန်းကန့် စာဝှက်သည့် လုပ်ငန်းစဉ် ပြန်စ၍ မရနိုင်အောင် တားဆီးနေသည်။\n\nယခင်က သတင်း​ပို့ထားသော ပြဿနာများကို ပြင်ဆင်ပြီး လုပ်ငန်းစဉ်ကို ပြန်စပါ။ Volume ကို အပြည့်အ၀ စာဝှက်ခြင်း မပြီးမချင်း ၄င်းကို ​အစပျိုး၍ ရမည် မဟုတ်ပါ။</entry>
     <entry lang="my" key="INPLACE_DEC_GENERIC_ERR">ပြဿနာတစ်ခုက VeraCrypt အား volume ကို ပြန်မဖြည်နိုင်အောင် တားဆီးထားသည်။ ကျေးဇူးပြု၍ ယခင်က အစီရင်ခံထားသော ပြဿနာများကို ပြင်ကြည့်ပြီးနောက် ဖြစ်နိုင်ပါက ထပ်မံကြိုးစားပါ။</entry>
-    <entry lang="my" key="CANT_DISMOUNT_OUTER_VOL">ချို့ယွင်းချက် - ပြင်ပ volume ကို အဆုံးသတ်၍ မရပါ!\n\nVolume သည် ၄င်း၌ ပါသော ဖိုင်များ (သို့) ဖိုင်တွဲများကို ပရိုဂရမ် တစ်ခုခု (သို့) ကွန်ပျူတာစနစ် တစ်ခုခုက အသုံးပြုနေပါက အဆုံးသတ်၍ ရမည် မဟုတ်ပါ။\n\nVolume ထဲမှ ဖိုင်များ (သို့) ဖိုင်တွဲများကို သုံးစွဲနေသော ပရိုဂရမ်ကို ပိတ်ပြီး ထပ်ကြိုးစားပါ။</entry>
+    <entry lang="my" key="CANT_UNMOUNT_OUTER_VOL">ချို့ယွင်းချက် - ပြင်ပ volume ကို အဆုံးသတ်၍ မရပါ!\n\nVolume သည် ၄င်း၌ ပါသော ဖိုင်များ (သို့) ဖိုင်တွဲများကို ပရိုဂရမ် တစ်ခုခု (သို့) ကွန်ပျူတာစနစ် တစ်ခုခုက အသုံးပြုနေပါက အဆုံးသတ်၍ ရမည် မဟုတ်ပါ။\n\nVolume ထဲမှ ဖိုင်များ (သို့) ဖိုင်တွဲများကို သုံးစွဲနေသော ပရိုဂရမ်ကို ပိတ်ပြီး ထပ်ကြိုးစားပါ။</entry>
     <entry lang="my" key="CANT_GET_OUTER_VOL_INFO">ချို့ယွင်းချက် - ပြင်ပ volume နှင့်ပါတ်သက်သော အချက်အလက် မရနိုင်ပါ!\n\nVolume ကို ဆက်လက် မဖန်တီးနိုင်ပါ။</entry>
     <entry lang="my" key="CANT_ACCESS_OUTER_VOL">ချို့ယွင်းချက် - ပြင်ပ volume ကို မဖွင့်နိုင်ပါ! Volume ကို ဆက်လက် မဖန်တီးနိုင်ပါ။</entry>
     <entry lang="my" key="CANT_MOUNT_OUTER_VOL">ချို့ယွင်းချက် - ပြင်ပ volume ကို အစပျိုး၍ မရပါ! Volume ကို ဆက်လက် မဖန်တီးနိုင်ပါ။</entry>
@@ -884,7 +884,7 @@
     <entry lang="my" key="INSTALL_COMPLETED">စက်ထဲ ထည့်သွင်းမှု ပြီးစီးသွားပြီ။</entry>
     <entry lang="my" key="CANT_CREATE_FOLDER">ဖိုင်တွဲ '%s' ကို ဖန်တီး၍ မရပါ</entry>
     <entry lang="my" key="CLOSE_TC_FIRST">VeraCrypt device ဒရိုင်ဘာကို ရပ်တန့်၍ မရပါ။\n\n ဦးစွာ VeraCrypt ဝင်းဒိုး အားလုံးကို ပိတ်ပါ။ အကယ်၍ အလုပ်မဖြစ်ပါက၊ ၀င်းဒိုးကို ပြန်ဖွင့်ပြီး ထပ်ကြိုးစားပါ။</entry>
-    <entry lang="my" key="DISMOUNT_ALL_FIRST">VeraCrypt ကို စက်ထဲ မထည့်သွင်းမီ (သို့) ဖယ်ထုတ်ခြင်း မပြုမီ VeraCrypt volumes အားလုံကို အဆုံးသတ်ပါ။</entry>
+    <entry lang="my" key="UNMOUNT_ALL_FIRST">VeraCrypt ကို စက်ထဲ မထည့်သွင်းမီ (သို့) ဖယ်ထုတ်ခြင်း မပြုမီ VeraCrypt volumes အားလုံကို အဆုံးသတ်ပါ။</entry>
     <entry lang="my" key="UNINSTALL_OLD_VERSION_FIRST">တိမ်ကောနေပြီ ဖြစ်သော VeraCrypt ဗားရှင်း တစ်ခုကို ဤစက်ထဲတွင် သုံးစွဲနေသည်။ VeraCrypt  ဗားရှင်း မသွင်းမီ ၄င်းကို ဖယ်ထုတ်ရမည် ဖြစ်သည်။\n\n ဤစာပုံးကို သင် ပိတ်သည့်အခါ၊ ဗားရှင်း အဟောင်၏ ဆော့ဗ်ဝဲ ဖယ်ထုတ်စနစ် ပွင့်လာလိမ့်မည်။ VeraCrypt ကို ဖယ်ထုတ်နေစဉ် မည်သည့် volume ကိုမျှ စာဝှက်ပေးမည် မဟုတ်ပါ။ VeraCrypt ဗားရှင်း အဟောင်းကို ဖယ်ထုတ်ပြီးနောက်၊ ဗားရှင်းအသစ်ကို ထည့်သွင်းပါ။</entry>
     <entry lang="my" key="REG_INSTALL_FAILED">Registery ရေးသွင်းချက်ထဲ ထည့်သွင်းမှု မအောင်မြင်ပါ</entry>
     <entry lang="my" key="DRIVER_INSTALL_FAILED">Device ဒရိုင်ဘာ ထည့်သွင်းမှု မအောင်မြင်ပါ။ ဝင်းဒိုးကို ပြန်ဖွင့်ပြီး VeraCrypt ကို စက်ထဲ ထည့်သွင်းရန် ထပ်ကြိုးစားပါ။</entry>
@@ -905,7 +905,7 @@
     <entry lang="my" key="MINUTES">မိနစ်</entry>
     <entry lang="my" key="SECONDS">စက္ကန့်</entry>
     <entry lang="my" key="OPEN">ဖွင့်ရန်</entry>
-    <entry lang="my" key="DISMOUNT">အဆုံးသတ်ရန်</entry>
+    <entry lang="my" key="UNMOUNT">အဆုံးသတ်ရန်</entry>
     <entry lang="my" key="SHOW_TC">VeraCrypt ကို ပြန်ရန်</entry>
     <entry lang="my" key="HIDE_TC">VeraCrypt ကို ဖျောက်ထားရန်</entry>
     <entry lang="my" key="TOTAL_DATA_READ">အစပျိုး ကတည်းက ဖတ်ရှုသော ဒေတာများ</entry>
@@ -977,7 +977,7 @@
     <entry lang="my" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - ကွန်ပျူတာစနစ် စိတ်ကြိုက် Volumes များ</entry>
     <entry lang="my" key="SYS_FAVORITES_HELP_LINK">ကွန်ပျူတာစနစ် စိတ်ကြိုက် volumes ဆိုသည်မှာ အဘယ်နည်း?</entry>
     <entry lang="my" key="SYS_FAVORITES_REQUIRE_PBA">ကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို စာဝှက်ထားပုံ မပေါ်ပါ။\n\nကွန်ပျူတာစနစ် စိတ်ကြိုက် volumes ကို စက်မဖွင့်မီ အတည်ပြု စကားဝှက်ဖြင့်သာ အစပျိုးနိုင်မည် ဖြစ်သည်။ ထို့ကြောင့်၊ ကွန်ပျူတာစနစ် စိတ်ကြိုက် volumes များကို ဖွင့်ရန်၊ ကွန်ပျူတာစနစ် အခန်းကန့်/drive ကို အရင် စာဝှက်ထားရန် လိုသည်။</entry>
-    <entry lang="my" key="DISMOUNT_FIRST">ဆက်မလုပ်မီ volume ကို အဆုံးသတ်လိုက်ပါ။</entry>
+    <entry lang="my" key="UNMOUNT_FIRST">ဆက်မလုပ်မီ volume ကို အဆုံးသတ်လိုက်ပါ။</entry>
     <entry lang="my" key="CANNOT_SET_TIMER">ချို့ယွင်းချက် - အချိန် သတ်မှတ်၍ မရပါ။</entry>
     <entry lang="my" key="IDPM_CHECK_FILESYS">ဖိုင်စနစ် စစ်ဆေးရန်</entry>
     <entry lang="my" key="IDPM_REPAIR_FILESYS">ဖိုင်စနစ် ပြုပြင်ရန်</entry>
@@ -1011,11 +1011,11 @@
     <entry lang="my" key="NO_SYSENC_PARTITION_SELECTED">ရွေးထားသော အခန်းကန့် မရှိပါ။\n\nစက်မတက်မီ အတည်ပြုချက် လိုအပ်သော အဆုံးသတ်ထားသော အခန်းကန့် တစ်ခုကို ရွေးချယ်ရန် 'Device ရွေးချယ်ရန်' ကို နှိပ်ပါ (ဥပမာ အားဖြင့်၊ အခြား OS ၏ စာဝှက်ထားသော drive ထဲ၌ ရှိသော အခန်းကန့် တစ်ခု၊ (သို့) အခြား OS ၏ စာဝှက်ထားသော အခန်းကန့်)။ \n\n မှတ်ချက် - ရွေးချယ်ထားသော အခန်းကန့်ကို စက်မတက်မီ အတည်ပြုစရာ မလိုပဲ ပုံမှန် VeraCrypt volume ကဲ့သို့ အစပျိုးနိုင်သည်။ ဤအချက်သည် အရန်သင့် သိမ်းဆည်းရန် (သို့) လုပ်​ငန်းလည်ပတ်မှုများ ပြုပြင်ရန် အသုံး၀င်သည်။</entry>
     <entry lang="my" key="CONFIRM_SAVE_DEFAULT_KEYFILES">သတိပေးချက် - အကယ်၍ ကီးဖိုင်များကို သတ်မှတ်ပြီး ဖွင့်ထားပါက၊ ၄င်းကီးဖိုင်များကို အသုံးမပြုသော volumes များကို အစပျိုးနိုင်မည် မဟုတ်ပါ။ ထို့ကြောင့်၊ ပုံမှန် ကီးဖိုင်များကို ဖွင့်ပြီးပါက၊ ယင်းကဲ့သို့ volumes မျိုးကို အစပျိုးသည့်အခါတိုင်း အမှန်ခြစ်ကွက်ထဲမှ 'ကီးဖိုင်များ သုံးရန်' ကို မရွေးရန် သတိပြပါ။\n\nရွေးချယ်ထားသော ကီးဖိုင်/ဖိုင်လမ်းကြောင်းများကို ပုံမှန်အတိုင်း သိမ်းဆည်းရန် သေချာသလား? </entry>
     <entry lang="my" key="HK_AUTOMOUNT_DEVICES">အလိုလို-အစပျိုးသော Devices များ</entry>
-    <entry lang="my" key="HK_DISMOUNT_ALL">အားလုံးကို အဆုံးသတ်ရန်</entry>
+    <entry lang="my" key="HK_UNMOUNT_ALL">အားလုံးကို အဆုံးသတ်ရန်</entry>
     <entry lang="my" key="HK_WIPE_CACHE">ကေ့ချ်ကို ရှင်းလင်းရန်</entry>
-    <entry lang="my" key="HK_DISMOUNT_ALL_AND_WIPE">အားလုံးကို အဆုံးသတ်ပါ၊ ကေ့ချ်ကို ရှင်းလင်းပါ</entry>
-    <entry lang="my" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">အားလုံးကို အတင်း အဆုံးသတ်ပါ၊ ကေ့ချ်ကို ရှင်းလင်းပါ</entry>
-    <entry lang="my" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">အားလုံးကို အတင်း အဆုံးသတ်ပါ၊ ကေ့ချ်ကို ရှင်းလင်းပါ &amp; ထွက်ပါ</entry>
+    <entry lang="my" key="HK_UNMOUNT_ALL_AND_WIPE">အားလုံးကို အဆုံးသတ်ပါ၊ ကေ့ချ်ကို ရှင်းလင်းပါ</entry>
+    <entry lang="my" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">အားလုံးကို အတင်း အဆုံးသတ်ပါ၊ ကေ့ချ်ကို ရှင်းလင်းပါ</entry>
+    <entry lang="my" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">အားလုံးကို အတင်း အဆုံးသတ်ပါ၊ ကေ့ချ်ကို ရှင်းလင်းပါ &amp; ထွက်ပါ</entry>
     <entry lang="my" key="HK_MOUNT_FAVORITE_VOLUMES">စိတ်ကြိုက် Volumes များ အစပျိုးရန်</entry>
     <entry lang="my" key="HK_SHOW_HIDE_MAIN_WINDOW">ပင်မ VeraCrypt ဝင်းဒိုးကို ပြပါ/ဝှက်ပါ</entry>
     <entry lang="my" key="PRESS_A_KEY_TO_ASSIGN">(ဤနေရာကို နှိပ်ပြီး ကီးတစ်ခု နှိပ်ပါ)</entry>
@@ -1027,14 +1027,14 @@
     <entry lang="my" key="PAGING_FILE_CREATION_PREVENTED">ဆက်သွယ်​ရေး ဖိုင် ဖန်တီးမှုကို တားမြစ်ထားသည်။\n\n၀င်းဒိုး ပြဿနာကြောင့်၊ ကွန်ပျူတာစနစ် မဟုတ်သော (ကွန်ပျူတာ စိတ်ကြိုက် volumes) VeraCrypt volumes များထဲ၌ ဆက်သွယ်ရေး ဖိုင်များကို မ​ရှာနိုင်ပါ။ VeraCrypt သည် ဆက်သွယ်ရေး ဖိုင်များကို စာဝှက်ထားသော ကွန်ပျူတာစနစ် အခန်းကန့်/drive ၌သာ ပံ့ပိုးထားသည်။</entry>
     <entry lang="my" key="SYS_ENC_HIBERNATION_PREVENTED">ချို့ယွင်းချက် (သို့) မညီမျှမှု တစ်ခုသည် VeraCrypt က hibernation ဖိုင်ကို စာဝှက်၍ မရအောင် တားမြစ်နေသည်။ ထို့ကြောင့်၊ hibernation လုပ်ခြင်းကို တားမြစ်ထားသည်။\n\nမှတ်ချက် - ကွန်ပျူတာ တစ်လုံး hibernate လုပ်သည့်အခါ (သို့မဟုတ် ဓါတ်အား ​​​​​​​​​​ချွေတာရေးစနစ်၌ ထားသည့်အခါ)၊ ၄င်း၏ ကွန်ပျူတာစနစ် မှတ်ဉာဏ်ထဲမှ အကြောင်းအရာကို ကွန်ပျူတာစနစ် drive ၌ တည်ရှိသော hibernation သိုလှောင်ရေး ဖိုင်ထဲသို့ ရေးသားထားသည်။ VeraCrypt  သည် RAM ထဲ၌ ဖွင့်ထားသော စာဝှက်စနစ် ကီးများနှင့် အ​ထိခိုက်မခံသော ဖိုင်များကို hibernation သိုလှောင်ရေး ဖိုင်ထဲ၌ စာဝှက်မထားပဲ သိမ်းဆည်းထားမည် မဟုတ်ပါ။</entry>
     <entry lang="my" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernation ပြုလုပ်ခြင်းကို တားမြစ်ထားသည်။\n\nVeraCrypt သည် အပို boot အခန်းကန့် တစ်ခု ပါရှိသော လျှို့ဝှက် OS စနစ်၌ hibernation ကို ထောက်ပံ့မပေးပါ။ ၄င်း boot အခန်းကန့်သည် မျက်လှည့် စနစ်နှင့် လျှို့ဝှက် စနစ်တို့က ဝေမျှထားသည်ကို သတိပြုပါ။ ထို့ကြောင့်၊ hibernation ပြုလုပ်ရာမှ ပြန်ဖွင့်သည့်အခါ ဒေတာ ယိုဖိတ်မှုများနှင့် ပြဿနာများကို ကာကွယ်နိုင်ရန်၊ VeraCrypt သည် လျှို့ဝှက် ကွန်ပျူတာစနစ်ကို ဝေမျှသော boot အခန်းကန့်ထဲ ရေးသားခြင်း မပြုနိုင်ရန်နှင့် hibernating မလုပ်နိုင်ရန် တားဆီးပေးမည် ဖြစ်သည်။</entry>
-    <entry lang="my" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">%c အဖြစ် အစပျိုးထားသော VeraCrypt volume ကို အဆုံးသတ်ထားသည်။</entry>
-    <entry lang="my" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt volumes များကို အဆုံးသတ်ထားသည်။</entry>
-    <entry lang="my" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt volumes များကို အဆုံးသတ်ထားပြီး စကားဝှက် ကေ့ချ်ကို ရှင်းလင်းထားသည်။</entry>
-    <entry lang="my" key="SUCCESSFULLY_DISMOUNTED">အောင်မြင်စွာ အဆုံးသတ်ထားသည်</entry>
+    <entry lang="my" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">%c အဖြစ် အစပျိုးထားသော VeraCrypt volume ကို အဆုံးသတ်ထားသည်။</entry>
+    <entry lang="my" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt volumes များကို အဆုံးသတ်ထားသည်။</entry>
+    <entry lang="my" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt volumes များကို အဆုံးသတ်ထားပြီး စကားဝှက် ကေ့ချ်ကို ရှင်းလင်းထားသည်။</entry>
+    <entry lang="my" key="SUCCESSFULLY_UNMOUNTED">အောင်မြင်စွာ အဆုံးသတ်ထားသည်</entry>
     <entry lang="my" key="CONFIRM_BACKGROUND_TASK_DISABLED">သတိပေးချက် - အကယ်၍ VeraCrypt နောက်ခံ လုပ်ဆောင်မှုကို ပိတ်ထားပါက၊ အောက်ပါ လုပ်ဆောင်ချက်များကို ပိတ်ထားမည် ဖြစ်သည် -\n\n၁) အထူးကီးများ\n၂) အလိုလို-အဆုံးသတ်ရန် (ဥပမာ - ခေတ္တ ပိတ်ထားခြင်း၊ လွတ်နေသော host device ဖယ်ရှားခြင်း၊ အချိန်ကုန်သွားခြင်း၊ စသဖြင့်။)\n၃) စိတ်ကြိုက် volumes များကို အလိုလို-အစပျိုးခြင်း၄) သတိပေးချက်များ (ဥပမာ - လျှို့ဝှက် volume ဖျက်ဆီးမှုကို တားမြစ်သည့်အခါ)\n၅) အမှိုက်ပုံး အိုင်ကွန်ပုံ\nမှတ်ချက် - VeraCrypt ၏ အမှိုက်ပုံး အိုင်ကွန်ပုံကို ညာဖက် နှိပ်ခြင်းဖြင့်၊ 'ထွက်ရန်' ကို ရွေးခြင်းဖြင့် နောက်ခံ လုပ်ဆောင်ချက်ကို အချိန်မရွေး ပိတ်နိုင်သည်။\n\nVeraCrypt ၏ နောက်ခံ လုပ်ဆောင်ချက်ကို အမြဲတမ်း ပိတ်ရန် သေချာသလား?</entry>
-    <entry lang="my" key="CONFIRM_NO_FORCED_AUTODISMOUNT">သတိပေးချက် - အကယ်၍ ဤရွေးစရာကို ပိတ်ထားပါက၊ ဖွင့်ထားသော ဖိုင်များ/ဖိုင်တွဲများ ပါရှိသော volumes များကို အလိုလို-အဆုံးသတ်နိုင်မည် မဟုတ်ပါ။\n\nဤရွေးစရာကို သင် ပိတ်ထားရန် အလိုရှိသလား?</entry>
-    <entry lang="my" key="WARN_PREF_AUTO_DISMOUNT">သတိပေးချက် - ဖွင့်ထားသော ဖိုင်များ/ဖိုင်တွဲများ ပါရှိသော volumes များကို အလိုလို-အဆုံးသတ်နိုင်မည် မဟုတ်ပါ။\n\nဤအချက်ကို တားမြစ်ရန်၊ ​အောက်ပါ ရွေးစရာကို အညွှန်း ၀င်းဒိုးထဲ၌ ဖွင့်ထားပါ - အကယ်၍ 'volume ၌ ဖွင့်ထားသော ဖိုင်များ/ဖိုင်တွဲများ ရှိနေလျှင်ပင် အတင်းအကျပ် အလိုလို-အဆုံးသက်ပါ'</entry>
-    <entry lang="my" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">သတိပေးချက် - ဘက်ထရီ အားနည်းလာသည့်အခါ၊ ကွန်ပျူတာသည် ဓါတ်အား ​ချွေတာရေး စနစ်ထဲ ၀င်လာသည့်နှင့် အလုပ်လုပ်နေသော အပ္ပလီကေးရှင်းများထံ သင့်လျှော်သော စာတမ်းများ ပေးပို့မှု ရပ်ဆိုင်းမည် ဖြစ်သည်။ ထို့ကြောင့်၊ ယင်းကဲ့သို့ အခြေအနေများတွင် VeraCrypt သည် volumes များကို အလိုလို-အဆုံးသတ်နိုင်မည် မဟုတ်ပါ။</entry>
+    <entry lang="my" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">သတိပေးချက် - အကယ်၍ ဤရွေးစရာကို ပိတ်ထားပါက၊ ဖွင့်ထားသော ဖိုင်များ/ဖိုင်တွဲများ ပါရှိသော volumes များကို အလိုလို-အဆုံးသတ်နိုင်မည် မဟုတ်ပါ။\n\nဤရွေးစရာကို သင် ပိတ်ထားရန် အလိုရှိသလား?</entry>
+    <entry lang="my" key="WARN_PREF_AUTO_UNMOUNT">သတိပေးချက် - ဖွင့်ထားသော ဖိုင်များ/ဖိုင်တွဲများ ပါရှိသော volumes များကို အလိုလို-အဆုံးသတ်နိုင်မည် မဟုတ်ပါ။\n\nဤအချက်ကို တားမြစ်ရန်၊ ​အောက်ပါ ရွေးစရာကို အညွှန်း ၀င်းဒိုးထဲ၌ ဖွင့်ထားပါ - အကယ်၍ 'volume ၌ ဖွင့်ထားသော ဖိုင်များ/ဖိုင်တွဲများ ရှိနေလျှင်ပင် အတင်းအကျပ် အလိုလို-အဆုံးသက်ပါ'</entry>
+    <entry lang="my" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">သတိပေးချက် - ဘက်ထရီ အားနည်းလာသည့်အခါ၊ ကွန်ပျူတာသည် ဓါတ်အား ​ချွေတာရေး စနစ်ထဲ ၀င်လာသည့်နှင့် အလုပ်လုပ်နေသော အပ္ပလီကေးရှင်းများထံ သင့်လျှော်သော စာတမ်းများ ပေးပို့မှု ရပ်ဆိုင်းမည် ဖြစ်သည်။ ထို့ကြောင့်၊ ယင်းကဲ့သို့ အခြေအနေများတွင် VeraCrypt သည် volumes များကို အလိုလို-အဆုံးသတ်နိုင်မည် မဟုတ်ပါ။</entry>
     <entry lang="my" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">သင်သည် အခန်းကန့်/volume တစ်ခုခု စာဝှက်နေမှု လုပ်ငန်းစဉ်အတွက် အချိန်သတ်မှတ်ထားပြီး။ ၄င်းလုပ်ငန်းစဉ်သည် မပြီးဆုံးသေးပါ။\n\nလုပ်ငန်းစဉ်ကို ယခု ပြန်စတင်ရန် အလိုရှိသလား?</entry>
     <entry lang="my" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">သင်သည် အခန်းကန့်/volume တစ်ခုခု စာဝှက်နေမှု (သို့) စာဝှက်ဖြည်မှု လုပ်ငန်းစဉ်အတွက် အချိန်သတ်မှတ်ထားပြီး။ ၄င်းလုပ်ငန်းစဉ်သည် မပြီးဆုံးသေးပါ။\n\nလုပ်ငန်းစဉ်ကို ယခု ပြန်စတင်ရန် အလိုရှိသလား?</entry>
     <entry lang="my" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">လက်ရှိ အချိန်သတ်မှတ်ထားသော ကွန်ပျူတာစနစ် မဟုတ်သည့် အခန်းကန့်များ/volumes များ စာဝှက်သည့် လုပ်ငန်းစဉ်များကို ပြန်စတင်ရန် အချက်ပေး စေလိုသလား?</entry>
@@ -1065,7 +1065,7 @@
     <entry lang="my" key="SYS_AUTOMOUNT_DISABLED">သင့်ကွန်ပျူတာစနစ်သည် အလိုလို-အစပျိုး volume အသစ်များအတွက် ပြုပြင်ဖန်တီးထားခြင်း မရှိပါ။ Device-အခြေခံ VeraCrypt volumes များကို အစပျိုးရန် မဖြစ်နိုင်ပါ။ အောက်ပါ ညွှန်ကြားချက်ကို လုပ်ဆောင်ပြိး ကွန်ပျူတာစနစ်ကို ပြန်ဖွင့်ခြင်းဖြင့် အလိုလို-အစပျိုးခြင်းကို ဖွင့်ထားနိုင်သည်။\n\nmountvol.exe /E</entry>
     <entry lang="my" key="SYS_ASSIGN_DRIVE_LETTER">('Control Panel' &gt; 'System and Maintenance' &gt; 'Administrative Tools' - 'Create and format hard disk partitions') ကို ဆက်လက် မလုပ်​ဆောင်မီ အခန်းကန့်/device အတွက် drive အက္ခရာ တစ်ခု သတ်မှတ်ပါ။\n\n၄င်းသည် OS စနစ်၏ တောင်းဆိုချက် တစ်ခု ဖြစ်သည်။</entry>
     <entry lang="my" key="MOUNT_TC_VOLUME">VeraCrypt volume ကို အစပျိုးရန်</entry>
-    <entry lang="my" key="DISMOUNT_ALL_TC_VOLUMES">VeraCrypt volume အားလုံးကို အဆုံးသတ်ရန်</entry>
+    <entry lang="my" key="UNMOUNT_ALL_TC_VOLUMES">VeraCrypt volume အားလုံးကို အဆုံးသတ်ရန်</entry>
     <entry lang="my" key="UAC_INIT_ERROR">VeraCrypt သည် စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်များ မရရှိနိုင်ပါ။</entry>
     <entry lang="my" key="ERR_ACCESS_DENIED">OS စနစ်ထဲ ၀င်ရောက်မှု ငြင်းပယ်ခံရသည်။\n\n ဖြစ်နိုင်ချ အကြောင်းရင်း - OS စနစ်သည် အချို့ ဖိုင်တွဲများ၊ ဖိုင်များနှင့် devices ကို သင် ရေးသားနိုင်/ဖတ်ရှုနိုင်ရန်အတွက် အရေး/အဖတ် ခွင့်ပြုချက် (သို့မဟုတ် စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်များ) ကို တောင်းဆိုထားသည်။ ပုံမှန်အားဖြင့်၊ စီမံခန့်ခွဲသူ လုပ်ပိုင်ခွင့်များ မရထားသော သုံးစွဲသူကို ၄င်း၏Documents ဖိုင်တွဲကို ဖန်တီးခွင့်၊ ဖတ်ရှုခွင့်၊ ပြုပြင်ခွင့် မရှိပါ။</entry>
     <entry lang="my" key="SECTOR_SIZE_UNSUPPORTED">ချို့ယွင်းချက် - ဤ drive သည် ထောက်ပံ့မထာသော sector အရွယ်အစားကို သုံးစွဲထားသည်။\n\n လောလောဆယ်၌ 4096 bytes ထက် များသော sectors များကို သုံးစွဲသော drives ပေါ်၌ အခန်းကန့်/device-အခြေခံ volumes များကို ဖန်တီး၍ မရပါ။ သို့သော်၊ ယင်းကဲ့သို့ drives များတွင် ဖိုင်-အခြေခံ volumes (သိမ်းဆည်းခန်းများ) ကို သင် ဖန်တီးနိုင်သည်။</entry>
@@ -1308,8 +1308,8 @@
     <entry lang="my" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">(စွမ်းဆောင်ရည် အားနည်းသော) Benchmark ရလဒ်များကို ထိခိုက်​​စေသော threads အရေအတွက်ကို လောလောဆယ် ကန့်သတ်ထားသည်။\n\nProcessor(များ) ၏ စွမ်းရည် အပြည့်အ၀ကို အသုံးချရန်၊ 'ချိန်ညှိချက်များ' &gt; 'လုပ်ဆောင်ချက်' ကို ရွေးချယ်ပြီး၊ သက်ဆိုင်သော ရွေးစရာကို ပိတ်ထားပါ။</entry>
     <entry lang="my" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">အခန်းကန့်/drive ကို ရေးသားနိုင်မှု ပိတ်ထားချက်ကို VeraCrypt ဖြင့် ပိတ်လိုသလား?</entry>
     <entry lang="my" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">သတိပေးချက် - ဤချိန်ညှိချက်သည် စွမ်းဆောင်ရည်ကို နိမ့်ကျစေနိုင်သည်။\n\nဤချိန်ညှိချက်ကို သင်တကယ် အသုံးပြုလိုသလား?</entry>
-    <entry lang="my" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">သတိပေးချက် - VeraCrypt volume ကို အလိုလို-အဆုံးသတ်ထားသည်</entry>
-    <entry lang="my" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">အစပျိုးထားသော volume တစ်ခုပါသော device တစ်ခုကို ရုပ်ပိုင်းဆိုင်ရာ မဖယ်ရှားမီ (သို့)  စက်မပိတ်မီ၊ VeraCrypt ဖြင့် volume ကို ပထမဦးဆုံး အမြဲတမ်း အဆုံးသတ်ရမည် ဖြစ်သည်။\n\nကေဘယ်ကြိုး၊ drive (enclosure) တို့ ပြတ်တောင်းပြတ်တောင်း ဖြစ်နေမှုကြောင့် မမျှော်လင့်သော အလိုလို အဆုံးသတ်မှု ဖြစ်ပွားနေသည်။</entry>
+    <entry lang="my" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">သတိပေးချက် - VeraCrypt volume ကို အလိုလို-အဆုံးသတ်ထားသည်</entry>
+    <entry lang="my" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">အစပျိုးထားသော volume တစ်ခုပါသော device တစ်ခုကို ရုပ်ပိုင်းဆိုင်ရာ မဖယ်ရှားမီ (သို့)  စက်မပိတ်မီ၊ VeraCrypt ဖြင့် volume ကို ပထမဦးဆုံး အမြဲတမ်း အဆုံးသတ်ရမည် ဖြစ်သည်။\n\nကေဘယ်ကြိုး၊ drive (enclosure) တို့ ပြတ်တောင်းပြတ်တောင်း ဖြစ်နေမှုကြောင့် မမျှော်လင့်သော အလိုလို အဆုံးသတ်မှု ဖြစ်ပွားနေသည်။</entry>
     <entry lang="my" key="UNSUPPORTED_TRUECRYPT_FORMAT">ဤ volume ကို TrueCrypt %x.%x ဖြင့် ဖန်တီးခဲ့သည်။ သို့သော် VeraCrypt သည် TrueCrypt 6.x/7.x စီးရီးဖြင့် ဖန်တီးထားသော TrueCrypt volume များကိုသာ ပံ့ပိုးပါသည်။</entry>
     <entry lang="my" key="TEST">စမ်းသပ်ရန်</entry>
     <entry lang="my" key="KEYFILE">ကီးဖိုင်</entry>
@@ -1455,7 +1455,7 @@
     <entry lang="my" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">အစပျိုးထားသော Volume အားလုံးကို စိတ်ကြိုက်စာရင်းထဲ ထည့်ရန်…</entry>
     <entry lang="my" key="TASKICON_PREF_MENU_ITEMS">အလုပ် အိုင်ကွန် မီနူး ပါဝင်မှုများ</entry>
     <entry lang="my" key="TASKICON_PREF_OPEN_VOL">အစပျိုးထားသော Volume များကို ဖွင့်ပါ</entry>
-    <entry lang="my" key="TASKICON_PREF_DISMOUNT_VOL">အစပျိုးထားသော Volume များကို အဆုံးသတ်ပါ</entry>
+    <entry lang="my" key="TASKICON_PREF_UNMOUNT_VOL">အစပျိုးထားသော Volume များကို အဆုံးသတ်ပါ</entry>
     <entry lang="my" key="DISK_FREE">နေရာလွတ် ရရှိနိုင်သည် - {0}</entry>
     <entry lang="my" key="VOLUME_SIZE_HELP">ဖန်တီးမည့် ထည့်သွင်းစရာ၏ အရွယ်အစားကို သတ်မှတ်ဖော်ပြပါ။ volume တစ်ခု၏ အသေးဆုံး အရွယ်အစားမှာ ၂၉၂ KiB ဖြစ်ကြောင်း သတိပြုပါ။</entry>
     <entry lang="my" key="LINUX_CONFIRM_INNER_VOLUME_CALC">သတိပေးချက် - သင်သည် ပြင်ပ volume အတွက် FAT မဟုတ်သည့် ဖိုင်စနစ်တစ်ခုကို ရွေးချယ်ထားသည်။\nဤကိစ္စရပ်တွင် VeraCrypt သည် လျှို့ဝှက် volume အတွက် အများဆုံး ခွင့်ပြုထားသော အရွယ်အစား အတိအကျကို မတွက်နိုင်သောကြောင့် ခန့်မှန်းခြေတစ်ခုကိုသာ အသုံးပြုမည်ဖြစ်ပြီး ၎င်းသည် မှားနိုင်ကြောင်း သတိပြုပါ။\nထို့ကြောင့် ပြင်ပ volume အတွက် သင့်တော်သော တန်ဖိုးကို အသုံးပြုရန်မှာ သင့်တာဝန်ဖြစ်သည်။\n\nရွေးချယ်ထားသော ဖိုင်စနစ်ကို ပြင်ပ volume အတွက် ဆက်လက် အသုံးပြုလိုပါသလား။</entry>
@@ -1485,14 +1485,14 @@
     <entry lang="my" key="LINUX_DO_NOT_MOUNT">&amp;အစမပျိုးပါနှင့်</entry>
     <entry lang="my" key="LINUX_MOUNT_AT_DIR">လမ်းညွှန်တွင် အစပျိုးပါ -</entry>
     <entry lang="my" key="LINUX_SELECT">ရွေးချယ်ရန်…</entry>
-    <entry lang="my" key="LINUX_DISMOUNT_ALL_WHEN">ဤအချိန်တွင် Volume အားလုံးကို အဆုံးသတ်ပါ</entry>
+    <entry lang="my" key="LINUX_UNMOUNT_ALL_WHEN">ဤအချိန်တွင် Volume အားလုံးကို အဆုံးသတ်ပါ</entry>
     <entry lang="my" key="LINUX_ENTERING_POWERSAVING">စနစ်သည် ပါဝါချွေတာရေးမုဒ်သို့ ဝင်ရောက်နေသည်</entry>
     <entry lang="my" key="LINUX_LOGIN_ACTION">အသုံးပြုသူ ဝင်ရောက်သည့်အခါ ဆောင်ရွက်ရန် လုပ်ဆောင်ချက်များ</entry>
-    <entry lang="my" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">အဆုံးသတ်နေသော volume ၏ Explorer windows အားလုံးကို ပိတ်ပါ</entry>
+    <entry lang="my" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">အဆုံးသတ်နေသော volume ၏ Explorer windows အားလုံးကို ပိတ်ပါ</entry>
     <entry lang="my" key="LINUX_HOTKEYS">အထူးကီးများ</entry>
     <entry lang="my" key="LINUX_SYSTEM_HOTKEYS">စနစ်သုံး အထူးကီးများ</entry>
     <entry lang="my" key="LINUX_SOUND_NOTIFICATION">အစပျိုးပြီးနောက်/အဆုံးသတ်ပြီးနောက် စနစ်အသိပေးချက်အသံကို ဖွင့်ပါ</entry>
-    <entry lang="my" key="LINUX_CONFIRM_AFTER_DISMOUNT">အဆုံးသတ်ပြီးနောက် အတည်ပြုမက်ဆေ့ချ်အကွက်ကို ပြသပါ</entry>
+    <entry lang="my" key="LINUX_CONFIRM_AFTER_UNMOUNT">အဆုံးသတ်ပြီးနောက် အတည်ပြုမက်ဆေ့ချ်အကွက်ကို ပြသပါ</entry>
     <entry lang="my" key="LINUX_VC_QUITS">VeraCrypt ထွက်ပါပြီ</entry>
     <entry lang="my" key="LINUX_OPEN_FINDER">အောင်မြင်စွာ အစပျိုးထားသော volume အတွက် Finder ဝင်းဒိုးကို ဖွင့်ပါ</entry>
     <entry lang="my" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">kernel ကုဒ်ထည့်ထားသော ဝန်ဆောင်မှုများကို အသုံးပြုမှု ပယ်ဖျက်ထားမှသာ ဤဆက်တင် အကျိုးသက်ရောက်မှုရှိကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။</entry>
@@ -1524,7 +1524,7 @@
     <entry lang="my" key="LINUX_DOT_LF">။\n</entry>
     <entry lang="my" key="LINUX_NOT_SUPPORTED">(ဤပလက်ဖောင်းတွင် ရရှိနိုင်သော အစိတ်အပိုင်းများက မပံ့ပိုးပါ)။\n</entry>
     <entry lang="my" key="LINUX_KERNEL_OLD">သင့်စနစ်သည် Linux kernel ၏ ဗားရှင်းဟောင်းကို အသုံးပြုသည်။\n\nLinux kernel ရှိ ပြဿနာတစ်ခုကြောင့် VeraCrypt volume တစ်ခုသို့ ဒေတာရေးစဉ် သင့်စနစ် ရပ်သွားနိုင်သည်။ ဤပြဿနာကို ဖြေရှင်းရန် kernel ကို ဗားရှင်း ၂.၆.၂၄ သို့မဟုတ် နောက်ပိုင်းဗားရှင်းသို့ အဆင့်မြှင့်နိုင်သည်။</entry>
-    <entry lang="my" key="LINUX_VOL_DISMOUNTED">Volume {0} ကို အဆုံးသတ်လိုက်ပါပြီ။</entry>
+    <entry lang="my" key="LINUX_VOL_UNMOUNTED">Volume {0} ကို အဆုံးသတ်လိုက်ပါပြီ။</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="my" key="LINUX_OOM">မမ်မိုရီ မကျန်တော့ပါ။</entry>
     <entry lang="my" key="LINUX_CANT_GET_ADMIN_PRIV">စီမံအုပ်ချုပ်သူ အခွင့်ထူးများကို ရယူခြင်း မအောင်မြင်ပါ</entry>

@@ -203,7 +203,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				StringCbPrintfW (szTemp, sizeof(szTemp),GetString("EXPANDER_HELP_FILE"),TC_MINVAL_FS_EXPAND/1024);
 			}
-			SetWindowText (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTemp);			
+			SetWindowText (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTemp);
 
 		}
 		return 0;
@@ -548,7 +548,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 
 	if (IsMountedVolume (lpszVolume))
 	{
-		Warning ("DISMOUNT_FIRST", hwndDlg);
+		Warning ("UNMOUNT_FIRST", hwndDlg);
 		goto ret;
 	}
 
@@ -841,4 +841,3 @@ error:
 
 	return;
 }
-

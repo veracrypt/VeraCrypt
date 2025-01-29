@@ -138,8 +138,8 @@
     <entry lang="de" key="IDC_FAVORITE_REMOVE">&amp;Entfernen</entry>
     <entry lang="de" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Bezeichnung des ausgewählten Volumes für Explorer verwenden</entry>
     <entry lang="de" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Globale Einstellungen</entry>
-    <entry lang="de" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Nach erfolgreichem Trennen per Tastenkombination ein Benachrichtigungsfenster anzeigen</entry>
-    <entry lang="de" key="IDC_HK_DISMOUNT_PLAY_SOUND">Nach erfolgreichem Trennen per Tastenkombination den Systembenachrichtigungston abspielen</entry>
+    <entry lang="de" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Nach erfolgreichem Trennen per Tastenkombination ein Benachrichtigungsfenster anzeigen</entry>
+    <entry lang="de" key="IDC_HK_UNMOUNT_PLAY_SOUND">Nach erfolgreichem Trennen per Tastenkombination den Systembenachrichtigungston abspielen</entry>
     <entry lang="de" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="de" key="IDC_HK_MOD_CTRL">Strg</entry>
     <entry lang="de" key="IDC_HK_MOD_SHIFT">Umschalt</entry>
@@ -159,12 +159,12 @@
     <entry lang="de" key="IDC_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</entry>
     <entry lang="de" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiv</entry>
     <entry lang="de" key="IDC_PREF_CACHE_PASSWORDS">Passwörter im &amp;Cache halten</entry>
-    <entry lang="de" key="IDC_PREF_DISMOUNT_INACTIVE">Bei ausbleibendem Lese-/Schreibzugriff aut&amp;omatisch trennen nach</entry>
-    <entry lang="de" key="IDC_PREF_DISMOUNT_LOGOFF">Benutzerabmel&amp;dung</entry>
-    <entry lang="de" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Benutzersitzung gesperrt</entry>
-    <entry lang="de" key="IDC_PREF_DISMOUNT_POWERSAVING">Wechsel in Energiesparmod&amp;us</entry>
-    <entry lang="de" key="IDC_PREF_DISMOUNT_SCREENSAVER">Bildsc&amp;hirmschonerstart</entry>
-    <entry lang="de" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Automatisches Trennen bei geöffneten Date&amp;ien erzwingen</entry>
+    <entry lang="de" key="IDC_PREF_UNMOUNT_INACTIVE">Bei ausbleibendem Lese-/Schreibzugriff aut&amp;omatisch trennen nach</entry>
+    <entry lang="de" key="IDC_PREF_UNMOUNT_LOGOFF">Benutzerabmel&amp;dung</entry>
+    <entry lang="de" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Benutzersitzung gesperrt</entry>
+    <entry lang="de" key="IDC_PREF_UNMOUNT_POWERSAVING">Wechsel in Energiesparmod&amp;us</entry>
+    <entry lang="de" key="IDC_PREF_UNMOUNT_SCREENSAVER">Bildsc&amp;hirmschonerstart</entry>
+    <entry lang="de" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Automatisches Trennen bei geöffneten Date&amp;ien erzwingen</entry>
     <entry lang="de" key="IDC_PREF_LOGON_MOUNT_DEVICES">Alle Datenträger-&amp;Volumes einhängen</entry>
     <entry lang="de" key="IDC_PREF_LOGON_START">VeraCrypt-Hintergrundtask starten</entry>
     <entry lang="de" key="IDC_PREF_MOUNT_READONLY">Nur &amp;schreibgeschützt einhängen</entry>
@@ -172,7 +172,7 @@
     <entry lang="de" key="IDC_PREF_OPEN_EXPLORER">Explo&amp;rer-Fenster für erfolgreich eingehängtes Volume öffnen</entry>
     <entry lang="de" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporäres Cache-Passwort während Vorgängen zum „Volume-Favoriten einhängen“</entry>
     <entry lang="de" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Ein anderes Taskleistensymbol benutzen, wenn Volumes eingehängt sind</entry>
-    <entry lang="de" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Passwörter im Cache beim auto&amp;matischen Trennen sicher löschen</entry>
+    <entry lang="de" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Passwörter im Cache beim auto&amp;matischen Trennen sicher löschen</entry>
     <entry lang="de" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Cache beim Beenden sicher &amp;löschen</entry>
     <entry lang="de" key="IDC_PRESERVE_TIMESTAMPS">Änderungszeiten von Containerdateien erhalten</entry>
     <entry lang="de" key="IDC_RESET_HOTKEYS">Zu&amp;rücksetzen</entry>
@@ -272,14 +272,14 @@
     <entry lang="de" key="IDT_ACCELERATION_OPTIONS">Hardwarebeschleunigung</entry>
     <entry lang="de" key="IDT_ASSIGN_HOTKEY">Tastenkombination</entry>
     <entry lang="de" key="IDT_AUTORUN">Autostart-Konfiguration („autorun.inf“)</entry>
-    <entry lang="de" key="IDT_AUTO_DISMOUNT">Automatisches Trennen</entry>
-    <entry lang="de" key="IDT_AUTO_DISMOUNT_ON">Alle Volumes trennen bei:</entry>
+    <entry lang="de" key="IDT_AUTO_UNMOUNT">Automatisches Trennen</entry>
+    <entry lang="de" key="IDT_AUTO_UNMOUNT_ON">Alle Volumes trennen bei:</entry>
     <entry lang="de" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Optionen des Bootloader-Bildschirms</entry>
     <entry lang="de" key="IDT_CONFIRM_PASSWORD">Passwort bestätigen:</entry>
     <entry lang="de" key="IDT_CURRENT">Momentan</entry>
     <entry lang="de" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Zeige diese benutzerdefinierte Nachricht im Pre-Boot-Authentifikationsbildschirm an (max. 24 Zeichen):</entry>
     <entry lang="de" key="IDT_DEFAULT_MOUNT_OPTIONS">Voreinstellungen beim Einhängen</entry>
-    <entry lang="de" key="IDT_DISMOUNT_ACTION">Einstellungen für Tastenkombinationen</entry>
+    <entry lang="de" key="IDT_UNMOUNT_ACTION">Einstellungen für Tastenkombinationen</entry>
     <entry lang="de" key="IDT_DRIVER_OPTIONS">Treiberkonfiguration</entry>
     <entry lang="de" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Unterstützung für erweiterte Plattensteuercodes aktivieren</entry>
     <entry lang="de" key="IDT_FAVORITE_LABEL">Bezeichnung des gewählten Favoriten-Volumes:</entry>
@@ -426,8 +426,8 @@
     <entry lang="de" key="DEVICE_FREE_PB">Die Größe von %s ist %.2f PB</entry>
     <entry lang="de" key="DEVICE_IN_USE_FORMAT">WARNUNG: Der Datenträger bzw. die Partition wird bereits vom Betriebssystem oder von Anwendungen benutzt! Das Formatieren des Datenträgers bzw. der Partition kann zu Datenbeschädigung und Systeminstabilität führen.\n\nDennoch mit dem Formatieren beginnen?</entry>
     <entry lang="de" key="DEVICE_IN_USE_INPLACE_ENC">WARNUNG: Die Partition wird vom Betriebssystem oder von einer Anwendung verwendet. Sie sollten jede Anwendung, die möglicherweise die Partition verwendet, schließen (einschließlich Antiviren-Software).\n\nFortfahren?</entry>
-    <entry lang="de" key="FORMAT_CANT_DISMOUNT_FILESYS">FEHLER: Der Datenträger bzw. die Partition enthält ein Dateisystem, das nicht ausgehängt werden konnte. Das Dateisystem wird möglicherweise vom Betriebssystem verwendet. Das Formatieren würde sehr wahrscheinlich Daten beschädigen und zu Systeminstabilität führen.\n\nEmpfehlungen zur Behebung des Problems: Zuerst die Partition löschen und anschließend die Partition ohne Formatierung neu erstellen.\n\n1) Im Startmenü Rechtsklick auf „Computer“ oder „Arbeitsplatz“ und dann „Verwalten“ auswählen. Das Fenster „Computerverwaltung“ sollte erscheinen.\n2) „Datenspeicher“ &gt; „Datenträgerverwaltung“ im Fenster „Computerverwaltung“ auswählen.\n3) Rechtsklick auf die zu verschlüsselnde Partition und entweder „Partition löschen ...“, „Volume löschen ...“ oder „Logisches Laufwerk löschen ...“ auswählen.\n4) Auf „Ja“ klicken. Sollte Windows zum Neustart des Rechners auffordern, dieser Aufforderung folgen, die Schritte 1 und 2 wiederholen und mit Schritt 5 fortsetzen.\n5) Rechtsklick auf den als „Nicht zugeordnet“/„Freier Speicherplatz“ bezeichneten Bereich und entweder „Neue Partition ...“, „Neues einfaches Volume ...“ oder „Neues logisches Laufwerk ...“ auswählen.\n6) Den Anweisungen des daraufhin erscheinenden Fensters „Assistent zum Erstellen neuer Partitionen“ bzw. „Assistent zum Erstellen neuer einfacher Volumes“ folgen. Auf der Seite „Partition formatieren“ des Assistenten entweder „Diese Partition nicht formatieren“ oder „Dieses Volume nicht formatieren“ auswählen. Anschließend auf „Weiter“ und danach auf „Fertigstellen“ klicken.\n7) Der Name des in VeraCrypt ausgewählten Datenträgers bzw. der Partition ist jetzt u. U. falsch. Schließen Sie deshalb den Assistenten zum Erstellen von VeraCrypt-Volumes (falls dieser noch offen ist) und starten Sie den Assistenten neu.\n8) Versuchen Sie erneut, den Datenträger bzw. die Partition zu verschlüsseln.\n\nSollte sich VeraCrypt erneut weigern, den Datenträger bzw. die Partition zu verschlüsseln, so können Sie stattdessen auch die Erstellung eines Containerdatei-Volumes in Betracht ziehen.</entry>
-    <entry lang="de" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">FEHLER: Das Dateisystem konnte nicht gesperrt und/oder getrennt werden. Es könnte vom Betriebssystem oder von Programmen verwendet werden (z. B. Backup-Software oder Virenscanner). Die Verschlüsselung der Partition könnte Daten beschädigen oder das System instabil werden lassen.\n\nBitte schließen Sie jede Anwendung, die möglicherweise die Partition verwendet (einschließlich Antiviren-Software), und versuchen Sie es erneut. Wenn dies nicht hilft, folgen Sie bitte den unten stehenden Schritten.</entry>
+    <entry lang="de" key="FORMAT_CANT_UNMOUNT_FILESYS">FEHLER: Der Datenträger bzw. die Partition enthält ein Dateisystem, das nicht ausgehängt werden konnte. Das Dateisystem wird möglicherweise vom Betriebssystem verwendet. Das Formatieren würde sehr wahrscheinlich Daten beschädigen und zu Systeminstabilität führen.\n\nEmpfehlungen zur Behebung des Problems: Zuerst die Partition löschen und anschließend die Partition ohne Formatierung neu erstellen.\n\n1) Im Startmenü Rechtsklick auf „Computer“ oder „Arbeitsplatz“ und dann „Verwalten“ auswählen. Das Fenster „Computerverwaltung“ sollte erscheinen.\n2) „Datenspeicher“ &gt; „Datenträgerverwaltung“ im Fenster „Computerverwaltung“ auswählen.\n3) Rechtsklick auf die zu verschlüsselnde Partition und entweder „Partition löschen ...“, „Volume löschen ...“ oder „Logisches Laufwerk löschen ...“ auswählen.\n4) Auf „Ja“ klicken. Sollte Windows zum Neustart des Rechners auffordern, dieser Aufforderung folgen, die Schritte 1 und 2 wiederholen und mit Schritt 5 fortsetzen.\n5) Rechtsklick auf den als „Nicht zugeordnet“/„Freier Speicherplatz“ bezeichneten Bereich und entweder „Neue Partition ...“, „Neues einfaches Volume ...“ oder „Neues logisches Laufwerk ...“ auswählen.\n6) Den Anweisungen des daraufhin erscheinenden Fensters „Assistent zum Erstellen neuer Partitionen“ bzw. „Assistent zum Erstellen neuer einfacher Volumes“ folgen. Auf der Seite „Partition formatieren“ des Assistenten entweder „Diese Partition nicht formatieren“ oder „Dieses Volume nicht formatieren“ auswählen. Anschließend auf „Weiter“ und danach auf „Fertigstellen“ klicken.\n7) Der Name des in VeraCrypt ausgewählten Datenträgers bzw. der Partition ist jetzt u. U. falsch. Schließen Sie deshalb den Assistenten zum Erstellen von VeraCrypt-Volumes (falls dieser noch offen ist) und starten Sie den Assistenten neu.\n8) Versuchen Sie erneut, den Datenträger bzw. die Partition zu verschlüsseln.\n\nSollte sich VeraCrypt erneut weigern, den Datenträger bzw. die Partition zu verschlüsseln, so können Sie stattdessen auch die Erstellung eines Containerdatei-Volumes in Betracht ziehen.</entry>
+    <entry lang="de" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">FEHLER: Das Dateisystem konnte nicht gesperrt und/oder getrennt werden. Es könnte vom Betriebssystem oder von Programmen verwendet werden (z. B. Backup-Software oder Virenscanner). Die Verschlüsselung der Partition könnte Daten beschädigen oder das System instabil werden lassen.\n\nBitte schließen Sie jede Anwendung, die möglicherweise die Partition verwendet (einschließlich Antiviren-Software), und versuchen Sie es erneut. Wenn dies nicht hilft, folgen Sie bitte den unten stehenden Schritten.</entry>
     <entry lang="de" key="DEVICE_IN_USE_INFO">WARNUNG: Einige der angeschlossenen Datenträger bzw. Partitionen werden bereits verwendet!\n\nDas Ignorieren dieser Meldung kann zu unerwünschten Ergebnissen einschließlich einer Systeminstabilität führen.\n\nEs wird dringend empfohlen, alle Anwendungen, die möglicherweise diese Datenträger bzw. Partitionen verwenden, zu schließen.</entry>
     <entry lang="de" key="DEVICE_PARTITIONS_ERR">Der ausgewählte Datenträger enthält Partitionen!\n\nDas Formatieren des Datenträgers könnte zu Systeminstabilitäten und/oder Datenbeschädigung führen. Bitte wählen Sie stattdessen eine Partition auf diesem Datenträger aus oder entfernen Sie sämtliche Partitionen vom Datenträger, damit VeraCrypt den Datenträger sicher formatieren kann.</entry>
     <entry lang="de" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Das ausgewählte Nicht-Systemlaufwerk enthält Partitionen.\n\nVerschlüsselte laufwerksbasierte VeraCrypt-Volumes können nur auf Laufwerken erstellt werden, die keine Partitionen enthalten (einschließlich Festplatten und Solid-State-Laufwerken). Ein Laufwerk, das Partitionen enthält, kann nur vollständig „in-place“ verschlüsselt werden (Verwendung eines Hauptschlüssels), wenn es das Laufwerk ist, auf dem Windows installiert ist und von dem es startet.\n\nWenn Sie das ausgewählte Nicht-Systemlaufwerk mit einem Hauptschlüssel verschlüsseln möchten, dann müssen Sie zuerst alle Partitionen auf dem Laufwerk löschen, damit VeraCrypt es sicher formatieren kann (Formatieren eines Laufwerks, das Partitionen enthält, kann Systeminstabilität und/oder Datenbeschädigung hervorrufen). Alternativ können Sie jede Partition auf dem Laufwerk individuell verschlüsseln (jede Partition wird mit einem anderen Hauptschlüssel verschlüsselt).\n\nHinweis: Wenn Sie alle Partitionen von einem GPT-Datenträger löschen möchten, dann müssen Sie es in einen MBR-Datenträger umwandeln (z. B. mit der Datenträgerverwaltung), um versteckte Partitionen zu löschen.</entry>
@@ -593,7 +593,7 @@
     <entry lang="de" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">FEHLER: Die Dateien, die Sie auf das äußere Volume kopiert haben, belegen zu viel Speicherplatz. Deshalb ist nicht genügend freier Speicherplatz für das versteckte Volume auf dem äußeren Volume verfügbar.\n\nBeachten Sie, dass das versteckte Volume so groß sein muss wie die Systempartition (die Partition, auf dem das aktuell ausgeführte Betriebssystem installiert ist). Der Grund ist, dass das versteckte Betriebssystem erstellt werden muss, indem der Inhalt der Systempartition in das versteckte Volume kopiert wird.\n\n\nDer Vorgang für die Erstellung des versteckten Betriebssystems kann nicht fortgesetzt werden.</entry>
     <entry lang="de" key="OPENFILES_DRIVER">Der VeraCrypt-Treiber kann das Volume nicht trennen. Einige Dateien auf dem Volume sind wahrscheinlich noch geöffnet.</entry>
     <entry lang="de" key="OPENFILES_LOCK">Das Volume kann nicht gesperrt werden. Einige Dateien auf dem Volume sind noch geöffnet und verhindern dadurch das Trennen.</entry>
-    <entry lang="de" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt kann das Volume nicht sperren, weil es vom System oder von Programmen verwendet wird (es könnte offene Dateien auf dem Volume geben).\n\nMöchten Sie die Trennung auf dem Volume erzwingen?</entry>
+    <entry lang="de" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt kann das Volume nicht sperren, weil es vom System oder von Programmen verwendet wird (es könnte offene Dateien auf dem Volume geben).\n\nMöchten Sie die Trennung auf dem Volume erzwingen?</entry>
     <entry lang="de" key="OPEN_VOL_TITLE">VeraCrypt-Volume auswählen</entry>
     <entry lang="de" key="OPEN_TITLE">Pfad- und Dateiname angeben</entry>
     <entry lang="de" key="SELECT_PKCS11_MODULE">PKCS #11-Bibliothek auswählen</entry>
@@ -732,7 +732,7 @@
     <entry lang="de" key="DLL_FILES">Bibliothek-Module</entry>
     <entry lang="de" key="FORMAT_NTFS_STOP">Die Formatierung mit NTFS/exFAT/ReFS kann nicht fortgesetzt werden.</entry>
     <entry lang="de" key="CANT_MOUNT_VOLUME">Fehler beim Einhängen des Volumes.</entry>
-    <entry lang="de" key="CANT_DISMOUNT_VOLUME">Fehler beim Trennen des Volumes.</entry>
+    <entry lang="de" key="CANT_UNMOUNT_VOLUME">Fehler beim Trennen des Volumes.</entry>
     <entry lang="de" key="FORMAT_NTFS_FAILED">Windows konnte das Volume nicht mit NTFS/exFAT/ReFS formatieren.\n\nWählen Sie bitte (falls möglich) einen anderen Dateisystemtyp und versuchen Sie es erneut. Alternativ dazu können Sie das Volume unformatiert lassen (wählen Sie dazu „Keins“ als Dateisystem), beenden diesen Assistenten, hängen das Volume ein und verwenden anschließend ein Systemwerkzeug oder ein Werkzeug eines anderen Anbieters, um das eingehängte Volume zu formatieren. Das Volume bleibt dabei weiterhin verschlüsselt.</entry>
     <entry lang="de" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows konnte das Volume nicht mit NTFS/exFAT/ReFS formatieren.\n\nMöchten Sie stattdessen das Volume mit FAT formatieren?</entry>
     <entry lang="de" key="DEFAULT">Vorgabe</entry>
@@ -774,7 +774,7 @@
     <entry lang="de" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Ein Fehler hindert VeraCrypt daran, die Partition zu verschlüsseln. Bitte beheben Sie bereits gemeldete Fehler und versuchen es dann erneut. Wenn die Probleme weiterhin bestehen, kann es helfen, die folgenden Schritte zu befolgen.</entry>
     <entry lang="de" key="INPLACE_ENC_GENERIC_ERR_RESUME">Ein Fehler hindert VeraCrypt daran, den Verschlüsselungsprozess für die Partition fortzusetzen.\n\nBitte beheben Sie bereits gemeldete Fehler und versuchen dann erneut, den Prozess fortzusetzen. Beachten Sie, dass das Volume nicht eingehängt werden kann, bis es vollständig verschlüsselt wurde.</entry>
     <entry lang="de" key="INPLACE_DEC_GENERIC_ERR">Ein Fehler hinderte VeraCrypt daran, das Volume zu entschlüsseln. Bitte beheben Sie bereits gemeldete Fehler und versuchen es dann erneut, falls möglich.</entry>
-    <entry lang="de" key="CANT_DISMOUNT_OUTER_VOL">FEHLER: Das äußere Volume kann nicht getrennt werden!\n\nDas Volume kann nicht getrennt werden, solange dessen Dateien oder Verzeichnisse noch von einem Programm oder dem System verwendet werden.\n\nSchließen Sie bitte alle Programme, die möglicherweise Dateien oder Verzeichnisse dieses Volumes verwenden, und klicken Sie anschließend auf „Wiederholen“.</entry>
+    <entry lang="de" key="CANT_UNMOUNT_OUTER_VOL">FEHLER: Das äußere Volume kann nicht getrennt werden!\n\nDas Volume kann nicht getrennt werden, solange dessen Dateien oder Verzeichnisse noch von einem Programm oder dem System verwendet werden.\n\nSchließen Sie bitte alle Programme, die möglicherweise Dateien oder Verzeichnisse dieses Volumes verwenden, und klicken Sie anschließend auf „Wiederholen“.</entry>
     <entry lang="de" key="CANT_GET_OUTER_VOL_INFO">FEHLER: Kann keine Informationen über das äußere Volume erhalten! Volume-Erstellung kann nicht fortgeführt werden.</entry>
     <entry lang="de" key="CANT_ACCESS_OUTER_VOL">FEHLER: Auf das äußere Volume kann nicht zugegriffen werden! Das Volume kann nicht erstellt werden.</entry>
     <entry lang="de" key="CANT_MOUNT_OUTER_VOL">FEHLER: Das äußere Volume kann nicht eingehängt werden! Das Volume kann nicht erstellt werden.</entry>
@@ -885,7 +885,7 @@
     <entry lang="de" key="INSTALL_COMPLETED">Die Installation wurde vollständig durchgeführt.</entry>
     <entry lang="de" key="CANT_CREATE_FOLDER">Das Verzeichnis „%s“ konnte nicht erstellt werden.</entry>
     <entry lang="de" key="CLOSE_TC_FIRST">Der VeraCrypt-Gerätetreiber kann nicht beendet werden.\n\nSchließen Sie bitte zuerst alle offenen VeraCrypt-Fenster. Sollte das nicht genügen, starten Sie bitte Windows neu und probieren Sie es noch einmal.</entry>
-    <entry lang="de" key="DISMOUNT_ALL_FIRST">Alle VeraCrypt-Volumes müssen vor dem Installieren oder dem Deinstallieren von VeraCrypt getrennt sein.</entry>
+    <entry lang="de" key="UNMOUNT_ALL_FIRST">Alle VeraCrypt-Volumes müssen vor dem Installieren oder dem Deinstallieren von VeraCrypt getrennt sein.</entry>
     <entry lang="de" key="UNINSTALL_OLD_VERSION_FIRST">Eine veraltete VeraCrypt-Version ist derzeit auf Ihrem System installiert. Sie muss deinstalliert werden, bevor Sie die neue VeraCrypt-Version installieren können.\n\nSobald Sie dieses Fenster schließen wird die Deinstallation der alten VeraCrypt-Version starten. Bitte beachten Sie, dass kein Volume entschlüsselt wird, wenn Sie VeraCrypt deinstallieren. Starten Sie die Installation der neuen VeraCrypt-Version erneut, nachdem die Deinstallation der alten VeraCrypt-Version beendet ist.</entry>
     <entry lang="de" key="REG_INSTALL_FAILED">Fehler beim Installieren der Registrierungseinträge</entry>
     <entry lang="de" key="DRIVER_INSTALL_FAILED">Fehler beim Installieren des Gerätetreibers. Starten Sie bitte Windows neu und versuchen Sie anschließend noch einmal, VeraCrypt zu installieren.</entry>
@@ -906,7 +906,7 @@
     <entry lang="de" key="MINUTES">Minuten</entry>
     <entry lang="de" key="SECONDS">s</entry>
     <entry lang="de" key="OPEN">Öffnen ...</entry>
-    <entry lang="de" key="DISMOUNT">Trennen</entry>
+    <entry lang="de" key="UNMOUNT">Trennen</entry>
     <entry lang="de" key="SHOW_TC">VeraCrypt-Hauptfenster anzeigen</entry>
     <entry lang="de" key="HIDE_TC">VeraCrypt-Hauptfenster verbergen</entry>
     <entry lang="de" key="TOTAL_DATA_READ">Gelesene Daten</entry>
@@ -978,7 +978,7 @@
     <entry lang="de" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt – Systemfavoriten-Volume</entry>
     <entry lang="de" key="SYS_FAVORITES_HELP_LINK">Was sind Systemfavoriten-Volumes?</entry>
     <entry lang="de" key="SYS_FAVORITES_REQUIRE_PBA">Die Systempartition/das Systemlaufwerk scheint nicht verschlüsselt zu sein.\n\nSystemfavoriten-Volumes können nur mit einem Pre-Boot-Authentifikationspasswort eingehängt werden. Um Systemfavoriten-Volumes zu verwenden, müssen Sie deshalb zuerst die Systempartition/das Systemlaufwerk verschlüsseln.</entry>
-    <entry lang="de" key="DISMOUNT_FIRST">Trennen Sie bitte zuerst das Volume.</entry>
+    <entry lang="de" key="UNMOUNT_FIRST">Trennen Sie bitte zuerst das Volume.</entry>
     <entry lang="de" key="CANNOT_SET_TIMER">FEHLER: Kann Timer nicht einstellen.</entry>
     <entry lang="de" key="IDPM_CHECK_FILESYS">Dateisystem prüfen ...</entry>
     <entry lang="de" key="IDPM_REPAIR_FILESYS">Dateisystem reparieren ...</entry>
@@ -1012,11 +1012,11 @@
     <entry lang="de" key="NO_SYSENC_PARTITION_SELECTED">Keine Partition ausgewählt.\n\nKlicken Sie „Datenträger ...“, um eine getrennte Partition zu wählen, die sonst Pre-Boot-Authentifikation voraussetzt (z. B. eine Partition auf einem verschlüsselten Systemlaufwerk mit einem Betriebssystem darauf, das gerade nicht läuft, oder die verschlüsselte Systempartition eines anderen Betriebssystems).\n\nHinweis: Die ausgewählte Partition wird als reguläres VeraCrypt-Volume ohne Pre-Boot-Authentifikation eingehängt. Das ist hilfreich für Sicherungs- oder Reparaturvorgänge.</entry>
     <entry lang="de" key="CONFIRM_SAVE_DEFAULT_KEYFILES">WARNUNG: Wenn Standardschlüsseldateien festgelegt und aktiviert sind, dann können Volumes, die diese nicht verwenden, nicht eingehängt werden. Daher sollten Sie, nachdem Sie die Standardschlüsseldateien aktiviert haben, das Häkchen bei „Schlüsseldateien verwenden“ (unterhalb des Passwort-Eingabefeldes) entfernen, sobald Sie solche Volumes einhängen möchten.\n\nSind Sie sicher, dass Sie die Schlüsseldateien/-pfade als Standard speichern möchten?</entry>
     <entry lang="de" key="HK_AUTOMOUNT_DEVICES">Alle Datenträger-Volumes automatisch einhängen</entry>
-    <entry lang="de" key="HK_DISMOUNT_ALL">Alle Volumes trennen</entry>
+    <entry lang="de" key="HK_UNMOUNT_ALL">Alle Volumes trennen</entry>
     <entry lang="de" key="HK_WIPE_CACHE">Cache sicher löschen</entry>
-    <entry lang="de" key="HK_DISMOUNT_ALL_AND_WIPE">Alle Volumes trennen und Cache löschen</entry>
-    <entry lang="de" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Für alle Volumes Trennen erzwingen und Cache sicher löschen</entry>
-    <entry lang="de" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Für alle Volumes Trennen erzwingen, Cache sicher löschen, VC beenden</entry>
+    <entry lang="de" key="HK_UNMOUNT_ALL_AND_WIPE">Alle Volumes trennen und Cache löschen</entry>
+    <entry lang="de" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Für alle Volumes Trennen erzwingen und Cache sicher löschen</entry>
+    <entry lang="de" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Für alle Volumes Trennen erzwingen, Cache sicher löschen, VC beenden</entry>
     <entry lang="de" key="HK_MOUNT_FAVORITE_VOLUMES">Favoriten einhängen</entry>
     <entry lang="de" key="HK_SHOW_HIDE_MAIN_WINDOW">VeraCrypt-Hauptfenster anzeigen/verbergen</entry>
     <entry lang="de" key="PRESS_A_KEY_TO_ASSIGN">(Hier klicken und eine Taste drücken)</entry>
@@ -1028,14 +1028,14 @@
     <entry lang="de" key="PAGING_FILE_CREATION_PREVENTED">Die Auslagerungsdatei konnte nicht erstellt werden.\n\nBitte beachten Sie, dass Auslagerungsdateien aufgrund von Einschränkungen von Windows nicht auf Nicht-System-VeraCrypt-Volumes (auch Systemfavoriten-Volumes) liegen dürfen. VeraCrypt unterstützt die Erstellung von Auslagerungsdateien nur auf verschlüsselten Systempartitionen.</entry>
     <entry lang="de" key="SYS_ENC_HIBERNATION_PREVENTED">Ein Fehler oder Inkompatibilität hat verhindert das VeraCrypt die Ruhezustandsdatei verschlüsselt. Daher wurde der Ruhezustand verhindert.\n\nHinweis: Wenn ein Computer in den Ruhezustand geht (oder in einen Energiesparmodus), der Inhalt des Systemspeichers wird in eine Ruhezustand-Datei auf das Systemlaufwerk geschrieben. VeraCrypt würde nicht in der Lage sein zu verhindern, dass Verschlüsselungsschlüssel und der Inhalt von vertraulichen Dateien, die im Arbeitsspeicher sind, unverschlüsselt in der Ruhezustandsdatei gespeichert werden.</entry>
     <entry lang="de" key="HIDDEN_OS_HIBERNATION_PREVENTED">Das System konnte nicht in den Ruhezustand versetzt werden.\n\nVeraCrypt unterstützt den Ruhezustand auf versteckten Betriebssystemen mit extra Bootpartition nicht. Bitte beachten Sie, dass die Bootpartition vom Köder-System und dem versteckten Betriebssystem geteilt wird. Um Datenlecks und Probleme während des Aufwachens aus dem Ruhezustand zu vermeiden, muss VeraCrypt das versteckte Betriebssystem daran hindern auf die geteilte Bootpartition zu schreiben oder in den Ruhezustand zu wechseln.</entry>
-    <entry lang="de" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">Das als %c: eingehängte VeraCrypt-Volume wurde getrennt.</entry>
-    <entry lang="de" key="MOUNTED_VOLUMES_DISMOUNTED">Alle VeraCrypt-Volumes wurden getrennt.</entry>
-    <entry lang="de" key="VOLUMES_DISMOUNTED_CACHE_WIPED">Alle VeraCrypt-Volumes wurden getrennt und der Passwort-Cache wurde gelöscht.</entry>
-    <entry lang="de" key="SUCCESSFULLY_DISMOUNTED">Volume erfolgreich getrennt</entry>
+    <entry lang="de" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">Das als %c: eingehängte VeraCrypt-Volume wurde getrennt.</entry>
+    <entry lang="de" key="MOUNTED_VOLUMES_UNMOUNTED">Alle VeraCrypt-Volumes wurden getrennt.</entry>
+    <entry lang="de" key="VOLUMES_UNMOUNTED_CACHE_WIPED">Alle VeraCrypt-Volumes wurden getrennt und der Passwort-Cache wurde gelöscht.</entry>
+    <entry lang="de" key="SUCCESSFULLY_UNMOUNTED">Volume erfolgreich getrennt</entry>
     <entry lang="de" key="CONFIRM_BACKGROUND_TASK_DISABLED">ACHTUNG: Wenn der VeraCrypt-Hintergrunddienst deaktiviert ist, sind die folgenden Funktionen nicht verfügbar:\n\n1) Tastenkombinationen\n2) Automatische Trennung (z. B. beim Abmelden oder unbeabsichtigtem Entfernen eines Host-Geräts)\n3) Automatisches Einhängen von Favoriten-Volumes\n4) Benachrichtigungen (z. B., wenn Beschädigungen an einem versteckten Volume verhindert wurden)\n5) Taskleistensymbol\n\nHinweis: Sie können den Hintergrunddienst jederzeit beenden, indem Sie mit der rechten Maustaste auf das VeraCrypt-Taskleistensymbol klicken und „Beenden“ auswählen.\n\nSind Sie sicher, dass Sie den Hintergrunddienst dauerhaft deaktivieren möchten?</entry>
-    <entry lang="de" key="CONFIRM_NO_FORCED_AUTODISMOUNT">WARNUNG: Wenn diese Option deaktiviert ist, können keine Volumes mit geöffneten Dateien/Verzeichnissen automatisch getrennt werden.\n\nMöchten Sie diese Option wirklich deaktivieren?</entry>
-    <entry lang="de" key="WARN_PREF_AUTO_DISMOUNT">WARNUNG: Volumes mit geöffneten Dateien/Verzeichnissen werden NICHT automatisch getrennt.\n\nUm dies zu vermeiden, müssen Sie folgende Option in diesem Dialogfenster aktivieren: „Automatisches Trennen bei geöffneten Dateien erzwingen“</entry>
-    <entry lang="de" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">WARNUNG: Wenn der Laptop-Akku fast leer ist, kann es passieren, dass Windows nicht die entsprechende Mitteilung an die Anwendungen sendet, wenn der Computer in den Energiesparmodus wechselt. In solchen Fällen kann das automatische Trennen von VeraCrypt-Volumes fehlschlagen.</entry>
+    <entry lang="de" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">WARNUNG: Wenn diese Option deaktiviert ist, können keine Volumes mit geöffneten Dateien/Verzeichnissen automatisch getrennt werden.\n\nMöchten Sie diese Option wirklich deaktivieren?</entry>
+    <entry lang="de" key="WARN_PREF_AUTO_UNMOUNT">WARNUNG: Volumes mit geöffneten Dateien/Verzeichnissen werden NICHT automatisch getrennt.\n\nUm dies zu vermeiden, müssen Sie folgende Option in diesem Dialogfenster aktivieren: „Automatisches Trennen bei geöffneten Dateien erzwingen“</entry>
+    <entry lang="de" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">WARNUNG: Wenn der Laptop-Akku fast leer ist, kann es passieren, dass Windows nicht die entsprechende Mitteilung an die Anwendungen sendet, wenn der Computer in den Energiesparmodus wechselt. In solchen Fällen kann das automatische Trennen von VeraCrypt-Volumes fehlschlagen.</entry>
     <entry lang="de" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Sie haben den Verschlüsselungsprozess für eine Partition/ein Volume geplant. Der Prozess wurde bis jetzt nicht beendet.\n\nMöchten Sie den Prozess jetzt fortsetzen?</entry>
     <entry lang="de" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Sie haben den Ver- bzw. Entschlüsselungsprozess für die Systempartition/das Laufwerk geplant. Der Prozess wurde noch nicht abgeschlossen.\n\nMöchten Sie den Prozess jetzt starten (wieder aufnehmen)?</entry>
     <entry lang="de" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Soll das Programm weiterhin fragen, ob Sie den aktuell geplanten Prozess zur Verschlüsselung der Nicht-Systempartition/des Nicht-Systemlaufwerks fortsetzen möchten?</entry>
@@ -1066,7 +1066,7 @@
     <entry lang="de" key="SYS_AUTOMOUNT_DISABLED">Das Betriebssystem ist so konfiguriert, dass neue Volumes nicht automatisch eingehängt werden. Möglicherweise können VeraCrypt-Volumes, die sich auf Datenträgern oder Partitionen befinden, nicht eingehängt werden. Das automatische Einhängen der Volumes kann mit dem Befehl\n\nmountvol.exe /E\n\nund anschließendem Neustart des Computers aktiviert werden.</entry>
     <entry lang="de" key="SYS_ASSIGN_DRIVE_LETTER">Weisen Sie bitte dem Datenträger oder der Partition einen Laufwerksbuchstaben zu, bevor Sie weitermachen („Systemsteuerung“ &gt; „System und Wartung“ &gt; „Verwaltung“ &gt; „Festplattenpartitionen erstellen und formatieren“).\n\nBeachten Sie, dass dies eine Anforderung des Betriebssystems ist.</entry>
     <entry lang="de" key="MOUNT_TC_VOLUME">VeraCrypt-Volume einhängen</entry>
-    <entry lang="de" key="DISMOUNT_ALL_TC_VOLUMES">Alle VeraCrypt-Volumes trennen</entry>
+    <entry lang="de" key="UNMOUNT_ALL_TC_VOLUMES">Alle VeraCrypt-Volumes trennen</entry>
     <entry lang="de" key="UAC_INIT_ERROR">VeraCrypt konnte keine Administratorrechte erhalten.</entry>
     <entry lang="de" key="ERR_ACCESS_DENIED">Zugriff durch das Betriebssystem verweigert.\n\nMögliche Ursache: Das Betriebssystem erwartet, dass Sie Lese- und Schreibrechte (oder Administratorrechte) für bestimmte Verzeichnisse, Dateien und Datenträger haben, damit Sie von diesen Daten lesen und auf diese Daten schreiben dürfen. Normalerweise darf ein Benutzer ohne Administratorrechte in seinem Dokumentenordner Dateien erstellen, lesen und ändern.</entry>
     <entry lang="de" key="SECTOR_SIZE_UNSUPPORTED">FEHLER: Das Laufwerk nutzt eine nicht unterstützte Cluster-Größe.\n\nEs ist derzeit nicht möglich, partitions- oder gerätebasierte Volumes auf Laufwerken mit einer Cluster-Größe &gt; 4096 Byte zu erstellen. Sie können jedoch dateibasierte Volumes (Container) auf solchen Laufwerken erstellen.</entry>
@@ -1309,8 +1309,8 @@
     <entry lang="de" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Bitte beachten Sie, dass die Anzahl von Threads derzeit beschränkt ist. Dies wird die Benchmarkergebnisse negativ beeinflussen.\n\nUm das volle Potential der CPU auszunutzen, wählen Sie „Einstellungen“ &gt; „Leistung“ und aktivieren Sie die entsprechende Option.</entry>
     <entry lang="de" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Möchten Sie, dass VeraCrypt versucht, den Schreibschutz der Partition/des Laufwerks aufzuheben?</entry>
     <entry lang="de" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNUNG: Diese Einstellung kann die Leistung verringern.\n\nSind Sie sicher, dass Sie diese Einstellungen vornehmen möchten?</entry>
-    <entry lang="de" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">WARNUNG: VeraCrypt-Volume wurde automatisch getrennt.</entry>
-    <entry lang="de" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Bevor Sie ein Gerät mit einem eingehängten VeraCrypt-Volume entfernen oder ausschalten, sollten Sie immer zuerst das VeraCrypt-Volume trennen.\n\nEine unerwartete plötzliche Trennung wird normalerweise durch versagende Kabel, Festplatten usw. verursacht.</entry>
+    <entry lang="de" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">WARNUNG: VeraCrypt-Volume wurde automatisch getrennt.</entry>
+    <entry lang="de" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Bevor Sie ein Gerät mit einem eingehängten VeraCrypt-Volume entfernen oder ausschalten, sollten Sie immer zuerst das VeraCrypt-Volume trennen.\n\nEine unerwartete plötzliche Trennung wird normalerweise durch versagende Kabel, Festplatten usw. verursacht.</entry>
     <entry lang="de" key="UNSUPPORTED_TRUECRYPT_FORMAT">Das Volume wurde mit TrueCrypt %x.%x erstellt, aber VeraCrypt unterstützt nur TrueCrypt-Volumes, die mit TrueCrypt 6.x/7.x erstellt wurden.</entry>
     <entry lang="de" key="TEST">Test</entry>
     <entry lang="de" key="KEYFILE">Schlüsseldatei</entry>
@@ -1430,7 +1430,7 @@
     <entry lang="de" key="PASSWORD_MAXLENGTH_REACHED">Passwort hat bereits seine maximale Länge von %d Zeichen erreicht.\nEs ist kein zusätzliches Zeichen erlaubt.</entry>
     <entry lang="de" key="IDC_SELECT_LANGUAGE_LABEL">Wählen Sie die Sprache aus, die während der Installation benutzt werden soll:</entry>
     <entry lang="de" key="VOLUME_TOO_LARGE_FOR_HOST">FEHLER: Der Datei-Container ist größer als der verfügbare freie Speicherplatz auf der Festplatte.</entry>
-    <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Defragmentierung von Nicht-Systempartitionen/-laufwerken durch Windows-Defragmentier. erlauben</entry>    
+    <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Defragmentierung von Nicht-Systempartitionen/-laufwerken durch Windows-Defragmentier. erlauben</entry>
     <entry lang="de" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNUNG: Defragmentierung von Nicht-Systempartitionen/-laufwerken kann Metadaten über ihren Inhalt preisgeben oder Probleme mit versteckten Volumes verursachen, die sie enthalten können.\n\nFortsetzen?</entry>
     <entry lang="de" key="VIRTUAL_DEVICE">Virtuelles Gerät</entry>
     <entry lang="de" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Das ausgewählte eingehängte Volume ist nicht mit seinem Laufwerksbuchstaben in Windows verknüpft und kann daher nicht im Windows Explorer geöffnet werden.</entry>
@@ -1456,7 +1456,7 @@
     <entry lang="de" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Alle eingehängten Volumes zu Favoriten hinzufügen ...</entry>
     <entry lang="de" key="TASKICON_PREF_MENU_ITEMS">Taskleistensymbol</entry>
     <entry lang="de" key="TASKICON_PREF_OPEN_VOL">Eingehängte Volumes öffnen</entry>
-    <entry lang="de" key="TASKICON_PREF_DISMOUNT_VOL">Eingehängte Volumes trennen</entry>
+    <entry lang="de" key="TASKICON_PREF_UNMOUNT_VOL">Eingehängte Volumes trennen</entry>
     <entry lang="de" key="DISK_FREE">Freier Speicherplatz: {0}</entry>
     <entry lang="de" key="VOLUME_SIZE_HELP">Bitte die Größe des zu erstellenden Containers angeben. Hinweis: Die Mindestgröße eines Volumes ist 292 KiB.</entry>
     <entry lang="de" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNUNG: Sie haben nicht das Dateisystem FAT für das äußere Volume ausgewählt. Bitte beachten Sie, dass VeraCrypt derzeit nicht die exakte maximale Größe des versteckten Volume bestimmen kann und diese möglicherweise falsch abschätzt. Es liegt deshalb in Ihrer Verantwortung, eine angemessene Größe für das versteckte Volume zu wählen, um eine Überlappung mit dem äußeren Volume zu verhindern.\n\nMöchten Sie trotzdem mit dem ausgewählten Dateisystem für das äußere Volume fortfahren?</entry>
@@ -1486,14 +1486,14 @@
     <entry lang="de" key="LINUX_DO_NOT_MOUNT">Nicht einhängen</entry>
     <entry lang="de" key="LINUX_MOUNT_AT_DIR">Als Verzeichnis einhängen:</entry>
     <entry lang="de" key="LINUX_SELECT">Auswählen ...</entry>
-    <entry lang="de" key="LINUX_DISMOUNT_ALL_WHEN">Alle Volumes aushängen, wenn</entry>
+    <entry lang="de" key="LINUX_UNMOUNT_ALL_WHEN">Alle Volumes aushängen, wenn</entry>
     <entry lang="de" key="LINUX_ENTERING_POWERSAVING">System geht in den Energiesparmodus über</entry>
     <entry lang="de" key="LINUX_LOGIN_ACTION">Aktionen beim Anmelden ausführen</entry>
-    <entry lang="de" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Alle Explorer-Fenster schließen, wenn das Volume ausgehängt wird</entry>
+    <entry lang="de" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Alle Explorer-Fenster schließen, wenn das Volume ausgehängt wird</entry>
     <entry lang="de" key="LINUX_HOTKEYS">Tastenkombinationen</entry>
     <entry lang="de" key="LINUX_SYSTEM_HOTKEYS">Systemweite Tastenkombinationen</entry>
     <entry lang="de" key="LINUX_SOUND_NOTIFICATION">Systembenachrichtigungston wird beim Ein- und Aushängen abgespielt</entry>
-    <entry lang="de" key="LINUX_CONFIRM_AFTER_DISMOUNT">Bestätigungsnachricht nach dem Aushängen anzeigen</entry>
+    <entry lang="de" key="LINUX_CONFIRM_AFTER_UNMOUNT">Bestätigungsnachricht nach dem Aushängen anzeigen</entry>
     <entry lang="de" key="LINUX_VC_QUITS">VeraCrypt beendet</entry>
     <entry lang="de" key="LINUX_OPEN_FINDER">Finder-Fenster nach erfolgreichem Einhängen öffnen</entry>
     <entry lang="de" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Bitte beachten Sie, dass diese Einstellungen nur bei deaktiviertem Kernel-Kryptografiedienst wirksam werden.</entry>
@@ -1525,7 +1525,7 @@
     <entry lang="de" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="de" key="LINUX_NOT_SUPPORTED">(wird von den vorhandenen Komponenten dieser Plattform nicht unterstützt).</entry>
     <entry lang="de" key="LINUX_KERNEL_OLD">Ihr System verwendet einen alten Linux-Kernel.\n\nWegen eines Fehlers im Linux-Kernel kann es passieren, dass Ihr System beim Schreiben auf ein VeraCrypt-Volume nicht mehr reagiert. Diese Problem kann durch einen Kernel in Version 2.6.24 oder neuer gelöst werden.</entry>
-    <entry lang="de" key="LINUX_VOL_DISMOUNTED">Volume {0} ausgehängt.</entry>
+    <entry lang="de" key="LINUX_VOL_UNMOUNTED">Volume {0} ausgehängt.</entry>
     <entry lang="de" key="LINUX_VOL_MOUNTED">Volume {0} wurde eingehängt.</entry>
     <entry lang="de" key="LINUX_OOM">Zu wenig Speicher.</entry>
     <entry lang="de" key="LINUX_CANT_GET_ADMIN_PRIV">Erlangen der Administrator-Privilegien fehlgeschlagen</entry>

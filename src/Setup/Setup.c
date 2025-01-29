@@ -660,7 +660,7 @@ BOOL CheckSecureBootCompatibility (HWND hWnd)
 		if (status || (hDriver == INVALID_HANDLE_VALUE))
 			return FALSE;
 		bDriverAttached = TRUE;
-	}	
+	}
 
 	try
 	{
@@ -1134,7 +1134,7 @@ err:
 #ifndef PORTABLE
 	RestorePrivilegeState(&originalPrivileges);
 #endif
-	
+
 	if (bUninstall == FALSE)
 	{
 		WIN32_FIND_DATA f;
@@ -1169,7 +1169,7 @@ err:
 
 			FindClose (h);
 		}
-		
+
 		// remvove legacy files that are not needed anymore
 		for (i = 0; i < sizeof (szLegacyFiles) / sizeof (szLegacyFiles[0]); i++)
 		{
@@ -1720,7 +1720,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 				if (volumesMounted != 0)
 				{
 					bOK = FALSE;
-					MessageBoxW (hwndDlg, GetString ("DISMOUNT_ALL_FIRST"), lpszTitle, MB_ICONHAND);
+					MessageBoxW (hwndDlg, GetString ("UNMOUNT_ALL_FIRST"), lpszTitle, MB_ICONHAND);
 				}
 			}
 			else
@@ -2459,7 +2459,7 @@ void DoInstall (void *arg)
 void SetInstallationPath (HWND hwndDlg)
 {
 	BOOL bInstallPathDetermined = FALSE;
-	
+
 	GetInstallationPath (hwndDlg, InstallationPath, ARRAYSIZE (InstallationPath), &bInstallPathDetermined);
 
 	if (bInstallPathDetermined)

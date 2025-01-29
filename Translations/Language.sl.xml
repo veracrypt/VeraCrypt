@@ -135,8 +135,8 @@
     <entry lang="sl" key="IDC_FAVORITE_REMOVE">&amp;Odstrani</entry>
     <entry lang="sl" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Uporabi priljubljeno oznako pri oznaki pogona Raziskovalca</entry>
     <entry lang="sl" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Splošne nastavitve</entry>
-    <entry lang="sl" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Po uspešnem odklopu z vročimi tipkami pokažite namig v obliki oblačka</entry>
-    <entry lang="sl" key="IDC_HK_DISMOUNT_PLAY_SOUND">Po uspešnem odklopu vroče tipke zaigraj sistemski zvok za obvestilo</entry>
+    <entry lang="sl" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Po uspešnem odklopu z vročimi tipkami pokažite namig v obliki oblačka</entry>
+    <entry lang="sl" key="IDC_HK_UNMOUNT_PLAY_SOUND">Po uspešnem odklopu vroče tipke zaigraj sistemski zvok za obvestilo</entry>
     <entry lang="sl" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="sl" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="sl" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="sl" key="IDC_PIM_HELP">(Prazno ali 0 za privzete iteracije)</entry>
     <entry lang="sl" key="IDC_PREF_BKG_TASK_ENABLE">Omogočeno</entry>
     <entry lang="sl" key="IDC_PREF_CACHE_PASSWORDS">Shranjuj gesla v pomnilnik gonilnika</entry>
-    <entry lang="sl" key="IDC_PREF_DISMOUNT_INACTIVE">Samoizkl. nosilca, ko iz njega ni bilo prebr./zapis. nobenih podat.</entry>
-    <entry lang="sl" key="IDC_PREF_DISMOUNT_LOGOFF">Uporabnik odjavi</entry>
-    <entry lang="sl" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Seja uporabnika je zaklenjena</entry>
-    <entry lang="sl" key="IDC_PREF_DISMOUNT_POWERSAVING">Vstopi v način varčev. z energijo</entry>
-    <entry lang="sl" key="IDC_PREF_DISMOUNT_SCREENSAVER">Zažene ohranjevalnik zaslona</entry>
-    <entry lang="sl" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Prisili samodejni izklop četudi nosilec vsebuje odprte datoteke ali mape</entry>
+    <entry lang="sl" key="IDC_PREF_UNMOUNT_INACTIVE">Samoizkl. nosilca, ko iz njega ni bilo prebr./zapis. nobenih podat.</entry>
+    <entry lang="sl" key="IDC_PREF_UNMOUNT_LOGOFF">Uporabnik odjavi</entry>
+    <entry lang="sl" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Seja uporabnika je zaklenjena</entry>
+    <entry lang="sl" key="IDC_PREF_UNMOUNT_POWERSAVING">Vstopi v način varčev. z energijo</entry>
+    <entry lang="sl" key="IDC_PREF_UNMOUNT_SCREENSAVER">Zažene ohranjevalnik zaslona</entry>
+    <entry lang="sl" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Prisili samodejni izklop četudi nosilec vsebuje odprte datoteke ali mape</entry>
     <entry lang="sl" key="IDC_PREF_LOGON_MOUNT_DEVICES">Priklopi vse gost. VeraCryptove nosilce na napravi</entry>
     <entry lang="sl" key="IDC_PREF_LOGON_START">Zaženi VeraCrypt v ozadju</entry>
     <entry lang="sl" key="IDC_PREF_MOUNT_READONLY">Priklopi nosilce samo za branje</entry>
@@ -169,7 +169,7 @@
     <entry lang="sl" key="IDC_PREF_OPEN_EXPLORER">Odpri okno Raziskovalca za uspešno priklopljeni nosilec</entry>
     <entry lang="sl" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Začasno predpomnenje gesla med operacijami "Priklop priljubljenih nosilcev"</entry>
     <entry lang="sl" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Ko imamo priklopljene nosilce uporabljaj drugačno ikono opravilne vrstice</entry>
-    <entry lang="sl" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Pobriši gesla shranjena v predpomnilniku ob samodejnem odklopu</entry>
+    <entry lang="sl" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Pobriši gesla shranjena v predpomnilniku ob samodejnem odklopu</entry>
     <entry lang="sl" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Pobriši gesla v predpomnilniku ob izhodu</entry>
     <entry lang="sl" key="IDC_PRESERVE_TIMESTAMPS">Ohrani časovni žig spremembe vsebnikov datotek</entry>
     <entry lang="sl" key="IDC_RESET_HOTKEYS">Ponastavi</entry>
@@ -269,14 +269,14 @@
     <entry lang="sl" key="IDT_ACCELERATION_OPTIONS">Strojno pospeševanje</entry>
     <entry lang="sl" key="IDT_ASSIGN_HOTKEY">Bližnjica</entry>
     <entry lang="sl" key="IDT_AUTORUN">Nastavitev samodejnega zagona (autorun.inf)</entry>
-    <entry lang="sl" key="IDT_AUTO_DISMOUNT">Samodejni izklop</entry>
-    <entry lang="sl" key="IDT_AUTO_DISMOUNT_ON">Izklopi vse ko:</entry>
+    <entry lang="sl" key="IDT_AUTO_UNMOUNT">Samodejni izklop</entry>
+    <entry lang="sl" key="IDT_AUTO_UNMOUNT_ON">Izklopi vse ko:</entry>
     <entry lang="sl" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Opcije zaslona za zagonski nalagalnik</entry>
     <entry lang="sl" key="IDT_CONFIRM_PASSWORD">Potrdi geslo:</entry>
     <entry lang="sl" key="IDT_CURRENT">Trenutno</entry>
     <entry lang="sl" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Prikažite to sporočilo po meri na zaslonu za preverjanje pristnosti pred zagonom (največ 24 znakov):</entry>
     <entry lang="sl" key="IDT_DEFAULT_MOUNT_OPTIONS">Privzete možnosti priklopa</entry>
-    <entry lang="sl" key="IDT_DISMOUNT_ACTION">Možnosti vročih tipk</entry>
+    <entry lang="sl" key="IDT_UNMOUNT_ACTION">Možnosti vročih tipk</entry>
     <entry lang="sl" key="IDT_DRIVER_OPTIONS">Konfiguracija pogona</entry>
     <entry lang="sl" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Aktiviranje podore za razširjene kontrolne kode za disk</entry>
     <entry lang="sl" key="IDT_FAVORITE_LABEL">Oznaka izbranega priljubljenega nosilca:</entry>
@@ -423,8 +423,8 @@
     <entry lang="sl" key="DEVICE_FREE_PB">Velikost %s je %.2f PB</entry>
     <entry lang="sl" key="DEVICE_IN_USE_FORMAT">OPOZORILO: Napravo/particijo uporablja operacijski sistem ali aplikacije. Formatiranje naprave/particije lahko povzroči poškodbe podatkov in nestabilnost sistema.\n\nNadaljujem?</entry>
     <entry lang="sl" key="DEVICE_IN_USE_INPLACE_ENC">OPOZORILO: Particijo uporabljajo operacijski sistem ali aplikacije. Zaprite vse aplikacije, ki morda uporabljajo particijo (vključno s protivirusno programsko opremo).\n\nNadaljujem?</entry>
-    <entry lang="sl" key="FORMAT_CANT_DISMOUNT_FILESYS">Napaka: Naprava/particija vsebuje datotečni sistem, ki ga ni bilo mogoče odklopiti. Datotečni sistem morda uporablja operacijski sistem. Formatiranje naprave/particije bi zelo verjetno povzročilo poškodbe podatkov in nestabilnost sistema.\n\nZa rešitev te težave priporočamo, da najprej izbrišeš particijo in jo nato znova ustvariš brez formatiranja. To storiš tako, da slediš tem korakom:\n1) Z desno tipko miške klikni ikono »Računalnik« (ali »Moj računalnik«) v meniju »Start« in izberi »Upravljanje«. Prikazati bi se moralo okno »Upravljanje računalnika«.\n2) V oknu 'Upravljanje računalnika' izberi 'Shramba' &gt; 'Upravljanje diskov'.\n3) Z desno tipko miške klikni particijo, ki jo želiš šifrirati, in izberi »Izbriši particijo«, »Izbriši nosilec« ali »Izbriši logični pogon«.\n4) Klikni 'Da'. Če želijo Windows ponovno zagnati računalnik, stori to. Nato ponovi koraka 1 in 2 in nadaljuj s korakom 5.\n5) Klikni z desnim gumbom miške na nealocirano/prosto področje in izberi ali 'Nova Particija' ali 'Nov preprost nosilec' ali 'Nov logični pogon'.\n6) Zdaj bi se moralo prikazati okno 'Čarovnik za nove particije' ali 'Čarovnik za nov preprost nosilec'; sledi njegovim navodilom. Na strani čarovnika z naslovom »Formatiraj particijo« izberi »Ne formatiraj te particije« ali »Ne formatiraj tega nosilca«.. V istem čarovniku klikni »Naprej« in nato »Dokončaj«..\n7) Upoštevaj, da je pot naprave, ki si jo izbral v VeraCryptu, zdaj morda napačna. Zato zapri čarovnika za ustvarjanje nosilca VeraCrypt (če se še izvaja) in ga nato znova zaženi.\n8) Poskusi znova šifrirati napravo/particijo.\n\nČe VeraCrypt vedno znova ne uspe šifrirati naprave oziroma particije, lahko razmisliš o ustvarjanju vsebnika datotek.</entry>
-    <entry lang="sl" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Napaka: Datotečnega sistema ni bilo mogoče zakleniti oziroma odklopiti. Morda ga uporabljajo operacijski sistem ali aplikacije (na primer protivirusna programska oprema). Šifriranje particije lahko povzroči poškodbe podatkov in nestabilnost sistema.\n\nZapri vse aplikacije, ki morda uporabljajo datotečni sistem (vključno s protivirusno programsko opremo) in poskusi znova. Če ne pomaga, sledi spodnjim korakom.</entry>
+    <entry lang="sl" key="FORMAT_CANT_UNMOUNT_FILESYS">Napaka: Naprava/particija vsebuje datotečni sistem, ki ga ni bilo mogoče odklopiti. Datotečni sistem morda uporablja operacijski sistem. Formatiranje naprave/particije bi zelo verjetno povzročilo poškodbe podatkov in nestabilnost sistema.\n\nZa rešitev te težave priporočamo, da najprej izbrišeš particijo in jo nato znova ustvariš brez formatiranja. To storiš tako, da slediš tem korakom:\n1) Z desno tipko miške klikni ikono »Računalnik« (ali »Moj računalnik«) v meniju »Start« in izberi »Upravljanje«. Prikazati bi se moralo okno »Upravljanje računalnika«.\n2) V oknu 'Upravljanje računalnika' izberi 'Shramba' &gt; 'Upravljanje diskov'.\n3) Z desno tipko miške klikni particijo, ki jo želiš šifrirati, in izberi »Izbriši particijo«, »Izbriši nosilec« ali »Izbriši logični pogon«.\n4) Klikni 'Da'. Če želijo Windows ponovno zagnati računalnik, stori to. Nato ponovi koraka 1 in 2 in nadaljuj s korakom 5.\n5) Klikni z desnim gumbom miške na nealocirano/prosto področje in izberi ali 'Nova Particija' ali 'Nov preprost nosilec' ali 'Nov logični pogon'.\n6) Zdaj bi se moralo prikazati okno 'Čarovnik za nove particije' ali 'Čarovnik za nov preprost nosilec'; sledi njegovim navodilom. Na strani čarovnika z naslovom »Formatiraj particijo« izberi »Ne formatiraj te particije« ali »Ne formatiraj tega nosilca«.. V istem čarovniku klikni »Naprej« in nato »Dokončaj«..\n7) Upoštevaj, da je pot naprave, ki si jo izbral v VeraCryptu, zdaj morda napačna. Zato zapri čarovnika za ustvarjanje nosilca VeraCrypt (če se še izvaja) in ga nato znova zaženi.\n8) Poskusi znova šifrirati napravo/particijo.\n\nČe VeraCrypt vedno znova ne uspe šifrirati naprave oziroma particije, lahko razmisliš o ustvarjanju vsebnika datotek.</entry>
+    <entry lang="sl" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Napaka: Datotečnega sistema ni bilo mogoče zakleniti oziroma odklopiti. Morda ga uporabljajo operacijski sistem ali aplikacije (na primer protivirusna programska oprema). Šifriranje particije lahko povzroči poškodbe podatkov in nestabilnost sistema.\n\nZapri vse aplikacije, ki morda uporabljajo datotečni sistem (vključno s protivirusno programsko opremo) in poskusi znova. Če ne pomaga, sledi spodnjim korakom.</entry>
     <entry lang="sl" key="DEVICE_IN_USE_INFO">OPOZORILO: Nekatere nameščene naprave/particije so bile že v uporabi!\n\nČe to ignoriraš, lahko povzroči neželene rezultate, vključno z nestabilnostjo sistema.\n\nMočno priporočamo, da zapreš vse aplikacije, ki morda uporabljajo naprave/particije.</entry>
     <entry lang="sl" key="DEVICE_PARTITIONS_ERR">Izbrana naprava ima particije\n\nFormatiranje naprave lahko povzroči nestabilnost sistema in/ali poškodbo podatkov. Izberi particijo v napravi ali odstrani vse particije v napravi, da omogočiš VeraCryptu varno formatiranje.</entry>
     <entry lang="sl" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Izbrana nesistemska naprava vsebuje particije.\n\nŠifrirane nosilce VeraCrypt, ki gostujejo v napravi, je mogoče ustvariti znotraj naprav, ki ne vsebujejo nobenih particij (vključno s trdimi diski in pogoni SSD). Napravo, ki vsebuje particije, je mogoče v celoti šifrirati na mestu (z enim glavnim ključem) samo, če je to pogon, na katerem je nameščen Windows in s katerega se zažene.\n\nČe želiš izbrano nesistemsko napravo šifrirati z enim glavnim ključem, boš moral najprej odstraniti vse particije v napravi, da omogočiš VeraCryptu, da jo varno formatira (formatiranje naprave, ki vsebuje particije, lahko povzroči nestabilnost sistema oziroma korupcijo podatkov). Lahko pa šifriraš vsako particijo na disku posebej (vsaka particija bo šifrirana z drugim glavnim ključem).\n\nOpomba: Če želiš odstraniti vse particije z diska GPT, ga boš morda moral pretvoriti v disk MBR (z uporabo npr. orodja za upravljanje računalnika), da boš odstranil skrite particije.</entry>
@@ -590,7 +590,7 @@
     <entry lang="sl" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Napaka: datoteke, ki si jih kopiral na zunanji nosilec, zasedajo preveč prostora. Zato na zunanjem nosilcu ni dovolj prostega prostora za skriti nosilec.\n\nUpoštevaj, da mora biti skriti nosilec tako velik kot sistemska particija (particija, kjer je nameščen trenutno delujoči operacijski sistem). Razlog je v tem, da je treba skriti operacijski sistem ustvariti s kopiranjem vsebine sistemske particije na skriti nosilec.\n\n\nPostopka ustvarjanja skritega operacijskega sistema ni mogoče nadaljevati.</entry>
     <entry lang="sl" key="OPENFILES_DRIVER">Gonilnik ne more odklopiti nosilca. Nekatere datoteke na nosilcu so verjetno še odprte.</entry>
     <entry lang="sl" key="OPENFILES_LOCK">Nosilca ni mogoče zakleniti. Na nosilcu so še odprte datoteke. Zato ga ni mogoče odklopiti.</entry>
-    <entry lang="sl" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt ne more zakleniti nosilca, ker ga uporabljajo sistem ali aplikacije (na nosilcu so morda odprte datoteke).\n\nAli želiš prisilno odklopiti nosilec?</entry>
+    <entry lang="sl" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt ne more zakleniti nosilca, ker ga uporabljajo sistem ali aplikacije (na nosilcu so morda odprte datoteke).\n\nAli želiš prisilno odklopiti nosilec?</entry>
     <entry lang="sl" key="OPEN_VOL_TITLE">Izberi VeraCryptov nosilec</entry>
     <entry lang="sl" key="OPEN_TITLE">Določi pot in ime datoteke</entry>
     <entry lang="sl" key="SELECT_PKCS11_MODULE">Izberi knjižnico PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="sl" key="DLL_FILES">Moduli knjižnice</entry>
     <entry lang="sl" key="FORMAT_NTFS_STOP">Formatiranja NTFS  ne morem nadaljevati.</entry>
     <entry lang="sl" key="CANT_MOUNT_VOLUME">Ne morem priklopiti nosilca.</entry>
-    <entry lang="sl" key="CANT_DISMOUNT_VOLUME">Ne morem odklopiti nosilca.</entry>
+    <entry lang="sl" key="CANT_UNMOUNT_VOLUME">Ne morem odklopiti nosilca.</entry>
     <entry lang="sl" key="FORMAT_NTFS_FAILED">Windows ni uspel formatirati nosilca kot NTFS.\n\nIzberi drugo vrsto datotečnega sistema (če je mogoče) in poskusi znova. Druga možnost je, da nosilec pustiš neformatiran (za datotečni sistem izberete »Brez«), zapusti ta čarovnik, priklopi nosilec in nato uporabi sistemsko orodje ali orodje tretje osebe za formatiranje pripetega nosilca (nosilec bo ostal šifriran) .</entry>
     <entry lang="sl" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows ni uspel formatirati nosilca kot NTFS.\n\nAli želiš namesto tega formatirati nosilec kot FAT?</entry>
     <entry lang="sl" key="DEFAULT">Privzeto</entry>
@@ -771,7 +771,7 @@
     <entry lang="sl" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Napaka je VeraCryptu preprečila šifriranje particije. Poskusi odpraviti morebitne predhodno prijavljene težave in poskusi znova. Če se težave nadaljujejo, bo morda pomagalo slediti spodnjim korakom.</entry>
     <entry lang="sl" key="INPLACE_ENC_GENERIC_ERR_RESUME">Napaka je VeraCryptu preprečila nadaljevanje postopka šifriranja particije.\n\nPoskusi odpraviti morebitne predhodno prijavljene težave in nato znova poskusi nadaljevati postopek. Upoštevaj, da nosilca ni mogoče namestiti, dokler ni v celoti šifriran.</entry>
     <entry lang="sl" key="INPLACE_DEC_GENERIC_ERR">Napaka je VeraCryptu preprečila dešifriranje nosilca. Poskusite odpraviti morebitne predhodno prijavljene težave in nato poskusi znova, če je mogoče.</entry>
-    <entry lang="sl" key="CANT_DISMOUNT_OUTER_VOL">Napaka: zunanjega nosilca ni mogoče odklopiti!\n\nNosilca ni mogoče odklopiti, če vsebuje datoteke ali mape, ki jih uporablja program ali sistem.\n\nZapri vse programe, ki morda uporabljajo datoteke ali imenike na nosilcu, in klikni 'Poskusi znova' .</entry>
+    <entry lang="sl" key="CANT_UNMOUNT_OUTER_VOL">Napaka: zunanjega nosilca ni mogoče odklopiti!\n\nNosilca ni mogoče odklopiti, če vsebuje datoteke ali mape, ki jih uporablja program ali sistem.\n\nZapri vse programe, ki morda uporabljajo datoteke ali imenike na nosilcu, in klikni 'Poskusi znova' .</entry>
     <entry lang="sl" key="CANT_GET_OUTER_VOL_INFO">Napaka: Ni mogoče pridobiti informacij o zunanjem nosilcu!\nUstvarjanja nosilca ni mogoče nadaljevati.</entry>
     <entry lang="sl" key="CANT_ACCESS_OUTER_VOL">Napaka: ni mogoče dostopati do zunanjega nosilca! Ustvarjanje nosilca se ne more nadaljevati.</entry>
     <entry lang="sl" key="CANT_MOUNT_OUTER_VOL">Napaka: zunanjega nosilca ni mogoče priklopiti! Ustvarjanje nosilca se ne more nadaljevati.</entry>
@@ -882,7 +882,7 @@
     <entry lang="sl" key="INSTALL_COMPLETED">Namestitev je zaključena.</entry>
     <entry lang="sl" key="CANT_CREATE_FOLDER">Mape '%s' nisem mogel ustvariti</entry>
     <entry lang="sl" key="CLOSE_TC_FIRST">Gonilnika naprave VeraCrypt ni mogoče odstraniti.\n\nNajprej zapri vsa odprta okna VeraCrypt. Če ne pomaga, znova zaženi Windows in poskusi znova.</entry>
-    <entry lang="sl" key="DISMOUNT_ALL_FIRST">Vse nosilce VeraCrypt je treba pred namestitvijo ali odstranitvijo VeraCrypta odklopiti.</entry>
+    <entry lang="sl" key="UNMOUNT_ALL_FIRST">Vse nosilce VeraCrypt je treba pred namestitvijo ali odstranitvijo VeraCrypta odklopiti.</entry>
     <entry lang="sl" key="UNINSTALL_OLD_VERSION_FIRST">V tem sistemu je trenutno nameščena zastarela različica VeraCrypt. Odstraniti jo je treba, preden lahko namestiš  novo različico.\n\nTakoj ko zapreš to okno s sporočilom, se bo zagnal program za odstranjevanje stare različice. Upoštevaj, da pri odstranitvi VeraCrypta noben nosilec ne bo dešifriran. Ko odstraniš staro različico VeraCrypta, znova zaženi namestitveni program nove različice.</entry>
     <entry lang="sl" key="REG_INSTALL_FAILED">Namestitev vnosov v register ni uspela</entry>
     <entry lang="sl" key="DRIVER_INSTALL_FAILED">Namestitev gonilnika naprave ni uspela. Znova zaženi Windows in nato ponovno poskusi namestiti VeraCrypt.</entry>
@@ -903,7 +903,7 @@
     <entry lang="sl" key="MINUTES">minute</entry>
     <entry lang="sl" key="SECONDS">sekunde</entry>
     <entry lang="sl" key="OPEN">Odpri</entry>
-    <entry lang="sl" key="DISMOUNT">Odklopi</entry>
+    <entry lang="sl" key="UNMOUNT">Odklopi</entry>
     <entry lang="sl" key="SHOW_TC">Prikaži VeraCrypt</entry>
     <entry lang="sl" key="HIDE_TC">Skrij VeraCrypt</entry>
     <entry lang="sl" key="TOTAL_DATA_READ">Prebrani podatki, odkar je bil izveden priklop</entry>
@@ -975,7 +975,7 @@
     <entry lang="sl" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Sistemski priljubljeni nosilci</entry>
     <entry lang="sl" key="SYS_FAVORITES_HELP_LINK">Kaj so sistemski priljubljeni nosilci?</entry>
     <entry lang="sl" key="SYS_FAVORITES_REQUIRE_PBA">Zdi se, da sistemska particija/pogon ni šifriran.\n\nSistemske priljubljene nosilce je mogoče namestiti samo z geslom za preverjanje pristnosti pred zagonom. Če želiš torej omogočiti uporabo sistemskih priljubljenih nosilcev, moraš najprej šifrirati sistemsko particijo/pogon.</entry>
-    <entry lang="sl" key="DISMOUNT_FIRST">Pred nadaljevanjem najprej odklopi nosilec.</entry>
+    <entry lang="sl" key="UNMOUNT_FIRST">Pred nadaljevanjem najprej odklopi nosilec.</entry>
     <entry lang="sl" key="CANNOT_SET_TIMER">Napaka: ne morem nastaviti časovnika.</entry>
     <entry lang="sl" key="IDPM_CHECK_FILESYS">Preglej datotečni sistem</entry>
     <entry lang="sl" key="IDPM_REPAIR_FILESYS">Popravi datotečni sistem</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="sl" key="NO_SYSENC_PARTITION_SELECTED">Nobena particija ni izbrana.\n\nKliknite 'Izberi napravo', da lahko izberete nepriklopljeno particijo, ki običajno zahteva predzagonsko overitev (npr. particija, ki se nahaja na šifriranem sistemskem disku drugega operacijskega sistema, ki se ne zaganja ali šifrirana sistemska particija drugega operacijskega sistema).\n\nOpomba: Izbrana particija bo priklopljena kot običajen VeraCryptov nosilec brez predzagonske overitve. To je uporabno za, npr. rezervne ali popravljalne postopke.</entry>
     <entry lang="sl" key="CONFIRM_SAVE_DEFAULT_KEYFILES">OPOZORILO: Če so privzete ključne datoteke nastavljene in omogočene, nosilcev, ki ne uporabljajo teh ključnih datotek, ne bo mogoče priklopiti. Zato po tem, ko omogočiš privzete ključne datoteke, ne pozabi počistiti potrditvenega polja »Uporabi ključne datoteke« (pod poljem za vnos gesla), kadar koli nameščaš takšne nosilce.\n\nAli si prepričan, da želiš shraniti izbrane ključne datoteke /poti kot privzete?</entry>
     <entry lang="sl" key="HK_AUTOMOUNT_DEVICES">Samodejni priklop naprave</entry>
-    <entry lang="sl" key="HK_DISMOUNT_ALL">Odklopi vse</entry>
+    <entry lang="sl" key="HK_UNMOUNT_ALL">Odklopi vse</entry>
     <entry lang="sl" key="HK_WIPE_CACHE">Pobriši vsebino v predpomnilniku</entry>
-    <entry lang="sl" key="HK_DISMOUNT_ALL_AND_WIPE">Odklopi vse in pobriši vsebino v predpomnilniku</entry>
-    <entry lang="sl" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Prisilno odklopi vse in pobriši vsebino v predpomnilniku</entry>
-    <entry lang="sl" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Prisilno odklopi vse, pobriši vsebino v predpomnilniku in izhod iz programa</entry>
+    <entry lang="sl" key="HK_UNMOUNT_ALL_AND_WIPE">Odklopi vse in pobriši vsebino v predpomnilniku</entry>
+    <entry lang="sl" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Prisilno odklopi vse in pobriši vsebino v predpomnilniku</entry>
+    <entry lang="sl" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Prisilno odklopi vse, pobriši vsebino v predpomnilniku in izhod iz programa</entry>
     <entry lang="sl" key="HK_MOUNT_FAVORITE_VOLUMES">Priklopi priljubljene nosilce</entry>
     <entry lang="sl" key="HK_SHOW_HIDE_MAIN_WINDOW">Pokaži/Skrij glavno okno VeraCrypt-a</entry>
     <entry lang="sl" key="PRESS_A_KEY_TO_ASSIGN">(klikni tu in pritisni na neko tipko)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="sl" key="PAGING_FILE_CREATION_PREVENTED">Ustvarjanje ostranjevalne datoteke (page file) je bilo preprečeno.\n\nUpoštevaj, da zaradi težav z operacijskim sistemom Windows ostranjevalnih datotek ni mogoče najti na nosilcih VeraCrypt, ki niso sistemski (vključno s priljubljenimi nosilci sistema). VeraCrypt podpira ustvarjanje ostranjevalnih datotek samo na šifrirani sistemski particiji/pogonu.</entry>
     <entry lang="sl" key="SYS_ENC_HIBERNATION_PREVENTED">Napaka ali nezdružljivost preprečuje, da bi VeraCrypt šifriral datoteko mirovanja. Zato je mirovanje preprečeno.\n\nOpomba: Ko računalnik preide v stanje mirovanja (ali vstopi v način varčevanja z energijo), se vsebina njegovega sistemskega pomnilnika zapiše v datoteko za shranjevanje v stanju mirovanja, ki se nahaja na sistemskem pogonu. VeraCrypt ne bi mogel preprečiti, da bi se šifrirni ključi in vsebina občutljivih datotek, odprtih v RAM-u, nešifrirani shranili v datoteko za shranjevanje v mirovanju.</entry>
     <entry lang="sl" key="HIDDEN_OS_HIBERNATION_PREVENTED">Mirovanje je bilo preprečeno.\n\nVeraCrypt ne podpira mirovanja v skritih operacijskih sistemih, ki uporabljajo dodatno zagonsko particijo. Upoštevaj, da si zagonsko particijo delita tako vaba kot skriti sistem. Zato mora VeraCrypt preprečiti uhajanje podatkov in težave med preklopom iz stanja mirovanja, da skriti sistem prepreči pisanje na skupno zagonsko particijo in stanje mirovanja.</entry>
-    <entry lang="sl" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">Nosilec VeraCrypt, priklopljen kot %c: je bil odklopljen.</entry>
-    <entry lang="sl" key="MOUNTED_VOLUMES_DISMOUNTED">Nosilci VeraCrypt so bili odklopljeni.</entry>
-    <entry lang="sl" key="VOLUMES_DISMOUNTED_CACHE_WIPED">Nosilci VeraCrypt so bili odklopljeni in predpomnilnik gesel je izbrisan.</entry>
-    <entry lang="sl" key="SUCCESSFULLY_DISMOUNTED">Uspešno odklopljeno</entry>
+    <entry lang="sl" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">Nosilec VeraCrypt, priklopljen kot %c: je bil odklopljen.</entry>
+    <entry lang="sl" key="MOUNTED_VOLUMES_UNMOUNTED">Nosilci VeraCrypt so bili odklopljeni.</entry>
+    <entry lang="sl" key="VOLUMES_UNMOUNTED_CACHE_WIPED">Nosilci VeraCrypt so bili odklopljeni in predpomnilnik gesel je izbrisan.</entry>
+    <entry lang="sl" key="SUCCESSFULLY_UNMOUNTED">Uspešno odklopljeno</entry>
     <entry lang="sl" key="CONFIRM_BACKGROUND_TASK_DISABLED">OPOZORILO: Če je opravilo v ozadju VeraCrypt onemogočeno, bodo onemogočene naslednje funkcije:\n\n1) Bližnje tipke\n2) Samodejno odklop (npr. ob odjavi, nenamerni odstranitvi gostiteljske naprave, časovni omejitvi itd.)\n3 ) Samodejna namestitev priljubljenih nosilcev\n4) Obvestila (npr. ko je preprečena poškodba skritega nosilca)\n5) Skrita ikona\n\nOpomba: Opravilo v ozadju lahko kadar koli izklopiš tako, da z desno miškino tipko klikneš skrito ikono VeraCrypt in izbereš 'Izhod'.\n\nAli si prepričan, da želiš trajno onemogočiti opravilo v ozadju VeraCrypt?</entry>
-    <entry lang="sl" key="CONFIRM_NO_FORCED_AUTODISMOUNT">OPOZORILO: Če je ta možnost onemogočena, nosilcev, ki vsebujejo odprte datoteke/imenike, ne bo mogoče samodejno odklopiti.\n\nAli si prepričan, da želi onemogočiti to možnost?</entry>
-    <entry lang="sl" key="WARN_PREF_AUTO_DISMOUNT">OPOZORILO: Nosilci, ki vsebujejo odprte datoteke/imenike, NE bodo samodejno odklopljeni.\n\nČe želiš to preprečiti, omogoči naslednjo možnost v tem pogovornem oknu: 'Vsili samodejno odklopi, tudi če nosilec vsebuje odprte datoteke ali imenike'</entry>
-    <entry lang="sl" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">OPOZORILO: Ko je baterija prenosnega računalnika skoraj prazna, lahko Windows ne pošlje ustreznih sporočil delujočim aplikacijam, ko računalnik preklopi v način varčevanja z energijo. Zato VeraCrypt v takih primerih morda ne bo uspel samodejno odklopiti nosilcev.</entry>
+    <entry lang="sl" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">OPOZORILO: Če je ta možnost onemogočena, nosilcev, ki vsebujejo odprte datoteke/imenike, ne bo mogoče samodejno odklopiti.\n\nAli si prepričan, da želi onemogočiti to možnost?</entry>
+    <entry lang="sl" key="WARN_PREF_AUTO_UNMOUNT">OPOZORILO: Nosilci, ki vsebujejo odprte datoteke/imenike, NE bodo samodejno odklopljeni.\n\nČe želiš to preprečiti, omogoči naslednjo možnost v tem pogovornem oknu: 'Vsili samodejno odklopi, tudi če nosilec vsebuje odprte datoteke ali imenike'</entry>
+    <entry lang="sl" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">OPOZORILO: Ko je baterija prenosnega računalnika skoraj prazna, lahko Windows ne pošlje ustreznih sporočil delujočim aplikacijam, ko računalnik preklopi v način varčevanja z energijo. Zato VeraCrypt v takih primerih morda ne bo uspel samodejno odklopiti nosilcev.</entry>
     <entry lang="sl" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Načrtoval si postopek šifriranja particije/nosilca. Postopek še ni zaključen.\n\nAli želiš nadaljevati postopek zdaj?</entry>
     <entry lang="sl" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Načrtoval si postopek šifriranja ali dešifriranja sistemske particije/pogona. Postopek še ni zaključen.\n\nAli želiš začeti (nadaljevati) postopek zdaj?</entry>
     <entry lang="sl" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Ali želiš biti pozvan, ali želiš nadaljevati trenutno načrtovane procese šifriranja nesistemskih particij/nosilcev?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="sl" key="SYS_AUTOMOUNT_DISABLED">Tvoj sistem ni konfiguriran za samodejno vpenjanje novih nosilcev. Nosilcev VeraCrypt, ki jih gosti naprava, morda ne bo mogoče namestiti. Samodejno namestitev lahko omogočiš tako, da izvedeš naslednji ukaz in znova zaženeš sistem.\n\nmountvol.exe /E</entry>
     <entry lang="sl" key="SYS_ASSIGN_DRIVE_LETTER">Dodeli črko pogona particiji/napravi, preden nadaljuješ ('Nadzorna plošča' &gt; 'Sistem in vzdrževanje' &gt; 'Skrbniška orodja' - 'Ustvari in formatiraj particije trdega diska').\n\nUpoštevaj, da je to zahteva. operacijskega sistema.</entry>
     <entry lang="sl" key="MOUNT_TC_VOLUME">Priklop nosilca VeraCrypt</entry>
-    <entry lang="sl" key="DISMOUNT_ALL_TC_VOLUMES">Odklop vseh nosilcev VeraCrypt</entry>
+    <entry lang="sl" key="UNMOUNT_ALL_TC_VOLUMES">Odklop vseh nosilcev VeraCrypt</entry>
     <entry lang="sl" key="UAC_INIT_ERROR">VeraCrypt ni mogel pridobiti pravic skrbnika.</entry>
     <entry lang="sl" key="ERR_ACCESS_DENIED">Operacijski sistem ne dovoli dostopa.\n\nMožen razlog: Operacijski sistem terja dovoljenje za branje/pisanje(ali administrativne pravice) za določene naprave, mape ali datoteke. Normalno lahko uporabnik brez skrbniških pravic tvori, bere in spreminja datoteke le v svojih mapah.</entry>
     <entry lang="sl" key="SECTOR_SIZE_UNSUPPORTED">Napaka: pogon uporablja nepodprto velikost sektorja.\n\nTrenutno ni mogoče ustvariti nosilcev, ki gostujejo v particiji/napravi, na pogonih, ki uporabljajo sektorje, večje od 4096 bajtov. Vendar upoštevaj, da lahko na takih pogonih ustvariš nosilce (vsebnike), ki gostujejo datoteke.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="sl" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Upoštevaj, da je število niti trenutno omejeno, kar bo vplivalo na rezultate primerjalnih testov (slabša zmogljivost).\n\nČe želiš izkoristiti celoten potencial procesorja(-ov), izberi 'Nastavitve' > 'Zmogljivost' in onemogoči ustrezno možnost.</entry>
     <entry lang="sl" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Ali želiš, da VeraCrypt poskusi onemogočiti zaščito pred pisanjem particije/pogona?</entry>
     <entry lang="sl" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">OPOZORILO: Ta nastavitev lahko poslabša delovanje.\n\nAli si prepričan, da želiš uporabiti to nastavitev?</entry>
-    <entry lang="sl" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Opozorilo: nosilec VeraCrypt je samodejno odklopljen</entry>
-    <entry lang="sl" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Preden fizično odstraniš ali izklopiš napravo, ki vsebuje nameščen nosilec, vedno najprej odklopi nosilec v VeraCryptu.\n\nNepričakovan spontan odklop običajno povzroči občasna okvara kabla, pogona (ohišja) itd.</entry>
+    <entry lang="sl" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Opozorilo: nosilec VeraCrypt je samodejno odklopljen</entry>
+    <entry lang="sl" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Preden fizično odstraniš ali izklopiš napravo, ki vsebuje nameščen nosilec, vedno najprej odklopi nosilec v VeraCryptu.\n\nNepričakovan spontan odklop običajno povzroči občasna okvara kabla, pogona (ohišja) itd.</entry>
     <entry lang="sl" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ta nosilec je bil ustvarjen s TrueCrypt %x.%x, vendar VeraCrypt podpira samo nosilce TrueCrypt, ustvarjene s serijo TrueCrypt 6.x/7.x</entry>
     <entry lang="sl" key="TEST">Test</entry>
     <entry lang="sl" key="KEYFILE">Ključna datoteka</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="sl" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Dodaj vse priklopljene nosilce k priljubljenim...</entry>
     <entry lang="sl" key="TASKICON_PREF_MENU_ITEMS">Ikone v meniju opravil</entry>
     <entry lang="sl" key="TASKICON_PREF_OPEN_VOL">Odpri priklopljene nosilce</entry>
-    <entry lang="sl" key="TASKICON_PREF_DISMOUNT_VOL">Odklop priklopljenih nosilcev</entry>
+    <entry lang="sl" key="TASKICON_PREF_UNMOUNT_VOL">Odklop priklopljenih nosilcev</entry>
     <entry lang="sl" key="DISK_FREE">Velikost razpoložljivega prostora: {0}</entry>
     <entry lang="sl" key="VOLUME_SIZE_HELP">Določi velikost vsebnika, ki ga želiš ustvariti. Upoštevaj, da je najmanjša možna velikost nosilca 292 KiB.</entry>
     <entry lang="sl" key="LINUX_CONFIRM_INNER_VOLUME_CALC">OPOZORILO: Za zunanji nosilec si izbrali datotečni sistem, ki ni FAT.\nUpoštevaj, da v tem primeru VeraCrypt ne more izračunati točne največje dovoljene velikosti za skriti nosilec in bo uporabil samo oceno, ki je lahko napačna.\nZato moraš paziti, da uporabiš ustrezno vrednost za velikost skritega nosilca, tako da ne prekriva zunanjega nosilca.\n\nAli želiš še naprej uporabljati izbrani datotečni sistem za zunanji volumen?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="sl" key="LINUX_DO_NOT_MOUNT">Ne priklopi</entry>
     <entry lang="sl" key="LINUX_MOUNT_AT_DIR">Priklop na direktorij:</entry>
     <entry lang="sl" key="LINUX_SELECT">Izberi...</entry>
-    <entry lang="sl" key="LINUX_DISMOUNT_ALL_WHEN">Odklopi vse nosilce, ko</entry>
+    <entry lang="sl" key="LINUX_UNMOUNT_ALL_WHEN">Odklopi vse nosilce, ko</entry>
     <entry lang="sl" key="LINUX_ENTERING_POWERSAVING">Sistem prehaja v način varčevanja z energijo</entry>
     <entry lang="sl" key="LINUX_LOGIN_ACTION">Dejanja, ki jih je treba izvesti, ko se uporabnik prijavi</entry>
-    <entry lang="sl" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Zapri vsa okna Raziskovalca nosilca, ki ga odklopiš</entry>
+    <entry lang="sl" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Zapri vsa okna Raziskovalca nosilca, ki ga odklopiš</entry>
     <entry lang="sl" key="LINUX_HOTKEYS">Vroče tipke</entry>
     <entry lang="sl" key="LINUX_SYSTEM_HOTKEYS">Bližnjice za celoten sistem</entry>
     <entry lang="sl" key="LINUX_SOUND_NOTIFICATION">Predvajaj zvok sistemskega obvestila po priklopu oziroma odklopu</entry>
-    <entry lang="sl" key="LINUX_CONFIRM_AFTER_DISMOUNT">Po odklopu prikaži potrditveno sporočilo</entry>
+    <entry lang="sl" key="LINUX_CONFIRM_AFTER_UNMOUNT">Po odklopu prikaži potrditveno sporočilo</entry>
     <entry lang="sl" key="LINUX_VC_QUITS">VeraCrypt konča</entry>
     <entry lang="sl" key="LINUX_OPEN_FINDER">Odpri okno Finderja za uspešno nameščen nosilec</entry>
     <entry lang="sl" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Upoštevaj, da ta nastavitev velja le, če je uporaba kriptografskih storitev jedra onemogočena.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="sl" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="sl" key="LINUX_NOT_SUPPORTED"> (ni podprto s komponentami, ki so na voljo na tej platformi).\n</entry>
     <entry lang="sl" key="LINUX_KERNEL_OLD">Tvoj sistem uporablja staro različico jedra Linuxa.\n\nZaradi napake v jedru Linuxa se tvoj sistem morda neha odzivati ​​pri zapisovanju podatkov na nosilec VeraCrypt. To težavo je mogoče rešiti z nadgradnjo jedra na različico 2.6.24 ali novejšo.</entry>
-    <entry lang="sl" key="LINUX_VOL_DISMOUNTED">Nosilec {0} je odklopljen.</entry>
+    <entry lang="sl" key="LINUX_VOL_UNMOUNTED">Nosilec {0} je odklopljen.</entry>
     <entry lang="sl" key="LINUX_VOL_MOUNTED">Nosilec {0} je priklopljen.</entry>
     <entry lang="sl" key="LINUX_OOM">Premalo spomina.</entry>
     <entry lang="sl" key="LINUX_CANT_GET_ADMIN_PRIV">Nimam privilegijev skrbnika</entry>

@@ -42,11 +42,11 @@
 
 // Dismount volume
 // IN OUT - UNMOUNT_STRUCT
-#define TC_IOCTL_DISMOUNT_VOLUME						TC_IOCTL (4)
+#define TC_IOCTL_UNMOUNT_VOLUME						TC_IOCTL (4)
 
 // Dismount all volumes
 // IN OUT - UNMOUNT_STRUCT
-#define TC_IOCTL_DISMOUNT_ALL_VOLUMES					TC_IOCTL (5)
+#define TC_IOCTL_UNMOUNT_ALL_VOLUMES					TC_IOCTL (5)
 
 // Get list of all mounted volumes
 // IN OUT - MOUNT_LIST_STRUCT (only 26 volumes possible)
@@ -60,7 +60,7 @@
 // OUT - int
 #define TC_IOCTL_GET_DEVICE_REFCOUNT					TC_IOCTL (8)
 
-// Is it possible to unload driver 
+// Is it possible to unload driver
 // It check file system cache of mounted drives via unmount IOCTL.
 // OUT - int
 #define TC_IOCTL_IS_DRIVER_UNLOAD_DISABLED				TC_IOCTL (9)

@@ -222,7 +222,7 @@ namespace VeraCrypt
 				{
 					if (!message.IsEmpty())
 						message += L'\n';
-					message += StringFormatter (LangString["LINUX_VOL_DISMOUNTED"], wstring (volume->Path));
+					message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
 				}
 			}
 
@@ -707,7 +707,7 @@ namespace VeraCrypt
 
 				if (newMountedVolumes.back()->MasterKeyVulnerable)
 					vulnerableVolumeMounted = true;
-				
+
 			}
 			catch (DriverError&) { }
 			catch (MissingVolumeData&) { }
@@ -789,7 +789,7 @@ namespace VeraCrypt
 					newMountedVolumes.push_back (volume);
 				}
 			}
-			
+
 			if (mountPerformed && newMountedVolumes.back()->MasterKeyVulnerable)
 				ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
 		}
@@ -956,12 +956,12 @@ const FileManager fileManagers[] = {
 			string fmPath = Process::FindSystemBinary(fm.name, errorMsg);
 			if (!fmPath.empty()) {
 				args.clear();
-				
+
 				// Add base arguments first
 				for (size_t j = 0; j < fm.baseArgsCount; ++j) {
 					args.push_back(fm.baseArgs[j]);
 				}
-				
+
 				// Add path argument
 				args.push_back(directoryPath);
 

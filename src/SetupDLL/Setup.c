@@ -59,7 +59,7 @@ using namespace VeraCrypt;
 #define va_copy(d, s) ((d) = (s))
 #endif
 
-typedef enum 
+typedef enum
 {
 	MSI_INFO_LEVEL = 0,
 	MSI_WARNING_LEVEL,
@@ -111,7 +111,7 @@ BOOL bDesktopIconStatusDetermined = FALSE;
 /* Defined in this file, but a little bit late */
 BOOL IsSystemRestoreEnabled ();
 
-/* 
+/*
  * Same as in Setup.c
  */
 BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
@@ -142,7 +142,7 @@ BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
 	return bRet;
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 BOOL ForceDeleteFile (LPCWSTR szFileName)
@@ -156,7 +156,7 @@ BOOL ForceDeleteFile (LPCWSTR szFileName)
 		return TRUE;
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 BOOL StatDeleteFile (wchar_t *lpszFile, BOOL bCheckForOldFile)
@@ -181,7 +181,7 @@ BOOL StatDeleteFile (wchar_t *lpszFile, BOOL bCheckForOldFile)
 		return TRUE;
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 BOOL StatRemoveDirectory (wchar_t *lpszDir)
@@ -196,7 +196,7 @@ BOOL StatRemoveDirectory (wchar_t *lpszDir)
 		return TRUE;
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 void StatusMessage (HWND hwndDlg, char *stringId)
@@ -210,7 +210,7 @@ void StatusMessage (HWND hwndDlg, char *stringId)
 		SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_GETCOUNT, 0, 0) - 1, 0);
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersionPtr)
@@ -242,7 +242,7 @@ void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersi
 	*driverVersionPtr = driverVersion;
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 BOOL IsSystemRestoreEnabled ()
@@ -267,7 +267,7 @@ BOOL IsSystemRestoreEnabled ()
 	return bEnabled;
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 static void RecursiveSetOwner (HKEY hKey, PSECURITY_DESCRIPTOR pSD)
@@ -304,7 +304,7 @@ static void RecursiveSetOwner (HKEY hKey, PSECURITY_DESCRIPTOR pSD)
 	RegSetKeySecurity (hKey, OWNER_SECURITY_INFORMATION, pSD);
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 static void RecursiveSetDACL (HKEY hKey, const wchar_t* SubKeyName, PSECURITY_DESCRIPTOR pSD)
@@ -344,7 +344,7 @@ static void RecursiveSetDACL (HKEY hKey, const wchar_t* SubKeyName, PSECURITY_DE
 	}
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 static void AllowKeyAccess(HKEY Key,const wchar_t* SubKeyName)
@@ -418,7 +418,7 @@ static void AllowKeyAccess(HKEY Key,const wchar_t* SubKeyName)
 		CloseHandle(Token);
 }
 
-/* 
+/*
  * Same as in Setup.c
  */
 void SearchAndDeleteRegistrySubString (HKEY hKey, const wchar_t *subKey, const wchar_t *str, BOOL bEnumSubKeys, const wchar_t* enumMatchSubStr)
@@ -626,7 +626,7 @@ void MSILogAndShow(MSIHANDLE hInstall, eMSILogLevel level, const wchar_t* zcForm
 
 /* **************************************************************************** */
 
-/* 
+/*
  * Defined in Dlgcode.c.
  */
 extern void ExceptionHandlerThread (void *threadArg);
@@ -637,8 +637,8 @@ extern DWORD SystemFileSelectorCallerThreadId;
 
 /* **************************************************************************** */
 
-/* 
- * Same as in Dlgcode.c, Applink() , but 
+/*
+ * Same as in Dlgcode.c, Applink() , but
  * removed unnecessary code.
  */
 void Applink_Dll (MSIHANDLE hInstaller, const char *dest)
@@ -783,7 +783,7 @@ void Applink_Dll (MSIHANDLE hInstaller, const char *dest)
 		StringCbCopyW (url, sizeof (url),TC_APPLINK);
 		buildUrl = FALSE;
 	}
-	
+
 	if (buildUrl)
 	{
 		StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
@@ -817,17 +817,17 @@ void Applink_Dll (MSIHANDLE hInstaller, const char *dest)
 			// fallbacl to online resources
 			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
 			ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
-		}			
+		}
 	}
 }
 
-/* 
- * Same as in Dlgcode.c, CheckCapsLock(), but 
+/*
+ * Same as in Dlgcode.c, CheckCapsLock(), but
  * replaced MessageBoxW() with MSILogAndShow().
  */
 BOOL CheckCapsLock_Dll (MSIHANDLE hInstaller, BOOL quiet)
 {
-	if ((GetKeyState(VK_CAPITAL) & 1) != 0)	
+	if ((GetKeyState(VK_CAPITAL) & 1) != 0)
 	{
 		MSILogAndShow(hInstaller, MSI_WARNING_LEVEL, GetString ("CAPSLOCK_ON"));
 		return TRUE;
@@ -835,8 +835,8 @@ BOOL CheckCapsLock_Dll (MSIHANDLE hInstaller, BOOL quiet)
 	return FALSE;
 }
 
-/* 
- * Same as in Dlgcode.c, GetWrongPasswordErrorMessage(), but 
+/*
+ * Same as in Dlgcode.c, GetWrongPasswordErrorMessage(), but
  * replaced CheckCapsLock() with CheckCapsLock_Dll().
  */
 std::wstring GetWrongPasswordErrorMessage_Dll (MSIHANDLE hInstaller)
@@ -851,8 +851,8 @@ std::wstring GetWrongPasswordErrorMessage_Dll (MSIHANDLE hInstaller)
 	return msg;
 }
 
-/* 
- * Same as in Dlgcode.c, HandleDriveNotReadyError(), but 
+/*
+ * Same as in Dlgcode.c, HandleDriveNotReadyError(), but
  * replaced Warning() with MSILogAndShow().
  */
 void HandleDriveNotReadyError_Dll (MSIHANDLE hInstaller)
@@ -875,15 +875,15 @@ void HandleDriveNotReadyError_Dll (MSIHANDLE hInstaller)
 	RegCloseKey (hkey);
 }
 
-/* 
- * Same as in Dlgcode.c, handleWin32Error(), but 
+/*
+ * Same as in Dlgcode.c, handleWin32Error(), but
  * replaced ErrorDirect(), Error() and MessageBoxW with MSILogAndShow(),
  * replaced HandleDriveNotReadyError() with HandleDriveNotReadyError_Dll().
  */
 DWORD handleWin32Error_Dll (MSIHANDLE hInstaller, const char* srcPos)
 {
 	PWSTR lpMsgBuf;
-	DWORD dwError = GetLastError ();	
+	DWORD dwError = GetLastError ();
 	wchar_t szErrorValue[32];
 	wchar_t* pszDesc;
 
@@ -932,8 +932,8 @@ DWORD handleWin32Error_Dll (MSIHANDLE hInstaller, const char* srcPos)
 	return dwError;
 }
 
-/* 
- * Same as in Dlgcode.c, handleError(), but 
+/*
+ * Same as in Dlgcode.c, handleError(), but
  * replaced ErrorDirect(), Error() and MessageBoxW with MSILogAndShow(),
  * replaced handleWin32Error() with handleWin32Error_Dll().
  */
@@ -1040,8 +1040,8 @@ void handleError_Dll (MSIHANDLE hInstaller, int code, const char* srcPos)
 	}
 }
 
-/* 
- * Same as in Dlgcode.c, LoadSystemDll() , but 
+/*
+ * Same as in Dlgcode.c, LoadSystemDll() , but
  * replaced AbortProcess() with MSILogAndShow() + return,
  */
 static void LoadSystemDll_Dll (MSIHANDLE hInstaller, LPCTSTR szModuleName, HMODULE *pHandle, BOOL bIgnoreError, const char* srcPos)
@@ -1063,8 +1063,8 @@ static void LoadSystemDll_Dll (MSIHANDLE hInstaller, LPCTSTR szModuleName, HMODU
 	}
 }
 
-/* 
- * Same as in Dlgcode.c, handleWin32Error(), but 
+/*
+ * Same as in Dlgcode.c, handleWin32Error(), but
  * replaced AbortProcess() with MSILogAndShow() + return,
  */
 BOOL IsPagingFileActive_Dll (MSIHANDLE hInstaller, BOOL checkNonWindowsPartitionsOnly)
@@ -1132,8 +1132,8 @@ BOOL IsPagingFileActive_Dll (MSIHANDLE hInstaller, BOOL checkNonWindowsPartition
 	return FALSE;
 }
 
-/* 
- * Same as in Dlgcode.c, DoDriverInstall(), but 
+/*
+ * Same as in Dlgcode.c, DoDriverInstall(), but
  * replaced StatusMessage() with MSILog().
  */
 BOOL DoDriverInstall_Dll (MSIHANDLE hInstaller)
@@ -1206,8 +1206,8 @@ end:
 
 /* **************************************************************************** */
 
-/* 
- * Same as in Setup.c, StartStopService(), but 
+/*
+ * Same as in Setup.c, StartStopService(), but
  * replaced StatusMessage() with MSILog().
  */
 BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bStart, DWORD argc, LPCWSTR* argv)
@@ -1285,8 +1285,8 @@ error:
 	return bOK;
 }
 
-/* 
- * Same as in Setup.c, SetSystemRestorePoint(), but 
+/*
+ * Same as in Setup.c, SetSystemRestorePoint(), but
  * replaced StatusMessage() with MSILog().
  */
 static void SetSystemRestorePoint_Dll (MSIHANDLE hInstaller, BOOL finalize)
@@ -1343,8 +1343,8 @@ end:
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"End SetSystemRestorePoint_Dll");
 }
 
-/* 
- * Same as in Setup.c, DoDriverUnload(), but 
+/*
+ * Same as in Setup.c, DoDriverUnload(), but
  * replaced AbortProcess() and AbortProcessSilent() with MSILogAndShow() + return,
  * replaced Error(), MessageBoxW() with MSILogAndShow(),
  * replaced StatusMessage() with MSILog(),
@@ -1470,7 +1470,7 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 				if (volumesMounted != 0)
 				{
 					bOK = FALSE;
-					MSILogAndShow(hInstaller, MSI_WARNING_LEVEL, GetString ("DISMOUNT_ALL_FIRST"));
+					MSILogAndShow(hInstaller, MSI_WARNING_LEVEL, GetString ("UNMOUNT_ALL_FIRST"));
 				}
 			}
 			else
@@ -1529,8 +1529,8 @@ end:
 	return bOK;
 }
 
-/* 
- * Same as in Setup.c,  DoServiceUninstall(), but 
+/*
+ * Same as in Setup.c,  DoServiceUninstall(), but
  * replaced AbortProcess() and AbortProcessSilent() with MSILogAndShow() + return,
  * replaced Error(), MessageBoxW() with MSILogAndShow(),
  * replaced StatusMessage() with MSILog(),
@@ -1683,8 +1683,8 @@ error:
 	return bOK;
 }
 
-/* 
- * Same as in Setup.c, DoRegUninstall(), but 
+/*
+ * Same as in Setup.c, DoRegUninstall(), but
  * replaced StatusMessage() with MSILog(),
  * removed unnecessary code that is done by MSI.
  */
@@ -1772,8 +1772,8 @@ BOOL DoRegUninstall_Dll (MSIHANDLE hInstaller, BOOL bRemoveDeprecated)
 	return TRUE;
 }
 
-/* 
- * Same as in Setup.c, UpgradeBootLoader(), but 
+/*
+ * Same as in Setup.c, UpgradeBootLoader(), but
  * replaced StatusMessage() with MSILog().
  */
 BOOL UpgradeBootLoader_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
@@ -1841,8 +1841,8 @@ end:
 	return bOK;
 }
 
-/* 
- * Same as Setup.c, function DoApplicationDataUninstall(), but 
+/*
+ * Same as Setup.c, function DoApplicationDataUninstall(), but
  * replaced StatusMessage() and RemoveMessage() with MSILog().
  */
 BOOL DoApplicationDataUninstall_Dll (MSIHANDLE hInstaller)
@@ -1911,9 +1911,9 @@ BOOL DoApplicationDataUninstall_Dll (MSIHANDLE hInstaller)
 	return bOK;
 }
 
-/* 
- * Same as Setup.c, function DoUninstall(), but 
- * removed uninstall of files and registry as it will be 
+/*
+ * Same as Setup.c, function DoUninstall(), but
+ * removed uninstall of files and registry as it will be
  * done by MSI.
  */
 BOOL DoUninstall_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
@@ -1978,8 +1978,8 @@ end:
 	return bOK;
 }
 
-/* 
- * Same as Setup.c, function InitApp(), but 
+/*
+ * Same as Setup.c, function InitApp(), but
  * replaced unnecessary calls,
  * forced english as language,
  * replaced LoadLanguageFile() with LoadLanguageFromResource() to be able to set bForceSilent.
@@ -2011,8 +2011,8 @@ BOOL InitDll (MSIHANDLE hInstaller)
 
 /* **************************************************************************** */
 
-/* 
- * Same as Setup.c, function wWinMain(), but 
+/*
+ * Same as Setup.c, function wWinMain(), but
  * replaced unnecessary calls.
  * This should be called at the beginning of each operation (install, uninstall...),
  * before atexit(VC_CustomAction_Cleanup()) call.
@@ -2020,7 +2020,7 @@ BOOL InitDll (MSIHANDLE hInstaller)
 BOOL VC_CustomAction_Init(MSIHANDLE hInstaller, const wchar_t* szInstallDir)
 {
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"Begin VC_CustomAction_Init");
-	
+
 	BOOL bOK = TRUE;
 
 	if (!InitDll(hInstaller))
@@ -2057,8 +2057,8 @@ end:
 	return bOK;
 }
 
-/* 
- * Same as Setup.c, function localcleanup(), but 
+/*
+ * Same as Setup.c, function localcleanup(), but
  * replaced unnecessary calls.
  * This should be called at the beginning of each operation (install, uninstall...),
  * as an argument to atexit() before VC_CustomAction_Init() call.
@@ -2086,7 +2086,7 @@ void VC_CustomAction_Cleanup ()
 	/* Close the device driver handle */
 	if (hDriver != INVALID_HANDLE_VALUE)
 	{
-		// Unload driver mode if possible (non-install mode) 
+		// Unload driver mode if possible (non-install mode)
 		if (IsNonInstallMode ())
 		{
 			// If a dismount was forced in the lifetime of the driver, Windows may later prevent it to be loaded again from
@@ -2123,17 +2123,17 @@ void VC_CustomAction_Cleanup ()
 
 void Tokenize(const wchar_t* szInput, std::vector<std::wstring>& szTokens)
 {
-    std::wstringstream check(szInput); 
-    std::wstring intermediate; 
-    while(std::getline(check, intermediate, L'?')) 
-    { 
+    std::wstringstream check(szInput);
+    std::wstring intermediate;
+    while(std::getline(check, intermediate, L'?'))
+    {
         szTokens.push_back(intermediate);
     }
 }
 
-/* 
- * Same as Setup.c, function DoInstall(), but 
- * without the actual installation, it only prepares the system 
+/*
+ * Same as Setup.c, function DoInstall(), but
+ * without the actual installation, it only prepares the system
  * before the installation (before DoFilesInstall).
  * It runs as a Deferred CA.
  */
@@ -2255,7 +2255,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreInstall(MSIHANDLE hInstaller)
 
 	// Remove deprecated
 	DoServiceUninstall_Dll (hInstaller, hwndDlg, L"VeraCryptService");
-	
+
 	if (!SystemEncryptionUpdate)
 		DoRegUninstall_Dll (hInstaller, TRUE);
 
@@ -2268,7 +2268,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreInstall(MSIHANDLE hInstaller)
 	//	uiRet = MsiSetProperty(hInstaller, TEXT("ISREBOOTREQUIRED"), TEXT("1"));
 	//		Cannot do this because this is a Deferred CA (we need Deferred so that it runs with admin privileges).
 	//		MsiGetProperty and MsiSetProperty properties cannot be used for deferred InstallScript custom actions,
-	//		which do not have access to the active .msi database and do not recognize any Windows Installer properties. 
+	//		which do not have access to the active .msi database and do not recognize any Windows Installer properties.
 	//		They can access only the information that has been written into the execution script (CustomActionData).
 	//		Therefore, we set the values in RegKeys that are volatile.
 	if (bOK)
@@ -2303,7 +2303,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreInstall(MSIHANDLE hInstaller)
 
 			uiRet = ERROR_SUCCESS;
 		}
-		else 
+		else
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_PreInstall: Could not write to registry");
 		}
@@ -2314,12 +2314,12 @@ end:
 	return uiRet;
 }
 
-/* 
- * Same as Setup.c, function DoInstall(), but 
- * without the actual installation, it only performs 
- * post install operations (after DoRegInstall and last parts 
+/*
+ * Same as Setup.c, function DoInstall(), but
+ * without the actual installation, it only performs
+ * post install operations (after DoRegInstall and last parts
  * of DoFilesInstall / DoRegInstall).
- * It also does the Fast Startup check, shows Release Notes and 
+ * It also does the Fast Startup check, shows Release Notes and
  * Beginner's Tutorial if needed and sets regkey accordingly.
  * It runs as a Deferred CA.
  */
@@ -2446,7 +2446,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 		RegCloseKey (hkey);
 	}
-	else 
+	else
 	{
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_PostInstall: Could not read from registry");
 		goto end;
@@ -2471,7 +2471,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	}
 	atexit(VC_CustomAction_Cleanup);
 	bootEnc.SetParentWindow(hwndDlg);
-	
+
 	//	Last part of DoFilesInstall()
 	{
 		BOOL bResult = FALSE;
@@ -2512,7 +2512,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 			// copy the favorites XML file to the native system directory
 			bResult = CopyFile (favoritesLegacyFile.c_str(), favoritesFile.c_str(), FALSE);
 		}
-		else 
+		else
 		{
 			bResult = TRUE;
 		}
@@ -2647,7 +2647,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 				FindClose (h);
 			}
-		
+
 			// remvove legacy files that are not needed anymore
 			for (i = 0; i < sizeof (szLegacyFiles) / sizeof (szLegacyFiles[0]); i++)
 			{
@@ -2657,7 +2657,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 			SetCurrentDirectory(szCurrentDir);
 		}
 	}
-	
+
 	//	Last part of DoRegInstall()
 	{
 		//	Register COM servers for UAC
@@ -2827,11 +2827,11 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 			uiRet = ERROR_SUCCESS;
 		}
-		else 
+		else
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_PostInstall: Could not write to registry");
 		}
-		
+
 		// delete entry of EXE installation if it exists
 		RegDeleteKeyExW (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", KEY_WOW64_32KEY, 0);
 	}
@@ -2841,9 +2841,9 @@ end:
 	return uiRet;
 }
 
-/* 
- * Same as Setup.c, function DoUninstall(), but 
- * without the actual uninstall, it only prepares the system 
+/*
+ * Same as Setup.c, function DoUninstall(), but
+ * without the actual uninstall, it only prepares the system
  * before the uninstall (before DoFilesInstall).
  * It runs as a Deferred CA.
  */
@@ -2875,7 +2875,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreUninstall(MSIHANDLE hInstaller)
 		if ((ERROR_SUCCESS == uiStat))
 		{
 			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PreUninstall: CustomActionData = '%s'", szValueBuf.c_str());
-			
+
 			std::vector<std::wstring> szTokens;
 			Tokenize(szValueBuf.c_str(), szTokens);
 
@@ -2971,7 +2971,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreUninstall(MSIHANDLE hInstaller)
 		//	uiRet = MsiSetProperty(hInstaller, TEXT("ISREBOOTREQUIRED"), TEXT("1"));
 		//		Cannot do this because this is a Deferred CA (we need Deferred so that it runs with admin privileges).
 		//		MsiGetProperty and MsiSetProperty properties cannot be used for deferred InstallScript custom actions,
-		//		which do not have access to the active .msi database and do not recognize any Windows Installer properties. 
+		//		which do not have access to the active .msi database and do not recognize any Windows Installer properties.
 		//		They can access only the information that has been written into the execution script (CustomActionData).
 		//		Therefore, we set the values in RegKeys that are volatile.
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, L"Software\\.VeraCrypt\\Values", 0, NULL, REG_OPTION_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) == ERROR_SUCCESS)
@@ -3004,7 +3004,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreUninstall(MSIHANDLE hInstaller)
 
 			uiRet = ERROR_SUCCESS;
 		}
-		else 
+		else
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_PreUninstall: Could not write to registry");
 		}
@@ -3079,10 +3079,10 @@ static BOOL DeleteContentsOnReboot(LPCTSTR pszDir) {
     return result;
 }
 
-/* 
- * Same as Setup.c, function DoUninstall(), but 
- * without the actual installation, it only performs 
- * post install operations (after DoFilesInstall and last parts 
+/*
+ * Same as Setup.c, function DoUninstall(), but
+ * without the actual installation, it only performs
+ * post install operations (after DoFilesInstall and last parts
  * of DoFilesInstall / DoRegUninstall).
  * It also sets regkey accordingly.
  * It runs as a Deferred CA.
@@ -3178,7 +3178,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 
 		RegCloseKey (hkey);
 	}
-	else 
+	else
 	{
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_PostUninstall: Could not read from registry");
 		goto end;
@@ -3288,7 +3288,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 		//	uiRet = MsiSetProperty(hInstaller, TEXT("ISREBOOTREQUIRED"), TEXT("1"));
 		//		Cannot do this because this is a Deferred CA (we need Deferred so that it runs with admin privileges).
 		//		MsiGetProperty and MsiSetProperty properties cannot be used for deferred InstallScript custom actions,
-		//		which do not have access to the active .msi database and do not recognize any Windows Installer properties. 
+		//		which do not have access to the active .msi database and do not recognize any Windows Installer properties.
 		//		They can access only the information that has been written into the execution script (CustomActionData).
 		//		Therefore, we set the values in RegKeys that are volatile.
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, L"Software\\.VeraCrypt\\Values", 0, NULL, REG_OPTION_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) == ERROR_SUCCESS)
@@ -3321,7 +3321,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 
 			uiRet = ERROR_SUCCESS;
 		}
-		else 
+		else
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_PostUninstall: Could not write to registry");
 		}
@@ -3403,7 +3403,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 	{
 		DWORD cbValue = sizeof(DWORD);
 		DWORD dwValue = 0;
-		
+
 		RegQueryValueEx (hkey, L"Silent", NULL, NULL, (LPBYTE) &dwValue, &cbValue);
 		Silent = (dwValue == 1);
 		RegQueryValueEx (hkey, L"bUninstall", NULL, NULL, (LPBYTE) &dwValue, &cbValue);
@@ -3451,7 +3451,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 
 		RegCloseKey (hkey);
 	}
-	else 
+	else
 	{
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_DoChecks: Could not read from registry");
 		goto end;
@@ -3477,7 +3477,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 
 	//	Check if reboot was required by the pre/post-install and set Wix property ISREBOOTREQUIRED accordingly.
 	if (bRestartRequired)
-	{		
+	{
 		if (bDisableReboot)
 		{
 			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_DoChecks: reboot is required but it is disabled because \"REBOOT\" specifies ReallySuppress");
@@ -3489,7 +3489,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 			uiRet = MsiSetProperty(hInstaller, L"ISREBOOTREQUIRED", L"1");
 		}
 	}
-	else 
+	else
 	{
 		uiRet = ERROR_SUCCESS;
 	}
@@ -3511,8 +3511,8 @@ DllMain(
 {
     UNREFERENCED_PARAMETER(lpvReserved);
 
-    /* Save the instance handle for later, 
-	 * especially for loading embedded Language.xml file 
+    /* Save the instance handle for later,
+	 * especially for loading embedded Language.xml file
 	 * in Dlgcode.c, MapResource() function.
 	 */
 	hInst = hInstDLL;

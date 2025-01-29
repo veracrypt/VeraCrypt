@@ -135,8 +135,8 @@
     <entry lang="zh-hk" key="IDC_FAVORITE_REMOVE">移除(&amp;R)</entry>
     <entry lang="zh-hk" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">使用自訂的標籤作為檔案瀏覽器的磁碟標籤</entry>
     <entry lang="zh-hk" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">全局設定</entry>
-    <entry lang="zh-hk" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">使用快捷鍵成功解除掛載之後顯示氣泡提示框</entry>
-    <entry lang="zh-hk" key="IDC_HK_DISMOUNT_PLAY_SOUND">使用快捷鍵成功解除掛載之後播放系統提示音效</entry>
+    <entry lang="zh-hk" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">使用快捷鍵成功解除掛載之後顯示氣泡提示框</entry>
+    <entry lang="zh-hk" key="IDC_HK_UNMOUNT_PLAY_SOUND">使用快捷鍵成功解除掛載之後播放系統提示音效</entry>
     <entry lang="en" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="en" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="en" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="zh-hk" key="IDC_PIM_HELP">(留空或輸入 0 以使用預設重復次數)</entry>
     <entry lang="zh-hk" key="IDC_PREF_BKG_TASK_ENABLE">啟用</entry>
     <entry lang="zh-hk" key="IDC_PREF_CACHE_PASSWORDS">在驅動程式記憶體中暫存密碼</entry>
-    <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_INACTIVE">於超過以下時間無任何數據讀寫時自動解除掛載加密區</entry>
-    <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_LOGOFF">使用者登出時</entry>
-    <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">使用者階段被鎖定</entry>
-    <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_POWERSAVING">進入待機狀態時</entry>
-    <entry lang="zh-hk" key="IDC_PREF_DISMOUNT_SCREENSAVER">螢幕保護載入時</entry>
-    <entry lang="zh-hk" key="IDC_PREF_FORCE_AUTO_DISMOUNT">即使加密區上有檔案或資料夾正在使用中仍強制解除掛載</entry>
+    <entry lang="zh-hk" key="IDC_PREF_UNMOUNT_INACTIVE">於超過以下時間無任何數據讀寫時自動解除掛載加密區</entry>
+    <entry lang="zh-hk" key="IDC_PREF_UNMOUNT_LOGOFF">使用者登出時</entry>
+    <entry lang="zh-hk" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">使用者階段被鎖定</entry>
+    <entry lang="zh-hk" key="IDC_PREF_UNMOUNT_POWERSAVING">進入待機狀態時</entry>
+    <entry lang="zh-hk" key="IDC_PREF_UNMOUNT_SCREENSAVER">螢幕保護載入時</entry>
+    <entry lang="zh-hk" key="IDC_PREF_FORCE_AUTO_UNMOUNT">即使加密區上有檔案或資料夾正在使用中仍強制解除掛載</entry>
     <entry lang="zh-hk" key="IDC_PREF_LOGON_MOUNT_DEVICES">掛載所有裝置類的 VeraCrypt 加密區</entry>
     <entry lang="zh-hk" key="IDC_PREF_LOGON_START">啟動 VeraCrypt 並在背景執行</entry>
     <entry lang="zh-hk" key="IDC_PREF_MOUNT_READONLY">將加密區掛載成唯讀</entry>
@@ -169,7 +169,7 @@
     <entry lang="zh-hk" key="IDC_PREF_OPEN_EXPLORER">在成功掛載加密區之後開啟檔案瀏覽器</entry>
     <entry lang="zh-hk" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">在「掛載最愛磁碟區」時暫時儲存密碼</entry>
     <entry lang="zh-hk" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">當有已掛載的加密區時使用不同的工作列圖示</entry>
-    <entry lang="zh-hk" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">自動解除掛載時清除暫存的密碼</entry>
+    <entry lang="zh-hk" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">自動解除掛載時清除暫存的密碼</entry>
     <entry lang="zh-hk" key="IDC_PREF_WIPE_CACHE_ON_EXIT">結束程式時清除已暫存的密碼</entry>
     <entry lang="zh-hk" key="IDC_PRESERVE_TIMESTAMPS">保留加密容器檔案的修改時間戳</entry>
     <entry lang="zh-hk" key="IDC_RESET_HOTKEYS">重設</entry>
@@ -269,14 +269,14 @@
     <entry lang="zh-hk" key="IDT_ACCELERATION_OPTIONS">硬件加速</entry>
     <entry lang="zh-hk" key="IDT_ASSIGN_HOTKEY">快捷鍵</entry>
     <entry lang="zh-hk" key="IDT_AUTORUN">自動執行設定檔(autorun.inf)</entry>
-    <entry lang="zh-hk" key="IDT_AUTO_DISMOUNT">自動解除掛載</entry>
-    <entry lang="zh-hk" key="IDT_AUTO_DISMOUNT_ON">於這些情況下解除掛載所有加密區：</entry>
+    <entry lang="zh-hk" key="IDT_AUTO_UNMOUNT">自動解除掛載</entry>
+    <entry lang="zh-hk" key="IDT_AUTO_UNMOUNT_ON">於這些情況下解除掛載所有加密區：</entry>
     <entry lang="zh-hk" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">開機管理程式畫面設定</entry>
     <entry lang="zh-hk" key="IDT_CONFIRM_PASSWORD">確認密碼：</entry>
     <entry lang="zh-hk" key="IDT_CURRENT">目前的密碼</entry>
     <entry lang="zh-hk" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">在開機驗證畫面顯示以下自設訊息(最長 24 個字元)：</entry>
     <entry lang="zh-hk" key="IDT_DEFAULT_MOUNT_OPTIONS">預設掛載設定</entry>
-    <entry lang="zh-hk" key="IDT_DISMOUNT_ACTION">快捷鍵選項</entry>
+    <entry lang="zh-hk" key="IDT_UNMOUNT_ACTION">快捷鍵選項</entry>
     <entry lang="zh-hk" key="IDT_DRIVER_OPTIONS">磁碟機設定</entry>
     <entry lang="zh-hk" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">開啟延伸磁區控制指令支援</entry>
     <entry lang="zh-hk" key="IDT_FAVORITE_LABEL">所選最愛加密區的標籤:</entry>
@@ -423,8 +423,8 @@
     <entry lang="zh-hk" key="DEVICE_FREE_PB">%s 的大小為 %.2f PiB</entry>
     <entry lang="zh-hk" key="DEVICE_IN_USE_FORMAT">警告：這個磁碟機/分割區正在被系統或應用程式使用中。格式化該磁碟機/分割區可能會導致資料損壞或系統不穩定。\n\n要繼續嗎？</entry>
     <entry lang="zh-hk" key="DEVICE_IN_USE_INPLACE_ENC">警告：這個分割區正在被作業系統或應用程式使用中。您應先關閉任何可能正在使用此分割區的程式(包括防毒軟件)。\n\n要繼續嗎？</entry>
-    <entry lang="zh-hk" key="FORMAT_CANT_DISMOUNT_FILESYS">錯誤：這個磁碟機/分割區包含不能被解除掛載的檔案系統。檔案系統可能正在被作業系統使用中。格式化這個磁碟機/分割區很大可能會導致資料損壞或者系統不穩定。\n\n要解決此問題，我們建議您首先刪除該分割區然後在不格式化的情況下重新建立分割區。要達成此目的，請按照以下步驟： 1)在 「開始」 功能表右按「電腦」(或者「我的電腦」)圖示，之後選擇「管理」，顯示「電腦管理」視窗。 2)在「電腦管理」視窗，選擇「磁碟管理」。 3)右按你想加密的分割區然後選擇「刪除分割區」，或「刪除磁碟區」，或「刪除邏輯磁碟機」。 4)如果 Windows 提示重新啟動電腦，那就照做。然後在第 5 個步中重複第 1 和第 2 步。 5)右鍵單擊未分配/自由空間並選擇「新建分割區」，或者「新的磁碟區」，或者「新邏輯磁碟機」。 6)現在應該會彈出「新分割區精靈」或「新增簡單磁碟區精靈」視窗；依照它的指示。在「磁碟分割格式化」為標題的精靈版面中，選擇「不要格式化這個分割區」或「不要格式化這個磁碟區」。在同一個精靈的版面中，按 「下一步」 之後按「完成」 按鈕。 7)注意現在於 Veracrypt 中已選擇的裝置路徑可能是錯誤的。因此要退出並重新啟動 VeraCrypt 加密區建立精靈(如果正在運行)。 8)嘗試重新加密該磁碟機/分割區。\n\n如果 VeraCrypt 仍然重復地無法加密裝置或分割區，您應該考慮改為建立加密容器檔案。</entry>
-    <entry lang="zh-hk" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">錯誤：此檔案系統不能被鎖定和/或解除掛載。它可能正在被作業系統或應用程式使用中(例如防毒軟件)。加密這個分割區可能會導致資料損壞或者系統不穩定。\n\n請關閉任何可能正在使用這個分割區的程式(包括防毒軟件)然後再試一次。如果仍然無效，請依照以下步驟。</entry>
+    <entry lang="zh-hk" key="FORMAT_CANT_UNMOUNT_FILESYS">錯誤：這個磁碟機/分割區包含不能被解除掛載的檔案系統。檔案系統可能正在被作業系統使用中。格式化這個磁碟機/分割區很大可能會導致資料損壞或者系統不穩定。\n\n要解決此問題，我們建議您首先刪除該分割區然後在不格式化的情況下重新建立分割區。要達成此目的，請按照以下步驟： 1)在 「開始」 功能表右按「電腦」(或者「我的電腦」)圖示，之後選擇「管理」，顯示「電腦管理」視窗。 2)在「電腦管理」視窗，選擇「磁碟管理」。 3)右按你想加密的分割區然後選擇「刪除分割區」，或「刪除磁碟區」，或「刪除邏輯磁碟機」。 4)如果 Windows 提示重新啟動電腦，那就照做。然後在第 5 個步中重複第 1 和第 2 步。 5)右鍵單擊未分配/自由空間並選擇「新建分割區」，或者「新的磁碟區」，或者「新邏輯磁碟機」。 6)現在應該會彈出「新分割區精靈」或「新增簡單磁碟區精靈」視窗；依照它的指示。在「磁碟分割格式化」為標題的精靈版面中，選擇「不要格式化這個分割區」或「不要格式化這個磁碟區」。在同一個精靈的版面中，按 「下一步」 之後按「完成」 按鈕。 7)注意現在於 Veracrypt 中已選擇的裝置路徑可能是錯誤的。因此要退出並重新啟動 VeraCrypt 加密區建立精靈(如果正在運行)。 8)嘗試重新加密該磁碟機/分割區。\n\n如果 VeraCrypt 仍然重復地無法加密裝置或分割區，您應該考慮改為建立加密容器檔案。</entry>
+    <entry lang="zh-hk" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">錯誤：此檔案系統不能被鎖定和/或解除掛載。它可能正在被作業系統或應用程式使用中(例如防毒軟件)。加密這個分割區可能會導致資料損壞或者系統不穩定。\n\n請關閉任何可能正在使用這個分割區的程式(包括防毒軟件)然後再試一次。如果仍然無效，請依照以下步驟。</entry>
     <entry lang="zh-hk" key="DEVICE_IN_USE_INFO">警告：一些已掛載的磁碟機/分割區正在使用中！\n\n若忽略這些則可能導致非期望的結果，包括系統不穩定。\n\n我們強烈建議您關閉所有可能正在使用此磁碟機/分割區的應用程式。</entry>
     <entry lang="zh-hk" key="DEVICE_PARTITIONS_ERR">已選取的裝置包含分割區。\n\n格式化該裝置可能會導致系統不穩定或資料丟失。請選取該裝置上某個分割區，或者移除該裝置上所有分割區，讓 VeraCrypt 能夠安全地將其格式化。</entry>
     <entry lang="zh-hk" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">已選取的非系統裝置包含多個分割區。\n\n裝置類加密區也可以在不包含任何分割區的裝置中建立(包括硬碟以及固態硬碟裝置)。一個包含多個分割區的裝置，只有在此磁碟機為 Windows 安裝和啟動分割區時，才可以直接地完整加密(使用單一主要加密鑰)。\n\n如果您想使用單一主密鑰加密這個非系統裝置，您需要首先移除所有分割區以便 VeraCrypt 對其安全地格式化(格式化包含多個分割區的裝置可能會導致系統不穩定和/或損壞資料。另外，您也可以個別地加密磁碟機上的每個分割區(每個分割區將使用不同的主要加密鑰)。\n\n注意：如果您想從 GPT 磁片中移除所有分割區，您可能需要把它轉換為 MBR 磁片(使用諸如電腦管理工具)以便移除隱藏分割區。</entry>
@@ -590,7 +590,7 @@
     <entry lang="zh-hk" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">錯誤：您複製到外層加密區的檔案佔用的過多空間。因此，沒有足夠的空間建立隱藏加密區。\n\n注意，隱藏加密區的容量至少要大於系統分割區(當前運行的系統所在的分割區)的容量。原因是隱形作業系統需要把系統分割區的內容完全複製到隱藏加密區來建立。\n\n\n建立隱形作業系統的程序無法再繼續。</entry>
     <entry lang="zh-hk" key="OPENFILES_DRIVER">驅動程式無法解除掛載這個加密區。加密區上有些檔案可能仍然被打開。</entry>
     <entry lang="zh-hk" key="OPENFILES_LOCK">無法鎖定這個加密區。加密區上仍有些檔案被打開。因此無法解除掛載。</entry>
-    <entry lang="zh-hk" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt 無法鎖定這個加密區，因為作業系統或者其他程式正在使用中(例如加密區中有檔案被打開)。\n\n您確認要強制解除掛載加密區嗎？</entry>
+    <entry lang="zh-hk" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt 無法鎖定這個加密區，因為作業系統或者其他程式正在使用中(例如加密區中有檔案被打開)。\n\n您確認要強制解除掛載加密區嗎？</entry>
     <entry lang="zh-hk" key="OPEN_VOL_TITLE">請選擇一個 VeraCrypt 加密區</entry>
     <entry lang="zh-hk" key="OPEN_TITLE">指定路徑和檔案名稱</entry>
     <entry lang="zh-hk" key="SELECT_PKCS11_MODULE">選取 PKCS #11 程式庫</entry>
@@ -729,7 +729,7 @@
     <entry lang="zh-hk" key="DLL_FILES">程式庫模組</entry>
     <entry lang="zh-hk" key="FORMAT_NTFS_STOP">NTFS 格式化無法繼續。</entry>
     <entry lang="zh-hk" key="CANT_MOUNT_VOLUME">無法掛載加密區。</entry>
-    <entry lang="zh-hk" key="CANT_DISMOUNT_VOLUME">無法解除掛載加密區。</entry>
+    <entry lang="zh-hk" key="CANT_UNMOUNT_VOLUME">無法解除掛載加密區。</entry>
     <entry lang="zh-hk" key="FORMAT_NTFS_FAILED">格式化為 NTFS 檔案系統時失敗。\n\n請選擇不同的檔案系統格式(如果可能的話)然後再嘗試一次。另外，您可以保留該磁碟區為未格式化磁碟區(檔案系統選擇為「無」)，然後退出精靈，再掛載這個加密區，然後再使用系統或第三方的工具來格式化這個已經掛載的加密區(該掛載的磁碟區仍然為加密狀態)。</entry>
     <entry lang="zh-hk" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows 格式化加密區為 NTFS 時失敗。\n\n您希望格式化成 FAT 檔案系統嗎？</entry>
     <entry lang="zh-hk" key="DEFAULT">預設</entry>
@@ -771,7 +771,7 @@
     <entry lang="zh-hk" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">發生了一個錯誤，VeraCrypt 無法加密分割區。請嘗試修復任何前面報告的問題之後再次嘗試。如果此問題依然存在，依照以下步驟可能有所幫助。</entry>
     <entry lang="zh-hk" key="INPLACE_ENC_GENERIC_ERR_RESUME">發生了一個錯誤，VeraCrypt 無法繼續加密分割區的過程。\n\n請嘗試修復任何前面報告的問題之後再次嘗試加密過程。注意：該磁碟區在完全加密前將無法掛載。</entry>
     <entry lang="zh-hk" key="INPLACE_DEC_GENERIC_ERR">一個錯誤令 VeraCrypt 無法解密磁碟區。請嘗試解決之前報告過的問題然後再試一次。</entry>
-    <entry lang="zh-hk" key="CANT_DISMOUNT_OUTER_VOL">錯誤：無法解除掛載外層加密區！\n\n如果加密區中的檔或資料夾被程式或被 系統使用，則該加密區不能被鎖定。\n\n請關閉任何可能使用加密區上檔或目錄 的程式，然後再按「重試」。</entry>
+    <entry lang="zh-hk" key="CANT_UNMOUNT_OUTER_VOL">錯誤：無法解除掛載外層加密區！\n\n如果加密區中的檔或資料夾被程式或被 系統使用，則該加密區不能被鎖定。\n\n請關閉任何可能使用加密區上檔或目錄 的程式，然後再按「重試」。</entry>
     <entry lang="zh-hk" key="CANT_GET_OUTER_VOL_INFO">錯誤：無法取得外層加密區的資訊！ 加密區建立不能繼續。</entry>
     <entry lang="zh-hk" key="CANT_ACCESS_OUTER_VOL">錯誤：無法存取外層加密區！ 加密區建立不能繼續。</entry>
     <entry lang="zh-hk" key="CANT_MOUNT_OUTER_VOL">錯誤：無法掛載外層加密區！ 加密區建立不能繼續。</entry>
@@ -882,7 +882,7 @@
     <entry lang="zh-hk" key="INSTALL_COMPLETED">已完成安裝。</entry>
     <entry lang="zh-hk" key="CANT_CREATE_FOLDER">無法建立資料夾「%s」</entry>
     <entry lang="zh-hk" key="CLOSE_TC_FIRST">無法解除安裝 VeraCrypt 裝置驅動程式。\n\n請首先關閉所有正在打開的 VeraCrypt 視窗。如果這樣做之後仍然沒有幫助，請嘗試重新啟動電腦然後再試一次。</entry>
-    <entry lang="zh-hk" key="DISMOUNT_ALL_FIRST">在安裝或者解除安裝 VeraCrypt 之前必須先要解除掛載所有的 VeraCrypt 加密區。</entry>
+    <entry lang="zh-hk" key="UNMOUNT_ALL_FIRST">在安裝或者解除安裝 VeraCrypt 之前必須先要解除掛載所有的 VeraCrypt 加密區。</entry>
     <entry lang="zh-hk" key="UNINSTALL_OLD_VERSION_FIRST">目前系統已經安裝了一份不同版本的 VeraCrypt。在安裝新版本前需要解除安裝舊版本的 VeraCrypt。\n\n在您關閉此對話方塊之後，將會執行舊版本的解除安裝程式。在解除安裝的過程中將不會執行任何加密分割區的解密操作。在解除安裝舊版本的 VeraCrypt 之後，請再次執行新版本 VeraCrypt 的安裝程式。</entry>
     <entry lang="zh-hk" key="REG_INSTALL_FAILED">安裝註冊表項目失敗</entry>
     <entry lang="zh-hk" key="DRIVER_INSTALL_FAILED">安裝裝置驅動程式失敗。請重新啟動電腦後再嘗試安裝 VeraCrypt。</entry>
@@ -903,7 +903,7 @@
     <entry lang="zh-hk" key="MINUTES">分鐘</entry>
     <entry lang="zh-hk" key="SECONDS">秒</entry>
     <entry lang="zh-hk" key="OPEN">開啟</entry>
-    <entry lang="zh-hk" key="DISMOUNT">解除掛載</entry>
+    <entry lang="zh-hk" key="UNMOUNT">解除掛載</entry>
     <entry lang="zh-hk" key="SHOW_TC">顯示 VeraCrypt</entry>
     <entry lang="zh-hk" key="HIDE_TC">隱藏 VeraCrypt</entry>
     <entry lang="zh-hk" key="TOTAL_DATA_READ">掛載後讀取的數據</entry>
@@ -975,7 +975,7 @@
     <entry lang="zh-hk" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - 系統最愛加密區</entry>
     <entry lang="zh-hk" key="SYS_FAVORITES_HELP_LINK">什麼是系統最愛加密區？</entry>
     <entry lang="zh-hk" key="SYS_FAVORITES_REQUIRE_PBA">系統分割區或磁碟機似乎沒有加密。\n\n系統最愛加密區只能使用啟動驗證中的密碼掛載。因此，要啟用系統最愛加密區功能，您需要先加密系統分割區或磁碟機。</entry>
-    <entry lang="zh-hk" key="DISMOUNT_FIRST">在操作前請解除掛載加密區。</entry>
+    <entry lang="zh-hk" key="UNMOUNT_FIRST">在操作前請解除掛載加密區。</entry>
     <entry lang="zh-hk" key="CANNOT_SET_TIMER">錯誤：無法設定計時器。</entry>
     <entry lang="zh-hk" key="IDPM_CHECK_FILESYS">檢查檔案系統</entry>
     <entry lang="zh-hk" key="IDPM_REPAIR_FILESYS">修復檔案系統</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="zh-hk" key="NO_SYSENC_PARTITION_SELECTED">沒有選擇分割區。\n\n按「選擇裝置」 來選擇一個通常需要啟動驗證的已解除掛載的分割區(例如，一個位於另外加密系統磁碟機上的另外一個沒有運行的系統的分割區，或者是另外一個作業系統的加密系統分割區)。\n\n注意：選擇的分割區將被以一般 VeraCrypt 加密區的方式掛載而無需啟動驗證。這在執行備份和修復等操作時比較有用。</entry>
     <entry lang="zh-hk" key="CONFIRM_SAVE_DEFAULT_KEYFILES">警告：如果預設的加密鑰檔案被設定和啟用後，則不能掛載不使用該加密鑰檔案的加密區。因此，如果預設的加密鑰檔案被設定和啟用後，在打開非加密鑰檔案加密的加密區時，請記住取消對“使用加密鑰檔案”選項的選擇(在密碼輸入框的下面)。\n\n您確認保存指定的加密鑰檔案/路徑作為預設值嗎？</entry>
     <entry lang="zh-hk" key="HK_AUTOMOUNT_DEVICES">自動掛載裝置</entry>
-    <entry lang="zh-hk" key="HK_DISMOUNT_ALL">全部解除掛載</entry>
+    <entry lang="zh-hk" key="HK_UNMOUNT_ALL">全部解除掛載</entry>
     <entry lang="zh-hk" key="HK_WIPE_CACHE">清除暫存</entry>
-    <entry lang="zh-hk" key="HK_DISMOUNT_ALL_AND_WIPE">解除掛載全部  &amp;  清除暫存</entry>
-    <entry lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">強制全部解除掛載並清除暫存</entry>
-    <entry lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">強制全部解除掛載清除暫存並退出程式</entry>
+    <entry lang="zh-hk" key="HK_UNMOUNT_ALL_AND_WIPE">解除掛載全部  &amp;  清除暫存</entry>
+    <entry lang="zh-hk" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">強制全部解除掛載並清除暫存</entry>
+    <entry lang="zh-hk" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">強制全部解除掛載清除暫存並退出程式</entry>
     <entry lang="zh-hk" key="HK_MOUNT_FAVORITE_VOLUMES">掛載最愛加密區</entry>
     <entry lang="zh-hk" key="HK_SHOW_HIDE_MAIN_WINDOW">顯示/隱藏 VeraCrypt 主視窗</entry>
     <entry lang="zh-hk" key="PRESS_A_KEY_TO_ASSIGN">(單擊這裏並按下某個鍵盤按鍵)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="zh-hk" key="PAGING_FILE_CREATION_PREVENTED">已阻止建立虛擬記憶體分頁檔案。\n\n請注意，由於 Windows 本身的問題，分頁檔案不可存在於非系統類 VeraCrypt 加密區(包括系統最愛加密區)。VeraCrypt 僅支援在加密的系統分割區/裝置上建立分頁檔案。</entry>
     <entry lang="zh-hk" key="SYS_ENC_HIBERNATION_PREVENTED">VeraCrypt 加密休眠檔時發生了錯誤或者非相容問題。因此系統的休眠已被阻止。\n\n注意：當電腦處於休眠模式(或進入節電模式)，系統記憶體的資訊會被寫入位於磁碟機上的休眠檔。VeraCrypt 不能阻止在記憶體中打開的加密密鑰和敏感檔的內容以未加密的形式存放於休眠檔。</entry>
     <entry lang="zh-hk" key="HIDDEN_OS_HIBERNATION_PREVENTED">休眠功能已被阻止。\n\nVeraCrypt 不支援使用額外啟動分割區的隱形系統中的休眠功能。請注意啟動分割區是由偽裝系統和隱形系統共用的。因此，要防止資料洩露和休眠可能會帶來的問題，VeraCrypt 不得不阻止隱形系統向共用的啟動分割區寫入資料，以及阻止隱形系統休眠。</entry>
-    <entry lang="zh-hk" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">VeraCrypt 掛載的加密區 %c：已完成解除掛載。 </entry>
-    <entry lang="zh-hk" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt 加密區已解除掛載。</entry>
-    <entry lang="zh-hk" key="VOLUMES_DISMOUNTED_CACHE_WIPED">已解除掛載 VeraCrypt 加密區並且已抹除密碼暫存。</entry>
-    <entry lang="zh-hk" key="SUCCESSFULLY_DISMOUNTED">已成功解除掛載</entry>
+    <entry lang="zh-hk" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">VeraCrypt 掛載的加密區 %c：已完成解除掛載。 </entry>
+    <entry lang="zh-hk" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt 加密區已解除掛載。</entry>
+    <entry lang="zh-hk" key="VOLUMES_UNMOUNTED_CACHE_WIPED">已解除掛載 VeraCrypt 加密區並且已抹除密碼暫存。</entry>
+    <entry lang="zh-hk" key="SUCCESSFULLY_UNMOUNTED">已成功解除掛載</entry>
     <entry lang="zh-hk" key="CONFIRM_BACKGROUND_TASK_DISABLED">警告：如果 VeraCrypt 背景工作被停用，以下的功能將會失效：\n\n1)系統快捷鍵\n2)自動解除掛載加密區(例如登出時，意外的主裝置移除，超時，等等)\n3)自動掛載最愛加密區\n4)提示(例如：對隱藏加密區的損壞被阻止時)\n5)通知欄圖示\n\n注意：您可以隨時在通過右鍵單擊 VeraCrypt 的通知欄圖示並選擇“退出”來停止背景工作。\n\n您確認要停止 VeraCrypt 的背景工作嗎？</entry>
-    <entry lang="zh-hk" key="CONFIRM_NO_FORCED_AUTODISMOUNT">警告：如果此選項被停用，包含打開的檔/目錄 的加密區將不能自動解除掛載。\n\n您確認要禁用這個選項嗎？</entry>
-    <entry lang="zh-hk" key="WARN_PREF_AUTO_DISMOUNT">警告：內含開啟的檔案/目錄的加密區將不能自動解除掛載。\n\n要防止這種情況，在對話方塊視窗中啟用下面選項：「無論加密區是否有被打開的檔案或資料夾都強制自動解除掛載」</entry>
-    <entry lang="zh-hk" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">警告：當筆記型電腦的電力不足時，Windows 可能會在電腦進入待機模式時，系統會向正在運行中的程式發送相應的資訊。因此，這種情況下 VeraCrypt 可能會無法自動解除掛載加密區。</entry>
+    <entry lang="zh-hk" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">警告：如果此選項被停用，包含打開的檔/目錄 的加密區將不能自動解除掛載。\n\n您確認要禁用這個選項嗎？</entry>
+    <entry lang="zh-hk" key="WARN_PREF_AUTO_UNMOUNT">警告：內含開啟的檔案/目錄的加密區將不能自動解除掛載。\n\n要防止這種情況，在對話方塊視窗中啟用下面選項：「無論加密區是否有被打開的檔案或資料夾都強制自動解除掛載」</entry>
+    <entry lang="zh-hk" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">警告：當筆記型電腦的電力不足時，Windows 可能會在電腦進入待機模式時，系統會向正在運行中的程式發送相應的資訊。因此，這種情況下 VeraCrypt 可能會無法自動解除掛載加密區。</entry>
     <entry lang="zh-hk" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">您已經安排了加密分割區/裝置的計畫。該計畫尚未完成。\n\n您希望現在繼續這個加密過程嗎？</entry>
     <entry lang="zh-hk" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">您已經計畫了加密或解密系統分割區或磁碟機的操作。但該操作尚未完成。\n\n您希望開始(或繼續)該操作嗎？</entry>
     <entry lang="zh-hk" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">您想要軟件提示您是否要繼續當前計畫的加密非系統分割區/磁碟區的加密過程嗎？</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="zh-hk" key="SYS_AUTOMOUNT_DISABLED">您的系統未被設定為自動掛載新加密區。 因此也不可能掛載裝置類的加密區。自動解除掛載可以在執行下列命令後重新啟動系統來啟用。\n\n\nmountvol.exe /E</entry>
     <entry lang="zh-hk" key="SYS_ASSIGN_DRIVE_LETTER">請在繼續前為該磁碟機/分割區分配一個磁碟機代號(「控制面板」&gt;「系統和維護」 &gt;「管理工具」 - 「建立和格式化分割區」)。\n\n這些是作業系統所要求的。</entry>
     <entry lang="zh-hk" key="MOUNT_TC_VOLUME">掛載 VeraCrypt 加密區</entry>
-    <entry lang="zh-hk" key="DISMOUNT_ALL_TC_VOLUMES">解除掛載所有 VeraCrypt 加密區</entry>
+    <entry lang="zh-hk" key="UNMOUNT_ALL_TC_VOLUMES">解除掛載所有 VeraCrypt 加密區</entry>
     <entry lang="zh-hk" key="UAC_INIT_ERROR">VeraCrypt 無法取得系統管理員許可權。</entry>
     <entry lang="zh-hk" key="ERR_ACCESS_DENIED">存取已被作業系統拒絕。\n\n可能原因：作業系統要求你對某些資料夾、檔案、和儲存裝置具有讀寫權限(或管理員權限)，以便您能夠從其中讀寫資料。一般情況下，非系統管理員僅允許在他自己的文件資料夾中建立、讀取和修改檔案。</entry>
     <entry lang="zh-hk" key="SECTOR_SIZE_UNSUPPORTED">錯誤：該磁碟機使用了未支援的磁區尺寸。\n\n如果裝置的磁區大於 4096 位元組，目前不可能在其上建立 分割區/裝置 類的加密區。然而，您可以在此類磁碟機上建立檔類型的加密區。</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="zh-hk" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">請注意，線程的數目當前受限，這將會影響測試結果(效能更差)。\n\n要充份發揮中央處理器的潛能，請選擇 「設定」 &gt; 「性能」並禁用相關選項。</entry>
     <entry lang="zh-hk" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">您想要 VeraCrypt 嘗試停用此分割區/裝置的防寫保護嗎？</entry>
     <entry lang="zh-hk" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：此設定可能會降低效能。\n\n您確認要使用該設定嗎？</entry>
-    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告： VeraCrypt 加密區已經自動卸掛載</entry>
-    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">已掛載加密區的裝置在實體移除或關閉電源前，應該習慣先將加密區解除掛載。\n\n不預期地自行解除掛載通常由於電線、磁碟機 (外置盒)之類出現間歇性故障所致。</entry>
+    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">警告： VeraCrypt 加密區已經自動卸掛載</entry>
+    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">已掛載加密區的裝置在實體移除或關閉電源前，應該習慣先將加密區解除掛載。\n\n不預期地自行解除掛載通常由於電線、磁碟機 (外置盒)之類出現間歇性故障所致。</entry>
     <entry lang="zh-hk" key="UNSUPPORTED_TRUECRYPT_FORMAT">這個加密區使用 TrueCrypt %x.%x 建立，但 VeraCrypt 只支援使用 TrueCrypt 6.x/7.x 系列所建立的加密區</entry>
     <entry lang="zh-hk" key="TEST">測試</entry>
     <entry lang="zh-hk" key="KEYFILE">加密鑰檔案</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="zh-hk" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">將所有已掛載的加密區加入到最愛...</entry>
     <entry lang="zh-hk" key="TASKICON_PREF_MENU_ITEMS">任務欄圖示選項</entry>
     <entry lang="zh-hk" key="TASKICON_PREF_OPEN_VOL">開啟已掛載的加密區</entry>
-    <entry lang="zh-hk" key="TASKICON_PREF_DISMOUNT_VOL">解除掛載已掛載的加密區</entry>
+    <entry lang="zh-hk" key="TASKICON_PREF_UNMOUNT_VOL">解除掛載已掛載的加密區</entry>
     <entry lang="zh-hk" key="DISK_FREE">可用的空間: {0}</entry>
     <entry lang="zh-hk" key="VOLUME_SIZE_HELP">請指定要建立新的加密容器檔案的大小。注意最細容許的加密容器大小為 292 KiB。</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="zh-hk" key="LINUX_DO_NOT_MOUNT">不要掛載(&amp;n)</entry>
     <entry lang="zh-hk" key="LINUX_MOUNT_AT_DIR">掛載於路徑:</entry>
     <entry lang="zh-hk" key="LINUX_SELECT">選取(&amp;l)...</entry>
-    <entry lang="zh-hk" key="LINUX_DISMOUNT_ALL_WHEN">解除掛載全部加密區於</entry>
+    <entry lang="zh-hk" key="LINUX_UNMOUNT_ALL_WHEN">解除掛載全部加密區於</entry>
     <entry lang="zh-hk" key="LINUX_ENTERING_POWERSAVING">系統正在進入節約能源模式</entry>
     <entry lang="zh-hk" key="LINUX_LOGIN_ACTION">使用者登入時執行的動作</entry>
-    <entry lang="zh-hk" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">解除掛載加密區時關閉所有檔案瀏覽器視窗</entry>
+    <entry lang="zh-hk" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">解除掛載加密區時關閉所有檔案瀏覽器視窗</entry>
     <entry lang="zh-hk" key="LINUX_HOTKEYS">快捷鍵</entry>
     <entry lang="zh-hk" key="LINUX_SYSTEM_HOTKEYS">系統性快捷鍵</entry>
     <entry lang="zh-hk" key="LINUX_SOUND_NOTIFICATION">掛載/解除掛載後播放提示聲音</entry>
-    <entry lang="zh-hk" key="LINUX_CONFIRM_AFTER_DISMOUNT">解除掛載後顯示確認訊息</entry>
+    <entry lang="zh-hk" key="LINUX_CONFIRM_AFTER_UNMOUNT">解除掛載後顯示確認訊息</entry>
     <entry lang="zh-hk" key="LINUX_VC_QUITS">VeraCrypt 已結束</entry>
     <entry lang="zh-hk" key="LINUX_OPEN_FINDER">成功掛載加密區後開啟 Finder 視窗</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="zh-hk" key="LINUX_NOT_SUPPORTED"> (這個平台上可用的元件未能支援)。\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="zh-hk" key="LINUX_VOL_DISMOUNTED">加密區 {0} 已經解除掛載。</entry>
+    <entry lang="zh-hk" key="LINUX_VOL_UNMOUNTED">加密區 {0} 已經解除掛載。</entry>
     <entry lang="zh-hk" key="LINUX_VOL_MOUNTED">加密區 {0} 已經掛載。</entry>
     <entry lang="zh-hk" key="LINUX_OOM">記憶體用盡。</entry>
     <entry lang="zh-hk" key="LINUX_CANT_GET_ADMIN_PRIV">無法取得系統管理員權限</entry>

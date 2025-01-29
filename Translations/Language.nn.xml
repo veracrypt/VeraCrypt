@@ -135,8 +135,8 @@
     <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
     <entry lang="nn" key="IDC_HK_MOD_ALT">alt</entry>
     <entry lang="en" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="nn" key="IDC_HK_MOD_SHIFT">Skift</entry>
@@ -156,12 +156,12 @@
     <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</entry>
     <entry lang="nn" key="IDC_PREF_BKG_TASK_ENABLE">Aktivert</entry>
     <entry lang="nn" key="IDC_PREF_CACHE_PASSWORDS">Snøgglagra passord i drivar minne</entry>
-    <entry lang="nn" key="IDC_PREF_DISMOUNT_INACTIVE">Auto avmonter volum vist det ikkje er skrive/lese data til det på</entry>
-    <entry lang="nn" key="IDC_PREF_DISMOUNT_LOGOFF">Brukar loggar av</entry>
-    <entry lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</entry>
-    <entry lang="nn" key="IDC_PREF_DISMOUNT_POWERSAVING">Går inn i straum sparings modus</entry>
-    <entry lang="nn" key="IDC_PREF_DISMOUNT_SCREENSAVER">Skjerm sparar er starta</entry>
-    <entry lang="nn" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Tving auto avmontering sjølv om voluma inneheld opne filer og mapper</entry>
+    <entry lang="nn" key="IDC_PREF_UNMOUNT_INACTIVE">Auto avmonter volum vist det ikkje er skrive/lese data til det på</entry>
+    <entry lang="nn" key="IDC_PREF_UNMOUNT_LOGOFF">Brukar loggar av</entry>
+    <entry lang="en" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">User session locked</entry>
+    <entry lang="nn" key="IDC_PREF_UNMOUNT_POWERSAVING">Går inn i straum sparings modus</entry>
+    <entry lang="nn" key="IDC_PREF_UNMOUNT_SCREENSAVER">Skjerm sparar er starta</entry>
+    <entry lang="nn" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Tving auto avmontering sjølv om voluma inneheld opne filer og mapper</entry>
     <entry lang="nn" key="IDC_PREF_LOGON_MOUNT_DEVICES">Monter alle einings-verta VeraCrypt volum</entry>
     <entry lang="en" key="IDC_PREF_LOGON_START">Start VeraCrypt Background Task</entry>
     <entry lang="nn" key="IDC_PREF_MOUNT_READONLY">Monter volum som skriveverna</entry>
@@ -169,7 +169,7 @@
     <entry lang="nn" key="IDC_PREF_OPEN_EXPLORER">Opne Utforskar vindauga for vellykka monterte volum</entry>
     <entry lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</entry>
     <entry lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</entry>
-    <entry lang="nn" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Slett snøgglagra passord ved automatisk avmontering</entry>
+    <entry lang="nn" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Slett snøgglagra passord ved automatisk avmontering</entry>
     <entry lang="nn" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Slett snøgglagra passord ved avslutning</entry>
     <entry lang="en" key="IDC_PRESERVE_TIMESTAMPS">Preserve modification timestamp of file containers</entry>
     <entry lang="nn" key="IDC_RESET_HOTKEYS">Tilbakestill</entry>
@@ -269,14 +269,14 @@
     <entry lang="en" key="IDT_ACCELERATION_OPTIONS">Hardware Acceleration</entry>
     <entry lang="nn" key="IDT_ASSIGN_HOTKEY">Snarveg</entry>
     <entry lang="nn" key="IDT_AUTORUN">AutoKøyr Konfigurasjon (autorun.inf)</entry>
-    <entry lang="nn" key="IDT_AUTO_DISMOUNT">Auto-Avmonter</entry>
-    <entry lang="nn" key="IDT_AUTO_DISMOUNT_ON">Avmonter alle når:</entry>
+    <entry lang="nn" key="IDT_AUTO_UNMOUNT">Auto-Avmonter</entry>
+    <entry lang="nn" key="IDT_AUTO_UNMOUNT_ON">Avmonter alle når:</entry>
     <entry lang="en" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Boot Loader Screen Options</entry>
     <entry lang="nn" key="IDT_CONFIRM_PASSWORD">Bekreft Passord:</entry>
     <entry lang="nn" key="IDT_CURRENT">Gjeldande</entry>
     <entry lang="en" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Display this custom message in the pre-boot authentication screen (24 characters maximum):</entry>
     <entry lang="nn" key="IDT_DEFAULT_MOUNT_OPTIONS">Standard Monternigs Alternativ</entry>
-    <entry lang="nn" key="IDT_DISMOUNT_ACTION">Snøggtast Alternativ</entry>
+    <entry lang="nn" key="IDT_UNMOUNT_ACTION">Snøggtast Alternativ</entry>
     <entry lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</entry>
     <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</entry>
     <entry lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</entry>
@@ -423,8 +423,8 @@
     <entry lang="en" key="DEVICE_FREE_PB">Size of %s is %.2f PB</entry>
     <entry lang="nn" key="DEVICE_IN_USE_FORMAT">ADVARSEL: Einheita/partisjonen er i bruk av opperativsystemet eller eit program. Å formatera einheiten/partisjonen kan føra til att data vert korrupte og systemet vert ustabilt.\n\nHaldfram?</entry>
     <entry lang="en" key="DEVICE_IN_USE_INPLACE_ENC">Warning: The partition is in use by the operating system or applications. You should close any applications that might be using the partition (including antivirus software).\n\nContinue?</entry>
-    <entry lang="nn" key="FORMAT_CANT_DISMOUNT_FILESYS">Feil: Einheita/partisjonen inneheld eit filsystem som ikkje kunne demonterast. Filsystemet kan vera i bruk av opperativ systemet. Å formatera einheta/patisjonen vil nesten garantert føra til korupte data og ustabilt system.\n\nFor å løysa dette problemt , anbefallar me att du fyrst slettar partisjonen for så og oppretta den på nytt utan å formatera den. For å gjera dette, fylja desse stega: 1) Right-click the 'Computer' (or 'My Computer') icon in the 'Start Menu' and select 'Manage'. The 'Computer Management' window should appear. 2) In the 'Computer Management' window, select 'Storage' &gt; 'Disk Management'. 3) Right-click the partition you want to encrypt and select either 'Delete Partition', or 'Delete Volume', or 'Delete Logical Drive'. 4) Click 'Yes'. If Windows asks you to restart the computer, do so. Then repeat the steps 1 and 2 and continue from the step 5. 5) Right-click the unallocated/free space area and select either 'New Partition', or 'New Simple Volume', or 'New Logical Drive'. 6) The 'New Partition Wizard' or 'New Simple Volume Wizard' window should appear now; follow its instructions. On the wizard page entitled 'Format Partition', select either 'Do not format this partition' or 'Do not format this volume'. In the same wizard, click 'Next' and then 'Finish'. 7) Note that the device path you have selected in VeraCrypt may be wrong now. Therefore, exit the VeraCrypt Volume Creation Wizard (if it is still running) and then start it again. 8) Try encrypting the device/partition again.\n\nIf VeraCrypt repeatedly fails to encrypt the device/partition, you may want to consider creating a file container instead.</entry>
-    <entry lang="en" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Error: The filesystem could not be locked and/or dismounted. It may be in use by the operating system or applications (for example, antivirus software). Encrypting the partition might cause data corruption and system instability.\n\nPlease close any applications that might be using the filesystem (including antivirus software) and try again. If it does not help, please follow the below steps.</entry>
+    <entry lang="nn" key="FORMAT_CANT_UNMOUNT_FILESYS">Feil: Einheita/partisjonen inneheld eit filsystem som ikkje kunne demonterast. Filsystemet kan vera i bruk av opperativ systemet. Å formatera einheta/patisjonen vil nesten garantert føra til korupte data og ustabilt system.\n\nFor å løysa dette problemt , anbefallar me att du fyrst slettar partisjonen for så og oppretta den på nytt utan å formatera den. For å gjera dette, fylja desse stega: 1) Right-click the 'Computer' (or 'My Computer') icon in the 'Start Menu' and select 'Manage'. The 'Computer Management' window should appear. 2) In the 'Computer Management' window, select 'Storage' &gt; 'Disk Management'. 3) Right-click the partition you want to encrypt and select either 'Delete Partition', or 'Delete Volume', or 'Delete Logical Drive'. 4) Click 'Yes'. If Windows asks you to restart the computer, do so. Then repeat the steps 1 and 2 and continue from the step 5. 5) Right-click the unallocated/free space area and select either 'New Partition', or 'New Simple Volume', or 'New Logical Drive'. 6) The 'New Partition Wizard' or 'New Simple Volume Wizard' window should appear now; follow its instructions. On the wizard page entitled 'Format Partition', select either 'Do not format this partition' or 'Do not format this volume'. In the same wizard, click 'Next' and then 'Finish'. 7) Note that the device path you have selected in VeraCrypt may be wrong now. Therefore, exit the VeraCrypt Volume Creation Wizard (if it is still running) and then start it again. 8) Try encrypting the device/partition again.\n\nIf VeraCrypt repeatedly fails to encrypt the device/partition, you may want to consider creating a file container instead.</entry>
+    <entry lang="en" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Error: The filesystem could not be locked and/or dismounted. It may be in use by the operating system or applications (for example, antivirus software). Encrypting the partition might cause data corruption and system instability.\n\nPlease close any applications that might be using the filesystem (including antivirus software) and try again. If it does not help, please follow the below steps.</entry>
     <entry lang="nn" key="DEVICE_IN_USE_INFO">ADVARSEL: Nokre av dei monterte einingane/partisjonane var allereie i bruk!\n\nÅ oversjå dette kan føra til utilsikta resultat inkludert ustabilt system.\n\nMe anbefaler på det sterkaste att du lukkar alle program som kan bruka einingane/partisjonane.</entry>
     <entry lang="nn" key="DEVICE_PARTITIONS_ERR">Valgt einheit inneheld partisjonar.\n\nÅ formatera einheiten kan føra til ustabilt system og korrupte data. Vel annten vel ein partisjon på einheiten, eller fjern alle partisjonar på einheiten slik att VeraCrypt kan formatera den trygt.</entry>
     <entry lang="en" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">The selected non-system device contains partitions.\n\nEncrypted device-hosted VeraCrypt volumes can be created within devices that do not contain any partitions (including hard disks and solid-state drives). A device that contains partitions can be entirely encrypted in place (using a single master key) only if it is the drive where Windows is installed and from which it boots.\n\nIf you want to encrypt the selected non-system device using a single master key, you will need to remove all partitions on the device first to enable VeraCrypt to format it safely (formatting a device that contains partitions might cause system instability and/or data corruption). Alternatively, you can encrypt each partition on the drive individually (each partition will be encrypted using a different master key).\n\nNote: If you want to remove all partitions from a GPT disk, you may need to convert it to a MBR disk (using e.g. the Computer Management tool) in order to remove hidden partitions.</entry>
@@ -590,7 +590,7 @@
     <entry lang="en" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Error: The files you copied to the outer volume occupy too much space. Therefore, there is not enough free space on the outer volume for the hidden volume.\n\nNote that the hidden volume must be as large as the system partition (the partition where the currently running operating system is installed). The reason is that the hidden operating system needs to be created by copying the content of the system partition to the hidden volume.\n\n\nThe process of creation of the hidden operating system cannot continue.</entry>
     <entry lang="nn" key="OPENFILES_DRIVER">Drivaren klarte ikkje å demontera volumet. Nokre filer som ligg på volumet kan framleis vera opne.</entry>
     <entry lang="nn" key="OPENFILES_LOCK">Kunne ikkje lukka volumet. Det er framleis opne filer på volumet. Derfor kan ikkje volumet demonterast.</entry>
-    <entry lang="en" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt cannot lock the volume because it is in use by the system or applications (there may be open files on the volume).\n\nDo you want to force dismount on the volume?</entry>
+    <entry lang="en" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt cannot lock the volume because it is in use by the system or applications (there may be open files on the volume).\n\nDo you want to force dismount on the volume?</entry>
     <entry lang="nn" key="OPEN_VOL_TITLE">Vel eit VeraCrypt Volum</entry>
     <entry lang="nn" key="OPEN_TITLE">Spesifiser Sti og Fil namn</entry>
     <entry lang="en" key="SELECT_PKCS11_MODULE">Select PKCS #11 Library</entry>
@@ -729,7 +729,7 @@
     <entry lang="en" key="DLL_FILES">Library Modules</entry>
     <entry lang="nn" key="FORMAT_NTFS_STOP">NTFS formatering kan ikkje halde fram.</entry>
     <entry lang="nn" key="CANT_MOUNT_VOLUME">Kan ikkje montera volum.</entry>
-    <entry lang="nn" key="CANT_DISMOUNT_VOLUME">Kan ikkje demontera volum.</entry>
+    <entry lang="nn" key="CANT_UNMOUNT_VOLUME">Kan ikkje demontera volum.</entry>
     <entry lang="en" key="FORMAT_NTFS_FAILED">Windows failed to format the volume as NTFS.\n\nPlease select a different type of file system (if possible) and try again. Alternatively, you could leave the volume unformatted (select 'None' as the filesystem), exit this wizard, mount the volume, and then use either a system or a third-party tool to format the mounted volume (the volume will remain encrypted).</entry>
     <entry lang="en" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows failed to format the volume as NTFS.\n\nDo you want to format the volume as FAT instead?</entry>
     <entry lang="nn" key="DEFAULT">Standard</entry>
@@ -771,7 +771,7 @@
     <entry lang="en" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">An error prevented VeraCrypt from encrypting the partition. Please try fixing any previously reported problems and then try again. If the problems persist, it might help to follow the below steps.</entry>
     <entry lang="en" key="INPLACE_ENC_GENERIC_ERR_RESUME">An error prevented VeraCrypt from resuming the process of encryption/decryption of the partition/volume.\n\nPlease try fixing any previously reported problems and then try resuming the process again if possible. Note that the volume cannot be mounted until it has been fully encrypted or fully decrypted.</entry>
     <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
-    <entry lang="en" key="CANT_DISMOUNT_OUTER_VOL">Error: Cannot dismount the outer volume!\n\nVolume cannot be dismounted if it contains files or folders being used by a program or the system.\n\nPlease close any program that might be using files or directories on the volume and click Retry.</entry>
+    <entry lang="en" key="CANT_UNMOUNT_OUTER_VOL">Error: Cannot dismount the outer volume!\n\nVolume cannot be dismounted if it contains files or folders being used by a program or the system.\n\nPlease close any program that might be using files or directories on the volume and click Retry.</entry>
     <entry lang="en" key="CANT_GET_OUTER_VOL_INFO">Error: Cannot obtain information about the outer volume!\nVolume creation cannot continue.</entry>
     <entry lang="nn" key="CANT_ACCESS_OUTER_VOL">Feil: Kan ikkje opna det ytre volumet! Volum oppretting kan ikkje halde fram.</entry>
     <entry lang="nn" key="CANT_MOUNT_OUTER_VOL">Feil: Kan ikkje montera det ytre volumet! Volum oppretting kan ikkje halde fram.</entry>
@@ -882,7 +882,7 @@
     <entry lang="nn" key="INSTALL_COMPLETED">Installasjonen er fullført.</entry>
     <entry lang="nn" key="CANT_CREATE_FOLDER">Mappe '%s' kunne ikkje opprettast</entry>
     <entry lang="en" key="CLOSE_TC_FIRST">The VeraCrypt device driver cannot be unloaded.\n\nPlease close all open VeraCrypt windows first. If it does not help, please restart Windows and then try again.</entry>
-    <entry lang="nn" key="DISMOUNT_ALL_FIRST">Alle VeraCrypt volum må demonterast før du installerar eller avinstallerar VeraCrypt.</entry>
+    <entry lang="nn" key="UNMOUNT_ALL_FIRST">Alle VeraCrypt volum må demonterast før du installerar eller avinstallerar VeraCrypt.</entry>
     <entry lang="en" key="UNINSTALL_OLD_VERSION_FIRST">An obsolete version of VeraCrypt is currently installed on this system. It needs to be uninstalled before you can install this new version of VeraCrypt.\n\nAs soon as you close this message box, the uninstaller of the old version will be launched. Note that no volume will be decrypted when you uninstall VeraCrypt. After you uninstall the old version of VeraCrypt, run the installer of the new version of VeraCrypt again.</entry>
     <entry lang="nn" key="REG_INSTALL_FAILED">Installasjonen av register oppføringane har feila</entry>
     <entry lang="en" key="DRIVER_INSTALL_FAILED">The installation of the device driver has failed. Please restart Windows and then try installing VeraCrypt again.</entry>
@@ -903,7 +903,7 @@
     <entry lang="nn" key="MINUTES">minuttar</entry>
     <entry lang="nn" key="SECONDS">s</entry>
     <entry lang="nn" key="OPEN">Opne</entry>
-    <entry lang="nn" key="DISMOUNT">Demonter</entry>
+    <entry lang="nn" key="UNMOUNT">Demonter</entry>
     <entry lang="nn" key="SHOW_TC">Vis VeraCrypt</entry>
     <entry lang="nn" key="HIDE_TC">Skjul VeraCrypt</entry>
     <entry lang="nn" key="TOTAL_DATA_READ">Data Lest sidan Montering</entry>
@@ -975,7 +975,7 @@
     <entry lang="en" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - System Favorite Volumes</entry>
     <entry lang="en" key="SYS_FAVORITES_HELP_LINK">What are system favorite volumes?</entry>
     <entry lang="en" key="SYS_FAVORITES_REQUIRE_PBA">The system partition/drive does not appear to be encrypted.\n\nSystem favorite volumes can be mounted using only a pre-boot authentication password. Therefore, to enable use of system favorite volumes, you need to encrypt the system partition/drive first.</entry>
-    <entry lang="nn" key="DISMOUNT_FIRST">Ver venleg å demonter volum før du held fram.</entry>
+    <entry lang="nn" key="UNMOUNT_FIRST">Ver venleg å demonter volum før du held fram.</entry>
     <entry lang="en" key="CANNOT_SET_TIMER">Error: Cannot set timer.</entry>
     <entry lang="nn" key="IDPM_CHECK_FILESYS">Sjekk Filsystem</entry>
     <entry lang="nn" key="IDPM_REPAIR_FILESYS">Reparer Filsystem</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="en" key="NO_SYSENC_PARTITION_SELECTED">No partition selected.\n\nClick 'Select Device' to select a dismounted partition that normally requires pre-boot authentication (for example, a partition located on the encrypted system drive of another operating system, which is not running, or the encrypted system partition of another operating system).\n\nNote: The selected partition will be mounted as a regular VeraCrypt volume without pre-boot authentication. This is useful e.g. for backup or repair operations.</entry>
     <entry lang="en" key="CONFIRM_SAVE_DEFAULT_KEYFILES">WARNING: If default keyfiles are set and enabled, volumes that are not using these keyfiles will be impossible to mount. Therefore, after you enable default keyfiles, keep in mind to uncheck the 'Use keyfiles' checkbox (below a password input field) whenever mounting such volumes.\n\nAre you sure you want to save the selected keyfiles/paths as default?</entry>
     <entry lang="nn" key="HK_AUTOMOUNT_DEVICES">Auto monter einheiter</entry>
-    <entry lang="nn" key="HK_DISMOUNT_ALL">Demonter alle</entry>
+    <entry lang="nn" key="HK_UNMOUNT_ALL">Demonter alle</entry>
     <entry lang="nn" key="HK_WIPE_CACHE">Slett snøgglager</entry>
-    <entry lang="en" key="HK_DISMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</entry>
-    <entry lang="nn" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Tving demontering av alle  &amp;  Visk ut snøgglager</entry>
-    <entry lang="nn" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Tving demontering av alle,  Visk ut snøgglager  &amp;  Avslutt</entry>
+    <entry lang="en" key="HK_UNMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</entry>
+    <entry lang="nn" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Tving demontering av alle  &amp;  Visk ut snøgglager</entry>
+    <entry lang="nn" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Tving demontering av alle,  Visk ut snøgglager  &amp;  Avslutt</entry>
     <entry lang="nn" key="HK_MOUNT_FAVORITE_VOLUMES">Monter Favoritt Volum</entry>
     <entry lang="nn" key="HK_SHOW_HIDE_MAIN_WINDOW">Vis/skjul Hovud VeraCrypt vindauga</entry>
     <entry lang="nn" key="PRESS_A_KEY_TO_ASSIGN">(Klikk her og trykk ein tast)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="en" key="PAGING_FILE_CREATION_PREVENTED">Paging file creation has been prevented.\n\nPlease note that, due to Windows issues, paging files cannot be located on non-system VeraCrypt volumes (including system favorite volumes). VeraCrypt supports creation of paging files only on an encrypted system partition/drive.</entry>
     <entry lang="en" key="SYS_ENC_HIBERNATION_PREVENTED">An error or incompatibility prevents VeraCrypt from encrypting the hibernation file. Therefore, hibernation has been prevented.\n\nNote: When a computer hibernates (or enters a power-saving mode), the content of its system memory is written to a hibernation storage file residing on the system drive. VeraCrypt would not be able to prevent encryption keys and the contents of sensitive files opened in RAM from being saved unencrypted to the hibernation storage file.</entry>
     <entry lang="en" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernation has been prevented.\n\nVeraCrypt does not support hibernation on hidden operating systems that use an extra boot partition. Please note that the boot partition is shared by both the decoy and the hidden system. Therefore, in order to prevent data leaks and problems while resuming from hibernation, VeraCrypt has to prevent the hidden system from writing to the shared boot partition and from hibernating.</entry>
-    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
-    <entry lang="en" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt volumes have been dismounted.</entry>
-    <entry lang="en" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
-    <entry lang="en" key="SUCCESSFULLY_DISMOUNTED">Successfully dismounted</entry>
+    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
+    <entry lang="en" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt volumes have been dismounted.</entry>
+    <entry lang="en" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
+    <entry lang="en" key="SUCCESSFULLY_UNMOUNTED">Successfully dismounted</entry>
     <entry lang="en" key="CONFIRM_BACKGROUND_TASK_DISABLED">WARNING: If the VeraCrypt Background Task is disabled, the following functions will be disabled:\n\n1) Hot keys\n2) Auto-dismount (e.g., upon logoff, inadvertent host device removal, time-out, etc.)\n3) Auto-mount of favorite volumes\n4) Notifications (e.g., when damage to hidden volume is prevented)\n5) Tray icon\n\nNote: You can shut down the Background Task anytime by right-clicking the VeraCrypt tray icon and selecting 'Exit'.\n\nAre you sure you want to permanently disable the VeraCrypt Background Task?</entry>
-    <entry lang="nn" key="CONFIRM_NO_FORCED_AUTODISMOUNT">Advarsel: Vist denne mogelegheita vert aktivert, vill ikkje volum som inneheld opne  filer/mapper vera mogeleg å auto-demontera.\n\nEr du sikker på att du vill deaktivera denne mogelegheita?</entry>
-    <entry lang="en" key="WARN_PREF_AUTO_DISMOUNT">WARNING: Volumes containing open files/directories will NOT be auto-dismounted.\n\nTo prevent this, enable the following option in this dialog window: 'Force auto-dismount even if volume contains open files or directories'</entry>
-    <entry lang="en" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">WARNING: When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-dismount volumes in such cases.</entry>
+    <entry lang="nn" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">Advarsel: Vist denne mogelegheita vert aktivert, vill ikkje volum som inneheld opne  filer/mapper vera mogeleg å auto-demontera.\n\nEr du sikker på att du vill deaktivera denne mogelegheita?</entry>
+    <entry lang="en" key="WARN_PREF_AUTO_UNMOUNT">WARNING: Volumes containing open files/directories will NOT be auto-dismounted.\n\nTo prevent this, enable the following option in this dialog window: 'Force auto-dismount even if volume contains open files or directories'</entry>
+    <entry lang="en" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">WARNING: When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-dismount volumes in such cases.</entry>
     <entry lang="en" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">You have scheduled the process of encryption/decryption of a partition/volume. The process has not been completed yet.\n\nDo you want to resume the process now?</entry>
     <entry lang="en" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">You have scheduled the process of encryption or decryption of the system partition/drive. The process has not been completed yet.\n\nDo you want to start (resume) the process now?</entry>
     <entry lang="en" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Do you want to be prompted about whether you want to resume the currently scheduled processes of encryption/decryption of non-system partitions/volumes?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="en" key="SYS_AUTOMOUNT_DISABLED">Your system is not configured to auto-mount new volumes. It may be impossible to mount device-hosted VeraCrypt volumes. Auto-mounting can be enabled by executing the following command and restarting the system.\n\nmountvol.exe /E</entry>
     <entry lang="nn" key="SYS_ASSIGN_DRIVE_LETTER">Tildel ein stasjons bokstav til pertisjonen/einheiten før du held fram ('Kontrollpanel' &gt; 'System og Vedlikehold' &gt; 'Administrative Vertøy' - 'Lag og formater harddiskpartisjoner').\n\nMerk att dette er eit krav frå opperativ systemet.</entry>
     <entry lang="nn" key="MOUNT_TC_VOLUME">Mounter VeraCrypt volum</entry>
-    <entry lang="nn" key="DISMOUNT_ALL_TC_VOLUMES">Demonter alle VeraCrypt volum</entry>
+    <entry lang="nn" key="UNMOUNT_ALL_TC_VOLUMES">Demonter alle VeraCrypt volum</entry>
     <entry lang="nn" key="UAC_INIT_ERROR">VeraCrypt kunne ikkje skaffa Administrator rettigheiter.</entry>
     <entry lang="en" key="ERR_ACCESS_DENIED">Access was denied by the operating system.\n\nPossible cause: The operating system requires that you have read/write permission (or administrator privileges) for certain folders, files, and devices, in order for you to be allowed to read and write data to/from them. Normally, a user without administrator privileges is allowed to create, read and modify files in his or her Documents folder.</entry>
     <entry lang="en" key="SECTOR_SIZE_UNSUPPORTED">Error: The drive uses an unsupported sector size.\n\nIt is currently not possible to create partition/device-hosted volumes on drives that use sectors larger than 4096 bytes. However, note that you can create file-hosted volumes (containers) on such drives.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' > 'Performance' and disable the corresponding option.</entry>
     <entry lang="en" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Do you want VeraCrypt to attempt to disable write protection of the partition/drive?</entry>
     <entry lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
     <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
     <entry lang="en" key="TEST">Test</entry>
     <entry lang="nn" key="KEYFILE">Nøkkelfil</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
+    <entry lang="en" key="TASKICON_PREF_UNMOUNT_VOL">Dismount Mounted Volumes</entry>
     <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
     <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
     <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
     <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
+    <entry lang="en" key="LINUX_UNMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
     <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Close all Explorer windows of volume being dismounted</entry>
     <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
     <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
     <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_UNMOUNT">Display confirmation message box after dismount</entry>
     <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
     <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
+    <entry lang="en" key="LINUX_VOL_UNMOUNTED">Volume {0} has been dismounted.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
     <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>

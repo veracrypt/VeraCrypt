@@ -81,7 +81,7 @@ namespace VeraCrypt
 		SetTitle (LangString["INTRO_TITLE"]);
 		SetImage (Resources::GetVolumeCreationWizardBitmap (Gui->GetCharHeight (this) * 21));
 		SetMaxStaticTextWidth (55);
-		
+
 #ifdef TC_MACOSX
 		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
 #endif
@@ -483,7 +483,7 @@ namespace VeraCrypt
 
 					shared_ptr <VolumeInfo> volume = Core->MountVolume (mountOptions);
 					finally_do_arg (shared_ptr <VolumeInfo>, volume, { Core->DismountVolume (finally_arg, true); });
-					
+
 					shared_ptr <VolumeLayout> layout((volume->Type == VolumeType::Normal)? (VolumeLayout*) new VolumeLayoutV2Normal() : (VolumeLayout*) new VolumeLayoutV2Hidden());
 					uint64 filesystemSize = layout->GetMaxDataSize (VolumeSize);
 
@@ -622,7 +622,7 @@ namespace VeraCrypt
 				{
 					if (Core->IsVolumeMounted (SelectedVolumePath))
 					{
-						Gui->ShowInfo ("DISMOUNT_FIRST");
+						Gui->ShowInfo ("UNMOUNT_FIRST");
 						return GetCurrentStep();
 					}
 

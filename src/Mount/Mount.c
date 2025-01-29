@@ -202,7 +202,7 @@ static HMODULE hWtsLib = NULL;
 static WTSREGISTERSESSIONNOTIFICATION   fnWtsRegisterSessionNotification = NULL;
 static WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification = NULL;
 
-// Used to opt-in to receive notification about power events. 
+// Used to opt-in to receive notification about power events.
 // This is mandatory to support Windows 10 Modern Standby and Windows 8.1 Connected Standby power model.
 // https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/prepare-software-for-modern-standby
 // https://docs.microsoft.com/en-us/windows/win32/w8cookbook/desktop-activity-moderator?redirectedfrom=MSDN
@@ -243,7 +243,7 @@ static void RegisterWtsAndPowerNotification(HWND hWnd)
 		{
 			g_hPowerNotify = fnRegisterSuspendResumeNotification ((HANDLE) hWnd, DEVICE_NOTIFY_WINDOW_HANDLE);
 		}
-		
+
 	}
 }
 
@@ -269,7 +269,7 @@ static void UnregisterWtsAndPowerNotification(HWND hWnd)
 
 static std::vector<MSXML2::IXMLDOMNodePtr> GetReadChildNodes (MSXML2::IXMLDOMNodeListPtr childs)
 {
-	std::vector<MSXML2::IXMLDOMNodePtr> list;	
+	std::vector<MSXML2::IXMLDOMNodePtr> list;
 	if (childs && childs->Getlength())
 	{
 		for (long i = 0; i < childs->Getlength(); i++)
@@ -294,7 +294,7 @@ static std::vector<MSXML2::IXMLDOMNodePtr> GetReadChildNodes (MSXML2::IXMLDOMNod
 
 static bool validateDcsPropXml(const char* xmlData)
 {
-	bool bValid = false;	
+	bool bValid = false;
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	if(FAILED(hr))
 		return false;
@@ -302,7 +302,7 @@ static bool validateDcsPropXml(const char* xmlData)
 	{
 		MSXML2::IXMLDOMDocumentPtr pXMLDom;
 		hr= pXMLDom.CreateInstance(__uuidof(MSXML2::DOMDocument60), NULL, CLSCTX_INPROC_SERVER);
-		if (SUCCEEDED(hr)) 
+		if (SUCCEEDED(hr))
 		{
 			try
 			{
@@ -315,12 +315,12 @@ static bool validateDcsPropXml(const char* xmlData)
 					MSXML2::IXMLDOMNodePtr veracryptNode, configurationNode, configNode;
 					std::vector<MSXML2::IXMLDOMNodePtr> nodes = GetReadChildNodes (pXMLDom->GetchildNodes());
 					size_t nodesCount = nodes.size();
-					if (nodesCount == 1 
+					if (nodesCount == 1
 						&& ((veracryptNode = nodes[0])->GetnodeType() == NODE_ELEMENT)
 						&& veracryptNode->GetnodeName().GetBSTR()
-						&& (0 == strcmp ((const char*) veracryptNode->GetnodeName(), "VeraCrypt")) 
+						&& (0 == strcmp ((const char*) veracryptNode->GetnodeName(), "VeraCrypt"))
 						&& veracryptNode->hasChildNodes()
-						
+
 						)
 					{
 						nodes = GetReadChildNodes (veracryptNode->GetchildNodes());
@@ -342,16 +342,16 @@ static bool validateDcsPropXml(const char* xmlData)
 								{
 									configNode = nodes[i];
 									if (configNode->GetnodeType() == NODE_COMMENT)
-										continue;									
+										continue;
 									else if (	(configNode->GetnodeType() == NODE_ELEMENT)
 										&&	(configNode->GetnodeName().GetBSTR())
-										&& (0 == strcmp ((const char*) configNode->GetnodeName(), "config"))	
+										&& (0 == strcmp ((const char*) configNode->GetnodeName(), "config"))
 										)
 									{
 										nodes = GetReadChildNodes (configNode->GetchildNodes());
 										nodesCount = nodes.size();
-										if ((nodesCount == 0 || (nodesCount == 1 && nodes[0]->GetnodeType() == NODE_TEXT)) 
-											&& configNode->Getattributes() 
+										if ((nodesCount == 0 || (nodesCount == 1 && nodes[0]->GetnodeType() == NODE_TEXT))
+											&& configNode->Getattributes()
 											&& (configNode->Getattributes()->Getlength() == 1)
 											&& (configNode->Getattributes()->Getitem(0))
 											)
@@ -1058,16 +1058,16 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	ConfigReadCompareInt ("DisplayMsgBoxOnHotkeyDismount", TRUE, &bDisplayBalloonOnSuccessfulHkDismount, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("HotkeyModAutoMountDevices", 0, (int*) &Hotkeys [HK_AUTOMOUNT_DEVICES].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("HotkeyCodeAutoMountDevices", 0, (int*) &Hotkeys [HK_AUTOMOUNT_DEVICES].vKeyCode, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyModDismountAll", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyCodeDismountAll", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModDismountAll", 0, (int*) &Hotkeys [HK_UNMOUNT_ALL].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeDismountAll", 0, (int*) &Hotkeys [HK_UNMOUNT_ALL].vKeyCode, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("HotkeyModWipeCache", 0, (int*) &Hotkeys [HK_WIPE_CACHE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("HotkeyCodeWipeCache", 0, (int*) &Hotkeys [HK_WIPE_CACHE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyModDismountAllWipe", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL_AND_WIPE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyCodeDismountAllWipe", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL_AND_WIPE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyModForceDismountAllWipe", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyCodeForceDismountAllWipe", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyModForceDismountAllWipeExit", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
-	ConfigReadCompareInt ("HotkeyCodeForceDismountAllWipeExit", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModDismountAllWipe", 0, (int*) &Hotkeys [HK_UNMOUNT_ALL_AND_WIPE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeDismountAllWipe", 0, (int*) &Hotkeys [HK_UNMOUNT_ALL_AND_WIPE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModForceDismountAllWipe", 0, (int*) &Hotkeys [HK_FORCE_UNMOUNT_ALL_AND_WIPE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeForceDismountAllWipe", 0, (int*) &Hotkeys [HK_FORCE_UNMOUNT_ALL_AND_WIPE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModForceDismountAllWipeExit", 0, (int*) &Hotkeys [HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeForceDismountAllWipeExit", 0, (int*) &Hotkeys [HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("HotkeyModMountFavoriteVolumes", 0, (int*) &Hotkeys [HK_MOUNT_FAVORITE_VOLUMES].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("HotkeyCodeMountFavoriteVolumes", 0, (int*) &Hotkeys [HK_MOUNT_FAVORITE_VOLUMES].vKeyCode, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("HotkeyModShowHideMainWindow", 0, (int*) &Hotkeys [HK_SHOW_HIDE_MAIN_WINDOW].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
@@ -1193,16 +1193,16 @@ void SaveSettings (HWND hwndDlg)
 		// Hotkeys
 		ConfigWriteInt ("HotkeyModAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyModifiers);
 		ConfigWriteInt ("HotkeyCodeAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyCode);
-		ConfigWriteInt ("HotkeyModDismountAll",						Hotkeys[HK_DISMOUNT_ALL].vKeyModifiers);
-		ConfigWriteInt ("HotkeyCodeDismountAll",					Hotkeys[HK_DISMOUNT_ALL].vKeyCode);
+		ConfigWriteInt ("HotkeyModDismountAll",						Hotkeys[HK_UNMOUNT_ALL].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeDismountAll",					Hotkeys[HK_UNMOUNT_ALL].vKeyCode);
 		ConfigWriteInt ("HotkeyModWipeCache",						Hotkeys[HK_WIPE_CACHE].vKeyModifiers);
 		ConfigWriteInt ("HotkeyCodeWipeCache",						Hotkeys[HK_WIPE_CACHE].vKeyCode);
-		ConfigWriteInt ("HotkeyModDismountAllWipe",					Hotkeys[HK_DISMOUNT_ALL_AND_WIPE].vKeyModifiers);
-		ConfigWriteInt ("HotkeyCodeDismountAllWipe",				Hotkeys[HK_DISMOUNT_ALL_AND_WIPE].vKeyCode);
-		ConfigWriteInt ("HotkeyModForceDismountAllWipe",			Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyModifiers);
-		ConfigWriteInt ("HotkeyCodeForceDismountAllWipe",			Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyCode);
-		ConfigWriteInt ("HotkeyModForceDismountAllWipeExit",		Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers);
-		ConfigWriteInt ("HotkeyCodeForceDismountAllWipeExit",		Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode);
+		ConfigWriteInt ("HotkeyModDismountAllWipe",					Hotkeys[HK_UNMOUNT_ALL_AND_WIPE].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeDismountAllWipe",				Hotkeys[HK_UNMOUNT_ALL_AND_WIPE].vKeyCode);
+		ConfigWriteInt ("HotkeyModForceDismountAllWipe",			Hotkeys[HK_FORCE_UNMOUNT_ALL_AND_WIPE].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeForceDismountAllWipe",			Hotkeys[HK_FORCE_UNMOUNT_ALL_AND_WIPE].vKeyCode);
+		ConfigWriteInt ("HotkeyModForceDismountAllWipeExit",		Hotkeys[HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeForceDismountAllWipeExit",		Hotkeys[HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode);
 		ConfigWriteInt ("HotkeyModMountFavoriteVolumes",			Hotkeys[HK_MOUNT_FAVORITE_VOLUMES].vKeyModifiers);
 		ConfigWriteInt ("HotkeyCodeMountFavoriteVolumes",			Hotkeys[HK_MOUNT_FAVORITE_VOLUMES].vKeyCode);
 		ConfigWriteInt ("HotkeyModShowHideMainWindow",				Hotkeys[HK_SHOW_HIDE_MAIN_WINDOW].vKeyModifiers);
@@ -2475,7 +2475,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 
 			CheckCapsLock (hwndDlg, FALSE);
-			
+
 			if (!bSecureDesktopOngoing)
 			{
 				PasswordEditDropTarget* pTarget = new PasswordEditDropTarget ();
@@ -2746,7 +2746,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_PKCS5_PRF_ID:
 				if (bSysEncPwdChangeDlgMode)
 				{
-					int new_hash_algo_id = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
+					int new_hash_algo_id = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA,
 						SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
 					if (new_hash_algo_id != 0 && !bSystemIsGPT && !HashForSystemEncryption(new_hash_algo_id))
@@ -3388,7 +3388,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 static void PreferencesDlgEnableButtons (HWND hwndDlg)
 {
 	BOOL back = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_BKG_TASK_ENABLE));
-	BOOL idle = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE));
+	BOOL idle = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE));
 	BOOL installed = !IsNonInstallMode();
 	BOOL wtsEnabled = (hWtsLib != NULL) ? TRUE : FALSE;
 
@@ -3396,16 +3396,16 @@ static void PreferencesDlgEnableButtons (HWND hwndDlg)
 	EnableWindow (GetDlgItem (hwndDlg, IDT_LOGON), installed);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_LOGON_START), back && installed);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_LOGON_MOUNT_DEVICES), installed);
-	EnableWindow (GetDlgItem (hwndDlg, IDT_AUTO_DISMOUNT), back);
-	EnableWindow (GetDlgItem (hwndDlg, IDT_AUTO_DISMOUNT_ON), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDT_AUTO_UNMOUNT), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDT_AUTO_UNMOUNT_ON), back);
 	EnableWindow (GetDlgItem (hwndDlg, IDT_MINUTES), back);
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF), back);
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED), back && wtsEnabled);
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING), back);
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SCREENSAVER), back);
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE), back);
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE_TIME), back && idle);
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_LOGOFF), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SESSION_LOCKED), back && wtsEnabled);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_POWERSAVING), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SCREENSAVER), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE_TIME), back && idle);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_UNMOUNT), back);
 }
 
 BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -3459,7 +3459,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT), BM_SETCHECK,
 						bWipeCacheOnExit ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT), BM_SETCHECK,
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT), BM_SETCHECK,
 						bWipeCacheOnAutoDismount ? BST_CHECKED:BST_UNCHECKED, 0);
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PASSWORDS), BM_SETCHECK,
@@ -3486,25 +3486,25 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage (GetDlgItem (hwndDlg, IDC_CLOSE_BKG_TASK_WHEN_NOVOL), BM_SETCHECK,
 						bCloseBkgTaskWhenNoVolumes || IsNonInstallMode() ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF), BM_SETCHECK,
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_LOGOFF), BM_SETCHECK,
 						bDismountOnLogOff ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED), BM_SETCHECK,
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SESSION_LOCKED), BM_SETCHECK,
 						bDismountOnSessionLocked ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING), BM_SETCHECK,
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_POWERSAVING), BM_SETCHECK,
 						bDismountOnPowerSaving ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SCREENSAVER), BM_SETCHECK,
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SCREENSAVER), BM_SETCHECK,
 						bDismountOnScreenSaver ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT), BM_SETCHECK,
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_UNMOUNT), BM_SETCHECK,
 						bForceAutoDismount ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE), BM_SETCHECK,
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE), BM_SETCHECK,
 						MaxVolumeIdleTime > 0 ? BST_CHECKED:BST_UNCHECKED, 0);
 
-			SetDlgItemInt (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE_TIME, abs (MaxVolumeIdleTime), FALSE);
+			SetDlgItemInt (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE_TIME, abs (MaxVolumeIdleTime), FALSE);
 
 			PreferencesDlgEnableButtons (hwndDlg);
 		}
@@ -3519,37 +3519,37 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 		// Forced dismount disabled warning
-		if (lw == IDC_PREF_DISMOUNT_INACTIVE
-			|| lw == IDC_PREF_DISMOUNT_LOGOFF
-			|| lw == IDC_PREF_DISMOUNT_SESSION_LOCKED
-			|| lw == IDC_PREF_DISMOUNT_POWERSAVING
-			|| lw == IDC_PREF_DISMOUNT_SCREENSAVER
-			|| lw == IDC_PREF_FORCE_AUTO_DISMOUNT)
+		if (lw == IDC_PREF_UNMOUNT_INACTIVE
+			|| lw == IDC_PREF_UNMOUNT_LOGOFF
+			|| lw == IDC_PREF_UNMOUNT_SESSION_LOCKED
+			|| lw == IDC_PREF_UNMOUNT_POWERSAVING
+			|| lw == IDC_PREF_UNMOUNT_SCREENSAVER
+			|| lw == IDC_PREF_FORCE_AUTO_UNMOUNT)
 		{
-			BOOL i = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE));
-			BOOL l = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF));
-			BOOL sl = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED));
-			BOOL p = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING));
-			BOOL s = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SCREENSAVER));
-			BOOL q = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT));
+			BOOL i = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE));
+			BOOL l = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_LOGOFF));
+			BOOL sl = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SESSION_LOCKED));
+			BOOL p = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_POWERSAVING));
+			BOOL s = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SCREENSAVER));
+			BOOL q = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_UNMOUNT));
 
 			if (!q)
 			{
-				if (lw == IDC_PREF_FORCE_AUTO_DISMOUNT && (i || l || sl || p || s))
+				if (lw == IDC_PREF_FORCE_AUTO_UNMOUNT && (i || l || sl || p || s))
 				{
-					if (AskWarnNoYes ("CONFIRM_NO_FORCED_AUTODISMOUNT", hwndDlg) == IDNO)
-						SetCheckBox (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT, TRUE);
+					if (AskWarnNoYes ("CONFIRM_NO_FORCED_AUTOUNMOUNT", hwndDlg) == IDNO)
+						SetCheckBox (hwndDlg, IDC_PREF_FORCE_AUTO_UNMOUNT, TRUE);
 				}
-				else if ((lw == IDC_PREF_DISMOUNT_INACTIVE && i
-					|| lw == IDC_PREF_DISMOUNT_LOGOFF && l
-					|| lw == IDC_PREF_DISMOUNT_SESSION_LOCKED && sl
-					|| lw == IDC_PREF_DISMOUNT_POWERSAVING && p
-					|| lw == IDC_PREF_DISMOUNT_SCREENSAVER && s))
-					Warning ("WARN_PREF_AUTO_DISMOUNT", hwndDlg);
+				else if ((lw == IDC_PREF_UNMOUNT_INACTIVE && i
+					|| lw == IDC_PREF_UNMOUNT_LOGOFF && l
+					|| lw == IDC_PREF_UNMOUNT_SESSION_LOCKED && sl
+					|| lw == IDC_PREF_UNMOUNT_POWERSAVING && p
+					|| lw == IDC_PREF_UNMOUNT_SCREENSAVER && s))
+					Warning ("WARN_PREF_AUTO_UNMOUNT", hwndDlg);
 			}
 
-			if (p && lw == IDC_PREF_DISMOUNT_POWERSAVING)
-				Warning ("WARN_PREF_AUTO_DISMOUNT_ON_POWER", hwndDlg);
+			if (p && lw == IDC_PREF_UNMOUNT_POWERSAVING)
+				Warning ("WARN_PREF_AUTO_UNMOUNT_ON_POWER", hwndDlg);
 		}
 
 		if (lw == IDCANCEL)
@@ -3572,20 +3572,20 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bUseLegacyMaxPasswordLength = IsButtonChecked (GetDlgItem (hwndDlg, IDC_USE_LEGACY_MAX_PASSWORD_LENGTH));
 			bCacheDuringMultipleMount	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT));
 			bWipeCacheOnExit				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT));
-			bWipeCacheOnAutoDismount		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT));
+			bWipeCacheOnAutoDismount		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT));
 			bCacheInDriverDefault = bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PASSWORDS));
 			bIncludePimInCache = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PIM));
 			defaultMountOptions.ReadOnly	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_MOUNT_READONLY));
 			defaultMountOptions.Removable	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_MOUNT_REMOVABLE));
 			bEnableBkgTask				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_BKG_TASK_ENABLE));
 			bCloseBkgTaskWhenNoVolumes	= IsNonInstallMode() ? bCloseBkgTaskWhenNoVolumes : IsButtonChecked (GetDlgItem (hwndDlg, IDC_CLOSE_BKG_TASK_WHEN_NOVOL));
-			bDismountOnLogOff				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF));
-			bDismountOnSessionLocked		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED));
-			bDismountOnPowerSaving			= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING));
-			bDismountOnScreenSaver			= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SCREENSAVER));
-			bForceAutoDismount				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT));
-			MaxVolumeIdleTime				= GetDlgItemInt (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE_TIME, NULL, FALSE)
-												* (IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE)) ? 1 : -1);
+			bDismountOnLogOff				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_LOGOFF));
+			bDismountOnSessionLocked		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SESSION_LOCKED));
+			bDismountOnPowerSaving			= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_POWERSAVING));
+			bDismountOnScreenSaver			= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_SCREENSAVER));
+			bForceAutoDismount				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_UNMOUNT));
+			MaxVolumeIdleTime				= GetDlgItemInt (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE_TIME, NULL, FALSE)
+												* (IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_UNMOUNT_INACTIVE)) ? 1 : -1);
 			bStartOnLogon					= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_LOGON_START));
 			bMountDevicesOnLogon			= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_LOGON_MOUNT_DEVICES));
 
@@ -4990,7 +4990,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				fwprintf (af, L"action=%s\n", bAutoMount ? GetString ("MOUNT_TC_VOLUME") : GetString ("IDC_PREF_LOGON_START"));
 				fwprintf (af, L"open=%s\n", bAutoMount ? autoMount : L"VeraCrypt\\VeraCrypt.exe");
 				fwprintf (af, L"shell\\start=%s\nshell\\start\\command=VeraCrypt\\VeraCrypt.exe\n", GetString ("IDC_PREF_LOGON_START"));
-				fwprintf (af, L"shell\\dismount=%s\nshell\\dismount\\command=VeraCrypt\\VeraCrypt.exe /q /d\n", GetString ("DISMOUNT_ALL_TC_VOLUMES"));
+				fwprintf (af, L"shell\\dismount=%s\nshell\\dismount\\command=VeraCrypt\\VeraCrypt.exe /q /d\n", GetString ("UNMOUNT_ALL_TC_VOLUMES"));
 
 				CheckFileStreamWriteErrors (hwndDlg, af, dstPath);
 				fclose (af);
@@ -5435,7 +5435,7 @@ void CALLBACK DismountAllThreadProc(void* pArg, HWND hwndDlg)
 
 	do
 	{
-		*pbResult = DeviceIoControl (hDriver, TC_IOCTL_DISMOUNT_ALL_VOLUMES, punmount,
+		*pbResult = DeviceIoControl (hDriver, TC_IOCTL_UNMOUNT_ALL_VOLUMES, punmount,
 			sizeof (UNMOUNT_STRUCT), punmount, sizeof (UNMOUNT_STRUCT), pdwResult, NULL);
 
 		if (	punmount->nDosDriveNo < 0 || punmount->nDosDriveNo > 25
@@ -6102,7 +6102,7 @@ static void EncryptSystemDevice (HWND hwndDlg)
 		e.Show (MainDlg);
 	}
 
-	if (!BootEncStatus.DriveEncrypted 
+	if (!BootEncStatus.DriveEncrypted
 		&& !BootEncStatus.DriveMounted
 		&& !SysEncryptionOrDecryptionRequired ())
 	{
@@ -6205,7 +6205,7 @@ static void DecryptSystemDevice (HWND hwndDlg)
 			return;
 		}
 
-		CloseSysEncMutex ();	
+		CloseSysEncMutex ();
 		LaunchVolCreationWizard (hwndDlg, L"/dsysenc", FALSE);
 	}
 	else
@@ -6540,8 +6540,8 @@ static void ShowSystemEncryptionStatus (HWND hwndDlg)
 	{
 		// Ctrl+Shift held (for debugging purposes)
 		int64 encryptedRatio = 0;
-		if (BootEncStatus.DriveEncrypted 
-			&& (BootEncStatus.ConfiguredEncryptedAreaStart >= 0) 
+		if (BootEncStatus.DriveEncrypted
+			&& (BootEncStatus.ConfiguredEncryptedAreaStart >= 0)
 			&& (BootEncStatus.ConfiguredEncryptedAreaEnd >= BootEncStatus.ConfiguredEncryptedAreaStart)
 			)
 		{
@@ -6867,7 +6867,7 @@ void DisplayDriveListContextMenu (HWND hwndDlg, LPARAM lParam)
 
 		// There's a mounted non-system volume at this drive letter
 
-		AppendMenuW (popup, MF_STRING, IDM_UNMOUNT_VOLUME, GetString ("DISMOUNT"));
+		AppendMenuW (popup, MF_STRING, IDM_UNMOUNT_VOLUME, GetString ("UNMOUNT"));
 		AppendMenuW (popup, MF_STRING, IDPM_OPEN_VOLUME, GetString ("OPEN"));
 		AppendMenu (popup, MF_SEPARATOR, 0, L"");
 		AppendMenuW (popup, MF_STRING, IDPM_CHECK_FILESYS, GetString ("IDPM_CHECK_FILESYS"));
@@ -7006,24 +7006,24 @@ static void SignalExitCode (int exitCode)
 {
 	if (ExitMailSlotSpecified)
 	{
-		HANDLE hFile; 
-		hFile = CreateFile (ExitMailSlotName, 
-			GENERIC_WRITE, 
+		HANDLE hFile;
+		hFile = CreateFile (ExitMailSlotName,
+			GENERIC_WRITE,
 			FILE_SHARE_READ,
-			(LPSECURITY_ATTRIBUTES) NULL, 
-			OPEN_EXISTING, 
-			FILE_ATTRIBUTE_NORMAL, 
+			(LPSECURITY_ATTRIBUTES) NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
 			(HANDLE) NULL);
 		if ((hFile == INVALID_HANDLE_VALUE) && (GetLastError () == ERROR_FILE_NOT_FOUND))
 		{
 			// MailSlot not found, wait 1 second and try again in case we exited too quickly
 			Sleep (1000);
-			hFile = CreateFile (ExitMailSlotName, 
-				GENERIC_WRITE, 
+			hFile = CreateFile (ExitMailSlotName,
+				GENERIC_WRITE,
 				FILE_SHARE_READ,
-				(LPSECURITY_ATTRIBUTES) NULL, 
-				OPEN_EXISTING, 
-				FILE_ATTRIBUTE_NORMAL, 
+				(LPSECURITY_ATTRIBUTES) NULL,
+				OPEN_EXISTING,
+				FILE_ATTRIBUTE_NORMAL,
 				(HANDLE) NULL);
 		}
 		if (hFile != INVALID_HANDLE_VALUE)
@@ -7031,7 +7031,7 @@ static void SignalExitCode (int exitCode)
 			char szMsg[64];
 			DWORD cbWritten;
 			StringCbPrintfA (szMsg, sizeof (szMsg), "VeraCrypt Exit %d", exitCode);
-			WriteFile(hFile, szMsg, (DWORD) (strlen (szMsg) +1), &cbWritten, (LPOVERLAPPED) NULL); 
+			WriteFile(hFile, szMsg, (DWORD) (strlen (szMsg) +1), &cbWritten, (LPOVERLAPPED) NULL);
 			CloseHandle (hFile);
 		}
 	}
@@ -7091,8 +7091,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				StringCbCopyW (szRescueDiskExtension, sizeof (szRescueDiskExtension), L"zip");
 			else
 				StringCbCopyW (szRescueDiskExtension, sizeof (szRescueDiskExtension), L"iso");
-			
-			StringCbCopyW (szDefaultRescueDiskName, sizeof (szDefaultRescueDiskName), L"VeraCrypt Rescue Disk.");		
+
+			StringCbCopyW (szDefaultRescueDiskName, sizeof (szDefaultRescueDiskName), L"VeraCrypt Rescue Disk.");
 			StringCbCatW  (szDefaultRescueDiskName, sizeof (szDefaultRescueDiskName), szRescueDiskExtension);
 
 			if (UsePreferences)
@@ -7812,7 +7812,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 			}
 			return 1;
-		}		
+		}
 
 	case TC_APPMSG_TASKBAR_ICON:
 		{
@@ -7870,7 +7870,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 									label = GetFavoriteVolumeLabel (vol, useInExplorer);
 
 								StringCbPrintfW (s, sizeof(s), L"%s %c: (%s)",
-									GetString (n==0 ? "OPEN" : "DISMOUNT"),
+									GetString (n==0 ? "OPEN" : "UNMOUNT"),
 									i + L'A',
 									label.empty() ? vol : label.c_str());
 								AppendMenuW (popup, MF_STRING, n*26 + TRAYICON_MENU_DRIVE_OFFSET + i, s);
@@ -7910,9 +7910,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							if (Dismount (hwndDlg, sel - TRAYICON_MENU_DRIVE_OFFSET - 26))
 							{
 								wchar_t txt [2048];
-								StringCbPrintfW (txt, sizeof(txt), GetString ("VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED"), sel - TRAYICON_MENU_DRIVE_OFFSET - 26 + L'A');
+								StringCbPrintfW (txt, sizeof(txt), GetString ("VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED"), sel - TRAYICON_MENU_DRIVE_OFFSET - 26 + L'A');
 
-								InfoBalloonDirect (GetString ("SUCCESSFULLY_DISMOUNTED"), txt, hwndDlg);
+								InfoBalloonDirect (GetString ("SUCCESSFULLY_UNMOUNTED"), txt, hwndDlg);
 							}
 						}
 					}
@@ -7999,7 +7999,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 									if (wszVol[1] == L':' && i == (wszVol[0] - (wszVol[0] <= L'Z' ? L'A' : L'a')))
 									{
 										UnmountVolume (hwndDlg, m, TRUE);
-										WarningBalloon ("HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_DISMOUNT_WARN", hwndDlg);
+										WarningBalloon ("HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_UNMOUNT_WARN", hwndDlg);
 									}
 								}
 							}
@@ -8024,7 +8024,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							if (!OpenDevice (vol, &ots, FALSE, FALSE))
 							{
 								UnmountVolume (hwndDlg, m, TRUE);
-								WarningBalloon ("HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_DISMOUNT_WARN", hwndDlg);
+								WarningBalloon ("HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_UNMOUNT_WARN", hwndDlg);
 							}
 						}
 					}
@@ -8074,7 +8074,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					memset (&prop, 0, sizeof(prop));
 					prop.driveNo = HIWORD (state) - L'A';
 
-					if (DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &dwResult, NULL) 
+					if (DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &dwResult, NULL)
 						&& dwResult
 						&& prop.mountDisabled
 						)
@@ -8213,7 +8213,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (DismountAll (hwndDlg, bForceUnmount, TRUE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY)
 				&& lw == IDM_UNMOUNTALL)	// If initiated via the systray menu
 			{
-				InfoBalloon ("SUCCESSFULLY_DISMOUNTED", "MOUNTED_VOLUMES_DISMOUNTED", hwndDlg);
+				InfoBalloon ("SUCCESSFULLY_UNMOUNTED", "MOUNTED_VOLUMES_UNMOUNTED", hwndDlg);
 			}
 
 			return 1;
@@ -9877,7 +9877,7 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 		if (DBT_DEVICEARRIVAL == dwEventType)
 		{
 			DEV_BROADCAST_HDR* pHdr = (DEV_BROADCAST_HDR *) lpEventData;
-			if (pHdr->dbch_devicetype != DBT_DEVTYP_VOLUME &&  pHdr->dbch_devicetype != DBT_DEVTYP_HANDLE)			
+			if (pHdr->dbch_devicetype != DBT_DEVTYP_VOLUME &&  pHdr->dbch_devicetype != DBT_DEVTYP_HANDLE)
 			{
 				if (ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
 				{
@@ -9991,7 +9991,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	SystemFavoriteServiceStopEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 	if (!SystemFavoriteServiceStopEvent)
 		return;
-  
+
 	SystemFavoriteServiceNotify = RegisterDeviceNotification (SystemFavoritesServiceStatusHandle, &hdr,DEVICE_NOTIFY_SERVICE_HANDLE | DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
 
 	SetUnhandledExceptionFilter (SystemFavoritesServiceExceptionHandler);
@@ -10130,7 +10130,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	VirtualLock (&CmdVolumePassword, sizeof (CmdVolumePassword));
 	VirtualLock (&mountOptions, sizeof (mountOptions));
 	VirtualLock (&defaultMountOptions, sizeof (defaultMountOptions));
-	VirtualLock (&szFileName, sizeof(szFileName));	
+	VirtualLock (&szFileName, sizeof(szFileName));
 
 #ifndef _M_ARM64
 	DetectX86Features();
@@ -10759,16 +10759,16 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 		MountAllDevices (hwndDlg, TRUE);
 		break;
 
-	case HK_DISMOUNT_ALL:
-	case HK_DISMOUNT_ALL_AND_WIPE:
+	case HK_UNMOUNT_ALL:
+	case HK_UNMOUNT_ALL_AND_WIPE:
 
-		if (wParam == HK_DISMOUNT_ALL_AND_WIPE)
+		if (wParam == HK_UNMOUNT_ALL_AND_WIPE)
 			WipeCache (hwndDlg, TRUE);
 
 		if (DismountAll (hwndDlg, FALSE, TRUE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY))
 		{
 			if (bDisplayBalloonOnSuccessfulHkDismount)
-				InfoBalloon ("SUCCESSFULLY_DISMOUNTED", (wParam == HK_DISMOUNT_ALL_AND_WIPE ? "VOLUMES_DISMOUNTED_CACHE_WIPED" : "MOUNTED_VOLUMES_DISMOUNTED"), hwndDlg);
+				InfoBalloon ("SUCCESSFULLY_UNMOUNTED", (wParam == HK_UNMOUNT_ALL_AND_WIPE ? "VOLUMES_UNMOUNTED_CACHE_WIPED" : "MOUNTED_VOLUMES_UNMOUNTED"), hwndDlg);
 
 			if (bPlaySoundOnSuccessfulHkDismount)
 				MessageBeep (0xFFFFFFFF);
@@ -10781,26 +10781,26 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 
 		break;
 
-	case HK_FORCE_DISMOUNT_ALL_AND_WIPE:
+	case HK_FORCE_UNMOUNT_ALL_AND_WIPE:
 		success = DismountAll (hwndDlg, TRUE, FALSE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
 		success &= DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
 		if (success)
 		{
 			if (bDisplayBalloonOnSuccessfulHkDismount)
-				InfoBalloon ("SUCCESSFULLY_DISMOUNTED", "VOLUMES_DISMOUNTED_CACHE_WIPED", hwndDlg);
+				InfoBalloon ("SUCCESSFULLY_UNMOUNTED", "VOLUMES_UNMOUNTED_CACHE_WIPED", hwndDlg);
 
 			if (bPlaySoundOnSuccessfulHkDismount)
 				MessageBeep (0xFFFFFFFF);
 		}
 		break;
 
-	case HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT:
+	case HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT:
 		success = DismountAll (hwndDlg, TRUE, FALSE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
 		success &= DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
 		if (success)
 		{
 			if (bDisplayBalloonOnSuccessfulHkDismount)
-				InfoBalloon ("SUCCESSFULLY_DISMOUNTED", "VOLUMES_DISMOUNTED_CACHE_WIPED", hwndDlg);
+				InfoBalloon ("SUCCESSFULLY_UNMOUNTED", "VOLUMES_UNMOUNTED_CACHE_WIPED", hwndDlg);
 
 			if (bPlaySoundOnSuccessfulHkDismount)
 				MessageBeep (0xFFFFFFFF);
@@ -10895,7 +10895,7 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const wchar_t *
 
 	if (IsMountedVolume (lpszVolume))
 	{
-		Warning ("DISMOUNT_FIRST", hwndDlg);
+		Warning ("UNMOUNT_FIRST", hwndDlg);
 		goto ret;
 	}
 
@@ -11165,7 +11165,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 
 	if (IsMountedVolume (lpszVolume))
 	{
-		Warning ("DISMOUNT_FIRST", hwndDlg);
+		Warning ("UNMOUNT_FIRST", hwndDlg);
 		return 0;
 	}
 
@@ -11633,7 +11633,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 			CheckDlgButton (hwndDlg, IDC_ENABLE_EXTENDED_IOCTL_SUPPORT, (driverConfig & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton (hwndDlg, IDC_ALLOW_TRIM_NONSYS_SSD, (driverConfig & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM) ? BST_CHECKED : BST_UNCHECKED);
 			// checkbox for Windows Defragmenter only usuable starting from Windows 8.1
-			// on previous versions, we can not control Windows defragmenter so 
+			// on previous versions, we can not control Windows defragmenter so
 			// this settings is always checked.
 			if (IsOSAtLeast (WIN_8_1))
 				CheckDlgButton (hwndDlg, IDC_ALLOW_WINDOWS_DEFRAG, (driverConfig & VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG) ? BST_CHECKED : BST_UNCHECKED);
@@ -11754,7 +11754,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 					}
 					catch (...)
 					{
-						BootEncStatus.DriveMounted = false;	
+						BootEncStatus.DriveMounted = false;
 					}
 
 					if (BootEncStatus.DriveMounted && !bSystemIsGPT)
@@ -11794,12 +11794,12 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 							if (GetHibernateStatus (bHibernateEnabled, bHiberbootEnabled))
 							{
 								if (bHibernateEnabled)
-								{										
+								{
 									BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Control\\Power", L"HibernateEnabled", 0);
 								}
 
 								if (bHiberbootEnabled)
-								{										
+								{
 									BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
 								}
 							}
@@ -12230,7 +12230,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					// read PlatformInfo file if it exists
 					try
 					{
-						platforminfo = ReadESPFile (L"\\EFI\\VeraCrypt\\PlatformInfo", true);						
+						platforminfo = ReadESPFile (L"\\EFI\\VeraCrypt\\PlatformInfo", true);
 					}
 					catch (Exception &)	{}
 
@@ -12255,7 +12255,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				EnableWindow (GetDlgItem (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM), bPasswordCacheEnabled);
 				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled? BST_CHECKED : BST_UNCHECKED);
-				
+
 				if (bIsHiddenOS)
 				{
 					// we always block TRIM command on hidden OS regardless of the configuration
@@ -12275,7 +12275,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 						EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY), FALSE);
 						EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY), FALSE);
 					}
-					
+
 					if (!bIsHiddenOS)
 					{
 						CheckDlgButton (hwndDlg, IDC_FORCE_NEXT_BOOT_VERACRYPT, bForceVeraCryptNextBoot? BST_CHECKED : BST_UNCHECKED);

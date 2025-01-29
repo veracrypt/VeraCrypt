@@ -57,17 +57,17 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,75,126,10
     CONTROL         "Mount all device-hosted VeraCrypt volumes",IDC_PREF_LOGON_MOUNT_DEVICES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,75,188,10
-    CONTROL         "User logs off",IDC_PREF_DISMOUNT_LOGOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,104,114,11
-    CONTROL         "User session locked",IDC_PREF_DISMOUNT_SESSION_LOCKED,
+    CONTROL         "User logs off",IDC_PREF_UNMOUNT_LOGOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,104,114,11
+    CONTROL         "User session locked",IDC_PREF_UNMOUNT_SESSION_LOCKED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,105,130,11
-    CONTROL         "Screen saver is launched",IDC_PREF_DISMOUNT_SCREENSAVER,
+    CONTROL         "Screen saver is launched",IDC_PREF_UNMOUNT_SCREENSAVER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,116,114,10
-    CONTROL         "Entering power saving mode",IDC_PREF_DISMOUNT_POWERSAVING,
+    CONTROL         "Entering power saving mode",IDC_PREF_UNMOUNT_POWERSAVING,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,115,130,11
-    CONTROL         "Auto-dismount volume after no data has been read/written to it for",IDC_PREF_DISMOUNT_INACTIVE,
+    CONTROL         "Auto-dismount volume after no data has been read/written to it for",IDC_PREF_UNMOUNT_INACTIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,128,246,11
-    EDITTEXT        IDC_PREF_DISMOUNT_INACTIVE_TIME,258,127,27,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    CONTROL         "Force auto-dismount even if volume contains open files or directories",IDC_PREF_FORCE_AUTO_DISMOUNT,
+    EDITTEXT        IDC_PREF_UNMOUNT_INACTIVE_TIME,258,127,27,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "Force auto-dismount even if volume contains open files or directories",IDC_PREF_FORCE_AUTO_UNMOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,141,294,10
     CONTROL         "Open Explorer window for successfully mounted volume",IDC_PREF_OPEN_EXPLORER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,171,316,11
@@ -83,7 +83,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,271,165,11
     CONTROL         "Temporarily cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,285,294,11
-    CONTROL         "Wipe cached passwords on auto-dismount",IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT,
+    CONTROL         "Wipe cached passwords on auto-dismount",IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,299,296,11
     CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,313,296,10
@@ -93,9 +93,9 @@ BEGIN
     GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,97
     GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,4,3,328,26
     GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
-    GROUPBOX        "Auto-Dismount",IDT_AUTO_DISMOUNT,4,94,328,62
+    GROUPBOX        "Auto-Dismount",IDT_AUTO_UNMOUNT,4,94,328,62
     LTEXT           "minutes",IDT_MINUTES,289,129,39,10
-    LTEXT           "Dismount all when:",IDT_AUTO_DISMOUNT_ON,9,104,71,20
+    LTEXT           "Dismount all when:",IDT_AUTO_UNMOUNT_ON,9,104,71,20
     GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,260,328,68
     GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,4,63,328,28
     CONTROL         "Don't show wait message dialog when performing operations",IDC_HIDE_WAITING_DIALOG,
@@ -256,15 +256,15 @@ BEGIN
     CONTROL         "Alt",IDC_HK_MOD_ALT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,216,158,43,10,WS_EX_TRANSPARENT
     CONTROL         "Win",IDC_HK_MOD_WIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,266,158,34,10,WS_EX_TRANSPARENT
     PUSHBUTTON      "Remove",IDC_HOTKEY_REMOVE,304,158,59,14
-    CONTROL         "Play system notification sound after successful hot-key dismount",IDC_HK_DISMOUNT_PLAY_SOUND,
+    CONTROL         "Play system notification sound after successful hot-key dismount",IDC_HK_UNMOUNT_PLAY_SOUND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,201,348,10
-    CONTROL         "Display balloon tooltip after successful hot-key dismount",IDC_HK_DISMOUNT_BALLOON_TOOLTIP,
+    CONTROL         "Display balloon tooltip after successful hot-key dismount",IDC_HK_UNMOUNT_BALLOON_TOOLTIP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,213,351,10,WS_EX_TRANSPARENT
     DEFPUSHBUTTON   "OK",IDOK,260,236,59,14
     PUSHBUTTON      "Cancel",IDCANCEL,323,236,59,14
     PUSHBUTTON      "Reset",IDC_RESET_HOTKEYS,7,236,59,14
     RTEXT           "Key to assign:",IDT_HOTKEY_KEY,15,142,86,8
-    GROUPBOX        "Hot Key Options",IDT_DISMOUNT_ACTION,7,188,375,42
+    GROUPBOX        "Hot Key Options",IDT_UNMOUNT_ACTION,7,188,375,42
     GROUPBOX        "Shortcut",IDT_ASSIGN_HOTKEY,7,127,375,53
 END
 
@@ -598,19 +598,19 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "#include ""..\\\\common\\\\resource.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "#include ""..\\\\common\\\\common.rc""\r\n"
     "\0"
@@ -774,4 +774,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

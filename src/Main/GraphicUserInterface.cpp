@@ -157,7 +157,7 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		if (Core->IsVolumeMounted (*volumePath))
 		{
-			ShowInfo ("DISMOUNT_FIRST");
+			ShowInfo ("UNMOUNT_FIRST");
 			return;
 		}
 #endif
@@ -721,7 +721,7 @@ namespace VeraCrypt
 	{
 		SetBackgroundMode (false);
 	}
-	
+
 	bool GraphicUserInterface::HandlePasswordEntryCustomEvent (wxEvent& event)
 	{
 		bool bHandled = false;
@@ -729,7 +729,7 @@ namespace VeraCrypt
 			&&	((event.GetId() == g_customIdCmdV) || (event.GetId() == g_customIdCmdA)))
 		{
 			wxWindow* focusedCtrl = wxWindow::FindFocus();
-			if (focusedCtrl 
+			if (focusedCtrl
 				&& (focusedCtrl->IsKindOf(wxCLASSINFO(wxTextCtrl)))
 				&& (focusedCtrl->GetWindowStyle() & wxTE_PASSWORD))
 			{
@@ -741,10 +741,10 @@ namespace VeraCrypt
 				bHandled = true;
 			}
 		}
-		
+
 		return bHandled;
 	}
-	
+
 	void GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (wxWindow* window)
 	{
 		// we manually handle CMD+V and CMD+A on password fields in order to support
@@ -1156,7 +1156,7 @@ namespace VeraCrypt
 			OnAutoDismountAllEvent();
 
 			if (Core->GetMountedVolumes().size() < volumeCount)
-				ShowInfoTopMost (LangString["MOUNTED_VOLUMES_AUTO_DISMOUNTED"]);
+				ShowInfoTopMost (LangString["MOUNTED_VOLUMES_AUTO_UNMOUNTED"]);
 		}
 	}
 #endif
@@ -1336,7 +1336,7 @@ namespace VeraCrypt
 		{
 			buildUrl = false;
 		}
-		
+
 		if (buildUrl)
 		{
 			wxString htmlPath = wstring (Application::GetExecutableDirectory());
@@ -1418,7 +1418,7 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		if (Core->IsVolumeMounted (*volumePath))
 		{
-			ShowInfo ("DISMOUNT_FIRST");
+			ShowInfo ("UNMOUNT_FIRST");
 			return;
 		}
 #endif
