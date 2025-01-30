@@ -157,15 +157,6 @@
     #define CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE 0
 #endif
 
-#if !defined(CRYPTOPP_DISABLE_SHANI) && !defined(_M_ARM) && !defined(_M_ARM64) && !defined(__arm__) && !defined(__aarch64__) && !defined(__arm64__) && defined(CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE) && \
-	(defined(__SHA__) || (_MSC_VER >= 1900) || (__SUNPRO_CC >= 0x5160) || \
-	(CRYPTOPP_GCC_VERSION >= 40900) || (__INTEL_COMPILER >= 1600) || \
-	(CRYPTOPP_LLVM_CLANG_VERSION >= 30400) || (CRYPTOPP_APPLE_CLANG_VERSION >= 50100))
-	#define CRYPTOPP_SHANI_AVAILABLE 1
-#else
-	#define CRYPTOPP_SHANI_AVAILABLE 0
-#endif
-
 // how to allocate 16-byte aligned memory (for SSE2)
 #if defined(_MSC_VER)
 	#define CRYPTOPP_MM_MALLOC_AVAILABLE
@@ -204,6 +195,17 @@
     #define CRYPTOPP_BOOL_X64 1
 #else
     #define CRYPTOPP_BOOL_X64 0
+#endif
+
+#if !defined(CRYPTOPP_DISABLE_SHANI) && \
+	(CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X64) && \
+	defined(CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE) && \
+	(defined(__SHA__) || (_MSC_VER >= 1900) || (__SUNPRO_CC >= 0x5160) || \
+	(CRYPTOPP_GCC_VERSION >= 40900) || (__INTEL_COMPILER >= 1600) || \
+	(CRYPTOPP_LLVM_CLANG_VERSION >= 30400) || (CRYPTOPP_APPLE_CLANG_VERSION >= 50100))
+	#define CRYPTOPP_SHANI_AVAILABLE 1
+#else
+	#define CRYPTOPP_SHANI_AVAILABLE 0
 #endif
 
 #if defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM64)
