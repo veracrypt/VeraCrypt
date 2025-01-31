@@ -1470,7 +1470,7 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 				if (volumesMounted != 0)
 				{
 					bOK = FALSE;
-					MSILogAndShow(hInstaller, MSI_WARNING_LEVEL, GetString ("DISMOUNT_ALL_FIRST"));
+					MSILogAndShow(hInstaller, MSI_WARNING_LEVEL, GetString ("UNMOUNT_ALL_FIRST"));
 				}
 			}
 			else

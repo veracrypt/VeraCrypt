@@ -1720,7 +1720,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 				if (volumesMounted != 0)
 				{
 					bOK = FALSE;
-					MessageBoxW (hwndDlg, GetString ("DISMOUNT_ALL_FIRST"), lpszTitle, MB_ICONHAND);
+					MessageBoxW (hwndDlg, GetString ("UNMOUNT_ALL_FIRST"), lpszTitle, MB_ICONHAND);
 				}
 			}
 			else

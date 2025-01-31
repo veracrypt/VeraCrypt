@@ -135,8 +135,8 @@
     <entry lang="ca" key="IDC_FAVORITE_REMOVE">&amp;Eliminar</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="ca" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Configuració global</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
     <entry lang="ca" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="en" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="ca" key="IDC_HK_MOD_SHIFT">Majúscules</entry>
@@ -156,12 +156,12 @@
     <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</entry>
     <entry lang="ca" key="IDC_PREF_BKG_TASK_ENABLE">Activat</entry>
     <entry lang="ca" key="IDC_PREF_CACHE_PASSWORDS">Guardar contrasenyes al controlador</entry>
-    <entry lang="ca" key="IDC_PREF_DISMOUNT_INACTIVE">Desmuntar el volum automàticament quan no s'hi llegeixi/escrigui durant</entry>
-    <entry lang="ca" key="IDC_PREF_DISMOUNT_LOGOFF">L'usuari tanqui la sessió</entry>
-    <entry lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</entry>
-    <entry lang="ca" key="IDC_PREF_DISMOUNT_POWERSAVING">S'entri en el mode d'estalvi d'energia</entry>
-    <entry lang="ca" key="IDC_PREF_DISMOUNT_SCREENSAVER">S'activi el protector de pantalla</entry>
-    <entry lang="ca" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forçar el desmuntatge automàtic encara que el volum tingui fitxers o directoris oberts</entry>
+    <entry lang="ca" key="IDC_PREF_UNMOUNT_INACTIVE">Desmuntar el volum automàticament quan no s'hi llegeixi/escrigui durant</entry>
+    <entry lang="ca" key="IDC_PREF_UNMOUNT_LOGOFF">L'usuari tanqui la sessió</entry>
+    <entry lang="en" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">User session locked</entry>
+    <entry lang="ca" key="IDC_PREF_UNMOUNT_POWERSAVING">S'entri en el mode d'estalvi d'energia</entry>
+    <entry lang="ca" key="IDC_PREF_UNMOUNT_SCREENSAVER">S'activi el protector de pantalla</entry>
+    <entry lang="ca" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Forçar el desmuntatge automàtic encara que el volum tingui fitxers o directoris oberts</entry>
     <entry lang="ca" key="IDC_PREF_LOGON_MOUNT_DEVICES">Muntar tots els volums de dispositiu</entry>
     <entry lang="ca" key="IDC_PREF_LOGON_START">Engega VeraCrypt en segon pla</entry>
     <entry lang="ca" key="IDC_PREF_MOUNT_READONLY">Muntar els volums en mode només lectura</entry>
@@ -169,7 +169,7 @@
     <entry lang="ca" key="IDC_PREF_OPEN_EXPLORER">Obrir una finestra pels volums muntats satisfactòriament</entry>
     <entry lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</entry>
     <entry lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</entry>
-    <entry lang="ca" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Oblidar les contrasenyes guardades quan es desmunti automàticament</entry>
+    <entry lang="ca" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Oblidar les contrasenyes guardades quan es desmunti automàticament</entry>
     <entry lang="ca" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Oblidar les contrasenyes guardades al sortir</entry>
     <entry lang="ca" key="IDC_PRESERVE_TIMESTAMPS">Preservar la data i hora de modificació dels contenidors d'arxius</entry>
     <entry lang="ca" key="IDC_RESET_HOTKEYS">Per defecte</entry>
@@ -269,14 +269,14 @@
     <entry lang="ca" key="IDT_ACCELERATION_OPTIONS">Acceleració per maquinari</entry>
     <entry lang="ca" key="IDT_ASSIGN_HOTKEY">Drecera de teclat</entry>
     <entry lang="ca" key="IDT_AUTORUN">Configuració d'inici automàtic (autorun.inf)</entry>
-    <entry lang="ca" key="IDT_AUTO_DISMOUNT">Desmuntar automàticament</entry>
-    <entry lang="ca" key="IDT_AUTO_DISMOUNT_ON">Desmuntar-ho tot quan:</entry>
+    <entry lang="ca" key="IDT_AUTO_UNMOUNT">Desmuntar automàticament</entry>
+    <entry lang="ca" key="IDT_AUTO_UNMOUNT_ON">Desmuntar-ho tot quan:</entry>
     <entry lang="ca" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Opcions de la pantalla de gestió d'arrencada</entry>
     <entry lang="ca" key="IDT_CONFIRM_PASSWORD">Confirmació:</entry>
     <entry lang="ca" key="IDT_CURRENT">Actual</entry>
     <entry lang="ca" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Mostrar aquest missatge personalitzat a la pantalla d'autenticació prearrencada (com a màxim 24 caràcters):</entry>
     <entry lang="ca" key="IDT_DEFAULT_MOUNT_OPTIONS">Opcions de muntatge per defecte</entry>
-    <entry lang="ca" key="IDT_DISMOUNT_ACTION">Opcions de les dreceres de teclat</entry>
+    <entry lang="ca" key="IDT_UNMOUNT_ACTION">Opcions de les dreceres de teclat</entry>
     <entry lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</entry>
     <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</entry>
     <entry lang="ca" key="IDT_FAVORITE_LABEL">Etiqueta del volum seleccionat:</entry>
@@ -423,8 +423,8 @@
     <entry lang="ca" key="DEVICE_FREE_PB">%s ocupa %.2f PB</entry>
     <entry lang="ca" key="DEVICE_IN_USE_FORMAT">ATENCIÓ: El disc/partició s'està utilitzant pel sistema operatiu o per una aplicació. Donar format al disc/partició pot causar la corrupció de dades i la inestabilitat del sistema.\n\nVol continuar?</entry>
     <entry lang="ca" key="DEVICE_IN_USE_INPLACE_ENC">ATENCIÓ: La partició s'està utilitzant pel sistema operatiu o per una aplicació. Hauria de tancar totes les aplicacions que puguin estar utilitzant la partició (incloent els antivirus).\n\nVol continuar?</entry>
-    <entry lang="ca" key="FORMAT_CANT_DISMOUNT_FILESYS">Error: La unitat/partició conté un sistema de fitxers que no es pot desmuntar. El sistema de fitxers pot estar en ús pel sistema operatiu. Donar format a la unitat/partició causarà segurament la corrupció de les dades i la inestabilitat del sistema.\n\nPer arreglar aquest problema, és molt recomanable que primer elimini la partició i que la torni a crear sense donar-li format. Per fer-ho, segueixi aquests passos:\n1) Fer clic dret a 'El meu ordinador' al menú d'inici i seleccioni 'Administrar'.\n2) A la finestra d'administració del sistema, seleccionar 'Emmagatzematge' &gt; 'Administrador de discos'.\n3) Fer clic dret a la partició i seleccionar tant 'Esborrar partició' com 'Esborrar volum' com 'Esborrar unitat lògica'.\n4) Fer clic a 'Si'. Si el Windows suggereix reiniciar l'ordinador, fer-ho. Després repetir els passos 1 i 2 i continuar des del pas 5.\n5) Fer clic dret a l'espai sense assignar i seleccionar tant 'Nova partició' com 'Nou volum simple' com 'Nova unitat lògica'.\n6) Seguir les instruccions de l'assistent que apareixerà. Seleccionar l'opció 'No donar format a aquesta partició' o 'No donar format al volum'.\n7)Pot ser que la ruta que s'ha especificat al VeraCrypt ara estigui malament. S'ha de tancar l'assistent de creació de volums (si encara està engegat) i tornar-lo a iniciar.\n8) Provar de xifrar la partició/unitat un altre cop.\n\nSi el VeraCrypt falla repetidament alhora de xifrar la partició/unitat, potser haurà de considerar crear un contenidor de fitxers en comptes d'això.</entry>
-    <entry lang="ca" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Error: No es pot bloquejar i/o desmuntar el sistema de fitxers. És possible que el sistema operatiu o alguna aplicació (per exemple, un antivirus) l'estiguin utilitzant. Xifrar la partició pot causar la inestabilitat del sistema i la corrupció de les dades.\n\nSi us plau, tanqui totes les aplicacions que puguin estar utilitzant el sistema de fitxers (incloent els antivirus) i torni-ho a provar. Si el problema persisteix, segueixi els passos següents.</entry>
+    <entry lang="ca" key="FORMAT_CANT_UNMOUNT_FILESYS">Error: La unitat/partició conté un sistema de fitxers que no es pot desmuntar. El sistema de fitxers pot estar en ús pel sistema operatiu. Donar format a la unitat/partició causarà segurament la corrupció de les dades i la inestabilitat del sistema.\n\nPer arreglar aquest problema, és molt recomanable que primer elimini la partició i que la torni a crear sense donar-li format. Per fer-ho, segueixi aquests passos:\n1) Fer clic dret a 'El meu ordinador' al menú d'inici i seleccioni 'Administrar'.\n2) A la finestra d'administració del sistema, seleccionar 'Emmagatzematge' &gt; 'Administrador de discos'.\n3) Fer clic dret a la partició i seleccionar tant 'Esborrar partició' com 'Esborrar volum' com 'Esborrar unitat lògica'.\n4) Fer clic a 'Si'. Si el Windows suggereix reiniciar l'ordinador, fer-ho. Després repetir els passos 1 i 2 i continuar des del pas 5.\n5) Fer clic dret a l'espai sense assignar i seleccionar tant 'Nova partició' com 'Nou volum simple' com 'Nova unitat lògica'.\n6) Seguir les instruccions de l'assistent que apareixerà. Seleccionar l'opció 'No donar format a aquesta partició' o 'No donar format al volum'.\n7)Pot ser que la ruta que s'ha especificat al VeraCrypt ara estigui malament. S'ha de tancar l'assistent de creació de volums (si encara està engegat) i tornar-lo a iniciar.\n8) Provar de xifrar la partició/unitat un altre cop.\n\nSi el VeraCrypt falla repetidament alhora de xifrar la partició/unitat, potser haurà de considerar crear un contenidor de fitxers en comptes d'això.</entry>
+    <entry lang="ca" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Error: No es pot bloquejar i/o desmuntar el sistema de fitxers. És possible que el sistema operatiu o alguna aplicació (per exemple, un antivirus) l'estiguin utilitzant. Xifrar la partició pot causar la inestabilitat del sistema i la corrupció de les dades.\n\nSi us plau, tanqui totes les aplicacions que puguin estar utilitzant el sistema de fitxers (incloent els antivirus) i torni-ho a provar. Si el problema persisteix, segueixi els passos següents.</entry>
     <entry lang="ca" key="DEVICE_IN_USE_INFO">ATENCIÓ: Alguns dels dispositius o de les particions s'estan utilitzant!\n\nIgnorar aquest avís pot causar resultats no desitjats, incloent la inestabilitat del sistema.\n\nÉs molt recomanable que tenqui totes les aplicacions que puguin estar utilitzant els dispositius o les particions.</entry>
     <entry lang="ca" key="DEVICE_PARTITIONS_ERR">El dispositiu seleccionat conté particions.\n\nDonar un format al dispositiu pot causar la inestabilitat del sistema i/o la corrupció de les dades. Si us plau, seleccioni una partició dins el dispositiu o elimini totes les particions del dispositiu per permetre que el TrueCrtypt li doni format de forma segura.</entry>
     <entry lang="ca" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">La unitat seleccionada conté particions.\n\nEls volums de dispositiu xifrats es poden crear dins de dispositius que no continguin particions. Un dispositiu que contingui particions pot ser xifrat in situ (utilitzant una clau mestra simple) només si és la unitat ón està instal·lat el Windows i des d'on arrenca.\n\nSi vol xifrar aquesta partició (no de sistema) utilitzant una clau mestra simple, haurà d'eliminar totes les particions del dispositiu. També pot xifrar cada partició dins el dispositiu individualment (cada partició utilitzarà una clau mestra diferent).\n\nNota: si vol eliminar totes les particions d'un disc GPT, l'haurà de convertir primer en un disc MBR per a poder eliminar les particions ocultes.</entry>
@@ -590,7 +590,7 @@
     <entry lang="ca" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Error: Els fitxers que s'han copiat al volum extern ocupen massa espai. Per tant, no hi ha prou espai al volum exterior pel volum ocult\n\nTingui en compte que el sistema ocult ha de ser tant gran com la partició de sistema (la partició on hi ha instal·lat el sistema operatiu que s'executa actualment). La raó d'això és que el sistema operatiu ocult necessita crear-se copiant el contingut de la partició de sistema al volum ocult.\n\n\nNo es pot segir amb el procés de creació del sistema operatiu ocult.</entry>
     <entry lang="ca" key="OPENFILES_DRIVER">El controlador no pot desmuntar el volum. Probablement alguns fitxers dins el volum estan oberts.</entry>
     <entry lang="ca" key="OPENFILES_LOCK">No s'ha pogut bloquejar el volum. Hi ha fitxers oberts dins el volum. Per tant, no es pot desmuntar.</entry>
-    <entry lang="ca" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">El VeraCrypt no ha pogut bloquejar el volum ja que el sistema o alguna aplicació l'està utilitzant (poden haver-hi fitxers oberts).\n\nVol forçar el desmuntatge del volum?</entry>
+    <entry lang="ca" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">El VeraCrypt no ha pogut bloquejar el volum ja que el sistema o alguna aplicació l'està utilitzant (poden haver-hi fitxers oberts).\n\nVol forçar el desmuntatge del volum?</entry>
     <entry lang="ca" key="OPEN_VOL_TITLE">Seleccioni el volum VeraCrypt</entry>
     <entry lang="ca" key="OPEN_TITLE">Ubicació i nom del fitxer</entry>
     <entry lang="ca" key="SELECT_PKCS11_MODULE">Seleccioni la bilioteca PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="ca" key="DLL_FILES">Mòduls de la biblioteca</entry>
     <entry lang="ca" key="FORMAT_NTFS_STOP">El procés de format NTFS no pot continuar.</entry>
     <entry lang="ca" key="CANT_MOUNT_VOLUME">No s'ha pogut muntar el volum.</entry>
-    <entry lang="ca" key="CANT_DISMOUNT_VOLUME">No s'ha pogut desmuntar el volum.</entry>
+    <entry lang="ca" key="CANT_UNMOUNT_VOLUME">No s'ha pogut desmuntar el volum.</entry>
     <entry lang="ca" key="FORMAT_NTFS_FAILED">El Windows no ha pogut donar format NTFS al volum.\n\nSi us plau, seleccioni un altre tipus de sistema de fitxers (si és possible) i torni-ho a provar. També hi ha l'opció de deixar el volum sense format (seleccionant 'Cap' sistema de fitxers), sortir de l'assistent, muntar el volum i després utilitzar una eina de sistema o de tercers per donar format al volum (que es mantindrà xifrat).</entry>
     <entry lang="ca" key="FORMAT_NTFS_FAILED_ASK_FAT">El Windows no ha pogut formatar el volum amb NTFS.\n\nEl vol formatar amb FAT en comptes d'això?</entry>
     <entry lang="ca" key="DEFAULT">Per defecte</entry>
@@ -771,7 +771,7 @@
     <entry lang="ca" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Un error ha evitat que el VeraCrypt xifri la partició. Si us plau, intenti arreglar qualsevol problema notificat anteriorment i torni-ho a provar. Si el problema persisteix, pot ser d'ajuda seguir els passos següents.</entry>
     <entry lang="ca" key="INPLACE_ENC_GENERIC_ERR_RESUME">Un error ha evitat que el VeraCrypt recuperi el procés de xifrat de la partició. Si us plau, intenti arreglar qualsevol problema notificat anteriorment i torni-ho a provar. Recordi que no es pot muntar un volum fins que no està completament xifrat.</entry>
     <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
-    <entry lang="ca" key="CANT_DISMOUNT_OUTER_VOL">Error: No s'ha pogut desmuntar el volum ocult!\n\nEl volum no es pot desmuntar si conté fitxers o directoris que estiguin sent utilitzats pel sistema o una aplicació.\n\nSi us plau tenqui tots els programes que puguin estar utilitzant els fitxers o directoris del volum i torni-ho a provar.</entry>
+    <entry lang="ca" key="CANT_UNMOUNT_OUTER_VOL">Error: No s'ha pogut desmuntar el volum ocult!\n\nEl volum no es pot desmuntar si conté fitxers o directoris que estiguin sent utilitzats pel sistema o una aplicació.\n\nSi us plau tenqui tots els programes que puguin estar utilitzant els fitxers o directoris del volum i torni-ho a provar.</entry>
     <entry lang="ca" key="CANT_GET_OUTER_VOL_INFO">Error: No s'ha pogut obtenir informació sobre el volum exterior!\nLa creació del volum no pot continuar.</entry>
     <entry lang="ca" key="CANT_ACCESS_OUTER_VOL">Error: No s'ha pogut accedir al volum exterior! La creació del volum no pot continuar.</entry>
     <entry lang="ca" key="CANT_MOUNT_OUTER_VOL">Error: No s'ha pogut muntar al volum exterior! La creació del volum no pot continuar.</entry>
@@ -882,7 +882,7 @@
     <entry lang="ca" key="INSTALL_COMPLETED">Instal·lació finalitzada.</entry>
     <entry lang="ca" key="CANT_CREATE_FOLDER">No s'ha pogut crear el directori '%s'</entry>
     <entry lang="ca" key="CLOSE_TC_FIRST">No s'ha pogut desmuntar el controlador de dispositius del VeraCrypt.\n\nSi us plau, tenqui abans totes les finestres del VeraCrypt. Si això no funciona, reinicii el Windows i torni-ho a provar.</entry>
-    <entry lang="ca" key="DISMOUNT_ALL_FIRST">S'han de desmuntar tots els volums VeraCrypt abans d'instal·lar o desinstal·lar el programa.</entry>
+    <entry lang="ca" key="UNMOUNT_ALL_FIRST">S'han de desmuntar tots els volums VeraCrypt abans d'instal·lar o desinstal·lar el programa.</entry>
     <entry lang="ca" key="UNINSTALL_OLD_VERSION_FIRST">Actualment hi ha una versió obsoleta del VeraCrypt instal·lada al sistema. És necessari desinstal·lar-la abans de poder instal·lar aquesta versió més nova del VeraCrypt.\n\nDesprés de tancar aquest missatge es llançarà el desinstal·lador de la versió antiga. Recordi que no es desxifrarà cap volum quan es desinstal·li el VeraCrypt. Després de desinstal·lar la versió antiga del VeraCrypt, torni a executar la instal·lació de la nova versió.</entry>
     <entry lang="ca" key="REG_INSTALL_FAILED">Ha fallat la instal·lació de les entrades al registre</entry>
     <entry lang="ca" key="DRIVER_INSTALL_FAILED">Ha fallat la instal·lació del controlador de dispositius. Si us plau, reinicii el Windows i torni a provar d'instal·lar el VeraCrypt.</entry>
@@ -903,7 +903,7 @@
     <entry lang="ca" key="MINUTES">minuts</entry>
     <entry lang="ca" key="SECONDS">s</entry>
     <entry lang="ca" key="OPEN">Obrir</entry>
-    <entry lang="ca" key="DISMOUNT">Desmuntar</entry>
+    <entry lang="ca" key="UNMOUNT">Desmuntar</entry>
     <entry lang="ca" key="SHOW_TC">Veure el VeraCrypt</entry>
     <entry lang="ca" key="HIDE_TC">Amagar el VeraCrypt</entry>
     <entry lang="ca" key="TOTAL_DATA_READ">Dades llegides des del muntatge</entry>
@@ -975,7 +975,7 @@
     <entry lang="ca" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Volums favorits del sistema</entry>
     <entry lang="ca" key="SYS_FAVORITES_HELP_LINK">Què son els volums favorits del sistema?</entry>
     <entry lang="ca" key="SYS_FAVORITES_REQUIRE_PBA">La partició/unitat de sistema sembla no estar xifrada.\n\nEls volums de sistema favorits només es poden muntar utilitzant les contrasenyes de prearrencada. Per tant, per habilitar l'ús dels volums de sistema favorits necessita xifrar abans la partició/unitat de sistema.</entry>
-    <entry lang="ca" key="DISMOUNT_FIRST">Si us plau, desmunti el volum abans de continuar.</entry>
+    <entry lang="ca" key="UNMOUNT_FIRST">Si us plau, desmunti el volum abans de continuar.</entry>
     <entry lang="ca" key="CANNOT_SET_TIMER">Error: No s'ha pogut configurar el temps.</entry>
     <entry lang="ca" key="IDPM_CHECK_FILESYS">Comprovar el sistema de fitxers</entry>
     <entry lang="ca" key="IDPM_REPAIR_FILESYS">Reparar el sistema de fitxers</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="ca" key="NO_SYSENC_PARTITION_SELECTED">No s'ha seleccionat cap partició. Faci clic a 'Triar dispositiu' per seleccionar una partició desmuntada que normalment requereixi d'autenticació prearrenada (per exemple, una partició ubicada a la unitat xifrada d'un altre sistema operatiu, que no s'estigui executant, o la partició xifrada d'un altre sistema operatiu).\n\nNota: La partició seleccionada es muntarà com un volum normal de VeraCrypt, sense l'autenticació prearrencada. Això és útil, per exemple, per a fer tasques de còpia de segurett o restauració.</entry>
     <entry lang="ca" key="CONFIRM_SAVE_DEFAULT_KEYFILES">ATENCIÓ: Si s'activen els fitxers de claus per defecte, els volums que no facin servir aquests fitxers de clau no es podran muntar. Per tant, després d'activar els fitxers de claus per defecte recordi de desmarcar l'opció 'Usar fitxers de claus' (sóta el camp d'entrada de contrasenyes) quan munti aquests volums.\n\nSegur que vol guardar els fitxers/rutes com a opcions per defecte?</entry>
     <entry lang="ca" key="HK_AUTOMOUNT_DEVICES">Muntar automàticament</entry>
-    <entry lang="ca" key="HK_DISMOUNT_ALL">Desmuntar-ho tot</entry>
+    <entry lang="ca" key="HK_UNMOUNT_ALL">Desmuntar-ho tot</entry>
     <entry lang="ca" key="HK_WIPE_CACHE">Buidar memòria cau</entry>
-    <entry lang="ca" key="HK_DISMOUNT_ALL_AND_WIPE">Desmuntar-ho tot &amp; buidar memòria cau</entry>
-    <entry lang="ca" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Forçar desmuntar-ho tot &amp; buidar memòria cau</entry>
-    <entry lang="ca" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Forçar desmuntar-ho tot, buidar memòria cau &amp; sortir</entry>
+    <entry lang="ca" key="HK_UNMOUNT_ALL_AND_WIPE">Desmuntar-ho tot &amp; buidar memòria cau</entry>
+    <entry lang="ca" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Forçar desmuntar-ho tot &amp; buidar memòria cau</entry>
+    <entry lang="ca" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Forçar desmuntar-ho tot, buidar memòria cau &amp; sortir</entry>
     <entry lang="ca" key="HK_MOUNT_FAVORITE_VOLUMES">Muntar els volums favorits</entry>
     <entry lang="ca" key="HK_SHOW_HIDE_MAIN_WINDOW">Mostrar/Amagar la finestra del VeraCrypt</entry>
     <entry lang="ca" key="PRESS_A_KEY_TO_ASSIGN">(Faci clic aqui i premi una tecla)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="ca" key="PAGING_FILE_CREATION_PREVENTED">S'ha impedit la creació d'un fitxer de paginació.\n\nDegut a un problema de Windows, els fitxers de paginació no es poden ubicar a volums que no siguin de sistema (inclosos els favorits del sistema). El VeraCrypt permet la creació de fitxers de paginació només en una partició/unitat de sistema xifrada.</entry>
     <entry lang="ca" key="SYS_ENC_HIBERNATION_PREVENTED">Un error o una incompatibilitat ha evitat que el VeraCrypt xifrés el fitxer d'hibernació. Per tant, s'ha evitat l'hibernació.\n\nNota: Quan un ordinador hiberna (o entra en un mode d'estalvi d'energia) el contingut de la memòria del sistema s'escriu a un fitxer d'hibernació dins la unitat de sistema. El VeraCrypt no podria evitar que les claus de xifrat i el contingut dels fitxers sensibles oberts a la RAM es guardessin sense xifrar al fitxer d'hibernació.</entry>
     <entry lang="ca" key="HIDDEN_OS_HIBERNATION_PREVENTED">S'ha evitat l'hibernació.\n\nEl VeraCrypt no permet l'hibernació d'un sistema operatiu ocult que utilitza particions d'arranc extra. Tingui en compte que la partició d'arranc és compartida pel fitxer esquer i pel sistema ocult. Per tant, per evitar fugues de dades i problemes quan es restaura la hibernació, el VeraCrypt ha d'evitar que el sistema operatiu ocult escrigui a la partició d'arranc i que hiberni.</entry>
-    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
-    <entry lang="en" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt volumes have been dismounted.</entry>
-    <entry lang="en" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
-    <entry lang="en" key="SUCCESSFULLY_DISMOUNTED">Successfully dismounted</entry>
+    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
+    <entry lang="en" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt volumes have been dismounted.</entry>
+    <entry lang="en" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
+    <entry lang="en" key="SUCCESSFULLY_UNMOUNTED">Successfully dismounted</entry>
     <entry lang="ca" key="CONFIRM_BACKGROUND_TASK_DISABLED">ATENCIÓ: Si la tasca en segon pla del VeraCrypt està desactivada, les següents funcionalitats també ho estaran:\n\n1) Dreceres de teclat\n2) Desmuntatge automàtic\n3) Muntatge automàtic dels volums automàtics\n4) Notificacions\n5)Icona a la safata\n\nNota: Es pot aturar la tasca en segon pla del VeraCrypt fent clic amb el botó dret a l'icona a la safata i seleccionant 'Sortir'.\n\nEstà segur que vol desactivar permanentment la tasca en segon pla?</entry>
-    <entry lang="ca" key="CONFIRM_NO_FORCED_AUTODISMOUNT">ATENCIÓ: Si aquesta opció es desactiva, els volums que continguin fitxers/directoris oberts no es podran desmuntar automàticament.\n\nSegur que vol desactivar aquesta opció?</entry>
-    <entry lang="ca" key="WARN_PREF_AUTO_DISMOUNT">ATENCIÓ: Els volums que tinguin fitxers/directoris oberts no es desmuntaran automàticament.\n\nPer evitar això, habiliti l'opció 'Forçar el desmuntatge automàtic encara que el volum tingui fitxers o directoris oberts' en aquesta finestra.</entry>
-    <entry lang="ca" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">ATENCIÓ: Quan queda poca bateria al portàtil, el Windows pot ometre els missatges oportuns a les aplicacions que s'estigui executant quan s'entra en mode d'estalvi d'energia. Per tant, el desmuntatge automàtic del VeraCrypt pot fallar en aquests casos.</entry>
+    <entry lang="ca" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">ATENCIÓ: Si aquesta opció es desactiva, els volums que continguin fitxers/directoris oberts no es podran desmuntar automàticament.\n\nSegur que vol desactivar aquesta opció?</entry>
+    <entry lang="ca" key="WARN_PREF_AUTO_UNMOUNT">ATENCIÓ: Els volums que tinguin fitxers/directoris oberts no es desmuntaran automàticament.\n\nPer evitar això, habiliti l'opció 'Forçar el desmuntatge automàtic encara que el volum tingui fitxers o directoris oberts' en aquesta finestra.</entry>
+    <entry lang="ca" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">ATENCIÓ: Quan queda poca bateria al portàtil, el Windows pot ometre els missatges oportuns a les aplicacions que s'estigui executant quan s'entra en mode d'estalvi d'energia. Per tant, el desmuntatge automàtic del VeraCrypt pot fallar en aquests casos.</entry>
     <entry lang="ca" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Hi ha un procés de xifrat d'una partició/volum encuat. Aquest procés no s'ha acabat.\n\nVol reprendre el procés ara?</entry>
     <entry lang="ca" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Hi ha un procés de xifrat o desxifrat de la partició/unitat de sistema. Aquest procés no s'ha acabat.\n\nVol engegar (reprendre) el procés ara?</entry>
     <entry lang="ca" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Vol que se li torni a preguntar si vol reprendre els processos programats de xifrat de particions/volums?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="ca" key="SYS_AUTOMOUNT_DISABLED">El sistema no està configurat per muntar automàticament els nous volums. Pot ser impossible muntar els volums de dispositiu. El muntatge automàtic es pot activar executant la següent comanda i reiniciant el sistema.\n\nmountvol.exe /E</entry>
     <entry lang="ca" key="SYS_ASSIGN_DRIVE_LETTER">Si us plau, assigni una lletra d'unitat a la partició/dispositiu abans de continuar ('Eines administratives' - 'Crear i donar format a les particions de disc').\n\nAixò és un requeriment del sistema operatiu.</entry>
     <entry lang="ca" key="MOUNT_TC_VOLUME">Muntar el volum VeraCrypt</entry>
-    <entry lang="ca" key="DISMOUNT_ALL_TC_VOLUMES">Desmuntar tots els volums VeraCrypt</entry>
+    <entry lang="ca" key="UNMOUNT_ALL_TC_VOLUMES">Desmuntar tots els volums VeraCrypt</entry>
     <entry lang="ca" key="UAC_INIT_ERROR">El VeraCrypt no ha pogut obtenir privilegis d'administrador.</entry>
     <entry lang="ca" key="ERR_ACCESS_DENIED">El sistema operatiu ha denegat l'accés.\n\nCausa possible: El sistema operatiu requereix tenir permisos de lectura i escriptura (o privilegis d'administrador) per alguns directoris, fitxers i dispositius per tal de poder llegir-hi/escriure-hi dades. Normalment un usuari sense privilegis d'administrador pot crear, llegir i modificar fitxers dins de la seva carpeta de documents.</entry>
     <entry lang="ca" key="SECTOR_SIZE_UNSUPPORTED">Error: El controlador utilitza una mida de sector no suportada.\n\nActualment no és possible crear volums de partició o dispositiu en unitats que utilitzin sectors més grans de 4096 bytes. No obstant, és possible crear volums de fixer (contenidors) en aquestes unitats.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="ca" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Tingui en compte que el número de fils està actualment limitat, la qual cosa afecta al resultat de les proves (menys rendiment).\n\nPer utilitzar tota la potencia del(s) processador(s) seleccioni 'Configuració' &gt; 'Rendiment' i desactivi l'opció corresponent.</entry>
     <entry lang="ca" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Vol que el VeraCrypt intenti desactivar la protecció d'escriptura de la partició/unitat?</entry>
     <entry lang="ca" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">ATENCIÓ: Aquesta configuració pot afectar al rendiment.\n\n Segur que vol utilitzar-la?</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
     <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
     <entry lang="ca" key="TEST">Prova</entry>
     <entry lang="ca" key="KEYFILE">Fitxer de claus</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
+    <entry lang="en" key="TASKICON_PREF_UNMOUNT_VOL">Dismount Mounted Volumes</entry>
     <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
     <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
     <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
     <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
+    <entry lang="en" key="LINUX_UNMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
     <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Close all Explorer windows of volume being dismounted</entry>
     <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
     <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
     <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_UNMOUNT">Display confirmation message box after dismount</entry>
     <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
     <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
+    <entry lang="en" key="LINUX_VOL_UNMOUNTED">Volume {0} has been dismounted.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
     <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>

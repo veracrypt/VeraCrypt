@@ -2595,7 +2595,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
-	case TC_IOCTL_DISMOUNT_VOLUME:
+	case TC_IOCTL_UNMOUNT_VOLUME:
 		if (ValidateIOBufferSize (Irp, sizeof (UNMOUNT_STRUCT), ValidateInputOutput))
 		{
 			UNMOUNT_STRUCT *unmount = (UNMOUNT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
@@ -2623,7 +2623,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
-	case TC_IOCTL_DISMOUNT_ALL_VOLUMES:
+	case TC_IOCTL_UNMOUNT_ALL_VOLUMES:
 		if (ValidateIOBufferSize (Irp, sizeof (UNMOUNT_STRUCT), ValidateInputOutput))
 		{
 			UNMOUNT_STRUCT *unmount = (UNMOUNT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
@@ -3182,8 +3182,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		TC_CASE_RET_NAME (TC_IOCTL_ABORT_BOOT_ENCRYPTION_SETUP);
 		TC_CASE_RET_NAME (TC_IOCTL_ABORT_DECOY_SYSTEM_WIPE);
 		TC_CASE_RET_NAME (TC_IOCTL_BOOT_ENCRYPTION_SETUP);
-		TC_CASE_RET_NAME (TC_IOCTL_DISMOUNT_ALL_VOLUMES);
-		TC_CASE_RET_NAME (TC_IOCTL_DISMOUNT_VOLUME);
+		TC_CASE_RET_NAME (TC_IOCTL_UNMOUNT_ALL_VOLUMES);
+		TC_CASE_RET_NAME (TC_IOCTL_UNMOUNT_VOLUME);
 		TC_CASE_RET_NAME (TC_IOCTL_GET_BOOT_DRIVE_VOLUME_PROPERTIES);
 		TC_CASE_RET_NAME (TC_IOCTL_GET_BOOT_ENCRYPTION_ALGORITHM_NAME);
 		TC_CASE_RET_NAME (TC_IOCTL_GET_BOOT_ENCRYPTION_SETUP_RESULT);
@@ -3380,7 +3380,7 @@ void OnShutdownPending ()
 	memset (&unmount, 0, sizeof (unmount));
 	unmount.ignoreOpenFiles = TRUE;
 
-	while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_DISMOUNT_ALL_VOLUMES, &unmount, sizeof (unmount), &unmount, sizeof (unmount)) == STATUS_INSUFFICIENT_RESOURCES || unmount.HiddenVolumeProtectionTriggered)
+	while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_UNMOUNT_ALL_VOLUMES, &unmount, sizeof (unmount), &unmount, sizeof (unmount)) == STATUS_INSUFFICIENT_RESOURCES || unmount.HiddenVolumeProtectionTriggered)
 		unmount.HiddenVolumeProtectionTriggered = FALSE;
 
 	while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0) == STATUS_INSUFFICIENT_RESOURCES);

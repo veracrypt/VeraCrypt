@@ -96,8 +96,8 @@
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Normal Dismount vs Force Dismount ">
-		<param name="Local" value="Normal Dismount vs Force Dismount.html">
+		<param name="Name" value="Normal Unmount vs Force Unmount ">
+		<param name="Local" value="Normal Unmount vs Force Unmount.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Avoid Third-Party File Extensions">

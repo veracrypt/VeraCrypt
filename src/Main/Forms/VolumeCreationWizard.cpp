@@ -622,7 +622,7 @@ namespace VeraCrypt
 				{
 					if (Core->IsVolumeMounted (SelectedVolumePath))
 					{
-						Gui->ShowInfo ("DISMOUNT_FIRST");
+						Gui->ShowInfo ("UNMOUNT_FIRST");
 						return GetCurrentStep();
 					}
 

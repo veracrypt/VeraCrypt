@@ -41,9 +41,9 @@
 <h3>Volumes -&gt; Auto-Mount All Device-Hosted Volumes</h3>
 <p>See the section <a href="Main%20Program%20Window.html">
 <em>Auto-Mount Devices.</em></a></p>
-<h3>Volumes -&gt; Dismount All Mounted Volumes</h3>
+<h3>Volumes -&gt; Unmount All Mounted Volumes</h3>
 <p>See the section <a href="Main%20Program%20Window.html">
-<em>Dismount All.</em></a></p>
+<em>Unmount All.</em></a></p>
 <h3>Volumes -&gt; Change Volume Password</h3>
 <p>Allows changing the password of the currently selected VeraCrypt volume (no matter whether the volume is hidden or standard). Only the header key and the secondary header key (XTS mode) are changed &ndash; the master key remains unchanged. This function
  re-encrypts the volume header using<br>
@@ -186,8 +186,8 @@ If this option is checked and if there are two or more favorite volumes, then du
 <ul>
 <li>Partitions/drives within the key scope of active system encryption (e.g., a system partition encrypted by VeraCrypt, or a non-system partition located on a system drive encrypted by VeraCrypt, mounted when the encrypted operating system is running).
 </li><li>VeraCrypt volumes that are not fully accessible to the user account (e.g. a volume mounted from within another user account).
-</li><li>VeraCrypt volumes that are not displayed in the VeraCrypt application window. For example, system favorite volumes attempted to be dismounted by an instance of VeraCrypt without administrator privileges when the option '<em>Allow only administrators to
- view and dismount system favorite volumes in VeraCrypt</em>' is enabled. </li></ul>
+</li><li>VeraCrypt volumes that are not displayed in the VeraCrypt application window. For example, system favorite volumes attempted to be unmounted by an instance of VeraCrypt without administrator privileges when the option '<em>Allow only administrators to
+ view and unmount system favorite volumes in VeraCrypt</em>' is enabled. </li></ul>
 <h4>VeraCrypt Background Task &ndash; Enabled</h4>
 <p>See the chapter <a href="VeraCrypt%20Background%20Task.html">
 <em>VeraCrypt Background Task</em></a>.</p>
@@ -195,10 +195,10 @@ If this option is checked and if there are two or more favorite volumes, then du
 <p>If this option is checked, the VeraCrypt background task automatically and silently exits as soon as there are no mounted VeraCrypt volumes. For more information, see the chapter
 <a href="VeraCrypt%20Background%20Task.html">
 <em>VeraCrypt Background Task</em></a>. Note that this option cannot be disabled when VeraCrypt runs in portable mode.</p>
-<h4>Auto-dismount volume after no data has been read/written to it for</h4>
-<p>After no data has been written/read to/from a VeraCrypt volume for <em>n</em> minutes, the volume is automatically dismounted.</p>
-<h4>Force auto-dismount even if volume contains open files or directories</h4>
-<p>This option applies only to auto-dismount (not to regular dismount). It forces dismount (without prompting) on the volume being auto-dismounted in case it contains open files or directories (i.e., file/directories that are in use by the system or applications).</p>
+<h4>Auto-unmount volume after no data has been read/written to it for</h4>
+<p>After no data has been written/read to/from a VeraCrypt volume for <em>n</em> minutes, the volume is automatically unmounted.</p>
+<h4>Force auto-unmount even if volume contains open files or directories</h4>
+<p>This option applies only to auto-unmount (not to regular unmount). It forces unmount (without prompting) on the volume being auto-unmounted in case it contains open files or directories (i.e., file/directories that are in use by the system or applications).</p>
 <p>&nbsp;</p>
 <p><a href="Mounting%20VeraCrypt%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
 </div>

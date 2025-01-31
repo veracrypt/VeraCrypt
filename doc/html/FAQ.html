@@ -227,7 +227,7 @@ VeraCrypt volumes</a> are independent of the operating system. You will be able 
 <br style="text-align:left">
 <strong style="text-align:left">Can I unplug or turn off a hot-plug device (for example, a USB flash drive or USB hard drive) when there is a mounted VeraCrypt volume on it?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-Before you unplug or turn off the device, you should always dismount the VeraCrypt volume in VeraCrypt first, and then perform the '<em style="text-align:left">Eject</em>' operation if available (right-click the device in the '<em style="text-align:left">Computer</em>'
+Before you unplug or turn off the device, you should always unmount the VeraCrypt volume in VeraCrypt first, and then perform the '<em style="text-align:left">Eject</em>' operation if available (right-click the device in the '<em style="text-align:left">Computer</em>'
  or '<em style="text-align:left">My Computer</em>' list), or use the '<em style="text-align:left">Safely Remove Hardware</em>' function (built in Windows, accessible via the taskbar notification area). Otherwise, data loss may occur.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
@@ -476,9 +476,9 @@ Malware</a> in the <a href="https://www.veracrypt.fr/en/Documentation.html" targ
 documentation</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
-<strong style="text-align:left">Do I have to dismount VeraCrypt volumes before shutting down or restarting Windows?</strong></div>
+<strong style="text-align:left">Do I have to unmount VeraCrypt volumes before shutting down or restarting Windows?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-No. VeraCrypt automatically dismounts all mounted VeraCrypt volumes on system shutdown/restart.</div>
+No. VeraCrypt automatically unmounts all mounted VeraCrypt volumes on system shutdown/restart.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">Which type of VeraCrypt volume is better &ndash; partition or file container?</strong></div>
@@ -486,7 +486,7 @@ No. VeraCrypt automatically dismounts all mounted VeraCrypt volumes on system sh
 <a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">File containers</a> are normal files so you can work with them as with any normal files (file containers
  can be, for example, moved, renamed, and deleted the same way as normal files). <a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none.html">
 Partitions/drives</a> may be better as regards performance. Note that reading and writing to/from a file container may take significantly longer when the container is heavily fragmented. To solve this problem, defragment the file system in which the container
- is stored (when the VeraCrypt volume is dismounted).</div>
+ is stored (when the VeraCrypt volume is unmounted).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">What's the recommended way to back up a VeraCrypt volume?</strong></div>

@@ -135,8 +135,8 @@
     <entry lang="pl" key="IDC_FAVORITE_REMOVE">Usu&amp;ń</entry>
     <entry lang="pl" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Użyj etykiety ulubionego jako etykiety napędu Eksploratora</entry>
     <entry lang="pl" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Ustawienia ogólne</entry>
-    <entry lang="pl" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Wyświetl podpowiedź w dymku po udanym odłączeniu klawisza skrótu</entry>
-    <entry lang="pl" key="IDC_HK_DISMOUNT_PLAY_SOUND">Odtwórz systemowy dźwięk powiadomienia po pomyślnym odłączeniu klawisza skrótu</entry>
+    <entry lang="pl" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Wyświetl podpowiedź w dymku po udanym odłączeniu klawisza skrótu</entry>
+    <entry lang="pl" key="IDC_HK_UNMOUNT_PLAY_SOUND">Odtwórz systemowy dźwięk powiadomienia po pomyślnym odłączeniu klawisza skrótu</entry>
     <entry lang="pl" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="pl" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="pl" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="pl" key="IDC_PIM_HELP">(Puste albo 0 dla domyślnych iteracji)</entry>
     <entry lang="pl" key="IDC_PREF_BKG_TASK_ENABLE">Aktywne</entry>
     <entry lang="pl" key="IDC_PREF_CACHE_PASSWORDS">Przechowuj hasła w pamięci sterownika</entry>
-    <entry lang="pl" key="IDC_PREF_DISMOUNT_INACTIVE">Automatycznie odłącz wolumen, jeśli nie był używany przez</entry>
-    <entry lang="pl" key="IDC_PREF_DISMOUNT_LOGOFF">Użytkownik się wylogował</entry>
-    <entry lang="pl" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Zablokowano sesję użytkownika</entry>
-    <entry lang="pl" key="IDC_PREF_DISMOUNT_POWERSAVING">W trybie oszczędzania energii</entry>
-    <entry lang="pl" key="IDC_PREF_DISMOUNT_SCREENSAVER">Zadziałał wygaszacz ekranu</entry>
-    <entry lang="pl" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Wymuś odłączanie, nawet gdy są otwarte pliki lub katalogi</entry>
+    <entry lang="pl" key="IDC_PREF_UNMOUNT_INACTIVE">Automatycznie odłącz wolumen, jeśli nie był używany przez</entry>
+    <entry lang="pl" key="IDC_PREF_UNMOUNT_LOGOFF">Użytkownik się wylogował</entry>
+    <entry lang="pl" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Zablokowano sesję użytkownika</entry>
+    <entry lang="pl" key="IDC_PREF_UNMOUNT_POWERSAVING">W trybie oszczędzania energii</entry>
+    <entry lang="pl" key="IDC_PREF_UNMOUNT_SCREENSAVER">Zadziałał wygaszacz ekranu</entry>
+    <entry lang="pl" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Wymuś odłączanie, nawet gdy są otwarte pliki lub katalogi</entry>
     <entry lang="pl" key="IDC_PREF_LOGON_MOUNT_DEVICES">Podłącz wszystkie wolumeny VC w urządzeniach</entry>
     <entry lang="pl" key="IDC_PREF_LOGON_START">Uruchom VC jako zadanie w tle</entry>
     <entry lang="pl" key="IDC_PREF_MOUNT_READONLY">Podłącz wolumeny tylko do odczytu</entry>
@@ -169,7 +169,7 @@
     <entry lang="pl" key="IDC_PREF_OPEN_EXPLORER">Otwórz okno Eksploratora po pomyślnym podłączeniu wolumenu</entry>
     <entry lang="pl" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Czasowo przechowuj hasło podczas operacji "Podłączanie ulubionych wolumenów"</entry>
     <entry lang="pl" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Użyj innej ikony na pasku zadań, gdy są podłączone wolumeny</entry>
-    <entry lang="pl" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Wyczyść pamięć haseł po automatycznym odłączeniu</entry>
+    <entry lang="pl" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Wyczyść pamięć haseł po automatycznym odłączeniu</entry>
     <entry lang="pl" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Wyczyść pamięć haseł przy wyjściu</entry>
     <entry lang="pl" key="IDC_PRESERVE_TIMESTAMPS">Zachowaj stempel czasowy kontenerów plików</entry>
     <entry lang="pl" key="IDC_RESET_HOTKEYS">Zresetuj</entry>
@@ -269,14 +269,14 @@
     <entry lang="pl" key="IDT_ACCELERATION_OPTIONS">Akceleracja sprzętowa</entry>
     <entry lang="pl" key="IDT_ASSIGN_HOTKEY">Skrót</entry>
     <entry lang="pl" key="IDT_AUTORUN">Konfiguracja automatycznego uruchamiania (autorun.inf)</entry>
-    <entry lang="pl" key="IDT_AUTO_DISMOUNT">Automatyczne odłączanie</entry>
-    <entry lang="pl" key="IDT_AUTO_DISMOUNT_ON">Odłącz wszystko, gdy:</entry>
+    <entry lang="pl" key="IDT_AUTO_UNMOUNT">Automatyczne odłączanie</entry>
+    <entry lang="pl" key="IDT_AUTO_UNMOUNT_ON">Odłącz wszystko, gdy:</entry>
     <entry lang="pl" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Opcje obrazu 'Programu startowego'</entry>
     <entry lang="pl" key="IDT_CONFIRM_PASSWORD">Potwierdź hasło:</entry>
     <entry lang="pl" key="IDT_CURRENT">Bieżące</entry>
     <entry lang="pl" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Wyświetlenie twojej wiadomości podczas autoryzowania i startowania (maksimum 24 znaki):</entry>
     <entry lang="pl" key="IDT_DEFAULT_MOUNT_OPTIONS">Domyślne opcje podłączania</entry>
-    <entry lang="pl" key="IDT_DISMOUNT_ACTION">Opcje klawiatury</entry>
+    <entry lang="pl" key="IDT_UNMOUNT_ACTION">Opcje klawiatury</entry>
     <entry lang="pl" key="IDT_DRIVER_OPTIONS">Konfiguracja sterownika</entry>
     <entry lang="pl" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Włącz obsługę rozszerzonych kodów sterujących dysku</entry>
     <entry lang="pl" key="IDT_FAVORITE_LABEL">Etykieta wybranego ulubionego wolumenu:</entry>
@@ -423,8 +423,8 @@
     <entry lang="pl" key="DEVICE_FREE_PB">Wielkość %s wynosi %.2f PB</entry>
     <entry lang="pl" key="DEVICE_IN_USE_FORMAT">Ostrzeżenie: Urządzenie/partycja jest już w użyciu przez system operacyjny lub aplikację. Formatowanie urządzenia/partycji może spowodować uszkodzenie danych i niestabilność systemu.\n\nCzy kontynuować?</entry>
     <entry lang="pl" key="DEVICE_IN_USE_INPLACE_ENC">Uwaga: Partycja jest w użyciu przez system operacyjny lub aplikacje. Zamknij wszystkie aplikacje, które mogą używać partycji (włączając w to system antywirusowy).\n\nKontynuować?</entry>
-    <entry lang="pl" key="FORMAT_CANT_DISMOUNT_FILESYS">Błąd: Urządzenie/partycja zawiera system plików, który nie może zostać odłączony. System plików może być używany przez system operacyjny. Formatowanie urządzenia/partycji z dużym prawdopodobieństwem spowoduje uszkodzenie danych i niestabilność systemu.\n\nAby rozwiązać ten problem, zaleca się wcześniejsze usunięcie partycji i ponowne jej utworzenie bez formatowania. W tym celu: 1) Kliknij prawym przyciskiem myszy ikonę 'Komputer' (lub 'Mój Komputer') w 'Menu Start' i wybierz opcję 'Zarządzaj'. Zostanie wyświetlone okno 'Zarządzanie komputerem'. 2) W oknie 'Zarządzanie komputerem' wybierz 'Magazyn' &gt; 'Zarządzanie dyskami'. 3) Kliknij prawym przyciskiem myszy partycję, którą chcesz zaszyfrować, następnie wybierz opcję 'Usuń partycję' lub 'Usuń dysk logiczny'. 4) Kliknij przycisk 'Tak'. Jeśli system poprosi o zrestartowanie komputera, zrób to. Następnie powtórz krok 1 i 2 i kontynuuj od kroku 5. 5) Kliknij nieprzydzielone/wolne miejsce i wybierz opcję 'Nowa partycja', 'Nowy prosty wolumen' lub 'Nowy dysk logiczny'. 6) Zostanie uruchomione okno 'Kreatora partycji' lub 'Kreatora prostych wolumenów'. Postępuj zgodnie z instrukcjami. Na stronie zatytułowanej 'Formatowanie partycji', wybierz 'Nie formatuj tej partycji' lub 'Nie formatuj tego wolumenu'. W tym samym kreatorze, kliknij 'Dalej' a następnie 'Zakończ'. 7) Ścieżka urządzenia wybranego w programie VeraCrypt może być teraz nieprawidłowa. Dlatego wyjdź z kreatora tworzenia wolumenów VeraCrypt (jeśli jest nadal uruchomiony) i uruchom go ponownie. 8) Ponownie spróbuj zaszyfrować urządzenie.\n\nJeśli program VeraCrypt ponownie nie będzie mógł zaszyfrować urządzenia/partycji, należy rozważyć utworzenie pliku kontenera.</entry>
-    <entry lang="pl" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Błąd: System plików nie może być zablokowany i/lub odłączony. Może jest używany system operacyjny lub aplikacje (np. system antywirusowy). Szyfrowanie partycji może spowodować uszkodzenie danych i niedostępność systemu.\n\nProszę zamknąć wszystkie aplikacje, które mogą używać systemu plików (włączając w to system antywirusowy) i proszę spróbować ponownie. Jeżeli to nie pomoże, prosze postępować zgodnie z poniższymi krokami.</entry>
+    <entry lang="pl" key="FORMAT_CANT_UNMOUNT_FILESYS">Błąd: Urządzenie/partycja zawiera system plików, który nie może zostać odłączony. System plików może być używany przez system operacyjny. Formatowanie urządzenia/partycji z dużym prawdopodobieństwem spowoduje uszkodzenie danych i niestabilność systemu.\n\nAby rozwiązać ten problem, zaleca się wcześniejsze usunięcie partycji i ponowne jej utworzenie bez formatowania. W tym celu: 1) Kliknij prawym przyciskiem myszy ikonę 'Komputer' (lub 'Mój Komputer') w 'Menu Start' i wybierz opcję 'Zarządzaj'. Zostanie wyświetlone okno 'Zarządzanie komputerem'. 2) W oknie 'Zarządzanie komputerem' wybierz 'Magazyn' &gt; 'Zarządzanie dyskami'. 3) Kliknij prawym przyciskiem myszy partycję, którą chcesz zaszyfrować, następnie wybierz opcję 'Usuń partycję' lub 'Usuń dysk logiczny'. 4) Kliknij przycisk 'Tak'. Jeśli system poprosi o zrestartowanie komputera, zrób to. Następnie powtórz krok 1 i 2 i kontynuuj od kroku 5. 5) Kliknij nieprzydzielone/wolne miejsce i wybierz opcję 'Nowa partycja', 'Nowy prosty wolumen' lub 'Nowy dysk logiczny'. 6) Zostanie uruchomione okno 'Kreatora partycji' lub 'Kreatora prostych wolumenów'. Postępuj zgodnie z instrukcjami. Na stronie zatytułowanej 'Formatowanie partycji', wybierz 'Nie formatuj tej partycji' lub 'Nie formatuj tego wolumenu'. W tym samym kreatorze, kliknij 'Dalej' a następnie 'Zakończ'. 7) Ścieżka urządzenia wybranego w programie VeraCrypt może być teraz nieprawidłowa. Dlatego wyjdź z kreatora tworzenia wolumenów VeraCrypt (jeśli jest nadal uruchomiony) i uruchom go ponownie. 8) Ponownie spróbuj zaszyfrować urządzenie.\n\nJeśli program VeraCrypt ponownie nie będzie mógł zaszyfrować urządzenia/partycji, należy rozważyć utworzenie pliku kontenera.</entry>
+    <entry lang="pl" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Błąd: System plików nie może być zablokowany i/lub odłączony. Może jest używany system operacyjny lub aplikacje (np. system antywirusowy). Szyfrowanie partycji może spowodować uszkodzenie danych i niedostępność systemu.\n\nProszę zamknąć wszystkie aplikacje, które mogą używać systemu plików (włączając w to system antywirusowy) i proszę spróbować ponownie. Jeżeli to nie pomoże, prosze postępować zgodnie z poniższymi krokami.</entry>
     <entry lang="pl" key="DEVICE_IN_USE_INFO">ostrzeżenie: Niektóre podłączone urządzenia/partycje były w użyciu!\n\nZignorowanie tego faktu może spowodować niepożądane skutki z niestabilnością systemu włącznie!\n\nNależy koniecznie zamknąć wszystkie aplikacje, które mogą używać tych urządzeń/partycji.</entry>
     <entry lang="pl" key="DEVICE_PARTITIONS_ERR">Wybrane urządzenie zawiera partycje.\n\nFormatowanie urządzenia może spowodować niestabilność i/lub uszkodzenie danych. Wybierz partycję na tym urządzeniu lub usuń z niego wszystkie partycje, aby umożliwić programowi VeraCrypt bezpieczne jej sformatowanie.</entry>
     <entry lang="pl" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Wybrane nie-systemowe urządzenie zawiera partycje.\n\nZaszyfrowane urządzenia w wolumenie VeraCrypt mogą być stworzone wewnątrz urządzenia, które nie zawiera żadnych partycji (włączając dyski twarde i pamięci dyskowe). Urządzenia zawierające partycje mogą być zaszyfrowane "w locie" (używając pojedynczego głównego klucza) tylko jeżeli dysk jest uruchomiony i jest na nim zainstalowany Windows.\n\nJeżeli chcesz zaszyfrować wybrany nie systemowy dysk używając pojedynczego głównego klucza, musisz najpierw usunąć wszystkie partycje na urządzeniu, aby bezpiecznie go sformatować w VeraCrypt (formatowanie urządzenia z istniejącymi partycjami może powodować niestabilność systemu i/lub uszkodzeniem danych). Opcjonalnie, możesz zaszyfrować osobno każdą partycję na dysku (każda partycja będzie zaszyfrowana używając innego głównego klucza).\n\nUwaga: Jeżeli chcesz usunąć wszystkie partycje z dysku GPT, możesz potrzebować wykonać konwersję do dysku MBR (używając np. narzędzi w Zarządzaj komputerem), aby usunąć ukryte partycje na dysku.</entry>
@@ -590,7 +590,7 @@
     <entry lang="pl" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">BŁĄD: Pliki kopiowane do zewnętrznego wolumenu wymagają więcej miejsca. Brak jest wolnego miejsca na zewnętrznym wolumenie dla ukrytego wolumenu.\n\nPamiętaj, że wielkość ukrytego wolumenu musi być większa od systemowej partycji (od partycji, gdzie aktualnie uruchomiony jest system operacyjny). Powód jest taki, że ukryty system operacyjny musi być stworzony przez skopiowanie zawartości partycji systemowej do ukrytego wolumenu.\n\n\nProces tworzenia ukrytego systemu operacyjnego nie może być kontynuowany.</entry>
     <entry lang="pl" key="OPENFILES_DRIVER">Sterownik nie może odłączyć wolumenu. Prawdopodobnie niektóre z umieszczonych w nim plików wciąż są otwarte.</entry>
     <entry lang="pl" key="OPENFILES_LOCK">Nie można zablokować wolumenu. Niektóre z umieszczonych w nim plików wciąż są otwarte. Dlatego nie można odłączyć wolumenu.</entry>
-    <entry lang="pl" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt mie może zablokować wolumenu ponieważ jest on używany przez system lub aplikacje (mogą być otwarte pliki na wolumenie).\n\nCzy chcesz wymusić odłączenie wolumenu?</entry>
+    <entry lang="pl" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt mie może zablokować wolumenu ponieważ jest on używany przez system lub aplikacje (mogą być otwarte pliki na wolumenie).\n\nCzy chcesz wymusić odłączenie wolumenu?</entry>
     <entry lang="pl" key="OPEN_VOL_TITLE">Wybierz wolumen VeraCrypt</entry>
     <entry lang="pl" key="OPEN_TITLE">Podaj ścieżkę i nazwę pliku</entry>
     <entry lang="pl" key="SELECT_PKCS11_MODULE">Wybierz bibliotekę PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="pl" key="DLL_FILES">Moduły bibliotek</entry>
     <entry lang="pl" key="FORMAT_NTFS_STOP">Kontynuowanie formatowania NTFS/exFAT/ReFS nie jest możliwe.</entry>
     <entry lang="pl" key="CANT_MOUNT_VOLUME">Nie można podłączyć wolumenu.</entry>
-    <entry lang="pl" key="CANT_DISMOUNT_VOLUME">Nie można odłączyć wolumenu.</entry>
+    <entry lang="pl" key="CANT_UNMOUNT_VOLUME">Nie można odłączyć wolumenu.</entry>
     <entry lang="pl" key="FORMAT_NTFS_FAILED">System Windows nie może sformatować tego wolumenu jako NTFS/exFAT/ReFS.\n\nWybierz inny typ systemu plików (jeśli to możliwe) i ponów próbę. Alternatywnie pozostaw ten wolumen jako niesformatowany (wybierz system plików 'Żaden'), wyjdź z kreatora, podłącz wolumen i sformatuj go innym programem narzędziowym (systemowym lub pochodzącym od innego dostawcy). Wolumen pozostanie zaszyfrowany.</entry>
     <entry lang="pl" key="FORMAT_NTFS_FAILED_ASK_FAT">System Windows nie mógł sformatować tego wolumenu jako NTFS/exFAT/ReFS.\n\nCzy sformatować go jako FAT?</entry>
     <entry lang="pl" key="DEFAULT">Domyślny</entry>
@@ -771,7 +771,7 @@
     <entry lang="pl" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Błąd uniemożliwił VeraCrypt do zaszyfrowania partycji. Proszę najpierw rozwiązać problem i spróbować ponownie. Jeżeli problem będzie się powtarzał, mogą pomóc następujące kroki.</entry>
     <entry lang="pl" key="INPLACE_ENC_GENERIC_ERR_RESUME">Błąd uniemożliwił VeraCrypt wznowienie procesu szyfrowania partycji.\n\nProszę najpierw rozwiązać problem i spróbować ponownie wznowić proces. Uwaga, wolumen nie może być podłączony dopóki nie zostanie w pełni zaszyfrowany.</entry>
     <entry lang="pl" key="INPLACE_DEC_GENERIC_ERR">Błąd uniemożliwił VeraCrypt deszyfrowanie wolumenu. Proszę spróbować naprawić wcześniej zgłoszone problemy i spróbować ponownie, jeżeli to możliwe.</entry>
-    <entry lang="pl" key="CANT_DISMOUNT_OUTER_VOL">Błąd: Nie można odłączyć wolumenu zewnętrznego!\n\nWolumen nie może być odłączony, jeśli zawiera pliki lub foldery używane przez dowolny program lub system.\n\nZamknij wszystkie programy, które mogą używać plików lub katalogów na tym wolumenie, następnie kliknij przycisk Powtórz.</entry>
+    <entry lang="pl" key="CANT_UNMOUNT_OUTER_VOL">Błąd: Nie można odłączyć wolumenu zewnętrznego!\n\nWolumen nie może być odłączony, jeśli zawiera pliki lub foldery używane przez dowolny program lub system.\n\nZamknij wszystkie programy, które mogą używać plików lub katalogów na tym wolumenie, następnie kliknij przycisk Powtórz.</entry>
     <entry lang="pl" key="CANT_GET_OUTER_VOL_INFO">Błąd: Nie można uzyskać informacji o wolumenie zewnętrznym! Tworzenie wolumenu nie może być kontynuowane.</entry>
     <entry lang="pl" key="CANT_ACCESS_OUTER_VOL">Błąd: Brak dostępu do wolumenu zewnętrznego! Nie można kontynuować tworzenia wolumenu.</entry>
     <entry lang="pl" key="CANT_MOUNT_OUTER_VOL">Błąd: Nie można podłączyć wolumenu zewnętrznego! Nie można kontynuować tworzenia wolumenu.</entry>
@@ -882,7 +882,7 @@
     <entry lang="pl" key="INSTALL_COMPLETED">Instalacja została zakończona.</entry>
     <entry lang="pl" key="CANT_CREATE_FOLDER">Nie można utworzyć folderu '%s'</entry>
     <entry lang="pl" key="CLOSE_TC_FIRST">Sterownik urządzenia VeraCrypt nie może zostać wyładowany.\n\nZamknij wszystkie otwarte okna programu VeraCrypt. Jeśli to nie pomoże, zrestartuj system Windows i ponów próbę.</entry>
-    <entry lang="pl" key="DISMOUNT_ALL_FIRST">Wszystkie wolumeny programu VeraCrypt muszą zostać odłączone przed instalacją lub odinstalowaniem programu VeraCrypt.</entry>
+    <entry lang="pl" key="UNMOUNT_ALL_FIRST">Wszystkie wolumeny programu VeraCrypt muszą zostać odłączone przed instalacją lub odinstalowaniem programu VeraCrypt.</entry>
     <entry lang="pl" key="UNINSTALL_OLD_VERSION_FIRST">W tym systemie jest zainstalowana przestarzała wersja programu VeraCrypt. Musi być ona zostać odinstalowana zanim będzie można zainstalować tę wersję programu VeraCrypt.\n\nNatychmiast po zamknięciu tego komunikatu zostanie uruchomiony dezinstalator starej wersji. Należy pamiętać, że żaden z wolumenów nie zostanie odszyfrowany. Po odinstalowaniu starej wersji programu VeraCrypt ponownie uruchom instalator nowej wersji.</entry>
     <entry lang="pl" key="REG_INSTALL_FAILED">Nie powiodła się instalacja wpisów rejestru</entry>
     <entry lang="pl" key="DRIVER_INSTALL_FAILED">Instalacja sterownika urządzenia nie powiodła się. Zrestartuj system Windows i ponów próbę zainstalowania programu VeraCrypt.</entry>
@@ -903,7 +903,7 @@
     <entry lang="pl" key="MINUTES">minuty</entry>
     <entry lang="pl" key="SECONDS">s</entry>
     <entry lang="pl" key="OPEN">Otwórz</entry>
-    <entry lang="pl" key="DISMOUNT">Odłącz</entry>
+    <entry lang="pl" key="UNMOUNT">Odłącz</entry>
     <entry lang="pl" key="SHOW_TC">Pokaż VeraCrypt</entry>
     <entry lang="pl" key="HIDE_TC">Ukryj VeraCrypt</entry>
     <entry lang="pl" key="TOTAL_DATA_READ">Dane odczytane od podłączenia</entry>
@@ -975,7 +975,7 @@
     <entry lang="pl" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Ulubione wolumeny systemowe</entry>
     <entry lang="pl" key="SYS_FAVORITES_HELP_LINK">Co to są ulubione wolumeny systemowe?</entry>
     <entry lang="pl" key="SYS_FAVORITES_REQUIRE_PBA">Systemowa partycja/dysk nie wydaje się być zaszyfrowana.\n\nUlubione wolumeny systemowe mogą być podłączane używając tylko autoryzacji hasłem rozruchu wstępnego. Dlatego, aby włączyć używanie ulubionych wolumenów systemowych, musisz najpierw zaszyfrować systemową partycję lub dysk.</entry>
-    <entry lang="pl" key="DISMOUNT_FIRST">Odłącz wolumen przed przejściem dalej.</entry>
+    <entry lang="pl" key="UNMOUNT_FIRST">Odłącz wolumen przed przejściem dalej.</entry>
     <entry lang="pl" key="CANNOT_SET_TIMER">Błąd: Nie można ustawić stopera.</entry>
     <entry lang="pl" key="IDPM_CHECK_FILESYS">Sprawdź system plików</entry>
     <entry lang="pl" key="IDPM_REPAIR_FILESYS">Napraw system plików</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="pl" key="NO_SYSENC_PARTITION_SELECTED">Nie wybrano partycji.\n\nKliknij przycisk 'Wybierz urządzenie', aby wybrać niepodłączoną partycję, która normalnie wymaga wstępnego uwierzytelniania (np. partycja umieszczona na zaszyfrowanym dysku systemowym innego systemu operacyjnego, który nie jest uruchomiony lub zaszyfrowana partycja systemowa innego systemu operacyjnego).\n\nUwaga: Wybrana partycja zostanie podłączona tak jak zwykły wolumen VeraCrypt bez wstępnego uwierzytelniania. To jest przydatne np. do wykonania kopii zapasowej lub naprawy systemu.</entry>
     <entry lang="pl" key="CONFIRM_SAVE_DEFAULT_KEYFILES">OSTRZEŻENIE: Jeśli zostaną zdefiniowane i włączone domyślne pliki-klucze, wolumeny nie używające tych kluczy nie będą mogły być podłączone. Dlatego po włączeniu domyślnych plików-kluczy należy pamiętać o anulowaniu zaznaczenia pola wyboru 'Użyj plików-kluczy' (poniżej pola wprowadzania hasła) zawsze, gdy podłączane są takie wolumeny.\n\nCzy na pewno chcesz zapisać wybrane pliki-klucze lub ich ścieżki jako domyślne?</entry>
     <entry lang="pl" key="HK_AUTOMOUNT_DEVICES">Automatycznie podłączanie urządzeń</entry>
-    <entry lang="pl" key="HK_DISMOUNT_ALL">Odłącz wszystko</entry>
+    <entry lang="pl" key="HK_UNMOUNT_ALL">Odłącz wszystko</entry>
     <entry lang="pl" key="HK_WIPE_CACHE">Wyczyść pamięć podręczną</entry>
-    <entry lang="pl" key="HK_DISMOUNT_ALL_AND_WIPE">Odmontuj wszystko i wyczyść pamięć podręczną</entry>
-    <entry lang="pl" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Wymuszaj odłączanie wszystkiego i wyczyść pamięć podręczną</entry>
-    <entry lang="pl" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Wymuszaj odłączanie wszystkiego, wyczyść pamięć podręczną i zakończ pracę</entry>
+    <entry lang="pl" key="HK_UNMOUNT_ALL_AND_WIPE">Odmontuj wszystko i wyczyść pamięć podręczną</entry>
+    <entry lang="pl" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Wymuszaj odłączanie wszystkiego i wyczyść pamięć podręczną</entry>
+    <entry lang="pl" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Wymuszaj odłączanie wszystkiego, wyczyść pamięć podręczną i zakończ pracę</entry>
     <entry lang="pl" key="HK_MOUNT_FAVORITE_VOLUMES">Podłącz wolumeny ulubione</entry>
     <entry lang="pl" key="HK_SHOW_HIDE_MAIN_WINDOW">Pokaż lub ukryj główne okno programu VeraCrypt</entry>
     <entry lang="pl" key="PRESS_A_KEY_TO_ASSIGN">(Kliknij tu i naciśnij wybrany klawisz)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="pl" key="PAGING_FILE_CREATION_PREVENTED">Tworzenie pliku stronicowania zostało zabronione.\n\nZauważ, że w poszczególnych wersjach Windows, pliki stronicowania nie mogą leżeć na bezsystemowych wolumenach VeraCrypt (włączając ulubione wolumeny systemowe). VeraCrypt wspiera tworzenie plików stronicowania tylko na szyfrowanych systemowych dyskach/partycjach.</entry>
     <entry lang="pl" key="SYS_ENC_HIBERNATION_PREVENTED">Błąd lub niezgodność uniemożliwia VeraCrypt szyfrowanie pliku hibernacji. Dlatego, hibernacja nie jest możliwa.\n\nInformacja: Kiedy komputer jest hibernowany (lub wchodzi w stan oszczędzania energii), zawartość pamięci systemowej RAM jest zapisywana do pliku hibernacji składowanego na dysku. VeraCrypt nie mógł uniemożliwić kluczom szyfrującym na zapisanie danych w pamięci RAM jako niezaszyfrowanych w pliku hibernacji na dysku.</entry>
     <entry lang="pl" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernacja została wstrzymana.\n\nVeraCrypt nie wspiera hibernacji w ukrytym systemie operacyjnym, który używa ekstra boot partycji. Proszę pamiętać, że boot partycja jest współdzielona przez oba systemy (pierwszy i ukryty). Dlatego, aby zapobiec wyciekom danych i problemom podczas wznowienia systemu, VeraCrypt wstrzymuje w ukrytym systemie operacyjnym zapis do współdzielonej boot partycji.</entry>
-    <entry lang="pl" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">Wolumen VeraCrypt podłączony jako %c: został odłączony.</entry>
-    <entry lang="pl" key="MOUNTED_VOLUMES_DISMOUNTED">Wolumeny VeraCrypt zostały odłączone.</entry>
-    <entry lang="pl" key="VOLUMES_DISMOUNTED_CACHE_WIPED">Wolumeny VeraCrypt zostały odłączone a bufor haseł wyczyszczony.</entry>
-    <entry lang="pl" key="SUCCESSFULLY_DISMOUNTED">Pomyślnie odłączone</entry>
+    <entry lang="pl" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">Wolumen VeraCrypt podłączony jako %c: został odłączony.</entry>
+    <entry lang="pl" key="MOUNTED_VOLUMES_UNMOUNTED">Wolumeny VeraCrypt zostały odłączone.</entry>
+    <entry lang="pl" key="VOLUMES_UNMOUNTED_CACHE_WIPED">Wolumeny VeraCrypt zostały odłączone a bufor haseł wyczyszczony.</entry>
+    <entry lang="pl" key="SUCCESSFULLY_UNMOUNTED">Pomyślnie odłączone</entry>
     <entry lang="pl" key="CONFIRM_BACKGROUND_TASK_DISABLED">UWAGA: Jeśli zadanie VeraCrypt w tle jest zablokowane, wyłączone są następujące funkcje:\n\n1) Klawisze skrótu\n2) Automatyczne odłączanie (tj., podczas wylogowywania, niezapowiedzianego odłączenia nośnika, timeoutu itp.)\n3) Automatyczne podłączanie ulubionych wolumenów\n4) Powiadomienia (np. przy zapobieganiu uszkodzenia ukrytego wolumenu)\n5) Ikony powiadomień\n\nZauważ: Można w każdej chwili zakończyć zadanie w tle prawym przyciskiem myszki na ikonie powiadomień przez wybór 'Wyjście'.\n\nCzy na pewno trwale zablokować zadanie VeraCrypt w tle?</entry>
-    <entry lang="pl" key="CONFIRM_NO_FORCED_AUTODISMOUNT">OSTRZEŻENIE: Jeśli opcja ta zostanie wyłączona, wolumeny zawierające otwarte pliki/katalogi nie będą mogły być automatycznie odłączane.\n\nCzy na pewno wyłączyć tę opcję?</entry>
-    <entry lang="pl" key="WARN_PREF_AUTO_DISMOUNT">OSTRZEŻENIE: Wolumeny zawierające otwarte pliki/katalogi nie będą automatycznie odłączane.\n\nAby to zmienić, włącz następującą opcję w tym oknie dialogowym: 'Wymuś odłączanie, nawet gdy są otwarte pliki lub katalogi'.</entry>
-    <entry lang="pl" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">OSTRZEŻENIE: Kiedy w laptopie bateria jest słaba, Windows może wysłać informacje do uruchomionych aplikacji, że wchodzi w stan oszczędzania energii. Dlatego, VeraCrypt w tych przypadkach może błędnie  automatycznie odłączać wolumeny.</entry>
+    <entry lang="pl" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">OSTRZEŻENIE: Jeśli opcja ta zostanie wyłączona, wolumeny zawierające otwarte pliki/katalogi nie będą mogły być automatycznie odłączane.\n\nCzy na pewno wyłączyć tę opcję?</entry>
+    <entry lang="pl" key="WARN_PREF_AUTO_UNMOUNT">OSTRZEŻENIE: Wolumeny zawierające otwarte pliki/katalogi nie będą automatycznie odłączane.\n\nAby to zmienić, włącz następującą opcję w tym oknie dialogowym: 'Wymuś odłączanie, nawet gdy są otwarte pliki lub katalogi'.</entry>
+    <entry lang="pl" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">OSTRZEŻENIE: Kiedy w laptopie bateria jest słaba, Windows może wysłać informacje do uruchomionych aplikacji, że wchodzi w stan oszczędzania energii. Dlatego, VeraCrypt w tych przypadkach może błędnie  automatycznie odłączać wolumeny.</entry>
     <entry lang="pl" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Zaplanowano proces szyfrowania partycji/wolumenu. Proces jeszcze nie został zakończony.\n\nCzy chcesz teraz wznowić proces?</entry>
     <entry lang="pl" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Zaplanowano proces szyfrowania lub deszyfrowania partycji lub dysku systemowego. Proces ten nie został jeszcze zakończony.\n\nCzy chcesz go teraz uruchomić (wznowić)?</entry>
     <entry lang="pl" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Czy chcesz być zapytany o dokończenie obecnego procesu szyfrowania nie systemowej partycji/wolumenu?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="pl" key="SYS_AUTOMOUNT_DISABLED">System nie jest skonfigurowany do automatycznego podłączania nowych wolumenów. Może być niemożliwe podłączenie wolumenów VeraCrypt wykorzystujących urządzenia. Automatyczne podłączanie może być włączone przez wydanie następującej komendy i ponowne uruchomienie systemu.\n\nmountvol.exe /E</entry>
     <entry lang="pl" key="SYS_ASSIGN_DRIVE_LETTER">Przypisz literę dysku do partycji/urządzenia przed uruchomieniem ('Panel sterowania' &gt; 'Wydajność i konserwacja' &gt; 'Narzędzia administracyjne' &gt; 'Zarządzanie komputerem' &gt; 'Zarządzanie dyskami').\n\nJest to wymaganie systemu operacyjnego.</entry>
     <entry lang="pl" key="MOUNT_TC_VOLUME">Podłącz wolumen VeraCrypt</entry>
-    <entry lang="pl" key="DISMOUNT_ALL_TC_VOLUMES">Odłącz wszystkie wolumeny VeraCrypt</entry>
+    <entry lang="pl" key="UNMOUNT_ALL_TC_VOLUMES">Odłącz wszystkie wolumeny VeraCrypt</entry>
     <entry lang="pl" key="UAC_INIT_ERROR">Program VeraCrypt nie mógł uzyskać uprawnień administratora.</entry>
     <entry lang="pl" key="ERR_ACCESS_DENIED">System operacyjny odmówił dostępu.\n\nMożliwa przyczyna: system wymaga posiadania praw odczytu/zapisu (lub praw administratora) dla niektórych folderów, plików i urządzeń. Zwykle użytkownik bez praw administratora może tworzyć, odczytywać i modyfikować pliki w swoim folderze z dokumentami.</entry>
     <entry lang="pl" key="SECTOR_SIZE_UNSUPPORTED">Błąd: Dysk używa niewspierany rozmiar sektora.\n\nNie jest możliwe utworzenie wolumenów opartych na dysku/partycji, używających sektorów dłuższych niż 4096 bajtów. Jednakże wciąż można stworzyć wolumeny oparte na plikach znajdujących się na takich dyskach.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="pl" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Zauważ, że liczba wątków jest obecnie ograniczona, co wpływa na wyniki testów (gorsza wydajność).\n\nAby wykorzystać pełny potencjał procesora(ów), wybierz 'Ustawienia' &gt; 'Wydajność' i odznacz odpowiednią opcję.</entry>
     <entry lang="pl" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Czy chcesz, aby VeraCrypt wyłączył ochronę zapisu na partycji/dysku?</entry>
     <entry lang="pl" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">UWAGA: Takie ustawienie może zmniejszyć wydajność.\n\nNa pewno wprowadzić to ustawienie?</entry>
-    <entry lang="pl" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Ostrzeżenie: Wolumen VeraCrypt automatycznie odłączony</entry>
-    <entry lang="pl" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Zanim fizycznie usuniesz lub wyłączysz nośnik zawierający podłączony wolumen, musisz najpierw zawsze odłączyć wolumen VeraCrypt.\n\nNieoczekiwane spontaniczne odłączenie jest często spowodowane sporadycznie rozłączający się przewód, napęd (obudowa) itp.</entry>
+    <entry lang="pl" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Ostrzeżenie: Wolumen VeraCrypt automatycznie odłączony</entry>
+    <entry lang="pl" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Zanim fizycznie usuniesz lub wyłączysz nośnik zawierający podłączony wolumen, musisz najpierw zawsze odłączyć wolumen VeraCrypt.\n\nNieoczekiwane spontaniczne odłączenie jest często spowodowane sporadycznie rozłączający się przewód, napęd (obudowa) itp.</entry>
     <entry lang="pl" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ten wolumen został stworzony w TrueCrypt %x.%x, ale VeraCrypt obsługuje jedynie wolumeny TrueCrypt stworzone w serii TrueCrypt 6.x/7.x</entry>
     <entry lang="pl" key="TEST">Test</entry>
     <entry lang="pl" key="KEYFILE">Plik-klucz</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="pl" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Dodaj wszystkie podłączone wolumeny do ulubionych...</entry>
     <entry lang="pl" key="TASKICON_PREF_MENU_ITEMS">Elementy menu ikony zadań</entry>
     <entry lang="pl" key="TASKICON_PREF_OPEN_VOL">Otwórz podłączone wolumeny</entry>
-    <entry lang="pl" key="TASKICON_PREF_DISMOUNT_VOL">Odłącz podłączone wolumeny</entry>
+    <entry lang="pl" key="TASKICON_PREF_UNMOUNT_VOL">Odłącz podłączone wolumeny</entry>
     <entry lang="pl" key="DISK_FREE">Dostępna wolna przestrzeń: {0}</entry>
     <entry lang="pl" key="VOLUME_SIZE_HELP">Określ rozmiar kontenera do utworzenia. Zauważ, że minimalny możliwy rozmiar wolumenu to 292 KB.</entry>
     <entry lang="pl" key="LINUX_CONFIRM_INNER_VOLUME_CALC">OSTRZEŻENIE: Wybrano system plików inny niż FAT dla zewnętrznego wolumenu.\nNależy pamiętać, że w tym przypadku VeraCrypt nie może obliczyć dokładnego maksymalnego dozwolonego rozmiaru ukrytego wolumenu i użyje tylko oszacowania, które może być błędne.\nDlatego Twoim obowiązkiem jest użycie odpowiedniej wartości rozmiaru ukrytego wolumenu, tak aby nie zachodziła na zewnętrzną objętość.\n\nCzy chcesz nadal używać wybranego systemu plików dla zewnętrznego wolumenu?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="pl" key="LINUX_DO_NOT_MOUNT">Nie &amp;podłączaj</entry>
     <entry lang="pl" key="LINUX_MOUNT_AT_DIR">Podłącz w katalogu:</entry>
     <entry lang="pl" key="LINUX_SELECT">Wyb&amp;ierz...</entry>
-    <entry lang="pl" key="LINUX_DISMOUNT_ALL_WHEN">Odłącz wszystkie wolumeny, gdy</entry>
+    <entry lang="pl" key="LINUX_UNMOUNT_ALL_WHEN">Odłącz wszystkie wolumeny, gdy</entry>
     <entry lang="pl" key="LINUX_ENTERING_POWERSAVING">System przechodzi w tryb oszczędzania energii</entry>
     <entry lang="pl" key="LINUX_LOGIN_ACTION">Działania do wykonania, gdy użytkownik loguje się</entry>
-    <entry lang="pl" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Zamknij wszystkie okna Eksploratora odłączanego wolumenu</entry>
+    <entry lang="pl" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Zamknij wszystkie okna Eksploratora odłączanego wolumenu</entry>
     <entry lang="pl" key="LINUX_HOTKEYS">Skróty klawiszowe</entry>
     <entry lang="pl" key="LINUX_SYSTEM_HOTKEYS">Skróty klawiszowe całego systemu</entry>
     <entry lang="pl" key="LINUX_SOUND_NOTIFICATION">Odtwórz dźwięk powiadomienia systemowego po podłączeniu/odłączeniu</entry>
-    <entry lang="pl" key="LINUX_CONFIRM_AFTER_DISMOUNT">Wyświetl okno komunikatu potwierdzenia po odłączeniu</entry>
+    <entry lang="pl" key="LINUX_CONFIRM_AFTER_UNMOUNT">Wyświetl okno komunikatu potwierdzenia po odłączeniu</entry>
     <entry lang="pl" key="LINUX_VC_QUITS">VeraCrypt kończy pracę</entry>
     <entry lang="pl" key="LINUX_OPEN_FINDER">Otwórz okno Findera dla pomyślnie podłączonego wolumenu</entry>
     <entry lang="pl" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Należy pamiętać, że to ustawienie działa tylko wtedy, gdy korzystanie z usług kryptograficznych jądra jest wyłączone.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="pl" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="pl" key="LINUX_NOT_SUPPORTED"> (nieobsługiwane przez komponenty dostępne na tej platformie).\n</entry>
     <entry lang="pl" key="LINUX_KERNEL_OLD">Twój system używa starej wersji jądra Linuksa.\n\nZ powodu błędu w jądrze Linuksa Twój system może przestać odpowiadać podczas zapisywania danych do wolumenu VeraCrypt. Ten problem można rozwiązać, aktualizując jądro do wersji 2.6.24 lub nowszej.</entry>
-    <entry lang="pl" key="LINUX_VOL_DISMOUNTED">Wolumen {0} został odłączony.</entry>
+    <entry lang="pl" key="LINUX_VOL_UNMOUNTED">Wolumen {0} został odłączony.</entry>
     <entry lang="pl" key="LINUX_VOL_MOUNTED">Wolumen {0} został podłączony.</entry>
     <entry lang="pl" key="LINUX_OOM">Brak pamięci.</entry>
     <entry lang="pl" key="LINUX_CANT_GET_ADMIN_PRIV">Nie udało się uzyskać uprawnień administratora</entry>

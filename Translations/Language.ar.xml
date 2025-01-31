@@ -135,8 +135,8 @@
     <entry lang="ar" key="IDC_FAVORITE_REMOVE">قم بإزالة</entry>
     <entry lang="ar" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">استخدم الوسم المفضل كوسم لمستكشف الملفات</entry>
     <entry lang="ar" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">إعدادات عامة</entry>
-    <entry lang="ar" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">  عقب التنزيل السريع، أعرض الكتابة في بالون</entry>
-    <entry lang="ar" key="IDC_HK_DISMOUNT_PLAY_SOUND">عقب التنزيل السريع، شغل نغمة تنبيهات النظام</entry>
+    <entry lang="ar" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">  عقب التنزيل السريع، أعرض الكتابة في بالون</entry>
+    <entry lang="ar" key="IDC_HK_UNMOUNT_PLAY_SOUND">عقب التنزيل السريع، شغل نغمة تنبيهات النظام</entry>
     <entry lang="ar" key="IDC_HK_MOD_ALT">‮Alt</entry>
     <entry lang="ar" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="ar" key="IDC_HK_MOD_SHIFT">‮Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="ar" key="IDC_PIM_HELP">(عدد الدورات الافتراضي صفر أو قيمة فارغة)</entry>
     <entry lang="ar" key="IDC_PREF_BKG_TASK_ENABLE">‮مُفعّل</entry>
     <entry lang="ar" key="IDC_PREF_CACHE_PASSWORDS">‮خزّن كلمات السرّ مؤقتا في ذاكرة المُشغِّل</entry>
-    <entry lang="ar" key="IDC_PREF_DISMOUNT_INACTIVE">‮افصل المجلد تلقائيا عندما لا تُكتب/تُقرأ بيانات منه</entry>
-    <entry lang="ar" key="IDC_PREF_DISMOUNT_LOGOFF">‮خروج المستخدم</entry>
-    <entry lang="ar" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">أغلقت الجلسة التشغيلية للمستخدم</entry>
-    <entry lang="ar" key="IDC_PREF_DISMOUNT_POWERSAVING">‮الدخول في طور حِفظ الطاقة</entry>
-    <entry lang="ar" key="IDC_PREF_DISMOUNT_SCREENSAVER">‮اشتغال حافظة الشاشة</entry>
-    <entry lang="ar" key="IDC_PREF_FORCE_AUTO_DISMOUNT">‮أجبر الفصل التلقائي حتى إن وجدت ملفات أو أدلّة مفتوحة في المجلد</entry>
+    <entry lang="ar" key="IDC_PREF_UNMOUNT_INACTIVE">‮افصل المجلد تلقائيا عندما لا تُكتب/تُقرأ بيانات منه</entry>
+    <entry lang="ar" key="IDC_PREF_UNMOUNT_LOGOFF">‮خروج المستخدم</entry>
+    <entry lang="ar" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">أغلقت الجلسة التشغيلية للمستخدم</entry>
+    <entry lang="ar" key="IDC_PREF_UNMOUNT_POWERSAVING">‮الدخول في طور حِفظ الطاقة</entry>
+    <entry lang="ar" key="IDC_PREF_UNMOUNT_SCREENSAVER">‮اشتغال حافظة الشاشة</entry>
+    <entry lang="ar" key="IDC_PREF_FORCE_AUTO_UNMOUNT">‮أجبر الفصل التلقائي حتى إن وجدت ملفات أو أدلّة مفتوحة في المجلد</entry>
     <entry lang="ar" key="IDC_PREF_LOGON_MOUNT_DEVICES">‮أوصل كل مجلدات ڤيراكربت المستضافة في نبائط</entry>
     <entry lang="ar" key="IDC_PREF_LOGON_START">‮شغِّل مهمة ڤيراكربت التي في الخلفية</entry>
     <entry lang="ar" key="IDC_PREF_MOUNT_READONLY">‮أوصل المجلدات للقراءة فقط</entry>
@@ -169,7 +169,7 @@
     <entry lang="ar" key="IDC_PREF_OPEN_EXPLORER">‮افتح نافذة إكسبلورر للمجلدات التي نجح وصلها</entry>
     <entry lang="ar" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">كلمة السر المؤقتة للمخبأ خلال عمل "تحميل الأقراص المفضلة"</entry>
     <entry lang="ar" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">قم باستخدام أيقونة مختلفة في شريط الأوامر عند وجود أقراص محملة</entry>
-    <entry lang="ar" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">‮امحُ كلمات السر المخزّنة مؤقتا عند الفصل التلقائي</entry>
+    <entry lang="ar" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">‮امحُ كلمات السر المخزّنة مؤقتا عند الفصل التلقائي</entry>
     <entry lang="ar" key="IDC_PREF_WIPE_CACHE_ON_EXIT">‮امحُ كلمات السر المخزّنة مؤقتا عند الخروج</entry>
     <entry lang="ar" key="IDC_PRESERVE_TIMESTAMPS">قم بحفظ ختم الوقت عند تعديل ملفات الحاويات</entry>
     <entry lang="ar" key="IDC_RESET_HOTKEYS">‮صفّر</entry>
@@ -269,14 +269,14 @@
     <entry lang="ar" key="IDT_ACCELERATION_OPTIONS">تسريع العتاد</entry>
     <entry lang="ar" key="IDT_ASSIGN_HOTKEY">‮اختصار</entry>
     <entry lang="ar" key="IDT_AUTORUN">‮تضبيطات التشغيل التلقائي (autorun.inf)</entry>
-    <entry lang="ar" key="IDT_AUTO_DISMOUNT">‮افصل تلقائيًا</entry>
-    <entry lang="ar" key="IDT_AUTO_DISMOUNT_ON">‮افصل الكل عندما:</entry>
+    <entry lang="ar" key="IDT_AUTO_UNMOUNT">‮افصل تلقائيًا</entry>
+    <entry lang="ar" key="IDT_AUTO_UNMOUNT_ON">‮افصل الكل عندما:</entry>
     <entry lang="ar" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">‮خيارات شاشة مُحمِّل الإقلاع</entry>
     <entry lang="ar" key="IDT_CONFIRM_PASSWORD">‮أكّد كلمة السرّ:</entry>
     <entry lang="ar" key="IDT_CURRENT">‮الحالي</entry>
     <entry lang="ar" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">‮اعرض هذه الرسالة في شاشة استيثاق ما قبل الإقلاع (بحد أقصى 24 حرفا):</entry>
     <entry lang="ar" key="IDT_DEFAULT_MOUNT_OPTIONS">‮خيارات الوصل المبدئية</entry>
-    <entry lang="ar" key="IDT_DISMOUNT_ACTION">‮خيارات أزرار الاختصار</entry>
+    <entry lang="ar" key="IDT_UNMOUNT_ACTION">‮خيارات أزرار الاختصار</entry>
     <entry lang="ar" key="IDT_DRIVER_OPTIONS">تهيئة المحرك</entry>
     <entry lang="ar" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">فعل دعم أكواد تحكم الأقراص</entry>
     <entry lang="ar" key="IDT_FAVORITE_LABEL">وسم القرص المعين</entry>
@@ -423,8 +423,8 @@
     <entry lang="ar" key="DEVICE_FREE_PB">‮حجم ‪%s‬ هو ‪%.2f‬ ب.بايت</entry>
     <entry lang="ar" key="DEVICE_IN_USE_FORMAT">‮تحذير: النبيطة\\القسم قيد الاستخدام بواسطة نظام التشغيل أو تطبيق ما. قد تسبب تهيئة النبيطة\\القسم فساد البيانات وعدم استقرار النظام. ‮ ‮أأواصل؟</entry>
     <entry lang="ar" key="DEVICE_IN_USE_INPLACE_ENC">‮تحذير: هذا القسم قيد الاستخدام بواسطة نظام التشغيل أو تطبيق ما. ينبغي أن تغلق كل التطبيقات التي يمكن أن تكون مستخدمة القسم (بما في ذلك مضادات الفيروسات). ‮ ‮أأواصل؟</entry>
-    <entry lang="ar" key="FORMAT_CANT_DISMOUNT_FILESYS">‮عُطل: تحتوي النبيطة\\القسم على نظام ملفات تعذَّر فصله. ربما يستخدم نظامُ التشغيل نظامَ الملفات. ستسبب تهيئة النبيطة\\القسم تلف البيانات وعدم استقرار النظام. ‮ ‮ لحل هذه المشكلة ننصحك بأن تحذف القسم أولًا ثم تعيد إنشاءه دون تهيئة. لفعل هذا اتبع	الخطوات التالية: 1) انقر باليمين أيقونة 'الحاسوب' (أو 'حاسوبي') في 'قائمة ابدأ' واختر 'أدر'. ستظهر نافذة 'إدارة الحاسوب'. 2) من نافذة 'إدارة الحاسوب' اختر 'تخزين' &gt; 'إدارة القرص'. 3) انقر باليمين على القسم الذي تريد تعميته واختر إمَّا 'احذف القسم' أو 'احذف المجلد'، أو'احذف المجلد المنطقي'. 4) انقر 'نعم'. إذا سألك ويندوز إعادة تشغيل الحاسوب فافعل ذلك. ثم أعد الخطوتين 1 و 2 وواصل من الخطوة 5. 5) انقر باليمين على المساحة غير المخصصة\\الشاغرة ثم اختر إما 'قسم جديد'، أو 'مجلد جديد بسيط' أو 'مجلد منطقي جديد'. 6) ستظهر الآن نافذة 'مرشد القسم الجديد' أو 'مرشد المجلد البسيط الجديد'، اتبع التعليمات. في صفحة المعالج المعنونة 'هيّء القسم'، اختر إما 'لا تهيء هذا القسم' أو 'لا تهيء هذا المجلد'. في المرشد ذاته انقر 'اللاحق' ثم 'أنه'. 7) لاحظ أن مسار النبيطة التي كنت قد اخترتها في المرشد ربما أضحى غير صحيح الآن. لذا اخرج من مرشد إنشاء مجلد ڤيراكربت (إذا كان لا يزال يعمل) ثم ابدأه مجددا. 8) جرب تعمية النبيطة\\القسم مجددا. ‮ ‮ إذا تكرر فشل ڤيراكربت في تعمية المجلد فقد ترى إنشاء ملفٍ حاوٍ بدلا من هذا.</entry>
-    <entry lang="ar" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">‮عطل: تعذّر قفل نظام الملفات و\\أو فصله. قد يكون قيد الاستخدام بواسطة نظام التشغيل أو تطبيق ما (كمضاد فيروسات مثلا). مواصلة تعمية القسم قد تسبب تلف البيانات و عدم استقرار النظام. ‮ ‮أغلق كل التطبيقات التي يمكن أن تكون مستخدمة نظام الملفات (بما في ذلك مضادات الفيروسات) و حاول مجددا.. إن لم تنحل المشكلة فاتّبع الخطوات التالية.</entry>
+    <entry lang="ar" key="FORMAT_CANT_UNMOUNT_FILESYS">‮عُطل: تحتوي النبيطة\\القسم على نظام ملفات تعذَّر فصله. ربما يستخدم نظامُ التشغيل نظامَ الملفات. ستسبب تهيئة النبيطة\\القسم تلف البيانات وعدم استقرار النظام. ‮ ‮ لحل هذه المشكلة ننصحك بأن تحذف القسم أولًا ثم تعيد إنشاءه دون تهيئة. لفعل هذا اتبع	الخطوات التالية: 1) انقر باليمين أيقونة 'الحاسوب' (أو 'حاسوبي') في 'قائمة ابدأ' واختر 'أدر'. ستظهر نافذة 'إدارة الحاسوب'. 2) من نافذة 'إدارة الحاسوب' اختر 'تخزين' &gt; 'إدارة القرص'. 3) انقر باليمين على القسم الذي تريد تعميته واختر إمَّا 'احذف القسم' أو 'احذف المجلد'، أو'احذف المجلد المنطقي'. 4) انقر 'نعم'. إذا سألك ويندوز إعادة تشغيل الحاسوب فافعل ذلك. ثم أعد الخطوتين 1 و 2 وواصل من الخطوة 5. 5) انقر باليمين على المساحة غير المخصصة\\الشاغرة ثم اختر إما 'قسم جديد'، أو 'مجلد جديد بسيط' أو 'مجلد منطقي جديد'. 6) ستظهر الآن نافذة 'مرشد القسم الجديد' أو 'مرشد المجلد البسيط الجديد'، اتبع التعليمات. في صفحة المعالج المعنونة 'هيّء القسم'، اختر إما 'لا تهيء هذا القسم' أو 'لا تهيء هذا المجلد'. في المرشد ذاته انقر 'اللاحق' ثم 'أنه'. 7) لاحظ أن مسار النبيطة التي كنت قد اخترتها في المرشد ربما أضحى غير صحيح الآن. لذا اخرج من مرشد إنشاء مجلد ڤيراكربت (إذا كان لا يزال يعمل) ثم ابدأه مجددا. 8) جرب تعمية النبيطة\\القسم مجددا. ‮ ‮ إذا تكرر فشل ڤيراكربت في تعمية المجلد فقد ترى إنشاء ملفٍ حاوٍ بدلا من هذا.</entry>
+    <entry lang="ar" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">‮عطل: تعذّر قفل نظام الملفات و\\أو فصله. قد يكون قيد الاستخدام بواسطة نظام التشغيل أو تطبيق ما (كمضاد فيروسات مثلا). مواصلة تعمية القسم قد تسبب تلف البيانات و عدم استقرار النظام. ‮ ‮أغلق كل التطبيقات التي يمكن أن تكون مستخدمة نظام الملفات (بما في ذلك مضادات الفيروسات) و حاول مجددا.. إن لم تنحل المشكلة فاتّبع الخطوات التالية.</entry>
     <entry lang="ar" key="DEVICE_IN_USE_INFO">‮تحذير: بعض النبائط\\الأقسام الموصولة قيد الاستخدام! ‮ ‮ سيسبب تجاهل هذا نتائج غير مرغوبة تشمل عدم استقرار النظام. ‮ ‮ ننصح بشدة بغلق أي تطبيق يستخدم النبائط\\الأقسام.</entry>
     <entry lang="ar" key="DEVICE_PARTITIONS_ERR">‮النبيطة المختارة تحوي أقساما. ‮ ‮ ربما تسبب تهيئة تلك النبيطة عدم استقرار النظام و/أو تلف البيانات. عليك إمَّا أن تختار قسما على النبيطة، أو أن تحذف كل الأقسام لتمكن ڤيراكربت من تهيئتها بأمان.</entry>
     <entry lang="ar" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">‮النبيطة المختارة لا تحوي نظام تشغيل و تحوي أقساما. ‮ ‮مجلدات ڤيراكربت المعماة المستضافة في نبائط يمكن إنشاؤها حصرا في نبائط لا تحوي أية أقسام مسبقا (بما في ذلك الاقراص الصلبة و شرائح الذاكرة). لا يمكن تعمية نبيطة تحوي أقساما في موضعها (باستخدام مفتاح واحد رئيسي) إلا إن كانت السواقة المنصب فيها ويندوز و منها يقلع. ‮ ‮إن أردت تعمية النبيطة المختارة باستخدام مفتاح واحد رئيسي فتنبغي إزالة كل الأقسام من النبيطة أولا لتمكين ڤيراكربت من تهيئتها بأمان (تهيئة نبيطة تحوي أقساما قد تؤدي إلى عدم استقرار النظام و\\أو تلف البيانات). عوضا عن هذا يمكنك تعمية كل قسم على النبيطة على حدى (و سيكون لكل منها مفتاح). ‮ ‮ملاحظة:إن أردت إزالة كل الأقسام من قرص ‪GPT‬ فقد تضطر إلى تحويله إلى قرص ‪MBR‬ (مثلا باستخدام أداة إدارة الوسائط) لكي تتمكن من إزالة الأقسام المخفية منه.</entry>
@@ -590,7 +590,7 @@
     <entry lang="ar" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">‮عطل: الملفات التي نسختها إلى المجلد الخارجي تشغل حيزا أكبر من اللازم، لذا لا توجد مساحة شاغرة كافية فيه للمجلد المخفي. ‮ ‮لاحظ أن المجلد المخفي ينبغي أن يكون بحجم قسم النظام (القسم المنصب فيه نظام التشغيل العامل حاليا). السبب هو أن نظام التشغيل المخفي سينشأ بنسخ محتوى قسم النظام إلى المجلد المخفي. ‮ ‮لا يمكن مواصلة صيرورة إنشاء نظام التشغيل المخفي.</entry>
     <entry lang="ar" key="OPENFILES_DRIVER">‮لا يستطيع المشغل فصل المجلد. يحتمل أن تكون بعض الملفات الموجودة على المجلد لا تزال مفتوحة.</entry>
     <entry lang="ar" key="OPENFILES_LOCK">‮تعذَّر قفل المجلد. ما زالت بعض الملفات على المجلد مفتوحة. لذا لا يمكن فصله.</entry>
-    <entry lang="ar" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">‮تعذَّر على ڤيراكربت قفل المجلد لأنه قيد الاستخدام بواسطة النظام أو تطبيقات (ربما توجد ملفات مفتوحة على المجلد). ‮ ‮أتريد إجبار فصل المجلد؟</entry>
+    <entry lang="ar" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">‮تعذَّر على ڤيراكربت قفل المجلد لأنه قيد الاستخدام بواسطة النظام أو تطبيقات (ربما توجد ملفات مفتوحة على المجلد). ‮ ‮أتريد إجبار فصل المجلد؟</entry>
     <entry lang="ar" key="OPEN_VOL_TITLE">‮اختر مجلد ڤيراكربت</entry>
     <entry lang="ar" key="OPEN_TITLE">‮عيِّن المسار و اسم الملف</entry>
     <entry lang="ar" key="SELECT_PKCS11_MODULE">‮اختر مكتبة ‪PKCS #11‬</entry>
@@ -729,7 +729,7 @@
     <entry lang="ar" key="DLL_FILES">‮وحدات المكتبات</entry>
     <entry lang="ar" key="FORMAT_NTFS_STOP">‮تعذَّر إتمام تهيئة ‪NTFS‬.</entry>
     <entry lang="ar" key="CANT_MOUNT_VOLUME">‮تعذَّر وصل المجلد.</entry>
-    <entry lang="ar" key="CANT_DISMOUNT_VOLUME">‮تعذَّر فصل المجلد.</entry>
+    <entry lang="ar" key="CANT_UNMOUNT_VOLUME">‮تعذَّر فصل المجلد.</entry>
     <entry lang="ar" key="FORMAT_NTFS_FAILED">‮فشل ويندوز في تهيئة المجلد بنظام ‪NTFS‬. ‮ ‮اختر نظام ملفات مختلف (إن أمكن) وحاول مجددا. أو يمكنك ترك المجلد دون تهيئة (اختر نوع نظام الملفات 'لا شيء') واخرج من هذا المرشد ثم أوصل المجلد واستخدم أداة النظام أو أداة أخرى لتهيئة المجلد الموصول (سيبقى المجلد معمّى).</entry>
     <entry lang="ar" key="FORMAT_NTFS_FAILED_ASK_FAT">‮فشل ويندوز في تهيئة المجلد في هيئة ‪NTFS‬. ‮ ‮أتريد تهيئة المجلد على هيئة ‪FAT‬ بدلا من هذا؟</entry>
     <entry lang="ar" key="DEFAULT">‮المبدئيّ</entry>
@@ -771,7 +771,7 @@
     <entry lang="ar" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">‮منع عطلٌ تروركبت من تعمية القسم. حاول إصلاح الأعطال المقررة مسبقا ثم حاول مجدا. إن تكررت المشكلة يفيد اتِّباع الخطوات التالية.</entry>
     <entry lang="ar" key="INPLACE_ENC_GENERIC_ERR_RESUME">‮منع عطلُ ڤيراكربت من معاودة صيرورة تعمية القسم. ‮ ‮حاول إصلاح المشكلات المقررة مسبقا ثم حاول مجددا معاودة الصيرورة. لاحظ أن المجلد لا يمكن وصله حتى تمام تعميته.</entry>
     <entry lang="ar" key="INPLACE_DEC_GENERIC_ERR">خطأ تسبب في عدم تمكن فيراكربت من فك تشفير القرص. يرجى إصلاح أي خلل سابق ثم معاودة المحاولة إذا أمكن.</entry>
-    <entry lang="ar" key="CANT_DISMOUNT_OUTER_VOL">‮عُطل: تعذَّر فصل المجلد الخارجي! ‮ ‮لا يمكن فصل المجلد إذا حوى ملفات أو أدلة يستخدمها تطبيق أو النظام. ‮ ‮أغلق كل البرمجيات التي قد تكون مستخدمة ملفات أو أدلة على المجلد ثم انقر 'حاول مجددا'.</entry>
+    <entry lang="ar" key="CANT_UNMOUNT_OUTER_VOL">‮عُطل: تعذَّر فصل المجلد الخارجي! ‮ ‮لا يمكن فصل المجلد إذا حوى ملفات أو أدلة يستخدمها تطبيق أو النظام. ‮ ‮أغلق كل البرمجيات التي قد تكون مستخدمة ملفات أو أدلة على المجلد ثم انقر 'حاول مجددا'.</entry>
     <entry lang="ar" key="CANT_GET_OUTER_VOL_INFO">‮عطل: تعذّر جلب معلومات عن المجلد الخارجي! لا تمكن مواصلة إنشاء المجلد.</entry>
     <entry lang="ar" key="CANT_ACCESS_OUTER_VOL">‮عُطل: تعذَّر النفاذ للمجلد الخارجي! لا يمكن متابعة إنشاء المجلد.</entry>
     <entry lang="ar" key="CANT_MOUNT_OUTER_VOL">‮عُطل: تعذَّر وصل المجلد الخارجي! لا يمكن متابعة إنشاء المجلد.</entry>
@@ -882,7 +882,7 @@
     <entry lang="ar" key="INSTALL_COMPLETED">‮تم التنصيب.</entry>
     <entry lang="ar" key="CANT_CREATE_FOLDER">‮تعذَّر إنشاء الدليل '‪%s‬'</entry>
     <entry lang="ar" key="CLOSE_TC_FIRST">‮تعذَّر إفراغ مُشغِّل ڤيراكربت. ‮ ‮أغلق كل نوافذ ڤيراكربت المفتوحة أولا. إذا لم ينجح هذا أعد تشغيل ويندوز و حاول مجددا.</entry>
-    <entry lang="ar" key="DISMOUNT_ALL_FIRST">‮يجب أن تُفصل كل مجلدات ڤيراكربت قبل تنصيب ‌أو إزالة ڤيراكربت.</entry>
+    <entry lang="ar" key="UNMOUNT_ALL_FIRST">‮يجب أن تُفصل كل مجلدات ڤيراكربت قبل تنصيب ‌أو إزالة ڤيراكربت.</entry>
     <entry lang="ar" key="UNINSTALL_OLD_VERSION_FIRST">نسخة منتهية الصلاحية من فيراكربت مثبتة حاليا على هذا النظام. لابد من إزالة هذه النسخة قبل أن تتمكن من تثبيت النسخة الجديدة من فيراكربت.\n\nفور إقفالك لهذه الرسالة, سوف يبدأ برنامج إزالة التثبيت في العمل. لاحظ أنه لن يتم فك تشفير أي قرص أثناء عملية الإزالة. بعد عملية الإزالة للنسخة القديمة من فيراكربت, قم بتثبيت النسخة الجديدة من فيراكر.</entry>
     <entry lang="ar" key="REG_INSTALL_FAILED">‮فشل تنصيب مدخلات التسجيل</entry>
     <entry lang="ar" key="DRIVER_INSTALL_FAILED">‮فشل تنصيب مشغل النبيطة. أعد تشغيل ويندوز ثم حاول تنصيب ڤيراكربت مجددًا.</entry>
@@ -903,7 +903,7 @@
     <entry lang="ar" key="MINUTES">‮دقائق</entry>
     <entry lang="ar" key="SECONDS">‮ث</entry>
     <entry lang="ar" key="OPEN">‮افتح</entry>
-    <entry lang="ar" key="DISMOUNT">‮افصل</entry>
+    <entry lang="ar" key="UNMOUNT">‮افصل</entry>
     <entry lang="ar" key="SHOW_TC">‮أظهر ڤيراكربت</entry>
     <entry lang="ar" key="HIDE_TC">‮اخفِ ڤيراكربت</entry>
     <entry lang="ar" key="TOTAL_DATA_READ">‮البيانات التي قُرأت منذ الوصل</entry>
@@ -975,7 +975,7 @@
     <entry lang="ar" key="SYSTEM_FAVORITES_DLG_TITLE">فيراكربت - أقراص النظام المفضلة</entry>
     <entry lang="ar" key="SYS_FAVORITES_HELP_LINK">ما هي أقراص النظام المفضلة?</entry>
     <entry lang="ar" key="SYS_FAVORITES_REQUIRE_PBA">قرص النظام لا يبدو أنه مشفر.\n\nأقراص النظام المفضلة يمكن استخدامها فقط بكلمة سر قبل الإقلاع . لذلك, لتفعيل استخدام أقراص النظام المفضلة, تحتاج إلى تشفير قرص النظام أو جزء النظام أولا.</entry>
-    <entry lang="ar" key="DISMOUNT_FIRST">‮افصل المجلد قبل الاستمرار.</entry>
+    <entry lang="ar" key="UNMOUNT_FIRST">‮افصل المجلد قبل الاستمرار.</entry>
     <entry lang="ar" key="CANNOT_SET_TIMER">‮عطل: تعذّر شبط المؤقِّت.</entry>
     <entry lang="ar" key="IDPM_CHECK_FILESYS">‮افحص نظام الملفات</entry>
     <entry lang="ar" key="IDPM_REPAIR_FILESYS">‮أصلح نظام الملفات</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="ar" key="NO_SYSENC_PARTITION_SELECTED">‮لم يُختر أي قسم. ‮ ‮انقر 'اختر نبيطة' لتختار قسما مفصولا يتطلب عادة استيثاق ما قبل الإقلاع (مثل قسمٍ على سواقة النظام المعمّاة لنظام تشغيل آخر غير عامل أو قسم النظام لنظام تشغيل آخر). ‮ ‮ملاحظة: القسم المختار سيوصل كمجلد ڤيراكربت عادي دون استيثاق ما قبل الإقلاع. هذا مفيد للنسخ الاحتياطي أو لعمليات الإصلاح.</entry>
     <entry lang="ar" key="CONFIRM_SAVE_DEFAULT_KEYFILES">‮تنبيه: إن كانت ملفات مفاتيح مبدئية قد ضُبطت و فُعلِّت فإن المجلدات التي لا تستخدم تلك الملفات المفاتيح لن يمكن وصلها. لذا فبعد أن تفعِّل الملفات المفاتيح المبدئية خذ في الاعتبار أن تزيل تأشير 'استخدم الملفات المفاتيح' (أسفل حقل إدخال كلمة السر) كلما عزمت وصل مثل تلك المجلدات. ‮ ‮ أمتأكد أنك تريد حفظ الملفات المفاتيح\\المسارات المختارة كمبدئية؟</entry>
     <entry lang="ar" key="HK_AUTOMOUNT_DEVICES">‮أوصل النبائط تلقائيا</entry>
-    <entry lang="ar" key="HK_DISMOUNT_ALL">‮افصل الكل</entry>
+    <entry lang="ar" key="HK_UNMOUNT_ALL">‮افصل الكل</entry>
     <entry lang="ar" key="HK_WIPE_CACHE">‮امحُ الذّاكرة المخبئية</entry>
-    <entry lang="ar" key="HK_DISMOUNT_ALL_AND_WIPE">تنزيل الجميع  &amp;  تدمير الكاش</entry>
-    <entry lang="ar" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">‮أجبر فصل الكل و امحُ الذّاكرة المخبئية</entry>
-    <entry lang="ar" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">‮أجبر فصل الكل و امحُ الذّاكرة المخبئية و اخرج</entry>
+    <entry lang="ar" key="HK_UNMOUNT_ALL_AND_WIPE">تنزيل الجميع  &amp;  تدمير الكاش</entry>
+    <entry lang="ar" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">‮أجبر فصل الكل و امحُ الذّاكرة المخبئية</entry>
+    <entry lang="ar" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">‮أجبر فصل الكل و امحُ الذّاكرة المخبئية و اخرج</entry>
     <entry lang="ar" key="HK_MOUNT_FAVORITE_VOLUMES">‮أوصل المجلدات المفضّلة</entry>
     <entry lang="ar" key="HK_SHOW_HIDE_MAIN_WINDOW">‮أظهر/اخف نافذة ڤيراكربت الرئيسية</entry>
     <entry lang="ar" key="PRESS_A_KEY_TO_ASSIGN">‮(انقر هنا و اضغط زرا)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="ar" key="PAGING_FILE_CREATION_PREVENTED">تم منع ملفات الترحيل.\n\nالرجاء ملاحظة أنه, طبقا لإشكالات في ويندوز, لا يمكن تعيين ملفات الترحيل على قرص فيراكربت غير نظامي (بما في ذلك الأقراص المفضلة). فيراكربت يدعم ملفات الترحيل على أقراص/أجزاء نظامية فقط.</entry>
     <entry lang="ar" key="SYS_ENC_HIBERNATION_PREVENTED">‮منع عُطلٌ أو عدمُ توافقية ڤيراكربت من تعمية ملف السبات، لذا فقد عُطل السبات. ‮ ‮ملاحظة: عندما يسبت حاسوب (أو يدخل طور توفير الطاقة) فإن محتويات ذاكرة النظام تحفظ في ملف تخزين للسبات يوجد على سواقة النظام. لا يمكن لتروكربيت أن يحول دون حفظ مفاتيح التعمية و محتويات الملفات الحساسة المفتوحة في الذاكرة إلى ملف السبات غير معماة.</entry>
     <entry lang="ar" key="HIDDEN_OS_HIBERNATION_PREVENTED">تم منع الإسبات.\n\nفيراكربت لايدعم الإسبات في نظام تشغيل مخفي يستخدم جزءا خاصا للإقلاع. لاحظ أن جزء الإقلاع مشترك بين النظام المزيف والمخفي. لذلك, من أجل منع تسرب البيانات عند الإفاقة من الإسبات, فإن فيراكربت يمنع الإسبات ويمنع النظام المخفي من الكتابة على جزء الإقلاع المشترك.</entry>
-    <entry lang="ar" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">قرص فيراكربت الذي تم تحميله ك %c: تم تنزيله.</entry>
-    <entry lang="ar" key="MOUNTED_VOLUMES_DISMOUNTED">تم تنزيل قرص فيراكربت.</entry>
-    <entry lang="ar" key="VOLUMES_DISMOUNTED_CACHE_WIPED">تم تنزيل قرص فيراكربت وتدمير الكاش.</entry>
-    <entry lang="ar" key="SUCCESSFULLY_DISMOUNTED">تنزيل بنجاح</entry>
+    <entry lang="ar" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">قرص فيراكربت الذي تم تحميله ك %c: تم تنزيله.</entry>
+    <entry lang="ar" key="MOUNTED_VOLUMES_UNMOUNTED">تم تنزيل قرص فيراكربت.</entry>
+    <entry lang="ar" key="VOLUMES_UNMOUNTED_CACHE_WIPED">تم تنزيل قرص فيراكربت وتدمير الكاش.</entry>
+    <entry lang="ar" key="SUCCESSFULLY_UNMOUNTED">تنزيل بنجاح</entry>
     <entry lang="ar" key="CONFIRM_BACKGROUND_TASK_DISABLED">تحذير: إذا كانت عمليات فيراكربت الخلفية معطلة, الوظائف التالية ستتعطل:\n\n1) المفاتيح الساخنة\n2) التنزيل التلقائي (مثال, عند الخروج, إخراج الجهاز غير المتعمد, نفاذ التوقيت, etc.)\n3) التحميل التلقائي للمفضلات\n4) التنبيهات (مثال, عند منع العطب للأقراص المخفية)\n5) أيقونة الشريط السفلي\n\nملاحظة: بإمكانك تعطيل العمليات الخلفية لفيراكربت في أي وقت وذلك بالضغط بالزر الأيمن على شريط فيراكربت ثم اختيار الخروج .\n\nهل أنت متأكد من رغبتك في تعطيل مهام فيراكربت الخلفية نهائيا?</entry>
-    <entry lang="ar" key="CONFIRM_NO_FORCED_AUTODISMOUNT">‮تحذير: إذا عُطِّل هذا الخيار فلن يمكن تلقائيا فصل المجلدات التي تحوي ملفات\\أدلة مفتوحة. ‮ ‮أمتأكد أنك تريد تعطيل هذا الخيار؟</entry>
-    <entry lang="ar" key="WARN_PREF_AUTO_DISMOUNT">‮تنبيه: المجلدات التي تحوي ملفات\\أدلة مفتوحة لن تُفصل تلقائيا. ‮ ‮للحول دون هذا فعّل الخيار التالي في نافذة الحوار هذه: 'أجبر الفصل التلقائي حتى إذا حوى المجلد ملفات أو أدلة مفتوحة'</entry>
-    <entry lang="ar" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">تحذير: عندما تكون بطارية المحمول منخفضة الشحن,  يقوم ويندوز بإخطار التطبيقات قيد التشغيل بذلك برسالة مناسبة. لذلك, يمكن أن يخفق فيراكربت في تعطيل تحميل الأقراص المحملة.</entry>
+    <entry lang="ar" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">‮تحذير: إذا عُطِّل هذا الخيار فلن يمكن تلقائيا فصل المجلدات التي تحوي ملفات\\أدلة مفتوحة. ‮ ‮أمتأكد أنك تريد تعطيل هذا الخيار؟</entry>
+    <entry lang="ar" key="WARN_PREF_AUTO_UNMOUNT">‮تنبيه: المجلدات التي تحوي ملفات\\أدلة مفتوحة لن تُفصل تلقائيا. ‮ ‮للحول دون هذا فعّل الخيار التالي في نافذة الحوار هذه: 'أجبر الفصل التلقائي حتى إذا حوى المجلد ملفات أو أدلة مفتوحة'</entry>
+    <entry lang="ar" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">تحذير: عندما تكون بطارية المحمول منخفضة الشحن,  يقوم ويندوز بإخطار التطبيقات قيد التشغيل بذلك برسالة مناسبة. لذلك, يمكن أن يخفق فيراكربت في تعطيل تحميل الأقراص المحملة.</entry>
     <entry lang="ar" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">‮كنت قد جدولت صيرورة تعمية قسم\\مجلد، و لم تتم تلك الصيرورة. ‮ ‮أتريد معاودة الصيرورة الآن؟</entry>
     <entry lang="ar" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">‮كنت قد جدولت صيرورة تعمية أو تظهير قسم\\سواقة النظام، إلا أن هذه الصيرورة لم تتم بعد. ‮ ‮أتريد معاودة الصيرورة الآن؟</entry>
     <entry lang="ar" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL"> هل ترغب أن يتم إخطارك عما إذا كنت تريد استكمال العملية المجدولة لتشفير/فك تشفير جزء أو قرص غير نظامي?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="ar" key="SYS_AUTOMOUNT_DISABLED">‮نظامك ليس مضبوطا ليوصِّل المجلدات الجديدة تلقائيا. قد يتعذَّر وصل مجلدات ڤيراكربت المستضافة في نبائط. يمكن تفعيل الوصل الآلي بتنفيذ الأمر التالي ثم إعادة تشغيل النظام. ‮ ‮‪mountvol.exe /E‬</entry>
     <entry lang="ar" key="SYS_ASSIGN_DRIVE_LETTER">‮خصِّص حرفا للقسم\\النبيطة قبل المواصلة ('لوحة التحكم' &gt; 'النظام و الإدارة' &gt; 'أدوات الإدارة' - 'أنشئ و هيء أقسام القرص الصلب'). ‮ ‮لاحظ أن هذا من متطلبات النظام.</entry>
     <entry lang="ar" key="MOUNT_TC_VOLUME">‮أوصل مجلد ڤيراكربت</entry>
-    <entry lang="ar" key="DISMOUNT_ALL_TC_VOLUMES">‮افصل كل مجلدات ڤيراكربت</entry>
+    <entry lang="ar" key="UNMOUNT_ALL_TC_VOLUMES">‮افصل كل مجلدات ڤيراكربت</entry>
     <entry lang="ar" key="UAC_INIT_ERROR">‮فشل ڤيراكربت في الحصول على صلاحيات الإدارة.</entry>
     <entry lang="ar" key="ERR_ACCESS_DENIED">‮منع النظامُ النفاذ. ‮ ‮السبب المحتمل: يتطلب النظام أن تكون لديك صلاحية القراءة\\الكتابة (أو صلاحية الإدارة) لأدلة و ملفات و نبائط معينة ليُسمح لك بقراءة و كتابة بيانات إليها/منها. عادة ما يُسمح للمستخدم دون صلاحيات الإدارة أن يُنشئ و يقرأ و يعدل الملفات في دليل الوثائق الخاص به.</entry>
     <entry lang="ar" key="SECTOR_SIZE_UNSUPPORTED">خطأ: القرص يستخدم حجم مسار غير مدعوم.\n\nإنه لا يمكن إنشاء جزء/قرص  حجم مساره أكبر 4096من  بايت. لكن, لاحظ أن بإمكانك إنشاء ملف حاوية على ذلك القرص.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="ar" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">لاحظ أن عدد البرمجيات الصغيرة محدود, والذي سيؤثر على مؤشرات المقارنة (الأداء الأسوأ).\n\nلاستغلال كامل إمكانات المعالج/المعالجات, اختر 'إعدادات' > 'الأداء' ثم عطل الخيار المطلوب.</entry>
     <entry lang="ar" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">هل ترغب أن يحاول فيراكربت في تعطيل حماية الكتابة للقرص/القسم?</entry>
     <entry lang="ar" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">تحذير: هذا الخيار يمكن يؤثر سلبا على الأداء.\n\nهل ترغب فعلا في استخدام هذا الخيار?</entry>
-    <entry lang="ar" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">تحذير: قرص فيراكربت تم تنزيله</entry>
-    <entry lang="ar" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">قبل فصل جهاز موصول ويحوي قرص فيراكربت, لابد دوما من تنزيل ملف الحاوية أولا.\n\nفصل الحاوية المفاجئ سببه إنقطاع التوصيل المتكرر لسلك الجهاز, المحرك (الغطاء), ...الخ.</entry>
+    <entry lang="ar" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">تحذير: قرص فيراكربت تم تنزيله</entry>
+    <entry lang="ar" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">قبل فصل جهاز موصول ويحوي قرص فيراكربت, لابد دوما من تنزيل ملف الحاوية أولا.\n\nفصل الحاوية المفاجئ سببه إنقطاع التوصيل المتكرر لسلك الجهاز, المحرك (الغطاء), ...الخ.</entry>
     <entry lang="ar" key="UNSUPPORTED_TRUECRYPT_FORMAT">هذا القرص تم إنشاؤه بالإصدار  %x.%x لكن فيراكربت يدعم فقط أقراص تروكربت من إصدار 6.x/7.x series</entry>
     <entry lang="ar" key="TEST">‮اختبر</entry>
     <entry lang="ar" key="KEYFILE">‮ملف مفتاح</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="ar" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">إضافة جميع الأحجام المركبة إلى المفضلة...</entry>
     <entry lang="ar" key="TASKICON_PREF_MENU_ITEMS">عناصر قائمة رمز المهام</entry>
     <entry lang="ar" key="TASKICON_PREF_OPEN_VOL">فتح الأحجام المركبة</entry>
-    <entry lang="ar" key="TASKICON_PREF_DISMOUNT_VOL">إلغاء تركيب الأحجام المركبة</entry>
+    <entry lang="ar" key="TASKICON_PREF_UNMOUNT_VOL">إلغاء تركيب الأحجام المركبة</entry>
     <entry lang="ar" key="DISK_FREE">المساحة الحرة المتوفرة :{0}</entry>
     <entry lang="ar" key="VOLUME_SIZE_HELP">يرجى تحديد حجم الحاوية التي تريد إنشاءها. لاحظ أن الحد الأدنى لحجم الحجم الممكن هو 292 KiB.</entry>
     <entry lang="ar" key="LINUX_CONFIRM_INNER_VOLUME_CALC">تحذير: لقد حددت نظام ملفات غير FAT للحجم الخارجي.\nيرجى ملاحظة أنه في هذه الحالة، لا يمكن لـ VeraCrypt حساب الحد الأقصى المسموح به لحجم الحجم المخفي بدقة وسيستخدم فقط تقديرًا قد يكون خاطئًا.\nلذلك، تقع على عاتقك المسؤولية استخدام قيمة مناسبة لحجم الحجم المخفي حتى لا يتداخل مع الحجم الخارجي.\n\nهل ترغب في المتابعة باستخدام نظام الملفات المحدد للحجم الخارجي؟</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="ar" key="LINUX_DO_NOT_MOUNT">لا &amp;تقُم بالتركيب</entry>
     <entry lang="ar" key="LINUX_MOUNT_AT_DIR">تركيب في الدليل:</entry>
     <entry lang="ar" key="LINUX_SELECT">اخ&amp;تر...</entry>
-    <entry lang="ar" key="LINUX_DISMOUNT_ALL_WHEN">إلغاء تركيب جميع الأحجام عند</entry>
+    <entry lang="ar" key="LINUX_UNMOUNT_ALL_WHEN">إلغاء تركيب جميع الأحجام عند</entry>
     <entry lang="ar" key="LINUX_ENTERING_POWERSAVING">دخول النظام إلى وضع توفير الطاقة</entry>
     <entry lang="ar" key="LINUX_LOGIN_ACTION">الإجراءات التي سيتم تنفيذها عند تسجيل دخول المستخدم</entry>
-    <entry lang="ar" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">إغلاق جميع نوافذ المستكشف للحجم الجاري إلغاء تركيبه</entry>
+    <entry lang="ar" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">إغلاق جميع نوافذ المستكشف للحجم الجاري إلغاء تركيبه</entry>
     <entry lang="ar" key="LINUX_HOTKEYS">مفاتيح الاختصار</entry>
     <entry lang="ar" key="LINUX_SYSTEM_HOTKEYS">مفاتيح الاختصار على مستوى النظام</entry>
     <entry lang="ar" key="LINUX_SOUND_NOTIFICATION">تشغيل صوت الإشعار بالنظام بعد التركيب/إلغاء التركيب</entry>
-    <entry lang="ar" key="LINUX_CONFIRM_AFTER_DISMOUNT">عرض رسالة تأكيد بعد إلغاء التركيب</entry>
+    <entry lang="ar" key="LINUX_CONFIRM_AFTER_UNMOUNT">عرض رسالة تأكيد بعد إلغاء التركيب</entry>
     <entry lang="ar" key="LINUX_VC_QUITS">VeraCrypt يخرج</entry>
     <entry lang="ar" key="LINUX_OPEN_FINDER">فتح نافذة الباحث للحجم المثبت بنجاح</entry>
     <entry lang="ar" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">يرجى ملاحظة أن هذا الإعداد يكون مفعلاً فقط إذا تم تعطيل استخدام خدمات التشفير في النواة.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="ar" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="ar" key="LINUX_NOT_SUPPORTED">(غير مدعوم بواسطة المكونات المتاحة على هذا النظام).\n</entry>
     <entry lang="ar" key="LINUX_KERNEL_OLD">نظامك يستخدم إصدارًا قديمًا من نواة لينكس.\n\nنظرًا لخلل في نواة لينكس، قد يتوقف نظامك عن الاستجابة عند كتابة البيانات إلى حجم VeraCrypt. يمكن حل هذه المشكلة بترقية النواة إلى الإصدار 2.6.24 أو أحدث.</entry>
-    <entry lang="ar" key="LINUX_VOL_DISMOUNTED">تم إلغاء تركيب الحجم {0}.</entry>
+    <entry lang="ar" key="LINUX_VOL_UNMOUNTED">تم إلغاء تركيب الحجم {0}.</entry>
     <entry lang="ar" key="LINUX_VOL_MOUNTED">تم تركيب الحجم {0}.</entry>
     <entry lang="ar" key="LINUX_OOM">نفدت الذاكرة.</entry>
     <entry lang="ar" key="LINUX_CANT_GET_ADMIN_PRIV">فشل في الحصول على امتيازات المسؤول</entry>

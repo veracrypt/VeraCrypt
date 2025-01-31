@@ -135,8 +135,8 @@
     <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
-    <entry lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
+    <entry lang="en" key="IDC_HK_UNMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</entry>
     <entry lang="uz" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="en" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="uz" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</entry>
     <entry lang="uz" key="IDC_PREF_BKG_TASK_ENABLE">Включено</entry>
     <entry lang="uz" key="IDC_PREF_CACHE_PASSWORDS">Кэшировать пароли в памяти</entry>
-    <entry lang="uz" key="IDC_PREF_DISMOUNT_INACTIVE">Авторазмонтировать тома при неактивности в течение</entry>
-    <entry lang="uz" key="IDC_PREF_DISMOUNT_LOGOFF">завершении сеансов</entry>
-    <entry lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</entry>
-    <entry lang="uz" key="IDC_PREF_DISMOUNT_POWERSAVING">входе в энергосбережение</entry>
-    <entry lang="uz" key="IDC_PREF_DISMOUNT_SCREENSAVER">старте экранной заставки</entry>
-    <entry lang="uz" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Авторазмонтировать тома даже при открытых файлах/папках</entry>
+    <entry lang="uz" key="IDC_PREF_UNMOUNT_INACTIVE">Авторазмонтировать тома при неактивности в течение</entry>
+    <entry lang="uz" key="IDC_PREF_UNMOUNT_LOGOFF">завершении сеансов</entry>
+    <entry lang="en" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">User session locked</entry>
+    <entry lang="uz" key="IDC_PREF_UNMOUNT_POWERSAVING">входе в энергосбережение</entry>
+    <entry lang="uz" key="IDC_PREF_UNMOUNT_SCREENSAVER">старте экранной заставки</entry>
+    <entry lang="uz" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Авторазмонтировать тома даже при открытых файлах/папках</entry>
     <entry lang="uz" key="IDC_PREF_LOGON_MOUNT_DEVICES">Монтировать все тома на устройствах</entry>
     <entry lang="uz" key="IDC_PREF_LOGON_START">Запуск VeraCrypt в фоне</entry>
     <entry lang="uz" key="IDC_PREF_MOUNT_READONLY">Монтировать как тома только для чтения</entry>
@@ -169,7 +169,7 @@
     <entry lang="uz" key="IDC_PREF_OPEN_EXPLORER">Открывать окно Проводника для успешно смонтированного тома</entry>
     <entry lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</entry>
     <entry lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</entry>
-    <entry lang="uz" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Очищать кэш паролей при авторазмонтировании</entry>
+    <entry lang="uz" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Очищать кэш паролей при авторазмонтировании</entry>
     <entry lang="uz" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Очищать кэш паролей при выходе</entry>
     <entry lang="en" key="IDC_PRESERVE_TIMESTAMPS">Preserve modification timestamp of file containers</entry>
     <entry lang="uz" key="IDC_RESET_HOTKEYS">Сброс</entry>
@@ -269,14 +269,14 @@
     <entry lang="en" key="IDT_ACCELERATION_OPTIONS">Hardware Acceleration</entry>
     <entry lang="uz" key="IDT_ASSIGN_HOTKEY">Клавиша быстрого вызова</entry>
     <entry lang="uz" key="IDT_AUTORUN">Настройка автозапуска (файл autorun.inf)</entry>
-    <entry lang="uz" key="IDT_AUTO_DISMOUNT">Автоматическое размонтирование</entry>
-    <entry lang="uz" key="IDT_AUTO_DISMOUNT_ON">Размонтировать все тома при:</entry>
+    <entry lang="uz" key="IDT_AUTO_UNMOUNT">Автоматическое размонтирование</entry>
+    <entry lang="uz" key="IDT_AUTO_UNMOUNT_ON">Размонтировать все тома при:</entry>
     <entry lang="uz" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Параметры экрана загрузчика</entry>
     <entry lang="uz" key="IDT_CONFIRM_PASSWORD">Подтвердите:</entry>
     <entry lang="uz" key="IDT_CURRENT">Текущий</entry>
     <entry lang="uz" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Показывать этот текст на экране предзагрузочной авторизации (не более 24 символов):</entry>
     <entry lang="uz" key="IDT_DEFAULT_MOUNT_OPTIONS">Параметры монтирования томов по умолчанию</entry>
-    <entry lang="uz" key="IDT_DISMOUNT_ACTION">Дополнительные параметры</entry>
+    <entry lang="uz" key="IDT_UNMOUNT_ACTION">Дополнительные параметры</entry>
     <entry lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</entry>
     <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</entry>
     <entry lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</entry>
@@ -423,8 +423,8 @@
     <entry lang="uz" key="DEVICE_FREE_PB">Хажми %s - %.2f Пб</entry>
     <entry lang="uz" key="DEVICE_IN_USE_FORMAT">ВНИМАНИЕ: Устройство/раздел используется операционной системой или приложениями. Форматирование устройства/раздела может привести к потере данных или нестабильности системы.\n\nПродолжить?</entry>
     <entry lang="uz" key="DEVICE_IN_USE_INPLACE_ENC">ВНИМАНИЕ: Устройство/раздел используется операционной системой или приложениями. Следует закрыть все программы, которые могут использовать раздел (включая антивирусное ПО).\n\nПродолжить?</entry>
-    <entry lang="uz" key="FORMAT_CANT_DISMOUNT_FILESYS">ОШИБКА: Устройство/раздел содержит файловую систему, которая не может быть размонтирована. Эта файловая система может использоваться операционной системой. Форматирование устройства/раздела вероятнее всего приведёт к повреждению данных и нестабильности системы.\n\nДля решения этой проблемы мы рекомендуем сначала удалить этот раздел, после чего вновь создать его без форматирования. Вот как это сделать: 1) Щёлкните правой кнопкой мыши по значку 'Компьютер' (или 'Мой компьютер') в меню 'Пуск' и выберите пункт 'Управление'. Должно появиться окно 'Управление компьютером'. 2) В окне 'Управление компьютером' выберите 'Запоминающие устройства' &gt; 'Управление дисками'. 3) Щёлкните правой кнопкой мыши по разделу, который вы хотите зашифровать, и выберите либо 'Удалить раздел', либо 'Удалить том', либо 'Удалить логический диск'. 4) Нажмите 'Да'. Если Windows попросит перезагрузить компьютер, сделайте это. Затем повторите шаги 1 и 2 и перейдите к шагу 5. 5) Щёлкните правой кнопкой на участке с пустым местом (оно должно содержать надпись 'Не распределено') и выберите 'Основной раздел', 'Дополнительный раздел' или 'Логический диск'. 6) Должно появиться окно мастера создания разделов или томов; следуйте его инструкциям. В окне мастера на странице 'Форматирование раздела' выберите либо 'Не форматировать этот раздел', либо 'Не форматировать этот том'. В том же окне мастера нажмите кнопку 'Далее' и затем 'Готово'. 7) Учтите, что выбранный вами в VeraCrypt путь к устройству может быть теперь неверным. Поэтому завершите работу мастера создания томов VeraCrypt (если он всё ещё выполняется) и запустите его снова. 8) Попробуйте снова зашифровать устройство/раздел в VeraCrypt.\n\nЕсли VeraCrypt по-прежнему откажется шифровать устройство/раздел, скорректируйте свои планы и создайте вместо этого файловый контейнер.</entry>
-    <entry lang="uz" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">ОШИБКА: Не удалось заблокировать и/или размонтировать файловую систему. Вероятно, она используется ОС или приложениями (например, антивирусным ПО). Шифрование этого раздела может повлечь повреждение данных и нестабильность системы.\n\nЗакройте все приложения, которые могут обращаться к файловой системе (включая антивирусное ПО) и повторите попытку. Если это не поможет, следуйте указанным ниже инструкциям.</entry>
+    <entry lang="uz" key="FORMAT_CANT_UNMOUNT_FILESYS">ОШИБКА: Устройство/раздел содержит файловую систему, которая не может быть размонтирована. Эта файловая система может использоваться операционной системой. Форматирование устройства/раздела вероятнее всего приведёт к повреждению данных и нестабильности системы.\n\nДля решения этой проблемы мы рекомендуем сначала удалить этот раздел, после чего вновь создать его без форматирования. Вот как это сделать: 1) Щёлкните правой кнопкой мыши по значку 'Компьютер' (или 'Мой компьютер') в меню 'Пуск' и выберите пункт 'Управление'. Должно появиться окно 'Управление компьютером'. 2) В окне 'Управление компьютером' выберите 'Запоминающие устройства' &gt; 'Управление дисками'. 3) Щёлкните правой кнопкой мыши по разделу, который вы хотите зашифровать, и выберите либо 'Удалить раздел', либо 'Удалить том', либо 'Удалить логический диск'. 4) Нажмите 'Да'. Если Windows попросит перезагрузить компьютер, сделайте это. Затем повторите шаги 1 и 2 и перейдите к шагу 5. 5) Щёлкните правой кнопкой на участке с пустым местом (оно должно содержать надпись 'Не распределено') и выберите 'Основной раздел', 'Дополнительный раздел' или 'Логический диск'. 6) Должно появиться окно мастера создания разделов или томов; следуйте его инструкциям. В окне мастера на странице 'Форматирование раздела' выберите либо 'Не форматировать этот раздел', либо 'Не форматировать этот том'. В том же окне мастера нажмите кнопку 'Далее' и затем 'Готово'. 7) Учтите, что выбранный вами в VeraCrypt путь к устройству может быть теперь неверным. Поэтому завершите работу мастера создания томов VeraCrypt (если он всё ещё выполняется) и запустите его снова. 8) Попробуйте снова зашифровать устройство/раздел в VeraCrypt.\n\nЕсли VeraCrypt по-прежнему откажется шифровать устройство/раздел, скорректируйте свои планы и создайте вместо этого файловый контейнер.</entry>
+    <entry lang="uz" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">ОШИБКА: Не удалось заблокировать и/или размонтировать файловую систему. Вероятно, она используется ОС или приложениями (например, антивирусным ПО). Шифрование этого раздела может повлечь повреждение данных и нестабильность системы.\n\nЗакройте все приложения, которые могут обращаться к файловой системе (включая антивирусное ПО) и повторите попытку. Если это не поможет, следуйте указанным ниже инструкциям.</entry>
     <entry lang="uz" key="DEVICE_IN_USE_INFO">ВНИМАНИЕ: Некоторые смонтированные устройства/разделы уже используются.\n\nИгнорирование этого может привести к нежелательным последствиям, включая нестабильность системы.\n\nНастоятельно рекомендуется закрыть все программы, использующие эти устройства/разделы.</entry>
     <entry lang="uz" key="DEVICE_PARTITIONS_ERR">Выбранное устройство содержит разделы.\n\nФорматирование этого устройства может привести к нестабильности системы и/или повреждению данных. Либо выберите раздел на этом устройстве, либо удалите все разделы на нём, чтобы дать возможность VeraCrypt безопасно его отформатировать.</entry>
     <entry lang="uz" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Выбранное несистемное устройство содержит разделы.\n\nЗашифрованные тома VeraCrypt на основе устройств можно создавать только на дисках, не содержащих разделов (включая жёсткие и твердотельные диски). Устройство с разделами можно зашифровать целиком на месте (с помощью одного мастер-ключа), только если это диск, где установлена Windows и с которого она загружается.\n\nЕсли вы хотите зашифровать выбранное несисемное устройство с помощью одного мастер-ключа, сначала потребуется удалить все разделы на этом устройстве, чтобы VeraCrypt смог его безопасно отформатировать (форматирование устройства с разделами может повлечь нестабильность системы и/или повреждение данных). Другой вариант -- зашифровать отдельно каждый раздел на диске (используя индивидуальные мастер-ключи).\n\nПримечание: чтобы удалить все разделы с диска GPT, его нужно преобразовать в диск MBR (например, с помощью инструмента Computer Management) для удаления скрытых разделов.</entry>
@@ -590,7 +590,7 @@
     <entry lang="uz" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">ОШИБКА: Скопированные во внешний том файлы занимают слишком много места. Из-за этого во внешнем томе недостаточно свободного места под скрытый том.\n\nОбратите внимание, что скрытый том должен быть не меньше системного раздела (т.е. раздела, где установлена работающая сейчас операционная система). Причина в том, что при создании скрытой ОС выполняется копирование в скрытый том содержимого системного раздела.\n\n\nПродолжение создания скрытой операционной системы невозможно.</entry>
     <entry lang="uz" key="OPENFILES_DRIVER">Драйвер не может размонтировать том. Вероятно, на этом томе имеются открытые файлы.</entry>
     <entry lang="uz" key="OPENFILES_LOCK">Невозможно заблокировать том. На этом томе имеются открытые файлы, поэтому его нельзя размонтировать.</entry>
-    <entry lang="uz" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt не может заблокировать том, так как он используется системой или приложениями (возможно, открыты находящиеся на этом томе файлы).\n\nВы настаиваете на принудительном размонтировании этого тома?</entry>
+    <entry lang="uz" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt не может заблокировать том, так как он используется системой или приложениями (возможно, открыты находящиеся на этом томе файлы).\n\nВы настаиваете на принудительном размонтировании этого тома?</entry>
     <entry lang="uz" key="OPEN_VOL_TITLE">Выберите том VeraCrypt</entry>
     <entry lang="uz" key="OPEN_TITLE">Укажите путь и имя файла</entry>
     <entry lang="uz" key="SELECT_PKCS11_MODULE">Выберите библиотеку PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="uz" key="DLL_FILES">Библиотечные модули</entry>
     <entry lang="uz" key="FORMAT_NTFS_STOP">Продолжение NTFS-форматирования невозможно.</entry>
     <entry lang="uz" key="CANT_MOUNT_VOLUME">Невозможно смонтировать том.</entry>
-    <entry lang="uz" key="CANT_DISMOUNT_VOLUME">Невозможно размонтировать том.</entry>
+    <entry lang="uz" key="CANT_UNMOUNT_VOLUME">Невозможно размонтировать том.</entry>
     <entry lang="uz" key="FORMAT_NTFS_FAILED">Windows не может отформатировать этот том как NTFS.\n\nВыберите другой тип файловой системы (если возможно) и повторите попытку. Либо вы можете оставить этот том неформатированным (в поле выбора файловой системы укажите 'Нет'), закрыть окно мастера, смонтировать том, а затем с помощью системной или сторонней утилиты отформатировать смонтированный том (том при этом останется зашифрованным).</entry>
     <entry lang="uz" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows не может отформатировать этот том как NTFS.\n\nХотите вместо этого отформатировать том как FAT?</entry>
     <entry lang="uz" key="DEFAULT">По умолчанию</entry>
@@ -771,7 +771,7 @@
     <entry lang="uz" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Зашифровать раздел не удалось из-за ошибки. Попробуйте устранить все ранее указанные проблемы и повторить попытку. Если проблемы не решаются, попробуйте предпринять шаги, указанные ниже.</entry>
     <entry lang="uz" key="INPLACE_ENC_GENERIC_ERR_RESUME">Продолжить процесс шифровния раздела не удалось из-за ошибки.\n\nПопробуйте устранить все ранее указанные проблемы и снова возобновить процесс шифрования. Учтите, что том нельзя смонтировать до тех пор, пока он не будет полностью зашифрован.</entry>
     <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
-    <entry lang="uz" key="CANT_DISMOUNT_OUTER_VOL">Ошибка! Невозможно размонтировать внешний том.\n\nТом нельзя размонтировать, если он содержит файлы или папки, используемые какой-либо программой или системой.\n\nЗакройте все программы, которые могут использовать файлы и папки на этом томе, и нажмите 'Повтор'.</entry>
+    <entry lang="uz" key="CANT_UNMOUNT_OUTER_VOL">Ошибка! Невозможно размонтировать внешний том.\n\nТом нельзя размонтировать, если он содержит файлы или папки, используемые какой-либо программой или системой.\n\nЗакройте все программы, которые могут использовать файлы и папки на этом томе, и нажмите 'Повтор'.</entry>
     <entry lang="uz" key="CANT_GET_OUTER_VOL_INFO">Ошибка! Невозможно получить информацию о внешнем томе. Создание тома прекращено.</entry>
     <entry lang="uz" key="CANT_ACCESS_OUTER_VOL">Ошибка! Нет доступа к внешнему тому. Продолжение создания тома невозможно.</entry>
     <entry lang="uz" key="CANT_MOUNT_OUTER_VOL">Ошибка! Невозможно смонтировать внешний том. Создание тома не может быть продолжено.</entry>
@@ -882,7 +882,7 @@
     <entry lang="uz" key="INSTALL_COMPLETED">Установка завершена.</entry>
     <entry lang="uz" key="CANT_CREATE_FOLDER">Не удалось создать папку '%s'</entry>
     <entry lang="uz" key="CLOSE_TC_FIRST">Невозможно выгрузить драйвер VeraCrypt.\n\nСначала закройте все открытые окна VeraCrypt. Если это не поможет, перезагрузите Windows и попробуйте ещё раз.</entry>
-    <entry lang="uz" key="DISMOUNT_ALL_FIRST">Прежде чем продолжить установку или удаление VeraCrypt, нужно размонтировать все VeraCrypt-тома.</entry>
+    <entry lang="uz" key="UNMOUNT_ALL_FIRST">Прежде чем продолжить установку или удаление VeraCrypt, нужно размонтировать все VeraCrypt-тома.</entry>
     <entry lang="en" key="UNINSTALL_OLD_VERSION_FIRST">An obsolete version of VeraCrypt is currently installed on this system. It needs to be uninstalled before you can install this new version of VeraCrypt.\n\nAs soon as you close this message box, the uninstaller of the old version will be launched. Note that no volume will be decrypted when you uninstall VeraCrypt. After you uninstall the old version of VeraCrypt, run the installer of the new version of VeraCrypt again.</entry>
     <entry lang="uz" key="REG_INSTALL_FAILED">Ошибка установки элементов в реестре</entry>
     <entry lang="uz" key="DRIVER_INSTALL_FAILED">Ошибка установки драйвера устройства. Перезагрузите Windows и попробуйте установить VeraCrypt ещё раз.</entry>
@@ -903,7 +903,7 @@
     <entry lang="uz" key="MINUTES">мин</entry>
     <entry lang="uz" key="SECONDS">c</entry>
     <entry lang="uz" key="OPEN">Открыть</entry>
-    <entry lang="uz" key="DISMOUNT">Размонтировать</entry>
+    <entry lang="uz" key="UNMOUNT">Размонтировать</entry>
     <entry lang="uz" key="SHOW_TC">Показать VeraCrypt</entry>
     <entry lang="uz" key="HIDE_TC">Скрыть VeraCrypt</entry>
     <entry lang="uz" key="TOTAL_DATA_READ">Считано данных после монтирования</entry>
@@ -975,7 +975,7 @@
     <entry lang="en" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - System Favorite Volumes</entry>
     <entry lang="en" key="SYS_FAVORITES_HELP_LINK">What are system favorite volumes?</entry>
     <entry lang="en" key="SYS_FAVORITES_REQUIRE_PBA">The system partition/drive does not appear to be encrypted.\n\nSystem favorite volumes can be mounted using only a pre-boot authentication password. Therefore, to enable use of system favorite volumes, you need to encrypt the system partition/drive first.</entry>
-    <entry lang="uz" key="DISMOUNT_FIRST">Прежде чем продолжить, размонтируйте том.</entry>
+    <entry lang="uz" key="UNMOUNT_FIRST">Прежде чем продолжить, размонтируйте том.</entry>
     <entry lang="uz" key="CANNOT_SET_TIMER">ОШИБКА: Невозможно установить таймер.</entry>
     <entry lang="uz" key="IDPM_CHECK_FILESYS">Проверка файловой системы</entry>
     <entry lang="uz" key="IDPM_REPAIR_FILESYS">Ремонт файловой системы</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="uz" key="NO_SYSENC_PARTITION_SELECTED">Не выбран раздел.\n\nНажмите кнопку 'Устройство' и выберите не смонтированный раздел, который требует предзагрузочную авторизацию (например, раздел на зашифрованном системном диске с другой, не выполняемой сейчас ОС, или зашифрованный системный раздел другой ОС).\n\nПримечание: выбранный раздел будет смонтирован как обычный том VeraCrypt без предзагрузочной авторизации. Это может пригодиться, например, для операций резервного копирования или починки.</entry>
     <entry lang="uz" key="CONFIRM_SAVE_DEFAULT_KEYFILES">ВНИМАНИЕ: Если установлены и активированы ключевые файлы по умолчанию, монтировать НЕ использующие их тома будет невозможно. При монтировании таких томов не забывайте выключать опцию 'Ключевые файлы' (ниже поля ввода пароля).\n\nВы действительно хотите сохранить выбранные ключевые файлы/пути как используемые по умолчанию?</entry>
     <entry lang="uz" key="HK_AUTOMOUNT_DEVICES">Автомонтирование устройств</entry>
-    <entry lang="uz" key="HK_DISMOUNT_ALL">Размонтировать все</entry>
+    <entry lang="uz" key="HK_UNMOUNT_ALL">Размонтировать все</entry>
     <entry lang="uz" key="HK_WIPE_CACHE">Очистка кэша</entry>
-    <entry lang="en" key="HK_DISMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</entry>
-    <entry lang="uz" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Размонтировать все и очистить кэш</entry>
-    <entry lang="uz" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Размонтировать все, очистить кэш и выйти</entry>
+    <entry lang="en" key="HK_UNMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</entry>
+    <entry lang="uz" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Размонтировать все и очистить кэш</entry>
+    <entry lang="uz" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Размонтировать все, очистить кэш и выйти</entry>
     <entry lang="uz" key="HK_MOUNT_FAVORITE_VOLUMES">Смонтировать избранные тома</entry>
     <entry lang="uz" key="HK_SHOW_HIDE_MAIN_WINDOW">Показать/скрыть главное окно VeraCrypt</entry>
     <entry lang="uz" key="PRESS_A_KEY_TO_ASSIGN">(щёлкните здесь и нажмите клавишу)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="en" key="PAGING_FILE_CREATION_PREVENTED">Paging file creation has been prevented.\n\nPlease note that, due to Windows issues, paging files cannot be located on non-system VeraCrypt volumes (including system favorite volumes). VeraCrypt supports creation of paging files only on an encrypted system partition/drive.</entry>
     <entry lang="uz" key="SYS_ENC_HIBERNATION_PREVENTED">Из-за ошибки или несовместимости VeraCrypt не может зашифровать файл спящего режима (hibernation). Поэтому спящий режим отключён.\n\nПримечание: когда компьютер переходит в режим сна (или в энергосберегающий ждущий режим), содержимое его системной памяти записывается на жёсткий диск в файл с данными спящего режима. VeraCrypt не может предотвратить сохранение открытых в ОЗУ ключей шифрования и содержимого важных файлов в незашифрованном виде в файле с данными спящего режима.</entry>
     <entry lang="en" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernation has been prevented.\n\nVeraCrypt does not support hibernation on hidden operating systems that use an extra boot partition. Please note that the boot partition is shared by both the decoy and the hidden system. Therefore, in order to prevent data leaks and problems while resuming from hibernation, VeraCrypt has to prevent the hidden system from writing to the shared boot partition and from hibernating.</entry>
-    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
-    <entry lang="en" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt volumes have been dismounted.</entry>
-    <entry lang="en" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
-    <entry lang="en" key="SUCCESSFULLY_DISMOUNTED">Successfully dismounted</entry>
+    <entry lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">VeraCrypt volume mounted as %c: has been dismounted.</entry>
+    <entry lang="en" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt volumes have been dismounted.</entry>
+    <entry lang="en" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt volumes have been dismounted and password cache has been wiped.</entry>
+    <entry lang="en" key="SUCCESSFULLY_UNMOUNTED">Successfully dismounted</entry>
     <entry lang="en" key="CONFIRM_BACKGROUND_TASK_DISABLED">WARNING: If the VeraCrypt Background Task is disabled, the following functions will be disabled:\n\n1) Hot keys\n2) Auto-dismount (e.g., upon logoff, inadvertent host device removal, time-out, etc.)\n3) Auto-mount of favorite volumes\n4) Notifications (e.g., when damage to hidden volume is prevented)\n5) Tray icon\n\nNote: You can shut down the Background Task anytime by right-clicking the VeraCrypt tray icon and selecting 'Exit'.\n\nAre you sure you want to permanently disable the VeraCrypt Background Task?</entry>
-    <entry lang="uz" key="CONFIRM_NO_FORCED_AUTODISMOUNT">ВНИМАНИЕ: Если выключить этот параметр, станет невозможно автоматически размонтировать тома, содержащие открытые файлы/папки.\n\nВы действительно хотите выключить этот параметр?</entry>
-    <entry lang="uz" key="WARN_PREF_AUTO_DISMOUNT">ВНИМАНИЕ: Тома с открытыми файлами/папками НЕ будут автоматически размонтироваться.\n\nЧтобы избежать такого эффекта, включите в этом окне следующий параметр: 'Авторазмонтировать тома даже при открытых файлах/папках'</entry>
-    <entry lang="en" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">WARNING: When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-dismount volumes in such cases.</entry>
+    <entry lang="uz" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">ВНИМАНИЕ: Если выключить этот параметр, станет невозможно автоматически размонтировать тома, содержащие открытые файлы/папки.\n\nВы действительно хотите выключить этот параметр?</entry>
+    <entry lang="uz" key="WARN_PREF_AUTO_UNMOUNT">ВНИМАНИЕ: Тома с открытыми файлами/папками НЕ будут автоматически размонтироваться.\n\nЧтобы избежать такого эффекта, включите в этом окне следующий параметр: 'Авторазмонтировать тома даже при открытых файлах/папках'</entry>
+    <entry lang="en" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">WARNING: When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-dismount volumes in such cases.</entry>
     <entry lang="uz" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Вы запланировали шифрование раздела/тома. Этот процесс пока ещё не завершён.\n\nХотите возобновить процесс сейчас?</entry>
     <entry lang="uz" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Вы запланировали шифрование или дешифрование системного раздела/диска. Этот процесс пока ещё не завершён.\n\nХотите начать (продолжить) процесс сейчас?</entry>
     <entry lang="en" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Do you want to be prompted about whether you want to resume the currently scheduled processes of encryption of non-system partitions/volumes?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="uz" key="SYS_AUTOMOUNT_DISABLED">Ваша система не настроена на автомонтирование новых томов. Монтирование томов VeraCrypt на основе устройств может оказаться невозможным. Чтобы включить автомонтирование, выполните следующую команду и перезагрузите систему:\n\nmountvol.exe /E</entry>
     <entry lang="uz" key="SYS_ASSIGN_DRIVE_LETTER">Прежде чем продолжить, присвойте разделу/устройству букву диска ('Панель управления' &gt; 'Администрирование' &gt; 'Управление компьютером' - 'Управление дисками').\n\nПримечание: это требование операционной системы.</entry>
     <entry lang="uz" key="MOUNT_TC_VOLUME">Смонтировать том VeraCrypt</entry>
-    <entry lang="uz" key="DISMOUNT_ALL_TC_VOLUMES">Размонтировать все тома VeraCrypt</entry>
+    <entry lang="uz" key="UNMOUNT_ALL_TC_VOLUMES">Размонтировать все тома VeraCrypt</entry>
     <entry lang="uz" key="UAC_INIT_ERROR">VeraCrypt не может получить права администратора.</entry>
     <entry lang="uz" key="ERR_ACCESS_DENIED">Доступ запрещён операционной системой.\n\nВозможная причина: для чтения/записи данных в некоторых папках, файлах и устройствах операционная система требует у вас наличия прав чтения/записи system (привилегий администратора). По умолчанию пользователю без прав администратора разрешается создавать читать и изменять файлы лишь в папке с его документами ('Мои документы').</entry>
     <entry lang="en" key="SECTOR_SIZE_UNSUPPORTED">Error: The drive uses an unsupported sector size.\n\nIt is currently not possible to create partition/device-hosted volumes on drives that use sectors larger than 4096 bytes. However, note that you can create file-hosted volumes (containers) on such drives.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' > 'Performance' and disable the corresponding option.</entry>
     <entry lang="en" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Do you want VeraCrypt to attempt to disable write protection of the partition/drive?</entry>
     <entry lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
-    <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
+    <entry lang="en" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
     <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
     <entry lang="uz" key="TEST">Тест</entry>
     <entry lang="uz" key="KEYFILE">Ключевой файл</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
+    <entry lang="en" key="TASKICON_PREF_UNMOUNT_VOL">Dismount Mounted Volumes</entry>
     <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
     <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
     <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
     <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
+    <entry lang="en" key="LINUX_UNMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
     <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Close all Explorer windows of volume being dismounted</entry>
     <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
     <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
     <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_UNMOUNT">Display confirmation message box after dismount</entry>
     <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
     <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
+    <entry lang="en" key="LINUX_VOL_UNMOUNTED">Volume {0} has been dismounted.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
     <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>

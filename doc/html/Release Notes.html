@@ -44,7 +44,7 @@
 <ul>
 <li><strong>macOS:</strong>
 <ul>
-<li>Fix regression that blocked dismounting of volumes. (GH #1467)</li>
+<li>Fix regression that blocked unmounting of volumes. (GH #1467)</li>
 </ul>
 </li>
 </ul>
@@ -249,7 +249,7 @@
 <li>Fix various issues when running in Text mode:
 <ul>
 <li>Don't allow selecting exFAT/BTRFS filesytem if they are not present or not compatible with the created volume.</li>
-<li>Fix wrong dismount message displayed when mounting a volume.</li>
+<li>Fix wrong unmount message displayed when mounting a volume.</li>
 <li>Hide PIM during entry and re-ask PIM when user entered a wrong value.</li>
 <li>Fix printing error when checking free space during volume creation in path doesn't exist.</li>
 </ul>
@@ -497,7 +497,7 @@
 <li>Fix failure of Screen Readers (Accessibility support) to read UI by disabling newly introduced memory protection by default and adding a CLI switch (/protectMemory) to enable it when needed.</li>
 <li>Fix side effects related to the fix for CVE-2019-19501 which caused links in UI not to open.</li>
 <li>Add switch /signalExit to support notifying <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/waitfor" target="_blank">WAITFOR</a> Windows command when VeraCrypt.exe exits if /q was specified in CLI (cf documentation for usage).</li>
-<li>Don't display mount/dismount examples in help dialog for command line in Format and Expander.</li>
+<li>Don't display mount/unmount examples in help dialog for command line in Format and Expander.</li>
 <li>Documentation and translation updates.</li>
 </ul>
 </li>
@@ -771,7 +771,7 @@
 <li>Driver: Fix "Incorrect Parameter" error when mounting volumes on some machines.</li>
 <li>Fix failure to mount system favorites during boot on some machines.</li>
 <li>Fix current application losing focus when VeraCrypt is run in command line with /quit /silent switches.</li>
-<li>Fix some cases of external applications freezing during mount/dismount.</li>
+<li>Fix some cases of external applications freezing during mount/unmount.</li>
 <li>Fix rare cases of secure desktop for password dialog not visible which caused UI to block.</li>
 <li>Update libzip to version 1.5.0 that include fixes for some security issues.</li>
 <li>Extend Secure Desktop feature to smart card PIN entry dialog.</li>
@@ -1060,7 +1060,7 @@ incorrect Impersonation Token Handling. </li></ul>
 </li><li>Fix system favorites not always mounting after cold start. </li><li>Solve installer error when updating VeraCrypt on Windows 10. </li><li>Implement decryption of non-system partition/drive. </li><li>Include 64-bit exe files in the installer and deploy them on 64-bit machines for better performances.
 </li><li>Allow using drive letters A: and B: for mounting volumes </li><li>Make command line argument parsing more strict and robust (e.g. /lz rejected, must be /l z)
 </li><li>Add possibility to show system encryption password in Windows GUI and bootloader
-</li><li>Solve &quot;Class Already exists&quot; error that was happening for some users. </li><li>Solve some menu items and GUI fields not translatable </li><li>Make volumes correctly report Physical Sector size to Windows. </li><li>Correctly detect switch user/RDP disconnect operations for autodismount on session locked.
+</li><li>Solve &quot;Class Already exists&quot; error that was happening for some users. </li><li>Solve some menu items and GUI fields not translatable </li><li>Make volumes correctly report Physical Sector size to Windows. </li><li>Correctly detect switch user/RDP disconnect operations for autounmount on session locked.
 </li><li>Add manual selection of partition when resuming in-place encryption. </li><li>Add command line option (/cache f) to temporarily cache password during favorites mounting.
 </li><li>Add waiting dialog for Auto-Mount Devices operations to avoid freezing GUI. </li><li>Add extra information to displayed error message in order to help analyze reported issues.
 </li><li>Disable menu entry for changing system encryption PRF since it's not yet implemented.
@@ -1095,7 +1095,7 @@ incorrect Impersonation Token Handling. </li></ul>
 </li><li>Uninstall link now open the standard &quot;Add/Remove Programs&quot; window. </li><li>On uninstall, remove all VeraCrypt references from registry and disk. </li><li>Included VeraCryptExpander in the Setup. </li><li>Add option to temporary cache password when mounting multiple favorites. </li><li>Minor fixes and enhancements (see git history for more information) </li></ul>
 </li><li><strong>MacOSX:</strong>
 <ul>
-<li>Solve issue volumes not auto-dismounting when quitting VeraCrypt<strong>.</strong>
+<li>Solve issue volumes not auto-unmounting when quitting VeraCrypt<strong>.</strong>
 </li><li>Solve issue VeraCrypt window not reopening by clicking dock icon. </li></ul>
 </li><li><strong>Linux/MacOSX:</strong>
 <ul>
@@ -1132,7 +1132,7 @@ incorrect Impersonation Token Handling. </li></ul>
 <li>Security: fix vulnerability in bootloader detected by Open Crypto Audit and make it more robust.
 </li><li>Add support for SHA-256 in system boot encryption. </li><li>Various optimizations in bootloader. </li><li>Complete fix of ShellExecute security issue. </li><li>Kernel driver: check that the password length received from bootloader is less or equal to 64.
 </li><li>Correct a random crash when clicking the link for more information on keyfiles
-</li><li>Implement option to auto-dismount when user session is locked </li><li>Add self-test vectors for SHA-256 </li><li>Modern look-and-feel by enabling visual styles </li><li>few minor fixed. </li></ul>
+</li><li>Implement option to auto-unmount when user session is locked </li><li>Add self-test vectors for SHA-256 </li><li>Modern look-and-feel by enabling visual styles </li><li>few minor fixed. </li></ul>
 </li></ul>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <strong style="text-align:left">1.0e </strong>(September 4, 2014)</div>

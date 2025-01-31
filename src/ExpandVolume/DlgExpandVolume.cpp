@@ -548,7 +548,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 
 	if (IsMountedVolume (lpszVolume))
 	{
-		Warning ("DISMOUNT_FIRST", hwndDlg);
+		Warning ("UNMOUNT_FIRST", hwndDlg);
 		goto ret;
 	}
 

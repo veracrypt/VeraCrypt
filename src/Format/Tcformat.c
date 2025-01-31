@@ -7854,7 +7854,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						// Dismount the hidden volume host (in order to remount it as read-only subsequently)
 						while (!(tmp_result = UnmountVolume (hwndDlg, hiddenVolHostDriveNo, TRUE)))
 						{
-							if (MessageBoxW (hwndDlg, GetString ("CANT_DISMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL) != IDRETRY)
+							if (MessageBoxW (hwndDlg, GetString ("CANT_UNMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL) != IDRETRY)
 							{
 								// Cancel
 								NormalCursor();
@@ -7932,7 +7932,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 									// Dismount the hidden volume host
 									while (!(tmp_result = UnmountVolume (hwndDlg, hiddenVolHostDriveNo, TRUE)))
 									{
-										if (MessageBoxW (hwndDlg, GetString ("CANT_DISMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL) != IDRETRY)
+										if (MessageBoxW (hwndDlg, GetString ("CANT_UNMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL) != IDRETRY)
 										{
 											// Cancel
 											NormalCursor();
@@ -8023,7 +8023,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							|| !UnmountVolume (hwndDlg, driveNo, TRUE))
 						{
 							handleWin32Error (MainDlg, SRC_POS);
-							AbortProcess ("CANT_DISMOUNT_VOLUME");
+							AbortProcess ("CANT_UNMOUNT_VOLUME");
 						}
 					}
 
@@ -8078,7 +8078,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (!UnmountVolume (hwndDlg, driveNo, TRUE))
 					{
 						handleWin32Error (MainDlg, SRC_POS);
-						AbortProcess ("CANT_DISMOUNT_VOLUME");
+						AbortProcess ("CANT_UNMOUNT_VOLUME");
 					}
 
 					mountOptions.UseBackupHeader = TRUE;	// This must be TRUE at this point (we won't be using the regular header, which will be lost soon after the decryption process starts)
@@ -8092,7 +8092,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (!UnmountVolume (hwndDlg, driveNo, TRUE))
 					{
 						handleWin32Error (MainDlg, SRC_POS);
-						AbortProcess ("CANT_DISMOUNT_VOLUME");
+						AbortProcess ("CANT_UNMOUNT_VOLUME");
 					}
 
 					BOOL tmpbDevice;
@@ -8715,7 +8715,7 @@ retryCDDriveCheck:
 						CloseVolumeExplorerWindows (hwndDlg, hiddenVolHostDriveNo);
 						while (!(tmp_result = UnmountVolume (hwndDlg, hiddenVolHostDriveNo, TRUE)))
 						{
-							if (MessageBoxW (hwndDlg, GetString ("CANT_DISMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL | MB_ICONERROR | MB_SETFOREGROUND) != IDRETRY)
+							if (MessageBoxW (hwndDlg, GetString ("CANT_UNMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL | MB_ICONERROR | MB_SETFOREGROUND) != IDRETRY)
 							{
 								// Cancel
 								NormalCursor();
@@ -8784,7 +8784,7 @@ retryCDDriveCheck:
 									// Dismount the hidden volume host
 									while (!(tmp_result = UnmountVolume (hwndDlg, hiddenVolHostDriveNo, TRUE)))
 									{
-										if (MessageBoxW (hwndDlg, GetString ("CANT_DISMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL) != IDRETRY)
+										if (MessageBoxW (hwndDlg, GetString ("CANT_UNMOUNT_OUTER_VOL"), lpszTitle, MB_RETRYCANCEL) != IDRETRY)
 										{
 											// Cancel
 											NormalCursor ();
