@@ -66,7 +66,7 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 		}
 #if defined(TCMOUNT) && !defined(VCEXPANDER)
-		StringCchCatW (tmp, 8192, L"\nExamples:\n\nMount a volume as X:\tveracrypt.exe /q /v volume.hc /l X\nDismount a volume X:\tveracrypt.exe /q /d X");
+		StringCchCatW (tmp, 8192, L"\nExamples:\n\nMount a volume as X:\tveracrypt.exe /q /v volume.hc /l X\nUnmount a volume X:\tveracrypt.exe /q /u X");
 #endif
 		SetWindowTextW (GetDlgItem (hwndDlg, IDC_COMMANDHELP_TEXT), tmp);
 

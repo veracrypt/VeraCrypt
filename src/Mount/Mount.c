@@ -4990,7 +4990,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				fwprintf (af, L"action=%s\n", bAutoMount ? GetString ("MOUNT_TC_VOLUME") : GetString ("IDC_PREF_LOGON_START"));
 				fwprintf (af, L"open=%s\n", bAutoMount ? autoMount : L"VeraCrypt\\VeraCrypt.exe");
 				fwprintf (af, L"shell\\start=%s\nshell\\start\\command=VeraCrypt\\VeraCrypt.exe\n", GetString ("IDC_PREF_LOGON_START"));
-				fwprintf (af, L"shell\\dismount=%s\nshell\\dismount\\command=VeraCrypt\\VeraCrypt.exe /q /d\n", GetString ("UNMOUNT_ALL_TC_VOLUMES"));
+				fwprintf (af, L"shell\\unmount=%s\nshell\\unmount\\command=VeraCrypt\\VeraCrypt.exe /q /u\n", GetString ("UNMOUNT_ALL_TC_VOLUMES"));
 
 				CheckFileStreamWriteErrors (hwndDlg, af, dstPath);
 				fclose (af);
@@ -10483,7 +10483,7 @@ skipMount:
 			DWORD bytesOut;
 			DeviceIoControl (hDriver, TC_IOCTL_SET_SYSTEM_FAVORITE_VOLUME_DIRTY, NULL, 0, NULL, 0, &bytesOut, NULL);
 
-			SystemFavoritesServiceLogError (wstring (L"The filesystem of the volume mounted as ") + (wchar_t) (drive + L'A') + L": was not cleanly dismounted and needs to be checked for errors.");
+			SystemFavoritesServiceLogError (wstring (L"The filesystem of the volume mounted as ") + (wchar_t) (drive + L'A') + L": was not cleanly unmounted and needs to be checked for errors.");
 		}
 	}
 	else if (!systemFavorites && !favoriteVolumeToMount.Path.empty())

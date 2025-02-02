@@ -822,7 +822,7 @@
 				<File Id="fil1B5039BFF40C7C3BAA602D9AE17668E6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Multi-User Environment.html" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmp340BBEC25292C3BE778BA8F158DB87B1" Guid="{34107694-BD63-4466-9317-E2745861F0FE}">
-				<File Id="filDF64E26B5CFC7EDB198C7CEA46690CA0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Normal Dismount vs Force Dismount.html" Checksum="yes" DiskId="1" />
+				<File Id="filDF64E26B5CFC7EDB198C7CEA46690CA0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Normal Unmount vs Force Unmount.html" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmpC27AA2C4496C9EFA95DCD663B031B5D0" Guid="{23C15FAB-969E-491A-802E-ADE3255F9002}">
 				<File Id="fil5FA8E7B0268E1EF7F9FAFA478FE0C8B1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Notation.html" Checksum="yes" DiskId="1" />
@@ -1477,7 +1477,7 @@
 				<File Id="filD2991527BE5D0C1F42F6C69FD01376B1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\ru\Multi-User Environment.html" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmp4BC713FA989ECC8EC884548781C4F29D" Guid="{191AF27B-1811-4149-9713-2B3913422D32}">
-				<File Id="filB4D109A8E9F7C159C41DA988EF4AE5BD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\ru\Normal Dismount vs Force Dismount.html" Checksum="yes" DiskId="1" />
+				<File Id="filB4D109A8E9F7C159C41DA988EF4AE5BD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\ru\Normal Unmount vs Force Unmount.html" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmp2CF52C3BBF31CCD0752A49C11FF294A7" Guid="{0C07FB83-253B-4229-809C-4E1DA30C3626}">
 				<File Id="fil4E4C69B10DB0A7BA934182EE4EEBE7A0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\ru\Notation.html" Checksum="yes" DiskId="1" />

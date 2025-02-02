@@ -64,10 +64,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,116,114,10
     CONTROL         "Entering power saving mode",IDC_PREF_UNMOUNT_POWERSAVING,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,115,130,11
-    CONTROL         "Auto-dismount volume after no data has been read/written to it for",IDC_PREF_UNMOUNT_INACTIVE,
+    CONTROL         "Auto-unmount volume after no data has been read/written to it for",IDC_PREF_UNMOUNT_INACTIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,128,246,11
     EDITTEXT        IDC_PREF_UNMOUNT_INACTIVE_TIME,258,127,27,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    CONTROL         "Force auto-dismount even if volume contains open files or directories",IDC_PREF_FORCE_AUTO_UNMOUNT,
+    CONTROL         "Force auto-unmount even if volume contains open files or directories",IDC_PREF_FORCE_AUTO_UNMOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,141,294,10
     CONTROL         "Open Explorer window for successfully mounted volume",IDC_PREF_OPEN_EXPLORER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,171,316,11
@@ -83,7 +83,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,271,165,11
     CONTROL         "Temporarily cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,285,294,11
-    CONTROL         "Wipe cached passwords on auto-dismount",IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT,
+    CONTROL         "Wipe cached passwords on auto-unmount",IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,299,296,11
     CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,313,296,10
@@ -93,9 +93,9 @@ BEGIN
     GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,97
     GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,4,3,328,26
     GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
-    GROUPBOX        "Auto-Dismount",IDT_AUTO_UNMOUNT,4,94,328,62
+    GROUPBOX        "Auto-Unmount",IDT_AUTO_UNMOUNT,4,94,328,62
     LTEXT           "minutes",IDT_MINUTES,289,129,39,10
-    LTEXT           "Dismount all when:",IDT_AUTO_UNMOUNT_ON,9,104,71,20
+    LTEXT           "Unmount all when:",IDT_AUTO_UNMOUNT_ON,9,104,71,20
     GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,260,328,68
     GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,4,63,328,28
     CONTROL         "Don't show wait message dialog when performing operations",IDC_HIDE_WAITING_DIALOG,
@@ -256,9 +256,9 @@ BEGIN
     CONTROL         "Alt",IDC_HK_MOD_ALT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,216,158,43,10,WS_EX_TRANSPARENT
     CONTROL         "Win",IDC_HK_MOD_WIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,266,158,34,10,WS_EX_TRANSPARENT
     PUSHBUTTON      "Remove",IDC_HOTKEY_REMOVE,304,158,59,14
-    CONTROL         "Play system notification sound after successful hot-key dismount",IDC_HK_UNMOUNT_PLAY_SOUND,
+    CONTROL         "Play system notification sound after successful hot-key unmount",IDC_HK_UNMOUNT_PLAY_SOUND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,201,348,10
-    CONTROL         "Display balloon tooltip after successful hot-key dismount",IDC_HK_UNMOUNT_BALLOON_TOOLTIP,
+    CONTROL         "Display balloon tooltip after successful hot-key unmount",IDC_HK_UNMOUNT_BALLOON_TOOLTIP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,213,351,10,WS_EX_TRANSPARENT
     DEFPUSHBUTTON   "OK",IDOK,260,236,59,14
     PUSHBUTTON      "Cancel",IDCANCEL,323,236,59,14
@@ -651,8 +651,8 @@ BEGIN
         MENUITEM "Mount Volume with Options",   IDM_MOUNT_VOLUME_OPTIONS
         MENUITEM "Auto-Mount All Device-Hosted Volumes", IDM_MOUNTALL
         MENUITEM SEPARATOR
-        MENUITEM "Dismount Volume",             IDM_UNMOUNT_VOLUME
-        MENUITEM "Dismount All Mounted Volumes", IDM_UNMOUNTALL
+        MENUITEM "Unmount Volume",             IDM_UNMOUNT_VOLUME
+        MENUITEM "Unmount All Mounted Volumes", IDM_UNMOUNTALL
         MENUITEM SEPARATOR
         MENUITEM "Change Volume Password...",   IDM_CHANGE_PASSWORD
         MENUITEM "Add/Remove Keyfiles to/from Volume...", IDM_ADD_REMOVE_VOL_KEYFILES

@@ -1307,7 +1307,7 @@
     <entry lang="uk" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Бажаєте, щоб VeraCrypt спробувати відключити захист від запису на розділ/диск?</entry>
     <entry lang="uk" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">УВАГА: Цей параметр може знизити продуктивність.\n\nвикористовувати цей параметр?</entry>
     <entry lang="uk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Увага: VeraCrypt авто-розмонтував пристрої</entry>
-    <entry lang="uk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Перед тим, як фізично видалити або відключити пристрій, що містить встановлений обсяг, ви повинні демонтувати спершу том VeraCrypt.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
+    <entry lang="uk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Перед тим, як фізично видалити або відключити пристрій, що містить встановлений обсяг, ви повинні демонтувати спершу том VeraCrypt.\n\nUnexpected spontaneous unmount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
     <entry lang="uk" key="UNSUPPORTED_TRUECRYPT_FORMAT">Цей том був створений за допомогою TrueCrypt %x.%x, але VeraCrypt підтримує лише томи TrueCrypt, створені за допомогою версій TrueCrypt 6.x/7.x</entry>
     <entry lang="uk" key="TEST">Тест</entry>
     <entry lang="uk" key="KEYFILE">Файл-ключ</entry>
