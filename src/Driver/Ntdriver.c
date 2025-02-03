@@ -1446,7 +1446,12 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
 		// Vista's, Windows 8.1 and later filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
-		if (ValidateIOBufferSize(Irp, sizeof(VOLUME_DISK_EXTENTS), ValidateOutput))
+		if (!AllowWindowsDefrag || !Extension->bRawDevice) // We don't support defragmentation for file-hosted volumes
+		{
+			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+			Irp->IoStatus.Information = 0;
+		}
+		else if (ValidateIOBufferSize(Irp, sizeof(VOLUME_DISK_EXTENTS), ValidateOutput))
 		{
 			VOLUME_DISK_EXTENTS* extents = (VOLUME_DISK_EXTENTS*)Irp->AssociatedIrp.SystemBuffer;
 
