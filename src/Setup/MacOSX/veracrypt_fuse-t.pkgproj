@@ -809,7 +809,7 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>FUSE-T seems to be missing on your machine. VeraCrypt requires OSXFuse 1.0 or above.
+							<string>FUSE-T seems to be missing on your machine. VeraCrypt requires FUSE-T 1.0 or above.
 Please download the latest FUSE-T version from  :
 https://github.com/macos-fuse-t/fuse-t/releases</string>
 						</dict>
@@ -820,7 +820,7 @@ https://github.com/macos-fuse-t/fuse-t/releases</string>
 							<string></string>
 							<key>VALUE</key>
 							<string>FUSE-T semble ne pas être installé sur votre machine. VeraCrypt nécessite FUSE-T 1.0 ou supérieur.
-Merci de télécharger la dernière version de OSXFuse à partir de :
+Merci de télécharger la dernière version de FUSE-T à partir de :
 https://github.com/macos-fuse-t/fuse-t/releases
 
 </string>
