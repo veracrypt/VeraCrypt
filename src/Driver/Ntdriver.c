@@ -1228,7 +1228,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 			outputBuffer->PartitionLength.QuadPart= Extension->DiskLength;
 			outputBuffer->PartitionNumber = 1;
-			outputBuffer->HiddenSectors = 0;
+			outputBuffer->HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (PARTITION_INFORMATION);
 		}
@@ -1248,7 +1248,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->Mbr.PartitionType = Extension->PartitionType;
 			outputBuffer->Mbr.BootIndicator = FALSE;
 			outputBuffer->Mbr.RecognizedPartition = TRUE;
-			outputBuffer->Mbr.HiddenSectors = 0;
+			outputBuffer->Mbr.HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (PARTITION_INFORMATION_EX);
 		}
@@ -1272,7 +1272,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 			outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
 			outputBuffer->PartitionEntry->PartitionNumber = 1;
-			outputBuffer->PartitionEntry->HiddenSectors = 0;			
+			outputBuffer->PartitionEntry->HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;		
 
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (DRIVE_LAYOUT_INFORMATION);
@@ -1307,7 +1307,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 				outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
 				outputBuffer->PartitionEntry->PartitionNumber = 1;
-				outputBuffer->PartitionEntry->Mbr.HiddenSectors = 0;
+				outputBuffer->PartitionEntry->Mbr.HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
 				outputBuffer->PartitionEntry->Mbr.PartitionType = Extension->PartitionType;
 
 				Irp->IoStatus.Status = STATUS_SUCCESS;
