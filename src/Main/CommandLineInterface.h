@@ -72,7 +72,7 @@ namespace VeraCrypt
 		shared_ptr <DirectoryPath> ArgMountPoint;
 		shared_ptr <Hash> ArgNewHash;
 		shared_ptr <KeyfileList> ArgNewKeyfiles;
-		wstring ArgSecurityTokenKeySpec;
+		wstring ArgSecurityTokenSchemeSpec;
 		shared_ptr <VolumePassword> ArgNewPassword;
 		int ArgNewPim;
 		bool ArgNoHiddenVolumeProtection;

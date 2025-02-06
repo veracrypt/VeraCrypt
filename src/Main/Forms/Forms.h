@@ -437,7 +437,7 @@ namespace VeraCrypt
 			wxCheckBox* RandomSizeCheckBox;
 			wxStaticText* m_staticText65;
 			wxTextCtrl* KeyfilesBaseName;
-			wxTextCtrl* SecurityTokenKeyDesc;
+			wxTextCtrl* SecurityTokenSchemeDesc;
 			wxStaticText* m_staticText66;
 			wxPanel* m_panel20;
 			wxButton *ChooseSecurityTokenButton;
@@ -450,7 +450,7 @@ namespace VeraCrypt
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnRandomSizeCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnGenerateButtonClick( wxCommandEvent& event ) { event.Skip(); }
-			virtual void OnSelectSecurityTokenKeyClick( wxCommandEvent& event) { event.Skip(); }
+			virtual void OnSelectSecurityTokenSchemeClick( wxCommandEvent& event) { event.Skip(); }
 			
 		
 		public:
@@ -726,12 +726,12 @@ namespace VeraCrypt
 
 	};
 
-	class SecurityTokenKeysDialogBase : public wxDialog
+	class SecurityTokenSchemesDialogBase : public wxDialog
 	{
 		private:
 
 		protected:
-			wxListCtrl* SecurityTokenKeyListCtrl;
+			wxListCtrl* SecurityTokenSchemeListCtrl;
 			wxButton* OKButton;
 			wxButton* CancelButton;
 
@@ -741,8 +741,8 @@ namespace VeraCrypt
 			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 		public:
-			SecurityTokenKeysDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Security Token Keys"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1, -1 ), long style = wxDEFAULT_DIALOG_STYLE );
-			~SecurityTokenKeysDialogBase();
+			SecurityTokenSchemesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Security Token Keys"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1, -1 ), long style = wxDEFAULT_DIALOG_STYLE );
+			~SecurityTokenSchemesDialogBase();
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -1040,8 +1040,8 @@ namespace VeraCrypt
 			wxCheckBox* DisplayPasswordCheckBox;
 			wxCheckBox* UseKeyfilesCheckBox;
 			wxButton* KeyfilesButton;
-			wxTextCtrl* SecurityTokenKeySpecText;
-			wxButton* SecurityTokenKeySpecButton;
+			wxTextCtrl* SecurityTokenSchemeSpecText;
+			wxButton* SecurityTokenSchemeSpecButton;
 			wxBoxSizer* Pkcs5PrfSizer;
 			wxStaticText* Pkcs5PrfStaticText;
 			wxChoice* Pkcs5PrfChoice;
@@ -1058,7 +1058,7 @@ namespace VeraCrypt
 			virtual void OnKeyfilesButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightDown( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightClick( wxMouseEvent& event ) { event.Skip(); }
-			virtual void OnSecurityTokenKeySpecButtonClick( wxMouseEvent& event ) { event.Skip(); }
+			virtual void OnSecurityTokenSchemeSpecButtonClick( wxMouseEvent& event ) { event.Skip(); }
 
 
 		public:

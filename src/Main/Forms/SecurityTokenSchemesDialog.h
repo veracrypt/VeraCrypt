@@ -25,11 +25,11 @@ namespace VeraCrypt
 		PUBLIC
 	};
 
-	class SecurityTokenKeysDialog : public SecurityTokenKeysDialogBase
+	class SecurityTokenSchemesDialog : public SecurityTokenSchemesDialogBase
 	{
 	public:
-		SecurityTokenKeysDialog (wxWindow* parent, SecurityTokenKeyOperation mode, bool selectionMode = true);
-		wstring GetSelectedSecurityTokenKeySpec() const { return SelectedSecurityTokenKeySpec; }
+		SecurityTokenSchemesDialog (wxWindow* parent, SecurityTokenKeyOperation mode, bool selectionMode = true);
+		wstring GetSelectedSecurityTokenSchemeSpec() const { return SelectedSecurityTokenSchemeSpec; }
 
 	protected:
 		enum
@@ -37,17 +37,18 @@ namespace VeraCrypt
 			ColumnSecurityTokenSlotId = 0,
 			ColumnSecurityTokenLabel,
 			ColumnSecurityTokenKeyLabel,
+			ColumnSecurityTokenMechanismLabel
 		};
 
-		void FillSecurityTokenKeyListCtrl (KeyType keyType);
+		void FillSecurityTokenSchemesListCtrl (KeyType keyType);
 		void OnListItemActivated (wxListEvent& event) { OnOKButtonClick(); }
 		void OnListItemDeselected (wxListEvent& event);
 		void OnListItemSelected (wxListEvent& event);
 		void OnOKButtonClick ();
 		void OnOKButtonClick (wxCommandEvent& event) { OnOKButtonClick(); }
 
-		vector <SecurityTokenKey> SecurityTokenKeyList;
-		wstring SelectedSecurityTokenKeySpec;
+		vector <SecurityTokenScheme> SecurityTokenSchemeList;
+		wstring SelectedSecurityTokenSchemeSpec;
 	};
 }
 

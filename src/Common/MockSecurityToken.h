@@ -14,6 +14,10 @@ namespace VeraCrypt
 
     class MockSecurityTokenImpl : public SecurityTokenIface {
             public:
+                static size_t GetPlaintextSize() { return 190; }
+                static size_t GetCiphertextSize() { return 256; }
+                static vector<uint8> LatestPlaintext;
+
                 MockSecurityTokenImpl() : Initialized(false) {} ;
                 virtual ~MockSecurityTokenImpl() {};
                 void CloseAllSessions () throw () {};
@@ -22,11 +26,11 @@ namespace VeraCrypt
                 void DeleteKeyfile (const SecurityTokenKeyfile &keyfile) {};
                 vector <SecurityTokenKeyfile> GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
 
-                vector <SecurityTokenKey> GetAvailablePrivateKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring());
-                vector <SecurityTokenKey> GetAvailablePublicKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring());
-                void GetSecurityTokenKey(wstring tokenKeyDescriptor, SecurityTokenKey &key, SecurityTokenKeyOperation mode);
-                void GetDecryptedData(SecurityTokenKey key, vector<uint8> tokenDataToDecrypt, vector<uint8> &decryptedData);
-                void GetEncryptedData(SecurityTokenKey key, vector<uint8> plaintext, vector<uint8> &ciphertext);
+                vector <SecurityTokenScheme> GetAvailablePrivateKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring());
+                vector <SecurityTokenScheme> GetAvailablePublicKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring());
+                void GetSecurityTokenScheme(wstring tokenSchemeDescriptor, SecurityTokenScheme &scheme, SecurityTokenKeyOperation mode);
+                void GetDecryptedData(SecurityTokenScheme scheme, vector<uint8> tokenDataToDecrypt, vector<uint8> &decryptedData);
+                void GetEncryptedData(SecurityTokenScheme scheme, vector<uint8> plaintext, vector<uint8> &ciphertext);
 
 
                 void GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <uint8> &keyfileData) {};
@@ -39,6 +43,9 @@ namespace VeraCrypt
     #endif
                 bool IsInitialized () { return Initialized; }
                 bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath);
+
+                void GetObjectAttribute (SecurityTokenScheme &scheme, CK_ATTRIBUTE_TYPE attributeType, vector <uint8> &attributeValue);
+                bool GetMechanismInfo(CK_SLOT_ID slotId, CK_MECHANISM_TYPE type, CK_MECHANISM_INFO_PTR info);
 
         protected:
                 bool Initialized;

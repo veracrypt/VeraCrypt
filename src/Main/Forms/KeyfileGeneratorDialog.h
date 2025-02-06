@@ -32,7 +32,7 @@ namespace VeraCrypt
 		void OnRandomSizeCheckBoxClicked( wxCommandEvent& event );
 		void ShowBytes (wxStaticText *textCtrl, const ConstBufferPtr &buffer, bool appendDots = true);
 		void HideBytes (wxStaticText *textCtrl, size_t len);
-		void OnSelectSecurityTokenKeyClick( wxCommandEvent& event);
+		void OnSelectSecurityTokenSchemeClick( wxCommandEvent& event);
 
 		HashList Hashes;
 		int	MouseEventsCounter;

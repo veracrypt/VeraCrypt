@@ -30,7 +30,7 @@ namespace VeraCrypt
 	{
 	}
 
-	void CoreBase::ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenKeySpec, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
+	void CoreBase::ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenSchemeSpec, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
 	{
 		if ((!newPassword || newPassword->Size() < 1) && (!newKeyfiles || newKeyfiles->empty()))
 			throw PasswordEmpty (SRC_POS);
@@ -52,7 +52,7 @@ namespace VeraCrypt
 		SecureBuffer newSalt (openVolume->GetSaltSize());
 		SecureBuffer newHeaderKey (VolumeHeader::GetLargestSerializedKeySize());
 
-		shared_ptr <VolumePassword> password (Keyfile::ApplyListToPassword (newKeyfiles, newPassword, newSecurityTokenKeySpec, emvSupportEnabled));
+		shared_ptr <VolumePassword> password (Keyfile::ApplyListToPassword (newKeyfiles, newPassword, newSecurityTokenSchemeSpec, emvSupportEnabled));
 
 		bool backupHeader = false;
 		while (true)
@@ -77,10 +77,10 @@ namespace VeraCrypt
 		}
 	}
 
-	shared_ptr <Volume> CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, wstring securityTokenKeySpec, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenKeySpec, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
+	shared_ptr <Volume> CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, wstring securityTokenSchemeSpec, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenSchemeSpec, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
 	{
-		shared_ptr <Volume> volume = OpenVolume (volumePath, preserveTimestamps, password, pim, kdf, keyfiles, securityTokenKeySpec, emvSupportEnabled);
-		ChangePassword (volume, newPassword, newPim, newKeyfiles, newSecurityTokenKeySpec, emvSupportEnabled, newPkcs5Kdf, wipeCount);
+		shared_ptr <Volume> volume = OpenVolume (volumePath, preserveTimestamps, password, pim, kdf, keyfiles, securityTokenSchemeSpec, emvSupportEnabled);
+		ChangePassword (volume, newPassword, newPim, newKeyfiles, newSecurityTokenSchemeSpec, emvSupportEnabled, newPkcs5Kdf, wipeCount);
 		return volume;
 	}
 
@@ -256,10 +256,10 @@ namespace VeraCrypt
 			return false;
 	}
 
-	shared_ptr <Volume> CoreBase::OpenVolume (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr<Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, wstring securityTokenKeySpec, bool emvSupportEnabled, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr<Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, wstring protectionSecurityTokenKeySpec, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope) const
+	shared_ptr <Volume> CoreBase::OpenVolume (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr<Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, wstring securityTokenSchemeSpec, bool emvSupportEnabled, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr<Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, wstring protectionSecurityTokenSchemeSpec, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope) const
 	{
 		make_shared_auto (Volume, volume);
-		volume->Open (*volumePath, preserveTimestamps, password, pim, kdf, keyfiles, securityTokenKeySpec, emvSupportEnabled, protection, protectionPassword, protectionPim, protectionKdf, protectionKeyfiles, protectionSecurityTokenKeySpec, sharedAccessAllowed, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
+		volume->Open (*volumePath, preserveTimestamps, password, pim, kdf, keyfiles, securityTokenSchemeSpec, emvSupportEnabled, protection, protectionPassword, protectionPim, protectionKdf, protectionKeyfiles, protectionSecurityTokenSchemeSpec, sharedAccessAllowed, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
 		return volume;
 	}
 

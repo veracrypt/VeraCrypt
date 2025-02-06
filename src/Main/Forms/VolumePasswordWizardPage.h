@@ -24,8 +24,8 @@ namespace VeraCrypt
 		VolumePasswordWizardPage (wxPanel* parent, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, wstring securityTokenKeySpec, bool enableConfirmation = true);
 		~VolumePasswordWizardPage ();
 
-		wstring GetSecurityTokenKeySpec () const { return
-			PasswordPanel->GetSecurityTokenKeySpec(); }
+		wstring GetSecurityTokenSchemeSpec () const { return
+			PasswordPanel->GetSecurityTokenSchemeSpec(); }
 		shared_ptr <KeyfileList> GetKeyfiles () const { return PasswordPanel->GetKeyfiles(); }
 		shared_ptr <VolumePassword> GetPassword () const { return PasswordPanel->GetPassword(); }
 		void EnableUsePim () { PasswordPanel->EnableUsePim (); }

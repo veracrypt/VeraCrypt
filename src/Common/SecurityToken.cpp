@@ -40,6 +40,101 @@ using namespace std;
 
 namespace VeraCrypt
 {
+
+	MechanismList SecurityTokenMechanism::GetAvailableMechanisms ()
+	{
+		MechanismList l;
+
+#ifdef DEBUG
+		l.push_back(make_shared<RSASecurityTokenMechanism>());
+#endif
+
+		l.push_back(make_shared<RSAOAEPSecurityTokenMechanism>());
+
+		return l;
+	}
+
+	CK_MECHANISM RSASecurityTokenMechanism::_MECHANISM = { CKM_RSA_PKCS, NULL_PTR, 0};
+
+	bool RSASecurityTokenMechanism::ApplyTo(SecurityTokenScheme &key) {
+		key.MechanismLabel = GetLabel();
+
+		vector <uint8> attrib;
+		SecurityToken::GetObjectAttribute (key, CKA_KEY_TYPE, attrib);
+		if (attrib.size() == sizeof(CK_ULONG) && *(CK_ULONG *) &attrib.front() != CKK_RSA) {
+			return false;
+		}
+		
+
+		CK_MECHANISM_INFO mechInfo;
+		if (!SecurityToken::GetMechanismInfo(key.SlotId, CKM_RSA_PKCS, &mechInfo)) {
+			return false;
+		}
+
+		// CKA_MODULUS_BITS is Length in bits of modulus n
+		SecurityToken::GetObjectAttribute (key, CKA_MODULUS_BITS, attrib);
+		if (attrib.size() != sizeof (CK_ULONG)) {
+			return false;
+		}
+
+
+		CK_ULONG k = *(CK_ULONG *) &attrib.front();
+
+		if (k > mechInfo.ulMaxKeySize || k < mechInfo.ulMinKeySize) {
+			return false;
+		}
+
+		// for private key (decrypt)
+		// k is the length in bytes of the RSA modulus.
+		key.DecryptOutputSize = k/8 - 11; // C_Encrypt input length
+		key.EncryptOutputSize = k/8; // C_Encrypt output length
+
+		key.Mechanism = &_MECHANISM;
+		return true;
+	}
+
+
+	CK_RSA_PKCS_OAEP_PARAMS RSAOAEPSecurityTokenMechanism::_OAEP_PARAMS = {CKM_SHA256, CKG_MGF1_SHA256, 0, NULL_PTR, 0};
+	CK_MECHANISM RSAOAEPSecurityTokenMechanism::_MECHANISM = {CKM_RSA_PKCS_OAEP, (void *) &_OAEP_PARAMS, sizeof(_OAEP_PARAMS)};
+
+	bool RSAOAEPSecurityTokenMechanism::ApplyTo(SecurityTokenScheme &key) {
+		key.MechanismLabel = GetLabel();
+
+		vector <uint8> attrib;
+		SecurityToken::GetObjectAttribute (key, CKA_KEY_TYPE, attrib);
+		if (attrib.size() == sizeof(CK_ULONG) && *(CK_ULONG *) &attrib.front() != CKK_RSA) {
+			return false;
+		}
+
+		CK_MECHANISM_INFO mechInfo;
+		if (!SecurityToken::GetMechanismInfo(key.SlotId, CKM_RSA_PKCS, &mechInfo)) {
+			return false;
+		}
+
+		// CKA_MODULUS_BITS is Length in bits of modulus n
+		SecurityToken::GetObjectAttribute (key, CKA_MODULUS_BITS, attrib);
+		if (attrib.size() != sizeof (CK_ULONG)) {
+			return false;
+		}
+
+		CK_ULONG k = *(CK_ULONG *) &attrib.front();
+
+		if (k > mechInfo.ulMaxKeySize || k < mechInfo.ulMinKeySize) {
+			return false;
+		}
+
+		const int hLen = 256 / 8;
+
+		// k is the length in bytes of the RSA modulus
+		// hLen is the output length of the message digest algorithm specified by the hashAlg field of the CK_RSA_PKCS_OAEP_PARAMS structure
+		key.DecryptOutputSize = k/8 - 2 - 2*hLen - _OAEP_PARAMS.ulSourceDataLen;
+		key.EncryptOutputSize = k/8;
+		key.Mechanism = &_MECHANISM;
+		return true;
+	}
+	
+
+
 	SecurityTokenKeyfile::SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) {
 		SecurityTokenInfo* token = new SecurityTokenInfo();
 		Token = shared_ptr<SecurityTokenInfo>(token);
@@ -193,39 +288,43 @@ namespace VeraCrypt
 	}
 
 
-	void SecurityTokenImpl::GetSecurityTokenKey(wstring tokenKeyDescriptor, SecurityTokenKey &key, SecurityTokenKeyOperation mode)
+	void SecurityTokenImpl::GetSecurityTokenScheme(wstring tokenKeyDescriptor, SecurityTokenScheme &key, SecurityTokenKeyOperation mode)
 	{
 
-		CK_SLOT_ID slotId;
-
-		if (swscanf (tokenKeyDescriptor.c_str(), L"%lu", &slotId) != 1)
-			throw InvalidSecurityTokenKeyfilePath();
-
-		size_t n = tokenKeyDescriptor.find(L":");
-		if (n == std::string::npos) {
+		size_t slotEnds = tokenKeyDescriptor.find(L":");
+		if (slotEnds == std::string::npos) {
 			throw InvalidSecurityTokenKeyfilePath();
 		}
-		
-		wstring keyId = tokenKeyDescriptor.substr(n+1);
 
-		vector <SecurityTokenKey> keys;
+		size_t labelEnds = tokenKeyDescriptor.find(L":", slotEnds+1);
+		if (labelEnds == std::string::npos) {
+			throw InvalidSecurityTokenKeyfilePath();
+		}
+
+		CK_SLOT_ID slotId = StringConverter::ToUInt64(tokenKeyDescriptor.substr(0, slotEnds));
+		wstring keyId = tokenKeyDescriptor.substr(slotEnds+1, labelEnds-slotEnds-1);
+		wstring mechanismLabel = tokenKeyDescriptor.substr(labelEnds+1);
+
+		vector <SecurityTokenScheme> keys;
 		if (mode == SecurityTokenKeyOperation::ENCRYPT) {
-		 	keys = SecurityToken::GetAvailablePublicKeys(&slotId, keyId);
+		 	keys = SecurityToken::GetAvailablePublicKeys(&slotId, keyId, mechanismLabel);
 		} else if (mode == SecurityTokenKeyOperation::DECRYPT) {
-			keys = SecurityToken::GetAvailablePrivateKeys(&slotId, keyId);
+			keys = SecurityToken::GetAvailablePrivateKeys(&slotId, keyId, mechanismLabel);
 		} else {
 			throw ParameterIncorrect(SRC_POS);
 		}
 		if (keys.size() > 1 || keys.size() == 0) {
-			throw Pkcs11Exception (CKR_TOKEN_NOT_RECOGNIZED);
+			throw Pkcs11Exception (CKR_KEY_NEEDED);
 		}
 		key = keys[0];
 	}
 
-	vector <SecurityTokenKey> SecurityTokenImpl::GetAvailablePrivateKeys(CK_SLOT_ID *slotIdFilter, const wstring keyIdFilter)
+	vector <SecurityTokenScheme> SecurityTokenImpl::GetAvailablePrivateKeys(CK_SLOT_ID *slotIdFilter, const wstring keyIdFilter, const wstring mechanismLabel)
 	{
 		bool unrecognizedTokenPresent = false;
-		vector <SecurityTokenKey> keys;
+		vector <SecurityTokenScheme> keys;
+
+		auto mechanisms = SecurityTokenMechanism::GetAvailableMechanisms();
 
 		foreach (const CK_SLOT_ID &slotId, GetTokenSlots())
 		{
@@ -255,7 +354,7 @@ namespace VeraCrypt
 
 			foreach (const CK_OBJECT_HANDLE &dataHandle, GetObjects (slotId, CKO_PRIVATE_KEY))
 			{
-				SecurityTokenKey key;
+				SecurityTokenScheme key;
 				key.Handle = dataHandle;
 				key.SlotId = slotId;
 				key.Token = token;
@@ -265,15 +364,7 @@ namespace VeraCrypt
 
 				if (privateAttrib.size() == sizeof (CK_BBOOL) && *(CK_BBOOL *) &privateAttrib.front() != CK_TRUE)
 					continue;
-
-				GetObjectAttribute (slotId, dataHandle, CKA_MODULUS_BITS, privateAttrib);
-				if (privateAttrib.size() == sizeof (CK_ULONG)) {
-					CK_ULONG modulus = *(CK_ULONG *) &privateAttrib.front();
-					key.maxDecryptBufferSize = modulus / 8 - 11;
-					key.maxEncryptBufferSize = modulus / 8;
-				}
-
-
+			
 				// check if CKA_DECRYPT is present
 				GetObjectAttribute (slotId, dataHandle, CKA_DECRYPT, privateAttrib);
 				if (privateAttrib.size() == sizeof(CK_BBOOL) && *(CK_BBOOL *) &privateAttrib.front() != CK_TRUE) {
@@ -306,14 +397,29 @@ namespace VeraCrypt
 		if (keys.empty() && unrecognizedTokenPresent)
 			throw Pkcs11Exception (CKR_TOKEN_NOT_RECOGNIZED);
 
-		return keys;
+		vector <SecurityTokenScheme> keysWithSchema;
+		for (auto key = keys.begin(); key != keys.end(); ++key) {
+			for (auto mechanism = mechanisms.begin(); mechanism != mechanisms.end(); ++mechanism) {
+				if ((*mechanism)->ApplyTo(*key)) {
+					bool mechanismMatches = mechanismLabel.empty() || mechanismLabel == key->MechanismLabel;
+					if (mechanismMatches) {
+						SecurityTokenScheme keyAndSchema = *key;
+						keysWithSchema.push_back(keyAndSchema);
+					}
+				}
+			}
+		}
+
+		return keysWithSchema;
 	}
 
 
-	vector <SecurityTokenKey> SecurityTokenImpl::GetAvailablePublicKeys(CK_SLOT_ID *slotIdFilter, const wstring keyIdFilter)
+	vector <SecurityTokenScheme> SecurityTokenImpl::GetAvailablePublicKeys(CK_SLOT_ID *slotIdFilter, const wstring keyIdFilter, const wstring mechanismLabel)
 	{
 		bool unrecognizedTokenPresent = false;
-		vector <SecurityTokenKey> keys;
+		vector <SecurityTokenScheme> keys;
+
+		auto mechanisms = SecurityTokenMechanism::GetAvailableMechanisms();
 
 		foreach (const CK_SLOT_ID &slotId, GetTokenSlots())
 		{
@@ -343,24 +449,15 @@ namespace VeraCrypt
 
 			foreach (const CK_OBJECT_HANDLE &dataHandle, GetObjects (slotId, CKO_PUBLIC_KEY))
 			{
-				SecurityTokenKey key;
+				SecurityTokenScheme key;
 				key.Handle = dataHandle;
 				key.SlotId = slotId;
 				key.Token = token;
 
 				vector <uint8> publicAttrib;
 				GetObjectAttribute (slotId, dataHandle, CKA_PRIVATE, publicAttrib);
-
 				if (publicAttrib.size() == sizeof (CK_BBOOL) && *(CK_BBOOL *) &publicAttrib.front() != CK_FALSE)
 					continue;
-				
-
-				GetObjectAttribute (slotId, dataHandle, CKA_MODULUS_BITS, publicAttrib);
-				if (publicAttrib.size() == sizeof (CK_ULONG)) {
-					CK_ULONG modulus = *(CK_ULONG *) &publicAttrib.front();
-					key.maxDecryptBufferSize = modulus / 8 - 11;
-					key.maxEncryptBufferSize = modulus / 8;
-				}
 
 				// check if CKA_ENCRYPT attribute present
 				GetObjectAttribute (slotId, dataHandle, CKA_ENCRYPT, publicAttrib);
@@ -394,7 +491,20 @@ namespace VeraCrypt
 		if (keys.empty() && unrecognizedTokenPresent)
 			throw Pkcs11Exception (CKR_TOKEN_NOT_RECOGNIZED);
 
-		return keys;
+		vector <SecurityTokenScheme> keysWithSchema;
+		for (auto key = keys.begin(); key != keys.end(); ++key) {
+			for (auto mechanism = mechanisms.begin(); mechanism != mechanisms.end(); ++mechanism) {
+				if ((*mechanism)->ApplyTo(*key)) {
+					bool mechanismMatches = mechanismLabel.empty() || mechanismLabel == key->MechanismLabel;
+					if (mechanismMatches) {
+						SecurityTokenScheme keyAndSchema = *key;
+						keysWithSchema.push_back(keyAndSchema);
+					}
+				}
+			}
+		}
+
+		return keysWithSchema;
 	}
 
 	vector <SecurityTokenKeyfile> SecurityTokenImpl::GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter, const wstring keyfileIdFilter)
@@ -577,73 +687,67 @@ namespace VeraCrypt
 	}
 
 
-	CK_RV SecurityTokenImpl::PKCS11Encrypt(
-		CK_SESSION_HANDLE hSession,
-		vector<uint8> plaintext,
-		vector<uint8> &ciphertext
-		)
+	CK_RV SecurityTokenImpl::PKCS11Encrypt(CK_SESSION_HANDLE hSession, vector<uint8> plaintext, vector<uint8> &ciphertext)
 	{
 		CK_RV rv;
 		if (!plaintext.size())
 			return CKR_ARGUMENTS_BAD;
 
-		CK_ULONG ulInDataLen = plaintext.size();
-		CK_BYTE* pInData = plaintext.data();
-		CK_ULONG ulOutDataLen = ciphertext.size();
-		CK_BYTE* pOutData = ciphertext.data();
-
-		rv = Pkcs11Functions->C_Encrypt(hSession, pInData, ulInDataLen, pOutData,
-			&ulOutDataLen);
+		CK_ULONG outDataLen = ciphertext.size();
+		rv = Pkcs11Functions->C_Encrypt(hSession, plaintext.data(), plaintext.size(), ciphertext.data(),
+			&outDataLen);
 
 		if (CKR_OK == rv) {
-			ciphertext = vector<uint8>(pOutData, pOutData + ulOutDataLen);
+			ciphertext = vector<uint8>(ciphertext.data(), ciphertext.data() + outDataLen);
 		} else {
 			throw Pkcs11Exception(rv);
 		}
 		return rv;
 	}
 
-	CK_RV SecurityTokenImpl::PKCS11Decrypt(
-		CK_SESSION_HANDLE hSession,
-		vector<uint8> inEncryptedData,
-		vector<uint8> &outData
-		)
+	CK_RV SecurityTokenImpl::PKCS11Decrypt(CK_SESSION_HANDLE hSession, vector<uint8> ciphertext, vector<uint8> &plaintext)
 	{
 		CK_RV rv;
-		if (!inEncryptedData.size())
+		if (!ciphertext.size())
 			return CKR_ARGUMENTS_BAD;
 
-		CK_ULONG ulInDataLen = inEncryptedData.size();
-		CK_BYTE* pInData = inEncryptedData.data();
-		CK_ULONG ulOutDataLen = outData.size();
-		CK_BYTE* pOutData = outData.data();
+		CK_ULONG outDataLen;
 
-		rv = Pkcs11Functions->C_Decrypt(hSession, pInData, ulInDataLen, pOutData,
-			&ulOutDataLen);
+		// get output buffer size
+		rv = Pkcs11Functions->C_Decrypt(hSession, ciphertext.data(), ciphertext.size(), NULL_PTR,
+			&outDataLen);
+		if (CKR_OK != rv) {
+			throw Pkcs11Exception(rv);
+		}
+
+		plaintext = vector<uint8>((size_t)outDataLen);
+		rv = Pkcs11Functions->C_Decrypt(hSession, ciphertext.data(), ciphertext.size(), plaintext.data(),
+			&outDataLen);
 
 		if (CKR_OK == rv) {
-			outData = vector<uint8>(pOutData, pOutData + ulOutDataLen);
+			plaintext = vector<uint8>(plaintext.data(), plaintext.data() + outDataLen);
 		} else {
 			throw Pkcs11Exception(rv);
 		}
 		return rv;
 	}
 
-	void SecurityTokenImpl::GetEncryptedData(SecurityTokenKey key, vector<uint8> plaintext, vector<uint8> &ciphertext) {
-		GetEncryptedData(key.SlotId, key.Handle, plaintext, ciphertext);
+	void SecurityTokenImpl::GetEncryptedData(SecurityTokenScheme key, vector<uint8> plaintext, vector<uint8> &ciphertext) {
+		ciphertext = vector<uint8>(key.EncryptOutputSize);
+		GetEncryptedData(key.SlotId, key.Handle, key.Mechanism, plaintext, ciphertext);
 	}
 
-	void SecurityTokenImpl::GetEncryptedData (CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, vector <uint8> plaintext, vector <uint8> &ciphertext)
+	void SecurityTokenImpl::GetEncryptedData (CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_MECHANISM_PTR mechanism, vector <uint8> plaintext, vector <uint8> &ciphertext)
 	{
 		LoginUserIfRequired (slotId);
 
 		if (Sessions.find (slotId) == Sessions.end())
 			throw ParameterIncorrect (SRC_POS);
 
-		CK_MECHANISM m = { CKM_RSA_PKCS, 0, 0 };
-		CK_RV status = Pkcs11Functions->C_EncryptInit (Sessions[slotId].Handle, &m, tokenObject);
-		if (status != CKR_OK)
+		CK_RV status = Pkcs11Functions->C_EncryptInit (Sessions[slotId].Handle, mechanism, tokenObject);
+		if (status != CKR_OK) {
 			throw Pkcs11Exception (status);
+		}
 
 		status = PKCS11Encrypt(
 			Sessions[slotId].Handle,
@@ -651,36 +755,38 @@ namespace VeraCrypt
 			ciphertext
 		);
 
-		if (status != CKR_OK)
+		if (status != CKR_OK) {
 			throw Pkcs11Exception (status);
+		}
 
 	}
 
-	void SecurityTokenImpl::GetDecryptedData(SecurityTokenKey key, vector<uint8> tokenDataToDecrypt, vector<uint8> &decryptedData)
+	void SecurityTokenImpl::GetDecryptedData(SecurityTokenScheme key, vector<uint8> ciphertext, vector<uint8> &plaintext)
 	{
-		GetDecryptedData(key.SlotId, key.Handle, tokenDataToDecrypt, decryptedData);
+		GetDecryptedData(key.SlotId, key.Handle, key.Mechanism, ciphertext, plaintext);
 	}
 
-	void SecurityTokenImpl::GetDecryptedData (CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, vector <uint8> edata, vector <uint8> &decryptedData)
+	void SecurityTokenImpl::GetDecryptedData (CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_MECHANISM_PTR mechanism, vector <uint8> ciphertext, vector <uint8> &plaintext)
 	{
 		LoginUserIfRequired (slotId);
 
 		if (Sessions.find (slotId) == Sessions.end())
 			throw ParameterIncorrect (SRC_POS);
 
-		CK_MECHANISM m = { CKM_RSA_PKCS, 0, 0 };
-		CK_RV status = Pkcs11Functions->C_DecryptInit (Sessions[slotId].Handle, &m, tokenObject);
-		if (status != CKR_OK)
+		CK_RV status = Pkcs11Functions->C_DecryptInit (Sessions[slotId].Handle, mechanism, tokenObject);
+		if (status != CKR_OK) {
 			throw Pkcs11Exception (status);
+		}
 
 		status = PKCS11Decrypt(
 			Sessions[slotId].Handle,
-			edata,
-			decryptedData
+			ciphertext,
+			plaintext
 		);
 
-		if (status != CKR_OK)
+		if (status != CKR_OK) {
 			throw Pkcs11Exception (status);
+		}
 
 	}
 
@@ -743,9 +849,20 @@ namespace VeraCrypt
 		return slots;
 	}
 
-	bool SecurityTokenImpl::IsKeyfilePathValid (const wstring &securityTokenKeyfilePath)
+	 bool SecurityTokenImpl::GetMechanismInfo(CK_SLOT_ID slotId, CK_MECHANISM_TYPE type, CK_MECHANISM_INFO_PTR mechanismInfo) {
+		CK_MECHANISM_INFO mechInfo;
+		CK_RV status = Pkcs11Functions->C_GetMechanismInfo(slotId, type, &mechInfo);
+		if (status != CKR_OK) {
+			return false;
+		} else {
+			*mechanismInfo = mechInfo;
+			return true;
+		}
+	}
+
+	bool SecurityTokenImpl::IsKeyfilePathValid (const wstring &SecurityTokenKeyfilePath)
 	{
-		return securityTokenKeyfilePath.find(TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX) == 0;
+		return SecurityTokenKeyfilePath.find(TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX) == 0;
 	}
 
 	void SecurityTokenImpl::Login (CK_SLOT_ID slotId, const char* pin)
@@ -903,6 +1020,10 @@ namespace VeraCrypt
 			throw Pkcs11Exception(status);
 
 		Sessions[slotId].Handle = session;
+	}
+
+	void SecurityTokenImpl::GetObjectAttribute (SecurityTokenScheme &key, CK_ATTRIBUTE_TYPE attributeType, vector <uint8> &attributeValue) {
+		return GetObjectAttribute(key.SlotId, key.Handle, attributeType, attributeValue);
 	}
 
 	Pkcs11Exception::operator string () const

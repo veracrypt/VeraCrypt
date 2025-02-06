@@ -23,7 +23,8 @@ using namespace std;
 
 #define DEFAULT_PASSWORD "12345"
 #define PASSWORD_TO_CHANGE_TO "54321"
-#define DEFAULT_REDKEY_DATA_SIZE (128 + 128/2)
+// leave some additional space after the key
+#define DEFAULT_REDKEY_DATA_SIZE (MockSecurityTokenImpl::GetPlaintextSize() + MockSecurityTokenImpl::GetPlaintextSize()/2)
 #define TOKEN_KEY L"test token key"
 
 
@@ -54,15 +55,14 @@ class AdminPasswordRequestHandler : public GetStringFunctor
 
 FilesystemPath TestFile(string name) {
     struct stat fstat;
-
-    auto found = false;
-    while (!found) {
+    for (auto i = 0; i < 255; i ++) {
         if (stat ("Tests", &fstat) == 0) {
             auto *wd = getcwd(NULL, 0);
             return FilesystemPath(string(wd)).Append(L"Tests").Append(StringConverter::ToWide(name));
         }
         chdir("..");
     }
+    throw std::exception();
 }
 
 void SetUp() {
@@ -106,7 +106,7 @@ shared_ptr<MountOptions> GetOptions(string name) {
     shared_ptr<Pkcs5Kdf> protectionKdf;
     shared_ptr<KeyfileList> protectionKeyfileList(new KeyfileList());
     VolumeType::Enum volumeType = VolumeType::Unknown;
-    wstring securityTokenKeySpec;
+    wstring securityTokenSchemeSpec;
 
 
     MountOptions opts;
@@ -121,7 +121,7 @@ shared_ptr<MountOptions> GetOptions(string name) {
     opts.ProtectionPassword = protectionPassword;
     opts.ProtectionKdf = protectionKdf;
     opts.ProtectionKeyfiles = protectionKeyfileList;
-    opts.SecurityTokenKeySpec = securityTokenKeySpec;
+    opts.SecurityTokenSchemeSpec = securityTokenSchemeSpec;
 
     opts.SlotNumber = 0;
 
@@ -148,7 +148,7 @@ shared_ptr<VolumeCreationOptions> GetCreateOpts(string name) {
     opts.Password = make_shared<VolumePassword>(*(mopts.Password));
     opts.Pim = mopts.Pim;
     opts.Keyfiles = mopts.Keyfiles;
-    opts.SecurityTokenKeySpec = mopts.SecurityTokenKeySpec;
+    opts.SecurityTokenSchemeSpec = mopts.SecurityTokenSchemeSpec;
     opts.Path = *mopts.Path;
     
     opts.VolumeHeaderKdf = mopts.Kdf;
@@ -175,7 +175,7 @@ Test* WithDefaultParams(string name, paramTestFunc<VolumeTestParams> f) {
 
 void WithBluekey(const VolumeTestParams *params, shared_ptr<Keyfile> kf) {
     // setting this signals to use security token key
-    params->opts->SecurityTokenKeySpec = params->createOpts->SecurityTokenKeySpec = TOKEN_KEY;
+    params->opts->SecurityTokenSchemeSpec = params->createOpts->SecurityTokenSchemeSpec = TOKEN_KEY;
     params->createOpts->Keyfiles->push_back(kf);
     params->opts->Keyfiles->push_back(kf);
 }
@@ -205,12 +205,17 @@ shared_ptr<Keyfile> CreateBluekey(size_t size) {
 
     redkeyBuffer = new Buffer(ConstBufferPtr(buffer));
 
+    stringstream ss;
+    ss << "readkey_original_" << size << ".key";
+
     File redkeyOriginal;
-    redkeyOriginal.Open(TestFile("redkey_origin.key"), File::FileOpenMode::CreateWrite);
+    redkeyOriginal.Open(TestFile(ss.str()), File::FileOpenMode::CreateWrite);
     redkeyOriginal.Write(*redkeyBuffer);
     redkeyOriginal.Close();
 
-    FilePath bluekeyPath(TestFile("bluekey.key"));
+    stringstream bkFn;
+    bkFn << "bluekey_" << size << ".key";
+    FilePath bluekeyPath(TestFile(bkFn.str()));
     Keyfile::CreateBluekey(bluekeyPath, TOKEN_KEY, buffer);
     return shared_ptr<Keyfile>(new Keyfile(bluekeyPath));
 }
@@ -263,9 +268,9 @@ void DumpVolume() {
     try {
         shared_ptr<Volume> vol = VeraCrypt::Core->OpenVolume(opts.Path,
             true, opts.Password, 0, opts.Kdf,
-            opts.Keyfiles, opts.SecurityTokenKeySpec, false,
+            opts.Keyfiles, opts.SecurityTokenSchemeSpec, false,
             opts.Protection, opts.ProtectionPassword, 0, opts.ProtectionKdf, opts.ProtectionKeyfiles,
-            opts.ProtectionSecurityTokenKeySpec,
+            opts.ProtectionSecurityTokenSchemeSpec,
             false, VolumeType::Unknown, false, false);
 
         if (vol) {
@@ -308,7 +313,7 @@ shared_ptr<Keyfile> RevealRedkey(VolumeTestParams *params) {
 
 
     FilePath redkeyPath(TestFile("redkey.key"));
-    kf->RevealRedkey(redkeyPath, params->opts->SecurityTokenKeySpec);
+    kf->RevealRedkey(redkeyPath, params->opts->SecurityTokenSchemeSpec);
     return shared_ptr<Keyfile>(new Keyfile(redkeyPath));
 }
 
@@ -350,7 +355,7 @@ void ChangeSecurityParametersTest(shared_ptr<TestResult> r, VolumeTestParams *pa
     shared_ptr<VolumePassword> newPassword,
     int newPim, 
     shared_ptr<VeraCrypt::KeyfileList> newKeyfiles, 
-    shared_ptr<wstring> newSecurityTokenKeySpec,
+    shared_ptr<wstring> newSecurityTokenSchemeSpec,
     shared_ptr<VeraCrypt::Pkcs5Kdf> newPkcs5Kdf
     ) {
 
@@ -365,7 +370,7 @@ void ChangeSecurityParametersTest(shared_ptr<TestResult> r, VolumeTestParams *pa
     auto pim = opts->Pim;
     auto kdf = opts->Kdf;
     shared_ptr<VeraCrypt::KeyfileList> keyfiles = opts->Keyfiles;
-    wstring securityTokenKeySpec = opts->SecurityTokenKeySpec;
+    wstring securityTokenSchemeSpec = opts->SecurityTokenSchemeSpec;
 
     
     if (!newPkcs5Kdf) {
@@ -385,12 +390,12 @@ void ChangeSecurityParametersTest(shared_ptr<TestResult> r, VolumeTestParams *pa
     // null => same
     // empty => drop key
     // non-empty => use specified
-    wstring greenSecurityTokenKeySpec;
-    if (!newSecurityTokenKeySpec) {
+    wstring greenSecurityTokenSchemeSpec;
+    if (!newSecurityTokenSchemeSpec) {
         r->Phase("keeping the same tokenspec");
-        greenSecurityTokenKeySpec = securityTokenKeySpec;
+        greenSecurityTokenSchemeSpec = securityTokenSchemeSpec;
     } else {
-        greenSecurityTokenKeySpec = *newSecurityTokenKeySpec;
+        greenSecurityTokenSchemeSpec = *newSecurityTokenSchemeSpec;
     }
 
     auto greenPim = newPim;
@@ -411,8 +416,8 @@ void ChangeSecurityParametersTest(shared_ptr<TestResult> r, VolumeTestParams *pa
     r->Phase("applying security parameters changes");
     try {
         VeraCrypt::Core->ChangePassword(volumePath, preserveTimestamps,
-        password, pim, kdf, keyfiles, securityTokenKeySpec,
-        greenPassword, greenPim, greenKeyfiles, greenSecurityTokenKeySpec, false,
+        password, pim, kdf, keyfiles, securityTokenSchemeSpec,
+        greenPassword, greenPim, greenKeyfiles, greenSecurityTokenSchemeSpec, false,
         newPkcs5Kdf, wipeCount);
     } catch (exception &e) {
         r->Failed("unable to change security parameters");
@@ -423,7 +428,7 @@ void ChangeSecurityParametersTest(shared_ptr<TestResult> r, VolumeTestParams *pa
     params->opts->Password = greenPassword;
     params->opts->Pim = greenPim;
     params->opts->Keyfiles = greenKeyfiles;
-    params->opts->SecurityTokenKeySpec = greenSecurityTokenKeySpec;
+    params->opts->SecurityTokenSchemeSpec = greenSecurityTokenSchemeSpec;
     params->opts->Kdf = newPkcs5Kdf;
 
     r->Phase("mounting updated volume");
@@ -541,7 +546,28 @@ void AssertEquals(shared_ptr<TestResult> r, BufferPtr actual, BufferPtr expected
 
 void RevealRedkeyTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
     r->Phase("creating bluekey");
-    shared_ptr<Keyfile> kf = CreateBluekey();
+    // one-byte 
+    shared_ptr<Keyfile> kf = CreateBluekey(MockSecurityTokenImpl::GetPlaintextSize() + 1);
+    WithBluekey(params, kf);
+
+    r->Phase("revealing redkey");
+    shared_ptr<Keyfile> redkeyKf = RevealRedkey(params);
+
+    r->Phase("Reading revealed redkey");
+    FilePath redkeyPath = *redkeyKf;
+    auto redkey = shared_ptr<File>(new File());
+    redkey->Open(redkeyPath, File::FileOpenMode::OpenRead);
+    FileStream rkFs(redkey);
+    string redkeyData = rkFs.ReadToEnd();
+    redkey->Close();
+
+    r->Phase("comparing the data bluekey is based on with revealed keyfile");
+    AssertEquals(r, BufferPtr((uint8*)redkeyData.c_str(), redkeyData.size()), *redkeyBuffer);
+}
+
+void RevealReadkeyStrictPlaintextSizeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
+    r->Phase("creating bluekey");
+    shared_ptr<Keyfile> kf = CreateBluekey(MockSecurityTokenImpl::GetPlaintextSize());
     WithBluekey(params, kf);
 
     r->Phase("revealing redkey");
@@ -567,7 +593,8 @@ void CreateBluekeyTest(shared_ptr<TestResult> r) {
     FilePath bluekeyPath = *kf;
     File bluekey;
     bluekey.Open(bluekeyPath, File::FileOpenMode::OpenRead);
-    AssertEquals(r, DEFAULT_REDKEY_DATA_SIZE, bluekey.Length());
+    size_t remainder = DEFAULT_REDKEY_DATA_SIZE - MockSecurityTokenImpl::GetPlaintextSize();
+    AssertEquals(r, MockSecurityTokenImpl::GetCiphertextSize() + remainder, bluekey.Length());
 }
 
 
@@ -609,7 +636,7 @@ void MountWithBlueKeyTest(shared_ptr<TestResult> r, VolumeTestParams *params, si
 
     params->opts->Keyfiles->clear();
     params->opts->Keyfiles->push_back(redkey);
-    params->opts->SecurityTokenKeySpec = L""; // do not use security key
+    params->opts->SecurityTokenSchemeSpec = L""; // do not use security key
 
     EnsureVolumeMounts(r, *params);
 }
@@ -625,7 +652,7 @@ void CreateVolumeWithBluekeySizeGreaterThanEncryptionKeySizeTest(shared_ptr<Test
 
 void CreateVolumeWithBluekeySizeLessThanEncryptionKeySizeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
     try {
-        MountWithBlueKeyTest(r, params, DEFAULT_REDKEY_DATA_SIZE - 92);
+        MountWithBlueKeyTest(r, params, MockSecurityTokenImpl::GetPlaintextSize() - 1);
         r->Failed("shouldn't use keyfiles less than encryption key size");
     } catch (InsufficientData &e) {
         r->Success();
@@ -897,24 +924,12 @@ int main() {
     SetUp();
     VeraCrypt::Testing t;
 
-    
-    
-    // t.AddTest(WithDefaultParams("create volume with bluekey, size > encryption size", &CreateVolumeWithBluekeySizeGreaterThanEncryptionKeySizeTest));
-    // t.AddTest(WithDefaultParams("create volume with bluekey, size < encryption size", &CreateVolumeWithBluekeySizeLessThanEncryptionKeySizeTest));
-    // t.AddTest(WithDefaultParams("files test", &FilesTest));
-    // t.AddTest(WithDefaultParams("create hidden volume", &CreateHiddenVolumeTest));
-    // for (auto p : GenerateCombinations()) {
-    //     t.AddTest(WithParams(p.caseName, MountVolumeTest, p.createOpts, p.opts));
-    // }
-    // t.Main();
-    // TearDown();
-    // return 0;
-
     /*
      * Test not related to the volume
      */    
     t.AddTest("create blue key", &CreateBluekeyTest);
-    t.AddTest(WithDefaultParams("reveal redkey", &RevealRedkeyTest));
+    t.AddTest(WithDefaultParams("reveal redkey (additinal data after encrypted portion)", &RevealRedkeyTest));
+    t.AddTest(WithDefaultParams("reveal redkey (no additional data after encrypted portion)", &RevealReadkeyStrictPlaintextSizeTest));
 
     /*
      * Test related to volume creation/mounting/changing
@@ -948,7 +963,7 @@ int main() {
         algosSuite->AddTest(WithParams(p.caseName, MountVolumeTest, p.createOpts, p.opts));
    }
 
-   t.AddTest(algosSuite);
+    t.AddTest(algosSuite);
 
     t.Main();
     TearDown();

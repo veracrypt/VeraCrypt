@@ -29,7 +29,7 @@ namespace VeraCrypt
 	}
 #endif
 
-	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, wstring securityTokenKeySpec, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenKeySpec)
+	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, wstring securityTokenSchemeSpec, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenSchemeSpec)
 		: ChangePasswordDialogBase (parent), DialogMode (mode), Path (volumePath)
 	{
 		bool enableNewPassword = false;
@@ -67,11 +67,11 @@ namespace VeraCrypt
 		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
 #endif
 
-		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, securityTokenKeySpec, SecurityTokenKeyOperation::DECRYPT, false, true, true, false, true, true);
+		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, securityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
-		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, newSecurityTokenKeySpec, SecurityTokenKeyOperation::DECRYPT, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
+		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, newSecurityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -110,7 +110,7 @@ namespace VeraCrypt
 
 			shared_ptr <VolumePassword> newPassword;
 			int newPim = 0;
-			wstring newSecurityTokenSpec = wstring();
+			wstring newSecuritySchemeSpec = wstring();
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 			{
 				try
@@ -129,7 +129,7 @@ namespace VeraCrypt
 					NewPasswordPanel->SetFocusToPimTextCtrl();
 					return;
 				}
-				newSecurityTokenSpec = NewPasswordPanel->GetSecurityTokenKeySpec();
+				newSecuritySchemeSpec = NewPasswordPanel->GetSecurityTokenSchemeSpec();
 
 				if (newPassword->Size() > 0)
 				{
@@ -161,17 +161,17 @@ namespace VeraCrypt
 			{
 				newPassword = CurrentPasswordPanel->GetPassword();
 				newPim = CurrentPasswordPanel->GetVolumePim();
-				newSecurityTokenSpec = CurrentPasswordPanel->GetSecurityTokenKeySpec();
+				newSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
 			}
 
 			shared_ptr <KeyfileList> newKeyfiles;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles) {
 				newKeyfiles = NewPasswordPanel->GetKeyfiles();
-				newSecurityTokenSpec = NewPasswordPanel->GetSecurityTokenKeySpec();
+				newSecuritySchemeSpec = NewPasswordPanel->GetSecurityTokenSchemeSpec();
 			}
 			else if (DialogMode != Mode::RemoveAllKeyfiles) {
 				newKeyfiles = CurrentPasswordPanel->GetKeyfiles();
-				newSecurityTokenSpec = CurrentPasswordPanel->GetSecurityTokenKeySpec();
+				newSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
 			}
 
 			/* force the display of the random enriching interface */
@@ -199,8 +199,8 @@ namespace VeraCrypt
 				wxBusyCursor busy;
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
 					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
-					CurrentPasswordPanel->GetSecurityTokenKeySpec(),
-					newPassword, newPim, newKeyfiles, newSecurityTokenSpec,
+					CurrentPasswordPanel->GetSecurityTokenSchemeSpec(),
+					newPassword, newPim, newKeyfiles, newSecuritySchemeSpec,
 					NewPasswordPanel->GetPkcs5Kdf(), 
 					NewPasswordPanel->GetHeaderWipeCount(),
 					Gui->GetPreferences().EMVSupportEnabled

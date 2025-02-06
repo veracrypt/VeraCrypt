@@ -223,7 +223,7 @@ namespace VeraCrypt
 
 		case Step::VolumePassword:
 			{
-				VolumePasswordWizardPage *page = new VolumePasswordWizardPage (GetPageParent(), Password, Keyfiles, SecurityTokenKeySpec);
+				VolumePasswordWizardPage *page = new VolumePasswordWizardPage (GetPageParent(), Password, Keyfiles, SecurityTokenSchemeSpec);
 				page->EnableUsePim (); // force displaying "Use PIM"
 				page->SetPimSelected (Pim > 0);
 
@@ -771,7 +771,7 @@ namespace VeraCrypt
 
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
-				SecurityTokenKeySpec = page->GetSecurityTokenKeySpec();
+				SecurityTokenSchemeSpec = page->GetSecurityTokenSchemeSpec();
 
 				if (forward && Password && !Password->IsEmpty())
 				{
@@ -796,7 +796,7 @@ namespace VeraCrypt
 						shared_ptr <VolumePassword> hiddenPassword;
 						try
 						{
-							hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, SecurityTokenKeySpec, Gui->GetPreferences().EMVSupportEnabled);
+							hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, SecurityTokenSchemeSpec, Gui->GetPreferences().EMVSupportEnabled);
 						}
 						catch (...)
 						{
@@ -847,7 +847,7 @@ namespace VeraCrypt
 					shared_ptr <VolumePassword> hiddenPassword;
 					try
 					{
-						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, SecurityTokenKeySpec, Gui->GetPreferences().EMVSupportEnabled);
+						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, SecurityTokenSchemeSpec, Gui->GetPreferences().EMVSupportEnabled);
 					}
 					catch (...)
 					{
@@ -1028,7 +1028,7 @@ namespace VeraCrypt
 						options->Password = Password;
 						options->Pim = Pim;
 						options->Keyfiles = Keyfiles;
-						options->SecurityTokenKeySpec = SecurityTokenKeySpec;
+						options->SecurityTokenSchemeSpec = SecurityTokenSchemeSpec;
 						options->Path = SelectedVolumePath;
 						options->Quick = QuickFormatEnabled;
 						options->Size = VolumeSize;
@@ -1129,7 +1129,7 @@ namespace VeraCrypt
 				});
 #endif
 
-				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Pim, Kdf, Keyfiles, SecurityTokenKeySpec, VolumeProtection::ReadOnly);
+				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Pim, Kdf, Keyfiles, SecurityTokenSchemeSpec, VolumeProtection::ReadOnly);
 				try
 				{
 					MaxHiddenVolumeSize = Core->GetMaxHiddenVolumeSize (outerVolume);
@@ -1164,7 +1164,7 @@ namespace VeraCrypt
 				// remember Outer password and keyfiles in order to be able to compare it with those of Hidden volume
 				try
 				{
-					OuterPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, SecurityTokenKeySpec, Gui->GetPreferences().EMVSupportEnabled);
+					OuterPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, SecurityTokenSchemeSpec, Gui->GetPreferences().EMVSupportEnabled);
 				}
 				catch (...)
 				{

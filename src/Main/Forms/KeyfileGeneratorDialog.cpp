@@ -14,7 +14,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "Volume/Hash.h"
 #include "KeyfileGeneratorDialog.h"
-#include "SecurityTokenKeysDialog.h"
+#include "SecurityTokenSchemesDialog.h"
 
 namespace VeraCrypt
 {
@@ -61,7 +61,7 @@ namespace VeraCrypt
 			int keyfilesSize = KeyfilesSize->GetValue();
 			bool useRandomSize = RandomSizeCheckBox->IsChecked();
 			wxString keyfileBaseName = KeyfilesBaseName->GetValue();
-			wxString securityTokenKeySpec = SecurityTokenKeyDesc->GetValue();
+			wxString securityTokenSchemeSpec = SecurityTokenSchemeDesc->GetValue();
 			keyfileBaseName.Trim(true);
 			keyfileBaseName.Trim(false);
 
@@ -143,8 +143,8 @@ namespace VeraCrypt
 
 				FilePath keyfilePath((const wchar_t*) keyfileName.GetFullPath().c_str());
 
-				if (!securityTokenKeySpec.IsEmpty()) {
-					Keyfile::CreateBluekey(keyfilePath, securityTokenKeySpec.wc_str(), keyfileBuffer);
+				if (!securityTokenSchemeSpec.IsEmpty()) {
+					Keyfile::CreateBluekey(keyfilePath, securityTokenSchemeSpec.wc_str(), keyfileBuffer);
 				} else {
 					File keyfile;
 					keyfile.Open (keyfilePath, File::CreateWrite);
@@ -235,20 +235,20 @@ namespace VeraCrypt
 		textCtrl->SetLabel (str.c_str());
 	}
 
-	void KeyfileGeneratorDialog::OnSelectSecurityTokenKeyClick( wxCommandEvent& event) { 
+	void KeyfileGeneratorDialog::OnSelectSecurityTokenSchemeClick( wxCommandEvent& event) { 
 		try
 		{
-			SecurityTokenKeysDialog dialog (this, SecurityTokenKeyOperation::ENCRYPT);
+			SecurityTokenSchemesDialog dialog (this, SecurityTokenKeyOperation::ENCRYPT);
 			if (dialog.ShowModal() == wxID_OK)
 			{
-				auto keySpec = dialog.GetSelectedSecurityTokenKeySpec();
-				SecurityTokenKeyDesc->SetValue(wxString(keySpec));
-				if (!keySpec.empty()) {
-					SecurityTokenKey key;
-					SecurityToken::GetSecurityTokenKey(keySpec, key, SecurityTokenKeyOperation::ENCRYPT);
-					KeyfilesSize->SetRange(key.maxEncryptBufferSize, 1048576);
-					if (KeyfilesSize->GetValue() < key.maxEncryptBufferSize) {
-						KeyfilesSize->SetValue(key.maxEncryptBufferSize);
+				auto schemeSpec = dialog.GetSelectedSecurityTokenSchemeSpec();
+				SecurityTokenSchemeDesc->SetValue(wxString(schemeSpec));
+				if (!schemeSpec.empty()) {
+					SecurityTokenScheme scheme;
+					SecurityToken::GetSecurityTokenScheme(schemeSpec, scheme, SecurityTokenKeyOperation::ENCRYPT);
+					KeyfilesSize->SetRange(scheme.EncryptOutputSize, 1048576);
+					if (KeyfilesSize->GetValue() < scheme.EncryptOutputSize) {
+						KeyfilesSize->SetValue(scheme.EncryptOutputSize);
 					}
 				}
 			}
