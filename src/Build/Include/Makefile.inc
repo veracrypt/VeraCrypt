@@ -23,7 +23,7 @@ lib: $(NAME).a $(NAME)Test.a $(NAME)Testing
 
 clean:
 	@echo Cleaning $(NAME)
-	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) *.gch
+	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
 	rm -f $(NAME)Testing.a $(NAME)Test.a $(TEST_OBJS)
 
 %.o: %.c
@@ -49,6 +49,10 @@ clean:
 %Test.o: %Test.cpp
 	@echo Compiling test $(<F)
 	$(CXX) $(CXXFLAGS) -I$(BASE_DIR)/Testing -c $< -o $@
+
+%.oarmv8crypto: %.c
+	@echo Compiling $(<F)
+	$(CC) $(CFLAGS) -march=armv8-a+crypto -c $< -o $@
 
 %.o: %.cpp
 	@echo Compiling $(<F)
@@ -112,13 +116,13 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 
 
 # Dependencies
--include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d)
+-include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
 
 
-$(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJSSSE41) $(OBJSSSSE3)
+$(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJARMV8CRYPTO)
 ifneq "$(OBJS)" ""
 	@echo Updating library $@
-	$(AR) $(AFLAGS) -rcu $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJSSSE41) $(OBJSSSSE3)
+	$(AR) $(AFLAGS) -rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJARMV8CRYPTO)
 	$(RANLIB) $@
 endif
 

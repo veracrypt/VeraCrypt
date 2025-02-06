@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -254,24 +254,24 @@ static void DisplayHotkeyList (HWND hwndDlg)
 			item.pszText = GetString ("HK_AUTOMOUNT_DEVICES");
 			break;
 
-		case HK_DISMOUNT_ALL:
-			item.pszText = GetString ("HK_DISMOUNT_ALL");
+		case HK_UNMOUNT_ALL:
+			item.pszText = GetString ("HK_UNMOUNT_ALL");
 			break;
 
 		case HK_WIPE_CACHE:
 			item.pszText = GetString ("HK_WIPE_CACHE");
 			break;
 
-		case HK_DISMOUNT_ALL_AND_WIPE:
-			item.pszText = GetString ("HK_DISMOUNT_ALL_AND_WIPE");
+		case HK_UNMOUNT_ALL_AND_WIPE:
+			item.pszText = GetString ("HK_UNMOUNT_ALL_AND_WIPE");
 			break;
 
-		case HK_FORCE_DISMOUNT_ALL_AND_WIPE:
-			item.pszText = GetString ("HK_FORCE_DISMOUNT_ALL_AND_WIPE");
+		case HK_FORCE_UNMOUNT_ALL_AND_WIPE:
+			item.pszText = GetString ("HK_FORCE_UNMOUNT_ALL_AND_WIPE");
 			break;
 
-		case HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT:
-			item.pszText = GetString ("HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT");
+		case HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT:
+			item.pszText = GetString ("HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT");
 			break;
 
 		case HK_MOUNT_FAVORITE_VOLUMES:
@@ -378,8 +378,8 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SetCheckBox (hwndDlg, IDC_HK_MOD_ALT, TRUE);
 			SetCheckBox (hwndDlg, IDC_HK_MOD_WIN, FALSE);
 
-			SetCheckBox (hwndDlg, IDC_HK_DISMOUNT_PLAY_SOUND, bPlaySoundOnSuccessfulHkDismount);
-			SetCheckBox (hwndDlg, IDC_HK_DISMOUNT_BALLOON_TOOLTIP, bDisplayBalloonOnSuccessfulHkDismount);
+			SetCheckBox (hwndDlg, IDC_HK_UNMOUNT_PLAY_SOUND, bPlaySoundOnSuccessfulHkDismount);
+			SetCheckBox (hwndDlg, IDC_HK_UNMOUNT_BALLOON_TOOLTIP, bDisplayBalloonOnSuccessfulHkDismount);
 
 			bTPlaySoundOnSuccessfulHkDismount = bPlaySoundOnSuccessfulHkDismount;
 			bTDisplayBalloonOnSuccessfulHkDismount = bDisplayBalloonOnSuccessfulHkDismount;
@@ -561,14 +561,14 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			return 1;
 		}
 
-		if (lw == IDC_HK_DISMOUNT_PLAY_SOUND)
+		if (lw == IDC_HK_UNMOUNT_PLAY_SOUND)
 		{
-			bTPlaySoundOnSuccessfulHkDismount = GetCheckBox (hwndDlg, IDC_HK_DISMOUNT_PLAY_SOUND);
+			bTPlaySoundOnSuccessfulHkDismount = GetCheckBox (hwndDlg, IDC_HK_UNMOUNT_PLAY_SOUND);
 		}
 
-		if (lw == IDC_HK_DISMOUNT_BALLOON_TOOLTIP)
+		if (lw == IDC_HK_UNMOUNT_BALLOON_TOOLTIP)
 		{
-			bTDisplayBalloonOnSuccessfulHkDismount = GetCheckBox (hwndDlg, IDC_HK_DISMOUNT_BALLOON_TOOLTIP);
+			bTDisplayBalloonOnSuccessfulHkDismount = GetCheckBox (hwndDlg, IDC_HK_UNMOUNT_BALLOON_TOOLTIP);
 		}
 
 		if (lw == IDCANCEL || lw == IDCLOSE)

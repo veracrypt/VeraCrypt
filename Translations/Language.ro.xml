@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.17">
+  <localization prog-version= "1.26.20">
     <language langid="ro" name="Română" en-name="Romanian" version="2.0.0" translators="Barna Cosmin Marian" />
     <font lang="ro" class="normal" size="11" face="default" />
     <font lang="ro" class="bold" size="13" face="Arial" />
@@ -135,8 +135,8 @@
     <entry lang="ro" key="IDC_FAVORITE_REMOVE">&amp;Eliminare</entry>
     <entry lang="ro" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Folosire etichetă favorită ca etichetă în Explorer</entry>
     <entry lang="ro" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Setări globare</entry>
-    <entry lang="ro" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Afișare mesaje de informare după demontarea efectuată cu combinații de taste</entry>
-    <entry lang="ro" key="IDC_HK_DISMOUNT_PLAY_SOUND">Redare sunet de notificare după demontarea efectuată cu combinații de taste</entry>
+    <entry lang="ro" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Afișare mesaje de informare după demontarea efectuată cu combinații de taste</entry>
+    <entry lang="ro" key="IDC_HK_UNMOUNT_PLAY_SOUND">Redare sunet de notificare după demontarea efectuată cu combinații de taste</entry>
     <entry lang="ro" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="ro" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="ro" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="ro" key="IDC_PIM_HELP">(Nimic sau 0 pentru iterații implicite)</entry>
     <entry lang="ro" key="IDC_PREF_BKG_TASK_ENABLE">Activat</entry>
     <entry lang="ro" key="IDC_PREF_CACHE_PASSWORDS">Păstrare parolă în memorie</entry>
-    <entry lang="ro" key="IDC_PREF_DISMOUNT_INACTIVE">Autodemontare volum dacă nu s-au citit/scris date de pe el timp de</entry>
-    <entry lang="ro" key="IDC_PREF_DISMOUNT_LOGOFF">Deautentificare utilizator</entry>
-    <entry lang="ro" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Blocare sesiune utilizator</entry>
-    <entry lang="ro" key="IDC_PREF_DISMOUNT_POWERSAVING">Intrare în mod salvare energie</entry>
-    <entry lang="ro" key="IDC_PREF_DISMOUNT_SCREENSAVER">Pornire screen saver</entry>
-    <entry lang="ro" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forțare autodemontare chiar dacă volumul conține fișiere sau foldere deschise</entry>
+    <entry lang="ro" key="IDC_PREF_UNMOUNT_INACTIVE">Autodemontare volum dacă nu s-au citit/scris date de pe el timp de</entry>
+    <entry lang="ro" key="IDC_PREF_UNMOUNT_LOGOFF">Deautentificare utilizator</entry>
+    <entry lang="ro" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Blocare sesiune utilizator</entry>
+    <entry lang="ro" key="IDC_PREF_UNMOUNT_POWERSAVING">Intrare în mod salvare energie</entry>
+    <entry lang="ro" key="IDC_PREF_UNMOUNT_SCREENSAVER">Pornire screen saver</entry>
+    <entry lang="ro" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Forțare autodemontare chiar dacă volumul conține fișiere sau foldere deschise</entry>
     <entry lang="ro" key="IDC_PREF_LOGON_MOUNT_DEVICES">Montare volume VeraCrypt aflate pe discuri</entry>
     <entry lang="ro" key="IDC_PREF_LOGON_START">Pornire VeraCrypt în fundal</entry>
     <entry lang="ro" key="IDC_PREF_MOUNT_READONLY">Montare volume numai ca citire</entry>
@@ -169,7 +169,7 @@
     <entry lang="ro" key="IDC_PREF_OPEN_EXPLORER">Deschidere fereastră Explorer pentru volumele montate cu succes</entry>
     <entry lang="ro" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Păstrare temporară parole în timpul operațiilor de „Montare volume favorite”</entry>
     <entry lang="ro" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Folosire pictogramă diferită în zona de sistem când există volume montate</entry>
-    <entry lang="ro" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Eliminare parole păstrate după autodemontare</entry>
+    <entry lang="ro" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Eliminare parole păstrate după autodemontare</entry>
     <entry lang="ro" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Eliminare parole păstrate la ieșire</entry>
     <entry lang="ro" key="IDC_PRESERVE_TIMESTAMPS">Păstrare dată modificare fișiere container</entry>
     <entry lang="ro" key="IDC_RESET_HOTKEYS">Resetare</entry>
@@ -269,14 +269,14 @@
     <entry lang="ro" key="IDT_ACCELERATION_OPTIONS">Accelerare hardware</entry>
     <entry lang="ro" key="IDT_ASSIGN_HOTKEY">Combinație de taste</entry>
     <entry lang="ro" key="IDT_AUTORUN">Configurare autolansare(autorun.inf)</entry>
-    <entry lang="ro" key="IDT_AUTO_DISMOUNT">Autodemontare</entry>
-    <entry lang="ro" key="IDT_AUTO_DISMOUNT_ON">Demontare toate la:</entry>
+    <entry lang="ro" key="IDT_AUTO_UNMOUNT">Autodemontare</entry>
+    <entry lang="ro" key="IDT_AUTO_UNMOUNT_ON">Demontare toate la:</entry>
     <entry lang="ro" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Opțiuni ecran pornire sistem</entry>
     <entry lang="ro" key="IDT_CONFIRM_PASSWORD">Confirmare parolă:</entry>
     <entry lang="ro" key="IDT_CURRENT">Curent</entry>
     <entry lang="ro" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Afișează acest mesaj în ecranul de autentificare la pornire sistem (maxim 24 charactere):</entry>
     <entry lang="ro" key="IDT_DEFAULT_MOUNT_OPTIONS">Opțiuni montare implicite</entry>
-    <entry lang="ro" key="IDT_DISMOUNT_ACTION">Opțiuni combinații de taste</entry>
+    <entry lang="ro" key="IDT_UNMOUNT_ACTION">Opțiuni combinații de taste</entry>
     <entry lang="ro" key="IDT_DRIVER_OPTIONS">Configurare driver</entry>
     <entry lang="ro" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Activare suport extins coduri de control disc</entry>
     <entry lang="ro" key="IDT_FAVORITE_LABEL">Etichetă volum favorit selectat:</entry>
@@ -423,8 +423,8 @@
     <entry lang="ro" key="DEVICE_FREE_PB">Mărimea lui %s este de %.2f PiB</entry>
     <entry lang="ro" key="DEVICE_IN_USE_FORMAT">AVERTIZARE: Discul/partiția este accesat(ă) de către sistemul de operare sau de către aplicații. Formatarea unității/partiției poate determina coruperea datelor și instabilitatea sistemului.\n\nContinuați?</entry>
     <entry lang="ro" key="DEVICE_IN_USE_INPLACE_ENC">Avertizare: Partiția este accesată de către sistemul de operare sau de către aplicații. Ar trebui să închideți orice aplicație care ar putea accesa partiția (inclusiv programele antivirus).\n\nContinuați?</entry>
-    <entry lang="ro" key="FORMAT_CANT_DISMOUNT_FILESYS">Eroare: Discul/partiția conține un sistem de fișiere care nu a putut fi demontat. Sistemul de fișiere ar putea fi utilizat de către sistemul de operare. Formatarea discului/partiției foarte probabil va putea cauza coruperea datelor și instabilitatea sistemului.\n\nPentru a rezolva această situație, vă recomandăm să ștergeți mai întâi partiția și apoi să o recreați fără formatare. Pentru aceasta, urmați acești pași:\n1) Apăsați cu clic dreapta pe pictograma «Computer» (sau «My Computer») din meniul «Start» și selectați «Manage». Ar trebui să apară fereastra «Computer Management».\n2) În fereastra «Computer Management», selectați «Storage» > «Disk Management».\n3) Apăsați cu clic dreapta pe partiția pe care doriți să o criptați și selectați fie «Delete Partition», fie «Delete Volume», sau «Delete Logical Drive».\n4) Apăsați pe «Yes». Dacă sistemul Windows vă solicită să reporniţi calculatorul, confirmați. Apoi repetați pasul 1 și 2 și continuați de la pasul 5.\n5) Apăsați cu clic dreapta pe zona cu spațiul nealocat/liber și selectați fie «New Partition», fie «New Simple Volume», sau «New Logical Drive».\n6) Ar trebui să apară fereastra «New Partition Wizard» sau «New Simple Volume Wizard»; urmați instrucțiunile afișate. Pe pagina asistentului intitulată «Format Partition», selectați fie «Do not format this partition» fie «Do not format this volume». În același asistent, apăsați pe «Next» și apoi pe «Finish».\n7) De acum calea unității selectate în VeraCrypt s-ar putea să fie greșită. De aceea, ieșiți din «Asistentul de creare volume VeraCrypt» (dacă încă este activ) și apoi porniți-l din nou.\n8) Încercați să criptați discul/partiția din nou.\n\nDacă VeraCrypt eșuează în mod repetat să cripteze discul/partiția, ați putea, în schimb, lua în considerare crearea unui container de tip fișier.</entry>
-    <entry lang="ro" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Eroare: fișierul sistem nu poate fi blocat și/sau demontat. S-ar putea să fie accesat de către sistemul de operare sau de către aplicații (de exemplu, programe antivirus). Criptarea partiției ar putea cauza coruperea datelor și instabilitatea sistemului.\n\nÎnchideți orice aplicație care ar putea utiliza sistemul de fișiere (inclusiv programe antivirus) și încercați din nou. Dacă asta nu ajută, urmați pașii de mai jos.</entry>
+    <entry lang="ro" key="FORMAT_CANT_UNMOUNT_FILESYS">Eroare: Discul/partiția conține un sistem de fișiere care nu a putut fi demontat. Sistemul de fișiere ar putea fi utilizat de către sistemul de operare. Formatarea discului/partiției foarte probabil va putea cauza coruperea datelor și instabilitatea sistemului.\n\nPentru a rezolva această situație, vă recomandăm să ștergeți mai întâi partiția și apoi să o recreați fără formatare. Pentru aceasta, urmați acești pași:\n1) Apăsați cu clic dreapta pe pictograma «Computer» (sau «My Computer») din meniul «Start» și selectați «Manage». Ar trebui să apară fereastra «Computer Management».\n2) În fereastra «Computer Management», selectați «Storage» > «Disk Management».\n3) Apăsați cu clic dreapta pe partiția pe care doriți să o criptați și selectați fie «Delete Partition», fie «Delete Volume», sau «Delete Logical Drive».\n4) Apăsați pe «Yes». Dacă sistemul Windows vă solicită să reporniţi calculatorul, confirmați. Apoi repetați pasul 1 și 2 și continuați de la pasul 5.\n5) Apăsați cu clic dreapta pe zona cu spațiul nealocat/liber și selectați fie «New Partition», fie «New Simple Volume», sau «New Logical Drive».\n6) Ar trebui să apară fereastra «New Partition Wizard» sau «New Simple Volume Wizard»; urmați instrucțiunile afișate. Pe pagina asistentului intitulată «Format Partition», selectați fie «Do not format this partition» fie «Do not format this volume». În același asistent, apăsați pe «Next» și apoi pe «Finish».\n7) De acum calea unității selectate în VeraCrypt s-ar putea să fie greșită. De aceea, ieșiți din «Asistentul de creare volume VeraCrypt» (dacă încă este activ) și apoi porniți-l din nou.\n8) Încercați să criptați discul/partiția din nou.\n\nDacă VeraCrypt eșuează în mod repetat să cripteze discul/partiția, ați putea, în schimb, lua în considerare crearea unui container de tip fișier.</entry>
+    <entry lang="ro" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Eroare: fișierul sistem nu poate fi blocat și/sau demontat. S-ar putea să fie accesat de către sistemul de operare sau de către aplicații (de exemplu, programe antivirus). Criptarea partiției ar putea cauza coruperea datelor și instabilitatea sistemului.\n\nÎnchideți orice aplicație care ar putea utiliza sistemul de fișiere (inclusiv programe antivirus) și încercați din nou. Dacă asta nu ajută, urmați pașii de mai jos.</entry>
     <entry lang="ro" key="DEVICE_IN_USE_INFO">AVERTIZARE: Unele partiții/discuri montate sunt deja accesate!\n\nIgnorând acest lucru poate determina rezultate nedorite inclusiv instabilitatea sistemului.\n\nVă recomandăm cu insistență să închideți orice aplicație care le-ar putea accesa.</entry>
     <entry lang="ro" key="DEVICE_PARTITIONS_ERR">Discul selectat conține partiții.\n\nFormatarea discului poate cauza instabilitatea sistemului și/sau coruperea datelor. Selectați fie o partiție de pe disc, fie ștergeți toate partițiile de pe disc pentru a permite ca VeraCrypt să-l formateze în siguranță.</entry>
     <entry lang="ro" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Discul non-sistem selectat conține partiții.\n\nVolumele criptate VeraCrypt amplasate pe discuri pot fi create doar pe discuri care nu conțin partiții (inclusiv hard discuri sau unități solid-state). Un disc care conține partiții poate fi criptat în întregime din mers (utilizând o singură cheie principală) numai dacă este discul unde este instalat sistemul Windows și de pe care pornește sistemul.\n\nDacă doriți să criptați discul non-sistem selectat folosind o singură cheie principală, va trebui să eliminați toate partițiile de pe disc mai întâi pentru a permite ca VeraCrypt să-l poată formata în siguranță (formatând un disc care conține partiții poate cauza instabilitatea sistemului și/sau coruperea datelor). Alternativ, puteți cripta fiecare partiție de pe disc individual (fiecare partiție va fi criptată folosind o cheie principală diferită).\n\nNotă: Dacă doriți să ștergeți toate partițiile de pe un disc GPT, ar trebui să-l convertiți într-un disc MBR (folosind de ex. unealta „Computer Management”) pentru a șterge partițiile ascunse.</entry>
@@ -590,7 +590,7 @@
     <entry lang="ro" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Eroare: fișierele copiate pe volumul exterior ocupă prea mult spațiu. Prin urmare, nu există suficient spațiu liber pentru volumul ascuns.\n\nȚineți cont că volumul ascuns trebuie să fie tot atât de mare cât partiția sistem (partiția unde este instalat sistemul de operare ce rulează acum). Motivul este că sistemul ascuns trebuie creat prin copierea conținutului partiției sistemului pe volumul ascuns.\n\n\nProcesul de creare a sistemului de operare ascuns nu poate continua.</entry>
     <entry lang="ro" key="OPENFILES_DRIVER">Driverul nu poate demonta volumul. Unele fișiere aflate pe volum probabil sunt încă accesate.</entry>
     <entry lang="ro" key="OPENFILES_LOCK">Nu se poate bloca volumul. Încă există fișiere accesate de pe volum. Prin urmare, el nu poate fi demontat.</entry>
-    <entry lang="ro" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt nu poate bloca volumul deoarece este utilizat de către sistem sau unele aplicații (ar putea exista fișiere accesate de pe volum).\n\nDoriți forțarea demontării volumului?</entry>
+    <entry lang="ro" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt nu poate bloca volumul deoarece este utilizat de către sistem sau unele aplicații (ar putea exista fișiere accesate de pe volum).\n\nDoriți forțarea demontării volumului?</entry>
     <entry lang="ro" key="OPEN_VOL_TITLE">Selectați un volum VeraCrypt</entry>
     <entry lang="ro" key="OPEN_TITLE">Specificați o cale și un nume de fișier</entry>
     <entry lang="ro" key="SELECT_PKCS11_MODULE">Selectați librăria PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="ro" key="DLL_FILES">Module librărie</entry>
     <entry lang="ro" key="FORMAT_NTFS_STOP">Formatarea NTFS/exFAT/ReFS nu poate continua.</entry>
     <entry lang="ro" key="CANT_MOUNT_VOLUME">Volumul nu poate fi montat.</entry>
-    <entry lang="ro" key="CANT_DISMOUNT_VOLUME">Volumul nu poate fi demontat.</entry>
+    <entry lang="ro" key="CANT_UNMOUNT_VOLUME">Volumul nu poate fi demontat.</entry>
     <entry lang="ro" key="FORMAT_NTFS_FAILED">Windows a eșuat formatarea volumului ca NTFS/exFAT/ReFS.\n\nAlegeți un alt tip de sistem de fișiere (dacă e posibil) și încercați din nou. Alternativ, puteți lăsa volumul neformatat (selectați „Fără” ca sistem de fișiere), ieșiți din asistent, montați volumul și apoi folosiți fie aplicația sistemului sau alt program pentru a formata volumul montat (volumul va rămâne criptat).</entry>
     <entry lang="ro" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows a eșuat formatarea volumului ca NTFS/exFAT/ReFS.\n\nDoriți în schimb să fie formatat ca FAT?</entry>
     <entry lang="ro" key="DEFAULT">Implicit</entry>
@@ -771,7 +771,7 @@
     <entry lang="ro" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">O eroare a împiedicat VeraCrypt să cripteze partiția. Încercați să reparați orice problemă raportată anterior și apoi încercați din nou. Dacă problema persistă, v-ar putea ajuta urmarea pașilor de mai jos.</entry>
     <entry lang="ro" key="INPLACE_ENC_GENERIC_ERR_RESUME">O eroare a împiedicat VeraCrypt să reia procesul de criptare/decriptare a partiției/volumului.\n\nÎncercați să reparați orice problemă raportată anterior și apoi încercați din nou dacă e posibil. Volumul nu poate fi montat până când nu este complet criptat sau decriptat.</entry>
     <entry lang="ro" key="INPLACE_DEC_GENERIC_ERR">O eroare a împiedicat VeraCrypt să decripteze volumul. Încercați să reparați orice problemă raportată anterior și apoi încercați din nou.</entry>
-    <entry lang="ro" key="CANT_DISMOUNT_OUTER_VOL">Eroare: volumul exterior nu poate fi demontat!\n\nVolumul nu poate fi demontat dacă conține fișiere și foldere accesate de un program sau de către sistem.\n\nÎnchideți orice program care ar putea accesa fișierele și folderele de pe volum și apoi apăsați pe «Reluare».</entry>
+    <entry lang="ro" key="CANT_UNMOUNT_OUTER_VOL">Eroare: volumul exterior nu poate fi demontat!\n\nVolumul nu poate fi demontat dacă conține fișiere și foldere accesate de un program sau de către sistem.\n\nÎnchideți orice program care ar putea accesa fișierele și folderele de pe volum și apoi apăsați pe «Reluare».</entry>
     <entry lang="ro" key="CANT_GET_OUTER_VOL_INFO">Eroare: nu se pot obține informații depre volumul exterior!\nCrearea volumului nu poate continua.</entry>
     <entry lang="ro" key="CANT_ACCESS_OUTER_VOL">Eroare: volumul exterior nu poate fi accesat! Crearea volumului nu poate continua.</entry>
     <entry lang="ro" key="CANT_MOUNT_OUTER_VOL">Eroare: volumul exterior nu poate fi montat! Crearea volumului nu poate continua.</entry>
@@ -882,7 +882,7 @@
     <entry lang="ro" key="INSTALL_COMPLETED">Instalare finalizată.</entry>
     <entry lang="ro" key="CANT_CREATE_FOLDER">Folderul „%s” nu a putut fi creat</entry>
     <entry lang="ro" key="CLOSE_TC_FIRST">Driverul unității VeraCrypt nu poate fi descărcat.\n\nÎnchideți mai întâi toate ferestrele VeraCrypt deschise. Dacă nu vă ajută, reporniți Windows și apoi încercați din nou.</entry>
-    <entry lang="ro" key="DISMOUNT_ALL_FIRST">Toate volumele VeraCrypt trebuie demontate înainte de instalarea sau dezinstalarea VeraCrypt.</entry>
+    <entry lang="ro" key="UNMOUNT_ALL_FIRST">Toate volumele VeraCrypt trebuie demontate înainte de instalarea sau dezinstalarea VeraCrypt.</entry>
     <entry lang="ro" key="UNINSTALL_OLD_VERSION_FIRST">O versiune mai veche de VeraCrypt este instalată acum în acest sistem. Trebuie dezinstalată înainte de a instala noua versiune VeraCrypt.\n\nImediat ce veți închide acest mesaj, va fi lansat programul de dezinstalare al vechii versiuni. Rețineți că nu va fi decriptat nici un volum când veți dezinstala VeraCrypt. După dezinstalarea vechii versiuni VeraCrypt, lansați din nou instalatorul noii versiuni VeraCrypt .</entry>
     <entry lang="ro" key="REG_INSTALL_FAILED">Instalarea intrărilor în regiștri a eșuat</entry>
     <entry lang="ro" key="DRIVER_INSTALL_FAILED">Instalarea driverului unității a eșuat. Reporniți Windows și apoi încercați instalarea VeraCrypt din nou.</entry>
@@ -903,7 +903,7 @@
     <entry lang="ro" key="MINUTES">minute</entry>
     <entry lang="ro" key="SECONDS">s</entry>
     <entry lang="ro" key="OPEN">Deschidere</entry>
-    <entry lang="ro" key="DISMOUNT">Demontare</entry>
+    <entry lang="ro" key="UNMOUNT">Demontare</entry>
     <entry lang="ro" key="SHOW_TC">Afișare VeraCrypt</entry>
     <entry lang="ro" key="HIDE_TC">Ascundere VeraCrypt</entry>
     <entry lang="ro" key="TOTAL_DATA_READ">Date citite de la montare</entry>
@@ -975,7 +975,7 @@
     <entry lang="ro" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Volume sistem favorite</entry>
     <entry lang="ro" key="SYS_FAVORITES_HELP_LINK">Ce sunt volumele sistem favorite?</entry>
     <entry lang="ro" key="SYS_FAVORITES_REQUIRE_PBA">Discul/partiția sistem nu pare să fie criptat(ă).\n\nVolumele sistem favorite pot fi montate folosind doar parola de autentificare la pornirea sistemului. Prin urmare, pentru a activa utilizarea volumelor sistem favorite, va trebui să criptați mai întâi partiția/discul.</entry>
-    <entry lang="ro" key="DISMOUNT_FIRST">Demontați volumul înainte de a continua.</entry>
+    <entry lang="ro" key="UNMOUNT_FIRST">Demontați volumul înainte de a continua.</entry>
     <entry lang="ro" key="CANNOT_SET_TIMER">Eroare: nu se poate seta timpul.</entry>
     <entry lang="ro" key="IDPM_CHECK_FILESYS">Verificare sistem de fișiere</entry>
     <entry lang="ro" key="IDPM_REPAIR_FILESYS">Reparare sistem de fișiere</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="ro" key="NO_SYSENC_PARTITION_SELECTED">Nu ați selectat partiția.\n\nApăsați pe «Selectare partiție» pentru a selecta o partiție demontată care în mod normal necesită autentificare la pornire (de exemplu, o partiție localizată pe discul sistem criptat a unui alt sistem de operare, care nu rulează sau partiția sistem criptată a altui sistem de operare).\n\nNotă: Partiția selectată va fi montată ca și un volum normal VeraCrypt fără autentificare la pornire. Aceasta este util de ex. pentru operații de reparare sau creare copii de rezervă.</entry>
     <entry lang="ro" key="CONFIRM_SAVE_DEFAULT_KEYFILES">AVERTIZARE: Dacă fișierele-cheie sunt setate și activate, volumele care nu folosesc aceste fișiere-cheie vor fi imposibil de montat. Prin urmare, după ce activați fișierele-cheie implicite, asigurați-vă că deselectați caseta „Utilizare fișiere-cheie” (de sub câmpul de introducere a parolei) de fiecare dată când montați astfel de volume.\n\nSigur doriți să salvați fișierele-cheie/căile selectate ca implicite?</entry>
     <entry lang="ro" key="HK_AUTOMOUNT_DEVICES">Automontare toate</entry>
-    <entry lang="ro" key="HK_DISMOUNT_ALL">Demontare toate</entry>
+    <entry lang="ro" key="HK_UNMOUNT_ALL">Demontare toate</entry>
     <entry lang="ro" key="HK_WIPE_CACHE">Uitare parole memorate</entry>
-    <entry lang="ro" key="HK_DISMOUNT_ALL_AND_WIPE">Demontare toate și uitare parole memorate</entry>
-    <entry lang="ro" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Forțare demontare toate și uitare parole memorate</entry>
-    <entry lang="ro" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Forțare demontare toate, uitare parole memorate și ieșire</entry>
+    <entry lang="ro" key="HK_UNMOUNT_ALL_AND_WIPE">Demontare toate și uitare parole memorate</entry>
+    <entry lang="ro" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Forțare demontare toate și uitare parole memorate</entry>
+    <entry lang="ro" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Forțare demontare toate, uitare parole memorate și ieșire</entry>
     <entry lang="ro" key="HK_MOUNT_FAVORITE_VOLUMES">Montare volume favorite</entry>
     <entry lang="ro" key="HK_SHOW_HIDE_MAIN_WINDOW">Afișare/Ascundere fereastră VeraCrypt</entry>
     <entry lang="ro" key="PRESS_A_KEY_TO_ASSIGN">(Puneți cursorul aici și apăsați o tastă)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="ro" key="PAGING_FILE_CREATION_PREVENTED">Crearea fișierului de paginare a fost împiedicată.\n\nDatorită unor probleme din Windows, fișierele de paginare nu pot fi amplasate pe volume VeraCrypt non-sistem (inclusiv volumele sistem favorite). VeraCrypt suportă crearea fișierelor de paginare numai pe un disc/partiție sistem criptat(ă).</entry>
     <entry lang="ro" key="SYS_ENC_HIBERNATION_PREVENTED">O eroare sau incompatibilitate a împiedicat VeraCrypt să cripteze fișierul de hibernare. Prin urmare, hibernarea a fost împiedicată.\n\nNotă: când un calculator hibernează (sau intră în modul salvare-energie), conținutul memoriei sistemului este scris într-un fișier de hibernare aflat pe discul sistem. VeraCrypt nu va putea împiedica salvarea necriptată a cheilor de criptare și a conținutului fișierelor importante din memoria RAM  în fișierul de hibernare.</entry>
     <entry lang="ro" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernarea a fost împiedicată.\n\nVeraCrypt nu suportă hibernarea sistemelor de operare ascunse care folosesc o partiție suplimentară de pornire. Rețineți că partiția de pornire este partajată atât de sistemul momeală cât și de cel ascuns. Prin urmare, pentru a preveni divulgările de date și problemele la revenirea din hibernare, VeraCrypt trebuie să împiedice sistemul ascuns să scrie în partiția de pornire partajată și să hiberneze.</entry>
-    <entry lang="ro" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">Volumul VeraCrypt montat ca %c: a fost demontat.</entry>
-    <entry lang="ro" key="MOUNTED_VOLUMES_DISMOUNTED">Volumele VeraCrypt au fost demontate.</entry>
-    <entry lang="ro" key="VOLUMES_DISMOUNTED_CACHE_WIPED">Volumele VeraCrypt au fost demontate și parola memorată a fost eliminată.</entry>
-    <entry lang="ro" key="SUCCESSFULLY_DISMOUNTED">Demontare reușită.</entry>
+    <entry lang="ro" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">Volumul VeraCrypt montat ca %c: a fost demontat.</entry>
+    <entry lang="ro" key="MOUNTED_VOLUMES_UNMOUNTED">Volumele VeraCrypt au fost demontate.</entry>
+    <entry lang="ro" key="VOLUMES_UNMOUNTED_CACHE_WIPED">Volumele VeraCrypt au fost demontate și parola memorată a fost eliminată.</entry>
+    <entry lang="ro" key="SUCCESSFULLY_UNMOUNTED">Demontare reușită.</entry>
     <entry lang="ro" key="CONFIRM_BACKGROUND_TASK_DISABLED">AVERTIZARE: dacă este dezactivată opțiunea „Pornire VeraCrypt în fundal”, vor fi dezactivate următoarele funcții:\n\n1) Scurtăturile\n2) Autodemontarea (de ex. după deautentificare, eliminarea bruscă a unităților gazdă, expirare timp etc.)\n3) Automontare toate favorite\n4) Notificări (de ex., când este împiedicată distrugerea volumelor ascunse)\n5) Pictograma sistem\n\nNotă: Puteți opri programul din fundal oricând, apăsând cu clic dreapta pe pictograma sistem VeraCrypt și selectând „Ieșire”.\n\nSigur doriți să dezactivați permanent pornirea VeraCrypt în fundal?</entry>
-    <entry lang="ro" key="CONFIRM_NO_FORCED_AUTODISMOUNT">AVERTIZARE: dacă această opțiune este dezactivată, volumele conținând fișiere/foldere deschise NU vor putea fi autodemontate.\n\nSigur doriți să dezactivați această opțiune?</entry>
-    <entry lang="ro" key="WARN_PREF_AUTO_DISMOUNT">AVERTIZARE: volumele conținând fișiere/foldere deschise NU vor putea fi autodemontate.\n\nPentru a împiedica aceasta, activați următoarele opțiuni din această fereastră: „Forțare autodemontare chiar dacă volumul conține fișiere sau foldere deschise”</entry>
-    <entry lang="ro" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">AVERTIZARE: când bateria sistemului este redusă, Windows poate omite trimiterea mesajelor potrivite pentru executarea aplicațiilor când computerul intră în modul de salvare a energiei. Prin urmare, VeraCrypt poate eșua autodemontarea volumelor în astfel de cazuri.</entry>
+    <entry lang="ro" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">AVERTIZARE: dacă această opțiune este dezactivată, volumele conținând fișiere/foldere deschise NU vor putea fi autodemontate.\n\nSigur doriți să dezactivați această opțiune?</entry>
+    <entry lang="ro" key="WARN_PREF_AUTO_UNMOUNT">AVERTIZARE: volumele conținând fișiere/foldere deschise NU vor putea fi autodemontate.\n\nPentru a împiedica aceasta, activați următoarele opțiuni din această fereastră: „Forțare autodemontare chiar dacă volumul conține fișiere sau foldere deschise”</entry>
+    <entry lang="ro" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">AVERTIZARE: când bateria sistemului este redusă, Windows poate omite trimiterea mesajelor potrivite pentru executarea aplicațiilor când computerul intră în modul de salvare a energiei. Prin urmare, VeraCrypt poate eșua autodemontarea volumelor în astfel de cazuri.</entry>
     <entry lang="ro" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Ați programat procesul de criptare a partiției/volumului. Procesul nu a fost încă completat.\n\nDoriți să reluați procesul acum?</entry>
     <entry lang="ro" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Ați programat procesul de criptare sau decriptare a partiției/discului sistem. Procesul nu a fost încă completat.\n\nDoriți să porniți (reluați) procesul acum?</entry>
     <entry lang="ro" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Doriți să vi se solicite dacă doriți să reluați procesul programat de criptare a partițiilor/volumelor non-sistem?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="ro" key="SYS_AUTOMOUNT_DISABLED">Acest sistem nu este configurat să monteze automat noile volume. Ar putea fi imposibilă montarea volumelor VeraCrypt amplasate pe unități. Automontarea poate fi activată prin executarea următoarei comenzi și repornirea sistemului.\n\nmountvol.exe  /E</entry>
     <entry lang="ro" key="SYS_ASSIGN_DRIVE_LETTER">Atribuiți o literă de volum partiției/discului înainte de a continua („Control Panel” > „System and Maintenance” > „Administrative Tools” - „Create and format hard disc partitions”).\n\nRețineți că este o cerință a sistemului de operare.</entry>
     <entry lang="ro" key="MOUNT_TC_VOLUME">Montare volum VeraCrypt</entry>
-    <entry lang="ro" key="DISMOUNT_ALL_TC_VOLUMES">Demontare toate volumele VeraCrypt</entry>
+    <entry lang="ro" key="UNMOUNT_ALL_TC_VOLUMES">Demontare toate volumele VeraCrypt</entry>
     <entry lang="ro" key="UAC_INIT_ERROR">VeraCrypt a eșuat în obținerea drepturilor de administrator.</entry>
     <entry lang="ro" key="ERR_ACCESS_DENIED">Accesul a fost refuzat de sistemul de operare.\n\nPosibile cauze: sistemul de operare trebuie să aibe drepturi de citire/scriere (sau drepturi de administrator) pentru anumite foldere, fișiere sau unități, pentru a vă putea permite  să citiți și să scrieți date în/din ele. În mod normal, un utilizator fără drepturi de administrare are dreptul de a crea, citi și modifica fișiere în folderul său de documente.</entry>
     <entry lang="ro" key="SECTOR_SIZE_UNSUPPORTED">Eroare: discul utilizează o dimensiune a sectoarelor nesuportate.\n\nÎn acest moment nu este posibilă crearea volumelor amplasate pe partiții/unități pe discuri care au sectoare mai mari de 4096 de baiți. Totuși, puteți crea volume amplasate în fișiere (containere) pe astfel de unități.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="ro" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Rețineți că numărul firelor de execuție este în acest moment limitat, ceea ce va afecta rezultatele evalurii (performanțe mai slabe).\n\nPentru a utiliza întregul potențial al procesorului, selectați „Setări” > „Performață” și dezactivați opțiunea de limitare respectivă.</entry>
     <entry lang="ro" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Doriți ca VeraCrypt să încerce să elimine protejarea la scriere a partiției/discului?</entry>
     <entry lang="ro" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">AVERTIZARE: această setare ar putea degrada performanța.\n\nSigur doriți să folosiți această setare?</entry>
-    <entry lang="ro" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Avertizare: volum VeraCrypt autodemontat</entry>
-    <entry lang="ro" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Înainte de a elimina fizic sau opri alimentarea unei unități ce conține un volum montat, întotdeauna ar trebui să demontați volumul mai întâi din VeraCrypt.\n\nDemontarea spontană neașteptată este de obicei cauzată de instabilitatea intermitentă a cablurilor, unitate (carcasa) etc.</entry>
+    <entry lang="ro" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Avertizare: volum VeraCrypt autodemontat</entry>
+    <entry lang="ro" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Înainte de a elimina fizic sau opri alimentarea unei unități ce conține un volum montat, întotdeauna ar trebui să demontați volumul mai întâi din VeraCrypt.\n\nDemontarea spontană neașteptată este de obicei cauzată de instabilitatea intermitentă a cablurilor, unitate (carcasa) etc.</entry>
     <entry lang="ro" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt suportă numai volume TrueCrypt create cu seria de versiuni TrueCrypt 6.x</entry>
     <entry lang="ro" key="TEST">Testare</entry>
     <entry lang="ro" key="KEYFILE">Fișier-cheie</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="ro" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Adăugare toate volumele montate la favorite...</entry>
     <entry lang="ro" key="TASKICON_PREF_MENU_ITEMS">Pictogramă activitate elemente meniu</entry>
     <entry lang="ro" key="TASKICON_PREF_OPEN_VOL">Deschidere volume montate</entry>
-    <entry lang="ro" key="TASKICON_PREF_DISMOUNT_VOL">Demontare volume montate</entry>
+    <entry lang="ro" key="TASKICON_PREF_UNMOUNT_VOL">Demontare volume montate</entry>
     <entry lang="ro" key="DISK_FREE">Spațiu liber dispoanibil: {0}</entry>
     <entry lang="ro" key="VOLUME_SIZE_HELP">Specificați dimensiunea containerului de creat. Rețineți că dimensiunea minimă posibilă a unui volum este de 292 KiB.</entry>
     <entry lang="ro" key="LINUX_CONFIRM_INNER_VOLUME_CALC">AVERTIZARE: ați selectat un alt sistem de fișiere decât FAT pentru volumul exterior.\nRețineți că, în acest caz, VeraCrypt nu poate calcula exact dimensiunea maximă permisă pentru volumul ascuns și va folosi doar o estimare care poate fi greșită.\nDe aceea, aveți responsabilitatea să utilizați o valoare adecvată pentru dimensiunea volumului ascuns, astfel încât să nu se suprapună cu volumul exterior.\n\nDoriți să continuați să utilizați sistemul de fișiere selectat pentru volumul exterior?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="ro" key="LINUX_DO_NOT_MOUNT">Fără montare</entry>
     <entry lang="ro" key="LINUX_MOUNT_AT_DIR">Montare în folderul:</entry>
     <entry lang="ro" key="LINUX_SELECT">Se&amp;lectare...</entry>
-    <entry lang="ro" key="LINUX_DISMOUNT_ALL_WHEN">Demontare toate volumele când</entry>
+    <entry lang="ro" key="LINUX_UNMOUNT_ALL_WHEN">Demontare toate volumele când</entry>
     <entry lang="ro" key="LINUX_ENTERING_POWERSAVING">Sistemul intră în modul de salvare a energiei</entry>
     <entry lang="ro" key="LINUX_LOGIN_ACTION">Acțiuni de executat când utilizatorul se conectează</entry>
-    <entry lang="ro" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Închidere toate instanțele Windows Explorer ale volumului care va fi demontat</entry>
+    <entry lang="ro" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Închidere toate instanțele Windows Explorer ale volumului care va fi demontat</entry>
     <entry lang="ro" key="LINUX_HOTKEYS">Combinații de taste</entry>
     <entry lang="ro" key="LINUX_SYSTEM_HOTKEYS">Combinații de taste la nivel de sistem</entry>
     <entry lang="ro" key="LINUX_SOUND_NOTIFICATION">Redare sunet de notificare din sistem după montare/demontare</entry>
-    <entry lang="ro" key="LINUX_CONFIRM_AFTER_DISMOUNT">Afișare mesaj de confirmare după demontare</entry>
+    <entry lang="ro" key="LINUX_CONFIRM_AFTER_UNMOUNT">Afișare mesaj de confirmare după demontare</entry>
     <entry lang="ro" key="LINUX_VC_QUITS">VeraCrypt se închide</entry>
     <entry lang="ro" key="LINUX_OPEN_FINDER">Deschidere fereastră Finder pentru volumul montat</entry>
     <entry lang="ro" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Această setare se aplică doar dacă serviciile criptografice din nucleul sistemului sunt dezactivate.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="ro" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="ro" key="LINUX_NOT_SUPPORTED"> (nesuportat de componenetele disponibile pe această platformă).\n</entry>
     <entry lang="ro" key="LINUX_KERNEL_OLD">Sistemul folosește o versiune veche a nucleului Linux.\n\nDin cauza unei erori în nucleul Linux, este posibil ca sistemul să nu mai răspundă atunci când scrieți date pe un volum VeraCrypt. Această problemă poate fi rezolvată prin actualizarea nucleului la versiunea 2.6.24 sau o versiune ulterioară.</entry>
-    <entry lang="ro" key="LINUX_VOL_DISMOUNTED">Volumul {0} a fost demontat.</entry>
+    <entry lang="ro" key="LINUX_VOL_UNMOUNTED">Volumul {0} a fost demontat.</entry>
     <entry lang="ro" key="LINUX_VOL_MOUNTED">Volumul {0} a fost montat.</entry>
     <entry lang="ro" key="LINUX_OOM">În afara memoriei.</entry>
     <entry lang="ro" key="LINUX_CANT_GET_ADMIN_PRIV">Eșuare obținere privilegii de administrare</entry>
@@ -1641,6 +1641,9 @@
     <entry lang="ro" key="ERR_XTS_MASTERKEY_VULNERABLE">AVERTIZARE: Cheia principală a volumului este vulnerabilă la un atac care compromite securitatea datelor.\n\nTrebuie să creați un volum nou și să transferați datele pe acesta.</entry>
     <entry lang="ro" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">AVERTIZARE: Cheia principală a sistemului criptat este vulnerabilă la un atac care compromite securitatea datelor.\nDecriptați partiția/unitatea de sistem și apoi recriptați-o.</entry>
     <entry lang="ro" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">AVERTIZARE: Cheia principală a volumului are o vulnerabilitate de securitate.</entry>
+    <entry lang="ro" key="MOUNTPOINT_BLOCKED">EROARE: Punctul de montare al volumului este blocat deoarece suprascrie un director de sistem protejat.\n\nVă rugăm să alegeți un alt punct de montare.</entry>
+    <entry lang="ro" key="MOUNTPOINT_NOTALLOWED">EROARE: Punctul de montare al volumului nu este permis deoarece suprascrie un director care face parte din variabila de mediu PATH.\n\nVă rugăm să alegeți un alt punct de montare.</entry>
+    <entry lang="ro" key="INSECURE_MODE">[MOD INSECURIZAT]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -24,10 +24,10 @@ enum
 
 	HK_AUTOMOUNT_DEVICES = 0,
 	HK_CLOSE_SECURITY_TOKEN_SESSIONS,
-	HK_DISMOUNT_ALL,
-	HK_DISMOUNT_ALL_AND_WIPE,
-	HK_FORCE_DISMOUNT_ALL_AND_WIPE,
-	HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT,
+	HK_UNMOUNT_ALL,
+	HK_UNMOUNT_ALL_AND_WIPE,
+	HK_FORCE_UNMOUNT_ALL_AND_WIPE,
+	HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT,
 	HK_MOUNT_FAVORITE_VOLUMES,
 	HK_SHOW_HIDE_MAIN_WINDOW,
 	HK_WIPE_CACHE,

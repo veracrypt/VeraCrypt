@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.17">
-    <language langid="fr" name="Français" en-name="French" version="0.3.0" translators="Stéphane S., Olivier M., Thierry T" />
+  <localization prog-version= "1.26.20">
+    <language langid="fr" name="Français" en-name="French" version="0.3.0" translators="Stéphane S., Olivier M., Thierry T, Mounir IDRASSI" />
     <font lang="fr" class="normal" size="11" face="default" />
     <font lang="fr" class="bold" size="13" face="Arial" />
     <font lang="fr" class="fixed" size="12" face="Lucida Console" />
@@ -135,8 +135,8 @@
     <entry lang="fr" key="IDC_FAVORITE_REMOVE">&amp;Supprimer</entry>
     <entry lang="fr" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Utiliser le label du favori comme label du lecteur dans l’Explorateur</entry>
     <entry lang="fr" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Paramètres globaux</entry>
-    <entry lang="fr" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Afficher une infobulle après un démontage par raccourci réussi</entry>
-    <entry lang="fr" key="IDC_HK_DISMOUNT_PLAY_SOUND">Jouer un son de notification système après un démontage par raccourci réussi</entry>
+    <entry lang="fr" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Afficher une infobulle après un démontage par raccourci réussi</entry>
+    <entry lang="fr" key="IDC_HK_UNMOUNT_PLAY_SOUND">Jouer un son de notification système après un démontage par raccourci réussi</entry>
     <entry lang="fr" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="fr" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="fr" key="IDC_HK_MOD_SHIFT">Maj</entry>
@@ -156,12 +156,12 @@
     <entry lang="fr" key="IDC_PIM_HELP">(Vide or 0 pour valeur par défaut)</entry>
     <entry lang="fr" key="IDC_PREF_BKG_TASK_ENABLE">Activer</entry>
     <entry lang="fr" key="IDC_PREF_CACHE_PASSWORDS">Mots de passe en cache</entry>
-    <entry lang="fr" key="IDC_PREF_DISMOUNT_INACTIVE">Démontage automatique quand aucune donnée n’a été lue/écrite durant</entry>
-    <entry lang="fr" key="IDC_PREF_DISMOUNT_LOGOFF">L’utilisateur se déconnecte</entry>
-    <entry lang="fr" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">L’utilisateur verrouille la session</entry>
-    <entry lang="fr" key="IDC_PREF_DISMOUNT_POWERSAVING">Le PC passe en mise en veille</entry>
-    <entry lang="fr" key="IDC_PREF_DISMOUNT_SCREENSAVER">L’écran de veille est activé</entry>
-    <entry lang="fr" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forcer le démontage automatique même s’il y a encore des fichiers ouverts</entry>
+    <entry lang="fr" key="IDC_PREF_UNMOUNT_INACTIVE">Démontage automatique quand aucune donnée n’a été lue/écrite durant</entry>
+    <entry lang="fr" key="IDC_PREF_UNMOUNT_LOGOFF">L’utilisateur se déconnecte</entry>
+    <entry lang="fr" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">L’utilisateur verrouille la session</entry>
+    <entry lang="fr" key="IDC_PREF_UNMOUNT_POWERSAVING">Le PC passe en mise en veille</entry>
+    <entry lang="fr" key="IDC_PREF_UNMOUNT_SCREENSAVER">L’écran de veille est activé</entry>
+    <entry lang="fr" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Forcer le démontage automatique même s’il y a encore des fichiers ouverts</entry>
     <entry lang="fr" key="IDC_PREF_LOGON_MOUNT_DEVICES">Monter tous les volumes VeraCrypt</entry>
     <entry lang="fr" key="IDC_PREF_LOGON_START">Démarre la tâche de fond VeraCrypt</entry>
     <entry lang="fr" key="IDC_PREF_MOUNT_READONLY">Monter les volumes en lecture seule</entry>
@@ -169,7 +169,7 @@
     <entry lang="fr" key="IDC_PREF_OPEN_EXPLORER">Ouvrir la fenêtre de l’Explorateur des volumes montés avec succès</entry>
     <entry lang="fr" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporairement mettre le mot de passe en cache pendant le montage des favoris</entry>
     <entry lang="fr" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Utiliser une icône de barre des tâches différente quand il y a des volumes montés</entry>
-    <entry lang="fr" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Vider le cache des mots de passe au démontage</entry>
+    <entry lang="fr" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Vider le cache des mots de passe au démontage</entry>
     <entry lang="fr" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Vider le cache des mots de passe en quittant</entry>
     <entry lang="fr" key="IDC_PRESERVE_TIMESTAMPS">Preserve les modifications d’horodatage des conteneurs de fichiers</entry>
     <entry lang="fr" key="IDC_RESET_HOTKEYS">Réinitialiser</entry>
@@ -269,14 +269,14 @@
     <entry lang="fr" key="IDT_ACCELERATION_OPTIONS">Accélération matérielle</entry>
     <entry lang="fr" key="IDT_ASSIGN_HOTKEY">Raccourci</entry>
     <entry lang="fr" key="IDT_AUTORUN">Configuration de l’exécution automatique (autorun.inf)</entry>
-    <entry lang="fr" key="IDT_AUTO_DISMOUNT">Démontage automatique</entry>
-    <entry lang="fr" key="IDT_AUTO_DISMOUNT_ON">Tout démonter si :</entry>
+    <entry lang="fr" key="IDT_AUTO_UNMOUNT">Démontage automatique</entry>
+    <entry lang="fr" key="IDT_AUTO_UNMOUNT_ON">Tout démonter si :</entry>
     <entry lang="fr" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Options de l’écran du chargeur d’amorçage</entry>
     <entry lang="fr" key="IDT_CONFIRM_PASSWORD">Confirmer :</entry>
     <entry lang="fr" key="IDT_CURRENT">Actuel</entry>
     <entry lang="fr" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Afficher ce message dans l’écran d’authentification de préamorçage (24 caractères maximum) :</entry>
     <entry lang="fr" key="IDT_DEFAULT_MOUNT_OPTIONS">Options de montage par défaut</entry>
-    <entry lang="fr" key="IDT_DISMOUNT_ACTION">Options de raccourci</entry>
+    <entry lang="fr" key="IDT_UNMOUNT_ACTION">Options de raccourci</entry>
     <entry lang="fr" key="IDT_DRIVER_OPTIONS">Configuration du pilote</entry>
     <entry lang="fr" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Activer le support des codes de contrôle étendus pour disques</entry>
     <entry lang="fr" key="IDT_FAVORITE_LABEL">Label du volume favoris sélectionné :</entry>
@@ -423,8 +423,8 @@
     <entry lang="fr" key="DEVICE_FREE_PB">La taille de %s est de %.2f Po</entry>
     <entry lang="fr" key="DEVICE_IN_USE_FORMAT">AVERTISSEMENT : La partition/le périphérique est utilisé par le système ou par une application. Formater peut conduire à une perte de données ou une instabilité du système.\n\nContinuer ?</entry>
     <entry lang="fr" key="DEVICE_IN_USE_INPLACE_ENC">AVERTISSEMENT : La partition est utilisée par le système ou une application. Vous devriez fermer toute application qui pourrait utiliser la partition (logiciel antivirus inclus).\n\nContinuer ?</entry>
-    <entry lang="fr" key="FORMAT_CANT_DISMOUNT_FILESYS">Erreur : Le périphérique/la partition contient un système de fichiers qui n’a pas pu être démonté. Le système de fichiers peut être utilisé par le système d’exploitation. Formater le périphérique/la partition peut conduire à la corruption des données et à l’instabilité du système.\n\n Pour résoudre ce problème, il est recommandé de supprimer la partition puis de la recréer sans la formater. Pour ce faire, faites comme suit : 1) Cliquez-droit sur ’Poste de Travail’, sélectionnez ’Gérer’. La fenêtre ’Gestion de l’ordinateur’ devrait apparaître. 2) Dans ’Gestion de l’ordinateur’ sélectionnez ’Stockage’ &gt; ’Gestion des disques’. 3) Cliquez-droit sur la partition à chiffrer puis choisissez soit ’Supprimer la partition’ soit ’Supprimer le volume’ ou ’Supprimer le disque logique’. 4) Cliquez ’Oui’. Si Windows propose de redémarrer, faites-le. Puis répétez les étapes 1 et 2 puis continuez à partir de l’étape 5. 5) Cliquez-droit sur l’espace libre et choisissez soit ’Nouvelle partition’ soit ’Nouveau volume simple’ ou ’Nouveau disque logique’. 6) La fenêtre d’un assistant apparaît, suivez ses instructions. Sur la page de l’assistant intitulée ’Formater la partition’ choisissez soit ’Ne pas formater cette partition’ ou ’Ne pas formater ce volume’. Cliquez sur ’Suivant’. Puis sur ’Terminer’. 7) Notez que le chemin du périphérique sélectionné dans VeraCrypt peut être désormais erroné. Aussi quittez l’assistant de création de volume VeraCrypt si besoin est et relancez-le. 8) Dans VeraCrypt, essayez à nouveau de chiffrer le périphérique/la partition.\n\nSi VeraCrypt continue d’échouer lors du chiffrement, pensez alors à créer un fichier conteneur à la place.</entry>
-    <entry lang="fr" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Erreur : Le système de fichiers ne peut pas être verrouillé ou démonté. Il peut être utilisé par le système d’exploitation ou des applications (comme un logiciel antivirus). Chiffrer la partition pourrait causer une corruption de données et une instabilité du système.\n\nVeuillez fermer toute application pouvant utiliser le système de fichiers et essayez à nouveau. Si cela ne résout pas le problème, veuillez suivre les étapes ci-dessous.</entry>
+    <entry lang="fr" key="FORMAT_CANT_UNMOUNT_FILESYS">Erreur : Le périphérique/la partition contient un système de fichiers qui n’a pas pu être démonté. Le système de fichiers peut être utilisé par le système d’exploitation. Formater le périphérique/la partition peut conduire à la corruption des données et à l’instabilité du système.\n\n Pour résoudre ce problème, il est recommandé de supprimer la partition puis de la recréer sans la formater. Pour ce faire, faites comme suit : 1) Cliquez-droit sur ’Poste de Travail’, sélectionnez ’Gérer’. La fenêtre ’Gestion de l’ordinateur’ devrait apparaître. 2) Dans ’Gestion de l’ordinateur’ sélectionnez ’Stockage’ &gt; ’Gestion des disques’. 3) Cliquez-droit sur la partition à chiffrer puis choisissez soit ’Supprimer la partition’ soit ’Supprimer le volume’ ou ’Supprimer le disque logique’. 4) Cliquez ’Oui’. Si Windows propose de redémarrer, faites-le. Puis répétez les étapes 1 et 2 puis continuez à partir de l’étape 5. 5) Cliquez-droit sur l’espace libre et choisissez soit ’Nouvelle partition’ soit ’Nouveau volume simple’ ou ’Nouveau disque logique’. 6) La fenêtre d’un assistant apparaît, suivez ses instructions. Sur la page de l’assistant intitulée ’Formater la partition’ choisissez soit ’Ne pas formater cette partition’ ou ’Ne pas formater ce volume’. Cliquez sur ’Suivant’. Puis sur ’Terminer’. 7) Notez que le chemin du périphérique sélectionné dans VeraCrypt peut être désormais erroné. Aussi quittez l’assistant de création de volume VeraCrypt si besoin est et relancez-le. 8) Dans VeraCrypt, essayez à nouveau de chiffrer le périphérique/la partition.\n\nSi VeraCrypt continue d’échouer lors du chiffrement, pensez alors à créer un fichier conteneur à la place.</entry>
+    <entry lang="fr" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Erreur : Le système de fichiers ne peut pas être verrouillé ou démonté. Il peut être utilisé par le système d’exploitation ou des applications (comme un logiciel antivirus). Chiffrer la partition pourrait causer une corruption de données et une instabilité du système.\n\nVeuillez fermer toute application pouvant utiliser le système de fichiers et essayez à nouveau. Si cela ne résout pas le problème, veuillez suivre les étapes ci-dessous.</entry>
     <entry lang="fr" key="DEVICE_IN_USE_INFO">AVERTISSEMENT : Certains périphériques/partitions étaient déjà en cours d’utilisation !\n\nL’ignorer peut causer des résultats indésirables.\n\nNous vous recommandons de fermer toutes les applications pouvant utiliser les périphériques/les partitions.</entry>
     <entry lang="fr" key="DEVICE_PARTITIONS_ERR">Le périphérique contient des partitions.\n\nFormater le périphérique peut conduire à l’instabilité du système ou la corruption des données. Sélectionnez une partition sur le périphérique ou enlevez toutes les partitions du périphérique pour permettre à VeraCrypt de formater en toute sécurité.</entry>
     <entry lang="fr" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Le lecteur sélectionné contient des partitions non-systèmes.\n\nLes volumes VeraCrypt peuvent être créés sur un lecteur ne contenant pas de partitions (cela inclut les disques durs et les SSD). Un lecteur contenant des partitions peut être entièrement chiffré (en utilisant une clé maître) seulement si c’est le lecteur où est installé Windows et qu’il est bootable.\n\nSi vous voulez chiffrer le lecteur non-système sélectionné en utilisant une clé maître, vous devrez préalablement retirer toutes les partitions situées sur le lecteur pour permettre à VeraCrypt de le formater de manière sécurisé (formater un lecteur contenant des partitions pourrait causer une instabilité système ou une corruption de données). Sinon, vous pouvez chiffrer individuellement chaque partition du lecteur (chaque partition sera chiffrée en utilisant une clé maître différente).\n\nRemarque : Si vous souhaitez supprimer toutes les partitions d’un disque GPT, il faudra le convertir en disque MBR (en utilisant par exemple les outils de gestion de l’ordinateur) afin de supprimer des partitions cachées.</entry>
@@ -590,7 +590,7 @@
     <entry lang="fr" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Erreur : Les fichiers copiés dans le volume externe occupent trop d’espace. Aussi il n’y a pas assez d’espace libre dans le volume externe pour le volume caché.\n\nNotez que le volume caché doit être aussi large que la partition système (la partition où est installé le système d’exploitation actuellement en fonction). La raison est que le système d’exploitation caché a besoin d’être créé en copiant le contenu de la partition système dans le volume caché.\n\n\nLe processus de création du système d’exploitation caché ne peut pas continuer.</entry>
     <entry lang="fr" key="OPENFILES_DRIVER">Le pilote ne peut pas démonter le volume. Certains fichiers localisés sur le volume sont probablement encore ouverts.</entry>
     <entry lang="fr" key="OPENFILES_LOCK">Impossible de verrouiller le volume. Il y a encore des fichiers ouverts sur le volume. Aussi il ne sera pas démonté.</entry>
-    <entry lang="fr" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt ne peut pas verrouiller le volume car il est utilisé par le système ou des applications (il peut y avoir des fichiers ouverts sur le volume).\n\n Voulez-vous forcer pour le démontage du volume ?</entry>
+    <entry lang="fr" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt ne peut pas verrouiller le volume car il est utilisé par le système ou des applications (il peut y avoir des fichiers ouverts sur le volume).\n\n Voulez-vous forcer pour le démontage du volume ?</entry>
     <entry lang="fr" key="OPEN_VOL_TITLE">Sélectionner un volume VeraCrypt</entry>
     <entry lang="fr" key="OPEN_TITLE">Spécifier le nom et l’emplacement</entry>
     <entry lang="fr" key="SELECT_PKCS11_MODULE">Sélectionner la bibliothèque PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="fr" key="DLL_FILES">Modules de bibliothèque</entry>
     <entry lang="fr" key="FORMAT_NTFS_STOP">Le formatage NTFS/exFAT ne peut pas continuer.</entry>
     <entry lang="fr" key="CANT_MOUNT_VOLUME">Impossible de monter le volume.</entry>
-    <entry lang="fr" key="CANT_DISMOUNT_VOLUME">Impossible de démonter le volume.</entry>
+    <entry lang="fr" key="CANT_UNMOUNT_VOLUME">Impossible de démonter le volume.</entry>
     <entry lang="fr" key="FORMAT_NTFS_FAILED">Windows n’a pas pu formater le volume en NTFS/exFAT.\n\nSélectionnez un type de système de fichiers différent (si possible) et essayez à nouveau. Vous pouvez aussi laisser le volume non formaté (sélectionnez ’Aucun’ comme système de fichiers), quittez cet assistant, montez le volume puis utilisez soit un outil système soit un outil tiers pour formater le volume monté (le volume restera chiffré).</entry>
     <entry lang="fr" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows n’a pas pu formater le volume en NTFS/exFAT.\n\nVoulez-vous formater le volume en FAT à la place ?</entry>
     <entry lang="fr" key="DEFAULT">Défaut</entry>
@@ -771,7 +771,7 @@
     <entry lang="fr" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Une erreur a empêché VeraCrypt de chiffrer la partition. Essayez de résoudre les problèmes référencés antérieurement puis essayez à nouveau. Si les problèmes persistent, suivez les étapes ci-dessous.</entry>
     <entry lang="fr" key="INPLACE_ENC_GENERIC_ERR_RESUME">Une erreur a empêché VeraCrypt de reprendre le processus de chiffrement de la partition.\n\nEssayez de résoudre les problèmes référencés antérieurement puis essayez à nouveau. Notez que le volume peut être monté que lorsqu’il aura été entièrement chiffré.</entry>
     <entry lang="fr" key="INPLACE_DEC_GENERIC_ERR">Une erreur a empêché VeraCrypt de déchiffrer le volume. Essayez de résoudre les problèmes référencés antérieurement puis essayez à nouveau si possible.</entry>
-    <entry lang="fr" key="CANT_DISMOUNT_OUTER_VOL">Erreur : Impossible de démonter le volume externe !\n\nLe volume ne peut pas être démonté s’il contient des fichiers ou des dossiers utilisés par le système ou par une application.\n\nFermez tout programme qui utilise les fichiers ou les dossiers sur le volume puis cliquez sur ’Recommencer’.</entry>
+    <entry lang="fr" key="CANT_UNMOUNT_OUTER_VOL">Erreur : Impossible de démonter le volume externe !\n\nLe volume ne peut pas être démonté s’il contient des fichiers ou des dossiers utilisés par le système ou par une application.\n\nFermez tout programme qui utilise les fichiers ou les dossiers sur le volume puis cliquez sur ’Recommencer’.</entry>
     <entry lang="fr" key="CANT_GET_OUTER_VOL_INFO">Erreur : Impossible d’obtenir des informations sur le volume externe ! La création du volume ne peut pas continuer.</entry>
     <entry lang="fr" key="CANT_ACCESS_OUTER_VOL">Erreur : Impossible d’accéder au volume externe ! La création du volume ne peut pas continuer.</entry>
     <entry lang="fr" key="CANT_MOUNT_OUTER_VOL">Erreur : Impossible de monter le volume externe ! La création du volume ne peut pas continuer.</entry>
@@ -882,7 +882,7 @@
     <entry lang="fr" key="INSTALL_COMPLETED">Installation terminée.</entry>
     <entry lang="fr" key="CANT_CREATE_FOLDER">Le dossier ’%s’ n’a pas pu être créé</entry>
     <entry lang="fr" key="CLOSE_TC_FIRST">Le pilote de périphérique VeraCrypt n’a pas pu être déchargé.\n\nFermez toutes les fenêtres VeraCrypt en premier. Si cela n’aide pas, redémarrez Windows et essayez à nouveau.</entry>
-    <entry lang="fr" key="DISMOUNT_ALL_FIRST">Tous les volumes VeraCrypt doivent être démontés avant d’installer ou de désinstaller VeraCrypt.</entry>
+    <entry lang="fr" key="UNMOUNT_ALL_FIRST">Tous les volumes VeraCrypt doivent être démontés avant d’installer ou de désinstaller VeraCrypt.</entry>
     <entry lang="fr" key="UNINSTALL_OLD_VERSION_FIRST">Une version obsolète de VeraCrypt est installée sur ce système. Elle doit être désinstallée avant d’installer cette nouvelle version de VeraCrypt.\n\nDès que vous fermerez ce message, le programme de désinstallation de l’ancienne version sera lancé. Notez qu’aucun volume n’est déchiffré lorsque vous désinstallez VeraCrypt. Après avoir désinstallé l’ancienne version de VeraCrypt, réexécutez le programme d’installation de la nouvelle version de VeraCrypt.</entry>
     <entry lang="fr" key="REG_INSTALL_FAILED">L’installation des entrées de la base de registre a échoué</entry>
     <entry lang="fr" key="DRIVER_INSTALL_FAILED">L’installation du pilote de périphérique a échoué. Redémarrez Windows et essayez à nouveau d’installer VeraCrypt.</entry>
@@ -903,7 +903,7 @@
     <entry lang="fr" key="MINUTES">minutes</entry>
     <entry lang="fr" key="SECONDS">s</entry>
     <entry lang="fr" key="OPEN">Ouvrir</entry>
-    <entry lang="fr" key="DISMOUNT">Démonter</entry>
+    <entry lang="fr" key="UNMOUNT">Démonter</entry>
     <entry lang="fr" key="SHOW_TC">Montrer VeraCrypt</entry>
     <entry lang="fr" key="HIDE_TC">Dissimuler VeraCrypt</entry>
     <entry lang="fr" key="TOTAL_DATA_READ">Lu depuis le montage</entry>
@@ -975,7 +975,7 @@
     <entry lang="fr" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Volumes système favoris</entry>
     <entry lang="fr" key="SYS_FAVORITES_HELP_LINK">Quels sont les volumes systèmes préférés ?</entry>
     <entry lang="fr" key="SYS_FAVORITES_REQUIRE_PBA">La partition/le lecteur système ne semble pas être chiffré.\n\nLes volumes système favoris peuvent être montés en utilisant seulement un mot de passe d’authentification de préamorçage. Par conséquent, pour activer l’utilisation des volumes système favoris, vous devez d’abord chiffrer la partition/le lecteur système.</entry>
-    <entry lang="fr" key="DISMOUNT_FIRST">Démontez le volume avant de commencer</entry>
+    <entry lang="fr" key="UNMOUNT_FIRST">Démontez le volume avant de commencer</entry>
     <entry lang="fr" key="CANNOT_SET_TIMER">Erreur : Impossible de paramétrer l’horloge.</entry>
     <entry lang="fr" key="IDPM_CHECK_FILESYS">Vérifier le système de fichiers</entry>
     <entry lang="fr" key="IDPM_REPAIR_FILESYS">Réparer le système de fichiers</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="fr" key="NO_SYSENC_PARTITION_SELECTED">Aucune partition n’est sélectionnée.\n\nCliquez sur ’Périphérique...’ pour choisir une partition démontée qui nécessite normalement une authentification lors du préamorçage (par exemple, une partition localisée sur un disque système chiffré d’un autre système d’exploitation, qui n’est pas lancé ou la partition système chiffrée d’un autre système d’exploitation).\n\nNote : La partition sélectionnée sera montée comme un volume VeraCrypt normal sans authentification lors du préamorçage. Cela peut être utile par exemple lors d’opérations de sauvegarde ou de réparation.</entry>
     <entry lang="fr" key="CONFIRM_SAVE_DEFAULT_KEYFILES">AVERTISSEMENT : Si les fichiers clés par défaut sont paramétrés et activés, les volumes qui n’utilisent pas ces fichiers clés seront impossibles à monter. N’oubliez pas de décocher ’Utiliser les fichiers clés’ quand vous montez de tels volumes.\n\nÊtes-vous sûr de vouloir sauvegarder les fichiers clés/les emplacements comme par défaut ?</entry>
     <entry lang="fr" key="HK_AUTOMOUNT_DEVICES">Montage automatique des périphériques</entry>
-    <entry lang="fr" key="HK_DISMOUNT_ALL">Tout démonter</entry>
+    <entry lang="fr" key="HK_UNMOUNT_ALL">Tout démonter</entry>
     <entry lang="fr" key="HK_WIPE_CACHE">Vider le cache</entry>
-    <entry lang="fr" key="HK_DISMOUNT_ALL_AND_WIPE">Tout démonter et vider le cache</entry>
-    <entry lang="fr" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Forcer le démontage &amp; vider le cache</entry>
-    <entry lang="fr" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Forcer le démontage, vider le cache &amp; quitter</entry>
+    <entry lang="fr" key="HK_UNMOUNT_ALL_AND_WIPE">Tout démonter et vider le cache</entry>
+    <entry lang="fr" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Forcer le démontage &amp; vider le cache</entry>
+    <entry lang="fr" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Forcer le démontage, vider le cache &amp; quitter</entry>
     <entry lang="fr" key="HK_MOUNT_FAVORITE_VOLUMES">Monter les volumes favoris</entry>
     <entry lang="fr" key="HK_SHOW_HIDE_MAIN_WINDOW">Afficher/cacher la fenêtre principale de VeraCrypt</entry>
     <entry lang="fr" key="PRESS_A_KEY_TO_ASSIGN">(Cliquer ici et appuyer sur une touche)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="fr" key="PAGING_FILE_CREATION_PREVENTED">La création du fichier de pagination a été empêchée.\n\nEn raison de problèmes de Windows, les fichiers de pagination ne peuvent pas être situés sur des volumes VeraCrypt  non-système (y compris les volumes système préférés). VeraCrypt prend en charge la création de fichiers de pagination uniquement sur un système de partition/lecteur chiffré.</entry>
     <entry lang="fr" key="SYS_ENC_HIBERNATION_PREVENTED">Une erreur ou une incompatibilité empêche VeraCrypt de chiffrer le fichier de mise en veille prolongée. La mise en veille prolongée n’a donc pas eu lieu.\n\nNote : Quand un ordinateur passe en mode de veille prolongée (ou en veille), le contenu de sa mémoire système est écrit dans un fichier de stockage sur votre disque système. VeraCrypt ne serait pas en mesure d’empêcher les clés de chiffrement et le contenu de fichiers sensibles ouverts en RAM d’être sauvegardés non chiffrés dans le fichier de mise en veille prolongée.</entry>
     <entry lang="fr" key="HIDDEN_OS_HIBERNATION_PREVENTED">L’hibernation a été empêchée.\n\nVeraCrypt ne supporte pas la mise en veille prolongée sur les systèmes d’exploitation cachés qui utilisent une partition de démarrage supplémentaires. La partition de démarrage est partagée par le leurre et le système caché. Par conséquent, afin d’éviter les fuites de données et les problèmes à la sortie de l’hibernation, VeraCrypt a empêché le système caché d’écrire sur la partition de démarrage partagée et d’hiberner.</entry>
-    <entry lang="fr" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">Le volume VeraCrypt monté en tant que %c: a été démontée.</entry>
-    <entry lang="fr" key="MOUNTED_VOLUMES_DISMOUNTED">Les volumes VeraCrypt ont été démontés.</entry>
-    <entry lang="fr" key="VOLUMES_DISMOUNTED_CACHE_WIPED">Les volumes VeraCrypt ont été démontés et le cache de mot de passe a été nettoyé.</entry>
-    <entry lang="fr" key="SUCCESSFULLY_DISMOUNTED">Démonté avec succès.</entry>
+    <entry lang="fr" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">Le volume VeraCrypt monté en tant que %c: a été démontée.</entry>
+    <entry lang="fr" key="MOUNTED_VOLUMES_UNMOUNTED">Les volumes VeraCrypt ont été démontés.</entry>
+    <entry lang="fr" key="VOLUMES_UNMOUNTED_CACHE_WIPED">Les volumes VeraCrypt ont été démontés et le cache de mot de passe a été nettoyé.</entry>
+    <entry lang="fr" key="SUCCESSFULLY_UNMOUNTED">Démonté avec succès.</entry>
     <entry lang="fr" key="CONFIRM_BACKGROUND_TASK_DISABLED">AVERTISSEMENT : Si la tâche d’arrière-plan VeraCrypt est désactivée, les fonctions suivantes seront désactivées : \n\n1) Les raccourcis clavier\n2) Le démontage automatique des volumes (p. ex., sur fermeture de session, suppression du périphérique hôte involontaire, délai d’attente, etc.)\n3) Montage automatique des volumes préférés\n4) Les notifications (par exemple, les dommages empêchés pour le volume caché) \n5) L’icône de la zone de notification\n\nRemarque : vous pouvez arrêter la tâche d’arrière-plan à tout moment en double-cliquant sur l’icône VeraCrypt située dans la zone de notification et en sélectionnant "Quitter".\n\nÊtes-vous sûr de vouloir désactiver de façon permanente la tâche d’arrière-plan VeraCrypt ?</entry>
-    <entry lang="fr" key="CONFIRM_NO_FORCED_AUTODISMOUNT">AVERTISSEMENT : Si cette option est désactivée, les volumes contenant des fichiers/des répertoires ouverts ne pourront pas être démontés automatiquement.\n\nÊtes-vous sûr de vouloir désactiver cette option ?</entry>
-    <entry lang="fr" key="WARN_PREF_AUTO_DISMOUNT">AVERTISSEMENT : Les volumes contenant des fichiers/des répertoires ouverts ne seront PAS démontés automatiquement.\n\nPour éviter cela, activez l’option suivante : ’Forcer le démontage automatique même s’il y a encore des fichiers ouverts’</entry>
-    <entry lang="fr" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">AVERTISSEMENT : Lorsque la batterie de l’ordinateur portable est faible, Windows peut omettre d’envoyer les messages appropriés pour l’exécution d’applications lorsque l’ordinateur est entré mode économie. Par conséquent, dans un tel cas, VeraCrypt peut ne pas démonter automatiquement les volumes.</entry>
+    <entry lang="fr" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">AVERTISSEMENT : Si cette option est désactivée, les volumes contenant des fichiers/des répertoires ouverts ne pourront pas être démontés automatiquement.\n\nÊtes-vous sûr de vouloir désactiver cette option ?</entry>
+    <entry lang="fr" key="WARN_PREF_AUTO_UNMOUNT">AVERTISSEMENT : Les volumes contenant des fichiers/des répertoires ouverts ne seront PAS démontés automatiquement.\n\nPour éviter cela, activez l’option suivante : ’Forcer le démontage automatique même s’il y a encore des fichiers ouverts’</entry>
+    <entry lang="fr" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">AVERTISSEMENT : Lorsque la batterie de l’ordinateur portable est faible, Windows peut omettre d’envoyer les messages appropriés pour l’exécution d’applications lorsque l’ordinateur est entré mode économie. Par conséquent, dans un tel cas, VeraCrypt peut ne pas démonter automatiquement les volumes.</entry>
     <entry lang="fr" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Vous avez planifié le processus de chiffrement d’une partition ou d’un volume. Le processus n’a pas encore été terminé.\n\nSouhaitez-vous reprendre le processus maintenant ?</entry>
     <entry lang="fr" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Vous avez planifié le processus de chiffrement ou de déchiffrement pour la partition/le disque système. Le processus n’est pas encore terminé.\n\nVoulez-vous démarrer (reprendre) le processus maintenant ?</entry>
     <entry lang="fr" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Voulez-vous être averti de la reprise des processus actuellement prévus de chiffrement de partitions/volumes non-système ?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="fr" key="SYS_AUTOMOUNT_DISABLED">Votre système n’est pas configuré pour monter automatiquement de nouveaux volumes. Il est impossible de monter des volumes hébergeant un périphérique. Le montage automatique peut être activé en exécutant la commande suivante suivie d’un redémarrage système.\n\nmountvol.exe /E</entry>
     <entry lang="fr" key="SYS_ASSIGN_DRIVE_LETTER">Assignez une lettre de lecteur au périphérique/à la partition avant de poursuivre.\n\nNotez qu’il s’agit d’une exigence du système d’exploitation.</entry>
     <entry lang="fr" key="MOUNT_TC_VOLUME">Monter un volume VeraCrypt</entry>
-    <entry lang="fr" key="DISMOUNT_ALL_TC_VOLUMES">Démonter tous les volumes VeraCrypt</entry>
+    <entry lang="fr" key="UNMOUNT_ALL_TC_VOLUMES">Démonter tous les volumes VeraCrypt</entry>
     <entry lang="fr" key="UAC_INIT_ERROR">VeraCrypt n’a pas pu obtenir les privilèges d’administrateur.</entry>
     <entry lang="fr" key="ERR_ACCESS_DENIED">Accès refusé par le système d’exploitation.\n\nCause possible : Le système d’exploitation nécessite que vous ayez la permission en lecture/écriture (ou des privilèges d’administrateur) pour certains dossiers, fichiers et périphériques pour être autorisé à y lire/écrire des données. Normalement un utilisateur sans privilèges d’administrateur est autorisé à créer, lire et modifier les fichiers de son dossier Mes Documents.</entry>
     <entry lang="fr" key="SECTOR_SIZE_UNSUPPORTED">Erreur : Le lecteur utilise une taille de secteur non prise en charge.\n\nIl n’est actuellement pas possible de créer de volumes de partition/périphérique-hébergé sur des lecteurs qui utilisent des secteurs de taille supérieure à 4096 octets. Toutefois, vous pouvez créer des volumes de fichiers hébergés (conteneurs) sur ces disques.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="fr" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Notez que le nombre d’unités d’exécution est actuellement limitée, ce qui affectera les résultats des benchmarks (dégradation des performances).\n\nPour exploiter pleinement le potentiel des processeurs, sélectionnez "Paramètres" &gt; "Performance" et désactiver l’option correspondante.</entry>
     <entry lang="fr" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Voulez-vous que VeraCrypt tente de désactiver la protection en écriture du disque ou de la partition ?</entry>
     <entry lang="fr" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">AVERTISSEMENT : Ce paramètre peut nuire aux performances.\n\nÊtes-vous certain de vouloir utiliser ce paramètre ?</entry>
-    <entry lang="fr" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">AVERTISSEMENT: Volume VeraCrypt auto-démonté</entry>
-    <entry lang="fr" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Avant de retirer physiquement ou d’éteindre un appareil contenant un volume monté, vous devriez d’abord toujours démonter le volume dans VeraCrypt.\n\nLe démontage spontané inattendue est habituellement causé par un câble se déconnectant par intermittence, disques (rack), etc.</entry>
+    <entry lang="fr" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">AVERTISSEMENT: Volume VeraCrypt auto-démonté</entry>
+    <entry lang="fr" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Avant de retirer physiquement ou d’éteindre un appareil contenant un volume monté, vous devriez d’abord toujours démonter le volume dans VeraCrypt.\n\nLe démontage spontané inattendue est habituellement causé par un câble se déconnectant par intermittence, disques (rack), etc.</entry>
     <entry lang="fr" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ce volume a été créé par TrueCrypt %x.%x mais VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 6.x/7.x de TrueCrypt</entry>
     <entry lang="fr" key="TEST">Test</entry>
     <entry lang="fr" key="KEYFILE">Fichier clé</entry>
@@ -1448,199 +1448,202 @@
     <entry lang="fr" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Forcer l'entrée VeraCrypt a être la première dans le menu des chargeurs d'amorçage EFI de la carte mère</entry>
     <entry lang="fr" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">AVERTISSEMENT: Le chiffrement de la RAM n'est pas compatible avec les fonctionnalités hibernation et démarrage rapide de Windows. VeraCrypt a besoin de les désactiver avant d'activer le chiffrement de la RAM.\n\n Continuer ?</entry>
     <entry lang="fr" key="CONFIRM_DISABLE_FAST_STARTUP">AVERTISSEMENT: Le démarrage rapide de Windows est activé, ce qui peut causer des problèmes lors de l'utilisation de VeraCrypt. Il est conseillé de le désactiver pour améliorer la sécurité et l'utilisabilité de VeraCrypt.\n\nVoulez-vous désactiver le démarrage rapide de Windows?</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
+    <entry lang="fr" key="QUICK_FORMAT_HELP">Pour permettre à votre système d'exploitation de monter votre nouveau volume, il doit être formaté avec un système de fichiers. Veuillez sélectionner un type de système de fichiers.\n\nSi votre volume est hébergé sur un appareil ou une partition, vous pouvez utiliser le 'Formatage rapide' pour éviter le chiffrement de l'espace libre du volume.</entry>
     <entry lang="fr" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Ne pas utiliser les instructions AES du processeur pour accélérer le chiffrement/déchiffrement AES</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
+    <entry lang="fr" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Ajouter tous les volumes montés aux favoris...</entry>
+    <entry lang="fr" key="TASKICON_PREF_MENU_ITEMS">Éléments du menu de l'icône de tâche</entry>
+    <entry lang="fr" key="TASKICON_PREF_OPEN_VOL">Ouvrir les volumes montés</entry>
+    <entry lang="fr" key="TASKICON_PREF_UNMOUNT_VOL">Démonter les volumes montés</entry>
+    <entry lang="fr" key="DISK_FREE">Espace libre disponible : {0}</entry>
+    <entry lang="fr" key="VOLUME_SIZE_HELP">Veuillez spécifier la taille du conteneur à créer. Notez que la taille minimale possible d'un volume est de 292 KiB.</entry>
+    <entry lang="fr" key="LINUX_CONFIRM_INNER_VOLUME_CALC">AVERTISSEMENT : Vous avez sélectionné un système de fichiers autre que FAT pour le volume externe.\nVeuillez noter que dans ce cas, VeraCrypt ne peut pas calculer la taille maximale exacte permise pour le volume caché et n'utilisera qu'une estimation qui peut être incorrecte.\nPar conséquent, il est de votre responsabilité d'utiliser une valeur adéquate pour la taille du volume caché afin qu'il ne chevauche pas le volume externe.\n\nVoulez-vous continuer à utiliser le système de fichiers sélectionné pour le volume externe ?</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_SECURITY">Sécurité</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Options de montage</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_BACKGROUND_TASK">Tâche en arrière-plan</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">Intégration au système</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Explorateur de fichiers</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_KEYFILES">Fichiers-clés</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_TOKENS">Jetons de sécurité</entry>
+    <entry lang="fr" key="LINUX_PREF_KERNEL_SERVICES">Services du noyau</entry>
+    <entry lang="fr" key="LINUX_PREF_KERNEL_CRYPT">Ne pas utiliser les services cryptographiques du noyau</entry>
+    <entry lang="fr" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Système de fichiers</entry>
+    <entry lang="fr" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Options de montage :</entry>
+    <entry lang="fr" key="LINUX_CROSS_SUPPORT">Compatibilité multiplateforme</entry>
+    <entry lang="fr" key="LINUX_CROSS_SUPPORT_OTHER">Je monterai le volume sur d'autres plateformes</entry>
+    <entry lang="fr" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choisissez cette option si vous devez utiliser le volume sur d'autres plateformes.</entry>
+    <entry lang="fr" key="LINUX_CROSS_SUPPORT_ONLY">Je monterai le volume uniquement sur {0}</entry>
+    <entry lang="fr" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choisissez cette option si vous n'avez pas besoin d'utiliser le volume sur d'autres plateformes.</entry>
+    <entry lang="fr" key="LINUX_DESELECT">Désélectionner</entry>
+    <entry lang="fr" key="LINUX_ADMIN_PW_QUERY">Entrez votre mot de passe utilisateur ou administrateur :</entry>
+    <entry lang="fr" key="LINUX_ADMIN_PW_QUERY_TITLE">Privilèges administrateur requis</entry>
+    <entry lang="fr" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt est déjà en cours d'exécution.</entry>
+    <entry lang="fr" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">Le mot de passe de chiffrement système contient plus de {0} caractères.</entry>
+    <entry lang="fr" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Monter la partition &amp;en utilisant le chiffrement système (authentification pré-démarrage)</entry>
+    <entry lang="fr" key="LINUX_DO_NOT_MOUNT">Ne &amp;pas monter</entry>
+    <entry lang="fr" key="LINUX_MOUNT_AT_DIR">Monter dans le répertoire :</entry>
+    <entry lang="fr" key="LINUX_SELECT">Sé&amp;lectionner...</entry>
+    <entry lang="fr" key="LINUX_UNMOUNT_ALL_WHEN">Démonter tous les volumes lorsque</entry>
+    <entry lang="fr" key="LINUX_ENTERING_POWERSAVING">Le système passe en mode économie d'énergie</entry>
+    <entry lang="fr" key="LINUX_LOGIN_ACTION">Actions à effectuer lors de la connexion utilisateur</entry>
+    <entry lang="fr" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Fermer toutes les fenêtres de l'explorateur pour le volume en cours de démontage</entry>
+    <entry lang="fr" key="LINUX_HOTKEYS">Raccourcis clavier</entry>
+    <entry lang="fr" key="LINUX_SYSTEM_HOTKEYS">Raccourcis clavier système</entry>
+    <entry lang="fr" key="LINUX_SOUND_NOTIFICATION">Jouer un son de notification système après le montage/démontage</entry>
+    <entry lang="fr" key="LINUX_CONFIRM_AFTER_UNMOUNT">Afficher un message de confirmation après le démontage</entry>
+    <entry lang="fr" key="LINUX_VC_QUITS">VeraCrypt se ferme</entry>
+    <entry lang="fr" key="LINUX_OPEN_FINDER">Ouvrir une fenêtre Finder pour le volume monté avec succès</entry>
+    <entry lang="fr" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Notez que ce paramètre prend effet uniquement si l'utilisation des services cryptographiques du noyau est désactivée.</entry>
+    <entry lang="fr" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">La désactivation de l'utilisation des services cryptographiques du noyau peut entraîner une dégradation des performances.\n\nÊtes-vous sûr(e) ?</entry>
+    <entry lang="fr" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Notez que désactiver cette option peut ne pas avoir d'effet sur les volumes montés utilisant les services cryptographiques du noyau.</entry>
+    <entry lang="fr" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Notez que tous les volumes actuellement montés doivent être démontés puis remontés avant que ce paramètre ne puisse être appliqué.</entry>
+    <entry lang="fr" key="LINUX_UNKNOWN_EXC_OCCURRED">Une exception inconnue s'est produite.</entry>
+    <entry lang="fr" key="LINUX_FIRST_AID">L'utilitaire de disque sera lancé après avoir appuyé sur 'OK'.\n\nVeuillez sélectionner votre volume dans la fenêtre de l'utilitaire de disque et cliquer sur le bouton 'Vérifier le disque' ou 'Réparer le disque' dans l'onglet 'Premiers secours'.</entry>
     <entry lang="fr" key="LINUX_MOUNT_ALL_DEV">Tout Monter</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
+    <entry lang="fr" key="LINUX_ERROR_LOADING_CONFIG">Erreur lors du chargement des fichiers de configuration situés dans </entry>
+    <entry lang="fr" key="LINUX_SELECT_FREE_SLOT">Veuillez sélectionner un emplacement de lecteur libre dans la liste.</entry>
+    <entry lang="fr" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nVoulez-vous afficher ce message lors du prochain montage d'un tel volume ?</entry>
+    <entry lang="fr" key="LINUX_WARNING">Avertissement</entry>
+    <entry lang="fr" key="LINUX_ERROR">Erreur</entry>
+    <entry lang="fr" key="LINUX_ONLY_TEXTMODE">Cette fonctionnalité est actuellement prise en charge uniquement en mode texte.</entry>
+    <entry lang="fr" key="LINUX_FREE_SPACE_ON_DRIVE">Espace libre sur le lecteur {0} : {1}.</entry>
+    <entry lang="fr" key="LINUX_DYNAMIC_NOTICE">Notez que si votre système d'exploitation n'alloue pas les fichiers depuis le début de l'espace libre, la taille maximale possible du volume caché peut être bien inférieure à celle de l'espace libre sur le volume externe. Ce n'est pas un bogue de VeraCrypt, mais une limitation du système d'exploitation.</entry>
+    <entry lang="fr" key="LINUX_MAX_HIDDEN_SIZE">La taille maximale possible du volume caché pour ce volume est de {0}.</entry>
+    <entry lang="fr" key="LINUX_OPEN_OUTER_VOL">Ouvrir le volume externe</entry>
+    <entry lang="fr" key="LINUX_OUTER_VOL_IS_MOUNTED">Le volume externe a été créé et monté avec succès sous '{0}'. Sur ce volume, copiez des fichiers sensibles en apparence que vous ne souhaitez PAS réellement cacher. Ces fichiers seront visibles pour toute personne vous forçant à divulguer votre mot de passe. Vous ne révélerez que le mot de passe de ce volume externe, pas celui du volume caché. Les fichiers que vous voulez réellement protéger seront stockés dans le volume caché, qui sera créé ultérieurement. Une fois la copie terminée, cliquez sur Suivant. Ne démontez pas le volume.\n\nRemarque : Après avoir cliqué sur Suivant, le volume externe sera analysé pour déterminer la taille de l'espace libre ininterrompu dont la fin est alignée avec celle du volume. Cet espace accueillera le volume caché, ce qui limitera sa taille maximale possible. Cette procédure garantit qu'aucune donnée du volume externe ne sera écrasée par le volume caché.</entry>
+    <entry lang="fr" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Erreur : Vous essayez de chiffrer un disque système.\n\nVeraCrypt ne peut chiffrer un disque système que sous Windows.</entry>
+    <entry lang="fr" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Erreur : Vous essayez de chiffrer une partition système.\n\nVeraCrypt ne peut chiffrer les partitions système que sous Windows.</entry>
+    <entry lang="fr" key="LINUX_WARNING_FORMAT_DESTROY_FS">AVERTISSEMENT : Le formatage de l'appareil détruira toutes les données sur le système de fichiers '{0}'.\n\nVoulez-vous continuer ?</entry>
+    <entry lang="fr" key="LINUX_MOUNTET_HINT">Le système de fichiers de l'appareil sélectionné est actuellement monté. Veuillez démonter '{0}' avant de continuer.</entry>
+    <entry lang="fr" key="LINUX_HIDDEN_PASS_NO_DIFF">Le volume caché ne peut pas avoir le même mot de passe, PIM et fichiers-clés que le volume externe.</entry>
+    <entry lang="fr" key="LINUX_NOT_FAT_HINT">Notez que le volume ne sera pas formaté avec un système de fichiers FAT et, par conséquent, vous pourriez devoir installer des pilotes supplémentaires sur des plateformes autres que {0} pour pouvoir monter le volume.</entry>
+    <entry lang="fr" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Erreur : Le volume caché à créer est plus grand que {0} To ({1} Go).\n\nSolutions possibles :\n- Créez un conteneur ou une partition plus petit(e) que {0} To.\n</entry>
+    <entry lang="fr" key="LINUX_MAX_SIZE_HINT">- Utilisez un lecteur avec des secteurs de 4096 octets pour pouvoir créer des volumes cachés jusqu'à 16 To.</entry>
+    <entry lang="fr" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="fr" key="LINUX_NOT_SUPPORTED"> (non pris en charge par les composants disponibles sur cette plateforme).\n</entry>
+    <entry lang="fr" key="LINUX_KERNEL_OLD">Votre système utilise une ancienne version du noyau Linux.\n\nEn raison d'un bogue dans le noyau Linux, votre système peut cesser de répondre lors de l'écriture de données sur un volume VeraCrypt. Ce problème peut être résolu en mettant à jour le noyau vers la version 2.6.24 ou ultérieure.</entry>
+    <entry lang="fr" key="LINUX_VOL_UNMOUNTED">Le volume {0} a été démonté.</entry>
+    <entry lang="fr" key="LINUX_VOL_MOUNTED">Le volume {0} a été monté.</entry>
+    <entry lang="fr" key="LINUX_OOM">Mémoire insuffisante.</entry>
+    <entry lang="fr" key="LINUX_CANT_GET_ADMIN_PRIV">Impossible d'obtenir les privilèges administrateur</entry>
+    <entry lang="fr" key="LINUX_COMMAND_GET_ERROR">La commande {0} a renvoyé l'erreur {1}.</entry>
+    <entry lang="fr" key="LINUX_CMD_HELP">Aide en ligne de commande VeraCrypt</entry>
+    <entry lang="fr" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nAvertissement : Des fichiers cachés sont présents dans le chemin des fichiers-clés. Pour les utiliser comme fichiers-clés, retirez le point initial de leurs noms. Les fichiers cachés sont visibles uniquement si cette option est activée dans les paramètres système.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Incompatibilité entre la taille des secteurs de l'appareil de stockage et celle du volume VeraCrypt.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Cette opération doit être effectuée uniquement lorsque le système hébergé sur le volume est en cours d'exécution.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_INSUFFICIENTDATA">Données insuffisantes disponibles.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Échec du test des services cryptographiques du noyau. Le service cryptographique de votre noyau ne prend probablement pas en charge les volumes de plus de 2 To.\n\nSolutions possibles :\n- Mettez à jour le noyau Linux vers la version 2.6.33 ou ultérieure.\n- Désactivez l'utilisation des services cryptographiques du noyau (Paramètres > Préférences > Intégration du système) ou utilisez l'option de montage 'nokernelcrypto' en ligne de commande.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Échec de la configuration de l'appareil en boucle.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_MISSINGARGUMENT">Un argument requis est manquant.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Données du volume manquantes.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Un point de montage est requis.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Le point de montage est déjà utilisé.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_PASSWORDEMPTY">Aucun mot de passe ou fichier-clé spécifié.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNotez que les mots de passe pour l'authentification avant le démarrage doivent être saisis dans un environnement où les dispositions de clavier non américaines ne sont pas disponibles. Par conséquent, ces mots de passe doivent toujours être saisis en utilisant la disposition standard du clavier américain (sinon, le mot de passe sera incorrect dans la plupart des cas). Cependant, vous n'avez PAS besoin d'un clavier américain réel ; il suffit de changer la disposition du clavier dans votre système d'exploitation.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nRemarque : Si vous tentez de monter une partition située sur un disque système chiffré sans authentification avant le démarrage ou de monter la partition système chiffrée d'un système d'exploitation qui n'est pas en cours d'exécution, vous pouvez le faire en sélectionnant « Options > » > « Monter la partition en utilisant le chiffrement système ».</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_PASSWORDTOOLONG">Le mot de passe contient plus de {0} caractères.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Un périphérique de partition est requis.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Mot de passe incorrect pour le volume caché protégé ou le volume caché n'existe pas.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Fichier(s)-clé(s) ou mot de passe incorrect(s) pour le volume caché protégé, ou le volume caché n'existe pas.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Caractères invalides rencontrés.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Erreur lors de l'analyse de la chaîne formatée.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Échec de la création d'un fichier ou d'un répertoire dans un répertoire temporaire.\n\nVeuillez vérifier que le répertoire temporaire existe, que ses permissions de sécurité vous permettent d'y accéder, et qu'il y a suffisamment d'espace disque.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Erreur : Le disque utilise une taille de secteur autre que 512 octets.\n\nEn raison des limitations des composants disponibles sur votre plateforme, les volumes externes hébergés sur ce disque ne peuvent pas être montés avec la protection du volume caché.\n\nSolutions possibles :\n- Utilisez un disque avec des secteurs de 512 octets.\n- Créez un volume hébergé dans un fichier (conteneur) sur le disque.\n- Sauvegardez le contenu du volume caché, puis mettez à jour le volume externe.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Erreur : Le disque utilise une taille de secteur autre que 512 octets.\n\nEn raison des limitations des composants disponibles sur votre plateforme, les volumes hébergés sur une partition ou un périphérique sur ce disque ne peuvent être montés qu'en utilisant les services cryptographiques du noyau.\n\nSolutions possibles :\n- Activez l'utilisation des services cryptographiques du noyau (Préférences > Intégration système).\n- Utilisez un disque avec des secteurs de 512 octets.\n- Créez un volume hébergé dans un fichier (conteneur) sur le disque.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Erreur : Le disque utilise une taille de secteur autre que 512 octets.\n\nEn raison des limitations des composants disponibles sur votre plateforme, les volumes hébergés sur une partition ou un périphérique ne peuvent pas être créés/utilisés sur ce disque.\n\nSolutions possibles :\n- Créez un volume hébergé dans un fichier (conteneur) sur le disque.\n- Utilisez un disque avec des secteurs de 512 octets.\n- Utilisez VeraCrypt sur une autre plateforme.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Le fichier/périphérique hôte est déjà utilisé.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">L'emplacement du volume est indisponible.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt nécessite OSXFUSE 2.5 ou une version ultérieure.</entry>
+    <entry lang="fr" key="EXCEPTION_OCCURRED">Une exception s'est produite</entry>
+    <entry lang="fr" key="ENTER_PASSWORD">Entrez le mot de passe</entry>
+    <entry lang="fr" key="ENTER_TC_VOL_PASSWORD">Entrez le mot de passe du volume VeraCrypt</entry>
+    <entry lang="fr" key="MOUNT">Monter</entry>
+    <entry lang="fr" key="MOUNT_POINT">Répertoire de montage</entry>
+    <entry lang="fr" key="NO_VOLUMES_MOUNTED">Aucun volume monté.</entry>
+    <entry lang="fr" key="OPEN_NEW_VOLUME">Spécifiez un nouveau volume VeraCrypt</entry>
+    <entry lang="fr" key="PARAMETER_INCORRECT">Paramètre incorrect</entry>
+    <entry lang="fr" key="SELECT_KEYFILES">Sélectionnez les fichiers-clés</entry>
+    <entry lang="fr" key="START_TC">Démarrer VeraCrypt</entry>
+    <entry lang="fr" key="VOLUME_ALREADY_MOUNTED">Le volume {0} est déjà monté.</entry>
+    <entry lang="fr" key="UNKNOWN_OPTION">Option inconnue</entry>
+    <entry lang="fr" key="VOLUME_LOCATION">Emplacement du volume</entry>
+    <entry lang="fr" key="VOLUME_HOST_IN_USE">AVERTISSEMENT : Le fichier/périphérique hôte {0} est déjà utilisé !\n\nIgnorer cela peut entraîner des résultats indésirables, y compris une instabilité du système. Toutes les applications susceptibles d'utiliser le fichier/périphérique hôte doivent être fermées avant de monter le volume.\n\nContinuer le montage ?</entry>
     <entry lang="fr" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt a déjà été installé à l'aide d'un package MSI et de ce fait il ne peut pas être mis à jour à l'aide du programme d'installation standard.\n\nVeuillez utiliser le package MSI pour mettre à jour votre installation VeraCrypt.</entry>
     <entry lang="fr" key="IDC_USE_ALL_FREE_SPACE">Utiliser la totalité de l'espace libre sur le disque</entry>
     <entry lang="fr" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt ne peut pas être mis à niveau car votre partition/disque système a été chiffré à l'aide d'un algorithme qui n'est plus pris en charge.\nVeuillez déchiffrer votre système avant de mettre à niveau VeraCrypt, puis chiffrez-le à nouveau. </entry>
     <entry lang="fr" key="LINUX_EX2MSG_TERMINALNOTFOUND">Aucune application de terminal compatible n'a été trouvée, vous avez besoin soit de xterm, de konsole ou de gnome-terminal (avec dbus-x11).</entry>
     <entry lang="fr" key="IDM_MOUNT_NO_CACHE">Monter sans cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CPLC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPLC data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
+    <entry lang="fr" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nÉtendre un volume VeraCrypt à la volée sans reformater\n\n\nTous les types de volumes (fichiers conteneurs, disques et partitions) formatés en NTFS sont pris en charge. La seule condition est qu'il y ait suffisamment d'espace libre sur le lecteur ou périphérique hôte du volume VeraCrypt.\n\nN'utilisez pas ce logiciel pour étendre un volume extérieur contenant un volume caché, car cela détruira le volume caché !\n</entry>
+    <entry lang="fr" key="IDC_STEPSEXPAND">1. Sélectionnez le volume VeraCrypt à étendre\n2. Cliquez sur le bouton « Monter »</entry>
+    <entry lang="fr" key="IDT_VOL_NAME">Volume : </entry>
+    <entry lang="fr" key="IDT_FILE_SYS">Système de fichiers : </entry>
+    <entry lang="fr" key="IDT_CURRENT_SIZE">Taille actuelle : </entry>
+    <entry lang="fr" key="IDT_NEW_SIZE">Nouvelle taille : </entry>
+    <entry lang="fr" key="IDT_NEW_SIZE_BOX_TITLE">Entrez la nouvelle taille du volume</entry>
+    <entry lang="fr" key="IDC_INIT_NEWSPACE">Remplir le nouvel espace avec des données aléatoires</entry>
+    <entry lang="fr" key="IDC_QUICKEXPAND">Extension rapide</entry>
+    <entry lang="fr" key="IDT_INIT_SPACE">Remplir le nouvel espace : </entry>
+    <entry lang="fr" key="EXPANDER_FREE_SPACE">%s d'espace libre disponible sur le lecteur hôte</entry>
+    <entry lang="fr" key="EXPANDER_HELP_DEVICE">Il s'agit d'un volume VeraCrypt basé sur un périphérique.\n\nLa nouvelle taille du volume sera automatiquement choisie comme étant la taille du périphérique hôte.</entry>
+    <entry lang="fr" key="EXPANDER_HELP_FILE">Veuillez spécifier la nouvelle taille du volume VeraCrypt (doit être au moins %I64u Ko plus grande que la taille actuelle).</entry>
+    <entry lang="fr" key="QUICK_EXPAND_WARNING">AVERTISSEMENT : Vous ne devez utiliser l'extension rapide que dans les cas suivants :\n\n1) Le périphérique où le conteneur de fichiers est situé ne contient aucune donnée sensible et vous n'avez pas besoin de déni plausible.\n2) Le périphérique où le conteneur de fichiers est situé a déjà été sécurisé et entièrement chiffré.\n\nÊtes-vous sûr de vouloir utiliser l'extension rapide ?</entry>
+    <entry lang="fr" key="EXPANDER_STATUS_TEXT">IMPORTANT : Déplacez votre souris de manière aussi aléatoire que possible dans cette fenêtre. Plus vous le ferez longtemps, mieux ce sera. Cela améliore significativement la solidité cryptographique des clés de chiffrement. Cliquez ensuite sur « Continuer » pour étendre le volume.</entry>
+    <entry lang="fr" key="EXPANDER_STATUS_TEXT_LEGACY">Cliquez sur « Continuer » pour étendre le volume.</entry>
+    <entry lang="fr" key="EXPANDER_FINISH_ERROR">Erreur : échec de l'extension du volume.</entry>
+    <entry lang="fr" key="EXPANDER_FINISH_ABORT">Erreur : opération annulée par l'utilisateur.</entry>
+    <entry lang="fr" key="EXPANDER_FINISH_OK">Terminé. Volume étendu avec succès.</entry>
+    <entry lang="fr" key="EXPANDER_CANCEL_WARNING">Attention : L'extension du volume est en cours !\n\nL'arrêt maintenant peut entraîner un volume endommagé.\n\nVoulez-vous vraiment annuler ?</entry>
+    <entry lang="fr" key="EXPANDER_STARTING_STATUS">Démarrage de l'extension du volume...\n</entry>
+    <entry lang="fr" key="EXPANDER_HIDDEN_VOLUME_ERROR">Un volume extérieur contenant un volume caché ne peut pas être étendu, car cela détruirait le volume caché.\n</entry>
+    <entry lang="fr" key="EXPANDER_SYSTEM_VOLUME_ERROR">Un volume système VeraCrypt ne peut pas être étendu.</entry>
+    <entry lang="fr" key="EXPANDER_NO_FREE_SPACE">Pas assez d'espace libre pour étendre le volume</entry>
+    <entry lang="fr" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Attention : Le fichier conteneur est plus grand que la zone de volume VeraCrypt. Les données après la zone de volume VeraCrypt seront écrasées.\n\nVoulez-vous continuer ?</entry>
+    <entry lang="fr" key="EXPANDER_WARNING_FAT">Attention : Le volume VeraCrypt contient un système de fichiers FAT !\n\nSeul le volume VeraCrypt lui-même sera étendu, mais pas le système de fichiers.\n\nVoulez-vous continuer ?</entry>
+    <entry lang="fr" key="EXPANDER_WARNING_EXFAT">Attention : Le volume VeraCrypt contient un système de fichiers exFAT !\n\nSeul le volume VeraCrypt lui-même sera étendu, mais pas le système de fichiers.\n\nVoulez-vous continuer ?</entry>
+    <entry lang="fr" key="EXPANDER_WARNING_UNKNOWN_FS">Attention : Le volume VeraCrypt contient un système de fichiers inconnu ou aucun système de fichiers !\n\nSeul le volume VeraCrypt lui-même sera étendu, le système de fichiers restera inchangé.\n\nVoulez-vous continuer ?</entry>
+    <entry lang="fr" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Nouvelle taille de volume trop petite, doit être au moins %I64u Ko plus grande que la taille actuelle.</entry>
+    <entry lang="fr" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Nouvelle taille de volume trop grande, espace insuffisant sur le lecteur hôte.</entry>
+    <entry lang="fr" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Taille maximale de fichier de %I64u Mo sur le lecteur hôte dépassée.</entry>
+    <entry lang="fr" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Erreur : Échec pour obtenir les privilèges nécessaires pour activer l'extension rapide !\nVeuillez décocher l'option extension rapide et réessayer.</entry>
+    <entry lang="fr" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Taille maximale du volume VeraCrypt de %I64u To dépassée !\n</entry>
+    <entry lang="fr" key="FULL_FORMAT">Formatage complet</entry>
+    <entry lang="fr" key="FAST_CREATE">Création rapide</entry>
+    <entry lang="fr" key="WARN_FAST_CREATE">AVERTISSEMENT : Vous devez utiliser la création rapide uniquement dans les cas suivants :\n\n1) Le périphérique ne contient aucune donnée sensible et vous n'avez pas besoin de déni plausible.\n2) Le périphérique a déjà été chiffré de manière sécurisée et complète.\n\nÊtes-vous sûr de vouloir utiliser la création rapide ?</entry>
+    <entry lang="fr" key="IDC_ENABLE_EMV_SUPPORT">Activer la prise en charge EMV</entry>
+    <entry lang="fr" key="COMMAND_APDU_INVALID">La commande APDU envoyée à la carte n'est pas valide.</entry>
+    <entry lang="fr" key="EXTENDED_APDU_UNSUPPORTED">Les commandes APDU étendues ne peuvent pas être utilisées avec le jeton actuel.</entry>
+    <entry lang="fr" key="SCARD_MODULE_INIT_FAILED">Erreur lors du chargement de la bibliothèque WinSCard / PCSC.</entry>
+    <entry lang="fr" key="EMV_UNKNOWN_CARD_TYPE">La carte dans le lecteur n'est pas une carte EMV prise en charge.</entry>
+    <entry lang="fr" key="EMV_SELECT_AID_FAILED">L'AID de la carte dans le lecteur n'a pas pu être sélectionné.</entry>
+    <entry lang="fr" key="EMV_ICC_CERT_NOTFOUND">Le certificat de clé publique ICC n'a pas été trouvé dans la carte.</entry>
+    <entry lang="fr" key="EMV_ISSUER_CERT_NOTFOUND">Le certificat de clé publique de l'émetteur n'a pas été trouvé dans la carte.</entry>
+    <entry lang="fr" key="EMV_CPLC_NOTFOUND">Le CPLC n'a pas été trouvé dans la carte EMV.</entry>
+    <entry lang="fr" key="EMV_PAN_NOTFOUND">Aucun numéro de compte principal (PAN) trouvé dans la carte EMV.</entry>
+    <entry lang="fr" key="INVALID_EMV_PATH">Le chemin EMV est invalide.</entry>
+    <entry lang="fr" key="EMV_KEYFILE_DATA_NOTFOUND">Impossible de créer un fichier clé à partir des données de la carte EMV.\n\nUn ou plusieurs des éléments suivants sont manquants :\n- Certificat de clé publique ICC.\n- Certificat de clé publique de l'émetteur.\n- Données CPLC.</entry>
+    <entry lang="fr" key="SCARD_W_REMOVED_CARD">Aucune carte dans le lecteur.\n\nVeuillez vous assurer que la carte est correctement insérée.</entry>
+    <entry lang="fr" key="FORMAT_EXTERNAL_FAILED">La commande Windows format.com a échoué à formater le volume en NTFS/exFAT/ReFS : Erreur 0x%.8X.\n\nRetour à l'utilisation de l'API FormatEx de Windows.</entry>
+    <entry lang="fr" key="FORMATEX_API_FAILED">L'API FormatEx de Windows a échoué à formater le volume en NTFS/exFAT/ReFS.\n\nÉtat de l'échec = %s.</entry>
+    <entry lang="fr" key="EXPANDER_WRITING_RANDOM_DATA">Écriture de données aléatoires dans le nouvel espace ...\n</entry>
+    <entry lang="fr" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Écriture de l'en-tête de sauvegarde re-chiffré ...\n</entry>
+    <entry lang="fr" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Écriture de l'en-tête principal re-chiffré ...\n</entry>
+    <entry lang="fr" key="EXPANDER_WIPING_OLD_HEADER">Effacement de l'ancien en-tête de sauvegarde ...\n</entry>
+    <entry lang="fr" key="EXPANDER_MOUNTING_VOLUME">Montage du volume...\n</entry>
+    <entry lang="fr" key="EXPANDER_UNMOUNTING_VOLUME">Démontage du volume...\n</entry>
+    <entry lang="fr" key="EXPANDER_EXTENDING_FILESYSTEM">Extension du système de fichiers...\n</entry>
     <entry lang="fr" key="PARTIAL_SYSENC_MOUNT_READONLY">AVERTISSEMENT : La partition système que vous avez tenté de monter n'était pas entièrement chiffrée. Comme mesure de sécurité pour prévenir une éventuelle corruption ou des modifications non désirées, le volume « %s » a été monté en lecture seule.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="fr" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Informations importantes sur l'utilisation des extensions de fichiers tiers</entry>
+    <entry lang="fr" key="IDC_DISABLE_MEMORY_PROTECTION">Désactiver la protection mémoire pour la compatibilité avec les outils d'accessibilité</entry>
+    <entry lang="fr" key="DISABLE_MEMORY_PROTECTION_WARNING">AVERTISSEMENT : Désactiver la protection mémoire réduit considérablement la sécurité. Activez cette option UNIQUEMENT si vous utilisez des outils d'accessibilité, comme les lecteurs d'écran, pour interagir avec l'interface de VeraCrypt.</entry>
     <entry lang="fr" key="LINUX_LANGUAGE">Langue</entry>
     <entry lang="fr" key="LINUX_SELECT_SYS_DEFAULT_LANG">Sélectionner la langue par défaut du système</entry>
     <entry lang="fr" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Pour que le changement de langue prenne effet, VeraCrypt doit être redémarré.</entry>
     <entry lang="fr" key="ERR_XTS_MASTERKEY_VULNERABLE">AVERTISSEMENT : La clé principale du volume est vulnérable à une attaque compromettant la sécurité des données.\n\nVeuillez créer un nouveau volume et y transférer les données.</entry>
     <entry lang="fr" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">AVERTISSEMENT : La clé principale du système chiffré est vulnérable à une attaque compromettant la sécurité des données.\nVeuillez déchiffrer la partition/le disque système puis le chiffrer à nouveau.</entry>
     <entry lang="fr" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">AVERTISSEMENT : La clé principale du volume présente une vulnérabilité de sécurité.</entry>
+    <entry lang="fr" key="MOUNTPOINT_BLOCKED">ERREUR : Le point de montage du volume est bloqué car il remplace un répertoire système protégé.\n\nVeuillez choisir un autre point de montage.</entry>
+    <entry lang="fr" key="MOUNTPOINT_NOTALLOWED">ERREUR : Le point de montage du volume n'est pas autorisé car il remplace un répertoire faisant partie de la variable d'environnement PATH.\n\nVeuillez choisir un autre point de montage.</entry>
+    <entry lang="fr" key="INSECURE_MODE">[MODE NON SÉCURISÉ]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

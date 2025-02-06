@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.17">
+  <localization prog-version= "1.26.20">
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <font lang="eu" class="normal" size="11" face="default" />
     <font lang="eu" class="bold" size="13" face="Arial" />
@@ -135,8 +135,8 @@
     <entry lang="eu" key="IDC_FAVORITE_REMOVE">&amp;Kendu</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="eu" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Aukera Globalak</entry>
-    <entry lang="eu" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Argibide bunbuiloa erakutsi tekla bereziarekin ondo desmuntatu eta gero</entry>
-    <entry lang="eu" key="IDC_HK_DISMOUNT_PLAY_SOUND">Sistemaren jakinarazpen soinua jarri tekla bereziarekin ondo desmuntatu eta gero</entry>
+    <entry lang="eu" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Argibide bunbuiloa erakutsi tekla bereziarekin ondo desmuntatu eta gero</entry>
+    <entry lang="eu" key="IDC_HK_UNMOUNT_PLAY_SOUND">Sistemaren jakinarazpen soinua jarri tekla bereziarekin ondo desmuntatu eta gero</entry>
     <entry lang="eu" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="eu" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="eu" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</entry>
     <entry lang="eu" key="IDC_PREF_BKG_TASK_ENABLE">Gaituta</entry>
     <entry lang="eu" key="IDC_PREF_CACHE_PASSWORDS">Pasahitzak gorde gailuaren memorian</entry>
-    <entry lang="eu" key="IDC_PREF_DISMOUNT_INACTIVE">Bolumena auto-desmuntatu daturik ez bada idatzi/irakurri</entry>
-    <entry lang="eu" key="IDC_PREF_DISMOUNT_LOGOFF">Erabiltzailea saioa amaitzen du</entry>
-    <entry lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</entry>
-    <entry lang="eu" key="IDC_PREF_DISMOUNT_POWERSAVING">Energia aurrezteko moduan sartzen</entry>
-    <entry lang="eu" key="IDC_PREF_DISMOUNT_SCREENSAVER">Pantaila-babeslea martxan dago</entry>
-    <entry lang="eu" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Desmuntaketa eragin bolumenak irekitako fitxategi eta direktorioak dituen arren</entry>
+    <entry lang="eu" key="IDC_PREF_UNMOUNT_INACTIVE">Bolumena auto-desmuntatu daturik ez bada idatzi/irakurri</entry>
+    <entry lang="eu" key="IDC_PREF_UNMOUNT_LOGOFF">Erabiltzailea saioa amaitzen du</entry>
+    <entry lang="en" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">User session locked</entry>
+    <entry lang="eu" key="IDC_PREF_UNMOUNT_POWERSAVING">Energia aurrezteko moduan sartzen</entry>
+    <entry lang="eu" key="IDC_PREF_UNMOUNT_SCREENSAVER">Pantaila-babeslea martxan dago</entry>
+    <entry lang="eu" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Desmuntaketa eragin bolumenak irekitako fitxategi eta direktorioak dituen arren</entry>
     <entry lang="eu" key="IDC_PREF_LOGON_MOUNT_DEVICES">Gailuetako VeraCrypt bolumen guztiak muntatu</entry>
     <entry lang="eu" key="IDC_PREF_LOGON_START">VeraCrypt-en ezkutuko lana hasi</entry>
     <entry lang="eu" key="IDC_PREF_MOUNT_READONLY">Bolumenak &amp;irakurtzeko bakarrik muntatu</entry>
@@ -169,7 +169,7 @@
     <entry lang="eu" key="IDC_PREF_OPEN_EXPLORER">Explorer-aren lehioa ireki muntatutako bolumenentzako</entry>
     <entry lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</entry>
     <entry lang="eu" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Ataza-barra ikono ezberdin bat erabili muntatutako bolumenak badaude</entry>
-    <entry lang="eu" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Gordetako pasahitzak ezabatu automatikoki desmuntatzerakoan</entry>
+    <entry lang="eu" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Gordetako pasahitzak ezabatu automatikoki desmuntatzerakoan</entry>
     <entry lang="eu" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Gordetako pasahitzak ezabatu irtetzerakoan</entry>
     <entry lang="eu" key="IDC_PRESERVE_TIMESTAMPS">Fitxategi-ontzietako aldatze data mantendu</entry>
     <entry lang="eu" key="IDC_RESET_HOTKEYS">Ezabatu</entry>
@@ -269,14 +269,14 @@
     <entry lang="eu" key="IDT_ACCELERATION_OPTIONS">Hardwaren Bidezko Azelerazioa</entry>
     <entry lang="eu" key="IDT_ASSIGN_HOTKEY">Lasterbidea</entry>
     <entry lang="eu" key="IDT_AUTORUN">AutoRun-aren Konfigurazioa (autorun.inf)</entry>
-    <entry lang="eu" key="IDT_AUTO_DISMOUNT">Auto-Desmuntatu</entry>
-    <entry lang="eu" key="IDT_AUTO_DISMOUNT_ON">Hauetan guztia desmuntatu:</entry>
+    <entry lang="eu" key="IDT_AUTO_UNMOUNT">Auto-Desmuntatu</entry>
+    <entry lang="eu" key="IDT_AUTO_UNMOUNT_ON">Hauetan guztia desmuntatu:</entry>
     <entry lang="eu" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Hasieraketa kargatzailearen pantailako aurkerak</entry>
     <entry lang="eu" key="IDT_CONFIRM_PASSWORD">Pasahitza berretsi:</entry>
     <entry lang="eu" key="IDT_CURRENT">Oraingoa</entry>
     <entry lang="eu" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Mezu hau hasieraketa aurreko kautotze pantailan erakutsi (24 karaktere gehienez):</entry>
     <entry lang="eu" key="IDT_DEFAULT_MOUNT_OPTIONS">Lehenetsitako muntaketa aukerak</entry>
-    <entry lang="eu" key="IDT_DISMOUNT_ACTION">Tekla berezien aukerak</entry>
+    <entry lang="eu" key="IDT_UNMOUNT_ACTION">Tekla berezien aukerak</entry>
     <entry lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</entry>
     <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</entry>
     <entry lang="eu" key="IDT_FAVORITE_LABEL">Aukeratutako gogoko bolumenaren etiketa:</entry>
@@ -423,8 +423,8 @@
     <entry lang="eu" key="DEVICE_FREE_PB">%s-ren tamaina %.2f PB-ekoa da</entry>
     <entry lang="eu" key="DEVICE_IN_USE_FORMAT">KONTUZ: Sistemak edo aplikazioek gailua/partizioa erabiltzen ari dira. Gailua/partizioa formatatzea datuen hondatzea eta sistemaren ezegonkortasuna sortu dezake.\n\nJarraitu?</entry>
     <entry lang="eu" key="DEVICE_IN_USE_INPLACE_ENC">KONTUZ: Sistema eragileak edo aplikazioek partizioa erabiltzen ari dira. Partizioa erabiltzen egon daitezken aplikazio guztiak itxi behar dituzu (software antibirusa barne).\n\nJarraitu?</entry>
-    <entry lang="eu" key="FORMAT_CANT_DISMOUNT_FILESYS">Errorea: Partizioak/gailuak dismuntatu ezin daitekeen fitxategi sistema dauka. Sistema eragileak fitxategi sistema erabiltzen ari daiteke. Partizioa/gailua formatatzea ziurenik datuak hondatuko ditu eta sistemaren desegonkortasuna sortuko du.\n\nArazo hau konpontzeko formatatu gabe partizioa ezabatu eta berriz sortzeko gomendatzen dugu. Hau egiteko hurrengo pausoak jarraitu:\n1)Eskubiko-klik egin ezazu 'PC' (edo 'Nire PC') ikonoan 'Hasiera Menu'-an, gero 'Kudeatu' aukeratu. 'Ordenagailuaren Kudeaketa' lehioa agertu beharko liteke.\n2)'Ordenagailuaren Kudeaketa' lehioan, 'Bilketa'&gt;'Diskoen Kudeaketa' aukeratu.\n3)Eskubiko-klik egin ezazu zifratu nahi duzun partizioan eta ondorengo aukera bat hautatu: 'Partizioa ezabatu', 'Bolumena Ezabatu' edo 'Unitate Logikoa Ezabatu'.\n4) 'Bai' sakatu. Windows-ek berrabiatzeko eskatzen badizu, hori egin. Gero 1 eta 2 pausuak berriro egin eta 5.arekin jarraitu.\n5)Eskubiko-clik esleitu gabeko/hutsik dagoen eremuan eta honako bat aukeratu: ' Partizio Berria', 'Bolumen Sinple Berria' ero 'Disko Logiko Berria'.\n6)'Partizio Berria Laguntzailea' edo 'Bolumen Sinple Berria Laguntzailea'-ren lehioa ireki beharko liteke; bere aginduak jarraitu itzazu. Laguntzailearen 'Partizioa Formatatu' lehioan, 'Partizioa Hau ez Formatatu' edo 'Bolumen hau ez Formatatu' aukeratu. Gero, laguntzaile horretan, 'Hurrengoa' sakatu eta gero 'Bukatu'. \n7) Ohartu zaitez VeraCrypt-en hautatu duzun unitatearen helbidea oker egon daitekeela orain. Hortaz, VeraCrypt Bolumenak Sortzeko Laguntzailetik atera zaitez (oraindik martxan badago) eta berriro ireki ezazu.\n8)Partizioa/Gailua berriro zifratzen saiatu zaitez\n\nVeraCrypt-ek behin eta berriro huts egiten badu gailua/partizioa enkriptatzerakoan, agian horren ordez fitxategi-edukiontzia izan dezakezu.</entry>
-    <entry lang="eu" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Errorea: Fitxategi sistema ezin izan da blokeatu/desmuntatu. Agian sistema eragilea edo beste aplikazioren bat (adibidez, antibirusa) erabiltzen ari da.Partizioa zifratzea datuak hondatu eta sistemaren ezegonkortasuna sortu dezake.\n\nMesedez, fitxategi sistema erabiltzen ari daitezkeen aplikazioak itxi itzazu (antibirusa barne) eta berriro saiatu. Honek ez badu laguntzen, behean dauden pausuak jarraitu itzazu..</entry>
+    <entry lang="eu" key="FORMAT_CANT_UNMOUNT_FILESYS">Errorea: Partizioak/gailuak dismuntatu ezin daitekeen fitxategi sistema dauka. Sistema eragileak fitxategi sistema erabiltzen ari daiteke. Partizioa/gailua formatatzea ziurenik datuak hondatuko ditu eta sistemaren desegonkortasuna sortuko du.\n\nArazo hau konpontzeko formatatu gabe partizioa ezabatu eta berriz sortzeko gomendatzen dugu. Hau egiteko hurrengo pausoak jarraitu:\n1)Eskubiko-klik egin ezazu 'PC' (edo 'Nire PC') ikonoan 'Hasiera Menu'-an, gero 'Kudeatu' aukeratu. 'Ordenagailuaren Kudeaketa' lehioa agertu beharko liteke.\n2)'Ordenagailuaren Kudeaketa' lehioan, 'Bilketa'&gt;'Diskoen Kudeaketa' aukeratu.\n3)Eskubiko-klik egin ezazu zifratu nahi duzun partizioan eta ondorengo aukera bat hautatu: 'Partizioa ezabatu', 'Bolumena Ezabatu' edo 'Unitate Logikoa Ezabatu'.\n4) 'Bai' sakatu. Windows-ek berrabiatzeko eskatzen badizu, hori egin. Gero 1 eta 2 pausuak berriro egin eta 5.arekin jarraitu.\n5)Eskubiko-clik esleitu gabeko/hutsik dagoen eremuan eta honako bat aukeratu: ' Partizio Berria', 'Bolumen Sinple Berria' ero 'Disko Logiko Berria'.\n6)'Partizio Berria Laguntzailea' edo 'Bolumen Sinple Berria Laguntzailea'-ren lehioa ireki beharko liteke; bere aginduak jarraitu itzazu. Laguntzailearen 'Partizioa Formatatu' lehioan, 'Partizioa Hau ez Formatatu' edo 'Bolumen hau ez Formatatu' aukeratu. Gero, laguntzaile horretan, 'Hurrengoa' sakatu eta gero 'Bukatu'. \n7) Ohartu zaitez VeraCrypt-en hautatu duzun unitatearen helbidea oker egon daitekeela orain. Hortaz, VeraCrypt Bolumenak Sortzeko Laguntzailetik atera zaitez (oraindik martxan badago) eta berriro ireki ezazu.\n8)Partizioa/Gailua berriro zifratzen saiatu zaitez\n\nVeraCrypt-ek behin eta berriro huts egiten badu gailua/partizioa enkriptatzerakoan, agian horren ordez fitxategi-edukiontzia izan dezakezu.</entry>
+    <entry lang="eu" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Errorea: Fitxategi sistema ezin izan da blokeatu/desmuntatu. Agian sistema eragilea edo beste aplikazioren bat (adibidez, antibirusa) erabiltzen ari da.Partizioa zifratzea datuak hondatu eta sistemaren ezegonkortasuna sortu dezake.\n\nMesedez, fitxategi sistema erabiltzen ari daitezkeen aplikazioak itxi itzazu (antibirusa barne) eta berriro saiatu. Honek ez badu laguntzen, behean dauden pausuak jarraitu itzazu..</entry>
     <entry lang="eu" key="DEVICE_IN_USE_INFO">KONTUZ: Muntatutako gailu/partizio batzuk erabiltzen ari ziren!\n\nHau kontutan ez hartzeak nahi ez diren ondorioak ekar diztake, sistemaren ezegonkortasuna barne.\n\nGailuak/partizioak erabiltzen ari den edozein programa istea gogor gomendatzen dugu.</entry>
     <entry lang="eu" key="DEVICE_PARTITIONS_ERR">Aukeratu duzun gailua partizioak dauzka.\n\nGailua formatatzea sistemaren ezegonkortasuna eta datuen hondatzea sortu dezake. Mesedez, aukeratu gailuaren partizio bat, edo gailuaren partizio guztiak ezabatu VeraCrypt-ek arazorik gabe formatatu dezan.</entry>
     <entry lang="eu" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Aukeratutako sistemarena ez den gailua partizioak dauzka.\n\nGailuan egindako VeraCrypt bolumen zifratuak partizioak ez dauzkaten gailuetan egin daitezke (disko gogorrak eta egoera-solidoko diskak barne). Partizioak dauzkan gailu bat guztiz 'bertan' enkriptatzeko dagoen modu bakarra (gako nagusi bakarra erabiliz) horretan Windows instalatuta badago eta bertatik hasieratzen bada.\n\nSistemakoa ez den gailu hori gako nagusi bakarrarekin zifratu nahi baduzu, lehendabizi bertan dauden partizio guztiak ezabatu beharko dituzu VeraCrypt-ek arazorik gabe formatatu dezan (partizioak dauzkan gailue formatatzea sistemaren ezegonkortasuna eta datuen galera sortu dezake). Alternatiboki, partizio bakoitza banaka zifratu dezakezu (partizio bakoitza gako nagusi ezberdin batekin zifratuko da).\n\nOharra: GPT disko batetik partizio guztiak kendu nahi badituzu, agian MBR diska motara bihurtu beharko duzu (adibidez, Computer Management tresna erabiliz) ezkutuko partizioak ezabatu ahal izateko.</entry>
@@ -590,7 +590,7 @@
     <entry lang="eu" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Errorea: Kanpoko bolumenera kopiatu dituzun fitxategiak leku gehiegi okupatzen dute. Horregatik, kanpoko bolumenean ez dago ezkutuko bolumen batentzako leku huts nahikorik.\n\nOhartu zaitez ezkutuko bolumenak sistemaren partizioaren (orain martxan dagoen sistema eragilea instalatuta dagoen partizioaren) tamaina izan behar duela gutxienez. Ezkutuko sistema eragilea sortzeko sistemaren partizioa ezkutuko bolumenera kopiatu beharra da honen arrazoia.\n\n\nEzkutuko sistema eragilea sortzeko prozesuak ezin du jarraitu.</entry>
     <entry lang="eu" key="OPENFILES_DRIVER">Erabiltaileak ezin du bolumena desmuntatu. Ziurenik bolumenan dauden fitxategi batzuk oraindik irekita daude.</entry>
     <entry lang="eu" key="OPENFILES_LOCK">Ezin izan da bolumena blokeatu. Bolumenean oraindik fitxategi irekiak daude. Hortaz, ezin da desmuntatu.</entry>
-    <entry lang="eu" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt-ek ezin du bolumena blokeatu sistema edo aplikazioren bat erabiltzen ari delako.\n\nBolumena desmuntatzera behartu nahi al duzu?</entry>
+    <entry lang="eu" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt-ek ezin du bolumena blokeatu sistema edo aplikazioren bat erabiltzen ari delako.\n\nBolumena desmuntatzera behartu nahi al duzu?</entry>
     <entry lang="eu" key="OPEN_VOL_TITLE">VeraCrypt Bolumena Aukeratu</entry>
     <entry lang="eu" key="OPEN_TITLE">Helbidea eta Fitxategiaren Izena Eman</entry>
     <entry lang="eu" key="SELECT_PKCS11_MODULE">PKCS #11 Liburutegia Aukeratu</entry>
@@ -729,7 +729,7 @@
     <entry lang="eu" key="DLL_FILES">Liburutegi Moduluak</entry>
     <entry lang="eu" key="FORMAT_NTFS_STOP">NTFS formataketak ezin du jarraitu.</entry>
     <entry lang="eu" key="CANT_MOUNT_VOLUME">Ezin da bolumena muntatu.</entry>
-    <entry lang="eu" key="CANT_DISMOUNT_VOLUME">Ezin da bolumena desmuntatu.</entry>
+    <entry lang="eu" key="CANT_UNMOUNT_VOLUME">Ezin da bolumena desmuntatu.</entry>
     <entry lang="eu" key="FORMAT_NTFS_FAILED">Windows-ek bolumena NTFS moduan formatatzerakoan huts egin du.\n\nMesedez, fitxategi sistema mota ezberdina aukeratu (ahal bada) eta berriro saiatu. Bestela, bolumena formaturik gabe utzi ("Ezer" aukeratu fitxategi sistema bezela) eta laguntzaile honetatik irten. Gero, bolumena muntatu eta sistemaren edo hirugarren baten tresna bat erabili muntatutako bolumena formatatzeko (bolumena zifratuta jarraituko du).</entry>
     <entry lang="eu" key="FORMAT_NTFS_FAILED_ASK_FAT">Windowsek bolumena NTFS erara formateatzerakoan huts egin du.\n\nBolumena FAT erara formateatu nahi al duzu?</entry>
     <entry lang="eu" key="DEFAULT">Lehenetsitako</entry>
@@ -771,7 +771,7 @@
     <entry lang="eu" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Errore batek partizioaren zifraketa eragotzi du. Adierazitako erroreak konpontzen saiatu zaitez eta berriro saiatu. Arazoek jarraitzen badute, hurrengo instrukzioak jarraitzeak lagundu dezake.</entry>
     <entry lang="eu" key="INPLACE_ENC_GENERIC_ERR_RESUME">Errore batek partizioaren zifratze prozesuaren jarraipena eragotzi du.\nMesedez, hau baino lehen arazorik aipatu badira, hauek konpontzen saiatu eta berriz prozesua jarratzen saiatu zaitez. Ohartu zaitez bolumena ezin dela muntatu guztiz zifratuta dagoen arte.</entry>
     <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
-    <entry lang="eu" key="CANT_DISMOUNT_OUTER_VOL">Errorea: Ezin izan da kanpoko bolumena desmuntatu!\n\nBolumena ezin da desmuntatu sistemak edo programek han dauden fitxategi edo karpetak erabiltzen ari badira.\n\nMesedez, bolumenean dauden fitxategiak edo karpetak erabiltzen ari daitekeen programak itxi eta 'Berriro Saiatu klikatu.</entry>
+    <entry lang="eu" key="CANT_UNMOUNT_OUTER_VOL">Errorea: Ezin izan da kanpoko bolumena desmuntatu!\n\nBolumena ezin da desmuntatu sistemak edo programek han dauden fitxategi edo karpetak erabiltzen ari badira.\n\nMesedez, bolumenean dauden fitxategiak edo karpetak erabiltzen ari daitekeen programak itxi eta 'Berriro Saiatu klikatu.</entry>
     <entry lang="eu" key="CANT_GET_OUTER_VOL_INFO">Errorea: Ezin izan da kanpoko bolumenari buruz informazioa eskuratu.\nBolumenaren sorrerak ezin du jarraitu.</entry>
     <entry lang="eu" key="CANT_ACCESS_OUTER_VOL">Errorea: Ezin izan da kanpoko bolumenara heldu! Bolumenaren sorrerak ezin du jarraitu.</entry>
     <entry lang="eu" key="CANT_MOUNT_OUTER_VOL">Errorea: Kanpoko bolumena ezin da muntatu. Bolumenaren sorrerak ezin du jarraitu.</entry>
@@ -882,7 +882,7 @@
     <entry lang="eu" key="INSTALL_COMPLETED">Inslatazioa bukatu da.</entry>
     <entry lang="eu" key="CANT_CREATE_FOLDER">'%s' karpeta ezin izan da sortu</entry>
     <entry lang="eu" key="CLOSE_TC_FIRST">VeraCrypt gailu erabiltzailea ezin da deskargatu.\n\nMesedez, lehendabizi VeraCrypt lehio guztiak itxi itzazu. Honek konpontzen ez badu, Windows berrabiatu eta berriro saiatu zaitez, mesedez.</entry>
-    <entry lang="eu" key="DISMOUNT_ALL_FIRST">VeraCrypt bolumen guztiak desmuntatu behar dira VeraCrypt instalatu edo desinstalatu baino lehen.</entry>
+    <entry lang="eu" key="UNMOUNT_ALL_FIRST">VeraCrypt bolumen guztiak desmuntatu behar dira VeraCrypt instalatu edo desinstalatu baino lehen.</entry>
     <entry lang="eu" key="UNINSTALL_OLD_VERSION_FIRST">Sisteman VeraCrypt-en bertsio zaharkitu bat instalatuta dago. VeraCrypt-en bertsio berri hau instalatu baino lehen desinstalatu egin behar da.\n\nMezu lehio hau itxi bezain laister, bertsio zaharraren desinstalatzailea abiatuko da. Ohartu zaitez, ez dela bolumenik argituko VeraCrypt desinstalatzerakoan. VeraCrypt-en bertsio zaharra desinstalatu eta gero, VeraCrypt-en bertsio berriaren instalatzailea berriz abiatu ezazu..</entry>
     <entry lang="eu" key="REG_INSTALL_FAILED">Erregistroko sarrerak instalatzerakoan huts egin du</entry>
     <entry lang="eu" key="DRIVER_INSTALL_FAILED">Gailuaren kontrolatzailearen instalazioak huts egin du. Mesedez, Windows berrabiatu eta VeraCrypt berriro instalatzen saiatu zaitez.</entry>
@@ -903,7 +903,7 @@
     <entry lang="eu" key="MINUTES">minutuaks</entry>
     <entry lang="eu" key="SECONDS">s</entry>
     <entry lang="eu" key="OPEN">Ireki</entry>
-    <entry lang="eu" key="DISMOUNT">Desmuntatu</entry>
+    <entry lang="eu" key="UNMOUNT">Desmuntatu</entry>
     <entry lang="eu" key="SHOW_TC">VeraCrypt Erakutsi</entry>
     <entry lang="eu" key="HIDE_TC">VeraCrypt Ezkutatu</entry>
     <entry lang="eu" key="TOTAL_DATA_READ">Muntaketatik Irakurritako Datuak</entry>
@@ -975,7 +975,7 @@
     <entry lang="eu" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Sistemaren Gogoko Bolumenak</entry>
     <entry lang="eu" key="SYS_FAVORITES_HELP_LINK">Zer dira sistemaren gogoko bolumenak?</entry>
     <entry lang="eu" key="SYS_FAVORITES_REQUIRE_PBA">Sistemaren partizio/unitatea ez dirudi zifratuta dagoenik.\n\nSistemaren gogoko bolumenak bakarrik hasieraketa aurreko kautotze pasahitz batekin muntatu daitezke. Horregatik, sistemaren gogoko bolumenak erebili ahal izateko, lehendabizi sistemaren partizio/unitatea zifratu behar duzu.</entry>
-    <entry lang="eu" key="DISMOUNT_FIRST">Mesedez bolumena desmuntatu jarraitu baino lehen.</entry>
+    <entry lang="eu" key="UNMOUNT_FIRST">Mesedez bolumena desmuntatu jarraitu baino lehen.</entry>
     <entry lang="eu" key="CANNOT_SET_TIMER">Errorea: Kronometroa ezin da jarri.</entry>
     <entry lang="eu" key="IDPM_CHECK_FILESYS">Fitxategi sistema egiaztatu</entry>
     <entry lang="eu" key="IDPM_REPAIR_FILESYS">Fitxategi sistema konpondu</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="eu" key="NO_SYSENC_PARTITION_SELECTED">Ez da partiziorik  aukeratu\n\n'Gailua Aukeratu' sakatu ezazu normalean hasieraketa-aurreko kautotzea behar duen desmuntatutako partizio bat aukeratzeko (adibidez, beste sistema eragile baten sistemako unitatean dagoen partizio zifratu bat, edo beste sistema eragile baten zifratutako sistemaren partizioa.\n\nOharra: Aukeratutako partizioa VeraCrypt bolumen normal bat bezala muntatuko da, hasieraketa-aurreko kautotzerik gabe. Hau lagungarria da adibidez babeskopia edo konpontze lanetarako.</entry>
     <entry lang="eu" key="CONFIRM_SAVE_DEFAULT_KEYFILES">KONTUZ: Lehenetsitako  gako-fitxategiak aukeratu badira eta aktibatuta badaude, gako-fitxategi hauek erabiltzen ez dituzten bolumenak ezin izango dira muntatu. Horregatik, lehenetsitako gako-fitxategiak aktibatu eta gero, gogoratu ezazu 'Gako fitxategiak Erabili' aukera desmarkatzeaz  (pasahitzaren laukiaren azpian) bolumen hauek muntatzerakoan.\n\nZiur zaude gako-fitxategi/helbide hauek lehenetsitakoak bezela gorde nahi dituzula?</entry>
     <entry lang="eu" key="HK_AUTOMOUNT_DEVICES">Gailuak Auto-Muntatu</entry>
-    <entry lang="eu" key="HK_DISMOUNT_ALL">Denak Desmuntatu</entry>
+    <entry lang="eu" key="HK_UNMOUNT_ALL">Denak Desmuntatu</entry>
     <entry lang="eu" key="HK_WIPE_CACHE">Katxea Ezabatu</entry>
-    <entry lang="eu" key="HK_DISMOUNT_ALL_AND_WIPE">Guztiak Desmuntatu eta Katxea Ezabatu</entry>
-    <entry lang="eu" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Guztiak Desmuntarazi eta Katxea Ezabatu</entry>
-    <entry lang="eu" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Guztiak Desmuntarazi, Katxea Ezabatu eta Irten</entry>
+    <entry lang="eu" key="HK_UNMOUNT_ALL_AND_WIPE">Guztiak Desmuntatu eta Katxea Ezabatu</entry>
+    <entry lang="eu" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Guztiak Desmuntarazi eta Katxea Ezabatu</entry>
+    <entry lang="eu" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Guztiak Desmuntarazi, Katxea Ezabatu eta Irten</entry>
     <entry lang="eu" key="HK_MOUNT_FAVORITE_VOLUMES">Gogoko Bolumenak Muntatu</entry>
     <entry lang="eu" key="HK_SHOW_HIDE_MAIN_WINDOW">VeraCrypt-en Lehio Nagusia Erakutsi/Ezkutatu</entry>
     <entry lang="eu" key="PRESS_A_KEY_TO_ASSIGN">(Hemen clik egin eta tekla bat sakatu)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="eu" key="PAGING_FILE_CREATION_PREVENTED">Paginatze fixategiaren sorrera eragotzi da.\n\nMesedez, ohartu zaitez, Windowsen arazoengatik, ezin direla paginatze fitxategiak sistemakoak ez diren VeraCrypt bolumenetan sortu (sistemaren gogoko bolumenak barne). VeraCrypt-ek zifratutako sistemaren partizio/unitatean bakarrik onartzen du paginatze fitxategien sorrera.</entry>
     <entry lang="eu" key="SYS_ENC_HIBERNATION_PREVENTED">Errore batek edo bateragarritasun eza VeraCrypt-i hibernatze fitxategia zifratzea eragotzi dio. Hortaz, hibernazioa ez da egin.\n\nOharra: Orgenagailu batek hibernatzen duenean (edo energia aurrezteko moduan dagoenean), sistemaren memoriaren edukiak disko gogorran dagoen hibernatze fitxategi batean idazten dira. VeraCrypt ezingo zen gai zifratze gakoen eta RAM memorian irekitako fitxategi pribatuen datuen zifratu gabe hibernatze fitxategaren idazkera eragozteko.</entry>
     <entry lang="eu" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernazioa ergotzi da.\n\nVeraCrypt-ek ez du hibernaziorik onartzen hasieraketa partizio extra bat erabiltzen duten ezkutuko sistema eragiletan. Ohartu zaitez hasieraketa partizio bera erabiltzen dutela sistema eragile amu eta ezkutuak. Horregatik, datuen filtratzea eta hibernaziotik bueltatzerakoan egon daitezkeen arazoak eragozteko, VeraCryptek debekatu behar dio sistema ezkutuari hasieraketa partizio horretan idaztea eta, hortaz, hibernatzea ere.</entry>
-    <entry lang="eu" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">%c bezala muntatutako VeraCrypt bolumena: desmuntatu egin da.</entry>
-    <entry lang="eu" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt bolumenak desmuntatu egin dira.</entry>
-    <entry lang="eu" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt bolumenak desmuntatu egin dira eta pasahitz katxea ezabatu egin da.</entry>
-    <entry lang="eu" key="SUCCESSFULLY_DISMOUNTED">Ondo desmuntatu egin da</entry>
+    <entry lang="eu" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">%c bezala muntatutako VeraCrypt bolumena: desmuntatu egin da.</entry>
+    <entry lang="eu" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt bolumenak desmuntatu egin dira.</entry>
+    <entry lang="eu" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt bolumenak desmuntatu egin dira eta pasahitz katxea ezabatu egin da.</entry>
+    <entry lang="eu" key="SUCCESSFULLY_UNMOUNTED">Ondo desmuntatu egin da</entry>
     <entry lang="eu" key="CONFIRM_BACKGROUND_TASK_DISABLED">KONTUZ: VeraCrypt-en Ezkutuko Ataza ezgaituta badago, hondorengo funtzioak ere ezgaituta egongo dira:\n\n1) Tekla Bereziak\n2) Auto-desmuntaketa (adib.: saioa amaitzerakoan, gailu ostalaria kentzerakoan,e.a.)\n3) Gogoko bolumenen auto-muntaketa\n4) Jakinarazpenak (adib.: ezkutuko bolumenari kaltea eragotzi zaionean)\n5) Erretiluko ikonoa\n\nOharra: VeraCrypt-en Ezkutuko Ataza edozein momentutan itzali dezakezu erretiluko ikonoan klik eginez eta 'Irten' aukeratuz.\n\nZiur zaude betirako VeraCrypt-en Ezkutuko Ataza ezgaitu nahi duzula?</entry>
-    <entry lang="eu" key="CONFIRM_NO_FORCED_AUTODISMOUNT">KONTUZ: Aukera hau ezgaituta badago, fitxategi/karpeta irekiak dituzten bolumenak ezin izango dira auto-desmuntatu.\n\nZiur zaude aukera hau ezgaitu nahi duzula?</entry>
-    <entry lang="eu" key="WARN_PREF_AUTO_DISMOUNT">KONTUZ: Irekita dauden fitxategi/karpetak dituzten bolumenak EZ dira auto-desmuntatuko.\n\nHau eragozteko hondorengo aukera hautatu ezazu lehio honetan bertan: 'Auto-desmuntaketa eragin bolumenak irekitako Ffitxategi edo karpetak baditu ere'.</entry>
-    <entry lang="eu" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">KONTUZ: Ordenagailu eramangarriaren bateria baxua denean, izan daiteke Windowsek martxan dauden aplikazioei mezu egokiak ez bidaltzea energia aurrezte moduan sartzen ari denean. Horregatik, kasu horietan VeraCrypt-ek bolumenak auto-desmuntatzerakoan huts egin dezake.</entry>
+    <entry lang="eu" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">KONTUZ: Aukera hau ezgaituta badago, fitxategi/karpeta irekiak dituzten bolumenak ezin izango dira auto-desmuntatu.\n\nZiur zaude aukera hau ezgaitu nahi duzula?</entry>
+    <entry lang="eu" key="WARN_PREF_AUTO_UNMOUNT">KONTUZ: Irekita dauden fitxategi/karpetak dituzten bolumenak EZ dira auto-desmuntatuko.\n\nHau eragozteko hondorengo aukera hautatu ezazu lehio honetan bertan: 'Auto-desmuntaketa eragin bolumenak irekitako Ffitxategi edo karpetak baditu ere'.</entry>
+    <entry lang="eu" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">KONTUZ: Ordenagailu eramangarriaren bateria baxua denean, izan daiteke Windowsek martxan dauden aplikazioei mezu egokiak ez bidaltzea energia aurrezte moduan sartzen ari denean. Horregatik, kasu horietan VeraCrypt-ek bolumenak auto-desmuntatzerakoan huts egin dezake.</entry>
     <entry lang="eu" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Partizio/Bolumen baten zifraketa programatu duzu. Prozesua oraindik ez da bukatu.\n\nProzesua orain jarraitu nahi al duzu?</entry>
     <entry lang="eu" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Sistemaren partizioaren/unitatearen zifraketa edo argitze prozesua programatu duzu. Prozesu hau ez da oraindik bukatu.\n\n Prozesu hau orain  hasi (jarraitu) nahi al duzu?</entry>
     <entry lang="eu" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Sistemakoak ez diren partizio/bolumenen zifraketa prozesu programatuen berriz hasteko mezuak jaso nahi dituzu?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="eu" key="SYS_AUTOMOUNT_DISABLED">Zure sistema ez dago konfiguratuta bolumen berriak auto-muntatzeko. Ezinezkoa izan daiteke gailuan ostatutako VeraCrypt bolumenak muntatzea. Auto-muntatzea aktibatu daiteke hurrengo komandoa exekutatuz eta sistema berrabiatuz.\n\nmountvol.exe /E</entry>
     <entry lang="eu" key="SYS_ASSIGN_DRIVE_LETTER">Mesedez unitate letra bat eman iezaiozu partizio/gailuari jarraitu aurretik ( 'Kontrol-panela' &gt; 'Sistema eta Mantentzea' &gt; 'Tresna Administratiboak' - 'Disko gogorrean partizioak egin eta formatatu').\n\nOhartu zaitez hau sistema eragilearen eskakizuna dela.</entry>
     <entry lang="eu" key="MOUNT_TC_VOLUME">VeraCrypt bolumena muntatu</entry>
-    <entry lang="eu" key="DISMOUNT_ALL_TC_VOLUMES">VeraCrypt bolumen guztiak desmuntatu</entry>
+    <entry lang="eu" key="UNMOUNT_ALL_TC_VOLUMES">VeraCrypt bolumen guztiak desmuntatu</entry>
     <entry lang="eu" key="UAC_INIT_ERROR">VeraCrypt-ek huts egin du Administratzaile baimenak lortzerakoan.</entry>
     <entry lang="eu" key="ERR_ACCESS_DENIED">Sistema eragileak sartzea debekatu du.\n\nZergati probablea: Sistema eragileak zenbait karpeta, fitzxategi eta unitateetan irakurri eta idazteko baimena (edo administratzaile baimena) izatea behartzen du bertan datuak irakurri eta idatzi ahal izateko. Orokorrean, administratzaile baimenik gabeko erabiltzaile batek bere Dokumentuak karpetan fitxategiak sortu, irakurri eta aldatzeko baimena izaten du.</entry>
     <entry lang="eu" key="SECTOR_SIZE_UNSUPPORTED">Errorea: Unitateak onartzen ez den sektore tamaina erabiltzen du.\n\nMomentuz ezin da partizoan/gailuan ostatutako bolumenik sortu 4096 byte baino gehiagoko sektoreak erabiltzen dituzten unitateetan. Hala ere, ohartu zaitez unitate horietan fitxategian ostatutako bolumenak (edukiontziak) sortu daitezkela.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="eu" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Ohartu zaitez, momentu honetan prozesu kopurua mugatuta dagoela, hau froga multzoaren emaitzetan nabarituko da (errendimentu okerragoa izango du).\n\nProzesadorearen ahalmen osoa erabiltzeko, 'Ezaugarriak' &gt; 'Errendimendua' aukeratu ezazu eta bertan dagokion aukera ezgaitu ezazu.</entry>
     <entry lang="eu" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">VeraCrypt partizioaren/unitatearen idazteko babesa ezgaitzen sailatzea nahi duzu?</entry>
     <entry lang="eu" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">KONTUZ: Ezarpen honek errendimenduari kalte egin diezaioke.\n\nZiur zaude ezarpen hau erabili nahi duzula?</entry>
-    <entry lang="eu" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Kontuz: VeraCrypt bolumena auto-desmuntatuta</entry>
-    <entry lang="eu" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Bolumena daukan gailua fisikoki kendu edo itzali bahino lehen, VeraCrypt bolumena beti desmuntatu beharko zenuke.\n\nOrokorrean, ustekabeko desmuntaketak normalean noizbehinka huts egiten duten kabletan, kontrolatzaileatan, e.a. izaten daukate jatorria.</entry>
+    <entry lang="eu" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Kontuz: VeraCrypt bolumena auto-desmuntatuta</entry>
+    <entry lang="eu" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Bolumena daukan gailua fisikoki kendu edo itzali bahino lehen, VeraCrypt bolumena beti desmuntatu beharko zenuke.\n\nOrokorrean, ustekabeko desmuntaketak normalean noizbehinka huts egiten duten kabletan, kontrolatzaileatan, e.a. izaten daukate jatorria.</entry>
     <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
     <entry lang="eu" key="TEST">Frogatu</entry>
     <entry lang="eu" key="KEYFILE">Gako-fitxategia</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
+    <entry lang="en" key="TASKICON_PREF_UNMOUNT_VOL">Unmount Mounted Volumes</entry>
     <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
     <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
     <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
     <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
     <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
+    <entry lang="en" key="LINUX_UNMOUNT_ALL_WHEN">Unmount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
     <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Close all Explorer windows of volume being unmounted</entry>
     <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
     <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
+    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/unmount</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_UNMOUNT">Display confirmation message box after unmount</entry>
     <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
     <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
     <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
@@ -1510,11 +1510,11 @@
     <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
     <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
     <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
+    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not unmount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
     <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
     <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
     <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
+    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please unmount '{0}' before proceeding.</entry>
     <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
     <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
     <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
+    <entry lang="en" key="LINUX_VOL_UNMOUNTED">Volume {0} has been unmounted.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
     <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
@@ -1641,6 +1641,9 @@
     <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
     <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
     <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
+    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
+    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

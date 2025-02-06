@@ -469,3 +469,72 @@ void DisableCPUExtendedFeatures ()
 
 #endif
 
+#if CRYPTOPP_BOOL_ARMV8
+#if defined(__linux__) && defined(__aarch64__)
+#include <sys/auxv.h>
+#ifndef HWCAP_AES
+# define HWCAP_AES (1 << 3)
+#endif
+#ifndef HWCAP_SHA2
+# define HWCAP_SHA2 (1 << 6)
+#endif
+#endif
+
+volatile int g_hasAESARM = 0;
+volatile int g_hasSHA256ARM = 0;
+
+inline int CPU_QueryAES()
+{
+#if defined(CRYPTOPP_ARM_AES_AVAILABLE)
+#if defined(__linux__) && defined(__aarch64__)
+	if ((getauxval(AT_HWCAP) & HWCAP_AES) != 0)
+		return 1;
+#elif defined(__APPLE__) && defined(__aarch64__)
+	// Apple Sillcon (M1) and later
+	return 1;
+#elif defined(_WIN32) && defined(_M_ARM64)
+#ifdef TC_WINDOWS_DRIVER
+	if (ExIsProcessorFeaturePresent(PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE) != 0)
+		return 1;
+#else
+	if (IsProcessorFeaturePresent(PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE) != 0)
+		return 1;
+#endif
+#endif
+	return 0;
+#else
+	return 0;
+#endif
+}
+
+inline int CPU_QuerySHA2()
+{
+#if defined(CRYPTOPP_ARM_SHA2_AVAILABLE)
+#if defined(__linux__) && defined(__aarch64__)
+	if ((getauxval(AT_HWCAP) & HWCAP_SHA2) != 0)
+		return 1;
+#elif defined(__APPLE__) && defined(__aarch64__)
+	// Apple Sillcon (M1) and later
+	return 1;
+#elif defined(_WIN32) && defined(_M_ARM64)
+#ifdef TC_WINDOWS_DRIVER
+	if (ExIsProcessorFeaturePresent(PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE) != 0)
+		return 1;
+#else
+	if (IsProcessorFeaturePresent(PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE) != 0)
+		return 1;
+#endif
+#endif
+	return 0;
+#else
+	return 0;
+#endif
+}
+
+void DetectArmFeatures()
+{
+	g_hasAESARM  = CPU_QueryAES();
+	g_hasSHA256ARM = CPU_QuerySHA2();
+}
+
+#endif

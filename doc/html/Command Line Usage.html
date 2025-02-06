@@ -55,7 +55,7 @@
 <tr>
 <td id="volume"><em>/volume</em> or <em>/v</em></td>
 <td>
-<p>It must be followed by a parameter indicating the file and path name of a VeraCrypt volume to mount (do not use when dismounting) or the Volume ID of the disk/partition to mount.<br>
+<p>It must be followed by a parameter indicating the file and path name of a VeraCrypt volume to mount (do not use when unmounting) or the Volume ID of the disk/partition to mount.<br>
 The syntax of the volume ID is <strong>ID:XXXXXX...XX</strong> where the XX part is a 64 hexadecimal characters string that represent the 32-Bytes ID of the desired volume to mount.<br>
 <br>
 To mount a partition/device-hosted volume, use, for example, /v \Device\Harddisk1\Partition3 (to determine the path to a partition/device, run VeraCrypt and click
@@ -74,7 +74,7 @@ You can also specify the Volume ID of the partition/device-hosted volume to moun
 </tr>
 <tr>
 <td><em>/beep</em> or <em>/b</em></td>
-<td>Beep after a volume has been successfully mounted or dismounted.</td>
+<td>Beep after a volume has been successfully mounted or unmounted.</td>
 </tr>
 <tr>
 <td><em>/auto</em> or <em>/a</em></td>
@@ -82,12 +82,16 @@ You can also specify the Volume ID of the partition/device-hosted volume to moun
  favorite volumes. Note that /auto is implicit if /quit and /volume are specified. If you need to prevent the application window from appearing, use /quit.</td>
 </tr>
 <tr>
+<td><em>/unmount</em> or <em>/u</em></td>
+<td>Unmount volume specified by drive letter (e.g., /u x). When no drive letter is specified, unmounts all currently mounted VeraCrypt volumes.</td>
+</tr>
+<tr>
 <td><em>/dismount</em> or <em>/d</em></td>
-<td>Dismount volume specified by drive letter (e.g., /d x). When no drive letter is specified, dismounts all currently mounted VeraCrypt volumes.</td>
+<td>Deprecated. Please use /unmount or /u.</td>
 </tr>
 <tr>
 <td><em>/force</em> or <em>/f</em></td>
-<td>Forces dismount (if the volume to be dismounted contains files being used by the system or an application) and forces mounting in shared mode (i.e., without exclusive access).</td>
+<td>Forces unmount (if the volume to be unmounted contains files being used by the system or an application) and forces mounting in shared mode (i.e., without exclusive access).</td>
 </tr>
 <tr>
 <td><em>/keyfile</em> or <em>/k</em></td>
@@ -314,7 +318,7 @@ If it is followed by <strong>n</strong> or <strong>no</strong>: the password dia
 <h4>Examples</h4>
 <p>Mount the volume <em>d:\myvolume</em> as the first free drive letter, using the password prompt (the main program window will not be displayed):</p>
 <p>veracrypt /q /v d:\myvolume</p>
-<p>Dismount a volume mounted as the drive letter <em>X</em> (the main program window will not be displayed):</p>
+<p>Unmount a volume mounted as the drive letter <em>X</em> (the main program window will not be displayed):</p>
 <p>veracrypt /q /d x</p>
 <p>Mount a volume called <em>myvolume.tc</em> using the password <em>MyPassword</em>, as the drive letter
 <em>X</em>. VeraCrypt will open an explorer window and beep; mounting will be automatic:</p>

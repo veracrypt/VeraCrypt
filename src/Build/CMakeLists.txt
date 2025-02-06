@@ -11,8 +11,8 @@ elseif ( NOT DEFINED NOGUI )
 endif()
 
 # - Set version of the package
-set( FULL_VERSION 		"1.26.17" )
-set( VERSION 			"1.26.17" )
+set( FULL_VERSION 		"1.26.20" )
+set( VERSION 			"1.26.20" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values
@@ -252,7 +252,19 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set( CPACK_GENERATOR 					"DEB" )																				# mandatory
 	set( CPACK_DEBIAN_PACKAGE_NAME 			${CPACK_PACKAGE_NAME}  )															# mandatory
 	set( CPACK_DEBIAN_FILE_NAME 			${CPACK_PACKAGE_FILE_NAME}.deb )													# mandatory
-	set( CPACK_DEBIAN_PACKAGE_VERSION 		${CPACK_PACKAGE_VERSION} )															# mandatory
+	# -- Use a distro-specific version string to avoid repository conflicts --
+	# e.g. 1.26.17-1~deb11, 1.26.17-1~deb12, 1.26.17-1~ubuntu20.04, etc.
+	if (PLATFORM STREQUAL "Ubuntu")
+		# For something like "24.04", it becomes 1.26.17-1~ubuntu24.04
+		set(CPACK_DEBIAN_PACKAGE_VERSION 
+			"${VERSION}-${RELEASE}~ubuntu${PLATFORM_VERSION}")
+	else() # Debian
+		# Usually just take the major number from e.g. "11.7" => "11"
+		string(REGEX MATCH "^[0-9]+" PLATFORM_VERSION_MAJOR "${PLATFORM_VERSION}")
+		set(CPACK_DEBIAN_PACKAGE_VERSION 
+			"${VERSION}-${RELEASE}~deb${PLATFORM_VERSION_MAJOR}")
+	endif()
+
 	set( CPACK_DEBIAN_PACKAGE_RELEASE 		${CPACK_PACKAGE_RELEASE} )
 	set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE 	${ARCHITECTURE} )																	# mandatory
 	

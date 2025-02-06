@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -232,7 +232,7 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 				jent_entropy_collector_free (ec);
 			}
 		}
-
+#ifndef _M_ARM64
 		// use RDSEED or RDRAND from CPU as source of entropy if enabled
 		if (	IsCpuRngEnabled() && 
 			(	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
@@ -241,6 +241,7 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 		{
 			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
 		}
+#endif
 		WHIRLPOOL_finalize (&tctx, digest);
 
 		count = VC_MIN (cbRandSeed, sizeof (digest));
@@ -266,7 +267,11 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 
 	Dump("DriverEntry " TC_APP_NAME " " VERSION_STRING VERSION_STRING_SUFFIX "\n");
 
+#ifndef _M_ARM64
 	DetectX86Features();
+#else
+	DetectArmFeatures();
+#endif
 
 	PsGetVersion(&OsMajorVersion, &OsMinorVersion, NULL, NULL);
 
@@ -293,7 +298,11 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 			{
 				// in case of system encryption, if self-tests fail, disable all extended CPU
 				// features and try again in order to workaround faulty configurations
+#ifndef _M_ARM64
 				DisableCPUExtendedFeatures();
+#else
+				EnableHwEncryption(FALSE);
+#endif
 				SelfTestsPassed = AutoTestAlgorithms();
 
 				// BUG CHECK if the self-tests still fail
@@ -1219,7 +1228,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 			outputBuffer->PartitionLength.QuadPart= Extension->DiskLength;
 			outputBuffer->PartitionNumber = 1;
-			outputBuffer->HiddenSectors = 0;
+			outputBuffer->HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (PARTITION_INFORMATION);
 		}
@@ -1239,7 +1248,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->Mbr.PartitionType = Extension->PartitionType;
 			outputBuffer->Mbr.BootIndicator = FALSE;
 			outputBuffer->Mbr.RecognizedPartition = TRUE;
-			outputBuffer->Mbr.HiddenSectors = 0;
+			outputBuffer->Mbr.HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (PARTITION_INFORMATION_EX);
 		}
@@ -1263,7 +1272,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 			outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
 			outputBuffer->PartitionEntry->PartitionNumber = 1;
-			outputBuffer->PartitionEntry->HiddenSectors = 0;			
+			outputBuffer->PartitionEntry->HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;		
 
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (DRIVE_LAYOUT_INFORMATION);
@@ -1298,7 +1307,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
 				outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
 				outputBuffer->PartitionEntry->PartitionNumber = 1;
-				outputBuffer->PartitionEntry->Mbr.HiddenSectors = 0;
+				outputBuffer->PartitionEntry->Mbr.HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
 				outputBuffer->PartitionEntry->Mbr.PartitionType = Extension->PartitionType;
 
 				Irp->IoStatus.Status = STATUS_SUCCESS;
@@ -1437,7 +1446,12 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
 		// Vista's, Windows 8.1 and later filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
-		if (ValidateIOBufferSize(Irp, sizeof(VOLUME_DISK_EXTENTS), ValidateOutput))
+		if (!AllowWindowsDefrag || !Extension->bRawDevice) // We don't support defragmentation for file-hosted volumes
+		{
+			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+			Irp->IoStatus.Information = 0;
+		}
+		else if (ValidateIOBufferSize(Irp, sizeof(VOLUME_DISK_EXTENTS), ValidateOutput))
 		{
 			VOLUME_DISK_EXTENTS* extents = (VOLUME_DISK_EXTENTS*)Irp->AssociatedIrp.SystemBuffer;
 
@@ -2586,7 +2600,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
-	case TC_IOCTL_DISMOUNT_VOLUME:
+	case TC_IOCTL_UNMOUNT_VOLUME:
 		if (ValidateIOBufferSize (Irp, sizeof (UNMOUNT_STRUCT), ValidateInputOutput))
 		{
 			UNMOUNT_STRUCT *unmount = (UNMOUNT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
@@ -2614,7 +2628,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
-	case TC_IOCTL_DISMOUNT_ALL_VOLUMES:
+	case TC_IOCTL_UNMOUNT_ALL_VOLUMES:
 		if (ValidateIOBufferSize (Irp, sizeof (UNMOUNT_STRUCT), ValidateInputOutput))
 		{
 			UNMOUNT_STRUCT *unmount = (UNMOUNT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
@@ -3173,8 +3187,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		TC_CASE_RET_NAME (TC_IOCTL_ABORT_BOOT_ENCRYPTION_SETUP);
 		TC_CASE_RET_NAME (TC_IOCTL_ABORT_DECOY_SYSTEM_WIPE);
 		TC_CASE_RET_NAME (TC_IOCTL_BOOT_ENCRYPTION_SETUP);
-		TC_CASE_RET_NAME (TC_IOCTL_DISMOUNT_ALL_VOLUMES);
-		TC_CASE_RET_NAME (TC_IOCTL_DISMOUNT_VOLUME);
+		TC_CASE_RET_NAME (TC_IOCTL_UNMOUNT_ALL_VOLUMES);
+		TC_CASE_RET_NAME (TC_IOCTL_UNMOUNT_VOLUME);
 		TC_CASE_RET_NAME (TC_IOCTL_GET_BOOT_DRIVE_VOLUME_PROPERTIES);
 		TC_CASE_RET_NAME (TC_IOCTL_GET_BOOT_ENCRYPTION_ALGORITHM_NAME);
 		TC_CASE_RET_NAME (TC_IOCTL_GET_BOOT_ENCRYPTION_SETUP_RESULT);
@@ -3371,7 +3385,7 @@ void OnShutdownPending ()
 	memset (&unmount, 0, sizeof (unmount));
 	unmount.ignoreOpenFiles = TRUE;
 
-	while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_DISMOUNT_ALL_VOLUMES, &unmount, sizeof (unmount), &unmount, sizeof (unmount)) == STATUS_INSUFFICIENT_RESOURCES || unmount.HiddenVolumeProtectionTriggered)
+	while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_UNMOUNT_ALL_VOLUMES, &unmount, sizeof (unmount), &unmount, sizeof (unmount)) == STATUS_INSUFFICIENT_RESOURCES || unmount.HiddenVolumeProtectionTriggered)
 		unmount.HiddenVolumeProtectionTriggered = FALSE;
 
 	while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0) == STATUS_INSUFFICIENT_RESOURCES);

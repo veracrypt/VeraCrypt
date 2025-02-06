@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -311,12 +311,12 @@ static unsigned char gpbSha512CodeSignCertFingerprint[64] = {
 };
 
 static unsigned char gpbSha512MSCodeSignCertFingerprint[64] = {
-	0xEB, 0x76, 0x2E, 0xD3, 0x5B, 0x4A, 0xB1, 0x0E, 0xF5, 0x3B, 0x99, 0x4E,
-	0xC1, 0xF7, 0x48, 0x88, 0xF6, 0xA0, 0xE9, 0xAC, 0x32, 0x69, 0xCF, 0x20,
-	0xE1, 0x60, 0xC4, 0x0C, 0xEF, 0x01, 0x1F, 0xCB, 0x41, 0x95, 0x72, 0xB9,
-	0xED, 0x63, 0x0C, 0x6B, 0xB9, 0xE9, 0xA2, 0x72, 0xA6, 0x78, 0x96, 0x4C,
-	0x69, 0x9F, 0x90, 0x3F, 0xB1, 0x3C, 0x64, 0xF2, 0xAB, 0xCF, 0x14, 0x1D,
-	0xEC, 0x7C, 0xB0, 0xC7
+	0x17, 0x8C, 0x1B, 0x37, 0x70, 0xBF, 0x8B, 0xDF, 0x84, 0x55, 0xC5, 0x18,
+	0x13, 0x64, 0xE9, 0x65, 0x6D, 0x67, 0xCA, 0x0C, 0xD6, 0x3B, 0x9E, 0x7B,
+	0x9B, 0x6A, 0x63, 0xD6, 0x19, 0xAE, 0xD7, 0xBA, 0xBE, 0x5C, 0xCB, 0xD1,
+	0x07, 0x89, 0x07, 0xFB, 0x12, 0xC0, 0x2C, 0x94, 0x86, 0xEB, 0x67, 0x0B,
+	0x9C, 0x97, 0xEB, 0x20, 0x38, 0x13, 0x9C, 0x0F, 0x56, 0x93, 0x1B, 0x19,
+	0x6F, 0x8F, 0x6A, 0x39
 };
 
 /* Windows dialog class */
@@ -1044,6 +1044,20 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 
 	return ((CurrentOSMajor << 16 | CurrentOSMinor << 8 | CurrentOSServicePack)
 		>= (major << 16 | minor << 8 | reqMinServicePack));
+}
+
+BOOL IsWin10BuildAtLeast(int minBuild)
+{
+	// Must first be recognized as Windows 10 or higher  
+	if (nCurrentOS < WIN_10)
+		return FALSE;
+
+	// If we’re on Windows 10, check build number  
+	if (nCurrentOS == WIN_10 && CurrentOSBuildNumber < minBuild)
+		return FALSE;
+
+	// If we are on a higher version of Windows, we are good to go
+	return TRUE;
 }
 
 #ifdef SETUP_DLL
@@ -2164,7 +2178,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Based on TrueCrypt 7.1a, freely available at http://www.truecrypt.org/ .\r\n\r\n"
 
 			L"Portions of this software:\r\n"
-			L"Copyright \xA9 2013-2024 IDRIX. All rights reserved.\r\n"
+			L"Copyright \xA9 2013-2025 IDRIX. All rights reserved.\r\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\r\n"
@@ -2177,7 +2191,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Copyright \xA9 1999-2023 Igor Pavlov\r\n\r\n"
 
 			L"This software as a whole:\r\n"
-			L"Copyright \xA9 2013-2024 IDRIX. All rights reserved.\r\n\r\n"
+			L"Copyright \xA9 2013-2025 IDRIX. All rights reserved.\r\n\r\n"
 
 			L"An IDRIX Release");
 
@@ -3611,10 +3625,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	InitOSVersionInfo();
 
-	if (!IsOSAtLeast (WIN_10))
+	if (!IsWin10BuildAtLeast(WIN_10_1809_BUILD))
 	{
-		// abort using a message that says that VeraCrypt can run only on Windows 10 and later
-		AbortProcessDirect(L"VeraCrypt requires at least Windows 10 to run.");
+		// abort using a message that says that VeraCrypt can run only on Windows 10 version 1809 or later
+		AbortProcessDirect(L"VeraCrypt requires at least Windows 10 version 1809 (October 2018 Update) to run.");
 	}
 
 	if (!Is64BitOs())
@@ -8206,7 +8220,7 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced)
 	unmount.nDosDriveNo = nDosDriveNo;
 	unmount.ignoreOpenFiles = forced;
 
-	bResult = DeviceIoControl (hDriver, TC_IOCTL_DISMOUNT_VOLUME, &unmount,
+	bResult = DeviceIoControl (hDriver, TC_IOCTL_UNMOUNT_VOLUME, &unmount,
 			sizeof (unmount), &unmount, sizeof (unmount), &dwResult, NULL);
 
 	if (bResult == FALSE)
@@ -14869,6 +14883,7 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 			}
 		}
 
+#ifndef _M_ARM64
 		// use RDSEED or RDRAND from CPU as source of entropy if enabled
 		if (	IsCpuRngEnabled() && 
 			(	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
@@ -14877,6 +14892,7 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 		{
 			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
 		}
+#endif
 		WHIRLPOOL_finalize (&tctx, digest);
 
 		count = VC_MIN (cbRandSeed, sizeof (digest));

@@ -49,6 +49,7 @@ const struct _zip_err_info _zip_err_str[] = {
     { N, "Operation cancelled" },
     { N, "Unexpected length of data" },
     { N, "Not allowed in torrentzip" },
+    { N, "Possibly truncated or corrupted zip archive" },
 };
 
 const int _zip_err_str_count = sizeof(_zip_err_str)/sizeof(_zip_err_str[0]);
@@ -74,6 +75,11 @@ const struct _zip_err_info _zip_err_details[] = {
     { E, "garbage at end of extra fields" },
     { E, "extra field length is invalid" },
     { E, "file length in header doesn't match actual file length" },
+    { E, "compressed and uncompressed sizes don't match for stored file" },
+    { E, "local header and data descriptor do not match" },
+    { G, "EOCD64 and EOCD64 locator do not match" },
+    { E, "UTF-8 filename is ASCII and doesn't match filename" },
+    { E, "UTF-8 comment is ASCII and doesn't match comment" },
 };
 
 const int _zip_err_details_count = sizeof(_zip_err_details)/sizeof(_zip_err_details[0]);

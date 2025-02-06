@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -40,7 +40,16 @@ namespace VeraCrypt
 		void OnReadOnlyCheckBoxClick (wxCommandEvent& event) { UpdateDialog(); }
 		void UpdateDialog ();
 
+#ifdef TC_UNIX
+		// Used for displaying a red border around the dialog window when insecure mode is enabled
+		void OnPaint(wxPaintEvent& event);
+		void OnSize(wxSizeEvent& event);
+#endif
+
 		MountOptions &Options;
+#ifdef TC_UNIX
+		bool m_showRedBorder;
+#endif
 		wxString OptionsButtonLabel;
 		VolumePasswordPanel *PasswordPanel;
 		VolumePasswordPanel *ProtectionPasswordPanel;

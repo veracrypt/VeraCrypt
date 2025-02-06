@@ -1,5 +1,5 @@
 /* CpuArch.c -- CPU specific code
-2023-05-18 : Igor Pavlov : Public domain */
+Igor Pavlov : Public domain */
 
 #include "Precomp.h"
 
@@ -17,7 +17,7 @@
 /*
   cpuid instruction supports (subFunction) parameter in ECX,
   that is used only with some specific (function) parameter values.
-  But we always use only (subFunction==0).
+  most functions use only (subFunction==0).
 */
 /*
   __cpuid(): MSVC and GCC/CLANG use same function/macro name
@@ -49,41 +49,47 @@
 #if defined(MY_CPU_AMD64) && defined(__PIC__) \
     && ((defined (__GNUC__) && (__GNUC__ < 5)) || defined(__clang__))
 
-#define x86_cpuid_MACRO(p, func) { \
+  /* "=&r" selects free register. It can select even rbx, if that register is free.
+     "=&D" for (RDI) also works, but the code can be larger with "=&D"
+     "2"(subFun) : 2 is (zero-based) index in the output constraint list "=c" (ECX). */
+
+#define x86_cpuid_MACRO_2(p, func, subFunc) { \
   __asm__ __volatile__ ( \
     ASM_LN   "mov     %%rbx, %q1"  \
     ASM_LN   "cpuid"               \
     ASM_LN   "xchg    %%rbx, %q1"  \
-    : "=a" ((p)[0]), "=&r" ((p)[1]), "=c" ((p)[2]), "=d" ((p)[3]) : "0" (func), "2"(0)); }
-
-  /* "=&r" selects free register. It can select even rbx, if that register is free.
-     "=&D" for (RDI) also works, but the code can be larger with "=&D"
-     "2"(0) means (subFunction = 0),
-     2 is (zero-based) index in the output constraint list "=c" (ECX). */
+    : "=a" ((p)[0]), "=&r" ((p)[1]), "=c" ((p)[2]), "=d" ((p)[3]) : "0" (func), "2"(subFunc)); }
 
 #elif defined(MY_CPU_X86) && defined(__PIC__) \
     && ((defined (__GNUC__) && (__GNUC__ < 5)) || defined(__clang__))
 
-#define x86_cpuid_MACRO(p, func) { \
+#define x86_cpuid_MACRO_2(p, func, subFunc) { \
   __asm__ __volatile__ ( \
     ASM_LN   "mov     %%ebx, %k1"  \
     ASM_LN   "cpuid"               \
     ASM_LN   "xchg    %%ebx, %k1"  \
-    : "=a" ((p)[0]), "=&r" ((p)[1]), "=c" ((p)[2]), "=d" ((p)[3]) : "0" (func), "2"(0)); }
+    : "=a" ((p)[0]), "=&r" ((p)[1]), "=c" ((p)[2]), "=d" ((p)[3]) : "0" (func), "2"(subFunc)); }
 
 #else
 
-#define x86_cpuid_MACRO(p, func) { \
+#define x86_cpuid_MACRO_2(p, func, subFunc) { \
   __asm__ __volatile__ ( \
     ASM_LN   "cpuid"               \
-    : "=a" ((p)[0]), "=b" ((p)[1]), "=c" ((p)[2]), "=d" ((p)[3]) : "0" (func), "2"(0)); }
+    : "=a" ((p)[0]), "=b" ((p)[1]), "=c" ((p)[2]), "=d" ((p)[3]) : "0" (func), "2"(subFunc)); }
 
 #endif
 
+#define x86_cpuid_MACRO(p, func)  x86_cpuid_MACRO_2(p, func, 0)
 
 void Z7_FASTCALL z7_x86_cpuid(UInt32 p[4], UInt32 func)
 {
   x86_cpuid_MACRO(p, func)
+}
+
+static
+void Z7_FASTCALL z7_x86_cpuid_subFunc(UInt32 p[4], UInt32 func, UInt32 subFunc)
+{
+  x86_cpuid_MACRO_2(p, func, subFunc)
 }
 
 
@@ -205,11 +211,39 @@ void __declspec(naked) Z7_FASTCALL z7_x86_cpuid(UInt32 p[4], UInt32 func)
   __asm   ret     0
 }
 
+static
+void __declspec(naked) Z7_FASTCALL z7_x86_cpuid_subFunc(UInt32 p[4], UInt32 func, UInt32 subFunc)
+{
+  UNUSED_VAR(p)
+  UNUSED_VAR(func)
+  UNUSED_VAR(subFunc)
+  __asm   push    ebx
+  __asm   push    edi
+  __asm   mov     edi, ecx    // p
+  __asm   mov     eax, edx    // func
+  __asm   mov     ecx, [esp + 12]  // subFunc
+  __asm   cpuid
+  __asm   mov     [edi     ], eax
+  __asm   mov     [edi +  4], ebx
+  __asm   mov     [edi +  8], ecx
+  __asm   mov     [edi + 12], edx
+  __asm   pop     edi
+  __asm   pop     ebx
+  __asm   ret     4
+}
+
 #else // MY_CPU_AMD64
 
     #if _MSC_VER >= 1600
       #include <intrin.h>
       #define MY_cpuidex  __cpuidex
+
+static
+void Z7_FASTCALL z7_x86_cpuid_subFunc(UInt32 p[4], UInt32 func, UInt32 subFunc)
+{
+  __cpuidex((int *)p, func, subFunc);
+}
+
     #else
 /*
  __cpuid (func == (0 or 7)) requires subfunction number in ECX.
@@ -219,20 +253,25 @@ void __declspec(naked) Z7_FASTCALL z7_x86_cpuid(UInt32 p[4], UInt32 func)
  We still can use __cpuid for low (func) values that don't require ECX,
  but __cpuid() in old MSVC will be incorrect for some func values: (func == 7).
  So here we use the hack for old MSVC to send (subFunction) in ECX register to cpuid instruction,
- where ECX value is first parameter for FASTCALL / NO_INLINE func,
+ where ECX value is first parameter for FASTCALL / NO_INLINE func.
  So the caller of MY_cpuidex_HACK() sets ECX as subFunction, and
  old MSVC for __cpuid() doesn't change ECX and cpuid instruction gets (subFunction) value.
  
 DON'T remove Z7_NO_INLINE and Z7_FASTCALL for MY_cpuidex_HACK(): !!!
 */
 static
-Z7_NO_INLINE void Z7_FASTCALL MY_cpuidex_HACK(UInt32 subFunction, UInt32 func, int *CPUInfo)
+Z7_NO_INLINE void Z7_FASTCALL MY_cpuidex_HACK(Int32 subFunction, Int32 func, Int32 *CPUInfo)
 {
   UNUSED_VAR(subFunction)
   __cpuid(CPUInfo, func);
 }
       #define MY_cpuidex(info, func, func2)  MY_cpuidex_HACK(func2, func, info)
       #pragma message("======== MY_cpuidex_HACK WAS USED ========")
+static
+void Z7_FASTCALL z7_x86_cpuid_subFunc(UInt32 p[4], UInt32 func, UInt32 subFunc)
+{
+  MY_cpuidex_HACK(subFunc, func, (Int32 *)p);
+}
     #endif // _MSC_VER >= 1600
 
 #if !defined(MY_CPU_AMD64)
@@ -242,13 +281,13 @@ Z7_NO_INLINE
 #endif
 void Z7_FASTCALL z7_x86_cpuid(UInt32 p[4], UInt32 func)
 {
-  MY_cpuidex((int *)p, (int)func, 0);
+  MY_cpuidex((Int32 *)p, (Int32)func, 0);
 }
 
 Z7_NO_INLINE
 UInt32 Z7_FASTCALL z7_x86_cpuid_GetMaxFunc(void)
 {
-  int a[4];
+  Int32 a[4];
   MY_cpuidex(a, 0, 0);
   return a[0];
 }
@@ -384,7 +423,7 @@ BoolInt CPU_IsSupported_CMOV(void)
   UInt32 a[4];
   if (!x86cpuid_Func_1(&a[0]))
     return 0;
-  return (a[3] >> 15) & 1;
+  return (BoolInt)(a[3] >> 15) & 1;
 }
 
 BoolInt CPU_IsSupported_SSE(void)
@@ -393,7 +432,7 @@ BoolInt CPU_IsSupported_SSE(void)
   CHECK_SYS_SSE_SUPPORT
   if (!x86cpuid_Func_1(&a[0]))
     return 0;
-  return (a[3] >> 25) & 1;
+  return (BoolInt)(a[3] >> 25) & 1;
 }
 
 BoolInt CPU_IsSupported_SSE2(void)
@@ -402,7 +441,7 @@ BoolInt CPU_IsSupported_SSE2(void)
   CHECK_SYS_SSE_SUPPORT
   if (!x86cpuid_Func_1(&a[0]))
     return 0;
-  return (a[3] >> 26) & 1;
+  return (BoolInt)(a[3] >> 26) & 1;
 }
 
 #endif
@@ -419,17 +458,17 @@ static UInt32 x86cpuid_Func_1_ECX(void)
 
 BoolInt CPU_IsSupported_AES(void)
 {
-  return (x86cpuid_Func_1_ECX() >> 25) & 1;
+  return (BoolInt)(x86cpuid_Func_1_ECX() >> 25) & 1;
 }
 
 BoolInt CPU_IsSupported_SSSE3(void)
 {
-  return (x86cpuid_Func_1_ECX() >> 9) & 1;
+  return (BoolInt)(x86cpuid_Func_1_ECX() >> 9) & 1;
 }
 
 BoolInt CPU_IsSupported_SSE41(void)
 {
-  return (x86cpuid_Func_1_ECX() >> 19) & 1;
+  return (BoolInt)(x86cpuid_Func_1_ECX() >> 19) & 1;
 }
 
 BoolInt CPU_IsSupported_SHA(void)
@@ -441,7 +480,24 @@ BoolInt CPU_IsSupported_SHA(void)
   {
     UInt32 d[4];
     z7_x86_cpuid(d, 7);
-    return (d[1] >> 29) & 1;
+    return (BoolInt)(d[1] >> 29) & 1;
+  }
+}
+
+
+BoolInt CPU_IsSupported_SHA512(void)
+{
+  if (!CPU_IsSupported_AVX2()) return False; // maybe CPU_IsSupported_AVX() is enough here
+
+  if (z7_x86_cpuid_GetMaxFunc() < 7)
+    return False;
+  {
+    UInt32 d[4];
+    z7_x86_cpuid_subFunc(d, 7, 0);
+    if (d[0] < 1) // d[0] - is max supported subleaf value
+      return False;
+    z7_x86_cpuid_subFunc(d, 7, 1);
+    return (BoolInt)(d[0]) & 1;
   }
 }
 
@@ -638,10 +694,10 @@ BoolInt CPU_IsSupported_AVX(void)
 
   {
     const UInt32 bm = (UInt32)x86_xgetbv_0(MY_XCR_XFEATURE_ENABLED_MASK);
-    // printf("\n=== XGetBV=%d\n", bm);
+    // printf("\n=== XGetBV=0x%x\n", bm);
     return 1
-        & (bm >> 1)  // SSE state is supported (set by OS) for storing/restoring
-        & (bm >> 2); // AVX state is supported (set by OS) for storing/restoring
+        & (BoolInt)(bm >> 1)  // SSE state is supported (set by OS) for storing/restoring
+        & (BoolInt)(bm >> 2); // AVX state is supported (set by OS) for storing/restoring
   }
   // since Win7SP1: we can use GetEnabledXStateFeatures();
 }
@@ -658,9 +714,38 @@ BoolInt CPU_IsSupported_AVX2(void)
     z7_x86_cpuid(d, 7);
     // printf("\ncpuid(7): ebx=%8x ecx=%8x\n", d[1], d[2]);
     return 1
-      & (d[1] >> 5); // avx2
+      & (BoolInt)(d[1] >> 5); // avx2
   }
 }
+
+#if 0
+BoolInt CPU_IsSupported_AVX512F_AVX512VL(void)
+{
+  if (!CPU_IsSupported_AVX())
+    return False;
+  if (z7_x86_cpuid_GetMaxFunc() < 7)
+    return False;
+  {
+    UInt32 d[4];
+    BoolInt v;
+    z7_x86_cpuid(d, 7);
+    // printf("\ncpuid(7): ebx=%8x ecx=%8x\n", d[1], d[2]);
+    v = 1
+      & (BoolInt)(d[1] >> 16)  // avx512f
+      & (BoolInt)(d[1] >> 31); // avx512vl
+    if (!v)
+      return False;
+  }
+  {
+    const UInt32 bm = (UInt32)x86_xgetbv_0(MY_XCR_XFEATURE_ENABLED_MASK);
+    // printf("\n=== XGetBV=0x%x\n", bm);
+    return 1
+        & (BoolInt)(bm >> 5)  // OPMASK
+        & (BoolInt)(bm >> 6)  // ZMM upper 256-bit
+        & (BoolInt)(bm >> 7); // ZMM16 ... ZMM31
+  }
+}
+#endif
 
 BoolInt CPU_IsSupported_VAES_AVX2(void)
 {
@@ -673,9 +758,9 @@ BoolInt CPU_IsSupported_VAES_AVX2(void)
     z7_x86_cpuid(d, 7);
     // printf("\ncpuid(7): ebx=%8x ecx=%8x\n", d[1], d[2]);
     return 1
-      & (d[1] >> 5) // avx2
+      & (BoolInt)(d[1] >> 5) // avx2
       // & (d[1] >> 31) // avx512vl
-      & (d[2] >> 9); // vaes // VEX-256/EVEX
+      & (BoolInt)(d[2] >> 9); // vaes // VEX-256/EVEX
   }
 }
 
@@ -688,7 +773,7 @@ BoolInt CPU_IsSupported_PageGB(void)
     if (d[0] < 0x80000001)
       return False;
     z7_x86_cpuid(d, 0x80000001);
-    return (d[3] >> 26) & 1;
+    return (BoolInt)(d[3] >> 26) & 1;
   }
 }
 
@@ -747,6 +832,18 @@ BoolInt CPU_IsSupported_NEON(void)
   return z7_sysctlbyname_Get_BoolInt("hw.optional.neon");
 }
 
+BoolInt CPU_IsSupported_SHA512(void)
+{
+  return z7_sysctlbyname_Get_BoolInt("hw.optional.armv8_2_sha512");
+}
+
+/*
+BoolInt CPU_IsSupported_SHA3(void)
+{
+  return z7_sysctlbyname_Get_BoolInt("hw.optional.armv8_2_sha3");
+}
+*/
+
 #ifdef MY_CPU_ARM64
 #define APPLE_CRYPTO_SUPPORT_VAL 1
 #else
@@ -760,33 +857,70 @@ BoolInt CPU_IsSupported_AES (void) { return APPLE_CRYPTO_SUPPORT_VAL; }
 
 #else // __APPLE__
 
-#include <sys/auxv.h>
+#if defined(__GLIBC__) && (__GLIBC__ * 100 + __GLIBC_MINOR__ >= 216)
+  #define Z7_GETAUXV_AVAILABLE
+#else
+// #pragma message("=== is not NEW GLIBC === ")
+  #if defined __has_include
+  #if __has_include (<sys/auxv.h>)
+// #pragma message("=== sys/auxv.h is avail=== ")
+    #define Z7_GETAUXV_AVAILABLE
+  #endif
+  #endif
+#endif
 
+#ifdef Z7_GETAUXV_AVAILABLE
+// #pragma message("=== Z7_GETAUXV_AVAILABLE === ")
+#include <sys/auxv.h>
 #define USE_HWCAP
+#endif
 
 #ifdef USE_HWCAP
 
+#if defined(__FreeBSD__)
+static unsigned long MY_getauxval(int aux)
+{
+  unsigned long val;
+  if (elf_aux_info(aux, &val, sizeof(val)))
+    return 0;
+  return val;
+}
+#else
+#define MY_getauxval  getauxval
+  #if defined __has_include
+  #if __has_include (<asm/hwcap.h>)
 #include <asm/hwcap.h>
+  #endif
+  #endif
+#endif
 
   #define MY_HWCAP_CHECK_FUNC_2(name1, name2) \
-  BoolInt CPU_IsSupported_ ## name1() { return (getauxval(AT_HWCAP)  & (HWCAP_  ## name2)) ? 1 : 0; }
+  BoolInt CPU_IsSupported_ ## name1(void) { return (MY_getauxval(AT_HWCAP)  & (HWCAP_  ## name2)); }
 
 #ifdef MY_CPU_ARM64
   #define MY_HWCAP_CHECK_FUNC(name) \
   MY_HWCAP_CHECK_FUNC_2(name, name)
+#if 1 || defined(__ARM_NEON)
+  BoolInt CPU_IsSupported_NEON(void) { return True; }
+#else
   MY_HWCAP_CHECK_FUNC_2(NEON, ASIMD)
+#endif
 // MY_HWCAP_CHECK_FUNC (ASIMD)
 #elif defined(MY_CPU_ARM)
   #define MY_HWCAP_CHECK_FUNC(name) \
-  BoolInt CPU_IsSupported_ ## name() { return (getauxval(AT_HWCAP2) & (HWCAP2_ ## name)) ? 1 : 0; }
+  BoolInt CPU_IsSupported_ ## name(void) { return (MY_getauxval(AT_HWCAP2) & (HWCAP2_ ## name)); }
   MY_HWCAP_CHECK_FUNC_2(NEON, NEON)
 #endif
 
 #else // USE_HWCAP
 
   #define MY_HWCAP_CHECK_FUNC(name) \
-  BoolInt CPU_IsSupported_ ## name() { return 0; }
+  BoolInt CPU_IsSupported_ ## name(void) { return 0; }
+#if defined(__ARM_NEON)
+  BoolInt CPU_IsSupported_NEON(void) { return True; }
+#else
   MY_HWCAP_CHECK_FUNC(NEON)
+#endif
 
 #endif // USE_HWCAP
 
@@ -794,6 +928,19 @@ MY_HWCAP_CHECK_FUNC (CRC32)
 MY_HWCAP_CHECK_FUNC (SHA1)
 MY_HWCAP_CHECK_FUNC (SHA2)
 MY_HWCAP_CHECK_FUNC (AES)
+#ifdef MY_CPU_ARM64
+// <hwcap.h> supports HWCAP_SHA512 and HWCAP_SHA3 since 2017.
+// we define them here, if they are not defined
+#ifndef HWCAP_SHA3
+// #define HWCAP_SHA3    (1 << 17)
+#endif
+#ifndef HWCAP_SHA512
+// #pragma message("=== HWCAP_SHA512 define === ")
+#define HWCAP_SHA512  (1 << 21)
+#endif
+MY_HWCAP_CHECK_FUNC (SHA512)
+// MY_HWCAP_CHECK_FUNC (SHA3)
+#endif
 
 #endif // __APPLE__
 #endif // _WIN32

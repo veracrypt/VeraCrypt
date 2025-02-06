@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -295,7 +295,7 @@ namespace VeraCrypt
 
 #ifdef TC_WINDOWS
 		if (Core->IsVolumeMounted (*volumePath))
-			throw_err (LangString["DISMOUNT_FIRST"]);
+			throw_err (LangString["UNMOUNT_FIRST"]);
 #endif
 
 		ShowInfo ("EXTERNAL_VOL_HEADER_BAK_FIRST_INFO");
@@ -1357,6 +1357,18 @@ namespace VeraCrypt
 			return volume;
 		}
 
+		// check if the volume path exists using stat function. Only ENOENT error is handled to exclude permission denied error
+		struct stat statBuf;
+		if (stat (string (*options.Path).c_str(), &statBuf) != 0)
+		{
+			if (errno == ENOENT)
+			{
+				SystemException ex (SRC_POS);
+				ShowError (ex);
+				return volume;
+			}
+		}
+
 		// Mount point
 		if (!options.MountPoint && !options.NoFilesystem)
 			options.MountPoint.reset (new DirectoryPath (AskString (_("Enter mount directory [default]: "))));
@@ -1549,7 +1561,7 @@ namespace VeraCrypt
 
 #ifdef TC_WINDOWS
 		if (Core->IsVolumeMounted (*volumePath))
-			throw_err (LangString["DISMOUNT_FIRST"]);
+			throw_err (LangString["UNMOUNT_FIRST"]);
 #endif
 
 		// Ask whether to restore internal or external backup

@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -286,6 +286,9 @@ typedef NTSTATUS (WINAPI *NtQuerySystemInformationFn)(
 #define	ISO_BURNER_TOOL L"isoburn.exe"
 #define PRINT_TOOL L"notepad.exe"
 
+#define WIN_10_1607_BUILD 14393  // Windows 10 version 1607 corresponds to build 14393
+#define WIN_10_1809_BUILD 17763  // Windows 10 version 1809 corresponds to build 17763
+
 void InitGlobalLocks ();
 void FinalizeGlobalLocks ();
 void cleanup ( void );
@@ -500,6 +503,7 @@ void Debug (char *format, ...);
 void DebugMsgBox (char *format, ...);
 BOOL IsOSAtLeast (OSVersionEnum reqMinOS);
 BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack);
+BOOL IsWin10BuildAtLeast(int minBuild);
 BOOL IsSupportedOS ();
 BOOL Is64BitOs ();
 BOOL IsARM();

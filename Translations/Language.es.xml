@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.17">
+  <localization prog-version= "1.26.20">
     <language langid="es" name="Español" en-name="Spanish" version="1.0.0" translators="Juan Antonio Auñón Ochando" />
     <font lang="es" class="normal" size="11" face="default" />
     <font lang="es" class="bold" size="13" face="Arial" />
@@ -135,8 +135,8 @@
     <entry lang="es" key="IDC_FAVORITE_REMOVE">Elimina&amp;r</entry>
     <entry lang="es" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Usar etiqueta favorita como etiqueta de la unidad de Explorer</entry>
     <entry lang="es" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Configuración global</entry>
-    <entry lang="es" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Mostrar mensaje emergente tras desmontar con éxito usando atajos de teclado</entry>
-    <entry lang="es" key="IDC_HK_DISMOUNT_PLAY_SOUND">Reproducir notificación sonora tras desmontar con éxito usando atajos de teclado</entry>
+    <entry lang="es" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Mostrar mensaje emergente tras desmontar con éxito usando atajos de teclado</entry>
+    <entry lang="es" key="IDC_HK_UNMOUNT_PLAY_SOUND">Reproducir notificación sonora tras desmontar con éxito usando atajos de teclado</entry>
     <entry lang="es" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="es" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="es" key="IDC_HK_MOD_SHIFT">Mayus.</entry>
@@ -156,12 +156,12 @@
     <entry lang="es" key="IDC_PIM_HELP">(Vacío ó 0 para iteraciones por defecto)</entry>
     <entry lang="es" key="IDC_PREF_BKG_TASK_ENABLE">Activado</entry>
     <entry lang="es" key="IDC_PREF_CACHE_PASSWORDS">Guardar contraseñas en caché</entry>
-    <entry lang="es" key="IDC_PREF_DISMOUNT_INACTIVE">Desmontar volumen automáticamente cuando hayan dejado de leerse/escribirse datos por</entry>
-    <entry lang="es" key="IDC_PREF_DISMOUNT_LOGOFF">Si el usuario cierra sesión</entry>
-    <entry lang="es" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Sesión de usuario bloqueada</entry>
-    <entry lang="es" key="IDC_PREF_DISMOUNT_POWERSAVING">Si se entra en "ahorro de energía"</entry>
-    <entry lang="es" key="IDC_PREF_DISMOUNT_SCREENSAVER">Si se activa el salvapantallas</entry>
-    <entry lang="es" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forzar desmontaje automático aunque el volumen tenga archivos abiertos</entry>
+    <entry lang="es" key="IDC_PREF_UNMOUNT_INACTIVE">Desmontar volumen automáticamente cuando hayan dejado de leerse/escribirse datos por</entry>
+    <entry lang="es" key="IDC_PREF_UNMOUNT_LOGOFF">Si el usuario cierra sesión</entry>
+    <entry lang="es" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Sesión de usuario bloqueada</entry>
+    <entry lang="es" key="IDC_PREF_UNMOUNT_POWERSAVING">Si se entra en "ahorro de energía"</entry>
+    <entry lang="es" key="IDC_PREF_UNMOUNT_SCREENSAVER">Si se activa el salvapantallas</entry>
+    <entry lang="es" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Forzar desmontaje automático aunque el volumen tenga archivos abiertos</entry>
     <entry lang="es" key="IDC_PREF_LOGON_MOUNT_DEVICES">Montar todos los volúmenes alojados en dispositivos</entry>
     <entry lang="es" key="IDC_PREF_LOGON_START">Iniciar VeraCrypt en segundo plano</entry>
     <entry lang="es" key="IDC_PREF_MOUNT_READONLY">Montar volúmenes como sólo lectura</entry>
@@ -169,7 +169,7 @@
     <entry lang="es" key="IDC_PREF_OPEN_EXPLORER">Abrir en el &amp;explorador el volumen montado con éxito</entry>
     <entry lang="es" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Cachear contraseña temporalmente durante operaciones de montaje de volúmenes favoritos"</entry>
     <entry lang="es" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Usar icono distinto en la barra de tareas si hay volúmenes montados</entry>
-    <entry lang="es" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Eliminar contraseñas guardadas al desmontar automáticamente</entry>
+    <entry lang="es" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Eliminar contraseñas guardadas al desmontar automáticamente</entry>
     <entry lang="es" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Eliminar contraseñas guardadas al salir</entry>
     <entry lang="es" key="IDC_PRESERVE_TIMESTAMPS">Conservar modificaciones de fecha/hora de los contenedores</entry>
     <entry lang="es" key="IDC_RESET_HOTKEYS">Por defecto</entry>
@@ -269,14 +269,14 @@
     <entry lang="es" key="IDT_ACCELERATION_OPTIONS">Aceleración Hardware</entry>
     <entry lang="es" key="IDT_ASSIGN_HOTKEY">Atajo de teclado</entry>
     <entry lang="es" key="IDT_AUTORUN">Configuración de Autoarranque (autorun.inf)</entry>
-    <entry lang="es" key="IDT_AUTO_DISMOUNT">Desmontar automáticamente</entry>
-    <entry lang="es" key="IDT_AUTO_DISMOUNT_ON">Desmontar todo cuando:</entry>
+    <entry lang="es" key="IDT_AUTO_UNMOUNT">Desmontar automáticamente</entry>
+    <entry lang="es" key="IDT_AUTO_UNMOUNT_ON">Desmontar todo cuando:</entry>
     <entry lang="es" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Opciones de Pantalla del Cargador de Arranque</entry>
     <entry lang="es" key="IDT_CONFIRM_PASSWORD">Confirmar Contraseña:</entry>
     <entry lang="es" key="IDT_CURRENT">Actual</entry>
     <entry lang="es" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Mostrar este mensaje personalizado en la pantalla de pre-arranque (24 caracteres max.):</entry>
     <entry lang="es" key="IDT_DEFAULT_MOUNT_OPTIONS">Opciones de Montaje Predeterminadas</entry>
-    <entry lang="es" key="IDT_DISMOUNT_ACTION">Opciones de Atajos de Teclado</entry>
+    <entry lang="es" key="IDT_UNMOUNT_ACTION">Opciones de Atajos de Teclado</entry>
     <entry lang="es" key="IDT_DRIVER_OPTIONS">Configuración del controlador</entry>
     <entry lang="es" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Habilitar soporte para códigos de control de disco extendido</entry>
     <entry lang="es" key="IDT_FAVORITE_LABEL">Etiqueta del volumen favorito seleccionado:</entry>
@@ -423,8 +423,8 @@
     <entry lang="es" key="DEVICE_FREE_PB">El tamaño de %s es %.2f PB</entry>
     <entry lang="es" key="DEVICE_IN_USE_FORMAT">AVISO: El dispositivo/partición está siendo utilizado por el sistema operativo o una aplicación. Formatear el dispositivo/partición puede causar corrupción de datos e inestabilidad del sistema.\n\n¿Continuar?</entry>
     <entry lang="es" key="DEVICE_IN_USE_INPLACE_ENC">AVISO: La partición está siendo usada por el sistema operativo o una aplicación. Debería cerrar cualquier aplicación que pueda estar usando la partición (incluyendo antivirus).\n\n¿Continuar?</entry>
-    <entry lang="es" key="FORMAT_CANT_DISMOUNT_FILESYS">Error: El dispositivo/partición contiene un sistema de archivos que no puede ser desmontado. El sistema de archivos puede estar en uso por el sistema operativo. Formatear el dispositivo/partición muy probablemente causará corrupción de datos e inestabilidad del sistema.\n\nPara solucionarlo, recomendamos que primero borre la partición y luego la vuelva a crear sin formatearla. Para hacerlo siga estos pasos:\n1) Clic derecho en 'Mi PC' o 'Equipo' en el 'Menú inicio' y seleccione 'Administrar'. Aparecerá la ventana 'Administración de equipos'.\n2) En dicha ventana, seleccione 'Almacenamiento' &gt; 'Administración de discos'.\n3) Clic derecho en la partición que desea cifrar y seleccione 'Borrar la partición', 'Borrar Volumen' o 'Borrar unidad lógica'.\n4) Clic en 'Aceptar'. Si Windows pregunta si quiere reiniciar el ordenador, hágalo. Entonces repita los pasos 1 y 2 y continúe desde el paso 5. 5)\nClic derecho en el área no asignada/espacio libre y seleccione 'Partición nueva', 'Volumen simple nuevo' o 'Unidad lógica nueva'.\n6) El 'Asistente de partición nueva' o 'Asistente de volumen simple nuevo' deberá aparecer; siga las instrucciones. Cuando en el asistente indique 'Formatear Partición', seleccione 'No formatear esta partición' o 'No formatear este volumen'. En el mismo asistente, clic en 'Siguiente' y despues en 'Finalizar'.\n7) La ruta del dispositivo seleccionado en VeraCrypt podría ser incorrecta ahora. Por tanto, salga del Asistente de Creación de Volúmenes VeraCrypt (si aún está en ejecución) y ábralo de nuevo.\n8) Intente cifrar nuevamente el dispositivo/partición.\n\nSi VeraCrypt falla repetidamente al cifrar el dispositivo/partición, considere crear un contenedor de archivos en su lugar.</entry>
-    <entry lang="es" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Error: El sistema de archivos no pudo ser bloqueado y/o desmontado. Podría estar siendo usado por el sistema operativo o alguna aplicación (como un antivirus). Cifrar la partición podría causar corrupción de datos e inestabilidad del sistema.\n\nPor favor cierre cualquier aplicación que pueda estar usando el sistema de archivos (incluyendo antivirus) y reinténtelo. Si esto no funciona, siga los pasos que hay más abajo.</entry>
+    <entry lang="es" key="FORMAT_CANT_UNMOUNT_FILESYS">Error: El dispositivo/partición contiene un sistema de archivos que no puede ser desmontado. El sistema de archivos puede estar en uso por el sistema operativo. Formatear el dispositivo/partición muy probablemente causará corrupción de datos e inestabilidad del sistema.\n\nPara solucionarlo, recomendamos que primero borre la partición y luego la vuelva a crear sin formatearla. Para hacerlo siga estos pasos:\n1) Clic derecho en 'Mi PC' o 'Equipo' en el 'Menú inicio' y seleccione 'Administrar'. Aparecerá la ventana 'Administración de equipos'.\n2) En dicha ventana, seleccione 'Almacenamiento' &gt; 'Administración de discos'.\n3) Clic derecho en la partición que desea cifrar y seleccione 'Borrar la partición', 'Borrar Volumen' o 'Borrar unidad lógica'.\n4) Clic en 'Aceptar'. Si Windows pregunta si quiere reiniciar el ordenador, hágalo. Entonces repita los pasos 1 y 2 y continúe desde el paso 5. 5)\nClic derecho en el área no asignada/espacio libre y seleccione 'Partición nueva', 'Volumen simple nuevo' o 'Unidad lógica nueva'.\n6) El 'Asistente de partición nueva' o 'Asistente de volumen simple nuevo' deberá aparecer; siga las instrucciones. Cuando en el asistente indique 'Formatear Partición', seleccione 'No formatear esta partición' o 'No formatear este volumen'. En el mismo asistente, clic en 'Siguiente' y despues en 'Finalizar'.\n7) La ruta del dispositivo seleccionado en VeraCrypt podría ser incorrecta ahora. Por tanto, salga del Asistente de Creación de Volúmenes VeraCrypt (si aún está en ejecución) y ábralo de nuevo.\n8) Intente cifrar nuevamente el dispositivo/partición.\n\nSi VeraCrypt falla repetidamente al cifrar el dispositivo/partición, considere crear un contenedor de archivos en su lugar.</entry>
+    <entry lang="es" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Error: El sistema de archivos no pudo ser bloqueado y/o desmontado. Podría estar siendo usado por el sistema operativo o alguna aplicación (como un antivirus). Cifrar la partición podría causar corrupción de datos e inestabilidad del sistema.\n\nPor favor cierre cualquier aplicación que pueda estar usando el sistema de archivos (incluyendo antivirus) y reinténtelo. Si esto no funciona, siga los pasos que hay más abajo.</entry>
     <entry lang="es" key="DEVICE_IN_USE_INFO">AVISO: ¡Algunos de los dispositivos/particiones montados ya estaban en uso!\n\nIgnorar esto puede causar resultados no deseados incluyendo inestabilidad del sistema.\n\nSe recomienda encarecidamente que cierre cualquier aplicación que esté usando el dispositivo/partición.</entry>
     <entry lang="es" key="DEVICE_PARTITIONS_ERR">El dispositivo seleccionado contiene particiones.\n\nFormatear el dispositivo puede causar inestabilidad del sistema y/o corrupción de datos. Seleccione una partición en el dispositivo o elimine todas las particiones del dispositivo para permitir que VeraCrypt lo formatee con seguridad.</entry>
     <entry lang="es" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">El dispositivo secundario seleccionado contiene particiones.\n\nLos volúmenes VeraCrypt cifrados alojados en dispositivos pueden ser creados en dispositivos que no contienen particiones (incluyendo discos duros y unidades de estado sólido). Un dispositivo que contiene particiones puede ser cifrado por completo sin modificarlas (usando una única clave maestra) sólo si es la unidad donde Windows está instalado y desde la que arranca.\n\nSi desea cifrar el dispositivo secundario seleccionado usando una única clave maestra, necesitará eliminar antes todas las particiones del dispositivo para permitir que VeraCrypt lo formatee con seguridad (formatear un dispositivo que contiene particiones podría causar inestabilidad del sistema y/o corrupción de datos). Como alternativa, puede cifrar cada partición del dispositivo individualmente (cada partición será cifrada usando una clave maestra diferente).\n\nNota: Si desea eliminar todas las particiones de un disco GPT, podría necesitar convertirlo primero en un disco MBR (usando p.e. el Administrador de Equipos) para eliminar particiones ocultas.</entry>
@@ -590,7 +590,7 @@
     <entry lang="es" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Error: Los archivos que copió al volumen externo ocupan demasiado espacio. Por tanto, no hay suficiente espacio libre en el volumen externo para el volumen oculto.\n\nTenga en cuenta que el volumen oculto debe ser al menos tan grande como la partición del sistema (la partición donde el sistema operativo en ejecución está instalado). La razón es que el sistema operativo oculto necesita ser creado copiando el contenido de la partición del sistema al volumen oculto.\n\n\nEl proceso de creación del sistema operativo oculto no puede continuar.</entry>
     <entry lang="es" key="OPENFILES_DRIVER">El controlador no puede desmontar el volumen. Algunos archivos situados en el volumen probablemente siguen abiertos.</entry>
     <entry lang="es" key="OPENFILES_LOCK">No se puede bloquear el volumen. Todavía hay archivos abiertos en él. Por lo tanto, no puede ser desmontado.</entry>
-    <entry lang="es" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt no puede bloquear el volumen porque está siendo usado por el sistema o alguna aplicación (puede haber archivos abiertos en el volumen).\n\n¿Quieres forzar el desmontaje del volumen?</entry>
+    <entry lang="es" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt no puede bloquear el volumen porque está siendo usado por el sistema o alguna aplicación (puede haber archivos abiertos en el volumen).\n\n¿Quieres forzar el desmontaje del volumen?</entry>
     <entry lang="es" key="OPEN_VOL_TITLE">Seleccione un volumen VeraCrypt</entry>
     <entry lang="es" key="OPEN_TITLE">Especifique la ubicación y el nombre del archivo</entry>
     <entry lang="es" key="SELECT_PKCS11_MODULE">Seleccione librería PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="es" key="DLL_FILES">Módulos de Librería</entry>
     <entry lang="es" key="FORMAT_NTFS_STOP">El formateo NTFS/exFAT/ReFS no puede continuar.</entry>
     <entry lang="es" key="CANT_MOUNT_VOLUME">No se puede montar el volumen.</entry>
-    <entry lang="es" key="CANT_DISMOUNT_VOLUME">No se puede desmontar el volumen.</entry>
+    <entry lang="es" key="CANT_UNMOUNT_VOLUME">No se puede desmontar el volumen.</entry>
     <entry lang="es" key="FORMAT_NTFS_FAILED">Windows falló al formatear el volumen como NTFS/exFAT/ReFS.\n\nPor favor seleccione un tipo diferente de sistema de archivos (si es posible) y reinténtelo. Alternativamente, puede dejar el volumen sin formato (seleccione 'Ninguno' como sistema de archivos), salir del asistente, montar el volumen, y usar una herramienta del sistema o de terceros para formatear el volumen montado (el volumen permanecerá cifrado).</entry>
     <entry lang="es" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows fallo al formatear el volumen como NTFS.\n\n¿Desea formatear el volumen como FAT en su lugar?</entry>
     <entry lang="es" key="DEFAULT">Por defecto</entry>
@@ -771,7 +771,7 @@
     <entry lang="es" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Un error evitó que VeraCrypt cifrara la partición. Por favor intente arreglar cualquier problema reportado previamente y reinténtelo. Si el problema continúa, podría ayudar el seguir los siguientes pasos.</entry>
     <entry lang="es" key="INPLACE_ENC_GENERIC_ERR_RESUME">Un error evitó que VeraCrypt continuara el proceso de cifrado/descifrado de la partición/volumen.\n\nPor favor intente arreglar cualquier problema reportado previamente y trate de continuar el proceso de nuevo. Recuerde que el volumen no puede montarse hasta que haya sido cifrado o descifrado por completo.</entry>
     <entry lang="es" key="INPLACE_DEC_GENERIC_ERR">Ha ocurrido un error durante el proceso descifrado del volumen. Por favor, trate de solucionar los problemas antes indicados y reintente nuevamente.</entry>
-    <entry lang="es" key="CANT_DISMOUNT_OUTER_VOL">Error: ¡No se puede desmontar el volumen externo!\n\nEl volumen no puede ser desmontado si contiene carpetas o archivos que estén siendo usados por el sistema o una aplicación.\n\nCierre los programas que puedan estar usando las carpetas o archivos del volumen y pulse Reintentar.</entry>
+    <entry lang="es" key="CANT_UNMOUNT_OUTER_VOL">Error: ¡No se puede desmontar el volumen externo!\n\nEl volumen no puede ser desmontado si contiene carpetas o archivos que estén siendo usados por el sistema o una aplicación.\n\nCierre los programas que puedan estar usando las carpetas o archivos del volumen y pulse Reintentar.</entry>
     <entry lang="es" key="CANT_GET_OUTER_VOL_INFO">Error: ¡No se puede obtener información acerca del volumen externo! La creación del volumen no puede continuar.</entry>
     <entry lang="es" key="CANT_ACCESS_OUTER_VOL">Error: ¡No se puede acceder al volumen externo! La creación del volumen no puede continuar.</entry>
     <entry lang="es" key="CANT_MOUNT_OUTER_VOL">Error: ¡No se puede montar el volumen externo! la creación del volumen no puede continuar.</entry>
@@ -882,7 +882,7 @@
     <entry lang="es" key="INSTALL_COMPLETED">Instalación completada.</entry>
     <entry lang="es" key="CANT_CREATE_FOLDER">La carpeta '%s' no pudo ser creada</entry>
     <entry lang="es" key="CLOSE_TC_FIRST">No se puede detener el controlador de dispositivos VeraCrypt.\n\nCierre todas las ventanas abiertas de VeraCrypt primero. Si no funciona, reinicie Windows y reinténtelo.</entry>
-    <entry lang="es" key="DISMOUNT_ALL_FIRST">Se deben desmontar todos los volúmenes VeraCrypt antes de instalar/desinstalar VeraCrypt.</entry>
+    <entry lang="es" key="UNMOUNT_ALL_FIRST">Se deben desmontar todos los volúmenes VeraCrypt antes de instalar/desinstalar VeraCrypt.</entry>
     <entry lang="es" key="UNINSTALL_OLD_VERSION_FIRST">Una versión obsoleta de VeraCrypt está instalada en este sistema. Debe ser desinstalada antes de instalar esta nueva versión de VeraCrypt.\n\nTan pronto como cierre este mensaje, se lanzará el desinstalador de la versión antigua. Tenga en cuenta que ningún volumen será descifrado al desinstalar VeraCrypt. Tras desinstalar la versión antigua de VeraCrypt, ejecute el instalador de la versión nueva otra vez.</entry>
     <entry lang="es" key="REG_INSTALL_FAILED">La instalación de las entradas del registro ha fallado</entry>
     <entry lang="es" key="DRIVER_INSTALL_FAILED">La instalación del controlador de dispositivos ha fallado. Reinicie Windows e intente instalar VeraCrypt de nuevo.</entry>
@@ -903,7 +903,7 @@
     <entry lang="es" key="MINUTES">minutos</entry>
     <entry lang="es" key="SECONDS">s</entry>
     <entry lang="es" key="OPEN">Abrir</entry>
-    <entry lang="es" key="DISMOUNT">Desmontar</entry>
+    <entry lang="es" key="UNMOUNT">Desmontar</entry>
     <entry lang="es" key="SHOW_TC">Mostrar VeraCrypt</entry>
     <entry lang="es" key="HIDE_TC">Ocultar VeraCrypt</entry>
     <entry lang="es" key="TOTAL_DATA_READ">Datos leídos desde el montaje</entry>
@@ -975,7 +975,7 @@
     <entry lang="es" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Volúmenes Favoritos del Sistema</entry>
     <entry lang="es" key="SYS_FAVORITES_HELP_LINK">¿Qué son los volúmenes favoritos del sistema?</entry>
     <entry lang="es" key="SYS_FAVORITES_REQUIRE_PBA">La partición/unidad del sistema no parece estar cifrada.\n\nLos volúmenes favoritos del sistema sólo pueden ser montados usando una contraseña de autenticación de pre-arranque. Por tanto, para habilitar el uso de los volúmenes favoritos del sistema, es necesario cifrar la partición/unidad del sistema primero.</entry>
-    <entry lang="es" key="DISMOUNT_FIRST">Por favor desmonte el volumen antes de continuar.</entry>
+    <entry lang="es" key="UNMOUNT_FIRST">Por favor desmonte el volumen antes de continuar.</entry>
     <entry lang="es" key="CANNOT_SET_TIMER">Error: No se puede establecer el temporizador.</entry>
     <entry lang="es" key="IDPM_CHECK_FILESYS">Comprobar Sistema de Archivos</entry>
     <entry lang="es" key="IDPM_REPAIR_FILESYS">Reparar Sistema de Archivos</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="es" key="NO_SYSENC_PARTITION_SELECTED">No hay ninguna partición seleccionada.\n\nPulse 'Seleccionar Dispositivo' para seleccionar una partición desmontada que normalmente requiere autenticación de pre-arranque (por ejemplo, una partición ubicada en la unidad del sistema cifrada de otro sistema operativo, que no se esté ejecutando, o la partición del sistema cifrada de otro sistema operativo).\n\nNota: La partición seleccionada será montada como un volumen VeraCrypt normal sin autenticación de pre-arranque. Esto es útil p.e. para operaciones de reparación o copia de seguridad.</entry>
     <entry lang="es" key="CONFIRM_SAVE_DEFAULT_KEYFILES">AVISO: Si se activa 'Archivos-clave por defecto', los volúmenes que no usen estos archivos-clave no se podrán montar. Por tanto, tras activar los archivos-clave por defecto, recuerde desactivar la casilla 'Usar archivos-clave' (bajo el cuadro de texto de la contraseña) al montar dichos volúmenes.\n\n¿Seguro que desea guardar los archivos-clave y ubicaciones seleccionadas como predeterminados?</entry>
     <entry lang="es" key="HK_AUTOMOUNT_DEVICES">Montar dispositivos autom.</entry>
-    <entry lang="es" key="HK_DISMOUNT_ALL">Desmontar Todo</entry>
+    <entry lang="es" key="HK_UNMOUNT_ALL">Desmontar Todo</entry>
     <entry lang="es" key="HK_WIPE_CACHE">Borrar Caché</entry>
-    <entry lang="es" key="HK_DISMOUNT_ALL_AND_WIPE">Desmontar Todo  &amp;  Borrar Caché</entry>
-    <entry lang="es" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Desmontar Todo  &amp;  Borrar Caché (forzar)</entry>
-    <entry lang="es" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Desmontar Todo,  Borrar Caché  &amp;  Salir (forzar)</entry>
+    <entry lang="es" key="HK_UNMOUNT_ALL_AND_WIPE">Desmontar Todo  &amp;  Borrar Caché</entry>
+    <entry lang="es" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Desmontar Todo  &amp;  Borrar Caché (forzar)</entry>
+    <entry lang="es" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Desmontar Todo,  Borrar Caché  &amp;  Salir (forzar)</entry>
     <entry lang="es" key="HK_MOUNT_FAVORITE_VOLUMES">Montar Volúmenes Favoritos</entry>
     <entry lang="es" key="HK_SHOW_HIDE_MAIN_WINDOW">Mostrar/Ocultar ventana principal de VeraCrypt</entry>
     <entry lang="es" key="PRESS_A_KEY_TO_ASSIGN">(Haga clic aquí y pulse una tecla)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="es" key="PAGING_FILE_CREATION_PREVENTED">Se ha evitado la creación del archivo de paginación.\n\nTenga en cuenta que, debido a un problema de Windows, los archivos de paginación no pueden ubicarse en volúmenes VeraCrypt secundarios (incluyendo los volúmenes favoritos del sistema). VeraCrypt sólo soporta la creación de archivos de paginación en una unidad/partición cifrada del sistema.</entry>
     <entry lang="es" key="SYS_ENC_HIBERNATION_PREVENTED">Un error o incompatibilidad impide que VeraCrypt cifre el archivo de hibernación. Por tanto, la hibernación ha sido evitada.\n\nNota: Cuando un ordenador hiberna (o entra en modo de ahorro de energía), el contenido de su memoria se escribe en un archivo de almacenamiento de hibernación que reside en la unidad del sistema. Puede que VeraCrypt no sea capaz de evitar que las claves de cifrado y los contenidos de archivos sensibles abiertos en la RAM sean guardados sin cifrar en el archivo de hibernación.</entry>
     <entry lang="es" key="HIDDEN_OS_HIBERNATION_PREVENTED">Se ha impedido la hibernación.\n\nVeraCrypt no soporta la hibernación en sistemas operativos ocultos que usan una partición de arranque adicional. Recuerde que la partición de arranque es compartida por el sistema operativo señuelo y por el oculto. Por tanto, para evitar filtraciones de datos y problemas al reanudar tras la hibernación, VeraCrypt debe impedir que el sistema operativo oculto hiberne o escriba en la partición de arranque compartida.</entry>
-    <entry lang="es" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">El volumen VeraCrypt montado como %c: ha sido desmontado.</entry>
-    <entry lang="es" key="MOUNTED_VOLUMES_DISMOUNTED">Los volúmenes VeraCrypt han sido desmontados.</entry>
-    <entry lang="es" key="VOLUMES_DISMOUNTED_CACHE_WIPED">Los volúmenes VeraCrypt han sido desmontados y la caché de contraseñas ha sido borrada.</entry>
-    <entry lang="es" key="SUCCESSFULLY_DISMOUNTED">Desmontado con éxito</entry>
+    <entry lang="es" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">El volumen VeraCrypt montado como %c: ha sido desmontado.</entry>
+    <entry lang="es" key="MOUNTED_VOLUMES_UNMOUNTED">Los volúmenes VeraCrypt han sido desmontados.</entry>
+    <entry lang="es" key="VOLUMES_UNMOUNTED_CACHE_WIPED">Los volúmenes VeraCrypt han sido desmontados y la caché de contraseñas ha sido borrada.</entry>
+    <entry lang="es" key="SUCCESSFULLY_UNMOUNTED">Desmontado con éxito</entry>
     <entry lang="es" key="CONFIRM_BACKGROUND_TASK_DISABLED">AVISO: Si VeraCrypt en Segundo Plano no está habilitado, tampoco lo estarán las siguientes funciones:\n\n1) Atajos de teclado\n2) Desmontaje automático (p.e. al cerrar sesión, retirar involuntariamente el dispositivo, etc.)\n3) Montaje automático de volúmenes favoritos\n4) Notificaciones (p.e., cuando se evita el daño a un volumen oculto)\n5) Icono en área de notificación.\n\nNota: Puede cerrar el Segundo Plano haciendo clic derecho en el icono del área de notificación y seleccionando 'Salir'.\n\n¿Seguro que desea deshabilitar permanentemente VeraCrypt en Segundo Plano?</entry>
-    <entry lang="es" key="CONFIRM_NO_FORCED_AUTODISMOUNT">AVISO: Si esta opción es deshabilitada, no se podrán desmontar automáticamente volúmenes que contengan archivos/directorios abiertos. ¿Seguro que desea deshabilitar esta opción?</entry>
-    <entry lang="es" key="WARN_PREF_AUTO_DISMOUNT">AVISO: los volúmenes que contengan archivos/directorios abiertos no se desmontarán autom.\n\n Para evitarlo, habilite la siguiente opción en esta misma ventana: 'Forzar desmontaje automático aunque el volumen tenga archivos abiertos'</entry>
-    <entry lang="es" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">AVISO: Cuando la batería esté baja, Windows puede no enviar los mensajes apropiados a las aplicaciones en ejecución cuando el ordenador esté entrando en modo de ahorro de energía. Por tanto, VeraCrypt podría no desmontar autom. los volúmenes correctamente.</entry>
+    <entry lang="es" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">AVISO: Si esta opción es deshabilitada, no se podrán desmontar automáticamente volúmenes que contengan archivos/directorios abiertos. ¿Seguro que desea deshabilitar esta opción?</entry>
+    <entry lang="es" key="WARN_PREF_AUTO_UNMOUNT">AVISO: los volúmenes que contengan archivos/directorios abiertos no se desmontarán autom.\n\n Para evitarlo, habilite la siguiente opción en esta misma ventana: 'Forzar desmontaje automático aunque el volumen tenga archivos abiertos'</entry>
+    <entry lang="es" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">AVISO: Cuando la batería esté baja, Windows puede no enviar los mensajes apropiados a las aplicaciones en ejecución cuando el ordenador esté entrando en modo de ahorro de energía. Por tanto, VeraCrypt podría no desmontar autom. los volúmenes correctamente.</entry>
     <entry lang="es" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Ha programado el proceso de cifrado de una partición/volumen. El proceso aún no ha sido completado.\n\n¿Desea continuar el proceso ahora?</entry>
     <entry lang="es" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Ha programado el proceso de cifrado o descifrado de la partición/unidad del sistema. El proceso aún no ha sido completado.\n\n¿Desea iniciar (continuar) el proceso ahora?</entry>
     <entry lang="es" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">¿Desea que se le pregunte si quiere o no continuar los procesos actualmente programados de cifrado/descifrado de particiones/volúmenes secundarios?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="es" key="SYS_AUTOMOUNT_DISABLED">Su sistema no está configurado para montar automáticamente nuevos volúmenes. Puede ser imposible montar volúmenes VeraCrypt alojados en dispositivos. Se puede habilitar el montaje automático ejecutando el siguiente comando y reiniciando el sistema.\n\nmountvol.exe /E</entry>
     <entry lang="es" key="SYS_ASSIGN_DRIVE_LETTER">Asigne una letra de unidad a la partición/dispositivo antes de proceder ('Panel de Control' &gt; 'Sistema y mantenimiento' &gt; 'Herramientas Administrativas' - 'Crear y formatear particiones de disco duro').\n\nTenga en cuenta que este es un requisito del sistema operativo.</entry>
     <entry lang="es" key="MOUNT_TC_VOLUME">Montar volumen VeraCrypt</entry>
-    <entry lang="es" key="DISMOUNT_ALL_TC_VOLUMES">Desmontar todos los volúmenes VeraCrypt</entry>
+    <entry lang="es" key="UNMOUNT_ALL_TC_VOLUMES">Desmontar todos los volúmenes VeraCrypt</entry>
     <entry lang="es" key="UAC_INIT_ERROR">VeraCrypt no ha podido obtener privilegios de Administrador.</entry>
     <entry lang="es" key="ERR_ACCESS_DENIED">Acceso denegado por el sistema operativo.\n\nCausa posible: el sistema operativo requiere que tenga permisos de lectura/escritura (o privilegios de administrador) sobre ciertas carpetas, archivos y dispositivos, para permitirle leer/escribir información de/en ellos. Normalmente, un usuario sin privilegios de administrador tiene permitido crear, leer y modificar archivos en su carpeta 'Mis documentos'.</entry>
     <entry lang="es" key="SECTOR_SIZE_UNSUPPORTED">Error: La unidad usa un tamaño de sector no soportado.\n\nActualmente no es posible crear volúmenes alojados en dispositivos o particiones que usen sectores mayores de 4096 bytes. Sin embargo, recuerde que puede crear volúmenes alojados en archivo (contenedores) en estas unidades.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="es" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Recuerde que el número de hilos está actualmente limitado, lo que afectará a los resultados (peor rendimiento).\n\nPara utilizar toda la potencia de los procesadores, seleccione 'Configuración' &gt; 'Rendimiento' y desmarque la casilla correspondiente.</entry>
     <entry lang="es" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">¿Desea que VeraCrypt intente desactivar la protección contra escritura de la partición/unidad?</entry>
     <entry lang="es" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">AVISO: Esta configuración puede perjudicar el rendimiento.\n\n¿Seguro que desea aplicarla?</entry>
-    <entry lang="es" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">AVISO: volumen VeraCrypt auto-desmontado</entry>
-    <entry lang="es" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Antes de eliminar o desactivar un dispositivo que contenga un volumen montado, debería desmontar el volumen en VeraCrypt primero.\n\nLos desmontajes espontáneos inesperados a menudo son causados por cables que fallan intermitentemente, carcasas defectuosas, etc.</entry>
+    <entry lang="es" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">AVISO: volumen VeraCrypt auto-desmontado</entry>
+    <entry lang="es" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Antes de eliminar o desactivar un dispositivo que contenga un volumen montado, debería desmontar el volumen en VeraCrypt primero.\n\nLos desmontajes espontáneos inesperados a menudo son causados por cables que fallan intermitentemente, carcasas defectuosas, etc.</entry>
     <entry lang="es" key="UNSUPPORTED_TRUECRYPT_FORMAT">Este volumen se creó con TrueCrypt %x.%x pero VeraCrypt sólo soporta volúmenes de TrueCrypt creados con TrueCrypt 6.x/7.x</entry>
     <entry lang="es" key="TEST">Probar</entry>
     <entry lang="es" key="KEYFILE">Archivo-clave</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="es" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Añadir todos los volúmenes montados a Favoritos...</entry>
     <entry lang="es" key="TASKICON_PREF_MENU_ITEMS">Elementos del menú de iconos de tareas</entry>
     <entry lang="es" key="TASKICON_PREF_OPEN_VOL">Abrir volúmenes montados</entry>
-    <entry lang="es" key="TASKICON_PREF_DISMOUNT_VOL">Desmontar volúmenes montados</entry>
+    <entry lang="es" key="TASKICON_PREF_UNMOUNT_VOL">Desmontar volúmenes montados</entry>
     <entry lang="es" key="DISK_FREE">Espacio libre disponible: {0}</entry>
     <entry lang="es" key="VOLUME_SIZE_HELP">Especifique el tamaño del contenedor a crear. Tenga en cuenta que el tamaño mínimo posible de un volumen es de 292 KiB.</entry>
     <entry lang="es" key="LINUX_CONFIRM_INNER_VOLUME_CALC">ADVERTENCIA: Has seleccionado un sistema de archivos que no es FAT para el volumen externo.\nTen en cuenta que en este caso VeraCrypt no puede calcular el tamaño máximo exacto permitido para el volumen oculto y sólo utilizará una estimación que puede ser errónea.\nPor lo tanto, es tu responsabilidad utilizar un valor adecuado para el tamaño del volumen oculto para que no se sobreponga al volumen externo.\n¿Deseas continuar utilizando el sistema de archivos seleccionado para el volumen externo?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="es" key="LINUX_DO_NOT_MOUNT">No montar</entry>
     <entry lang="es" key="LINUX_MOUNT_AT_DIR">Montar en el directorio:</entry>
     <entry lang="es" key="LINUX_SELECT">Seleccionar..."</entry>
-    <entry lang="es" key="LINUX_DISMOUNT_ALL_WHEN">Desmontar Todos los Volúmenes Cuando</entry>
+    <entry lang="es" key="LINUX_UNMOUNT_ALL_WHEN">Desmontar Todos los Volúmenes Cuando</entry>
     <entry lang="es" key="LINUX_ENTERING_POWERSAVING">El sistema está entrando en modo de ahorro de energía</entry>
     <entry lang="es" key="LINUX_LOGIN_ACTION">Acciones a Realizar cuando el Usuario Inicia Sesión</entry>
-    <entry lang="es" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Cerrar todas las ventanas del Explorador del volumen que se está desmontando</entry>
+    <entry lang="es" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Cerrar todas las ventanas del Explorador del volumen que se está desmontando</entry>
     <entry lang="es" key="LINUX_HOTKEYS">Teclas de Acceso Rápido</entry>
     <entry lang="es" key="LINUX_SYSTEM_HOTKEYS">Teclas de Acceso Rápido del Sistema</entry>
     <entry lang="es" key="LINUX_SOUND_NOTIFICATION">Reproducir sonido de notificación del sistema después de montar/desmontar</entry>
-    <entry lang="es" key="LINUX_CONFIRM_AFTER_DISMOUNT">Mostrar cuadro de mensaje de confirmación después de desmontar</entry>
+    <entry lang="es" key="LINUX_CONFIRM_AFTER_UNMOUNT">Mostrar cuadro de mensaje de confirmación después de desmontar</entry>
     <entry lang="es" key="LINUX_VC_QUITS">VeraCrypt se cierra</entry>
     <entry lang="es" key="LINUX_OPEN_FINDER">Abrir ventana del Finder para el volumen montado con éxito</entry>
     <entry lang="es" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Tenga en cuenta que esta configuración solo tendrá efecto si se deshabilita el uso de los servicios criptográficos del kernel.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="es" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="es" key="LINUX_NOT_SUPPORTED"> (no es compatible con los componentes disponibles en esta plataforma).\n</entry>
     <entry lang="es" key="LINUX_KERNEL_OLD">Su sistema utiliza una versión antigua del kernel de Linux.\n\nDebido a un error en el kernel de Linux, su sistema puede dejar de responder al escribir datos en un volumen de VeraCrypt. Este problema se puede resolver actualizando el kernel a la versión 2.6.24 o posterior.</entry>
-    <entry lang="es" key="LINUX_VOL_DISMOUNTED">El volumen {0} ha sido desmontado.</entry>
+    <entry lang="es" key="LINUX_VOL_UNMOUNTED">El volumen {0} ha sido desmontado.</entry>
     <entry lang="es" key="LINUX_VOL_MOUNTED">El volumen {0} ha sido montado.</entry>
     <entry lang="es" key="LINUX_OOM">Memoria insuficiente.</entry>
     <entry lang="es" key="LINUX_CANT_GET_ADMIN_PRIV">Fallo al obtener privilegios de administrador</entry>
@@ -1641,6 +1641,9 @@
     <entry lang="es" key="ERR_XTS_MASTERKEY_VULNERABLE">ADVERTENCIA: La clave maestra del volumen es vulnerable a un ataque que compromete la seguridad de los datos.\n\nCree un nuevo volumen y transfiera los datos a él.</entry>
     <entry lang="es" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">ADVERTENCIA: La clave maestra del sistema cifrado es vulnerable a un ataque que compromete la seguridad de los datos.\nDescifre la partición/unidad del sistema y luego vuelva a cifrarla.</entry>
     <entry lang="es" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">ADVERTENCIA: La clave maestra del volumen tiene una vulnerabilidad de seguridad.</entry>
+    <entry lang="es" key="MOUNTPOINT_BLOCKED">ERROR: El punto de montaje del volumen está bloqueado porque sobrescribe un directorio protegido del sistema.\n\nElija un punto de montaje diferente.</entry>
+    <entry lang="es" key="MOUNTPOINT_NOTALLOWED">ERROR: No se permite el punto de montaje del volumen porque sobrescribe un directorio que forma parte de la ruta PATH.\n\nElija un punto de montaje diferente.</entry>
+    <entry lang="es" key="INSECURE_MODE">[MODO INSEGURO]</entry>
 </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

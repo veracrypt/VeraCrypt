@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -98,6 +98,11 @@ namespace VeraCrypt
 			while (true)
 			{
 				shared_ptr <CoreServiceRequest> request = Serializable::DeserializeNew <CoreServiceRequest> (inputStream);
+
+				// Update Core properties based on the received request
+				Core->SetUserEnvPATH (request->UserEnvPATH);
+				Core->ForceUseDummySudoPassword(request->UseDummySudoPassword);
+				Core->SetAllowInsecureMount(request->AllowInsecureMount);
 
 				try
 				{
@@ -283,50 +288,52 @@ namespace VeraCrypt
 		static Mutex mutex;
 		ScopeLock lock (mutex);
 
+		// Copy Core properties to the request so that they can be transferred to the elevated process
+		request.ApplicationExecutablePath = Core->GetApplicationExecutablePath();
+		request.UserEnvPATH = Core->GetUserEnvPATH();
+		request.UseDummySudoPassword = Core->GetUseDummySudoPassword();
+		request.AllowInsecureMount = Core->GetAllowInsecureMount();
+
 		if (request.RequiresElevation())
 		{
 			request.ElevateUserPrivileges = true;
 			request.FastElevation = !ElevatedServiceAvailable;
-			request.ApplicationExecutablePath = Core->GetApplicationExecutablePath();
-
+			
 			while (!ElevatedServiceAvailable)
 			{
 				//	Test if the user has an active "sudo" session.
-				//	This is only done under Linux / FreeBSD by executing the command 'sudo -n uptime'.
-				//	In case a "sudo" session is active, the result of the command contains the string 'load average'.
-				//	Otherwise, the result contains "sudo: a password is required".
-				//	This may not work on all OSX versions because of a bug in sudo in its version 1.7.10,
-				//	therefore we keep the old behaviour of sending a 'dummy' password under OSX.
-				//	See : https://superuser.com/questions/902826/why-does-sudo-n-on-mac-os-x-always-return-0
-				//
-				//	If for some reason we are getting empty output from pipe, we revert to old behavior
-				//	We also use the old way if the user is forcing the use of dummy password for sudo
-				
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
 				bool authCheckDone = false;
 				if (!Core->GetUseDummySudoPassword ())
-				{
-					std::vector<char> buffer(128, 0);
-					std::string result;
-					
-					FILE* pipe = popen("sudo -n uptime 2>&1 | grep 'load average' | wc -l | tr -d '[:blank:]'", "r");	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+				{	
+					// We are using -n to avoid prompting the user for a password.
+					// We are redirecting stderr to stdout and discarding both to avoid any output.
+					// This approach also works on newer macOS versions (12.0 and later).
+					std::string errorMsg;
+
+					string sudoAbsolutePath = Process::FindSystemBinary("sudo", errorMsg);
+					if (sudoAbsolutePath.empty())
+						throw SystemException(SRC_POS, errorMsg);
+
+					std::string popenCommand = sudoAbsolutePath + " -n true > /dev/null 2>&1";	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+					FILE* pipe = popen(popenCommand.c_str(), "r");
 					if (pipe)
 					{
-						while (!feof(pipe))
-						{
-							if (fgets(buffer.data(), 128, pipe) != nullptr)
-								result += buffer.data();
-						}
-						
-						fflush(pipe);
-						pclose(pipe);
+						// We only care about the exit code  
+						char buf[128];  
+						while (!feof(pipe))  
+						{  
+							if (fgets(buf, sizeof(buf), pipe) == NULL)  
+								break;  
+						}  
+						int status = pclose(pipe);  
 						pipe = NULL;
 						
-						if (!result.empty() && strlen(result.c_str()) != 0)
-						{
-							authCheckDone = true;
-							if (result[0] == '0') // no line found with "load average" text, rerquest admin password
-								(*AdminPasswordCallback) (request.AdminPassword);
+						authCheckDone = true;  
+  
+						// If exit code != 0, user does NOT have an active session => request password  
+						if (status != 0)  
+						{  
+							(*AdminPasswordCallback)(request.AdminPassword);  
 						}
 					}
 					
@@ -336,7 +343,7 @@ namespace VeraCrypt
 						request.FastElevation = false;
 					}
 				}
-#endif				
+			
 				try
 				{
 					request.Serialize (ServiceInputStream);
@@ -353,9 +360,8 @@ namespace VeraCrypt
 					}
 
 					request.FastElevation = false;
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
+
 					if(!authCheckDone)
-#endif
 						(*AdminPasswordCallback) (request.AdminPassword);
 				}
 			}
@@ -405,15 +411,26 @@ namespace VeraCrypt
 			{
 				try
 				{
+					// Throw exception if sudo is not found in secure locations
+					std::string errorMsg;
+					string sudoPath = Process::FindSystemBinary("sudo", errorMsg);
+					if (sudoPath.empty())
+						throw SystemException(SRC_POS, errorMsg);
+
+					string appPath = request.ApplicationExecutablePath;
+					// if appPath is empty or not absolute, use FindSystemBinary to get the full path of veracrpyt executable
+					if (appPath.empty() || appPath[0] != '/')
+					{
+						appPath = Process::FindSystemBinary("veracrypt", errorMsg);
+						if (appPath.empty())
+							throw SystemException(SRC_POS, errorMsg);
+					}
+
 					throw_sys_if (dup2 (inPipe->GetReadFD(), STDIN_FILENO) == -1);
 					throw_sys_if (dup2 (outPipe->GetWriteFD(), STDOUT_FILENO) == -1);
 					throw_sys_if (dup2 (errPipe.GetWriteFD(), STDERR_FILENO) == -1);
 
-					string appPath = request.ApplicationExecutablePath;
-					if (appPath.empty())
-						appPath = "veracrypt";
-
-					const char *args[] = { "sudo", "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
+					const char *args[] = { sudoPath.c_str(), "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
 					execvp (args[0], ((char* const*) args));
 					throw SystemException (SRC_POS, args[0]);
 				}

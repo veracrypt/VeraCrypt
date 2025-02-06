@@ -29,3 +29,54 @@
 #menu li a:hover {
     background-color: #111111;
 }
+
+#currency-form select:hover, #currency-form input[type="submit"]:hover {
+    background-color: #111111;
+    color: white;
+}
+
+#currency-form select {
+    border: 1px solid #08aad7;
+    border-radius: 3px;
+}
+
+#currency-form input[type="submit"] {
+    border-radius: 3px;
+}
+
+.donation-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.donation-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.donation-button a {
+    display: block;
+    text-decoration: none;
+}
+
+.donation-button img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.currency-label {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.donation-button a:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}

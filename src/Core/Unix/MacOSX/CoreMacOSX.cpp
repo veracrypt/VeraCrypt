@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -47,7 +47,7 @@ namespace VeraCrypt
 
 			try
 			{
-				Process::Execute ("hdiutil", args);
+				Process::Execute ("/usr/bin/hdiutil", args);
 			}
 			catch (ExecutedProcessFailed &e)
 			{
@@ -84,7 +84,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Process::Execute ("umount", args);
+				Process::Execute ("/sbin/umount", args);
 				break;
 			}
 			catch (ExecutedProcessFailed&)
@@ -114,7 +114,7 @@ namespace VeraCrypt
 		else
 			args.push_back ("/System/Applications/Utilities/Disk Utility.app");
 
-		Process::Execute ("open", args);
+		Process::Execute ("/usr/bin/open", args);
 	}
 
 	void CoreMacOSX::MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const
@@ -190,7 +190,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				xml = Process::Execute ("hdiutil", args);
+				xml = Process::Execute ("/usr/bin/hdiutil", args);
 				break;
 			}
 			catch (ExecutedProcessFailed &e)
@@ -233,7 +233,7 @@ namespace VeraCrypt
 				args.push_back (volImage);
 				args.push_back ("-force");
 
-				Process::Execute ("hdiutil", args);
+				Process::Execute ("/usr/bin/hdiutil", args);
 			}
 			catch (ExecutedProcessFailed&) { }
 			throw;

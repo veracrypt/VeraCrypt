@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2018 IDRIX. All rights reserved.
+ Copyright (c) 2013-2025 IDRIX. All rights reserved.
 
  Governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source

@@ -29,16 +29,16 @@
 <p>
 <a href="Documentation.html">Documentation</a>
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
-<a href="Normal%20Dismount%20vs%20Force%20Dismount.html">Normal Dismount vs Force Dismount</a>
+<a href="Normal%20Unmount%20vs%20Force%20Unmount.html">Normal Unmount vs Force Unmount</a>
 </p></div>
 
 <div class="wikidoc">
-<h1>Normal Dismount vs Force Dismount</h1>
-<p>Understanding the distinction between "Normal Dismount" and "Force Dismount" operation is important due to the potential impact on user data.</p>
+<h1>Normal Unmount vs Force Unmount</h1>
+<p>Understanding the distinction between "Normal Unmount" and "Force Unmount" operation is important due to the potential impact on user data.</p>
 
-<h2>Normal Dismount Process</h2>
+<h2>Normal Unmount Process</h2>
 
-<p>During a normal dismount process, VeraCrypt performs the following steps:</p>
+<p>During a normal unmount process, VeraCrypt performs the following steps:</p>
 
 <ol>
     <li>Requests the Windows operating system to lock the volume, prohibiting further I/O operations.</li>
@@ -50,27 +50,27 @@
 
 <p>In this flow, steps 1 and 2 may fail if there are open files on the volume. Notably, even if all user applications accessing files on the volume are closed, Windows might still keep the files open until the I/O cache is completely flushed.</p>
 
-<h2>Force Dismount Process</h2>
+<h2>Force Unmount Process</h2>
 
-<p>The Force Dismount process is distinct but largely similar to the Normal Dismount. It essentially follows the same steps but disregards any failures that might occur during steps 1 and 2, and carries on with the rest of the procedure. However, if there are files open by the user or if the volume I/O cache has not yet been flushed, this could result in potential data loss. This situation parallels forcibly removing a USB device from your computer while Windows is still indicating its active usage.</p>
+<p>The Force Unmount process is distinct but largely similar to the Normal Unmount. It essentially follows the same steps but disregards any failures that might occur during steps 1 and 2, and carries on with the rest of the procedure. However, if there are files open by the user or if the volume I/O cache has not yet been flushed, this could result in potential data loss. This situation parallels forcibly removing a USB device from your computer while Windows is still indicating its active usage.</p>
 
-<p>Provided all applications using files on the mounted volume have been successfully closed and the I/O cache is fully flushed, neither data loss nor data/filesystem corruption should occur when executing a 'force dismount'. As in a normal dismount, the encryption keys are erased from RAM upon successful completion of a 'Force Dismount'.</p>
+<p>Provided all applications using files on the mounted volume have been successfully closed and the I/O cache is fully flushed, neither data loss nor data/filesystem corruption should occur when executing a 'force unmount'. As in a normal unmount, the encryption keys are erased from RAM upon successful completion of a 'Force Unmount'.</p>
 
-<h2>How to Trigger Force Dismount</h2>
+<h2>How to Trigger Force Unmount</h2>
 
-<p>There are three approaches to trigger a force dismount in VeraCrypt:</p>
+<p>There are three approaches to trigger a force unmount in VeraCrypt:</p>
 
 <ol>
-    <li>Through the popup window that appears if a normal dismount attempt is unsuccessful.</li>
-    <li>Via Preferences, by checking the "force auto-dismount" option in the "Auto-Dismount" section.</li>
-    <li>Using the command line, by incorporating the /force or /f switch along with the /d or /dismount switch.</li>
+    <li>Through the popup window that appears if a normal unmount attempt is unsuccessful.</li>
+    <li>Via Preferences, by checking the "force auto-unmount" option in the "Auto-Unmount" section.</li>
+    <li>Using the command line, by incorporating the /force or /f switch along with the /d or /unmount switch.</li>
 </ol>
 
-<p>In order to avoid inadvertent data loss or corruption, always ensure to follow suitable precautions when dismounting a VeraCrypt volume. This includes</p>
+<p>In order to avoid inadvertent data loss or corruption, always ensure to follow suitable precautions when unmounting a VeraCrypt volume. This includes</p>
 <ol>
-    <li>Ensuring all files on the volume are closed before initiating a dismount.</li>
+    <li>Ensuring all files on the volume are closed before initiating a unmount.</li>
     <li>Allowing some time after closing all files to ensure Windows has completely flushed the I/O cache.</li>
-	<li>Take note that some antivirus software may keep file handles open on the volume after performing a scan, hindering a successful Normal Dismount. If you experience this issue, you might consider excluding the VeraCrypt volume from your antivirus scans. Alternatively, consult with your antivirus software provider to understand how their product interacts with VeraCrypt volumes and how to ensure it doesn't retain open file handles.</li>
+	<li>Take note that some antivirus software may keep file handles open on the volume after performing a scan, hindering a successful Normal Unmount. If you experience this issue, you might consider excluding the VeraCrypt volume from your antivirus scans. Alternatively, consult with your antivirus software provider to understand how their product interacts with VeraCrypt volumes and how to ensure it doesn't retain open file handles.</li>
 </ol>
 
 

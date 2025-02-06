@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -27,11 +27,72 @@
 
 namespace VeraCrypt
 {
-	string Process::Execute (const string &processName, const list <string> &arguments, int timeOut, ProcessExecFunctor *execFunctor, const Buffer *inputData)
+
+	bool Process::IsExecutable(const std::string& path) {
+		struct stat sb;
+		if (stat(path.c_str(), &sb) == 0) {
+			return S_ISREG(sb.st_mode) && (sb.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH));
+		}
+		return false;
+	}
+
+	// Find executable in system paths
+	std::string Process::FindSystemBinary(const char* name, std::string& errorMsg) {
+		if (!name) {
+			errno = EINVAL; // Invalid argument
+			errorMsg = "Invalid input: name or paths is NULL";
+			return "";
+		}
+
+		// Default system directories to search for executables
+#ifdef TC_MACOSX
+		const char* defaultDirs[] = {"/usr/local/bin", "/usr/bin", "/bin", "/user/sbin", "/sbin"};
+#elif TC_FREEBSD
+		const char* defaultDirs[] = {"/sbin", "/bin", "/usr/sbin", "/usr/bin", "/usr/local/sbin", "/usr/local/bin"};
+#elif TC_OPENBSD
+		const char* defaultDirs[] = {"/sbin", "/bin", "/usr/sbin", "/usr/bin", "/usr/X11R6/bin", "/usr/local/sbin", "/usr/local/bin"};
+#else
+		const char* defaultDirs[] = {"/usr/local/sbin", "/usr/local/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin"};
+#endif
+		const size_t defaultDirCount = sizeof(defaultDirs) / sizeof(defaultDirs[0]);
+
+		std::string currentPath(name);
+
+		// If path doesn't start with '/', prepend default directories
+		if (currentPath[0] != '/') {
+			for (size_t i = 0; i < defaultDirCount; ++i) {
+				std::string combinedPath = std::string(defaultDirs[i]) + "/" + currentPath;
+				if (IsExecutable(combinedPath)) {
+					return combinedPath;
+				}
+			}
+		} else if (IsExecutable(currentPath)) {
+			return currentPath;
+		}
+
+		// Prepare error message
+		errno = ENOENT; // No such file or directory
+		errorMsg = std::string(name) + " not found in system directories";
+		return "";
+	}
+
+	string Process::Execute (const string &processNameArg, const list <string> &arguments, int timeOut, ProcessExecFunctor *execFunctor, const Buffer *inputData)
 	{
 		char *args[32];
 		if (array_capacity (args) <= (arguments.size() + 1))
 			throw ParameterTooLarge (SRC_POS);
+
+		// if execFunctor is null and processName is not absolute path, find it in system paths
+		string processName;
+		if (!execFunctor && (processNameArg[0] != '/'))
+		{
+			std::string errorMsg;
+			processName = FindSystemBinary(processNameArg.c_str(), errorMsg);
+			if (processName.empty())
+				throw SystemException(SRC_POS, errorMsg);
+		}
+		else
+			processName = processNameArg;
 
 #if 0
 		stringstream dbg;

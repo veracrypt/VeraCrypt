@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.17">
+  <localization prog-version= "1.26.20">
     <language langid="cs" name="Čeština" en-name="Czech" version="1.3.0" translators="Vítek Moser, Lagardere" />
     <font lang="cs" class="normal" size="11" face="default" />
     <font lang="cs" class="bold" size="13" face="Arial" />
@@ -135,8 +135,8 @@
     <entry lang="cs" key="IDC_FAVORITE_REMOVE">&amp;Odstranit</entry>
     <entry lang="cs" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Použít oblíbený název jako název disku v průzkumníkovi</entry>
     <entry lang="cs" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Všeobecné nastavení</entry>
-    <entry lang="cs" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Zobrazit bublinovou nápovědu po úspěšném odpojení</entry>
-    <entry lang="cs" key="IDC_HK_DISMOUNT_PLAY_SOUND">Přehrát zvuk systémového upozornění po úspěšném odpojení</entry>
+    <entry lang="cs" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Zobrazit bublinovou nápovědu po úspěšném odpojení</entry>
+    <entry lang="cs" key="IDC_HK_UNMOUNT_PLAY_SOUND">Přehrát zvuk systémového upozornění po úspěšném odpojení</entry>
     <entry lang="cs" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="cs" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="cs" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="cs" key="IDC_PIM_HELP">(prázdné nebo 0 pro výchozí opakování)</entry>
     <entry lang="cs" key="IDC_PREF_BKG_TASK_ENABLE">Povoleno</entry>
     <entry lang="cs" key="IDC_PREF_CACHE_PASSWORDS">Uložit hesla do paměti ovladače</entry>
-    <entry lang="cs" key="IDC_PREF_DISMOUNT_INACTIVE">Automaticky odpojit svazek nebylo-li z/do něj čteno/zapisováno</entry>
-    <entry lang="cs" key="IDC_PREF_DISMOUNT_LOGOFF">Uživatel se odhlašuje</entry>
-    <entry lang="cs" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Uživatelská relace byla uzamknuta</entry>
-    <entry lang="cs" key="IDC_PREF_DISMOUNT_POWERSAVING">Přecházím do úsporného režimu</entry>
-    <entry lang="cs" key="IDC_PREF_DISMOUNT_SCREENSAVER">Je spuštěn spořič obrazovky</entry>
-    <entry lang="cs" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Vynutit automatické odpojení, i když svazek obsahuje otevřené soubory nebo adresáře</entry>
+    <entry lang="cs" key="IDC_PREF_UNMOUNT_INACTIVE">Automaticky odpojit svazek nebylo-li z/do něj čteno/zapisováno</entry>
+    <entry lang="cs" key="IDC_PREF_UNMOUNT_LOGOFF">Uživatel se odhlašuje</entry>
+    <entry lang="cs" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Uživatelská relace byla uzamknuta</entry>
+    <entry lang="cs" key="IDC_PREF_UNMOUNT_POWERSAVING">Přecházím do úsporného režimu</entry>
+    <entry lang="cs" key="IDC_PREF_UNMOUNT_SCREENSAVER">Je spuštěn spořič obrazovky</entry>
+    <entry lang="cs" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Vynutit automatické odpojení, i když svazek obsahuje otevřené soubory nebo adresáře</entry>
     <entry lang="cs" key="IDC_PREF_LOGON_MOUNT_DEVICES">Připojit všechny svazky na zařízeních</entry>
     <entry lang="cs" key="IDC_PREF_LOGON_START">Spustit službu VeraCryptu na pozadí</entry>
     <entry lang="cs" key="IDC_PREF_MOUNT_READONLY">Připojit svazky jen pro čtení</entry>
@@ -169,7 +169,7 @@
     <entry lang="cs" key="IDC_PREF_OPEN_EXPLORER">Otevřít okno Průzkumníka pro úspěšně připojený svazek</entry>
     <entry lang="cs" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Heslo do mezipaměti během operace „Připojit oblíbený svazek”</entry>
     <entry lang="cs" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Použít jinou ikonu na hlavním panelu, jsou-li k dispozici připojené svazky</entry>
-    <entry lang="cs" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Odstranit hesla z mezipaměti a automaticky odpojit</entry>
+    <entry lang="cs" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Odstranit hesla z mezipaměti a automaticky odpojit</entry>
     <entry lang="cs" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Odstranit hesla z mezipaměti při ukončení</entry>
     <entry lang="cs" key="IDC_PRESERVE_TIMESTAMPS">Zachovat časové razítko změny souborového svazku</entry>
     <entry lang="cs" key="IDC_RESET_HOTKEYS">Vymazat</entry>
@@ -269,14 +269,14 @@
     <entry lang="cs" key="IDT_ACCELERATION_OPTIONS">Hardwarová akcelerace</entry>
     <entry lang="cs" key="IDT_ASSIGN_HOTKEY">Klávesová zkratka</entry>
     <entry lang="cs" key="IDT_AUTORUN">Konfigurace automatického spouštění (autorun.inf)</entry>
-    <entry lang="cs" key="IDT_AUTO_DISMOUNT">Automatické odpojení</entry>
-    <entry lang="cs" key="IDT_AUTO_DISMOUNT_ON">Odpojit vše když:</entry>
+    <entry lang="cs" key="IDT_AUTO_UNMOUNT">Automatické odpojení</entry>
+    <entry lang="cs" key="IDT_AUTO_UNMOUNT_ON">Odpojit vše když:</entry>
     <entry lang="cs" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Možnosti obrazovky systémového zavaděče</entry>
     <entry lang="cs" key="IDT_CONFIRM_PASSWORD">Potvrdit heslo:</entry>
     <entry lang="cs" key="IDT_CURRENT">Aktuální</entry>
     <entry lang="cs" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Zobrazit volitelný text na obrazovce s ověřením (maximálně 24 znaků):</entry>
     <entry lang="cs" key="IDT_DEFAULT_MOUNT_OPTIONS">Výchozí možnosti připojení</entry>
-    <entry lang="cs" key="IDT_DISMOUNT_ACTION">Možnosti klávesových zkratek</entry>
+    <entry lang="cs" key="IDT_UNMOUNT_ACTION">Možnosti klávesových zkratek</entry>
     <entry lang="cs" key="IDT_DRIVER_OPTIONS">Konfigurace ovladače</entry>
     <entry lang="cs" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Povolit podporu ovládání rozšířeného disku</entry>
     <entry lang="cs" key="IDT_FAVORITE_LABEL">Jmenovka vybraného oblíbeného svazku:</entry>
@@ -423,8 +423,8 @@
     <entry lang="cs" key="DEVICE_FREE_PB">Velikost %s je %.2f PB</entry>
     <entry lang="cs" key="DEVICE_IN_USE_FORMAT">UPOZORNĚNÍ: zařízení/diskový oddíl je používán operačním systémem nebo aplikacemi. Formátování zařízení/diskového oddílu může způsobit poškození dat nebo systémovou nestabilitu.\n\nPokračovat?</entry>
     <entry lang="cs" key="DEVICE_IN_USE_INPLACE_ENC">UPOZORNĚNÍ: diskový oddíl je právě používán operačním systémem nebo aplikacemi. Měli byste zavřít všechny aplikace, které by mohly diskový oddíl používat (včetně antivirového programu).\n\nPokračovat?</entry>
-    <entry lang="cs" key="FORMAT_CANT_DISMOUNT_FILESYS">Chyba: zařízení/diskový oddíl obsahuje souborový systém, který nelze připojit. Systém souborů může být používán operačním systémem. Formátování zařízení/diskového oddílu by pravděpodobně způsobilo poškození dat a systémovou nestabilitu.\n\nPro vyřešení tohoto problému doporučujeme nejdříve smazat diskový oddíl a poté ho znovu vytvořit bez formátování. Postupujte následovně: 1) Klikněte pravým tlačítkem myši na ikonu „Počítač” (nebo „Tento počítač”) v nabídce „Start” a vyberte „Spravovat”. Objeví se okno „Správa počítače”. 2) V okně „Správa počítače” vyberte „Uložení” &gt; „Správa disků”. 3) Pravý-klik myši na diskový oddíl, který chcete zašifrovat a vyberte buď „Smazat diskový oddíl” nebo „Smazat svazek” nebo „Smazat logický disk”. 4) Klikněte na „Ano”. Zeptají-li se Windows na restart počítače, učiňte tak. Poté zopakujte kroky 1 a 2 a pokračujte od kroku 5. 5) Pravý-klik na nealokované/volné místo a vyberte buď „Nový diskový oddíl” nebo „Nový obyčejný svazek” nebo „Nový logický disk”. 6) Objeví se okno „Průvodce vytvořením nového diskového oddílu” nebo „Průvodce nového jednoduchého svazku”; následujte jejich instrukce. Na stránce průvodce nazvané „Zformátovat diskový oddíl” vyberte buď „Neformátovat tento diskový oddíl” nebo „Neformátovat tento svazek”. Ve stejném průvodci klikněte „Další” a poté „Dokončit”. 7) Cesta k zařízení, kterou jste vybrali v programu VeraCrypt může být nyní špatně. Ukončete proto průvodce vytvořením diskového oddílu VeraCrypt (běží-li stále) a spusťte ho znovu. 8) Zkuste zašifrovat zařízení/diskový oddíl znovu.\n\nSelhává-li opakovaně při šifrování zařízení/diskového oddílu VeraCrypt, zvažte místo toho vytvoření souborového svazku.</entry>
-    <entry lang="cs" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Chyba: systém souborů nemohl být uzamknut a/nebo odpojen. Možná je používán operačním systémem nebo aplikacemi (např. antivirový program). Zašifrování diskového oddílu může způsobit poškození dat a systémovou nestabilitu.\n\nZavřete, prosím, všechny aplikace, které mohou používat systém souborů (včetně antivirového programu) a zkuste to znovu. Nepomůže-li to, následujte kroky uvedené níže.</entry>
+    <entry lang="cs" key="FORMAT_CANT_UNMOUNT_FILESYS">Chyba: zařízení/diskový oddíl obsahuje souborový systém, který nelze připojit. Systém souborů může být používán operačním systémem. Formátování zařízení/diskového oddílu by pravděpodobně způsobilo poškození dat a systémovou nestabilitu.\n\nPro vyřešení tohoto problému doporučujeme nejdříve smazat diskový oddíl a poté ho znovu vytvořit bez formátování. Postupujte následovně: 1) Klikněte pravým tlačítkem myši na ikonu „Počítač” (nebo „Tento počítač”) v nabídce „Start” a vyberte „Spravovat”. Objeví se okno „Správa počítače”. 2) V okně „Správa počítače” vyberte „Uložení” &gt; „Správa disků”. 3) Pravý-klik myši na diskový oddíl, který chcete zašifrovat a vyberte buď „Smazat diskový oddíl” nebo „Smazat svazek” nebo „Smazat logický disk”. 4) Klikněte na „Ano”. Zeptají-li se Windows na restart počítače, učiňte tak. Poté zopakujte kroky 1 a 2 a pokračujte od kroku 5. 5) Pravý-klik na nealokované/volné místo a vyberte buď „Nový diskový oddíl” nebo „Nový obyčejný svazek” nebo „Nový logický disk”. 6) Objeví se okno „Průvodce vytvořením nového diskového oddílu” nebo „Průvodce nového jednoduchého svazku”; následujte jejich instrukce. Na stránce průvodce nazvané „Zformátovat diskový oddíl” vyberte buď „Neformátovat tento diskový oddíl” nebo „Neformátovat tento svazek”. Ve stejném průvodci klikněte „Další” a poté „Dokončit”. 7) Cesta k zařízení, kterou jste vybrali v programu VeraCrypt může být nyní špatně. Ukončete proto průvodce vytvořením diskového oddílu VeraCrypt (běží-li stále) a spusťte ho znovu. 8) Zkuste zašifrovat zařízení/diskový oddíl znovu.\n\nSelhává-li opakovaně při šifrování zařízení/diskového oddílu VeraCrypt, zvažte místo toho vytvoření souborového svazku.</entry>
+    <entry lang="cs" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Chyba: systém souborů nemohl být uzamknut a/nebo odpojen. Možná je používán operačním systémem nebo aplikacemi (např. antivirový program). Zašifrování diskového oddílu může způsobit poškození dat a systémovou nestabilitu.\n\nZavřete, prosím, všechny aplikace, které mohou používat systém souborů (včetně antivirového programu) a zkuste to znovu. Nepomůže-li to, následujte kroky uvedené níže.</entry>
     <entry lang="cs" key="DEVICE_IN_USE_INFO">UPOZORNĚNÍ: některé z připojených zařízení/diskových oddílů byly již používány.\n\nIgnorování může způsobit nežádoucí následky včetně nestability systému.\n\nDůrazně doporučujeme zavřít všechny aplikace, které by mohly zařízení/diskové oddíly používat.</entry>
     <entry lang="cs" key="DEVICE_PARTITIONS_ERR">Vybrané zařízení obsahuje diskový oddíl.\n\nZformátování zařízení by mohlo způsobit systémovou nestabilitu a/nebo poškození dat. Vyberte prosím diskový oddíl na zařízení nebo odstraňte všechny diskové oddíly na zařízení, aby ho mohl VeraCrypt bezpečně zformátovat.</entry>
     <entry lang="cs" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Vybrané ne-systémové zařízení obsahuje diskové oddíly.\n\nZašifrované svazky umístěné na zařízeních mohou být vytvořeny na zařízeních, které neobsahují žádné diskové oddíly (včetně pevných disků a solid-state disků). Zařízení, které obsahuje diskové oddíly, může být úplně zašifrováno ta, jak je (s použitím jednoho hlavního klíče) pouze tehdy, jedná-li se o jednotku, kde jsou nainstalovány Windows a zavádí-li se z této jednotky systém.\n\nChcete-li zašifrovat vybrané ne-systémové zařízení s použitím jednoho hlavního klíče, musíte na zařízení nejprve odstranit všechny diskové oddíly, aby mohl VeraCrypt toto zařízení bezpečně naformátovat (formátování zařízení, které obsahuje diskové oddíly, může způsobit systémovou nestability a/nebo poškození dat). Případně můžete zašifrovat každý diskový oddíl na disku zvlášť (každý diskový oddíl bude zašifrován jiným hlavním klíčem).\n\nPoznámka: chcete-li odstranit všechny diskové oddíly z GPT disku, je možné, že ho budete nejprve muset převést na MBR disk (s použitím např. nástroje Správy počítače), abyste mohli odstranit skryté diskový oddíly.</entry>
@@ -590,7 +590,7 @@
     <entry lang="cs" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Chyba: soubory, které jste nakopírovali do vnějšího svazku, zabírají příliš moc místa. Tím pádem není na vnějším svazku ani dost místa pro skrytý svazek.\n\nSkrytý svazek musí být stejně velký jako systémový diskový oddíl (diskový oddíl, kde je nainstalován momentálně běžící operační systém). Důvodem je, že skrytý operační systém musí být vytvořen zkopírováním obsahu systémového diskového oddílu do skrytého svazku.\n\n\nÚkon vytváření skrytého operačního systému nemůže pokračovat.</entry>
     <entry lang="cs" key="OPENFILES_DRIVER">Ovladač nemůže odpojit svazek. Některé soubory umístěné na svazku jsou pravděpodobně ještě otevřené.</entry>
     <entry lang="cs" key="OPENFILES_LOCK">Svazek nemohl být uzamknut. Na svazku jsou stále otevřené soubory. Proto nemůže být odpojen.</entry>
-    <entry lang="cs" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt nemůže zamknout tento svazek, protože je používán systémem nebo aplikacemi (na tomto svazku mohou existovat otevřené soubory).\n\nChcete vynutit odpojení tohoto svazku?</entry>
+    <entry lang="cs" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">VeraCrypt nemůže zamknout tento svazek, protože je používán systémem nebo aplikacemi (na tomto svazku mohou existovat otevřené soubory).\n\nChcete vynutit odpojení tohoto svazku?</entry>
     <entry lang="cs" key="OPEN_VOL_TITLE">Vyberte svazek VeraCrypt</entry>
     <entry lang="cs" key="OPEN_TITLE">Zadejte cestu a jméno souboru</entry>
     <entry lang="cs" key="SELECT_PKCS11_MODULE">Vybrat knihovnu PKCS #11</entry>
@@ -729,7 +729,7 @@
     <entry lang="cs" key="DLL_FILES">Knihovny</entry>
     <entry lang="cs" key="FORMAT_NTFS_STOP">NTFS formátování nemůže pokračovat.</entry>
     <entry lang="cs" key="CANT_MOUNT_VOLUME">Svazek nelze připojit.</entry>
-    <entry lang="cs" key="CANT_DISMOUNT_VOLUME">Svazek nelze odpojit.</entry>
+    <entry lang="cs" key="CANT_UNMOUNT_VOLUME">Svazek nelze odpojit.</entry>
     <entry lang="cs" key="FORMAT_NTFS_FAILED">Windows nemohl zformátovat svazek jako NTFS.\n\nVyberte prosím jiný systému souborů (je-li to možné) a zkuste to znovu. Popřípadě můžete nechat svazek nenaformátovaný (vyberte „Žádný” systém souborů), ukončete tohoto průvodce, připojte svazek a pak použijte buď systémový nástroj, nebo nástroj třetí strany k zformátování připojeného svazku (svazek zůstane zašifrovaný).</entry>
     <entry lang="cs" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows nemohl naformátovat svazek jako NTFS.\n\nChcete místo toho svazek naformátovat jako FAT?</entry>
     <entry lang="cs" key="DEFAULT">Výchozí</entry>
@@ -771,7 +771,7 @@
     <entry lang="cs" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Svazek nemohl být VeraCryptem zašifrován, protože nastala nějaká chyba. Zkuste, prosím, nejdříve opravit všechny předešlé ohlášené chyby, a pak to zkuste znovu. Přetrvává-li problém, mohou vám pomoci kroky uvedené níže.</entry>
     <entry lang="cs" key="INPLACE_ENC_GENERIC_ERR_RESUME">VeraCrypt nemohl pokračovat v šifrování diskového oddílu, protože nastala nějaká chyba.\n\nZkuste, prosím, nejdříve opravit všechny předešlé ohlášené chyby, a pak zkuste v úkonu pokračovat. Svazek nelze připojit, dokud nebude úplně zašifrován.</entry>
     <entry lang="cs" key="INPLACE_DEC_GENERIC_ERR">Chyba zabránila VeraCryptu dešifrovat svazek. Zkuste vyřešit dříve ohlášené problémy a pak to zkuste znovu.</entry>
-    <entry lang="cs" key="CANT_DISMOUNT_OUTER_VOL">Chyba: vnější svazek nelze odpojit.\n\nSvazek nemůže být odpojen, obsahuje-li soubory nebo adresáře používané programem nebo systémem.\n\nZavřete prosím jakýkoliv program, který by mohl soubory nebo adresáře na svazku používat a klikněte Znovu.</entry>
+    <entry lang="cs" key="CANT_UNMOUNT_OUTER_VOL">Chyba: vnější svazek nelze odpojit.\n\nSvazek nemůže být odpojen, obsahuje-li soubory nebo adresáře používané programem nebo systémem.\n\nZavřete prosím jakýkoliv program, který by mohl soubory nebo adresáře na svazku používat a klikněte Znovu.</entry>
     <entry lang="cs" key="CANT_GET_OUTER_VOL_INFO">Chyba: nelze získat informace o vnějším svazku. Vytváření svazku nemůže pokračovat.</entry>
     <entry lang="cs" key="CANT_ACCESS_OUTER_VOL">Chyba: nelze přistupovat na vnější svazek. Vytváření svazku nelze dokončit.</entry>
     <entry lang="cs" key="CANT_MOUNT_OUTER_VOL">Chyba: nemohu připojit vnější svazek. Vytváření svazku nelze dokončit.</entry>
@@ -882,7 +882,7 @@
     <entry lang="cs" key="INSTALL_COMPLETED">Instalace dokončena.</entry>
     <entry lang="cs" key="CANT_CREATE_FOLDER">Adresář '%s' nemohl být vytvořen</entry>
     <entry lang="cs" key="CLOSE_TC_FIRST">Ovladač zařízení VeraCrypt nemůže být odstraněn.\n\nZavřete prosím nejdříve všechny okna VeraCrypt. Nepomůže-li to, restartujte prosím Windows a zkuste to znovu.</entry>
-    <entry lang="cs" key="DISMOUNT_ALL_FIRST">Všechny svazky VeraCrypt musí být odpojeny před instalací nebo odinstalací programu VeraCrypt.</entry>
+    <entry lang="cs" key="UNMOUNT_ALL_FIRST">Všechny svazky VeraCrypt musí být odpojeny před instalací nebo odinstalací programu VeraCrypt.</entry>
     <entry lang="cs" key="UNINSTALL_OLD_VERSION_FIRST">Na tomto systému je aktuálně nainstalována zastaralá verze VeraCryptu. Před instalací nové verze musí být nejprve odinstalována.\n\nJakmile zavřete tento dialog, spustí se odinstalátor staré verze. Při odinstalaci VeraCryptu nedojde k dešifrování žádného svazku. Po odinstalaci staré verze VeraCryptu spusťte znovu instalátor nové verze.</entry>
     <entry lang="cs" key="REG_INSTALL_FAILED">Instalace záznamů do registru nebyla úspěšná</entry>
     <entry lang="cs" key="DRIVER_INSTALL_FAILED">Instalace ovladače zařízení nebyla úspěšná. Restartujte prosím Windows a zkuste poté nainstalovat VeraCrypt znovu.</entry>
@@ -903,7 +903,7 @@
     <entry lang="cs" key="MINUTES">minut</entry>
     <entry lang="cs" key="SECONDS">s</entry>
     <entry lang="cs" key="OPEN">Otevřít</entry>
-    <entry lang="cs" key="DISMOUNT">Odpojit</entry>
+    <entry lang="cs" key="UNMOUNT">Odpojit</entry>
     <entry lang="cs" key="SHOW_TC">Zobrazit VeraCrypt</entry>
     <entry lang="cs" key="HIDE_TC">Skrýt VeraCrypt</entry>
     <entry lang="cs" key="TOTAL_DATA_READ">Přečteno dat od připojení</entry>
@@ -975,7 +975,7 @@
     <entry lang="cs" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt – Oblíbené systémové svazky</entry>
     <entry lang="cs" key="SYS_FAVORITES_HELP_LINK">Co jsou oblíbené systémové svazky?</entry>
     <entry lang="cs" key="SYS_FAVORITES_REQUIRE_PBA">Zdá se, že systémový diskový oddíl/disk není zašifrován.\n\nOblíbené systémové svazky mohou být připojeny pouze s použitím ověřovacího hesla. Abyste mohli používat oblíbené systémové svazky, musíte nejdříve zašifrovat systémový diskový oddíl/disk.</entry>
-    <entry lang="cs" key="DISMOUNT_FIRST">Před pokračováním odpojte prosím svazek.</entry>
+    <entry lang="cs" key="UNMOUNT_FIRST">Před pokračováním odpojte prosím svazek.</entry>
     <entry lang="cs" key="CANNOT_SET_TIMER">Chyba: nelze nastavit časovač.</entry>
     <entry lang="cs" key="IDPM_CHECK_FILESYS">Zkontrolovat systém souborů</entry>
     <entry lang="cs" key="IDPM_REPAIR_FILESYS">Opravit systém souborů</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="cs" key="NO_SYSENC_PARTITION_SELECTED">Nebyl vybrán žádný diskový oddíl.\n\nKlikněte „Vybrat zařízení” pro výběr odpojeného diskového oddílu, který běžně vyžaduje ověření (např. diskový oddíl umístěný na zašifrovaném systémovém disku jiného operačního systému, který neběží nebo zašifrovaný systémový diskový oddíl jiného operačního systému).\n\nPoznámka: vybraný diskový oddíl bude připojen jako běžný svazek VeraCryptu bez ověření. To je vhodné třeba pro zálohování nebo opravy.</entry>
     <entry lang="cs" key="CONFIRM_SAVE_DEFAULT_KEYFILES">UPOZORNĚNÍ: jsou-li zadány a povoleny výchozí souborové klíče, svazky, které nebudou tyto souborové klíče používat, nebude možné připojit. Proto jakmile povolíte výchozí souborové klíče, pamatujte na zrušení možnosti „Používat souborové klíče” (pod místem, kde se zadává heslo) kdykoliv budete používat takové svazky.\n\nOpravdu chcete uložit vybrané souborové klíče/cesty jako výchozí?</entry>
     <entry lang="cs" key="HK_AUTOMOUNT_DEVICES">Autom. připojit zařízení</entry>
-    <entry lang="cs" key="HK_DISMOUNT_ALL">Odpojit vše</entry>
+    <entry lang="cs" key="HK_UNMOUNT_ALL">Odpojit vše</entry>
     <entry lang="cs" key="HK_WIPE_CACHE">Vyčistit mezipaměť</entry>
-    <entry lang="cs" key="HK_DISMOUNT_ALL_AND_WIPE">Odpojit vše &amp; vyčistit mezipaměť</entry>
-    <entry lang="cs" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Vynutit odpojení všech  &amp;  Vyčistit mezipaměť</entry>
-    <entry lang="cs" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Vynutit odpojení všech,  Vyčistit mezipaměť  &amp;  Konec</entry>
+    <entry lang="cs" key="HK_UNMOUNT_ALL_AND_WIPE">Odpojit vše &amp; vyčistit mezipaměť</entry>
+    <entry lang="cs" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Vynutit odpojení všech  &amp;  Vyčistit mezipaměť</entry>
+    <entry lang="cs" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Vynutit odpojení všech,  Vyčistit mezipaměť  &amp;  Konec</entry>
     <entry lang="cs" key="HK_MOUNT_FAVORITE_VOLUMES">Připojit oblíbené diskové oddíly</entry>
     <entry lang="cs" key="HK_SHOW_HIDE_MAIN_WINDOW">Zobrazit/skrýt hlavní okno programu VeraCrypt</entry>
     <entry lang="cs" key="PRESS_A_KEY_TO_ASSIGN">(klikněte sem a stiskněte klávesu)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="cs" key="PAGING_FILE_CREATION_PREVENTED">Došlo k zabránění vytvoření stránkovacího souboru.\n\nKvůli problémům ve Windows nemohou být stránkovací soubory umístěny na nesystémových svazcích VeraCrypt (včetně oblíbených systémových svazků). VeraCrypt podporuje vytvoření stránkovacích souborů pouze na nezašifrovaných systémových diskových oddílech/discích.</entry>
     <entry lang="cs" key="SYS_ENC_HIBERNATION_PREVENTED">Chyba nebo nekompatibilita zabraňuje programu VeraCrypt zašifrovat „hibernační” soubor (slouží k uspání počítače). Uspávací režim byl proto zamezen.\n\nPoznámka: když počítač přejde do režimu spánku (nebo se přepne do režimu úspory energie), obsah operační paměti je zapsán do hibernačního souboru uloženém na disku. VeraCrypt by nemohl zabránit uložení nezašifrovaných šifrovacích klíčů a obsahu citlivých souborů do souboru pro spací režim.</entry>
     <entry lang="cs" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hibernaci bylo zabráněno.\n\nVeraCrypt nepodporuje hibernaci na skrytých operačních systémech, které používají dodatečný diskový oddíl pro zavádění. Zavaděč diskového oddílu je sdílen jak s klamným, tak se skrytým systémem. Aby se předešlo úniku dat a problémům spojených s hibernací, VeraCrypt musí zabránit skrytému systému v zapisování do sdíleného zaváděcího diskového oddílu a v hibernování.</entry>
-    <entry lang="cs" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">Svazek VeraCrypt připojený jako %c: byl odpojen.</entry>
-    <entry lang="cs" key="MOUNTED_VOLUMES_DISMOUNTED">Svazky VeraCrypt byly odpojeny.</entry>
-    <entry lang="cs" key="VOLUMES_DISMOUNTED_CACHE_WIPED">Svazky VeraCrypt byly odpojeny a mezipaměť hesla byla pročištěna.</entry>
-    <entry lang="cs" key="SUCCESSFULLY_DISMOUNTED">Úspěšně odpojeno</entry>
+    <entry lang="cs" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">Svazek VeraCrypt připojený jako %c: byl odpojen.</entry>
+    <entry lang="cs" key="MOUNTED_VOLUMES_UNMOUNTED">Svazky VeraCrypt byly odpojeny.</entry>
+    <entry lang="cs" key="VOLUMES_UNMOUNTED_CACHE_WIPED">Svazky VeraCrypt byly odpojeny a mezipaměť hesla byla pročištěna.</entry>
+    <entry lang="cs" key="SUCCESSFULLY_UNMOUNTED">Úspěšně odpojeno</entry>
     <entry lang="cs" key="CONFIRM_BACKGROUND_TASK_DISABLED">UPOZORNĚNÍ: je-li vypnuta VeraCrypt služba na pozadí, následující funkce budou vypnuty:\n\n1) Zkratkové klávesy\n2) Automatické odpojení (např. při odhlášení, nevratném odpojení zařízení, časové prodlevě apod)\n3) Automatické připojení oblíbených svazků\n4) Upozornění (např. při předejití poškození skrytého svazku)\n5) Ikona na hlavní liště\n\nPoznámka: službu na pozadí můžete kdykoliv vypnout kliknutím pravým tlačítkem myši na ikonu VeraCryptu vpravo dole a vyberte „Konec”.\n\nOpravdu chcete natrvalo vypnout VeraCrypt službu na pozadí?</entry>
-    <entry lang="cs" key="CONFIRM_NO_FORCED_AUTODISMOUNT">UPOZORNĚNÍ: je-li tato volba vypnuta, svazky obsahující otevřené soubory/adresáře nebude možné automaticky odpojit.\n\nOpravdu chcete tuto možnost vypnout?</entry>
-    <entry lang="cs" key="WARN_PREF_AUTO_DISMOUNT">UPOZORNĚNÍ: svazky obsahující otevřené soubory/adresáře NEBUDOU automaticky odpojeny.\n\nAbyste tomu zabránili, povolte následující možnost v tomto dialogovém okně: „Vynutit automatické odpojení, i když svazek obsahuje otevřené soubory nebo adresáře”</entry>
-    <entry lang="cs" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">UPOZORNĚNÍ: je-li v notebooku slabá baterie, Windows mohou při přechodu do spořícího režimu zapomenout poslat vhodnou zprávu běžícím aplikacím. V takových případech se může stát, že selže automatické odpojení VeraCrypt svazků.</entry>
+    <entry lang="cs" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">UPOZORNĚNÍ: je-li tato volba vypnuta, svazky obsahující otevřené soubory/adresáře nebude možné automaticky odpojit.\n\nOpravdu chcete tuto možnost vypnout?</entry>
+    <entry lang="cs" key="WARN_PREF_AUTO_UNMOUNT">UPOZORNĚNÍ: svazky obsahující otevřené soubory/adresáře NEBUDOU automaticky odpojeny.\n\nAbyste tomu zabránili, povolte následující možnost v tomto dialogovém okně: „Vynutit automatické odpojení, i když svazek obsahuje otevřené soubory nebo adresáře”</entry>
+    <entry lang="cs" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">UPOZORNĚNÍ: je-li v notebooku slabá baterie, Windows mohou při přechodu do spořícího režimu zapomenout poslat vhodnou zprávu běžícím aplikacím. V takových případech se může stát, že selže automatické odpojení VeraCrypt svazků.</entry>
     <entry lang="cs" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Naplánovali jste úkon zašifrování diskového oddílu/svazku. Úkon nebyl ještě dokončen.\n\nChcete nyní úkon obnovit?</entry>
     <entry lang="cs" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Naplánovali jste úkon šifrování nebo dešifrování systémového diskového oddílu/disku. Úkon ještě nebyl dokončen.\n\nChcete začít (navázat) v úkonu nyní?</entry>
     <entry lang="cs" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Chcete být upozorněn, zda chcete pokračovat v naplánovaném úkonu, který má zašifrovat nesystémové diskové oddíly/svazky?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="cs" key="SYS_AUTOMOUNT_DISABLED">Váš systém není nakonfigurován k autom. připojení nových svazků. Může se stát, že svazky VeraCrypt umístěné na zařízeních nebude možné připojit. Automatické připojení může být povoleno spuštěním následujícího příkazu a restartování systému.\n\nmountvol.exe /E</entry>
     <entry lang="cs" key="SYS_ASSIGN_DRIVE_LETTER">Přiřaďte prosím písmeno jednotky diskovému oddílu/zařízení než budete pokračovat („Ovládací panely &gt; Systém a údržba &gt; Nástroje správce – Vytvořit a formátovat diskové oddíly pevného disku”).\n\nJde o požadavek operačního systému.</entry>
     <entry lang="cs" key="MOUNT_TC_VOLUME">Připojit svazek VeraCrypt</entry>
-    <entry lang="cs" key="DISMOUNT_ALL_TC_VOLUMES">Odpojit všechny svazky VeraCrypt</entry>
+    <entry lang="cs" key="UNMOUNT_ALL_TC_VOLUMES">Odpojit všechny svazky VeraCrypt</entry>
     <entry lang="cs" key="UAC_INIT_ERROR">VeraCrypt nemohl získat oprávnění správce.</entry>
     <entry lang="cs" key="ERR_ACCESS_DENIED">Přístup byl odepřen operačním systémem.\n\nMožná příčina: operační systém vyžaduje, abyste měli práva pro čtení/zápis (nebo oprávnění správce pro určité adresáře, soubory a zařízení, abyste mohli číst a zapisovat data do/z nich. Uživatel bez oprávnění správce může běžně vytvářet, číst a měnit soubory ve svém adresáři s dokumenty.</entry>
     <entry lang="cs" key="SECTOR_SIZE_UNSUPPORTED">Chyba: disk používá nepodporovanou velikost sektorů.\n\nV současné době není možné vytvořit diskové oddíly/svazky na discích, které používají sektory větší než 4096 bajtů. Na těchto discích ale můžete vytvořit souborové svazky.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="cs" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Počet vláken je momentálně omezen, což omezí výsledky výkonnostních testů (horší výkon).\n\nPro využití plného potenciálu procesoru/ů, vyberte „Nastavení &gt; Výkon” a vypněte odpovídající nastavení.</entry>
     <entry lang="cs" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Chcete, aby se VeraCrypt pokusil vypnout ochranu proti zapisování do tohoto diskového oddílu/disku?</entry>
     <entry lang="cs" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">UPOZORNĚNÍ: tato volba může ovlivnit výkonnost.\n\nOpravdu chcete použít toto nastavení?</entry>
-    <entry lang="cs" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">UPOZORNĚNÍ: svazek VeraCrypt byl automaticky odpojen</entry>
-    <entry lang="cs" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Před tím, než fyzicky odpojíte nebo vypnete zařízení, které obsahuje připojený svazek, měli byste tento svazek nejdříve odpojit v VeraCryptu.\n\nNeočekávané a nenadále odpojení je většinou způsobeno náhle selhávajícím kabelem, diskem (šuplíkem) apod.</entry>
+    <entry lang="cs" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">UPOZORNĚNÍ: svazek VeraCrypt byl automaticky odpojen</entry>
+    <entry lang="cs" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Před tím, než fyzicky odpojíte nebo vypnete zařízení, které obsahuje připojený svazek, měli byste tento svazek nejdříve odpojit v VeraCryptu.\n\nNeočekávané a nenadále odpojení je většinou způsobeno náhle selhávajícím kabelem, diskem (šuplíkem) apod.</entry>
     <entry lang="cs" key="UNSUPPORTED_TRUECRYPT_FORMAT">Tento svazek byl vytvořen v TrueCrypt %x.%x, VeraCrypt podporuje jen svazky vytvořené v TrueCrypt 6.x/7.x</entry>
     <entry lang="cs" key="TEST">Test</entry>
     <entry lang="cs" key="KEYFILE">Souborový klíč</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="cs" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Přidat všechny připojené svazky do oblíbených...</entry>
     <entry lang="cs" key="TASKICON_PREF_MENU_ITEMS">Položky nabídky s ikonou úlohy</entry>
     <entry lang="cs" key="TASKICON_PREF_OPEN_VOL">Otevřít připojené svazky</entry>
-    <entry lang="cs" key="TASKICON_PREF_DISMOUNT_VOL">Odpojit připojené svazky</entry>
+    <entry lang="cs" key="TASKICON_PREF_UNMOUNT_VOL">Odpojit připojené svazky</entry>
     <entry lang="cs" key="DISK_FREE">Volné místo k dispozici: {0}</entry>
     <entry lang="cs" key="VOLUME_SIZE_HELP">Zadejte velikost kontejneru, který chcete vytvořit. Nezapomeňte, že minimální možná velikost svazku je 292 KiB.</entry>
     <entry lang="cs" key="LINUX_CONFIRM_INNER_VOLUME_CALC">UPOZORNĚNÍ: Pro vnější svazek jste vybral/a jiný souborový systém než je FAT.\nBerte v potaz, že v tomto případě VeraCrypt nemůže vypočítat přesnou maximální povolenou velikost skrytého svazku a použije pouze odhad, který může být chybný.\nJe tedy vaší odpovědností použít odpovídající hodnotu velikosti skrytého svazku, aby nepřekrýval vnější svazek.\n\nChcete pro vnější svazek nadále používat vybraný souborový systém?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="cs" key="LINUX_DO_NOT_MOUNT">Ne&amp;připojovat</entry>
     <entry lang="cs" key="LINUX_MOUNT_AT_DIR">Připojit v adresáři:</entry>
     <entry lang="cs" key="LINUX_SELECT">Vy&amp;brat...</entry>
-    <entry lang="cs" key="LINUX_DISMOUNT_ALL_WHEN">Odpojit všechny svazky, když</entry>
+    <entry lang="cs" key="LINUX_UNMOUNT_ALL_WHEN">Odpojit všechny svazky, když</entry>
     <entry lang="cs" key="LINUX_ENTERING_POWERSAVING">Systém přechází do úsporného režimu</entry>
     <entry lang="cs" key="LINUX_LOGIN_ACTION">Úkony prováděné po přihlášení uživatele</entry>
-    <entry lang="cs" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Zavřít všechna okna Průzkumníka odpojovaného svazku</entry>
+    <entry lang="cs" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Zavřít všechna okna Průzkumníka odpojovaného svazku</entry>
     <entry lang="cs" key="LINUX_HOTKEYS">Klávesové zkratky</entry>
     <entry lang="cs" key="LINUX_SYSTEM_HOTKEYS">Celosystémové klávesové zkratky</entry>
     <entry lang="cs" key="LINUX_SOUND_NOTIFICATION">Přehrát zvuk oznámení systému po připojení/odpojení</entry>
-    <entry lang="cs" key="LINUX_CONFIRM_AFTER_DISMOUNT">Zobrazit okno s potvrzením po odpojení</entry>
+    <entry lang="cs" key="LINUX_CONFIRM_AFTER_UNMOUNT">Zobrazit okno s potvrzením po odpojení</entry>
     <entry lang="cs" key="LINUX_VC_QUITS">Ukončení VeraCryptu</entry>
     <entry lang="cs" key="LINUX_OPEN_FINDER">Otevřít okno Finderu pro úspěšně připojený svazek</entry>
     <entry lang="cs" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Berte v potaz, že toto nastavení se projeví pouze v případě, že je zakázáno používání kryptografických služeb jádra.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="cs" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="cs" key="LINUX_NOT_SUPPORTED"> (není podporováno komponentami dostupnými na této platformě).\n</entry>
     <entry lang="cs" key="LINUX_KERNEL_OLD">Váš systém používá starou verzi linuxového jádra.\n\nV důsledku chyby v linuxovém jádře může systém přestat reagovat při zápisu dat na svazek VeraCryptu. Tento problém lze vyřešit aktualizací jádra na verzi 2.6.24 nebo novější.</entry>
-    <entry lang="cs" key="LINUX_VOL_DISMOUNTED">Svazek {0} byl odpojen.</entry>
+    <entry lang="cs" key="LINUX_VOL_UNMOUNTED">Svazek {0} byl odpojen.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
     <entry lang="cs" key="LINUX_OOM">Nedostatek paměti.</entry>
     <entry lang="cs" key="LINUX_CANT_GET_ADMIN_PRIV">Nepodařilo se získat oprávnění správce systému</entry>
@@ -1632,15 +1632,18 @@
     <entry lang="cs" key="EXPANDER_UNMOUNTING_VOLUME">Odpojení svazku ...\n</entry>
     <entry lang="cs" key="EXPANDER_EXTENDING_FILESYSTEM">Rozšíření souborového systému ...\n</entry>
     <entry lang="cs" key="PARTIAL_SYSENC_MOUNT_READONLY">Upozornění: systémový diskový oddíl, jenž jste se pokusili připojit, nebyl plně zašifrován. Jako bezpečnostní opatření proti možnému poškození nebo nežádoucím změnám byl svazek '%s' připojen pouze pro čtení.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="cs" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Důležité informace o používání souborových přípon třetích stran</entry>
+    <entry lang="cs" key="IDC_DISABLE_MEMORY_PROTECTION">Zakázat ochranu paměti z důvodu kompatibility s nástroji pro usnadnění přístupu</entry>
+    <entry lang="cs" key="DISABLE_MEMORY_PROTECTION_WARNING">UPOZORNĚNÍ: Vypnutí ochrany paměti výrazně snižuje zabezpečení. Tuto možnost povolte POUZE v případě, spoléháte-li se při práci s uživatelským rozhraním VeraCrypt na nástroje pro zpřístupnění, jako jsou čtečky obrazovky.</entry>
     <entry lang="cs" key="LINUX_LANGUAGE">Jazyk</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
+    <entry lang="cs" key="LINUX_SELECT_SYS_DEFAULT_LANG">Vyberte výchozí jazyk systému</entry>
+    <entry lang="cs" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">Aby proběhla změna jazyka, je třeba program VeraCrypt restartovat.</entry>
+    <entry lang="cs" key="ERR_XTS_MASTERKEY_VULNERABLE">UPOZORNĚNÍ: Hlavní klíč svazku je zranitelný vůči útoku, jenž ohrožuje zabezpečení dat.\n\nProsím, vytvořte nový svazek a přeneste na něj data.</entry>
+    <entry lang="cs" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">UPOZORNĚNÍ: Hlavní klíč zašifrovaného systému je zranitelný vůči útoku, který ohrožuje bezpečnost dat.\nDešifrujte systémový diskový oddíl/disk a poté jej znovu zašifrujte.</entry>
+    <entry lang="cs" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">UPOZORNĚNÍ: Hlavní klíč svazku obsahuje bezpečnostní slabinu.</entry>
+    <entry lang="cs" key="MOUNTPOINT_BLOCKED">CHYBA: Připojovací bod svazku je blokován, jelikož je nadřazen chráněnému systémovému adresáři.\n\nProsím, zvolte jiný přípojovací bod.</entry>
+    <entry lang="cs" key="MOUNTPOINT_NOTALLOWED">CHYBA: Připojovací bod svazku není povolen, jelikož přepisuje adresář, jenž je součástí proměnného prostředí PATH.\n\nProsím, vyberte jiný připojovací bod.</entry>
+    <entry lang="cs" key="INSECURE_MODE">[NEZABEZPEČENÝ REŽIM]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

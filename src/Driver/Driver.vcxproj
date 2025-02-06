@@ -37,7 +37,7 @@
     <ConfigurationType>Driver</ConfigurationType>
     <DriverType>WDM</DriverType>
     <DriverTargetPlatform>Universal</DriverTargetPlatform>
-    <_NT_TARGET_VERSION>0xA000008</_NT_TARGET_VERSION>
+    <_NT_TARGET_VERSION>0xA000006</_NT_TARGET_VERSION>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <TargetVersion>Windows10</TargetVersion>
@@ -46,7 +46,7 @@
     <ConfigurationType>Driver</ConfigurationType>
     <DriverType>WDM</DriverType>
     <DriverTargetPlatform>Universal</DriverTargetPlatform>
-    <_NT_TARGET_VERSION>0xA000008</_NT_TARGET_VERSION>
+    <_NT_TARGET_VERSION>0xA000006</_NT_TARGET_VERSION>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <TargetVersion>Windows10</TargetVersion>
@@ -55,7 +55,7 @@
     <ConfigurationType>Driver</ConfigurationType>
     <DriverType>WDM</DriverType>
     <DriverTargetPlatform>Universal</DriverTargetPlatform>
-    <_NT_TARGET_VERSION>0xA000008</_NT_TARGET_VERSION>
+    <_NT_TARGET_VERSION>0xA000006</_NT_TARGET_VERSION>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <TargetVersion>Windows10</TargetVersion>
@@ -64,7 +64,7 @@
     <ConfigurationType>Driver</ConfigurationType>
     <DriverType>WDM</DriverType>
     <DriverTargetPlatform>Universal</DriverTargetPlatform>
-    <_NT_TARGET_VERSION>0xA000008</_NT_TARGET_VERSION>
+    <_NT_TARGET_VERSION>0xA000006</_NT_TARGET_VERSION>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -110,7 +110,8 @@
     <Inf>
       <ProviderName>
       </ProviderName>
-      <TimeStamp>1.26.17.2</TimeStamp>
+      <TimeStamp>1.26.20.0</TimeStamp>
+      <DateStamp>02/03/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>
@@ -136,7 +137,8 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
     <Inf>
       <ProviderName>
       </ProviderName>
-      <TimeStamp>1.26.17.2</TimeStamp>
+      <TimeStamp>1.26.20.0</TimeStamp>
+      <DateStamp>02/03/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>
@@ -162,7 +164,8 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Release\Setup Files\veracrypt.inf"</C
     <Inf>
       <ProviderName>
       </ProviderName>
-      <TimeStamp>1.26.17.2</TimeStamp>
+      <TimeStamp>1.26.20.0</TimeStamp>
+      <DateStamp>02/03/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>
@@ -188,7 +191,8 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Release\Setup Files\veracrypt.inf"</C
     <Inf>
       <ProviderName>
       </ProviderName>
-      <TimeStamp>1.26.17.2</TimeStamp>
+      <TimeStamp>1.26.20.0</TimeStamp>
+      <DateStamp>02/03/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>
@@ -224,6 +228,10 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
     </ClCompile>
     <ClCompile Include="..\Crypto\Aeskey.c" />
     <ClCompile Include="..\Crypto\Aestab.c" />
+    <ClCompile Include="..\Crypto\Aes_hw_armv8.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Crypto\blake2s.c" />
     <ClCompile Include="..\Crypto\blake2s_SSE2.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
@@ -264,6 +272,10 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Crypto\Sha2.c" />
+    <ClCompile Include="..\Crypto\sha256_armv8.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Crypto\Sha2Intel.c" />
     <ClCompile Include="..\Crypto\Streebog.c" />
     <ClCompile Include="..\Crypto\t1ha2.c" />

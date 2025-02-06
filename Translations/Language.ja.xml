@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.17">
+  <localization prog-version= "1.26.20">
     <language langid="ja" name="日本語" en-name="Japanese" version="1.1.0" translators="OGOSHI Masayuki, Transifex contributors" />
     <font lang="ja" class="normal" size="12" face="MS UI Gothic" />
     <font lang="ja" class="bold" size="16" face="MS UI Gothic" />
@@ -135,8 +135,8 @@
     <entry lang="ja" key="IDC_FAVORITE_REMOVE">登録解除(&amp;R)</entry>
     <entry lang="ja" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">エクスプローラーのドライブラベルにお気に入りラベルを使用する</entry>
     <entry lang="ja" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">全体設定</entry>
-    <entry lang="ja" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">ホットキーでのアンマウントに成功したときバルーンを表示</entry>
-    <entry lang="ja" key="IDC_HK_DISMOUNT_PLAY_SOUND">ホットキーでのアンマウントに成功したとき音を鳴らす</entry>
+    <entry lang="ja" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">ホットキーでのアンマウントに成功したときバルーンを表示</entry>
+    <entry lang="ja" key="IDC_HK_UNMOUNT_PLAY_SOUND">ホットキーでのアンマウントに成功したとき音を鳴らす</entry>
     <entry lang="ja" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="ja" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="ja" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="ja" key="IDC_PIM_HELP">（空白または 0 にするとデフォルトの反復回数）</entry>
     <entry lang="ja" key="IDC_PREF_BKG_TASK_ENABLE">常駐する</entry>
     <entry lang="ja" key="IDC_PREF_CACHE_PASSWORDS">パスワードをドライバのメモリに記憶する</entry>
-    <entry lang="ja" key="IDC_PREF_DISMOUNT_INACTIVE">右に示す時間内に読み書きがなければ自動的にアンマウント</entry>
-    <entry lang="ja" key="IDC_PREF_DISMOUNT_LOGOFF">ユーザがログオフしたとき</entry>
-    <entry lang="ja" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">ユーザーセッションがロックされたとき</entry>
-    <entry lang="ja" key="IDC_PREF_DISMOUNT_POWERSAVING">省電力モードに入ったとき</entry>
-    <entry lang="ja" key="IDC_PREF_DISMOUNT_SCREENSAVER">スクリーンセーバの起動時</entry>
-    <entry lang="ja" key="IDC_PREF_FORCE_AUTO_DISMOUNT">ボリュームに開かれたファイルやフォルダがあっても強制的にアンマウント</entry>
+    <entry lang="ja" key="IDC_PREF_UNMOUNT_INACTIVE">右に示す時間内に読み書きがなければ自動的にアンマウント</entry>
+    <entry lang="ja" key="IDC_PREF_UNMOUNT_LOGOFF">ユーザがログオフしたとき</entry>
+    <entry lang="ja" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">ユーザーセッションがロックされたとき</entry>
+    <entry lang="ja" key="IDC_PREF_UNMOUNT_POWERSAVING">省電力モードに入ったとき</entry>
+    <entry lang="ja" key="IDC_PREF_UNMOUNT_SCREENSAVER">スクリーンセーバの起動時</entry>
+    <entry lang="ja" key="IDC_PREF_FORCE_AUTO_UNMOUNT">ボリュームに開かれたファイルやフォルダがあっても強制的にアンマウント</entry>
     <entry lang="ja" key="IDC_PREF_LOGON_MOUNT_DEVICES">すべてのデバイス型ボリュームをマウント</entry>
     <entry lang="ja" key="IDC_PREF_LOGON_START">VeraCryptを常駐して開始</entry>
     <entry lang="ja" key="IDC_PREF_MOUNT_READONLY">ボリュームを読み取り専用でマウント</entry>
@@ -169,7 +169,7 @@
     <entry lang="ja" key="IDC_PREF_OPEN_EXPLORER">マウント成功時にそのボリュームのウィンドウを開く</entry>
     <entry lang="ja" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">「お気に入りのボリュームをマウント」操作中、一時的にパスワードをキャッシュする</entry>
     <entry lang="ja" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">マウントされたボリュームがあるときにタスクバーアイコンを変える</entry>
-    <entry lang="ja" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">自動アンマウントの際に記憶していたパスワードを消去</entry>
+    <entry lang="ja" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">自動アンマウントの際に記憶していたパスワードを消去</entry>
     <entry lang="ja" key="IDC_PREF_WIPE_CACHE_ON_EXIT">終了時に記憶していたパスワードを消去</entry>
     <entry lang="ja" key="IDC_PRESERVE_TIMESTAMPS">コンテナファイルの更新日時を変更しない</entry>
     <entry lang="ja" key="IDC_RESET_HOTKEYS">リセット</entry>
@@ -269,14 +269,14 @@
     <entry lang="ja" key="IDT_ACCELERATION_OPTIONS">ハードウェアによる高速化設定</entry>
     <entry lang="ja" key="IDT_ASSIGN_HOTKEY">ショートカット</entry>
     <entry lang="ja" key="IDT_AUTORUN">自動実行ファイル(Autorun.inf)の設定</entry>
-    <entry lang="ja" key="IDT_AUTO_DISMOUNT">自動アンマウント</entry>
-    <entry lang="ja" key="IDT_AUTO_DISMOUNT_ON">右に示すときに \nすべてアンマウント：</entry>
+    <entry lang="ja" key="IDT_AUTO_UNMOUNT">自動アンマウント</entry>
+    <entry lang="ja" key="IDT_AUTO_UNMOUNT_ON">右に示すときに \nすべてアンマウント：</entry>
     <entry lang="ja" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">ブートローダー画面オプション</entry>
     <entry lang="ja" key="IDT_CONFIRM_PASSWORD">パスワード確認：</entry>
     <entry lang="ja" key="IDT_CURRENT">現在</entry>
     <entry lang="ja" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">起動前認証画面で次のメッセージを表示する(最大24文字)：</entry>
     <entry lang="ja" key="IDT_DEFAULT_MOUNT_OPTIONS">デフォルトのマウントオプション</entry>
-    <entry lang="ja" key="IDT_DISMOUNT_ACTION">ホットキーオプション</entry>
+    <entry lang="ja" key="IDT_UNMOUNT_ACTION">ホットキーオプション</entry>
     <entry lang="ja" key="IDT_DRIVER_OPTIONS">ドライバー構成</entry>
     <entry lang="ja" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">拡張ディスク制御コードサポートを有効にする</entry>
     <entry lang="ja" key="IDT_FAVORITE_LABEL">選択したお気に入りボリュームのラベル：</entry>
@@ -423,8 +423,8 @@
     <entry lang="ja" key="DEVICE_FREE_PB">%s のサイズは %.2f PB</entry>
     <entry lang="ja" key="DEVICE_IN_USE_FORMAT">警告：指定されたデバイスあるいはパーティションは、OSあるいはアプリケーションで使用されています。このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になるかもしれません。\n\nフォーマットを続けますか？</entry>
     <entry lang="ja" key="DEVICE_IN_USE_INPLACE_ENC">警告：そのパーティションはOSかアプリケーションで使用中です。まず使用されているパーティション上のすべてのアプリケーションを終了してください(アンチウィルスソフトも含みます)。\n\n続けますか？</entry>
-    <entry lang="ja" key="FORMAT_CANT_DISMOUNT_FILESYS">エラー：指定されたデバイスあるいはパーティションに、アンマウントできないファイルシステムが含まれています。このファイルシステムはおそらくOSで使用されており、このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になる可能性が高いです。\n\nこの問題を解決するためには、まず最初にパーティションを削除し、フォーマットをせずにパーティションを再作成することをお勧めします。そのためには以下の手順を行ってください。\n\n1) コンピュータ（マイコンピュータ）アイコンを右クリックして「管理」を選択し、「コンピュータの管理」画面を開く。 2) 「記憶域」＞「ディスクの管理」を選択。 3) 暗号化したいパーティションを選んで右クリックし、「パーティションの削除」「ボリュームの削除」「論理ドライブの削除」のいずれかを選択。 4) 「はい」をクリック。もし再起動を要求されたら再起動し、手順(1)と(2)を行い(5)に進む。 5) 空き領域／未割り当て領域を右クリックし、「新しいパーティション」「新しいシンプルボリューム」「新しい論理ドライブ」のいずれかを選択。 6) 「新しいパーティションウィザード」か「新しいシンプルボリュームウィザード」が開くので、表示された内容に従って進める。ウィザードが「パーティションのフォーマット」まで進んだら、「このパーティションをフォーマットしない」「このボリュームをフォーマットしない」のいずれかを選択する。続いて「次へ」をクリックし、最後に「終了」をクリック。 7)この時点でVeraCryptで指定されているデバイスの位置がずれていると思われるので、（もしまだ実行中なら）VeraCryptボリューム作成ウィザードをいったん終了し、再び実行する。 8) VeraCryptに戻って、再びデバイスあるいはパーティションの暗号化を試す。\n\nもしVeraCryptが再度暗号化に失敗したときは、代わりにコンテナファイルの作成を検討してください。</entry>
-    <entry lang="ja" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">エラー：ファイルシステムのロックを取得できないかアンマウントできません。おそらくOSかアプリケーションが使用中です(例：アンチウィルスソフトなど)。このパーティションの暗号化を続けるとデータが破壊されてシステムが不安定になるかもしれません。\n\nまず使用されているパーティション上のすべてのアプリケーションを終了してから(アンチウィルスソフトも含みます)、改めて試してください。方法がわからない場合は、以下の手順に従ってください。</entry>
+    <entry lang="ja" key="FORMAT_CANT_UNMOUNT_FILESYS">エラー：指定されたデバイスあるいはパーティションに、アンマウントできないファイルシステムが含まれています。このファイルシステムはおそらくOSで使用されており、このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になる可能性が高いです。\n\nこの問題を解決するためには、まず最初にパーティションを削除し、フォーマットをせずにパーティションを再作成することをお勧めします。そのためには以下の手順を行ってください。\n\n1) コンピュータ（マイコンピュータ）アイコンを右クリックして「管理」を選択し、「コンピュータの管理」画面を開く。 2) 「記憶域」＞「ディスクの管理」を選択。 3) 暗号化したいパーティションを選んで右クリックし、「パーティションの削除」「ボリュームの削除」「論理ドライブの削除」のいずれかを選択。 4) 「はい」をクリック。もし再起動を要求されたら再起動し、手順(1)と(2)を行い(5)に進む。 5) 空き領域／未割り当て領域を右クリックし、「新しいパーティション」「新しいシンプルボリューム」「新しい論理ドライブ」のいずれかを選択。 6) 「新しいパーティションウィザード」か「新しいシンプルボリュームウィザード」が開くので、表示された内容に従って進める。ウィザードが「パーティションのフォーマット」まで進んだら、「このパーティションをフォーマットしない」「このボリュームをフォーマットしない」のいずれかを選択する。続いて「次へ」をクリックし、最後に「終了」をクリック。 7)この時点でVeraCryptで指定されているデバイスの位置がずれていると思われるので、（もしまだ実行中なら）VeraCryptボリューム作成ウィザードをいったん終了し、再び実行する。 8) VeraCryptに戻って、再びデバイスあるいはパーティションの暗号化を試す。\n\nもしVeraCryptが再度暗号化に失敗したときは、代わりにコンテナファイルの作成を検討してください。</entry>
+    <entry lang="ja" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">エラー：ファイルシステムのロックを取得できないかアンマウントできません。おそらくOSかアプリケーションが使用中です(例：アンチウィルスソフトなど)。このパーティションの暗号化を続けるとデータが破壊されてシステムが不安定になるかもしれません。\n\nまず使用されているパーティション上のすべてのアプリケーションを終了してから(アンチウィルスソフトも含みます)、改めて試してください。方法がわからない場合は、以下の手順に従ってください。</entry>
     <entry lang="ja" key="DEVICE_IN_USE_INFO">警告：マウントされたデバイスあるいはパーティションのいくつかはすでに使用中です！\n\nこれを無視して進めるとシステムが不安定になるなどの望まれない結果を引き起こす可能性があります。\n\nそのデバイスあるいはパーティションを使用していると思われるアプリケーションを終了させることを強く推奨します。</entry>
     <entry lang="ja" key="DEVICE_PARTITIONS_ERR">選択されたデバイスにはパーティションが含まれています。\n\nこのデバイスをフォーマットすることは、システムを不安定にし、データの破壊を引き起こすおそれがあります。デバイス全体ではなくいずれかのパーティションを選択するか、あるいは、このデバイスのすべてのパーティションを削除して、VeraCryptが安全にフォーマットできるようにしてください。</entry>
     <entry lang="ja" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">選択された非システムデバイスはパーティションを含んでいます。\n\nデバイス型の暗号化ボリュームを保持するデバイスには、パーティションを含むことができません(ハードディスクやSSDも含みます)。パーティションを含むデバイスでデバイス全体を暗号化（単一のマスターキーを使用）できるのは、そのドライブにWindowsがインストールされており、かつそこから起動するときに限ります。\n\nもし選択された非システムデバイスを（単一のマスターキーで）暗号化したい場合は、VeraCryptが安全にフォーマットできるよう(パーティションを含むデバイスをフォーマットすると、データを破壊したりシステムが不安定になるおそれがあります)に、最初にそのデバイスの全てのパーティションを削除する必要があります。あるいは、そのドライブ上のパーティションを個々に暗号化することもできます（パーティションごとに別々のマスターキーが使われます）。\n\n注：もしGPTディスク上の全パーティションを削除したい場合、隠しパーティションを削除するためには「コンピュータの管理」などからMBRディスクに変換しておく必要があるでしょう。</entry>
@@ -590,7 +590,7 @@
     <entry lang="ja" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">エラー：外殻ボリュームにコピーしようとしたファイルのサイズが大きすぎます。隠しボリュームの外殻ボリュームに十分な空き容量がありません。\n\n隠しボリュームはシステムパーティション（現在動作中のOSがインストールされているところです）より大きなサイズでなければなりません。隠しOSはシステムパーティションのファイルを隠しボリュームにコピーして作られる必要があるためです。\n\n\n隠しOSを作成する処理が続けられません。</entry>
     <entry lang="ja" key="OPENFILES_DRIVER">ドライバがそのボリュームをアンマウントできません。おそらくそのボリューム上のいくつかのファイルが開かれたままです。</entry>
     <entry lang="ja" key="OPENFILES_LOCK">ボリュームのロックができません。ボリューム上のいくつかのファイルが開かれたままです。そのためにアンマウントできません。</entry>
-    <entry lang="ja" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">システムかアプリケーションがボリュームを使用中のため、ボリュームのロックに失敗しました（おそらくボリューム上のファイルが開かれています）。\n\nこのボリュームを強制的にアンマウントしますか？</entry>
+    <entry lang="ja" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">システムかアプリケーションがボリュームを使用中のため、ボリュームのロックに失敗しました（おそらくボリューム上のファイルが開かれています）。\n\nこのボリュームを強制的にアンマウントしますか？</entry>
     <entry lang="ja" key="OPEN_VOL_TITLE">VeraCryptボリュームの選択</entry>
     <entry lang="ja" key="OPEN_TITLE">フォルダやファイル名の指定</entry>
     <entry lang="ja" key="SELECT_PKCS11_MODULE">PKCS #11 ライブラリを選択</entry>
@@ -729,7 +729,7 @@
     <entry lang="ja" key="DLL_FILES">ライブラリモジュール</entry>
     <entry lang="ja" key="FORMAT_NTFS_STOP">NTFS でのフォーマットを続けられません。</entry>
     <entry lang="ja" key="CANT_MOUNT_VOLUME">ボリュームをマウントできません。</entry>
-    <entry lang="ja" key="CANT_DISMOUNT_VOLUME">ボリュームをアンマウントできません。</entry>
+    <entry lang="ja" key="CANT_UNMOUNT_VOLUME">ボリュームをアンマウントできません。</entry>
     <entry lang="ja" key="FORMAT_NTFS_FAILED">WindowsはボリュームをNFTSでフォーマットすることに失敗しました。\n\n可能なら別のファイルシステムを選択してから再度試してください。あるいは、ボリュームをフォーマットせず（ファイルシステムなしを指定する）にウィザードを終了し、そのボリュームをマウントしてから、システムあるいはサードパーティのフォーマットツールを使ってみることもできます。ボリュームの暗号化状態は維持されます。</entry>
     <entry lang="ja" key="FORMAT_NTFS_FAILED_ASK_FAT">WindowsはボリュームをNTFSでフォーマットすることに失敗しました。\n\n代わりにFATでフォーマットしますか？</entry>
     <entry lang="ja" key="DEFAULT">デフォルト</entry>
@@ -771,7 +771,7 @@
     <entry lang="ja" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">エラーによりパーティションの暗号化が中断されました。ここまでに報告された問題を解決してから再度やり直してください。問題が解決しない場合は、以下の手順を試してみてください。</entry>
     <entry lang="ja" key="INPLACE_ENC_GENERIC_ERR_RESUME">エラーによりパーティションの暗号化処理への復帰が中断されました。\n\nここまでに報告された問題を解決してから再度やり直してみてください。なお、暗号化処理が完了するまではこのボリュームをマウントすることはできません。</entry>
     <entry lang="ja" key="INPLACE_DEC_GENERIC_ERR">エラーが発生したため、VeraCryptはボリュームを復号できませんでした。以前に報告された問題を解決してから、可能であればもう一度お試しください。</entry>
-    <entry lang="ja" key="CANT_DISMOUNT_OUTER_VOL">エラー：外殻ボリュームをアンマウントできません！\n\nボリューム内にプログラムやシステムで使用中のファイルあるいはフォルダがあると、ボリュームのアンマウントができません。\n\nファイルやフォルダを使用していると思われるプログラムを終了させてから「再試行」をクリックしてください。</entry>
+    <entry lang="ja" key="CANT_UNMOUNT_OUTER_VOL">エラー：外殻ボリュームをアンマウントできません！\n\nボリューム内にプログラムやシステムで使用中のファイルあるいはフォルダがあると、ボリュームのアンマウントができません。\n\nファイルやフォルダを使用していると思われるプログラムを終了させてから「再試行」をクリックしてください。</entry>
     <entry lang="ja" key="CANT_GET_OUTER_VOL_INFO">エラー：外殻ボリュームの情報を取得できませんでした！ ボリュームの作成を続行できません。</entry>
     <entry lang="ja" key="CANT_ACCESS_OUTER_VOL">エラー：外殻ボリュームにアクセスできません！ ボリュームの作成を続行できません。</entry>
     <entry lang="ja" key="CANT_MOUNT_OUTER_VOL">エラー：外殻ボリュームをマウントできません！ ボリュームの作成を続行できません。</entry>
@@ -882,7 +882,7 @@
     <entry lang="ja" key="INSTALL_COMPLETED">インストールが完了しました。</entry>
     <entry lang="ja" key="CANT_CREATE_FOLDER">フォルダ '%s' を作成できませんでした</entry>
     <entry lang="ja" key="CLOSE_TC_FIRST">VeraCryptのデバイスドライバをメモリ上から解放できませんでした。\n\nまず先にVeraCryptのウィンドウをすべて閉じてください。うまくいかないようでしたら、Windowsを再起動してからもう一度試してみてください。</entry>
-    <entry lang="ja" key="DISMOUNT_ALL_FIRST">インストールあるいはアンインストールを続ける前に、VeraCryptのすべてのボリュームをアンマウントしなくてはなりません。</entry>
+    <entry lang="ja" key="UNMOUNT_ALL_FIRST">インストールあるいはアンインストールを続ける前に、VeraCryptのすべてのボリュームをアンマウントしなくてはなりません。</entry>
     <entry lang="ja" key="UNINSTALL_OLD_VERSION_FIRST">VeraCryptの古いバージョンがこのシステムにインストールされています。VeraCryptの新しいバージョンをインストールする前に古いバージョンをアンインストールする必要があります。\n\nこのメッセージウィンドウを閉じると、古いバージョンのアンインストーラーがすぐに起動します。なおVeraCryptのアンインストール中に暗号化ボリュームが復号されることはありません。古いVeraCryptをアンインストールしてから、再びこの新しいバージョンのVeraCryptインストーラーを実行してください。</entry>
     <entry lang="ja" key="REG_INSTALL_FAILED">レジストリエントリのインストールに失敗しました</entry>
     <entry lang="ja" key="DRIVER_INSTALL_FAILED">デバイスドライバのインストールに失敗しました。Windowsを再起動してから、再度VeraCryptをインストールしてみてください。</entry>
@@ -903,7 +903,7 @@
     <entry lang="ja" key="MINUTES">分</entry>
     <entry lang="ja" key="SECONDS">秒</entry>
     <entry lang="ja" key="OPEN">開く</entry>
-    <entry lang="ja" key="DISMOUNT">アンマウント</entry>
+    <entry lang="ja" key="UNMOUNT">アンマウント</entry>
     <entry lang="ja" key="SHOW_TC">メインウィンドウを表示</entry>
     <entry lang="ja" key="HIDE_TC">メインウィンドウを隠す</entry>
     <entry lang="ja" key="TOTAL_DATA_READ">マウント後の読み込みデータ量</entry>
@@ -975,7 +975,7 @@
     <entry lang="ja" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - システムお気に入りボリューム</entry>
     <entry lang="ja" key="SYS_FAVORITES_HELP_LINK">システムお気に入りボリュームとは？</entry>
     <entry lang="ja" key="SYS_FAVORITES_REQUIRE_PBA">システムパーティション/ドライブは暗号化されてないようです。\n\nシステムお気に入りボリュームは起動前認証用のパスワードでのみマウントできます。したがって、システムお気に入りボリュームを使用するためには、先にシステムパーティション/ドライブを暗号化しておく必要があります。</entry>
-    <entry lang="ja" key="DISMOUNT_FIRST">先に進む前にボリュームをアンマウントしてください。</entry>
+    <entry lang="ja" key="UNMOUNT_FIRST">先に進む前にボリュームをアンマウントしてください。</entry>
     <entry lang="ja" key="CANNOT_SET_TIMER">タイマーをセットできませんでした。</entry>
     <entry lang="ja" key="IDPM_CHECK_FILESYS">ファイルシステムのチェック</entry>
     <entry lang="ja" key="IDPM_REPAIR_FILESYS">ファイルシステムの修復</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="ja" key="NO_SYSENC_PARTITION_SELECTED">パーティションが選択されていません。\n\n「デバイスの選択」をクリックし、通常は起動前認証が必要な未マウント状態のパーティション（例：未起動の他のOSの暗号化システムドライブ上のパーティションあるいは他のOSの暗号化システムパーティションなど）を選択してください。\n\n注：選択されたパーティションは、通常の起動前認証が不要なVeraCryptボリュームと同じようにマウントされます。これは例えばバックアップや修復作業のときに有用です。</entry>
     <entry lang="ja" key="CONFIRM_SAVE_DEFAULT_KEYFILES">警告：デフォルトのキーファイルを設定して有効にすると、それらのキーファイルを使っていないボリュームをマウントできなくなります。デフォルトのキーファイルを有効にした後に、そのようなボリュームをマウントする場合は「キーファイルを使用する」のチェック（パスワード入力欄の下にあります）を外すことを忘れないでください。\n\n指定されたキーファイルあるいはフォルダをデフォルトとして保存しますか？</entry>
     <entry lang="ja" key="HK_AUTOMOUNT_DEVICES">デバイスの自動マウント</entry>
-    <entry lang="ja" key="HK_DISMOUNT_ALL">すべてアンマウント</entry>
+    <entry lang="ja" key="HK_UNMOUNT_ALL">すべてアンマウント</entry>
     <entry lang="ja" key="HK_WIPE_CACHE">記憶したパスワードの消去</entry>
-    <entry lang="ja" key="HK_DISMOUNT_ALL_AND_WIPE">すべてアンマウント→記憶したパスワードを消去</entry>
-    <entry lang="ja" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">すべて強制アンマウント→記憶したパスワードを消去</entry>
-    <entry lang="ja" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">すべて強制アンマウント→記憶したパスワードを消去→終了</entry>
+    <entry lang="ja" key="HK_UNMOUNT_ALL_AND_WIPE">すべてアンマウント→記憶したパスワードを消去</entry>
+    <entry lang="ja" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">すべて強制アンマウント→記憶したパスワードを消去</entry>
+    <entry lang="ja" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">すべて強制アンマウント→記憶したパスワードを消去→終了</entry>
     <entry lang="ja" key="HK_MOUNT_FAVORITE_VOLUMES">お気に入りをマウント</entry>
     <entry lang="ja" key="HK_SHOW_HIDE_MAIN_WINDOW">メインウィンドウの表示／消去</entry>
     <entry lang="ja" key="PRESS_A_KEY_TO_ASSIGN">（ここをクリックしてから割り当てるキーを押してください）</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="ja" key="PAGING_FILE_CREATION_PREVENTED">ページファイルの作成を中止しました。\n\nWindowsの問題により、ページファイルは非システムVeraCryptボリューム（システムお気に入りボリュームも含みます）上には作成できません。VeraCryptはページファイルを暗号化システムパーティション/ドライブ上にのみ作成可能です。</entry>
     <entry lang="ja" key="SYS_ENC_HIBERNATION_PREVENTED">エラーあるいは非互換性によりハイバネーションファイルは暗号化できません。そのため休止状態は阻止されました。\n\n注：コンピュータが休止状態（あるいはパワーセーブモード）になるとき、メモリーの内容がハイバネーションファイルとしてディスク上に保存されます。VeraCryptは、暗号鍵自体やRAM上に展開されている秘密にしたいファイルの内容が、暗号化されないままハイバネーションファイルに保存されることを止めることができません。</entry>
     <entry lang="ja" key="HIDDEN_OS_HIBERNATION_PREVENTED">休止状態は阻止されました。\n\nVeraCryptは追加のブートパーティションを利用している隠しOS上での休止状態をサポートしていません。ブートパーティションは囮と隠しの両システムで共用されていることに留意してください。データの漏出防止と休止状態からの復帰時の問題に対処するため、VeraCryptは隠しシステムについて共用ブートパーティションへの書き込みおよびシステム休止を禁止する必要があるのです。</entry>
-    <entry lang="ja" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">%c: ドライブとしてマウントされていたVeraCryptボリュームがアンマウントされました。</entry>
-    <entry lang="ja" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCryptボリュームがアンマウントされました。</entry>
-    <entry lang="ja" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCryptボリュームがアンマウントされ、記憶されていたパスワードは抹消されました。</entry>
-    <entry lang="ja" key="SUCCESSFULLY_DISMOUNTED">アンマウントに成功しました</entry>
+    <entry lang="ja" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">%c: ドライブとしてマウントされていたVeraCryptボリュームがアンマウントされました。</entry>
+    <entry lang="ja" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCryptボリュームがアンマウントされました。</entry>
+    <entry lang="ja" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCryptボリュームがアンマウントされ、記憶されていたパスワードは抹消されました。</entry>
+    <entry lang="ja" key="SUCCESSFULLY_UNMOUNTED">アンマウントに成功しました</entry>
     <entry lang="ja" key="CONFIRM_BACKGROUND_TASK_DISABLED">警告：VeraCryptの常駐を無効にすると次の機能も無効になります：\n\n1) ホットキー\n2) 自動アンマウント(例：ログオフしたとき、不用意にホストにしていたデバイスを外したとき、タイムアウト時など)\n3) お気に入りボリュームの自動マウント\n4) 通知機能（例：隠しボリュームの保護機能が働いたときなど）\n5) トレイアイコンの表示\n\n注：トレイアイコンを右クリックして「終了」を選べば、いつでも常駐を終了できます。\n\n本当にVeraCryptの常駐機能を無効にしますか？</entry>
-    <entry lang="ja" key="CONFIRM_NO_FORCED_AUTODISMOUNT">警告：もしこのオプションを無効にすると、ボリューム上に開かれているファイルやフォルダがあった場合に、自動アンマウントできなくなります。\n\n本当にこのオプションを無効にしますか？</entry>
-    <entry lang="ja" key="WARN_PREF_AUTO_DISMOUNT">警告：今の設定では開かれたファイルやフォルダが含まれるボリュームは、自動アンマウントされません。\n\nこれを防ぐには、この設定画面の「ボリュームに開かれたファイルやフォルダがあっても強制的にアンマウント」のチェックを有効にしてください。</entry>
-    <entry lang="ja" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">警告：ノート型PCのバッテリー残量が低下したとき、Windowsは、実行中のアプリケーションへコンピュータが省電力モードに入ったときに通知すべきメッセージを送り損なう可能性があります。そのため、そのような場合にはVeraCryptがボリュームの自動アンマウントに失敗するかもしれません。</entry>
+    <entry lang="ja" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">警告：もしこのオプションを無効にすると、ボリューム上に開かれているファイルやフォルダがあった場合に、自動アンマウントできなくなります。\n\n本当にこのオプションを無効にしますか？</entry>
+    <entry lang="ja" key="WARN_PREF_AUTO_UNMOUNT">警告：今の設定では開かれたファイルやフォルダが含まれるボリュームは、自動アンマウントされません。\n\nこれを防ぐには、この設定画面の「ボリュームに開かれたファイルやフォルダがあっても強制的にアンマウント」のチェックを有効にしてください。</entry>
+    <entry lang="ja" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">警告：ノート型PCのバッテリー残量が低下したとき、Windowsは、実行中のアプリケーションへコンピュータが省電力モードに入ったときに通知すべきメッセージを送り損なう可能性があります。そのため、そのような場合にはVeraCryptがボリュームの自動アンマウントに失敗するかもしれません。</entry>
     <entry lang="ja" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">中断中のパーティション/ボリュームの暗号化処理があります。この処理は未完了です。\n\n今すぐ処理を再開しますか？</entry>
     <entry lang="ja" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">システムパーティション/ドライブの暗号化（もしくは復号）作業を予約しました。この作業はまだ完了していません。\n\nすぐに暗号化（もしくは復号）作業を開始しますか？</entry>
     <entry lang="ja" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">現在の非システムパーティション/ボリュームの暗号化処理の再開が計画されているかどうかについて、通知しますか？</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="ja" key="SYS_AUTOMOUNT_DISABLED">このシステムは新しいボリュームの自動マウントができるようには設定されていません。 このことによりデバイス型のVeraCryptボリュームのマウントは不可能でしょう。 次のコマンドを実行してから再起動することで、自動マウントを有効にできます。\n\nmountvol.exe /E</entry>
     <entry lang="ja" key="SYS_ASSIGN_DRIVE_LETTER">作業を進める前に、先にパーティションあるいはデバイスにドライブレターを割り当ててください（Vistaならコントロールパネルから「システムとメンテナンス」→「管理ツール」とたどり、「ハードディスクパーティションの作成とフォーマット」を開きます）。\n\n注：これはオペレーティングシステム側の要請です。</entry>
     <entry lang="ja" key="MOUNT_TC_VOLUME">VeraCryptボリュームのマウント</entry>
-    <entry lang="ja" key="DISMOUNT_ALL_TC_VOLUMES">VeraCryptボリュームのアンマウント</entry>
+    <entry lang="ja" key="UNMOUNT_ALL_TC_VOLUMES">VeraCryptボリュームのアンマウント</entry>
     <entry lang="ja" key="UAC_INIT_ERROR">VeraCryptは管理者権限の取得に失敗しました。</entry>
     <entry lang="ja" key="ERR_ACCESS_DENIED">オペレーティングシステムによってアクセスが拒否されました。\n\n可能性のある原因：オペレーティングシステムは、指定されたフォルダやファイルあるいはデバイス等の読み書きについて、あなたが許可されている（あるいは管理者権限を持っている）ことを要求しています。普通は、管理者権限を持たない一般ユーザーであっても、自分自身のドキュメント置き場（マイドキュメントの中など）にファイルを新しく作成すること、ファイルの読み書きや修正することは許可されています。</entry>
     <entry lang="ja" key="SECTOR_SIZE_UNSUPPORTED">エラー：指定のドライブはサポートされていないセクタサイズを使用しています。\n\n今のところ、4096 バイトより大きいセクタが使われているドライブにはパーティション/デバイス型のボリュームを作成できません。ただしそのようなドライブでもファイルコンテナ型のボリュームなら作成可能です。</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="ja" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">処理に使用するスレッド数が現在制限されているため、ベンチマークの結果は悪くなります。\n\nプロセッサのポテンシャルを全て引き出すには [設定]-[パフォーマンス] を選択し、該当するオプションを無効にしてください。</entry>
     <entry lang="ja" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">このパーティション/ドライブの書込禁止の解除を試みますか？</entry>
     <entry lang="ja" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：この設定はパフォーマンスを低下させます。\n\n本当にこの設定を使用しますか？</entry>
-    <entry lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告：VeraCryptボリュームの自動的アンマウント</entry>
-    <entry lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">マウント中のボリュームが存在するデバイスを物理的に取り外したり電源を切ったりする先に、常にまずVeraCryptボリュームをアンマウントすべきです。\n\n想定外に勝手にアンマウントされるのは、ケーブルやドライブ等が断続的につながらなくなっているのが大抵の原因です。</entry>
+    <entry lang="ja" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">警告：VeraCryptボリュームの自動的アンマウント</entry>
+    <entry lang="ja" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">マウント中のボリュームが存在するデバイスを物理的に取り外したり電源を切ったりする先に、常にまずVeraCryptボリュームをアンマウントすべきです。\n\n想定外に勝手にアンマウントされるのは、ケーブルやドライブ等が断続的につながらなくなっているのが大抵の原因です。</entry>
     <entry lang="ja" key="UNSUPPORTED_TRUECRYPT_FORMAT">このボリュームはTrueCrypt %x.%xで作成されましたが、VeraCryptはTrueCrypt 6.x/7.xシリーズで作成されたTrueCryptボリュームのみをサポートしています。</entry>
     <entry lang="ja" key="TEST">テスト</entry>
     <entry lang="ja" key="KEYFILE">キーファイル</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="ja" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">すべてのマウントされたボリュームをお気に入りに追加する</entry>
     <entry lang="ja" key="TASKICON_PREF_MENU_ITEMS">タスクアイコンメニューアイテム</entry>
     <entry lang="ja" key="TASKICON_PREF_OPEN_VOL">マウント済みボリュームを開く</entry>
-    <entry lang="ja" key="TASKICON_PREF_DISMOUNT_VOL">マウント済みボリュームをアンマウント</entry>
+    <entry lang="ja" key="TASKICON_PREF_UNMOUNT_VOL">マウント済みボリュームをアンマウント</entry>
     <entry lang="ja" key="DISK_FREE">利用可能な空き容量: {0}</entry>
     <entry lang="ja" key="VOLUME_SIZE_HELP">作成するコンテナのサイズを指定してください。ボリュームの最小サイズは292 KiBです。</entry>
     <entry lang="ja" key="LINUX_CONFIRM_INNER_VOLUME_CALC">警告: 外部ボリュームにFAT以外のファイルシステムを選択しました。\nこの場合、VeraCryptは隠しボリュームの正確な最大許容サイズを計算できず、誤った推定値を使用します。\nしたがって、外部ボリュームと重ならないように隠しボリュームのサイズを適切に設定する責任があります。\n\n外部ボリュームに選択したファイルシステムを使用し続けますか?</entry>    <entry lang="ja" key="LINUX_PREF_TAB_SECURITY">セキュリティ</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="ja" key="LINUX_DO_NOT_MOUNT">マウントしない</entry>
     <entry lang="ja" key="LINUX_MOUNT_AT_DIR">ディレクトリにマウント：</entry>
     <entry lang="ja" key="LINUX_SELECT">選択...</entry>
-    <entry lang="ja" key="LINUX_DISMOUNT_ALL_WHEN">以下の場合にすべてのボリュームをマウント解除する</entry>
+    <entry lang="ja" key="LINUX_UNMOUNT_ALL_WHEN">以下の場合にすべてのボリュームをマウント解除する</entry>
     <entry lang="ja" key="LINUX_ENTERING_POWERSAVING">システムが省電力モードに入る時</entry>
     <entry lang="ja" key="LINUX_LOGIN_ACTION">ユーザーがログオンしたときに実行するアクション</entry>
-    <entry lang="ja" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">マウント解除中のボリュームのすべてのエクスプローラーウィンドウを閉じる</entry>
+    <entry lang="ja" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">マウント解除中のボリュームのすべてのエクスプローラーウィンドウを閉じる</entry>
     <entry lang="ja" key="LINUX_HOTKEYS">ホットキー</entry>
     <entry lang="ja" key="LINUX_SYSTEM_HOTKEYS">システム全体のホットキー</entry>
     <entry lang="ja" key="LINUX_SOUND_NOTIFICATION">マウント/アンマウント後にシステム通知音を鳴らす</entry>
-    <entry lang="ja" key="LINUX_CONFIRM_AFTER_DISMOUNT">マウント解除後に確認メッセージボックスを表示する</entry>
+    <entry lang="ja" key="LINUX_CONFIRM_AFTER_UNMOUNT">マウント解除後に確認メッセージボックスを表示する</entry>
     <entry lang="ja" key="LINUX_VC_QUITS">VeraCrypt が終了します</entry>
     <entry lang="ja" key="LINUX_OPEN_FINDER">正常にマウントされたボリュームの Finder ウィンドウを開きます</entry>
     <entry lang="ja" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">この設定は、カーネル暗号化サービスの使用が無効になっている場合にのみ有効になります。</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="ja" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="ja" key="LINUX_NOT_SUPPORTED"> （このプラットフォームで利用可能なコンポーネントではサポートされていません）。\n</entry>
     <entry lang="ja" key="LINUX_KERNEL_OLD">システムは古いバージョンの Linux カーネルを使用しています。\n\nLinux カーネルのバグにより、VeraCrypt ボリュームにデータを書き込むときにシステムが応答を停止することがあります。この問題は、カーネルをバージョン 2.6.24 以降にアップグレードすることで解決できます。</entry>
-    <entry lang="ja" key="LINUX_VOL_DISMOUNTED">ボリューム {0} がマウント解除されました。</entry>
+    <entry lang="ja" key="LINUX_VOL_UNMOUNTED">ボリューム {0} がマウント解除されました。</entry>
     <entry lang="ja" key="LINUX_VOL_MOUNTED">ボリューム {0} がマウントされました。</entry>
     <entry lang="ja" key="LINUX_OOM">メモリ不足です。</entry>
     <entry lang="ja" key="LINUX_CANT_GET_ADMIN_PRIV">管理者権限の取得に失敗しました</entry>
@@ -1641,6 +1641,9 @@
     <entry lang="ja" key="ERR_XTS_MASTERKEY_VULNERABLE">警告: ボリュームのマスターキーがデータセキュリティを損なう攻撃に対して脆弱です。\n\n新しいボリュームを作成し、データを転送してください。</entry>
     <entry lang="ja" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">警告: 暗号化されたシステムのマスターキーは、データセキュリティを損なう攻撃に対して脆弱です。\nシステムパーティション/ドライブの暗号化を解除してから、再度暗号化してください。</entry>
     <entry lang="ja" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">警告: ボリュームのマスターキーにセキュリティの脆弱性があります。</entry>
+    <entry lang="ja" key="MOUNTPOINT_BLOCKED">エラー: ボリュームのマウントポイントは、保護されたシステムディレクトリと競合するためブロックされました。\n\n別のマウントポイントを選択してください。</entry>
+    <entry lang="ja" key="MOUNTPOINT_NOTALLOWED">エラー: ボリュームのマウントポイントは、PATH環境変数に含まれるディレクトリを上書きするため使用できません。\n\n別のマウントポイントを選択してください。</entry>
+    <entry lang="ja" key="INSECURE_MODE">[非セキュアモード]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

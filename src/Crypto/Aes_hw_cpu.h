@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -22,8 +22,8 @@ extern "C"
 
 #if defined (TC_WINDOWS_BOOT)
 uint8 is_aes_hw_cpu_supported ();
-#endif
 void aes_hw_cpu_enable_sse ();
+#endif
 void aes_hw_cpu_decrypt (const uint8 *ks, uint8 *data);
 void VC_CDECL aes_hw_cpu_decrypt_32_blocks (const uint8 *ks, uint8 *data);
 void aes_hw_cpu_encrypt (const uint8 *ks, uint8 *data);

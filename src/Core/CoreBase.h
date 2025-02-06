@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -77,10 +77,18 @@ namespace VeraCrypt
 		virtual void SetFileOwner (const FilesystemPath &path, const UserId &owner) const = 0;
 		virtual DirectoryPath SlotNumberToMountPoint (VolumeSlotNumber slotNumber) const = 0;
 		virtual void WipePasswordCache () const = 0;
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		virtual void ForceUseDummySudoPassword (bool useDummySudoPassword) { UseDummySudoPassword = useDummySudoPassword;}
 		virtual bool GetUseDummySudoPassword () const { return UseDummySudoPassword;}
+
+#if defined(TC_UNIX)
+		virtual bool IsProtectedSystemDirectory (const DirectoryPath &directory) const = 0;
+		virtual bool IsDirectoryOnUserPath(const DirectoryPath &directory) const = 0;
+		virtual void SetAllowInsecureMount (bool allowInsecureMount) { AllowInsecureMount = allowInsecureMount; }
+		virtual bool GetAllowInsecureMount () const { return AllowInsecureMount; }
 #endif
+
+		virtual void SetUserEnvPATH (const string &path) { UserEnvPATH = path; }
+		virtual string GetUserEnvPATH () const { return UserEnvPATH; }
 
 		Event VolumeDismountedEvent;
 		Event VolumeMountedEvent;
@@ -91,8 +99,11 @@ namespace VeraCrypt
 
 		bool DeviceChangeInProgress;
 		FilePath ApplicationExecutablePath;
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
+		string UserEnvPATH;
 		bool UseDummySudoPassword;
+
+#if defined(TC_UNIX)
+		bool AllowInsecureMount;
 #endif
 
 	private:

@@ -90,6 +90,15 @@
     <ClCompile Include="Sha2Intel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Aescrypt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Aes_hw_armv8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sha256_armv8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -165,15 +174,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="t1ha_selfcheck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="blake2s-load-sse2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="blake2s-load-sse41.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="blake2s-round.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

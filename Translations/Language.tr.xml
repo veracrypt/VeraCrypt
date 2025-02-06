@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <VeraCrypt>
-  <localization prog-version= "1.26.17">
-    <language langid="tr" name="Türkçe" en-name="Turkish" version="1.26.17" translators="FabSec; By Fabriel, Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci, Kaya Zeren" />
+  <localization prog-version= "1.26.20">
+    <language langid="tr" name="Türkçe" en-name="Turkish" version="1.26.20" translators="FabSec; By Fabriel, Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci, Kaya Zeren" />
     <font lang="tr" class="normal" size="11" face="default" />
     <font lang="tr" class="bold" size="13" face="Arial" />
     <font lang="tr" class="fixed" size="12" face="Lucida Console" />
@@ -135,8 +135,8 @@
     <entry lang="tr" key="IDC_FAVORITE_REMOVE">&amp;Kaldır</entry>
     <entry lang="tr" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Dosya Gezgini etiketi olarak sık kullanılan etiketi kullanılsın</entry>
     <entry lang="tr" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Genel ayarlar</entry>
-    <entry lang="tr" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Kısayol tuşu ile bağlantı kesildiğinde balon ipucu görüntülensin</entry>
-    <entry lang="tr" key="IDC_HK_DISMOUNT_PLAY_SOUND">Kısayol tuşu ile bağlantı kesildiğinde sistem bildirimi sesi çalınsın</entry>
+    <entry lang="tr" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Kısayol tuşu ile bağlantı kesildiğinde balon ipucu görüntülensin</entry>
+    <entry lang="tr" key="IDC_HK_UNMOUNT_PLAY_SOUND">Kısayol tuşu ile bağlantı kesildiğinde sistem bildirimi sesi çalınsın</entry>
     <entry lang="tr" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="tr" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="tr" key="IDC_HK_MOD_SHIFT">Shift</entry>
@@ -156,12 +156,12 @@
     <entry lang="tr" key="IDC_PIM_HELP">(Varsayılan çevrim sayısı için boş ya da 0)</entry>
     <entry lang="tr" key="IDC_PREF_BKG_TASK_ENABLE">Etkin</entry>
     <entry lang="tr" key="IDC_PREF_CACHE_PASSWORDS">Parola sürücü belleğinde ön belleğe alınsın</entry>
-    <entry lang="tr" key="IDC_PREF_DISMOUNT_INACTIVE">Birimden şu süreyle veri okunmaz/yazılmazsa bağlantısı otomatik kesilsin:</entry>
-    <entry lang="tr" key="IDC_PREF_DISMOUNT_LOGOFF">Kullanıcı oturumu kapatıldığında</entry>
-    <entry lang="tr" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Kullanıcı oturumu kilitlendiğinde</entry>
-    <entry lang="tr" key="IDC_PREF_DISMOUNT_POWERSAVING">Güç koruma kipine geçildiğinde</entry>
-    <entry lang="tr" key="IDC_PREF_DISMOUNT_SCREENSAVER">Ekran koruyucu açıldığında</entry>
-    <entry lang="tr" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Birimde, açık dosyalar veya klasörler olsa da bağlantı otomatik kesilsin</entry>
+    <entry lang="tr" key="IDC_PREF_UNMOUNT_INACTIVE">Birimden şu süreyle veri okunmaz/yazılmazsa bağlantısı otomatik kesilsin:</entry>
+    <entry lang="tr" key="IDC_PREF_UNMOUNT_LOGOFF">Kullanıcı oturumu kapatıldığında</entry>
+    <entry lang="tr" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Kullanıcı oturumu kilitlendiğinde</entry>
+    <entry lang="tr" key="IDC_PREF_UNMOUNT_POWERSAVING">Güç koruma kipine geçildiğinde</entry>
+    <entry lang="tr" key="IDC_PREF_UNMOUNT_SCREENSAVER">Ekran koruyucu açıldığında</entry>
+    <entry lang="tr" key="IDC_PREF_FORCE_AUTO_UNMOUNT">Birimde, açık dosyalar veya klasörler olsa da bağlantı otomatik kesilsin</entry>
     <entry lang="tr" key="IDC_PREF_LOGON_MOUNT_DEVICES">Barındırma aygıtındaki tüm VeraCrypt birimleri bağlansın</entry>
     <entry lang="tr" key="IDC_PREF_LOGON_START">VeraCrypt işlemi başlatılsın</entry>
     <entry lang="tr" key="IDC_PREF_MOUNT_READONLY">Birimler salt okunur olarak bağlansın</entry>
@@ -169,7 +169,7 @@
     <entry lang="tr" key="IDC_PREF_OPEN_EXPLORER">Birim bağlandığında Dosya Gezgini açılsın</entry>
     <entry lang="tr" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">"Sık kullanılan birimleri bağla" işlemleri sırasında parola geçici olarak ön belleğe alınsın</entry>
     <entry lang="tr" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Bağlanmış bir birim olmadığında görev çubuğu simgesi değiştirilsin</entry>
-    <entry lang="tr" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Bağlantı otomatik olarak kesildiğinde ön bellekteki parolalar temizlensin</entry>
+    <entry lang="tr" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">Bağlantı otomatik olarak kesildiğinde ön bellekteki parolalar temizlensin</entry>
     <entry lang="tr" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Çıkarken ön bellekteki parolalar temizlensin</entry>
     <entry lang="tr" key="IDC_PRESERVE_TIMESTAMPS">Kapsayıcıların değiştirilme zamanı korunsun</entry>
     <entry lang="tr" key="IDC_RESET_HOTKEYS">Sıfırla</entry>
@@ -269,14 +269,14 @@
     <entry lang="tr" key="IDT_ACCELERATION_OPTIONS">Donanımsal hızlandırma</entry>
     <entry lang="tr" key="IDT_ASSIGN_HOTKEY">Kısayol</entry>
     <entry lang="tr" key="IDT_AUTORUN">Otomatik çalışma yapılandırması (autorun.inf)</entry>
-    <entry lang="tr" key="IDT_AUTO_DISMOUNT">Otomatik bağlantı kesme</entry>
-    <entry lang="tr" key="IDT_AUTO_DISMOUNT_ON">Şu durumlarda tümü kesilsin:</entry>
+    <entry lang="tr" key="IDT_AUTO_UNMOUNT">Otomatik bağlantı kesme</entry>
+    <entry lang="tr" key="IDT_AUTO_UNMOUNT_ON">Şu durumlarda tümü kesilsin:</entry>
     <entry lang="tr" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Başlatma ekranı seçenekleri</entry>
     <entry lang="tr" key="IDT_CONFIRM_PASSWORD">Parola onayı:</entry>
     <entry lang="tr" key="IDT_CURRENT">Geçerli</entry>
     <entry lang="tr" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Başlatma öncesi kimlik doğrulama ekranında görüntülenecek bir özel ileti yazın (en fazla 24 karakter):</entry>
     <entry lang="tr" key="IDT_DEFAULT_MOUNT_OPTIONS">Varsayılan bağlama özellikleri</entry>
-    <entry lang="tr" key="IDT_DISMOUNT_ACTION">Kısayol özellikleri</entry>
+    <entry lang="tr" key="IDT_UNMOUNT_ACTION">Kısayol özellikleri</entry>
     <entry lang="tr" key="IDT_DRIVER_OPTIONS">Sürücü yapılandırması</entry>
     <entry lang="tr" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Gelişmiş disk denetimi kodları desteği kullanılsın</entry>
     <entry lang="tr" key="IDT_FAVORITE_LABEL">Seçilmiş sık kullanılan birimin etiketi:</entry>
@@ -423,8 +423,8 @@
     <entry lang="tr" key="DEVICE_FREE_PB">%s bölümünün boyutu %.2f PB</entry>
     <entry lang="tr" key="DEVICE_IN_USE_FORMAT">UYARI: Aygıt ya da bölüm, işletim sistemi veya uygulamalar tarafından kullanılıyor. Bu aygıtı ya da bölümü biçimlendirmek verilerin bozulmasına ve sistemin kararsız duruma gelmesine neden olabilir.\n\nİlerlemek istiyor musunuz?</entry>
     <entry lang="tr" key="DEVICE_IN_USE_INPLACE_ENC">Uyarı: Bölüm, işletim sistemi veya uygulamalar tarafından kullanılıyor. Bölümü kullanıyor olabilecek tüm uygulamaları kapatmalısınız (virüsten koruma uygulamasını da).\n\nİlerlemek istiyor munuz?</entry>
-    <entry lang="tr" key="FORMAT_CANT_DISMOUNT_FILESYS">Hata: Aygıt ya da bölümde bağlantısı kesilemeyen bir dosya sistemi bulunuyor. Bu dosya sistemi işletim sistemi tarafından kullanılıyor olabilir. Aygıtı ya da bölümü biçimlendirmek büyük olasılıkla verilerin bozulmasına ve sistemin kararsız duruma gelmesine neden olur.\n\nBu sorunu gidermek için, önce bölümü silmeniz ve biçimlendirmeden yeniden oluşturmanız önerilir. Bunun için şu adımları izleyin:\n1) 'Başlat Menüsü' içinde 'Bilgisayar' (veya 'Bilgisayarım') simgesine sağ tıklayın ve 'Yönet' üzerine tıklayın. 'Bilgisayar Yönetimi' penceresi açılır.\n2) 'Bilgisayar Yönetimi' penceresinde, 'Depolama' &gt;  'Disk Yönetimi' üzerine tıklayın.\n3) Şifrelemek istediğiniz bölüme sağ tıklayın ve şunlardan birini seçin: 'Bölümü sil', 'Birimi sil' ya da 'Mantıksal sürücüyü sil'.\n4) 'Evet' üzerine tıklayın. Windows sizden bilgisayarı yeniden başlatmanızı isterse bunu yapın. Bundan sonra 1. ve 2. adımları yeniden izleyerek 5. adımdan ilerleyin.\n5) Ayrılmamış/boş alana sağ tıklayın ve şunlardan birini seçin: 'Yeni bölüm', 'Yeni basit birim' ya da 'Yeni mantıksal sürücü'.\n6) 'Yeni bölüm yardımcısı' ya da 'Yeni basit birim yardımcısı' penceresi açılır. Bu yardımcıdaki yönergeleri izleyin. 'Bölümü biçimlendir' başlıklı yardımcı sayfasında 'Bu bölümü biçimlendir' ya da 'Bu birimi biçimlendir' seçeneklerinden birini seçin. Aynı yardımcıda 'İleri' düğmesine tıklayın ve 'Bitti' düğmesine tıklayın.\n7) VeraCrypt üzerinde seçtiğiniz aygıt yolunun artık hatalı olabileceğine dikkat edin. Bu nedenle VeraCrypt birim oluşturma yardımcısından çıkın (hala çalışıyorsa) ve bunu yeniden başlatın.\n8) Aygıtı/bölümü şifrelemeyi yeniden deneyin.\n\nVeraCrypt aygıtı/bölümü şifrelemekte yeniden başarısız olursa, bunun yerine dosya kapsayıcısı oluşturmayı değerlendirin.</entry>
-    <entry lang="tr" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Hata: Dosya sistemi kilitlenemedi ve/veya bağlantısı kaldırılamadı. İşletim sistemi veya uygulamalar (örneğin virusten koruma uygulaması) tarafından kullanılıyor olabilir. Bölümün şifrelenmesi verilerin bozulmasına ve sistemin kararsız duruma gelmesine neden olabilir.\n\nLütfen dosya sistemini kullanıyor olabilecek tüm uygulamaları (virüsten koruma yazılımını da) kapatın ve yeniden deneyin. Bunlar yardımcı olmazsa lütfen aşağıdaki adımları izleyin.</entry>
+    <entry lang="tr" key="FORMAT_CANT_UNMOUNT_FILESYS">Hata: Aygıt ya da bölümde bağlantısı kesilemeyen bir dosya sistemi bulunuyor. Bu dosya sistemi işletim sistemi tarafından kullanılıyor olabilir. Aygıtı ya da bölümü biçimlendirmek büyük olasılıkla verilerin bozulmasına ve sistemin kararsız duruma gelmesine neden olur.\n\nBu sorunu gidermek için, önce bölümü silmeniz ve biçimlendirmeden yeniden oluşturmanız önerilir. Bunun için şu adımları izleyin:\n1) 'Başlat Menüsü' içinde 'Bilgisayar' (veya 'Bilgisayarım') simgesine sağ tıklayın ve 'Yönet' üzerine tıklayın. 'Bilgisayar Yönetimi' penceresi açılır.\n2) 'Bilgisayar Yönetimi' penceresinde, 'Depolama' &gt;  'Disk Yönetimi' üzerine tıklayın.\n3) Şifrelemek istediğiniz bölüme sağ tıklayın ve şunlardan birini seçin: 'Bölümü sil', 'Birimi sil' ya da 'Mantıksal sürücüyü sil'.\n4) 'Evet' üzerine tıklayın. Windows sizden bilgisayarı yeniden başlatmanızı isterse bunu yapın. Bundan sonra 1. ve 2. adımları yeniden izleyerek 5. adımdan ilerleyin.\n5) Ayrılmamış/boş alana sağ tıklayın ve şunlardan birini seçin: 'Yeni bölüm', 'Yeni basit birim' ya da 'Yeni mantıksal sürücü'.\n6) 'Yeni bölüm yardımcısı' ya da 'Yeni basit birim yardımcısı' penceresi açılır. Bu yardımcıdaki yönergeleri izleyin. 'Bölümü biçimlendir' başlıklı yardımcı sayfasında 'Bu bölümü biçimlendir' ya da 'Bu birimi biçimlendir' seçeneklerinden birini seçin. Aynı yardımcıda 'İleri' düğmesine tıklayın ve 'Bitti' düğmesine tıklayın.\n7) VeraCrypt üzerinde seçtiğiniz aygıt yolunun artık hatalı olabileceğine dikkat edin. Bu nedenle VeraCrypt birim oluşturma yardımcısından çıkın (hala çalışıyorsa) ve bunu yeniden başlatın.\n8) Aygıtı/bölümü şifrelemeyi yeniden deneyin.\n\nVeraCrypt aygıtı/bölümü şifrelemekte yeniden başarısız olursa, bunun yerine dosya kapsayıcısı oluşturmayı değerlendirin.</entry>
+    <entry lang="tr" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">Hata: Dosya sistemi kilitlenemedi ve/veya bağlantısı kaldırılamadı. İşletim sistemi veya uygulamalar (örneğin virusten koruma uygulaması) tarafından kullanılıyor olabilir. Bölümün şifrelenmesi verilerin bozulmasına ve sistemin kararsız duruma gelmesine neden olabilir.\n\nLütfen dosya sistemini kullanıyor olabilecek tüm uygulamaları (virüsten koruma yazılımını da) kapatın ve yeniden deneyin. Bunlar yardımcı olmazsa lütfen aşağıdaki adımları izleyin.</entry>
     <entry lang="tr" key="DEVICE_IN_USE_INFO">UYARI: Bağlı aygıtlardan ya da bölümlerden bazıları şu anda kullanılıyor!\n\nBu durumu yok saymak sistem kararsızlığı gibi istenmeyen sonuçlar doğurabilir.\n\nBu aygıtları ya da bölümleri kullanıyor olabilecek uygulamaları kapatmanız önemle önerilir.</entry>
     <entry lang="tr" key="DEVICE_PARTITIONS_ERR">Seçilmiş aygıtta bölümler var.\n\nAygıtı biçimlendirmek sistemin kararsız duruma gelmesine ve/veya verilerin bozulmasına yol açabilir. Lütfen aygıt üzerindeki bir bölümü seçin veya bu aygıtın VeraCrypt tarafından güvenli bir şekilde biçimlendirilebilmesi için üzerindeki tüm bölümleri kaldırın.</entry>
     <entry lang="tr" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Seçilmiş sistem olmayan aygıtta bölümler var.\n\nAygıt üzerinde barındırılan şifrelenmiş VeraCrypt birimleri, herhangi bir bölüm bulunmayan aygıtlarda (sabit diskler ve yarıiletken sürücüler) oluşturulabilir. Bölümler bulunan bir aygıt, yalnızca Windows kurulu olan ve başlatmanın yapıldığı sürücü olması durumunda yerinde tamamen şifrelenebilir (tek bir ana anahtar ile).\n\nSeçilmiş sistem olmayan aygıtı bir tek ana anahtar kullanıyorsanız, aygıtın VeraCrypt tarafından güvenli bir şekilde biçimlendirmesini sağlamak için önce aygıttaki tüm bölümleri kaldırmanız gerekir (bölümler bulunan bir aygıtı biçimlendirmek sistem kararsızlığına ve/veya verilerin bozulmasına neden olabilir). Alternatif olarak, sürücüdeki her bölümü ayrı ayrı şifreleyebilirsiniz (her bölüm, farklı bir ana anahtar kullanılarak şifrelenir).\n\nNot: GPT diskindeki tüm bölümleri kaldırmak istiyorsanız, onu MBR diskine dönüştürmeniz gerekebilir. Gizli bölümleri kaldırmak için diski silin (örneğin Bilgisayar Yönetimi aracını kullanarak).</entry>
@@ -590,7 +590,7 @@
     <entry lang="tr" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Hata: Dış birime kopyaladığınız dosyalar çok fazla yer kaplıyor. Bu nedenle, dış birimde gizli birim için yeterli boş alan yok.\n\nGizli birimin sistem bölümü (şu anda çalışan işletim sisteminin kurulu olduğu bölüm) kadar büyük olması gerektiğini unutmayın. Bunun nedeni, sistem bölümünün içeriğinin gizli birime kopyalanmasıyla gizli işletim sisteminin oluşturulması gerektiği içindir.\n\n\nGizli işletim sistemini oluşturma işlemi sürdürülemiyor.</entry>
     <entry lang="tr" key="OPENFILES_DRIVER">Sürücü, birimin bağlantısını kesemedi. Büyük olasılıkla birim üzerindeki bazı dosyalar açık.</entry>
     <entry lang="tr" key="OPENFILES_LOCK">Birim kilitlenemedi. Birim üzerinde hala açık olan dosyalar var. Bu nedenle birimin bağlantısı kesilemedi.</entry>
-    <entry lang="tr" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">Birim sistem veya uygulamalar tarafından kullanıldığından VeraCrypt birimi kilitleyemedi (birimde açık dosyalar olabilir).\n\nBirim bağlantısını zorla kesmek istiyor musunuz?</entry>
+    <entry lang="tr" key="VOL_LOCK_FAILED_OFFER_FORCED_UNMOUNT">Birim sistem veya uygulamalar tarafından kullanıldığından VeraCrypt birimi kilitleyemedi (birimde açık dosyalar olabilir).\n\nBirim bağlantısını zorla kesmek istiyor musunuz?</entry>
     <entry lang="tr" key="OPEN_VOL_TITLE">Bir VeraCrypt birimi seçin</entry>
     <entry lang="tr" key="OPEN_TITLE">Yolu ve dosya adını belirtin</entry>
     <entry lang="tr" key="SELECT_PKCS11_MODULE">PKCS #11 kitaplığını seçin</entry>
@@ -729,7 +729,7 @@
     <entry lang="tr" key="DLL_FILES">Kitaplık modülleri</entry>
     <entry lang="tr" key="FORMAT_NTFS_STOP">NTFS/exFAT/ReFS biçimlendirmesi ilerleyemiyor.</entry>
     <entry lang="tr" key="CANT_MOUNT_VOLUME">Birim bağlanamadı.</entry>
-    <entry lang="tr" key="CANT_DISMOUNT_VOLUME">Birim bağlantısı kesilemedi.</entry>
+    <entry lang="tr" key="CANT_UNMOUNT_VOLUME">Birim bağlantısı kesilemedi.</entry>
     <entry lang="tr" key="FORMAT_NTFS_FAILED">Windows, birimi NTFS/exFAT/ReFS olarak biçimlendiremedi.\n\nLütfen (olabiliyorsa) farklı türde bir dosya sistemi seçip yeniden deneyin. Alternatif olarak, birimi biçimlendirmeden bırakabilirsiniz (dosya sistemi olarak 'Yok' seçin), bu yardımcıdan çıkın, birimi bağlayın ve ardından takılan birimi biçimlendirmek için bir sistem ya da üçüncü taraf bir araç kullanın (birim şifrelenmiş olarak kalır) .</entry>
     <entry lang="tr" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows, birimi NTFS/exFAT/ReFS olarak biçimlendiremedi.\n\nBirimi bunun yerine FAT olarak biçimlendirmek ister misiniz?</entry>
     <entry lang="tr" key="DEFAULT">Varsayılan</entry>
@@ -771,7 +771,7 @@
     <entry lang="tr" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Bir hata bölümün VeraCrypt tarafından şifrelenmesini engelledi. Lütfen daha önce bildirilen sorunları gidermeyi deneyin ve ardından yeniden deneyin. Sorun sürerse aşağıdaki adımları izlemek yardımcı olabilir.</entry>
     <entry lang="tr" key="INPLACE_ENC_GENERIC_ERR_RESUME">Bir hata, bölümün ya da birimin şifreleme ya da şifre çözme işleminin VeraCrypt tarafından sürdürülmesini engelledi.\n\nLütfen daha önce bildirilen sorunları düzeltmeyi deneyin ve ardından olabiliyorsa işlemi yeniden sürdürmeyi deneyin. Şifreleme ya da şifre çözme işlemi tamamlanana kadar birimin bağlanamayacağını unutmayın.</entry>
     <entry lang="tr" key="INPLACE_DEC_GENERIC_ERR">Bir hata birimin şifresinin VeraCrypt tarafından çözülmesini engelledi. Lütfen daha önce bildirilen sorunları düzeltmeyi deneyin ve olabiliyorsa yeniden deneyin.</entry>
-    <entry lang="tr" key="CANT_DISMOUNT_OUTER_VOL">Hata: Dış birimin bağlantısı kesilemedi!\n\nBirimde bir uygulama veya sistem tarafından kullanılan dosya veya klasörler varsa birim bağlantısı kesilemez.\n\nLütfen birim üzerindeki dosyaları veya klasörleri kullanıyor olabilecek tüm uygulamaları kapatıp 'Yeniden dene' üzerine tıklayın.</entry>
+    <entry lang="tr" key="CANT_UNMOUNT_OUTER_VOL">Hata: Dış birimin bağlantısı kesilemedi!\n\nBirimde bir uygulama veya sistem tarafından kullanılan dosya veya klasörler varsa birim bağlantısı kesilemez.\n\nLütfen birim üzerindeki dosyaları veya klasörleri kullanıyor olabilecek tüm uygulamaları kapatıp 'Yeniden dene' üzerine tıklayın.</entry>
     <entry lang="tr" key="CANT_GET_OUTER_VOL_INFO">Hata: Dış birim bilgileri alınamadı!\nBirim oluşturma işlemi sürdürülemiyor.</entry>
     <entry lang="tr" key="CANT_ACCESS_OUTER_VOL">Hata: Dış birime erişilemedi! Birim oluşturma işlemi sürdürülemiyor.</entry>
     <entry lang="tr" key="CANT_MOUNT_OUTER_VOL">Hata: Dış birim bağlanamadı! Birim oluşturma işlemi sürdürülemiyor.</entry>
@@ -882,7 +882,7 @@
     <entry lang="tr" key="INSTALL_COMPLETED">Kurulum tamamlandı.</entry>
     <entry lang="tr" key="CANT_CREATE_FOLDER">'%s' klasörü oluşturulamadı</entry>
     <entry lang="tr" key="CLOSE_TC_FIRST">VeraCrypt aygıt sürücüsü kaldırılamadı.\n\nLütfen önce açık tüm VeraCrypt pencerelerini kapatın. Bu işe yaramazsa Windows sistemini yeniden başlatıp yeniden deneyin.</entry>
-    <entry lang="tr" key="DISMOUNT_ALL_FIRST">VeraCrypt uygulamasını kurmadan ya da kaldırmadan önce tüm VeraCrypt birimlerinin bağlantısı kesilmelidir.</entry>
+    <entry lang="tr" key="UNMOUNT_ALL_FIRST">VeraCrypt uygulamasını kurmadan ya da kaldırmadan önce tüm VeraCrypt birimlerinin bağlantısı kesilmelidir.</entry>
     <entry lang="tr" key="UNINSTALL_OLD_VERSION_FIRST">Bu sistemde şu anda eski bir VeraCrypt sürümü kurulu. Bu yeni VeraCrypt sürümünü kurabilmeniz için öncelikle eski uygulamanın kaldırılması gerekiyor.\n\nBu iletiyi kapattığınızda, eski sürümün kaldırıcısı başlatılacak. VeraCrypt uygulamasını kaldırdığınızda hiçbir birimin şifresinin çözülemeyeceğini unutmayın. Eski VeraCrypt sürümünü kaldırdıktan sonra yeni VeraCrypt sürümünün kurucusunu yeniden çalıştırın.</entry>
     <entry lang="tr" key="REG_INSTALL_FAILED">Kayıt defteri kayıtları kurulamadı</entry>
     <entry lang="tr" key="DRIVER_INSTALL_FAILED">Aygıt sürücüsü kurulamadı. Lütfen Windows sistemini yeniden başlatın ve yeniden VeraCrypt kurmayı deneyin.</entry>
@@ -903,7 +903,7 @@
     <entry lang="tr" key="MINUTES">dakika</entry>
     <entry lang="tr" key="SECONDS">s</entry>
     <entry lang="tr" key="OPEN">Aç</entry>
-    <entry lang="tr" key="DISMOUNT">Bağlantıyı kes</entry>
+    <entry lang="tr" key="UNMOUNT">Bağlantıyı kes</entry>
     <entry lang="tr" key="SHOW_TC">VeraCrypt'i göster</entry>
     <entry lang="tr" key="HIDE_TC">VeraCrypt'i gizle</entry>
     <entry lang="tr" key="TOTAL_DATA_READ">Bağlandıktan sonra okunan veri</entry>
@@ -975,7 +975,7 @@
     <entry lang="tr" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - Sistem sık kullanılan birimleri</entry>
     <entry lang="tr" key="SYS_FAVORITES_HELP_LINK">Sistem sık kullanılan birimleri nedir?</entry>
     <entry lang="tr" key="SYS_FAVORITES_REQUIRE_PBA">Sistem bölümü ya da sürücü şifrelenmiş gibi görünmüyor.\n\nSistem sık kullanılan birimleri yalnızca başlatma öncesi kimlik doğrulama parolası kullanılarak bağlanabilir. Bu nedenle, sistem sık kullanılan birimlerinin kullanmasını sağlamak için önce sistem bölümünü ya da sürücüsünü şifrelemeniz gerekir.</entry>
-    <entry lang="tr" key="DISMOUNT_FIRST">Lütfen ilerlemeden önce birimin bağlantısını kesin.</entry>
+    <entry lang="tr" key="UNMOUNT_FIRST">Lütfen ilerlemeden önce birimin bağlantısını kesin.</entry>
     <entry lang="tr" key="CANNOT_SET_TIMER">Hata: Zamanlayıcı ayarlanamadı.</entry>
     <entry lang="tr" key="IDPM_CHECK_FILESYS">Dosya sistemini denetle</entry>
     <entry lang="tr" key="IDPM_REPAIR_FILESYS">Dosya sistemini onar</entry>
@@ -1009,11 +1009,11 @@
     <entry lang="tr" key="NO_SYSENC_PARTITION_SELECTED">Herhangi bir bölüm seçilmemiş.\n\nNormalde başlatma öncesi kimlik doğrulaması gerektiren, bağlantısı kesilmiş bir bölümü (örneğin, çalışmayan başka bir işletim sisteminin şifrelenmiş sistem sürücüsünde bulunan bir bölüm ya da başka bir işletim sisteminin şifrelenmiş sistem bölümü) seçmek için 'Aygıt seç' üzerine tıklayın.\n\nNot: Seçilen bölüm, başlatma öncesi kimlik doğrulaması olmadan normal bir VeraCrypt birimi olarak bağlanır. Bu uygulama yedekleme ya da onarım işlemleri için yararlıdır.</entry>
     <entry lang="tr" key="CONFIRM_SAVE_DEFAULT_KEYFILES">UYARI: Varsayılan anahtar dosyaları ayarlanıp kullanıma alınırsa, bu anahtar dosyalarını kullanmayan birimler eklenemez. Bu nedenle, varsayılan anahtar dosyalarını kullanıma aldıktan sonra, bu tür birimleri bağlarken 'Anahtar dosyaları kullanılsın' kutusundaki (parola alanının altında) işareti kaldırmayı unutmayın.\n\nSeçilmiş anahtar dosyalarını ya da yollarını varsayılan olarak kaydetmek istediğinize emin misiniz?</entry>
     <entry lang="tr" key="HK_AUTOMOUNT_DEVICES">Aygıtlar otomatik bağlansın</entry>
-    <entry lang="tr" key="HK_DISMOUNT_ALL">Tümünün bağlantısını kes</entry>
+    <entry lang="tr" key="HK_UNMOUNT_ALL">Tümünün bağlantısını kes</entry>
     <entry lang="tr" key="HK_WIPE_CACHE">Ön belleği temizle</entry>
-    <entry lang="tr" key="HK_DISMOUNT_ALL_AND_WIPE">Tümünün bağlantısını kes ve ön belleği temizle</entry>
-    <entry lang="tr" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Tüm bağlantıları zorla kes ve ön belleği temizle</entry>
-    <entry lang="tr" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Tüm bağlantıları zorla kes, ön belleği temizle ve çık</entry>
+    <entry lang="tr" key="HK_UNMOUNT_ALL_AND_WIPE">Tümünün bağlantısını kes ve ön belleği temizle</entry>
+    <entry lang="tr" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Tüm bağlantıları zorla kes ve ön belleği temizle</entry>
+    <entry lang="tr" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Tüm bağlantıları zorla kes, ön belleği temizle ve çık</entry>
     <entry lang="tr" key="HK_MOUNT_FAVORITE_VOLUMES">Sık kullanılan birimleri bağla</entry>
     <entry lang="tr" key="HK_SHOW_HIDE_MAIN_WINDOW">VeraCrypt ana penceresini görüntüle/gizle</entry>
     <entry lang="tr" key="PRESS_A_KEY_TO_ASSIGN">(Buraya tıklayın ve bir tuşa basın)</entry>
@@ -1025,14 +1025,14 @@
     <entry lang="tr" key="PAGING_FILE_CREATION_PREVENTED">Disk belleği dosyası oluşturulması engellendi.\n\nWindows sorunları nedeniyle, disk belleği dosyalarının sistem dışı VeraCrypt birimlerinde (sistem sık kullanılan birimleri ile birlikte) bulunamayacağını lütfen unutmayın. VeraCrypt, disk belleği dosyalarının yalnızca şifrelenmiş bir sistem bölümünde ya da sürücüsünde oluşturulmasını destekler.</entry>
     <entry lang="tr" key="SYS_ENC_HIBERNATION_PREVENTED">Bir hata veya uyumsuzluk hazırda bekletme dosyasının VeraCrypt tarafından şifrelenmesini engeller. Bu nedenle, hazırda bekletme kipi engellendi.\n\nNot: Bir bilgisayar hazırda bekletme kipine geçtiğinde (ya da güç koruma kipine geçtiğinde), sistem belleğinin içeriği, sistem sürücüsünde bulunan bir hazırda bekletme dosyasına yazılır. VeraCrypt, şifreleme anahtarlarının ve RAM bellekte açılan önemli dosya içeriklerinin, hazırda bekletme dosyasına şifrelenmemiş olarak kaydedilmesini engelleyemez.</entry>
     <entry lang="tr" key="HIDDEN_OS_HIBERNATION_PREVENTED">Hazırda bekletme kipi engellendi.\n\nVeraCrypt, fazladan bir başlatma bölümü kullanan gizli işletim sistemlerinde hazırda bekletme kipini desteklemez. Başlatma bölümünün hem sahte hem de gizli sistem tarafından paylaşıldığını lütfen unutmayın. Bu nedenle VeraCrypt, hazırda bekletme kipinden başlarken oluşabilecek veri sızıntılarını ve sorunları önlemek için gizli sistemin paylaşılan başlatma bölümüne yazılmasını ve hazırda bekletme kipine geçilmesini engeller.</entry>
-    <entry lang="tr" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">%c: olarak bağlanan VeraCrypt biriminin bağlantısı kesildi.</entry>
-    <entry lang="tr" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt birimlerinin bağlantısı kesildi.</entry>
-    <entry lang="tr" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt birimlerinin bağlantısı kesildi ve ön bellek temizlendi.</entry>
-    <entry lang="tr" key="SUCCESSFULLY_DISMOUNTED">Bağlantı kesildi</entry>
+    <entry lang="tr" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_UNMOUNTED">%c: olarak bağlanan VeraCrypt biriminin bağlantısı kesildi.</entry>
+    <entry lang="tr" key="MOUNTED_VOLUMES_UNMOUNTED">VeraCrypt birimlerinin bağlantısı kesildi.</entry>
+    <entry lang="tr" key="VOLUMES_UNMOUNTED_CACHE_WIPED">VeraCrypt birimlerinin bağlantısı kesildi ve ön bellek temizlendi.</entry>
+    <entry lang="tr" key="SUCCESSFULLY_UNMOUNTED">Bağlantı kesildi</entry>
     <entry lang="tr" key="CONFIRM_BACKGROUND_TASK_DISABLED">UYARI: VeraCrypt arka plan görevi kapatılırsa, şu işlevler kullanılamayacak:\n\n1) Kısayol tuşları\n2) Otomatik bağlantı kesme (örneğin oturum kapatıldığında, barındırma aygıtının yanlışlıkla kaldırılması, zaman aşımı gibi)\n3 ) Sık kullanılan birimlerin otomatik olarak eklenmesi\n4) Bildirimler (örneğin gizli birimin bozulması engellendiğinde)\n5) Tepsi simgesi\n\nNot: VeraCrypt tepsi simgesine sağ tıklayıp 'Çık' üzerine tıklayarak arka plan görevini istediğiniz zaman kapatabilirsiniz.\n\nVeraCrypt arka plan görevini kalıcı olarak kapatmak istediğinize emin misiniz?</entry>
-    <entry lang="tr" key="CONFIRM_NO_FORCED_AUTODISMOUNT">UYARI: Bu seçenek kapatıldığında, açık dosya ya da klasörler bulunan birimlerin bağlantısı otomatik olarak kesilemez.\n\nBu seçeneği kapatmak istediğinize emin misiniz?</entry>
-    <entry lang="tr" key="WARN_PREF_AUTO_DISMOUNT">UYARI: Açık dosyalar ya da klasörler bulunan birimlerin bağlantısı otomatik olarak KESİLMEYECEK.\n\nBunu engellemek için, bu penceredeki 'Birimde, açık dosyalar veya klasörler olsa da bağlantı otomatik kesilsin' seçeneğini açın</entry>
-    <entry lang="tr" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">UYARI: Dizüstü bilgisayarın pil gücü düşük olduğunda, bilgisayar güç tasarrufu kipine geçerken Windows, çalışan uygulamalara uygun iletileri göndermeyi atlayabilir. Bu nedenle VeraCrypt bu gibi durumlarda birimlerin bağlantısını otomatik olarak kesemeyebilir.</entry>
+    <entry lang="tr" key="CONFIRM_NO_FORCED_AUTOUNMOUNT">UYARI: Bu seçenek kapatıldığında, açık dosya ya da klasörler bulunan birimlerin bağlantısı otomatik olarak kesilemez.\n\nBu seçeneği kapatmak istediğinize emin misiniz?</entry>
+    <entry lang="tr" key="WARN_PREF_AUTO_UNMOUNT">UYARI: Açık dosyalar ya da klasörler bulunan birimlerin bağlantısı otomatik olarak KESİLMEYECEK.\n\nBunu engellemek için, bu penceredeki 'Birimde, açık dosyalar veya klasörler olsa da bağlantı otomatik kesilsin' seçeneğini açın</entry>
+    <entry lang="tr" key="WARN_PREF_AUTO_UNMOUNT_ON_POWER">UYARI: Dizüstü bilgisayarın pil gücü düşük olduğunda, bilgisayar güç tasarrufu kipine geçerken Windows, çalışan uygulamalara uygun iletileri göndermeyi atlayabilir. Bu nedenle VeraCrypt bu gibi durumlarda birimlerin bağlantısını otomatik olarak kesemeyebilir.</entry>
     <entry lang="tr" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Bir bölümün ya da birimin şifreleme ya da şifre çözme işlemini zamanladınız. İşlem henüz tamamlanmadı.\n\nİşlemin şimdi sürdürülmesini istiyor musunuz?</entry>
     <entry lang="tr" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Sistem bölümünün ya da sürücünün şifrelenmesi veya şifresinin çözülmesi işlemini zamanladınız. İşlem henüz tamamlanmadı.\n\nİşlemin şimdi başlatılmasını (sürdürülmesini) istiyor musunuz?</entry>
     <entry lang="tr" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Sistem olmayan bölümlerin ya da birimlerin şifreleme ya da şifre çözme işlemleriyle ilgili zamanlanmış işlemlerinin sürdürülmesini isteyip istemediğinizin sorulmasını istiyor musunuz?</entry>
@@ -1063,7 +1063,7 @@
     <entry lang="tr" key="SYS_AUTOMOUNT_DISABLED">Sisteminiz yeni birimleri otomatik olarak bağlayacak şekilde yapılandırılmamış. Aygıt üzerinde barındırılan VeraCrypt birimleri bağlanamayabilir. Otomatik bağlama özelliği, şu komutu çalıştırıp sistemi yeniden başlatarak açılabilir.n\n\nmountvol.exe /E</entry>
     <entry lang="tr" key="SYS_ASSIGN_DRIVE_LETTER">Lütfen ilerlemeden önce bölüme ya da aygıta bir sürücü harfi atayın ('Denetim masası' &gt; 'Sistem ve bakım' &gt; 'Yönetimsel araçlar' - 'Sabit disk bölümleri oluştur ve biçimlendir').\n\nBu gerekliliğin işletim sisteminden kaynaklandığını unutmayın.</entry>
     <entry lang="tr" key="MOUNT_TC_VOLUME">VeraCrypt birimi bağla</entry>
-    <entry lang="tr" key="DISMOUNT_ALL_TC_VOLUMES">Tüm VeraCrypt birimlerininin bağlantısını kes</entry>
+    <entry lang="tr" key="UNMOUNT_ALL_TC_VOLUMES">Tüm VeraCrypt birimlerininin bağlantısını kes</entry>
     <entry lang="tr" key="UAC_INIT_ERROR">VeraCrypt yönetici yetkilerini alamadı.</entry>
     <entry lang="tr" key="ERR_ACCESS_DENIED">İşletim sistemi erişimi engelledi.\n\nOlası nedeni: İşletim sisteminin, bazı klasörler, dosyalar ve aygıtlar üzerindeki verileri okuyup/yazmanıza izin vermesi için okuma/yazma izninizin (ya da yönetici yetkilerinin) olması gerekir. Normalde, yönetici yetkileri olmayan bir kullanıcı, kendi Belgelerim klasörü içinde dosyalar oluşturabilir ve bunları okuyup, değiştirebilir.</entry>
     <entry lang="tr" key="SECTOR_SIZE_UNSUPPORTED">Hata: Sürücü, desteklenmeyen bir kesim boyutu kullanıyor.\n\nŞu anda 4096 bayttan büyük kesimleri kullanan sürücülerde bölüm ya da aygıt üzerinde barındırılan birimler oluşturulamaz. Ancak bu tür sürücülerde dosya üzerinde barındırılan birimler (kapsayıcılar) oluşturabileceğinizi unutmayın.</entry>
@@ -1306,8 +1306,8 @@
     <entry lang="tr" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">İşlem sayısının şu anda sınırlı olduğunu ve bunun da karşılaştırma sonuçlarını (daha kötü başarım) etkileyeceğini unutmayın.\n\nİşlemcilerin tüm potansiyelinden yararlanmak için 'Ayarlar' &gt; 'Başarım' üzerine tıklayın ve ilgili seçeneği devre dışı bırakın.</entry>
     <entry lang="tr" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Bölümün ya da sürücünün yazma koruması VeraCrypt tarafından devre dışı bırakılmaya çalışılsın mı?</entry>
     <entry lang="tr" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">UYARI: Bu ayar başarımı düşürebilir.\n\nBu ayarı kullanmak istediğinize emin misiniz?</entry>
-    <entry lang="tr" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Uyarı: VeraCrypt biriminin bağlantısı otomatik olarak kesildi</entry>
-    <entry lang="tr" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Bağlı birimin bulunduğu bir aygıtı fiziksel olarak çıkarmadan veya kapatmadan önce, her zaman VeraCrypt içinden birimin bağlantısını kesmelisiniz.\n\nBağlantının beklenmedik şekilde kesilmesi genellikle kablo, sürücü (muhafaza) gibi bileşenlerin bozulmasından kaynaklanır.</entry>
+    <entry lang="tr" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Uyarı: VeraCrypt biriminin bağlantısı otomatik olarak kesildi</entry>
+    <entry lang="tr" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Bağlı birimin bulunduğu bir aygıtı fiziksel olarak çıkarmadan veya kapatmadan önce, her zaman VeraCrypt içinden birimin bağlantısını kesmelisiniz.\n\nBağlantının beklenmedik şekilde kesilmesi genellikle kablo, sürücü (muhafaza) gibi bileşenlerin bozulmasından kaynaklanır.</entry>
     <entry lang="tr" key="UNSUPPORTED_TRUECRYPT_FORMAT">Bu birim TrueCrypt %x.%x ile oluşturulmuş. Ancak VeraCrypt yalnızca TrueCrypt 6.x/7.x sürümleriyle oluşturulmuş TrueCrypt birimlerini destekler</entry>
     <entry lang="tr" key="TEST">Sına</entry>
     <entry lang="tr" key="KEYFILE">Anahtar dosyası</entry>
@@ -1453,7 +1453,7 @@
     <entry lang="tr" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Bağlı tüm birimleri sık kullanılanlara ekle...</entry>
     <entry lang="tr" key="TASKICON_PREF_MENU_ITEMS">Görev simgesi menüsü ögeleri</entry>
     <entry lang="tr" key="TASKICON_PREF_OPEN_VOL">Bağlı birimleri aç</entry>
-    <entry lang="tr" key="TASKICON_PREF_DISMOUNT_VOL">Bağlı birimlerin bağlantısını kes</entry>
+    <entry lang="tr" key="TASKICON_PREF_UNMOUNT_VOL">Bağlı birimlerin bağlantısını kes</entry>
     <entry lang="tr" key="DISK_FREE">Kullanılabilecek boş alan: {0}</entry>
     <entry lang="tr" key="VOLUME_SIZE_HELP">Lütfen oluşturulacak kapsayıcının boyutunu belirtin. Bir birimin olabilecek en küçük boyutunun 292 KiB olduğunu unutmayın.</entry>
     <entry lang="tr" key="LINUX_CONFIRM_INNER_VOLUME_CALC">UYARI: Dış birim için FAT dışında bir dosya sistemi seçtiniz.\nLütfen bu durumda VeraCrypt gizli birim için izin verilen en fazla boyutu tam olarak hesaplayamaz ve yalnızca yanlış olabilecek bir öngörü kullanır.\nDış birimin üzerine gelmemesi için gizli birimin boyutuna uygun bir değer kullanmak sizin sorumluluğunuzdadır.\n\nDış birim için seçilmiş dosya sistemini kullanmayı sürdürmek istiyor musunuz?</entry>
@@ -1483,14 +1483,14 @@
     <entry lang="tr" key="LINUX_DO_NOT_MOUNT">&amp;Bağlanmasın</entry>
     <entry lang="tr" key="LINUX_MOUNT_AT_DIR">Şu klasöre bağlansın:</entry>
     <entry lang="tr" key="LINUX_SELECT">Seçi&amp;n...</entry>
-    <entry lang="tr" key="LINUX_DISMOUNT_ALL_WHEN">Şu olduğunda tüm birimlerin bağlantısı kesilsin</entry>
+    <entry lang="tr" key="LINUX_UNMOUNT_ALL_WHEN">Şu olduğunda tüm birimlerin bağlantısı kesilsin</entry>
     <entry lang="tr" key="LINUX_ENTERING_POWERSAVING">Sistem güç koruma kipine geçtiğinde</entry>
     <entry lang="tr" key="LINUX_LOGIN_ACTION">Kullanıcı oturum açtığında yapılacak işlemler</entry>
-    <entry lang="tr" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Bağlantısı kesilen birimin tüm Dosya Gezgini pencereleri kapatılsın</entry>
+    <entry lang="tr" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Bağlantısı kesilen birimin tüm Dosya Gezgini pencereleri kapatılsın</entry>
     <entry lang="tr" key="LINUX_HOTKEYS">Kısayol tuşları</entry>
     <entry lang="tr" key="LINUX_SYSTEM_HOTKEYS">Sistem kısayol tuşları</entry>
     <entry lang="tr" key="LINUX_SOUND_NOTIFICATION">Bağlantı kurulduğunda/kesildiğinde sistem bildirimi sesi çalınsın</entry>
-    <entry lang="tr" key="LINUX_CONFIRM_AFTER_DISMOUNT">Bağlantı kesildiğinde onay penceresi görüntülensin</entry>
+    <entry lang="tr" key="LINUX_CONFIRM_AFTER_UNMOUNT">Bağlantı kesildiğinde onay penceresi görüntülensin</entry>
     <entry lang="tr" key="LINUX_VC_QUITS">VeraCrypt kapatılıyor</entry>
     <entry lang="tr" key="LINUX_OPEN_FINDER">Birim bağlandığında Finder penceresi açılsın</entry>
     <entry lang="tr" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Bu ayarın yalnızca çekirdek şifreleme hizmetleri kullanımı kapatıldığında etkili olacağını lütfen unutmayın.</entry>
@@ -1522,7 +1522,7 @@
     <entry lang="tr" key="LINUX_DOT_LF">.\n</entry>
     <entry lang="tr" key="LINUX_NOT_SUPPORTED">(bu platformda bulunan bileşenler tarafından desteklenmiyor).\n</entry>
     <entry lang="tr" key="LINUX_KERNEL_OLD">Sisteminiz Linux çekirdeğinin eski bir sürümünü kullanıyor.\n\nLinux çekirdeğindeki bir sorun nedeniyle sisteminiz VeraCrypt birimine veri yazarken yanıt vermeyebilir. Bu sorun, çekirdeği 2.6.24 ya da üzerindeki bir sürüme yükselterek çözülebilir.</entry>
-    <entry lang="tr" key="LINUX_VOL_DISMOUNTED">{0} biriminin bağlantısı kesildi.</entry>
+    <entry lang="tr" key="LINUX_VOL_UNMOUNTED">{0} biriminin bağlantısı kesildi.</entry>
     <entry lang="tr" key="LINUX_VOL_MOUNTED">{0} birimi bağlandı.</entry>
     <entry lang="tr" key="LINUX_OOM">Bellek yetersiz.</entry>
     <entry lang="tr" key="LINUX_CANT_GET_ADMIN_PRIV">Yönetici yetkileri alınamadı</entry>
@@ -1641,6 +1641,9 @@
     <entry lang="tr" key="ERR_XTS_MASTERKEY_VULNERABLE">UYARI: Birimin ana anahtarı, veri güvenliğini tehlikeye atan bir saldırıya karşı savunmasızdır.\n\nLütfen yeni bir birim oluşturun ve verileri ona aktarın.</entry>
     <entry lang="tr" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">UYARI: Şifrelenmiş sistemin ana anahtarı, veri güvenliğini tehlikeye atan bir saldırıya karşı savunmasızdır.\nLütfen sistem bölümünü/sürücüsünü şifresini çözün ve ardından tekrar şifreleyin.</entry>
     <entry lang="tr" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">UYARI: Birimin ana anahtarı bir güvenlik açığına sahiptir.</entry>
+    <entry lang="tr" key="MOUNTPOINT_BLOCKED">HATA: Birim bağlama noktası, korunan bir sistem dizinini geçersiz kıldığı için engellendi.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
+    <entry lang="tr" key="MOUNTPOINT_NOTALLOWED">HATA: Birim bağlama noktası, PATH ortam değişkeninin bir parçası olan bir dizini geçersiz kıldığı için izin verilmiyor.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
+    <entry lang="tr" key="INSECURE_MODE">[GÜVENSİZ MOD]</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

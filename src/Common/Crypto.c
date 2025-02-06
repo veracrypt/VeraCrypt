@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -1164,8 +1164,6 @@ BOOL IsAesHwCpuSupported ()
 	}
 
 	return state && !HwEncryptionDisabled;
-#elif defined (_M_ARM64) || defined(__arm__) || defined (__arm64__) || defined (__aarch64__)
-	return 0;
 #else
 	return (HasAESNI() && !HwEncryptionDisabled)? TRUE : FALSE;
 #endif
@@ -1483,29 +1481,3 @@ void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 
 #endif
 
-#if defined(_M_ARM64) || defined(__arm__) || defined (__arm64__) || defined (__aarch64__)
-/* dummy implementation that should never be called */
-void aes_hw_cpu_decrypt(const uint8* ks, uint8* data)
-{
-	ks = ks;
-	data = data;
-}
-
-void aes_hw_cpu_decrypt_32_blocks(const uint8* ks, uint8* data)
-{
-	ks = ks;
-	data = data;
-}
-
-void aes_hw_cpu_encrypt(const uint8* ks, uint8* data)
-{
-	ks = ks;
-	data = data;
-}
-
-void aes_hw_cpu_encrypt_32_blocks(const uint8* ks, uint8* data)
-{
-	ks = ks;
-	data = data;
-}
-#endif

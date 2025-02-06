@@ -1,0 +1,36 @@
+name: Validate XML
+
+on:
+  push:
+    branches: [ "ci" ]
+    paths:
+      - 'Translations/*'
+      - 'src/Common/Language.xml'
+      - '.github/workflows/xmlvalidate.*'
+  pull_request:
+    branches: [ "ci" ]
+    paths:
+      - 'Translations/*'
+      - 'src/Common/Language.xml'
+      - '.github/workflows/xmlvalidate.*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'latest'
+    - name: Install fast-xml-parser
+      run: npm install fast-xml-parser -g
+    - name: Run XML validator script
+      run: ${{ github.workspace }}/.github/workflows/xmlvalidate.sh "${{ github.workspace }}"
