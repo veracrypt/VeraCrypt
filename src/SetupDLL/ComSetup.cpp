@@ -23,8 +23,13 @@
 #include "ComSetup.h"
 #include "Dlgcode.h"
 #include "Resource.h"
-#include "../Mount/MainCom_i.c"
-#include "../Format/FormatCom_i.c"
+
+#define MIDL_DEFINE_GUID(type,name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) \
+        EXTERN_C __declspec(selectany) const type name = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
+
+// Define GUIDs of "VeraCrypt.exe and" "VeraCrypt Format.exe" type libraries
+MIDL_DEFINE_GUID(GUID, LIBID_TrueCryptMainCom, 0x9ACF6176, 0x5FC4, 0x4690, 0xA0, 0x25, 0xB3, 0x30, 0x6A, 0x50, 0xEB, 0x6A);
+MIDL_DEFINE_GUID(GUID, LIBID_TrueCryptFormatCom, 0x56327DDA, 0xF1A7, 0x4e13, 0xB1, 0x28, 0x52, 0x0D, 0x12, 0x9B, 0xDE, 0xF6);
 
 /* 
  * Same as RegisterComServers() in Setup project, but 
