@@ -65,7 +65,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy Debug\VeraCryptCOMRegBase.exe "..\Debug\Setup Files\VeraCryptCOMRegBase.exe"</Command>
@@ -88,8 +88,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
+      <DelayLoadDLLs>bcrypt.dll</DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
       <Command>copy Release\VeraCryptCOMRegBase.exe "..\Release\Setup Files\VeraCryptCOMRegBase.exe"</Command>

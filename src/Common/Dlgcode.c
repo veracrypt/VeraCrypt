@@ -868,6 +868,75 @@ BOOL TCCopyFile (wchar_t *sourceFileName, wchar_t *destinationFile)
 	return TCCopyFileBase (src, dst);
 }
 
+#if !defined(_WIN64) && defined(NDEBUG) && !defined (VC_SKIP_OS_DRIVER_REQ_CHECK)
+// in 32-bit build, Crypto project is not compiled so we need to provide this function here
+
+#pragma comment(lib, "bcrypt.lib")
+
+void sha512(unsigned char* result, const unsigned char* source, uint64_t sourceLen)
+{
+	BCRYPT_ALG_HANDLE   hAlg = NULL;
+	BCRYPT_HASH_HANDLE  hHash = NULL;
+	NTSTATUS            status = 0;
+
+	// Open an algorithm provider for SHA512.
+	status = BCryptOpenAlgorithmProvider(
+		&hAlg,
+		BCRYPT_SHA512_ALGORITHM,
+		NULL,
+		0);
+	if (!BCRYPT_SUCCESS(status))
+	{
+		goto cleanup;
+	}
+
+	// Create a hash handle.
+	status = BCryptCreateHash(
+		hAlg,
+		&hHash,
+		NULL,
+		0,
+		NULL,   // Optional secret, not needed for SHA512
+		0,
+		0);
+	if (!BCRYPT_SUCCESS(status))
+	{
+		goto cleanup;
+	}
+
+	// Hash the data. Note: BCryptHashData takes an ULONG for the length.
+	status = BCryptHashData(
+		hHash,
+		(PUCHAR)source,
+		(ULONG)sourceLen,
+		0);
+	if (!BCRYPT_SUCCESS(status))
+	{
+		goto cleanup;
+	}
+
+	// Finalize the hash computation and write the result.
+	status = BCryptFinishHash(
+		hHash,
+		result,
+		SHA512_DIGESTSIZE,
+		0);
+	if (!BCRYPT_SUCCESS(status))
+	{
+		goto cleanup;
+	}
+
+cleanup:
+	if (hHash)
+	{
+		BCryptDestroyHash(hHash);
+	}
+	if (hAlg)
+	{
+		BCryptCloseAlgorithmProvider(hAlg, 0);
+	}
+}
+#endif
 
 BOOL VerifyModuleSignature (const wchar_t* path)
 {
