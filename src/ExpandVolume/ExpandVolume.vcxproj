@@ -409,7 +409,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" &gt;NUL:
       <DisableSpecificWarnings>4311;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\Crypto\AMD64\Release\crypto.lib;..\Common\AMD64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Crypto\ARM64\Release\crypto.lib;..\Common\ARM64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptExpander.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
