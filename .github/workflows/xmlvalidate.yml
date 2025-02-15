@@ -2,13 +2,13 @@ name: Validate XML
 
 on:
   push:
-    branches: [ "ci" ]
+    branches: [ "master" ]
     paths:
       - 'Translations/*'
       - 'src/Common/Language.xml'
       - '.github/workflows/xmlvalidate.*'
   pull_request:
-    branches: [ "ci" ]
+    branches: [ "master" ]
     paths:
       - 'Translations/*'
       - 'src/Common/Language.xml'
