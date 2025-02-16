@@ -67,6 +67,15 @@ namespace VeraCrypt
 		return Path.substr (pos + 1);
 	}
 
+	FilesystemPath FilesystemPath::Append(wstring name) const {
+		wstring newPath = Path;
+		if (newPath.at(newPath.length()-1) == L'/') {
+			return FilesystemPath(newPath + name);
+		} else {
+			return FilesystemPath(newPath + L'/' + name);
+		}
+	}
+
 	FilesystemPath FilesystemPath::ToHostDriveOfPartition () const
 	{
 		DevicePath path;

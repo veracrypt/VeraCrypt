@@ -63,7 +63,7 @@ namespace VeraCrypt
 		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
 #endif
 
-		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
+		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, options.Keyfiles, options.SecurityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
 
 		PasswordSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);
@@ -95,7 +95,7 @@ namespace VeraCrypt
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (ProtectionSizer->GetStaticBox(), &options, options.ProtectionPassword, options.ProtectionKeyfiles, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
+		ProtectionPasswordPanel = new VolumePasswordPanel (ProtectionSizer->GetStaticBox(), &options, options.ProtectionPassword, options.ProtectionKeyfiles, options.ProtectionSecurityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
 		ProtectionPasswordPanel->TopOwnerParent = this;
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -156,6 +156,7 @@ namespace VeraCrypt
 		Options.Pim = Pim;
 		Options.Kdf = PasswordPanel->GetPkcs5Kdf();
 		Options.Keyfiles = PasswordPanel->GetKeyfiles();
+		Options.SecurityTokenSchemeSpec = PasswordPanel->GetSecurityTokenSchemeSpec();
 
 		if (ReadOnlyCheckBox->IsChecked())
 		{
@@ -176,6 +177,7 @@ namespace VeraCrypt
 			Options.ProtectionPim = ProtectionPim;
 			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf();
 			Options.ProtectionKeyfiles = ProtectionPasswordPanel->GetKeyfiles();
+			Options.ProtectionSecurityTokenSchemeSpec = ProtectionPasswordPanel->GetSecurityTokenSchemeSpec();
 		}
 		else
 		{

@@ -1,3 +1,5 @@
+![build](./actions/workflows/build-macos.yml/badge.svg)
+
 This archive contains the source code of VeraCrypt.
 It is based on the original TrueCrypt 7.1a with security enhancements and modifications.
 
