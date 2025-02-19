@@ -314,7 +314,11 @@ namespace VeraCrypt
 					if (sudoAbsolutePath.empty())
 						throw SystemException(SRC_POS, errorMsg);
 
-					std::string popenCommand = sudoAbsolutePath + " -n true > /dev/null 2>&1";	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+					string trueAbsolutePath = Process::FindSystemBinary("true", errorMsg);
+					if (trueAbsolutePath.empty())
+						throw SystemException(SRC_POS, errorMsg);
+
+					std::string popenCommand = sudoAbsolutePath + " -n " + trueAbsolutePath + " > /dev/null 2>&1";	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
 					FILE* pipe = popen(popenCommand.c_str(), "r");
 					if (pipe)
 					{
