@@ -31,6 +31,6 @@ jobs:
       with:
         node-version: 'latest'
     - name: Install fast-xml-parser
-      run: npm install fast-xml-parser -g
+      run: npm install fast-xml-parser@4.5.2 -g
     - name: Run XML validator script
       run: ${{ github.workspace }}/.github/workflows/xmlvalidate.sh "${{ github.workspace }}"
