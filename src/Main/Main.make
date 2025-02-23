@@ -179,7 +179,7 @@ endif
 GUI_CONDITION := $(filter gui,$(INSTALLER_TYPE))
 GTK2_CONDITION := $(filter 2,$(GTK_VERSION))
 
-INTERNAL_INSTALLER_NAME := veracrypt_install_f$(SYSTEMNAME)_$(INSTALLER_TYPE)_$(CPU_ARCH).sh
+INTERNAL_INSTALLER_NAME := veracrypt_install_$(SYSTEMNAME)_$(INSTALLER_TYPE)_$(CPU_ARCH).sh
 
 ifneq (,$(GUI_CONDITION))
 ifneq (,$(GTK2_CONDITION))
@@ -354,7 +354,7 @@ prepare: $(APPNAME)
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/bin
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/HTML
 	cp $(BASE_DIR)/Main/$(APPNAME) $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)
-	cp $(BASE_DIR)/Setup/Linux/$(APPNAME)-uninstall.sh $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
+	cp $(BASE_DIR)/Setup/FreeBSD/$(APPNAME)-uninstall.sh $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
 	chmod +x $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
 	cp $(BASE_DIR)/License.txt $(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/License.txt
 	cp -R $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/FreeBSD/usr/share/doc/$(APPNAME)/HTML"
@@ -364,10 +364,10 @@ prepare: $(APPNAME)
 ifndef TC_NO_GUI
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/applications
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps
-	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/mime/packages
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/mime/packages
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps/$(APPNAME).xpm
-	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).desktop $(BASE_DIR)/Setup/FreeBSD/usr/share/applications/$(APPNAME).desktop
-	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).xml $(BASE_DIR)/Setup/Linux/usr/share/mime/packages/$(APPNAME).xml
+	cp $(BASE_DIR)/Setup/FreeBSD/$(APPNAME).desktop $(BASE_DIR)/Setup/FreeBSD/usr/share/applications/$(APPNAME).desktop
+	cp $(BASE_DIR)/Setup/FreeBSD/$(APPNAME).xml $(BASE_DIR)/Setup/FreeBSD/usr/share/mime/packages/$(APPNAME).xml
 endif
 	chown -R root:wheel $(BASE_DIR)/Setup/FreeBSD/usr
 	chmod -R go-w $(BASE_DIR)/Setup/FreeBSD/usr
