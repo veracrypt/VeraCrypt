@@ -102,7 +102,7 @@
     </DriverSign>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>TC_WINDOWS_DRIVER;_NO_CRT_STDIO_INLINE;UNICODE;_UNICODE;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_AMD64_;TC_WINDOWS_DRIVER;_NO_CRT_STDIO_INLINE;UNICODE;_UNICODE;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Inf>
       <CatalogFileName>veracrypt.cat</CatalogFileName>
