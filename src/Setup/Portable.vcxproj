@@ -107,7 +107,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcmtd.lib;atls.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>atlsd.lib;libcmtd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -226,7 +226,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
-      <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>atls.lib;mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
