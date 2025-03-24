@@ -35,61 +35,120 @@ namespace VeraCrypt
 		return xmlString;
 	}
 
-	XmlNodeList XmlParser::GetNodes (const wxString &nodeName) const
+	size_t XmlParser::FindTagEnd(size_t startPos) const
+	{
+		bool inQuote = false;
+		wchar_t quoteChar = L'\0';
+		size_t pos = startPos;
+		while (pos < XmlText.length())
+		{
+			wchar_t c = XmlText[pos];
+			if (!inQuote && (c == L'\'' || c == L'"'))
+			{
+				inQuote = true;
+				quoteChar = c;
+			}
+			else if (inQuote && c == quoteChar)
+			{
+				inQuote = false;
+			}
+			else if (!inQuote && c == L'>')
+			{
+				return pos;
+			}
+			pos++;
+		}
+		return wxString::npos;
+	}
+
+	XmlNodeList XmlParser::GetNodes(const wxString &nodeName) const
 	{
 		XmlNodeList nodeList;
-
+	
 		size_t nodePos = 0;
-		while ((nodePos = XmlText.find (L"<" + nodeName, nodePos)) != string::npos)
+		while ((nodePos = XmlText.find (L"<" + nodeName, nodePos)) != wxString::npos)
 		{
 			XmlNode xmlNode;
 			xmlNode.Name = nodeName;
-
-			size_t nodeEnd = XmlText.find (L">", nodePos);
-			if (nodeEnd == string::npos)
+	
+			// Use the helper method to correctly locate the end of the start tag
+			size_t nodeEnd = FindTagEnd (nodePos);
+			if (nodeEnd == wxString::npos)
 				throw ParameterIncorrect (SRC_POS);
-
+	
+			// Extract the tag text (excluding the initial '<')
 			wxString nodeTagText = XmlText.substr (nodePos + 1, nodeEnd - nodePos - 1);
 			nodePos = nodeEnd;
-
+	
 			if (nodeTagText.size() > nodeName.size() && nodeTagText[nodeName.size()] != L' ' && nodeTagText[nodeName.size()] != L'/')
 				continue;
-
+	
+			// Remove the node name from the tag text
 			nodeTagText = nodeTagText.substr (nodeName.size());
-
-
-			// Attributes
-			wxStringTokenizer tokenizer (nodeTagText, L"\"", wxTOKEN_RET_EMPTY);
-			while (tokenizer.HasMoreTokens())
-			{
-				wxString attributeName = tokenizer.GetNextToken();
-				attributeName.Replace (L" ", L"", true);
-				attributeName.Replace (L"=", L"");
-
-				if (!attributeName.empty() && tokenizer.HasMoreTokens())
-				{
-					wxString attributeText = tokenizer.GetNextToken();
-					xmlNode.Attributes[attributeName] = ConvertEscapedChars (attributeText);
+	
+			size_t attrPos = 0;
+			while (attrPos < nodeTagText.length()) {
+				// Skip any leading whitespace
+				while (attrPos < nodeTagText.length() && nodeTagText[attrPos] == L' ')
+					attrPos++;
+					
+				// If we've reached the end or a self-closing marker, exit the loop.
+				if (attrPos >= nodeTagText.length() || nodeTagText[attrPos] == L'/')
+					break;
+					
+				// Look for the equals sign to determine the attribute assignment.
+				size_t equalsPos = nodeTagText.find (L'=', attrPos);
+				if (equalsPos == wxString::npos)
+					throw ParameterIncorrect (SRC_POS);
+					
+				// Extract and trim the attribute name.
+				wxString attributeName = nodeTagText.substr (attrPos, equalsPos - attrPos);
+				attributeName.Trim(true).Trim(false);
+				if (attributeName.empty())
+					throw ParameterIncorrect (SRC_POS);
+				
+				// Find the opening quote for the attribute value.
+				size_t quoteStart = nodeTagText.find (L'"', equalsPos);
+				if (quoteStart == wxString::npos)
+					throw ParameterIncorrect (SRC_POS);
+					
+				// Search for the matching closing quote.
+				size_t quoteEnd = quoteStart + 1;
+				bool inEscape = false;
+				while (quoteEnd < nodeTagText.length()) {
+					if (nodeTagText[quoteEnd] == L'"' && !inEscape)
+						break;
+					inEscape = (nodeTagText[quoteEnd] == L'\\' && !inEscape);
+					quoteEnd++;
 				}
+					
+				if (quoteEnd >= nodeTagText.length())
+					throw ParameterIncorrect (SRC_POS);
+					
+				// Extract the attribute value and convert any escaped characters.
+				wxString attributeText = nodeTagText.substr(quoteStart + 1, quoteEnd - quoteStart - 1);
+				xmlNode.Attributes[attributeName] = ConvertEscapedChars(attributeText);
+					
+				attrPos = quoteEnd + 1;
 			}
-
-			// Inner text
-			if (!nodeTagText.EndsWith (L"/"))
+	
+			// If not a self-closing tag, extract the inner text.
+			if (!nodeTagText.EndsWith(L"/"))
 			{
 				size_t innerTextPos = nodeEnd + 1;
-				size_t innerTextEnd = XmlText.find (L"</" + nodeName + L">", innerTextPos);
-				if (innerTextEnd == string::npos)
+				size_t innerTextEnd = XmlText.find(L"</" + nodeName + L">", innerTextPos);
+				if (innerTextEnd == wxString::npos)
 					throw ParameterIncorrect (SRC_POS);
-
-				xmlNode.InnerText = ConvertEscapedChars (XmlText.substr (innerTextPos, innerTextEnd - innerTextPos));
+	
+				xmlNode.InnerText = ConvertEscapedChars(XmlText.substr(innerTextPos, innerTextEnd - innerTextPos));
 				nodePos = innerTextEnd;
 			}
-
-			nodeList.push_back (xmlNode);
+	
+			nodeList.push_back(xmlNode);
 		}
-
+	
 		return nodeList;
-	}
+	}	
 
 	XmlWriter::XmlWriter (const FilePath &fileName)
 	{

@@ -47,6 +47,7 @@ namespace VeraCrypt
 
 	protected:
 		wxString XmlText;
+		size_t FindTagEnd(size_t startPos) const;
 
 	private:
 		XmlParser (const XmlParser &);
