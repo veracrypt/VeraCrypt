@@ -16,6 +16,7 @@
 #include "Platform/Platform.h"
 #include "Platform/Stream.h"
 #include "VolumePassword.h"
+#include "Common/SecurityToken.h"
 
 namespace VeraCrypt
 {
@@ -26,20 +27,23 @@ namespace VeraCrypt
 	{
 	public:
 		Keyfile (const FilesystemPath &path) : Path (path) { }
-		virtual ~Keyfile () { };
 
 		operator FilesystemPath () const { return Path; }
-		static shared_ptr <VolumePassword> ApplyListToPassword (shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> password, bool emvSupportEnabled = false);
+		static shared_ptr <VolumePassword> ApplyListToPassword (shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> password,
+			wstring tokenDescriptor, bool emvSupportEnabled = false);
 		static shared_ptr <KeyfileList> DeserializeList (shared_ptr <Stream> stream, const string &name);
 		static void SerializeList (shared_ptr <Stream> stream, const string &name, shared_ptr <KeyfileList> keyfiles);
 		static bool WasHiddenFilePresentInKeyfilePath() { bool r = HiddenFileWasPresentInKeyfilePath; HiddenFileWasPresentInKeyfilePath = false; return r; }
 
 		static const size_t MinProcessedLength = 1;
 		static const size_t MaxProcessedLength = 1024 * 1024;
-
+		
+		void RevealRedkey(FilePath redkey, wstring tokenKeyDescriptor);
+		static void CreateBluekey(FilePath bluekeyFile, wstring tokenKeyDescriptor, SecureBuffer &buffer);
 	protected:
-		void Apply (const BufferPtr &pool, bool emvSupportEnabled) const;
-
+		void Apply (const BufferPtr &pool, wstring tokenKeyDescriptor, bool emvSupportEnabled) const;
+		shared_ptr<Stream> PrepareStream(wstring tokenKeyDescriptor, bool emvSupportEnabled) const;
+		
 		static bool HiddenFileWasPresentInKeyfilePath;
 
 		FilesystemPath Path;
