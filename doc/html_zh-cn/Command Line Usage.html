@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供合理的否认性。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，只需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">首页</a></li>
+	  <li><a href="/code/">源代码</a></li>
+	  <li><a href="Downloads.html">下载</a></li>
+	  <li><a class="active" href="Documentation.html">文档</a></li>
+	  <li><a href="Donation.html">捐赠</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Command%20Line%20Usage.html">命令行使用</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>命令行使用</h1>
+<p>请注意，本节适用于 Windows 版本的 VeraCrypt。有关适用于 <strong>Linux 和 Mac OS X 版本</strong>的命令行使用信息，请运行：veracrypt &ndash;h</p>
+<table border="1" cellspacing="0" cellpadding="1">
+<tbody>
+<tr>
+<td><em>/help</em> 或 <em>/?</em></td>
+<td>显示命令行帮助。</td>
+</tr>
+<tr>
+<td><em>/truecrypt 或 /tc</em></td>
+<td>激活 TrueCrypt 兼容模式，该模式允许挂载使用 TrueCrypt 6.x 和 7.x 系列创建的卷。</td>
+</tr>
+<tr>
+<td><em>/hash</em></td>
+<td>必须后跟一个参数，指示挂载卷时要使用的 PRF 哈希算法。可能的 /hash 参数值为：sha256, sha-256, sha512, sha-512, whirlpool, blake2s 和 blake2s-256。当省略 /hash 时，VeraCrypt 将尝试所有可能的 PRF 算法，从而延长挂载操作时间。</td>
+</tr>
+<tr>
+<td id="volume"><em>/volume</em> 或 <em>/v</em></td>
+<td>
+<p>必须后跟一个参数，指示要挂载的 VeraCrypt 卷的文件和路径名（卸载时不要使用）或要挂载的磁盘/分区的卷 ID。<br>
+卷 ID 的语法为 <strong>ID:XXXXXX...XX</strong>，其中 XX 部分是一个 64 个十六进制字符的字符串，表示要挂载的卷的 32 字节 ID。<br>
+<br>
+要挂载分区/设备托管的卷，请使用例如 /v \Device\Harddisk1\Partition3（要确定分区/设备的路径，请运行 VeraCrypt 并单击
+<em>选择设备</em>）。您还可以使用卷名挂载分区或动态卷（例如，/v \\?\Volume{5cceb196-48bf-46ab-ad00-70965512253a}\)。要确定卷名，请使用例如 mountvol.exe。另请注意，设备路径区分大小写。<br>
+<br>
+您还可以指定要挂载的分区/设备托管卷的卷 ID，例如：/v ID:53B9A8D59CC84264004DA8728FC8F3E2EE6C130145ABD3835695C29FD601EDCA。卷 ID 值可以使用卷属性对话框检索。</p>
+</td>
+</tr>
+<tr>
+<td><em>/letter</em> 或 <em>/l</em></td>
+<td>必须后跟一个参数，指示将卷挂载为的驱动器号。当省略 /l 且使用 /a 时，将使用第一个空闲的驱动器号。</td>
+</tr>
+<tr>
+<td><em>/explore</em> 或 <em>/e</em></td>
+<td>在挂载卷后打开资源管理器窗口。</td>
+</tr>
+<tr>
+<td><em>/beep</em> 或 <em>/b</em></td>
+<td>在成功挂载或卸载卷后发出蜂鸣声。</td>
+</tr>
+<tr>
+<td><em>/auto</em> 或 <em>/a</em></td>
+<td>如果未指定参数，则自动挂载卷。如果将 devices 指定为参数（例如，/a devices），则自动挂载当前可访问的所有设备/分区托管的 VeraCrypt 卷。如果将 favorites 指定为参数，则自动挂载收藏的卷。请注意，如果指定了 /quit 和 /volume，则 /auto 是隐式的。如果需要防止应用程序窗口出现，请使用 /quit。</td>
+</tr>
+<tr>
+<td><em>/unmount</em> 或 <em>/u</em></td>
+<td>卸载由驱动器号指定的卷（例如，/u x）。当未指定驱动器号时，卸载所有当前挂载的 VeraCrypt 卷。</td>
+</tr>
+<tr>
+<td><em>/dismount</em> 或 <em>/d</em></td>
+<td>已弃用。请使用 /unmount 或 /u。</td>
+</tr>
+<tr>
+<td><em>/force</em> 或 <em>/f</em></td>
+<td>强制卸载（如果要卸载的卷包含系统或应用程序正在使用的文件）并强制以共享模式挂载（即，不独占访问）。</td>
+</tr>
+<tr>
+<td><em>/keyfile</em> 或 <em>/k</em></td>
+<td>必须后跟一个参数，指定密钥文件或密钥文件搜索路径。对于多个密钥文件，请指定例如：/k c:\keyfile1.dat /k d:\KeyfileFolder /k c:\kf2 要指定存储在安全令牌或智能卡上的密钥文件，请使用以下语法：
+ token://slot/SLOT_NUMBER/file/FILE_NAME</td>
+</tr>
+<tr id="tryemptypass">
+<td><em>/tryemptypass&nbsp;&nbsp; </em></td>
+<td>仅当配置了默认密钥文件或在命令行中指定了密钥文件时。<br>
+如果后跟 <strong>y</strong> 或 <strong>yes</strong> 或未指定参数：在显示密码提示之前，尝试使用空密码和密钥文件挂载。<br>
+如果后跟 <strong>n </strong>或<strong> no</strong>：不尝试使用空密码和密钥文件挂载，并立即显示密码提示。</td>
+</tr>
+<tr>
+<td><em>/nowaitdlg</em></td>
+<td>如果后跟 <strong>y</strong> 或 <strong>yes</strong> 或未指定参数：在执行挂载卷等操作时不显示等待对话框。<br>
+如果后跟 <strong>n</strong> 或 <strong>no</strong>：强制显示等待对话框。</td>
+</tr>
+<tr>
+<td><em>/secureDesktop</em></td>
+<td>如果后跟 <strong>y</strong> 或 <strong>yes</strong> 或未指定参数：在专用安全桌面中显示密码对话框和令牌 PIN 对话框，以防止某些类型的攻击。<br>
+如果后跟 <strong>n</strong> 或 <strong>no</strong>：在普通桌面中显示密码对话框和令牌 PIN 对话框。</td>
+</tr>
+<tr>
+<td><em>/tokenlib</em></td>
+<td>必须后跟一个参数，指示用于安全令牌和智能卡的 PKCS #11 库。（例如：/tokenlib c:\pkcs11lib.dll）</td>
+</tr>
+<tr>
+<td><em>/tokenpin</em></td>
+<td>必须后跟一个参数，指示用于验证安全令牌或智能卡的 PIN（例如：/tokenpin 0000）。警告：输入智能卡 PIN 的这种方法可能不安全，例如，当未加密的命令提示符历史记录日志被保存到未加密的磁盘时。</td>
+</tr>
+<tr>
+<td><em>/cache</em> 或 <em>/c</em></td>
+<td>如果后跟 <strong>y</strong> 或 <strong>yes</strong> 或未指定参数：启用密码缓存；
+<br>
+如果后跟 <strong>p </strong>或<strong> pim</strong>：启用密码和 PIM 缓存（例如，/c p）。<br>
+如果后跟 <strong>n </strong>或<strong> no</strong>：禁用密码缓存（例如，/c n）。<br>
+如果后跟 <strong>f </strong>或<strong> favorites</strong>：在挂载多个收藏时临时缓存密码（例如，/c f）。<br>
+请注意，关闭密码缓存不会清除它（使用 /w 清除密码缓存）。</td>
+</tr>
+<tr>
+<td><em>/history</em> 或 <em>/h</em></td>
+<td>如果后跟 <strong>y</strong> 或未指定参数：启用保存挂载卷的历史记录；如果后跟
+<strong>n</strong>：禁用保存挂载卷的历史记录（例如，/h n）。</td>
+</tr>
+<tr>
+<td><em>/wipecache</em> 或 <em>/w</em></td>
+<td>清除驱动程序内存中缓存的任何密码。</td>
+</tr>
+<tr>
+<td><em>/password</em> 或 <em>/p</em></td>
+<td>必须后跟一个参数，指示卷密码。如果密码包含空格，则必须用引号括起来（例如，/p &rdquo;我的密码&rdquo;）。使用 /p &rdquo;&rdquo; 指定空密码。
+<em>警告：输入卷密码的这种方法可能不安全，例如，当未加密的命令提示符历史记录日志被保存到未加密的磁盘时。</em></td>
+</tr>
+<tr>
+<td><em>/pim</em></td>
+<td>必须后跟一个正整数，指示用于卷的 PIM（个人迭代乘数）。</td>
+</tr>
+<tr>
+<td><em>/quit</em> 或 <em>/q</em></td>
+<td>自动执行请求的操作并退出（不会显示主 VeraCrypt 窗口）。如果将 preferences 指定为参数（例如，/q preferences），则加载/保存程序设置，并且它们会覆盖命令行中指定的设置。 /q background 启动 VeraCrypt 后台任务（托盘图标），除非在首选项中禁用了它。</td>
+</tr>
+<tr>
+<td><em>/silent</em> 或 <em>/s</em></td>
+<td>如果指定了 /q，则抑制与用户的交互（提示、错误消息、警告等）。如果未指定 /q，则此选项无效。</td>
+</tr>
+<tr>
+<td><em>/mountoption</em> 或 <em>/m</em></td>
+<td>
+<p>必须后跟一个参数，该参数可以具有以下值之一。</p>
+<p><strong>ro</strong> 或<strong> readonly</strong>：以只读方式挂载卷。</p>
+<p><strong>rm</strong> 或 <strong>removable</strong>：以可移动介质方式挂载卷（参见
+<a href="Removable%20Medium%20Volume.html">
+<em>作为可移动介质挂载的卷</em></a>）。</p>
+<p><strong>ts</strong> 或 <strong>timestamp</strong>：不保留容器修改时间戳。</p>
+<p><strong>sm</strong> 或 <strong>system</strong>：无需预启动验证，挂载位于系统加密密钥范围内的分区（例如，位于未运行的其他操作系统的加密系统驱动器上的分区）。 例如，用于备份或修复操作。注意：如果您将密码作为 /p 的参数提供，请确保使用标准美式键盘布局键入密码（相比之下，GUI 会自动确保这一点）。这是必需的，因为密码需要在预启动环境（Windows 启动之前）中键入，而在该环境中非美式 Windows 键盘布局不可用。</p>
+<p><strong>bk</strong> 或 <strong>headerbak</strong>：使用嵌入式备份头挂载卷。注意：VeraCrypt 创建的所有卷都包含一个嵌入式备份头（位于卷的末尾）。</p>
+<p><strong>recovery</strong>：不验证存储在卷头中的任何校验和。仅当卷头损坏且即使使用挂载选项 headerbak 也无法挂载卷时，才应使用此选项。示例：/m ro</p>
+<p><strong>label=LabelValue</strong>：使用给定的字符串值 <strong>LabelValue</strong> 作为 Windows 资源管理器中挂载卷的标签。对于 NTFS 卷，
+<strong>LabelValue&nbsp;</strong> 的最大长度为 32 个字符，对于 FAT 卷，最大长度为 11 个字符。例如，
+<em>/m label=我的驱动器</em> 将资源管理器中的驱动器标签设置为 <em>我的驱动器</em>。</p>
+<p><strong>noattach</strong>：仅创建虚拟设备，而不实际将挂载的卷附加到选定的驱动器号。</p>
+<p>请注意，此开关可以在命令行中出现多次，以指定多个挂载选项（例如：/m rm /m ts）</p>
+</td>
+</tr>
+<tr>
+<td><em>/DisableDeviceUpdate</em>&nbsp;</td>
+<td>禁用对连接到系统的设备的定期内部检查，该检查用于处理使用 VolumeID 标识的收藏，并将其替换为按需检查。</td>
+</tr>
+<tr>
+<td><em>/protectMemory</em>&nbsp;</td>
+<td>激活一种机制，保护 VeraCrypt 进程内存不被其他非管理员进程访问。</td>
+</tr>
+<tr>
+<td><em>/signalExit</em>&nbsp;</td>
+<td>必须后跟一个参数，指定当 VeraCrypt 退出时发送给阻塞的 <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/waitfor" target="_blank">WAITFOR.EXE</a> 命令的信号名称。<br>
+信号名称必须与指定给 WAITFOR.EXE 命令的名称相同（例如"veracrypt.exe /q /v test.hc /l Z /signal SigName" 后跟 "waitfor.exe SigName"<br>
+如果未指定 /q，则忽略此开关</td>
+</tr>
+</tbody>
+</table>
+<h4>VeraCrypt Format.exe（VeraCrypt 卷创建向导）：</h4>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td>/create</td>
+<td>在命令行模式下创建基于容器的卷。必须后跟要创建的容器的文件名。</td>
+</tr>
+<tr>
+<td>/size</td>
+<td>
+<p>（仅与 /create 一起使用）<br>
+必须后跟一个参数，指示将创建的容器文件的大小。此参数是一个指示字节大小的数字。它可以有一个后缀 'K'、'M'、'G' 或 'T'，以指示该值分别以千字节、兆字节、千兆字节或太字节为单位。例如：</p>
+<ul>
+<li>/size 5000000：容器大小将为 5000000 字节 </li><li>/size 25K：容器大小将为 25 千字节。 </li><li>/size 100M：容器大小将为 100 兆字节。 </li><li>/size 2G：容器大小将为 2 千兆字节。 </li><li>/size 1T：容器大小将为 1 太字节。 </li></ul>
+</td>
+</tr>
+<tr>
+<td>&nbsp;/password</td>
+<td>&nbsp;（仅与 /create 一起使用）<br>
+必须后跟一个参数，指示将创建的容器的密码。</td>
+</tr>
+<tr>
+<td>&nbsp;/keyfile 或 /k</td>
+<td>&nbsp;（仅与 /create 一起使用）<br>
+必须后跟一个参数，指定密钥文件或密钥文件搜索路径。对于多个密钥文件，请指定例如：/k c:\keyfile1.dat /k d:\KeyfileFolder /k c:\kf2 要指定存储在安全令牌或智能卡上的密钥文件，请使用以下语法：
+ token://slot/SLOT_NUMBER/file/FILE_NAME</td>
+</tr>
+<tr>
+<td><em>/tokenlib</em></td>
+<td>&nbsp;（仅与 /create 一起使用）<br>
+必须后跟一个参数，指示用于安全令牌和智能卡的 PKCS #11 库。（例如：/tokenlib c:\pkcs11lib.dll）</td>
+</tr>
+<tr>
+<td><em>/tokenpin</em></td>
+<td>&nbsp;（仅与 /create 一起使用）<br>
+必须后跟一个参数，指示用于验证安全令牌或智能卡的 PIN（例如：/tokenpin 0000）。警告：输入智能卡 PIN 的这种方法可能不安全，例如，当未加密的命令提示符历史记录日志被保存到未加密的磁盘时。</td>
+</tr>
+<tr>
+<td>&nbsp;<em>/hash</em></td>
+<td>（仅与 /create 一起使用）<br>
+必须后跟一个参数，指示创建卷时要使用的 PRF 哈希算法。它与 VeraCrypt.exe 具有相同的语法。</td>
+</tr>
+<tr>
+<td>/encryption</td>
+<td>（仅与 /create 一起使用）<br>
+必须后跟一个参数，指示要使用的加密算法。如果未指定此开关，则默认使用 AES。参数可以具有以下值（不区分大小写）：
+<ul>
+<li>AES </li><li>Serpent </li><li>Twofish </li><li>Camellia </li><li>Kuznyechik </li><li>AES(Twofish) </li><li>AES(Twofish(Serpent)) </li><li>Serpent(AES) </li><li>Serpent(Twofish(AES)) </li><li>Twofish(Serpent) </li>
+<li>Camellia(Kuznyechik) </li>
+<li>Kuznyechik(Twofish) </li>
+<li>Camellia(Serpent) </li>
+<li>Kuznyechik(AES) </li>
+<li>Kuznyechik(Serpent(Camellia)) </li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>/filesystem</td>
+<td>（仅与 /create 一起使用）<br>
+必须后跟一个参数，指示要用于卷的文件系统。参数可以具有以下值：
+<ul>
+<li>None：不使用任何文件系统 </li><li>FAT：使用 FAT/FAT32 格式化 </li><li>NTFS：使用 NTFS 格式化。请注意，在这种情况下，除非进程以完全管理员权限运行，否则将显示 UAC 提示。
+</li>
+<li>ExFAT：使用 ExFAT 格式化。此开关从 Windows Vista SP1 开始可用 </li>
+<li>ReFS：使用 ReFS 格式化。此开关从 Windows 10 开始可用 </li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>/dynamic</td>
+<td>（仅与 /create 一起使用）<br>
+它没有参数，表示卷将创建为动态卷。</td>
+</tr>
+<tr>
+<td>/force</td>
+<td>（仅与 /create 一起使用）<br>
+它没有参数，表示将强制覆盖而不需要用户确认。</td>
+</tr>
+<tr>
+<td>/silent</td>
+<td>（仅与 /create 一起使用）<br>
+它没有参数，表示不会向用户显示任何消息框或对话框。如果有任何错误，操作将静默失败。</td>
+</tr>
+<tr>
+<td><em>/noisocheck</em> 或 <em>/n</em></td>
+<td>不验证 VeraCrypt 救援盘是否正确刻录。<strong>警告</strong>：切勿尝试使用此选项来促进重复使用先前创建的 VeraCrypt 救援盘。请注意，每次加密系统分区/驱动器时，即使使用相同的密码，也必须创建新的 VeraCrypt 救援盘。先前创建的 VeraCrypt 救援盘无法重复使用，因为它是为不同的主密钥创建的。</td>
+</tr>
+<tr>
+<td>/nosizecheck</td>
+<td>不检查给定的文件容器大小是否小于可用磁盘空间。这适用于 UI 和命令行。</td>
+</tr>
+<tr>
+<td>/quick</td>
+<td>执行卷的快速格式化而不是完全格式化。这适用于 UI 和命令行。</td>
+</tr>
+<tr>
+<td>/FastCreateFile</td>
+<td>启用一种更快但可能不安全的方法来创建文件容器。此选项存在安全风险，因为它可以将现有磁盘内容嵌入文件容器中，如果攻击者获得访问权限，可能会暴露敏感数据。请注意，此开关会影响所有文件容器创建方法，无论是通过命令行、使用 /create 开关还是通过 UI 向导启动的。</td>
+</tr>
+<tr>
+<td><em>/protectMemory</em>&nbsp;</td>
+<td>激活一种机制，保护 VeraCrypt Format 进程内存不被其他非管理员进程访问。</td>
+</tr>
+<tr>
+<td><em>/secureDesktop</em></td>
+<td>如果后跟 <strong>y</strong> 或 <strong>yes</strong> 或未指定参数：在专用安全桌面中显示密码对话框和令牌 PIN 对话框，以防止某些类型的攻击。<br>
+如果后跟 <strong>n</strong> 或 <strong>no</strong>：在普通桌面中显示密码对话框和令牌 PIN 对话框。</td>
+</tr>
+</tbody>
+</table>
+<h4>语法</h4>
+<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+ [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
+<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
+ [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</p>
+<p>请注意，选项的指定顺序无关紧要。</p>
+<h4>示例</h4>
+<p>将卷 <em>d:\myvolume</em> 挂载为第一个空闲的驱动器号，使用密码提示（不会显示主程序窗口）：</p>
+<p>veracrypt /q /v d:\myvolume</p>
+<p>卸载挂载为驱动器号 <em>X</em> 的卷（不会显示主程序窗口）：</p>
+<p>veracrypt /q /d x</p>
+<p>使用密码 <em>MyPassword</em> 挂载名为 <em>myvolume.tc</em> 的卷，挂载为驱动器号
+<em>X</em>。VeraCrypt 将打开资源管理器窗口并发出蜂鸣声；挂载将自动进行：</p>
+<p>veracrypt /v myvolume.tc /l x /a /p MyPassword /e /b</p>
+<p>使用密码 <em>test</em> 创建一个 10 MB 的文件容器，并使用 FAT 格式化：</p>
+<p><code>&quot;C:\Program Files\VeraCrypt\VeraCrypt Format.exe&quot; /create c:\Data\test.hc /password test /hash sha512 /encryption serpent /filesystem FAT /size 10M /force</code></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>
