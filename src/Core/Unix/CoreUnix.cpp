@@ -295,7 +295,10 @@ namespace VeraCrypt
 			return "/media/veracrypt";
 
 		if (FilesystemPath ("/run/media").IsDirectory())
-			return "/run/media/veracrypt"
+			return "/run/media/veracrypt";
+
+		if (FilesystemPath ("/mnt").IsDirectory())
+			return "/mnt/veracrypt"
 
 		return GetTempDirectory() + "/veracrypt_mnt";
 	}
