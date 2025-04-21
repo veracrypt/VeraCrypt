@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="System%20Encryption.html">系统加密</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>系统加密</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt可以对系统分区或整个系统驱动器进行即时加密，即安装Windows并从中启动的分区或驱动器。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+系统加密提供了最高级别的安全和隐私保护，因为所有文件，包括Windows和应用程序在系统分区上创建的任何临时文件（通常在您不知情或未同意的情况下）、休眠文件、交换文件等，始终处于永久加密状态（即使电源突然中断）。Windows还会记录大量潜在的敏感数据，例如您打开的文件的名称和位置、您运行的应用程序等。所有这些日志文件和注册表项也始终处于永久加密状态。
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>关于SSD和TRIM的注意事项：</strong>
+在SSD上使用系统加密时，重要的是要考虑TRIM操作的影响，该操作可能会泄露有关驱动器上哪些扇区未使用的信息。有关TRIM与VeraCrypt如何配合工作以及如何管理其设置以增强安全性的详细指南，请参阅 <a href="Trim%20Operation.html">TRIM操作</a> 文档。
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+系统加密涉及预启动身份验证，这意味着任何想要访问和使用加密系统、读取和写入存储在系统驱动器上的文件等的人，每次在Windows启动之前都需要输入正确的密码。预启动身份验证由VeraCrypt引导加载程序处理，该加载程序位于引导驱动器的第一个磁道以及 <a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">VeraCrypt救援磁盘（见下文）</a> 上。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请注意，VeraCrypt可以在操作系统运行时对现有的未加密系统分区/驱动器进行就地加密（在系统加密过程中，您可以像往常一样正常使用计算机，没有任何限制）。同样，VeraCrypt加密的系统分区/驱动器也可以在操作系统运行时进行就地解密。您可以随时中断加密或解密过程，使分区/驱动器部分未加密，重启或关闭计算机，然后继续该过程，该过程将从停止的点继续。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+用于系统加密的操作模式是 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">XTS</a>（请参阅 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">操作模式</a> 部分）。有关系统加密的更多技术细节，请参阅 <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">技术细节</a> 章节中的 <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">加密方案</a> 部分。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要加密系统分区或整个系统驱动器，请选择 <em style="text-align:left">系统</em> > <em style="text-align:left">加密系统分区/驱动器</em>，然后按照向导中的说明操作。要解密系统分区/驱动器，请选择 <em style="text-align:left">系统</em> > <em style="text-align:left">永久解密系统分区/驱动器</em>。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+由于BIOS要求，预启动密码需使用 <strong>美国键盘布局</strong> 输入。在系统加密过程中，VeraCrypt会自动透明地将键盘切换到美国布局，以确保输入的密码值与预启动模式下输入的密码值匹配。然而，从剪贴板粘贴密码可能会覆盖此保护措施。为防止因这种差异而产生的任何问题，VeraCrypt在系统加密向导中禁用了从剪贴板粘贴密码的选项。因此，在设置或输入密码时，务必手动使用与创建系统加密时相同的按键进行输入，以确保能够一致地访问您的加密系统。
+</div>
+<p>注意：默认情况下，Windows 7及更高版本从一个特殊的小分区启动。该分区包含启动系统所需的文件。Windows只允许具有管理员权限的应用程序在系统运行时写入该分区。在EFI启动模式（现代PC的默认模式）下，VeraCrypt无法加密此分区，因为它必须保持未加密状态，以便BIOS可以从中加载EFI引导加载程序。这反过来意味着在EFI启动模式下，VeraCrypt仅提供对安装Windows的系统分区进行加密（用户以后可以使用VeraCrypt手动加密其他数据分区）。在MBR传统启动模式下，只有当您选择加密整个系统驱动器（而不是仅选择加密安装Windows的分区）时，VeraCrypt才会对该分区进行加密。</p>
+<p>&nbsp;</p>
+<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></p>
+</div>
+</body></html>

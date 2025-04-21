@@ -1,0 +1,449 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="目录">
+		<param name="Local" value="Documentation.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="前言">
+		<param name="Local" value="Preface.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="简介">
+		<param name="Local" value="Introduction.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="初学者教程">
+		<param name="Local" value="Beginner's Tutorial.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="VeraCrypt卷">
+		<param name="Local" value="VeraCrypt Volume.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="创建新的VeraCrypt卷">
+			<param name="Local" value="Creating New Volumes.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="收藏卷">
+			<param name="Local" value="Favorite Volumes.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="系统收藏卷">
+			<param name="Local" value="System Favorite Volumes.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="系统加密">
+		<param name="Local" value="System Encryption.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="隐藏操作系统">
+			<param name="Local" value="Hidden Operating System.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="支持系统加密的操作系统">
+			<param name="Local" value="Supported Systems for System Encryption.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt急救盘">
+			<param name="Local" value="VeraCrypt Rescue Disk.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="合理否认">
+		<param name="Local" value="Plausible Deniability.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="隐藏卷">
+			<param name="Local" value="Hidden Volume.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="隐藏卷防损坏保护">
+				<param name="Local" value="Protection of Hidden Volumes.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="隐藏卷的安全要求和注意事项">
+				<param name="Local" value="Security Requirements for Hidden Volumes.html">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="隐藏操作系统">
+			<param name="Local" value="VeraCrypt Hidden Operating System.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="主程序窗口">
+		<param name="Local" value="Main Program Window.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="程序菜单">
+			<param name="Local" value="Program Menu.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="挂载卷">
+			<param name="Local" value="Mounting VeraCrypt Volumes.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="正常卸载与强制卸载">
+		<param name="Local" value="Normal Unmount vs Force Unmount.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="避免使用第三方文件扩展名">
+		<param name="Local" value="Avoid Third-Party File Extensions.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="并行处理">
+		<param name="Local" value="Parallelization.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="流水线处理">
+		<param name="Local" value="Pipelining.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="硬件加速">
+		<param name="Local" value="Hardware Acceleration.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="热键">
+		<param name="Local" value="Hot Keys.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="密钥文件">
+		<param name="Local" value="Keyfiles in VeraCrypt.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="安全令牌和智能卡">
+		<param name="Local" value="Security Tokens & Smart Cards.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="便携模式">
+		<param name="Local" value="Portable Mode.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="TrueCrypt支持">
+		<param name="Local" value="TrueCrypt Support.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="转换TrueCrypt卷和分区">
+		<param name="Local" value="Converting TrueCrypt volumes and partitions.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="1.26及更高版本转换指南">
+		<param name="Local" value="Conversion_Guide_VeraCrypt_1.26_and_Later.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="默认挂载参数">
+		<param name="Local" value="Default Mount Parameters.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="语言包">
+		<param name="Local" value="Language Packs.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="加密算法">
+		<param name="Local" value="Encryption Algorithms.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="AES">
+			<param name="Local" value="AES.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Camellia">
+			<param name="Local" value="Camellia.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Kuznyechik">
+			<param name="Local" value="Kuznyechik.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Serpent">
+			<param name="Local" value="Serpent.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Twofish">
+			<param name="Local" value="Twofish.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="密码级联">
+			<param name="Local" value="Cascades.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="哈希算法">
+		<param name="Local" value="Hash Algorithms.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="BLAKE2s-256">
+			<param name="Local" value="BLAKE2s-256.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="SHA-256">
+			<param name="Local" value="SHA-256.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="SHA-512">
+			<param name="Local" value="SHA-512.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Whirlpool">
+			<param name="Local" value="Whirlpool.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Streebog">
+			<param name="Local" value="Streebog.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="支持的操作系统">
+		<param name="Local" value="Supported Operating Systems.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="命令行用法">
+		<param name="Local" value="Command Line Usage.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="安全模型">
+		<param name="Local" value="Security Model.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="安全要求和注意事项">
+		<param name="Local" value="Security Requirements and Precautions.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="数据泄露">
+			<param name="Local" value="Data Leaks.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="分页文件">
+				<param name="Local" value="Paging File.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="内存转储文件">
+				<param name="Local" value="Memory Dump Files.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="休眠文件">
+				<param name="Local" value="Hibernation File.html">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="RAM中的未加密数据">
+			<param name="Local" value="Unencrypted Data in RAM.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt RAM加密">
+			<param name="Local" value="VeraCrypt RAM Encryption.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt内存保护">
+			<param name="Local" value="VeraCrypt Memory Protection.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="物理安全">
+			<param name="Local" value="Physical Security.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="恶意软件">
+			<param name="Local" value="Malware.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="多用户环境">
+			<param name="Local" value="Multi-User Environment.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="真实性和完整性">
+			<param name="Local" value="Authenticity and Integrity.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="选择密码和密钥文件">
+			<param name="Local" value="Choosing Passwords and Keyfiles.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="更改密码和密钥文件">
+			<param name="Local" value="Changing Passwords and Keyfiles.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Trim操作">
+			<param name="Local" value="Trim Operation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="磨损均衡">
+			<param name="Local" value="Wear-Leveling.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="重新分配扇区">
+			<param name="Local" value="Reallocated Sectors.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="碎片整理">
+			<param name="Local" value="Defragmenting.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="日志文件系统">
+			<param name="Local" value="Journaling File Systems.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="卷克隆">
+			<param name="Local" value="Volume Clones.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="附加安全要求和注意事项">
+			<param name="Local" value="Additional Security Requirements and Precautions.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="如何安全备份">
+		<param name="Local" value="How to Back Up Securely.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="杂项">
+		<param name="Local" value="Miscellaneous.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="无需管理员权限使用VeraCrypt">
+			<param name="Local" value="Using VeraCrypt Without Administrator Privileges.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="网络共享">
+			<param name="Local" value="Sharing over Network.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt后台任务">
+			<param name="Local" value="VeraCrypt Background Task.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="作为可移动介质挂载的卷">
+			<param name="Local" value="Removable Medium Volume.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt系统文件和应用数据">
+			<param name="Local" value="VeraCrypt System Files.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="如何移除加密">
+			<param name="Local" value="Removing Encryption.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="卸载VeraCrypt">
+			<param name="Local" value="Uninstalling VeraCrypt.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="数字签名">
+			<param name="Local" value="Digital Signatures.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="故障排除">
+		<param name="Local" value="Troubleshooting.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="不兼容问题">
+		<param name="Local" value="Incompatibilities.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="已知问题和限制">
+		<param name="Local" value="Issues and Limitations.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="常见问题解答">
+		<param name="Local" value="FAQ.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="技术细节">
+		<param name="Local" value="Technical Details.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="符号表示">
+			<param name="Local" value="Notation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="加密方案">
+			<param name="Local" value="Encryption Scheme.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="操作模式">
+			<param name="Local" value="Modes of Operation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="头部密钥派生、盐和迭代次数">
+			<param name="Local" value="Header Key Derivation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="随机数生成器">
+			<param name="Local" value="Random Number Generator.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="密钥文件">
+			<param name="Local" value="Keyfiles.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="PIM（个人迭代乘数）">
+			<param name="Local" value="Personal Iterations Multiplier (PIM).html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt卷格式规范">
+			<param name="Local" value="VeraCrypt Volume Format Specification.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="标准合规性">
+			<param name="Local" value="Standard Compliance.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="源代码">
+			<param name="Local" value="Source Code.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="从源代码构建VeraCrypt">
+			<param name="Local" value="CompilingGuidelines.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Windows构建指南">
+				<param name="Local" value="CompilingGuidelineWin.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Linux构建指南">
+				<param name="Local" value="CompilingGuidelineLinux.html">
+				</OBJECT>
+		</UL>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="联系我们">
+		<param name="Local" value="Contact.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="法律信息">
+		<param name="Local" value="Legal Information.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="版本历史">
+		<param name="Local" value="Release Notes.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="致谢">
+		<param name="Local" value="Acknowledgements.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="参考文献">
+		<param name="Local" value="References.html">
+		</OBJECT>
+</UL>
+</BODY></HTML>

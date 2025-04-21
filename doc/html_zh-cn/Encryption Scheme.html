@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫你透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Encryption%20Scheme.html">加密方案</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>加密方案</h1>
+<p>在挂载VeraCrypt卷时（假设没有缓存的密码/密钥文件）或执行预启动认证时，会执行以下步骤：</p>
+<ol>
+<li>将卷的前512字节（即标准卷头）读入内存，其中前64字节是盐值（请参阅
+<a href="VeraCrypt%20Volume%20Format%20Specification.html">
+<em>VeraCrypt卷格式规范</em></a>）。对于系统加密（请参阅
+<a href="System%20Encryption.html"><em>系统加密</em></a>章节），将第一个逻辑驱动器磁道的最后512字节读入内存（VeraCrypt引导加载程序存储在系统驱动器的第一个磁道和/或VeraCrypt救援磁盘上）。 </li>
+<li>将卷的第65536 - 66047字节读入内存（请参阅
+<a href="VeraCrypt%20Volume%20Format%20Specification.html">
+<em>VeraCrypt卷格式规范</em></a>部分）。对于系统加密，将活动分区后面的第一个分区的第65536 - 66047字节读入内存（请参阅
+<a href="Hidden%20Operating%20System.html">
+<em>隐藏操作系统</em></a>部分）。如果此卷（或引导分区后面的分区）内有隐藏卷，此时我们已经读取了其卷头；否则，我们只是读取了随机数据（是否存在隐藏卷必须通过尝试解密此数据来确定；更多信息请参阅
+<a href="Hidden%20Volume.html"><em>隐藏卷</em></a>部分）。
+</li>
+<li>现在VeraCrypt尝试解密在步骤(1)中读取的标准卷头。解密过程中使用和生成的所有数据都保存在内存中（VeraCrypt从不将它们保存到磁盘）。以下参数是未知的&dagger;，必须通过试错过程（即测试以下所有可能的组合）来确定：
+<ol type="a">
+<li>头密钥派生函数使用的伪随机函数（PRF，如PKCS #5 v2.0中所指定；请参阅
+<a href="Header%20Key%20Derivation.html">
+<em>头密钥派生、盐值和迭代次数</em></a>部分），可以是以下之一：
+<p>HMAC - SHA - 512、HMAC - SHA - 256、HMAC - BLAKE2S - 256、HMAC - Whirlpool。如果用户明确指定了PRF，则将直接使用它，而不尝试其他可能性。</p>
+<p>用户输入的密码（可能已应用了一个或多个密钥文件 - 请参阅
+<a href="Keyfiles%20in%20VeraCrypt.html">
+<em>密钥文件</em></a>部分）、PIM值（如果指定）和在步骤(1)中读取的盐值将传递给头密钥派生函数，该函数会生成一系列值（请参阅
+<a href="Header%20Key%20Derivation.html">
+<em>头密钥派生、盐值和迭代次数</em></a>部分），从中形成头加密密钥和辅助头密钥（XTS模式）。（这些密钥用于解密卷头。）</p>
+</li>
+<li>加密算法：AES - 256、Serpent、Twofish、AES - Serpent、AES - Twofish - Serpent等。</li>
+<li>操作模式：仅支持XTS模式</li>
+<li>密钥大小</li>
+</ol>
+</li>
+<li>如果解密数据的前4个字节包含ASCII字符串“VERA”，并且解密数据（卷头）的最后256字节的CRC - 32校验和与解密数据的第8字节处的值匹配，则认为解密成功（该值对手是未知的，因为它是加密的 - 请参阅
+<a href="VeraCrypt%20Volume%20Format%20Specification.html">
+<em>VeraCrypt卷格式规范</em></a>部分）。如果不满足这些条件，过程将从步骤(3)重新开始，但这次使用在步骤(2)中读取的数据（即可能的隐藏卷头）。如果仍然不满足条件，则挂载终止（密码错误、卷损坏或不是VeraCrypt卷）。
+</li>
+<li>现在我们知道（或极有可能假设）我们拥有正确的密码、正确的加密算法、模式、密钥大小和正确的头密钥派生算法。如果我们成功解密了在步骤(2)中读取的数据，我们还知道我们正在挂载一个隐藏卷，并且其大小可以从在步骤(3)中解密的步骤(2)读取的数据中获取。
+</li>
+<li>使用主主密钥**和辅助主密钥（XTS模式 - 请参阅
+<a href="Modes%20of%20Operation.html"><em>操作模式</em></a>部分）重新初始化加密例程，这些密钥从解密的卷头中获取（请参阅
+<a href="VeraCrypt%20Volume%20Format%20Specification.html">
+<em>VeraCrypt卷格式规范</em></a>部分）。这些密钥可用于解密卷的任何扇区，但卷头区域（或系统加密的密钥数据区域）除外，该区域使用头密钥进行加密。卷被挂载。
+</li>
+</ol>
+<p>另请参阅
+<a href="Modes%20of%20Operation.html">
+<em>操作模式</em></a>部分、
+<a href="Header%20Key%20Derivation.html">
+<em>头密钥派生、盐值和迭代次数</em></a>部分以及
+<a href="Security%20Model.html"><em>安全模型</em></a>章节。</p>
+<p>* 如果活动分区的大小小于256 MB，则从活动分区后面的<em>第二个</em>分区读取数据（Windows 7及更高版本默认不从安装它们的分区启动）。</p>
+<p>&dagger; 保留这些参数的秘密并不是为了增加攻击的复杂性，主要是为了使VeraCrypt卷无法识别（与随机数据无法区分），如果这些参数未加密存储在卷头中，这将很难实现。另请注意，在传统MBR引导模式下，如果系统加密使用非级联加密算法，则该算法<em>是</em>已知的（可以通过分析存储在第一个逻辑驱动器磁道或VeraCrypt救援磁盘上的未加密VeraCrypt引导加载程序的内容来确定）。</p>
+<p>** 主密钥是在卷创建期间生成的，之后无法更改。更改卷密码是通过使用新的头密钥（从新密码派生）重新加密卷头来实现的。</p>
+<p>&nbsp;</p>
+<p><a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>

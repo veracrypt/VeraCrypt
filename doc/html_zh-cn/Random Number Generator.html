@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。万一攻击者强迫您透露密码，VeraCrypt提供了似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Random%20Number%20Generator.html">随机数生成器</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>随机数生成器</h1>
+<p>VeraCrypt随机数生成器（RNG）用于生成主加密密钥、辅助密钥（XTS模式）、盐值和密钥文件。它在随机存取存储器（内存）中创建一个随机值池。这个320字节长的池由以下来源的数据填充：</p>
+<ul>
+<li>鼠标移动</li>
+<li>按键操作</li>
+<li><em>Mac OS X和Linux</em>：内置随机数生成器生成的值（包括<em>/dev/random</em>和<em>/dev/urandom</em>）</li>
+<li><em>仅适用于MS Windows</em>：MS Windows CryptoAPI（每隔500毫秒定期收集）</li>
+<li><em>仅适用于MS Windows</em>：网络接口统计信息（NETAPI32）</li>
+<li><em>仅适用于MS Windows</em>：各种Win32句柄、时间变量和计数器（每隔500毫秒定期收集）</li>
+</ul>
+<p>从上述任何来源获取的值在写入池之前，会被分割成单个字节（例如，一个32位的数字会被分割成四个字节）。然后，这些字节通过模2<sup>8</sup>加法运算（而不是替换池中的旧值），分别写入池的游标位置。写入一个字节后，池游标的位置会向前移动一个字节。当游标到达池的末尾时，其位置会被设置为池的开头。每写入16个字节到池中后，会自动对整个池应用池混合函数（见下文）。</p>
+<h2>池混合函数</h2>
+<p>此函数的目的是进行扩散[2]。扩散将单个“原始”输入位的影响尽可能地分散到池状态的更多部分，这也隐藏了统计关系。每写入16个字节到池中后，会对整个池应用此函数。</p>
+<p>池混合函数的描述：</p>
+<ol>
+<li>设<em>R</em>为随机数池。</li>
+<li>设<em>H</em>为用户选择的哈希函数（SHA - 512、BLAKE2S - 256或Whirlpool）。</li>
+<li><em>l</em> = 哈希函数<em>H</em>输出的字节大小（即，如果<em>H</em>是BLAKE2S - 256，则<em>l</em> = 20；如果<em>H</em>是SHA - 512，则<em>l</em> = 64）</li>
+<li><em>z</em> = 随机数池<em>R</em>的字节大小（320字节）</li>
+<li><em>q</em> = <em>z</em> / <em>l</em> - 1（例如，如果<em>H</em>是Whirlpool，则<em>q</em> = 4）</li>
+<li><em>R</em>被分割成<em>l</em>字节的块<em>B</em>0...<em>B</em>q。
+<p>对于0 ≤ i ≤ q（即，对于每个块<em>B</em>），执行以下步骤：</p>
+<ol type="a">
+<li><em>M = H</em> (<em>B</em>0 || <em>B</em>1 || ... || <em>B</em>q) [即，使用哈希函数<em>H</em>对随机数池进行哈希处理，生成哈希值<em>M</em>]</li>
+<li><em>B</em>i = <em>B</em>i ^ <em>M</em></li>
+</ol>
+</li>
+<li><em>R = B</em>0 || <em>B</em>1 || ... || <em>B</em>q</li>
+</ol>
+<p>例如，如果<em>q</em> = 1，随机数池将按以下方式混合：</p>
+<ol>
+<li>(<em>B</em>0 || <em>B</em>1) = <em>R</em></li>
+<li><em>B</em>0 = <em>B</em>0 ^ <em>H</em>(<em>B</em>0 || <em>B</em>1)</li>
+<li><em>B</em>1 = <em>B</em>1 ^ <em>H</em>(<em>B</em>0 || <em>B</em>1)</li>
+<li><em>R</em> = <em>B</em>0 || <em>B</em>1</li>
+</ol>
+<h2>生成的值</h2>
+<p>随机数生成器池的内容永远不会直接导出（即使VeraCrypt指示随机数生成器生成并导出一个值）。因此，即使攻击者获得了随机数生成器生成的值，他也无法确定或预测（使用所获得的值）会话期间随机数生成器生成的任何其他值（从随机数生成器生成的值确定池的内容是不可行的）。</p>
+<p>每当VeraCrypt指示随机数生成器生成并导出一个值时，随机数生成器通过执行以下步骤来确保这一点：</p>
+<ol>
+<li>将从上述来源获得的数据按上述方式添加到池中。</li>
+<li>将请求的字节数从池复制到输出缓冲区（复制从池游标的位置开始；当到达池的末尾时，复制从池的开头继续；如果请求的字节数大于池的大小，则不生成值并返回错误）。</li>
+<li>反转池中每个位的状态（即，0变为1，1变为0）。</li>
+<li>将从上述某些来源获得的数据按上述方式添加到池中。</li>
+<li>使用池混合函数转换池的内容。注意：该函数使用用户选择的加密安全单向哈希函数（有关更多信息，请参阅上面的<em>池混合函数</em>部分）。</li>
+<li>将转换后的池内容按以下方式异或到输出缓冲区：
+<ol type="a">
+<li>将输出缓冲区写入游标设置为0（缓冲区的第一个字节）。</li>
+<li>从池的游标位置读取一个字节，并将其与输出缓冲区中写入游标位置的字节进行异或运算。</li>
+<li>将池游标的位置向前移动一个字节。如果到达池的末尾，则将游标位置设置为0（池的第一个字节）。</li>
+<li>将输出缓冲区写入游标的位置向前移动一个字节。</li>
+<li>对输出缓冲区的每个剩余字节（其长度等于请求的字节数）重复步骤b - d。</li>
+<li>导出输出缓冲区的内容，即随机数生成器生成的最终值。</li>
+</ol>
+</li>
+</ol>
+<h2>设计起源</h2>
+<p>随机数生成器的设计和实现基于以下工作：</p>
+<ul>
+<li>Peter Gutmann的《软件生成实用强随机数》[10]</li>
+<li>Carl Ellison的《加密随机数》[11]</li>
+</ul>
+<p>&nbsp;</p>
+<p><a href="Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>
