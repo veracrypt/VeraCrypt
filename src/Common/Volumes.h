@@ -21,6 +21,12 @@ extern "C" {
 // Volume header version
 #define VOLUME_HEADER_VERSION					0x0005 
 
+// Volume header magic identifiers
+// 32-bit magic number identifying a valid VeraCrypt volume header ("VERA" in ASCII)
+#define TC_HEADER_MAGIC_NUMBER							0x56455241
+// 64-bit magic number identifier for boot drive filter extension ("VERABEXT" in ASCII)
+#define TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER		0x5645524142455854ULL
+
 // Version number written to volume header during format;
 // specifies the minimum program version required to mount the volume
 #define TC_VOLUME_MIN_REQUIRED_PROGRAM_VERSION	0x010b
