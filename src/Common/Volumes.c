@@ -173,11 +173,11 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 {
 	unsigned char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	unsigned char* keyInfoBuffer = NULL;
-	int keyInfoBufferSize = sizeof (KEY_INFO) + 16;
+	int keyInfoBufferSize = sizeof (KEY_INFO) + TC_KEY_INFO_BUFFER_ALIGNMENT;
 	size_t keyInfoBufferOffset;
 	PKEY_INFO keyInfo;
 	PCRYPTO_INFO cryptoInfo;
-	CRYPTOPP_ALIGN_DATA(16) unsigned char dk[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char dk[MASTER_KEYDATA_SIZE];
 	int enqPkcs5Prf, pkcs5_prf;
 	uint16 headerVersion;
 	int status = ERR_PARAMETER_INCORRECT;
@@ -199,7 +199,7 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 	keyInfoBuffer = TCalloc(keyInfoBufferSize);
 	if (!keyInfoBuffer)
 		return ERR_OUTOFMEMORY;
-	keyInfoBufferOffset = 16 - (((uint64) keyInfoBuffer) % 16);
+	keyInfoBufferOffset = TC_KEY_INFO_BUFFER_ALIGNMENT - (((uint64) keyInfoBuffer) % TC_KEY_INFO_BUFFER_ALIGNMENT);
 	keyInfo = (PKEY_INFO) (keyInfoBuffer + keyInfoBufferOffset);
 
 #if !defined(DEVICE_DRIVER) && !defined(_UEFI)
@@ -884,7 +884,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 #endif // !defined(_UEFI)
 {
 	unsigned char *p = header;
-	static CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
+	static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) KEY_INFO keyInfo;
 
 	int nUserKeyLen = password? password->Length : 0;
 	PCRYPTO_INFO cryptoInfo = crypto_open ();

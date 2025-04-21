@@ -35,6 +35,12 @@ extern "C" {
 // specifies the minimum program version required to decrypt the system partition/drive
 #define TC_SYSENC_KEYSCOPE_MIN_REQ_PROG_VERSION	0x010b
 
+// Required 16-byte alignment for derived key buffers to ensure optimal performance and compatibility with SIMD instructions.
+#define TC_DERIVED_KEY_BUFFER_ALIGNMENT			16
+
+// Required 16-byte alignment for KEY_INFO buffer to ensure optimal performance and compatibility with SIMD instructions.
+#define TC_KEY_INFO_BUFFER_ALIGNMENT			16
+
 // Current volume format version (created by TrueCrypt 6.0+)
 #define TC_VOLUME_FORMAT_VERSION				2
 
