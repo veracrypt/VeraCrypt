@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Header%20Key%20Derivation.html">头密钥推导、盐值和迭代次数</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>头密钥推导、盐值和迭代次数</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+头密钥用于加密和解密VeraCrypt卷头的加密区域（对于
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+系统加密</a>，则是密钥数据区域），该区域包含主密钥和其他数据（请参阅
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+加密方案</a>和 <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+VeraCrypt卷格式规范</a> 部分）。在VeraCrypt创建的卷中（以及对于
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+系统加密</a>），该区域采用XTS模式进行加密（请参阅 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+操作模式</a> 部分）。VeraCrypt用于生成头密钥和辅助头密钥（XTS模式）的方法是PBKDF2，该方法在PKCS #5 v2.0中定义；请参阅
+<a href="References.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+[7]</a>。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+使用了512位的盐值，这意味着每个密码有2<sup style="text-align:left; font-size:85%">512</sup> 个密钥。这显著降低了对“离线”字典/“彩虹表”攻击的脆弱性（使用盐值时，为字典中的所有密码预先计算所有密钥非常困难） [7]。盐值由
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+VeraCrypt随机数生成器</a> 在卷创建过程中生成的随机值组成。头密钥推导函数基于HMAC - SHA - 512、HMAC - SHA - 256、HMAC - BLAKE2S - 256、HMAC - Whirlpool或HMAC - Streebog（请参阅 [8, 9, 20, 22]） — 用户可以选择使用哪种。派生密钥的长度不取决于底层哈希函数的输出大小。例如，即使使用HMAC - SHA - 512，AES - 256密码的头密钥始终为256位长（在XTS模式下，还会使用一个额外的256位辅助头密钥；因此，AES - 256总共使用两个256位密钥）。更多信息，请参阅 [7]。为了推导出头密钥，必须执行大量的密钥推导函数迭代，这增加了进行密码穷举搜索（即暴力攻击）所需的时间 [7]。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>在1.12版本之前，VeraCrypt始终使用固定的迭代次数，该次数仅取决于卷类型和使用的推导算法。
+从1.12版本开始，<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM </a>字段（<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">个人迭代乘数</a>）使用户能够更好地控制密钥推导函数使用的迭代次数。</p>
+<p>
+<p>当未指定 <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM </a>值或该值等于零时，VeraCrypt使用以下默认值：<br/>
+<ul>
+<li>对于使用SHA - 256、BLAKE2s - 256或Streebog的系统分区加密（引导加密），使用 <strong>200000</strong> 次迭代。</li>
+<li>对于使用SHA - 512或Whirlpool的系统加密，使用 <strong>500000</strong> 次迭代。</li>
+<li>对于非系统加密和文件容器，所有推导算法都将使用 <strong>500000</strong> 次迭代。
+</li></ul>
+</p>
+<p>当用户提供 <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM </a>值时，密钥推导函数的迭代次数计算如下：</p>
+<ul>
+<li>对于不使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>PIM x 2048</strong>
+</li><li>对于使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
+</li><li>对于非系统加密和文件容器：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
+</li></ul>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+级联密码中使用的头密钥相互独立，即使它们是从单个密码（可能已应用密钥文件）派生而来。例如，对于AES - Twofish - Serpent级联，头密钥推导函数会根据给定密码推导出一个768位的加密密钥（在XTS模式下，还会从给定密码推导出一个768位的
+<em style="text-align:left">辅助</em> 头密钥）。生成的768位头密钥随后被拆分为三个256位密钥（在XTS模式下，
+<em style="text-align:left">辅助</em> 头密钥也被拆分为三个256位密钥，因此级联实际上总共使用六个256位密钥），其中第一个密钥由Serpent使用，第二个密钥由Twofish使用，第三个密钥由AES使用（此外，在XTS模式下，第一个辅助密钥由Serpent使用，第二个辅助密钥由Twofish使用，第三个辅助密钥由AES使用）。因此，即使攻击者拥有其中一个密钥，他也无法使用该密钥推导出其他密钥，因为除了对弱密码进行暴力攻击外，没有可行的方法来确定派生该密钥的密码。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

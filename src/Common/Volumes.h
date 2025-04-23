@@ -21,6 +21,12 @@ extern "C" {
 // Volume header version
 #define VOLUME_HEADER_VERSION					0x0005 
 
+// Volume header magic identifiers
+// 32-bit magic number identifying a valid VeraCrypt volume header ("VERA" in ASCII)
+#define TC_HEADER_MAGIC_NUMBER							0x56455241
+// 64-bit magic number identifier for boot drive filter extension ("VERABEXT" in ASCII)
+#define TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER		0x5645524142455854ULL
+
 // Version number written to volume header during format;
 // specifies the minimum program version required to mount the volume
 #define TC_VOLUME_MIN_REQUIRED_PROGRAM_VERSION	0x010b
@@ -28,6 +34,12 @@ extern "C" {
 // Version number written (encrypted) to the key data area of an encrypted system partition/drive;
 // specifies the minimum program version required to decrypt the system partition/drive
 #define TC_SYSENC_KEYSCOPE_MIN_REQ_PROG_VERSION	0x010b
+
+// Required 16-byte alignment for derived key buffers to ensure optimal performance and compatibility with SIMD instructions.
+#define TC_DERIVED_KEY_BUFFER_ALIGNMENT			16
+
+// Required 16-byte alignment for KEY_INFO buffer to ensure optimal performance and compatibility with SIMD instructions.
+#define TC_KEY_INFO_BUFFER_ALIGNMENT			16
 
 // Current volume format version (created by TrueCrypt 6.0+)
 #define TC_VOLUME_FORMAT_VERSION				2

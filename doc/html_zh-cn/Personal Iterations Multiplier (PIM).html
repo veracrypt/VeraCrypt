@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Personal%20Iterations%20Multiplier%20(PIM).html">PIM</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>PIM</h1>
+<div>
+<p>PIM代表“个人迭代乘数”。它是VeraCrypt 1.12版本引入的一个参数，其值控制着头部密钥推导函数使用的迭代次数。该值可以通过密码对话框或命令行指定。</p>
+<p>当指定了PIM值时，迭代次数的计算方式如下：</p>
+<ul>
+<li>对于不使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>PIM x 2048</strong>
+</li><li>对于使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
+</li><li>对于非系统加密和文件容器：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
+</li></ul>
+<p>如果未指定PIM值，VeraCrypt将使用1.12版本之前的默认迭代次数（请参阅
+    <a href="Header%20Key%20Derivation.html">
+    头部密钥推导</a>）。这可以总结如下：<br/>
+        <ul>
+        <li>对于使用SHA - 256、BLAKE2s - 256或Streebog的系统分区加密（引导加密），使用<strong>200000</strong>次迭代，这相当于PIM值为<strong>98</strong>。</li>
+        <li>对于使用SHA - 512或Whirlpool的系统加密，使用<strong>500000</strong>次迭代，这相当于PIM值为<strong>485</strong>。</li>
+        <li>对于非系统加密和文件容器，所有推导算法将使用<strong>500000</strong>次迭代，这相当于PIM值为<strong>485</strong>。</li>
+        </ul>
+</p>
+<p>在1.12版本之前，VeraCrypt卷的安全性仅基于密码强度，因为VeraCrypt使用固定的迭代次数。<br>
+随着PIM的引入，VeraCrypt的卷在基于（密码，PIM）对的二维安全空间中具有更高的灵活性，可在控制挂载/引导操作性能的同时调整所需的安全级别。</p>
+<h3>PIM的使用</h3>
+不强制要求指定PIM。</div>
+<div><br>
+在创建卷或更改密码时，用户可以通过选中“使用PIM”复选框来指定PIM值，这样GUI中会显示一个PIM字段，用户可以输入PIM值。</div>
+<div>&nbsp;</div>
+<div>PIM被视为一个秘密值，每次用户都必须与密码一起输入。如果指定了错误的PIM值，挂载/引导操作将失败。</div>
+<div>&nbsp;</div>
+<div>使用较高的PIM值可以通过增加迭代次数来提高安全性，但会导致挂载/引导时间变慢。</div>
+<div>使用较小的PIM值，挂载/引导速度会更快，但如果使用弱密码，可能会降低安全性。</div>
+<div>&nbsp;</div>
+<div>在创建卷或对系统进行加密时，当密码长度小于20个字符时，VeraCrypt会强制PIM值大于或等于某个最小值。进行此检查是为了确保对于短密码，安全级别至少等于空PIM提供的默认级别。</div>
+<div>&nbsp;</div>
+<div>对于短密码，不使用SHA - 512或Whirlpool的系统加密的PIM最小值为<strong>98</strong>，其他情况的PIM最小值为
+<strong>485</strong>。对于长度为20个字符及以上的密码，PIM最小值为
+<strong>1</strong>。在所有情况下，将PIM留空或将其值设置为0将使VeraCrypt使用如
+<a href="Header%20Key%20Derivation.html">
+头部密钥推导</a>部分所述的默认高迭代次数。</div>
+<div><br>
+使用自定义PIM值的动机可能包括：<br>
+<ul>
+<li>添加一个额外的秘密参数（PIM），使攻击者必须猜测</li><li>通过使用较大的PIM值来提高安全级别，以抵御未来暴力攻击技术的发展。
+</li><li>通过使用较小的PIM值（对于不使用SHA - 512或Whirlpool的系统加密小于98，对于其他情况小于485）来加快引导或挂载速度
+</li></ul>
+<p>以下屏幕截图展示了使用PIM值为231挂载卷的步骤：</p>
+<table style="margin-left:auto; margin-right:auto">
+<tbody>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step1.png" alt=""></td>
+</tr>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step2.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<h3>更改/清除PIM</h3>
+<p>可以使用更改密码功能来更改或清除卷或系统加密的PIM。以下屏幕截图展示了一个将PIM从空默认值更改为值为3的示例（由于密码长度超过20个字符，这是可行的）。为此，用户必须首先在“新”部分中勾选“使用PIM”复选框以显示PIM字段。</p>
+<table width="519" style="height:896px; width:519px; margin-left:auto; margin-right:auto">
+<caption><strong>普通卷情况</strong></caption>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step1.png" alt=""></td>
+</tr>
+<tr>
+<td>
+<p><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step2.png" alt=""></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h5>&nbsp;</h5>
+<table style="margin-left:auto; margin-right:auto">
+<caption><strong>系统加密情况</strong></caption>
+<tbody>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step1.png" alt=""></td>
+</tr>
+<tr>
+<td><img src="Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step2.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p><a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

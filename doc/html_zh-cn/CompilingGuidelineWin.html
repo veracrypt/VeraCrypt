@@ -1,0 +1,1225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+</style>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">从源代码构建VeraCrypt</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineWin.html">Windows构建指南</a>
+</p></div>
+
+<div class="wikidoc">
+本指南介绍了如何设置一个能够编译VeraCrypt的Windows系统。此外，还描述了如何编译VeraCrypt。 <br>
+这里以Windows 10系统为例进行说明，但其他Windows系统的操作过程类似。
+</div>
+
+<div class="wikidoc">
+编译VeraCrypt需要以下组件：
+
+<ol>
+    <li>Microsoft Visual Studio 2010（微软Visual Studio 2010）</li>
+    <li>Microsoft Visual Studio 2010 Service Pack 1（微软Visual Studio 2010服务包1）</li>
+    <li>NASM</li>
+    <li>YASM</li>
+    <li>Visual C++ 1.52</li>
+    <li>Windows SDK 7.1（Windows软件开发工具包7.1）</li>
+    <li>Windows Driver Kit 7.1（Windows驱动程序开发工具包7.1）</li>
+    <li>Windows 8.1 SDK（Windows 8.1软件开发工具包）</li>
+    <li>gzip</li>
+    <li>upx</li>
+    <li>7zip</li>
+    <li>Wix3</li>
+    <li>Microsoft Visual Studio 2019（微软Visual Studio 2019）</li>
+    <li>Windows 10 SDK（Windows 10软件开发工具包）</li>
+    <li>Windows Driver Kit 1903（Windows驱动程序开发工具包1903）</li>
+    <li>Visual Studio构建工具</li>
+    
+</ol>
+
+</div>
+
+<div class="wikidoc">
+以下是操作步骤。点击任何链接可直接跳转到相关步骤：
+<ul>
+<li><strong><a href="#InstallationOfMicrosoftVisualStudio2010">安装Microsoft Visual Studio 2010</a></li></strong>
+<li><strong><a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">安装Microsoft Visual Studio 2010 Service Pack 1</a></li></strong>
+<li><strong><a href="#InstallationOfNASM">安装NASM</a></li></strong>
+<li><strong><a href="#InstallationOfYASM">安装YASM</a></li></strong>
+<li><strong><a href="#InstallationOfVisualCPP">安装Microsoft Visual C++ 1.52</a></li></strong>
+<li><strong><a href="#InstallationOfWindowsSDK71PP">安装Windows SDK 7.1</a></li></strong>
+<li><strong><a href="#InstallationOfWDK71PP">安装Windows Driver Kit 7.1</a></li></strong>
+<li><strong><a href="#InstallationOfSDK81PP">安装Windows 8.1 SDK</a></li></strong>
+<li><strong><a href="#InstallationOfGzip">安装gzip</a></li></strong>
+<li><strong><a href="#InstallationOfUpx">安装upx</a></li></strong>
+<li><strong><a href="#InstallationOf7zip">安装7zip</a></li></strong>
+<li><strong><a href="#InstallationOfWix3">安装Wix3</a></li></strong>
+<li><strong><a href="#InstallationOfVS2019">安装Microsoft Visual Studio 2019</a></li></strong>
+<li><strong><a href="#InstallationOfWDK10">安装Windows Driver Kit 2004</a></li></strong>
+<li><strong><a href="#InstallationOfVisualBuildTools">安装Visual Studio构建工具</a></li></strong>
+<li><strong><a href="#DownloadVeraCrypt">下载VeraCrypt源代码文件</a></li></strong>
+<li><strong><a href="#CompileWin32X64">编译VeraCrypt的Win32/x64版本</a></li></strong>
+<li><strong><a href="#CompileARM64">编译VeraCrypt的ARM64版本</a></li></strong>
+<li><strong><a href="#BuildVeraCryptExecutables">构建VeraCrypt可执行文件</a></li></strong>
+<li><strong><a href="#ImportCertificates">导入证书</a></li></strong>
+<li><strong><a href="#KnownIssues">已知问题</a></li></strong>
+</ul>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010">
+  <a href="#InstallationOfMicrosoftVisualStudio2010">安装Microsoft Visual Studio 2010</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                访问以下微软网站，使用免费的微软账户登录： <br>
+                <a href="https://my.visualstudio.com/Downloads?q=Visual%20Studio%202010%20Professional&pgroup=" target="_blank">https://my.visualstudio.com/Downloads?q=Visual%20Studio%202010%20Professional&pgroup=</a>
+            </li>
+            <li>
+                请下载“Visual Studio Professional 2010”的（试用）版本 <br>
+                <img src="CompilingGuidelineWin/DownloadVS2010.jpg" width="80%">
+            </li>
+            <li>
+                双击下载的ISO文件进行挂载
+            </li>
+            <li>
+                以管理员身份运行“autorun.exe”文件
+            </li>
+            <li>
+                使用默认设置安装Microsoft Visual Studio 2010
+            </li>
+        </ol>
+        Microsoft SQL Server 2008 Express Service Pack 1 (x64)的安装可能会失败，但这对于编译VeraCrypt不是必需的。
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010ServicePack1">
+  <a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">安装Microsoft Visual Studio 2010 Service Pack 1</a>
+  <div class="texttohide">
+    <p>
+        注意：微软官方安装程序试图下载的内容已不再可用。因此，需要使用离线安装程序。
+        <ol>
+            <li>
+                访问互联网档案馆的网站，下载Microsoft Visual Studio 2010 Service Pack 1的ISO镜像：<br>
+                <a href="https://archive.org/details/vs-2010-sp-1dvd-1" target="_blank">https://archive.org/details/vs-2010-sp-1dvd-1</a>
+            </li>
+            <li>
+                双击下载的ISO文件进行挂载
+            </li>
+            <li>
+                以管理员身份运行“Setup.exe”文件
+            </li>
+            <li>
+                使用默认设置安装Microsoft Visual Studio 2010 Service Pack 1
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfNASM">
+  <a href="#InstallationOfNASM">安装NASM</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                在以下链接下载“nasm-2.08-installer.exe”： <br>
+                <a href="https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/</a>
+            </li>
+            <li>
+                以管理员身份运行该文件
+            </li>
+            <li>
+                使用默认设置安装NASM
+            </li>
+            <li>
+                将NASM添加到路径变量中。这将使该命令在命令行中全局可用。 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”并选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                              </li>
+                    <li>
+                        请点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域内，请选择“Path”变量并点击“编辑...” <br>
+                        <img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+                    </li>
+                    <li>
+                        点击“新建”并添加以下值： <br>
+                        <p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\nasm</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口
+                    </li>
+                </ol>
+            </li>
+            <li>
+                要检查配置是否正常工作，请打开命令提示符并查看以下命令的输出： <br>
+                <p style="font-family: 'Courier New', monospace;">nasm</p> <br>
+                <img src="CompilingGuidelineWin/NasmCommandLine.jpg" width="50%">
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#InstallationOfYASM">YASM的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请创建以下文件夹： <br>
+                C:\Program Files\YASM
+            </li>
+            <li>
+                请在以下链接下载“Win64 VS2010 .zip”文件： <br>
+                <a href="https://yasm.tortall.net/Download.html" target="_blank">https://yasm.tortall.net/Download.html</a>
+            </li>
+            <li>
+                由于下载率较低或连接未加密，您的浏览器可能会提示该文件存在安全风险。不过，官方网站是该文件最可靠的来源，因此我们建议允许下载
+            </li>
+            <li>
+                解压ZIP文件并将文件复制到“C:\Program Files\YASM”
+            </li>
+            <li>
+                请在以下链接下载“Win64 .exe”文件： <br>
+                <a href="https://yasm.tortall.net/Download.html" target="_blank">https://yasm.tortall.net/Download.html</a>
+            </li>
+            <li>
+                由于下载率较低或连接未加密，您的浏览器可能会提示该文件存在安全风险。不过，官方网站是该文件最可靠的来源，因此我们建议允许下载
+            </li>
+            <li>
+                将文件重命名为“yasm.exe”并复制到“C:\Program Files\YASM”
+            </li>
+            <li>
+                将YASM添加到路径变量中，并为YASM创建一个新的系统变量。这样可以使该命令在命令行中全局可用。 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”并选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，请点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                    </li>
+                    <li>
+                        请点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域内，请选择“Path”变量并点击“编辑...” <br>
+                        <img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+                    </li>
+                    <li>
+                        点击“新建”并添加以下值： <br>
+                        <p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭顶部窗口
+                    </li>
+                    <li>
+                        在系统变量区域内，请点击“新建...” <br>
+                        <img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+                    </li>
+                    <li>
+                        使用以下值填写表单： <br>
+                        <p style="font-family: 'Courier New', monospace;">变量名：YASMPATH<br> 变量值：C:\Program Files\YASM</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口
+                    </li>
+                </ol>
+            </li>
+            <li>
+                要检查配置是否正常工作，请打开命令提示符并查看以下命令的输出： <br>
+                <p style="font-family: 'Courier New', monospace;">yasm</p> <br>
+                以及 <br>
+                <p style="font-family: 'Courier New', monospace;">vsyasm</p> <br>
+                <img src="CompilingGuidelineWin/YasmCommandLine.jpg" width="50%">
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfVisualCPP">
+  <a href="#InstallationOfVisualCPP">Microsoft Visual C++ 1.52的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                可以通过付费的Microsoft MSDN订阅获取Visual C++ 1.52。如果您没有订阅，可以通过互联网档案馆下载ISO镜像： <br>
+                <a href="https://archive.org/details/ms-vc152" target="_blank">https://archive.org/details/ms-vc152</a>
+            </li>
+            <li>
+                创建文件夹“C:\MSVC15”
+            </li>
+            <li>
+                挂载ISO文件并将“MSVC”文件夹的内容复制到“C:\MSVC15”
+            </li>
+            <li>
+                为Microsoft Visual C++ 1.52创建一个系统变量 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”并选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，请点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                    </li>
+                    <li>
+                        请点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域内，请点击“新建...” <br>
+                        <img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+                    </li>
+                    <li>
+                        使用以下值填写表单： <br>
+                        <p style="font-family: 'Courier New', monospace;">变量名：MSVC16_ROOT<br> 变量值：C:\MSVC15</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div> 
+ 
+ <div class="textbox" id="InstallationOfWindowsSDK71PP">
+  <a href="#InstallationOfWindowsSDK71PP">Windows SDK 7.1的安装</a>
+  <div class="texttohide">
+    <p>
+        安装程序需要 .Net Framework 4（不是像 .Net Framework 4.8 这样的较新版本！）。由于Windows 10已经预装了较新版本，因此必须欺骗安装程序：
+        <ol>
+            <li>
+                点击开始按钮并搜索：“regedit.msc”。启动第一个搜索结果。
+            </li>
+            <li>
+                导航到“HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\NET Framework Setup\NDP\v4\”
+            </li>
+            <li>
+                更改“Client”文件夹的权限，以便您可以编辑键： <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        右键单击子文件夹“Client”并选择“权限...”
+                    </li>
+                    <li>
+                        点击“高级” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-1.jpg" width="17%">
+                    </li>
+                    <li>
+                        将所有者更改为您的用户并点击“添加” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-2.jpg" width="35%">
+                    </li>
+                    <li>
+                        将主体设置为您的用户，选择“完全控制”并点击“确定” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-3.jpg" width="35%">
+                    </li>
+                    <li>
+                        在“Client”文件夹中记录“Version”条目的值
+                    </li>
+                    <li>
+                        双击“Version”条目并将值更改为“4.0.30319” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-4.jpg" width="30%">
+                    </li>
+                </ol>
+            </li>
+            <li>
+                更改“Full”文件夹的权限，以便您可以编辑密钥： <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        右键单击子文件夹“Full”，然后选择“权限...”
+                    </li>
+                    <li>
+                        点击“高级” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-1.jpg" width="17%">
+                    </li>
+                    <li>
+                        将所有者更改为您的用户，然后点击“添加” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-2.jpg" width="35%">
+                    </li>
+                    <li>
+                        将主体设置为您的用户，选择“完全控制”，然后点击“确定” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-3.jpg" width="35%">
+                    </li>
+                    <li>
+                        在“Full”文件夹中，记下“Version”条目的值。
+                    </li>
+                    <li>
+                        双击“Version”条目，并将值更改为“4.0.30319” <br>
+                        <img src="CompilingGuidelineWin/RegeditPermissions-4.jpg" width="30%">
+                    </li>
+                </ol>
+            </li>
+            <li>
+                从以下链接下载 Windows SDK 7.1： <br>
+                <a href="https://www.microsoft.com/en-us/download/details.aspx?id=8279" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=8279</a>
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并使用默认设置安装应用程序。
+            </li>
+            <li>
+                安装完成后，还原在注册表编辑器中所做的更改。 <br>
+                <b>注意：</b> 可以通过搜索“NT Service\TrustedInstaller”来恢复所有者“TrustedInstaller”。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>  
+ 
+ <div class="textbox" id="InstallationOfWDK71PP">
+  <a href="#InstallationOfWDK71PP">安装 Windows 驱动工具包 7.1</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请从以下链接下载 Windows 驱动工具包 7.1 的 ISO 文件： <br>
+                <a href="https://www.microsoft.com/en-us/download/details.aspx?id=11800" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=11800</a>
+            </li>
+            <li>
+                双击下载的 ISO 文件进行挂载。
+            </li>
+            <li>
+                以管理员身份运行“KitSetup.exe”文件。在安装过程中，选择安装所有功能。 <br>
+                <b>注意：</b> 安装过程中可能会提示您安装 .NET Framework 3.5。在这种情况下，请点击“下载并安装此功能”。
+            </li>
+            <li>
+                将驱动工具包安装到默认位置。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfSDK81PP">
+  <a href="#InstallationOfSDK81PP">安装 Windows 8.1 SDK</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请从以下链接下载 Windows 8.1 SDK 的 ISO 文件： <br>
+                <a href="https://developer.microsoft.com/de-de/windows/downloads/sdk-archive/" target="_blank">https://developer.microsoft.com/de-de/windows/downloads/sdk-archive/</a>
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并使用默认设置安装 Windows 8.1 SDK。
+            </li>
+            <li>
+                为 Windows 8.1 SDK 创建一个系统变量 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器。
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”，然后选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                    </li>
+                    <li>
+                        点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域，点击“新建...” <br>
+                        <img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+                    </li>
+                    <li>
+                        使用以下值填写表单： <br>
+                        <p style="font-family: 'Courier New', monospace;">变量名：WSDK81<br> 变量值：C:\Program Files (x86)\Windows Kits\8.1\</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口。
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfGzip">
+  <a href="#InstallationOfGzip">安装 gzip</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请创建以下文件夹： <br>
+                C:\Program Files (x86)\gzip
+            </li>
+            <li>
+                请从以下链接下载 gzip 版本： <br>
+                <a href="https://sourceforge.net/projects/gnuwin32/files/gzip/1.3.12-1/gzip-1.3.12-1-bin.zip/download?use-mirror=netix&download=" target="_blank">https://sourceforge.net/projects/gnuwin32/files/gzip/1.3.12-1/gzip-1.3.12-1-bin.zip/download?use-mirror=netix&download=</a>
+            </li>
+            <li>
+                将下载的 ZIP 文件内容复制到“C:\Program Files (x86)\gzip”。
+            </li>
+            <li>
+                将 gzip 添加到路径变量中。这样可以使该命令在命令行中全局可用。 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器。
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”，然后选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                    </li>
+                    <li>
+                        点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域，选择“Path”变量，然后点击“编辑...” <br>
+                        <img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+                    </li>
+                    <li>
+                        点击“新建”，并添加以下值： <br>
+                        <p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\gzip\bin</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口。
+                    </li>
+                </ol>
+            </li>
+            <li>
+                要检查配置是否正常工作，请打开命令提示符，并查看以下命令的输出： <br>
+                <p style="font-family: 'Courier New', monospace;">gzip</p> <br>
+                <img src="CompilingGuidelineWin/gzipCommandLine.jpg" width="50%">
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfUpx">
+  <a href="#InstallationOfUpx">安装 upx</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请创建以下文件夹： <br>
+                C:\Program Files (x86)\upx
+            </li>
+            <li>
+                请从以下链接下载最新的 upx-X-XX-win64.zip 版本： <br>
+                <a href="https://github.com/upx/upx/releases/tag/v3.96" target="_blank">https://github.com/upx/upx/releases/tag/v3.96</a>
+            </li>
+            <li>
+                将下载的 ZIP 文件内容复制到“C:\Program Files (x86)\upx”。
+            </li>
+            <li>
+                将 gzip 添加到路径变量中。这样可以使该命令在命令行中全局可用。 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器。
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”，然后选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，请点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                    </li>
+                    <li>
+                        请点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域内，请选择“Path”变量并点击“编辑...” <br>
+                        <img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+                    </li>
+                    <li>
+                        点击“新建”并添加以下值： <br>
+                        <p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\upx</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口
+                    </li>
+                </ol>
+            </li>
+            <li>
+                要检查配置是否正常工作，请打开命令提示符并查看以下命令的输出： <br>
+                <p style="font-family: 'Courier New', monospace;">upx</p> <br>
+                <img src="CompilingGuidelineWin/upxCommandLine.jpg" width="50%">
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOf7zip">
+  <a href="#InstallationOf7zip">7-Zip 的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请从以下链接下载最新版本的 7-Zip： <br>
+                <a href="https://www.7-zip.de/" target="_blank">https://www.7-zip.de/</a>
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并使用默认设置安装 7-Zip
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfWix3">
+  <a href="#InstallationOfWix3">WiX 3 的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请从以下链接下载 wix311.exe： <br>
+                <a href="https://github.com/wixtoolset/wix3/releases" target="_blank">https://github.com/wixtoolset/wix3/releases</a>
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并使用默认设置安装 WiX 工具集
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVS2019">
+  <a href="#InstallationOfVS2019">Microsoft Visual Studio 2019 的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                访问以下 Microsoft 网站，并用免费的 Microsoft 账户登录： <br>
+                <a href="https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20Professional" target="_blank">https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20Professional</a>
+            </li>
+            <li>
+                请下载最新的（试用版）“Visual Studio Professional 2019” <br>
+                <img src="CompilingGuidelineWin/DownloadVS2019.jpg" width="80%">
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并完成安装向导。 <br>
+                选择以下工作负载进行安装： <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        Desktop development with C++
+                    </li>
+                    <li>
+                        .NET desktop development
+                    </li>
+                </ol>
+                选择以下单个组件进行安装：
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        .NET
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                .NET 6.0 Runtime
+                            </li>
+                            <li>
+                                .NET Core 3.1 Runtime (LTS)
+                            </li>
+                            <li>
+                                .NET Framework 4 targeting pack
+                            </li>
+                            <li>
+                                .NET Framework 4.5 targeting pack
+                            </li>
+                            <li>
+                                .NET Framework 4.5.1 targeting pack
+                            </li>
+                            <li>
+                                .NET Framework 4.5.2 targeting pack
+                            </li>
+                            <li>
+                                .NET Framework 4.6 targeting pack
+                            </li>
+                            <li>
+                                .NET Framework 4.6.1 targeting pack
+                            </li>
+                            <li>
+                                .NET Framework 4.7.2 targeting pack
+                            </li>
+                            <li>
+                                .NET Framework 4.8 SDK
+                            </li>
+                            <li>
+                                .NET Framework 4.8 targeting pack
+                            </li>
+                            <li>
+                                .NET SDK
+                            </li>
+                            <li>
+                                ML.NET Model Builder (Preview)
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        云、数据库和服务器
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                CLR data types for SQL Server
+                            </li>
+                            <li>
+                                连接和发布工具
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        代码工具
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                NuGet package manager
+                            </li>
+                            <li>
+                                Text Template Transformation
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        编译器、构建工具和运行时
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                .NET Compiler Platform SDK
+                            </li>
+                            <li>
+                                C# and Visual Basic Roslyn compilers
+                            </li>
+                            <li>
+                                C++ 2019 Redistributable Update
+                            </li>
+                            <li>
+                                C++ CMake tools for Windows
+                            </li>
+                            <li>
+                                C++/CLI support for v142 build tools (Latest)
+                            </li>
+                            <li>
+                                MSBuild
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ ARM64 build tools (Latest)
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ ARM64 Spectre-mitigated libs (Latest)
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ x64/x86 Spectre-mitigated libs (Latest)
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        调试和测试
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                .NET profiling tools
+                            </li>
+                            <li>
+                                C++ AddressSanatizer
+                            </li>
+                            <li>
+                                C++ profiling tools
+                            </li>
+                            <li>
+                                Just-In-Time debugger
+                            </li>
+                            <li>
+                                Test Adapter for Boost.Test
+                            </li>
+                            <li>
+                                Test Adapter for Google Test
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        开发活动
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                C# and Visual Basic
+                            </li>
+                            <li>
+                                C++ core features
+                            </li>
+                            <li>
+                                F# language support
+                            </li>
+                            <li>
+                                智能代码助手（IntelliCode）
+                            </li>
+                            <li>
+                                JavaScript 和 TypeScript 语言支持
+                            </li>
+                            <li>
+                                实时共享（Live Share）
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        模拟器
+                        <ol style="list-style-type: upper-roman;">
+                            无
+                        </ol>
+                    </li>
+                    <li>
+                        游戏与图形
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                DirectX 图形调试器和 GPU 性能分析器
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        软件开发工具包（SDK）、库和框架
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                C++ ATL for latest v142 build tools (ARM64)
+                            </li>
+                            <li>
+                                C++ ATL for latest v142 build tools (x86 & x64)
+                            </li>
+                            <li>
+                                C++ ATL for latest v142 build tools with Spectre Mitigations (ARM64)
+                            </li>
+                            <li>
+                                C++ ATL for latest v142 build tools with Spectre Mitigations (x86 & x64)
+                            </li>
+                            <li>
+                                C++ MFC for latest v142 build tools (ARM64)
+                            </li>
+                            <li>
+                                C++ MFC for latest v142 build tools (x86 & x64)
+                            </li>
+                            <li>
+                                C++ MFC for latest v142 build tools with Spectre Mitigations (ARM64)
+                            </li>
+                            <li>
+                                C++ MFC for latest v142 build tools with Spectre Mitigations (x86 & x64)
+                            </li>
+                            <li>
+                                Entity Framework 6 tools
+                            </li>
+                            <li>
+                                TypeScript 4.3 SDK
+                            </li>
+                            <li>
+                                Windows 10 SDK (10.0.19041.0)
+                            </li>
+                            <li>
+                                Windows Universal C Runtime
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfWDK10">
+  <a href="#InstallationOfWDK10">Windows 驱动程序工具包 2004 版本的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请在以下链接下载 Windows 驱动程序工具包（WDK）2004 版本：<br>
+                <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads</a>
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并使用默认设置安装 WDK。
+            </li>
+            <li>
+                安装结束时，系统会询问您是否要“安装 Windows 驱动程序工具包 Visual Studio 扩展”。<br>
+                请确保在关闭对话框之前选择此选项。
+            </li>
+            <li>
+                另一个安装程序将自动启动，并会检测到 Visual Studio Professional 2019 作为该扩展的可能目标。<br>
+                请选择它并继续进行安装。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVisualBuildTools">
+  <a href="#InstallationOfVisualBuildTools">Visual Studio 构建工具的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                访问以下 Microsoft 网站，并用免费的 Microsoft 账户登录：<br>
+                <a href="https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20build%20tools" target="_blank">https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20build%20tools</a>
+            </li>
+            <li>
+                请下载最新版本的“Visual Studio 2019 构建工具”<br>
+                <img src="CompilingGuidelineWin/DownloadVSBuildTools.jpg" width="80%">
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并通过向导进行安装。选择以下单个组件进行安装：
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        .NET
+                        <ol style="list-style-type: upper-roman;">
+                            无
+                        </ol>
+                    </li>
+                    <li>
+                        云、数据库和服务器
+                        <ol style="list-style-type: upper-roman;">
+                            无
+                        </ol>
+                    </li>
+                    <li>
+                        代码工具
+                        <ol style="list-style-type: upper-roman;">
+                            无
+                        </ol>
+                    </li>
+                    <li>
+                        编译器、构建工具和运行时
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                C++/CLI support for v142 build tools (Latest)
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ ARM64 build tools (Latest)
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ ARM64 Spectre-mitigated libs (Latest)
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+                            </li>
+                            <li>
+                                MSVC v142 - VS 2019 C++ x64/x86 Spectre-mitigated libs (Latest)
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        调试和测试
+                        <ol style="list-style-type: upper-roman;">
+                            无
+                        </ol>
+                    </li>
+                    <li>
+                        开发活动
+                        <ol style="list-style-type: upper-roman;">
+                            无
+                        </ol>
+                    </li>
+                    <li>
+                        软件开发工具包（SDK）、库和框架
+                        <ol style="list-style-type: upper-roman;">
+                            <li>
+                                C++ ATL for latest v142 build tools (ARM64)
+                            </li>
+                            <li>
+                                   C++ ATL for latest v142 build tools (x86 & x64)
+                            </li>
+                            <li>
+                                    C++ ATL for latest v142 build tools with Spectre Mitigations (ARM64)
+                            </li>
+                            <li>
+                                   C++ ATL for latest v142 build tools with Spectre Mitigations (x86 & x64)
+                           </li>
+                        </ol>
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#DownloadVeraCrypt">下载VeraCrypt源代码文件</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                访问VeraCrypt的Github仓库：<br>
+                <a href="https://github.com/veracrypt/VeraCrypt" target="_blank">https://github.com/veracrypt/VeraCrypt</a>
+            </li>
+            <li>
+                点击绿色的“Code”按钮并下载代码。<br>
+                你可以将仓库下载为zip文件，但也可以考虑使用git协议以便跟踪更改。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileWin32X64">
+  <a href="#CompileWin32X64">编译VeraCrypt的Win32/x64版本</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                在Visual Studio <b>2010</b>中打开文件“src/VeraCrypt.sln”
+            </li>
+            <li>
+                选择“All|Win32”作为活动配置<br>
+                <img src="CompilingGuidelineWin/VS2010Win32Config.jpg" width="80%">
+            </li>
+            <li>
+                点击“Build -> Build Solution”<br>
+                <img src="CompilingGuidelineWin/VS2010BuildSolution.jpg" width="40%">
+            </li>
+            <li>
+                编译过程应仅出现警告，而无错误。部分项目可能会被跳过。
+            </li>
+            <li>
+                选择“All|x64”作为活动配置<br>
+                <img src="CompilingGuidelineWin/VS2010X64Config.jpg" width="80%">
+            </li>
+            <li>
+                点击“Build -> Build Solution”<br>
+                <img src="CompilingGuidelineWin/VS2010BuildSolution.jpg" width="40%">
+            </li>
+            <li>
+                编译过程应仅出现警告，而无错误。部分项目可能会被跳过。<br>
+                编译完成后，请关闭Visual Studio 2010
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileARM64">
+  <a href="#CompileARM64">编译VeraCrypt的ARM64版本</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                在Visual Studio <b>2019</b>中打开文件“src/VeraCrypt_vs2019.sln”
+            </li>
+            <li>
+                选择“All|ARM64”作为活动配置<br>
+                <img src="CompilingGuidelineWin/VS2019ARM64Config.jpg" width="80%">
+            </li>
+            <li>
+                点击“Build -> Build Solution”<br>
+                <img src="CompilingGuidelineWin/VS2019BuildSolution.jpg" width="40%">
+            </li>
+            <li>
+                编译过程应仅出现警告，而无错误。有一个项目可能会被跳过。<br>
+                编译完成后，请关闭Visual Studio 2019
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="BuildVeraCryptExecutables">
+  <a href="#BuildVeraCryptExecutables">构建VeraCrypt可执行文件</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                以管理员身份打开命令行
+            </li>
+            <li>
+                进入“src/Signing/”文件夹
+            </li>
+            <li>
+                运行脚本“sign_test.bat”
+            </li>
+            <li>
+                你将在“src/Release/Setup Files”文件夹中找到生成的可执行文件
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="ImportCertificates">
+  <a href="#ImportCertificates">导入证书</a>
+  <div class="texttohide">
+    <p> 使用sign_test.bat脚本，你刚刚对VeraCrypt可执行文件进行了签名。这是必要的，因为Windows仅接受由签名证书颁发机构信任的驱动程序。<br>
+    由于你没有使用官方的VeraCrypt签名证书来签署代码，而是使用了公共开发版本，因此你需要导入并信任所使用的证书。
+        <ol>
+            <li>
+                打开“src/Signing”文件夹
+            </li>
+            <li>
+                通过双击以下证书，将它们导入到本地计算机证书存储中：
+                <ul>
+                    <li>GlobalSign_R3Cross.cer</li>
+                    <li>GlobalSign_SHA256_EV_CodeSigning_CA.cer</li>
+                    <li>TestCertificates/idrix_codeSign.pfx</li>
+                    <li>TestCertificates/idrix_Sha256CodeSign.pfx</li>
+                    <li>TestCertificates/idrix_SHA256TestRootCA.crt</li>
+                    <li>TestCertificates/idrix_TestRootCA.crt</li>
+                </ul>
+                注意：如果提示输入密码，.pfx证书的密码为 <b>idrix</b>。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="KnownIssues">
+  <a href="#KnownIssues">已知问题</a>
+  <div class="texttohide">
+    <p>
+        <ul>
+            <li>
+                <b>此分发包已损坏</b> <br>
+                <img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
+                在Windows 10或更高版本上，你可能会收到上述错误消息。为避免此问题，你需要：<br>
+                <ul>
+                    <li>仔细检查颁发测试代码签名证书的根证书是否已安装在“本地计算机受信任的根证书颁发机构”存储中。</li>
+                    <li>计算测试代码签名证书的SHA512指纹，并相应地更新“src/Common/Dlgcode.c”文件中的gpbSha512CodeSignCertFingerprint数组。</li>
+                </ul>
+                有关详细信息，请参阅 <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12</a>。<br>
+                <br>
+                另一种方法是在VeraCrypt代码中禁用签名验证。此操作仅应在测试环境中使用，切勿用于生产环境：
+                <ol>
+                    <li>
+                        打开“src/Common/Dlgcode.c”文件
+                    </li>
+                    <li>
+                        查找“VerifyModuleSignature”函数
+                    </li>
+                    <li>
+                        替换以下代码行：<br>
+                        查找：<br>
+                        <p style="font-family: 'Courier New', monospace;">
+                        if (!IsOSAtLeast (WIN_10)) <br>
+                        return TRUE;
+                        </p> <br>
+                        替换为：<br>
+                        <p style="font-family: 'Courier New', monospace;">
+                        return TRUE;
+                        </p>
+                    </li>
+                    <li>
+                        再次编译VeraCrypt代码
+                    </li>
+                </ol>
+            </li>
+            <li>
+                <b>自定义构建的VeraCrypt安装过程中驱动程序安装失败</b> <br>
+                <img src="CompilingGuidelineWin/CertVerifyFails.jpg" width="20%"> <br>
+                Windows会验证每个要安装的驱动程序的签名。<br>
+                出于安全原因，Windows仅允许由Microsoft签名的驱动程序加载。<br>
+                因此，在使用自定义构建时：<br>
+                <ul>
+                    <li>如果你未修改VeraCrypt驱动程序源代码，则可以使用VeraCrypt源代码中包含的由Microsoft签名的驱动程序（位于“src\Release\Setup Files”下）。</li>
+                    <li>如果你进行了修改，<strong>你需要将Windows启动到“测试模式”</strong>。此模式允许Windows加载未由Microsoft签名的驱动程序。但是，即使在“测试模式”下，签名也有特定要求，并且由于以下原因仍可能会失败。</li>
+                </ul>
+                “测试模式”下安装失败的潜在原因：
+                <ol>
+                    <li>
+                        <b>用于签名的证书不受Windows信任</b><br>
+                        你可以通过检查可执行文件的属性来验证是否受影响：
+                        <ol>
+                            <li>
+                                右键单击VeraCrypt安装可执行文件：“src/Release/Setup Files/VeraCrypt Setup 1.XX.exe”
+                            </li>
+                            <li>
+                                点击“属性”
+                            </li>
+                            <li>	
+                                转到顶部菜单“数字签名”。在这里，你会在签名列表中找到两个签名
+                            </li>
+                                通过双击勾选这两个签名。如果标题显示“无法验证签名中的证书”，则相应的签名证书未正确导入。<br>
+                                点击“查看证书”，然后点击“安装证书...”，将证书导入到本地计算机证书存储区。对于根证书，你可能需要选择“将所有证书放入下列存储区”，并选择“受信任的根证书颁发机构”存储区。<br>
+                                <img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
+                            <li>
+                        </ol>
+                    </li>
+                    <li>
+                        <b>驱动程序在签名过程之后被修改。</b> <br>
+                        在这种情况下，请使用脚本“src/Signing/sign_test.bat”，用测试证书再次对你的代码进行签名
+                    </li>
+                </ol>
+            </li>
+        </ul>
+    </p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

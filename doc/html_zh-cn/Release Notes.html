@@ -1,0 +1,1172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认能力。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Release%20Notes.html">版本历史</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>发行说明</h1>
+
+<p>
+<strong>给使用VeraCrypt 1.17版本或更早版本创建卷的用户的注意事项： </strong><br/>
+<span style="color:#ff0000;">为避免暴露您的卷是否包含隐藏卷，或者如果您在使用隐藏卷/操作系统时依赖似是而非的否认能力，那么您必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统，并丢弃VeraCrypt 1.18a版本之前创建的现有卷。</span></li>
+</p>
+
+<p><strong style="text-align:left">1.26.20</strong> (2025年2月3日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+    <ul>
+    <li>在ARM64平台上使用CPU指令实现SHA - 256加速。</li>
+    <li>更新翻译。</li>
+    <li>在整个用户界面和文档中将“Dismount”替换为“Unmount”以符合IT标准。</li>
+    </ul>
+</li>
+<li><strong>Windows:</strong>
+    <ul>
+        <li>修复驱动程序中的回归问题，该问题曾导致始终允许磁盘碎片整理并引发其他副作用。</li>
+        <li>由于用户报告的稳定性问题，恢复到之前收集系统熵的方法。</li>
+    </ul>
+</li>
+<li><strong>Linux:</strong>
+    <ul>
+    <li>修复Linux Mint中影响管理员密码认证的回归问题（GH #1473）。</li>
+    </ul>
+</li>
+<li><strong>macOS:</strong>
+<ul>
+<li>修复阻止卷卸载的回归问题（GH #1467）。</li>
+<li>解决与未定义的开关 <code>use-dummy-sudo-password</code> 相关的wxWidgets 3.2.6断言错误（GH #1470）。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.26.18</strong> (2025年1月20日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>增加对SHA - 256 x86内在函数的支持，以提高PBKDF2 - HMAC - SHA256的性能。</li>
+<li>增加对ARM64平台（如Windows ARM64、搭载Apple Silicon Mx的macOS）上AES硬件的支持。</li>
+<li>更新翻译</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+    <ul>
+    <li>放弃对Windows 32位的支持。</li>
+    <li>将Windows 10 2018年10月更新（版本1809）设置为最低支持版本。</li>
+    <li>减少在低内存场景下由于重入式IRP完成导致的驱动程序死锁情况。</li>
+    <li>修复某些PC上EFI检测失败的问题，这些PC中BootOrder变量未定义（由@kriegste提出，GH #360）。</li>
+    <li>修复在Windows升级后使用EXE安装程序更新VeraCrypt时出现的“访问被拒绝”错误。</li>
+    <li>修复影响EFI系统加密配置编辑器的各种问题。</li>
+    <li>修复移动磁盘创建中的回归问题（GH #886）</li>
+    <li>用BCryptGenRandom替换已弃用的CryptGenRandom来生成安全随机字节。</li>
+    <li>使用现代API来收集系统熵以进行随机数生成，而不是使用过时的API。</li>
+    <li> 将LZMA SDK更新到24.09版本</li>
+    <li>将libzip更新到1.11.2版本</li>
+    </ul>
+</li>
+<li><strong>Linux:</strong>
+    <ul>
+    <li>CVE - 2024 - 54187：在执行系统二进制文件时添加绝对路径，以防止路径劫持（与SivertPL @__tfr合作）</li>
+    <li>CVE - 2025 - 23021：防止在系统目录和PATH上挂载卷（由SivertPL @__tfr报告）</li>
+    <li>修复Ubuntu中包含的wxWidgets库的断言问题。</li>
+    <li>通过优先使用xdg - open并添加备用机制来改进目录打开逻辑。</li>
+    <li>在开始挂载操作之前确保卷存在。</li>
+    <li>修复“密码太长”错误消息未扩展以包含最大长度的问题（GH #1456）</li>
+    <li>简化sudo会话检测逻辑。</li>
+    </ul>
+</li>
+<li><strong>macOS:</strong>
+    <ul>
+    <li>CVE - 2024 - 54187：在执行系统二进制文件时添加绝对路径，以防止路径劫持（与SivertPL @__tfr合作）</li>
+    <li>CVE - 2025 - 23021：防止在系统目录和PATH上挂载卷（由SivertPL @__tfr报告）</li>
+    <li>默认禁用屏幕捕获。添加了--allow - screencapture命令行开关，以便在需要时启用它。</li>
+    <li>在启动挂载操作前，确保卷存在。</li>
+    <li>实现sudo会话检测逻辑</li>
+    </ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.26.15</strong> (2024年9月2日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+    <li>修复MSI安装/卸载问题：
+        <ul>
+            <li>修复了在指定REBOOT=ReallySuppress且需要重启时，MSI静默安装返回错误1603的问题。</li>
+            <li>修复了MSI包中缺少文档和语言文件的问题。</li>
+            <li>修复了从基于EXE的安装升级时，MSI未安装新文档和语言文件的问题。</li>
+            <li>修复了在某些情况下，MSI卸载后安装文件夹未被删除的问题。</li>
+        </ul>
+    </li>
+    <li>修复UEFI系统解密期间导致引导加载程序持续存在的回归问题。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.26.14</strong> (2024年8月25日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>更新翻译和文档</li>
+<li>在非Windows版本中实现语言选择设置。</li>
+<li>使非Windows版本的代码库与wxWidgets 3.3兼容。</li>
+<li>实现对受XTS主密钥漏洞影响的卷的检测，并向用户发出警告。</li>
+<li>更新挂载失败错误消息，提及移除TrueCrypt支持和旧算法。</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+    <ul>
+    <li>更好地修复Windows 11 22H2下的安全桌面问题
+        <ul>
+            <li>现在在安全桌面中禁用了输入法编辑器（IME），因为已知它会导致问题</li>
+        </ul>
+    </li>
+    <li>VeraCrypt扩展器：修复在扇区大小不同于512的磁盘上扩展卷的问题（由skl0n6修复）</li>
+    <li>修复将错误的EFI系统加密高级选项写入注册表的问题</li>
+    <li>通过系统托盘退出菜单退出VeraCrypt进程时，不关闭安装程序</li>
+    <li>修复由于虚拟分区偏移未按4K对齐导致某些磁盘（如VHDX）格式化失败的问题</li>
+    <li>如果相对定位访问磁盘失败，则回退到绝对定位</li>
+    <li>将zlib更新到1.3.1版本</li>
+    </ul>
+</li>
+<li><strong>Linux:</strong>
+    <ul>
+    <li>选中PIM字段时聚焦该字段（#1239）</li>
+    <li>修复Wayland下Konsole中的通用安装脚本（#1244）</li>
+    <li>增加了使用wolfCrypt作为加密后端进行构建的能力。默认禁用。（由wolfSSL贡献，GitHub拉取请求 #1227）</li>
+    <li>允许GUI在仅支持Wayland的环境中启动（GitHub问题 #1264）</li>
+    <li>命令行界面（CLI）：如果已经指定了PIM，初始时不再重新询问（GitHub问题 #1288）</li>
+    <li>命令行界面（CLI）：修复文件容器的最大隐藏卷大小计算错误（GitHub问题 #1338）</li>
+    <li>通过为旧版GCC添加链接标志，增强通用安装程序二进制文件的地址空间布局随机化（ASLR）安全性（由Sourceforge上的@morton-f报告）</li>
+    </ul>
+</li>
+<li><strong>macOS:</strong>
+    <ul>
+    <li>修复主界面中磁盘图标损坏的问题（GitHub问题 #1218）</li>
+    <li>修复PIM输入框宽度接近零的问题，并简化wxTextValidator逻辑（GitHub问题 #1274）</li>
+    <li>运行“检查文件系统”时使用正确的磁盘工具位置（GitHub问题 #1273）</li>
+    <li>增加对FUSE - T作为MacFUSE替代方案的支持（GitHub问题 #1055）</li>
+    </ul>
+</li>
+<li><strong>FreeBSD:</strong>
+    <ul>
+    <li>修复权限提升提示不显示的问题（GitHub问题 #1349）</li>
+    <li>支持自动检测和挂载ext2/3/4、exFAT、NTFS文件系统（GitHub问题 #1350）</li>
+    <li>运行“检查文件系统”时使用正确的磁盘工具位置（GitHub问题 #1273）</li>
+    </ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.26.7</strong> (2023年10月1日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>安全：创建卷时，确保XTS主密钥与辅助密钥不同
+    <ul>
+        <li>由于随机数生成器的特性，此问题不太可能发生，但必须添加此检查以防止攻击</li>
+        <li>参考：CCSS，美国国家安全局（NSA）第3页评论：<a href="https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf">https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf</a></li>
+    </ul>
+</li>
+<li>移除TrueCrypt模式支持。可以使用1.25.9版本挂载或转换TrueCrypt卷。</li>
+<li>完全移除RIPEMD160和GOST89算法。使用这些算法的旧版卷不再能被VeraCrypt挂载。</li>
+<li>为系统加密和标准卷添加对BLAKE2s作为新的伪随机函数（PRF）算法的支持。</li>
+<li>引入对EMV银行智能卡作为非系统卷密钥文件的支持。
+    <ul>
+        <li>无需单独配置PKCS#11模块。</li>
+        <li>不需要卡PIN码。</li>
+        <li>从银行卡上的唯一编码数据生成安全的密钥文件内容。</li>
+        <li>支持所有符合EMV标准的银行卡。</li>
+        <li>可以在设置中启用（转到设置 -> 安全令牌）。</li>
+        <li>由法国雷恩国立应用科学学院（<a href="https://www.insa-rennes.fr">Institut national des sciences appliquées de Rennes</a>）的一组学生开发。</li>
+        <li>有关团队和项目的更多详细信息，请访问 <a href="https://projets-info.insa-rennes.fr/projets/2022/VeraCrypt/index_en.html">https://projets-info.insa-rennes.fr/projets/2022/VeraCrypt/index_en.html</a>。</li>
+    </ul>
+</li>
+<li>在卷创建过程中覆盖现有文件容器时，将其当前大小添加到可用空间中</li>
+<li>增加科西嘉语支持。更新多个翻译。</li>
+<li>更新文档</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>正式地，最低支持版本现在为<strong>Windows 10</strong>。VeraCrypt可能仍可在Windows 7和Windows 8/8.1上运行，但不会在这些平台上进行主动测试。</li>
+<li>EFI引导加载程序：
+<ul>
+<li>修复了密码超时值处理中的一个漏洞，该漏洞导致其被限制为 255 秒。</li>
+<li>救援磁盘：如果原始 Windows 加载程序从磁盘中丢失，则使用其嵌入式备份来增强“启动原始 Windows 加载程序”功能。</li>
+<li>添加 Blake2s 算法，并移除 RIPEMD160 和 GOST89 算法。</li>
+</ul>
+</li>
+<li>默认启用内存保护。在“性能/驱动程序配置”下添加选项，以便在需要时禁用它。
+<ul>
+    <li>内存保护会阻止非管理员进程读取 VeraCrypt 的内存。</li>
+    <li>它可能会阻止屏幕阅读器（辅助功能支持）读取 VeraCrypt 的用户界面，在这种情况下可以禁用它。</li>
+    <li>可以通过在“HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt”下将注册表值“VeraCryptEnableMemoryProtection”设置为 0 来禁用它。</li>
+</ul>
+</li>
+<li>添加进程缓解策略，以防止 VeraCrypt 被其他进程注入。</li>
+<li>对 RAM 加密实现进行了小幅度增强。</li>
+<li>修复了 Windows 11 22H2 下安全桌面的问题。</li>
+<li>实现对挂载部分加密的系统分区的支持。</li>
+<li>修复了在启用“清除加密密钥”选项（仅适用于系统加密情况）时，新设备插入的误报检测问题。</li>
+<li>在创建文件容器时，对快速创建功能进行了更好的实现，若未持有所需权限，会使用 UAC 请求。</li>
+<li>允许在创建文件容器的格式化向导用户界面中选择快速创建。</li>
+<li>修复了某些机器在创建卷时的格式化问题。</li>
+<li>修复了大文件容器快速格式化导致的卡顿问题。</li>
+<li>在挂载按钮上添加下拉菜单，允许不使用缓存进行挂载。</li>
+<li>为大体积磁盘的原地加密过程中可能出现的对数级性能下降问题提供了可能的解决方案。</li>
+<li>让扩展器在进一步操作之前先检查文件是否存在。</li>
+<li>允许为生成的密钥文件选择大小单位（KB/MB/GB）。</li>
+<li>在创建卷时，显示 NTFS、ReFS 和 exFAT 文件系统支持的完整簇大小列表。</li>
+<li>支持在扩展器中拖放文件和密钥文件。</li>
+<li>实现扩展器用户界面的翻译。</li>
+<li>用现代的 IFileDialog 接口替换旧的文件/目录选择 API，以提高与 Windows 11 的兼容性。</li>
+<li>对依赖动态链接库的安全加载进行了增强，包括延迟加载。</li>
+<li>移除对密钥文件扩展名的推荐，并更新文档以提及第三方文件扩展名的风险。</li>
+<li>在安装程序中添加对更多语言的支持。</li>
+<li>将 LZMA 库更新到 23.01 版本。</li>
+<li>将 libzip 更新到 1.10.1 版本，zlib 更新到 1.3 版本。</li>
+</ul>
+</li>
+<li><strong>Linux：</strong>
+<ul>
+<li>修复了在 Linux 上使用 Blake2s 时随机数生成器的一个漏洞，该漏洞会触发自测失败。</li>
+<li>修改 Linux 上的随机数生成器，使其与官方文档和 Windows 实现完全匹配。</li> 
+<li>修复与 Ubuntu 23.04 的兼容性问题。</li>
+<li>修复使用 wxWidgets 3.1.6 及更高版本时显示的断言消息问题。</li>
+<li>修复在 Linux 上启动 fsck 时出现的问题。</li>
+<li>修复权限提升提示被忽略的问题。</li>
+<li>修复选择使用所有可用空间创建隐藏卷时，隐藏卷大小显示错误的问题。</li>
+<li>修复在使用命令行界面在磁盘上创建隐藏卷时，因最大尺寸检测错误而导致的创建失败问题。</li>
+<li>修复在文本模式下运行时的各种问题：
+<ul>
+<li>如果 exFAT/BTRFS 文件系统不存在或与创建的卷不兼容，则不允许选择它们。</li>
+<li>修复挂载卷时显示的错误卸载消息。</li>
+<li>在输入时隐藏个人迭代乘数（PIM），并在用户输入错误值时重新询问 PIM。</li>
+<li>修复在创建卷时检查路径不存在的可用空间时的打印错误。</li>
+</ul>
+</li>
+<li>静态构建（例如仅控制台版本）使用 wxWidgets 3.2.2.1。</li>
+<li>修复通用安装程序与旧版 Linux 发行版的兼容性问题。</li>
+<li>更新帮助消息，以表明级联算法时必须用连字符分隔。</li>
+<li>提高在 Alpine Linux 和 musl libc 下的构建兼容性。</li>
+</ul>
+</li>
+<li><strong>macOS：</strong>
+    <ul>
+    <li>修复在涉及多显示器和分辨率变化的使用场景中，VeraCrypt 窗口变得无法使用的问题。</li>
+    </ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.25.9</strong>（2022 年 2 月 19 日）：</p>
+<ul>
+<li><strong>所有操作系统：</strong>
+<ul>
+<li>更新翻译（中文、荷兰语、法语、德语、土耳其语）。</li>
+</ul>
+</li>
+<li><strong>Windows：</strong>
+<ul>
+<li>使 MSI 安装程序与系统加密兼容。</li>
+<li>将 MSI 安装的最低支持系统设置为 Windows 7。</li>
+<li>修复使用 MSI 安装 VeraCrypt 时创建旅行者磁盘失败的问题。</li>
+<li>当使用隐藏卷保护挂载时，如果指定了错误的隐藏卷密码，则不缓存外部卷密码。</li> 
+<li>通过使用 LZMA 压缩而不是 DEFLATE 压缩，将 EXE 安装程序的大小减少近 50%。</li>
+<li>修复在某些特殊 Windows 配置下，在 VeraCrypt 用户界面中双击已挂载驱动器不起作用的问题。</li>
+<li>添加注册表项，以修复某些机器在使用系统加密时关机/重启期间出现蓝屏死机（BSOD）的问题。
+<ul>
+<li>在“HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt”下，创建一个名为“VeraCryptEraseKeysShutdown”的 REG_DWORD 值。</li>
+<li>将此注册表值设置为 0 可禁用擦除系统加密密钥，这是某些机器在关机时出现蓝屏死机的原因。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Linux：</strong>
+<ul>
+<li>修复在挂载选项窗口中启用隐藏卷保护时，隐藏卷设置显示不正确的问题。</li>
+<li>修复通用 Linux 安装程序覆盖 /usr/sbin（如果它是符号链接）的问题。</li>
+<li>修复在定义 _GLIBCXX_ASSERTIONS 时构建时的崩溃问题。</li>
+<li>启用在没有 AES-NI 支持的情况下从源代码进行构建。</li>
+</ul>
+</li>
+<li><strong>MacOSX：</strong>
+<ul>
+<li>修复在挂载选项窗口中启用隐藏卷保护时，隐藏卷设置显示不正确的问题。</li>
+</ul>
+</li>
+</ul>
+<p><strong style="text-align:left">1.25.7</strong>（2022 年 1 月 7 日）：</p>
+<ul>
+<li><strong>所有操作系统：</strong>
+<ul>
+<li>更新翻译。</li>
+</ul>
+</li>
+<li><strong>Windows：</strong>
+<ul>
+<li>恢复对Windows Vista、Windows 7和Windows 8/8.1的支持。
+<ul>
+<li>支持Windows 7需要安装KB3033929或KB4474419。</li>
+<li>支持Windows Vista需要安装KB4039648或KB4474419。</li>
+</ul>
+</li>
+<li>仅适用于MSI安装程序：修复双击.hc文件容器时，路径字段中插入%1而非卷名的问题。</li>
+<li>高级用户：添加注册表设置以控制驱动程序内部加密队列，以便为SSD磁盘调整性能，并在高负载下获得更好的稳定性。
+<ul>
+<li>在注册表项HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\veracrypt下：
+<ul>
+<li>VeraCryptEncryptionFragmentSize (REG_DWORD)：加密数据片段的大小，单位为KiB。默认值为256，最大值为2048。</li>
+<li>VeraCryptEncryptionIoRequestCount (REG_DWORD)：并行I/O请求的最大数量。默认值为16，最大值为8192。</li>
+<li>VeraCryptEncryptionItemCount (REG_DWORD)：并行处理的加密队列项的最大数量。默认值和最大值均为VeraCryptEncryptionIoRequestCount的一半。</li>
+</ul>
+</li>
+<li>三元组（FragmentSize=512，IoRequestCount=128，ItemCount=64）是一组可提高某些SSD NVMe系统顺序读取速度的参数示例。</li>
+<li>修复某些语言的安装程序中文字截断的问题。</li>
+</ul>
+</li>
+</ul>
+<li><strong>MacOSX：</strong>
+<ul>
+<li>修复VeraCrypt应用程序包内的资源文件（如HTML文档、语言XML文件）可被所有用户写入的问题。（由Niall O'Reilly报告）</li>
+</ul>
+</li>
+</ul>
+<p><strong style="text-align:left">1.25.4</strong>（2021年12月3日）：</p>
+<ul>
+<li><strong>所有操作系统：</strong>
+<ul>
+<li>对Streebog算法进行速度优化。</li>
+<li>更新翻译。</li>
+</ul>
+</li>
+<li><strong>Windows：</strong>
+<ul>
+<li>增加对ARM64架构的Windows系统（如Microsoft Surface Pro X）的支持，但尚不支持系统加密。</li>
+<li>添加用于静默模式部署的MSI安装程序（在msiexec命令行中必须设置ACCEPTLICENSE=YES）。
+<ul>
+<li>目前，如果系统分区已使用VeraCrypt加密，则不能使用MSI安装程序。</li>
+<li>MSI安装程序需要Windows 10或更高版本。</li>
+</ul>
+</li>
+<li>由于驱动程序代码签名的新要求，放弃对Windows Vista、Windows 7、Windows 8和Windows 8.1的支持。</li>
+<li>减少选择PRF自动检测时的挂载时间。</li>
+<li>修复由IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES中的整数溢出导致的驱动程序潜在内存损坏问题。（由Ilja van Sprundel报告）</li>
+<li>用安全的等效函数替换不安全的wcscpy/wcscat/strcpy运行时函数。</li>
+<li>EFI引导加载程序的更改：
+<ul>
+<li>修复在某些情况下因错误检查指针调用MEM_FREE而导致的内存泄漏问题。</li>
+<li>在发生致命错误导致系统停止时，清除可能包含敏感信息的bootParams变量。</li>
+<li>在DcsProp中添加选项“KeyboardInputDelay”，以控制两次按键之间支持的最小延迟。</li>
+</ul></li>
+<li>尝试通过在系统恢复或会话打开/解锁时修复引导加载程序和SetupConfig.ini，来解决Windows功能更新对系统加密造成的问题。</li>
+<li>修复以管理员权限运行应用程序时无法加载本地HTML文档的问题。</li>
+<li>修复在安全桌面显示密码对话框并尝试访问受PIN保护的令牌密钥文件时出现的冻结问题。</li>
+<li>修复在安全桌面模式下无法启动密钥文件生成器的问题。</li>
+<li>如果系统分区已加密，则阻止Windows调整其大小。</li>
+<li>在挂载对话框中添加“TrueCrypt模式”的键盘快捷键。</li>
+
+</ul>
+</li>
+<li><strong>MacOSX：</strong>
+<ul>
+<li>原生支持Apple Silicon M1。</li>
+<li>放弃对Mac OS X 10.7 Lion和Mac OS X 10.8 Mountain Lion的官方支持。</li>
+<li>使用已安装的XML文件添加用户界面语言支持。语言会根据“LANG”环境变量自动检测。</li>
+<li>添加CLI开关（--size=max）和用户界面选项，使文件容器占用创建它的磁盘上的所有可用空间。</li>
+<li>如果在CLI --filesystem开关中指定了未知的文件系统值，则返回错误，而不是默默跳过文件系统创建。</li>
+</ul>
+</li>
+<li><strong>Linux：</strong>
+<ul>
+<li>使用已安装的XML文件添加用户界面语言支持。语言会根据“LANG”环境变量自动检测。</li>
+<li>与pam_tmpdir兼容。</li>
+<li>在Ubuntu 18.04及更高版本的通知区域显示图标。（由https://unit193.net/贡献）</li>
+<li>添加CLI开关（--size=max）和用户界面选项，使文件容器占用创建它的磁盘上的所有可用空间。</li>
+<li>如果在CLI --filesystem开关中指定了未知的文件系统值，则返回错误，而不是默默跳过文件系统创建。</li>
+</ul>
+</li>
+<li><strong>FreeBSD：</strong>
+<ul>
+<li>使系统设备在FreeBSD下正常工作。</li>
+<li>添加CLI开关（--size=max）和用户界面选项，使文件容器占用创建它的磁盘上的所有可用空间。</li>
+<li>如果在CLI --filesystem开关中指定了未知的文件系统值，则返回错误，而不是默默跳过文件系统创建。</li>
+</ul>
+</li>
+<li><strong>OpenBSD：</strong>
+<ul>
+<li>添加对OpenBSD的基本支持。</li>
+<li>添加CLI开关（--size=max）和用户界面选项，使文件容器占用创建它的磁盘上的所有可用空间。</li>
+<li>如果在CLI --filesystem开关中指定了未知的文件系统值，则返回错误，而不是默默跳过文件系统创建。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24 - Update8</strong>（2020年11月28日）：</p>
+<ul>
+<li><strong>MacOSX：</strong>
+<ul>
+<li>修复与macOS Big Sur的兼容性问题，特别是在搭载macFUSE 4.0.x的Apple Silicon M1上。</li>
+</ul>
+</li>
+</ul>
+<p><strong style="text-align:left">1.24-更新7</strong> (2020年8月7日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>不允许隐藏卷与外部卷使用相同的密码、个人迭代乘数（PIM）和密钥文件。</li>
+<li>修复32位版本在使用Streebog算法时的随机崩溃问题。</li>
+<li>在JitterEntropy随机数生成器中启用FIPS模式。</li>
+<li>更新文档中的新手教程，将文件容器名称从“My Volume”改为“MyVolume.hc”，以避免对文件性质产生混淆。</li>
+<li>进行小规模的代码清理。</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复启用内存加密时加密算法基准测试结果错误的问题。</li>
+<li>修复在使用内存加密、选择AES算法且CPU不支持AES-NI时，即使未选择“快速格式化”，新创建卷的可用空间也未用随机数据填充的问题。</li>
+<li>修复在MBR启动模式下，系统加密中阻止TRIM的用户界面（UI）无法正常工作的问题。</li>
+<li>支持从外部应用程序（如KeePass）将密码拖放到密码UI字段，这比使用剪贴板更安全。</li>
+<li>实现与Windows 10现代待机和Windows 8.1连接待机电源模式的兼容性，使进入节能模式的检测更加可靠。</li>
+<li>在使用“/create”开关创建文件容器且文件系统不是FAT时，如果指定了“/silent”参数，避免在“VeraCrypt格式化”过程中显示等待对话框。</li>
+<li>使用原生Windows格式化程序对卷进行格式化，因为它更可靠，只有在出现问题时才回退到fmifs.dll中的FormatEx函数。</li>
+<li>如果系统中只有1个CPU组，则不使用处理器组支持的API，这可以解决某些配备AMD CPU的PC上出现的速度慢问题。</li>
+<li>如果系统驱动器已经被BitLocker加密，则不允许对其进行加密。</li>
+<li>实现对休眠和快速启动的检测，如果启用了内存加密，则禁用它们。</li>
+<li>在VeraCrypt安装/升级、启动系统加密或创建卷时，如果启用了快速启动，则发出警告，并建议禁用它。</li>
+<li>添加UI选项，以控制使用系统加密时自动修复引导加载程序的行为。</li>
+<li>在格式化向导中，不允许输入目录路径来创建文件容器。</li>
+<li>如果Windows Shell已被修改或未运行，则不尝试修复CVE - 2019 - 19501漏洞，因为在这种非标准配置下没有可靠的修复方法。</li>
+<li>MBR引导加载程序：修复引导扇区中传递给解压缩器的压缩数据大小不正确的问题。</li>
+<li>在系统加密向导中，当输入的密码达到最大长度时，添加警告消息。</li>
+<li>修复输入密码的UTF - 8编码超过最大支持长度时错误消息显示错误的问题。</li>
+<li>修复在64位机器上使用便携式32位“VeraCrypt Format.exe”创建隐藏卷时，且VeraCrypt已经安装的情况下的崩溃问题。</li>
+<li>将libzip更新到最新版本1.7.3。</li>
+<li>更新翻译。</li>
+</ul>
+</li>
+<li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>在允许/dev/random优雅失败之前，强制从其读取至少32字节的数据。</li>
+<li>允许为外部卷选择除FAT之外的文件系统，但会显示有关此类选择风险的警告，并在这种情况下实现对隐藏卷最大可能大小的估算。</li>
+<li>显式擦除敏感内存，而不是依赖编译器不优化对Memory::Erase方法的调用。</li>
+<li>在创建卷时添加对Btrfs文件系统的支持（仅适用于Linux）。</li>
+<li>将静态构建的wxWidgets更新到3.0.5版本。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新6 </strong>(2020年3月10日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复密码对话框中PIM标签文本截断的问题。</li>
+<li>修复如果用户先选择非英语语言，然后在语言选择对话框中点击“确定”之前选择英语，安装程序使用错误语言的问题。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新5 </strong>(2020年3月9日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>为具有超过64个逻辑处理器的CPU优化性能（由AMD的Sachin Keswani贡献）。</li>
+<li>支持在使用命令行创建文件容器时指定密钥文件（包括令牌和文件系统中的密钥文件）（VeraCrypt格式化支持“/keyfile”、“/tokenlib”和“/tokenpin”开关）。</li>
+<li>修复VeraCrypt进程退出后密钥文件路径和名称泄漏的问题。</li>
+<li>在VeraCrypt格式化中添加CLI开关“/secureDesktop”。</li>
+<li>将libzip更新到1.6.1版本。</li>
+<li>进行小规模的UI修复。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新4 </strong>(2020年1月23日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复启用内存加密时，Expander和格式化过程中出现的卷头损坏的回归问题。</li>
+<li>默认禁用新引入的内存保护功能，并添加一个CLI开关（“/protectMemory”），以便在需要时启用，从而修复屏幕阅读器（辅助功能支持）无法读取UI的问题。</li>
+<li>修复与CVE - 2019 - 19501漏洞修复相关的副作用，该副作用导致UI中的链接无法打开。</li>
+<li>添加开关“/signalExit”，以支持在命令行界面（CLI）中指定“/q”参数时，VeraCrypt.exe退出时通知<a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/waitfor" target="_blank">WAITFOR</a> Windows命令（有关用法请参阅文档）。</li>
+<li>在格式化和扩展器的命令行帮助对话框中不显示挂载/卸载示例。</li>
+<li>更新文档和翻译。</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>修复限制在磁盘或分区上创建隐藏卷可用大小的回归问题。</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>修复限制在磁盘或分区上创建隐藏卷可用大小的回归问题。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新3 </strong>(2019年12月21日):</p>
+<ul>
+<li><strong>Linux:</strong>
+<ul>
+<li>修复仅控制台版本的构建，以去除对GTK的依赖，因为无头服务器不需要该依赖。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新2 </strong>(2019年12月16日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>在使用非优化实现时，从栈内存中清除AES密钥。不适用于VeraCrypt官方版本（由Hanno Böck报告并修复）。</li>
+<li>将Jitterentropy随机数生成器库更新到2.2.0版本。</li>
+<li>开始遵循IEEE 1541商定的字节命名规范（KiB、MiB、GiB、TiB、PiB）。
+<li>各类文档改进。</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复VeraCrypt扩展程序执行期间可能存在的本地权限提升漏洞（CVE - 2019 - 19501）</li>
+<li>MBR引导加载程序：
+<ul>
+<li>针对在BIOS模式下不允许使用小于4096字节缓冲区进行写操作的SSD磁盘的解决方法。</li>
+<li>如果MBR来自非我们的加载程序或非微软的加载程序，则不将MBR恢复为VeraCrypt的值。</li>
+</ul>
+</li>
+<li>EFI引导加载程序：
+<ul>
+<li>修复“ActionFailed”不起作用的问题，并添加“ActionCancelled”以自定义用户在密码提示时按ESC键的处理方式</li>
+<li>修复F5在认证失败后显示上一个密码的问题。确保即使是错误的密码值也会从内存中清除。</li>
+</ul>
+</li>
+<li>仅当当前系统的第一个引导加载程序是Windows的引导加载程序时，才将VeraCrypt设置为系统的第一个引导加载程序，以修复多操作系统引导兼容性问题。</li>
+<li>为SystemFavoritesService添加新的注册表标志，以控制在关机时更新EFI BIOS引导菜单。</li>
+<li>允许在WindowsPE中挂载系统加密驱动器，即使更改键盘布局失败（由Sven Strickroth报告并修复）</li>
+<li>改进保留文件时间戳的机制，特别是针对密钥文件。</li>
+<li>修复在AMD CPU上未检测到RDRAND指令的问题。</li>
+<li>检测RDRAND存在缺陷的情况（例如AMD Ryzen），以避免在用户启用时使用它。</li>
+<li>通过UI修改DcsProp文件时，不在文件末尾写入额外的0x00字节</li>
+<li>减少Windows磁盘验证中使用的IOCTL_DISK_VERIFY处理程序的内存使用。</li>
+<li>为VeraCrypt Format.exe添加开关/FastCreateFile，以在选择快速格式化时加速大文件容器的创建。</li>
+<li>修复跳过救援磁盘验证的复选框未反映VeraCrypt Format命令行中指定的/noisocheck开关值的问题。</li>
+<li>在挂载扩展名为.tc的文件容器时，在密码对话框中勾选“TrueCrypt模式”</li>
+<li>更新XML语言文件。</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>修复在某些情况下导致管理员密码请求次数过多的回归问题</li>
+<li>修复Process::Execute函数中的越界缓冲区溢出问题（由Hanno Böck报告并修复）</li>
+<li>确保在挂载卷时发生内部错误的情况下删除密码（由Hanno Böck报告并修复）</li>
+<li>修复文本模式下不识别使用Unicode字符的密码的问题。</li>
+<li>修复在无头机器上无法运行为控制台模式构建的VeraCrypt二进制文件的问题。</li>
+<li>添加开关以强制使用旧版最大密码长度（64个UTF8字节）</li>
+<li>添加CLI开关（--use-dummy-sudo-password）以强制使用发送虚拟密码的旧版sudo行为</li>
+<li>在卸载期间，将错误消息输出到STDERR而不是STDOUT，以提高与包管理器的兼容性。</li>
+<li>使挂载磁盘时扇区大小不匹配的错误信息更详细。</li>
+<li>通过使用汇编代码在64位模式下加速SHA256。</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>添加开关以强制使用旧版最大密码长度（64个UTF8字节）</li>
+<li>修复Process::Execute函数中的越界缓冲区溢出问题（由Hanno Böck报告并修复）</li>
+<li>修复文本模式下不识别使用Unicode字符的密码的问题。</li>
+<li>使挂载磁盘时扇区大小不匹配的错误信息更详细。</li>
+<li>通过使用汇编代码在64位模式下加速SHA256。</li>
+<li>链接到最新的wxWidgets版本3.1.3</li>
+</ul>
+</li>
+</ul>
+
+
+<p><strong style="text-align:left">1.24 - Hotfix1 </strong>(2019年10月27日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复1.24版本中导致VeraCrypt新安装时系统收藏夹在启动时无法挂载的回归问题。</li>
+<li>修复当前Windows用户名包含Unicode非ASCII字符时无法加密系统的问题。</li>
+<li>使VeraCrypt扩展程序能够恢复之前扩展未完成的卷的扩展操作。</li>
+<li>为VeraCrypt扩展程序添加“快速扩展”选项，以加速大文件容器的扩展。</li>
+<li>在系统加密时添加多项健壮性检查和验证，以更好地处理一些特殊情况。</li>
+<li>轻微的用户界面和文档更改。</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>解决CentOS 6下gcc 4.4.7的错误，该错误导致在CentOS 6下构建的VeraCrypt在使用Whirlpool哈希时崩溃。</li>
+<li>修复挂载卷时在/var/log/auth.log中写入“错误密码尝试”的问题。</li>
+<li>修复在用户界面中拖放文件时不显示其正确路径的问题，特别是在GTK - 3下。</li>
+<li>添加缺失的JitterEntropy实现。</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>修复在OSX 10.13及更高版本的设备选择对话框中某些设备和分区不显示的问题。</li>
+<li>修复卷创建向导的“卷密码”页面中密码字段之间的键盘标签导航问题。</li>
+<li>添加缺失的JitterEntropy实现。</li>
+<li>支持APFS文件系统用于创建卷。</li>
+<li>支持暗黑模式。</li>
+</ul>
+</li>
+</ul>
+
+
+<p><strong style="text-align:left">1.24 </strong>(2019年10月6日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>将非系统卷的密码最大长度增加到UTF - 8编码的128字节。</li>
+<ul>
+<li>添加选项以使用旧版最大密码长度（64），以实现兼容性。</li>
+</ul>
+<li>使用基于CPU时序抖动的硬件随机数生成器“Jitterentropy”（由Stephan Mueller开发）作为CPU RDRAND的良好替代方案（<a href="http://www.chronox.de/jent.html" target="_blank">http://www.chronox.de/jent.html</a>）</li>
+<li>在64位机器上使用SSE2对XTS模式进行速度优化（最高快10%）。</li>
+<li>修复CPU功能AVX2/BMI2的检测问题。添加RDRAND/RDSEED CPU功能的检测。将海光CPU识别为AMD CPU。</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>使用ChaCha12密码、t1ha非加密快速哈希和基于ChaCha20的CSPRNG为密钥和密码实现RAM加密。</li>
+<ul>
+<li>仅在64位机器上可用。</li>
+<li>默认禁用。可以通过用户界面中的选项启用。</li>
+<p><strong style="text-align:left">1.24-更新7</strong> (2020年8月7日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>不允许隐藏卷与外部卷使用相同的密码、个人迭代乘数（PIM）和密钥文件。</li>
+<li>修复32位版本在使用Streebog算法时的随机崩溃问题。</li>
+<li>在JitterEntropy随机数生成器中启用FIPS模式。</li>
+<li>更新文档中的新手教程，将文件容器名称从“My Volume”改为“MyVolume.hc”，以避免对文件性质产生混淆。</li>
+<li>进行小规模的代码清理。</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复启用内存加密时加密算法基准测试结果错误的问题。</li>
+<li>修复在使用内存加密、选择AES算法且CPU不支持AES-NI时，即使未选择“快速格式化”，新创建卷的可用空间也未用随机数据填充的问题。</li>
+<li>修复在MBR启动模式下，系统加密中阻止TRIM的用户界面（UI）无法正常工作的问题。</li>
+<li>支持从外部应用程序（如KeePass）将密码拖放到密码UI字段，这比使用剪贴板更安全。</li>
+<li>实现与Windows 10现代待机和Windows 8.1连接待机电源模式的兼容性，使进入节能模式的检测更加可靠。</li>
+<li>在使用“/create”开关创建文件容器且文件系统不是FAT时，如果指定了“/silent”参数，避免在“VeraCrypt格式化”过程中显示等待对话框。</li>
+<li>使用原生Windows格式化程序对卷进行格式化，因为它更可靠，只有在出现问题时才回退到fmifs.dll中的FormatEx函数。</li>
+<li>如果系统中只有1个CPU组，则不使用处理器组支持的API，这可以解决某些配备AMD CPU的PC上出现的速度慢问题。</li>
+<li>如果系统驱动器已经被BitLocker加密，则不允许对其进行加密。</li>
+<li>实现对休眠和快速启动的检测，如果启用了内存加密，则禁用它们。</li>
+<li>在VeraCrypt安装/升级、启动系统加密或创建卷时，如果启用了快速启动，则发出警告，并建议禁用它。</li>
+<li>添加UI选项，以控制使用系统加密时自动修复引导加载程序的行为。</li>
+<li>在格式化向导中，不允许输入目录路径来创建文件容器。</li>
+<li>如果Windows Shell已被修改或未运行，则不尝试修复CVE - 2019 - 19501漏洞，因为在这种非标准配置下没有可靠的修复方法。</li>
+<li>MBR引导加载程序：修复引导扇区中传递给解压缩器的压缩数据大小不正确的问题。</li>
+<li>在系统加密向导中，当输入的密码达到最大长度时，添加警告消息。</li>
+<li>修复输入密码的UTF - 8编码超过最大支持长度时错误消息显示错误的问题。</li>
+<li>修复在64位机器上使用便携式32位“VeraCrypt Format.exe”创建隐藏卷时，且VeraCrypt已经安装的情况下的崩溃问题。</li>
+<li>将libzip更新到最新版本1.7.3。</li>
+<li>更新翻译。</li>
+</ul>
+</li>
+<li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>在允许/dev/random优雅失败之前，强制从其读取至少32字节的数据。</li>
+<li>允许为外部卷选择除FAT之外的文件系统，但会显示有关此类选择风险的警告，并在这种情况下实现对隐藏卷最大可能大小的估算。</li>
+<li>显式擦除敏感内存，而不是依赖编译器不优化对Memory::Erase方法的调用。</li>
+<li>在创建卷时添加对Btrfs文件系统的支持（仅适用于Linux）。</li>
+<li>将静态构建的wxWidgets更新到3.0.5版本。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新6 </strong>(2020年3月10日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复密码对话框中PIM标签文本截断的问题。</li>
+<li>修复如果用户先选择非英语语言，然后在语言选择对话框中点击“确定”之前选择英语，安装程序使用错误语言的问题。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新5 </strong>(2020年3月9日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>为具有超过64个逻辑处理器的CPU优化性能（由AMD的Sachin Keswani贡献）。</li>
+<li>支持在使用命令行创建文件容器时指定密钥文件（包括令牌和文件系统中的密钥文件）（VeraCrypt格式化支持“/keyfile”、“/tokenlib”和“/tokenpin”开关）。</li>
+<li>修复VeraCrypt进程退出后密钥文件路径和名称泄漏的问题。</li>
+<li>在VeraCrypt格式化中添加CLI开关“/secureDesktop”。</li>
+<li>将libzip更新到1.6.1版本。</li>
+<li>进行小规模的UI修复。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新4 </strong>(2020年1月23日):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复启用内存加密时，Expander和格式化过程中出现的卷头损坏的回归问题。</li>
+<li>默认禁用新引入的内存保护功能，并添加一个CLI开关（“/protectMemory”），以便在需要时启用，从而修复屏幕阅读器（辅助功能支持）无法读取UI的问题。</li>
+<li>修复与CVE - 2019 - 19501漏洞修复相关的副作用，该副作用导致UI中的链接无法打开。</li>
+<li>添加开关“/signalExit”，以支持在命令行界面（CLI）中指定“/q”参数时，VeraCrypt.exe退出时通知<a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/waitfor" target="_blank">WAITFOR</a> Windows命令（有关用法请参阅文档）。</li>
+<li>在格式化和扩展器的命令行帮助对话框中不显示挂载/卸载示例。</li>
+<li>更新文档和翻译。</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>修复限制在磁盘或分区上创建隐藏卷可用大小的回归问题。</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>修复限制在磁盘或分区上创建隐藏卷可用大小的回归问题。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新3 </strong>(2019年12月21日):</p>
+<ul>
+<li><strong>Linux:</strong>
+<ul>
+<li>修复仅控制台版本的构建，以去除对GTK的依赖，因为无头服务器不需要该依赖。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.24-更新2 </strong>(2019年12月16日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>在使用非优化实现时，从栈内存中清除AES密钥。不适用于VeraCrypt官方版本（由Hanno Böck报告并修复）。</li>
+<li>将Jitterentropy随机数生成器库更新到2.2.0版本。</li>
+<li>开始遵循IEEE 1541商定的字节命名规范（KiB、MiB、GiB、TiB、PiB）。
+</ul>
+
+<p><strong style="text-align:left">1.22 </strong>（2018年3月30日）:</p>
+<ul>
+  <li><strong>所有操作系统:</strong>
+    <ul>
+      <li>对Kuznyechik密码实现进行SIMD速度优化（最高可达2倍加速）。</li>
+      <li>添加5种新的级联密码算法：Camellia - Kuznyechik、Camellia - Serpent、Kuznyechik - AES、Kuznyechik - Serpent - Camellia和Kuznyechik - Twofish。</li>
+    </ul>
+  </li>
+  <li><strong>Windows系统:</strong>
+    <ul>
+      <li>MBR引导加载程序：修复部分机器上隐藏操作系统无法启动的问题。</li>
+      <li>MBR引导加载程序：降低密码提示期间的CPU使用率。</li>
+      <li>安全增强：添加选项，用于在SSD驱动器上进行系统加密时阻止TRIM命令。</li>
+      <li>为非系统SSD驱动器实现TRIM支持，并添加启用该功能的选项（非系统卷默认禁用TRIM）。</li>
+      <li>更好地修复部分机器在EFI系统加密期间出现的“参数错误”问题。</li>
+      <li>驱动程序：移除对`wcsstr`的不必要依赖，该依赖可能会在某些机器上导致问题。</li>
+      <li>驱动程序：修复部分机器挂载卷时出现的“参数错误”问题。</li>
+      <li>修复部分机器在启动时无法挂载系统收藏夹的问题。</li>
+      <li>修复使用`/quit /silent`开关在命令行中运行VeraCrypt时当前应用程序失去焦点的问题。</li>
+      <li>修复部分外部应用程序在挂载/卸载期间冻结的问题。</li>
+      <li>修复罕见的密码对话框安全桌面不可见导致UI阻塞的问题。</li>
+      <li>将`libzip`更新到1.5.0版本，该版本包含一些安全问题的修复。</li>
+      <li>将安全桌面功能扩展到智能卡PIN输入对话框。</li>
+      <li>修复安装向导中许可证文本截断的问题。</li>
+      <li>添加便携式软件包，允许在不请求管理员权限的情况下提取二进制文件。</li>
+      <li>简化语言XML文件的格式。</li>
+      <li>解决在未启用安全桌面时密码对话框无法获得键盘焦点的问题。</li>
+    </ul>
+  <li><strong>Linux系统:</strong>
+    <ul>
+      <li>修复在近期版本的KDE下无法安装GUI版本的问题。</li>
+      <li>修复备份/恢复卷头时wxWidgets断言失败的问题。</li>
+    </ul>
+  </li>
+  <li><strong>MacOSX系统:</strong>
+    <ul>
+      <li>修复部分本地帮助文件无法在浏览器中打开的问题。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong style="text-align:left">1.21 </strong>（2017年7月9日）:</p>
+<ul>
+  <li><strong>所有操作系统:</strong>
+    <ul>
+      <li>修复在不支持扩展功能的CPU上运行时1.20版本的回归崩溃问题。</li>
+    </ul>
+  </li>
+  <li><strong>Windows系统:</strong>
+    <ul>
+      <li>修复1.20版本的回归问题，该问题导致挂载时收藏夹中存储的PIM值被忽略。</li>
+      <li>修复1.20版本的回归问题，该问题在某些情况下导致系统收藏夹无法挂载。</li>
+      <li>修复EFI系统加密向导中出现的一些“参数错误”问题。</li>
+      <li>为高级用户安装与EFI系统加密配置相关的PDF文档：
+        <ul>
+          <li>disk_encryption_v1_2.pdf与EFI隐藏操作系统和全磁盘加密相关</li>
+          <li>dcs_tpm_owner_02.pdf与EFI系统加密的TPM配置相关。</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>FreeBSD系统:</strong>
+    <ul>
+      <li>添加对在FreeBSD上构建的支持。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong style="text-align:left">1.20 </strong>（2017年6月29日）:</p>
+<ul>
+  <li><strong>所有操作系统:</strong>
+    <ul>
+      <li>使用Jussi Kivilinna的64位优化汇编实现的Twofish和Camellia。
+        <ul>
+          <li>当CPU支持AES - NI时，Camellia速度快2.5倍；不支持时快30%。</li>
+        </ul>
+      </li>
+      <li>使用优化的SHA - 512/SHA256实现。
+        <ul>
+          <li>在64位系统上速度提高33%。</li>
+        </ul>
+      </li>
+      <li>部署本地HTML文档而不是用户指南PDF。</li>
+      <li>将UI中的链接从Codeplex上的链接更改为托管在veracrypt.fr上的链接。</li>
+      <li>安全方面：构建支持地址空间布局随机化（ASLR）的二进制文件。</li>
+    </ul>
+  </li>
+  <li><strong>Windows系统:</strong>
+    <ul>
+      <li>对EFI系统加密进行了多项修复和改进：
+        <ul>
+          <li>修复使用EFI救援磁盘进行EFI系统解密时的错误。</li>
+          <li>通过DCS底层配置添加对TPM 1.2和TPM 2.0（实验性）的支持。
+            <ul>
+              <li><a href="https://dc5.sourceforge.io/docs/dcs_tpm_owner_02.pdf" target="_blank">https://dc5.sourceforge.io/docs/dcs_tpm_owner_02.pdf</a>
+              </li>
+            </ul>
+          <li>添加使用手动过程（未在UI中显示）进行EFI全磁盘加密和隐藏操作系统的支持。
+            <ul>
+              <li><a href="https://dc5.sourceforge.io/docs/disk_encryption_v1_2.pdf" target="_blank">https://dc5.sourceforge.io/docs/disk_encryption_v1_2.pdf</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+<li>启用使用安全桌面进行密码输入。添加偏好设置选项和命令行开关 (/secureDesktop) 以激活该功能。</li>
+<li>在使用密码缓存挂载多个收藏项时，使用默认挂载参数。</li>
+<li>允许为收藏项指定 PRF 和 TrueCrypt 模式。</li>
+<li>对驱动程序进行初步更改，以支持 EFI 隐藏操作系统功能。</li>
+<li>修复 /hash 命令行无法识别 Streebog 哈希算法的问题。</li>
+<li>在创建普通卷时，添加对 Windows 10 上 ReFS 文件系统的支持。</li>
+<li>修复当收藏项配置为在设备插入时使用卷 ID 进行挂载时，CPU 高使用率的问题。</li>
+<li>使用 CHM 文件代替 PDF 作为用户指南。</li>
+<li>修复在 EFI 系统加密情况下，关于 Windows 未安装在引导驱动器上的误报警告。</li>
+<li>增强驱动程序对各种磁盘 IOCTL 的处理能力。</li>
+<li>增强 EFI 引导加载程序。添加手动编辑 EFI 配置文件的功能。</li>
+<li>驱动程序安全：在 Windows 8 及更高版本中使用增强的 NX 池保护。</li>
+<li>减少内部检查断开连接的网络驱动器对性能的影响。</li>
+<li>小修复。</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>运行 VeraCrypt 需要 OSX 10.7 或更高版本。</li>
+<li>使 VeraCrypt 成为 .hc 和 .tc 文件的默认处理程序。</li>
+<li>在 Finder 中为 .hc 和 .tc 文件添加自定义 VeraCrypt 图标。</li>
+<li>在打开具有 .tc 扩展名的容器文件时，在密码对话框中检查 TrueCrypt 模式。</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>在打开具有 .tc 扩展名的容器文件时，在密码对话框中检查 TrueCrypt 模式。</li>
+<li>修复由于加密汇编文件缺少 GNU-stack 注释而导致的生成二进制文件中的可执行栈问题。</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.19 </strong>(2016 年 10 月 17 日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>修复 Quarkslab 审计提出的问题。
+<ul>
+<li>移除 GOST89 加密算法。</li><li>使 PBKDF2 和 HMAC 代码更清晰，更易于分析。</li><li>为 Kuznyechik 添加测试向量。</li><li>更新文档，警告使用命令行开关 “tokenpin” 的风险。
+</li></ul>
+</li><li>使用 Botan 项目中 SSE2 优化的 Serpent 算法实现（在 64 位平台上快 2.5 倍）。
+</li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>修复 EFI 引导加载程序中的键盘问题。</li><li>修复在 32 位机器上创建使用 Streebog 作为 PRF 的卷时的崩溃问题。
+</li><li>修复在某些情况下（例如隐藏操作系统创建）对 Evil-Maid 攻击的误报检测问题。
+</li><li>修复在 Windows 10 下无法访问 VeraCrypt 卷上 EFS 数据的问题。</li><li>修复复制隐藏操作系统过程中的错误密码错误。</li><li>修复 Quarkslab 审计提出的问题：
+<ul>
+<li>修复从 TrueCrypt 继承的 MBR 引导加载程序中密码长度泄露的问题。</li><li>EFI 引导加载程序：修复各种泄露问题，并在输入密码后清除键盘缓冲区。
+</li><li>使用 libzip 库处理 zip 救援磁盘文件，而不是易受攻击的 XUnzip 库。
+</li></ul>
+</li><li>支持 32 位 Windows 的 EFI 系统加密。</li><li>在 EFI 系统加密预测试期间执行关机而不是重启，以检测不兼容的主板。
+</li><li>小的 GUI 和翻译修复。</li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>移除对 OSXFuse 中 MacFUSE 兼容层的依赖。</li></ul>
+</li></ul>
+<p>&nbsp;</p>
+<p><strong style="text-align:left">1.18a </strong>(2016 年 8 月 17 日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>支持日本加密标准 Camellia，包括用于 Windows 系统加密（MBR 和 EFI）。
+</li><li>支持俄罗斯加密和哈希标准 Kuznyechik、Magma 和 Streebog，包括用于 Windows EFI 系统加密。
+</li><li>修复 TrueCrypt 允许检测隐藏卷存在的漏洞（由 Ivanov Aleksey Mikhailovich 报告，邮箱 alekc96 [at] mail dot ru）
+<ul><li> <strong style="color:#ff0000;">为避免暗示您的卷是否包含隐藏卷，或者如果您在使用隐藏卷/操作系统时依赖似是而非的否认性，那么您必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统，并丢弃在 1.18a 版本之前创建的现有卷。</strong></li></ul>
+</li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>支持 EFI Windows 系统加密（限制：无隐藏操作系统，无引导自定义消息）
+</li><li>增强对 DLL 劫持攻击的保护。</li><li>通过增加 1 KiB 所需内存，修复某些机器上的引导问题。</li><li>添加哈希算法和带有 PIM 的 PRF 的基准测试（包括预引导）。
+</li><li>将构建系统迁移到 Visual C++ 2010 以获得更好的稳定性。</li><li>解决 Windows Server 2008 R2 上 Hyper-V 下的 AES-NI 支持问题。
+</li><li>在 Windows 64 位系统上卸载时正确删除驱动文件 veracrypt.sys。
+</li><li>实现当显式挂载卷时，将智能卡 PIN 作为命令行参数 (/tokenpin) 传递。
+</li><li>当未指定驱动器号时，仅当没有其他可用的空闲驱动器号时，才选择 A: 或 B:。
+</li><li>减少禁用使用断开连接的网络驱动器选项导致的 CPU 使用率。
+</li><li>添加新的卷 ID 机制，用于识别磁盘/分区，而不是使用其设备名称。
+</li><li>添加选项，通过在 MBR 中未加密存储 PIM 值，避免在预引导身份验证中提示输入 PIM。
+</li><li>添加选项和命令行开关，在执行操作时隐藏等待对话框。
+</li><li>在 “VeraCrypt 格式化” 向导 GUI 中添加复选框，以在系统加密过程中跳过救援磁盘验证。
+</li><li>当 VeraCrypt 以提升的权限运行时，允许文件拖放操作。</li><li>小的 GUI 和翻译修复。</li></ul>
+</li><li><strong>Linux:</strong>
+<ul>
+<li>修复 Fedora 23 上的挂载问题。</li><li>修复使用 gcc 5.x 编译源代码时的挂载失败问题。</li><li>遵循 XDG 桌面规范，使用 XDG_CONFIG_HOME 来确定配置文件的位置。
+</li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>解决与较新版本的 OSXFuse 的兼容性问题。</li></ul>
+</li></ul>
+<p>&nbsp;</p>
+<p><strong style="text-align:left">1.17 </strong>(2016 年 2 月 13 日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>支持 UNICODE 密码：现在密码中可以接受所有字符（Windows 系统加密除外）
+</li><li>由于巧妙地优化了密钥派生（由 <a href="https://madiba.encs.concordia.ca/~x_decarn/" target="_blank">Xavier de Carné de Carnavalet</a> 发现），将挂载/引导时间缩短一半。
+</li><li>通过使用汇编优化 Whirlpool PRF 速度（与之前的代码相比，速度提高 25%）。
+</li><li>添加对创建 exFAT 卷的支持。</li><li>添加 GUI 指示器，显示通过鼠标移动收集的随机数数量。
+</li><li>包含由 <em>Andreas Becker</em> 贡献的新图标和图形 (<a href="http://www.andreasbecker.de" target="_blank">http://www.andreasbecker.de</a>)
+</li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>修复影响安装程序的 DLL 劫持问题，该问题允许以提升的权限执行代码（CVE-2016-1281）。由 Stefan Kanthak 报告 (<a href="http://home.arcor.de/skanthak/" target="_blank">http://home.arcor.de/skanthak/</a>)
+</li><li>使用 SHA-1 和 SHA-256 对二进制文件进行签名，以遵循微软的新建议。
+</li><li>解决在 Comodo/Kaspersky 下从 VeraCrypt 卷运行应用程序时的问题（由 Robert Geisler 报告并修复）。
+</li><li>引导加载程序：在按下 ENTER 键后，通过用 '*' 填充字段至最大长度来保护密码/PIM 长度。
+</li><li>解决系统收藏项无法挂载到驱动器 A: 的问题。</li><li>解决显示等待对话框后焦点丢失的问题。</li><li>解决在 “选择设备” 对话框中某些分区与错误磁盘关联的罕见问题。
+</li><li>实现 PIM 缓存，适用于系统加密和普通卷。添加激活该功能的选项。
+</li><li>如果在命令行中指定了密码和/或密钥文件，则不尝试使用缓存的密码进行挂载。
+</li><li>进行内部重写，使 VeraCrypt 成为原生 UNICODE 应用程序。</li><li>采取变通方法，避免某些防病毒软件的误报检测。</li><li>在可用驱动器列表中隐藏断开连接的网络驱动器。添加选项使其可用于挂载。
+</li><li>解决了在某些情况下，即使不需要也会更新配置和历史 XML 文件的问题。
+</li><li>修复了所选密钥文件路径在内存中泄露的问题。 </li><li>修复了 VeraCryptExpander 中无法取消选择 TB 单位的问题。 </li><li>在图形用户界面（GUI）中为“使用 PIM”复选框添加了 Alt + i 键盘快捷键。 </li><li>进行了一些小的图形用户界面和翻译修复。 </li></ul>
+</li><li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>修复了 --stdin 选项无法正确处理包含空格字符的密码的问题（由 Codeplex 用户 horsley1953 报告并修复）。
+</li><li>修复了使用命令行创建非 FAT 文件系统卷时的问题。
+</li><li>支持在 --size 开关中使用 K/M/G/T 后缀来指示大小值的单位。
+</li></ul>
+</li></ul>
+<p id="116"><strong style="text-align:left">1.16（2015 年 10 月 7 日）:</strong></p>
+<ul>
+<li><strong><strong>Windows:</strong></strong>
+<ul>
+<li>修改针对 CVE - 2015 - 7358 漏洞的补丁，以解决在 Windows 上的副作用，同时仍然使滥用驱动器盘符处理变得非常困难。
+</li><li>修复了在某些配置下无法从外部文件恢复卷头的问题。
+</li><li>为遇到误报情况（例如 FLEXnet/Adobe 问题）的用户添加禁用“邪恶女仆”攻击检测的选项。
+</li><li>默认情况下，当配置了默认密钥文件或在命令行中指定了密钥文件时，不尝试使用空密码挂载。添加选项以恢复旧的行为。
+<ul>
+<li>如果需要使用空密码挂载，请在命令行中明确指定：/p ""
+</li></ul>
+</li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.15 </strong>（2015 年 9 月 26 日）:</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>修复了 James Forshaw（Google Project Zero）报告的两个 TrueCrypt 漏洞
+<ul>
+<li><a href="https://code.google.com/p/google-security-research/issues/detail?id=538" target="_blank">CVE - 2015 - 7358</a>&nbsp;（严重）：通过滥用驱动器盘符处理在 Windows 上进行本地权限提升。 </li><li><a href="https://code.google.com/p/google-security-research/issues/detail?id=537" target="_blank">CVE - 2015 - 7359</a>：由于不正确的模拟令牌处理导致在 Windows 上进行本地权限提升。 </li></ul>
+</li><li>修复了用户登录时挂载常用卷的回归问题。 </li><li>修复了格式化向导中某些 Unicode 语言（例如中文）的显示问题。 </li><li>当“使用 PIM”被选中时，将键盘焦点设置到 PIM 字段。 </li><li>允许使用应用程序键在驱动器盘符列表上打开上下文菜单 </li><li>支持在图形用户界面中指定以 TB 为单位的卷大小（命令行已经支持此功能）
+</li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.14 </strong>（2015 年 9 月 16 日）:</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>在图形用户界面和引导加载程序中像处理密码一样对 PIM 值进行掩码和取消掩码操作。 </li></ul>
+</li></ul>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>解决了在使用级联密码和 SHA256 进行系统加密时救援磁盘损坏错误的问题。
+</li><li>解决了“在驱动器内存中缓存密码”选项即使在首选项中被选中也始终禁用的问题。
+</li><li>解决了新安装时除非更改首选项，否则用户界面语言更改不生效的问题。
+</li><li>实现了使用命令行创建文件容器。 </li><li>驱动程序：默认禁用对 IOCTL_STORAGE_QUERY_PROPERTY 的支持，并添加启用它的选项。
+</li><li>驱动程序：支持在通过 IOCTL_STORAGE_QUERY_PROPERTY 查询时返回 StorageDeviceProperty。
+</li><li>支持通过挂载选项或常用标签值在资源管理器中设置卷标签。
+</li><li>修复了热键分配对话框中始终显示 OEM - 233 且无法更改的问题。
+</li><li>在安装和移动磁盘设置过程中始终复制 32 位和 64 位可执行二进制文件。
+<ul>
+<li>移动磁盘将再次默认使用 32 位可执行文件，同时也提供 64 位可执行文件。
+</li><li>在 64 位 Windows 上，现在可以使用 32 位可执行文件（例如，如果需要使用 32 位 PKCS#11 DLL）
+</li></ul>
+</li><li>在移动磁盘设置中包含卷扩展器。 </li><li>如果 Windows 中禁用了系统还原点，则不提供创建还原点的选项。 </li><li>增加了验证救援磁盘 ISO 映像文件的功能。 </li><li>安装程序、图形用户界面和驱动程序的小修复。 </li></ul>
+</li></ul>
+<ul>
+<li><strong>Linux:</strong>
+<ul>
+<li>支持在非交互模式下通过标准输入提供密码（由 <a href="https://github.com/LouisTakePILLz" target="_blank">LouisTakePILLz</a> 贡献）
+<ul>
+<li>示例：<code>veracrypt -t ${IMAGE_PATH} ${MOUNT_PATH} --mount --non - interactive --stdin &lt;&lt;&lt; "$PWD"</code>
+</li></ul>
+</li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.13 </strong>（2015 年 8 月 9 日）:</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>解决了从 VeraCrypt 卷运行 TOR 时崩溃的问题。 </li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.12 </strong>（2015 年 8 月 5 日）:</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>通过支持个人迭代乘数（PIM）实现“动态模式”。更多信息请参阅文档。
+</li></ul>
+</li></ul>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>检测系统加密的引导加载程序篡改（“邪恶女仆”攻击）并提供恢复选项。
+</li><li>修复了解析语言 XML 文件时的缓冲区溢出问题和其他内存相关的错误。
+</li><li>修复了由于 IOCTL_DISK_VERIFY 处理中的错误导致 chkdsk 错误报告坏扇区的问题。
+</li><li>修复了每次使用 VeraCrypt 时配置和历史文件都会更新而导致的隐私问题（由 Liran Elharar 报告）
+</li><li>修复了冷启动后系统常用卷并非总是挂载的问题。 </li><li>解决了在 Windows 10 上更新 VeraCrypt 时安装程序出错的问题。 </li><li>实现了对非系统分区/驱动器的解密。 </li><li>在安装程序中包含 64 位可执行文件，并将其部署到 64 位机器上以提高性能。
+</li><li>允许使用驱动器盘符 A: 和 B: 挂载卷 </li><li>使命令行参数解析更加严格和健壮（例如，/lz 被拒绝，必须是 /l z）
+</li><li>增加了在 Windows 图形用户界面和引导加载程序中显示系统加密密码的功能
+</li><li>解决了部分用户遇到的“类已存在”错误。 </li><li>解决了一些菜单项和图形用户界面字段无法翻译的问题 </li><li>使卷正确向 Windows 报告物理扇区大小。 </li><li>正确检测用户切换/RDP 断开连接操作，以便在会话锁定时自动卸载。
+</li><li>在恢复原地加密时增加手动选择分区的功能。 </li><li>增加命令行选项 (/cache f) 以在挂载常用卷时临时缓存密码。
+</li><li>为自动挂载设备操作添加等待对话框，以避免图形用户界面冻结。 </li><li>在显示的错误消息中添加额外信息，以帮助分析报告的问题。
+</li><li>禁用更改系统加密伪随机函数（PRF）的菜单项，因为该功能尚未实现。
+</li><li>修复了需要用户账户控制（UAC）时更改密码失败的问题（继承自 TrueCrypt） </li><li>小修复和更改（更多详细信息请参阅 Git 历史记录） </li></ul>
+</li></ul>
+<ul>
+<li><strong>Linux:</strong>
+<ul>
+<li>解决了在 KDE 环境下且 xterm 不可用时安装程序的问题 </li><li>修复了 wxWidgets 动态链接时关于/法律声明对话框中的警告（官方二进制文件不适用）
+</li><li>支持在命令行中使用带连字符的哈希名称（sha - 256、sha - 512 和 ripemd - 160）
+</li><li>移除“--current - hash”开关并添加“--new - hash”，以与现有开关更一致。
+</li><li>当在命令行中仅指定密钥文件时，不尝试使用空密码挂载。
+<ul>
+<li>如果需要使用空密码挂载，请明确指定：-p ""
+</li></ul>
+</li></ul>
+</li></ul>
+<p id="1.0f-2"><strong style="text-align:left">1.0f - 2</strong>（2015 年 4 月 5 日）:</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+<ul>
+<li>挂载速度提升，在64位系统上最高快20%（由Nils Maier贡献）
+</li><li>添加设置挂载卷时使用的默认哈希/TrueCrypt模式的选项。 </li><li>在密码对话框中使用命令行中指定的TrueCrypt模式/哈希。 </li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>解决Open Crypto Audit Phase II报告的CryptAcquireContext漏洞。
+</li><li>正确处理随机数生成器故障。在这种情况下通知用户。 </li><li>与TrueCrypt模式相关的更改:
+<ul>
+<li>支持挂载TrueCrypt系统分区（尚未支持转换） </li><li>支持将TrueCrypt卷作为系统收藏项。 </li><li>当使用SHA - 256时，纠正卷属性中错误显示的TrueCrypt模式。
+</li></ul>
+</li><li>解决特殊情况下智能卡PIN被锁定的问题。 </li><li>挂载容器时正确处理文件访问错误。 </li><li>解决静态代码分析工具Coverity报告的几个问题。 </li><li>引导加载程序: 添加“正在验证密码...”消息。 </li><li>当UAC提示失败（例如超时）时，提示用户重试操作。
+</li><li>卸载链接现在打开标准的“添加/删除程序”窗口。 </li><li>卸载时，从注册表和磁盘中删除所有VeraCrypt引用。 </li><li>安装程序中包含VeraCryptExpander。 </li><li>添加在挂载多个收藏项时临时缓存密码的选项。 </li><li>小修复和增强（更多信息请查看git历史记录） </li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>解决退出VeraCrypt时卷未自动卸载的问题。
+</li><li>解决点击停靠图标时VeraCrypt窗口无法重新打开的问题。 </li></ul>
+</li><li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>解决点击偏好设置对话框上的“X”图标时对话框不关闭的问题。 </li><li>解决某些情况下挂载非FAT卷时的只读问题。 </li><li>支持在除Gnome/KDE之外的桌面环境中打开/浏览已挂载的卷。 </li><li>解决在不太常见的配置下运行安装程序时出现的各种问题 </li><li>小修复（更多信息请查看git历史记录） </li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.0f - 1 </strong>(2015年1月4日)</p>
+<ul>
+<li><strong>所有操作系统</strong>:
+<ul>
+<li>添加对旧版TrueCrypt 6.0的支持。 </li><li>更改GUI中级联算法的命名，以提供更好的描述。 </li></ul>
+</li><li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>使偏好设置对话框的取消按钮正常工作。 </li><li>解决无法输入一位数卷大小的问题。 </li><li>在基准计算中添加等待对话框。 </li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>在已挂载卷的信息中添加TrueCrypt模式。 </li><li>对于Windows XP，修复安装程序的图形显示问题。 </li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.0f </strong>(2014年12月30日)</p>
+<ul>
+<li><strong>所有操作系统</strong>:
+<ul>
+<li>添加对挂载TrueCrypt卷的支持。 </li><li>添加对转换TrueCrypt容器和非系统分区的支持。 </li><li>添加对SHA - 256卷加密的支持。 </li><li>将SHA - 512设为默认密钥推导算法，并更改推导算法的优先级顺序: SHA - 512 -> Whirlpool -> SHA - 256 -> RIPEMD160
+</li><li>弃用非系统加密中的RIPEMD160。 </li><li>通过启用正确哈希算法的选择来加速挂载操作。 </li><li>在长时间操作期间显示等待对话框，以避免GUI冻结。 </li><li>实现一次性创建多个密钥文件，支持预定义或随机大小。
+</li><li>在执行敏感操作之前始终显示随机数收集对话框。
+</li><li>应用程序中的链接现在指向Codeplex上的在线资源 </li><li>首个版本的正式VeraCrypt用户指南 </li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>实现对大扇区大小（> 512）硬盘的支持。 </li><li>链接到新的wxWidgets版本3.0.2。 </li><li>解决某些向导窗口中文本截断的问题。 </li></ul>
+</li><li><strong>Linux:</strong>
+<ul>
+<li>添加对卷进行NTFS格式化的支持。 </li><li>修复打开用户指南PDF时的问题。 </li><li>更好地支持大扇区大小（> 512）的硬盘。 </li><li>链接到新的wxWidgets版本3.0.2。 </li></ul>
+</li><li><strong>Windows:</strong><br>
+<ul>
+<li>安全: 修复Open Crypto Audit检测到的引导加载程序漏洞，并使其更健壮。
+</li><li>添加对系统引导加密中SHA - 256的支持。 </li><li>引导加载程序的各种优化。 </li><li>完全修复ShellExecute安全问题。 </li><li>内核驱动程序: 检查从引导加载程序接收到的密码长度是否小于或等于64。
+</li><li>修复点击密钥文件更多信息链接时的随机崩溃问题
+</li><li>实现用户会话锁定时自动卸载的选项 </li><li>添加SHA - 256的自测向量 </li><li>通过启用视觉样式实现现代外观和感觉 </li><li>一些小修复。 </li></ul>
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">1.0e </strong>(2014年9月4日)</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<ul>
+<li><strong style="text-align:left">改进和漏洞修复:</strong>
+<ul>
+<li>修复Open Crypto Audit Project报告的大多数安全漏洞。
+</li><li>修复静态代码分析检测到的安全问题，主要是在Windows系统下。
+</li><li>修复更改卷的密码/密钥文件时无响应的问题。减少创建加密卷/分区所需的总时间。
+</li><li>小改进和漏洞修复（更多详细信息请查看git历史记录）。 </li></ul>
+</li></ul>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">1.0d </strong>(2014年6月3日)</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<ul>
+<li><strong style="text-align:left">改进和漏洞修复:</strong>
+<ul>
+<li>修复创建隐藏操作系统时的问题。 </li><li>小改进和漏洞修复。 </li></ul>
+</li></ul>
+</div>
+</div><div class="ClearBoth"></div></body></html>

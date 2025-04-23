@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认能力。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="/code/">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div class="wikidoc">
+<h1>目录</h1>
+<p><em style="text-align:left">本文档不保证无错误，且按“原样”提供，不附带任何形式的保证。有关更多信息，请参阅
+<a href="Disclaimers.html">免责声明</a>。</em></p>
+<ul>
+<li><a title="前言" href="Preface.html"><strong>前言</strong></a>
+</li><li><strong><a href="Introduction.html">简介</a></strong>
+</li><li><strong><a href="Beginner%27s%20Tutorial.html">初学者教程</a></strong>
+</li><li><strong><a href="VeraCrypt%20Volume.html">VeraCrypt 卷</a></strong>
+<ul>
+<li><a href="Creating%20New%20Volumes.html">创建新的 VeraCrypt 卷</a>
+</li><li><a href="Favorite%20Volumes.html">常用卷</a>
+</li><li><a href="System%20Favorite%20Volumes.html">系统常用卷</a>
+</li></ul>
+</li><li><strong><a href="System%20Encryption.html">系统加密</a></strong>
+<ul>
+<li><a href="Hidden%20Operating%20System.html">隐藏操作系统</a>
+</li><li><a href="Supported%20Systems%20for%20System%20Encryption.html">支持系统加密的操作系统</a>
+</li><li><a href="VeraCrypt%20Rescue%20Disk.html">VeraCrypt 救援盘</a>
+</li></ul>
+</li><li><strong><a href="Plausible%20Deniability.html">似是而非的否认</a></strong><br>
+<ul>
+<li><a href="Hidden%20Volume.html">隐藏卷</a>
+<ul>
+<li><a href="Protection%20of%20Hidden%20Volumes.html">保护隐藏卷免受损坏</a>
+</li><li><a href="Security%20Requirements%20for%20Hidden%20Volumes.html">隐藏卷的安全要求和预防措施</a>
+</li></ul>
+</li><li><a href="VeraCrypt%20Hidden%20Operating%20System.html">隐藏操作系统</a>
+</li></ul>
+</li><li><strong><a href="Main%20Program%20Window.html">主程序窗口</a></strong>
+<ul>
+<li><a href="Program%20Menu.html">程序菜单</a>
+</li><li><a href="Mounting%20VeraCrypt%20Volumes.html">挂载 VeraCrypt 卷</a>
+</li></ul>
+</li><li><strong><a href="Normal%20Unmount%20vs%20Force%20Unmount.html">正常卸载与强制卸载</a></strong>
+</li><li><strong><a href="Avoid%20Third-Party%20File%20Extensions.html">避免使用第三方文件扩展名</a></strong>
+</li><li><strong><a href="Parallelization.html">并行处理</a></strong>
+</li><li><strong><a href="Pipelining.html">流水线处理</a></strong>
+</li><li><strong><a href="Hardware%20Acceleration.html">硬件加速</a></strong>
+</li><li><strong><a href="Hot%20Keys.html">热键</a></strong>
+</li><li><strong><a href="Keyfiles%20in%20VeraCrypt.html">密钥文件</a></strong>
+</li><li><strong><a href="Security%20Tokens%20%26%20Smart%20Cards.html">安全令牌和智能卡</a></strong>
+</li><li><strong><a href="EMV%20Smart%20Cards.html">EMV 智能卡</a></strong>
+</li><li><strong><a href="Portable%20Mode.html">便携模式</a></strong>
+</li><li><strong><a href="TrueCrypt%20Support.html">TrueCrypt 支持</a></strong>
+</li><li><strong><a href="Converting%20TrueCrypt%20volumes%20and%20partitions.html">转换 TrueCrypt 卷和分区</a></strong>
+</li><li><strong><a href="Conversion_Guide_VeraCrypt_1.26_and_Later.html">1.26 及更高版本转换指南</a></strong>
+</li><li><strong><a href="Default%20Mount%20Parameters.html">默认挂载参数</a></strong>
+</li><li><strong><a href="Language%20Packs.html">语言包</a></strong>
+</li><li><strong><a href="Encryption%20Algorithms.html">加密算法</a></strong>
+<ul>
+<li><a href="AES.html">AES</a> </li><li><a href="Camellia.html">Camellia</a>
+</li><li><a href="Kuznyechik.html">Kuznyechik</a>
+</li><li><a href="Serpent.html">Serpent</a> </li><li><a href="Twofish.html">Twofish</a> </li><li><a href="Cascades.html">密码级联</a>
+</li></ul>
+</li><li><strong><a href="Hash%20Algorithms.html">哈希算法</a></strong>
+<ul>
+<li><a href="BLAKE2s-256.html">BLAKE2s - 256</a>
+</li><li><a href="SHA-256.html">SHA - 256</a> </li><li><a href="SHA-512.html">SHA - 512</a> </li><li><a href="Whirlpool.html">Whirlpool</a>
+</li><li><a href="Streebog.html">Streebog</a></li></ul>
+</li><li><strong><a href="Supported%20Operating%20Systems.html">支持的操作系统</a></strong>
+</li><li><strong><a href="Command%20Line%20Usage.html">命令行使用方法</a></strong>
+</li><li><strong><a href="Security%20Model.html">安全模型</a></strong>
+</li><li><strong><a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施<br>
+</a></strong>
+<ul>
+<li><a href="Data%20Leaks.html">数据泄露</a>
+<ul>
+<li><a href="Paging%20File.html">分页文件</a>
+</li><li><a href="Memory%20Dump%20Files.html">内存转储文件</a>
+</li><li><a href="Hibernation%20File.html">休眠文件</a>
+</li></ul>
+</li><li><a href="Unencrypted%20Data%20in%20RAM.html">RAM 中的未加密数据</a>
+</li><li><a href="VeraCrypt%20RAM%20Encryption.html">VeraCrypt RAM 加密</a>
+</li><li><a href="VeraCrypt%20Memory%20Protection.html">VeraCrypt 内存保护</a>
+</li><li><a href="Physical%20Security.html">物理安全</a>
+</li><li><a href="Malware.html">恶意软件</a> </li><li><a href="Multi-User%20Environment.html">多用户环境</a>
+</li><li><a href="Authenticity%20and%20Integrity.html">真实性和完整性</a>
+</li><li><a href="Choosing%20Passwords%20and%20Keyfiles.html">选择密码和密钥文件</a>
+</li><li><a href="Changing%20Passwords%20and%20Keyfiles.html">更改密码和密钥文件</a>
+</li><li><a href="Trim%20Operation.html">Trim 操作</a>
+</li><li><a href="Wear-Leveling.html">损耗均衡</a>
+</li><li><a href="Reallocated%20Sectors.html">重新分配的扇区</a>
+</li><li><a href="Defragmenting.html">磁盘碎片整理</a>
+</li><li><a href="Journaling%20File%20Systems.html">日志文件系统</a>
+</li><li><a href="Volume%20Clones.html">卷克隆</a>
+</li><li><a href="Additional%20Security%20Requirements%20and%20Precautions.html">额外的安全要求和预防措施</a>
+</li></ul>
+</li><li><strong><a href="How%20to%20Back%20Up%20Securely.html">如何安全备份</a></strong>
+</li><li><strong><a href="Miscellaneous.html">杂项</a></strong>
+<ul>
+<li><a href="Using%20VeraCrypt%20Without%20Administrator%20Privileges.html">在无管理员权限下使用 VeraCrypt</a>
+</li><li><a href="Sharing%20over%20Network.html">网络共享</a>
+</li><li><a href="VeraCrypt%20Background%20Task.html">VeraCrypt 后台任务</a>
+</li><li><a href="Removable%20Medium%20Volume.html">作为可移动介质挂载的卷</a>
+</li><li><a href="VeraCrypt%20System%20Files.html">VeraCrypt 系统文件和应用程序数据</a>
+</li><li><a href="Removing%20Encryption.html">如何移除加密</a>
+</li><li><a href="Uninstalling%20VeraCrypt.html">卸载 VeraCrypt</a>
+</li><li><a href="Digital%20Signatures.html">数字签名</a>
+</li></ul>
+</li><li><strong><a href="Troubleshooting.html">故障排除</a></strong>
+</li><li><strong><a href="Incompatibilities.html">不兼容性</a></strong>
+</li><li><strong><a href="Issues%20and%20Limitations.html">已知问题和限制</a></strong>
+</li><li><strong><a href="FAQ.html">常见问题解答</a></strong>
+</li><li><strong><a href="Technical%20Details.html">技术细节</a></strong>
+<ul>
+<li><a href="Notation.html">符号说明</a>
+</li><li><a href="Encryption%20Scheme.html">加密方案</a>
+</li><li><a href="Modes%20of%20Operation.html">操作模式</a>
+</li><li><a href="Header%20Key%20Derivation.html">头密钥推导、盐值和迭代次数</a>
+</li><li><a href="Random%20Number%20Generator.html">随机数生成器</a>
+</li><li><a href="Keyfiles.html">密钥文件</a>
+</li><li><a title="PIM" href="Personal%20Iterations%20Multiplier%20(PIM).html">个人迭代乘数 (PIM)</a>
+</li><li><a href="VeraCrypt%20Volume%20Format%20Specification.html">VeraCrypt 卷格式规范</a>
+</li><li><a href="Standard%20Compliance.html">符合标准和规范情况</a>
+</li><li><a href="Source%20Code.html">源代码</a>
+</li><li><a href="CompilingGuidelines.html">从源代码构建 VeraCrypt</a>
+<ul>
+<li><a href="CompilingGuidelineWin.html">Windows 构建指南</a>
+</li><li><a href="CompilingGuidelineLinux.html">Linux 构建指南</a>
+</li></ul>
+</li></ul>
+<li><strong><a href="Contact.html">联系我们</a></strong>
+</li><li><strong><a href="Legal%20Information.html">法律信息</a></strong>
+</li><li><strong><a href="Release%20Notes.html">版本历史</a></strong>
+</li><li><strong><a href="Acknowledgements.html">致谢</a></strong>
+</li><li><strong><a href="References.html">参考文献</a></strong>
+</li></ul>
+</div>
+
+</body></html>

@@ -181,7 +181,7 @@
     <entry lang="zh-hk" key="IDC_TRAVEL_OPEN_EXPLORER">掛載加密區之後用檔案總管開啟(&amp;E)</entry>
     <entry lang="zh-hk" key="IDC_TRAV_CACHE_PASSWORDS">在驅動程式的記憶體中快取密碼(&amp;C)</entry>
     <entry lang="zh-hk" key="IDC_TRUECRYPT_MODE">TrueCrypt 模式(&amp;T)</entry>
-    <entry lang="zh-hk" key="IDC_UNMOUNTALL">全部解除掛載(&amp;S)</entry>
+    <entry lang="zh-hk" key="IDC_UNMOUNTALL">全部解除掛載(&amp;U)</entry>
     <entry lang="zh-hk" key="IDC_VOLUME_PROPERTIES">加密區內容(&amp;V)...</entry>
     <entry lang="zh-hk" key="IDC_VOLUME_TOOLS">加密區工具(&amp;T)...</entry>
     <entry lang="zh-hk" key="IDC_WIPE_CACHE">清除密碼快取(&amp;W)</entry>
@@ -263,7 +263,7 @@
     <entry lang="zh-hk" key="IDM_VOLUME_EXPANDER">加密區擴展工具</entry>
     <entry lang="zh-hk" key="IDM_VOLUME_PROPERTIES">加密區內容</entry>
     <entry lang="zh-hk" key="IDM_VOLUME_WIZARD">加密區建立精靈</entry>
-    <entry lang="zh-hk" key="IDM_WEBSITE">官方網站</entry>
+    <entry lang="zh-hk" key="IDM_WEBSITE">VeraCrypt 網站</entry>
     <entry lang="zh-hk" key="IDM_WIPE_CACHE">清除快取的密碼</entry>
     <entry lang="zh-hk" key="IDOK">確定</entry>
     <entry lang="zh-hk" key="IDT_ACCELERATION_OPTIONS">硬件加速</entry>
@@ -611,8 +611,8 @@
     <entry lang="zh-hk" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">從加密區中移除所有加密鑰檔案</entry>
     <entry lang="zh-hk" key="PASSWORD_CHANGED">密碼和/或加密鑰檔案已成功修改。\n\n重要：請確認你已經閱讀了用戶指南內 [Security Requirements and Precautions] 章節中 [Changing Passwords and Keyfiles] 的部分。</entry>
     <entry lang="zh-hk" key="FAVORITE_PIM_CHANGED">此磁碟區已登記成為喜愛的系統磁碟區及其 PIM 已經變更。\n你是否需要 VeraCrypt 自動更新喜愛的系統磁碟區設定 (必須系統管理員權限)?\n\n請注意如你的回應為否，你將需要手動更新喜愛的系統磁碟區。</entry>
-    <entry lang="zh-hk" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果你不銷毀 VeraCrypt 救機光碟，你的系統分割區或磁碟機仍然可以通過使用舊密碼解密(通過 VeraCrypt 救機光碟來開機和輸入舊密碼)。你應該建立一個新的 VeraCrypt 救機光碟，之後銷毀原先的救機光碟。\n\n你希望建立一個新的 VeraCrypt 救機光碟嗎？</entry>
-    <entry lang="zh-hk" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">請注意，VeraCrypt 救機光碟仍然使用著早期的加密演算法。如果你覺的先前的加密演算法不安全，你應該建立一個新的 VeraCrypt 救機光碟，之後銷毀原先的救機光碟。\n\n你希望建立一個新的 VeraCrypt 救機光碟嗎？</entry>
+    <entry lang="zh-hk" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果你不銷毀 VeraCrypt 救機碟，你的系統分割區或磁碟機仍然可以通過使用舊密碼解密(通過 VeraCrypt 救機碟來開機和輸入舊密碼)。你應該建立一個新的 VeraCrypt 救機碟，之後銷毀原先的救機碟。\n\n你希望建立一個新的 VeraCrypt 救機碟嗎？</entry>
+    <entry lang="zh-hk" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">請注意，VeraCrypt 救機碟仍然使用著早期的加密演算法。如果你覺的先前的加密演算法不安全，你應該建立一個新的 VeraCrypt 救機碟，之後銷毀原先的救機碟。\n\n你希望建立一個新的 VeraCrypt 救機碟嗎？</entry>
     <entry lang="zh-hk" key="KEYFILES_NOTE">任何類型的檔案 (例如, .mp3, .jpg, .zip, .avi) 都可以用作 VeraCrypt 加密鑰檔案。注意 VeraCrypt 絕不會修改加密鑰檔案的內容。你可選擇多於一個加密鑰檔案(次序並不重要)。如果你新增一個資料夾，所有內含的非隱藏檔案都會用作加密鑰檔案。選擇 [加入令牌檔案] 以選取儲存在安全性權杖或智能卡 (或者匯入加密鑰檔案到安全性權杖或智能卡)。</entry>
     <entry lang="zh-hk" key="KEYFILE_CHANGED">加密鑰檔案已成功新增/移除。</entry>
     <entry lang="zh-hk" key="KEYFILE_EXPORTED">已匯出加密鑰檔案。</entry>
@@ -960,15 +960,15 @@
     <entry lang="zh-hk" key="VOLUME_HAS_NO_BACKUP_HEADER">加密區中沒有內嵌的備份標頭數據(注意，僅在 TrueCrypt 6.0 和以後的版本才包含內嵌的標頭數據)。</entry>
     <entry lang="zh-hk" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">你正在嘗試備份系統分割區/裝置的標頭數據，該功能不被允許。對於系統分割區/裝置標頭數據的備份/還原 只能通過使用 VeraCrypt 救機光碟來進行。\n\n你希望建立 VeraCrypt 救機光碟嗎？</entry>
     <entry lang="zh-hk" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">你正在嘗試還原系統分割區/裝置的標頭數據，但是你選擇的是系統分割區/裝置。該功能不被允許。 對於系統分割區/裝置標頭數據的備份/還原 只能通過使用 VeraCrypt 救機光碟來進行。\n\n你希望建立 VeraCrypt 救機光碟嗎？</entry>
-    <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在按 [確定] 後，你將會設定新的 VeraCrypt 救機光碟  鏡像檔的名稱和存放位置。</entry>
+    <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在按 [確定] 後，你將會設定新的 VeraCrypt 救機光碟鏡像檔的名稱和存放位置。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">救機光碟 ISO 映像檔已經建立並儲存成檔案： %s\n\n現在你需要將救機光碟燒錄到 CD 或 DVD。\n\n重要：檔案必須以 ISO 映像檔方式燒錄到 CD/DVD(不要燒錄成單個的資料檔案)。要獲取更多的關於如何燒錄 ISO 檔的資訊，請參考你的 CD/DVD 燒錄軟件的說明書。\n\n請你在燒錄救機光碟之後，選擇 [系統] &gt;[驗證救機光碟]來驗證救機光碟是否已經成功燒錄。</entry>
-    <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">救機光碟  ISO 鏡像檔已經建立並儲存成檔案： %s\n\n現在你需要把救機光碟燒錄到 CD 或 DVD。\n\n你想要啟動 Windows 自帶的磁片鏡像燒錄功能嗎？\n\n注意，請你在燒錄救機光碟之後，選擇 [系統] &gt;[驗證救機光碟]來驗證救機光碟是否已經成功燒錄。</entry>
+    <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">救機光碟 ISO 鏡像檔已經建立並儲存成檔案： %s\n\n現在你需要把救機光碟燒錄到 CD 或 DVD。\n\n你想要啟動 Windows 自帶的磁片鏡像燒錄功能嗎？\n\n注意，請你在燒錄救機光碟之後，選擇 [系統] &gt;[驗證救機光碟]來驗證救機光碟是否已經成功燒錄。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">請插入 VeraCrypt 救機光碟到 CD/DVD 光碟機並點 [確定] 按鈕開始驗證。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 救機光碟已經被成功驗證。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">救機光碟驗證失敗。\n\n如果你已經燒錄了救機光碟，請彈出後重新插入救機光碟到 CD/DVD，之後再試一次。如果仍然無效，請嘗試使用其他 CD/DVD 燒錄軟件或燒錄盤。\n\n如果你嘗試驗證一個為不同的主密鑰、密碼、元素等建立的 VeraCrypt 救機光碟，請注意這樣的救機光碟會無法通過驗證。要建立一個新的和當前配置完全相容的救機光碟，請選擇 [系統] &gt; [建立救機光碟]。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">已成功驗證 VeraCrypt 救機光碟映像檔</entry>
-    <entry lang="zh-hk" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">救機碟映像檔驗證失敗。\n\n如你嘗試驗證一個以不同主密鑰、密碼、salt 之類來建立的 VeraCrypt 救機碟映像檔，請注意這樣的救機碟映像檔將總是無法通過此驗證。要建立可完全與現時設定相容的新救機碟映像檔，請選取 [系統] &gt; [建立救機碟]。</entry>
-    <entry lang="zh-hk" key="ERROR_CREATING_RESCUE_DISK">建立 VeraCrypt 救機光碟時失敗。</entry>
+    <entry lang="zh-hk" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">救機光碟映像檔驗證失敗。\n\n如你嘗試驗證一個以不同主密鑰、密碼、salt 之類來建立的 VeraCrypt 救機碟映像檔，請注意這樣的救機碟映像檔將總是無法通過此驗證。要建立可完全與現時設定相容的新救機碟映像檔，請選取 [系統] &gt; [建立救機碟]。</entry>
+    <entry lang="zh-hk" key="ERROR_CREATING_RESCUE_DISK">建立 VeraCrypt 救機碟時失敗。</entry>
     <entry lang="zh-hk" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 救機光碟在隱形作業系統運行時無法建立。\n\n要建立 VeraCrypt 救機光碟，請啟動到偽裝作業系統之後選擇 [系統] &gt; [建立救機光碟]。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_CHECK_FAILED">不能確定救機光碟是否燒錄成功。\n\n如果你已經燒錄了救機光碟，請彈出後重新插入救機光碟到 CD/DVD，之後再嘗試驗證一次。如果仍然無效，請嘗試使用其他 %s 。\n\n如果你還沒有建立救機光碟，請首先建立一個，然後再點 [下一步] 按鈕。\n\n如果你嘗試驗證一個運行加密盤建立精靈以前建立的救機光碟，則這樣的救機光碟是無法用於當前系統的，這是因為它是使用了不同的主密鑰建立的。你需要燒錄和建立一個新的救機光碟。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"> 和/或 其他 CD/DVD 燒錄軟件</entry>
@@ -1300,13 +1300,13 @@
     <entry lang="zh-hk" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">由於寫入許可權被拒絕，加密區 [%s] 只能以唯讀模式掛載。\n\n請確認加密容器檔案的存取權允許你對其執行寫入操作(右按此容器並選擇 屬性 &gt; 安全性)。\n\n注意，由於 Windows 的原因，你可能在設定成合適的安全屬性後還會看到這個警告，這並非是 VeraCrypt 的程式故障。其中一個解決方法是移動你的加密容器檔案，例如移動到另一個資料資料夾。\n\n如果你確實要保持加密區的唯讀模式，請設定加密區的屬性為唯讀(右鍵單擊加密盤檔並選擇屬性 &gt; 唯讀)，這樣就可以禁止顯示警告了。</entry>
     <entry lang="zh-hk" key="MOUNTED_DEVICE_FORCED_READ_ONLY">由於寫入許可權被拒絕，加密區 [%s] 不得不以唯讀模式掛載。\n\n請確認沒有其他程式(例如，防病毒程式)正在存取加密區所在的分割區/裝置。</entry>
     <entry lang="zh-hk" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密區 [%s] 已使用唯讀模式掛載，這是因為作業系統報告主裝置為防寫狀態。\n\n請注意，在一些第三方的晶片驅動中，已有錯誤報告指出可能會造成可寫入介質錯誤的被系統報告為防寫。這個問題並不是由 VeraCrypt 造成。這可以通過更新或解除掛載當前系統中的任何第三方晶片組驅動(非微軟認證)。</entry>
-    <entry lang="zh-hk" key="LIMIT_ENC_THREAD_POOL_NOTE">請注意，超執行緒技術讓每個實體核心可提供多個邏輯核心。當超啟用執行緒技術時，以上選擇的數目代表邏輯處理器/核心的數目。</entry>
-    <entry lang="zh-hk" key="NUMBER_OF_THREADS">%d 線程</entry>
-    <entry lang="zh-hk" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">請注意，硬體加速 AES 已被禁用，這將會影響測試結果(效能更差)。\n\n要啟用硬體加速，請選擇 [設定] &gt; [性能] 並禁用相應選項。</entry>
-    <entry lang="zh-hk" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">請注意，線程的數目當前受限，這將會影響測試結果(效能更差)。\n\n要充份發揮中央處理器的潛能，請選擇 [設定] &gt; [性能]並禁用相關選項。</entry>
+    <entry lang="zh-hk" key="LIMIT_ENC_THREAD_POOL_NOTE">請注意，超執行緒技術讓每個實體核心可提供多個邏輯核心。當啟用超執行緒技術時，以上選擇的數目代表邏輯處理器/核心的數目。</entry>
+    <entry lang="zh-hk" key="NUMBER_OF_THREADS">%d 執行緒</entry>
+    <entry lang="zh-hk" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">請注意硬體加速 AES 已被禁用，這將會影響測試結果 (效能更差)。\n\n要啟用硬體加速，請選擇 [設定] &gt; [性能] 並禁用相應選項。</entry>
+    <entry lang="zh-hk" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">請注意現時執行緒的數目受限制，這將會影響測試結果 (效能更差)。\n\n要充份發揮中央處理器的潛能，請選擇 [設定] &gt; [性能] 並停用相關選項。</entry>
     <entry lang="zh-hk" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">你想要 VeraCrypt 嘗試停用此分割區/裝置的防寫保護嗎？</entry>
     <entry lang="zh-hk" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：此設定可能會降低效能。\n\n你確認要使用該設定嗎？</entry>
-    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">警告： VeraCrypt 加密區已經自動卸掛載</entry>
+    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">警告： VeraCrypt 加密區已被自動解除掛載</entry>
     <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">已掛載加密區的裝置在實體移除或關閉電源前，應該習慣先將加密區解除掛載。\n\n不預期地自行解除掛載通常由於電線、磁碟機 (外置盒)之類出現間歇性故障所致。</entry>
     <entry lang="zh-hk" key="UNSUPPORTED_TRUECRYPT_FORMAT">這個加密區使用 TrueCrypt %x.%x 建立，但 VeraCrypt 只支援使用 TrueCrypt 6.x/7.x 系列所建立的加密區</entry>
     <entry lang="zh-hk" key="TEST">測試</entry>
@@ -1394,7 +1394,7 @@
     <entry lang="zh-hk" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">不要在啟動前驗證畫面詢問 PIM 數值（PIM 數值會不加密地記錄在磁碟上）</entry>
     <entry lang="zh-hk" key="DISABLE_BOOT_LOADER_PIM_PROMPT">警告：請留意如果你啟用這個選項，PIM 數值會將會不加密地記錄在磁碟上。\n\n你是否確認要啟用這個選項？</entry>
     <entry lang="zh-hk" key="PIM_TOO_BIG">自訂迭代倍數 (PIM) 最大數值為 2147468.</entry>
-    <entry lang="zh-hk" key="IDC_SKIP_RESCUE_VERIFICATION">跳過救機光碟驗證</entry>
+    <entry lang="zh-hk" key="IDC_SKIP_RESCUE_VERIFICATION">跳過救機碟驗證</entry>
     <entry lang="zh-hk" key="IDC_HIDE_WAITING_DIALOG">在進行操作時不要顯示等候訊息畫面</entry>
     <entry lang="zh-hk" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">在啟動前驗證畫面時不要詢問雜湊演算法</entry>
     <entry lang="zh-hk" key="KUZNYECHIK_HELP">Kuznyechik 為區塊加密法，最初發佈於 2015 年並被定義為俄羅斯聯邦的 GOST R 34.12-2015 和 RFC 7801 的國家標準。 256-bit 加密鑰，128-bit 區塊大小。運作模式為 XTS。</entry>
@@ -1418,7 +1418,7 @@
     <entry lang="zh-hk" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">警告：沒有經驗的使用者不應嘗試自行修改開機載入程式設定。\n\n還要繼續嗎？</entry>
     <entry lang="zh-hk" key="DCSPROP_XML_VALIDATION_FAILED">警告：無法驗證開機程式設定檔的 XML 格式。請檢查你所作出的修改。</entry>
     <entry lang="zh-hk" key="IDT_ADVANCED_OPTIONS">進階選項</entry>
-    <entry lang="zh-hk" key="AFTER_UPGRADE_RESCUE_DISK">強烈建議你透過選取 [系統] &gt; [建立救機光碟] 來建立新的 VeraCrypt 救機光碟(這將會內含新版本的 VeraCrypt 開機程式)。\n你想現在做嗎？</entry>
+    <entry lang="zh-hk" key="AFTER_UPGRADE_RESCUE_DISK">強烈建議你透過選取 [系統] &gt; [建立救機碟] 來建立新的 VeraCrypt 救機碟(這將會內含新版本的 VeraCrypt 開機程式)。\n你想現在做嗎？</entry>
     <entry lang="zh-hk" key="IDC_ALLOW_TRIM_NONSYS_SSD">非系統的 SSD 分割區/磁碟可執行 TRIM 指令</entry>
     <entry lang="zh-hk" key="IDC_BLOCK_SYSENC_TRIM">在系統分割區或磁碟機阻截 TRIM 指令</entry>
     <entry lang="zh-hk" key="WINDOWS_EFI_BOOT_LOADER_MISSING">錯誤：無法在磁碟機上找到 Windows EFI 系統載入程式。操作將會停止。</entry>
