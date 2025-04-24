@@ -29,7 +29,7 @@ namespace VeraCrypt
 	}
 #endif
 
-	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles)
+	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, wstring securityTokenSchemeSpec, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenSchemeSpec)
 		: ChangePasswordDialogBase (parent), DialogMode (mode), Path (volumePath)
 	{
 		bool enableNewPassword = false;
@@ -67,11 +67,11 @@ namespace VeraCrypt
 		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
 #endif
 
-		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, false, true, true, false, true, true);
+		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, securityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
-		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
+		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, newSecurityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -110,6 +110,7 @@ namespace VeraCrypt
 
 			shared_ptr <VolumePassword> newPassword;
 			int newPim = 0;
+			wstring newSecuritySchemeSpec = wstring();
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 			{
 				try
@@ -128,6 +129,7 @@ namespace VeraCrypt
 					NewPasswordPanel->SetFocusToPimTextCtrl();
 					return;
 				}
+				newSecuritySchemeSpec = NewPasswordPanel->GetSecurityTokenSchemeSpec();
 
 				if (newPassword->Size() > 0)
 				{
@@ -159,13 +161,18 @@ namespace VeraCrypt
 			{
 				newPassword = CurrentPasswordPanel->GetPassword();
 				newPim = CurrentPasswordPanel->GetVolumePim();
+				newSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
 			}
 
 			shared_ptr <KeyfileList> newKeyfiles;
-			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles)
+			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles) {
 				newKeyfiles = NewPasswordPanel->GetKeyfiles();
-			else if (DialogMode != Mode::RemoveAllKeyfiles)
+				newSecuritySchemeSpec = NewPasswordPanel->GetSecurityTokenSchemeSpec();
+			}
+			else if (DialogMode != Mode::RemoveAllKeyfiles) {
 				newKeyfiles = CurrentPasswordPanel->GetKeyfiles();
+				newSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
+			}
 
 			/* force the display of the random enriching interface */
 			RandomNumberGenerator::SetEnrichedByUserStatus (false);
@@ -192,7 +199,12 @@ namespace VeraCrypt
 				wxBusyCursor busy;
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
 					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
-					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount(), Gui->GetPreferences().EMVSupportEnabled);
+					CurrentPasswordPanel->GetSecurityTokenSchemeSpec(),
+					newPassword, newPim, newKeyfiles, newSecuritySchemeSpec,
+					NewPasswordPanel->GetPkcs5Kdf(), 
+					NewPasswordPanel->GetHeaderWipeCount(),
+					Gui->GetPreferences().EMVSupportEnabled
+					);
 				Gui->ExecuteWaitThreadRoutine (this, &routine);
 				masterKeyVulnerable = routine.m_masterKeyVulnerable;
 			}

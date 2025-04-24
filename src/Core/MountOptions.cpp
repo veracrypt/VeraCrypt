@@ -48,10 +48,12 @@ namespace VeraCrypt
 		else
 			ProtectionKdf.reset();
 		TC_CLONE_SHARED (KeyfileList, ProtectionKeyfiles);
+		TC_CLONE (ProtectionSecurityTokenSchemeSpec);
 		TC_CLONE (Removable);
 		TC_CLONE (SharedAccessAllowed);
 		TC_CLONE (SlotNumber);
 		TC_CLONE (UseBackupHeaders);
+		TC_CLONE (SecurityTokenSchemeSpec);
 	}
 
 	void MountOptions::Deserialize (shared_ptr <Stream> stream)
@@ -95,10 +97,13 @@ namespace VeraCrypt
 			ProtectionPassword.reset();
 
 		ProtectionKeyfiles = Keyfile::DeserializeList (stream, "ProtectionKeyfiles");
+		sr.Deserialize ("ProtectionSecurityTokenSchemeSpec", ProtectionSecurityTokenSchemeSpec);
 		sr.Deserialize ("Removable", Removable);
 		sr.Deserialize ("SharedAccessAllowed", SharedAccessAllowed);
 		sr.Deserialize ("SlotNumber", SlotNumber);
 		sr.Deserialize ("UseBackupHeaders", UseBackupHeaders);
+
+		sr.Deserialize("SecurityTokenSchemeSpec", SecurityTokenSchemeSpec);
 
 		try
 		{
@@ -159,11 +164,13 @@ namespace VeraCrypt
 			ProtectionPassword->Serialize (stream);
 
 		Keyfile::SerializeList (stream, "ProtectionKeyfiles", ProtectionKeyfiles);
+		sr.Serialize ("ProtectionSecurityTokenSchemeSpec", ProtectionSecurityTokenSchemeSpec);
 		sr.Serialize ("Removable", Removable);
 		sr.Serialize ("SharedAccessAllowed", SharedAccessAllowed);
 		sr.Serialize ("SlotNumber", SlotNumber);
 		sr.Serialize ("UseBackupHeaders", UseBackupHeaders);
 
+		sr.Serialize("SecurityTokenSchemeSpec", SecurityTokenSchemeSpec);
 		sr.Serialize ("KdfNull", Kdf == nullptr);
 		if (Kdf)
 			sr.Serialize ("Kdf", Kdf->GetName());

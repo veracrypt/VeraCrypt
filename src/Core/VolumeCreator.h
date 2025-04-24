@@ -37,6 +37,7 @@ namespace VeraCrypt
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <Pkcs5Kdf> VolumeHeaderKdf;
 		shared_ptr <EncryptionAlgorithm> EA;
+		wstring SecurityTokenSchemeSpec;
 		bool Quick;
 		bool EMVSupportEnabled;
 

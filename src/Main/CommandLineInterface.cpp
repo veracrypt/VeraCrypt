@@ -97,6 +97,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"quick",				_("Enable quick format"));
 		parser.AddOption (L"",	L"size",				_("Size in bytes"));
 		parser.AddOption (L"",	L"slot",				_("Volume slot number"));
+		parser.AddOption (L"",  L"security-token-key",  _("Security token key to use in (<slot>:<key label>:<mechanism label>)"));
 		parser.AddSwitch (L"",	L"test",				_("Test internal algorithms"));
 		parser.AddSwitch (L"t", L"text",				_("Use text user interface"));
 		parser.AddOption (L"",	L"token-lib",			_("Security token library"));
@@ -572,6 +573,16 @@ namespace VeraCrypt
 
 			if (!bHashFound)
 				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
+		}
+
+		if (parser.Found (L"security-token-key", &str))
+		{
+			ArgMountOptions.SecurityTokenSchemeSpec = wstring (str);
+		}
+
+		if (parser.Found(L"protection-security-token-key", &str))
+		{
+			ArgMountOptions.ProtectionSecurityTokenSchemeSpec = wstring (str);
 		}
 
 		ArgQuick = parser.Found (L"quick");

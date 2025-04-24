@@ -14,6 +14,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "Volume/Hash.h"
 #include "KeyfileGeneratorDialog.h"
+#include "SecurityTokenSchemesDialog.h"
 
 namespace VeraCrypt
 {
@@ -60,6 +61,7 @@ namespace VeraCrypt
 			int keyfilesSize = KeyfilesSize->GetValue();
 			bool useRandomSize = RandomSizeCheckBox->IsChecked();
 			wxString keyfileBaseName = KeyfilesBaseName->GetValue();
+			wxString securityTokenSchemeSpec = SecurityTokenSchemeDesc->GetValue();
 			keyfileBaseName.Trim(true);
 			keyfileBaseName.Trim(false);
 
@@ -139,13 +141,16 @@ namespace VeraCrypt
 						return;
 				}
 
-				{
-					FilePath keyfilePath((const wchar_t*) keyfileName.GetFullPath().c_str());
+				FilePath keyfilePath((const wchar_t*) keyfileName.GetFullPath().c_str());
+
+				if (!securityTokenSchemeSpec.IsEmpty()) {
+					Keyfile::CreateBluekey(keyfilePath, securityTokenSchemeSpec.wc_str(), keyfileBuffer);
+				} else {
 					File keyfile;
 					keyfile.Open (keyfilePath, File::CreateWrite);
 					keyfile.Write (keyfileBuffer);
+					keyfile.Close();
 				}
-
 			}
 			Gui->ShowInfo ("KEYFILE_CREATED");
 		}
@@ -228,5 +233,29 @@ namespace VeraCrypt
 		}
 
 		textCtrl->SetLabel (str.c_str());
+	}
+
+	void KeyfileGeneratorDialog::OnSelectSecurityTokenSchemeClick( wxCommandEvent& event) { 
+		try
+		{
+			SecurityTokenSchemesDialog dialog (this, SecurityTokenKeyOperation::ENCRYPT);
+			if (dialog.ShowModal() == wxID_OK)
+			{
+				auto schemeSpec = dialog.GetSelectedSecurityTokenSchemeSpec();
+				SecurityTokenSchemeDesc->SetValue(wxString(schemeSpec));
+				if (!schemeSpec.empty()) {
+					SecurityTokenScheme scheme;
+					SecurityToken::GetSecurityTokenScheme(schemeSpec, scheme, SecurityTokenKeyOperation::ENCRYPT);
+					KeyfilesSize->SetRange(scheme.EncryptOutputSize, 1048576);
+					if (KeyfilesSize->GetValue() < scheme.EncryptOutputSize) {
+						KeyfilesSize->SetValue(scheme.EncryptOutputSize);
+					}
+				}
+			}
+		}
+		catch (exception &e)
+		{
+			Gui->ShowError (e);
+		}
 	}
 }

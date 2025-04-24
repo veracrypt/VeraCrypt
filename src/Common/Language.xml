@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.24-Update8">
     <language langid="en" name="English" en-name="English" version="0.0.0" translators="TrueCrypt/VeraCrypt Teams" />
@@ -1644,6 +1644,17 @@
     <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
     <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
     <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
+    <entry lang="en" key="IDC_SECURITY_TOKEN_KEY">Security token key</entry>
+    <entry lang="en" key="IDT_SECURITY_TOKENS">Security Tokens...</entry>
+    <entry lang="en" key="TOKEN_SLOT_ID">Slot ID</entry>
+    <entry lang="en" key="SELECT_TOKEN_KEYS">Select token keys</entry>
+    <entry lang="en" key="TOKEN_NAME">Token name</entry>
+    <entry lang="en" key="TOKEN_KEY_LABEL">Key label</entry>
+    <entry lang="en" key="IDM_REVEAL_REDKEY">Reveal Red Key...</entry>
+    <entry lang="en" key="REVEAL_REDKEY_INFO">This will produce decrypted keyfile which can be used without using the smart card, thus reducing security to two factors. This keyfile should be stored securely. Are you sure to continue?</entry>
+    <entry lang="en" key="REVEAL_REDKEY_DONE">Red key is saved</entry>
+    <entry lang="en" key="REVEAL_REDKEY_PATH">Choose file to save red key to</entry>
+    <entry lang="en" key="TOKEN_KEY_MECHANISM_LABEL">Mechanism</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
