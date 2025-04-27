@@ -1,4 +1,4 @@
-PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86
+PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86
 
 set VC_VERSION=1.26.20
 set VC_VERSION_NBRE=1.26.20
@@ -43,15 +43,15 @@ endlocal
 @echo on
 
 del Languages.zip
-7z a -y Languages.zip Languages
+tar -a -cf Languages.zip Languages
 rmdir /S /Q docs
-mkdir docs\html\en
+mkdir docs\html
 mkdir docs\EFI-DCS
-xcopy /E /V /Y ..\..\..\doc\html\* docs\html\en\.
-copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
+xcopy /E /V /Y ..\..\..\doc\html\* docs\html\.
+copy "..\..\..\doc\chm\VeraCrypt User Guide*.chm" docs\.
 copy "..\..\..\doc\EFI-DCS\*.pdf" docs\EFI-DCS\.
 del docs.zip
-7z a -y docs.zip docs
+tar -a -cf docs.zip docs
 "VeraCrypt Setup.exe" /p
 "VeraCrypt Portable.exe" /p
 VeraCryptCOMRegBase.exe /p
@@ -69,7 +69,7 @@ del VeraCrypt.ico
 del VeraCrypt_setup_background.bmp
 del VeraCrypt_setup.bmp
 del Setup.ico
-del "VeraCrypt User Guide.chm"
+del "VeraCrypt User Guide*.chm"
 del Languages.zip
 del docs.zip
 rmdir /S /Q Languages

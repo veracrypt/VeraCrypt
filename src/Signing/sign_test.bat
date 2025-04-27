@@ -1,4 +1,4 @@
-PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
+PATH=%PATH%;%WSDK81%\bin\x86
 set VC_VERSION=1.26.20
 set VC_VERSION_NBRE=1.26.20
 set PFXNAME=TestCertificate\idrix_codeSign.pfx
@@ -38,15 +38,15 @@ rmdir /S /Q Languages
 mkdir Languages
 copy /V /Y ..\..\..\Translations\*.xml Languages\.
 del Languages.zip
-7z a -y Languages.zip Languages
+tar -a -cf Languages.zip Languages
 rmdir /S /Q docs
 mkdir docs\html\en
 mkdir docs\EFI-DCS
-xcopy /E /V /Y ..\..\..\doc\html\* docs\html\en\.
-copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
+xcopy /E /V /Y ..\..\..\doc\html\* docs\html\.
+copy "..\..\..\doc\chm\VeraCrypt User Guide*.chm" docs\.
 copy "..\..\..\doc\EFI-DCS\*.pdf" docs\EFI-DCS\.
 del docs.zip
-7z a -y docs.zip docs
+tar -a -cf docs.zip docs
 "VeraCrypt Setup.exe" /p
 call build_msi_x64.bat %VC_VERSION_NBRE%
 del LICENSE
