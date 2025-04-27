@@ -11211,6 +11211,19 @@ std::wstring GetWindowsEdition ()
 extern wchar_t InstallationPath[TC_MAX_PATH];
 #endif
 
+// Check if given language has a corresponding translated documentation
+BOOL HasTranslatedDocumentation(const char* language)
+{
+    // hardcoded list of languages for which a translated documentation exists
+    const char* supportedLanguages[] = { "en", "ru", "zh-cn"};
+    for (int i = 0; i < sizeof(supportedLanguages) / sizeof(supportedLanguages[0]); i++)
+    {
+        if (strcmp(language, supportedLanguages[i]) == 0)
+            return TRUE;
+    }
+    return FALSE;
+}
+
 void Applink (const char *dest)
 {
 	wchar_t url [MAX_URL_LENGTH] = {0};
@@ -11218,6 +11231,19 @@ void Applink (const char *dest)
 	wchar_t installDir[TC_MAX_PATH] = {0};
 	BOOL buildUrl = TRUE;
 	INT_PTR r;
+	wchar_t currentLanguage[8];
+	if (strcmp (GetPreferredLangId(), "en") == 0
+	|| strlen(GetPreferredLangId()) == 0
+    || !HasTranslatedDocumentation(GetPreferredLangId()))
+	{
+		// set currentLanguage to "en"
+		StringCbCopyW(currentLanguage, sizeof(currentLanguage), L"en");
+	}
+	else
+	{
+        // set currentLanguage to return value of GetPreferredLangId()
+        StringCbPrintfW(currentLanguage, sizeof(currentLanguage), L"%S", GetPreferredLangId());
+	}
 
 	ArrowWaitCursor ();
 	
@@ -11262,7 +11288,7 @@ void Applink (const char *dest)
 	}
 	else if (strcmp(dest, "onlinehelp") == 0)
 	{
-		StringCbCopyW (url, sizeof (url),L"https://www.veracrypt.fr/en/Documentation.html");
+		StringCbPrintfW (url, sizeof (url),L"https://www.veracrypt.fr/%s/Documentation.html", currentLanguage);
 		buildUrl = FALSE;
 	}
 	else if (strcmp(dest, "keyfiles") == 0)
@@ -11374,18 +11400,32 @@ void Applink (const char *dest)
 #ifdef SETUP
 		if (IsInternetConnected())
 		{
-			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/%s/%s", currentLanguage, page);
 			buildUrl = FALSE;
 		}
-		else
+#endif
+		if (buildUrl)
 		{
-			StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
+            // first check that directory of translated documentation exists
+            BOOL bFallbackToEnglish = FALSE;
+            if (wcscmp(currentLanguage, L"en") != 0)
+			{
+				std::wstring pageFullPath = installDir;
+				pageFullPath += L"docs\\html\\";
+				pageFullPath += currentLanguage;
+
+				if (!FileExists(pageFullPath.c_str()))
+				{
+					// fallback to English
+                    bFallbackToEnglish = TRUE;
+				}
+			}
+			if (bFallbackToEnglish)
+                StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
+			else
+				StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/%s/%s", installDir, currentLanguage, page);
 			CorrectURL (url);
 		}
-#else
-		StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
-		CorrectURL (url);
-#endif
 	}
 
 	if (IsAdmin ())
@@ -11401,13 +11441,15 @@ void Applink (const char *dest)
 			if (S_OK == UrlUnescapeW (pageFileName, pageFileName, &cchUnescaped, URL_UNESCAPE_INPLACE))
 			{
 				std::wstring pageFullPath = installDir;
-				pageFullPath += L"docs\\html\\en\\";
+				pageFullPath += L"docs\\html\\";
+                pageFullPath += currentLanguage;
+				pageFullPath += L"\\";
 				pageFullPath += pageFileName;
 			
 				if (!FileExists (pageFullPath.c_str()))
 				{
 					// fallback to online resources
-					StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+					StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/%s/%s", currentLanguage, page);
 					SafeOpenURL (url);
 					openDone = 1;
 				}
@@ -11426,7 +11468,7 @@ void Applink (const char *dest)
 		if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
 		{
 			// fallback to online resources
-			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/%s/%s", currentLanguage, page);
 			ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
 		}			
 	}

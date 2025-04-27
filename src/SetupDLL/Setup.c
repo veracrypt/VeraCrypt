@@ -2634,6 +2634,14 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 				FindClose (h);
 			}
 
+			// remove legacy folder "docs\en\ru" if present in installation directory
+			{
+				wchar_t folder[TC_MAX_PATH];
+				// since we've done SetCurrentDirectory(szDestDir), a relative path will be resolved correctly
+				StringCbCopyW(folder, sizeof(folder), L"docs\\html\\en\\ru");
+				StatRemoveDirectory(folder);
+			}
+
 			// remove language XML files from previous version if any
 			h = FindFirstFile (L"Language*.xml", &f);
 
