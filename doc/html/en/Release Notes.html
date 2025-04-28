@@ -57,7 +57,12 @@
 </li>
 <li><strong>Linux:</strong>
 	<ul>
-	<li>Fix a regression in Linux Mint affecting administrator password authentication (GH #1473).</li>
+	<li>Fix a regression in Linux Mint affecting administrator password authentication (GH #1473).
+	<ul>
+		<li>/usr/bin/true is now used instead of /usr/bin/uptime to detect active sudo sessions.</li>
+		<li>If NOPASSWD used in sudoers with veracrypt and uptime, it should be changed to use /usr/bin/true instead of uptime.</li>
+	</ul>
+	</li>
 	</ul>
 </li>
 <li><strong>macOS:</strong>
