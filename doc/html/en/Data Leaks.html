@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Security Requirements and Precautions</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">Data Leaks</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>Data Leaks</h2>
+<p>When a VeraCrypt volume is mounted, the operating system and third-party applications may write to unencrypted volumes (typically, to the unencrypted system volume) unencrypted information about the data stored in the VeraCrypt volume (e.g. filenames and
+ locations of recently accessed files, databases created by file indexing tools, etc.), or the data itself in an unencrypted form (temporary files, etc.), or unencrypted information about the filesystem residing in the VeraCrypt volume.</p>
+<p>Note that Windows automatically records large amounts of potentially sensitive data, such as the names and locations of files you open, applications you run, etc. For example, Windows uses a set of Registry keys known as “shellbags” to store the name, size, view, icon, and position of a folder when using Explorer.
+Each time you open a folder, this information is updated including the time and date of access. Windows Shellbags may be found in a few locations, depending on operating system version and user profile.
+On a Windows XP system, shellbags may be found under <strong>"HKEY_USERS\{USERID}\Software\Microsoft\Windows\Shell\"</strong> and <strong>"HKEY_USERS\{USERID}\Software\Microsoft\Windows\ShellNoRoam\"</strong>.
+On a Windows 7 system, shellbags may be found under <strong>"HEKY_USERS\{USERID}\Local Settings\Software\Microsoft\Windows\Shell\"</strong>. More information available at <a href="https://www.sans.org/reading-room/whitepapers/forensics/windows-shellbag-forensics-in-depth-34545" target="_blank">https://www.sans.org/reading-room/whitepapers/forensics/windows-shellbag-forensics-in-depth-34545</a>.
+<p>Also, starting from Windows 8, every time a VeraCrypt volume that is formatted using NTFS is mounted, an Event 98 is written for the system Events Log and it will contain the device name (\\device\VeraCryptVolumeXX) of the volume. This event log &quot;feature&quot;
+ was introduced in Windows 8 as part of newly introduced NTFS health checks as explained
+<a href="https://blogs.msdn.microsoft.com/b8/2012/05/09/redesigning-chkdsk-and-the-new-ntfs-health-model/" target="_blank">
+here</a>. To avoid this leak, the VeraCrypt volume must be mounted <a href="Removable%20Medium%20Volume.html">
+as a removable medium</a>. Big thanks to Liran Elharar for discovering this leak and its workaround.<br>
+<br>
+In order to prevent data leaks, you must follow these steps (alternative steps may exist):</p>
+<ul>
+<li>If you do <em>not</em> need plausible deniability:
+<ul>
+<li>Encrypt the system partition/drive (for information on how to do so, see the chapter
+<a href="System%20Encryption.html"><em>System Encryption</em></a>) and ensure that only encrypted or read-only filesystems are mounted during each session in which you work with sensitive data.<br>
+<br>
+or, </li><li>If you cannot do the above, download or create a &quot;live CD&quot; version of your operating system (i.e. a &quot;live&quot; system entirely stored on and booted from a CD/DVD) that ensures that any data written to the system volume is written to a RAM disk. When you need
+ to work with sensitive data, boot such a live CD/DVD and ensure that only encrypted and/or read-only filesystems are mounted during the session.
+</li></ul>
+</li><li>If you need plausible deniability:
+<ul>
+<li>Create a hidden operating system. VeraCrypt will provide automatic data leak protection. For more information, see the section
+<a href="Hidden%20Operating%20System.html">
+<em>Hidden Operating System</em></a>.<br>
+<br>
+or, </li><li>If you cannot do the above, download or create a &quot;live CD&quot; version of your operating system (i.e. a &quot;live&quot; system entirely stored on and booted from a CD/DVD) that ensures that any data written to the system volume is written to a RAM disk. When you need
+ to work with sensitive data, boot such a live CD/DVD. If you use hidden volumes, follow the security requirements and precautions listed in the subsection
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">
+<em>Security Requirements and Precautions Pertaining to Hidden Volumes</em></a>. If you do not use hidden volumes, ensure that only non-system partition-hosted VeraCrypt volumes and/or read-only filesystems are mounted during the session.
+</li></ul>
+</li></ul>
+</div><div class="ClearBoth"></div></body></html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Incompatibilities.html">Incompatibilities</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Incompatibilities</h1>
+<h2>
+Activation of Adobe Photoshop&reg; and Other Products Using FLEXnet Publisher&reg; / SafeCast</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Note: The issue described below does <strong style="text-align:left">
+not</strong> affect you if you use a non-cascade encryption algorithm (i.e., AES, Serpent, or Twofish).* The issue also does
+<strong style="text-align:left">not</strong> affect you if you do not use <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+system encryption</a> (pre-boot authentication).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Acresso FLEXnet Publisher activation software, formerly Macrovision SafeCast, (used for activation of third-party software, such as Adobe Photoshop) writes data to the first drive track. If this happens when your system partition/drive is encrypted by VeraCrypt,
+ a portion of the VeraCrypt Boot Loader will be damaged and you will not be able to start Windows. In that case, please use your
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+VeraCrypt Rescue Disk</a> to regain access to your system. There are two ways to do so:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+You may keep the third-party software activated but you will need to boot your system from the VeraCrypt Rescue Disk CD/DVD
+<em style="text-align:left">every time</em>. Just insert your Rescue Disk into your CD/DVD drive and then enter your password in the Rescue Disk screen.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+If you do not want to boot your system from the VeraCrypt Rescue Disk CD/DVD every time, you can restore the VeraCrypt Boot Loader on the system drive. To do so, in the Rescue Disk screen, select
+<em style="text-align:left">Repair Options</em> &gt; <em style="text-align:left">
+Restore VeraCrypt Boot Loader</em>. However, note that this will deactivate the third-party software.
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+For information on how to use your VeraCrypt Rescue Disk, please see the chapter <a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+VeraCrypt Rescue Disk</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Possible permanent solution</strong>: decrypt the system partition/drive, and then re-encrypt it using a non-cascade encryption algorithm (i.e., AES, Serpent, or Twofish).*</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Please note that this not a bug in VeraCrypt (the issue is caused by inappropriate design of the third-party activation software).</div>
+<h2>Outpost Firewall and Outpost Security Suite</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+If Outpost Firewall or Outpost Security Suite is installed with Proactive Protection enabled, the machine freezes completely for 5-10 seconds during the volume mount/unmount operation. This is caused by a conflict between Outpost System Guard option that protects "Active Desktop" objects and VeraCrypt waiting dialog displayed during mount/unmount operations.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+A workaround that fixes this issue is to disable VeraCrypt waiting dialog in the Preferences: use menu "Settings -> Preferences" and check the option "Don't show wait message dialog when performing operations".</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+More information can be found at <a href="https://sourceforge.net/p/veracrypt/tickets/100/">https://sourceforge.net/p/veracrypt/tickets/100/</a>
+</div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* The reason is that the VeraCrypt Boot Loader is smaller than the one used for cascades of ciphers and, therefore, there is enough space in the first drive track for a backup of the VeraCrypt
+ Boot Loader. Hence, whenever the VeraCrypt Boot Loader is damaged, its backup copy is run automatically instead.</span><br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+&nbsp;&nbsp;See also: <a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">
+Known Issues &amp; Limitations</a>,&nbsp;&nbsp;<a href="Troubleshooting.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Troubleshooting</a></p>
+</div><div class="ClearBoth"></div></body></html>

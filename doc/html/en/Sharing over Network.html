@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">Miscellaneous</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Sharing%20over%20Network.html">Sharing over Network</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Sharing over Network</h1>
+<p>If there is a need to access a single VeraCrypt volume simultaneously from multiple operating systems, there are two options:</p>
+<ol>
+<li>A VeraCrypt volume is mounted only on a single computer (for example, on a server) and only the content of the mounted VeraCrypt volume (i.e., the file system within the VeraCrypt volume) is shared over a network. Users on other computers or systems will
+ not mount the volume (it is already mounted on the server).
+<p><strong>Advantages</strong><span>: All users can write data to the VeraCrypt volume. The shared volume may be both file-hosted and partition/device-hosted.</span></p>
+<p><strong>Disadvantage</strong><span>: Data sent over the network will not be encrypted. However, it is still possible to encrypt them using e.g. SSL, TLS, VPN, or other technologies.</span></p>
+<p><strong>Remarks</strong>: Note that, when you restart the system, the network share will be automatically restored only if the volume is a system favorite volume or an encrypted system partition/drive (for information on how to configure a volume as a system
+ favorite volume, see the chapter <a href="System%20Favorite%20Volumes.html">
+<em>System Favorite Volumes</em></a>).</p>
+</li><li>A unmounted VeraCrypt file container is stored on a single computer (for example, on a server). This encrypted file is shared over a network. Users on other computers or systems will locally mount the shared file. Thus, the volume will be mounted simultaneously
+ under multiple operating systems.
+<p><strong>Advantage</strong><span>: Data sent over the network will be encrypted (however, it is still recommended to encrypt them using e.g. SSL, TLS, VPN, or other appropriate technologies to make traffic analysis more difficult and to preserve the integrity
+ of the data).</span></p>
+<p><strong>Disadvantages</strong>: The shared volume may be only file-hosted (not partition/device-hosted). The volume must be mounted in read-only mode under each of the systems (see the section
+<em>Mount Options</em> for information on how to mount a volume in read-only mode). Note that this requirement applies to unencrypted volumes too. One of the reasons is, for example, the fact that data read from a conventional file system under one OS while
+ the file system is being modified by another OS might be inconsistent (which could result in data corruption).</p>
+</li></ol>
+</div><div class="ClearBoth"></div></body></html>

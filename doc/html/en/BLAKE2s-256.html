@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hash%20Algorithms.html">Hash Algorithms</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="BLAKE2s-256.html">BLAKE2s-256</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>BLAKE2s-256</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>
+BLAKE2 is a cryptographic hash function based on BLAKE, created by Jean-Philippe Aumasson, Samuel Neves, Zooko Wilcox-O'Hearn, and Christian Winnerlein. It was announced on December 21, 2012. The design goal was to replace the widely used, but broken, MD5 and SHA-1 algorithms in applications requiring high performance in software. BLAKE2 provides better security than SHA-2 and similar to that of SHA-3 (e.g. immunity to length extension, indifferentiability from a random oracle, etc...).<br/>
+BLAKE2 removes addition of constants to message words from BLAKE round function, changes two rotation constants, simplifies padding, adds parameter block that is XOR'ed with initialization vectors, and reduces the number of rounds from 16 to 12 for BLAKE2b (successor of BLAKE-512), and from 14 to 10 for BLAKE2s (successor of BLAKE-256).<br/>
+BLAKE2b and BLAKE2s are specified in RFC 7693.
+</p>
+<p>
+VeraCrypt uses only BLAKE2s with its maximum output size of 32-bytes (256 bits).
+</p>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="SHA-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

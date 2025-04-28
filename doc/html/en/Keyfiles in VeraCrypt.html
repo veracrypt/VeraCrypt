@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Keyfiles%20in%20VeraCrypt.html">Keyfiles</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Keyfiles</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+Keyfile is a file whose content is combined with a password (for information on the method used to combine a keyfile with password, see the section
+<a href="Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Keyfiles</a> in the chapter <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Technical Details</a>). Until the correct keyfile is provided, no volume that uses the keyfile can be mounted.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+You do not have to use keyfiles. However, using keyfiles has some advantages:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+May improve protection against brute force attacks (significant particularly if the volume password is not very strong).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Allows the use of security tokens and smart cards (see below). </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Allows multiple users to mount a single volume using different user passwords or PINs. Just give each user a security token or smart card containing the same VeraCrypt keyfile and let them choose their personal password or PIN that will protect their security
+ token or smart card. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Allows managing multi-user <em style="text-align:left">shared</em> access (all keyfile holders must present their keyfiles before a volume can be mounted).
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<br style="text-align:left">
+Note that VeraCrypt never modifies the keyfile contents. You can select more than one keyfile; the order does not matter. You can also let VeraCrypt generate a file with random content and use it as a keyfile. To do so, select
+<em style="text-align:left">Tools &gt; Keyfile Generator</em>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Note: Keyfiles are currently not supported for system encryption.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left"><strong style="text-align:left">WARNING: If password caching is enabled, the password cache also contains the processed contents of keyfiles used to successfully mount a volume. Then it is possible to remount the volume even if the
+ keyfile is not available/accessible.</strong> To prevent this, click '</em>Wipe Cache<em style="text-align:left">' or disable password caching (for more information, please see the subsection
+</em>'Settings -&gt; Preferences'<em style="text-align:left">, item </em>'Cache passwords in driver memory'<em style="text-align:left"> in the section
+</em><a href="Program%20Menu.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Program Menu</a>).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+See also the section <a href="Choosing%20Passwords%20and%20Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Choosing Passwords and Keyfiles</a> in the chapter <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Security Requirements and Precautions</a>.</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Keyfiles Dialog Window</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+If you want to use keyfiles (i.e. &quot;apply&quot; them) when creating or mounting volumes, or changing passwords, look for the '<em style="text-align:left">Use keyfiles</em>' option and the
+<em style="text-align:left">Keyfiles</em> button below a password input field.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Keyfiles in VeraCrypt_Image_040.gif" alt="VeraCrypt Keyfiles dialog" width="450" height="164"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+These control elements appear in various dialog windows and always have the same functions. Check the
+<em style="text-align:left">Use keyfiles </em>option and click <em style="text-align:left">
+Keyfiles. </em>The keyfile dialog window should appear where you can specify keyfiles (to do so, click
+<em style="text-align:left">Add File</em>s or <em style="text-align:left">Add Token Files</em>)<em style="text-align:left"> or</em> keyfile search paths (click
+<em style="text-align:left">Add Path</em>).</div>
+<p>&nbsp;</p>
+<h3 id="SmartCard" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Security Tokens and Smart Cards</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt can directly use keyfiles stored on a security token or smart card that complies with the PKCS&nbsp;#11 (2.0 or later) standard [23] and that allows the user to store a file (data object) on the token/card. To use such files as VeraCrypt keyfiles,
+ click <em style="text-align:left">Add Token Files</em> (in the keyfile dialog window).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Access to a keyfile stored on a security token or smart card is typically protected by PIN codes, which can be entered either using a hardware PIN pad or via the VeraCrypt GUI. It can also be protected by other means, such as fingerprint readers.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+In order to allow VeraCrypt to access a security token or smart card, you need to install a PKCS #11 (2.0 or later) software library for the token or smart card first. Such a library may be supplied with the device or it may be available for download from the
+ website of the vendor or other third parties.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+If your security token or smart card does not contain any file (data object) that you could use as a VeraCrypt keyfile, you can use VeraCrypt to import any file to the token or smart card (if it is supported by the device). To do so, follow these steps:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+In the keyfile dialog window, click <em style="text-align:left">Add Token Files</em>.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+If the token or smart card is protected by a PIN, password, or other means (such as a fingerprint reader), authenticate yourself (for example, by entering the PIN using a hardware PIN pad).
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+The 'Security Token Keyfile' dialog window should appear. In it, click <em style="text-align:left">
+Import Keyfile to Token</em> and then select the file you want to import to the token or smart card.
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Note that you can import for example 512-bit keyfiles with random content generated by VeraCrypt (see
+<em style="text-align:left">Tools &gt; Keyfile Generator</em> below).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+To close all opened security token sessions, either select <em style="text-align:left">
+Tools</em> &gt; <em style="text-align:left">Close All Security Token Sessions</em> or define and use a hotkey combination (<em style="text-align:left">Settings</em> &gt;
+<em style="text-align:left">Hot Keys &gt; Close All Security Token Sessions</em>).</div>
+<p>&nbsp;</p>
+<h3 id="SmartCard" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+EMV Smart Cards</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows and Linux versions of VeraCrypt can use directly as keyfiles data extracted from EMV compliant smart cards, supporting Visa, Mastecard or Maestro applications. As with PKCS-11 compliant smart cards, to use such data as VeraCrypt keyfiles, 
+click <em style="text-align:left">Add Token Files</em> (in the keyfile dialog window). The last four digits of the card's Primary Account Number will be displayed, allowing the selection of the card as a keyfile source.
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+The data extracted and concatenated into a single keyfile are as follow : ICC Public Key Certificate, Issuer Public Key Certificate and Card Production Life 
+Cycle (CPLC) data. They are respectively identified by the tags '9F46', '90' and '9F7F' in the card's data management system. These two certificates are specific to an application deployed on the EMV card and used for the Dynamic Data Authentication of the card 
+during banking transactions. CPLC data are specific to the card and not to any of its applications. They contain information on the production process of the smart card. Therefore both certificates and data are unique and static on any EMV compliant smart card.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+According to the ISO/IEC 7816 standard on which the EMV standard is based, communication with an EMV smart card is done through structured commands called APDUs, allowing to extract the data from the smart card. These data are encoded in the BER-TLV format, 
+defined by the ASN.1 standard, and therefore need to be parsed before being concatenated into a keyfile. No PIN is required to access and retrieve data from the card. To cope with the diversity of smart cards readers on the market, librairies compliant with the Microsoft Personal 
+Computer/Smart Card communication standard are used. The Winscard library is used. Natively available on Windows in System32, it then doesn't require any installation on this operating system. However, the libpcsclite1 package has to be installed on Linux.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Since the card is read-only, it is not possible to import or delete data. However, data used as keyfiles can be exported locally in any binary file. During the entire cryptographic process of mounting or creating a volume, the certificates and CPLC data are never stored anywhere 
+other than in the user's machine RAM. Once the process is complete, these RAM memory areas are rigorously erased.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+It important to note that this feature is optional and disabled by default. It can be enabled in the <em style="text-align:left">Security Token Preferences</em> parameters by checking the box provided.</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Keyfile Search Path</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+By adding a folder in the keyfile dialog window (click <em style="text-align:left">
+Add Path</em>), you specify a <em style="text-align:left">keyfile search path</em>. All files found in the keyfile search path* will be used as keyfiles except files that have the Hidden file attribute set.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><em style="text-align:left">Important: Note that folders (and files they contain) and hidden files found in a keyfile search path are ignored.</em></strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Keyfile search paths are especially useful if you, for example, store keyfiles on a USB memory stick that you carry with you. You can set the drive letter of the USB memory stick as a default keyfile search path. To do so, select
+<em style="text-align:left">Settings </em>-&gt; <em style="text-align:left">Default Keyfiles</em>. Then click
+<br style="text-align:left">
+<em style="text-align:left">Add Path</em>, browse to the drive letter assigned to the USB memory stick, and click
+<em style="text-align:left">OK</em>. Now each time you mount a volume (and if the option
+<em style="text-align:left">Use keyfiles</em> is checked in the password dialog window), VeraCrypt will scan the path and use all files that it finds on the USB memory stick as keyfiles.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><em style="text-align:left">WARNING: When you add a folder (as opposed to a file) to the list of keyfiles, only the path is remembered, not the filenames! This means e.g. that if you create a new file in the folder or if you
+ copy an additional file to the folder, then all volumes that used keyfiles from the folder will be impossible to mount (until you remove the newly added file from the folder).
+</em></strong></div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Empty Password &amp; Keyfile</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+When a keyfile is used, the password may be empty, so the keyfile may become the only item necessary to mount the volume (which we do not recommend). If default keyfiles are set and enabled when mounting a volume, then before prompting for a password, VeraCrypt
+ first automatically attempts to mount using an empty password plus default keyfiles (however, this does not apply to the '<em style="text-align:left">Auto-Mount Devices</em>' function). If you need to set Mount Options (e.g., mount as read-only, protect hidden
+ volume etc.) for a volume being mounted this way, hold down the <em style="text-align:left">
+Control </em>(<em style="text-align:left">Ctrl</em>) key while clicking <em style="text-align:left">
+Mount </em>(or select <em style="text-align:left">Mount with Options </em>from the
+<em style="text-align:left">Volumes </em>menu). This will open the <em style="text-align:left">
+Mount Options </em>dialog.</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Quick Selection</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Keyfiles and keyfile search paths can be quickly selected in the following ways:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Right-click the <em style="text-align:left">Keyfiles</em> button in the password entry dialog window and select one of the menu items.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Drag the corresponding file/folder icons to the keyfile dialog window or to the password entry dialog.
+</li></ul>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Volumes -&gt; Add/Remove Keyfiles to/from Volume</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+This function allows you to re-encrypt a volume header with a header encryption key derived from any number of keyfiles (with or without a password), or no keyfiles at all. Thus, a volume which is possible to mount using only a password can be converted to
+ a volume that require keyfiles (in addition to the password) in order to be possible to mount. Note that the volume header contains the master encryption key with which the volume is encrypted. Therefore, the data stored on the volume will
+<em style="text-align:left">not</em> be lost after you use this function.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+This function can also be used to change/set volume keyfiles (i.e., to remove some or all keyfiles, and to apply new ones).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Remark: This function is internally equal to the Password Change function.<br style="text-align:left">
+<br style="text-align:left">
+When VeraCrypt re-encrypts a volume header, the original volume header is first overwritten 256 times with random data to prevent adversaries from using techniques such as magnetic force microscopy or magnetic force scanning tunneling microscopy [17] to recover
+ the overwritten header (however, see also the chapter <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Security Requirements and Precautions</a>).</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Volumes -&gt; Remove All Keyfiles from Volume</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+This function allows you to re-encrypt a volume header with a header encryption key derived from a password and no keyfiles (so that it can be mounted using only a password, without any keyfiles). Note that the volume header contains the master encryption key
+ with which the volume is encrypted. Therefore, the data stored on the volume will
+<em style="text-align:left">not</em> be lost after you use this function.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Remark: This function is internally equal to the Password Change function.<br style="text-align:left">
+<br style="text-align:left">
+When VeraCrypt re-encrypts a volume header, the original volume header is first overwritten 256 times with random data to prevent adversaries from using techniques such as magnetic force microscopy or magnetic force scanning tunneling microscopy [17] to recover
+ the overwritten header (however, see also the chapter <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Security Requirements and Precautions</a>).</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Tools &gt; Keyfile Generator</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+You can use this function to generate a file or more with random content, which you can use as a keyfile(s) (recommended). This function uses the VeraCrypt Random Number Generator. Note that, by default, only one key file is generated and the resulting file
+ size is 64 bytes (i.e., 512 bits), which is also the maximum possible VeraCrypt password length. It is also possible to generate multiple files and specify their size (either a fixed value for all of them or let VeraCrypt choose file sizes randomly). In all
+ cases, the file size must be comprised between 64 bytes and 1048576 bytes (which is equal to 1MB, the maximum number of a key file bytes processed by VeraCrypt).</div>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+Settings -&gt; Default Keyfiles</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Use this function to set default keyfiles and/or default keyfile search paths. This function is particularly useful if you, for example, store keyfiles on a USB memory stick that you carry with you. You can add its drive letter to the default keyfile configuration.
+ To do so, click <em style="text-align:left">Add Path</em>, browse to the drive letter assigned to the USB memory stick, and click
+<em style="text-align:left">OK</em>. Now each time you mount a volume (and if <em style="text-align:left">
+Use keyfiles</em> is checked in the password dialog), VeraCrypt will scan the path and use all files that it finds there as keyfiles.<br style="text-align:left">
+<br style="text-align:left">
+<strong style="text-align:left"><em style="text-align:left">WARNING: When you add a folder (as opposed to a file) to your default keyfile list, only the path is remembered, not the filenames! This means e.g. that if you create a new file in the folder or if
+ you copy an additional file to the folder, then all volumes that used keyfiles from the folder will be impossible to mount (until you remove the newly added file from the folder).
+<br style="text-align:left">
+<br style="text-align:left">
+</em></strong><span style="text-align:left; font-style:italic">IMPORTANT: Note that when you set default keyfiles and/or default keyfile search paths, the filenames and paths are saved unencrypted in the file
+</span>Default Keyfiles.xml<span style="text-align:left; font-style:italic">. For more information, please see the chapter
+</span><a href="VeraCrypt%20System%20Files.html" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt System Files &amp; Application Data</a><span style="text-align:left; font-style:italic.html">.
+</span></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left"><br style="text-align:left">
+</em></div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* Found at the time when you are mounting the volume, changing its password, or performing any other operation that involves re-encryption of the volume header.<br style="text-align:left">
+** However, if you use an MP3 file as a keyfile, you must ensure that no program modifies the ID3 tags within the MP3 file (e.g. song title, name of artist, etc.). Otherwise, it will be impossible to mount volumes that use the keyfile.<br style="text-align:left">
+</span></p>
+</div><div class="ClearBoth"></div></body></html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Issues%20and%20Limitations.html">Known Issues and Limitations</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Known Issues &amp; Limitations</h1>
+<h3>Known Issues</h3>
+<ul>
+<li>On Windows, it may happen that two drive letters are assigned to a mounted volume instead of a single one. This is caused by an issue with Windows Mount Manager cache and it can be solved by typing the command &quot;<strong>mountvol.exe /r</strong>&quot; in an elevated
+ command prompt (run as an administrator) before mounting any volume. If the issue persists after rebooting, the following procedure can be used to solve it:
+<ul>
+<li>Check the registry key &quot;HKEY_LOCAL_MACHINE\SYSTEM\MountedDevices&quot; using regedit. Scroll down and you'll find entries starting with &quot;\DosDevices\&quot; or &quot;\Global??\&quot; which indicate the drive letters that are taken by the system. Before mounting any volume,
+ double click on each one and remove the ones contains the name &quot;VeraCrypt&quot; and &quot;TrueCrypt&quot;.
+<br>
+Also, there are other entries whose name start with &quot;#{&quot; and &quot;\??\Volume{&quot;: double click on each one of them and remove the ones whose data value contains the name &quot;VeraCrypt&quot; and &quot;TrueCrypt&quot;.
+</li></ul>
+</li>
+<li>On some Windows machines, VeraCrypt may hang intermittently when mounting or unmounting a volume. Similar hanging may affect other running applications during VeraCrypt mounting or unmounting operations.
+This issue is caused by a conflict between VeraCrypt waiting dialog displayed during mount/unmount operations and other software installed on the machine (e.g. Outpost Firewall Pro).
+In such situations, the issue can be solved by disabling VeraCrypt waiting dialog in the Preferences: use menu "Settings -> Preferences" and check the option "Don't show wait message dialog when performing operations".
+</li>
+</ul>
+<h3 id="limitations">Limitations</h3>
+<ul>
+<li>[<em>Note: This limitation does not apply to users of Windows Vista and later versions of Windows.</em>] On Windows XP/2003, VeraCrypt does not support encrypting an entire system drive that contains extended (logical) partitions. You can encrypt an entire
+ system drive provided that it contains only primary partitions. Extended (logical) partitions must not be created on any system drive that is partially or fully encrypted (only primary partitions may be created on it).
+<em>Note</em>: If you need to encrypt an entire drive containing extended partitions, you can encrypt the system partition and, in addition, create partition-hosted VeraCrypt volumes within any non- system partitions on the drive. Alternatively, you may want
+ to consider upgrading to Windows Vista or a later version of Windows. </li><li>VeraCrypt currently does not support encrypting a system drive that has been converted to a dynamic disk.
+</li><li>To work around a Windows XP issue, the VeraCrypt boot loader is always automatically configured for the version of the operating system under which it is installed. When the version of the system changes (for example, the VeraCrypt boot loader is installed
+ when Windows Vista is running but it is later used to boot Windows XP) you may encounter various known and unknown issues (for example, on some notebooks, Windows XP may fail to display the log-on screen). Note that this affects multi-boot configurations,
+ VeraCrypt Rescue Disks, and decoy/hidden operating systems (therefore, if the hidden system is e.g. Windows XP, the decoy system should be Windows XP too).
+</li><li>The ability to mount a partition that is within the key scope of system encryption without pre- boot authentication (for example, a partition located on the encrypted system drive of another operating system that is not running), which can be done e.g.
+ by selecting <em>System</em> &gt; <em>Mount Without Pre-Boot Authentication,</em> is limited to primary partitions (extended/logical partitions cannot be mounted this way).
+</li><li>Due to a Windows 2000 issue, VeraCrypt does not support the Windows Mount Manager under Windows 2000. Therefore, some Windows 2000 built-in tools, such as Disk Defragmenter, do not work on VeraCrypt volumes. Furthermore, it is not possible to use the Mount
+ Manager services under Windows 2000, e.g., assign a mount point to a VeraCrypt volume (i.e., attach a VeraCrypt volume to a folder).
+</li><li>VeraCrypt does not support pre-boot authentication for operating systems installed within VHD files, except when booted using appropriate virtual-machine software such as Microsoft Virtual PC.
+</li><li>The Windows Volume Shadow Copy Service is currently supported only for partitions within the key scope of system encryption (e.g. a system partition encrypted by VeraCrypt, or a non- system partition located on a system drive encrypted by VeraCrypt, mounted
+ when the encrypted operating system is running). Note: For other types of volumes, the Volume Shadow Copy Service is not supported because the documentation for the necessary API is not available.
+</li><li>Windows boot settings cannot be changed from within a hidden operating system if the system does not boot from the partition on which it is installed. This is due to the fact that, for security reasons, the boot partition is mounted as read-only when the
+ hidden system is running. To be able to change the boot settings, please start the decoy operating system.
+</li><li>Encrypted partitions cannot be resized except partitions on an entirely encrypted system drive that are resized while the encrypted operating system is running.
+</li><li id="SysEncUpgrade">When the system partition/drive is encrypted, the system cannot be upgraded (for example, from Windows XP to Windows Vista) or repaired from within the pre-boot environment (using a Windows setup CD/DVD or the Windows pre-boot component).
+ In such cases, the system partition/drive must be decrypted first. Note: A running operating system can be
+<em>updated</em> (security patches, service packs, etc.) without any problems even when the system partition/drive is encrypted.
+</li><li>System encryption is supported only on drives that are connected locally via an ATA/SCSI interface (note that the term ATA also refers to SATA and eSATA).
+</li><li>When system encryption is used (this also applies to hidden operating systems), VeraCrypt does not support multi-boot configuration changes (for example, changes to the number of operating systems and their locations). Specifically, the configuration must
+ remain the same as it was when the VeraCrypt Volume Creation Wizard started to prepare the process of encryption of the system partition/drive (or creation of a hidden operating system).<br>
+<br>
+Note: The only exception is the multi-boot configuration where a running VeraCrypt-encrypted operating system is always located on drive #0, and it is the only operating system located on the drive (or there is one VeraCrypt-encrypted decoy and one VeraCrypt-encrypted
+ hidden operating system and no other operating system on the drive), and the drive is connected or disconnected before the computer is turned on (for example, using the power switch on an external eSATA drive enclosure). There may be any additional operating
+ systems (encrypted or unencrypted) installed on other drives connected to the computer (when drive #0 is disconnected, drive #1 becomes drive #0, etc.)
+</li><li>When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-unmount volumes in such cases.
+</li><li>Preserving of any timestamp of any file (e.g. a container or keyfile) is not guaranteed to be reliably and securely performed (for example, due to filesystem journals, timestamps of file attributes, or the operating system failing to perform it for various
+ documented and undocumented reasons). Note: When you write to a file-hosted hidden volume, the timestamp of the container may change. This can be plausibly explained as having been caused by changing the (outer) volume password. Also note that VeraCrypt never
+ preserves timestamps of system favorite volumes (regardless of the settings). </li><li>Special software (e.g., a low-level disk editor) that writes data to a disk drive in a way that circumvents drivers in the driver stack of the class &lsquo;DiskDrive&rsquo; (GUID of the class is 4D36E967- E325-11CE-BFC1-08002BE10318) can write unencrypted
+ data to a non-system drive hosting a mounted VeraCrypt volume (&lsquo;Partition0&rsquo;) and to encrypted partitions/drives that are within the key scope of active system encryption (VeraCrypt does not encrypt such data written that way). Similarly, software
+ that writes data to a disk drive circumventing drivers in the driver stack of the class &lsquo;Storage Volume&rsquo; (GUID of the class is 71A27CDD-812A-11D0-BEC7-08002BE2092F) can write unencrypted data to VeraCrypt partition-hosted volumes (even if they
+ are mounted). </li><li>For security reasons, when a hidden operating system is running, VeraCrypt ensures that all local unencrypted filesystems and non-hidden VeraCrypt volumes are read-only. However, this does not apply to filesystems on CD/DVD-like media and on custom, atypical,
+ or non-standard devices/media (for example, any devices/media whose class is other than the Windows device class &lsquo;Storage Volume&rsquo; or that do not meet the requirements of this class (GUID of the class is 71A27CDD-812A-11D0-BEC7-08002BE2092F)).
+</li><li>Device-hosted VeraCrypt volumes located on floppy disks are not supported. Note: You can still create file-hosted VeraCrypt volumes on floppy disks.
+</li><li>Windows Server editions don't allow the use of mounted VeraCrypt volumes as a path for server backup. This can solved by activating sharing on the VeraCrypt volume through Explorer interface (of course, you have to put the correct permission to avoid unauthorized
+ access) and then choosing the option &quot;Remote shared folder&quot; (it is not remote of course but Windows needs a network path). There, you can type the path of the shared drive (for example \\ServerName\sharename) and the backup will be configured correctly.
+</li><li>Due to Microsoft design flaws in NTFS sparse files handling, you may encounter system errors when writing data to large Dynamic volumes (more than few hundreds GB). To avoid this, the recommended size for a Dynamic volume container file for maximum compatibility
+ is 300 GB. The following link gives more details concerning this limitation: <a href="http://www.flexhex.com/docs/articles/sparse-files.phtml#msdn" target="_blank">
+http://www.flexhex.com/docs/articles/sparse-files.phtml#msdn</a> </li>
+<li>In Windows 8 and Windows 10, a feature was introduced with the name &quot;<strong>Hybrid boot and shutdown</strong>&quot; and &quot;<strong>Fast Startup</strong>&quot; and which make Windows boot more quickly. This feature is enabled by default and it has side effects on VeraCrypt volumes usage. It is advised to disable this
+ feature (e.g. this <a href="https://www.maketecheasier.com/disable-hybrid-boot-and-shutdown-in-windows-8/" target="_blank">
+link </a>explains how to disable it in Windows 8 and this <a href="https://www.tenforums.com/tutorials/4189-turn-off-fast-startup-windows-10-a.html" target="_blank">link</a> gives equivalent instructions for Windows 10). Some examples of issues:
+<ul>
+<li>after a shutdown and a restart, mounted volume will continue to be mounted without typing the password: this due to the fact the new Windows 8 shutdown is not a real shutdown but a disguised hibernate/sleep.
+</li>
+<li>when using system encryption and when there are System Favorites configured to be mounted at boot time: after shutdown and restart, these system favorites will not be mounted.
+</li>
+</ul>
+</li>
+<li>Windows system Repair/Recovery Disk can't be created when a VeraCrypt volume is mounted as a fixed disk (which is the default). To solve this, either unmount all volumes or mount volumes are removable media.
+</li><li>Further limitations are listed in the section <a href="Security%20Model.html">
+<em>Security Model</em></a>. </li></ul>
+</div><div class="ClearBoth"></div></body></html>

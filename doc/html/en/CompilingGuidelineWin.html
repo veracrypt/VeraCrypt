@@ -1,0 +1,1225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+</style>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Technical Details</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">Building VeraCrypt From Source</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineWin.html">Windows Build Guide</a>
+</p></div>
+
+<div class="wikidoc">
+This guide describes how to set up a Windows system that can compile the VeraCrypt. Further it is described how VeraCrypt is going to be compiled. <br>
+The procedure for a Windows 10 system is described here as an example, but the procedure for other Windows systems is analogous.
+</div>
+
+<div class="wikidoc">
+The following components are required for compiling VeraCrypt:
+
+<ol>
+	<li>Microsoft Visual Studio 2010</li>
+	<li>Microsoft Visual Studio 2010 Service Pack 1</li>
+	<li>NASM</li>
+	<li>YASM</li>
+	<li>Visual C++ 1.52</li>
+	<li>Windows SDK 7.1</li>
+	<li>Windows Driver Kit 7.1</li>
+	<li>Windows 8.1 SDK</li>
+	<li>gzip</li>
+	<li>upx</li>
+	<li>7zip</li>
+	<li>Wix3</li>
+	<li>Microsoft Visual Studio 2019</li>
+	<li>Windows 10 SDK</li>
+	<li>Windows Driver Kit 1903</li>
+	<li>Visual Studio build tools</li>
+	
+</ol>
+
+</div>
+
+<div class="wikidoc">
+Below are the procedure steps. Clicking on any of the link takes directly to the related step:
+<ul>
+<li><strong><a href="#InstallationOfMicrosoftVisualStudio2010">Installation of Microsoft Visual Studio 2010</a></li></strong>
+<li><strong><a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">Installation of Microsoft Visual Studio 2010 Service Pack 1</a></li></strong>
+<li><strong><a href="#InstallationOfNASM">Installation of NASM</a></li></strong>
+<li><strong><a href="#InstallationOfYASM">Installation of YASM</a></li></strong>
+<li><strong><a href="#InstallationOfVisualCPP">Installation of Microsoft Visual C++ 1.52</a></li></strong>
+<li><strong><a href="#InstallationOfWindowsSDK71PP">Installation of the Windows SDK 7.1</a></li></strong>
+<li><strong><a href="#InstallationOfWDK71PP">Installation of the Windows Driver Kit 7.1</a></li></strong>
+<li><strong><a href="#InstallationOfSDK81PP">Installation of the Windows 8.1 SDK</a></li></strong>
+<li><strong><a href="#InstallationOfGzip">Installation of gzip</a></li></strong>
+<li><strong><a href="#InstallationOfUpx">Installation of upx</a></li></strong>
+<li><strong><a href="#InstallationOf7zip">Installation of 7zip</a></li></strong>
+<li><strong><a href="#InstallationOfWix3">Installation of Wix3</a></li></strong>
+<li><strong><a href="#InstallationOfVS2019">Installation of Microsoft Visual Studio 2019</a></li></strong>
+<li><strong><a href="#InstallationOfWDK10">Installation of the Windows Driver Kit 2004</a></li></strong>
+<li><strong><a href="#InstallationOfVisualBuildTools">Installation of the Visual Studio build tools</a></li></strong>
+<li><strong><a href="#DownloadVeraCrypt">Download VeraCrypt Source Files</a></li></strong>
+<li><strong><a href="#CompileWin32X64">Compile the Win32/x64 Versions of VeraCrypt</a></li></strong>
+<li><strong><a href="#CompileARM64">Compile the ARM64 Version of VeraCrypt</a></li></strong>
+<li><strong><a href="#BuildVeraCryptExecutables">Build the VeraCrypt Executables</a></li></strong>
+<li><strong><a href="#ImportCertificates">Import the Certificates</a></li></strong>
+<li><strong><a href="#KnownIssues">Known Issues</a></li></strong>
+</ul>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010">
+  <a href="#InstallationOfMicrosoftVisualStudio2010">Installation of Microsoft Visual Studio 2010</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Visit the following Microsoft website and log in with a free Microsoft account: <br>
+				<a href="https://my.visualstudio.com/Downloads?q=Visual%20Studio%202010%20Professional&pgroup=" target="_blank">https://my.visualstudio.com/Downloads?q=Visual%20Studio%202010%20Professional&pgroup=</a>
+			</li>
+			<li>
+				Please download a (trial) version of “Visual Studio Professional 2010” <br>
+				<img src="CompilingGuidelineWin/DownloadVS2010.jpg" width="80%">
+			</li>
+			<li>
+				Mount the downloaded ISO file by doubleclicking it
+			</li>
+			<li>
+				Run the file "autorun.exe" as administrator
+			</li>
+			<li>
+				Install Microsoft Visual Studio 2010 with the default settings
+			</li>
+		</ol>
+		The installation of the Microsoft SQL Server 2008 Express Service Pack 1 (x64) may fail, but it is not required for compiling VeraCrypt.
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfMicrosoftVisualStudio2010ServicePack1">
+  <a href="#InstallationOfMicrosoftVisualStudio2010ServicePack1">Installation of Microsoft Visual Studio 2010 Service Pack 1</a>
+  <div class="texttohide">
+    <p>
+		Note: The content the official installer from Microsoft tries to download is no longer available. Therefore, it is necessary to use an offline installer.
+		<ol>
+			<li>
+				Visit the website of the internet archive and download the iso image of the Microsoft Visual Studio 2010 Service Pack 1:<br>
+				<a href="https://archive.org/details/vs-2010-sp-1dvd-1" target="_blank">https://archive.org/details/vs-2010-sp-1dvd-1</a>
+			</li>
+			<li>
+				Mount the downloaded ISO file by doubleclicking it
+			</li>
+			<li>
+				Run the file "Setup.exe" as administrator
+			</li>
+			<li>
+				Install Microsoft Visual Studio 2010 Service Pack 1 with the default settings
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfNASM">
+  <a href="#InstallationOfNASM">Installation of NASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Download “nasm-2.08-installer.exe” at: <br>
+				<a href="https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/</a>
+			</li>
+			<li>
+				Run the file as administrator
+			</li>
+			<li>
+				Install NASM with the default settings
+			</li>
+			<li>
+				Add NASM to the path Variable. This will make the command globally available on the command line. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Open a file explorer
+					</li>
+					<li>
+						Within the left file tree, please make a right click on "This PC" and select "Properties" <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						Within the right menu, please click on "Advanced system settings" <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Please click on "Environment Variables" <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						Within the area of the system variables, please select the "Path" variable and click on "Edit..." <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Click on "New" and add the following value: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\nasm</p>
+					</li>
+					<li>
+						Close the windows by clicking on "OK"
+					</li>
+				</ol>
+			</li>
+			<li>
+				To check if the configuration is working correctly, please open a command prompt and watch the output of the following command: <br>
+				<p style="font-family: 'Courier New', monospace;">nasm</p> <br>
+				<img src="CompilingGuidelineWin/NasmCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#InstallationOfYASM">Installation of YASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please create the following folder: <br>
+				C:\Program Files\YASM
+			</li>
+			<li>
+				Please download the file "Win64 VS2010 .zip" at: <br>
+				<a href="https://yasm.tortall.net/Download.html" target="_blank">https://yasm.tortall.net/Download.html</a>
+			</li>
+			<li>
+				Your browser might inform you that the file might be a security risk due to the low download rate or the unencrypted connection. Nevertheless, the official website is the most reliable source for this file, so we recommend to allow the download
+			</li>
+			<li>
+				Unzip the zip file and copy the files to “C:\Program Files\YASM”
+			</li>
+			<li>
+				Please download the file "Win64 .exe" at: <br>
+				<a href="https://yasm.tortall.net/Download.html" target="_blank">https://yasm.tortall.net/Download.html</a>
+			</li>
+			<li>
+				Your browser might inform you that the file might be a security risk due to the low download rate or the unencrypted connection. Nevertheless, the official website is the most reliable source for this file, so we recommend to allow the download
+			</li>
+			<li>
+				Rename the file to “yasm.exe” and copy it to “C:\Program Files\YASM”
+			</li>
+			<li>
+				Add YASM to the path Variable and create a new system variable for YASM. This will make the command globally available on the command line. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Open a file explorer
+					</li>
+					<li>
+						Within the left file tree, please make a right click on "This PC" and select "Properties" <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						Within the right menu, please click on "Advanced system settings" <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Please click on "Environment Variables" <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						Within the area of the system variables, please select the "Path" variable and click on "Edit..." <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Click on "New" and add the following value: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
+					</li>
+					<li>
+						Close the top window by clicking on "OK"
+					</li>
+					<li>
+						Within the area of the system variables, please click on "New..." <br>
+						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+					</li>
+					<li>
+						Fill out the form with the following values: <br>
+						<p style="font-family: 'Courier New', monospace;">Variable name: YASMPATH<br> Variable value: C:\Program Files\YASM</p>
+					</li>
+					<li>
+						Close the windows by clicking on "OK"
+					</li>
+				</ol>
+			</li>
+			<li>
+				To check if the configuration is working correctly, please open a command prompt and watch the output of the following command: <br>
+				<p style="font-family: 'Courier New', monospace;">yasm</p> <br>
+				and <br>
+				<p style="font-family: 'Courier New', monospace;">vsyasm</p> <br>
+				<img src="CompilingGuidelineWin/YasmCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfVisualCPP">
+  <a href="#InstallationOfVisualCPP">Installation of Microsoft Visual C++ 1.52</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Visual C++ 1.52 is available via the paid Microsoft MSDN subscription. If you do not have a subscription, you download the ISO image via the internet archive: <br>
+				<a href="https://archive.org/details/ms-vc152" target="_blank">https://archive.org/details/ms-vc152</a>
+			</li>
+			<li>
+				Create the folder “C:\MSVC15”
+			</li>
+			<li>
+				Mount the ISO file and copy the content of the folder “MSVC” to “C:\MSVC15”
+			</li>
+			<li>
+				Create a system variable for Microsoft Visual C++ 1.52 <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Open a file explorer
+					</li>
+					<li>
+						Within the left file tree, please make a right click on "This PC" and select "Properties" <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						Within the right menu, please click on "Advanced system settings" <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Please click on "Environment Variables" <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						Within the area of the system variables, please click on "New..." <br>
+						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+					</li>
+					<li>
+						Fill out the form with the following values: <br>
+						<p style="font-family: 'Courier New', monospace;">Variable name: MSVC16_ROOT<br> Variable value: C:\MSVC15</p>
+					</li>
+					<li>
+						Close the windows by clicking on "OK"
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div> 
+ 
+ <div class="textbox" id="InstallationOfWindowsSDK71PP">
+  <a href="#InstallationOfWindowsSDK71PP">Installation of the Windows SDK 7.1</a>
+  <div class="texttohide">
+    <p>
+		The installer requires .Net Framework 4 (Not a newer one like .Net Framework 4.8!). Since a newer version is already preinstalled with Windows 10, the installer has to be tricked:
+		<ol>
+			<li>
+				Click on the start button and search for: "regedit.msc". Start the first finding.
+			</li>
+			<li>
+				Navigate to "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\NET Framework Setup\NDP\v4\"
+			</li>
+			<li>
+				Change the permissions for the "Client" folder, so you can edit the keys: <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Right click on the subfolder "Client" and select "Permissions..."
+					</li>
+					<li>
+						Click on "Advanced" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-1.jpg" width="17%">
+					</li>
+					<li>
+						Change the owner to your user and click on "Add" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-2.jpg" width="35%">
+					</li>
+					<li>
+						Set the principal to your user, select "Full Control" and click on "OK" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-3.jpg" width="35%">
+					</li>
+					<li>
+						Within the folder "Client" note down the value of the entry "Version"
+					</li>
+					<li>
+						Doubleclick on the entry "Version" and change the value to "4.0.30319" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-4.jpg" width="30%">
+					</li>
+				</ol>
+			</li>
+			<li>
+				Change the permissions for the "Full" folder, so you can edit the keys: <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Right click on the subfolder "Full" and select "Permissions..."
+					</li>
+					<li>
+						Click on "Advanced" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-1.jpg" width="17%">
+					</li>
+					<li>
+						Change the owner to your user and click on "Add" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-2.jpg" width="35%">
+					</li>
+					<li>
+						Set the principal to your user, select "Full Control" and click on "OK" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-3.jpg" width="35%">
+					</li>
+					<li>
+						Within the folder "Full" note down the value of the entry "Version"
+					</li>
+					<li>
+						Doubleclick on the entry "Version" and change the value to "4.0.30319" <br>
+						<img src="CompilingGuidelineWin/RegeditPermissions-4.jpg" width="30%">
+					</li>
+				</ol>
+			</li>
+			<li>
+				Download the Windows SDK 7.1 at: <br>
+				<a href="https://www.microsoft.com/en-us/download/details.aspx?id=8279" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=8279</a>
+			</li>
+			<li>
+				Run the downloaded file as administrator and install the application with default settings
+			</li>
+			<li>
+				After the installation, revert the changes done in the registry editor. <br>
+				<b>Note:</b> The owner "TrustedInstaller" can be restored by searching for: "NT Service\TrustedInstaller"
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>  
+ 
+ <div class="textbox" id="InstallationOfWDK71PP">
+  <a href="#InstallationOfWDK71PP">Installation of the Windows Driver Kit 7.1</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please download the ISO of the Windows Diver Kit 7.1 at: <br>
+				<a href="https://www.microsoft.com/en-us/download/details.aspx?id=11800" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=11800</a>
+			</li>
+			<li>
+				Mount the downloaded ISO file by doubleclicking it
+			</li>
+			<li>
+				Run the file "KitSetup.exe" as administrator. Within the installation select all features to be installed. <br>
+				<b>Note: </b>It might be that during the installed you are requested to install the .NET Framework 3.5. In this case click on "Download and install this feature".
+			</li>
+			<li>
+				Install the Driver Kit to the default location
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfSDK81PP">
+  <a href="#InstallationOfSDK81PP">Installation of the Windows 8.1 SDK</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please download the ISO of the Windows 8.1 SDK at: <br>
+				<a href="https://developer.microsoft.com/de-de/windows/downloads/sdk-archive/" target="_blank">https://developer.microsoft.com/de-de/windows/downloads/sdk-archive/</a>
+			</li>
+			<li>
+				Run the downloaded file as administrator and install the Windows 8.1 SDK with default settings
+			</li>
+			<li>
+				Create a system variable for the Windows 8.1 SDK <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Open a file explorer
+					</li>
+					<li>
+						Within the left file tree, please make a right click on "This PC" and select "Properties" <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						Within the right menu, please click on "Advanced system settings" <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Please click on "Environment Variables" <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						Within the area of the system variables, please click on "New..." <br>
+						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+					</li>
+					<li>
+						Fill out the form with the following values: <br>
+						<p style="font-family: 'Courier New', monospace;">Variable name: WSDK81<br> Variable value: C:\Program Files (x86)\Windows Kits\8.1\</p>
+					</li>
+					<li>
+						Close the windows by clicking on "OK"
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfGzip">
+  <a href="#InstallationOfGzip">Installation of gzip</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please create the following folder: <br>
+				C:\Program Files (x86)\gzip
+			</li>
+			<li>
+				Please download gzip version at: <br>
+				<a href="https://sourceforge.net/projects/gnuwin32/files/gzip/1.3.12-1/gzip-1.3.12-1-bin.zip/download?use-mirror=netix&download=" target="_blank">https://sourceforge.net/projects/gnuwin32/files/gzip/1.3.12-1/gzip-1.3.12-1-bin.zip/download?use-mirror=netix&download=</a>
+			</li>
+			<li>
+				Copy the content of the downloaded zip to “C:\Program Files (x86)\gzip”
+			</li>
+			<li>
+				Add gzip to the path Variable. This will make the command globally available on the command line. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Open a file explorer
+					</li>
+					<li>
+						Within the left file tree, please make a right click on "This PC" and select "Properties" <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						Within the right menu, please click on "Advanced system settings" <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Please click on "Environment Variables" <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						Within the area of the system variables, please select the "Path" variable and click on "Edit..." <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Click on "New" and add the following value: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\gzip\bin</p>
+					</li>
+					<li>
+						Close the windows by clicking on "OK"
+					</li>
+				</ol>
+			</li>
+			<li>
+				To check if the configuration is working correctly, please open a command prompt and watch the output of the following command: <br>
+				<p style="font-family: 'Courier New', monospace;">gzip</p> <br>
+				<img src="CompilingGuidelineWin/gzipCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfUpx">
+  <a href="#InstallationOfUpx">Installation of upx</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please create the following folder: <br>
+				C:\Program Files (x86)\upx
+			</li>
+			<li>
+				Please download the latest upx-X-XX-win64.zip version at: <br>
+				<a href="https://github.com/upx/upx/releases/tag/v3.96" target="_blank">https://github.com/upx/upx/releases/tag/v3.96</a>
+			</li>
+			<li>
+				Copy the content of the downloaded zip to “C:\Program Files (x86)\upx”
+			</li>
+			<li>
+				Add gzip to the path Variable. This will make the command globally available on the command line. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Open a file explorer
+					</li>
+					<li>
+						Within the left file tree, please make a right click on "This PC" and select "Properties" <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						Within the right menu, please click on "Advanced system settings" <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Please click on "Environment Variables" <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						Within the area of the system variables, please select the "Path" variable and click on "Edit..." <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Click on "New" and add the following value: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\upx</p>
+					</li>
+					<li>
+						Close the windows by clicking on "OK"
+					</li>
+				</ol>
+			</li>
+			<li>
+				To check if the configuration is working correctly, please open a command prompt and watch the output of the following command: <br>
+				<p style="font-family: 'Courier New', monospace;">upx</p> <br>
+				<img src="CompilingGuidelineWin/upxCommandLine.jpg" width="50%">
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOf7zip">
+  <a href="#InstallationOf7zip">Installation of 7zip</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please download the latest version of 7zip at: <br>
+				<a href="https://www.7-zip.de/" target="_blank">https://www.7-zip.de/</a>
+			</li>
+			<li>
+				Run the downloaded file as administrator and install 7zip with default settings
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfWix3">
+  <a href="#InstallationOfWix3">Installation of Wix3</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please download wix311.exe at: <br>
+				<a href="https://github.com/wixtoolset/wix3/releases" target="_blank">https://github.com/wixtoolset/wix3/releases</a>
+			</li>
+			<li>
+				Run the downloaded file as administrator and install WiX Toolset with default settings
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVS2019">
+  <a href="#InstallationOfVS2019">Installation of Microsoft Visual Studio 2019</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Visit the following Microsoft website and log in with a free Microsoft account: <br>
+				<a href="https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20Professional" target="_blank">https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20Professional</a>
+			</li>
+			<li>
+				Please download the latest (trial) version of “Visual Studio Professional 2019” <br>
+				<img src="CompilingGuidelineWin/DownloadVS2019.jpg" width="80%">
+			</li>
+			<li>
+				Run the downloaded file as administrator and go through the wizard. <br>
+				Select the following Workloads for installation: <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Desktop development with C++
+					</li>
+					<li>
+						.NET desktop development
+					</li>
+				</ol>
+				Select the following individual components for installation:
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						.NET
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								.NET 6.0 Runtime
+							</li>
+							<li>
+								.NET Core 3.1 Runtime (LTS)
+							</li>
+							<li>
+								.NET Framework 4 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.5 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.5.1 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.5.2 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.6 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.6.1 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.7.2 targeting pack
+							</li>
+							<li>
+								.NET Framework 4.8 SDK
+							</li>
+							<li>
+								.NET Framework 4.8 targeting pack
+							</li>
+							<li>
+								.NET SDK
+							</li>
+							<li>
+								ML.NET Model Builder (Preview)
+							</li>
+						</ol>
+					</li>
+					<li>
+						Cloud, database, and server
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								CLR data types for SQL Server
+							</li>
+							<li>
+								Connectivity and publishing tools
+							</li>
+						</ol>
+					</li>
+					<li>
+						Code tools
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								NuGet package manager
+							</li>
+							<li>
+								Text Template Transformation
+							</li>
+						</ol>
+					</li>
+					<li>
+						Compilers, build tools, and runtimes
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								.NET Compiler Platform SDK
+							</li>
+							<li>
+								C# and Visual Basic Roslyn compilers
+							</li>
+							<li>
+								C++ 2019 Redistributable Update
+							</li>
+							<li>
+								C++ CMake tools for Windows
+							</li>
+							<li>
+								C++/CLI support for v142 build tools (Latest)
+							</li>
+							<li>
+								MSBuild
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 Spectre-mitigated libs (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 Spectre-mitigated libs (Latest)
+							</li>
+						</ol>
+					</li>
+					<li>
+						Debugging and testing
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								.NET profiling tools
+							</li>
+							<li>
+								C++ AddressSanatizer
+							</li>
+							<li>
+								C++ profiling tools
+							</li>
+							<li>
+								Just-In-Time debugger
+							</li>
+							<li>
+								Test Adapter for Boost.Test
+							</li>
+							<li>
+								Test Adapter for Google Test
+							</li>
+						</ol>
+					</li>
+					<li>
+						Development activities
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C# and Visual Basic
+							</li>
+							<li>
+								C++ core features
+							</li>
+							<li>
+								F# language support
+							</li>
+							<li>
+								IntelliCode
+							</li>
+							<li>
+								JavaScript and TypeScript language support
+							</li>
+							<li>
+								Live Share
+							</li>
+						</ol>
+					</li>
+					<li>
+						Emulators
+						<ol style="list-style-type: upper-roman;">
+							NONE
+						</ol>
+					</li>
+					<li>
+						Games and Graphics
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								Graphics debugger and GPU profiler for DirectX
+							</li>
+						</ol>
+					</li>
+					<li>
+						SDKs, libraries, and frameworks
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C++ ATL for latest v142 build tools (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools (x86 & x64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (x86 & x64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools (ARM64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools (x86 & x64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools with Spectre Mitigations (ARM64)
+							</li>
+							<li>
+								C++ MFC for latest v142 build tools with Spectre Mitigations (x86 & x64)
+							</li>
+							<li>
+								Entity Framework 6 tools
+							</li>
+							<li>
+								TypeScript 4.3 SDK
+							</li>
+							<li>
+								Windows 10 SDK (10.0.19041.0)
+							</li>
+							<li>
+								Windows Universal C Runtime
+							</li>
+						</ol>
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfWDK10">
+  <a href="#InstallationOfWDK10">Installation of the Windows Driver Kit version 2004</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please download the Windows Driver Kit (WDK) version 2004 at: <br>
+				<a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads</a>
+			</li>
+			<li>
+				Run the downloaded file as administrator and install the WDK with default settings
+			</li>
+			<li>
+				At the end of the installation you will be asked if you want to "install Windows Driver Kit Visual Studio extension". <br>
+				Please make sure, that this option is selected before closing the dialog.
+			</li>
+			<li>
+				A different setup will start automatically and will detect Visual Studio Professional 2019 as possible target for the extension. <br>
+				Please select it and proceed with the installation.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVisualBuildTools">
+  <a href="#InstallationOfVisualBuildTools">Installation of the Visual Studio build tools</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Visit the following Microsoft website and log in with a free Microsoft account: <br>
+				<a href="https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20build%20tools" target="_blank">https://my.visualstudio.com/Downloads?q=visual%20studio%202019%20build%20tools</a>
+			</li>
+			<li>
+				Please download the latest version of “Build Tools for Visual Studio 2019” <br>
+				<img src="CompilingGuidelineWin/DownloadVSBuildTools.jpg" width="80%">
+			</li>
+			<li>
+				Run the downloaded file as administrator and go through the wizard. Select the following individual components for installation:
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						.NET
+						<ol style="list-style-type: upper-roman;">
+							NONE
+						</ol>
+					</li>
+					<li>
+						Cloud, database, and server
+						<ol style="list-style-type: upper-roman;">
+							NONE
+						</ol>
+					</li>
+					<li>
+						Code tools
+						<ol style="list-style-type: upper-roman;">
+							NONE
+						</ol>
+					</li>
+					<li>
+						Compilers, build tools, and runtimes
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C++/CLI support for v142 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ ARM64 Spectre-mitigated libs (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+							</li>
+							<li>
+								MSVC v142 - VS 2019 C++ x64/x86 Spectre-mitigated libs (Latest)
+							</li>
+						</ol>
+					</li>
+					<li>
+						Debugging and testing
+						<ol style="list-style-type: upper-roman;">
+							NONE
+						</ol>
+					</li>
+					<li>
+						Development activities
+						<ol style="list-style-type: upper-roman;">
+							NONE
+						</ol>
+					</li>
+					<li>
+						SDKs, libraries, and frameworks
+						<ol style="list-style-type: upper-roman;">
+							<li>
+								C++ ATL for latest v142 build tools (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools (x86 & x64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (ARM64)
+							</li>
+							<li>
+								C++ ATL for latest v142 build tools with Spectre Mitigations (x86 & x64)
+							</li>
+						</ol>
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#DownloadVeraCrypt">Download VeraCrypt Source Files</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Visit the VeraCrypt Github repository at: <br>
+				<a href="https://github.com/veracrypt/VeraCrypt" target="_blank">https://github.com/veracrypt/VeraCrypt</a>
+			</li>
+			<li>
+				Please click on the green button with the label "Code" and download the code. <br>
+				You can download the repository as zip file, but you may consider to use the git protocol in order to track changes.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileWin32X64">
+  <a href="#CompileWin32X64">Compile the Win32/x64 Versions of VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please open the file "src/VeraCrypt.sln" in Visual Studio <b>2010</b>
+			</li>
+			<li>
+				Please select "All|Win32" as active configuration <br>
+				<img src="CompilingGuidelineWin/VS2010Win32Config.jpg" width="80%">
+			</li>
+			<li>
+				Please click on "Build -> Build Solution" <br>
+				<img src="CompilingGuidelineWin/VS2010BuildSolution.jpg" width="40%">
+			</li>
+			<li>
+				The compiling process should end with warnings, but without errors. Some projects should be skipped.
+			</li>
+			<li>
+				Please select "All|x64" as active configuration <br>
+				<img src="CompilingGuidelineWin/VS2010X64Config.jpg" width="80%">
+			</li>
+			<li>
+				Please click on "Build -> Build Solution" <br>
+				<img src="CompilingGuidelineWin/VS2010BuildSolution.jpg" width="40%">
+			</li>
+			<li>
+				The compiling process should end with warnings, but without errors. Some projects should be skipped. <br>
+				Please close Visual Studio 2010 after the compiling process finished
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileARM64">
+  <a href="#CompileARM64">Compile the ARM64 Version of VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please open the file "src/VeraCrypt_vs2019.sln" in Visual Studio <b>2019</b>
+			</li>
+			<li>
+				Please select "All|ARM64" as active configuration <br>
+				<img src="CompilingGuidelineWin/VS2019ARM64Config.jpg" width="80%">
+			</li>
+			<li>
+				Please click on "Build -> Build Solution" <br>
+				<img src="CompilingGuidelineWin/VS2019BuildSolution.jpg" width="40%">
+			</li>
+			<li>
+				The compiling process should end with warnings, but without errors. One project should be skipped. <br>
+				Please close Visual Studio 2019 after the compiling process finished
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="BuildVeraCryptExecutables">
+  <a href="#BuildVeraCryptExecutables">Build the VeraCrypt Executables</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Please open a command line as administrator
+			</li>
+			<li>
+				Go into the folder "src/Signing/"
+			</li>
+			<li>
+				Run the script "sign_test.bat"
+			</li>
+			<li>
+				You will find the generated exectuables within the folder "src/Release/Setup Files"
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="ImportCertificates">
+  <a href="#ImportCertificates">Import the Certificates</a>
+  <div class="texttohide">
+    <p> With the sign_test.bat script you just signed the VeraCrypt executables. This is necessary, since Windows only accepts drivers, which are trusted by a signed Certificate Authority. <br>
+	Since you did not use the official VeraCrypt signing certificate to sign your code, but a public development version, you have to import and therefore trust the certificates used.
+		<ol>
+			<li>
+				Open the folder "src/Signing"
+			</li>
+			<li>
+				Import the following certificates to your Local Machine Certificate storage, by double clicking them:
+				<ul>
+					<li>GlobalSign_R3Cross.cer</li>
+					<li>GlobalSign_SHA256_EV_CodeSigning_CA.cer</li>
+					<li>TestCertificates/idrix_codeSign.pfx</li>
+					<li>TestCertificates/idrix_Sha256CodeSign.pfx</li>
+					<li>TestCertificates/idrix_SHA256TestRootCA.crt</li>
+					<li>TestCertificates/idrix_TestRootCA.crt</li>
+				</ul>
+				Note: If prompted, the password for .pfx certificates is <b>idrix</b>.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="KnownIssues">
+  <a href="#KnownIssues">Known Issues</a>
+  <div class="texttohide">
+    <p>
+		<ul>
+			<li>
+				<b>This distribution package is damaged</b> <br>
+				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
+				On Windows 10 or higher you might get the error message above. In order to avoid this, you will need to:<br>
+				<ul>
+					<li>Double-check the installation of the root certificate that issued the test code signing certificate in the "Local Machine Trusted Root Certification Authorities" store.</li>
+					<li>Compute SHA512 fingerprint of the test code signing certificate and update the gpbSha512CodeSignCertFingerprint array in the file "src/Common/Dlgcode.c" accordingly.</li>
+				</ul>
+				Please see <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12</a> for further details.<br>
+				<br>
+				Another approach is to disable the signature verification in the VeraCrypt code. This should be done only for testing purposes and not for production use:
+				<ol>
+					<li>
+						Open the file "src/Common/Dlgcode.c"
+					</li>
+					<li>
+						Look for the function "VerifyModuleSignature"
+					</li>
+					<li>
+						Replace the following lines: <br>
+						Find:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						if (!IsOSAtLeast (WIN_10)) <br>
+						return TRUE;
+						</p> <br>
+						Replace:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						return TRUE;
+						</p>
+					</li>
+					<li>
+						Compile the VeraCrypt code again
+					</li>
+				</ol>
+			</li>
+			<li>
+				<b>Driver Installation Failure during VeraCrypt Setup from Custom Builds</b> <br>
+				<img src="CompilingGuidelineWin/CertVerifyFails.jpg" width="20%"> <br>
+				Windows validates the signature for every driver which is going to be installed.<br>
+				For security reasons, Windows allows only drivers signed by Microsoft to load.<br>
+				So, when using a custom build:<br>
+				<ul>
+					<li>If you have not modified the VeraCrypt driver source code, you can use the Microsoft-signed drivers included in the VeraCrypt source code (under "src\Release\Setup Files").</li>
+					<li>If you have made modifications, <strong>you will need to boot Windows into "Test Mode"</strong>. This mode allows Windows to load drivers that aren't signed by Microsoft. However, even in "Test Mode", there are certain requirements for signatures, and failures can still occur due to reasons discussed below.</li>
+				</ul>
+				Potential Causes for Installation Failure under "Test Mode":
+				<ol>
+					<li>
+						<b>The certificate used for signing is not trusted by Windows</b><br>
+						You can verify if you are affected by checking the properties of the executable:
+						<ol>
+							<li>
+								Make a right click on the VeraCrypt Setup executable: "src/Release/Setup Files/VeraCrypt Setup 1.XX.exe"
+							</li>
+							<li>
+								Click on properties
+							</li>
+							<li>	
+								Go to the top menu "Digital Signatures". Her you will find two signatures in the Signature list
+							</li>
+								Check both by double clicking on it. If the headline says "The certificate in the signature cannot be verified", the corresponding signing certificate was not imported correctly.<br>
+								Click on "View Certificate" and then on "Install Certificate..." to import the certificate to Local Machine certificate storage. For the Root certificates, you may need to choose "Place all certificates in the following store", and select the "Trusted Root Certification Authorities" store.<br>
+								<img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
+							<li>
+						</ol>
+					</li>
+					<li>
+						<b>The driver was modified after the signing process.</b> <br>
+						In this case, please use the script "src/Signing/sign_test.bat" to sign your code again with the test certificates
+					</li>
+				</ol>
+			</li>
+		</ul>
+	</p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

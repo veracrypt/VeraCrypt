@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Main%20Program%20Window.html">Main Program Window</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Program%20Menu.html">Program Menu</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>Program Menu</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>Note: To save space, only the menu items that are not self-explanatory are described in this documentation.</p>
+<h3>Volumes -&gt; Auto-Mount All Device-Hosted Volumes</h3>
+<p>See the section <a href="Main%20Program%20Window.html">
+<em>Auto-Mount Devices.</em></a></p>
+<h3>Volumes -&gt; Unmount All Mounted Volumes</h3>
+<p>See the section <a href="Main%20Program%20Window.html">
+<em>Unmount All.</em></a></p>
+<h3>Volumes -&gt; Change Volume Password</h3>
+<p>Allows changing the password of the currently selected VeraCrypt volume (no matter whether the volume is hidden or standard). Only the header key and the secondary header key (XTS mode) are changed &ndash; the master key remains unchanged. This function
+ re-encrypts the volume header using<br>
+<br>
+a header encryption key derived from a new password. Note that the volume header contains the master encryption key with which the volume is encrypted. Therefore, the data stored on the volume will
+<em>not</em> be lost after you use this function (password change will only take a few seconds).<br>
+<br>
+To change a VeraCrypt volume password, click on <em>Select File</em> or <em>Select Device</em>, then select the volume, and from the
+<em>Volumes</em> menu select <em>Change Volume Password</em>.<br>
+<br>
+Note: For information on how to change a password used for pre-boot authentication, please see the section
+<em>System -&gt; Change Password</em>.<br>
+<br>
+See also the chapter <a href="Security%20Requirements%20and%20Precautions.html">
+<em>Security Requirements and Precautions</em></a>.</p>
+<div style="margin-left:50px">
+<h4>PKCS-5 PRF</h4>
+<p>In this field you can select the algorithm that will be used in deriving new volume header keys (for more information, see the section
+<a href="Header%20Key%20Derivation.html">
+<em>Header Key Derivation, Salt, and Iteration Count</em></a>) and in generating the new salt (for more information, see the section
+<a href="Random%20Number%20Generator.html">
+<em>Random Number Generator</em></a>).<br>
+<br>
+Note: When VeraCrypt re-encrypts a volume header, the original volume header is first overwritten many times (3, 7, 35 or 256 depending on the user choice) with random data to prevent adversaries from using techniques such as magnetic force microscopy or magnetic
+ force scanning tunneling microscopy [17] to recover the overwritten header (however, see also the chapter
+<a href="Security%20Requirements%20and%20Precautions.html">
+<em>Security Requirements and Precautions</em></a>).</p>
+</div>
+<h3>Volumes -&gt; Set Header Key Derivation Algorithm</h3>
+<p>This function allows you to re-encrypt a volume header with a header key derived using a different PRF function (for example, instead of HMAC-BLAKE2S-256 you could use HMAC-Whirlpool). Note that the volume header contains the master encryption key with which
+ the volume is encrypted. Therefore, the data stored on the volume will <em>not</em> be lost after you use this function. For more information, see the section
+<a href="Header%20Key%20Derivation.html">
+<em>Header Key Derivation, Salt, and Iteration Count</em></a>.<br>
+<br>
+Note: When VeraCrypt re-encrypts a volume header, the original volume header is first overwritten many times (3, 7, 35 or 256 depending on the user choice) with random data to prevent adversaries from using techniques such as magnetic force microscopy or magnetic
+ force scanning tunneling microscopy [17] to recover the overwritten header (however, see also the chapter
+<a href="Security%20Requirements%20and%20Precautions.html">
+<em>Security Requirements and Precautions</em></a>).</p>
+<h3>Volumes -&gt; Add/Remove Keyfiles to/from Volume</h3>
+<h3>Volumes -&gt; Remove All Keyfiles from Volume</h3>
+<p>See the chapter <a href="Keyfiles.html">
+<em>Keyfiles.</em></a></p>
+<h3>Favorites -&gt; Add Mounted Volume to Favorites Favorites -&gt; Organize Favorite Volumes Favorites -&gt; Mount Favorites Volumes</h3>
+<p>See the chapter <a href="Favorite%20Volumes.html">
+<em>Favorite Volumes</em></a>.</p>
+<h3>Favorites -&gt; Add Mounted Volume to System Favorites</h3>
+<h3>Favorites -&gt; Organize System Favorite Volumes</h3>
+<p>See the chapter <a href="System%20Favorite%20Volumes.html">
+<em>System Favorite Volumes</em></a>.</p>
+<h3>System -&gt; Change Password</h3>
+<p>Changes the password used for pre-boot authentication (see the chapter <em>System Encryption</em>). WARNING: Your VeraCrypt Rescue Disk allows you to restore key data if it is damaged. By doing so, you also restore the password that was valid when the VeraCrypt
+ Rescue Disk was created. Therefore, whenever you change the password, you should destroy your VeraCrypt Rescue Disk and create a new one (select
+<em>System</em> -&gt; <em>Create Rescue Disk</em>). Otherwise, an attacker could decrypt your system partition/drive using the old password (if he finds the old VeraCrypt Rescue Disk and uses it to restore the key data). See also the chapter
+<a href="Security%20Requirements%20and%20Precautions.html">
+<em>Security Requirements and Precautions</em></a>.<br>
+<br>
+For more information on changing a password, please see the section <em>Volumes -&gt; Change Volume Password</em> above.</p>
+<h3>System -&gt; Mount Without Pre-Boot Authentication</h3>
+<p>Check this option, if you need to mount a partition that is within the key scope of system encryption without pre-boot authentication. For example, if you need to mount a partition located on the encrypted system drive of another operating system that is
+ not running. This can be useful e.g. when you need to back up or repair an operating system encrypted by VeraCrypt (from within another operating system).</p>
+<p>Note 1: If you need to mount multiple partitions at once, click <em>&lsquo;Auto-Mount Devices</em>&rsquo;, then click &lsquo;<em>Mount Options</em>&rsquo; and enable the option &lsquo;<em>Mount partition using system encryption without pre-boot authentication</em>&rsquo;.<br>
+<br>
+Please note you cannot use this function to mount extended (logical) partitions that are located on an entirely encrypted system drive.</p>
+<h3>Tools -&gt; Clear Volume History</h3>
+<p>Clears the list containing the file names (if file-hosted) and paths of the last twenty successfully mounted volumes.</p>
+<h3>Tools -&gt; Traveler Disk Setup</h3>
+<p>See the chapter <a href="Portable%20Mode.html">
+<em>Portable Mode.</em></a></p>
+<h3>Tools -&gt; Keyfile Generator</h3>
+<p>See section <em>Tools -&gt; Keyfile Generator</em> in the chapter <a href="Keyfiles.html">
+<em>Keyfiles.</em></a></p>
+<h3 id="tools-backup-volume-header">Tools -&gt; Backup Volume Header</h3>
+<h3 id="tools-restore-volume-header">Tools -&gt; Restore Volume Header</h3>
+<p>If the header of a VeraCrypt volume is damaged, the volume is, in most cases, impossible to mount. Therefore, each volume created by VeraCrypt (except system partitions) contains an embedded backup header, located at the end of the volume. For extra safety,
+ you can also create external volume header backup files. To do so, click <em>Select Device</em> or
+<em>Select File</em>, select the volume, select <em>Tools</em> -&gt; <em>Backup Volume Header</em>, and then follow the instructions.</p>
+<p>Note: For system encryption, there is no backup header at the end of the volume. For non-system volumes, a shrink operation is done first to ensure that all data are put at the beginning of the volume, leaving all free space at the end so that we have a
+ place to put the backup header. For system partitions, we can't perform this needed shrink operation while Windows is running and so the backup header can't be created at the end of the partition. The alternative way in the case of system encryption is the
+ use of the <a href="VeraCrypt%20Rescue%20Disk.html">
+Rescue Disk</a>.</p>
+<p>Note: A backup header (embedded or external) is <em>not</em> a copy of the original volume header because it is encrypted with a different header key derived using a different salt (see the section
+<a href="Header%20Key%20Derivation.html">
+<em>Header Key Derivation, Salt, and Iteration Count</em></a>). When the volume password and/or keyfiles are changed, or when the header is restored from the embedded (or an external) header backup, both the volume header and the backup header (embedded in
+ the volume) are re-encrypted with header keys derived using newly generated salts (the salt for the volume header is different from the salt for the backup header). Each salt is generated by the VeraCrypt random number generator (see the section
+<a href="Random%20Number%20Generator.html">
+<em>Random Number Generator</em></a>).</p>
+<p>Both types of header backups (embedded and external) can be used to repair a damaged volume header. To do so, click
+<em>Select Device</em> or <em>Select File</em>, select the volume, select <em>Tools</em> -&gt;
+<em>Restore Volume Header</em>, and then follow the instructions.<br>
+<br>
+WARNING: Restoring a volume header also restores the volume password and PIM that were valid when the backup was created. Moreover, if keyfile(s) are/is necessary to mount a volume when the backup is created, the same keyfile(s) will be necessary to mount the volume
+ again after the volume header is restored. For more information, see the section
+<a href="Encryption%20Scheme.html"><em>Encryption Scheme</em></a> in the chapter
+<a href="Technical%20Details.html"><em>Technical Details</em></a>.<br>
+<br>
+After you create a volume header backup, you might need to create a new one only when you change the volume password and/or keyfiles, or when you change the PIM value. Otherwise, the volume header remains unmodified so the volume header backup remains up-to-date.</p>
+<p>Note: Apart from salt (which is a sequence of random numbers), external header backup files do not contain any unencrypted information and they cannot be decrypted without knowing the correct password and/or supplying the correct keyfile(s). For more information,
+ see the chapter <a href="Technical%20Details.html">
+<em>Technical Details</em></a>.</p>
+<p>When you create an external header backup, both the standard volume header and the area where a hidden volume header can be stored is backed up, even if there is no hidden volume within the volume (to preserve plausible deniability of hidden volumes). If
+ there is no hidden volume within the volume, the area reserved for the hidden volume header in the backup file will be filled with random data (to preserve plausible deniability).<br>
+<br>
+When <em>restoring</em> a volume header, you need to choose the type of volume whose header you wish to restore (a standard or hidden volume). Only one volume header can be restored at a time. To restore both headers, you need to use the function twice (<em>Tools</em>
+ -&gt; <em>Restore Volume Header</em>). You will need to enter the correct password (and/or to supply the correct keyfiles) and the non-default PIM value, if applicable, that were valid when the volume header backup was created. The password (and/or keyfiles) and PIM will also automatically determine the type
+ of the volume header to restore, i.e. standard or hidden (note that VeraCrypt determines the type through the process of trial and error).<br>
+<br>
+Note: If the user fails to supply the correct password (and/or keyfiles) and/or the correct non-default PIM value twice in a row when trying to mount a volume, VeraCrypt will automatically try to mount the volume using the embedded backup header (in addition to trying to mount it using the primary
+ header) each subsequent time that the user attempts to mount the volume (until he or she clicks
+<em>Cancel</em>). If VeraCrypt fails to decrypt the primary header but it successfully decrypts the embedded backup header at the same time, the volume is mounted and the user is warned that the volume header is damaged (and informed as to how to repair it).</p>
+<h3 id="Settings-Performance">Settings -&gt; Performance and Driver Options</h3>
+<p>Invokes the Performance dialog window, where you can change enable or disable AES Hardware acceleration and thread based parallelization. You can also change the following driver option:</p>
+<h4>Enable extended disk control codes support</h4>
+<p>If enabled, VeraCrypt driver will support returning extended technical information about mounted volumes through IOCTL_STORAGE_QUERY_PROPERTY control code. This control code is always supported by physical drives and it can be required by some applications
+ to get technical information about a drive (e.g. the Windows fsutil program uses this control code to get the physical sector size of a drive.).<br>
+Enabling this option brings VeraCrypt volumes behavior much closer to that of physical disks and if it is disabled, applications can easily distinguish between physical disks and VeraCrypt volumes since sending this control code to a VeraCrypt volume will result
+ in an error.<br>
+Disable this option if you experience stability issues (like volume access issues or system BSOD) which can be caused by poorly written software and drivers.</p>
+<h3>Settings -&gt; Preferences</h3>
+<p>Invokes the Preferences dialog window, where you can change, among others, the following options:</p>
+<h4>Wipe cached passwords on exit</h4>
+<p>If enabled, passwords (which may also contain processed keyfile contents) and PIM values cached in driver memory will be cleared when VeraCrypt exits.</p>
+<h4>Cache passwords in driver memory</h4>
+<p>When checked, passwords and/or processed keyfile contents for up to last four successfully mounted VeraCrypt volumes are cached. If the 'Include PIM when caching a password' option is enabled in the Preferences, non-default PIM values are cached alongside the passwords. This allows mounting volumes without having to type their passwords (and selecting keyfiles) repeatedly. VeraCrypt never saves
+ any password or PIM values to a disk (however, see the chapter <a href="Security%20Requirements%20and%20Precautions.html">
+<em>Security Requirements and Precautions</em></a>). Password caching can be enabled/disabled in the Preferences (<em>Settings</em> -&gt;
+<em>Preferences</em>) and in the password prompt window. If the system partition/drive is encrypted, caching of the pre-boot authentication password can be enabled or disabled in the system encryption settings (<em>Settings</em> &gt; &lsquo;<em>System Encryption</em>&rsquo;).</p>
+<h4>Temporary Cache password during &quot;Mount Favorite Volumes&quot; operations</h4>
+<p>When this option is unchecked (this is the default), VeraCrypt will display the password prompt window for every favorite volume during the execution of the &quot;Mount Favorite Volumes&quot; operation and each password is erased once the volume is mounted (unless
+ password caching is enabled).<br>
+<br>
+If this option is checked and if there are two or more favorite volumes, then during the operation &quot;Mount Favorite Volumes&quot;, VeraCrypt will first try the password of the previous favorite and if it doesn't work, it will display password prompt window. This
+ logic applies starting from the second favorite volume onwards. Once all favorite volumes are processed, the password is erased from memory.</p>
+<p>This option is useful when favorite volumes share the same password since the password prompt window will only be displayed once for the first favorite and VeraCrypt will automatically mount all subsequent favorites.</p>
+<p>Please note that since we can't assume that all favorites use the same PRF (hash) nor the same TrueCrypt mode, VeraCrypt uses Autodetection for the PRF of subsequent favorite volumes and it tries both TrueCryptMode values (false, true) which means that the
+ total mounting time will be slower compared to the individual mounting of each volume with the manual selection of the correct PRF and the correct TrueCryptMode.</p>
+<h4>Open Explorer window for successfully mounted volume</h4>
+<p>If this option is checked, then after a VeraCrypt volume has been successfully mounted, an Explorer window showing the root directory of the volume (e.g., T:\) will be automatically opened.</p>
+<h4>Use a different taskbar icon when there are mounted volumes</h4>
+<p>If enabled, the appearance of the VeraCrypt taskbar icon (shown within the system tray notification area) is different while a VeraCrypt volume is mounted, except the following:</p>
+<ul>
+<li>Partitions/drives within the key scope of active system encryption (e.g., a system partition encrypted by VeraCrypt, or a non-system partition located on a system drive encrypted by VeraCrypt, mounted when the encrypted operating system is running).
+</li><li>VeraCrypt volumes that are not fully accessible to the user account (e.g. a volume mounted from within another user account).
+</li><li>VeraCrypt volumes that are not displayed in the VeraCrypt application window. For example, system favorite volumes attempted to be unmounted by an instance of VeraCrypt without administrator privileges when the option '<em>Allow only administrators to
+ view and unmount system favorite volumes in VeraCrypt</em>' is enabled. </li></ul>
+<h4>VeraCrypt Background Task &ndash; Enabled</h4>
+<p>See the chapter <a href="VeraCrypt%20Background%20Task.html">
+<em>VeraCrypt Background Task</em></a>.</p>
+<h4>VeraCrypt Background Task &ndash; Exit when there are no mounted volumes</h4>
+<p>If this option is checked, the VeraCrypt background task automatically and silently exits as soon as there are no mounted VeraCrypt volumes. For more information, see the chapter
+<a href="VeraCrypt%20Background%20Task.html">
+<em>VeraCrypt Background Task</em></a>. Note that this option cannot be disabled when VeraCrypt runs in portable mode.</p>
+<h4>Auto-unmount volume after no data has been read/written to it for</h4>
+<p>After no data has been written/read to/from a VeraCrypt volume for <em>n</em> minutes, the volume is automatically unmounted.</p>
+<h4>Force auto-unmount even if volume contains open files or directories</h4>
+<p>This option applies only to auto-unmount (not to regular unmount). It forces unmount (without prompting) on the volume being auto-unmounted in case it contains open files or directories (i.e., file/directories that are in use by the system or applications).</p>
+<p>&nbsp;</p>
+<p><a href="Mounting%20VeraCrypt%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

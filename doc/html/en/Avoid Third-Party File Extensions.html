@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Avoid%20Third-Party%20File%20Extensions.html">Avoid Third-Party File Extensions</a>
+</p></div>
+
+<div class="wikidoc">
+	<h1>Understanding the Risks of Using Third-Party File Extensions with VeraCrypt</h1>
+	<div>
+	  <p>While VeraCrypt provides robust encryption capabilities to secure your data, using third-party file extensions for File Containers or Keyfiles could risk making the encrypted data inaccessible.<br />
+	  This guide provides an in-depth explanation of the associated risks, and it outlines recommendations for best practices to mitigate these risks.</p>
+	</div>
+	
+	<h2>Risks Associated with File Containers</h2>
+	<div>
+	  <p>Using a third-party file extension for File Containers exposes you to several risks:</p>
+	  <ul>
+		<li>Overwritten Metadata: Third-party applications may update their metadata, which could overwrite crucial parts of the File Container.</li>
+		<li>Unintentional Changes: Accidentally launching a File Container with a third-party application could modify its metadata without your consent.</li>
+		<li>Container Corruption: These actions could render the container unreadable or unusable.</li>
+		<li>Data Loss: The data within the container might be permanently lost if the container becomes corrupted.</li>
+	  </ul>
+	</div>
+	
+	<h2>Risks Associated with Keyfiles</h2>
+	<div>
+	  <p>Similar risks are associated with Keyfiles:</p>
+	  <ul>
+		<li>Keyfile Corruption: Inadvertently modifying a Keyfile with a third-party application can make it unusable for decryption.</li>
+		<li>Overwritten Data: Third-party applications may overwrite the portion of the Keyfile that VeraCrypt uses for decryption.</li>
+		<li>Unintentional Changes: Accidental changes can make it impossible to mount the volume unless you have an unaltered backup of the Keyfile.</li>
+	  </ul>
+	</div>
+	
+	<h2>Examples of Extensions to Avoid</h2>
+	<div>
+	  <p>Avoid using the following types of third-party file extensions:</p>
+	  <ul>
+		<li>Media Files: Picture, audio, and video files are subject to metadata changes by their respective software.</li>
+		<li>Archive Files: Zip files can be easily modified, which could disrupt the encrypted volume.</li>
+		<li>Executable Files: Software updates can modify these files, making them unreliable as File Containers or Keyfiles.</li>
+		<li>Document Files: Office and PDF files can be automatically updated by productivity software, making them risky to use.</li>
+	  </ul>
+	</div>
+	
+	<h2>Recommendations</h2>
+	<div>
+	  <p>For secure usage, consider the following best practices:</p>
+	  <ul>
+		<li>Use neutral file extensions for File Containers and Keyfiles to minimize the risk of automatic file association.</li>
+		<li>Keep secure backups of your File Containers and Keyfiles in locations isolated from network access.</li>
+		<li>Disable auto-open settings for the specific file extensions you use for VeraCrypt File Containers and Keyfiles.</li>
+		<li>Always double-check file associations and be cautious when using a new device or third-party application.</li>
+	  </ul>
+	</div>
+	
+<div class="ClearBoth"></div></body></html>

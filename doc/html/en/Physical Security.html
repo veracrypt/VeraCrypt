@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Security Requirements and Precautions</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Physical%20Security.html">Physical Security</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Physical Security</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+If an attacker can physically access the computer hardware <strong style="text-align:left">
+and</strong> you use it after the attacker has physically accessed it, then VeraCrypt may become unable to secure data on the computer.* This is because the attacker may modify the hardware or attach a malicious hardware component to it (such as a hardware
+ keystroke logger) that will capture the password or encryption key (e.g. when you mount a VeraCrypt volume) or otherwise compromise the security of the computer. Therefore, you must not use VeraCrypt on a computer that an attacker has physically accessed.
+ Furthermore, you must ensure that VeraCrypt (including its device driver) is not running when the attacker physically accesses the computer. Additional information pertaining to hardware attacks where the attacker has direct physical access is contained in
+ the section <a href="Unencrypted%20Data%20in%20RAM.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Unencrypted Data in RAM</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Furthermore, even if the attacker cannot physically access the computer hardware <em style="text-align:left">
+directly</em>, he or she may be able to breach the physical security of the computer by remotely intercepting and analyzing emanations from the computer hardware (including the monitor and cables). For example, intercepted emanations from the cable connecting
+ the keyboard with the computer can reveal passwords you type. It is beyond the scope of this document to list all of the kinds of such attacks (sometimes called TEMPEST attacks) and all known ways to prevent them (such as shielding or radio jamming). It is
+ your responsibility to prevent such attacks. If you do not, VeraCrypt may become unable to secure data on the computer.</div>
+<p><br style="text-align:left">
+</p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* In this section (<em style="text-align:left">Physical Security</em>), the phrase &quot;data on the computer&quot; means data on internal and external storage devices/media (including removable devices
+ and network drives) connected to the computer.</span></p>
+</div><div class="ClearBoth"></div></body></html>

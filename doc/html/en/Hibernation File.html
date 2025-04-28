@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Security Requirements and Precautions</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">Data Leaks</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hibernation%20File.html">Hibernation File</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>Hibernation File</h1>
+<p>Note: The issue described below does not affect you if the system partition or system drive is encrypted<span>*
+</span>(for more information, see the chapter <a href="System%20Encryption.html">
+<em>System Encryption</em></a>) and if the hibernation file is located on one the partitions within the key scope of system encryption (which it typically is, by default), for example, on the partition where Windows is installed. When the computer hibernates,
+ data are encrypted on the fly before they are written to the hibernation file.</p>
+<p>When a computer hibernates (or enters a power-saving mode), the content of its system memory is written to a so-called hibernation file on the hard drive. You can configure VeraCrypt (<em>Settings</em> &gt;
+<em>Preferences</em> &gt; <em>Unmount all when: Entering power saving mode</em>) to automatically unmount all mounted VeraCrypt volumes, erase their master keys stored in RAM, and cached passwords (stored in RAM), if there are any, before a computer hibernates
+ (or enters a power-saving mode). However, keep in mind, that if you do not use system encryption (see the chapter
+<a href="System%20Encryption.html"><em>System Encryption</em></a>), VeraCrypt still cannot reliably prevent the contents of sensitive files opened in RAM from being saved unencrypted to a hibernation file. Note that
+ when you open a file stored on a VeraCrypt volume, for example, in a text editor, then the content of the file is stored unencrypted in RAM (and it may remain unencrypted in RAM until the computer is turned off).<br>
+<br>
+Note that when Windows enters Sleep mode, it may be actually configured to enter so-called Hybrid Sleep mode, which involves hibernation. Also note that the operating system may be configured to hibernate or enter the Hybrid Sleep mode when you click or select
+ &quot;Shut down&quot; (for more information, please see the documentation for your operating system).<br>
+<br>
+<strong>To prevent the issues described above</strong>, encrypt the system partition/drive (for information on how to do so, see the chapter
+<a href="System%20Encryption.html"><em>System Encryption</em></a>) and make sure that the hibernation file is located on one of the partitions within the key scope of system encryption (which it typically is, by default),
+ for example, on the partition where Windows is installed. When the computer hibernates, data will be encrypted on the fly before they are written to the hibernation file.</p>
+<p>Note: You may also want to consider creating a hidden operating system (for more information, see the section
+<a href="Hidden%20Operating%20System.html">
+<em>Hidden Operating System</em></a>)<span>.</span></p>
+<p>Alternatively, if you cannot use system encryption, disable or prevent hibernation on your computer at least for each session during which you work with any sensitive data and during which you mount a VeraCrypt volume.</p>
+<p><span>* </span>Disclaimer: As Windows XP and Windows 2003 do not provide any API for encryption of hibernation files, VeraCrypt has to modify undocumented components of Windows XP/2003 in order to allow users to encrypt hibernation files. Therefore, VeraCrypt
+ cannot guarantee that Windows XP/2003 hibernation files will always be encrypted. In response to our public complaint regarding the missing API, Microsoft began providing a public API for encryption of hibernation files on Windows Vista and later versions
+ of Windows. VeraCrypt has used this API and therefore is able to safely encrypt hibernation files under Windows Vista and later versions of Windows. Therefore, if you use Windows XP/2003 and want the hibernation file to be safely encrypted, we strongly recommend
+ that you upgrade to Windows Vista or later.</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

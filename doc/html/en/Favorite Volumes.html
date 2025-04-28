@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Volume.html">VeraCrypt Volume</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Favorite%20Volumes.html">Favorite Volumes</a>
+</p></div>
+
+<div class="wikidoc">
+<h2 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; margin-bottom:17px">
+Favorite Volumes</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>Favorite volumes are useful, for example, in any the following cases:</p>
+<ul>
+<li>You have a volume that always needs to be <strong>mounted to a particular drive letter</strong>.
+</li><li>You have a volume that needs to be <strong>automatically mounted when its host device gets connected to the computer
+</strong>(for example, a container located on a USB flash drive or external USB hard drive).
+</li><li>You have a volume that needs to be <strong>automatically mounted when you log on
+</strong>to the operating system. </li><li>You have a volume that always needs to be <strong>mounted as read-only </strong>
+or removable medium. </li></ul>
+<p>
+<strong>Note: </strong>Please refer to <a href="Issues%20and%20Limitations.html">Known Issues and Limitations</a> section for issues that may affect favorite volumes when Windows "Fast Startup" feature is enabled.
+</p>
+<h3>To configure a VeraCrypt volume as a favorite volume, follow these steps:</h3>
+<ol>
+<li>Mount the volume (to the drive letter to which you want it to be mounted every time).
+</li><li>Right-click the mounted volume in the drive list in the main VeraCrypt window and select &lsquo;<em>Add to Favorites</em>&rsquo;.
+</li><li>The Favorite Volumes Organizer window should appear now. In this window, you can set various options for the volume (see below).
+</li><li>Click <em>OK</em>. </li></ol>
+<strong>Favorite volumes can be mounted in several ways: </strong>To mount all favorite volumes, select
+<em>Favorites </em>&gt; <em>Mount Favorite Volumes </em>or press the &lsquo;<em>Mount Favorite Volumes</em>&rsquo; hot key (<em>Settings
+</em>&gt; <em>Hot Keys</em>). To mount only one of the favorite volumes, select it from the list contained in the
+<em>Favorites </em>menu. When you do so, you are asked for its password (and/or keyfiles) (unless it is cached) and if it is correct, the volume is mounted. If it is already mounted, an Explorer window is opened for it.
+<h3>Selected or all favorite volumes can be mounted automatically whenever you log on to Windows</h3>
+<p>To set this up, follow these steps:</p>
+<ol>
+<li>Mount the volume you want to have mounted automatically when you log on (mount it to the drive letter to which you want it to be mounted every time).
+</li><li>Right-click the mounted volume in the drive list in the main VeraCrypt window and select &lsquo;<em>Add to Favorites</em>&rsquo;.
+</li><li>The Favorites Organizer window should appear now. In this window, enable the option &lsquo;<em>Mount selected volume upon logon</em>&rsquo; and click
+<em>OK</em>. </li></ol>
+<p>Then, when you log on to Windows, you will be asked for the volume password (and/or keyfiles) and if it is correct, the volume will be mounted.<br>
+<br>
+Note: VeraCrypt will not prompt you for a password if you have enabled caching of the pre-boot authentication password (<em>Settings
+</em>&gt; &lsquo;<em>System Encryption</em>&rsquo;) and the volumes use the same password as the system partition/drive.</p>
+<p>Selected or all favorite volumes can be mounted automatically whenever its host device gets connected to the computer. To set this up, follow these steps:</p>
+<ol>
+<li>Mount the volume (to the drive letter to which you want it to be mounted every time).
+</li><li>Right-click the mounted volume in the drive list in the main VeraCrypt window and select &lsquo;<em>Add to Favorites</em>&rsquo;.
+</li><li>The Favorites Organizer window should appear now. In this window, enable the option &lsquo;<em>Mount selected volume when its host device gets connected</em>&rsquo; and click
+<em>OK</em>. </li></ol>
+<p>Then, when you insert e.g. a USB flash drive on which a VeraCrypt volume is located into the USB port, you will be asked for the volume password (and/or keyfiles) (unless it is cached) and if it is correct, the volume will be mounted.<br>
+<br>
+Note: VeraCrypt will not prompt you for a password if you have enabled caching of the pre-boot authentication password (<em>Settings
+</em>&gt; &lsquo;<em>System Encryption</em>&rsquo;) and the volume uses the same password as the system partition/drive.</p>
+<p>A special label can be assigned to each favorite volume. This label is not the same as the filesystem label and it is shown within the VeraCrypt user interface instead of the volume path. To assign such a label, follow these steps:</p>
+<ol>
+<li>Select <em>Favorites </em>&gt; &lsquo;<em>Organize Favorite Volumes</em>&rsquo;.
+</li><li>The Favorite Volumes Organizer window should appear now. In this window, select the volume whose label you want to edit.
+</li><li>Enter the label in the &lsquo;<em>Label of selected favorite volume</em>&rsquo; input field and click OK.
+</li></ol>
+<p>Note that the Favorite Volumes Organizer window (<em>Favorites </em>&gt; &lsquo;<em>Organize Favorite Volumes</em>&rsquo;) allows you to
+<strong>set various other options for each favorite volume</strong>. For example, any of them can be mounted as read-only or as removable medium. To set any of these options, follow these steps:</p>
+<ol>
+<li>Select <em>Favorites </em>&gt; &lsquo;<em>Organize Favorite Volumes</em>&rsquo;.
+</li><li>The Favorite Volumes Organizer window should appear now. In this window, select the volume whose options you want to set.
+</li><li>Set the options and click OK. </li></ol>
+<p>The order in which system favorite volumes are displayed in the Favorites Organizer window (<em>Favorites
+</em>&gt; &lsquo;<em>Organize Favorite Volumes</em>&rsquo;) is <strong>the order in which the volumes are mounted
+</strong>when you select <em>Favorites </em>&gt; <em>Mount Favorite Volumes </em>
+or when you press the &lsquo;<em>Mount Favorite Volumes</em>&rsquo; hotkey (<em>Settings
+</em>&gt; <em>Hot Keys</em>). You can use the <em>Move Up </em>and <em>Move Down </em>
+buttons to change the order of the volumes.<br>
+<br>
+Note that a favorite volume can also be a <strong>partition that is within the key scope of system encryption mounted without pre-boot authentication
+</strong>(for example, a partition located on the encrypted system drive of another operating system that is not running). When you mount such a volume and add it to favorites, you will no longer have to select
+<em>System </em>&gt; <em>Mount Without Pre-Boot Authentication </em>or to enable the mount option &lsquo;<em>Mount partition using system encryption without pre- boot authentication</em>&rsquo;. You can simply mount the favorite volume (as explained above)
+ without setting any options, as the mode in which the volume is mounted is saved in the configuration file containing the list of your favorite volumes.</p>
+<p>Warning: When the drive letter assigned to a favorite volume (saved in the configuration file) is not free, the volume is not mounted and no error message is displayed.<br>
+<br>
+<strong>To remove a volume form the list of favorite volumes</strong>, select <em>
+Favorites </em>&gt; <em>Organize Favorite Volumes</em>, select the volume, click <em>
+Remove</em>, and click OK.</p>
+<p>&nbsp;</p>
+<p><a href="System%20Favorite%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
+</div>
+</div>
+</body></html>

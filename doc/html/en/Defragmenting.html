@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Security Requirements and Precautions</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Defragmenting.html">Defragmenting</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Defragmenting</h1>
+<p>When you (or the operating system) defragment the file system in which a file-hosted VeraCrypt container is stored, a copy of the VeraCrypt container (or of its fragment) may remain in the free space on the host volume (in the defragmented file system).
+ This may have various security implications. For example, if you change the volume password/keyfile(s) afterwards, and an adversary finds the old copy or fragment (the old header) of the VeraCrypt volume, he might use it to mount the volume using an old compromised
+ password (and/or using compromised keyfiles that were necessary to mount the volume before the volume header was re-encrypted). To prevent this and other possible security issues (such as those mentioned in the section
+<a href="Volume%20Clones.html"><em>Volume Clones</em></a>), do one of the following:</p>
+<ul>
+<li>Use a partition/device-hosted VeraCrypt volume instead of file-hosted. </li><li><em>Securely</em> erase free space on the host volume (in the defragmented file system) after defragmenting. On Windows, this can be done using the Microsoft free utility
+<code>SDelete</code> (<a href="https://technet.microsoft.com/en-us/sysinternals/bb897443.aspx" rel="nofollow">https://technet.microsoft.com/en-us/sysinternals/bb897443.aspx</a>). On Linux, the
+<code>shred</code> utility from GNU coreutils package can be used for this purpose.&nbsp;
+</li><li>Do not defragment file systems in which you store VeraCrypt volumes. </li></ul>
+</div><div class="ClearBoth"></div></body></html>
