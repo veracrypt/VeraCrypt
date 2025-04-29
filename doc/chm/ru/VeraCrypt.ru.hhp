@@ -1,0 +1,191 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=VeraCrypt User Guide.ru.chm
+Contents file=VeraCrypt.ru.hhc
+Default topic=Documentation.html
+Display compile progress=No
+Full-text search=Yes
+Index file=VeraCrypt.ru.hhk
+Language=0x419 Russian
+Title=Руководство пользователя VeraCrypt
+
+[FILES]
+Acknowledgements.html
+Additional Security Requirements and Precautions.html
+AES.html
+arrow_right.gif
+Authenticity and Integrity.html
+Authors.html
+Avoid Third-Party File Extensions.html
+bank_30x30.png
+BC_Logo_30x30.png
+BCH_Logo_30x30.png
+Beginner's Tutorial.html
+Beginner's Tutorial_Image_001.png
+Beginner's Tutorial_Image_002.png
+Beginner's Tutorial_Image_003.png
+Beginner's Tutorial_Image_004.png
+Beginner's Tutorial_Image_005.png
+Beginner's Tutorial_Image_007.png
+Beginner's Tutorial_Image_008.png
+Beginner's Tutorial_Image_009.png
+Beginner's Tutorial_Image_010.png
+Beginner's Tutorial_Image_011.png
+Beginner's Tutorial_Image_012.png
+Beginner's Tutorial_Image_013.png
+Beginner's Tutorial_Image_014.png
+Beginner's Tutorial_Image_015.png
+Beginner's Tutorial_Image_016.png
+Beginner's Tutorial_Image_017.png
+Beginner's Tutorial_Image_018.png
+Beginner's Tutorial_Image_019.png
+Beginner's Tutorial_Image_020.png
+Beginner's Tutorial_Image_021.png
+Beginner's Tutorial_Image_022.png
+Beginner's Tutorial_Image_023.png
+Beginner's Tutorial_Image_024.png
+Beginner's Tutorial_Image_034.png
+BLAKE2s-256.html
+Camellia.html
+Cascades.html
+Changing Passwords and Keyfiles.html
+Choosing Passwords and Keyfiles.html
+Command Line Usage.html
+CompilingGuidelineLinux.html
+CompilingGuidelines.html
+CompilingGuidelineWin.html
+Contact.html
+Contributed Resources.html
+Conversion_Guide_VeraCrypt_1.26_and_Later.html
+Converting TrueCrypt volumes and partitions.html
+Converting TrueCrypt volumes and partitions_truecrypt_convertion.png
+Creating New Volumes.html
+Data Leaks.html
+Default Mount Parameters.html
+Default Mount Parameters_VeraCrypt_password_using_default_parameters.png
+Defragmenting.html
+Digital Signatures.html
+Disclaimers.html
+Documentation.html
+Donation.html
+Donation_donate.gif
+Donation_donate_CHF.gif
+Donation_donate_Dollars.gif
+Donation_donate_Euros.gif
+Donation_donate_GBP.gif
+Donation_donate_PLN.gif
+Donation_donate_YEN.gif
+Donation_VeraCrypt_Bitcoin_small.png
+Donation_VeraCrypt_BitcoinCash.png
+Donation_VeraCrypt_Litecoin.png
+Donation_VeraCrypt_Monero.png
+Encryption Algorithms.html
+Encryption Scheme.html
+FAQ.html
+Favorite Volumes.html
+flattr-badge-large.png
+gf2_mul.gif
+Hardware Acceleration.html
+Hash Algorithms.html
+Header Key Derivation.html
+Hibernation File.html
+Hidden Operating System.html
+Hidden Volume.html
+Home_facebook_veracrypt.png
+Home_reddit.png
+Home_utilities-file-archiver-3.png
+Home_VeraCrypt_Default_Mount_Parameters.png
+Home_VeraCrypt_menu_Default_Mount_Parameters.png
+Hot Keys.html
+How to Back Up Securely.html
+Incompatibilities.html
+Introduction.html
+Issues and Limitations.html
+Journaling File Systems.html
+Keyfiles in VeraCrypt.html
+Keyfiles in VeraCrypt_Image_040.png
+Keyfiles.html
+Kuznyechik.html
+Language Packs.html
+Legal Information.html
+liberapay_donate.svg
+LTC_Logo_30x30.png
+Main Program Window.html
+Malware.html
+Memory Dump Files.html
+Miscellaneous.html
+Modes of Operation.html
+Monero_Logo_30x30.png
+Mounting VeraCrypt Volumes.html
+Multi-User Environment.html
+Notation.html
+Paging File.html
+Parallelization.html
+paypal_30x30.png
+Personal Iterations Multiplier (PIM).html
+Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step1.png
+Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step2.png
+Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step1.png
+Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step2.png
+Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step1.png
+Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step2.png
+Physical Security.html
+Pipelining.html
+Plausible Deniability.html
+Portable Mode.html
+Preface.html
+Program Menu.html
+Protection of Hidden Volumes.html
+Protection of Hidden Volumes_Image_027.png
+Protection of Hidden Volumes_Image_028.png
+Protection of Hidden Volumes_Image_029.png
+Protection of Hidden Volumes_Image_030.png
+Protection of Hidden Volumes_Image_031.png
+Random Number Generator.html
+Reallocated Sectors.html
+References.html
+Release Notes.html
+Removable Medium Volume.html
+Removing Encryption.html
+Security Model.html
+Security Requirements and Precautions.html
+Security Requirements for Hidden Volumes.html
+Security Tokens & Smart Cards.html
+Serpent.html
+SHA-256.html
+SHA-512.html
+Sharing over Network.html
+Source Code.html
+Standard Compliance.html
+Streebog.html
+styles.css
+Supported Operating Systems.html
+Supported Systems for System Encryption.html
+System Encryption.html
+System Favorite Volumes.html
+Technical Details.html
+Trim Operation.html
+Troubleshooting.html
+TrueCrypt Support.html
+TrueCrypt Support_truecrypt_mode_gui.png
+twitter_veracrypt.PNG
+Twofish.html
+Unencrypted Data in RAM.html
+Uninstalling VeraCrypt.html
+Using VeraCrypt Without Administrator Privileges.html
+VeraCrypt Background Task.html
+VeraCrypt Hidden Operating System.html
+VeraCrypt License.html
+VeraCrypt Memory Protection.html
+VeraCrypt RAM Encryption.html
+VeraCrypt Rescue Disk.html
+VeraCrypt System Files.html
+VeraCrypt Volume Format Specification.html
+VeraCrypt Volume.html
+VeraCrypt128x128.png
+Volume Clones.html
+Wear-Leveling.html
+Whirlpool.html
+
+[INFOTYPES]
+

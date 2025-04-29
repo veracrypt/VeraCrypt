@@ -1,12 +1,12 @@
 [OPTIONS]
 Compatibility=1.1 or later
 Compiled file=VeraCrypt User Guide.zh-cn.chm
-Contents file=VeraCrypt_zh-cn.hhc
+Contents file=VeraCrypt.zh-cn.hhc
 Default Font=微软雅黑,9,0
 Default topic=Documentation.html
 Display compile progress=No
 Full-text search=Yes
-Index file=VeraCrypt_zh-cn.hhk
+Index file=VeraCrypt.zh-cn.hhk
 Language=0x804 中文(简体，中国)
 Title=VeraCrypt用户指南
 

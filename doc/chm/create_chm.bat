@@ -16,7 +16,7 @@ cd %CHMBUILDPATH%\zh-cn
 
 xcopy /E ..\..\html\zh-cn\* .
 
-hhc VeraCrypt_zh-cn.hhp
+hhc VeraCrypt.zh-cn.hhp
 
 del /F /Q *.html *.css *.jpg *.gif *.png *.svg *.js
 rmdir /s /Q CompilingGuidelineWin
@@ -27,7 +27,7 @@ cd %CHMBUILDPATH%\ru
 
 xcopy /E ..\..\html\ru\* .
 
-hhc VeraCrypt_ru.hhp
+hhc VeraCrypt.ru.hhp
 
 del /F /Q *.html *.css *.jpg *.gif *.png *.svg *.js
 rmdir /s /Q CompilingGuidelineWin
