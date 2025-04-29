@@ -60,7 +60,12 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 <li><strong>Linux:</strong>
 	<ul>
-		<li>Исправлена регрессия в Linux Mint, влияющая на аутентификацию администратора по паролю (GH #1473).</li>
+		<li>Исправлена регрессия в Linux Mint, влияющая на аутентификацию администратора по паролю (GH #1473).
+			<ul>
+				<li>/usr/bin/true теперь используется вместо /usr/bin/uptime для определения активных sudo-сессий.</li>
+				<li>Если в файле sudoers для veracrypt используется правило NOPASSWD с uptime, его следует заменить на /usr/bin/true.</li>
+			</ul>
+		</li>
 	</ul>
 </li>
 <li><strong>macOS:</strong>

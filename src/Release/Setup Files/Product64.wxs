@@ -449,6 +449,10 @@
 			<Component Id="VCUserGuideZHCNChm" Guid="{FFC5D1B9-D465-486B-B2FC-AD22E4BF1601}">
 				<File Id="VeraCrypt_User_Guide_zh_cn.chm" Name="VeraCrypt User Guide.zh-cn.chm" Source="$(sys.CURRENTDIR)\docs\VeraCrypt User Guide.zh-cn.chm" KeyPath="yes" Checksum="yes" DiskId="1" />
 			</Component>
+
+			<Component Id="VCUserGuideRUChm" Guid="{028BEBA5-93A7-46E6-B0BD-CEDB098D9B14}">
+				<File Id="VeraCrypt_User_Guide_ru.chm" Name="VeraCrypt User Guide.ru.chm" Source="$(sys.CURRENTDIR)\docs\VeraCrypt User Guide.ru.chm" KeyPath="yes" Checksum="yes" DiskId="1" />
+			</Component>
 			
 		</DirectoryRef>
 		
@@ -2685,6 +2689,7 @@
 			<!-- C:\Program Files\VeraCrypt\docs -->
 			<ComponentRef Id="VCUserGuideChm" />
 			<ComponentRef Id="VCUserGuideZHCNChm" />
+            <ComponentRef Id="VCUserGuideRUChm" />
 			
 			<!-- C:\Program Files\VeraCrypt\docs\EFI-DCS -->
 			<ComponentRef Id="dcs_tpm_owner_02_pdf" />
