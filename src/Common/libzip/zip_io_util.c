@@ -69,13 +69,7 @@ _zip_read_data(zip_buffer_t *buffer, zip_source_t *src, size_t length, bool nulp
         return NULL;
     }
 
-// VS2022: Workaround an Internal compiler error for Release ARM (32-bit) build.
-#if _MSC_VER >= 1940 && _MSC_VER < 1950 && defined(_M_ARM) && defined(NDEBUG)
-    size_t l = length + (nulp ? 1 : 0);
-    r = (zip_uint8_t *)malloc(l);
-#else
     r = (zip_uint8_t *)malloc(length + (nulp ? 1 : 0));
-#endif
     if (r == NULL) {
         zip_error_set(error, ZIP_ER_MEMORY, 0);
         return NULL;

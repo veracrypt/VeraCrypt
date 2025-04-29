@@ -295,8 +295,7 @@ zip_close(zip_t *za) {
 }
 
 
-static int
-add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
+static int add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
     zip_int64_t offstart, offdata, offend, data_length;
     zip_stat_t st;
     zip_file_attributes_t attributes;
@@ -305,19 +304,24 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
     int is_zip64;
     zip_flags_t flags;
     bool needs_recompress, needs_decompress, needs_crc, needs_compress, needs_reencrypt, needs_decrypt, needs_encrypt;
+    bool have_dos_time, dirent_changed;
+    time_t mtime_before_copy;
 
     if (zip_source_stat(src, &st) < 0) {
         zip_error_set_from_source(&za->error, src);
         return -1;
     }
 
+    de->bitflags &= ~ZIP_GPBF_DATA_DESCRIPTOR;
+
     if ((st.valid & ZIP_STAT_COMP_METHOD) == 0) {
         st.valid |= ZIP_STAT_COMP_METHOD;
         st.comp_method = ZIP_CM_STORE;
     }
 
-    if (ZIP_CM_IS_DEFAULT(de->comp_method) && st.comp_method != ZIP_CM_STORE)
+    if (ZIP_CM_IS_DEFAULT(de->comp_method) && st.comp_method != ZIP_CM_STORE) {
         de->comp_method = st.comp_method;
+    }
     else if (de->comp_method == ZIP_CM_STORE && (st.valid & ZIP_STAT_SIZE)) {
         st.valid |= ZIP_STAT_COMP_SIZE;
         st.comp_size = st.size;
@@ -372,14 +376,30 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
         }
     }
 
-    if ((offstart = zip_source_tell_write(za->src)) < 0) {
-        zip_error_set_from_source(&za->error, za->src);
-        return -1;
+    if ((de->changed & ZIP_DIRENT_LAST_MOD) == 0) {
+        int ret2 = zip_source_get_dos_time(src, &de->last_mod);
+        if (ret2 < 0) {
+            zip_error_set_from_source(&za->error, src);
+            return -1;
+        }
+        if (ret2 == 1) {
+            have_dos_time = true;
+        }
+        else {
+            if (st.valid & ZIP_STAT_MTIME) {
+                mtime_before_copy = st.mtime;
+            }
+            else {
+                time(&mtime_before_copy);
+            }
+            if (_zip_u2d_time(mtime_before_copy, &de->last_mod, &za->error) < 0) {
+                return -1;
+            }
+        }
     }
 
-    /* as long as we don't support non-seekable output, clear data descriptor bit */
-    de->bitflags &= (zip_uint16_t)~ZIP_GPBF_DATA_DESCRIPTOR;
-    if ((is_zip64 = _zip_dirent_write(za, de, flags)) < 0) {
+    if ((offstart = zip_source_tell_write(za->src)) < 0) {
+        zip_error_set_from_source(&za->error, za->src);
         return -1;
     }
 
@@ -485,9 +505,24 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
         src_final = src_tmp;
     }
 
+    if (!ZIP_WANT_TORRENTZIP(za)) {
+        if (zip_source_get_file_attributes(src_final, &attributes) != 0) {
+            zip_error_set_from_source(&za->error, src_final);
+            zip_source_free(src_final);
+            return -1;
+        }
+        _zip_dirent_apply_attributes(de, &attributes, (flags & ZIP_FL_FORCE_ZIP64) != 0, changed);
+    }
+
+    /* as long as we don't support non-seekable output, clear data descriptor bit */
+    if ((is_zip64 = _zip_dirent_write(za, de, flags)) < 0) {
+        zip_source_free(src_final);
+        return -1;
+    }
 
     if ((offdata = zip_source_tell_write(za->src)) < 0) {
         zip_error_set_from_source(&za->error, za->src);
+        zip_source_free(src_final);
         return -1;
     }
 
@@ -498,9 +533,11 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
         ret = -1;
     }
 
-    if (zip_source_get_file_attributes(src_final, &attributes) != 0) {
-        zip_error_set_from_source(&za->error, src_final);
-        ret = -1;
+    if (!ZIP_WANT_TORRENTZIP(za)) {
+        if (zip_source_get_file_attributes(src_final, &attributes) != 0) {
+            zip_error_set_from_source(&za->error, src_final);
+            ret = -1;
+        }
     }
 
     zip_source_free(src_final);
@@ -514,57 +551,51 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
         return -1;
     }
 
-    if (zip_source_seek_write(za->src, offstart, SEEK_SET) < 0) {
-        zip_error_set_from_source(&za->error, za->src);
-        return -1;
-    }
-
     if ((st.valid & (ZIP_STAT_COMP_METHOD | ZIP_STAT_CRC | ZIP_STAT_SIZE)) != (ZIP_STAT_COMP_METHOD | ZIP_STAT_CRC | ZIP_STAT_SIZE)) {
         zip_error_set(&za->error, ZIP_ER_INTERNAL, 0);
         return -1;
     }
 
-    if ((de->changed & ZIP_DIRENT_LAST_MOD) == 0) {
-        int ret2 = zip_source_get_dos_time(src, &de->last_mod);
-        if (ret2 < 0) {
-            zip_error_set_from_source(&za->error, src);
-            return -1;
-        }
-        if (ret2 == 0) {
-            time_t mtime;
-            if (st.valid & ZIP_STAT_MTIME) {
-                mtime = st.mtime;
-            }
-            else {
-                time(&mtime);
-            }
-            if (_zip_u2d_time(mtime, &de->last_mod, &za->error) < 0) {
-                return -1;
-            }
-        }
-    }
+    dirent_changed = ZIP_CM_ACTUAL(de->comp_method) != st.comp_method || de->crc != st.crc || de->uncomp_size != st.size || de->comp_size != (zip_uint64_t)(offend - offdata);
     de->comp_method = st.comp_method;
     de->crc = st.crc;
     de->uncomp_size = st.size;
     de->comp_size = (zip_uint64_t)(offend - offdata);
-    _zip_dirent_apply_attributes(de, &attributes, (flags & ZIP_FL_FORCE_ZIP64) != 0, changed);
 
-    if (ZIP_WANT_TORRENTZIP(za)) {
-        zip_dirent_torrentzip_normalize(de);
+    if (!ZIP_WANT_TORRENTZIP(za)) {
+        dirent_changed |= _zip_dirent_apply_attributes(de, &attributes, (flags & ZIP_FL_FORCE_ZIP64) != 0, changed);
+
+        if ((de->changed & ZIP_DIRENT_LAST_MOD) == 0 && !have_dos_time) {
+            if (st.valid & ZIP_STAT_MTIME) {
+                if (st.mtime != mtime_before_copy) {
+                    if (_zip_u2d_time(st.mtime, &de->last_mod, &za->error) < 0) {
+                        return -1;
+                    }
+                    dirent_changed = true;
+                }
+            }
+        }
     }
 
-    if ((ret = _zip_dirent_write(za, de, flags)) < 0)
-        return -1;
+    if (dirent_changed) {
+        if (zip_source_seek_write(za->src, offstart, SEEK_SET) < 0) {
+            zip_error_set_from_source(&za->error, za->src);
+            return -1;
+        }
 
-    if (is_zip64 != ret) {
-        /* Zip64 mismatch between preliminary file header written before data and final file header written afterwards */
-        zip_error_set(&za->error, ZIP_ER_INTERNAL, 0);
-        return -1;
-    }
+        if ((ret = _zip_dirent_write(za, de, flags)) < 0)
+            return -1;
 
-    if (zip_source_seek_write(za->src, offend, SEEK_SET) < 0) {
-        zip_error_set_from_source(&za->error, za->src);
-        return -1;
+        if (is_zip64 != ret) {
+            /* Zip64 mismatch between preliminary file header written before data and final file header written afterwards */
+            zip_error_set(&za->error, ZIP_ER_INTERNAL, 0);
+            return -1;
+        }
+
+        if (zip_source_seek_write(za->src, offend, SEEK_SET) < 0) {
+            zip_error_set_from_source(&za->error, za->src);
+            return -1;
+        }
     }
 
     if (de->bitflags & ZIP_GPBF_DATA_DESCRIPTOR) {

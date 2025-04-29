@@ -340,6 +340,7 @@ buffer_clone(buffer_t *buffer, zip_uint64_t offset, zip_error_t *error) {
     fragment_offset = offset - buffer->fragment_offsets[fragment];
 
     if (fragment_offset == 0) {
+        /* We can't be at beginning of fragment zero if offset > 0. */
         fragment--;
         fragment_offset = buffer->fragments[fragment].length;
     }
@@ -429,15 +430,13 @@ static bool
 buffer_grow_fragments(buffer_t *buffer, zip_uint64_t capacity, zip_error_t *error) {
     zip_buffer_fragment_t *fragments;
     zip_uint64_t *offsets;
-    zip_uint64_t fragments_size;
-    zip_uint64_t offsets_size;
 
     if (capacity < buffer->fragments_capacity) {
         return true;
     }
 
-    fragments_size = sizeof(buffer->fragments[0]) * capacity;
-    offsets_size = sizeof(buffer->fragment_offsets[0]) * (capacity + 1);
+    zip_uint64_t fragments_size = sizeof(buffer->fragments[0]) * capacity;
+    zip_uint64_t offsets_size = sizeof(buffer->fragment_offsets[0]) * (capacity + 1);
 
     if (capacity == ZIP_UINT64_MAX || fragments_size < capacity || fragments_size > SIZE_MAX|| offsets_size < capacity || offsets_size > SIZE_MAX) {
         zip_error_set(error, ZIP_ER_MEMORY, 0);

@@ -33,13 +33,6 @@
 
 #include "zip_source_file_win32.h"
 
-/* ACL is not available when targeting the games API partition */
-#if defined(WINAPI_FAMILY_PARTITION) && defined(WINAPI_PARTITION_GAMES)
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_GAMES)
-#define ACL_UNSUPPORTED
-#endif
-#endif
-
 static zip_int64_t _zip_win32_named_op_commit_write(zip_source_file_context_t *ctx);
 static zip_int64_t _zip_win32_named_op_create_temp_output(zip_source_file_context_t *ctx);
 static bool _zip_win32_named_op_open(zip_source_file_context_t *ctx);
@@ -106,29 +99,24 @@ _zip_win32_named_op_create_temp_output(zip_source_file_context_t *ctx) {
 
     zip_uint32_t value, i;
     HANDLE th = INVALID_HANDLE_VALUE;
-    PSECURITY_DESCRIPTOR psd = NULL;
     PSECURITY_ATTRIBUTES psa = NULL;
+    PSECURITY_DESCRIPTOR psd = NULL;
+#ifdef HAVE_GETSECURITYINFO
     SECURITY_ATTRIBUTES sa;
-    SECURITY_INFORMATION si;
-    DWORD success;
-    PACL dacl = NULL;
+#endif
     char *tempname = NULL;
     size_t tempname_size = 0;
 
+#ifdef HAVE_GETSECURITYINFO
     if ((HANDLE)ctx->f != INVALID_HANDLE_VALUE && GetFileType((HANDLE)ctx->f) == FILE_TYPE_DISK) {
-        si = DACL_SECURITY_INFORMATION | UNPROTECTED_DACL_SECURITY_INFORMATION;
-    #ifdef ACL_UNSUPPORTED
-        success = ERROR_NOT_SUPPORTED;
-    #else
-        success = GetSecurityInfo((HANDLE)ctx->f, SE_FILE_OBJECT, si, NULL, NULL, &dacl, NULL, &psd);
-    #endif
-        if (success == ERROR_SUCCESS) {
+        if (GetSecurityInfo((HANDLE)ctx->f, SE_FILE_OBJECT, DACL_SECURITY_INFORMATION | UNPROTECTED_DACL_SECURITY_INFORMATION, NULL, NULL, NULL, NULL, &psd) == ERROR_SUCCESS) {
             sa.nLength = sizeof(SECURITY_ATTRIBUTES);
             sa.bInheritHandle = FALSE;
             sa.lpSecurityDescriptor = psd;
             psa = &sa;
         }
     }
+#endif
 
 #ifndef MS_UWP
     value = GetTickCount();
@@ -223,14 +211,12 @@ _zip_win32_named_op_stat(zip_source_file_context_t *ctx, zip_source_file_stat_t 
     if (file_attributes.dwFileAttributes != INVALID_FILE_ATTRIBUTES) {
         if ((file_attributes.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_DEVICE)) == 0) {
             if (file_attributes.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) {
-#ifdef IO_REPARSE_TAG_DEDUP // Not defined in WinSDK 7.1 or before (VS2010).
                 WIN32_FIND_DATA find_data;
                 /* Deduplication on Windows replaces files with reparse points;
 		 * accept them as regular files. */
                 if (file_ops->find_first_file(ctx->fname, &find_data) != INVALID_HANDLE_VALUE) {
                     st->regular_file = (find_data.dwReserved0 == IO_REPARSE_TAG_DEDUP);
                 }
-#endif
             }
             else {
                 st->regular_file = true;
