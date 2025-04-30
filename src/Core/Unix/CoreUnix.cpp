@@ -293,7 +293,10 @@ namespace VeraCrypt
 
 		if (FilesystemPath ("/media").IsDirectory())
 			return "/media/veracrypt";
-
+#ifdef TC_LINUX
+		if (FilesystemPath ("/run/media").IsDirectory())
+			return "/run/media/veracrypt";
+#endif
 		if (FilesystemPath ("/mnt").IsDirectory())
 			return "/mnt/veracrypt";
 
