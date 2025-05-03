@@ -57,8 +57,8 @@ clean:
 	$(CXX) $(CXXFLAGS) -mssse3 -msse4.1 -msha -c $< -o $@
 
 %.oaesni: %.cpp
-    @echo Compiling $(<F)
-    $(CXX) $(CXXFLAGS) -mssse3 -msse4.1 -maes -c $< -o $@
+	@echo Compiling $(<F)
+	$(CXX) $(CXXFLAGS) -mssse3 -msse4.1 -maes -c $< -o $@
 	
 %.ossse3: %.cpp
 	@echo Compiling $(<F)
