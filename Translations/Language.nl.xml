@@ -1644,6 +1644,7 @@
     <entry lang="nl" key="MOUNTPOINT_BLOCKED">FOUT: Het koppelpunt van het volume is geblokkeerd omdat het een beveiligde systeemmap overschrijft.\n\nKies een ander koppelpunt.</entry>
     <entry lang="nl" key="MOUNTPOINT_NOTALLOWED">FOUT: het koppelpunt voor het volume is niet toegestaan omdat het een map overschrijft die deel uitmaakt van de omgevingsvariabele PATH.\n\nKies een ander koppelpunt.</entry>
     <entry lang="nl" key="INSECURE_MODE">[ONVEILIGE MODUS]</entry>
+    <entry lang="nl" key="SM4_HELP">SM4 is een blokcijferstandaard die in 2006 werd gepubliceerd door de Chinese Nationale Cryptografieadministratie als onderdeel van de GB/T 32907-2016-standaard. 128-bit sleutel, 128-bit blok. Werkingswijze is XTS. Het wordt veel gebruikt in Chinese nationale standaarden en commerciële toepassingen.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

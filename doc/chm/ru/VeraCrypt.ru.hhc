@@ -172,6 +172,10 @@
             <param name="Name" value="Serpent">
             <param name="Local" value="Serpent.html">
             </OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="SM4">
+			<param name="Local" value="SM4.html">
+			</OBJECT>
         <LI> <OBJECT type="text/sitemap">
             <param name="Name" value="Twofish">
             <param name="Local" value="Twofish.html">

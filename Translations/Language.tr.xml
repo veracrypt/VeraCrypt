@@ -1644,6 +1644,7 @@
     <entry lang="tr" key="MOUNTPOINT_BLOCKED">HATA: Birim bağlama noktası, korunan bir sistem dizinini geçersiz kıldığı için engellendi.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
     <entry lang="tr" key="MOUNTPOINT_NOTALLOWED">HATA: Birim bağlama noktası, PATH ortam değişkeninin bir parçası olan bir dizini geçersiz kıldığı için izin verilmiyor.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
     <entry lang="tr" key="INSECURE_MODE">[GÜVENSİZ MOD]</entry>
+    <entry lang="en" key="SM4_HELP">SM4 is a block cipher standard published by the Chinese National Cryptography Administration in 2006 as part of the GB/T 32907-2016 standard. 128-bit key, 128-bit block. Mode of operation is XTS. It is widely used in Chinese national standards and commercial applications.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

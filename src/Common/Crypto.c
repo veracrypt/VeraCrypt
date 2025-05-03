@@ -69,6 +69,7 @@ static Cipher Ciphers[] =
 	{ TWOFISH,	L"Twofish",		16,			32,			TWOFISH_KS			},
 	{ CAMELLIA,	L"Camellia",	16,			32,			CAMELLIA_KS			},
 	{ KUZNYECHIK,	L"Kuznyechik",16,		32,			KUZNYECHIK_KS },
+	{ SM4, 	L"SM4",		16,			16,			SM4_KS				},
 #endif
 #endif
 	{ 0,		0,				0,			0,			0					}
@@ -89,6 +90,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { TWOFISH,					0 }, { XTS, 0 },	1, 1 },
 	{ { CAMELLIA,					0 }, { XTS, 0 },	1, 1 },
 	{ { KUZNYECHIK,				0 }, { XTS, 0 },	0, 1 },
+	{ { SM4,						0 }, { XTS, 0 },	0, 1 },
 	{ { TWOFISH, AES,				0 }, { XTS, 0 },	1, 1 },
 	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1, 1 },
 	{ { AES, SERPENT,				0 }, { XTS, 0 },	1, 1 },
@@ -96,9 +98,13 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1, 1 },
 	{ { KUZNYECHIK, CAMELLIA,		0 }, { XTS, 0 },	0, 1 },
 	{ { TWOFISH, KUZNYECHIK,		0 }, { XTS, 0 },	0, 1 },
+	{ { SM4, KUZNYECHIK,			0 }, { XTS, 0 },	0, 1 },
+	{ { SM4, SERPENT,				0 }, { XTS, 0 },	0, 1 },
+	{ { TWOFISH, SM4,			0 }, { XTS, 0 },	0, 1 },
 	{ { SERPENT, CAMELLIA,		0 }, { XTS, 0 },	0, 1 },
 	{ { AES, KUZNYECHIK,		0 }, { XTS, 0 },	0, 1 },
 	{ { CAMELLIA, SERPENT, KUZNYECHIK,	0 }, { XTS, 0 },	0, 1 },
+	{ { SM4, SERPENT, TWOFISH,	0 }, { XTS, 0 },	0, 1 },
 #endif
 	{ { 0,							0 }, { 0,    0},	0, 0 }		// Must be all-zero
 
@@ -177,6 +183,9 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 	case KUZNYECHIK:
 		kuznyechik_set_key(key, (kuznyechik_kds*)ks);
 		break;
+	case SM4:
+		sm4_set_key(key, (sm4_kds*)ks);
+		break;
 #endif // !defined(TC_WINDOWS_BOOT)
 
 #endif
@@ -209,6 +218,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 #endif
 #if !defined(TC_WINDOWS_BOOT)
 	case KUZNYECHIK:		kuznyechik_encrypt_block(data, data, ks); break;
+	case SM4:				sm4_encrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT) 
 #endif
 	default:			TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
@@ -260,6 +270,12 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 	{
 		kuznyechik_encrypt_blocks (data, data, blockCount, ks);
 	}
+	else if (cipher == SM4
+		&& HasSSE41() && HasAESNI()
+		)
+	{
+		sm4_encrypt_blocks(data, data, blockCount, ks);
+	}
 #endif
 #endif
 	else
@@ -287,6 +303,7 @@ void DecipherBlock(int cipher, void *data, void *ks)
 #endif
 #if !defined(TC_WINDOWS_BOOT)
 	case KUZNYECHIK:	kuznyechik_decrypt_block(data, data, ks); break;
+	case SM4:			sm4_decrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT)
 #endif
 
@@ -351,6 +368,12 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 		)
 	{
 		kuznyechik_decrypt_blocks (data, data, blockCount, ks);
+	}
+	else if (cipher == SM4
+		&& HasSSE41() && HasAESNI()
+		)
+	{
+		sm4_decrypt_blocks(data, data, blockCount, ks);
 	}
 #endif
 #endif
@@ -422,6 +445,7 @@ BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 		|| (cipher == SERPENT && HasSSE2())
 		|| (cipher == KUZNYECHIK && HasSSE2())
+		|| (cipher == SM4 && HasSSE41() && HasAESNI())
 #endif
 #if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		|| (cipher == TWOFISH)

@@ -16,6 +16,7 @@ OBJSNOOPT :=
 OBJSSSE41 :=
 OBJSSSSE3 :=
 OBJSHANI :=
+OBJAESNI :=
 OBJS += Cipher.o
 OBJS += EncryptionAlgorithm.o
 OBJS += EncryptionMode.o
@@ -97,8 +98,10 @@ else
 endif
 ifeq "$(GCC_GTEQ_500)" "1"
 	OBJSHANI += ../Crypto/Sha2Intel.oshani
+	OBJAESNI += ../Crypto/sm4-impl-aesni.oaesni
 else
 	OBJS += ../Crypto/Sha2Intel.o
+    OBJS += ../Crypto/sm4-impl-aesni.o
 endif
 else
 OBJS += ../Crypto/wolfCrypt.o
@@ -118,6 +121,7 @@ OBJS += ../Crypto/Camellia.o
 OBJS += ../Crypto/Streebog.o
 OBJS += ../Crypto/kuznyechik.o
 OBJS += ../Crypto/kuznyechik_simd.o
+OBJS += ../Crypto/sm4.o
 OBJS += ../Common/Pkcs5.o
 endif
 

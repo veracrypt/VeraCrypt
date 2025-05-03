@@ -100,6 +100,8 @@ namespace VeraCrypt
 				EncryptionAlgorithmStaticText->SetLabel (LangString["CAMELLIA_HELP"]);
 			else if (typeid (*ea) == typeid (Kuznyechik))
 				EncryptionAlgorithmStaticText->SetLabel (LangString["KUZNYECHIK_HELP"]);
+			else if (typeid (*ea) == typeid (SM4))
+				EncryptionAlgorithmStaticText->SetLabel (LangString["SM4_HELP"]);
 			else
 				EncryptionAlgorithmStaticText->SetLabel (L"");
 		}

@@ -1644,6 +1644,7 @@
     <entry lang="pl" key="MOUNTPOINT_BLOCKED">BŁĄD: Punkt podłączania wolumenu jest zablokowany, ponieważ nadpisuje chroniony katalog systemowy.\n\nWybierz inny punkt podłączania.</entry>
     <entry lang="pl" key="MOUNTPOINT_NOTALLOWED">BŁĄD: Punkt podłączania wolumenu nie jest dozwolony, ponieważ nadpisuje katalog, który jest częścią zmiennej środowiskowej PATH.\n\nWybierz inny punkt podłączania.</entry>
     <entry lang="pl" key="INSECURE_MODE">[TRYB NIEBEZPIECZNY]</entry>
+    <entry lang="en" key="SM4_HELP">SM4 is a block cipher standard published by the Chinese National Cryptography Administration in 2006 as part of the GB/T 32907-2016 standard. 128-bit key, 128-bit block. Mode of operation is XTS. It is widely used in Chinese national standards and commercial applications.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

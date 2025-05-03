@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px" />
+<a href="Encryption%20Algorithms.html">Алгоритмы шифрования</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px" />
+<a href="SM4.html">SM4</a>
+</p>
+</div>
+
+<div class="wikidoc">
+<h1>Алгоритм шифрования SM4</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+SM4 — это блочный шифр с блоками размером 128 бит, разработанный и опубликованный Национальным управлением по криптографии Китая в 2006 году как часть стандарта GB/T 32907-2016. Является национальным стандартом шифрования для защиты беспроводных коммуникаций (например, Wi-Fi) и других защищённых систем связи в Китае. Использует 128-битовый ключ.
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Алгоритм SM4 использует 32 раунда операций шифрования, основанных на сочетании нелинейной подстановки, линейного преобразования и добавления ключа. По своей структуре в некоторых аспектах схож с другими современными блочными шифрами, применяя S-блок для подстановки и линейное преобразование для диффузии.
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+SM4 официально стандартизирован ISO/IEC (ISO/IEC 18033-3:2010) и широко используется в государственных, банковских и коммерческих приложениях по всему Китаю. Оптимизирован как для программных, так и для аппаратных реализаций, обеспечивая высокую производительность при сильной криптографической стойкости.
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В VeraCrypt используется шифр SM4 с 32 раундами и 128-битовым ключом, работающий в <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">режиме XTS</a> (см. раздел <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Режимы работы</a>).
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Twofish.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a>
+</div>
+</div>
+<div class="ClearBoth"></div>
+</body>
+</html>

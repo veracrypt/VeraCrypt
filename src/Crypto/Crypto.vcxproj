@@ -260,6 +260,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Sha2Intel.c" />
+    <ClCompile Include="sm4-impl-aesni.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="sm4.cpp" />
     <ClCompile Include="Streebog.c" />
     <ClCompile Include="t1ha2.c" />
     <ClCompile Include="t1ha2_selfcheck.c" />
@@ -287,6 +292,7 @@
     <ClInclude Include="SerpentFast.h" />
     <ClInclude Include="SerpentFast_sbox.h" />
     <ClInclude Include="Sha2.h" />
+    <ClInclude Include="sm4.h" />
     <ClInclude Include="Streebog.h" />
     <ClInclude Include="t1ha.h" />
     <ClInclude Include="t1ha_bits.h" />

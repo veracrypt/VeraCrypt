@@ -103,7 +103,9 @@ extern void  _m_empty(void);
 extern int _mm_extract_epi16(__m128i _A, int _Imm);
 extern __m128i _mm_load_si128(__m128i const*_P);
 extern __m128i _mm_xor_si128(__m128i _A, __m128i _B);
+extern __m128i _mm_cvtsi32_si128(int a);
 extern __m128i _mm_cvtsi64_si128(__int64);
+extern int _mm_cvtsi128_si32(__m128i a);
 extern __m128i _mm_unpacklo_epi64(__m128i _A, __m128i _B);
 extern void _mm_store_si128(__m128i *_P, __m128i _B);
 extern __m64 _m_pxor(__m64 _MM1, __m64 _MM2);
@@ -130,6 +132,7 @@ extern __m128i _mm_unpacklo_epi32(__m128i _A, __m128i _B);
 extern __m128i _mm_unpackhi_epi32(__m128i _A, __m128i _B);
 extern __m128i _mm_unpackhi_epi64(__m128i _A, __m128i _B);
 extern __m128i _mm_srli_epi16(__m128i _A, int _Count);
+extern __m128i _mm_srli_epi64(__m128i _A, int _Count);
 extern __m128i _mm_slli_epi16(__m128i _A, int _Count);
 extern __m128i _mm_shuffle_epi32 (__m128i a, int imm8);
 extern __m128i _mm_set_epi64x (__int64 e1, __int64 e0);
@@ -139,6 +142,7 @@ extern __m128  _mm_castsi128_ps(__m128i);
 extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 extern __m128i _mm_srli_si128(__m128i _A, int _Imm);
 extern __m128i _mm_slli_si128(__m128i _A, int _Imm);
+extern __m128i _mm_setzero_si128();
 #define _mm_xor_si64      _m_pxor
 #define _mm_empty         _m_empty
 #define _MM_SHUFFLE(fp3,fp2,fp1,fp0) (((fp3) << 6) | ((fp2) << 4) | \

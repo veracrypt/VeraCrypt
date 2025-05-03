@@ -712,7 +712,7 @@ Windows built-in backup utility looks only for physical driver, that's why it do
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 VeraCrypt uses block ciphers (AES, Serpent, Twofish) for its encryption. Quantum attacks against these block ciphers are just a faster brute-force since the best know attack against these algorithms is exhaustive search (related keys attacks are irrelevant
  to our case because all keys are random and independent from each other).<br>
-Since VeraCrypt always uses 256-bit random and independent keys, we are assured of a 128-bit security<br>
+Since VeraCrypt always uses 256-bit random and independent keys (except for SM4 cipher which uses 128-bit key by design), we are assured of a 128-bit security<br>
 level against quantum algorithms which makes VeraCrypt encryption immune to such attacks.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <strong>How to make a VeraCrypt volume available for Windows Search indexing?</strong></div>

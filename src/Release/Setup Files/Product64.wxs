@@ -806,6 +806,9 @@
 			<Component Id="cmp9EC1750F7CD9717D3A761FC2930C509D" Guid="{980F49E8-EBCD-4720-8466-C03DC2B3BBD7}">
 				<File Id="fil780042F951150166D5D328C10993CE7E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Kuznyechik.html" Checksum="yes" DiskId="1" />
 			</Component>
+			<Component Id="cmpDD785B73974849F0B358BE861E72DF01" Guid="{1AEB282A-FFC1-49E1-A6BA-11B8A60E52DC}">
+				<File Id="fil49731D859E3640C6A02879615E946D42" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\SM4.html" Checksum="yes" DiskId="1" />
+			</Component>
 			<Component Id="cmp4298A84BD6956E2A2742B5678BCFF173" Guid="{2809427F-697F-48A4-853B-5BE4AE1E720A}">
 				<File Id="fil01E37EFCBAF6AB983418B79E3DD75E88" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Language Packs.html" Checksum="yes" DiskId="1" />
 			</Component>
@@ -1461,6 +1464,9 @@
 			<Component Id="cmpCA290469DDC2BF237F81DDD5B1767EED" Guid="{AF232DD2-C9E9-43B2-BA21-C653C3D78B17}">
 				<File Id="fil707DCE82E2DB960CA32D798C9D58BFD0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Kuznyechik.html" Checksum="yes" DiskId="1" />
 			</Component>
+			<Component Id="cmp28F5B42ECF3547A7962DF465FFB005D1" Guid="{941CF92B-37B4-4119-87BA-D63A7D892031}">
+				<File Id="fil91EBD060483445EAA9DE2D3DB51DD7C7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\SM4.html" Checksum="yes" DiskId="1" />
+			</Component>
 			<Component Id="cmp72EE25B25C5C68F03DF9176C2D3F8BDD" Guid="{E162CD5B-C72D-4DEE-BD06-048CAB209743}">
 				<File Id="fil30D8E2286343AA063BB31ADDD09E8B79" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Language Packs.html" Checksum="yes" DiskId="1" />
 			</Component>
@@ -2115,6 +2121,9 @@
 	   	<Component Id="cmp56374396CDBAA23F8BE5DEBA503FDDAA" Guid="{3EEA13F1-B8EB-B348-9D83-BD6B5B37A796}">
 	   		<File Id="filC44D0EAFF15558D6E435AFE7666B22EA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Kuznyechik.html" Checksum="yes" DiskId="1" />
 	   		</Component>
+	   	<Component Id="cmpC16F53E9B3C7478A98F30448CB6DD523" Guid="{C16F53E9-B3C7-478A-98F3-0448CB6DD523}">
+	   		<File Id="filC0CC0D6052124CBF959DF853C14352C1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\SM4.html" Checksum="yes" DiskId="1" />
+	   	</Component>
 	   	<Component Id="cmpB6A781131BBE88FA5794EFF1F719744B" Guid="{80F23A6A-622B-FA9A-1627-088BB700C6F2}">
 	   		<File Id="fil63A19CD842764B27343E0E63488B8540" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Language Packs.html" Checksum="yes" DiskId="1" />
 	   		</Component>
@@ -2807,6 +2816,7 @@
 			<ComponentRef Id="cmpFC8FB415783E0AA424FBD685EFACF54E" />
 			<ComponentRef Id="cmp2BCEA21755E1C812ACCF15A09210FCCD" />
 			<ComponentRef Id="cmp9EC1750F7CD9717D3A761FC2930C509D" />
+            <ComponentRef Id="cmpDD785B73974849F0B358BE861E72DF01" />
 			<ComponentRef Id="cmp4298A84BD6956E2A2742B5678BCFF173" />
 			<ComponentRef Id="cmp2D9F7D88EF1F843BDEA5A39D13330B8A" />
 			<ComponentRef Id="cmp58EAECCB29CB9ABDDDB72F9378E4EE77" />
@@ -3027,6 +3037,7 @@
 			<ComponentRef Id="cmpD858F6459F1D5BE26754F7B9A6B256FB" />
 			<ComponentRef Id="cmpD935A23E00BC5621253BAF554A60C48A" />
 			<ComponentRef Id="cmpCA290469DDC2BF237F81DDD5B1767EED" />
+            <ComponentRef Id="cmp28F5B42ECF3547A7962DF465FFB005D1" />
 			<ComponentRef Id="cmp72EE25B25C5C68F03DF9176C2D3F8BDD" />
 			<ComponentRef Id="cmp29F705976D3FE416CA69F9A85F81E453" />
 			<ComponentRef Id="cmp3092B4A3F28D76A5F41FB2DC967976BF" />
@@ -3247,6 +3258,7 @@
 			<ComponentRef Id="cmp536D5016E985775CACBEE78964CDB44D" />
 			<ComponentRef Id="cmp34B70BB362A4A65AF541E008135AFD87" />
 			<ComponentRef Id="cmp56374396CDBAA23F8BE5DEBA503FDDAA" />
+            <ComponentRef Id="cmpC16F53E9B3C7478A98F30448CB6DD523" />
 			<ComponentRef Id="cmpB6A781131BBE88FA5794EFF1F719744B" />
 			<ComponentRef Id="cmpE78E6B581A96987CFBA2F14881CC8C29" />
 			<ComponentRef Id="cmp3DA875F1A8705BEE59E1117BB79E9587" />

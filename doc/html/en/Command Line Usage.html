@@ -245,12 +245,16 @@ It must be followed by a parameter indicating the PRF hash algorithm to use when
 <td>(Only with /create)<br>
 It must be followed by a parameter indicating the encryption algorithm to use. The default is AES if this switch is not specified. The parameter can have the following values (case insensitive):
 <ul>
-<li>AES </li><li>Serpent </li><li>Twofish </li><li>Camellia </li><li>Kuznyechik </li><li>AES(Twofish) </li><li>AES(Twofish(Serpent)) </li><li>Serpent(AES) </li><li>Serpent(Twofish(AES)) </li><li>Twofish(Serpent) </li>
+<li>AES </li><li>Serpent </li><li>Twofish </li><li>Camellia </li><li>Kuznyechik </li><li>SM4 </li><li>AES(Twofish) </li><li>AES(Twofish(Serpent)) </li><li>Serpent(AES) </li><li>Serpent(Twofish(AES)) </li><li>Twofish(Serpent) </li>
 <li>Camellia(Kuznyechik) </li>
 <li>Kuznyechik(Twofish) </li>
 <li>Camellia(Serpent) </li>
 <li>Kuznyechik(AES) </li>
 <li>Kuznyechik(Serpent(Camellia)) </li>
+<li>Kuznyechik(SM4) </li>
+<li>Serpent(SM4) </li>
+<li>SM4(Twofish) </li>
+<li>Twofish(Serpent(SM4)) </li>
 </ul>
 </td>
 </tr>
@@ -312,7 +316,7 @@ If it is followed by <strong>n</strong> or <strong>no</strong>: the password dia
 <h4>Syntax</h4>
 <p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
  [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
-<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
+<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | SM4 | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia)) | Kuznyechik(SM4) | Serpent(SM4) | SM4(Twofish) | Twofish(Serpent(SM4))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
  [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</p>
 <p>Note that the order in which options are specified does not matter.</p>
 <h4>Examples</h4>

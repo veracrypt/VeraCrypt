@@ -1291,6 +1291,10 @@ namespace VeraCrypt
 		{
 			url = L"Kuznyechik.html";
 		}
+		else if (linkId == L"sm4")
+		{
+			url = L"SM4.html";
+		}
 		else if (linkId == L"cascades")
 		{
 			url = L"Cascades.html";
