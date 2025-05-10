@@ -430,6 +430,32 @@ namespace VeraCrypt
 							throw SystemException(SRC_POS, errorMsg);
 					}
 
+#if defined(TC_LINUX)
+                    // AppImage specific handling:
+                    // If running from an AppImage, and appPath is inside the AppImage's mount point (APPDIR),
+                    // and APPDIR has the expected prefix, then use the AppImage file path (APPIMAGE) for sudo.
+                    const char* appImageEnv = getenv("APPIMAGE");
+                    const char* appDirEnv = getenv("APPDIR");
+
+                    if (appImageEnv && appDirEnv)
+                    {
+                        string appDirString = appDirEnv;
+                        string appImageFileString = appImageEnv;
+                        const string appImageMountPrefix = "/tmp/.mount_Veracr"; // Based on observed "/tmp/.mount_VeracrXXXXXX"
+
+                        // Check: APPDIR is not empty,
+                        // appPath starts with APPDIR,
+                        // and APPDIR itself starts with the expected AppImage mount prefix
+                        if (!appDirString.empty() &&
+                            appPath.rfind(appDirString, 0) == 0 &&
+                            appDirString.rfind(appImageMountPrefix, 0) == 0)
+                        {
+                            // All conditions met, this is the AppImage scenario.
+                            // Use the path to the AppImage file itself for sudo.
+                            appPath = appImageFileString;
+                        }
+                    }
+#endif
 					throw_sys_if (dup2 (inPipe->GetReadFD(), STDIN_FILENO) == -1);
 					throw_sys_if (dup2 (outPipe->GetWriteFD(), STDOUT_FILENO) == -1);
 					throw_sys_if (dup2 (errPipe.GetWriteFD(), STDERR_FILENO) == -1);
