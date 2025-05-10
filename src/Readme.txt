@@ -150,7 +150,7 @@ On MacOSX, building a console-only executable is not supported.
 Mac OS X specifics:
 -----------------------------------------------------------
 
-Under MacOSX, the lastest installed SDK is used by default. To use a different version
+Under MacOSX, the latest installed SDK is used by default. To use a different version
 of the SDK when building using make, you can export the environment variable VC_OSX_SDK:
 
 	$ export VC_OSX_SDK=13.0
