@@ -1354,6 +1354,21 @@ namespace VeraCrypt
 			htmlPath += L"/../Resources/doc/HTML/";
 #elif defined (TC_UNIX)
 			htmlPath = L"/usr/share/doc/veracrypt/HTML/";
+#if defined(TC_LINUX)
+			// AppImage specific handling:
+			// if we are running from an AppImage, we need to use the path inside the AppImage
+			// instead of the path on the host system
+			std::string appPath= StringConverter::ToSingle (wstring(Application::GetExecutablePath()));
+			if (Process::IsRunningUnderAppImage(appPath))
+			{
+				const char* appDirEnv = getenv("APPDIR");
+				if (appDirEnv)
+				{
+					htmlPath = wxString::FromUTF8(appDirEnv);
+					htmlPath += "/usr/share/doc/veracrypt/HTML/";
+				}
+			}
+#endif
 #else
 			localFile = false;
 #endif
