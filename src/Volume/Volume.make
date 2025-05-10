@@ -96,12 +96,15 @@ else
 	OBJS += ../Crypto/blake2s_SSE41.o
 	OBJS += ../Crypto/blake2s_SSSE3.o
 endif
-ifeq "$(GCC_GTEQ_500)" "1"
-	OBJSHANI += ../Crypto/Sha2Intel.oshani
+ifeq "$(GCC_GTEQ_440)" "1"
 	OBJAESNI += ../Crypto/sm4-impl-aesni.oaesni
 else
+	OBJS += ../Crypto/sm4-impl-aesni.o
+endif
+ifeq "$(GCC_GTEQ_500)" "1"
+	OBJSHANI += ../Crypto/Sha2Intel.oshani
+else
 	OBJS += ../Crypto/Sha2Intel.o
-    OBJS += ../Crypto/sm4-impl-aesni.o
 endif
 else
 OBJS += ../Crypto/wolfCrypt.o
