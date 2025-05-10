@@ -58,6 +58,7 @@ fi
 make WXSTATIC=1 clean || exit 1
 make WXSTATIC=1 || exit 1
 make WXSTATIC=1 package || exit 1
+make WXSTATIC=1 appimage || exit 1
 
 echo "Building console version of VeraCrypt"
 

@@ -602,6 +602,9 @@ install:
 package:
 	$(MAKE) -C Main -f Main.make NAME=Main package
 
+appimage:
+	$(MAKE) -C Main -f Main.make NAME=Main appimage
+
 #------ wxWidgets build ------
 
 ifeq "$(MAKECMDGOALS)" "wxbuild"
