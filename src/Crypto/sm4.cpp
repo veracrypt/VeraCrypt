@@ -27,12 +27,6 @@ static sm4_set_key_fn sm4_set_key_std_ptr = NULL;
 
 #if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
 
-static sm4_encrypt_block_fn sm4_encrypt_block_smid_ptr = NULL;
-static sm4_encrypt_blocks_fn sm4_encrypt_blocks_smid_ptr = NULL;
-static sm4_decrypt_block_fn sm4_decrypt_block_smid_ptr = NULL;
-static sm4_decrypt_blocks_fn sm4_decrypt_blocks_smid_ptr = NULL;
-static sm4_set_key_fn sm4_set_key_smid_ptr = NULL;
-
 extern "C" void sm4_encrypt_block_aesni(uint8* out, const uint8* in, sm4_kds* kds);
 extern "C" void sm4_encrypt_blocks_aesni(uint8* out, const uint8* in, size_t blocks, sm4_kds* kds);
 extern "C" void sm4_decrypt_block_aesni(uint8* out, const uint8* in, sm4_kds* kds);
