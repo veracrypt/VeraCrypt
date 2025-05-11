@@ -27,8 +27,8 @@
     .\EncryptData.ps1 -InputPath C:\Data -ContainerPath C:\EncryptedData.hc -ClusterSizeKB Auto
 .NOTES
     Author: Mounir IDRASSI
-    Email: mounir.idrassi@idrix.fr
-    Date: 30 April 2024
+    Email: mounir.idrassi@amcrypto.jp
+    Date: 30 April 2025
     License: This script is licensed under the Apache License 2.0
 #>
 

@@ -43,7 +43,7 @@ Requirements for Building VeraCrypt for Windows:
 
 A detailed guide on how to build VeraCrypt on Windows can be found in 
 the file doc/html/CompilingGuidelineWin.html. it is also available online
-at https://www.veracrypt.fr/en/CompilingGuidelineWin.html
+at https://veracrypt.jp/en/CompilingGuidelineWin.html
 
 IMPORTANT:
 
@@ -94,7 +94,7 @@ II. Linux and Mac OS X
 
 A detailed guide on how to build VeraCrypt on Linux can be found in 
 the file doc/html/CompilingGuidelineLinux.html. it is also available online
-at https://www.veracrypt.fr/en/CompilingGuidelineLinux.html
+at https://veracrypt.jp/en/CompilingGuidelineLinux.html
 
 Requirements for Building VeraCrypt for Linux and Mac OS X:
 -----------------------------------------------------------
@@ -221,7 +221,7 @@ If you intend to implement a feature, please contact us first to make sure:
 3) Whether we need help of third-party developers with implementing the feature.
 
 Information on how to contact us can be found at:
-https://www.veracrypt.fr/
+https://veracrypt.jp/
 
 
 
@@ -232,9 +232,10 @@ Copyright Information
 ---------------------
 
 This software as a whole:  
-Copyright (c) 2013-2025 IDRIX. All rights reserved.  
+Copyright (c) 2025 AM Crypto. All rights reserved.  
 
 Portions of this software:  
+Copyright (c) 2025 AM Crypto. All rights reserved.  
 Copyright (c) 2013-2025 IDRIX. All rights reserved.  
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.  
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.  
@@ -261,4 +262,4 @@ documentation, are the sole property of their respective owners.
 VI. Further Information
 =======================
 
-https://www.veracrypt.fr
+https://veracrypt.jp

@@ -25,7 +25,7 @@
 	<!-- Lang will be defined in a .wxl file which will be passed to the WIX linker 'light' -->
 	<Product 	Id="$(var.ProductGuid)"
 				Language="!(loc.Lang)" 
-				Manufacturer="IDRIX"
+				Manufacturer="AM Crypto"
 				Name="$(var.ProductName)"
 				Version="$(var.FullProductVersion)"
 				UpgradeCode="$(var.UpgradeCode)">
@@ -42,7 +42,7 @@
 					InstallerVersion="500"
 					InstallPrivileges="elevated"
 					Keywords="VeraCrypt MSI Installer"
-					Manufacturer="IDRIX"
+					Manufacturer="AM Crypto"
 					Languages="0"
 					Platform="x64"
 					Description="VeraCrypt $(var.FullProductVersion) 64-bit MSI Installer"
@@ -135,7 +135,7 @@
 		<Property Id="ARPPRODUCTICON" Value="Setup.ico" />
 		
 		<!-- URL for the link to the publishers home page or the application's home page -->
-		<Property Id="ARPURLINFOABOUT" Value="https://www.idrix.fr"/>
+		<Property Id="ARPURLINFOABOUT" Value="https://amcrypto.jp"/>
 		
 		<!-- Following properties are meant to install the Desktop and StartMenu shortcuts -->
 		<!-- They make it possible to give the user checkboxes to choose whether to install or not -->
@@ -2530,7 +2530,7 @@
 				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 				<util:InternetShortcut 	Id="VCWebsiteStartMenuShortcut"
 										Name="VeraCrypt Website"
-										Target="https://www.veracrypt.fr"
+										Target="https://veracrypt.jp"
 										Type="url"
 										IconFile="VeraCrypt.ico">
 				</util:InternetShortcut>
@@ -2564,7 +2564,7 @@
 				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
 				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume" >
 					<RegistryValue 	Type="string" Value="VeraCrypt Volume" KeyPath="yes" />
-					<RegistryValue 	Type="string" Name="AppUserModelID" Value="IDRIX.VeraCrypt" KeyPath="no" />
+					<RegistryValue 	Type="string" Name="AppUserModelID" Value="AMCrypto.VeraCrypt" KeyPath="no" />
 				</RegistryKey>
 			</Component>
 		  

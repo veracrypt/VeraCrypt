@@ -4,7 +4,7 @@
 # by the TrueCrypt License 3.0.
 #
 # Modifications and additions to the original source code (contained in this file)
-# and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+# and all other portions of this file are Copyright (c) 2013-2025 AM Crypto
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -140,7 +140,7 @@ the TrueCrypt License version 3.0, a verbatim copy of both
 licenses can be found below.
 
 This license does not grant you rights to use any
-contributors' name, logo, or trademarks, including IDRIX,
+contributors' name, logo, or trademarks, including AM Crypto,
 VeraCrypt and all derivative names.
 For example, the following names are not allowed: VeraCrypt,
 VeraCrypt+, VeraCrypt Professional, iVeraCrypt, etc. Nor any
@@ -852,8 +852,8 @@ then
 	cat <<_END | xmessage -title "VeraCrypt Setup" -center -file - -buttons "Exit:1,Extract .$PACKAGE_TYPE Package File:20,Install VeraCrypt:10" -default 'Install VeraCrypt'
 VeraCrypt $VERSION Setup
 ====================
- VeraCrypt is a free disk encryption software brought to you by IDRIX
- (http://www.idrix.fr) and that is based on TrueCrypt.
+ VeraCrypt is a free disk encryption software brought to you by AM Crypto
+ (https://amcrypto.jp) and that is based on TrueCrypt.
  It is a software system for establishing and maintaining an
  on-the-fly-encrypted volume (data storage device). On-the-fly encryption
  means that data are automatically encrypted or decrypted right before they

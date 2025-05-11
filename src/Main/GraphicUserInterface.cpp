@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -1220,7 +1220,7 @@ namespace VeraCrypt
 		}
 		else if (linkId == L"onlinehelp")
 		{
-			url = L"https://www.veracrypt.fr/en/Documentation.html";
+			url = L"https://veracrypt.jp/en/Documentation.html";
 			buildUrl = false;
 		}
 		else if (linkId == L"localizations")
@@ -1389,7 +1389,7 @@ namespace VeraCrypt
 
 			if (!localFile)
 			{
-				htmlPath = L"https://www.veracrypt.fr/en/";
+				htmlPath = L"https://veracrypt.jp/en/";
 			}
 			else
 			{

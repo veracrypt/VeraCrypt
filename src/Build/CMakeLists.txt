@@ -225,9 +225,9 @@ set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging)	# creates the Packaging directory under build directory when CMake generates the build system
 
-set( VENDOR "IDRIX" )
+set( VENDOR "AM Crypto" )
 set( LICENSE "VeraCrypt License" )
-set( CONTACT "VeraCrypt Team <veracrypt@idrix.fr>" )
+set( CONTACT "VeraCrypt Team <veracrypt@amcrypto.jp>" )
 set( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Disk encryption with strong security based on TrueCrypt." )
 set( CPACK_PACKAGE_DESCRIPTION "This package contains binaries for VeraCrypt, a disk encryption with strong security based on TrueCrypt." )
 set( CPACK_PACKAGE_NAME 			${PROJECT_NAME} )

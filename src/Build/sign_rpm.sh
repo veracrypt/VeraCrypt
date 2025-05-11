@@ -41,7 +41,7 @@ for rpm_file in "${rpm_files[@]}"; do
     
     # Sign the RPM file
     echo "Signing $rpm_file..."
-    rpmsign --define "_gpg_name veracrypt@idrix.fr" \
+    rpmsign --define "_gpg_name veracrypt@amcrypto.jp" \
             --define "_gpg_digest_algo sha512" \
             --define "_source_filedigest_algorithm 10" \
             --define "_binary_filedigest_algorithm 10" \

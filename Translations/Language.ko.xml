@@ -855,7 +855,7 @@
     <entry lang="ko" key="TC_INSTALLER_IS_RUNNING">VeraCrypt Installer가 현재이 시스템에서 실행 중이며 VeraCrypt의 설치 또는 업데이트를 수행 중이거나 준비 중입니다. 진행하기 전에 끝내거나 닫을 때까지 기다리세요. 컴퓨터를 닫을 수없는 경우 계속하기 전에 컴퓨터를 다시 시작하세요.</entry>
     <entry lang="ko" key="INSTALL_FAILED">설치가 실패했습니다.</entry>
     <entry lang="ko" key="UNINSTALL_FAILED">제거에 실패했습니다.</entry>
-    <entry lang="ko" key="DIST_PACKAGE_CORRUPTED">이 배포 패키지가 손상되었습니다. 다시 VeraCrypt 웹 사이트 (https://www.veracrypt.fr)에서 다운로드하세요.</entry>
+    <entry lang="ko" key="DIST_PACKAGE_CORRUPTED">이 배포 패키지가 손상되었습니다. 다시 VeraCrypt 웹 사이트 (https://veracrypt.jp)에서 다운로드하세요.</entry>
     <entry lang="ko" key="CANNOT_WRITE_FILE_X">%s 파일을 쓸 수 없습니다</entry>
     <entry lang="ko" key="EXTRACTING_VERB">적출</entry>
     <entry lang="ko" key="CANNOT_READ_FROM_PACKAGE">패키지에서 데이터를 읽을 수 없습니다.</entry>
@@ -1229,7 +1229,7 @@
     <entry lang="ko" key="HIDDEN_OS_CREATION_PREINFO_HELP">다음 단계에서 VeraCrypt는 시스템 파티션의 내용을 숨겨진 볼륨에 복사하여 숨겨진 운영 체제를 만듭니다(복사되는 데이터는 디코이 운영 체제에 사용될 암호화 키와 다른 암호화 키로 즉시 암호화됩니다).\n\nWindows를 시작하기 전에 사전 부트 환경에서 프로세스가 수행되며 완료하는 데 시간이 오래 걸릴 수 있습니다(시스템 파티션 크기와 컴퓨터의 성능에 따라 다름).\n\n프로세스를 중단하고 컴퓨터를 종료하고 운영 체제를 시작한 다음 프로세스를 다시 시작할 수 있습니다. 그러나 시스템을 중단하면 시스템 파티션의 내용이 복제하는 동안 변경되어서는 안 되기 때문에 전체 복사 프로세스가 처음부터 시작되어야 합니다.</entry>
     <entry lang="ko" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">숨겨진 운영 체제의 전체 생성 프로세스를 취소하시겠습니까?\n\n참고: 지금 취소하면 프로세스를 재개할 수 없습니다.</entry>
     <entry lang="ko" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">시스템 암호화 사전 테스트를 취소하시겠습니까?</entry>
-    <entry lang="ko" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt 시스템 암호화 사전 테스트에 실패했습니다. 다시 시도 하시겠습니까?\n\n'아니요'를 선택하면 사전 부트 인증 구성 요소가 제거됩니다.\n\n알림:\n\n- VeraCrypt 부트로더가 Windows를 시작하기 전에 암호를 입력하라는 메시지를 표시하지 않은 경우 운영 체제가 설치된 드라이브에서 부팅되지 않을 수 있습니다. 지원되지 않습니다.\n\n- AES 이외의 암호화 알고리즘을 사용했지만 사전 테스트에 실패했으며 암호를 입력했다면 드라이버가 잘못 설계되어 발생한 것일 수 있습니다. '아니요'를 선택하고 다시 시스템 파티션/드라이브 암호화를 시도하지만 메모리 요구 사항이 가장 낮은 AES 암호화 알고리즘을 사용합니다.\n\n- 가능한 원인과 해결 방법은 https://www.veracrypt.fr/en/Troubleshooting.html을 참조합니다.</entry>
+    <entry lang="ko" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt 시스템 암호화 사전 테스트에 실패했습니다. 다시 시도 하시겠습니까?\n\n'아니요'를 선택하면 사전 부트 인증 구성 요소가 제거됩니다.\n\n알림:\n\n- VeraCrypt 부트로더가 Windows를 시작하기 전에 암호를 입력하라는 메시지를 표시하지 않은 경우 운영 체제가 설치된 드라이브에서 부팅되지 않을 수 있습니다. 지원되지 않습니다.\n\n- AES 이외의 암호화 알고리즘을 사용했지만 사전 테스트에 실패했으며 암호를 입력했다면 드라이버가 잘못 설계되어 발생한 것일 수 있습니다. '아니요'를 선택하고 다시 시스템 파티션/드라이브 암호화를 시도하지만 메모리 요구 사항이 가장 낮은 AES 암호화 알고리즘을 사용합니다.\n\n- 가능한 원인과 해결 방법은 https://veracrypt.jp/en/Troubleshooting.html을 참조합니다.</entry>
     <entry lang="ko" key="SYS_DRIVE_NOT_ENCRYPTED">시스템 파티션/드라이브가 부분적으로 또는 완전히 암호화되지 않은 것 같습니다.</entry>
     <entry lang="ko" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">시스템 파티션/드라이브가 부분적으로 또는 완전히 암호화됩니다.\n\n계속하기 전에 시스템 파티션/드라이브의 암호를 완전히 해독해 주십시오. 이렇게 하려면 기본 VeraCrypt 창의 메뉴 모음에서 '시스템' &gt; '시스템 파티션/드라이브 영구 해독'을 선택합니다.</entry>
     <entry lang="ko" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">시스템 파티션/드라이브가 부분적으로 또는 완전히 암호화되면 VeraCrypt를 다운그레이드할 수 없지만 업그레이드하거나 동일한 버전을 다시 설치할 수 있습니다.</entry>

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -201,7 +201,7 @@ namespace VeraCrypt
 			PoolHash->GetDigest (digest);
 
 			/* XOR the resultant message digest to the pool at the poolIndex position. */
-			/* this matches the documentation: https://veracrypt.fr/en/Random%20Number%20Generator.html */
+			/* this matches the documentation: https://veracrypt.jp/en/Random%20Number%20Generator.html */
 			for (size_t digestIndex = 0; digestIndex < digestSize; digestIndex++)
 			{
 				Pool [poolPos + digestIndex] ^= digest [digestIndex];

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -33,7 +33,7 @@ namespace VeraCrypt
 #endif
 		VersionStaticText->SetLabel (Application::GetName() + L" " + versionStr);
 		CopyrightStaticText->SetLabel (TC_STR_RELEASED_BY);
-		WebsiteHyperlink->SetLabel (L"www.idrix.fr");
+		WebsiteHyperlink->SetLabel (L"amcrypto.jp");
 
 		CreditsTextCtrl->SetMinSize (wxSize (
 			Gui->GetCharWidth (CreditsTextCtrl) * 70,
@@ -61,6 +61,7 @@ namespace VeraCrypt
 			L"Paulo Barreto, Brian Gladman, Wei Dai, Peter Gutmann, and many others.\n\n"
 
 			L"Portions of this software:\n"
+			L"Copyright \xA9 2025 AM Crypto. All rights reserved.\n"
 			L"Copyright \xA9 2013-2025 IDRIX. All rights reserved.\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\n"
@@ -74,10 +75,10 @@ namespace VeraCrypt
 			L"Copyright \xA9 1999-2023 Igor Pavlov\n\n"
 
 			L"\nThis software as a whole:\n"
-			L"Copyright \xA9 2013-2025 IDRIX. All rights reserved.\n\n"
+			L"Copyright \xA9 2025 AM Crypto. All rights reserved.\n\n"
 
 			L"This software uses wxWidgets library, which is copyright \xA9 1998-2011 Julian Smart, Robert Roebling et al.\n\n"
 
-			L"An IDRIX Release");
+			L"An AM Crypto Release");
 	}
 }

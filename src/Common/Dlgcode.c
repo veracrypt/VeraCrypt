@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2025 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -2208,7 +2208,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			LocalizeDialog (hwndDlg, "IDD_ABOUT_DLG");
 
 			// Hyperlink
-			SetWindowText (GetDlgItem (hwndDlg, IDC_HOMEPAGE), L"www.idrix.fr");
+			SetWindowText (GetDlgItem (hwndDlg, IDC_HOMEPAGE), L"amcrypto.jp");
 			ToHyperlink (hwndDlg, IDC_HOMEPAGE);
 
 			// Logo area background (must not keep aspect ratio; must retain Windows-imposed distortion)
@@ -2247,6 +2247,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Based on TrueCrypt 7.1a, freely available at http://www.truecrypt.org/ .\r\n\r\n"
 
 			L"Portions of this software:\r\n"
+			L"Copyright \xA9 2025 AM Crypto. All rights reserved.\r\n"
 			L"Copyright \xA9 2013-2025 IDRIX. All rights reserved.\r\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\r\n"
@@ -2260,9 +2261,9 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Copyright \xA9 1999-2023 Igor Pavlov\r\n\r\n"
 
 			L"This software as a whole:\r\n"
-			L"Copyright \xA9 2013-2025 IDRIX. All rights reserved.\r\n\r\n"
+			L"Copyright \xA9 2025 AM Crypto. All rights reserved.\r\n\r\n"
 
-			L"An IDRIX Release");
+			L"An AM Crypto Release");
 
 		return 1;
 
@@ -3728,7 +3729,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 #if !defined(SETUP)
 	GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
 	if (!VerifyModuleSignature (modPath))
-		AbortProcessDirect (L"This distribution package is damaged. Please try downloading it again (preferably from the official VeraCrypt website at https://www.veracrypt.fr).");
+		AbortProcessDirect (L"This distribution package is damaged. Please try downloading it again (preferably from the official VeraCrypt website at https://veracrypt.jp).");
 #endif
 
 #ifndef SETUP
@@ -11299,7 +11300,7 @@ void Applink (const char *dest)
 	}
 	else if (strcmp(dest, "onlinehelp") == 0)
 	{
-		StringCbPrintfW (url, sizeof (url),L"https://www.veracrypt.fr/%s/Documentation.html", currentLanguage);
+		StringCbPrintfW (url, sizeof (url),L"https://veracrypt.jp/%s/Documentation.html", currentLanguage);
 		buildUrl = FALSE;
 	}
 	else if (strcmp(dest, "keyfiles") == 0)
@@ -11415,7 +11416,7 @@ void Applink (const char *dest)
 #ifdef SETUP
 		if (IsInternetConnected())
 		{
-			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/%s/%s", currentLanguage, page);
+			StringCbPrintfW (url, sizeof (url), L"https://veracrypt.jp/%s/%s", currentLanguage, page);
 			buildUrl = FALSE;
 		}
 #endif
@@ -11464,7 +11465,7 @@ void Applink (const char *dest)
 				if (!FileExists (pageFullPath.c_str()))
 				{
 					// fallback to online resources
-					StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/%s/%s", currentLanguage, page);
+					StringCbPrintfW (url, sizeof (url), L"https://veracrypt.jp/%s/%s", currentLanguage, page);
 					SafeOpenURL (url);
 					openDone = 1;
 				}
@@ -11483,7 +11484,7 @@ void Applink (const char *dest)
 		if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
 		{
 			// fallback to online resources
-			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/%s/%s", currentLanguage, page);
+			StringCbPrintfW (url, sizeof (url), L"https://veracrypt.jp/%s/%s", currentLanguage, page);
 			ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
 		}			
 	}
