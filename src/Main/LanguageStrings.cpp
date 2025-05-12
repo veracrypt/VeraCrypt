@@ -56,7 +56,7 @@ namespace VeraCrypt
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
 
-		string translatedXml = Resources::GetLanguageXml();
+		string translatedXml = Resources::GetLanguageXml(PreferredLang);
 		foreach (XmlNode node, XmlParser (translatedXml).GetNodes (L"entry"))
 		{
 			wxString text = node.InnerText;

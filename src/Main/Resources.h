@@ -21,7 +21,7 @@ namespace VeraCrypt
 	class Resources
 	{
 	public:
-		static string GetLanguageXml ();
+		static string GetLanguageXml (string& preferredLang);
 		static string GetLegalNotices ();
 #ifndef TC_NO_GUI
 		static wxBitmap GetDriveIconBitmap ();
