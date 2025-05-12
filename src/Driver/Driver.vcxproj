@@ -111,7 +111,7 @@
       <ProviderName>
       </ProviderName>
       <TimeStamp>1.26.21.0</TimeStamp>
-      <DateStamp>05/04/2025</DateStamp>
+      <DateStamp>05/11/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>
@@ -138,7 +138,7 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
       <ProviderName>
       </ProviderName>
       <TimeStamp>1.26.21.0</TimeStamp>
-      <DateStamp>05/04/2025</DateStamp>
+      <DateStamp>05/11/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>
@@ -165,7 +165,7 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Release\Setup Files\veracrypt.inf"</C
       <ProviderName>
       </ProviderName>
       <TimeStamp>1.26.21.0</TimeStamp>
-      <DateStamp>05/04/2025</DateStamp>
+      <DateStamp>05/11/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>
@@ -192,7 +192,7 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Release\Setup Files\veracrypt.inf"</C
       <ProviderName>
       </ProviderName>
       <TimeStamp>1.26.21.0</TimeStamp>
-      <DateStamp>05/04/2025</DateStamp>
+      <DateStamp>05/11/2025</DateStamp>
     </Inf>
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies);$(KernelBufferOverflowLib);$(DDK_LIB_PATH)ntoskrnl.lib;$(DDK_LIB_PATH)hal.lib;$(DDK_LIB_PATH)wmilib.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfLdr.lib;$(KMDF_LIB_PATH)$(KMDF_VER_PATH)\WdfDriverEntry.lib</AdditionalDependencies>

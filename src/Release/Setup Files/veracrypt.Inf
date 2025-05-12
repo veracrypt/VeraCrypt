@@ -10,7 +10,7 @@ signature   = "$Windows NT$"
 Class       = "Encryption"                              ;This is determined by the work this filter driver does
 ClassGuid   = {a0a701c0-a511-42ff-aa6c-06dc0395576f}    ;This value is determined by the Class
 Provider    = %ProviderString%
-DriverVer = 02/03/2025,1.26.20.0
+DriverVer = 05/11/2025,1.26.21.0
 CatalogFile = veracrypt.cat
 PnpLockdown = 1
 

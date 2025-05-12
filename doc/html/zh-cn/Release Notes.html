@@ -40,6 +40,40 @@
 <span style="color:#ff0000;">为避免暴露您的卷是否包含隐藏卷，或者如果您在使用隐藏卷/操作系统时依赖似是而非的否认能力，那么您必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统，并丢弃VeraCrypt 1.18a版本之前创建的现有卷。</span></li>
 </p>
 
+<p><strong style="text-align:left">1.26.21</strong> (2025年5月12日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+    <ul>
+    <li>新增对中国加密算法SM4（国密算法）的支持。</li>
+    <li>修复Whirlpool算法在大端平台上的实现问题（GH #1529）。</li>
+    <li>将用户界面中的“Dismount All”重命名为“Unmount All”，并将快捷键由ALT+s更改为ALT+u。</li>
+    <li>新增用户贡献的中文和俄文CHM格式帮助文档。</li>
+    <li>更新翻译。</li>
+    </ul>
+</li>
+<li><strong>Windows:</strong>
+    <ul>
+    <li>将libzip更新至1.11.3版本。</li>
+    </ul>
+</li>
+<li><strong>Linux:</strong>
+    <ul>
+    <li>新增对AppImage打包与使用的支持。</li>
+    <li>修复检查sudo会话状态时未使用“true”命令绝对路径的问题。</li>
+    <li>修复无法使用匈牙利语翻译的问题。</li>
+    <li>改进通用安装脚本（GH #1514）。</li>
+    <li>当系统中未提供/media目录时，新增对/run/media/veracrypt作为默认挂载前缀的支持（GH #1524）。</li>
+    <li>从.deb和.rpm安装包中移除对pcsclite的依赖，因为其已在运行时动态检测与加载。</li>
+    </ul>
+</li>
+<li><strong>macOS:</strong>
+    <ul>
+    <li>修复检查sudo会话状态时未使用“true”命令绝对路径的问题。</li>
+    <li>修复无法使用匈牙利语翻译的问题。</li>
+    </ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.26.20</strong> (2025年2月3日):</p>
 <ul>
 <li><strong>所有操作系统:</strong>

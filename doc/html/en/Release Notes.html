@@ -40,6 +40,40 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
+<p><strong style="text-align:left">1.26.21</strong> (May 12<sup>th</sup>, 2025):</p>
+<ul>
+<li><strong>All OSes:</strong>
+	<ul>
+	<li>Add support for the Chinese encryption algorithm SM4.</li>
+	<li>Fix whirlpool implementation for big-endian platforms (GH #1529).</li>
+	<li>Rename "Dismount All" to "Unmount All" in UI. Use ALT+u as new accelerator key instead of ALT+s</li>
+	<li>Add contributed Chinese and Russian CHM documentation.</li>
+	<li>Update translations.</li>
+	</ul>
+</li>
+<li><strong>Windows:</strong>
+	<ul>
+		<li>Update libzip to version 1.11.3.</li>
+	</ul>
+</li>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>Add support for AppImage packaging and usage.</li>
+	<li>Fix absolute path of 'true' command not being used when checking if sudo session is active.</li>
+	<li>Fix failure to use Hungarian language translations.</li>
+	<li>Improve generic installer scripts (GH #1514).</li>
+	<li>Add support for /run/media/veracrypt as default mount prefix when /media is not available(GH #1524).</li>
+	<li>Remove pcsclite dependency from .deb/.rpm packages since it is detected/loaded dynamically at runtime.</li>
+	</ul>
+</li>
+<li><strong>macOS:</strong>
+	<ul>
+	<li>Fix absolute path of 'true' command not being used when checking if sudo session is active.</li>
+	<li>Fix failure to use Hungarian language translations.</li>
+	</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.26.20</strong> (February 3<sup>rd</sup>, 2025):</p>
 <ul>
 <li><strong>All OSes:</strong>
