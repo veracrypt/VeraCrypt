@@ -1822,73 +1822,73 @@
 	   		<File Id="filC2E9B4258B06AA179474D575308D4130" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial.html" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp587C9D4998AE132DBC5046192C050CE8" Guid="{FFAC3E8B-0CDF-55D6-9FA5-C4EFF95D8FD9}">
-	   		<File Id="filE09774A543F1C1CC3282BFAD9F94D3A4" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_001.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filE09774A543F1C1CC3282BFAD9F94D3A4" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_001.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpD489F6A6B0C2C14213E33E7C0B967FD1" Guid="{5DFAD508-1276-34F9-F385-AC1E1537C551}">
-	   		<File Id="fil508698F142F338AA0C812804DE2650A8" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_002.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil508698F142F338AA0C812804DE2650A8" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_002.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp516900031B27AD1C04EB12399A08900D" Guid="{D0568CF2-E92A-5E18-68CF-4727D8AD7E54}">
-	   		<File Id="filA9FF0CAF6AB8FABA1D32EF9CFE9024F9" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_003.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filA9FF0CAF6AB8FABA1D32EF9CFE9024F9" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_003.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp5FA489B6EC89F50493B7FED05ACE16FD" Guid="{5853B5AA-4A70-9F5B-B485-C8E7B5CB34E1}">
-	   		<File Id="filFCAD31D93A3A195184D64B759969381C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_004.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filFCAD31D93A3A195184D64B759969381C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_004.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp162E62729597C4B9F19CA6A8DEF1FEC8" Guid="{E40161BF-569C-8E92-3FF0-6E4B63BB9C1F}">
-	   		<File Id="fil735AC8052C2A32D7DE210F5DA73AC917" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_005.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil735AC8052C2A32D7DE210F5DA73AC917" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_005.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp495D4091CD5BC20F1132AF6BDCA870F1" Guid="{1BE9F980-5596-7D2F-9655-24FB1E49B9E5}">
-	   		<File Id="filFB6AB842E43A6F697824965DAF1E6AF7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_007.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filFB6AB842E43A6F697824965DAF1E6AF7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_007.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpF3492B9A15B2B038004436E5E4A85D40" Guid="{30CC8E0A-AA40-6732-F569-A8EB57A73823}">
-	   		<File Id="fil7AFA4C610CE47BE818E8D48AB9229442" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_008.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil7AFA4C610CE47BE818E8D48AB9229442" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_008.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpA8C3FF79C3F2A8D55ED7D99415583595" Guid="{F4E33859-A203-8EFF-1F20-AEFA738B134E}">
-	   		<File Id="fil2580C05AAA6CD14FB9B453AA203583D2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_009.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil2580C05AAA6CD14FB9B453AA203583D2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_009.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp9B61EDB2858C5310CB3DA67B20764629" Guid="{8F67C757-A0F0-7F16-FA6D-69BD193B5CCE}">
-	   		<File Id="filC076327A0E71F7A35D23681B08E692AA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_010.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filC076327A0E71F7A35D23681B08E692AA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_010.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpE25D2626F09A609E15A81F390D74F7F8" Guid="{6EB5FFBB-9D2C-63FF-D5EE-9C9C1153DE85}">
-	   		<File Id="filC3968249A5BCA9BCA7FA9159DEE8BB4D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_011.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filC3968249A5BCA9BCA7FA9159DEE8BB4D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_011.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpEEBC4B7FED699F4CEF3F183FB8015310" Guid="{E14943E7-16E1-08C4-9ECE-D43739E9A103}">
-	   		<File Id="fil05605EAB4E6398F3E6576309A64E6BF7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_012.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil05605EAB4E6398F3E6576309A64E6BF7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_012.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp82139B514D57F4FF1ED73D5D1A106895" Guid="{CE38B207-3B64-B6EA-9E1B-F1250FD00488}">
-	   		<File Id="fil8111A22C538DD205158BAA3EEF669B59" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_013.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil8111A22C538DD205158BAA3EEF669B59" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_013.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp0E48358041F11A6CBB673775E98BE80B" Guid="{94C8DBD6-D228-753F-D296-FF71718AACA2}">
-	   		<File Id="fil0101526C73B4BE01DF78CB5051FE6EA2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_014.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil0101526C73B4BE01DF78CB5051FE6EA2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_014.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp7CA9DB1213636265A052522361B4A812" Guid="{925AB64E-8075-85D1-0831-AB4C54035656}">
-	   		<File Id="fil9EDE59C9937EEF4380420DD56307CEF3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_015.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil9EDE59C9937EEF4380420DD56307CEF3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_015.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpB1C7B0D0FBCE9DAD16B2FE0DBF4938E6" Guid="{CC578014-9CD3-5B94-8D8D-3438B491CBEB}">
-	   		<File Id="fil2A62555A8AA4C19C5248219A2CDAB021" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_016.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil2A62555A8AA4C19C5248219A2CDAB021" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_016.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp7E41C94457F636F1B9B2321AB04600C4" Guid="{84628200-5C77-4975-F08F-9C8954FEA394}">
-	   		<File Id="fil385D523AC3692E62D78C1377C24D4256" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_017.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil385D523AC3692E62D78C1377C24D4256" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_017.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp53F427C34D1E92950B8BE0B92E703CB2" Guid="{1F9D3C76-1473-859D-2F74-B7C960CD114C}">
-	   		<File Id="fil4A4D3E824578633E8973C69995D705A2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_018.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil4A4D3E824578633E8973C69995D705A2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_018.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpE11461D06B56A3F1EFC6DD4C966EF6A6" Guid="{C0CBE243-7F15-130D-754F-F2B87931D272}">
-	   		<File Id="fil660E361E7245713CB3471E4A507726DF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_019.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil660E361E7245713CB3471E4A507726DF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_019.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpCAF9FE338C51B34EFA332EDFD7B9D98C" Guid="{B403189F-DE26-61D4-89DE-4169C8C8AF59}">
-	   		<File Id="fil4C9A062DCFDF316BB1FB113F5F835CB4" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_020.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil4C9A062DCFDF316BB1FB113F5F835CB4" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_020.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpBFC2EAE49ED217B8DDAF52F6FA17798A" Guid="{A48CBBD1-6AB3-6F60-C5FE-40B5DF710F37}">
-	   		<File Id="fil38F807071FF093D627E23EA151DAAAF3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_021.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil38F807071FF093D627E23EA151DAAAF3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_021.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp7A9FB4BADB171AA2A4D20B806E9A36A5" Guid="{9434FEAF-EE7C-AA7F-638B-F995080F8EE2}">
-	   		<File Id="filC4CAC2EDE6803441E3D71F8E55B0FC15" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_022.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filC4CAC2EDE6803441E3D71F8E55B0FC15" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_022.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpB7BC8F28E3CFE9B4CDCC7089C0E847C7" Guid="{0E1727C7-DC1A-BEC1-1F55-553877451758}">
-	   		<File Id="fil5B49AEE88381CB763FE479BC3B2B55A3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_023.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil5B49AEE88381CB763FE479BC3B2B55A3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_023.gif" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp23583F789741E692A6345E3CDF539EEB" Guid="{49C484FF-2B88-6C74-42AD-D9B8BC4FC6D5}">
-	   		<File Id="filA3536B97E6EA07AA8E613B62DC4CF418" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_024.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filA3536B97E6EA07AA8E613B62DC4CF418" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_024.gif" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpD89EA79FA8F00AB55942651DE8B5CFAE" Guid="{360C3DFF-BBA2-2FF3-6CAF-9F305B2F4672}">
 	   		<File Id="fil1DD446F8D5CD39C2BAB04A7244DA0A74" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Beginner's Tutorial_Image_034.png" Checksum="yes" DiskId="1" />
@@ -1933,7 +1933,7 @@
 	   		<File Id="filC0DBC2F2464120362C0EB26A96D5271D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Converting TrueCrypt volumes and partitions.html" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp80422759033E6E096ED761DC1892EC20" Guid="{344AEE62-679A-8336-8534-A94D52673BED}">
-	   		<File Id="fil0D07D2251B5E2E5C3D63CBADE1A5E3BB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Converting TrueCrypt volumes and partitions_truecrypt_convertion.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil0D07D2251B5E2E5C3D63CBADE1A5E3BB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Converting TrueCrypt volumes and partitions_truecrypt_convertion.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp7930D242A935F15A979675737E14A027" Guid="{483E3AB7-83C9-BDC0-68A7-F931DDFC691D}">
 	   		<File Id="filAFC95B7F7031D996AE860D4BBB8A691B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Creating New Volumes.html" Checksum="yes" DiskId="1" />
@@ -2113,7 +2113,7 @@
 	   		<File Id="fil1FEA4E30AB10078A329EA163A7FFE7EA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Keyfiles in VeraCrypt.html" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp536D5016E985775CACBEE78964CDB44D" Guid="{E1D26A2E-DAED-2904-B7F4-57793B843BC2}">
-	   		<File Id="fil3D3AF2D90520D369FC2A87DF6E95C308" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Keyfiles in VeraCrypt_Image_040.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil3D3AF2D90520D369FC2A87DF6E95C308" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Keyfiles in VeraCrypt_Image_040.gif" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp34B70BB362A4A65AF541E008135AFD87" Guid="{E415DE49-AA92-06F2-C084-8B811986F370}">
 	   		<File Id="filC02290D06EA9DBBC9CC2BDC140C9F49F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Keyfiles.html" Checksum="yes" DiskId="1" />
@@ -2218,19 +2218,19 @@
 	   		<File Id="filBE86A4BBCA7C93EEAFC38FEA2FE245CB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes.html" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpAF26DA8949D1628B2B837912EE95C36F" Guid="{0829AFE8-A321-FECE-0752-3208F54D9AB9}">
-	   		<File Id="filDA0308B8C3D13E84FCB5577F43F9F76F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_027.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filDA0308B8C3D13E84FCB5577F43F9F76F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_027.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpA307F1713B2860F580CF28AB50AECEF1" Guid="{33429825-AC5A-612A-96AE-E9B900F5714D}">
-	   		<File Id="fil2B8A56FDBCA48762406C80764BF04831" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_028.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil2B8A56FDBCA48762406C80764BF04831" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_028.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpEB0229715E97538DD2B9B2963FE290A8" Guid="{2915E5ED-6DDE-8F75-E244-D0B2AD28F2F6}">
-	   		<File Id="filFF76A4DE81785474B956C8D8F001A0FC" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_029.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filFF76A4DE81785474B956C8D8F001A0FC" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_029.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpFD4F2038EE1D2687333B746EA8EB3686" Guid="{754469A6-5209-6E88-41CE-1B7D47867061}">
-	   		<File Id="filE77569EF4FAD159BC128754C7D3AF9C3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_030.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filE77569EF4FAD159BC128754C7D3AF9C3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_030.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp9980F78A9836781CF28C958C8EA3E06E" Guid="{55C6B111-849F-C184-F6FD-C3EF1E6843C0}">
-	   		<File Id="filC2DEA72AAB1725437BF659E7030A0364" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_031.png" Checksum="yes" DiskId="1" />
+	   		<File Id="filC2DEA72AAB1725437BF659E7030A0364" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Protection of Hidden Volumes_Image_031.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp3928F819C46474D83B877B4703D02C7B" Guid="{DD88E90F-CAC7-9989-2D62-22AF85239445}">
 	   		<File Id="filE8FE4E4CE3A3B134B78479C6E762CA0E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Random Number Generator.html" Checksum="yes" DiskId="1" />
@@ -2311,7 +2311,7 @@
 	   		<File Id="filA6B542F3122261B7F569A9C8B1B08B48" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\TrueCrypt Support.html" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp193847FD355DA26F9000564CD2F6C8B2" Guid="{7842B565-0E9A-7105-0472-18C86076DF29}">
-	   		<File Id="fil875F846CE0306CE3560F9E9E9BEADCEB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\TrueCrypt Support_truecrypt_mode_gui.png" Checksum="yes" DiskId="1" />
+	   		<File Id="fil875F846CE0306CE3560F9E9E9BEADCEB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\TrueCrypt Support_truecrypt_mode_gui.jpg" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp1AE1C7879BF2BF75B2D726C0149D8A4D" Guid="{B7C53F87-AB9B-2239-A7B8-51CA961EED2A}">
 	   		<File Id="fil2DA89425317F28F2BAD83D10BB0B3EAB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\twitter_veracrypt.PNG" Checksum="yes" DiskId="1" />
