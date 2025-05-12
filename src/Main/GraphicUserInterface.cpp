@@ -1387,7 +1387,7 @@ namespace VeraCrypt
 #endif
 			string preferredLang = LangString.GetPreferredLang();
 			// Use preferred language only if it has translated documentation
-			if (!HasTranslatedDocumentation (preferredLang))
+			if (!HasTranslatedDocumentation (preferredLang.c_str()))
 			{
 				preferredLang = "en";
 			}
