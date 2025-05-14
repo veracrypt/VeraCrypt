@@ -674,20 +674,11 @@
 			<Component Id="cmp433CCCF103F2A8AF57F9FC528232C836" Guid="{D427BFF5-7DC7-4414-A920-51E2CAAAB671}">
 				<File Id="fil64A82A6BA01444F0F0AF2BFBFCB524D1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VC_BTC_Sigwit.png" Checksum="yes" DiskId="1" />
 			</Component>
-			<Component Id="cmpE5D6E9DF3EE1301C6D5A4F44362BCE96" Guid="{0811DEAF-F857-4839-A31B-C1B3A2C932FE}">
-				<File Id="fil83A3E2E3996B9CC933A606F6E4661FD5" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_BitcoinCash.png" Checksum="yes" DiskId="1" />
-			</Component>
 			<Component Id="cmpB7B429D414CF1DD05A4B70CE94E343F7" Guid="{04490FFA-387E-4FD7-9449-AB6C99886EA9}">
 				<File Id="fil25C86292E018E61CB762731F14261986" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Bitcoin_small.png" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmp00845B9781D5633702C834BCB4EB93D1" Guid="{A41BFAC5-42BF-45DB-BFF9-703F9DBE7346}">
 				<File Id="filAD426632459DB7AB1528AC311CE28870" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Ethereum.png" Checksum="yes" DiskId="1" />
-			</Component>
-			<Component Id="cmp47F92D029E335F7865F8ACB30763FED2" Guid="{A6C96C85-D0E8-442B-8C84-8705F17EE4C7}">
-				<File Id="fil155C2578FFCBDBD39679AB6AF62EEA7B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Litecoin.png" Checksum="yes" DiskId="1" />
-			</Component>
-			<Component Id="cmpF3B90B0C1F316854E9142B22783ACF19" Guid="{A369FF58-377C-47B9-A2A6-B222CA95898C}">
-				<File Id="filBE9E8FB59340806B67751E8BC2E00071" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Monero.png" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmpBD37FB188B29DB82A15EBC9C1DB66F94" Guid="{20A19599-83B8-4DF7-8B42-84F20DFA760F}">
 				<File Id="fil8D7D976D180AF0CD0B43FD64BEF15E5B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\EMV Smart Cards.html" Checksum="yes" DiskId="1" />
@@ -1332,20 +1323,11 @@
 			<Component Id="cmpF6A11C5F07AADC2DF98D1549024AA5D8" Guid="{C63CD654-EFD2-4C67-AF32-CD69ADF0CE0B}">
 				<File Id="fil7804A7A2C59A4FEDB9469EBCC705C5C4" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_VC_BTC_Sigwit.png" Checksum="yes" DiskId="1" />
 			</Component>
-			<Component Id="cmp92387146C4EDCAC1653A2FDD573D2695" Guid="{6E26E556-D86B-405F-8772-41B57A62CF0E}">
-				<File Id="fil43B20F7F00EF4AF79D0F82FB86BDF1A3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_VeraCrypt_BitcoinCash.png" Checksum="yes" DiskId="1" />
-			</Component>
 			<Component Id="cmpAD29968DFA6888826A5718FF6533D96B" Guid="{E26BF267-9896-4A32-B3B1-52FF1771DA1B}">
 				<File Id="fil6997FE1AC19191CA5556C409A2B06A66" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_VeraCrypt_Bitcoin_small.png" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmpECD5EF9F2075A8512411DC0C4A5249D0" Guid="{3225A53B-22E0-4BCA-99A0-E2C1604DDF74}">
 				<File Id="filFBCFEB2644899D7672ED7C8B4B93583C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_VeraCrypt_Ethereum.png" Checksum="yes" DiskId="1" />
-			</Component>
-			<Component Id="cmpCB8D27F16124CAAC7244A48FFA4AFB7D" Guid="{7E07BDF4-422E-4740-B2B4-D35ECE68FFFA}">
-				<File Id="fil5E96F5FACBC48E4D44AF52E7017EDE2E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_VeraCrypt_Litecoin.png" Checksum="yes" DiskId="1" />
-			</Component>
-			<Component Id="cmpC65A16FF1BC895E90BBB53B78E68DFD9" Guid="{F06D8C06-FFAD-41BA-9EB6-9B4152D1C5D0}">
-				<File Id="fil99117693F262D29831F855AE5C5BE2FB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_VeraCrypt_Monero.png" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmp87F512AEE17E1578EAAE94230A2D42F8" Guid="{39BC9692-4381-4634-928D-1A0DF36CEF23}">
 				<File Id="fil849BF471E22B7E5A8E6028B9CE71D955" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\EMV Smart Cards.html" Checksum="yes" DiskId="1" />
@@ -1989,20 +1971,11 @@
 	   	<Component Id="cmpF28F852618ED66DF2C9212B758DABF6B" Guid="{3A0BC1A8-6244-4CB7-5DB4-9C4732B2AA05}">
 	   		<File Id="fil54D3FD1C09188695D082041F70F05EA7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_VC_BTC_Sigwit.png" Checksum="yes" DiskId="1" />
 	   		</Component>
-	   	<Component Id="cmpA4FCD9769B7D81923768B3E24B0A7C92" Guid="{59B36FF1-C488-25CB-7560-FCB461DC8D66}">
-	   		<File Id="fil616F76A9A734FBFFAFDFA6D9A3E8A1FE" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_VeraCrypt_BitcoinCash.png" Checksum="yes" DiskId="1" />
-	   		</Component>
 	   	<Component Id="cmpE8BC881A4D5B7CBA5A2DE5901E4EF42C" Guid="{3E4AA606-9B58-51F1-23B8-918497AA06AB}">
 	   		<File Id="filF0D856669CA1BCB812A566B72937FBDF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_VeraCrypt_Bitcoin_small.png" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp4302138E45008754A46ABD328E20A08F" Guid="{FCA67600-DA67-A7CE-5F56-511BB4C4110E}">
 	   		<File Id="fil00F9A3A920E8D7C3007B0348FD7E69DA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_VeraCrypt_Ethereum.png" Checksum="yes" DiskId="1" />
-	   		</Component>
-	   	<Component Id="cmp1BE246950E8F804A34B66DF069F14BEB" Guid="{2871C877-842C-22EB-0B3A-F3D2D40FAA00}">
-	   		<File Id="fil3B2CB16D7096F221B3C01C940866D924" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_VeraCrypt_Litecoin.png" Checksum="yes" DiskId="1" />
-	   		</Component>
-	   	<Component Id="cmp3A6C726ADF969AA952A38A9F7E181E31" Guid="{1D33088B-9552-4D43-14DE-1493EB8BCFE8}">
-	   		<File Id="fil59EA3D083D116F0389B2A3B50CB279CD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_VeraCrypt_Monero.png" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmpC3811D039107BE4BAD367CB5635DA5C9" Guid="{42C0CD0A-B128-63A4-621C-8106E608092E}">
 	   		<File Id="fil74CEDD6AAA7DF81484E057AC758D6C4B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\EMV Smart Cards.html" Checksum="yes" DiskId="1" />
@@ -2772,11 +2745,8 @@
 			<ComponentRef Id="cmp3FC9C0126A2074CAABCF73197358F824" />
 			<ComponentRef Id="cmp1830E220882FBA276350032258B478AA" />
 			<ComponentRef Id="cmp433CCCF103F2A8AF57F9FC528232C836" />
-			<ComponentRef Id="cmpE5D6E9DF3EE1301C6D5A4F44362BCE96" />
 			<ComponentRef Id="cmpB7B429D414CF1DD05A4B70CE94E343F7" />
 			<ComponentRef Id="cmp00845B9781D5633702C834BCB4EB93D1" />
-			<ComponentRef Id="cmp47F92D029E335F7865F8ACB30763FED2" />
-			<ComponentRef Id="cmpF3B90B0C1F316854E9142B22783ACF19" />
 			<ComponentRef Id="cmpBD37FB188B29DB82A15EBC9C1DB66F94" />
 			<ComponentRef Id="cmp2EC17F48BC15C5405D2DB40FC6E01745" />
 			<ComponentRef Id="cmpE00F8980768E14DF59474B5CB3D84041" />
@@ -2993,11 +2963,8 @@
 			<ComponentRef Id="cmp1BCCBDD405E75313F3B3CE6EE8DA86B5" />
 			<ComponentRef Id="cmp3E991C4739DF1DE5475ECE135EE98D0E" />
 			<ComponentRef Id="cmpF6A11C5F07AADC2DF98D1549024AA5D8" />
-			<ComponentRef Id="cmp92387146C4EDCAC1653A2FDD573D2695" />
 			<ComponentRef Id="cmpAD29968DFA6888826A5718FF6533D96B" />
 			<ComponentRef Id="cmpECD5EF9F2075A8512411DC0C4A5249D0" />
-			<ComponentRef Id="cmpCB8D27F16124CAAC7244A48FFA4AFB7D" />
-			<ComponentRef Id="cmpC65A16FF1BC895E90BBB53B78E68DFD9" />
 			<ComponentRef Id="cmp87F512AEE17E1578EAAE94230A2D42F8" />
 			<ComponentRef Id="cmp97920FB49AE81562FA7ABFFA9A5DE439" />
 			<ComponentRef Id="cmpC57C3FF497FC91DB80B6398E7FEE7A64" />
@@ -3214,11 +3181,8 @@
 			<ComponentRef Id="cmpE802BC31B59EDA006E911FEE28AA5BE8" />
 			<ComponentRef Id="cmp7ED6C44547957CF7F3C80B76890FB67F" />
 			<ComponentRef Id="cmpF28F852618ED66DF2C9212B758DABF6B" />
-			<ComponentRef Id="cmpA4FCD9769B7D81923768B3E24B0A7C92" />
 			<ComponentRef Id="cmpE8BC881A4D5B7CBA5A2DE5901E4EF42C" />
 			<ComponentRef Id="cmp4302138E45008754A46ABD328E20A08F" />
-			<ComponentRef Id="cmp1BE246950E8F804A34B66DF069F14BEB" />
-			<ComponentRef Id="cmp3A6C726ADF969AA952A38A9F7E181E31" />
 			<ComponentRef Id="cmpC3811D039107BE4BAD367CB5635DA5C9" />
 			<ComponentRef Id="cmpC7B0E73093D6DD3652DD6375A7F41AEF" />
 			<ComponentRef Id="cmp61AD43A4F7BB9671DF457940980B31F2" />
