@@ -73,7 +73,7 @@ namespace VeraCrypt
 	{
 		// hardcoded list of languages for which a translated documentation exists
 		const char* supportedLanguages[] = { "en", "ru", "zh-cn"};
-		for (int i = 0; i < sizeof(supportedLanguages) / sizeof(supportedLanguages[0]); i++)
+		for (size_t i = 0; i < sizeof(supportedLanguages) / sizeof(supportedLanguages[0]); i++)
 		{
 			if (strcmp(language, supportedLanguages[i]) == 0)
 				return TRUE;
