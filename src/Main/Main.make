@@ -316,6 +316,7 @@ ifndef TC_NO_GUI
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).xml $(BASE_DIR)/Setup/Linux/usr/share/mime/packages/$(APPNAME).xml
 
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).xpm
+	rm -fr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/usr
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
 endif
 

@@ -55,6 +55,7 @@ else
     ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
 fi
 
+rm -rf "$PARENTDIR/VeraCrypt_Setup/GUI"
 make WXSTATIC=1 clean 				|| exit 1
 make WXSTATIC=1 					|| exit 1
 make WXSTATIC=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
@@ -77,6 +78,7 @@ else
     ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
 fi
 
+rm -rf "$PARENTDIR/VeraCrypt_Setup/Console"
 make WXSTATIC=1 NOGUI=1 clean 				|| exit 1
 make WXSTATIC=1 NOGUI=1 					|| exit 1
 make WXSTATIC=1 NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
@@ -85,6 +87,9 @@ echo "Creating VeraCrypt RPM packages "
 
 # -DCPACK_RPM_PACKAGE_DEBUG=TRUE for debugging cpack RPM
 # -DCPACK_RPM_PACKAGE_DEBUG=TRUE for debugging cpack RPM
+
+# remove old packages
+rm -rf $PARENTDIR/VeraCrypt_Packaging
 
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
