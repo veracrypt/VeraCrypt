@@ -81,10 +81,10 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikSM4 ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentSM4 ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4Kuznyechik ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4Serpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4Twofish ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpentSM4 ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4TwofishSerpent ()));
         #endif
 		return l;
 	}
@@ -394,20 +394,20 @@ namespace VeraCrypt
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 	
-	// Kuznyechik-SM4
-	KuznyechikSM4::KuznyechikSM4 ()
+	// SM4-Kuznyechik
+	SM4Kuznyechik::SM4Kuznyechik ()
 	{
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 
-	// Serpent-SM4
-	SerpentSM4::SerpentSM4 ()
+	// SM4-Serpent
+	SM4Serpent::SM4Serpent ()
 	{
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
@@ -421,12 +421,12 @@ namespace VeraCrypt
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 
-    // Twofish-Serpent-SM4
-    TwofishSerpentSM4::TwofishSerpentSM4 ()
+    // SM4-Twofish-Serpent
+    SM4TwofishSerpent::SM4TwofishSerpent ()
 	{
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
         Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
         Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}

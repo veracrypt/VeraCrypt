@@ -98,13 +98,13 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1, 1 },
 	{ { KUZNYECHIK, CAMELLIA,		0 }, { XTS, 0 },	0, 1 },
 	{ { TWOFISH, KUZNYECHIK,		0 }, { XTS, 0 },	0, 1 },
-	{ { SM4, KUZNYECHIK,			0 }, { XTS, 0 },	0, 1 },
-	{ { SM4, SERPENT,				0 }, { XTS, 0 },	0, 1 },
+	{ { KUZNYECHIK,	SM4,			0 }, { XTS, 0 },	0, 1 },
+	{ { SERPENT, SM4,				0 }, { XTS, 0 },	0, 1 },
 	{ { TWOFISH, SM4,			0 }, { XTS, 0 },	0, 1 },
 	{ { SERPENT, CAMELLIA,		0 }, { XTS, 0 },	0, 1 },
 	{ { AES, KUZNYECHIK,		0 }, { XTS, 0 },	0, 1 },
 	{ { CAMELLIA, SERPENT, KUZNYECHIK,	0 }, { XTS, 0 },	0, 1 },
-	{ { SM4, SERPENT, TWOFISH,	0 }, { XTS, 0 },	0, 1 },
+	{ { SERPENT, TWOFISH, SM4,	0 }, { XTS, 0 },	0, 1 },
 #endif
 	{ { 0,							0 }, { 0,    0},	0, 0 }		// Must be all-zero
 

@@ -1076,53 +1076,53 @@ namespace VeraCrypt
 						break;
 					}
 				}
-				else if (typeid (ea) == typeid (KuznyechikSM4))
+				else if (typeid (ea) == typeid (SM4Kuznyechik))
 				{
 					switch (testCase)
 					{
 					case 0:
-						if (crc != 0xb126b7f8)
+						if (crc != 0xa8179f71)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 1:
-						if (crc != 0xa117004a)
+						if (crc != 0xaa372193)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 2:
-						if (crc != 0xc561be46)
+						if (crc != 0x49b78057)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 3:
-						if (crc != 0x47106ce3)
+						if (crc != 0x80718fd2)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					}
 				}
-				else if (typeid (ea) == typeid (SerpentSM4))
+				else if (typeid (ea) == typeid (SM4Serpent))
 				{
 					switch (testCase)
 					{
 					case 0:
-						if (crc != 0x40a9eaa5)
+						if (crc != 0x77cd332a)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 1:
-						if (crc != 0xce6873f1)
+						if (crc != 0x3a2be34b)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 2:
-						if (crc != 0x92cafcad)
+						if (crc != 0xfc1a6d4c)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 3:
-						if (crc != 0x7e1463ca)
+						if (crc != 0xf9b54baf)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
@@ -1154,27 +1154,27 @@ namespace VeraCrypt
 						break;
 					}
 				}
-				else if (typeid (ea) == typeid (TwofishSerpentSM4))
+				else if (typeid (ea) == typeid (SM4TwofishSerpent))
 				{
 					switch (testCase)
 					{
 					case 0:
-						if (crc != 0x881b6e3d)
+						if (crc != 0x3ef6c86f)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 1:
-						if (crc != 0x37ed1418)
+						if (crc != 0xe5202d6c)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 2:
-						if (crc != 0x8e563eef)
+						if (crc != 0xa3acb43b)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
 					case 3:
-						if (crc != 0xdcbc41ac)
+						if (crc != 0xe9d64477)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
@@ -1333,15 +1333,15 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
-			else if (typeid (ea) == typeid (KuznyechikSM4))
+			else if (typeid (ea) == typeid (SM4Kuznyechik))
 			{
-				if (crc != 0x8190551b)
+				if (crc != 0x23039a99)
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
-			else if (typeid (ea) == typeid (SerpentSM4))
+			else if (typeid (ea) == typeid (SM4Serpent))
 			{
-				if (crc != 0x31408c47)
+				if (crc != 0xa7c3155b)
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
@@ -1351,9 +1351,9 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
-			else if (typeid (ea) == typeid (TwofishSerpentSM4))
+			else if (typeid (ea) == typeid (SM4TwofishSerpent))
 			{
-				if (crc != 0x033093e5)
+				if (crc != 0x9723753f)
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}

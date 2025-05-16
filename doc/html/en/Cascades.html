@@ -87,17 +87,17 @@
 <em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Serpent (256-bit key) in XTS mode and then with Twofish (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note
  that header keys are independent too, even though they are derived from a single password &ndash; see the section
 <a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.</p>
-<h2>Kuznyechik-SM4</h2>
+<h2>SM4-Kuznyechik</h2>
 <p>
-Two ciphers in a cascade [15, 16] operating in XTS mode (see the section 
-<a href="Modes%20of%20Operation.html"><em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with SM4 (128-bit key) in XTS mode and then with Kuznyechik (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section 
+Two ciphers in a cascade [15, 16] operating in XTS mode (see the section
+<a href="Modes%20of%20Operation.html"><em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Kuznyechik (256-bit key) in XTS mode and then with SM4 (128-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section
 <a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.
 </p>
 
-<h2>Serpent-SM4</h2>
+<h2>SM4-Serpent</h2>
 <p>
-Two ciphers in a cascade [15, 16] operating in XTS mode (see the section 
-<a href="Modes%20of%20Operation.html"><em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with SM4 (128-bit key) in XTS mode and then with Serpent (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section 
+Two ciphers in a cascade [15, 16] operating in XTS mode (see the section
+<a href="Modes%20of%20Operation.html"><em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Serpent (256-bit key) in XTS mode and then with SM4 (128-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section
 <a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.
 </p>
 
@@ -108,10 +108,10 @@ Two ciphers in a cascade [15, 16] operating in XTS mode (see the section
 <a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.
 </p>
 
-<h2>Twofish-Serpent-SM4</h2>
+<h2>SM4-Twofish-Serpent</h2>
 <p>
-Three ciphers in a cascade [15, 16] operating in XTS mode (see the section 
-<a href="Modes%20of%20Operation.html"><em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with SM4 (128-bit key) in XTS mode, then with Serpent (256-bit key) in XTS mode, and finally with Twofish (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section 
+Three ciphers in a cascade [15, 16] operating in XTS mode (see the section
+<a href="Modes%20of%20Operation.html"><em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Serpent (256-bit key) in XTS mode, then with Twofish (256-bit key) in XTS mode, and finally with SM4 (128-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section
 <a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.
 </p>
 

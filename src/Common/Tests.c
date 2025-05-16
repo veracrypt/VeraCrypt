@@ -1202,53 +1202,53 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (wcscmp (name, L"Kuznyechik-SM4") == 0)
+			else if (wcscmp (name, L"SM4-Kuznyechik") == 0)
 			{
 				switch (testCase)
 				{
 				case 0:
-					if (crc != 0xb126b7f8)
+					if (crc != 0xa8179f71)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 1:
-					if (crc != 0xa117004a)
+					if (crc != 0xaa372193)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 2:
-					if (crc != 0xc561be46)
+					if (crc != 0x49b78057)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 3:
-					if (crc != 0x47106ce3)
+					if (crc != 0x80718fd2)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				}
 			}
-			else if (wcscmp (name, L"Serpent-SM4") == 0)
+			else if (wcscmp (name, L"SM4-Serpent") == 0)
 			{
 				switch (testCase)
 				{
 				case 0:
-					if (crc != 0x40a9eaa5)
+					if (crc != 0x77cd332a)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 1:
-					if (crc != 0xce6873f1)
+					if (crc != 0x3a2be34b)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 2:
-					if (crc != 0x92cafcad)
+					if (crc != 0xfc1a6d4c)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 3:
-					if (crc != 0x7e1463ca)
+					if (crc != 0xf9b54baf)
 						return FALSE;
 					nTestsPerformed++;
 					break;
@@ -1306,27 +1306,27 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (wcscmp (name, L"Twofish-Serpent-SM4") == 0)
+			else if (wcscmp (name, L"SM4-Twofish-Serpent") == 0)
 			{
 				switch (testCase)
 				{
 				case 0:
-					if (crc != 0x881b6e3d)
+					if (crc != 0x3ef6c86f)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 1:
-					if (crc != 0x37ed1418)
+					if (crc != 0xe5202d6c)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 2:
-					if (crc != 0x8e563eef)
+					if (crc != 0xa3acb43b)
 						return FALSE;
 					nTestsPerformed++;
 					break;
 				case 3:
-					if (crc != 0xdcbc41ac)
+					if (crc != 0xe9d64477)
 						return FALSE;
 					nTestsPerformed++;
 					break;
@@ -1469,15 +1469,15 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (wcscmp (name, L"Kuznyechik-SM4") == 0)
+		else if (wcscmp (name, L"SM4-Kuznyechik") == 0)
 		{
-			if (crc != 0x8190551b)
+			if (crc != 0x23039a99)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (wcscmp (name, L"Serpent-SM4") == 0)
+		else if (wcscmp (name, L"SM4-Serpent") == 0)
 		{
-			if (crc != 0x31408c47)
+			if (crc != 0xa7c3155b)
 				return FALSE;
 			nTestsPerformed++;
 		}
@@ -1493,9 +1493,9 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (wcscmp (name, L"Twofish-Serpent-SM4") == 0)
+		else if (wcscmp (name, L"SM4-Twofish-Serpent") == 0)
 		{
-			if (crc != 0x033093e5)
+			if (crc != 0x9723753f)
 				return FALSE;
 			nTestsPerformed++;
 		}
