@@ -312,14 +312,9 @@ namespace VeraCrypt
                         typeid (EncryptionModeXTS));
             #endif 
                 bool algoNotSupported = (typeid (*volume->GetEncryptionAlgorithm()) == typeid (Kuznyechik))
-			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (SM4))
 			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (CamelliaKuznyechik))
 			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikTwofish))
 			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikAES))
-			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (SM4Kuznyechik))
-			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (SM4Serpent))
-			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (SM4Twofish))
-			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (SM4TwofishSerpent))
 			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikSerpentCamellia));
 
 		if (options.NoKernelCrypto

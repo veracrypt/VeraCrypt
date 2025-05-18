@@ -1644,7 +1644,6 @@
     <entry lang="ru" key="MOUNTPOINT_BLOCKED">ОШИБКА: Точка монтирования тома заблокирована, так как она переопределяет защищённую системную папку.\n\nВыберите другую точку монтирования.</entry>
     <entry lang="ru" key="MOUNTPOINT_NOTALLOWED">ОШИБКА: Точка монтирования тома не разрешена, так как она переопределяет папку, которая является частью переменной среды PATH.\n\nВыберите другую точку монтирования.</entry>
     <entry lang="ru" key="INSECURE_MODE">[НЕБЕЗОПАСНЫЙ РЕЖИМ]</entry>
-    <entry lang="ru" key="SM4_HELP">Стандарт блочного шифрования, опубликованный Китайским национальным управлением криптографии в 2006 г. в рамках стандарта GB/T 32907-2016. Ключ: 128 бит, блок: 128 бит. Режим работы: XTS. Широко используется в национальных стандартах Китая и в коммерческих приложениях.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

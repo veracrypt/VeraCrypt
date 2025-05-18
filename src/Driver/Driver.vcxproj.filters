@@ -171,12 +171,6 @@
     <ClCompile Include="..\Crypto\sha256_armv8.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\sm4.cpp">
-      <Filter>Crypto\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Crypto\sm4-impl-aesni.cpp">
-      <Filter>Crypto\Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Tcdefs.h">
@@ -286,9 +280,6 @@
     </ClInclude>
     <ClInclude Include="..\Driver\VolumeFilter.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Crypto\sm4.h">
-      <Filter>Crypto\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

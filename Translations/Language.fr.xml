@@ -1644,7 +1644,6 @@
     <entry lang="fr" key="MOUNTPOINT_BLOCKED">ERREUR : Le point de montage du volume est bloqué car il remplace un répertoire système protégé.\n\nVeuillez choisir un autre point de montage.</entry>
     <entry lang="fr" key="MOUNTPOINT_NOTALLOWED">ERREUR : Le point de montage du volume n'est pas autorisé car il remplace un répertoire faisant partie de la variable d'environnement PATH.\n\nVeuillez choisir un autre point de montage.</entry>
     <entry lang="fr" key="INSECURE_MODE">[MODE NON SÉCURISÉ]</entry>
-    <entry lang="fr" key="SM4_HELP">SM4 est un standard de chiffrement par blocs publié en 2006 par l’Administration nationale de la cryptographie de Chine, dans le cadre de la norme GB/T 32907-2016. Clé de 128 bits et bloc de 128 bits. Le mode opératoire est XTS. Il a été largement adopté dans les normes nationales chinoises et dans des applications commerciales.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

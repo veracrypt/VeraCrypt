@@ -1644,7 +1644,6 @@
     <entry lang="it" key="MOUNTPOINT_BLOCKED">ERRORE: Il punto di montaggio del volume è bloccato perché sovrascrive una directory di sistema protetta.\n\nScegli un punto di montaggio diverso.</entry>
     <entry lang="it" key="MOUNTPOINT_NOTALLOWED">ERRORE: Il punto di montaggio del volume non è consentito perché sovrascrive una directory che fa parte della variabile d'ambiente PATH.\n\nScegli un punto di montaggio diverso.</entry>
     <entry lang="it" key="INSECURE_MODE">[MODALITÀ NON SICURA]</entry>
-    <entry lang="it" key="SM4_HELP">SM4 è uno standard di cifratura a blocchi pubblicato dall'Amministrazione Cinese per la Crittografia Nazionale nel 2006 come parte dello standard GB/T 32907-2016. Chiave a 128 bit, blocco a 128 bit. La modalità operativa è XTS. È ampiamente utilizzato negli standard nazionali cinesi e nelle applicazioni commerciali.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

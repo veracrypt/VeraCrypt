@@ -277,11 +277,6 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Crypto\Sha2Intel.c" />
-    <ClCompile Include="..\Crypto\sm4-impl-aesni.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Crypto\sm4.cpp" />
     <ClCompile Include="..\Crypto\Streebog.c" />
     <ClCompile Include="..\Crypto\t1ha2.c" />
     <ClCompile Include="..\Crypto\t1ha2_selfcheck.c" />
@@ -319,7 +314,6 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
     <ClInclude Include="..\Crypto\SerpentFast.h" />
     <ClInclude Include="..\Crypto\SerpentFast_sbox.h" />
     <ClInclude Include="..\Crypto\Sha2.h" />
-    <ClInclude Include="..\Crypto\sm4.h" />
     <ClInclude Include="..\Crypto\Streebog.h" />
     <ClInclude Include="..\Crypto\t1ha.h" />
     <ClInclude Include="..\Crypto\t1ha_bits.h" />

@@ -99,12 +99,6 @@
     <ClCompile Include="sha256_armv8.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sm4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sm4-impl-aesni.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -180,9 +174,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="t1ha_selfcheck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sm4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

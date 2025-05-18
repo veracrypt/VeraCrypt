@@ -1644,7 +1644,6 @@
     <entry lang="ko" key="MOUNTPOINT_BLOCKED">오류: 볼륨 마운트 위치가 보호된 시스템 디렉터리를 덮어쓰기 때문에 차단되었습니다.\n\n다른 마운트 위치를 선택하세요.</entry>
     <entry lang="ko" key="MOUNTPOINT_NOTALLOWED">오류: 볼륨 마운트 위치가 PATH 환경 변수의 일부인 디렉터리를 덮어쓰기 때문에 허용되지 않습니다.\n\n다른 마운트 위치를 선택하세요.</entry>
     <entry lang="ko" key="INSECURE_MODE">[비보안 모드]</entry>
-    <entry lang="en" key="SM4_HELP">SM4 is a block cipher standard published by the Chinese National Cryptography Administration in 2006 as part of the GB/T 32907-2016 standard. 128-bit key, 128-bit block. Mode of operation is XTS. It is widely used in Chinese national standards and commercial applications.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

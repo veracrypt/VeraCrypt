@@ -48,8 +48,6 @@ SOURCES = \
 	Streebog.c \
 	kuznyechik.c \
 	kuznyechik_simd.c \
-	sm4.cpp \
-	sm4-impl-aesni.cpp \
 	Whirlpool.c \
 	Camellia.c \
 	Camellia_$(TC_ARCH).S \

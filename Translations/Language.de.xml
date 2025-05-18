@@ -1647,7 +1647,6 @@
     <entry lang="de" key="MOUNTPOINT_BLOCKED">FEHLER: Der Einhängepunkt ist blockiert, da er ein geschütztes Systemverzeichnis überschreibt.\n\nBitte wählen Sie einen anderen Einhängepunkt.</entry>
     <entry lang="de" key="MOUNTPOINT_NOTALLOWED">FEHLER: Der Einhängepunkt ist unzulässig, da er ein Verzeichnis überschreibt, das zur PATH-Umgebungsvariable gehört.\n\nBitte wählen Sie einen anderen Einhängepunkt.</entry>
     <entry lang="de" key="INSECURE_MODE">[UNSICHERER MODUS]</entry>
-    <entry lang="de" key="SM4_HELP">SM4 ist ein Blockchiffre-Standard, der 2006 von der nationalen chinesischen Behörde für Kryptografie im Rahmen des Standards GB/T 32907-2016 veröffentlicht wurde. 128 Bit Schlüssellänge, 128 Bit Blockgröße.\nArbeitet im XTS-Modus. Findet breite Anwendung in chinesischen nationalen Standards und kommerziellen Anwendungen.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

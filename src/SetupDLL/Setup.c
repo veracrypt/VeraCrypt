@@ -733,10 +733,6 @@ void Applink_Dll (MSIHANDLE hInstaller, const char *dest)
 	{
 		StringCbCopyW (page, sizeof (page),L"Camellia.html");
 	}
-	else if (strcmp(dest, "sm4") == 0)
-	{
-		StringCbCopyW (page, sizeof (page),L"SM4.html");
-	}
 	else if (strcmp(dest, "cascades") == 0)
 	{
 		StringCbCopyW (page, sizeof (page),L"Cascades.html");

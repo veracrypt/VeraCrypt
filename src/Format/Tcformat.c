@@ -1442,12 +1442,6 @@ void ComboSelChangeEA (HWND hwndDlg)
 
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("CAMELLIA_HELP"));
 		}
-		else if (wcscmp (name, L"SM4") == 0)
-		{
-			StringCbPrintfW (hyperLink, sizeof(hyperLink) / 2, GetString ("MORE_INFO_ABOUT"), name);
-
-			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("SM4_HELP"));
-		}
 		else if (EAGetCipherCount (nIndex) > 1)
 		{
 			// Cascade
@@ -5660,8 +5654,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Applink ("kuznyechik");
 			else if (wcscmp (name, L"Camellia") == 0)
 				Applink ("camellia");
-			else if (wcscmp (name, L"SM4") == 0)
-				Applink ("sm4");
 			else if (EAGetCipherCount (nIndex) > 1)
 				Applink ("cascades");
 

@@ -70,7 +70,6 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Twofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Camellia ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4 ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaKuznyechik ()));
@@ -81,10 +80,6 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4Kuznyechik ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4Serpent ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4Twofish ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new SM4TwofishSerpent ()));
         #endif
 		return l;
 	}
@@ -386,49 +381,5 @@ namespace VeraCrypt
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 
-	// SM4
-	SM4::SM4 ()
-	{
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
-	
-	// SM4-Kuznyechik
-	SM4Kuznyechik::SM4Kuznyechik ()
-	{
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
-
-	// SM4-Serpent
-	SM4Serpent::SM4Serpent ()
-	{
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
-
-    // SM4-Twofish
-    SM4Twofish::SM4Twofish ()
-	{
-        Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
-
-    // SM4-Twofish-Serpent
-    SM4TwofishSerpent::SM4TwofishSerpent ()
-	{
-        Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
-        Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSM4 ()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
 #endif
 }

@@ -1645,7 +1645,6 @@
     <entry lang="zh-cn" key="MOUNTPOINT_BLOCKED">错误：卷挂载点被阻止，因为它覆盖了受保护的系统目录。\n\n请选择其他挂载点。</entry>
     <entry lang="zh-cn" key="MOUNTPOINT_NOTALLOWED">错误：卷挂载点不允许使用，因为它覆盖了 PATH 环境变量中的目录。\n\n请选择其他挂载点。</entry>
     <entry lang="zh-cn" key="INSECURE_MODE">[不安全模式]</entry>
-    <entry lang="zh-cn" key="SM4_HELP">SM4 是由中国国家密码管理局在 2006 年发布的分组密码标准，作为 GB/T 32907-2016 标准的一部分。128 位密钥，128 位块。操作方式 XTS。它在中国国家标准和商业应用中被广泛使用。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

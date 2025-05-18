@@ -1663,7 +1663,6 @@ Information about Corsican localization:
 	    <entry lang="co" key="MOUNTPOINT_BLOCKED">SBAGLIU : U puntu du muntatura di u vulume hè bluccatu perchè ellu rimpiazzeghja un cartulare prutettu di u sistema.\n\nCi vole à sceglie un puntu du muntatura sfarente.</entry>
 	    <entry lang="co" key="MOUNTPOINT_NOTALLOWED">SBAGLIU : U puntu du muntatura di u vulume ùn hè micca permessu perchè ellu rimpiazzeghja un cartulare chì face parte di a variabile d’ambiente PATH.\n\nCi vole à sceglie un puntu du muntatura sfarente.</entry>
 	    <entry lang="co" key="INSECURE_MODE">[MODU NONSICURU]</entry>
-	    <entry lang="co" key="SM4_HELP">SM4 hè una norma di ciframentu à u bloccu, publicata da l'Amministrazione naziunale chinese di crittografia in u 2006, chì face parte di a norma GB/T 32907-2016. Chjave di 128 bit è bloccu di 128 bit. U modu d’operazione hè XTS. SM4 hè impiegata assai in e norme naziunale chinese è in l’appiecazioni cummerciale.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">

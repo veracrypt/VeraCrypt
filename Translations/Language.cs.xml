@@ -1644,7 +1644,6 @@
     <entry lang="cs" key="MOUNTPOINT_BLOCKED">CHYBA: Připojovací bod svazku je blokován, jelikož je nadřazen chráněnému systémovému adresáři.\n\nProsím, zvolte jiný přípojovací bod.</entry>
     <entry lang="cs" key="MOUNTPOINT_NOTALLOWED">CHYBA: Připojovací bod svazku není povolen, jelikož přepisuje adresář, jenž je součástí proměnného prostředí PATH.\n\nProsím, vyberte jiný připojovací bod.</entry>
     <entry lang="cs" key="INSECURE_MODE">[NEZABEZPEČENÝ REŽIM]</entry>
-    <entry lang="en" key="SM4_HELP">SM4 is a block cipher standard published by the Chinese National Cryptography Administration in 2006 as part of the GB/T 32907-2016 standard. 128-bit key, 128-bit block. Mode of operation is XTS. It is widely used in Chinese national standards and commercial applications.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

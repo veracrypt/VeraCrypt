@@ -112,8 +112,7 @@ enum
 	SERPENT,			
 	TWOFISH,
 	CAMELLIA,
-	KUZNYECHIK,
-	SM4
+	KUZNYECHIK
 };
 
 typedef struct
@@ -173,7 +172,7 @@ typedef struct
 #ifdef TC_WINDOWS_BOOT
 #define MAX_EXPANDED_KEY	VC_MAX((AES_KS + SERPENT_KS + TWOFISH_KS), CAMELLIA_KS)
 #else
-#define MAX_EXPANDED_KEY    VC_MAX(VC_MAX(VC_MAX(VC_MAX(VC_MAX((AES_KS + SERPENT_KS + TWOFISH_KS), CAMELLIA_KS + KUZNYECHIK_KS + SERPENT_KS), KUZNYECHIK_KS + TWOFISH_KS), AES_KS + KUZNYECHIK_KS), SM4_KS + SERPENT_KS + TWOFISH_KS), SM4_KS + KUZNYECHIK_KS)
+#define MAX_EXPANDED_KEY    VC_MAX(VC_MAX(VC_MAX((AES_KS + SERPENT_KS + TWOFISH_KS), CAMELLIA_KS + KUZNYECHIK_KS + SERPENT_KS), KUZNYECHIK_KS + TWOFISH_KS), AES_KS + KUZNYECHIK_KS)
 #endif
 #endif
 
@@ -207,7 +206,6 @@ typedef struct
 #	include "Streebog.h"
 #	include "kuznyechik.h"
 #	include "Camellia.h"
-#	include "sm4.h"
 #if !defined (_UEFI)
 #   include "chachaRng.h"
 #   include "t1ha.h"
