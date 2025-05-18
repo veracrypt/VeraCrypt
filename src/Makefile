@@ -320,6 +320,7 @@ $(error Specified SDK version was not found, ensure your active developer direct
 	CC := gcc
 	CXX := g++
 
+	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
 	GCC_GTEQ_500 := 1
 
@@ -429,6 +430,7 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	CC := cc
 	CXX := c++
 
+	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
 	GCC_GTEQ_500 := 1
 	
@@ -492,6 +494,7 @@ ifeq "$(shell uname -s)" "OpenBSD"
 	CC := cc
 	CXX := c++
 
+	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
 	GCC_GTEQ_500 := 1
 
