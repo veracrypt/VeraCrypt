@@ -39,9 +39,9 @@
 #define IDC_PREF_WIPE_CACHE_ON_EXIT     1014
 #define IDC_PREF_CACHE_PASSWORDS        1016
 #define IDC_DIRECTORY                   1017
-#define IDC_PREF_UNMOUNT_LOGOFF        1018
+#define IDC_PREF_UNMOUNT_LOGOFF         1018
 #define IDC_BROWSE_DIRS                 1019
-#define IDC_PREF_UNMOUNT_INACTIVE      1020
+#define IDC_PREF_UNMOUNT_INACTIVE       1020
 #define IDC_AUTORUN_DISABLE             1021
 #define IDC_AUTORUN_START               1022
 #define IDC_BENCHMARK                   1023
@@ -87,13 +87,13 @@
 #define IDC_TRAV_CACHE_PASSWORDS        1064
 #define IDC_UNMOUNTALL                  1065
 #define IDT_TASKBAR_ICON                1066
-#define IDT_AUTO_UNMOUNT               1067
-#define IDC_PREF_FORCE_AUTO_UNMOUNT    1068
-#define IDC_PREF_UNMOUNT_INACTIVE_TIME 1069
+#define IDT_AUTO_UNMOUNT                1067
+#define IDC_PREF_FORCE_AUTO_UNMOUNT     1068
+#define IDC_PREF_UNMOUNT_INACTIVE_TIME  1069
 #define IDT_MINUTES                     1070
-#define IDC_PREF_UNMOUNT_SCREENSAVER   1071
-#define IDC_PREF_UNMOUNT_POWERSAVING   1072
-#define IDT_AUTO_UNMOUNT_ON            1073
+#define IDC_PREF_UNMOUNT_SCREENSAVER    1071
+#define IDC_PREF_UNMOUNT_POWERSAVING    1072
+#define IDT_AUTO_UNMOUNT_ON             1073
 #define IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT 1074
 #define IDC_CLOSE_BKG_TASK_WHEN_NOVOL   1075
 #define IDC_MORE_INFO_ON_HW_ACCELERATION 1076
@@ -102,16 +102,16 @@
 #define IDC_PREF_LOGON_START            1079
 #define IDC_PREF_LOGON_MOUNT_DEVICES    1080
 #define IDC_SHOW_PASSWORD_CHPWD_NEW     1081
-#define IDC_HK_UNMOUNT_BALLOON_TOOLTIP 1082
+#define IDC_HK_UNMOUNT_BALLOON_TOOLTIP  1082
 #define IDC_SHOW_PASSWORD_CHPWD_ORI     1083
-#define IDC_HK_UNMOUNT_PLAY_SOUND      1084
+#define IDC_HK_UNMOUNT_PLAY_SOUND       1084
 #define IDC_HOTKEY_ASSIGN               1085
 #define IDC_HOTKEY_REMOVE               1086
 #define IDC_HOTKEY_KEY                  1087
 #define IDT_HOTKEY_KEY                  1088
 #define IDC_HOTKEY_LIST                 1089
 #define IDC_RESET_HOTKEYS               1090
-#define IDT_UNMOUNT_ACTION             1091
+#define IDT_UNMOUNT_ACTION              1091
 #define IDT_ASSIGN_HOTKEY               1092
 #define IDC_HK_MOD_SHIFT                1093
 #define IDC_HK_MOD_CTRL                 1094
@@ -200,6 +200,7 @@
 #define IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY 1178
 #define IDC_ENABLE_EMV_SUPPORT          1179
 #define IDT_EMV_OPTIONS                 1180
+#define IDC_DISABLE_SCREEN_PROTECTION   1181
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -277,7 +278,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40070
-#define _APS_NEXT_CONTROL_VALUE         1181
+#define _APS_NEXT_CONTROL_VALUE         1182
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

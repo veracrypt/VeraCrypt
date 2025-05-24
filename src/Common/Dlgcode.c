@@ -2299,6 +2299,9 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 		EndDialog (hwndDlg, 0);
 		return 1;
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -2369,6 +2372,10 @@ static BOOL CALLBACK StaticModelessWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM w
 		StaticModelessWaitDlgHandle = NULL;
 		EndDialog (hwndDlg, 0);
 		return 1;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -3005,6 +3012,7 @@ typedef struct
 void ExceptionHandlerThread (void *threadArg)
 {
 	ExceptionHandlerThreadArgs *args = (ExceptionHandlerThreadArgs *) threadArg;
+	ScreenCaptureBlocker blocker;
 
 	EXCEPTION_POINTERS *ep = args->ExceptionPointers;
 	//DWORD addr;
@@ -3471,6 +3479,25 @@ BOOL WriteMemoryProtectionConfig (BOOL bEnable)
 	DWORD config = bEnable? 1: 0;
 
 	return WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", VC_ENABLE_MEMORY_PROTECTION, config);
+}
+
+BOOL ReadScreenProtectionConfig()
+{
+	DWORD config;
+
+	if (!ReadLocalMachineRegistryDword(L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", VC_ENABLE_SCREEN_PROTECTION, &config))
+	{
+		// enabled by default
+		config = 1;
+	}
+	return (config) ? TRUE : FALSE;
+}
+
+BOOL WriteScreenProtectionConfig(BOOL bEnable)
+{
+	DWORD config = bEnable ? 1 : 0;
+
+	return WriteLocalMachineRegistryDword(L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", VC_ENABLE_SCREEN_PROTECTION, config);
 }
 
 BOOL LoadSysEncSettings ()
@@ -4354,6 +4381,10 @@ BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		NormalCursor ();
 		EndDialog (hwndDlg, 0);
 		return 1;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -4495,6 +4526,10 @@ BOOL CALLBACK TextInfoDialogBoxDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 		NormalCursor ();
 		EndDialog (hwndDlg, 0);
 		return 1;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -4684,6 +4719,10 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 #endif
 			return 1;
 		}
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 	case WM_NOTIFY:
@@ -5776,6 +5815,9 @@ static BOOL CALLBACK LocalizeDialogEnum( HWND hwnd, LPARAM font)
 void LocalizeDialog (HWND hwnd, char *stringId)
 {
 	LastDialogId = stringId;
+
+	AttachProtectionToCurrentThread(hwnd);
+
 	SetWindowLongPtrW (hwnd, GWLP_USERDATA, (LONG_PTR) 'VERA');
 	SendMessageW (hwnd, WM_SETFONT, (WPARAM) hUserFont, 0);
 
@@ -6811,6 +6853,10 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		break;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	}
 	return 0;
 }
@@ -6989,6 +7035,9 @@ exit:
 
 			return 1;
 		}
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 	return 0;
 }
@@ -7416,6 +7465,10 @@ exit:
 			NormalCursor ();
 			return 1;
 		}
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 	return 0;
 }
@@ -7768,6 +7821,10 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		idTestCipher = -1;
 		EndDialog (hwndDlg, 0);
 		return 1;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -8053,6 +8110,10 @@ BOOL CALLBACK MultiChoiceDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 		// This prevents the window from being closed by pressing Alt-F4 (the Close button is hidden).
 		// Note that the OS handles modal MessageBox() dialog windows the same way.
 		return 1;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -8499,6 +8560,7 @@ typedef struct
 static void _cdecl WaitThread (void* pParam)
 {
 	WaitThreadParam* pThreadParam = (WaitThreadParam*) pParam;
+	ScreenCaptureBlocker screenCaptureBlocker;
 
 	pThreadParam->callback(pThreadParam->pArg, pThreadParam->hwnd);
 
@@ -8552,6 +8614,10 @@ BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			return 1;
 		else
 			return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		return 0;
 
 	default:
 		if (msg == g_wmWaitDlg)
@@ -12070,6 +12136,10 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 		}
 		return 1;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_NCDESTROY:
 		{
 			/* unregister drap-n-drop support */
@@ -12141,6 +12211,10 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_TOKEN_KEYFILE_NAME), Utf8StringToWide (newParams->Name).c_str());
 			return 1;
 		}
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 		switch (lw)
@@ -12297,6 +12371,10 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 			SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 			return 1;
 		}
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 	case WM_NOTIFY:
@@ -14097,6 +14175,8 @@ static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 
 	if (bNewDesktopSet)
 	{
+		ScreenCaptureBlocker blocker;
+
 		// call ImmDisableIME　from imm32.dll to disable IME since it can create issue with secure desktop
 		// cf: https://keepass.info/help/kb/sec_desk.html#ime
 		HMODULE hImmDll = LoadLibraryEx (L"imm32.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
@@ -16096,5 +16176,232 @@ cleanup:
 		FreeSid(pAdminSID);
 
 	return result;
+}
+#endif
+
+#if !defined(SETUP) && !defined(VC_COMREG)
+
+/*
+* Screen Protection Functions
+* These functions provide against screen capture, screen recording,  
+* and Windows 11 Recall feature by leveraging the Windows Display Affinity API.
+* 
+* Main windows/dialogs are protected via HCBT_ACTIVATE hook while menus/tooltips are protected
+* via selective window subclassing that allows calling SetWindowDisplayAffinity when they are created.
+* 
+* limitations: ComboBox dropdowns are not protected on Windows 11 because of a regression affecting 
+* layered windows (combobox dropdowns are layered windows)
+* 
+* Author: Mounir IDRASSI <mounir.idrassi@amcrypto.jp> for the VeraCrypt project
+* Date: 2025-05-23
+* 
+*/
+
+#include <atomic>
+#include <map>
+#include <mutex>
+
+static std::once_flag g_configOnce;                 // ensures one-time read
+static std::atomic_bool g_screenProtectionEnabled;  // readonly after init
+static thread_local HHOOK  g_cbtHook = nullptr;   // one per thread
+static thread_local int g_protectionRefCount = 0; 
+
+std::map<HWND, WNDPROC> g_MenuWndProcs;
+std::map<HWND, bool> g_Initialized;
+std::mutex g_MenuMutex;
+
+static void InitScreenProtectionFlag()
+{
+    // Runs exactly once thanks to std::call_once
+    BOOL enabled = ReadScreenProtectionConfig();
+    g_screenProtectionEnabled.store(enabled, std::memory_order_release);
+}
+
+static bool IsScreenProtectionEnabled()
+{
+    std::call_once(g_configOnce, InitScreenProtectionFlag);
+    return g_screenProtectionEnabled.load(std::memory_order_acquire);
+}
+
+
+// Custom WndProc for menu windows
+static LRESULT CALLBACK ProtectedWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_CREATE) {
+		SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE);
+	}
+
+	// Forward to original WndProc
+	WNDPROC origProc = nullptr;
+	{
+		std::lock_guard<std::mutex> lock(g_MenuMutex);
+		auto it = g_MenuWndProcs.find(hwnd);
+		if (it != g_MenuWndProcs.end())
+			origProc = it->second;
+	}
+
+	LRESULT result = 0;
+	if (origProc) {
+		result = CallWindowProc(origProc, hwnd, msg, wParam, lParam);
+	}
+	else {
+		// fallback to DefWindowProc if somehow no mapping exists
+		result = DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+
+	if (msg == WM_NCDESTROY) {
+		// Clean up the mapping when the window is destroyed
+		std::lock_guard<std::mutex> lock(g_MenuMutex);
+		g_MenuWndProcs.erase(hwnd);
+		g_Initialized.erase(hwnd);
+	}
+
+	return result;
+}
+
+void SubclassProtectedWindow(HWND hwnd)
+{
+	WNDPROC origProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
+
+	{
+		std::lock_guard<std::mutex> lock(g_MenuMutex);
+		g_MenuWndProcs[hwnd] = origProc;
+		g_Initialized[hwnd] = false;
+	}
+
+	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)ProtectedWndProc);
+}
+
+BOOL IsMenuWindow(HWND hwnd)
+{
+	TCHAR szClass[256] = { 0 };
+	GetClassName(hwnd, szClass, 255);
+	if (!_tcsicmp(szClass, _T("#32768")))
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
+BOOL IsTooltipWindow(HWND hwnd)
+{
+	TCHAR szClass[256] = { 0 };
+	GetClassName(hwnd, szClass, 255);
+	if (!_tcsicmp(szClass, _T("tooltips_class32")))
+	{
+		return TRUE;
+	}
+	else if (!_tcsicmp(szClass, _T("SysShadow")))
+	{
+		// check if it has WS_EX_TOOLWINDOW style: this helps identify the arrow area of the tooltip
+		LONG_PTR exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+		if (exStyle & WS_EX_TOOLWINDOW)
+		{
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static LRESULT CALLBACK CBT_PROC(int nCode, WPARAM wParam, LPARAM lParam)
+{
+	// for normal windows, HCBT_ACTIVATE is enough but for menus and tooltips we need to subclass them
+	// in order to call SetWindowDisplayAffinity when they are created
+	if (nCode == HCBT_ACTIVATE)
+	{
+		HWND hwnd = (HWND)(wParam);
+		LONG_PTR style = GetWindowLongPtr(hwnd, GWL_STYLE);
+
+		if ((style & (WS_POPUP | WS_OVERLAPPEDWINDOW)))
+		{
+			// get current affinity
+			DWORD dwAffinity = 0;
+			if (GetWindowDisplayAffinity(hwnd, &dwAffinity))
+			{
+				// if the affinity is not set, set it to exclude from capture
+				if (dwAffinity != WDA_EXCLUDEFROMCAPTURE)
+				{
+					SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE);
+				}
+				else
+				{
+					dwAffinity = 0;
+				}
+			}
+			else
+			{
+				// if we can't get the affinity, set it to exclude from capture
+				SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE);
+			}
+		}
+	}
+
+	if (nCode == HCBT_CREATEWND)
+	{
+		HWND hwnd = (HWND)(wParam);
+		if (IsMenuWindow(hwnd) || IsTooltipWindow(hwnd))
+		{
+			SubclassProtectedWindow(hwnd);
+		}
+	}
+	return CallNextHookEx(g_cbtHook, nCode, wParam, lParam);
+}
+
+BOOL AttachProtectionToCurrentThread(HWND hwnd)
+{
+    if (!IsScreenProtectionEnabled())
+        return TRUE;
+
+	if (hwnd) SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE);
+
+    if (g_protectionRefCount == 0)
+    {
+		// From now on, protect every future window/menu automatically.
+		// Set the hook only once per thread
+		g_cbtHook = SetWindowsHookExW(WH_CBT, CBT_PROC,
+			NULL,               // procedure lives in EXE
+			GetCurrentThreadId()); // thread-local hook
+		if (!g_cbtHook)
+		{
+			return FALSE;
+		}
+	}
+
+	g_protectionRefCount++;
+
+	return TRUE;
+}
+
+void DetachProtectionFromCurrentThread()
+{
+	if (!IsScreenProtectionEnabled())
+		return;
+
+    if (g_protectionRefCount == 0)
+        return;
+
+    --g_protectionRefCount;
+    if (g_protectionRefCount == 0)
+    {
+		// Last detach for this thread: remove hook
+		if (g_cbtHook)
+		{
+			UnhookWindowsHookEx(g_cbtHook);
+			g_cbtHook = nullptr;
+		}
+	}
+}
+#else
+// Dummy functions for screen protection
+BOOL AttachProtectionToCurrentThread(HWND hwnd)
+{
+	return TRUE;
+}
+void DetachProtectionFromCurrentThread()
+{
 }
 #endif

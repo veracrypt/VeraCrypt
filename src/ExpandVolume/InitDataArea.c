@@ -218,6 +218,7 @@ static volatile DWORD WriteRequestResult;
 static void __cdecl FormatWriteThreadProc (void *arg)
 {
 	DWORD bytesWritten;
+	AttachProtectionToCurrentThread(NULL);
 
 	SetThreadPriority (GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 
@@ -245,6 +246,7 @@ static void __cdecl FormatWriteThreadProc (void *arg)
 	}
 
 	WriteThreadRunning = FALSE;
+	DetachProtectionFromCurrentThread();
 	_endthread();
 }
 

@@ -585,6 +585,10 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_COMMAND:
 
 		if (lw == IDOK || hw == LBN_DBLCLK)

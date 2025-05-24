@@ -94,6 +94,7 @@
 #define IDC_DONATE                      1032
 #define IDC_LANGUAGES_LIST              1033
 #define IDC_SELECT_LANGUAGE_LABEL       1034
+#define IDC_DISABLE_SCREEN_PROTECTION   1181
 
 // Next default values for new objects
 // 

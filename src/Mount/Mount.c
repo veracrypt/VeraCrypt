@@ -2490,6 +2490,10 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			return 0;
 		}
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_TIMER:
 		switch (wParam)
 		{
@@ -3319,6 +3323,10 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		}
 		return 0;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_NCDESTROY:
 		{
 			/* unregister drap-n-drop support */
@@ -3509,6 +3517,10 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			PreferencesDlgEnableButtons (hwndDlg);
 		}
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 
@@ -3758,6 +3770,10 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		}
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_CONTEXTMENU:
 		{
@@ -4372,6 +4388,10 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return 0;
 		}
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_NOTIFY:
 
 		if(wParam == IDC_VOLUME_PROPERTIES_LIST)
@@ -4486,6 +4506,10 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 		}
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 
@@ -5405,6 +5429,7 @@ void __cdecl mountThreadFunction (void *hwndDlgArg)
 {
 	HWND hwndDlg =(HWND) hwndDlgArg;
 	BOOL bIsForeground = (GetForegroundWindow () == hwndDlg)? TRUE : FALSE;
+	ScreenCaptureBlocker screenCaptureBlocker;
 	// Disable parent dialog during processing to avoid user interaction
 	EnableWindow(hwndDlg, FALSE);
 	finally_do_arg2 (HWND, hwndDlg, BOOL, bIsForeground, { EnableWindow(finally_arg, TRUE);  if (finally_arg2) BringToForeground (finally_arg); bPrebootPasswordDlgMode = FALSE;});
@@ -9088,6 +9113,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		EndMainDlg (hwndDlg);
 		return 1;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_INITMENUPOPUP:
 		{
 			// disable "Set Header Key Derivation Algorithm" entry in "Volumes" menu
@@ -10103,6 +10132,7 @@ static BOOL StartSystemFavoritesService ()
 int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
 {
 	int argc;
+	ScreenCaptureBlocker blocker;
 	LPWSTR *argv = CommandLineToArgvW (GetCommandLineW(), &argc);
 
 	if (argv && argc == 2 && wstring (TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION) == argv[1])
@@ -10679,6 +10709,7 @@ void CALLBACK mountFavoriteVolumeCallbackFunction (void *pArg, HWND hwnd)
 
 void __cdecl mountFavoriteVolumeThreadFunction (void *pArg)
 {
+	ScreenCaptureBlocker screenCaptureBlocker;
 	ShowWaitDialog (MainDlg, FALSE, mountFavoriteVolumeCallbackFunction, pArg);
 	_InterlockedExchange(&FavoriteMountOnGoing, 0);
 }
@@ -11614,6 +11645,13 @@ void SetMemoryProtectionConfig (BOOL bEnable)
 		BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", VC_ENABLE_MEMORY_PROTECTION, config);
 }
 
+void SetScreenProtectionConfig (BOOL bEnable)
+{
+	DWORD config = bEnable? 1: 0;
+	if (BootEncObj)
+		BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", VC_ENABLE_SCREEN_PROTECTION, config);
+}
+
 void NotifyService (DWORD dwNotifyCmd)
 {
 	if (BootEncObj)
@@ -11623,6 +11661,7 @@ void NotifyService (DWORD dwNotifyCmd)
 static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static HWND hDisableMemProtectionTooltipWnd = NULL;
+	static HWND hDisableScreenProtectionTooltipWnd = NULL;
 	WORD lw = LOWORD (wParam);
 
 	switch (msg)
@@ -11667,6 +11706,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 			}
 
 			CheckDlgButton (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, ReadMemoryProtectionConfig() ? BST_UNCHECKED : BST_CHECKED);
+			CheckDlgButton (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION, ReadScreenProtectionConfig() ? BST_UNCHECKED : BST_CHECKED);
 
 			size_t cpuCount = GetCpuCount(NULL);
 
@@ -11707,6 +11747,10 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 			AccommodateCheckBoxTextWidth(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION);
 			// make the help button adjacent to the checkbox
 			MakeControlsContiguous(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, IDC_DISABLE_MEMORY_PROTECTION_HELP);
+
+			hDisableScreenProtectionTooltipWnd = CreateToolTip (IDC_DISABLE_SCREEN_PROTECTION, hwndDlg, "DISABLE_SCREEN_PROTECTION_WARNING");
+			// make IDC_DISABLE_SCREEN_PROTECTION control fit the text so that the tooltip is shown only when mouse is over the text
+			AccommodateCheckBoxTextWidth(hwndDlg, IDC_DISABLE_SCREEN_PROTECTION);
 		}
 		return 0;
 
@@ -11717,6 +11761,12 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 			DestroyWindow (hDisableMemProtectionTooltipWnd);
 			hDisableMemProtectionTooltipWnd = NULL;
 		}
+		if (hDisableScreenProtectionTooltipWnd)
+		{
+			DestroyWindow (hDisableScreenProtectionTooltipWnd);
+			hDisableScreenProtectionTooltipWnd = NULL;
+		}
+		DetachProtectionFromCurrentThread();
 		break;
 
 	case WM_COMMAND:
@@ -11743,6 +11793,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				BOOL allowTrimCommand = IsDlgButtonChecked (hwndDlg, IDC_ALLOW_TRIM_NONSYS_SSD);
 				BOOL allowWindowsDefrag = IsDlgButtonChecked (hwndDlg, IDC_ALLOW_WINDOWS_DEFRAG);
 				BOOL disableMemoryProtection = IsDlgButtonChecked (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION);
+				BOOL disableScreenProtection = IsDlgButtonChecked (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION);
 
 				try
 				{
@@ -11815,6 +11866,11 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 					if(originalDisableMemoryProtection != disableMemoryProtection)
 						rebootRequired = true;
 					SetMemoryProtectionConfig (!disableMemoryProtection);
+
+					BOOL originalDisableScreenProtection = !ReadScreenProtectionConfig();
+					if(originalDisableScreenProtection != disableScreenProtection)
+						rebootRequired = true;
+					SetScreenProtectionConfig (!disableScreenProtection);
 
 					DWORD bytesReturned;
 					if (!DeviceIoControl (hDriver, TC_IOCTL_REREAD_DRIVER_CONFIG, NULL, 0, NULL, 0, &bytesReturned, NULL))
@@ -11928,6 +11984,21 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 		case IDC_DISABLE_MEMORY_PROTECTION_HELP:
 			Applink ("memoryprotection");
 			return 1;
+		case IDC_DISABLE_SCREEN_PROTECTION:
+			{
+				BOOL disableScreenProtection = IsDlgButtonChecked (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION);
+				BOOL originalDisableScreenProtection = !ReadScreenProtectionConfig();
+				if (disableScreenProtection != originalDisableScreenProtection)
+				{
+					if (disableScreenProtection)
+					{
+						Warning ("DISABLE_SCREEN_PROTECTION_WARNING", hwndDlg);
+					}
+
+					Warning ("SETTING_REQUIRES_REBOOT", hwndDlg);
+				}
+			}
+			return 1;
 		case IDC_BENCHMARK:
 			Benchmark (hwndDlg);
 			return 1;
@@ -11963,6 +12034,10 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 		SetWindowTextW (GetDlgItem (hwndDlg, IDT_PKCS11_LIB_HELP), GetString("PKCS11_LIB_LOCATION_HELP"));
 
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 
@@ -12126,6 +12201,10 @@ static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPAR
 
 			return 0;
 		}
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 
@@ -12295,6 +12374,10 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 			}
 		}
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 

@@ -237,6 +237,10 @@ namespace VeraCrypt
 			}
 			return 1;
 
+		case WM_DESTROY:
+			DetachProtectionFromCurrentThread();
+			break;
+
 		case WM_COMMAND:
 
 			switch (lw)

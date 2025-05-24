@@ -1130,6 +1130,7 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	int nStatus;
 	EXPAND_VOL_THREAD_PARAMS *pParam=(EXPAND_VOL_THREAD_PARAMS *)pExpandDlgParam;
 	HWND hwndDlg = (HWND) pParam->hwndDlg;
+	AttachProtectionToCurrentThread(NULL);
 
 	nStatus = ExpandVolume (hwndDlg, (wchar_t*)pParam->szVolumeName, pParam->pVolumePassword,
 		pParam->VolumePkcs5, pParam->VolumePim, pParam->newSize, pParam->bInitFreeSpace, pParam->bQuickExpand );
@@ -1140,6 +1141,8 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	bVolTransformThreadCancel = FALSE;
 
 	PostMessage (hwndDlg, TC_APPMSG_VOL_TRANSFORM_THREAD_ENDED, 0, nStatus);
+
+	DetachProtectionFromCurrentThread();
 
 	_endthread ();
 }

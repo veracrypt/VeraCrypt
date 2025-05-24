@@ -355,6 +355,8 @@ uint32 ReadServiceConfigurationFlags ();
 uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ();
 BOOL ReadMemoryProtectionConfig ();
 BOOL WriteMemoryProtectionConfig (BOOL bEnable);
+BOOL ReadScreenProtectionConfig();
+BOOL WriteScreenProtectionConfig(BOOL bEnable);
 BOOL LoadSysEncSettings ();
 int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm);
 void RemoveNonSysInPlaceEncNotifications (void);
@@ -602,6 +604,9 @@ DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif
 BOOL IsInternetConnected();
+BOOL AttachProtectionToCurrentThread(HWND hwnd);
+void DetachProtectionFromCurrentThread();
+
 #if defined(SETUP) && !defined (PORTABLE)
 typedef struct _SECURITY_INFO_BACKUP {
 	PSID pOrigOwner;
@@ -814,6 +819,27 @@ public:
 BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled);
 bool GetKbList (std::vector<std::wstring>& kbList);
 bool OneOfKBsInstalled (const wchar_t* szKBs[], int count);
+
+class ScreenCaptureBlocker
+{
+public:
+	ScreenCaptureBlocker(HWND hwnd = NULL)
+		: m_hwnd(hwnd), m_attached(false)
+	{
+		m_attached = AttachProtectionToCurrentThread(m_hwnd);
+	}
+
+	~ScreenCaptureBlocker()
+	{
+		if (m_attached)
+			DetachProtectionFromCurrentThread();
+	}
+
+private:
+	HWND m_hwnd;
+	bool m_attached;
+};
+
 
 #endif // __cplusplus
 

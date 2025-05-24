@@ -152,7 +152,15 @@
 		<!-- They make it possible to give the user checkboxes to choose what to do -->
 		<!-- By default, we install all for all users -->
 		<Property Id="ALLUSERS" Value="1" />
-		
+
+		<!-- Following property is meant to disable memory protection -->  
+		<!-- By default, memory protection is enabled (checkbox unchecked) -->  
+		<Property Id="DISABLEMEMORYPROTECTION" Secure="yes" />
+
+		<!-- Following property is meant to disable screen protection -->  
+		<!-- By default, screen protection is enabled (checkbox unchecked) -->  
+		<Property Id="DISABLESCREENPROTECTION" Secure="yes" />
+
 		<!-- Following property sets the default acceptance of the license.
 			 In UI mode, the user needs to check the license box in order to accept 
 			 the license, which sets 'LicenseAccepted' to '1', but not 'ACCEPTLICENSE'.
@@ -2573,6 +2581,41 @@
 				</RegistryKey>
 			</Component>
 
+			<!-- Memory Protection Registry Setting - Enabled (Default) -->  
+			<Component Id="VeraCrypt_MemoryProtection_Enabled" Guid="{1B733E2D-AB4D-4F9B-9E57-09415F8252B3}" Win64="yes">  
+				<Condition>NOT DISABLEMEMORYPROTECTION</Condition>  
+				<RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\veracrypt">  
+					<RegistryValue Type="integer" Name="VeraCryptEnableMemoryProtection"   
+								Value="1" KeyPath="yes" />  
+				</RegistryKey>  
+			</Component>  
+		
+			<!-- Memory Protection Registry Setting - Disabled -->  
+			<Component Id="VeraCrypt_MemoryProtection_Disabled" Guid="{3F3F6CD5-E343-4106-930B-93D7CC7DB3A7}" Win64="yes">  
+				<Condition>DISABLEMEMORYPROTECTION</Condition>  
+				<RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\veracrypt">  
+					<RegistryValue Type="integer" Name="VeraCryptEnableMemoryProtection"   
+								Value="0" KeyPath="yes" />  
+				</RegistryKey>  
+			</Component>
+
+			<!-- Screen Protection Registry Setting - Enabled (Default) -->  
+			<Component Id="VeraCrypt_ScreenProtection_Enabled" Guid="{78F191B2-431D-43B3-8F1A-C61D3D426A6C}" Win64="yes">  
+				<Condition>NOT DISABLESCREENPROTECTION</Condition>  
+				<RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\veracrypt">  
+					<RegistryValue Type="integer" Name="VeraCryptEnableScreenProtection"   
+								Value="1" KeyPath="yes" />  
+				</RegistryKey>
+			</Component>
+			<!-- Screen Protection Registry Setting - Disabled -->
+			<Component Id="VeraCrypt_ScreenProtection_Disabled" Guid="{7DD6C6A8-B2F0-428B-A6B9-ECB4472E1862}" Win64="yes">  
+				<Condition>DISABLESCREENPROTECTION</Condition>  
+				<RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\veracrypt">  
+					<RegistryValue Type="integer" Name="VeraCryptEnableScreenProtection"   
+								Value="0" KeyPath="yes" />  
+				</RegistryKey>
+			</Component>
+
 		</DirectoryRef>
 		
 		<!-- Smallest installable units ; Regroups Components to be installed in the same unit into one Feature -->
@@ -3331,7 +3374,10 @@
 			<ComponentRef Id="VeraCryptVolume_Open_64" />
 			<ComponentRef Id="VeraCryptVolume_Extension_64" />
 			<ComponentRef Id="VeraCrypt_ProductGUID" />
-			
+			<ComponentRef Id="VeraCrypt_MemoryProtection_Enabled" />  
+    		<ComponentRef Id="VeraCrypt_MemoryProtection_Disabled" />
+			<ComponentRef Id="VeraCrypt_ScreenProtection_Enabled" />  
+    		<ComponentRef Id="VeraCrypt_ScreenProtection_Disabled" />
 		</Feature>
 		
 		<Feature 	Id="Install_Shortcuts"

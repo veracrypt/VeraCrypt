@@ -2504,6 +2504,7 @@ static void UpdateWipeControls (void)
 
 static void __cdecl sysEncDriveAnalysisThread (void *hwndDlgArg)
 {
+	ScreenCaptureBlocker blocker;
 	// Mark the detection process as 'in progress'
 	HiddenSectorDetectionStatus = 1;
 	SaveSettings (NULL);
@@ -2548,6 +2549,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	BOOL bHidden;
 	HWND hwndDlg = (HWND) hwndDlgArg;
 	volatile FORMAT_VOL_PARAMETERS *volParams = (FORMAT_VOL_PARAMETERS *) malloc (sizeof(FORMAT_VOL_PARAMETERS));
+	ScreenCaptureBlocker blocker;
 
 	if (volParams == NULL)
 		AbortProcess ("ERR_MEM_ALLOC");
@@ -6162,6 +6164,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -9076,6 +9082,10 @@ ovf_end:
 		PostMessage (hwndDlg, TC_APPMSG_FORMAT_USER_QUIT, 0, 0);
 		return 1;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_NCDESTROY:
 		{
 			hPasswordInputField = NULL;
@@ -10565,6 +10575,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
 {
 	int status;
+	ScreenCaptureBlocker blocker;
 	atexit (localcleanup);
 
 	VirtualLock (&volumePassword, sizeof(volumePassword));

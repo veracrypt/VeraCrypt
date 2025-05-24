@@ -75,7 +75,9 @@ BOOL bSystemRestore = TRUE;
 BOOL bDisableSwapFiles = FALSE;
 BOOL bForAllUsers = TRUE;
 BOOL bDisableMemoryProtection = FALSE;
+BOOL bDisableScreenProtection = FALSE;
 BOOL bOriginalDisableMemoryProtection = FALSE;
+BOOL bOriginalDisableScreenProtection = FALSE;
 BOOL bRegisterFileExt = TRUE;
 BOOL bAddToStartMenu = TRUE;
 BOOL bDesktopIcon = TRUE;
@@ -2374,6 +2376,12 @@ void DoInstall (void *arg)
 	{
 		WriteMemoryProtectionConfig(bDisableMemoryProtection? FALSE : TRUE);
 		bRestartRequired = TRUE; // Restart is required to apply the new memory protection settings
+	}
+
+	if (bOK && (bDisableScreenProtection != bOriginalDisableScreenProtection))
+	{
+		WriteScreenProtectionConfig(bDisableScreenProtection? FALSE : TRUE);
+		bRestartRequired = TRUE; // Restart is required to apply the new screen protection settings
 	}
 
 	if (bOK && bUpgrade)

@@ -424,6 +424,7 @@ typedef struct
 #define VC_ERASE_KEYS_SHUTDOWN DRIVER_STR("VeraCryptEraseKeysShutdown")
 
 #define VC_ENABLE_MEMORY_PROTECTION DRIVER_STR("VeraCryptEnableMemoryProtection")
+#define VC_ENABLE_SCREEN_PROTECTION DRIVER_STR("VeraCryptEnableScreenProtection")
 
 // WARNING: Modifying the following values can introduce incompatibility with previous versions.
 #define TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD						0x1

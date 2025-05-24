@@ -604,6 +604,10 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		KillTimer (hwndDlg, 0xfe);
 		EndDialog (hwndDlg, IDCANCEL);
 		return 1;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 	return 0;
 }

@@ -1644,6 +1644,8 @@
     <entry lang="tr" key="MOUNTPOINT_BLOCKED">HATA: Birim bağlama noktası, korunan bir sistem dizinini geçersiz kıldığı için engellendi.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
     <entry lang="tr" key="MOUNTPOINT_NOTALLOWED">HATA: Birim bağlama noktası, PATH ortam değişkeninin bir parçası olan bir dizini geçersiz kıldığı için izin verilmiyor.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
     <entry lang="tr" key="INSECURE_MODE">[GÜVENSİZ MOD]</entry>
+    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
+    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

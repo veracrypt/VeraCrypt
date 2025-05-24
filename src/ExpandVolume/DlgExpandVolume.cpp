@@ -208,6 +208,9 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 		return 0;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 		if (lw == IDCANCEL)
@@ -477,6 +480,10 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 		burn (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
 		burn (maskRandPool, sizeof(maskRandPool));
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;

@@ -173,7 +173,7 @@ BEGIN
     PUSHBUTTON      "&Auto-Mount Devices",IDC_MOUNTALL,100,243,84,18
     PUSHBUTTON      "Di&smount All",IDC_UNMOUNTALL,192,243,84,18,WS_GROUP
     PUSHBUTTON      "E&xit",IDC_EXIT,284,243,84,18,WS_GROUP
-    CONTROL         112,IDC_LOGO,"Static",SS_BITMAP | SS_NOTIFY | WS_BORDER,13,190,33,31
+    CONTROL         IDB_LOGO_96DPI,IDC_LOGO,"Static",SS_BITMAP | SS_NOTIFY | WS_BORDER,13,190,33,31
     GROUPBOX        "Volume",IDT_VOLUME,8,179,360,53
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,2,0,372,147
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,282,242,88,20
@@ -321,7 +321,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,255,226,50,14
 END
 
-IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 300
+IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 341
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Performance Options"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -344,17 +344,20 @@ BEGIN
     CONTROL         "Use CPU hardware random generator as an additional source of entropy",IDC_ENABLE_CPU_RNG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,237,335,10
     CONTROL         "Activate encryption of keys and passwords stored in RAM",IDC_ENABLE_RAM_ENCRYPTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,250,337,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,271,337,10
     CONTROL         "Disable memory protection for Accessibility tools compatibility",IDC_DISABLE_MEMORY_PROTECTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,263,339,10
-    PUSHBUTTON      "?",IDC_DISABLE_MEMORY_PROTECTION_HELP,364,259,7,14
-    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,279,59,14
-    DEFPUSHBUTTON   "OK",IDOK,257,279,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,314,279,50,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,284,339,10
+    PUSHBUTTON      "?",IDC_DISABLE_MEMORY_PROTECTION_HELP,364,280,7,14
+    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,320,59,14
+    DEFPUSHBUTTON   "OK",IDOK,257,320,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,314,320,50,14
     LTEXT           "Processor (CPU) in this computer supports hardware acceleration for AES:",IDT_HW_AES_SUPPORTED_BY_CPU,18,23,273,9
     GROUPBOX        "Hardware Acceleration",IDT_ACCELERATION_OPTIONS,7,6,355,74
     GROUPBOX        "Thread-Based Parallelization",IDT_PARALLELIZATION_OPTIONS,7,84,355,93
-    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,95
+    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,69
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,257,357,56
+    CONTROL         "Disable protection against screenshots and screen recording",IDC_DISABLE_SCREEN_PROTECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,298,209,10
 END
 
 IDD_FAVORITE_VOLUMES DIALOGEX 0, 0, 380, 368
@@ -524,7 +527,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 364
         TOPMARGIN, 7
-        BOTTOMMARGIN, 293
+        BOTTOMMARGIN, 334
     END
 
     IDD_FAVORITE_VOLUMES, DIALOG
@@ -651,7 +654,7 @@ BEGIN
         MENUITEM "Mount Volume with Options",   IDM_MOUNT_VOLUME_OPTIONS
         MENUITEM "Auto-Mount All Device-Hosted Volumes", IDM_MOUNTALL
         MENUITEM SEPARATOR
-        MENUITEM "Unmount Volume",             IDM_UNMOUNT_VOLUME
+        MENUITEM "Unmount Volume",              IDM_UNMOUNT_VOLUME
         MENUITEM "Unmount All Mounted Volumes", IDM_UNMOUNTALL
         MENUITEM SEPARATOR
         MENUITEM "Change Volume Password...",   IDM_CHANGE_PASSWORD
