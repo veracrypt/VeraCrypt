@@ -1644,8 +1644,8 @@
     <entry lang="ar" key="MOUNTPOINT_BLOCKED">خطأ: نقطة تركيب الحجم محظورة لأنها تحل محل دليل نظام محمي.\n\nيرجى اختيار نقطة تركيب مختلفة.</entry>
     <entry lang="ar" key="MOUNTPOINT_NOTALLOWED">خطأ: نقطة تركيب الحجم غير مسموح بها لأنها تحل محل دليل مدرج ضمن متغير البيئة PATH.\n\nيرجى اختيار نقطة تركيب مختلفة.</entry>
     <entry lang="ar" key="INSECURE_MODE">[وضع غير آمن]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
+    <entry lang="ar" key="IDC_DISABLE_SCREEN_PROTECTION">تعطيل الحماية من لقطات الشاشة وتسجيل الشاشة</entry>
+    <entry lang="ar" key="DISABLE_SCREEN_PROTECTION_WARNING">تحذير: تعطيل حماية الشاشة يقلل بشكل كبير من مستوى الأمان. فعّل هذا الخيار فقط إذا كانت لديك حاجة محددة لالتقاط واجهة VeraCrypt. قد يؤدي ذلك إلى تعريض البيانات الحساسة لأدوات التقاط الشاشة وميزات تسجيل الشاشة مثل Windows 11 Recall.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

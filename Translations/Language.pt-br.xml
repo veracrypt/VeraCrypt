@@ -1644,8 +1644,8 @@
     <entry lang="pt-br" key="MOUNTPOINT_BLOCKED">ERRO: O ponto de montagem do volume está bloqueado porque substitui um diretório protegido do sistema.\n\nPor favor, escolha um ponto de montagem diferente.</entry>
     <entry lang="pt-br" key="MOUNTPOINT_NOTALLOWED">ERRO: O ponto de montagem do volume não é permitido porque substitui um diretório que faz parte da variável de ambiente PATH.\n\nPor favor, escolha um ponto de montagem diferente.</entry>
     <entry lang="pt-br" key="INSECURE_MODE">[MODO INSEGURO]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
+    <entry lang="pt-br" key="IDC_DISABLE_SCREEN_PROTECTION">Desativar proteção contra capturas de tela e gravação de tela</entry>
+    <entry lang="pt-br" key="DISABLE_SCREEN_PROTECTION_WARNING">AVISO: Desativar a proteção de tela reduz significativamente a segurança. Ative esta opção SOMENTE se você tiver uma necessidade específica de capturar a interface do VeraCrypt. Isso pode expor dados sensíveis a ferramentas de captura de tela e recursos de gravação, como o Windows 11 Recall.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

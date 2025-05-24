@@ -1623,7 +1623,7 @@
     <entry lang="tr" key="EMV_KEYFILE_DATA_NOTFOUND">EMV kartı verilerinden anahtar dosyası oluşturulamadı.\n\nŞunlardan biri eksik:\n- ICC herkese açık anahtar sertifikası.\n- Yayıncının herkese açık anahtar sertifikası.\n- CPLC verileri.</entry>
     <entry lang="tr" key="SCARD_W_REMOVED_CARD">Okuyucuda bir kart yok.\n\nLütfen kartın doğru şekilde yerleştirildiğinden emin olun.</entry>
     <entry lang="tr" key="FORMAT_EXTERNAL_FAILED">Windows format.com komutu, birimi NTFS/exFAT/ReFS olarak biçimlendiremedi: Hata kodu: 0x%.8X.\n\nWindows FormatEx API uygulamasını kullanmaya geri dönülüyor.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API uygulaması birimi NTFS/exFAT/ReFS olarak biçimlendiremedi.\n\nHata durumu = %s.</entry>
+    <entry lang="tr" key="FORMATEX_API_FAILED">Windows FormatEx API uygulaması birimi NTFS/exFAT/ReFS olarak biçimlendiremedi.\n\nHata durumu = %s.</entry>
     <entry lang="tr" key="EXPANDER_WRITING_RANDOM_DATA">Yeni alana rastgele veriler yazılıyor...\n</entry>
     <entry lang="tr" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Yeniden şifrelenmiş yedek üst bilgiler yazılıyor...\n</entry>
     <entry lang="tr" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Yeniden şifrelenmiş birincil üst bilgiler yazılıyor...\n</entry>
@@ -1644,8 +1644,8 @@
     <entry lang="tr" key="MOUNTPOINT_BLOCKED">HATA: Birim bağlama noktası, korunan bir sistem dizinini geçersiz kıldığı için engellendi.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
     <entry lang="tr" key="MOUNTPOINT_NOTALLOWED">HATA: Birim bağlama noktası, PATH ortam değişkeninin bir parçası olan bir dizini geçersiz kıldığı için izin verilmiyor.\n\nLütfen farklı bir bağlama noktası seçin.</entry>
     <entry lang="tr" key="INSECURE_MODE">[GÜVENSİZ MOD]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
+    <entry lang="tr" key="IDC_DISABLE_SCREEN_PROTECTION">Ekran görüntüsü ve ekran kaydına karşı korumayı devre dışı bırak</entry>
+    <entry lang="tr" key="DISABLE_SCREEN_PROTECTION_WARNING">UYARI: Ekran korumasını devre dışı bırakmak güvenliği önemli ölçüde azaltır. Bu seçeneği YALNIZCA VeraCrypt arayüzünü yakalamak için özel bir ihtiyacınız varsa etkinleştirin. Bu işlem, hassas verilerin ekran görüntüsü araçları ve Windows 11 Recall gibi ekran kaydı özelliklerine maruz kalmasına neden olabilir.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
