@@ -1644,8 +1644,8 @@
     <entry lang="fi" key="MOUNTPOINT_BLOCKED">VIRHE: Taltion liitoskohta on estetty, koska se korvaa suojatun järjestelmäkansion.\n\nValitse toinen liitoskohta.</entry>
     <entry lang="fi" key="MOUNTPOINT_NOTALLOWED">VIRHE: Taltion liitoskohta ei ole sallittu, koska se korvaa PATH-ympäristömuuttujaan kuuluvan sijainnin.\n\nValitse toinen liitoskohta.</entry>
     <entry lang="fi" key="INSECURE_MODE">[EPÄTURVALLINEN TILA]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
+    <entry lang="fi" key="IDC_DISABLE_SCREEN_PROTECTION">Ota kuvakaappaus- ja näytöntallennussuojaus pois käytöstä</entry>
+    <entry lang="fi" key="DISABLE_SCREEN_PROTECTION_WARNING">VAROITUS: Kuvakaappaus- ja näytöntallennussuojauksen poistaminen käytöstä heikentää tietoturvaa merkittävästi. Ota tämä käyttöön VAIN, jos sinun täytyy erityisesti tallentaa VeraCryptin käyttöliittymä. Tämä voi paljastaa arkaluontoisia tietoja kuvakaappausohjelmille ja näytöntallennusominaisuuksille, kuten Windows 11 Recall.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -1523,7 +1523,7 @@
     <entry lang="hu" key="LINUX_NOT_SUPPORTED"> (az aktuális platformon elérhető összetevők nem támogatják).\n</entry>
     <entry lang="hu" key="LINUX_KERNEL_OLD">Rendszere a Linux kernel régi verzióját használja.\n\nA Linux kernel hibája miatt előfordulhat, hogy rendszere nem válaszol, miközben adatokat ír egy VeraCrypt kötetre. Ez a probléma megoldható a kernel 2.6.24-es vagy újabb verziójára történő frissítésével.</entry>
     <entry lang="hu" key="LINUX_VOL_UNMOUNTED">A(z) {0} kötet le van választva.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
+    <entry lang="hu" key="LINUX_VOL_MOUNTED">A(z) {0} kötet csatlakoztatva lett.</entry>
     <entry lang="hu" key="LINUX_OOM">Kevés a memória.</entry>
     <entry lang="hu" key="LINUX_CANT_GET_ADMIN_PRIV">Nem sikerült rendszergazdai jogosultságokat szerezni</entry>
     <entry lang="hu" key="LINUX_COMMAND_GET_ERROR">A(z) {0} parancs {1} hibával tért vissza.</entry>
@@ -1568,84 +1568,84 @@
     <entry lang="hu" key="UNKNOWN_OPTION">Ismeretlen opció</entry>
     <entry lang="hu" key="VOLUME_LOCATION">Kötet helye</entry>
     <entry lang="hu" key="VOLUME_HOST_IN_USE">FIGYELEM: A(z) {0} gazdafájl/eszköz már használatban van!\n\nEnnek figyelmen kívül hagyása nemkívánatos eredményekhez vezethet, beleértve a rendszer instabilitását is.\nA kötet csatolása előtt minden olyan alkalmazást le kell állítani, amely a gazdafájlt/eszközt használja.\nFolytatja a csatolást?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
-    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CPLC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPLC data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="hu" key="CANT_INSTALL_WITH_EXE_OVER_MSI">A VeraCrypt korábban MSI csomaggal lett telepítve, ezért nem frissíthető a hagyományos telepítővel.\n\nKérjük, használja az MSI csomagot a VeraCrypt frissítéséhez.</entry>
+    <entry lang="hu" key="IDC_USE_ALL_FREE_SPACE">Az összes rendelkezésre álló szabad hely használata</entry>
+    <entry lang="hu" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">A VeraCrypt nem frissíthető, mert a rendszer partíciója/meghajtója olyan algoritmussal lett titkosítva, amely már nem támogatott.\nKérjük, frissítés előtt fejtse vissza a rendszert, majd titkosítsa újra.</entry>
+    <entry lang="hu" key="LINUX_EX2MSG_TERMINALNOTFOUND">Nem található támogatott terminálalkalmazás, szüksége van xterm, konsole vagy gnome-terminal (dbus-x11) programra.</entry>
+    <entry lang="hu" key="IDM_MOUNT_NO_CACHE">Csatolás gyorsítótár nélkül</entry>
+    <entry lang="hu" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nVeraCrypt kötet bővítése azonnal, újraformázás nélkül\n\n\nMinden NTFS-re formázott kötet (konténerfájl, lemez, partíció) támogatott. Az egyetlen feltétel, hogy a gazda meghajtón vagy eszközön elegendő szabad hely álljon rendelkezésre.\n\nNe használja ezt a programot olyan külső kötet bővítésére, amely rejtett kötetet tartalmaz, mert ez megsemmisíti a rejtett kötetet!\n</entry>
+    <entry lang="hu" key="IDC_STEPSEXPAND">1. Válassza ki a bővítendő VeraCrypt kötetet\n2. Kattintson a 'Csatolás' gombra</entry>
+    <entry lang="hu" key="IDT_VOL_NAME">Kötet: </entry>
+    <entry lang="hu" key="IDT_FILE_SYS">Fájlrendszer: </entry>
+    <entry lang="hu" key="IDT_CURRENT_SIZE">Jelenlegi méret: </entry>
+    <entry lang="hu" key="IDT_NEW_SIZE">Új méret: </entry>
+    <entry lang="hu" key="IDT_NEW_SIZE_BOX_TITLE">Adja meg az új kötetméretet</entry>
+    <entry lang="hu" key="IDC_INIT_NEWSPACE">Az új terület kitöltése véletlenszerű adatokkal</entry>
+    <entry lang="hu" key="IDC_QUICKEXPAND">Gyorsbővítés</entry>
+    <entry lang="hu" key="IDT_INIT_SPACE">Új terület kitöltése: </entry>
+    <entry lang="hu" key="EXPANDER_FREE_SPACE">%s szabad hely érhető el a gazda meghajtón</entry>
+    <entry lang="hu" key="EXPANDER_HELP_DEVICE">Ez egy eszköz-alapú VeraCrypt kötet.\n\nAz új kötetméret automatikusan a gazdaeszköz méretéhez igazodik.</entry>
+    <entry lang="hu" key="EXPANDER_HELP_FILE">Kérjük, adja meg a VeraCrypt kötet új méretét (legalább %I64u KB-tal nagyobbnak kell lennie, mint a jelenlegi méret).</entry>
+    <entry lang="hu" key="QUICK_EXPAND_WARNING">FIGYELEM: A Gyorsbővítést csak a következő esetekben használja:\n\n1) Az eszköz, amelyen a fájlkonténer található, nem tartalmaz érzékeny adatokat, és nincs szüksége hihető letagadhatóságra.\n2) Az eszköz, amelyen a fájlkonténer található, már teljes egészében és biztonságosan titkosítva van.\n\nBiztosan használni kívánja a Gyorsbővítést?</entry>
+    <entry lang="hu" key="EXPANDER_STATUS_TEXT">FONTOS: Mozgassa az egeret a lehető legvéletlenszerűbben ezen az ablakon belül. Minél tovább mozgatja, annál jobb. Ez jelentősen növeli a titkosítási kulcsok kriptográfiai erősségét. Ezután kattintson a 'Folytatás' gombra a kötet bővítéséhez.</entry>
+    <entry lang="hu" key="EXPANDER_STATUS_TEXT_LEGACY">Kattintson a 'Folytatás' gombra a kötet bővítéséhez.</entry>
+    <entry lang="hu" key="EXPANDER_FINISH_ERROR">Hiba: a kötet bővítése sikertelen volt.</entry>
+    <entry lang="hu" key="EXPANDER_FINISH_ABORT">Hiba: a műveletet a felhasználó megszakította.</entry>
+    <entry lang="hu" key="EXPANDER_FINISH_OK">Kész. A kötet sikeresen kibővült.</entry>
+    <entry lang="hu" key="EXPANDER_CANCEL_WARNING">Figyelem: A kötet bővítése folyamatban van!\n\nA mostani leállítás sérült kötethez vezethet.\n\nValóban megszakítja?</entry>
+    <entry lang="hu" key="EXPANDER_STARTING_STATUS">Kötet bővítésének indítása ...\n</entry>
+    <entry lang="hu" key="EXPANDER_HIDDEN_VOLUME_ERROR">Olyan külső kötet, amely rejtett kötetet tartalmaz, nem bővíthető, mert ez megsemmisíti a rejtett kötetet.\n</entry>
+    <entry lang="hu" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt rendszerkötet nem bővíthető.</entry>
+    <entry lang="hu" key="EXPANDER_NO_FREE_SPACE">Nincs elegendő szabad hely a kötet bővítéséhez</entry>
+    <entry lang="hu" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Figyelem: A konténerfájl nagyobb, mint a VeraCrypt kötet területe. A kötetterület után következő adatok felülíródnak.\n\nFolytatja?</entry>
+    <entry lang="hu" key="EXPANDER_WARNING_FAT">Figyelem: A VeraCrypt kötet FAT fájlrendszert tartalmaz!\n\nCsak maga a VeraCrypt kötet lesz kibővítve, a fájlrendszer nem.\n\nFolytatja?</entry>
+    <entry lang="hu" key="EXPANDER_WARNING_EXFAT">Figyelem: A VeraCrypt kötet exFAT fájlrendszert tartalmaz!\n\nCsak maga a VeraCrypt kötet lesz kibővítve, a fájlrendszer nem.\n\nFolytatja?</entry>
+    <entry lang="hu" key="EXPANDER_WARNING_UNKNOWN_FS">Figyelem: A VeraCrypt kötet ismeretlen vagy nem tartalmaz fájlrendszert!\n\nCsak maga a VeraCrypt kötet lesz kibővítve, a fájlrendszer változatlan marad.\n\nFolytatja?</entry>
+    <entry lang="hu" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">Az új kötetméret túl kicsi, legalább %I64u KiB-tal nagyobbnak kell lennie a jelenleginél.</entry>
+    <entry lang="hu" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">Az új kötetméret túl nagy, nincs elegendő hely a gazda meghajtón.</entry>
+    <entry lang="hu" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">A gazda meghajtó maximális fájlmérete (%I64u MB) túllépve.</entry>
+    <entry lang="hu" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Hiba: Nem sikerült megszerezni a Gyorsbővítés engedélyezéséhez szükséges jogosultságokat!\nKérjük, vegye ki a jelölést a Gyorsbővítés opcióból, és próbálja újra.</entry>
+    <entry lang="hu" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">A VeraCrypt kötet maximális mérete (%I64u TB) túllépve!\n</entry>
+    <entry lang="hu" key="FULL_FORMAT">Teljes formázás</entry>
+    <entry lang="hu" key="FAST_CREATE">Gyors létrehozás</entry>
+    <entry lang="hu" key="WARN_FAST_CREATE">FIGYELEM: A Gyors létrehozást csak a következő esetekben használja:\n\n1) Az eszköz nem tartalmaz érzékeny adatokat, és nincs szüksége hihető letagadhatóságra.\n2) Az eszköz már teljes egészében és biztonságosan titkosítva van.\n\nBiztosan használni kívánja a Gyors létrehozást?</entry>
+    <entry lang="hu" key="IDC_ENABLE_EMV_SUPPORT">EMV támogatás engedélyezése</entry>
+    <entry lang="hu" key="COMMAND_APDU_INVALID">A kártyára küldött APDU parancs érvénytelen.</entry>
+    <entry lang="hu" key="EXTENDED_APDU_UNSUPPORTED">Kiterjesztett APDU parancsok nem használhatók a jelenlegi tokennel.</entry>
+    <entry lang="hu" key="SCARD_MODULE_INIT_FAILED">Hiba a WinSCard / PCSC könyvtár betöltésekor.</entry>
+    <entry lang="hu" key="EMV_UNKNOWN_CARD_TYPE">A kártya az olvasóban nem támogatott EMV kártya.</entry>
+    <entry lang="hu" key="EMV_SELECT_AID_FAILED">Nem sikerült kiválasztani a kártya AID-jét az olvasóban.</entry>
+    <entry lang="hu" key="EMV_ICC_CERT_NOTFOUND">Az ICC nyilvános kulcstanúsítvány nem található a kártyán.</entry>
+    <entry lang="hu" key="EMV_ISSUER_CERT_NOTFOUND">A kibocsátó nyilvános kulcstanúsítványa nem található a kártyán.</entry>
+    <entry lang="hu" key="EMV_CPLC_NOTFOUND">A CPLC nem található az EMV kártyán.</entry>
+    <entry lang="hu" key="EMV_PAN_NOTFOUND">Az EMV kártyán nem található elsődleges számlaszám (PAN).</entry>
+    <entry lang="hu" key="INVALID_EMV_PATH">Az EMV útvonal érvénytelen.</entry>
+    <entry lang="hu" key="EMV_KEYFILE_DATA_NOTFOUND">Nem lehet kulcsfájlt készíteni az EMV kártya adataiból.\n\nAz alábbiak közül valamelyik hiányzik:\n- ICC nyilvános kulcstanúsítvány.\n- Kibocsátó nyilvános kulcstanúsítvány.\n- CPLC adat.</entry>
+    <entry lang="hu" key="SCARD_W_REMOVED_CARD">Nincs kártya az olvasóban.\n\nKérjük, ellenőrizze, hogy helyesen helyezte-e be a kártyát.</entry>
+    <entry lang="hu" key="FORMAT_EXTERNAL_FAILED">A Windows format.com parancs sikertelen volt az NTFS/exFAT/ReFS kötet formázásánál: Hiba 0x%.8X.\n\nÁtváltás a Windows FormatEx API használatára.</entry>
+    <entry lang="hu" key="FORMATEX_API_FAILED">A Windows FormatEx API nem tudta NTFS/exFAT/ReFS formátumra formázni a kötetet.\n\nSikertelenség állapota = %s.</entry>
+    <entry lang="hu" key="EXPANDER_WRITING_RANDOM_DATA">Véletlenszerű adatok írása az új területre ...\n</entry>
+    <entry lang="hu" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Újratitkosított biztonsági fejléc írása ...\n</entry>
+    <entry lang="hu" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Újratitkosított elsődleges fejléc írása ...\n</entry>
+    <entry lang="hu" key="EXPANDER_WIPING_OLD_HEADER">Régi biztonsági fejléc törlése ...\n</entry>
+    <entry lang="hu" key="EXPANDER_MOUNTING_VOLUME">Kötet csatolása ...\n</entry>
+    <entry lang="hu" key="EXPANDER_UNMOUNTING_VOLUME">Kötet leválasztása ...\n</entry>
+    <entry lang="hu" key="EXPANDER_EXTENDING_FILESYSTEM">Fájlrendszer bővítése ...\n</entry>
+    <entry lang="hu" key="PARTIAL_SYSENC_MOUNT_READONLY">Figyelem: A rendszerpartíció, amelyet csatolni próbált, nem volt teljesen titkosítva. Biztonsági okokból, az esetleges sérülés vagy nem kívánt módosítások elkerülése érdekében a(z) '%s' kötet csak olvasható módban lett csatolva.</entry>
+    <entry lang="hu" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Fontos információk harmadik féltől származó fájlkiterjesztések használatáról</entry>
+    <entry lang="hu" key="IDC_DISABLE_MEMORY_PROTECTION">Memóriavédelem letiltása az akadálymentesítési eszközökkel való kompatibilitás érdekében</entry>
+    <entry lang="hu" key="DISABLE_MEMORY_PROTECTION_WARNING">FIGYELEM: A memóriavédelem letiltása jelentősen csökkenti a biztonságot. Csak akkor engedélyezze ezt a lehetőséget, ha akadálymentesítési eszközökre, például képernyőolvasókra van szüksége a VeraCrypt felületének használatához.</entry>
     <entry lang="hu" key="LINUX_LANGUAGE">Nyelv</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
-    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
+    <entry lang="hu" key="LINUX_SELECT_SYS_DEFAULT_LANG">Rendszer alapértelmezett nyelvének kiválasztása</entry>
+    <entry lang="hu" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">A nyelvváltoztatás életbe lépéséhez újra kell indítania a VeraCrypt-et.</entry>
+    <entry lang="hu" key="ERR_XTS_MASTERKEY_VULNERABLE">FIGYELEM: A kötet mesterkulcsa sebezhető egy olyan támadással szemben, amely veszélyezteti az adatok biztonságát.\n\nKérjük, hozzon létre új kötetet, és másolja át az adatokat.</entry>
+    <entry lang="hu" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">FIGYELEM: A titkosított rendszer mesterkulcsa sebezhető egy olyan támadással szemben, amely veszélyezteti az adatok biztonságát.\nKérjük, fejtse vissza a rendszer partíciót/meghajtót, majd titkosítsa újra.</entry>
+    <entry lang="hu" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">FIGYELEM: A kötet mesterkulcsa biztonsági sérülékenységgel rendelkezik.</entry>
+    <entry lang="hu" key="MOUNTPOINT_BLOCKED">HIBA: A kötet csatolási pontja blokkolva van, mert védett rendszerkönyvtárat írhatna felül.\n\nKérjük, válasszon másik csatolási pontot.</entry>
+    <entry lang="hu" key="MOUNTPOINT_NOTALLOWED">HIBA: A kötet csatolási pontja nem engedélyezett, mert a PATH környezeti változóban szereplő könyvtárat írná felül.\n\nKérjük, válasszon másik csatolási pontot.</entry>
+    <entry lang="hu" key="INSECURE_MODE">[NEM BIZTONSÁGOS MÓD]</entry>
+    <entry lang="hu" key="IDC_DISABLE_SCREEN_PROTECTION">Képernyőkép- és képernyőfelvétel-védelem letiltása</entry>
+    <entry lang="hu" key="DISABLE_SCREEN_PROTECTION_WARNING">FIGYELEM: A képernyővédelem letiltása jelentősen csökkenti a biztonságot. Csak akkor engedélyezze ezt, ha kifejezetten szüksége van a VeraCrypt felületének rögzítésére. Ez érzékeny adatokat tehet elérhetővé képernyőkép-készítő és képernyőfelvételi eszközök, például a Windows 11 Recall számára.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

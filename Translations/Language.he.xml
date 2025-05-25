@@ -1524,7 +1524,7 @@
     <entry lang="he" key="LINUX_NOT_SUPPORTED">(לא נתמך על ידי רכיבים הזמינים בפלטפורמה זו). \n</entry>
     <entry lang="he" key="LINUX_KERNEL_OLD">המערכת שלך משתמשת בגרסה ישנה של ליבת לינוקס. \n \n בשל באג בליבת הלינוקס, המערכת שלך עשויה להפסיק להגיב בעת כתיבת נתונים לאמצעי אחסון VeraCrypt.ניתן לפתור בעיה זו על ידי שדרוג הגרעין לגרסה 2.6.24 ואילך.</entry>
     <entry lang="he" key="LINUX_VOL_UNMOUNTED">אמצעי האחסון {0} הוסר.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
+    <entry lang="he" key="LINUX_VOL_MOUNTED">אמצעי האחסון {0} הותקן.</entry>
     <entry lang="he" key="LINUX_OOM">מתוך הזיכרון.</entry>
     <entry lang="he" key="LINUX_CANT_GET_ADMIN_PRIV">השגת הרשאות מנהל נכשלה</entry>
     <entry lang="he" key="LINUX_COMMAND_GET_ERROR">הפקודה {0} החזירה שגיאה {1}.</entry>
@@ -1569,84 +1569,84 @@
     <entry lang="he" key="UNKNOWN_OPTION">אפשרות לא ידועה</entry>
     <entry lang="he" key="VOLUME_LOCATION">מיקום אמצעי אחסון</entry>
     <entry lang="he" key="VOLUME_HOST_IN_USE">אזהרה: הקובץ / ההתקן המארח {0} כבר נמצא בשימוש! \n \n התעלמות מכך עלולה לגרום לתוצאות לא רצויות כולל חוסר יציבות במערכת.יש לסגור את כל היישומים שעשויים להשתמש בקובץ המארח / בהתקן לפני התקנת אמצעי האחסון. \n \n האם להמשיך בטעינה?</entry>
-    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
-    <entry lang="en" key="IDC_USE_ALL_FREE_SPACE">Use all available free space</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt cannot be upgraded because the system partition/drive was encrypted using an algorithm that is not supported anymore.\nPlease decrypt your system before upgrading VeraCrypt and then encrypt it again.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TERMINALNOTFOUND">Supported terminal application could not be found, you need either xterm, konsole or gnome-terminal (with dbus-x11).</entry>
-    <entry lang="en" key="IDM_MOUNT_NO_CACHE">Mount Without Cache</entry>
-    <entry lang="en" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\nAll kind of volumes (container files, disks and partitions) formatted with NTFS are supported. The only condition is that there must be enough free space on the host drive or host device of the VeraCrypt volume.\n\nDo not use this software to expand an outer volume containing a hidden volume, because this destroys the hidden volume!\n</entry>
-    <entry lang="en" key="IDC_STEPSEXPAND">1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button</entry>
-    <entry lang="en" key="IDT_VOL_NAME">Volume: </entry>
-    <entry lang="en" key="IDT_FILE_SYS">File system: </entry>
-    <entry lang="en" key="IDT_CURRENT_SIZE">Current size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE">New size: </entry>
-    <entry lang="en" key="IDT_NEW_SIZE_BOX_TITLE">Enter new volume size</entry>
-    <entry lang="en" key="IDC_INIT_NEWSPACE">Fill new space with random data</entry>
-    <entry lang="en" key="IDC_QUICKEXPAND">Quick Expand</entry>
-    <entry lang="en" key="IDT_INIT_SPACE">Fill new space: </entry>
-    <entry lang="en" key="EXPANDER_FREE_SPACE">%s free space available on host drive</entry>
-    <entry lang="en" key="EXPANDER_HELP_DEVICE">This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.</entry>
-    <entry lang="en" key="EXPANDER_HELP_FILE">Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).</entry>
-    <entry lang="en" key="QUICK_EXPAND_WARNING">WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_STATUS_TEXT_LEGACY">Click 'Continue' to expand the volume.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ERROR">Error: volume expansion failed.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
-    <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
-    <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
-    <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
-    <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
-    <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_FAT">Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_EXFAT">Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_WARNING_UNKNOWN_FS">Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">New volume size too small, must be at least %I64u kB larger than the current size.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">New volume size too large, not enough space on host drive.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">Maximum file size of %I64u MB on host drive exceeded.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.</entry>
-    <entry lang="en" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">Maximum VeraCrypt volume size of %I64u TB exceeded!\n</entry>
-    <entry lang="en" key="FULL_FORMAT">Full Format</entry>
-    <entry lang="en" key="FAST_CREATE">Fast Create</entry>
-    <entry lang="en" key="WARN_FAST_CREATE">WARNING: You should use Fast Create only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Fast Create?</entry>
-    <entry lang="en" key="IDC_ENABLE_EMV_SUPPORT">Enable EMV Support</entry>
-    <entry lang="en" key="COMMAND_APDU_INVALID">The APDU command sent to the card is not valid.</entry>
-    <entry lang="en" key="EXTENDED_APDU_UNSUPPORTED">Extended APDU commands cannot be used with the current token.</entry>
-    <entry lang="en" key="SCARD_MODULE_INIT_FAILED">Error when loading the WinSCard / PCSC library.</entry>
-    <entry lang="en" key="EMV_UNKNOWN_CARD_TYPE">The card in the reader is not a supported EMV card.</entry>
-    <entry lang="en" key="EMV_SELECT_AID_FAILED">The AID of the card in the reader could not be selected.</entry>
-    <entry lang="en" key="EMV_ICC_CERT_NOTFOUND">ICC Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_ISSUER_CERT_NOTFOUND">Issuer Public Key Certificate was not found in the card.</entry>
-    <entry lang="en" key="EMV_CPLC_NOTFOUND">CPLC was not found in the EMV card.</entry>
-    <entry lang="en" key="EMV_PAN_NOTFOUND">No Primary Account Number (PAN) found in the EMV card.</entry>
-    <entry lang="en" key="INVALID_EMV_PATH">EMV path is invalid.</entry>
-    <entry lang="en" key="EMV_KEYFILE_DATA_NOTFOUND">Unable to build a keyfile from the EMV card's data.\n\nOne of the following is missing:\n- ICC Public Key Certificate.\n- Issuer Public Key Certificate.\n- CPLC data.</entry>
-    <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
-    <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
-    <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
-    <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
-    <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
-    <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
-    <entry lang="en" key="DISABLE_MEMORY_PROTECTION_WARNING">WARNING: Disabling memory protection significantly reduces security. Enable this option ONLY if you rely on Accessibility tools, like Screen Readers, to interact with VeraCrypt's UI.</entry>
+    <entry lang="he" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt הותקן בעבר באמצעות חבילת MSI ולכן לא ניתן לעדכן אותו באמצעות מתקין רגיל.\n\nאנא השתמש בחבילת MSI כדי לעדכן את התקנת VeraCrypt שלך.</entry>
+    <entry lang="he" key="IDC_USE_ALL_FREE_SPACE">השתמש בכל השטח הפנוי</entry>
+    <entry lang="he" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">לא ניתן לשדרג את VeraCrypt מאחר שמחיצת/כונן המערכת הוצפן באלגוריתם שאינו נתמך עוד.\nאנא פענח את המערכת שלך לפני שדרוג VeraCrypt ואז הצפן אותה מחדש.</entry>
+    <entry lang="he" key="LINUX_EX2MSG_TERMINALNOTFOUND">לא נמצאה אפליקציית מסוף נתמכת; נדרש אחד מהבאים: xterm, konsole או gnome-terminal (עם dbus-x11).</entry>
+    <entry lang="he" key="IDM_MOUNT_NO_CACHE">טעינה ללא מטמון</entry>
+    <entry lang="he" key="EXPANDER_INFO">:: מרחיב VeraCrypt ::\n\nהרחב אמצעי אחסון של VeraCrypt באופן מיידי ללא פירמוט מחדש\n\n\nכל סוגי אמצעי האחסון (קבצי מיכל, דיסקים ומחיצות) המפורמטים עם NTFS נתמכים. התנאי היחיד הוא שחייב להיות מספיק שטח פנוי בכונן המארח או בהתקן המארח של אמצעי האחסון של VeraCrypt.\n\nאין להשתמש בתוכנה זו להרחבת אמצעי אחסון חיצוני המכיל אמצעי אחסון מוסתר, כיוון שפעולה זו תשמיד את אמצעי האחסון המוסתר!\n</entry>
+    <entry lang="he" key="IDC_STEPSEXPAND">1. בחר את אמצעי האחסון של VeraCrypt להרחבה\n2. לחץ על כפתור 'טען'</entry>
+    <entry lang="he" key="IDT_VOL_NAME">אמצעי אחסון: </entry>
+    <entry lang="he" key="IDT_FILE_SYS">מערכת קבצים: </entry>
+    <entry lang="he" key="IDT_CURRENT_SIZE">גודל נוכחי: </entry>
+    <entry lang="he" key="IDT_NEW_SIZE">גודל חדש: </entry>
+    <entry lang="he" key="IDT_NEW_SIZE_BOX_TITLE">הזן גודל חדש לאמצעי האחסון</entry>
+    <entry lang="he" key="IDC_INIT_NEWSPACE">מלא את השטח החדש בנתונים אקראיים</entry>
+    <entry lang="he" key="IDC_QUICKEXPAND">הרחבה מהירה</entry>
+    <entry lang="he" key="IDT_INIT_SPACE">מלא שטח חדש: </entry>
+    <entry lang="he" key="EXPANDER_FREE_SPACE">%s שטח פנוי זמין בכונן המארח</entry>
+    <entry lang="he" key="EXPANDER_HELP_DEVICE">זהו אמצעי אחסון VeraCrypt מבוסס התקן.\n\nגודל אמצעי האחסון החדש ייבחר אוטומטית כגודל ההתקן המארח.</entry>
+    <entry lang="he" key="EXPANDER_HELP_FILE">אנא ציין את הגודל החדש של אמצעי האחסון של VeraCrypt (חייב להיות גדול לפחות ב-%I64u ק"ב מהגודל הנוכחי).</entry>
+    <entry lang="he" key="QUICK_EXPAND_WARNING">אזהרה: עליך להשתמש בהרחבה מהירה רק במקרים הבאים:\n\n1) ההתקן שבו נמצא קובץ המיכל אינו מכיל נתונים רגישים ואינך זקוק להכחשה סבירה.\n2) ההתקן שבו נמצא קובץ המיכל כבר הוצפן באופן מאובטח ומלא.\n\nהאם אתה בטוח שברצונך להשתמש בהרחבה מהירה?</entry>
+    <entry lang="he" key="EXPANDER_STATUS_TEXT">חשוב: הזז את העכבר באופן אקראי ככל האפשר בתוך חלון זה. ככל שתזיז אותו זמן רב יותר, כך ייטב. הדבר מגדיל משמעותית את החוזק הקריפטוגרפי של מפתחות ההצפנה. לאחר מכן לחץ על 'המשך' כדי להרחיב את אמצעי האחסון.</entry>
+    <entry lang="he" key="EXPANDER_STATUS_TEXT_LEGACY">לחץ על 'המשך' כדי להרחיב את אמצעי האחסון.</entry>
+    <entry lang="he" key="EXPANDER_FINISH_ERROR">שגיאה: הרחבת אמצעי האחסון נכשלה.</entry>
+    <entry lang="he" key="EXPANDER_FINISH_ABORT">שגיאה: הפעולה בוטלה על ידי המשתמש.</entry>
+    <entry lang="he" key="EXPANDER_FINISH_OK">הסתיים. אמצעי האחסון הורחב בהצלחה.</entry>
+    <entry lang="he" key="EXPANDER_CANCEL_WARNING">אזהרה: הרחבת אמצעי האחסון מתבצעת!\n\nעצירה כעת עלולה לגרום נזק לאמצעי האחסון.\n\nהאם אתה באמת רוצה לבטל?</entry>
+    <entry lang="he" key="EXPANDER_STARTING_STATUS">מתחיל הרחבת אמצעי אחסון...\n</entry>
+    <entry lang="he" key="EXPANDER_HIDDEN_VOLUME_ERROR">לא ניתן להרחיב אמצעי אחסון חיצוני המכיל אמצעי אחסון מוסתר, מכיוון שפעולה זו תשמיד את אמצעי האחסון המוסתר.\n</entry>
+    <entry lang="he" key="EXPANDER_SYSTEM_VOLUME_ERROR">לא ניתן להרחיב אמצעי אחסון מערכת של VeraCrypt.</entry>
+    <entry lang="he" key="EXPANDER_NO_FREE_SPACE">אין מספיק שטח פנוי להרחבת אמצעי האחסון</entry>
+    <entry lang="he" key="EXPANDER_WARNING_FILE_CONTAINER_JUNK">אזהרה: קובץ המיכל גדול יותר מאזור אמצעי האחסון של VeraCrypt. הנתונים שאחרי אזור אמצעי האחסון של VeraCrypt יידרסו.\n\nהאם ברצונך להמשיך?</entry>
+    <entry lang="he" key="EXPANDER_WARNING_FAT">אזהרה: אמצעי האחסון של VeraCrypt מכיל מערכת קבצים FAT!\n\nרק אמצעי האחסון של VeraCrypt עצמו יורחב, אך לא מערכת הקבצים.\n\nהאם ברצונך להמשיך?</entry>
+    <entry lang="he" key="EXPANDER_WARNING_EXFAT">אזהרה: אמצעי האחסון של VeraCrypt מכיל מערכת קבצים exFAT!\n\nרק אמצעי האחסון של VeraCrypt עצמו יורחב, אך לא מערכת הקבצים.\n\nהאם ברצונך להמשיך?</entry>
+    <entry lang="he" key="EXPANDER_WARNING_UNKNOWN_FS">אזהרה: אמצעי האחסון של VeraCrypt מכיל מערכת קבצים לא ידועה או שאינו מכיל מערכת קבצים כלל!\n\nרק אמצעי האחסון של VeraCrypt עצמו יורחב, מערכת הקבצים תישאר ללא שינוי.\n\nהאם ברצונך להמשיך?</entry>
+    <entry lang="he" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">גודל אמצעי האחסון החדש קטן מדי, חייב להיות גדול לפחות ב-%I64u ק"ב מהגודל הנוכחי.</entry>
+    <entry lang="he" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">גודל אמצעי האחסון החדש גדול מדי, אין מספיק מקום בכונן המארח.</entry>
+    <entry lang="he" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">חרגת מגודל הקובץ המרבי של %I64u מ"ב בכונן המארח.</entry>
+    <entry lang="he" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">שגיאה: נכשל ניסיון קבלת ההרשאות הדרושות להפעלת הרחבה מהירה!\nאנא בטל את בחירת אפשרות הרחבה מהירה ונסה שוב.</entry>
+    <entry lang="he" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">הגודל המרבי של אמצעי אחסון VeraCrypt (%I64u TB) חורג מהמותר!\n</entry>
+    <entry lang="he" key="FULL_FORMAT">פירמוט מלא</entry>
+    <entry lang="he" key="FAST_CREATE">יצירה מהירה</entry>
+    <entry lang="he" key="WARN_FAST_CREATE">אזהרה: עליך להשתמש ביצירה מהירה רק במקרים הבאים:\n\n1) ההתקן אינו מכיל נתונים רגישים ואינך זקוק להכחשה סבירה.\n2) ההתקן כבר הוצפן באופן מאובטח ומלא.\n\nהאם אתה בטוח שברצונך להשתמש ביצירה מהירה?</entry>
+    <entry lang="he" key="IDC_ENABLE_EMV_SUPPORT">אפשר תמיכת EMV</entry>
+    <entry lang="he" key="COMMAND_APDU_INVALID">פקודת APDU שנשלחה לכרטיס אינה תקפה.</entry>
+    <entry lang="he" key="EXTENDED_APDU_UNSUPPORTED">לא ניתן להשתמש בפקודות APDU מורחבות עם האסימון הנוכחי.</entry>
+    <entry lang="he" key="SCARD_MODULE_INIT_FAILED">שגיאה בעת טעינת ספריית WinSCard / PCSC.</entry>
+    <entry lang="he" key="EMV_UNKNOWN_CARD_TYPE">הכרטיס בקורא אינו כרטיס EMV נתמך.</entry>
+    <entry lang="he" key="EMV_SELECT_AID_FAILED">לא ניתן היה לבחור את ה-AID של הכרטיס בקורא.</entry>
+    <entry lang="he" key="EMV_ICC_CERT_NOTFOUND">תעודת מפתח ציבורי ICC לא נמצאה בכרטיס.</entry>
+    <entry lang="he" key="EMV_ISSUER_CERT_NOTFOUND">תעודת מפתח ציבורי של המנפיק לא נמצאה בכרטיס.</entry>
+    <entry lang="he" key="EMV_CPLC_NOTFOUND">נתוני CPLC לא נמצאו בכרטיס EMV.</entry>
+    <entry lang="he" key="EMV_PAN_NOTFOUND">לא נמצא מספר חשבון ראשי (PAN) בכרטיס EMV.</entry>
+    <entry lang="he" key="INVALID_EMV_PATH">נתיב EMV אינו תקף.</entry>
+    <entry lang="he" key="EMV_KEYFILE_DATA_NOTFOUND">לא ניתן ליצור קובץ מפתח מנתוני כרטיס ה-EMV.\n\nחסר אחד מהבאים:\n- תעודת מפתח ציבורי ICC.\n- תעודת מפתח ציבורי של המנפיק.\n- נתוני CPLC.</entry>
+    <entry lang="he" key="SCARD_W_REMOVED_CARD">אין כרטיס בקורא.\n\nאנא ודא שהכרטיס מוכנס כראוי.</entry>
+    <entry lang="he" key="FORMAT_EXTERNAL_FAILED">פקודת format.com של Windows נכשלה בפירמוט אמצעי האחסון כ-NTFS/exFAT/ReFS: שגיאה 0x%.8X.\n\nמעבר לשימוש ב-FormatEx API של Windows.</entry>
+    <entry lang="he" key="FORMATEX_API_FAILED">‏API‏ FormatEx של Windows נכשל בפירמוט אמצעי האחסון כ-NTFS/exFAT/ReFS.\n\nמצב כשל = %s.</entry>
+    <entry lang="he" key="EXPANDER_WRITING_RANDOM_DATA">כותב נתונים אקראיים לשטח החדש...\n</entry>
+    <entry lang="he" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">כותב כותרת גיבוי מוצפנת מחדש...\n</entry>
+    <entry lang="he" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">כותב כותרת ראשית מוצפנת מחדש...\n</entry>
+    <entry lang="he" key="EXPANDER_WIPING_OLD_HEADER">מוחק כותרת גיבוי ישנה...\n</entry>
+    <entry lang="he" key="EXPANDER_MOUNTING_VOLUME">מתקין את אמצעי האחסון...\n</entry>
+    <entry lang="he" key="EXPANDER_UNMOUNTING_VOLUME">מסיר את אמצעי האחסון...\n</entry>
+    <entry lang="he" key="EXPANDER_EXTENDING_FILESYSTEM">מרחיב את מערכת הקבצים...\n</entry>
+    <entry lang="he" key="PARTIAL_SYSENC_MOUNT_READONLY">אזהרה: מחיצת המערכת שניסית להתקין לא הוצפנה במלואה. כאמצעי זהירות למניעת השחתה פוטנציאלית או שינויים לא רצויים, אמצעי אחסון '%s' הותקן לקריאה בלבד.</entry>
+    <entry lang="he" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">מידע חשוב על שימוש בסיומות קבצים של צד שלישי</entry>
+    <entry lang="he" key="IDC_DISABLE_MEMORY_PROTECTION">השבת הגנת זיכרון לתאימות עם כלי נגישות</entry>
+    <entry lang="he" key="DISABLE_MEMORY_PROTECTION_WARNING">אזהרה: השבתת הגנת הזיכרון מפחיתה משמעותית את האבטחה. אפשר אפשרות זו רק אם אתה מסתמך על כלי נגישות, כמו קוראי מסך, לאינטראקציה עם ממשק המשתמש של VeraCrypt.</entry>
     <entry lang="he" key="LINUX_LANGUAGE">שפה</entry>
-    <entry lang="en" key="LINUX_SELECT_SYS_DEFAULT_LANG">Select system's default language</entry>
-    <entry lang="en" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">For the language change to come into effect, VeraCrypt needs to be restarted.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE">WARNING: The volume's master key is vulnerable to an attack that compromises data security.\n\nPlease create a new volume and transfer the data to it.</entry>
-    <entry lang="en" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">WARNING: The encrypted system's master key is vulnerable to an attack that compromises data security.\nPlease decrypt the system partition/drive and then re-encrypt it.</entry>
-    <entry lang="en" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">WARNING: The volume's master key has a security vulnerability.</entry>
-    <entry lang="en" key="MOUNTPOINT_BLOCKED">ERROR: The volume mount point is blocked because it overrides a protected system directory.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="MOUNTPOINT_NOTALLOWED">ERROR: The volume mount point is not allowed because it overrides a directory that is part of the PATH environment variable.\n\nPlease choose a different mount point.</entry>
-    <entry lang="en" key="INSECURE_MODE">[INSECURE MODE]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
+    <entry lang="he" key="LINUX_SELECT_SYS_DEFAULT_LANG">בחר את שפת ברירת המחדל של המערכת</entry>
+    <entry lang="he" key="LINUX_RESTART_FOR_LANGUAGE_CHANGE">כדי ששינוי השפה ייכנס לתוקף, יש להפעיל את VeraCrypt מחדש.</entry>
+    <entry lang="he" key="ERR_XTS_MASTERKEY_VULNERABLE">אזהרה: מפתח הראשי של אמצעי האחסון פגיע להתקפה המסכנת את אבטחת הנתונים.\n\nאנא צור אמצעי אחסון חדש והעבר אליו את הנתונים.</entry>
+    <entry lang="he" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">אזהרה: מפתח הראשי של המערכת המוצפנת פגיע להתקפה המסכנת את אבטחת הנתונים.\nאנא פענח את מחיצת/כונן המערכת ולאחר מכן הצפן אותה מחדש.</entry>
+    <entry lang="he" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">אזהרה: למפתח הראשי של אמצעי האחסון קיימת חולשת אבטחה.</entry>
+    <entry lang="he" key="MOUNTPOINT_BLOCKED">שגיאה: נתיב הטעינה של אמצעי האחסון חסום מכיוון שהוא דורס ספריית מערכת מוגנת.\n\nאנא בחר נתיב טעינה אחר.</entry>
+    <entry lang="he" key="MOUNTPOINT_NOTALLOWED">שגיאה: נתיב הטעינה של אמצעי האחסון אינו מותר מכיוון שהוא דורס ספרייה שהיא חלק ממשתנה הסביבה PATH.\n\nאנא בחר נתיב טעינה אחר.</entry>
+    <entry lang="he" key="INSECURE_MODE">[מצב לא מאובטח]</entry>
+    <entry lang="he" key="IDC_DISABLE_SCREEN_PROTECTION">השבת הגנה מפני צילומי מסך והקלטת מסך</entry>
+    <entry lang="he" key="DISABLE_SCREEN_PROTECTION_WARNING">אזהרה: השבתת הגנת המסך מפחיתה משמעותית את רמת האבטחה. אפשר אפשרות זו אך ורק אם יש צורך מיוחד ללכוד את ממשק VeraCrypt. פעולה זו עשויה לחשוף נתונים רגישים לכלי צילום מסך ותכונות הקלטת מסך כגון Windows 11 Recall.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
