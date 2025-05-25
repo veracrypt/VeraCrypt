@@ -4,7 +4,7 @@
 
 	<!-- FullProductVersion's first 3 parts MUST BE incremented at each release in order 
 			for upgrades to work ; Windows Installer ignores the 4th part -->
-	<?define var.FullProductVersion = 1.26.21?>
+	<?define var.FullProductVersion = 1.26.22?>
 	<?define var.ProductName = VeraCrypt $(var.FullProductVersion)?>
 
 	<!-- Unique GUID identifying this family of product (32-bit and 64-bit have the same) -->
@@ -12,7 +12,7 @@
   
 	<!-- Unique GUID identifying this product release (32-bit and 64-bit have different ones) -->
 	<!-- MUST BE regenerated for each new release -->
-	<?define var.ProductGuid = {412820ED-939F-4B20-B971-37A414CD11E9}?>
+	<?define var.ProductGuid = {403FD4F0-70E6-4B6E-A7A9-84EA0A104F91}?>
 
 	<!-- Unique GUID identifying a particular Windows Installer package -->
 	<!-- When compiling a product, it should not be set in order to allow it to be generated for each build -->
@@ -823,6 +823,9 @@
 			<Component Id="cmp4A0EF1CFD1E1DE8B4E7BF698E05680E9" Guid="{273E1197-B7FC-40E4-AFB0-317D1D0AD816}">
 				<File Id="fil8F40D01C235606BC89A05FF0956B7146" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Malware.html" Checksum="yes" DiskId="1" />
 			</Component>
+			<Component Id="cmpENMastodonVeracryptPNG" Guid="{B8A1A1B2-1234-4CDE-9F12-3456789ABCDE}">
+				<File Id="filENMastodonVeracryptPNG" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\mastodon_veracrypt.PNG" Checksum="yes" DiskId="1" />
+			</Component>
 			<Component Id="cmp1E4F8137AD337BEA1B902E6B003AB953" Guid="{6FF05277-1E0B-4885-8AC4-9B3044DA19CA}">
 				<File Id="fil1C19C87ED25856F0A34F96A3AA92D695" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Memory Dump Files.html" Checksum="yes" DiskId="1" />
 			</Component>
@@ -1469,6 +1472,9 @@
 			<Component Id="cmpBDF94D6F72E05F0E90815BA6CA48AEAA" Guid="{F3831D53-D041-4BBE-A8F5-5183E1B511C7}">
 				<File Id="filB6A639CD358B2CAEC5D91CC50C4BEB6C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Malware.html" Checksum="yes" DiskId="1" />
 			</Component>
+			<Component Id="cmpRUMastodonVeracryptPNG" Guid="{24185230-ED81-4D53-AF76-DB42F50DFE38}">
+				<File Id="filRUMastodonVeracryptPNG" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\mastodon_veracrypt.PNG" Checksum="yes" DiskId="1" />
+			</Component>
 			<Component Id="cmp5F801DCC01F26894D68A6EA08E45B76B" Guid="{ECA81186-9645-4814-A4DB-2423B3E44D50}">
 				<File Id="fil5B5FD576468A05E387E8451479346039" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Memory Dump Files.html" Checksum="yes" DiskId="1" />
 			</Component>
@@ -2114,6 +2120,9 @@
 	   	<Component Id="cmp130A092F3FB4DA6D83ECF5DFC8209690" Guid="{0837D3C6-26FA-0C38-D03D-69EB7500C87D}">
 	   		<File Id="fil21242B5CCFE9A00EBB876CF714DF125A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Malware.html" Checksum="yes" DiskId="1" />
 	   		</Component>
+		<Component Id="cmpZHCNMastodonVeracryptPNG" Guid="{FFA6D676-5880-4775-A9ED-3E95D654B132}">
+			<File Id="filZHCNMastodonVeracryptPNG" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\mastodon_veracrypt.PNG" Checksum="yes" DiskId="1" />
+		</Component>
 	   	<Component Id="cmp195BDF0E5D231AFC16F093B395A66347" Guid="{2DB92323-1568-1501-FBF6-930122A08FB0}">
 	   		<File Id="fil1E71EC87547B4ABE7AD7AB9980B93BD1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Memory Dump Files.html" Checksum="yes" DiskId="1" />
 	   		</Component>
@@ -2826,6 +2835,7 @@
 			<ComponentRef Id="cmp61C660976A230AD4AD8B42A90D4BCC7C" />
 			<ComponentRef Id="cmp29A0605ED3FB7D4E2EAC833D56411563" />
 			<ComponentRef Id="cmp4A0EF1CFD1E1DE8B4E7BF698E05680E9" />
+			<ComponentRef Id="cmpENMastodonVeracryptPNG" />
 			<ComponentRef Id="cmp1E4F8137AD337BEA1B902E6B003AB953" />
 			<ComponentRef Id="cmp8D35F7D61B2B7DF0EDEAE2E56031E7CB" />
 			<ComponentRef Id="cmpDE2C66707086A509EABD0F9F6E8BDB1A" />
@@ -3043,6 +3053,7 @@
 			<ComponentRef Id="cmp05C4713E55D9E8032EF515CC96771B98" />
 			<ComponentRef Id="cmpD979C33BE6277C13010EF93D9FB338C8" />
 			<ComponentRef Id="cmpBDF94D6F72E05F0E90815BA6CA48AEAA" />
+			<ComponentRef Id="cmpRUMastodonVeracryptPNG" />
 			<ComponentRef Id="cmp5F801DCC01F26894D68A6EA08E45B76B" />
 			<ComponentRef Id="cmp1F82E220BB2635E789DB76D708745EDD" />
 			<ComponentRef Id="cmp9FEF6DBD25CA9AFF6103A75B72D304B2" />
@@ -3260,6 +3271,7 @@
 			<ComponentRef Id="cmpCE51DC369843D03FA655208913335465" />
 			<ComponentRef Id="cmp58FF99E771D6F36C51775536C563AF74" />
 			<ComponentRef Id="cmp130A092F3FB4DA6D83ECF5DFC8209690" />
+			<ComponentRef Id="cmpZHCNMastodonVeracryptPNG" />
 			<ComponentRef Id="cmp195BDF0E5D231AFC16F093B395A66347" />
 			<ComponentRef Id="cmpA01E13599F608C0E46B3E5077042717B" />
 			<ComponentRef Id="cmpC6C54B47A7AB479A6C10C392B892A335" />

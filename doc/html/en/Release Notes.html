@@ -40,7 +40,7 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.21</strong> (May 17<sup>th</sup>, 2025):</p>
+<p><strong style="text-align:left">1.26.22</strong> (May 26<sup>th</sup>, 2025):</p>
 <ul>
 <li><strong>All OSes:</strong>
 	<ul>
@@ -52,7 +52,21 @@
 </li>
 <li><strong>Windows:</strong>
 	<ul>
-		<li>Update libzip to version 1.11.3.</li>
+		<li>Implemented screen protection against screenshots and screen recording, enabled by default.
+			<ul>
+				<li>This feature can be disabled during installation or via the Performance/Driver Configuration settings.</li>
+			</ul>
+		</li>
+		<li>Added checkboxes to the MSI installer to control memory protection and screen protection features.
+			<ul>
+				<li>Introduced command-line options <code>DISABLEMEMORYPROTECTION</code> and <code>DISABLESCREENPROTECTION</code> for the MSI installer to manage these features.</li>
+				<li>Both options accept values <code>0</code> (enabled) or <code>1</code> (disabled).</li>
+				<li>Example usage:<br>
+					<code>msiexec /i VeraCrypt_Setup_x64_1.26.22.msi DISABLESCREENPROTECTION=1 /qn REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable ACCEPTLICENSE=YES</code>
+				</li>
+			</ul>
+		</li>
+		<li>Updated <code>libzip</code> to version 1.11.3.</li>
 	</ul>
 </li>
 <li><strong>Linux:</strong>

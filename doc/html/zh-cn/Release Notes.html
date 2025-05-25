@@ -40,7 +40,7 @@
 <span style="color:#ff0000;">为避免暴露您的卷是否包含隐藏卷，或者如果您在使用隐藏卷/操作系统时依赖似是而非的否认能力，那么您必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统，并丢弃VeraCrypt 1.18a版本之前创建的现有卷。</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.21</strong> (2025年5月17日):</p>
+<p><strong style="text-align:left">1.26.22</strong> (2025年5月26日):</p>
 <ul>
 <li><strong>所有操作系统:</strong>
     <ul>
@@ -52,6 +52,20 @@
 </li>
 <li><strong>Windows:</strong>
     <ul>
+    <li>实现了屏幕保护功能，可防止截屏和屏幕录制，默认启用。
+      <ul>
+        <li>该功能可在安装过程中或通过“性能/驱动配置”设置禁用。</li>
+      </ul>
+    </li>
+    <li>在MSI安装程序中新增复选框，可用于控制内存保护和屏幕保护功能。
+      <ul>
+        <li>新增命令行选项 <code>DISABLEMEMORYPROTECTION</code> 和 <code>DISABLESCREENPROTECTION</code>，用于管理上述功能。</li>
+        <li>这两个选项均可接受 <code>0</code>（启用）或 <code>1</code>（禁用）作为取值。</li>
+        <li>示例用法：<br>
+          <code>msiexec /i VeraCrypt_Setup_x64_1.26.22.msi DISABLESCREENPROTECTION=1 /qn REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable ACCEPTLICENSE=YES</code>
+        </li>
+      </ul>
+    </li>
     <li>将libzip更新至1.11.3版本。</li>
     </ul>
 </li>

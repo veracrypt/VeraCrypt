@@ -43,7 +43,7 @@
 VeraCrypt старее, чем 1.18a.</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.21</strong> (17 мая 2025 года):</p>
+<p><strong style="text-align:left">1.26.22</strong> (26 мая 2025 года):</p>
 <ul>
 <li><strong>Все ОС:</strong>
     <ul>
@@ -55,7 +55,21 @@ VeraCrypt старее, чем 1.18a.</span></li>
 </li>
 <li><strong>Windows:</strong>
     <ul>
-        <li>Библиотека libzip обновлена до версии 1.11.3.</li>
+        <li>Реализована защита экрана от снятия скриншотов и записи экрана, по умолчанию включена.
+            <ul>
+                <li>Данная функция может быть отключена во время установки или через параметры производительности/конфигурации драйвера.</li>
+            </ul>
+        </li>
+        <li>В MSI-установщик добавлены флажки для управления функциями защиты памяти и экрана.
+            <ul>
+                <li>Добавлены параметры командной строки <code>DISABLEMEMORYPROTECTION</code> и <code>DISABLESCREENPROTECTION</code> для управления этими функциями в MSI-установщике.</li>
+                <li>Оба параметра принимают значения <code>0</code> (включено) или <code>1</code> (отключено).</li>
+                <li>Пример использования:<br>
+                    <code>msiexec /i VeraCrypt_Setup_x64_1.26.22.msi DISABLESCREENPROTECTION=1 /qn REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable ACCEPTLICENSE=YES</code>
+                </li>
+            </ul>
+        </li>
+        <li>Библиотека <code>libzip</code> обновлена до версии 1.11.3.</li>
     </ul>
 </li>
 <li><strong>Linux:</strong>
