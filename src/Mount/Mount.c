@@ -187,6 +187,10 @@ static DWORD				LastKnownLogicalDrives;
 
 static volatile LONG FavoriteMountOnGoing = 0;
 
+
+const wchar_t* MainInitMutexName = L"Local\\VeraCryptMainInit_02B831C5_401D_4A0D_8CC5_98D2C4CEB5F2";
+static HANDLE MainInitMutex = NULL;		/* Mutex for main dialog WM_INITDIALOG */
+static BOOL MainInitMutexAcquired = FALSE;	/* TRUE if the main window mutex has been acquired */
 static HANDLE TaskBarIconMutex = NULL;
 static BOOL MainWindowHidden = FALSE;
 static int pwdChangeDlgMode	= PCDM_CHANGE_PASSWORD;
@@ -201,6 +205,29 @@ static TCHAR ExitMailSlotName[MAX_PATH];
 static HMODULE hWtsLib = NULL;
 static WTSREGISTERSESSIONNOTIFICATION   fnWtsRegisterSessionNotification = NULL;
 static WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification = NULL;
+
+void AcquireMainInitMutex ()
+{
+	if (MainInitMutex && !MainInitMutexAcquired)
+	{
+		DWORD dwWaitResult;
+		dwWaitResult = WaitForSingleObject (MainInitMutex, INFINITE);
+		if (dwWaitResult == WAIT_OBJECT_0 || dwWaitResult == WAIT_ABANDONED)
+		{
+			// Mutex acquired successfully
+			MainInitMutexAcquired = TRUE;
+		}
+	}
+}
+
+void ReleaseMainInitMutex ()
+{
+	if (MainInitMutex && MainInitMutexAcquired)
+	{
+		ReleaseMutex (MainInitMutex);
+		MainInitMutexAcquired = FALSE;
+	}
+}
 
 // Used to opt-in to receive notification about power events. 
 // This is mandatory to support Windows 10 Modern Standby and Windows 8.1 Connected Standby power model.
@@ -426,6 +453,13 @@ static void localcleanup (void)
 	}
 
 	RandStop (TRUE);
+
+	if (MainInitMutex != NULL)
+	{
+		ReleaseMainInitMutex ();
+		CloseHandle (MainInitMutex);
+		MainInitMutex = NULL;
+	}
 }
 
 #ifndef BS_SPLITBUTTON
@@ -7093,6 +7127,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bUseSecureDesktop = FALSE;
 			bUseLegacyMaxPasswordLength = FALSE;
 
+			// lock the init mutex
+			AcquireMainInitMutex ();
+
 			ResetWrongPwdRetryCount ();
 
 			ExtractCommandLine (hwndDlg, (wchar_t *) lParam);
@@ -7149,7 +7186,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (ComServerMode)
 			{
 				InitDialog (hwndDlg);
-
+				// unlock mutex since we are starting the COM server
+				ReleaseMainInitMutex ();
 				if (!ComServerMain ())
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
@@ -7532,6 +7570,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				RegisterWtsAndPowerNotification(hwndDlg);
 			DoPostInstallTasks (hwndDlg);
 			ResetCurrentDirectory ();
+			// unlock the init mutex
+			ReleaseMainInitMutex ();
 		}
 		return 0;
 
@@ -10199,6 +10239,26 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 			handleError (NULL, status, SRC_POS);
 
 		AbortProcess ("NODRIVER");
+	}
+
+	/* Initialize Main mutex */
+	SECURITY_ATTRIBUTES sa;
+	SECURITY_DESCRIPTOR sd;
+	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor = &sd;
+	sa.bInheritHandle = FALSE;
+
+	// Initialize a security descriptor with a NULL DACL (everyone full access)
+	if (InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION) &&
+		SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE))
+	{
+		// Use the security attributes when creating the mutex
+		MainInitMutex = CreateMutexW(&sa, FALSE, MainInitMutexName);
+	}
+	else
+	{
+		// If security descriptor initialization fails, fall back to default security attributes
+		MainInitMutex = CreateMutexW(NULL, FALSE, MainInitMutexName);
 	}
 
 	/* Create the main dialog box */
