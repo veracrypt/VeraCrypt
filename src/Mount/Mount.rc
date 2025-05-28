@@ -77,6 +77,12 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,196,316,10
     CONTROL         "Make disconnected network drives available for mounting",IDC_SHOW_DISCONNECTED_NETWORK_DRIVES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,208,316,10
+    CONTROL         "Don't show wait message dialog when performing operations",IDC_HIDE_WAITING_DIALOG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,220,316,10
+    CONTROL         "Use Secure Desktop for password entry",IDC_SECURE_DESKTOP_PASSWORD_ENTRY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,232,316,10
+    CONTROL         "Use legacy maximum password length (64 characters)",IDC_USE_LEGACY_MAX_PASSWORD_LENGTH,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,244,316,10
     CONTROL         "Cache passwords in driver memory",IDC_PREF_CACHE_PASSWORDS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,271,146,11
     CONTROL         "Wipe cached passwords on exit",IDC_PREF_WIPE_CACHE_ON_EXIT,
@@ -90,20 +96,14 @@ BEGIN
     PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,5,331,85,14
     DEFPUSHBUTTON   "OK",IDOK,225,331,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,281,331,50,14
-    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,97
     GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,4,3,328,26
     GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
-    GROUPBOX        "Auto-Unmount",IDT_AUTO_UNMOUNT,4,94,328,62
-    LTEXT           "minutes",IDT_MINUTES,289,129,39,10
-    LTEXT           "Unmount all when:",IDT_AUTO_UNMOUNT_ON,9,104,71,20
-    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,260,328,68
     GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,4,63,328,28
-    CONTROL         "Don't show wait message dialog when performing operations",IDC_HIDE_WAITING_DIALOG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,220,316,10
-    CONTROL         "Use Secure Desktop for password entry",IDC_SECURE_DESKTOP_PASSWORD_ENTRY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,232,316,10
-    CONTROL         "Use legacy maximum password length (64 characters)",IDC_USE_LEGACY_MAX_PASSWORD_LENGTH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,244,316,10
+    GROUPBOX        "Auto-Unmount",IDT_AUTO_UNMOUNT,4,94,328,62
+    LTEXT           "Unmount all when:",IDT_AUTO_UNMOUNT_ON,9,104,71,20
+    LTEXT           "minutes",IDT_MINUTES,289,129,39,10
+    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,97
+    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,260,328,68
 END
 
 IDD_VOLUME_PROPERTIES DIALOGEX 60, 30, 284, 224
@@ -348,6 +348,8 @@ BEGIN
     CONTROL         "Disable memory protection for Accessibility tools compatibility",IDC_DISABLE_MEMORY_PROTECTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,284,339,10
     PUSHBUTTON      "?",IDC_DISABLE_MEMORY_PROTECTION_HELP,364,280,7,14
+    CONTROL         "Disable protection against screenshots and screen recording",IDC_DISABLE_SCREEN_PROTECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,298,209,10
     PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,320,59,14
     DEFPUSHBUTTON   "OK",IDOK,257,320,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,314,320,50,14
@@ -356,8 +358,6 @@ BEGIN
     GROUPBOX        "Thread-Based Parallelization",IDT_PARALLELIZATION_OPTIONS,7,84,355,93
     GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,69
     GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,257,357,56
-    CONTROL         "Disable protection against screenshots and screen recording",IDC_DISABLE_SCREEN_PROTECTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,298,209,10
 END
 
 IDD_FAVORITE_VOLUMES DIALOGEX 0, 0, 380, 368
@@ -407,9 +407,9 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTI
 CAPTION "VeraCrypt - Mount Parameters"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
+    COMBOBOX        IDC_PKCS5_PRF_ID,57,24,103,90,CBS_DROPDOWNLIST | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,57,44,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,111,44,50,14
-    COMBOBOX        IDC_PKCS5_PRF_ID,57,24,103,90,CBS_DROPDOWNLIST | WS_TABSTOP
     LTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,8,26,44,11
 END
 
