@@ -1554,7 +1554,7 @@
     <entry lang="he" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">שגיאה: הכונן משתמש בגודל מגזר שאינו 512 בתים. \n \n בשל מגבלות של רכיבים הזמינים בפלטפורמה שלך, לא ניתן ליצור / להשתמש בכמויות מחיצות / התקנים בכונן. \n \n פתרונות אפשריים: \n-צור אמצעי אחסון מתארח (מיכל) בכונן. \n - השתמש בכונן עם מגזרים של 512 בתים. \n - השתמש ב- VeraCrypt בפלטפורמה אחרת.</entry>
     <entry lang="he" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">הקובץ / ההתקן המארח כבר נמצא בשימוש.</entry>
     <entry lang="he" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">חריץ אמצעי האחסון אינו זמין.</entry>
-    <entry lang="he" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt דורש OSXFUSE 2.5 ומעלה.</entry>
+    <entry lang="he" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt דורש macFUSE 2.5 ומעלה.</entry>
     <entry lang="he" key="EXCEPTION_OCCURRED">אירעה שגיאה</entry>
     <entry lang="he" key="ENTER_PASSWORD">הזן את הסיסמה</entry>
     <entry lang="he" key="ENTER_TC_VOL_PASSWORD">הזן את סיסמת אמצעי האחסון של VeraCrypt</entry>

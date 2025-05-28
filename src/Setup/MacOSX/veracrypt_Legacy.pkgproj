@@ -854,9 +854,9 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>OSXFuse seems to be missing on your machine. VeraCrypt requires OSXFuse 3.10 or above.
-Please download the latest OSXFuse version from  :
-https://osxfuse.github.io/</string>
+							<string>macFUSE seems to be missing on your machine. VeraCrypt requires macFUSE 3.10 or above.
+Please download the latest macFUSE version from  :
+https://macfuse.github.io/</string>
 						</dict>
 						<dict>
 							<key>LANGUAGE</key>
@@ -864,15 +864,15 @@ https://osxfuse.github.io/</string>
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>OSXFuse semble ne pas être installé sur votre machine. VeraCrypt nécessite OSXFuse 3.10 ou supérieur.
-Merci de télécharger la dernière version de OSXFuse à partir de :
-https://osxfuse.github.io/
+							<string>macFUSE semble ne pas être installé sur votre machine. VeraCrypt nécessite macFUSE 3.10 ou supérieur.
+Merci de télécharger la dernière version de macFUSE à partir de :
+https://macfuse.github.io/
 
 </string>
 						</dict>
 					</array>
 					<key>NAME</key>
-					<string>OSXFuse</string>
+					<string>macFUSE</string>
 					<key>STATE</key>
 					<true/>
 				</dict>

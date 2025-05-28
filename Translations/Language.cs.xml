@@ -1553,7 +1553,7 @@
     <entry lang="cs" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Chyba: Disk používá jinou velikost sektoru než 512 bajtů.\n\nVzhledem k omezením komponent dostupných na vaší platformě, svazky hostované diskovým oddílem/zařízením nemohou být vytvořeny/použity.\n\nMožná řešení:\n- Vytvořit na jednotce svazek pro soubory (kontejner).\n- Použít jednotku s 512bajtovými sektory.\n- Použít VeraCrypt na jiné platformě.</entry>
     <entry lang="cs" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Hostitelský soubor/zařízení se již používá.</entry>
     <entry lang="cs" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Slot pro svazek není k dispozici.</entry>
-    <entry lang="cs" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vyžaduje minimálně OSXFUSE 2.5.</entry>
+    <entry lang="cs" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vyžaduje minimálně macFUSE 2.5.</entry>
     <entry lang="cs" key="EXCEPTION_OCCURRED">Vyskytla se chyba</entry>
     <entry lang="cs" key="ENTER_PASSWORD">Zadejte heslo</entry>
     <entry lang="cs" key="ENTER_TC_VOL_PASSWORD">Zadejte heslo ke svazku Veracrypt</entry>

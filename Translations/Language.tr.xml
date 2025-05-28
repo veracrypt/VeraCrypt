@@ -1553,7 +1553,7 @@
     <entry lang="tr" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Hata: Sürücü 512 bayt değerinden farklı bir kesim boyutu kullanıyor.\n\nPlatformunuzda bulunan bileşenlerin sınırlamaları nedeniyle, bölüm ya da aygıt üzerinde barındırılan birimler sürücüde oluşturulamaz ya da kullanılamaz.\n\nOlası çözümler:\n- Sürücüde dosya üzerinde barındırılan bir birim (kapsayıcı) oluşturun.\n- 512 baytlık kesimleri olan bir sürücü kullanın.\n- VeraCrypt uygulamasını başka bir platformda kullanın.</entry>
     <entry lang="tr" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Barındırılan dosya ya da aygıt zaten kullanılıyor.</entry>
     <entry lang="tr" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Birim konumu kullanılamıyor.</entry>
-    <entry lang="tr" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt için OSXFUSE 2.5 ya da üzeri gereklidir.</entry>
+    <entry lang="tr" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt için macFUSE 2.5 ya da üzeri gereklidir.</entry>
     <entry lang="tr" key="EXCEPTION_OCCURRED">Sorun çıktı</entry>
     <entry lang="tr" key="ENTER_PASSWORD">Parolayı yazın</entry>
     <entry lang="tr" key="ENTER_TC_VOL_PASSWORD">VeraCrypt biriminin parolasını yazın</entry>

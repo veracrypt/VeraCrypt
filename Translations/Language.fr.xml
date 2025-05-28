@@ -1553,7 +1553,7 @@
     <entry lang="fr" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Erreur : Le disque utilise une taille de secteur autre que 512 octets.\n\nEn raison des limitations des composants disponibles sur votre plateforme, les volumes hébergés sur une partition ou un périphérique ne peuvent pas être créés/utilisés sur ce disque.\n\nSolutions possibles :\n- Créez un volume hébergé dans un fichier (conteneur) sur le disque.\n- Utilisez un disque avec des secteurs de 512 octets.\n- Utilisez VeraCrypt sur une autre plateforme.</entry>
     <entry lang="fr" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Le fichier/périphérique hôte est déjà utilisé.</entry>
     <entry lang="fr" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">L'emplacement du volume est indisponible.</entry>
-    <entry lang="fr" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt nécessite OSXFUSE 2.5 ou une version ultérieure.</entry>
+    <entry lang="fr" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt nécessite macFUSE 2.5 ou une version ultérieure.</entry>
     <entry lang="fr" key="EXCEPTION_OCCURRED">Une exception s'est produite</entry>
     <entry lang="fr" key="ENTER_PASSWORD">Entrez le mot de passe</entry>
     <entry lang="fr" key="ENTER_TC_VOL_PASSWORD">Entrez le mot de passe du volume VeraCrypt</entry>

@@ -1553,7 +1553,7 @@
     <entry lang="zh-hk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">錯誤：這個磁碟機使用的磁區大小並非 512 位元組。\n\n由於當前平台可用的元件所限，寄存在分割區或裝置上的加密區無法在磁碟機上建立或使用。\n\n可行的解決方案：\n- 在磁碟機上建立一個寄存在檔案的加密區(容器)。\n- 使用磁區大小為 512 位元組的磁碟機\n- 在另一個平台上使用 VeraCrypt。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">主機的檔案或裝置正在使用中。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">加密區的位置不可用。</entry>
-    <entry lang="zh-hk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt 需要 OSXFUSE 2.5 或更新版本。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt 需要 macFUSE 2.5 或更新版本。</entry>
     <entry lang="zh-hk" key="EXCEPTION_OCCURRED">已發生異常情況</entry>
     <entry lang="zh-hk" key="ENTER_PASSWORD">輸入密碼</entry>
     <entry lang="zh-hk" key="ENTER_TC_VOL_PASSWORD">輸入 VeraCrypt 加密區密碼</entry>

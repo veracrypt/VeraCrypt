@@ -1553,7 +1553,7 @@
     <entry lang="ar" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">خطأ: يستخدم المحرك حجم قطاع غير 512 بايت.\n\nبسبب قيود المكونات المتاحة على نظامك، لا يمكن إنشاء / استخدام الأحجام المستضافة على القسم / الجهاز على المحرك.\n\nالحلول الممكنة:\n- إنشاء حجم مستضاف على الملفات (حاوية) على المحرك.\n- استخدام محرك بأحجام قطاع 512 بايت.\n- استخدام VeraCrypt على نظام آخر.</entry>
     <entry lang="ar" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">ملف / جهاز المضيف قيد الاستخدام بالفعل.</entry>
     <entry lang="ar" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">فتحة الحجم غير متاحة.</entry>
-    <entry lang="ar" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">يتطلب VeraCrypt إصدار OSXFUSE 2.5 أو أحدث.</entry>
+    <entry lang="ar" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">يتطلب VeraCrypt إصدار macFUSE 2.5 أو أحدث.</entry>
     <entry lang="ar" key="EXCEPTION_OCCURRED">حدث استثناء</entry>
     <entry lang="ar" key="ENTER_PASSWORD">إدخال كلمة السر</entry>
     <entry lang="ar" key="ENTER_TC_VOL_PASSWORD">‮أدخل كلمة سر مجلد ڤيراكربت</entry>

@@ -1553,7 +1553,7 @@
     <entry lang="ko" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">오류: 드라이브 섹터가 512 바이트가 아닌 크기를 사용합니다.\n\n사용가능한 플랫폼 구성요소의 제한으로 인해 드라이브 혹은 장치에 호스트된 볼륨을 이 장치에서 생성하거나 사용할 수 없습니다.\n\n가능한 해결책:\n- 파일 호스트 볼륨(컨테이너)를 생성합니다.\n- 512 바이트를 섹터 크기로 사용하는 드라이브를 사용하세요.\n- 다른 플랫폼에서 VeraCrypt를 사용하세요.</entry>
     <entry lang="ko" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">호스트 파일이나 장치가 이미 사용 중입니다.</entry>
     <entry lang="ko" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">볼륨 슬롯이 사용가능하지 않습니다.</entry>
-    <entry lang="ko" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt는 OSXFUSE 2.5 혹은 더 높은 버전을 필요로 합니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt는 macFUSE 2.5 혹은 더 높은 버전을 필요로 합니다.</entry>
     <entry lang="ko" key="EXCEPTION_OCCURRED">예외 발생</entry>
     <entry lang="ko" key="ENTER_PASSWORD">비밀번호 입력</entry>
     <entry lang="ko" key="ENTER_TC_VOL_PASSWORD">VeraCrypt 볼륨 비밀번호 입력</entry>

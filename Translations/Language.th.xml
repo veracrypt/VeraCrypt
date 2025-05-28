@@ -1554,7 +1554,7 @@
     <entry lang="th" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">ข้อผิดพลาด: ไดรฟ์ใช้ขนาดเซ็กเตอร์อื่นที่ไม่ใช่ 512 ไบต์.\n\nเนื่องจากข้อจำกัดของส่วนประกอบที่มีในแพลตฟอร์มของคุณ, พาร์ติชัน/อุปกรณ์-โฮสต์ปริมาณไม่สามารถสร้าง/ใช้บนไดรฟ์ได้.\n\nวิธีแก้ปัญหาที่เป็นไปได้:\n- สร้างปริมาณโฮสต์ไฟล์ (ตัวเก็บ) บนไดรฟ์.\n- ใช้ไดรฟ์ที่มีเซ็กเตอร์ 512-ไบต์.\n- ใช้ VeraCrypt บนแพลตฟอร์มอื่น.</entry>
     <entry lang="th" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">ไฟล์/อุปกรณ์โฮสต์ใช้งานอยู่แล้ว.</entry>
     <entry lang="th" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">ช่องปริมาณไม่มีใช้งาน.</entry>
-    <entry lang="th" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt ต้องการ OSXFUSE 2.5 หรือใหม่กว่า.</entry>
+    <entry lang="th" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt ต้องการ macFUSE 2.5 หรือใหม่กว่า.</entry>
     <entry lang="th" key="EXCEPTION_OCCURRED">เกิดข้อยกเว้น</entry>
     <entry lang="th" key="ENTER_PASSWORD">ป้อนรหัสผ่าน</entry>
     <entry lang="th" key="ENTER_TC_VOL_PASSWORD">ป้อนรหัสผ่านปริมาณ VeraCrypt</entry>

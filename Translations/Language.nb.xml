@@ -1553,7 +1553,7 @@
     <entry lang="nb" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Feil: Disken bruker en sektorstørrelse som er annerledes enn 512 byte.\n\nPå grunn av begrensninger i komponenter tilgjengelig på din plattform, kan ikke partisjon/device-baserte volumer opprettes/bruke på disken.\n\nMulige løsninger:\n- Opprett et filvertert volum (beholder) på disken.\n- Bruk en disk med 512-byte sektorer.\n- Bruk VeraCrypt på en annen plattform.</entry>
     <entry lang="nb" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Vertfil/enhet er allerede i bruk.</entry>
     <entry lang="nb" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volumsporet utilgjengelig.</entry>
-    <entry lang="nb" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt krever OSXFUSE 2.5 eller nyere.</entry>
+    <entry lang="nb" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt krever macFUSE 2.5 eller nyere.</entry>
     <entry lang="nb" key="EXCEPTION_OCCURRED">Unntak skjedde</entry>
     <entry lang="nb" key="ENTER_PASSWORD">Angi passord</entry>
     <entry lang="nb" key="ENTER_TC_VOL_PASSWORD">Angi VeraCrypt Volum Passord</entry>

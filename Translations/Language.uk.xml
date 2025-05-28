@@ -1553,7 +1553,7 @@
     <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, томи, що розміщені на розділі/пристрої, не можна створити/використовувати на диску.\n\nМожливі рішення:\n- Створіть том (контейнер) на диску.\n- Використовуйте диск із секторами розміром 512 байт.\n- Використовуйте VeraCrypt на іншій платформі.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Файл/пристрій, що розміщує том, уже використовується.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Слот тому недоступний.</entry>
-    <entry lang="uk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt потребує OSXFUSE 2.5 або вище.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt потребує macFUSE 2.5 або вище.</entry>
     <entry lang="uk" key="EXCEPTION_OCCURRED">Сталася виняткова ситуація</entry>
     <entry lang="uk" key="ENTER_PASSWORD">Введіть пароль</entry>
     <entry lang="uk" key="ENTER_TC_VOL_PASSWORD">Введіть пароль до тому VeraCrypt</entry>

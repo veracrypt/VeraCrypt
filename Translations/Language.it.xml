@@ -1553,7 +1553,7 @@
     <entry lang="it" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Errore: l'unità usa una dimensione del settore diversa da 512 byte.\n\nA causa delle limitazioni dei componenti disponibili nella piattaforma, non è possibile creare/usare volumi ospitati in una partizione/dispositivo nell'unità.\n\nPossibili soluzioni:\n- Creare nell'unità un volume (contenitore) ospitato da un file.\n- Usare un'unità con settori da 512 byte.\n- Usare VeraCrypt in un'altra piattaforma.</entry>
     <entry lang="it" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Il file/dispositivo host è già in uso.</entry>
     <entry lang="it" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Slot volume non disponibile.</entry>
-    <entry lang="it" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt richiede OSXFUSE 2.5 o superiore.</entry>
+    <entry lang="it" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt richiede macFUSE 2.5 o superiore.</entry>
     <entry lang="it" key="EXCEPTION_OCCURRED">Si è verificata un'eccezione</entry>
     <entry lang="it" key="ENTER_PASSWORD">Inserire password</entry>
     <entry lang="it" key="ENTER_TC_VOL_PASSWORD">Digita la password del volume VeraCrypt</entry>

@@ -1553,7 +1553,7 @@
     <entry lang="es" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: La unidad utiliza un tamaño de sector diferente a 512 bytes.\n\nDebido a las limitaciones de los componentes disponibles en su plataforma, los volúmenes alojados en particiones/dispositivos no se pueden crear/utilizar en la unidad.\n\nPosibles soluciones:\n- Cree un volumen alojado en un archivo (contenedor) en la unidad.\n- Utilice una unidad con sectores de 512 bytes.\n- Utilice VeraCrypt en otra plataforma.</entry>
     <entry lang="es" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">El archivo/dispositivo anfitrión ya está en uso.</entry>
     <entry lang="es" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Ranura de volumen no disponible.</entry>
-    <entry lang="es" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requiere OSXFUSE 2.5 o superior.</entry>
+    <entry lang="es" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requiere macFUSE 2.5 o superior.</entry>
     <entry lang="es" key="EXCEPTION_OCCURRED">Se produjo una excepción</entry>
     <entry lang="es" key="ENTER_PASSWORD">Introducir contraseña</entry>
     <entry lang="es" key="ENTER_TC_VOL_PASSWORD">Introducir contraseña de volumen VeraCrypt</entry>

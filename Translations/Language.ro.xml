@@ -1553,7 +1553,7 @@
     <entry lang="ro" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Eroare: unitatea folosește o dimensiune de sector diferită de 512 de baiți.\n\nDin cauza limitărilor componentelor disponibile pe platformă, volumele partiției/găzduite de dispozitiv nu pot fi create/utilizate pe unitate.\n\nSoluții posibile:\n- Creați un volum găzduit de fișiere (container) pe unitate.\n- Utilizați o unitate cu sectoare de 512 de baiți.\n- Utilizați VeraCrypt pe o altă platformă.</entry>
     <entry lang="ro" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Fișierul/dispozitivul gazdă este deja în uz.</entry>
     <entry lang="ro" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Slot de volum indisponibil.</entry>
-    <entry lang="ro" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt necesită OSXFUSE 2.5 sau ulterior.</entry>
+    <entry lang="ro" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt necesită macFUSE 2.5 sau ulterior.</entry>
     <entry lang="ro" key="EXCEPTION_OCCURRED">A apărut o excepție.</entry>
     <entry lang="ro" key="ENTER_PASSWORD">Introduceți parola</entry>
     <entry lang="ro" key="ENTER_TC_VOL_PASSWORD">Introduceți parola volumului VeraCrypt</entry>

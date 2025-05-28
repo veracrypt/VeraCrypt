@@ -1554,7 +1554,7 @@
     <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">错误：驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，分区/设备托管卷不能在驱动器上创建/使用。\n\n可能的解决方案：\n- 在驱动器上创建以文件为宿主的卷(容器)。\n- 使用512字节扇区的驱动器。\n- 在其它平台上使用VeraCrypt。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">主机文件/设备已经被使用。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">卷位置不可用。</entry>
-    <entry lang="zh-cn" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt需要OSXFUSE 2.5或更高版本。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt需要macFUSE 2.5或更高版本。</entry>
     <entry lang="zh-cn" key="EXCEPTION_OCCURRED">出现异常</entry>
     <entry lang="zh-cn" key="ENTER_PASSWORD">输入密码</entry>
     <entry lang="zh-cn" key="ENTER_TC_VOL_PASSWORD">输入 VeraCrypt 卷的密码</entry>

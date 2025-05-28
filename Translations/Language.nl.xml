@@ -1553,7 +1553,7 @@
     <entry lang="nl" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Fout: de schijf gebruikt een andere sectorgrootte dan 512 bytes.\n\nVanwege de beperkingen van de onderdelen die beschikbaar zijn op uw platform, kunnen er geen partitie-/apparaatgehoste volumes worden aangemaakt/gebruikt op de schijf.\n\nMogelijke oplossingen:\n- Een bestandsgehost volume (container) op de schijf maken.\n- Een schijf met sectoren van 512 bytes gebruiken.\n- VeraCrypt op een ander platform gebruiken.</entry>
     <entry lang="nl" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Het hostbestand/-apparaat is al in gebruik.</entry>
     <entry lang="nl" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volumeslot niet beschikbaar.</entry>
-    <entry lang="nl" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vereist OSXFUSE 2.5 or nieuwer.</entry>
+    <entry lang="nl" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vereist macFUSE 2.5 or nieuwer.</entry>
     <entry lang="nl" key="EXCEPTION_OCCURRED">Er deed zich een uitzondering voor</entry>
     <entry lang="nl" key="ENTER_PASSWORD">Wachtwoord invoeren</entry>
     <entry lang="nl" key="ENTER_TC_VOL_PASSWORD">Voer het VeraCrypt-volume-wachtwoord in</entry>

@@ -1555,7 +1555,7 @@
     <entry lang="my" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">ပြဿနာ - ဒရိုက်(ဗ်)သည် ၅၁၂ ဘိုက် မဟုတ်သည့် အပိုင်းအရွယ်အစားကို အသုံးပြုသည်။\n\nသင့်ပလက်ဖောင်းပေါ်တွင် ရရှိနိုင်သော အစိတ်အပိုင်းများ၏ ကန့်သတ်ချက်များကြောင့် ဒရိုက်(ဗ်)တွင် အခန်းကန့်/စက်ပစ္စည်း လက်ခံထားရှိသော volume များကို မဖန်တီးနိုင်ပါ/အသုံးမပြုနိုင်ပါ။\n\nဖြစ်နိုင်ခြေရှိသော ဖြေရှင်းနည်းများ -\n- ဒရိုက်(ဗ်)ပေါ်တွင် ဖိုင်လက်ခံထားရှိသော volume (ထည့်စရာ) တစ်ခုကို ဖန်တီးပါ။\n- 512-byte အပိုင်းများပါသော ဒရိုက်(ဗ်)တစ်ခုကို သုံးပါ။\n- အခြားပလက်ဖောင်းပေါ်တွင် VeraCrypt ကို အသုံးပြုပါ။</entry>
     <entry lang="my" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">လက်ခံဖိုင်/စက်ကို အသုံးပြုထားပြီး ဖြစ်သည်။</entry>
     <entry lang="my" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume အပေါက် မရရှိနိုင်ပါ။</entry>
-    <entry lang="my" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt သည် OSXFUSE 2.5 နှင့်အထက် လိုအပ်သည်။</entry>
+    <entry lang="my" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt သည် macFUSE 2.5 နှင့်အထက် လိုအပ်သည်။</entry>
     <entry lang="my" key="EXCEPTION_OCCURRED">ခြွင်းချက် ဖြစ်ပေါ်ခဲ့သည်</entry>
     <entry lang="my" key="ENTER_PASSWORD">စကားဝှက် ရိုက်ထည့်ပါ</entry>
     <entry lang="my" key="ENTER_TC_VOL_PASSWORD">VeraCrypt Volume စကားဝှက် ရေးထည့်ရန်</entry>

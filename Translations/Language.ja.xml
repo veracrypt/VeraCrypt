@@ -1553,7 +1553,7 @@
     <entry lang="ja" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">エラー: ドライブは 512 バイト以外のセクターサイズを使用しています。\n\nプラットフォームで利用可能なコンポーネントの制限により、ドライブ上でパーティション/デバイスホスト型ボリュームを作成/使用できません。\n\n考えられる解決策:\n- ドライブにファイルホスト型ボリューム（コンテナ）を作成します。\n- 512 バイトセクターのドライブを使用します。\n- 別のプラットフォームで VeraCrypt を使用します。</entry>
     <entry lang="ja" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">ホストファイル/デバイスはすでに使用されています。</entry>
     <entry lang="ja" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">ボリュームスロットは使用できません。</entry>
-    <entry lang="ja" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt には OSXFUSE 2.5 以上が必要です。</entry>
+    <entry lang="ja" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt には macFUSE 2.5 以上が必要です。</entry>
     <entry lang="ja" key="EXCEPTION_OCCURRED">例外が発生しました</entry>
     <entry lang="ja" key="ENTER_PASSWORD">パスワードの入力</entry>
     <entry lang="ja" key="ENTER_TC_VOL_PASSWORD">VeraCryptボリュームのパスワードの入力</entry>

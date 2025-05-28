@@ -1553,7 +1553,7 @@
     <entry lang="id" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Kesalahan: Drive menggunakan ukuran sektor selain 512 byte.\n\nKarena keterbatasan komponen yang tersedia di platform Anda, volume berbasis partisi/perangkat yang di-host tidak dapat dibuat/digunakan pada drive.\n\nSolusi yang mungkin:\n- Buat volume berbasis berkas (wadah) pada drive.\n- Gunakan drive dengan sektor 512-byte.\n- Gunakan VeraCrypt pada platform lain.</entry>
     <entry lang="id" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Berkas/perangkat host sudah digunakan.</entry>
     <entry lang="id" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Slot volume tidak tersedia.</entry>
-    <entry lang="id" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt membutuhkan OSXFUSE 2.5 atau lebih tinggi.</entry>
+    <entry lang="id" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt membutuhkan macFUSE 2.5 atau lebih tinggi.</entry>
     <entry lang="id" key="EXCEPTION_OCCURRED">Terjadi eksepsi.</entry>
     <entry lang="id" key="ENTER_PASSWORD">Masukkan kata sandi.</entry>
     <entry lang="id" key="ENTER_TC_VOL_PASSWORD">Masukkan Kata Sandi Volume VeraCrypt.</entry>

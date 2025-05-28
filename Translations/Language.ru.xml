@@ -1553,7 +1553,7 @@
     <entry lang="ru" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">ОШИБКА: Диск использует не 512-байтовые сектора.\n\nИз-за ограничений компонентов на вашей платформе, на этом диске нельзя монтировать/использовать тома на основе раздела/устройства.\n\nВозможные решения:\n- Создайте на диске том на основе файла (контейнер).\n- Используйте диск с 512-байтовыми секторами.\n- Используйте VeraCrypt на другой платформе.</entry>
     <entry lang="ru" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Хост-файл/устройство уже используется.</entry>
     <entry lang="ru" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Слот для тома недоступен.</entry>
-    <entry lang="ru" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">Для VeraCrypt требуется OSXFUSE 2.5 или новее.</entry>
+    <entry lang="ru" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">Для VeraCrypt требуется macFUSE 2.5 или новее.</entry>
     <entry lang="ru" key="EXCEPTION_OCCURRED">Произошло исключение</entry>
     <entry lang="ru" key="ENTER_PASSWORD">Введите пароль</entry>
     <entry lang="ru" key="ENTER_TC_VOL_PASSWORD">Введите пароль тома VeraCrypt</entry>

@@ -1553,7 +1553,7 @@
     <entry lang="sv" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Fel: Enheten använder en annan sektorstorlek än 512 byte.\n\nPå grund av begränsningar av komponenter som är tillgängliga på din plattform kan partitions-/enhetsvärdade volymer inte skapas/användas på enheten.\n\nMöjliga lösningar:\n- Skapa en filvärdad volym (behållare) på enheten.\n- Använd en enhet med 512-byte sektorer.\n- Använd VeraCrypt på en annan plattform.</entry>
     <entry lang="sv" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Värdfilen/-enheten används redan.</entry>
     <entry lang="sv" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volymplatsen är inte tillgänglig.</entry>
-    <entry lang="sv" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt kräver OSXFUSE 2.5 eller högre.</entry>
+    <entry lang="sv" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt kräver macFUSE 2.5 eller högre.</entry>
     <entry lang="sv" key="EXCEPTION_OCCURRED">Undantag inträffade</entry>
     <entry lang="sv" key="ENTER_PASSWORD">Ange lösenord</entry>
     <entry lang="sv" key="ENTER_TC_VOL_PASSWORD">Ange lösenord för VeraCrypt-volym</entry>

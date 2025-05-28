@@ -1553,7 +1553,7 @@
     <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
     <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
     <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
+    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires macFUSE 2.5 or above.</entry>
     <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
     <entry lang="vi" key="ENTER_PASSWORD">Điền mật khẩu</entry>
     <entry lang="vi" key="ENTER_TC_VOL_PASSWORD">Nhập vào Mật mã của Tập đĩa VeraCrypt</entry>

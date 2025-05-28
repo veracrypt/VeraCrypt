@@ -1553,7 +1553,7 @@
     <entry lang="sl" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Napaka: pogon uporablja velikost sektorja, ki ni 512 bajtov.\n\nZaradi omejitev komponent, ki so na voljo na tvoji platformi, nosilcev, ki gostujejo v particiji/napravi, ni mogoče ustvariti/uporabiti na disku.\n\nMožne rešitve:\n- Na pogonu ustvari nosilec (vsebnik), ki gostuje v datotekah.\n- Uporabi pogon s 512-bajtnimi sektorji.\n- Uporabi VeraCrypt na drugi platformi.</entry>
     <entry lang="sl" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Gostiteljska datoteka/naprava je že v uporabi.</entry>
     <entry lang="sl" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Reža nosilca ni na voljo.</entry>
-    <entry lang="sl" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt zahteva OSXFUSE 2.5 ali novejši.</entry>
+    <entry lang="sl" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt zahteva macFUSE 2.5 ali novejši.</entry>
     <entry lang="sl" key="EXCEPTION_OCCURRED">Prišlo je do izjeme</entry>
     <entry lang="sl" key="ENTER_PASSWORD">Vnesi geslo</entry>
     <entry lang="sl" key="ENTER_TC_VOL_PASSWORD">Vnesi geslo nosilca VeraCrypt</entry>

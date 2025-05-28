@@ -1556,7 +1556,7 @@
     <entry lang="de" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">FEHLER: Das Laufwerk benutzt eine von 512 Byte verschiedene Sektorgröße.\n\nWegen Komponentenlimitierung auf Ihrer Plattform können partitions- und gerätebasierende Volumes nicht auf dem Laufwerk erstellt/benutzt werden. \n\nMögliche Lösungen:\n- Erstellen Sie einen dateibasierten Volume-Container auf dem Laufwerk.\n- Benutzen Sie ein Laufwerk mit 512-Byte-Sektoren.\n- Benutzen Sie VeraCrypt auf einer anderen Plattform.</entry>
     <entry lang="de" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Die Host-Datei oder das Host-Gerät ist bereits in Benutzung.</entry>
     <entry lang="de" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume-Platz nicht verfügbar.</entry>
-    <entry lang="de" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt erfordert OSXFUSE 2.5 oder höher.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt erfordert macFUSE 2.5 oder höher.</entry>
     <entry lang="de" key="EXCEPTION_OCCURRED">Ausnahme aufgetreten</entry>
     <entry lang="de" key="ENTER_PASSWORD">Passwort eingeben</entry>
     <entry lang="de" key="ENTER_TC_VOL_PASSWORD">VeraCrypt-Volume-Passwort eingeben</entry>

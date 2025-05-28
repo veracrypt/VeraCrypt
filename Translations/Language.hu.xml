@@ -1553,7 +1553,7 @@
     <entry lang="hu" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Hiba: A meghajtó 512 bájttól eltérő szektorméretet használ.\n\nA platformon elérhető összetevők korlátai miatt a partíció/eszköz által tárolt kötetek nem hozhatók létre/használhatók a meghajtón.\n\nLehetséges megoldások:\n- Hozzon létre egy fájl által tárolt kötetet (tárolót) a meghajtón.\n- Használjon 512 bájtos szektorokkal rendelkező meghajtót.\n- Használja a VeraCrypt alkalmazást egy másik platformon.</entry>
     <entry lang="hu" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">A gazdafájl/eszköz már használatban van</entry>
     <entry lang="hu" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">A kötettároló nem érhető el.</entry>
-    <entry lang="hu" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">A VeraCrypt OSXFUSE 2.5 vagy újabb verziót igényel.</entry>
+    <entry lang="hu" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">A VeraCrypt macFUSE 2.5 vagy újabb verziót igényel.</entry>
     <entry lang="hu" key="EXCEPTION_OCCURRED">Kivétel történt</entry>
     <entry lang="hu" key="ENTER_PASSWORD">Adja meg a jelszót</entry>
     <entry lang="hu" key="ENTER_TC_VOL_PASSWORD">Adja meg a VeraCrypt kötet jelszavát</entry>

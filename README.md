@@ -91,7 +91,7 @@ it is also available [online](https://veracrypt.jp/en/CompilingGuidelineLinux.ht
 - wxWidgets 3.0 shared library and header files installed or
   wxWidgets 3.0 library source code (available at https://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse
-  and https://osxfuse.github.io/)
+  and https://macfuse.github.io/)
 - PCSC-lite library and header files (available at https://github.com/LudovicRousseau/PCSC)
 
 ## Instructions for Building VeraCrypt for Linux and Mac OS X:
@@ -163,8 +163,8 @@ compile using the following commands:
 
 `$ sudo make install`
 
-After making sure pkg-config is available, download and install OSXFuse from
-https://osxfuse.github.io/
+After making sure pkg-config is available, download and install macFUSE from
+https://macfuse.github.io/
 
 The [build_veracrypt_macosx.sh](./src/Build/build_veracrypt_macosx.sh) script performs the
 full build of VeraCrypt including the creation of the installer pkg. It expects
@@ -177,9 +177,9 @@ src/Main/Main.make (look for lines containing "Developer ID Application" and
 "Developer ID Installer"). You'll have to modify these lines to put the ID of
 your Code Signing certificates or comment them out if you don't have one.
 
-Because of incompatibility issues with OSXFUSE, the SDK 10.9 generates a
-VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension.
-Thus, we recommend using a different OSX SDK version for building VeraCrypt.
+Because of incompatibility issues with macFUSE, the SDK 10.9 generates a
+VeraCrypt binary that has issues communicating with the macFUSE kernel extension.
+Thus, we recommend using a different macOS SDK version for building VeraCrypt.
 
 The Packages installer that is used for the VeraCrypt official build has been notarized by IDRIX and it is available at
 https://github.com/idrassi/packages/releases

@@ -1572,7 +1572,7 @@ Information about Corsican localization:
 	    <entry lang="co" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Sbagliu : U lettore impiegheghja una dimensione di settore altra chè 512 ottetti.\n\nPer via di limitazioni di i cumpunenti dispunibule nant’à a vostra piattaforma, i vulumi ospitati in a partizione o l’apparechju ùn ponu micca esse creati o impiegati nant’à u lettore.\n\nSuluzioni pussibule :\n- Impiegà un lettore cù settori di 512 ottetti.\n- Impiegà VeraCrypt nant’à un’altra piattaforma.</entry>
 	    <entry lang="co" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">U schedariu o l’apparechju ospite hè dighjà impiegatu.</entry>
 	    <entry lang="co" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">L’alloghju di u vulume hè indispunibule.</entry>
-	    <entry lang="co" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt richiede OSXFUSE 2.5 o più recente.</entry>
+	    <entry lang="co" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt richiede macFUSE 2.5 o più recente.</entry>
 	    <entry lang="co" key="EXCEPTION_OCCURRED">Un’anumalia hè accaduta</entry>
 	    <entry lang="co" key="ENTER_PASSWORD">Stampittate a parolla d’intesa</entry>
 	    <entry lang="co" key="ENTER_TC_VOL_PASSWORD">Stampittà a parolla d’intesa di u vulume VeraCrypt</entry>

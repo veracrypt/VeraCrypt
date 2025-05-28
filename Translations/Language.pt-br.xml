@@ -1553,7 +1553,7 @@
     <entry lang="pt-br" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Erro: O drive usa um tamanho de setor diferente de 512 bytes.\n\nDevido a limitações dos componentes disponíveis na sua plataforma, volumes hospedados em partições/dispositivos não podem ser criados/usados no drive.\n\nPossíveis soluções:\n- Crie um volume hospedado em arquivo (container) no drive.\n- Use um drive com setores de 512 bytes.\n- Use o VeraCrypt em outra plataforma.</entry>
     <entry lang="pt-br" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">O arquivo/dispositivo host já está em uso.</entry>
     <entry lang="pt-br" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Slot de volume indisponível.</entry>
-    <entry lang="pt-br" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">O VeraCrypt requer o OSXFUSE 2.5 ou superior.</entry>
+    <entry lang="pt-br" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">O VeraCrypt requer o macFUSE 2.5 ou superior.</entry>
     <entry lang="pt-br" key="EXCEPTION_OCCURRED">Ocorreu uma exceção.</entry>
     <entry lang="pt-br" key="ENTER_PASSWORD">Digite a senha</entry>
     <entry lang="pt-br" key="ENTER_TC_VOL_PASSWORD">Digitar a Senha do Volume VeraCrypt</entry>

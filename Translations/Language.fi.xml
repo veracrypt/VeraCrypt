@@ -1553,7 +1553,7 @@
     <entry lang="fi" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Virhe: Levy käyttää jotakin muuta sektorikokoa kuin 512 tavua.\n\nAlustallasi saatavilla olevien komponenttien rajoitusten vuoksi, osio- tai laitepohjaisia taltioita ei voida luoda eikä käyttää tällä levyllä.\nMahdollisia ratkaisuja:\n- Luo tiedostopohjainen taltio (säilö) levylle.\n- Käytä levyä jossa on 512 tavun sektorikoko.\n- Käytä VeraCryptiä toisella alustalla.</entry>
     <entry lang="fi" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Isäntätiedosto/-laite on jo käytössä.</entry>
     <entry lang="fi" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Paikka ei ole käytettävissä.</entry>
-    <entry lang="fi" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vaatii OSXFUSE 2.5 tai uudemman version.</entry>
+    <entry lang="fi" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt vaatii macFUSE 2.5 tai uudemman version.</entry>
     <entry lang="fi" key="EXCEPTION_OCCURRED">Poikkeus kohdattu</entry>
     <entry lang="fi" key="ENTER_PASSWORD">Anna salasana</entry>
     <entry lang="fi" key="ENTER_TC_VOL_PASSWORD">Anna VeraCrypt-taltion salasana</entry>
