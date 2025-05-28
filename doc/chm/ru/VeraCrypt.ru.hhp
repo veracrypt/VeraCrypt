@@ -3,11 +3,12 @@ Compatibility=1.1 or later
 Compiled file=VeraCrypt User Guide.ru.chm
 Contents file=VeraCrypt.ru.hhc
 Default topic=Documentation.html
+Default Font=Tahoma,9,0
 Display compile progress=No
 Full-text search=Yes
 Index file=VeraCrypt.ru.hhk
-Language=0x419 Russian
-Title=ГђГіГЄГ®ГўГ®Г¤Г±ГІГўГ® ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї VeraCrypt
+Language=0x419 Русский(Россия)
+Title=Руководство пользователя VeraCrypt
 
 [FILES]
 Acknowledgements.html
