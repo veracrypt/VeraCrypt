@@ -1,7 +1,7 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86
 
-set VC_VERSION=1.26.22
-set VC_VERSION_NBRE=1.26.22
+set VC_VERSION=1.26.23
+set VC_VERSION_NBRE=1.26.23
 set SIGNINGPATH=%~dp0
 cd %SIGNINGPATH%
 
