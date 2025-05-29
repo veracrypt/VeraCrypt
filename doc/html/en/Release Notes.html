@@ -40,7 +40,7 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.23</strong> (May 29<sup>th</sup>, 2025):</p>
+<p><strong style="text-align:left">1.26.24</strong> (May 30<sup>th</sup>, 2025):</p>
 <ul>
 <li><strong>All OSes:</strong>
 	<ul>
@@ -62,7 +62,7 @@
 				<li>Introduced command-line options <code>DISABLEMEMORYPROTECTION</code> and <code>DISABLESCREENPROTECTION</code> for the MSI installer to manage these features.</li>
 				<li>Both options accept values <code>0</code> (enabled) or <code>1</code> (disabled).</li>
 				<li>Example usage:<br>
-					<code>msiexec /i VeraCrypt_Setup_x64_1.26.23.msi DISABLESCREENPROTECTION=1 /qn REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable ACCEPTLICENSE=YES</code>
+					<code>msiexec /i VeraCrypt_Setup_x64_1.26.24.msi DISABLESCREENPROTECTION=1 /qn REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable ACCEPTLICENSE=YES</code>
 				</li>
 			</ul>
 		</li>
@@ -83,6 +83,7 @@
 <li><strong>macOS:</strong>
 	<ul>
 	<li>Fix absolute path of 'true' command not being used when checking if sudo session is active.</li>
+	<li>Create simlink of VeraCrypt in <code>/usr/local/bin</code> to allow using it from command line.</li>
 	<li>Fix failure to use Hungarian language translations.</li>
 	</ul>
 </li>
