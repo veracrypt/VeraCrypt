@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
@@ -38,30 +37,30 @@
 <h1>Hidden Operating System</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 If your system partition or system drive is encrypted using VeraCrypt, you need to enter your
-<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
 pre-boot authentication</a> password in the VeraCrypt Boot Loader screen after you turn on or restart your computer. It may happen that you are forced by somebody to decrypt the operating system or to reveal the pre-boot authentication password. There are many
  situations where you cannot refuse to do so (for example, due to extortion). VeraCrypt allows you to create a hidden operating system whose existence should be impossible to prove (provided that certain guidelines are followed &mdash; see below). Thus, you
  will not have to decrypt or reveal the password for the hidden operating system.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-Before you continue reading this section, make sure you have read the section <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Before you continue reading this section, make sure you have read the section <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 <strong style="text-align:left">Hidden Volume</strong></a> and that you understand what a
-<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 hidden VeraCrypt volume</a> is.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 A <strong style="text-align:left">hidden operating system</strong> is a system (for example, Windows 7 or Windows XP) that is installed in a
-<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-hidden VeraCrypt volume</a>. It should be impossible to prove that a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+hidden VeraCrypt volume</a>. It should be impossible to prove that a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 hidden VeraCrypt volume</a> exists (provided that certain guidelines are followed; for more information, see the section
-<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Hidden Volume</a>) and, therefore, it should be impossible to prove that a hidden operating system exists.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 However, in order to boot a system encrypted by VeraCrypt, an unencrypted copy of the
-<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-VeraCrypt Boot Loader</a> has to be stored on the system drive or on a <a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt Boot Loader</a> has to be stored on the system drive or on a <a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
 VeraCrypt Rescue Disk</a>. Hence, the mere presence of the VeraCrypt Boot Loader can indicate that there is a system encrypted by VeraCrypt on the computer. Therefore, to provide a plausible explanation for the presence of the VeraCrypt Boot Loader, the VeraCrypt
  wizard helps you create a second encrypted operating system, so-called <strong style="text-align:left">
 decoy operating system</strong>, during the process of creation of a hidden operating system. A decoy operating system must not contain any sensitive files. Its existence is not secret (it is
-<em style="text-align:left">not</em> installed in a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<em style="text-align:left">not</em> installed in a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 hidden volume</a>). The password for the decoy operating system can be safely revealed to anyone forcing you to disclose your pre-boot authentication password.*</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 You should use the decoy operating system as frequently as you use your computer. Ideally, you should use it for all activities that do not involve sensitive data. Otherwise, plausible deniability of the hidden operating system might be adversely affected (if
@@ -77,20 +76,20 @@ Note: When you enter a pre-boot authentication password, the VeraCrypt Boot Load
  again) the area of the first partition behind the active partition where the encrypted header of a possible hidden volume might be stored (however, if the size of the active partition is less than 256 MB, then the data is read from the
 <em style="text-align:left">second</em> partition behind the active one, because Windows 7 and later, by default, do not boot from the partition on which they are installed). Note that VeraCrypt never knows if there is a hidden volume in advance (the hidden
  volume header cannot be identified, as it appears to consist entirely of random data). If the header is successfully decrypted (for information on how VeraCrypt determines that it was successfully decrypted, see the section
-<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Encryption Scheme</a>), the information about the size of the hidden volume is retrieved from the decrypted header (which is still stored in RAM), and the hidden volume is mounted (its size also determines its offset). For further technical details, see the
- section <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Encryption Scheme</a> in the chapter <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+ section <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Encryption Scheme</a> in the chapter <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Technical Details</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 When running, the hidden operating system appears to be installed on the same partition as the original operating system (the decoy system). However, in reality, it is installed within the partition behind it (in a hidden volume). All read/write operations
  are transparently redirected from the system partition to the hidden volume. Neither the operating system nor applications will know that data written to and read from the system partition is actually written to and read from the partition behind it (from/to
  a hidden volume). Any such data is encrypted and decrypted on the fly as usual (with an encryption key different from the one that is used for the decoy operating system).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-Note that there will also be a third password &mdash; the one for the <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Note that there will also be a third password &mdash; the one for the <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 <strong style="text-align:left">outer volume</strong></a>. It is not a pre-boot authentication password, but a regular VeraCrypt volume password. It can be safely disclosed to anyone forcing you to reveal the password for the encrypted partition where the hidden
  volume (containing the hidden operating system) resides. Thus, the existence of the hidden volume (and of the hidden operating system) will remain secret. If you are not sure you understand how this is possible, or what an outer volume is, please read the
- section <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+ section <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Hidden Volume</a>. The outer volume should contain some sensitive-looking files that you actually do
 <em style="text-align:left">not</em> want to hide.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -111,8 +110,8 @@ Initially, the wizard verifies that there is a suitable partition for a hidden o
  is formatted as NTFS, the partition for the hidden operating system must be at least 110% (2.1 times) larger than the system partition (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore,
  the hidden volume, which is to contain a clone of the system partition, can reside only in the second half of the partition).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-In the next steps, the wizard will create two VeraCrypt volumes (<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">outer and hidden</a>) within the first partition behind the
- system partition. The <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+In the next steps, the wizard will create two VeraCrypt volumes (<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">outer and hidden</a>) within the first partition behind the
+ system partition. The <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 hidden volume</a> will contain the hidden operating system. The size of the hidden volume is always the same as the size of the system partition. The reason is that the hidden volume will need to contain a clone of the content of the system partition (see below).
  Note that the clone will be encrypted using a different encryption key than the original. Before you start copying some sensitive-looking files to the outer volume, the wizard tells you the maximum recommended size of space that the files should occupy, so
  that there is enough free space on the outer volume for the hidden volume.</div>
@@ -139,14 +138,14 @@ Note: VeraCrypt will erase the content of the partition where the original syste
 Plausible Deniability and Data Leak Protection</h4>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 For security reasons, when a hidden operating system is running, VeraCrypt ensures that all local unencrypted filesystems and non-hidden VeraCrypt volumes are read-only (i.e. no files can be written to such filesystems or VeraCrypt volumes).&dagger; Data is
- allowed to be written to any filesystem that resides within a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+ allowed to be written to any filesystem that resides within a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 hidden VeraCrypt volume</a> (provided that the hidden volume is not located in a container stored on an unencrypted filesystem or on any other read-only filesystem).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 There are three main reasons why such countermeasures have been implemented:</div>
 <ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 It enables the creation of a secure platform for mounting of hidden VeraCrypt volumes. Note that we officially recommend that hidden volumes are mounted only when a hidden operating system is running. For more information, see the subsection
-<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Security Requirements and Precautions Pertaining to Hidden Volumes</a>. </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 In some cases, it is possible to determine that, at a certain time, a particular filesystem was not mounted under (or that a particular file on the filesystem was not saved or accessed from within) a particular instance of an operating system (e.g. by analyzing
  and comparing filesystem journals, file timestamps, application logs, error logs, etc). This might indicate that a hidden operating system is installed on the computer. The countermeasures prevent these issues.
@@ -187,9 +186,9 @@ If the filesystem on one of the partitions is damaged, files on the partition ma
 It is easier to reinstall the system without losing your documents (reinstallation of an operating system involves formatting the system partition, after which all files stored on it are lost). If the system is damaged, full reinstallation is often the only
  option. </li></ul>
 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-A <a href="Cascades.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+A <a href="Cascades.html" style="text-align:left; color:#0080c0; text-decoration:none">
 cascade encryption algorithm</a> (e.g. AES-Twofish-Serpent) can be many times slower than a non-cascade one (e.g.
-<a href="AES.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="AES.html" style="text-align:left; color:#0080c0; text-decoration:none">
 AES</a>). However, a cascade encryption algorithm may be more secure than a non-cascade one (for example, the probability that three distinct encryption algorithms will be broken, e.g. due to advances in cryptanalysis, is significantly lower than the probability
  that only one of them will be broken). Therefore, if you encrypt the outer volume with a cascade encryption algorithm and the decoy system with a non-cascade encryption algorithm, you can answer that you wanted the best performance (and adequate security)
  for the system partition, and the highest possible security (but worse performance) for the non-system partition (i.e. the outer volume), where you store the most sensitive data, which you do not need to access very often (unlike the operating system, which
@@ -229,31 +228,31 @@ Safety/Security Precautions and Requirements Pertaining to Hidden Operating Syst
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 As a hidden operating system resides in a hidden VeraCrypt volume, a user of a hidden operating system must follow all of the security requirements and precautions that apply to normal hidden VeraCrypt volumes. These requirements and precautions, as well as
  additional requirements and precautions pertaining specifically to hidden operating systems, are listed in the subsection
-<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Security Requirements and Precautions Pertaining to Hidden Volumes</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 WARNING: If you do not protect the hidden volume (for information on how to do so, refer to the section
-<a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Protection of Hidden Volumes Against Damage</a>), do <em style="text-align:left">
 not</em> write to the outer volume (note that the decoy operating system is <em style="text-align:left">
 not</em> installed in the outer volume). Otherwise, you may overwrite and damage the hidden volume (and the hidden operating system within it)!</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 If all the instructions in the wizard have been followed and if the security requirements and precautions listed in the subsection
-<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Security Requirements and Precautions Pertaining to Hidden Volumes</a> are followed, it should be impossible to prove that the hidden volume and hidden operating system exist, even when the outer volume is mounted or when the decoy operating system is decrypted
  or started.</div>
 <p>&nbsp;</p>
 <hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
 <p><span style="text-align:left; font-size:10px; line-height:12px">* It is not practical (and therefore is not supported) to install operating systems in two VeraCrypt volumes that are embedded within a single partition, because using the outer operating system
  would often require data to be written to the area of the hidden operating system (and if such write operations were prevented using the
-<a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 hidden volume protection</a> feature, it would inherently cause system crashes, i.e. 'Blue Screen' errors).<br style="text-align:left">
 &dagger; This does not apply to filesystems on CD/DVD-like media and on custom, atypical, or non-standard devices/media.</span><br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">
-&nbsp;&nbsp;See also: <strong style="text-align:left"><a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">System Encryption</a></strong>, &nbsp;<strong style="text-align:left"><a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">Hidden
+&nbsp;&nbsp;See also: <strong style="text-align:left"><a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">System Encryption</a></strong>, &nbsp;<strong style="text-align:left"><a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">Hidden
  Volume</a></strong></p>
 </div>
 </body></html>

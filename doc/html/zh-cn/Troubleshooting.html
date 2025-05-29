@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
@@ -42,11 +41,11 @@
 </div>
 <ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none.html">不兼容性</a>
+<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none">不兼容性</a>
 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-<a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none.html">已知问题与限制</a>
+<a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none">已知问题与限制</a>
 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-<a href="FAQ.html" style="text-align:left; color:#0080c0; text-decoration:none.html">常见问题解答</a>
+<a href="FAQ.html" style="text-align:left; color:#0080c0; text-decoration:none">常见问题解答</a>
 </li></ul>
 <table style="border-collapse:separate; border-spacing:0px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif">
 <tbody style="text-align:left">
@@ -100,7 +99,7 @@
 运行 VeraCrypt。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 点击 <em style="text-align:left">选择设备</em> 或 <em style="text-align:left">
 选择文件</em> 以选择您的卷。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-选择 <em style="text-align:left"><a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none.html">工具 > 恢复卷头</a></em>。
+选择 <em style="text-align:left"><a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none">工具 > 恢复卷头</a></em>。
 </li></ol>
 </li></ul>
 <hr style="text-align:left">
@@ -146,7 +145,7 @@ VeraCrypt 卷上的文件系统可能已损坏（或者该卷未格式化）。<
 与原因 2 相关的解决方案：</div>
 <blockquote style="text-align:left">
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-创建一个新的外部卷（碎片整理不是解决方案，因为它会对合理推诿性产生不利影响 – 请参阅 <a href="Defragmenting.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+创建一个新的外部卷（碎片整理不是解决方案，因为它会对合理推诿性产生不利影响 – 请参阅 <a href="Defragmenting.html" style="text-align:left; color:#0080c0; text-decoration:none">
 碎片整理</a> 部分）。</div>
 </blockquote>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -162,7 +161,7 @@ VeraCrypt 卷上的文件系统可能已损坏（或者该卷未格式化）。<
 如果这没有帮助，请通过按 Shift + Delete 删除外部卷上的 <em style="text-align:left">所有</em> 文件和文件夹，而不是通过格式化（事先不要忘记为该驱动器禁用回收站和系统还原），然后尝试创建
 </div>
 在这个 <em style="text-align:left">完全为空的</em> 外部卷上再次创建隐藏卷（仅用于测试目的）。如果即使现在隐藏卷的最大可能大小仍未改变，那么问题的原因很可能是扩展根目录。
-如果您没有使用 '<em style="text-align:left">默认</em>' 簇大小（向导的最后一步），请重新格式化外部卷，并在这次将簇大小保留为 '<em style="text-align:left">默认</em>'。</div>
+如果您没有使用 '<em style="text-align:left">默认</em>' 簇大小（向导的最后一步），请重新格式化外部卷，并在这次将簇大小保留为 '<em style="text-align:left">默认</em>'。
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 如果这没有帮助，请再次重新格式化外部卷，并比上次少复制一些文件/文件夹到其根文件夹。如果还是没有帮助，请继续重新格式化并减少根文件夹中的文件/文件夹数量。如果这不可接受或者仍然没有帮助，请重新格式化外部卷并选择更大的簇大小。如果仍然没有帮助，请继续重新格式化并增大簇大小，直到问题解决。或者，尝试在 NTFS 卷中创建隐藏卷。</div>
 </blockquote>
@@ -412,6 +411,6 @@ https://support.microsoft.com/kb/177078/</a></div>
 <br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">
-&nbsp;&nbsp;另请参阅： <a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">
-已知问题和限制</a>，&nbsp;&nbsp;<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">不兼容性</a></p>
+&nbsp;&nbsp;另请参阅： <a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">
+已知问题和限制</a>，&nbsp;&nbsp;<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">不兼容性</a></p>
 </div><div class="ClearBoth"></div></body></html>

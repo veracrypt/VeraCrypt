@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
@@ -39,7 +38,7 @@
 <div class="wikidoc">
 <h1>内存转储文件</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<em style="text-align:left">注意：如果系统分区或系统驱动器已加密（更多信息，请参阅<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">系统加密</a>章节），并且系统配置为将内存转储文件写入系统驱动器（通常默认如此），则以下描述的问题不会影响您。</em></div>
+<em style="text-align:left">注意：如果系统分区或系统驱动器已加密（更多信息，请参阅<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">系统加密</a>章节），并且系统配置为将内存转储文件写入系统驱动器（通常默认如此），则以下描述的问题不会影响您。</em></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 大多数操作系统，包括Windows，都可以配置为在发生错误（系统崩溃、“蓝屏”、错误检查）时，将调试信息和系统内存内容写入所谓的内存转储文件（也称为崩溃转储文件）。因此，内存转储文件可能包含敏感数据。VeraCrypt <em style="text-align:left">无法</em> 防止缓存的密码、加密密钥以及在RAM中打开的敏感文件内容以 <em style="text-align:left">未加密</em> 的形式保存到内存转储文件中。请注意，当您在文本编辑器等程序中打开存储在VeraCrypt卷上的文件时，文件内容会以 <em style="text-align:left">未加密</em> 的形式存储在RAM中（并且在计算机关机之前，它可能会一直以 <em style="text-align:left">未加密</em> 的形式保留在RAM中）。另外，当挂载VeraCrypt卷时，其主密钥会以 <em style="text-align:left">未加密</em> 的形式存储在RAM中。因此，至少在每次处理任何敏感数据以及挂载VeraCrypt卷的会话期间，您必须禁用计算机上的内存转储文件生成功能。在Windows XP或更高版本中，您可以右键单击桌面上或 <em style="text-align:left">开始菜单</em> 中的“<em style="text-align:left">计算机</em>”（或“<em style="text-align:left">我的电脑</em>”）图标，然后选择 <em style="text-align:left">属性</em> >（在Windows Vista或更高版本中：> <em style="text-align:left">高级系统设置</em> >）<em style="text-align:left">高级</em> 选项卡 > <em style="text-align:left">启动和恢复</em> 部分 > <em style="text-align:left">设置</em> > <em style="text-align:left">写入调试信息</em> 部分 > 选择 <em style="text-align:left">(无)</em> > <em style="text-align:left">确定</em>。</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
