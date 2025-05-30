@@ -6,7 +6,7 @@
 .DESCRIPTION
     • Chooses an exFAT cluster size (auto or explicit).
     • Calculates the minimum container size using an iterative approach for FAT/Bitmap sizing, plus safety margin.
-    • Creates, mounts, copies, verifies, and dismounts – all guarded by -WhatIf/-Confirm (SupportsShouldProcess).
+    • Creates, mounts, copies, verifies, and unmounts – all guarded by -WhatIf/-Confirm (SupportsShouldProcess).
     • Finds VeraCrypt automatically or takes a -VeraCryptDir override.
     • Encryption and hash algorithms are parameters.
     • Password can be passed via SecureString prompt or pipeline.
@@ -420,13 +420,13 @@ try {
 } finally {
     if (Test-Path variable:plainPassword) { Clear-Variable plainPassword -ErrorAction SilentlyContinue }
     if ($mounted) {
-        if ($PSCmdlet.ShouldProcess("Drive $driveLetter", "Dismount VeraCrypt volume")) {
-            Write-Verbose "Dismounting drive $driveLetter..."
-            $dismountArgs = @('/dismount', $driveLetter, '/force', '/quit', '/silent')
-            Start-Process -FilePath $VeraCryptExe -ArgumentList $dismountArgs -NoNewWindow -Wait -ErrorAction SilentlyContinue
-            Write-Verbose "Dismount command issued."
+        if ($PSCmdlet.ShouldProcess("Drive $driveLetter", "Unmount VeraCrypt volume")) {
+            Write-Verbose "Unmounting drive $driveLetter..."
+            $unmountArgs = @('/unmount', $driveLetter, '/force', '/quit', '/silent')
+            Start-Process -FilePath $VeraCryptExe -ArgumentList $unmountArgs -NoNewWindow -Wait -ErrorAction SilentlyContinue
+            Write-Verbose "Unmount command issued."
         } else {
-            Write-Host "Dismount skipped due to -WhatIf."
+            Write-Host "Unmount skipped due to -WhatIf."
         }
     }
     foreach($f in @($errFile,$mountFile) | Where-Object { $_ }) {  
