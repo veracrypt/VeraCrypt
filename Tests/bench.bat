@@ -61,7 +61,7 @@ if not exist !mydriveletter!:\ (
     goto :exit
 )
 
-"!VERACRYPT_PATH!" /dismount !mydriveletter! /silent /q
+"!VERACRYPT_PATH!" /unmount !mydriveletter! /silent /q
 exit /b
 
 :: Subroutine to measure the time taken for a command to execute
