@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
@@ -49,18 +48,18 @@ When using system encryption on SSDs, it's important to consider the implication
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 System encryption involves pre-boot authentication, which means that anyone who wants to gain access and use the encrypted system, read and write files stored on the system drive, etc., will need to enter the correct password each time before Windows boots
  (starts). Pre-boot authentication is handled by the VeraCrypt Boot Loader, which resides in the first track of the boot drive and on the
-<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
 VeraCrypt Rescue Disk (see below)</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Note that VeraCrypt can encrypt an existing unencrypted system partition/drive in-place while the operating system is running (while the system is being encrypted, you can use your computer as usual without any restrictions). Likewise, a VeraCrypt-encrypted
  system partition/drive can be decrypted in-place while the operating system is running. You can interrupt the process of encryption or decryption anytime, leave the partition/drive partially unencrypted, restart or shut down the computer, and then resume the
  process, which will continue from the point it was stopped.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-The mode of operation used for system encryption is <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-XTS</a> (see the section <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+The mode of operation used for system encryption is <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+XTS</a> (see the section <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Modes of Operation</a>). For further technical details of system encryption, see the section
-<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Encryption Scheme</a> in the chapter <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Encryption Scheme</a> in the chapter <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Technical Details</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 To encrypt a system partition or entire system drive, select <em style="text-align:left">
@@ -75,6 +74,6 @@ Thus, when setting or entering your password, it's crucial to type it manually u
  running). In EFI boot mode, which is the default on modern PCs, VeraCrypt can not encrypt this partition since it must remain unencrypted so that the BIOS can load the EFI bootloader from it. This in turn implies that in EFI boot mode, VeraCrypt offers only to encrypt the system partition where Windows is installed (the user can later manually encrypt other data partitions using VeraCrypt).
  In MBR legacy boot mode, VeraCrypt encrypts the partition only if you choose to encrypt the whole system drive (as opposed to choosing to encrypt only the partition where Windows is installed).</p>
 <p>&nbsp;</p>
-<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
+<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Next Section &gt;&gt;</a></p>
 </div>
 </body></html>

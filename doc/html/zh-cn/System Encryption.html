@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
@@ -47,13 +46,13 @@ VeraCrypt可以对系统分区或整个系统驱动器进行即时加密，即�
 </div>
 
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-系统加密涉及预启动身份验证，这意味着任何想要访问和使用加密系统、读取和写入存储在系统驱动器上的文件等的人，每次在Windows启动之前都需要输入正确的密码。预启动身份验证由VeraCrypt引导加载程序处理，该加载程序位于引导驱动器的第一个磁道以及 <a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">VeraCrypt救援磁盘（见下文）</a> 上。
+系统加密涉及预启动身份验证，这意味着任何想要访问和使用加密系统、读取和写入存储在系统驱动器上的文件等的人，每次在Windows启动之前都需要输入正确的密码。预启动身份验证由VeraCrypt引导加载程序处理，该加载程序位于引导驱动器的第一个磁道以及 <a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt救援磁盘（见下文）</a> 上。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 请注意，VeraCrypt可以在操作系统运行时对现有的未加密系统分区/驱动器进行就地加密（在系统加密过程中，您可以像往常一样正常使用计算机，没有任何限制）。同样，VeraCrypt加密的系统分区/驱动器也可以在操作系统运行时进行就地解密。您可以随时中断加密或解密过程，使分区/驱动器部分未加密，重启或关闭计算机，然后继续该过程，该过程将从停止的点继续。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-用于系统加密的操作模式是 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">XTS</a>（请参阅 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">操作模式</a> 部分）。有关系统加密的更多技术细节，请参阅 <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">技术细节</a> 章节中的 <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">加密方案</a> 部分。
+用于系统加密的操作模式是 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">XTS</a>（请参阅 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">操作模式</a> 部分）。有关系统加密的更多技术细节，请参阅 <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">技术细节</a> 章节中的 <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">加密方案</a> 部分。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 要加密系统分区或整个系统驱动器，请选择 <em style="text-align:left">系统</em> > <em style="text-align:left">加密系统分区/驱动器</em>，然后按照向导中的说明操作。要解密系统分区/驱动器，请选择 <em style="text-align:left">系统</em> > <em style="text-align:left">永久解密系统分区/驱动器</em>。
@@ -63,6 +62,6 @@ VeraCrypt可以对系统分区或整个系统驱动器进行即时加密，即�
 </div>
 <p>注意：默认情况下，Windows 7及更高版本从一个特殊的小分区启动。该分区包含启动系统所需的文件。Windows只允许具有管理员权限的应用程序在系统运行时写入该分区。在EFI启动模式（现代PC的默认模式）下，VeraCrypt无法加密此分区，因为它必须保持未加密状态，以便BIOS可以从中加载EFI引导加载程序。这反过来意味着在EFI启动模式下，VeraCrypt仅提供对安装Windows的系统分区进行加密（用户以后可以使用VeraCrypt手动加密其他数据分区）。在MBR传统启动模式下，只有当您选择加密整个系统驱动器（而不是仅选择加密安装Windows的分区）时，VeraCrypt才会对该分区进行加密。</p>
 <p>&nbsp;</p>
-<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></p>
+<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
 </div>
 </body></html>

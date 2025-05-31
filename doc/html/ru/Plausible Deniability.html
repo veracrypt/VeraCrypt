@@ -1,6 +1,5 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+﻿<!DOCTYPE html>
+<html lang="ru">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
@@ -39,28 +38,28 @@
 отрицания наличия шифрования:</div>
 <ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-Скрытые тома (см. раздел <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">
-Скрытый том</a>) и скрытые операционные системы (см. раздел <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Скрытые тома (см. раздел <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">
+Скрытый том</a>) и скрытые операционные системы (см. раздел <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
 <strong style="text-align:left">Скрытая операционная система</strong></a>). </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 Пока не будет выполнено дешифрование, раздел/устройство VeraCrypt выглядит как содержащее случайные данные
 (в нём нет никаких "сигнатур"). Поэтому должно быть невозможно доказать, что раздел или устройство являются
 томом VeraCrypt или что они зашифрованы (при условии соблюдения требований, перечисленных в главе
-<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Требования безопасности и меры предосторожности</a>). Правдоподобное объяснение, что раздел/устройство
 содержит только случайные данные, может быть таким: вы уничтожили (стёрли с затиранием данных) содержимое
 раздела/устройства с помощью одной из программ для удаления информации с перезаписью случайными данными 
 (на самом деле, VeraCrypt также можно использовать для безопасного стирания раздела/устройства, создав
 внутри него пустой зашифрованный раздел/том на основе устройства). При этом, однако, требуется предотвращать
 утечки данных (см. раздел
-<a href="Data%20Leaks.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Утечки данных</a>), а также иметь в виду, что при <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Data%20Leaks.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Утечки данных</a>), а также иметь в виду, что при <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
 шифровании системы</a> первая дорожка диска содержит (незашифрованный) загрузчик VeraCrypt, который можно
 легко идентифицировать (см. подробности в главе
-<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Шифрование системы</a>). В случае <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Шифрование системы</a>). В случае <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
 шифрования системы</a>, правдоподобное отрицание наличия шифрования достигается созданием скрытой операционной
 системы (см. раздел
-<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Скрытая операционная система</a>).<br style="text-align:left">
 <br style="text-align:left">
 Хотя тома VeraCrypt на основе файлов (контейнеров) тоже не содержат никаких опознавательных "сигнатур"
@@ -85,9 +84,9 @@
 наличия шифрования. Злоумышленник по-прежнему не должен быть в состоянии <i>доказать</i>, что раздел/устройство является
 томом VeraCrypt или что файл, раздел или устройство содержат скрытый том VeraCrypt (если вы соблюли все условия,
 описанные в главе
-<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Требования безопасности и меры предосторожности</a> и в подразделе <a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Требования безопасности и меры предосторожности</a> и в подразделе <a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Требования безопасности и меры предосторожности, касающиеся скрытых томов</a>). </li></ul>
 <p>&nbsp;</p>
-<p><a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+<p><a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></p>
 </div><div class="ClearBoth"></div></body></html>

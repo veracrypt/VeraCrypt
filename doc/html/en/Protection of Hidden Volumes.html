@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
@@ -39,7 +38,7 @@
 <div class="wikidoc">
 <h1>Protection of Hidden Volumes Against Damage</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-If you mount a VeraCrypt volume within which there is a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+If you mount a VeraCrypt volume within which there is a <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 hidden volume</a>, you may <em style="text-align:left">read</em> data stored on the (outer) volume without any risk. However, if you (or the operating system) need to
 <em style="text-align:left">save</em> data to the outer volume, there is a risk that the hidden volume will get damaged (overwritten). To prevent this, you should protect the hidden volume in a way described in this section.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -69,7 +68,7 @@ Both passwords must be correct; otherwise, the outer volume will not be mounted.
 As soon as a write operation to the hidden volume area is denied/prevented (to protect the hidden volume), the entire host volume (both the outer and the hidden volume) becomes write-protected until unmounted (the VeraCrypt driver reports the 'invalid parameter'
  error to the system upon each attempt to write data to the volume). This preserves plausible deniability (otherwise certain kinds of inconsistency within the file system could indicate that this volume has used hidden volume protection). When damage to hidden
  volume is prevented, a warning is displayed (provided that the VeraCrypt Background Task is enabled &ndash; see the chapter
-<a href="VeraCrypt%20Background%20Task.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="VeraCrypt%20Background%20Task.html" style="text-align:left; color:#0080c0; text-decoration:none">
 VeraCrypt Background Task</a>). Furthermore, the type of the mounted outer volume displayed in the main window changes to '<em style="text-align:left">Outer(!)</em> ':</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <img src="Protection of Hidden Volumes_Image_029.jpg" alt="VeraCrypt GUI"></div>
@@ -101,7 +100,7 @@ The type of the mounted outer volume is <em style="text-align:left">Outer</em>: 
  must </strong></em><strong style="text-align:left">not</strong><em style="text-align:left"><strong style="text-align:left"> mount it with the hidden volume protection enabled. You must mount it as a normal volume (and then VeraCrypt will not show the volume
  type &quot;Outer&quot; but &quot;Normal&quot;). The reason is that, during the time when an outer volume is mounted with the hidden volume protection enabled, the adversary
 </strong></em><strong style="text-align:left">can</strong><em style="text-align:left"><strong style="text-align:left"> find out that a hidden volume exists within the outer volume (he/she will be able to find it out until the volume is unmounted and possibly
- even some time after the computer has been powered off - see <a href="Unencrypted%20Data%20in%20RAM.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+ even some time after the computer has been powered off - see <a href="Unencrypted%20Data%20in%20RAM.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Unencrypted Data in RAM</a>).</strong></em> <br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">
@@ -120,8 +119,8 @@ If you want to mount an outer volume and protect a hidden volume within using ca
 Mount Options </em>dialog. Enable the option '<em style="text-align:left">Protect hidden volume against damage caused by writing to outer volume</em>' and leave the password box empty. Then click
 <em style="text-align:left">OK</em>.</div>
 <p>If you need to mount an outer volume and you know that you will not need to save any data to it, then the most comfortable way of protecting the hidden volume against damage is mounting the outer volume as read-only (see the section
-<a href="Mounting%20VeraCrypt%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Mounting%20VeraCrypt%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Mount Options</a>).</p>
 <p>&nbsp;</p>
-<p><a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
+<p><a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Next Section &gt;&gt;</a></p>
 </div><div class="ClearBoth"></div></body></html>

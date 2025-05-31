@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
@@ -38,20 +37,20 @@
 <h1>头密钥推导、盐值和迭代次数</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 头密钥用于加密和解密VeraCrypt卷头的加密区域（对于
-<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
 系统加密</a>，则是密钥数据区域），该区域包含主密钥和其他数据（请参阅
-<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-加密方案</a>和 <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+加密方案</a>和 <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none">
 VeraCrypt卷格式规范</a> 部分）。在VeraCrypt创建的卷中（以及对于
-<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-系统加密</a>），该区域采用XTS模式进行加密（请参阅 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+系统加密</a>），该区域采用XTS模式进行加密（请参阅 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
 操作模式</a> 部分）。VeraCrypt用于生成头密钥和辅助头密钥（XTS模式）的方法是PBKDF2，该方法在PKCS #5 v2.0中定义；请参阅
-<a href="References.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="References.html" style="text-align:left; color:#0080c0; text-decoration:none">
 [7]</a>。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 使用了512位的盐值，这意味着每个密码有2<sup style="text-align:left; font-size:85%">512</sup> 个密钥。这显著降低了对“离线”字典/“彩虹表”攻击的脆弱性（使用盐值时，为字典中的所有密码预先计算所有密钥非常困难） [7]。盐值由
-<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
 VeraCrypt随机数生成器</a> 在卷创建过程中生成的随机值组成。头密钥推导函数基于HMAC - SHA - 512、HMAC - SHA - 256、HMAC - BLAKE2S - 256、HMAC - Whirlpool或HMAC - Streebog（请参阅 [8, 9, 20, 22]） — 用户可以选择使用哪种。派生密钥的长度不取决于底层哈希函数的输出大小。例如，即使使用HMAC - SHA - 512，AES - 256密码的头密钥始终为256位长（在XTS模式下，还会使用一个额外的256位辅助头密钥；因此，AES - 256总共使用两个256位密钥）。更多信息，请参阅 [7]。为了推导出头密钥，必须执行大量的密钥推导函数迭代，这增加了进行密码穷举搜索（即暴力攻击）所需的时间 [7]。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -81,5 +80,5 @@ PIM </a>值时，密钥推导函数的迭代次数计算如下：</p>
 <em style="text-align:left">辅助</em> 头密钥也被拆分为三个256位密钥，因此级联实际上总共使用六个256位密钥），其中第一个密钥由Serpent使用，第二个密钥由Twofish使用，第三个密钥由AES使用（此外，在XTS模式下，第一个辅助密钥由Serpent使用，第二个辅助密钥由Twofish使用，第三个辅助密钥由AES使用）。因此，即使攻击者拥有其中一个密钥，他也无法使用该密钥推导出其他密钥，因为除了对弱密码进行暴力攻击外，没有可行的方法来确定派生该密钥的密码。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></div>
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
 </div><div class="ClearBoth"></div></body></html>
