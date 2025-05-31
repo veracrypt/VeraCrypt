@@ -309,15 +309,25 @@ prepare: $(APPNAME)
 	chmod +x $(BASE_DIR)/Setup/Linux/usr/sbin/mount.$(APPNAME)
 ifndef TC_NO_GUI
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/applications
-	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/pixmaps
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/mime/packages
-	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).desktop $(BASE_DIR)/Setup/Linux/usr/share/applications/$(APPNAME).desktop
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).xml $(BASE_DIR)/Setup/Linux/usr/share/mime/packages/$(APPNAME).xml
 
-	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).xpm
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/pixmaps
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/scalable/apps
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/symbolic/apps
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt.svg $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/scalable/apps/$(APPNAME).svg
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-symbolic.svg $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/symbolic/apps/$(APPNAME)-symbolic.svg
+
+	for res in 16 22 24 32 48 64 256 512 1024; do \
+		mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/$${res}x$${res}/apps ;\
+		cp $(BASE_DIR)/Resources/Icons/VeraCrypt-$${res}x$${res}.png $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/$${res}x$${res}/apps/$(APPNAME).png ;\
+	done
+
 	rm -fr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/usr
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
+	ln -s usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
 endif
 
 
@@ -408,12 +418,22 @@ prepare: $(APPNAME)
 	cp -r $(BASE_DIR)/../Translations/* $(BASE_DIR)/Setup/FreeBSD/usr/share/veracrypt/languages/
 
 ifndef TC_NO_GUI
-	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/applications
-	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps
-	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/mime/packages
-	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps/$(APPNAME).xpm
-	cp $(BASE_DIR)/Setup/FreeBSD/$(APPNAME).desktop $(BASE_DIR)/Setup/FreeBSD/usr/share/applications/$(APPNAME).desktop
-	cp $(BASE_DIR)/Setup/FreeBSD/$(APPNAME).xml $(BASE_DIR)/Setup/FreeBSD/usr/share/mime/packages/$(APPNAME).xml
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/applications
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/mime/packages
+	cp $(BASE_DIR)/Setup/FreeBSD/$(APPNAME).desktop $(BASE_DIR)/Setup/FreeBSD/usr/local/share/applications/$(APPNAME).desktop
+	cp $(BASE_DIR)/Setup/FreeBSD/$(APPNAME).xml $(BASE_DIR)/Setup/FreeBSD/usr/local/share/mime/packages/$(APPNAME).xml
+
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/pixmaps
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/scalable/apps
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/symbolic/apps
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/FreeBSD/usr/local/share/pixmaps/$(APPNAME).xpm
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt.svg $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/scalable/apps/$(APPNAME).svg
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-symbolic.svg $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/symbolic/apps/$(APPNAME)-symbolic.svg
+
+	for res in 16 22 24 32 48 64 256 512 1024; do \
+		mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/$${res}x$${res}/apps ;\
+		cp $(BASE_DIR)/Resources/Icons/VeraCrypt-$${res}x$${res}.png $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/$${res}x$${res}/apps/$(APPNAME).png ;\
+	done
 endif
 	chown -R root:wheel $(BASE_DIR)/Setup/FreeBSD/usr
 	chmod -R go-w $(BASE_DIR)/Setup/FreeBSD/usr
