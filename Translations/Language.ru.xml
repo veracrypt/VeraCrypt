@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.24">
-    <language langid="ru" name="Русский" en-name="Russian" version="1.26.24" translators="Dmitry Yerokhin [erodim@mail.ru] (240826)" />
+    <language langid="ru" name="Русский" en-name="Russian" version="1.26.24" translators="Dmitry Yerokhin [erodim@mail.ru] (250601)" />
     <font lang="ru" class="normal" size="11" face="default" />
     <font lang="ru" class="bold" size="13" face="Arial" />
     <font lang="ru" class="fixed" size="12" face="Lucida Console" />
@@ -1644,8 +1644,8 @@
     <entry lang="ru" key="MOUNTPOINT_BLOCKED">ОШИБКА: Точка монтирования тома заблокирована, так как она переопределяет защищённую системную папку.\n\nВыберите другую точку монтирования.</entry>
     <entry lang="ru" key="MOUNTPOINT_NOTALLOWED">ОШИБКА: Точка монтирования тома не разрешена, так как она переопределяет папку, которая является частью переменной среды PATH.\n\nВыберите другую точку монтирования.</entry>
     <entry lang="ru" key="INSECURE_MODE">[НЕБЕЗОПАСНЫЙ РЕЖИМ]</entry>
-    <entry lang="ru" key="IDC_DISABLE_SCREEN_PROTECTION">Отключить защиту от создания скриншотов и записи экрана</entry>
-    <entry lang="ru" key="DISABLE_SCREEN_PROTECTION_WARNING">ВНИМАНИЕ: Отключение защиты экрана значительно снижает уровень безопасности. Включайте эту опцию ТОЛЬКО при наличии конкретной необходимости захвата интерфейса VeraCrypt. Это может привести к утечке конфиденциальных данных через инструменты создания скриншотов и записи экрана, такие как Windows 11 Recall.</entry>
+    <entry lang="ru" key="IDC_DISABLE_SCREEN_PROTECTION">Разрешить создавать скриншоты и записывать экран</entry>
+    <entry lang="ru" key="DISABLE_SCREEN_PROTECTION_WARNING">ВНИМАНИЕ: Отключение защиты экрана значительно снижает уровень безопасности. Включайте эту опцию ТОЛЬКО при реальной необходимости сделать снимок экрана с интерфейсом VeraCrypt. Это может привести к утечке конфиденциальных данных через средства создания скриншотов и записи экрана, такие как Recall в Windows 11.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
