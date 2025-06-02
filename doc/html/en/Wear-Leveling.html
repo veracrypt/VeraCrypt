@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
@@ -42,23 +41,23 @@ Some storage devices (e.g., some solid-state drives, including USB flash drives)
  security implications. For instance, when you change a volume password/keyfile(s), the volume header is, under normal conditions, overwritten with a re-encrypted version of the header. However, when the volume resides on a device that utilizes a wear-leveling
  mechanism, VeraCrypt cannot ensure that the older header is really overwritten. If an adversary found the old volume header (which was to be overwritten) on the device, he could use it to mount the volume using an old compromised password (and/or using compromised
  keyfiles that were necessary to mount the volume before the volume header was re-encrypted). Due to security reasons, we recommend that
-<a href="VeraCrypt%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="VeraCrypt%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 VeraCrypt volumes</a> are not created/stored on devices (or in file systems) that utilize a wear-leveling mechanism (and that VeraCrypt is not used to encrypt any portions of such devices or filesystems).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 If you decide not to follow this recommendation and you intend to use in-place encryption on a drive that utilizes wear-leveling mechanisms, make sure the partition/drive does not contain any sensitive data before you fully encrypt it (VeraCrypt cannot reliably
  perform secure in-place encryption of existing data on such a drive; however, after the partition/drive has been fully encrypted, any new data that will be saved to it will be reliably encrypted on the fly). That includes the following precautions: Before
  you run VeraCrypt to set up pre-boot authentication, disable the paging files and restart the operating system (you can enable the
-<a href="Paging%20File.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-paging files</a> after the system partition/drive has been fully encrypted). <a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Paging%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">
+paging files</a> after the system partition/drive has been fully encrypted). <a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Hibernation</a> must be prevented during the period between the moment when you start VeraCrypt to set up pre-boot authentication and the moment when the system partition/drive has been fully encrypted. However, note that even if you follow those steps, it
  is <em style="text-align:left">not</em> guaranteed that you will prevent data leaks and that sensitive data on the device will be securely encrypted. For more information, see the sections
-<a href="Data%20Leaks.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Data Leaks</a>, <a href="Paging%20File.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Paging File</a>, <a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Hibernation File</a>, and <a href="Memory%20Dump%20Files.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Data%20Leaks.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Data Leaks</a>, <a href="Paging%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Paging File</a>, <a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Hibernation File</a>, and <a href="Memory%20Dump%20Files.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Memory Dump Files</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-If you need <a href="Plausible%20Deniability.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+If you need <a href="Plausible%20Deniability.html" style="text-align:left; color:#0080c0; text-decoration:none">
 plausible deniability</a>, you must not use VeraCrypt to encrypt any part of (or create encrypted containers on) a device (or file system) that utilizes a wear-leveling mechanism.</div>
 <p>To find out whether a device utilizes a wear-leveling mechanism, please refer to documentation supplied with the device or contact the vendor/manufacturer.</p>
 </div><div class="ClearBoth"></div></body></html>

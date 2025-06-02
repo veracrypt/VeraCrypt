@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
@@ -39,8 +38,8 @@
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 文件托管卷的格式与分区/设备托管卷的格式相同（不过，系统分区/驱动器的“卷头”或密钥数据存储在第一个逻辑驱动器磁道的最后512字节中）。VeraCrypt卷没有“签名”或ID字符串。在解密之前，它们看起来完全由随机数据组成。</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-每个VeraCrypt卷在创建时，其空闲空间会用随机数据填充。* 随机数据的生成方式如下：在VeraCrypt卷格式化开始之前，随机数生成器会生成一个临时加密密钥和一个临时辅助密钥（XTS模式）（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-随机数生成器</a> 部分）。使用临时密钥初始化用户选择的加密算法。然后，该加密算法用于加密由随机数生成器生成的随机字节组成的明文块。加密算法以XTS模式运行（请参阅 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+每个VeraCrypt卷在创建时，其空闲空间会用随机数据填充。* 随机数据的生成方式如下：在VeraCrypt卷格式化开始之前，随机数生成器会生成一个临时加密密钥和一个临时辅助密钥（XTS模式）（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
+随机数生成器</a> 部分）。使用临时密钥初始化用户选择的加密算法。然后，该加密算法用于加密由随机数生成器生成的随机字节组成的明文块。加密算法以XTS模式运行（请参阅 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
 隐藏卷</a> 部分）。生成的密文块用于填充（覆盖）卷上的空闲空间。临时密钥存储在RAM中，并在格式化完成后擦除。</div>
 <p><br style="text-align:left">
 VeraCrypt卷格式规范：</p>
@@ -690,34 +689,34 @@ VeraCrypt卷格式规范：</p>
 </tbody>
 </table>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-位于字节 #0（盐值）和 #256（主密钥）的字段包含在卷创建过程中由随机数生成器生成的随机值（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none.html">随机数生成器</a> 部分）。
+位于字节 #0（盐值）和 #256（主密钥）的字段包含在卷创建过程中由随机数生成器生成的随机值（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">随机数生成器</a> 部分）。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-如果 VeraCrypt 卷包含一个隐藏卷（在其空闲空间内），隐藏卷的头部位于宿主卷的字节 #65536 处（宿主/外部卷的头部位于宿主卷的字节 #0 处 - 请参阅 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none.html">隐藏卷</a> 部分）。如果 VeraCrypt 卷内没有隐藏卷，卷的字节 65536 - 131071（即隐藏卷头部可能存在的区域）包含随机数据（有关在卷创建时用随机数据填充空闲卷空间的方法的信息，请参阅上文）。隐藏卷头部的布局与标准卷的布局相同（字节 0 - 65535）。
+如果 VeraCrypt 卷包含一个隐藏卷（在其空闲空间内），隐藏卷的头部位于宿主卷的字节 #65536 处（宿主/外部卷的头部位于宿主卷的字节 #0 处 - 请参阅 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏卷</a> 部分）。如果 VeraCrypt 卷内没有隐藏卷，卷的字节 65536 - 131071（即隐藏卷头部可能存在的区域）包含随机数据（有关在卷创建时用随机数据填充空闲卷空间的方法的信息，请参阅上文）。隐藏卷头部的布局与标准卷的布局相同（字节 0 - 65535）。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-VeraCrypt 卷的最大可能大小为 2<sup style="text-align:left; font-size:85%">63</sup> 字节（8,589,934,592 GB）。然而，出于安全原因（考虑到 <a href="Encryption%20Algorithms.html" style="text-align:left; color:#0080c0; text-decoration:none.html">加密算法</a> 使用的 128 位块大小），允许的最大卷大小为 1 PB（1,048,576 GB）。
+VeraCrypt 卷的最大可能大小为 2<sup style="text-align:left; font-size:85%">63</sup> 字节（8,589,934,592 GB）。然而，出于安全原因（考虑到 <a href="Encryption%20Algorithms.html" style="text-align:left; color:#0080c0; text-decoration:none">加密算法</a> 使用的 128 位块大小），允许的最大卷大小为 1 PB（1,048,576 GB）。
 </div>
 <h4 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:12px; margin-bottom:1px">
 嵌入式备份头部
 </h4>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-每个 VeraCrypt 卷都包含一个嵌入式备份头部，位于卷的末尾（请参阅上文）。头部备份 <em style="text-align:left">不是</em> 卷头部的副本，因为它使用不同的盐值派生的不同头部密钥进行加密（请参阅 <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">头部密钥派生、盐值和迭代次数</a> 部分）。
+每个 VeraCrypt 卷都包含一个嵌入式备份头部，位于卷的末尾（请参阅上文）。头部备份 <em style="text-align:left">不是</em> 卷头部的副本，因为它使用不同的盐值派生的不同头部密钥进行加密（请参阅 <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">头部密钥派生、盐值和迭代次数</a> 部分）。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-当卷密码和/或 PIM 和/或密钥文件发生更改时，或者当从嵌入式（或外部）头部备份中恢复头部时，卷头部和备份头部（嵌入在卷中）都会使用不同的头部密钥重新加密（使用新生成的盐值派生 - 卷头部的盐值与备份头部的盐值不同）。每个盐值都由 VeraCrypt 随机数生成器生成（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none.html">随机数生成器</a> 部分）。
+当卷密码和/或 PIM 和/或密钥文件发生更改时，或者当从嵌入式（或外部）头部备份中恢复头部时，卷头部和备份头部（嵌入在卷中）都会使用不同的头部密钥重新加密（使用新生成的盐值派生 - 卷头部的盐值与备份头部的盐值不同）。每个盐值都由 VeraCrypt 随机数生成器生成（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">随机数生成器</a> 部分）。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-有关卷头备份的更多信息，请参阅章节 <a href="Main%20Program%20Window.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-主程序窗口</a> 中的小节 <a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none.html">
+有关卷头备份的更多信息，请参阅章节 <a href="Main%20Program%20Window.html" style="text-align:left; color:#0080c0; text-decoration:none">
+主程序窗口</a> 中的小节 <a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none">
 工具 > 恢复卷头</a>。</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<a href="Standard%20Compliance.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">下一部分 &gt;&gt;</a></div>
+<a href="Standard%20Compliance.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
 <hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
 <p><span style="text-align:left; font-size:10px; line-height:12px">* 前提是禁用 <em style="text-align:left">快速格式化</em> 和 <em style="text-align:left">动态</em> 选项，并且该卷不包含已在原地加密的文件系统（请注意，VeraCrypt 不允许用户在此类卷中创建隐藏卷）。</span><br style="text-align:left">
 <span style="text-align:left; font-size:10px; line-height:12px">&dagger; 卷头的加密区域使用主头密钥和次头密钥以 XTS 模式进行加密。有关更多信息，请参阅章节 
-<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-加密方案</a> 以及章节 <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+加密方案</a> 以及章节 <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
 头密钥推导、盐值和迭代次数</a>。</span><br style="text-align:left">
 <span style="text-align:left; font-size:10px; line-height:12px">&Dagger; <em style="text-align:left">
 S</em> 表示卷主机的大小（以字节为单位）。</span><br style="text-align:left">

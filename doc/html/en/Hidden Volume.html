@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
@@ -61,7 +60,7 @@ not</em> mounted). Then click <em style="text-align:left">Mount</em>, and enter 
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 VeraCrypt first attempts to decrypt the standard volume header using the entered password. If it fails, it loads the area of the volume where a hidden volume header can be stored (i.e. bytes 65536&ndash;131071, which contain solely random data when there is
  no hidden volume within the volume) to RAM and attempts to decrypt it using the entered password. Note that hidden volume headers cannot be identified, as they appear to consist entirely of random data. If the header is successfully decrypted (for information
- on how VeraCrypt determines that it was successfully decrypted, see the section <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+ on how VeraCrypt determines that it was successfully decrypted, see the section <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Encryption Scheme</a>), the information about the size of the hidden volume is retrieved from the decrypted header (which is still stored in RAM), and the hidden volume is mounted (its size also determines its offset).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 A hidden volume can be created within any type of VeraCrypt volume, i.e., within a file-hosted volume or partition/device-hosted volume (requires administrator privileges). To create a hidden VeraCrypt volume, click on
@@ -71,27 +70,27 @@ A hidden volume can be created within any type of VeraCrypt volume, i.e., within
 When creating a hidden volume, it may be very difficult or even impossible for an inexperienced user to set the size of the hidden volume such that the hidden volume does not overwrite data on the outer volume. Therefore, the Volume Creation Wizard automatically
  scans the cluster bitmap of the outer volume (before the hidden volume is created within it) and determines the maximum possible size of the hidden volume.***</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-If there are any problems when creating a hidden volume, refer to the chapter <a href="Troubleshooting.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+If there are any problems when creating a hidden volume, refer to the chapter <a href="Troubleshooting.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Troubleshooting</a> for possible solutions.<br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">
 Note that it is also possible to create and boot an operating system residing in a hidden volume (see the section
-<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Hidden Operating System</a> in the chapter <a href="Plausible%20Deniability.html">
 Plausible Deniability</a>).</div>
 <hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
 <p><span style="text-align:left; font-size:10px; line-height:12px">* Provided that all the instructions in the VeraCrypt Volume Creation Wizard have been followed and provided that the requirements and precautions listed in the subsection
-<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Security Requirements and Precautions Pertaining to Hidden Volumes</a> are followed<em style="text-align:left">.</em></span><br style="text-align:left">
 <span style="text-align:left; font-size:10px; line-height:12px">** Provided that the options
 <em style="text-align:left">Quick Format</em> and <em style="text-align:left">Dynamic</em> are disabled and provided that the volume does not contain a filesystem that has been encrypted in place (VeraCrypt does not allow the user to create a hidden volume
  within such a volume). For information on the method used to fill free volume space with random data, see chapter
-<a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Technical Details</a>, section <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Technical Details</a>, section <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none">
 VeraCrypt Volume Format Specification</a><em style="text-align:left">.</em></span><br style="text-align:left">
 <span style="text-align:left; font-size:10px; line-height:12px">*** The wizard scans the cluster bitmap to determine the size of the uninterrupted area of free space (if there is any) whose end is aligned with the end of the outer volume. This area accommodates
  the hidden volume and therefore the size of this area limits the maximum possible size of the hidden volume. On Linux and Mac OS X, the wizard actually does not scan the cluster bitmap, but the driver detects any data written to the outer volume and uses their
  position as previously described.</span></p>
 <p>&nbsp;</p>
-<p><a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
+<p><a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Next Section &gt;&gt;</a></p>
 </div><div class="ClearBoth"></div></body></html>
