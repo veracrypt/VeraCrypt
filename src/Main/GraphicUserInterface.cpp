@@ -2072,8 +2072,12 @@ namespace VeraCrypt
 			{
 				item.SetText (field);
 				listCtrl->SetItem (item);
-				if (item.GetColumn() == 3 || item.GetColumn() == 4)
+				if ((item.GetColumn() == 3 || item.GetColumn() == 4) && !item.GetText().IsEmpty())
 					listCtrl->SetColumnWidth(item.GetColumn(), wxLIST_AUTOSIZE);
+					// SlotListCtrl headers do not automatically move with column widths changing on macOS
+#ifdef TC_MACOSX
+					listCtrl->Update();
+#endif
 				changed = true;
 			}
 		}

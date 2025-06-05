@@ -1687,7 +1687,6 @@ namespace VeraCrypt
 		}
 
 		VolumeInfoList protectionTriggeredVolumes;
-		SlotListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 
 		// Update list
 		long prevItemIndex = -1;
@@ -1773,8 +1772,10 @@ namespace VeraCrypt
 			}
 		}
 
-		if (listChanged)
+		if (listChanged) {
+			SlotListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 			OnListChanged();
+		}
 
 		foreach (shared_ptr <VolumeInfo> volume, protectionTriggeredVolumes)
 			OnHiddenVolumeProtectionTriggered (volume);
