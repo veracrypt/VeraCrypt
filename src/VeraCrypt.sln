@@ -74,7 +74,6 @@ Global
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release_SkipOsDriverReqCheck|ARM64.ActiveCfg = Release|ARM64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release_SkipOsDriverReqCheck|ARM64.Build.0 = Release|ARM64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = Release|x64
-		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release_SkipOsDriverReqCheck|Win32.Build.0 = Release|x64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = Release|x64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release_SkipOsDriverReqCheck|x64.Build.0 = Release|x64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release|ARM64.ActiveCfg = Release|ARM64
@@ -85,7 +84,6 @@ Global
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.ReleaseCustomEFI|ARM64.ActiveCfg = Release|ARM64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.ReleaseCustomEFI|ARM64.Build.0 = Release|ARM64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.ReleaseCustomEFI|Win32.ActiveCfg = Release|x64
-		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.ReleaseCustomEFI|Win32.Build.0 = Release|x64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.ReleaseCustomEFI|x64.ActiveCfg = Release|x64
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.ReleaseCustomEFI|x64.Build.0 = Release|x64
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Debug|ARM64.ActiveCfg = Release Loader|Win32
@@ -95,16 +93,13 @@ Global
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release_SkipOsDriverReqCheck|ARM64.ActiveCfg = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release_SkipOsDriverReqCheck|ARM64.Build.0 = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = Release Loader|Win32
-		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release_SkipOsDriverReqCheck|Win32.Build.0 = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = Release Loader|Win32
-		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release_SkipOsDriverReqCheck|x64.Build.0 = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release|ARM64.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release|x64.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.ReleaseCustomEFI|ARM64.ActiveCfg = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.ReleaseCustomEFI|ARM64.Build.0 = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.ReleaseCustomEFI|Win32.ActiveCfg = Release Loader|Win32
-		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.ReleaseCustomEFI|Win32.Build.0 = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.ReleaseCustomEFI|x64.ActiveCfg = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.ReleaseCustomEFI|x64.Build.0 = Release Loader|Win32
 		{B896FE1F-6BF3-4F75-9148-F841829073D9}.Debug|ARM64.ActiveCfg = Debug|ARM64
@@ -164,7 +159,6 @@ Global
 		{C8914211-32AC-4F48-ACD9-8212E8DE53F3}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = Release|Win32
 		{C8914211-32AC-4F48-ACD9-8212E8DE53F3}.Release_SkipOsDriverReqCheck|Win32.Build.0 = Release|Win32
 		{C8914211-32AC-4F48-ACD9-8212E8DE53F3}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = Release|Win32
-		{C8914211-32AC-4F48-ACD9-8212E8DE53F3}.Release_SkipOsDriverReqCheck|x64.Build.0 = Release|Win32
 		{C8914211-32AC-4F48-ACD9-8212E8DE53F3}.Release|ARM64.ActiveCfg = Release|Win32
 		{C8914211-32AC-4F48-ACD9-8212E8DE53F3}.Release|Win32.ActiveCfg = Release|Win32
 		{C8914211-32AC-4F48-ACD9-8212E8DE53F3}.Release|Win32.Build.0 = Release|Win32
@@ -186,11 +180,7 @@ Global
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|ARM64.Build.0 = Release|ARM64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|ARM64.Deploy.0 = Release|ARM64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = Release|x64
-		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|Win32.Build.0 = Release|x64
-		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|Win32.Deploy.0 = Release|x64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = Release|x64
-		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|x64.Build.0 = Release|x64
-		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release_SkipOsDriverReqCheck|x64.Deploy.0 = Release|x64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release|ARM64.ActiveCfg = Release|ARM64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release|Win32.ActiveCfg = Release|x64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.Release|x64.ActiveCfg = Release|x64
@@ -198,8 +188,6 @@ Global
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|ARM64.Build.0 = Release|ARM64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|ARM64.Deploy.0 = Release|ARM64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|Win32.ActiveCfg = Release|x64
-		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|Win32.Build.0 = Release|x64
-		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|Win32.Deploy.0 = Release|x64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|x64.ActiveCfg = Release|x64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|x64.Build.0 = Release|x64
 		{B5F6C878-6C9E-48A7-91E3-7137A7B85896}.ReleaseCustomEFI|x64.Deploy.0 = Release|x64
@@ -211,7 +199,6 @@ Global
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release_SkipOsDriverReqCheck|ARM64.ActiveCfg = ReleaseCustomEFI|ARM64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release_SkipOsDriverReqCheck|ARM64.Build.0 = ReleaseCustomEFI|ARM64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = ReleaseCustomEFI|x64
-		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release_SkipOsDriverReqCheck|Win32.Build.0 = ReleaseCustomEFI|x64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = ReleaseCustomEFI|x64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release_SkipOsDriverReqCheck|x64.Build.0 = ReleaseCustomEFI|x64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release|ARM64.ActiveCfg = Release|ARM64
@@ -222,7 +209,6 @@ Global
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.ReleaseCustomEFI|ARM64.ActiveCfg = ReleaseCustomEFI|ARM64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.ReleaseCustomEFI|ARM64.Build.0 = ReleaseCustomEFI|ARM64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.ReleaseCustomEFI|Win32.ActiveCfg = ReleaseCustomEFI|x64
-		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.ReleaseCustomEFI|Win32.Build.0 = ReleaseCustomEFI|x64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.ReleaseCustomEFI|x64.ActiveCfg = ReleaseCustomEFI|x64
 		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.ReleaseCustomEFI|x64.Build.0 = ReleaseCustomEFI|x64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Debug|ARM64.ActiveCfg = Debug|ARM64
@@ -233,7 +219,6 @@ Global
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release_SkipOsDriverReqCheck|ARM64.ActiveCfg = ReleaseCustomEFI|ARM64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release_SkipOsDriverReqCheck|ARM64.Build.0 = ReleaseCustomEFI|ARM64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = ReleaseCustomEFI|x64
-		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release_SkipOsDriverReqCheck|Win32.Build.0 = ReleaseCustomEFI|x64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = ReleaseCustomEFI|x64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release_SkipOsDriverReqCheck|x64.Build.0 = ReleaseCustomEFI|x64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release|ARM64.ActiveCfg = Release|ARM64
@@ -244,7 +229,6 @@ Global
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.ReleaseCustomEFI|ARM64.ActiveCfg = ReleaseCustomEFI|ARM64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.ReleaseCustomEFI|ARM64.Build.0 = ReleaseCustomEFI|ARM64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.ReleaseCustomEFI|Win32.ActiveCfg = ReleaseCustomEFI|x64
-		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.ReleaseCustomEFI|Win32.Build.0 = ReleaseCustomEFI|x64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.ReleaseCustomEFI|x64.ActiveCfg = ReleaseCustomEFI|x64
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.ReleaseCustomEFI|x64.Build.0 = ReleaseCustomEFI|x64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Debug|ARM64.ActiveCfg = Debug|ARM64
@@ -255,7 +239,6 @@ Global
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release_SkipOsDriverReqCheck|ARM64.ActiveCfg = ReleaseCustomEFI|ARM64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release_SkipOsDriverReqCheck|ARM64.Build.0 = ReleaseCustomEFI|ARM64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = ReleaseCustomEFI|x64
-		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release_SkipOsDriverReqCheck|Win32.Build.0 = ReleaseCustomEFI|x64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = ReleaseCustomEFI|x64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release_SkipOsDriverReqCheck|x64.Build.0 = ReleaseCustomEFI|x64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release|ARM64.ActiveCfg = Release|ARM64
@@ -266,7 +249,6 @@ Global
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.ReleaseCustomEFI|ARM64.ActiveCfg = ReleaseCustomEFI|ARM64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.ReleaseCustomEFI|ARM64.Build.0 = ReleaseCustomEFI|ARM64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.ReleaseCustomEFI|Win32.ActiveCfg = ReleaseCustomEFI|x64
-		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.ReleaseCustomEFI|Win32.Build.0 = ReleaseCustomEFI|x64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.ReleaseCustomEFI|x64.ActiveCfg = ReleaseCustomEFI|x64
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.ReleaseCustomEFI|x64.Build.0 = ReleaseCustomEFI|x64
 		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Debug|ARM64.ActiveCfg = Debug|Win32
@@ -278,7 +260,6 @@ Global
 		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = Release_SkipOsDriverReqCheck|Win32
 		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Release_SkipOsDriverReqCheck|Win32.Build.0 = Release_SkipOsDriverReqCheck|Win32
 		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = Release_SkipOsDriverReqCheck|Win32
-		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Release_SkipOsDriverReqCheck|x64.Build.0 = Release_SkipOsDriverReqCheck|Win32
 		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Release|ARM64.ActiveCfg = Release|Win32
 		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Release|Win32.ActiveCfg = Release|Win32
 		{60698D56-DB83-4D19-9C87-9DFB6A6F8C87}.Release|Win32.Build.0 = Release|Win32
@@ -298,7 +279,6 @@ Global
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = Release_SkipOsDriverReqCheck|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release_SkipOsDriverReqCheck|Win32.Build.0 = Release_SkipOsDriverReqCheck|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = Release_SkipOsDriverReqCheck|Win32
-		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release_SkipOsDriverReqCheck|x64.Build.0 = Release_SkipOsDriverReqCheck|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release|ARM64.ActiveCfg = Release|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release|Win32.ActiveCfg = Release|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release|Win32.Build.0 = Release|Win32
@@ -318,7 +298,6 @@ Global
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = ReleaseCustomEFI|Win32
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.Release_SkipOsDriverReqCheck|Win32.Build.0 = ReleaseCustomEFI|Win32
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = ReleaseCustomEFI|Win32
-		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.Release_SkipOsDriverReqCheck|x64.Build.0 = ReleaseCustomEFI|Win32
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.Release|ARM64.ActiveCfg = Release|Win32
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.Release|Win32.ActiveCfg = Release|Win32
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.Release|Win32.Build.0 = Release|Win32
