@@ -280,16 +280,23 @@ namespace VeraCrypt
 		if (appImageEnv && appDirEnv)
 		{
 			string appDirString = appDirEnv;
-			string appImageFileString = appImageEnv;
-			const string appImageMountPrefix1 = "/tmp/.mount_Veracr";
-			const string appImageMountPrefix2 = "/tmp/.mount_VeraCr";
+			const std::string appImageMountPrefix = "/tmp/.mount_";
+			const std::string appImageMountSuffixPattern = "veracr"; // Lowercase for case-insensitive comparison
 
 			if (!appDirString.empty() &&
 				executablePath.rfind(appDirString, 0) == 0 &&
-				(appDirString.rfind(appImageMountPrefix1, 0) == 0 || appDirString.rfind(appImageMountPrefix2, 0) == 0))
+				appDirString.rfind(appImageMountPrefix, 0) == 0)
 			{
-				// All conditions met, this is the AppImage scenario.
-				return true;
+				// Ensure appDirString has enough room for appImageMountPrefix and appImageMountSuffixPattern
+				if (appDirString.length() > appImageMountPrefix.length() + appImageMountSuffixPattern.length())
+				{
+					std::string actualSuffixPart = appDirString.substr(appImageMountPrefix.length(), appImageMountSuffixPattern.length());
+					if (StringConverter::ToLower(actualSuffixPart) == appImageMountSuffixPattern)
+					{
+						// All conditions met, this is the AppImage scenario.
+						return true;
+					}
+				}
 			}
 		}
 		return false;
