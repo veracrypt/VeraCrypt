@@ -327,7 +327,7 @@ ifndef TC_NO_GUI
 
 	rm -fr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/usr
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
-	ln -s usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
+	ln -sf usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
 endif
 
 
