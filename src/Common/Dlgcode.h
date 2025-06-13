@@ -600,12 +600,13 @@ BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter);
 BOOL IsTestSigningModeEnabled ();
 DWORD SendServiceNotification (DWORD dwNotificationCmd);
 DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
-#if !defined(SETUP)
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif
 BOOL IsInternetConnected();
 BOOL AttachProtectionToCurrentThread(HWND hwnd);
 void DetachProtectionFromCurrentThread();
+BOOL MoveFilePointer(HANDLE dev, LARGE_INTEGER offset);
 
 #if defined(SETUP) && !defined (PORTABLE)
 typedef struct _SECURITY_INFO_BACKUP {

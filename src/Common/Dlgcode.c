@@ -1012,7 +1012,7 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 
 DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
 {
-#ifndef VC_COMREG
+#if !defined(VC_COMREG) && !defined(VCSDK_DLL)
 	PWSTR lpMsgBuf;
 	DWORD dwError = GetLastError ();	
 	wchar_t szErrorValue[32];
@@ -3675,7 +3675,7 @@ void DoPostInstallTasks (HWND hwndDlg)
 		SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_REMOVE_ALL);
 }
 
-#ifndef SETUP_DLL
+#if !defined(SETUP_DLL) && !defined(VCSDK_DLL)
 // Use an idea proposed in https://medium.com/@1ndahous3/safe-code-pitfalls-dll-side-loading-winapi-and-c-73baaf48bdf5
 // it allows to set safe DLL search mode for the entire process very early on, before even the CRT is initialized and global constructors are called
 #pragma comment(linker, "/ENTRY:CustomMainCrtStartup")
@@ -3715,13 +3715,14 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	WNDCLASSW wc;
 	char langId[6];	
 	SetDefaultDllDirectoriesPtr SetDefaultDllDirectoriesFn = NULL;
-#if !defined(SETUP)
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 	wchar_t modPath[MAX_PATH];
 #endif
 	INITCOMMONCONTROLSEX InitCtrls;
 
 	InitOSVersionInfo();
 
+#ifndef VCSDK_DLL
 	if (!IsWin10BuildAtLeast(WIN_10_1809_BUILD))
 	{
 		// abort using a message that says that VeraCrypt can run only on Windows 10 version 1809 or later
@@ -3740,6 +3741,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		// This can happen only if KB2533623 is missing from Windows 7
 		AbortProcessDirect(L"VeraCrypt requires KB2533623 to be installed on Windows 7 and Windows Server 2008 R2 in order to run.");
 	}
+#endif
 
 	VirtualLock (&CmdTokenPin, sizeof (CmdTokenPin));
 
@@ -3753,13 +3755,11 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	// Load RichEdit library in order to be able to use RichEdit20W class
 	LoadLibraryEx (L"Riched20.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
 
-#if !defined(SETUP)
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 	GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
 	if (!VerifyModuleSignature (modPath))
 		AbortProcessDirect (L"This distribution package is damaged. Please try downloading it again (preferably from the official VeraCrypt website at https://veracrypt.jp).");
-#endif
 
-#ifndef SETUP
 	/* enable drag-n-drop when we are running elevated */
 	AllowMessageInUIPI (WM_DROPFILES);
 	AllowMessageInUIPI (WM_COPYDATA);
@@ -3772,7 +3772,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	SetErrorMode (SetErrorMode (0) | SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX);
 	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
-#ifndef SETUP
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 	// Application ID
 	SetCurrentProcessExplicitAppUserModelID (TC_APPLICATION_ID);
 #endif
@@ -3781,7 +3781,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	langId[0] = 0;
 	SetPreferredLangId (ConfigReadString ("Language", "", langId, sizeof (langId)));
 
-#ifndef SETUP
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 	if (langId[0] == 0)
 	{
 		// check if user selected a language during installation
@@ -3820,7 +3820,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	LoadLanguageFile ();
 
-#ifndef SETUP
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 	// UAC elevation moniker cannot be used in portable mode.
 	// A new instance of the application must be created with elevated privileges.
 	if (IsNonInstallMode () && !IsAdmin () && IsUacSupported ())
@@ -3918,7 +3918,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	InitHelpFileName ();
 
-#ifndef SETUP
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 
 	EnableRamEncryption ((ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE);
 	if (IsRamEncryptionEnabled())
@@ -10226,7 +10226,7 @@ void CleanLastVisitedMRU (void)
 }
 
 
-#ifndef SETUP
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 void ClearHistory (HWND hwndDlgItem)
 {
 	ArrowWaitCursor ();
@@ -12582,7 +12582,7 @@ extern "C" BOOL IsThreadInSecureDesktop(DWORD dwThreadID)
 	return bRet;
 }
 
-
+#ifndef VCSDK_DLL
 BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 {
 	if (SecurityTokenLibraryPath[0] == 0)
@@ -12648,7 +12648,7 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 
 	return TRUE;
 }
-
+#endif
 std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool singleList, bool noFloppy, bool detectUnencryptedFilesystems)
 {
 	vector <HostDevice> devices;
@@ -15032,7 +15032,7 @@ void SafeOpenURL (LPCWSTR szUrl)
 	}
 }
 
-#if !defined(SETUP)
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 
 #define RtlGenRandom SystemFunction036
 extern "C" BOOLEAN NTAPI RtlGenRandom(PVOID RandomBuffer, ULONG RandomBufferLength);
@@ -16179,7 +16179,7 @@ cleanup:
 }
 #endif
 
-#if !defined(SETUP) && !defined(VC_COMREG)
+#if !defined(SETUP) && !defined(VC_COMREG) && !defined(VCSDK_DLL)
 
 /*
 * Screen Protection Functions
@@ -16405,3 +16405,36 @@ void DetachProtectionFromCurrentThread()
 {
 }
 #endif
+
+// This function moves the file pointer to the given offset. It first retrieves the current
+// file position using SetFilePointerEx() with FILE_CURRENT as the reference point, and then
+// calculates the difference between the current position and the desired position. Subsequently,
+// it moves the file pointer by the difference calculated using SetFilePointerEx() again.
+//
+// This approach of moving the file pointer relatively (instead of absolutely) was implemented 
+// as a workaround to address the performance issues related to in-place encryption. When using
+// SetFilePointerEx() with FILE_BEGIN as the reference point, reaching the end of large drives 
+// during in-place encryption can cause significant slowdowns. By moving the file pointer
+// relatively, these performance issues are mitigated.
+//
+// We fall back to absolute positioning if the relative positioning fails.
+BOOL MoveFilePointer(HANDLE dev, LARGE_INTEGER offset)
+{
+	LARGE_INTEGER currOffset;
+	LARGE_INTEGER diffOffset;
+
+	currOffset.QuadPart = 0;
+	if (SetFilePointerEx(dev, currOffset, &currOffset, FILE_CURRENT))
+	{
+		diffOffset.QuadPart = offset.QuadPart - currOffset.QuadPart;
+		if (diffOffset.QuadPart == 0)
+			return TRUE;
+
+		// Moves the file pointer by the difference between current and desired positions
+		if (SetFilePointerEx(dev, diffOffset, NULL, FILE_CURRENT))
+			return TRUE;
+	}
+
+	// An error occurred, fallback to absolute positioning
+	return SetFilePointerEx(dev, offset, NULL, FILE_BEGIN);
+}

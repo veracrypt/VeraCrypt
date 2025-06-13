@@ -250,6 +250,10 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 	int headers[] = { IDR_COMMON_RSRC_HEADER, IDR_SETUP_RSRC_HEADER, 0 };
 #endif
 
+#ifdef VCSDK_DLL
+	int headers[] = { 0 };
+#endif
+
 	LocalizationActive = FALSE;
 	ActiveLangPackVersion[0] = 0;
 	ClearDictionaryPool ();

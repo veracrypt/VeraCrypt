@@ -304,6 +304,58 @@ vector <HostDevice> DeferredNonSysInPlaceEncDevices;
 
 int iMaxPasswordLength = MAX_PASSWORD;
 
+void WipePasswordsAndKeyfiles(bool bFull)
+{
+	wchar_t tmp[MAX_PASSWORD + 1];
+
+	// Attempt to wipe passwords stored in the input field buffers
+	wmemset(tmp, L'X', MAX_PASSWORD);
+	tmp[MAX_PASSWORD] = 0;
+	if (hPasswordInputField)
+		SetWindowText(hPasswordInputField, tmp);
+	if (hVerifyPasswordInputField)
+		SetWindowText(hVerifyPasswordInputField, tmp);
+
+	burn(&szVerify[0], sizeof(szVerify));
+	burn(&volumePassword, sizeof(volumePassword));
+	burn(&szRawPassword[0], sizeof(szRawPassword));
+	burn(&volumePim, sizeof(volumePim));
+	burn(&CmdVolumePassword, sizeof(CmdVolumePassword));
+	burn(&CmdVolumePim, sizeof(CmdVolumePim));
+
+	if (bFull)
+	{
+		burn(&outerVolumePassword, sizeof(outerVolumePassword));
+		burn(&outerVolumePim, sizeof(outerVolumePim));
+	}
+
+	if (hPasswordInputField)
+		SetWindowText(hPasswordInputField, L"");
+	if (hVerifyPasswordInputField)
+		SetWindowText(hVerifyPasswordInputField, L"");
+
+	KeyFileRemoveAll(&FirstKeyFile);
+	KeyFileRemoveAll(&defaultKeyFilesParam.FirstKeyFile);
+}
+
+DWORD GetFormatSectorSize()
+{
+	if (!bDevice)
+		return TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
+
+	DISK_GEOMETRY_EX geometry;
+
+	if (!GetDriveGeometry(szDiskFile, &geometry))
+	{
+		handleWin32Error(MainDlg, SRC_POS);
+		AbortProcessSilent();
+	}
+
+	return geometry.Geometry.BytesPerSector;
+}
+
+#ifndef VCSDK_DLL
+
 // specific definitions and implementation for support of resume operation
 // in wait dialog mechanism
 
@@ -412,40 +464,6 @@ static BOOL ElevateWholeWizardProcess (wstring arguments)
 			return FALSE;
 		}
 	}
-}
-
-static void WipePasswordsAndKeyfiles (bool bFull)
-{
-	wchar_t tmp[MAX_PASSWORD+1];
-
-	// Attempt to wipe passwords stored in the input field buffers
-	wmemset (tmp, L'X', MAX_PASSWORD);
-	tmp [MAX_PASSWORD] = 0;
-	if (hPasswordInputField)
-		SetWindowText (hPasswordInputField, tmp);
-	if (hVerifyPasswordInputField)
-		SetWindowText (hVerifyPasswordInputField, tmp);
-
-	burn (&szVerify[0], sizeof (szVerify));
-	burn (&volumePassword, sizeof (volumePassword));
-	burn (&szRawPassword[0], sizeof (szRawPassword));
-	burn (&volumePim, sizeof (volumePim));
-	burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
-	burn (&CmdVolumePim, sizeof (CmdVolumePim));
-
-	if (bFull)
-	{
-		burn (&outerVolumePassword, sizeof (outerVolumePassword));
-		burn (&outerVolumePim, sizeof (outerVolumePim));
-	}
-
-	if (hPasswordInputField)
-		SetWindowText (hPasswordInputField, L"");
-	if (hVerifyPasswordInputField)
-		SetWindowText (hVerifyPasswordInputField, L"");
-
-	KeyFileRemoveAll (&FirstKeyFile);
-	KeyFileRemoveAll (&defaultKeyFilesParam.FirstKeyFile);
 }
 
 static void localcleanup (void)
@@ -10661,20 +10679,4 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 	return 0;
 }
-
-
-static DWORD GetFormatSectorSize ()
-{
-	if (!bDevice)
-		return TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
-
-	DISK_GEOMETRY_EX geometry;
-
-	if (!GetDriveGeometry (szDiskFile, &geometry))
-	{
-		handleWin32Error (MainDlg, SRC_POS);
-		AbortProcessSilent();
-	}
-
-	return geometry.Geometry.BytesPerSector;
-}
+#endif

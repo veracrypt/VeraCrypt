@@ -349,12 +349,15 @@ begin_format:
 			if (!SetPrivilege(SE_MANAGE_VOLUME_NAME, TRUE))
 			{
 				DWORD dwLastError = GetLastError();
+#ifndef VCSDK_DLL
 				if (!IsAdmin () && IsUacSupported ())
 				{
 					speedupFileCreation = TRUE;
 					delayedSpeedupFileCreation = TRUE;
 				}
-				else if (Silent || (MessageBoxW(hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME"), lpszTitle, MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO))
+				else
+#endif
+				if (Silent || (MessageBoxW(hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME"), lpszTitle, MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO))
 				{
 					SetLastError(dwLastError);
 					nStatus = ERR_OS_ERROR;
@@ -421,6 +424,7 @@ begin_format:
 
 			if (speedupFileCreation)
 			{
+#ifndef VCSDK_DLL
 				// accelerate file creation by telling Windows not to fill all file content with zeros
 				// this has security issues since it will put existing disk content into file container
 				// We use this mechanism only when switch /fastCreateFile specific and when quick format
@@ -460,7 +464,9 @@ begin_format:
 						goto error;
 					}
 				}
-				else if (!SetFileValidData (dev, volumeSize.QuadPart))
+				else
+#endif
+				if (!SetFileValidData (dev, volumeSize.QuadPart))
 				{
 					nStatus = ERR_OS_ERROR;
 					goto error;
@@ -579,7 +585,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, volParams->quickFormat, volParams->bDevice);
+		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, volParams);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -604,7 +610,7 @@ begin_format:
 		ft.cluster_size = volParams->clusterSize;
 		memcpy (ft.volume_name, "NO NAME    ", 11);
 		GetFatParams (&ft);
-		*(volParams->realClusterSize) = ft.cluster_size * FormatSectorSize;
+		if (volParams->realClusterSize ) *(volParams->realClusterSize) = ft.cluster_size * FormatSectorSize;
 
 		if (volParams->bDevice && !StartFormatWriteThread())
 		{
@@ -612,7 +618,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatFat (hwndDlg, startSector, &ft, (void *) dev, cryptoInfo, volParams->quickFormat, volParams->bDevice);
+		nStatus = FormatFat (hwndDlg, startSector, &ft, (void *) dev, cryptoInfo, volParams);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -832,11 +838,12 @@ error:
 		retCode = ExternalFormatFs (driveNo, volParams->clusterSize, fsType);
 		if (retCode != 0)
 		{
-
+#ifndef VCSDK_DLL
 			/* fallback to using FormatEx function from fmifs.dll */
 			if (!Silent && !IsAdmin () && IsUacSupported ())
 				retCode = UacFormatFs (volParams->hwndDlg, driveNo, volParams->clusterSize, fsType);
 			else
+#endif
 				retCode = FormatFs (driveNo, volParams->clusterSize, fsType, FALSE); /* no need to fallback to format.com since we have already tried it without elevation */
 			
 			if (retCode != 0)
@@ -888,7 +895,7 @@ fv_end:
 }
 
 
-int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice)
+int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, volatile FORMAT_VOL_PARAMETERS *volParams)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
@@ -899,6 +906,8 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 	DWORD err;
 	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
 	CRYPTOPP_ALIGN_DATA(16) char originalK2[MASTER_KEYDATA_SIZE];
+	BOOL quickFormat = volParams->quickFormat;
+	BOOL bDevice = volParams->bDevice;
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
@@ -965,12 +974,21 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 		while (num_sectors--)
 		{
 			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-				cryptoInfo) == FALSE)
+				cryptoInfo, volParams) == FALSE)
 				goto fail;
 		}
 
-		if (UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize))
-			return FALSE;
+		if (volParams->progress_callback)
+		{
+			// Call the progress callback function if it is set
+			if (!volParams->progress_callback ((nSecNo - startSector) * FormatSectorSize, volParams->progress_callback_user_data))
+				goto fail;
+		}
+		else
+		{
+			if (UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize))
+				goto fail;
+		}
 
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;
@@ -1002,8 +1020,17 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 			nSecNo++;
 			num_sectors -= nSkipSectors;
 
-			if (UpdateProgressBar ((nSecNo - startSector)* FormatSectorSize))
-				goto fail;
+			if (volParams->progress_callback)
+			{
+				// Call the progress callback function if it is set
+				if (!volParams->progress_callback ((nSecNo - startSector) * FormatSectorSize, volParams->progress_callback_user_data))
+					goto fail;
+			}
+			else
+			{
+				if (UpdateProgressBar ((nSecNo - startSector)* FormatSectorSize))
+					goto fail;
+			}
 		}
 		
 		nSecNo += num_sectors;
@@ -1013,7 +1040,15 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 		nSecNo += num_sectors;
 	}
 
-	UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize);
+	if (volParams->progress_callback)
+	{
+		// Call the progress callback function if it is set
+		volParams->progress_callback ((nSecNo - startSector) * FormatSectorSize, volParams->progress_callback_user_data);
+	}
+	else
+	{
+		UpdateProgressBar ((nSecNo - startSector) * FormatSectorSize);
+	}
 
 	// Restore the original secondary key (XTS mode) in case NTFS format fails and the user wants to try FAT immediately
 	memcpy (cryptoInfo->k2, originalK2, sizeof (cryptoInfo->k2));
@@ -1341,7 +1376,7 @@ int ExternalFormatFs (int driveNo, int clusterSize, int fsType)
 
 BOOL WriteSector (void *dev, char *sector,
 	     char *write_buf, int *write_buf_cnt,
-	     unsigned __int64 *nSecNo, unsigned __int64 startSector, PCRYPTO_INFO cryptoInfo)
+	     unsigned __int64 *nSecNo, unsigned __int64 startSector, PCRYPTO_INFO cryptoInfo, volatile FORMAT_VOL_PARAMETERS *volParams)
 {
 	static __int32 updateTime = 0;
 
@@ -1355,8 +1390,19 @@ BOOL WriteSector (void *dev, char *sector,
 
 	if (GetTickCount () - updateTime > 25)
 	{
-		if (UpdateProgressBar ((*nSecNo - startSector) * FormatSectorSize))
-			return FALSE;
+		if (volParams->progress_callback)
+		{
+			// Call the progress callback function if it is set
+			if (!volParams->progress_callback ((*nSecNo - startSector) * FormatSectorSize, volParams->progress_callback_user_data))
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			if (UpdateProgressBar ((*nSecNo - startSector) * FormatSectorSize))
+				return FALSE;
+		}
 
 		updateTime = GetTickCount ();
 	}

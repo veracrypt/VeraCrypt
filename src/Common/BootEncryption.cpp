@@ -298,7 +298,7 @@ static BOOL IsWindowsMBR (const uint8 *buffer, size_t bufferSize)
 
 namespace VeraCrypt
 {
-#if !defined (SETUP)
+#if !defined (SETUP) && !defined (VCSDK_DLL)
 
 	class Elevator
 	{
@@ -755,6 +755,12 @@ namespace VeraCrypt
 		static void WriteEfiBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
 		static void UpdateSetupConfigFile (bool bForInstall) { throw ParameterIncorrect (SRC_POS); }
 		static void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded) { throw ParameterIncorrect (SRC_POS); }
+		static void RegisterSystemFavoritesService(BOOL registerService) { throw ParameterIncorrect(SRC_POS); }
+		static BOOL IsPagingFileActive(BOOL checkNonWindowsPartitionsOnly) { throw ParameterIncorrect(SRC_POS); }
+		static void WriteLocalMachineRegistryDwordValue(wchar_t* keyPath, wchar_t* valueName, DWORD value) { throw ParameterIncorrect(SRC_POS); }
+		static void NotifyService(DWORD dwNotifyCmd) { throw ParameterIncorrect(SRC_POS); }
+		static void CopyFile(const wstring& sourceFile, const wstring& destinationFile) { throw ParameterIncorrect(SRC_POS); }
+		static void DeleteFile(const wstring& file) { throw ParameterIncorrect(SRC_POS); }
 	};
 
 #endif // SETUP

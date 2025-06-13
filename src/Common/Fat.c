@@ -24,6 +24,7 @@
 #include "Progress.h"
 #include "Random.h"
 #include "Volumes.h"
+#include "Dlgcode.h"
 
 void
 GetFatParams (fatparams * ft)
@@ -255,7 +256,7 @@ static void PutFSInfo (unsigned char *sector, fatparams *ft)
 
 
 int
-FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat, BOOL bDevice)
+FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, volatile void *volParamsArg)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
@@ -267,6 +268,9 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	int retVal;
 	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
 	HWND hwndDlg = (HWND) hwndDlgPtr;
+	volatile FORMAT_VOL_PARAMETERS* volParams = (volatile FORMAT_VOL_PARAMETERS*)volParamsArg;
+	BOOL quickFormat = volParams->quickFormat;
+	BOOL bDevice = volParams->bDevice;
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
@@ -292,7 +296,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 
 	PutBoot (ft, (unsigned char *) sector);
 	if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-		cryptoInfo) == FALSE)
+		cryptoInfo, volParams) == FALSE)
 		goto fail;
 
 	/* fat32 boot area */
@@ -301,7 +305,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		/* fsinfo */
 		PutFSInfo((unsigned char *) sector, ft);
 		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-			cryptoInfo) == FALSE)
+			cryptoInfo, volParams) == FALSE)
 			goto fail;
 
 		/* reserved */
@@ -311,7 +315,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			sector[508+3]=0xaa; /* TrailSig */
 			sector[508+2]=0x55;
 			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-				cryptoInfo) == FALSE)
+				cryptoInfo, volParams) == FALSE)
 				goto fail;
 		}
 
@@ -319,12 +323,12 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		memset (sector, 0, ft->sector_size);
 		PutBoot (ft, (unsigned char *) sector);
 		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-				 cryptoInfo) == FALSE)
+				 cryptoInfo, volParams) == FALSE)
 			goto fail;
 
 		PutFSInfo((unsigned char *) sector, ft);
 		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-			cryptoInfo) == FALSE)
+			cryptoInfo, volParams) == FALSE)
 			goto fail;
 	}
 
@@ -333,7 +337,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	{
 		memset (sector, 0, ft->sector_size);
 		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-			cryptoInfo) == FALSE)
+			cryptoInfo, volParams) == FALSE)
 			goto fail;
 	}
 
@@ -377,7 +381,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			}
 
 			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-				    cryptoInfo) == FALSE)
+				    cryptoInfo, volParams) == FALSE)
 				goto fail;
 		}
 	}
@@ -388,7 +392,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	{
 		memset (sector, 0, ft->sector_size);
 		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-				 cryptoInfo) == FALSE)
+				 cryptoInfo, volParams) == FALSE)
 			goto fail;
 
 	}
@@ -452,10 +456,19 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		while (x--)
 		{
 			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
-				cryptoInfo) == FALSE)
+				cryptoInfo, volParams) == FALSE)
 				goto fail;
 		}
-		UpdateProgressBar ((nSecNo - startSector) * ft->sector_size);
+
+		if (volParams->progress_callback)
+		{
+			// Call the progress callback function if it is set
+			volParams->progress_callback ((nSecNo - startSector) * ft->sector_size, volParams->progress_callback_user_data);
+		}
+		else
+		{
+			UpdateProgressBar ((nSecNo - startSector) * ft->sector_size);
+		}
 
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 		{
@@ -498,16 +511,44 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			nSecNo++;
 			num_sectors -= nSkipSectors;
 
-			if (UpdateProgressBar ((nSecNo - startSector)* ft->sector_size))
-				goto fail;
+			if (volParams->progress_callback)
+			{
+				// Call the progress callback function if it is set
+				if (!volParams->progress_callback ((nSecNo - startSector) * ft->sector_size, volParams->progress_callback_user_data))
+				{
+					goto fail;
+				}
+			}
+			else
+			{
+				if (UpdateProgressBar ((nSecNo - startSector)* ft->sector_size))
+					goto fail;
+		   }
+			
 		}
 		
 		nSecNo += num_sectors;
-		UpdateProgressBar ((nSecNo - startSector)* ft->sector_size);
+		if (volParams->progress_callback)
+	 	{
+			// Call the progress callback function if it is set
+			volParams->progress_callback ((nSecNo - startSector) * ft->sector_size, volParams->progress_callback_user_data);
+		}
+		else
+		{
+			UpdateProgressBar ((nSecNo - startSector)* ft->sector_size);
+		}
 	}
 	else
 	{
-		UpdateProgressBar ((uint64) ft->num_sectors * ft->sector_size);
+		if (volParams->progress_callback)
+		{
+			// Call the progress callback function if it is set
+			volParams->progress_callback ((uint64) ft->num_sectors * ft->sector_size, volParams->progress_callback_user_data);
+		}
+		else
+		{
+			UpdateProgressBar ((uint64) ft->num_sectors * ft->sector_size);
+		}
 
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;

@@ -50,6 +50,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SetupDLL", "SetupDLL\SetupD
 		{C8914211-32AC-4F48-ACD9-8212E8DE53F3} = {C8914211-32AC-4F48-ACD9-8212E8DE53F3}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FormatDLL", "FormatDLL\FormatDLL.vcxproj", "{ED4D0684-B0CF-4698-8487-3F3B314422E9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6316EE71-0210-4CA4-BCC7-CFB7A3C090FC} = {6316EE71-0210-4CA4-BCC7-CFB7A3C090FC}
+		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7} = {993245CF-6B70-47EE-91BB-39F8FC6DC0E7}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -308,6 +314,26 @@ Global
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.ReleaseCustomEFI|Win32.Build.0 = ReleaseCustomEFI|Win32
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.ReleaseCustomEFI|x64.ActiveCfg = ReleaseCustomEFI|Win32
 		{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}.ReleaseCustomEFI|x64.Build.0 = ReleaseCustomEFI|Win32
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Debug|ARM64.Build.0 = Debug|ARM64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Debug|Win32.ActiveCfg = Debug|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Debug|x64.ActiveCfg = Debug|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Debug|x64.Build.0 = Debug|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release_SkipOsDriverReqCheck|ARM64.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release_SkipOsDriverReqCheck|ARM64.Build.0 = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release_SkipOsDriverReqCheck|Win32.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release_SkipOsDriverReqCheck|x64.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release_SkipOsDriverReqCheck|x64.Build.0 = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release|ARM64.ActiveCfg = Release|ARM64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release|ARM64.Build.0 = Release|ARM64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release|Win32.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release|x64.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.Release|x64.Build.0 = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.ReleaseCustomEFI|ARM64.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.ReleaseCustomEFI|ARM64.Build.0 = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.ReleaseCustomEFI|Win32.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.ReleaseCustomEFI|x64.ActiveCfg = Release|x64
+		{ED4D0684-B0CF-4698-8487-3F3B314422E9}.ReleaseCustomEFI|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

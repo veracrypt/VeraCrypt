@@ -2177,39 +2177,6 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm, 
 	return SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC), (DWORD) strlen(str), FALSE, FALSE);
 }
 
-// This function moves the file pointer to the given offset. It first retrieves the current
-// file position using SetFilePointerEx() with FILE_CURRENT as the reference point, and then
-// calculates the difference between the current position and the desired position. Subsequently,
-// it moves the file pointer by the difference calculated using SetFilePointerEx() again.
-//
-// This approach of moving the file pointer relatively (instead of absolutely) was implemented 
-// as a workaround to address the performance issues related to in-place encryption. When using
-// SetFilePointerEx() with FILE_BEGIN as the reference point, reaching the end of large drives 
-// during in-place encryption can cause significant slowdowns. By moving the file pointer
-// relatively, these performance issues are mitigated.
-//
-// We fall back to absolute positioning if the relative positioning fails.
-BOOL MoveFilePointer (HANDLE dev, LARGE_INTEGER offset)
-{
-	LARGE_INTEGER currOffset;
-	LARGE_INTEGER diffOffset;
-
-	currOffset.QuadPart = 0;
-	if (SetFilePointerEx (dev, currOffset, &currOffset, FILE_CURRENT))
-	{
-		diffOffset.QuadPart = offset.QuadPart - currOffset.QuadPart;
-		if (diffOffset.QuadPart == 0)
-			return TRUE;
-
-		// Moves the file pointer by the difference between current and desired positions
-		if (SetFilePointerEx (dev, diffOffset, NULL, FILE_CURRENT))
-			return TRUE;
-	}
-
-	// An error occurred, fallback to absolute positioning
-	return SetFilePointerEx (dev, offset, NULL, FILE_BEGIN);
-}
-
 // Repairs damaged sectors (i.e. those with read errors) by zeroing them.
 // Note that this operating fails if there are any write errors.
 int ZeroUnreadableSectors (HANDLE dev, LARGE_INTEGER startOffset, int64 size, int sectorSize, uint64 *zeroedSectorCount)

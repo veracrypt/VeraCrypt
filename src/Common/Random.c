@@ -129,8 +129,11 @@ int RandinitWithCheck ( int* pAlreadyInitialized)
 		VirtualLock (pRandPool, RANDOMPOOL_ALLOCSIZE);
 	}
 
+#ifndef VCSDK_DLL
 	bIgnoreHookError = IsThreadInSecureDesktop(GetCurrentThreadId());
-
+#else
+	bIgnoreHookError = TRUE;
+#endif
 	hKeyboard = SetWindowsHookEx (WH_KEYBOARD, (HOOKPROC)&KeyboardProc, NULL, GetCurrentThreadId ());
 	if (hKeyboard == 0 && !bIgnoreHookError) handleWin32Error (0, SRC_POS);
 
