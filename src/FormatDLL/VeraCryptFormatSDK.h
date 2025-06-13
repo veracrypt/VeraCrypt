@@ -1,3 +1,26 @@
+/*
+ * VeraCrypt Format SDK
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * This file provides a C-style DLL interface for creating VeraCrypt file containers
+ * and formatting non-system partitions. It serves as a headless, thread-safe wrapper
+ * around the core logic from Tcformat.c and related VeraCrypt source files.
+ *
+ * First created by Mounir IDRASSI (mounir.idrassi@amcrypto.jp)
+ * 
+ */
+
 #pragma once
 
 #include <stdint.h>
@@ -19,7 +42,7 @@ extern "C" {
  */
 typedef struct _VeraCryptFormatOptions
 {
-	/** The full path to the file container to be created, or the device path (e.g., "\\.\PhysicalDrive1" or "\\.\HarddiskVolume1"). */
+	/** The full path to the file container to be created, or the device path (e.g., "\Device\Harddisk1\Partition1"). */
 	const wchar_t* path;
 
 	/** Set to TRUE if the path points to a device/partition, FALSE for a file container. */
