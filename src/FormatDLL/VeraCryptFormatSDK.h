@@ -31,6 +31,9 @@
 #define VCF_API __declspec(dllimport)
 #endif
 
+#define VC_MAX_PASSWORD		128		// Maximum possible password length
+#define VC_MAX_PIM_VALUE	2147468 // Maximum value to have a positive 32-bit result for formula 15000 + (PIM x 1000)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
