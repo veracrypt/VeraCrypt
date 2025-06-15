@@ -4185,6 +4185,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				int ea, hid;
 				wchar_t buf[100];
 
+				srand(time(NULL));
+
 				// Encryption algorithms
 
 				SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_RESETCONTENT, 0, 0);
@@ -4200,6 +4202,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ARRAYSIZE(buf),ea, 1), ea);
 				}
 
+				nVolumeEA = rand() % 5 + 1;
+
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), &nVolumeEA);
 				ComboSelChangeEA (hwndDlg);
 				SetFocus (GetDlgItem (hwndDlg, IDC_COMBO_BOX));
@@ -4210,14 +4214,21 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (SysEncInEffect ())
 				{
+					int x = 0;
+
 					hash_algo = bSystemIsGPT? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
 					RandSetHashFunction (hash_algo);
 
 					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 					{
 						if ((!HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
+						{
 							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+							++x;
+						}
 					}
+
+					hash_algo = rand() % x + 1;
 				}
 				else
 				{
@@ -4227,6 +4238,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (!HashIsDeprecated (hid))
 							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
 					}
+
+					hash_algo = rand() % 5 + 1;
 				}
 
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), &hash_algo);
