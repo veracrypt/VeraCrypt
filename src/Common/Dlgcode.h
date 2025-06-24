@@ -174,6 +174,7 @@ extern BOOL EMVSupportEnabled;
 extern volatile BOOL NeedPeriodicDeviceListUpdate;
 extern BOOL DisablePeriodicDeviceListUpdate;
 extern BOOL EnableMemoryProtection;
+extern BOOL EnableScreenProtection;
 
 #ifndef SETUP
 extern BOOL bLanguageSetInSetup;

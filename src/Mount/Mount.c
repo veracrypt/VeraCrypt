@@ -7177,12 +7177,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					AbortProcess ("COMMAND_LINE_ERROR");
 			}
 
-			if (EnableMemoryProtection)
-			{
-				/* Protect this process memory from being accessed by non-admin users */
-				ActivateMemoryProtection ();
-			}
-
 			if (ComServerMode)
 			{
 				InitDialog (hwndDlg);
@@ -9238,6 +9232,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionSecureDesktop,
 				OptionDisableDeviceUpdate,
 				OptionEnableMemoryProtection,
+				OptionEnableScreenProtection,
 				OptionSignalExit,
 				CommandUnmount,
 			};
@@ -9269,6 +9264,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
 				{ OptionDisableDeviceUpdate,			L"/disableDeviceUpdate",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,			L"/protectMemory",	NULL, FALSE },
+				{ OptionEnableScreenProtection,			L"/protectScreen",	NULL, FALSE },
 				{ OptionSignalExit,			L"/signalExit",	NULL, FALSE },
 				{ CommandUnmount,				L"/unmount",		L"/u", FALSE },
 			};
@@ -9368,10 +9364,39 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				break;
 
 			case OptionEnableMemoryProtection:
+			{
+				wchar_t szTmp[16] = { 0 };
+				if (HAS_ARGUMENT == GetArgumentValue(lpszCommandLineArgs,
+					&i, nNoCommandLineArgs, szTmp, ARRAYSIZE(szTmp)))
 				{
-					EnableMemoryProtection = TRUE;
+					if ((!_wcsicmp(szTmp, L"no") || !_wcsicmp(szTmp, L"n")) && IsNonInstallMode())
+						EnableMemoryProtection = FALSE;
+					else if (!_wcsicmp(szTmp, L"yes") || !_wcsicmp(szTmp, L"y"))
+						EnableMemoryProtection = TRUE;
+					else
+						AbortProcess("COMMAND_LINE_ERROR");
 				}
+				else
+					EnableMemoryProtection = TRUE;
 				break;
+			}
+			case OptionEnableScreenProtection:
+			{
+				wchar_t szTmp[16] = { 0 };
+				if (HAS_ARGUMENT == GetArgumentValue(lpszCommandLineArgs,
+					&i, nNoCommandLineArgs, szTmp, ARRAYSIZE(szTmp)))
+				{
+					if ((!_wcsicmp(szTmp, L"no") || !_wcsicmp(szTmp, L"n")) && IsNonInstallMode())
+						EnableScreenProtection = FALSE;
+					else if (!_wcsicmp(szTmp, L"yes") || !_wcsicmp(szTmp, L"y"))
+						EnableScreenProtection = TRUE;
+					else
+						AbortProcess("COMMAND_LINE_ERROR");
+				}
+				else
+					EnableScreenProtection = TRUE;
+				break;
+			}
 
 			case OptionSignalExit:
 				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i,
@@ -10172,14 +10197,18 @@ static BOOL StartSystemFavoritesService ()
 int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
 {
 	int argc;
-	ScreenCaptureBlocker blocker;
 	LPWSTR *argv = CommandLineToArgvW (GetCommandLineW(), &argc);
 
+	// We don't need screen protection in the service or in the post OS upgrade process
 	if (argv && argc == 2 && wstring (TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION) == argv[1])
+	{
+		LocalFree (argv); // free memory allocated by CommandLineToArgvW
 		return StartSystemFavoritesService() ? 0 : 1;
+	}
 
 	if (argv && argc == 2 && wstring (VC_WINDOWS_UPGRADE_POSTOOBE_CMDLINE_OPTION) == argv[1])
 	{
+		LocalFree (argv); // free memory allocated by CommandLineToArgvW
 		InitOSVersionInfo();
 		try
 		{
@@ -10193,6 +10222,47 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		}
 		return 0;
 	}
+
+	for (int i = 0; argv && i < argc; i++)
+	{
+		if (_wcsicmp (argv[i], L"/protectScreen") == 0)
+		{
+			if ((i < argc - 1) && _wcsicmp (argv[i + 1], L"no") == 0)
+			{
+				// Disabling screen protection is only allowed in portable mode
+				if (IsNonInstallMode())
+					EnableScreenProtection = FALSE;
+			}
+			else
+			{
+				EnableScreenProtection = TRUE;
+			}
+		}
+		if (_wcsicmp (argv[i], L"/protectMemory") == 0)
+		{
+			if ((i < argc - 1) && _wcsicmp (argv[i + 1], L"no") == 0)
+			{
+				// Disabling memory protection is only allowed in portable mode
+				if (IsNonInstallMode())
+					EnableMemoryProtection = FALSE;
+			}
+			else
+			{
+				EnableMemoryProtection = TRUE;
+			}
+		}
+	}
+
+	LocalFree (argv); // free memory allocated by CommandLineToArgvW
+
+	if (EnableMemoryProtection)
+	{
+		/* Protect this process memory from being accessed by non-admin users */
+		ActivateMemoryProtection ();
+	}
+
+	// activate screen protection if it is not disabled
+	ScreenCaptureBlocker blocker;
 
 	int status;
 	atexit (localcleanup);
@@ -11755,7 +11825,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_CPU_RNG), FALSE);
 			}
 
-			if (IsRamEncryptionSupported())
+			if (!IsNonInstallMode() && IsRamEncryptionSupported()) // RAM encryption is not supported in portable mode
 			{
 				CheckDlgButton (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION, (driverConfig & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? BST_CHECKED : BST_UNCHECKED);
 			}
@@ -11765,8 +11835,26 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION), FALSE);
 			}
 
-			CheckDlgButton (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, ReadMemoryProtectionConfig() ? BST_UNCHECKED : BST_CHECKED);
-			CheckDlgButton (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION, ReadScreenProtectionConfig() ? BST_UNCHECKED : BST_CHECKED);
+			if (IsNonInstallMode())
+			{
+				CheckDlgButton (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, EnableMemoryProtection ? BST_UNCHECKED : BST_CHECKED);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION), FALSE);
+
+			}
+			else
+			{
+				CheckDlgButton (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, ReadMemoryProtectionConfig() ? BST_UNCHECKED : BST_CHECKED);
+			}
+
+			if (IsNonInstallMode())
+			{
+				CheckDlgButton (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION, EnableScreenProtection ? BST_UNCHECKED : BST_CHECKED);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION), FALSE);
+			}
+			else
+			{
+				CheckDlgButton (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION, ReadScreenProtectionConfig() ? BST_UNCHECKED : BST_CHECKED);
+			}
 
 			size_t cpuCount = GetCpuCount(NULL);
 

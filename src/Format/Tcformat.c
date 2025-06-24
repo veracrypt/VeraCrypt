@@ -6265,12 +6265,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			ExtractCommandLine (hwndDlg, (wchar_t *) lParam);
 
-			if (EnableMemoryProtection)
-			{
-				/* Protect this process memory from being accessed by non-admin users */
-				ActivateMemoryProtection ();
-			}
-
 			if (ComServerMode)
 			{
 				InitDialog (hwndDlg);
@@ -9175,6 +9169,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionQuickFormat,
 				OptionFastCreateFile,
 				OptionEnableMemoryProtection,
+				OptionEnableScreenProtection,
 				OptionKeyfile,
 				OptionSecureDesktop,
 			};
@@ -9201,6 +9196,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionQuickFormat,			L"/quick",	NULL, FALSE },
 				{ OptionFastCreateFile,			L"/fastcreatefile",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,	L"/protectMemory",	NULL, FALSE },
+				{ OptionEnableScreenProtection,	L"/protectScreen",	NULL, FALSE },
 				{ OptionKeyfile,				L"/keyfile",		L"/k", FALSE },
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
 
@@ -9564,9 +9560,39 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				break;
 
 			case OptionEnableMemoryProtection:
-				EnableMemoryProtection = TRUE;
+			{
+				wchar_t szTmp[16] = { 0 };
+				if (HAS_ARGUMENT == GetArgumentValue(lpszCommandLineArgs,
+					&i, nNoCommandLineArgs, szTmp, ARRAYSIZE(szTmp)))
+				{
+					if ((!_wcsicmp(szTmp, L"no") || !_wcsicmp(szTmp, L"n")) && IsNonInstallMode())
+						EnableMemoryProtection = FALSE;
+					else if (!_wcsicmp(szTmp, L"yes") || !_wcsicmp(szTmp, L"y"))
+						EnableMemoryProtection = TRUE;
+					else
+						AbortProcess("COMMAND_LINE_ERROR");
+				}
+				else
+					EnableMemoryProtection = TRUE;
 				break;
-
+			}
+			case OptionEnableScreenProtection:
+			{
+				wchar_t szTmp[16] = { 0 };
+				if (HAS_ARGUMENT == GetArgumentValue(lpszCommandLineArgs,
+					&i, nNoCommandLineArgs, szTmp, ARRAYSIZE(szTmp)))
+				{
+					if ((!_wcsicmp(szTmp, L"no") || !_wcsicmp(szTmp, L"n")) && IsNonInstallMode())
+						EnableScreenProtection = FALSE;
+					else if (!_wcsicmp(szTmp, L"yes") || !_wcsicmp(szTmp, L"y"))
+						EnableScreenProtection = TRUE;
+					else
+						AbortProcess("COMMAND_LINE_ERROR");
+				}
+				else
+					EnableScreenProtection = TRUE;
+				break;
+			}
 			case OptionHistory:
 				{
 					wchar_t szTmp[8] = {0};
@@ -10593,6 +10619,47 @@ static void AfterWMInitTasks (HWND hwndDlg)
 int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
 {
 	int status;
+	int argc;
+	LPWSTR *argv = CommandLineToArgvW (GetCommandLineW(), &argc);
+
+	for (int i = 0; argv && i < argc; i++)
+	{
+		if (_wcsicmp (argv[i], L"/protectScreen") == 0)
+		{
+			if ((i < argc - 1) && _wcsicmp (argv[i + 1], L"no") == 0)
+			{
+				// Disabling screen protection is only allowed in portable mode
+				if (IsNonInstallMode())
+					EnableScreenProtection = FALSE;
+			}
+			else
+			{
+				EnableScreenProtection = TRUE;
+			}
+		}
+		if (_wcsicmp (argv[i], L"/protectMemory") == 0)
+		{
+			if ((i < argc - 1) && _wcsicmp (argv[i + 1], L"no") == 0)
+			{
+				// Disabling memory protection is only allowed in portable mode
+				if (IsNonInstallMode())
+					EnableMemoryProtection = FALSE;
+			}
+			else
+			{
+				EnableMemoryProtection = TRUE;
+			}
+		}
+	}
+
+	LocalFree (argv); // free memory allocated by CommandLineToArgvW
+
+	if (EnableMemoryProtection)
+	{
+		/* Protect this process memory from being accessed by non-admin users */
+		ActivateMemoryProtection ();
+	}
+
 	ScreenCaptureBlocker blocker;
 	atexit (localcleanup);
 

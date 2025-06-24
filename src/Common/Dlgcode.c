@@ -220,6 +220,7 @@ BOOL EMVSupportEnabled = FALSE;
 volatile BOOL NeedPeriodicDeviceListUpdate = FALSE;
 BOOL DisablePeriodicDeviceListUpdate = FALSE;
 BOOL EnableMemoryProtection = FALSE;
+BOOL EnableScreenProtection = FALSE;
 
 BOOL MemoryProtectionActivated = FALSE;
 
@@ -3697,11 +3698,9 @@ extern "C" {
 		ActivateProcessMitigations();
 
 #ifndef SETUP
-		// call ActivateMemoryProtection if corresponding setting has been enabled (default is enabled)
-		if (ReadMemoryProtectionConfig())
-		{
-			ActivateMemoryProtection();
-		}
+		// initiaize memory protection and screen protection settings using the registry
+		EnableMemoryProtection = ReadMemoryProtectionConfig();
+		EnableScreenProtection = ReadScreenProtectionConfig();
 #endif
 		return wWinMainCRTStartup();
 	}
@@ -16201,8 +16200,6 @@ cleanup:
 #include <map>
 #include <mutex>
 
-static std::once_flag g_configOnce;                 // ensures one-time read
-static std::atomic_bool g_screenProtectionEnabled;  // readonly after init
 static thread_local HHOOK  g_cbtHook = nullptr;   // one per thread
 static thread_local int g_protectionRefCount = 0; 
 
@@ -16210,17 +16207,10 @@ std::map<HWND, WNDPROC> g_MenuWndProcs;
 std::map<HWND, bool> g_Initialized;
 std::mutex g_MenuMutex;
 
-static void InitScreenProtectionFlag()
-{
-    // Runs exactly once thanks to std::call_once
-    BOOL enabled = ReadScreenProtectionConfig();
-    g_screenProtectionEnabled.store(enabled, std::memory_order_release);
-}
-
 static bool IsScreenProtectionEnabled()
 {
-    std::call_once(g_configOnce, InitScreenProtectionFlag);
-    return g_screenProtectionEnabled.load(std::memory_order_acquire);
+    // EnableScreenProtection is populated at startup based on registry settings and command line options
+    return EnableScreenProtection? true: false;
 }
 
 

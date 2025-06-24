@@ -185,7 +185,17 @@ Note that turning the password cache off will not clear it (use /w to clear the 
 </tr>
 <tr>
 <td><em>/protectMemory</em>&nbsp;</td>
-<td>Activates a mechanism that protects VeraCrypt process memory from being accessed by other non-admin processes.</td>
+<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: Activates a mechanism that protects VeraCrypt process memory from being accessed by other non-admin processes.
+<br>
+If it is followed by <strong>n</strong> or <strong>no</strong> (ONLY allowed for portable mode): disables the memory protection mechanism (e.g., /protectMemory n).<br>
+</td>
+</tr>
+<tr>
+<td><em>/protectScreen</em>&nbsp;</td>
+<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: Activates a mechanism that protects VeraCrypt against screenshots and screen recordings.
+<br>
+If it is followed by <strong>n</strong> or <strong>no</strong> (ONLY allowed for portable mode): disables the screen protection mechanism (e.g., /protectScreen n).<br>
+</td>
 </tr>
 <tr>
 <td><em>/signalExit</em>&nbsp;</td>
