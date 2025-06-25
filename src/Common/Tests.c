@@ -1425,6 +1425,10 @@ static BOOL DoAutoTestAlgorithms (void)
 	if (!test_pkcs5 ())
 		bFailed = TRUE;
 
+	/* Argon2id */
+	if (0 != argon2id_selftest())
+		bFailed = TRUE;
+
 	/* CRC-32 */
 	if (!crc32_selftests ())
 		bFailed = TRUE;

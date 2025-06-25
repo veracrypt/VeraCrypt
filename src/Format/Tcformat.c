@@ -2666,6 +2666,8 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	volParams->hwndDlg = hwndDlg;
 	volParams->bForceOperation = bForceOperation;
 	volParams->bGuiMode = bGuiMode;
+	volParams->progress_callback = NULL;
+	volParams->progress_callback_user_data = NULL;
 
 	if (bInPlaceDecNonSys)
 	{
@@ -4215,7 +4217,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 					{
-						if ((!HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
+						if ((!HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)) && (hid != ARGON2)) // We don't support Argon2 for system encryption
 							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
 					}
 				}
@@ -6011,7 +6013,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					HWND hHashAlgoItem = GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO);
 					int selectedAlgo = (int) SendMessage (hHashAlgoItem, CB_GETITEMDATA, SendMessage (hHashAlgoItem, CB_GETCURSEL, 0, 0), 0);
-					if (!bSystemIsGPT && !HashForSystemEncryption(selectedAlgo))
+					if ((!bSystemIsGPT && !HashForSystemEncryption(selectedAlgo)) || (selectedAlgo == ARGON2))
 					{
 						hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
 						RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);

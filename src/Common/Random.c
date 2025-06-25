@@ -278,6 +278,7 @@ BOOL Randmix ()
 
         #ifndef WOLFCRYPT_BACKEND	
                case BLAKE2S:
+               case ARGON2: // in case of Argon2, we use Blake2s
 			digestSize = BLAKE2S_DIGESTSIZE;
 			break;
 	
@@ -315,6 +316,7 @@ BOOL Randmix ()
 
                 #ifndef WOLFCRYPT_BACKEND
                       case BLAKE2S:
+                      case ARGON2: // in case of Argon2, we use Blake2s
 				blake2s_init(&bctx);
 				blake2s_update(&bctx, pRandPool, RNG_POOL_SIZE);
 				blake2s_final(&bctx, hashOutputBuffer);
@@ -358,6 +360,7 @@ BOOL Randmix ()
 
         #ifndef WOLFCRYPT_BACKEND
                case BLAKE2S:
+               case ARGON2: // in case of Argon2, we use Blake2s
 			burn (&bctx, sizeof(bctx));
 			break;
 

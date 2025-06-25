@@ -133,6 +133,7 @@ static Hash Hashes[] =
         { BLAKE2S,		L"BLAKE2s-256",				FALSE,	TRUE },
         { WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
 	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
+	{ ARGON2,		L"Argon2",	FALSE,	FALSE },
     #endif
         { 0, 0, 0 }
 };
@@ -775,6 +776,11 @@ BOOL HashForSystemEncryption (int hashId)
    Hash* pHash = HashGet(hashId);
    return pHash? pHash -> SystemEncryption : FALSE;
 
+}
+
+BOOL HashIsAvailable (int hashId)
+{
+   return (hashId != ARGON2) && (HashGet(hashId) != 0); // Argon2 is not a hash function
 }
 
 // Returns the largest key size needed by an EA for the specified mode of operation

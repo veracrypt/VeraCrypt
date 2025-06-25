@@ -29,6 +29,15 @@
     <Filter Include="Crypto\Header Files">
       <UniqueIdentifier>{1cc3d97e-dee8-429c-88d1-893306f9ec32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Crypto\Source Files\Argon2">
+      <UniqueIdentifier>{023f5c4a-1679-430e-859c-928ba03116ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Crypto\Source Files\Argon2\blake2">
+      <UniqueIdentifier>{b0799d05-dab7-4631-9a9a-5f7296621188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Crypto\Header Files\Argon2">
+      <UniqueIdentifier>{2f743468-6e46-4698-acec-34ae1f7c3dd8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Inf Include="veracrypt.inf">
@@ -171,6 +180,27 @@
     <ClCompile Include="..\Crypto\sha256_armv8.c">
       <Filter>Crypto\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Crypto\Argon2\src\argon2.c">
+      <Filter>Crypto\Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Argon2\src\core.c">
+      <Filter>Crypto\Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Argon2\src\ref.c">
+      <Filter>Crypto\Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Argon2\src\opt_sse2.c">
+      <Filter>Crypto\Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Argon2\src\selftest.c">
+      <Filter>Crypto\Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Argon2\src\blake2\blake2b.c">
+      <Filter>Crypto\Source Files\Argon2\blake2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Argon2\src\opt_avx2.c">
+      <Filter>Crypto\Source Files\Argon2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Tcdefs.h">
@@ -281,6 +311,24 @@
     <ClInclude Include="..\Driver\VolumeFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Crypto\Argon2\src\core.h">
+      <Filter>Crypto\Source Files\Argon2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Argon2\src\blake2\blake2.h">
+      <Filter>Crypto\Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Argon2\src\blake2\blake2-impl.h">
+      <Filter>Crypto\Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Argon2\src\blake2\blamka-round-opt.h">
+      <Filter>Crypto\Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Argon2\src\blake2\blamka-round-ref.h">
+      <Filter>Crypto\Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Argon2\include\argon2.h">
+      <Filter>Crypto\Header Files\Argon2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\Crypto\Aes_hw_cpu.asm">
@@ -333,6 +381,9 @@
     </CustomBuild>
     <CustomBuild Include="..\Crypto\rdseed_ml.asm">
       <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\Argon2\src\opt_avx2-gtp41.asm">
+      <Filter>Crypto\Source Files\Argon2</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

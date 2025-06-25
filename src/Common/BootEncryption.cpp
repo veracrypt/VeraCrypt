@@ -1721,6 +1721,8 @@ namespace VeraCrypt
 					pkcs5_prf = WHIRLPOOL;
 				else if (_stricmp(request.BootPrfAlgorithmName, "Streebog") == 0)
 					pkcs5_prf = STREEBOG;
+				else if (_stricmp(request.BootPrfAlgorithmName, "Argon2") == 0)
+					pkcs5_prf = ARGON2;
                         #endif
 				else if (strlen(request.BootPrfAlgorithmName) == 0) // case of version < 1.0f
 					pkcs5_prf = BLAKE2S;
@@ -1751,6 +1753,10 @@ namespace VeraCrypt
 
 		// Only BLAKE2s and SHA-256 are supported for MBR boot loader		
 		if (!bIsGPT && pkcs5_prf != BLAKE2S && pkcs5_prf != SHA256)
+			throw ParameterIncorrect (SRC_POS);
+
+		// we don't support Argon2 for system encryption for now
+		if (pkcs5_prf == ARGON2)
 			throw ParameterIncorrect (SRC_POS);
 
 		int bootSectorId = 0;

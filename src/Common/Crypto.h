@@ -55,6 +55,7 @@ enum
 	SHA256,
 	BLAKE2S,
 	STREEBOG,
+	ARGON2,
 	HASH_ENUM_END_ID
 };
 
@@ -203,6 +204,7 @@ typedef struct
 #ifndef TC_WINDOWS_BOOT
 #	include "Sha2.h"
 #	include "Whirlpool.h"
+#	include "argon2.h"
 #	include "Streebog.h"
 #	include "kuznyechik.h"
 #	include "Camellia.h"
@@ -224,6 +226,7 @@ typedef struct
 typedef struct keyInfo_t
 {
 	int noIterations;					/* Number of times to iterate (PKCS-5) */
+	int memoryCost;						/* Memory cost factor (PKCS-5) */
 	int keyLength;						/* Length of the key */
 	uint64 dummy;						/* Dummy field to ensure 16-byte alignment of this structure */
 	unsigned __int8 salt[PKCS5_SALT_SIZE];		/* PKCS-5 salt */
@@ -255,6 +258,7 @@ typedef struct CRYPTO_INFO_t
 #endif
 
 	int noIterations;	
+	int memoryCost;
 	int volumePim;
 
 	BOOL bProtectHiddenVolume;			// Indicates whether the volume contains a hidden volume to be protected against overwriting
@@ -373,6 +377,7 @@ Hash *HashGet (int id);
 void HashGetName2 (wchar_t *buf, size_t bufLen, int hashId);
 BOOL HashIsDeprecated (int hashId);
 BOOL HashForSystemEncryption (int hashId);
+BOOL HashIsAvailable (int hashId);
 int GetMaxPkcs5OutSize (void);
 #endif
 

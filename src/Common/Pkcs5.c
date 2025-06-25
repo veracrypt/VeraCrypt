@@ -1169,6 +1169,9 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 	case STREEBOG:
 		return L"HMAC-STREEBOG";
 
+	case ARGON2:
+		return L"Argon2";
+
 	default:		
 		return L"(Unknown)";
 	}
@@ -1176,9 +1179,10 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 
 
 
-int get_pkcs5_iteration_count(int pkcs5_prf_id, int pim, BOOL bBoot)
+int get_pkcs5_iteration_count(int pkcs5_prf_id, int pim, BOOL bBoot, int* pMemoryCost)
 {
 	int iteration_count = 0;
+	*pMemoryCost = 0;
 
 	if (pim >= 0)
 	{
@@ -1213,6 +1217,10 @@ int get_pkcs5_iteration_count(int pkcs5_prf_id, int pim, BOOL bBoot)
 				iteration_count = bBoot ? pim * 2048 : 15000 + pim * 1000;
 			break;
 
+		case ARGON2:
+			get_argon2_params (pim, &iteration_count, pMemoryCost);
+			break;
+
 		default:
 			TC_THROW_FATAL_EXCEPTION; // Unknown/wrong ID
 		}
@@ -1230,9 +1238,119 @@ int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
 		|| (bootType != PRF_BOOT_MBR && (pkcs5_prf_id < FIRST_PRF_ID || pkcs5_prf_id > LAST_PRF_ID))
 		)
       return 0;
-
+   // we don't support Argon2 in pre-boot authentication
+   if ((bootType == PRF_BOOT_MBR || bootType == PRF_BOOT_GPT) && pkcs5_prf_id == ARGON2)
+      return 0;	
    return 1;
 
+}
+
+void derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, uint32 memcost, unsigned char *dk, int dklen)
+{
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+	XSTATE_SAVE SaveState;
+	if (IsCpuIntel() && HasSAVX())
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+#endif
+	if (0 != argon2id_hash_raw(
+		iterations, // number of iterations
+		memcost, // memory cost in KiB
+		1, // parallelism factor (number of threads)
+		pwd, pwd_len, // password and its length
+		salt, salt_len, // salt and its length
+		dk, dklen// derived key and its length
+	))
+	{
+		// If the Argon2 derivation fails, we fill the derived key with zeroes
+		memset(dk, 0, dklen);
+	}
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
+	if (NT_SUCCESS(saveStatus))
+		KeRestoreExtendedProcessorState(&SaveState);
+#endif
+}
+
+/**
+ * get_argon2_params
+ * 
+ * This function calculates the memory cost (in KiB) and time cost (iterations) for 
+ * the Argon2id key derivation function based on the Personal Iteration Multiplier (PIM) value.
+ * 
+ * Parameters:
+ *   - pim: The Personal Iteration Multiplier (PIM), which controls the memory and time costs.
+ *          If pim < 0, it is clamped to 0.
+ *          If pim == 0, the default value of 12 is used.
+ *   - pIterations: Pointer to an integer where the calculated time cost (iterations) will be stored.
+ *   - pMemcost: Pointer to an integer where the calculated memory cost (in KiB) will be stored.
+ * 
+ * Formulas:
+ *   - Memory Cost (m_cost) in MiB:
+ *     m_cost(pim) = min(64 MiB + (pim - 1) * 32 MiB, 1024 MiB)
+ *     This formula increases the memory cost by 32 MiB for each increment of PIM, starting from 64 MiB.
+ *     The memory cost is capped at 1024 MiB when PIM reaches 31 or higher.
+ *     The result is converted to KiB before being stored in *pMemcost:
+ *     *pMemcost = m_cost(pim) * 1024
+ * 
+ *   - Time Cost (t_cost) in iterations:
+ *     If PIM <= 31:
+ *        t_cost(pim) = 3 + floor((pim - 1) / 3)
+ *     If PIM > 31:
+ *        t_cost(pim) = 13 + (pim - 31)
+ *     This formula increases the time cost by 1 iteration for every 3 increments of PIM when PIM <= 31.
+ *     For PIM > 31, the time cost increases by 1 iteration for each increment in PIM.
+ *     The calculated time cost is stored in *pIterations.
+ * 
+ * Example:
+ *   - For PIM = 12:
+ *     Memory Cost = 64 + (12 - 1) * 32 = 416 MiB (425,984 KiB)
+ *     Time Cost = 3 + floor((12 - 1) / 3) = 6 iterations
+ * 
+ *   - For PIM = 31:
+ *     Memory Cost = 64 + (31 - 1) * 32 = 1024 MiB (capped)
+ *     Time Cost = 3 + floor((31 - 1) / 3) = 13 iterations
+ * 
+ *   - For PIM = 32:
+ *     Memory Cost = 1024 MiB (capped)
+ *     Time Cost = 13 + (32 - 31) = 14 iterations
+ * 
+ */
+void get_argon2_params(int pim, int* pIterations, int* pMemcost)
+{
+    // Ensure PIM is at least 0
+    if (pim < 0)
+    {
+        pim = 0;
+    }
+
+	// Default PIM value is 12
+	// which leads to 416 MiB memory cost and 6 iterations
+	if (pim == 0)
+	{
+		pim = 12;
+	}
+
+    // Compute the memory cost (m_cost) in MiB
+    int m_cost_mib = 64 + (pim - 1) * 32;
+
+    // Cap the memory cost at 1024 MiB
+    if (m_cost_mib > 1024)
+    {
+        m_cost_mib = 1024;
+    }
+
+    // Convert memory cost to KiB for Argon2
+    *pMemcost = m_cost_mib * 1024; // m_cost in KiB
+
+    // Compute the time cost (t_cost)
+    if (pim <= 31)
+    {
+        *pIterations = 3 + ((pim - 1) / 3);
+    }
+    else
+    {
+        *pIterations = 13 + (pim - 31);
+    }
 }
 
 #endif //!TC_WINDOWS_BOOT
