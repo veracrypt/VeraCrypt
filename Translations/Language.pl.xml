@@ -1553,7 +1553,7 @@
     <entry lang="pl" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Błąd: Dysk używa rozmiaru sektora innego niż 512 bajty.\n\nZe względu na ograniczenia komponentów dostępnych na Twojej platformie wolumeny oparte na partycjach/urządzeniu nie mogą być tworzone/używane na dysku.\n\nMożliwe rozwiązania:\n- Utwórz na dysku wolumen (kontener) oparty na pliku.\n- Użyj dysku z sektorami 512-bajtowymi.\n- Użyj VeraCrypt na innej platformie.</entry>
     <entry lang="pl" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Plik/urządzenie hosta jest już używane.</entry>
     <entry lang="pl" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Miejsce na wolumen jest niedostępne.</entry>
-    <entry lang="pl" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt wymaga macFUSE w wersji 2.5 lub nowszego.</entry>
+    <entry lang="pl" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt wymaga macFUSE w wersji 2.5 lub nowszej.</entry>
     <entry lang="pl" key="EXCEPTION_OCCURRED">Wystąpił wyjątek.</entry>
     <entry lang="pl" key="ENTER_PASSWORD">Wprowadź hasło</entry>
     <entry lang="pl" key="ENTER_TC_VOL_PASSWORD">Wprowadź hasło wolumenu VeraCrypt</entry>
@@ -1646,7 +1646,7 @@
     <entry lang="pl" key="INSECURE_MODE">[TRYB NIEBEZPIECZNY]</entry>
     <entry lang="pl" key="IDC_DISABLE_SCREEN_PROTECTION">Wyłącz ochronę przed zrzutami ekranu i nagrywaniem ekranu</entry>
     <entry lang="pl" key="DISABLE_SCREEN_PROTECTION_WARNING">OSTRZEŻENIE: Wyłączenie ochrony ekranu znacząco obniża poziom bezpieczeństwa. Włącz tę opcję TYLKO wtedy, gdy musisz przechwycić interfejs VeraCrypt. Może to narazić wrażliwe dane na dostęp narzędzi do zrzutów ekranu i funkcji nagrywania ekranu, takich jak Windows 11 Recall.</entry>
-    <entry lang="pl" key="MEMORY_COST">Koszt Pamięci</entry>
+    <entry lang="pl" key="MEMORY_COST">Koszt pamięci</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
