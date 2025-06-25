@@ -60,7 +60,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;VC_COMREG;_DEBUG;_WINDOWS;HAVE_CONFIG_H;ZIP_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\Setup;..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Setup;..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -80,7 +80,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;VC_COMREG;NDEBUG;_WINDOWS;HAVE_CONFIG_H;ZIP_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\Setup;..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Setup;..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
