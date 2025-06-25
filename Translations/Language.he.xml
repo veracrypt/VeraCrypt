@@ -1647,7 +1647,7 @@
     <entry lang="he" key="INSECURE_MODE">[מצב לא מאובטח]</entry>
     <entry lang="he" key="IDC_DISABLE_SCREEN_PROTECTION">השבת הגנה מפני צילומי מסך והקלטת מסך</entry>
     <entry lang="he" key="DISABLE_SCREEN_PROTECTION_WARNING">אזהרה: השבתת הגנת המסך מפחיתה משמעותית את רמת האבטחה. אפשר אפשרות זו אך ורק אם יש צורך מיוחד ללכוד את ממשק VeraCrypt. פעולה זו עשויה לחשוף נתונים רגישים לכלי צילום מסך ותכונות הקלטת מסך כגון Windows 11 Recall.</entry>
-    <entry lang="en" key="MEMORY_COST">Memory Cost</entry>
+    <entry lang="he" key="MEMORY_COST">עלות זיכרון</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
