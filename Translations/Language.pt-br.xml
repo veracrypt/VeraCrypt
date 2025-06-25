@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="pt-br" name="Português-Brasil" en-name="Portuguese (Brazil)" version="0.2.0" translators="Thiago C. L. Mendes, Lecidio S. Alencar , Lucas C. Ferreira, Daniel Dias Rodrigues, Transifex contributors" />
     <font lang="pt-br" class="normal" size="11" face="padrão" />
     <font lang="pt-br" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="pt-br" key="INSECURE_MODE">[MODO INSEGURO]</entry>
     <entry lang="pt-br" key="IDC_DISABLE_SCREEN_PROTECTION">Desativar proteção contra capturas de tela e gravação de tela</entry>
     <entry lang="pt-br" key="DISABLE_SCREEN_PROTECTION_WARNING">AVISO: Desativar a proteção de tela reduz significativamente a segurança. Ative esta opção SOMENTE se você tiver uma necessidade específica de capturar a interface do VeraCrypt. Isso pode expor dados sensíveis a ferramentas de captura de tela e recursos de gravação, como o Windows 11 Recall.</entry>
+    <entry lang="pt-br" key="MEMORY_COST">Custo de Memória</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

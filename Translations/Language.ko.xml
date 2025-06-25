@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="ko" name="한국어" en-name="Korean" version="0.2.0" translators="Kieaer, Herbert Shin, BaekMu" />
     <font lang="ko" class="normal" size="11" face="돋움" />
     <font lang="ko" class="bold" size="13" face="맑은 고딕" />
@@ -1646,6 +1646,7 @@
     <entry lang="ko" key="INSECURE_MODE">[비보안 모드]</entry>
     <entry lang="ko" key="IDC_DISABLE_SCREEN_PROTECTION">스크린샷 및 화면 녹화 보호 비활성화하기</entry>  
     <entry lang="ko" key="DISABLE_SCREEN_PROTECTION_WARNING">경고: 화면 보호를 비활성화하면 보안이 크게 저하됩니다. VeraCrypt 인터페이스를 캡처해야 하는 특별한 필요가 있을 때만 이 옵션을 활성화하세요. 이 설정은 스크린샷 도구 및 Windows 11 Recall과 같은 화면 녹화 기능에 민감한 데이터가 노출될 수 있습니다.</entry>
+    <entry lang="ko" key="MEMORY_COST">메모리 사용량</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

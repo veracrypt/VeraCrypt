@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="id" name="Bahasa Indonesia" en-name="Indonesian" version="1.0.0" translators="Tajuddin N. F.; Transifex contributors" />
     <font lang="id" class="normal" size="11" face="default" />
     <font lang="id" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="id" key="INSECURE_MODE">[MODE TIDAK AMAN]</entry>
     <entry lang="id" key="IDC_DISABLE_SCREEN_PROTECTION">Nonaktifkan perlindungan terhadap tangkapan layar dan perekaman layar</entry>
     <entry lang="id" key="DISABLE_SCREEN_PROTECTION_WARNING">PERINGATAN: Menonaktifkan perlindungan layar secara signifikan mengurangi keamanan. Aktifkan opsi ini HANYA jika Anda memiliki kebutuhan khusus untuk menangkap antarmuka VeraCrypt. Hal ini dapat mengekspos data sensitif ke alat tangkapan layar dan fitur perekaman layar seperti Windows 11 Recall.</entry>
+    <entry lang="id" key="MEMORY_COST">Biaya Memori</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

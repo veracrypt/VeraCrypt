@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="ar" name="العربية" en-name="Arabic" version="0.2.0" translators="Ahmad Gharbeia, Khaled Hosny, Ali Khojah" />
     <font lang="ar" class="normal" size="11" face="default" />
     <font lang="ar" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="ar" key="INSECURE_MODE">[وضع غير آمن]</entry>
     <entry lang="ar" key="IDC_DISABLE_SCREEN_PROTECTION">تعطيل الحماية من لقطات الشاشة وتسجيل الشاشة</entry>
     <entry lang="ar" key="DISABLE_SCREEN_PROTECTION_WARNING">تحذير: تعطيل حماية الشاشة يقلل بشكل كبير من مستوى الأمان. فعّل هذا الخيار فقط إذا كانت لديك حاجة محددة لالتقاط واجهة VeraCrypt. قد يؤدي ذلك إلى تعريض البيانات الحساسة لأدوات التقاط الشاشة وميزات تسجيل الشاشة مثل Windows 11 Recall.</entry>
+    <entry lang="ar" key="MEMORY_COST">كلفة الذاكرة</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

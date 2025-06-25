@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <font lang="pl" class="normal" size="11" face="default" />
     <font lang="pl" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="pl" key="INSECURE_MODE">[TRYB NIEBEZPIECZNY]</entry>
     <entry lang="pl" key="IDC_DISABLE_SCREEN_PROTECTION">Wyłącz ochronę przed zrzutami ekranu i nagrywaniem ekranu</entry>
     <entry lang="pl" key="DISABLE_SCREEN_PROTECTION_WARNING">OSTRZEŻENIE: Wyłączenie ochrony ekranu znacząco obniża poziom bezpieczeństwa. Włącz tę opcję TYLKO wtedy, gdy musisz przechwycić interfejs VeraCrypt. Może to narazić wrażliwe dane na dostęp narzędzi do zrzutów ekranu i funkcji nagrywania ekranu, takich jak Windows 11 Recall.</entry>
+    <entry lang="pl" key="MEMORY_COST">Koszt Pamięci</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

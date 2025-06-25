@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="nl" name="Nederlands" en-name="Dutch" version="0.0.0" translators="Jan van der Wal, Peter Tak, Thomas De Rocker"/>
     <font lang="nl" class="normal" size="11" face="default"/>
     <font lang="nl" class="bold" size="13" face="Arial"/>
@@ -1646,6 +1646,7 @@
     <entry lang="nl" key="INSECURE_MODE">[ONVEILIGE MODUS]</entry>
     <entry lang="nl" key="IDC_DISABLE_SCREEN_PROTECTION">Bescherming tegen schermafbeeldingen en schermopnames uitschakelen</entry>
     <entry lang="nl" key="DISABLE_SCREEN_PROTECTION_WARNING">WAARSCHUWING: Het uitschakelen van schermbeveiliging vermindert de veiligheid aanzienlijk. Schakel deze optie ALLEEN in als u een specifieke noodzaak hebt om de interface van VeraCrypt vast te leggen. Dit kan gevoelige gegevens blootstellen aan schermafbeeldingstools en schermopnamefuncties zoals Windows 11 Recall.</entry>
+    <entry lang="nl" key="MEMORY_COST">Geheugenkosten</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

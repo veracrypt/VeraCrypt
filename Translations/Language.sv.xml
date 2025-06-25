@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
     <font lang="sv" class="normal" size="11" face="default" />
     <font lang="sv" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="sv" key="INSECURE_MODE">[OSÄKERT]</entry>
     <entry lang="sv" key="IDC_DISABLE_SCREEN_PROTECTION">Inaktivera skydd mot skärmdumpar och skärminspelning</entry>
     <entry lang="sv" key="DISABLE_SCREEN_PROTECTION_WARNING">VARNING: Att inaktivera skärmskydd minskar säkerheten avsevärt. Aktivera det här alternativet ENDAST om du har ett specifikt behov av att fånga VeraCrypts gränssnitt. Detta kan exponera känslig information för skärmdumpsverktyg och skärminspelningsfunktioner, såsom Windows 11 Recall.</entry>
+    <entry lang="sv" key="MEMORY_COST">Minnesåtgång</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

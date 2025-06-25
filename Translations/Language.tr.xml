@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="tr" name="Türkçe" en-name="Turkish" version="1.26.20" translators="FabSec; By Fabriel, Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci, Kaya Zeren" />
     <font lang="tr" class="normal" size="11" face="default" />
     <font lang="tr" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="tr" key="INSECURE_MODE">[GÜVENSİZ MOD]</entry>
     <entry lang="tr" key="IDC_DISABLE_SCREEN_PROTECTION">Ekran görüntüsü ve ekran kaydına karşı korumayı devre dışı bırak</entry>
     <entry lang="tr" key="DISABLE_SCREEN_PROTECTION_WARNING">UYARI: Ekran korumasını devre dışı bırakmak güvenliği önemli ölçüde azaltır. Bu seçeneği YALNIZCA VeraCrypt arayüzünü yakalamak için özel bir ihtiyacınız varsa etkinleştirin. Bu işlem, hassas verilerin ekran görüntüsü araçları ve Windows 11 Recall gibi ekran kaydı özelliklerine maruz kalmasına neden olabilir.</entry>
+    <entry lang="tr" key="MEMORY_COST">Bellek Maliyeti</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

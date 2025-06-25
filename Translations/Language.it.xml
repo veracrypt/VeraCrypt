@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="it" name="Italiano" en-name="Italian" version="1.0.1" translators="Maurizio Ballo, Consiglio Gaetano" />
     <font lang="it" class="normal" size="11" face="default" />
     <font lang="it" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="it" key="INSECURE_MODE">[MODALITÀ NON SICURA]</entry>
     <entry lang="it" key="IDC_DISABLE_SCREEN_PROTECTION">Disabilita la protezione contro screenshot e registrazione dello schermo</entry>
     <entry lang="it" key="DISABLE_SCREEN_PROTECTION_WARNING">ATTENZIONE: Disabilitare la protezione dello schermo riduce significativamente la sicurezza. Attiva questa opzione SOLO se hai una necessità specifica di acquisire l’interfaccia di VeraCrypt. Questo potrebbe esporre dati sensibili a strumenti di cattura schermo e a funzionalità di registrazione come Windows 11 Recall.</entry>
+    <entry lang="it" key="MEMORY_COST">Costo di Memoria</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

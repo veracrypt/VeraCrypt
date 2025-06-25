@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <!-- Sprachen -->
     <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl, Felix Reichmann, Bernhard Erdmann" />
     <!-- Schriftarten -->
@@ -1649,6 +1649,7 @@
     <entry lang="de" key="INSECURE_MODE">[UNSICHERER MODUS]</entry>
     <entry lang="de" key="IDC_DISABLE_SCREEN_PROTECTION">Schutz vor Screenshots und Bildschirmaufnahmen deaktivieren</entry>
     <entry lang="de" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNUNG: Das Deaktivieren des Bildschirmschutzes verringert die Sicherheit erheblich. Aktivieren Sie diese Option NUR, wenn Sie die Benutzeroberfläche von VeraCrypt explizit aufzeichnen müssen. Dies kann sensible Daten gegenüber Screenshot-Tools und Bildschirmaufnahmefunktionen wie Windows 11 Recall offenlegen.</entry>
+    <entry lang="de" key="MEMORY_COST">Speicheraufwand</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

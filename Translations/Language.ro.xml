@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="ro" name="Română" en-name="Romanian" version="2.0.0" translators="Barna Cosmin Marian" />
     <font lang="ro" class="normal" size="11" face="default" />
     <font lang="ro" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="ro" key="INSECURE_MODE">[MOD INSECURIZAT]</entry>
     <entry lang="ro" key="IDC_DISABLE_SCREEN_PROTECTION">Dezactivare protecție împotriva capturilor de ecran și a înregistrării ecranului</entry>
     <entry lang="ro" key="DISABLE_SCREEN_PROTECTION_WARNING">AVERTIZARE: Dezactivarea protecției ecranului reduce semnificativ securitatea. Activați această opțiune NUMAI dacă aveți o nevoie specifică de a captura interfața VeraCrypt. Aceasta poate expune date sensibile aplicațiilor de captură de ecran și funcțiilor de înregistrare a ecranului, precum Windows 11 Recall.</entry>
+    <entry lang="ro" key="MEMORY_COST">Consum de memorie</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

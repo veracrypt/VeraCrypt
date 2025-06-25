@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="hu" name="Magyar" en-name="Hungarian" version="1.0.0" translators="Nyul Balazs > Szaki, Zityi's Translator Te@m" />
     <font lang="hu" class="normal" size="11" face="default" />
     <font lang="hu" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="hu" key="INSECURE_MODE">[NEM BIZTONSÁGOS MÓD]</entry>
     <entry lang="hu" key="IDC_DISABLE_SCREEN_PROTECTION">Képernyőkép- és képernyőfelvétel-védelem letiltása</entry>
     <entry lang="hu" key="DISABLE_SCREEN_PROTECTION_WARNING">FIGYELEM: A képernyővédelem letiltása jelentősen csökkenti a biztonságot. Csak akkor engedélyezze ezt, ha kifejezetten szüksége van a VeraCrypt felületének rögzítésére. Ez érzékeny adatokat tehet elérhetővé képernyőkép-készítő és képernyőfelvételi eszközök, például a Windows 11 Recall számára.</entry>
+    <entry lang="hu" key="MEMORY_COST">Memóriaköltség</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

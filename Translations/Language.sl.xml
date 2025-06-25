@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="sl" name="Slovenščina" en-name="Slovenian" version="0.1.0" translators="Erik David Salam, Sasa Divjak" />
     <font lang="sl" class="normal" size="11" face="default" />
     <font lang="sl" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="sl" key="INSECURE_MODE">[NEVAREN NACIN]</entry>
     <entry lang="sl" key="IDC_DISABLE_SCREEN_PROTECTION">Onemogoči zaščito pred zajemanjem zaslona in snemanjem zaslona</entry>
     <entry lang="sl" key="DISABLE_SCREEN_PROTECTION_WARNING">OPOZORILO: Onemogočanje zaščite zaslona bistveno zmanjša varnost. Omogoči to možnost SAMO, če imaš poseben razlog za zajem uporabniškega vmesnika VeraCrypt. S tem lahko občutljivi podatki postanejo dostopni orodjem za zajem zaslona in funkcijam snemanja zaslona, kot je Windows 11 Recall.</entry>
+    <entry lang="sl" key="MEMORY_COST">Poraba pomnilnika</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="my" name="မြန်မာ" en-name="Burmese" version="2.0.0" translators="Zaw Myo Htet; Transifex contributors" />
     <font lang="my" class="normal" size="11" face="Myanmar3" />
     <font lang="my" class="bold" size="13" face="Myanmar3" />
@@ -1648,6 +1648,7 @@
     <entry lang="my" key="INSECURE_MODE">[လုံခြုံမှုမရှိသောမုဒ်]</entry>
     <entry lang="my" key="IDC_DISABLE_SCREEN_PROTECTION">စခရင်ရှော့များနှင့် စခရင်မှတ်တမ်းတင်ခြင်းမှ ကာကွယ်မှုကို ပိတ်ပါ</entry>
     <entry lang="my" key="DISABLE_SCREEN_PROTECTION_WARNING">သတိပေးချက်- စခရင်ကာကွယ်မှုကို ပိတ်ခြင်းသည် လုံခြုံရေးကို သိသိသာသာ လျှော့ချသည်။ VeraCrypt ၏ interface ကို ဖမ်းယူရန် သီးခြားလိုအပ်ချက်ရှိမှသာ ဤရွေးချယ်မှုကို ဖွင့်ပါ။ ၎င်းသည် ထိလွယ်ရှလွယ်ဒေတာများကို စခရင်ရှော့ကိရိယာများနှင့် Windows 11 Recall ကဲ့သို့ စခရင်မှတ်တမ်းတင်ခြင်း အင်္ဂါရပ်များသို့ ဖော်ထုတ်နိုင်သည်။</entry>
+    <entry lang="my" key="MEMORY_COST">မှတ်ဉာဏ်ကုန်ကျစရိတ်</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

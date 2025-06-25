@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.24">
+  <localization prog-version= "1.26.25">
     <language langid="uk" name="Українська" en-name="Ukrainian" version="1.1.0" translators="Kravchuk Olexandr, Babchuk Volodymyr" />
     <font lang="uk" class="normal" size="11" face="default" />
     <font lang="uk" class="bold" size="13" face="Arial" />
@@ -1646,6 +1646,7 @@
     <entry lang="uk" key="INSECURE_MODE">[НЕБЕЗПЕЧНИЙ РЕЖИМ]</entry>
     <entry lang="uk" key="IDC_DISABLE_SCREEN_PROTECTION">Вимкнути захист від створення знімків екрана та запису екрану</entry>
     <entry lang="uk" key="DISABLE_SCREEN_PROTECTION_WARNING">ПОПЕРЕДЖЕННЯ: Вимкнення захисту екрана значно знижує безпеку. Активуйте цю опцію ЛИШЕ за наявності конкретної потреби зафіксувати інтерфейс VeraCrypt. Це може призвести до витоку чутливих даних через інструменти створення знімків екрана та запису екрану, наприклад, Windows 11 Recall.</entry>
+    <entry lang="uk" key="MEMORY_COST">Витрати пам'яті</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
