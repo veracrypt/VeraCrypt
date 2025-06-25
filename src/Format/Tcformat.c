@@ -6434,7 +6434,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (volumePassword.Length > 0)
 				{
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					if (!CheckPasswordLength (NULL, volumePassword.Length, volumePim, FALSE, 0, Silent, Silent))
+					if (!CheckPasswordLength (NULL, volumePassword.Length, volumePim, FALSE, hash_algo, Silent, Silent))
 					{
 						exit (1);
 					}
@@ -7699,7 +7699,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, FALSE, FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), hash_algo, FALSE, FALSE))
 					{
 						return 1;
 					}
@@ -7810,7 +7810,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, TRUE, FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), hash_algo, TRUE, FALSE))
 					{
 						return 1;
 					}

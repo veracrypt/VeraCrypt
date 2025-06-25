@@ -2860,7 +2860,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			else if (!(newKeyFilesParam.EnableKeyFiles && newKeyFilesParam.FirstKeyFile != NULL)
 				&& pwdChangeDlgMode == PCDM_CHANGE_PASSWORD)
 			{
-				int bootPRF = 0;
+				int bootPRF = pkcs5;
 				if (bSysEncPwdChangeDlgMode)
 				{
 					try
