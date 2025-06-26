@@ -20,6 +20,10 @@
 
 #include "argon2.h"
 #include "core.h"
+#if !defined(_UEFI) && !defined(TC_WINDOWS_DRIVER)
+#include <memory.h>
+#include <stdlib.h>
+#endif
 
 const char *argon2_type2string(argon2_type type, int uppercase) {
     switch (type) {

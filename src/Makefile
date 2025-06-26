@@ -46,7 +46,7 @@ export RANLIB ?= ranlib
 
 export CFLAGS := -Wall
 export CXXFLAGS := -Wall -Wno-unused-parameter
-C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto
+C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto -DARGON2_NO_THREADS -I$(BASE_DIR)/Crypto/Argon2/include
 export ASFLAGS := -D __GNUC__ -D __YASM__
 export LFLAGS :=
 
@@ -148,6 +148,7 @@ export ENABLE_WOLFCRYPT ?= 0
 
 export GCC_GTEQ_440 := 0
 export GCC_GTEQ_430 := 0
+export GCC_GTEQ_470 := 0
 export GCC_GTEQ_500 := 0
 export GTK_VERSION := 0
 
@@ -237,6 +238,7 @@ ifeq "$(shell uname -s)" "Linux"
 
 		GCC_GTEQ_440 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
 		GCC_GTEQ_430 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
+		GCC_GTEQ_470 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40700)
 		GCC_GTEQ_500 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 50000)
 
 		ifeq "$(DISABLE_AESNI)" "1"
@@ -322,6 +324,7 @@ $(error Specified SDK version was not found, ensure your active developer direct
 
 	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_470 := 1
 	GCC_GTEQ_500 := 1
 
 	CXXFLAGS += -std=c++11
@@ -432,6 +435,7 @@ ifeq "$(shell uname -s)" "FreeBSD"
 
 	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_470 := 1
 	GCC_GTEQ_500 := 1
 	
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
@@ -496,6 +500,7 @@ ifeq "$(shell uname -s)" "OpenBSD"
 
 	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_470 := 1
 	GCC_GTEQ_500 := 1
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"

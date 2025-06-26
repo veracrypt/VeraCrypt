@@ -101,6 +101,11 @@ ifeq "$(GCC_GTEQ_500)" "1"
 else
 	OBJS += ../Crypto/Sha2Intel.o
 endif
+ifeq "$(GCC_GTEQ_470)" "1"
+	OBJSAVX2 += ../Crypto/Argon2/src/opt_avx2.oavx2
+else
+	OBJS += ../Crypto/Argon2/src/opt_avx2.o
+endif
 else
 OBJS += ../Crypto/wolfCrypt.o
 endif
@@ -119,6 +124,13 @@ OBJS += ../Crypto/Camellia.o
 OBJS += ../Crypto/Streebog.o
 OBJS += ../Crypto/kuznyechik.o
 OBJS += ../Crypto/kuznyechik_simd.o
+OBJS += ../Crypto/Argon2/src/blake2/blake2b.o
+OBJS += ../Crypto/Argon2/src/argon2.o
+OBJS += ../Crypto/Argon2/src/core.o
+OBJS += ../Crypto/Argon2/src/argon2.o
+OBJS += ../Crypto/Argon2/src/opt_sse2.o
+OBJS += ../Crypto/Argon2/src/ref.o
+OBJS += ../Crypto/Argon2/src/selftest.o
 OBJS += ../Common/Pkcs5.o
 endif
 

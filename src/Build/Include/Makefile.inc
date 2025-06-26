@@ -14,7 +14,7 @@ $(NAME): $(NAME).a
 
 clean:
 	@echo Cleaning $(NAME)
-	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
+	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
 
 %.o: %.c
 	@echo Compiling $(<F)
@@ -40,6 +40,10 @@ clean:
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -mssse3 -c $< -o $@
 
+%.oavx2: %.c
+	@echo Compiling $(<F)
+	$(CC) $(CFLAGS) -mavx2 -c $< -o $@
+
 %.oarmv8crypto: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -march=armv8-a+crypto -c $< -o $@
@@ -63,6 +67,10 @@ clean:
 %.ossse3: %.cpp
 	@echo Compiling $(<F)
 	$(CXX) $(CXXFLAGS) -mssse3 -c $< -o $@
+
+%.oavx2: %.cpp
+	@echo Compiling $(<F)
+	$(CXX) $(CXXFLAGS) -mavx2 -c $< -o $@
 	
 %.o: %.S
 	@echo Compiling $(<F)
@@ -108,10 +116,10 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 
 
 # Dependencies
--include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
+-include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
 
 
-$(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJARMV8CRYPTO)
+$(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
 	@echo Updating library $@
-	$(AR) $(AFLAGS) -rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJARMV8CRYPTO)
+	$(AR) $(AFLAGS) -rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
 	$(RANLIB) $@
