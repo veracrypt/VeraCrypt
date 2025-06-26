@@ -1647,7 +1647,7 @@
     <entry lang="zh-cn" key="INSECURE_MODE">[不安全模式]</entry>
     <entry lang="zh-cn" key="IDC_DISABLE_SCREEN_PROTECTION">禁用屏幕截图与录屏保护</entry>
     <entry lang="zh-cn" key="DISABLE_SCREEN_PROTECTION_WARNING">警告：禁用屏幕截图与录屏保护会显著降低安全性。仅当您有特定需求捕获 VeraCrypt 界面时，才需启用此选项。这可能会使敏感数据暴露给屏幕截图工具和 Windows 11 Recall 等录屏功能。</entry>
-    <entry lang="en" key="MEMORY_COST">Memory Cost</entry>
+    <entry lang="zh-cn" key="MEMORY_COST">内存成本</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
