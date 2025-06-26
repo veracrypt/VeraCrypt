@@ -20,11 +20,11 @@
 #include "argon2.h"
 #include "core.h"
 
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+
 #include "blake2/blake2.h"
 #include "blake2/blamka-round-opt.h"
 #include "Crypto/config.h"
-
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
 
 /*
  * Function fills a new memory block and optionally XORs the old block over the new one.
@@ -198,5 +198,7 @@ void fill_segment_sse2(const argon2_instance_t *instance,
 #else
 void fill_segment_sse2(const argon2_instance_t* instance,
     argon2_position_t position) {
+    (void)instance;
+    (void)position;
 }
 #endif

@@ -21,6 +21,8 @@
 #include "argon2.h"
 #include "core.h"
 
+#if defined(__AVX2__)
+
 #include "blake2/blake2.h"
 #include "blake2/blamka-round-opt.h"
 
@@ -33,7 +35,6 @@
  * @param with_xor Whether to XOR into the new block (1) or just overwrite (0)
  * @pre all block pointers must be valid
  */
-#if defined(__AVX2__)
 static void fill_block(__m256i *state, const block *ref_block,
                        block *next_block, int with_xor) {
     __m256i block_XY[ARGON2_HWORDS_IN_BLOCK];
@@ -194,7 +195,7 @@ void fill_segment_avx2(const argon2_instance_t *instance,
 #else
 void fill_segment_avx2(const argon2_instance_t* instance,
     argon2_position_t position) {
-	UNREFERENCED_PARAMETER(instance);
-	UNREFERENCED_PARAMETER(position);
+    (void)instance;
+    (void)position;
 }
 #endif
