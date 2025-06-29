@@ -107,7 +107,7 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 			int PasswordLength;
 			int Pkcs5Prf;
 			unsigned char *Salt;
-
+			LONG volatile *pAbortKeyDerivation; 
 		} KeyDerivation;
 
 		struct
@@ -245,32 +245,32 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			{
 			case BLAKE2S:
 				derive_key_blake2s (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case SHA512:
 				derive_key_sha512 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case WHIRLPOOL:
 				derive_key_whirlpool (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case SHA256:
 				derive_key_sha256 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case STREEBOG:
 				derive_key_streebog(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case ARGON2:
 				derive_key_argon2(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			default:
@@ -533,7 +533,7 @@ void EncryptionThreadPoolStop ()
 }
 
 
-void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount, int memoryCost, unsigned char *derivedKey)
+void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount, int memoryCost, unsigned char *derivedKey, LONG volatile *pAbortKeyDerivation)
 {
 	EncryptionThreadPoolWorkItem *workItem;
 
@@ -563,6 +563,7 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	workItem->KeyDerivation.PasswordLength = passwordLength;
 	workItem->KeyDerivation.Pkcs5Prf = pkcs5Prf;
 	workItem->KeyDerivation.Salt = salt;
+	workItem->KeyDerivation.pAbortKeyDerivation = pAbortKeyDerivation;
 
 	InterlockedIncrement (outstandingWorkItemCount);
 	TC_CLEAR_EVENT (*noOutstandingWorkItemEvent);

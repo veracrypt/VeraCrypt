@@ -194,6 +194,7 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 	int i;
 	int iterationsCount = 0;
 	int memoryCost = 0;
+	LONG volatile abortKeyDerivation = 0;
 #endif
 	size_t queuedWorkItems = 0;
 
@@ -331,7 +332,7 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 						iterationsCount = get_pkcs5_iteration_count (enqPkcs5Prf, pim, bBoot, &memoryCost);
 						EncryptionThreadPoolBeginKeyDerivation (keyDerivationCompletedEvent, noOutstandingWorkItemEvent,
 							&item->KeyReady, outstandingWorkItemCount, enqPkcs5Prf, keyInfo->userKey,
-							keyInfo->keyLength, keyInfo->salt, iterationsCount, memoryCost, item->DerivedKey);
+							keyInfo->keyLength, keyInfo->salt, iterationsCount, memoryCost, item->DerivedKey, &abortKeyDerivation);
 
 						++queuedWorkItems;
 						break;
@@ -382,35 +383,35 @@ KeyReady:	;
 			{
 			case SHA512:
 				derive_key_sha512 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
 
 			case SHA256:
 				derive_key_sha256 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
 
 #ifndef WOLFCRYPT_BACKEND
 			case BLAKE2S:
 				derive_key_blake2s (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
 
 			case WHIRLPOOL:
 				derive_key_whirlpool (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
 
 
 			case STREEBOG:
 				derive_key_streebog(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
 
 
 			case ARGON2:
 				derive_key_argon2(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
 #endif	
                         default:
@@ -615,6 +616,12 @@ KeyReady:	;
 				}
 
 				status = ERR_SUCCESS;
+
+				if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
+				{
+					// Signal other threads to stop
+					InterlockedExchange(&abortKeyDerivation, 1);
+				}
 				goto ret;
 			}
 		}
@@ -622,6 +629,8 @@ KeyReady:	;
 	status = ERR_PASSWORD_WRONG;
 
 err:
+	// Signal threads to stop
+	InterlockedExchange(&abortKeyDerivation, 1);
 	if (cryptoInfo != retHeaderCryptoInfo)
 	{
 		crypto_close(cryptoInfo);
@@ -640,19 +649,33 @@ ret:
 #if !defined(_UEFI)
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
-		EncryptionThreadPoolBeginReadVolumeHeaderFinalization (keyDerivationCompletedEvent, noOutstandingWorkItemEvent, outstandingWorkItemCount, 
-			keyInfoBuffer, keyInfoBufferSize, 
-			keyDerivationWorkItems, keyDerivationWorkItemsSize);
-	}
-	else
+		// Wait for all outstanding threads to finish or cancel
+		TC_WAIT_EVENT(*noOutstandingWorkItemEvent);
+		// Cleanup is now synchronous because we already waited for all threads to stop.
+		// The asynchronous finalization is no longer needed.
+#if !defined(DEVICE_DRIVER)
+		CloseHandle(*keyDerivationCompletedEvent);
+		CloseHandle(*noOutstandingWorkItemEvent);
 #endif
-	{
-		burn (keyInfo, sizeof (KEY_INFO));
-#if !defined(DEVICE_DRIVER) && !defined(_UEFI)
-		VirtualUnlock (keyInfoBuffer, keyInfoBufferSize);
+		TCfree(keyDerivationCompletedEvent);
+		TCfree(noOutstandingWorkItemEvent);
+		TCfree(outstandingWorkItemCount);
+		if (keyDerivationWorkItems)
+		{
+			burn(keyDerivationWorkItems, keyDerivationWorkItemsSize);
+#if !defined(DEVICE_DRIVER)
+			VirtualUnlock(keyDerivationWorkItems, keyDerivationWorkItemsSize);
 #endif
-		TCfree(keyInfoBuffer);
+			TCfree(keyDerivationWorkItems);
+		}
 	}
+#endif
+
+	burn (keyInfo, sizeof (KEY_INFO));
+#if !defined(DEVICE_DRIVER)
+	VirtualUnlock (keyInfoBuffer, keyInfoBufferSize);
+#endif
+	TCfree(keyInfoBuffer);
 	return status;
 }
 
@@ -1018,33 +1041,33 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 		{
 		case SHA512:
 			derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
 		case SHA256:
 			derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
         #ifndef WOLFCRYPT_BACKEND
 		case BLAKE2S:
 			derive_key_blake2s (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
 		case WHIRLPOOL:
 			derive_key_whirlpool (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
 		case STREEBOG:
 			derive_key_streebog(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
 		case ARGON2:
 			derive_key_argon2(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, keyInfo.memoryCost, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, keyInfo.memoryCost, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
         #endif
 		default:

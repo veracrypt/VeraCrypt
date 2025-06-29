@@ -89,7 +89,7 @@ static void next_addresses(block *address_block, block *input_block,
     fill_block(zero_block, address_block, address_block, 0);
 }
 
-void fill_segment_ref(const argon2_instance_t *instance,
+int fill_segment_ref(const argon2_instance_t *instance,
                   argon2_position_t position) {
     block *ref_block = NULL, *curr_block = NULL;
     block address_block, input_block, zero_block;
@@ -100,7 +100,7 @@ void fill_segment_ref(const argon2_instance_t *instance,
     int data_independent_addressing;
 
     if (instance == NULL) {
-        return;
+        return ARGON2_INCORRECT_PARAMETER;
     }
 
     data_independent_addressing =
@@ -145,6 +145,11 @@ void fill_segment_ref(const argon2_instance_t *instance,
 
     for (i = starting_index; i < instance->segment_length;
          ++i, ++curr_offset, ++prev_offset) {
+        if ((i & 63) == 0 && instance->context_ptr->pAbortKeyDerivation &&
+            *instance->context_ptr->pAbortKeyDerivation)
+        {
+            return ARGON2_OPERATION_CANCELLED; // Return cancellation code
+        }
         /*1.1 Rotating prev_offset if needed */
         if (curr_offset % instance->lane_length == 1) {
             prev_offset = curr_offset - 1;
@@ -193,29 +198,30 @@ void fill_segment_ref(const argon2_instance_t *instance,
             }
         }
     }
+    return ARGON2_OK;
 }
 
 #if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
-extern void fill_segment_sse2(const argon2_instance_t* instance,
+extern int fill_segment_sse2(const argon2_instance_t* instance,
 	argon2_position_t position);
-extern void fill_segment_avx2(const argon2_instance_t* instance,
+extern int fill_segment_avx2(const argon2_instance_t* instance,
 	argon2_position_t position);
 #endif
 
-void fill_segment(const argon2_instance_t* instance,
+int fill_segment(const argon2_instance_t* instance,
     argon2_position_t position) {
 #if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
 	if (HasSAVX2())
 	{
-		fill_segment_avx2(instance, position);
+		return fill_segment_avx2(instance, position);
 	}
 	else if (HasSSE2())
 	{
-		fill_segment_sse2(instance, position);
+		return fill_segment_sse2(instance, position);
 	}
 	else
 #endif
 	{
-		fill_segment_ref(instance, position);
+		return fill_segment_ref(instance, position);
 	}
 }

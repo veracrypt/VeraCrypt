@@ -19,6 +19,13 @@
 
 
 #include "core.h"
+#include "Crypto/config.h"
+#if !defined(_UEFI)
+#include <memory.h>
+#include <stdlib.h>
+#endif
+#include "Crypto/cpu.h"
+#include "Crypto/misc.h"
 #include "blake2/blake2.h"
 #include "blake2/blake2-impl.h"
 
@@ -206,12 +213,16 @@ uint32_t index_alpha(const argon2_instance_t *instance,
 /* Single-threaded version for p=1 case */
 static int fill_memory_blocks_st(argon2_instance_t *instance) {
     uint32_t r, s, l;
+    int result = ARGON2_OK;
 
     for (r = 0; r < instance->passes; ++r) {
         for (s = 0; s < ARGON2_SYNC_POINTS; ++s) {
             for (l = 0; l < instance->lanes; ++l) {
                 argon2_position_t position = {r, l, (uint8_t)s, 0};
-                fill_segment(instance, position);
+                result = fill_segment(instance, position);
+                if (result != ARGON2_OK) {
+                    return result;
+                }
             }
         }
 #ifdef GENKAT

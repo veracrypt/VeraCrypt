@@ -140,6 +140,8 @@ static BLAKE2_INLINE void store48(void *dst, uint64_t w) {
     *p++ = (uint8_t)w;
 }
 
+/* removed since they are defined in VeraCrypt headers */
+/*
 static BLAKE2_INLINE uint32_t rotr32(const uint32_t w, const unsigned c) {
     return (w >> c) | (w << (32 - c));
 }
@@ -147,7 +149,7 @@ static BLAKE2_INLINE uint32_t rotr32(const uint32_t w, const unsigned c) {
 static BLAKE2_INLINE uint64_t rotr64(const uint64_t w, const unsigned c) {
     return (w >> c) | (w << (64 - c));
 }
-
+*/
 void clear_internal_memory(void *v, size_t n);
 
 #endif

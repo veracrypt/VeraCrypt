@@ -165,7 +165,9 @@ typedef enum Argon2_ErrorCodes {
 
     ARGON2_DECODING_LENGTH_FAIL = -34,
 
-    ARGON2_VERIFY_MISMATCH = -35
+    ARGON2_VERIFY_MISMATCH = -35,
+
+    ARGON2_OPERATION_CANCELLED = -36
 } argon2_error_codes;
 
 /* Memory allocator types --- for external allocation */
@@ -222,6 +224,9 @@ typedef struct Argon2_Context {
 
     uint32_t version; /* version number */
 
+    /* Cancellation token for VeraCrypt */
+    long volatile *pAbortKeyDerivation;
+
     allocate_fptr allocate_cbk; /* pointer to memory allocator */
     deallocate_fptr free_cbk;   /* pointer to memory deallocator */
 
@@ -275,20 +280,20 @@ ARGON2_PUBLIC int argon2i_hash_raw(const uint32_t t_cost, const uint32_t m_cost,
                                    const uint32_t parallelism, const void *pwd,
                                    const size_t pwdlen, const void *salt,
                                    const size_t saltlen, void *hash,
-                                   const size_t hashlen);
+                                   const size_t hashlen, long volatile* pAbortKeyDerivation);
 
 ARGON2_PUBLIC int argon2d_hash_raw(const uint32_t t_cost, const uint32_t m_cost,
                                    const uint32_t parallelism, const void *pwd,
                                    const size_t pwdlen, const void *salt,
                                    const size_t saltlen, void *hash,
-                                   const size_t hashlen);
+                                   const size_t hashlen, long volatile* pAbortKeyDerivation);
 
 ARGON2_PUBLIC int argon2id_hash_raw(const uint32_t t_cost,
                                     const uint32_t m_cost,
                                     const uint32_t parallelism, const void *pwd,
                                     const size_t pwdlen, const void *salt,
                                     const size_t saltlen, void *hash,
-                                    const size_t hashlen);
+                                    const size_t hashlen, long volatile *pAbortKeyDerivation);
 
 /* generic function underlying the above ones */
 ARGON2_PUBLIC int argon2_hash(const uint32_t t_cost, const uint32_t m_cost,
@@ -296,7 +301,7 @@ ARGON2_PUBLIC int argon2_hash(const uint32_t t_cost, const uint32_t m_cost,
                               const size_t pwdlen, const void *salt,
                               const size_t saltlen, void *hash,
                               const size_t hashlen, argon2_type type,
-                              const uint32_t version);
+                              const uint32_t version, long volatile *pAbortKeyDerivation);
 
 /**
  * Argon2d: Version of Argon2 that picks memory blocks depending

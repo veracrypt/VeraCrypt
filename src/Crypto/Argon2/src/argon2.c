@@ -24,6 +24,9 @@
 #include <memory.h>
 #include <stdlib.h>
 #endif
+#include "Crypto/config.h"
+#include "Crypto/cpu.h"
+#include "Crypto/misc.h"
 
 const char *argon2_type2string(argon2_type type, int uppercase) {
     switch (type) {
@@ -91,6 +94,9 @@ int argon2_ctx(argon2_context *context, argon2_type type) {
     result = fill_memory_blocks(&instance);
 
     if (ARGON2_OK != result) {
+        // If cancelled, we must still free the allocated memory!
+        free_memory(context, (uint8_t *)instance.memory,
+                    instance.memory_blocks, sizeof(block));
         return result;
     }
     /* 5. Finalization */
@@ -103,7 +109,7 @@ int argon2_hash(const uint32_t t_cost, const uint32_t m_cost,
                 const uint32_t parallelism, const void *pwd,
                 const size_t pwdlen, const void *salt, const size_t saltlen,
                 void *hash, const size_t hashlen, argon2_type type,
-                const uint32_t version){
+                const uint32_t version, long volatile *pAbortKeyDerivation){
 
     argon2_context context;
     int result;
@@ -148,6 +154,7 @@ int argon2_hash(const uint32_t t_cost, const uint32_t m_cost,
     context.free_cbk = NULL;
     context.flags = ARGON2_DEFAULT_FLAGS;
     context.version = version;
+    context.pAbortKeyDerivation = pAbortKeyDerivation;
 
     result = argon2_ctx(&context, type);
 
@@ -171,28 +178,28 @@ int argon2_hash(const uint32_t t_cost, const uint32_t m_cost,
 int argon2i_hash_raw(const uint32_t t_cost, const uint32_t m_cost,
                      const uint32_t parallelism, const void *pwd,
                      const size_t pwdlen, const void *salt,
-                     const size_t saltlen, void *hash, const size_t hashlen) {
+                     const size_t saltlen, void *hash, const size_t hashlen, long volatile* pAbortKeyDerivation) {
 
     return argon2_hash(t_cost, m_cost, parallelism, pwd, pwdlen, salt, saltlen,
-                       hash, hashlen, Argon2_i, ARGON2_VERSION_NUMBER);
+                       hash, hashlen, Argon2_i, ARGON2_VERSION_NUMBER, pAbortKeyDerivation);
 }
 
 int argon2d_hash_raw(const uint32_t t_cost, const uint32_t m_cost,
                      const uint32_t parallelism, const void *pwd,
                      const size_t pwdlen, const void *salt,
-                     const size_t saltlen, void *hash, const size_t hashlen) {
+                     const size_t saltlen, void *hash, const size_t hashlen, long volatile* pAbortKeyDerivation) {
 
     return argon2_hash(t_cost, m_cost, parallelism, pwd, pwdlen, salt, saltlen,
-                       hash, hashlen, Argon2_d, ARGON2_VERSION_NUMBER);
+                       hash, hashlen, Argon2_d, ARGON2_VERSION_NUMBER, pAbortKeyDerivation);
 }
 
 int argon2id_hash_raw(const uint32_t t_cost, const uint32_t m_cost,
                       const uint32_t parallelism, const void *pwd,
                       const size_t pwdlen, const void *salt,
-                      const size_t saltlen, void *hash, const size_t hashlen) {
+                      const size_t saltlen, void *hash, const size_t hashlen, long volatile *pAbortKeyDerivation) {
     return argon2_hash(t_cost, m_cost, parallelism, pwd, pwdlen, salt, saltlen,
                        hash, hashlen, Argon2_id,
-                       ARGON2_VERSION_NUMBER);
+                       ARGON2_VERSION_NUMBER, pAbortKeyDerivation);
 }
 
 int argon2d_ctx(argon2_context *context) {

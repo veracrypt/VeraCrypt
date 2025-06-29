@@ -145,7 +145,11 @@ void hmac_sha256
 }
 #endif
 
-static void derive_u_sha256 (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
+static void derive_u_sha256 (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac
+#ifndef TC_WINDOWS_BOOT
+	, long volatile *pAbortKeyDerivation
+#endif
+)
 {
 	unsigned char* k = hmac->k;
 	unsigned char* u = hmac->u;
@@ -186,6 +190,11 @@ static void derive_u_sha256 (const unsigned char *salt, int salt_len, uint32 ite
 	/* remaining iterations */
 	while (c > 1)
 	{
+#ifndef TC_WINDOWS_BOOT
+		// CANCELLATION CHECK: Check every 1024 iterations
+		if (pAbortKeyDerivation && (c & 1023) == 0 && *pAbortKeyDerivation == 1)
+			return; // Abort derivation
+#endif
 		hmac_sha256_internal (k, SHA256_DIGESTSIZE, hmac);
 		for (i = 0; i < SHA256_DIGESTSIZE; i++)
 		{
@@ -196,7 +205,11 @@ static void derive_u_sha256 (const unsigned char *salt, int salt_len, uint32 ite
 }
 
 
-void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen
+#ifndef TC_WINDOWS_BOOT
+	, long volatile *pAbortKeyDerivation
+#endif
+)
 {	
 	hmac_sha256_ctx hmac;
 	sha256_ctx* ctx;
@@ -264,20 +277,36 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
+#ifndef TC_WINDOWS_BOOT
+		derive_u_sha256 (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+		// Check if the derivation was aborted
+		if (pAbortKeyDerivation && *pAbortKeyDerivation == 1)
+			goto cancelled;
+#else
 		derive_u_sha256 (salt, salt_len, iterations, b, &hmac);
+#endif
 		memcpy (dk, hmac.u, SHA256_DIGESTSIZE);
 		dk += SHA256_DIGESTSIZE;
 	}
 
 	/* last block */
+#ifndef TC_WINDOWS_BOOT
+	derive_u_sha256 (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+	// Check if the derivation was aborted (in case of only one block)
+	if (pAbortKeyDerivation && *pAbortKeyDerivation == 1)
+		goto cancelled;
+#else
 	derive_u_sha256 (salt, salt_len, iterations, b, &hmac);
+#endif
 	memcpy (dk, hmac.u, r);
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
 		KeRestoreExtendedProcessorState(&SaveState);
 #endif
-
+#ifndef TC_WINDOWS_BOOT
+cancelled:
+#endif
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 #ifndef TC_WINDOWS_BOOT
@@ -395,7 +424,7 @@ void hmac_sha512
 	burn (key, sizeof(key));
 }
 
-static void derive_u_sha512 (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
+static void derive_u_sha512 (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac, long volatile *pAbortKeyDerivation)
 {
 	unsigned char* k = hmac->k;
 	unsigned char* u = hmac->u;
@@ -413,6 +442,9 @@ static void derive_u_sha512 (const unsigned char *salt, int salt_len, uint32 ite
 	/* remaining iterations */
 	for (c = 1; c < iterations; c++)
 	{
+		// CANCELLATION CHECK: Check every 1024 iterations
+		if (pAbortKeyDerivation && (c & 1023) == 0 && *pAbortKeyDerivation == 1)
+			return; // Abort derivation
 		hmac_sha512_internal (k, SHA512_DIGESTSIZE, hmac);
 		for (i = 0; i < SHA512_DIGESTSIZE; i++)
 		{
@@ -422,7 +454,7 @@ static void derive_u_sha512 (const unsigned char *salt, int salt_len, uint32 ite
 }
 
 
-void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation)
 {
 	hmac_sha512_ctx hmac;
 	sha512_ctx* ctx;
@@ -489,20 +521,26 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_sha512 (salt, salt_len, iterations, b, &hmac);
+		derive_u_sha512 (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+		// Check if the derivation was aborted
+		if (pAbortKeyDerivation && *pAbortKeyDerivation == 1)
+			goto cancelled;
 		memcpy (dk, hmac.u, SHA512_DIGESTSIZE);
 		dk += SHA512_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_sha512 (salt, salt_len, iterations, b, &hmac);
+	derive_u_sha512 (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+	// Check if the derivation was aborted (in case of only one block)
+	if (pAbortKeyDerivation && *pAbortKeyDerivation == 1)
+		goto cancelled;
 	memcpy (dk, hmac.u, r);
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
 		KeRestoreExtendedProcessorState(&SaveState);
 #endif
-
+cancelled:
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 	burn (key, sizeof(key));
@@ -619,7 +657,11 @@ void hmac_blake2s
 }
 #endif
 
-static void derive_u_blake2s (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_blake2s_ctx* hmac)
+static void derive_u_blake2s (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_blake2s_ctx* hmac
+#ifndef TC_WINDOWS_BOOT
+	, volatile long *pAbortKeyDerivation
+#endif
+)
 {
 	unsigned char* k = hmac->k;
 	unsigned char* u = hmac->u;
@@ -660,6 +702,11 @@ static void derive_u_blake2s (const unsigned char *salt, int salt_len, uint32 it
 	/* remaining iterations */
 	while (c > 1)
 	{
+#ifndef TC_WINDOWS_BOOT
+		// CANCELLATION CHECK: Check every 1024 iterations
+		if (pAbortKeyDerivation && (c & 1023) == 0 && *pAbortKeyDerivation)
+			return; // Abort derivation
+#endif
 		hmac_blake2s_internal (k, BLAKE2S_DIGESTSIZE, hmac);
 		for (i = 0; i < BLAKE2S_DIGESTSIZE; i++)
 		{
@@ -670,7 +717,11 @@ static void derive_u_blake2s (const unsigned char *salt, int salt_len, uint32 it
 }
 
 
-void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen
+#ifndef TC_WINDOWS_BOOT
+	, volatile long *pAbortKeyDerivation
+#endif
+)
 {	
 	hmac_blake2s_ctx hmac;
 	blake2s_state* ctx;
@@ -738,20 +789,36 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
+#ifndef TC_WINDOWS_BOOT
+		derive_u_blake2s (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+		// Check if the derivation was aborted
+		if (pAbortKeyDerivation && *pAbortKeyDerivation)
+			goto cancelled;
+#else
 		derive_u_blake2s (salt, salt_len, iterations, b, &hmac);
+#endif
 		memcpy (dk, hmac.u, BLAKE2S_DIGESTSIZE);
 		dk += BLAKE2S_DIGESTSIZE;
 	}
 
 	/* last block */
+#ifndef TC_WINDOWS_BOOT
+	derive_u_blake2s (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+	// Check if the derivation was aborted (in case of only one block)
+	if (pAbortKeyDerivation && *pAbortKeyDerivation)
+		goto cancelled;
+#else
 	derive_u_blake2s (salt, salt_len, iterations, b, &hmac);
+#endif
 	memcpy (dk, hmac.u, r);
 
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
 		KeRestoreExtendedProcessorState(&SaveState);
 #endif
-
+#ifndef TC_WINDOWS_BOOT
+cancelled:
+#endif
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 #ifndef TC_WINDOWS_BOOT
@@ -856,7 +923,7 @@ void hmac_whirlpool
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_whirlpool (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
+static void derive_u_whirlpool (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac, volatile long *pAbortKeyDerivation)
 {
 	unsigned char* u = hmac->u;
 	unsigned char* k = hmac->k;
@@ -874,6 +941,9 @@ static void derive_u_whirlpool (const unsigned char *salt, int salt_len, uint32 
 	/* remaining iterations */
 	for (c = 1; c < iterations; c++)
 	{
+		// CANCELLATION CHECK: Check every 1024 iterations
+		if (pAbortKeyDerivation && (c & 1023) == 0 && *pAbortKeyDerivation)
+			return; // Abort derivation
 		hmac_whirlpool_internal (k, WHIRLPOOL_DIGESTSIZE, hmac);
 		for (i = 0; i < WHIRLPOOL_DIGESTSIZE; i++)
 		{
@@ -882,7 +952,7 @@ static void derive_u_whirlpool (const unsigned char *salt, int salt_len, uint32 
 	}
 }
 
-void derive_key_whirlpool (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_whirlpool (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, volatile long *pAbortKeyDerivation)
 {
 	hmac_whirlpool_ctx hmac;
 	WHIRLPOOL_CTX* ctx;
@@ -942,15 +1012,21 @@ void derive_key_whirlpool (const unsigned char *pwd, int pwd_len, const unsigned
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_whirlpool (salt, salt_len, iterations, b, &hmac);
+		derive_u_whirlpool (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+		// Check if the derivation was aborted
+		if (pAbortKeyDerivation && *pAbortKeyDerivation)
+			goto cancelled;
 		memcpy (dk, hmac.u, WHIRLPOOL_DIGESTSIZE);
 		dk += WHIRLPOOL_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_whirlpool (salt, salt_len, iterations, b, &hmac);
+	derive_u_whirlpool (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+	// Check if the derivation was aborted (in case of only one block)
+	if (pAbortKeyDerivation && *pAbortKeyDerivation)
+		goto cancelled;
 	memcpy (dk, hmac.u, r);
-
+cancelled:
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 	burn (key, sizeof(key));
@@ -1050,7 +1126,7 @@ void hmac_streebog
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_streebog (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac)
+static void derive_u_streebog (const unsigned char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac, volatile long *pAbortKeyDerivation)
 {
 	unsigned char* u = hmac->u;
 	unsigned char* k = hmac->k;
@@ -1068,6 +1144,9 @@ static void derive_u_streebog (const unsigned char *salt, int salt_len, uint32 i
 	/* remaining iterations */
 	for (c = 1; c < iterations; c++)
 	{
+		// CANCELLATION CHECK: Check every 1024 iterations
+		if (pAbortKeyDerivation && (c & 1023) == 0 && *pAbortKeyDerivation)
+			return; // Abort derivation
 		hmac_streebog_internal (k, STREEBOG_DIGESTSIZE, hmac);
 		for (i = 0; i < STREEBOG_DIGESTSIZE; i++)
 		{
@@ -1076,7 +1155,7 @@ static void derive_u_streebog (const unsigned char *salt, int salt_len, uint32 i
 	}
 }
 
-void derive_key_streebog (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen)
+void derive_key_streebog (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, volatile long *pAbortKeyDerivation)
 {
 	hmac_streebog_ctx hmac;
 	STREEBOG_CTX* ctx;
@@ -1136,15 +1215,21 @@ void derive_key_streebog (const unsigned char *pwd, int pwd_len, const unsigned 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_streebog (salt, salt_len, iterations, b, &hmac);
+		derive_u_streebog (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+		// Check if the derivation was aborted
+		if (pAbortKeyDerivation && *pAbortKeyDerivation)
+			goto cancelled;
 		memcpy (dk, hmac.u, STREEBOG_DIGESTSIZE);
 		dk += STREEBOG_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_streebog (salt, salt_len, iterations, b, &hmac);
+	derive_u_streebog (salt, salt_len, iterations, b, &hmac, pAbortKeyDerivation);
+	// Check if the derivation was aborted (in case of only one block)
+	if (pAbortKeyDerivation && *pAbortKeyDerivation)
+		goto cancelled;
 	memcpy (dk, hmac.u, r);
-
+cancelled:
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 	burn (key, sizeof(key));
@@ -1245,7 +1330,7 @@ int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
 
 }
 
-void derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, uint32 memcost, unsigned char *dk, int dklen)
+void derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, uint32 memcost, unsigned char *dk, int dklen, volatile long *pAbortKeyDerivation)
 {
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
@@ -1259,7 +1344,8 @@ void derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned cha
 		1, // parallelism factor (number of threads)
 		pwd, pwd_len, // password and its length
 		salt, salt_len, // salt and its length
-		dk, dklen// derived key and its length
+		dk, dklen,// derived key and its length
+		pAbortKeyDerivation 
 	))
 	{
 		// If the Argon2 derivation fails, we fill the derived key with zeroes

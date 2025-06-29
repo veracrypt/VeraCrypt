@@ -15,6 +15,9 @@
  * software. If not, they may be obtained at the above URLs.
  */
 
+#include "Crypto/config.h"
+#include "Crypto/cpu.h"
+#include "Crypto/misc.h"
 #include "blake2.h"
 #include "blake2-impl.h"
 

@@ -6445,32 +6445,32 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ((const unsigned char*) "passphrase-1234567890", 21, (const unsigned char*) tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ((const unsigned char*) "passphrase-1234567890", 21, (const unsigned char*) tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE, NULL);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE, NULL);
 					break;
                           #ifndef WOLFCRYPT_BACKEND
 				case BLAKE2S:
 					/* PKCS-5 test with HMAC-BLAKE2s used as the PRF */
-					derive_key_blake2s ((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
+					derive_key_blake2s ((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE, NULL);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE, NULL);
 					break;
 
 				case STREEBOG:
 					/* PKCS-5 test with HMAC-STREEBOG used as the PRF */
-					derive_key_streebog((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE);
+					derive_key_streebog((const unsigned char*)"passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, dk, MASTER_KEYDATA_SIZE, NULL);
 					break;
 				
 				case ARGON2:
 					/* test with ARGON2 used as the PRF */
-					derive_key_argon2 ((const unsigned char*) "passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, memoryCost, dk, MASTER_KEYDATA_SIZE);
+					derive_key_argon2 ((const unsigned char*) "passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, memoryCost, dk, MASTER_KEYDATA_SIZE, NULL);
  					break;
 				}
 	                   #endif	

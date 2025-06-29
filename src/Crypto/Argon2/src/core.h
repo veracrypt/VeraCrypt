@@ -216,7 +216,7 @@ void finalize(const argon2_context *context, argon2_instance_t *instance);
  * @param position Current position
  * @pre all block pointers must be valid
  */
-void fill_segment(const argon2_instance_t *instance,
+int fill_segment(const argon2_instance_t *instance,
                   argon2_position_t position);
 
 /*

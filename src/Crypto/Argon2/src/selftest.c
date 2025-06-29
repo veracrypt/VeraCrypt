@@ -92,6 +92,7 @@ static int argon2_selftest_ctx (void)
    context.free_cbk = NULL;
    context.flags = ARGON2_DEFAULT_FLAGS;
    context.version = ARGON2_VERSION_13;
+   context.pAbortKeyDerivation = NULL; /* No abort function */
 
    /* Test execution for Argon2d, Argon2i, Argon2id */
 
@@ -118,7 +119,7 @@ static int hashtest (uint32_t t, uint32_t m, uint32_t p, const char *pwd,
    uint8_t out[32];
 
    return (argon2_hash(t, 1 << m, p, pwd, strlen (pwd), salt, strlen (salt),
-           out, 32, type, ARGON2_VERSION_NUMBER) == ARGON2_OK &&
+           out, 32, type, ARGON2_VERSION_NUMBER, NULL) == ARGON2_OK &&
            memcmp (out, ref, 32) == 0) ? 0 : 1;
 }
 

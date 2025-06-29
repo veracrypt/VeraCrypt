@@ -143,6 +143,8 @@ extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 extern __m128i _mm_srli_si128(__m128i _A, int _Imm);
 extern __m128i _mm_slli_si128(__m128i _A, int _Imm);
 extern __m128i _mm_setzero_si128();
+extern __m128i _mm_mul_epu32(__m128i _A, __m128i _B);
+extern __m128i _mm_slli_epi64(__m128i _A, int _Count);
 #define _mm_xor_si64      _m_pxor
 #define _mm_empty         _m_empty
 #define _MM_SHUFFLE(fp3,fp2,fp1,fp0) (((fp3) << 6) | ((fp2) << 4) | \

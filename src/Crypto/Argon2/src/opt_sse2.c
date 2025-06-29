@@ -19,12 +19,14 @@
 
 #include "argon2.h"
 #include "core.h"
+#include "Crypto/config.h"
+#include "Crypto/cpu.h"
+#include "Crypto/misc.h"
 
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
 
 #include "blake2/blake2.h"
 #include "blake2/blamka-round-opt.h"
-#include "Crypto/config.h"
 
 /*
  * Function fills a new memory block and optionally XORs the old block over the new one.
@@ -91,7 +93,7 @@ static void next_addresses(block *address_block, block *input_block) {
     fill_block(zero2_block, address_block, address_block, 0);
 }
 
-void fill_segment_sse2(const argon2_instance_t *instance,
+int fill_segment_sse2(const argon2_instance_t *instance,
                   argon2_position_t position) {
     block *ref_block = NULL, *curr_block = NULL;
     block address_block, input_block;
@@ -102,7 +104,7 @@ void fill_segment_sse2(const argon2_instance_t *instance,
     int data_independent_addressing;
 
     if (instance == NULL) {
-        return;
+        return ARGON2_INCORRECT_PARAMETER;
     }
 
     data_independent_addressing =
@@ -148,6 +150,13 @@ void fill_segment_sse2(const argon2_instance_t *instance,
 
     for (i = starting_index; i < instance->segment_length;
          ++i, ++curr_offset, ++prev_offset) {
+
+        // Check every 64 blocks. This is a good balance for responsiveness.
+        if ((i & 63) == 0 && instance->context_ptr->pAbortKeyDerivation &&
+            *instance->context_ptr->pAbortKeyDerivation)
+        {
+            return ARGON2_OPERATION_CANCELLED; // Return cancellation code
+        }
         /*1.1 Rotating prev_offset if needed */
         if (curr_offset % instance->lane_length == 1) {
             prev_offset = curr_offset - 1;
@@ -194,11 +203,13 @@ void fill_segment_sse2(const argon2_instance_t *instance,
             }
         }
     }
+    return ARGON2_OK;
 }
 #else
-void fill_segment_sse2(const argon2_instance_t* instance,
+int fill_segment_sse2(const argon2_instance_t* instance,
     argon2_position_t position) {
     (void)instance;
     (void)position;
+    return ARGON2_INCORRECT_PARAMETER; // SSE2 not available
 }
 #endif

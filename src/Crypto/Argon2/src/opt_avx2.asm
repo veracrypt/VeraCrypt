@@ -358,6 +358,8 @@ fill_block:
     jne     .L5
     jmp     .L4
 
+
+align 16
 next_addresses:
     push    rdi
     push    rbx
@@ -386,6 +388,8 @@ next_addresses:
     pop     rdi
     ret
 
+
+align 16
 global fill_segment_avx2
 fill_segment_avx2:
     push    r15
@@ -403,7 +407,7 @@ fill_segment_avx2:
     vmovdqu [rsp+48], xmm1
     and     r14, -32
     test    rcx, rcx
-    je      .L44
+    je      .L37
     mov     edx, dword [rcx+36]
     cmp     edx, 1
     je      .L18
@@ -413,47 +417,54 @@ fill_segment_avx2:
     je      .L19
     mov     ebp, dword [rsp+52]
     test    r12d, r12d
-    jne     .L37
-    xor     r12d, r12d
-    test    al, al
-    sete    r12b
+    je      .L51
     xor     r15d, r15d
-    add     r12d, r12d
+    xor     r12d, r12d
 .L20:
-    mov     r8d, dword [rbx+24]
-    mov     r9d, dword [rbx+20]
+    mov     ecx, dword [rbx+24]
+    mov     r8d, dword [rbx+20]
     xor     edx, edx
-    mov     ecx, 128
     mov     rdi, r14
-    imul    ebp, r8d
-    imul    eax, r9d
+    imul    ebp, ecx
+    imul    eax, r8d
     add     ebp, r12d
     add     ebp, eax
     mov     eax, ebp
     lea     r13d, [rbp-1]
-    div     r8d
-    lea     eax, [rbp+r8-1]
+    div     ecx
+    lea     eax, [rbp+rcx-1]
+    mov     ecx, 128
     test    edx, edx
     cmove   r13d, eax
+    lea     rax, [rsp+64]
+    mov     qword [rsp+40], rax
     mov     esi, r13d
     sal     rsi, 10
     add     rsi, qword [rbx]
     rep movsq
-    cmp     r12d, r9d
-    jnb     .L44
-    lea     rax, [rsp+1088]
-    mov     qword [rsp+32], rax
-    lea     rax, [rsp+64]
-    mov     qword [rsp+40], rax
-    jmp     .L35
-    align   16
-    align   8
-.L46:
+    cmp     r12d, r8d
+    jb      .L24
+    jmp     .L36
+
+align 16
+align 8
+.L53:
+    mov     esi, r12d
+    and     esi, 127
+    je      .L52
+.L29:
+    mov     edx, dword [rsp+48]
+    mov     eax, esi
+    mov     ecx, dword [rsp+52]
+    mov     r8, qword [rsp+64+rax*8]
+    test    edx, edx
+    jne     .L31
+.L54:
     cmp     byte [rsp+56], 0
-    jne     .L30
-    mov     rdi, rcx
+    jne     .L31
+    mov     rsi, rcx
     mov     r9d, 1
-.L31:
+.L32:
     lea     rdx, [rsp+48]
     mov     rcx, rbx
     mov     dword [rsp+60], r12d
@@ -461,7 +472,7 @@ fill_segment_avx2:
     mov     edx, dword [rbx+24]
     mov     r8, qword [rbx]
     mov     eax, eax
-    imul    rdx, rdi
+    imul    rdx, rsi
     add     rdx, rax
     mov     eax, ebp
     sal     rdx, 10
@@ -469,55 +480,80 @@ fill_segment_avx2:
     add     rdx, r8
     add     r8, rax
     cmp     dword [rbx+8], 16
-    je      .L32
+    je      .L33
     mov     eax, dword [rsp+48]
     test    eax, eax
-    je      .L32
+    je      .L33
     mov     r9d, 1
     mov     rcx, r14
-    call    fill_block
-.L34:
     add     r12d, 1
-    cmp     r12d, dword [rbx+20]
-    jnb     .L44
-    mov     r8d, dword [rbx+24]
     add     ebp, 1
-.L35:
+    call    fill_block
+    cmp     r12d, dword [rbx+20]
+    jnb     .L36
+.L24:
+    test    r12b, 63
+    jne     .L25
+    mov     rax, qword [rbx+48]
+    mov     rax, qword [rax+96]
+    test    rax, rax
+    je      .L25
+    mov     eax, dword [rax]
+    test    eax, eax
+    jne     .L41
+.L25:
     mov     eax, ebp
     xor     edx, edx
-    div     r8d
+    div     dword [rbx+24]
     cmp     edx, 1
-    je      .L25
+    je      .L26
     mov     eax, r13d
     add     r13d, 1
-.L26:
+.L27:
     test    r15d, r15d
-    je      .L27
-    mov     edi, r12d
-    and     edi, 127
-    je      .L45
-.L28:
-    mov     eax, edi
-    mov     r8, qword [rsp+64+rax*8]
-.L29:
+    jne     .L53
     mov     edx, dword [rsp+48]
+    sal     rax, 10
+    add     rax, qword [rbx]
+    mov     r8, qword [rax]
     mov     ecx, dword [rsp+52]
     test    edx, edx
-    je      .L46
-.L30:
-    mov     edi, dword [rbx+28]
+    je      .L54
+.L31:
+    mov     esi, dword [rbx+28]
     mov     rax, r8
     xor     edx, edx
     xor     r9d, r9d
     shr     rax, 32
-    div     rdi
+    div     rsi
     cmp     rdx, rcx
-    mov     rdi, rdx
+    mov     rsi, rdx
     sete    r9b
-    jmp     .L31
-    align   16
-    align   8
-.L44:
+    jmp     .L32
+
+align 16
+align 8
+.L51:
+    xor     r12d, r12d
+    test    al, al
+    sete    r12b
+    xor     r15d, r15d
+    add     r12d, r12d
+    jmp     .L20
+
+align 16
+align 8
+.L33:
+    xor     r9d, r9d
+    mov     rcx, r14
+    add     r12d, 1
+    add     ebp, 1
+    call    fill_block
+    cmp     r12d, dword [rbx+20]
+    jb      .L24
+.L36:
+    xor     eax, eax
+.L16:
     add     rsp, 3160
     pop     rbx
     pop     rsi
@@ -528,51 +564,35 @@ fill_segment_avx2:
     pop     r14
     pop     r15
     ret
-    align   16
-    align   8
+
+align 16
+align 8
+.L26:
+    lea     eax, [rbp-1]
+    mov     r13d, ebp
+    jmp     .L27
+
+align 16
+align 8
+.L52:
+    mov     rcx, qword [rsp+40]
+    lea     rdx, [rsp+1088]
+    call    next_addresses
+    jmp     .L29
+
+align 16
+align 8
 .L19:
     test    r12d, r12d
-    jne     .L47
+    jne     .L55
     cmp     al, 1
     jbe     .L18
     mov     ebp, dword [rsp+52]
     xor     r15d, r15d
     jmp     .L20
-    align   16
-    align   8
-.L32:
-    xor     r9d, r9d
-    mov     rcx, r14
-    call    fill_block
-    jmp     .L34
-    align   16
-    align   8
-.L27:
-    sal     rax, 10
-    add     rax, qword [rbx]
-    mov     r8, qword [rax]
-    jmp     .L29
-    align   16
-    align   8
-.L25:
-    lea     eax, [rbp-1]
-    mov     r13d, ebp
-    jmp     .L26
-    align   16
-    align   8
-.L45:
-    mov     rdx, qword [rsp+32]
-    mov     rcx, qword [rsp+40]
-    call    next_addresses
-    jmp     .L28
-    align   16
-    align   8
-.L37:
-    xor     r15d, r15d
-    xor     r12d, r12d
-    jmp     .L20
-    align   16
-    align   8
+
+align 16
+align 8
 .L18:
     xor     edx, edx
     lea     rcx, [rsp+1088]
@@ -583,18 +603,18 @@ fill_segment_avx2:
     vpinsrd xmm0, xmm2, dword [rbx+36], 1
     movzx   edx, byte [rsp+56]
     mov     qword [rsp+1088], rax
-    mov     ecx, dword [rbx+16]
+    mov     edi, dword [rbx+16]
     mov     r12, rax
     mov     eax, dword [rsp+52]
     vpmovzxdq xmm0, xmm0
     mov     qword [rsp+1104], rdx
-    mov     qword [rsp+1112], rcx
+    mov     qword [rsp+1112], rdi
     mov     qword [rsp+1096], rax
     mov     rbp, rax
     mov     rax, rdx
     vmovdqu [rsp+1120], xmm0
     test    r12d, r12d
-    jne     .L38
+    jne     .L39
     test    dl, dl
     jne     .L20
     lea     rcx, [rsp+64]
@@ -604,18 +624,27 @@ fill_segment_avx2:
     mov     ebp, dword [rsp+52]
     movzx   eax, byte [rsp+56]
     jmp     .L20
-    align   16
-    align   8
-.L47:
+
+align 16
+align 8
+.L41:
+    mov     eax, -36
+    jmp     .L16
+
+.L55:
     mov     ebp, dword [rsp+52]
     xor     r15d, r15d
     xor     r12d, r12d
     jmp     .L20
-    align   16
-    align   8
-.L38:
+
+.L39:
     xor     r12d, r12d
     jmp     .L20
+
+.L37:
+    mov     eax, -25
+    jmp     .L16
+
 
 section .rdata align=32
 LC0:
@@ -626,8 +655,8 @@ LC1:
     db 2,3,4,5,6,7,0,1,10,11,12,13,14,15,8,9
     db 2,3,4,5,6,7,0,1,10,11,12,13,14,15,8,9
 
-; External functions
+; External symbols
 extern index_alpha
 extern init_block_value
 
-; end of file
+; End of file
