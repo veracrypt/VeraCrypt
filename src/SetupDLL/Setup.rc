@@ -46,11 +46,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCryptSetup"
-            VALUE "FileVersion", "1.26.25"
+            VALUE "FileVersion", "1.26.26"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCryptSetup.dll"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.26.25"
+            VALUE "ProductVersion", "1.26.26"
         END
     END
     BLOCK "VarFileInfo"

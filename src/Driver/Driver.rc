@@ -45,11 +45,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCrypt Driver"
-            VALUE "FileVersion", "1.26.25"
+            VALUE "FileVersion", "1.26.26"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "veracrypt.sys"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.26.25"
+            VALUE "ProductVersion", "1.26.26"
         END
     END
     BLOCK "VarFileInfo"

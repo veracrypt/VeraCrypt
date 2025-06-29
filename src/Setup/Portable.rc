@@ -44,11 +44,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCrypt Portable"
-            VALUE "FileVersion", "1.26.25"
+            VALUE "FileVersion", "1.26.26"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt Portable.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.26.25"
+            VALUE "ProductVersion", "1.26.26"
         END
     END
     BLOCK "VarFileInfo"
