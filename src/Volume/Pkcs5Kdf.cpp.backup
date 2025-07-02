@@ -120,12 +120,5 @@ namespace VeraCrypt
 		ValidateParameters (key, password, salt, iterationCount);
 		derive_key_streebog (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
 	}
-
-	// OpenADP Ocrypt implementation
-	void Pkcs5HmacOcrypt::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
-	{
-		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_ocrypt (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
-	}
     #endif
 }

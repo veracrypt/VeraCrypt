@@ -35,8 +35,6 @@
 #endif
 #include "Pkcs5.h"
 #include "Crypto.h"
-#include "OcryptWrapper.h"
-#include <stdio.h>
 
 #if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_SHA2)
 
@@ -1442,48 +1440,3 @@ void get_argon2_params(int pim, int* pIterations, int* pMemcost)
 }
 
 #endif //!TC_WINDOWS_BOOT
-
-/* OpenADP Ocrypt distributed key derivation */
-void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation)
-{
-    // For VeraCrypt, we use the salt as a unique identifier and the password as the PIN
-    // The derived key will be generated and protected by Ocrypt's distributed cryptography
-    
-    // Create a unique user_id from the salt (this makes each volume unique)
-    char user_id[256];
-    char app_id[] = "veracrypt";
-    int i;
-    
-    // Convert salt to hex string for user_id
-    for (i = 0; i < salt_len && i < 120; i++) {
-        sprintf(user_id + (i * 2), "%02x", salt[i]);
-    }
-    user_id[i * 2] = '\0';
-    
-    // Convert password to null-terminated string
-    char password[256];
-    int password_len = pwd_len;
-    if (password_len > 255) password_len = 255;
-    memcpy(password, pwd, password_len);
-    password[password_len] = '\0';
-    
-    // For key derivation, we need to either register or recover a key
-    // Since this function is called for both creating and opening volumes,
-    // we'll try to recover first (for existing volumes) and register if that fails
-    
-    // Try to recover an existing key (this would work for opening existing volumes)
-    // For now, we'll generate a deterministic key based on the inputs
-    // This is a simplified implementation - in practice, VeraCrypt would need
-    // to store/retrieve the Ocrypt metadata alongside the volume
-    
-    // Generate a deterministic seed from the inputs for the secret
-    unsigned char seed[32];
-    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(pwd, pwd_len, &ctx); sha256_end(seed, &ctx); }
-    
-    // For this demo, we'll create a simple derived key
-    // In a real implementation, VeraCrypt would store Ocrypt metadata with each volume
-    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(seed, 32, &ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(dk, &ctx); }
-    
-    // TODO: Integrate with VeraCrypt's volume format to store/retrieve Ocrypt metadata
-    // This would require changes to the volume header format
-}

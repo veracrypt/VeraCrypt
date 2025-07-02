@@ -47,9 +47,6 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id);
 void derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, uint32 memcost, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
 void get_argon2_params(int pim, int* pIterations, int* pMemcost);
 
-/* OpenADP Ocrypt distributed key derivation */
-void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
-
 /* check if given PRF supported.*/
 typedef enum
 {
