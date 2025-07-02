@@ -187,21 +187,38 @@ namespace VeraCrypt
 	};
     #endif
 
-	class Pkcs5HmacOcrypt : public Pkcs5Kdf
+	class Pkcs5Argon2 : public Pkcs5Kdf
 	{
 	public:
-		Pkcs5HmacOcrypt () : Pkcs5Kdf() { }
-		virtual ~Pkcs5HmacOcrypt () { }
+		Pkcs5Argon2 () : Pkcs5Kdf() { }
+		virtual ~Pkcs5Argon2 () { }
 
 		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
-		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256()); }
-		virtual int GetIterationCount (int pim) const { return 10; } // Fixed iteration count for Ocrypt
-		virtual wstring GetName () const { return L"HMAC-Ocrypt"; }
-		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacOcrypt(); }
+		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256()); } // Placeholder hash for Argon2
+		virtual int GetIterationCount (int pim) const;
+		virtual wstring GetName () const { return L"Argon2"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5Argon2(); }
 
 	private:
-		Pkcs5HmacOcrypt (const Pkcs5HmacOcrypt &);
-		Pkcs5HmacOcrypt &operator= (const Pkcs5HmacOcrypt &);
+		Pkcs5Argon2 (const Pkcs5Argon2 &);
+		Pkcs5Argon2 &operator= (const Pkcs5Argon2 &);
+	};
+
+	class Pkcs5Ocrypt : public Pkcs5Kdf
+	{
+	public:
+		Pkcs5Ocrypt () : Pkcs5Kdf() { }
+		virtual ~Pkcs5Ocrypt () { }
+
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256()); } // Placeholder hash
+		virtual int GetIterationCount (int pim) const { return 10; } // Fixed iteration count for Ocrypt
+		virtual wstring GetName () const { return L"Ocrypt"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5Ocrypt(); }
+
+	private:
+		Pkcs5Ocrypt (const Pkcs5Ocrypt &);
+		Pkcs5Ocrypt &operator= (const Pkcs5Ocrypt &);
 	};
 }
 

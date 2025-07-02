@@ -59,8 +59,10 @@ namespace VeraCrypt
         #ifndef WOLFCRYPT_BACKEND
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacBlake2s ()));
                 l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool ()));
-		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
-        #endif
+				l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacStreebog ()));
+	#endif
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5Argon2 ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5Ocrypt ()));
 		return l;
 	}
 
@@ -121,8 +123,27 @@ namespace VeraCrypt
 		derive_key_streebog (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
 	}
 
+	// Argon2 implementation
+	void Pkcs5Argon2::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
+	{
+		ValidateParameters (key, password, salt, iterationCount);
+
+		// For Argon2, we need to get the memory cost parameter as well
+		int memoryCost;
+		get_argon2_params(0, &iterationCount, &memoryCost); // PIM=0 uses default
+
+		derive_key_argon2 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, memoryCost, key.Get(), (int) key.Size(), NULL);
+	}
+
+	int Pkcs5Argon2::GetIterationCount (int pim) const
+	{
+		int iterations, memoryCost;
+		get_argon2_params(pim, &iterations, &memoryCost);
+		return iterations;
+	}
+
 	// OpenADP Ocrypt implementation
-	void Pkcs5HmacOcrypt::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
+	void Pkcs5Ocrypt::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
 		derive_key_ocrypt (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);

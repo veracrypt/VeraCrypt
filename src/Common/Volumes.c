@@ -413,6 +413,11 @@ KeyReady:	;
 				derive_key_argon2(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
 					PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
+
+			case OCRYPT:
+				derive_key_ocrypt(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+				break;
 #endif	
                         default:
 				// Unknown/wrong ID
@@ -1068,6 +1073,11 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 		case ARGON2:
 			derive_key_argon2(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 				PKCS5_SALT_SIZE, keyInfo.noIterations, keyInfo.memoryCost, dk, GetMaxPkcs5OutSize(), NULL);
+			break;
+
+		case OCRYPT:
+			derive_key_ocrypt(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
         #endif
 		default:

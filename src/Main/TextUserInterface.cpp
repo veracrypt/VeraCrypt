@@ -296,7 +296,11 @@ namespace VeraCrypt
 		ShowInfo ("EXTERNAL_VOL_HEADER_BAK_FIRST_INFO");
 
 		shared_ptr <Pkcs5Kdf> kdf;
-		if (CmdLine->ArgHash)
+		if (CmdLine->ArgPrf)
+		{
+			kdf = CmdLine->ArgPrf;
+		}
+		else if (CmdLine->ArgHash)
 		{
 			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}
@@ -1543,7 +1547,11 @@ namespace VeraCrypt
 		// Ask whether to restore internal or external backup
 		bool restoreInternalBackup;
 		shared_ptr <Pkcs5Kdf> kdf;
-		if (CmdLine->ArgHash)
+		if (CmdLine->ArgPrf)
+		{
+			kdf = CmdLine->ArgPrf;
+		}
+		else if (CmdLine->ArgHash)
 		{
 			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}
