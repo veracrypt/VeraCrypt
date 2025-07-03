@@ -16,7 +16,7 @@
 #include <memory.h>
 #include <stdlib.h>
 #endif
-#include "blake2.h"
+#include "blake2s.h"
 #ifndef TC_WINDOWS_BOOT
 #include "Sha2.h"
 #include "Whirlpool.h"

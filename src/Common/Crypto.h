@@ -200,11 +200,12 @@ typedef struct
 #endif
 #include "Twofish.h"
 
-#include "blake2.h"
+#include "blake2s.h"
 #ifndef TC_WINDOWS_BOOT
 #	include "Sha2.h"
 #	include "Whirlpool.h"
 #	include "argon2.h"
+#	include "blake2b.h"
 #	include "Streebog.h"
 #	include "kuznyechik.h"
 #	include "Camellia.h"

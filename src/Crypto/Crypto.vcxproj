@@ -85,7 +85,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;$(ProjectDir)\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;ARGON2_NO_THREADS;DEBUG;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -105,7 +105,7 @@
     <Midl />
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;$(ProjectDir)\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;ARGON2_NO_THREADS;DEBUG;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -127,7 +127,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;$(ProjectDir)\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;ARGON2_NO_THREADS;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -149,7 +149,7 @@
     <Midl />
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..;$(ProjectDir)\..\Common;$(ProjectDir)\Argon2\include;$(ProjectDir)\Argon2\src;$(ProjectDir)\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;ARGON2_NO_THREADS;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>

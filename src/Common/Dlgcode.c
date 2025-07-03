@@ -6343,10 +6343,11 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		{
 			BYTE digest [MAX_DIGESTSIZE];
 		#ifndef WOLFCRYPT_BACKEND	
-                        WHIRLPOOL_CTX	wctx;
+			WHIRLPOOL_CTX	wctx;
 			STREEBOG_CTX		stctx;
-                        blake2s_state   bctx;
-               #endif
+			blake2s_state   bctx;
+			blake2b_state   b2ctx;
+		#endif
 			sha512_ctx		s2ctx;
 			sha256_ctx		s256ctx;
 
@@ -6354,9 +6355,6 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++) 
 			{
-				// Skip Argon2 since it is not a hash function
-				if (hid == ARGON2)
-					continue;
 				if (QueryPerformanceCounter (&performanceCountStart) == 0)
 					goto counter_error;
 
@@ -6393,6 +6391,12 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 						STREEBOG_init(&stctx);
 						STREEBOG_add(&stctx, lpTestBuffer, benchmarkBufferSize);
 						STREEBOG_finalize(&stctx, (unsigned char *)digest);
+						break;
+					case ARGON2:
+						// For Argon2, we measure speed of the underlying blake2b hash function
+						blake2b_init(&b2ctx, BLAKE2B_OUTBYTES);
+						blake2b_update(&b2ctx, lpTestBuffer, benchmarkBufferSize);
+						blake2b_final(&b2ctx, digest, BLAKE2B_OUTBYTES);
 						break;
 
 					}

@@ -26,7 +26,7 @@
 
 #if defined(__AVX2__)
 
-#include "blake2/blake2.h"
+#include "blake2/blake2b.h"
 #include "blake2/blamka-round-opt.h"
 
 /*

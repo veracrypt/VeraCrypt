@@ -18,7 +18,7 @@
 #ifndef BLAKE_ROUND_MKA_H
 #define BLAKE_ROUND_MKA_H
 
-#include "blake2.h"
+#include "blake2b.h"
 #include "blake2-impl.h"
 
 /* designed by the Lyra PHC team */

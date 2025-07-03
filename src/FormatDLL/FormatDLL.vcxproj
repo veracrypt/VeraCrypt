@@ -186,7 +186,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -212,7 +212,7 @@ copy VeraCryptFormatSDK.h "..\Debug\SDK Files\VeraCryptFormatSDK.h"</Command>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -240,7 +240,7 @@ copy VeraCryptFormatSDK.h "..\Debug\SDK Files\VeraCryptFormatSDK.h"</Command>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -270,7 +270,7 @@ copy VeraCryptFormatSDK.h "..\Release\SDK Files\VeraCryptFormatSDK.h"
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

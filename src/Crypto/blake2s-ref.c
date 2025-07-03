@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <STRING.H>
 
-#include "blake2.h"
+#include "blake2s.h"
 
 #pragma optimize ("tl", on)
 

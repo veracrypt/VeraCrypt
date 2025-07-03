@@ -258,8 +258,9 @@ BOOL Randmix ()
 	{
 		unsigned char hashOutputBuffer [MAX_DIGESTSIZE];
         #ifndef WOLFCRYPT_BACKEND		
-                WHIRLPOOL_CTX	wctx;
-                blake2s_state   bctx;
+		WHIRLPOOL_CTX	wctx;
+		blake2s_state   bctx;
+		blake2b_state   b2ctx;
 		STREEBOG_CTX	stctx;
         #endif
 		sha512_ctx		sctx;
@@ -314,9 +315,8 @@ BOOL Randmix ()
 				sha256_end (hashOutputBuffer, &s256ctx);
 				break;
 
-                #ifndef WOLFCRYPT_BACKEND
-                      case BLAKE2S:
-                      case ARGON2: // in case of Argon2, we use Blake2s
+#ifndef WOLFCRYPT_BACKEND
+			case BLAKE2S:
 				blake2s_init(&bctx);
 				blake2s_update(&bctx, pRandPool, RNG_POOL_SIZE);
 				blake2s_final(&bctx, hashOutputBuffer);
@@ -333,7 +333,14 @@ BOOL Randmix ()
 				STREEBOG_add (&stctx, pRandPool, RNG_POOL_SIZE);
 				STREEBOG_finalize (&stctx, hashOutputBuffer);
 				break;
-                #endif
+
+			case ARGON2:
+				// For Argon2, we use the underlying Blake2b hash function
+				blake2b_init(&b2ctx, BLAKE2B_OUTBYTES);
+				blake2b_update(&b2ctx, pRandPool, RNG_POOL_SIZE);
+				blake2b_final(&b2ctx, hashOutputBuffer, BLAKE2B_OUTBYTES);
+				break;
+#endif
 			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;

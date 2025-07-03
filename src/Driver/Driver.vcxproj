@@ -101,7 +101,7 @@
       <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
     </DriverSign>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\src\blake2;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>TC_WINDOWS_DRIVER;ARGON2_NO_THREADS;_NO_CRT_STDIO_INLINE;UNICODE;_UNICODE;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -129,7 +129,7 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Debug\Setup Files\veracrypt.inf"</Com
       <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
     </DriverSign>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\src\blake2;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>TC_WINDOWS_DRIVER;ARGON2_NO_THREADS;_NO_CRT_STDIO_INLINE;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -158,7 +158,7 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Release\Setup Files\veracrypt.inf"</C
     </DriverSign>
     <ClCompile>
       <PreprocessorDefinitions>TC_WINDOWS_DRIVER;ARGON2_NO_THREADS;_NO_CRT_STDIO_INLINE;UNICODE;_UNICODE;_ARM64_;ARM64;_USE_DECLSPECS_FOR_SAL=1;STD_CALL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\src\blake2;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Inf>
       <CatalogFileName>veracrypt.cat</CatalogFileName>
@@ -185,7 +185,7 @@ copy $(OutDir)veracrypt.inf "$(SolutionDir)Release\Setup Files\veracrypt.inf"</C
     </DriverSign>
     <ClCompile>
       <PreprocessorDefinitions>TC_WINDOWS_DRIVER;ARGON2_NO_THREADS;_NO_CRT_STDIO_INLINE;UNICODE;_UNICODE;DEBUG;_DEBUG;_ARM64_;ARM64;_USE_DECLSPECS_FOR_SAL=1;STD_CALL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir)Crypto\Argon2\src\blake2;$(SolutionDir)Crypto\Argon2\include;$(SolutionDir);%(AdditionalIncludeDirectories);$(IntDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Inf>
       <CatalogFileName>veracrypt.cat</CatalogFileName>

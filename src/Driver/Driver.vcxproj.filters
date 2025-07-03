@@ -382,8 +382,8 @@
     <CustomBuild Include="..\Crypto\rdseed_ml.asm">
       <Filter>Crypto\Source Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\Crypto\Argon2\src\opt_avx2-gtp41.asm">
-      <Filter>Crypto\Source Files\Argon2</Filter>
+    <CustomBuild Include="..\Crypto\Argon2\src\opt_avx2.asm">
+      <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

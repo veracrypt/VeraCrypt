@@ -71,6 +71,29 @@ namespace VeraCrypt
 		Blake2s (const Blake2s &);
 		Blake2s &operator= (const Blake2s &);
 	};
+
+	// Blake2b
+	class Blake2b : public Hash
+	{
+	public:
+		Blake2b ();
+		virtual ~Blake2b () { }
+
+		virtual void GetDigest (const BufferPtr &buffer);
+		virtual size_t GetBlockSize () const { return 128; }
+		virtual size_t GetDigestSize () const { return 64; }
+		virtual wstring GetName () const { return L"BLAKE2b-512"; }
+		virtual wstring GetAltName () const { return L"BLAKE2b"; }
+		virtual shared_ptr <Hash> GetNew () const { return shared_ptr <Hash> (new Blake2b); }
+		virtual void Init ();
+		virtual void ProcessData (const ConstBufferPtr &data);
+
+	protected:
+
+	private:
+		Blake2b (const Blake2b &);
+		Blake2b &operator= (const Blake2b &);
+	};
     #endif
 
 	// SHA-256

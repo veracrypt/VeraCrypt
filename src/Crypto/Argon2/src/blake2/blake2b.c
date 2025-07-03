@@ -18,7 +18,7 @@
 #include "Crypto/config.h"
 #include "Crypto/cpu.h"
 #include "Crypto/misc.h"
-#include "blake2.h"
+#include "blake2b.h"
 #include "blake2-impl.h"
 
 static const uint64_t blake2b_IV[8] = {

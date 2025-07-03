@@ -25,7 +25,7 @@
 
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
 
-#include "blake2/blake2.h"
+#include "blake2/blake2b.h"
 #include "blake2/blamka-round-opt.h"
 
 /*

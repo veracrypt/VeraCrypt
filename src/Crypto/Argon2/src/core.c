@@ -26,7 +26,7 @@
 #endif
 #include "Crypto/cpu.h"
 #include "Crypto/misc.h"
-#include "blake2/blake2.h"
+#include "blake2/blake2b.h"
 #include "blake2/blake2-impl.h"
 
 #define secure_wipe_memory(v, n) burn((v), (n))

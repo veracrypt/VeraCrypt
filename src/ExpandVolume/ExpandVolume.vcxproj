@@ -141,7 +141,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -199,7 +199,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -253,7 +253,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -301,7 +301,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VCEXPANDER;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -349,7 +349,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VCEXPANDER;VC_EFI_CUSTOM_MODE;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -396,7 +396,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\pkcs11;..\Common\zlib;..\Common\libzip;..\Common\lzma;..\Crypto\Argon2\include;..\Crypto\Argon2\src\blake2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VCEXPANDER;VC_EFI_CUSTOM_MODE;TCMOUNT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
