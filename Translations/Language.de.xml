@@ -151,7 +151,7 @@
     <entry lang="de" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Mehr Informationen</entry>
     <entry lang="de" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Mehr Informationen</entry>
     <entry lang="de" key="IDC_MORE_SETTINGS">Mehr Einstellungen »</entry>
-    <entry lang="de" key="IDC_MOUNTALL">&amp;Alle Datentr. einhängen ...</entry>
+    <entry lang="de" key="IDC_MOUNTALL">&amp;Automatisch einhängen ...</entry>
     <entry lang="de" key="IDC_MOUNT_OPTIONS">&amp;Optionen ...</entry>
     <entry lang="de" key="IDC_MOUNT_READONLY">Als schreib&amp;geschütztes Laufwerk einhängen</entry>
     <entry lang="de" key="IDC_NEW_KEYFILES">Schlüssel&amp;dateien ...</entry>
