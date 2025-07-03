@@ -5,10 +5,26 @@
 
 #include "OcryptWrapper.h"
 #include "../OpenADP/include/openadp/ocrypt.hpp"
+#include "../OpenADP/include/openadp/debug.hpp"
 #include <cstring>
 #include <memory>
+#include <cstdlib>
 
 extern "C" {
+
+/* Initialize debug mode if OPENADP_DEBUG environment variable is set */
+static void init_debug_mode() {
+    static bool initialized = false;
+    if (!initialized) {
+        const char* debug_env = std::getenv("OPENADP_DEBUG");
+        if (debug_env && (strcmp(debug_env, "1") == 0 || strcmp(debug_env, "true") == 0)) {
+            openadp::debug::set_debug(true);
+            fprintf(stderr, "[DEBUG] OpenADP debug mode enabled via environment variable\n");
+            fflush(stderr);
+        }
+        initialized = true;
+    }
+}
 
 /* Register a secret protected by a password using distributed cryptography */
 int ocrypt_register_secret(
@@ -21,6 +37,8 @@ int ocrypt_register_secret(
     unsigned char** metadata_out,
     int* metadata_len_out)
 {
+    init_debug_mode(); // Enable debug mode if environment variable is set
+    
     try {
         // Convert C types to C++ types
         std::string cpp_user_id(user_id);
@@ -28,13 +46,14 @@ int ocrypt_register_secret(
         std::string cpp_password(password);
         openadp::Bytes cpp_secret(secret, secret + secret_len);
         
-        // Call the simple Ocrypt API
+        // Call the simple Ocrypt API (explicitly pass servers_url)
         openadp::Bytes metadata = openadp::ocrypt::register_secret(
             cpp_user_id,
             cpp_app_id,
             cpp_secret,
             cpp_password,
-            max_guesses
+            max_guesses,
+            ""  // servers_url - use default server list
         );
         
         // Allocate memory for output
@@ -65,15 +84,18 @@ int ocrypt_recover_secret(
     unsigned char** updated_metadata_out,
     int* updated_metadata_len_out)
 {
+    init_debug_mode(); // Enable debug mode if environment variable is set
+    
     try {
         // Convert C types to C++ types
         openadp::Bytes cpp_metadata(metadata, metadata + metadata_len);
         std::string cpp_password(password);
         
-        // Call the simple Ocrypt API
+        // Call the simple Ocrypt API (explicitly pass servers_url)
         openadp::ocrypt::OcryptRecoverResult result = openadp::ocrypt::recover(
             cpp_metadata,
-            cpp_password
+            cpp_password,
+            ""  // servers_url - use default server list
         );
         
         // Allocate memory for secret output

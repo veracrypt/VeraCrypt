@@ -49,6 +49,8 @@ export CXXFLAGS := -Wall -Wno-unused-parameter
 C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto -DARGON2_NO_THREADS -I$(BASE_DIR)/Crypto/Argon2/include -I$(BASE_DIR)/OpenADP/include
 export ASFLAGS := -D __GNUC__ -D __YASM__
 export LFLAGS :=
+# OpenADP library (must come before its dependencies)
+export OPENADP_LIBS := /home/waywardgeek/projects/openadp/sdk/cpp/build/libopenadp.a
 export LIBS += -lssl -lcrypto -lcurl  # OpenADP dependencies
 
 export PKG_CONFIG ?= pkg-config

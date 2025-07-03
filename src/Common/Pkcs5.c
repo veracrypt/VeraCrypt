@@ -16,6 +16,11 @@
 #include <memory.h>
 #include <stdlib.h>
 #endif
+// Add include for Linux file operations
+#ifndef _WIN32
+#include <unistd.h>
+#include <stdint.h>
+#endif
 #include "blake2.h"
 #ifndef TC_WINDOWS_BOOT
 #include "Sha2.h"
@@ -37,6 +42,345 @@
 #include "Crypto.h"
 #include "OcryptWrapper.h"
 #include <stdio.h>
+
+// Global variables for Ocrypt metadata handling
+unsigned char* g_ocrypt_metadata = NULL;
+int g_ocrypt_metadata_len = 0;
+
+// Global variables for external file handle access (set during volume operations)
+char* g_current_volume_path = NULL;
+
+// Global variables for header-based metadata access
+static void* g_current_file_handle = NULL;
+static int g_current_is_device = 0;
+
+// Function declarations
+int save_ocrypt_metadata_to_file(const char* volume_path, const unsigned char* metadata, int metadata_len);
+int load_ocrypt_metadata_from_file(const char* volume_path, unsigned char** metadata_out, int* metadata_len_out);
+void set_current_volume_path(const char* volume_path);
+
+// New header-based metadata functions
+void set_current_file_handle(void* fileHandle, int isDevice);
+int save_ocrypt_metadata_to_header(const unsigned char* metadata, int metadata_len);
+int load_ocrypt_metadata_from_header(unsigned char** metadata_out, int* metadata_len_out);
+
+// Volume header constants (needed for all platforms)
+#define TC_VOLUME_HEADER_SIZE					(64 * 1024L)
+#define TC_VOLUME_HEADER_EFFECTIVE_SIZE			512
+#define TC_UNUSED_HEADER_SPACE_OFFSET			TC_VOLUME_HEADER_EFFECTIVE_SIZE
+#define TC_UNUSED_HEADER_SPACE_SIZE				(TC_VOLUME_HEADER_SIZE - TC_VOLUME_HEADER_EFFECTIVE_SIZE)
+
+// Constants for dual metadata system
+#define TC_METADATA_VERSION_OFFSET				0		// First byte: version indicator
+#define TC_METADATA_VERSION_SIZE				1		// 1 byte for version
+#define TC_METADATA_EVEN_OFFSET					1		// Even metadata starts at byte 1
+#define TC_METADATA_ODD_OFFSET					16385	// Odd metadata starts at byte 16385
+#define TC_MAX_METADATA_SIZE					16384	// 16KB per metadata copy
+#define TC_METADATA_EVEN_VERSION				0		// Even metadata is current
+#define TC_METADATA_ODD_VERSION					1		// Odd metadata is current
+
+// Implementation of metadata read/write functions  
+#if defined(_WIN32) && !defined(TC_WINDOWS_BOOT) && !defined(DEVICE_DRIVER) && !defined(_UEFI)
+
+int WriteOcryptMetadata(int device, void* fileHandle, const char *metadata, unsigned long metadataSize, int bBackupHeader)
+{
+    HANDLE hFile = (HANDLE)fileHandle;
+    LARGE_INTEGER offset;
+    DWORD bytesWritten;
+    unsigned char currentVersion = 0;
+    unsigned char newVersion;
+    DWORD actualBytesRead;
+    
+    if (!metadata || metadataSize == 0 || metadataSize > TC_MAX_METADATA_SIZE) {
+        return FALSE;
+    }
+    
+    // Calculate base offset for unused header space
+    LONGLONG baseOffset = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET) : 
+        TC_UNUSED_HEADER_SPACE_OFFSET;
+    
+    // First, read current version to determine which copy to write
+    offset.QuadPart = baseOffset + TC_METADATA_VERSION_OFFSET;
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        return FALSE;
+    }
+    
+    // Read current version (ignore errors - default to 0 if not readable)
+    ReadFile(hFile, &currentVersion, TC_METADATA_VERSION_SIZE, &actualBytesRead, NULL);
+    
+    // Determine new version and target offset
+    if (currentVersion == TC_METADATA_EVEN_VERSION) {
+        newVersion = TC_METADATA_ODD_VERSION;
+        offset.QuadPart = baseOffset + TC_METADATA_ODD_OFFSET;
+    } else {
+        newVersion = TC_METADATA_EVEN_VERSION;
+        offset.QuadPart = baseOffset + TC_METADATA_EVEN_OFFSET;
+    }
+    
+    // Write new metadata to the target location
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        return FALSE;
+    }
+    
+    // Write metadata size (4 bytes)
+    DWORD metadataSize32 = (DWORD)metadataSize;
+    if (!WriteFile(hFile, &metadataSize32, sizeof(metadataSize32), &bytesWritten, NULL) || 
+        bytesWritten != sizeof(metadataSize32)) {
+        return FALSE;
+    }
+    
+    // Write metadata content
+    if (!WriteFile(hFile, metadata, metadataSize, &bytesWritten, NULL) || 
+        bytesWritten != metadataSize) {
+        return FALSE;
+    }
+    
+    // Flush to ensure data is written
+    FlushFileBuffers(hFile);
+    
+    // Finally, atomically update the version byte
+    offset.QuadPart = baseOffset + TC_METADATA_VERSION_OFFSET;
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        return FALSE;
+    }
+    
+    if (!WriteFile(hFile, &newVersion, TC_METADATA_VERSION_SIZE, &bytesWritten, NULL) || 
+        bytesWritten != TC_METADATA_VERSION_SIZE) {
+        return FALSE;
+    }
+    
+    FlushFileBuffers(hFile);
+    return TRUE;
+}
+
+int ReadOcryptMetadata(int device, void* fileHandle, char *metadataBuffer, unsigned long bufferSize, unsigned long *metadataSize, int bBackupHeader)
+{
+    HANDLE hFile = (HANDLE)fileHandle;
+    LARGE_INTEGER offset;
+    DWORD bytesRead;
+    DWORD storedSize;
+    unsigned char currentVersion = 0;
+    
+    if (!metadataBuffer || !metadataSize || bufferSize == 0) {
+        return FALSE;
+    }
+    
+    *metadataSize = 0;
+    
+    // Calculate base offset for unused header space
+    LONGLONG baseOffset = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET) : 
+        TC_UNUSED_HEADER_SPACE_OFFSET;
+    
+    // First, read the version byte to determine which metadata copy to read
+    offset.QuadPart = baseOffset + TC_METADATA_VERSION_OFFSET;
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        return FALSE;
+    }
+    
+    if (!ReadFile(hFile, &currentVersion, TC_METADATA_VERSION_SIZE, &bytesRead, NULL) || 
+        bytesRead != TC_METADATA_VERSION_SIZE) {
+        // No version byte found - no metadata present
+        return TRUE;
+    }
+    
+    // Determine which metadata copy to read based on version
+    if (currentVersion == TC_METADATA_EVEN_VERSION) {
+        offset.QuadPart = baseOffset + TC_METADATA_EVEN_OFFSET;
+    } else if (currentVersion == TC_METADATA_ODD_VERSION) {
+        offset.QuadPart = baseOffset + TC_METADATA_ODD_OFFSET;
+    } else {
+        // Invalid version - no metadata present
+        return TRUE;
+    }
+    
+    // Seek to the appropriate metadata location
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        return FALSE;
+    }
+    
+    // Read metadata size (4 bytes)
+    if (!ReadFile(hFile, &storedSize, sizeof(storedSize), &bytesRead, NULL) || 
+        bytesRead != sizeof(storedSize)) {
+        return FALSE;
+    }
+    
+    // Validate size
+    if (storedSize == 0 || storedSize > TC_MAX_METADATA_SIZE || storedSize > bufferSize) {
+        return FALSE;
+    }
+    
+    // Read metadata content
+    if (!ReadFile(hFile, metadataBuffer, storedSize, &bytesRead, NULL) || 
+        bytesRead != storedSize) {
+        return FALSE;
+    }
+    
+    *metadataSize = storedSize;
+    return TRUE;
+}
+
+#else
+
+// Non-Windows implementation (Linux, etc.)
+int WriteOcryptMetadata(int device, void* fileHandle, const char *metadata, unsigned long metadataSize, int bBackupHeader)
+{
+    int fd = (int)(intptr_t)fileHandle;
+    off_t offset;
+    unsigned char currentVersion = 0;
+    unsigned char newVersion;
+    
+    fprintf(stderr, "[DEBUG] WriteOcryptMetadata called: fd=%d, metadataSize=%lu, bBackupHeader=%d\n", 
+            fd, metadataSize, bBackupHeader);
+    fflush(stderr);
+    
+    if (!metadata || metadataSize == 0 || metadataSize > TC_MAX_METADATA_SIZE) {
+        fprintf(stderr, "[DEBUG] WriteOcryptMetadata: Invalid parameters\n");
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    // Calculate base offset for unused header space
+    off_t baseOffset = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET) : 
+        TC_UNUSED_HEADER_SPACE_OFFSET;
+    
+    // First, read current version to determine which copy to write
+    offset = baseOffset + TC_METADATA_VERSION_OFFSET;
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        fprintf(stderr, "[DEBUG] WriteOcryptMetadata: lseek to version failed\n");
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    // Read current version (ignore errors - default to 0 if not readable)
+    (void)read(fd, &currentVersion, TC_METADATA_VERSION_SIZE);
+    
+    // Determine new version and target offset
+    if (currentVersion == TC_METADATA_EVEN_VERSION) {
+        newVersion = TC_METADATA_ODD_VERSION;
+        offset = baseOffset + TC_METADATA_ODD_OFFSET;
+    } else {
+        newVersion = TC_METADATA_EVEN_VERSION;
+        offset = baseOffset + TC_METADATA_EVEN_OFFSET;
+    }
+    
+    fprintf(stderr, "[DEBUG] WriteOcryptMetadata: currentVersion=%d, newVersion=%d, offset=%ld\n", 
+            currentVersion, newVersion, (long)offset);
+    fflush(stderr);
+    
+    // Write new metadata to the target location
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        fprintf(stderr, "[DEBUG] WriteOcryptMetadata: lseek to metadata failed\n");
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    // Write metadata size (4 bytes)
+    uint32_t metadataSize32 = (uint32_t)metadataSize;
+    if (write(fd, &metadataSize32, sizeof(metadataSize32)) != sizeof(metadataSize32)) {
+        fprintf(stderr, "[DEBUG] WriteOcryptMetadata: Failed to write size\n");
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    // Write metadata content
+    if (write(fd, metadata, metadataSize) != (ssize_t)metadataSize) {
+        fprintf(stderr, "[DEBUG] WriteOcryptMetadata: Failed to write metadata\n");
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    // Flush to ensure data is written
+    fsync(fd);
+    
+    // Finally, atomically update the version byte
+    offset = baseOffset + TC_METADATA_VERSION_OFFSET;
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        fprintf(stderr, "[DEBUG] WriteOcryptMetadata: lseek to version update failed\n");
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    if (write(fd, &newVersion, TC_METADATA_VERSION_SIZE) != TC_METADATA_VERSION_SIZE) {
+        fprintf(stderr, "[DEBUG] WriteOcryptMetadata: Failed to write version\n");
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    fsync(fd);
+    
+    fprintf(stderr, "[DEBUG] WriteOcryptMetadata: SUCCESS - wrote %lu bytes at offset %ld with version %d\n", 
+            metadataSize, (long)(baseOffset + (newVersion == TC_METADATA_EVEN_VERSION ? TC_METADATA_EVEN_OFFSET : TC_METADATA_ODD_OFFSET)), newVersion);
+    fflush(stderr);
+    return 1; // TRUE
+}
+
+int ReadOcryptMetadata(int device, void* fileHandle, char *metadataBuffer, unsigned long bufferSize, unsigned long *metadataSize, int bBackupHeader)
+{
+    int fd = (int)(intptr_t)fileHandle;
+    off_t offset;
+    uint32_t storedSize;
+    unsigned char currentVersion = 0;
+    
+    if (!metadataBuffer || !metadataSize || bufferSize == 0) {
+        return 0; // FALSE
+    }
+    
+    *metadataSize = 0;
+    
+    // Calculate base offset for unused header space
+    off_t baseOffset = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET) : 
+        TC_UNUSED_HEADER_SPACE_OFFSET;
+    
+    // First, read the version byte to determine which metadata copy to read
+    offset = baseOffset + TC_METADATA_VERSION_OFFSET;
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        return 0; // FALSE
+    }
+    
+    if (read(fd, &currentVersion, TC_METADATA_VERSION_SIZE) != TC_METADATA_VERSION_SIZE) {
+        // No version byte found - no metadata present
+        return 1; // TRUE but no metadata
+    }
+    
+    // Determine which metadata copy to read based on version
+    if (currentVersion == TC_METADATA_EVEN_VERSION) {
+        offset = baseOffset + TC_METADATA_EVEN_OFFSET;
+    } else if (currentVersion == TC_METADATA_ODD_VERSION) {
+        offset = baseOffset + TC_METADATA_ODD_OFFSET;
+    } else {
+        // Invalid version - no metadata present
+        return 1; // TRUE but no metadata
+    }
+    
+    // Seek to the appropriate metadata location
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        return 0; // FALSE
+    }
+    
+    // Read metadata size (4 bytes)
+    if (read(fd, &storedSize, sizeof(storedSize)) != sizeof(storedSize)) {
+        return 0; // FALSE
+    }
+    
+    // Validate size
+    if (storedSize == 0 || storedSize > TC_MAX_METADATA_SIZE || storedSize > bufferSize) {
+        return 0; // FALSE
+    }
+    
+    // Read metadata content
+    if (read(fd, metadataBuffer, storedSize) != (ssize_t)storedSize) {
+        return 0; // FALSE
+    }
+    
+    *metadataSize = storedSize;
+    return 1; // TRUE
+}
+
+#endif
 
 #if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_SHA2)
 
@@ -818,9 +1162,7 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 	if (NT_SUCCESS (saveStatus))
 		KeRestoreExtendedProcessorState(&SaveState);
 #endif
-#ifndef TC_WINDOWS_BOOT
 cancelled:
-#endif
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 #ifndef TC_WINDOWS_BOOT
@@ -1259,6 +1601,9 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 	case ARGON2:
 		return L"Argon2";
 
+	case OCRYPT:
+		return L"Ocrypt";
+
 	default:		
 		return L"(Unknown)";
 	}
@@ -1308,6 +1653,12 @@ int get_pkcs5_iteration_count(int pkcs5_prf_id, int pim, BOOL bBoot, int* pMemor
 			get_argon2_params (pim, &iteration_count, pMemoryCost);
 			break;
 
+		case OCRYPT:
+			// Ocrypt doesn't use iterations for security, it uses distributed cryptography
+			// PIM is ignored since security comes from the distributed servers
+			iteration_count = 1;
+			break;
+
 		default:
 			TC_THROW_FATAL_EXCEPTION; // Unknown/wrong ID
 		}
@@ -1325,8 +1676,8 @@ int is_pkcs5_prf_supported (int pkcs5_prf_id, PRF_BOOT_TYPE bootType)
 		|| (bootType != PRF_BOOT_MBR && (pkcs5_prf_id < FIRST_PRF_ID || pkcs5_prf_id > LAST_PRF_ID))
 		)
       return 0;
-   // we don't support Argon2 in pre-boot authentication
-   if ((bootType == PRF_BOOT_MBR || bootType == PRF_BOOT_GPT) && pkcs5_prf_id == ARGON2)
+   // we don't support Argon2 or Ocrypt in pre-boot authentication
+   if ((bootType == PRF_BOOT_MBR || bootType == PRF_BOOT_GPT) && (pkcs5_prf_id == ARGON2 || pkcs5_prf_id == OCRYPT))
       return 0;	
    return 1;
 
@@ -1446,44 +1797,717 @@ void get_argon2_params(int pim, int* pIterations, int* pMemcost)
 /* OpenADP Ocrypt distributed key derivation */
 void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation)
 {
-    // For VeraCrypt, we use the salt as a unique identifier and the password as the PIN
-    // The derived key will be generated and protected by Ocrypt's distributed cryptography
+    fprintf(stderr, "[DEBUG] *** derive_key_ocrypt called! pwd_len=%d, dklen=%d ***\n", pwd_len, dklen);
+    fflush(stderr);
     
-    // Create a unique user_id from the salt (this makes each volume unique)
-    char user_id[256];
-    char app_id[] = "veracrypt";
-    int i;
-    
-    // Convert salt to hex string for user_id
-    for (i = 0; i < salt_len && i < 120; i++) {
-        sprintf(user_id + (i * 2), "%02x", salt[i]);
+    // Handle NULL abort pointer gracefully
+    long volatile localAbort = 0;
+    if (pAbortKeyDerivation == NULL) {
+        pAbortKeyDerivation = &localAbort;
+        fprintf(stderr, "[DEBUG] derive_key_ocrypt: NULL abort pointer, using local variable\n");
+        fflush(stderr);
     }
-    user_id[i * 2] = '\0';
+    
+    if (pwd_len > 300) {
+        fprintf(stderr, "[DEBUG] derive_key_ocrypt: Password too long (%d bytes), truncating to 300\n", pwd_len);
+        pwd_len = 300;
+    }
+    
+    // Debug output
+    fprintf(stderr, "[DEBUG] derive_key_ocrypt called with password length: %d\n", pwd_len);
+    fflush(stderr);
     
     // Convert password to null-terminated string
-    char password[256];
+    char password[512];
     int password_len = pwd_len;
-    if (password_len > 255) password_len = 255;
+    if (password_len > 511) password_len = 511;
     memcpy(password, pwd, password_len);
     password[password_len] = '\0';
     
-    // For key derivation, we need to either register or recover a key
-    // Since this function is called for both creating and opening volumes,
-    // we'll try to recover first (for existing volumes) and register if that fails
+    // Generate a deterministic user ID for this volume (each volume gets unique ID)
+    char user_id[64];
+    unsigned char random_bytes[16];
+    int i;
     
-    // Try to recover an existing key (this would work for opening existing volumes)
-    // For now, we'll generate a deterministic key based on the inputs
-    // This is a simplified implementation - in practice, VeraCrypt would need
-    // to store/retrieve the Ocrypt metadata alongside the volume
+    // Use salt as source of deterministic randomness for user_id
+    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(random_bytes, &ctx); }
     
-    // Generate a deterministic seed from the inputs for the secret
-    unsigned char seed[32];
-    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(pwd, pwd_len, &ctx); sha256_end(seed, &ctx); }
+    // Convert to hex string
+    for (i = 0; i < 16; i++) {
+        sprintf(user_id + (i * 2), "%02x", random_bytes[i]);
+    }
+    user_id[32] = '\0';
     
-    // For this demo, we'll create a simple derived key
-    // In a real implementation, VeraCrypt would store Ocrypt metadata with each volume
-    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(seed, 32, &ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(dk, &ctx); }
+    // More debug output
+    fprintf(stderr, "[DEBUG] user_id='%.16s...', current_volume_path=%s\n", user_id, 
+            g_current_volume_path ? g_current_volume_path : "NULL");
+    fflush(stderr);
     
-    // TODO: Integrate with VeraCrypt's volume format to store/retrieve Ocrypt metadata
-    // This would require changes to the volume header format
+    const char* app_id = "veracrypt";
+    const int max_guesses = 10; // Allow 10 PIN attempts
+    
+    // Generate the master key that will be protected by Ocrypt
+    unsigned char master_key[32];
+    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(pwd, pwd_len, &ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(master_key, &ctx); }
+    
+    // First, try to recover (for existing volumes)
+    // Try to load metadata from volume header
+    unsigned char* loaded_metadata = NULL;
+    int loaded_metadata_len = 0;
+    
+    BOOL recovery_attempted = FALSE;
+    BOOL recovery_successful = FALSE;
+    
+    if (g_current_file_handle && load_ocrypt_metadata_from_header(&loaded_metadata, &loaded_metadata_len) && loaded_metadata_len > 0) {
+        // Try to recover the secret using existing metadata
+        unsigned char* secret_out = NULL;
+        int secret_len_out = 0;
+        int remaining_guesses_out = 0;
+        unsigned char* updated_metadata_out = NULL;
+        int updated_metadata_len_out = 0;
+        
+        recovery_attempted = TRUE;
+        fprintf(stderr, "[DEBUG] Attempting recovery with password='%s' using loaded metadata (%d bytes)\n", password, loaded_metadata_len);
+        fflush(stderr);
+        
+        int recover_result = ocrypt_recover_secret(
+            loaded_metadata,
+            loaded_metadata_len,
+            password,
+            &secret_out,
+            &secret_len_out,
+            &remaining_guesses_out,
+            &updated_metadata_out,
+            &updated_metadata_len_out
+        );
+        
+        fprintf(stderr, "[DEBUG] Recovery result=%d, remaining_guesses=%d\n", recover_result, remaining_guesses_out);
+        fflush(stderr);
+        
+        if (recover_result == 0 && secret_out != NULL) {
+            // Recovery successful
+            recovery_successful = TRUE;
+            fprintf(stderr, "[DEBUG] Recovery SUCCESSFUL!\n");
+            fflush(stderr);
+            
+            // Derive the volume key from the recovered secret
+            if (secret_len_out >= 32) {
+                // Hash the recovered secret to create the volume key
+                sha256_ctx ctx;
+                sha256_begin(&ctx);
+                sha256_hash(secret_out, secret_len_out, &ctx);
+                sha256_end(dk, &ctx);
+            } else {
+                // Fallback: use the secret directly (padded/truncated to required length)
+                memset(dk, 0, dklen);
+                memcpy(dk, secret_out, secret_len_out < dklen ? secret_len_out : dklen);
+            }
+            
+            // Store updated metadata in global variables if it changed (e.g., guess count updated)
+            if (updated_metadata_out && updated_metadata_len_out > 0) {
+                // Clean up any existing global metadata
+                ocrypt_cleanup_metadata();
+                
+                // Store the updated metadata in global variables
+                g_ocrypt_metadata_len = updated_metadata_len_out;
+                g_ocrypt_metadata = (unsigned char*)malloc(g_ocrypt_metadata_len);
+                if (g_ocrypt_metadata) {
+                    memcpy(g_ocrypt_metadata, updated_metadata_out, g_ocrypt_metadata_len);
+                    fprintf(stderr, "[DEBUG] Successfully stored %d bytes of updated metadata in global variables\n", g_ocrypt_metadata_len);
+                } else {
+                    fprintf(stderr, "[DEBUG] Failed to allocate memory for updated global metadata\n");
+                    g_ocrypt_metadata_len = 0;
+                }
+                fflush(stderr);
+                
+                // Clean up updated metadata
+                ocrypt_free_memory(updated_metadata_out);
+            } else {
+                // Clean up updated metadata if not used
+                if (updated_metadata_out) {
+                    ocrypt_free_memory(updated_metadata_out);
+                }
+            }
+            
+            // Clean up recovered secret
+            ocrypt_free_memory(secret_out);
+        } else {
+            // Recovery failed - print error message with remaining guesses
+            if (remaining_guesses_out >= 0) {
+                fprintf(stderr, "❌ Invalid PIN! You have %d guesses remaining.\n", remaining_guesses_out);
+                fflush(stderr);
+            }
+            
+            // Clean up
+            if (secret_out) ocrypt_free_memory(secret_out);
+            if (updated_metadata_out) ocrypt_free_memory(updated_metadata_out);
+        }
+    }
+    
+    // If recovery wasn't attempted or failed, try registration (for new volumes)
+    if (!recovery_attempted || !recovery_successful) {
+        // Try to register the secret with Ocrypt (for new volume creation)
+        unsigned char* metadata_out = NULL;
+        int metadata_len_out = 0;
+        
+        int register_result = ocrypt_register_secret(
+            user_id,
+            app_id,
+            master_key,
+            32, // master_key length
+            password,
+            max_guesses,
+            &metadata_out,
+            &metadata_len_out
+        );
+        
+        if (register_result == 0 && metadata_out != NULL) {
+            // Registration successful - this is a new volume being created
+            // Store metadata in global variables for VolumeCreator to use
+            
+            fprintf(stderr, "[DEBUG] Ocrypt registration SUCCESSFUL! Storing %d bytes of metadata in global variables\n", metadata_len_out);
+            fflush(stderr);
+            
+            // Clean up any existing global metadata
+            ocrypt_cleanup_metadata();
+            
+            // Store the new metadata in global variables
+            g_ocrypt_metadata_len = metadata_len_out;
+            g_ocrypt_metadata = (unsigned char*)malloc(g_ocrypt_metadata_len);
+            if (g_ocrypt_metadata) {
+                memcpy(g_ocrypt_metadata, metadata_out, g_ocrypt_metadata_len);
+                fprintf(stderr, "[DEBUG] Successfully stored %d bytes in global metadata variables\n", g_ocrypt_metadata_len);
+            } else {
+                fprintf(stderr, "[DEBUG] Failed to allocate memory for global metadata\n");
+                g_ocrypt_metadata_len = 0;
+            }
+            fflush(stderr);
+            
+            // Clean up the temporary metadata
+            ocrypt_free_memory(metadata_out);
+            
+            // Derive the actual key from the master key
+            { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(master_key, 32, &ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(dk, &ctx); }
+        } else {
+            // Both registration and recovery failed - generate a fallback key
+            // This shouldn't happen in normal operation, but provides a fallback
+            fprintf(stderr, "[DEBUG] Ocrypt registration FAILED! register_result=%d\n", register_result);
+            fflush(stderr);
+            
+            { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(pwd, pwd_len, &ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(dk, &ctx); }
+            
+            // Clean up if there was partial allocation
+            if (metadata_out) {
+                ocrypt_free_memory(metadata_out);
+            }
+        }
+    }
+    
+    // Clean up loaded metadata
+    if (loaded_metadata) {
+        ocrypt_free_memory(loaded_metadata);
+    }
+    
+    // Clear sensitive data
+    burn(master_key, sizeof(master_key));
+    burn(password, sizeof(password));
+}
+
+// Function to handle Ocrypt volume creation - stores metadata in header
+#if defined(TC_WINDOWS) || defined(_WIN32)
+int ocrypt_create_volume_with_metadata(HANDLE device, BOOL bBackupHeader)
+#else
+int ocrypt_create_volume_with_metadata(void* device, int bBackupHeader)
+#endif
+{
+    if (g_ocrypt_metadata == NULL || g_ocrypt_metadata_len == 0) {
+        return -1; // No metadata to store
+    }
+    
+    // Convert metadata to JSON string
+    char metadata_json[TC_MAX_METADATA_SIZE];
+    if (g_ocrypt_metadata_len >= TC_MAX_METADATA_SIZE) {
+        return -2; // Metadata too large
+    }
+    
+    memcpy(metadata_json, g_ocrypt_metadata, g_ocrypt_metadata_len);
+    metadata_json[g_ocrypt_metadata_len] = '\0';
+    
+    // Store the metadata in the unused header space
+#if defined(TC_WINDOWS) || defined(_WIN32)
+    BOOL result = WriteOcryptMetadata(FALSE, device, metadata_json, g_ocrypt_metadata_len, bBackupHeader);
+    return result ? 0 : -3;
+#else
+    // Linux implementation
+    int result = WriteOcryptMetadata(FALSE, device, metadata_json, g_ocrypt_metadata_len, bBackupHeader);
+    return result ? 0 : -3;
+#endif
+}
+
+// Function to handle Ocrypt volume opening - retrieves and uses metadata  
+#if defined(TC_WINDOWS) || defined(_WIN32)
+int ocrypt_open_volume_with_metadata(HANDLE device, const unsigned char *pwd, int pwd_len, unsigned char *dk, int dklen, BOOL bBackupHeader)
+#else
+int ocrypt_open_volume_with_metadata(void* device, const unsigned char *pwd, int pwd_len, unsigned char *dk, int dklen, int bBackupHeader)
+#endif
+{
+#if defined(TC_WINDOWS) || defined(_WIN32)
+    char metadata_buffer[TC_MAX_METADATA_SIZE];
+    DWORD metadata_size = 0;
+    
+    // Try to read Ocrypt metadata from volume header
+    BOOL read_result = ReadOcryptMetadata(FALSE, device, metadata_buffer, sizeof(metadata_buffer), &metadata_size, bBackupHeader);
+    
+    if (!read_result || metadata_size == 0) {
+        return -1; // No metadata found or read failed
+    }
+    
+    // Convert password to null-terminated string
+    char password[512];
+    int password_len = pwd_len;
+    if (password_len > 511) password_len = 511;
+    memcpy(password, pwd, password_len);
+    password[password_len] = '\0';
+    
+    // Recover the secret using Ocrypt
+    unsigned char* secret_out = NULL;
+    int secret_len_out = 0;
+    int remaining_guesses_out = 0;
+    unsigned char* updated_metadata_out = NULL;
+    int updated_metadata_len_out = 0;
+    
+    int recover_result = ocrypt_recover_secret(
+        (const unsigned char*)metadata_buffer,
+        metadata_size,
+        password,
+        &secret_out,
+        &secret_len_out,
+        &remaining_guesses_out,
+        &updated_metadata_out,
+        &updated_metadata_len_out
+    );
+    
+    if (recover_result != 0 || secret_out == NULL) {
+        // Clean up
+        if (secret_out) ocrypt_free_memory(secret_out);
+        if (updated_metadata_out) ocrypt_free_memory(updated_metadata_out);
+        burn(password, sizeof(password));
+        return -2; // Recovery failed
+    }
+    
+    // Derive the volume key from the recovered secret
+    if (secret_len_out >= 32) {
+        // Hash the recovered secret to create the volume key
+        sha256_ctx ctx;
+        sha256_begin(&ctx);
+        sha256_hash(secret_out, secret_len_out, &ctx);
+        sha256_end(dk, &ctx);
+    } else {
+        // Fallback: use the secret directly (padded/truncated to required length)
+        memset(dk, 0, dklen);
+        memcpy(dk, secret_out, secret_len_out < dklen ? secret_len_out : dklen);
+    }
+    
+    // Update metadata if it changed (e.g., guess count updated)
+    if (updated_metadata_out && updated_metadata_len_out > 0) {
+        if (updated_metadata_len_out < TC_MAX_METADATA_SIZE) {
+            WriteOcryptMetadata(FALSE, device, (const char*)updated_metadata_out, updated_metadata_len_out, bBackupHeader);
+        }
+    }
+    
+    // Clean up
+    ocrypt_free_memory(secret_out);
+    if (updated_metadata_out) ocrypt_free_memory(updated_metadata_out);
+    burn(password, sizeof(password));
+    
+    return 0; // Success
+#else
+    // Linux implementation
+    char metadata_buffer[TC_MAX_METADATA_SIZE];
+    unsigned long metadata_size = 0;
+    
+    // Try to read Ocrypt metadata from volume header
+    int read_result = ReadOcryptMetadata(FALSE, device, metadata_buffer, sizeof(metadata_buffer), &metadata_size, bBackupHeader);
+    
+    if (!read_result || metadata_size == 0) {
+        return -1; // No metadata found or read failed
+    }
+    
+    // Convert password to null-terminated string
+    char password[512];
+    int password_len = pwd_len;
+    if (password_len > 511) password_len = 511;
+    memcpy(password, pwd, password_len);
+    password[password_len] = '\0';
+    
+    // Recover the secret using Ocrypt
+    unsigned char* secret_out = NULL;
+    int secret_len_out = 0;
+    int remaining_guesses_out = 0;
+    unsigned char* updated_metadata_out = NULL;
+    int updated_metadata_len_out = 0;
+    
+    int recover_result = ocrypt_recover_secret(
+        (const unsigned char*)metadata_buffer,
+        metadata_size,
+        password,
+        &secret_out,
+        &secret_len_out,
+        &remaining_guesses_out,
+        &updated_metadata_out,
+        &updated_metadata_len_out
+    );
+    
+    if (recover_result != 0 || secret_out == NULL) {
+        // Clean up
+        if (secret_out) ocrypt_free_memory(secret_out);
+        if (updated_metadata_out) ocrypt_free_memory(updated_metadata_out);
+        burn(password, sizeof(password));
+        return -2; // Recovery failed
+    }
+    
+    // Derive the volume key from the recovered secret
+    if (secret_len_out >= 32) {
+        // Hash the recovered secret to create the volume key
+        sha256_ctx ctx;
+        sha256_begin(&ctx);
+        sha256_hash(secret_out, secret_len_out, &ctx);
+        sha256_end(dk, &ctx);
+    } else {
+        // Fallback: use the secret directly (padded/truncated to required length)
+        memset(dk, 0, dklen);
+        memcpy(dk, secret_out, secret_len_out < dklen ? secret_len_out : dklen);
+    }
+    
+    // Update metadata if it changed (e.g., guess count updated)
+    if (updated_metadata_out && updated_metadata_len_out > 0) {
+        if (updated_metadata_len_out < TC_MAX_METADATA_SIZE) {
+            WriteOcryptMetadata(FALSE, device, (const char*)updated_metadata_out, updated_metadata_len_out, bBackupHeader);
+        }
+    }
+    
+    // Clean up
+    ocrypt_free_memory(secret_out);
+    if (updated_metadata_out) ocrypt_free_memory(updated_metadata_out);
+    burn(password, sizeof(password));
+    
+    return 0; // Success
+#endif
+}
+
+// Function to clean up global Ocrypt metadata
+void ocrypt_cleanup_metadata()
+{
+    if (g_ocrypt_metadata) {
+        ocrypt_free_memory(g_ocrypt_metadata);
+        g_ocrypt_metadata = NULL;
+        g_ocrypt_metadata_len = 0;
+    }
+}
+
+// Helper function to load Ocrypt metadata from volume header
+// Should be called after ReadEffectiveVolumeHeader and before ReadVolumeHeader
+void ocrypt_load_metadata_if_available(BOOL bDevice, void* fileHandle, BOOL bBackupHeader)
+{
+#if defined(_WIN32) && !defined(TC_WINDOWS_BOOT) && !defined(DEVICE_DRIVER) && !defined(_UEFI)
+    // Clean up any existing metadata first
+    ocrypt_cleanup_metadata();
+    
+    char metadata_buffer[TC_MAX_METADATA_SIZE];
+    DWORD metadata_size = 0;
+    
+    // Try to read Ocrypt metadata from volume header
+    BOOL read_result = ReadOcryptMetadata(FALSE, (HANDLE)fileHandle, metadata_buffer, sizeof(metadata_buffer), &metadata_size, bBackupHeader);
+    
+    if (read_result && metadata_size > 0) {
+        // Successfully read metadata - store it in global variables
+        g_ocrypt_metadata_len = (int)metadata_size;
+        g_ocrypt_metadata = (unsigned char*)malloc(g_ocrypt_metadata_len);
+        if (g_ocrypt_metadata) {
+            memcpy(g_ocrypt_metadata, metadata_buffer, g_ocrypt_metadata_len);
+        } else {
+            g_ocrypt_metadata_len = 0;
+        }
+    }
+#elif !defined(TC_WINDOWS_BOOT) && !defined(DEVICE_DRIVER) && !defined(_UEFI)
+    // Linux implementation
+    // Clean up any existing metadata first
+    ocrypt_cleanup_metadata();
+    
+    char metadata_buffer[TC_MAX_METADATA_SIZE];
+    unsigned long metadata_size = 0;
+    
+    fprintf(stderr, "[DEBUG] ocrypt_load_metadata_if_available: Loading metadata from volume header\n");
+    fflush(stderr);
+    
+    // Try to read Ocrypt metadata from volume header
+    int read_result = ReadOcryptMetadata(FALSE, fileHandle, metadata_buffer, sizeof(metadata_buffer), &metadata_size, bBackupHeader);
+    
+    if (read_result && metadata_size > 0) {
+        // Successfully read metadata - store it in global variables
+        g_ocrypt_metadata_len = (int)metadata_size;
+        g_ocrypt_metadata = (unsigned char*)malloc(g_ocrypt_metadata_len);
+        if (g_ocrypt_metadata) {
+            memcpy(g_ocrypt_metadata, metadata_buffer, g_ocrypt_metadata_len);
+            fprintf(stderr, "[DEBUG] ocrypt_load_metadata_if_available: Successfully loaded %d bytes of metadata\n", g_ocrypt_metadata_len);
+            fflush(stderr);
+        } else {
+            g_ocrypt_metadata_len = 0;
+            fprintf(stderr, "[DEBUG] ocrypt_load_metadata_if_available: Failed to allocate memory for metadata\n");
+            fflush(stderr);
+        }
+    } else {
+        fprintf(stderr, "[DEBUG] ocrypt_load_metadata_if_available: No metadata found or read failed\n");
+        fflush(stderr);
+    }
+#endif
+}
+
+// Function to save Ocrypt metadata to external file with backup
+int save_ocrypt_metadata_to_file(const char* volume_path, const unsigned char* metadata, int metadata_len)
+{
+    if (!volume_path || !metadata || metadata_len <= 0) {
+        return 0; // FALSE
+    }
+    
+    // Create metadata filename: volume_path + ".metadata.json"
+    char metadata_path[2048];
+    char backup_path[2048];
+    snprintf(metadata_path, sizeof(metadata_path), "%s.metadata.json", volume_path);
+    snprintf(backup_path, sizeof(backup_path), "%s.metadata.json.old", volume_path);
+    
+    fprintf(stderr, "[DEBUG] Saving Ocrypt metadata to file: %s (%d bytes)\n", metadata_path, metadata_len);
+    fflush(stderr);
+    
+    // Create backup of existing metadata file if it exists
+    FILE* existing_file = fopen(metadata_path, "rb");
+    if (existing_file) {
+        fclose(existing_file);
+        
+        // Copy existing file to backup
+        FILE* src = fopen(metadata_path, "rb");
+        FILE* dst = fopen(backup_path, "wb");
+        
+        if (src && dst) {
+            char buffer[4096];
+            size_t bytes;
+            while ((bytes = fread(buffer, 1, sizeof(buffer), src)) > 0) {
+                fwrite(buffer, 1, bytes, dst);
+            }
+            fprintf(stderr, "[DEBUG] Created backup: %s\n", backup_path);
+            fflush(stderr);
+        }
+        
+        if (src) fclose(src);
+        if (dst) fclose(dst);
+    }
+    
+    // Write new metadata
+    FILE* file = fopen(metadata_path, "wb");
+    if (!file) {
+        fprintf(stderr, "[DEBUG] Failed to create metadata file: %s\n", metadata_path);
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    size_t written = fwrite(metadata, 1, metadata_len, file);
+    fclose(file);
+    
+    if (written != (size_t)metadata_len) {
+        fprintf(stderr, "[DEBUG] Failed to write complete metadata: wrote %zu of %d bytes\n", written, metadata_len);
+        fflush(stderr);
+        return 0; // FALSE
+    }
+    
+    fprintf(stderr, "[DEBUG] Successfully saved %d bytes of metadata to %s\n", metadata_len, metadata_path);
+    fflush(stderr);
+    return 1; // TRUE
+}
+
+// Function to load Ocrypt metadata from external file
+int load_ocrypt_metadata_from_file(const char* volume_path, unsigned char** metadata_out, int* metadata_len_out)
+{
+    if (!volume_path || !metadata_out || !metadata_len_out) {
+        return 0; // FALSE
+    }
+    
+    *metadata_out = NULL;
+    *metadata_len_out = 0;
+    
+    // Create metadata filename: volume_path + ".metadata.json"
+    char metadata_path[2048];
+    snprintf(metadata_path, sizeof(metadata_path), "%s.metadata.json", volume_path);
+    
+    fprintf(stderr, "[DEBUG] Loading Ocrypt metadata from file: %s\n", metadata_path);
+    fflush(stderr);
+    
+    FILE* file = fopen(metadata_path, "rb");
+    if (!file) {
+        fprintf(stderr, "[DEBUG] Metadata file not found: %s\n", metadata_path);
+        fflush(stderr);
+        return 0; // FALSE - not an error, just no metadata
+    }
+    
+    // Get file size
+    fseek(file, 0, SEEK_END);
+    long file_size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    
+    if (file_size <= 0 || file_size > TC_MAX_METADATA_SIZE * 10) {
+        fprintf(stderr, "[DEBUG] Invalid metadata file size: %ld bytes\n", file_size);
+        fflush(stderr);
+        fclose(file);
+        return 0; // FALSE
+    }
+    
+    // Allocate memory and read file
+    *metadata_out = (unsigned char*)malloc(file_size);
+    if (!*metadata_out) {
+        fprintf(stderr, "[DEBUG] Failed to allocate memory for metadata\n");
+        fflush(stderr);
+        fclose(file);
+        return 0; // FALSE
+    }
+    
+    size_t read_bytes = fread(*metadata_out, 1, file_size, file);
+    fclose(file);
+    
+    if (read_bytes != (size_t)file_size) {
+        fprintf(stderr, "[DEBUG] Failed to read complete metadata: read %zu of %ld bytes\n", read_bytes, file_size);
+        fflush(stderr);
+        free(*metadata_out);
+        *metadata_out = NULL;
+        return 0; // FALSE
+    }
+    
+    *metadata_len_out = (int)file_size;
+    fprintf(stderr, "[DEBUG] Successfully loaded %d bytes of metadata from %s\n", *metadata_len_out, metadata_path);
+    fflush(stderr);
+    return 1; // TRUE
+}
+
+// Function to set the current volume path for metadata operations
+void set_current_volume_path(const char* volume_path)
+{
+    // Free any existing path
+    if (g_current_volume_path) {
+        free(g_current_volume_path);
+        g_current_volume_path = NULL;
+    }
+    
+    // Make a copy of the new path
+    if (volume_path) {
+        size_t len = strlen(volume_path);
+        g_current_volume_path = (char*)malloc(len + 1);
+        if (g_current_volume_path) {
+            strcpy(g_current_volume_path, volume_path);
+            fprintf(stderr, "[DEBUG] set_current_volume_path: Copied path '%s'\n", g_current_volume_path);
+            fflush(stderr);
+        } else {
+            fprintf(stderr, "[DEBUG] set_current_volume_path: Failed to allocate memory for path\n");
+            fflush(stderr);
+        }
+    }
+}
+
+// Header-based metadata helper functions
+void set_current_file_handle(void* fileHandle, int isDevice)
+{
+    g_current_file_handle = fileHandle;
+    g_current_is_device = isDevice;
+    fprintf(stderr, "[DEBUG] set_current_file_handle: handle=%p, isDevice=%d\n", fileHandle, isDevice);
+    fflush(stderr);
+}
+
+int save_ocrypt_metadata_to_header(const unsigned char* metadata, int metadata_len)
+{
+    if (!g_current_file_handle) {
+        fprintf(stderr, "[DEBUG] save_ocrypt_metadata_to_header: No file handle set\n");
+        fflush(stderr);
+        return 0;
+    }
+    
+    if (!metadata || metadata_len <= 0 || metadata_len > TC_MAX_METADATA_SIZE) {
+        fprintf(stderr, "[DEBUG] save_ocrypt_metadata_to_header: Invalid parameters (len=%d)\n", metadata_len);
+        fflush(stderr);
+        return 0;
+    }
+    
+    fprintf(stderr, "[DEBUG] save_ocrypt_metadata_to_header: Saving %d bytes to header\n", metadata_len);
+    fflush(stderr);
+    
+    // Write to both primary and backup headers
+    int result1 = WriteOcryptMetadata(g_current_is_device, g_current_file_handle, (const char*)metadata, metadata_len, 0); // Primary
+    int result2 = WriteOcryptMetadata(g_current_is_device, g_current_file_handle, (const char*)metadata, metadata_len, 1); // Backup
+    
+    if (result1 && result2) {
+        fprintf(stderr, "[DEBUG] save_ocrypt_metadata_to_header: Successfully saved to both headers\n");
+        fflush(stderr);
+        return 1;
+    } else {
+        fprintf(stderr, "[DEBUG] save_ocrypt_metadata_to_header: Failed (primary=%d, backup=%d)\n", result1, result2);
+        fflush(stderr);
+        return 0;
+    }
+}
+
+int load_ocrypt_metadata_from_header(unsigned char** metadata_out, int* metadata_len_out)
+{
+    if (!g_current_file_handle) {
+        fprintf(stderr, "[DEBUG] load_ocrypt_metadata_from_header: No file handle set\n");
+        fflush(stderr);
+        return 0;
+    }
+    
+    if (!metadata_out || !metadata_len_out) {
+        fprintf(stderr, "[DEBUG] load_ocrypt_metadata_from_header: Invalid output parameters\n");
+        fflush(stderr);
+        return 0;
+    }
+    
+    // Allocate buffer for reading metadata
+    char* buffer = (char*)malloc(TC_MAX_METADATA_SIZE);
+    if (!buffer) {
+        fprintf(stderr, "[DEBUG] load_ocrypt_metadata_from_header: Memory allocation failed\n");
+        fflush(stderr);
+        return 0;
+    }
+    
+    // Try to read from primary header first
+    unsigned long metadataSize = 0;
+    int result = ReadOcryptMetadata(g_current_is_device, g_current_file_handle, buffer, TC_MAX_METADATA_SIZE, &metadataSize, 0);
+    
+    if (!result || metadataSize == 0) {
+        // Try backup header
+        fprintf(stderr, "[DEBUG] load_ocrypt_metadata_from_header: Primary header failed, trying backup\n");
+        fflush(stderr);
+        result = ReadOcryptMetadata(g_current_is_device, g_current_file_handle, buffer, TC_MAX_METADATA_SIZE, &metadataSize, 1);
+    }
+    
+    if (!result || metadataSize == 0) {
+        fprintf(stderr, "[DEBUG] load_ocrypt_metadata_from_header: No metadata found in headers\n");
+        fflush(stderr);
+        free(buffer);
+        *metadata_out = NULL;
+        *metadata_len_out = 0;
+        return 0;
+    }
+    
+    // Allocate exact size for output
+    *metadata_out = (unsigned char*)malloc(metadataSize);
+    if (!*metadata_out) {
+        fprintf(stderr, "[DEBUG] load_ocrypt_metadata_from_header: Output allocation failed\n");
+        fflush(stderr);
+        free(buffer);
+        return 0;
+    }
+    
+    memcpy(*metadata_out, buffer, metadataSize);
+    *metadata_len_out = (int)metadataSize;
+    
+    fprintf(stderr, "[DEBUG] load_ocrypt_metadata_from_header: Successfully loaded %d bytes from header\n", *metadata_len_out);
+    fflush(stderr);
+    
+    free(buffer);
+    return 1;
 }

@@ -365,6 +365,9 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 			memset (buffer, 0, sizeof (buffer));
 		}
 
+		/* Load Ocrypt metadata if available (for volume opening) */
+		ocrypt_load_metadata_if_available(bDevice, dev, volumeType == TC_VOLUME_TYPE_HIDDEN);
+
 		/* Try to decrypt the header */
 
 		nStatus = ReadVolumeHeader (FALSE, buffer, oldPassword, old_pkcs5, old_pim, &cryptoInfo, NULL);

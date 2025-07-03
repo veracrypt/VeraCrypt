@@ -50,6 +50,23 @@ void get_argon2_params(int pim, int* pIterations, int* pMemcost);
 /* OpenADP Ocrypt distributed key derivation */
 void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
 
+/* Global variables for Ocrypt metadata handling */
+extern unsigned char* g_ocrypt_metadata;
+extern int g_ocrypt_metadata_len;
+
+/* Ocrypt volume operations */
+#if defined(TC_WINDOWS) || defined(_WIN32)
+int ocrypt_create_volume_with_metadata(HANDLE device, BOOL bBackupHeader);
+int ocrypt_open_volume_with_metadata(HANDLE device, const unsigned char *pwd, int pwd_len, unsigned char *dk, int dklen, BOOL bBackupHeader);
+#else
+int ocrypt_create_volume_with_metadata(void* device, int bBackupHeader);
+int ocrypt_open_volume_with_metadata(void* device, const unsigned char *pwd, int pwd_len, unsigned char *dk, int dklen, int bBackupHeader);
+#endif
+void ocrypt_cleanup_metadata(void);
+
+/* Helper function to load Ocrypt metadata from volume header into global variables */
+void ocrypt_load_metadata_if_available(BOOL bDevice, void* fileHandle, BOOL bBackupHeader);
+
 /* check if given PRF supported.*/
 typedef enum
 {
