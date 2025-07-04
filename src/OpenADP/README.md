@@ -7,7 +7,7 @@ This directory contains the OpenADP (Open Adaptive Data Protection) implementati
 ## Current Implementation Status
 
 ✅ **Completed Features:**
-- Secure random number generation (`/dev/urandom` on Linux, `RandgetBytes` on Windows)
+- Secure random number generation (OpenSSL `RAND_bytes` for cross-platform portability)
 - Single-recovery architecture with version byte system
 - Atomic metadata updates with rollback safety
 - Core integration with VeraCrypt's PRF system
@@ -40,9 +40,10 @@ Bytes 65536+:     Hidden volume header area (no conflict with Ocrypt)
 ### Security Features
 
 #### Secure Random Generation
-- **Linux/Unix**: Uses `/dev/urandom` for cryptographically secure entropy
-- **Windows**: Uses VeraCrypt's `RandgetBytes` function
-- **Fallback**: Hash-based key derivation if RNG fails
+- **All Platforms**: Uses OpenSSL's `RAND_bytes()` for cryptographically secure entropy
+- **Portability**: No platform-specific dependencies or file access requirements
+- **Fallback**: Hash-based key derivation if OpenSSL RNG fails
+- **API**: Exposed via `ocrypt_random_bytes()` wrapper function
 
 #### Single-Recovery Architecture
 - **Version Byte System**: Tracks which metadata copy is newer
@@ -87,10 +88,10 @@ Bytes 65536+:     Hidden volume header area (no conflict with Ocrypt)
 
 ### Fixed Vulnerabilities
 
-1. **Weak Entropy Generation** (Fixed in commit `61072832`)
+1. **Weak Entropy Generation** (Fixed in commits `61072832` and latest)
    - **Before**: Used `clock()` and `time()` functions (predictable)
-   - **After**: Uses `/dev/urandom` (cryptographically secure)
-   - **Impact**: Each volume gets unique 32-byte random secrets
+   - **After**: Uses OpenSSL `RAND_bytes()` (cryptographically secure, cross-platform)
+   - **Impact**: Each volume gets unique 32-byte random secrets with portable implementation
 
 2. **Double Recovery** (Fixed in commit `87324297`)
    - **Before**: Ocrypt recovery called twice (primary + backup headers)

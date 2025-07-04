@@ -9,6 +9,7 @@
 #include <cstring>
 #include <memory>
 #include <cstdlib>
+#include <openssl/rand.h>
 
 extern "C" {
 
@@ -130,6 +131,25 @@ void ocrypt_free_memory(unsigned char* ptr)
 {
     if (ptr != nullptr) {
         free(ptr);
+    }
+}
+
+/* Generate cryptographically secure random bytes using OpenSSL */
+int ocrypt_random_bytes(unsigned char* buffer, int length)
+{
+    if (buffer == nullptr || length <= 0) {
+        return -1; // Invalid parameters
+    }
+    
+    if (length > 1048576) { // 1MB limit for sanity
+        return -1; // Request too large
+    }
+    
+    // Use OpenSSL's RAND_bytes directly for cryptographically secure random generation
+    if (RAND_bytes(buffer, length) == 1) {
+        return 0; // Success
+    } else {
+        return -1; // OpenSSL random generation failed
     }
 }
 

@@ -1877,33 +1877,19 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
     
     if (!use_cached_secret) {
         // Generate new secret or this is a different user_id
-        // Use /dev/urandom for cryptographically secure random number generation on Linux
-        BOOL rng_success = FALSE;
-        
-#ifdef _WIN32
-        // On Windows, use VeraCrypt's RNG
-        if (RandgetBytes(NULL, g_cached_long_term_secret, 32, FALSE)) {
-            rng_success = TRUE;
-        }
-#else
-        // On Linux/Unix, use /dev/urandom
-        FILE* urandom = fopen("/dev/urandom", "rb");
-        if (urandom) {
-            if (fread(g_cached_long_term_secret, 1, 32, urandom) == 32) {
-                rng_success = TRUE;
-            }
-            fclose(urandom);
-        }
-#endif
-        
-        if (!rng_success) {
+        // Use OpenADP's cryptographically secure random number generation via OpenSSL
+        if (ocrypt_random_bytes(g_cached_long_term_secret, 32) == 0) {
+            // Random generation successful
+            fprintf(stderr, "[DEBUG] Generated 32 bytes of cryptographically secure random data via OpenSSL\n");
+            fflush(stderr);
+        } else {
             // Fallback to hash-based derivation if RNG fails
             sha256_ctx ctx;
             sha256_begin(&ctx);
             sha256_hash(pwd, pwd_len, &ctx);
             sha256_hash(salt, salt_len, &ctx);
             sha256_end(g_cached_long_term_secret, &ctx);
-            fprintf(stderr, "[DEBUG] Warning: Used fallback key derivation due to RNG failure\n");
+            fprintf(stderr, "[DEBUG] Warning: OpenSSL RNG failed, used fallback key derivation\n");
             fflush(stderr);
         }
         

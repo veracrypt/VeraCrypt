@@ -39,6 +39,9 @@ int ocrypt_recover_secret(
 /* Free memory allocated by ocrypt functions */
 void ocrypt_free_memory(unsigned char* ptr);
 
+/* Generate cryptographically secure random bytes using OpenSSL */
+int ocrypt_random_bytes(unsigned char* buffer, int length);
+
 #ifdef __cplusplus
 }
 #endif
