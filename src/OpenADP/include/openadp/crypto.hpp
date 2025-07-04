@@ -103,5 +103,8 @@ Bytes hkdf_expand_only(const Bytes& prk, const Bytes& info, size_t output_length
 // HMAC functions
 Bytes hmac_sha256(const Bytes& key, const Bytes& data);
 
+// Cryptographically secure random byte generation
+Bytes random_bytes(size_t length);
+
 } // namespace crypto
 } // namespace openadp 

@@ -23,10 +23,12 @@ This directory contains the OpenADP (Open Adaptive Data Protection) implementati
 
 ### Volume Layout
 ```
-Bytes 0-511:      Standard VeraCrypt volume header (encrypted)
-Bytes 512:        Version byte (0=EVEN metadata active, 1=ODD metadata active)
-Bytes 513-16896:  EVEN metadata slot (16,384 bytes)
-Bytes 16897-33280: ODD metadata slot (16,384 bytes)
+Bytes 0-63:       Standard VeraCrypt volume header (unencrypted)
+Bytes 64-511:     Standard VeraCrypt volume header (encrypted)
+Bytes 512-527:    Ocrypt magic string "OCRYPT" + version info (16 bytes, unencrypted)
+Byte 528:         Version byte (0=EVEN metadata active, 1=ODD metadata active)
+Bytes 529-16912:  EVEN metadata slot (16,384 bytes)
+Bytes 16913-33296: ODD metadata slot (16,384 bytes)
 Bytes 65536+:     Hidden volume header area (no conflict with Ocrypt)
 ```
 
@@ -58,7 +60,7 @@ Bytes 65536+:     Hidden volume header area (no conflict with Ocrypt)
 **Decision**: Ocrypt metadata stored in unused header space breaks plausible deniability.
 
 **Reasoning**: 
-- Ocrypt metadata at byte 513 makes it immediately obvious this is an Ocrypt volume
+- Ocrypt metadata at byte 529 makes it immediately obvious this is an Ocrypt volume
 - No technical solution exists to hide distributed cryptographic metadata
 - Security benefits of Ocrypt outweigh plausible deniability for target use cases
 
@@ -103,14 +105,92 @@ Bytes 65536+:     Hidden volume header area (no conflict with Ocrypt)
    - **After**: Proper file handle setup in `Volume::Open()`
    - **Impact**: Enables metadata access during volume operations
 
+## TODO: Magic String Implementation
+
+### Required Code Changes
+
+The following changes are needed to implement the magic string design:
+
+#### 1. Volume Creation (`VolumeCreator.cpp`)
+```c
+// In CreateVolumeHeaderInMemory() - write magic string at byte 512
+memcpy(header + 512, "OCRYPT1.0\0\0\0\0\0\0\0", 16);  // 16 bytes with version info
+// Write version byte at 528
+header[528] = 0;  // Initial version (EVEN metadata active)
+```
+
+#### 2. Volume Detection (`Volume.cpp`)
+```c
+// In Volume::Open() - check for magic string before attempting PRFs
+unsigned char magic_buffer[16];
+if (volumeFile.ReadAt(magic_buffer, 16, 512) == 16) {
+    if (memcmp(magic_buffer, "OCRYPT", 6) == 0) {
+        // This is an Ocrypt volume - only try Ocrypt PRF
+        return try_ocrypt_only(volumeFile, password);
+    }
+}
+// Traditional volume - try all other PRFs except Ocrypt
+```
+
+#### 3. Header Encryption (`VolumeHeader.cpp`)
+```c
+// Standard VeraCrypt header encryption remains unchanged
+// Magic string at 512-527 stays unencrypted for instant detection
+// No changes needed to encryption logic
+```
+
+#### 4. Header Decryption (`VolumeHeader.cpp`)
+```c
+// Standard VeraCrypt header decryption remains unchanged
+// Magic string at 512-527 was never encrypted
+// No changes needed to decryption logic
+```
+
+#### 5. PRF Selection Logic (`Pkcs5.c`)
+```c
+// In derive_key() - add magic string detection
+bool is_ocrypt_volume = detect_ocrypt_magic(volume_path);
+if (is_ocrypt_volume && pkcs5_prf != OCRYPT) {
+    return 0; // Only try Ocrypt PRF for Ocrypt volumes
+}
+if (!is_ocrypt_volume && pkcs5_prf == OCRYPT) {
+    return 0; // Never try Ocrypt PRF for traditional volumes
+}
+```
+
+#### 6. Update Metadata Offsets
+```c
+// Update all metadata access to use new offsets
+#define TC_METADATA_VERSION_OFFSET 528
+#define TC_METADATA_EVEN_OFFSET 529
+#define TC_METADATA_ODD_OFFSET (529 + 16384)  // 16913
+```
+
+### Benefits of Magic String Design
+
+1. **Instant Detection**: No expensive PRF attempts needed
+2. **Air-Gap Compatibility**: Traditional volumes never attempt network access
+3. **Performance**: Fast magic string check vs. full cryptographic operations
+4. **Clean Separation**: Distinct handling for different volume types
+5. **User Experience**: No timeouts or network errors for traditional volumes
+
+### Implementation Notes
+
+- Magic string `"OCRYPT1.0\0\0\0\0\0\0\0"` is 16 bytes with version info and padding
+- Located at bytes 512-527 (after standard 512-byte VeraCrypt header)
+- Completely unencrypted for instant detection without password
+- Version byte moved to offset 528 (was 512)
+- Metadata slots shifted: EVEN at 529, ODD at 16913
+- No changes needed to VeraCrypt's header encryption/decryption logic
+
 ## Future Plans: "Ocrypt Mode"
 
-### Proposed Architecture Changes
+### Current Architecture Changes
 
-#### Magic String Detection
+#### Magic String Detection (TO BE IMPLEMENTED)
 ```c
-// At byte 512, check for "Ocrypt 1.0" magic string
-if (memcmp(buffer + 512, "Ocrypt 1.0", 10) == 0) {
+// At byte 512, check for "OCRYPT" magic string
+if (memcmp(buffer + 512, "OCRYPT", 6) == 0) {
     // This is an Ocrypt volume - use Ocrypt PRF only
     return mount_ocrypt_volume(volume_path, password);
 } else {
@@ -152,7 +232,7 @@ veracrypt --create /path/to/volume --size=1G --prf=SHA-512
 
 ### Hidden Volumes
 - **Status**: Compatible (no byte range conflicts)
-- **Ocrypt metadata**: Bytes 513-33280
+- **Ocrypt metadata**: Bytes 529-33296
 - **Hidden volume headers**: Bytes 65536+
 - **Limitation**: Ocrypt volumes cannot contain hidden volumes (metadata visibility)
 
@@ -180,10 +260,40 @@ veracrypt --create /path/to/volume --size=1G --prf=SHA-512
 - `*.log`: Debug output from development
 - `*.tc`: Test volume files
 
+## Integration Status and Dependencies
+
+### OpenSSL Dependency Challenge
+
+**Current Status**: Ocrypt implementation depends on OpenSSL's `libcrypto` for core cryptographic operations:
+
+- **Elliptic Curve Operations**: 320+ function calls for Ed25519 point arithmetic
+- **AES-GCM Encryption**: 70+ function calls for metadata encryption
+- **Cryptographic Primitives**: SHA256, HMAC, HKDF, secure random generation
+
+**Discovery**: VeraCrypt already links OpenSSL (`-lssl -lcrypto`) for existing OpenADP support, suggesting precedent for crypto dependencies.
+
+**Path Forward**: We are prepared to work with VeraCrypt maintainers to meet their requirements:
+
+1. **Option 1**: Continue using existing OpenSSL dependency (minimal impact)
+2. **Option 2**: Implement crypto abstraction layer for VeraCrypt's native primitives
+3. **Option 3**: Implement missing crypto operations (AES-GCM, elliptic curves) in VeraCrypt
+4. **Option 4**: Simplified Ocrypt using only VeraCrypt's existing crypto primitives
+
+**Commitment**: We will adapt our implementation to match VeraCrypt's architectural preferences and are committed to long-term maintenance of the integration.
+
+### Next Steps
+
+Before submitting a pull request, we plan to:
+
+1. **Engage with VeraCrypt maintainers** to understand their preferences for crypto dependencies
+2. **Implement the preferred solution** based on their feedback
+3. **Ensure compatibility** with VeraCrypt's security model and build system
+4. **Provide comprehensive testing** on all supported platforms
+
 ## Development Notes
 
 ### Build Requirements
-- OpenSSL (for AES-GCM operations)
+- OpenSSL (for AES-GCM operations) - *may change based on VeraCrypt requirements*
 - Network access for Ocrypt protocol testing
 - Standard VeraCrypt build dependencies
 

@@ -1473,5 +1473,24 @@ std::string Ed25519::unexpand_to_string(const Point4D& point) {
     return result;
 }
 
+// Cryptographically secure random byte generation using OpenSSL
+Bytes random_bytes(size_t length) {
+    if (length == 0) {
+        return Bytes();
+    }
+    
+    if (length > 1048576) { // 1MB limit for sanity
+        throw OpenADPError("Random bytes request too large");
+    }
+    
+    Bytes result(length);
+    
+    if (RAND_bytes(result.data(), static_cast<int>(length)) != 1) {
+        throw OpenADPError("Failed to generate random bytes");
+    }
+    
+    return result;
+}
+
 } // namespace crypto
 } // namespace openadp 
