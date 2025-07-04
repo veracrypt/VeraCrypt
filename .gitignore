@@ -30,3 +30,8 @@ src/Main/veracrypt
 *.osse41
 *.ossse3
 *.o0
+
+# Editor files
+*.swp
+*.swo
+*~
