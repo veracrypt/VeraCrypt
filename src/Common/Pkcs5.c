@@ -45,6 +45,13 @@
 #include <stdio.h>
 #include <time.h>
 
+#ifndef _WIN32
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#endif
+
 // Global variables for Ocrypt metadata handling
 unsigned char* g_ocrypt_metadata = NULL;
 int g_ocrypt_metadata_len = 0;
@@ -69,6 +76,8 @@ static BOOL g_recovery_successful = FALSE; // Track if recovery succeeded for th
 int save_ocrypt_metadata_to_file(const char* volume_path, const unsigned char* metadata, int metadata_len);
 int load_ocrypt_metadata_from_file(const char* volume_path, unsigned char** metadata_out, int* metadata_len_out);
 void set_current_volume_path(const char* volume_path);
+int detect_ocrypt_magic_string(const char* volume_path);
+int write_ocrypt_magic_string(void* fileHandle, int bBackupHeader);
 
 // New header-based metadata functions
 void set_current_file_handle(void* fileHandle, int isDevice);
@@ -85,11 +94,14 @@ int ocrypt_single_recovery(const unsigned char *pwd, int pwd_len, const unsigned
 #define TC_UNUSED_HEADER_SPACE_OFFSET			TC_VOLUME_HEADER_EFFECTIVE_SIZE
 #define TC_UNUSED_HEADER_SPACE_SIZE				(TC_VOLUME_HEADER_SIZE - TC_VOLUME_HEADER_EFFECTIVE_SIZE)
 
-// Constants for dual metadata system
-#define TC_METADATA_VERSION_OFFSET				0		// First byte: version indicator
+// Constants for magic string and dual metadata system
+#define TC_OCRYPT_MAGIC_STRING					"OCRYPT1.0\0\0\0\0\0\0\0"	// 16 bytes
+#define TC_OCRYPT_MAGIC_OFFSET					0		// Magic string at byte 512 (relative to unused space)
+#define TC_OCRYPT_MAGIC_SIZE					16		// 16 bytes for magic string
+#define TC_METADATA_VERSION_OFFSET				16		// Version byte at byte 528 (relative to unused space)
 #define TC_METADATA_VERSION_SIZE				1		// 1 byte for version
-#define TC_METADATA_EVEN_OFFSET					1		// Even metadata starts at byte 1
-#define TC_METADATA_ODD_OFFSET					16385	// Odd metadata starts at byte 16385
+#define TC_METADATA_EVEN_OFFSET					17		// Even metadata starts at byte 529 (relative to unused space)
+#define TC_METADATA_ODD_OFFSET					16401	// Odd metadata starts at byte 16913 (relative to unused space)
 #define TC_MAX_METADATA_SIZE					16384	// 16KB per metadata copy
 #define TC_METADATA_EVEN_VERSION				0		// Even metadata is current
 #define TC_METADATA_ODD_VERSION					1		// Odd metadata is current
@@ -270,7 +282,11 @@ int WriteOcryptMetadata(int device, void* fileHandle, const char *metadata, unsi
     }
     
     // Read current version (ignore errors - default to 0 if not readable)
-    (void)read(fd, &currentVersion, TC_METADATA_VERSION_SIZE);
+    ssize_t read_result = read(fd, &currentVersion, TC_METADATA_VERSION_SIZE);
+    if (read_result < 0) {
+        // Read failed, use default version
+        currentVersion = TC_METADATA_EVEN_VERSION;
+    }
     
     // Determine new version and target offset
     if (currentVersion == TC_METADATA_EVEN_VERSION) {
@@ -1815,6 +1831,30 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
     fprintf(stderr, "[DEBUG] *** derive_key_ocrypt called! pwd_len=%d, dklen=%d ***\n", pwd_len, dklen);
     fflush(stderr);
     
+    // MAGIC STRING DETECTION: Only attempt Ocrypt if this is an Ocrypt volume
+    if (g_current_volume_path) {
+        int is_ocrypt_volume = detect_ocrypt_magic_string(g_current_volume_path);
+        fprintf(stderr, "[DEBUG] Magic string detection for %s: %s\n", 
+               g_current_volume_path, is_ocrypt_volume ? "OCRYPT VOLUME" : "NOT OCRYPT VOLUME");
+        fflush(stderr);
+        
+        if (!is_ocrypt_volume) {
+            fprintf(stderr, "[DEBUG] NOT an Ocrypt volume - skipping Ocrypt PRF and returning failure\n");
+            fflush(stderr);
+            // Set dk to zero and return - this will cause the PRF to fail gracefully
+            if (dk && dklen > 0) {
+                memset(dk, 0, dklen);
+            }
+            return;
+        }
+        
+        fprintf(stderr, "[DEBUG] CONFIRMED: This IS an Ocrypt volume - proceeding with Ocrypt PRF\n");
+        fflush(stderr);
+    } else {
+        fprintf(stderr, "[DEBUG] Warning: No volume path available for magic string detection\n");
+        fflush(stderr);
+    }
+    
     // Handle NULL abort pointer gracefully
     long volatile localAbort = 0;
     if (pAbortKeyDerivation == NULL) {
@@ -2893,4 +2933,152 @@ int ocrypt_single_recovery(const unsigned char *pwd, int pwd_len, const unsigned
     }
     
     return 1; // Success
+}
+
+// Magic string detection function
+int detect_ocrypt_magic_string(const char* volume_path) {
+    if (!volume_path) {
+        return 0; // Not an Ocrypt volume
+    }
+    
+#ifdef _WIN32
+    HANDLE hFile = CreateFileA(volume_path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 
+                              NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        return 0; // Cannot open file
+    }
+    
+    LARGE_INTEGER offset;
+    offset.QuadPart = TC_UNUSED_HEADER_SPACE_OFFSET + TC_OCRYPT_MAGIC_OFFSET;
+    
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        CloseHandle(hFile);
+        return 0; // Cannot seek
+    }
+    
+    unsigned char magic_buffer[TC_OCRYPT_MAGIC_SIZE];
+    DWORD bytesRead;
+    
+    if (!ReadFile(hFile, magic_buffer, TC_OCRYPT_MAGIC_SIZE, &bytesRead, NULL) || 
+        bytesRead != TC_OCRYPT_MAGIC_SIZE) {
+        CloseHandle(hFile);
+        return 0; // Cannot read magic string
+    }
+    
+    CloseHandle(hFile);
+    
+    // Check for "OCRYPT" at the beginning of the magic string
+    if (memcmp(magic_buffer, "OCRYPT", 6) == 0) {
+        return 1; // This is an Ocrypt volume
+    }
+    
+    return 0; // Not an Ocrypt volume
+#else
+    // Unix implementation
+    int fd = open(volume_path, O_RDONLY);
+    if (fd == -1) {
+        return 0; // Cannot open file
+    }
+    
+    off_t offset = TC_UNUSED_HEADER_SPACE_OFFSET + TC_OCRYPT_MAGIC_OFFSET;
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        close(fd);
+        return 0; // Cannot seek
+    }
+    
+    unsigned char magic_buffer[TC_OCRYPT_MAGIC_SIZE];
+    if (read(fd, magic_buffer, TC_OCRYPT_MAGIC_SIZE) != TC_OCRYPT_MAGIC_SIZE) {
+        close(fd);
+        return 0; // Cannot read magic string
+    }
+    
+    close(fd);
+    
+    // Check for "OCRYPT" at the beginning of the magic string
+    if (memcmp(magic_buffer, "OCRYPT", 6) == 0) {
+        return 1; // This is an Ocrypt volume
+    }
+    
+    return 0; // Not an Ocrypt volume
+#endif
+}
+
+// Magic string writing function
+int write_ocrypt_magic_string(void* fileHandle, int bBackupHeader) {
+    if (!fileHandle) {
+        return 0; // Invalid handle
+    }
+    
+#ifdef _WIN32
+    HANDLE hFile = (HANDLE)fileHandle;
+    LARGE_INTEGER offset;
+    DWORD bytesWritten;
+    
+    // Calculate offset (absolute position in file)
+    offset.QuadPart = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET + TC_OCRYPT_MAGIC_OFFSET) : 
+        (TC_UNUSED_HEADER_SPACE_OFFSET + TC_OCRYPT_MAGIC_OFFSET);
+    
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        return 0; // Cannot seek
+    }
+    
+    // Write the magic string
+    if (!WriteFile(hFile, TC_OCRYPT_MAGIC_STRING, TC_OCRYPT_MAGIC_SIZE, &bytesWritten, NULL) || 
+        bytesWritten != TC_OCRYPT_MAGIC_SIZE) {
+        return 0; // Cannot write magic string
+    }
+    
+    // Write initial version byte (EVEN version = 0)
+    offset.QuadPart = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET + TC_METADATA_VERSION_OFFSET) : 
+        (TC_UNUSED_HEADER_SPACE_OFFSET + TC_METADATA_VERSION_OFFSET);
+    
+    if (!SetFilePointerEx(hFile, offset, NULL, FILE_BEGIN)) {
+        return 0; // Cannot seek to version byte
+    }
+    
+    unsigned char initialVersion = TC_METADATA_EVEN_VERSION;
+    if (!WriteFile(hFile, &initialVersion, TC_METADATA_VERSION_SIZE, &bytesWritten, NULL) || 
+        bytesWritten != TC_METADATA_VERSION_SIZE) {
+        return 0; // Cannot write version byte
+    }
+    
+    FlushFileBuffers(hFile);
+    return 1; // Success
+#else
+    // Unix implementation
+    int fd = (int)(uintptr_t)fileHandle;
+    
+    // Calculate offset (absolute position in file)
+    off_t offset = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET + TC_OCRYPT_MAGIC_OFFSET) : 
+        (TC_UNUSED_HEADER_SPACE_OFFSET + TC_OCRYPT_MAGIC_OFFSET);
+    
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        return 0; // Cannot seek
+    }
+    
+    // Write the magic string
+    if (write(fd, TC_OCRYPT_MAGIC_STRING, TC_OCRYPT_MAGIC_SIZE) != TC_OCRYPT_MAGIC_SIZE) {
+        return 0; // Cannot write magic string
+    }
+    
+    // Write initial version byte (EVEN version = 0)
+    offset = bBackupHeader ? 
+        (65536 + TC_UNUSED_HEADER_SPACE_OFFSET + TC_METADATA_VERSION_OFFSET) : 
+        (TC_UNUSED_HEADER_SPACE_OFFSET + TC_METADATA_VERSION_OFFSET);
+    
+    if (lseek(fd, offset, SEEK_SET) != offset) {
+        return 0; // Cannot seek to version byte
+    }
+    
+    unsigned char initialVersion = TC_METADATA_EVEN_VERSION;
+    if (write(fd, &initialVersion, TC_METADATA_VERSION_SIZE) != TC_METADATA_VERSION_SIZE) {
+        return 0; // Cannot write version byte
+    }
+    
+    fsync(fd);
+    return 1; // Success
+#endif
 }

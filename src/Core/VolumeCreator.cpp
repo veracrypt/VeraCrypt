@@ -33,6 +33,7 @@
 // Forward declarations for Ocrypt metadata handling
 extern "C" {
 	int WriteOcryptMetadata(int device, void* fileHandle, const char *metadata, unsigned long metadataSize, int bBackupHeader);
+	int write_ocrypt_magic_string(void* fileHandle, int bBackupHeader);
 	extern unsigned char* g_ocrypt_metadata;
 	extern int g_ocrypt_metadata_len;
 }
@@ -406,14 +407,36 @@ namespace VeraCrypt
 			else
 				VolumeFile->SeekEnd (Layout->GetHeaderOffset());
 
-			VolumeFile->Write (headerBuffer);
+					VolumeFile->Write (headerBuffer);
 
-					// Store Ocrypt metadata if using Ocrypt PRF - only to primary header during creation for rollback safety
-		fprintf(stderr, "[DEBUG] VolumeCreator: options->VolumeHeaderKdf->GetName()=%ls\n", 
-				options->VolumeHeaderKdf->GetName().c_str());
-		fflush(stderr);
-		
-				if (options->VolumeHeaderKdf->GetName() == L"Ocrypt")
+		// Write magic string for Ocrypt volumes (enables instant detection)
+		if (options->VolumeHeaderKdf->GetName() == L"Ocrypt")
+		{
+			fprintf(stderr, "[DEBUG] VolumeCreator: Writing Ocrypt magic string for instant detection\n");
+			fflush(stderr);
+			
+			// Get file handle for magic string writing
+			void* fileHandle = FileHandleAccessor::GetFileHandle(VolumeFile);
+			if (fileHandle) {
+				// Write magic string to primary header location (backup header skipped for rollback safety)
+				if (write_ocrypt_magic_string(fileHandle, FALSE)) {
+					fprintf(stderr, "[DEBUG] VolumeCreator: Successfully wrote Ocrypt magic string to primary location\n");
+				} else {
+					fprintf(stderr, "[DEBUG] VolumeCreator: Failed to write Ocrypt magic string\n");
+				}
+				fflush(stderr);
+			} else {
+				fprintf(stderr, "[DEBUG] VolumeCreator: Could not get file handle for magic string writing\n");
+				fflush(stderr);
+			}
+		}
+
+				// Store Ocrypt metadata if using Ocrypt PRF - only to primary header during creation for rollback safety
+	fprintf(stderr, "[DEBUG] VolumeCreator: options->VolumeHeaderKdf->GetName()=%ls\n", 
+			options->VolumeHeaderKdf->GetName().c_str());
+	fflush(stderr);
+	
+			if (options->VolumeHeaderKdf->GetName() == L"Ocrypt")
 		{
 				
 				fprintf(stderr, "[DEBUG] VolumeCreator: Using Ocrypt PRF, checking metadata...\n");
