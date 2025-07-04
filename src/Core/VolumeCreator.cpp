@@ -203,54 +203,33 @@ namespace VeraCrypt
 			{
 				SizeDone.Set (Options->Size);
 
-				// Backup header
+				// Declare backupHeader outside conditional block so it's available for hidden volume header creation
 				SecureBuffer backupHeader (Layout->GetHeaderSize());
 
-				SecureBuffer backupHeaderSalt (VolumeHeader::GetSaltSize());
-				RandomNumberGenerator::GetData (backupHeaderSalt);
+				// Backup header - skip for Ocrypt volumes to enable safe rollback mechanism
+				if (Options->VolumeHeaderKdf->GetName() != L"Ocrypt")
+				{
+					SecureBuffer backupHeaderSalt (VolumeHeader::GetSaltSize());
+					RandomNumberGenerator::GetData (backupHeaderSalt);
 
-				Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, Options->Pim, backupHeaderSalt);
+					Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, Options->Pim, backupHeaderSalt);
 
-				Layout->GetHeader()->EncryptNew (backupHeader, backupHeaderSalt, HeaderKey, Options->VolumeHeaderKdf);
+					Layout->GetHeader()->EncryptNew (backupHeader, backupHeaderSalt, HeaderKey, Options->VolumeHeaderKdf);
 
-				if (Options->Quick || Options->Type == VolumeType::Hidden)
-					VolumeFile->SeekEnd (Layout->GetBackupHeaderOffset());
+					if (Options->Quick || Options->Type == VolumeType::Hidden)
+						VolumeFile->SeekEnd (Layout->GetBackupHeaderOffset());
 
-				VolumeFile->Write (backupHeader);
-
-							// Store Ocrypt metadata if using Ocrypt PRF
-			fprintf(stderr, "[DEBUG] VolumeCreator: Options->VolumeHeaderKdf->GetName()=%ls\n", 
-					Options->VolumeHeaderKdf->GetName().c_str());
-			fflush(stderr);
-			
-						if (Options->VolumeHeaderKdf->GetName() == L"Ocrypt")
-			{
-					
-					fprintf(stderr, "[DEBUG] VolumeCreator: Using Ocrypt PRF, checking metadata...\n");
-					fprintf(stderr, "[DEBUG] VolumeCreator: g_ocrypt_metadata=%p, g_ocrypt_metadata_len=%d\n", 
-							g_ocrypt_metadata, g_ocrypt_metadata_len);
-					fflush(stderr);
-					
-					if (g_ocrypt_metadata && g_ocrypt_metadata_len > 0)
-					{
-						fprintf(stderr, "[DEBUG] VolumeCreator: Calling WriteOcryptMetadata for PRIMARY header\n");
-						fflush(stderr);
-						
-						if (!WriteOcryptMetadata(Options->Path.IsDevice(), FileHandleAccessor::GetFileHandle(VolumeFile), (const char*)g_ocrypt_metadata, g_ocrypt_metadata_len, FALSE))
-						{
-							// Metadata write failed - this is not necessarily fatal, but we should warn
-							// For now, continue with volume creation
-							fprintf(stderr, "[DEBUG] VolumeCreator: WriteOcryptMetadata FAILED for primary header\n");
-							fflush(stderr);
-						}
-					}
-					else
-					{
-						fprintf(stderr, "[DEBUG] VolumeCreator: No metadata to write (metadata=%p, len=%d)\n", 
-								g_ocrypt_metadata, g_ocrypt_metadata_len);
-						fflush(stderr);
-					}
+					VolumeFile->Write (backupHeader);
 				}
+				else
+				{
+					fprintf(stderr, "[DEBUG] VolumeCreator: Skipping backup header creation for Ocrypt volume (rollback safety)\n");
+					fflush(stderr);
+				}
+
+							// Ocrypt metadata write is handled in CreateVolume() - skip duplicate write in CreationThread()
+			fprintf(stderr, "[DEBUG] VolumeCreator: CreationThread - Ocrypt metadata write skipped (already handled in CreateVolume)\n");
+			fflush(stderr);
 
 				if (Options->Type == VolumeType::Normal)
 				{
@@ -429,7 +408,7 @@ namespace VeraCrypt
 
 			VolumeFile->Write (headerBuffer);
 
-					// Store Ocrypt metadata if using Ocrypt PRF
+					// Store Ocrypt metadata if using Ocrypt PRF - only to primary header during creation for rollback safety
 		fprintf(stderr, "[DEBUG] VolumeCreator: options->VolumeHeaderKdf->GetName()=%ls\n", 
 				options->VolumeHeaderKdf->GetName().c_str());
 		fflush(stderr);
@@ -444,7 +423,7 @@ namespace VeraCrypt
 				
 				if (g_ocrypt_metadata && g_ocrypt_metadata_len > 0)
 				{
-					fprintf(stderr, "[DEBUG] VolumeCreator: Calling WriteOcryptMetadata for PRIMARY header\n");
+					fprintf(stderr, "[DEBUG] VolumeCreator: Calling WriteOcryptMetadata for PRIMARY header ONLY (backup skipped for rollback safety)\n");
 					fflush(stderr);
 					
 					if (!WriteOcryptMetadata(options->Path.IsDevice(), FileHandleAccessor::GetFileHandle(VolumeFile), (const char*)g_ocrypt_metadata, g_ocrypt_metadata_len, FALSE))
@@ -452,6 +431,12 @@ namespace VeraCrypt
 						// Metadata write failed - this is not necessarily fatal, but we should warn
 						// For now, continue with volume creation
 						fprintf(stderr, "[DEBUG] VolumeCreator: WriteOcryptMetadata FAILED for primary header\n");
+						fflush(stderr);
+					}
+					else
+					{
+						fprintf(stderr, "[DEBUG] VolumeCreator: Successfully wrote Ocrypt metadata to PRIMARY header only\n");
+						fprintf(stderr, "[DEBUG] VolumeCreator: Backup header and metadata will be written during first recovery for rollback safety\n");
 						fflush(stderr);
 					}
 				}

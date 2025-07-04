@@ -63,6 +63,8 @@ int ocrypt_create_volume_with_metadata(void* device, int bBackupHeader);
 int ocrypt_open_volume_with_metadata(void* device, const unsigned char *pwd, int pwd_len, unsigned char *dk, int dklen, int bBackupHeader);
 #endif
 void ocrypt_cleanup_metadata(void);
+void ocrypt_reset_secret_cache(void);
+int ocrypt_single_recovery(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, unsigned char *dk, int dklen);
 
 /* Helper function to load Ocrypt metadata from volume header into global variables */
 void ocrypt_load_metadata_if_available(BOOL bDevice, void* fileHandle, BOOL bBackupHeader);

@@ -13,11 +13,19 @@
 #ifndef TC_WINDOWS
 #include <errno.h>
 #endif
+#include <stdio.h>
+#include <string>
+#include <stdint.h>
 #include "EncryptionModeXTS.h"
 #include "Volume.h"
 #include "VolumeHeader.h"
 #include "VolumeLayout.h"
 #include "Common/Crypto.h"
+
+// Add extern declarations for Ocrypt file handle support
+extern "C" {
+	void set_current_file_handle(void* fileHandle, int isDevice);
+}
 
 namespace VeraCrypt
 {
@@ -112,6 +120,34 @@ namespace VeraCrypt
 		Protection = protection;
 		VolumeFile = volumeFile;
 		SystemEncryption = partitionInSystemEncryptionScope;
+
+		// Set current file handle for Ocrypt recovery
+		if (VolumeFile && VolumeFile->IsOpen())
+		{
+			try {
+				// Get the file path from VolumeFile
+				VeraCrypt::FilePath path = VolumeFile->GetPath();
+				std::string pathStr = std::string(path);
+				
+				// Open the file using standard fopen for Ocrypt metadata access
+				FILE* fp = fopen(pathStr.c_str(), "r+b");
+				if (fp) {
+					// Get file descriptor from FILE*
+					int fd = fileno(fp);
+					if (fd != -1) {
+						// Set the file handle for Ocrypt recovery
+						set_current_file_handle((void*)(intptr_t)fd, path.IsDevice());
+						fprintf(stderr, "[DEBUG] Volume::Open: Set file handle fd=%d for Ocrypt recovery\n", fd);
+						fflush(stderr);
+					}
+					// Note: We don't close fp here as Ocrypt recovery may need it
+				}
+			} catch (...) {
+				// If file handle setup fails, continue with volume opening
+				fprintf(stderr, "[DEBUG] Volume::Open: Failed to set file handle for Ocrypt recovery\n");
+				fflush(stderr);
+			}
+		}
 
 		try
 		{
