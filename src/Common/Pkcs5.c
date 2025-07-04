@@ -40,8 +40,10 @@
 #endif
 #include "Pkcs5.h"
 #include "Crypto.h"
+#include "Random.h"
 #include "OcryptWrapper.h"
 #include <stdio.h>
+#include <time.h>
 
 // Global variables for Ocrypt metadata handling
 unsigned char* g_ocrypt_metadata = NULL;
@@ -54,6 +56,15 @@ char* g_current_volume_path = NULL;
 static void* g_current_file_handle = NULL;
 static int g_current_is_device = 0;
 
+// Global variables for Ocrypt secret caching (to avoid double recovery)
+static unsigned char g_cached_long_term_secret[32];
+static BOOL g_secret_generated = FALSE;
+static char g_cached_user_id[33]; // Track which user_id the cached secret belongs to
+static int g_recovery_call_count = 0; // Track how many times we've been called for this volume
+static unsigned char g_cached_derived_key[256]; // Cache the final derived key
+static int g_cached_derived_key_len = 0;
+static BOOL g_recovery_successful = FALSE; // Track if recovery succeeded for this user_id
+
 // Function declarations
 int save_ocrypt_metadata_to_file(const char* volume_path, const unsigned char* metadata, int metadata_len);
 int load_ocrypt_metadata_from_file(const char* volume_path, unsigned char** metadata_out, int* metadata_len_out);
@@ -63,6 +74,10 @@ void set_current_volume_path(const char* volume_path);
 void set_current_file_handle(void* fileHandle, int isDevice);
 int save_ocrypt_metadata_to_header(const unsigned char* metadata, int metadata_len);
 int load_ocrypt_metadata_from_header(unsigned char** metadata_out, int* metadata_len_out);
+int load_user_id_from_metadata(char* user_id_out, int user_id_out_size);
+
+// NEW: Proper single-recovery Ocrypt function that uses version byte system
+int ocrypt_single_recovery(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, unsigned char *dk, int dklen);
 
 // Volume header constants (needed for all platforms)
 #define TC_VOLUME_HEADER_SIZE					(64 * 1024L)
@@ -1829,10 +1844,9 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
     unsigned char random_bytes[16];
     int i;
     
-    // Use salt as source of deterministic randomness for user_id
-    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(random_bytes, &ctx); }
-    
-    // Convert to hex string
+    // Generate deterministic user_id per volume (same for both primary and backup headers)
+    // Use password as seed for deterministic user_id generation
+    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(pwd, pwd_len, &ctx); sha256_end(random_bytes, &ctx); }
     for (i = 0; i < 16; i++) {
         sprintf(user_id + (i * 2), "%02x", random_bytes[i]);
     }
@@ -1846,106 +1860,83 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
     const char* app_id = "veracrypt";
     const int max_guesses = 10; // Allow 10 PIN attempts
     
-    // Generate the master key that will be protected by Ocrypt
-    unsigned char master_key[32];
-    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(pwd, pwd_len, &ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(master_key, &ctx); }
+    // Generate random long-term secret that will be protected by Ocrypt (same for both headers)
+    unsigned char long_term_secret[32];
     
-    // First, try to recover (for existing volumes)
-    // Try to load metadata from volume header
-    unsigned char* loaded_metadata = NULL;
-    int loaded_metadata_len = 0;
+    g_recovery_call_count++;
+    fprintf(stderr, "[DEBUG] derive_key_ocrypt call #%d for this volume operation\n", g_recovery_call_count);
+    fflush(stderr);
     
-    BOOL recovery_attempted = FALSE;
-    BOOL recovery_successful = FALSE;
-    
-    if (g_current_file_handle && load_ocrypt_metadata_from_header(&loaded_metadata, &loaded_metadata_len) && loaded_metadata_len > 0) {
-        // Try to recover the secret using existing metadata
-        unsigned char* secret_out = NULL;
-        int secret_len_out = 0;
-        int remaining_guesses_out = 0;
-        unsigned char* updated_metadata_out = NULL;
-        int updated_metadata_len_out = 0;
-        
-        recovery_attempted = TRUE;
-        fprintf(stderr, "[DEBUG] Attempting recovery with password='%s' using loaded metadata (%d bytes)\n", password, loaded_metadata_len);
+    // Check if we already have a cached secret for this user_id
+    BOOL use_cached_secret = FALSE;
+    if (g_secret_generated && strcmp(g_cached_user_id, user_id) == 0) {
+        use_cached_secret = TRUE;
+        fprintf(stderr, "[DEBUG] Reusing cached secret for same user_id (avoiding double recovery)\n");
         fflush(stderr);
-        
-        int recover_result = ocrypt_recover_secret(
-            loaded_metadata,
-            loaded_metadata_len,
-            password,
-            &secret_out,
-            &secret_len_out,
-            &remaining_guesses_out,
-            &updated_metadata_out,
-            &updated_metadata_len_out
-        );
-        
-        fprintf(stderr, "[DEBUG] Recovery result=%d, remaining_guesses=%d\n", recover_result, remaining_guesses_out);
-        fflush(stderr);
-        
-        if (recover_result == 0 && secret_out != NULL) {
-            // Recovery successful
-            recovery_successful = TRUE;
-            fprintf(stderr, "[DEBUG] Recovery SUCCESSFUL!\n");
-            fflush(stderr);
-            
-            // Derive the volume key from the recovered secret
-            if (secret_len_out >= 32) {
-                // Hash the recovered secret to create the volume key
-                sha256_ctx ctx;
-                sha256_begin(&ctx);
-                sha256_hash(secret_out, secret_len_out, &ctx);
-                sha256_end(dk, &ctx);
-            } else {
-                // Fallback: use the secret directly (padded/truncated to required length)
-                memset(dk, 0, dklen);
-                memcpy(dk, secret_out, secret_len_out < dklen ? secret_len_out : dklen);
-            }
-            
-            // Store updated metadata in global variables if it changed (e.g., guess count updated)
-            if (updated_metadata_out && updated_metadata_len_out > 0) {
-                // Clean up any existing global metadata
-                ocrypt_cleanup_metadata();
-                
-                // Store the updated metadata in global variables
-                g_ocrypt_metadata_len = updated_metadata_len_out;
-                g_ocrypt_metadata = (unsigned char*)malloc(g_ocrypt_metadata_len);
-                if (g_ocrypt_metadata) {
-                    memcpy(g_ocrypt_metadata, updated_metadata_out, g_ocrypt_metadata_len);
-                    fprintf(stderr, "[DEBUG] Successfully stored %d bytes of updated metadata in global variables\n", g_ocrypt_metadata_len);
-                } else {
-                    fprintf(stderr, "[DEBUG] Failed to allocate memory for updated global metadata\n");
-                    g_ocrypt_metadata_len = 0;
-                }
-                fflush(stderr);
-                
-                // Clean up updated metadata
-                ocrypt_free_memory(updated_metadata_out);
-            } else {
-                // Clean up updated metadata if not used
-                if (updated_metadata_out) {
-                    ocrypt_free_memory(updated_metadata_out);
-                }
-            }
-            
-            // Clean up recovered secret
-            ocrypt_free_memory(secret_out);
-        } else {
-            // Recovery failed - print error message with remaining guesses
-            if (remaining_guesses_out >= 0) {
-                fprintf(stderr, "❌ Invalid PIN! You have %d guesses remaining.\n", remaining_guesses_out);
-                fflush(stderr);
-            }
-            
-            // Clean up
-            if (secret_out) ocrypt_free_memory(secret_out);
-            if (updated_metadata_out) ocrypt_free_memory(updated_metadata_out);
-        }
     }
     
-    // If recovery wasn't attempted or failed, try registration (for new volumes)
-    if (!recovery_attempted || !recovery_successful) {
+    if (!use_cached_secret) {
+        // Generate new secret or this is a different user_id
+        // Use /dev/urandom for cryptographically secure random number generation on Linux
+        BOOL rng_success = FALSE;
+        
+#ifdef _WIN32
+        // On Windows, use VeraCrypt's RNG
+        if (RandgetBytes(NULL, g_cached_long_term_secret, 32, FALSE)) {
+            rng_success = TRUE;
+        }
+#else
+        // On Linux/Unix, use /dev/urandom
+        FILE* urandom = fopen("/dev/urandom", "rb");
+        if (urandom) {
+            if (fread(g_cached_long_term_secret, 1, 32, urandom) == 32) {
+                rng_success = TRUE;
+            }
+            fclose(urandom);
+        }
+#endif
+        
+        if (!rng_success) {
+            // Fallback to hash-based derivation if RNG fails
+            sha256_ctx ctx;
+            sha256_begin(&ctx);
+            sha256_hash(pwd, pwd_len, &ctx);
+            sha256_hash(salt, salt_len, &ctx);
+            sha256_end(g_cached_long_term_secret, &ctx);
+            fprintf(stderr, "[DEBUG] Warning: Used fallback key derivation due to RNG failure\n");
+            fflush(stderr);
+        }
+        
+        // Cache this user_id
+        strncpy(g_cached_user_id, user_id, 32);
+        g_cached_user_id[32] = '\0';
+        g_secret_generated = TRUE;
+        
+        fprintf(stderr, "[DEBUG] Generated new cryptographically secure random long-term secret for user_id=%.16s...\n", user_id);
+        fflush(stderr);
+    }
+    
+    memcpy(long_term_secret, g_cached_long_term_secret, 32);
+    
+    // Use the new single-recovery function that implements proper version byte logic
+    fprintf(stderr, "[DEBUG] Attempting single recovery using version byte system\n");
+    fflush(stderr);
+    
+    int recovery_result = ocrypt_single_recovery(pwd, pwd_len, salt, salt_len, dk, dklen);
+    if (recovery_result == 1) {
+        // Recovery successful - we're done!
+        fprintf(stderr, "[DEBUG] Single recovery successful - skipping registration\n");
+        fflush(stderr);
+        burn(long_term_secret, sizeof(long_term_secret));
+        return;
+    }
+    
+    // Recovery failed or no metadata found - try registration for new volumes
+    fprintf(stderr, "[DEBUG] Single recovery failed - attempting registration for new volume\n");
+    fflush(stderr);
+    
+    // Try registration (for new volumes) since recovery failed
+    {
         // Try to register the secret with Ocrypt (for new volume creation)
         unsigned char* metadata_out = NULL;
         int metadata_len_out = 0;
@@ -1953,8 +1944,8 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
         int register_result = ocrypt_register_secret(
             user_id,
             app_id,
-            master_key,
-            32, // master_key length
+            long_term_secret,
+            32, // long_term_secret length
             password,
             max_guesses,
             &metadata_out,
@@ -1986,8 +1977,49 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
             // Clean up the temporary metadata
             ocrypt_free_memory(metadata_out);
             
-            // Derive the actual key from the master key
-            { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(master_key, 32, &ctx); sha256_hash(salt, salt_len, &ctx); sha256_end(dk, &ctx); }
+            // Derive the actual volume key from the random long-term secret
+            fprintf(stderr, "[DEBUG] ====== REGISTRATION SECRET (FOR COMPARISON) ======\n");
+            fprintf(stderr, "[DEBUG] REGISTRATION: long_term_secret = ");
+            for (int i = 0; i < 32; i++) fprintf(stderr, "%02x", long_term_secret[i]);
+            fprintf(stderr, "\n");
+            fprintf(stderr, "[DEBUG] REGISTRATION: salt = ");
+            for (int i = 0; i < (salt_len < 32 ? salt_len : 32); i++) fprintf(stderr, "%02x", salt[i]);
+            fprintf(stderr, "\n");
+            fflush(stderr);
+            
+            // Derive header encryption key from long-term secret + salt (not volume data key)
+            // Use PBKDF2-like expansion to generate required key length for XTS mode
+            {
+                int remaining = dklen;
+                int offset = 0;
+                int round = 0;
+                
+                while (remaining > 0) {
+                    sha256_ctx ctx;
+                    sha256_begin(&ctx);
+                    sha256_hash(long_term_secret, 32, &ctx);
+                    sha256_hash(salt, salt_len, &ctx);
+                    sha256_hash((const unsigned char*)&round, sizeof(round), &ctx);
+                    const char* header_context = "VeraCrypt Header Key";
+                    sha256_hash((const unsigned char*)header_context, strlen(header_context), &ctx);
+                    
+                    unsigned char round_key[32];
+                    sha256_end(round_key, &ctx);
+                    
+                    int copy_len = remaining > 32 ? 32 : remaining;
+                    memcpy(dk + offset, round_key, copy_len);
+                    
+                    offset += copy_len;
+                    remaining -= copy_len;
+                    round++;
+                }
+            }
+            
+            fprintf(stderr, "[DEBUG] REGISTRATION: derived HEADER ENCRYPTION key = ");
+            for (int i = 0; i < (dklen < 32 ? dklen : 32); i++) fprintf(stderr, "%02x", dk[i]);
+            fprintf(stderr, "\n");
+            fprintf(stderr, "[DEBUG] ==========================================\n");
+            fflush(stderr);
         } else {
             // Both registration and recovery failed - generate a fallback key
             // This shouldn't happen in normal operation, but provides a fallback
@@ -2003,13 +2035,8 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
         }
     }
     
-    // Clean up loaded metadata
-    if (loaded_metadata) {
-        ocrypt_free_memory(loaded_metadata);
-    }
-    
     // Clear sensitive data
-    burn(master_key, sizeof(master_key));
+    burn(long_term_secret, sizeof(long_term_secret));
     burn(password, sizeof(password));
 }
 
@@ -2095,13 +2122,36 @@ int ocrypt_open_volume_with_metadata(void* device, const unsigned char *pwd, int
         return -2; // Recovery failed
     }
     
-    // Derive the volume key from the recovered secret
+    // Derive header encryption key from the recovered secret (not volume data key)
+    // Use PBKDF2-like expansion to generate required key length for XTS mode
     if (secret_len_out >= 32) {
-        // Hash the recovered secret to create the volume key
-        sha256_ctx ctx;
-        sha256_begin(&ctx);
-        sha256_hash(secret_out, secret_len_out, &ctx);
-        sha256_end(dk, &ctx);
+        // Get salt from parameters for header key derivation
+        const unsigned char* salt_ptr = (const unsigned char*)metadata_buffer; // Use metadata as additional entropy
+        int salt_len_local = (int)metadata_size > 32 ? 32 : (int)metadata_size;
+        
+        int remaining = dklen;
+        int offset = 0;
+        int round = 0;
+        
+        while (remaining > 0) {
+            sha256_ctx ctx;
+            sha256_begin(&ctx);
+            sha256_hash(secret_out, secret_len_out, &ctx);
+            sha256_hash(salt_ptr, salt_len_local, &ctx);
+            sha256_hash((const unsigned char*)&round, sizeof(round), &ctx);
+            const char* header_context = "VeraCrypt Header Key";
+            sha256_hash((const unsigned char*)header_context, strlen(header_context), &ctx);
+            
+            unsigned char round_key[32];
+            sha256_end(round_key, &ctx);
+            
+            int copy_len = remaining > 32 ? 32 : remaining;
+            memcpy(dk + offset, round_key, copy_len);
+            
+            offset += copy_len;
+            remaining -= copy_len;
+            round++;
+        }
     } else {
         // Fallback: use the secret directly (padded/truncated to required length)
         memset(dk, 0, dklen);
@@ -2203,6 +2253,20 @@ void ocrypt_cleanup_metadata()
         g_ocrypt_metadata = NULL;
         g_ocrypt_metadata_len = 0;
     }
+}
+
+// Reset the cached long-term secret for new volume operations
+void ocrypt_reset_secret_cache()
+{
+    g_secret_generated = FALSE;
+    memset(g_cached_long_term_secret, 0, 32);
+    memset(g_cached_user_id, 0, 33);
+    g_recovery_call_count = 0;
+    memset(g_cached_derived_key, 0, 256);
+    g_cached_derived_key_len = 0;
+    g_recovery_successful = FALSE;
+    fprintf(stderr, "[DEBUG] Reset Ocrypt secret cache for new volume operation\n");
+    fflush(stderr);
 }
 
 // Helper function to load Ocrypt metadata from volume header
@@ -2510,4 +2574,337 @@ int load_ocrypt_metadata_from_header(unsigned char** metadata_out, int* metadata
     
     free(buffer);
     return 1;
+}
+
+int load_user_id_from_metadata(char* user_id_out, int user_id_out_size)
+{
+    if (user_id_out == NULL || user_id_out_size < 33) {
+        return 0;
+    }
+    
+    // Load metadata from header
+    unsigned char* metadata = NULL;
+    int metadata_len = 0;
+    
+    if (load_ocrypt_metadata_from_header(&metadata, &metadata_len) == 0) {
+        return 0;
+    }
+    
+    // Parse JSON to extract user_id
+    // Simple JSON parsing - look for "user_id":"value"
+    char* metadata_str = (char*)metadata;
+    char* user_id_start = strstr(metadata_str, "\"user_id\":");
+    if (user_id_start == NULL) {
+        ocrypt_free_memory(metadata);
+        return 0;
+    }
+    
+    // Find the start of the user_id value (after the quote)
+    char* value_start = strchr(user_id_start + 10, '"');
+    if (value_start == NULL) {
+        ocrypt_free_memory(metadata);
+        return 0;
+    }
+    value_start++; // Skip the quote
+    
+    // Find the end of the user_id value
+    char* value_end = strchr(value_start, '"');
+    if (value_end == NULL) {
+        ocrypt_free_memory(metadata);
+        return 0;
+    }
+    
+    // Extract user_id (should be exactly 32 hex characters)
+    int user_id_len = value_end - value_start;
+    if (user_id_len != 32) {
+        ocrypt_free_memory(metadata);
+        return 0;
+    }
+    
+    // Copy the user_id
+    memcpy(user_id_out, value_start, 32);
+    user_id_out[32] = '\0';
+    
+    ocrypt_free_memory(metadata);
+    return 1;
+}
+
+// NEW: Proper single-recovery Ocrypt function that uses version byte system
+int ocrypt_single_recovery(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, unsigned char *dk, int dklen)
+{
+    fprintf(stderr, "[DEBUG] *** ocrypt_single_recovery called! pwd_len=%d, dklen=%d ***\n", pwd_len, dklen);
+    fflush(stderr);
+    
+    if (pwd_len > 300) {
+        fprintf(stderr, "[DEBUG] ocrypt_single_recovery: Password too long (%d bytes), truncating to 300\n", pwd_len);
+        pwd_len = 300;
+    }
+    
+    // Convert password to null-terminated string
+    char password[512];
+    int password_len = pwd_len;
+    if (password_len > 511) password_len = 511;
+    memcpy(password, pwd, password_len);
+    password[password_len] = '\0';
+    
+    // Generate deterministic user_id per volume (same for both primary and backup headers)
+    char user_id[33];
+    unsigned char random_bytes[16];
+    { sha256_ctx ctx; sha256_begin(&ctx); sha256_hash(pwd, pwd_len, &ctx); sha256_end(random_bytes, &ctx); }
+    for (int i = 0; i < 16; i++) {
+        sprintf(user_id + (i * 2), "%02x", random_bytes[i]);
+    }
+    user_id[32] = '\0';
+    
+    fprintf(stderr, "[DEBUG] user_id='%.16s...', current_volume_path=%s\n", user_id, 
+            g_current_volume_path ? g_current_volume_path : "NULL");
+    fflush(stderr);
+    
+    // Check if we already have a successful recovery cached for this user_id and dklen
+    if (g_recovery_successful && strcmp(g_cached_user_id, user_id) == 0 && g_cached_derived_key_len == dklen) {
+        fprintf(stderr, "[DEBUG] Using cached recovery result (avoiding double recovery)\n");
+        fflush(stderr);
+        memcpy(dk, g_cached_derived_key, dklen);
+        return 1; // Success
+    }
+    
+    if (!g_current_file_handle) {
+        fprintf(stderr, "[DEBUG] No file handle available for metadata access\n");
+        fflush(stderr);
+        return 0; // Failure
+    }
+    
+    // STEP 1: Read the version byte to determine which metadata is newer
+    int fd = (int)(intptr_t)g_current_file_handle;
+    off_t baseOffset = TC_UNUSED_HEADER_SPACE_OFFSET; // For primary header
+    unsigned char currentVersion = 0;
+    
+    fprintf(stderr, "[DEBUG] Reading version byte from offset %ld\n", (long)(baseOffset + TC_METADATA_VERSION_OFFSET));
+    fflush(stderr);
+    
+    if (lseek(fd, baseOffset + TC_METADATA_VERSION_OFFSET, SEEK_SET) == -1) {
+        fprintf(stderr, "[DEBUG] Failed to seek to version byte\n");
+        fflush(stderr);
+        return 0; // Failure
+    }
+    
+    if (read(fd, &currentVersion, TC_METADATA_VERSION_SIZE) != TC_METADATA_VERSION_SIZE) {
+        fprintf(stderr, "[DEBUG] No version byte found - no metadata present\n");
+        fflush(stderr);
+        return 0; // Failure - no metadata
+    }
+    
+    // STEP 2: Determine which metadata copy to read based on version
+    off_t metadataOffset;
+    if (currentVersion == TC_METADATA_EVEN_VERSION) {
+        metadataOffset = baseOffset + TC_METADATA_EVEN_OFFSET;
+        fprintf(stderr, "[DEBUG] Reading EVEN metadata (version 0) at offset %ld\n", (long)metadataOffset);
+    } else if (currentVersion == TC_METADATA_ODD_VERSION) {
+        metadataOffset = baseOffset + TC_METADATA_ODD_OFFSET;
+        fprintf(stderr, "[DEBUG] Reading ODD metadata (version 1) at offset %ld\n", (long)metadataOffset);
+    } else {
+        fprintf(stderr, "[DEBUG] Invalid version byte %d - no valid metadata\n", currentVersion);
+        fflush(stderr);
+        return 0; // Failure
+    }
+    fflush(stderr);
+    
+    // STEP 3: Read the metadata size and content from the newer copy
+    if (lseek(fd, metadataOffset, SEEK_SET) != metadataOffset) {
+        fprintf(stderr, "[DEBUG] Failed to seek to metadata at offset %ld\n", (long)metadataOffset);
+        fflush(stderr);
+        return 0; // Failure
+    }
+    
+    uint32_t storedSize;
+    if (read(fd, &storedSize, sizeof(storedSize)) != sizeof(storedSize)) {
+        fprintf(stderr, "[DEBUG] Failed to read metadata size\n");
+        fflush(stderr);
+        return 0; // Failure
+    }
+    
+    if (storedSize == 0 || storedSize > TC_MAX_METADATA_SIZE) {
+        fprintf(stderr, "[DEBUG] Invalid metadata size: %u\n", storedSize);
+        fflush(stderr);
+        return 0; // Failure
+    }
+    
+    // Allocate buffer and read metadata
+    unsigned char* metadata = (unsigned char*)malloc(storedSize);
+    if (!metadata) {
+        fprintf(stderr, "[DEBUG] Failed to allocate memory for metadata\n");
+        fflush(stderr);
+        return 0; // Failure
+    }
+    
+    if (read(fd, metadata, storedSize) != (ssize_t)storedSize) {
+        fprintf(stderr, "[DEBUG] Failed to read metadata content\n");
+        fflush(stderr);
+        free(metadata);
+        return 0; // Failure
+    }
+    
+    fprintf(stderr, "[DEBUG] Successfully read %u bytes of metadata\n", storedSize);
+    fflush(stderr);
+    
+    // STEP 4: Do Ocrypt recovery ONCE with the newer metadata
+    unsigned char* secret_out = NULL;
+    int secret_len_out = 0;
+    int remaining_guesses_out = 0;
+    unsigned char* updated_metadata_out = NULL;
+    int updated_metadata_len_out = 0;
+    
+    fprintf(stderr, "[DEBUG] Attempting Ocrypt recovery with password\n");
+    fflush(stderr);
+    
+    int recover_result = ocrypt_recover_secret(
+        metadata,
+        storedSize,
+        password,
+        &secret_out,
+        &secret_len_out,
+        &remaining_guesses_out,
+        &updated_metadata_out,
+        &updated_metadata_len_out
+    );
+    
+    free(metadata); // Clean up original metadata
+    
+    if (recover_result != 0 || secret_out == NULL) {
+        fprintf(stderr, "[DEBUG] Ocrypt recovery FAILED! result=%d, remaining_guesses=%d\n", 
+               recover_result, remaining_guesses_out);
+        fflush(stderr);
+        
+        // Clean up
+        if (secret_out) ocrypt_free_memory(secret_out);
+        if (updated_metadata_out) ocrypt_free_memory(updated_metadata_out);
+        return 0; // Failure
+    }
+    
+    fprintf(stderr, "[DEBUG] Ocrypt recovery SUCCESSFUL! secret_len=%d, remaining_guesses=%d\n", 
+           secret_len_out, remaining_guesses_out);
+    fflush(stderr);
+    
+    // STEP 5: Derive the volume key from the recovered secret
+    fprintf(stderr, "[DEBUG] ====== RECOVERY SECRET COMPARISON ======\n");
+    fprintf(stderr, "[DEBUG] RECOVERY: secret_out = ");
+    for (int i = 0; i < (secret_len_out < 32 ? secret_len_out : 32); i++) fprintf(stderr, "%02x", secret_out[i]);
+    fprintf(stderr, "\n");
+    fprintf(stderr, "[DEBUG] RECOVERY: salt = ");
+    for (int i = 0; i < (salt_len < 32 ? salt_len : 32); i++) fprintf(stderr, "%02x", salt[i]);
+    fprintf(stderr, "\n");
+    fprintf(stderr, "[DEBUG] Compare with REGISTRATION secret above!\n");
+    fflush(stderr);
+    
+    // Derive header encryption key from the recovered secret (not volume data key)
+    // Use PBKDF2-like expansion to generate required key length for XTS mode
+    if (secret_len_out >= 32) {
+        int remaining = dklen;
+        int offset = 0;
+        int round = 0;
+        
+        while (remaining > 0) {
+            sha256_ctx ctx;
+            sha256_begin(&ctx);
+            sha256_hash(secret_out, secret_len_out, &ctx);
+            sha256_hash(salt, salt_len, &ctx);
+            sha256_hash((const unsigned char*)&round, sizeof(round), &ctx);
+            const char* header_context = "VeraCrypt Header Key";
+            sha256_hash((const unsigned char*)header_context, strlen(header_context), &ctx);
+            
+            unsigned char round_key[32];
+            sha256_end(round_key, &ctx);
+            
+            int copy_len = remaining > 32 ? 32 : remaining;
+            memcpy(dk + offset, round_key, copy_len);
+            
+            offset += copy_len;
+            remaining -= copy_len;
+            round++;
+        }
+        
+        fprintf(stderr, "[DEBUG] RECOVERY: derived HEADER ENCRYPTION key = ");
+        for (int i = 0; i < (dklen < 32 ? dklen : 32); i++) fprintf(stderr, "%02x", dk[i]);
+        fprintf(stderr, "\n");
+        fprintf(stderr, "[DEBUG] ==========================================\n");
+        fflush(stderr);
+    } else {
+        // Fallback: use the secret directly (padded/truncated to required length)
+        memset(dk, 0, dklen);
+        memcpy(dk, secret_out, secret_len_out < dklen ? secret_len_out : dklen);
+        
+        fprintf(stderr, "[DEBUG] RECOVERY: using secret directly (padded) = ");
+        for (int i = 0; i < (dklen < 32 ? dklen : 32); i++) fprintf(stderr, "%02x", dk[i]);
+        fprintf(stderr, "\n");
+        fflush(stderr);
+    }
+    
+    // Cache the successful recovery result
+    if (dklen <= 256) {
+        memcpy(g_cached_derived_key, dk, dklen);
+        g_cached_derived_key_len = dklen;
+        strncpy(g_cached_user_id, user_id, 32);
+        g_cached_user_id[32] = '\0';
+        g_recovery_successful = TRUE;
+        fprintf(stderr, "[DEBUG] Cached recovery result for future use\n");
+        fflush(stderr);
+    }
+    
+         // STEP 6: If metadata was updated, write it to the OTHER slot and toggle version byte ATOMICALLY
+     if (updated_metadata_out && updated_metadata_len_out > 0) {
+         fprintf(stderr, "[DEBUG] Writing updated metadata to alternate slot (atomic rollback-safe operation)\n");
+         fflush(stderr);
+         
+         // Determine the target offset (opposite of current)
+         off_t targetOffset;
+         unsigned char newVersion;
+         if (currentVersion == TC_METADATA_EVEN_VERSION) {
+             targetOffset = baseOffset + TC_METADATA_ODD_OFFSET;
+             newVersion = TC_METADATA_ODD_VERSION;
+         } else {
+             targetOffset = baseOffset + TC_METADATA_EVEN_OFFSET;
+             newVersion = TC_METADATA_EVEN_VERSION;
+         }
+         
+         // STEP 6A: First write updated metadata to alternate slot
+         if (lseek(fd, targetOffset, SEEK_SET) == targetOffset) {
+             uint32_t writeSize = (uint32_t)updated_metadata_len_out;
+             if (write(fd, &writeSize, sizeof(writeSize)) == sizeof(writeSize) &&
+                 write(fd, updated_metadata_out, updated_metadata_len_out) == updated_metadata_len_out) {
+                 
+                 // STEP 6B: Ensure metadata is written to disk before toggling version byte
+                 fsync(fd);
+                 fprintf(stderr, "[DEBUG] Updated metadata written to alternate slot, now toggling version byte\n");
+                 fflush(stderr);
+                 
+                 // STEP 6C: ONLY NOW toggle the version byte (atomic operation)
+                 if (lseek(fd, baseOffset + TC_METADATA_VERSION_OFFSET, SEEK_SET) == baseOffset + TC_METADATA_VERSION_OFFSET &&
+                     write(fd, &newVersion, TC_METADATA_VERSION_SIZE) == TC_METADATA_VERSION_SIZE) {
+                     
+                     fsync(fd); // Ensure version byte is committed
+                     fprintf(stderr, "[DEBUG] SUCCESS: Atomically updated metadata and toggled version byte to %d\n", newVersion);
+                     fprintf(stderr, "[DEBUG] Next recovery will use the updated metadata with rollback safety\n");
+                     fflush(stderr);
+                 } else {
+                     fprintf(stderr, "[DEBUG] CRITICAL: Failed to toggle version byte - metadata updated but not active\n");
+                     fprintf(stderr, "[DEBUG] Next recovery will still use old metadata (rollback safety preserved)\n");
+                     fflush(stderr);
+                 }
+             } else {
+                 fprintf(stderr, "[DEBUG] Failed to write updated metadata to alternate slot\n");
+                 fflush(stderr);
+             }
+         } else {
+             fprintf(stderr, "[DEBUG] Failed to seek to alternate metadata slot\n");
+             fflush(stderr);
+         }
+     }
+    
+    // Clean up
+    ocrypt_free_memory(secret_out);
+    if (updated_metadata_out) {
+        ocrypt_free_memory(updated_metadata_out);
+    }
+    
+    return 1; // Success
 }
