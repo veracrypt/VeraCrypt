@@ -24,6 +24,8 @@
 
 namespace VeraCrypt
 {
+	extern "C" void set_current_volume_path(const char* volume_path);
+
 #ifdef TC_LINUX
 	static string GetTmpUser ();
 	static bool SamePath (const string& path1, const string& path2);
@@ -611,6 +613,10 @@ namespace VeraCrypt
 		}
 
 		Cipher::EnableHwSupport (!options.NoHardwareCrypto);
+
+		// Set volume path for Ocrypt magic string detection
+		string volumePath = string(*options.Path);
+		set_current_volume_path(volumePath.c_str());
 
 		shared_ptr <Volume> volume;
 

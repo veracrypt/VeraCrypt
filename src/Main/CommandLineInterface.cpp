@@ -68,6 +68,7 @@ namespace VeraCrypt
 		parser.AddOption (L"",	L"fs-options",			_("Filesystem mount options"));
 #endif
 		parser.AddOption (L"",	L"hash",				_("Hash algorithm"));
+		parser.AddOption (L"",  L"prf",					_("PRF algorithm"));
 		parser.AddSwitch (L"h", L"help",				_("Display detailed command line help"), wxCMD_LINE_OPTION_HELP);
 		parser.AddSwitch (L"",	L"import-token-keyfiles", _("Import keyfiles to security token"));
 		parser.AddOption (L"k", L"keyfiles",			_("Keyfiles"));
@@ -410,6 +411,21 @@ namespace VeraCrypt
 				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
 		}
 
+
+		if (parser.Found (L"prf", &str))
+		{
+			ArgPrf.reset();
+
+			foreach (shared_ptr <Pkcs5Kdf> kdf, Pkcs5Kdf::GetAvailableAlgorithms())
+			{
+				wxString kdfName (kdf->GetName());
+				if (kdfName.IsSameAs (str, false))
+					ArgPrf = kdf;
+			}
+
+			if (!ArgPrf)
+				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
+		}
 		if (parser.Found (L"new-hash", &str))
 		{
 			ArgNewHash.reset();

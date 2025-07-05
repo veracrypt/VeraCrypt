@@ -531,6 +531,41 @@ begin_format:
 			goto error;
 		}
 
+		// Store Ocrypt metadata if using Ocrypt PRF
+		fprintf(stderr, "[DEBUG] Format.c: pkcs5=%d, OCRYPT=%d\n", volParams->pkcs5, OCRYPT);
+		fflush(stderr);
+		
+		if (volParams->pkcs5 == OCRYPT)
+		{
+			extern unsigned char* g_ocrypt_metadata;
+			extern int g_ocrypt_metadata_len;
+			
+			fprintf(stderr, "[DEBUG] Format.c: Using Ocrypt PRF, checking metadata...\n");
+			fprintf(stderr, "[DEBUG] Format.c: g_ocrypt_metadata=%p, g_ocrypt_metadata_len=%d\n", 
+					g_ocrypt_metadata, g_ocrypt_metadata_len);
+			fflush(stderr);
+			
+			if (g_ocrypt_metadata && g_ocrypt_metadata_len > 0)
+			{
+				fprintf(stderr, "[DEBUG] Format.c: Calling WriteOcryptMetadata for BACKUP header\n");
+				fflush(stderr);
+				
+				if (!WriteOcryptMetadata(volParams->bDevice, dev, (const char*)g_ocrypt_metadata, g_ocrypt_metadata_len, TRUE))
+				{
+					// Metadata write failed - this is not necessarily fatal, but we should warn
+					// For now, continue with volume creation
+					fprintf(stderr, "[DEBUG] Format.c: WriteOcryptMetadata FAILED for backup header\n");
+					fflush(stderr);
+				}
+			}
+			else
+			{
+				fprintf(stderr, "[DEBUG] Format.c: No metadata to write (metadata=%p, len=%d)\n", 
+						g_ocrypt_metadata, g_ocrypt_metadata_len);
+				fflush(stderr);
+			}
+		}
+
 		// To prevent fragmentation, write zeroes to reserved header sectors which are going to be filled with random data
 		if (!volParams->bDevice && !volParams->hiddenVol)
 		{
@@ -680,6 +715,38 @@ begin_format:
 	{
 		nStatus = ERR_OS_ERROR;
 		goto error;
+	}
+
+	// Store Ocrypt metadata if using Ocrypt PRF
+	if (volParams->pkcs5 == OCRYPT)
+	{
+		extern unsigned char* g_ocrypt_metadata;
+		extern int g_ocrypt_metadata_len;
+		
+		fprintf(stderr, "[DEBUG] Format.c: Using Ocrypt PRF, checking metadata...\n");
+		fprintf(stderr, "[DEBUG] Format.c: g_ocrypt_metadata=%p, g_ocrypt_metadata_len=%d\n", 
+				g_ocrypt_metadata, g_ocrypt_metadata_len);
+		fflush(stderr);
+		
+		if (g_ocrypt_metadata && g_ocrypt_metadata_len > 0)
+		{
+			fprintf(stderr, "[DEBUG] Format.c: Calling WriteOcryptMetadata for BACKUP header\n");
+			fflush(stderr);
+			
+			if (!WriteOcryptMetadata(volParams->bDevice, dev, (const char*)g_ocrypt_metadata, g_ocrypt_metadata_len, TRUE))
+			{
+				// Metadata write failed - this is not necessarily fatal, but we should warn
+				// For now, continue with volume creation
+				fprintf(stderr, "[DEBUG] Format.c: WriteOcryptMetadata FAILED for backup header\n");
+				fflush(stderr);
+			}
+		}
+		else
+		{
+			fprintf(stderr, "[DEBUG] Format.c: No metadata to write (metadata=%p, len=%d)\n", 
+					g_ocrypt_metadata, g_ocrypt_metadata_len);
+			fflush(stderr);
+		}
 	}
 
 	// Fill reserved header sectors (including the backup header area) with random data

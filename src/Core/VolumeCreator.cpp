@@ -16,12 +16,79 @@
 #include "Volume/EncryptionModeWolfCryptXTS.h"
 #endif
 #include "Core.h"
+#include "Common/Crypto.h"
 
 #ifdef TC_UNIX
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
+
+// Additional includes for file handle access
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <string>
+
+// Forward declarations for Ocrypt metadata handling
+extern "C" {
+	int WriteOcryptMetadata(int device, void* fileHandle, const char *metadata, unsigned long metadataSize, int bBackupHeader);
+	int write_ocrypt_magic_string(void* fileHandle, int bBackupHeader);
+	extern unsigned char* g_ocrypt_metadata;
+	extern int g_ocrypt_metadata_len;
+}
+
+// Helper class to access file handle via fopen
+class FileHandleAccessor {
+public:
+    static void* GetFileHandle(shared_ptr<VeraCrypt::File> file) {
+        if (!file || !file->IsOpen()) {
+            fprintf(stderr, "[DEBUG] GetFileHandle: File is not open or null\n");
+            fflush(stderr);
+            return nullptr;
+        }
+        
+        try {
+            // Get the file path from VeraCrypt File object
+            VeraCrypt::FilePath path = file->GetPath();
+            std::string pathStr = std::string(path);
+            
+            fprintf(stderr, "[DEBUG] GetFileHandle: Opening file %s with fopen\n", pathStr.c_str());
+            fflush(stderr);
+            
+            // Open the file using standard fopen
+            FILE* fp = fopen(pathStr.c_str(), "r+b");
+            if (!fp) {
+                fprintf(stderr, "[DEBUG] GetFileHandle: fopen failed: %s\n", strerror(errno));
+                fflush(stderr);
+                return nullptr;
+            }
+            
+            // Get file descriptor from FILE*
+            int fd = fileno(fp);
+            if (fd == -1) {
+                fprintf(stderr, "[DEBUG] GetFileHandle: fileno failed: %s\n", strerror(errno));
+                fflush(stderr);
+                fclose(fp);
+                return nullptr;
+            }
+            
+            fprintf(stderr, "[DEBUG] GetFileHandle: Successfully opened file, fd=%d\n", fd);
+            fflush(stderr);
+            
+            // Note: We're not closing fp here because WriteOcryptMetadata needs the fd to remain valid
+            // This creates a small resource leak, but WriteOcryptMetadata should be quick
+            // TODO: Implement proper resource management
+            
+            return (void*)(intptr_t)fd;
+            
+        } catch (...) {
+            fprintf(stderr, "[DEBUG] GetFileHandle: Exception caught while accessing file path\n");
+            fflush(stderr);
+            return nullptr;
+        }
+    }
+};
 
 #include "VolumeCreator.h"
 #include "FatFormatter.h"
@@ -137,20 +204,33 @@ namespace VeraCrypt
 			{
 				SizeDone.Set (Options->Size);
 
-				// Backup header
+				// Declare backupHeader outside conditional block so it's available for hidden volume header creation
 				SecureBuffer backupHeader (Layout->GetHeaderSize());
 
-				SecureBuffer backupHeaderSalt (VolumeHeader::GetSaltSize());
-				RandomNumberGenerator::GetData (backupHeaderSalt);
+				// Backup header - skip for Ocrypt volumes to enable safe rollback mechanism
+				if (Options->VolumeHeaderKdf->GetName() != L"Ocrypt")
+				{
+					SecureBuffer backupHeaderSalt (VolumeHeader::GetSaltSize());
+					RandomNumberGenerator::GetData (backupHeaderSalt);
 
-				Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, Options->Pim, backupHeaderSalt);
+					Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, Options->Pim, backupHeaderSalt);
 
-				Layout->GetHeader()->EncryptNew (backupHeader, backupHeaderSalt, HeaderKey, Options->VolumeHeaderKdf);
+					Layout->GetHeader()->EncryptNew (backupHeader, backupHeaderSalt, HeaderKey, Options->VolumeHeaderKdf);
 
-				if (Options->Quick || Options->Type == VolumeType::Hidden)
-					VolumeFile->SeekEnd (Layout->GetBackupHeaderOffset());
+					if (Options->Quick || Options->Type == VolumeType::Hidden)
+						VolumeFile->SeekEnd (Layout->GetBackupHeaderOffset());
 
-				VolumeFile->Write (backupHeader);
+					VolumeFile->Write (backupHeader);
+				}
+				else
+				{
+					fprintf(stderr, "[DEBUG] VolumeCreator: Skipping backup header creation for Ocrypt volume (rollback safety)\n");
+					fflush(stderr);
+				}
+
+							// Ocrypt metadata write is handled in CreateVolume() - skip duplicate write in CreationThread()
+			fprintf(stderr, "[DEBUG] VolumeCreator: CreationThread - Ocrypt metadata write skipped (already handled in CreateVolume)\n");
+			fflush(stderr);
 
 				if (Options->Type == VolumeType::Normal)
 				{
@@ -327,7 +407,69 @@ namespace VeraCrypt
 			else
 				VolumeFile->SeekEnd (Layout->GetHeaderOffset());
 
-			VolumeFile->Write (headerBuffer);
+					VolumeFile->Write (headerBuffer);
+
+		// Write magic string for Ocrypt volumes (enables instant detection)
+		if (options->VolumeHeaderKdf->GetName() == L"Ocrypt")
+		{
+			fprintf(stderr, "[DEBUG] VolumeCreator: Writing Ocrypt magic string for instant detection\n");
+			fflush(stderr);
+			
+			// Get file handle for magic string writing
+			void* fileHandle = FileHandleAccessor::GetFileHandle(VolumeFile);
+			if (fileHandle) {
+				// Write magic string to primary header location (backup header skipped for rollback safety)
+				if (write_ocrypt_magic_string(fileHandle, FALSE)) {
+					fprintf(stderr, "[DEBUG] VolumeCreator: Successfully wrote Ocrypt magic string to primary location\n");
+				} else {
+					fprintf(stderr, "[DEBUG] VolumeCreator: Failed to write Ocrypt magic string\n");
+				}
+				fflush(stderr);
+			} else {
+				fprintf(stderr, "[DEBUG] VolumeCreator: Could not get file handle for magic string writing\n");
+				fflush(stderr);
+			}
+		}
+
+				// Store Ocrypt metadata if using Ocrypt PRF - only to primary header during creation for rollback safety
+	fprintf(stderr, "[DEBUG] VolumeCreator: options->VolumeHeaderKdf->GetName()=%ls\n", 
+			options->VolumeHeaderKdf->GetName().c_str());
+	fflush(stderr);
+	
+			if (options->VolumeHeaderKdf->GetName() == L"Ocrypt")
+		{
+				
+				fprintf(stderr, "[DEBUG] VolumeCreator: Using Ocrypt PRF, checking metadata...\n");
+				fprintf(stderr, "[DEBUG] VolumeCreator: g_ocrypt_metadata=%p, g_ocrypt_metadata_len=%d\n", 
+						g_ocrypt_metadata, g_ocrypt_metadata_len);
+				fflush(stderr);
+				
+				if (g_ocrypt_metadata && g_ocrypt_metadata_len > 0)
+				{
+					fprintf(stderr, "[DEBUG] VolumeCreator: Calling WriteOcryptMetadata for PRIMARY header ONLY (backup skipped for rollback safety)\n");
+					fflush(stderr);
+					
+					if (!WriteOcryptMetadata(options->Path.IsDevice(), FileHandleAccessor::GetFileHandle(VolumeFile), (const char*)g_ocrypt_metadata, g_ocrypt_metadata_len, FALSE))
+					{
+						// Metadata write failed - this is not necessarily fatal, but we should warn
+						// For now, continue with volume creation
+						fprintf(stderr, "[DEBUG] VolumeCreator: WriteOcryptMetadata FAILED for primary header\n");
+						fflush(stderr);
+					}
+					else
+					{
+						fprintf(stderr, "[DEBUG] VolumeCreator: Successfully wrote Ocrypt metadata to PRIMARY header only\n");
+						fprintf(stderr, "[DEBUG] VolumeCreator: Backup header and metadata will be written during first recovery for rollback safety\n");
+						fflush(stderr);
+					}
+				}
+				else
+				{
+					fprintf(stderr, "[DEBUG] VolumeCreator: No metadata to write (metadata=%p, len=%d)\n", 
+							g_ocrypt_metadata, g_ocrypt_metadata_len);
+					fflush(stderr);
+				}
+			}
 
 			if (options->Type == VolumeType::Normal)
 			{

@@ -413,6 +413,11 @@ KeyReady:	;
 				derive_key_argon2(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
 					PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
 				break;
+
+			case OCRYPT:
+				derive_key_ocrypt(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+				break;
 #endif	
                         default:
 				// Unknown/wrong ID
@@ -1069,6 +1074,11 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 			derive_key_argon2(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 				PKCS5_SALT_SIZE, keyInfo.noIterations, keyInfo.memoryCost, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
+
+		case OCRYPT:
+			derive_key_ocrypt(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
+			break;
         #endif
 		default:
 			// Unknown/wrong ID
@@ -1482,6 +1492,166 @@ final_seq:
 		SetLastError (dwError);
 
 	return nStatus;
+}
+
+// Functions for accessing unused header space for additional metadata (e.g., Ocrypt)
+
+// Read raw data from unused header space
+BOOL ReadUnusedHeaderSpace (BOOL device, HANDLE fileHandle, uint8 *buffer, DWORD bufferSize, DWORD *bytesRead, BOOL bBackupHeader)
+{
+	LARGE_INTEGER offset;
+	DWORD actualBytesRead = 0;
+	DWORD maxReadSize = min(bufferSize, TC_UNUSED_HEADER_SPACE_SIZE);
+	
+	if (buffer == NULL || bytesRead == NULL)
+	{
+		SetLastError(ERROR_INVALID_PARAMETER);
+		return FALSE;
+	}
+	
+	// Calculate offset to unused header space
+	// Primary header: starts at TC_UNUSED_HEADER_SPACE_OFFSET
+	// Backup header: starts at TC_VOLUME_HEADER_SIZE + TC_UNUSED_HEADER_SPACE_OFFSET
+	offset.QuadPart = bBackupHeader ? 
+		(TC_VOLUME_HEADER_SIZE + TC_UNUSED_HEADER_SPACE_OFFSET) : 
+		TC_UNUSED_HEADER_SPACE_OFFSET;
+		
+	if (!SetFilePointerEx(fileHandle, offset, NULL, FILE_BEGIN))
+		return FALSE;
+		
+	if (!ReadFile(fileHandle, buffer, maxReadSize, &actualBytesRead, NULL))
+		return FALSE;
+		
+	*bytesRead = actualBytesRead;
+	return TRUE;
+}
+
+// Write raw data to unused header space
+BOOL WriteUnusedHeaderSpace (BOOL device, HANDLE fileHandle, const uint8 *data, DWORD dataSize, BOOL bBackupHeader)
+{
+	LARGE_INTEGER offset;
+	DWORD bytesWritten = 0;
+	uint8 *writeBuffer = NULL;
+	DWORD writeSize = TC_UNUSED_HEADER_SPACE_SIZE;
+	
+	if (data == NULL || dataSize > TC_MAX_UNUSED_HEADER_METADATA_SIZE)
+	{
+		SetLastError(ERROR_INVALID_PARAMETER);
+		return FALSE;
+	}
+	
+	// Allocate buffer for entire unused space
+	writeBuffer = (uint8*)calloc(writeSize, 1);
+	if (writeBuffer == NULL)
+	{
+		SetLastError(ERROR_NOT_ENOUGH_MEMORY);
+		return FALSE;
+	}
+	
+	// Copy data to buffer (rest remains zeroed)
+	memcpy(writeBuffer, data, dataSize);
+	
+	// Calculate offset to unused header space
+	offset.QuadPart = bBackupHeader ? 
+		(TC_VOLUME_HEADER_SIZE + TC_UNUSED_HEADER_SPACE_OFFSET) : 
+		TC_UNUSED_HEADER_SPACE_OFFSET;
+		
+	if (!SetFilePointerEx(fileHandle, offset, NULL, FILE_BEGIN))
+	{
+		free(writeBuffer);
+		return FALSE;
+	}
+	
+	if (!WriteFile(fileHandle, writeBuffer, writeSize, &bytesWritten, NULL))
+	{
+		free(writeBuffer);
+		return FALSE;
+	}
+	
+	free(writeBuffer);
+	
+	if (bytesWritten != writeSize)
+	{
+		SetLastError(ERROR_INVALID_PARAMETER);
+		return FALSE;
+	}
+	
+	return TRUE;
+}
+
+// Read Ocrypt metadata from unused header space
+BOOL ReadOcryptMetadata (BOOL device, HANDLE fileHandle, char *metadataBuffer, DWORD bufferSize, DWORD *metadataSize, BOOL bBackupHeader)
+{
+	uint8 *rawBuffer = NULL;
+	DWORD rawBytesRead = 0;
+	DWORD i;
+	
+	if (metadataBuffer == NULL || metadataSize == NULL || bufferSize == 0)
+	{
+		SetLastError(ERROR_INVALID_PARAMETER);
+		return FALSE;
+	}
+	
+	// Allocate buffer for raw read
+	rawBuffer = (uint8*)malloc(TC_UNUSED_HEADER_SPACE_SIZE);
+	if (rawBuffer == NULL)
+	{
+		SetLastError(ERROR_NOT_ENOUGH_MEMORY);
+		return FALSE;
+	}
+	
+	// Read raw data
+	if (!ReadUnusedHeaderSpace(device, fileHandle, rawBuffer, TC_UNUSED_HEADER_SPACE_SIZE, &rawBytesRead, bBackupHeader))
+	{
+		free(rawBuffer);
+		return FALSE;
+	}
+	
+	// Find the length of the JSON string (null-terminated or first occurrence of pattern that indicates end)
+	DWORD jsonLength = 0;
+	for (i = 0; i < rawBytesRead && i < TC_MAX_UNUSED_HEADER_METADATA_SIZE; i++)
+	{
+		if (rawBuffer[i] == 0)
+			break;
+		jsonLength++;
+	}
+	
+	// Check if we found valid JSON (should start with '{' and have reasonable length)
+	if (jsonLength == 0 || rawBuffer[0] != '{' || jsonLength >= bufferSize)
+	{
+		free(rawBuffer);
+		*metadataSize = 0;
+		// Not an error - just no metadata present
+		return TRUE;
+	}
+	
+	// Copy JSON string
+	memcpy(metadataBuffer, rawBuffer, jsonLength);
+	metadataBuffer[jsonLength] = '\0';
+	*metadataSize = jsonLength;
+	
+	free(rawBuffer);
+	return TRUE;
+}
+
+// Write Ocrypt metadata to unused header space
+BOOL WriteOcryptMetadata (BOOL device, HANDLE fileHandle, const char *metadata, DWORD metadataSize, BOOL bBackupHeader)
+{
+	if (metadata == NULL || metadataSize == 0 || metadataSize > TC_MAX_UNUSED_HEADER_METADATA_SIZE)
+	{
+		SetLastError(ERROR_INVALID_PARAMETER);
+		return FALSE;
+	}
+	
+	// Validate that metadata looks like JSON
+	if (metadata[0] != '{')
+	{
+		SetLastError(ERROR_INVALID_PARAMETER);
+		return FALSE;
+	}
+	
+	// Write metadata as raw data (WriteUnusedHeaderSpace will pad with zeros)
+	return WriteUnusedHeaderSpace(device, fileHandle, (const uint8*)metadata, metadataSize, bBackupHeader);
 }
 
 #endif // !defined(_UEFI)

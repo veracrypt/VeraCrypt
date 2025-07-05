@@ -28,6 +28,9 @@
 #include "Application.h"
 #include "TextUserInterface.h"
 
+// External C function for Ocrypt metadata
+extern "C" void set_current_volume_path(const char* volume_path);
+
 namespace VeraCrypt
 {
 	class AdminPasswordTextRequestHandler : public GetStringFunctor
@@ -296,7 +299,11 @@ namespace VeraCrypt
 		ShowInfo ("EXTERNAL_VOL_HEADER_BAK_FIRST_INFO");
 
 		shared_ptr <Pkcs5Kdf> kdf;
-		if (CmdLine->ArgHash)
+		if (CmdLine->ArgPrf)
+		{
+			kdf = CmdLine->ArgPrf;
+		}
+		else if (CmdLine->ArgHash)
 		{
 			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}
@@ -604,6 +611,15 @@ namespace VeraCrypt
 
 	void TextUserInterface::CreateVolume (shared_ptr <VolumeCreationOptions> options) const
 	{
+		// Set current volume path for Ocrypt metadata
+		if (!options->Path.IsEmpty())
+		{
+			string volumePath = StringConverter::ToSingle(wstring(options->Path));
+			fprintf(stderr, "[DEBUG] CreateVolume: Setting volume path: '%s'\n", volumePath.c_str());
+			fflush(stderr);
+			set_current_volume_path(volumePath.c_str());
+		}
+		
 		// Volume type
 		if (options->Type == VolumeType::Unknown)
 		{
@@ -845,9 +861,32 @@ namespace VeraCrypt
 			options->EA = encryptionAlgorithms[AskSelection (encryptionAlgorithms.size(), 1) - 1];
 		}
 
-		// Hash algorithm
-		if (!options->VolumeHeaderKdf)
+		// Hash algorithm / PRF algorithm
+		// If --prf was specified on command line, use it (override any existing setting)
+		if (CmdLine->ArgPrf)
 		{
+			fprintf(stderr, "[DEBUG] Overriding VolumeHeaderKdf with command line PRF: %ls\n", CmdLine->ArgPrf->GetName().c_str());
+			fflush(stderr);
+			
+			options->VolumeHeaderKdf = CmdLine->ArgPrf;
+			// Set the hash for random number generator to a default (SHA-256)
+			shared_ptr <Hash> defaultHash;
+			foreach (shared_ptr <Hash> hash, Hash::GetAvailableAlgorithms())
+			{
+				if (hash->GetName() == L"SHA-256")
+				{
+					defaultHash = hash;
+					break;
+				}
+			}
+			if (defaultHash)
+				RandomNumberGenerator::SetHash (defaultHash);
+		}
+		else if (!options->VolumeHeaderKdf)
+		{
+			fprintf(stderr, "[DEBUG] VolumeHeaderKdf not set, choosing algorithm...\n");
+			fflush(stderr);
+			
 			if (Preferences.NonInteractive)
 				throw MissingArgument (SRC_POS);
 
@@ -866,8 +905,15 @@ namespace VeraCrypt
 			shared_ptr <Hash> selectedHash = hashes[AskSelection (hashes.size(), 1) - 1];
 			RandomNumberGenerator::SetHash (selectedHash);
 			options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*selectedHash);
-
 		}
+		else
+		{
+			fprintf(stderr, "[DEBUG] VolumeHeaderKdf already set to: %ls\n", options->VolumeHeaderKdf->GetName().c_str());
+			fflush(stderr);
+		}
+		
+		fprintf(stderr, "[DEBUG] Final VolumeHeaderKdf: %ls\n", options->VolumeHeaderKdf->GetName().c_str());
+		fflush(stderr);
 
 		// Filesystem
 		options->FilesystemClusterSize = 0;
@@ -1319,6 +1365,15 @@ namespace VeraCrypt
 		shared_ptr <VolumeInfo> volume;
 
 		CheckRequirementsForMountingVolume();
+		
+		// Set current volume path for Ocrypt metadata
+		if (options.Path && !options.Path->IsEmpty())
+		{
+			string volumePath = StringConverter::ToSingle(wstring(*options.Path));
+			fprintf(stderr, "[DEBUG] MountVolume: Setting volume path: '%s'\n", volumePath.c_str());
+			fflush(stderr);
+			set_current_volume_path(volumePath.c_str());
+		}
 
 		// Volume path
 		while (!options.Path || options.Path->IsEmpty())
@@ -1543,7 +1598,11 @@ namespace VeraCrypt
 		// Ask whether to restore internal or external backup
 		bool restoreInternalBackup;
 		shared_ptr <Pkcs5Kdf> kdf;
-		if (CmdLine->ArgHash)
+		if (CmdLine->ArgPrf)
+		{
+			kdf = CmdLine->ArgPrf;
+		}
+		else if (CmdLine->ArgHash)
 		{
 			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
 		}

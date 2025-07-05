@@ -132,8 +132,6 @@ OBJS += ../Crypto/Argon2/src/opt_sse2.o
 OBJS += ../Crypto/Argon2/src/ref.o
 OBJS += ../Crypto/Argon2/src/selftest.o
 OBJS += ../Common/Pkcs5.o
-# OpenADP Ocrypt
-OBJS += ../Common/OcryptWrapper.o
 endif
 
 OBJS += ../Crypto/cpu.o

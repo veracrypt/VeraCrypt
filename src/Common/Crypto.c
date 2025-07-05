@@ -134,6 +134,7 @@ static Hash Hashes[] =
         { WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
 	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
 	{ ARGON2,		L"Argon2",	FALSE,	FALSE },
+        { OCRYPT,               L"Ocrypt",      FALSE,  FALSE },
     #endif
         { 0, 0, 0 }
 };

@@ -134,6 +134,10 @@ extern "C" {
 #define TC_HEADER_FLAG_ENCRYPTED_SYSTEM			0x1
 #define TC_HEADER_FLAG_NONSYS_INPLACE_ENC		0x2		// The volume has been created (or is being encrypted/decrypted) using non-system in-place encryption
 
+// Unused header space constants for storing additional metadata (e.g., Ocrypt)
+#define TC_UNUSED_HEADER_SPACE_OFFSET			TC_VOLUME_HEADER_EFFECTIVE_SIZE
+#define TC_UNUSED_HEADER_SPACE_SIZE				(TC_VOLUME_HEADER_SIZE - TC_VOLUME_HEADER_EFFECTIVE_SIZE)
+#define TC_MAX_UNUSED_HEADER_METADATA_SIZE		(TC_UNUSED_HEADER_SPACE_SIZE - 16)	// Reserve 16 bytes for safety/future use
 
 #ifndef TC_HEADER_Volume_VolumeHeader
 
@@ -162,6 +166,12 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *encrypt
 BOOL ReadEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, uint8 *header, DWORD *bytesRead);
 BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, uint8 *header);
 int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO *cryptoInfo, uint64 dataAreaSize, BOOL bPrimaryOnly, BOOL bBackupOnly);
+
+// Functions for accessing unused header space for additional metadata (e.g., Ocrypt)
+BOOL ReadUnusedHeaderSpace (BOOL device, HANDLE fileHandle, uint8 *buffer, DWORD bufferSize, DWORD *bytesRead, BOOL bBackupHeader);
+BOOL WriteUnusedHeaderSpace (BOOL device, HANDLE fileHandle, const uint8 *data, DWORD dataSize, BOOL bBackupHeader);
+BOOL ReadOcryptMetadata (BOOL device, HANDLE fileHandle, char *metadataBuffer, DWORD bufferSize, DWORD *metadataSize, BOOL bBackupHeader);
+BOOL WriteOcryptMetadata (BOOL device, HANDLE fileHandle, const char *metadata, DWORD metadataSize, BOOL bBackupHeader);
 #endif
 
 #endif // !TC_HEADER_Volume_VolumeHeader

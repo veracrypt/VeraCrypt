@@ -67,6 +67,7 @@ namespace VeraCrypt
 		VolumeCreationOptions::FilesystemType::Enum ArgFilesystem;
 		bool ArgForce;
 		shared_ptr <Hash> ArgHash;
+		shared_ptr <Pkcs5Kdf> ArgPrf;
 		shared_ptr <KeyfileList> ArgKeyfiles;
 		MountOptions ArgMountOptions;
 		shared_ptr <DirectoryPath> ArgMountPoint;
