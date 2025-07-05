@@ -4,6 +4,137 @@
 
 This directory contains the OpenADP (Open Adaptive Data Protection) implementation for VeraCrypt, specifically the Ocrypt distributed cryptographic system. Ocrypt provides enhanced security through distributed key management and threshold cryptography.
 
+## Usage Examples
+
+### Creating an Ocrypt Volume
+
+```bash
+# Create a 100MB Ocrypt volume with FAT filesystem
+./veracrypt --text --create /path/to/volume.tc --size=100M --volume-type=normal \
+  --encryption=AES --prf=Ocrypt --filesystem=FAT --password="your_password" \
+  --non-interactive
+
+# Create a 1GB Ocrypt volume with no filesystem (raw)
+./veracrypt --text --create /path/to/volume.tc --size=1G --volume-type=normal \
+  --encryption=AES --prf=Ocrypt --filesystem=none --password="your_password" \
+  --non-interactive
+
+# Create with custom PIM (Personal Iterations Multiplier)
+./veracrypt --text --create /path/to/volume.tc --size=500M --volume-type=normal \
+  --encryption=AES --prf=Ocrypt --filesystem=exFAT --password="your_password" \
+  --pim=0 --non-interactive
+```
+
+**Note**: During volume creation, VeraCrypt will:
+1. Contact OpenADP servers to register your volume
+2. Write the Ocrypt magic string for instant detection
+3. Store encrypted metadata in the volume header
+4. Create a standard VeraCrypt volume with Ocrypt key derivation
+
+### Mounting an Ocrypt Volume
+
+```bash
+# Mount an Ocrypt volume
+sudo ./veracrypt --text --mount /path/to/volume.tc /mount/point \
+  --password="your_password" --non-interactive
+
+# Mount with verbose output (helpful for debugging)
+sudo ./veracrypt --text --mount /path/to/volume.tc /mount/point \
+  --password="your_password" --non-interactive --verbose
+
+# Mount and list all mounted volumes
+sudo ./veracrypt --text --mount /path/to/volume.tc /mount/point \
+  --password="your_password" --non-interactive
+./veracrypt --text --list
+```
+
+**Note**: During mounting, VeraCrypt will:
+1. Detect the Ocrypt magic string instantly
+2. Read encrypted metadata from the volume header
+3. Contact OpenADP servers to recover your encryption key
+4. Decrypt and mount the volume normally
+
+### Unmounting an Ocrypt Volume
+
+```bash
+# Unmount a specific volume
+sudo ./veracrypt --text --dismount /mount/point --non-interactive
+
+# Unmount all volumes
+sudo ./veracrypt --text --dismount --non-interactive
+
+# Force unmount (if regular unmount fails)
+sudo ./veracrypt --text --dismount /mount/point --force --non-interactive
+```
+
+### Listing Mounted Volumes
+
+```bash
+# List all currently mounted volumes
+./veracrypt --text --list
+
+# Example output:
+# 1: /path/to/volume.tc /dev/mapper/veracrypt1 /mount/point
+# 2: /path/to/another.tc /dev/mapper/veracrypt2 /another/mount/point
+```
+
+### Volume Information
+
+```bash
+# Get detailed information about a volume
+./veracrypt --text --volume-properties /path/to/volume.tc
+
+# Check if a volume is an Ocrypt volume (without mounting)
+python3 -c "
+with open('/path/to/volume.tc', 'rb') as f:
+    f.seek(512)
+    magic = f.read(16)
+    print('Volume type:', 'Ocrypt' if magic.startswith(b'OCRYPT') else 'Traditional')
+"
+```
+
+### Advanced Examples
+
+```bash
+# Create volume with keyfile support
+./veracrypt --text --create /path/to/volume.tc --size=1G --volume-type=normal \
+  --encryption=AES --prf=Ocrypt --filesystem=ext4 --password="your_password" \
+  --keyfiles="/path/to/keyfile1,/path/to/keyfile2" --non-interactive
+
+# Mount with keyfiles
+sudo ./veracrypt --text --mount /path/to/volume.tc /mount/point \
+  --password="your_password" --keyfiles="/path/to/keyfile1,/path/to/keyfile2" \
+  --non-interactive
+
+# Create volume with different encryption algorithm
+./veracrypt --text --create /path/to/volume.tc --size=1G --volume-type=normal \
+  --encryption=Serpent --prf=Ocrypt --filesystem=NTFS --password="your_password" \
+  --non-interactive
+```
+
+### Troubleshooting
+
+```bash
+# Enable debug output for troubleshooting
+./veracrypt --text --create /path/to/volume.tc --size=100M --volume-type=normal \
+  --encryption=AES --prf=Ocrypt --filesystem=FAT --password="your_password" \
+  --non-interactive --verbose 2>&1 | tee debug_output.log
+
+# Check if OpenADP servers are reachable
+curl -v https://ocrypt.io/api/health
+
+# Verify volume structure
+hexdump -C /path/to/volume.tc | head -50
+```
+
+### Important Notes
+
+1. **Network Required**: Ocrypt volumes require network access to OpenADP servers during creation and mounting
+2. **Magic String**: All Ocrypt volumes contain a magic string at byte 512 for instant detection
+3. **Compatibility**: Ocrypt volumes are **not compatible** with VeraCrypt's plausible deniability feature
+4. **Performance**: First-time operations may take longer due to network communication
+5. **Security**: Each volume gets unique cryptographic keys managed by the distributed Ocrypt system
+
 ## Current Implementation Status
 
 ✅ **Completed Features:**

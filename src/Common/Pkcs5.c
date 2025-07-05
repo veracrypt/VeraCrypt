@@ -1831,27 +1831,24 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
     fprintf(stderr, "[DEBUG] *** derive_key_ocrypt called! pwd_len=%d, dklen=%d ***\n", pwd_len, dklen);
     fflush(stderr);
     
-    // MAGIC STRING DETECTION: Only attempt Ocrypt if this is an Ocrypt volume
+    // MAGIC STRING DETECTION: Check if this is an existing Ocrypt volume
+    BOOL is_existing_ocrypt_volume = FALSE;
     if (g_current_volume_path) {
         int is_ocrypt_volume = detect_ocrypt_magic_string(g_current_volume_path);
         fprintf(stderr, "[DEBUG] Magic string detection for %s: %s\n", 
                g_current_volume_path, is_ocrypt_volume ? "OCRYPT VOLUME" : "NOT OCRYPT VOLUME");
         fflush(stderr);
         
-        if (!is_ocrypt_volume) {
-            fprintf(stderr, "[DEBUG] NOT an Ocrypt volume - skipping Ocrypt PRF and returning failure\n");
+        if (is_ocrypt_volume) {
+            is_existing_ocrypt_volume = TRUE;
+            fprintf(stderr, "[DEBUG] CONFIRMED: This IS an Ocrypt volume - proceeding with Ocrypt PRF\n");
             fflush(stderr);
-            // Set dk to zero and return - this will cause the PRF to fail gracefully
-            if (dk && dklen > 0) {
-                memset(dk, 0, dklen);
-            }
-            return;
+        } else {
+            fprintf(stderr, "[DEBUG] No magic string found - assuming NEW volume creation, proceeding with Ocrypt registration\n");
+            fflush(stderr);
         }
-        
-        fprintf(stderr, "[DEBUG] CONFIRMED: This IS an Ocrypt volume - proceeding with Ocrypt PRF\n");
-        fflush(stderr);
     } else {
-        fprintf(stderr, "[DEBUG] Warning: No volume path available for magic string detection\n");
+        fprintf(stderr, "[DEBUG] Warning: No volume path available for magic string detection - assuming volume creation\n");
         fflush(stderr);
     }
     
@@ -1944,26 +1941,32 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
     
     memcpy(long_term_secret, g_cached_long_term_secret, 32);
     
-    // Use the new single-recovery function that implements proper version byte logic
-    fprintf(stderr, "[DEBUG] Attempting single recovery using version byte system\n");
-    fflush(stderr);
-    
-    int recovery_result = ocrypt_single_recovery(pwd, pwd_len, salt, salt_len, dk, dklen);
-    if (recovery_result == 1) {
-        // Recovery successful - we're done!
-        fprintf(stderr, "[DEBUG] Single recovery successful - skipping registration\n");
+    // For existing volumes, try recovery first. For new volumes, skip to registration.
+    if (is_existing_ocrypt_volume) {
+        fprintf(stderr, "[DEBUG] Attempting single recovery using version byte system\n");
         fflush(stderr);
-        burn(long_term_secret, sizeof(long_term_secret));
-        return;
+        
+        int recovery_result = ocrypt_single_recovery(pwd, pwd_len, salt, salt_len, dk, dklen);
+        if (recovery_result == 1) {
+            // Recovery successful - we're done!
+            fprintf(stderr, "[DEBUG] Single recovery successful - skipping registration\n");
+            fflush(stderr);
+            burn(long_term_secret, sizeof(long_term_secret));
+            return;
+        }
+        
+        // Recovery failed - try registration as fallback
+        fprintf(stderr, "[DEBUG] Single recovery failed - attempting registration as fallback\n");
+        fflush(stderr);
+    } else {
+        // New volume creation - skip recovery and go directly to registration
+        fprintf(stderr, "[DEBUG] New volume creation - skipping recovery, proceeding directly to registration\n");
+        fflush(stderr);
     }
     
-    // Recovery failed or no metadata found - try registration for new volumes
-    fprintf(stderr, "[DEBUG] Single recovery failed - attempting registration for new volume\n");
-    fflush(stderr);
-    
-    // Try registration (for new volumes) since recovery failed
+    // Try registration (for new volumes or as fallback for existing volumes)
     {
-        // Try to register the secret with Ocrypt (for new volume creation)
+        // Try to register the secret with Ocrypt
         unsigned char* metadata_out = NULL;
         int metadata_len_out = 0;
         
@@ -1994,6 +1997,25 @@ void derive_key_ocrypt(const unsigned char *pwd, int pwd_len, const unsigned cha
             if (g_ocrypt_metadata) {
                 memcpy(g_ocrypt_metadata, metadata_out, g_ocrypt_metadata_len);
                 fprintf(stderr, "[DEBUG] Successfully stored %d bytes in global metadata variables\n", g_ocrypt_metadata_len);
+                
+                // Write metadata back to volume file for persistence
+                if (g_current_file_handle) {
+                    fprintf(stderr, "[DEBUG] Writing metadata back to volume file for persistence\n");
+                    fflush(stderr);
+                    
+                    int write_result = WriteOcryptMetadata(g_current_is_device, g_current_file_handle, 
+                                                           (const char*)metadata_out, metadata_len_out, 0);
+                    
+                    if (write_result) {
+                        fprintf(stderr, "[DEBUG] Successfully wrote metadata to volume file\n");
+                    } else {
+                        fprintf(stderr, "[DEBUG] Failed to write metadata to volume file\n");
+                    }
+                    fflush(stderr);
+                } else {
+                    fprintf(stderr, "[DEBUG] No file handle available for metadata write-back\n");
+                    fflush(stderr);
+                }
             } else {
                 fprintf(stderr, "[DEBUG] Failed to allocate memory for global metadata\n");
                 g_ocrypt_metadata_len = 0;
