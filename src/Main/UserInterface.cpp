@@ -290,7 +290,7 @@ namespace VeraCrypt
 
 			prop << LangString["BLOCK_SIZE"] << L": " << blockSize.str() + L" " + LangString ["BITS"] << L'\n';
 			prop << LangString["MODE_OF_OPERATION"] << L": " << volume.EncryptionModeName << L'\n';
-			prop << LangString["PKCS5_PRF"] << L": " << volume.Pkcs5PrfName << L'\n';
+			prop << LangString["KDF"] << L": " << volume.Pkcs5PrfName << L'\n';
 
 			prop << LangString["VOLUME_FORMAT_VERSION"] << L": " << (volume.MinRequiredProgramVersion < 0x10b ? 1 : 2) << L'\n';
 			prop << LangString["BACKUP_HEADER"] << L": " << LangString[volume.MinRequiredProgramVersion >= 0x10b ? "UISTR_YES" : "UISTR_NO"] << L'\n';
@@ -1184,7 +1184,7 @@ const FileManager fileManagers[] = {
 					"\n"
 					"-C, --change [VOLUME_PATH]\n"
 					" Change a password and/or keyfile(s) of a volume. Most options are requested\n"
-					" from the user if not specified on command line. PKCS-5 PRF HMAC hash\n"
+					" from the user if not specified on command line. KDF hash\n"
 					" algorithm can be changed with option --hash. See also options -k,\n"
 					" --new-keyfiles, --new-password, -p, --random-source.\n"
 					"\n"

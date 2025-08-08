@@ -3595,7 +3595,7 @@
                                         <property name="caption"></property>
                                         <property name="caption_visible">1</property>
                                         <property name="center_pane">0</property>
-                                        <property name="choices">&quot;ENCRYPTION_ALGORITHM&quot; &quot;PKCS5_PRF&quot; &quot;IDT_HASH_ALGO&quot;</property>
+                                        <property name="choices">&quot;ENCRYPTION_ALGORITHM&quot; &quot;KDF&quot; &quot;IDT_HASH_ALGO&quot;</property>
                                         <property name="close_button">1</property>
                                         <property name="context_help"></property>
                                         <property name="context_menu">1</property>
@@ -11973,7 +11973,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">PKCS5_PRF</property>
+                                                                            <property name="label">KDF</property>
                                                                             <property name="markup">0</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
@@ -21959,7 +21959,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">IDT_NEW_PKCS5_PRF</property>
+                                <property name="label">IDT_NEW_KDF</property>
                                 <property name="markup">0</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>

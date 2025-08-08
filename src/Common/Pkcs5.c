@@ -1235,24 +1235,24 @@ cancelled:
 	burn (key, sizeof(key));
 }
 
-wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
+wchar_t *get_kdf_name (int kdf_id)
 {
-	switch (pkcs5_prf_id)
+	switch (kdf_id)
 	{
 	case SHA512:	
-		return L"HMAC-SHA-512";
+		return L"SHA512-PBKDF2";
 
 	case SHA256:	
-		return L"HMAC-SHA-256";
+		return L"SHA256-PBKDF2";
 
 	case BLAKE2S:	
-		return L"HMAC-BLAKE2s-256";
+		return L"BLAKE2S-PBKDF2";
 
 	case WHIRLPOOL:	
-		return L"HMAC-Whirlpool";
+		return L"Whirlpool-PBKDF2";
 
 	case STREEBOG:
-		return L"HMAC-STREEBOG";
+		return L"STREEBOG-PBKDF2";
 
 	case ARGON2:
 		return L"Argon2";
@@ -1335,7 +1335,7 @@ void derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned cha
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
-	if (IsCpuIntel() && HasSAVX())
+	if (HasSAVX2())
 		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
 #endif
 	if (0 != argon2id_hash_raw(

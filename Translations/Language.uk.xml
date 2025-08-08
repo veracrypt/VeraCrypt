@@ -291,8 +291,8 @@
     <entry lang="uk" key="IDT_NEW_PASSWORD">Пароль:</entry>
     <entry lang="uk" key="IDT_PARALLELIZATION_OPTIONS">Потокове Розпаралелювання</entry>
     <entry lang="uk" key="IDT_PKCS11_LIB_PATH">Шлях до бібліотеки PKCS #11</entry>
-    <entry lang="uk" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="uk" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="uk" key="IDT_KDF">KDF:</entry>
+    <entry lang="uk" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="uk" key="IDT_PW_CACHE_OPTIONS">Кешування (запамятовування) паролів</entry>
     <entry lang="uk" key="IDT_SECURITY_OPTIONS">Параметри безпеки</entry>
     <entry lang="uk" key="IDT_EMV_OPTIONS">Параметри EMV</entry>
@@ -813,7 +813,7 @@
     <entry lang="uk" key="SECONDARY_KEY_SIZE_LRW">довжина Tweak-ключа (LRW-режим)</entry>
     <entry lang="uk" key="BITS">біт(и,ів)</entry>
     <entry lang="uk" key="BLOCK_SIZE">Розмір блоку</entry>
-    <entry lang="uk" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="uk" key="KDF">KDF</entry>
     <entry lang="uk" key="PKCS5_ITERATIONS">Кількість ітерацій PKCS-5</entry>
     <entry lang="uk" key="VOLUME_CREATE_DATE">Том створено</entry>
     <entry lang="uk" key="VOLUME_HEADER_DATE">Остання зміна заголовку</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="uk" key="IDC_DISABLE_SCREEN_PROTECTION">Вимкнути захист від створення знімків екрана та запису екрану</entry>
     <entry lang="uk" key="DISABLE_SCREEN_PROTECTION_WARNING">ПОПЕРЕДЖЕННЯ: Вимкнення захисту екрана значно знижує безпеку. Активуйте цю опцію ЛИШЕ за наявності конкретної потреби зафіксувати інтерфейс VeraCrypt. Це може призвести до витоку чутливих даних через інструменти створення знімків екрана та запису екрану, наприклад, Windows 11 Recall.</entry>
     <entry lang="uk" key="MEMORY_COST">Витрати пам'яті</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

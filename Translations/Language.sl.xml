@@ -291,8 +291,8 @@
     <entry lang="sl" key="IDT_NEW_PASSWORD">Geslo:</entry>
     <entry lang="sl" key="IDT_PARALLELIZATION_OPTIONS">Paralelizacija z nitmi</entry>
     <entry lang="sl" key="IDT_PKCS11_LIB_PATH">PKCS #11 mesto knjižice</entry>
-    <entry lang="sl" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="sl" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="sl" key="IDT_KDF">KDF:</entry>
+    <entry lang="sl" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="sl" key="IDT_PW_CACHE_OPTIONS">Predpomnilniška gesla</entry>
     <entry lang="sl" key="IDT_SECURITY_OPTIONS">Varnostne možnosti</entry>
     <entry lang="sl" key="IDT_EMV_OPTIONS">Opcije EMV</entry>
@@ -813,7 +813,7 @@
     <entry lang="sl" key="SECONDARY_KEY_SIZE_LRW">Prilagodi velikost ključa (način LRW)</entry>
     <entry lang="sl" key="BITS">bitov</entry>
     <entry lang="sl" key="BLOCK_SIZE">Velikost bloka</entry>
-    <entry lang="sl" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="sl" key="KDF">KDF</entry>
     <entry lang="sl" key="PKCS5_ITERATIONS">PKCS-5 število iteracij</entry>
     <entry lang="sl" key="VOLUME_CREATE_DATE">Nosilec je ustvarjen</entry>
     <entry lang="sl" key="VOLUME_HEADER_DATE">Zadnja sprememba glave</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="sl" key="IDC_DISABLE_SCREEN_PROTECTION">Onemogoči zaščito pred zajemanjem zaslona in snemanjem zaslona</entry>
     <entry lang="sl" key="DISABLE_SCREEN_PROTECTION_WARNING">OPOZORILO: Onemogočanje zaščite zaslona bistveno zmanjša varnost. Omogoči to možnost SAMO, če imaš poseben razlog za zajem uporabniškega vmesnika VeraCrypt. S tem lahko občutljivi podatki postanejo dostopni orodjem za zajem zaslona in funkcijam snemanja zaslona, kot je Windows 11 Recall.</entry>
     <entry lang="sl" key="MEMORY_COST">Poraba pomnilnika</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

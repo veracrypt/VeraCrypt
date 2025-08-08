@@ -2029,8 +2029,16 @@ void GetBootEncryptionAlgorithmName (PIRP irp)
 			wchar_t BootEncryptionAlgorithmNameW[256];
 			wchar_t BootPrfAlgorithmNameW[256];
 			GetBootEncryptionAlgorithmNameRequest *request = (GetBootEncryptionAlgorithmNameRequest *) irp->AssociatedIrp.SystemBuffer;
+			int prfId = BootDriveFilterExtension->Queue.CryptoInfo->pkcs5;
 			EAGetName (BootEncryptionAlgorithmNameW, 256, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
-			HashGetName2 (BootPrfAlgorithmNameW, 256, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
+			// for compatibility with old versions, we continue using hash algorithms name for PBKDF2 PRFs 
+			// for Argon2, we use the actual name
+			if (prfId == ARGON2)
+			{
+				RtlStringCbCopyW (BootPrfAlgorithmNameW, sizeof (BootPrfAlgorithmNameW), L"Argon2");
+			}
+			else
+				HashGetName2 (BootPrfAlgorithmNameW, 256, prfId);
 
 			RtlStringCbPrintfA (request->BootEncryptionAlgorithmName, sizeof (request->BootEncryptionAlgorithmName), "%S", BootEncryptionAlgorithmNameW);
 			RtlStringCbPrintfA (request->BootPrfAlgorithmName, sizeof (request->BootPrfAlgorithmName), "%S", BootPrfAlgorithmNameW);

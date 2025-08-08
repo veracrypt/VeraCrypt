@@ -291,8 +291,8 @@
     <entry lang="tr" key="IDT_NEW_PASSWORD">Parola:</entry>
     <entry lang="tr" key="IDT_PARALLELIZATION_OPTIONS">İşlem temelli paralelleştirme</entry>
     <entry lang="tr" key="IDT_PKCS11_LIB_PATH">PKCS #11 kitaplığı yolu</entry>
-    <entry lang="tr" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="tr" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="tr" key="IDT_KDF">KDF:</entry>
+    <entry lang="tr" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="tr" key="IDT_PW_CACHE_OPTIONS">Parola ön belleği</entry>
     <entry lang="tr" key="IDT_SECURITY_OPTIONS">Güvenlik seçenekleri</entry>
     <entry lang="tr" key="IDT_EMV_OPTIONS">EMV Seçenekleri</entry>
@@ -813,7 +813,7 @@
     <entry lang="tr" key="SECONDARY_KEY_SIZE_LRW">Ayarlanan anahtar boyutu (LRW kipi)</entry>
     <entry lang="tr" key="BITS">bit</entry>
     <entry lang="tr" key="BLOCK_SIZE">Blok boyutu</entry>
-    <entry lang="tr" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="tr" key="KDF">KDF</entry>
     <entry lang="tr" key="PKCS5_ITERATIONS">PKCS-5 çevrim sayısı</entry>
     <entry lang="tr" key="VOLUME_CREATE_DATE">Birim oluşturuldu</entry>
     <entry lang="tr" key="VOLUME_HEADER_DATE">Üst bilgi değiştirilme zamanı</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="tr" key="IDC_DISABLE_SCREEN_PROTECTION">Ekran görüntüsü ve ekran kaydına karşı korumayı devre dışı bırak</entry>
     <entry lang="tr" key="DISABLE_SCREEN_PROTECTION_WARNING">UYARI: Ekran korumasını devre dışı bırakmak güvenliği önemli ölçüde azaltır. Bu seçeneği YALNIZCA VeraCrypt arayüzünü yakalamak için özel bir ihtiyacınız varsa etkinleştirin. Bu işlem, hassas verilerin ekran görüntüsü araçları ve Windows 11 Recall gibi ekran kaydı özelliklerine maruz kalmasına neden olabilir.</entry>
     <entry lang="tr" key="MEMORY_COST">Bellek Maliyeti</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -2220,7 +2220,7 @@ void CALLBACK ChangePwdWaitThreadProc(void* pArg, HWND hwndDlg)
 		catch(...)
 		{}
 
-		pThreadParam->pkcs5 = 0;	// PKCS-5 PRF unchanged (currently we can't change PRF of system encryption)
+		pThreadParam->pkcs5 = 0;	// KDF unchanged (currently we can't change PRF of system encryption)
 
 		try
 		{
@@ -2361,7 +2361,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				if (i == EffectiveVolumePkcs5)
 				{
@@ -2393,7 +2393,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 				if (!HashIsDeprecated (i))
 				{
-					nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+					nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				}
 			}
@@ -2434,7 +2434,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PKCS5_PRF), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_KDF), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), FALSE);
 				break;
 
@@ -2457,7 +2457,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PKCS5_PRF), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_KDF), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), FALSE);
 				break;
 
@@ -2489,8 +2489,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 
 				/* for system encryption, we can't change the PRF */
-				EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PKCS5_PRF), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_KDF), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_KDF), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID), FALSE);
 
@@ -3047,7 +3047,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				if (*pkcs5 && (*pkcs5 == i))
 					defaultPrfIndex = nIndex;
@@ -3134,7 +3134,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				if ((bSystemIsGPT || HashForSystemEncryption(i)) && (i != ARGON2))
 				{
-					nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+					nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 					if (*pkcs5 && (*pkcs5 == i))
 						defaultPrfIndex = nIndex;
@@ -3738,7 +3738,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				/* if a PRF was selected previously, select it */
 				if (i == pMountOptions->ProtectedHidVolPkcs5Prf)
@@ -3756,7 +3756,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_PROT_PASSWD), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_HIDVOL_PROT), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_KDF), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), protect);
@@ -3952,7 +3952,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_MO), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_HIDVOL_PROT), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_KDF), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), protect);
@@ -4316,12 +4316,12 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ListSubItemSet (list, i++, 1, EAGetModeName (prop.mode));
 
 			// PKCS 5 PRF
-			ListItemAdd (list, i, GetString ("PKCS5_PRF"));
+			ListItemAdd (list, i, GetString ("KDF"));
 			if (prop.volumePim == 0)
-				ListSubItemSet (list, i++, 1, get_pkcs5_prf_name (prop.pkcs5));
+				ListSubItemSet (list, i++, 1, get_kdf_name (prop.pkcs5));
 			else
 			{
-				StringCbPrintfW (szTmp, sizeof(szTmp), L"%s (Dynamic)", get_pkcs5_prf_name (prop.pkcs5));
+				StringCbPrintfW (szTmp, sizeof(szTmp), L"%s (Dynamic)", get_kdf_name (prop.pkcs5));
 				ListSubItemSet (list, i++, 1, szTmp);
 			}
 
@@ -12338,7 +12338,7 @@ static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPAR
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				if (DefaultVolumePkcs5 && (DefaultVolumePkcs5 == i))
 					defaultPrfIndex = nIndex;

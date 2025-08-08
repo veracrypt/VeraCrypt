@@ -291,8 +291,8 @@
     <entry lang="id" key="IDT_NEW_PASSWORD">Kata Sandi:</entry>
     <entry lang="id" key="IDT_PARALLELIZATION_OPTIONS">Paralelisasi Berbasis Thread</entry>
     <entry lang="id" key="IDT_PKCS11_LIB_PATH">Path Pustaka PKCS #11</entry>
-    <entry lang="id" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="id" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="id" key="IDT_KDF">KDF:</entry>
+    <entry lang="id" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="id" key="IDT_PW_CACHE_OPTIONS">Singgahan Kata Sandi</entry>
     <entry lang="id" key="IDT_SECURITY_OPTIONS">Opsi Keamanan</entry>
     <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
@@ -813,7 +813,7 @@
     <entry lang="id" key="SECONDARY_KEY_SIZE_LRW">Ukuran Tombol Tweak (Mode LRW)</entry>
     <entry lang="id" key="BITS">bit</entry>
     <entry lang="id" key="BLOCK_SIZE">Ukuran Blok</entry>
-    <entry lang="id" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="id" key="KDF">KDF</entry>
     <entry lang="id" key="PKCS5_ITERATIONS">Cacah Iterasi PKCS-5</entry>
     <entry lang="id" key="VOLUME_CREATE_DATE">Volume Telah Dibuat</entry>
     <entry lang="id" key="VOLUME_HEADER_DATE">Header Terakhir Dimodifikasi</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="id" key="IDC_DISABLE_SCREEN_PROTECTION">Nonaktifkan perlindungan terhadap tangkapan layar dan perekaman layar</entry>
     <entry lang="id" key="DISABLE_SCREEN_PROTECTION_WARNING">PERINGATAN: Menonaktifkan perlindungan layar secara signifikan mengurangi keamanan. Aktifkan opsi ini HANYA jika Anda memiliki kebutuhan khusus untuk menangkap antarmuka VeraCrypt. Hal ini dapat mengekspos data sensitif ke alat tangkapan layar dan fitur perekaman layar seperti Windows 11 Recall.</entry>
     <entry lang="id" key="MEMORY_COST">Biaya Memori</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

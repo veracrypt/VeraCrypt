@@ -95,7 +95,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,243,8,64,14
     PUSHBUTTON      "Cancel",IDCANCEL,243,25,64,14
     RTEXT           "Password:",IDT_PASSWORD,0,10,65,13
-    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,0,27,65,13
+    RTEXT           "KDF:",IDT_KDF,0,27,65,13
     RTEXT           "Volume PIM:",IDT_PIM,0,46,65,13,NOT WS_VISIBLE
     LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,115,46,189,8,NOT WS_VISIBLE
 END

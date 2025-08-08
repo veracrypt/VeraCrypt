@@ -5375,7 +5375,7 @@ namespace VeraCrypt
 			return status;
 		}
 
-		// Change the PKCS-5 PRF if requested by user
+		// Change the KDF if requested by user
 		if (pkcs5 != 0)
 		{
 			cryptoInfo->pkcs5 = pkcs5;

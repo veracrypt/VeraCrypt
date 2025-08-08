@@ -109,6 +109,7 @@ static int MapHashAlgorithm(const wchar_t* hashName)
 	if (_wcsicmp(hashName, L"BLAKE2s") == 0) return BLAKE2S;
 	if (_wcsicmp(hashName, L"sha256") == 0) return SHA256;
 	if (_wcsicmp(hashName, L"sha512") == 0) return SHA512;
+	if (_wcsicmp(hashName, L"argon2") == 0) return ARGON2;
 	return 0; // Not found
 }
 

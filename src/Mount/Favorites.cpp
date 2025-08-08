@@ -950,7 +950,7 @@ namespace VeraCrypt
 
 		for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 		{
-			nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+			nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 			if (favorite.Pkcs5 == i)
 				nSelected = nIndex;
@@ -985,7 +985,7 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_UP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_DOWN), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_REMOVE), enable);
-		EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), enable && !favorite.SystemEncryption);
+		EnableWindow (GetDlgItem (hwndDlg, IDT_KDF), enable && !favorite.SystemEncryption);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), enable && !favorite.SystemEncryption);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), enable);

@@ -291,8 +291,8 @@
     <entry lang="it" key="IDT_NEW_PASSWORD">Password:</entry>
     <entry lang="it" key="IDT_PARALLELIZATION_OPTIONS">Parallelizzazione Thread-Based</entry>
     <entry lang="it" key="IDT_PKCS11_LIB_PATH">PKCS #11 Percorso libreria</entry>
-    <entry lang="it" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="it" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="it" key="IDT_KDF">KDF:</entry>
+    <entry lang="it" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="it" key="IDT_PW_CACHE_OPTIONS">Password nascoste</entry>
     <entry lang="it" key="IDT_SECURITY_OPTIONS">Opzioni sicurezza</entry>
     <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
@@ -813,7 +813,7 @@
     <entry lang="it" key="SECONDARY_KEY_SIZE_LRW">Dimensione chiave Tweak (Modo LRW )</entry>
     <entry lang="it" key="BITS">bit</entry>
     <entry lang="it" key="BLOCK_SIZE">Dimensione blocco</entry>
-    <entry lang="it" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="it" key="KDF">KDF</entry>
     <entry lang="it" key="PKCS5_ITERATIONS">Numero iterazioni PKCS-5</entry>
     <entry lang="it" key="VOLUME_CREATE_DATE">Volume creato</entry>
     <entry lang="it" key="VOLUME_HEADER_DATE">Ultima modifica intestazione</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="it" key="IDC_DISABLE_SCREEN_PROTECTION">Disabilita la protezione contro screenshot e registrazione dello schermo</entry>
     <entry lang="it" key="DISABLE_SCREEN_PROTECTION_WARNING">ATTENZIONE: Disabilitare la protezione dello schermo riduce significativamente la sicurezza. Attiva questa opzione SOLO se hai una necessità specifica di acquisire l’interfaccia di VeraCrypt. Questo potrebbe esporre dati sensibili a strumenti di cattura schermo e a funzionalità di registrazione come Windows 11 Recall.</entry>
     <entry lang="it" key="MEMORY_COST">Costo di Memoria</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

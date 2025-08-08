@@ -294,8 +294,8 @@
     <entry lang="de" key="IDT_NEW_PASSWORD">Passwort:</entry>
     <entry lang="de" key="IDT_PARALLELIZATION_OPTIONS">Thread-basierte Parallelisierung</entry>
     <entry lang="de" key="IDT_PKCS11_LIB_PATH">Pfad der PKCS #11-Bibliothek</entry>
-    <entry lang="de" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="de" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="de" key="IDT_KDF">KDF:</entry>
+    <entry lang="de" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="de" key="IDT_PW_CACHE_OPTIONS">Passwort-Cache (im Speicher des VeraCrypt-Treibers)</entry>
     <entry lang="de" key="IDT_SECURITY_OPTIONS">Sicherheitsoptionen</entry>
     <entry lang="de" key="IDT_EMV_OPTIONS">EMV-Optionen</entry>
@@ -816,7 +816,7 @@
     <entry lang="de" key="SECONDARY_KEY_SIZE_LRW">Tweak-Schlüssellänge (LRW-Modus)</entry>
     <entry lang="de" key="BITS">Bit</entry>
     <entry lang="de" key="BLOCK_SIZE">Blockgröße</entry>
-    <entry lang="de" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="de" key="KDF">KDF</entry>
     <entry lang="de" key="PKCS5_ITERATIONS">PKCS-5-Iterationen</entry>
     <entry lang="de" key="VOLUME_CREATE_DATE">Volume erstellt</entry>
     <entry lang="de" key="VOLUME_HEADER_DATE">Kopfdaten zuletzt geändert</entry>
@@ -1650,6 +1650,7 @@
     <entry lang="de" key="IDC_DISABLE_SCREEN_PROTECTION">Schutz vor Screenshots und Bildschirmaufnahmen deaktivieren</entry>
     <entry lang="de" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNUNG: Das Deaktivieren des Bildschirmschutzes verringert die Sicherheit erheblich. Aktivieren Sie diese Option NUR, wenn Sie die Benutzeroberfläche von VeraCrypt explizit aufzeichnen müssen. Dies kann sensible Daten gegenüber Screenshot-Tools und Bildschirmaufnahmefunktionen wie Windows 11 Recall offenlegen.</entry>
     <entry lang="de" key="MEMORY_COST">Speicheraufwand</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

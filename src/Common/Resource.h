@@ -202,7 +202,7 @@
 #define IDT_STATIC_MODAL_WAIT_DLG_INFO  5125
 #define IDC_WAIT_PROGRESS_BAR           5126
 #define IDC_PKCS5_PRF_ID                5127
-#define IDT_PKCS5_PRF                   5128
+#define IDT_KDF                   5128
 #define IDT_PIM                         5129
 #define IDC_PIM                         5130
 #define IDC_PIM_HELP                    5131

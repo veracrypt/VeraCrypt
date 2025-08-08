@@ -42,7 +42,7 @@ void hmac_streebog (unsigned char *k, int lk, unsigned char *d, int ld);
 void derive_key_streebog (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
 
 int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL bBoot, int* pMemoryCost);
-wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id);
+wchar_t *get_kdf_name (int kdf_id);
 
 void derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, uint32 memcost, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
 void get_argon2_params(int pim, int* pIterations, int* pMemcost);

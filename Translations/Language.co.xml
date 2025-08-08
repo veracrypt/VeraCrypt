@@ -310,8 +310,8 @@ Information about Corsican localization:
 	    <entry lang="co" key="IDT_NEW_PASSWORD">Parolla d’intesa :</entry>
 	    <entry lang="co" key="IDT_PARALLELIZATION_OPTIONS">Parallelizazione</entry>
 	    <entry lang="co" key="IDT_PKCS11_LIB_PATH">Chjassu di biblioteca PKCS #11</entry>
-	    <entry lang="co" key="IDT_PKCS5_PRF">PKCS-5 PRF :</entry>
-	    <entry lang="co" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF :</entry>
+	    <entry lang="co" key="IDT_KDF">KDF :</entry>
+	    <entry lang="co" key="IDT_NEW_KDF">KDF :</entry>
 	    <entry lang="co" key="IDT_PW_CACHE_OPTIONS">Impiatta di a parolla d’intesa</entry>
 	    <entry lang="co" key="IDT_SECURITY_OPTIONS">Ozzioni di sicurità</entry>
 	    <entry lang="co" key="IDT_EMV_OPTIONS">Ozzioni EMV</entry>
@@ -832,7 +832,7 @@ Information about Corsican localization:
 	    <entry lang="co" key="SECONDARY_KEY_SIZE_LRW">Dimensione di a chjave Tweak (Modu LRW)</entry>
 	    <entry lang="co" key="BITS">bits</entry>
 	    <entry lang="co" key="BLOCK_SIZE">Dimensione di u bloccu</entry>
-	    <entry lang="co" key="PKCS5_PRF">PKCS-5 PRF</entry>
+	    <entry lang="co" key="KDF">KDF</entry>
 	    <entry lang="co" key="PKCS5_ITERATIONS">Numeru d’iterazioni PKCS-5</entry>
 	    <entry lang="co" key="VOLUME_CREATE_DATE">Vulume creatu</entry>
 	    <entry lang="co" key="VOLUME_HEADER_DATE">Ultima mudificazione di l’intestatura</entry>
@@ -1666,6 +1666,7 @@ Information about Corsican localization:
 	    <entry lang="co" key="IDC_DISABLE_SCREEN_PROTECTION">Disattivà a prutezzione contr’à e catture di screnu è l’arregistramentu di screnu</entry>
 	    <entry lang="co" key="DISABLE_SCREEN_PROTECTION_WARNING">AVERTIMENTU : A disattivazione di a prutezzione di screnu riduce forte a sicurità. Attivà st’ozzione SOLU s’è vo avete un bisognu specificu di catturà l’interfaccia di VeraCrypt. Què pò palisà i dati sensibile à l’attrezzi di screnu è à e funzioni d’arregistramentu di screnu cum’è Windows 11 Recall.</entry>
 	    <entry lang="co" key="MEMORY_COST">Costu di a memoria</entry>
+		<entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">

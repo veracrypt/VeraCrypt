@@ -291,8 +291,8 @@
     <entry lang="my" key="IDT_NEW_PASSWORD">စကားဝှက် -</entry>
     <entry lang="my" key="IDT_PARALLELIZATION_OPTIONS">Thread-အခြေပြု ပြိုင်တူပြုလုပ်ခြင်း</entry>
     <entry lang="my" key="IDT_PKCS11_LIB_PATH">PKCS #11 လိုင်ဘရာရီ လမ်းကြောင်း</entry>
-    <entry lang="my" key="IDT_PKCS5_PRF">PKCS-5 PRF-</entry>
-    <entry lang="my" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF -</entry>
+    <entry lang="my" key="IDT_KDF">KDF-</entry>
+    <entry lang="my" key="IDT_NEW_KDF">KDF -</entry>
     <entry lang="my" key="IDT_PW_CACHE_OPTIONS">စကားဝှက် ယာယီ သိမ်းဆည်းခန်း</entry>
     <entry lang="my" key="IDT_SECURITY_OPTIONS">လုံခြုံရေး ရွေးစရာများ</entry>
     <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
@@ -815,7 +815,7 @@
     <entry lang="my" key="SECONDARY_KEY_SIZE_LRW">Tweak ကီး အရွယ်ပမာဏ (LRW စနစ်)</entry>
     <entry lang="my" key="BITS">bits</entry>
     <entry lang="my" key="BLOCK_SIZE">အကန့် အရွယ်ပမာဏ</entry>
-    <entry lang="my" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="my" key="KDF">KDF</entry>
     <entry lang="my" key="PKCS5_ITERATIONS">PKCS-5 ထပ်မံ ရေတွက်ခြင်း</entry>
     <entry lang="my" key="VOLUME_CREATE_DATE">Volume ဖန်တီးလိုက်ပြီ</entry>
     <entry lang="my" key="VOLUME_HEADER_DATE">ခေါင်းစီး နောက်ဆုံး ပြုပြင်မှု</entry>
@@ -1649,6 +1649,7 @@
     <entry lang="my" key="IDC_DISABLE_SCREEN_PROTECTION">စခရင်ရှော့များနှင့် စခရင်မှတ်တမ်းတင်ခြင်းမှ ကာကွယ်မှုကို ပိတ်ပါ</entry>
     <entry lang="my" key="DISABLE_SCREEN_PROTECTION_WARNING">သတိပေးချက်- စခရင်ကာကွယ်မှုကို ပိတ်ခြင်းသည် လုံခြုံရေးကို သိသိသာသာ လျှော့ချသည်။ VeraCrypt ၏ interface ကို ဖမ်းယူရန် သီးခြားလိုအပ်ချက်ရှိမှသာ ဤရွေးချယ်မှုကို ဖွင့်ပါ။ ၎င်းသည် ထိလွယ်ရှလွယ်ဒေတာများကို စခရင်ရှော့ကိရိယာများနှင့် Windows 11 Recall ကဲ့သို့ စခရင်မှတ်တမ်းတင်ခြင်း အင်္ဂါရပ်များသို့ ဖော်ထုတ်နိုင်သည်။</entry>
     <entry lang="my" key="MEMORY_COST">မှတ်ဉာဏ်ကုန်ကျစရိတ်</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

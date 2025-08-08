@@ -6507,7 +6507,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 					}
 				}
 			}
-			StringCbPrintfW (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTotalItems].name),L"%s", get_pkcs5_prf_name (thid));
+			StringCbPrintfW (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTotalItems].name),L"%s", get_kdf_name (thid));
 
 			benchmarkTotalItems++;
 		}
@@ -6687,7 +6687,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			nIndex = SendMessageW (hCboxList, CB_ADDSTRING, 0, (LPARAM) GetString ("ENCRYPTION_ALGORITHM"));
 			SendMessage (hCboxList, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
-			nIndex = SendMessageW (hCboxList, CB_ADDSTRING, 0, (LPARAM) GetString ("PKCS5_PRF"));
+			nIndex = SendMessageW (hCboxList, CB_ADDSTRING, 0, (LPARAM) GetString ("KDF"));
 			SendMessage (hCboxList, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 			nIndex = SendMessageW (hCboxList, CB_ADDSTRING, 0, (LPARAM) GetString ("IDT_HASH_ALGO"));

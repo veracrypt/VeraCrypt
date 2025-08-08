@@ -769,7 +769,7 @@ BenchmarkDialogBase::BenchmarkDialogBase( wxWindow* parent, wxWindowID id, const
 	m_staticText70->Wrap( -1 );
 	fgSizer9->Add( m_staticText70, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	wxString BenchmarkChoiceChoices[] = { _("ENCRYPTION_ALGORITHM"), _("PKCS5_PRF"), _("IDT_HASH_ALGO") };
+	wxString BenchmarkChoiceChoices[] = { _("ENCRYPTION_ALGORITHM"), _("KDF"), _("IDT_HASH_ALGO") };
 	int BenchmarkChoiceNChoices = sizeof( BenchmarkChoiceChoices ) / sizeof( wxString );
 	BenchmarkChoice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, BenchmarkChoiceNChoices, BenchmarkChoiceChoices, 0 );
 	BenchmarkChoice->SetSelection( 0 );
@@ -1913,7 +1913,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	wxBoxSizer* bSizer163;
 	bSizer163 = new wxBoxSizer( wxHORIZONTAL );
 
-	Pkcs5PrfStaticText = new wxStaticText( sbSizer15->GetStaticBox(), wxID_ANY, _("PKCS5_PRF"), wxDefaultPosition, wxDefaultSize, 0 );
+	Pkcs5PrfStaticText = new wxStaticText( sbSizer15->GetStaticBox(), wxID_ANY, _("KDF"), wxDefaultPosition, wxDefaultSize, 0 );
 	Pkcs5PrfStaticText->Wrap( -1 );
 	bSizer163->Add( Pkcs5PrfStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
@@ -2694,7 +2694,7 @@ EncryptionOptionsWizardPageBase::EncryptionOptionsWizardPageBase( wxWindow* pare
 	bSizer95->Add( sbSizer29, 1, wxEXPAND|wxALL, 5 );
 
 	wxStaticBoxSizer* sbSizer30;
-	sbSizer30 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("IDT_HASH_ALGO") ), wxHORIZONTAL );
+	sbSizer30 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("KDF") ), wxHORIZONTAL );
 
 	wxArrayString HashChoiceChoices;
 	HashChoice = new wxChoice( sbSizer30->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, HashChoiceChoices, 0 );
@@ -3412,7 +3412,7 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 
 	GridBagSizer->Add( Pkcs5PrfSizer, wxGBPosition( 8, 1 ), wxGBSpan( 1, 1 ), wxEXPAND|wxTOP|wxBOTTOM, 5 );
 
-	Pkcs5PrfStaticText = new wxStaticText( this, wxID_ANY, _("IDT_NEW_PKCS5_PRF"), wxDefaultPosition, wxDefaultSize, 0 );
+	Pkcs5PrfStaticText = new wxStaticText( this, wxID_ANY, _("IDT_NEW_KDF"), wxDefaultPosition, wxDefaultSize, 0 );
 	Pkcs5PrfStaticText->Wrap( -1 );
 	GridBagSizer->Add( Pkcs5PrfStaticText, wxGBPosition( 9, 0 ), wxGBSpan( 1, 1 ), wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT, 5 );
 

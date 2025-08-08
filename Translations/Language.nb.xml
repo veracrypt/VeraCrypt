@@ -291,8 +291,8 @@
     <entry lang="nb" key="IDT_NEW_PASSWORD">Passord:</entry>
     <entry lang="nb" key="IDT_PARALLELIZATION_OPTIONS">Tråd-basert Parallelisering</entry>
     <entry lang="nb" key="IDT_PKCS11_LIB_PATH">PKCS #11 Bibliotek Sti</entry>
-    <entry lang="nb" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="nb" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="nb" key="IDT_KDF">KDF:</entry>
+    <entry lang="nb" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="nb" key="IDT_PW_CACHE_OPTIONS">Passord-Cache</entry>
     <entry lang="nb" key="IDT_SECURITY_OPTIONS">Sikkerhetsalternativer</entry>
     <entry lang="nb" key="IDT_EMV_OPTIONS">EMV Alternativer</entry>
@@ -813,7 +813,7 @@
     <entry lang="nb" key="SECONDARY_KEY_SIZE_LRW">Tweak Nøkkelstørrelse (LRW-modus)</entry>
     <entry lang="nb" key="BITS">bits</entry>
     <entry lang="nb" key="BLOCK_SIZE">Blokkstørrelse</entry>
-    <entry lang="nb" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="nb" key="KDF">KDF</entry>
     <entry lang="nb" key="PKCS5_ITERATIONS">PKCS-5 Iterasjonsantall</entry>
     <entry lang="nb" key="VOLUME_CREATE_DATE">Volum Opprettet</entry>
     <entry lang="nb" key="VOLUME_HEADER_DATE">Header Sist Endret</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="nb" key="IDC_DISABLE_SCREEN_PROTECTION">Deaktiver beskyttelse mot skjermbilder og skjermopptak</entry>
     <entry lang="nb" key="DISABLE_SCREEN_PROTECTION_WARNING">ADVARSEL: Deaktivering av skjermbeskyttelse reduserer sikkerheten betydelig. Aktiver dette alternativet KUN hvis du har et spesifikt behov for å fange VeraCrypts grensesnitt. Dette kan eksponere sensitiv data for skjermbilderverktøy og skjermopptaksfunksjoner, som for eksempel Windows 11 Recall.</entry>
     <entry lang="nb" key="MEMORY_COST">Minneforbruk</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

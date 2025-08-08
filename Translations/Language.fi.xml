@@ -291,8 +291,8 @@
     <entry lang="fi" key="IDT_NEW_PASSWORD">Salasana:</entry>
     <entry lang="fi" key="IDT_PARALLELIZATION_OPTIONS">Säijepohjainen rinnakkaistaminen</entry>
     <entry lang="fi" key="IDT_PKCS11_LIB_PATH">PKCS #11 kirjastopolku</entry>
-    <entry lang="fi" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="fi" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="fi" key="IDT_KDF">KDF:</entry>
+    <entry lang="fi" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="fi" key="IDT_PW_CACHE_OPTIONS">Salasanojen muistaminen</entry>
     <entry lang="fi" key="IDT_SECURITY_OPTIONS">Salausasetukset</entry>
     <entry lang="fi" key="IDT_EMV_OPTIONS">EMV-asetukset</entry>
@@ -813,7 +813,7 @@
     <entry lang="fi" key="SECONDARY_KEY_SIZE_LRW">Säätöavaimen koko (LRW-tila)</entry>
     <entry lang="fi" key="BITS">bittiä</entry>
     <entry lang="fi" key="BLOCK_SIZE">Lohkon koko</entry>
-    <entry lang="fi" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="fi" key="KDF">KDF</entry>
     <entry lang="fi" key="PKCS5_ITERATIONS">PKCS-5 iteraatioiden määrä</entry>
     <entry lang="fi" key="VOLUME_CREATE_DATE">Taltio luotu</entry>
     <entry lang="fi" key="VOLUME_HEADER_DATE">Otsikkoa viimeksi muokattu</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="fi" key="IDC_DISABLE_SCREEN_PROTECTION">Ota kuvakaappaus- ja näytöntallennussuojaus pois käytöstä</entry>
     <entry lang="fi" key="DISABLE_SCREEN_PROTECTION_WARNING">VAROITUS: Kuvakaappaus- ja näytöntallennussuojauksen poistaminen käytöstä heikentää tietoturvaa merkittävästi. Ota tämä käyttöön VAIN, jos sinun täytyy erityisesti tallentaa VeraCryptin käyttöliittymä. Tämä voi paljastaa arkaluontoisia tietoja kuvakaappausohjelmille ja näytöntallennusominaisuuksille, kuten Windows 11 Recall.</entry>
     <entry lang="fi" key="MEMORY_COST">Muistikustannus</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

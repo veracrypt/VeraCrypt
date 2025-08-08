@@ -93,7 +93,7 @@ BEGIN
     LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,220,279,10,SS_NOTIFY
     RTEXT           "P&assword to hidden volume:\n(if empty, cache is used)",IDT_HIDDEN_PROT_PASSWD,15,132,115,17,0,WS_EX_RIGHT
     GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,101,299,136
-    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,15,155,115,17
+    RTEXT           "KDF:",IDT_KDF,15,155,115,17
     RTEXT           "Volume PIM:",IDT_PIM,15,177,115,17,NOT WS_VISIBLE
     LTEXT           "Volume Label in Windows:",IDT_VOLUME_LABEL,12,85,115,8
     CONTROL         "Only create virtual device without mounting on selected drive letter",IDC_DISABLE_MOUNT_MANAGER,

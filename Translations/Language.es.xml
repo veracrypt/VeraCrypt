@@ -291,8 +291,8 @@
     <entry lang="es" key="IDT_NEW_PASSWORD">Contraseña:</entry>
     <entry lang="es" key="IDT_PARALLELIZATION_OPTIONS">Paralelización basada en hilos</entry>
     <entry lang="es" key="IDT_PKCS11_LIB_PATH">Ruta de Librería PKCS #11</entry>
-    <entry lang="es" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="es" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="es" key="IDT_KDF">KDF:</entry>
+    <entry lang="es" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="es" key="IDT_PW_CACHE_OPTIONS">Caché de Contraseñas</entry>
     <entry lang="es" key="IDT_SECURITY_OPTIONS">Opciones de seguridad</entry>
     <entry lang="es" key="IDT_EMV_OPTIONS">EMV Opciones</entry>
@@ -813,7 +813,7 @@
     <entry lang="es" key="SECONDARY_KEY_SIZE_LRW">Tamaño de Clave Tweak (Modo LRW)</entry>
     <entry lang="es" key="BITS">bits</entry>
     <entry lang="es" key="BLOCK_SIZE">Tamaño de bloque</entry>
-    <entry lang="es" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="es" key="KDF">KDF</entry>
     <entry lang="es" key="PKCS5_ITERATIONS">Cuenta de iteraciones PKCS-5</entry>
     <entry lang="es" key="VOLUME_CREATE_DATE">Volumen Creado</entry>
     <entry lang="es" key="VOLUME_HEADER_DATE">Última modificación de la cabecera</entry>
@@ -1647,6 +1647,7 @@
     <entry lang="es" key="IDC_DISABLE_SCREEN_PROTECTION">Deshabilitar la protección contra capturas de pantalla y grabación de pantalla</entry>
     <entry lang="es" key="DISABLE_SCREEN_PROTECTION_WARNING">ADVERTENCIA: Deshabilitar la protección de pantalla reduce significativamente la seguridad. Habilite esta opción SOLO si necesita capturar la interfaz de VeraCrypt por un motivo específico. Esto puede exponer datos sensibles a herramientas de captura de pantalla y funciones de grabación de pantalla, como Windows 11 Recall.</entry>
     <entry lang="es" key="MEMORY_COST">Costo de Memoria</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
 </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
