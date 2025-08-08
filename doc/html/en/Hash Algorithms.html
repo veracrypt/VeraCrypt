@@ -34,13 +34,14 @@
 <div class="wikidoc">
 <h1>Hash Algorithms</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-In the Volume Creation Wizard, in the password change dialog window, and in the Keyfile Generator dialog window, you can select a hash algorithm. A user-selected hash algorithm is used by the VeraCrypt Random Number Generator as a pseudorandom &quot;mixing&quot; function,
- and by the header key derivation function (HMAC based on a hash function, as specified in PKCS #5 v2.0) as a pseudorandom function. When creating a new volume, the Random Number Generator generates the master key, secondary key (XTS mode), and salt. For more
+In the Volume Creation Wizard, in the password change dialog window, and in the Keyfile Generator dialog window, you can select a hash algorithm when using PBKDF2-HMAC as the key derivation function. When Argon2id is selected as the key derivation function, no hash algorithm selection is available as Argon2id uses its own internal BLAKE2b hash function.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+For PBKDF2-HMAC, the user-selected hash algorithm is used by the VeraCrypt Random Number Generator as a pseudorandom &quot;mixing&quot; function, and by the header key derivation function (HMAC based on a hash function, as specified in PKCS #5 v2.0) as a pseudorandom function. When creating a new volume, the Random Number Generator generates the master key, secondary key (XTS mode), and salt. For more
  information, please see the section <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Random Number Generator</a> and section <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Header Key Derivation, Salt, and Iteration Count</a>.</div>
-<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-VeraCrypt currently supports the following hash algorithms:</div>
+VeraCrypt currently supports the following hash algorithms for PBKDF2-HMAC:</div>
 <ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 <a href="BLAKE2s-256.html"><strong style="text-align:left">BLAKE2s-256</strong></a>

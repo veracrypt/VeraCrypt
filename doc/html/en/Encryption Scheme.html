@@ -50,10 +50,15 @@ Hidden Operating System</a>). If there is a hidden volume within this volume (or
 </li><li>Now VeraCrypt attempts to decrypt the standard volume header read in (1). All data used and generated in the course of the process of decryption are kept in RAM (VeraCrypt never saves them to disk). The following parameters are unknown&dagger; and have
  to be determined through the process of trial and error (i.e., by testing all possible combinations of the following):
 <ol type="a">
-<li>PRF used by the header key derivation function (as specified in PKCS #5 v2.0; see the section
+<li>Key Derivation Function (KDF) and associated parameters:
+<ul>
+<li><strong>PBKDF2-HMAC:</strong> PRF used by the header key derivation function (as specified in PKCS #5 v2.0; see the section
 <a href="Header%20Key%20Derivation.html">
 <em>Header Key Derivation, Salt, and Iteration Count</em></a>), which can be one of the following:
-<p>HMAC-SHA-512, HMAC-SHA-256, HMAC-BLAKE2S-256, HMAC-Whirlpool. If a PRF is explicitly specified by the user, it will be used directly without trying the other possibilities.</p>
+HMAC-SHA-512, HMAC-SHA-256, HMAC-BLAKE2S-256, HMAC-Whirlpool, HMAC-Streebog.</li>
+<li><strong>Argon2id:</strong> Memory-hard key derivation function with internal BLAKE2b hash function.</li>
+</ul>
+<p>If a PRF is explicitly specified by the user, it will be used directly without trying the other possibilities.</p>
 <p>A password entered by the user (to which one or more keyfiles may have been applied &ndash; see the section
 <a href="Keyfiles%20in%20VeraCrypt.html">
 <em>Keyfiles</em></a>), a PIM value (if specified) and the salt read in (1) are passed to the header key derivation function, which produces a sequence of values (see the section
