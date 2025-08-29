@@ -16,16 +16,41 @@
 #include "Tests.h"
 #include "cpu.h"
 
-static DriveFilterExtension *BootDriveFilterExtension = NULL;
-static LARGE_INTEGER DumpPartitionOffset;
-static uint8 *WriteFilterBuffer = NULL;
-static SIZE_T WriteFilterBufferSize;
+typedef struct _DumpFilterContext
+{
+	DriveFilterExtension* BootDriveFilterExtension;
+	LARGE_INTEGER DumpPartitionOffset;
+	uint8* WriteFilterBuffer;
+	SIZE_T WriteFilterBufferSize;
+	PMDL WriteFilterBufferMdl;
+} DumpFilterContext;
 
+static void Cleanup(DumpFilterContext* dumpContext)
+{
+	if (!dumpContext)
+		return;
+
+	if (dumpContext->WriteFilterBufferMdl)
+	{
+		IoFreeMdl(dumpContext->WriteFilterBufferMdl);
+	}
+
+	if (dumpContext->WriteFilterBuffer)
+	{
+		RtlSecureZeroMemory(dumpContext->WriteFilterBuffer, dumpContext->WriteFilterBufferSize);
+		MmFreeContiguousMemory(dumpContext->WriteFilterBuffer);
+	}
+
+	RtlSecureZeroMemory(dumpContext, sizeof(DumpFilterContext));
+	TCfree(dumpContext);
+}
 
 NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZATION_DATA filterInitData)
 {
 	GetSystemDriveDumpConfigRequest dumpConfig;
+	PHYSICAL_ADDRESS lowestAcceptableWriteBufferAddr;
 	PHYSICAL_ADDRESS highestAcceptableWriteBufferAddr;
+	PHYSICAL_ADDRESS highestAcceptableBoundaryWriteBufferAddr;
 	STORAGE_DEVICE_NUMBER storageDeviceNumber;
 	PARTITION_INFORMATION partitionInfo;
 	LONG version;
@@ -36,6 +61,16 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	filterInitData->MajorVersion = DUMP_FILTER_MAJOR_VERSION;
 	filterInitData->MinorVersion = DUMP_FILTER_MINOR_VERSION;
 	filterInitData->Flags |= DUMP_FILTER_CRITICAL;
+
+	DumpFilterContext* dumpContext = TCalloc ( sizeof (DumpFilterContext));
+	
+	if (!dumpContext)
+	{
+		status = STATUS_INSUFFICIENT_RESOURCES;
+		goto err;
+	}
+	
+	memset (dumpContext, 0, sizeof (DumpFilterContext));
 
 	// Check driver version of the main device
 	status = TCDeviceIoControl (NT_ROOT_PREFIX, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &version, sizeof (version));
@@ -53,9 +88,9 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	if (!NT_SUCCESS (status))
 		goto err;
 
-	BootDriveFilterExtension = dumpConfig.BootDriveFilterExtension;
+	dumpContext->BootDriveFilterExtension = dumpConfig.BootDriveFilterExtension;
 
-	if (BootDriveFilterExtension->MagicNumber != TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER)
+	if (dumpContext->BootDriveFilterExtension->MagicNumber != TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER)
 	{
 		status = STATUS_CRC_ERROR;
 		goto err;
@@ -75,13 +110,13 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	if (!NT_SUCCESS (status))
 		goto err;
 
-	if (!BootDriveFilterExtension->SystemStorageDeviceNumberValid)
+	if (!dumpContext->BootDriveFilterExtension->SystemStorageDeviceNumberValid)
 	{
 		status = STATUS_INVALID_PARAMETER;
 		goto err;
 	}
 
-	if (storageDeviceNumber.DeviceNumber != BootDriveFilterExtension->SystemStorageDeviceNumber)
+	if (storageDeviceNumber.DeviceNumber != dumpContext->BootDriveFilterExtension->SystemStorageDeviceNumber)
 	{
 		status = STATUS_ACCESS_DENIED;
 		goto err;
@@ -102,10 +137,10 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 		partitionInfo.StartingOffset = partitionInfoEx.StartingOffset;
 	}
 
-	DumpPartitionOffset = partitionInfo.StartingOffset;
+	dumpContext->DumpPartitionOffset = partitionInfo.StartingOffset;
 
-	if (DumpPartitionOffset.QuadPart < BootDriveFilterExtension->ConfiguredEncryptedAreaStart
-		|| DumpPartitionOffset.QuadPart > BootDriveFilterExtension->ConfiguredEncryptedAreaEnd)
+	if (dumpContext->DumpPartitionOffset.QuadPart < dumpContext->BootDriveFilterExtension->ConfiguredEncryptedAreaStart
+		|| dumpContext->DumpPartitionOffset.QuadPart > dumpContext->BootDriveFilterExtension->ConfiguredEncryptedAreaEnd)
 	{
 		status = STATUS_ACCESS_DENIED;
 		goto err;
@@ -118,63 +153,78 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 		goto err;
 	}
 
-	WriteFilterBufferSize = ((SIZE_T)filterInitData->MaxPagesPerWrite) * PAGE_SIZE;
+	dumpContext->WriteFilterBufferSize = ((SIZE_T)filterInitData->MaxPagesPerWrite) * PAGE_SIZE;
 
-	highestAcceptableWriteBufferAddr.QuadPart = 0x7FFffffFFFFLL;
+	lowestAcceptableWriteBufferAddr.QuadPart = 0;
+	highestAcceptableWriteBufferAddr.QuadPart = -1; // QWORD_MAX
+	highestAcceptableBoundaryWriteBufferAddr.QuadPart = 0;
 
-	WriteFilterBuffer = MmAllocateContiguousMemory (WriteFilterBufferSize, highestAcceptableWriteBufferAddr);
-	if (!WriteFilterBuffer)
+	// Allocate resident scratch buffer as READ/WRITE only and contiguous
+	dumpContext->WriteFilterBuffer = MmAllocateContiguousNodeMemory (dumpContext->WriteFilterBufferSize, lowestAcceptableWriteBufferAddr, highestAcceptableWriteBufferAddr, highestAcceptableBoundaryWriteBufferAddr, PAGE_READWRITE, MM_ANY_NODE_OK);
+	if (!dumpContext->WriteFilterBuffer)
 	{
 		status = STATUS_INSUFFICIENT_RESOURCES;
 		goto err;
 	}
 
+	dumpContext->WriteFilterBufferMdl = IoAllocateMdl (dumpContext->WriteFilterBuffer, (ULONG)dumpContext->WriteFilterBufferSize, FALSE, FALSE, NULL);
+	
+	if (!dumpContext->WriteFilterBufferMdl)
+	{
+		status = STATUS_INSUFFICIENT_RESOURCES;
+		goto err;
+	}
+
+	MmBuildMdlForNonPagedPool (dumpContext->WriteFilterBufferMdl);
+
 	filterInitData->DumpStart = DumpFilterStart;
 	filterInitData->DumpWrite = DumpFilterWrite;
 	filterInitData->DumpFinish = DumpFilterFinish;
 	filterInitData->DumpUnload = DumpFilterUnload;
+	filterInitData->DumpData = dumpContext;
 
 	Dump ("Dump filter loaded type=%d\n", filterExtension->DumpType);
 	return STATUS_SUCCESS;
 
 err:
 	Dump ("DumpFilterEntry error %x\n", status);
+	Cleanup (dumpContext);
 	return status;
 }
 
 
 static NTSTATUS DumpFilterStart (PFILTER_EXTENSION filterExtension)
 {
-	UNREFERENCED_PARAMETER(filterExtension);
 	Dump ("DumpFilterStart type=%d\n", filterExtension->DumpType);
 
-	if (BootDriveFilterExtension->MagicNumber != TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER)
+	DumpFilterContext* dumpContext = filterExtension->DumpData;
+
+	if (dumpContext->BootDriveFilterExtension->MagicNumber != TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER)
 		TC_BUG_CHECK (STATUS_CRC_ERROR);
 
-	return BootDriveFilterExtension->DriveMounted ? STATUS_SUCCESS : STATUS_UNSUCCESSFUL;
+	return dumpContext->BootDriveFilterExtension->DriveMounted ? STATUS_SUCCESS : STATUS_UNSUCCESSFUL;
 }
 
 
 static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEGER diskWriteOffset, PMDL writeMdl)
 {
+	DumpFilterContext* dumpContext = filterExtension->DumpData;
 	ULONG dataLength = MmGetMdlByteCount (writeMdl);
-	uint64 offset = DumpPartitionOffset.QuadPart + diskWriteOffset->QuadPart;
+	uint64 offset = dumpContext->DumpPartitionOffset.QuadPart + diskWriteOffset->QuadPart;
 	uint64 intersectStart;
 	uint32 intersectLength;
 	PVOID writeBuffer;
-	CSHORT origMdlFlags;
-	UNREFERENCED_PARAMETER(filterExtension);
 
-	if (BootDriveFilterExtension->MagicNumber != TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER)
+	if (dumpContext->BootDriveFilterExtension->MagicNumber != TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER)
 		TC_BUG_CHECK (STATUS_CRC_ERROR);
 
-	if (BootDriveFilterExtension->Queue.EncryptedAreaEndUpdatePending)	// Hibernation should always abort the setup thread
+	if (dumpContext->BootDriveFilterExtension->Queue.EncryptedAreaEndUpdatePending)	// Hibernation should always abort the setup thread
 		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 
-	if (BootDriveFilterExtension->Queue.EncryptedAreaStart == -1 || BootDriveFilterExtension->Queue.EncryptedAreaEnd == -1)
+	if (dumpContext->BootDriveFilterExtension->Queue.EncryptedAreaStart == -1 || dumpContext->BootDriveFilterExtension->Queue.EncryptedAreaEnd == -1)
 		return STATUS_SUCCESS;
 
-	if (dataLength > WriteFilterBufferSize)
+	if (dataLength > dumpContext->WriteFilterBufferSize)
 		TC_BUG_CHECK (STATUS_BUFFER_OVERFLOW);	// Bug check is required as returning an error does not prevent data from being written to disk
 
 	if ((dataLength & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
@@ -183,16 +233,19 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 	if ((offset & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
 		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 
-	writeBuffer = MmGetSystemAddressForMdlSafe (writeMdl, (HighPagePriority | MdlMappingNoExecute));
-	if (!writeBuffer)
-		TC_BUG_CHECK (STATUS_INSUFFICIENT_RESOURCES);
+    // We're in trouble if the given MDL is not mapped to system address space as we're not allowed to call MmGetSystemAddressForMdlSafe() at HIGH_LEVEL IRQL.
+	ASSERT (writeMdl->MdlFlags & (MDL_MAPPED_TO_SYSTEM_VA | MDL_SOURCE_IS_NONPAGED_POOL));
 
-	memcpy (WriteFilterBuffer, writeBuffer, dataLength);
+	writeBuffer = MmGetMdlVirtualAddress (writeMdl);
+	if (!writeBuffer)
+		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+
+	memcpy (dumpContext->WriteFilterBuffer, writeBuffer, dataLength);
 
 	GetIntersection (offset,
 		dataLength,
-		BootDriveFilterExtension->Queue.EncryptedAreaStart,
-		BootDriveFilterExtension->Queue.EncryptedAreaEnd,
+		dumpContext->BootDriveFilterExtension->Queue.EncryptedAreaStart,
+		dumpContext->BootDriveFilterExtension->Queue.EncryptedAreaEnd,
 		&intersectStart,
 		&intersectLength);
 
@@ -201,29 +254,30 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 		UINT64_STRUCT dataUnit;
 		dataUnit.Value = intersectStart / ENCRYPTION_DATA_UNIT_SIZE;
 
-		if (BootDriveFilterExtension->Queue.RemapEncryptedArea)
+		if (dumpContext->BootDriveFilterExtension->Queue.RemapEncryptedArea)
 		{
-			diskWriteOffset->QuadPart += BootDriveFilterExtension->Queue.RemappedAreaOffset;
-			dataUnit.Value += BootDriveFilterExtension->Queue.RemappedAreaDataUnitOffset;
+			diskWriteOffset->QuadPart += dumpContext->BootDriveFilterExtension->Queue.RemappedAreaOffset;
+			dataUnit.Value += dumpContext->BootDriveFilterExtension->Queue.RemappedAreaDataUnitOffset;
 		}
 
-		EncryptDataUnitsCurrentThreadEx (WriteFilterBuffer + (intersectStart - offset),
+		EncryptDataUnitsCurrentThreadEx (dumpContext->WriteFilterBuffer + (intersectStart - offset),
 			&dataUnit,
 			intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
-			BootDriveFilterExtension->Queue.CryptoInfo);
+			dumpContext->BootDriveFilterExtension->Queue.CryptoInfo);
 	}
 
-	origMdlFlags = writeMdl->MdlFlags;
+	// Replace the underlying PFN array of the write MDL to represent our encrypted buffer
+	PPFN_NUMBER dstPfnArray = MmGetMdlPfnArray (writeMdl);
+	ULONG       dstPfnCount = ADDRESS_AND_SIZE_TO_SPAN_PAGES (MmGetMdlVirtualAddress (writeMdl), MmGetMdlByteCount (writeMdl));
+	
+	PPFN_NUMBER srcPfnArray = MmGetMdlPfnArray (dumpContext->WriteFilterBufferMdl);
 
-	MmInitializeMdl (writeMdl, WriteFilterBuffer, dataLength);
-	MmBuildMdlForNonPagedPool (writeMdl);
+    // dstPfnCount should always be >= srcPfnCount
+	memcpy(dstPfnArray, srcPfnArray, dstPfnCount * sizeof(PFN_NUMBER));
 
-	// Instead of using MmGetSystemAddressForMdlSafe(), some buggy custom storage drivers may directly test MDL_MAPPED_TO_SYSTEM_VA flag,
-	// disregarding the fact that other MDL flags may be set by the system or a dump filter (e.g. MDL_SOURCE_IS_NONPAGED_POOL flag only).
-	// Therefore, to work around this issue, the original flags will be restored even if they do not match the new MDL.
-	// MS BitLocker also uses this hack/workaround (it should be safe to use until the MDL structure is changed).
-
-	writeMdl->MdlFlags = origMdlFlags;
+	writeMdl->StartVa = dumpContext->WriteFilterBufferMdl->StartVa;
+	writeMdl->ByteOffset = dumpContext->WriteFilterBufferMdl->ByteOffset;
+    writeMdl->MappedSystemVa = dumpContext->WriteFilterBufferMdl->MappedSystemVa;
 
 	return STATUS_SUCCESS;
 }
@@ -240,15 +294,12 @@ static NTSTATUS DumpFilterFinish (PFILTER_EXTENSION filterExtension)
 
 static NTSTATUS DumpFilterUnload (PFILTER_EXTENSION filterExtension)
 {
-	UNREFERENCED_PARAMETER(filterExtension);
 	Dump ("DumpFilterUnload type=%d\n", filterExtension->DumpType);
 
-	if (WriteFilterBuffer)
-	{
-		memset (WriteFilterBuffer, 0, WriteFilterBufferSize);
-		MmFreeContiguousMemory (WriteFilterBuffer);
-		WriteFilterBuffer = NULL;
-	}
+	DumpFilterContext* dumpContext = filterExtension->DumpData;
+	
+	Cleanup (dumpContext);
+	filterExtension->DumpData = NULL;
 
 	return STATUS_SUCCESS;
 }
