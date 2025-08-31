@@ -12,6 +12,7 @@
 
 #include "Hash.h"
 
+#include "Crypto/Argon2/src/blake2/blake2b.h"
 #include "Crypto/blake2s.h"
 #include "Crypto/Sha2.h"
 #include "Crypto/Whirlpool.h"

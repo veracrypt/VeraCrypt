@@ -205,7 +205,7 @@ typedef struct
 #	include "Sha2.h"
 #	include "Whirlpool.h"
 #	include "argon2.h"
-#	include "blake2b.h"
+#	include "Crypto/Argon2/src/blake2/blake2b.h"
 #	include "Streebog.h"
 #	include "kuznyechik.h"
 #	include "Camellia.h"
