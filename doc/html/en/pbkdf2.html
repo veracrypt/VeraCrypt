@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">Home</a></li>
+      <li><a href="Code.html">Source Code</a></li>
+      <li><a href="Downloads.html">Downloads</a></li>
+      <li><a class="active" href="Documentation.html">Documentation</a></li>
+      <li><a href="Donation.html">Donate</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+    </ul>
+</div>
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Key%20Derivation%20Algorithms.html">Key Derivation Algorithms</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="PBKDF2.html">PBKDF2</a>
+</p></div>
+<div class="wikidoc">
+<h1>PBKDF2</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+PBKDF2 (Password-Based Key Derivation Function 2) is a widely used KDF that applies a pseudorandom function (HMAC) repeatedly to slow down password guessing. In VeraCrypt, PBKDF2 is available with several HMAC hash functions and is used to derive the keys that decrypt a volume header.
+</div>
+
+<h3>PBKDF2-HMAC Variants Supported in VeraCrypt</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="SHA-512.html" style="color:#0080c0; text-decoration:none">SHA-512</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="SHA-256.html" style="color:#0080c0; text-decoration:none">SHA-256</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="Whirlpool.html" style="color:#0080c0; text-decoration:none">Whirlpool</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="BLAKE2s-256.html" style="color:#0080c0; text-decoration:none">BLAKE2s-256</a></strong></li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="Streebog.html" style="color:#0080c0; text-decoration:none">STREEBOG</a></strong></li>
+</ul>
+
+<h3>Parameters in VeraCrypt</h3>
+
+<h4>Salt</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+A 512-bit random salt (stored in the volume header) is mixed into the password to prevent precomputation and rainbow-table attacks.
+</div>
+
+<h4>Iteration Count</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+The number of PBKDF2 iterations depends on the selected HMAC hash, the context (e.g., system vs. non-system encryption), and the <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="color:#0080c0; text-decoration:none">PIM</a> value. Increasing PIM increases the iteration count and thus the time required to derive keys. For exact values and formulas, see <a href="Header%20Key%20Derivation.html" style="color:#0080c0; text-decoration:none">Header Key Derivation, Salt, and Iteration Count</a>.
+</div>
+
+<h4>Output Length</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+The derived key length depends on the selected encryption algorithm(s) (e.g., 256 bits for AES-256, 768 bits for AES-Twofish-Serpent cascades).
+</div>
+
+<h3>Advantages and Considerations</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>Broad compatibility:</strong> PBKDF2 is widely supported across platforms and environments.</li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>Low memory requirements:</strong> Suitable for constrained systems.</li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><strong>Not memory-hard:</strong> Compared to <a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a>, PBKDF2 offers less resistance to attacks using massively parallel hardware (GPUs/ASICs). Consider raising PIM if you must use PBKDF2.</li>
+</ul>
+
+<h3>Related Topics</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Key%20Derivation%20Algorithms.html" style="color:#0080c0; text-decoration:none">Key Derivation Algorithms (overview)</a></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Header%20Key%20Derivation.html" style="color:#0080c0; text-decoration:none">Header Key Derivation, Salt, and Iteration Count</a></li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="color:#0080c0; text-decoration:none">Personal Iterations Multiplier (PIM)</a></li>
+</ul>
+</div><div class="ClearBoth"></div></body></html>

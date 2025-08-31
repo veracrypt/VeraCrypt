@@ -1667,7 +1667,7 @@ Information about Corsican localization:
 	    <entry lang="co" key="IDC_DISABLE_SCREEN_PROTECTION">Disattivà a prutezzione contr’à e catture di screnu è l’arregistramentu di screnu</entry>
 	    <entry lang="co" key="DISABLE_SCREEN_PROTECTION_WARNING">AVERTIMENTU : A disattivazione di a prutezzione di screnu riduce forte a sicurità. Attivà st’ozzione SOLU s’è vo avete un bisognu specificu di catturà l’interfaccia di VeraCrypt. Què pò palisà i dati sensibile à l’attrezzi di screnu è à e funzioni d’arregistramentu di screnu cum’è Windows 11 Recall.</entry>
 	    <entry lang="co" key="MEMORY_COST">Costu di a memoria</entry>
-		<entry lang="co" key="IDT_KDF_ALGO">Cudificazione KDF</entry>
+	    <entry lang="co" key="IDT_KDF_ALGO">Cudificazione KDF</entry>
 	    <entry lang="co" key="IDD_PREFERENCES_TAB_GENERAL">Generale</entry>
 	    <entry lang="co" key="IDD_PREFERENCES_TAB_ACTIONS">Azzioni</entry>
 	    <entry lang="co" key="IDD_PREFERENCES_TAB_PASSWORD">Parolla d’intesa</entry>
