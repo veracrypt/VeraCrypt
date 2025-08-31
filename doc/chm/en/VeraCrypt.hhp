@@ -13,6 +13,7 @@ Title=VeraCrypt User Guide
 Acknowledgements.html
 Additional Security Requirements and Precautions.html
 AES.html
+Argon2id.html
 arrow_right.gif
 Authenticity and Integrity.html
 Authors.html
@@ -90,6 +91,7 @@ Incompatibilities.html
 Introduction.html
 Issues and Limitations.html
 Journaling File Systems.html
+Key Derivation Algorithms.html
 Keyfiles in VeraCrypt.html
 Keyfiles in VeraCrypt_Image_040.gif
 Keyfiles.html
@@ -111,6 +113,7 @@ Notation.html
 Paging File.html
 Parallelization.html
 paypal_30x30.png
+pbkdf2.html
 Personal Iterations Multiplier (PIM).html
 Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step1.png
 Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step2.png

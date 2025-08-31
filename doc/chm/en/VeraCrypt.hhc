@@ -208,6 +208,20 @@
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Key Derivation Algorithms">
+		<param name="Local" value="Key Derivation Algorithms.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Argon2id">
+			<param name="Local" value="Argon2id.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="PBKDF2">
+			<param name="Local" value="pbkdf2.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Supported Operating Systems">
 		<param name="Local" value="Supported Operating Systems.html">
 		</OBJECT>
