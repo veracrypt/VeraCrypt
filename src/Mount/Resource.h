@@ -22,6 +22,9 @@
 #define IDD_FAVORITE_VOLUMES            117
 #define IDD_DEFAULT_MOUNT_PARAMETERS    118
 #define IDD_EFI_SYSENC_SETTINGS         119
+#define IDD_PREFERENCES_TAB_GENERAL     120
+#define IDD_PREFERENCES_TAB_ACTIONS     121
+#define IDD_PREFERENCES_TAB_PASSWORD    122
 #define IDC_PREF_MOUNT_READONLY         1000
 #define IDC_PREF_MOUNT_REMOVABLE        1001
 #define IDC_VERIFY                      1002
@@ -201,6 +204,7 @@
 #define IDC_ENABLE_EMV_SUPPORT          1179
 #define IDT_EMV_OPTIONS                 1180
 #define IDC_DISABLE_SCREEN_PROTECTION   1181
+#define IDC_PREF_TAB                    1182
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -276,9 +280,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        120
+#define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40070
-#define _APS_NEXT_CONTROL_VALUE         1182
+#define _APS_NEXT_CONTROL_VALUE         1183
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

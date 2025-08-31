@@ -1648,6 +1648,9 @@
     <entry lang="tr" key="DISABLE_SCREEN_PROTECTION_WARNING">UYARI: Ekran korumasını devre dışı bırakmak güvenliği önemli ölçüde azaltır. Bu seçeneği YALNIZCA VeraCrypt arayüzünü yakalamak için özel bir ihtiyacınız varsa etkinleştirin. Bu işlem, hassas verilerin ekran görüntüsü araçları ve Windows 11 Recall gibi ekran kaydı özelliklerine maruz kalmasına neden olabilir.</entry>
     <entry lang="tr" key="MEMORY_COST">Bellek Maliyeti</entry>
     <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

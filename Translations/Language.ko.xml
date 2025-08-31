@@ -1648,6 +1648,9 @@
     <entry lang="ko" key="DISABLE_SCREEN_PROTECTION_WARNING">경고: 화면 보호를 비활성화하면 보안이 크게 저하됩니다. VeraCrypt 인터페이스를 캡처해야 하는 특별한 필요가 있을 때만 이 옵션을 활성화하세요. 이 설정은 스크린샷 도구 및 Windows 11 Recall과 같은 화면 녹화 기능에 민감한 데이터가 노출될 수 있습니다.</entry>
     <entry lang="ko" key="MEMORY_COST">메모리 사용량</entry>
     <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

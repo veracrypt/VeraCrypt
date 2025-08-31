@@ -1648,6 +1648,9 @@
     <entry lang="nl" key="DISABLE_SCREEN_PROTECTION_WARNING">WAARSCHUWING: Het uitschakelen van schermbeveiliging vermindert de veiligheid aanzienlijk. Schakel deze optie ALLEEN in als u een specifieke noodzaak hebt om de interface van VeraCrypt vast te leggen. Dit kan gevoelige gegevens blootstellen aan schermafbeeldingstools en schermopnamefuncties zoals Windows 11 Recall.</entry>
     <entry lang="nl" key="MEMORY_COST">Geheugenkosten</entry>
     <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
