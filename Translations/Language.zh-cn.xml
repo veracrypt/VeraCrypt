@@ -1648,10 +1648,10 @@
     <entry lang="zh-cn" key="IDC_DISABLE_SCREEN_PROTECTION">禁用屏幕截图与录屏保护</entry>
     <entry lang="zh-cn" key="DISABLE_SCREEN_PROTECTION_WARNING">警告：禁用屏幕截图与录屏保护会显著降低安全性。仅当您有特定需求捕获 VeraCrypt 界面时，才需启用此选项。这可能会使敏感数据暴露给屏幕截图工具和 Windows 11 Recall 等录屏功能。</entry>
     <entry lang="zh-cn" key="MEMORY_COST">内存成本</entry>
-    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
+    <entry lang="zh-cn" key="IDT_KDF_ALGO">KDF算法</entry>
+    <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_GENERAL">常规</entry>
+    <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_ACTIONS">动作</entry>
+    <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_PASSWORD">密码</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
