@@ -1647,10 +1647,10 @@
     <entry lang="sv" key="IDC_DISABLE_SCREEN_PROTECTION">Inaktivera skydd mot skärmdumpar och skärminspelning</entry>
     <entry lang="sv" key="DISABLE_SCREEN_PROTECTION_WARNING">VARNING: Att inaktivera skärmskydd minskar säkerheten avsevärt. Aktivera det här alternativet ENDAST om du har ett specifikt behov av att fånga VeraCrypts gränssnitt. Detta kan exponera känslig information för skärmdumpsverktyg och skärminspelningsfunktioner, såsom Windows 11 Recall.</entry>
     <entry lang="sv" key="MEMORY_COST">Minnesåtgång</entry>
-    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
+    <entry lang="en" key="IDT_KDF_ALGO">KDF-algoritmen</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">Allmänt</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Åtgärder</entry>
+    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Lösenord</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
