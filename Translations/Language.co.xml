@@ -6,7 +6,8 @@ Information about Corsican localization:
 	https://github.com/veracrypt/VeraCrypt/blob/master/Translations/Language.co.xml
 
 2. History of Corsican translation for VeraCrypt:
-	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.26)
+	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.26),
+	          Aug. 31th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
@@ -19,8 +20,8 @@ Information about Corsican localization:
 	https://github.com/Patriccollu/Lingua_Corsa-Infurmatica/blob/ceppu/Prughjetti/VeraCrypt/Traduzzione.md
 -->
 <VeraCrypt>
-	<localization prog-version="1.26.26">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.4.9" translators="Patriccollu di Santa Maria è Sichè"/>
+	<localization prog-version="1.26.27">
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.0" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -1666,10 +1667,10 @@ Information about Corsican localization:
 	    <entry lang="co" key="IDC_DISABLE_SCREEN_PROTECTION">Disattivà a prutezzione contr’à e catture di screnu è l’arregistramentu di screnu</entry>
 	    <entry lang="co" key="DISABLE_SCREEN_PROTECTION_WARNING">AVERTIMENTU : A disattivazione di a prutezzione di screnu riduce forte a sicurità. Attivà st’ozzione SOLU s’è vo avete un bisognu specificu di catturà l’interfaccia di VeraCrypt. Què pò palisà i dati sensibile à l’attrezzi di screnu è à e funzioni d’arregistramentu di screnu cum’è Windows 11 Recall.</entry>
 	    <entry lang="co" key="MEMORY_COST">Costu di a memoria</entry>
-	    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-	    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-	    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-	    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
+	    <entry lang="co" key="IDT_KDF_ALGO">Cudificazione KDF</entry>
+	    <entry lang="co" key="IDD_PREFERENCES_TAB_GENERAL">Generale</entry>
+	    <entry lang="co" key="IDD_PREFERENCES_TAB_ACTIONS">Azzioni</entry>
+	    <entry lang="co" key="IDD_PREFERENCES_TAB_PASSWORD">Parolla d’intesa</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
