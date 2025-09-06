@@ -25,6 +25,16 @@ typedef struct _DumpFilterContext
 	PMDL WriteFilterBufferMdl;
 } DumpFilterContext;
 
+// In crash/hibernate paths, execution can be at HIGH_LEVEL and many memory manager
+// DDIs are illegal (documented as IRQL <= DISPATCH_LEVEL). The dump stack expects
+// a filter to be mostly passive: supply physical pages and avoid mapping/locking.
+// We therefore pre-build an MDL for a private nonpaged scratch buffer at init time
+// and, at write time we ONLY swap PFNs into the caller's MDL. We do not call:
+//   - MmInitializeMdl
+//   - MmBuildMdlForNonPagedPool
+//   - MmGetSystemAddressForMdlSafe
+//
+
 static void Cleanup(DumpFilterContext* dumpContext)
 {
 	if (!dumpContext)
@@ -156,11 +166,34 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	dumpContext->WriteFilterBufferSize = ((SIZE_T)filterInitData->MaxPagesPerWrite) * PAGE_SIZE;
 
 	lowestAcceptableWriteBufferAddr.QuadPart = 0;
-	highestAcceptableWriteBufferAddr.QuadPart = -1; // QWORD_MAX
+	//
+	// Historical behavior: allocate below 0x7FFFFFFFFFF (old driver cap).
+	// Some storage stacks in dump context behaved better with lower PFNs.
+	// Try conservative cap first, then fall back to no cap if needed.
+	highestAcceptableWriteBufferAddr.QuadPart = 0x7FFFFFFFFFFLL;
 	highestAcceptableBoundaryWriteBufferAddr.QuadPart = 0;
 
-	// Allocate resident scratch buffer as READ/WRITE only and contiguous
-	dumpContext->WriteFilterBuffer = MmAllocateContiguousNodeMemory (dumpContext->WriteFilterBufferSize, lowestAcceptableWriteBufferAddr, highestAcceptableWriteBufferAddr, highestAcceptableBoundaryWriteBufferAddr, PAGE_READWRITE, MM_ANY_NODE_OK);
+	// Allocate resident scratch buffer as READ/WRITE only and contiguous.
+	dumpContext->WriteFilterBuffer = MmAllocateContiguousNodeMemory(
+		dumpContext->WriteFilterBufferSize,
+		lowestAcceptableWriteBufferAddr,
+		highestAcceptableWriteBufferAddr,
+		highestAcceptableBoundaryWriteBufferAddr,
+		PAGE_READWRITE,
+		MM_ANY_NODE_OK);
+
+	if (!dumpContext->WriteFilterBuffer)
+	{
+		// Fallback: lift the cap if the conservative allocation failed.
+		highestAcceptableWriteBufferAddr.QuadPart = (LONGLONG)-1; // QWORD_MAX
+		dumpContext->WriteFilterBuffer = MmAllocateContiguousNodeMemory(
+			dumpContext->WriteFilterBufferSize,
+			lowestAcceptableWriteBufferAddr,
+			highestAcceptableWriteBufferAddr,
+			highestAcceptableBoundaryWriteBufferAddr,
+			PAGE_READWRITE,
+			MM_ANY_NODE_OK);
+	}
 	if (!dumpContext->WriteFilterBuffer)
 	{
 		status = STATUS_INSUFFICIENT_RESOURCES;
@@ -233,8 +266,9 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 	if ((offset & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
 		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 
-    // We're in trouble if the given MDL is not mapped to system address space as we're not allowed to call MmGetSystemAddressForMdlSafe() at HIGH_LEVEL IRQL.
-	ASSERT (writeMdl->MdlFlags & (MDL_MAPPED_TO_SYSTEM_VA | MDL_SOURCE_IS_NONPAGED_POOL));
+	// Require either a valid mapping or a nonpaged system VA we can read at HIGH_LEVEL.
+	if ((writeMdl->MdlFlags & (MDL_MAPPED_TO_SYSTEM_VA | MDL_SOURCE_IS_NONPAGED_POOL)) == 0)
+		TC_BUG_CHECK(STATUS_INVALID_PARAMETER);
 
 	writeBuffer = MmGetMdlVirtualAddress (writeMdl);
 	if (!writeBuffer)
@@ -266,18 +300,44 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 			dumpContext->BootDriveFilterExtension->Queue.CryptoInfo);
 	}
 
-	// Replace the underlying PFN array of the write MDL to represent our encrypted buffer
-	PPFN_NUMBER dstPfnArray = MmGetMdlPfnArray (writeMdl);
-	ULONG       dstPfnCount = ADDRESS_AND_SIZE_TO_SPAN_PAGES (MmGetMdlVirtualAddress (writeMdl), MmGetMdlByteCount (writeMdl));
-	
-	PPFN_NUMBER srcPfnArray = MmGetMdlPfnArray (dumpContext->WriteFilterBufferMdl);
+	//
+	// Intercept the write: data is now encrypted in our scratch buffer.
+	// We re-point the caller's MDL to our pages by copying PFNs from our
+	// pre-built MDL. We cannot call MmBuildMdlForNonPagedPool here
+	// (forbidden at HIGH_LEVEL).
 
-    // dstPfnCount should always be >= srcPfnCount
-	memcpy(dstPfnArray, srcPfnArray, dstPfnCount * sizeof(PFN_NUMBER));
+	// Get pointers to the Page Frame Number (PFN) arrays for both MDLs.
+	PPFN_NUMBER dstPfnArray = MmGetMdlPfnArray(writeMdl);
+	PPFN_NUMBER srcPfnArray = MmGetMdlPfnArray(dumpContext->WriteFilterBufferMdl);
 
-	writeMdl->StartVa = dumpContext->WriteFilterBufferMdl->StartVa;
-	writeMdl->ByteOffset = dumpContext->WriteFilterBufferMdl->ByteOffset;
-    writeMdl->MappedSystemVa = dumpContext->WriteFilterBufferMdl->MappedSystemVa;
+	// Number of PFNs required to describe the DESTINATION MDL’s span.
+	// Using the dest MDL avoids subtle off-by-one/unaligned cases.
+	ULONG dstPages = ADDRESS_AND_SIZE_TO_SPAN_PAGES(
+		MmGetMdlVirtualAddress(writeMdl),
+		MmGetMdlByteCount(writeMdl));
+
+	// Total PFN capacity available in our SCRATCH MDL.
+	ULONG srcCapacityPages = ADDRESS_AND_SIZE_TO_SPAN_PAGES(
+		MmGetMdlVirtualAddress(dumpContext->WriteFilterBufferMdl),
+		MmGetMdlByteCount(dumpContext->WriteFilterBufferMdl));
+
+	// Sanity: scratch must be large enough to back this I/O.
+	if (dstPages > srcCapacityPages)
+		TC_BUG_CHECK(STATUS_BUFFER_TOO_SMALL);
+
+	// Copy exactly the PFNs required by the destination MDL’s span.
+	RtlCopyMemory(dstPfnArray, srcPfnArray, dstPages * sizeof(PFN_NUMBER));
+
+	//
+	// Retarget MDL header fields to match the PFNs we just supplied.
+	// NOTE: We intentionally don't modify MdlFlags.
+	// This preserves the historical quirk where fields describe a
+	// nonpaged/system VA while flags may not advertise a mapping.
+	// Several lower stacks have relied on this behavior for years.
+	//
+	writeMdl->StartVa        = dumpContext->WriteFilterBufferMdl->StartVa;
+	writeMdl->ByteOffset     = dumpContext->WriteFilterBufferMdl->ByteOffset;
+	writeMdl->MappedSystemVa = dumpContext->WriteFilterBufferMdl->MappedSystemVa;
 
 	return STATUS_SUCCESS;
 }
@@ -298,8 +358,11 @@ static NTSTATUS DumpFilterUnload (PFILTER_EXTENSION filterExtension)
 
 	DumpFilterContext* dumpContext = filterExtension->DumpData;
 	
-	Cleanup (dumpContext);
-	filterExtension->DumpData = NULL;
+	// Defensive: in normal flow DumpData is set. We tolerate NULL to be safe.
+	if (dumpContext) {
+		Cleanup (dumpContext);
+		filterExtension->DumpData = NULL;
+	}
 
 	return STATUS_SUCCESS;
 }
