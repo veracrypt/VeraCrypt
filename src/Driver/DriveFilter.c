@@ -987,11 +987,28 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 		ClearSecurityParameters ();
 	}
 
-	PoStartNextPowerIrp (Irp);
-
 	status = IoAcquireRemoveLock (&Extension->Queue.RemoveLock, Irp);
 	if (!NT_SUCCESS (status))
 		return TCCompleteIrp (Irp, status, 0);
+
+	switch (irpSp->MinorFunction)
+	{
+		// Veto power state changes on mounted drives 
+		case IRP_MN_QUERY_POWER:
+		{
+			if (irpSp->Parameters.Power.Type == DevicePowerState)
+			{
+				DEVICE_POWER_STATE requestedState = irpSp->Parameters.Power.State.DeviceState;
+
+				// Is this too broad?
+				if (requestedState > PowerDeviceD0 && Extension->DriveMounted)
+				{
+					IoReleaseRemoveLock(&Extension->Queue.RemoveLock, Irp);
+					return TCCompleteIrp(Irp, STATUS_UNSUCCESSFUL, 0);
+				}
+			}
+		}
+	}
 
 	IoSkipCurrentIrpStackLocation (Irp);
 	status = PoCallDriver (Extension->LowerDeviceObject, Irp);
