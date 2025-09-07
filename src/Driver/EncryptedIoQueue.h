@@ -46,6 +46,7 @@ typedef struct _COMPLETE_IRP_WORK_ITEM
 	ULONG_PTR Information;
 	void* Item;
 	LIST_ENTRY ListEntry; // For managing free work items
+	BOOLEAN FromPool;     // TRUE if taken from prealloc pool
 } COMPLETE_IRP_WORK_ITEM, * PCOMPLETE_IRP_WORK_ITEM;
 
 typedef struct
@@ -86,8 +87,8 @@ typedef struct
 	KSPIN_LOCK IoThreadQueueLock;
 	KEVENT IoThreadQueueNotEmptyEvent;
 
-	// Completion thread
-	PKTHREAD CompletionThread;
+	// Completion threads
+	PKTHREAD CompletionThreads[2]; // two threads to handle completions
 	LIST_ENTRY CompletionThreadQueue;
 	KSPIN_LOCK CompletionThreadQueueLock;
 	KEVENT CompletionThreadQueueNotEmptyEvent;
@@ -140,11 +141,16 @@ typedef struct
 	PCOMPLETE_IRP_WORK_ITEM WorkItemPool;
 	ULONG MaxWorkItems;
 	LIST_ENTRY FreeWorkItemsList;
-	KSEMAPHORE WorkItemSemaphore;
 	KSPIN_LOCK WorkItemLock;
+
+	// Backoff (ms) when overflow work-item alloc fails. grows up to 32ms, reset on success
+	ULONG OverflowBackoffMs;
 
 	volatile LONG ActiveWorkItems;
 	KEVENT NoActiveWorkItemsEvent;
+
+	// signaled whenever a pooled work item returns to the free list
+    KEVENT WorkItemAvailableEvent;
 }  EncryptedIoQueue;
 
 
@@ -156,6 +162,7 @@ typedef struct
 	ULONG OriginalLength;
 	LARGE_INTEGER OriginalOffset;
 	NTSTATUS Status;
+	ULONG_PTR BytesCompleted; // actual bytes transferred across all fragments
 
 #ifdef TC_TRACE_IO_QUEUE
 	LARGE_INTEGER OriginalIrpOffset;
@@ -175,6 +182,8 @@ typedef struct
 	ULONG EncryptedLength;
 	uint8 *Data;
 	uint8 *OrigDataBufferFragment;
+	ULONG ActualBytes; // actual bytes transferred for this fragment (0 on failure)
+	UCHAR WiRetryCount; // count how many times we failed to get a work item
 
 	LIST_ENTRY ListEntry;
 	LIST_ENTRY CompletionListEntry;
