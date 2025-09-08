@@ -143,9 +143,6 @@ typedef struct
 	LIST_ENTRY FreeWorkItemsList;
 	KSPIN_LOCK WorkItemLock;
 
-	// Backoff (ms) when overflow work-item alloc fails. grows up to 32ms, reset on success
-	ULONG OverflowBackoffMs;
-
 	volatile LONG ActiveWorkItems;
 	KEVENT NoActiveWorkItemsEvent;
 

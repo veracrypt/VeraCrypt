@@ -266,22 +266,22 @@ UpdateBuffer(
 			uint64 sectorLength = DeList->DE[i].Sectors.Length;
 			uint64 sectorOffset = DeList->DE[i].Sectors.Offset;
 
-			// Check that sectorOffset and sectorLength are valid within secRegion
+			// Check that sectorOffset and sectorLength are valid within secRegion (guard against overflow)
+			ULONGLONG regionBoundEnd; // sectorOffset + sectorLength
 			if (sectorOffset > (uint64)secRegionSize ||
 				sectorLength == 0 ||
-				(sectorOffset + sectorLength) > (uint64)secRegionSize)
+				FAILED(ULongLongAdd(sectorOffset, sectorLength, &regionBoundEnd)) ||
+				regionBoundEnd > (ULONGLONG)secRegionSize)
 			{
 				// Invalid entry - skip
 				continue;
 			}
 
-			// Safely compute end = start + length - 1 (guard against overflow)
-			ULONGLONG secEnd;
-			HRESULT hr;
-			// sectorLength != 0 already checked above
-			hr = ULongLongAdd(sectorStart, sectorLength - 1, &secEnd);
-			if (hr != S_OK)
-				secEnd = (ULONGLONG)-1;
+			// Safely compute inclusive end = start + length - 1
+			ULONGLONG secEnd, tmp;
+			if (FAILED(ULongLongAdd(sectorStart, sectorLength, &tmp)) || tmp == 0)
+				continue; // invalid descriptor (overflow or zero)
+			secEnd = tmp - 1;
 
 			GetIntersection(
 				bufferDiskOffset, bufferLength,
@@ -293,12 +293,16 @@ UpdateBuffer(
 				uint64 bufferPos = intersectStart - bufferDiskOffset;
 				uint64 regionPos = sectorOffset + (intersectStart - sectorStart);
 
-				// Check buffer boundaries
-				if (bufferPos + intersectLength > bufferLength)
+				// Check buffer boundaries using safe add
+				ULONGLONG bufEndCheck;
+				if (FAILED(ULongLongAdd(bufferPos, (ULONGLONG)intersectLength, &bufEndCheck)) ||
+					bufEndCheck > (ULONGLONG)bufferLength)
 					continue; // Intersection out of buffer range
 
-				// Check secRegion boundaries
-				if (regionPos + intersectLength > secRegionSize)
+				// Check secRegion boundaries using safe add
+				ULONGLONG regEndCheck;
+				if (FAILED(ULongLongAdd(regionPos, (ULONGLONG)intersectLength, &regEndCheck)) ||
+					regEndCheck > (ULONGLONG)secRegionSize)
 					continue; // Intersection out of secRegion range
 
 				updated = TRUE;
@@ -449,12 +453,10 @@ static BOOLEAN HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoReq
 									&queue->CompletionThreadQueueLock);
 		KeSetEvent(&queue->CompletionThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
 
-		// Prefer waiting on a real signal over blind sleeps
-		if (queue->OverflowBackoffMs == 0) queue->OverflowBackoffMs = 1;
-		LARGE_INTEGER duetime; duetime.QuadPart = -(LONGLONG)queue->OverflowBackoffMs * 10000;
-		// Wait briefly for a pooled work item to be returned
+		// Prefer waiting on a real signal over blind sleeps (per-request exponential backoff 1...32ms)
+		ULONG backoff = 1u << min(request->WiRetryCount - 1, 5); // 1,2,4,8,16,32
+		LARGE_INTEGER duetime; duetime.QuadPart = -(LONGLONG)backoff * 10000;
 		KeWaitForSingleObject(&queue->WorkItemAvailableEvent, Executive, KernelMode, FALSE, &duetime);
-		if (queue->OverflowBackoffMs < 32) queue->OverflowBackoffMs <<= 1;
 
 		return FALSE; // we requeued so caller must not free request
 	}
@@ -469,7 +471,6 @@ static BOOLEAN HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoReq
 	wi->Item		= request->Item;
 
 	IoQueueWorkItem(wi->WorkItem, CompleteIrpWorkItemRoutine, DelayedWorkQueue, wi);
-	queue->OverflowBackoffMs = 0;
 
 	return TRUE; // caller should free request
 }
@@ -1371,7 +1372,6 @@ retry_preallocated:
 	KeInitializeSpinLock(&queue->WorkItemLock);
 	KeInitializeEvent(&queue->WorkItemAvailableEvent, SynchronizationEvent, FALSE);
 
-	queue->OverflowBackoffMs = 1;
 	queue->MaxWorkItems = EncryptionMaxWorkItems;
 	// Enforce [1, VC_MAX_WORK_ITEMS]
 	if (queue->MaxWorkItems == 0)
