@@ -332,37 +332,31 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	KIRQL oldIrql;
 	UNREFERENCED_PARAMETER(DeviceObject);
 
-	__try
+	// Complete IRP
+	TCCompleteDiskIrp(workItem->Irp, workItem->Status, workItem->Information);
+
+	// Centralized accounting and cleanup
+	item->Status = workItem->Status;
+	item->BytesCompleted = workItem->Information;
+	OnItemCompleted(item, TRUE); // releases RemoveLock last
+
+	// Return or free the work item depending on origin
+	if (workItem->FromPool)
 	{
-		// Complete IRP
-		TCCompleteDiskIrp(workItem->Irp, workItem->Status, workItem->Information);
-
-		// Centralized accounting and cleanup
-		item->Status = workItem->Status;
-		item->BytesCompleted = workItem->Information;
-		OnItemCompleted(item, TRUE); // releases RemoveLock last
-
-		// Return or free the work item depending on origin
-		if (workItem->FromPool)
-		{
-			KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
-			InsertTailList(&queue->FreeWorkItemsList, &workItem->ListEntry);
-			KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
-			// immediately wake any waiter
-			KeSetEvent(&queue->WorkItemAvailableEvent, IO_DISK_INCREMENT, FALSE);
-		}
-		else
-		{
-			IoFreeWorkItem(workItem->WorkItem);
-			TCfree(workItem);
-		}
-
-		if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
-			KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_DISK_INCREMENT, FALSE);
+		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
+		InsertTailList(&queue->FreeWorkItemsList, &workItem->ListEntry);
+		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
+		// immediately wake any waiter
+		KeSetEvent(&queue->WorkItemAvailableEvent, IO_DISK_INCREMENT, FALSE);
 	}
-	__finally
+	else
 	{
+		IoFreeWorkItem(workItem->WorkItem);
+		TCfree(workItem);
 	}
+
+	if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
+		KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_DISK_INCREMENT, FALSE);
 }
 
 // Helper: acquire a completion work item (from pool if available, else elastic allocation)
