@@ -2992,21 +2992,13 @@ void TCStopVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 
 
 // Suspend current thread for a number of milliseconds
-void TCSleep (int milliSeconds)
+// Must be called at IRQL <= APC_LEVEL
+VOID TCSleep(ULONG milliSeconds)
 {
-	PKTIMER timer = (PKTIMER) TCalloc (sizeof (KTIMER));
-	LARGE_INTEGER duetime;
-
-	if (!timer)
-		return;
-
-	duetime.QuadPart = (__int64) milliSeconds * -10000;
-	KeInitializeTimerEx(timer, NotificationTimer);
-	KeSetTimerEx(timer, duetime, 0, NULL);
-
-	KeWaitForSingleObject (timer, Executive, KernelMode, FALSE, NULL);
-
-	TCfree (timer);
+    LARGE_INTEGER interval;
+    interval.QuadPart = -(LONGLONG)milliSeconds * 10000; // 100 ns units
+    ASSERT(KeGetCurrentIrql() <= APC_LEVEL);
+    (void)KeDelayExecutionThread(KernelMode, FALSE, &interval);
 }
 
 BOOL IsDeviceName(wchar_t wszVolume[TC_MAX_PATH])

@@ -151,7 +151,7 @@ NTSTATUS TCStartVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension,
 void TCStopThread (PKTHREAD kThread, PKEVENT wakeUpEvent);
 void TCStopVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension);
 VOID VolumeThreadProc (PVOID Context);
-void TCSleep (int milliSeconds);
+void TCSleep (ULONG milliSeconds);
 void TCGetNTNameFromNumber (LPWSTR ntname, int cbNtName, int nDriveNo);
 void TCGetDosNameFromNumber (LPWSTR dosname, int cbDosName, int nDriveNo, DeviceNamespaceType namespaceType);
 LPWSTR TCTranslateCode (ULONG ulCode);
