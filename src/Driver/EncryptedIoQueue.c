@@ -1046,6 +1046,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
 				if (!request)
 				{
+					InterlockedDecrement(&queue->IoThreadPendingRequestCount);
 					CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
 					break;
 				}
