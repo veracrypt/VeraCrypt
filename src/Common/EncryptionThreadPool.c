@@ -196,13 +196,16 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 #ifdef DEVICE_DRIVER
 		SetThreadCpuGroupAffinity ((USHORT) *(WORD*)(threadArg));
 #else
-		SetThreadGroupAffinityFn SetThreadGroupAffinityPtr = (SetThreadGroupAffinityFn) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "SetThreadGroupAffinity");
-		if (SetThreadGroupAffinityPtr && threadArg)
+		if (threadArg)
 		{
+			GROUP_AFFINITY oldAffinity;
 			GROUP_AFFINITY groupAffinity = {0};
-			groupAffinity.Mask = ~0ULL;
-			groupAffinity.Group = *(WORD*)(threadArg);
-			SetThreadGroupAffinityPtr(GetCurrentThread(), &groupAffinity, NULL);
+			WORD groupIndex = *(WORD*)(threadArg);
+			DWORD activeProcessorCount = GetActiveProcessorCount(groupIndex);
+			KAFFINITY mask = (activeProcessorCount >= 64) ? ~0ULL : ((1ULL << activeProcessorCount) - 1);
+			groupAffinity.Mask = mask;
+			groupAffinity.Group = groupIndex;
+			SetThreadGroupAffinity(GetCurrentThread(), &groupAffinity, &oldAffinity);
 		}
 	
 #endif
@@ -464,7 +467,7 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 				for (j = 0U; j < groupCount; j++)
 				{
 					totalProcessors += (uint32) GetActiveProcessorCountPtr(j);
-					if (totalProcessors >= ThreadCount)
+					if (totalProcessors > ThreadCount)
 					{
 						ThreadProcessorGroups[ThreadCount] = j;
 						break;
