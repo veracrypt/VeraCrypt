@@ -910,8 +910,13 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 			RestoreTimeStamp (Extension);
 		}
 		ZwClose (Extension->hDeviceFile);
+		Extension->hDeviceFile = NULL;
 	}
-	ObDereferenceObject (Extension->pfoDeviceFile);
+	if (Extension->pfoDeviceFile != NULL)
+	{
+		ObDereferenceObject (Extension->pfoDeviceFile);
+		Extension->pfoDeviceFile = NULL;
+	}
 	if (Extension->cryptoInfo)
 	{
 		crypto_close (Extension->cryptoInfo);
