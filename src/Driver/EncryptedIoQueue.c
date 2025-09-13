@@ -19,7 +19,6 @@
 #include "Volumes.h"
 #include <IntSafe.h>
 
-#define MAX_WI_RETRIES 8
 
 static void AcquireBufferPoolMutex (EncryptedIoQueue *queue)
 {
@@ -161,23 +160,19 @@ static void DecrementOutstandingIoCount (EncryptedIoQueue *queue)
 
 static void OnItemCompleted (EncryptedIoQueueItem *item, BOOL freeItem)
 {
-	EncryptedIoQueue* queue = item->Queue;
-	PIRP originalIrp = item->OriginalIrp;
+	DecrementOutstandingIoCount (item->Queue);
+	IoReleaseRemoveLock (&item->Queue->RemoveLock, item->OriginalIrp);
 
 	if (NT_SUCCESS (item->Status))
 	{
 		if (item->Write)
-			queue->TotalBytesWritten += item->BytesCompleted;
+			item->Queue->TotalBytesWritten += item->OriginalLength;
 		else
-			queue->TotalBytesRead += item->BytesCompleted;
+			item->Queue->TotalBytesRead += item->OriginalLength;
 	}
-	DecrementOutstandingIoCount (queue);
 
 	if (freeItem)
-		ReleasePoolBuffer (queue, item);
-
-	// Release the RemoveLock last after we are done touching the queue
-	IoReleaseRemoveLock (&queue->RemoveLock, originalIrp);
+		ReleasePoolBuffer (item->Queue, item);
 }
 
 
@@ -323,7 +318,6 @@ UpdateBuffer(
 	return updated;
 }
 
-// Note: completes the IRP and releases the RemoveLock last (after all queue accesses)
 static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Context)
 {
 	PCOMPLETE_IRP_WORK_ITEM workItem = (PCOMPLETE_IRP_WORK_ITEM)Context;
@@ -332,141 +326,71 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	KIRQL oldIrql;
 	UNREFERENCED_PARAMETER(DeviceObject);
 
-	// Complete IRP
-	TCCompleteDiskIrp(workItem->Irp, workItem->Status, workItem->Information);
-
-	// Centralized accounting and cleanup
-	item->Status = workItem->Status;
-	item->BytesCompleted = workItem->Information;
-	OnItemCompleted(item, TRUE); // releases RemoveLock last
-
-	// Return or free the work item depending on origin
-	if (workItem->FromPool)
+	__try
 	{
+		// Complete the IRP
+		TCCompleteDiskIrp(workItem->Irp, workItem->Status, workItem->Information);
+
+		item->Status = workItem->Status;
+		OnItemCompleted(item, FALSE); // Do not free item here; it will be freed below
+	}
+	__finally
+	{
+		// If no active work items remain, signal the event
+		if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
+		{
+			KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_DISK_INCREMENT, FALSE);
+		}
+
+		// Return the work item to the free list
 		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
 		InsertTailList(&queue->FreeWorkItemsList, &workItem->ListEntry);
 		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
-		// immediately wake any waiter
-		KeSetEvent(&queue->WorkItemAvailableEvent, IO_DISK_INCREMENT, FALSE);
+
+		// Release the semaphore to signal that a work item is available
+		KeReleaseSemaphore(&queue->WorkItemSemaphore, IO_DISK_INCREMENT, 1, FALSE);
+
+		// Free the item
+		ReleasePoolBuffer(queue, item);
+	}
+}
+
+// Handles the completion of the original IRP.
+static VOID HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoRequest* request)
+{
+	NTSTATUS status = KeWaitForSingleObject(&queue->WorkItemSemaphore, Executive, KernelMode, FALSE, NULL);
+	if (queue->ThreadExitRequested)
+		return;
+
+	if (!NT_SUCCESS(status))
+	{
+		// Handle wait failure: we call the completion routine directly. 
+		// This is not ideal since it can cause deadlock that we are trying to fix but it is better than losing the IRP.
+		CompleteOriginalIrp(request->Item, STATUS_INSUFFICIENT_RESOURCES, 0);
 	}
 	else
 	{
-		IoFreeWorkItem(workItem->WorkItem);
-		TCfree(workItem);
-	}
+		// Obtain a work item from the free list.
+		KIRQL oldIrql;
+		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
+		PLIST_ENTRY freeEntry = RemoveHeadList(&queue->FreeWorkItemsList);
+		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
 
-	if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
-		KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_DISK_INCREMENT, FALSE);
-}
+		PCOMPLETE_IRP_WORK_ITEM workItem = CONTAINING_RECORD(freeEntry, COMPLETE_IRP_WORK_ITEM, ListEntry);
 
-// Helper: acquire a completion work item (from pool if available, else elastic allocation)
-static PCOMPLETE_IRP_WORK_ITEM TryAcquireCompletionWorkItem(EncryptedIoQueue* queue)
-{
-	PCOMPLETE_IRP_WORK_ITEM wi = NULL;
-	KIRQL irql;
-
-	// Try pooled work item
-	KeAcquireSpinLock(&queue->WorkItemLock, &irql);
-	if (!IsListEmpty(&queue->FreeWorkItemsList))
-	{
-		PLIST_ENTRY e = RemoveHeadList(&queue->FreeWorkItemsList);
-		wi = CONTAINING_RECORD(e, COMPLETE_IRP_WORK_ITEM, ListEntry);
-		wi->FromPool = TRUE;
-	}
-	KeReleaseSpinLock(&queue->WorkItemLock, irql);
-
-	// Elastic fallback: allocate on demand
-	if (!wi)
-	{
-		wi = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(sizeof(COMPLETE_IRP_WORK_ITEM));
-		if (wi)
-		{
-			RtlZeroMemory(wi, sizeof(*wi));
-			wi->WorkItem = IoAllocateWorkItem(queue->DeviceObject);
-			if (!wi->WorkItem) { TCfree(wi); wi = NULL; }
-			else wi->FromPool = FALSE;
-		}
-	}
-
-	return wi;
-}
-
-// Complete the original IRP: try pooled work item, then elastic, else inline.
-// Precondition: item->Status and item->BytesCompleted are set by the caller.
-static VOID FinalizeOriginalIrp(EncryptedIoQueue* queue, EncryptedIoQueueItem* item)
-{
-	// Try to get a work item (from the preallocated pool first, else elastic alloc)
-	PCOMPLETE_IRP_WORK_ITEM wi = TryAcquireCompletionWorkItem(queue);
-
-	if (wi)
-	{
+		// Increment ActiveWorkItems.
 		InterlockedIncrement(&queue->ActiveWorkItems);
 		KeResetEvent(&queue->NoActiveWorkItemsEvent);
 
-		wi->Irp		 = item->OriginalIrp;
-		wi->Status	  = item->Status;
-		wi->Information = item->BytesCompleted;
-		wi->Item		= item;
+		// Prepare the work item.
+		workItem->Irp = request->Item->OriginalIrp;
+		workItem->Status = request->Item->Status;
+		workItem->Information = NT_SUCCESS(request->Item->Status) ? request->Item->OriginalLength : 0;
+		workItem->Item = request->Item;
 
-		IoQueueWorkItem(wi->WorkItem, CompleteIrpWorkItemRoutine, DelayedWorkQueue, wi);
-		return;
+		// Queue the work item.
+		IoQueueWorkItem(workItem->WorkItem, CompleteIrpWorkItemRoutine, DelayedWorkQueue, workItem);
 	}
-
-	// Final fallback: inline completion (safe OOM path)
-	TCCompleteDiskIrp(item->OriginalIrp, item->Status, item->BytesCompleted);
-	OnItemCompleted(item, TRUE);
-}
-
-
-// Handles the completion of the original IRP.
-// Returns TRUE if the caller still owns and should free request parameter.
-// Returns FALSE if this function requeued request parameter (caller must NOT free it).
-static BOOLEAN HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoRequest* request)
-{
-	PCOMPLETE_IRP_WORK_ITEM wi = TryAcquireCompletionWorkItem(queue);
-
-	if (!wi)
-	{
-		// No work item available. Either try again later, or give up and complete inline.
-		request->WiRetryCount++;
-
-		if (request->WiRetryCount >= MAX_WI_RETRIES)
-		{
-			// Final fallback: complete inline on the completion thread (no locks held)
-			TCCompleteDiskIrp(request->Item->OriginalIrp, request->Item->Status, request->Item->BytesCompleted);
-			// Complete accounting and release resources (RemoveLock released last inside OnItemCompleted)
-			OnItemCompleted(request->Item, TRUE);
-
-			// We completed: caller should free request
-			return TRUE;
-		}
-
-		// Requeue and wait for a pooled work item to become available
-		ExInterlockedInsertTailList(&queue->CompletionThreadQueue,
-									&request->CompletionListEntry,
-									&queue->CompletionThreadQueueLock);
-		KeSetEvent(&queue->CompletionThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
-
-		// Prefer waiting on a real signal over blind sleeps (per-request exponential backoff 1...32ms)
-		ULONG backoff = 1u << min(request->WiRetryCount - 1, 5); // 1,2,4,8,16,32
-		LARGE_INTEGER duetime; duetime.QuadPart = -(LONGLONG)backoff * 10000;
-		KeWaitForSingleObject(&queue->WorkItemAvailableEvent, Executive, KernelMode, FALSE, &duetime);
-
-		return FALSE; // we requeued so caller must not free request
-	}
-
-	// Queue to system worker thread
-	InterlockedIncrement(&queue->ActiveWorkItems);
-	KeResetEvent(&queue->NoActiveWorkItemsEvent);
-
-	wi->Irp		 = request->Item->OriginalIrp;
-	wi->Status	  = request->Item->Status;
-	wi->Information = request->Item->BytesCompleted;
-	wi->Item		= request->Item;
-
-	IoQueueWorkItem(wi->WorkItem, CompleteIrpWorkItemRoutine, DelayedWorkQueue, wi);
-
-	return TRUE; // caller should free request
 }
 
 static VOID CompletionThreadProc(PVOID threadArg)
@@ -474,33 +398,48 @@ static VOID CompletionThreadProc(PVOID threadArg)
 	EncryptedIoQueue* queue = (EncryptedIoQueue*)threadArg;
 	PLIST_ENTRY listEntry;
 	EncryptedIoRequest* request;
+	UINT64_STRUCT dataUnit;
 
 	if (IsEncryptionThreadPoolRunning())
 		KeSetPriorityThread(KeGetCurrentThread(), LOW_REALTIME_PRIORITY);
 
-	for (;;)
+	while (!queue->ThreadExitRequested)
 	{
 		if (!NT_SUCCESS(KeWaitForSingleObject(&queue->CompletionThreadQueueNotEmptyEvent, Executive, KernelMode, FALSE, NULL)))
 			continue;
+
+		if (queue->ThreadExitRequested)
+			break;
 
 		while ((listEntry = ExInterlockedRemoveHeadList(&queue->CompletionThreadQueue, &queue->CompletionThreadQueueLock)))
 		{
 			request = CONTAINING_RECORD(listEntry, EncryptedIoRequest, CompletionListEntry);
 
+			if (request->EncryptedLength > 0 && NT_SUCCESS(request->Item->Status))
+			{
+				ASSERT(request->EncryptedOffset + request->EncryptedLength <= request->Offset.QuadPart + request->Length);
+				dataUnit.Value = (request->Offset.QuadPart + request->EncryptedOffset) / ENCRYPTION_DATA_UNIT_SIZE;
+
+				if (queue->CryptoInfo->bPartitionInInactiveSysEncScope)
+					dataUnit.Value += queue->CryptoInfo->FirstDataUnitNo.Value;
+				else if (queue->RemapEncryptedArea)
+					dataUnit.Value += queue->RemappedAreaDataUnitOffset;
+
+				DecryptDataUnits(request->Data + request->EncryptedOffset, &dataUnit, request->EncryptedLength / ENCRYPTION_DATA_UNIT_SIZE, queue->CryptoInfo);
+			}
+//			Dump("Read sector %lld count %d\n", request->Offset.QuadPart >> 9, request->Length >> 9);
+			// Update subst sectors
+			if((queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)) {
+				UpdateBuffer(request->Data, queue->SecRegionData, queue->SecRegionSize, request->Offset.QuadPart, request->Length, TRUE);
+			}
+
 			if (request->CompleteOriginalIrp)
 			{
-				if (!HandleCompleteOriginalIrp(queue, request))
-				{
-					// request was requeued; do not free it now
-					continue;
-				}
+				HandleCompleteOriginalIrp(queue, request);
 			}
 
 			ReleasePoolBuffer(queue, request);
 		}
-
-		if (queue->ThreadExitRequested)
-			break;
 	}
 
 	PsTerminateSystemThread(STATUS_SUCCESS);
@@ -567,9 +506,6 @@ static VOID IoThreadProc (PVOID threadArg)
 #endif
 
 			// Perform IO request if no preceding request of the item failed
-			ULONG_PTR bytesXfer = 0; // track per-fragment transfer
-			request->ActualBytes = 0;  // default
-			request->WiRetryCount = 0;
 			if (NT_SUCCESS (request->Item->Status))
 			{
 				if (queue->ThreadBlockReadWrite)
@@ -637,7 +573,6 @@ static VOID IoThreadProc (PVOID threadArg)
 						else
 							request->Item->Status = TCCachedRead (queue, NULL, request->Data, request->Offset, request->Length);
 					}
-					bytesXfer = NT_SUCCESS(request->Item->Status) ? request->Length : 0;
 				}
 				else
 				{
@@ -648,20 +583,8 @@ static VOID IoThreadProc (PVOID threadArg)
 					else
 						request->Item->Status = TCCachedRead (queue, &ioStatus, request->Data, request->Offset, request->Length);
 
-					bytesXfer = (ULONG_PTR) ioStatus.Information;
-					// If short read on success, mark STATUS_END_OF_FILE but keep bytesXfer (true partial count)
 					if (NT_SUCCESS (request->Item->Status) && ioStatus.Information != request->Length)
 						request->Item->Status = STATUS_END_OF_FILE;
-				}
-
-				// For writes, we can account immediately.
-				// For reads, defer final accounting until after clamp/copy below.
-				if (request->Item->Write) {
-					request->ActualBytes = (ULONG)bytesXfer;
-					request->Item->BytesCompleted += bytesXfer;
-				} else {
-					// Provisional value; will be finalized after decrypt/copy clamp.
-					request->ActualBytes = (ULONG)bytesXfer;
 				}
 			}
 
@@ -669,68 +592,21 @@ static VOID IoThreadProc (PVOID threadArg)
 			{
 				queue->ReadAheadBufferValid = FALSE;
 
-				ReleaseFragmentBuffer(queue, request->Data);
+				ReleaseFragmentBuffer (queue, request->Data);
 
 				if (request->CompleteOriginalIrp)
 				{
-					// call unified path to finish the original IRP
-					FinalizeOriginalIrp(queue, request->Item);
+					HandleCompleteOriginalIrp(queue, request);
 				}
 
-				// request itself is no longer needed
-				ReleasePoolBuffer(queue, request);
+				ReleasePoolBuffer (queue, request);
 			}
 			else
 			{
 				BOOL readAhead = FALSE;
 
-				// Determine how many bytes we actually read for this fragment
-				ULONG copyLen = request->ActualBytes;
-
-				// Decrypt in IO thread.
-				if (copyLen > 0 && request->EncryptedLength > 0)
-				{
-					UINT64_STRUCT dataUnit;
-					ULONG encStart  = (ULONG)request->EncryptedOffset;
-					ULONG encInCopy = (copyLen > encStart)
-						? min((ULONG)copyLen - encStart, (ULONG)request->EncryptedLength)
-						: 0;
-
-					// Trim to full units (avoid returning ciphertext tails)
-					encInCopy -= (encInCopy % ENCRYPTION_DATA_UNIT_SIZE);
-					if (copyLen > encStart + encInCopy)
-						copyLen = encStart + encInCopy;
-
-					if (encInCopy > 0)
-					{
-						ASSERT((ULONG)request->EncryptedOffset + encInCopy <= copyLen);
-						dataUnit.Value = (request->Offset.QuadPart + request->EncryptedOffset) / ENCRYPTION_DATA_UNIT_SIZE;
-						if (queue->CryptoInfo->bPartitionInInactiveSysEncScope)
-							dataUnit.Value += queue->CryptoInfo->FirstDataUnitNo.Value;
-						else if (queue->RemapEncryptedArea)
-							dataUnit.Value += queue->RemappedAreaDataUnitOffset;
-
-						DecryptDataUnits(request->Data + request->EncryptedOffset,
-										&dataUnit,
-										encInCopy / ENCRYPTION_DATA_UNIT_SIZE,
-										queue->CryptoInfo);
-					}
-				}
-
-				// Finalize read accounting after clamp
-				bytesXfer = copyLen;
-				request->ActualBytes = (ULONG)bytesXfer;
-				request->Item->BytesCompleted += bytesXfer;
-
-				// Update subst sectors before copying
-				if (copyLen > 0 && (queue->SecRegionData != NULL) && (queue->SecRegionSize > 512))
-				{
-					UpdateBuffer(request->Data, queue->SecRegionData, queue->SecRegionSize,
-								request->Offset.QuadPart, copyLen, TRUE);
-				}
-
-				if (copyLen > 0)
-					memcpy(request->OrigDataBufferFragment, request->Data, copyLen);
+				if (NT_SUCCESS (request->Item->Status))
+					memcpy (request->OrigDataBufferFragment, request->Data, request->Length);
 
 				ReleaseFragmentBuffer (queue, request->Data);
 				request->Data = request->OrigDataBufferFragment;
@@ -744,16 +620,8 @@ static VOID IoThreadProc (PVOID threadArg)
 					InterlockedIncrement (&queue->OutstandingIoCount);
 				}
 
-				if (request->CompleteOriginalIrp)
-				{
-					ExInterlockedInsertTailList (&queue->CompletionThreadQueue, &request->CompletionListEntry, &queue->CompletionThreadQueueLock);
-					KeSetEvent (&queue->CompletionThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
-				}
-				else
-				{
-					// Non-final fragment: no need to involve the completion thread
-					ReleasePoolBuffer(queue, request);
-				}
+				ExInterlockedInsertTailList (&queue->CompletionThreadQueue, &request->CompletionListEntry, &queue->CompletionThreadQueueLock);
+				KeSetEvent (&queue->CompletionThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
 
 				if (readAhead)
 				{
@@ -833,8 +701,8 @@ static VOID MainThreadProc (PVOID threadArg)
 			item->Queue = queue;
 			item->OriginalIrp = irp;
 			item->Status = STATUS_SUCCESS;
-			item->BytesCompleted = 0;
 
+			IoSetCancelRoutine (irp, NULL);
 			if (irp->Cancel)
 			{
 				CompleteOriginalIrp (item, STATUS_CANCELLED, 0);
@@ -922,10 +790,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				}
 
 				TCfree (buffer);
-
-				// Defer completion to avoid inline IoCompleteRequest re-entrancy
-				item->BytesCompleted = NT_SUCCESS(item->Status) ? item->OriginalLength : 0;
-				FinalizeOriginalIrp(queue, item);
+				CompleteOriginalIrp (item, item->Status, NT_SUCCESS (item->Status) ? item->OriginalLength : 0);
 				continue;
 			}
 
@@ -1088,7 +953,7 @@ static VOID MainThreadProc (PVOID threadArg)
 					if (request->EncryptedLength > 0)
 					{
 						UINT64_STRUCT dataUnit;
-						ASSERT ((ULONG)request->EncryptedOffset + request->EncryptedLength <= request->Length);
+						ASSERT (request->EncryptedOffset + request->EncryptedLength <= request->Offset.QuadPart + request->Length);
 
 						dataUnit.Value = (request->Offset.QuadPart + request->EncryptedOffset) / ENCRYPTION_DATA_UNIT_SIZE;
 
@@ -1227,42 +1092,16 @@ NTSTATUS EncryptedIoQueueResumeFromHold (EncryptedIoQueue *queue)
 	return STATUS_SUCCESS;
 }
 
-static VOID FreeCompletionWorkItemPool(EncryptedIoQueue* queue)
-{
-	if (!queue->WorkItemPool) return;
-
-	// Drain the list for hygiene
-	KIRQL irql;
-	KeAcquireSpinLock(&queue->WorkItemLock, &irql);
-	while (!IsListEmpty(&queue->FreeWorkItemsList))
-		(void) RemoveHeadList(&queue->FreeWorkItemsList);
-	KeReleaseSpinLock(&queue->WorkItemLock, irql);
-
-	for (ULONG i = 0; i < queue->MaxWorkItems; ++i)
-	{
-		if (queue->WorkItemPool[i].WorkItem)
-		{
-			IoFreeWorkItem(queue->WorkItemPool[i].WorkItem);
-			queue->WorkItemPool[i].WorkItem = NULL;
-		}
-	}
-	TCfree(queue->WorkItemPool);
-	queue->WorkItemPool = NULL;
-}
 
 NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue)
 {
 	NTSTATUS status;
 	EncryptedIoQueueBuffer *buffer;
 	int i, j, preallocatedIoRequestCount, preallocatedItemCount, fragmentSize;
-	KIRQL oldIrql;
 
 	preallocatedIoRequestCount = EncryptionIoRequestCount;
 	preallocatedItemCount = EncryptionItemCount;
 	fragmentSize = EncryptionFragmentSize;
-	// Clamp preallocation to a sane hard limit
-	if (preallocatedIoRequestCount > TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_MAX_COUNT)
-		preallocatedIoRequestCount = TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_MAX_COUNT;
 
 	queue->StartPending = TRUE;
 	queue->ThreadExitRequested = FALSE;
@@ -1364,44 +1203,34 @@ retry_preallocated:
 
 	// Initialize the free work item list
 	InitializeListHead(&queue->FreeWorkItemsList);
+	KeInitializeSemaphore(&queue->WorkItemSemaphore, EncryptionMaxWorkItems, EncryptionMaxWorkItems);
 	KeInitializeSpinLock(&queue->WorkItemLock);
-	KeInitializeEvent(&queue->WorkItemAvailableEvent, SynchronizationEvent, FALSE);
 
 	queue->MaxWorkItems = EncryptionMaxWorkItems;
-	// Enforce [1, VC_MAX_WORK_ITEMS]
-	if (queue->MaxWorkItems == 0)
-		queue->MaxWorkItems = 1;
-	if (queue->MaxWorkItems > VC_MAX_WORK_ITEMS)
-		queue->MaxWorkItems = VC_MAX_WORK_ITEMS;
+	queue->WorkItemPool = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(sizeof(COMPLETE_IRP_WORK_ITEM) * queue->MaxWorkItems);
+	if (!queue->WorkItemPool)
 	{
-		// Two-phase allocation to avoid leaving stale LIST_ENTRYs on failure
-		PCOMPLETE_IRP_WORK_ITEM pool;
+		goto noMemory;
+	}
 
-		pool = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(sizeof(COMPLETE_IRP_WORK_ITEM) * queue->MaxWorkItems);
-		if (!pool)
-			goto noMemory;
-
-		// Allocate all work items first
-		for (i = 0; i < (int) queue->MaxWorkItems; ++i)
+	// Allocate and initialize work items
+	for (i = 0; i < (int) queue->MaxWorkItems; ++i)
+	{
+		queue->WorkItemPool[i].WorkItem = IoAllocateWorkItem(queue->DeviceObject);
+		if (!queue->WorkItemPool[i].WorkItem)
 		{
-			pool[i].WorkItem = IoAllocateWorkItem(queue->DeviceObject);
-			if (!pool[i].WorkItem)
+			// Handle allocation failure
+			// Free previously allocated work items
+			for (j = 0; j < i; ++j)
 			{
-				for (j = 0; j < i; ++j)
-					IoFreeWorkItem(pool[j].WorkItem);
-				TCfree(pool);
-				goto noMemory;
+				IoFreeWorkItem(queue->WorkItemPool[j].WorkItem);
 			}
+			TCfree(queue->WorkItemPool);
+			goto noMemory;
 		}
 
-		// Publish pool and insert entries into the free list under the spin lock
-		queue->WorkItemPool = pool;
-		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
-		for (i = 0; i < (int) queue->MaxWorkItems; ++i)
-		{
-			InsertTailList(&queue->FreeWorkItemsList, &queue->WorkItemPool[i].ListEntry);
-		}
-		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
+		// Insert the work item into the free list
+		ExInterlockedInsertTailList(&queue->FreeWorkItemsList, &queue->WorkItemPool[i].ListEntry, &queue->WorkItemLock);
 	}
 
 	queue->ActiveWorkItems = 0;
@@ -1476,9 +1305,6 @@ err:
 
 	FreePoolBuffers (queue);
 
-	if (queue->WorkItemPool)
-		FreeCompletionWorkItemPool(queue);
-
 	queue->StartPending = FALSE;
 	return status;
 }
@@ -1497,42 +1323,32 @@ NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue)
 	Dump ("Queue stopping  out=%d\n", queue->OutstandingIoCount);
 
 	queue->ThreadExitRequested = TRUE;
-	// Wake all threads
-	KeSetEvent(&queue->MainThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
-	KeSetEvent(&queue->IoThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
-	KeSetEvent(&queue->CompletionThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
-	// Wake any GetPoolBuffer waiters (defensive)
-	KeSetEvent(&queue->PoolBufferFreeEvent, IO_DISK_INCREMENT, FALSE);
 
 	TCStopThread (queue->MainThread, &queue->MainThreadQueueNotEmptyEvent);
 	TCStopThread (queue->IoThread, &queue->IoThreadQueueNotEmptyEvent);
 	TCStopThread (queue->CompletionThreads[0], &queue->CompletionThreadQueueNotEmptyEvent);
 	TCStopThread (queue->CompletionThreads[1], &queue->CompletionThreadQueueNotEmptyEvent);
 
-	/*
-	 * Wait for all completion work items to finish.
-	 *
-	 * Work-item drain protocol:
-	 *  - queue->ActiveWorkItems is incremented by producers when queuing a completion work item,
-	 *    and queue->NoActiveWorkItemsEvent (NotificationEvent) is reset at that time
-	 *    (see FinalizeOriginalIrp and HandleCompleteOriginalIrp).
-	 *  - CompleteIrpWorkItemRoutine decrements ActiveWorkItems and sets
-	 *    NoActiveWorkItemsEvent when the count transitions 1 -> 0.
-	 *  - Waiters must not reset the notification event. They simply loop until the count is 0,
-	 *    waiting for the final 1 -> 0 transition to signal the event.
-	 */
-	Dump("Queue stopping, waiting for active work items (n=%ld)\n",
-	     InterlockedExchangeAdd(&queue->ActiveWorkItems, 0)); // atomic read
-	for (;;)
+	// Wait for active work items to complete
+	KeResetEvent(&queue->NoActiveWorkItemsEvent);
+	Dump("Queue stopping  active work items=%d\n", queue->ActiveWorkItems);
+	while (InterlockedCompareExchange(&queue->ActiveWorkItems, 0, 0) > 0)
 	{
-		LONG n = InterlockedExchangeAdd(&queue->ActiveWorkItems, 0); // atomic read
-		if (n == 0)
-			break;
-
 		KeWaitForSingleObject(&queue->NoActiveWorkItemsEvent, Executive, KernelMode, FALSE, NULL);
+		// reset the event again in case multiple work items are completing
+		KeResetEvent(&queue->NoActiveWorkItemsEvent);
 	}
 
-	FreeCompletionWorkItemPool(queue);
+	// Free pre-allocated work items
+	for (ULONG i = 0; i < queue->MaxWorkItems; ++i)
+	{
+		if (queue->WorkItemPool[i].WorkItem)
+		{
+			IoFreeWorkItem(queue->WorkItemPool[i].WorkItem);
+			queue->WorkItemPool[i].WorkItem = NULL;
+		}
+	}
+	TCfree(queue->WorkItemPool);
 
 	TCfree (queue->FragmentBufferA);
 	TCfree (queue->FragmentBufferB);
