@@ -1344,11 +1344,14 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			HRESULT hResult;
 			ULONGLONG ullStartingOffset, ullNewOffset, ullEndOffset;
 			PVERIFY_INFORMATION pVerifyInformation;
+			ULONGLONG volumeOffset = Extension->cryptoInfo->hiddenVolume
+				? Extension->cryptoInfo->hiddenVolumeOffset
+				: Extension->cryptoInfo->volDataAreaOffset;
 			pVerifyInformation = (PVERIFY_INFORMATION) Irp->AssociatedIrp.SystemBuffer;
 
 			ullStartingOffset = (ULONGLONG) pVerifyInformation->StartingOffset.QuadPart;
 			hResult = ULongLongAdd(ullStartingOffset,
-				(ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset,
+				volumeOffset,
 				&ullNewOffset);
 			if (hResult != S_OK)
 				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
@@ -1640,7 +1643,14 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				ULONG ulNewInputLength = 0;
 				BOOL bForwardIoctl = FALSE;
 
-				if (((ULONGLONG) inputLength) >= minSizeGeneric && ((ULONGLONG) inputLength) >= minSizedataSet && ((ULONGLONG) inputLength) >= minSizeParameter)
+				if ( (pInputAttrs->DataSetRangesLength > 0)
+					&& (pInputAttrs->DataSetRangesLength % sizeof(DEVICE_DATA_SET_RANGE) != 0) )
+				{
+					Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+					Irp->IoStatus.Information = 0;
+					break;
+				}
+				else if (((ULONGLONG) inputLength) >= minSizeGeneric && ((ULONGLONG) inputLength) >= minSizedataSet && ((ULONGLONG) inputLength) >= minSizeParameter)
 				{
 					if (bEntireSet)
 					{
@@ -1665,10 +1675,12 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 									if (pNewSetAttrs)
 									{
 										PDEVICE_DATA_SET_RANGE pRange = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pNewSetAttrs) + dwDataSetOffset);
-
+										ULONGLONG volumeOffset = Extension->cryptoInfo->hiddenVolume
+											? Extension->cryptoInfo->hiddenVolumeOffset
+											: Extension->cryptoInfo->volDataAreaOffset;
 										memcpy (pNewSetAttrs, pInputAttrs, inputLength);
 
-										pRange->StartingOffset = (ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset;
+										pRange->StartingOffset = volumeOffset;
 										pRange->LengthInBytes = Extension->DiskLength;
 
 										pNewSetAttrs->Size = sizeof(DEVICE_MANAGE_DATA_SET_ATTRIBUTES);
@@ -1713,25 +1725,39 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 							PDEVICE_DATA_SET_RANGE pNewRanges = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pNewSetAttrs) + pInputAttrs->DataSetRangesOffset);
 							PDEVICE_DATA_SET_RANGE pInputRanges = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pInputAttrs) + pInputAttrs->DataSetRangesOffset);
 							DWORD dwInputRangesCount = 0, dwNewRangesCount = 0, i;
-							ULONGLONG ullStartingOffset, ullNewOffset, ullEndOffset;
+							ULONGLONG volumeOffset, ullStartingOffset, ullNewOffset, ullEndOffset;
 							HRESULT hResult;
 
 							memcpy (pNewSetAttrs, pInputAttrs, inputLength);
 
 							dwInputRangesCount = pInputAttrs->DataSetRangesLength / sizeof(DEVICE_DATA_SET_RANGE);
 
+							volumeOffset = Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset;
+
 							for (i = 0; i < dwInputRangesCount; i++)
 							{
+								// Sanity check the input range
+								if ( pInputRanges[i].LengthInBytes == 0
+									|| (pInputRanges[i].LengthInBytes % Extension->BytesPerSector) != 0
+									|| (pInputRanges[i].StartingOffset % Extension->BytesPerSector) != 0)
+								{
+									continue;
+								}
+
 								ullStartingOffset = (ULONGLONG) pInputRanges[i].StartingOffset;
+								
+								// Validate that the range is within the virtual volume boundaries
+								hResult = ULongLongAdd(ullStartingOffset, (ULONGLONG) pInputRanges[i].LengthInBytes, &ullEndOffset);
+								if (hResult != S_OK || ullEndOffset > (ULONGLONG) Extension->DiskLength)
+									continue;
+
+								// Translate the offset to the physical volume
 								hResult = ULongLongAdd(ullStartingOffset,
-									(ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset,
+									volumeOffset,
 									&ullNewOffset);
 								if (hResult != S_OK)
 									continue;
-								else if (S_OK != ULongLongAdd(ullStartingOffset, (ULONGLONG) pInputRanges[i].LengthInBytes, &ullEndOffset))
-									continue;
-								else if (ullEndOffset > (ULONGLONG) Extension->DiskLength)
-									continue;
+
 								else if (ullNewOffset > 0)
 								{
 									pNewRanges[dwNewRangesCount].StartingOffset = (LONGLONG) ullNewOffset;
@@ -1844,7 +1870,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
 			}
 
-#if defined(DEBUG) || defined (DEBG_TRACE)
+#if defined(DEBUG) || defined (DEBUG_TRACE)
 	if (!NT_SUCCESS (Irp->IoStatus.Status))
 	{
 		Dump ("IOCTL error 0x%08x (0x%x %d)\n",
@@ -3058,6 +3084,7 @@ VOID VolumeThreadProc (PVOID Context)
 	{
 		KeSetEvent (&Extension->keCreateEvent, 0, FALSE);
 		PsTerminateSystemThread (STATUS_SUCCESS);
+		return; /* Make static analyzer happy */
 	}
 
 	// Start IO queue
@@ -3097,6 +3124,7 @@ VOID VolumeThreadProc (PVOID Context)
 		pThreadBlock->mount->nReturnCode = ERR_OS_ERROR;
 		KeSetEvent (&Extension->keCreateEvent, 0, FALSE);
 		PsTerminateSystemThread (STATUS_SUCCESS);
+		return; /* Make static analyzer happy */
 	}
 
 	KeSetEvent (&Extension->keCreateEvent, 0, FALSE);
@@ -3134,6 +3162,7 @@ VOID VolumeThreadProc (PVOID Context)
 
 			TCCloseVolume (DeviceObject, Extension);
 			PsTerminateSystemThread (STATUS_SUCCESS);
+			return; /* Make static analyzer happy */
 		}
 	}
 }
@@ -3327,23 +3356,7 @@ void TCDeleteDeviceObject (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 
 		if (Extension->SecurityClientContextValid)
 		{
-            typedef VOID (*PsDereferenceImpersonationTokenDType) (PACCESS_TOKEN ImpersonationToken);
-
-            PsDereferenceImpersonationTokenDType PsDereferenceImpersonationTokenD;
-			UNICODE_STRING name;
-			RtlInitUnicodeString (&name, L"PsDereferenceImpersonationToken");
-
-			PsDereferenceImpersonationTokenD = (PsDereferenceImpersonationTokenDType) MmGetSystemRoutineAddress (&name);
-			if (!PsDereferenceImpersonationTokenD)
-				TC_BUG_CHECK (STATUS_NOT_IMPLEMENTED);
-
-#			define PsDereferencePrimaryToken
-#			define PsDereferenceImpersonationToken PsDereferenceImpersonationTokenD
-
 			SeDeleteClientSecurity (&Extension->SecurityClientContext);
-
-#			undef PsDereferencePrimaryToken
-#			undef PsDereferenceImpersonationToken
 		}
 
 		VirtualVolumeDeviceObjects[Extension->nDosDriveNo] = NULL;
@@ -3833,9 +3846,12 @@ static NTSTATUS UpdateFsVolumeInformation (MOUNT_STRUCT* mount, PEXTENSION NewEx
 {
 	HANDLE volumeHandle;
 	PFILE_OBJECT volumeFileObject;
-	ULONG labelLen = (ULONG) wcslen (mount->wszLabel);
+	ULONG labelLen;
 	BOOL bIsNTFS = FALSE;
 	ULONG labelMaxLen, labelEffectiveLen;
+
+	EnsureNullTerminatedString (mount->wszLabel, sizeof (mount->wszLabel));
+	labelLen = (ULONG) wcslen (mount->wszLabel);
 
 	if ((KeGetCurrentIrql() >= APC_LEVEL) || KeAreAllApcsDisabled())
 	{
@@ -3904,8 +3920,8 @@ static NTSTATUS UpdateFsVolumeInformation (MOUNT_STRUCT* mount, PEXTENSION NewEx
 				labelEffectiveLen = labelLen > labelMaxLen? labelMaxLen : labelLen;
 
 				// correct the label in the device
-				memset (&NewExtension->wszLabel[labelEffectiveLen], 0, 33 - labelEffectiveLen);
-				memcpy (mount->wszLabel, NewExtension->wszLabel, 33);
+				memset (&NewExtension->wszLabel[labelEffectiveLen], 0, (33 - labelEffectiveLen) * sizeof (WCHAR));
+				memcpy (mount->wszLabel, NewExtension->wszLabel, 33 * sizeof (WCHAR));
 
 				// set the volume label
 				__try
@@ -3915,6 +3931,7 @@ static NTSTATUS UpdateFsVolumeInformation (MOUNT_STRUCT* mount, PEXTENSION NewEx
 					FILE_FS_LABEL_INFORMATION* labelInfo = (FILE_FS_LABEL_INFORMATION*) TCalloc (labelInfoSize);
 					if (labelInfo)
 					{
+						RtlZeroMemory(labelInfo, labelInfoSize);
 						labelInfo->VolumeLabelLength = labelEffectiveLen * sizeof(WCHAR);
 						memcpy (labelInfo->VolumeLabel, mount->wszLabel, labelInfo->VolumeLabelLength);
 
@@ -4420,7 +4437,7 @@ USHORT GetCpuGroup (size_t index)
 	for (i = 0; i < groupCount; i++)
 	{
 		cpuCount += (size_t) KeQueryActiveProcessorCountEx (i);
-		if (cpuCount >= index)
+		if (cpuCount > index)
 		{
 			return i;
 		}
@@ -4431,10 +4448,15 @@ USHORT GetCpuGroup (size_t index)
 
 void SetThreadCpuGroupAffinity (USHORT index)
 {
+	GROUP_AFFINITY oldAffinity;
 	GROUP_AFFINITY groupAffinity = {0};
-	groupAffinity.Mask = ~0ULL;
+	ULONG count = KeQueryActiveProcessorCountEx(index);
+	KAFFINITY mask = (count >= 64) ? ~0ULL : ((1ULL << count) - 1);
+	if (count == 0) return; // invalid group index: nothing to do
+
+	groupAffinity.Mask = mask;
 	groupAffinity.Group = index;
-	KeSetSystemGroupAffinityThread (&groupAffinity, NULL);
+	KeSetSystemGroupAffinityThread (&groupAffinity, &oldAffinity);
 }
 
 void EnsureNullTerminatedString (wchar_t *str, size_t maxSizeInBytes)
