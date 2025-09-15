@@ -1263,22 +1263,12 @@ retry_preallocated:
 	KeInitializeSpinLock (&queue->CompletionThreadQueueLock);
 	KeInitializeEvent (&queue->CompletionThreadQueueNotEmptyEvent, SynchronizationEvent, FALSE);
 
-	status = TCStartThread (CompletionThreadProc, queue, &queue->CompletionThreads[0]);
+	status = TCStartThread (CompletionThreadProc, queue, &queue->CompletionThread);
 	if (!NT_SUCCESS (status))
 	{
 		queue->ThreadExitRequested = TRUE;
 		TCStopThread (queue->MainThread, &queue->MainThreadQueueNotEmptyEvent);
 		TCStopThread (queue->IoThread, &queue->IoThreadQueueNotEmptyEvent);
-		goto err;
-	}
-
-	status = TCStartThread (CompletionThreadProc, queue, &queue->CompletionThreads[1]);
-	if (!NT_SUCCESS (status))
-	{
-		queue->ThreadExitRequested = TRUE;
-		TCStopThread (queue->MainThread, &queue->MainThreadQueueNotEmptyEvent);
-		TCStopThread (queue->IoThread, &queue->IoThreadQueueNotEmptyEvent);
-		TCStopThread (queue->CompletionThreads[0], &queue->CompletionThreadQueueNotEmptyEvent);
 		goto err;
 	}
 
@@ -1326,8 +1316,7 @@ NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue)
 
 	TCStopThread (queue->MainThread, &queue->MainThreadQueueNotEmptyEvent);
 	TCStopThread (queue->IoThread, &queue->IoThreadQueueNotEmptyEvent);
-	TCStopThread (queue->CompletionThreads[0], &queue->CompletionThreadQueueNotEmptyEvent);
-	TCStopThread (queue->CompletionThreads[1], &queue->CompletionThreadQueueNotEmptyEvent);
+	TCStopThread (queue->CompletionThread, &queue->CompletionThreadQueueNotEmptyEvent);
 
 	// Wait for active work items to complete
 	KeResetEvent(&queue->NoActiveWorkItemsEvent);

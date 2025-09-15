@@ -86,8 +86,8 @@ typedef struct
 	KSPIN_LOCK IoThreadQueueLock;
 	KEVENT IoThreadQueueNotEmptyEvent;
 
-	// Completion threads
-	PKTHREAD CompletionThreads[2]; // two threads to handle completions
+	// Completion thread
+	PKTHREAD CompletionThread;
 	LIST_ENTRY CompletionThreadQueue;
 	KSPIN_LOCK CompletionThreadQueueLock;
 	KEVENT CompletionThreadQueueNotEmptyEvent;
