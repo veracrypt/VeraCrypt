@@ -19,6 +19,86 @@
 #include "Volumes.h"
 #include <IntSafe.h>
 
+// Returns STATUS_SUCCESS on success and sets *outVa.
+// On failure, returns STATUS_INVALID_USER_BUFFER or STATUS_INSUFFICIENT_RESOURCES
+// and leaves *outVa as NULL. If *outTempMdl not NULL, the caller must unlock/free it at completion.
+__drv_maxIRQL(APC_LEVEL) static NTSTATUS
+	MapIrpDataBuffer(
+		_In_ PIRP irp,
+		_In_ BOOL isWriteIRP, // TRUE for IRP_MJ_WRITE (we READ from caller buffer)
+		_In_ ULONG length,
+		_Outptr_result_bytebuffer_(length) PUCHAR *outVa,
+		_Outptr_result_maybenull_ PMDL *outTempMdl)
+{
+	ULONG mapFlags = HighPagePriority | MdlMappingNoExecute;
+	PUCHAR va = NULL;
+
+	ASSERT(outVa && outTempMdl);
+	*outVa = NULL;
+	*outTempMdl = NULL;
+
+	ASSERT(KeGetCurrentIrql() <= APC_LEVEL);
+
+	if (length == 0)
+		return STATUS_INVALID_PARAMETER;
+
+	// If this is a WRITE IRP we only read from caller’s buffer: ask for a no-write mapping.
+	if (isWriteIRP)
+		mapFlags |= MdlMappingNoWrite;
+
+	// --- Direct I/O ---
+	if (irp->MdlAddress)
+	{
+		if (MmGetMdlByteCount(irp->MdlAddress) < length)
+			return STATUS_INVALID_USER_BUFFER; // caller asked for more than mapped
+
+		va = (PUCHAR)MmGetSystemAddressForMdlSafe(irp->MdlAddress, mapFlags);
+		if (!va)
+			return STATUS_INSUFFICIENT_RESOURCES; // low PTEs, etc.
+
+		*outVa = va;
+		return STATUS_SUCCESS;
+	}
+
+	// --- Buffered I/O ---
+	if (irp->AssociatedIrp.SystemBuffer)
+	{
+		*outVa = (PUCHAR)irp->AssociatedIrp.SystemBuffer;
+		return STATUS_SUCCESS;
+	}
+
+	// --- Neither I/O ---
+	if (!irp->UserBuffer)
+		return STATUS_INVALID_USER_BUFFER;
+
+	PMDL mdl = IoAllocateMdl(irp->UserBuffer, length, FALSE, FALSE, NULL);
+	if (!mdl)
+		return STATUS_INSUFFICIENT_RESOURCES;
+
+	__try
+	{
+		// For WRITE IRPs we read from user => IoReadAccess.
+		// For READ IRPs we write to user => IoWriteAccess.
+		MmProbeAndLockPages(mdl, irp->RequestorMode, isWriteIRP ? IoReadAccess : IoWriteAccess);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		IoFreeMdl(mdl);
+		return STATUS_INVALID_USER_BUFFER; // bad pointer/range/rights
+	}
+
+	va = (PUCHAR)MmGetSystemAddressForMdlSafe(mdl, mapFlags);
+	if (!va)
+	{
+		MmUnlockPages(mdl);
+		IoFreeMdl(mdl);
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+
+	*outTempMdl = mdl;
+	*outVa = va;
+	return STATUS_SUCCESS;
+}
 
 static void AcquireBufferPoolMutex (EncryptedIoQueue *queue)
 {
@@ -160,6 +240,12 @@ static void DecrementOutstandingIoCount (EncryptedIoQueue *queue)
 
 static void OnItemCompleted (EncryptedIoQueueItem *item, BOOL freeItem)
 {
+	if (item->TempUserMdl) {
+		MmUnlockPages(item->TempUserMdl);
+		IoFreeMdl(item->TempUserMdl);
+		item->TempUserMdl = NULL;
+	}
+
 	DecrementOutstandingIoCount (item->Queue);
 	IoReleaseRemoveLock (&item->Queue->RemoveLock, item->OriginalIrp);
 
@@ -700,6 +786,7 @@ static VOID MainThreadProc (PVOID threadArg)
 
 			item->Queue = queue;
 			item->OriginalIrp = irp;
+			item->TempUserMdl = NULL;
 			item->Status = STATUS_SUCCESS;
 
 			IoSetCancelRoutine (irp, NULL);
@@ -764,11 +851,17 @@ static VOID MainThreadProc (PVOID threadArg)
 				{
 					UINT64_STRUCT dataUnit;
 
-					dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | MdlMappingNoExecute));
-					if (!dataBuffer)
+					dataBuffer = NULL;
+					NTSTATUS mapStatus = MapIrpDataBuffer(
+						irp,
+						FALSE,
+						item->OriginalLength,
+						&dataBuffer,
+						&item->TempUserMdl);
+					if (!NT_SUCCESS(mapStatus))
 					{
 						TCfree (buffer);
-						CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
+						CompleteOriginalIrp (item, mapStatus, 0);
 						continue;
 					}
 
@@ -883,12 +976,17 @@ static VOID MainThreadProc (PVOID threadArg)
 				CompleteOriginalIrp (item, STATUS_MEDIA_WRITE_PROTECTED, 0);
 				continue;
 			}
-
-			dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | MdlMappingNoExecute));
-
-			if (dataBuffer == NULL)
+			
+			dataBuffer = NULL;
+			NTSTATUS mapStatus = MapIrpDataBuffer(
+				irp,
+				item->Write,
+				item->OriginalLength,
+				&dataBuffer,
+				&item->TempUserMdl);
+			if (!NT_SUCCESS(mapStatus))
 			{
-				CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
+				CompleteOriginalIrp (item, mapStatus, 0);
 				continue;
 			}
 

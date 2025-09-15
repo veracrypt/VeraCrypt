@@ -156,6 +156,7 @@ typedef struct
 	ULONG OriginalLength;
 	LARGE_INTEGER OriginalOffset;
 	NTSTATUS Status;
+	PMDL TempUserMdl; // NULL if none. Used in MapIrpDataBuffer logic
 
 #ifdef TC_TRACE_IO_QUEUE
 	LARGE_INTEGER OriginalIrpOffset;
