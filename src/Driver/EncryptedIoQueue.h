@@ -44,11 +44,13 @@ typedef struct _COMPLETE_IRP_WORK_ITEM
 	PIRP Irp;
 	NTSTATUS Status;
 	ULONG_PTR Information;
-	void* Item;
+	void* Item; // NULL for raw completion
+	struct _EncryptedIoQueueStruct* Queue; // Owning queue
+	BOOLEAN ReleaseLockAndCounters; // TRUE for raw completion: release RemoveLock and decrement OutstandingIoCount
 	LIST_ENTRY ListEntry; // For managing free work items
 } COMPLETE_IRP_WORK_ITEM, * PCOMPLETE_IRP_WORK_ITEM;
 
-typedef struct
+typedef struct _EncryptedIoQueueStruct
 {
 	PDEVICE_OBJECT DeviceObject;
 
