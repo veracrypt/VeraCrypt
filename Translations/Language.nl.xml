@@ -1651,6 +1651,8 @@
     <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
     <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
     <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
+    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
+    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

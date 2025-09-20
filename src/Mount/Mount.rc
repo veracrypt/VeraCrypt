@@ -75,8 +75,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,122,290,10
     CONTROL         "Use Secure Desktop for password entry",IDC_SECURE_DESKTOP_PASSWORD_ENTRY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,136,290,10
+    CONTROL         "Enable Input Method Editor (IME) in Secure Desktop",IDC_SECURE_DESKTOP_ENABLE_IME,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,149,290,10
     CONTROL         "Use legacy maximum password length (64 characters)",IDC_USE_LEGACY_MAX_PASSWORD_LENGTH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,150,290,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,162,290,10
 END
 
 IDD_PREFERENCES_TAB_ACTIONS DIALOGEX 0, 0, 320, 210

@@ -168,9 +168,12 @@ BOOL bHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialogValid = FALSE;
 BOOL bUseSecureDesktop = FALSE;
+BOOL bEnableIMEInSecureDesktop = FALSE;
 BOOL bUseLegacyMaxPasswordLength = FALSE;
 BOOL bCmdUseSecureDesktop = FALSE;
 BOOL bCmdUseSecureDesktopValid = FALSE;
+BOOL bCmdEnableIMEInSecureDesktop = FALSE;
+BOOL bCmdEnableIMEInSecureDesktopValid = FALSE;
 BOOL bStartOnLogon = FALSE;
 BOOL bMountDevicesOnLogon = FALSE;
 BOOL bMountFavoritesOnLogon = FALSE;
@@ -14123,6 +14126,7 @@ typedef struct
 	LPARAM dwInitParam;
 	INT_PTR retValue;
 	BOOL bDlgDisplayed; // set to TRUE if the dialog was displayed on secure desktop
+	BOOL bEnableIMEInSecureDesktop;
 } SecureDesktopThreadParam;
 
 typedef struct
@@ -14206,17 +14210,20 @@ static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 	if (bNewDesktopSet)
 	{
 		ScreenCaptureBlocker blocker;
-
-		// call ImmDisableIME　from imm32.dll to disable IME since it can create issue with secure desktop
-		// cf: https://keepass.info/help/kb/sec_desk.html#ime
-		HMODULE hImmDll = LoadLibraryEx (L"imm32.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
-		if (hImmDll)
+		HMODULE hImmDll = NULL;
+		if (!pParam->bEnableIMEInSecureDesktop)
 		{
-			typedef BOOL (WINAPI *ImmDisableIME_t)(DWORD);
-			ImmDisableIME_t ImmDisableIME = (ImmDisableIME_t) GetProcAddress (hImmDll, "ImmDisableIME");
-			if (ImmDisableIME)
+			// call ImmDisableIME　from imm32.dll to disable IME since it can create issue with secure desktop
+			// cf: https://keepass.info/help/kb/sec_desk.html#ime
+			hImmDll = LoadLibraryEx (L"imm32.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
+			if (hImmDll)
 			{
-				ImmDisableIME (0);
+				typedef BOOL (WINAPI *ImmDisableIME_t)(DWORD);
+				ImmDisableIME_t ImmDisableIME = (ImmDisableIME_t) GetProcAddress (hImmDll, "ImmDisableIME");
+				if (ImmDisableIME)
+				{
+					ImmDisableIME (0);
+				}
 			}
 		}
 
@@ -14316,6 +14323,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 	BOOL bSuccess = FALSE;
 	INT_PTR retValue = 0;
 	BOOL bEffectiveUseSecureDesktop = bCmdUseSecureDesktopValid? bCmdUseSecureDesktop : bUseSecureDesktop;
+	BOOL bEffectiveEnableIMEInSecureDesktop = bCmdEnableIMEInSecureDesktopValid? bCmdEnableIMEInSecureDesktop : bEnableIMEInSecureDesktop;
 
 	if (bEffectiveUseSecureDesktop && !IsThreadInSecureDesktop(GetCurrentThreadId()))
 	{
@@ -14372,6 +14380,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 			param.dwInitParam = dwInitParam;
 			param.retValue = 0;
 			param.bDlgDisplayed = FALSE;
+			param.bEnableIMEInSecureDesktop = bEffectiveEnableIMEInSecureDesktop;
 
 			// use _beginthreadex instead of CreateThread because lpDialogFunc may be using the C runtime library
 			HANDLE hThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);

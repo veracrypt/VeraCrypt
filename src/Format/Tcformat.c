@@ -9174,6 +9174,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionEnableScreenProtection,
 				OptionKeyfile,
 				OptionSecureDesktop,
+				OptionEnableIME,
 			};
 
 			argument args[]=
@@ -9201,6 +9202,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionEnableScreenProtection,	L"/protectScreen",	NULL, FALSE },
 				{ OptionKeyfile,				L"/keyfile",		L"/k", FALSE },
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
+				{ OptionEnableIME,				L"/enableIME",		NULL, FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9690,6 +9692,24 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					}
 				}
 				break;
+
+			case OptionEnableIME:
+				{
+					wchar_t szTmp[16] = {0};
+					bCmdEnableIMEInSecureDesktop = TRUE;
+					bCmdEnableIMEInSecureDesktopValid = TRUE;
+
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, ARRAYSIZE (szTmp)))
+					{
+						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
+							bCmdEnableIMEInSecureDesktop = FALSE;
+						else if (!_wcsicmp(szTmp,L"y") || !_wcsicmp(szTmp,L"yes"))
+							bCmdEnableIMEInSecureDesktop = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				}
 
 			default:
 				DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_COMMANDHELP_DLG), hwndDlg, (DLGPROC)

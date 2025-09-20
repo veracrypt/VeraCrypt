@@ -310,6 +310,7 @@ void LoadSettings (HWND hwndDlg)
 	bShowDisconnectedNetworkDrives = ConfigReadInt ("ShowDisconnectedNetworkDrives", FALSE);
 	bHideWaitingDialog = ConfigReadInt ("HideWaitingDialog", FALSE);
 	bUseSecureDesktop = ConfigReadInt ("UseSecureDesktop", FALSE);
+	bEnableIMEInSecureDesktop = ConfigReadInt ("EnableIMEInSecureDesktop", FALSE);
 	bUseLegacyMaxPasswordLength = ConfigReadInt ("UseLegacyMaxPasswordLength", FALSE);
 	defaultMountOptions.Removable =	ConfigReadInt ("MountVolumesRemovable", FALSE);
 	defaultMountOptions.ReadOnly =	ConfigReadInt ("MountVolumesReadOnly", FALSE);
@@ -981,6 +982,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bShowDisconnectedNetworkDrives = FALSE;
 			bHideWaitingDialog = FALSE;
 			bUseSecureDesktop = FALSE;
+			bEnableIMEInSecureDesktop = FALSE;
 			bUseLegacyMaxPasswordLength = FALSE;
 
 			VeraCryptExpander::ExtractCommandLine (hwndDlg, (wchar_t *) lParam);

@@ -1034,6 +1034,8 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 
 	ConfigReadCompareInt ("UseSecureDesktop", FALSE, &bUseSecureDesktop, bOnlyCheckModified, pbSettingsModified);
 
+	ConfigReadCompareInt ("EnableIMEInSecureDesktop", FALSE, &bEnableIMEInSecureDesktop, bOnlyCheckModified, pbSettingsModified);
+
 	ConfigReadCompareInt ("UseLegacyMaxPasswordLength", FALSE, &bUseLegacyMaxPasswordLength, bOnlyCheckModified, pbSettingsModified);
 
 	ConfigReadCompareInt ("MountVolumesRemovable", FALSE, &defaultMountOptions.Removable, bOnlyCheckModified, pbSettingsModified);
@@ -1193,6 +1195,7 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("ShowDisconnectedNetworkDrives",bShowDisconnectedNetworkDrives);
 		ConfigWriteInt ("HideWaitingDialog",				bHideWaitingDialog);
 		ConfigWriteInt ("UseSecureDesktop",					bUseSecureDesktop);
+		ConfigWriteInt ("EnableIMEInSecureDesktop",			bEnableIMEInSecureDesktop);
 		ConfigWriteInt ("UseLegacyMaxPasswordLength",		bUseLegacyMaxPasswordLength);
 
 		ConfigWriteInt ("EnableBackgroundTask",				bEnableBkgTask);
@@ -3429,42 +3432,196 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 }
 
 // Use the Actions tab (index 1) as the owner of all these controls.
-static void PreferencesDlgEnableButtons (HWND *pTabDialogs)
+static void PreferencesDlgEnableButtons (HWND hActionsTab)
 {
-	if (!pTabDialogs)
+	if (!hActionsTab)
 		return;
 
-	HWND hActions = pTabDialogs[1];
-	if (!hActions)
-		return;
-
-	BOOL back		= IsButtonChecked (GetDlgItem (hActions, IDC_PREF_BKG_TASK_ENABLE));
-	BOOL idle		= IsButtonChecked (GetDlgItem (hActions, IDC_PREF_UNMOUNT_INACTIVE));
+	BOOL back		= IsButtonChecked (GetDlgItem (hActionsTab, IDC_PREF_BKG_TASK_ENABLE));
+	BOOL idle		= IsButtonChecked (GetDlgItem (hActionsTab, IDC_PREF_UNMOUNT_INACTIVE));
 	BOOL installed 	= !IsNonInstallMode();
 	BOOL wtsEnabled = (hWtsLib != NULL) ? TRUE : FALSE;
 
-	EnableWindow (GetDlgItem (hActions, IDC_CLOSE_BKG_TASK_WHEN_NOVOL),         back && installed);
-	EnableWindow (GetDlgItem (hActions, IDT_LOGON),                              installed);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_LOGON_START),                   back && installed);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_LOGON_MOUNT_DEVICES),           installed);
-	EnableWindow (GetDlgItem (hActions, IDT_AUTO_UNMOUNT),                       back);
-	EnableWindow (GetDlgItem (hActions, IDT_AUTO_UNMOUNT_ON),                    back);
-	EnableWindow (GetDlgItem (hActions, IDT_MINUTES),                            back);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_UNMOUNT_LOGOFF),                back);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_UNMOUNT_SESSION_LOCKED),        back && wtsEnabled);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_UNMOUNT_POWERSAVING),           back);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_UNMOUNT_SCREENSAVER),           back);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_UNMOUNT_INACTIVE),              back);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_UNMOUNT_INACTIVE_TIME),         back && idle);
-	EnableWindow (GetDlgItem (hActions, IDC_PREF_FORCE_AUTO_UNMOUNT),            back);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_CLOSE_BKG_TASK_WHEN_NOVOL),         back && installed);
+	EnableWindow (GetDlgItem (hActionsTab, IDT_LOGON),                              installed);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_LOGON_START),                   back && installed);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_LOGON_MOUNT_DEVICES),           installed);
+	EnableWindow (GetDlgItem (hActionsTab, IDT_AUTO_UNMOUNT),                       back);
+	EnableWindow (GetDlgItem (hActionsTab, IDT_AUTO_UNMOUNT_ON),                    back);
+	EnableWindow (GetDlgItem (hActionsTab, IDT_MINUTES),                            back);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_UNMOUNT_LOGOFF),                back);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_UNMOUNT_SESSION_LOCKED),        back && wtsEnabled);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_UNMOUNT_POWERSAVING),           back);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_UNMOUNT_SCREENSAVER),           back);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_UNMOUNT_INACTIVE),              back);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_UNMOUNT_INACTIVE_TIME),         back && idle);
+	EnableWindow (GetDlgItem (hActionsTab, IDC_PREF_FORCE_AUTO_UNMOUNT),            back);
 }
 
-static INT_PTR CALLBACK PrefsTabProc (HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK PrefsGeneralTabProc (HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	static HWND hEnableIMEInSecureDesktopTooltipWnd = NULL;
+	WORD lw = LOWORD(wParam);
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		LocalizeDialog (hDlg, NULL);
+		// General Tab
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_MOUNT_READONLY), BM_SETCHECK,
+			defaultMountOptions.ReadOnly ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_MOUNT_REMOVABLE), BM_SETCHECK,
+			defaultMountOptions.Removable ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_OPEN_EXPLORER), BM_SETCHECK,
+			bExplore ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED), BM_SETCHECK,
+			bUseDifferentTrayIconIfVolMounted ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PRESERVE_TIMESTAMPS), BM_SETCHECK,
+			bPreserveTimestamp ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_SHOW_DISCONNECTED_NETWORK_DRIVES), BM_SETCHECK,
+			bShowDisconnectedNetworkDrives ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_HIDE_WAITING_DIALOG), BM_SETCHECK,
+			bHideWaitingDialog ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_SECURE_DESKTOP_PASSWORD_ENTRY), BM_SETCHECK,
+			bUseSecureDesktop ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_SECURE_DESKTOP_ENABLE_IME), BM_SETCHECK,
+			bEnableIMEInSecureDesktop ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_USE_LEGACY_MAX_PASSWORD_LENGTH), BM_SETCHECK,
+			bUseLegacyMaxPasswordLength ? BST_CHECKED : BST_UNCHECKED, 0);
+		if (!bUseSecureDesktop)
+		{
+			EnableWindow (GetDlgItem (hDlg, IDC_SECURE_DESKTOP_ENABLE_IME), FALSE);
+		}
+
+		hEnableIMEInSecureDesktopTooltipWnd = CreateToolTip (
+			IDC_SECURE_DESKTOP_ENABLE_IME,
+			hDlg,
+			"ENABLE_IME_IN_SECURE_DESKTOP_WARNING"
+			);
+		// make IDC_SECURE_DESKTOP_ENABLE_IME control fit the text so that the tooltip is shown only when mouse is over the text
+		AccommodateCheckBoxTextWidth(hDlg, IDC_SECURE_DESKTOP_ENABLE_IME);
+		return TRUE;
+
+	case WM_COMMAND:
+
+		// dynamicaly enable/disable IME setting depending on secure desktop setting
+		if (lw == IDC_SECURE_DESKTOP_PASSWORD_ENTRY)
+		{
+			if (IsButtonChecked (GetDlgItem (hDlg, IDC_SECURE_DESKTOP_PASSWORD_ENTRY)))
+				EnableWindow (GetDlgItem (hDlg, IDC_SECURE_DESKTOP_ENABLE_IME), TRUE);
+			else
+				EnableWindow (GetDlgItem (hDlg, IDC_SECURE_DESKTOP_ENABLE_IME), FALSE);
+		}
+		break;
+
+	case WM_DESTROY:
+		if (hEnableIMEInSecureDesktopTooltipWnd)
+		{
+			DestroyWindow (hEnableIMEInSecureDesktopTooltipWnd);
+			hEnableIMEInSecureDesktopTooltipWnd = NULL;
+		}
+		break;
+	}
+	return FALSE;
+}
+
+static INT_PTR CALLBACK PrefsActionsTabProc (HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	WORD lw = LOWORD(wParam);
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		LocalizeDialog (hDlg, NULL);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_BKG_TASK_ENABLE), BM_SETCHECK,
+			bEnableBkgTask ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_CLOSE_BKG_TASK_WHEN_NOVOL), BM_SETCHECK,
+			(bCloseBkgTaskWhenNoVolumes || IsNonInstallMode()) ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_LOGON_START), BM_SETCHECK,
+			bStartOnLogon ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_LOGON_MOUNT_DEVICES), BM_SETCHECK,
+			bMountDevicesOnLogon ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_LOGOFF), BM_SETCHECK,
+			bDismountOnLogOff ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_SESSION_LOCKED), BM_SETCHECK,
+			bDismountOnSessionLocked ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_POWERSAVING), BM_SETCHECK,
+			bDismountOnPowerSaving ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_SCREENSAVER), BM_SETCHECK,
+			bDismountOnScreenSaver ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_FORCE_AUTO_UNMOUNT), BM_SETCHECK,
+			bForceAutoDismount ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_INACTIVE), BM_SETCHECK,
+			MaxVolumeIdleTime > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		SetDlgItemInt (hDlg, IDC_PREF_UNMOUNT_INACTIVE_TIME, abs (MaxVolumeIdleTime), FALSE);
+		PreferencesDlgEnableButtons (hDlg);
+		return TRUE;
+
+	case WM_COMMAND:
+
+		if (lw == IDC_PREF_BKG_TASK_ENABLE && !IsButtonChecked (GetDlgItem (hDlg, IDC_PREF_BKG_TASK_ENABLE)))
+		{
+			if (AskWarnNoYes ("CONFIRM_BACKGROUND_TASK_DISABLED", hDlg) == IDNO)
+				CheckDlgButton(hDlg, IDC_PREF_BKG_TASK_ENABLE, BST_CHECKED);
+		}
+
+		// Forced dismount disabled warning
+		if (lw == IDC_PREF_UNMOUNT_INACTIVE
+			|| lw == IDC_PREF_UNMOUNT_LOGOFF
+			|| lw == IDC_PREF_UNMOUNT_SESSION_LOCKED
+			|| lw == IDC_PREF_UNMOUNT_POWERSAVING
+			|| lw == IDC_PREF_UNMOUNT_SCREENSAVER
+			|| lw == IDC_PREF_FORCE_AUTO_UNMOUNT)
+		{
+			BOOL i = IsButtonChecked (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_INACTIVE));
+			BOOL l = IsButtonChecked (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_LOGOFF));
+			BOOL sl = IsButtonChecked (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_SESSION_LOCKED));
+			BOOL p = IsButtonChecked (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_POWERSAVING));
+			BOOL s = IsButtonChecked (GetDlgItem (hDlg, IDC_PREF_UNMOUNT_SCREENSAVER));
+			BOOL q = IsButtonChecked (GetDlgItem (hDlg, IDC_PREF_FORCE_AUTO_UNMOUNT));
+
+			if (!q)
+			{
+				if (lw == IDC_PREF_FORCE_AUTO_UNMOUNT && (i || l || sl || p || s))
+				{
+					if (AskWarnNoYes ("CONFIRM_NO_FORCED_AUTOUNMOUNT", hDlg) == IDNO)
+						SetCheckBox (hDlg, IDC_PREF_FORCE_AUTO_UNMOUNT, TRUE);
+				}
+				else if ((lw == IDC_PREF_UNMOUNT_INACTIVE && i
+					|| lw == IDC_PREF_UNMOUNT_LOGOFF && l
+					|| lw == IDC_PREF_UNMOUNT_SESSION_LOCKED && sl
+					|| lw == IDC_PREF_UNMOUNT_POWERSAVING && p
+					|| lw == IDC_PREF_UNMOUNT_SCREENSAVER && s))
+					Warning ("WARN_PREF_AUTO_UNMOUNT", hDlg);
+			}
+
+			if (p && lw == IDC_PREF_UNMOUNT_POWERSAVING)
+				Warning ("WARN_PREF_AUTO_UNMOUNT_ON_POWER", hDlg);
+		}
+		if (HIWORD (wParam) == BN_CLICKED)
+		{
+			PreferencesDlgEnableButtons (hDlg);
+			return 1;
+		}
+		break;
+	}
+	return FALSE;
+}
+
+static INT_PTR CALLBACK PrefsPasswordTabProc (HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
 	case WM_INITDIALOG:
 		LocalizeDialog (hDlg, NULL);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_CACHE_PASSWORDS), BM_SETCHECK,
+			bCacheInDriverDefault ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT), BM_SETCHECK,
+			bCacheDuringMultipleMount ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_WIPE_CACHE_ON_EXIT), BM_SETCHECK,
+			bWipeCacheOnExit ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT), BM_SETCHECK,
+			bWipeCacheOnAutoDismount ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_CACHE_PIM), BM_SETCHECK,
+			bIncludePimInCache ? BST_CHECKED : BST_UNCHECKED, 0);
 		return TRUE;
 	}
 	return FALSE;
@@ -3516,9 +3673,9 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			TabCtrl_InsertItem(hTab, 2, &ti);
 
 			// Create tab dialogs as children of the main dialog
-			TabDialogs[0] = CreateDialog(hInst, MAKEINTRESOURCE(IDD_PREFERENCES_TAB_GENERAL),  hwndDlg, PrefsTabProc);
-			TabDialogs[1] = CreateDialog(hInst, MAKEINTRESOURCE(IDD_PREFERENCES_TAB_ACTIONS),  hwndDlg, PrefsTabProc);
-			TabDialogs[2] = CreateDialog(hInst, MAKEINTRESOURCE(IDD_PREFERENCES_TAB_PASSWORD), hwndDlg, PrefsTabProc);
+			TabDialogs[0] = CreateDialog(hInst, MAKEINTRESOURCE(IDD_PREFERENCES_TAB_GENERAL),  hwndDlg, PrefsGeneralTabProc);
+			TabDialogs[1] = CreateDialog(hInst, MAKEINTRESOURCE(IDD_PREFERENCES_TAB_ACTIONS),  hwndDlg, PrefsActionsTabProc);
+			TabDialogs[2] = CreateDialog(hInst, MAKEINTRESOURCE(IDD_PREFERENCES_TAB_PASSWORD), hwndDlg, PrefsPasswordTabProc);
 
 			// Position tab dialogs within the tab's display area
 			GetClientRect(hTab, &tabRect);
@@ -3542,64 +3699,6 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			// Show first page (unchanged)
 			ShowWindow(TabDialogs[0], SW_SHOW);
 			CurTab = 0;
-
-			// Populate controls on all tabs
-			// General Tab
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_PREF_MOUNT_READONLY), BM_SETCHECK,
-				defaultMountOptions.ReadOnly ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_PREF_MOUNT_REMOVABLE), BM_SETCHECK,
-				defaultMountOptions.Removable ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_PREF_OPEN_EXPLORER), BM_SETCHECK,
-				bExplore ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED), BM_SETCHECK,
-				bUseDifferentTrayIconIfVolMounted ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_PRESERVE_TIMESTAMPS), BM_SETCHECK,
-				bPreserveTimestamp ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_SHOW_DISCONNECTED_NETWORK_DRIVES), BM_SETCHECK,
-				bShowDisconnectedNetworkDrives ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_HIDE_WAITING_DIALOG), BM_SETCHECK,
-				bHideWaitingDialog ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_SECURE_DESKTOP_PASSWORD_ENTRY), BM_SETCHECK,
-				bUseSecureDesktop ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[0], IDC_USE_LEGACY_MAX_PASSWORD_LENGTH), BM_SETCHECK,
-				bUseLegacyMaxPasswordLength ? BST_CHECKED : BST_UNCHECKED, 0);
-
-			// Actions Tab
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_BKG_TASK_ENABLE), BM_SETCHECK,
-				bEnableBkgTask ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_CLOSE_BKG_TASK_WHEN_NOVOL), BM_SETCHECK,
-				(bCloseBkgTaskWhenNoVolumes || IsNonInstallMode()) ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_LOGON_START), BM_SETCHECK,
-				bStartOnLogon ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_LOGON_MOUNT_DEVICES), BM_SETCHECK,
-				bMountDevicesOnLogon ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_LOGOFF), BM_SETCHECK,
-				bDismountOnLogOff ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_SESSION_LOCKED), BM_SETCHECK,
-				bDismountOnSessionLocked ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_POWERSAVING), BM_SETCHECK,
-				bDismountOnPowerSaving ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_SCREENSAVER), BM_SETCHECK,
-				bDismountOnScreenSaver ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_FORCE_AUTO_UNMOUNT), BM_SETCHECK,
-				bForceAutoDismount ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_INACTIVE), BM_SETCHECK,
-				MaxVolumeIdleTime > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-			SetDlgItemInt (TabDialogs[1], IDC_PREF_UNMOUNT_INACTIVE_TIME, abs (MaxVolumeIdleTime), FALSE);
-
-			// Password Tab
-			SendMessage (GetDlgItem (TabDialogs[2], IDC_PREF_CACHE_PASSWORDS), BM_SETCHECK,
-				bCacheInDriverDefault ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[2], IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT), BM_SETCHECK,
-				bCacheDuringMultipleMount ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[2], IDC_PREF_WIPE_CACHE_ON_EXIT), BM_SETCHECK,
-				bWipeCacheOnExit ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[2], IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT), BM_SETCHECK,
-				bWipeCacheOnAutoDismount ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (TabDialogs[2], IDC_PREF_CACHE_PIM), BM_SETCHECK,
-				bIncludePimInCache ? BST_CHECKED : BST_UNCHECKED, 0);
-
-			PreferencesDlgEnableButtons (TabDialogs);
 		}
 		return 1;
 
@@ -3630,46 +3729,6 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 
-		if (lw == IDC_PREF_BKG_TASK_ENABLE && !IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_BKG_TASK_ENABLE)))
-		{
-			if (AskWarnNoYes ("CONFIRM_BACKGROUND_TASK_DISABLED", hwndDlg) == IDNO)
-				CheckDlgButton(TabDialogs[1], IDC_PREF_BKG_TASK_ENABLE, BST_CHECKED);
-		}
-
-		// Forced dismount disabled warning
-		if (lw == IDC_PREF_UNMOUNT_INACTIVE
-			|| lw == IDC_PREF_UNMOUNT_LOGOFF
-			|| lw == IDC_PREF_UNMOUNT_SESSION_LOCKED
-			|| lw == IDC_PREF_UNMOUNT_POWERSAVING
-			|| lw == IDC_PREF_UNMOUNT_SCREENSAVER
-			|| lw == IDC_PREF_FORCE_AUTO_UNMOUNT)
-		{
-			BOOL i = IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_INACTIVE));
-			BOOL l = IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_LOGOFF));
-			BOOL sl = IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_SESSION_LOCKED));
-			BOOL p = IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_POWERSAVING));
-			BOOL s = IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_UNMOUNT_SCREENSAVER));
-			BOOL q = IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_FORCE_AUTO_UNMOUNT));
-
-			if (!q)
-			{
-				if (lw == IDC_PREF_FORCE_AUTO_UNMOUNT && (i || l || sl || p || s))
-				{
-					if (AskWarnNoYes ("CONFIRM_NO_FORCED_AUTOUNMOUNT", hwndDlg) == IDNO)
-						SetCheckBox (TabDialogs[1], IDC_PREF_FORCE_AUTO_UNMOUNT, TRUE);
-				}
-				else if ((lw == IDC_PREF_UNMOUNT_INACTIVE && i
-					|| lw == IDC_PREF_UNMOUNT_LOGOFF && l
-					|| lw == IDC_PREF_UNMOUNT_SESSION_LOCKED && sl
-					|| lw == IDC_PREF_UNMOUNT_POWERSAVING && p
-					|| lw == IDC_PREF_UNMOUNT_SCREENSAVER && s))
-					Warning ("WARN_PREF_AUTO_UNMOUNT", hwndDlg);
-			}
-
-			if (p && lw == IDC_PREF_UNMOUNT_POWERSAVING)
-				Warning ("WARN_PREF_AUTO_UNMOUNT_ON_POWER", hwndDlg);
-		}
-
 		if (lw == IDCANCEL)
 		{
 			PreferencesDialogActive = FALSE;
@@ -3690,6 +3749,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bShowDisconnectedNetworkDrives = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_SHOW_DISCONNECTED_NETWORK_DRIVES));
 			bHideWaitingDialog = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_HIDE_WAITING_DIALOG));
 			bUseSecureDesktop = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_SECURE_DESKTOP_PASSWORD_ENTRY));
+			bEnableIMEInSecureDesktop = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_SECURE_DESKTOP_ENABLE_IME));
 			bUseLegacyMaxPasswordLength = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_USE_LEGACY_MAX_PASSWORD_LENGTH));
 
 			// Actions Tab
@@ -3752,7 +3812,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		if (HIWORD (wParam) == BN_CLICKED)
 		{
-			PreferencesDlgEnableButtons (TabDialogs);
+			PreferencesDlgEnableButtons (TabDialogs[1]); // actions tab
 			return 1;
 		}
 
@@ -7202,6 +7262,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bShowDisconnectedNetworkDrives = FALSE;
 			bHideWaitingDialog = FALSE;
 			bUseSecureDesktop = FALSE;
+			bEnableIMEInSecureDesktop = FALSE;
 			bUseLegacyMaxPasswordLength = FALSE;
 
 			// lock the init mutex
@@ -9307,6 +9368,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionTryEmptyPassword,
 				OptionNoWaitDlg,
 				OptionSecureDesktop,
+				OptionEnableIME,
 				OptionDisableDeviceUpdate,
 				OptionEnableMemoryProtection,
 				OptionEnableScreenProtection,
@@ -9339,6 +9401,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionTryEmptyPassword,		L"/tryemptypass",	NULL, FALSE },
 				{ OptionNoWaitDlg,			L"/nowaitdlg",	NULL, FALSE },
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
+				{ OptionEnableIME,			L"/enableIME",	NULL, FALSE },
 				{ OptionDisableDeviceUpdate,			L"/disableDeviceUpdate",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,			L"/protectMemory",	NULL, FALSE },
 				{ OptionEnableScreenProtection,			L"/protectScreen",	NULL, FALSE },
@@ -9433,6 +9496,24 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					}
 				}
 				break;
+
+			case OptionEnableIME:
+				{
+					wchar_t szTmp[16] = {0};
+					bCmdEnableIMEInSecureDesktop = TRUE;
+					bCmdEnableIMEInSecureDesktopValid = TRUE;
+
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, ARRAYSIZE (szTmp)))
+					{
+						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
+							bCmdEnableIMEInSecureDesktop = FALSE;
+						else if (!_wcsicmp(szTmp,L"y") || !_wcsicmp(szTmp,L"yes"))
+							bCmdEnableIMEInSecureDesktop = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				}
 
 			case OptionDisableDeviceUpdate:
 				{
@@ -10234,6 +10315,7 @@ static BOOL StartSystemFavoritesService ()
 	bShowDisconnectedNetworkDrives = TRUE;
 	bHideWaitingDialog = TRUE;
 	bUseSecureDesktop = FALSE;
+	bEnableIMEInSecureDesktop = FALSE;
 	bUseLegacyMaxPasswordLength = FALSE;
 
 	InitOSVersionInfo();
