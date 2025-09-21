@@ -1647,12 +1647,12 @@
     <entry lang="es" key="IDC_DISABLE_SCREEN_PROTECTION">Deshabilitar la protección contra capturas de pantalla y grabación de pantalla</entry>
     <entry lang="es" key="DISABLE_SCREEN_PROTECTION_WARNING">ADVERTENCIA: Deshabilitar la protección de pantalla reduce significativamente la seguridad. Habilite esta opción SOLO si necesita capturar la interfaz de VeraCrypt por un motivo específico. Esto puede exponer datos sensibles a herramientas de captura de pantalla y funciones de grabación de pantalla, como Windows 11 Recall.</entry>
     <entry lang="es" key="MEMORY_COST">Costo de Memoria</entry>
-    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
+    <entry lang="es" key="IDT_KDF_ALGO">Algoritmo KDF</entry>
+    <entry lang="es" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
+    <entry lang="es" key="IDD_PREFERENCES_TAB_ACTIONS">Acciones</entry>
+    <entry lang="es" key="IDD_PREFERENCES_TAB_PASSWORD">Contraseña</entry>
+    <entry lang="es" key="IDC_SECURE_DESKTOP_ENABLE_IME">Habilitar el editor de métodos de entrada (IME) en el Escritorio seguro</entry>
+    <entry lang="es" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">ADVERTENCIA: Habilite esta opción SOLO si encuentra problemas al seleccionar archivos clave (Keyfiles) o tokens en el Escritorio seguro.</entry>
 </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
