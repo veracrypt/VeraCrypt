@@ -1,6 +1,6 @@
 PATH=%PATH%;%WSDK81%\bin\x86
-set VC_VERSION=1.26.26
-set VC_VERSION_NBRE=1.26.26
+set VC_VERSION=1.26.27
+set VC_VERSION_NBRE=1.26.27
 set PFXNAME=TestCertificate\idrix_codeSign.pfx
 set PFXPASSWORD=idrix
 set PFXCA=TestCertificate\idrix_TestRootCA.crt
