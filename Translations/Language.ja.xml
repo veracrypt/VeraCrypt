@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.26">
+  <localization prog-version= "1.26.27">
     <language langid="ja" name="日本語" en-name="Japanese" version="1.1.0" translators="OGOSHI Masayuki, Transifex contributors" />
     <font lang="ja" class="normal" size="12" face="MS UI Gothic" />
     <font lang="ja" class="bold" size="16" face="MS UI Gothic" />
@@ -43,7 +43,7 @@
     <entry lang="ja" key="IDC_KB">&amp;KB</entry>
     <entry lang="ja" key="IDC_KEYFILES_ENABLE">キーファイルを使用(&amp;S)</entry>
     <entry lang="ja" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">最初に空のパスワードでマウントを試してください。</entry>
-    <entry lang="ja" key="IDC_KEYFILES_RANDOM_SIZE">ランダムサイズ ( 64 &lt;-&gt; 1048576 )</entry>    <entry lang="ja" key="IDC_KEY_FILES">キーファイル(&amp;K)</entry>
+    <entry lang="ja" key="IDC_KEYFILES_RANDOM_SIZE">ランダムサイズ ( 64 &lt;-&gt; 1048576 )</entry>
     <entry lang="ja" key="IDC_KEY_FILES">キーファイル(&amp;K)</entry>
     <entry lang="ja" key="IDC_LINK_HASH_INFO">ハッシュアルゴリズムについて</entry>
     <entry lang="ja" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">暗号について</entry>
