@@ -1652,8 +1652,8 @@
     <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_GENERAL">常规</entry>
     <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_ACTIONS">动作</entry>
     <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_PASSWORD">密码</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
+    <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_ENABLE_IME">在安全桌面中启用输入法编辑器（IME）</entry>
+    <entry lang="zh-cn" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">警告：仅当您在安全桌面下选择密钥文件/令牌时遇到问题时，才启用此选项。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
