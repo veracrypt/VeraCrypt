@@ -1654,8 +1654,8 @@
     <entry lang="de" key="IDD_PREFERENCES_TAB_GENERAL">Allgemein</entry>
     <entry lang="de" key="IDD_PREFERENCES_TAB_ACTIONS">Actionen</entry>
     <entry lang="de" key="IDD_PREFERENCES_TAB_PASSWORD">Passwort</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
+    <entry lang="de" key="IDC_SECURE_DESKTOP_ENABLE_IME">Eingabemethoden-Editor (IME) im Secure Desktop verwenden</entry>
+    <entry lang="de" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNUNG: Verwenden Sie diese Option nur, wenn Probleme bei der Auswahl von Schlüsseldateien/Tokens unter dem Secure Desktop auftreten.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
