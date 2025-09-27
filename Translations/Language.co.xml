@@ -7,7 +7,7 @@ Information about Corsican localization:
 
 2. History of Corsican translation for VeraCrypt:
 	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.27),
-	          Aug. 31th (1.26.27)
+	          Aug. 31st (1.26.27), Sep. 27th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
 	- Updated in 2023 by Patriccollu di Santa Maria è Sichè: May 29th (1.26), May 30th (1.26), June 1st (1.26),
 	          June 2nd (1.26), June 5th (1.26.2), June 21st (1.26.2), June 23rd (1.26.2), June 25th (1.26.2),
@@ -21,7 +21,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.27">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.0" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.1" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -1671,8 +1671,8 @@ Information about Corsican localization:
 	    <entry lang="co" key="IDD_PREFERENCES_TAB_GENERAL">Generale</entry>
 	    <entry lang="co" key="IDD_PREFERENCES_TAB_ACTIONS">Azzioni</entry>
 	    <entry lang="co" key="IDD_PREFERENCES_TAB_PASSWORD">Parolla d’intesa</entry>
-	    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-	    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
+	    <entry lang="co" key="IDC_SECURE_DESKTOP_ENABLE_IME">Attivà l’editore di metoda di stampittera (IME) in u scagnu sicuru</entry>
+	    <entry lang="co" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">AVERTIMENTU : Attivà st’ozzione solu s’è vo scuntrate prublemi quandu si selezziuneghja schedarii chjave o gettoni in u casu d’un scagnu sicuru.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
