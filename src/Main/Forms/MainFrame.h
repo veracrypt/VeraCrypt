@@ -99,6 +99,10 @@ namespace VeraCrypt
 		void OnBackupVolumeHeadersMenuItemSelected (wxCommandEvent& event);
 		void OnBeginnersTutorialMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"tutorial"); }
 		void OnBenchmarkMenuItemSelected (wxCommandEvent& event);
+		// Veraser begin
+    	virtual void OnSecureCopyMenuItemSelected( wxCommandEvent& event );
+    	virtual void OnSecureDeleteMenuItemSelected( wxCommandEvent& event );
+		// Veraser end
 		void OnChangeKeyfilesMenuItemSelected (wxCommandEvent& event) { ChangePassword (ChangePasswordDialog::Mode::ChangeKeyfiles); }
 		void OnChangePasswordMenuItemSelected (wxCommandEvent& event) { ChangePassword (); }
 		void OnChangePkcs5PrfMenuItemSelected (wxCommandEvent& event) { ChangePassword (ChangePasswordDialog::Mode::ChangePkcs5Prf); }

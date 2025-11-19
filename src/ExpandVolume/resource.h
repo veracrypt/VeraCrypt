@@ -72,6 +72,30 @@
 #define IDC_QUICKEXPAND                 1146
 #define IDC_STEPSEXPAND                 1147
 #define IDT_NEW_SIZE_BOX_TITLE          1148
+//veraser dlg - begin
+// Secure Copy ve Secure Delete diyalog ID'leri
+#define IDD_SECURE_COPY_DLG             1200
+#define IDD_SECURE_DELETE_DLG           1201
+
+// Secure Copy kontrolleri
+#define IDC_SOURCE_BUTTON               1202
+#define IDC_DESTINATION_BUTTON          1203
+#define IDC_SOURCE_PATH                 1204
+#define IDC_DESTINATION_PATH            1205
+
+// Secure Delete kontrolleri  
+#define IDC_TARGET_BUTTON               1206
+#define IDC_TARGET_PATH                 1207
+
+// Tüm algoritma seçenekleri için ID'ler
+#define IDC_ALG_ZERO                    1208
+#define IDC_ALG_RANDOM                  1209
+#define IDC_ALG_DOD3                    1210
+#define IDC_ALG_DOD7                    1211
+#define IDC_ALG_NIST                    1212
+#define IDC_ALG_GUTMANN                 1213
+#define IDC_ALG_SSD                     1214
+//veraser dlg - end
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -134,6 +158,10 @@
 #define IDM_SYSENC_SETTINGS             40060
 #define IDM_RESUME_INTERRUPTED_PROC     40061
 #define IDM_MANAGE_TOKEN_KEYFILES       40062
+//veraser - begin
+#define IDM_SECURE_COPY                 40063
+#define IDM_SECURE_DELETE               40064
+//veraser - end
 
 // Next default values for new objects
 // 

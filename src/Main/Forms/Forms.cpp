@@ -127,6 +127,19 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	WipeCachedPasswordsMenuItem = new wxMenuItem( ToolsMenu, wxID_ANY, wxString( _("IDM_WIPE_CACHE") ) , wxEmptyString, wxITEM_NORMAL );
 	ToolsMenu->Append( WipeCachedPasswordsMenuItem );
 
+	//veraser - begin
+	ToolsMenu->AppendSeparator();
+	// New Secure Copy menu item
+	wxMenuItem* SecureCopyMenuItem;
+	SecureCopyMenuItem = new wxMenuItem( ToolsMenu, wxID_ANY, wxString( _("IDM_SECURE_COPY") ) , wxEmptyString, wxITEM_NORMAL );
+	ToolsMenu->Append( SecureCopyMenuItem );
+
+	// New Secure Delete menu item
+	wxMenuItem* SecureDeleteMenuItem;
+	SecureDeleteMenuItem = new wxMenuItem( ToolsMenu, wxID_ANY, wxString( _("IDM_SECURE_DELETE") ) , wxEmptyString, wxITEM_NORMAL );
+	ToolsMenu->Append( SecureDeleteMenuItem );
+	//veraser - end
+
 	MainMenuBar->Append( ToolsMenu, _("MENU_TOOLS") );
 
 	SettingsMenu = new wxMenu();
@@ -430,6 +443,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	FavoritesMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnOrganizeFavoritesMenuItemSelected ), this, OrganizeFavoritesMenuItem->GetId());
 	FavoritesMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMountAllFavoritesMenuItemSelected ), this, MountAllFavoritesMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnBenchmarkMenuItemSelected ), this, BenchmarkMenuItem->GetId());
+	//veraser - begin
+	this->Connect( SecureCopyMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnSecureCopyMenuItemSelected ) );
+	this->Connect( SecureDeleteMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnSecureDeleteMenuItemSelected ) );
+	//veraser - end
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnEncryptionTestMenuItemSelected ), this, EncryptionTestMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnCreateVolumeButtonClick ), this, VolumeCreationWizardMenuItem->GetId());
 	ToolsMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnBackupVolumeHeadersMenuItemSelected ), this, BackupVolumeHeadersMenuItem->GetId());
@@ -490,6 +507,10 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnPreferencesMenuItemSelected ) );
 	this->Disconnect( wxID_HELP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnUserGuideMenuItemSelected ) );
 	this->Disconnect( wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnAboutMenuItemSelected ) );
+	//veraser - begin
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnSecureCopyMenuItemSelected ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnSecureDeleteMenuItemSelected ) );
+	//veraser - end
 #endif
 	this->Disconnect( wxEVT_ACTIVATE, wxActivateEventHandler( MainFrameBase::OnActivate ) );
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnClose ) );

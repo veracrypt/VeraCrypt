@@ -206,6 +206,30 @@
 #define IDC_DISABLE_SCREEN_PROTECTION   1181
 #define IDC_PREF_TAB                    1182
 #define IDC_SECURE_DESKTOP_ENABLE_IME   1183
+//veraser dlg - begin
+// Secure Copy ve Secure Delete diyalog ID'leri
+#define IDD_SECURE_COPY_DLG             1200
+#define IDD_SECURE_DELETE_DLG           1201
+
+// Secure Copy kontrolleri
+#define IDC_SOURCE_BUTTON               1202
+#define IDC_DESTINATION_BUTTON          1203
+#define IDC_SOURCE_PATH                 1204
+#define IDC_DESTINATION_PATH            1205
+
+// Secure Delete kontrolleri  
+#define IDC_TARGET_BUTTON               1206
+#define IDC_TARGET_PATH                 1207
+
+// Tüm algoritma seçenekleri için ID'ler
+#define IDC_ALG_ZERO                    1208
+#define IDC_ALG_RANDOM                  1209
+#define IDC_ALG_DOD3                    1210
+#define IDC_ALG_DOD7                    1211
+#define IDC_ALG_NIST                    1212
+#define IDC_ALG_GUTMANN                 1213
+#define IDC_ALG_SSD                     1214
+//veraser dlg - end
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -275,7 +299,13 @@
 #define IDM_DECRYPT_NONSYS_VOL          40067
 #define IDM_VERIFY_RESCUE_DISK_ISO      40068
 #define IDM_MOUNIT_NO_CACHE             40069
+//veraser - begin
+#define IDM_SECURE_COPY                 40070
+#define IDM_SECURE_DELETE               40071
+//veraser - end
 
+// Next default values for new objects
+//
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

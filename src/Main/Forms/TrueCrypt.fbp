@@ -392,6 +392,39 @@
                         <property name="unchecked_bitmap"></property>
                         <event name="OnMenuSelection">OnRestoreVolumeHeaderMenuItemSelected</event>
                     </object>
+                    <!-- Veraser Begin -->
+
+                                        <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap"></property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help"></property>
+                        <property name="id">wxID_ANY</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">IDM_SECURE_COPY</property>
+                        <property name="name">SecureCopyMenuItem</property>
+                        <property name="permission">protected</property>
+                        <property name="shortcut"></property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection">OnSecureCopyMenuItemSelected</event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                                        <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap"></property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help"></property>
+                        <property name="id">wxID_ANY</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">IDM_SECURE_DELETE</property>
+                        <property name="name">SecureDeleteMenuItem</property>
+                        <property name="permission">protected</property>
+                        <property name="shortcut"></property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection">OnSecureDeleteMenuItemSelected</event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                    <!-- Veraser Begin -->
                     <object class="separator" expanded="0">
                         <property name="name">m_separator9</property>
                         <property name="permission">none</property>

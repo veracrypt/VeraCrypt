@@ -204,6 +204,10 @@
     <entry lang="en" key="IDM_ANALYZE_SYSTEM_CRASH">Analyze a System Crash...</entry>
     <entry lang="en" key="IDM_BACKUP_VOL_HEADER">Backup Volume Header...</entry>
     <entry lang="en" key="IDM_BENCHMARK">Benchmark...</entry>
+    <!-- Veraser Begin-->
+    <entry lang="en" key="IDM_SECURE_COPY">Secure Copy...</entry>
+    <entry lang="en" key="IDM_SECURE_DELETE">Secure Delete...</entry>
+    <!-- Veraser End-->
     <entry lang="en" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm...</entry>
     <entry lang="en" key="IDM_CHANGE_PASSWORD">Change Volume Password...</entry>
     <entry lang="en" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm...</entry>

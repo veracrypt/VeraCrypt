@@ -92,6 +92,10 @@ namespace VeraCrypt
 			wxButton* MountAllDevicesButton;
 			wxButton* DismountAllButton;
 			wxButton* ExitButton;
+			//veraser - begin
+		    wxMenuItem* SecureCopyMenuItem;
+    		wxMenuItem* SecureDeleteMenuItem;
+			//veraser - end
 
 			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
@@ -147,6 +151,10 @@ namespace VeraCrypt
 			virtual void OnSelectDeviceButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnVolumeButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnExitButtonClick( wxCommandEvent& event ) { event.Skip(); }
+			//veraser - begin
+			virtual void OnSecureCopyMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
+    		virtual void OnSecureDeleteMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
+			//veraser - end
 
 
 		public:

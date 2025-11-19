@@ -29,6 +29,8 @@ OBJS += GraphicUserInterface.o
 OBJS += VolumeHistory.o
 OBJS += Forms/AboutDialog.o
 OBJS += Forms/BenchmarkDialog.o
+OBJS += Forms/SecureDeleteDialog.o # Veraser Dialog
+OBJS += ../Mount/veraser.o # Veraser Engine
 OBJS += Forms/ChangePasswordDialog.o
 OBJS += Forms/DeviceSelectionDialog.o
 OBJS += Forms/EncryptionOptionsWizardPage.o
@@ -477,3 +479,7 @@ Resources.o: $(RESOURCES)
 LanguageStrings.o: $(RESOURCES)
 
 include $(BUILD_INC)/Makefile.inc
+
+# Veraser C dosyasını derleme kuralı (Düzeltilmiş Path)
+../Mount/veraser.o: ../Mount/veraser.c
+	$(CC) $(CFLAGS) -I. -I../Mount -c ../Mount/veraser.c -o ../Mount/veraser.o

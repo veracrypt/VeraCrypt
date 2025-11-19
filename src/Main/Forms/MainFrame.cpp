@@ -37,6 +37,9 @@
 #include "SecurityTokenKeyfilesDialog.h"
 #include "VolumeCreationWizard.h"
 #include "VolumePropertiesDialog.h"
+// Veraser Start
+#include "Forms/SecureDeleteDialog.h"
+// Veraser End
 
 namespace VeraCrypt
 {
@@ -790,6 +793,28 @@ namespace VeraCrypt
 		dialog.ShowModal();
 	}
 
+// veraser - begin
+	void MainFrame::OnSecureCopyMenuItemSelected( wxCommandEvent& event )
+{
+#ifdef TC_MACOSX
+    if (Gui->IsInBackgroundMode()) Gui->SetBackgroundMode (false);
+#endif
+
+    SecureCopyDialog dialog(this);
+    dialog.ShowModal();
+}
+
+	void MainFrame::OnSecureDeleteMenuItemSelected( wxCommandEvent& event )
+{
+#ifdef TC_MACOSX
+    if (Gui->IsInBackgroundMode()) Gui->SetBackgroundMode (false);
+#endif
+
+    SecureDeleteDialog dialog(this);
+    dialog.ShowModal();
+}
+// veraser - end
+
 	void MainFrame::OnClearSlotSelectionMenuItemSelected (wxCommandEvent& event)
 	{
 		Gui->ClearListCtrlSelection (SlotListCtrl);
@@ -1508,6 +1533,11 @@ namespace VeraCrypt
 		Gui->AppendToMenu (popup, LangString["IDM_RESTORE_VOL_HEADER"], this, wxCommandEventHandler (MainFrame::OnRestoreVolumeHeaderMenuItemSelected));
 
 		PopupMenu (&popup, VolumeToolsButton->GetPosition().x + 2, VolumeToolsButton->GetPosition().y + 2);
+
+		//veraser - begin
+		Gui->AppendToMenu (popup, LangString["IDM_SECURE_COPY"], this, wxCommandEventHandler (MainFrame::OnSecureCopyMenuItemSelected));
+		Gui->AppendToMenu (popup, LangString["IDM_SECURE_DELETE"], this, wxCommandEventHandler (MainFrame::OnSecureDeleteMenuItemSelected));
+		//veraser - end
 	}
 
 	void MainFrame::OnWipeCacheButtonClick (wxCommandEvent& event)

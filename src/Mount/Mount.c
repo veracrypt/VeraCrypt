@@ -61,6 +61,17 @@
 #include <intrin.h>
 #include <vector>
 #include <algorithm>
+//veraser begin
+#include "veraser.c"
+#include "veraser.h"
+#include <commdlg.h>
+#include <shlobj.h>
+
+#ifdef _WIN32
+#pragma comment(lib, "bcrypt.lib") /* link CNG bcrypt functions */
+#endif
+
+//veraser end
 
 #pragma intrinsic(_InterlockedCompareExchange, _InterlockedExchange)
 
@@ -235,6 +246,11 @@ void ReleaseMainInitMutex ()
 // https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/prepare-software-for-modern-standby
 // https://docs.microsoft.com/en-us/windows/win32/w8cookbook/desktop-activity-moderator?redirectedfrom=MSDN
 static HPOWERNOTIFY  g_hPowerNotify = NULL;
+
+//veraser - begin
+INT_PTR CALLBACK SecureCopyDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK SecureDeleteDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+//veraser - end
 
 static void RegisterWtsAndPowerNotification(HWND hWnd)
 {
@@ -564,6 +580,273 @@ void EndMainDlg (HWND hwndDlg)
 	}
 }
 
+//veraser dlg controller begin
+// Secure Copy diyalog işleyicisi
+INT_PTR CALLBACK SecureCopyDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+    case WM_INITDIALOG:
+        // Varsayılan olarak NIST algoritmasını seç (önerilen)
+        CheckDlgButton(hwndDlg, IDC_ALG_NIST, BST_CHECKED);
+        return TRUE;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam))
+        {
+        case IDC_SOURCE_BUTTON:
+            {
+                // Dosya seçme diyaloğu
+                OPENFILENAMEW ofn;
+                wchar_t filePath[MAX_PATH] = L"";
+                
+                ZeroMemory(&ofn, sizeof(ofn));
+                ofn.lStructSize = sizeof(ofn);
+                ofn.hwndOwner = hwndDlg;
+                ofn.lpstrFile = filePath;
+                ofn.nMaxFile = MAX_PATH;
+                ofn.lpstrFilter = L"All Files\0*.*\0\0";
+                ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+                
+                if (GetOpenFileNameW(&ofn))
+                {
+                    SetDlgItemTextW(hwndDlg, IDC_SOURCE_PATH, filePath);
+                }
+            }
+            break;
+
+        case IDC_DESTINATION_BUTTON:
+            {
+                // Klasör seçme diyaloğu (destination için klasör seçilecek)
+                BROWSEINFOW bi = {0};
+                wchar_t folderPath[MAX_PATH] = L"";
+                
+                bi.hwndOwner = hwndDlg;
+                bi.pszDisplayName = folderPath;
+                bi.lpszTitle = L"Select destination folder";
+                bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+                
+                LPITEMIDLIST pidl = SHBrowseForFolderW(&bi);
+                if (pidl != NULL)
+                {
+                    if (SHGetPathFromIDListW(pidl, folderPath))
+                    {
+                        SetDlgItemTextW(hwndDlg, IDC_DESTINATION_PATH, folderPath);
+                    }
+                    CoTaskMemFree(pidl);
+                }
+            }
+            break;
+
+        case IDOK:
+            {
+                // Güvenli kopyalama işlemini gerçekleştir
+                wchar_t sourcePath[MAX_PATH], destFolder[MAX_PATH];
+                GetDlgItemTextW(hwndDlg, IDC_SOURCE_PATH, sourcePath, MAX_PATH);
+                GetDlgItemTextW(hwndDlg, IDC_DESTINATION_PATH, destFolder, MAX_PATH);
+                
+                // Seçilen algoritmayı kontrol et
+                ve_algorithm_t algorithm = VE_ALG_NIST;
+                if (IsDlgButtonChecked(hwndDlg, IDC_ALG_ZERO) == BST_CHECKED)
+                    algorithm = VE_ALG_ZERO;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_RANDOM) == BST_CHECKED)
+                    algorithm = VE_ALG_RANDOM;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_DOD3) == BST_CHECKED)
+                    algorithm = VE_ALG_DOD3;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_DOD7) == BST_CHECKED)
+                    algorithm = VE_ALG_DOD7;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_NIST) == BST_CHECKED)
+                    algorithm = VE_ALG_NIST;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_GUTMANN) == BST_CHECKED)
+                    algorithm = VE_ALG_GUTMANN;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_SSD) == BST_CHECKED)
+                    algorithm = VE_ALG_SSD;
+                
+                // Kaynak dosya var mı kontrol et
+                if (GetFileAttributesW(sourcePath) == INVALID_FILE_ATTRIBUTES)
+                {
+                    MessageBoxW(hwndDlg, L"Source file does not exist!", L"Error", MB_OK | MB_ICONERROR);
+                    break;
+                }
+                
+                // Hedef klasör var mı kontrol et
+                if (GetFileAttributesW(destFolder) == INVALID_FILE_ATTRIBUTES)
+                {
+                    MessageBoxW(hwndDlg, L"Destination folder does not exist!", L"Error", MB_OK | MB_ICONERROR);
+                    break;
+                }
+                
+                // Dosya adını çıkar ve hedef yolu oluştur
+                wchar_t fileName[MAX_PATH];
+                wchar_t destPath[MAX_PATH];
+                _wsplitpath_s(sourcePath, NULL, 0, NULL, 0, fileName, MAX_PATH, NULL, 0);
+                swprintf_s(destPath, MAX_PATH, L"%s\\%s", destFolder, fileName);
+                
+                // Dosyayı kopyala
+                if (!CopyFileW(sourcePath, destPath, FALSE))
+                {
+                    DWORD err = GetLastError();
+                    wchar_t errMsg[256];
+                    swprintf_s(errMsg, 256, L"File copy failed! Error code: %lu", err);
+                    MessageBoxW(hwndDlg, errMsg, L"Error", MB_OK | MB_ICONERROR);
+                    break;
+                }
+                
+                // Kopyalama başarılı, şimdi orijinal dosyayı güvenli sil
+                ve_options_t options;
+                memset(&options, 0, sizeof(options));
+                options.algorithm = algorithm;
+                options.trim_mode = 0; // auto
+                options.quiet = 1;
+                
+                // Wide char'dan multi byte'a çevir
+                char sourcePathA[MAX_PATH];
+                WideCharToMultiByte(CP_UTF8, 0, sourcePath, -1, sourcePathA, MAX_PATH, NULL, NULL);
+                
+                // Güvenli silme işlemi
+                ve_status_t status = ve_erase_path(sourcePathA, &options);
+                if (status != VE_SUCCESS)
+                {
+                    const char* errorMsg = ve_last_error_message();
+                    wchar_t errorMsgW[512];
+                    if (errorMsg)
+                    {
+                        MultiByteToWideChar(CP_UTF8, 0, errorMsg, -1, errorMsgW, 512);
+                    }
+                    else
+                    {
+                        wcscpy_s(errorMsgW, 512, L"Secure deletion failed with unknown error");
+                    }
+                    MessageBoxW(hwndDlg, errorMsgW, L"Error", MB_OK | MB_ICONERROR);
+                }
+                else
+                {
+                    MessageBoxW(hwndDlg, L"Secure copy completed successfully!", L"Success", MB_OK | MB_ICONINFORMATION);
+                }
+                
+                EndDialog(hwndDlg, IDOK);
+            }
+            break;
+
+        case IDCANCEL:
+            EndDialog(hwndDlg, IDCANCEL);
+            break;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Secure Delete diyalog işleyicisi
+// Secure Delete diyalog işleyicisi
+INT_PTR CALLBACK SecureDeleteDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+    case WM_INITDIALOG:
+        // Varsayılan olarak NIST algoritmasını seç (önerilen)
+        CheckDlgButton(hwndDlg, IDC_ALG_NIST, BST_CHECKED);
+        return TRUE;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam))
+        {
+        case IDC_TARGET_BUTTON:
+            {
+                // Dosya seçme diyaloğu
+                OPENFILENAMEW ofn;
+                wchar_t filePath[MAX_PATH] = L"";
+                
+                ZeroMemory(&ofn, sizeof(ofn));
+                ofn.lStructSize = sizeof(ofn);
+                ofn.hwndOwner = hwndDlg;
+                ofn.lpstrFile = filePath;
+                ofn.nMaxFile = MAX_PATH;
+                ofn.lpstrFilter = L"All Files\0*.*\0\0";
+                ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+                
+                if (GetOpenFileNameW(&ofn))
+                {
+                    SetDlgItemTextW(hwndDlg, IDC_TARGET_PATH, filePath);
+                }
+            }
+            break;
+
+        case IDOK:
+            {
+                // Güvenli silme işlemini gerçekleştir
+                wchar_t targetPath[MAX_PATH];
+                GetDlgItemTextW(hwndDlg, IDC_TARGET_PATH, targetPath, MAX_PATH);
+                
+                // Seçilen algoritmayı kontrol et
+                ve_algorithm_t algorithm = VE_ALG_NIST;
+                if (IsDlgButtonChecked(hwndDlg, IDC_ALG_ZERO) == BST_CHECKED)
+                    algorithm = VE_ALG_ZERO;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_RANDOM) == BST_CHECKED)
+                    algorithm = VE_ALG_RANDOM;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_DOD3) == BST_CHECKED)
+                    algorithm = VE_ALG_DOD3;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_DOD7) == BST_CHECKED)
+                    algorithm = VE_ALG_DOD7;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_NIST) == BST_CHECKED)
+                    algorithm = VE_ALG_NIST;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_GUTMANN) == BST_CHECKED)
+                    algorithm = VE_ALG_GUTMANN;
+                else if (IsDlgButtonChecked(hwndDlg, IDC_ALG_SSD) == BST_CHECKED)
+                    algorithm = VE_ALG_SSD;
+                
+                // Dosya var mı kontrol et
+                if (GetFileAttributesW(targetPath) == INVALID_FILE_ATTRIBUTES)
+                {
+                    MessageBoxW(hwndDlg, L"Target file does not exist!", L"Error", MB_OK | MB_ICONERROR);
+                    break;
+                }
+                
+                ve_options_t options;
+                memset(&options, 0, sizeof(options));
+                options.algorithm = algorithm;
+                options.trim_mode = 0; // auto
+                options.quiet = 1;
+                
+                // Wide char'dan multi byte'a çevir
+                char targetPathA[MAX_PATH];
+                WideCharToMultiByte(CP_UTF8, 0, targetPath, -1, targetPathA, MAX_PATH, NULL, NULL);
+                
+                // Güvenli silme işlemi
+                ve_status_t status = ve_erase_path(targetPathA, &options);
+                if (status != VE_SUCCESS)
+                {
+                    const char* errorMsg = ve_last_error_message();
+                    wchar_t errorMsgW[512];
+                    if (errorMsg)
+                    {
+                        MultiByteToWideChar(CP_UTF8, 0, errorMsg, -1, errorMsgW, 512);
+                    }
+                    else
+                    {
+                        wcscpy_s(errorMsgW, 512, L"Secure deletion failed with unknown error");
+                    }
+                    MessageBoxW(hwndDlg, errorMsgW, L"Error", MB_OK | MB_ICONERROR);
+                }
+                else
+                {
+                    MessageBoxW(hwndDlg, L"Secure deletion completed successfully!", L"Success", MB_OK | MB_ICONINFORMATION);
+                }
+                
+                EndDialog(hwndDlg, IDOK);
+            }
+            break;
+
+        case IDCANCEL:
+            EndDialog(hwndDlg, IDCANCEL);
+            break;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+//veraser dlg controller end
+
 static void InitMainDialog (HWND hwndDlg)
 {
 	MENUITEMINFOW info;
@@ -706,6 +989,10 @@ void EnableDisableButtons (HWND hwndDlg)
 	EnableMenuItem (GetMenu (hwndDlg), IDM_BACKUP_VOL_HEADER, MF_ENABLED);
 	EnableMenuItem (GetMenu (hwndDlg), IDM_RESTORE_VOL_HEADER, MF_ENABLED);
 	EnableMenuItem (GetMenu (hwndDlg), IDM_CHANGE_PASSWORD, MF_ENABLED);
+	//veraser - begin
+	EnableMenuItem (GetMenu (hwndDlg), IDM_SECURE_COPY, MF_ENABLED);
+	EnableMenuItem (GetMenu (hwndDlg), IDM_SECURE_DELETE, MF_ENABLED);
+	//veraser - end
 	EnableWindow (hOKButton, TRUE);
 
 	switch (x)
@@ -8508,6 +8795,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				AppendMenu (popup, MF_SEPARATOR, 0, NULL);
 				AppendMenuW (popup, MF_STRING, IDM_BACKUP_VOL_HEADER, GetString ("IDM_BACKUP_VOL_HEADER"));
 				AppendMenuW (popup, MF_STRING, IDM_RESTORE_VOL_HEADER, GetString ("IDM_RESTORE_VOL_HEADER"));
+				//veraser - begin
+				AppendMenuW (popup, MF_STRING, IDM_SECURE_COPY, GetString ("IDM_SECURE_COPY"));
+				AppendMenuW (popup, MF_STRING, IDM_SECURE_DELETE, GetString ("IDM_SECURE_DELETE"));
+				//veraser - end
 			}
 
 			GetWindowRect (GetDlgItem (hwndDlg, IDC_VOLUME_TOOLS), &rect);
@@ -8629,7 +8920,15 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					NormalCursor ();
 				}
 				break;
+			//veraser - begin
+			case IDM_SECURE_COPY:
+				DialogBoxParamW(hInst, MAKEINTRESOURCEW(IDD_SECURE_COPY_DLG), hwndDlg, SecureCopyDialogProc, 0);
+				break;
 
+			case IDM_SECURE_DELETE:
+				DialogBoxParamW(hInst, MAKEINTRESOURCEW(IDD_SECURE_DELETE_DLG), hwndDlg, SecureDeleteDialogProc, 0);
+				break;
+			//veraser - end
 			default:
 				SendMessage (MainDlg, WM_COMMAND, menuItem, NULL);
 				break;
@@ -9086,6 +9385,20 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			return 1;
 		}
+
+		//veraser - begin
+		if (lw == IDM_SECURE_COPY)
+		{
+			DialogBoxParamW(hInst, MAKEINTRESOURCEW(IDD_SECURE_COPY_DLG), hwndDlg, SecureCopyDialogProc, 0);
+			return 1;
+		}
+
+		if (lw == IDM_SECURE_DELETE)
+		{
+			DialogBoxParamW(hInst, MAKEINTRESOURCEW(IDD_SECURE_DELETE_DLG), hwndDlg, SecureDeleteDialogProc, 0);
+			return 1;
+		}
+		//veraser - end
 
 		if (lw == IDM_LANGUAGE)
 		{
