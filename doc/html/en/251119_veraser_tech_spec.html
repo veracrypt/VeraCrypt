@@ -1,0 +1,543 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body><h1 id="veraser-veracrypt-plug-in-technical-specification">VERASER VeraCrypt Plug-in - Technical Specification</h1>
+<p><strong>Version:</strong> 1.0<br><strong>Date:</strong> September 2025<br><strong>Author:</strong> Ömer Can VURAL<br><strong>Project:</strong> VERASER Integration for VeraCrypt 1.25.9</p>
+<hr>
+<h2 id="1-overview">1. Overview</h2>
+<h3 id="1-1-purpose">1.1 Purpose</h3>
+<p>This document specifies the technical implementation of VERASER secure file erasure functionality as a plug-in for VeraCrypt, an open-source disk encryption software. The integration provides users with cryptographically secure file deletion capabilities directly within the VeraCrypt interface.</p>
+<p>The project addresses the issue of residual data recoverability when files are copied into encrypted volumes, although the source file is deleted, forensic tools may still recover it. Veraser ensures that such files are irreversibly destroyed using proven sanitization methods.</p>
+<h3 id="1-2-scope">1.2 Scope</h3>
+<p>The plug-in adds two new features to VeraCrypt&#39;s Tools menu:</p>
+<ul>
+<li><strong>Secure Copy</strong>: Copy a file to a destination (e.g. encrypted volume) and securely delete the original</li>
+<li><strong>Secure Delete</strong>: Securely delete a target file using secure delete algorithms</li>
+</ul>
+<h3 id="1-3-target-platform">1.3 Target Platform</h3>
+<ul>
+<li><strong>Operating System</strong>: Windows (primary target for VeraCrypt 1.25.9)</li>
+<li><strong>Architecture</strong>: x86/x64</li>
+<li><strong>Compiler</strong>: Followed VeraCrypt original building instructions</li>
+<li><strong>Dependencies</strong>: Windows CNG (bcrypt.lib), standard Windows SDK, OpenSSL</li>
+</ul>
+<hr>
+<h2 id="2-architecture">2. Architecture</h2>
+<h3 id="2-1-integration-approach">2.1 Integration Approach</h3>
+<p>The VERASER engine is integrated as an embedded library within VeraCrypt&#39;s codebase:</p>
+<pre><code>VeraCrypt/src/Mount/
+├─── ...
+└─── src
+    ├─── ...
+    ├─── Common
+    │       Dlgcode<span class="hljs-selector-class">.c</span>
+    │       Language<span class="hljs-selector-class">.xml</span>
+    │       ...
+    │
+    ├─── ExpandVolume
+    │       resource<span class="hljs-selector-class">.h</span>
+    │       ...
+    │
+    ├─── Main
+    │   └─── Forms
+    │           Forms<span class="hljs-selector-class">.cpp</span>
+    │           Forms<span class="hljs-selector-class">.h</span>
+    │           MainFrame<span class="hljs-selector-class">.cpp</span>
+    │           MainFrame<span class="hljs-selector-class">.h</span>
+    │           TrueCrypt<span class="hljs-selector-class">.fbp</span>
+    │           ...
+    │
+    └─── Mount
+            Mount<span class="hljs-selector-class">.c</span>
+            Mount<span class="hljs-selector-class">.h</span>
+            Mount<span class="hljs-selector-class">.rc</span>
+            Mount<span class="hljs-selector-class">.vcproj</span>
+            Resource<span class="hljs-selector-class">.h</span>
+            veraser<span class="hljs-selector-class">.c</span>
+            veraser<span class="hljs-selector-class">.h</span>
+            ...
+</code></pre><h3 id="2-2-component-diagram">2.2 Component Diagram</h3>
+<pre><code>┌─────────────────────────────────────┐
+│      VeraCrypt Main Window          │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │     Tools Menu              │    │
+│  │  - Benchmark                │    │
+│  │  - [Separator]              │    │
+│  │  - Secure <span class="hljs-keyword">Copy</span>    [<span class="hljs-keyword">NEW</span>]     │    │
+│  │  - Secure <span class="hljs-keyword">Delete</span>  [<span class="hljs-keyword">NEW</span>]     │    │
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+           │
+           ├──────────────────┬──────────────────┐
+           │                  │                  │
+           ▼                  ▼                  ▼
+┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+│ Secure <span class="hljs-keyword">Copy</span> Dlg  │ │Secure <span class="hljs-keyword">Delete</span> Dlg │ │  VERASER Core    │
+│                  │ │                  │ │                  │
+│ - <span class="hljs-keyword">Source</span> Path    │ │ - Target Path    │ │ - ve_erase_path()│
+│ - Dest Path      │ │ - Algorithm      │ │ - AES-<span class="hljs-number">256</span>-CTR    │
+│ - Algorithm      │ │   Selection      │ │ - DoD<span class="hljs-regexp">/NIST/</span>etc   │
+│   Selection      │ │                  │ │ - TRIM Support   │
+└──────────────────┘ └──────────────────┘ └──────────────────┘
+</code></pre><hr>
+<h2 id="3-user-interface-specifications">3. User Interface Specifications</h2>
+<h3 id="3-1-menu-integration">3.1 Menu Integration</h3>
+<p><strong>Location</strong>: VeraCrypt Main Window → Tools Menu</p>
+<p><strong>New Menu Items</strong>:</p>
+<pre><code><span class="hljs-symbol">Tools</span>
+  ├── ...
+  ├── ──────────────  [<span class="hljs-symbol">Separator</span>]
+  ├── <span class="hljs-symbol">Secure</span> <span class="hljs-symbol">Copy</span>     [<span class="hljs-symbol">NEW</span>]
+  └── <span class="hljs-symbol">Secure</span> <span class="hljs-symbol">Delete</span>   [<span class="hljs-symbol">NEW</span>]
+  ...
+</code></pre><h3 id="3-2-secure-copy-dialog-idd_secure_copy_dlg-">3.2 Secure Copy Dialog (IDD_SECURE_COPY_DLG)</h3>
+<p><strong>Dialog ID</strong>: <code>1200</code><br><strong>Title</strong>: &quot;Secure Copy&quot;<br><strong>Dimensions</strong>: 400x320 dialog units</p>
+<p><strong>Controls</strong>:</p>
+<ul>
+<li><strong>Description Label</strong>: Static text explaining functionality</li>
+<li><strong>Source Button</strong> (<code>IDC_SOURCE_BUTTON</code>): Opens file browser for source file selection</li>
+<li><strong>Source Path</strong> (<code>IDC_SOURCE_PATH</code>): Read-only text field displaying selected source path</li>
+<li><strong>Destination Button</strong> (<code>IDC_DESTINATION_BUTTON</code>): Opens folder browser for destination selection</li>
+<li><strong>Destination Path</strong> (<code>IDC_DESTINATION_PATH</code>): Read-only text field displaying selected destination</li>
+<li><strong>Algorithm Group</strong>: Radio button group containing 7 algorithm options<ul>
+<li>Zero (IDC_ALG_ZERO) - 1-pass zeros</li>
+<li>Random (IDC_ALG_RANDOM) - 1-pass random</li>
+<li>DoD 3-pass (IDC_ALG_DOD3) - US DoD 5220.22-M</li>
+<li>DoD 7-pass (IDC_ALG_DOD7) - Extended DoD</li>
+<li>NIST (IDC_ALG_NIST) - NIST 800-88 [DEFAULT]</li>
+<li>Gutmann (IDC_ALG_GUTMANN) - 35-pass</li>
+<li>SSD (IDC_ALG_SSD) - Encrypt + TRIM</li>
+</ul>
+</li>
+<li><strong>OK Button</strong>: Executes secure copy operation</li>
+<li><strong>Cancel Button</strong>: Closes dialog without action</li>
+</ul>
+<h3 id="3-3-secure-delete-dialog-idd_secure_delete_dlg-">3.3 Secure Delete Dialog (IDD_SECURE_DELETE_DLG)</h3>
+<p><strong>Dialog ID</strong>: <code>1201</code><br><strong>Title</strong>: &quot;Secure Delete&quot;<br><strong>Dimensions</strong>: 400x280 dialog units</p>
+<p><strong>Controls</strong>:</p>
+<ul>
+<li><strong>Description Label</strong>: Static text explaining functionality</li>
+<li><strong>Target Button</strong> (<code>IDC_TARGET_BUTTON</code>): Opens file browser for target file selection</li>
+<li><strong>Target Path</strong> (<code>IDC_TARGET_PATH</code>): Read-only text field displaying selected target path</li>
+<li><strong>Algorithm Group</strong>: Radio button group (identical to Secure Copy)</li>
+<li><strong>OK Button</strong>: Executes secure deletion</li>
+<li><strong>Cancel Button</strong>: Closes dialog without action</li>
+</ul>
+<hr>
+<h2 id="4-functional-specifications">4. Functional Specifications</h2>
+<h3 id="4-1-secure-copy-workflow">4.1 Secure Copy Workflow</h3>
+<pre><code><span class="hljs-number">1</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">clicks</span> <span class="hljs-string">"Secure Copy"</span> from Tools menu
+<span class="hljs-number">2</span>. Dialog opens with NIST algorithm pre-selected
+<span class="hljs-number">3</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">selects</span> source file via file browser
+<span class="hljs-number">4</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">selects</span> destination folder via folder browser
+<span class="hljs-number">5</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">optionally</span> changes algorithm selection
+<span class="hljs-number">6</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">clicks</span> OK
+<span class="hljs-number">7</span>. System validates:
+   - Source file exists
+   - Destination folder exists
+   - <span class="hljs-keyword">User</span> <span class="hljs-title">has</span> <span class="hljs-keyword">write</span> permissions
+<span class="hljs-number">8</span>. System copies file using Windows CopyFileW()
+<span class="hljs-number">9</span>. On successful copy:
+   - Convert source path from UTF-<span class="hljs-number">16</span> to UTF-<span class="hljs-number">8</span>
+   - Initialize ve_options_t with selected algorithm
+   - Call ve_erase_path() on original file
+   - Display success/error message
+<span class="hljs-number">10</span>. Dialog closes
+</code></pre><h3 id="4-2-secure-delete-workflow">4.2 Secure Delete Workflow</h3>
+<pre><code><span class="hljs-number">1</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">clicks</span> <span class="hljs-string">"Secure Delete"</span> from Tools menu
+<span class="hljs-number">2</span>. Dialog opens with NIST algorithm pre-selected
+<span class="hljs-number">3</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">selects</span> target file via file browser
+<span class="hljs-number">4</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">optionally</span> changes algorithm selection
+<span class="hljs-number">5</span>. <span class="hljs-keyword">User</span> <span class="hljs-title">clicks</span> OK
+<span class="hljs-number">6</span>. System validates:
+   - Target file exists
+   - <span class="hljs-keyword">User</span> <span class="hljs-title">has</span> delete permissions
+<span class="hljs-number">7</span>. System executes:
+   - Convert target path from UTF-<span class="hljs-number">16</span> to UTF-<span class="hljs-number">8</span>
+   - Initialize ve_options_t with selected algorithm
+   - Call ve_erase_path() on target file
+   - Display success/error message
+<span class="hljs-number">8</span>. Dialog closes
+</code></pre><h3 id="4-3-algorithm-behavior">4.3 Algorithm Behavior</h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Passes</th>
+<th>Method</th>
+<th>Typical Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Zero</strong></td>
+<td>1</td>
+<td>Single pass of 0x00 bytes</td>
+<td>Quick sanitization, low security</td>
+</tr>
+<tr>
+<td><strong>Random</strong></td>
+<td>1</td>
+<td>CSPRNG data from BCryptGenRandom</td>
+<td>General purpose</td>
+</tr>
+<tr>
+<td><strong>DoD 3-pass</strong></td>
+<td>3</td>
+<td>0xFF, 0x00, random + verify</td>
+<td>Regulatory compliance</td>
+</tr>
+<tr>
+<td><strong>DoD 7-pass</strong></td>
+<td>7</td>
+<td>Extended DoD pattern sequence</td>
+<td>High security HDD</td>
+</tr>
+<tr>
+<td><strong>NIST</strong></td>
+<td>1</td>
+<td>CSPRNG data (NIST 800-88)</td>
+<td><strong>Recommended default</strong></td>
+</tr>
+<tr>
+<td><strong>Gutmann</strong></td>
+<td>35</td>
+<td>Historical maximum patterns</td>
+<td>Legacy/paranoid scenarios</td>
+</tr>
+<tr>
+<td><strong>SSD</strong></td>
+<td>1</td>
+<td>AES-256-CTR encryption + TRIM</td>
+<td><strong>Recommended for SSD/NVMe</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-api-integration">5. API Integration</h2>
+<h3 id="5-1-veraser-core-api-usage">5.1 VERASER Core API Usage</h3>
+<p><strong>Header</strong>: <code>veraser.h</code><br><strong>Implementation</strong>: <code>veraser.c</code></p>
+<p><strong>Primary Function</strong>:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">ve_status_t</span> ve_erase_path(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* path, <span class="hljs-keyword">const</span> <span class="hljs-keyword">ve_options_t</span>* options);
+</code></pre>
+<p><strong>Options Structure</strong>:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">ve_algorithm_t</span> algorithm;     <span class="hljs-comment">// Algorithm selection</span>
+    <span class="hljs-keyword">ve_device_type_t</span> device_type; <span class="hljs-comment">// AUTO/SSD/HDD hint</span>
+    <span class="hljs-keyword">int</span> passes;                   <span class="hljs-comment">// For random algorithm</span>
+    <span class="hljs-keyword">int</span> verify;                   <span class="hljs-comment">// Enable verification</span>
+    <span class="hljs-keyword">int</span> trim_mode;                <span class="hljs-comment">// 0=auto, 1=on, 2=off</span>
+    <span class="hljs-keyword">int</span> follow_symlinks;          <span class="hljs-comment">// Traverse symlinks</span>
+    <span class="hljs-keyword">int</span> erase_ads;                <span class="hljs-comment">// NTFS ADS handling</span>
+    <span class="hljs-keyword">int</span> erase_xattr;              <span class="hljs-comment">// Extended attributes</span>
+    <span class="hljs-keyword">uint64_t</span> chunk_size;          <span class="hljs-comment">// I/O buffer size</span>
+    <span class="hljs-keyword">int</span> threads;                  <span class="hljs-comment">// Reserved for future</span>
+    <span class="hljs-keyword">int</span> dry_run;                  <span class="hljs-comment">// No-op preview mode</span>
+    <span class="hljs-keyword">int</span> quiet;                    <span class="hljs-comment">// Reduce verbosity</span>
+} <span class="hljs-keyword">ve_options_t</span>;
+</code></pre>
+<h3 id="5-2-integration-pattern">5.2 Integration Pattern</h3>
+<p><strong>Typical Call Sequence</strong>:</p>
+<pre><code class="lang-c"><span class="hljs-comment">// 1. Initialize options</span>
+ve_options_t <span class="hljs-keyword">options</span>;
+memset(&amp;<span class="hljs-keyword">options</span>, <span class="hljs-number">0</span>, sizeof(<span class="hljs-keyword">options</span>));
+<span class="hljs-keyword">options</span>.algorithm = VE_ALG_NIST;  <span class="hljs-comment">// Or user selection</span>
+<span class="hljs-keyword">options</span>.trim_mode = <span class="hljs-number">0</span>;             <span class="hljs-comment">// Auto TRIM</span>
+<span class="hljs-keyword">options</span>.quiet = <span class="hljs-number">1</span>;                 <span class="hljs-comment">// Suppress verbose output</span>
+
+<span class="hljs-comment">// 2. Convert path encoding (Windows UTF-16 to UTF-8)</span>
+<span class="hljs-keyword">char</span> targetPathA[MAX_PATH];
+WideCharToMultiByte(CP_UTF8, <span class="hljs-number">0</span>, targetPathW, -<span class="hljs-number">1</span>, 
+                    targetPathA, MAX_PATH, <span class="hljs-keyword">NULL</span>, <span class="hljs-keyword">NULL</span>);
+
+<span class="hljs-comment">// 3. Execute erasure</span>
+ve_status_t status = ve_erase_path(targetPathA, &amp;<span class="hljs-keyword">options</span>);
+
+<span class="hljs-comment">// 4. Handle result</span>
+<span class="hljs-keyword">if</span> (status != VE_SUCCESS) {
+    const <span class="hljs-keyword">char</span>* errorMsg = ve_last_error_message();
+    <span class="hljs-comment">// Display error to user</span>
+}
+</code></pre>
+<hr>
+<h2 id="6-security-considerations">6. Security Considerations</h2>
+<h3 id="6-1-cryptographic-components">6.1 Cryptographic Components</h3>
+<p><strong>Random Number Generation</strong>:</p>
+<ul>
+<li><strong>Source</strong>: Windows CNG BCryptGenRandom with BCRYPT_USE_SYSTEM_PREFERRED_RNG</li>
+<li><strong>Quality</strong>: FIPS 140-2 compliant system CSPRNG</li>
+<li><strong>Usage</strong>: Random pass generation, AES key/IV generation</li>
+</ul>
+<p><strong>Encryption (SSD Mode)</strong>:</p>
+<ul>
+<li><strong>Algorithm</strong>: AES-256-CTR</li>
+<li><strong>Implementation</strong>: Windows CNG BCrypt API</li>
+<li><strong>Key Size</strong>: 256 bits (32 bytes)</li>
+<li><strong>IV Size</strong>: 128 bits (16 bytes)</li>
+<li><strong>Mode</strong>: Counter (CTR) with automatic increment</li>
+</ul>
+<h3 id="6-2-memory-security">6.2 Memory Security</h3>
+<p><strong>Sensitive Data Handling</strong>:</p>
+<pre><code class="lang-c"><span class="hljs-comment">// AES keys and buffers are securely wiped after use</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ve_secure_bzero</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* p, <span class="hljs-keyword">size_t</span> n)</span> </span>{
+    SecureZeroMemory(p, n);  <span class="hljs-comment">// Windows secure zeroing</span>
+}
+</code></pre>
+<p><strong>Buffer Lifecycle</strong>:</p>
+<ol>
+<li>Allocate buffer for I/O operations (default 8 MiB)</li>
+<li>Use for encryption/overwriting</li>
+<li>Securely zero buffer before deallocation</li>
+<li>Free memory</li>
+</ol>
+<h3 id="6-3-thread-safety">6.3 Thread Safety</h3>
+<ul>
+<li><strong>Error Storage</strong>: Thread-local storage (<code>__declspec(thread)</code>) ensures per-thread error messages</li>
+<li><strong>Reentrant Design</strong>: All public APIs are thread-safe for concurrent operations</li>
+<li><strong>No Global State</strong>: Operations are stateless and independent</li>
+</ul>
+<h3 id="6-4-attack-surface-analysis">6.4 Attack Surface Analysis</h3>
+<p><strong>Mitigated Threats</strong>:</p>
+<ul>
+<li>File recovery tools (Recuva, PhotoRec)</li>
+<li>Forensic carving from unallocated space</li>
+<li>Simple filesystem analysis</li>
+<li>Basic disk imaging</li>
+</ul>
+<hr>
+<h2 id="7-error-handling">7. Error Handling</h2>
+<h3 id="7-1-return-codes">7.1 Return Codes</h3>
+<pre><code class="lang-c">typedef enum {
+    <span class="hljs-type">VE_SUCCESS</span> = 0,           // <span class="hljs-type">Operation</span> successful
+    <span class="hljs-type">VE_ERR_INVALID_ARG</span> = -1,  // <span class="hljs-type">Invalid</span> parameters
+    <span class="hljs-type">VE_ERR_IO</span> = -2,           // <span class="hljs-type">I</span>/<span class="hljs-type">O</span> error
+    <span class="hljs-type">VE_ERR_PERM</span> = -3,         // <span class="hljs-type">Permission</span> denied
+    <span class="hljs-type">VE_ERR_UNSUPPORTED</span> = -4,  // <span class="hljs-type">Feature</span> not supported
+    <span class="hljs-type">VE_ERR_PARTIAL</span> = -5,      // <span class="hljs-type">Partial</span> completion
+    <span class="hljs-type">VE_ERR_INTERNAL</span> = -128    // <span class="hljs-type">Internal</span> error
+} ve_status_t;
+</code></pre>
+<h3 id="7-2-user-facing-error-messages">7.2 User-Facing Error Messages</h3>
+<p><strong>Dialog Error Display</strong>:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">if</span> (status != VE_SUCCESS) {
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* errorMsg = ve_last_error_message();
+    <span class="hljs-keyword">wchar_t</span> errorMsgW[<span class="hljs-number">512</span>];
+
+    <span class="hljs-keyword">if</span> (errorMsg) {
+        MultiByteToWideChar(CP_UTF8, <span class="hljs-number">0</span>, errorMsg, <span class="hljs-number">-1</span>, 
+                            errorMsgW, <span class="hljs-number">512</span>);
+    } <span class="hljs-keyword">else</span> {
+        wcscpy_s(errorMsgW, <span class="hljs-number">512</span>, 
+                 <span class="hljs-string">L"Secure deletion failed with unknown error"</span>);
+    }
+
+    MessageBoxW(hwndDlg, errorMsgW, <span class="hljs-string">L"Error"</span>, 
+                MB_OK | MB_ICONERROR);
+}
+</code></pre>
+<hr>
+<h2 id="8-build-configuration">8. Build Configuration</h2>
+<h3 id="8-1-modified-files">8.1 Modified Files</h3>
+<p><strong>Source Code Changes</strong>:</p>
+<ul>
+<li><code>src/Mount/Mount.c</code> - Dialog procedures, menu handlers</li>
+<li><code>src/Mount/Mount.rc</code> - Dialog resource definitions</li>
+<li><code>src/Mount/Resource.h</code> - Control ID definitions</li>
+<li><code>src/Mount/Mount.vcxproj</code> - Build configuration (bcrypt.lib linking)</li>
+<li><code>src/Common/Language.xml</code> - Localized strings</li>
+<li><code>src/Main/Forms/Forms.cpp</code> - wxWidgets menu integration</li>
+<li><code>src/Main/Forms/Forms.h</code> - Menu item declarations</li>
+</ul>
+<p><strong>New Files</strong>:</p>
+<ul>
+<li><code>src/Mount/veraser.c</code> - Core erasure engine</li>
+<li><code>src/Mount/veraser.h</code> - Public API header</li>
+</ul>
+<h3 id="8-2-linker-configuration">8.2 Linker Configuration</h3>
+<p><strong>Additional Dependencies</strong>:</p>
+<pre><code class="lang-xml"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Link</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">AdditionalDependencies</span>&gt;</span>
+    bcrypt.lib;       <span class="hljs-comment">&lt;!-- Windows CNG --&gt;</span>
+    shell32.lib;      <span class="hljs-comment">&lt;!-- Folder browser --&gt;</span>
+    ole32.lib;        <span class="hljs-comment">&lt;!-- COM initialization --&gt;</span>
+</span><span class="perl">    %(AdditionalDependencies)</span><span class="xml">
+  <span class="hljs-tag">&lt;/<span class="hljs-name">AdditionalDependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span></span>
+</code></pre>
+<h3 id="8-3-preprocessor-definitions">8.3 Preprocessor Definitions</h3>
+<pre><code class="lang-c"><span class="hljs-comment">// Optional: Build CLI standalone version</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VE_BUILD_CLI</span>
+
+<span class="hljs-comment">// Optional: Use OpenSSL on POSIX (not applicable for Windows build)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VE_USE_OPENSSL</span>
+</code></pre>
+<hr>
+<h2 id="9-localization">9. Localization</h2>
+<h3 id="9-1-language-xml-entries">9.1 Language.xml Entries</h3>
+<pre><code class="lang-xml">&lt;<span class="hljs-keyword">entry</span> lang=<span class="hljs-string">"en"</span> key=<span class="hljs-string">"IDM_SECURE_COPY"</span>&gt;Secure Copy...&lt;/<span class="hljs-keyword">entry</span>&gt;
+&lt;<span class="hljs-keyword">entry</span> lang=<span class="hljs-string">"en"</span> key=<span class="hljs-string">"IDM_SECURE_DELETE"</span>&gt;Secure Delete...&lt;/<span class="hljs-keyword">entry</span>&gt;
+</code></pre>
+<p><strong>Future Localization</strong>:</p>
+<ul>
+<li>Dialog control labels should be extracted to Language.xml</li>
+<li>Algorithm descriptions should support translation</li>
+<li>Error messages should use localized strings</li>
+</ul>
+<hr>
+<h2 id="10-testing-requirements">10. Testing Requirements</h2>
+<h3 id="10-1-functional-tests">10.1 Functional Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Test Case</th>
+<th>Expected Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Menu item visibility</td>
+<td>Both items appear in Tools menu</td>
+</tr>
+<tr>
+<td>Dialog opening</td>
+<td>Dialogs open without errors</td>
+</tr>
+<tr>
+<td>File browser operation</td>
+<td>Source/target file selection works</td>
+</tr>
+<tr>
+<td>Folder browser operation</td>
+<td>Destination folder selection works</td>
+</tr>
+<tr>
+<td>Default algorithm selection</td>
+<td>NIST is pre-selected</td>
+</tr>
+<tr>
+<td>Algorithm switching</td>
+<td>Radio buttons function correctly</td>
+</tr>
+<tr>
+<td>Secure copy with valid inputs</td>
+<td>File copied and original deleted</td>
+</tr>
+<tr>
+<td>Secure delete with valid inputs</td>
+<td>File permanently deleted</td>
+</tr>
+<tr>
+<td>Invalid source file</td>
+<td>Error message displayed</td>
+</tr>
+<tr>
+<td>Invalid destination folder</td>
+<td>Error message displayed</td>
+</tr>
+<tr>
+<td>Permission denied</td>
+<td>Appropriate error message</td>
+</tr>
+</tbody>
+</table>
+<h3 id="10-2-security-tests">10.2 Security Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Test Case</th>
+<th>Verification Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>File recovery attempt</td>
+<td>Use Recuva/PhotoRec after deletion</td>
+</tr>
+<tr>
+<td>Disk imaging analysis</td>
+<td>Hex editor scan of unallocated space</td>
+</tr>
+<tr>
+<td>Memory dump analysis</td>
+<td>Verify no key material in RAM</td>
+</tr>
+<tr>
+<td>Multiple pass verification</td>
+<td>Confirm pattern application</td>
+</tr>
+<tr>
+<td>TRIM execution</td>
+<td>Check SSD controller logs (if available)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="10-3-performance-tests">10.3 Performance Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Target Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 GB file, NIST</td>
+<td>&lt; 2 seconds on SSD</td>
+</tr>
+<tr>
+<td>1 GB file, SSD mode</td>
+<td>&lt; 1 second on NVMe</td>
+</tr>
+<tr>
+<td>1 GB file, DoD 7-pass</td>
+<td>&lt; 15 seconds on HDD</td>
+</tr>
+<tr>
+<td>100 MB file, Gutmann</td>
+<td>&lt; 60 seconds</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="11-known-limitations">11. Known Limitations</h2>
+<h3 id="11-1-current-implementation">11.1 Current Implementation</h3>
+<ul>
+<li><strong>Single-threaded</strong>: No parallel processing for large directories</li>
+<li><strong>No progress bar</strong>: Operations appear frozen during execution</li>
+<li><strong>Limited device detection</strong>: Auto-detection returns AUTO (manual selection recommended)</li>
+<li><strong>No verification mode</strong>: Verification flag exists but not implemented</li>
+<li><strong>Windows-only dialogs</strong>: Native Win32 dialogs, no cross-platform UI</li>
+<li><strong>ANSI paths</strong>: Uses narrow character paths (UTF-8), may have Unicode limitations</li>
+</ul>
+<h3 id="11-2-platform-specific-constraints">11.2 Platform-Specific Constraints</h3>
+<p><strong>Windows</strong>:</p>
+<ul>
+<li>TRIM is implicit on delete for modern systems (Windows 7+)</li>
+<li>Requires administrative privileges for some operations</li>
+<li>Read-only attribute is automatically cleared before erasure</li>
+</ul>
+<p><strong>NTFS</strong>:</p>
+<ul>
+<li>Alternate Data Streams not handled in current version</li>
+<li>Compressed files may not overwrite as expected</li>
+<li>Sparse files deallocate blocks automatically</li>
+</ul>
+<hr>
+<h2 id="12-references">12. References</h2>
+<h3 id="12-1-standards">12.1 Standards</h3>
+<ul>
+<li><strong>NIST SP 800-88 Rev. 1</strong>: Guidelines for Media Sanitization</li>
+<li><strong>DoD 5220.22-M</strong>: National Industrial Security Program Operating Manual (NISPOM)</li>
+<li><strong>FIPS 140-2</strong>: Security Requirements for Cryptographic Modules</li>
+<li><strong>ISO/IEC 27040</strong>: Information security — Storage security</li>
+</ul>
+<h3 id="12-2-cryptographic-specifications">12.2 Cryptographic Specifications</h3>
+<ul>
+<li><strong>FIPS 197</strong>: Advanced Encryption Standard (AES)</li>
+<li><strong>NIST SP 800-38A</strong>: Recommendation for Block Cipher Modes (CTR mode)</li>
+<li><strong>NIST SP 800-90A</strong>: Recommendation for Random Number Generation</li>
+</ul>
+<hr>
+<p><strong>Document Version</strong>: 1.0<br><strong>Last Updated</strong>: September 2025<br><strong>Status</strong>: Release Candidate</p>
+</body></html>
