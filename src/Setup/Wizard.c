@@ -447,7 +447,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				// make the help button adjacent to the checkbox
 				MakeControlsContiguous(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, IDC_DISABLE_MEMORY_PROTECTION_HELP);
 
-				hDisableScreenProtectionTooltipWnd = CreateToolTip (IDC_DISABLE_SCREEN_PROTECTION, hwndDlg, "DISABLE_SCREEN_PROTECTION_HELP");
+				hDisableScreenProtectionTooltipWnd = CreateToolTip (IDC_DISABLE_SCREEN_PROTECTION, hwndDlg, "DISABLE_SCREEN_PROTECTION_WARNING");
 				// make the help button adjacent to the checkbox
 				AccommodateCheckBoxTextWidth(hwndDlg, IDC_DISABLE_SCREEN_PROTECTION);
 
