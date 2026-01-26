@@ -78,7 +78,7 @@ For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 # II. Linux and Mac OS X
 
 A detailed guide on how to build VeraCrypt on Linux can be found in
-the [documentation](./doc/html/CompilingGuidelineLinux.html) in the repository and
+the [documentation](./doc/html/en/CompilingGuidelineLinux.html) in the repository and
 it is also available [online](https://veracrypt.jp/en/CompilingGuidelineLinux.html) or on the [mirror](https://veracrypt.io/en/CompilingGuidelineLinux.html).
 
 ## Requirements for Building VeraCrypt for Linux and Mac OS X:
