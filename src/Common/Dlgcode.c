@@ -9357,6 +9357,18 @@ retry:
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, nDosDriveNo, 0);
 
+	/* GH #337, GH #1426: When running in silent/CLI mode, the process may
+	   exit immediately after unmount. BroadcastDeviceChange sends
+	   SHChangeNotify asynchronously, so Explorer may not process the drive
+	   removal before the process exits, leaving a ghost drive letter.
+	   Re-send the notification with SHCNF_FLUSH to force synchronous
+	   processing by Explorer before we return. */
+	if (Silent)
+	{
+		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
+		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);
+	}
+
 	return TRUE;
 }
 

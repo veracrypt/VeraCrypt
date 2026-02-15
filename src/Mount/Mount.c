@@ -5763,6 +5763,22 @@ retry:
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, prevMountList.ulMountedDrives & ~mountList.ulMountedDrives);
 
+	/* GH #337, GH #1426: Flush shell notifications synchronously in
+	   silent/CLI mode to prevent ghost drive letters when the process
+	   exits immediately after dismount. */
+	if (Silent)
+	{
+		DWORD removedDrives = prevMountList.ulMountedDrives & ~mountList.ulMountedDrives;
+		for (i = 0; i < 26; i++)
+		{
+			if (removedDrives & (1 << i))
+			{
+				wchar_t root[] = { (wchar_t) (i + L'A'), L':', L'\\', 0 };
+				SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);
+			}
+		}
+	}
+
 	RefreshMainDlg (hwndDlg);
 
 	NormalCursor();
