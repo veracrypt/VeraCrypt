@@ -27,8 +27,6 @@
 #include <mutex>
 #include <atomic>
 #include <Strsafe.h>
-#include <array>
-#include <Shlwapi.h>
 
 #include "Dlgcode.h"
 #include "Crypto.h"
@@ -74,39 +72,6 @@ BOOL AutoTestAlgorithms();
 extern "C" DWORD GetFormatSectorSize();
 void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine);
 void cleanup ();
-
-constexpr std::array<const wchar_t*, 14> VolumeEncryptionAlgorithmOptions = std::array<const wchar_t*, 14>{
-	L"AES",
-		L"Serpent",
-		L"Twofish",
-		L"Camellia",
-		L"Kuznyechik",
-		L"Serpent(Twofish(AES))",
-		L"Serpent(AES)",
-		L"AES(Twofish(Serpent))",
-		L"Twofish(Serpent)",
-		L"Camellia(Kuznyechik)",
-		L"Kuznyechik(Twofish)",
-		L"Camellia(Serpent)",
-		L"Kuznyechik(AES)",
-		L"Kuznyechik(Serpent(Camellia))",
-};
-
-constexpr std::array<const wchar_t*, 5> HashAlgorithmOptions = std::array<const wchar_t*, 5>{
-	L"SHA-512",
-		L"SHA-256",
-		L"RIPEMD-160",
-		L"Whirlpool",
-		L"BLAKE2s-256"
-};
-
-constexpr std::array<const wchar_t*, 5> FileSystemFormatOptions = std::array<const wchar_t*, 5>{
-	L"NTFS",
-		L"FAT",
-		L"ExFAT",
-		L"ReFS",
-		L"None"
-};
 
 // Global mutex to ensure that volume creation operations are serialized,
 // as the underlying code uses extensive global state.
@@ -219,18 +184,15 @@ static int CreateVolumeInternal(const VeraCryptFormatOptions* options)
 
 	// --- Setup VeraCrypt's global state from our options struct ---
 	bDevice = options->isDevice;
-	if (!options->isDevice) {
-		nVolumeSize = options->size * (options->sizeMeasureUnity == SizeMeasureUnity::Kilobytes ?
-			1024 : options->sizeMeasureUnity == SizeMeasureUnity::Megabytes ? 1024 * 1024 : 1024 * 1024 * 1024);
-	}
+	nVolumeSize = options->size;
 
-	nVolumeEA = MapEncryptionAlgorithm(VolumeEncryptionAlgorithmOptions[static_cast<int>(options->encryptionAlgorithm)]);
+	nVolumeEA = MapEncryptionAlgorithm(options->encryptionAlgorithm);
 	if (nVolumeEA == 0) return VCF_ERROR_INVALID_ENCRYPTION_ALGORITHM;
 	
-	hash_algo = MapHashAlgorithm(HashAlgorithmOptions[static_cast<int>(options->hashAlgorithm)]);
+	hash_algo = MapHashAlgorithm(options->hashAlgorithm);
 	if (hash_algo == 0) return VCF_ERROR_INVALID_HASH_ALGORITHM;
 	
-	fileSystem = MapFilesystem(FileSystemFormatOptions[static_cast<int>(options->filesystem)]);
+	fileSystem = MapFilesystem(options->filesystem);
 	if (fileSystem == -1) return VCF_ERROR_INVALID_FILESYSTEM;
 
 	volumePim = options->pim;
@@ -370,6 +332,7 @@ static int CreateVolumeInternal(const VeraCryptFormatOptions* options)
 	}
 }
 
+
 // --- Public DLL Exported Functions ---
 
 extern "C"
@@ -413,161 +376,6 @@ extern "C"
 
 		// The internal function handles all logic and thread safety.
 		return CreateVolumeInternal(options);
-	}
-
-	VCF_API int __cdecl VeraCryptMount(const VeraCryptMountOptions* options) {
-		if (!g_isInitialized)
-		{
-			return VCF_ERROR_NOT_INITIALIZED;
-		}
-
-		// Lock the mutex to protect the global state used by VeraCrypt's format code
-		std::lock_guard<std::mutex> lock(g_sdkMutex);
-
-		finally_do({
-			// Clean up all sensitive data from globals
-			WipePasswordsAndKeyfiles(true);
-			// Reset globals to default state
-			KeyFileRemoveAll(&FirstKeyFile);
-		});
-
-		if (!IsDriveAvailable(static_cast<int>(options->letter))) {
-			return VCF_ERROR_DRIVE_LETTER_UNAVIABLE;
-		}
-
-		MountOptions mountOptions = { 0 };
-
-		if (options->password)
-		{
-			if (!CheckPasswordLength(NULL, (int)strlen(options->password), options->pim, FALSE, 0, TRUE, TRUE))
-			{
-				return VCF_ERROR_PASSWORD_POLICY;
-			}
-			strcpy_s((char*)volumePassword.Text, sizeof(volumePassword.Text), options->password);
-			volumePassword.Length = (unsigned __int32)strlen(options->password);
-		}
-		else
-		{
-			volumePassword.Text[0] = 0;
-			volumePassword.Length = 0;
-		}
-
-		if (options->protectedHidVolPassword) {
-			if (!CheckPasswordLength(NULL, (int)strlen(options->protectedHidVolPassword), options->pim, FALSE, 0, TRUE, TRUE)) {
-				return VCF_ERROR_PASSWORD_POLICY;
-			}
-			strcpy_s((char*)mountOptions.ProtectedHidVolPassword.Text, sizeof(mountOptions.ProtectedHidVolPassword.Text), options->protectedHidVolPassword);
-			mountOptions.ProtectedHidVolPassword.Length = (unsigned __int32)strlen(options->protectedHidVolPassword);
-		}
-		else {
-			mountOptions.ProtectedHidVolPassword.Text[0] = 0;
-			mountOptions.ProtectedHidVolPassword.Length = 0;
-		}
-
-		FirstKeyFile = nullptr;
-		if (options->keyfiles)
-		{
-			for (int i = 0; options->keyfiles[i] != nullptr; ++i)
-			{
-				KeyFile* kf = (KeyFile*)malloc(sizeof(KeyFile));
-				if (!kf)
-				{
-					KeyFileRemoveAll(&FirstKeyFile);
-					return VCF_ERROR_OUT_OF_MEMORY;
-				}
-				StringCbCopyW(kf->FileName, sizeof(kf->FileName), options->keyfiles[i]);
-				FirstKeyFile = KeyFileAdd(FirstKeyFile, kf);
-			}
-		}
-
-		if (!KeyFilesApply(NULL, &volumePassword, FirstKeyFile, NULL))
-		{
-			return VCF_ERROR_KEYFILE_ERROR;
-		}
-		mountOptions.DisableMountManager = options->DisableMountManager;
-		StringCbCopyW(mountOptions.Label, sizeof(mountOptions.Label), options->Label);
-		mountOptions.PartitionInInactiveSysEncScope = options->PartitionInInactiveSysEncScope;
-		mountOptions.PreserveTimestamp = options->PreserveTimestamp;
-		mountOptions.ProtectedHidVolPim = options->ProtectedHidVolPim;
-		mountOptions.ProtectedHidVolPkcs5Prf = options->ProtectedHidVolPkcs5Prf;
-		mountOptions.ProtectHiddenVolume = options->ProtectHiddenVolume;
-		mountOptions.ReadOnly = options->ReadOnly;
-		mountOptions.RecoveryMode = options->RecoveryMode;
-		mountOptions.Removable = options->Removable;
-		mountOptions.SkipCachedPasswords = options->SkipCachedPasswords;
-		mountOptions.UseBackupHeader = options->UseBackupHeader;
-
-		int result = MountVolume(NULL, static_cast<int>(options->letter), options->path, &volumePassword,
-			options->autoDetectEncryptionAlgorithm ? 0 : static_cast<int>(options->encryptionAlgorithm),
-			options->pim, options->cachePassword, options->cachePim, options->sharedAccess, &mountOptions,
-			TRUE, TRUE
-		);
-		if (options->sharedAccess)
-			return result == 2 ? VCF_SUCCESS : result;
-		return result == 1 ? VCF_SUCCESS : result;
-	}
-
-	VCF_API int __cdecl VeraCryptDismount(DriveLetter letter, BOOL force) {
-		if (!g_isInitialized)
-		{
-			return VCF_ERROR_NOT_INITIALIZED;
-		}
-
-		// Lock the mutex to protect the global state used by VeraCrypt's format code
-		std::lock_guard<std::mutex> lock(g_sdkMutex);
-
-		return UnmountVolume(NULL, static_cast<int>(letter), force) == TRUE ? VCF_SUCCESS : VCF_ERROR_GENERIC;
-	}
-
-	VCF_API int __cdecl GetAbsolutePath(const wchar_t* relativePath, wchar_t* absolutePath, DWORD absolutePathSize)
-	{
-		if (!relativePath || !absolutePath || absolutePathSize == 0)
-		{
-			SetLastError(ERROR_INVALID_PARAMETER);
-			return VCF_ERROR_FULL_PATH_GETTING_ERROR;
-		}
-
-		absolutePath[0] = L'\0';
-
-		DWORD requiredSize;
-
-		requiredSize = GetFullPathNameW(relativePath, 0, NULL, NULL);
-		if (requiredSize == 0)
-		{
-			return VCF_ERROR_FULL_PATH_GETTING_ERROR;
-		}
-
-		if (requiredSize > absolutePathSize)
-		{
-			SetLastError(ERROR_INSUFFICIENT_BUFFER);
-			return VCF_ERROR_FULL_PATH_GETTING_ERROR;
-		}
-
-		DWORD result = GetFullPathNameW(relativePath, absolutePathSize, absolutePath, NULL);
-		if (result == 0 || result >= absolutePathSize)
-		{
-			return VCF_ERROR_FULL_PATH_GETTING_ERROR;
-		}
-
-		return VCF_SUCCESS;
-	}
-
-	VCF_API int __cdecl GetDevicePath(DriveLetter letter, wchar_t* devicePath, DWORD devicePathSize)
-	{
-		if (!devicePath || devicePathSize == 0)
-		{
-			SetLastError(ERROR_INVALID_PARAMETER);
-			return VCF_ERROR_FULL_PATH_GETTING_ERROR;
-		}
-		devicePath[0] = L'\0';
-
-		wchar_t drive[4] = { static_cast<wchar_t>(L'A' + static_cast<int>(letter)), L':', L'\0' };
-		if (QueryDosDeviceW(drive, devicePath, devicePathSize) == 0)
-		{
-			// Error, possibly insufficient buffer
-			return VCF_ERROR_FULL_PATH_GETTING_ERROR;
-		}
-		return VCF_SUCCESS;
 	}
 
 	BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
