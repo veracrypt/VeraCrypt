@@ -92,6 +92,8 @@ public:
 
 	virtual BOOL STDMETHODCALLTYPE FormatNtfs (int driveNo, int clusterSize)
 	{
+		if (driveNo < 0 || driveNo > 25)
+			return FALSE;
 		return ::FormatNtfs (driveNo, clusterSize, TRUE);
 	}
 
@@ -134,6 +136,8 @@ public:
 
 	virtual BOOL STDMETHODCALLTYPE FormatFs (int driveNo, int clusterSize, int fsType)
 	{
+		if (driveNo < 0 || driveNo > 25)
+			return FALSE;
 		return ::FormatFs (driveNo, clusterSize, fsType, TRUE);
 	}
 
