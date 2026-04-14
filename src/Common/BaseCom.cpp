@@ -159,12 +159,32 @@ static BOOL PathContainsVeraCrypt (const wchar_t *path)
 	return FALSE;
 }
 
-// Helper: validate device path format (must start with \\.\ or \\?\)
+// Bare PhysicalDriveN is accepted because it is the form stored in
+// SystemDriveConfiguration::DevicePath and reaches here via the elevated
+// fallback in Device::Device.
 static BOOL IsValidDevicePath (const wchar_t *path)
 {
-	if (!path || wcslen (path) < 4)
+	if (!path)
 		return FALSE;
-	return (path[0] == L'\\' && path[1] == L'\\' && (path[2] == L'.' || path[2] == L'?') && path[3] == L'\\');
+
+	if (path[0] == L'\\' && path[1] == L'\\'
+		&& (path[2] == L'.' || path[2] == L'?')
+		&& path[3] == L'\\' && path[4] != L'\0')
+	{
+		return TRUE;
+	}
+
+	if (_wcsnicmp (path, L"PhysicalDrive", 13) == 0 && path[13] != L'\0')
+	{
+		for (const wchar_t *p = path + 13; *p; ++p)
+		{
+			if (*p < L'0' || *p > L'9')
+				return FALSE;
+		}
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 // ========================================================================

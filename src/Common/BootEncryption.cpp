@@ -1041,7 +1041,7 @@ namespace VeraCrypt
 		FileOpen = false;
 		Elevated = false;
 
-		if (path.find(L"\\\\?\\") == 0)
+		if (path.find(L"\\\\?\\") == 0 || path.find(L"\\\\.\\") == 0)
 			effectivePath = path;
 		else
 			effectivePath = wstring (L"\\\\.\\") + path;
