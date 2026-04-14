@@ -968,12 +968,7 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 		&& irpSp->MinorFunction == IRP_MN_SET_POWER
 		&& irpSp->Parameters.Power.ShutdownType == PowerActionHibernate)
 	{
-		int retries = 50;
-		while (retries-- > 0
-			&& SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_ABORT_BOOT_ENCRYPTION_SETUP, NULL, 0, NULL, 0) == STATUS_INSUFFICIENT_RESOURCES)
-		{
-			TCSleep (100);
-		}
+		while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_ABORT_BOOT_ENCRYPTION_SETUP, NULL, 0, NULL, 0) == STATUS_INSUFFICIENT_RESOURCES);
 	}
 
 	// Dismount the system drive on shutdown on Windows 7 and later
@@ -1212,7 +1207,7 @@ wipe:
 /*
  * Legacy Windows XP/2003 hibernation dump filter.
  *
- * DISABLED: This code is not active — LoadImageNotifyRoutine was never
+ * DISABLED: This code is not active - LoadImageNotifyRoutine was never
  * registered via PsSetLoadImageNotifyRoutine, so none of these functions
  * are reachable at runtime.  Additionally the code has known issues:
  *   - HibernationWriteBuffer / HibernationWriteBufferMdl are never allocated

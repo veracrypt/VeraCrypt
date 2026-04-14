@@ -272,18 +272,17 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 	//                              may point elsewhere, e.g. user-mode or stale VA).
 	// Windows 11 25H2+ dump stacks may provide mapped MDLs that are NOT from nonpaged
 	// pool, so we must prefer MappedSystemVa when available.
-	if (writeMdl->MdlFlags & MDL_SOURCE_IS_NONPAGED_POOL)
-	{
-		writeBuffer = MmGetMdlVirtualAddress (writeMdl);
-	}
-	else if (writeMdl->MdlFlags & MDL_MAPPED_TO_SYSTEM_VA)
+	if (writeMdl->MdlFlags & MDL_MAPPED_TO_SYSTEM_VA)
 	{
 		writeBuffer = writeMdl->MappedSystemVa;
 	}
+	else if (writeMdl->MdlFlags & MDL_SOURCE_IS_NONPAGED_POOL)
+	{
+		writeBuffer = MmGetMdlVirtualAddress (writeMdl);
+	}
 	else
 	{
-		// Unrecognized MDL type — include MdlFlags in bugcheck param3 for diagnosis.
-		KeBugCheckEx (SECURITY_SYSTEM, __LINE__, (ULONG_PTR) STATUS_INVALID_PARAMETER, (ULONG_PTR) writeMdl->MdlFlags, 'VC');
+		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 	}
 
 	if (!writeBuffer)
