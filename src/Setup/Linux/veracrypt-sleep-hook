@@ -1,0 +1,12 @@
+#!/bin/sh
+# Dismount all VeraCrypt volumes before suspend/hibernate to prevent
+# a deadlock between the cgroup freezer and FUSE_SYNCFS on kernel 6.18+.
+# See https://github.com/veracrypt/VeraCrypt/issues/1660
+
+case "$1" in
+  pre)
+    if command -v veracrypt >/dev/null 2>&1; then
+      veracrypt --text --dismount --all --force 2>/dev/null || true
+    fi
+    ;;
+esac

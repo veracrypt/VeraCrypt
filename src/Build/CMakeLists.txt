@@ -213,6 +213,11 @@ install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/usr/sbin
 install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/usr/share
 		DESTINATION .
 		USE_SOURCE_PERMISSIONS)
+if(EXISTS "${VERACRYPT_BUILD_DIR}/lib/systemd/system-sleep")
+	install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/lib/systemd/system-sleep
+			DESTINATION /lib/systemd
+			USE_SOURCE_PERMISSIONS)
+endif()
 set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
 
 # For packaging 

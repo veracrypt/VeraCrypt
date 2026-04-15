@@ -330,16 +330,21 @@ ifndef TC_NO_GUI
 	ln -sf usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
 endif
 
+	mkdir -p $(BASE_DIR)/Setup/Linux/lib/systemd/system-sleep
+	cp $(BASE_DIR)/Setup/Linux/$(APPNAME)-sleep-hook $(BASE_DIR)/Setup/Linux/lib/systemd/system-sleep/$(APPNAME)
+	chmod +x $(BASE_DIR)/Setup/Linux/lib/systemd/system-sleep/$(APPNAME)
+
 
 install: prepare
 ifneq "$(DESTDIR)" ""
 	mkdir -p $(DESTDIR)
 endif
 	cp -R $(BASE_DIR)/Setup/Linux/usr $(DESTDIR)/
+	cp -R $(BASE_DIR)/Setup/Linux/lib $(DESTDIR)/ 2>/dev/null || true
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
-	tar cfz $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME) --directory $(BASE_DIR)/Setup/Linux usr
+	tar cfz $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME) --directory $(BASE_DIR)/Setup/Linux usr lib
 
 	@rm -fr $(INTERNAL_INSTALLER_NAME)
 	@echo "#!/bin/sh" > $(INTERNAL_INSTALLER_NAME)

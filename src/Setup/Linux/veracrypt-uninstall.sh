@@ -19,6 +19,7 @@ for res in 16 22 24 32 48 64 256 512 1024; do \
 		rm -f /usr/share/icons/hicolor/${res}x${res}/apps/veracrypt.png || removal_failed ;\
 done
 
+rm -f /lib/systemd/system-sleep/veracrypt 2>/dev/null
 rm -f /usr/bin/veracrypt-uninstall.sh || removal_failed
 update-mime-database /usr/share/mime >/dev/null 2>&1
 update-desktop-database -q
