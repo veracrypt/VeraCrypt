@@ -6,7 +6,7 @@
 case "$1" in
   pre)
     if command -v veracrypt >/dev/null 2>&1; then
-      veracrypt --text --dismount --all --force 2>/dev/null || true
+      veracrypt --text --dismount --force 2>/dev/null || true
     fi
     ;;
 esac

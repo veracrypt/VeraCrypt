@@ -1091,7 +1091,7 @@ namespace VeraCrypt
 
 			Connect (wxEVT_END_SESSION, wxCloseEventHandler (GraphicUserInterface::OnEndSession));
 #ifdef wxHAS_POWER_EVENTS
-			Gui->Connect (wxEVT_POWER_SUSPENDING, wxPowerEventHandler (GraphicUserInterface::OnPowerSuspending));
+			Gui->Connect (wxEVT_POWER_SUSPENDED, wxPowerEventHandler (GraphicUserInterface::OnPowerSuspending));
 #endif
 
 			mMainFrame = new MainFrame (nullptr);
