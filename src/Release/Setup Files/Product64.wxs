@@ -384,6 +384,9 @@
 			<Component Id="cmp2F1F644C870AFF8970FE18AF2CD151C4" Guid="{96564F4E-7D92-40B3-84F6-84B357EB4F41}">
 				<File Id="filF68A13BECFA9D8DD21B371298AF93B5B" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ko.xml" Checksum="yes" DiskId="1" />
 			</Component>
+			<Component Id="cmpA5B6B6B6B70FC08A9AEA3FEF7813B851" Guid="{33B76EDF-A230-40C8-A6C1-0C1C37777FAE}">
+				<File Id="fil4CEFD6B43C2982B5F80094E4A1046CB4" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.lt.xml" Checksum="yes" DiskId="1" />
+			</Component>
 			<Component Id="cmp4B8E0B5A7B7A8BE4267C722B1434E4CF" Guid="{E9AD4FA0-9CD7-43B9-8099-69AD6EB1A305}">
 				<File Id="fil23F177B7621D7D78240CAA60E6AB1048" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.lv.xml" Checksum="yes" DiskId="1" />
 			</Component>
@@ -2684,6 +2687,7 @@
 			<ComponentRef Id="cmp8E2E0489348A190B00532591CE0AC325" />
 			<ComponentRef Id="cmpEE57E2901F12294E638E66C39F1B39BB" />
 			<ComponentRef Id="cmp2F1F644C870AFF8970FE18AF2CD151C4" />
+			<ComponentRef Id="cmpA5B6B6B6B70FC08A9AEA3FEF7813B851" />
 			<ComponentRef Id="cmp4B8E0B5A7B7A8BE4267C722B1434E4CF" />
 			<ComponentRef Id="cmp84BB49D30BDBB4212707D14B7A9C13F1" />
 			<ComponentRef Id="cmp6097F5CB407EFCDADFEA02548151AD81" />
