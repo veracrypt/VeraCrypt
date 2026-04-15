@@ -125,6 +125,19 @@ namespace VeraCrypt
 			cfg->set_gid = 1;
 			cfg->uid = FuseService::GetUserId();
 			cfg->gid = FuseService::GetGroupId();
+
+			// Honor the inode numbers assigned in getattr/readdir responses.
+			// Without this the kernel may synthesize its own, making the
+			// explicit VC_FUSE_INODE_* values unused.
+			cfg->use_ino = 1;
+
+			// VeraCrypt exposes a fixed three-entry filesystem ("/",
+			// "/volume", "/control") whose structure never changes for the
+			// lifetime of the mount.  Cache lookups aggressively so the
+			// kernel does not round-trip to userspace for every stat/lookup.
+			cfg->entry_timeout = 86400;
+			cfg->negative_timeout = 86400;
+			cfg->attr_timeout = 1;
 		}
 
 		return fuse_service_init_common ();
