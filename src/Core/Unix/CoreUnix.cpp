@@ -342,11 +342,10 @@ namespace VeraCrypt
 				continue;
 
 			shared_ptr <VolumeInfo> mountedVol;
-			// Introduce a retry mechanism with a timeout for control file access
-			// This workaround is limited to FUSE-T mounted volume under macOS for
-			// which md.Device starts with "fuse-t:"
+			// Introduce a retry mechanism with a timeout for control file access.
+			// The list is already filtered to VeraCrypt auxiliary mounts; in
+			// FUSE-T builds, the mount table device name varies by backend.
 #ifdef VC_MACOSX_FUSET
-			bool isFuseT = wstring(mf.Device).find(L"fuse-t:") == 0;
 			int controlFileRetries = 10; // 10 retries with 500ms sleep each, total 5 seconds
 			while (!mountedVol && (controlFileRetries-- > 0))
 #endif
@@ -366,7 +365,7 @@ namespace VeraCrypt
 					// serialization is not ready yet and we need to wait before retrying
 					// this happens when FUSE-T is used under macOS and if it is the first time
 					// the volume is mounted
-					if (isFuseT && string (e.what()).find ("VeraCrypt::Serializer::ValidateName") != string::npos)
+					if (string (e.what()).find ("VeraCrypt::Serializer::ValidateName") != string::npos)
 					{
 						Thread::Sleep(500); // Wait before retrying
 					}

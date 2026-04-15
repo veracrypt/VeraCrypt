@@ -1004,6 +1004,10 @@ namespace VeraCrypt
 				throw ParameterIncorrect (SRC_POS);
 
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
+#ifdef TC_LINUX
+			if (CmdLine->ArgMountOptions.NoKernelCrypto)
+				mountOptions.NoKernelCrypto = true;
+#endif
 			mountOptions.Path = make_shared <VolumePath> (options->Path);
 			mountOptions.NoFilesystem = true;
 			mountOptions.Protection = VolumeProtection::None;

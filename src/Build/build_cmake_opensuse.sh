@@ -41,6 +41,38 @@ export WX_ROOT=$PARENTDIR/wxWidgets-3.2.5
 
 cd $SOURCEPATH
 
+# Detect requested FUSE version (defaults to FUSE2). Can be set via WITHFUSE3=1 or by passing FUSE3/--with-fuse3.
+build_with_fuse3=0
+if [ -n "$WITHFUSE3" ] && [ "$WITHFUSE3" != "0" ]; then
+    build_with_fuse3=1
+fi
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        FUSE3|WITHFUSE3|--with-fuse3)
+            build_with_fuse3=1
+            ;;
+        FUSE2|WITHFUSE2|--with-fuse2)
+            build_with_fuse3=0
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [ "$build_with_fuse3" = "1" ]; then
+    FUSE3_MAKE_FLAG="WITHFUSE3=1"
+    FUSE3_CMAKE_FLAG="-DVC_WITH_FUSE3=TRUE"
+    echo "Building VeraCrypt packages against FUSE3"
+else
+    FUSE3_MAKE_FLAG=""
+    FUSE3_CMAKE_FLAG="-DVC_WITH_FUSE3=FALSE"
+    echo "Building VeraCrypt packages against FUSE2"
+fi
+
 echo "Building GUI version of VeraCrypt for RPM using wxWidgets static libraries"
 
 # This will be the temporary wxWidgets directory
@@ -51,14 +83,14 @@ if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
     echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
 else
     echo "Using wxWidgets sources in $WX_ROOT"
-    make WXSTATIC=1 wxbuild || exit 1
+    make WXSTATIC=1 $FUSE3_MAKE_FLAG wxbuild || exit 1
     ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
 fi
 
 rm -rf "$PARENTDIR/VeraCrypt_Setup/GUI"
-make WXSTATIC=1 clean 				|| exit 1
-make WXSTATIC=1 					|| exit 1
-make WXSTATIC=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
+make WXSTATIC=1 $FUSE3_MAKE_FLAG clean 				|| exit 1
+make WXSTATIC=1 $FUSE3_MAKE_FLAG 					|| exit 1
+make WXSTATIC=1 $FUSE3_MAKE_FLAG install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
 
 echo "Building console version of VeraCrypt for RPM using wxWidgets static libraries"
 
@@ -74,14 +106,14 @@ if [ -L "${WX_BUILD_DIR}/wx-config" ]; then
     echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
 else
     echo "Using wxWidgets sources in $WX_ROOT"
-    make WXSTATIC=1 NOGUI=1 wxbuild || exit 1
+    make WXSTATIC=1 NOGUI=1 $FUSE3_MAKE_FLAG wxbuild || exit 1
     ln -s $WX_BUILD_DIR/lib  $WX_BUILD_DIR/lib64
 fi
 
 rm -rf "$PARENTDIR/VeraCrypt_Setup/Console"
-make WXSTATIC=1 NOGUI=1 clean 				|| exit 1
-make WXSTATIC=1 NOGUI=1 					|| exit 1
-make WXSTATIC=1 NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
+make WXSTATIC=1 NOGUI=1 $FUSE3_MAKE_FLAG clean 				|| exit 1
+make WXSTATIC=1 NOGUI=1 $FUSE3_MAKE_FLAG 					|| exit 1
+make WXSTATIC=1 NOGUI=1 $FUSE3_MAKE_FLAG install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
 
 echo "Creating VeraCrypt RPM packages "
 
@@ -95,7 +127,7 @@ mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
 
 # wxWidgets was built using native GTK version
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE || exit 1		
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake|| exit 1

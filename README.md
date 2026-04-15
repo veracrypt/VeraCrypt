@@ -29,7 +29,7 @@ called 'TrueCrypt' or 'VeraCrypt'
 ## Requirements for Building VeraCrypt for Windows:
 
 A detailed guide on how to build VeraCrypt on Windows can be found in
-the [documentation](./doc/html/CompilingGuidelineWin.html) in the repository and
+the [documentation](./doc/html/en/CompilingGuidelineWin.html) in the repository and
 it is also available [online](https://veracrypt.jp/en/CompilingGuidelineWin.html) or on the [mirror](https://veracrypt.io/en/CompilingGuidelineWin.html).
 
 IMPORTANT:
@@ -78,7 +78,7 @@ For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 # II. Linux and Mac OS X
 
 A detailed guide on how to build VeraCrypt on Linux can be found in
-the [documentation](./doc/html/CompilingGuidelineLinux.html) in the repository and
+the [documentation](./doc/html/en/CompilingGuidelineLinux.html) in the repository and
 it is also available [online](https://veracrypt.jp/en/CompilingGuidelineLinux.html) or on the [mirror](https://veracrypt.io/en/CompilingGuidelineLinux.html).
 
 ## Requirements for Building VeraCrypt for Linux and Mac OS X:

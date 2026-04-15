@@ -100,6 +100,8 @@ fi
 if [ "$local_build" = true ]; then
     echo "Building VeraCrypt with local wxWidgets support and no universal binary"
     export LOCAL_DEVELOPMENT_BUILD=true
+    export CPU_ARCH=$(uname -m)
+    export COMPILE_ASM=$( if [[ "$CPU_ARCH" != "arm64" ]]; then echo true; else echo false; fi )
 fi
 
 # Check the condition of wxBuildConsole and wxWidgets-$WX_VERSION in the original PARENTDIR

@@ -14,6 +14,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "Volume/Hash.h"
 #include "KeyfileGeneratorDialog.h"
+#include "WindowEventHandlers.h"
 
 namespace VeraCrypt
 {
@@ -44,8 +45,7 @@ namespace VeraCrypt
 
 		MouseEventsCounter = 0;
 
-		foreach (wxWindow *c, this->GetChildren())
-			c->Connect (wxEVT_MOTION, wxMouseEventHandler (KeyfileGeneratorDialog::OnMouseMotion), nullptr, this);
+		ConnectEventToChildWindows (this, wxEVT_MOTION, wxMouseEventHandler (KeyfileGeneratorDialog::OnMouseMotion), this);
 	}
 
 	KeyfileGeneratorDialog::~KeyfileGeneratorDialog ()

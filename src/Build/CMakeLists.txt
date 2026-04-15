@@ -10,6 +10,8 @@ elseif ( NOT DEFINED NOGUI )
 	MESSAGE(FATAL_ERROR "NOGUI variable MUST BE set to TRUE if building 'Console' version, 'FALSE' otherwise")
 endif()
 
+option(VC_WITH_FUSE3 "Link against FUSE3 instead of FUSE2 when packaging" OFF)
+
 # - Set version of the package
 set( FULL_VERSION 		"1.26.27" )
 set( VERSION 			"1.26.27" )
@@ -268,46 +270,56 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set( CPACK_DEBIAN_PACKAGE_RELEASE 		${CPACK_PACKAGE_RELEASE} )
 	set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE 	${ARCHITECTURE} )																	# mandatory
 	
+	# Determine the FUSE runtime package name that matches the selected FUSE version
+	set(VC_DEBIAN_USE_T64 FALSE)
+	if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) )
+		OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) ) )
+		set(VC_DEBIAN_USE_T64 TRUE)
+	endif ()
+	if (VC_WITH_FUSE3)
+		set(VC_DEBIAN_FUSE_PACKAGE "libfuse3-3")
+	else ()
+		if (VC_DEBIAN_USE_T64)
+			set(VC_DEBIAN_FUSE_PACKAGE "libfuse2t64")
+		else ()
+			set(VC_DEBIAN_FUSE_PACKAGE "libfuse2")
+		endif ()
+	endif ()
+
 	if (NOGUI)
 		# Link against statically built wxWidgets so that we don't depend on any GTK library
-		# In case of Ubuntu 24.04/ Debian 13 or newer, libfuse2 package was renamed libfuse2t64
-		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) ) 
-			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) ) )
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2t64, dmsetup, sudo" )
-		else ()
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2, dmsetup, sudo" )
-		endif()
+		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
 	else ()
 		# Link against gtk3 version of wxWidgets if >= Debian 10 or >= Ubuntu 18.04
 		# Otherwise, link against gtk2 version of wxWidgets
 		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) )
 			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "25.04" ) ) )
 
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1t64, libayatana-appindicator3-1, libfuse2t64, dmsetup, sudo" )
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1t64, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
 
-		# In case of Ubuntu 24.04, we depend on libfuse2t64 instead of libfuse2 and we link statically against wxWidgets
+		# In case of Ubuntu 24.04, we depend on the t64 variant of the FUSE package and we link statically against wxWidgets
 		# because there is a bug in wxWidgets that ships with Ubuntu 24.04 and which was fixed in wxWidgets 3.2.5
 		elseif ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) )
-			
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk-3-0t64, libayatana-appindicator3-1, libfuse2t64, dmsetup, sudo" )										
 
-		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "12" ) ) 
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk-3-0t64, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
+
+		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "12" ) )
 			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "23.04" ) ) )
-			
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1, libayatana-appindicator3-1, libfuse2, dmsetup, sudo" )										
-			
-		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) ) 
+
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
+
+		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) )
 			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "18.04" ) ) )
-			
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libayatana-appindicator3-1, libfuse2, dmsetup, sudo" )										
-			
+
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
+
 		else ()
 			# Link against statically built wxWidgets on Ubuntu 14.04 and older, and Debian 8 and older
 			if ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_LESS_EQUAL "8" ) ) 
 				OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_LESS_EQUAL "14.04" ) ) )
-				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk2.0-0, libfuse2, dmsetup, sudo" )
+				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk2.0-0, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
 			else ()
-				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup, sudo" )
+				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
 			endif ()
 			
 		endif()
@@ -330,7 +342,7 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	set( RPM_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
 	
 	set( CPACK_GENERATOR 				"RPM" )																					# mandatory
-	set( CPACK_RPM_PACKAGE_SUMMARY 		${CPACK_PACKAGE_SUMMARY} )																# mandatory
+	set( CPACK_RPM_PACKAGE_SUMMARY 		${CPACK_PACKAGE_DESCRIPTION_SUMMARY} )																# mandatory
 	set( CPACK_RPM_PACKAGE_DESCRIPTION 	${CPACK_PACKAGE_DESCRIPTION} )															# mandatory
 	set( CPACK_RPM_PACKAGE_NAME 		${CPACK_PACKAGE_NAME} )																	# mandatory
 	set( CPACK_RPM_FILE_NAME 			${CPACK_PACKAGE_FILE_NAME}.rpm )														# mandatory
@@ -341,17 +353,22 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	set( CPACK_RPM_PACKAGE_GROUP 		"Applications/System" )																	# mandatory, https://fedoraproject.org/wiki/RPMGroups
 	set( CPACK_RPM_PACKAGE_VENDOR 		${CPACK_PACKAGE_VENDOR} )																# mandatory
 	set( CPACK_RPM_PACKAGE_AUTOREQ 		"no" ) 																					# disable automatic shared libraries dependency detection (most of the time buggy)
+	if (VC_WITH_FUSE3)
+		set(VC_RPM_FUSE_PACKAGE "fuse3")
+	else ()
+		set(VC_RPM_FUSE_PACKAGE "fuse")
+	endif ()
 	
 	if (NOGUI)
-		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, sudo" )
+		set( CPACK_RPM_PACKAGE_REQUIRES 	"${VC_RPM_FUSE_PACKAGE}, device-mapper, sudo" )
 	else ()
 		find_package(PkgConfig REQUIRED)
 		pkg_check_modules(GTK3 gtk+-3.0)
 		
 		if(GTK3_FOUND)
-			set( CPACK_RPM_PACKAGE_REQUIRES     "fuse, device-mapper, gtk3, sudo" )
+			set( CPACK_RPM_PACKAGE_REQUIRES     "${VC_RPM_FUSE_PACKAGE}, device-mapper, gtk3, sudo" )
 		else()
-			set( CPACK_RPM_PACKAGE_REQUIRES     "fuse, device-mapper, gtk2, sudo" )
+			set( CPACK_RPM_PACKAGE_REQUIRES     "${VC_RPM_FUSE_PACKAGE}, device-mapper, gtk2, sudo" )
 		endif()
 	endif()
 

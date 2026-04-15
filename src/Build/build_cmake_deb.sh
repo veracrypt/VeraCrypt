@@ -41,6 +41,52 @@ export WX_ROOT=$PARENTDIR/wxWidgets-3.2.5
 
 cd $SOURCEPATH
 
+# Detect requested FUSE version (defaults to FUSE2). Can be set via WITHFUSE3=1 or by passing FUSE3/--with-fuse3.
+build_with_fuse3=0
+if [ -n "$WITHFUSE3" ] && [ "$WITHFUSE3" != "0" ]; then
+    build_with_fuse3=1
+fi
+
+preserved_args=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        FUSE3|WITHFUSE3|--with-fuse3)
+            build_with_fuse3=1
+            ;;
+        FUSE2|WITHFUSE2|--with-fuse2)
+            build_with_fuse3=0
+            ;;
+        WXSTATIC|INDICATOR)
+            if [ -z "$preserved_args" ]; then
+                preserved_args="$1"
+            else
+                preserved_args="$preserved_args $1"
+            fi
+            ;;
+        *)
+            echo "Warning: Unrecognized option '$1' (ignored)" >&2
+            ;;
+    esac
+    shift
+done
+
+set --
+if [ -n "$preserved_args" ]; then
+    for arg in $preserved_args; do
+        set -- "$@" "$arg"
+    done
+fi
+
+if [ "$build_with_fuse3" = "1" ]; then
+    FUSE3_MAKE_FLAG="WITHFUSE3=1"
+    FUSE3_CMAKE_FLAG="-DVC_WITH_FUSE3=TRUE"
+    echo "Building VeraCrypt packages against FUSE3"
+else
+    FUSE3_MAKE_FLAG=""
+    FUSE3_CMAKE_FLAG="-DVC_WITH_FUSE3=FALSE"
+    echo "Building VeraCrypt packages against FUSE2"
+fi
+
 build_and_install() {
     target=$1
     wxstatic=$2
@@ -63,7 +109,7 @@ build_and_install() {
             echo "wx-config already exists in ${WX_BUILD_DIR}. Skipping wxbuild."
         else
             echo "Using wxWidgets sources in $WX_ROOT"
-            make $wxstatic_value $nogui wxbuild || exit 1
+            make $wxstatic_value $nogui $FUSE3_MAKE_FLAG wxbuild || exit 1
         fi
     fi
 
@@ -73,9 +119,9 @@ build_and_install() {
     fi
 
     rm -rf "$PARENTDIR/VeraCrypt_Setup/$target"
-    make $wxstatic_value $indicator_value $nogui clean || exit 1
-    make $wxstatic_value $indicator_value $nogui || exit 1
-    make $wxstatic_value $indicator_value $nogui install DESTDIR="$PARENTDIR/VeraCrypt_Setup/$target" || exit 1
+    make $wxstatic_value $indicator_value $nogui $FUSE3_MAKE_FLAG clean || exit 1
+    make $wxstatic_value $indicator_value $nogui $FUSE3_MAKE_FLAG || exit 1
+    make $wxstatic_value $indicator_value $nogui $FUSE3_MAKE_FLAG install DESTDIR="$PARENTDIR/VeraCrypt_Setup/$target" || exit 1
 }
 
 # Handle arguments
@@ -112,8 +158,8 @@ rm -rf $PARENTDIR/VeraCrypt_Packaging
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
 
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
 
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake || exit 1

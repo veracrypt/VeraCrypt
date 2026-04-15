@@ -14,6 +14,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "Main/Resources.h"
 #include "WizardFrame.h"
+#include "WindowEventHandlers.h"
 
 namespace VeraCrypt
 {
@@ -40,8 +41,7 @@ namespace VeraCrypt
 		this->SetDefaultItem (NextButton);
 		NextButton->SetFocus();
 
-		foreach (wxWindow *c, MainPanel->GetChildren())
-			c->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);
+		ConnectEventToChildWindows (MainPanel, wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), this);
 	}
 
 	WizardFrame::~WizardFrame ()
@@ -145,8 +145,7 @@ namespace VeraCrypt
 		CurrentPage->PageUpdatedEvent.Connect (EventConnector <WizardFrame> (this, &WizardFrame::OnPageUpdated));
 
 		CurrentPage->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);
-		foreach (wxWindow *c, CurrentPage->GetChildren())
-			c->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);
+		ConnectEventToChildWindows (CurrentPage, wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), this);
 
 		if (MaxStaticTextWidth > 0)
 			CurrentPage->SetMaxStaticTextWidth (MaxStaticTextWidth);

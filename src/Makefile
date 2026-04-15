@@ -52,7 +52,7 @@ export LFLAGS :=
 
 export PKG_CONFIG ?= pkg-config
 export PKG_CONFIG_PATH ?= /usr/local/lib/pkgconfig
-export VC_FUSE_PACKAGE := fuse
+
 export VC_OSX_FUSET ?= 0
 
 export WX_CONFIG ?= wx-config
@@ -342,7 +342,6 @@ $(error Specified SDK version was not found, ensure your active developer direct
 
 	ifneq "$(VC_OSX_FUSET)" "0"
 		C_CXX_FLAGS += -DVC_MACOSX_FUSET
-		VC_FUSE_PACKAGE := fuse-t
 	endif
 
 	export CFLAGS_ARM64 := $(CFLAGS) $(C_CXX_FLAGS) -arch arm64 -march=armv8-a+crypto
@@ -547,13 +546,43 @@ ifneq (,$(filter Linux FreeBSD OpenBSD,$(PLATFORM)))
 	endif
 endif
 
+#------ FUSE selection ------
+# User must specify WITHFUSE3 (non-zero) to request fuse3. Otherwise fuse (FUSE2) is used.
+# macOS FUSE-T builds select the fuse-t pkg-config package through WITHFUSET.
+# In all cases, existence is validated and build stops if the selected package is not found.
+ifeq "$(PLATFORM)" "MacOSX"
+	ifneq "$(VC_OSX_FUSET)" "0"
+		VC_FUSE_PACKAGE := fuse-t
+	else
+		VC_FUSE_PACKAGE := fuse
+	endif
+else
+	ifeq ($(origin WITHFUSE3),command line)
+		ifneq ($(WITHFUSE3),0)
+			VC_FUSE_PACKAGE := fuse3
+		else
+			VC_FUSE_PACKAGE := fuse
+		endif
+	else
+		VC_FUSE_PACKAGE := fuse
+	endif
+endif
+
+FUSE_FOUND := $(shell $(PKG_CONFIG) --exists $(VC_FUSE_PACKAGE) >/dev/null 2>&1 && echo 1 || echo 0)
+ifeq ($(FUSE_FOUND),0)
+$(error Requested FUSE package '$(VC_FUSE_PACKAGE)' not found. Install it (or set WITHFUSE3/WITHFUSET appropriately).)
+endif
+
+export VC_FUSE_PACKAGE
+export VC_FUSE_VERSION := $(shell $(PKG_CONFIG) --modversion $(VC_FUSE_PACKAGE) 2>/dev/null | cut -d. -f1)
+
 #------ Common configuration ------
 
 CFLAGS := $(C_CXX_FLAGS) $(CFLAGS) $(TC_EXTRA_CFLAGS)
 CXXFLAGS := $(C_CXX_FLAGS) $(CXXFLAGS) $(TC_EXTRA_CXXFLAGS)
 LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 
-WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-tracking --enable-exceptions --enable-std_string --enable-dataobj --enable-mimetype
+WX_CONFIGURE_FLAGS += -disable-shared --disable-dependency-tracking --enable-exceptions --enable-dataobj --enable-mimetype
 
 ifdef VC_WX_MINIMAL
 WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --without-libcurl --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
@@ -631,7 +660,14 @@ endif
 	rm -rf "$(WX_BUILD_DIR)"
 	mkdir -p "$(WX_BUILD_DIR)"
 	@echo Configuring wxWidgets library...
-	cd "$(WX_BUILD_DIR)" && "$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) >/dev/null
+	cd "$(WX_BUILD_DIR)" && \
+	WX_CONFIGURE_LEGACY_FLAGS=""; \
+	for option in unicode std_string; do \
+		if grep -Eq "(^|[^[:alnum:]_])enable_$${option}([^[:alnum:]_]|$$)" "$(WX_ROOT)/configure"; then \
+			WX_CONFIGURE_LEGACY_FLAGS="$$WX_CONFIGURE_LEGACY_FLAGS --enable-$$option"; \
+		fi; \
+	done; \
+	"$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) $$WX_CONFIGURE_LEGACY_FLAGS >/dev/null
 
 	@echo Building wxWidgets library...
 	cd "$(WX_BUILD_DIR)" && $(MAKE) -j 4

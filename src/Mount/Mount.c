@@ -4941,7 +4941,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				// Driver
 				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\veracrypt.sys", appDir);
 				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt.sys", dstDir);
-				if (!VerifyModuleSignature (srcPath))
+				if (!VerifyModuleSignatureAllowingMicrosoftWHQL (srcPath))
 				{
 					Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
 					goto stop;
@@ -4955,7 +4955,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				// Driver x64
 				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\veracrypt-x64.sys", appDir);
 				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
-				if (!VerifyModuleSignature (srcPath))
+				if (!VerifyModuleSignatureAllowingMicrosoftWHQL (srcPath))
 				{
 					Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
 					goto stop;
@@ -4969,7 +4969,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				// Driver ARM64
 				StringCbPrintfW(srcPath, sizeof(srcPath), L"%s\\veracrypt-arm64.sys", appDir);
 				StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-arm64.sys", dstDir);
-				if (!VerifyModuleSignature(srcPath))
+				if (!VerifyModuleSignatureAllowingMicrosoftWHQL(srcPath))
 				{
 					Error("DIST_PACKAGE_CORRUPTED", hwndDlg);
 					goto stop;
@@ -4983,19 +4983,23 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			else
 			{
 				int fileNo = 0;
-				BOOL bMsiX64Case = FALSE;
-				// get file from the Setup binary after checking its signature and its version
+				BOOL bMsiPackage = FALSE;
+				BOOL bCopiedX64App = FALSE;
+				BOOL bCopiedX64Driver = FALSE;
+				BOOL bCopiedX64Wizard = FALSE;
+				BOOL bCopiedX64Expander = FALSE;
+				// Get files from the IDRIX-signed setup or COMReg package after checking its signature and integrity.
 				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt COMReg.exe", appDir); // MSI installation case
 				if (FileExists(srcPath))
 				{
-					bMsiX64Case = TRUE;
+					bMsiPackage = TRUE;
 				}
 				else
 					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Setup.exe", appDir); // EXE installation case
 
 				FreeAllFileBuffers ();
 
-				if (!VerifyPackageIntegrity (srcPath) || !SelfExtractInMemory (srcPath, TRUE) || (!bMsiX64Case && (Decompressed_Files_Count != NBR_COMPRESSED_FILES)))
+				if (!VerifyPackageIntegrity (srcPath) || !SelfExtractInMemory (srcPath, TRUE) || (!bMsiPackage && (Decompressed_Files_Count != NBR_COMPRESSED_FILES)))
 				{
 					MessageBoxW (hwndDlg, GetString ("DIST_PACKAGE_CORRUPTED"), lpszTitle, MB_ICONEXCLAMATION);
 					goto stop;
@@ -5071,71 +5075,21 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 						MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
 						goto stop;
 					}
+
+					if (wcscmp (fileName, L"VeraCrypt-x64.exe") == 0)
+						bCopiedX64App = TRUE;
+					else if (wcscmp (fileName, L"veracrypt-x64.sys") == 0)
+						bCopiedX64Driver = TRUE;
+					else if (wcscmp (fileName, L"VeraCrypt Format-x64.exe") == 0)
+						bCopiedX64Wizard = TRUE;
+					else if (wcscmp (fileName, L"VeraCryptExpander-x64.exe") == 0)
+						bCopiedX64Expander = TRUE;
 				}
 
-				if (bMsiX64Case)
+				if (bMsiPackage && (!bCopiedX64App || !bCopiedX64Driver || (copyWizard && !bCopiedX64Wizard) || (copyExpander && !bCopiedX64Expander)))
 				{
-					// Main app
-					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt.exe", appDir);
-					StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
-					if (!VerifyModuleSignature (srcPath))
-					{
-						Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
-						goto stop;
-					}
-					else if (!TCCopyFile (srcPath, dstPath))
-					{
-						handleWin32Error (hwndDlg, SRC_POS);
-						goto stop;
-					}
-
-					// Wizard
-					if (copyWizard)
-					{
-						StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format.exe", appDir);
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
-						if (!VerifyModuleSignature (srcPath))
-						{
-							Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
-							goto stop;
-						}
-						else if (!TCCopyFile (srcPath, dstPath))
-						{
-							handleWin32Error (hwndDlg, SRC_POS);
-							goto stop;
-						}
-					}
-
-					// Expander
-					if (copyExpander)
-					{
-						StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander.exe", appDir);
-						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-x64.exe", dstDir);
-						if (!VerifyModuleSignature (srcPath))
-						{
-							Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
-							goto stop;
-						}
-						else if (!TCCopyFile (srcPath, dstPath))
-						{
-							handleWin32Error (hwndDlg, SRC_POS);
-							goto stop;
-						}
-					}
-
-					// Driver
-					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\veracrypt.sys", appDir);
-					StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
-					if (!VerifyModuleSignature (srcPath))
-					{
-						Error ("DIST_PACKAGE_CORRUPTED", hwndDlg);
-						goto stop;
-					}
-					else if (!TCCopyFile (srcPath, dstPath))
-					{
-						handleWin32Error (hwndDlg, SRC_POS);
-						goto stop;
-					}
+					MessageBoxW (hwndDlg, GetString ("DIST_PACKAGE_CORRUPTED"), lpszTitle, MB_ICONEXCLAMATION);
+					goto stop;
 				}
 			}
 
@@ -5762,6 +5716,22 @@ retry:
 	}
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, prevMountList.ulMountedDrives & ~mountList.ulMountedDrives);
+
+	/* GH #337, GH #1426: Flush shell notifications synchronously in
+	   silent/CLI mode to prevent ghost drive letters when the process
+	   exits immediately after dismount. */
+	if (Silent)
+	{
+		DWORD removedDrives = prevMountList.ulMountedDrives & ~mountList.ulMountedDrives;
+		for (i = 0; i < 26; i++)
+		{
+			if (removedDrives & (1 << i))
+			{
+				wchar_t root[] = { (wchar_t) (i + L'A'), L':', L'\\', 0 };
+				SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);
+			}
+		}
+	}
 
 	RefreshMainDlg (hwndDlg);
 

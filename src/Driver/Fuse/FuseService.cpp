@@ -11,9 +11,24 @@
 */
 
 #ifdef TC_OPENBSD
-#define FUSE_USE_VERSION  26
+# define FUSE_USE_VERSION 26
 #else
-#define FUSE_USE_VERSION  25
+# ifndef VC_FUSE_VERSION
+#  define VC_FUSE_VERSION 2
+# endif
+# if VC_FUSE_VERSION < 3
+#  define FUSE_USE_VERSION 25
+# else
+#  define FUSE_USE_VERSION 301
+#  define VC_FUSE3 1
+# endif
+#endif
+
+
+#ifdef VC_FUSE3
+#define VC_FUSE_FILL_DIR(filler, buf, name, st, off) filler(buf, name, st, off, (enum fuse_fill_dir_flags)0)
+#else
+#define VC_FUSE_FILL_DIR(filler, buf, name, st, off) filler(buf, name, st, off)
 #endif
 
 #include <errno.h>
@@ -41,6 +56,23 @@
 
 namespace VeraCrypt
 {
+	static const ino_t VC_FUSE_INODE_ROOT = 1;
+	static const ino_t VC_FUSE_INODE_VOLUME = 2;
+	static const ino_t VC_FUSE_INODE_CONTROL = 3;
+
+	static int fuse_service_fill_dir_entry (void *buf, fuse_fill_dir_t filler, const char *name, mode_t mode, ino_t ino, off_t nextOff)
+	{
+		struct stat st;
+		Memory::Zero (&st, sizeof (st));
+		st.st_mode = mode;
+		st.st_nlink = S_ISDIR (mode) ? 2 : 1;
+		st.st_uid = FuseService::GetUserId();
+		st.st_gid = FuseService::GetGroupId();
+		st.st_ino = ino;
+
+		return VC_FUSE_FILL_DIR (filler, buf, name, &st, nextOff);
+	}
+
 	static int fuse_service_access (const char *path, int mask)
 	{
 		try
@@ -56,11 +88,7 @@ namespace VeraCrypt
 		return 0;
 	}
 
-#ifdef TC_OPENBSD
-	static void *fuse_service_init (struct fuse_conn_info *)
-#else
-	static void *fuse_service_init ()
-#endif
+	static void *fuse_service_init_common ()
 	{
 		try
 		{
@@ -88,6 +116,32 @@ namespace VeraCrypt
 		return nullptr;
 	}
 
+#if defined(VC_FUSE3)
+	static void *fuse_service_init (struct fuse_conn_info *conn, struct fuse_config *cfg)
+	{
+		if (cfg)
+		{
+			cfg->set_uid = 1;
+			cfg->set_gid = 1;
+			cfg->uid = FuseService::GetUserId();
+			cfg->gid = FuseService::GetGroupId();
+		}
+
+		return fuse_service_init_common ();
+	}
+#elif defined(TC_OPENBSD) || (FUSE_USE_VERSION >= 26)
+	static void *fuse_service_init (struct fuse_conn_info *conn)
+	{
+		(void) conn;
+		return fuse_service_init_common ();
+	}
+#else
+	static void *fuse_service_init ()
+	{
+		return fuse_service_init_common ();
+	}
+#endif
+
 	static void fuse_service_destroy (void *userdata)
 	{
 		try
@@ -104,7 +158,7 @@ namespace VeraCrypt
 		}
 	}
 
-	static int fuse_service_getattr (const char *path, struct stat *statData)
+	static int fuse_service_getattr_impl (const char *path, struct stat *statData)
 	{
 		try
 		{
@@ -120,6 +174,7 @@ namespace VeraCrypt
 			{
 				statData->st_mode = S_IFDIR | 0500;
 				statData->st_nlink = 2;
+				statData->st_ino = VC_FUSE_INODE_ROOT;
 			}
 			else
 			{
@@ -131,12 +186,14 @@ namespace VeraCrypt
 					statData->st_mode = S_IFREG | 0600;
 					statData->st_nlink = 1;
 					statData->st_size = FuseService::GetVolumeSize();
+					statData->st_ino = VC_FUSE_INODE_VOLUME;
 				}
 				else if (strcmp (path, FuseService::GetControlPath()) == 0)
 				{
 					statData->st_mode = S_IFREG | 0600;
 					statData->st_nlink = 1;
 					statData->st_size = FuseService::GetVolumeInfo()->Size();
+					statData->st_ino = VC_FUSE_INODE_CONTROL;
 				}
 				else
 				{
@@ -151,6 +208,19 @@ namespace VeraCrypt
 
 		return 0;
 	}
+
+#if defined(VC_FUSE3)
+	static int fuse_service_getattr (const char *path, struct stat *statData, struct fuse_file_info *fi)
+	{
+		(void) fi;
+		return fuse_service_getattr_impl (path, statData);
+	}
+#else
+	static int fuse_service_getattr (const char *path, struct stat *statData)
+	{
+		return fuse_service_getattr_impl (path, statData);
+	}
+#endif
 
 	static int fuse_service_opendir (const char *path, struct fuse_file_info *fi)
 	{
@@ -261,8 +331,10 @@ namespace VeraCrypt
 		return -ENOENT;
 	}
 
-	static int fuse_service_readdir (const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
+	static int fuse_service_readdir_impl (const char *path, void *buf, fuse_fill_dir_t filler, struct fuse_file_info *fi)
 	{
+		(void) fi;
+
 		try
 		{
 			if (!FuseService::CheckAccessRights())
@@ -271,10 +343,14 @@ namespace VeraCrypt
 			if (strcmp (path, "/") != 0)
 				return -ENOENT;
 
-			filler (buf, ".", NULL, 0);
-			filler (buf, "..", NULL, 0);
-			filler (buf, FuseService::GetVolumeImagePath() + 1, NULL, 0);
-			filler (buf, FuseService::GetControlPath() + 1, NULL, 0);
+			if (fuse_service_fill_dir_entry (buf, filler, ".", S_IFDIR | 0500, VC_FUSE_INODE_ROOT, 0) != 0)
+				return 0;
+			if (fuse_service_fill_dir_entry (buf, filler, "..", S_IFDIR | 0500, VC_FUSE_INODE_ROOT, 0) != 0)
+				return 0;
+			if (fuse_service_fill_dir_entry (buf, filler, FuseService::GetVolumeImagePath() + 1, S_IFREG | 0600, VC_FUSE_INODE_VOLUME, 0) != 0)
+				return 0;
+			if (fuse_service_fill_dir_entry (buf, filler, FuseService::GetControlPath() + 1, S_IFREG | 0600, VC_FUSE_INODE_CONTROL, 0) != 0)
+				return 0;
 		}
 		catch (...)
 		{
@@ -283,6 +359,21 @@ namespace VeraCrypt
 
 		return 0;
 	}
+
+#if defined(VC_FUSE3)
+	static int fuse_service_readdir (const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags)
+	{
+		(void) offset;
+		(void) flags;
+		return fuse_service_readdir_impl (path, buf, filler, fi);
+	}
+#else
+	static int fuse_service_readdir (const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
+	{
+		(void) offset;
+		return fuse_service_readdir_impl (path, buf, filler, fi);
+	}
+#endif
 
 	static int fuse_service_write (const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 	{
@@ -442,6 +533,17 @@ namespace VeraCrypt
 		args.push_back ("-o");
 		args.push_back ("nobrowse");
 
+#ifdef VC_MACOSX_FUSET
+		// Use FUSE-T's SMB backend for the auxiliary mount. The default NFS
+		// backend can be affected by macOS Network Volumes privacy state.
+		args.push_back ("-o");
+		args.push_back ("backend=smb");
+		args.push_back ("-o");
+		args.push_back ("nonamedattr");
+		args.push_back ("-o");
+		args.push_back ("rwsize=262144");
+#endif
+
 		if (getuid() == 0 || geteuid() == 0)
 #endif
 		{
@@ -461,11 +563,13 @@ namespace VeraCrypt
 			}
 			catch (...)
 			{
-				if (t > 50)
-					throw;
-
-				Thread::Sleep (100);
+				// Ignore exceptions since we will retry
 			}
+
+			if (t > 50)
+				throw TimeOut (SRC_POS);
+
+			Thread::Sleep (100);
 		}
 	}
 
@@ -592,7 +696,9 @@ namespace VeraCrypt
 
 		SignalHandlerPipe->GetWriteFD();
 
-#ifdef TC_OPENBSD
+#ifdef VC_FUSE3
+		_exit (fuse_main (argc, argv, &fuse_service_oper, nullptr));
+#elif defined(TC_OPENBSD)
 		_exit (fuse_main (argc, argv, &fuse_service_oper, NULL));
 #else
 		_exit (fuse_main (argc, argv, &fuse_service_oper));

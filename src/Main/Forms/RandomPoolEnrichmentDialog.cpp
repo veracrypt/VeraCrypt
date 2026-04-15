@@ -14,6 +14,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "Volume/Hash.h"
 #include "RandomPoolEnrichmentDialog.h"
+#include "WindowEventHandlers.h"
 
 namespace VeraCrypt
 {
@@ -46,8 +47,7 @@ namespace VeraCrypt
 
 		MouseEventsCounter = 0;
 
-		foreach (wxWindow *c, this->GetChildren())
-			c->Connect (wxEVT_MOTION, wxMouseEventHandler (RandomPoolEnrichmentDialog::OnMouseMotion), nullptr, this);
+		ConnectEventToChildWindows (this, wxEVT_MOTION, wxMouseEventHandler (RandomPoolEnrichmentDialog::OnMouseMotion), this);
 	}
 
 	RandomPoolEnrichmentDialog::~RandomPoolEnrichmentDialog ()

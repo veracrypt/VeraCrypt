@@ -52,10 +52,6 @@ static uint8 BootLoaderFingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
 static BOOL CrashDumpEnabled = FALSE;
 static BOOL HibernationEnabled = FALSE;
 
-static BOOL LegacyHibernationDriverFilterActive = FALSE;
-static uint8 *HibernationWriteBuffer = NULL;
-static MDL *HibernationWriteBufferMdl = NULL;
-
 static uint32 HibernationPreventionCount = 0;
 
 static BootEncryptionSetupRequest SetupRequest;
@@ -1208,7 +1204,21 @@ wipe:
 }
 
 
-// Legacy Windows XP/2003 hibernation dump filter
+/*
+ * Legacy Windows XP/2003 hibernation dump filter.
+ *
+ * DISABLED: This code is not active - LoadImageNotifyRoutine was never
+ * registered via PsSetLoadImageNotifyRoutine, so none of these functions
+ * are reachable at runtime.  Additionally the code has known issues:
+ *   - HibernationWriteBuffer / HibernationWriteBufferMdl are never allocated
+ *     (NULL dereference if reached)
+ *   - MmInitializeMdl is called in a context that may run at HIGH_LEVEL
+ *   - dataMdl->MappedSystemVa is accessed without checking MDL flags
+ *
+ * Kept behind #if 0 for historical reference.  The modern hibernation
+ * encryption path is in DumpFilter.c (Vista+ dump filter API).
+ */
+#if 0
 
 typedef NTSTATUS (*HiberDriverWriteFunctionA) (ULONG arg0, PLARGE_INTEGER writeOffset, PMDL dataMdl, PVOID arg3);
 typedef NTSTATUS (*HiberDriverWriteFunctionB) (PLARGE_INTEGER writeOffset, PMDL dataMdl);
@@ -1300,7 +1310,7 @@ static NTSTATUS HiberDriverWriteFunctionFilter (int filterNumber, PLARGE_INTEGER
 
 	if (writeB)
 		return (*OriginalHiberDriverWriteFunctionsB[filterNumber]) (writeOffset, encryptedDataMdl);
-	
+
 	return (*OriginalHiberDriverWriteFunctionsA[filterNumber]) (arg0WriteA, writeOffset, encryptedDataMdl, arg3WriteA);
 }
 
@@ -1474,6 +1484,8 @@ static VOID LoadImageNotifyRoutine (PUNICODE_STRING fullImageName, HANDLE proces
 
 	KeLowerIrql (origIrql);
 }
+
+#endif /* Legacy XP/2003 hibernation filter */
 
 
 static VOID SetupThreadProc (PVOID threadArg)

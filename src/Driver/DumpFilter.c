@@ -266,11 +266,25 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 	if ((offset & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
 		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 
-	// Require either a valid mapping or a nonpaged system VA we can read at HIGH_LEVEL.
-	if ((writeMdl->MdlFlags & (MDL_MAPPED_TO_SYSTEM_VA | MDL_SOURCE_IS_NONPAGED_POOL)) == 0)
-		TC_BUG_CHECK(STATUS_INVALID_PARAMETER);
+	// Resolve the system VA we can safely read at HIGH_LEVEL.
+	// MDL_SOURCE_IS_NONPAGED_POOL: original VA (StartVa + ByteOffset) is a kernel VA.
+	// MDL_MAPPED_TO_SYSTEM_VA:     MappedSystemVa is the correct kernel VA (StartVa
+	//                              may point elsewhere, e.g. user-mode or stale VA).
+	// Windows 11 25H2+ dump stacks may provide mapped MDLs that are NOT from nonpaged
+	// pool, so we must prefer MappedSystemVa when available.
+	if (writeMdl->MdlFlags & MDL_MAPPED_TO_SYSTEM_VA)
+	{
+		writeBuffer = writeMdl->MappedSystemVa;
+	}
+	else if (writeMdl->MdlFlags & MDL_SOURCE_IS_NONPAGED_POOL)
+	{
+		writeBuffer = MmGetMdlVirtualAddress (writeMdl);
+	}
+	else
+	{
+		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+	}
 
-	writeBuffer = MmGetMdlVirtualAddress (writeMdl);
 	if (!writeBuffer)
 		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 

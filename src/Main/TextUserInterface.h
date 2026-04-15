@@ -51,6 +51,11 @@ namespace VeraCrypt
 		virtual void ImportTokenKeyfiles () const;
 #ifndef TC_NO_GUI
 		virtual bool Initialize (int &argc, wxChar **argv) { return wxAppBase::Initialize(argc, argv); }
+#ifdef TC_MACOSX
+		// Avoid wxApp::CallOnInit(), which can enter the Cocoa event loop before text-mode OnInit() runs.
+		virtual bool CallOnInit () { return OnInit(); }
+		virtual bool OSXIsGUIApplication () { return false; }
+#endif
 #endif
 		virtual void InitSecurityTokenLibrary () const;
 		virtual void ListTokenKeyfiles () const;

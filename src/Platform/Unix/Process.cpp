@@ -46,7 +46,7 @@ namespace VeraCrypt
 
 		// Default system directories to search for executables
 #ifdef TC_MACOSX
-		const char* defaultDirs[] = {"/usr/local/bin", "/usr/bin", "/bin", "/user/sbin", "/sbin"};
+		const char* defaultDirs[] = {"/usr/local/bin", "/usr/bin", "/bin", "/usr/sbin", "/sbin"};
 #elif TC_FREEBSD
 		const char* defaultDirs[] = {"/sbin", "/bin", "/usr/sbin", "/usr/bin", "/usr/local/sbin", "/usr/local/bin"};
 #elif TC_OPENBSD

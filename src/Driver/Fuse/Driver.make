@@ -16,5 +16,6 @@ OBJS :=
 OBJS += FuseService.o
 
 CXXFLAGS += $(shell $(PKG_CONFIG) $(VC_FUSE_PACKAGE) --cflags)
+CXXFLAGS += -DVC_FUSE_VERSION=$(VC_FUSE_VERSION)
 
 include $(BUILD_INC)/Makefile.inc

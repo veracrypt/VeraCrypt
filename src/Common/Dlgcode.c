@@ -314,14 +314,40 @@ static unsigned char gpbSha512CodeSignCertFingerprint[64] = {
 	0xF1, 0x08, 0xF3, 0xA8
 };
 
-static unsigned char gpbSha512MSCodeSignCertFingerprint[64] = {
-	0x17, 0x8C, 0x1B, 0x37, 0x70, 0xBF, 0x8B, 0xDF, 0x84, 0x55, 0xC5, 0x18,
-	0x13, 0x64, 0xE9, 0x65, 0x6D, 0x67, 0xCA, 0x0C, 0xD6, 0x3B, 0x9E, 0x7B,
-	0x9B, 0x6A, 0x63, 0xD6, 0x19, 0xAE, 0xD7, 0xBA, 0xBE, 0x5C, 0xCB, 0xD1,
-	0x07, 0x89, 0x07, 0xFB, 0x12, 0xC0, 0x2C, 0x94, 0x86, 0xEB, 0x67, 0x0B,
-	0x9C, 0x97, 0xEB, 0x20, 0x38, 0x13, 0x9C, 0x0F, 0x56, 0x93, 0x1B, 0x19,
-	0x6F, 0x8F, 0x6A, 0x39
+/*
+ * SHA-512 hashes of the DER-encoded Authenticode leaf certificates used by
+ * Microsoft WHQL signing for the current VeraCrypt driver files. These are
+ * accepted only by VerifyModuleSignatureAllowingMicrosoftWHQL(), which is used
+ * for loose portable driver files that cannot be signed by the IDRIX
+ * certificate.
+ */
+static unsigned char gpbSha512MSWHQLCertFingerprints[][64] = {
+	/*
+	 * SHA-1 thumbprint 3847B761C2846DB72F61149176D09F9BB2D43E8A,
+	 * observed on the latest WHQL signing certificate.
+	 */
+	{
+		0x29, 0x85, 0xDC, 0xD4, 0x85, 0xBF, 0x3C, 0x48, 0xA6, 0x08, 0x13, 0x8E,
+		0x53, 0xE6, 0x7A, 0x98, 0x7F, 0xE8, 0x1D, 0x9C, 0xE8, 0x37, 0xDF, 0xE0,
+		0xCD, 0x68, 0xF9, 0x97, 0x11, 0x14, 0xF7, 0xEF, 0x69, 0xF7, 0x53, 0x24,
+		0x82, 0x0E, 0x8D, 0x49, 0x37, 0xFA, 0xFD, 0xC5, 0x48, 0x76, 0xF0, 0xC0,
+		0x5D, 0xF1, 0xCA, 0xAC, 0x7C, 0xC4, 0x5E, 0xC0, 0x93, 0x0C, 0x8E, 0x64,
+		0x7C, 0x57, 0xFE, 0xEB
+	}
 };
+
+static BOOL IsKnownMSWHQLCertFingerprint (const unsigned char hashVal[64])
+{
+	size_t i;
+
+	for (i = 0; i < sizeof (gpbSha512MSWHQLCertFingerprints) / sizeof (gpbSha512MSWHQLCertFingerprints[0]); ++i)
+	{
+		if (0 == memcmp (hashVal, gpbSha512MSWHQLCertFingerprints[i], 64))
+			return TRUE;
+	}
+
+	return FALSE;
+}
 
 /* Windows dialog class */
 #define WINDOWS_DIALOG_CLASS L"#32770"
@@ -944,7 +970,7 @@ cleanup:
 }
 #endif
 
-BOOL VerifyModuleSignature (const wchar_t* path)
+static BOOL VerifyModuleSignatureInternal (const wchar_t* path, BOOL bAllowMicrosoftWHQL)
 {
 #if defined(NDEBUG) && !defined (VC_SKIP_OS_DRIVER_REQ_CHECK)
 	BOOL bResult = FALSE;
@@ -995,9 +1021,8 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 					BYTE hashVal[64];
 					sha512 (hashVal, pProviderCert->pCert->pbCertEncoded, pProviderCert->pCert->cbCertEncoded);
 
-					if (	(0 ==  memcmp (hashVal, gpbSha512CodeSignCertFingerprint, 64))
-						||	(0 ==  memcmp (hashVal, gpbSha512MSCodeSignCertFingerprint, 64))
-						)
+					if ((0 == memcmp (hashVal, gpbSha512CodeSignCertFingerprint, 64))
+						|| (bAllowMicrosoftWHQL && IsKnownMSWHQLCertFingerprint (hashVal)))
 					{
 						bResult = TRUE;
 					}
@@ -1014,6 +1039,16 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 #else
 	return TRUE;
 #endif
+}
+
+BOOL VerifyModuleSignature (const wchar_t* path)
+{
+	return VerifyModuleSignatureInternal (path, FALSE);
+}
+
+BOOL VerifyModuleSignatureAllowingMicrosoftWHQL (const wchar_t* path)
+{
+	return VerifyModuleSignatureInternal (path, TRUE);
 }
 
 DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
@@ -9356,6 +9391,18 @@ retry:
 	}
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, nDosDriveNo, 0);
+
+	/* GH #337, GH #1426: When running in silent/CLI mode, the process may
+	   exit immediately after unmount. BroadcastDeviceChange sends
+	   SHChangeNotify asynchronously, so Explorer may not process the drive
+	   removal before the process exits, leaving a ghost drive letter.
+	   Re-send the notification with SHCNF_FLUSH to force synchronous
+	   processing by Explorer before we return. */
+	if (Silent)
+	{
+		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
+		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);
+	}
 
 	return TRUE;
 }
