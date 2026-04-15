@@ -16,6 +16,22 @@ clean:
 	@echo Cleaning $(NAME)
 	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
 
+# On arm64 hosts, x86 feature flags are rejected by clang.
+# Source files are guarded by CRYPTOPP_BOOL_X86/X64 so they produce empty objects on arm64.
+ifeq "$(CPU_ARCH)" "arm64"
+X86_SSE41_FLAGS :=
+X86_SHANI_FLAGS :=
+X86_AESNI_FLAGS :=
+X86_SSSE3_FLAGS :=
+X86_AVX2_FLAGS :=
+else
+X86_SSE41_FLAGS := -mssse3 -msse4.1
+X86_SHANI_FLAGS := -mssse3 -msse4.1 -msha
+X86_AESNI_FLAGS := -mssse3 -msse4.1 -maes
+X86_SSSE3_FLAGS := -mssse3
+X86_AVX2_FLAGS := -mavx2
+endif
+
 %.o: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -23,26 +39,26 @@ clean:
 %.o0: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -O0 -c $< -o $@
-	
+
 %.osse41: %.c
 	@echo Compiling $(<F)
-	$(CC) $(CFLAGS) -mssse3 -msse4.1 -c $< -o $@
+	$(CC) $(CFLAGS) $(X86_SSE41_FLAGS) -c $< -o $@
 
 %.oshani: %.c
 	@echo Compiling $(<F)
-	$(CC) $(CFLAGS) -mssse3 -msse4.1 -msha -c $< -o $@
+	$(CC) $(CFLAGS) $(X86_SHANI_FLAGS) -c $< -o $@
 
 %.oaesni: %.c
 	@echo Compiling $(<F)
-	$(CC) $(CFLAGS) -mssse3 -msse4.1 -maes -c $< -o $@
-	
+	$(CC) $(CFLAGS) $(X86_AESNI_FLAGS) -c $< -o $@
+
 %.ossse3: %.c
 	@echo Compiling $(<F)
-	$(CC) $(CFLAGS) -mssse3 -c $< -o $@
+	$(CC) $(CFLAGS) $(X86_SSSE3_FLAGS) -c $< -o $@
 
 %.oavx2: %.c
 	@echo Compiling $(<F)
-	$(CC) $(CFLAGS) -mavx2 -c $< -o $@
+	$(CC) $(CFLAGS) $(X86_AVX2_FLAGS) -c $< -o $@
 
 %.oarmv8crypto: %.c
 	@echo Compiling $(<F)
@@ -51,26 +67,26 @@ clean:
 %.o: %.cpp
 	@echo Compiling $(<F)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-	
+
 %.osse41: %.cpp
 	@echo Compiling $(<F)
-	$(CXX) $(CXXFLAGS) -mssse3 -msse4.1 -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(X86_SSE41_FLAGS) -c $< -o $@
 
 %.oshani: %.cpp
 	@echo Compiling $(<F)
-	$(CXX) $(CXXFLAGS) -mssse3 -msse4.1 -msha -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(X86_SHANI_FLAGS) -c $< -o $@
 
 %.oaesni: %.cpp
 	@echo Compiling $(<F)
-	$(CXX) $(CXXFLAGS) -mssse3 -msse4.1 -maes -c $< -o $@
-	
+	$(CXX) $(CXXFLAGS) $(X86_AESNI_FLAGS) -c $< -o $@
+
 %.ossse3: %.cpp
 	@echo Compiling $(<F)
-	$(CXX) $(CXXFLAGS) -mssse3 -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(X86_SSSE3_FLAGS) -c $< -o $@
 
 %.oavx2: %.cpp
 	@echo Compiling $(<F)
-	$(CXX) $(CXXFLAGS) -mavx2 -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(X86_AVX2_FLAGS) -c $< -o $@
 	
 %.o: %.S
 	@echo Compiling $(<F)

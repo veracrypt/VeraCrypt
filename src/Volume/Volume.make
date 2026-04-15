@@ -58,6 +58,11 @@ ifneq "$(COMPILE_ASM)" "false"
 	OBJSEX += ../Crypto/sha512_avx1.oo
 	OBJSEX += ../Crypto/sha512_avx2.oo
 	OBJSEX += ../Crypto/sha512_sse4.oo
+else ifeq "$(CPU_ARCH)" "arm64"
+	# Local arm64 MacOSX build (no universal binary / no yasm x86 asm)
+	OBJARMV8CRYPTO += ../Crypto/Aes_hw_armv8.oarmv8crypto
+	OBJS += ../Crypto/Aescrypt.o
+	OBJARMV8CRYPTO += ../Crypto/sha256_armv8.oarmv8crypto
 endif
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
@@ -89,6 +94,14 @@ else
 	OBJS += ../Crypto/Aescrypt.o
 endif
 
+ifeq "$(CPU_ARCH)" "arm64"
+# x86-only intrinsics sources are compiled as plain objects on arm64
+# (their bodies are #ifdef-gated to x86/x64 and become empty translation units)
+OBJS += ../Crypto/blake2s_SSE41.o
+OBJS += ../Crypto/blake2s_SSSE3.o
+OBJS += ../Crypto/Sha2Intel.o
+OBJS += ../Crypto/Argon2/src/opt_avx2.o
+else
 ifeq "$(GCC_GTEQ_430)" "1"
 	OBJSSSE41 += ../Crypto/blake2s_SSE41.osse41
 	OBJSSSSE3 += ../Crypto/blake2s_SSSE3.ossse3
@@ -105,6 +118,7 @@ ifeq "$(GCC_GTEQ_470)" "1"
 	OBJSAVX2 += ../Crypto/Argon2/src/opt_avx2.oavx2
 else
 	OBJS += ../Crypto/Argon2/src/opt_avx2.o
+endif
 endif
 else
 OBJS += ../Crypto/wolfCrypt.o
