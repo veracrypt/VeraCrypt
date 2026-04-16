@@ -211,7 +211,7 @@ This software as a whole:
 Copyright (c) 2025 AM Crypto. All rights reserved.  
 
 Portions of this software:  
-Copyright (c) 2025 AM Crypto. All rights reserved.
+Copyright (c) 2025 AM Crypto. All rights reserved.  
 Copyright (c) 2013-2025 IDRIX. All rights reserved.  
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.  
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.  
