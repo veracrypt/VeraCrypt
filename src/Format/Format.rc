@@ -45,11 +45,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "AM Crypto"
-            VALUE "FileDescription", "VeraCrypt Format"
+            VALUE "FileDescription", "ExamPrepSec Format"
             VALUE "FileVersion", "1.26.27"
-            VALUE "LegalTrademarks", "VeraCrypt"
-            VALUE "OriginalFilename", "VeraCrypt Format.exe"
-            VALUE "ProductName", "VeraCrypt"
+            VALUE "LegalTrademarks", "ExamPrepSec"
+            VALUE "OriginalFilename", "ExamPrepSec Format.exe"
+            VALUE "ProductName", "ExamPrepSec"
             VALUE "ProductVersion", "1.26.27"
         END
     END
@@ -81,7 +81,7 @@ IDR_FORMAT_TLB          TYPELIB                 "Format.tlb"
 
 IDD_VOL_CREATION_WIZARD_DLG DIALOGEX 0, 0, 450, 250
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "VeraCrypt Volume Creation Wizard"
+CAPTION "ExamPrepSec Volume Creation Wizard"
 CLASS "VeraCryptCustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN

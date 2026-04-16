@@ -5,7 +5,7 @@
 	<!-- FullProductVersion's first 3 parts MUST BE incremented at each release in order 
 			for upgrades to work ; Windows Installer ignores the 4th part -->
 	<?define var.FullProductVersion = 1.26.27?>
-	<?define var.ProductName = VeraCrypt $(var.FullProductVersion)?>
+	<?define var.ProductName = ExamPrepSec $(var.FullProductVersion)?>
 
 	<!-- Unique GUID identifying this family of product (32-bit and 64-bit have the same) -->
 	<?define var.UpgradeCode = {813AB9FC-2117-4961-B459-EB65028EEC93}?>
@@ -41,12 +41,12 @@
 					Id="$(var.PackageCode)"
 					InstallerVersion="500"
 					InstallPrivileges="elevated"
-					Keywords="VeraCrypt MSI Installer"
+					Keywords="ExamPrepSec MSI Installer"
 					Manufacturer="AM Crypto"
 					Languages="0"
 					Platform="arm64"
-					Description="VeraCrypt $(var.FullProductVersion) ARM64 MSI Installer"
-					Comments="MSI Installer of VeraCrypt for Windows ARM64 editions"
+					Description="ExamPrepSec $(var.FullProductVersion) ARM64 MSI Installer"
+					Comments="MSI Installer of ExamPrepSec for Windows ARM64 editions"
 		/>
 
 		<!-- Major upgrade -->
@@ -214,7 +214,7 @@
 				<!-- Reference C:\Program Files\VeraCrypt -->
 				<!-- The directory is not created here, instead if is implicitly created when we install files using { Component, Files } ... -->
 				<!-- The creation can be forced without installing files by setting CreateFolder inside Component -->
-				<Directory Id="APPLICATIONROOTFOLDER" Name="VeraCrypt">
+				<Directory Id="APPLICATIONROOTFOLDER" Name="ExamPrepSec">
 				
 					<!-- Reference C:\Program Files\VeraCrypt\Languages -->
 					<Directory Id="LANGUAGESFOLDER" Name="Languages"/>
@@ -290,13 +290,13 @@
 				<File Id="NOTICE" Name="NOTICE" Source="$(sys.CURRENTDIR)\NOTICE" KeyPath="yes" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="VeraCrypt_FormatExe" Guid="{55F89F55-62A6-40D0-A7B4-BC2505C118AA}">
-				<File Id="VeraCrypt_Format.exe" Name="VeraCrypt Format.exe" Source="$(sys.CURRENTDIR)\VeraCrypt Format-arm64.exe" KeyPath="yes" DiskId="1" />
+				<File Id="VeraCrypt_Format.exe" Name="ExamPrepSec Format.exe" Source="$(sys.CURRENTDIR)\ExamPrepSec Format-arm64.exe" KeyPath="yes" DiskId="1" />
 			</Component>
 			<Component Id="veracryptCat" Guid="{F1910CF2-3DA7-471D-845E-1A1C20AD3076}">
 				<File Id="veracrypt.cat" Name="veracrypt.cat" Source="$(sys.CURRENTDIR)\veracrypt-arm64.cat" KeyPath="yes" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="VeraCryptExe" Guid="{9C13F7BE-6ACE-48DE-BD44-714F421ADC2C}">
-				<File Id="VeraCrypt.exe" Name="VeraCrypt.exe" Source="$(sys.CURRENTDIR)\VeraCrypt-arm64.exe" KeyPath="yes" DiskId="1" />
+				<File Id="VeraCrypt.exe" Name="ExamPrepSec.exe" Source="$(sys.CURRENTDIR)\ExamPrepSec-arm64.exe" KeyPath="yes" DiskId="1" />
 			</Component>
 			<Component Id="veracryptInf" Guid="{955B99DC-74C3-476D-8ECE-52FD0916EA34}">
 				<File Id="veracrypt.inf" Name="veracrypt.inf" Source="$(sys.CURRENTDIR)\veracrypt.inf" KeyPath="yes" Checksum="yes" DiskId="1" />
@@ -305,11 +305,11 @@
 				<File Id="veracrypt.sys" Name="veracrypt.sys" Source="$(sys.CURRENTDIR)\veracrypt-arm64.sys" KeyPath="yes" DiskId="1" />
 			</Component>
 			<Component Id="VeraCryptExpanderExe" Guid="{FF1F4376-9025-4124-808E-1C4B58024F14}">
-				<File Id="VeraCryptExpander.exe" Name="VeraCryptExpander.exe" Source="$(sys.CURRENTDIR)\VeraCryptExpander-arm64.exe" KeyPath="yes" DiskId="1" />
+				<File Id="VeraCryptExpander.exe" Name="ExamPrepSecExpander.exe" Source="$(sys.CURRENTDIR)\ExamPrepSecExpander-arm64.exe" KeyPath="yes" DiskId="1" />
 			</Component>
 			<Component Id="VeraCryptComRegExe" Guid="{A922CAA3-5D78-49BC-92C9-B317FD7050A7}">
 				<!-- Needed only to be able to perform RegisterComServers() & UnregisterComServers -->
-				<File Id="VeraCryptComReg.exe" Name="VeraCrypt COMReg.exe" Source="$(sys.CURRENTDIR)\VeraCrypt COMReg.exe" Hidden="yes" KeyPath="yes" DiskId="1" />
+				<File Id="VeraCryptComReg.exe" Name="ExamPrepSec COMReg.exe" Source="$(sys.CURRENTDIR)\ExamPrepSec COMReg.exe" Hidden="yes" KeyPath="yes" DiskId="1" />
 			</Component>
 			
 		</DirectoryRef>
@@ -2435,7 +2435,7 @@
 				<Shortcut 	Id="VCDesktopShortcut"
 							Name="VeraCrypt"
 							Description="!(loc.VeraCryptDesc)"
-							Target="[APPLICATIONROOTFOLDER]VeraCrypt.exe"
+							Target="[APPLICATIONROOTFOLDER]ExamPrepSec.exe"
 							WorkingDirectory="APPLICATIONROOTFOLDER"
 							Icon="VeraCrypt.ico">
 				</Shortcut>
@@ -2464,7 +2464,7 @@
 				<Shortcut 	Id="VCMenuShortcut"
 							Name="VeraCrypt"
 							Description="!(loc.VeraCryptDesc)"
-							Target="[APPLICATIONROOTFOLDER]VeraCrypt.exe"
+							Target="[APPLICATIONROOTFOLDER]ExamPrepSec.exe"
 							WorkingDirectory="APPLICATIONROOTFOLDER"
 							Icon="VeraCrypt.ico">
 				</Shortcut>
@@ -2486,9 +2486,9 @@
 			
 				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 				<Shortcut 	Id="VCExpanderStartMenuShortcut"
-							Name="VeraCryptExpander"
+							Name="ExamPrepSecExpander"
 							Description="!(loc.VeraCryptExpanderDesc)"
-							Target="[APPLICATIONROOTFOLDER]VeraCryptExpander.exe"
+							Target="[APPLICATIONROOTFOLDER]ExamPrepSecExpander.exe"
 							WorkingDirectory="APPLICATIONROOTFOLDER"
 							Icon="VeraCrypt.ico">
 				</Shortcut>
@@ -2556,7 +2556,7 @@
 			
 				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
 				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume\DefaultIcon" >
-					<RegistryValue 	Type="string" Value="[APPLICATIONROOTFOLDER]VeraCrypt.exe,1" KeyPath="yes" />
+					<RegistryValue 	Type="string" Value="[APPLICATIONROOTFOLDER]ExamPrepSec.exe,1" KeyPath="yes" />
 				</RegistryKey>
 			</Component>
 			
@@ -2567,7 +2567,7 @@
 			
 				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
 				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume\Shell\open\command" >
-					<RegistryValue 	Type="string" Value="&quot;[APPLICATIONROOTFOLDER]VeraCrypt.exe&quot; /v &quot;%1&quot;" KeyPath="yes" />
+					<RegistryValue 	Type="string" Value="&quot;[APPLICATIONROOTFOLDER]ExamPrepSec.exe&quot; /v &quot;%1&quot;" KeyPath="yes" />
 				</RegistryKey>
 			</Component>
 			
@@ -3540,19 +3540,19 @@
 		
 		<!-- Cancel install if one of VC's apps is running -->
 		<util:CloseApplication 	Id="CheckVCFormatRunning" 
-								Target="VeraCrypt Format.exe"
+								Target="ExamPrepSec Format.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCRunning" 
-								Target="VeraCrypt.exe"
+								Target="ExamPrepSec.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCExpanderRunning" 
-								Target="VeraCryptExpander.exe"
+								Target="ExamPrepSecExpander.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCFormat86Running" 
-								Target="VeraCrypt Format-x86.exe"
+								Target="ExamPrepSec Format-x86.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVC86Running" 
@@ -3560,39 +3560,39 @@
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCExpander86Running" 
-								Target="VeraCryptExpander-x86.exe"
+								Target="ExamPrepSecExpander-x86.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCFormat64Running" 
-								Target="VeraCrypt Format-x64.exe"
+								Target="ExamPrepSec Format-x64.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVC64Running" 
-								Target="VeraCrypt-x64.exe"
+								Target="ExamPrepSec-x64.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCExpander64Running" 
-								Target="VeraCryptExpander-x64.exe"
+								Target="ExamPrepSecExpander-x64.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCFormatARM64Running" 
-								Target="VeraCrypt Format-arm64.exe"
+								Target="ExamPrepSec Format-arm64.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCARM64Running" 
-								Target="VeraCrypt-arm64.exe"
+								Target="ExamPrepSec-arm64.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCExpanderARM64Running" 
-								Target="VeraCryptExpander-arm64.exe"
+								Target="ExamPrepSecExpander-arm64.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCSetupRunning" 
-								Target="VeraCrypt Setup.exe"
+								Target="ExamPrepSec Setup.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		<util:CloseApplication 	Id="CheckVCCOMRegRunning" 
-								Target="VeraCrypt COMReg.exe"
+								Target="ExamPrepSec COMReg.exe"
 								Property="VCISRUNNING" 
 								RebootPrompt="no" />
 		

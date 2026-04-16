@@ -9,17 +9,17 @@
 	<String Id="CustomInstallDirDlgDescription" Overridable="yes">Choose which options to enable then click Next to proceed.</String>
 	
 	<String Id="InstallForAllUsersDesc" Overridable="yes">Install for all users</String>
-	<String Id="CreateDesktopShortcutDesc" Overridable="yes">Add VeraCrypt icon to desktop</String>
-	<String Id="CreateStartMenuShortcutDesc" Overridable="yes">Add VeraCrypt to Start Menu</String>
-	<String Id="AssociateVCFileExtensionDesc" Overridable="yes">Associate the .hc file extension with VeraCrypt</String>
+	<String Id="CreateDesktopShortcutDesc" Overridable="yes">Add ExamPrepSec icon to desktop</String>
+	<String Id="CreateStartMenuShortcutDesc" Overridable="yes">Add ExamPrepSec to Start Menu</String>
+	<String Id="AssociateVCFileExtensionDesc" Overridable="yes">Associate the .hc file extension with ExamPrepSec</String>
 	
-	<String Id="CloseVCFirstDesc" Overridable="yes">Please close all open VeraCrypt windows first.</String>
+	<String Id="CloseVCFirstDesc" Overridable="yes">Please close all open ExamPrepSec windows first.</String>
 	
 	<String Id="AcceptVCLicenseDesc" Overridable="yes">Please accept the license agreement by passing ACCEPTLICENSE=YES during installation.</String>
 
-	<String Id="VeraCryptDesc" Overridable="yes">VeraCrypt</String>
-	<String Id="VeraCryptExpanderDesc" Overridable="yes">VeraCrypt Expander</String>
-	<String Id="VeraCryptWebsiteDesc" Overridable="yes">VeraCrypt Website</String>
+	<String Id="VeraCryptDesc" Overridable="yes">ExamPrepSec</String>
+	<String Id="VeraCryptExpanderDesc" Overridable="yes">ExamPrepSec Expander</String>
+	<String Id="VeraCryptWebsiteDesc" Overridable="yes">ExamPrepSec Website</String>
 
 	<String Id="DisableMemoryProtectionDesc">Disable memory protection for Accessibility tools compatibility</String>
 	<String Id="DisableScreenProtectionDesc">Disable protection against screenshots and screen recording</String>

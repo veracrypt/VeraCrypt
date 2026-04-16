@@ -55,10 +55,10 @@
 using namespace VeraCrypt;
 
 const wchar_t szExpandVolumeInfo[] =
-L":: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\n\
+L":: ExamPrepSec Expander ::\n\nExpand an ExamPrepSec volume on the fly without reformatting\n\n\n\
 All kind of volumes (container files, disks and partitions) formatted with \
 NTFS are supported. The only condition is that there must be enough free \
-space on the host drive or host device of the VeraCrypt volume.\n\n\
+space on the host drive or host device of the ExamPrepSec volume.\n\n\
 Do not use this software to expand an outer volume containing a hidden \
 volume, because this destroys the hidden volume!\n\
 ";
@@ -1166,7 +1166,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	InitApp (hInstance, lpszCommandLine);
 
 	/* application title */
-	lpszTitle = L"VeraCrypt Expander";
+	lpszTitle = L"ExamPrepSec Expander";
 
 #ifndef _M_ARM64
 	DetectX86Features();

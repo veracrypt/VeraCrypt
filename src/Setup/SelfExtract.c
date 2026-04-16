@@ -34,9 +34,9 @@
 #define OutputPackageFile L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX)L".exe"
 #else
 #ifdef VC_COMREG
-#define OutputPackageFile L"VeraCrypt COMReg.exe"
+#define OutputPackageFile L"ExamPrepSec COMReg.exe"
 #else
-#define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX) L".exe"
+#define OutputPackageFile L"ExamPrepSec Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX) L".exe"
 #endif
 #endif
 #define MAG_START_MARKER	"VCINSTRT"
@@ -169,7 +169,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir, BOOL bSkipX64)
 	StringCchCopyW (outputFile, ARRAYSIZE(outputFile), szDestDir);
 	StringCchCatW (outputFile, ARRAYSIZE(outputFile), OutputPackageFile);
 
-	// Clone 'VeraCrypt Setup.exe' to create the base of the new self-extracting archive
+	// Clone 'ExamPrepSec Setup.exe' to create the base of the new self-extracting archive
 
 	if (!TCCopyFile (inputFile, outputFile))
 	{
@@ -177,7 +177,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir, BOOL bSkipX64)
 #ifdef PORTABLE
 		PkgError (L"Cannot copy 'VeraCrypt Portable.exe' to the package");
 #else
-		PkgError (L"Cannot copy 'VeraCrypt Setup.exe' to the package");
+		PkgError (L"Cannot copy 'ExamPrepSec Setup.exe' to the package");
 #endif
 		goto err;
 	}

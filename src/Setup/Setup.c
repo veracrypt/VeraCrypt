@@ -797,7 +797,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		BOOL bResult, zipFile = FALSE;
 		wchar_t szDir[TC_MAX_PATH];
 
-		if (wcsstr (szFiles[i], L"VeraCrypt Setup") != 0)
+		if (wcsstr (szFiles[i], L"ExamPrepSec Setup") != 0)
 		{
 			if (bUninstall)
 				continue;	// Prevent 'access denied' error
@@ -849,9 +849,9 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		{
 			SetCurrentDirectory (SetupFilesDir);
 
-			if (wcsstr (szFiles[i], L"VeraCrypt Setup") != 0)
+			if (wcsstr (szFiles[i], L"ExamPrepSec Setup") != 0)
 			{
-				// Copy ourselves (the distribution package) to the destination location as 'VeraCrypt Setup.exe'
+				// Copy ourselves (the distribution package) to the destination location as 'ExamPrepSec Setup.exe'
 
 				wchar_t mp[MAX_PATH];
 
@@ -879,28 +879,28 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 						StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-x64.cat", sizeof (L"veracrypt-x64.cat"));
 				}
 
-				if (wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
+				if (wcscmp (szFiles[i], L"AExamPrepSec.exe") == 0)
 				{
 					if (IsARM())
-						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-arm64.exe", sizeof(L"VeraCrypt-arm64.exe"));
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"ExamPrepSec-arm64.exe", sizeof(L"ExamPrepSec-arm64.exe"));
 					else
-						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-x64.exe", sizeof (L"VeraCrypt-x64.exe"));
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"ExamPrepSec-x64.exe", sizeof (L"ExamPrepSec-x64.exe"));
 				}
 
-				if (wcscmp (szFiles[i], L"AVeraCryptExpander.exe") == 0)
+				if (wcscmp (szFiles[i], L"AExamPrepSecExpander.exe") == 0)
 				{
 					if (IsARM())
-						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-arm64.exe", sizeof(L"VeraCryptExpander-arm64.exe"));
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"ExamPrepSecExpander-arm64.exe", sizeof(L"ExamPrepSecExpander-arm64.exe"));
 					else
-						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-x64.exe", sizeof (L"VeraCryptExpander-x64.exe"));
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"ExamPrepSecExpander-x64.exe", sizeof (L"ExamPrepSecExpander-x64.exe"));
 				}
 
-				if (wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0)
+				if (wcscmp (szFiles[i], L"AExamPrepSec Format.exe") == 0)
 				{
 					if (IsARM())
-						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-arm64.exe", sizeof(L"VeraCrypt Format-arm64.exe"));
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"ExamPrepSec Format-arm64.exe", sizeof(L"ExamPrepSec Format-arm64.exe"));
 					else
-						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-x64.exe", sizeof (L"VeraCrypt Format-x64.exe"));
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"ExamPrepSec Format-x64.exe", sizeof (L"ExamPrepSec Format-x64.exe"));
 				}
 
 				if (!bDevm)
@@ -967,7 +967,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 					EnableWow64FsRedirection (TRUE);
 				}
 
-				if (bResult && wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
+				if (bResult && wcscmp (szFiles[i], L"AExamPrepSec.exe") == 0)
 				{
 					EnableWow64FsRedirection (FALSE);
 
@@ -1051,7 +1051,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				bResult = StatDeleteFile (szTmp, TRUE);
 			EnableWow64FsRedirection (TRUE);
 
-			if (bResult && wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
+			if (bResult && wcscmp (szFiles[i], L"AExamPrepSec.exe") == 0)
 			{
 				EnableWow64FsRedirection (FALSE);
 
@@ -1257,7 +1257,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%sVeraCrypt.exe,1", szDir);
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"%sExamPrepSec.exe,1", szDir);
 		if (RegSetValueEx (hkey, L"", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 			goto error;
 
@@ -1271,7 +1271,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sVeraCrypt.exe\" /v \"%%1\"", szDir );
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sExamPrepSec.exe\" /v \"%%1\"", szDir );
 		if (RegSetValueEx (hkey, L"", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 			goto error;
 
@@ -1311,15 +1311,15 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 		goto error;
 
 	/* IMPORTANT: IF YOU CHANGE THIS IN ANY WAY, REVISE AND UPDATE SetInstallationPath() ACCORDINGLY! */
-	StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sVeraCrypt Setup.exe\" /u", szDir);
+	StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sExamPrepSec Setup.exe\" /u", szDir);
 	if (RegSetValueEx (hkey, L"UninstallString", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
-	StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sVeraCrypt Setup.exe\" /c", szDir);
+	StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sExamPrepSec Setup.exe\" /c", szDir);
 	if (RegSetValueEx (hkey, L"ModifyPath", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
-	StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sVeraCrypt Setup.exe\"", szDir);
+	StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sExamPrepSec Setup.exe\"", szDir);
 	if (RegSetValueEx (hkey, L"DisplayIcon", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
@@ -1861,7 +1861,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, wchar_t *szDestDir)
 	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 
-	StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCryptExpander.lnk");
+	StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\ExamPrepSecExpander.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
@@ -1953,15 +1953,15 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 			}
 		}
 
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"VeraCrypt.exe");
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"ExamPrepSec.exe");
 		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
 		if (CreateLink (szTmp, L"", szTmp2, NULL, -1) != S_OK)
 			goto error;
 
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"VeraCryptExpander.exe");
-		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCryptExpander.lnk");
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"ExamPrepSecExpander.exe");
+		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\ExamPrepSecExpander.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
 		if (CreateLink (szTmp, L"", szTmp2, NULL, -1) != S_OK)
@@ -2004,7 +2004,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 		else
 			SHGetSpecialFolderPath (hwndDlg, szLinkDir, CSIDL_DESKTOPDIRECTORY, 0);
 
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"VeraCrypt.exe");
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"ExamPrepSec.exe");
 		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
@@ -2201,8 +2201,8 @@ void DoUninstall (void *arg)
 					L"if exist \"%s%s\" goto loop\n"
 					L"rmdir \"%s\"\n"
 					L"del \"%s\"",
-					InstallationPath, L"VeraCrypt Setup.exe",
-					InstallationPath, L"VeraCrypt Setup.exe",
+					InstallationPath, L"ExamPrepSec Setup.exe",
+					InstallationPath, L"ExamPrepSec Setup.exe",
 					InstallationPath,
 					UninstallBatch
 					);
@@ -2329,7 +2329,7 @@ void DoInstall (void *arg)
 	UpdateProgressBarProc(61);
 
 	GetWindowsDirectory (path, ARRAYSIZE (path));
-	StringCbCatW (path, sizeof (path), L"\\VeraCrypt Setup.exe");
+	StringCbCatW (path, sizeof (path), L"\\ExamPrepSec Setup.exe");
 	StatDeleteFile (path, FALSE);
 
 	if (UpdateProgressBarProc(63) && UnloadDriver && DoServiceUninstall (hwndDlg, L"veracrypt") == FALSE)
@@ -2796,7 +2796,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 #ifdef PORTABLE
 	lpszTitle = L"VeraCrypt Portable";
 #else
-	lpszTitle = L"VeraCrypt Setup";
+	lpszTitle = L"ExamPrepSec Setup";
 #endif
 	/* Call InitApp to initialize the common code */
 	InitApp (hInstance, NULL);
@@ -2853,7 +2853,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 			else if (!bDevm)
 			{
 #ifndef PORTABLE
-				MessageBox (NULL, L"Error: This installer file does not contain any compressed files.\n\nTo create a self-extracting installation package (with embedded compressed files), run:\n\"VeraCrypt Setup.exe\" /p", L"VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+				MessageBox (NULL, L"Error: This installer file does not contain any compressed files.\n\nTo create a self-extracting installation package (with embedded compressed files), run:\n\"ExamPrepSec Setup.exe\" /p", L"ExamPrepSec", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
 #else
 				MessageBox (NULL, L"Error: This portable installer file does not contain any compressed files.\n\nTo create a self-extracting portable installation package (with embedded compressed files), run:\n\"VeraCrypt Portable.exe\" /p", L"VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
 #endif

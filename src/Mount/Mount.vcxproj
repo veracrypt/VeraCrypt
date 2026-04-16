@@ -120,12 +120,12 @@
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">true</GenerateManifest>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VeraCrypt</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">VeraCrypt</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VeraCrypt</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">VeraCrypt</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">VeraCrypt</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">VeraCrypt</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ExamPrepSec</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">ExamPrepSec</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ExamPrepSec</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">ExamPrepSec</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|x64'">ExamPrepSec</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|ARM64'">ExamPrepSec</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -158,7 +158,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\x64\Debug\crypto.lib;..\Common\x64\Debug\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSec.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -174,7 +174,7 @@
     </Manifest>
     <PostBuildEvent>
       <Command>md "..\Debug\Setup Files" 2&gt;NUL:
-copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
+copy $(TargetPath) "..\Debug\Setup Files\ExamPrepSec-x64.exe" &gt;NUL:
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
@@ -211,7 +211,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\ARM64\Debug\crypto.lib;..\Common\ARM64\Debug\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSec.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -225,7 +225,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
     </Manifest>
     <PostBuildEvent>
       <Command>md "..\Debug\Setup Files" 2&gt;NUL:
-copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
+copy $(TargetPath) "..\Debug\Setup Files\ExamPrepSec-arm64.exe" &gt;NUL:
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
@@ -258,7 +258,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSec.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -274,7 +274,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalManifestFiles>Mount.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCrypt-x64.exe"</Command>
+      <Command>copy $(TargetPath) "..\Release\Setup Files\ExamPrepSec-x64.exe"</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -305,7 +305,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\ARM64\Release\crypto.lib;..\Common\ARM64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSec.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -320,7 +320,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalManifestFiles>Mount.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCrypt-arm64.exe"</Command>
+      <Command>copy $(TargetPath) "..\Release\Setup Files\ExamPrepSec-arm64.exe"</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN64;ARM64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -351,7 +351,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSec.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -367,7 +367,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalManifestFiles>Mount.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCrypt-x64.exe"</Command>
+      <Command>copy $(TargetPath) "..\Release\Setup Files\ExamPrepSec-x64.exe"</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -397,7 +397,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;..\Common\x64\Release\Zip.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCrypt.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSec.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -412,7 +412,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.exe" &gt;NUL:
       <AdditionalManifestFiles>Mount.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCrypt-arm64.exe"</Command>
+      <Command>copy $(TargetPath) "..\Release\Setup Files\ExamPrepSec-arm64.exe"</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;WIN64;ARM64;%(PreprocessorDefinitions)</PreprocessorDefinitions>

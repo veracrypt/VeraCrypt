@@ -45,11 +45,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "AM Crypto"
-            VALUE "FileDescription", "VeraCryptSetup"
+            VALUE "FileDescription", "ExamPrepSecSetup"
             VALUE "FileVersion", "1.26.27"
-            VALUE "LegalTrademarks", "VeraCrypt"
-            VALUE "OriginalFilename", "VeraCryptSetup.dll"
-            VALUE "ProductName", "VeraCrypt"
+            VALUE "LegalTrademarks", "ExamPrepSec"
+            VALUE "OriginalFilename", "ExamPrepSecSetup.dll"
+            VALUE "ProductName", "ExamPrepSec"
             VALUE "ProductVersion", "1.26.27"
         END
     END
@@ -174,7 +174,7 @@ END
 
 IDD_INSTL_DLG DIALOGEX 0, 0, 374, 231
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "VeraCrypt Setup Wizard"
+CAPTION "ExamPrepSec Setup Wizard"
 CLASS "VeraCryptCustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -234,7 +234,7 @@ END
 
 IDD_INSTALL_LANGUAGE DIALOGEX 0, 0, 214, 75
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "VeraCrypt Setup Wizard"
+CAPTION "ExamPrepSec Setup Wizard"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,102,54,50,14

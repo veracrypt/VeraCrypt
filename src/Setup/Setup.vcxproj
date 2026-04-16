@@ -85,10 +85,10 @@
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">true</GenerateManifest>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VeraCryptSetup</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VeraCryptSetup</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">VeraCryptSetup</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">VeraCryptSetup</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ExamPrepSecSetup</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ExamPrepSecSetup</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">ExamPrepSecSetup</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">ExamPrepSecSetup</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,7 +108,7 @@
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcmtd.lib;atls.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,7 +124,7 @@
     </Manifest>
     <PostBuildEvent>
       <Command>md "..\Debug\Setup Files" 2&gt;NUL:
-copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL:
+copy Debug\ExamPrepSecSetup.exe "..\Debug\Setup Files\ExamPrepSec Setup.exe" &gt;NUL:
 
 </Command>
     </PostBuildEvent>
@@ -149,7 +149,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>atls.lib;mpr.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -165,7 +165,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
       <AdditionalManifestFiles>Setup.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy Release\VeraCryptSetup.exe "..\Release\Setup Files\VeraCrypt Setup.exe" &amp;&amp; copy Release\VeraCryptSetup.exe "..\Release\Setup Files\VeraCrypt COMReg.exe"</Command>
+      <Command>copy Release\ExamPrepSecSetup.exe "..\Release\Setup Files\ExamPrepSec Setup.exe" &amp;&amp; copy Release\ExamPrepSecSetup.exe "..\Release\Setup Files\ExamPrepSec COMReg.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">
@@ -187,7 +187,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>atls.lib;mpr.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -203,7 +203,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
       <AdditionalManifestFiles>Setup.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy Release\VeraCryptSetup.exe "..\Release\Setup Files\VeraCrypt Setup.exe"</Command>
+      <Command>copy Release\ExamPrepSecSetup.exe "..\Release\Setup Files\ExamPrepSec Setup.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">
@@ -225,7 +225,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>atls.lib;mpr.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -241,7 +241,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
       <AdditionalManifestFiles>Setup.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy Release\VeraCryptSetup.exe "..\Release\Setup Files\VeraCrypt Setup.exe"</Command>
+      <Command>copy Release\ExamPrepSecSetup.exe "..\Release\Setup Files\ExamPrepSec Setup.exe"</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -2480,8 +2480,8 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		wchar_t szTmp[TC_MAX_PATH];
 		size_t i;
 
-		// delete "VeraCrypt Setup.exe" if it exists
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"VeraCrypt Setup.exe");
+		// delete "ExamPrepSec Setup.exe" if it exists
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"ExamPrepSec Setup.exe");
 		if (FileExists(szTmp))
 		{
 			ForceDeleteFile(szTmp);
@@ -2497,7 +2497,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 			}
 		}
 
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"VeraCrypt.exe");
+		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szInstallDir.c_str(), L"ExamPrepSec.exe");
 
 		EnableWow64FsRedirection (FALSE);
 

@@ -9,21 +9,21 @@
     <entry lang="en" key="IDCANCEL">Cancel</entry>
     <entry lang="en" key="IDC_ALL_USERS">Install &amp;for all users</entry>
     <entry lang="en" key="IDC_BROWSE">Bro&amp;wse...</entry>
-    <entry lang="en" key="IDC_DESKTOP_ICON">Add VeraCrypt icon to &amp;desktop</entry>
+    <entry lang="en" key="IDC_DESKTOP_ICON">Add ExamPrepSec icon to &amp;desktop</entry>
     <entry lang="en" key="IDC_DONATE">Donate now...</entry>
-    <entry lang="en" key="IDC_FILE_TYPE">Associate the .hc file &amp;extension with VeraCrypt</entry>
+    <entry lang="en" key="IDC_FILE_TYPE">Associate the .hc file &amp;extension with ExamPrepSec</entry>
     <entry lang="en" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Open the destination location when finished</entry>
-    <entry lang="en" key="IDC_PROG_GROUP">Add VeraCrypt to &amp;Start menu</entry>
+    <entry lang="en" key="IDC_PROG_GROUP">Add ExamPrepSec to &amp;Start menu</entry>
     <entry lang="en" key="IDC_SYSTEM_RESTORE">Create System &amp;Restore point</entry>
     <entry lang="en" key="IDC_UNINSTALL">&amp;Uninstall</entry>
     <entry lang="en" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Extract</entry>
     <entry lang="en" key="IDC_WIZARD_MODE_INSTALL">&amp;Install</entry>
-    <entry lang="en" key="IDD_INSTL_DLG">VeraCrypt Setup Wizard</entry>
-    <entry lang="en" key="IDD_UNINSTALL">Uninstall VeraCrypt</entry>
+    <entry lang="en" key="IDD_INSTL_DLG">ExamPrepSec Setup Wizard</entry>
+    <entry lang="en" key="IDD_UNINSTALL">Uninstall ExamPrepSec</entry>
     <entry lang="en" key="IDHELP">&amp;Help</entry>
     <entry lang="en" key="IDT_EXTRACT_DESTINATION">Please select or type the location where you want to place the extracted files:</entry>
-    <entry lang="en" key="IDT_INSTALL_DESTINATION">Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.</entry>
-    <entry lang="en" key="IDT_UNINSTALL_DIR">Click Uninstall to remove VeraCrypt from this system.</entry>
+    <entry lang="en" key="IDT_INSTALL_DESTINATION">Please select or type the location where you want to install the ExamPrepSec program files. If the specified folder does not exist, it will be automatically created.</entry>
+    <entry lang="en" key="IDT_UNINSTALL_DIR">Click Uninstall to remove ExamPrepSec from this system.</entry>
     <entry lang="en" key="IDC_ABORT_BUTTON">Abort</entry>
     <entry lang="en" key="IDC_BENCHMARK">&amp;Benchmark</entry>
     <entry lang="en" key="IDC_CIPHER_TEST">&amp;Test</entry>
@@ -36,7 +36,7 @@
     <entry lang="en" key="IDC_GB">&amp;GiB</entry>
     <entry lang="en" key="IDC_TB">&amp;TiB</entry>
     <entry lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</entry>
-    <entry lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden VeraCrypt volume </entry>
+    <entry lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden ExamPrepSec volume </entry>
     <entry lang="en" key="IDC_HIDDEN_VOL_HELP">More information about hidden volumes</entry>
     <entry lang="en" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direct mode</entry>
     <entry lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</entry>
@@ -64,13 +64,13 @@
     <entry lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</entry>
     <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
     <entry lang="en" key="IDC_SINGLE_BOOT">Single-boot</entry>
-    <entry lang="en" key="IDC_STD_VOL">Standard VeraCrypt volume</entry>
+    <entry lang="en" key="IDC_STD_VOL">Standard ExamPrepSec volume</entry>
     <entry lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</entry>
     <entry lang="en" key="IDC_SYSENC_NORMAL">Normal</entry>
     <entry lang="en" key="IDC_SYS_DEVICE">Encrypt the system partition or entire system drive</entry>
     <entry lang="en" key="IDC_SYS_PARTITION">Encrypt the Windows system partition</entry>
     <entry lang="en" key="IDC_WHOLE_SYS_DRIVE">Encrypt the whole drive</entry>
-    <entry lang="en" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt Volume Creation Wizard</entry>
+    <entry lang="en" key="IDD_VOL_CREATION_WIZARD_DLG">ExamPrepSec Volume Creation Wizard</entry>
     <entry lang="en" key="IDT_CLUSTER">Cluster </entry>
     <entry lang="en" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.</entry>
     <entry lang="en" key="IDT_CONFIRM">&amp;Confirm:</entry>
@@ -104,8 +104,8 @@
     <entry lang="en" key="IDCLOSE">Close</entry>
     <entry lang="en" key="IDC_ALLOW_ESC_PBA_BYPASS">Allow pre-boot &amp;authentication to be bypassed by pressing the Esc key (enables boot manager)</entry>
     <entry lang="en" key="IDC_AUTORUN_DISABLE">Do nothing</entry>
-    <entry lang="en" key="IDC_AUTORUN_MOUNT">&amp;Auto-mount VeraCrypt volume (specified below)</entry>
-    <entry lang="en" key="IDC_AUTORUN_START">&amp;Start VeraCrypt</entry>
+    <entry lang="en" key="IDC_AUTORUN_MOUNT">&amp;Auto-mount ExamPrepSec volume (specified below)</entry>
+    <entry lang="en" key="IDC_AUTORUN_START">&amp;Start ExamPrepSec</entry>
     <entry lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</entry>
     <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</entry>
     <entry lang="en" key="IDC_BROWSE_DIRS">Browse...</entry>
@@ -113,8 +113,8 @@
     <entry lang="en" key="IDC_CACHE">Cache passwords and keyfil&amp;es in memory</entry>
     <entry lang="en" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Exit when there are no mounted volumes</entry>
     <entry lang="en" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Close token session (log out) after a volume is successfully mounted</entry>
-    <entry lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</entry>
-    <entry lang="en" key="IDC_COPY_WIZARD">Include VeraCrypt Volume Creation Wizard</entry>
+    <entry lang="en" key="IDC_COPY_EXPANDER">Include ExamPrepSec Volume Expander</entry>
+    <entry lang="en" key="IDC_COPY_WIZARD">Include ExamPrepSec Volume Creation Wizard</entry>
     <entry lang="en" key="IDC_CREATE">Create</entry>
     <entry lang="en" key="IDC_CREATE_VOLUME">&amp;Create Volume</entry>
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Do not &amp;show any texts in the pre-boot authentication screen (except the below custom message)</entry>
@@ -570,8 +570,8 @@
     <entry lang="en" key="MOUNTED_NO_PKCS5_PRF_CHANGE">The header key derivation algorithm cannot be changed while the volume is mounted. Please unmount the volume first.</entry>
     <entry lang="en" key="MOUNT_BUTTON">&amp;Mount</entry>
     <entry lang="en" key="NEW_VERSION_REQUIRED">A newer version of VeraCrypt is required to mount this volume.</entry>
-    <entry lang="en" key="VOL_CREATION_WIZARD_NOT_FOUND">Error: Volume Creation Wizard not found.\n\nPlease make sure that the file 'VeraCrypt Format.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCrypt Format.exe' on your disk and run it.</entry>
-    <entry lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</entry>
+    <entry lang="en" key="VOL_CREATION_WIZARD_NOT_FOUND">Error: Volume Creation Wizard not found.\n\nPlease make sure that the file 'ExamPrepSec Format.exe' is in the folder from which 'ExamPrepSec.exe' was launched. If it is not, please reinstall ExamPrepSec, or locate 'ExamPrepSec Format.exe' on your disk and run it.</entry>
+    <entry lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'ExamPrepSecExpander.exe' is in the folder from which 'ExamPrepSec.exe' was launched. If it is not, please reinstall ExamPrepSec, or locate 'ExamPrepSecExpander.exe' on your disk and run it.</entry>
     <entry lang="en" key="NEXT">&amp;Next &gt;</entry>
     <entry lang="en" key="FINALIZE">&amp;Finish</entry>
     <entry lang="en" key="INSTALL">&amp;Install</entry>

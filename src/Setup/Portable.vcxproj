@@ -85,10 +85,10 @@
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">true</GenerateManifest>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VeraCryptPortable</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VeraCryptPortable</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">VeraCryptPortable</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">VeraCryptPortable</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ExamPrepSecPortable</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ExamPrepSecPortable</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">ExamPrepSecPortable</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">ExamPrepSecPortable</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,7 +108,7 @@
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcmtd.lib;atls.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Common\Debug\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,7 +124,7 @@
     </Manifest>
     <PostBuildEvent>
       <Command>md "..\Debug\Setup Files" 2&gt;NUL:
-copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portable.exe" &gt;NUL:
+copy PortableDebug\ExamPrepSecPortable.exe "..\Debug\Setup Files\ExamPrepSec Portable.exe" &gt;NUL:
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -148,7 +148,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>atls.lib;mpr.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -164,7 +164,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <AdditionalManifestFiles>Portable.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy PortableRelease\VeraCryptPortable.exe "..\Release\Setup Files\VeraCrypt Portable.exe"</Command>
+      <Command>copy PortableRelease\ExamPrepSecPortable.exe "..\Release\Setup Files\ExamPrepSec Portable.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SkipOsDriverReqCheck|Win32'">
@@ -186,7 +186,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>atls.lib;mpr.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -202,7 +202,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <AdditionalManifestFiles>Portable.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy PortableRelease\VeraCryptPortable.exe "..\Release\Setup Files\VeraCrypt Portable.exe"</Command>
+      <Command>copy PortableRelease\ExamPrepSecPortable.exe "..\Release\Setup Files\ExamPrepSec Portable.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">
@@ -224,7 +224,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>atls.lib;mpr.lib;..\Common\Release\Zip.lib;..\Common\Release\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptPortable.exe</OutputFile>
+      <OutputFile>$(OutDir)ExamPrepSecPortable.exe</OutputFile>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>mpr.dll;bcrypt.dll;user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;shlwapi.dll;setupapi.dll;wintrust.dll;comctl32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -240,7 +240,7 @@ copy PortableDebug\VeraCryptPortable.exe "..\Debug\Setup Files\VeraCrypt Portabl
       <AdditionalManifestFiles>Portable.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy PortableRelease\VeraCryptPortable.exe "..\Release\Setup Files\VeraCrypt Portable.exe"</Command>
+      <Command>copy PortableRelease\ExamPrepSecPortable.exe "..\Release\Setup Files\ExamPrepSec Portable.exe"</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -45,11 +45,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "AM Crypto"
-            VALUE "FileDescription", "VeraCrypt Setup"
+            VALUE "FileDescription", "ExamPrepSec Setup"
             VALUE "FileVersion", "1.26.27"
-            VALUE "LegalTrademarks", "VeraCrypt"
-            VALUE "OriginalFilename", "VeraCrypt Setup.exe"
-            VALUE "ProductName", "VeraCrypt"
+            VALUE "LegalTrademarks", "ExamPrepSec"
+            VALUE "OriginalFilename", "ExamPrepSec Setup.exe"
+            VALUE "ProductName", "ExamPrepSec"
             VALUE "ProductVersion", "1.26.27"
         END
     END
@@ -128,11 +128,11 @@ IDR_LANG_ZHTW           LANGUAGES               "..\\..\\Translations\\Language.
 
 IDD_UNINSTALL DIALOGEX 0, 0, 349, 234
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Uninstall VeraCrypt"
+CAPTION "Uninstall ExamPrepSec"
 CLASS "VeraCryptCustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Click Uninstall to remove VeraCrypt from this system.",IDT_UNINSTALL_DIR,8,8,334,8
+    LTEXT           "Click Uninstall to remove ExamPrepSec from this system.",IDT_UNINSTALL_DIR,8,8,334,8
     LISTBOX         IDC_LOG_WINDOW,7,21,335,179,LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL
     CONTROL         "Create System &Restore point",IDC_SYSTEM_RESTORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,215,194,10
     DEFPUSHBUTTON   "&Uninstall",IDC_UNINSTALL,236,213,50,14
@@ -148,9 +148,9 @@ BEGIN
     EDITTEXT        IDC_DESTINATION,11,41,260,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Bro&wse...",IDC_BROWSE,278,40,59,14
     CONTROL         "Install &for all users",IDC_ALL_USERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,168,11
-    CONTROL         "Add VeraCrypt to &Start menu",IDC_PROG_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,168,11
-    CONTROL         "Add VeraCrypt icon to &desktop",IDC_DESKTOP_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,90,168,11
-    CONTROL         "Associate the .hc file &extension with VeraCrypt",IDC_FILE_TYPE,
+    CONTROL         "Add ExamPrepSec to &Start menu",IDC_PROG_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,168,11
+    CONTROL         "Add ExamPrepSec icon to &desktop",IDC_DESKTOP_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,90,168,11
+    CONTROL         "Associate the .hc file &extension with ExamPrepSec",IDC_FILE_TYPE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,101,232,11
     CONTROL         "Disable memory protection for Accessibility tools compatibility",IDC_DISABLE_MEMORY_PROTECTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,112,315,10
@@ -158,7 +158,7 @@ BEGIN
     CONTROL         "Disable protection against screenshots and screen recording",IDC_DISABLE_SCREEN_PROTECTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,122,323,10
     CONTROL         "Create System &Restore point",IDC_SYSTEM_RESTORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,132,194,11
-    LTEXT           "Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.",IDT_INSTALL_DESTINATION,11,14,319,25
+    LTEXT           "Please select or type the location where you want to install the ExamPrepSec program files. If the specified folder does not exist, it will be automatically created.",IDT_INSTALL_DESTINATION,11,14,319,25
 END
 
 IDD_INFO_PAGE_DLG DIALOGEX 0, 0, 217, 156
@@ -179,7 +179,7 @@ END
 
 IDD_INSTL_DLG DIALOGEX 0, 0, 374, 231
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "VeraCrypt Setup Wizard"
+CAPTION "ExamPrepSec Setup Wizard"
 CLASS "VeraCryptCustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -193,7 +193,7 @@ BEGIN
     CONTROL         "",IDC_SETUP_WIZARD_GFX_AREA,"Static",SS_GRAYRECT | NOT WS_VISIBLE,0,0,378,36,WS_EX_TRANSPARENT | WS_EX_STATICEDGE
     CONTROL         "",IDC_HR_BOTTOM,"Static",SS_ETCHEDHORZ,67,204,306,1,WS_EX_STATICEDGE
     CONTROL         "",IDC_HR,"Static",SS_ETCHEDHORZ,0,35,399,1,WS_EX_STATICEDGE
-    LTEXT           "VeraCrypt Installer",IDC_STATIC,4,200,62,8,WS_DISABLED
+    LTEXT           "ExamPrepSec Installer",IDC_STATIC,4,200,74,8,WS_DISABLED
     LTEXT           "",IDC_BOX_INFO,18,15,317,16,0,WS_EX_TRANSPARENT
     LTEXT           "",IDC_MAIN_CONTENT_CANVAS,0,36,374,164
     LTEXT           "",IDC_POS_BOX,14,42,346,155,0,WS_EX_TRANSPARENT
@@ -239,7 +239,7 @@ END
 
 IDD_INSTALL_LANGUAGE DIALOGEX 0, 0, 214, 75
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "VeraCrypt Setup Wizard"
+CAPTION "ExamPrepSec Setup Wizard"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     COMBOBOX        IDC_LANGUAGES_LIST,42,36,164,155,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP

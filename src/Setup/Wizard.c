@@ -896,9 +896,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 #ifndef PORTABLE
-			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
+			SetWindowText (hwndDlg, L"ExamPrepSec Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 #else
-			SetWindowText (hwndDlg, L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
+			SetWindowText (hwndDlg, L"ExamPrepSec Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 #endif
 
 			DonColorSchemeId = GetDonVal (2, 9);
@@ -1280,5 +1280,4 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	return 0;
 }
-
 
