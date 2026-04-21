@@ -503,9 +503,9 @@ namespace VeraCrypt
 		throw_sys_if (fcntl (outPipe->GetReadFD(), F_SETFL, O_NONBLOCK) == -1);
 		throw_sys_if (fcntl (errPipe.GetReadFD(), F_SETFL, O_NONBLOCK) == -1);
 
-		vector <char> buffer (4096), errOutput (4096);
-		buffer.clear ();
-		errOutput.clear ();
+		char buffer[4096];
+		vector <char> errOutput;
+		errOutput.reserve (4096);
 
 		Poller poller (outPipe->GetReadFD(), errPipe.GetReadFD());
 		int status, waitRes;
@@ -518,10 +518,10 @@ namespace VeraCrypt
 				ssize_t bytesRead = 0;
 				foreach (int fd, poller.WaitForData (timeout))
 				{
-					bytesRead = read (fd, &buffer[0], buffer.capacity());
+					bytesRead = read (fd, buffer, sizeof (buffer));
 					if (bytesRead > 0 && fd == errPipe.GetReadFD())
 					{
-						errOutput.insert (errOutput.end(), buffer.begin(), buffer.begin() + bytesRead);
+						errOutput.insert (errOutput.end(), buffer, buffer + bytesRead);
 
 						if (bytesRead > 5 && bytesRead < 80)  // Short message captured
 							timeout = 200;
