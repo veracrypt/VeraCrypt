@@ -47,7 +47,7 @@
     <entry lang="sv" key="IDC_KEY_FILES">N&amp;yckelfiler...</entry>
     <entry lang="sv" key="IDC_LINK_HASH_INFO">Information om hashalgoritmer</entry>
     <entry lang="sv" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Mer information</entry>
-    <entry lang="sv" key="IDC_LINK_PIM_INFO">Information on PIM</entry>
+    <entry lang="sv" key="IDC_LINK_PIM_INFO">Information om PIM</entry>
     <entry lang="sv" key="IDC_MB">&amp;MiB</entry>
     <entry lang="sv" key="IDC_MORE_INFO_ON_CONTAINERS">Mer information</entry>
     <entry lang="sv" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Mer information om systemkryptering</entry>
@@ -179,7 +179,7 @@
     <entry lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Visa lösenord</entry>
     <entry lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Visa lösenord</entry>
     <entry lang="sv" key="IDC_TRAVEL_OPEN_EXPLORER">Öppna &amp;Utforskaren för monterad volym</entry>
-    <entry lang="sv" key="IDC_TRAV_CACHE_PASSWORDS">Lagra lösenord i &amp;cache för drivrutinsminnet</entry>
+    <entry lang="sv" key="IDC_TRAV_CACHE_PASSWORDS">Lagra lösenord i drivrutinens minnes&amp;cache</entry>
     <entry lang="sv" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt-läge</entry>
     <entry lang="sv" key="IDC_UNMOUNTALL">D&amp;emontera allt</entry>
     <entry lang="sv" key="IDC_VOLUME_PROPERTIES">&amp;Volymegenskaper...</entry>
@@ -194,13 +194,13 @@
     <entry lang="sv" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Prestanda och drivrutinsalternativ</entry>
     <entry lang="sv" key="IDD_PREFERENCES_DLG">VeraCrypt - Preferenser</entry>
     <entry lang="sv" key="IDD_SYSENC_SETTINGS">VeraCrypt - Systemkrypteringsinställningar</entry>
-    <entry lang="sv" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Säkerhetstokenpreferenser</entry>
+    <entry lang="sv" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Preferenser för säkerhetstoken</entry>
     <entry lang="sv" key="IDD_TRAVELER_DLG">VeraCrypt Resenär-diskinställning</entry>
     <entry lang="sv" key="IDD_VOLUME_PROPERTIES">VeraCrypt-volymegenskaper</entry>
     <entry lang="sv" key="IDM_ABOUT">Om</entry>
     <entry lang="sv" key="IDM_ADD_REMOVE_VOL_KEYFILES">Lägg till/ta bort nyckelfiler till/från volym...</entry>
     <entry lang="sv" key="IDM_ADD_VOLUME_TO_FAVORITES">Lägg till monterad volym till favoriter...</entry>
-    <entry lang="sv" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Lägg till monterad volym till favoriter...</entry>
+    <entry lang="sv" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Lägg till monterad volym till systemfavoriter...</entry>
     <entry lang="sv" key="IDM_ANALYZE_SYSTEM_CRASH">Analysera en systemkrasch...</entry>
     <entry lang="sv" key="IDM_BACKUP_VOL_HEADER">Säkerhetskopiera volymhuvud...</entry>
     <entry lang="sv" key="IDM_BENCHMARK">Prestandamätning...</entry>
@@ -447,7 +447,7 @@
     <entry lang="sv" key="DISK_FREE_PB">Ledigt utrymme på enheten %s är %.2f PiB</entry>
     <entry lang="sv" key="DRIVELETTERS">Det gick inte att hämta tillgängliga enhetsbokstäver.</entry>
     <entry lang="sv" key="DRIVER_NOT_FOUND">Fel: VeraCrypt-drivrutinen hittades inte.\n\nKopiera filerna "veracrypt.sys" och "veracrypt-x64.sys" till mappen där huvudapplikationen VeraCrypt (VeraCrypt.exe) finns.</entry>
-    <entry lang="sv" key="DRIVER_VERSION">Fel: En inkompatibel version av VeraCrypt-drivrutinen körs för närvarande.\n\nOm du försöker köra VeraCrypt i portabelt läge (dvs. utan att installera det) och en annan version av VeraCrypt redan är installerad måste du avinstallera den först (eller uppgradera) den med VeraCrypt-installationsprogrammet). För att avinstallera det, följ dessa steg: I Windows Vista eller senare, välj "Start-meny" &gt; Dator > "Avinstallera eller ändra ett program" &gt; VeraCrypt > Avinstallera; i Windows XP, välj "Start-meny" &gt; Inställningar > "Kontrollpanelen" &gt; "Lägg till eller ta bort program" &gt; VeraCrypt > Ta bort.\n\nPå liknande sätt, om du försöker köra VeraCrypt i portabelt läge (dvs. utan att installera det) och en annan version av VeraCrypt körs redan i portabelt läge, måste du starta om systemet först och sedan köra endast denna nya version.</entry>
+    <entry lang="sv" key="DRIVER_VERSION">Fel: En inkompatibel version av VeraCrypt-drivrutinen körs för närvarande.\n\nOm du försöker köra VeraCrypt i portabelt läge (dvs. utan att installera det) och en annan version av VeraCrypt redan är installerad måste du först avinstallera den, eller uppgradera den med hjälp av VeraCrypt-installationsprogrammet. För att avinstallera det, följ dessa steg: I Windows Vista eller senare, välj "Start-meny" &gt; Dator > "Avinstallera eller ändra ett program" &gt; VeraCrypt > Avinstallera; i Windows XP, välj "Start-meny" &gt; Inställningar > "Kontrollpanelen" &gt; "Lägg till eller ta bort program" &gt; VeraCrypt > Ta bort.\n\nPå liknande sätt, om du försöker köra VeraCrypt i portabelt läge (dvs. utan att installera det) och en annan version av VeraCrypt körs redan i portabelt läge, måste du starta om systemet först och sedan köra endast denna nya version.</entry>
     <entry lang="sv" key="ERR_CIPHER_INIT_FAILURE">Fel: Chifferinitieringsfel.</entry>
     <entry lang="sv" key="ERR_CIPHER_INIT_WEAK_KEY">Fel: En svag eller en potentiellt svag nyckel har upptäckts. Nyckeln kommer att kasseras. Försök igen.</entry>
     <entry lang="sv" key="EXCEPTION_REPORT">Ett kritiskt fel har uppstått och VeraCrypt måste avslutas. Om detta orsakas av ett fel i VeraCrypt vill vi åtgärda det. För att hjälpa oss kan du skicka oss en automatiskt genererad felrapport som innehåller följande:\n\n- Programversion\n- Operativsystemversion\n- CPU-typ\n- VeraCrypt-komponentens namn\n- Den körbara filens kontrollsumma\n- Symboliskt namn på dialogfönstret\n- Felkategori\n- Feladress\n- VeraCrypt-anropsstack\n\nOm du väljer "Ja" kommer följande URL (som innehåller hela felrapporten) att öppnas i din standardwebbläsare.\n\n%hs\n\nVill du skicka ovanstående felrapport till oss?</entry>
@@ -627,13 +627,13 @@
     <entry lang="sv" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">Ange lösenordet för volymen där du vill skapa en dold volym.\n\nNär du klickar på Nästa kommer VeraCrypt att försöka montera volymen. Så snart volymen är monterad, skannas dess klusterbitmapp för att bestämma storleken på det oavbrutna området med ledigt utrymme (om det finns något) vars ände är i linje med slutet av volymen. Detta område kommer att rymma den dolda volymen och begränsar därför dess maximala storlek. Klusterbitmappsskanning är nödvändig för att säkerställa att inga data på den yttre volymen kommer att skrivas över av den dolda volymen.</entry>
     <entry lang="sv" key="PASSWORD_HIDDENVOL_HOST_HELP">\nVälj ett lösenord för den yttre volymen. Detta kommer att vara lösenordet som du kommer att kunna avslöja för en motståndare om du blir ombedd eller tvingad att göra det.\n\nVIKTIGT: Lösenordet måste skilja sig väsentligt från det du väljer för den dolda volymen.\n\nObs: Den maximala lösenordslängden är 128 tecken.</entry>
     <entry lang="sv" key="PASSWORD_SYSENC_OUTERVOL_HELP">Välj ett lösenord för den yttre volymen. Detta kommer att vara lösenordet som du kommer att kunna avslöja för alla som tvingar dig att avslöja lösenordet för den första partitionen bakom systempartitionen, där både den yttre volymen och den dolda volymen (som innehåller det dolda operativsystemet) kommer att finnas. Existensen av den dolda volymen (och det dolda operativsystemet) kommer att förbli hemlig. Observera att det här lösenordet inte är för skenoperativsystemet.\n\nVIKTIGT: Lösenordet måste skilja sig väsentligt från det du väljer för den dolda volymen (dvs. för det dolda operativsystemet).</entry>
-    <entry lang="sv" key="PASSWORD_HIDVOL_HOST_TITLE">Outer Volume Password</entry>
+    <entry lang="sv" key="PASSWORD_HIDVOL_HOST_TITLE">Lösenord för yttre volym</entry>
     <entry lang="sv" key="PASSWORD_HIDVOL_TITLE">Lösenord för dold volym</entry>
     <entry lang="sv" key="PASSWORD_HIDDEN_OS_TITLE">Lösenord för dolt operativsystem</entry>
     <entry lang="sv" key="PASSWORD_LENGTH_WARNING">VARNING: Korta lösenord är enkla att knäcka med hjälp av uttömmande attacktekniker (brute force)!\n\nVi rekommenderar att du väljer ett lösenord som består av minst 20 tecken. Är du säker på att du vill använda ett kort lösenord?</entry>
     <entry lang="sv" key="PASSWORD_TITLE">Volymlösenord</entry>
     <entry lang="sv" key="PASSWORD_WRONG">Operationen misslyckades på grund av ett eller flera av följande:\n - Felaktigt lösenord.\n - Felaktigt volym PIM-nummer.\n - Felaktig PRF (hash).\n - Inte en giltig volym.</entry>
-    <entry lang="sv" key="PASSWORD_OR_KEYFILE_WRONG">Operationen misslyckades på grund av ett eller flera av följande:\n - Felaktig nyckelfil/felaktiga nyckelfiler.\n - Felaktigt lösenord.\n - Felaktigt volym-PIM-nummer.\n - Felaktig PRF (hash).\n - Inte en giltig volym .</entry>
+    <entry lang="sv" key="PASSWORD_OR_KEYFILE_WRONG">Operationen misslyckades på grund av ett eller flera av följande:\n - Felaktig nyckelfil/felaktiga nyckelfiler.\n - Felaktigt lösenord.\n - Felaktigt volym-PIM-nummer.\n - Felaktig PRF (hash).\n - Inte en giltig volym.</entry>
     <entry lang="sv" key="PASSWORD_OR_MODE_WRONG">Operationen misslyckades på grund av ett eller flera av följande:\n - Fel monteringsläge.\n - Felaktigt lösenord.\n - Felaktigt volym-PIM-nummer.\n - Felaktig PRF (hash).\n - Inte en giltig volym.</entry>
     <entry lang="sv" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Operationen misslyckades på grund av ett eller flera av följande:\n - Fel monteringsläge.\n - Felaktig nyckelfil/felaktiga nyckelfiler.\n - Felaktigt lösenord.\n - Felaktigt volym-PIM-nummer.\n - Felaktig PRF (hash). \n - Inte en giltig volym.</entry>
     <entry lang="sv" key="PASSWORD_WRONG_AUTOMOUNT">Automatisk montering misslyckades på grund av ett eller flera av följande:\n - Felaktigt lösenord.\n - Felaktigt volym-PIM-nummer.\n - Felaktig PRF (hash).\n - Ingen giltig volym hittades.</entry>
@@ -1260,7 +1260,7 @@
     <entry lang="sv" key="BOOT_LOADER_UPGRADE_OK">VeraCrypt-startinläsaren har uppgraderats.\n\nDet rekommenderas starkt att du skapar en ny VeraCrypt-återställningsdisk (som kommer att innehålla den nya versionen av VeraCrypt-startinläsaren) genom att välja "System" &gt; "Skapa återställningsdisk" efter att du har startat om din dator.</entry>
     <entry lang="sv" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">VeraCrypt-startinläsaren har uppgraderats.\n\nDet rekommenderas starkt att du startar skenoperativsystemet och sedan skapar en ny VeraCrypt-återställningsdisk (som kommer att innehålla den nya versionen av VeraCrypt-startinläsaren) genom att välja "System" &gt; "Skapa återställningsdisk".</entry>
     <entry lang="sv" key="BOOT_LOADER_UPGRADE_FAILED">Det gick inte att uppgradera VeraCrypt-startinläsaren.</entry>
-    <entry lang="sv" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">VeraCrypt kunde inte avgöra systemenhetens verkliga storlek och kommer därför att använda den storlek som rapporteras av operativsystemet. Observera även att detta är inte är ett fel i VeraCrypt.</entry>
+    <entry lang="sv" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">VeraCrypt kunde inte avgöra systemenhetens verkliga storlek och kommer därför att använda den storlek som rapporteras av operativsystemet. Observera även att detta inte är något fel i VeraCrypt.</entry>
     <entry lang="sv" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">VARNING: Det verkar som att VeraCrypt redan har försökt identifiera dolda sektorer på denna systemenhet. Om fel uppstod under den föregående identifieringsprocessen kan du undvika dem genom att denna gång hoppa över identifieringen av dolda sektorer. Observera att VeraCrypt då kommer att använda sig av den storlek som rapporteras av operativsystemet, vilken kan vara mindre än enhetens verkliga storlek.\n\nObservera att detta inte orsakas av ett fel i VeraCrypt.</entry>
     <entry lang="sv" key="SKIP_HIDDEN_SECTOR_DETECTION">Hoppa över identifieringen av dolda sektorer (använd storleken som rapporteras av operativsystemet)</entry>
     <entry lang="sv" key="RETRY_HIDDEN_SECTOR_DETECTION">Försök identifiera dolda sektorer igen</entry>
