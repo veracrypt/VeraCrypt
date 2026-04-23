@@ -179,7 +179,7 @@
     <entry lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Visa lösenord</entry>
     <entry lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Visa lösenord</entry>
     <entry lang="sv" key="IDC_TRAVEL_OPEN_EXPLORER">Öppna &amp;Utforskaren för monterad volym</entry>
-    <entry lang="sv" key="IDC_TRAV_CACHE_PASSWORDS">Lagra lösenord i drivrutinens minnes&amp;cache</entry>
+    <entry lang="sv" key="IDC_TRAV_CACHE_PASSWORDS">Lagra lösenord i &amp;cache för drivrutinsminnet</entry>
     <entry lang="sv" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt-läge</entry>
     <entry lang="sv" key="IDC_UNMOUNTALL">D&amp;emontera allt</entry>
     <entry lang="sv" key="IDC_VOLUME_PROPERTIES">&amp;Volymegenskaper...</entry>
