@@ -1952,7 +1952,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 
 	wxStaticText* MountNtfsWithNtfs3HelpStaticText;
 	MountNtfsWithNtfs3HelpStaticText = new wxStaticText( FilesystemSizer->GetStaticBox(), wxID_ANY, _("LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP"), wxDefaultPosition, wxDefaultSize, 0 );
-	MountNtfsWithNtfs3HelpStaticText->Wrap( -1 );
+	MountNtfsWithNtfs3HelpStaticText->Wrap( 600 );
 	FilesystemSizer->Add( MountNtfsWithNtfs3HelpStaticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxEXPAND, 5 );
 
 
