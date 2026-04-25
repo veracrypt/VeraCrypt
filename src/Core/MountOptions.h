@@ -26,6 +26,7 @@ namespace VeraCrypt
 		MountOptions ()
 			:
 			CachePassword (false),
+			MountNtfsWithNtfs3 (false),
 			NoFilesystem (false),
 			NoHardwareCrypto (false),
 			NoKernelCrypto (false),
@@ -51,6 +52,7 @@ namespace VeraCrypt
 		bool CachePassword;
 		wstring FilesystemOptions;
 		wstring FilesystemType;
+		bool MountNtfsWithNtfs3;
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <DirectoryPath> MountPoint;
 		bool NoFilesystem;

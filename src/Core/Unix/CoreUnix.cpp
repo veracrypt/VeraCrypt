@@ -31,6 +31,7 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 	static string GetTmpUser ();
 	static bool SamePath (const string& path1, const string& path2);
+	static string DetectFilesystemType (const DevicePath &devicePath);
 #endif
 
 	// Struct to hold terminal emulator information
@@ -566,6 +567,28 @@ namespace VeraCrypt
 		return GetMountedFilesystems (DevicePath(), mountPoint).size() == 0;
 	}
 
+#ifdef TC_LINUX
+	static string DetectFilesystemType (const DevicePath &devicePath)
+	{
+		list <string> args;
+		args.push_back ("-o");
+		args.push_back ("value");
+		args.push_back ("-s");
+		args.push_back ("TYPE");
+		args.push_back ("--");
+		args.push_back (devicePath);
+
+		try
+		{
+			return StringConverter::ToLower (StringConverter::Trim (Process::Execute ("blkid", args, 2000)));
+		}
+		catch (...)
+		{
+			return string();
+		}
+	}
+#endif
+
 	void CoreUnix::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
 	{
 		if (GetMountedFilesystems (DevicePath(), mountPoint).size() > 0)
@@ -914,8 +937,18 @@ namespace VeraCrypt
 
 		if (!options.NoFilesystem && options.MountPoint && !options.MountPoint->IsEmpty())
 		{
+			wstring filesystemType = options.FilesystemType;
+
+#ifdef TC_LINUX
+			if (options.MountNtfsWithNtfs3 && filesystemType.empty()
+				&& DetectFilesystemType (loopDev) == "ntfs")
+			{
+				filesystemType = L"ntfs3";
+			}
+#endif
+
 			MountFilesystem (loopDev, *options.MountPoint,
-				StringConverter::ToSingle (options.FilesystemType),
+				StringConverter::ToSingle (filesystemType),
 				options.Protection == VolumeProtection::ReadOnly,
 				StringConverter::ToSingle (options.FilesystemOptions));
 		}

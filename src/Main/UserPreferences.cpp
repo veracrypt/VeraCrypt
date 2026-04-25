@@ -102,6 +102,9 @@ namespace VeraCrypt
 			if (configMap.count(L"MountVolumesReadOnly") > 0) { SetValue (configMap[L"MountVolumesReadOnly"], readOnly); configMap.erase (L"MountVolumesReadOnly"); }
 			DefaultMountOptions.Protection = readOnly ? VolumeProtection::ReadOnly : VolumeProtection::None;
 
+#ifdef TC_LINUX
+			if (configMap.count(L"MountNtfsWithNtfs3") > 0) { SetValue (configMap[L"MountNtfsWithNtfs3"], DefaultMountOptions.MountNtfsWithNtfs3); configMap.erase (L"MountNtfsWithNtfs3"); }
+#endif
 			if (configMap.count(L"MountVolumesRemovable") > 0) { SetValue (configMap[L"MountVolumesRemovable"], DefaultMountOptions.Removable); configMap.erase (L"MountVolumesRemovable"); }
 			if (configMap.count(L"NoHardwareCrypto") > 0) { SetValue (configMap[L"NoHardwareCrypto"], DefaultMountOptions.NoHardwareCrypto); configMap.erase (L"NoHardwareCrypto"); }
 			if (configMap.count(L"NoKernelCrypto") > 0) { SetValue (configMap[L"NoKernelCrypto"], DefaultMountOptions.NoKernelCrypto); configMap.erase (L"NoKernelCrypto"); }
@@ -221,6 +224,9 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (MountDevicesOnLogon);
 		TC_CONFIG_ADD (MountFavoritesOnLogon);
 		formatter.AddEntry (L"MountVolumesReadOnly", DefaultMountOptions.Protection == VolumeProtection::ReadOnly);
+#ifdef TC_LINUX
+		formatter.AddEntry (L"MountNtfsWithNtfs3", DefaultMountOptions.MountNtfsWithNtfs3);
+#endif
 		formatter.AddEntry (L"MountVolumesRemovable", DefaultMountOptions.Removable);
 		formatter.AddEntry (L"NoHardwareCrypto", DefaultMountOptions.NoHardwareCrypto);
 		formatter.AddEntry (L"NoKernelCrypto", DefaultMountOptions.NoKernelCrypto);

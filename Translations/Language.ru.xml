@@ -1473,6 +1473,8 @@
     <entry lang="ru" key="LINUX_PREF_KERNEL_CRYPT">Не использовать криптографические службы ядра</entry>
     <entry lang="ru" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Файловая система</entry>
     <entry lang="ru" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Опции монтирования:</entry>
+    <entry lang="ru" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Монтировать NTFS-тома через драйвер ядра Linux ntfs3</entry>
+    <entry lang="ru" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Если включено, VeraCrypt определяет файловые системы NTFS и монтирует их через ntfs3 вместо ntfs-3g/fuseblk. Это может предотвратить зависания при ждущем режиме или гибернации на системах, где пользовательские FUSE-файловые системы замораживаются, пока ядро синхронизирует файловые системы. Модуль ядра ntfs3 должен быть доступен и разрешён дистрибутивом.</entry>
     <entry lang="ru" key="LINUX_CROSS_SUPPORT">Кросс-платформенная поддержка</entry>
     <entry lang="ru" key="LINUX_CROSS_SUPPORT_OTHER">Я буду монтировать том на других платформах</entry>
     <entry lang="ru" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Выберите эту опцию, если вам нужно использовать этот том на других платформах.</entry>

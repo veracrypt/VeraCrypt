@@ -30,6 +30,29 @@
 
 namespace VeraCrypt
 {
+	namespace
+	{
+		string DetectFilesystemType (const DevicePath &devicePath)
+		{
+			list <string> args;
+			args.push_back ("-o");
+			args.push_back ("value");
+			args.push_back ("-s");
+			args.push_back ("TYPE");
+			args.push_back ("--");
+			args.push_back (devicePath);
+
+			try
+			{
+				return StringConverter::ToLower (StringConverter::Trim (Process::Execute ("blkid", args, 2000)));
+			}
+			catch (...)
+			{
+				return string();
+			}
+		}
+	}
+
 	CoreLinux::CoreLinux ()
 	{
 	}
@@ -455,8 +478,16 @@ namespace VeraCrypt
 			// Mount filesystem
 			if (!options.NoFilesystem && options.MountPoint && !options.MountPoint->IsEmpty())
 			{
+				wstring filesystemType = options.FilesystemType;
+
+				if (options.MountNtfsWithNtfs3 && filesystemType.empty()
+					&& DetectFilesystemType (nativeDevPath) == "ntfs")
+				{
+					filesystemType = L"ntfs3";
+				}
+
 				MountFilesystem (nativeDevPath, *options.MountPoint,
-					StringConverter::ToSingle (options.FilesystemType),
+					StringConverter::ToSingle (filesystemType),
 					options.Protection == VolumeProtection::ReadOnly,
 					StringConverter::ToSingle (options.FilesystemOptions));
 

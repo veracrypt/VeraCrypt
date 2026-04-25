@@ -55,6 +55,7 @@ namespace VeraCrypt
 		MountRemovableCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.Removable));
 
 		FilesystemOptionsTextCtrl->SetValue (Preferences.DefaultMountOptions.FilesystemOptions);
+		MountNtfsWithNtfs3CheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.MountNtfsWithNtfs3));
 
 		int index, prfInitialIndex = 0;
 		Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);

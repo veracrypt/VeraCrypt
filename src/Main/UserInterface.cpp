@@ -1265,6 +1265,11 @@ const FileManager fileManagers[] = {
 					" module must be available and allowed by the distribution; some\n"
 					" distributions blacklist it by default and require administrator action\n"
 					" before it can be loaded.\n"
+					" The Linux preference \"Mount NTFS volumes with the Linux kernel ntfs3\n"
+					" driver\" applies this automatically to detected NTFS filesystems,\n"
+					" including favorite volumes, without forcing non-NTFS filesystems to\n"
+					" use ntfs3. This can avoid suspend or hibernate hangs caused by frozen\n"
+					" user-space FUSE filesystems during kernel filesystem sync.\n"
 #endif
 					"\n"
 					"--force\n"
