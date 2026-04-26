@@ -1651,23 +1651,23 @@
     <entry lang="nb" key="IDC_DISABLE_SCREEN_PROTECTION">Deaktiver beskyttelse mot skjermbilder og skjermopptak</entry>
     <entry lang="nb" key="DISABLE_SCREEN_PROTECTION_WARNING">ADVARSEL: Deaktivering av skjermbeskyttelse reduserer sikkerheten betydelig. Aktiver dette alternativet KUN hvis du har et spesifikt behov for å fange VeraCrypts grensesnitt. Dette kan eksponere sensitiv data for skjermbilderverktøy og skjermopptaksfunksjoner, som for eksempel Windows 11 Recall.</entry>
     <entry lang="nb" key="MEMORY_COST">Minneforbruk</entry>
-    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
-    <entry lang="en" key="ERR_KEY_DERIVATION_FAILED">Key derivation failed. This may be caused by insufficient memory or an interrupted operation.</entry>
-    <entry lang="en" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">The system partition/drive is already decrypted, but the EFI Microsoft boot loader path was not restored to the Windows Boot Manager. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">The system partition/drive is already decrypted, but the EFI fallback boot loader path still contains the VeraCrypt Boot Loader. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="IDM_REPAIR_EFI_BOOT_LOADER">Repair EFI Boot Loader...</entry>
-    <entry lang="en" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt will restore the Windows EFI boot loader paths and remove VeraCrypt EFI boot entries and files.\n\nUse this only after the system partition/drive is fully decrypted and Windows can boot without system encryption.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_READ_FAILED">The EFI boot loader file could not be read completely:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">The EFI boot loader file is unexpectedly large and was not inspected:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">The system partition/drive is already decrypted and the EFI boot loader files were restored, but VeraCrypt could not remove one or more VeraCrypt firmware boot entries. The VeraCrypt EFI files were left in place so any remaining firmware entry still points to an existing loader. Retry as Administrator or remove the VeraCrypt boot entry from firmware setup after confirming Windows Boot Manager starts normally.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">The EFI boot loader cannot be repaired while system encryption or decryption is active or incomplete. Complete or resume the pending system encryption/decryption process before retrying.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">This repair action is available only on systems booting in UEFI mode from a GPT system partition.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">The EFI boot loader has been repaired successfully.</entry>
+    <entry lang="nb" key="IDT_KDF_ALGO">KDF-algoritme</entry>
+    <entry lang="nb" key="IDD_PREFERENCES_TAB_GENERAL">Generelt</entry>
+    <entry lang="nb" key="IDD_PREFERENCES_TAB_ACTIONS">Handlinger</entry>
+    <entry lang="nb" key="IDD_PREFERENCES_TAB_PASSWORD">Passord</entry>
+    <entry lang="nb" key="IDC_SECURE_DESKTOP_ENABLE_IME">Aktiver Input Method Editor (IME) på sikkert skrivebord</entry>
+    <entry lang="nb" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">ADVARSEL: Aktiver dette alternativet kun dersom du opplever problemer ved valg av nøkkelfiler/tokener på sikkert skrivebord.</entry>
+    <entry lang="nb" key="ERR_KEY_DERIVATION_FAILED">Nøkkelderivering mislyktes. Dette kan skyldes utilstrekkelig minne eller en avbrutt operasjon.</entry>
+    <entry lang="nb" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">Systempartisjonen/-stasjonen er allerede dekryptert, men EFI Microsoft-oppstartslasterstien ble ikke gjenopprettet til Windows Boot Manager. Kun EFI-oppstartsfilene trenger reparasjon. Bruk reparasjonsalternativet i VeraCrypt Rescue Disk, eller start opp Windows-gjenopprettingsmedier og kjør «bcdboot W:\\Windows /s S: /f UEFI» etter at du har erstattet W: med stasjonsbokstaven for Windows-volumet og S: med stasjonsbokstaven for EFI-systempartisjonen. Sti:</entry>
+    <entry lang="nb" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">Systempartisjonen/-stasjonen er allerede dekryptert, men EFI-reserveoppstartslasterstien inneholder fremdeles VeraCrypt-oppstartslasteren. Kun EFI-oppstartsfilene trenger reparasjon. Bruk reparasjonsalternativet i VeraCrypt Rescue Disk, eller start opp Windows-gjenopprettingsmedier og kjør «bcdboot W:\\Windows /s S: /f UEFI» etter at du har erstattet W: med stasjonsbokstaven for Windows-volumet og S: med stasjonsbokstaven for EFI-systempartisjonen. Sti:</entry>
+    <entry lang="nb" key="IDM_REPAIR_EFI_BOOT_LOADER">Reparer EFI-oppstartslaster …</entry>
+    <entry lang="nb" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt vil gjenopprette stiene til Windows EFI-oppstartslasteren og fjerne VeraCrypt EFI-oppstartsoppføringer og -filer.\n\nBruk dette kun etter at systempartisjonen/-stasjonen er fullstendig dekryptert og Windows kan starte opp uten systemkryptering.\n\nVil du fortsette?</entry>
+    <entry lang="nb" key="EFI_BOOT_LOADER_FILE_READ_FAILED">EFI-oppstartslasterfilen kunne ikke leses fullstendig:</entry>
+    <entry lang="nb" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">EFI-oppstartslasterfilen er uventet stor og ble ikke inspisert:</entry>
+    <entry lang="nb" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">Systempartisjonen/-stasjonen er allerede dekryptert og EFI-oppstartslasterfilene ble gjenopprettet, men VeraCrypt kunne ikke fjerne én eller flere VeraCrypt-oppstartsoppføringer i fastvaren. VeraCrypt EFI-filene ble beholdt slik at eventuelle gjenværende fastvareoppføringer fremdeles peker til en eksisterende laster. Prøv på nytt som administrator, eller fjern VeraCrypt-oppstartsoppføringen fra fastvareoppsettet etter at du har bekreftet at Windows Boot Manager starter normalt.</entry>
+    <entry lang="nb" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">EFI-oppstartslasteren kan ikke repareres mens systemkryptering eller -dekryptering er aktiv eller ufullstendig. Fullfør eller gjenoppta den ventende systemkryptering-/dekrypteringsprosessen før du prøver på nytt.</entry>
+    <entry lang="nb" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">Denne reparasjonshandlingen er kun tilgjengelig på systemer som starter opp i UEFI-modus fra en GPT-systempartisjon.</entry>
+    <entry lang="nb" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">EFI-oppstartslasteren ble reparert.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
