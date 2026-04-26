@@ -581,7 +581,6 @@ namespace VeraCrypt
 			wxChoice* Pkcs5PrfChoice;
 			wxStaticBoxSizer* FilesystemSizer;
 			wxTextCtrl* FilesystemOptionsTextCtrl;
-			wxCheckBox* MountNtfsWithNtfs3CheckBox;
 			wxPanel* BackgroundTaskPanel;
 			wxCheckBox* BackgroundTaskEnabledCheckBox;
 			wxCheckBox* CloseBackgroundTaskOnNoVolumesCheckBox;

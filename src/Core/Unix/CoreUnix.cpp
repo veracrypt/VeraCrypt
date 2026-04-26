@@ -31,7 +31,6 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 	static string GetTmpUser ();
 	static bool SamePath (const string& path1, const string& path2);
-	static string DetectFilesystemType (const DevicePath &devicePath);
 #endif
 
 	// Struct to hold terminal emulator information
@@ -568,9 +567,10 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_LINUX
-	static string DetectFilesystemType (const DevicePath &devicePath)
+	string CoreUnix::DetectFilesystemType (const DevicePath &devicePath) const
 	{
 		list <string> args;
+		args.push_back ("-p");
 		args.push_back ("-o");
 		args.push_back ("value");
 		args.push_back ("-s");

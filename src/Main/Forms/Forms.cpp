@@ -1947,14 +1947,6 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 
 	FilesystemSizer->Add( fgSizer3, 1, wxEXPAND, 5 );
 
-	MountNtfsWithNtfs3CheckBox = new wxCheckBox( FilesystemSizer->GetStaticBox(), wxID_ANY, _("LINUX_PREF_MOUNT_NTFS_WITH_NTFS3"), wxDefaultPosition, wxDefaultSize, 0 );
-	FilesystemSizer->Add( MountNtfsWithNtfs3CheckBox, 0, wxALL, 5 );
-
-	wxStaticText* MountNtfsWithNtfs3HelpStaticText;
-	MountNtfsWithNtfs3HelpStaticText = new wxStaticText( FilesystemSizer->GetStaticBox(), wxID_ANY, _("LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP"), wxDefaultPosition, wxDefaultSize, 0 );
-	MountNtfsWithNtfs3HelpStaticText->Wrap( 600 );
-	FilesystemSizer->Add( MountNtfsWithNtfs3HelpStaticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxEXPAND, 5 );
-
 
 	bSizer35->Add( FilesystemSizer, 0, wxEXPAND|wxALL, 5 );
 

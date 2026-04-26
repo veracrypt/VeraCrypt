@@ -1474,7 +1474,7 @@
     <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
     <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
     <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Mount NTFS volumes with the Linux kernel ntfs3 driver</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">When enabled, VeraCrypt detects NTFS filesystems and mounts them with ntfs3 instead of ntfs-3g/fuseblk. This can avoid suspend or hibernate hangs on systems where user-space FUSE filesystems are frozen while the kernel is syncing filesystems. The ntfs3 kernel module must be available and allowed by the distribution.</entry>
+    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Linux only. When enabled, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with ntfs3 instead of the default NTFS backend. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If ntfs3 is unavailable or blocked by the distribution, mounting may fail. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
     <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
     <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
     <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>

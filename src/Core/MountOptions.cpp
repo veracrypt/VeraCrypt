@@ -24,7 +24,9 @@ namespace VeraCrypt
 		TC_CLONE (CachePassword);
 		TC_CLONE (FilesystemOptions);
 		TC_CLONE (FilesystemType);
+#ifdef TC_LINUX
 		TC_CLONE (MountNtfsWithNtfs3);
+#endif
 		TC_CLONE_SHARED (KeyfileList, Keyfiles);
 		TC_CLONE_SHARED (DirectoryPath, MountPoint);
 		TC_CLONE (NoFilesystem);
@@ -63,7 +65,9 @@ namespace VeraCrypt
 		sr.Deserialize ("CachePassword", CachePassword);
 		sr.Deserialize ("FilesystemOptions", FilesystemOptions);
 		sr.Deserialize ("FilesystemType", FilesystemType);
+#ifdef TC_LINUX
 		sr.Deserialize ("MountNtfsWithNtfs3", MountNtfsWithNtfs3);
+#endif
 
 		Keyfiles = Keyfile::DeserializeList (stream, "Keyfiles");
 
@@ -134,7 +138,9 @@ namespace VeraCrypt
 		sr.Serialize ("CachePassword", CachePassword);
 		sr.Serialize ("FilesystemOptions", FilesystemOptions);
 		sr.Serialize ("FilesystemType", FilesystemType);
+#ifdef TC_LINUX
 		sr.Serialize ("MountNtfsWithNtfs3", MountNtfsWithNtfs3);
+#endif
 		Keyfile::SerializeList (stream, "Keyfiles", Keyfiles);
 
 		sr.Serialize ("MountPointNull", MountPoint == nullptr);

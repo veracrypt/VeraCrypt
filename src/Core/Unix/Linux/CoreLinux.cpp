@@ -30,29 +30,6 @@
 
 namespace VeraCrypt
 {
-	namespace
-	{
-		string DetectFilesystemType (const DevicePath &devicePath)
-		{
-			list <string> args;
-			args.push_back ("-o");
-			args.push_back ("value");
-			args.push_back ("-s");
-			args.push_back ("TYPE");
-			args.push_back ("--");
-			args.push_back (devicePath);
-
-			try
-			{
-				return StringConverter::ToLower (StringConverter::Trim (Process::Execute ("blkid", args, 2000)));
-			}
-			catch (...)
-			{
-				return string();
-			}
-		}
-	}
-
 	CoreLinux::CoreLinux ()
 	{
 	}

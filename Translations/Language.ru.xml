@@ -1474,7 +1474,7 @@
     <entry lang="ru" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Файловая система</entry>
     <entry lang="ru" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Опции монтирования:</entry>
     <entry lang="ru" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Монтировать NTFS-тома через драйвер ядра Linux ntfs3</entry>
-    <entry lang="ru" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Если включено, VeraCrypt определяет файловые системы NTFS и монтирует их через ntfs3 вместо ntfs-3g/fuseblk. Это может предотвратить зависания при ждущем режиме или гибернации на системах, где пользовательские FUSE-файловые системы замораживаются, пока ядро синхронизирует файловые системы. Модуль ядра ntfs3 должен быть доступен и разрешён дистрибутивом.</entry>
+    <entry lang="ru" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Только Linux. Если включено, VeraCrypt проверяет расшифрованное виртуальное устройство через blkid -p и монтирует обнаруженные файловые системы NTFS через ntfs3 вместо стандартного NTFS-бэкенда. Если NTFS не удалось определить, VeraCrypt использует обычный автоматический выбор файловой системы. Если ntfs3 недоступен или заблокирован дистрибутивом, монтирование может завершиться ошибкой. Эта необязательная настройка может предотвратить зависания при ждущем режиме или гибернации из-за замороженных пользовательских FUSE-файловых систем.</entry>
     <entry lang="ru" key="LINUX_CROSS_SUPPORT">Кросс-платформенная поддержка</entry>
     <entry lang="ru" key="LINUX_CROSS_SUPPORT_OTHER">Я буду монтировать том на других платформах</entry>
     <entry lang="ru" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Выберите эту опцию, если вам нужно использовать этот том на других платформах.</entry>

@@ -65,6 +65,9 @@ namespace VeraCrypt
 		virtual void MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const;
 		virtual DevicePath MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const;
 		virtual void MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const { throw NotApplicable (SRC_POS); }
+#ifdef TC_LINUX
+		string DetectFilesystemType (const DevicePath &devicePath) const;
+#endif
 
 	private:
 		CoreUnix (const CoreUnix &);

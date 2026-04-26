@@ -55,6 +55,9 @@ namespace VeraCrypt
 		};
 
 		KeyfilesPanel *DefaultKeyfilesPanel;
+#ifdef TC_LINUX
+		wxCheckBox *MountNtfsWithNtfs3CheckBox;
+#endif
 		int LastVirtualKeyPressed;
 		unique_ptr <wxTimer> mTimer;
 		UserPreferences Preferences;
