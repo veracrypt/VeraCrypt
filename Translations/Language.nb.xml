@@ -8,17 +8,17 @@
     <font lang="nb" class="title" size="21" face="Times New Roman " />
     <entry lang="nb" key="IDCANCEL">Avbryt</entry>
     <entry lang="nb" key="IDC_ALL_USERS">Installer &amp;for alle brukere</entry>
-    <entry lang="nb" key="IDC_BROWSE">Bla&amp; gjennom...</entry>
+    <entry lang="nb" key="IDC_BROWSE">Bla &amp;gjennom...</entry>
     <entry lang="nb" key="IDC_DESKTOP_ICON">Legg til VeraCrypt-ikon på &amp;skrivebordet</entry>
     <entry lang="nb" key="IDC_DONATE">Doner nå...</entry>
     <entry lang="nb" key="IDC_FILE_TYPE">Assosier .hc-fil&amp;utvidelsen med VeraCrypt</entry>
-    <entry lang="nb" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Åpne plasseringen når ferdig</entry>
+    <entry lang="nb" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Åpne målplasseringen når ferdig</entry>
     <entry lang="nb" key="IDC_PROG_GROUP">Legg til VeraCrypt i &amp;Start-menyen</entry>
     <entry lang="nb" key="IDC_SYSTEM_RESTORE">Opprett system&amp;gjenopprettingspunkt</entry>
     <entry lang="nb" key="IDC_UNINSTALL">&amp;Avinstaller</entry>
     <entry lang="nb" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Pakk ut</entry>
     <entry lang="nb" key="IDC_WIZARD_MODE_INSTALL">&amp;Installer</entry>
-    <entry lang="nb" key="IDD_INSTL_DLG">VeraCrypt Oppsettsveileder</entry>
+    <entry lang="nb" key="IDD_INSTL_DLG">VeraCrypt-oppsettsveiviser</entry>
     <entry lang="nb" key="IDD_UNINSTALL">Avinstaller VeraCrypt</entry>
     <entry lang="nb" key="IDHELP">&amp;Hjelp</entry>
     <entry lang="nb" key="IDT_EXTRACT_DESTINATION">Vennligst velg eller skriv inn plasseringen der du vil plassere de utpakkede filene:</entry>
@@ -30,8 +30,8 @@
     <entry lang="nb" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Opprett kryptert volum og formater det</entry>
     <entry lang="nb" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Krypter partisjonen på stedet</entry>
     <entry lang="nb" key="IDC_DISPLAY_KEYS">Vis genererte nøkler (deres deler)</entry>
-    <entry lang="nb" key="IDC_DISPLAY_POOL_CONTENTS">Vis bassenginnhold</entry>
-    <entry lang="nb" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Last ned CD/DVD-opptaksprogramvare</entry>
+    <entry lang="nb" key="IDC_DISPLAY_POOL_CONTENTS">Vis poolinnhold</entry>
+    <entry lang="nb" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Last ned CD/DVD-brenneprogramvare</entry>
     <entry lang="nb" key="IDC_FILE_CONTAINER">Opprett en kryptert filbeholder</entry>
     <entry lang="nb" key="IDC_GB">&amp;GiB</entry>
     <entry lang="nb" key="IDC_TB">&amp;TiB</entry>
@@ -39,7 +39,7 @@
     <entry lang="nb" key="IDC_HIDDEN_VOL">Skj&amp;ult VeraCrypt-volum </entry>
     <entry lang="nb" key="IDC_HIDDEN_VOL_HELP">Mer informasjon om skjulte volumer</entry>
     <entry lang="nb" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direktemodus</entry>
-    <entry lang="nb" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal modus</entry>
+    <entry lang="nb" key="IDC_HIDVOL_WIZ_MODE_FULL">Normalmodus</entry>
     <entry lang="nb" key="IDC_KB">&amp;KiB</entry>
     <entry lang="nb" key="IDC_KEYFILES_ENABLE">Bruk nø&amp;kkelfiler</entry>
     <entry lang="nb" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Prøv først å montere med tomt passord</entry>
@@ -70,79 +70,79 @@
     <entry lang="nb" key="IDC_SYS_DEVICE">Krypter systempartisjonen eller hele systemdisken</entry>
     <entry lang="nb" key="IDC_SYS_PARTITION">Krypter Windows-systempartisjonen</entry>
     <entry lang="nb" key="IDC_WHOLE_SYS_DRIVE">Krypter hele disken</entry>
-    <entry lang="nb" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt Volum Opprettelse Veiviser</entry>
+    <entry lang="nb" key="IDD_VOL_CREATION_WIZARD_DLG">Veiviser for VeraCrypt-volumopprettelse</entry>
     <entry lang="nb" key="IDT_CLUSTER">Kluster</entry>
-    <entry lang="nb" key="IDT_COLLECTING_RANDOM_DATA_NOTE">VIKTIG: Flytt musen så tilfeldig som mulig innenfor dette vinduet. Jo lengre du beveger den, desto bedre. Dette øker kryptografisk styrke på krypteringsnøklene betraktelig. Klikk deretter Neste for å fortsette.</entry>
+    <entry lang="nb" key="IDT_COLLECTING_RANDOM_DATA_NOTE">VIKTIG: Flytt musen så tilfeldig som mulig innenfor dette vinduet. Jo lenger du beveger den, desto bedre. Dette øker den kryptografiske styrken til krypteringsnøklene betraktelig. Klikk deretter Neste for å fortsette.</entry>
     <entry lang="nb" key="IDT_CONFIRM">&amp;Bekreft:</entry>
     <entry lang="nb" key="IDT_DONE">Utført</entry>
     <entry lang="nb" key="IDT_DRIVE_LETTER">Stasjonsbokstav:</entry>
     <entry lang="nb" key="IDT_ENCRYPTION_ALGO">Krypteringsalgoritme</entry>
     <entry lang="nb" key="IDT_FILESYSTEM">Filsystem </entry>
-    <entry lang="nb" key="IDT_FILE_CONTAINER">Oppretter en virtuell kryptert disk innenfor en fil. Anbefales for uerfarne brukere.</entry>
+    <entry lang="nb" key="IDT_FILE_CONTAINER">Oppretter en virtuell kryptert disk i en fil. Anbefales for uerfarne brukere.</entry>
     <entry lang="nb" key="IDT_FORMAT_OPTIONS">Alternativer</entry>
     <entry lang="nb" key="IDT_HASH_ALGO">Hash-algoritme</entry>
-    <entry lang="nb" key="IDT_HEADER_KEY">Headernøkkel:</entry>
+    <entry lang="nb" key="IDT_HEADER_KEY">Hodenøkkel:</entry>
     <entry lang="nb" key="IDT_LEFT">Venstre</entry>
     <entry lang="nb" key="IDT_MASTER_KEY">Hovednøkkel:</entry>
     <entry lang="nb" key="IDT_MULTI_BOOT">Velg dette alternativet hvis det er installert to eller flere operativsystemer på denne datamaskinen.\n\nFor eksempel:\n- Windows XP og Windows XP\n- Windows XP og Windows Vista\n- Windows og Mac OS X\n- Windows og Linux\n- Windows, Linux og Mac OS X</entry>
-    <entry lang="nb" key="IDT_NON_SYS_DEVICE">Krypterer en ikke-systempartisjon på en intern eller ekstern disk (f.eks. en minnepinne). Valgfritt, oppretter et skjult volum.</entry>
-    <entry lang="nb" key="IDT_PARTIAL_POOL_CONTENTS">Gjeldende bassenginnhold (delvis)</entry>
+    <entry lang="nb" key="IDT_NON_SYS_DEVICE">Krypterer en ikke-systempartisjon på en intern eller ekstern disk (f.eks. en minnepinne). Kan eventuelt opprette et skjult volum.</entry>
+    <entry lang="nb" key="IDT_PARTIAL_POOL_CONTENTS">Gjeldende poolinnhold (delvis)</entry>
     <entry lang="nb" key="IDT_PASS">Godkjent</entry>
     <entry lang="nb" key="IDT_PASSWORD">Passord:</entry>
     <entry lang="nb" key="IDT_PIM">Volum PIM:</entry>
     <entry lang="nb" key="IDT_OLD_PIM">Volum PIM:</entry>
     <entry lang="nb" key="IDT_PROGRESS">Fremdrift:</entry>
-    <entry lang="nb" key="IDT_RANDOM_POOL">Tilfeldig basseng:</entry>
+    <entry lang="nb" key="IDT_RANDOM_POOL">Tilfeldig pool:</entry>
     <entry lang="nb" key="IDT_SINGLE_BOOT">Velg dette alternativet hvis det bare er ett operativsystem installert på denne datamaskinen (selv om det har flere brukere).</entry>
     <entry lang="nb" key="IDT_SPEED">Hastighet</entry>
     <entry lang="nb" key="IDT_STATUS">Status</entry>
-    <entry lang="nb" key="IDT_SYSENC_KEYS_GEN_INFO">Nøklene, saltet og annen data har blitt generert med suksess. Hvis du vil generere nye nøkler, klikk Tilbake og deretter Neste. Ellers, klikk Neste for å fortsette.</entry>
-    <entry lang="nb" key="IDT_SYS_DEVICE">Krypterer partisjonen/disken der Windows er installert. Hvem som helst som vil få tilgang til og bruke systemet, lese og skrive filer, osv., må skrive inn riktig passord hver gang før Windows starter. Valgfritt, oppretter et skjult system.</entry>
+    <entry lang="nb" key="IDT_SYSENC_KEYS_GEN_INFO">Nøklene, saltet og andre data er generert. Hvis du vil generere nye nøkler, klikk Tilbake og deretter Neste. Ellers, klikk Neste for å fortsette.</entry>
+    <entry lang="nb" key="IDT_SYS_DEVICE">Krypterer partisjonen/disken der Windows er installert. Hvem som helst som vil få tilgang til og bruke systemet, lese og skrive filer, osv., må skrive inn riktig passord hver gang før Windows starter. Kan eventuelt opprette et skjult volum.</entry>
     <entry lang="nb" key="IDT_SYS_PARTITION">Velg dette alternativet for å kryptere partisjonen der det for øyeblikket kjørende Windows-operativsystemet er installert.</entry>
     <entry lang="nb" key="IDT_VOLUME_LABEL">Volumetikett i Windows:</entry>
     <entry lang="nb" key="IDT_WIPE_MODE">Slette modus:</entry>
     <entry lang="nb" key="IDCLOSE">Lukk</entry>
     <entry lang="nb" key="IDC_ALLOW_ESC_PBA_BYPASS">Tillat at pre-boot &amp;autentisering kan omgås ved å trykke Esc-tasten (aktiverer oppstartshåndterer)</entry>
-    <entry lang="nb" key="IDC_AUTORUN_DISABLE">Ikke gjør noe</entry>
-    <entry lang="nb" key="IDC_AUTORUN_MOUNT">&amp;Automater VeraCrypt-volum (angitt nedenfor)</entry>
+    <entry lang="nb" key="IDC_AUTORUN_DISABLE">Gjør ingenting</entry>
+    <entry lang="nb" key="IDC_AUTORUN_MOUNT">&amp;Automonter VeraCrypt-volum (angitt nedenfor)</entry>
     <entry lang="nb" key="IDC_AUTORUN_START">&amp;Start VeraCrypt</entry>
-    <entry lang="nb" key="IDC_AUTO_DETECT_PKCS11_MODULE">Automatisk-&amp;Oppdag Bibliotek</entry>
-    <entry lang="nb" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Lagre pre-boot autentiseringspassord i driverminnet (for montering av ikke-systemvolum)</entry>
+    <entry lang="nb" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Oppdag bibliotek automatisk</entry>
+    <entry lang="nb" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Lagre pre-boot autentiseringspassord i driverminnet (for montering av ikke-systemvolumer)</entry>
     <entry lang="nb" key="IDC_BROWSE_DIRS">Bla gjennom...</entry>
     <entry lang="nb" key="IDC_BROWSE_FILES">Bla gjennom...</entry>
     <entry lang="nb" key="IDC_CACHE">Lagre passord og nøkkelfi&amp;ler i minnet</entry>
     <entry lang="nb" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Avslutt når det ikke er noen monterte volum</entry>
-    <entry lang="nb" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Lukk token sesjon (logg ut) etter at et volum er montert med suksess</entry>
+    <entry lang="nb" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Lukk token sesjon (logg ut) etter at et volum er montert</entry>
     <entry lang="nb" key="IDC_COPY_EXPANDER">Inkluder VeraCrypt Volume Expander</entry>
-    <entry lang="nb" key="IDC_COPY_WIZARD">Inkluder VeraCrypt Volume Opprettelse Veiviser</entry>
+    <entry lang="nb" key="IDC_COPY_WIZARD">Inkluder Veiviser for VeraCrypt-volumopprettelse</entry>
     <entry lang="nb" key="IDC_CREATE">Opprett</entry>
     <entry lang="nb" key="IDC_CREATE_VOLUME">&amp;Opprett volum</entry>
-    <entry lang="nb" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Vis ikke &amp;noen tekster i pre-boot autentiseringsskjermen (unntatt nedenfor tilpasset melding)</entry>
+    <entry lang="nb" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Vis ikke &amp;noen tekster i pre-boot autentiseringsskjermen (unntatt den tilpassede meldingen nedenfor)</entry>
     <entry lang="nb" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Deaktiver "Evil Maid"-angrepsdeteksjon</entry>
     <entry lang="nb" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Akselerer AES-kryptering/dekryptering ved å bruke AES-instruksjonene til prosessoren (hvis tilgjengelig)</entry>
     <entry lang="nb" key="IDC_ENABLE_KEYFILES">Bruk nøkkelfiler</entry>
     <entry lang="nb" key="IDC_ENABLE_NEW_KEYFILES">Bruk nøkkelfiler</entry>
     <entry lang="nb" key="IDC_EXIT">A&amp;vslutt</entry>
     <entry lang="nb" key="IDC_FAVORITES_HELP_LINK">Hjelp om favorittvolum</entry>
-    <entry lang="nb" key="IDC_FAVORITE_DISABLE_HOTKEY">Ikke monter valgt volum når 'Monter Favorittvolum'-snarvei trykkes</entry>
-    <entry lang="nb" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Monter valgt volum når dets verterenhet blir &amp;tilkoblet</entry>
+    <entry lang="nb" key="IDC_FAVORITE_DISABLE_HOTKEY">Ikke monter valgt volum når hurtigtasten 'Monter Favorittvolumer' trykkes</entry>
+    <entry lang="nb" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Monter valgt volum når dets vertsenhet blir &amp;tilkoblet</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOUNT_ON_LOGON">Monter valgt volum ved pålog&amp;ning</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOUNT_READONLY">Monter valgt volum som skrivebeskytt&amp;et</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOUNT_REMOVABLE">Monter valgt volum som fjern&amp;bart medium</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOVE_DOWN">Flytt &amp;Ned</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOVE_UP">Flytt &amp;Opp</entry>
-    <entry lang="nb" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Åpne &amp;Filutforsker-vindu for valgt volum når det er montert med suksess</entry>
+    <entry lang="nb" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Åpne &amp;Filutforsker-vindu for valgt volum når det er montert</entry>
     <entry lang="nb" key="IDC_FAVORITE_REMOVE">&amp;Fjern</entry>
-    <entry lang="nb" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Bruk favorittetiketten som Filutforsker-stasjonsmerke</entry>
+    <entry lang="nb" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Bruk favorittetiketten som stasjonsetikett i Filutforsker</entry>
     <entry lang="nb" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Globale Innstillinger</entry>
-    <entry lang="nb" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Vis ballongverktøytips etter vellykket snarvei-avmontering</entry>
-    <entry lang="nb" key="IDC_HK_UNMOUNT_PLAY_SOUND">Spill systemvarsellyd etter vellykket snarvei-avmontering</entry>
+    <entry lang="nb" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Vis ballongverktøytips etter vellykket hurtigtast-avmontering</entry>
+    <entry lang="nb" key="IDC_HK_UNMOUNT_PLAY_SOUND">Spill systemvarsellyd etter vellykket hurtigtast-avmontering</entry>
     <entry lang="nb" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="nb" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="nb" key="IDC_HK_MOD_SHIFT">Skift</entry>
     <entry lang="nb" key="IDC_HK_MOD_WIN">Win</entry>
-    <entry lang="nb" key="IDC_HOTKEY_ASSIGN">Tildele</entry>
-    <entry lang="nb" key="IDC_HOTKEY_REMOVE">Fjerne</entry>
+    <entry lang="nb" key="IDC_HOTKEY_ASSIGN">Tildel</entry>
+    <entry lang="nb" key="IDC_HOTKEY_REMOVE">Fjern</entry>
     <entry lang="nb" key="IDC_KEYFILES">Nøkkelfiler...</entry>
     <entry lang="nb" key="IDC_LIMIT_ENC_THREAD_POOL">Ikke bruk følgende antall logiske prosessorer til kryptering/dekryptering:</entry>
     <entry lang="nb" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Mer informasjon</entry>
@@ -341,7 +341,7 @@
     <entry lang="nb" key="IDD_LANGUAGE">VeraCrypt - Språk</entry>
     <entry lang="nb" key="IDD_MOUNT_OPTIONS">VeraCrypt - Monteringsvalg</entry>
     <entry lang="nb" key="IDD_NEW_TOKEN_KEYFILE">Nye Sikkerhetstoken Nøkkelfilegenskaper</entry>
-    <entry lang="nb" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - Tilfeldig Basseng Forbedring</entry>
+    <entry lang="nb" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - Tilfeldig Pool Forbedring</entry>
     <entry lang="nb" key="IDD_RAWDEVICES_DLG">Velg en Partisjon eller Enhet</entry>
     <entry lang="nb" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</entry>
     <entry lang="nb" key="IDD_TOKEN_KEYFILES">Sikkerhetstoken Nøkkelfiler</entry>
@@ -362,7 +362,7 @@
     <entry lang="nb" key="IDT_LANGPACK_AUTHORS">Oversatt av:</entry>
     <entry lang="nb" key="IDT_PLAINTEXT">Ren tekststørrelse:</entry>
     <entry lang="nb" key="IDT_PLAINTEXT_SIZE_UNIT">biter</entry>
-    <entry lang="nb" key="IDT_POOL_CONTENTS">Gjeldende Basseng Innhold</entry>
+    <entry lang="nb" key="IDT_POOL_CONTENTS">Gjeldende Pool Innhold</entry>
     <entry lang="nb" key="IDT_PRF">Miksing PRF:</entry>
     <entry lang="nb" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">VIKTIG: Flytt musen så tilfeldig som mulig i dette vinduet. Jo lengre du beveger den, desto bedre. Dette øker sikkerheten betraktelig. Når du er ferdig, klikk 'Fortsett'.</entry>
     <entry lang="nb" key="IDT_SECONDARY_KEY">Sekundær nøkkel (heksadesimal)</entry>
@@ -1645,8 +1645,8 @@
     <entry lang="nb" key="ERR_XTS_MASTERKEY_VULNERABLE">ADVARSEL: Volumets hovednøkkel er sårbar for et angrep som kompromitterer datasikkerheten.\n\nVennligst opprett et nytt volum og overfør dataene til det.</entry>
     <entry lang="nb" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">ADVARSEL: Hovednøkkelen til det krypterte systemet er sårbar for et angrep som kompromitterer datasikkerheten.\nVennligst dekrypter systempartisjonen/-stasjonen og krypter den på nytt.</entry>
     <entry lang="nb" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">ADVARSEL: Volumets hovednøkkel har en sikkerhetssårbarhet.</entry>
-    <entry lang="nb" key="MOUNTPOINT_BLOCKED">FEIL: Volumets monteringspunkt er blokkert fordi det overstyrer en beskyttet systemkatalog.\n\nVennligst velg et annet monteringspunkt.</entry>
-    <entry lang="nb" key="MOUNTPOINT_NOTALLOWED">FEIL: Volumets monteringspunkt er ikke tillatt fordi det overstyrer en katalog som er en del av PATH-miljøvariabelen.\n\nVennligst velg et annet monteringspunkt.</entry>
+    <entry lang="nb" key="MOUNTPOINT_BLOCKED">FEIL: Volumets monteringspunkt er blokkert fordi det overlapper en beskyttet systemkatalog.\n\nVennligst velg et annet monteringspunkt.</entry>
+    <entry lang="nb" key="MOUNTPOINT_NOTALLOWED">FEIL: Volumets monteringspunkt er ikke tillatt fordi det overlapper en katalog som er en del av PATH-miljøvariabelen.\n\nVennligst velg et annet monteringspunkt.</entry>
     <entry lang="nb" key="INSECURE_MODE">[USIKKER MODUS]</entry>
     <entry lang="nb" key="IDC_DISABLE_SCREEN_PROTECTION">Deaktiver beskyttelse mot skjermbilder og skjermopptak</entry>
     <entry lang="nb" key="DISABLE_SCREEN_PROTECTION_WARNING">ADVARSEL: Deaktivering av skjermbeskyttelse reduserer sikkerheten betydelig. Aktiver dette alternativet KUN hvis du har et spesifikt behov for å fange VeraCrypts grensesnitt. Dette kan eksponere sensitiv data for skjermbilderverktøy og skjermopptaksfunksjoner, som for eksempel Windows 11 Recall.</entry>
