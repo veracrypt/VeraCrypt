@@ -1473,6 +1473,8 @@
     <entry lang="zh-hk" key="LINUX_PREF_KERNEL_CRYPT">不要使用系統核心加密服務</entry>
     <entry lang="zh-hk" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">檔案系統</entry>
     <entry lang="zh-hk" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">掛載選項:</entry>
+    <entry lang="zh-hk" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Mount NTFS volumes with the Linux kernel ntfs3 driver</entry>
+    <entry lang="zh-hk" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Linux only. When enabled, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with ntfs3 instead of the default NTFS backend. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If ntfs3 is unavailable or blocked by the distribution, mounting may fail. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
     <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT">跨平台支援</entry>
     <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT_OTHER">我將會在其他平台掛載這個加密區</entry>
     <entry lang="zh-hk" key="LINUX_CROSS_SUPPORT_OTHER_HELP">如你需要於其他平台上掛載此加密區請選取此選項。</entry>

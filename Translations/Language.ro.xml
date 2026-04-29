@@ -1473,6 +1473,8 @@
     <entry lang="ro" key="LINUX_PREF_KERNEL_CRYPT">Fără folosire servicii criptografice din nucleu sistem</entry>
     <entry lang="ro" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Sistem de fișiere</entry>
     <entry lang="ro" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Opțiuni montare:</entry>
+    <entry lang="ro" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Mount NTFS volumes with the Linux kernel ntfs3 driver</entry>
+    <entry lang="ro" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Linux only. When enabled, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with ntfs3 instead of the default NTFS backend. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If ntfs3 is unavailable or blocked by the distribution, mounting may fail. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
     <entry lang="ro" key="LINUX_CROSS_SUPPORT">Suport inter-platforme</entry>
     <entry lang="ro" key="LINUX_CROSS_SUPPORT_OTHER">Volumul se va monta pe alte platforme</entry>
     <entry lang="ro" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Alegeți această opțiune dacă volumul va fi folosit pe alte platforme.</entry>

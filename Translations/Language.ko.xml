@@ -1473,6 +1473,8 @@
     <entry lang="ko" key="LINUX_PREF_KERNEL_CRYPT">커널 암호화 서비스 사용하지 않기</entry>
     <entry lang="ko" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">파일 시스템</entry>
     <entry lang="ko" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">마운트 옵션:</entry>
+    <entry lang="ko" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Mount NTFS volumes with the Linux kernel ntfs3 driver</entry>
+    <entry lang="ko" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Linux only. When enabled, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with ntfs3 instead of the default NTFS backend. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If ntfs3 is unavailable or blocked by the distribution, mounting may fail. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
     <entry lang="ko" key="LINUX_CROSS_SUPPORT">다중 플랫폼 지원</entry>
     <entry lang="ko" key="LINUX_CROSS_SUPPORT_OTHER">다른 플랫폼에서도 볼륨을 마운트할 것입니다</entry>
     <entry lang="ko" key="LINUX_CROSS_SUPPORT_OTHER_HELP">다른 플랫폼에서 볼륨을 사용해야 한다면 이 옵션을 선택하시기 바랍니다.</entry>

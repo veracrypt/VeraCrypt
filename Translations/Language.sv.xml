@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.26.27">
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
@@ -1473,6 +1473,8 @@
     <entry lang="sv" key="LINUX_PREF_KERNEL_CRYPT">Använd inte kärnkryptografiska tjänster</entry>
     <entry lang="sv" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filsystem</entry>
     <entry lang="sv" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Monteringsalternativ:</entry>
+    <entry lang="sv" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Mount NTFS volumes with the Linux kernel ntfs3 driver</entry>
+    <entry lang="sv" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Linux only. When enabled, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with ntfs3 instead of the default NTFS backend. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If ntfs3 is unavailable or blocked by the distribution, mounting may fail. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
     <entry lang="sv" key="LINUX_CROSS_SUPPORT">Stöd för flera plattformar</entry>
     <entry lang="sv" key="LINUX_CROSS_SUPPORT_OTHER">Jag kommer att montera volymen på andra plattformar</entry>
     <entry lang="sv" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Välj det här alternativet om du behöver använda volymen på andra plattformar.</entry>

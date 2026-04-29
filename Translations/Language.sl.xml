@@ -1473,6 +1473,8 @@
     <entry lang="sl" key="LINUX_PREF_KERNEL_CRYPT">Ne uporabljaj kriptografskih storitev jedra</entry>
     <entry lang="sl" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Datotečni sistem</entry>
     <entry lang="sl" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Opcije priklopa:</entry>
+    <entry lang="sl" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Mount NTFS volumes with the Linux kernel ntfs3 driver</entry>
+    <entry lang="sl" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Linux only. When enabled, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with ntfs3 instead of the default NTFS backend. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If ntfs3 is unavailable or blocked by the distribution, mounting may fail. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
     <entry lang="sl" key="LINUX_CROSS_SUPPORT">Podpora za več platform</entry>
     <entry lang="sl" key="LINUX_CROSS_SUPPORT_OTHER">Nosilec bom namestil na druge platforme</entry>
     <entry lang="sl" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Izberi to možnost, če moraš nosilec uporabiti na drugih platformah.</entry>
