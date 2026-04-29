@@ -6677,6 +6677,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								catch (Exception &e)
 								{
 									e.Show (hwndDlg);
+									return 1;
 								}
 
 								ManageStartupSeqWiz (TRUE, L"");

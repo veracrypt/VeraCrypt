@@ -1658,7 +1658,17 @@
     <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_PASSWORD">密码</entry>
     <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_ENABLE_IME">在安全桌面中启用输入法编辑器（IME）</entry>
     <entry lang="zh-cn" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">警告：仅当您在安全桌面下选择密钥文件/令牌时遇到问题时，才启用此选项。</entry>
-    <entry lang="en" key="ERR_KEY_DERIVATION_FAILED">Key derivation failed. This may be caused by insufficient memory or an interrupted operation.</entry>
+    <entry lang="zh-cn" key="ERR_KEY_DERIVATION_FAILED">密钥派生失败。这可能由内存不足或操作被中断导致。</entry>
+    <entry lang="zh-cn" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">系统分区/驱动器已解密，但 EFI Microsoft 引导加载程序路径未恢复到 Windows 启动管理器。仅需修复 EFI 引导文件。请使用 VeraCrypt 救援盘修复选项，或启动 Windows 恢复介质，运行 'bcdboot W:\\Windows /s S: /f UEFI'（将 W: 替换为 Windows 卷的驱动器号，S: 替换为 EFI 系统分区的驱动器号）。路径：</entry>
+    <entry lang="zh-cn" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">系统分区/驱动器已解密，但 EFI 回退引导加载程序路径中仍包含 VeraCrypt 引导加载程序。仅需修复 EFI 引导文件。请使用 VeraCrypt 救援盘修复选项，或启动 Windows 恢复介质，运行 'bcdboot W:\\Windows /s S: /f UEFI'（将 W: 替换为 Windows 卷的驱动器号，S: 替换为 EFI 系统分区的驱动器号）。路径：</entry>
+    <entry lang="zh-cn" key="IDM_REPAIR_EFI_BOOT_LOADER">修复 EFI 引导加载程序...</entry>
+    <entry lang="zh-cn" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt 将还原 Windows EFI 引导加载程序路径，并移除 VeraCrypt EFI 引导项和文件。\n\n仅在系统分区/驱动器已完全解密且 Windows 无需系统加密即可启动后使用。\n\n是否继续？</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_FILE_READ_FAILED">无法完整读取 EFI 引导加载程序文件：</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">EFI 引导加载程序文件意外过大，未进行检查：</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">系统分区/驱动器已解密且 EFI 引导文件已还原，但 VeraCrypt 无法移除一个或多个 VeraCrypt 固件引导项。VeraCrypt EFI 文件已保留，因此任何剩余的固件项仍指向现有的加载程序。请以管理员身份重试，或在确认 Windows 启动管理器正常启动后从固件设置中移除 VeraCrypt 引导项。</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">系统加密或解密正在进行或未完成时，无法修复 EFI 引导加载程序。请先完成或继续挂起的系统加密/解密过程，然后再重试。</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">此修复操作仅适用于从 GPT 系统分区以 UEFI 模式启动的系统。</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">EFI 引导加载程序已成功修复。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

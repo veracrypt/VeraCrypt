@@ -362,6 +362,7 @@ BOOL WriteMemoryProtectionConfig (BOOL bEnable);
 BOOL ReadScreenProtectionConfig();
 BOOL WriteScreenProtectionConfig(BOOL bEnable);
 BOOL LoadSysEncSettings ();
+BOOL ClearSystemEncryptionStatus (HWND hwndDlg);
 int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm);
 void RemoveNonSysInPlaceEncNotifications (void);
 void SavePostInstallTasksSettings (int command);

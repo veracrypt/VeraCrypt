@@ -4704,6 +4704,8 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 
 		if (EncryptionMaxWorkItems == 0)
 			EncryptionMaxWorkItems = VC_MAX_WORK_ITEMS;
+		else if (EncryptionMaxWorkItems < 0 || EncryptionMaxWorkItems > VC_MAX_WORK_ITEMS)
+			EncryptionMaxWorkItems = VC_MAX_WORK_ITEMS;
 		
 		
 	}

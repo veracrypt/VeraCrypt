@@ -1250,10 +1250,15 @@ NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue)
 	NTSTATUS status;
 	EncryptedIoQueueBuffer *buffer;
 	int i, j, preallocatedIoRequestCount, preallocatedItemCount, fragmentSize;
+	int maxWorkItems;
+	SIZE_T workItemPoolSize;
 
 	preallocatedIoRequestCount = EncryptionIoRequestCount;
 	preallocatedItemCount = EncryptionItemCount;
 	fragmentSize = EncryptionFragmentSize;
+	maxWorkItems = EncryptionMaxWorkItems;
+	if (maxWorkItems <= 0 || maxWorkItems > VC_MAX_WORK_ITEMS)
+		maxWorkItems = VC_MAX_WORK_ITEMS;
 
 	queue->StartPending = TRUE;
 	queue->ThreadExitRequested = FALSE;
@@ -1355,11 +1360,16 @@ retry_preallocated:
 
 	// Initialize the free work item list
 	InitializeListHead(&queue->FreeWorkItemsList);
-	KeInitializeSemaphore(&queue->WorkItemSemaphore, EncryptionMaxWorkItems, EncryptionMaxWorkItems);
+	KeInitializeSemaphore(&queue->WorkItemSemaphore, maxWorkItems, maxWorkItems);
 	KeInitializeSpinLock(&queue->WorkItemLock);
 
-	queue->MaxWorkItems = EncryptionMaxWorkItems;
-	queue->WorkItemPool = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(sizeof(COMPLETE_IRP_WORK_ITEM) * queue->MaxWorkItems);
+	queue->MaxWorkItems = maxWorkItems;
+	if (FAILED(SizeTMult(sizeof(COMPLETE_IRP_WORK_ITEM), queue->MaxWorkItems, &workItemPoolSize)))
+	{
+		goto noMemory;
+	}
+
+	queue->WorkItemPool = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(workItemPoolSize);
 	if (!queue->WorkItemPool)
 	{
 		goto noMemory;

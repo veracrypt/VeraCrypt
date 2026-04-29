@@ -269,11 +269,13 @@ HCURSOR hCursor = NULL;
 
 ATOM hDlgClass, hSplashClass;
 
-/* This value may changed only by calling ChangeSystemEncryptionStatus(). Only the wizard can change it
-(others may still read it though). */
+/* This value may be changed only by calling ChangeSystemEncryptionStatus() or ClearSystemEncryptionStatus().
+Only the wizard normally changes it: the main application may clear it after EFI repair has completed
+post-decryption finalization. Others may still read it though. */
 int SystemEncryptionStatus = SYSENC_STATUS_NONE;	
 
-/* Only the wizard can change this value (others may only read it). */
+/* Only the wizard normally changes this value. ClearSystemEncryptionStatus() clears it together
+with SystemEncryptionStatus after EFI repair finalizes decryption. Others may only read it. */
 WipeAlgorithmId nWipeMode = TC_WIPE_NONE;
 
 BOOL bSysPartitionSelected = FALSE;		/* TRUE if the user selected the system partition via the Select Device dialog */
@@ -3586,6 +3588,57 @@ BOOL LoadSysEncSettings ()
 
 	free (sysEncCfgFileBuf);
 	return status;
+}
+
+static BOOL CALLBACK BroadcastSysEncCfgUpdateCommonCallb (HWND hwnd, LPARAM lParam)
+{
+	LONG_PTR userDataVal = GetWindowLongPtrW (hwnd, GWLP_USERDATA);
+	if ((userDataVal == (LONG_PTR) 'VERA') || (userDataVal == (LONG_PTR) 'TRUE')) // Prior to 1.0e, 'TRUE' was used for VeraCrypt dialogs
+	{
+		wchar_t name[1024] = { 0 };
+		GetWindowText (hwnd, name, ARRAYSIZE (name) - 1);
+		if (hwnd != MainDlg && wcsstr (name, L"VeraCrypt"))
+		{
+			PostMessage (hwnd, TC_APPMSG_SYSENC_CONFIG_UPDATE, 0, 0);
+		}
+	}
+	return TRUE;
+}
+
+static BOOL BroadcastSysEncCfgUpdateCommon (void)
+{
+	BOOL bSuccess = FALSE;
+	EnumWindows (BroadcastSysEncCfgUpdateCommonCallb, (LPARAM) &bSuccess);
+	return bSuccess;
+}
+
+BOOL ClearSystemEncryptionStatus (HWND hwndDlg)
+{
+	BOOL bMutexAlreadyHeld = InstanceHasSysEncMutex ();
+	wchar_t *sysEncCfgPath = GetConfigPath (TC_APPD_FILENAME_SYSTEM_ENCRYPTION);
+
+	if (!bMutexAlreadyHeld && !CreateSysEncMutex ())
+	{
+		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
+		return FALSE;
+	}
+
+	if (FileExists (sysEncCfgPath) && _wremove (sysEncCfgPath) != 0)
+	{
+		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS", hwndDlg);
+		if (!bMutexAlreadyHeld)
+			CloseSysEncMutex ();
+		return FALSE;
+	}
+
+	SystemEncryptionStatus = SYSENC_STATUS_NONE;
+	nWipeMode = TC_WIPE_NONE;
+	BroadcastSysEncCfgUpdateCommon ();
+
+	if (!bMutexAlreadyHeld)
+		CloseSysEncMutex ();
+
+	return TRUE;
 }
 
 

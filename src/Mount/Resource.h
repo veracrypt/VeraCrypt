@@ -275,6 +275,7 @@
 #define IDM_DECRYPT_NONSYS_VOL          40067
 #define IDM_VERIFY_RESCUE_DISK_ISO      40068
 #define IDM_MOUNIT_NO_CACHE             40069
+#define IDM_REPAIR_EFI_BOOT_LOADER      40070
 
 // Next default values for new objects
 // 
@@ -282,7 +283,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        123
-#define _APS_NEXT_COMMAND_VALUE         40070
+#define _APS_NEXT_COMMAND_VALUE         40071
 #define _APS_NEXT_CONTROL_VALUE         1184
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -2660,8 +2660,11 @@ namespace VeraCrypt
 		return (BootOrderLen != 0) || (GetLastError() != ERROR_INVALID_FUNCTION);
 	}
 
-	void EfiBoot::DeleteStartExec(uint16 statrtOrderNum, wchar_t* type) {
+	static const unsigned __int64 TC_MAX_EFI_BOOT_LOADER_FILE_SIZE = 16ULL * 1024 * 1024;
+
+	bool EfiBoot::DeleteStartExec(uint16 statrtOrderNum, wchar_t* type) {
 		DWORD dwLastError;
+		bool bRet = true;
 		BOOL bPrivilegesSet = IsPrivilegeEnabled (SE_SYSTEM_ENVIRONMENT_NAME);
 		if (!bPrivilegesSet && !SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE))
 		{
@@ -2678,11 +2681,22 @@ namespace VeraCrypt
 		}
 		wchar_t	varName[256];
 		StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
-		SetFirmwareEnvironmentVariable(varName, EfiVarGuid, NULL, 0);
+		if (!SetFirmwareEnvironmentVariable(varName, EfiVarGuid, NULL, 0))
+		{
+			dwLastError = GetLastError();
+			if (dwLastError != ERROR_ENVVAR_NOT_FOUND)
+				bRet = false;
+		}
 
 		wstring order = L"Order";
 		order.insert(0, type == NULL ? L"Boot" : type);
 		uint32 startOrderLen = GetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, tempBuf, sizeof(tempBuf));
+		if (startOrderLen == 0)
+		{
+			dwLastError = GetLastError();
+			if (dwLastError != ERROR_ENVVAR_NOT_FOUND)
+				bRet = false;
+		}
 		uint32 startOrderNumPos = UINT_MAX;
 		bool	startOrderUpdate = false;
 		uint16*	startOrder = (uint16*)tempBuf;
@@ -2703,7 +2717,8 @@ namespace VeraCrypt
 		}
 
 		if (startOrderUpdate) {
-			SetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, startOrder, startOrderLen);
+			if (!SetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, startOrder, startOrderLen))
+				bRet = false;
 
 			// remove ourselves from BootNext value
 			uint16 bootNextValue = 0;
@@ -2714,12 +2729,19 @@ namespace VeraCrypt
 				&&	(bootNextValue == statrtOrderNum)
 				)
 			{
-				SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, startOrder, 0);
+				if (!SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, NULL, 0))
+				{
+					dwLastError = GetLastError();
+					if (dwLastError != ERROR_ENVVAR_NOT_FOUND)
+						bRet = false;
+				}
 			}
 		}
 
 		if (!bPrivilegesSet)
 			SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
+
+		return bRet;
 	}
 
 	void EfiBoot::SetStartExec(wstring description, wstring execPath, bool setBootEntry, bool forceFirstBootEntry, bool setBootNext, uint16 statrtOrderNum , wchar_t* type, uint32 attr) {
@@ -3019,6 +3041,42 @@ namespace VeraCrypt
 		return bRet;
 	}
 
+	bool EfiBoot::FileHasPattern (const wchar_t* name, const void* pattern, size_t patternLen)
+	{
+		std::vector<uint8> fileContent;
+		if (!ReadFileToBuffer (name, fileContent))
+			return false;
+
+		return BufferHasPattern (fileContent.data (), fileContent.size (), pattern, patternLen);
+	}
+
+	static bool BufferHasVeraCryptBootLoaderPattern (const std::vector<uint8>& fileContent)
+	{
+		const wchar_t* appName = _T(TC_APP_NAME);
+		return BufferHasPattern (fileContent.data (), fileContent.size (), appName, wcslen (appName) * sizeof (wchar_t))
+			|| BufferHasPattern (fileContent.data (), fileContent.size (), TC_APP_NAME, strlen (TC_APP_NAME));
+	}
+
+	bool EfiBoot::IsVeraCryptBootLoader (const wchar_t* name)
+	{
+		std::vector<uint8> fileContent;
+		if (!ReadFileToBuffer (name, fileContent))
+			return false;
+
+		return BufferHasVeraCryptBootLoaderPattern (fileContent);
+	}
+
+	bool EfiBoot::IsWindowsBootLoader (const wchar_t* name)
+	{
+		std::vector<uint8> fileContent;
+		if (!ReadFileToBuffer (name, fileContent))
+			return false;
+
+		const char* g_szMsBootString = "bootmgfw.pdb";
+		return !BufferHasVeraCryptBootLoaderPattern (fileContent)
+			&& BufferHasPattern (fileContent.data (), fileContent.size (), g_szMsBootString, strlen (g_szMsBootString));
+	}
+
 	void EfiBoot::SaveFile(const wchar_t* name, uint8* data, DWORD size) {
 		wstring path = EfiBootPartPath;
 		path += name;
@@ -3054,6 +3112,47 @@ namespace VeraCrypt
 		File f(path, true);
 		f.Read(data, size);
 		f.Close();
+	}
+
+	bool EfiBoot::ReadFileToBuffer (const wchar_t* name, std::vector<uint8>& fileContent)
+	{
+		fileContent.clear ();
+		wstring path = EfiBootPartPath;
+		path += name;
+
+		File f(path, true);
+		if (!f.IsOpened ())
+		{
+			f.Close ();
+			return false;
+		}
+
+		unsigned __int64 fileSize = 0;
+		f.GetFileSize (fileSize);
+		if (fileSize == 0)
+		{
+			f.Close ();
+			return false;
+		}
+
+		if (fileSize > TC_MAX_EFI_BOOT_LOADER_FILE_SIZE || fileSize > UINT_MAX)
+		{
+			f.Close ();
+			throw ErrorException (wstring (GetString ("EFI_BOOT_LOADER_FILE_TOO_LARGE"))
+				+ L"\n" + name, SRC_POS);
+		}
+
+		DWORD fileSize32 = (DWORD) fileSize;
+		fileContent.resize ((size_t) fileSize32);
+		if (f.Read (fileContent.data (), fileSize32) != fileSize32)
+		{
+			f.Close ();
+			throw ErrorException (wstring (GetString ("EFI_BOOT_LOADER_FILE_READ_FAILED"))
+				+ L"\n" + name, SRC_POS);
+		}
+
+		f.Close ();
+		return true;
 	}
 
 	void EfiBoot::CopyFile(const wchar_t* name, const wchar_t* targetName) {
@@ -4502,11 +4601,17 @@ namespace VeraCrypt
 
 			EfiBootInst.PrepareBootPartition();			
 
-			EfiBootInst.DeleteStartExec();
-			EfiBootInst.DeleteStartExec(0xDC5B, L"Driver"); // remove DcsBml boot driver it was installed
-			EfiBootInst.RenameFile(L"\\EFI\\Boot\\original_bootx64.vc_backup", L"\\EFI\\Boot\\bootx64.efi", TRUE);
+			const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
+			const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
+			// EFI system encryption currently ships x64 EFI loaders and the UEFI fallback path is bootx64.efi
+			const wchar_t * szStdEfiBootloader = L"\\EFI\\Boot\\bootx64.efi";
+			const wchar_t * szBackupEfiBootloader = L"\\EFI\\Boot\\original_bootx64.vc_backup";
 
-			if (!EfiBootInst.RenameFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE))
+			if (!EfiBootInst.FileExists (szStdEfiBootloader) || !EfiBootInst.IsWindowsBootLoader (szStdEfiBootloader))
+				EfiBootInst.RenameFile(szBackupEfiBootloader, szStdEfiBootloader, TRUE);
+
+			if ((!EfiBootInst.FileExists (szStdMsBootloader) || !EfiBootInst.IsWindowsBootLoader (szStdMsBootloader))
+				&& !EfiBootInst.RenameFile(szBackupMsBootloader, szStdMsBootloader, TRUE))
 			{
 				EfiBootConf conf;
 				if (EfiBootInst.ReadConfig (L"\\EFI\\VeraCrypt\\DcsProp", conf) && strlen (conf.actionSuccessValue.c_str()))
@@ -4515,8 +4620,9 @@ namespace VeraCrypt
 					if (EfiBootConf::IsPostExecFileField (conf.actionSuccessValue, loaderPath))
 					{
 						// check that it is not bootmgfw_ms.vc or bootmgfw.efi
-						if (	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
-							&&	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
+						if (	(0 != _wcsicmp (loaderPath.c_str(), szBackupMsBootloader))
+							&&	(0 != _wcsicmp (loaderPath.c_str(), szStdMsBootloader))
+							&&	EfiBootInst.FileExists (loaderPath.c_str())
 							)
 						{
 							const char* g_szMsBootString = "bootmgfw.pdb";
@@ -4527,15 +4633,51 @@ namespace VeraCrypt
 							EfiBootInst.ReadFile(loaderPath.c_str(), &bootLoaderBuf[0], (DWORD) loaderSize);
 
 							// look for bootmgfw.efi identifiant string
-							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString))
+								&& !BufferHasVeraCryptBootLoaderPattern (bootLoaderBuf))
 							{
-								EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE);
+								EfiBootInst.RenameFile(loaderPath.c_str(), szStdMsBootloader, TRUE);
 							}
 						}
 					}
 				}
 			}
 
+			bool bMsBootloaderRestored = EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsWindowsBootLoader (szStdMsBootloader);
+			if (!bMsBootloaderRestored
+				&& EfiBootInst.FileExists (szStdEfiBootloader)
+				&& EfiBootInst.IsWindowsBootLoader (szStdEfiBootloader))
+			{
+				EfiBootInst.CopyFile (szStdEfiBootloader, szStdMsBootloader);
+				bMsBootloaderRestored = EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsWindowsBootLoader (szStdMsBootloader);
+			}
+
+			if (!bMsBootloaderRestored)
+			{
+				throw ErrorException (wstring (GetString ("SYS_LOADER_RESTORE_FAILED"))
+					+ L"\n\n" + GetString ("EFI_MS_BOOT_LOADER_RESTORE_FAILED") + L"\n"
+					+ szStdMsBootloader, SRC_POS);
+			}
+
+			if (EfiBootInst.FileExists (szStdEfiBootloader) && EfiBootInst.IsVeraCryptBootLoader (szStdEfiBootloader))
+			{
+				EfiBootInst.CopyFile (szStdMsBootloader, szStdEfiBootloader);
+				if (EfiBootInst.IsVeraCryptBootLoader (szStdEfiBootloader) || !EfiBootInst.IsWindowsBootLoader (szStdEfiBootloader))
+				{
+					throw ErrorException (wstring (GetString ("SYS_LOADER_RESTORE_FAILED"))
+						+ L"\n\n" + GetString ("EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT") + L"\n"
+						+ szStdEfiBootloader, SRC_POS);
+				}
+			}
+
+			bool bBootEntryRemoved = EfiBootInst.DeleteStartExec();
+			bool bBmlDriverEntryRemoved = EfiBootInst.DeleteStartExec(0xDC5B, L"Driver"); // remove DcsBml boot driver if it was installed
+			if (!bBootEntryRemoved || !bBmlDriverEntryRemoved)
+			{
+				// Keep VeraCrypt EFI files in place if firmware entries may still point to them.
+				throw ErrorException (wstring (GetString ("SYS_LOADER_RESTORE_FAILED"))
+					+ L"\n\n" + GetString ("EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED"), SRC_POS);
+			}
 
 			EfiBootInst.DelFile(L"\\DcsBoot.efi");
 			EfiBootInst.DelFile(L"\\DcsInt.efi");
@@ -5310,6 +5452,14 @@ namespace VeraCrypt
 			finally_do_arg (bool, displayWaitDialog, { if (finally_arg) CloseStaticModelessWaitDlg(); });
 
 			RestoreSystemLoader ();
+		}
+		catch (ErrorException &e)
+		{
+			if (!e.ErrMsg.empty())
+				throw;
+
+			e.Show (ParentWindow);
+			throw ErrorException ("SYS_LOADER_RESTORE_FAILED", SRC_POS);
 		}
 		catch (Exception &e)
 		{

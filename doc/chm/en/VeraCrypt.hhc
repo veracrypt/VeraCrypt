@@ -229,6 +229,16 @@
 		<param name="Name" value="Command Line Usage">
 		<param name="Local" value="Command Line Usage.html">
 		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Windows">
+			<param name="Local" value="Command Line Usage for Windows.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Linux and macOS">
+			<param name="Local" value="Command Line Usage for Unix.html">
+			</OBJECT>
+	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Security Model">
 		<param name="Local" value="Security Model.html">

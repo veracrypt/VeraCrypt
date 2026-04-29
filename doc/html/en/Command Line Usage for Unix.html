@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Command%20Line%20Usage.html">Command Line Usage</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Command%20Line%20Usage%20for%20Unix.html">Linux and macOS</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>Command Line Usage for Linux and macOS</h1>
+<p>This section applies to VeraCrypt on Unix-like systems, including Linux and macOS. The Windows command-line syntax is documented separately in <a href="Command%20Line%20Usage%20for%20Windows.html">Command Line Usage for Windows</a>.</p>
+<p>To display the command-line help for the installed VeraCrypt build in a terminal, run:</p>
+<p><code>veracrypt -t --help</code></p>
+<p>The <code>-t</code> or <code>--text</code> option selects the text user interface and must be specified as the first argument. Without <code>-t</code>, <code>veracrypt --help</code> may show the graphical help window when the graphical user interface is available.</p>
+
+<h4>Syntax</h4>
+<p><code>veracrypt [OPTIONS] COMMAND</code></p>
+<p><code>veracrypt [OPTIONS] VOLUME_PATH [MOUNT_DIRECTORY]</code></p>
+<p>If no explicit command is specified and a volume path is given, VeraCrypt mounts the volume. When <code>MOUNT_DIRECTORY</code> is omitted, VeraCrypt uses the default mount directory.</p>
+
+<h4>Commands</h4>
+<table border="1" cellspacing="0" cellpadding="1">
+<tbody>
+<tr>
+<td><em>--auto-mount=devices|favorites</em></td>
+<td>Auto-mount device-hosted volumes, favorite volumes, or both when the values are combined with a comma.</td>
+</tr>
+<tr>
+<td><em>--backup-headers [VOLUME_PATH]</em></td>
+<td>Back up volume headers to a file. Required values not specified on the command line are requested from the user.</td>
+</tr>
+<tr>
+<td><em>-c</em> or <em>--create [VOLUME_PATH]</em></td>
+<td>Create a new volume. Most values are requested from the user if not specified on the command line. See also <em>--encryption</em>, <em>--filesystem</em>, <em>--hash</em>, <em>--keyfiles</em>, <em>--password</em>, <em>--pim</em>, <em>--random-source</em>, <em>--quick</em>, <em>--size</em>, and <em>--volume-type</em>.</td>
+</tr>
+<tr>
+<td><em>--create-keyfile [FILE_PATH]</em></td>
+<td>Create a new keyfile containing pseudo-random data.</td>
+</tr>
+<tr>
+<td><em>-C</em> or <em>--change [VOLUME_PATH]</em></td>
+<td>Change a volume password, PIM, keyfiles, and/or header key derivation algorithm. See also <em>--hash</em>, <em>--new-hash</em>, <em>--new-keyfiles</em>, <em>--new-password</em>, <em>--new-pim</em>, <em>--password</em>, <em>--pim</em>, and <em>--random-source</em>.</td>
+</tr>
+<tr>
+<td><em>-u</em> or <em>--unmount [MOUNTED_VOLUME]</em><br><em>-d</em> or <em>--dismount [MOUNTED_VOLUME]</em></td>
+<td>Unmount a mounted volume. If no mounted volume is specified, all mounted VeraCrypt volumes are unmounted. <em>--dismount</em> is deprecated; use <em>--unmount</em>.</td>
+</tr>
+<tr>
+<td><em>--delete-token-keyfiles</em></td>
+<td>Delete keyfiles from security tokens.</td>
+</tr>
+<tr>
+<td><em>--export-token-keyfile</em></td>
+<td>Export a keyfile from a security token.</td>
+</tr>
+<tr>
+<td><em>--import-token-keyfiles</em></td>
+<td>Import keyfiles to a security token. See also <em>--token-lib</em>.</td>
+</tr>
+<tr>
+<td><em>-l</em> or <em>--list [MOUNTED_VOLUME]</em></td>
+<td>Display mounted volumes. By default, only the volume path, virtual device, and mount point are shown. Use <em>--verbose</em> for more details.</td>
+</tr>
+<tr>
+<td><em>--list-token-keyfiles</em></td>
+<td>Display all available token keyfiles.</td>
+</tr>
+<tr>
+<td><em>--list-securitytoken-keyfiles</em></td>
+<td>Display all available security token keyfiles.</td>
+</tr>
+<tr>
+<td><em>--list-emvtoken-keyfiles</em></td>
+<td>Display all available EMV token keyfiles.</td>
+</tr>
+<tr>
+<td><em>--mount [VOLUME_PATH]</em></td>
+<td>Mount a volume interactively. The volume path and missing options are requested from the user.</td>
+</tr>
+<tr>
+<td><em>--restore-headers [VOLUME_PATH]</em></td>
+<td>Restore volume headers from the embedded backup header or from an external backup file.</td>
+</tr>
+<tr>
+<td><em>--save-preferences</em></td>
+<td>Save user preferences.</td>
+</tr>
+<tr>
+<td><em>--test</em></td>
+<td>Test internal algorithms used in the process of encryption and decryption.</td>
+</tr>
+<tr>
+<td><em>--version</em></td>
+<td>Display VeraCrypt version information.</td>
+</tr>
+<tr>
+<td><em>--volume-properties [MOUNTED_VOLUME]</em></td>
+<td>Display properties of a mounted volume.</td>
+</tr>
+</tbody>
+</table>
+
+<h4>MOUNTED_VOLUME</h4>
+<p>A mounted volume can be specified in any of the following forms:</p>
+<ul>
+<li>Path to the encrypted VeraCrypt volume.</li>
+<li>Mount directory of the volume's filesystem, if mounted.</li>
+<li>Slot number of the mounted volume, when used with <em>--slot</em>.</li>
+</ul>
+
+<h4>Options</h4>
+<table border="1" cellspacing="0" cellpadding="1">
+<tbody>
+<tr>
+<td><em>--allow-insecure-mount</em></td>
+<td>Allow mounting volumes on mount points that are in the user's <code>PATH</code>.</td>
+</tr>
+<tr>
+<td><em>--allow-screencapture</em></td>
+<td>Allow VeraCrypt windows to be included in screenshots and screen recordings. This option applies to macOS builds.</td>
+</tr>
+<tr>
+<td><em>--background-task</em></td>
+<td>Start the VeraCrypt background task.</td>
+</tr>
+<tr>
+<td><em>--display-password</em></td>
+<td>Display password characters while typing.</td>
+</tr>
+<tr>
+<td><em>--encryption=ENCRYPTION_ALGORITHM</em></td>
+<td>Use the specified encryption algorithm when creating a new volume. For cascades, use the algorithm name shown by VeraCrypt, for example <code>AES-Twofish</code>.</td>
+</tr>
+<tr>
+<td><em>--explore</em></td>
+<td>Open a file manager window after the volume is mounted.</td>
+</tr>
+<tr>
+<td><em>--filesystem=TYPE</em></td>
+<td>Filesystem type to mount or create. For mounting, the type is passed to the system mount command. <em>none</em> disables filesystem mounting or creation. Supported creation types depend on the platform: Linux supports <em>FAT</em>, <em>Ext2</em>, <em>Ext3</em>, <em>Ext4</em>, <em>NTFS</em>, <em>exFAT</em>, and <em>Btrfs</em>; macOS supports <em>FAT</em>, <em>HFS</em>/<em>HFS+</em>/<em>MacOsExt</em>, <em>exFAT</em>, and <em>APFS</em>; FreeBSD and Solaris builds support <em>FAT</em> and <em>UFS</em>. Non-FAT creation requires the corresponding system formatter to be available.</td>
+</tr>
+<tr>
+<td><em>-f</em> or <em>--force</em></td>
+<td>Force mounting of a volume in use, unmounting of a volume in use, or overwriting a file. The exact effect depends on the operating system.</td>
+</tr>
+<tr>
+<td><em>--fs-options=OPTIONS</em></td>
+<td>Filesystem mount options passed to the system mount command with <code>-o</code>. This option is available on Linux and other Unix-like builds where supported, but not on macOS.</td>
+</tr>
+<tr>
+<td><em>--hash=HASH</em></td>
+<td>Use the specified header key derivation algorithm when mounting, creating a volume, or changing password/keyfiles. This option also specifies the mixing hash of the random number generator when applicable.</td>
+</tr>
+<tr>
+<td><em>-h</em> or <em>--help</em></td>
+<td>Display detailed command-line help.</td>
+</tr>
+<tr>
+<td><em>-k KEYFILE1[,KEYFILE2,...]</em> or <em>--keyfiles=KEYFILE1[,KEYFILE2,...]</em></td>
+<td>Use the specified keyfiles. When a directory is specified, all files inside it are used non-recursively. Use a double comma (<code>,,</code>) for a comma contained in a keyfile name. A keyfile stored on a security token can be specified as <code>token://slot/SLOT_NUMBER/file/FILENAME</code>; an EMV token keyfile can be specified as <code>emv://slot/SLOT_NUMBER</code>. Use <code>-k ""</code> to disable interactive keyfile prompts.</td>
+</tr>
+<tr>
+<td><em>--legacy-password-maxlength</em></td>
+<td>Use the legacy maximum password length of 64 UTF-8 bytes.</td>
+</tr>
+<tr>
+<td><em>--load-preferences</em></td>
+<td>Load user preferences before processing command-line options, allowing command-line options to override preferences.</td>
+</tr>
+<tr>
+<td><em>-m OPTION1[,OPTION2,...]</em> or <em>--mount-options=OPTION1[,OPTION2,...]</em></td>
+<td>Set VeraCrypt volume mount options. Supported options are <em>headerbak</em>, <em>nokernelcrypto</em>, <em>readonly</em> or <em>ro</em>, <em>system</em>, and <em>timestamp</em> or <em>ts</em>.</td>
+</tr>
+<tr>
+<td><em>--new-hash=HASH</em></td>
+<td>Set the new header key derivation algorithm when changing a volume password or keyfiles. This option is used with <em>--change</em>.</td>
+</tr>
+<tr>
+<td><em>--new-keyfiles=KEYFILE1[,KEYFILE2,...]</em></td>
+<td>Set the new keyfiles when changing a volume password or keyfiles. This option is used with <em>--change</em>.</td>
+</tr>
+<tr>
+<td><em>--new-password=PASSWORD</em></td>
+<td>Set the new password when changing a volume password or keyfiles. This option is used with <em>--change</em>.</td>
+</tr>
+<tr>
+<td><em>--new-pim=PIM</em></td>
+<td>Set the new PIM when changing a volume password or keyfiles. This option is used with <em>--change</em>.</td>
+</tr>
+<tr>
+<td><em>--no-size-check</em></td>
+<td>Disable the check that verifies the requested container size against available free disk space.</td>
+</tr>
+<tr>
+<td><em>--non-interactive</em></td>
+<td>Do not interact with the user. This option is supported only in text mode.</td>
+</tr>
+<tr>
+<td><em>-p PASSWORD</em> or <em>--password=PASSWORD</em></td>
+<td>Use the specified password to mount or open a volume. An empty password can be specified with <code>-p ""</code>.</td>
+</tr>
+<tr>
+<td><em>--pim=PIM</em></td>
+<td>Use the specified PIM to mount or open a volume.</td>
+</tr>
+<tr>
+<td><em>--protect-hidden=yes|no</em></td>
+<td>Write-protect a hidden volume when mounting an outer volume. If enabled, VeraCrypt uses the hidden volume credentials to determine the hidden area and protects it against writes.</td>
+</tr>
+<tr>
+<td><em>--protection-hash=HASH</em></td>
+<td>Use the specified header key derivation algorithm for the hidden volume protected by <em>--protect-hidden=yes</em>.</td>
+</tr>
+<tr>
+<td><em>--protection-keyfiles=KEYFILE1[,KEYFILE2,...]</em></td>
+<td>Use the specified keyfiles for the hidden volume protected by <em>--protect-hidden=yes</em>.</td>
+</tr>
+<tr>
+<td><em>--protection-password=PASSWORD</em></td>
+<td>Use the specified password for the hidden volume protected by <em>--protect-hidden=yes</em>.</td>
+</tr>
+<tr>
+<td><em>--protection-pim=PIM</em></td>
+<td>Use the specified PIM for the hidden volume protected by <em>--protect-hidden=yes</em>.</td>
+</tr>
+<tr>
+<td><em>--quick</em></td>
+<td>Enable quick formatting when creating a volume. This option must not be used when creating an outer volume.</td>
+</tr>
+<tr>
+<td><em>--random-source=FILE</em></td>
+<td>Use the specified file as a source of random data, for example when creating a volume.</td>
+</tr>
+<tr>
+<td><em>--slot=SLOT</em></td>
+<td>Use the specified slot number when mounting, unmounting, listing, or displaying properties of a volume.</td>
+</tr>
+<tr>
+<td><em>--size=SIZE[K|KiB|M|MiB|G|GiB|T|TiB]</em> or <em>--size=max</em></td>
+<td>Use the specified size when creating a new volume. If no suffix is specified, the value is interpreted in bytes. <em>max</em> uses all available free space.</td>
+</tr>
+<tr>
+<td><em>--stdin</em></td>
+<td>Read the password from standard input. This option can be used only with <em>--non-interactive</em> and cannot be combined with <em>--password</em>.</td>
+</tr>
+<tr>
+<td><em>-t</em> or <em>--text</em></td>
+<td>Use the text user interface. This option must be specified as the first argument.</td>
+</tr>
+<tr>
+<td><em>--token-lib=LIB_PATH</em></td>
+<td>Use the specified PKCS #11 security token library.</td>
+</tr>
+<tr>
+<td><em>--token-pin=PIN</em></td>
+<td>Use the specified security token PIN.</td>
+</tr>
+<tr>
+<td><em>--use-dummy-sudo-password</em></td>
+<td>Use a dummy password in <code>sudo</code> to detect whether sudo is already authenticated. This option is available on Linux and FreeBSD builds.</td>
+</tr>
+<tr>
+<td><em>-v</em> or <em>--verbose</em></td>
+<td>Enable verbose output.</td>
+</tr>
+<tr>
+<td><em>--volume-type=normal|hidden</em></td>
+<td>Use the specified volume type when creating a new volume.</td>
+</tr>
+</tbody>
+</table>
+
+<h4>Security Notes</h4>
+<p>Passing a password, PIM, token PIN, or hidden-volume protection password on the command line can be insecure because command-line arguments may be visible in process listings, shell history, or system logs. When possible, let VeraCrypt prompt for sensitive values interactively, or use <em>--stdin</em> with <em>--non-interactive</em> where appropriate. Users must also follow the security requirements and precautions listed in <a href="Security%20Requirements%20and%20Precautions.html">Security Requirements and Precautions</a>.</p>
+
+<h4>Examples</h4>
+<p>Create a new volume using the text user interface:</p>
+<p><code>veracrypt -t -c</code></p>
+<p>Mount a volume:</p>
+<p><code>veracrypt volume.hc /media/veracrypt1</code></p>
+<p>Mount a volume read-only, using keyfiles:</p>
+<p><code>veracrypt -m ro -k keyfile1,keyfile2 volume.hc /media/veracrypt1</code></p>
+<p>Mount a volume without mounting its filesystem:</p>
+<p><code>veracrypt --filesystem=none volume.hc</code></p>
+<p>Mount a volume prompting only for its password:</p>
+<p><code>veracrypt -t -k "" --pim=0 --protect-hidden=no volume.hc /media/veracrypt1</code></p>
+<p>Mount a volume non-interactively and read the password from standard input:</p>
+<p><code>printf '%s\n' "$VERACRYPT_PASSWORD" | veracrypt -t --non-interactive --stdin --pim=0 --protect-hidden=no volume.hc /media/veracrypt1</code></p>
+<p>List mounted volumes with detailed information:</p>
+<p><code>veracrypt -t -v --list</code></p>
+<p>Unmount a volume:</p>
+<p><code>veracrypt -u volume.hc</code></p>
+<p>Unmount all mounted VeraCrypt volumes:</p>
+<p><code>veracrypt -u</code></p>
+
+<h4>Hidden Volume Creation in Text Mode</h4>
+<p>Inexperienced users should use the graphical user interface to create a hidden volume. When using the text user interface, the following procedure must be followed:</p>
+<ol>
+<li>Create an outer volume with no filesystem.</li>
+<li>Create a hidden volume within the outer volume.</li>
+<li>Mount the outer volume using hidden volume protection.</li>
+<li>Create a filesystem on the virtual device of the outer volume.</li>
+<li>Mount the new filesystem and fill it with data.</li>
+<li>Unmount the outer volume.</li>
+</ol>
+<p>If hidden volume protection is triggered at any step, start again from the first step.</p>
+
+</div>
+</div><div class="ClearBoth"></div></body></html>

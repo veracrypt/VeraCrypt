@@ -663,6 +663,10 @@ static void InitMainDialog (HWND hwndDlg)
 			{
 				EnableMenuItem (GetMenu (hwndDlg), IDM_CREATE_HIDDEN_OS, MF_GRAYED);
 			}
+			else
+			{
+				EnableMenuItem (GetMenu (hwndDlg), IDM_REPAIR_EFI_BOOT_LOADER, MF_GRAYED);
+			}
 		}
 
 		// Disable menu item for changing system header key derivation algorithm until it's implemented
@@ -1308,19 +1312,9 @@ void SaveSettings (HWND hwndDlg)
 	NormalCursor ();
 }
 
-// Returns TRUE if system encryption or decryption had been or is in progress and has not been completed
-static BOOL SysEncryptionOrDecryptionRequired (void)
+static BOOL SysEncryptionOrDecryptionRequiredByCurrentStatus (void)
 {
 	/* If you update this function, revise SysEncryptionOrDecryptionRequired() in Tcformat.c as well. */
-
-	try
-	{
-		BootEncStatus = BootEncObj->GetStatus();
-	}
-	catch (Exception &e)
-	{
-		e.Show (MainDlg);
-	}
 
 	return (SystemEncryptionStatus == SYSENC_STATUS_ENCRYPTING
 		|| SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING
@@ -1334,6 +1328,21 @@ static BOOL SysEncryptionOrDecryptionRequired (void)
 			)
 		)
 	);
+}
+
+// Returns TRUE if system encryption or decryption had been or is in progress and has not been completed
+static BOOL SysEncryptionOrDecryptionRequired (void)
+{
+	try
+	{
+		BootEncStatus = BootEncObj->GetStatus();
+	}
+	catch (Exception &e)
+	{
+		e.Show (MainDlg);
+	}
+
+	return SysEncryptionOrDecryptionRequiredByCurrentStatus ();
 }
 
 // Returns TRUE if system encryption master key is vulnerable
@@ -1464,10 +1473,12 @@ unsigned __int64 GetSysEncDeviceEncryptedPartSize (BOOL bSilent)
 static void PopulateSysEncContextMenu (HMENU popup, BOOL bToolsOnly)
 {
 	SystemDriveConfiguration config;
+	BOOL bRepairEfiBootLoaderApplicable = FALSE;
 	try
 	{
 		BootEncStatus = BootEncObj->GetStatus();
 		config = BootEncObj->GetSystemDriveConfiguration();
+		bRepairEfiBootLoaderApplicable = config.SystemPartition.IsGPT;
 	}
 	catch (Exception &e)
 	{
@@ -1501,6 +1512,8 @@ static void PopulateSysEncContextMenu (HMENU popup, BOOL bToolsOnly)
 		AppendMenuW (popup, MF_STRING, IDM_CREATE_RESCUE_DISK, GetString ("IDM_CREATE_RESCUE_DISK"));
 		AppendMenuW (popup, MF_STRING, IDM_VERIFY_RESCUE_DISK, GetString ("IDM_VERIFY_RESCUE_DISK"));
 		AppendMenuW (popup, MF_STRING, IDM_VERIFY_RESCUE_DISK_ISO, GetString ("IDM_VERIFY_RESCUE_DISK_ISO"));
+		if (bRepairEfiBootLoaderApplicable)
+			AppendMenuW (popup, MF_STRING, IDM_REPAIR_EFI_BOOT_LOADER, GetString ("IDM_REPAIR_EFI_BOOT_LOADER"));
 	}
 
 	if (!bToolsOnly)
@@ -6454,6 +6467,121 @@ static void DecryptSystemDevice (HWND hwndDlg)
 		Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 }
 
+static void RepairEfiBootLoader (HWND hwndDlg)
+{
+	SystemDriveConfiguration config;
+	try
+	{
+		BootEncStatus = BootEncObj->GetStatus();
+		config = BootEncObj->GetSystemDriveConfiguration ();
+	}
+	catch (Exception &e)
+	{
+		e.Show (hwndDlg);
+		return;
+	}
+
+	if (!config.SystemPartition.IsGPT)
+	{
+		Warning ("EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE", hwndDlg);
+		return;
+	}
+
+	BOOL bSysEncRequired = SysEncryptionOrDecryptionRequired ();
+	BOOL bFinalizeDecryption = (SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING
+		&& !BootEncStatus.SetupInProgress
+		&& !BootEncStatus.DriveEncrypted
+		&& !BootEncStatus.DriveMounted);
+
+	if (IsHiddenOSRunning()
+		|| BootEncStatus.SetupInProgress
+		|| BootEncStatus.DriveEncrypted
+		|| BootEncStatus.DriveMounted
+		|| (bSysEncRequired && !bFinalizeDecryption))
+	{
+		Warning ("EFI_BOOT_LOADER_REPAIR_BLOCKED", hwndDlg);
+		return;
+	}
+
+	if (AskWarnNoYes ("CONFIRM_REPAIR_EFI_BOOT_LOADER", hwndDlg) == IDNO)
+		return;
+
+	if (!CreateSysEncMutex ())
+	{
+		Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
+		return;
+	}
+
+	LoadSysEncSettings ();
+	try
+	{
+		BootEncStatus = BootEncObj->GetStatus();
+		config = BootEncObj->GetSystemDriveConfiguration ();
+	}
+	catch (Exception &e)
+	{
+		CloseSysEncMutex ();
+		e.Show (hwndDlg);
+		return;
+	}
+
+	if (!config.SystemPartition.IsGPT)
+	{
+		CloseSysEncMutex ();
+		Warning ("EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE", hwndDlg);
+		return;
+	}
+
+	bSysEncRequired = SysEncryptionOrDecryptionRequiredByCurrentStatus ();
+	bFinalizeDecryption = (SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING
+		&& !BootEncStatus.SetupInProgress
+		&& !BootEncStatus.DriveEncrypted
+		&& !BootEncStatus.DriveMounted);
+
+	if (IsHiddenOSRunning()
+		|| BootEncStatus.SetupInProgress
+		|| BootEncStatus.DriveEncrypted
+		|| BootEncStatus.DriveMounted
+		|| (bSysEncRequired && !bFinalizeDecryption))
+	{
+		CloseSysEncMutex ();
+		Warning ("EFI_BOOT_LOADER_REPAIR_BLOCKED", hwndDlg);
+		return;
+	}
+
+	WaitCursor ();
+	try
+	{
+		if (bFinalizeDecryption)
+			BootEncObj->Deinstall (true);
+		else
+			BootEncObj->RestoreSystemLoader ();
+	}
+	catch (Exception &e)
+	{
+		NormalCursor ();
+		CloseSysEncMutex ();
+		e.Show (hwndDlg);
+		return;
+	}
+
+	if (bFinalizeDecryption)
+	{
+		NormalCursor ();
+		if (!ClearSystemEncryptionStatus (hwndDlg))
+		{
+			CloseSysEncMutex ();
+			return;
+		}
+		ManageStartupSeqWiz (TRUE, L"");
+	}
+	else
+		NormalCursor ();
+
+	CloseSysEncMutex ();
+	Info ("EFI_BOOT_LOADER_REPAIR_SUCCESS", hwndDlg);
+}
+
 // Initiates the process of creation of a hidden operating system
 static void CreateHiddenOS (HWND hwndDlg)
 {
@@ -8518,6 +8646,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			break;
 		case IDM_VERIFY_RESCUE_DISK_ISO:
 			VerifyRescueDisk (hwndDlg, true);
+			break;
+		case IDM_REPAIR_EFI_BOOT_LOADER:
+			RepairEfiBootLoader (hwndDlg);
 			break;
 		case IDM_MOUNT_SYSENC_PART_WITHOUT_PBA:
 
