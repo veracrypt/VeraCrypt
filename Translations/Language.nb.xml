@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.28">
+  <localization prog-version="1.26.28">
     <language langid="nb" name="Norsk Bokmål" en-name="Norwegian (Bokmål)" version="0.1.0" translators="Marius Kjærstad" />
     <font lang="nb" class="normal" size="11" face="default" />
-    <font lang="nb" class="bold" size="13" face="Arial " />
-    <font lang="nb" class="fixed" size="12" face="Lucida Console " />
-    <font lang="nb" class="title" size="21" face="Times New Roman " />
+    <font lang="nb" class="bold" size="13" face="Arial" />
+    <font lang="nb" class="fixed" size="12" face="Lucida Console" />
+    <font lang="nb" class="title" size="21" face="Times New Roman" />
     <entry lang="nb" key="IDCANCEL">Avbryt</entry>
     <entry lang="nb" key="IDC_ALL_USERS">Installer &amp;for alle brukere</entry>
     <entry lang="nb" key="IDC_BROWSE">Bla &amp;gjennom...</entry>
@@ -1427,7 +1427,7 @@
     <entry lang="nb" key="PASSWORD_MAXLENGTH_REACHED">Passordet har allerede nådd sin maksimale lengde på %d tegn.\nIngen ekstra tegn er tillatt.</entry>
     <entry lang="nb" key="IDC_SELECT_LANGUAGE_LABEL">Velg språket som skal brukes under installasjonen:</entry>
     <entry lang="nb" key="VOLUME_TOO_LARGE_FOR_HOST">FEIL: Størrelsen på filbeholderen er større enn tilgjengelig ledig plass på disken.</entry>
-    <entry lang="nb" key="IDC_ALLOW_WINDOWS_DEFRAG">Tillat Windows Disk Defragmenter å defragmentere ikke-system partisjon/disk</entry>    
+    <entry lang="nb" key="IDC_ALLOW_WINDOWS_DEFRAG">Tillat Windows Disk Defragmenter å defragmentere ikke-system partisjon/disk</entry>
     <entry lang="nb" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">ADVARSEL: Defragmentering av ikke-system partisjoner/disks kan lekke metadata om innholdet deres eller forårsake problemer med skjulte volumer de kan inneholde.\n\nFortsette?</entry>
     <entry lang="nb" key="VIRTUAL_DEVICE">Virtuell Enhet</entry>
     <entry lang="nb" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Det valgte monterte volumet er ikke tilknyttet med sin stasjonsbokstav i Windows og derfor kan det ikke åpnes i Windows Utforsker.</entry>

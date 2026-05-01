@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.28">
+  <localization prog-version="1.26.28">
     <!-- Sprachen -->
     <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl, Felix Reichmann, Bernhard Erdmann" />
     <!-- Schriftarten -->
@@ -1430,7 +1430,7 @@
     <entry lang="de" key="PASSWORD_MAXLENGTH_REACHED">Passwort hat bereits seine maximale Länge von %d Zeichen erreicht.\nEs ist kein zusätzliches Zeichen erlaubt.</entry>
     <entry lang="de" key="IDC_SELECT_LANGUAGE_LABEL">Wählen Sie die Sprache aus, die während der Installation benutzt werden soll:</entry>
     <entry lang="de" key="VOLUME_TOO_LARGE_FOR_HOST">FEHLER: Der Datei-Container ist größer als der verfügbare freie Speicherplatz auf der Festplatte.</entry>
-    <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Defragmentierung von Nicht-Systempartitionen/-laufwerken durch Windows-Defragmentier. erlauben</entry>    
+    <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Defragmentierung von Nicht-Systempartitionen/-laufwerken durch Windows-Defragmentier. erlauben</entry>
     <entry lang="de" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNUNG: Defragmentierung von Nicht-Systempartitionen/-laufwerken kann Metadaten über ihren Inhalt preisgeben oder Probleme mit versteckten Volumes verursachen, die sie enthalten können.\n\nFortsetzen?</entry>
     <entry lang="de" key="VIRTUAL_DEVICE">Virtuelles Gerät</entry>
     <entry lang="de" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Das ausgewählte eingehängte Volume ist nicht mit seinem Laufwerksbuchstaben in Windows verknüpft und kann daher nicht im Windows Explorer geöffnet werden.</entry>

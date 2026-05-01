@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.28">
+  <localization prog-version="1.26.28">
     <language langid="th" name="ภาษาไทย" en-name="Thai" version="0.0.0" translators=""/>
     <font lang="th" class="normal" size="11" face="default" />
     <font lang="th" class="bold" size="13" face="Arial" />
@@ -1427,7 +1427,7 @@
     <entry lang="th" key="PASSWORD_MAXLENGTH_REACHED">รหัสผ่านถึงความยาวสูงสุดของ %d อักขระแล้ว.\nไม่สามารถป้อนอักขระเพิ่มเติมได้.</entry>
     <entry lang="th" key="IDC_SELECT_LANGUAGE_LABEL">เลือกภาษาที่จะใช้ระหว่างการติดตั้ง:</entry>
     <entry lang="th" key="VOLUME_TOO_LARGE_FOR_HOST">ข้อผิดพลาด: ขนาดของไฟล์ปริมาณใหญ่กว่าพื้นที่ว่างที่มีบนดิสก์.</entry>
-    <entry lang="th" key="IDC_ALLOW_WINDOWS_DEFRAG">อนุญาตให้ Windows Disk Defragmenter ให้รวบรวมพื้นที่ว่างเพิ่มของพาร์ติชัน/ไดรฟ์ที่ไม่ใช่ระบบ</entry>    
+    <entry lang="th" key="IDC_ALLOW_WINDOWS_DEFRAG">อนุญาตให้ Windows Disk Defragmenter ให้รวบรวมพื้นที่ว่างเพิ่มของพาร์ติชัน/ไดรฟ์ที่ไม่ใช่ระบบ</entry>
     <entry lang="th" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">คำเตือน: การรวบรวมพื้นที่ว่างเพิ่มของพาร์ติชัน/ไดรฟ์ที่ไม่ใช่ระบบอาจเปิดเผยข้อมูลเกี่ยวกับเนื้อหาของพวกเขาหรือก่อให้เกิดปัญหากับปริมาณที่ซ่อนที่อาจมีในพวกเขา.\n\nดำเนินการต่อ?</entry>
     <entry lang="th" key="VIRTUAL_DEVICE">อุปกรณ์เสมือน</entry>
     <entry lang="th" key="MOUNTED_VOLUME_NOT_ASSOCIATED">ปริมาณที่ติดตั้งไว้ที่เลือกไม่เกี่ยวข้องกับตัวอักษรไดรฟ์ของมันใน Windows และไม่สามารถเปิดได้ใน Windows Explorer.</entry>

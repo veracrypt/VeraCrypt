@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.28">
+  <localization prog-version="1.26.28">
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
     <font lang="sv" class="normal" size="11" face="default" />
     <font lang="sv" class="bold" size="13" face="Arial" />
@@ -1427,7 +1427,7 @@
     <entry lang="sv" key="PASSWORD_MAXLENGTH_REACHED">Lösenordet har redan nått sin maximala längd på %d tecken.\nInga ytterligare tecken är tillåtna.</entry>
     <entry lang="sv" key="IDC_SELECT_LANGUAGE_LABEL">Välj vilket språk som ska användas under installationen:</entry>
     <entry lang="sv" key="VOLUME_TOO_LARGE_FOR_HOST">FEL: Storleken på filbehållaren är större än det tillgängliga lediga utrymmet på disken.</entry>
-    <entry lang="sv" key="IDC_ALLOW_WINDOWS_DEFRAG">Tillåt Windows-diskdefragmenterare att defragmentera icke-systempartition/enhet</entry>    
+    <entry lang="sv" key="IDC_ALLOW_WINDOWS_DEFRAG">Tillåt Windows-diskdefragmenterare att defragmentera icke-systempartition/enhet</entry>
     <entry lang="sv" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">VARNING: Defragmentering av icke-systempartitioner/enheter kan läcka metadata om deras innehåll eller orsaka problem med dolda volymer som de kan innehålla.\n\nFortsätt?</entry>
     <entry lang="sv" key="VIRTUAL_DEVICE">Virtuell enhet</entry>
     <entry lang="sv" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Den valda monterade volymen är inte associerad med dess enhetsbokstav i Windows och kan därför inte öppnas i Windows Utforskaren.</entry>
