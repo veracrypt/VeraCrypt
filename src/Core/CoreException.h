@@ -25,6 +25,16 @@ namespace VeraCrypt
 		TC_SERIALIZABLE_EXCEPTION (ElevationFailed);
 	};
 
+	struct FilesystemDismountFailed : public ExecutedProcessFailed
+	{
+		FilesystemDismountFailed () { }
+		FilesystemDismountFailed (const string &message, const string &command, int exitCode, const string &errorOutput)
+			: ExecutedProcessFailed (message, command, exitCode, errorOutput) { }
+		FilesystemDismountFailed (const ExecutedProcessFailed &ex)
+			: ExecutedProcessFailed (ex.what(), ex.GetCommand(), static_cast <int> (ex.GetExitCode()), ex.GetErrorOutput()) { }
+		TC_SERIALIZABLE_EXCEPTION (FilesystemDismountFailed);
+	};
+
 	TC_EXCEPTION_DECL (RootDeviceUnavailable, SystemException);
 
 #define TC_EXCEPTION(NAME) TC_EXCEPTION_DECL(NAME,Exception)
@@ -32,6 +42,7 @@ namespace VeraCrypt
 #undef TC_EXCEPTION_SET
 #define TC_EXCEPTION_SET \
 	TC_EXCEPTION_NODECL (ElevationFailed); \
+	TC_EXCEPTION_NODECL (FilesystemDismountFailed); \
 	TC_EXCEPTION_NODECL (RootDeviceUnavailable); \
 	TC_EXCEPTION (DriveLetterUnavailable); \
 	TC_EXCEPTION (DriverError); \

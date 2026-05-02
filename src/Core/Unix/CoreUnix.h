@@ -29,6 +29,9 @@ namespace VeraCrypt
 		virtual void CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair = false) const;
 		virtual void DismountFilesystem (const DirectoryPath &mountPoint, bool force) const;
 		virtual shared_ptr <VolumeInfo> DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles = false, bool syncVolumeInfo = false);
+#ifdef TC_LINUX
+		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume);
+#endif
 		virtual bool FilesystemSupportsLargeFiles (const FilePath &filePath) const;
 		virtual DirectoryPath GetDeviceMountPoint (const DevicePath &devicePath) const;
 		virtual uint32 GetDeviceSectorSize (const DevicePath &devicePath) const;
@@ -55,6 +58,11 @@ namespace VeraCrypt
 		virtual DevicePath AttachFileToLoopDevice (const FilePath &filePath, bool readOnly) const { throw NotApplicable (SRC_POS); }
 		virtual void DetachLoopDevice (const DevicePath &devicePath) const { throw NotApplicable (SRC_POS); }
 		virtual void DismountNativeVolume (shared_ptr <VolumeInfo> mountedVolume) const { throw NotApplicable (SRC_POS); }
+#ifdef TC_LINUX
+		virtual void DismountFilesystemLazy (const DirectoryPath &mountPoint) const;
+		virtual void DismountNativeVolumeDeferred (shared_ptr <VolumeInfo> mountedVolume) const { DismountNativeVolume (mountedVolume); }
+		virtual bool IsLoopDeviceAttached (const DevicePath &devicePath) const { return devicePath.IsBlockDevice(); }
+#endif
 		virtual bool FilesystemSupportsUnixPermissions (const DevicePath &devicePath) const;
 		virtual string GetDefaultMountPointPrefix () const;
 		virtual string GetFuseMountDirPrefix () const { return ".veracrypt_aux_mnt"; }

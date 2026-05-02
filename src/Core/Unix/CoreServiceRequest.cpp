@@ -128,6 +128,26 @@ namespace VeraCrypt
 		MountedVolumeInfo->Serialize (stream);
 	}
 
+#ifdef TC_LINUX
+	// EmergencyDismountVolumeRequest
+	void EmergencyDismountVolumeRequest::Deserialize (shared_ptr <Stream> stream)
+	{
+		CoreServiceRequest::Deserialize (stream);
+		MountedVolumeInfo = Serializable::DeserializeNew <VolumeInfo> (stream);
+	}
+
+	bool EmergencyDismountVolumeRequest::RequiresElevation () const
+	{
+		return !Core->HasAdminPrivileges();
+	}
+
+	void EmergencyDismountVolumeRequest::Serialize (shared_ptr <Stream> stream) const
+	{
+		CoreServiceRequest::Serialize (stream);
+		MountedVolumeInfo->Serialize (stream);
+	}
+#endif
+
 	// GetDeviceSectorSizeRequest
 	void GetDeviceSectorSizeRequest::Deserialize (shared_ptr <Stream> stream)
 	{
@@ -270,6 +290,9 @@ namespace VeraCrypt
 	TC_SERIALIZER_FACTORY_ADD_CLASS (CheckFilesystemRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (DismountFilesystemRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (DismountVolumeRequest);
+#ifdef TC_LINUX
+	TC_SERIALIZER_FACTORY_ADD_CLASS (EmergencyDismountVolumeRequest);
+#endif
 	TC_SERIALIZER_FACTORY_ADD_CLASS (ExitRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetDeviceSectorSizeRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetDeviceSizeRequest);

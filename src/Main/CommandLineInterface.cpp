@@ -44,6 +44,9 @@ namespace VeraCrypt
 
 	CommandLineInterface::CommandLineInterface (int argc, wchar_t** argv, UserInterfaceType::Enum interfaceType) :
 		ArgCommand (CommandId::None),
+#ifdef TC_LINUX
+		ArgEmergencyUnmount (false),
+#endif
 		ArgFilesystem (VolumeCreationOptions::FilesystemType::Unknown),
 		ArgNewPim (-1),
 		ArgNoHiddenVolumeProtection (false),
@@ -79,6 +82,9 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"delete-token-keyfiles", _("Delete security token keyfiles"));
 		parser.AddSwitch (L"d", L"dismount",			_("Unmount volume (deprecated: use 'unmount')"));
 		parser.AddSwitch (L"u", L"unmount",				_("Unmount volume"));
+#ifdef TC_LINUX
+		parser.AddSwitch (L"",	L"emergency-unmount",	_("Attempt emergency cleanup if normal Linux unmount fails"));
+#endif
 		parser.AddSwitch (L"",	L"display-password",	_("Display password while typing"));
 		parser.AddOption (L"",	L"encryption",			_("Encryption algorithm"));
 		parser.AddSwitch (L"",	L"explore",				_("Open explorer window for mounted volume"));
@@ -405,6 +411,10 @@ namespace VeraCrypt
 
 		ArgForce = parser.Found (L"force");
 
+#ifdef TC_LINUX
+		ArgEmergencyUnmount = parser.Found (L"emergency-unmount");
+#endif
+
 		ArgDisableFileSizeCheck = parser.Found (L"no-size-check");
 		ArgUseLegacyPassword = parser.Found (L"legacy-password-maxlength");
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
@@ -729,6 +739,11 @@ namespace VeraCrypt
 
 		if (param1IsMountedVolumeSpec)
 			ArgVolumes = GetMountedVolumes (parser.GetParamCount() > 0 ? parser.GetParam (0) : wxString());
+
+#ifdef TC_LINUX
+		if (ArgEmergencyUnmount && ArgCommand != CommandId::DismountVolumes)
+			throw_err (L"--emergency-unmount is supported only with an unmount command");
+#endif
 
 		if (ArgCommand == CommandId::None && Application::GetUserInterfaceType() == UserInterfaceType::Text)
 			parser.Usage();

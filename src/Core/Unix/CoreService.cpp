@@ -159,6 +159,18 @@ namespace VeraCrypt
 						continue;
 					}
 
+#ifdef TC_LINUX
+					// EmergencyDismountVolumeRequest
+					EmergencyDismountVolumeRequest *emergencyDismountRequest = dynamic_cast <EmergencyDismountVolumeRequest*> (request.get());
+					if (emergencyDismountRequest)
+					{
+						DismountVolumeResponse response;
+						response.DismountedVolumeInfo = Core->EmergencyDismountVolume (emergencyDismountRequest->MountedVolumeInfo);
+						response.Serialize (outputStream);
+						continue;
+					}
+#endif
+
 					// GetDeviceSectorSizeRequest
 					GetDeviceSectorSizeRequest *getDeviceSectorSizeRequest = dynamic_cast <GetDeviceSectorSizeRequest*> (request.get());
 					if (getDeviceSectorSizeRequest)
@@ -251,6 +263,14 @@ namespace VeraCrypt
 		DismountVolumeRequest request (mountedVolume, ignoreOpenFiles, syncVolumeInfo);
 		return SendRequest <DismountVolumeResponse> (request)->DismountedVolumeInfo;
 	}
+
+#ifdef TC_LINUX
+	shared_ptr <VolumeInfo> CoreService::RequestEmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+	{
+		EmergencyDismountVolumeRequest request (mountedVolume);
+		return SendRequest <DismountVolumeResponse> (request)->DismountedVolumeInfo;
+	}
+#endif
 
 	uint32 CoreService::RequestGetDeviceSectorSize (const DevicePath &devicePath)
 	{

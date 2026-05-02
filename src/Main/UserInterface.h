@@ -41,7 +41,7 @@ namespace VeraCrypt
 		virtual void DeleteSecurityTokenKeyfiles () const = 0;
 		virtual void DismountAllVolumes (bool ignoreOpenFiles = false, bool interactive = true) const;
 		virtual void DismountVolume (shared_ptr <VolumeInfo> volume, bool ignoreOpenFiles = false, bool interactive = true) const;
-		virtual void DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles = false, bool interactive = true) const;
+		virtual void DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles = false, bool interactive = true, bool emergencyCleanup = false) const;
 		virtual void DisplayVolumeProperties (const VolumeInfoList &volumes) const;
 		virtual void DoShowError (const wxString &message) const = 0;
 		virtual void DoShowInfo (const wxString &message) const = 0;

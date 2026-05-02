@@ -45,6 +45,18 @@ namespace VeraCrypt
 			return dismountedVolumeInfo;
 		}
 
+#ifdef TC_LINUX
+		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+		{
+			shared_ptr <VolumeInfo> dismountedVolumeInfo = CoreService::RequestEmergencyDismountVolume (mountedVolume);
+
+			VolumeEventArgs eventArgs (dismountedVolumeInfo);
+			T::VolumeDismountedEvent.Raise (eventArgs);
+
+			return dismountedVolumeInfo;
+		}
+#endif
+
 		virtual uint32 GetDeviceSectorSize (const DevicePath &devicePath) const
 		{
 			return CoreService::RequestGetDeviceSectorSize (devicePath);

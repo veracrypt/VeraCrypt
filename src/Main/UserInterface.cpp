@@ -157,8 +157,11 @@ namespace VeraCrypt
 		DismountVolumes (volumes, ignoreOpenFiles, interactive);
 	}
 
-	void UserInterface::DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles, bool interactive) const
+	void UserInterface::DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles, bool interactive, bool emergencyCleanupRequested) const
 	{
+#ifndef TC_LINUX
+		(void) emergencyCleanupRequested;
+#endif
 		BusyScope busy (this);
 
 		volumes.sort (VolumeInfo::FirstVolumeMountedAfterSecond);
@@ -180,6 +183,7 @@ namespace VeraCrypt
 			VolumeInfoList volumesLeft;
 			foreach (shared_ptr <VolumeInfo> volume, volumes)
 			{
+				bool emergencyCleanupPerformed = false;
 				try
 				{
 					BusyScope busy (this);
@@ -207,6 +211,42 @@ namespace VeraCrypt
 							throw UserAbort (SRC_POS);
 					}
 				}
+#ifdef TC_LINUX
+				catch (FilesystemDismountFailed&)
+				{
+					if (twoPassMode && firstPass)
+					{
+						volumesLeft.push_back (volume);
+						continue;
+					}
+
+					if (emergencyCleanupRequested)
+					{
+						{
+							BusyScope busy (this);
+							volume = Core->EmergencyDismountVolume (volume);
+						}
+						emergencyCleanupPerformed = true;
+						ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
+					}
+					else if (interactive)
+					{
+						if (AskYesNo (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path)), false, true))
+						{
+							{
+								BusyScope busy (this);
+								volume = Core->EmergencyDismountVolume (volume);
+							}
+							emergencyCleanupPerformed = true;
+							ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
+						}
+						else
+							throw UserAbort (SRC_POS);
+					}
+					else
+						throw;
+				}
+#endif
 				catch (...)
 				{
 					if (twoPassMode && firstPass)
@@ -220,9 +260,12 @@ namespace VeraCrypt
 
 				if (Preferences.Verbose)
 				{
-					if (!message.IsEmpty())
-						message += L'\n';
-					message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
+					if (!emergencyCleanupPerformed)
+					{
+						if (!message.IsEmpty())
+							message += L'\n';
+						message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
+					}
 				}
 			}
 
@@ -1133,7 +1176,11 @@ const FileManager fileManagers[] = {
 			return true;
 
 		case CommandId::DismountVolumes:
-			DismountVolumes (cmdLine.ArgVolumes, cmdLine.ArgForce, !Preferences.NonInteractive);
+			DismountVolumes (cmdLine.ArgVolumes, cmdLine.ArgForce, !Preferences.NonInteractive
+#ifdef TC_LINUX
+				, cmdLine.ArgEmergencyUnmount
+#endif
+				);
 			return true;
 
 		case CommandId::DisplayVersion:
@@ -1277,6 +1324,15 @@ const FileManager fileManagers[] = {
 					" Force mounting of a volume in use, unmounting of a volume in use, or\n"
 					" overwriting a file. Note that this option has no effect on some platforms.\n"
 					"\n"
+#ifdef TC_LINUX
+					"--emergency-unmount\n"
+					" When used with --unmount on Linux, attempt emergency cleanup if normal\n"
+					" unmount fails. This recovery operation lazy-detaches the filesystem and\n"
+					" removes or schedules removal of VeraCrypt kernel objects. Pending writes may\n"
+					" already have failed, data may be lost, and cleanup may remain pending until\n"
+					" applications close open files. Use only for stale or removed-device states.\n"
+					"\n"
+#endif
 					"--fs-options=OPTIONS\n"
 					" Filesystem mount options. The OPTIONS argument is passed to mount(8)\n"
 					" command with option -o when a filesystem on a VeraCrypt volume is mounted.\n"
@@ -1719,6 +1775,7 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (MissingArgument);
 		VC_CONVERT_EXCEPTION (NoItemSelected);
 		VC_CONVERT_EXCEPTION (StringFormatterException);
+		VC_CONVERT_EXCEPTION (FilesystemDismountFailed);
 		VC_CONVERT_EXCEPTION (ExecutedProcessFailed);
 		VC_CONVERT_EXCEPTION (AlreadyInitialized);
 		VC_CONVERT_EXCEPTION (AssertionFailed);

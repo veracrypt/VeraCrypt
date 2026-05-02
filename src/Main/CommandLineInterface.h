@@ -64,6 +64,9 @@ namespace VeraCrypt
 		CommandId::Enum ArgCommand;
 		bool ArgDisplayPassword;
 		shared_ptr <EncryptionAlgorithm> ArgEncryptionAlgorithm;
+#ifdef TC_LINUX
+		bool ArgEmergencyUnmount;
+#endif
 		shared_ptr <FilePath> ArgFilePath;
 		VolumeCreationOptions::FilesystemType::Enum ArgFilesystem;
 		bool ArgForce;

@@ -74,6 +74,20 @@ namespace VeraCrypt
 		bool SyncVolumeInfo;
 	};
 
+#ifdef TC_LINUX
+	struct EmergencyDismountVolumeRequest : CoreServiceRequest
+	{
+		EmergencyDismountVolumeRequest () { }
+		EmergencyDismountVolumeRequest (shared_ptr <VolumeInfo> volumeInfo)
+			: MountedVolumeInfo (volumeInfo) { }
+		TC_SERIALIZABLE (EmergencyDismountVolumeRequest);
+
+		virtual bool RequiresElevation () const;
+
+		shared_ptr <VolumeInfo> MountedVolumeInfo;
+	};
+#endif
+
 	struct GetDeviceSectorSizeRequest : CoreServiceRequest
 	{
 		GetDeviceSectorSizeRequest () { }

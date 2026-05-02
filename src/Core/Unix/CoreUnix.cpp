@@ -163,11 +163,34 @@ namespace VeraCrypt
 		Process::Execute ("umount", args);
 	}
 
+#ifdef TC_LINUX
+	void CoreUnix::DismountFilesystemLazy (const DirectoryPath &mountPoint) const
+	{
+		list <string> args;
+		args.push_back ("-l");
+		args.push_back ("--");
+		args.push_back (mountPoint);
+
+		Process::Execute ("umount", args);
+	}
+#endif
+
 	shared_ptr <VolumeInfo> CoreUnix::DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles, bool syncVolumeInfo)
 	{
 		if (!mountedVolume->MountPoint.IsEmpty())
 		{
+#ifdef TC_LINUX
+			try
+			{
+				DismountFilesystem (mountedVolume->MountPoint, ignoreOpenFiles);
+			}
+			catch (ExecutedProcessFailed &e)
+			{
+				throw FilesystemDismountFailed (e);
+			}
+#else
 			DismountFilesystem (mountedVolume->MountPoint, ignoreOpenFiles);
+#endif
 
 			// Delete mount directory if a default path has been used
 			if (string (mountedVolume->MountPoint).find (GetDefaultMountPointPrefix()) == 0)
@@ -178,6 +201,12 @@ namespace VeraCrypt
 		{
 			DismountNativeVolume (mountedVolume);
 		}
+#ifdef TC_LINUX
+		catch (ExecutedProcessFailed &e)
+		{
+			throw FilesystemDismountFailed (e);
+		}
+#endif
 		catch (NotApplicable &) { }
 
 		if (!mountedVolume->LoopDevice.IsEmpty())
@@ -209,10 +238,14 @@ namespace VeraCrypt
 				Process::Execute ("umount", args);
 				break;
 			}
-			catch (ExecutedProcessFailed&)
+			catch (ExecutedProcessFailed &e)
 			{
 				if (t > 10)
+#ifdef TC_LINUX
+					throw FilesystemDismountFailed (e);
+#else
 					throw;
+#endif
 				Thread::Sleep (200);
 			}
 		}
@@ -228,6 +261,150 @@ namespace VeraCrypt
 
 		return mountedVolume;
 	}
+
+#ifdef TC_LINUX
+	shared_ptr <VolumeInfo> CoreUnix::EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+	{
+		unique_ptr <Exception> firstException;
+
+		if (!mountedVolume->MountPoint.IsEmpty())
+		{
+			bool mountPointMounted = true;
+			bool mountPointDetached = false;
+
+			try
+			{
+				mountPointMounted = !GetMountedFilesystems (DevicePath(), mountedVolume->MountPoint).empty();
+			}
+			catch (...) { }
+
+			if (mountPointMounted)
+			{
+				try
+				{
+					DismountFilesystemLazy (mountedVolume->MountPoint);
+					mountPointDetached = true;
+				}
+				catch (Exception &e)
+				{
+					if (!firstException.get())
+						firstException.reset (e.CloneNew());
+				}
+			}
+
+			if ((!mountPointMounted || mountPointDetached) && string (mountedVolume->MountPoint).find (GetDefaultMountPointPrefix()) == 0)
+			{
+				try
+				{
+					mountedVolume->MountPoint.Delete();
+				}
+				catch (...) { }
+			}
+		}
+
+		try
+		{
+			DismountNativeVolumeDeferred (mountedVolume);
+		}
+		catch (NotApplicable&) { }
+		catch (Exception &e)
+		{
+			if (!firstException.get())
+				firstException.reset (e.CloneNew());
+		}
+
+		if (!mountedVolume->LoopDevice.IsEmpty())
+		{
+			try
+			{
+				DetachLoopDevice (mountedVolume->LoopDevice);
+			}
+			catch (ExecutedProcessFailed &e)
+			{
+				if (IsLoopDeviceAttached (mountedVolume->LoopDevice) && !firstException.get())
+					firstException.reset (e.CloneNew());
+			}
+			catch (Exception &e)
+			{
+				if (!firstException.get())
+					firstException.reset (e.CloneNew());
+			}
+		}
+
+		if (!mountedVolume->AuxMountPoint.IsEmpty())
+		{
+			bool auxMountPointMounted = true;
+			bool auxMountPointDetached = false;
+
+			try
+			{
+				auxMountPointMounted = !GetMountedFilesystems (DevicePath(), mountedVolume->AuxMountPoint).empty();
+			}
+			catch (...) { }
+
+			if (auxMountPointMounted)
+			{
+				list <string> args;
+				args.push_back ("--");
+				args.push_back (mountedVolume->AuxMountPoint);
+
+				try
+				{
+					for (int t = 0; true; t++)
+					{
+						try
+						{
+							Process::Execute ("umount", args);
+							auxMountPointDetached = true;
+							break;
+						}
+						catch (ExecutedProcessFailed&)
+						{
+							if (t > 10)
+								throw;
+							Thread::Sleep (200);
+						}
+					}
+				}
+				catch (ExecutedProcessFailed&)
+				{
+					try
+					{
+						DismountFilesystemLazy (mountedVolume->AuxMountPoint);
+						auxMountPointDetached = true;
+					}
+					catch (Exception &e)
+					{
+						if (!firstException.get())
+							firstException.reset (e.CloneNew());
+					}
+				}
+				catch (Exception &e)
+				{
+					if (!firstException.get())
+						firstException.reset (e.CloneNew());
+				}
+			}
+
+			if (!auxMountPointMounted || auxMountPointDetached)
+			{
+				try
+				{
+					mountedVolume->AuxMountPoint.Delete();
+				}
+				catch (...) { }
+			}
+		}
+
+		if (firstException.get())
+			firstException->Throw();
+
+		VolumeEventArgs eventArgs (mountedVolume);
+		VolumeDismountedEvent.Raise (eventArgs);
+
+		return mountedVolume;
+	}
+#endif
 
 	bool CoreUnix::FilesystemSupportsLargeFiles (const FilePath &filePath) const
 	{

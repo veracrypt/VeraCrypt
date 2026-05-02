@@ -25,6 +25,16 @@ namespace VeraCrypt
 		ExecutedProcessFailed::Serialize (stream);
 	}
 
+	void FilesystemDismountFailed::Deserialize (shared_ptr <Stream> stream)
+	{
+		ExecutedProcessFailed::Deserialize (stream);
+	}
+
+	void FilesystemDismountFailed::Serialize (shared_ptr <Stream> stream) const
+	{
+		ExecutedProcessFailed::Serialize (stream);
+	}
+
 #define TC_EXCEPTION(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
 #undef TC_EXCEPTION_NODECL
 #define TC_EXCEPTION_NODECL(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)
