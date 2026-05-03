@@ -1672,16 +1672,16 @@
     <entry lang="pl" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Tylko system Linux. Po włączeniu tej opcji VeraCrypt skanuje odszyfrowane urządzenie wirtualne za pomocą blkid -p i podłącza wykryte systemy plików NTFS za pomocą sterownika NTFS3 zamiast domyślnego NTFS. Jeśli wykrycie NTFS się nie powiedzie, VeraCrypt użyje standardowego automatycznego wyboru systemu plików. Jeśli NTFS3 jest niedostępny lub zablokowany przez dystrybucję, podłączenie może się nie powieść. To opcjonalne ustawienie pozwala uniknąć zawieszeń w trybie uśpienia lub hibernacji spowodowanych przez zamrożone systemy plików FUSE w przestrzeni użytkownika.</entry>
     <entry lang="pl" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Nie udało się wykonać normalnego odłączenia wolumenu {0}. Może się to zdarzyć, gdy programy nadal mają otwarte pliki lub katalogi na wolumenie lub gdy urządzenie bazowe zostało rozłączone, a podłączenie stało się nieaktualne.\n\nJeśli urządzenie jest nadal podłączone, wybierz opcję „Nie”, zamknij programy korzystające z wolumenu i spróbuj ponownie odłączyć.\n\nJeśli urządzenie zostało rozłączone lub podłączenie jest nieaktualne, VeraCrypt może podjąć próbę awaryjnego czyszczenia poprzez leniwe odłączenie systemu plików i usunięcie lub zaplanowanie usunięcia obiektów jądra VeraCrypt. Oczekujące zapisy mogły się nie powieść, dane mogły zostać utracone, a czyszczenie może pozostać w toku do momentu zamknięcia otwartych plików przez programy. Sprawdź system plików za pomocą fsck lub odpowiedniego narzędzia naprawczego przed ponownym użyciem.\n\nKontynuować?</entry>
     <entry lang="pl" key="LINUX_EMERGENCY_UNMOUNTED">Rozpoczęto awaryjne czyszczenie wolumenu {0}. Jeśli wolumen był rozłączony, podłączenie było nieaktualne lub występowały oczekujące operacje zapisu, sprawdź system plików za pomocą fsck lub odpowiedniego narzędzia naprawczego przed ponownym użyciem.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_DATA">Creating volume data. Please wait.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Finalizing volume creation: writing backup header.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FLUSHING_DATA">Finalizing volume creation: flushing data to disk. This can take several minutes on large volumes or slow/USB storage.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FINISHED">Finalizing volume creation.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ABORTED">Volume creation has been aborted.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ERROR">Volume creation failed.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Finalizing volume creation: mounting temporary volume.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Finalizing volume creation: preparing temporary device.</entry>
-    <entry lang="en" key="FORMAT_STAGE_CREATING_FILESYSTEM">Finalizing volume creation: creating filesystem using {0}.</entry>
-    <entry lang="en" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Finalizing volume creation: dismounting temporary volume.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_WRITING_DATA">Tworzenie danych wolumenu. Proszę czekać.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Finalizowanie tworzenia wolumenu: zapisywanie nagłówka kopii zapasowej.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_FLUSHING_DATA">Finalizowanie tworzenia wolumenu: zrzucanie danych na dysk. Może to potrwać kilka minut w przypadku dużych wolumenów lub wolnych nośników danych/pamięci USB.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_FINISHED">Finalizowanie tworzenia wolumenu.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_ABORTED">Tworzenie wolumenu zostało przerwane.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_ERROR">Nie udało się utworzyć wolumenu.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Finalizowanie tworzenia wolumenu: podłączanie tymczasowego wolumenu.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Finalizowanie tworzenia wolumenu: przygotowywanie tymczasowego urządzenia.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_CREATING_FILESYSTEM">Finalizowanie tworzenia wolumenu: tworzenie systemu plików za pomocą {0}.</entry>
+    <entry lang="pl" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Finalizowanie tworzenia wolumenu: odłączanie wolumenu tymczasowego.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
