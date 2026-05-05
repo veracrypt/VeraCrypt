@@ -113,7 +113,7 @@ char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttr
 	t = ((char*)strchr (t, '"')) + 1;
 	e = strchr (t, '"');
 	l = (int)(e - t);
-	if (e == NULL || l > xmlAttrValueSize) return NULL;
+	if (e == NULL || l >= xmlAttrValueSize) return NULL;
 
 	memcpy (xmlAttrValue, t, l);
 	xmlAttrValue[l] = 0;
@@ -141,7 +141,7 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	if (e == NULL) return NULL;
 
 	l = (int)(e - t);
-	if (e == NULL || l > xmlTextSize) return NULL;
+	if (e == NULL || l >= xmlTextSize) return NULL;
 
 	while (i < l)
 	{
