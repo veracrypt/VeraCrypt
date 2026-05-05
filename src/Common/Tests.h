@@ -25,6 +25,7 @@ BOOL test_pkcs5 (void);
 BOOL TestSectorBufEncryption ();
 BOOL TestLegacySectorBufEncryption ();
 BOOL AutoTestAlgorithms (void);
+BOOL XmlTest (void);
 
 #ifdef __cplusplus
 }

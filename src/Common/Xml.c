@@ -84,16 +84,20 @@ char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *att
 char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize)
 {
 	char *t = xmlNode;
-	char *e = xmlNode;
+	char *nodeEnd = xmlNode;
+	char *quote1, *quote2;
 	int l = 0;
+
+	if (xmlAttrValueSize <= 0)
+		return NULL;
 
 	xmlAttrValue[0] = 0;
 	if (t[0] != '<') return NULL;
 
-	e = strchr (e, '>');
-	if (e == NULL) return NULL;
+	nodeEnd = strchr (nodeEnd, '>');
+	if (nodeEnd == NULL) return NULL;
 
-	while ((t = strstr (t, xmlAttrName)) && t < e)
+	while ((t = strstr (t, xmlAttrName)) && t < nodeEnd)
 	{
 		char *o = t + strlen (xmlAttrName);
 		if (t[-1] == ' '
@@ -108,12 +112,17 @@ char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttr
 		t++;
 	}
 
-	if (t == NULL || t > e) return NULL;
+	if (t == NULL || t > nodeEnd) return NULL;
 
-	t = ((char*)strchr (t, '"')) + 1;
-	e = strchr (t, '"');
-	l = (int)(e - t);
-	if (e == NULL || l >= xmlAttrValueSize) return NULL;
+	quote1 = strchr (t, '"');
+	if (quote1 == NULL || quote1 > nodeEnd) return NULL;
+	t = quote1 + 1;
+
+	quote2 = strchr (t, '"');
+	if (quote2 == NULL || quote2 > nodeEnd) return NULL;
+
+	l = (int)(quote2 - t);
+	if (l < 0 || l >= xmlAttrValueSize) return NULL;
 
 	memcpy (xmlAttrValue, t, l);
 	xmlAttrValue[l] = 0;
@@ -128,6 +137,9 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	char *e = xmlNode + 1;
 	int l = 0, i = 0, j = 0;
 
+	if (xmlTextSize <= 0)
+		return NULL;
+
 	xmlText[0] = 0;
 
 	if (t[0] != '<')
@@ -141,10 +153,13 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	if (e == NULL) return NULL;
 
 	l = (int)(e - t);
-	if (e == NULL || l >= xmlTextSize) return NULL;
+	if (l < 0) return NULL;
 
 	while (i < l)
 	{
+		if (j >= xmlTextSize - 1)
+			return NULL;
+
 		if (BeginsWith (&t[i], "&lt;"))
 		{
 			xmlText[j++] = '<';

@@ -20,6 +20,7 @@
 #include <string.h>
 #include "Pkcs5.h"
 #include "cpu.h"
+#include "Xml.h"
 
 typedef struct {
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 key1[32];
@@ -1447,6 +1448,10 @@ static BOOL DoAutoTestAlgorithms (void)
 	if (!TestSectorBufEncryption (ci))
 		bFailed = TRUE;
 
+	/* XML parser tests */
+	if (!XmlTest ())
+		bFailed = TRUE;
+
 	crypto_close (ci);
 	return !bFailed;
 }
@@ -1742,5 +1747,62 @@ BOOL test_pkcs5 ()
 	if (memcmp (dk, "\xd0\x53\xa2\x30\x6f\x45\x81\xeb\xbc\x06\x81\xc5\xe7\x53\xa8\x5d\xc7\xf1\x23\x33\x1e\xbe\x64\x2c\x3b\x0f\x26\xd7\x00\xe1\x95\xc9\x65\x26\xb1\x85\xbe\x1e\xe2\xf4\x9b\xfc\x6b\x14\x84\xda\x24\x61\xa0\x1b\x9e\x79\x5c\xee\x69\x6e\xf9\x25\xb1\x1d\xca\xa0\x31\xba\x02\x6f\x9e\x99\x0f\xdb\x25\x01\x5b\xf1\xc7\x10\x19\x53\x3b\x29\x3f\x18\x00\xd6\xfc\x85\x03\xdc\xf2\xe5\xe9\x5a\xb1\x1e\x61\xde", 96) != 0)
 		return FALSE;
 #endif
+	return TRUE;
+}
+
+BOOL XmlTest (void)
+{
+	char buffer[10];
+
+	/* XmlGetAttributeText tests */
+
+	/* 1. length size - 1 accepted */
+	char xmlAttrValid[] = "<Node attr=\"123456789\"></Node>";
+	if (XmlGetAttributeText (xmlAttrValid, "attr", buffer, sizeof (buffer)) == NULL
+		|| strcmp (buffer, "123456789") != 0)
+		return FALSE;
+
+	/* 2. length size rejected (off-by-one: would write NUL past buffer end) */
+	char xmlAttrOverflow[] = "<Node attr=\"1234567890\"></Node>";
+	if (XmlGetAttributeText (xmlAttrOverflow, "attr", buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+	/* 3. malformed: closing quote absent returns NULL */
+	char xmlAttrMissingQuote[] = "<Node attr=\"123456789></Node>";
+	if (XmlGetAttributeText (xmlAttrMissingQuote, "attr", buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+	/* 4. closing quote belongs to a later tag, not the current one */
+	char xmlAttrCrossTag[] = "<Node attr=\"123456789></Node><Other attr=\"test\"></Other>";
+	if (XmlGetAttributeText (xmlAttrCrossTag, "attr", buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+
+	/* XmlGetNodeText tests */
+
+	/* 5. length size - 1 accepted */
+	char xmlNodeValid[] = "<Node>123456789</Node>";
+	if (XmlGetNodeText (xmlNodeValid, buffer, sizeof (buffer)) == NULL
+		|| strcmp (buffer, "123456789") != 0)
+		return FALSE;
+
+	/* 6. length size rejected (off-by-one: would write NUL past buffer end) */
+	char xmlNodeOverflow[] = "<Node>1234567890</Node>";
+	if (XmlGetNodeText (xmlNodeOverflow, buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+	/* 7. escaped text accepted: raw input is larger than buffer but decoded
+	   output fits. Decoded: "<>&456789" (9 chars), buffer is 10 bytes. */
+	char xmlNodeEscaped[] = "<Node>&lt;&gt;&amp;456789</Node>";
+	if (XmlGetNodeText (xmlNodeEscaped, buffer, sizeof (buffer)) == NULL
+		|| strcmp (buffer, "<>&456789") != 0)
+		return FALSE;
+
+	/* 8. escaped text rejected: decoded output is exactly size (10 chars),
+	   leaving no room for the NUL terminator. Decoded: "<>&4567890" (10 chars). */
+	char xmlNodeEscapedOverflow[] = "<Node>&lt;&gt;&amp;4567890</Node>";
+	if (XmlGetNodeText (xmlNodeEscapedOverflow, buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
 	return TRUE;
 }
