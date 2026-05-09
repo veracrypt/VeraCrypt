@@ -21,6 +21,10 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize);
 char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *attrName, const char *attrValue);
 char *XmlQuoteText (const char *textSrc, char *textDst, int textDstMaxSize);
 
+#if !defined(TC_WINDOWS_DRIVER) && !defined(_UEFI)
+BOOL XmlTest (void);
+#endif
+
 #if !defined(_UEFI)
 wchar_t *XmlQuoteTextW(const wchar_t *textSrc, wchar_t *textDst, int textDstMaxSize);
 int XmlWriteHeader (FILE *file);

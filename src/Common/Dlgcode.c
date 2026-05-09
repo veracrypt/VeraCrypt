@@ -7705,8 +7705,14 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (lw == IDC_AUTO)
 		{
+			BOOL testsPassed;
 			WaitCursor ();
-			if (!AutoTestAlgorithms())
+			testsPassed = AutoTestAlgorithms();
+			#if !defined(TC_WINDOWS_DRIVER) && !defined(_UEFI)
+			if (testsPassed && !XmlTest())
+				testsPassed = FALSE;
+			#endif
+			if (!testsPassed)
 			{
 				ShowWindow(GetDlgItem(hwndDlg, IDC_TESTS_MESSAGE), SW_SHOWNORMAL);
 				SetWindowTextW(GetDlgItem(hwndDlg, IDC_TESTS_MESSAGE), GetString ("TESTS_FAILED"));
