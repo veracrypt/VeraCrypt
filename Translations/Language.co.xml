@@ -6,7 +6,7 @@ Information about Corsican localization:
 	https://github.com/veracrypt/VeraCrypt/blob/master/Translations/Language.co.xml
 
 2. History of Corsican translation for VeraCrypt:
-	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28)
+	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28)
 	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.27),
 	          Aug. 31st (1.26.27), Sep. 27th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
@@ -22,7 +22,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.28">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.2" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.3" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -1691,18 +1691,18 @@ Information about Corsican localization:
 	    <entry lang="co" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">A parolla d’intesa deve cuntene omancu 20 caratteri per pudè impiegà u valore PIM Argon2 specificatu.\nE parolle d’intesa più corte ponu solu esse impiegate s’è u PIM Argon2 hè uguale à 12 o superiore.</entry>
 	    <entry lang="co" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3">Muntà i vulumi NTFS cù u pilotu ntfs3 di u nocciulu Linux</entry>
 	    <entry lang="co" key="LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP">Solu Linux. Quandu st’ozzione hè attivata, VeraCrypt esamineghja l’apparechju virtuale dicifratu cù « blkid -p » è munta i sistemi di schedarii NTFS scuperti cù ntfs3 invece di u terminale NTFS predefinitu. S’è a scuperta NTFS ùn riesce, VeraCrypt impiegheghja a selezzione autumatica nurmale di sistema di schedarii. S’è ntfs3 hè indispunibule, o bluccatu da a distribuzione, a muntatura pò fiascà. St’ozzione d’accettazione pò evità i blucchime d’interruzzione o d’invernazione cagiunati da sistemi di schedarii FUSE cù spaziu d’utilizatore senza risposta.</entry>
-	    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Normal unmount of volume {0} failed. This can happen when applications still have files or directories open on the volume, or when the backing device was disconnected and the mount became stale.\n\nIf the device is still connected, choose No, close applications using the volume, and try unmounting again.\n\nIf the device was disconnected or the mount is stale, VeraCrypt can attempt emergency cleanup by lazy-detaching the filesystem and removing or scheduling removal of VeraCrypt kernel objects. Pending writes may have failed, data may be lost, and cleanup may remain pending until applications close open files. Check the filesystem with fsck or the appropriate repair tool before using it again.\n\nContinue?</entry>
-	    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNTED">Emergency cleanup for volume {0} has been initiated. If the volume was disconnected, the mount was stale, or there were pending writes, check the filesystem with fsck or the appropriate repair tool before using it again.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_WRITING_DATA">Creating volume data. Please wait.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Finalizing volume creation: writing backup header.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_FLUSHING_DATA">Finalizing volume creation: flushing data to disk. This can take several minutes on large volumes or slow/USB storage.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_FINISHED">Finalizing volume creation.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_ABORTED">Volume creation has been aborted.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_ERROR">Volume creation failed.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Finalizing volume creation: mounting temporary volume.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Finalizing volume creation: preparing temporary device.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_CREATING_FILESYSTEM">Finalizing volume creation: creating filesystem using {0}.</entry>
-	    <entry lang="en" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Finalizing volume creation: dismounting temporary volume.</entry>
+	    <entry lang="co" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Fiascu di a smuntatura nurmale di u vulume {0}. Què pò accade quandu qualchì appiecazione hà sempre schedarii o cartulari aperti nant’à u vulume, o quandu l’apparechju di salvaguardia hè statu discunnessu è chì a muntatura hè diventata instabile.\n\nS’è l’apparechju hè sempre cunnessu, sceglie Nò, chjode l’appiecazioni chì impieganu u vulume è pruvà torna à smuntallu.\n\nS’è l’apparechju hè statu discunnessu o s’è a muntatura hè instabile, VeraCrypt pò fà un tentativu di nettata d’urgenza stacchendu u sistema di schedarii di manera attimpata è cacciendu - o pianificà a cacciatura di - l’oggetti di u nocciulu VeraCrypt. E scritture in attesa ponu esse fiascate, i dati ponu esse persi, è a nettata pò stà in attesa fin’à ciò chì l’appiecazioni chjodinu i schedarii aperti. Verificà u sistema di schedarii cù « fsck » o cù l’attrezzu di riparazione adequatu prima d’impiegallu torna.\n\nCuntinuà ?</entry>
+	    <entry lang="co" key="LINUX_EMERGENCY_UNMOUNTED">A nettata d’urgenza per u vulume {0} hè stata lanciata. S’è u vulume hè statu discunnessu, o a muntatura era instabile, o ancu ci era scritture in attesa, verificà u sistema di schedarii cù « fsck » o cù l’attrezzu di riparazione adequatu prima d’impiegallu torna.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_WRITING_DATA">Creazione di i dati di u vulume. Aspittate per piacè.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Cumpiimentu di a creazione di u vulume : scrittura di l’intestatura di a salvaguardia.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_FLUSHING_DATA">Cumpiimentu di a creazione di u vulume : viutatura di i dati nant’à u discu. St’azzione pò piglià parechji minuti nant’à i vulumi maiò o nant’à una memoria lenta o USB.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_FINISHED">Cumpiimentu di a creazione di u vulume.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_ABORTED">A creazione di u vulume hè stata interrotta.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_ERROR">Fiascu di a creazione di u vulume.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Cumpiimentu di a creazione di u vulume : muntatura di u vulume timpurariu.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Cumpiimentu di a creazione di u vulume : appruntata di l’apparechju timpurariu.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_CREATING_FILESYSTEM">Cumpiimentu di a creazione di u vulume : creazione di u sistema di schedarii impieghendu {0}.</entry>
+	    <entry lang="co" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Cumpiimentu di a creazione di u vulume : smuntatura di u vulume timpurariu.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
