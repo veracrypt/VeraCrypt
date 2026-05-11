@@ -1682,11 +1682,11 @@
     <entry lang="pl" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Finalizowanie tworzenia wolumenu: przygotowywanie tymczasowego urządzenia.</entry>
     <entry lang="pl" key="FORMAT_STAGE_CREATING_FILESYSTEM">Finalizowanie tworzenia wolumenu: tworzenie systemu plików za pomocą {0}.</entry>
     <entry lang="pl" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Finalizowanie tworzenia wolumenu: odłączanie wolumenu tymczasowego.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYNTHESIZED_DEVICE">The selected device '{0}' is an APFS synthesized container or volume and cannot be used as a raw VeraCrypt volume host.\n\nSelect the physical APFS store partition{1} instead.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_SYSTEM_PARTITION">The selected device '{0}' is a macOS system/support partition and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYSTEM_STORE">The selected APFS physical store '{0}' contains the currently mounted macOS system volume and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_NOT_WRITABLE">macOS reports the selected device '{0}' as read-only. Select a writable physical partition or disk.</entry>
-    <entry lang="en" key="MACOSX_APFS_EROFS_HINT">macOS reported the selected device as read-only. If this is an APFS disk, make sure you selected the physical APFS store partition, not an APFS synthesized volume. Use Disk Utility or 'diskutil list' to identify the physical partition, then retry.</entry>
+    <entry lang="pl" key="MACOSX_APFS_SYNTHESIZED_DEVICE">Wybrane urządzenie „{0}” jest kontenerem lub wolumenem syntezowanym APFS i nie można go używać jako hosta surowego wolumenu VeraCrypt.\n\nZamiast tego wybierz fizyczną partycję {1} magazynu APFS.</entry>
+    <entry lang="pl" key="MACOSX_DEVICE_SYSTEM_PARTITION">Wybrane urządzenie „{0}” jest partycją systemową/obsługową systemu macOS i nie może być używane jako host wolumenu VeraCrypt.</entry>
+    <entry lang="pl" key="MACOSX_APFS_SYSTEM_STORE">Wybrany fizyczny magazyn APFS „{0}” zawiera aktualnie zamontowany wolumen systemu macOS i nie może być używany jako host wolumenu VeraCrypt.</entry>
+    <entry lang="pl" key="MACOSX_DEVICE_NOT_WRITABLE">System macOS zgłasza wybrane urządzenie „{0}” jako tylko do odczytu. Wybierz zapisywalną partycję fizyczną lub dysk.</entry>
+    <entry lang="pl" key="MACOSX_APFS_EROFS_HINT">System macOS zgłosił wybrane urządzenie jako tylko do odczytu. Jeśli jest to dysk APFS, upewnij się, że wybrano fizyczną partycję magazynu APFS, a nie wolumen syntezowany przez APFS. Użyj narzędzia dyskowego lub polecenia „diskutil list”, aby zidentyfikować partycję fizyczną, a następnie spróbuj ponownie.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
