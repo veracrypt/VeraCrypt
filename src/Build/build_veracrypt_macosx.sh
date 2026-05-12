@@ -18,7 +18,7 @@ SOURCEPATH=$(cd "$(dirname "$SCRIPTPATH/../.")" && pwd)
 PARENTDIR=$(cd "$(dirname "$SCRIPTPATH/../../../.")" && pwd)
 
 # Default wxWidgets version
-DEFAULT_WX_VERSION="3.2.5"
+DEFAULT_WX_VERSION="3.2.10"
 WX_VERSION="$DEFAULT_WX_VERSION"
 
 # Initialize flags
