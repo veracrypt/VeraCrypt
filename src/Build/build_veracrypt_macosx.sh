@@ -21,6 +21,10 @@ PARENTDIR=$(cd "$(dirname "$SCRIPTPATH/../../../.")" && pwd)
 DEFAULT_WX_VERSION="3.2.10"
 WX_VERSION="$DEFAULT_WX_VERSION"
 
+# Default macOS deployment target for wxWidgets source builds
+DEFAULT_OSX_TARGET="12"
+OSX_TARGET=""
+
 # Initialize flags
 brew=false
 package=false
@@ -35,19 +39,27 @@ usage() {
     echo "  -p           Create a package after building"
     echo "  -f           Build with FUSE-T support"
     echo "  -l           Use local wxWidgets and disable universal binaries"
+    echo "  -t <target>  Set VC_OSX_TARGET (default: $DEFAULT_OSX_TARGET; SDK with -b)"
     echo "  -v <version> Specify wxWidgets version (default: $DEFAULT_WX_VERSION)"
     echo "  -h           Display this help message"
     exit 1
 }
 
 # Parse command-line options
-while getopts "bpflv:h" flag
+while getopts "bpflt:v:h" flag
 do
     case "${flag}" in
         b) brew=true;;
         p) package=true;;
         f) fuset=true;;
         l) local_build=true;;
+        t)
+            if [ -z "$OPTARG" ]; then
+                echo "Error: -t requires a target argument."
+                usage
+            fi
+            OSX_TARGET=${OPTARG}
+            ;;
         v)
             if [ -z "$OPTARG" ]; then
                 echo "Error: -v requires a version argument."
@@ -75,7 +87,7 @@ if [ "$brew" = true ]; then
     fi
 
     export VC_OSX_SDK=$(xcrun --show-sdk-version) # use the latest version installed, this might fail
-    export VC_OSX_TARGET=${VC_OSX_SDK}
+    export VC_OSX_TARGET=${OSX_TARGET:-${VC_OSX_SDK}}
     echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
     cd "$SOURCEPATH"
 
@@ -129,7 +141,7 @@ export WX_ROOT="$PARENTDIR/wxWidgets-$WX_VERSION"
 export WX_BUILD_DIR="$PARENTDIR/wxBuild-$WX_VERSION"
 
 # define the SDK version to use and OSX minimum target. We target 12 by default
-export VC_OSX_TARGET=12
+export VC_OSX_TARGET=${OSX_TARGET:-$DEFAULT_OSX_TARGET}
 export VC_OSX_SDK=$(xcrun --show-sdk-version) #use the latest version installed
 echo "Using MacOSX SDK $VC_OSX_SDK with target set to $VC_OSX_TARGET"
 
