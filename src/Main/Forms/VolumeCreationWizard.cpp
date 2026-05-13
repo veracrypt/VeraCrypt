@@ -22,6 +22,9 @@
 #include "Core/VolumeCreator.h"
 #include "Main/Application.h"
 #include "Main/GraphicUserInterface.h"
+#ifdef TC_MACOSX
+#include "Main/MacOSXFormatterDevice.h"
+#endif
 #include "Main/Resources.h"
 #include "VolumeCreationWizard.h"
 #include "EncryptionOptionsWizardPage.h"
@@ -192,20 +195,6 @@ namespace VeraCrypt
 			path = string ("/dev/disk") + path.substr (10);
 
 		return path;
-	}
-
-	static string GetMacOSXRawDevicePath (const string &deviceIdentifier)
-	{
-		if (deviceIdentifier.find ("/dev/rdisk") == 0)
-			return deviceIdentifier;
-
-		if (deviceIdentifier.find ("/dev/disk") == 0)
-			return string ("/dev/r") + deviceIdentifier.substr (5);
-
-		if (deviceIdentifier.find ("disk") == 0)
-			return string ("/dev/r") + deviceIdentifier;
-
-		return deviceIdentifier;
 	}
 
 	static string GetMacOSXDiskutilInfo (const VolumePath &devicePath)
@@ -844,14 +833,20 @@ namespace VeraCrypt
 					Thread::Sleep (2000);	// Try to prevent race conditions caused by OS
 
 					// Temporarily take ownership of the device if the user is not an administrator
-					UserId origDeviceOwner ((uid_t) -1);
-
 					DevicePath virtualDevice = volume->VirtualDevice;
 #ifdef TC_MACOSX
 					string virtualDeviceStr = virtualDevice;
-					if (virtualDeviceStr.find ("/dev/rdisk") != 0)
-						virtualDevice = "/dev/r" + virtualDeviceStr.substr (5);
-#endif
+					virtualDevice = GetMacOSXRawDevicePath (virtualDeviceStr);
+
+					MacOSXFormatterDeviceOwnerRestoreList changedDeviceOwners;
+					finally_do_arg (MacOSXFormatterDeviceOwnerRestoreList *, &changedDeviceOwners,
+					{
+						RestoreMacOSXFormatterDeviceOwners (*finally_arg);
+					});
+					PrepareMacOSXFormatterDevice (virtualDevice, changedDeviceOwners);
+#else
+					UserId origDeviceOwner ((uid_t) -1);
+
 					try
 					{
 						File file;
@@ -871,6 +866,7 @@ namespace VeraCrypt
 						if (finally_arg2.SystemId != (uid_t) -1)
 							Core->SetFileOwner (finally_arg, finally_arg2);
 					});
+#endif
 
 					// Create filesystem
 					list <string> args;

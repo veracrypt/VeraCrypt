@@ -26,6 +26,9 @@
 #include "Common/EMVToken.h"
 #include "Core/RandomNumberGenerator.h"
 #include "Application.h"
+#ifdef TC_MACOSX
+#include "Main/MacOSXFormatterDevice.h"
+#endif
 #include "TextUserInterface.h"
 
 namespace VeraCrypt
@@ -1065,14 +1068,20 @@ namespace VeraCrypt
 			Thread::Sleep (2000);	// Try to prevent race conditions caused by OS
 
 			// Temporarily take ownership of the device if the user is not an administrator
-			UserId origDeviceOwner ((uid_t) -1);
-
 			DevicePath virtualDevice = volume->VirtualDevice;
 #ifdef TC_MACOSX
 			string virtualDeviceStr = virtualDevice;
-			if (virtualDeviceStr.find ("/dev/rdisk") != 0)
-				virtualDevice = "/dev/r" + virtualDeviceStr.substr (5);
-#endif
+			virtualDevice = GetMacOSXRawDevicePath (virtualDeviceStr);
+
+			MacOSXFormatterDeviceOwnerRestoreList changedDeviceOwners;
+			finally_do_arg (MacOSXFormatterDeviceOwnerRestoreList *, &changedDeviceOwners,
+			{
+				RestoreMacOSXFormatterDeviceOwners (*finally_arg);
+			});
+			PrepareMacOSXFormatterDevice (virtualDevice, changedDeviceOwners);
+#else
+			UserId origDeviceOwner ((uid_t) -1);
+
 			try
 			{
 				File file;
@@ -1092,6 +1101,7 @@ namespace VeraCrypt
 				if (finally_arg2.SystemId != (uid_t) -1)
 					Core->SetFileOwner (finally_arg, finally_arg2);
 			});
+#endif
 
 			// Create filesystem
 			list <string> args;
