@@ -6,7 +6,7 @@ Information about Corsican localization:
 	https://github.com/veracrypt/VeraCrypt/blob/master/Translations/Language.co.xml
 
 2. History of Corsican translation for VeraCrypt:
-	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28)
+	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28), May 13th (1.26.28)
 	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.27),
 	          Aug. 31st (1.26.27), Sep. 27th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
@@ -1703,11 +1703,11 @@ Information about Corsican localization:
 	    <entry lang="co" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Cumpiimentu di a creazione di u vulume : appruntata di l’apparechju timpurariu.</entry>
 	    <entry lang="co" key="FORMAT_STAGE_CREATING_FILESYSTEM">Cumpiimentu di a creazione di u vulume : creazione di u sistema di schedarii impieghendu {0}.</entry>
 	    <entry lang="co" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Cumpiimentu di a creazione di u vulume : smuntatura di u vulume timpurariu.</entry>
-	    <entry lang="en" key="MACOSX_APFS_SYNTHESIZED_DEVICE">The selected device '{0}' is an APFS synthesized container or volume and cannot be used as a raw VeraCrypt volume host.\n\nSelect the physical APFS store partition{1} instead.</entry>
-	    <entry lang="en" key="MACOSX_DEVICE_SYSTEM_PARTITION">The selected device '{0}' is a macOS system/support partition and cannot be used as a VeraCrypt volume host.</entry>
-	    <entry lang="en" key="MACOSX_APFS_SYSTEM_STORE">The selected APFS physical store '{0}' contains the currently mounted macOS system volume and cannot be used as a VeraCrypt volume host.</entry>
-	    <entry lang="en" key="MACOSX_DEVICE_NOT_WRITABLE">macOS reports the selected device '{0}' as read-only. Select a writable physical partition or disk.</entry>
-	    <entry lang="en" key="MACOSX_APFS_EROFS_HINT">macOS reported the selected device as read-only. If this is an APFS disk, make sure you selected the physical APFS store partition, not an APFS synthesized volume. Use Disk Utility or 'diskutil list' to identify the physical partition, then retry.</entry>
+	    <entry lang="co" key="MACOSX_APFS_SYNTHESIZED_DEVICE">L’apparechju selezziunatu « {0} » hè un cuntenidore o un vulume APFS sintetizatu è ùn pò micca esse impiegatu cum’è un ospite di vulume VeraCrypt di basa.\n\nSelezziunate piuttostu a partizione{1} d’allucamentu APFS fisica.</entry>
+	    <entry lang="co" key="MACOSX_DEVICE_SYSTEM_PARTITION">L’apparechju selezziunatu « {0} » hè una partizione macOS di u sistema o d’assistenza è ùn pò micca esse impiegata cum’è un ospite di vulume VeraCrypt.</entry>
+	    <entry lang="co" key="MACOSX_APFS_SYSTEM_STORE">L’allucamentu fisicu APFS selezziunatu « {0} » cuntene u vulume di u sistema macOS muntatu attualmente è ùn pò micca esse impiegatu cum’è un ospite di vulume VeraCrypt.</entry>
+	    <entry lang="co" key="MACOSX_DEVICE_NOT_WRITABLE">macOS signaleghja l’apparechju selezziunatu « {0} » cum’è essendu in lettura sola. Selezziunate una partizione fisica o un discu induve si pò scrive.</entry>
+	    <entry lang="co" key="MACOSX_APFS_EROFS_HINT">macOS hà signalatu l’apparechju selezziunatu cum’è essendu in lettura sola. S’ellu hè un discu APFS, assicuratevi chì ghjè a partizione d’allucamentu APFS fisica chì hè selezziunata, è micca un vulume APFS sintetizatu. Impiegate l’attrezzu di discu o « diskutil list » per identificà a partizione fisica eppò pruvate torna.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
