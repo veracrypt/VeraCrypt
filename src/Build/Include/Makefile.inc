@@ -119,7 +119,16 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 -include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
 
 
+# Deterministic static library: the 'D' modifier zeroes member mtime/uid/gid
+# and 'ranlib -D' writes a deterministic index. Both are probed functionally
+# (running them on a throwaway archive) rather than by parsing --help, whose
+# wording varies between binutils versions. Very old binutils that lack the
+# feature simply falls back to a normal, still-correct archive.
+AR_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) Drc $$t.a $$t >/dev/null 2>&1 && echo D; rm -f $$t $$t.a)
+RANLIB_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) rc $$t.a $$t >/dev/null 2>&1; $(RANLIB) -D $$t.a >/dev/null 2>&1 && echo -D; rm -f $$t $$t.a)
+
 $(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
 	@echo Updating library $@
-	$(AR) $(AFLAGS) -rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
-	$(RANLIB) $@
+	rm -f $@
+	$(AR) $(AFLAGS) $(AR_DETERMINISTIC)rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
+	$(RANLIB) $(RANLIB_DETERMINISTIC) $@

@@ -582,6 +582,53 @@ CFLAGS := $(C_CXX_FLAGS) $(CFLAGS) $(TC_EXTRA_CFLAGS)
 CXXFLAGS := $(C_CXX_FLAGS) $(CXXFLAGS) $(TC_EXTRA_CXXFLAGS)
 LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 
+#------ Reproducible build configuration ------
+# Goal: byte-identical binaries from identical sources regardless of build
+# path, build host, build user or wall-clock time.
+#
+# Every flag below is probed for compiler support before use, so this block
+# is a safe no-op on older toolchains (VeraCrypt still supports GCC 4.x) and
+# never breaks a build that would otherwise have succeeded.
+#
+# SOURCE_DATE_EPOCH (https://reproducible-builds.org/specs/source-date-epoch/)
+# is honoured by GCC/Clang for any residual __DATE__/__TIME__ expansion, by
+# ar/ranlib in deterministic mode, and by tar, gzip and makeself for archive
+# member timestamps. If the caller does not set it, derive a stable value
+# from the HEAD commit; fall back to a fixed constant for tarball builds with
+# no git tree so that unattended builds are still deterministic.
+ifndef SOURCE_DATE_EPOCH
+export SOURCE_DATE_EPOCH := $(shell git -C $(BASE_DIR) log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
+endif
+
+# cc-option: return $(1) if the C compiler accepts it, empty otherwise.
+cc-option = $(shell printf 'int main(void){return 0;}' | $(CC) $(1) -x c -c - -o /dev/null >/dev/null 2>&1 && echo $(1))
+
+# Normalise build paths embedded in debug info, assertions and __FILE__ so
+# the binary does not depend on where the source tree lives. -ffile-prefix-map
+# needs GCC >= 8 / Clang >= 10; fall back to the older -fdebug-prefix-map
+# (GCC >= 4.3) which at least normalises the path recorded in debug info.
+REPRODUCIBLE_FLAGS := $(call cc-option,-ffile-prefix-map=$(BASE_DIR)=.)
+ifeq "$(REPRODUCIBLE_FLAGS)" ""
+REPRODUCIBLE_FLAGS := $(call cc-option,-fdebug-prefix-map=$(BASE_DIR)=.)
+endif
+# Drop the recorded compiler command line, which embeds absolute paths and
+# host-specific options into .comment / .GCC.command.line.
+REPRODUCIBLE_FLAGS += $(call cc-option,-fno-record-gcc-switches)
+
+CFLAGS += $(REPRODUCIBLE_FLAGS)
+CXXFLAGS += $(REPRODUCIBLE_FLAGS)
+WXCONFIG_CFLAGS += $(REPRODUCIBLE_FLAGS)
+WXCONFIG_CXXFLAGS += $(REPRODUCIBLE_FLAGS)
+
+# Deterministic linking: pin the GNU build-id to a stable hash of the output
+# instead of letting it vary with non-deterministic linker inputs. Only added
+# when the linker actually accepts it.
+ifeq "$(PLATFORM)" "Linux"
+REPRODUCIBLE_LFLAGS := $(shell printf 'int main(void){return 0;}' | $(CC) -Wl,--build-id=sha1 -x c - -o /dev/null >/dev/null 2>&1 && echo -Wl,--build-id=sha1)
+LFLAGS += $(REPRODUCIBLE_LFLAGS)
+endif
+
+
 WX_CONFIGURE_FLAGS += -disable-shared --disable-dependency-tracking --enable-exceptions --enable-dataobj --enable-mimetype
 
 ifdef VC_WX_MINIMAL

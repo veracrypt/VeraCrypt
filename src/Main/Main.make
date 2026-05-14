@@ -200,7 +200,7 @@ $(APPNAME): $(LIBS) $(OBJS)
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifndef NOSTRIP
-	strip $(APPNAME)
+	strip $(shell strip --enable-deterministic-archives -V >/dev/null 2>&1 && echo --enable-deterministic-archives) $(APPNAME)
 endif
 
 ifndef NOTEST
@@ -329,6 +329,11 @@ ifndef TC_NO_GUI
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
 	ln -sf usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
 endif
+	# Normalise modification times of every staged file. cp preserves the
+	# checkout-time mtimes of the source tree, which would otherwise leak
+	# into the tar/makeself archives and break reproducibility.
+	find $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir \
+		-exec touch --no-dereference --date=@$(SOURCE_DATE_EPOCH) {} +
 
 
 install: prepare
@@ -339,7 +344,17 @@ endif
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
-	tar cfz $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME) --directory $(BASE_DIR)/Setup/Linux usr
+	# Deterministic tarball: sort members, pin mtime to SOURCE_DATE_EPOCH,
+	# drop owner/group identity, and use gzip -n so no timestamp/name is
+	# stored in the gzip header.
+	tar --sort=name --mtime=@$(SOURCE_DATE_EPOCH) \
+		--owner=0 --group=0 --numeric-owner \
+		--pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime \
+		-cf $(BASE_DIR)/Setup/Linux/$(APPNAME)_$(TC_VERSION).tar \
+		--directory $(BASE_DIR)/Setup/Linux usr
+	gzip -9 -n -c $(BASE_DIR)/Setup/Linux/$(APPNAME)_$(TC_VERSION).tar \
+		> $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME)
+	rm -f $(BASE_DIR)/Setup/Linux/$(APPNAME)_$(TC_VERSION).tar
 
 	@rm -fr $(INTERNAL_INSTALLER_NAME)
 	@echo "#!/bin/sh" > $(INTERNAL_INSTALLER_NAME)
@@ -356,7 +371,11 @@ package: prepare
 	rm -fr $(BASE_DIR)/Setup/Linux/packaging
 	mkdir -p $(BASE_DIR)/Setup/Linux/packaging
 	cp $(INTERNAL_INSTALLER_NAME) $(BASE_DIR)/Setup/Linux/packaging/.
-	makeself $(BASE_DIR)/Setup/Linux/packaging $(BASE_DIR)/Setup/Linux/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) Installer" ./$(INTERNAL_INSTALLER_NAME)
+	# makeself: --packaging-date pins the banner date, SOURCE_DATE_EPOCH is
+	# honoured by the embedded tar/gzip, and the archive is sorted so the
+	# self-extracting installer is byte-identical across builds.
+	makeself --packaging-date "@$(SOURCE_DATE_EPOCH)" --tar-extra "--sort=name --mtime=@$(SOURCE_DATE_EPOCH) --owner=0 --group=0 --numeric-owner" \
+		$(BASE_DIR)/Setup/Linux/packaging $(BASE_DIR)/Setup/Linux/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) Installer" ./$(INTERNAL_INSTALLER_NAME)
 
 appimage: prepare
 	@set -e; \
