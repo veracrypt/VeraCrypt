@@ -1685,11 +1685,11 @@
     <entry lang="de" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Abschluss der Volume-Erstellung: Vorbereiten des temporären Geräts.</entry>
     <entry lang="de" key="FORMAT_STAGE_CREATING_FILESYSTEM">Abschluss der Volume-Erstellung: Erstellen des Dateisystems mit {0}.</entry>
     <entry lang="de" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Abschluss der Volume-Erstellung: Temporäres Volume wird ausgehängt.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYNTHESIZED_DEVICE">The selected device '{0}' is an APFS synthesized container or volume and cannot be used as a raw VeraCrypt volume host.\n\nSelect the physical APFS store partition{1} instead.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_SYSTEM_PARTITION">The selected device '{0}' is a macOS system/support partition and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYSTEM_STORE">The selected APFS physical store '{0}' contains the currently mounted macOS system volume and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_NOT_WRITABLE">macOS reports the selected device '{0}' as read-only. Select a writable physical partition or disk.</entry>
-    <entry lang="en" key="MACOSX_APFS_EROFS_HINT">macOS reported the selected device as read-only. If this is an APFS disk, make sure you selected the physical APFS store partition, not an APFS synthesized volume. Use Disk Utility or 'diskutil list' to identify the physical partition, then retry.</entry>
+    <entry lang="de" key="MACOSX_APFS_SYNTHESIZED_DEVICE">Das ausgewählte Gerät '{0}' ist ein synthetischer APFS-Container oder ein synthetisches APFS-Volume und kann nicht als Host für ein VeraCrypt-Raw-Volume verwendet werden.\n\nWählen Sie stattdessen die physische APFS-Speicherpartition{1} aus.</entry>
+    <entry lang="de" key="MACOSX_DEVICE_SYSTEM_PARTITION">Das ausgewählte Gerät '{0}' ist eine macOS-System-/Support-Partition und kann nicht als Host für ein VeraCrypt-Volume verwendet werden.</entry>
+    <entry lang="de" key="MACOSX_APFS_SYSTEM_STORE">Die ausgewählte physische APFS-Speicherpartition '{0}' enthält das derzeit eingebundene macOS-Systemvolume und kann nicht als VeraCrypt-Volume-Host verwendet werden.</entry>
+    <entry lang="de" key="MACOSX_DEVICE_NOT_WRITABLE">macOS meldet, dass das ausgewählte Gerät '{0}' schreibgeschützt ist. Wählen Sie eine beschreibbare physische Partition oder Festplatte aus.</entry>
+    <entry lang="de" key="MACOSX_APFS_EROFS_HINT">macOS hat das ausgewählte Gerät als schreibgeschützt gemeldet. Handelt es sich um eine APFS-Festplatte, stellen Sie sicher, dass Sie die physische APFS-Speicherpartition ausgewählt haben und nicht ein synthetisches APFS-Volume. Identifizieren Sie die physische Partition mit dem Festplatten-Dienstprogramm oder dem Befehl „diskutil list“ und versuchen Sie es dann erneut.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
