@@ -124,6 +124,8 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 # (running them on a throwaway archive) rather than by parsing --help, whose
 # wording varies between binutils versions. Very old binutils that lack the
 # feature simply falls back to a normal, still-correct archive.
+# Probe also covers BSD ar / macOS libtool ar (neither supports -D): both
+# variables come out empty there and the original ar/ranlib calls are used.
 AR_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) Drc $$t.a $$t >/dev/null 2>&1 && echo D; rm -f $$t $$t.a)
 RANLIB_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) rc $$t.a $$t >/dev/null 2>&1; $(RANLIB) -D $$t.a >/dev/null 2>&1 && echo -D; rm -f $$t $$t.a)
 

@@ -607,9 +607,13 @@ cc-option = $(shell printf 'int main(void){return 0;}' | $(CC) $(1) -x c -c - -o
 # the binary does not depend on where the source tree lives. -ffile-prefix-map
 # needs GCC >= 8 / Clang >= 10; fall back to the older -fdebug-prefix-map
 # (GCC >= 4.3) which at least normalises the path recorded in debug info.
-REPRODUCIBLE_FLAGS := $(call cc-option,-ffile-prefix-map=$(BASE_DIR)=.)
+# Linux-only block: out of scope for FreeBSD/macOS. $(abspath) because
+# -ffile-prefix-map needs an absolute prefix to match.
+ifeq "$(PLATFORM)" "Linux"
+REPRO_BASE_DIR := $(abspath $(BASE_DIR))
+REPRODUCIBLE_FLAGS := $(call cc-option,-ffile-prefix-map=$(REPRO_BASE_DIR)=.)
 ifeq "$(REPRODUCIBLE_FLAGS)" ""
-REPRODUCIBLE_FLAGS := $(call cc-option,-fdebug-prefix-map=$(BASE_DIR)=.)
+REPRODUCIBLE_FLAGS := $(call cc-option,-fdebug-prefix-map=$(REPRO_BASE_DIR)=.)
 endif
 # Drop the recorded compiler command line, which embeds absolute paths and
 # host-specific options into .comment / .GCC.command.line.
@@ -623,7 +627,6 @@ WXCONFIG_CXXFLAGS += $(REPRODUCIBLE_FLAGS)
 # Deterministic linking: pin the GNU build-id to a stable hash of the output
 # instead of letting it vary with non-deterministic linker inputs. Only added
 # when the linker actually accepts it.
-ifeq "$(PLATFORM)" "Linux"
 REPRODUCIBLE_LFLAGS := $(shell printf 'int main(void){return 0;}' | $(CC) -Wl,--build-id=sha1 -x c - -o /dev/null >/dev/null 2>&1 && echo -Wl,--build-id=sha1)
 LFLAGS += $(REPRODUCIBLE_LFLAGS)
 endif

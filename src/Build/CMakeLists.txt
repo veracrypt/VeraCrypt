@@ -27,6 +27,48 @@ else()
 endif()
 project(${PROJECT_NAME})
 
+# SOURCE_DATE_EPOCH for the cpack-driven DEB/RPM/openSUSE pipeline.
+# Precedence: -DSOURCE_DATE_EPOCH=N, env, git HEAD, fixed fallback.
+# Re-exported to ENV so dpkg-deb/rpmbuild/tar inherit it.
+if(NOT DEFINED SOURCE_DATE_EPOCH)
+    if(DEFINED ENV{SOURCE_DATE_EPOCH})
+        set(SOURCE_DATE_EPOCH "$ENV{SOURCE_DATE_EPOCH}")
+    else()
+        execute_process(
+            COMMAND git -C "$ENV{SOURCEPATH}" log -1 --pretty=%ct
+            OUTPUT_VARIABLE _git_ct
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_QUIET
+            RESULT_VARIABLE _git_rc)
+        if(_git_rc EQUAL 0 AND _git_ct)
+            set(SOURCE_DATE_EPOCH "${_git_ct}")
+        else()
+            set(SOURCE_DATE_EPOCH "1577836800")
+        endif()
+    endif()
+endif()
+message(STATUS "SOURCE_DATE_EPOCH = ${SOURCE_DATE_EPOCH}")
+set(ENV{SOURCE_DATE_EPOCH} "${SOURCE_DATE_EPOCH}")
+# Avoid nondeterministic ordering from cpack 3.18+ parallel compression.
+set(CPACK_THREADS 1)
+
+# Clamp staging-tree mtimes once more before cpack runs (cmake install()
+# can touch files after make's prepare). Linux + GNU touch only.
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    execute_process(
+        COMMAND touch --no-dereference --date=@0 /dev/null
+        RESULT_VARIABLE _gnu_touch_rc
+        OUTPUT_QUIET ERROR_QUIET)
+    if(_gnu_touch_rc EQUAL 0)
+        install(CODE "
+            execute_process(
+                COMMAND find \"\${CMAKE_INSTALL_PREFIX}\" -exec
+                    touch --no-dereference --date=@${SOURCE_DATE_EPOCH} {} +
+                OUTPUT_QUIET ERROR_QUIET)
+        ")
+    endif()
+endif()
+
 # - Check whether 'Tcdefs.h' and 'License.txt' exist
 if(NOT EXISTS "$ENV{SOURCEPATH}/Common/Tcdefs.h")
 	MESSAGE(FATAL_ERROR "Tcdefs.h does not exist.")

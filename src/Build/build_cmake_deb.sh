@@ -9,6 +9,14 @@
 # Errors should cause script to exit
 set -e
 
+# Compute and export SOURCE_DATE_EPOCH so cmake/cpack inherit it (they get
+# an empty env from this shell otherwise). Precedence: caller, git HEAD,
+# fallback constant matching src/Makefile and CMakeLists.txt.
+if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
+    SOURCE_DATE_EPOCH=$(git -C "$(dirname "$0")/../.." log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
+fi
+export SOURCE_DATE_EPOCH
+
 # Absolute path to this script
 export SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in
@@ -158,8 +166,8 @@ rm -rf $PARENTDIR/VeraCrypt_Packaging
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
 
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
 
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake || exit 1
