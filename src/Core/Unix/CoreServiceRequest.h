@@ -126,6 +126,22 @@ namespace VeraCrypt
 		TC_SERIALIZABLE (ExitRequest);
 	};
 
+#ifdef TC_MACOSX
+	struct ExecuteMacOSXAPFSFormatterRequest : CoreServiceRequest
+	{
+		ExecuteMacOSXAPFSFormatterRequest () { }
+		ExecuteMacOSXAPFSFormatterRequest (const DevicePath &devicePath, uint64 userId, uint64 groupId)
+			: Device (devicePath), OwnerGroupId (groupId), OwnerUserId (userId) { }
+		TC_SERIALIZABLE (ExecuteMacOSXAPFSFormatterRequest);
+
+		virtual bool RequiresElevation () const;
+
+		DevicePath Device;
+		uint64 OwnerGroupId;
+		uint64 OwnerUserId;
+	};
+#endif
+
 	struct MountVolumeRequest : CoreServiceRequest
 	{
 		MountVolumeRequest () { }

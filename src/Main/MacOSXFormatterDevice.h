@@ -14,6 +14,8 @@
 
 #ifdef TC_MACOSX
 #include <unistd.h>
+#include "Core/Unix/CoreService.h"
+#include "Platform/Unix/Process.h"
 
 namespace VeraCrypt
 {
@@ -57,6 +59,33 @@ namespace VeraCrypt
 			return string ("/dev/disk") + deviceIdentifier.substr (5);
 
 		return deviceIdentifier;
+	}
+
+	inline bool IsMacOSXAPFSFormatter (const string &fsFormatter)
+	{
+		size_t namePos = fsFormatter.find_last_of ('/');
+		string fsFormatterName = namePos == string::npos ? fsFormatter : fsFormatter.substr (namePos + 1);
+		return fsFormatterName == "newfs_apfs";
+	}
+
+	inline bool UseElevatedMacOSXAPFSFormatter (const string &fsFormatter)
+	{
+		return IsMacOSXAPFSFormatter (fsFormatter) && !Core->HasAdminPrivileges();
+	}
+
+	inline void AddMacOSXAPFSFormatterUserArgs (list <string> &args)
+	{
+		stringstream uid;
+		stringstream gid;
+
+		// The APFS formatter may run elevated, so preserve the invoking user's ownership.
+		uid << getuid();
+		gid << getgid();
+
+		args.push_back ("-U");
+		args.push_back (uid.str());
+		args.push_back ("-G");
+		args.push_back (gid.str());
 	}
 
 	struct MacOSXFormatterDeviceOwnerRestore
@@ -124,6 +153,20 @@ namespace VeraCrypt
 			}
 			catch (...) { }
 		}
+	}
+
+	inline void ExecuteMacOSXFilesystemFormatter (const string &fsFormatter, const list <string> &args)
+	{
+		if (UseElevatedMacOSXAPFSFormatter (fsFormatter))
+		{
+			if (args.empty())
+				throw ParameterIncorrect (SRC_POS);
+
+			CoreService::RequestExecuteMacOSXAPFSFormatter (DevicePath (args.back()), getuid(), getgid());
+			return;
+		}
+
+		Process::Execute (IsMacOSXAPFSFormatter (fsFormatter) ? CoreService::GetMacOSXAPFSFormatterPath() : fsFormatter, args);
 	}
 }
 #endif // TC_MACOSX
