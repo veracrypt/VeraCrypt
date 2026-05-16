@@ -71,7 +71,16 @@ namespace VeraCrypt
 		assert (memory != nullptr);
 		free (memory);
 	}
-	
+
+	void Memory::FreeSecure (void *memory, size_t size)
+	{
+		if (memory)
+		{
+			burn (memory, size);
+			free (memory);
+		}
+	}
+
 	void Memory::FreeAligned (void *memory)
 	{
 		assert (memory != nullptr);
