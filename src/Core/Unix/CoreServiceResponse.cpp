@@ -88,6 +88,18 @@ namespace VeraCrypt
 		Serializable::SerializeList (stream, HostDevices);
 	}
 
+#ifdef TC_MACOSX
+	// ExecuteMacOSXAPFSFormatterResponse
+	void ExecuteMacOSXAPFSFormatterResponse::Deserialize (shared_ptr <Stream> stream)
+	{
+	}
+
+	void ExecuteMacOSXAPFSFormatterResponse::Serialize (shared_ptr <Stream> stream) const
+	{
+		Serializable::Serialize (stream);
+	}
+#endif
+
 	// MountVolumeResponse
 	void MountVolumeResponse::Deserialize (shared_ptr <Stream> stream)
 	{
@@ -118,6 +130,9 @@ namespace VeraCrypt
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetDeviceSectorSizeResponse);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetDeviceSizeResponse);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetHostDevicesResponse);
+#ifdef TC_MACOSX
+	TC_SERIALIZER_FACTORY_ADD_CLASS (ExecuteMacOSXAPFSFormatterResponse);
+#endif
 	TC_SERIALIZER_FACTORY_ADD_CLASS (MountVolumeResponse);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (SetFileOwnerResponse);
 }

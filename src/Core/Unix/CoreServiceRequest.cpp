@@ -219,6 +219,32 @@ namespace VeraCrypt
 		CoreServiceRequest::Serialize (stream);
 	}
 
+#ifdef TC_MACOSX
+	// ExecuteMacOSXAPFSFormatterRequest
+	void ExecuteMacOSXAPFSFormatterRequest::Deserialize (shared_ptr <Stream> stream)
+	{
+		CoreServiceRequest::Deserialize (stream);
+		Serializer sr (stream);
+		Device = sr.DeserializeWString ("Device");
+		sr.Deserialize ("OwnerGroupId", OwnerGroupId);
+		sr.Deserialize ("OwnerUserId", OwnerUserId);
+	}
+
+	bool ExecuteMacOSXAPFSFormatterRequest::RequiresElevation () const
+	{
+		return !Core->HasAdminPrivileges();
+	}
+
+	void ExecuteMacOSXAPFSFormatterRequest::Serialize (shared_ptr <Stream> stream) const
+	{
+		CoreServiceRequest::Serialize (stream);
+		Serializer sr (stream);
+		sr.Serialize ("Device", wstring (Device));
+		sr.Serialize ("OwnerGroupId", OwnerGroupId);
+		sr.Serialize ("OwnerUserId", OwnerUserId);
+	}
+#endif
+
 	// MountVolumeRequest
 	void MountVolumeRequest::Deserialize (shared_ptr <Stream> stream)
 	{
@@ -294,6 +320,9 @@ namespace VeraCrypt
 	TC_SERIALIZER_FACTORY_ADD_CLASS (EmergencyDismountVolumeRequest);
 #endif
 	TC_SERIALIZER_FACTORY_ADD_CLASS (ExitRequest);
+#ifdef TC_MACOSX
+	TC_SERIALIZER_FACTORY_ADD_CLASS (ExecuteMacOSXAPFSFormatterRequest);
+#endif
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetDeviceSectorSizeRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetDeviceSizeRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetHostDevicesRequest);

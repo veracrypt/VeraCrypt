@@ -77,6 +77,7 @@ namespace VeraCrypt
 	static bool ExtractPlistString (const string &xml, const string &key, size_t start, size_t limit, string &value, size_t *endPos = nullptr)
 	{
 		// hdiutil currently emits simple <key>name</key><string>value</string> pairs.
+		// This lightweight parser assumes the value follows the requested key.
 		string keyTag = "<key>" + key + "</key>";
 		size_t p = xml.find (keyTag, start);
 		if (p == string::npos || p >= limit)
@@ -124,7 +125,64 @@ namespace VeraCrypt
 		return normalized;
 	}
 
-	static DevicePath FindVirtualDeviceByImagePath (const string &imagePath)
+	static bool ExtractDiskImageDeviceAndMountPoint (const string &xml, size_t start, size_t limit, DevicePath &device, DirectoryPath &mountPoint)
+	{
+		string firstDevice;
+		string mountedDevice;
+		string mountedPath;
+
+		for (size_t p = start; ; )
+		{
+			size_t devKeyPos = xml.find ("<key>dev-entry</key>", p);
+			if (devKeyPos == string::npos || devKeyPos >= limit)
+				break;
+
+			string devEntry;
+			size_t devValueEnd = 0;
+			if (!ExtractPlistString (xml, "dev-entry", devKeyPos, limit, devEntry, &devValueEnd))
+			{
+				p = devKeyPos + 1;
+				continue;
+			}
+
+			devEntry = StringConverter::Trim (devEntry);
+			if (firstDevice.empty())
+				firstDevice = devEntry;
+
+			size_t nextDevKeyPos = xml.find ("<key>dev-entry</key>", devValueEnd);
+			if (nextDevKeyPos == string::npos || nextDevKeyPos > limit)
+				nextDevKeyPos = limit;
+
+			string currentMountPoint;
+			// hdiutil currently emits dev-entry before mount-point inside each entity.
+			if (ExtractPlistString (xml, "mount-point", devValueEnd, nextDevKeyPos, currentMountPoint)
+				&& !currentMountPoint.empty())
+			{
+				mountedDevice = devEntry;
+				mountedPath = currentMountPoint;
+				break;
+			}
+
+			p = devValueEnd;
+		}
+
+		if (!mountedDevice.empty())
+		{
+			device = mountedDevice;
+			mountPoint = mountedPath;
+			return true;
+		}
+
+		if (!firstDevice.empty())
+		{
+			device = firstDevice;
+			return true;
+		}
+
+		return false;
+	}
+
+	static bool FindDiskImageInfoByImagePath (const string &imagePath, DevicePath &device, DirectoryPath &mountPoint)
 	{
 		list <string> args;
 		args.push_back ("info");
@@ -150,15 +208,13 @@ namespace VeraCrypt
 			size_t nextImageKeyPos = xml.find ("<key>image-path</key>", imageValueEnd);
 			if (NormalizeDiskImagePath (currentImagePath) == normalizedImagePath)
 			{
-				string devEntry;
-				if (ExtractPlistString (xml, "dev-entry", imageValueEnd, nextImageKeyPos, devEntry))
-					return StringConverter::Trim (devEntry);
+				return ExtractDiskImageDeviceAndMountPoint (xml, imageValueEnd, nextImageKeyPos, device, mountPoint);
 			}
 
 			p = imageValueEnd;
 		}
 
-		return DevicePath();
+		return false;
 	}
 
 	static bool AuxiliaryControlFileHasVirtualDevice (const DirectoryPath &auxMountPoint, const DevicePath &virtualDev, int retryCount = 50)
@@ -198,13 +254,11 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreMacOSX::DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles, bool syncVolumeInfo)
 	{
-		if (mountedVolume->VirtualDevice.IsEmpty() && !mountedVolume->AuxMountPoint.IsEmpty())
+		if (!mountedVolume->AuxMountPoint.IsEmpty())
 		{
 			try
 			{
-				DevicePath recoveredVirtualDevice = FindVirtualDeviceByImagePath (string (mountedVolume->AuxMountPoint) + FuseService::GetVolumeImagePath());
-				if (!recoveredVirtualDevice.IsEmpty())
-					mountedVolume->VirtualDevice = recoveredVirtualDevice;
+				UpdateMountedVolumeInfo (mountedVolume);
 			}
 			catch (...) { }
 		}
@@ -275,6 +329,45 @@ namespace VeraCrypt
 		catch (...)	{ }
 
 		return mountedVolume;
+	}
+
+	void CoreMacOSX::UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> mountedVolume) const
+	{
+		if (!mountedVolume || mountedVolume->AuxMountPoint.IsEmpty())
+			return;
+
+		try
+		{
+			DevicePath recoveredVirtualDevice;
+			DirectoryPath recoveredMountPoint;
+
+			if (FindDiskImageInfoByImagePath (string (mountedVolume->AuxMountPoint) + FuseService::GetVolumeImagePath(), recoveredVirtualDevice, recoveredMountPoint))
+			{
+				if (!recoveredVirtualDevice.IsEmpty())
+				{
+					if (mountedVolume->VirtualDevice != recoveredVirtualDevice && recoveredMountPoint.IsEmpty())
+						mountedVolume->MountPoint = DirectoryPath();
+
+					mountedVolume->VirtualDevice = recoveredVirtualDevice;
+				}
+
+				if (!recoveredMountPoint.IsEmpty())
+					mountedVolume->MountPoint = recoveredMountPoint;
+			}
+		}
+		catch (...) { }
+
+		if (mountedVolume->MountPoint.IsEmpty() && !mountedVolume->VirtualDevice.IsEmpty())
+		{
+			try
+			{
+				MountedFilesystemList mountedFilesystems = GetMountedFilesystems (mountedVolume->VirtualDevice);
+
+				if (mountedFilesystems.size() > 0)
+					mountedVolume->MountPoint = mountedFilesystems.front()->MountPoint;
+			}
+			catch (...) { }
+		}
 	}
 
 	void CoreMacOSX::CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair) const
@@ -378,20 +471,12 @@ namespace VeraCrypt
 			}
 		}
 
-		size_t p = xml.find ("<key>dev-entry</key>");
-		if (p == string::npos)
+		DevicePath virtualDev;
+		DirectoryPath mountPoint;
+		if (!ExtractDiskImageDeviceAndMountPoint (xml, 0, string::npos, virtualDev, mountPoint)
+			|| virtualDev.IsEmpty())
 			throw ParameterIncorrect (SRC_POS);
-
-		p = xml.find ("<string>", p);
-		if (p == string::npos)
-			throw ParameterIncorrect (SRC_POS);
-		p += 8;
-
-		size_t e = xml.find ("</string>", p);
-		if (e == string::npos)
-			throw ParameterIncorrect (SRC_POS);
-
-		DevicePath virtualDev = StringConverter::Trim (xml.substr (p, e - p));
+		(void) mountPoint;
 
 		try
 		{

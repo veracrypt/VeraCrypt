@@ -594,13 +594,16 @@ namespace VeraCrypt
 
 			mountedVol->AuxMountPoint = mf.MountPoint;
 
-			if (!mountedVol->VirtualDevice.IsEmpty())
+			if (mountedVol->MountPoint.IsEmpty() && !mountedVol->VirtualDevice.IsEmpty())
 			{
 				MountedFilesystemList mpl = GetMountedFilesystems (mountedVol->VirtualDevice);
 
 				if (mpl.size() > 0)
 					mountedVol->MountPoint = mpl.front()->MountPoint;
 			}
+
+			if (mountedVol->MountPoint.IsEmpty() || mountedVol->VirtualDevice.IsEmpty())
+				UpdateMountedVolumeInfo (mountedVol);
 
 			volumes.push_back (mountedVol);
 

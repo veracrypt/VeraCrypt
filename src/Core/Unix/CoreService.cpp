@@ -20,6 +20,7 @@
 #include "Platform/SystemLog.h"
 #include "Platform/Thread.h"
 #include "Platform/Unix/Poller.h"
+#include "Platform/Unix/Process.h"
 #include "Core/Core.h"
 #include "CoreUnix.h"
 #include "CoreServiceRequest.h"
@@ -27,6 +28,66 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+	static bool IsMacOSXDevicePathWithPrefix (const string &path, const string &prefix)
+	{
+		if (path.find (prefix) != 0 || path.size() <= prefix.size())
+			return false;
+
+		size_t index = prefix.size();
+		while (index < path.size() && path[index] >= '0' && path[index] <= '9')
+			++index;
+
+		if (index == prefix.size())
+			return false;
+
+		if (index == path.size())
+			return true;
+
+		if (path[index++] != 's')
+			return false;
+
+		size_t sliceStart = index;
+		while (index < path.size() && path[index] >= '0' && path[index] <= '9')
+			++index;
+
+		return index > sliceStart && index == path.size();
+	}
+
+	static bool IsMacOSXFormatterDevicePath (const string &path)
+	{
+		return IsMacOSXDevicePathWithPrefix (path, "/dev/disk")
+			|| IsMacOSXDevicePathWithPrefix (path, "/dev/rdisk");
+	}
+
+	static list <string> BuildMacOSXAPFSFormatterArguments (const ExecuteMacOSXAPFSFormatterRequest &request)
+	{
+		if (!IsMacOSXFormatterDevicePath (request.Device))
+			throw ParameterIncorrect (SRC_POS);
+
+		if (request.OwnerUserId > static_cast <uint64> ((uid_t) -1)
+			|| request.OwnerGroupId > static_cast <uint64> ((gid_t) -1))
+		{
+			throw ParameterIncorrect (SRC_POS);
+		}
+
+		stringstream uid;
+		stringstream gid;
+		list <string> arguments;
+
+		uid << request.OwnerUserId;
+		gid << request.OwnerGroupId;
+
+		arguments.push_back ("-U");
+		arguments.push_back (uid.str());
+		arguments.push_back ("-G");
+		arguments.push_back (gid.str());
+		arguments.push_back (string (request.Device));
+
+		return arguments;
+	}
+#endif
+
 	template <class T>
 	unique_ptr <T> CoreService::GetResponse ()
 	{
@@ -201,6 +262,17 @@ namespace VeraCrypt
 						continue;
 					}
 
+#ifdef TC_MACOSX
+					// ExecuteMacOSXAPFSFormatterRequest
+					ExecuteMacOSXAPFSFormatterRequest *executeAPFSFormatterRequest = dynamic_cast <ExecuteMacOSXAPFSFormatterRequest*> (request.get());
+					if (executeAPFSFormatterRequest)
+					{
+						Process::Execute (CoreService::GetMacOSXAPFSFormatterPath(), BuildMacOSXAPFSFormatterArguments (*executeAPFSFormatterRequest));
+						ExecuteMacOSXAPFSFormatterResponse().Serialize (outputStream);
+						continue;
+					}
+#endif
+
 					// MountVolumeRequest
 					MountVolumeRequest *mountRequest = dynamic_cast <MountVolumeRequest*> (request.get());
 					if (mountRequest)
@@ -289,6 +361,19 @@ namespace VeraCrypt
 		GetHostDevicesRequest request (pathListOnly);
 		return SendRequest <GetHostDevicesResponse> (request)->HostDevices;
 	}
+
+#ifdef TC_MACOSX
+	const char *CoreService::GetMacOSXAPFSFormatterPath ()
+	{
+		return "/sbin/newfs_apfs";
+	}
+
+	void CoreService::RequestExecuteMacOSXAPFSFormatter (const DevicePath &devicePath, uint64 userId, uint64 groupId)
+	{
+		ExecuteMacOSXAPFSFormatterRequest request (devicePath, userId, groupId);
+		SendRequest <ExecuteMacOSXAPFSFormatterResponse> (request);
+	}
+#endif
 
 	shared_ptr <VolumeInfo> CoreService::RequestMountVolume (MountOptions &options)
 	{

@@ -1078,7 +1078,9 @@ namespace VeraCrypt
 			{
 				RestoreMacOSXFormatterDeviceOwners (*finally_arg);
 			});
-			PrepareMacOSXFormatterDevice (virtualDevice, changedDeviceOwners);
+			bool useElevatedAPFSFormatter = UseElevatedMacOSXAPFSFormatter (fsFormatter);
+			if (!useElevatedAPFSFormatter)
+				PrepareMacOSXFormatterDevice (virtualDevice, changedDeviceOwners);
 #else
 			UserId origDeviceOwner ((uid_t) -1);
 
@@ -1123,9 +1125,18 @@ namespace VeraCrypt
 				}
 			}
 
+#ifdef TC_MACOSX
+			if (IsMacOSXAPFSFormatter (fsFormatter) && !useElevatedAPFSFormatter)
+				AddMacOSXAPFSFormatterUserArgs (args);
+#endif
+
 			args.push_back (string (virtualDevice));
 
+#ifdef TC_MACOSX
+			ExecuteMacOSXFilesystemFormatter (fsFormatter, args);
+#else
 			Process::Execute (fsFormatter, args);
+#endif
 		}
 #endif // TC_UNIX
 

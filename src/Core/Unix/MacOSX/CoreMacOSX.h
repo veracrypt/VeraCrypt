@@ -30,6 +30,7 @@ namespace VeraCrypt
 
 	protected:
 		virtual DevicePath MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const;
+		virtual void UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> mountedVolume) const;
 
 	private:
 		CoreMacOSX (const CoreMacOSX &);

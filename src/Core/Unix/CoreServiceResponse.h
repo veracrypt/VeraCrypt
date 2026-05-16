@@ -69,6 +69,14 @@ namespace VeraCrypt
 		HostDeviceList HostDevices;
 	};
 
+#ifdef TC_MACOSX
+	struct ExecuteMacOSXAPFSFormatterResponse : CoreServiceResponse
+	{
+		ExecuteMacOSXAPFSFormatterResponse () { }
+		TC_SERIALIZABLE (ExecuteMacOSXAPFSFormatterResponse);
+	};
+#endif
+
 	struct MountVolumeResponse : CoreServiceResponse
 	{
 		MountVolumeResponse () { }
