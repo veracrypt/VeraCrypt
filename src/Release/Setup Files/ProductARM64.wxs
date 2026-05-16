@@ -502,9 +502,6 @@
 			<Component Id="cmpC40B9AEA2BA26327EDBF8EE050CB076B" Guid="{F3D7A2DA-32AC-4418-997E-B7E2AEF8A099}">
 				<File Id="fil2DE49A9DD9C4A7B8D0D3A654CF73A48F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Avoid Third-Party File Extensions.html" Checksum="yes" DiskId="1" />
 			</Component>
-			<Component Id="cmp2ABB10C0A5AC0F1084EDF94E0FDFFD09" Guid="{034D6A64-B712-49C1-9450-5585B207C8AD}">
-				<File Id="fil63E5CE3D0A91ACFF543B523A58476CCF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\bank_30x30.png" Checksum="yes" DiskId="1" />
-			</Component>
 			<Component Id="cmp793A7E676882B650FFCEE4F41B92CB85" Guid="{73A7AE9C-003C-4DF6-AD85-3FE264669165}">
 				<File Id="filD1052E711F1CD089D66C27B04EDD6113" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\BCH_Logo_30x30.png" Checksum="yes" DiskId="1" />
 			</Component>
@@ -654,9 +651,6 @@
 			</Component>
 			<Component Id="cmp84A94F04CD486338F57C03B316145945" Guid="{44F12D12-3BB4-4FE5-B829-5D471C05A2AF}">
 				<File Id="fil07C7557AAF506EE9095B8C76E9C56776" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation.html" Checksum="yes" DiskId="1" />
-			</Component>
-			<Component Id="cmpDF544847A4B1F86B3BA3468336CD73FE" Guid="{8E46CB17-1956-4E28-B8F4-30DEFCEA1CF6}">
-				<File Id="filD27301F6F853ABFC08499D4085599774" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_Bank.html" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmp9A6A861B59A23E534C7407EF95500AA5" Guid="{044EF38F-E86C-4A28-B675-CA7E8E318559}">
 				<File Id="fil87AEAF6DE829555C03BF7888DDD40D8F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate.gif" Checksum="yes" DiskId="1" />
@@ -1151,9 +1145,6 @@
 			<Component Id="cmpC8A17F149AF21481048D7258418DBDA4" Guid="{E4DCA4B4-4DD8-4226-A300-FE27FAB153B6}">
 				<File Id="filE221B653D1A3D5D92DCF93954A475DCD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Avoid Third-Party File Extensions.html" Checksum="yes" DiskId="1" />
 			</Component>
-			<Component Id="cmp9D4113D4E0B7F3BA260B8B2B533E299C" Guid="{053CD221-5DEA-4B4E-8D72-D4198E8B0098}">
-				<File Id="fil12D7FEE7232612FE63E08ADEC345D47A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\bank_30x30.png" Checksum="yes" DiskId="1" />
-			</Component>
 			<Component Id="cmp84EEBEA4353C6BB7FAFBC651A3044D91" Guid="{DBFC0956-2133-4921-801F-0FF9A81C9579}">
 				<File Id="fil3B8C024F8DB19366E87F3C5B4D08E1FD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\BCH_Logo_30x30.png" Checksum="yes" DiskId="1" />
 			</Component>
@@ -1303,9 +1294,6 @@
 			</Component>
 			<Component Id="cmp7E0AF9A50799D06DE12C94A60C834F5D" Guid="{A69B4D59-88C2-43E4-ADA4-9AF2EBEA1B45}">
 				<File Id="fil88AE8F1D1D73320B20A12E91039B1D93" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation.html" Checksum="yes" DiskId="1" />
-			</Component>
-			<Component Id="cmpC547B50DD1AB37E959FB18D1AFD9C051" Guid="{B998C0C8-3AB5-4A28-9775-44704A059A5C}">
-				<File Id="filD0D938903C2CBD5A5C816A84B0916199" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_Bank.html" Checksum="yes" DiskId="1" />
 			</Component>
 			<Component Id="cmp716240038B6F46034428E43768E32CA7" Guid="{3F6B140B-980E-4C77-8F23-3042F0DE1232}">
 				<File Id="fil81D7649C6E479DA68C7CE5A9FAABD5B6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Donation_donate.gif" Checksum="yes" DiskId="1" />
@@ -1799,9 +1787,6 @@
 	   	<Component Id="cmp1F692B5E9F05B178C9A8391264420744" Guid="{7A9389A6-81B8-D0A7-BF0C-4569289E8959}">
 	   		<File Id="fil017BDB8A9D4E64917B382A52DF73C3A6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Avoid Third-Party File Extensions.html" Checksum="yes" DiskId="1" />
 	   		</Component>
-	   	<Component Id="cmp179C0752A5E27F869CCFB5907613427A" Guid="{62095010-CD58-DE72-DD3F-C74BE1B9222B}">
-	   		<File Id="filA22C8E0EC443C1C9CE5BFF06612A3972" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\bank_30x30.png" Checksum="yes" DiskId="1" />
-	   		</Component>
 	   	<Component Id="cmp56E99DC2EB033A7CC233E4A3F242E0E4" Guid="{194A60F7-3BE6-8650-D4DA-DDFD26EE5469}">
 	   		<File Id="fil077B4F07B2F78F21F886521BBBE0460C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\BCH_Logo_30x30.png" Checksum="yes" DiskId="1" />
 	   		</Component>
@@ -1951,9 +1936,6 @@
 	   		</Component>
 	   	<Component Id="cmp334866A2CAAB9A80BAF975AAB6816B18" Guid="{323B6CDA-169E-C691-9499-A13BA3B5BBE8}">
 	   		<File Id="filDD2694A6BA9A88E9A4AD8CC8AE22AFFA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation.html" Checksum="yes" DiskId="1" />
-	   		</Component>
-	   	<Component Id="cmp5118A7FF85F43AD614725B85DBFEA934" Guid="{18505C13-A0BB-CB4C-FEAA-C6751FBE6FB6}">
-	   		<File Id="fil7AF3107D8F1937CE8A1843DFE2DC7F69" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_Bank.html" Checksum="yes" DiskId="1" />
 	   		</Component>
 	   	<Component Id="cmp8B21DDC563817C0183D35FF513F6A45D" Guid="{D4ED4770-24B2-2277-AF98-3989A2486241}">
 	   		<File Id="fil22FF32B8BFF7211359A919C5131B6218" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Donation_donate.gif" Checksum="yes" DiskId="1" />
@@ -2728,7 +2710,6 @@
 			<ComponentRef Id="cmp2934E77CB835216789F88BD686160A94" />
 			<ComponentRef Id="cmp688E76C9A297923D616068E33A6A4F49" />
 			<ComponentRef Id="cmpC40B9AEA2BA26327EDBF8EE050CB076B" />
-			<ComponentRef Id="cmp2ABB10C0A5AC0F1084EDF94E0FDFFD09" />
 			<ComponentRef Id="cmp793A7E676882B650FFCEE4F41B92CB85" />
 			<ComponentRef Id="cmp989B890D94671F634D04D8F945090F21" />
 			<ComponentRef Id="cmp109BF0667C5A7B7036CCAAD9B29D9449" />
@@ -2779,7 +2760,6 @@
 			<ComponentRef Id="cmp7AEEABAF151FCE92735664A55F7B8FFA" />
 			<ComponentRef Id="cmp9380DDE2560B4D8EE9CC363AF4BC7B5F" />
 			<ComponentRef Id="cmp84A94F04CD486338F57C03B316145945" />
-			<ComponentRef Id="cmpDF544847A4B1F86B3BA3468336CD73FE" />
 			<ComponentRef Id="cmp9A6A861B59A23E534C7407EF95500AA5" />
 			<ComponentRef Id="cmp09C34B1CBDE9F2F4E897340B1C67728E" />
 			<ComponentRef Id="cmpD3183A7373751A19B4B7C9B041F9035D" />
@@ -2946,7 +2926,6 @@
 			<ComponentRef Id="cmp2ED752BBF695DA0426DC658681B0246F" />
 			<ComponentRef Id="cmpC2831D4EDB2C6161E9AFFA4E118B4690" />
 			<ComponentRef Id="cmpC8A17F149AF21481048D7258418DBDA4" />
-			<ComponentRef Id="cmp9D4113D4E0B7F3BA260B8B2B533E299C" />
 			<ComponentRef Id="cmp84EEBEA4353C6BB7FAFBC651A3044D91" />
 			<ComponentRef Id="cmpE3AD138F57F6B7D59BEA109296613C6A" />
 			<ComponentRef Id="cmp9C042008F4284C90B114419C6CAEF43C" />
@@ -2997,7 +2976,6 @@
 			<ComponentRef Id="cmp14BBB28777FE8A9914F4BB38B50C0311" />
 			<ComponentRef Id="cmp10C79CC28991F4E8A3E33C66D7280D88" />
 			<ComponentRef Id="cmp7E0AF9A50799D06DE12C94A60C834F5D" />
-			<ComponentRef Id="cmpC547B50DD1AB37E959FB18D1AFD9C051" />
 			<ComponentRef Id="cmp716240038B6F46034428E43768E32CA7" />
 			<ComponentRef Id="cmpEF2FE09A2E8F60EB28ECBA7BEE5E9026" />
 			<ComponentRef Id="cmp4DE7E89729EE1EE9EEA042F80B412D3D" />
@@ -3164,7 +3142,6 @@
 			<ComponentRef Id="cmpBE910E7A13D2B04D3D40760EA71C32DE" />
 			<ComponentRef Id="cmp652FDF2A5DFD1529C0B8560533E1ACBF" />
 			<ComponentRef Id="cmp1F692B5E9F05B178C9A8391264420744" />
-			<ComponentRef Id="cmp179C0752A5E27F869CCFB5907613427A" />
 			<ComponentRef Id="cmp56E99DC2EB033A7CC233E4A3F242E0E4" />
 			<ComponentRef Id="cmpD824F416D0399EE145A2AECD58EBE5CB" />
 			<ComponentRef Id="cmp53E0472EE5192A73352BFB9DF849145F" />
@@ -3215,7 +3192,6 @@
 			<ComponentRef Id="cmp9945DD3D8AF2BC334A5D3C828AD29030" />
 			<ComponentRef Id="cmp558A206990395BBC9D5D76E3D3F77A6C" />
 			<ComponentRef Id="cmp334866A2CAAB9A80BAF975AAB6816B18" />
-			<ComponentRef Id="cmp5118A7FF85F43AD614725B85DBFEA934" />
 			<ComponentRef Id="cmp8B21DDC563817C0183D35FF513F6A45D" />
 			<ComponentRef Id="cmpEBEFEAAFD2CDEA6ABA1202A6456BFE4C" />
 			<ComponentRef Id="cmpC75AF1FFB8063408596ABFAE831B3924" />

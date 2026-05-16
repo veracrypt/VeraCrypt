@@ -248,7 +248,9 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	
 	# Debian control script(s)
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control)
+	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/postinst 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postinst)
 	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/prerm 		${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
+	set( DEBIAN_POSTINST ${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postinst)
 	set( DEBIAN_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
 	
 	set( CPACK_GENERATOR 					"DEB" )																				# mandatory
@@ -338,7 +340,9 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	
 	# RPM control script(s)
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control)
+	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/postinstall.sh 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postinstall.sh)
 	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/prerm.sh 		${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
+	set( RPM_POSTINSTALL ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postinstall.sh)
 	set( RPM_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
 	
 	set( CPACK_GENERATOR 				"RPM" )																					# mandatory
@@ -373,6 +377,7 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	endif()
 
 	set( CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE 			${RPM_PRERM})															# optional
+	set( CPACK_RPM_POST_INSTALL_SCRIPT_FILE 			${RPM_POSTINSTALL})														# optional
 	
 	# Prevents CPack from generating file conflicts
 	# This is to avoid having %dir of these directories in the .spec file

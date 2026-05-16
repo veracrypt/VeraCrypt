@@ -2362,10 +2362,16 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		L"docs\\html\\en\\VS2019BuildSolution.jpg",
 		L"docs\\html\\en\\YasmCommandLine.jpg",
 		L"docs\\html\\en\\BCH_Logo_48x30.png",
+		L"docs\\html\\en\\Donation_Bank.html",
 		L"docs\\html\\en\\LinuxPrepAndBuild.sh",
 		L"docs\\html\\en\\LinuxPrepAndBuild.zip",
 		L"docs\\html\\en\\RIPEMD-160.html",
 		L"docs\\html\\en\\ru\\BCH_Logo_48x30.png",
+		L"docs\\html\\en\\bank_30x30.png",
+		L"docs\\html\\ru\\Donation_Bank.html",
+		L"docs\\html\\ru\\bank_30x30.png",
+		L"docs\\html\\zh-cn\\Donation_Bank.html",
+		L"docs\\html\\zh-cn\\bank_30x30.png",
 		L"Languages\\Language.ru - Copy.xml",
 	};
 

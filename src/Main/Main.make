@@ -214,7 +214,9 @@ endif
 
 ifeq "$(PLATFORM)" "MacOSX"
 prepare: $(APPNAME)
-	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources/doc/HTML
+	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources/doc
+	rm -rf $(APPNAME).app/Contents/Resources/doc/HTML
+	mkdir -p $(APPNAME).app/Contents/Resources/doc/HTML
 	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources/languages
 	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)
 	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
@@ -346,7 +348,8 @@ package: prepare
 	@echo "VERSION=$(TC_VERSION)" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_TYPE=tar" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_NAME=$(PACKAGE_NAME)" >> $(INTERNAL_INSTALLER_NAME)
-	@echo "PACKAGE_START=1112" >> $(INTERNAL_INSTALLER_NAME)
+	@template_lines=$$(wc -l < $(BASE_DIR)/Setup/Linux/veracrypt_install_template.sh); \
+	echo "PACKAGE_START=$$(($$template_lines + 7))" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
 
 	@cat $(BASE_DIR)/Setup/Linux/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
@@ -454,7 +457,8 @@ package: prepare
 	@echo "VERSION=$(TC_VERSION)" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_TYPE=tar" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_NAME=$(PACKAGE_NAME)" >> $(INTERNAL_INSTALLER_NAME)
-	@echo "PACKAGE_START=1108" >> $(INTERNAL_INSTALLER_NAME)
+	@template_lines=$$(wc -l < $(BASE_DIR)/Setup/FreeBSD/veracrypt_install_template.sh); \
+	echo "PACKAGE_START=$$(($$template_lines + 7))" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
 
 	@cat $(BASE_DIR)/Setup/FreeBSD/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
