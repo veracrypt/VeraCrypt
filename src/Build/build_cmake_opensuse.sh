@@ -9,6 +9,10 @@
 # Errors should cause script to exit
 set -e
 
+# Deterministic umask (see build_cmake_deb.sh for rationale: keeps
+# package-internal file modes independent of the caller's umask).
+umask 022
+
 # See build_cmake_deb.sh for rationale.
 if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
     SOURCE_DATE_EPOCH=$(git -C "$(dirname "$0")/../.." log -1 --pretty=%ct 2>/dev/null || echo 1577836800)

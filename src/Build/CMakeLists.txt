@@ -52,23 +52,6 @@ set(ENV{SOURCE_DATE_EPOCH} "${SOURCE_DATE_EPOCH}")
 # Avoid nondeterministic ordering from cpack 3.18+ parallel compression.
 set(CPACK_THREADS 1)
 
-# Clamp staging-tree mtimes once more before cpack runs (cmake install()
-# can touch files after make's prepare). Linux + GNU touch only.
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    execute_process(
-        COMMAND touch --no-dereference --date=@0 /dev/null
-        RESULT_VARIABLE _gnu_touch_rc
-        OUTPUT_QUIET ERROR_QUIET)
-    if(_gnu_touch_rc EQUAL 0)
-        install(CODE "
-            execute_process(
-                COMMAND find \"\${CMAKE_INSTALL_PREFIX}\" -exec
-                    touch --no-dereference --date=@${SOURCE_DATE_EPOCH} {} +
-                OUTPUT_QUIET ERROR_QUIET)
-        ")
-    endif()
-endif()
-
 # - Check whether 'Tcdefs.h' and 'License.txt' exist
 if(NOT EXISTS "$ENV{SOURCEPATH}/Common/Tcdefs.h")
 	MESSAGE(FATAL_ERROR "Tcdefs.h does not exist.")
@@ -257,6 +240,18 @@ install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/usr/share
 		USE_SOURCE_PERMISSIONS)
 set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
 
+# Reproducible builds: clamp the just-installed staging tree's mtimes
+# and modes so the DEB/RPM payload is independent of wall-clock time and
+# the build umask. Placed AFTER install(DIRECTORY) so it runs against a
+# populated tree (install rules execute in declaration order). The script
+# acts only on a real package staging root and refuses a live prefix;
+# see the script header for the staging-root detection rules.
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/Tools/cmake_repro_clamp_mtimes.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake"
+    @ONLY)
+install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake")
+
 # For packaging 
 # CPack will first install into ${CPACK_PACKAGE_DIRECTORY}/_CPack_Packages/<system_name>/DEB,RPM/${CPACK_PACKAGE_NAME}/${CPACK_PACKAGING_INSTALL_PREFIX}
 # See https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/PackageGenerators
@@ -395,6 +390,14 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	set( CPACK_RPM_PACKAGE_GROUP 		"Applications/System" )																	# mandatory, https://fedoraproject.org/wiki/RPMGroups
 	set( CPACK_RPM_PACKAGE_VENDOR 		${CPACK_PACKAGE_VENDOR} )																# mandatory
 	set( CPACK_RPM_PACKAGE_AUTOREQ 		"no" ) 																					# disable automatic shared libraries dependency detection (most of the time buggy)
+
+	# Reproducible RPM: derive BUILDTIME and clamp payload mtimes from
+	# SOURCE_DATE_EPOCH instead of wall-clock time. These macros exist in
+	# rpm >= 4.14; older rpm treats them as unknown defines and ignores
+	# them, so the package still builds.
+	set( CPACK_RPM_SPEC_MORE_DEFINE [==[%define use_source_date_epoch_as_buildtime 1
+%define clamp_mtime_to_source_date_epoch 1
+%define source_date_epoch_from_changelog 0]==] )
 	if (VC_WITH_FUSE3)
 		set(VC_RPM_FUSE_PACKAGE "fuse3")
 	else ()

@@ -9,6 +9,12 @@
 # Errors should cause script to exit
 set -e
 
+# Deterministic umask: dpkg-deb records the mode of the temporary ar
+# members (debian-binary, control.tar.gz, data.tar.gz) it creates, so a
+# caller umask of 027 yields 0640 where 022 yields 0644 and the .deb is
+# not reproducible. Pin it for the whole packaging run.
+umask 022
+
 # Compute and export SOURCE_DATE_EPOCH so cmake/cpack inherit it (they get
 # an empty env from this shell otherwise). Precedence: caller, git HEAD,
 # fallback constant matching src/Makefile and CMakeLists.txt.

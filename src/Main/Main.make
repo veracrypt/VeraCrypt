@@ -194,13 +194,18 @@ endif
 endif
 #-----------------------------------
 
+# Probe strip --enable-deterministic-archives against a private object
+# rather than "-V" (which can fail in getopt before printing). All
+# platforms, so non-Linux behaviour matches the original PR.
+STRIP_DETERMINISTIC := $(strip $(shell d=$$(mktemp -d 2>/dev/null) && printf 'int x;\n' | $(CC) -x c -c - -o "$$d/o.o" >/dev/null 2>&1 && strip --enable-deterministic-archives "$$d/o.o" >/dev/null 2>&1 && echo --enable-deterministic-archives; rm -rf "$$d"))
+
 $(APPNAME): $(LIBS) $(OBJS)
 	@echo Linking $@
 	$(CXX) -o $(APPNAME) $(OBJS) $(LIBS) $(AYATANA_LIBS) $(FUSE_LIBS) $(WX_LIBS) $(LFLAGS)
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifndef NOSTRIP
-	strip $(shell strip --enable-deterministic-archives -V >/dev/null 2>&1 && echo --enable-deterministic-archives) $(APPNAME)
+	strip $(STRIP_DETERMINISTIC) $(APPNAME)
 endif
 
 ifndef NOTEST
@@ -297,9 +302,14 @@ ifeq "$(PLATFORM)" "Linux"
 # the recipe falls back to the pre-PR (non-deterministic) form with a
 # warning. $(strip) because $(shell) keeps trailing whitespace which
 # would break the "= yes" equality test in the recipe.
+#
+# All probes act on a private $(mktemp) file and clean it up. touch
+# probing /dev/null fails (EPERM) for unprivileged users and rewrites
+# the device node as root. The tar option set requires GNU tar >= 1.28,
+# so the probe exercises it exactly rather than matching "GNU tar".
 # MAKESELF_TAR_EXTRA needs Makeself >= 2.3.1 (cited in the review).
-TOUCH_REPRODUCIBLE      := $(strip $(shell touch --no-dereference --date=@0 /dev/null 2>/dev/null && echo yes))
-TAR_DETERMINISTIC       := $(strip $(shell tar --version 2>/dev/null | grep -q 'GNU tar' && echo yes))
+TOUCH_REPRODUCIBLE      := $(strip $(shell t=$$(mktemp 2>/dev/null) && touch --no-dereference --date=@0 "$$t" >/dev/null 2>&1 && echo yes; rm -f "$$t"))
+TAR_DETERMINISTIC       := $(strip $(shell t=$$(mktemp 2>/dev/null) && tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner --mode='go-w,a+rX' --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime -cf "$$t" --files-from /dev/null >/dev/null 2>&1 && echo yes; rm -f "$$t"))
 GZIP_NO_TIMESTAMP       := $(strip $(shell printf x | gzip -n -c >/dev/null 2>&1 && echo yes))
 MAKESELF_PACKAGING_DATE := $(strip $(shell makeself --help 2>&1 | grep -q -- '--packaging-date' && echo yes))
 MAKESELF_TAR_EXTRA      := $(strip $(shell makeself --help 2>&1 | grep -q -- '--tar-extra' && echo yes))
