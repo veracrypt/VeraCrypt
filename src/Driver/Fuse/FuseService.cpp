@@ -150,6 +150,8 @@ namespace VeraCrypt
 			cfg->set_gid = 1;
 			cfg->uid = FuseService::GetUserId();
 			cfg->gid = FuseService::GetGroupId();
+
+			cfg->use_ino = 1;
 		}
 
 		return fuse_service_init_common ();
@@ -582,12 +584,12 @@ namespace VeraCrypt
 		catch (std::exception &e)
 		{
 			SystemLog::WriteException (e);
-			return -EINTR;
+			return -EIO;
 		}
 		catch (...)
 		{
 			SystemLog::WriteException (UnknownException (SRC_POS));
-			return -EINTR;
+			return -EIO;
 		}
 	}
 
@@ -676,6 +678,12 @@ namespace VeraCrypt
 			args.push_back ("-o");
 			args.push_back ("allow_other");
 		}
+
+#if defined(TC_LINUX) && !defined(VC_FUSE3)
+		// FUSE2 has no fuse_config init hook; pass the mount option instead.
+		args.push_back ("-o");
+		args.push_back ("use_ino");
+#endif
 
 		ExecFunctor execFunctor (openVolume, slotNumber);
 		Process::Execute ("fuse", args, -1, &execFunctor);
