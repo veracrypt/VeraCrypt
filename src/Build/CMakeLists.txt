@@ -1,5 +1,5 @@
 # - Minimum CMake version
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 2.8.12...3.10)
 
 # - Obligatory parameters
 #		-DVERACRYPT_BUILD_DIR 	: folder that contains 'usr' folder
