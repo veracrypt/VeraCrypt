@@ -455,7 +455,7 @@ namespace VeraCrypt
 		return mountedFilesystems;
 	}
 
-	void CoreLinux::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+	void CoreLinux::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
 		bool fsMounted = false;
 
@@ -466,14 +466,14 @@ namespace VeraCrypt
 				stringstream userMountOptions;
 				userMountOptions << "uid=" << GetRealUserId() << ",gid=" << GetRealGroupId() << ",umask=077" << (!systemMountOptions.empty() ? "," : "");
 
-				CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, userMountOptions.str() + systemMountOptions);
+				CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, userMountOptions.str() + systemMountOptions, internalMountOnly);
 				fsMounted = true;
 			}
 		}
 		catch (...) { }
 
 		if (!fsMounted)
-			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions, internalMountOnly);
 	}
 
 	void CoreLinux::MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const
@@ -629,17 +629,15 @@ namespace VeraCrypt
 			if (!options.NoFilesystem && options.MountPoint && !options.MountPoint->IsEmpty())
 			{
 				wstring filesystemType = options.FilesystemType;
+				bool internalMountOnly = false;
 
-				if (options.MountNtfsWithNtfs3 && filesystemType.empty()
-					&& DetectFilesystemType (nativeDevPath) == "ntfs")
-				{
-					filesystemType = L"ntfs3";
-				}
+				ResolveNtfsKernelMountOptions (nativeDevPath, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
 
 				MountFilesystem (nativeDevPath, *options.MountPoint,
 					StringConverter::ToSingle (filesystemType),
 					options.Protection == VolumeProtection::ReadOnly,
-					StringConverter::ToSingle (options.FilesystemOptions));
+					StringConverter::ToSingle (options.FilesystemOptions),
+					internalMountOnly);
 
 				filesystemMounted = true;
 			}

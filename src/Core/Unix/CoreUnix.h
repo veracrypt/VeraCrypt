@@ -70,12 +70,19 @@ namespace VeraCrypt
 		virtual uid_t GetRealUserId () const;
 		virtual gid_t GetRealGroupId () const;
 		virtual string GetTempDirectory () const;
-		virtual void MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const;
+		// internalMountOnly maps to mount(8) -i and suppresses /sbin/mount.<type> helpers.
+		virtual void MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly = false) const;
 		virtual DevicePath MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const;
 		virtual void MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const { throw NotApplicable (SRC_POS); }
 		virtual void UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> mountedVolume) const { (void) mountedVolume; }
 #ifdef TC_LINUX
 		string DetectFilesystemType (const DevicePath &devicePath) const;
+		bool IsFilesystemTypeRegistered (const string &filesystemType) const;
+		bool IsKernelFilesystemTypeAvailable (const string &filesystemType) const;
+		bool IsNtfsReadWriteKernelFilesystemTypeAvailable () const;
+		void ResolveNtfsKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver,
+			wstring &filesystemType, bool &internalMountOnly) const;
+		string SelectNtfsKernelFilesystemType () const;
 #endif
 
 	private:

@@ -18,6 +18,9 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#ifdef TC_LINUX
+#include <sys/utsname.h>
+#endif
 #include <stdio.h>
 #include <unistd.h>
 #include "Platform/FileStream.h"
@@ -30,6 +33,10 @@ namespace VeraCrypt
 {
 #ifdef TC_LINUX
 	static string GetTmpUser ();
+	static bool GetLinuxKernelVersion (int &kernelMajor, int &kernelMinor);
+	static bool IsLinuxKernelModuleLoaded (const string &moduleName);
+	static bool IsLinuxKernelVersionAtLeast (int major, int minor);
+	static bool IsNtfsReadWriteKernelModuleAvailable ();
 	static bool SamePath (const string& path1, const string& path2);
 #endif
 
@@ -747,6 +754,82 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_LINUX
+	static bool GetLinuxKernelVersion (int &kernelMajor, int &kernelMinor)
+	{
+		struct utsname kernelInfo;
+		if (uname (&kernelInfo) != 0)
+			return false;
+
+		kernelMajor = 0;
+		kernelMinor = 0;
+		int versionFields = sscanf (kernelInfo.release, "%d.%d", &kernelMajor, &kernelMinor);
+
+		if (versionFields < 1)
+			return false;
+
+		return true;
+	}
+
+	static bool IsLinuxKernelVersionAtLeast (int major, int minor)
+	{
+		int kernelMajor = 0;
+		int kernelMinor = 0;
+		if (!GetLinuxKernelVersion (kernelMajor, kernelMinor))
+			return false;
+
+		return kernelMajor > major || (kernelMajor == major && kernelMinor >= minor);
+	}
+
+	static bool IsLinuxKernelModuleLoaded (const string &moduleName)
+	{
+		string modulePath = "/sys/module/" + moduleName;
+		struct stat moduleStat;
+		return stat (modulePath.c_str(), &moduleStat) == 0 && S_ISDIR (moduleStat.st_mode);
+	}
+
+	static bool IsNtfsReadWriteKernelModuleAvailable ()
+	{
+		list <string> args;
+		args.push_back ("-F");
+		args.push_back ("description");
+		args.push_back ("ntfs");
+
+		try
+		{
+			string description = StringConverter::ToLower (StringConverter::Trim (Process::Execute ("modinfo", args, 2000)));
+			// The upstream fs/ntfs module reports "NTFS read-write filesystem driver".
+			// ntfs3 compatibility aliases report different wording, such as read/write.
+			return description.find ("ntfs") != string::npos
+				&& description.find ("read-write") != string::npos
+				&& description.find ("filesystem driver") != string::npos;
+		}
+		catch (...) { }
+
+		return false;
+	}
+
+	bool CoreUnix::IsNtfsReadWriteKernelFilesystemTypeAvailable () const
+	{
+		if (!IsNtfsReadWriteKernelModuleAvailable ())
+			return false;
+
+		if (!IsLinuxKernelModuleLoaded ("ntfs"))
+		{
+			list <string> args;
+			args.push_back ("-q");
+			args.push_back ("-b");
+			args.push_back ("ntfs");
+
+			try
+			{
+				Process::Execute ("modprobe", args, 5000);
+			}
+			catch (...) { }
+		}
+
+		return IsLinuxKernelModuleLoaded ("ntfs") && IsFilesystemTypeRegistered ("ntfs");
+	}
+
 	string CoreUnix::DetectFilesystemType (const DevicePath &devicePath) const
 	{
 		list <string> args;
@@ -767,15 +850,122 @@ namespace VeraCrypt
 			return string();
 		}
 	}
+
+	bool CoreUnix::IsFilesystemTypeRegistered (const string &filesystemType) const
+	{
+		FILE *procFilesystems = fopen ("/proc/filesystems", "r");
+		if (!procFilesystems)
+			return false;
+
+		bool registered = false;
+		char line[256];
+		finally_do_arg (FILE *, procFilesystems, fclose (finally_arg););
+
+		while (fgets (line, sizeof (line), procFilesystems))
+		{
+			string entry = StringConverter::Trim (line);
+			size_t separator = entry.find_last_of (" \t");
+
+			if (separator != string::npos)
+				entry = entry.substr (separator + 1);
+
+			if (entry == filesystemType)
+			{
+				registered = true;
+				break;
+			}
+		}
+
+		return registered;
+	}
+
+	bool CoreUnix::IsKernelFilesystemTypeAvailable (const string &filesystemType) const
+	{
+		if (IsFilesystemTypeRegistered (filesystemType))
+			return true;
+
+		// This is only used from mount-time paths that run with root-equivalent privileges.
+		// If a future unprivileged caller uses it, modprobe is expected to fail silently here.
+		list <string> moduleNames;
+		moduleNames.push_back (filesystemType);
+		moduleNames.push_back ("fs-" + filesystemType);
+
+		foreach (const string &moduleName, moduleNames)
+		{
+			list <string> args;
+			args.push_back ("-q");
+			args.push_back ("-b");
+			args.push_back (moduleName);
+
+			try
+			{
+				Process::Execute ("modprobe", args, 5000);
+			}
+			catch (...) { }
+
+			if (IsFilesystemTypeRegistered (filesystemType))
+				return true;
+		}
+
+		return false;
+	}
+
+	string CoreUnix::SelectNtfsKernelFilesystemType () const
+	{
+		bool kernelHasStandaloneNtfs = IsLinuxKernelVersionAtLeast (7, 1);
+
+		// Linux 6.9-7.0 may expose an "ntfs" compatibility alias from ntfs3,
+		// but that legacy mount path is forced read-only. Only use "ntfs" where
+		// the standalone read/write in-kernel driver is expected upstream, or when
+		// module metadata and /sys/module positively identify a loaded backport as
+		// the modern driver. Do not trust a pre-existing "ntfs" registration on
+		// pre-7.1 kernels; it may belong to ntfs3's read-only compatibility path.
+		if (!kernelHasStandaloneNtfs && IsNtfsReadWriteKernelFilesystemTypeAvailable ())
+			return "ntfs";
+
+		if (kernelHasStandaloneNtfs && IsKernelFilesystemTypeAvailable ("ntfs"))
+			return "ntfs";
+
+		if (IsKernelFilesystemTypeAvailable ("ntfs3"))
+			return "ntfs3";
+
+		throw KernelNtfsDriverUnavailable (SRC_POS);
+	}
+
+	void CoreUnix::ResolveNtfsKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver,
+		wstring &filesystemType, bool &internalMountOnly) const
+	{
+		string requestedFilesystemType = StringConverter::ToLower (StringConverter::ToSingle (filesystemType));
+		bool explicitKernelNtfsRequest = requestedFilesystemType == "kernel-ntfs" || requestedFilesystemType == "ntfs-kernel";
+
+		if (requestedFilesystemType == "ntfs3")
+		{
+			// mount.ntfs3 helpers are not required; -i keeps mount(8) on the kernel path.
+			internalMountOnly = true;
+			return;
+		}
+
+		if (!explicitKernelNtfsRequest
+			&& !(mountNtfsWithKernelDriver
+				&& filesystemType.empty()
+				&& DetectFilesystemType (devicePath) == "ntfs"))
+			return;
+
+		filesystemType = StringConverter::ToWide (SelectNtfsKernelFilesystemType());
+		internalMountOnly = true;
+	}
 #endif
 
-	void CoreUnix::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+	void CoreUnix::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
 		if (GetMountedFilesystems (DevicePath(), mountPoint).size() > 0)
 			throw MountPointUnavailable (SRC_POS);
 
 		list <string> args;
 		string options;
+
+		if (internalMountOnly)
+			args.push_back ("-i");
 
 		if (!filesystemType.empty())
 		{
@@ -1118,19 +1308,17 @@ namespace VeraCrypt
 		if (!options.NoFilesystem && options.MountPoint && !options.MountPoint->IsEmpty())
 		{
 			wstring filesystemType = options.FilesystemType;
+			bool internalMountOnly = false;
 
 #ifdef TC_LINUX
-			if (options.MountNtfsWithNtfs3 && filesystemType.empty()
-				&& DetectFilesystemType (loopDev) == "ntfs")
-			{
-				filesystemType = L"ntfs3";
-			}
+			ResolveNtfsKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
 #endif
 
 			MountFilesystem (loopDev, *options.MountPoint,
 				StringConverter::ToSingle (filesystemType),
 				options.Protection == VolumeProtection::ReadOnly,
-				StringConverter::ToSingle (options.FilesystemOptions));
+				StringConverter::ToSingle (options.FilesystemOptions),
+				internalMountOnly);
 		}
 
 		return loopDev;

@@ -367,8 +367,20 @@ namespace VeraCrypt
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::Ext4;
 				else if (str.IsSameAs (L"NTFS", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::NTFS;
+				else if (str.IsSameAs (L"kernel-ntfs", false)
+					|| str.IsSameAs (L"ntfs-kernel", false))
+				{
+					if (ArgCommand == CommandId::CreateVolume)
+						throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
+
+					ArgMountOptions.FilesystemType = L"kernel-ntfs";
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::NTFS;
+				}
 				else if (str.IsSameAs (L"ntfs3", false))
 				{
+					if (ArgCommand == CommandId::CreateVolume)
+						throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
+
 					ArgMountOptions.FilesystemType = L"ntfs3";
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::NTFS;
 				}
@@ -466,6 +478,10 @@ namespace VeraCrypt
 					ArgMountOptions.PartitionInSystemEncryptionScope = true;
 				else if (token == L"timestamp" || token == L"ts")
 					ArgMountOptions.PreserveTimestamps = false;
+#ifdef TC_LINUX
+				else if (token == L"kernelntfs" || token == L"kernel-ntfs")
+					ArgMountOptions.MountNtfsWithKernelDriver = true;
+#endif
 #ifdef TC_WINDOWS
 				else if (token == L"removable" || token == L"rm")
 					ArgMountOptions.Removable = true;

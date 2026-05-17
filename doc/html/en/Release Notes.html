@@ -39,6 +39,17 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
+<p><strong style="text-align:left">1.26.28</strong> (May 18<sup>th</sup>, 2026):</p>
+<ul>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>Add in-kernel NTFS driver selection for NTFS mounts, including <code>--filesystem=kernel-ntfs</code> and <code>-m kernelntfs</code>.</li>
+	<li><code>--filesystem=ntfs3</code> now pins the kernel ntfs3 driver and bypasses mount helpers such as <code>mount.ntfs3</code>.</li>
+	<li>Translator note: the previous Linux ntfs3 preference strings were replaced by generic in-kernel NTFS driver strings and should be retranslated.</li>
+	</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.26.27</strong> (September 20<sup>th</sup>, 2025):</p>
 <ul>
 <li><strong>All OSes:</strong>

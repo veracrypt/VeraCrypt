@@ -165,7 +165,7 @@
 </tr>
 <tr>
 <td><em>--filesystem=TYPE</em></td>
-<td>Filesystem type to mount or create. For mounting, the type is passed to the system mount command. <em>none</em> disables filesystem mounting or creation. Supported creation types depend on the platform: Linux supports <em>FAT</em>, <em>Ext2</em>, <em>Ext3</em>, <em>Ext4</em>, <em>NTFS</em>, <em>exFAT</em>, and <em>Btrfs</em>; macOS supports <em>FAT</em>, <em>HFS</em>/<em>HFS+</em>/<em>MacOsExt</em>, <em>exFAT</em>, and <em>APFS</em>; FreeBSD and Solaris builds support <em>FAT</em> and <em>UFS</em>. Non-FAT creation requires the corresponding system formatter to be available.</td>
+<td>Filesystem type to mount or create. For mounting, the type is passed to the system mount command. <em>none</em> disables filesystem mounting or creation. On Linux, <em>ntfs3</em> pins the in-kernel ntfs3 driver and bypasses mount helpers, while <em>kernel-ntfs</em> selects an available in-kernel NTFS driver (<em>ntfs</em> or <em>ntfs3</em>). These Linux driver selectors are mount-only; use <em>NTFS</em> when creating a new NTFS volume. Supported creation types depend on the platform: Linux supports <em>FAT</em>, <em>Ext2</em>, <em>Ext3</em>, <em>Ext4</em>, <em>NTFS</em>, <em>exFAT</em>, and <em>Btrfs</em>; macOS supports <em>FAT</em>, <em>HFS</em>/<em>HFS+</em>/<em>MacOsExt</em>, <em>exFAT</em>, and <em>APFS</em>; FreeBSD and Solaris builds support <em>FAT</em> and <em>UFS</em>. Non-FAT creation requires the corresponding system formatter to be available.</td>
 </tr>
 <tr>
 <td><em>-f</em> or <em>--force</em></td>
@@ -197,7 +197,7 @@
 </tr>
 <tr>
 <td><em>-m OPTION1[,OPTION2,...]</em> or <em>--mount-options=OPTION1[,OPTION2,...]</em></td>
-<td>Set VeraCrypt volume mount options. Supported options are <em>headerbak</em>, <em>nokernelcrypto</em>, <em>readonly</em> or <em>ro</em>, <em>system</em>, and <em>timestamp</em> or <em>ts</em>.</td>
+<td>Set VeraCrypt volume mount options. Supported options are <em>headerbak</em>, <em>nokernelcrypto</em>, <em>readonly</em> or <em>ro</em>, <em>system</em>, and <em>timestamp</em> or <em>ts</em>. On Linux, <em>kernelntfs</em> enables in-kernel NTFS driver selection for the current mount when NTFS is detected and no filesystem type was supplied.</td>
 </tr>
 <tr>
 <td><em>--new-hash=HASH</em></td>
@@ -310,6 +310,8 @@
 <p><code>veracrypt -m ro -k keyfile1,keyfile2 volume.hc /media/veracrypt1</code></p>
 <p>Mount a volume without mounting its filesystem:</p>
 <p><code>veracrypt --filesystem=none volume.hc</code></p>
+<p>Mount an NTFS volume using a Linux in-kernel NTFS driver:</p>
+<p><code>veracrypt -t --filesystem=kernel-ntfs volume.hc /media/veracrypt1</code></p>
 <p>Mount a volume prompting only for its password:</p>
 <p><code>veracrypt -t -k "" --pim=0 --protect-hidden=no volume.hc /media/veracrypt1</code></p>
 <p>Mount a volume non-interactively and read the password from standard input:</p>

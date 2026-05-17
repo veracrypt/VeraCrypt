@@ -27,7 +27,7 @@ namespace VeraCrypt
 			:
 			CachePassword (false),
 #ifdef TC_LINUX
-			MountNtfsWithNtfs3 (false),
+			MountNtfsWithKernelDriver (false),
 #endif
 			NoFilesystem (false),
 			NoHardwareCrypto (false),
@@ -55,7 +55,7 @@ namespace VeraCrypt
 		wstring FilesystemOptions;
 		wstring FilesystemType;
 #ifdef TC_LINUX
-		bool MountNtfsWithNtfs3;
+		bool MountNtfsWithKernelDriver;
 #endif
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <DirectoryPath> MountPoint;

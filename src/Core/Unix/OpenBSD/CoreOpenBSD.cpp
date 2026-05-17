@@ -141,8 +141,10 @@ namespace VeraCrypt
 		return mountedFilesystems;
 	}
 
-	void CoreOpenBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+	void CoreOpenBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
+		(void) internalMountOnly;
+
 		try
 		{
 			// Try to mount FAT by default as mount is unable to probe filesystem type on BSD

@@ -28,14 +28,14 @@
 namespace VeraCrypt
 {
 #ifdef TC_LINUX
-	class Ntfs3HelpIconWindow : public wxWindow
+	class KernelNtfsHelpIconWindow : public wxWindow
 	{
 	public:
-		Ntfs3HelpIconWindow (wxWindow *parent)
+		KernelNtfsHelpIconWindow (wxWindow *parent)
 			: wxWindow (parent, wxID_ANY, wxDefaultPosition, wxSize (16, 16))
 		{
 			SetMinSize (wxSize (16, 16));
-			Bind (wxEVT_PAINT, &Ntfs3HelpIconWindow::OnPaint, this);
+			Bind (wxEVT_PAINT, &KernelNtfsHelpIconWindow::OnPaint, this);
 		}
 
 	protected:
@@ -98,18 +98,18 @@ namespace VeraCrypt
 
 		FilesystemOptionsTextCtrl->SetValue (Preferences.DefaultMountOptions.FilesystemOptions);
 #ifdef TC_LINUX
-		wxBoxSizer *ntfs3PreferenceSizer = new wxBoxSizer (wxHORIZONTAL);
-		MountNtfsWithNtfs3CheckBox = new wxCheckBox (FilesystemSizer->GetStaticBox(), wxID_ANY, LangString["LINUX_PREF_MOUNT_NTFS_WITH_NTFS3"]);
-		MountNtfsWithNtfs3CheckBox->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP"]);
-		ntfs3PreferenceSizer->Add (MountNtfsWithNtfs3CheckBox, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+		wxBoxSizer *kernelNtfsPreferenceSizer = new wxBoxSizer (wxHORIZONTAL);
+		MountNtfsWithKernelDriverCheckBox = new wxCheckBox (FilesystemSizer->GetStaticBox(), wxID_ANY, LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER"]);
+		MountNtfsWithKernelDriverCheckBox->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP"]);
+		kernelNtfsPreferenceSizer->Add (MountNtfsWithKernelDriverCheckBox, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
 
-		wxWindow *ntfs3HelpIcon = new Ntfs3HelpIconWindow (FilesystemSizer->GetStaticBox());
-		ntfs3HelpIcon->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP"]);
-		ntfs3PreferenceSizer->Add (ntfs3HelpIcon, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 10);
+		wxWindow *kernelNtfsHelpIcon = new KernelNtfsHelpIconWindow (FilesystemSizer->GetStaticBox());
+		kernelNtfsHelpIcon->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP"]);
+		kernelNtfsPreferenceSizer->Add (kernelNtfsHelpIcon, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 10);
 
-		FilesystemSizer->Add (ntfs3PreferenceSizer, 0, wxALL, 5);
+		FilesystemSizer->Add (kernelNtfsPreferenceSizer, 0, wxALL, 5);
 
-		MountNtfsWithNtfs3CheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.MountNtfsWithNtfs3));
+		MountNtfsWithKernelDriverCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.MountNtfsWithKernelDriver));
 #endif
 
 		int index, prfInitialIndex = 0;

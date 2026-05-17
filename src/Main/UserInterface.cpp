@@ -526,6 +526,7 @@ namespace VeraCrypt
 		EX2MSG (InvalidSecurityTokenKeyfilePath,	LangString["INVALID_TOKEN_KEYFILE_PATH"]);
 		EX2MSG (HigherVersionRequired,				LangString["NEW_VERSION_REQUIRED"]);
 		EX2MSG (KernelCryptoServiceTestFailed,		LangString["LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED"]);
+		EX2MSG (KernelNtfsDriverUnavailable,		LangString["LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE"]);
 		EX2MSG (KeyfilePathEmpty,					LangString["ERR_KEYFILE_PATH_EMPTY"]);
 		EX2MSG (LoopDeviceSetupFailed,				LangString["LINUX_EX2MSG_LOOPDEVICESETUPFAILED"]);
 		EX2MSG (MissingArgument,					LangString["LINUX_EX2MSG_MISSINGARGUMENT"]);
@@ -1307,13 +1308,22 @@ const FileManager fileManagers[] = {
 					" option specifies the filesystem to be created on the new volume.\n"
 					" Filesystem type 'none' disables mounting or creating a filesystem.\n"
 #ifdef TC_LINUX
-					" On Linux, filesystem type 'ntfs3' mounts an NTFS volume using the\n"
-					" in-kernel ntfs3 driver. The ntfs3 kernel module must be available\n"
-					" and allowed by the distribution; otherwise mounting may fail.\n"
-					" The Linux preference \"Mount NTFS volumes with the Linux kernel ntfs3\n"
+					" On Linux, filesystem type 'ntfs3' mounts with the in-kernel ntfs3\n"
+					" driver and bypasses mount helpers. Filesystem type 'kernel-ntfs'\n"
+					" mounts an NTFS volume using an available in-kernel NTFS driver.\n"
+					" These Linux driver selectors are mount-only; use filesystem type\n"
+					" 'NTFS' when creating a new NTFS volume.\n"
+					" VeraCrypt uses ntfs when it is positively identified as a modern\n"
+					" read/write driver or expected on Linux 7.1 or later;\n"
+					" otherwise it selects ntfs3.\n"
+					" The Linux preference \"Mount NTFS volumes with an in-kernel Linux\n"
 					" driver\" is disabled by default. When enabled, VeraCrypt probes the\n"
-					" decrypted virtual device with blkid -p and applies ntfs3 only when\n"
-					" NTFS is detected and no explicit filesystem type was supplied. If\n"
+					" decrypted virtual device with blkid -p and uses an available in-kernel\n"
+					" NTFS driver only when NTFS is detected and no explicit filesystem type\n"
+					" was supplied. The mount option -m kernelntfs enables the same detected\n"
+					" NTFS selection for the current mount; use --filesystem=kernel-ntfs to\n"
+					" force kernel-driver selection. If no supported in-kernel NTFS driver is\n"
+					" available, mounting fails instead of falling back to ntfs-3g. If\n"
 					" detection fails, VeraCrypt uses the normal automatic filesystem\n"
 					" selection. This can avoid suspend or hibernate hangs caused by frozen\n"
 					" user-space FUSE filesystems during kernel filesystem sync; use findmnt\n"
@@ -1369,6 +1379,10 @@ const FileManager fileManagers[] = {
 					"   is unmounted (note that the operating system under certain circumstances\n"
 					"   does not alter host-file timestamps, which may be mistakenly interpreted\n"
 					"   to mean that this option does not work).\n"
+#ifdef TC_LINUX
+					"  kernelntfs: Use an available in-kernel NTFS driver when NTFS is\n"
+					"   detected and no filesystem type was supplied.\n"
+#endif
 					" See also option --fs-options.\n"
 					"\n"
 					"--new-keyfiles=KEYFILE1[,KEYFILE2,KEYFILE3,...]\n"
@@ -1468,8 +1482,8 @@ const FileManager fileManagers[] = {
 					"veracrypt -t -k \"\" --pim=0 --protect-hidden=no volume.hc /media/veracrypt1\n"
 					"\n"
 #ifdef TC_LINUX
-					"Mount an NTFS volume using the Linux in-kernel ntfs3 driver:\n"
-					"veracrypt -t --filesystem=ntfs3 volume.hc /media/veracrypt1\n"
+					"Mount an NTFS volume using a Linux in-kernel NTFS driver:\n"
+					"veracrypt -t --filesystem=kernel-ntfs volume.hc /media/veracrypt1\n"
 					"\n"
 #endif
 					"Unmount a volume:\n"
@@ -1762,6 +1776,7 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (EncryptedSystemRequired);
 		VC_CONVERT_EXCEPTION (HigherFuseVersionRequired);
 		VC_CONVERT_EXCEPTION (KernelCryptoServiceTestFailed);
+		VC_CONVERT_EXCEPTION (KernelNtfsDriverUnavailable);
 		VC_CONVERT_EXCEPTION (LoopDeviceSetupFailed);
 		VC_CONVERT_EXCEPTION (MountPointRequired);
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);

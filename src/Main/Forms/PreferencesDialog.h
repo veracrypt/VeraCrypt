@@ -56,7 +56,7 @@ namespace VeraCrypt
 
 		KeyfilesPanel *DefaultKeyfilesPanel;
 #ifdef TC_LINUX
-		wxCheckBox *MountNtfsWithNtfs3CheckBox;
+		wxCheckBox *MountNtfsWithKernelDriverCheckBox;
 #endif
 		int LastVirtualKeyPressed;
 		unique_ptr <wxTimer> mTimer;

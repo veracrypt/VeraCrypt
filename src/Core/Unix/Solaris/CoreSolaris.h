@@ -30,7 +30,7 @@ namespace VeraCrypt
 		virtual DevicePath AttachFileToLoopDevice (const FilePath &filePath, bool readOnly) const;
 		virtual void DetachLoopDevice (const DevicePath &devicePath) const;
 		virtual MountedFilesystemList GetMountedFilesystems (const DevicePath &devicePath = DevicePath(), const DirectoryPath &mountPoint = DirectoryPath()) const;
-		virtual void MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const;
+		virtual void MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly = false) const;
 
 	private:
 		CoreSolaris (const CoreSolaris &);

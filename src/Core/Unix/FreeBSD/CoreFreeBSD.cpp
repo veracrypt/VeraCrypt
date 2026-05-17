@@ -183,8 +183,10 @@ namespace VeraCrypt
 		return mountedFilesystems;
 	}
 
-	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
+		(void) internalMountOnly;
+
 		std::string chosenFilesystem = "msdos";
 		std::string modifiedMountOptions = systemMountOptions;
 

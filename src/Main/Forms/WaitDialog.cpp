@@ -53,6 +53,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (EncryptedSystemRequired);
 		VC_CONVERT_EXCEPTION (HigherFuseVersionRequired);
 		VC_CONVERT_EXCEPTION (KernelCryptoServiceTestFailed);
+		VC_CONVERT_EXCEPTION (KernelNtfsDriverUnavailable);
 		VC_CONVERT_EXCEPTION (LoopDeviceSetupFailed);
 		VC_CONVERT_EXCEPTION (MountPointRequired);
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);
