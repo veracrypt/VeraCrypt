@@ -27,6 +27,48 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_LINUX
+	class Ntfs3HelpIconWindow : public wxWindow
+	{
+	public:
+		Ntfs3HelpIconWindow (wxWindow *parent)
+			: wxWindow (parent, wxID_ANY, wxDefaultPosition, wxSize (16, 16))
+		{
+			SetMinSize (wxSize (16, 16));
+			Bind (wxEVT_PAINT, &Ntfs3HelpIconWindow::OnPaint, this);
+		}
+
+	protected:
+		void OnPaint (wxPaintEvent&)
+		{
+			wxPaintDC dc (this);
+			wxSize size = GetClientSize();
+			wxColour backgroundColor = GetBackgroundColour();
+			wxColour color = GetForegroundColour();
+			int diameter = (size.GetWidth() < size.GetHeight() ? size.GetWidth() : size.GetHeight()) - 1;
+			int x = (size.GetWidth() - diameter) / 2;
+			int y = (size.GetHeight() - diameter) / 2;
+			wxCoord textWidth, textHeight;
+
+			if (GetParent())
+				backgroundColor = GetParent()->GetBackgroundColour();
+			if (!backgroundColor.IsOk())
+				backgroundColor = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOW);
+			if (!color.IsOk())
+				color = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOWTEXT);
+
+			dc.SetBackground (wxBrush (backgroundColor));
+			dc.Clear();
+			dc.SetPen (wxPen (color, 1));
+			dc.SetBrush (*wxTRANSPARENT_BRUSH);
+			dc.SetTextForeground (color);
+			dc.DrawEllipse (x, y, diameter, diameter);
+			dc.GetTextExtent (L"?", &textWidth, &textHeight);
+			dc.DrawText (L"?", (size.GetWidth() - textWidth) / 2, (size.GetHeight() - textHeight) / 2 - 1);
+		}
+	};
+#endif
+
 	PreferencesDialog::PreferencesDialog (wxWindow* parent)
 		: PreferencesDialogBase (parent),
 		LastVirtualKeyPressed (0),
@@ -61,36 +103,8 @@ namespace VeraCrypt
 		MountNtfsWithNtfs3CheckBox->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP"]);
 		ntfs3PreferenceSizer->Add (MountNtfsWithNtfs3CheckBox, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
 
-		wxWindow *ntfs3HelpIcon = new wxWindow (FilesystemSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize (16, 16));
-		ntfs3HelpIcon->SetMinSize (wxSize (16, 16));
+		wxWindow *ntfs3HelpIcon = new Ntfs3HelpIconWindow (FilesystemSizer->GetStaticBox());
 		ntfs3HelpIcon->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_NTFS3_HELP"]);
-		ntfs3HelpIcon->Bind (wxEVT_PAINT, [ntfs3HelpIcon] (wxPaintEvent&)
-		{
-			wxPaintDC dc (ntfs3HelpIcon);
-			wxSize size = ntfs3HelpIcon->GetClientSize();
-			wxColour backgroundColor = ntfs3HelpIcon->GetBackgroundColour();
-			wxColour color = ntfs3HelpIcon->GetForegroundColour();
-			int diameter = (size.GetWidth() < size.GetHeight() ? size.GetWidth() : size.GetHeight()) - 1;
-			int x = (size.GetWidth() - diameter) / 2;
-			int y = (size.GetHeight() - diameter) / 2;
-			wxCoord textWidth, textHeight;
-
-			if (ntfs3HelpIcon->GetParent())
-				backgroundColor = ntfs3HelpIcon->GetParent()->GetBackgroundColour();
-			if (!backgroundColor.IsOk())
-				backgroundColor = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOW);
-			if (!color.IsOk())
-				color = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOWTEXT);
-
-			dc.SetBackground (wxBrush (backgroundColor));
-			dc.Clear();
-			dc.SetPen (wxPen (color, 1));
-			dc.SetBrush (*wxTRANSPARENT_BRUSH);
-			dc.SetTextForeground (color);
-			dc.DrawEllipse (x, y, diameter, diameter);
-			dc.GetTextExtent (L"?", &textWidth, &textHeight);
-			dc.DrawText (L"?", (size.GetWidth() - textWidth) / 2, (size.GetHeight() - textHeight) / 2 - 1);
-		});
 		ntfs3PreferenceSizer->Add (ntfs3HelpIcon, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 10);
 
 		FilesystemSizer->Add (ntfs3PreferenceSizer, 0, wxALL, 5);
