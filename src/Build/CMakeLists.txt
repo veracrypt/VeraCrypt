@@ -27,9 +27,9 @@ else()
 endif()
 project(${PROJECT_NAME})
 
-# SOURCE_DATE_EPOCH for the cpack-driven DEB/RPM/openSUSE pipeline.
+# SOURCE_DATE_EPOCH for the cpack-driven DEB pipeline.
 # Precedence: -DSOURCE_DATE_EPOCH=N, env, git HEAD, fixed fallback.
-# Re-exported to ENV so dpkg-deb/rpmbuild/tar inherit it.
+# Re-exported to ENV so dpkg-deb/tar inherit it.
 if(NOT DEFINED SOURCE_DATE_EPOCH)
     if(DEFINED ENV{SOURCE_DATE_EPOCH})
         set(SOURCE_DATE_EPOCH "$ENV{SOURCE_DATE_EPOCH}")
@@ -240,18 +240,6 @@ install(DIRECTORY 	${VERACRYPT_BUILD_DIR}/usr/share
 		USE_SOURCE_PERMISSIONS)
 set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
 
-# Reproducible builds: clamp the just-installed staging tree's mtimes
-# and modes so the DEB/RPM payload is independent of wall-clock time and
-# the build umask. Placed AFTER install(DIRECTORY) so it runs against a
-# populated tree (install rules execute in declaration order). The script
-# acts only on a real package staging root and refuses a live prefix;
-# see the script header for the staging-root detection rules.
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/Tools/cmake_repro_clamp_mtimes.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake"
-    @ONLY)
-install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake")
-
 # For packaging 
 # CPack will first install into ${CPACK_PACKAGE_DIRECTORY}/_CPack_Packages/<system_name>/DEB,RPM/${CPACK_PACKAGE_NAME}/${CPACK_PACKAGING_INSTALL_PREFIX}
 # See https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/PackageGenerators
@@ -289,6 +277,19 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set( DEBIAN_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
 	
 	set( CPACK_GENERATOR 					"DEB" )																				# mandatory
+
+	# Reproducible DEB: clamp the just-installed staging tree's mtimes
+	# and modes so the payload is independent of wall-clock time and
+	# the build umask. Placed AFTER install(DIRECTORY) so it runs against a
+	# populated tree (install rules execute in declaration order). The script
+	# acts only on a real package staging root and refuses a live prefix;
+	# see the script header for the staging-root detection rules.
+	configure_file(
+		"${CMAKE_CURRENT_SOURCE_DIR}/Tools/cmake_repro_clamp_mtimes.cmake.in"
+		"${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake"
+		@ONLY)
+	install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake")
+
 	set( CPACK_DEBIAN_PACKAGE_NAME 			${CPACK_PACKAGE_NAME}  )															# mandatory
 	set( CPACK_DEBIAN_FILE_NAME 			${CPACK_PACKAGE_FILE_NAME}.deb )													# mandatory
 	# -- Use a distro-specific version string to avoid repository conflicts --
@@ -391,13 +392,6 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	set( CPACK_RPM_PACKAGE_VENDOR 		${CPACK_PACKAGE_VENDOR} )																# mandatory
 	set( CPACK_RPM_PACKAGE_AUTOREQ 		"no" ) 																					# disable automatic shared libraries dependency detection (most of the time buggy)
 
-	# Reproducible RPM: derive BUILDTIME and clamp payload mtimes from
-	# SOURCE_DATE_EPOCH instead of wall-clock time. These macros exist in
-	# rpm >= 4.14; older rpm treats them as unknown defines and ignores
-	# them, so the package still builds.
-	set( CPACK_RPM_SPEC_MORE_DEFINE [==[%define use_source_date_epoch_as_buildtime 1
-%define clamp_mtime_to_source_date_epoch 1
-%define source_date_epoch_from_changelog 0]==] )
 	if (VC_WITH_FUSE3)
 		set(VC_RPM_FUSE_PACKAGE "fuse3")
 	else ()

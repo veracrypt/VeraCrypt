@@ -3,7 +3,7 @@
 #
 # Run at install time by install(SCRIPT ...) AFTER all install(DIRECTORY)
 # rules, so the staging tree is fully populated. Clamps every file's mtime
-# and permission bits so the CPack DEB/RPM payload is reproducible.
+# and permission bits so the CPack DEB payload is reproducible.
 #
 # Safety: only a package staging tree may be modified, never a live host
 # tree. Two recognised staging conventions:

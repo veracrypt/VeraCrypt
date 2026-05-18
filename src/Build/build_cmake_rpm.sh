@@ -9,15 +9,8 @@
 # Errors should cause script to exit
 set -e
 
-# Deterministic umask (see build_cmake_deb.sh for rationale: keeps
-# package-internal file modes independent of the caller's umask).
+# Keep staged RPM payload permissions independent of the caller's umask.
 umask 022
-
-# See build_cmake_deb.sh for rationale.
-if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
-    SOURCE_DATE_EPOCH=$(git -C "$(dirname "$0")/../.." log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
-fi
-export SOURCE_DATE_EPOCH
 
 # Absolute path to this script
 export SCRIPT=$(readlink -f "$0")
@@ -138,7 +131,7 @@ mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
 
 # wxWidgets was built using native GTK version
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake || exit 1

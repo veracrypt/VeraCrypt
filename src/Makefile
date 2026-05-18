@@ -598,6 +598,7 @@ LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 # no git tree so that unattended builds are still deterministic.
 ifndef SOURCE_DATE_EPOCH
 export SOURCE_DATE_EPOCH := $(shell git -C $(BASE_DIR) log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
+export VC_SOURCE_DATE_EPOCH_AUTO := 1
 endif
 
 # cc-option: return $(1) if the C compiler accepts it, empty otherwise.
