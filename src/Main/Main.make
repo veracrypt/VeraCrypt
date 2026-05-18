@@ -417,19 +417,19 @@ endif
 	# self-extracting installer is byte-identical across builds.
 	# Flags gated per probe; invoked from Setup/Linux with relative paths
 	# so the build path does not end up in makeself's echoed argv.
-	@cd $(BASE_DIR)/Setup/Linux && _ms_opts=""; \
+	@cd $(BASE_DIR)/Setup/Linux && set --; \
 	if [ "$(MAKESELF_PACKAGING_DATE)" = yes ]; then \
-		_ms_opts="$$_ms_opts --packaging-date @$(SOURCE_DATE_EPOCH)"; \
+		set -- "$$@" --packaging-date "@$(SOURCE_DATE_EPOCH)"; \
 	fi; \
 	if [ "$(MAKESELF_TAR_EXTRA)" = yes ] && [ "$(TAR_DETERMINISTIC)" = yes ]; then \
-		_ms_opts="$$_ms_opts --tar-extra '--sort=name --mtime=@$(SOURCE_DATE_EPOCH) --owner=0 --group=0 --numeric-owner --mode=go-w,a+rX'"; \
+		set -- "$$@" --tar-extra "--sort=name --mtime=@$(SOURCE_DATE_EPOCH) --owner=0 --group=0 --numeric-owner --mode=go-w,a+rX"; \
 	fi; \
-	if [ -z "$$_ms_opts" ]; then \
+	if [ "$$#" -eq 0 ]; then \
 		echo "Reproducible build: makeself flags unavailable, installer will not be byte-identical"; \
 	fi; \
-	eval makeself $$_ms_opts \
-		packaging $(INSTALLER_NAME) \
-		'"VeraCrypt $(TC_VERSION) Installer"' ./$(INTERNAL_INSTALLER_NAME)
+	makeself "$$@" \
+		packaging "$(INSTALLER_NAME)" \
+		"VeraCrypt $(TC_VERSION) Installer" "./$(INTERNAL_INSTALLER_NAME)"
 	# makeself runs 'gzip -c9 < tmpfile' which writes tmpfile's mtime into
 	# the gzip header (SOURCE_DATE_EPOCH is ignored for redirected stdin).
 	# Zero the mtime and refresh CRCsum/MD5; installer --check still passes.

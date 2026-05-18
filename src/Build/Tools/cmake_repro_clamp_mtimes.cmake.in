@@ -11,8 +11,8 @@
 #      <build>/_CPack_Packages/.../<pkg>${CPACK_PACKAGING_INSTALL_PREFIX}
 #      directory, exposed here as CMAKE_INSTALL_PREFIX. We require the
 #      path to contain a "_CPack_Packages" component.
-#   2. "make DESTDIR=<dir> install" style: $ENV{DESTDIR} is non-empty and
-#      the staging root is $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}.
+#   2. "make DESTDIR=<dir> install" style: $ENV{DESTDIR} is a non-live
+#      staging root and $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX} is clamped.
 # Anything else (bare "cmake --install" into /usr or /usr/local) is
 # refused so root cannot rewrite mtimes/modes outside a package build.
 
@@ -24,6 +24,13 @@ set(_destdir "$ENV{DESTDIR}")
 set(_prefix "${CMAKE_INSTALL_PREFIX}")
 
 if(NOT _destdir STREQUAL "")
+    get_filename_component(_destdir_abs "${_destdir}" ABSOLUTE)
+    foreach(_live_destdir "/" "/usr" "/usr/local" "/opt")
+        if(_destdir_abs STREQUAL "${_live_destdir}")
+            message(FATAL_ERROR "Reproducible build: refusing to clamp live "
+                                "DESTDIR '${_destdir}'")
+        endif()
+    endforeach()
     set(_staging "${_destdir}${_prefix}")
 elseif(_prefix MATCHES "/_CPack_Packages/")
     set(_staging "${_prefix}")
@@ -33,6 +40,7 @@ else()
                    "staging tree); skipping mtime/mode clamp")
     return()
 endif()
+get_filename_component(_staging "${_staging}" ABSOLUTE)
 
 if(NOT IS_DIRECTORY "${_staging}")
     message(STATUS "Reproducible build: staging root '${_staging}' absent, "
@@ -43,6 +51,10 @@ endif()
 # SOURCE_DATE_EPOCH is baked in by configure_file-style substitution from
 # the parent CMakeLists (see install(SCRIPT) call site).
 set(_epoch "@SOURCE_DATE_EPOCH@")
+if(NOT _epoch MATCHES "^[0-9]+$")
+    message(FATAL_ERROR "Reproducible build: SOURCE_DATE_EPOCH must be a "
+                        "non-negative Unix timestamp")
+endif()
 
 # Probe GNU touch on a private temp file, not /dev/null: /dev/null is
 # root-owned, so probing it fails for normal users and rewrites the

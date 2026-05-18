@@ -21,6 +21,12 @@ umask 022
 if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
     SOURCE_DATE_EPOCH=$(git -C "$(dirname "$0")/../.." log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
 fi
+case "$SOURCE_DATE_EPOCH" in
+    ''|*[!0-9]*)
+        echo "Error: SOURCE_DATE_EPOCH must be a non-negative Unix timestamp" >&2
+        exit 1
+        ;;
+esac
 export SOURCE_DATE_EPOCH
 
 # Absolute path to this script

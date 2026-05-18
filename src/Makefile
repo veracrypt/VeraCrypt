@@ -600,6 +600,24 @@ ifndef SOURCE_DATE_EPOCH
 export SOURCE_DATE_EPOCH := $(shell git -C $(BASE_DIR) log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
 export VC_SOURCE_DATE_EPOCH_AUTO := 1
 endif
+override export SOURCE_DATE_EPOCH := $(value SOURCE_DATE_EPOCH)
+SOURCE_DATE_EPOCH_REMAINDER := $(value SOURCE_DATE_EPOCH)
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 0,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 1,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 2,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 3,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 4,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 5,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 6,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 7,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 8,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 9,,$(SOURCE_DATE_EPOCH_REMAINDER))
+ifeq "$(SOURCE_DATE_EPOCH)" ""
+$(error SOURCE_DATE_EPOCH must be a non-negative Unix timestamp)
+endif
+ifneq "$(SOURCE_DATE_EPOCH_REMAINDER)" ""
+$(error SOURCE_DATE_EPOCH must contain decimal digits only)
+endif
 
 # cc-option: return $(1) if the C compiler accepts it, empty otherwise.
 cc-option = $(shell printf 'int main(void){return 0;}' | $(CC) $(1) -x c -c - -o /dev/null >/dev/null 2>&1 && echo $(1))
