@@ -99,6 +99,9 @@ namespace VeraCrypt
 		g_customIdCmdA = wxNewId();
 		wxApp::s_macHelpMenuTitleName = LangString["MENU_HELP"];
 #endif
+#if wxCHECK_VERSION(3, 1, 6)
+		wxSizerFlags::DisableConsistencyChecks();
+#endif
 	}
 
 	GraphicUserInterface::~GraphicUserInterface ()
