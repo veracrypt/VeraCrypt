@@ -9,6 +9,9 @@
 # Errors should cause script to exit
 set -e
 
+# Keep staged RPM payload permissions independent of the caller's umask.
+umask 022
+
 # Absolute path to this script
 export SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in

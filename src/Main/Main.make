@@ -194,13 +194,18 @@ endif
 endif
 #-----------------------------------
 
+# Probe strip --enable-deterministic-archives against a private object
+# rather than "-V" (which can fail in getopt before printing). All
+# platforms, so non-Linux behaviour matches the original PR.
+STRIP_DETERMINISTIC := $(strip $(shell d=$$(mktemp -d 2>/dev/null) && printf 'int x;\n' | $(CC) -x c -c - -o "$$d/o.o" >/dev/null 2>&1 && strip --enable-deterministic-archives "$$d/o.o" >/dev/null 2>&1 && echo --enable-deterministic-archives; rm -rf "$$d"))
+
 $(APPNAME): $(LIBS) $(OBJS)
 	@echo Linking $@
 	$(CXX) -o $(APPNAME) $(OBJS) $(LIBS) $(AYATANA_LIBS) $(FUSE_LIBS) $(WX_LIBS) $(LFLAGS)
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifndef NOSTRIP
-	strip $(APPNAME)
+	strip $(STRIP_DETERMINISTIC) $(APPNAME)
 endif
 
 ifndef NOTEST
@@ -294,6 +299,23 @@ endif
 
 
 ifeq "$(PLATFORM)" "Linux"
+
+# Packaging-tool feature probes. Empty result = host lacks the feature;
+# the recipe falls back to the pre-PR (non-deterministic) form with a
+# warning. $(strip) because $(shell) keeps trailing whitespace which
+# would break the "= yes" equality test in the recipe.
+#
+# All probes act on a private $(mktemp) file and clean it up. touch
+# probing /dev/null fails (EPERM) for unprivileged users and rewrites
+# the device node as root. The tar option set requires GNU tar >= 1.28,
+# so the probe exercises it exactly rather than matching "GNU tar".
+# MAKESELF_TAR_EXTRA needs Makeself >= 2.3.1 (cited in the review).
+TOUCH_REPRODUCIBLE      := $(strip $(shell t=$$(mktemp 2>/dev/null) && touch --no-dereference --date=@0 "$$t" >/dev/null 2>&1 && echo yes; rm -f "$$t"))
+TAR_DETERMINISTIC       := $(strip $(shell t=$$(mktemp 2>/dev/null) && tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner --mode='go-w,a+rX' --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime -cf "$$t" --files-from /dev/null >/dev/null 2>&1 && echo yes; rm -f "$$t"))
+GZIP_NO_TIMESTAMP       := $(strip $(shell printf x | gzip -n -c >/dev/null 2>&1 && echo yes))
+MAKESELF_PACKAGING_DATE := $(strip $(shell makeself --help 2>&1 | grep -q -- '--packaging-date' && echo yes))
+MAKESELF_TAR_EXTRA      := $(strip $(shell makeself --help 2>&1 | grep -q -- '--tar-extra' && echo yes))
+
 prepare: $(APPNAME)
 	rm -fr $(BASE_DIR)/Setup/Linux/usr
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/bin
@@ -331,6 +353,22 @@ ifndef TC_NO_GUI
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
 	ln -sf usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
 endif
+	# Normalise modification times of every staged file. cp preserves the
+	# checkout-time mtimes of the source tree, which would otherwise leak
+	# into the tar/makeself archives and break reproducibility.
+	# Only run when GNU touch supports the option set. Keep AppImage
+	# outside this narrowed reproducibility scope: appimagetool is not
+	# verified here, so do not pre-clamp veracrypt.AppDir for that target.
+ifeq "$(TOUCH_REPRODUCIBLE)" "yes"
+	_appdir="$(BASE_DIR)/Setup/Linux/veracrypt.AppDir"; \
+	if [ -n "$(filter appimage,$(MAKECMDGOALS))" ] || [ ! -d "$$_appdir" ]; then \
+		_appdir=""; \
+	fi; \
+	find $(BASE_DIR)/Setup/Linux/usr $$_appdir \
+		-exec touch --no-dereference --date=@$(SOURCE_DATE_EPOCH) {} +
+else
+	@echo "Reproducible build: GNU touch unavailable, skipping mtime normalisation"
+endif
 
 
 install: prepare
@@ -341,7 +379,25 @@ endif
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
+	# Deterministic tarball: sort members, pin mtime to SOURCE_DATE_EPOCH,
+	# drop owner/group identity, and use gzip -n so no timestamp/name is
+	# stored in the gzip header.
+	# --mode= normalises permission bits so the host umask cannot leak
+	# into them. Falls back to plain tar cfz when probes fail.
+ifeq "$(TAR_DETERMINISTIC)$(GZIP_NO_TIMESTAMP)" "yesyes"
+	tar --sort=name --mtime=@$(SOURCE_DATE_EPOCH) \
+		--owner=0 --group=0 --numeric-owner \
+		--mode='go-w,a+rX' \
+		--pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime \
+		-cf $(BASE_DIR)/Setup/Linux/$(APPNAME)_$(TC_VERSION).tar \
+		--directory $(BASE_DIR)/Setup/Linux usr
+	gzip -9 -n -c $(BASE_DIR)/Setup/Linux/$(APPNAME)_$(TC_VERSION).tar \
+		> $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME)
+	rm -f $(BASE_DIR)/Setup/Linux/$(APPNAME)_$(TC_VERSION).tar
+else
+	@echo "Reproducible build: non-deterministic tar.gz fallback (GNU tar=$(if $(TAR_DETERMINISTIC),yes,no), gzip -n=$(if $(GZIP_NO_TIMESTAMP),yes,no))"
 	tar cfz $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME) --directory $(BASE_DIR)/Setup/Linux usr
+endif
 
 	@rm -fr $(INTERNAL_INSTALLER_NAME)
 	@echo "#!/bin/sh" > $(INTERNAL_INSTALLER_NAME)
@@ -359,7 +415,33 @@ package: prepare
 	rm -fr $(BASE_DIR)/Setup/Linux/packaging
 	mkdir -p $(BASE_DIR)/Setup/Linux/packaging
 	cp $(INTERNAL_INSTALLER_NAME) $(BASE_DIR)/Setup/Linux/packaging/.
-	makeself $(BASE_DIR)/Setup/Linux/packaging $(BASE_DIR)/Setup/Linux/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) Installer" ./$(INTERNAL_INSTALLER_NAME)
+	# makeself: --packaging-date pins the banner date, SOURCE_DATE_EPOCH is
+	# honoured by the embedded tar/gzip, and the archive is sorted so the
+	# self-extracting installer is byte-identical across builds.
+	# Flags gated per probe; invoked from Setup/Linux with relative paths
+	# so the build path does not end up in makeself's echoed argv.
+	@cd $(BASE_DIR)/Setup/Linux && set --; \
+	if [ "$(MAKESELF_PACKAGING_DATE)" = yes ]; then \
+		set -- "$$@" --packaging-date "@$(SOURCE_DATE_EPOCH)"; \
+	fi; \
+	if [ "$(MAKESELF_TAR_EXTRA)" = yes ] && [ "$(TAR_DETERMINISTIC)" = yes ]; then \
+		set -- "$$@" --tar-extra "--sort=name --mtime=@$(SOURCE_DATE_EPOCH) --owner=0 --group=0 --numeric-owner --mode=go-w,a+rX"; \
+	fi; \
+	if [ "$$#" -eq 0 ]; then \
+		echo "Reproducible build: makeself flags unavailable, installer will not be byte-identical"; \
+	fi; \
+	makeself "$$@" \
+		packaging "$(INSTALLER_NAME)" \
+		"VeraCrypt $(TC_VERSION) Installer" "./$(INTERNAL_INSTALLER_NAME)"
+	# makeself runs 'gzip -c9 < tmpfile' which writes tmpfile's mtime into
+	# the gzip header (SOURCE_DATE_EPOCH is ignored for redirected stdin).
+	# Zero the mtime and refresh CRCsum/MD5; installer --check still passes.
+	@if command -v python3 >/dev/null 2>&1; then \
+		python3 $(BASE_DIR)/Build/Tools/makeself_repro_finalize.py \
+			$(BASE_DIR)/Setup/Linux/$(INSTALLER_NAME); \
+	else \
+		echo "Reproducible build: python3 unavailable, skipping makeself finalize"; \
+	fi
 
 appimage: prepare
 	@set -e; \
@@ -398,6 +480,9 @@ appimage: prepare
 	wget --quiet -O "$${_appimagetool_executable_path}" "$${_appimagetool_url}"; \
 	chmod +x "$${_appimagetool_executable_path}"; \
 	echo "Creating AppImage $${_final_appimage_path}..."; \
+	if [ "$(VC_SOURCE_DATE_EPOCH_AUTO)" = "1" ]; then \
+		unset SOURCE_DATE_EPOCH; \
+	fi; \
 	ARCH="$${_final_appimage_arch_suffix}" "$${_appimagetool_executable_path}" "$(BASE_DIR)/Setup/Linux/veracrypt.AppDir" "$${_final_appimage_path}"; \
 	echo "AppImage created: $${_final_appimage_path}"; \
 	echo "Cleaning up appimagetool..."; \

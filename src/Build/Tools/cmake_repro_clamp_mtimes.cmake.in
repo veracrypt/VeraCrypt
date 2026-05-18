@@ -1,0 +1,108 @@
+# Copyright (c) 2026 VeraCrypt
+# Governed by the Apache License 2.0.
+#
+# Run at install time by install(SCRIPT ...) AFTER all install(DIRECTORY)
+# rules, so the staging tree is fully populated. Clamps every file's mtime
+# and permission bits so the CPack DEB payload is reproducible.
+#
+# Safety: only a package staging tree may be modified, never a live host
+# tree. Two recognised staging conventions:
+#   1. CPack: it installs into its private
+#      <build>/_CPack_Packages/.../<pkg>${CPACK_PACKAGING_INSTALL_PREFIX}
+#      directory, exposed here as CMAKE_INSTALL_PREFIX. We require the
+#      path to contain a "_CPack_Packages" component.
+#   2. "make DESTDIR=<dir> install" style: $ENV{DESTDIR} is a non-live
+#      staging root and $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX} is clamped.
+# Anything else (bare "cmake --install" into /usr or /usr/local) is
+# refused so root cannot rewrite mtimes/modes outside a package build.
+
+if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+    return()
+endif()
+
+set(_destdir "$ENV{DESTDIR}")
+set(_prefix "${CMAKE_INSTALL_PREFIX}")
+
+if(NOT _destdir STREQUAL "")
+    get_filename_component(_destdir_abs "${_destdir}" ABSOLUTE)
+    foreach(_live_destdir "/" "/usr" "/usr/local" "/opt")
+        if(_destdir_abs STREQUAL "${_live_destdir}")
+            message(FATAL_ERROR "Reproducible build: refusing to clamp live "
+                                "DESTDIR '${_destdir}'")
+        endif()
+    endforeach()
+    set(_staging "${_destdir}${_prefix}")
+elseif(_prefix MATCHES "/_CPack_Packages/")
+    set(_staging "${_prefix}")
+else()
+    message(STATUS "Reproducible build: not a package staging install "
+                   "(DESTDIR empty and prefix '${_prefix}' is not a CPack "
+                   "staging tree); skipping mtime/mode clamp")
+    return()
+endif()
+get_filename_component(_staging "${_staging}" ABSOLUTE)
+
+if(NOT IS_DIRECTORY "${_staging}")
+    message(STATUS "Reproducible build: staging root '${_staging}' absent, "
+                   "skipping mtime/mode clamp")
+    return()
+endif()
+
+# SOURCE_DATE_EPOCH is baked in by configure_file-style substitution from
+# the parent CMakeLists (see install(SCRIPT) call site).
+set(_epoch "@SOURCE_DATE_EPOCH@")
+if(NOT _epoch MATCHES "^[0-9]+$")
+    message(FATAL_ERROR "Reproducible build: SOURCE_DATE_EPOCH must be a "
+                        "non-negative Unix timestamp")
+endif()
+
+# Probe GNU touch on a private temp file, not /dev/null: /dev/null is
+# root-owned, so probing it fails for normal users and rewrites the
+# device node's mtime as root (the bug the review flagged).
+execute_process(
+    COMMAND mktemp
+    OUTPUT_VARIABLE _probe
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE _mktemp_rc)
+if(NOT _mktemp_rc EQUAL 0)
+    message(STATUS "Reproducible build: mktemp failed, skipping mtime clamp")
+    return()
+endif()
+execute_process(
+    COMMAND touch --no-dereference --date=@0 "${_probe}"
+    RESULT_VARIABLE _touch_rc
+    OUTPUT_QUIET ERROR_QUIET)
+file(REMOVE "${_probe}")
+if(NOT _touch_rc EQUAL 0)
+    message(STATUS "Reproducible build: GNU touch unavailable, "
+                   "skipping mtime clamp")
+    return()
+endif()
+
+# Normalise permission bits first: the make-side prepare creates staging
+# dirs with "mkdir -p" (umask-dependent) and CPack's tar records those
+# modes verbatim via USE_SOURCE_PERMISSIONS, so umask 027 -> 0750 vs
+# umask 022 -> 0755 breaks reproducibility. Match the legacy tar's
+# --mode=go-w,a+rX: dirs/exes 0755, regular files 0644.
+execute_process(
+    COMMAND find "${_staging}" -type d -exec chmod 0755 {} +
+    RESULT_VARIABLE _cd_rc OUTPUT_QUIET ERROR_QUIET)
+execute_process(
+    COMMAND find "${_staging}" -type f -perm -u+x -exec chmod 0755 {} +
+    RESULT_VARIABLE _cx_rc OUTPUT_QUIET ERROR_QUIET)
+execute_process(
+    COMMAND find "${_staging}" -type f -not -perm -u+x -exec chmod 0644 {} +
+    RESULT_VARIABLE _cf_rc OUTPUT_QUIET ERROR_QUIET)
+
+# Clamp mtimes last so this is the final metadata write.
+execute_process(
+    COMMAND find "${_staging}" -exec
+        touch --no-dereference --date=@${_epoch} {} +
+    RESULT_VARIABLE _find_rc
+    OUTPUT_QUIET ERROR_QUIET)
+
+if(_find_rc EQUAL 0 AND _cd_rc EQUAL 0 AND _cx_rc EQUAL 0 AND _cf_rc EQUAL 0)
+    message(STATUS "Reproducible build: clamped mtimes and modes under ${_staging}")
+else()
+    message(WARNING "Reproducible build: mtime/mode clamp incomplete under ${_staging}")
+endif()

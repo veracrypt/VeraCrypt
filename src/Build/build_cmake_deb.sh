@@ -9,6 +9,26 @@
 # Errors should cause script to exit
 set -e
 
+# Deterministic umask: dpkg-deb records the mode of the temporary ar
+# members (debian-binary, control.tar.gz, data.tar.gz) it creates, so a
+# caller umask of 027 yields 0640 where 022 yields 0644 and the .deb is
+# not reproducible. Pin it for the whole packaging run.
+umask 022
+
+# Compute and export SOURCE_DATE_EPOCH so cmake/cpack inherit it (they get
+# an empty env from this shell otherwise). Precedence: caller, git HEAD,
+# fallback constant matching src/Makefile and CMakeLists.txt.
+if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
+    SOURCE_DATE_EPOCH=$(git -C "$(dirname "$0")/../.." log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
+fi
+case "$SOURCE_DATE_EPOCH" in
+    ''|*[!0-9]*)
+        echo "Error: SOURCE_DATE_EPOCH must be a non-negative Unix timestamp" >&2
+        exit 1
+        ;;
+esac
+export SOURCE_DATE_EPOCH
+
 # Absolute path to this script
 export SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in
@@ -158,8 +178,8 @@ rm -rf $PARENTDIR/VeraCrypt_Packaging
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
 
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
 
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake || exit 1
