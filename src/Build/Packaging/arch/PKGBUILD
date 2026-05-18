@@ -1,0 +1,71 @@
+# Maintainer: VeraCrypt upstream
+
+pkgname=veracrypt
+# This in-tree PKGBUILD is sourced by makepkg from the checkout. It is not
+# suitable for AUR submission or static PKGBUILD parsers.
+_pkgbuild_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+_veracrypt_root="$(cd "${_pkgbuild_dir}/../../../.." && pwd)"
+pkgver="$(awk -F '"' '/^[[:space:]]*#define[[:space:]]+VERSION_STRING[[:space:]]*"/ { print $2; exit }' "${_veracrypt_root}/src/Common/Tcdefs.h")"
+pkgrel=1
+pkgdesc='Disk encryption with strong security based on TrueCrypt'
+url='https://www.veracrypt.jp/'
+arch=(x86_64 aarch64 armv7h)
+license=('LicenseRef-TrueCrypt AND Apache-2.0')
+depends=(
+  device-mapper
+  fuse2
+  gcc-libs
+  glibc
+  libsm
+  wxwidgets-common
+  wxwidgets-gtk3
+)
+optdepends=(
+  'pcsclite: EMV and smart card keyfile support'
+  'sudo: mounting encrypted volumes as nonroot users'
+)
+makedepends=(
+  pcsclite
+)
+makedepends_x86_64=(
+  yasm
+)
+source=()
+sha512sums=()
+
+build() {
+  cd "${_veracrypt_root}/src"
+  make PKG_CONFIG_PATH=/usr/lib/pkgconfig \
+    WX_CONFIG=/usr/bin/wx-config \
+    TC_EXTRA_LFLAGS="${LDFLAGS}" \
+    TC_EXTRA_CXXFLAGS="${CXXFLAGS} ${CPPFLAGS}" \
+    TC_EXTRA_CFLAGS="${CFLAGS} ${CPPFLAGS}" \
+    NOTEST=1 \
+    clean
+
+  make PKG_CONFIG_PATH=/usr/lib/pkgconfig \
+    WX_CONFIG=/usr/bin/wx-config \
+    TC_EXTRA_LFLAGS="${LDFLAGS}" \
+    TC_EXTRA_CXXFLAGS="${CXXFLAGS} ${CPPFLAGS}" \
+    TC_EXTRA_CFLAGS="${CFLAGS} ${CPPFLAGS}" \
+    NOTEST=1 \
+    NOSTRIP=1
+}
+
+check() {
+  cd "${_veracrypt_root}/src"
+  ./Main/veracrypt --text --test >/dev/null
+}
+
+package() {
+  cd "${_veracrypt_root}/src"
+  make DESTDIR="${pkgdir}" \
+    INSTALL_UNINSTALLER=0 \
+    INSTALL_APPIMAGE_FILES=0 \
+    INSTALL_MOUNT_HELPER_DIR=bin \
+    INSTALL_LICENSE_DIR="share/licenses/${pkgname}" \
+    NOSTRIP=1 \
+    install
+}
+
+# vim: ts=2 sw=2 et:

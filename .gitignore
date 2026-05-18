@@ -18,7 +18,14 @@ src/Main/veracrypt
 *.ossse3
 *.oshani
 *.oaesni
+*.oavx2
 *.oarmv8crypto
+src/Setup/Linux/packaging/
+src/Setup/Linux/usr/
+src/Setup/Linux/veracrypt.AppDir/usr/
+src/Setup/Linux/veracrypt.AppDir/veracrypt.png
+src/Setup/Linux/veracrypt_*.tar.gz
+src/Setup/Linux/veracrypt-*-setup-*
 
 # VC macOS build artifacts
 src/Main/VeraCrypt
@@ -33,6 +40,13 @@ src/Setup/MacOSX/*.pkg
 # wxWidgets Linux build artifacts
 src/wxrelease
 src/wxdebug
+
+# Arch Linux package build artifacts
+src/Build/Packaging/arch/pkg/
+src/Build/Packaging/arch/src/
+src/Build/Packaging/arch/PKGBUILD.release
+src/Build/Packaging/arch/*.pkg.tar*
+src/Build/Packaging/arch/*.log
 
 src/.vs
 
