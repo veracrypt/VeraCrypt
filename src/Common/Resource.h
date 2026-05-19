@@ -67,13 +67,19 @@
 #define IDR_BOOT_LOADER_CAMELLIA_SHA2   563
 #define IDR_RESCUE_BOOT_SECTOR_CAMELLIA_SHA2 564
 #define IDR_RESCUE_LOADER_CAMELLIA_SHA2 565
-#define IDR_EFI_DCSBOOT                 566
-#define IDR_EFI_DCSINT                  567
-#define IDR_EFI_DCSCFG                  568
-#define IDR_EFI_LEGACYSPEAKER           569
+#define IDR_EFI_DCSBOOT_2011            566
+#define IDR_EFI_DCSINT_2011             567
+#define IDR_EFI_DCSCFG_2011             568
+#define IDR_EFI_LEGACYSPEAKER_2011      569
 #define IDR_EFI_DCSBML                  570
-#define IDR_EFI_DCSRE                   571
-#define IDR_EFI_DCSINFO                 578
+#define IDR_EFI_DCSRE_2011              571
+#define IDR_EFI_DCSINFO_2011            578
+#define IDR_EFI_DCSBOOT_2023            579
+#define IDR_EFI_DCSINT_2023             580
+#define IDR_EFI_DCSCFG_2023             581
+#define IDR_EFI_LEGACYSPEAKER_2023      582
+#define IDR_EFI_DCSRE_2023              583
+#define IDR_EFI_DCSINFO_2023            584
 #define IDC_HW_AES_LABEL_LINK           5000
 #define IDC_HW_AES                      5001
 #define IDC_PARALLELIZATION_LABEL_LINK  5002
@@ -227,7 +233,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        578
+#define _APS_NEXT_RESOURCE_VALUE        585
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         5147
 #define _APS_NEXT_SYMED_VALUE           101

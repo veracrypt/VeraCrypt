@@ -511,12 +511,18 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Xts.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Boot\EFI\DcsBoot.efi" />
-    <None Include="..\Boot\EFI\DcsCfg.efi" />
-    <None Include="..\Boot\EFI\DcsInfo.efi" />
-    <None Include="..\Boot\EFI\DcsInt.efi" />
-    <None Include="..\Boot\EFI\DcsRe.efi" />
-    <None Include="..\Boot\EFI\LegacySpeaker.efi" />
+    <None Include="..\Boot\EFI\2011UEFICA\DcsBoot.efi" />
+    <None Include="..\Boot\EFI\2011UEFICA\DcsCfg.efi" />
+    <None Include="..\Boot\EFI\2011UEFICA\DcsInfo.efi" />
+    <None Include="..\Boot\EFI\2011UEFICA\DcsInt.efi" />
+    <None Include="..\Boot\EFI\2011UEFICA\DcsRe.efi" />
+    <None Include="..\Boot\EFI\2011UEFICA\LegacySpeaker.efi" />
+    <None Include="..\Boot\EFI\2023UEFICA\DcsBoot.efi" />
+    <None Include="..\Boot\EFI\2023UEFICA\DcsCfg.efi" />
+    <None Include="..\Boot\EFI\2023UEFICA\DcsInfo.efi" />
+    <None Include="..\Boot\EFI\2023UEFICA\DcsInt.efi" />
+    <None Include="..\Boot\EFI\2023UEFICA\DcsRe.efi" />
+    <None Include="..\Boot\EFI\2023UEFICA\LegacySpeaker.efi" />
     <None Include="..\Boot\Windows\Release_AES_SHA2\BootLoader.com.gz" />
     <None Include="..\Boot\Windows\Release_Camellia\BootLoader.com.gz" />
     <None Include="..\Boot\Windows\Release_Camellia\BootSector.bin" />

@@ -1441,6 +1441,8 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 
 	RegDeleteKeyExW (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", KEY_WOW64_32KEY, 0);
 	RegDeleteKeyExW (HKEY_CURRENT_USER, L"Software\\VeraCrypt", KEY_WOW64_32KEY, 0);
+	DeleteRegistryKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics\\EfiBootLoader");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics");
 
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume\\Shell\\open\\command");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume\\Shell\\open");

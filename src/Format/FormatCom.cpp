@@ -176,6 +176,11 @@ public:
 		return BaseCom::GetSecureBootConfig (pSecureBootEnabled, pVeraCryptKeysLoaded);
 	}
 
+	virtual DWORD STDMETHODCALLTYPE GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported)
+	{
+		return BaseCom::GetEfiBootLoaderSigningSupport (pMicrosoft2023UefiCAsSupported);
+	}
+
 	virtual DWORD STDMETHODCALLTYPE WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)
 	{
 		return BaseCom::WriteEfiBootSectorUserConfig (userConfig, customUserMessage,pim, hashAlg);

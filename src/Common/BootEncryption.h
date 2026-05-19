@@ -27,6 +27,10 @@ using namespace std;
 
 namespace VeraCrypt
 {
+#ifdef VC_EFI_BOOTLOADER_SELECTION_TEST
+	bool TestFirmwareDbBufferContainsMicrosoft2023UefiCAs (const uint8* db, size_t dbSize);
+#endif
+
 	class File
 	{
 	public:
@@ -317,6 +321,7 @@ namespace VeraCrypt
 		void RestoreSystemLoader ();
 		static void UpdateSetupConfigFile (bool bForInstall);
 		void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
+		void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported);
 		bool IsUsingUnsupportedAlgorithm(LONG driverVersion);
 		void NotifyService (DWORD dwNotifyCmd);
 	protected:

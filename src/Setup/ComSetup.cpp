@@ -11,10 +11,10 @@
 */
 
 #define TC_MAIN_COM_VERSION_MAJOR 2
-#define TC_MAIN_COM_VERSION_MINOR 13
+#define TC_MAIN_COM_VERSION_MINOR 14
 
 #define TC_FORMAT_COM_VERSION_MAJOR 2
-#define TC_FORMAT_COM_VERSION_MINOR 10
+#define TC_FORMAT_COM_VERSION_MINOR 11
 
 #include <atlbase.h>
 #include <comdef.h>

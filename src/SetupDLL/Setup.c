@@ -1730,6 +1730,9 @@ BOOL DoRegUninstall_Dll (MSIHANDLE hInstaller, BOOL bRemoveDeprecated)
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume");
 	*/
 
+	DeleteRegistryKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics\\EfiBootLoader");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics");
+
 	if (!bRemoveDeprecated)
 	{
 		HKEY hKey;

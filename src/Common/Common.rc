@@ -556,15 +556,21 @@ IDR_RESCUE_LOADER_AES_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_AE
 IDR_RESCUE_LOADER_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Serpent_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Twofish_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_CAMELLIA_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Camellia_SHA2\\BootLoader.com.gz"
-IDR_EFI_DCSBOOT         BIN                     "..\\Boot\\EFI\\DcsBoot.efi"
-IDR_EFI_DCSINT          BIN                     "..\\Boot\\EFI\\DcsInt.efi"
-IDR_EFI_DCSCFG          BIN                     "..\\Boot\\EFI\\DcsCfg.efi"
-IDR_EFI_LEGACYSPEAKER   BIN                     "..\\Boot\\EFI\\LegacySpeaker.efi"
+IDR_EFI_DCSBOOT_2011    BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsBoot.efi"
+IDR_EFI_DCSINT_2011     BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsInt.efi"
+IDR_EFI_DCSCFG_2011     BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsCfg.efi"
+IDR_EFI_LEGACYSPEAKER_2011 BIN                  "..\\Boot\\EFI\\2011UEFICA\\LegacySpeaker.efi"
 #ifdef VC_EFI_CUSTOM_MODE
 IDR_EFI_DCSBML         BIN                     "..\\Boot\\EFI\\DcsBml.efi"
 #endif
-IDR_EFI_DCSRE          BIN                     "..\\Boot\\EFI\\DcsRe.efi"
-IDR_EFI_DCSINFO         BIN                     "..\\Boot\\EFI\\DcsInfo.efi"
+IDR_EFI_DCSRE_2011      BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsRe.efi"
+IDR_EFI_DCSINFO_2011    BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsInfo.efi"
+IDR_EFI_DCSBOOT_2023    BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsBoot.efi"
+IDR_EFI_DCSINT_2023     BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsInt.efi"
+IDR_EFI_DCSCFG_2023     BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsCfg.efi"
+IDR_EFI_LEGACYSPEAKER_2023 BIN                  "..\\Boot\\EFI\\2023UEFICA\\LegacySpeaker.efi"
+IDR_EFI_DCSRE_2023      BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsRe.efi"
+IDR_EFI_DCSINFO_2023    BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsInfo.efi"
 #endif
 /////////////////////////////////////////////////////////////////////////////
 //

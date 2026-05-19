@@ -199,7 +199,7 @@ BOOL WriteLocalMachineRegistryMultiString (wchar_t *subKey, wchar_t *name, wchar
 	return TRUE;
 }
 
-BOOL WriteLocalMachineRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *str, BOOL expandable)
+BOOL WriteLocalMachineRegistryString (const wchar_t *subKey, const wchar_t *name, const wchar_t *str, BOOL expandable)
 {
 	HKEY hkey = 0;
 	DWORD disp;
