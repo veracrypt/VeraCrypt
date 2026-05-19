@@ -11,7 +11,7 @@
     <entry lang="nb" key="IDC_BROWSE">Bla &amp;gjennom...</entry>
     <entry lang="nb" key="IDC_DESKTOP_ICON">Legg til VeraCrypt-ikon på &amp;skrivebordet</entry>
     <entry lang="nb" key="IDC_DONATE">Doner nå...</entry>
-    <entry lang="nb" key="IDC_FILE_TYPE">Assosier .hc-fil&amp;utvidelsen med VeraCrypt</entry>
+    <entry lang="nb" key="IDC_FILE_TYPE">Tilknytt .hc-filutvidelsen &amp;med VeraCrypt</entry>
     <entry lang="nb" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Åpne målplasseringen når ferdig</entry>
     <entry lang="nb" key="IDC_PROG_GROUP">Legg til VeraCrypt i &amp;Start-menyen</entry>
     <entry lang="nb" key="IDC_SYSTEM_RESTORE">Opprett system&amp;gjenopprettingspunkt</entry>
@@ -29,7 +29,7 @@
     <entry lang="nb" key="IDC_CIPHER_TEST">&amp;Test</entry>
     <entry lang="nb" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Opprett kryptert volum og formater det</entry>
     <entry lang="nb" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Krypter partisjonen på plass</entry>
-    <entry lang="nb" key="IDC_DISPLAY_KEYS">Vis genererte nøkler (deres deler)</entry>
+    <entry lang="nb" key="IDC_DISPLAY_KEYS">Vis genererte nøkler (deler av dem)</entry>
     <entry lang="nb" key="IDC_DISPLAY_POOL_CONTENTS">Vis poolinnhold</entry>
     <entry lang="nb" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Last ned CD/DVD-brenneprogramvare</entry>
     <entry lang="nb" key="IDC_FILE_CONTAINER">Opprett en kryptert filbeholder</entry>
@@ -82,15 +82,15 @@
     <entry lang="nb" key="IDT_FORMAT_OPTIONS">Alternativer</entry>
     <entry lang="nb" key="IDT_HASH_ALGO">Hash-algoritme</entry>
     <entry lang="nb" key="IDT_HEADER_KEY">Hodenøkkel:</entry>
-    <entry lang="nb" key="IDT_LEFT">Venstre</entry>
+    <entry lang="nb" key="IDT_LEFT">Gjenstår</entry>
     <entry lang="nb" key="IDT_MASTER_KEY">Hovednøkkel:</entry>
     <entry lang="nb" key="IDT_MULTI_BOOT">Velg dette alternativet hvis det er installert to eller flere operativsystemer på denne datamaskinen.\n\nFor eksempel:\n- Windows XP og Windows XP\n- Windows XP og Windows Vista\n- Windows og Mac OS X\n- Windows og Linux\n- Windows, Linux og Mac OS X</entry>
     <entry lang="nb" key="IDT_NON_SYS_DEVICE">Krypterer en ikke-systempartisjon på en intern eller ekstern disk (f.eks. en minnepinne). Kan eventuelt opprette et skjult volum.</entry>
     <entry lang="nb" key="IDT_PARTIAL_POOL_CONTENTS">Gjeldende poolinnhold (delvis)</entry>
-    <entry lang="nb" key="IDT_PASS">Bestått</entry>
+    <entry lang="nb" key="IDT_PASS">Runde</entry>
     <entry lang="nb" key="IDT_PASSWORD">Passord:</entry>
-    <entry lang="nb" key="IDT_PIM">Volum PIM:</entry>
-    <entry lang="nb" key="IDT_OLD_PIM">Volum PIM:</entry>
+    <entry lang="nb" key="IDT_PIM">Volum-PIM:</entry>
+    <entry lang="nb" key="IDT_OLD_PIM">Volum-PIM:</entry>
     <entry lang="nb" key="IDT_PROGRESS">Fremdrift:</entry>
     <entry lang="nb" key="IDT_RANDOM_POOL">Tilfeldig pool:</entry>
     <entry lang="nb" key="IDT_SINGLE_BOOT">Velg dette alternativet hvis det bare er ett operativsystem installert på denne datamaskinen (selv om det har flere brukere).</entry>
@@ -112,7 +112,7 @@
     <entry lang="nb" key="IDC_BROWSE_FILES">Bla gjennom...</entry>
     <entry lang="nb" key="IDC_CACHE">Mellomlagre passord og nøkkelfil&amp;er i minnet</entry>
     <entry lang="nb" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Avslutt når det ikke er noen monterte volum</entry>
-    <entry lang="nb" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Lukk token sesjon (logg ut) etter at et volum er montert</entry>
+    <entry lang="nb" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Lukk tokensesjon (logg ut) etter at et volum er montert</entry>
     <entry lang="nb" key="IDC_COPY_EXPANDER">Inkluder VeraCrypt Volume Expander</entry>
     <entry lang="nb" key="IDC_COPY_WIZARD">Inkluder Veiviser for VeraCrypt-volumopprettelse</entry>
     <entry lang="nb" key="IDC_CREATE">Opprett</entry>
@@ -123,10 +123,10 @@
     <entry lang="nb" key="IDC_ENABLE_KEYFILES">Bruk nøkkelfiler</entry>
     <entry lang="nb" key="IDC_ENABLE_NEW_KEYFILES">Bruk nøkkelfiler</entry>
     <entry lang="nb" key="IDC_EXIT">A&amp;vslutt</entry>
-    <entry lang="nb" key="IDC_FAVORITES_HELP_LINK">Hjelp om favorittvolum</entry>
-    <entry lang="nb" key="IDC_FAVORITE_DISABLE_HOTKEY">Ikke monter valgt volum når hurtigtasten 'Monter Favorittvolumer' trykkes</entry>
+    <entry lang="nb" key="IDC_FAVORITES_HELP_LINK">Hjelp om favorittvolumer</entry>
+    <entry lang="nb" key="IDC_FAVORITE_DISABLE_HOTKEY">Ikke monter valgt volum når &amp;hurtigtasten 'Monter favorittvolumer' trykkes</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Monter valgt volum når dets vertsenhet blir &amp;tilkoblet</entry>
-    <entry lang="nb" key="IDC_FAVORITE_MOUNT_ON_LOGON">Monter valgt volum ved pålog&amp;ning</entry>
+    <entry lang="nb" key="IDC_FAVORITE_MOUNT_ON_LOGON">Monter valgt volum ved påloggi&amp;ng</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOUNT_READONLY">Monter valgt volum som skrivebeskytt&amp;et</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOUNT_REMOVABLE">Monter valgt volum som fjern&amp;bart medium</entry>
     <entry lang="nb" key="IDC_FAVORITE_MOVE_DOWN">Flytt &amp;ned</entry>
@@ -135,8 +135,8 @@
     <entry lang="nb" key="IDC_FAVORITE_REMOVE">&amp;Fjern</entry>
     <entry lang="nb" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Bruk favorittetiketten som stasjonsetikett i Filutforsker</entry>
     <entry lang="nb" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Globale innstillinger</entry>
-    <entry lang="nb" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Vis ballongtips etter vellykket hurtigtast-demontering</entry>
-    <entry lang="nb" key="IDC_HK_UNMOUNT_PLAY_SOUND">Spill systemvarsellyd etter vellykket hurtigtast-demontering</entry>
+    <entry lang="nb" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">Vis ballongtips etter vellykket demontering med hurtigtast</entry>
+    <entry lang="nb" key="IDC_HK_UNMOUNT_PLAY_SOUND">Spill systemvarsellyd etter vellykket demontering med hurtigtast</entry>
     <entry lang="nb" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="nb" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="nb" key="IDC_HK_MOD_SHIFT">Skift</entry>
@@ -174,19 +174,19 @@
     <entry lang="nb" key="IDC_PRESERVE_TIMESTAMPS">Behold endringsdato på filbeholdere</entry>
     <entry lang="nb" key="IDC_RESET_HOTKEYS">Nullstill</entry>
     <entry lang="nb" key="IDC_SELECT_DEVICE">Velg en&amp;het...</entry>
-    <entry lang="nb" key="IDC_SELECT_FILE">Velg &amp;Fil...</entry>
-    <entry lang="nb" key="IDC_SELECT_PKCS11_MODULE">Velg &amp;Bibliotek...</entry>
+    <entry lang="nb" key="IDC_SELECT_FILE">Velg &amp;fil...</entry>
+    <entry lang="nb" key="IDC_SELECT_PKCS11_MODULE">Velg &amp;bibliotek...</entry>
     <entry lang="nb" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Vis passord</entry>
     <entry lang="nb" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Vis passord</entry>
     <entry lang="nb" key="IDC_TRAVEL_OPEN_EXPLORER">Åpne &amp;Filutforsker-vindu for montert volum</entry>
     <entry lang="nb" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Mellomlagre passord i driverminne</entry>
     <entry lang="nb" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt-modus</entry>
-    <entry lang="nb" key="IDC_UNMOUNTALL">Demonter &amp;Alle</entry>
+    <entry lang="nb" key="IDC_UNMOUNTALL">Demonter &amp;alle</entry>
     <entry lang="nb" key="IDC_VOLUME_PROPERTIES">&amp;Volumegenskaper...</entry>
     <entry lang="nb" key="IDC_VOLUME_TOOLS">&amp;Volumverktøy...</entry>
     <entry lang="nb" key="IDC_WIPE_CACHE">&amp;Slett mellomlager</entry>
     <entry lang="nb" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt – monteringsparametere</entry>
-    <entry lang="nb" key="IDD_FAVORITE_VOLUMES">VeraCrypt – favorittvolum</entry>
+    <entry lang="nb" key="IDD_FAVORITE_VOLUMES">VeraCrypt – favorittvolumer</entry>
     <entry lang="nb" key="IDD_HOTKEYS_DLG">VeraCrypt – systemdekkende hurtigtaster</entry>
     <entry lang="nb" key="IDD_MOUNT_DLG">VeraCrypt</entry>
     <entry lang="nb" key="IDD_PASSWORDCHANGE_DLG">Endre passord eller nøkkelfiler</entry>
@@ -195,7 +195,7 @@
     <entry lang="nb" key="IDD_PREFERENCES_DLG">VeraCrypt – preferanser</entry>
     <entry lang="nb" key="IDD_SYSENC_SETTINGS">VeraCrypt – systemkrypteringsinnstillinger</entry>
     <entry lang="nb" key="IDD_TOKEN_PREFERENCES">VeraCrypt – preferanser for sikkerhetstoken</entry>
-    <entry lang="nb" key="IDD_TRAVELER_DLG">Oppsett for VeraCrypt reisedisk</entry>
+    <entry lang="nb" key="IDD_TRAVELER_DLG">Oppsett for VeraCrypt-reisedisk</entry>
     <entry lang="nb" key="IDD_VOLUME_PROPERTIES">Egenskaper for VeraCrypt-volum</entry>
     <entry lang="nb" key="IDM_ABOUT">Om</entry>
     <entry lang="nb" key="IDM_ADD_REMOVE_VOL_KEYFILES">Legg til / fjern nøkkelfiler fra volum...</entry>
@@ -302,13 +302,13 @@
     <entry lang="nb" key="IDT_TRAVEL_ROOT">Opprett reisediskfiler i (rotmappen til reisedisken):</entry>
     <entry lang="nb" key="IDT_VOLUME">Volum</entry>
     <entry lang="nb" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
-    <entry lang="nb" key="IDC_ADD_KEYFILE_PATH">Legg til &amp;Sti...</entry>
+    <entry lang="nb" key="IDC_ADD_KEYFILE_PATH">Legg til &amp;sti...</entry>
     <entry lang="nb" key="IDC_AUTO">&amp;Autotest alle</entry>
     <entry lang="nb" key="IDC_CONTINUE">&amp;Fortsett</entry>
     <entry lang="nb" key="IDC_DECRYPT">&amp;Dekrypter</entry>
     <entry lang="nb" key="IDC_DELETE">&amp;Slett</entry>
     <entry lang="nb" key="IDC_ENCRYPT">&amp;Krypter</entry>
-    <entry lang="nb" key="IDC_EXPORT">&amp;Eksport...</entry>
+    <entry lang="nb" key="IDC_EXPORT">&amp;Eksporter...</entry>
     <entry lang="nb" key="IDC_GENERATE_AND_SAVE_KEYFILE">Generer og lagre nøkkelfil...</entry>
     <entry lang="nb" key="IDC_GENERATE_KEYFILE">&amp;Generer tilfeldig nøkkelfil...</entry>
     <entry lang="nb" key="IDC_GET_LANG_PACKS">Last ned språkpakke</entry>
@@ -428,7 +428,7 @@
     <entry lang="nb" key="DEVICE_IN_USE_INFO">ADVARSEL: Noen av de monterte enhetene/partisjonene var allerede i bruk!\n\nÅ ignorere dette kan føre til uønskede resultater inkludert systemustabilitet.\n\nVi anbefaler sterkt at du lukker eventuelle programmer som kan bruke enhetene/partisjonene.</entry>
     <entry lang="nb" key="DEVICE_PARTITIONS_ERR">Den valgte enheten inneholder partisjoner.\n\nFormatering av enheten kan føre til systemustabilitet og/eller datakorrupsjon. Velg en partisjon på enheten, eller fjern alle partisjoner på enheten for å la VeraCrypt formatere den sikkert.</entry>
     <entry lang="nb" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Den valgte ikke-systemenheten inneholder partisjoner.\n\nKrypterte enhetsbaserte VeraCrypt-volum kan opprettes innenfor enheter som ikke inneholder noen partisjoner (inkludert harddisker og SSD-er). En enhet som inneholder partisjoner kan krypteres helt på plass (ved hjelp av en enkelt hovednøkkel) bare hvis det er disken der Windows er installert og hvorfra den starter.\n\nHvis du vil kryptere den valgte ikke-systemenheten ved hjelp av en enkel hovednøkkel, må du fjerne alle partisjoner på enheten først for å la VeraCrypt formatere den sikkert (formatering av en enhet som inneholder partisjoner kan føre til systemustabilitet og/eller datakorrupsjon). Alternativt kan du kryptere hver partisjon på disken individuelt (hver partisjon vil bli kryptert ved hjelp av en annen hovednøkkel).\n\nMerk: Hvis du vil fjerne alle partisjoner fra en GPT-disk, kan det hende du må konvertere den til en MBR-disk (ved bruk av f.eks. 'Datamaskinhåndtering'-verktøyet) for å fjerne skjulte partisjoner.</entry>
-    <entry lang="nb" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">Advarsel: Hvis du krypterer hele enheten (i motsetning til å kryptere bare en partisjon på den), vil operativsystemer betrakte enheten som ny, tom og uformatert (den vil ikke inneholde en partisjonstabell) og kan spontant initialisere enheten (eller spørre deg om du vil gjøre det), som kan skade volumet. Videre vil det ikke være mulig å montere volumet konsekvent som favoritt (f.eks. når drivenummeret endres) eller å tilordne en favorittvolumetikett til den.\n\nFor å unngå dette kan du vurdere å opprette en partisjon på enheten og kryptere partisjonen i stedet.\n\nEr du sikker på at du vil kryptere hele enheten?</entry>
+    <entry lang="nb" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">Advarsel: Hvis du krypterer hele enheten (i motsetning til å kryptere bare en partisjon på den), vil operativsystemer betrakte enheten som ny, tom og uformatert (den vil ikke inneholde en partisjonstabell) og kan spontant initialisere enheten (eller spørre deg om du vil gjøre det), som kan skade volumet. Videre vil det ikke være mulig å montere volumet konsekvent som favoritt (f.eks. når enhetsnummeret endres) eller å tilordne en favorittvolumetikett til den.\n\nFor å unngå dette kan du vurdere å opprette en partisjon på enheten og kryptere partisjonen i stedet.\n\nEr du sikker på at du vil kryptere hele enheten?</entry>
     <entry lang="nb" key="AFTER_FORMAT_DRIVE_LETTER_WARN">VIKTIG: Vennligst husk at dette volumet IKKE kan monteres/tilgås ved å bruke stasjonsbokstaven %c:, som foreløpig er tildelt det!\n\nFor å montere dette volumet, klikk 'Automonter Enheter' i hovedvinduet til VeraCrypt (alternativt klikker du 'Velg Enhet' i hovedvinduet til VeraCrypt, velger denne partisjonen/enheten, og klikker 'Monter'). Volumet vil bli montert til en annen stasjonsbokstav, som du velger fra listen i hovedvinduet til VeraCrypt.\n\nDen opprinnelige stasjonsbokstaven %c: bør bare brukes i tilfelle du må fjerne krypteringen fra partisjonen/enheten (f.eks. hvis du ikke lenger trenger kryptering). I et slikt tilfelle, høyreklikk stasjonsbokstaven %c: i 'Datamaskin' (eller 'Min datamaskin')-listen og velg 'Formater'. Ellers bør stasjonsbokstaven %c: aldri brukes (med mindre du fjerner den, som beskrevet f.eks. i VeraCrypt FAQ, og tildeler den en annen partisjon/enhet).</entry>
     <entry lang="nb" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">På-plass-kryptering av ikke-systemvolum støttes ikke på versjonen av operativsystemet du bruker (det støttes bare på Windows Vista og senere versjoner av Windows).\n\nÅrsaken er at denne versjonen av Windows ikke støtter krymping av et filsystem (filsystemet må krympes for å gi plass til volummetadata og sikkerhetskopedata for volum).</entry>
     <entry lang="nb" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Den valgte partisjonen ser ikke ut til å inneholde et NTFS-filsystem. Bare partisjoner som inneholder et NTFS-filsystem kan krypteres på plass.\n\nMerk: Årsaken er at Windows ikke støtter krymping av andre typer filsystemer (filsystemet må krympes for å gi plass til volummetadata og sikkerhetskopidata for volum).</entry>
@@ -567,7 +567,7 @@
     <entry lang="nb" key="MAX_HIDVOL_SIZE_GB">Maksimal mulig størrelse på skjult volum for dette volumet er %.2f GiB.</entry>
     <entry lang="nb" key="MAX_HIDVOL_SIZE_TB">Maksimal mulig størrelse på skjult volum for dette volumet er %.2f TiB.</entry>
     <entry lang="nb" key="MOUNTED_NOPWCHANGE">Volumpassord/nøkkelfiler kan ikke endres mens volumet er montert. Vennligst demonter volumet først.</entry>
-    <entry lang="nb" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Hodenøkkel avledningsalgoritmen kan ikke endres mens volumet er montert. Vennligst demonter volumet først.</entry>
+    <entry lang="nb" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Avledningsalgoritmen for hodenøkkelen kan ikke endres mens volumet er montert. Vennligst demonter volumet først.</entry>
     <entry lang="nb" key="MOUNT_BUTTON">&amp;Monter</entry>
     <entry lang="nb" key="NEW_VERSION_REQUIRED">En nyere versjon av VeraCrypt er nødvendig for å montere dette volumet.</entry>
     <entry lang="nb" key="VOL_CREATION_WIZARD_NOT_FOUND">Feil: Klarte ikke å finne veiviser for volumopprettelse.\n\nVennligst forsikre deg om at filen 'VeraCrypt Format.exe' befinner seg i mappen der hovedapplikasjonen VeraCrypt (VeraCrypt.exe) er plassert. Hvis den ikke er det, vennligst reinstaller VeraCrypt, eller lokaliser 'VeraCrypt Format.exe' på disken og kjør den.</entry>
@@ -609,14 +609,14 @@
     <entry lang="nb" key="IDD_PCDM_CHANGE_PKCS5_PRF">Angi hodenøkkel avledningsalgoritme</entry>
     <entry lang="nb" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Legg til/Fjern nøkkelfiler fra Volum</entry>
     <entry lang="nb" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Fjern alle nøkkelfiler fra volum</entry>
-    <entry lang="nb" key="PASSWORD_CHANGED">Passord, PIM og/eller nøkkelfil(er) er endret med suksess.\n\nVIKTIG: Vennligst sørg for at du har lest seksjonen 'Endring av Passord og Nøkkelfiler' i kapitlet 'Sikkerhetskrav og Forholdsregler' i VeraCrypt Brukerveiledning.</entry>
+    <entry lang="nb" key="PASSWORD_CHANGED">Passord, PIM og/eller nøkkelfil(er) er endret.\n\nVIKTIG: Vennligst sørg for at du har lest seksjonen 'Endring av passord og nøkkelfiler' i kapitlet 'Sikkerhetskrav og forholdsregler' i VeraCrypt-brukerveiledningen.</entry>
     <entry lang="nb" key="FAVORITE_PIM_CHANGED">Dette volumet er registrert som et System Favoritt og dets PIM ble endret.\nVil du at VeraCrypt automatisk oppdaterer System Favoritt-konfigurasjonen (administratorrettigheter nødvendig)?\n\nVennligst merk at hvis du svarer nei, må du oppdatere System Favoritten manuelt.</entry>
     <entry lang="nb" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">VIKTIG: Hvis du ikke har ødelagt VeraCrypt Redningsdisken din, kan systempartisjonen/disken fremdeles dekrypteres ved hjelp av det gamle passordet (ved å starte VeraCrypt Redningsdisk og skrive inn det gamle passordet). Du bør opprette en ny VeraCrypt Redningsdisk og deretter ødelegge den gamle.\n\nVil du opprette en ny VeraCrypt Redningsdisk?</entry>
     <entry lang="nb" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">Merk at VeraCrypt Redningsdisk fortsatt bruker den forrige algoritmen. Hvis du anser den forrige algoritmen som usikker, bør du opprette en ny VeraCrypt Redningsdisk og deretter ødelegge den gamle.\n\nVil du opprette en ny VeraCrypt Redningsdisk?</entry>
     <entry lang="nb" key="KEYFILES_NOTE">Merk at VeraCrypt aldri endrer nøkkelfilinnholdet. Du kan velge mer enn en nøkkelfil (rekkefølgen spiller ingen rolle). Hvis du legger til en mappe, vil alle ikke-skjulte filer som finnes i den bli brukt som nøkkelfiler. Klikk 'Legg til Tokenfiler' for å velge nøkkelfiler lagret på sikkerhetstokens eller smartkort (eller for å importere nøkkelfiler til sikkerhetstokens eller smartkort).</entry>
-    <entry lang="nb" key="KEYFILE_CHANGED">Nøkkelfil(er) er lagt til/fjernet med suksess.</entry>
-    <entry lang="nb" key="KEYFILE_EXPORTED">Nøkkelfil er eksportert.</entry>
-    <entry lang="nb" key="PKCS5_PRF_CHANGED">Hodenøkkel avledningsalgoritmen er satt med suksess.</entry>
+    <entry lang="nb" key="KEYFILE_CHANGED">Nøkkelfil(er) er lagt til/fjernet.</entry>
+    <entry lang="nb" key="KEYFILE_EXPORTED">Nøkkelfilen er eksportert.</entry>
+    <entry lang="nb" key="PKCS5_PRF_CHANGED">Avledningsalgoritmen for hodenøkkelen er endret.</entry>
     <entry lang="nb" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">Vennligst skriv inn passordet og/eller nøkkelfil(er) for det ikke-systemvolumet hvor du ønsker å gjenoppta prosessen med kryptering/dekryptering på plass.\n\nMerknad: Etter at du klikker Neste, vil VeraCrypt forsøke å finne alle ikke-systemvolumer der krypteringen/dekrypteringen har blitt avbrutt og der VeraCrypt volummeta-data kunne dekodes ved bruk av de oppgitte passordet og/eller nøkkelfilene. Hvis mer enn ett volum finnes, vil du måtte velge ett av dem i neste trinn.</entry>
     <entry lang="nb" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Vennligst velg ett av de oppførte volumene. Listen inneholder hvert tilgjengelige ikke-systemvolum hvor krypterings-/dekrypteringsprosessen har blitt avbrutt og hvor volummeta-dataen ble vellykket dekodet ved bruk av det oppgitte passordet og/eller nøkkelfilene.</entry>
     <entry lang="nb" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Vennligst skriv inn passordet og/eller nøkkelfil(er) for det ikke-system VeraCrypt volumet du ønsker å dekryptere.</entry>
@@ -631,7 +631,7 @@
     <entry lang="nb" key="PASSWORD_HIDVOL_TITLE">Passord til skjult volum</entry>
     <entry lang="nb" key="PASSWORD_HIDDEN_OS_TITLE">Passord for skjult operativsystem</entry>
     <entry lang="nb" key="PASSWORD_LENGTH_WARNING">ADVARSEL: Korte passord er lette å knekke ved bruk av brute force-teknikker!\n\nVi anbefaler å velge et passord som består av 20 eller flere tegn. Er du sikker på at du vil bruke et kort passord?</entry>
-    <entry lang="nb" key="PASSWORD_TITLE">Volum passord</entry>
+    <entry lang="nb" key="PASSWORD_TITLE">Volumpassord</entry>
     <entry lang="nb" key="PASSWORD_WRONG">Operasjonen mislyktes på grunn av en eller flere av følgende:\n - Feil passord.\n - Feil Volum PIM nummer.\n - Feil PRF (hash).\n - Ikke et gyldig volum.</entry>
     <entry lang="nb" key="PASSWORD_OR_KEYFILE_WRONG">Operasjonen mislyktes på grunn av en eller flere av følgende:\n - Feil nøkkelfil(er).\n - Feil passord.\n - Feil Volum PIM nummer.\n - Feil PRF (hash).\n - Ikke et gyldig volum.</entry>
     <entry lang="nb" key="PASSWORD_OR_MODE_WRONG">Operasjonen mislyktes på grunn av en eller flere av følgende:\n - Feil monteringsmodus.\n - Feil passord.\n - Feil Volum PIM nummer.\n - Feil PRF (hash).\n - Ikke et gyldig volum.</entry>
@@ -649,7 +649,7 @@
     <entry lang="nb" key="PIM_LARGE_WARNING">Du har valgt en PIM-verdi som er større enn VeraCrypt standardverdi.\nVennligst merk at dette vil føre til mye langsommere montering/oppstart.</entry>
     <entry lang="nb" key="PIM_SMALL_WARNING">Du har valgt en PIM (Personal Iterations Multiplier) som er mindre enn den standard VeraCrypt verdien. Vennligst merk at hvis passordet ditt ikke er sterkt nok, kan dette føre til redusert sikkerhet.\n\nBekrefter du at du bruker et sterkt passord?</entry>
     <entry lang="nb" key="PIM_SYSENC_TOO_BIG">Maksimalverdi for PIM (Personal Iterations Multiplier) for systemkryptering er 65535.</entry>
-    <entry lang="nb" key="PIM_TITLE">Volum PIM</entry>
+    <entry lang="nb" key="PIM_TITLE">Volum-PIM</entry>
     <entry lang="nb" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nADVARSEL: Skjulte filer har blitt funnet i en nøkkelfilsøkesti. Slike skjulte filer kan ikke brukes som nøkkelfiler. Hvis du trenger å bruke dem som nøkkelfiler, fjern deres 'Skjult'-attributt (høyreklikk hver av dem, velg 'Egenskaper', fjern 'Skjult' og klikk OK). Merk: Skjulte filer er synlige bare hvis det tilsvarende alternativet er aktivert (Datamaskin > Organiser > 'Mappe- og søkealternativer' > Visning).</entry>
     <entry lang="nb" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Hvis du forsøker å beskytte et skjult volum som inneholder et skjult system, vennligst sørg for at du bruker det standard amerikanske tastaturoppsettet når du skriver inn passordet for det skjulte volumet. Dette kreves på grunn av at passordet må tastes inn i pre-boot-miljøet (før Windows starter) der ikke-amerikanske tastaturoppsett ikke er tilgjengelige.</entry>
     <entry lang="nb" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt har ikke funnet noe volum hvor prosessen med kryptering/dekryptering på plass har blitt avbrutt og hvor volummeta-data kunne dekodes ved bruk av det oppgitte passordet og/eller nøkkelfiler.\n\nVennligst forsikre deg om at passordet og/eller nøkkelfilene er korrekte og at partisjonen/volumet ikke brukes av systemet eller applikasjoner (inkludert antivirusprogramvare).</entry>
@@ -688,8 +688,8 @@
     <entry lang="nb" key="TWO_LAYER_CASCADE_HELP">To chiffer i en kaskade som opererer i XTS-modus. Hver blokk er først kryptert med %s (%d-bit nøkkel) og deretter med %s (%d- bit nøkkel). Hvert chiffer bruker sin egen nøkkel. Alle nøkler er gjensidig uavhengige.</entry>
     <entry lang="nb" key="THREE_LAYER_CASCADE_HELP">Tre chiffer i en kaskade som opererer i XTS-modus. Hver blokk er først kryptert med %s (%d-bit nøkkel), deretter med %s (%d-bit nøkkel), og til slutt med %s (%d-bit nøkkel). Hvert chiffer bruker sin egen nøkkel. Alle nøkler er gjensidig uavhengige.</entry>
     <entry lang="nb" key="AUTORUN_MAY_NOT_ALWAYS_WORK">Merk at, avhengig av operativsystemets konfigurasjon, kan disse autokjør- og automonteringsfunksjonene bare virke når reisediskfilene er opprettet på et ikke-skrivbart CD/DVD-lignende medium. Vær oppmerksom på at dette ikke er en feil i VeraCrypt (det er en begrensning i Windows).</entry>
-    <entry lang="nb" key="TRAVELER_DISK_CREATED">VeraCrypt reisedisk har blitt opprettet.\n\nMerk at du trenger administratortillatelser for å kjøre VeraCrypt i bærbar modus. Vær også oppmerksom på at, etter å ha undersøkt registerfilen, kan det være mulig å fastslå at VeraCrypt ble kjørt på et Windows-system selv om det kjøres i bærbar modus.</entry>
-    <entry lang="nb" key="TC_TRAVELER_DISK">VeraCrypt reisedisk</entry>
+    <entry lang="nb" key="TRAVELER_DISK_CREATED">VeraCrypt-reisedisken er opprettet.\n\nMerk at du trenger administratortillatelser for å kjøre VeraCrypt i bærbar modus. Vær også oppmerksom på at det, etter å ha undersøkt registerfilen, kan være mulig å fastslå at VeraCrypt ble kjørt på et Windows-system selv om det kjøres i bærbar modus.</entry>
+    <entry lang="nb" key="TC_TRAVELER_DISK">VeraCrypt-reisedisk</entry>
     <entry lang="nb" key="TWOFISH_HELP">Designet av Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall og Niels Ferguson. Publisert i 1998. 256-bit nøkkel, 128-bit blokk. Operasjonsmodus er XTS. Twofish var en av AES-finalistene.</entry>
     <entry lang="nb" key="MORE_INFO_ABOUT">Mer informasjon om %s</entry>
     <entry lang="nb" key="UNKNOWN">Ukjent</entry>
@@ -838,7 +838,7 @@
     <entry lang="nb" key="SETUP_FINISHED_TITLE_DON">VeraCrypt har blitt installert</entry>
     <entry lang="nb" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCrypt har blitt oppgradert</entry>
     <entry lang="nb" key="SETUP_FINISHED_INFO_DON">Vennligst vurdér å gi en donasjon. Du kan klikke Fullfør når som helst for å lukke installasjonsprogrammet.</entry>
-    <entry lang="nb" key="EXTRACTION_OPTIONS_TITLE">Pakk ut alternativer</entry>
+    <entry lang="nb" key="EXTRACTION_OPTIONS_TITLE">Alternativer for utpakking</entry>
     <entry lang="nb" key="EXTRACTION_OPTIONS_INFO">Her kan du sette forskjellige alternativer for å kontrollere utpakkingsprosessen.</entry>
     <entry lang="nb" key="EXTRACTION_PROGRESS_INFO">Vennligst vent mens filene blir pakket ut.</entry>
     <entry lang="nb" key="EXTRACTION_FINISHED_TITLE_DON">Filer pakket ut</entry>
@@ -862,11 +862,11 @@
     <entry lang="nb" key="CANT_VERIFY_PACKAGE_INTEGRITY">Kan ikke verifisere integriteten av denne distribusjonspakken.</entry>
     <entry lang="nb" key="EXTRACTION_FAILED">Utpakking feilet.</entry>
     <entry lang="nb" key="ROLLBACK">Installeringen har blitt rullet tilbake.</entry>
-    <entry lang="nb" key="INSTALL_OK">VeraCrypt har blitt installert.</entry>
-    <entry lang="nb" key="SETUP_UPDATE_OK">VeraCrypt har blitt oppdatert.</entry>
-    <entry lang="nb" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt har blitt oppgradert med suksess. Men før du kan begynne å bruke det, må datamaskinen startes på nytt.\n\nVil du starte den på nytt nå?</entry>
+    <entry lang="nb" key="INSTALL_OK">VeraCrypt er installert.</entry>
+    <entry lang="nb" key="SETUP_UPDATE_OK">VeraCrypt er oppdatert.</entry>
+    <entry lang="nb" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt er oppgradert. Før du kan begynne å bruke det, må datamaskinen startes på nytt.\n\nVil du starte den på nytt nå?</entry>
     <entry lang="nb" key="SYS_ENC_UPGRADE_FAILED">Oppgradering av VeraCrypt mislyktes!\n\nVIKTIG: Før du slår av eller starter systemet på nytt, anbefaler vi sterkt at du bruker Systemgjenoppretting (Start-menyen > Alle programmer > Tilbehør > Systemverktøy > Systemgjenoppretting) for å gjenopprette systemet til gjenopprettingspunktet med navnet 'VeraCrypt-installering'. Hvis Systemgjenoppretting ikke er tilgjengelig, bør du prøve å installere den opprinnelige eller den nye versjonen av VeraCrypt igjen før du slår av eller starter systemet på nytt.</entry>
-    <entry lang="nb" key="UNINSTALL_OK">VeraCrypt har blitt avinstallert.\n\nKlikk 'Fullfør' for å fjerne VeraCrypt installasjonsprogrammet og mappen %s. Merk at mappen ikke vil bli fjernet hvis den inneholder filer som ikke ble installert av VeraCrypt installasjonsprogrammet eller opprettet av VeraCrypt.</entry>
+    <entry lang="nb" key="UNINSTALL_OK">VeraCrypt er avinstallert.\n\nKlikk 'Fullfør' for å fjerne VeraCrypt-installasjonsprogrammet og mappen %s. Merk at mappen ikke vil bli fjernet hvis den inneholder filer som ikke ble installert av VeraCrypt-installasjonsprogrammet eller opprettet av VeraCrypt.</entry>
     <entry lang="nb" key="REMOVING_REG">Fjerner VeraCrypt registeroppføringer.</entry>
     <entry lang="nb" key="ADDING_REG">Legger til registeroppføring.</entry>
     <entry lang="nb" key="REMOVING_APPDATA">Fjern applikasjonsspesifikke data.</entry>
@@ -938,15 +938,15 @@
     <entry lang="nb" key="ENTER_NORMAL_VOL_PASSWORD">Skriv inn passord for det normale/ytre volumet</entry>
     <entry lang="nb" key="ENTER_HIDDEN_VOL_PASSWORD">Skriv inn passord for det skjulte volumet</entry>
     <entry lang="nb" key="ENTER_HEADER_BACKUP_PASSWORD">Skriv inn passord for hodet lagret i sikkerhetskopifil</entry>
-    <entry lang="nb" key="KEYFILE_CREATED">Nøkkelfiler har blitt opprettet med suksess.</entry>
+    <entry lang="nb" key="KEYFILE_CREATED">Nøkkelfilene er opprettet.</entry>
     <entry lang="nb" key="KEYFILE_INCORRECT_NUMBER">Antall nøkkelfiler du har oppgitt er ugyldig.</entry>
     <entry lang="nb" key="KEYFILE_INCORRECT_SIZE">Nøkkelfilstørrelsen må være minst 64 byte.</entry>
     <entry lang="nb" key="KEYFILE_EMPTY_BASE_NAME">Vennligst skriv inn et navn for nøkkelfilene som skal genereres</entry>
     <entry lang="nb" key="KEYFILE_INVALID_BASE_NAME">Basisnavnet på nøkkelfilene er ugyldig</entry>
     <entry lang="nb" key="KEYFILE_ALREADY_EXISTS">Nøkkelfilen '%s' eksisterer allerede.\nVil du overskrive den? Genereringsprosessen vil stoppes hvis du svarer Nei.</entry>
     <entry lang="nb" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">ADVARSEL: Hodet til dette volumet er skadet! VeraCrypt brukte automatisk sikkerhetskopien av volumhodet innebygd i volumet.\n\nDu bør reparere volumhodet ved å velge 'Verktøy' > 'Gjenopprett volumhodet'.</entry>
-    <entry lang="nb" key="VOL_HEADER_BACKED_UP">Volumhodet har blitt sikkerhetskopiert med suksess.\n\nVIKTIG: Å gjenopprette volumhodet ved bruk av denne sikkerhetskopifilen vil også gjenopprette gjeldende volumpassord. Dessuten, hvis nøkkelfil(er) er nødvendig for å montere volumet, vil de samme nøkkelfilene være nødvendige for å montere volumet igjen etter at volumhodet er gjenopprettet.\n\nADVARSEL: Denne sikkerhetskopien av volumhode kan bare brukes til å gjenopprette hodet til dette bestemte volumet. Hvis du bruker denne sikkerhetskopien av hodet for å gjenopprette hodet til et annet volum, vil du kunne montere volumet, men du vil IKKE kunne dekryptere noen data lagret i volumet (fordi du vil endre hovednøkkelen).</entry>
-    <entry lang="nb" key="VOL_HEADER_RESTORED">Volumhodet har blitt gjenopprettet med suksess.\n\nVIKTIG: Vennligst merk at et gammelt passord også kan ha blitt gjenopprettet. Dessuten, hvis nøkkelfil(er) var nødvendig for å montere volumet da sikkerhetskopien ble opprettet, vil de samme nøkkelfilene nå være nødvendige for å montere volumet igjen.</entry>
+    <entry lang="nb" key="VOL_HEADER_BACKED_UP">Volumhodet er sikkerhetskopiert.\n\nVIKTIG: Å gjenopprette volumhodet ved bruk av denne sikkerhetskopifilen vil også gjenopprette gjeldende volumpassord. Dessuten, hvis nøkkelfil(er) er nødvendig for å montere volumet, vil de samme nøkkelfilene være nødvendige for å montere volumet igjen etter at volumhodet er gjenopprettet.\n\nADVARSEL: Denne sikkerhetskopien av volumhodet kan bare brukes til å gjenopprette hodet til dette bestemte volumet. Hvis du bruker denne sikkerhetskopien for å gjenopprette hodet til et annet volum, vil du kunne montere volumet, men du vil IKKE kunne dekryptere data lagret i volumet (fordi du vil endre hovednøkkelen).</entry>
+    <entry lang="nb" key="VOL_HEADER_RESTORED">Volumhodet er gjenopprettet.\n\nVIKTIG: Vennligst merk at et gammelt passord også kan ha blitt gjenopprettet. Dessuten, hvis nøkkelfil(er) var nødvendig for å montere volumet da sikkerhetskopien ble opprettet, vil de samme nøkkelfilene nå være nødvendige for å montere volumet igjen.</entry>
     <entry lang="nb" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">For sikkerhetsårsaker, må du skrive inn riktig passord (og/eller oppgi riktige nøkkelfiler) for volumet.\n\nMerk: Hvis volumet inneholder et skjult volum, må du først oppgi riktig passord (og/eller oppgi riktige nøkkelfiler) for det ytre volumet. Deretter, hvis du velger å sikkerhetskopiere hodet til det skjulte volumet, må du skrive inn riktig passord (og/eller oppgi riktige nøkkelfiler) for det skjulte volumet.</entry>
     <entry lang="nb" key="CONFIRM_VOL_HEADER_BAK">Er du sikker på at du vil opprette sikkerhetskopi av volumhodet til %s?\n\nEtter å ha klikket Ja vil du bli bedt om å oppgi et filnavn for sikkerhetskopien av hodet.\n\nMerk: Både standard- og skjulte volumhoder vil bli kryptert med nytt salt og lagret i sikkerhetskopifilen. Hvis det ikke er noe skjult volum innenfor dette volumet, vil området reservert for det skjulte volumhodet i sikkerhetskopifilen bli fylt med tilfeldige data (for å beholde troverdig benektelse). Når du gjenoppretter volumhodet fra sikkerhetskopifilen, må du oppgi riktig passord (og/eller riktige nøkkelfiler) som var gyldig da sikkerhetskopien av volumhodet ble opprettet. Passordet (og/eller nøkkelfilene) vil også automatisk bestemme hvilken type volumhode som skal gjenopprettes, dvs. standard eller skjult (merk at VeraCrypt bestemmer typen gjennom prosessen med prøv-og-feil).</entry>
     <entry lang="nb" key="CONFIRM_VOL_HEADER_RESTORE">Er du sikker på at du vil gjenopprette volumhodet til %s?\n\nADVARSEL: Å gjenopprette en volumhodet gjenoppretter også volumpassordet som var gyldig da sikkerhetskopien ble opprettet. Dessuten, hvis nøkkelfil(er) var nødvendig for å montere volumet da sikkerhetskopien ble opprettet, vil de samme nøkkelfilene være nødvendige for å montere volumet igjen etter at volumhodet er gjenopprettet.\n\nEtter å ha klikket Ja vil du velge sikkerhetskopifilen for hodet.</entry>
@@ -964,9 +964,9 @@
     <entry lang="nb" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">Redningsdisk-avbildningen har blitt opprettet og lagret i denne filen:\n%s\n\nNå må du brenne Redningsdisk-avbildningen til en CD eller DVD.\n\nVIKTIG: Merk at filen må brennes til CD/DVD som en ISO-diskavbildning (ikke som en individuell fil). For informasjon om hvordan du gjør dette, vennligst se dokumentasjonen til CD/DVD-brenningsprogramvaren din.\n\nEtter at du har brent Redningsdisken, velger du 'System' > 'Verifiser Redningsdisk' for å sikre at den har blitt brent riktig.</entry>
     <entry lang="nb" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">Redningsdisk-avbildningen har blitt opprettet og lagret i denne filen:\n%s\n\nNå må du brenne Redningsdisk-avbildningen til en CD eller DVD.\n\nVil du starte Microsoft Windows Disc Image Burner nå?\n\nMerk: Etter at du har brent Redningsdisken, velger du 'System' > 'Verifiser Redningsdisk' for å sikre at den har blitt brent riktig.</entry>
     <entry lang="nb" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Vennligst sett inn din VeraCrypt Redningsdisk og klikk OK for å verifisere den.</entry>
-    <entry lang="nb" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt Redningsdisk har blitt verifisert med suksess.</entry>
-    <entry lang="nb" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Kunne ikke verifisere at Redningsdisken har blitt brent riktig.\n\nHvis du har brent Redningsdisken, vennligst fjern og sett inn CD/DVD på nytt og prøv igjen. Hvis dette ikke hjelper, vennligst prøv annen CD/DVD-brenningsprogramvare og/eller medium.\n\nHvis du forsøkte å verifisere en VeraCrypt Redningsdisk opprettet for en annen master nøkkel, passord, salt, osv., vil en slik Redningsdisk alltid mislykkes i denne verifiseringen. For å opprette en ny Redningsdisk som er fullt kompatibel med din nåværende konfigurasjon, velg 'System' > 'Opprett Redningsdisk'.</entry>
-    <entry lang="nb" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt Redningsdisk avbildning har blitt verifisert med suksess.</entry>
+    <entry lang="nb" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt-redningsdisken er verifisert.</entry>
+    <entry lang="nb" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Kunne ikke verifisere at redningsdisken er korrekt brent.\n\nHvis du har brent redningsdisken, vennligst fjern og sett inn CD/DVD på nytt og prøv igjen. Hvis dette ikke hjelper, vennligst prøv en annen CD/DVD-brenningsprogramvare og/eller et annet medium.\n\nHvis du forsøkte å verifisere en VeraCrypt-redningsdisk opprettet for en annen hovednøkkel, passord, salt, osv., vil en slik redningsdisk alltid mislykkes i denne verifiseringen. For å opprette en ny redningsdisk som er fullt kompatibel med din nåværende konfigurasjon, velg 'System' &gt; 'Opprett redningsdisk'.</entry>
+    <entry lang="nb" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt-redningsdiskbildet er verifisert.</entry>
     <entry lang="nb" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">Verifiseringen av Redningsdisk-avbildningen mislyktes.\n\nHvis du forsøkte å verifisere en Redningsdisk-avbildning opprettet for en annen master nøkkel, passord, salt, osv., vil en slik Redningsdisk-avbildning alltid mislykkes i denne verifiseringen. For å opprette en ny Redningsdisk-avbildning fullt kompatibel med din nåværende konfigurasjon, velg 'System' > 'Opprett Redningsdisk'.</entry>
     <entry lang="nb" key="ERROR_CREATING_RESCUE_DISK">Feil ved oppretting av VeraCrypt Redningsdisk.</entry>
     <entry lang="nb" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt Redningsdisk kan ikke opprettes når et skjult operativsystem kjører.\n\nFor å opprette en VeraCrypt Redningsdisk, start avledningsoperativsystemet og velg deretter 'System' > 'Opprett Redningsdisk'.</entry>
@@ -1011,9 +1011,9 @@
     <entry lang="nb" key="HK_AUTOMOUNT_DEVICES">Automonter enheter</entry>
     <entry lang="nb" key="HK_UNMOUNT_ALL">Demonter alle</entry>
     <entry lang="nb" key="HK_WIPE_CACHE">Slett mellomlager</entry>
-    <entry lang="nb" key="HK_UNMOUNT_ALL_AND_WIPE">Demonter alle &amp; slett mellomlager</entry>
-    <entry lang="nb" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Tving demontering av alle &amp; slett mellomlager</entry>
-    <entry lang="nb" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Tving demontering av alle, slett mellomlager &amp; avslutt</entry>
+    <entry lang="nb" key="HK_UNMOUNT_ALL_AND_WIPE">Demonter alle og slett mellomlager</entry>
+    <entry lang="nb" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE">Tving demontering av alle og slett mellomlager</entry>
+    <entry lang="nb" key="HK_FORCE_UNMOUNT_ALL_AND_WIPE_AND_EXIT">Tving demontering av alle, slett mellomlager og avslutt</entry>
     <entry lang="nb" key="HK_MOUNT_FAVORITE_VOLUMES">Monter favorittvolumer</entry>
     <entry lang="nb" key="HK_SHOW_HIDE_MAIN_WINDOW">Vis/skjul hovedvinduet til VeraCrypt</entry>
     <entry lang="nb" key="PRESS_A_KEY_TO_ASSIGN">(Klikk her og trykk en tast)</entry>
@@ -1066,7 +1066,7 @@
     <entry lang="nb" key="UNMOUNT_ALL_TC_VOLUMES">Demonter alle VeraCrypt-volumer</entry>
     <entry lang="nb" key="UAC_INIT_ERROR">VeraCrypt klarte ikke å få administratorrettigheter.</entry>
     <entry lang="nb" key="ERR_ACCESS_DENIED">Tilgang ble nektet av operativsystemet.\n\nMulig årsak: Operativsystemet krever at du har lese/skrive-tillatelser (eller administratorrettigheter) for visse mapper, filer og enheter, for at du skal få lov til å lese og skrive data til/fra dem. Normalt er en bruker uten administratorrettigheter tillatt å opprette, lese og endre filer i sin Dokumenter-mappe.</entry>
-    <entry lang="nb" key="SECTOR_SIZE_UNSUPPORTED">Feil: Enheten bruker en unsupported sektorstørrelse.\n\nFor øyeblikket er det ikke mulig å opprette partisjons-/enhetsbaserte volumer på enheter som bruker sektorer større enn 4096 byte. Merk imidlertid at du kan opprette filbaserte volumer (beholdere) på slike enheter.</entry>
+    <entry lang="nb" key="SECTOR_SIZE_UNSUPPORTED">Feil: Enheten bruker en sektorstørrelse som ikke støttes.\n\nFor øyeblikket er det ikke mulig å opprette partisjons-/enhetsbaserte volumer på enheter som bruker sektorer større enn 4096 byte. Merk imidlertid at du kan opprette filbaserte volumer (beholdere) på slike enheter.</entry>
     <entry lang="nb" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">For øyeblikket er det ikke mulig å kryptere et system installert på en disk som bruker en sektorstørrelse annen enn 512 bytes.</entry>
     <entry lang="nb" key="NO_SPACE_FOR_BOOT_LOADER">VeraCrypt Boot Loader krever minst 32 KibiBytes ledig plass i begynnelsen av systemdisken (VeraCrypt Boot Loader trenger å lagre i dette området). Dessverre oppfyller ikke disken din denne betingelsen.\n\nVennligst IKKE rapporter dette som en feil eller et problem i VeraCrypt. For å løse dette problemet, må du repartisjonere disken din og la de første 32 KibiBytes stå ledig (i de fleste tilfeller må du slette og gjenopprette den første partisjonen). Vi anbefaler at du bruker Microsoft partisjonssjefen som er tilgjengelig f.eks. når du installerer Windows.</entry>
     <entry lang="nb" key="FEATURE_UNSUPPORTED_ON_CURRENT_OS">Funksjonen støttes ikke på den versjonen av operativsystemet du bruker.</entry>
@@ -1079,7 +1079,7 @@
     <entry lang="nb" key="SYS_LOADER_RESTORE_FAILED">Kunne ikke gjenopprette den opprinnelige systemlasteren.\n\nVennligst bruk din VeraCrypt Redningsdisk ('Reparasjon' > 'Gjenopprett opprinnelig systemlaster') eller Windows installasjonsmedium for å erstatte VeraCrypt Boot Loader med Windows systemlaster.</entry>
     <entry lang="nb" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Den opprinnelige systemlasteren blir ikke lagret på redningsdisken (sannsynlig årsak: manglende sikkerhetskopifil).</entry>
     <entry lang="nb" key="ERROR_MBR_PROTECTED">Kunne ikke skrive til MBR-sektoren.\n\nDin BIOS kan være konfigurert til å beskytte MBR-sektoren. Sjekk BIOS-innstillingene dine (trykk F2, Delete, eller Esc, etter at du slår på datamaskinen) for MBR/viruskontroller.</entry>
-    <entry lang="nb" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">ADVARSEL: Valideringen av VeraCrypt bootloader-fingeravtrykket mislyktes!\nDin disk kan ha blitt manipulert av en angriper ("Evil Maid" angrep).\n\nDenne advarselen kan også bli utløst hvis du gjenopprettet VeraCrypt oppstartslaster ved å bruke en redningsdisk generert med en annen versjon.\n\nDet anbefales at du endrer passordet umiddelbart, som også vil gjenopprette den korrekte VeraCrypt bootloader. Det anbefales å reinstallere VeraCrypt og å ta tiltak for å unngå tilgang til denne maskinen fra uvedkommende.</entry>
+    <entry lang="nb" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">ADVARSEL: Valideringen av VeraCrypts oppstartslaster-fingeravtrykk mislyktes!\nDisken kan ha blitt manipulert av en angriper ("Evil Maid"-angrep).\n\nDenne advarselen kan også bli utløst hvis du gjenopprettet VeraCrypt-oppstartslasteren ved å bruke en redningsdisk generert med en annen versjon.\n\nDet anbefales at du endrer passordet umiddelbart, som også vil gjenopprette den korrekte VeraCrypt-oppstartslasteren. Det anbefales å reinstallere VeraCrypt og å ta tiltak for å unngå tilgang til denne maskinen fra uvedkommende.</entry>
     <entry lang="nb" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">Den nødvendige versjonen av VeraCrypt Boot Loader er for øyeblikket ikke installert. Dette kan forhindre at noen av innstillingene blir lagret.</entry>
     <entry lang="nb" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP"> Merk: I noen situasjoner kan det hende du ønsker å hindre en person (motstander) som ser deg starte datamaskinen fra å vite at du bruker VeraCrypt. Ovennevnte alternativer lar deg gjøre det ved å tilpasse VeraCrypt boot loader-skjermbildet. Hvis du aktiverer det første alternativet, vil ingen tekster bli vist av boot loaderen (ikke engang når du skriver inn feil passord). Datamaskinen vil se ut til å være "frosset" mens du kan skrive inn passordet ditt. I tillegg kan en tilpasset melding bli vist for å villede motstanderen. For eksempel, falske feilmeldinger som "Manglende operativsystem" (som vanligvis vises av Windows boot loader hvis den ikke finner noen Windows boot partisjon). Det er imidlertid viktig å merke seg at hvis motstanderen kan analysere innholdet på harddisken, kan han/hun fortsatt finne ut at den inneholder VeraCrypt boot loaderen.</entry>
     <entry lang="nb" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">ADVARSEL: Vennligst husk at hvis du aktiverer dette alternativet, vil VeraCrypt boot loader ikke vise noen tekster (ikke engang når du skriver inn feil passord). Datamaskinen vil se ut til å være "frosset" (responsløs) mens du kan skrive inn passordet ditt (markøren vil IKKE bevege seg og ingen stjerner vil bli vist når du trykker en tast).\n\nEr du sikker på at du vil aktivere dette alternativet?</entry>
@@ -1113,8 +1113,8 @@
     <entry lang="nb" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">Merk: Passordet må skrives i pre-boot-miljøet (før Windows starter) hvor ikke-amerikanske Windows-tastaturoppsett ikke er tilgjengelige. Derfor må passordet alltid skrives ved bruk av det standard amerikanske tastaturoppsettet. Det er imidlertid viktig å merke seg at du IKKE trenger et ekte amerikansk tastatur. VeraCrypt sørger automatisk for at du trygt kan skrive passordet (akkurat nå og i pre-boot-miljøet) selv om du IKKE har et ekte amerikansk tastatur.</entry>
     <entry lang="nb" key="RESCUE_DISK_INFO">Før du kan kryptere partisjonen/disken, må du opprette en VeraCrypt Rescue Disk (VRD), som tjener følgende formål:\n\n- Hvis VeraCrypt Boot Loader, hovednøkkel eller andre kritiske data blir skadet, tillater VRD deg å gjenopprette det (merk imidlertid at du fortsatt må oppgi riktig passord da).\n\n- Hvis Windows blir skadet og ikke kan starte, tillater VRD deg å permanent dekryptere partisjonen/disken før Windows starter.\n\n- VRD vil inneholde en sikkerhetskopi av det nåværende innholdet på den første disksporet (som vanligvis inneholder en systemloader eller oppstartsstyrer) og vil tillate deg å gjenopprette det hvis nødvendig.\n\nVeraCrypt Rescue Disk ISO-bilde vil bli opprettet i den angitte plasseringen nedenfor.</entry>
     <entry lang="nb" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">Etter at du klikker OK, vil Microsoft Windows Disk Image Burner bli startet. Vennligst bruk den til å brenne VeraCrypt Rescue Disk ISO-bildet til en CD eller DVD.\n\nEtter at du har gjort det, gå tilbake til veiviseren for opprettelse av VeraCrypt-volumer og følg instruksjonene.</entry>
-    <entry lang="nb" key="RESCUE_DISK_BURN_INFO">Rescue Disk-bildet har blitt opprettet og lagret i filen:\n%s\n\nNå må du brenne det til en CD eller DVD.\n\n%lsEtter at du har brent Rescue Disk, klikk Neste for å verifisere at det har blitt riktig brent.</entry>
-    <entry lang="nb" key="RESCUE_DISK_BURN_INFO_NO_CHECK">Rescue Disk-bildet har blitt opprettet og lagret i filen:\n%s\n\nNå bør du enten brenne bildet til en CD/DVD eller flytte det til en sikker plassering for senere bruk.\n\n%lsKlikk Neste for å fortsette.</entry>
+    <entry lang="nb" key="RESCUE_DISK_BURN_INFO">Redningsdisk-bildet er opprettet og lagret i filen:\n%s\n\nNå må du brenne det til en CD eller DVD.\n\n%lsEtter at du har brent redningsdisken, klikk Neste for å verifisere at den ble korrekt brent.</entry>
+    <entry lang="nb" key="RESCUE_DISK_BURN_INFO_NO_CHECK">Redningsdisk-bildet er opprettet og lagret i filen:\n%s\n\nNå bør du enten brenne bildet til en CD/DVD eller flytte det til en sikker plassering for senere bruk.\n\n%lsKlikk Neste for å fortsette.</entry>
     <entry lang="nb" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">VIKTIG: Merk at filen må skrives til CD/DVD som et ISO-diskbilde (ikke som en individuell fil). For informasjon om hvordan du gjør det, vennligst referer til dokumentasjonen for CD/DVD-opptaksprogramvaren din. Hvis du ikke har noen CD/DVD-opptaksprogramvare som kan skrive ISO-diskbildet til en CD/DVD, klikk lenken nedenfor for å laste ned slik gratis programvare.\n\n</entry>
     <entry lang="nb" key="LAUNCH_WIN_ISOBURN">Start Microsoft Windows Disk Image Burner</entry>
     <entry lang="nb" key="RESCUE_DISK_BURN_NO_CHECK_WARN">ADVARSEL: Hvis du allerede opprettet en VeraCrypt Rescue Disk tidligere, kan den ikke gjenbrukes for denne systempartisjonen/disken fordi den ble opprettet for en annen hovednøkkel! Hver gang du krypterer en systempartisjon/disk, må du lage en ny VeraCrypt Rescue Disk for den selv om du bruker samme passord.</entry>
@@ -1173,11 +1173,11 @@
     <entry lang="nb" key="CD_BURNER_NOT_PRESENT_WILL_CONNECT_LATER">Jeg vil koble til en CD/DVD-brenner til datamaskinen min senere. Avslutt prosessen nå.</entry>
     <entry lang="nb" key="CD_BURNER_NOT_PRESENT_CONNECTED_NOW">En CD/DVD-brenner er tilkoblet datamaskinen min nå. Fortsett og skriv Rescue Disk.</entry>
     <entry lang="nb" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">Vennligst følg disse trinnene:\n\n1) Koble til en flyttbar enhet, for eksempel en USB-minnepinne, til datamaskinen nå.\n\n2) Kopier filen for VeraCrypt Rescue Disk-bildet (%s) til den flyttbare enheten.\n\nHvis du trenger å bruke VeraCrypt Rescue Disk i fremtiden, vil du kunne koble den flyttbare enheten (som inneholder VeraCrypt Rescue Disk-bildet) til en datamaskin med en CD/DVD-brenner og opprette en oppstartbar VeraCrypt Rescue Disk ved å brenne bildet til en CD eller DVD. VIKTIG: Merk at filen for VeraCrypt Rescue Disk-bildet må skrives til CD/DVD som et ISO-diskbilde (ikke som en individuell fil).</entry>
-    <entry lang="nb" key="RESCUE_DISK_RECORDING_TITLE">Innspilling av Rescue Disk</entry>
-    <entry lang="nb" key="RESCUE_DISK_CREATED_TITLE">Rescue Disk opprettet</entry>
+    <entry lang="nb" key="RESCUE_DISK_RECORDING_TITLE">Brenning av redningsdisk</entry>
+    <entry lang="nb" key="RESCUE_DISK_CREATED_TITLE">Redningsdisk opprettet</entry>
     <entry lang="nb" key="SYS_ENCRYPTION_PRETEST_TITLE">Systemkrypteringstest</entry>
-    <entry lang="nb" key="RESCUE_DISK_DISK_VERIFIED_TITLE">Rescue Disk verifisert</entry>
-    <entry lang="nb" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCrypt Rescue Disk har blitt vellykket verifisert. Vennligst fjern den fra lagringsenheten nå og oppbevar den på et trygt sted.\n\nKlikk Neste for å fortsette.</entry>
+    <entry lang="nb" key="RESCUE_DISK_DISK_VERIFIED_TITLE">Redningsdisk verifisert</entry>
+    <entry lang="nb" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCrypt-redningsdisken er verifisert. Vennligst fjern den fra lagringsenheten nå og oppbevar den på et trygt sted.\n\nKlikk Neste for å fortsette.</entry>
     <entry lang="nb" key="REMOVE_RESCUE_DISK_FROM_DRIVE">ADVARSEL: Under de neste trinnene må ikke VeraCrypt Rescue Disk være i stasjonen. Ellers vil det ikke være mulig å fullføre trinnene riktig.\n\nVennligst fjern den fra stasjonen nå og oppbevar den på et trygt sted. Klikk deretter OK.</entry>
     <entry lang="nb" key="PREBOOT_NOT_LOCALIZED">Advarsel: På grunn av tekniske begrensninger i pre-boot-miljøet, kan ikke tekster vist av VeraCrypt i pre-boot-miljøet (dvs. før Windows starter) lokaliseres. Brukergrensesnittet for VeraCrypt Boot Loader er helt på engelsk.\n\nFortsette?</entry>
     <entry lang="nb" key="SYS_ENCRYPTION_PRETEST_INFO">Før du krypterer systempartisjonen eller -disken, må VeraCrypt verifisere at alt fungerer som det skal.\n\nEtter at du klikker Test, vil alle nødvendige komponenter (for eksempel pre-boot autentiseringskomponenten, dvs. VeraCrypt Boot Loader) bli installert og datamaskinen vil starte på nytt. Da må du angi passordet ditt på VeraCrypt Boot Loader-skjermen som vil vises før Windows starter. Etter Windows starter, vil du automatisk bli informert om resultatet av forhåndstesten.\n\nFølgende enhet vil bli endret: Disk #%d\n\n\nHvis du klikker Avbryt nå, vil ingenting bli installert og forhåndstesten vil ikke bli utført.</entry>
@@ -1245,9 +1245,9 @@
     <entry lang="nb" key="CONFIRM_CHANGE_WIZARD_MODE_TO_FILE_CONTAINER">Vil du opprette en VeraCrypt filbeholder i stedet?</entry>
     <entry lang="nb" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">Du har valgt systempartisjonen/disken (eller oppstartspartisjonen), men veivisermodusen du valgte er egnet bare for ikke-systempartisjoner/disks.\n\nVil du sette opp førstart-autentisering (som betyr at du må angi passordet ditt hver gang før Windows starter) og kryptere systempartisjonen/disken?</entry>
     <entry lang="nb" key="CONFIRM_DECRYPT_SYS_DEVICE">Er du sikker på at du vil permanent dekryptere systempartisjonen/disken?</entry>
-    <entry lang="nb" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">ADVARSEL: Hvis du permanent dekrypterer systempartisjonen/disken, vil ukryptert data bli skrevet til den.\n\nEr du virkelig sikker på at du vil permanent dekryptere systempartisjonen/disken?</entry>
+    <entry lang="nb" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">ADVARSEL: Hvis du permanent dekrypterer systempartisjonen/disken, vil ukrypterte data bli skrevet til den.\n\nEr du virkelig sikker på at du vil permanent dekryptere systempartisjonen/disken?</entry>
     <entry lang="nb" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Er du sikker på at du vil permanent dekryptere følgende volum?</entry>
-    <entry lang="nb" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">ADVARSEL: Hvis du permanent dekrypterer VeraCrypt-volumet, vil ukryptert data bli skrevet til disken.\n\nEr du virkelig sikker på at du vil permanent dekryptere det valgte volumet?</entry>
+    <entry lang="nb" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">ADVARSEL: Hvis du permanent dekrypterer VeraCrypt-volumet, vil ukrypterte data bli skrevet til disken.\n\nEr du virkelig sikker på at du vil permanent dekryptere det valgte volumet?</entry>
     <entry lang="nb" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">Advarsel: Hvis du bruker en kaskade av chiffer for systemkryptering, kan du oppleve følgende problemer:\n\n1) VeraCrypt Boot Loader er større enn normalt, og derfor er det ikke nok plass i det første spor på disken for en sikkerhetskopi av VeraCrypt Boot Loader. Derfor, når den blir skadet (som ofte skjer, for eksempel under upassende utformede antipirat-aktiveringsprosedyrer av visse programmer), vil du måtte bruke VeraCrypt Redningsdisk for å starte eller reparere VeraCrypt Boot Loader.\n\n2) På noen datamaskiner tar det lengre tid å gjenoppta fra dvalemodus.\n\nDisse potensielle problemene kan forhindres ved å velge en ikke-kaskade krypteringsalgoritme (f.eks. AES).\n\nEr du sikker på at du vil bruke en kaskade av chiffer?</entry>
     <entry lang="nb" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">Hvis du opplever noen av de tidligere beskrevne problemene, dekrypter partisjonen/disken (hvis den er kryptert) og prøv deretter å kryptere den igjen ved å bruke en ikke-kaskade krypteringsalgoritme (f.eks. AES).</entry>
     <entry lang="nb" key="UPDATE_TC_IN_DECOY_OS_FIRST">ADVARSEL: Av sikkerhetsgrunner bør du oppdatere VeraCrypt på dekosystemet før du oppdaterer det på det skjulte systemet.\n\nFor å gjøre det, start dekosystemet og kjør VeraCrypt installasjonsprogrammet fra det. Start deretter det skjulte systemet og kjør installasjonsprogrammet fra det også.\n\nMerk: Dekosystemet og det skjulte systemet deler en enkelt boot loader. Hvis du oppgraderte VeraCrypt bare på det skjulte systemet (men ikke på dekosystemet), vil dekosystemet inneholde en VeraCrypt-driver og VeraCrypt-programmer hvis versjonsnummer er forskjellig fra versjonsnummeret til VeraCrypt Boot Loader. En slik diskrepans kan indikere at det finnes et skjult operativsystem på denne datamaskinen.\n\n\nVil du fortsette?</entry>
@@ -1278,7 +1278,7 @@
     <entry lang="nb" key="SECURITY_TOKEN_ERROR">Sikkerhetstoken feil</entry>
     <entry lang="nb" key="CKR_PIN_INCORRECT">Passord for sikkerhetstoken er feil.</entry>
     <entry lang="nb" key="CKR_DEVICE_MEMORY">Sikkerhetstoken har ikke nok minne/plass til å utføre den forespurte operasjonen.\n\nHvis du prøver å importere en nøkkelfil, bør du velge en mindre fil eller bruke en nøkkelfil generert av VeraCrypt (velg 'Verktøy' > 'Nøkkelfilgenerator').</entry>
-    <entry lang="nb" key="ALL_TOKEN_SESSIONS_CLOSED">Alle åpne sikkerhetstoken-sesjoner har blitt lukket.</entry>
+    <entry lang="nb" key="ALL_TOKEN_SESSIONS_CLOSED">Alle åpne sikkerhetstokensesjoner er lukket.</entry>
     <entry lang="nb" key="SELECT_TOKEN_KEYFILES">Velg Sikkerhetstoken-nøkkelfiler</entry>
     <entry lang="nb" key="TOKEN_SLOT_ID">Slot</entry>
     <entry lang="nb" key="TOKEN_NAME">Token-navn</entry>
@@ -1412,9 +1412,9 @@
     <entry lang="nb" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Bruk Sikkert Skrivebord for passordinntasting</entry>
     <entry lang="nb" key="ERR_REFS_INVALID_VOLUME_SIZE">Volumfilstørrelsen spesifisert i kommandolinjen er inkompatibel med valgt ReFS-filsystem.</entry>
     <entry lang="nb" key="IDC_EDIT_DCSPROP">Rediger Boot Loader-konfigurasjon</entry>
-    <entry lang="nb" key="IDC_SHOW_PLATFORMINFO">Vis EFI-plattformsinformasjon</entry>
+    <entry lang="nb" key="IDC_SHOW_PLATFORMINFO">Vis EFI-plattforminformasjon</entry>
     <entry lang="nb" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader-konfigurasjonsfil</entry>
-    <entry lang="nb" key="EFI_PLATFORM_INFORMATION">EFI-plattformsinformasjon</entry>
+    <entry lang="nb" key="EFI_PLATFORM_INFORMATION">EFI-plattforminformasjon</entry>
     <entry lang="nb" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">ADVARSEL: Uerfarne brukere bør aldri forsøke å manuelt redigere Boot Loader-konfigurasjoner.\n\nFortsette?</entry>
     <entry lang="nb" key="DCSPROP_XML_VALIDATION_FAILED">ADVARSEL: Kunne ikke verifisere XML-formatet til Boot Loader-konfigurasjonen. Vennligst sjekk dine modifikasjoner.</entry>
     <entry lang="nb" key="IDT_ADVANCED_OPTIONS">Avanserte Alternativer</entry>
@@ -1443,9 +1443,9 @@
     <entry lang="nb" key="HIDDEN_CREDS_SAME_AS_OUTER">Det skjulte volumet kan ikke ha samme passord, PIM og nøkkelfiler som det ytre volumet</entry>
     <entry lang="nb" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt støtter ikke kryptering av en systemdisk som allerede er kryptert med BitLocker.</entry>
     <entry lang="nb" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Fiks automatisk oppstartskonfigurasjonsproblemer som kan forhindre at Windows starter</entry>
-    <entry lang="nb" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Tving maskinen til å starte på VeraCrypt ved neste oppstart</entry>
-    <entry lang="nb" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Tving tilstedeværelsen av VeraCrypt-oppføringen i EFI-firmware bootmenyen</entry>
-    <entry lang="nb" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Tving VeraCrypt-oppføringen til å være den første i EFI-firmware bootmenyen</entry>
+    <entry lang="nb" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Tving maskinen til å starte opp i VeraCrypt ved neste oppstart</entry>
+    <entry lang="nb" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Tving tilstedeværelsen av VeraCrypt-oppføringen i EFI-fastvarens oppstartsmeny</entry>
+    <entry lang="nb" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Tving VeraCrypt-oppføringen til å være den første i EFI-fastvarens oppstartsmeny</entry>
     <entry lang="nb" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">ADVARSEL: RAM-kryptering er ikke kompatibel med Windows Hvilemodus og Windows Hurtigoppstart-funksjoner. VeraCrypt må deaktivere dem før du aktiverer RAM-kryptering.\n\nFortsette?</entry>
     <entry lang="nb" key="CONFIRM_DISABLE_FAST_STARTUP">ADVARSEL: Windows Hurtigoppstart er aktivert og det er kjent for å forårsake problemer når du arbeider med VeraCrypt volumer. Det anbefales å deaktivere det for bedre sikkerhet og brukervennlighet.\n\nVil du deaktivere Windows Hurtigoppstart?</entry>
     <entry lang="nb" key="QUICK_FORMAT_HELP">For å gjøre det mulig for operativsystemet å montere ditt nye volum, må det formateres med et filsystem. Vennligst velg en filsystemtype.\n\nHvis volumet ditt skal være vert på en enhet eller partisjon, kan du bruke 'Hurtigformatering' for å hoppe over kryptering av ledig plass på volumet.</entry>
@@ -1475,7 +1475,7 @@
     <entry lang="nb" key="LINUX_CROSS_SUPPORT_ONLY">Jeg skal montere volumet kun på {0}</entry>
     <entry lang="nb" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Velg dette alternativet hvis du ikke trenger å bruke volumet på andre plattformer.</entry>
     <entry lang="nb" key="LINUX_DESELECT">Fjern merking</entry>
-    <entry lang="nb" key="LINUX_ADMIN_PW_QUERY">Angi ditt brukernavn eller administratorpassord:</entry>
+    <entry lang="nb" key="LINUX_ADMIN_PW_QUERY">Skriv inn bruker- eller administratorpassordet ditt:</entry>
     <entry lang="nb" key="LINUX_ADMIN_PW_QUERY_TITLE">Administratorrettigheter kreves</entry>
     <entry lang="nb" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt kjører allerede.</entry>
     <entry lang="nb" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">Systemkrypteringspassord er lengre enn {0} tegn.</entry>
@@ -1486,13 +1486,13 @@
     <entry lang="nb" key="LINUX_UNMOUNT_ALL_WHEN">Demonter alle volumer når</entry>
     <entry lang="nb" key="LINUX_ENTERING_POWERSAVING">Systemet går inn i strømsparingsmodus</entry>
     <entry lang="nb" key="LINUX_LOGIN_ACTION">Handlinger å utføre når brukeren logger inn</entry>
-    <entry lang="nb" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Lukk alle Utforsker-vinduer til volumet som demonteres</entry>
+    <entry lang="nb" key="LINUX_CLOSE_EXPL_ON_UNMOUNT">Lukk alle Utforsker-vinduer for volumet som demonteres</entry>
     <entry lang="nb" key="LINUX_HOTKEYS">Hurtigtaster</entry>
     <entry lang="nb" key="LINUX_SYSTEM_HOTKEYS">System-omfattende Hurtigtaster</entry>
     <entry lang="nb" key="LINUX_SOUND_NOTIFICATION">Spill av systemvarsellyd etter montering/demontering</entry>
     <entry lang="nb" key="LINUX_CONFIRM_AFTER_UNMOUNT">Vis bekreftelsesmeldingsboks etter demontering</entry>
     <entry lang="nb" key="LINUX_VC_QUITS">VeraCrypt avsluttes</entry>
-    <entry lang="nb" key="LINUX_OPEN_FINDER">Åpne Finder-vindu for vellykket montert volum</entry>
+    <entry lang="nb" key="LINUX_OPEN_FINDER">Åpne Finder-vindu for monterte volumer</entry>
     <entry lang="nb" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Vennligst merk at denne innstillingen trer i kraft kun hvis bruk av kjernekryptografiske tjenester er deaktivert.</entry>
     <entry lang="nb" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Deaktivering av bruk av kjernekryptografiske tjenester kan redusere ytelsen.\n\nEr du sikker?</entry>
     <entry lang="nb" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Vennligst merk at deaktivering av dette alternativet kanskje ikke har noen effekt på volumer som er montert ved bruk av kjernekryptografiske tjenester.</entry>
@@ -1573,7 +1573,7 @@
     <entry lang="nb" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">VeraCrypt kan ikke oppgraderes fordi systempartisjonen/disken ble kryptert ved bruk av en algoritme som ikke støttes lenger.\nVennligst dekrypter systemet ditt før du oppgraderer VeraCrypt og deretter krypter det igjen.</entry>
     <entry lang="nb" key="LINUX_EX2MSG_TERMINALNOTFOUND">Støttet terminalprogram kunne ikke bli funnet, du trenger enten xterm, konsole eller gnome-terminal (med dbus-x11).</entry>
     <entry lang="nb" key="IDM_MOUNT_NO_CACHE">Monter uten mellomlager</entry>
-    <entry lang="nb" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nUtvid et VeraCrypt-volum mens det er i drift uten å omformatere\n\n\nAlle typer volumer (beholderfiler, disker og partisjoner) formatert med NTFS støttes. Den eneste forutsetningen er at det må være nok ledig plass på vertsenheten eller vertsdisken til VeraCrypt-volumet.\n\nIkke bruk denne programvaren for å utvide et ytre volum som inneholder et skjult volum, da dette ødelegger det skjulte volumet!</entry>
+    <entry lang="nb" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nUtvid et VeraCrypt-volum uten å reformatere\n\n\nAlle typer volumer (beholderfiler, disker og partisjoner) formatert med NTFS støttes. Den eneste forutsetningen er at det må være nok ledig plass på vertsenheten eller vertsdisken til VeraCrypt-volumet.\n\nIkke bruk denne programvaren for å utvide et ytre volum som inneholder et skjult volum, da dette ødelegger det skjulte volumet!</entry>
     <entry lang="nb" key="IDC_STEPSEXPAND">1. Velg VeraCrypt-volumet som skal utvides\n2. Klikk på 'Monter'-knappen</entry>
     <entry lang="nb" key="IDT_VOL_NAME">Volum: </entry>
     <entry lang="nb" key="IDT_FILE_SYS">Filsystem: </entry>
@@ -1585,7 +1585,7 @@
     <entry lang="nb" key="IDT_INIT_SPACE">Fyll ny plass: </entry>
     <entry lang="nb" key="EXPANDER_FREE_SPACE">%s ledig plass tilgjengelig på vertsdisken</entry>
     <entry lang="nb" key="EXPANDER_HELP_DEVICE">Dette er et enhetsbasert VeraCrypt-volum.\n\nDen nye volumstørrelsen vil bli valgt automatisk som størrelsen på vertsenheten.</entry>
-    <entry lang="nb" key="EXPANDER_HELP_FILE">Vennligst spesifiser den nye størrelsen på VeraCrypt-volumet (må være minst %I64u KB større enn den nåværende størrelsen).</entry>
+    <entry lang="nb" key="EXPANDER_HELP_FILE">Vennligst spesifiser den nye størrelsen på VeraCrypt-volumet (må være minst %I64u KiB større enn den nåværende størrelsen).</entry>
     <entry lang="nb" key="QUICK_EXPAND_WARNING">ADVARSEL: Du bør bruke rask utvidelse bare i følgende tilfeller:\n\n1) Enheten hvor filbeholderen er plassert inneholder ingen sensitive data og du trenger ikke troverdig benektelse.\n2) Enheten hvor filbeholderen er plassert har allerede blitt sikkert og fullstendig kryptert.\n\nEr du sikker på at du vil bruke hurtigutvidelse?</entry>
     <entry lang="nb" key="EXPANDER_STATUS_TEXT">VIKTIG: Flytt musen så tilfeldig som mulig innenfor dette vinduet. Jo lengre du flytter den, jo bedre. Dette øker den kryptografiske styrken til krypteringsnøklene betydelig. Klikk deretter 'Fortsett' for å utvide volumet.</entry>
     <entry lang="nb" key="EXPANDER_STATUS_TEXT_LEGACY">Klikk 'Fortsett' for å utvide volumet.</entry>
@@ -1668,9 +1668,9 @@
     <entry lang="nb" key="PIM_ARGON2_LARGE_WARNING">Du har valgt en Argon2 PIM-verdi som er større enn VeraCrypts standardverdi.\nVær oppmerksom på at dette kan kreve mer minne og føre til mye tregere montering.</entry>
     <entry lang="nb" key="PIM_ARGON2_SMALL_WARNING">Du har valgt en Argon2 PIM-verdi som er mindre enn VeraCrypts standardverdi. Vær oppmerksom på at dersom passordet ditt ikke er sterkt nok, kan dette føre til svakere sikkerhet.\n\nBekrefter du at du bruker et sterkt passord?</entry>
     <entry lang="nb" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">Passordet må inneholde 20 eller flere tegn for å kunne bruke den angitte Argon2 PIM-en.\nKortere passord kan kun brukes hvis Argon2 PIM er 12 eller større.</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Mount NTFS volumes with an in-kernel Linux driver</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Linux only. When enabled and no explicit filesystem type was supplied, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with an available in-kernel NTFS driver, bypassing mount helpers such as ntfs-3g. VeraCrypt uses ntfs when it is positively identified as a modern read/write driver or expected on Linux 7.1 or later, and otherwise uses ntfs3. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If no supported in-kernel NTFS driver is available or loadable, mounting fails. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
-    <entry lang="en" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">No supported in-kernel NTFS driver is available or loadable. To use the system default NTFS backend, disable the NTFS kernel-driver preference or do not request kernel NTFS explicitly.</entry>
+    <entry lang="nb" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Monter NTFS-volumer med en Linux-driver i kjernen</entry>
+    <entry lang="nb" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Kun Linux. Når aktivert og ingen eksplisitt filsystemtype er angitt, undersøker VeraCrypt den dekrypterte virtuelle enheten med blkid -p og monterer oppdagede NTFS-filsystemer med en tilgjengelig NTFS-driver i kjernen, og omgår monteringshjelpere som ntfs-3g. VeraCrypt bruker ntfs når den er positivt identifisert som en moderne lese/skrive-driver eller forventet på Linux 7.1 eller nyere, og bruker ellers ntfs3. Hvis NTFS-deteksjonen mislykkes, bruker VeraCrypt det vanlige automatiske filsystemvalget. Hvis ingen støttet NTFS-driver i kjernen er tilgjengelig eller kan lastes, mislykkes monteringen. Dette valgfrie alternativet kan unngå at hvilemodus eller dvalemodus henger på grunn av frosne FUSE-filsystemer i brukerområdet.</entry>
+    <entry lang="nb" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">Ingen støttet NTFS-driver i kjernen er tilgjengelig eller kan lastes. For å bruke systemets standard NTFS-backend, deaktiver innstillingen for NTFS-kjernedriver eller ikke be om NTFS-kjerne eksplisitt.</entry>
     <entry lang="nb" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Normal demontering av volumet {0} mislyktes. Dette kan skje når programmer fortsatt har filer eller mapper åpne på volumet, eller når den underliggende enheten ble frakoblet og monteringen ble foreldet.\n\nHvis enheten fortsatt er tilkoblet, velg Nei, lukk programmene som bruker volumet, og prøv å demontere på nytt.\n\nHvis enheten ble frakoblet eller monteringen er foreldet, kan VeraCrypt forsøke en nødopprydding ved å frakoble filsystemet og fjerne eller planlegge fjerning av VeraCrypts kjerneobjekter. Ventende skrivinger kan ha mislyktes, data kan gå tapt, og oppryddingen kan forbli ventende inntil programmene lukker åpne filer. Kontroller filsystemet med fsck eller et passende reparasjonsverktøy før du bruker det igjen.\n\nFortsette?</entry>
     <entry lang="nb" key="LINUX_EMERGENCY_UNMOUNTED">Nødopprydding for volumet {0} er igangsatt. Hvis volumet ble frakoblet, monteringen var foreldet, eller det var ventende skrivinger, kontroller filsystemet med fsck eller et passende reparasjonsverktøy før du bruker det igjen.</entry>
     <entry lang="nb" key="FORMAT_STAGE_WRITING_DATA">Oppretter volumdata. Vennligst vent.</entry>
