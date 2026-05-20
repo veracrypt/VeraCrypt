@@ -15,6 +15,7 @@ extern volatile BOOL ProbingHostDeviceForWrite;
 
 NTSTATUS TCOpenVolume ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension , MOUNT_STRUCT *mount , PWSTR pwszMountVolume , BOOL bRawDevice );
 void TCCloseVolume ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension );
+BOOL GetNonSysInplaceRecoveryGeometry ( PCRYPTO_INFO cryptoInfo , int64 *logicalEncryptedStart , int64 *logicalEncryptedEnd , uint32 *concealedPlaintextLength );
 NTSTATUS TCCompletion ( PDEVICE_OBJECT DeviceObject , PIRP Irp , PVOID pUserBuffer );
 NTSTATUS TCSendHostDeviceIoControlRequest ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension , ULONG IoControlCode , void *OutputBuffer , ULONG OutputBufferSize );
 NTSTATUS TCSendHostDeviceIoControlRequestEx ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension , ULONG IoControlCode , void *InputBuffer , ULONG InputBufferSize , void *OutputBuffer , ULONG OutputBufferSize );

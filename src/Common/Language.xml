@@ -151,6 +151,7 @@
     <entry lang="en" key="IDC_MOUNTALL">&amp;Auto-Mount Devices</entry>
     <entry lang="en" key="IDC_MOUNT_OPTIONS">Mount Opti&amp;ons...</entry>
     <entry lang="en" key="IDC_MOUNT_READONLY">Mount volume as read-&amp;only</entry>
+    <entry lang="en" key="IDC_NONSYS_INPLACE_RECOVERY_READONLY">Recovery mount interrupted non-system in-place volume as read-only</entry>
     <entry lang="en" key="IDC_NEW_KEYFILES">Keyfiles...</entry>
     <entry lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for defaults)</entry>
     <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for defaults)</entry>
@@ -1238,6 +1239,8 @@
     <entry lang="en" key="SYSTEM_ENCRYPTION_NOT_COMPLETED">The process of encryption or decryption of the system partition/drive has not been completed. Please wait until it is complete before proceeding.</entry>
     <entry lang="en" key="ERR_ENCRYPTION_NOT_COMPLETED">Error: The process of encryption of the partition/drive has not been completed. It must be completed first.</entry>
     <entry lang="en" key="ERR_NONSYS_INPLACE_ENC_INCOMPLETE">Error: The process of encryption or decryption of the partition/volume has not been completed. It must be completed first.\n\nNote: To resume the process, select 'Volumes' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window.</entry>
+    <entry lang="en" key="ERR_NONSYS_INPLACE_RECOVERY_READONLY_UNSUPPORTED">Error: Recovery read-only mount is supported only for device-hosted volumes with an incomplete non-system in-place encryption/decryption state and a valid embedded backup header layout.\n\nFully encrypted, fully decrypted, hidden, file-hosted, or unsupported-layout volumes cannot be mounted with this option.</entry>
+    <entry lang="en" key="NONSYS_INPLACE_RECOVERY_READONLY_WARNING">This recovery mode is intended only for copying data from a sector-by-sector clone or image of a partition where non-system in-place encryption/decryption was interrupted.\n\nThe volume will be mounted read-only using the embedded backup header. Do not run CHKDSK, formatting, partition repair, or any write-capable recovery tool on the original disk or on the partially transformed volume.\n\nContinue?</entry>
     <entry lang="en" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">The password is correct, VeraCrypt has successfully decrypted the volume header and detected that this volume is a hidden system volume. However, you cannot modify the header of a hidden system volume this way.\n\nTo change the password for a hidden system volume, boot the operating system residing in the hidden volume, and then select 'System' &gt; 'Change Password' from the menu bar of the main VeraCrypt window.\n\nTo set the header key derivation algorithm, boot the hidden operating system and then select 'System' &gt; 'Set Header Key Derivation Algorithm'.</entry>
     <entry lang="en" key="CANNOT_DECRYPT_HIDDEN_OS">VeraCrypt does not support in-place decryption of a hidden system partition.\n\nNote: If you want to decrypt the decoy system partition, boot the decoy system, and then select 'System' &gt; 'Permanently Decrypt System Partition/Drive' from the menu bar of the main VeraCrypt window.</entry>
     <entry lang="en" key="ERR_PARAMETER_INCORRECT">Error: Incorrect/invalid parameter.</entry>

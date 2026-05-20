@@ -164,6 +164,7 @@ typedef struct
 	Password ProtectedHidVolPassword;	/* Password to the hidden volume to be protected against overwriting */
 	BOOL UseBackupHeader;
 	BOOL RecoveryMode;
+	BOOL NonSysInplaceRecoveryReadOnly;
 	int pkcs5_prf;
 	int ProtectedHidVolPkcs5Prf;
 	BOOL VolumeMountedReadOnlyAfterPartialSysEnc;

@@ -89,6 +89,7 @@ typedef struct
 	Password ProtectedHidVolPassword;	/* Password of hidden volume to protect against overwriting */
 	BOOL UseBackupHeader;
 	BOOL RecoveryMode;
+	BOOL NonSysInplaceRecoveryReadOnly;
 	int ProtectedHidVolPkcs5Prf;
 	int ProtectedHidVolPim;
 	wchar_t Label[33]; /* maximum label length is 32 for NTFS and 11 for FAT32 */

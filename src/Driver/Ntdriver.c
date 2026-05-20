@@ -795,6 +795,112 @@ IOCTL_STORAGE_GET_HOTPLUG_INFO 0x002D0C14
 IOCTL_STORAGE_QUERY_PROPERTY 0x002D1400
 */
 
+static NTSTATUS VerifyBackingReadRange (PEXTENSION Extension, PVOID buffer, ULONG bufferSize, ULONGLONG physicalOffset, ULONG length)
+{
+	IO_STATUS_BLOCK ioStatus;
+	LARGE_INTEGER offset;
+	ULONG remainingBytes = length;
+
+	if (physicalOffset > (ULONGLONG) _I64_MAX)
+		return STATUS_INVALID_PARAMETER;
+
+	offset.QuadPart = (LONGLONG) physicalOffset;
+
+	while (remainingBytes)
+	{
+		ULONG readCount = min (bufferSize, remainingBytes);
+		NTSTATUS status = ZwReadFile (Extension->hDeviceFile, NULL, NULL, NULL, &ioStatus, buffer, readCount, &offset, NULL);
+
+		if (NT_SUCCESS (status) && ioStatus.Information != readCount)
+			return STATUS_INVALID_PARAMETER;
+		else if (!NT_SUCCESS (status))
+			return status;
+
+		remainingBytes -= readCount;
+		offset.QuadPart += (ULONGLONG) readCount;
+	}
+
+	return STATUS_SUCCESS;
+}
+
+static NTSTATUS VerifyVolumeReadRange (PEXTENSION Extension, ULONGLONG logicalOffset, ULONG length)
+{
+	HRESULT hResult;
+	ULONGLONG logicalEndOffset;
+	DWORD bufferSize;
+	PVOID buffer;
+	NTSTATUS status = STATUS_SUCCESS;
+
+	if (S_OK != ULongLongAdd (logicalOffset, (ULONGLONG) length, &logicalEndOffset)
+		|| logicalEndOffset > (ULONGLONG) Extension->DiskLength)
+	{
+		return STATUS_INVALID_PARAMETER;
+	}
+
+	if (length == 0)
+		return STATUS_SUCCESS;
+
+	bufferSize = min (length, 16 * PAGE_SIZE);
+	buffer = TCalloc (bufferSize);
+	if (!buffer)
+		return STATUS_INSUFFICIENT_RESOURCES;
+
+	if (Extension->Queue.NonSysInplaceRecoveryMode)
+	{
+		ULONG remainingBytes = length;
+		ULONGLONG currentLogicalOffset = logicalOffset;
+
+		while (remainingBytes)
+		{
+			ULONG fragmentLength = min (bufferSize, remainingBytes);
+			ULONGLONG physicalOffset;
+
+			if (currentLogicalOffset < (ULONGLONG) Extension->Queue.NonSysInplaceLogicalEncryptedStart)
+			{
+				ULONGLONG bytesToEncryptedStart = (ULONGLONG) Extension->Queue.NonSysInplaceLogicalEncryptedStart - currentLogicalOffset;
+				if ((ULONGLONG) fragmentLength > bytesToEncryptedStart)
+					fragmentLength = (ULONG) bytesToEncryptedStart;
+
+				physicalOffset = currentLogicalOffset;
+			}
+			else
+			{
+				hResult = ULongLongAdd (currentLogicalOffset, (ULONGLONG) TC_VOLUME_DATA_OFFSET, &physicalOffset);
+				if (hResult != S_OK)
+				{
+					status = STATUS_INVALID_PARAMETER;
+					break;
+				}
+			}
+
+			status = VerifyBackingReadRange (Extension, buffer, bufferSize, physicalOffset, fragmentLength);
+			if (!NT_SUCCESS (status))
+				break;
+
+			currentLogicalOffset += fragmentLength;
+			remainingBytes -= fragmentLength;
+		}
+	}
+	else
+	{
+		ULONGLONG physicalOffset;
+		ULONGLONG volumeOffset = Extension->cryptoInfo->hiddenVolume
+			? Extension->cryptoInfo->hiddenVolumeOffset
+			: Extension->cryptoInfo->volDataAreaOffset;
+
+		hResult = ULongLongAdd (logicalOffset, volumeOffset, &physicalOffset);
+		if (hResult != S_OK)
+			status = STATUS_INVALID_PARAMETER;
+		else
+			status = VerifyBackingReadRange (Extension, buffer, bufferSize, physicalOffset, length);
+	}
+
+	burn (buffer, bufferSize);
+	TCfree (buffer);
+
+	return status;
+}
+
 NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension, PIRP Irp)
 {
 	PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
@@ -1339,65 +1445,16 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_DISK_VERIFY:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_VERIFY)\n");
+		Irp->IoStatus.Information = 0;
 		if (ValidateIOBufferSize (Irp, sizeof (VERIFY_INFORMATION), ValidateInput))
 		{
-			HRESULT hResult;
-			ULONGLONG ullStartingOffset, ullNewOffset, ullEndOffset;
 			PVERIFY_INFORMATION pVerifyInformation;
-			ULONGLONG volumeOffset = Extension->cryptoInfo->hiddenVolume
-				? Extension->cryptoInfo->hiddenVolumeOffset
-				: Extension->cryptoInfo->volDataAreaOffset;
 			pVerifyInformation = (PVERIFY_INFORMATION) Irp->AssociatedIrp.SystemBuffer;
 
-			ullStartingOffset = (ULONGLONG) pVerifyInformation->StartingOffset.QuadPart;
-			hResult = ULongLongAdd(ullStartingOffset,
-				volumeOffset,
-				&ullNewOffset);
-			if (hResult != S_OK)
-				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
-			else if (S_OK != ULongLongAdd(ullStartingOffset, (ULONGLONG) pVerifyInformation->Length, &ullEndOffset))
-				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
-			else if (ullEndOffset > (ULONGLONG) Extension->DiskLength)
+			if (pVerifyInformation->StartingOffset.QuadPart < 0)
 				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
 			else
-			{
-				IO_STATUS_BLOCK ioStatus;
-				DWORD dwBuffersize = min (pVerifyInformation->Length, 16 * PAGE_SIZE);
-				PVOID buffer = TCalloc (dwBuffersize);
-
-				if (!buffer)
-				{
-					Irp->IoStatus.Status = STATUS_INSUFFICIENT_RESOURCES;
-				}
-				else
-				{
-					LARGE_INTEGER offset;
-					DWORD dwRemainingBytes = pVerifyInformation->Length, dwReadCount;
-					offset.QuadPart = ullNewOffset;
-
-					while (dwRemainingBytes)
-					{
-						dwReadCount = min (dwBuffersize, dwRemainingBytes);
-						Irp->IoStatus.Status = ZwReadFile (Extension->hDeviceFile, NULL, NULL, NULL, &ioStatus, buffer, dwReadCount, &offset, NULL);						
-
-						if (NT_SUCCESS (Irp->IoStatus.Status) && ioStatus.Information != dwReadCount)
-						{
-							Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
-							break;
-						}
-						else if (!NT_SUCCESS (Irp->IoStatus.Status))
-							break;
-
-						dwRemainingBytes -= dwReadCount;
-						offset.QuadPart += (ULONGLONG) dwReadCount;
-					}
-
-					burn (buffer, dwBuffersize);
-					TCfree (buffer);
-				}
-			}
-
-			Irp->IoStatus.Information = 0;
+				Irp->IoStatus.Status = VerifyVolumeReadRange (Extension, (ULONGLONG) pVerifyInformation->StartingOffset.QuadPart, pVerifyInformation->Length);
 		}
 		break;
 
@@ -2614,6 +2671,14 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			EnsureNullTerminatedString (mount->wszVolume, sizeof (mount->wszVolume));
 			EnsureNullTerminatedString (mount->wszLabel, sizeof (mount->wszLabel));
 
+			if (mount->NonSysInplaceRecoveryReadOnly)
+			{
+				mount->UseBackupHeader = TRUE;
+				mount->bMountReadOnly = TRUE;
+				mount->bProtectHiddenVolume = FALSE;
+				mount->bPartitionInInactiveSysEncScope = FALSE;
+			}
+
 			Irp->IoStatus.Information = sizeof (MOUNT_STRUCT);
 			Irp->IoStatus.Status = MountDevice (DeviceObject, mount);
 
@@ -3094,7 +3159,33 @@ VOID VolumeThreadProc (PVOID Context)
 	Extension->Queue.HostFileHandle = Extension->hDeviceFile;
 	Extension->Queue.VirtualDeviceLength = Extension->DiskLength;
 	Extension->Queue.MaxReadAheadOffset.QuadPart = Extension->HostLength;
-	if (bDevice && pThreadBlock->mount->bPartitionInInactiveSysEncScope
+	if (bDevice && pThreadBlock->mount->NonSysInplaceRecoveryReadOnly)
+	{
+		int64 logicalEncryptedStart;
+		int64 logicalEncryptedEnd;
+		uint32 concealedPlaintextLength;
+
+		if (!GetNonSysInplaceRecoveryGeometry (Extension->cryptoInfo, &logicalEncryptedStart, &logicalEncryptedEnd, &concealedPlaintextLength))
+		{
+			TCCloseVolume (DeviceObject, Extension);
+			pThreadBlock->mount->nReturnCode = ERR_NONSYS_INPLACE_RECOVERY_READONLY_UNSUPPORTED;
+			pThreadBlock->ntCreateStatus = STATUS_SUCCESS;
+			KeSetEvent (&Extension->keCreateEvent, 0, FALSE);
+			PsTerminateSystemThread (STATUS_SUCCESS);
+			return; /* Make static analyzer happy */
+		}
+
+		Extension->Queue.NonSysInplaceRecoveryMode = TRUE;
+		Extension->Queue.NonSysInplaceLogicalEncryptedStart = logicalEncryptedStart;
+		Extension->Queue.NonSysInplaceLogicalEncryptedEnd = logicalEncryptedEnd;
+		Extension->Queue.NonSysInplaceConcealedPlaintextLength = concealedPlaintextLength;
+		Extension->Queue.EncryptedAreaStart = -1;
+		Extension->Queue.EncryptedAreaEnd = -1;
+
+		Dump ("Non-system in-place recovery mount: logical encrypted area %I64d-%I64d, concealed plaintext bytes %u\n",
+			logicalEncryptedStart, logicalEncryptedEnd, concealedPlaintextLength);
+	}
+	else if (bDevice && pThreadBlock->mount->bPartitionInInactiveSysEncScope
 		&& (!Extension->cryptoInfo->hiddenVolume)
 		&& (Extension->cryptoInfo->EncryptedAreaLength.Value != Extension->cryptoInfo->VolumeSize.Value)
 		)

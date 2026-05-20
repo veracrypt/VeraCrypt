@@ -36,6 +36,62 @@
 
 volatile BOOL ProbingHostDeviceForWrite = FALSE;
 
+BOOL GetNonSysInplaceRecoveryGeometry (PCRYPTO_INFO cryptoInfo, int64 *logicalEncryptedStart, int64 *logicalEncryptedEnd, uint32 *concealedPlaintextLength)
+{
+	uint64 volumeSize;
+	uint64 encryptedAreaStart;
+	uint64 encryptedAreaLength;
+	uint64 encryptedAreaEndExclusive;
+	uint64 expectedAreaEndExclusive;
+	uint64 logicalStart;
+
+	if (!cryptoInfo)
+		return FALSE;
+
+	volumeSize = cryptoInfo->VolumeSize.Value;
+	encryptedAreaStart = cryptoInfo->EncryptedAreaStart.Value;
+	encryptedAreaLength = cryptoInfo->EncryptedAreaLength.Value;
+
+	if (cryptoInfo->hiddenVolume
+		|| (cryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) == 0
+		|| (cryptoInfo->HeaderFlags & TC_HEADER_FLAG_ENCRYPTED_SYSTEM) != 0
+		|| volumeSize == 0
+		|| encryptedAreaLength == 0
+		|| encryptedAreaLength >= volumeSize
+		|| encryptedAreaStart < TC_VOLUME_DATA_OFFSET
+		|| volumeSize > (uint64) _I64_MAX
+		|| encryptedAreaStart > (uint64) _I64_MAX
+		|| encryptedAreaLength > (uint64) _I64_MAX
+		|| encryptedAreaStart > ((uint64) _I64_MAX - encryptedAreaLength)
+		|| volumeSize > ((uint64) _I64_MAX - TC_VOLUME_DATA_OFFSET))
+	{
+		return FALSE;
+	}
+
+	encryptedAreaEndExclusive = encryptedAreaStart + encryptedAreaLength;
+	expectedAreaEndExclusive = TC_VOLUME_DATA_OFFSET + volumeSize;
+
+	if (encryptedAreaEndExclusive != expectedAreaEndExclusive)
+		return FALSE;
+
+	logicalStart = encryptedAreaStart - TC_VOLUME_DATA_OFFSET;
+
+	if (logicalStart >= volumeSize
+		|| (logicalStart % ENCRYPTION_DATA_UNIT_SIZE) != 0)
+	{
+		return FALSE;
+	}
+
+	if (logicalEncryptedStart)
+		*logicalEncryptedStart = (int64) logicalStart;
+	if (logicalEncryptedEnd)
+		*logicalEncryptedEnd = (int64) (logicalStart + encryptedAreaLength - 1);
+	if (concealedPlaintextLength)
+		*concealedPlaintextLength = logicalStart < TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE ? (uint32) logicalStart : TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE;
+
+	return TRUE;
+}
+
 
 NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	       PEXTENSION Extension,
@@ -58,6 +114,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	BOOL forceAccessCheck = !bRawDevice;
 	BOOL disableBuffering = TRUE;
 	BOOL exclusiveAccess = mount->bExclusiveAccess;
+	int volumeTypeCount;
 	/* when mounting with hidden volume protection, we cache the passwords after both outer and hidden volumes are mounted successfully*/
 	BOOL bAutoCachePassword = mount->bProtectHiddenVolume? FALSE : mount->bCache;
 
@@ -90,6 +147,21 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	mount->VolumeMountedReadOnlyAfterDeviceWriteProtected = FALSE;
 	mount->VolumeMountedReadOnlyAfterPartialSysEnc = FALSE;
 	mount->VolumeMasterKeyVulnerable = FALSE;
+
+	if (mount->NonSysInplaceRecoveryReadOnly)
+	{
+		mount->UseBackupHeader = TRUE;
+		mount->bMountReadOnly = TRUE;
+		mount->bProtectHiddenVolume = FALSE;
+		bAutoCachePassword = mount->bCache;
+
+		if (!bRawDevice || mount->bPartitionInInactiveSysEncScope)
+		{
+			mount->nReturnCode = ERR_NONSYS_INPLACE_RECOVERY_READONLY_UNSUPPORTED;
+			ntStatus = STATUS_SUCCESS;
+			goto error;
+		}
+	}
 
 	// If we are opening a device, query its size first
 	if (bRawDevice)
@@ -467,8 +539,10 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	}
 
 	// Go through all volume types (e.g., normal, hidden)
+	volumeTypeCount = mount->NonSysInplaceRecoveryReadOnly ? TC_VOLUME_TYPE_NORMAL + 1 : TC_VOLUME_TYPE_COUNT;
+
 	for (volumeType = TC_VOLUME_TYPE_NORMAL;
-		volumeType < TC_VOLUME_TYPE_COUNT;
+		volumeType < volumeTypeCount;
 		volumeType++)
 	{
 		Dump ("Trying to open volume type %d\n", volumeType);
@@ -660,7 +734,19 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 			if (volumeType == TC_VOLUME_TYPE_NORMAL)
 			{
-				if (mount->bPartitionInInactiveSysEncScope)
+				if (mount->NonSysInplaceRecoveryReadOnly)
+				{
+					if (!GetNonSysInplaceRecoveryGeometry (Extension->cryptoInfo, NULL, NULL, NULL))
+					{
+						mount->nReturnCode = ERR_NONSYS_INPLACE_RECOVERY_READONLY_UNSUPPORTED;
+						ntStatus = STATUS_SUCCESS;
+						goto error;
+					}
+
+					Extension->bReadOnly = mount->bMountReadOnly = TRUE;
+					Extension->TrimEnabled = FALSE;
+				}
+				else if (mount->bPartitionInInactiveSysEncScope)
 				{
 					if (Extension->cryptoInfo->EncryptedAreaStart.Value > (unsigned __int64) partitionStartingOffset
 						|| Extension->cryptoInfo->EncryptedAreaStart.Value + Extension->cryptoInfo->VolumeSize.Value <= (unsigned __int64) partitionStartingOffset)
@@ -709,7 +795,12 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 				Extension->cryptoInfo->hiddenVolume = FALSE;
 
-				if (mount->bPartitionInInactiveSysEncScope)
+				if (mount->NonSysInplaceRecoveryReadOnly)
+				{
+					Extension->cryptoInfo->volDataAreaOffset = 0;
+					Extension->DiskLength = Extension->cryptoInfo->VolumeSize.Value;
+				}
+				else if (mount->bPartitionInInactiveSysEncScope)
 				{
 					Extension->cryptoInfo->volDataAreaOffset = 0;
 					Extension->DiskLength = lDiskLength.QuadPart;

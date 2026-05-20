@@ -168,6 +168,7 @@
  что пароль требуется вводить на этапе до загрузки операционной системы (до запуска Windows), когда раскладки клавиатуры, отличные от американской, ещё недоступны.</p>
 <p><strong>bk</strong> или <strong>headerbak</strong>: смонтировать том, используя встроенную резервную копию заголовка. Примечание: встроенная резервная копия заголовка содержится во всех томах, созданных VeraCrypt (эта копия располагается в конце тома).</p>
 <p><strong>recovery</strong>: не проверять контрольные суммы, хранящиеся в заголовке тома. Этот параметр следует использовать только при повреждении заголовка тома и когда такой том невозможно смонтировать даже с параметром headerbak. Пример: /m ro</p>
+<p><strong>recoveryro</strong>, <strong>inplacerecovery</strong> или <strong>nonsysinplacerecovery</strong>: восстановительное монтирование прерванного несистемного тома с шифрованием/расшифровкой на месте, размещённого на устройстве, только для чтения с использованием встроенного резервного заголовка. Используйте этот параметр только для копирования данных с посекторного клона или образа.</p>
 <p><strong>label=LabelValue</strong>: использовать указанную строку <strong>LabelValue</strong> как метку смонтированного тома в Проводнике Windows. Максимальная длина
 <strong>LabelValue&nbsp;</strong> – 32 символа для томов NTFS и 11 символов для томов FAT. Например,
 <code>/m label=MyDrive</code> установит для диска в Проводнике метку тома <em>MyDrive</em>.</p>
@@ -305,7 +306,7 @@
 </tbody>
 </table>
 <h4>Синтаксис</h4>
-<p><code>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [буква диска]] [/e] [/f] [/h [y|n]] [/k ключевой файл или путь поиска] [tryemptypass [y|n]] [/l буква диска] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+<p><code>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [буква диска]] [/e] [/f] [/h [y|n]] [/k ключевой файл или путь поиска] [tryemptypass [y|n]] [/l буква диска] [/m {bk|rm|recovery|recoveryro|ro|sm|ts|noattach}]
  [/p пароль] [/pim значение pim] [/q [background|preferences]] [/s] [/tokenlib путь] [/v том] [/w]</code></p>
 <p><code>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size число[{K|M|G|T}]] [/p пароль]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
  [/filesystem {пусто|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</code></p>

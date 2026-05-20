@@ -62,6 +62,10 @@ typedef struct _EncryptedIoQueueStruct
 	// File-handle-based IO
 	HANDLE HostFileHandle;
 	BOOL bSupportPartialEncryption;
+	BOOL NonSysInplaceRecoveryMode;
+	int64 NonSysInplaceLogicalEncryptedStart;
+	int64 NonSysInplaceLogicalEncryptedEnd;
+	uint32 NonSysInplaceConcealedPlaintextLength;
 	int64 VirtualDeviceLength;
 	SECURITY_CLIENT_CONTEXT *SecurityClientContext;
 

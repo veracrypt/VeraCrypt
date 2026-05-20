@@ -1089,6 +1089,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 		defaultMountOptions.ProtectedHidVolPim = 0;
 		defaultMountOptions.PartitionInInactiveSysEncScope = FALSE;
 		defaultMountOptions.RecoveryMode = FALSE;
+		defaultMountOptions.NonSysInplaceRecoveryReadOnly = FALSE;
 		defaultMountOptions.UseBackupHeader =  FALSE;
 		defaultMountOptions.SkipCachedPasswords = FALSE;
 
@@ -3923,8 +3924,10 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 		{
 			BOOL protect;
+			BOOL nonSysInplaceRecovery;
 
 			pMountOptions = (MountOptions *) lParam;
+			nonSysInplaceRecovery = !bPrebootPasswordDlgMode && pMountOptions->NonSysInplaceRecoveryReadOnly;
 
 			LocalizeDialog (hwndDlg, "IDD_MOUNT_OPTIONS");
 
@@ -3934,6 +3937,9 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				pMountOptions->Removable ? BST_CHECKED : BST_UNCHECKED, 0);
 			SendDlgItemMessage (hwndDlg, IDC_DISABLE_MOUNT_MANAGER, BM_SETCHECK,
 				pMountOptions->DisableMountManager ? BST_CHECKED : BST_UNCHECKED, 0);
+
+			SendDlgItemMessage (hwndDlg, IDC_NONSYS_INPLACE_RECOVERY_READONLY, BM_SETCHECK,
+				nonSysInplaceRecovery ? BST_CHECKED : BST_UNCHECKED, 0);
 
 			SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK,
 				pMountOptions->ProtectHiddenVolume ? BST_CHECKED : BST_UNCHECKED, 0);
@@ -3946,7 +3952,18 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			SendDlgItemMessage (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK, BM_SETCHECK,
 				pMountOptions->UseBackupHeader ? BST_CHECKED : BST_UNCHECKED, 0);
 
-			EnableWindow (GetDlgItem (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA), !bPrebootPasswordDlgMode);
+			if (nonSysInplaceRecovery)
+			{
+				SendDlgItemMessage (hwndDlg, IDC_MOUNT_READONLY, BM_SETCHECK, BST_CHECKED, 0);
+				SendDlgItemMessage (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK, BM_SETCHECK, BST_CHECKED, 0);
+				SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK, BST_UNCHECKED, 0);
+				SendDlgItemMessage (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA, BM_SETCHECK, BST_UNCHECKED, 0);
+			}
+
+			EnableWindow (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY), !nonSysInplaceRecovery);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK), !nonSysInplaceRecovery);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA), !bPrebootPasswordDlgMode && !nonSysInplaceRecovery);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_NONSYS_INPLACE_RECOVERY_READONLY), !bPrebootPasswordDlgMode);
 
 			SetDlgItemTextW (hwndDlg, IDC_VOLUME_LABEL, pMountOptions->Label);
 			SendDlgItemMessage (hwndDlg, IDC_VOLUME_LABEL, EM_LIMITTEXT, 32, 0); // 32 is the maximum possible length for a drive label in Windows
@@ -3975,8 +3992,8 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			protect = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL));
 
-			EnableWindow (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)));
-			EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_VOL_PROTECTION), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)));
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)) && !nonSysInplaceRecovery);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_VOL_PROTECTION), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)) && !nonSysInplaceRecovery);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_MO), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_PROT_PASSWD), protect);
@@ -4113,6 +4130,10 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		if (lw == IDOK)
 		{
 			wchar_t tmp[MAX_PASSWORD+1];
+			BOOL nonSysInplaceRecovery = IsButtonChecked (GetDlgItem (hwndDlg, IDC_NONSYS_INPLACE_RECOVERY_READONLY));
+
+			if (nonSysInplaceRecovery && AskWarnYesNo ("NONSYS_INPLACE_RECOVERY_READONLY_WARNING", hwndDlg) != IDYES)
+				return 1;
 
 			pMountOptions->ReadOnly = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY));
 			pMountOptions->Removable = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_REMOVABLE));
@@ -4120,6 +4141,15 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			pMountOptions->ProtectHiddenVolume = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL));
 			pMountOptions->PartitionInInactiveSysEncScope = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA));
 			pMountOptions->UseBackupHeader = IsButtonChecked (GetDlgItem (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK));
+			pMountOptions->NonSysInplaceRecoveryReadOnly = nonSysInplaceRecovery;
+
+			if (pMountOptions->NonSysInplaceRecoveryReadOnly)
+			{
+				pMountOptions->ReadOnly = TRUE;
+				pMountOptions->UseBackupHeader = TRUE;
+				pMountOptions->ProtectHiddenVolume = FALSE;
+				pMountOptions->PartitionInInactiveSysEncScope = FALSE;
+			}
 
 			GetDlgItemTextW (hwndDlg, IDC_VOLUME_LABEL, pMountOptions->Label, sizeof (pMountOptions->Label) /sizeof (wchar_t));
 
@@ -4154,15 +4184,31 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			return 1;
 		}
 
-		if (lw == IDC_MOUNT_READONLY || lw == IDC_PROTECT_HIDDEN_VOL || lw == IDC_DISABLE_MOUNT_MANAGER)
+		if (lw == IDC_MOUNT_READONLY || lw == IDC_PROTECT_HIDDEN_VOL || lw == IDC_DISABLE_MOUNT_MANAGER || lw == IDC_NONSYS_INPLACE_RECOVERY_READONLY)
 		{
 			BOOL protect;
+			BOOL nonSysInplaceRecovery = IsButtonChecked (GetDlgItem (hwndDlg, IDC_NONSYS_INPLACE_RECOVERY_READONLY));
+
+			if (lw == IDC_NONSYS_INPLACE_RECOVERY_READONLY)
+			{
+				if (nonSysInplaceRecovery)
+				{
+					SendDlgItemMessage (hwndDlg, IDC_MOUNT_READONLY, BM_SETCHECK, BST_CHECKED, 0);
+					SendDlgItemMessage (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK, BM_SETCHECK, BST_CHECKED, 0);
+					SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK, BST_UNCHECKED, 0);
+					SendDlgItemMessage (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA, BM_SETCHECK, BST_UNCHECKED, 0);
+				}
+
+				EnableWindow (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY), !nonSysInplaceRecovery);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK), !nonSysInplaceRecovery);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA), !bPrebootPasswordDlgMode && !nonSysInplaceRecovery);
+			}
 
 			if (lw == IDC_MOUNT_READONLY)
 			{
 				SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK, BST_UNCHECKED, 0);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)));
-				EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_VOL_PROTECTION), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)));
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)) && !nonSysInplaceRecovery);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_VOL_PROTECTION), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)) && !nonSysInplaceRecovery);
 			}
 
 			if (lw == IDC_DISABLE_MOUNT_MANAGER)
@@ -4171,7 +4217,10 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				EnableWindow (GetDlgItem (hwndDlg, IDT_VOLUME_LABEL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_DISABLE_MOUNT_MANAGER)));
 			}
 
-			protect = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL));
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)) && !nonSysInplaceRecovery);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_VOL_PROTECTION), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)) && !nonSysInplaceRecovery);
+
+			protect = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL)) && !nonSysInplaceRecovery;
 
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_PROT_PASSWD), protect);
@@ -9893,6 +9942,14 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 						else if (!_wcsicmp (szTmp, L"recovery"))
 							mountOptions.RecoveryMode = TRUE;
+						else if (!_wcsicmp (szTmp, L"inplacerecovery") || !_wcsicmp (szTmp, L"nonsysinplacerecovery") || !_wcsicmp (szTmp, L"recoveryro"))
+						{
+							mountOptions.NonSysInplaceRecoveryReadOnly = TRUE;
+							mountOptions.ReadOnly = TRUE;
+							mountOptions.UseBackupHeader = TRUE;
+							mountOptions.ProtectHiddenVolume = FALSE;
+							mountOptions.PartitionInInactiveSysEncScope = FALSE;
+						}
 						else if ((wcslen(szTmp) > 6) && (wcslen(szTmp) <= 38) && !_wcsnicmp (szTmp, L"label=", 6))
 						{
 							// get the label

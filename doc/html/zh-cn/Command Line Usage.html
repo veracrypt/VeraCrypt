@@ -165,6 +165,7 @@
 <p><strong>sm</strong> 或 <strong>system</strong>：无需预启动验证，挂载位于系统加密密钥范围内的分区（例如，位于未运行的其他操作系统的加密系统驱动器上的分区）。 例如，用于备份或修复操作。注意：如果您将密码作为 /p 的参数提供，请确保使用标准美式键盘布局键入密码（相比之下，GUI 会自动确保这一点）。这是必需的，因为密码需要在预启动环境（Windows 启动之前）中键入，而在该环境中非美式 Windows 键盘布局不可用。</p>
 <p><strong>bk</strong> 或 <strong>headerbak</strong>：使用嵌入式备份头挂载卷。注意：VeraCrypt 创建的所有卷都包含一个嵌入式备份头（位于卷的末尾）。</p>
 <p><strong>recovery</strong>：不验证存储在卷头中的任何校验和。仅当卷头损坏且即使使用挂载选项 headerbak 也无法挂载卷时，才应使用此选项。示例：/m ro</p>
+<p><strong>recoveryro</strong>、<strong>inplacerecovery</strong> 或 <strong>nonsysinplacerecovery</strong>：使用嵌入式备份头，以只读方式恢复挂载已中断的非系统就地加密/解密设备托管卷。仅应使用此选项从逐扇区克隆或映像中复制数据。</p>
 <p><strong>label=LabelValue</strong>：使用给定的字符串值 <strong>LabelValue</strong> 作为 Windows 资源管理器中挂载卷的标签。对于 NTFS 卷，
 <strong>LabelValue&nbsp;</strong> 的最大长度为 32 个字符，对于 FAT 卷，最大长度为 11 个字符。例如，
 <em>/m label=我的驱动器</em> 将资源管理器中的驱动器标签设置为 <em>我的驱动器</em>。</p>
@@ -299,7 +300,7 @@
 </tbody>
 </table>
 <h4>语法</h4>
-<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|recoveryro|ro|sm|ts|noattach}]
  [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
 <p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
  [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</p>

@@ -556,6 +556,27 @@ static VOID CompletionThreadProc(PVOID threadArg)
 
 				DecryptDataUnits(request->Data + request->EncryptedOffset, &dataUnit, request->EncryptedLength / ENCRYPTION_DATA_UNIT_SIZE, queue->CryptoInfo);
 			}
+			else if (queue->NonSysInplaceRecoveryMode
+				&& request->EncryptedLength == 0
+				&& queue->NonSysInplaceConcealedPlaintextLength > 0
+				&& NT_SUCCESS(request->Item->Status))
+			{
+				uint64 concealIntersectStart;
+				uint32 concealIntersectLength;
+				uint32 concealBufferOffset;
+				uint32 i;
+
+				GetIntersection ((uint64) request->Offset.QuadPart,
+					request->Length,
+					0,
+					queue->NonSysInplaceConcealedPlaintextLength - 1,
+					&concealIntersectStart,
+					&concealIntersectLength);
+
+				concealBufferOffset = (uint32) (concealIntersectStart - (uint64) request->Offset.QuadPart);
+				for (i = 0; i < concealIntersectLength; ++i)
+					request->Data[concealBufferOffset + i] ^= TC_NTFS_CONCEAL_CONSTANT;
+			}
 //			Dump("Read sector %lld count %d\n", request->Offset.QuadPart >> 9, request->Length >> 9);
 			// Update subst sectors
 			if((queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)) {
@@ -577,6 +598,17 @@ static VOID CompletionThreadProc(PVOID threadArg)
 
 static NTSTATUS TCCachedRead (EncryptedIoQueue *queue, IO_STATUS_BLOCK *ioStatus, PVOID buffer, LARGE_INTEGER offset, ULONG length)
 {
+	if (queue->NonSysInplaceRecoveryMode)
+	{
+		queue->LastReadLength = 0;
+		queue->ReadAheadBufferValid = FALSE;
+
+		if (queue->IsFilterDevice)
+			return TCReadDevice (queue->LowerDeviceObject, buffer, offset, length);
+
+		return ZwReadFile (queue->HostFileHandle, NULL, NULL, NULL, ioStatus, buffer, length, &offset, NULL);
+	}
+
 	queue->LastReadOffset = offset;
 	queue->LastReadLength = length;
 
@@ -741,6 +773,7 @@ static VOID IoThreadProc (PVOID threadArg)
 				request->Data = request->OrigDataBufferFragment;
 
 				if (request->CompleteOriginalIrp
+					&& !queue->NonSysInplaceRecoveryMode
 					&& queue->LastReadLength > 0
 					&& NT_SUCCESS (request->Item->Status)
 					&& InterlockedExchangeAdd (&queue->IoThreadPendingRequestCount, 0) == 0)
@@ -959,6 +992,12 @@ static VOID MainThreadProc (PVOID threadArg)
 			Dump ("Q  %I64d [%I64d] %c len=%d\n", item->OriginalOffset.QuadPart, GetElapsedTime (&queue->LastPerformanceCounter), item->Write ? 'W' : 'R', item->OriginalLength);
 #endif
 
+			if (queue->NonSysInplaceRecoveryMode && item->Write)
+			{
+				QueueIrpCompletionFromItem(queue, item, STATUS_MEDIA_WRITE_PROTECTED);
+				continue;
+			}
+
 			if (!queue->IsFilterDevice)
 			{
 				// Adjust the offset for host file or device
@@ -1041,6 +1080,80 @@ static VOID MainThreadProc (PVOID threadArg)
 			if (!NT_SUCCESS(mapStatus))
 			{
 				QueueIrpCompletionFromItem (queue, item, mapStatus);
+				continue;
+			}
+
+			if (queue->NonSysInplaceRecoveryMode)
+			{
+				dataRemaining = item->OriginalLength;
+				fragmentOffset = item->OriginalOffset;
+
+				while (dataRemaining > 0)
+				{
+					ULONG queueFragmentSize = queue->FragmentSize;
+					ULONG dataFragmentLength = dataRemaining <= queueFragmentSize ? dataRemaining : queueFragmentSize;
+					BOOL encryptedFragment;
+					BOOL isLastFragment;
+					LARGE_INTEGER physicalFragmentOffset;
+					uint64 logicalFragmentOffset = (uint64) fragmentOffset.QuadPart;
+
+					if (logicalFragmentOffset < (uint64) queue->NonSysInplaceLogicalEncryptedStart)
+					{
+						uint64 bytesToEncryptedStart = (uint64) queue->NonSysInplaceLogicalEncryptedStart - logicalFragmentOffset;
+						if ((uint64) dataFragmentLength > bytesToEncryptedStart)
+							dataFragmentLength = (ULONG) bytesToEncryptedStart;
+
+						encryptedFragment = FALSE;
+						physicalFragmentOffset = fragmentOffset;
+					}
+					else
+					{
+						encryptedFragment = TRUE;
+						hResult = ULongLongAdd (logicalFragmentOffset, TC_VOLUME_DATA_OFFSET, &addResult);
+						if (hResult != S_OK || addResult > (ULONGLONG) _I64_MAX)
+						{
+							QueueIrpCompletionFromItem (queue, item, STATUS_INVALID_PARAMETER);
+							break;
+						}
+
+						physicalFragmentOffset.QuadPart = addResult;
+					}
+
+					isLastFragment = dataRemaining == dataFragmentLength;
+					activeFragmentBuffer = (activeFragmentBuffer == queue->FragmentBufferA ? queue->FragmentBufferB : queue->FragmentBufferA);
+
+					InterlockedIncrement (&queue->IoThreadPendingRequestCount);
+
+					request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
+					if (!request)
+					{
+						InterlockedDecrement(&queue->IoThreadPendingRequestCount);
+						QueueIrpCompletionFromItem (queue, item, STATUS_INSUFFICIENT_RESOURCES);
+						break;
+					}
+
+					request->Item = item;
+					request->CompleteOriginalIrp = isLastFragment;
+					request->Offset = physicalFragmentOffset;
+					request->Data = activeFragmentBuffer;
+					request->OrigDataBufferFragment = dataBuffer;
+					request->Length = dataFragmentLength;
+					request->EncryptedOffset = 0;
+					request->EncryptedLength = encryptedFragment ? dataFragmentLength : 0;
+
+					AcquireFragmentBuffer (queue, activeFragmentBuffer);
+
+					ExInterlockedInsertTailList (&queue->IoThreadQueue, &request->ListEntry, &queue->IoThreadQueueLock);
+					KeSetEvent (&queue->IoThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
+
+					if (isLastFragment)
+						break;
+
+					dataRemaining -= dataFragmentLength;
+					dataBuffer += dataFragmentLength;
+					fragmentOffset.QuadPart += dataFragmentLength;
+				}
+
 				continue;
 			}
 

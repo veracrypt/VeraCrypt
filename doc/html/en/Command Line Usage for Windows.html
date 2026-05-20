@@ -173,6 +173,7 @@ Note that turning the password cache off will not clear it (use /w to clear the 
  fact that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available.</p>
 <p><strong>bk</strong> or <strong>headerbak</strong>: Mount volume using embedded backup header. Note: All volumes created by VeraCrypt contain an embedded backup header (located at the end of the volume).</p>
 <p><strong>recovery</strong>: Do not verify any checksums stored in the volume header. This option should be used only when the volume header is damaged and the volume cannot be mounted even with the mount option headerbak. Example: /m ro</p>
+<p><strong>recoveryro</strong>, <strong>inplacerecovery</strong>, or <strong>nonsysinplacerecovery</strong>: Recovery-mount an interrupted non-system in-place encryption/decryption device-hosted volume as read-only using the embedded backup header. Use this option only to copy data from a sector-by-sector clone or image.</p>
 <p><strong>label=LabelValue</strong>: Use the given string value <strong>LabelValue</strong> as a label of the mounted volume in Windows Explorer. The maximum length for
 <strong>LabelValue&nbsp;</strong> is 32 characters for NTFS volumes and 11 characters for FAT volumes. For example,
 <em>/m label=MyDrive</em> will set the label of the drive in Explorer to <em>MyDrive</em>.</p>
@@ -320,7 +321,7 @@ If it is followed by <strong>n</strong> or <strong>no</strong>: the password dia
 </tbody>
 </table>
 <h4>Syntax</h4>
-<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|recoveryro|ro|sm|ts|noattach}]
  [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
 <p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia)))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
  [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</p>

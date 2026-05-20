@@ -5827,6 +5827,10 @@ void handleError (HWND hwndDlg, int code, const char* srcPos)
 		Error ("ERR_NONSYS_INPLACE_ENC_INCOMPLETE", hwndDlg);
 		break;
 
+	case ERR_NONSYS_INPLACE_RECOVERY_READONLY_UNSUPPORTED:
+		Error ("ERR_NONSYS_INPLACE_RECOVERY_READONLY_UNSUPPORTED", hwndDlg);
+		break;
+
 	case ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG:
 		Error ("ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG", hwndDlg);
 		break;
@@ -8987,7 +8991,7 @@ int MountVolume (HWND hwndDlg,
 	BYTE volumeID[VOLUME_ID_SIZE] = {0};
 
 #ifdef TCMOUNT
-	if (mountOptions->PartitionInInactiveSysEncScope)
+	if (!mountOptions->NonSysInplaceRecoveryReadOnly && mountOptions->PartitionInInactiveSysEncScope)
 	{
 		if (!CheckSysEncMountWithoutPBA (hwndDlg, volumePath, quiet))
 			return -1;
@@ -9016,8 +9020,9 @@ int MountVolume (HWND hwndDlg,
 	ZeroMemory (&mount, sizeof (mount));
 	mount.bExclusiveAccess = sharedAccess ? FALSE : TRUE;
 	mount.SystemFavorite = MountVolumesAsSystemFavorite;
-	mount.UseBackupHeader =  mountOptions->UseBackupHeader;
+	mount.UseBackupHeader =  mountOptions->UseBackupHeader || mountOptions->NonSysInplaceRecoveryReadOnly;
 	mount.RecoveryMode = mountOptions->RecoveryMode;
+	mount.NonSysInplaceRecoveryReadOnly = mountOptions->NonSysInplaceRecoveryReadOnly;
 	StringCbCopyW (mount.wszLabel, sizeof (mount.wszLabel), mountOptions->Label);
 
 retry:
@@ -9032,7 +9037,7 @@ retry:
 	else
 		mount.VolumePassword.Length = 0;
 
-	if (!mountOptions->ReadOnly && mountOptions->ProtectHiddenVolume)
+	if (!mountOptions->ReadOnly && !mountOptions->NonSysInplaceRecoveryReadOnly && mountOptions->ProtectHiddenVolume)
 	{
 		mount.ProtectedHidVolPassword = mountOptions->ProtectedHidVolPassword;
 		mount.bProtectHiddenVolume = TRUE;
@@ -9042,7 +9047,7 @@ retry:
 	else
 		mount.bProtectHiddenVolume = FALSE;
 
-	mount.bMountReadOnly = mountOptions->ReadOnly;
+	mount.bMountReadOnly = mountOptions->ReadOnly || mountOptions->NonSysInplaceRecoveryReadOnly;
 	mount.bMountRemovable = mountOptions->Removable;
 	mount.bPreserveTimestamp = mountOptions->PreserveTimestamp;
 	
@@ -9164,7 +9169,14 @@ retry:
 		}
 	}
 
-	if (mountOptions->PartitionInInactiveSysEncScope)
+	if (mountOptions->NonSysInplaceRecoveryReadOnly && !bDevice)
+	{
+		if (!quiet)
+			Error ("ERR_NONSYS_INPLACE_RECOVERY_READONLY_UNSUPPORTED", hwndDlg);
+		return -1;
+	}
+
+	if (!mountOptions->NonSysInplaceRecoveryReadOnly && mountOptions->PartitionInInactiveSysEncScope)
 	{
 		if (mount.wszVolume == NULL || swscanf_s ((const wchar_t *) mount.wszVolume,
 			WIDE("\\Device\\Harddisk%d\\Partition"),
@@ -9299,7 +9311,8 @@ retry:
 
 	// Mount successful
 
-	if (mount.UseBackupHeader != mountOptions->UseBackupHeader
+	if (!mountOptions->NonSysInplaceRecoveryReadOnly
+		&& mount.UseBackupHeader != mountOptions->UseBackupHeader
 		&& mount.UseBackupHeader)
 	{
 		if (bReportWrongPassword && !Silent)
@@ -9314,7 +9327,7 @@ retry:
 		Warning ("ERR_XTS_MASTERKEY_VULNERABLE", hwndDlg);
 	}
 
-	if (mount.FilesystemDirty)
+	if (mount.FilesystemDirty && !mountOptions->NonSysInplaceRecoveryReadOnly)
 	{
 		wchar_t msg[1024];
 		wchar_t mountPoint[] = { (wchar_t) (L'A' + driveNo), L':', 0 };

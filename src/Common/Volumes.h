@@ -76,6 +76,9 @@ extern "C" {
 
 #define TC_VOLUME_DATA_OFFSET					TC_VOLUME_HEADER_GROUP_SIZE
 
+#define TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE		(2 * TC_MAX_VOLUME_SECTOR_SIZE)
+#define TC_NTFS_CONCEAL_CONSTANT			0xFF
+
 // The offset, in bytes, of the legacy hidden volume header position from the end of the file (a positive value).
 #define TC_HIDDEN_VOLUME_HEADER_OFFSET_LEGACY	(TC_VOLUME_HEADER_SIZE_LEGACY + TC_SECTOR_SIZE_LEGACY * 2)
 
