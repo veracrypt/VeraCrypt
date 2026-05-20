@@ -106,7 +106,7 @@ FUSE_LIBS = $(shell $(PKG_CONFIG) $(VC_FUSE_PACKAGE) --libs)
 
 #------ Executable ------
 
-export TC_VERSION := $(shell grep VERSION_STRING ../Common/Tcdefs.h | head -n 1 | cut -d'"' -f 2)
+export TC_VERSION := $(shell awk -F '"' '/^[[:space:]]*#define[[:space:]]+VERSION_STRING[[:space:]]*"/ { print $$2; exit }' ../Common/Tcdefs.h)
 
 #------ Linux package naming ------
 ifeq "$(PLATFORM)" "Linux"
@@ -316,27 +316,99 @@ GZIP_NO_TIMESTAMP       := $(strip $(shell printf x | gzip -n -c >/dev/null 2>&1
 MAKESELF_PACKAGING_DATE := $(strip $(shell makeself --help 2>&1 | grep -q -- '--packaging-date' && echo yes))
 MAKESELF_TAR_EXTRA      := $(strip $(shell makeself --help 2>&1 | grep -q -- '--tar-extra' && echo yes))
 
+INSTALL_UNINSTALLER ?= 1
+INSTALL_LICENSE ?= 1
+INSTALL_LICENSE_DIR ?= share/doc/$(APPNAME)
+INSTALL_DOCS ?= 1
+INSTALL_LANGUAGES ?= 1
+INSTALL_MOUNT_HELPER ?= 1
+INSTALL_MOUNT_HELPER_DIR ?= sbin
+INSTALL_DESKTOP ?= 1
+INSTALL_MIME ?= 1
+INSTALL_ICONS ?= 1
+INSTALL_APPIMAGE_FILES ?= 1
+
+# These override values are appended below usr and used in shell recipes.
+# Keep command-line/environment overrides literal and path-like.
+INSTALL_PATH_FORBIDDEN_HASH := \#
+INSTALL_PATH_FORBIDDEN_CHARS := ' " ` $$ ( ) [ ] { } ; & | < > * ? ! ~ = : , @ % ^ \ $(INSTALL_PATH_FORBIDDEN_HASH)
+
+define check_install_path
+ifneq ($$(filter command line environment override,$$(origin $(1))),)
+ifneq ($$(findstring $$$$,$$(value $(1))),)
+$$(error $(1) must not contain make or shell variable expansions)
+endif
+endif
+ifneq ($$(words $$($(1))),1)
+$$(error $(1) must be a single relative path below usr without whitespace)
+endif
+ifneq ($$(filter /% ../% %/.. ..,$$($(1)))$$(findstring /../,$$($(1))),)
+$$(error $(1) must be a relative path below usr without '..' components)
+endif
+ifneq ($$(strip $$(foreach c,$$(INSTALL_PATH_FORBIDDEN_CHARS),$$(findstring $$(c),$$($(1))))),)
+$$(error $(1) contains unsupported characters; use only letters, digits, '/', '.', '_', '-' and '+')
+endif
+ifneq ($$(shell LC_ALL=C; case '$$($(1))' in (*[!A-Za-z0-9._+/-]*) printf invalid;; esac),)
+$$(error $(1) contains unsupported characters; use only letters, digits, '/', '.', '_', '-' and '+')
+endif
+endef
+
+$(eval $(call check_install_path,INSTALL_LICENSE_DIR))
+$(eval $(call check_install_path,INSTALL_MOUNT_HELPER_DIR))
+
+ifndef TC_NO_GUI
+# The AppDir copy is only complete when its desktop integration payload is
+# staged into usr first. Native packages can disable both sides together.
+ifneq "$(INSTALL_APPIMAGE_FILES)" "0"
+ifeq "$(INSTALL_DESKTOP)" "0"
+$(error INSTALL_APPIMAGE_FILES requires INSTALL_DESKTOP=1; set INSTALL_APPIMAGE_FILES=0 when omitting desktop files)
+endif
+ifeq "$(INSTALL_MIME)" "0"
+$(error INSTALL_APPIMAGE_FILES requires INSTALL_MIME=1; set INSTALL_APPIMAGE_FILES=0 when omitting MIME files)
+endif
+ifeq "$(INSTALL_ICONS)" "0"
+$(error INSTALL_APPIMAGE_FILES requires INSTALL_ICONS=1; set INSTALL_APPIMAGE_FILES=0 when omitting icons)
+endif
+endif
+endif
+
 prepare: $(APPNAME)
 	rm -fr $(BASE_DIR)/Setup/Linux/usr
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/bin
-	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML
 	cp $(BASE_DIR)/Main/$(APPNAME) $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)
+ifneq "$(INSTALL_UNINSTALLER)" "0"
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME)-uninstall.sh $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
 	chmod +x $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
-	cp $(BASE_DIR)/License.txt $(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/License.txt
+endif
+ifneq "$(INSTALL_LICENSE)" "0"
+	mkdir -p "$(BASE_DIR)/Setup/Linux/usr/$(INSTALL_LICENSE_DIR)"
+	cp "$(BASE_DIR)/License.txt" "$(BASE_DIR)/Setup/Linux/usr/$(INSTALL_LICENSE_DIR)/License.txt"
+endif
+ifneq "$(INSTALL_DOCS)" "0"
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML
 	cp -R $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML"
+endif
+ifneq "$(INSTALL_LANGUAGES)" "0"
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages
 	cp -r $(BASE_DIR)/../Translations/* $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages/
+endif
 
-	mkdir -p $(BASE_DIR)/Setup/Linux/usr/sbin
-	cp $(BASE_DIR)/Setup/Linux/mount.$(APPNAME) $(BASE_DIR)/Setup/Linux/usr/sbin/mount.$(APPNAME)
-	chmod +x $(BASE_DIR)/Setup/Linux/usr/sbin/mount.$(APPNAME)
+ifneq "$(INSTALL_MOUNT_HELPER)" "0"
+	mkdir -p "$(BASE_DIR)/Setup/Linux/usr/$(INSTALL_MOUNT_HELPER_DIR)"
+	cp "$(BASE_DIR)/Setup/Linux/mount.$(APPNAME)" "$(BASE_DIR)/Setup/Linux/usr/$(INSTALL_MOUNT_HELPER_DIR)/mount.$(APPNAME)"
+	chmod +x "$(BASE_DIR)/Setup/Linux/usr/$(INSTALL_MOUNT_HELPER_DIR)/mount.$(APPNAME)"
+endif
 ifndef TC_NO_GUI
+ifneq "$(INSTALL_DESKTOP)" "0"
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/applications
-	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/mime/packages
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).desktop $(BASE_DIR)/Setup/Linux/usr/share/applications/$(APPNAME).desktop
+endif
+ifneq "$(INSTALL_MIME)" "0"
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/mime/packages
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).xml $(BASE_DIR)/Setup/Linux/usr/share/mime/packages/$(APPNAME).xml
+endif
 
+ifneq "$(INSTALL_ICONS)" "0"
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/pixmaps
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/scalable/apps
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/symbolic/apps
@@ -348,10 +420,15 @@ ifndef TC_NO_GUI
 		mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/$${res}x$${res}/apps ;\
 		cp $(BASE_DIR)/Resources/Icons/VeraCrypt-$${res}x$${res}.png $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/$${res}x$${res}/apps/$(APPNAME).png ;\
 	done
+endif
 
+ifneq "$(INSTALL_APPIMAGE_FILES)" "0"
 	rm -fr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/usr
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
+ifneq "$(INSTALL_ICONS)" "0"
 	ln -sf usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
+endif
+endif
 endif
 	# Normalise modification times of every staged file. cp preserves the
 	# checkout-time mtimes of the source tree, which would otherwise leak

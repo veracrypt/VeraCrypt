@@ -128,6 +128,15 @@ built using the 'NOGUI' parameter:
 
 `$ make NOGUI=1 WXSTATIC=1`
 
+## Arch Linux package build:
+
+Arch Linux users can build and install a package from the current checkout with
+makepkg:
+
+`$ cd src/Build/Packaging/arch`
+
+`$ makepkg -si`
+
 On MacOSX, building a console-only executable is not supported.
 
 ## Mac OS X specifics:
