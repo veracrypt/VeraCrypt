@@ -87,6 +87,7 @@ PIM </a>value is given by the user, the number of iterations of the PBKDF2 key d
 
 <h4>Argon2id Parameters</h4>
 <p>When Argon2id is selected as the key derivation function, the PIM value controls both memory and time costs as described in the <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">PIM section</a>. If no PIM is specified, default parameters equivalent to PIM = 12 are used (416 MiB memory, 6 iterations).</p>
+<p>For Argon2id, VeraCrypt derives a fixed 192 bytes of header key material for the current volume format, independently of the selected encryption algorithm. The selected encryption algorithm then uses the required prefix of that derived output. For example, AES-XTS uses the first 64 bytes. Implementations must request 192 bytes from Argon2id and then select the required prefix; requesting only the selected algorithm's key material length produces a different Argon2id output because Argon2id includes the requested output length in its computation.</p>
 
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">

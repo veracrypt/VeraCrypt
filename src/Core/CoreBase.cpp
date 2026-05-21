@@ -53,7 +53,7 @@ namespace VeraCrypt
 		RandomNumberGenerator::SetHash (newPkcs5Kdf->GetHash());
 
 		SecureBuffer newSalt (openVolume->GetSaltSize());
-		SecureBuffer newHeaderKey (VolumeHeader::GetLargestSerializedKeySize());
+		SecureBuffer newHeaderKey (VolumeHeader::GetHeaderKeyDerivationSize (newPkcs5Kdf));
 
 		shared_ptr <VolumePassword> password (Keyfile::ApplyListToPassword (newKeyfiles, newPassword, emvSupportEnabled));
 
@@ -286,7 +286,7 @@ namespace VeraCrypt
 		RandomNumberGenerator::SetHash (pkcs5Kdf->GetHash());
 
 		SecureBuffer newSalt (header->GetSaltSize());
-		SecureBuffer newHeaderKey (VolumeHeader::GetLargestSerializedKeySize());
+		SecureBuffer newHeaderKey (VolumeHeader::GetHeaderKeyDerivationSize (pkcs5Kdf));
 
 		shared_ptr <VolumePassword> passwordKey (Keyfile::ApplyListToPassword (keyfiles, password, emvSupportEnabled));
 

@@ -44,6 +44,12 @@ extern "C" {
 // Size of the volume header area containing concatenated master key(s) and secondary key(s) (XTS mode)
 #define MASTER_KEYDATA_SIZE			256
 
+#ifndef VC_DCS_DISABLE_ARGON2
+// VeraCrypt Argon2id header key material size, in bytes, for the current volume format.
+// This is intentionally fixed for compatibility and must not depend on GetMaxPkcs5OutSize().
+#define ARGON2_HEADER_KEYDATA_SIZE	192
+#endif
+
 // The first PRF to try when mounting
 #define FIRST_PRF_ID		1	
 

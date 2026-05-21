@@ -68,6 +68,7 @@ namespace VeraCrypt
 		uint32 GetFlags () const { return Flags; }
 		VolumeTime GetHeaderCreationTime () const { return HeaderCreationTime; }
 		uint64 GetHiddenVolumeDataSize () const { return HiddenVolumeDataSize; }
+		static size_t GetHeaderKeyDerivationSize (shared_ptr <Pkcs5Kdf> kdf);
 		static size_t GetLargestSerializedKeySize ();
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const { return Pkcs5; }
 		uint16 GetRequiredMinProgramVersion () const { return RequiredMinProgramVersion; }

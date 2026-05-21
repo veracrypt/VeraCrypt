@@ -448,7 +448,7 @@ KeyReady:	;
 			case ARGON2:
 				{
 					int derivationResult = derive_key_argon2(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-						PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+						PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, ARGON2_HEADER_KEYDATA_SIZE, &abortKeyDerivation);
 					if (derivationResult != 0)
 					{
 						if (selected_pkcs5_prf == 0)
@@ -491,6 +491,12 @@ KeyReady:	;
 
 				if (!EAIsModeSupported (cryptoInfo->ea, cryptoInfo->mode))
 					continue;	// This encryption algorithm has never been available with this mode of operation
+
+#ifndef VC_DCS_DISABLE_ARGON2
+				/* Only XTS mode reaches this point; both XTS keys must fit in the fixed Argon2id output. */
+				if (pkcs5_prf == ARGON2 && EAGetKeySize (cryptoInfo->ea) * 2 > ARGON2_HEADER_KEYDATA_SIZE)
+					continue;
+#endif
 
 				blockSize = CipherGetBlockSize (EAGetFirstCipher (cryptoInfo->ea));
 
@@ -1074,6 +1080,15 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 	// User selected encryption algorithm
 	cryptoInfo->ea = ea;
 
+#ifndef VC_DCS_DISABLE_ARGON2
+	if (pkcs5_prf == ARGON2 && EAGetKeySize (ea) * 2 > ARGON2_HEADER_KEYDATA_SIZE)
+	{
+		crypto_close (cryptoInfo);
+		retVal = ERR_PARAMETER_INCORRECT;
+		goto err;
+	}
+#endif
+
 	// User selected PRF
 	cryptoInfo->pkcs5 = pkcs5_prf;
 	cryptoInfo->noIterations = keyInfo.noIterations;
@@ -1130,7 +1145,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 		case ARGON2:
 			{
 				int derivationResult = derive_key_argon2(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-					PKCS5_SALT_SIZE, keyInfo.noIterations, keyInfo.memoryCost, dk, GetMaxPkcs5OutSize(), NULL);
+					PKCS5_SALT_SIZE, keyInfo.noIterations, keyInfo.memoryCost, dk, ARGON2_HEADER_KEYDATA_SIZE, NULL);
 				if (derivationResult != 0)
 				{
 					crypto_close (cryptoInfo);

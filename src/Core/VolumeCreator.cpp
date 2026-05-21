@@ -315,6 +315,12 @@ namespace VeraCrypt
 			if (headerOptions.VolumeDataSize < 1)
 				throw ParameterIncorrect (SRC_POS);
 
+#ifndef VC_DCS_DISABLE_ARGON2
+			// New volumes are created in XTS mode; Argon2id header key material has a fixed format size.
+			if (options->VolumeHeaderKdf->IsArgon2() && options->EA->GetKeySize() * 2 > ARGON2_HEADER_KEYDATA_SIZE)
+				throw ParameterIncorrect (SRC_POS);
+#endif
+
 			// Master data key
 			MasterKey.Allocate (options->EA->GetKeySize() * 2);
 			RandomNumberGenerator::GetData (MasterKey);
@@ -331,7 +337,7 @@ namespace VeraCrypt
 			headerOptions.Salt = salt;
 
 			// Header key
-			HeaderKey.Allocate (VolumeHeader::GetLargestSerializedKeySize());
+			HeaderKey.Allocate (VolumeHeader::GetHeaderKeyDerivationSize (options->VolumeHeaderKdf));
 			PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password, options->EMVSupportEnabled);
 			int derivationResult = options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, options->Pim, salt);
 			if (derivationResult != 0)

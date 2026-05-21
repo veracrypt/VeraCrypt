@@ -277,7 +277,7 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 
 			case ARGON2:
 				derivationResult = derive_key_argon2(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, ARGON2_HEADER_KEYDATA_SIZE, workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			default:

@@ -6570,7 +6570,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				
 				case ARGON2:
 					/* test with ARGON2 used as the PRF */
-					if (derive_key_argon2 ((const unsigned char*) "passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, memoryCost, dk, MASTER_KEYDATA_SIZE, NULL) != 0)
+					if (derive_key_argon2 ((const unsigned char*) "passphrase-1234567890", 21, (const unsigned char*)tmp_salt, 64, iterations, memoryCost, dk, ARGON2_HEADER_KEYDATA_SIZE, NULL) != 0)
 						goto key_derivation_error;
  					break;
 				}

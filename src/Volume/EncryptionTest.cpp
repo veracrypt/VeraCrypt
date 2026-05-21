@@ -1204,13 +1204,25 @@ namespace VeraCrypt
 			0x30, 0x86, 0x51, 0x21, 0x69, 0x94, 0xab, 0xbf,
 			0xdd, 0xd6, 0x9b, 0x25, 0x92, 0x03, 0x2e, 0xfd
 		};
+		static const uint8 argon2Pim1HeaderKeyPrefix[] =
+		{
+			0x48, 0x8d, 0x71, 0xbd, 0x71, 0x6e, 0x68, 0x45,
+			0xaa, 0xe6, 0xe2, 0x29, 0x74, 0x18, 0x2c, 0x20,
+			0xe9, 0x42, 0x8d, 0x7b, 0x3d, 0x4b, 0xcf, 0x54,
+			0x04, 0x6c, 0x3e, 0xbe, 0x80, 0x33, 0x8f, 0x20
+		};
 		ConstBufferPtr argon2Salt (argon2SaltData, sizeof (argon2SaltData));
 		Buffer argon2DerivedKey (sizeof (argon2Pim1DerivedKey));
+		Buffer argon2HeaderKey (ARGON2_HEADER_KEYDATA_SIZE);
 
 		// PIM 1 maps to Argon2id t=3, m=64 MiB, p=1.
 		if (pkcs5Argon2.DeriveKey (argon2DerivedKey, password, 1, argon2Salt) != 0)
 			throw TestFailed (SRC_POS);
 		if (memcmp (argon2DerivedKey.Ptr(), argon2Pim1DerivedKey, sizeof (argon2Pim1DerivedKey)) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5Argon2.DeriveKey (argon2HeaderKey, password, 1, argon2Salt) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (argon2HeaderKey.Ptr(), argon2Pim1HeaderKeyPrefix, sizeof (argon2Pim1HeaderKeyPrefix)) != 0)
 			throw TestFailed (SRC_POS);
 
 		try

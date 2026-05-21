@@ -100,13 +100,13 @@ namespace VeraCrypt
 
 		ConstBufferPtr salt (encryptedData.GetRange (SaltOffset, SaltSize));
 		SecureBuffer header (EncryptedHeaderDataSize);
-		SecureBuffer headerKey (GetLargestSerializedKeySize());
 
 		foreach (shared_ptr <Pkcs5Kdf> pkcs5, keyDerivationFunctions)
 		{
 			if (kdf && (kdf->GetName() != pkcs5->GetName()))
 				continue;
 
+			SecureBuffer headerKey (GetHeaderKeyDerivationSize (pkcs5));
 			int derivationResult = pkcs5->DeriveKey (headerKey, password, pim, salt);
 			if (derivationResult != 0)
 			{
@@ -118,26 +118,32 @@ namespace VeraCrypt
 
 			foreach (shared_ptr <EncryptionMode> mode, encryptionModes)
 			{
-                            #ifdef WOLFCRYPT_BACKEND
-                                if (typeid (*mode) != typeid (EncryptionModeWolfCryptXTS))
-                            #else
-                                if (typeid (*mode) != typeid (EncryptionModeXTS))
-                            #endif
-                                    mode->SetKey (headerKey.GetRange (0, mode->GetKeySize()));
+				#ifdef WOLFCRYPT_BACKEND
+				bool xtsMode = typeid (*mode) == typeid (EncryptionModeWolfCryptXTS);
+				#else
+				bool xtsMode = typeid (*mode) == typeid (EncryptionModeXTS);
+				#endif
+
+				if (!xtsMode)
+				{
+					if (mode->GetKeySize() > headerKey.Size())
+						continue;
+					mode->SetKey (headerKey.GetRange (0, mode->GetKeySize()));
+				}
 
 				foreach (shared_ptr <EncryptionAlgorithm> ea, encryptionAlgorithms)
 				{
 					if (!ea->IsModeSupported (mode))
 						continue;
 
-                                    #ifndef WOLFCRYPT_BACKEND
-					if (typeid (*mode) == typeid (EncryptionModeXTS))
+					size_t requiredHeaderKeySize = xtsMode ? ea->GetKeySize() * 2 : LegacyEncryptionModeKeyAreaSize + ea->GetKeySize();
+					if (requiredHeaderKeySize > headerKey.Size())
+						continue;
+
+					if (xtsMode)
 					{
-                                           ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
-                                    #else
-					if (typeid (*mode) == typeid (EncryptionModeWolfCryptXTS))
-					{
-                                              ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
+						ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
+                                    #ifdef WOLFCRYPT_BACKEND
 						ea->SetKeyXTS (headerKey.GetRange (ea->GetKeySize(), ea->GetKeySize()));
                                     #endif
 
@@ -317,6 +323,16 @@ namespace VeraCrypt
 
 		if (newPkcs5Kdf)
 			Pkcs5 = newPkcs5Kdf;
+	}
+
+	size_t VolumeHeader::GetHeaderKeyDerivationSize (shared_ptr <Pkcs5Kdf> kdf)
+	{
+	#ifndef VC_DCS_DISABLE_ARGON2
+		if (kdf && kdf->IsArgon2())
+			return ARGON2_HEADER_KEYDATA_SIZE;
+	#endif
+
+		return GetLargestSerializedKeySize();
 	}
 
 	size_t VolumeHeader::GetLargestSerializedKeySize ()

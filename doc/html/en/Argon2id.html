@@ -161,7 +161,7 @@ When using Argon2id in VeraCrypt:
 <strong>Algorithm:</strong> Argon2id as defined in RFC 9106<br/>
 <strong>Internal hash:</strong> BLAKE2b<br/>
 <strong>Salt size:</strong> 512 bits (same as PBKDF2-HMAC)<br/>
-<strong>Output length:</strong> Variable, depending on the encryption algorithm (e.g., 256 bits for AES-256, 768 bits for AES-Twofish-Serpent cascade)<br/>
+<strong>Header KDF output length:</strong> Fixed at 1536 bits (192 bytes) for the current VeraCrypt format. The required prefix is used for the selected encryption algorithm (for example, the first 64 bytes for AES (AES-256-XTS)). Third-party implementations must request 192 bytes from Argon2id before selecting the required prefix; requesting only the selected algorithm's key material length produces a different Argon2id output.<br/>
 <strong>Version:</strong> Argon2 version 0x13 (19 decimal)
 </div>
 
