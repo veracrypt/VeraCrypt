@@ -106,7 +106,8 @@ FUSE_LIBS = $(shell $(PKG_CONFIG) $(VC_FUSE_PACKAGE) --libs)
 
 #------ Executable ------
 
-export TC_VERSION := $(shell awk -F '"' '/^[[:space:]]*\#define[[:space:]]+VERSION_STRING[[:space:]]*"/ { print $$2; exit }' ../Common/Tcdefs.h)
+HASH_CHAR := \#
+export TC_VERSION := $(shell awk -F '"' '/^[[:space:]]*$(HASH_CHAR)define[[:space:]]+VERSION_STRING[[:space:]]*"/ { print $$2; exit }' ../Common/Tcdefs.h)
 
 #------ Linux package naming ------
 ifeq "$(PLATFORM)" "Linux"
