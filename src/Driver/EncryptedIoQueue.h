@@ -155,6 +155,7 @@ typedef struct
 	EncryptedIoQueue *Queue;
 	PIRP OriginalIrp;
 	BOOL Write;
+	BOOL Flush;
 	ULONG OriginalLength;
 	LARGE_INTEGER OriginalOffset;
 	NTSTATUS Status;

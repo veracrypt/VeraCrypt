@@ -621,7 +621,18 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 			return STATUS_PENDING;
 
 		case IRP_MJ_FLUSH_BUFFERS:
-			return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
+			if (Extension->hDeviceFile == NULL || Extension->bReadOnly)
+				return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
+
+			if (!EncryptedIoQueueIsRunning (&Extension->Queue))
+				return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
+
+			ntStatus = EncryptedIoQueueAddIrp (&Extension->Queue, Irp);
+
+			if (ntStatus != STATUS_PENDING)
+				TCCompleteDiskIrp (Irp, ntStatus, 0);
+
+			return ntStatus;
 		}
 
 		break;

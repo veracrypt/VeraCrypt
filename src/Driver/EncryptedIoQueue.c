@@ -249,7 +249,7 @@ static void OnItemCompleted (EncryptedIoQueueItem *item, BOOL freeItem)
 	DecrementOutstandingIoCount (item->Queue);
 	IoReleaseRemoveLock (&item->Queue->RemoveLock, item->OriginalIrp);
 
-	if (NT_SUCCESS (item->Status))
+	if (NT_SUCCESS (item->Status) && !item->Flush)
 	{
 		if (item->Write)
 			item->Queue->TotalBytesWritten += item->OriginalLength;
@@ -630,6 +630,29 @@ static VOID IoThreadProc (PVOID threadArg)
 			InterlockedDecrement (&queue->IoThreadPendingRequestCount);
 			request = CONTAINING_RECORD (listEntry, EncryptedIoRequest, ListEntry);
 
+			if (request->Item->Flush)
+			{
+#ifdef TC_TRACE_IO_QUEUE
+				Dump ("F   [%I64d]\n", GetElapsedTime (&queue->LastPerformanceCounter));
+#endif
+				if (NT_SUCCESS (request->Item->Status))
+				{
+					if (queue->HostFileHandle)
+					{
+						IO_STATUS_BLOCK ioStatus;
+						request->Item->Status = ZwFlushBuffersFile (queue->HostFileHandle, &ioStatus);
+					}
+					else
+					{
+						request->Item->Status = STATUS_DEVICE_NOT_READY;
+					}
+				}
+
+				HandleCompleteOriginalIrp (queue, request);
+				ReleasePoolBuffer (queue, request);
+				continue;
+			}
+
 #ifdef TC_TRACE_IO_QUEUE
 			Dump ("%c   %I64d [%I64d] roff=%I64d rlen=%d\n", request->Item->Write ? 'W' : 'R', request->Item->OriginalIrpOffset.QuadPart, GetElapsedTime (&queue->LastPerformanceCounter), request->Offset.QuadPart, request->Length);
 #endif
@@ -832,6 +855,7 @@ static VOID MainThreadProc (PVOID threadArg)
 			item->OriginalIrp = irp;
 			item->TempUserMdl = NULL;
 			item->Status = STATUS_SUCCESS;
+			item->Flush = FALSE;
 
 			IoAcquireCancelSpinLock(&irql);
 			(PDRIVER_CANCEL)IoSetCancelRoutine(irp, NULL);
@@ -858,6 +882,13 @@ static VOID MainThreadProc (PVOID threadArg)
 				item->OriginalLength = irpSp->Parameters.Write.Length;
 				break;
 
+			case IRP_MJ_FLUSH_BUFFERS:
+				item->Write = FALSE;
+				item->Flush = TRUE;
+				item->OriginalOffset.QuadPart = 0;
+				item->OriginalLength = 0;
+				break;
+
 			default:
 				// Defer completion for invalid parameter
 				QueueIrpCompletionFromItem(queue, item, STATUS_INVALID_PARAMETER);
@@ -867,6 +898,32 @@ static VOID MainThreadProc (PVOID threadArg)
 #ifdef TC_TRACE_IO_QUEUE
 			item->OriginalIrpOffset = item->OriginalOffset;
 #endif
+
+			if (item->Flush)
+			{
+				InterlockedIncrement (&queue->IoThreadPendingRequestCount);
+
+				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
+				if (!request)
+				{
+					InterlockedDecrement (&queue->IoThreadPendingRequestCount);
+					QueueIrpCompletionFromItem (queue, item, STATUS_INSUFFICIENT_RESOURCES);
+					continue;
+				}
+
+				request->Item = item;
+				request->CompleteOriginalIrp = TRUE;
+				request->Offset.QuadPart = 0;
+				request->Data = NULL;
+				request->OrigDataBufferFragment = NULL;
+				request->Length = 0;
+				request->EncryptedOffset = 0;
+				request->EncryptedLength = 0;
+
+				ExInterlockedInsertTailList (&queue->IoThreadQueue, &request->ListEntry, &queue->IoThreadQueueLock);
+				KeSetEvent (&queue->IoThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
+				continue;
+			}
 
 			// Handle misaligned read operations to work around a bug in Windows System Assessment Tool which does not follow FILE_FLAG_NO_BUFFERING requirements when benchmarking disk devices
 			if (queue->IsFilterDevice
@@ -1155,7 +1212,11 @@ NTSTATUS EncryptedIoQueueAddIrp (EncryptedIoQueue *queue, PIRP irp)
 #ifdef TC_TRACE_IO_QUEUE
 	{
 		PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (irp);
-		Dump ("* %I64d [%I64d] %c len=%d out=%d\n", irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.ByteOffset : irpSp->Parameters.Read.ByteOffset, GetElapsedTime (&queue->LastPerformanceCounter), irpSp->MajorFunction == IRP_MJ_WRITE ? 'W' : 'R', irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.Length : irpSp->Parameters.Read.Length, queue->OutstandingIoCount);
+
+		if (irpSp->MajorFunction == IRP_MJ_FLUSH_BUFFERS)
+			Dump ("* F [%I64d] out=%d\n", GetElapsedTime (&queue->LastPerformanceCounter), queue->OutstandingIoCount);
+		else
+			Dump ("* %I64d [%I64d] %c len=%d out=%d\n", irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.ByteOffset : irpSp->Parameters.Read.ByteOffset, GetElapsedTime (&queue->LastPerformanceCounter), irpSp->MajorFunction == IRP_MJ_WRITE ? 'W' : 'R', irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.Length : irpSp->Parameters.Read.Length, queue->OutstandingIoCount);
 	}
 #endif
 

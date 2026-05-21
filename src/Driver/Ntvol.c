@@ -909,6 +909,13 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 		{
 			RestoreTimeStamp (Extension);
 		}
+		if (!Extension->bReadOnly)
+		{
+			IO_STATUS_BLOCK ioStatus;
+			NTSTATUS flushStatus = ZwFlushBuffersFile (Extension->hDeviceFile, &ioStatus);
+			if (!NT_SUCCESS (flushStatus))
+				Dump ("ZwFlushBuffersFile failed before closing volume: NTSTATUS 0x%08x\n", flushStatus);
+		}
 		ZwClose (Extension->hDeviceFile);
 		Extension->hDeviceFile = NULL;
 	}
