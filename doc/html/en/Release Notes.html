@@ -48,6 +48,11 @@
 	<li>Translator note: the previous Linux ntfs3 preference strings were replaced by generic in-kernel NTFS driver strings and should be retranslated.</li>
 	</ul>
 </li>
+<li><strong>Linux and macOS:</strong>
+	<ul>
+	<li>Enable Quick Format for normal file containers. The container is sized with <code>ftruncate()</code>, so the host filesystem may keep regions unwritten or sparse until data is written to them.</li>
+	</ul>
+</li>
 </ul>
 
 <p><strong style="text-align:left">1.26.27</strong> (September 20<sup>th</sup>, 2025):</p>

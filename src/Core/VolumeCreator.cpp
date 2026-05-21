@@ -253,7 +253,17 @@ namespace VeraCrypt
 				(options->Path.IsDevice() || options->Type == VolumeType::Hidden) ? File::OpenReadWrite : File::CreateReadWrite,
 				File::ShareNone);
 
-			HostSize = VolumeFile->Length();
+			if (!options->Path.IsDevice() && options->Type == VolumeType::Normal)
+			{
+				HostSize = options->Size;
+
+				if (options->Quick)
+					VolumeFile->SetLength (options->Size);
+			}
+			else
+			{
+				HostSize = VolumeFile->Length();
+			}
 		}
 
 		try

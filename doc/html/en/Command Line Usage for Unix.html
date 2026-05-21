@@ -253,7 +253,7 @@
 </tr>
 <tr>
 <td><em>--quick</em></td>
-<td>Enable quick formatting when creating a volume. This option must not be used when creating an outer volume.</td>
+<td>Enable quick formatting when creating a normal file-hosted or device-hosted volume. Do not use this option when creating an outer volume. In text mode, VeraCrypt cannot infer that a normal volume is intended to become an outer volume. For file containers, Quick Format may create sparse or unwritten host regions. Allocation behavior depends on host filesystem sparse-file support, and later writes can fail if the host filesystem runs out of space.</td>
 </tr>
 <tr>
 <td><em>--random-source=FILE</em></td>
@@ -326,7 +326,7 @@
 <h4>Hidden Volume Creation in Text Mode</h4>
 <p>Inexperienced users should use the graphical user interface to create a hidden volume. When using the text user interface, the following procedure must be followed:</p>
 <ol>
-<li>Create an outer volume with no filesystem.</li>
+<li>Create an outer volume with no filesystem and without <em>--quick</em>.</li>
 <li>Create a hidden volume within the outer volume.</li>
 <li>Mount the outer volume using hidden volume protection.</li>
 <li>Create a filesystem on the virtual device of the outer volume.</li>

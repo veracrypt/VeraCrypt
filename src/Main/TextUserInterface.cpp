@@ -766,8 +766,6 @@ namespace VeraCrypt
 				}
 			}
 
-			options->Quick = false;
-
 			uint32 sectorSizeRem = options->Size % options->SectorSize;
 			if (sectorSizeRem != 0)
 				options->Size += options->SectorSize - sectorSizeRem;
@@ -962,6 +960,18 @@ namespace VeraCrypt
 			&& (filesystemSize < VC_MIN_SMALL_BTRFS_VOLUME_SIZE))
 		{
 			throw_err (_("Specified volume size is too small to be used with Btrfs filesystem."));
+		}
+
+		if (options->Quick && options->Type == VolumeType::Normal)
+		{
+			if (Preferences.NonInteractive)
+			{
+				ShowWarning (_("Quick Format is enabled. Do not use --quick for an outer volume intended to contain a hidden volume. It skips writing random data to unused volume space, reducing plausible deniability. For file containers, actual disk savings depend on host filesystem sparse-file support, and later writes can fail if host space runs out."));
+			}
+			else if (!AskYesNo (LangString["WARN_QUICK_FORMAT"], false, true))
+			{
+				throw UserAbort (SRC_POS);
+			}
 		}
 
 		// Password

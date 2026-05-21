@@ -391,6 +391,7 @@ namespace VeraCrypt
 		DisplayKeyInfo (false),
 		LargeFilesSupport (false),
 		QuickFormatEnabled (false),
+		QuickFormatEnabledByWizard (false),
 		SelectedFilesystemClusterSize (0),
 		SelectedFilesystemType (VolumeCreationOptions::FilesystemType::FAT),
 		SelectedVolumeHostType (VolumeHostType::File),
@@ -446,6 +447,7 @@ namespace VeraCrypt
 				OuterVolume = false;
 				LargeFilesSupport = false;
 				QuickFormatEnabled = false;
+				QuickFormatEnabledByWizard = false;
 				Pim = 0;
 
 				SingleChoiceWizardPage <VolumeHostType::Enum> *page = new SingleChoiceWizardPage <VolumeHostType::Enum> (GetPageParent(), wxEmptyString, true);
@@ -595,15 +597,29 @@ namespace VeraCrypt
 			{
 				shared_ptr <VolumeLayout> layout ((OuterVolume || SelectedVolumeType != VolumeType::Hidden)? (VolumeLayout*) new VolumeLayoutV2Normal() : (VolumeLayout*) new VolumeLayoutV2Hidden());
 				uint64 filesystemSize = layout->GetMaxDataSize (VolumeSize);
+				bool hiddenVolumeItself = !OuterVolume && SelectedVolumeType == VolumeType::Hidden;
+				bool normalFileContainer = !OuterVolume && SelectedVolumeType == VolumeType::Normal && SelectedVolumeHostType == VolumeHostType::File;
+				bool existingDeviceSupportedCase = SelectedVolumePath.IsDevice() && !hiddenVolumeItself;
+				bool quickFormatSupported = existingDeviceSupportedCase || normalFileContainer;
 
 				VolumeFormatOptionsWizardPage *page = new VolumeFormatOptionsWizardPage (GetPageParent(), filesystemSize, SectorSize,
-					SelectedVolumePath.IsDevice() && (OuterVolume || SelectedVolumeType != VolumeType::Hidden), OuterVolume, LargeFilesSupport);
+					quickFormatSupported, OuterVolume, LargeFilesSupport);
 
 				page->SetPageTitle (LangString["FORMAT_TITLE"]);
 				page->SetFilesystemType (SelectedFilesystemType);
 
-				if (!OuterVolume && SelectedVolumeType == VolumeType::Hidden)
+				if (hiddenVolumeItself)
+				{
 					QuickFormatEnabled = true;
+					QuickFormatEnabledByWizard = true;
+				}
+				else
+				{
+					if (!quickFormatSupported || QuickFormatEnabledByWizard)
+						QuickFormatEnabled = false;
+
+					QuickFormatEnabledByWizard = false;
+				}
 				page->SetQuickFormat (QuickFormatEnabled);
 
 				return page;
@@ -1332,6 +1348,7 @@ namespace VeraCrypt
 
 				SelectedFilesystemType = page->GetFilesystemType();
 				QuickFormatEnabled = page->IsQuickFormatEnabled();
+				QuickFormatEnabledByWizard = !OuterVolume && SelectedVolumeType == VolumeType::Hidden;
 
 				if (SelectedFilesystemType != VolumeCreationOptions::FilesystemType::None
 					&& SelectedFilesystemType != VolumeCreationOptions::FilesystemType::FAT)

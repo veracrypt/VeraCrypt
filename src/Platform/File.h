@@ -87,6 +87,7 @@ namespace VeraCrypt
 		uint64 ReadAt (const BufferPtr &buffer, uint64 position) const;
 		void SeekAt (uint64 position) const;
 		void SeekEnd (int ofset) const;
+		void SetLength (uint64 length) const;
 		void Write (const ConstBufferPtr &buffer) const;
 		void Write (const ConstBufferPtr &buffer, size_t length) const { Write (buffer.GetRange (0, length)); }
 		void WriteAt (const ConstBufferPtr &buffer, uint64 position) const;

@@ -385,6 +385,12 @@ namespace VeraCrypt
 		throw_sys_sub_if (lseek (FileHandle, offset, SEEK_END) == -1, wstring (Path));
 	}
 
+	void File::SetLength (uint64 length) const
+	{
+		if_debug (ValidateState());
+		throw_sys_sub_if (ftruncate (FileHandle, length) == -1, wstring (Path));
+	}
+
 	void File::Write (const ConstBufferPtr &buffer) const
 	{
 		if_debug (ValidateState());

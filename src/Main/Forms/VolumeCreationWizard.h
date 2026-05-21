@@ -76,6 +76,7 @@ namespace VeraCrypt
 		shared_ptr <VolumeInfo> MountedOuterVolume;
 		bool OuterVolume;
 		bool QuickFormatEnabled;
+		bool QuickFormatEnabledByWizard;
 		shared_ptr <EncryptionAlgorithm> SelectedEncryptionAlgorithm;
 		uint32 SelectedFilesystemClusterSize;
 		VolumeCreationOptions::FilesystemType::Enum SelectedFilesystemType;
