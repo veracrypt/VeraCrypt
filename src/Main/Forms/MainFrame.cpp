@@ -48,6 +48,11 @@ namespace VeraCrypt
 	MainFrame::MainFrame (wxWindow* parent) : MainFrameBase (parent),
 #ifdef HAVE_INDICATORS
 		indicator (NULL),
+		indicator_item_showhide (NULL),
+		indicator_item_mountfavorites (NULL),
+		indicator_item_dismountall (NULL),
+		indicator_item_prefs (NULL),
+		indicator_item_exit (NULL),
 #endif
 		ListItemRightClickEventPending (false),
 		SelectedItemIndex (-1),
@@ -1445,7 +1450,7 @@ namespace VeraCrypt
 			try
 			{
 				uint8 buf[128];
-				if (read (ShowRequestFifo, buf, sizeof (buf)) > 0 && Gui->IsInBackgroundMode())
+				if (read (ShowRequestFifo, buf, sizeof (buf)) > 0)
 					Gui->SetBackgroundMode (false);
 			}
 			catch (...)
