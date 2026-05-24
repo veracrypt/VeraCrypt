@@ -6,6 +6,7 @@
 			for upgrades to work ; Windows Installer ignores the 4th part -->
 	<?define var.FullProductVersion = 1.26.28?>
 	<?define var.ProductName = VeraCrypt $(var.FullProductVersion)?>
+	<?define var.StartMenuFolderName = VeraCrypt?>
 
 	<!-- Unique GUID identifying this family of product (32-bit and 64-bit have the same) -->
 	<?define var.UpgradeCode = {813AB9FC-2117-4961-B459-EB65028EEC93}?>
@@ -186,7 +187,7 @@
 			<!-- Reference APPLICATIONPROGRAMSFOLDER to create a Start Menu Shortcut -->
 			<!-- See https://wixtoolset.org/documentation/manual/v3/howtos/files_and_registry/create_start_menu_shortcut.html -->
 			<Directory Id="ProgramMenuFolder">
-				<Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)"/>
+				<Directory Id="ApplicationProgramsFolder" Name="$(var.StartMenuFolderName)"/>
 			</Directory>
 			
 			<!-- We do not Reference QuickLaunchFolder under AppDataFolder to create a Quick Launch Shortcut -->
@@ -2440,7 +2441,7 @@
 		<DirectoryRef Id="ApplicationProgramsFolder">
 		
 			<!-- Creating an advertised shortcut : enhances resiliency by verifying that all the components in the feature are installed when the shortcut is activated -->
-			<Component Id="VCShortcutStartMenu" Guid="{9CA5F425-0268-4424-8E41-A94D90F1118D}">
+			<Component Id="VCShortcutStartMenu" Guid="{684DA19F-50FC-43AA-89BA-1685DAC0D585}">
 			
 				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 				<Shortcut 	Id="VCMenuShortcut"
@@ -2456,7 +2457,7 @@
 				<RegistryValue 
 					Root="HKCU" 
 					Key="Software\VeraCrypt_MSI" 
-					Name="VCStartMenuShortcutInstalled" 
+					Name="VCStartMenuShortcutInstalledStable"
 					Type="integer" 
 					Value="1" 
 					KeyPath="yes"/>
@@ -2464,7 +2465,7 @@
 			</Component>
 			
 			<!-- Creating an advertised shortcut : enhances resiliency by verifying that all the components in the feature are installed when the shortcut is activated -->
-			<Component Id="VCExpanderShortcutStartMenu" Guid="9BA70A97-CB6D-4ED4-A0F7-A4CF9885DC33">
+			<Component Id="VCExpanderShortcutStartMenu" Guid="{E0C191AE-86EB-462A-9C8A-73338EC7A153}">
 			
 				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 				<Shortcut 	Id="VCExpanderStartMenuShortcut"
@@ -2480,7 +2481,7 @@
 				<RegistryValue 
 					Root="HKCU" 
 					Key="Software\VeraCrypt_MSI" 
-					Name="VCEexpanderStartMenuShortcutInstalled" 
+					Name="VCExpanderStartMenuShortcutInstalledStable"
 					Type="integer" 
 					Value="1" 
 					KeyPath="yes"/>
@@ -2488,7 +2489,7 @@
 			</Component>
 			
 			<!-- Creating an advertised shortcut : enhances resiliency by verifying that all the components in the feature are installed when the shortcut is activated -->
-			<Component Id="VCWebsiteShortcutStartMenu" Guid="{D5AA7FFE-5256-4234-AEE1-F9F1EB6ECA4A}">
+			<Component Id="VCWebsiteShortcutStartMenu" Guid="{00CA573B-4B04-4397-8061-CF5B5515DDBD}">
 			
 				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 				<util:InternetShortcut 	Id="VCWebsiteStartMenuShortcut"
@@ -2503,7 +2504,7 @@
 				<RegistryValue 
 					Root="HKCU" 
 					Key="Software\VeraCrypt_MSI" 
-					Name="VCWebsiteStartMenuShortcutInstalled" 
+					Name="VCWebsiteStartMenuShortcutInstalledStable"
 					Type="integer" 
 					Value="1" 
 					KeyPath="yes"/>
@@ -3444,6 +3445,12 @@
 		<CustomAction 	Id="PostInst_SetData"
 						Property="DoPostInstall"
 						Value="INSTALLDIR=[APPLICATIONROOTFOLDER]" />
+
+		<!-- Create a Custom Action which sets the CustomActionData property
+			 for CleanupOldStartMenuFolders Deferred Custom Action. -->
+		<CustomAction 	Id="CleanupOldStartMenuFolders_SetData"
+						Property="CleanupOldStartMenuFolders"
+						Value="PROGRAMMENUFOLDER=[ProgramMenuFolder]" />
 						
 		<!-- Create a Custom Action which sets the CustomActionData property
 			 for DoPostUninstall Deferred Custom Action.
@@ -3474,6 +3481,14 @@
 						Return="check"
 						BinaryKey="VeraCryptCustomActions"
 						DllEntry="VC_CustomAction_PostInstall" />
+
+		<!-- Best-effort cleanup of obsolete versioned Start Menu folders from previous MSI releases. -->
+		<CustomAction 	Id="CleanupOldStartMenuFolders"
+						Execute="deferred"
+						Impersonate="no"
+						Return="ignore"
+						BinaryKey="VeraCryptCustomActions"
+						DllEntry="VC_CustomAction_CleanupOldStartMenuFolders" />
 						
 		<!-- Create our Pre-Uninstall Custom Action. 
 			 We need to run it as deferred so that it runs 
@@ -3614,6 +3629,10 @@
 					 it will execute it twice : once when it installs new files (NOT Installed), and then when it removes unnecessary files (actual upgrade: UPGRADINGPRODUCTCODE).
 					 Therefore, we do not need to execute it at UPGRADINGPRODUCTCODE. -->
 				<Custom Action="DoPostInstall" After="InstallFiles">(NOT Installed AND NOT REMOVE) OR REINSTALL</Custom>
+
+				<!-- Cleanup obsolete versioned Start Menu folders as late as possible in the install transaction. -->
+				<Custom Action="CleanupOldStartMenuFolders_SetData" Before="CleanupOldStartMenuFolders">(NOT Installed AND NOT REMOVE) OR REINSTALL</Custom>
+				<Custom Action="CleanupOldStartMenuFolders" After="PublishProduct">(NOT Installed AND NOT REMOVE) OR REINSTALL</Custom>
 			
 			<!-- UNINSTALLATION ONLY CAs -->
 			

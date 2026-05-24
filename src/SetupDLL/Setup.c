@@ -2134,6 +2134,225 @@ void Tokenize(const wchar_t* szInput, std::vector<std::wstring>& szTokens)
     }
 }
 
+static BOOL JoinPath(wchar_t *szPath, size_t cbPath, const wchar_t *szDirectory, const wchar_t *szFileName)
+{
+	if (FAILED(StringCbCopyW(szPath, cbPath, szDirectory)))
+		return FALSE;
+
+	size_t cchPath = wcslen(szPath);
+	if (cchPath > 0 && szPath[cchPath - 1] != L'\\' && szPath[cchPath - 1] != L'/')
+	{
+		if (FAILED(StringCbCatW(szPath, cbPath, L"\\")))
+			return FALSE;
+	}
+
+	return SUCCEEDED(StringCbCatW(szPath, cbPath, szFileName));
+}
+
+static BOOL IsVersionedVeraCryptStartMenuFolderName(const wchar_t *szFolderName)
+{
+	const wchar_t szPrefix[] = L"VeraCrypt ";
+	const wchar_t *szVersion = NULL;
+	BOOL bHasDigit = FALSE;
+	BOOL bHasDot = FALSE;
+	BOOL bPreviousDot = FALSE;
+
+	if (!szFolderName || _wcsnicmp(szFolderName, szPrefix, wcslen(szPrefix)) != 0)
+		return FALSE;
+
+	szVersion = szFolderName + wcslen(szPrefix);
+	if (*szVersion == L'\0')
+		return FALSE;
+
+	while (*szVersion)
+	{
+		if (*szVersion >= L'0' && *szVersion <= L'9')
+		{
+			bHasDigit = TRUE;
+			bPreviousDot = FALSE;
+		}
+		else if (*szVersion == L'.')
+		{
+			if (bPreviousDot)
+				return FALSE;
+
+			bHasDot = TRUE;
+			bPreviousDot = TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+
+		++szVersion;
+	}
+
+	return bHasDigit && bHasDot && !bPreviousDot;
+}
+
+static void DeleteStartMenuShortcutIfExists(MSIHANDLE hInstaller, const wchar_t *szFolderPath, const wchar_t *szShortcutName)
+{
+	wchar_t szShortcutPath[TC_MAX_PATH];
+	DWORD dwAttributes;
+
+	if (!JoinPath(szShortcutPath, sizeof(szShortcutPath), szFolderPath, szShortcutName))
+	{
+		MSILog(hInstaller, MSI_WARNING_LEVEL, L"Could not build Start Menu shortcut path for '%s'", szShortcutName);
+		return;
+	}
+
+	dwAttributes = GetFileAttributesW(szShortcutPath);
+	if (dwAttributes == INVALID_FILE_ATTRIBUTES || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
+		return;
+
+	MSILog(hInstaller, MSI_INFO_LEVEL, L"Removing obsolete Start Menu shortcut '%s'", szShortcutPath);
+
+	if (dwAttributes & FILE_ATTRIBUTE_READONLY)
+		SetFileAttributesW(szShortcutPath, dwAttributes & ~FILE_ATTRIBUTE_READONLY);
+
+	if (!DeleteFileW(szShortcutPath))
+	{
+		DWORD dwError = GetLastError();
+		if (dwError != ERROR_FILE_NOT_FOUND && dwError != ERROR_PATH_NOT_FOUND)
+		{
+			MSILog(hInstaller, MSI_WARNING_LEVEL, L"Could not remove obsolete Start Menu shortcut '%s' (error %lu)", szShortcutPath, dwError);
+		}
+	}
+}
+
+static void CleanupVersionedVeraCryptStartMenuFolder(MSIHANDLE hInstaller, const wchar_t *szFolderPath)
+{
+	/* Delete only known VeraCrypt-created shortcuts; keep folders with any other content. */
+	static const wchar_t *szShortcutNames[] =
+	{
+		L"VeraCrypt.lnk",
+		L"VeraCryptExpander.lnk",
+		L"VeraCrypt Website.url",
+		L"VeraCrypt User's Guide.lnk",
+		L"VeraCrypt User Guide.lnk",
+		L"Uninstall VeraCrypt.lnk"
+	};
+
+	for (size_t i = 0; i < ARRAYSIZE(szShortcutNames); ++i)
+		DeleteStartMenuShortcutIfExists(hInstaller, szFolderPath, szShortcutNames[i]);
+
+	if (RemoveDirectoryW(szFolderPath))
+	{
+		MSILog(hInstaller, MSI_INFO_LEVEL, L"Removed obsolete Start Menu folder '%s'", szFolderPath);
+	}
+	else
+	{
+		DWORD dwError = GetLastError();
+		if (dwError == ERROR_DIR_NOT_EMPTY)
+		{
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"Obsolete Start Menu folder '%s' was left in place because it contains non-VeraCrypt items", szFolderPath);
+		}
+		else if (dwError != ERROR_FILE_NOT_FOUND && dwError != ERROR_PATH_NOT_FOUND)
+		{
+			MSILog(hInstaller, MSI_WARNING_LEVEL, L"Could not remove obsolete Start Menu folder '%s' (error %lu)", szFolderPath, dwError);
+		}
+	}
+}
+
+static void CleanupVersionedVeraCryptStartMenuFoldersInRoot(MSIHANDLE hInstaller, const wchar_t *szProgramMenuFolder)
+{
+	wchar_t szSearchPath[TC_MAX_PATH];
+	WIN32_FIND_DATAW findData;
+	HANDLE hFind;
+
+	if (!szProgramMenuFolder || szProgramMenuFolder[0] == L'\0')
+		return;
+
+	if (!JoinPath(szSearchPath, sizeof(szSearchPath), szProgramMenuFolder, L"VeraCrypt *"))
+	{
+		MSILog(hInstaller, MSI_WARNING_LEVEL, L"Could not build obsolete Start Menu folder search path for '%s'", szProgramMenuFolder);
+		return;
+	}
+
+	hFind = FindFirstFileW(szSearchPath, &findData);
+	if (hFind == INVALID_HANDLE_VALUE)
+	{
+		DWORD dwError = GetLastError();
+		if (dwError != ERROR_FILE_NOT_FOUND && dwError != ERROR_PATH_NOT_FOUND)
+		{
+			MSILog(hInstaller, MSI_WARNING_LEVEL, L"Could not search obsolete Start Menu folders in '%s' (error %lu)", szProgramMenuFolder, dwError);
+		}
+		return;
+	}
+
+	do
+	{
+		if ((findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			&& IsVersionedVeraCryptStartMenuFolderName(findData.cFileName))
+		{
+			wchar_t szFolderPath[TC_MAX_PATH];
+
+			if (JoinPath(szFolderPath, sizeof(szFolderPath), szProgramMenuFolder, findData.cFileName))
+				CleanupVersionedVeraCryptStartMenuFolder(hInstaller, szFolderPath);
+			else
+				MSILog(hInstaller, MSI_WARNING_LEVEL, L"Could not build obsolete Start Menu folder path for '%s'", findData.cFileName);
+		}
+	}
+	while (FindNextFileW(hFind, &findData));
+
+	FindClose(hFind);
+}
+
+static void CleanupVersionedVeraCryptStartMenuFolders(MSIHANDLE hInstaller, const wchar_t *szProgramMenuFolder)
+{
+	wchar_t szCommonPrograms[TC_MAX_PATH];
+
+	CleanupVersionedVeraCryptStartMenuFoldersInRoot(hInstaller, szProgramMenuFolder);
+
+	if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_COMMON_PROGRAMS, NULL, SHGFP_TYPE_CURRENT, szCommonPrograms)))
+		CleanupVersionedVeraCryptStartMenuFoldersInRoot(hInstaller, szCommonPrograms);
+}
+
+EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_CleanupOldStartMenuFolders(MSIHANDLE hInstaller)
+{
+	std::wstring szValueBuf = L"";
+	std::wstring szProgramMenuFolder = L"";
+	DWORD cchValueBuf = 0;
+	UINT uiStat = 0;
+
+	MSILog(hInstaller, MSI_INFO_LEVEL, L"Begin VC_CustomAction_CleanupOldStartMenuFolders");
+
+	uiStat = MsiGetProperty(hInstaller, TEXT("CustomActionData"), (LPWSTR)TEXT(""), &cchValueBuf);
+	if (ERROR_MORE_DATA == uiStat)
+	{
+		++cchValueBuf; // add 1 for null termination
+		szValueBuf.resize(cchValueBuf);
+		uiStat = MsiGetProperty(hInstaller, TEXT("CustomActionData"), &szValueBuf[0], &cchValueBuf);
+		if (ERROR_SUCCESS == uiStat)
+		{
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_CleanupOldStartMenuFolders: CustomActionData = '%s'", szValueBuf.c_str());
+
+			std::vector<std::wstring> szTokens;
+			Tokenize(szValueBuf.c_str(), szTokens);
+
+			for (size_t i = 0; i < szTokens.size(); i++)
+			{
+				std::wstring szToken = szTokens[i];
+
+				if (wcsncmp(szToken.c_str(), L"PROGRAMMENUFOLDER=", wcslen(L"PROGRAMMENUFOLDER=")) == 0)
+				{
+					size_t index0 = szToken.find_first_of(L"=");
+					if (index0 != std::wstring::npos)
+					{
+						szProgramMenuFolder = szToken.substr(index0 + 1);
+						MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_CleanupOldStartMenuFolders: PROGRAMMENUFOLDER = '%s'", szProgramMenuFolder.c_str());
+					}
+				}
+			}
+		}
+	}
+
+	CleanupVersionedVeraCryptStartMenuFolders(hInstaller, szProgramMenuFolder.c_str());
+
+	MSILog(hInstaller, MSI_INFO_LEVEL, L"End VC_CustomAction_CleanupOldStartMenuFolders");
+	return ERROR_SUCCESS;
+}
+
 /* 
  * Same as Setup.c, function DoInstall(), but 
  * without the actual installation, it only prepares the system 
@@ -2390,13 +2609,22 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		if ((ERROR_SUCCESS == uiStat))
 		{
 			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostInstall: CustomActionData = '%s'", szValueBuf.c_str());
-			if (wcsncmp(szValueBuf.c_str(), L"INSTALLDIR=", wcslen(L"INSTALLDIR=")) == 0)
+
+			std::vector<std::wstring> szTokens;
+			Tokenize(szValueBuf.c_str(), szTokens);
+
+			for (size_t i = 0; i < szTokens.size(); i++)
 			{
-				size_t index0 = szValueBuf.find_first_of(L"=");
-				if (index0 != std::wstring::npos)
+				std::wstring szToken = szTokens[i];
+
+				if (wcsncmp(szToken.c_str(), L"INSTALLDIR=", wcslen(L"INSTALLDIR=")) == 0)
 				{
-					szInstallDir = szValueBuf.substr(index0 + 1);
-					MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostInstall: INSTALLDIR = '%s'", szInstallDir.c_str());
+					size_t index0 = szToken.find_first_of(L"=");
+					if (index0 != std::wstring::npos)
+					{
+						szInstallDir = szToken.substr(index0 + 1);
+						MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostInstall: INSTALLDIR = '%s'", szInstallDir.c_str());
+					}
 				}
 			}
 		}
