@@ -5043,6 +5043,12 @@ namespace VeraCrypt
 
 			EfiBootInst.PrepareBootPartition();		
 
+			if (!EfiBootInst.FileExists (szStdMsBootloader))
+			{
+				Error ("WINDOWS_EFI_BOOT_LOADER_MISSING", ParentWindow);
+				throw UserAbort (SRC_POS);
+			}
+
 			EfiBootInst.GetFileSize(szStdMsBootloader, loaderSize);
 			bootLoaderBuf.resize ((size_t) loaderSize);
 			EfiBootInst.ReadFile(szStdMsBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
