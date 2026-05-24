@@ -17,13 +17,14 @@
 #ifdef TC_WINDOWS
 #include "Main/resource.h"
 #else
-#ifdef TC_MACOSX
 #include "Application.h"
-#endif
 #include "Platform/File.h"
 #include "Platform/StringConverter.h"
 #include <stdio.h>
 #include "UserPreferences.h"
+#if defined(TC_LINUX)
+#include "Platform/Unix/Process.h"
+#endif
 #endif
 
 namespace VeraCrypt
@@ -66,6 +67,14 @@ namespace VeraCrypt
 		string filenamePrefix = StringConverter::ToSingle (Application::GetExecutableDirectory()) + "/../Resources/languages/Language.";
 #else
 		string filenamePrefix("/usr/share/veracrypt/languages/Language.");
+#if defined(TC_LINUX)
+		if (Process::IsRunningUnderAppImage (StringConverter::ToSingle (wstring (Application::GetExecutablePath()))))
+		{
+			const char* appDirEnv = getenv ("APPDIR");
+			if (appDirEnv)
+				filenamePrefix = string (appDirEnv) + "/usr/share/veracrypt/languages/Language.";
+		}
+#endif
 #endif
 		string filenamePost(".xml");
 		string filename = filenamePrefix + defaultLang + filenamePost;

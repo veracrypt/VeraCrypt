@@ -22,6 +22,9 @@
 #include "Main/Main.h"
 #include "Main/Application.h"
 #include "Main/GraphicUserInterface.h"
+#ifdef TC_LINUX
+#include "Platform/Unix/Process.h"
+#endif
 #include "Volume/Cipher.h"
 #include "PreferencesDialog.h"
 
@@ -132,7 +135,16 @@ namespace VeraCrypt
 #if defined (TC_MACOSX)
 		wxDir languagesFolder(StringConverter::ToSingle (Application::GetExecutableDirectory()) + "/../Resources/languages/");
 #else
-		wxDir languagesFolder("/usr/share/veracrypt/languages/");
+		wxString languagesFolderPath("/usr/share/veracrypt/languages/");
+#ifdef TC_LINUX
+		if (Process::IsRunningUnderAppImage (StringConverter::ToSingle (wstring (Application::GetExecutablePath()))))
+		{
+			const char* appDirEnv = getenv ("APPDIR");
+			if (appDirEnv)
+				languagesFolderPath = wxString::FromUTF8 (appDirEnv) + "/usr/share/veracrypt/languages/";
+		}
+#endif
+		wxDir languagesFolder(languagesFolderPath);
 #endif
 		wxArrayString langArray;
 		LanguageListBox->Append("System default");
