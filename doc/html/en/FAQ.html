@@ -304,6 +304,8 @@ The System Favorites Organizer window should appear now. In this window, enable 
 For more information, see the chapter <a href="System%20Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
 System Favorite Volumes</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Note: System favorite volumes are not available during the earlier Windows boot and storage initialization phases. Therefore, Windows-managed startup dependencies such as automatically attached VHD/VHDX files, Dev Drive backing VHDX files, and native-boot VHD/VHDX files must not be stored on system favorite volumes. For VHD/VHDX files that are not required during boot or early startup, use a delayed/retrying task or a service that depends on <em>VeraCryptSystemFavorites</em> to attach them after the system favorite volume has been mounted. This workaround is not suitable for native-boot VHD/VHDX files or any other file that Windows must access before services can run.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">Can a volume be automatically mounted whenever I log on to Windows?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
