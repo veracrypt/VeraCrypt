@@ -125,7 +125,11 @@ namespace VeraCrypt
 
 #elif defined (TC_OPENBSD)
 			struct disklabel dl;
-			throw_sys_sub_if (ioctl (FileHandle, DIOCGPDINFO, &dl) == -1, wstring (Path));
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGDINFO, &dl) == -1, wstring (Path));
+
+			if (dl.d_secsize == 0)
+				throw ParameterIncorrect (SRC_POS);
+
 			return (uint32) dl.d_secsize;
 
 #elif defined (TC_SOLARIS)
@@ -213,8 +217,31 @@ namespace VeraCrypt
 			return blockCount * blockSize;
 #	elif TC_OPENBSD
 			struct disklabel dl;
-			throw_sys_sub_if (ioctl (FileHandle, DIOCGPDINFO, &dl) == -1, wstring (Path));
-			return DL_GETDSIZE(&dl);
+			struct stat statData;
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGDINFO, &dl) == -1, wstring (Path));
+			throw_sys_sub_if (fstat (FileHandle, &statData) == -1, wstring (Path));
+
+			if (dl.d_secsize == 0)
+				throw ParameterIncorrect (SRC_POS);
+
+			uint64 sectors;
+			int partition = DISKPART (statData.st_rdev);
+			if (partition == RAW_PART)
+			{
+				sectors = DL_GETDSIZE (&dl);
+			}
+			else
+			{
+				if (partition < 0 || partition >= dl.d_npartitions)
+					throw ParameterIncorrect (SRC_POS);
+
+				sectors = DL_GETPSIZE (&dl.d_partitions[partition]);
+			}
+
+			if (sectors > ((uint64) -1) / dl.d_secsize)
+				throw ParameterIncorrect (SRC_POS);
+
+			return sectors * dl.d_secsize;
 #	else
 			uint64 mediaSize;
 			throw_sys_sub_if (ioctl (FileHandle, DIOCGMEDIASIZE, &mediaSize) == -1, wstring (Path));

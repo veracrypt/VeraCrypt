@@ -282,6 +282,9 @@ namespace VeraCrypt
 				{
 					throw UnsupportedSectorSize (SRC_POS);
 				}
+
+				if (HostSize % options->SectorSize != 0)
+					throw ParameterIncorrect (SRC_POS);
 			}
 			else
 				options->SectorSize = TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
