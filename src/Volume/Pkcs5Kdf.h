@@ -28,7 +28,9 @@ namespace VeraCrypt
 		virtual ~Pkcs5Kdf ();
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt, long volatile *pAbortKeyDerivation) const;
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const = 0;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const = 0;
 		static shared_ptr <Pkcs5Kdf> GetAlgorithm (const wstring &name);
 		static shared_ptr <Pkcs5Kdf> GetAlgorithm (const Hash &hash);
 		static Pkcs5KdfList GetAvailableAlgorithms ();
@@ -63,6 +65,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacBlake2s_Boot () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Blake2s); }
 		virtual int GetDefaultPim () const { return 98; }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 200000 : (pim * 2048); }
@@ -81,6 +84,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacBlake2s () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Blake2s); }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 500000 : (15000 + (pim * 1000)); }
 		virtual wstring GetName () const { return L"HMAC-BLAKE2s-256"; }
@@ -99,6 +103,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacSha256_Boot () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256); }
 		virtual int GetDefaultPim () const { return 98; }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 200000 : (pim * 2048); }
@@ -117,6 +122,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacSha256 () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256); }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 500000 : (15000 + (pim * 1000)); }
 		virtual wstring GetName () const { return L"HMAC-SHA-256"; }
@@ -134,6 +140,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacSha512 () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha512); }
 		virtual int GetIterationCount (int pim) const { return (pim <= 0 ? 500000 : (15000 + (pim * 1000))); }
 		virtual wstring GetName () const { return L"HMAC-SHA-512"; }
@@ -151,6 +158,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacWhirlpool () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Whirlpool); }
 		virtual int GetIterationCount (int pim) const { return (pim <= 0 ? 500000 : (15000 + (pim * 1000))); }
 		virtual wstring GetName () const { return L"HMAC-Whirlpool"; }
@@ -168,6 +176,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacStreebog () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Streebog); }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 500000 : (15000 + (pim * 1000)); }
 		virtual wstring GetName () const { return L"HMAC-Streebog"; }
@@ -186,7 +195,9 @@ namespace VeraCrypt
 		virtual ~Pkcs5Argon2 () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt, long volatile *pAbortKeyDerivation) const;
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual wstring GetDerivationFailureMessage (int result) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Blake2b); }
 		virtual int GetDefaultPim () const { return 12; }
@@ -212,6 +223,7 @@ namespace VeraCrypt
 		virtual ~Pkcs5HmacStreebog_Boot () { }
 
 		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Streebog); }
 		virtual int GetDefaultPim () const { return 98; }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 200000 : pim * 2048; }

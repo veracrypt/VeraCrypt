@@ -29,6 +29,7 @@ namespace VeraCrypt
 		SyncEvent ();
 		~SyncEvent ();
 
+		void Reset ();
 		void Signal ();
 		void Wait ();
 

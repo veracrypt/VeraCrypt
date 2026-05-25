@@ -50,6 +50,12 @@ namespace VeraCrypt
 			return 1;
 		}
 
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+		{
+			(void) pAbortKeyDerivation;
+			return DeriveKey (key, password, salt, iterationCount);
+		}
+
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Blake2b); }
 		virtual int GetIterationCount (int pim) const { return 1; }
 		virtual wstring GetName () const { return L"Argon2"; }

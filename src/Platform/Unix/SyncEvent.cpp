@@ -41,6 +41,14 @@ namespace VeraCrypt
 		Initialized = false;
 	}
 
+	void SyncEvent::Reset ()
+	{
+		assert (Initialized);
+
+		ScopeLock lock (EventMutex);
+		Signaled = false;
+	}
+
 	void SyncEvent::Signal ()
 	{
 		assert (Initialized);

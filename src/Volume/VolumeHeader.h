@@ -80,6 +80,7 @@ namespace VeraCrypt
 		bool IsMasterKeyVulnerable () const { return XtsKeyVulnerable; }
 
 	protected:
+		bool DecryptWithHeaderKey (const ConstBufferPtr &encryptedData, shared_ptr <Pkcs5Kdf> pkcs5, const ConstBufferPtr &headerKey, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes);
 		bool Deserialize (const ConstBufferPtr &header, shared_ptr <EncryptionAlgorithm> &ea, shared_ptr <EncryptionMode> &mode);
 		template <typename T> T DeserializeEntry (const ConstBufferPtr &header, size_t &offset) const;
 		template <typename T> T DeserializeEntryAt (const ConstBufferPtr &header, const size_t &offset) const;

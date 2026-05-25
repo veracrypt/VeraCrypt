@@ -30,7 +30,18 @@ namespace VeraCrypt
 
 	int Pkcs5Kdf::DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt) const
 	{
-		return DeriveKey (key, password, salt, GetIterationCount(pim));
+		return DeriveKey (key, password, pim, salt, nullptr);
+	}
+
+	int Pkcs5Kdf::DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt, long volatile *pAbortKeyDerivation) const
+	{
+		return DeriveKey (key, password, salt, GetIterationCount(pim), pAbortKeyDerivation);
+	}
+
+	int Pkcs5Kdf::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
+		(void) pAbortKeyDerivation;
+		return DeriveKey (key, password, salt, iterationCount);
 	}
 
 	wstring Pkcs5Kdf::GetDerivationFailureMessage (int result) const
@@ -89,64 +100,104 @@ namespace VeraCrypt
     #ifndef WOLFCRYPT_BACKEND
 	int Pkcs5HmacBlake2s_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacBlake2s_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_blake2s (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_blake2s (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
 
 	int Pkcs5HmacBlake2s::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacBlake2s::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_blake2s (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_blake2s (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
     #endif
 
 	int Pkcs5HmacSha256_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacSha256_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
 
 	int Pkcs5HmacSha256::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacSha256::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
 
 	int Pkcs5HmacSha512::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacSha512::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_sha512 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_sha512 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
 
     #ifndef WOLFCRYPT_BACKEND
 	int Pkcs5HmacWhirlpool::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacWhirlpool::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_whirlpool (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_whirlpool (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
 	
 	int Pkcs5HmacStreebog::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacStreebog::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_streebog (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_streebog (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
 
 	#ifndef VC_DCS_DISABLE_ARGON2
 	int Pkcs5Argon2::DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt) const
 	{
+		return DeriveKey (key, password, pim, salt, nullptr);
+	}
+
+	int Pkcs5Argon2::DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt, long volatile *pAbortKeyDerivation) const
+	{
 		int iterationCount;
 		int memoryCost;
 		get_argon2_params (pim, &iterationCount, &memoryCost);
 
 		ValidateParameters (key, password, salt, iterationCount);
-		return derive_key_argon2 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, memoryCost, key.Get(), (int) key.Size(), NULL);
+		return derive_key_argon2 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, memoryCost, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 	}
 
 	int Pkcs5Argon2::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
@@ -156,6 +207,12 @@ namespace VeraCrypt
 		(void) salt;
 		(void) iterationCount;
 		throw ParameterIncorrect (SRC_POS);
+	}
+
+	int Pkcs5Argon2::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
+		(void) pAbortKeyDerivation;
+		return DeriveKey (key, password, salt, iterationCount);
 	}
 
 	wstring Pkcs5Argon2::GetDerivationFailureMessage (int result) const
@@ -174,8 +231,13 @@ namespace VeraCrypt
 	
 	int Pkcs5HmacStreebog_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
 	{
+		return DeriveKey (key, password, salt, iterationCount, nullptr);
+	}
+
+	int Pkcs5HmacStreebog_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_streebog (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), NULL);
+		derive_key_streebog (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
 	}
     #endif
