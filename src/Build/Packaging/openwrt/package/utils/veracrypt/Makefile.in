@@ -1,0 +1,91 @@
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=veracrypt
+PKG_VERSION:=@VERACRYPT_VERSION@
+PKG_RELEASE:=1
+PKG_LICENSE:=Apache-2.0 AND LicenseRef-TrueCrypt
+PKG_LICENSE_FILES:=veracrypt/src/License.txt
+PKG_MAINTAINER:=Mounir IDRASSI <mounir.idrassi@amcrypto.jp>
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_BUILD_PARALLEL:=1
+PKG_BUILD_DEPENDS:=fuse3 pcsc-lite
+
+WXWIDGETS_VERSION:=@WXWIDGETS_VERSION@
+VERACRYPT_SOURCE_DIR:=@VERACRYPT_SOURCE_DIR@
+WXWIDGETS_SOURCE_DIR:=@WXWIDGETS_SOURCE_DIR@
+
+include $(INCLUDE_DIR)/package.mk
+
+RSTRIP:=:
+STRIP:=:
+
+define Package/veracrypt
+  SECTION:=utils
+  CATEGORY:=Utilities
+  SUBMENU:=Filesystem
+  TITLE:=VeraCrypt console
+  URL:=https://www.veracrypt.fr/
+  DEPENDS:=+libstdcpp +libfuse3 +bash
+endef
+
+define Package/veracrypt/description
+  Console-only VeraCrypt build for OpenWrt using FUSE3 and a static wxBase.
+endef
+
+define Build/Prepare
+	rm -rf $(PKG_BUILD_DIR)
+	$(INSTALL_DIR) $(PKG_BUILD_DIR)
+	rsync -a --delete \
+		--exclude .git \
+		--exclude 'src/wxrelease' \
+		--exclude 'src/wxdebug' \
+		--exclude 'src/Main/veracrypt' \
+		--exclude 'src/Setup/Linux/usr' \
+		--exclude '*.o' \
+		--exclude '*.d' \
+		--exclude '*.a' \
+		$(VERACRYPT_SOURCE_DIR)/ $(PKG_BUILD_DIR)/veracrypt/
+	rsync -a --delete $(WXWIDGETS_SOURCE_DIR)/ $(PKG_BUILD_DIR)/wxWidgets-$(WXWIDGETS_VERSION)/
+endef
+
+define Build/Configure
+endef
+
+VC_COMMON_MAKE_FLAGS = \
+	AR="$(TARGET_AR)" \
+	CC="$(TARGET_CC)" \
+	CXX="$(TARGET_CXX)" \
+	AS="yasm" \
+	RANLIB="$(TARGET_RANLIB)" \
+	PKG_CONFIG="$(PKG_CONFIG)" \
+	PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" \
+	WX_ROOT="$(PKG_BUILD_DIR)/wxWidgets-$(WXWIDGETS_VERSION)" \
+	WX_BUILD_DIR="$(PKG_BUILD_DIR)/wxBuildConsole" \
+	WX_CONFIGURE_EXTRA_FLAGS="--target=$(GNU_TARGET_NAME) --host=$(GNU_TARGET_NAME) --build=$(GNU_HOST_NAME) --prefix=/usr --exec-prefix=/usr --disable-rpath" \
+	TC_EXTRA_CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
+	TC_EXTRA_CXXFLAGS="$(TARGET_CXXFLAGS) $(TARGET_CPPFLAGS)" \
+	TC_EXTRA_LFLAGS="$(TARGET_LDFLAGS)" \
+	NOGUI=1 \
+	WITHFUSE3=1 \
+	WXSTATIC=1 \
+	NOTEST=1 \
+	NOSTRIP=1 \
+	VERBOSE=1
+
+define Build/Compile
+	+$(MAKE) -C $(PKG_BUILD_DIR)/veracrypt/src $(VC_COMMON_MAKE_FLAGS) clean
+	+$(MAKE) -C $(PKG_BUILD_DIR)/veracrypt/src $(VC_COMMON_MAKE_FLAGS) wxbuild
+	+$(MAKE) -C $(PKG_BUILD_DIR)/veracrypt/src $(PKG_JOBS) $(VC_COMMON_MAKE_FLAGS)
+endef
+
+define Package/veracrypt/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/veracrypt/src/Main/veracrypt $(1)/usr/bin/veracrypt
+	$(INSTALL_DIR) $(1)/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/veracrypt/src/Setup/Linux/mount.veracrypt $(1)/sbin/mount.veracrypt
+	$(INSTALL_DIR) $(1)/usr/share/licenses/veracrypt
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/veracrypt/src/License.txt $(1)/usr/share/licenses/veracrypt/License.txt
+endef
+
+$(eval $(call BuildPackage,veracrypt))

@@ -19,6 +19,8 @@
 # NOTEST:		Do not test release binary
 # RESOURCEDIR:	Run-time resource directory
 # VERBOSE:		Enable verbose messages
+# WITHFUSE3:		Build with FUSE3 support instead of FUSE2
+# WX_CONFIGURE_EXTRA_FLAGS:	Extra flags passed to wxWidgets configure
 # WXSTATIC:		Use static wxWidgets library
 # SSSE3:		Enable SSSE3 support in compiler
 # SSE41:		Enable SSE4.1 support in compiler
@@ -736,7 +738,7 @@ endif
 			WX_CONFIGURE_LEGACY_FLAGS="$$WX_CONFIGURE_LEGACY_FLAGS --enable-$$option"; \
 		fi; \
 	done; \
-	"$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) $$WX_CONFIGURE_LEGACY_FLAGS >/dev/null
+	"$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) $(WX_CONFIGURE_EXTRA_FLAGS) $$WX_CONFIGURE_LEGACY_FLAGS >/dev/null
 
 	@echo Building wxWidgets library...
 	cd "$(WX_BUILD_DIR)" && $(MAKE) -j 4

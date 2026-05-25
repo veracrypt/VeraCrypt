@@ -4,6 +4,10 @@
 # CLion
 .idea/
 
+# Python build/test artifacts
+__pycache__/
+*.py[cod]
+
 # VC Linux build artifacts
 *.o
 *.o0
