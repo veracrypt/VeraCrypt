@@ -1440,8 +1440,8 @@ namespace VeraCrypt
 		while (getline(ss, token, ':'))
 		{
 			// remove any trailing slashes from the token
-			while (!token.empty() && token.back() == '/')
-				token.pop_back();
+			while (!token.empty() && token[token.length() - 1] == '/')
+				token.erase(token.length() - 1);
 
 			if (token.empty())
 				continue;
@@ -1459,8 +1459,8 @@ namespace VeraCrypt
 			free(resolvedEntry);
 
 			// remove any trailing slashes from the token
-			while (!entryPath.empty() && entryPath.back() == '/')
-				entryPath.pop_back();
+			while (!entryPath.empty() && entryPath[entryPath.length() - 1] == '/')
+				entryPath.erase(entryPath.length() - 1);
 
 			// perform check again if the resolved path is different from the original (symlink)
 			if (dirPath == entryPath || dirPath.find(entryPath + "/") == 0)

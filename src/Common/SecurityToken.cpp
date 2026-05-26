@@ -220,7 +220,7 @@ namespace VeraCrypt
 				throw;
 			}
 
-			for(const CK_OBJECT_HANDLE & dataHandle: GetObjects(slotId, CKO_DATA))
+			foreach(const CK_OBJECT_HANDLE & dataHandle, GetObjects(slotId, CKO_DATA))
 			{
 				SecurityTokenKeyfile keyfile;
 				keyfile.Handle = dataHandle;
