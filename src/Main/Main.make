@@ -328,6 +328,7 @@ INSTALL_DESKTOP ?= 1
 INSTALL_MIME ?= 1
 INSTALL_ICONS ?= 1
 INSTALL_APPIMAGE_FILES ?= 1
+APPIMAGE_BUNDLE_FUSE2 ?= 1
 
 # These override values are appended below usr and used in shell recipes.
 # Keep command-line/environment overrides literal and path-like.
@@ -426,6 +427,27 @@ endif
 ifneq "$(INSTALL_APPIMAGE_FILES)" "0"
 	rm -fr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/usr
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
+ifneq "$(APPIMAGE_BUNDLE_FUSE2)" "0"
+	@set -e; \
+	_appdir="$(BASE_DIR)/Setup/Linux/veracrypt.AppDir"; \
+	_fuse_lib="$$( (ldconfig -p 2>/dev/null || /sbin/ldconfig -p 2>/dev/null || true) | awk '/libfuse\.so\.2[[:space:]]/ { print $$NF; exit }')"; \
+	if [ -z "$$_fuse_lib" ]; then \
+		for _candidate in /lib64/libfuse.so.2 /usr/lib64/libfuse.so.2 /lib/libfuse.so.2 /usr/lib/libfuse.so.2 /lib/*/libfuse.so.2 /usr/lib/*/libfuse.so.2; do \
+			if [ -e "$$_candidate" ]; then _fuse_lib="$$_candidate"; break; fi; \
+		done; \
+	fi; \
+	if [ -n "$$_fuse_lib" ]; then \
+		echo "Bundling AppImage FUSE2 userspace library: $$_fuse_lib"; \
+		mkdir -p "$$_appdir/usr/lib"; \
+		cp -P "$$_fuse_lib" "$$_appdir/usr/lib/"; \
+		_fuse_real="$$(readlink -f "$$_fuse_lib" 2>/dev/null || true)"; \
+		if [ -n "$$_fuse_real" ] && [ "$$_fuse_real" != "$$_fuse_lib" ]; then \
+			cp "$$_fuse_real" "$$_appdir/usr/lib/"; \
+		fi; \
+	else \
+		echo "Warning: libfuse.so.2 not found; AppImage will rely on a host FUSE2 userspace library"; \
+	fi
+endif
 ifneq "$(INSTALL_ICONS)" "0"
 	ln -sf usr/share/icons/hicolor/1024x1024/apps/$(APPNAME).png $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/$(APPNAME).png
 endif
@@ -550,7 +572,11 @@ appimage: prepare
 	_appimagetool_executable_name="appimagetool-$${_appimagetool_arch_suffix}.AppImage"; \
 	_appimagetool_executable_path="$(BASE_DIR)/Setup/Linux/$${_appimagetool_executable_name}"; \
 	_appimagetool_url="https://github.com/AppImage/appimagetool/releases/download/continuous/$${_appimagetool_executable_name}"; \
-	_final_appimage_filename="VeraCrypt-$(TC_VERSION)-$${_final_appimage_arch_suffix}.AppImage"; \
+	_final_appimage_gtk_suffix=""; \
+	if [ "$(GTK_VERSION)" = "2" ]; then \
+		_final_appimage_gtk_suffix="-gtk2-legacy"; \
+	fi; \
+	_final_appimage_filename="VeraCrypt-$(TC_VERSION)$${_final_appimage_gtk_suffix}-$${_final_appimage_arch_suffix}.AppImage"; \
 	_final_appimage_path="$(BASE_DIR)/Setup/Linux/$${_final_appimage_filename}"; \
 	\
 	echo "Preparing AppImage for $(CPU_ARCH) (using $${_appimagetool_arch_suffix})..."; \
