@@ -713,12 +713,13 @@ def run_guest_tests(args, console, http_port, packages):
         raise TestError("algorithm self-test did not report success")
 
     if not args.skip_container:
-        escaped_password = args.password.replace("'", "'\"'\"'")
+        quoted_container_size = sh_quote(args.container_size)
+        quoted_password = sh_quote(args.password)
         console.run("dd if=/dev/urandom of=/tmp/vc-random.bin bs=1M count=1", timeout=120)
         console.run(
             "veracrypt --text --create /tmp/openwrt-test.hc "
-            f"--size={args.container_size} "
-            f"--password='{escaped_password}' "
+            f"--size={quoted_container_size} "
+            f"--password={quoted_password} "
             "--encryption=AES --hash=SHA-512 --filesystem=none "
             "--volume-type=normal --random-source=/tmp/vc-random.bin "
             "--quick --force --non-interactive",
@@ -727,7 +728,7 @@ def run_guest_tests(args, console, http_port, packages):
         console.run("mkdir -p /mnt/veracrypt-test", timeout=60)
         console.run(
             "veracrypt --text --mount /tmp/openwrt-test.hc /mnt/veracrypt-test "
-            f"--password='{escaped_password}' "
+            f"--password={quoted_password} "
             "--pim=0 --keyfiles='' --protect-hidden=no --filesystem=none --non-interactive",
             timeout=240,
         )

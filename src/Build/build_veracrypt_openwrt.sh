@@ -68,6 +68,17 @@ require_option_arg() {
 	[ $# -ge 2 ] || die "Option $1 requires an argument"
 }
 
+validate_version_token() {
+	name=$1
+	value=$2
+
+	case "$value" in
+		''|*[!A-Za-z0-9._+-]*)
+			die "$name must contain only letters, digits, '.', '_', '+', or '-'"
+			;;
+	esac
+}
+
 download_file() {
 	url=$1
 	out=$2
@@ -236,20 +247,53 @@ sed_escape() {
 	printf '%s' "$1" | sed 's/[&|]/\\&/g'
 }
 
+assert_package_dir_outside_checkout() {
+	package_dir=$1
+
+	case "$package_dir/" in
+		"$REPOROOT"/*)
+			die "OpenWrt package directory is inside the VeraCrypt checkout; choose a --work-dir or --sdk-dir outside the repository"
+			;;
+	esac
+}
+
+stage_package_sources() {
+	package_dir=$1
+	staging_dir="$package_dir/sources"
+
+	assert_package_dir_outside_checkout "$package_dir"
+
+	rm -rf "$staging_dir"
+	mkdir -p "$staging_dir/veracrypt" "$staging_dir/wxWidgets"
+
+	rsync -a --delete \
+		--exclude .git \
+		--exclude 'src/wxrelease' \
+		--exclude 'src/wxdebug' \
+		--exclude 'src/Main/veracrypt' \
+		--exclude 'src/Setup/Linux/usr' \
+		--exclude '*.o' \
+		--exclude '*.d' \
+		--exclude '*.a' \
+		"$REPOROOT/" "$staging_dir/veracrypt/"
+
+	rsync -a --delete "$WX_SOURCE_DIR/" "$staging_dir/wxWidgets/"
+}
+
 render_package_makefile() {
 	version=$(sed -n 's/^#define[[:space:]][[:space:]]*VERSION_STRING[[:space:]][[:space:]]*"\([^"]*\)".*/\1/p' "$SOURCEPATH/Common/Tcdefs.h" | head -n 1)
 	[ -n "$version" ] || die "Could not determine VeraCrypt version from src/Common/Tcdefs.h"
+	validate_version_token "VeraCrypt version" "$version"
 
 	package_dir="$SDK_DIR/package/utils/veracrypt"
 	template="$REPOROOT/src/Build/Packaging/openwrt/package/utils/veracrypt/Makefile.in"
 
+	assert_package_dir_outside_checkout "$package_dir"
 	rm -rf "$package_dir"
 	mkdir -p "$package_dir"
+	stage_package_sources "$package_dir"
 	sed \
 		-e "s|@VERACRYPT_VERSION@|$(sed_escape "$version")|g" \
-		-e "s|@VERACRYPT_SOURCE_DIR@|$(sed_escape "$REPOROOT")|g" \
-		-e "s|@WXWIDGETS_VERSION@|$(sed_escape "$WX_VERSION")|g" \
-		-e "s|@WXWIDGETS_SOURCE_DIR@|$(sed_escape "$WX_SOURCE_DIR")|g" \
 		"$template" > "$package_dir/Makefile"
 
 	VERACRYPT_VERSION=$version
@@ -369,6 +413,7 @@ case "$JOBS" in
 		;;
 esac
 [ "$JOBS" -gt 0 ] || die "jobs must be a positive integer"
+validate_version_token "wxWidgets version" "$WX_VERSION"
 
 need_tool awk
 need_tool find
