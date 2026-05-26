@@ -40,6 +40,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
+#ifdef TC_OPENBSD
+#include <pwd.h>
+#endif
 #include <sys/mman.h>
 #include <sys/statvfs.h>
 #include <sys/time.h>
@@ -64,6 +67,26 @@ namespace VeraCrypt
 	static const uint64 VC_FUSE_BLOCK_SIZE = 4096;
 	static const uint64 VC_FUSE_METADATA_SIZE = 64 * 1024;
 	static const uint64 VC_FUSE_STAT_BLOCK_SIZE = 512;
+
+#ifdef TC_OPENBSD
+	static bool fuse_service_get_doas_user_ids (uid_t *uid, gid_t *gid)
+	{
+		const char *env = getenv ("DOAS_USER");
+		if (!env || !env[0])
+			return false;
+
+		struct passwd *pw = getpwnam (env);
+		if (!pw)
+			return false;
+
+		if (uid)
+			*uid = pw->pw_uid;
+		if (gid)
+			*gid = pw->pw_gid;
+
+		return true;
+	}
+#endif
 
 	static uint64 fuse_service_ceil_div (uint64 value, uint64 divisor)
 	{
@@ -790,6 +813,18 @@ namespace VeraCrypt
 			}
 			catch (...) { }
 		}
+#ifdef TC_OPENBSD
+		else
+		{
+			uid_t doasUid;
+			gid_t doasGid;
+			if (fuse_service_get_doas_user_ids (&doasUid, &doasGid))
+			{
+				FuseService::UserId = doasUid;
+				FuseService::GroupId = doasGid;
+			}
+		}
+#endif
 
 		static fuse_operations fuse_service_oper;
 
