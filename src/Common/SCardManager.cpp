@@ -7,12 +7,16 @@ namespace VeraCrypt
 
 	SCardManager::SCardManager()
 	{
+#ifndef TC_OPENBSD
 		loader->Initialize();
+#endif
 	}
 
 	SCardManager::~SCardManager()
 	{
+#ifndef TC_OPENBSD
 		loader->Finalize();
+#endif
 	}
 
 	vector<wstring> SCardManager::GetReaders()

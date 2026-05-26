@@ -96,7 +96,7 @@ endif
 
 # Embedded files
 ifeq "$(PLATFORM)" "OpenBSD"
-OD_BIN := ggod -v -t u1 -A n
+OD_BIN := hexdump -v -e '1/1 "%u "'
 else
 OD_BIN := od -v -t u1 -A n
 endif
