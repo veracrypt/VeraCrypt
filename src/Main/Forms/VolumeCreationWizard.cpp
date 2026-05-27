@@ -1519,8 +1519,15 @@ namespace VeraCrypt
 					struct statvfs stat;
 					if (statvfs(((string)outerVolumeMountPoint).c_str(), &stat) == 0)
 					{
-						 outerVolumeAvailableSpace = (uint64) stat.f_bsize * (uint64) stat.f_bavail;
-						 outerVolumeAvailableSpaceValid = true;
+						uint64 blockSize = (uint64) stat.f_frsize;
+						if (blockSize == 0)
+							blockSize = (uint64) stat.f_bsize;
+
+						if (blockSize != 0)
+						{
+							outerVolumeAvailableSpace = blockSize * (uint64) stat.f_bavail;
+							outerVolumeAvailableSpaceValid = true;
+						}
 					}
 #endif
 					Core->DismountVolume (MountedOuterVolume);
@@ -1545,6 +1552,7 @@ namespace VeraCrypt
 #endif
 
 				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Pim, Kdf, Keyfiles, VolumeProtection::ReadOnly);
+				uint64 outerVolumeDataSize = outerVolume->GetSize();
 				try
 				{
 					MaxHiddenVolumeSize = Core->GetMaxHiddenVolumeSize (outerVolume);
@@ -1555,17 +1563,24 @@ namespace VeraCrypt
 					// estimate maximum hidden volume size as 80% of available size of outer volume
 					if (outerVolumeAvailableSpaceValid)
 					{
-						MaxHiddenVolumeSize =(4ULL * outerVolumeAvailableSpace) / 5ULL;
+						if (outerVolumeAvailableSpace > outerVolumeDataSize)
+							outerVolumeAvailableSpace = outerVolumeDataSize;
+
+						MaxHiddenVolumeSize = (outerVolumeAvailableSpace / 5ULL) * 4ULL
+							+ ((outerVolumeAvailableSpace % 5ULL) * 4ULL) / 5ULL;
 					}
 					else
 						throw;
 				}
 
+				if (MaxHiddenVolumeSize > outerVolumeDataSize)
+					MaxHiddenVolumeSize = outerVolumeDataSize;
+
 				// Add a reserve (in case the user mounts the outer volume and creates new files
 				// on it by accident or OS writes some new data behind his or her back, such as
 				// System Restore etc.)
 
-				uint64 reservedSize = outerVolume->GetSize() / 200;
+				uint64 reservedSize = outerVolumeDataSize / 200;
 				if (reservedSize > 10 * BYTES_PER_MB)
 					reservedSize = 10 * BYTES_PER_MB;
 

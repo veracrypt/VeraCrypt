@@ -124,6 +124,10 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 
 	if (volParams->hiddenVol)
 	{
+		if (volParams->hiddenVolHostSize <= TC_TOTAL_VOLUME_HEADERS_SIZE
+			|| volParams->size > volParams->hiddenVolHostSize - TC_TOTAL_VOLUME_HEADERS_SIZE)
+			return ERR_VOL_SIZE_WRONG;
+
 		dataOffset = volParams->hiddenVolHostSize - TC_VOLUME_HEADER_GROUP_SIZE - volParams->size;
 	}
 	else

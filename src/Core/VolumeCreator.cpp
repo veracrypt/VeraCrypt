@@ -301,6 +301,10 @@ namespace VeraCrypt
 
 				if (HostSize < TC_MIN_HIDDEN_VOLUME_HOST_SIZE)
 					throw ParameterIncorrect (SRC_POS);
+
+				if (HostSize <= TC_TOTAL_VOLUME_HEADERS_SIZE
+					|| options->Size > HostSize - TC_TOTAL_VOLUME_HEADERS_SIZE)
+					throw ParameterIncorrect (SRC_POS);
 				break;
 
 			default:
