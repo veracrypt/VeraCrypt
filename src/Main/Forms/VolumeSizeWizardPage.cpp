@@ -30,6 +30,23 @@ namespace VeraCrypt
 		VolumeSizePrefixChoice->Append (LangString["TB"], reinterpret_cast <void *> (4));
 		VolumeSizePrefixChoice->Select (Prefix::MB);
 
+		// The generated base class fits this choice while it is still empty.
+		// Size it after adding localized labels so Cocoa does not truncate "MiB" to "...".
+		wxCoord maxPrefixTextWidth = 0;
+		for (unsigned int i = 0; i < VolumeSizePrefixChoice->GetCount(); ++i)
+		{
+			wxCoord textWidth, textHeight;
+			VolumeSizePrefixChoice->GetTextExtent (VolumeSizePrefixChoice->GetString (i), &textWidth, &textHeight);
+			if (textWidth > maxPrefixTextWidth)
+				maxPrefixTextWidth = textWidth;
+		}
+
+		wxSize prefixChoiceSize = VolumeSizePrefixChoice->GetBestSize();
+		int minPrefixChoiceWidth = maxPrefixTextWidth + Gui->GetCharWidth (VolumeSizePrefixChoice) * 6;
+		if (prefixChoiceSize.GetWidth() < minPrefixChoiceWidth)
+			prefixChoiceSize.SetWidth (minPrefixChoiceWidth);
+		VolumeSizePrefixChoice->SetMinSize (prefixChoiceSize);
+
 		wxLongLong diskSpace = 0;
 		if (!wxGetDiskSpace (wxFileName (wstring (volumePath)).GetPath(), nullptr, &diskSpace))
 		{
