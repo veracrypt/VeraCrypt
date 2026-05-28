@@ -51,7 +51,13 @@ clean:
 %.o: %.cpp
 	@echo Compiling $(<F)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-	
+
+ifeq "$(PLATFORM)" "MacOSX"
+%.o: %.mm
+	@echo Compiling $(<F)
+	$(CXX) $(CXXFLAGS) -x objective-c++ -fblocks -c $< -o $@
+endif
+
 %.osse41: %.cpp
 	@echo Compiling $(<F)
 	$(CXX) $(CXXFLAGS) -mssse3 -msse4.1 -c $< -o $@

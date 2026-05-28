@@ -28,6 +28,9 @@
 #include "Application.h"
 #include "GraphicUserInterface.h"
 #include "FatalErrorHandler.h"
+#ifdef TC_MACOSX
+#include "MacOSXSecureTextFieldHotkeys.h"
+#endif
 #include "Forms/DeviceSelectionDialog.h"
 #include "Forms/KeyfileGeneratorDialog.h"
 #include "Forms/MainFrame.h"
@@ -97,6 +100,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		g_customIdCmdV = wxNewId();
 		g_customIdCmdA = wxNewId();
+		InstallMacOSXSecureTextFieldHotkeys();
 		wxApp::s_macHelpMenuTitleName = LangString["MENU_HELP"];
 #endif
 #if wxCHECK_VERSION(3, 1, 6)
@@ -106,6 +110,9 @@ namespace VeraCrypt
 
 	GraphicUserInterface::~GraphicUserInterface ()
 	{
+#ifdef TC_MACOSX
+		UninstallMacOSXSecureTextFieldHotkeys();
+#endif
 		try
 		{
 			if (RandomNumberGenerator::IsRunning())
@@ -741,8 +748,9 @@ namespace VeraCrypt
 	bool GraphicUserInterface::HandlePasswordEntryCustomEvent (wxEvent& event)
 	{
 		bool bHandled = false;
-		if (	(event.GetEventType() == wxEVT_MENU)
-			&&	((event.GetId() == g_customIdCmdV) || (event.GetId() == g_customIdCmdA)))
+		const bool isPasteShortcut = (event.GetId() == g_customIdCmdV) || (event.GetId() == wxID_PASTE);
+		const bool isSelectAllShortcut = (event.GetId() == g_customIdCmdA) || (event.GetId() == wxID_SELECTALL);
+		if ((event.GetEventType() == wxEVT_MENU) && (isPasteShortcut || isSelectAllShortcut))
 		{
 			wxWindow* focusedCtrl = wxWindow::FindFocus();
 			if (focusedCtrl 
@@ -750,9 +758,9 @@ namespace VeraCrypt
 				&& (focusedCtrl->GetWindowStyle() & wxTE_PASSWORD))
 			{
 				wxTextCtrl* passwordCtrl = (wxTextCtrl*) focusedCtrl;
-				if (event.GetId() == g_customIdCmdV)
+				if (isPasteShortcut)
 					passwordCtrl->Paste ();
-				else if (event.GetId() == g_customIdCmdA)
+				else if (isSelectAllShortcut)
 					passwordCtrl->SelectAll ();
 				bHandled = true;
 			}

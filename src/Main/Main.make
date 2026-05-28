@@ -26,6 +26,9 @@ OBJS += Resources.o
 ifndef TC_NO_GUI
 OBJS += FatalErrorHandler.o
 OBJS += GraphicUserInterface.o
+ifeq "$(PLATFORM)" "MacOSX"
+OBJS += MacOSXSecureTextFieldHotkeys.o
+endif
 OBJS += VolumeHistory.o
 OBJS += Forms/AboutDialog.o
 OBJS += Forms/BenchmarkDialog.o
