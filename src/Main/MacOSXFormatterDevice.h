@@ -61,11 +61,20 @@ namespace VeraCrypt
 		return deviceIdentifier;
 	}
 
-	inline bool IsMacOSXAPFSFormatter (const string &fsFormatter)
+	inline string GetMacOSXFormatterName (const string &fsFormatter)
 	{
 		size_t namePos = fsFormatter.find_last_of ('/');
-		string fsFormatterName = namePos == string::npos ? fsFormatter : fsFormatter.substr (namePos + 1);
-		return fsFormatterName == "newfs_apfs";
+		return namePos == string::npos ? fsFormatter : fsFormatter.substr (namePos + 1);
+	}
+
+	inline bool IsMacOSXAPFSFormatter (const string &fsFormatter)
+	{
+		return GetMacOSXFormatterName (fsFormatter) == "newfs_apfs";
+	}
+
+	inline bool IsMacOSXExFATFormatter (const string &fsFormatter)
+	{
+		return GetMacOSXFormatterName (fsFormatter) == "newfs_exfat";
 	}
 
 	inline bool UseElevatedMacOSXAPFSFormatter (const string &fsFormatter)
@@ -86,6 +95,12 @@ namespace VeraCrypt
 		args.push_back (uid.str());
 		args.push_back ("-G");
 		args.push_back (gid.str());
+	}
+
+	inline void AddMacOSXExFATFormatterArgs (list <string> &args)
+	{
+		// Match Disk Utility/Finder erase behavior by deriving a fresh exFAT layout.
+		args.push_back ("-R");
 	}
 
 	struct MacOSXFormatterDeviceOwnerRestore

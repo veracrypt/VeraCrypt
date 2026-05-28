@@ -1136,6 +1136,9 @@ namespace VeraCrypt
 			}
 
 #ifdef TC_MACOSX
+			if (IsMacOSXExFATFormatter (fsFormatter))
+				AddMacOSXExFATFormatterArgs (args);
+
 			if (IsMacOSXAPFSFormatter (fsFormatter) && !useElevatedAPFSFormatter)
 				AddMacOSXAPFSFormatterUserArgs (args);
 #endif
