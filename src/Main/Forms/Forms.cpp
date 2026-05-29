@@ -2300,7 +2300,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	sbSizer49->Add( LanguageListBox, 1, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
 
 	SysDefaultLangButton = new wxButton( sbSizer49->GetStaticBox(), wxID_ANY, _("LINUX_SELECT_SYS_DEFAULT_LANG"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer49->Add( SysDefaultLangButton, 0, wxALIGN_BOTTOM|wxALL|wxEXPAND, 5 );
+	sbSizer49->Add( SysDefaultLangButton, 0, wxALL|wxEXPAND, 5 );
 
 
 	bSizer173->Add( sbSizer49, 1, wxALL|wxEXPAND, 5 );
