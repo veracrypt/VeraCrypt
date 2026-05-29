@@ -1669,9 +1669,9 @@
     <entry lang="zh-cn" key="PIM_ARGON2_LARGE_WARNING">您选择的 Argon2 PIM 值大于 VeraCrypt 的默认值。\n请注意，这可能需要更多内存，并导致挂载速度显著变慢。</entry>
     <entry lang="zh-cn" key="PIM_ARGON2_SMALL_WARNING">您选择的 Argon2 PIM 值小于 VeraCrypt 的默认值。请注意，如果您的密码强度不够，这可能导致安全性降低。\n\n您确认正在使用强密码吗？</entry>
     <entry lang="zh-cn" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">密码必须包含 20 个或更多字符，才能使用指定的 Argon2 PIM。\n较短的密码只有在 Argon2 PIM 大于或等于 12 时才能使用。</entry>
-    <entry lang="zh-cn" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">使用 Linux 内核内置的驱动程序挂载 NTFS 卷</entry>
-    <entry lang="zh-cn" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">仅限 Linux。启用后，如果未提供明确的文件系统类型，VeraCrypt 会使用 blkid -p 探测已解密的虚拟设备，并使用可用的内核内置 NTFS 驱动程序挂载检测到的 NTFS 文件系统，从而绕过 ntfs-3g 等挂载辅助程序。当 NTFS 被明确识别为现代读写驱动程序或在 Linux 7.1 或更高版本上预期使用时，VeraCrypt 使用 ntfs；否则使用 ntfs3。如果 NTFS 检测失败，VeraCrypt 将使用正常的自动文件系统选择。如果没有可用的或可加载的支持内核内置 NTFS 驱动程序，则挂载失败。启用此选项可以避免因冻结的用户空间 FUSE 文件系统而导致的挂起或休眠无响应。</entry>
-    <entry lang="zh-cn" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">没有可用的或可加载的支持内核内置 NTFS 驱动程序。要使用系统默认的 NTFS 后端，请禁用 NTFS 内核驱动程序首选项，或者不要显式请求内核 NTFS。</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">使用 Linux 内核驱动程序挂载 NTFS 卷</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">仅限 Linux。启用后，如果未提供明确的文件系统类型，VeraCrypt 会使用 blkid -p 探测已解密的虚拟设备，并使用可用的 Linux 内核 NTFS 驱动程序挂载检测到的 NTFS 文件系统，从而绕过 ntfs-3g 等挂载辅助程序。当 ntfs 明确对应现代读写驱动程序，或预计在 Linux 内核 7.1 或更高版本中可用时，VeraCrypt 使用 ntfs；否则使用 ntfs3。如果 NTFS 检测失败，VeraCrypt 将使用正常的自动文件系统选择。如果没有可用的或可加载的支持 Linux 内核 NTFS 驱动程序，则挂载失败。启用此选项可以避免因冻结的用户空间 FUSE 文件系统而导致的挂起或休眠无响应。</entry>
+    <entry lang="zh-cn" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">没有可用的或可加载的支持 Linux 内核 NTFS 驱动程序。要使用系统默认的 NTFS 后端，请禁用 NTFS 内核驱动程序首选项，或者不要显式请求内核 NTFS。</entry>
     <entry lang="zh-cn" key="LINUX_EMERGENCY_UNMOUNT_WARNING">卷 {0} 的正常卸载失败。当应用程序仍在卷上打开文件或目录，或者后端设备已断开连接导致挂载状态失效时，可能会发生这种情况。\n\n如果设备仍处于连接状态，请选择“否”，关闭使用该卷的应用程序，然后再次尝试卸载。\n\n如果设备已断开连接或挂载状态已失效，VeraCrypt 可以尝试执行紧急清理：惰性脱离文件系统，并移除或安排移除 VeraCrypt 内核对象。待处理的写入可能已失败，数据可能丢失，并且清理操作可能保持挂起状态，直到应用程序关闭打开的文件。再次使用前，请使用 fsck 或相应的修复工具检查文件系统。\n\n继续？</entry>
     <entry lang="zh-cn" key="LINUX_EMERGENCY_UNMOUNTED">已对卷 {0} 启动紧急清理。如果卷已断开连接、挂载状态失效或存在待处理的写入操作，请在再次使用前使用 fsck 或相应的修复工具检查文件系统。</entry>
     <entry lang="zh-cn" key="FORMAT_STAGE_WRITING_DATA">正在创建卷数据。请稍候。</entry>
