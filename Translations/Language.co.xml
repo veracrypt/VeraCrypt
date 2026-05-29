@@ -6,7 +6,8 @@ Information about Corsican localization:
 	https://github.com/veracrypt/VeraCrypt/blob/master/Translations/Language.co.xml
 
 2. History of Corsican translation for VeraCrypt:
-	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28), May 13th (1.26.28)
+	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28), May 13th (1.26.28),
+	          May 27th (1.26.28)
 	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.27),
 	          Aug. 31st (1.26.27), Sep. 27th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
@@ -22,7 +23,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.28">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.3" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.5" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -1689,9 +1690,9 @@ Information about Corsican localization:
 	    <entry lang="co" key="PIM_ARGON2_LARGE_WARNING">Avete sceltu un valore PIM Argon2 chì hè più maiò chè u valore predefinitu di VeraCrypt.\nSappiate chì què pò richiede più memoria è aumenterà a durata di muntatura.</entry>
 	    <entry lang="co" key="PIM_ARGON2_SMALL_WARNING">Avete sceltu un valore PIM Argon2 più chjucu chè u valore predefinitu di VeraCrypt. Sappiate chì, s’è a vostra parolla d’intesa ùn hè abbastanza forta, què pò riduce u livellu di sicurità.\n\nCunfirmate chì vò impiegate una parolla d’intesa forta ?</entry>
 	    <entry lang="co" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">A parolla d’intesa deve cuntene omancu 20 caratteri per pudè impiegà u valore PIM Argon2 specificatu.\nE parolle d’intesa più corte ponu solu esse impiegate s’è u PIM Argon2 hè uguale à 12 o superiore.</entry>
-	    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Mount NTFS volumes with an in-kernel Linux driver</entry>
-	    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Linux only. When enabled and no explicit filesystem type was supplied, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with an available in-kernel NTFS driver, bypassing mount helpers such as ntfs-3g. VeraCrypt uses ntfs when it is positively identified as a modern read/write driver or expected on Linux 7.1 or later, and otherwise uses ntfs3. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If no supported in-kernel NTFS driver is available or loadable, mounting fails. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
-    <entry lang="en" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">No supported in-kernel NTFS driver is available or loadable. To use the system default NTFS backend, disable the NTFS kernel-driver preference or do not request kernel NTFS explicitly.</entry>
+	    <entry lang="co" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Muntà i vulumi NTFS cù un pilotu Linux integratu in u nocciulu </entry>
+	    <entry lang="co" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Solu Linux. Quandu st’ozzione hè attivata è ch’ella ùn ci hè alcunu tipu di sistema di schedarii di pruvistu, VeraCrypt esamineghja l’apparechju virtuale dicifratu cù « blkid -p » è munta i sistemi di schedarii NTFS scuperti cù un pilotu NTFS dispunibule integratu in u nocciulu, ignurendu l’aiuti di muntatura cum’è ntfs-3g. VeraCrypt impiegheghja ntfs quand’ellu hè identificatu veramente cum’è un pilotu mudernu di lettura è di scrittura o attesu nant’à Linux 7.1 o più recente, osinnò ellu impiegheghja ntfs3. S’è a scuperta NTFS ùn riesce, VeraCrypt impiegheghja a selezzione autumatica nurmale di sistema di schedarii. S’ella ùn ci hè alcunu pilotu NTFS integratu in u nocciulu ricunnisciutu è dispunibule o s’è ùn si pò caricallu, a muntatura fiasca. St’ozzione d’accettazione pò evità i blucchime d’interruzzione o d’invernazione cagiunati da sistemi di schedarii FUSE cù spaziu d’utilizatore senza risposta.</entry>
+	    <entry lang="co" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">Ùn ci hè alcunu pilotu NTFS integratu in u nocciulu ricunnisciutu è dispunibule o ùn si pò caricallu. Per impiegà u terminale NTFS predefinitu da u sistema, disattivate a preferenza di u pilotu di nocciulu NTFS o ùn dumandate micca di manera esplicita u NTFS di nocciulu.</entry>
 	    <entry lang="co" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Fiascu di a smuntatura nurmale di u vulume {0}. Què pò accade quandu qualchì appiecazione hà sempre schedarii o cartulari aperti nant’à u vulume, o quandu l’apparechju di salvaguardia hè statu discunnessu è chì a muntatura hè diventata instabile.\n\nS’è l’apparechju hè sempre cunnessu, sceglie Nò, chjode l’appiecazioni chì impieganu u vulume è pruvà torna à smuntallu.\n\nS’è l’apparechju hè statu discunnessu o s’è a muntatura hè instabile, VeraCrypt pò fà un tentativu di nettata d’urgenza stacchendu u sistema di schedarii di manera attimpata è cacciendu - o pianificà a cacciatura di - l’oggetti di u nocciulu VeraCrypt. E scritture in attesa ponu esse fiascate, i dati ponu esse persi, è a nettata pò stà in attesa fin’à ciò chì l’appiecazioni chjodinu i schedarii aperti. Verificà u sistema di schedarii cù « fsck » o cù l’attrezzu di riparazione adequatu prima d’impiegallu torna.\n\nCuntinuà ?</entry>
 	    <entry lang="co" key="LINUX_EMERGENCY_UNMOUNTED">A nettata d’urgenza per u vulume {0} hè stata lanciata. S’è u vulume hè statu discunnessu, o a muntatura era instabile, o ancu ci era scritture in attesa, verificà u sistema di schedarii cù « fsck » o cù l’attrezzu di riparazione adequatu prima d’impiegallu torna.</entry>
 	    <entry lang="co" key="FORMAT_STAGE_WRITING_DATA">Creazione di i dati di u vulume. Aspittate per piacè.</entry>
