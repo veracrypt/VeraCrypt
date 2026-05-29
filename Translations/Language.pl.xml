@@ -1583,7 +1583,7 @@
     <entry lang="pl" key="EXPANDER_HELP_DEVICE">To jest wolumen VeraCrypt oparty na urządzeniu.\n\nNowy rozmiar wolumenu zostanie wybrany automatycznie jako rozmiar urządzenia hosta.</entry>
     <entry lang="pl" key="EXPANDER_HELP_FILE">Określ nowy rozmiar wolumenu VeraCrypt (musi być co najmniej %I64u KB większy niż aktualny rozmiar).</entry>
     <entry lang="pl" key="QUICK_EXPAND_WARNING">OSTRZEŻENIE: Szybkiego rozszerzania należy używać tylko w następujących przypadkach:\n\n1) Urządzenie, na którym znajduje się kontener plików, nie zawiera poufnych danych i nie jest wymagane wiarygodne zaprzeczenie.\n2) Urządzenie, na którym znajduje się kontener plików, zostało już bezpiecznie i w pełni zaszyfrowane.\n\nCzy na pewno chcesz użyć S zybkiego rozszerzania?</entry>
-    <entry lang="pl" key="EXPANDER_STATUS_TEXT">WAŻNE: Poruszaj myszą tak losowo, jak to możliwe w tym oknie. Im dłużej ją przesuwasz tym lepiej. To znacznie zwiększa siłę kryptograficzną kluczy szyfrujących. Następnie kliknij 'Kontynuuj', aby rozszerzyć wolumen.</entry>
+    <entry lang="pl" key="EXPANDER_STATUS_TEXT">WAŻNE: Poruszaj myszą tak losowo, jak to możliwe w tym oknie. Im dłużej ją przesuwasz, tym lepiej. To znacznie zwiększa siłę kryptograficzną kluczy szyfrujących. Następnie kliknij 'Kontynuuj', aby rozszerzyć wolumen.</entry>
     <entry lang="pl" key="EXPANDER_STATUS_TEXT_LEGACY">Kliknij 'Kontynuuj', aby rozszerzyć wolumen.</entry>
     <entry lang="pl" key="EXPANDER_FINISH_ERROR">Błąd: Rozszerzenie wolumenu nie powiodło się.</entry>
     <entry lang="pl" key="EXPANDER_FINISH_ABORT">Błąd: Operacja przerwana przez użytkownika.</entry>
