@@ -61,6 +61,11 @@ namespace VeraCrypt
 		return deviceIdentifier;
 	}
 
+	inline bool IsSameMacOSXDevicePath (const string &firstDeviceIdentifier, const string &secondDeviceIdentifier)
+	{
+		return GetMacOSXRawDevicePath (firstDeviceIdentifier) == GetMacOSXRawDevicePath (secondDeviceIdentifier);
+	}
+
 	inline string GetMacOSXFormatterName (const string &fsFormatter)
 	{
 		size_t namePos = fsFormatter.find_last_of ('/');

@@ -1044,7 +1044,12 @@ namespace VeraCrypt
 
 						foreach_ref (const HostDevice &drive, Core->GetHostDevices())
 						{
-							if (drive.Path == SelectedVolumePath && !drive.Partitions.empty())
+							bool selectedWholeDevice = drive.Path == SelectedVolumePath;
+#ifdef TC_MACOSX
+							selectedWholeDevice = selectedWholeDevice
+								|| IsSameMacOSXDevicePath (string (drive.Path), string (SelectedVolumePath));
+#endif
+							if (selectedWholeDevice && !drive.Partitions.empty())
 							{
 								foreach_ref (const HostDevice &partition, drive.Partitions)
 								{

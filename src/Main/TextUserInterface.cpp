@@ -684,6 +684,28 @@ namespace VeraCrypt
 			} while (options->Path.IsEmpty());
 		}
 
+		if (options->Path.IsDevice())
+		{
+			foreach_ref (const HostDevice &drive, Core->GetHostDevices())
+			{
+				bool selectedWholeDevice = drive.Path == options->Path;
+#ifdef TC_MACOSX
+				selectedWholeDevice = selectedWholeDevice
+					|| IsSameMacOSXDevicePath (string (drive.Path), string (options->Path));
+#endif
+				if (selectedWholeDevice && !drive.Partitions.empty())
+				{
+					foreach_ref (const HostDevice &partition, drive.Partitions)
+					{
+						if (partition.MountPoint == "/")
+							throw_err (LangString["LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE"]);
+					}
+
+					throw_err (LangString["DEVICE_PARTITIONS_ERR"]);
+				}
+			}
+		}
+
 		// Sector size
 		if (options->Path.IsDevice())
 			options->SectorSize = Core->GetDeviceSectorSize (options->Path);
