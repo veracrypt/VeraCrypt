@@ -1517,10 +1517,6 @@
     <entry lang="fi" key="LINUX_MOUNTET_HINT">Valitun laitteen tietojärjestelmä on jo liitetty. Poista liitos '{0}' ennen kuin jatkat.</entry>
     <entry lang="fi" key="LINUX_HIDDEN_PASS_NO_DIFF">Piilotetulla taltiolla ei voi olla sama salasana, PIM ja avaintiedostot kuin Ulommalla taltiolla.</entry>
     <entry lang="fi" key="LINUX_NOT_FAT_HINT">Ota huomioon että taltiota ei alusteta FAT-tietojärjestelmällä, tästä johtuen voit joutua asentamaan ylimääräisiä tiedostojärjestelmäajureita liittääksesi taltion muilla kuin {0} alustalla.</entry>
-    <entry lang="fi" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Virhe: Luotava piilotettu taltio on suurempi kuin {0} Tt ({1} Gt).\n\nMahdollisia ratkaisuja:\n- Luo säilö/osio joka on pienempi kuin {0} Tt.\n</entry>
-    <entry lang="fi" key="LINUX_MAX_SIZE_HINT">- Käytä levyä jossa on 4096 tavun sektorikoko voidaksesi luoda osio/laitepohjaisia piilotettuja taltioita 16 Tt asti.</entry>
-    <entry lang="fi" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="fi" key="LINUX_NOT_SUPPORTED"> (ei ole tuettu tällä alustalla saatavilla olevilla komponenteilla).\n</entry>
     <entry lang="fi" key="LINUX_KERNEL_OLD">Järjestelmässäsi on käytössä vanha Linux-ydin.\n\nLinux-ytimessä olevan vian vuoksi järjestelmäsi voi lakata vastaamasta kirjoittaessasi dataa VeraCrypt taltioon. Tämä ongelma voidaan ratkaista päivittämällä Linux-ydin versioon 2.6.24 tai uudempaan.</entry>
     <entry lang="fi" key="LINUX_VOL_UNMOUNTED">Taltion {0} liitos on poistettu.</entry>
     <entry lang="fi" key="LINUX_VOL_MOUNTED">Taltio {0} on liitetty.</entry>

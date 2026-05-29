@@ -1517,10 +1517,6 @@
     <entry lang="he" key="LINUX_MOUNTET_HINT">מערכת הקבצים של ההתקן שנבחר מותקנת כעת.אנא הורד את &amp;apos;{0}&amp;apos; לפני שתמשיך.</entry>
     <entry lang="he" key="LINUX_HIDDEN_PASS_NO_DIFF">לאמצעי האחסון הנסתר לא יכולה להיות אותה סיסמה, PIM וקובצי מפתח כמו האמצעי אחסון החיצוני</entry>
     <entry lang="he" key="LINUX_NOT_FAT_HINT">שים לב שהאמצעי אחסון לא יעוצב עם מערכת קבצים FAT ולכן ייתכן שתידרש להתקין מנהלי התקנים נוספים של מערכות קבצים בפלטפורמות שאינן {0}, שיאפשרו לך לעלות על אמצעי האחסון.</entry>
-    <entry lang="he" key="LINUX_ERROR_SIZE_HIDDEN_VOL">שגיאה: האמצעי אחסון הנסתר שייווצר גדול מ- {0} TB ({1} GB). \n \n פתרונות אפשריים: \n- צור מיכל / מחיצה קטנים מ- {0} TB. \n</entry>
-    <entry lang="he" key="LINUX_MAX_SIZE_HINT">- השתמש בכונן עם מגזרים של 4096 בתים כדי להיות מסוגל ליצור אמצעי אחסון מוסתרים של מחיצות / התקנים בגודל של עד 16 TB.</entry>
-    <entry lang="he" key="LINUX_DOT_LF"> \n.</entry>
-    <entry lang="he" key="LINUX_NOT_SUPPORTED">(לא נתמך על ידי רכיבים הזמינים בפלטפורמה זו). \n</entry>
     <entry lang="he" key="LINUX_KERNEL_OLD">המערכת שלך משתמשת בגרסה ישנה של ליבת לינוקס. \n \n בשל באג בליבת הלינוקס, המערכת שלך עשויה להפסיק להגיב בעת כתיבת נתונים לאמצעי אחסון VeraCrypt.ניתן לפתור בעיה זו על ידי שדרוג הגרעין לגרסה 2.6.24 ואילך.</entry>
     <entry lang="he" key="LINUX_VOL_UNMOUNTED">אמצעי האחסון {0} הוסר.</entry>
     <entry lang="he" key="LINUX_VOL_MOUNTED">אמצעי האחסון {0} הותקן.</entry>

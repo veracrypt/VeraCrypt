@@ -1517,10 +1517,6 @@
     <entry lang="hu" key="LINUX_MOUNTET_HINT">A kiválasztott eszköz fájlrendszere jelenleg csatolva van. A folytatás előtt válassza le a(z) '{0}' eszközt.</entry>
     <entry lang="hu" key="LINUX_HIDDEN_PASS_NO_DIFF">A rejtett kötet nem rendelkezhet ugyanazzal a jelszóval, PIM-mel és kulcsfájlokkal, mint a külső kötet</entry>
     <entry lang="hu" key="LINUX_NOT_FAT_HINT">Felhívjuk figyelmét, hogy a kötet nem FAT fájlrendszerrel lesz formázva, ezért előfordulhat, hogy további fájlrendszer-illesztőprogramokat kell telepítenie a(z) {0} kívüli platformokra, amelyek lehetővé teszik a kötet csatolását.</entry>
-    <entry lang="hu" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Hiba: A létrehozandó rejtett kötet nagyobb, mint {0} TB ({1} GB).\n\nLehetséges megoldások:\n- Hozzon létre egy tárolót/partíciót, amely kisebb, mint {0} TB.\n</entry>
-    <entry lang="hu" key="LINUX_MAX_SIZE_HINT">- Használjon 4096 bájtos szektorokkal rendelkező meghajtót, akár 16 TB méretű partíció/eszköz által tárolt rejtett kötetek létrehozására</entry>
-    <entry lang="hu" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="hu" key="LINUX_NOT_SUPPORTED"> (az aktuális platformon elérhető összetevők nem támogatják).\n</entry>
     <entry lang="hu" key="LINUX_KERNEL_OLD">Rendszere a Linux kernel régi verzióját használja.\n\nA Linux kernel hibája miatt előfordulhat, hogy rendszere nem válaszol, miközben adatokat ír egy VeraCrypt kötetre. Ez a probléma megoldható a kernel 2.6.24-es vagy újabb verziójára történő frissítésével.</entry>
     <entry lang="hu" key="LINUX_VOL_UNMOUNTED">A(z) {0} kötet le van választva.</entry>
     <entry lang="hu" key="LINUX_VOL_MOUNTED">A(z) {0} kötet csatlakoztatva lett.</entry>

@@ -1518,10 +1518,6 @@
     <entry lang="zh-cn" key="LINUX_MOUNTET_HINT">所选设备的文件系统当前已挂载。在继续之前请卸载'{0}'。</entry>
     <entry lang="zh-cn" key="LINUX_HIDDEN_PASS_NO_DIFF">隐藏卷不能与外部卷有相同的密码、PIM和密钥文件</entry>
     <entry lang="zh-cn" key="LINUX_NOT_FAT_HINT">请注意，该卷将不会被格式化为FAT文件系统，因此，您可能需要在{0}以外的平台上安装额外的文件系统驱动程序，这将使您能够挂载该卷。</entry>
-    <entry lang="zh-cn" key="LINUX_ERROR_SIZE_HIDDEN_VOL">错误：要创建的隐藏卷大于 {0} TB ({1} GB)。\n\n可能的解决方式：\n- 创建一个小于 {0} TB的容器/分区。\n</entry>
-    <entry lang="zh-cn" key="LINUX_MAX_SIZE_HINT">- 使用具有4096字节扇区的驱动器，能够创建分区/设备托管的隐藏卷尺寸可达 16 TB</entry>
-    <entry lang="zh-cn" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="zh-cn" key="LINUX_NOT_SUPPORTED"> (此平台上可用的组件不支持)。\n</entry>
     <entry lang="zh-cn" key="LINUX_KERNEL_OLD">您的系统使用的是旧版本Linux内核。\n\n由于Linux内核中的错误，在将数据写入VeraCrypt卷时，系统可能会停止响应。这个问题可以通过将内核升级到2.6.24或更高版本来解决。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_UNMOUNTED">卷{0}已卸载。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_MOUNTED">卷{0}已装载。</entry>

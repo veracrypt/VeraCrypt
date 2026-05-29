@@ -1517,10 +1517,6 @@
     <entry lang="ar" key="LINUX_MOUNTET_HINT">نظام الملفات للجهاز المحدد مثبت حاليًا. يرجى إلغاء تركيب '{0}' قبل المتابعة.</entry>
     <entry lang="ar" key="LINUX_HIDDEN_PASS_NO_DIFF">لا يمكن أن يكون للحجم المخفي نفس كلمة المرور و PIM وملفات المفاتيح للحجم الخارجي</entry>
     <entry lang="ar" key="LINUX_NOT_FAT_HINT">يرجى ملاحظة أن الحجم لن يتم تنسيقه بنظام ملفات FAT، ولهذا السبب، قد تحتاج إلى تثبيت برامج تشغيل لنظام الملفات على منصات غير {0}، والتي ستمكنك من تركيب الحجم.</entry>
-    <entry lang="ar" key="LINUX_ERROR_SIZE_HIDDEN_VOL">خطأ: الحجم المخفي الذي سيتم إنشاؤه أكبر من {0} تيرابايت ({1} جيجابايت).\n\nالحلول الممكنة:\n- إنشاء حاوية / قسم أصغر من {0} تيرابايت.\n</entry>
-    <entry lang="ar" key="LINUX_MAX_SIZE_HINT">- استخدام محرك بأحجام قطاع 4096 بايت لتتمكن من إنشاء أحجام مخفية مستضافة على أقسام / أجهزة تصل إلى 16 تيرابايت</entry>
-    <entry lang="ar" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="ar" key="LINUX_NOT_SUPPORTED">(غير مدعوم بواسطة المكونات المتاحة على هذا النظام).\n</entry>
     <entry lang="ar" key="LINUX_KERNEL_OLD">نظامك يستخدم إصدارًا قديمًا من نواة لينكس.\n\nنظرًا لخلل في نواة لينكس، قد يتوقف نظامك عن الاستجابة عند كتابة البيانات إلى حجم VeraCrypt. يمكن حل هذه المشكلة بترقية النواة إلى الإصدار 2.6.24 أو أحدث.</entry>
     <entry lang="ar" key="LINUX_VOL_UNMOUNTED">تم إلغاء تركيب الحجم {0}.</entry>
     <entry lang="ar" key="LINUX_VOL_MOUNTED">تم تركيب الحجم {0}.</entry>

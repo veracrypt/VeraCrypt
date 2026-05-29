@@ -61,6 +61,7 @@ namespace VeraCrypt
 		WizardStep ProcessPageChangeRequest (bool forward);
 		void SetCreationProgressText (const wxString &text);
 
+		uint64 GetSelectedVolumeFilesystemSize () const;
 		volatile bool AbortConfirmationPending;
 		volatile bool AbortRequested;
 		volatile bool CreationAborted;

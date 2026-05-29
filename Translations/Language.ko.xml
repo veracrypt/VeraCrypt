@@ -1517,10 +1517,6 @@
     <entry lang="ko" key="LINUX_MOUNTET_HINT">선택된 장치의 파일 시스템이 현재 마운트되어 있습니다. 계속하기 전에 '{0}'을 마운트 해제하십시오.</entry>
     <entry lang="ko" key="LINUX_HIDDEN_PASS_NO_DIFF">숨겨진 볼륨은 외부 볼륨과 같은 비밀번호 혹은 PIM, 키 파일 가질 수 없습니다.The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
     <entry lang="ko" key="LINUX_NOT_FAT_HINT">모든 볼륨이 FAT 파일시스템으로 포맷되지 않고 마운트하려는 볼륨에 대해 {0}가 아닌 다른 플랫폼에서 추가로 파일 시스템 드라이브를 설치해야 할 수도 있습니다.</entry>
-    <entry lang="ko" key="LINUX_ERROR_SIZE_HIDDEN_VOL">오류: 숨겨진 볼륨은 {0} TB ({1} GB)보다 크게 만들 수 없습니다.\n\n사용가능한 해결책:\n- 컨테이너 혹은 파티션을 {0} TB보다 작게 생성하세요.\n</entry>
-    <entry lang="ko" key="LINUX_MAX_SIZE_HINT">- 4096 바이트 섹터를 사용하는 드라이브는 장치에 호스트되는 숨겨진 볼륨 혹은 파티션의 크기를 최대 16 TB까지 생성할 수 있습니다.</entry>
-    <entry lang="ko" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="ko" key="LINUX_NOT_SUPPORTED"> (이 플랫폼의 구성요소로는 지원되지 않습니다).\n</entry>
     <entry lang="ko" key="LINUX_KERNEL_OLD">시스템이 오래된 Linux 커널을 사용하고 있습니다.\n\nLinux 커널의 버그로 인해, VeraCrypt 볼륨으로 데이터 작성 중에 시스템이 응답을 중단할 수도 있습니다. 이 문제는 커널을 2.6.24 혹은 더 높은 버전으로 업그레이드하면 해결됩니다.</entry>
     <entry lang="ko" key="LINUX_VOL_UNMOUNTED">{0} 볼륨이 마운트 해제되었습니다.</entry>
     <entry lang="ko" key="LINUX_VOL_MOUNTED">{0} 볼륨이 마운트되었습니다.</entry>

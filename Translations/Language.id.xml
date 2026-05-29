@@ -1517,10 +1517,6 @@
     <entry lang="id" key="LINUX_MOUNTET_HINT">Sistem file dari perangkat yang dipilih saat ini dipasang. Silakan turun '{0}' sebelum melanjutkan.</entry>
     <entry lang="id" key="LINUX_HIDDEN_PASS_NO_DIFF">Volume Tersembunyi tidak dapat memiliki kata sandi, PIM, dan keyfile yang sama dengan volume Luar</entry>
     <entry lang="id" key="LINUX_NOT_FAT_HINT">Harap dicatat bahwa volume tidak akan diformat dengan sistem file FAT dan, oleh karena itu, Anda mungkin diminta untuk menginstal driver filesystem tambahan pada platform selain {0}, yang akan memungkinkan Anda untuk me-mount volume.</entry>
-    <entry lang="id" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Kesalahan: Volume tersembunyi yang akan dibuat lebih besar dari {0} TB ({1} GB {0}).</entry>
-    <entry lang="id" key="LINUX_MAX_SIZE_HINT">- Gunakan drive dengan sektor 4096-byte untuk dapat membuat volume tersembunyi partisi / perangkat-host hingga 16 TB dalam ukuran</entry>
-    <entry lang="id" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="id" key="LINUX_NOT_SUPPORTED"> (tidak didukung oleh komponen yang tersedia di platform ini).</entry>
     <entry lang="id" key="LINUX_KERNEL_OLD">Sistem Anda menggunakan versi lama dari kernel Linux. Masalah ini dapat diselesaikan dengan memutakhirkan kernel ke versi 2.6.24 atau yang lebih baru.</entry>
     <entry lang="id" key="LINUX_VOL_UNMOUNTED">Volume {0} telah turun.</entry>
     <entry lang="id" key="LINUX_VOL_MOUNTED">Volume {0} telah dikaitkan.</entry>

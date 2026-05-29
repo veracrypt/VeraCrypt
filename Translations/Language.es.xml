@@ -1517,10 +1517,6 @@
     <entry lang="es" key="LINUX_MOUNTET_HINT">El sistema de archivos del dispositivo seleccionado está actualmente montado. Por favor, desmonte '{0}' antes de continuar.</entry>
     <entry lang="es" key="LINUX_HIDDEN_PASS_NO_DIFF">El volumen oculto no puede tener la misma contraseña, PIM y archivos de clave que el volumen externo</entry>
     <entry lang="es" key="LINUX_NOT_FAT_HINT">Tenga en cuenta que el volumen no será formateado con un sistema de archivos FAT y, por lo tanto, puede ser necesario instalar controladores de sistema de archivos adicionales en plataformas distintas a {0}, lo que le permitirá montar el volumen.</entry>
-    <entry lang="es" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: El volumen oculto a crear es mayor que {0} TB ({1} GB).\n\nSoluciones posibles:\n- Crear un contenedor/partición menor que {0} TB.\n</entry>
-    <entry lang="es" key="LINUX_MAX_SIZE_HINT">- Utilice una unidad con sectores de 4096 bytes para crear volúmenes ocultos en particiones/dispositivos de hasta 16 TB de tamaño</entry>
-    <entry lang="es" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="es" key="LINUX_NOT_SUPPORTED"> (no es compatible con los componentes disponibles en esta plataforma).\n</entry>
     <entry lang="es" key="LINUX_KERNEL_OLD">Su sistema utiliza una versión antigua del kernel de Linux.\n\nDebido a un error en el kernel de Linux, su sistema puede dejar de responder al escribir datos en un volumen de VeraCrypt. Este problema se puede resolver actualizando el kernel a la versión 2.6.24 o posterior.</entry>
     <entry lang="es" key="LINUX_VOL_UNMOUNTED">El volumen {0} ha sido desmontado.</entry>
     <entry lang="es" key="LINUX_VOL_MOUNTED">El volumen {0} ha sido montado.</entry>

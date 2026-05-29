@@ -1520,10 +1520,6 @@
     <entry lang="de" key="LINUX_MOUNTET_HINT">Das Dateisystem des gewählten Gerätes ist eingehängt. Bitte hängen Sie '{0}' aus, um fortzufahren.</entry>
     <entry lang="de" key="LINUX_HIDDEN_PASS_NO_DIFF">Das versteckte Volume darf nicht zum äußeren Volume identische Schlüsseldateien, Passwörter und PIM haben.</entry>
     <entry lang="de" key="LINUX_NOT_FAT_HINT">Bitte beachten Sie, dass das Volume nicht mit dem Dateisystem FAT formatiert wird. Deshalb kann die Installation eines Dateisystemtreibers auf anderen Plattformen als '{0}' notwendig sein, um das Volume einzuhängen.</entry>
-    <entry lang="de" key="LINUX_ERROR_SIZE_HIDDEN_VOL">FEHLER: Das zu erstellende versteckte Volume ist größer als {0} TB ({1} GB).\n\nMögliche Lösungen:\n- Erstellen Sie ein Volume/eine Partition kleiner als {0} TB.\n</entry>
-    <entry lang="de" key="LINUX_MAX_SIZE_HINT">- Verwenden Sie ein Laufwerk mit 4096-Byte-Sektoren, um versteckte Partitionen/Geräte mit bis zu 16 TB erstellen zu können</entry>
-    <entry lang="de" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="de" key="LINUX_NOT_SUPPORTED">(wird von den vorhandenen Komponenten dieser Plattform nicht unterstützt).</entry>
     <entry lang="de" key="LINUX_KERNEL_OLD">Ihr System verwendet einen alten Linux-Kernel.\n\nWegen eines Fehlers im Linux-Kernel kann es passieren, dass Ihr System beim Schreiben auf ein VeraCrypt-Volume nicht mehr reagiert. Diese Problem kann durch einen Kernel in Version 2.6.24 oder neuer gelöst werden.</entry>
     <entry lang="de" key="LINUX_VOL_UNMOUNTED">Volume {0} ausgehängt.</entry>
     <entry lang="de" key="LINUX_VOL_MOUNTED">Volume {0} wurde eingehängt.</entry>

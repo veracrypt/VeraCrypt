@@ -1517,10 +1517,6 @@
     <entry lang="fr" key="LINUX_MOUNTET_HINT">Le système de fichiers de l'appareil sélectionné est actuellement monté. Veuillez démonter '{0}' avant de continuer.</entry>
     <entry lang="fr" key="LINUX_HIDDEN_PASS_NO_DIFF">Le volume caché ne peut pas avoir le même mot de passe, PIM et fichiers-clés que le volume externe.</entry>
     <entry lang="fr" key="LINUX_NOT_FAT_HINT">Notez que le volume ne sera pas formaté avec un système de fichiers FAT et, par conséquent, vous pourriez devoir installer des pilotes supplémentaires sur des plateformes autres que {0} pour pouvoir monter le volume.</entry>
-    <entry lang="fr" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Erreur : Le volume caché à créer est plus grand que {0} To ({1} Go).\n\nSolutions possibles :\n- Créez un conteneur ou une partition plus petit(e) que {0} To.\n</entry>
-    <entry lang="fr" key="LINUX_MAX_SIZE_HINT">- Utilisez un lecteur avec des secteurs de 4096 octets pour pouvoir créer des volumes cachés jusqu'à 16 To.</entry>
-    <entry lang="fr" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="fr" key="LINUX_NOT_SUPPORTED"> (non pris en charge par les composants disponibles sur cette plateforme).\n</entry>
     <entry lang="fr" key="LINUX_KERNEL_OLD">Votre système utilise une ancienne version du noyau Linux.\n\nEn raison d'un bogue dans le noyau Linux, votre système peut cesser de répondre lors de l'écriture de données sur un volume VeraCrypt. Ce problème peut être résolu en mettant à jour le noyau vers la version 2.6.24 ou ultérieure.</entry>
     <entry lang="fr" key="LINUX_VOL_UNMOUNTED">Le volume {0} a été démonté.</entry>
     <entry lang="fr" key="LINUX_VOL_MOUNTED">Le volume {0} a été monté.</entry>

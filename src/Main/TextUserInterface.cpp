@@ -937,9 +937,14 @@ namespace VeraCrypt
 				ShowInfo (_("\nFilesystem:"));
 
 				vector <VolumeCreationOptions::FilesystemType::Enum> filesystems;
+				bool fatAvailable = filesystemSize >= TC_MIN_FAT_FS_SIZE
+					&& filesystemSize <= TC_MAX_FAT_SECTOR_COUNT * (uint64) options->SectorSize;
 
 				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, LangString["NONE"])); filesystems.push_back (VolumeCreationOptions::FilesystemType::None);
-				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "FAT")); filesystems.push_back (VolumeCreationOptions::FilesystemType::FAT);
+				if (fatAvailable)
+				{
+					ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "FAT")); filesystems.push_back (VolumeCreationOptions::FilesystemType::FAT);
+				}
 #if defined (TC_LINUX)
 				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "Linux Ext2")); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext2);
 				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "Linux Ext3")); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext3);
@@ -968,7 +973,21 @@ namespace VeraCrypt
 				ShowInfo (wxString::Format (L" %li) %s", filesystems.size() + 1, "UFS")); filesystems.push_back (VolumeCreationOptions::FilesystemType::UFS);
 #endif
 
-				options->Filesystem = filesystems[AskSelection (filesystems.size(), 2) - 1];
+				ssize_t defaultFilesystem = fatAvailable ? 2 : 1;
+				if (!fatAvailable)
+				{
+					VolumeCreationOptions::FilesystemType::Enum nativeFilesystem = VolumeCreationOptions::FilesystemType::GetPlatformNative();
+					for (size_t i = 0; i < filesystems.size(); ++i)
+					{
+						if (filesystems[i] == nativeFilesystem)
+						{
+							defaultFilesystem = (ssize_t) i + 1;
+							break;
+						}
+					}
+				}
+
+				options->Filesystem = filesystems[AskSelection (filesystems.size(), defaultFilesystem) - 1];
 			}
 		}
 

@@ -1519,10 +1519,6 @@
     <entry lang="my" key="LINUX_MOUNTET_HINT">ရွေးချယ်ထားသော စက်၏ ဖိုင်စနစ်ကို လတ်တလော အစပျိုးထားသည်။ ကျေးဇူးပြု၍ ရှေ့မဆက်မီ '{0}' ကို အဆုံးသတ်ပါ။</entry>
     <entry lang="my" key="LINUX_HIDDEN_PASS_NO_DIFF">လျှို့ဝှက် volume သည် ပြင်ပ volume နှင့် တူညီသော စကားဝှက်၊ PIM နှင့် စကားဝှက်သော့ဖိုင်များ မရှိရပါ</entry>
     <entry lang="my" key="LINUX_NOT_FAT_HINT">volume ကို FAT ဖိုင်စနစ်နှင့် ဖောမက်ချမည်မဟုတ်သောကြောင့် သင်သည် ပလက်ဖောင်းများပေါ်တွင် {0} အပြင် ထပ်ဆောင်း ဖိုင်စနစ် ဒရိုက်ဗာများကို တပ်ဆင်ရန် လိုအပ်ပါမည်။ ယင်းက volume ကို အစပျိုးနိုင်အောင် သင့်အား ကူညီပါမည်။</entry>
-    <entry lang="my" key="LINUX_ERROR_SIZE_HIDDEN_VOL">ပြဿနာ - ဖန်တီးမည့် လျှို့ဝှက် volume သည် {0} TB ({1} GB) ထက် ကြီးနေသည်။\n\nဖြေရှင်းနိုင်သော နည်းလမ်းများ -\n- {0} TB အောက်ငယ်သော ကုဒ်ထည့်သည့်ဆော့ဝဲ/အခန်းကန့်ကို ဖန်တီးပါ။\n</entry>
-    <entry lang="my" key="LINUX_MAX_SIZE_HINT">- ၁၆ TB အရွယ်အစားအထိရှိသော အခန်းကန့်/စက်ပစ္စည်းတွင် လက်ခံထားရှိသည့် လျှို့ဝှက် volume များကို ဖန်တီးနိုင်ရန် ၄၀၉၆-ဘိုက် အပိုင်းများရှိသော ဒရိုက်(ဗ်)တစ်ခုကို အသုံးပြုပါ</entry>
-    <entry lang="my" key="LINUX_DOT_LF">။\n</entry>
-    <entry lang="my" key="LINUX_NOT_SUPPORTED">(ဤပလက်ဖောင်းတွင် ရရှိနိုင်သော အစိတ်အပိုင်းများက မပံ့ပိုးပါ)။\n</entry>
     <entry lang="my" key="LINUX_KERNEL_OLD">သင့်စနစ်သည် Linux kernel ၏ ဗားရှင်းဟောင်းကို အသုံးပြုသည်။\n\nLinux kernel ရှိ ပြဿနာတစ်ခုကြောင့် VeraCrypt volume တစ်ခုသို့ ဒေတာရေးစဉ် သင့်စနစ် ရပ်သွားနိုင်သည်။ ဤပြဿနာကို ဖြေရှင်းရန် kernel ကို ဗားရှင်း ၂.၆.၂၄ သို့မဟုတ် နောက်ပိုင်းဗားရှင်းသို့ အဆင့်မြှင့်နိုင်သည်။</entry>
     <entry lang="my" key="LINUX_VOL_UNMOUNTED">Volume {0} ကို အဆုံးသတ်လိုက်ပါပြီ။</entry>
     <entry lang="my" key="LINUX_VOL_MOUNTED">Volume {0} ကို အစပျိုးလိုက်ပါပြီ။</entry>

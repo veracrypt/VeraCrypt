@@ -1517,10 +1517,6 @@
     <entry lang="ro" key="LINUX_MOUNTET_HINT">Sistemul de fișiere al dispozitivului selectat este montat acum. Demontați „{0}” înainte de a continua.</entry>
     <entry lang="ro" key="LINUX_HIDDEN_PASS_NO_DIFF">Volumul ascuns nu poate avea aceeași parolă, MIP și fișiere-cheie ca și volumul exterior.</entry>
     <entry lang="ro" key="LINUX_NOT_FAT_HINT">Volumul nu va fi formatat cu un sistem de fișiere FAT și, prin urmare, vi se poate solicita să instalați drivere suplimentare pe alte platforme decât {0}, care vă vor permite să montați volumul.</entry>
-    <entry lang="ro" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Eroare: volumul ascuns care trebuie creat este mai mare de {0} TiB ({1} GiB).\n\nSoluții posibile:\n- Creați un container/partiție mai mică de {0} TiB.\n</entry>
-    <entry lang="ro" key="LINUX_MAX_SIZE_HINT">- Utilizați o unitate cu sectoare de 4096 de baiți pentru a putea crea volume ascunse de partiții/dispozitive găzduite de până la 16 TiB.</entry>
-    <entry lang="ro" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="ro" key="LINUX_NOT_SUPPORTED"> (nesuportat de componentele disponibile pe această platformă).\n</entry>
     <entry lang="ro" key="LINUX_KERNEL_OLD">Sistemul folosește o versiune veche a nucleului Linux.\n\nDin cauza unei erori în nucleul Linux, este posibil ca sistemul să nu mai răspundă atunci când scrieți date pe un volum VeraCrypt. Această problemă poate fi rezolvată prin actualizarea nucleului la versiunea 2.6.24 sau o versiune ulterioară.</entry>
     <entry lang="ro" key="LINUX_VOL_UNMOUNTED">Volumul {0} a fost demontat.</entry>
     <entry lang="ro" key="LINUX_VOL_MOUNTED">Volumul {0} a fost montat.</entry>

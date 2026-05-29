@@ -1517,10 +1517,6 @@
     <entry lang="sl" key="LINUX_MOUNTET_HINT">Datotečni sistem izbrane naprave je trenutno nameščen. Preden nadaljuješ, odklopi '{0}'.</entry>
     <entry lang="sl" key="LINUX_HIDDEN_PASS_NO_DIFF">Skriti nosilec ne more imeti enakega gesla, PIM-a in ključnih datotek kot zunanji nosilec</entry>
     <entry lang="sl" key="LINUX_NOT_FAT_HINT">Upoštevaj, da nosilec ne bo formatiran z datotečnim sistemom FAT, zato boš morda moral namestiti dodatne gonilnike datotečnega sistema na platformah, ki niso {0}, kar ti bo omogočilo namestitev nosilca.</entry>
-    <entry lang="sl" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Napaka: skriti nosilec, ki ga želiš ustvariti, je večji od {0} TB ({1} GB).\n\nMožne rešitve:\n- Ustvari vsebnik/particijo, manjšo od {0} TB.\n</entry>
-    <entry lang="sl" key="LINUX_MAX_SIZE_HINT">- Uporabi pogon s 4096-bajtnimi sektorji, da lahko ustvariš skrite nosilce, ki gostujejo na particiji/napravi, do velikosti 16 TB</entry>
-    <entry lang="sl" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="sl" key="LINUX_NOT_SUPPORTED"> (ni podprto s komponentami, ki so na voljo na tej platformi).\n</entry>
     <entry lang="sl" key="LINUX_KERNEL_OLD">Tvoj sistem uporablja staro različico jedra Linuxa.\n\nZaradi napake v jedru Linuxa se tvoj sistem morda neha odzivati ​​pri zapisovanju podatkov na nosilec VeraCrypt. To težavo je mogoče rešiti z nadgradnjo jedra na različico 2.6.24 ali novejšo.</entry>
     <entry lang="sl" key="LINUX_VOL_UNMOUNTED">Nosilec {0} je odklopljen.</entry>
     <entry lang="sl" key="LINUX_VOL_MOUNTED">Nosilec {0} je priklopljen.</entry>

@@ -1517,10 +1517,6 @@
     <entry lang="sv" key="LINUX_MOUNTET_HINT">Filsystemet för den valda enheten är för närvarande monterat. Demontera "{0}" innan du fortsätter.</entry>
     <entry lang="sv" key="LINUX_HIDDEN_PASS_NO_DIFF">Den dolda volymen kan inte ha samma lösenord, PIM och nyckelfiler som den yttre volymen</entry>
     <entry lang="sv" key="LINUX_NOT_FAT_HINT">Observera att volymen inte kommer att formateras med ett FAT-filsystem och därför kan du behöva installera ytterligare filsystemdrivrutiner på andra plattformar än {0}, vilket gör att du kan montera volymen.</entry>
-    <entry lang="sv" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Fel: Den dolda volymen som ska skapas är större än {0} TB ({1} GB).\n\nMöjliga lösningar:\n- Skapa en behållare/partition som är mindre än {0} TB.\n</entry>
-    <entry lang="sv" key="LINUX_MAX_SIZE_HINT">- Använd en enhet med 4096-byte sektorer för att kunna skapa partitions-/enhetsvärdade dolda volymer upp till 16 TB i storlek</entry>
-    <entry lang="sv" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="sv" key="LINUX_NOT_SUPPORTED"> (stöds inte av komponenter tillgängliga på den här plattformen).\n</entry>
     <entry lang="sv" key="LINUX_KERNEL_OLD">Ditt system använder en gammal version av Linux-kärnan.\n\nPå grund av ett fel i Linux-kärnan kan ditt system sluta svara när du skriver data till en VeraCrypt-volym. Detta problem kan lösas genom att uppgradera kärnan till version 2.6.24 eller senare.</entry>
     <entry lang="sv" key="LINUX_VOL_UNMOUNTED">Volymen {0} har demonterats.</entry>
     <entry lang="sv" key="LINUX_VOL_MOUNTED">Volymen {0} har monterats.</entry>

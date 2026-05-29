@@ -1517,10 +1517,6 @@
     <entry lang="nl" key="LINUX_MOUNTET_HINT">Het bestandssysteem van het geselecteerde apparaat is momenteel gekoppeld. Ontkoppel '{0}' voordat u verder gaat.</entry>
     <entry lang="nl" key="LINUX_HIDDEN_PASS_NO_DIFF">Het verborgen volume kan niet hetzelfde wachtwoord, PIM en sleutelbestanden hebben als het buitenste volume.</entry>
     <entry lang="nl" key="LINUX_NOT_FAT_HINT">Merk op dat het volume niet geformatteerd zal worden met een FAT-bestandssysteem. Daarom kan het zijn dat u bijkomende bestandssysteem-stuurprogramma's moet installeren op andere platformen dan {0}, wat u zal toelaten om het volume te koppelen.</entry>
-    <entry lang="nl" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Fout: het aan te maken verborgen volume is groter dan {0} TB ({1} GB).\n\nMogelijke oplossingen:\n- Een container/partitie kleiner dan {0} TB aanmaken.\n</entry>
-    <entry lang="nl" key="LINUX_MAX_SIZE_HINT">- Een schijf met sectoren van 4096 bytes gebruiken om partitie/apparaat-gehoste verborgen volumes tot 16 TB te kunnen aanmaken.</entry>
-    <entry lang="nl" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="nl" key="LINUX_NOT_SUPPORTED"> (niet ondersteund door onderdelen beschikbaar op dit platform).\n</entry>
     <entry lang="nl" key="LINUX_KERNEL_OLD">Uw systeem gebruikt een oude versie van de Linux-kernel.\n\nDoor een bug in de Linux-kernel kan uw systeem stoppen met reageren bij het schrijven van gegevens naar een VeraCrypt-volume. Dit probleem kan worden opgelost door de kernel te upgraden naar versie 2.6.24 of later.</entry>
     <entry lang="nl" key="LINUX_VOL_UNMOUNTED">Volume {0} is ontkoppeld.</entry>
     <entry lang="nl" key="LINUX_VOL_MOUNTED">Volume {0} is gekoppeld.</entry>

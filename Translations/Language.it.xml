@@ -1517,10 +1517,6 @@
     <entry lang="it" key="LINUX_MOUNTET_HINT">Il filesystem del dispositivo selezionato è attualmente montato.\nSmonta '{0}' prima di procedere.</entry>
     <entry lang="it" key="LINUX_HIDDEN_PASS_NO_DIFF">Il volume nascosto non può avere la stessa password, PIM e files di chiavi come volume esterno</entry>
     <entry lang="it" key="LINUX_NOT_FAT_HINT">Tieni presente che il volume non verrà formattato con un filesystem FAT e, pertanto, potrebbe essere necessario installare un driver del filesystem aggiuntivo in piattaforme diverse da {0}, che ti consentiranno di montare il volume.</entry>
-    <entry lang="it" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Errore: il volume nascosto da creare è maggiore di {0} TB ({1} GB).\n\nSoluzioni possibili:\n- Crea un contenitore/partizione più piccolo di {0} TB.\n</entry>
-    <entry lang="it" key="LINUX_MAX_SIZE_HINT">- Per poter creare volumi nascosti ospitati su partizioni/dispositivi fino ad una dimensione di 16 TB usa un'unità con settori da 4096 byte </entry>
-    <entry lang="it" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="it" key="LINUX_NOT_SUPPORTED">(non supportato dai componenti disponibili su questa piattaforma).\n</entry>
     <entry lang="it" key="LINUX_KERNEL_OLD">Il sistema usa una vecchia versione del kernel Linux.\n\nA causa di un bug nel kernel Linux, il sistema potrebbe smettere di rispondere quando scrivi dati su un volume VeraCrypt.\nQuesto problema può essere risolto aggiornando il kernel alla versione 2.6.24 o successiva.</entry>
     <entry lang="it" key="LINUX_VOL_UNMOUNTED">Il volume {0} è stato smontato.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>

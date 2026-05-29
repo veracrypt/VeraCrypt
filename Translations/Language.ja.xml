@@ -1517,10 +1517,6 @@
     <entry lang="ja" key="LINUX_MOUNTET_HINT">選択したデバイスのファイルシステムは現在マウントされています。続行する前に '{0}' をマウント解除してください。</entry>
     <entry lang="ja" key="LINUX_HIDDEN_PASS_NO_DIFF">隠しボリュームは、外部ボリュームと同じパスワード、PIM、およびキーファイルを持つことはできません。</entry>
     <entry lang="ja" key="LINUX_NOT_FAT_HINT">ボリュームは FAT ファイルシステムでフォーマットされないため、{0} 以外のプラットフォームにボリュームをマウントできるようにする追加のファイルシステムドライバーをインストールする必要がある場合があります。</entry>
-    <entry lang="ja" key="LINUX_ERROR_SIZE_HIDDEN_VOL">エラー: 作成される隠しボリュームが {0} TB ({1} GB) より大きくなっています。\n\n考えられる解決策:\n- {0} TB より小さいコンテナ/パーティションを作成します。\n</entry>
-    <entry lang="ja" key="LINUX_MAX_SIZE_HINT">- 最大 16 TB のサイズのパーティション/デバイスホスト型隠しボリュームを作成できるように、4096 バイトセクターのドライブを使用します</entry>
-    <entry lang="ja" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="ja" key="LINUX_NOT_SUPPORTED"> （このプラットフォームで利用可能なコンポーネントではサポートされていません）。\n</entry>
     <entry lang="ja" key="LINUX_KERNEL_OLD">システムは古いバージョンの Linux カーネルを使用しています。\n\nLinux カーネルのバグにより、VeraCrypt ボリュームにデータを書き込むときにシステムが応答を停止することがあります。この問題は、カーネルをバージョン 2.6.24 以降にアップグレードすることで解決できます。</entry>
     <entry lang="ja" key="LINUX_VOL_UNMOUNTED">ボリューム {0} がマウント解除されました。</entry>
     <entry lang="ja" key="LINUX_VOL_MOUNTED">ボリューム {0} がマウントされました。</entry>

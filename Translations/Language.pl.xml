@@ -1517,10 +1517,6 @@
     <entry lang="pl" key="LINUX_MOUNTET_HINT">System plików wybranego urządzenia jest aktualnie podłączony. Odłącz '{0}' przed kontynuowaniem.</entry>
     <entry lang="pl" key="LINUX_HIDDEN_PASS_NO_DIFF">Wolumen ukryty nie może mieć tego samego hasła, pliku PIM i plików-kluczy, co wolumen zewnętrzny</entry>
     <entry lang="pl" key="LINUX_NOT_FAT_HINT">Zwróć uwagę, że wolumen nie zostanie sformatowany w systemie plików FAT i dlatego może być konieczne zainstalowanie dodatkowych sterowników systemu plików na platformach innych niż '{0}', co umożliwi podłączenie wolumenu.</entry>
-    <entry lang="pl" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Błąd: Ukryty wolumen do utworzenia jest większy niż {0} TB ({1} GB).\n\nMożliwe rozwiązania:\n- Utwórz kontener/partycję mniejszą niż {0} TB.\n</entry>
-    <entry lang="pl" key="LINUX_MAX_SIZE_HINT">- Użyj dysku z sektorami o rozmiarze 4096 bajtów, aby móc tworzyć ukryte wolumeny oparte na partycji/urządzeniu o rozmiarze do 16 TB</entry>
-    <entry lang="pl" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="pl" key="LINUX_NOT_SUPPORTED"> (nieobsługiwane przez komponenty dostępne na tej platformie).\n</entry>
     <entry lang="pl" key="LINUX_KERNEL_OLD">Twój system używa starej wersji jądra Linuksa.\n\nZ powodu błędu w jądrze Linuksa Twój system może przestać odpowiadać podczas zapisywania danych do wolumenu VeraCrypt. Ten problem można rozwiązać, aktualizując jądro do wersji 2.6.24 lub nowszej.</entry>
     <entry lang="pl" key="LINUX_VOL_UNMOUNTED">Wolumen {0} został odłączony.</entry>
     <entry lang="pl" key="LINUX_VOL_MOUNTED">Wolumen {0} został podłączony.</entry>

@@ -436,6 +436,14 @@ namespace VeraCrypt
 		burn (&OuterPim, sizeof (OuterPim));
 	}
 
+	uint64 VolumeCreationWizard::GetSelectedVolumeFilesystemSize () const
+	{
+		if (OuterVolume || SelectedVolumeType != VolumeType::Hidden)
+			return VolumeLayoutV2Normal().GetMaxDataSize (VolumeSize);
+
+		return VolumeLayoutV2Hidden().GetMaxDataSize (VolumeSize);
+	}
+
 	WizardPage *VolumeCreationWizard::GetPage (WizardStep step)
 	{
 		switch (step)
@@ -595,8 +603,7 @@ namespace VeraCrypt
 
 		case Step::FormatOptions:
 			{
-				shared_ptr <VolumeLayout> layout ((OuterVolume || SelectedVolumeType != VolumeType::Hidden)? (VolumeLayout*) new VolumeLayoutV2Normal() : (VolumeLayout*) new VolumeLayoutV2Hidden());
-				uint64 filesystemSize = layout->GetMaxDataSize (VolumeSize);
+				uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
 				bool hiddenVolumeItself = !OuterVolume && SelectedVolumeType == VolumeType::Hidden;
 				bool normalFileContainer = !OuterVolume && SelectedVolumeType == VolumeType::Normal && SelectedVolumeHostType == VolumeHostType::File;
 				bool existingDeviceSupportedCase = SelectedVolumePath.IsDevice() && !hiddenVolumeItself;
@@ -1231,9 +1238,10 @@ namespace VeraCrypt
 						}
 					}
 
-					if (VolumeSize > 4 * BYTES_PER_GB)
+					uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
+					if (filesystemSize > 4 * BYTES_PER_GB)
 					{
-						if (VolumeSize <= TC_MAX_FAT_SECTOR_COUNT * SectorSize)
+						if (filesystemSize <= TC_MAX_FAT_SECTOR_COUNT * (uint64) SectorSize)
 							return Step::LargeFilesSupport;
 						else
 							SelectedFilesystemType = VolumeCreationOptions::FilesystemType::GetPlatformNative();
@@ -1307,9 +1315,10 @@ namespace VeraCrypt
 					}
 				}
 
-				if (VolumeSize > 4 * BYTES_PER_GB)
+				uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
+				if (filesystemSize > 4 * BYTES_PER_GB)
 				{
-					if (VolumeSize <= TC_MAX_FAT_SECTOR_COUNT * SectorSize)
+					if (filesystemSize <= TC_MAX_FAT_SECTOR_COUNT * (uint64) SectorSize)
 						return Step::LargeFilesSupport;
 					else
 						SelectedFilesystemType = VolumeCreationOptions::FilesystemType::GetPlatformNative();
@@ -1394,23 +1403,14 @@ namespace VeraCrypt
 				{
 					if (SelectedVolumeType != VolumeType::Hidden || OuterVolume)
 					{
-						if (SelectedVolumePath.IsDevice() && OuterVolume && VolumeSize > TC_MAX_FAT_SECTOR_COUNT * SectorSize)
+						if (SelectedFilesystemType == VolumeCreationOptions::FilesystemType::FAT)
 						{
-							uint64 limit = TC_MAX_FAT_SECTOR_COUNT * SectorSize / BYTES_PER_TB;
-							wstring err = static_cast<wstring>(StringFormatter (LangString["LINUX_ERROR_SIZE_HIDDEN_VOL"], limit, limit * 1024));
-
-							if (SectorSize < 4096)
+							uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
+							if (filesystemSize > TC_MAX_FAT_SECTOR_COUNT * (uint64) SectorSize)
 							{
-								err += LangString["LINUX_MAX_SIZE_HINT"];
-#if defined (TC_LINUX)
-								err += LangString["LINUX_DOT_LF"];
-#else
-								err += LangString["LINUX_NOT_SUPPORTED"];
-#endif
+								Gui->ShowError (LangString["FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME"]);
+								return GetCurrentStep();
 							}
-
-							Gui->ShowError (err);
-							return GetCurrentStep();
 						}
 
 						if (SelectedVolumePath.IsDevice())

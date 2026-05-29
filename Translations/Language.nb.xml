@@ -1517,10 +1517,6 @@
     <entry lang="nb" key="LINUX_MOUNTET_HINT">Filsystemet til den valgte enheten er for øyeblikket montert. Vennligst demonter '{0}' før du fortsetter.</entry>
     <entry lang="nb" key="LINUX_HIDDEN_PASS_NO_DIFF">Det skjulte volumet kan ikke ha samme passord, PIM og nøkkelfiler som det ytre volumet</entry>
     <entry lang="nb" key="LINUX_NOT_FAT_HINT">Vennligst merk at volumet ikke vil bli formatert med et FAT-filsystem og derfor kan du bli nødt til å installere tillegg av filsystemdrivere på plattformer andre enn {0}, som vil gjøre det mulig for deg å montere volumet.</entry>
-    <entry lang="nb" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Feil: Det skjulte volumet som skal opprettes er større enn {0} TB ({1} GB).\n\nMulige løsninger:\n- Opprett en beholder/partisjon mindre enn {0} TB.\n</entry>
-    <entry lang="nb" key="LINUX_MAX_SIZE_HINT">- Bruk en disk med 4096-bytes sektorer for å kunne opprette partisjon/device-hosted skjulte volumer opptil 16 TB i størrelse</entry>
-    <entry lang="nb" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="nb" key="LINUX_NOT_SUPPORTED"> (ikke støttet av komponenter tilgjengelig på denne plattformen).\n</entry>
     <entry lang="nb" key="LINUX_KERNEL_OLD">Systemet ditt bruker en gammel versjon av Linux-kjernen.\n\nPå grunn av en feil i Linux-kjernen kan systemet ditt slutte å svare når du skriver data til et VeraCrypt-volum. Dette problemet kan løses ved å oppgradere kjernen til versjon 2.6.24 eller senere.</entry>
     <entry lang="nb" key="LINUX_VOL_UNMOUNTED">Volum {0} har blitt demontert.</entry>
     <entry lang="nb" key="LINUX_VOL_MOUNTED">Volum {0} har blitt montert.</entry>

@@ -1517,10 +1517,6 @@
     <entry lang="zh-hk" key="LINUX_MOUNTET_HINT">所選擇的裝置上的檔案系統已經掛載。在繼續前請先解除掛載 '{0}' 。</entry>
     <entry lang="zh-hk" key="LINUX_HIDDEN_PASS_NO_DIFF">隱藏加密區與外層加密區不可以使用相同的密碼，PIM 及加密鑰檔案</entry>
     <entry lang="zh-hk" key="LINUX_NOT_FAT_HINT">請注意這個加密區將不會格式化為 FAT 檔案系統以及因此，你可能需要在平台上安裝除 {0} 以外的額外檔案系統驅動程式，使你能夠掛載這個加密區。</entry>
-    <entry lang="zh-hk" key="LINUX_ERROR_SIZE_HIDDEN_VOL">錯誤：將會建立的隱藏加密區大小超過 {0} TB ({1} GB)。可行的解決方案：\n- 建立一個大小少於 {0} TB 的加密容器檔案或分割區。\n</entry>
-    <entry lang="zh-hk" key="LINUX_MAX_SIZE_HINT">- 使用一個磁碟區大小為 4096 位元組的磁碟機能夠建立最大為 16 TB 寄存在分割區或檔案的隱藏加密區</entry>
-    <entry lang="zh-hk" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="zh-hk" key="LINUX_NOT_SUPPORTED"> (這個平台上可用的元件未能支援)。\n</entry>
     <entry lang="zh-hk" key="LINUX_KERNEL_OLD">你的系統正在使用一個舊版本的 Linux 核心。\n\n由於 Linux 核心的一個錯誤，你的系統可能會在寫入數據到 VeraCrypt 加密區時停止回應。這個問題可以透過將核心升級到 2.6.24 或更新的版本來解決。</entry>
     <entry lang="zh-hk" key="LINUX_VOL_UNMOUNTED">加密區 {0} 已經解除掛載。</entry>
     <entry lang="zh-hk" key="LINUX_VOL_MOUNTED">加密區 {0} 已經掛載。</entry>

@@ -1539,10 +1539,6 @@ Information about Corsican localization:
 	    <entry lang="co" key="LINUX_MOUNTET_HINT">U sistema di schedarii di l’apparechju selezziunatu hè attualmente muntatu. Smuntate « {0} » prima di cuntinuà.</entry>
 	    <entry lang="co" key="LINUX_HIDDEN_PASS_NO_DIFF">U vulume piattatu ùn pò micca avè i listessi parolla d’intesa, PIM è schedarii chjave chè u vulume esternu</entry>
 	    <entry lang="co" key="LINUX_NOT_FAT_HINT">Sappiate chì u vulume ùn serà micca messu à u furmatu cù un sistema di schedarii FAT è, in cunsequenza, puderia esse bisognu à installà piloti addiziunale di u sistema di schedarii nant’à piattaforme altre chè {0}, ciò chì vi permetterà di muntà u vulume.</entry>
-	    <entry lang="co" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Sbagliu : U vulume piattatu à creà hè più maiò chè {0} To ({1} Go).\n\nSuluzioni pussibule :\n- Creà un cuntenidore o una partizione più chjucu(a) chè {0} To.\n</entry>
-	    <entry lang="co" key="LINUX_MAX_SIZE_HINT">- Impiegà un lettore cù settori di 4096 ottetti per pudè creà vulumi piattati ospitati in una partizione o in un apparechju d’una dimensione sin’à 16 To</entry>
-	    <entry lang="co" key="LINUX_DOT_LF">.\n</entry>
-	    <entry lang="co" key="LINUX_NOT_SUPPORTED">(micca accettatu da i cumpunenti dispunibule nant’à sta piattaforma).\n</entry>
 	    <entry lang="co" key="LINUX_KERNEL_OLD">U vostru sistema impiegheghja una vechja versione di u nocciulu Linux.\n\nPer via d’un prublema in u nocciulu Linux, u vostru sistema puderia piantassi di risponde quandu si scrive i dati nant’à u vulume VeraCrypt. Stu prublema pò esse currettu mittendu à livellu u nocciulu à a versione 2.6.24 o più recente.</entry>
 	    <entry lang="co" key="LINUX_VOL_UNMOUNTED">U vulume {0} hè statu smuntatu.</entry>
 	    <entry lang="co" key="LINUX_VOL_MOUNTED">U vulume {0} hè statu muntatu.</entry>

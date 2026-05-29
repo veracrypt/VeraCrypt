@@ -1517,10 +1517,6 @@
     <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please unmount '{0}' before proceeding.</entry>
     <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
     <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
     <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
     <entry lang="en" key="LINUX_VOL_UNMOUNTED">Volume {0} has been unmounted.</entry>
     <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>

@@ -1517,10 +1517,6 @@
     <entry lang="tr" key="LINUX_MOUNTET_HINT">Seçilmiş aygıtın dosya sistemi şu anda bağlı. İlerlemeden önce lütfen '{0}' bağlantısını kesin.</entry>
     <entry lang="tr" key="LINUX_HIDDEN_PASS_NO_DIFF">Gizli birim, dış birim ile aynı parolaya KÇÇ değerine ve anahtar dosyalarına sahip olamaz</entry>
     <entry lang="tr" key="LINUX_NOT_FAT_HINT">Birimin bir FAT dosya sistemiyle biçimlendirilmeyeceğini ve bu nedenle, {0} dışındaki platformlara birimi bağlayabilmeniz için ek dosya sistemi sürücüleri kurmanız gerekebileceğini lütfen unutmayın.</entry>
-    <entry lang="tr" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Hata: Oluşturulacak gizli birim {0} TB değerinden büyük ({1} GB).\n\nOlası çözümler:\n- {0} TB boyutundan küçük bir kapsayıcı ya da bölüm oluşturun.\n</entry>
-    <entry lang="tr" key="LINUX_MAX_SIZE_HINT">- 16 TB boyutuna kadar bölüm ya da aygıt üzerinde barındırılan gizli birimler oluşturabilmek için 4096 baytlık kesimleri olan bir sürücü kullanın</entry>
-    <entry lang="tr" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="tr" key="LINUX_NOT_SUPPORTED">(bu platformda bulunan bileşenler tarafından desteklenmiyor).\n</entry>
     <entry lang="tr" key="LINUX_KERNEL_OLD">Sisteminiz Linux çekirdeğinin eski bir sürümünü kullanıyor.\n\nLinux çekirdeğindeki bir sorun nedeniyle sisteminiz VeraCrypt birimine veri yazarken yanıt vermeyebilir. Bu sorun, çekirdeği 2.6.24 ya da üzerindeki bir sürüme yükselterek çözülebilir.</entry>
     <entry lang="tr" key="LINUX_VOL_UNMOUNTED">{0} biriminin bağlantısı kesildi.</entry>
     <entry lang="tr" key="LINUX_VOL_MOUNTED">{0} birimi bağlandı.</entry>
