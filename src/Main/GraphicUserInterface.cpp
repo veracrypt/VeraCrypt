@@ -40,6 +40,78 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_LINUX
+	namespace
+	{
+		bool TryCreatePrivateDirectory (const wxString &dir)
+		{
+			if (dir.empty())
+				return false;
+
+			if (!wxDirExists (dir) && !wxFileName::Mkdir (dir, wxS_IRUSR | wxS_IWUSR | wxS_IXUSR, wxPATH_MKDIR_FULL))
+				return false;
+
+			chmod (string (dir.fn_str()).c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
+			return access (string (dir.fn_str()).c_str(), W_OK | X_OK) == 0;
+		}
+
+		wxString GetSingleInstanceCheckerLockDirectory ()
+		{
+			const wxString appDirName = Application::GetName();
+			const wxChar pathSeparator = wxFileName::GetPathSeparator();
+
+			const wxChar *xdgRuntimeDir = wxGetenv (wxT("XDG_RUNTIME_DIR"));
+			if (!wxIsEmpty (xdgRuntimeDir))
+			{
+				wxFileName runtimeDir (xdgRuntimeDir, wxEmptyString);
+				if (runtimeDir.IsAbsolute() && wxDirExists (runtimeDir.GetPath()))
+				{
+					wxString lockDir = runtimeDir.GetPath();
+					if (!lockDir.empty() && lockDir.Last() != pathSeparator)
+						lockDir += pathSeparator;
+					lockDir += appDirName;
+
+					if (TryCreatePrivateDirectory (lockDir))
+						return lockDir;
+				}
+			}
+
+			wxString cacheDir;
+			const wxChar *xdgCacheHome = wxGetenv (wxT("XDG_CACHE_HOME"));
+			if (!wxIsEmpty (xdgCacheHome))
+			{
+				wxFileName xdgCacheDir (xdgCacheHome, wxEmptyString);
+				if (xdgCacheDir.IsAbsolute())
+					cacheDir = xdgCacheDir.GetPath();
+			}
+
+			if (cacheDir.empty())
+			{
+				wxFileName homeDir (wxFileName::GetHomeDir(), wxEmptyString);
+				if (homeDir.IsAbsolute())
+				{
+					cacheDir = homeDir.GetPath();
+					if (!cacheDir.empty() && cacheDir.Last() != pathSeparator)
+						cacheDir += pathSeparator;
+					cacheDir += wxT(".cache");
+				}
+			}
+
+			if (!cacheDir.empty())
+			{
+				if (cacheDir.Last() != pathSeparator)
+					cacheDir += pathSeparator;
+				cacheDir += appDirName;
+
+				if (TryCreatePrivateDirectory (cacheDir))
+					return cacheDir;
+			}
+
+			return wxGetHomeDir();
+		}
+	}
+#endif
+
 	class AdminPasswordGUIRequestHandler : public GetStringFunctor
 	{
 		public:
@@ -1010,7 +1082,12 @@ namespace VeraCrypt
 			wxLog::SetLogLevel (wxLOG_Error);
 
 			const wxString instanceCheckerName = wxString (L".") + Application::GetName() + L"-lock-" + wxGetUserId();
+#ifdef TC_LINUX
+			const wxString instanceCheckerLockDirectory = GetSingleInstanceCheckerLockDirectory();
+			SingleInstanceChecker.reset (new wxSingleInstanceChecker (instanceCheckerName, instanceCheckerLockDirectory));
+#else
 			SingleInstanceChecker.reset (new wxSingleInstanceChecker (instanceCheckerName));
+#endif
 
 			wxLog::SetLogLevel (logLevel);
 
@@ -1061,16 +1138,28 @@ namespace VeraCrypt
 				// This is a false positive as VeraCrypt is not running (pipe not available)
 				// we continue running after cleaning the lock file
 				// and creating a new instance of the checker
+#ifdef TC_LINUX
+				wxString lockFileName = instanceCheckerLockDirectory;
+				if (!lockFileName.empty() && lockFileName.Last() != wxFileName::GetPathSeparator())
+				{
+					lockFileName += wxFileName::GetPathSeparator();
+				}
+#else
 				wxString lockFileName = wxGetHomeDir();
 				if ( lockFileName.Last() != wxT('/') )
 				{
 					lockFileName += wxT('/');
 				}
+#endif
 				lockFileName << instanceCheckerName;
 
 				if (wxRemoveFile (lockFileName))
 				{
+#ifdef TC_LINUX
+					SingleInstanceChecker.reset (new wxSingleInstanceChecker (instanceCheckerName, instanceCheckerLockDirectory));
+#else
 					SingleInstanceChecker.reset (new wxSingleInstanceChecker (instanceCheckerName));
+#endif
 				}
 #else
 
