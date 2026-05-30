@@ -822,7 +822,9 @@ error:
 		}
 
 		mountOptions.ReadOnly = FALSE;
-		mountOptions.Removable = TRUE; /* mount as removal media to allow formatting without admin rights */
+		/* ReFS is not supported on removable media. Keep NTFS/exFAT removable
+		   to allow formatting without admin rights. */
+		mountOptions.Removable = (fsType != FILESYS_REFS);
 		mountOptions.ProtectHiddenVolume = FALSE;
 		mountOptions.PreserveTimestamp = bPreserveTimestamp;
 		mountOptions.PartitionInInactiveSysEncScope = FALSE;
@@ -1108,7 +1110,7 @@ LPCWSTR FormatExGetMessage (int command)
 	switch (command)
 	{
 	case FMIFS_DONE:
-		return L"FORMAT_FINISHED";
+		return L"FORMAT_FINISHED (success flag = FALSE)";
 	case FMIFS_STRUCTURE_PROGRESS:
 		return L"FORMAT_STRUCTURE_PROGRESS";
 	case FMIFS_MEDIA_WRITE_PROTECTED:
@@ -1152,7 +1154,7 @@ BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID paramet
 	case FMIFS_STRUCTURE_PROGRESS:
 		break;
 	case FMIFS_DONE:
-		if(*(BOOLEAN*)parameter == FALSE) {
+		if (parameter == NULL || *(BOOLEAN*)parameter == FALSE) {
 			FormatExError = TRUE;
 		}
 		break;
@@ -1212,6 +1214,7 @@ int FormatFs (int driveNo, int clusterSize, int fsType, BOOL bFallBackExternal)
 	int i;
 	WCHAR szFsFormat[16];
 	WCHAR szLabel[2] = {0};
+	DWORD mediaFlag;
 	switch (fsType)
 	{
 		case FILESYS_NTFS:
@@ -1227,6 +1230,7 @@ int FormatFs (int driveNo, int clusterSize, int fsType, BOOL bFallBackExternal)
 			return FALSE;
 	}
 
+	mediaFlag = (fsType == FILESYS_REFS) ? FMIFS_HARDDISK : FMIFS_REMOVAL;
 
 	if (GetSystemDirectory (dllPath, MAX_PATH))
 	{
@@ -1257,7 +1261,7 @@ int FormatFs (int driveNo, int clusterSize, int fsType, BOOL bFallBackExternal)
 	{
 		FormatExError = FALSE;
 		FormatExErrorCommand = 0;
-		FormatEx (dir, FMIFS_REMOVAL, szFsFormat, szLabel, TRUE, clusterSize * FormatSectorSize, FormatExCallback);
+		FormatEx (dir, mediaFlag, szFsFormat, szLabel, TRUE, clusterSize * FormatSectorSize, FormatExCallback);
 	}
 
 	// The device may be referenced for some time after FormatEx() returns
