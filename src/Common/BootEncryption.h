@@ -44,6 +44,7 @@ namespace VeraCrypt
 		DWORD Read (uint8 *buffer, DWORD size);
 		void Write (uint8 *buffer, DWORD size);
 		void SeekAt (int64 position);
+		void SetEnd ();
 		void GetFileSize (unsigned __int64& size);
 		void GetFileSize (DWORD& dwSize);
       bool IoCtl(DWORD code, void* inBuf, DWORD inBufSize, void* outBuf, DWORD outBufSize);

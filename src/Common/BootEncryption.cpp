@@ -443,6 +443,30 @@ namespace VeraCrypt
 			}
 		}
 
+		static void FastFileResize (const wstring &filePath, __int64 fileSize)
+		{
+			Elevate();
+
+			DWORD result;
+			CComBSTR fileBstr;
+			BSTR bstr = W2BSTR(filePath.c_str());
+			if (bstr)
+			{
+				fileBstr.Attach (bstr);
+				result = ElevatedComInstance->FastFileResize (fileBstr, fileSize);
+			}
+			else
+			{
+				result = ERROR_OUTOFMEMORY;
+			}
+
+			if (result != ERROR_SUCCESS)
+			{
+				SetLastError (result);
+				throw SystemException(SRC_POS);
+			}
+		}
+
 		static BOOL DeviceIoControl (BOOL readOnly, BOOL device, const wstring &filePath, DWORD dwIoControlCode, LPVOID input, DWORD inputSize, 
 												LPVOID output, DWORD outputSize)
 		{
@@ -759,6 +783,7 @@ namespace VeraCrypt
 		static void Release () { }
 		static void SetDriverServiceStartType (DWORD startType) { throw ParameterIncorrect (SRC_POS); }
 		static void GetFileSize (const wstring &filePath, unsigned __int64 *pSize) { throw ParameterIncorrect (SRC_POS); }
+		static void FastFileResize (const wstring &filePath, __int64 fileSize) { throw ParameterIncorrect (SRC_POS); }
 		static BOOL DeviceIoControl (BOOL readOnly, BOOL device, const wstring &filePath, DWORD dwIoControlCode, LPVOID input, DWORD inputSize, LPVOID output, DWORD outputSize) { throw ParameterIncorrect (SRC_POS); }
 		static void InstallEfiBootLoader (bool preserveUserConfig, bool hiddenOSCreation, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
 		static void BackupEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
@@ -893,6 +918,27 @@ namespace VeraCrypt
 			LARGE_INTEGER pos;
 			pos.QuadPart = position;
 			throw_sys_if (!SetFilePointerEx (Handle, pos, NULL, FILE_BEGIN));
+		}
+	}
+
+	void File::SetEnd ()
+	{
+		if (!FileOpen)
+		{
+			SetLastError (LastError);
+			throw SystemException (SRC_POS);
+		}
+
+		if (Elevated)
+		{
+			if (FilePointerPosition > 0x7fffffffffffffffULL)
+				throw ParameterIncorrect (SRC_POS);
+
+			Elevator::FastFileResize (Path, (int64) FilePointerPosition);
+		}
+		else
+		{
+			throw_sys_if (!SetEndOfFile (Handle));
 		}
 	}
 
@@ -2299,6 +2345,22 @@ namespace VeraCrypt
 		}
 	}
 
+	static string XmlQuoteConfigValue (const char *configValue)
+	{
+		if (!configValue)
+			return string();
+
+		size_t valueLen = strlen (configValue);
+		if (valueLen > (INT_MAX - 2) / 5)
+			throw ParameterIncorrect (SRC_POS);
+
+		vector<char> quotedValue (valueLen * 5 + 2);
+		if (!XmlQuoteText (configValue, quotedValue.data(), (int) quotedValue.size()))
+			throw ParameterIncorrect (SRC_POS);
+
+		return string (quotedValue.data());
+	}
+
 	BOOL EfiBootConf::WriteConfigString (FILE* configFile, char* configContent, const char *configKey, const char *configValue)
 	{
 		
@@ -2314,9 +2376,10 @@ namespace VeraCrypt
 					c[1] = '!';
 			}
 
+			string quotedValue = XmlQuoteConfigValue (configValue);
 			if ( 0 != fwprintf (
 					configFile, L"\n\t\t<config key=\"%hs\">%hs</config>",
-					configKey, configValue))
+					configKey, quotedValue.c_str()))
 			{
 				bRet = TRUE;
 			}
@@ -2444,7 +2507,8 @@ namespace VeraCrypt
 			XmlGetAttributeText (xml, "key", key, sizeof (key));
 			XmlGetNodeText (xml, value, sizeof (value));
 
-			fwprintf (configFile, L"\n\t\t<config key=\"%hs\">%hs</config>", key, value);
+			string quotedValue = XmlQuoteConfigValue (value);
+			fwprintf (configFile, L"\n\t\t<config key=\"%hs\">%hs</config>", key, quotedValue.c_str());
 			xml++;
 		}
 
@@ -3148,6 +3212,7 @@ namespace VeraCrypt
 
 		File f(pathESP + szFilePath, false, true);
 		f.Write(fileContent.data(), dwSize);
+		f.SetEnd();
 		f.Close();
 
 	}
@@ -3622,6 +3687,7 @@ namespace VeraCrypt
 		{
 			File f(path, false, true);
 			f.Write(data, size);
+			f.SetEnd();
 			f.Close();
 		}
 	}
