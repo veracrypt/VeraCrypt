@@ -434,6 +434,11 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	CC := cc
 	CXX := c++
 
+	ifdef VC_WX_STATIC
+		# wx-config may omit libiconv for base-only static wxWidgets builds.
+		LFLAGS += -liconv
+	endif
+
 	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
 	GCC_GTEQ_470 := 1
