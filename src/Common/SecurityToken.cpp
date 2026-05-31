@@ -220,8 +220,10 @@ namespace VeraCrypt
 				throw;
 			}
 
-			foreach(const CK_OBJECT_HANDLE & dataHandle, GetObjects(slotId, CKO_DATA))
+			vector <CK_OBJECT_HANDLE> dataHandles = GetObjects(slotId, CKO_DATA);
+			for (vector <CK_OBJECT_HANDLE>::const_iterator dataHandleIt = dataHandles.begin(); dataHandleIt != dataHandles.end(); ++dataHandleIt)
 			{
+				const CK_OBJECT_HANDLE &dataHandle = *dataHandleIt;
 				SecurityTokenKeyfile keyfile;
 				keyfile.Handle = dataHandle;
 				keyfile.Token->SlotId = slotId;
