@@ -181,7 +181,7 @@
     <entry lang="sl" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Odpri okno Raziskovalca za priklopljeni nosilec</entry>
     <entry lang="sl" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Shrani geslo v pomnilnik gonilnika</entry>
     <entry lang="sl" key="IDC_TRUECRYPT_MODE">Način &amp;TrueCrypt</entry>
-    <entry lang="sl" key="IDC_UNMOUNTALL">&amp;Odklopi vse</entry>
+    <entry lang="sl" key="IDC_UNMOUNTALL">Odklopi &amp;vse</entry>
     <entry lang="sl" key="IDC_VOLUME_PROPERTIES">&amp;Lastnosti nosilca...</entry>
     <entry lang="sl" key="IDC_VOLUME_TOOLS">&amp;Orodja za nosilce...</entry>
     <entry lang="sl" key="IDC_WIPE_CACHE">&amp;Izbriši predpomnilnik</entry>

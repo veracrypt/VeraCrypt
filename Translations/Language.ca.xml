@@ -181,7 +181,7 @@
     <entry lang="ca" key="IDC_TRAVEL_OPEN_EXPLORER">Obrir una finestra de l'&amp;exporador pel volum muntat</entry>
     <entry lang="ca" key="IDC_TRAV_CACHE_PASSWORDS">Guardar contrassenyes a la memòria del controlador</entry>
     <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
-    <entry lang="ca" key="IDC_UNMOUNTALL">&amp;Desmuntar-ho tot</entry>
+    <entry lang="ca" key="IDC_UNMOUNTALL">Desmuntar-ho t&amp;ot</entry>
     <entry lang="ca" key="IDC_VOLUME_PROPERTIES">Propietats del &amp;volum...</entry>
     <entry lang="ca" key="IDC_VOLUME_TOOLS">&amp;Eines de volum...</entry>
     <entry lang="ca" key="IDC_WIPE_CACHE">&amp;Buidar la memòria cau</entry>

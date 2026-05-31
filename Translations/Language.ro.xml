@@ -181,7 +181,7 @@
     <entry lang="ro" key="IDC_TRAVEL_OPEN_EXPLORER">Deschidere fereastră &amp;Explorer la volumul montat</entry>
     <entry lang="ro" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Păstrare parolă în memorie</entry>
     <entry lang="ro" key="IDC_TRUECRYPT_MODE">Mod TrueCrypt</entry>
-    <entry lang="ro" key="IDC_UNMOUNTALL">&amp;Demontare toate</entry>
+    <entry lang="ro" key="IDC_UNMOUNTALL">Demontare &amp;toate</entry>
     <entry lang="ro" key="IDC_VOLUME_PROPERTIES">Proprietăți &amp;volum</entry>
     <entry lang="ro" key="IDC_VOLUME_TOOLS">U&amp;nelte volum</entry>
     <entry lang="ro" key="IDC_WIPE_CACHE">&amp;Uitare parole</entry>
