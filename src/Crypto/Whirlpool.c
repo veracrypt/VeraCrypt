@@ -101,11 +101,7 @@
  * employed).
  */
 
-#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
 CRYPTOPP_ALIGN_DATA(16) static const uint64 Whirlpool_C[8*256+R] CRYPTOPP_SECTION_ALIGN16 = {
-#else
-static const uint64 Whirlpool_C[8*256+R] = {
-#endif
     LL(0x18186018c07830d8), LL(0x23238c2305af4626), LL(0xc6c63fc67ef991b8), LL(0xe8e887e8136fcdfb),
     LL(0x878726874ca113cb), LL(0xb8b8dab8a9626d11), LL(0x0101040108050209), LL(0x4f4f214f426e9e0d),
     LL(0x3636d836adee6c9b), LL(0xa6a6a2a6590451ff), LL(0xd2d26fd2debdb90c), LL(0xf5f5f3f5fb06f70e),
@@ -856,7 +852,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 #endif		// #ifdef CRYPTOPP_X86_ASM_AVAILABLE
 	{
 		union { unsigned char ch[64]; unsigned long long ll[8]; } K, state;
-		unsigned long long L[8];
+		CRYPTOPP_ALIGN_DATA(16) unsigned long long L[8];
 		int r, i;
 
 		i = 0; do state.ll[i] = (K.ll[i] = digest[i]) ^ (block)[i]; while (++i < 8);
