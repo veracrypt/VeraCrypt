@@ -11,6 +11,9 @@
 */
 
 #include "System.h"
+#ifdef TC_LINUX
+#include <algorithm>
+#endif
 #include <set>
 #include <typeinfo>
 #include <wx/apptrait.h>
@@ -927,6 +930,64 @@ namespace VeraCrypt
 	}
 
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
+#ifdef TC_LINUX
+	static bool OpenExplorerWindowUnderWsl (const string &mountPoint)
+	{
+		if (mountPoint.empty() || mountPoint[0] != '/'
+			|| !Process::IsExecutable ("/usr/bin/wslinfo")
+			|| !Process::IsExecutable ("/usr/bin/wslpath"))
+			return false;
+
+		try
+		{
+			list <string> args;
+			args.push_back ("-aw");
+			args.push_back ("/");
+
+			// Build from the WSL root UNC so /mnt/<drive> mount points stay in the WSL VFS overlay
+			string windowsPath = StringConverter::Trim (Process::Execute ("/usr/bin/wslpath", args, 2000));
+			if (windowsPath.size() < 2 || windowsPath[0] != '\\' || windowsPath[1] != '\\')
+				return false;
+
+			if (windowsPath[windowsPath.size() - 1] == '\\' || windowsPath[windowsPath.size() - 1] == '/')
+				windowsPath.resize (windowsPath.size() - 1);
+
+			string windowsMountPoint = mountPoint;
+			std::replace (windowsMountPoint.begin(), windowsMountPoint.end(), '/', '\\');
+			windowsPath += windowsMountPoint;
+
+			args.clear();
+			args.push_back ("-u");
+			args.push_back ("C:\\Windows\\explorer.exe");
+
+			string explorerPath = StringConverter::Trim (Process::Execute ("/usr/bin/wslpath", args, 2000));
+			if (explorerPath.empty() || !FilesystemPath (explorerPath).IsFile())
+				return false;
+
+			args.clear();
+			args.push_back (windowsPath);
+
+			try
+			{
+				Process::Execute (explorerPath, args, 5000);
+				return true;
+			}
+			catch (TimeOut&)
+			{
+				return true;
+			}
+			catch (ExecutedProcessFailed &e)
+			{
+				return e.GetExitCode () == 1 && StringConverter::Trim (e.GetErrorOutput()).empty();
+			}
+		}
+		catch (exception&)
+		{
+			return false;
+		}
+	}
+#endif // TC_LINUX
+
 // Define file manager structures with their required parameters
 struct FileManager {
 	const char* name;
@@ -978,6 +1039,11 @@ const FileManager fileManagers[] = {
 
 #else
 		string directoryPath = string(path);
+#ifdef TC_LINUX
+		if (OpenExplorerWindowUnderWsl (directoryPath))
+			return;
+#endif
+
 		// Primary attempt: Use xdg-open
 		string errorMsg;
 		string binPath = Process::FindSystemBinary("xdg-open", errorMsg);
