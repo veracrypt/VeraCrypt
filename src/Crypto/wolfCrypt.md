@@ -10,7 +10,7 @@ Clone wolfSSL and build it as shown below.
 ```
 git clone https://github.com/wolfssl/wolfssl && cd wolfssl
 ./autogen.sh
-./configure --enable-xts CFLAGS="-DNO_OLD_WC_NAMES"
+./configure --enable-xts --enable-pwdbased CFLAGS="-DNO_OLD_WC_NAMES"
 make
 sudo make install
 ```

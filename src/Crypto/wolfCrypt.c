@@ -3,7 +3,8 @@
 #include "Aes.h"
 #include "Sha2.h"
 #include "../Common/Crypto.h"
-#include <wolfssl/wolfcrypt/hmac.h>
+#include "../Common/Pkcs5.h"
+#include <wolfssl/wolfcrypt/pwdbased.h>
 
 
 AES_RETURN aes_init()
@@ -232,12 +233,28 @@ void sha512(unsigned char * result, const unsigned char* source, uint_64t source
     wc_Sha512Free(&sha512);
 }
 
-void derive_key_sha512 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen) {
-    (void) iterations;
-    wc_HKDF(WC_SHA512, (uint8*)pwd, (word32)pwd_len, (uint8*)salt, (word32)salt_len, NULL, 0, (uint8*)dk, (word32)dklen);
+void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen
+#ifndef TC_WINDOWS_BOOT
+    , long volatile *pAbortKeyDerivation
+#endif
+)
+{
+#ifndef TC_WINDOWS_BOOT
+    (void) pAbortKeyDerivation;
+#endif
+    if (wc_PBKDF2 ((byte*) dk, (const byte*) pwd, pwd_len, (const byte*) salt, salt_len, (int) iterations, dklen, WC_SHA512) != 0)
+        burn (dk, dklen);
 }
 
-void derive_key_sha256 (unsigned char *pwd, int pwd_len, unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen) {
-    (void) iterations;
-    wc_HKDF(WC_SHA256, (uint8*)pwd, (word32)pwd_len, (uint8*)salt, (word32)salt_len, NULL, 0, (uint8*)dk, (word32)dklen);
+void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen
+#ifndef TC_WINDOWS_BOOT
+    , long volatile *pAbortKeyDerivation
+#endif
+)
+{
+#ifndef TC_WINDOWS_BOOT
+    (void) pAbortKeyDerivation;
+#endif
+    if (wc_PBKDF2 ((byte*) dk, (const byte*) pwd, pwd_len, (const byte*) salt, salt_len, (int) iterations, dklen, WC_SHA256) != 0)
+        burn (dk, dklen);
 }
