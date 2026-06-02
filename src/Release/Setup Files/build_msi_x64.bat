@@ -4,6 +4,7 @@
 
 @set SEARCH_WIX_PATH=C:\Program Files (x86)\WiX Toolset v3.14\bin
 
+@set SEARCH_WINDOWS_KITS_10_BIN=C:\Program Files (x86)\Windows Kits\10\bin
 @set SEARCH_VC_DIR_PLATFORMSDK_1=C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86
 @set SEARCH_VC_DIR_PLATFORMSDK_2=C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86
 @set SEARCH_VC_DIR_PLATFORMSDK_3=C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x86
@@ -19,18 +20,24 @@ set MSI_BUILDPATH=%~dp0
 cd %MSI_BUILDPATH%
 
 ::------------------------------------
-:: Look for msitran.exe and msidb.exe
+:: Look for MSI SDK tools
 ::------------------------------------
 
 @echo [INFO] Define default value for VC_DIR_PLATFORMSDK if not defined yet
 @echo [INFO] Input VC_DIR_PLATFORMSDK=%VC_DIR_PLATFORMSDK%
-@set FILE_TO_FIND="msitran.exe" "msidb.exe"
+@set FILE_TO_FIND="msitran.exe" "msidb.exe" "MsiInfo.exe"
 @echo [INFO] Looking for files: %FILE_TO_FIND%
 
 @set FILE_NOT_FOUND=
 @for %%i in (%FILE_TO_FIND%) do @if not exist "%VC_DIR_PLATFORMSDK%\%%~i" set FILE_NOT_FOUND=%%~i
 @if "%FILE_NOT_FOUND%"=="" goto found_mssdk
 @echo        Not found in "%VC_DIR_PLATFORMSDK%"
+
+@echo [INFO] Looking for Windows 10 SDK MSI tools under "%SEARCH_WINDOWS_KITS_10_BIN%"
+@for /f "delims=" %%d in ('dir /b /ad /o-n "%SEARCH_WINDOWS_KITS_10_BIN%\10.*" 2^>nul') do (
+	@call :check_mssdk_path "%SEARCH_WINDOWS_KITS_10_BIN%\%%d\x86"
+	@if not errorlevel 1 goto found_mssdk
+)
 
 @set VC_DIR_PLATFORMSDK=%SEARCH_VC_DIR_PLATFORMSDK_1%
 @set FILE_NOT_FOUND=
@@ -51,7 +58,7 @@ cd %MSI_BUILDPATH%
 @echo        Not found in "%VC_DIR_PLATFORMSDK%"
 
 @rem paths for Windows 8 SDK are slightly different
-@set FILE_TO_FIND="msitran.exe" "msidb.exe"
+@set FILE_TO_FIND="msitran.exe" "msidb.exe" "MsiInfo.exe"
 
 @set VC_DIR_PLATFORMSDK=%SEARCH_VC_DIR_PLATFORMSDK_4%
 @set FILE_NOT_FOUND=
@@ -178,3 +185,12 @@ goto END
 @echo [INFO] Done creating multi-lang msi installers
 :END
 @echo end
+@exit /B 0
+
+:check_mssdk_path
+@set VC_DIR_PLATFORMSDK=%~1
+@set FILE_NOT_FOUND=
+@for %%i in (%FILE_TO_FIND%) do @if not exist "%VC_DIR_PLATFORMSDK%\%%~i" set FILE_NOT_FOUND=%%~i
+@if "%FILE_NOT_FOUND%"=="" exit /B 0
+@echo        Not found in "%VC_DIR_PLATFORMSDK%"
+@exit /B 1
