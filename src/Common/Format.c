@@ -914,6 +914,7 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 	CRYPTOPP_ALIGN_DATA(16) char originalK2[MASTER_KEYDATA_SIZE];
 	BOOL quickFormat = volParams->quickFormat;
 	BOOL bDevice = volParams->bDevice;
+	BOOL hiddenVol = volParams->hiddenVol;
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
@@ -999,9 +1000,9 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, unsigned __int64 num
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;
 	}
-	else if (!bDevice)
+	else if (!bDevice && !hiddenVol)
 	{
-		// Quick format: write a zeroed sector every 128 MiB, leaving other sectors untouched
+		// Quick format of a non-hidden file container: write a zeroed sector every 128 MiB, leaving other sectors untouched
 		// This helps users visualize the progress of actual file creation while forcing Windows
 		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows 
 		// would delay the allocation until we write the backup header at the end of the volume which

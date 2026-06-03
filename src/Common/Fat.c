@@ -271,6 +271,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	volatile FORMAT_VOL_PARAMETERS* volParams = (volatile FORMAT_VOL_PARAMETERS*)volParamsArg;
 	BOOL quickFormat = volParams->quickFormat;
 	BOOL bDevice = volParams->bDevice;
+	BOOL hiddenVol = volParams->hiddenVol;
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
@@ -480,12 +481,12 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		burn (&tmpCI, sizeof (tmpCI));
 		VirtualUnlock (&tmpCI, sizeof (tmpCI));
 	}
-	else if (!bDevice)
+	else if (!bDevice && !hiddenVol)
 	{
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;
 
-		// Quick format: write a zeroed sector every 128 MiB, leaving other sectors untouched
+		// Quick format of a non-hidden file container: write a zeroed sector every 128 MiB, leaving other sectors untouched
 		// This helps users visualize the progress of actual file creation while forcing Windows
 		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows 
 		// would delay the allocation until we write the backup header at the end of the volume which
