@@ -1096,7 +1096,7 @@ void camellia_decrypt(const unsigned __int8 *inBlock,  unsigned __int8 *outBlock
 void camellia_encrypt_blocks(unsigned __int8 *instance, const uint8* in_blk, uint8* out_blk, uint32 blockCount)
 {
 #if !defined (_UEFI)
-	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
+	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX() && HasSSSE3()) /* on AMD cpu, AVX is too slow */
 	{
 #if defined (TC_WINDOWS_DRIVER)
 		XSTATE_SAVE SaveState;
@@ -1132,7 +1132,7 @@ void camellia_encrypt_blocks(unsigned __int8 *instance, const uint8* in_blk, uin
 void camellia_decrypt_blocks(unsigned __int8 *instance, const uint8* in_blk, uint8* out_blk, uint32 blockCount)
 {
 #if !defined (_UEFI)
-	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
+	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX() && HasSSSE3()) /* on AMD cpu, AVX is too slow */
 	{
 #if defined (TC_WINDOWS_DRIVER)
 		XSTATE_SAVE SaveState;
@@ -1493,14 +1493,53 @@ static const uint64 S[8][256] = {
 		return (r << n) | (l >> (64 - n));
 	}
 
+#ifdef CRYPTOPP_ALLOW_UNALIGNED_DATA_ACCESS
+#	define CAMELLIA_ALLOW_UNALIGNED_DATA_ACCESS
+#endif
+
+	VC_INLINE uint64 camellia_load64(const void *ptr)
+	{
+#ifdef CAMELLIA_ALLOW_UNALIGNED_DATA_ACCESS
+		return *(const uint64 *)ptr;
+#else
+		uint64 value;
+		memcpy(&value, ptr, sizeof(value));
+		return value;
+#endif
+	}
+
+	VC_INLINE void camellia_store64(void *ptr, uint64 value)
+	{
+#ifdef CAMELLIA_ALLOW_UNALIGNED_DATA_ACCESS
+		*(uint64 *)ptr = value;
+#else
+		memcpy(ptr, &value, sizeof(value));
+#endif
+	}
+
+#ifdef CAMELLIA_ALLOW_UNALIGNED_DATA_ACCESS
+#	undef CAMELLIA_ALLOW_UNALIGNED_DATA_ACCESS
+#endif
+
+	VC_INLINE uint64 camellia_load_be64(const unsigned __int8 *ptr)
+	{
+		return bswap_64(camellia_load64(ptr));
+	}
+
+	VC_INLINE void camellia_store_be64(unsigned __int8 *ptr, uint64 value)
+	{
+		value = bswap_64(value);
+		camellia_store64(ptr, value);
+	}
+
 	
 void camellia_set_key(const unsigned __int8 key[], unsigned __int8 *ksPtr)
 {
 	uint64 *ks = (uint64 *) ksPtr;
-	uint64 kll = bswap_64(*((uint64*)key));
-	uint64 klr = bswap_64(*((uint64*)(key + 8)));
-	uint64 krl = bswap_64(*((uint64*)(key + 16)));
-	uint64 krr = bswap_64(*((uint64*)(key + 24)));
+	uint64 kll = camellia_load_be64(key);
+	uint64 klr = camellia_load_be64(key + 8);
+	uint64 krl = camellia_load_be64(key + 16);
+	uint64 krr = camellia_load_be64(key + 24);
 
 #ifdef CPPCRYPTO_DEBUG
 	printf("kl: %016I64x %016I64x\n", kll, klr);
@@ -1582,9 +1621,9 @@ void camellia_set_key(const unsigned __int8 key[], unsigned __int8 *ksPtr)
 
 void camellia_encrypt(const unsigned __int8 *in, unsigned __int8 *out, unsigned __int8 *ksPtr)
 {
-	uint64 *ks = (uint64 *) ksPtr;
-	uint64 l = bswap_64(*((uint64*)in)) ^ ks[0];
-	uint64 r = bswap_64(*((uint64*)(in + 8))) ^ ks[1];
+	const uint64 *ks = (const uint64 *) ksPtr;
+	uint64 l = camellia_load_be64(in) ^ ks[0];
+	uint64 r = camellia_load_be64(in + 8) ^ ks[1];
 
 #ifdef CPPCRYPTO_DEBUG
 	printf("r0: %016I64x %016I64x\n", l, r);
@@ -1713,16 +1752,16 @@ void camellia_encrypt(const unsigned __int8 *in, unsigned __int8 *out, unsigned 
 	r ^= ks[32];
 	l ^= ks[33];
 
-	*(uint64*)out = bswap_64(r);
-	*(uint64*)(out + 8) = bswap_64(l);
+	camellia_store_be64(out, r);
+	camellia_store_be64(out + 8, l);
 }
 
 
 void camellia_decrypt(const unsigned __int8 *in,  unsigned __int8 *out, unsigned __int8 *ksPtr)
 {
-	uint64 *ks = (uint64 *) ksPtr;
-	uint64 r = bswap_64(*((uint64*)in)) ^ ks[32];
-	uint64 l = bswap_64(*((uint64*)(in + 8))) ^ ks[33];
+	const uint64 *ks = (const uint64 *) ksPtr;
+	uint64 r = camellia_load_be64(in) ^ ks[32];
+	uint64 l = camellia_load_be64(in + 8) ^ ks[33];
 
 #ifdef CPPCRYPTO_DEBUG
 	printf("DECRYPT: %016I64x %016I64x\n", l, r);
@@ -1880,8 +1919,8 @@ void camellia_decrypt(const unsigned __int8 *in,  unsigned __int8 *out, unsigned
 	l ^= ks[0];
 	r ^= ks[1];
 
-	*(uint64*)out = bswap_64(l);
-	*(uint64*)(out + 8) = bswap_64(r);
+	camellia_store_be64(out, l);
+	camellia_store_be64(out + 8, r);
 }
 
 #endif

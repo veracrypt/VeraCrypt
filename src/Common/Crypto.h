@@ -254,8 +254,8 @@ typedef struct CRYPTO_INFO_t
 	int mode;								/* Mode of operation (e.g., XTS) */
 	int pkcs5;								/* PRF algorithm */
 
-	unsigned __int8 ks[MAX_EXPANDED_KEY];	/* Primary key schedule (if it is a cascade, it conatins multiple concatenated keys) */
-	unsigned __int8 ks2[MAX_EXPANDED_KEY];	/* Secondary key schedule (if cascade, multiple concatenated) for XTS mode. */
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 ks[MAX_EXPANDED_KEY];	/* Primary key schedule (if it is a cascade, it conatins multiple concatenated keys) */
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 ks2[MAX_EXPANDED_KEY];	/* Secondary key schedule (if cascade, multiple concatenated) for XTS mode. */
 
 	BOOL hiddenVolume;						// Indicates whether the volume is mounted/mountable as hidden volume
 
