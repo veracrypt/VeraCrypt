@@ -300,12 +300,12 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 #endif
 	memcpy (dk, hmac.u, r);
 
+#ifndef TC_WINDOWS_BOOT
+cancelled:
+#endif
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
 		KeRestoreExtendedProcessorState(&SaveState);
-#endif
-#ifndef TC_WINDOWS_BOOT
-cancelled:
 #endif
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
@@ -536,11 +536,11 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 		goto cancelled;
 	memcpy (dk, hmac.u, r);
 
+cancelled:
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
 	if (NT_SUCCESS (saveStatus))
 		KeRestoreExtendedProcessorState(&SaveState);
 #endif
-cancelled:
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
 	burn (key, sizeof(key));
@@ -599,12 +599,6 @@ void hmac_blake2s
 	unsigned char* buf = hmac.k;
 	int b;
 	unsigned char key[BLAKE2S_DIGESTSIZE];
-#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	XSTATE_SAVE SaveState;
-	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
-#endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = blake2s(key), as per HMAC specifications. */
 	if (lk > BLAKE2S_BLOCKSIZE)
@@ -645,11 +639,6 @@ void hmac_blake2s
 	blake2s_update (ctx, buf, BLAKE2S_BLOCKSIZE);
 
 	hmac_blake2s_internal(d, ld, &hmac);
-
-#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorState(&SaveState);
-#endif
 
 	/* Prevent leaks */
 	burn(&hmac, sizeof(hmac));
@@ -729,12 +718,6 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 	int b, l, r;
 #ifndef TC_WINDOWS_BOOT
 	unsigned char key[BLAKE2S_DIGESTSIZE];
-#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	XSTATE_SAVE SaveState;
-	if (IsCpuIntel() && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
-#endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = blake2s(pwd), as per HMAC specifications. */
 	if (pwd_len > BLAKE2S_BLOCKSIZE)
@@ -812,10 +795,6 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 #endif
 	memcpy (dk, hmac.u, r);
 
-#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreExtendedProcessorState(&SaveState);
-#endif
 #ifndef TC_WINDOWS_BOOT
 cancelled:
 #endif
