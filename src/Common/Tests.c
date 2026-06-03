@@ -1379,6 +1379,47 @@ static BOOL DoAutoTestAlgorithms (void)
 	}
 	if (i != TWOFISH_TEST_COUNT)
 		bFailed = TRUE;
+
+	// Twofish EncipherBlocks()/DecipherBlocks()
+	{
+		enum { TwofishMultiBlockTestMaxBlocks = 9 };
+		uint8 testData[(TwofishMultiBlockTestMaxBlocks + 1) * 16];
+		uint8 expectedData[(TwofishMultiBlockTestMaxBlocks + 1) * 16];
+		uint8 originalData[(TwofishMultiBlockTestMaxBlocks + 1) * 16];
+		size_t blockCount, block, bytePos;
+		size_t blockSize = CipherGetBlockSize (TWOFISH);
+		size_t dataSize = sizeof (testData);
+
+		memcpy (key, twofish_vectors[0].key, 32);
+		CipherInit (TWOFISH, key, ks_tmp);
+
+		for (blockCount = 0; blockCount <= TwofishMultiBlockTestMaxBlocks; ++blockCount)
+		{
+			for (bytePos = 0; bytePos < dataSize; ++bytePos)
+			{
+				originalData[bytePos] = (uint8) (bytePos * 13 + blockCount);
+				testData[bytePos] = originalData[bytePos];
+				expectedData[bytePos] = originalData[bytePos];
+			}
+
+			for (block = 0; block < blockCount; ++block)
+				EncipherBlock (TWOFISH, expectedData + block * blockSize, ks_tmp);
+
+			EncipherBlocks (TWOFISH, testData, ks_tmp, blockCount);
+			if (memcmp (testData, expectedData, dataSize) != 0)
+			{
+				bFailed = TRUE;
+				break;
+			}
+
+			DecipherBlocks (TWOFISH, testData, ks_tmp, blockCount);
+			if (memcmp (testData, originalData, dataSize) != 0)
+			{
+				bFailed = TRUE;
+				break;
+			}
+		}
+	}
 	
 	/* Camellia */
 

@@ -89,7 +89,7 @@ void twofish_encrypt_blocks(TwofishInstance *instance, const uint8* in_blk, uint
 	{
 		twofish_enc_blk2 (instance, out_blk, in_blk);
 	}
-	else
+	else if (blockCount == 1)
 	{
 		twofish_enc_blk (instance, out_blk, in_blk);
 	}
@@ -110,7 +110,7 @@ void twofish_decrypt_blocks(TwofishInstance *instance, const uint8* in_blk, uint
 	{
 		twofish_dec_blk2 (instance, out_blk, in_blk);
 	}
-	else
+	else if (blockCount == 1)
 	{
 		twofish_dec_blk (instance, out_blk, in_blk);
 	}
