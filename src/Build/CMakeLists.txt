@@ -13,8 +13,8 @@ endif()
 option(VC_WITH_FUSE3 "Link against FUSE3 instead of FUSE2 when packaging" OFF)
 
 # - Set version of the package
-set( FULL_VERSION 		"1.26.28" )
-set( VERSION 			"1.26.28" )
+set( FULL_VERSION 		"1.26.29" )
+set( VERSION 			"1.26.29" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values
