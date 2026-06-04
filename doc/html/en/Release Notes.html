@@ -39,54 +39,102 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.28</strong> (May 18<sup>th</sup>, 2026):</p>
-<ul>
-<li><strong>Linux:</strong>
-	<ul>
-	<li>Add in-kernel NTFS driver selection for NTFS mounts, including <code>--filesystem=kernel-ntfs</code> and <code>-m kernelntfs</code>.</li>
-	<li><code>--filesystem=ntfs3</code> now pins the kernel ntfs3 driver and bypasses mount helpers such as <code>mount.ntfs3</code>.</li>
-	<li>Translator note: the previous Linux ntfs3 preference strings were replaced by generic in-kernel NTFS driver strings and should be retranslated.</li>
-	</ul>
-</li>
-<li><strong>Linux and macOS:</strong>
-	<ul>
-	<li>Enable Quick Format for normal file containers. The container is sized with <code>ftruncate()</code>, so the host filesystem may keep regions unwritten or sparse until data is written to them.</li>
-	</ul>
-</li>
-</ul>
-
-<p><strong style="text-align:left">1.26.27</strong> (September 20<sup>th</sup>, 2025):</p>
+<p><strong style="text-align:left">1.26.29</strong> (June 4<sup>th</sup>, 2026):</p>
 <ul>
 <li><strong>All OSes:</strong>
 	<ul>
-	<li>Update logo icons with a simplified ones without extra label text.</li>
-	<li>Update documentation.</li>
+	<li>Add Argon2id as an alternative memory-hard KDF for non-system volumes.</li>
+	<li>Use "KDF" terminology in the user interface and documentation instead of "PKCS-5 PRF".</li>
+	<li>Update logo icons with simplified icons without extra label text.</li>
+	<li>Harden XML and TLV parsers against malformed input.</li>
+	<li>Security: Fix <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>: non-default <code>WOLFCRYPT=1</code> builds now use wolfCrypt PBKDF2 instead of HKDF and honor VeraCrypt's PBKDF2 iteration count.
+		<ul>
+			<li>Reported by https://github.com/vastblast </li>
+		</ul>
+	</li>
+	<li>Fix CPU feature detection and crypto implementation edge cases, including AVX2/leaf 7 detection, Camellia SSSE3 dispatch, Twofish x64 multiblock tail handling and Whirlpool alignment.</li>
+	<li>Update documentation, including Argon2id/KDF information and split Windows/Unix command line usage pages.</li>
 	<li>Update translations.</li>
 	</ul>
 </li>
 <li><strong>Windows:</strong>
 <ul>
-<li>Fix rare BSOD (Blue Screen of Death) issue affecting VeraCrypt driver.</li>
-<li>Enhancements to the driver crash dump filter (GH PR #1590).</li>
-<li>Enhancement to I/O request handling in the driver.</li>
-<li>Add support of Argon2id password hashing algorithm.</li>
-<li>Speedup mounting when PRF autodetection is selected.</li>
-<li>Add CLI switch /protectScreen to allow disabling screen protection in portable mode (cf documentation)</li>
-<li>Add argument to CLI switch /protectMemory to allow disabling memory protection in portable mode (cf documentation)</li>
-<li>Add setting and CLI switch /enableIME to allow enabling Input Method Editor (IME) in Secure Desktop</li>
-<li>Provide VeraCrypt C/C++ SDK for creating volumes (https://github.com/veracrypt/VeraCrypt-SDK)</li>
+<li>Fix rare BSOD (Blue Screen of Death) issue affecting the VeraCrypt driver.</li>
+<li>Fix hibernation crash on fresh Windows 11 25H2 installations.</li>
+<li>Security: Fix <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-jjcr-75w7-58jp" target="_blank">GHSA-jjcr-75w7-58jp</a>: hidden volume quick format no longer uses the file-container allocation shortcut that wrote plaintext zero sectors at 128 MiB intervals, preserving plausible deniability.
+	<ul>
+		<li>Reported by https://github.com/vastblast </li>
+		<li>Regression introduced in 1.26.6</li>
+	</ul>
+</li>
+<li>Harden Windows driver input validation and crash dump filter handling (GH PR #1590).</li>
+<li>Improve driver I/O handling, including safer request completion, ordered volume flush barriers, and better VERIFY/TRIM validation.</li>
+<li>Fix PBKDF XSTATE cleanup and add Win64 unwind metadata for AES assembly.</li>
+<li>Speed up mounting when KDF autodetection is selected.</li>
+<li>Add support for new Microsoft UEFI CA 2023 signed EFI bootloaders while preserving Microsoft UEFI CA 2011 support.</li>
+<li>Improve EFI system encryption repair and upgrade handling, including stuck decryption finalization, Post-OOBE repair, loader restoration verification, and clearer missing-loader reporting.</li>
+<li>Fix EFI <code>DcsProp</code> rewrite handling.</li>
+<li>Fix ghost drive letter after command line unmount (GH #337, GH #1426).</li>
+<li>Fix favorite volume mount race.</li>
+<li>Validate PIM when changing only the KDF.</li>
+<li>Fix elevated COM format drive validation and device path normalization (GH #1670).</li>
+<li>Fix ReFS formatting during volume creation.</li>
+<li>Fix MSI traveler disk creation with WHQL-signed drivers, ARM64 MSI build, Start Menu folder upgrades, and discovery of newer SDK MSI tools.</li>
+<li>Add CLI switch <code>/protectScreen</code> to allow disabling screen protection in portable mode (cf documentation).</li>
+<li>Add argument to CLI switch <code>/protectMemory</code> to allow disabling memory protection in portable mode (cf documentation).</li>
+<li>Add setting and CLI switch <code>/enableIME</code> to allow enabling Input Method Editor (IME) in Secure Desktop.</li>
+<li>Use tab control for VeraCrypt preferences to reduce clutter and size of the dialog.</li>
+<li>Provide VeraCrypt C/C++ SDK for creating volumes (<a href="https://github.com/veracrypt/VeraCrypt-SDK" target="_blank">https://github.com/veracrypt/VeraCrypt-SDK</a>).</li>
+<li>Update LZMA SDK to version 26.01.</li>
 </ul>
 </li>
 <li><strong>Linux:</strong>
 	<ul>
-	<li>Update Ubuntu 25.04 dependency to require libwxgtk3.2-1t64 package</li>
-	<li>Allow AppImage file to start with "veracrypt" in any case</li>
+	<li>Update Ubuntu 25.04 dependency to require libwxgtk3.2-1t64 package.</li>
+	<li>Add support for building against FUSE3.</li>
+	<li>Add in-kernel NTFS driver selection for NTFS mounts, including <code>--filesystem=kernel-ntfs</code> and <code>-m kernelntfs</code>.
+		<ul>
+		<li><code>--filesystem=ntfs3</code> now pins the kernel ntfs3 driver and bypasses mount helpers such as <code>mount.ntfs3</code>.</li>
+		</ul>
+	</li>
+	<li>Fix AppImage portability and language loading, allow AppImage file name to start with "veracrypt" in any case.</li>
+	<li>Suppress redundant "already running" dialog and store the GUI instance lock under XDG paths.</li>
+	<li>Add emergency cleanup for stale unmounts.</li>
+	<li>Parallelize header KDF autodetection.</li>
+	<li>Honor <code>nokernelcrypto</code> during external formatting.</li>
+	<li>On WSL, open mounted volumes using Windows Explorer.</li>
+	<li>Add support for reproducible Linux builds and Arch package builds.</li>
+	<li>Add OpenWrt package build and QEMU test scripts.</li>
+	<li>Fix CMake 4 compatibility, CentOS 6 GCC 4.4 builds, and wxWidgets-related build issues.</li>
+	</ul>
+</li>
+<li><strong>Linux and macOS:</strong>
+	<ul>
 	<li>Fix initial width of columns in main UI.</li>
+	<li>Enable Quick Format for normal file containers. The container is sized with <code>ftruncate()</code>, so the host filesystem may keep regions unwritten or sparse until data is written to them.</li>
+	<li>Fix hidden volume size estimation for exFAT outer volumes.</li>
+	<li>Fix hidden volume FAT size limit handling.</li>
+	<li>Fix erroneous 2 TiB limit for hidden file containers in GUI wizard.</li>
+	<li>Show volume creation finalization stages.</li>
+	<li>Collect mouse entropy from nested controls in the volume creation wizard.</li>
+	<li>Fix remaining wxWidgets sizer flags.</li>
 	</ul>
 </li>
 <li><strong>macOS:</strong>
 	<ul>
-		<li>Fix initial width of columns in main UI.</li>
+	<li>Use SMB backend for FUSE-T auxiliary mounts and improve FUSE-T SMB metadata handling and mount stability.</li>
+	<li>Recover mounted volume mount points.</li>
+	<li>Validate format wizard device targets and block partitioned whole-disk alias bypasses.</li>
+	<li>Run APFS formatter elevated when needed and prepare APFS formatter device aliases.</li>
+	<li>Force fresh exFAT layout when formatting volumes.</li>
+	<li>Fix <code>Command-A</code> in password fields.</li>
+	<li>Link against wxWidgets 3.2.10 and allow overriding the deployment target.</li>
+	</ul>
+</li>
+<li><strong>BSD:</strong>
+	<ul>
+	<li>FreeBSD: link static wxWidgets builds with iconv.</li>
+	<li>OpenBSD: fix device-hosted volume sizing, honor doas user for mount ownership and FUSE access, and fix CLI build and PCSC exit handling.</li>
 	</ul>
 </li>
 </ul>

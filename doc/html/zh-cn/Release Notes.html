@@ -39,39 +39,103 @@
 <span style="color:#ff0000;">为避免暴露您的卷是否包含隐藏卷，或者如果您在使用隐藏卷/操作系统时依赖似是而非的否认能力，那么您必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统，并丢弃VeraCrypt 1.18a版本之前创建的现有卷。</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.27</strong> (2025年9月20日):</p>
+<p><strong style="text-align:left">1.26.29</strong> (2026年6月4日):</p>
 <ul>
 <li><strong>所有操作系统:</strong>
-  <ul>
-    <li>更新Logo图标，采用无文字标签的简化版。</li>
-    <li>更新文档。</li>
-    <li>更新翻译。</li>
-  </ul>
+	<ul>
+	<li>新增 Argon2id，作为非系统卷的可选内存困难型密钥推导函数（KDF）。</li>
+	<li>用户界面和文档中改用“KDF”术语，替代“PKCS-5 PRF”。</li>
+	<li>更新 Logo 图标，采用不带额外文字标签的简化图标。</li>
+	<li>增强 XML 和 TLV 解析器对格式错误输入的防护。</li>
+	<li>安全：修复 <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>：非默认启用的 <code>WOLFCRYPT=1</code> 构建现在使用 wolfCrypt PBKDF2 而非 HKDF，并使用 VeraCrypt 的 PBKDF2 迭代次数。
+		<ul>
+			<li>由 https://github.com/vastblast 报告 </li>
+		</ul>
+	</li>
+	<li>修复 CPU 特性检测和加密实现中的边界情况，包括 AVX2/leaf 7 检测、Camellia SSSE3 调度、Twofish x64 多块尾部处理以及 Whirlpool 对齐。</li>
+	<li>更新文档，包括 Argon2id/KDF 信息，并将 Windows/Unix 命令行用法拆分为独立页面。</li>
+	<li>更新翻译。</li>
+	</ul>
 </li>
 <li><strong>Windows:</strong>
-  <ul>
-    <li>修复影响VeraCrypt驱动程序的罕见蓝屏（BSOD）问题。</li>
-    <li>增强驱动程序崩溃转储过滤功能（GH PR #1590）。</li>
-    <li>优化驱动中的I/O请求处理流程。</li>
-    <li>新增对Argon2id密码哈希算法的支持。</li>
-    <li>加快了在选择自动检测伪随机函数（PRF）时的挂载速度。</li>
-    <li>新增命令行参数 <code>/protectScreen</code>，可在便携模式下禁用屏幕保护功能（详见文档）。</li>
-    <li>为命令行参数 <code>/protectMemory</code> 新增选项，可在便携模式下禁用内存保护功能（详见文档）。</li>
-    <li>新增设置项及命令行参数 <code>/enableIME</code>，可在安全桌面下启用输入法（IME）功能。</li>
-    <li>提供VeraCrypt C/C++ SDK，用于创建加密卷（<a href="https://github.com/veracrypt/VeraCrypt-SDK">https://github.com/veracrypt/VeraCrypt-SDK</a>）。</li>
-  </ul>
+<ul>
+<li>修复影响 VeraCrypt 驱动程序的罕见蓝屏（BSOD）问题。</li>
+<li>修复全新安装 Windows 11 25H2 后休眠时崩溃的问题。</li>
+<li>安全：修复 <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-jjcr-75w7-58jp" target="_blank">GHSA-jjcr-75w7-58jp</a>：隐藏卷快速格式化不再使用文件容器快速分配方法；该方法曾每隔 128 MiB 写入明文零扇区。此修复保持似是而非的否认性。
+	<ul>
+		<li>由 https://github.com/vastblast 报告 </li>
+		<li>此回归问题引入于 1.26.6</li>
+	</ul>
+</li>
+<li>增强 Windows 驱动程序输入验证和崩溃转储过滤处理（GH PR #1590）。</li>
+<li>改进驱动程序 I/O 处理，包括更安全的请求完成、有序的卷刷新屏障，以及更完善的 VERIFY/TRIM 验证。</li>
+<li>修复 PBKDF 的 XSTATE 清理，并为 AES 汇编代码添加 Win64 栈展开元数据。</li>
+<li>加快选择 KDF 自动检测时的挂载速度。</li>
+<li>新增对使用 Microsoft UEFI CA 2023 签名的 EFI 引导加载程序的支持，同时保留对 Microsoft UEFI CA 2011 的支持。</li>
+<li>改进 EFI 系统加密的修复和升级处理，包括卡住的解密完成流程、Post-OOBE 修复、引导加载程序恢复验证，以及缺少引导加载程序时更清晰的报告。</li>
+<li>修复 EFI <code>DcsProp</code> 重写处理。</li>
+<li>修复通过命令行卸载后残留驱动器号的问题（GH #337, GH #1426）。</li>
+<li>修复收藏卷挂载竞态问题。</li>
+<li>仅更改 KDF 时也验证 PIM。</li>
+<li>修复提权 COM 中的格式化驱动器验证和设备路径规范化问题（GH #1670）。</li>
+<li>修复卷创建期间 ReFS 格式化问题。</li>
+<li>修复使用 WHQL 签名驱动程序时的 MSI 移动磁盘创建问题、ARM64 MSI 构建、“开始”菜单文件夹升级以及较新 SDK MSI 工具发现问题。</li>
+<li>新增命令行参数 <code>/protectScreen</code>，可在便携模式下禁用屏幕保护功能（详见文档）。</li>
+<li>为命令行参数 <code>/protectMemory</code> 新增选项，可在便携模式下禁用内存保护功能（详见文档）。</li>
+<li>新增设置项及命令行参数 <code>/enableIME</code>，可在安全桌面下启用输入法（IME）功能。</li>
+<li>VeraCrypt 首选项改用选项卡控件，以减少对话框杂乱并缩小尺寸。</li>
+<li>提供 VeraCrypt C/C++ SDK，用于创建加密卷（<a href="https://github.com/veracrypt/VeraCrypt-SDK" target="_blank">https://github.com/veracrypt/VeraCrypt-SDK</a>）。</li>
+<li>将 LZMA SDK 更新至 26.01 版本。</li>
+</ul>
 </li>
 <li><strong>Linux:</strong>
-  <ul>
-    <li>更新对Ubuntu 25.04的依赖，需安装 <code>libwxgtk3.2-1t64</code> 软件包。</li>
-    <li>允许以任意大小写“veracrypt”开头的AppImage文件运行。</li>
-    <li>修复主界面列宽初始显示不正确的问题。</li>
-  </ul>
+	<ul>
+	<li>更新对 Ubuntu 25.04 的依赖，需安装 libwxgtk3.2-1t64 软件包。</li>
+	<li>新增基于 FUSE3 构建的支持。</li>
+	<li>新增用于 NTFS 挂载的内核 NTFS 驱动选择，包括 <code>--filesystem=kernel-ntfs</code> 和 <code>-m kernelntfs</code>。
+		<ul>
+		<li><code>--filesystem=ntfs3</code> 现在固定使用内核 ntfs3 驱动，并绕过 <code>mount.ntfs3</code> 等挂载辅助程序。</li>
+		</ul>
+	</li>
+	<li>修复 AppImage 便携性和语言加载问题，并允许 AppImage 文件名以任意大小写的“veracrypt”开头。</li>
+	<li>抑制多余的“已在运行”对话框，并将 GUI 实例锁存储在 XDG 路径下。</li>
+	<li>新增对残留卸载状态的应急清理。</li>
+	<li>并行化卷头 KDF 自动检测。</li>
+	<li>外部格式化时遵循 <code>nokernelcrypto</code>。</li>
+	<li>在 WSL 上使用 Windows 资源管理器打开已挂载卷。</li>
+	<li>新增对可复现 Linux 构建和 Arch 软件包构建的支持。</li>
+	<li>新增 OpenWrt 软件包构建和 QEMU 测试脚本。</li>
+	<li>修复 CMake 4 兼容性、CentOS 6 GCC 4.4 构建，以及与 wxWidgets 相关的构建问题。</li>
+	</ul>
+</li>
+<li><strong>Linux 和 macOS:</strong>
+	<ul>
+	<li>修复主界面列宽初始显示不正确的问题。</li>
+	<li>为普通文件容器启用快速格式化。容器通过 <code>ftruncate()</code> 设置大小，因此宿主文件系统可能会在写入数据之前保持部分区域未写入或稀疏。</li>
+	<li>修复 exFAT 外层卷的隐藏卷大小估算问题。</li>
+	<li>修复隐藏卷 FAT 大小限制处理。</li>
+	<li>修复 GUI 向导中隐藏文件容器错误的 2 TiB 限制。</li>
+	<li>显示卷创建的收尾阶段。</li>
+	<li>卷创建向导现在也会从嵌套控件收集鼠标熵。</li>
+	<li>修复剩余的 wxWidgets sizer 标志问题。</li>
+	</ul>
 </li>
 <li><strong>macOS:</strong>
-  <ul>
-    <li>修复主界面列宽初始显示不正确的问题。</li>
-  </ul>
+	<ul>
+	<li>FUSE-T 辅助挂载改用 SMB 后端，并改进 FUSE-T SMB 元数据处理和挂载稳定性。</li>
+	<li>恢复已挂载卷的挂载点。</li>
+	<li>验证格式化向导中的设备目标，并阻止通过带分区的整盘别名进行绕过。</li>
+	<li>需要时以提升权限运行 APFS 格式化工具，并预先准备 APFS 格式化工具的设备别名。</li>
+	<li>格式化卷时强制使用全新的 exFAT 布局。</li>
+	<li>修复密码字段中的 <code>Command-A</code>。</li>
+	<li>链接 wxWidgets 3.2.10，并允许覆盖部署目标。</li>
+	</ul>
+</li>
+<li><strong>BSD:</strong>
+	<ul>
+	<li>FreeBSD：静态 wxWidgets 构建链接 iconv。</li>
+	<li>OpenBSD：修复设备托管卷大小计算，按 doas 用户设置挂载所有权和 FUSE 访问权限，并修复 CLI 构建和 PCSC 退出处理。</li>
+	</ul>
 </li>
 </ul>
 
