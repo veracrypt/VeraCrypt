@@ -295,7 +295,7 @@
     <entry lang="cs" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="cs" key="IDT_PW_CACHE_OPTIONS">Mezipaměť pro hesla</entry>
     <entry lang="cs" key="IDT_SECURITY_OPTIONS">Možnosti zabezpečení</entry>
-    <entry lang="en" key="IDT_EMV_OPTIONS">EMV Options</entry>
+    <entry lang="cs" key="IDT_EMV_OPTIONS">Možnosti EMV</entry>
     <entry lang="cs" key="IDT_TASKBAR_ICON">VeraCrypt služba na pozadí</entry>
     <entry lang="cs" key="IDT_TRAVELER_MOUNT">Svazek VeraCryptu, který chcete připojit (relativní ke kořenovému adresáři):</entry>
     <entry lang="cs" key="IDT_TRAVEL_INSERTION">Po připojení přenosného disku:</entry>
@@ -390,7 +390,7 @@
     <entry lang="cs" key="ADMINISTRATOR">Správce</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_DRIVER">Pro nahrání ovladače VeraCrypt musíte být přihlášeni jako správce systému.</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_WARN_DEVICES">Pro šifrování/formátování diskového oddílu/zařízení musíte být přihlášeni s oprávněním správce.\n\nTo se netýká svazků, které jsou vytvořeny ze souborů.</entry>
-    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Unable to activate fast file creation: Administrator privileges required.\nPlease relaunch the program as an Administrator to enable this feature.\n\nWould you like to proceed without fast file creation?</entry>
+    <entry lang="cs" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">Nelze aktivovat rychlé vytvoření souboru: jsou vyžadována oprávnění správce.\nPro povolení této funkce spusťte program znovu jako správce.\n\nChcete pokračovat bez rychlého vytvoření souboru?</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Pro vytvoření skrytého svazku musíte být přihlášeni s oprávněním správce.\n\nPokračovat?</entry>
     <entry lang="cs" key="ADMIN_PRIVILEGES_WARN_NTFS">Pro zformátování svazku systémem NTFS musíte být přihlášeni s oprávněním správce.\n\nBez oprávnění správce můžete svazek zformátovat systémem souborů FAT.</entry>
     <entry lang="cs" key="AES_HELP">Šifra povolená FIPS (Rijndael, zveřejněno v roce 1998) kterou mohou používat úřady a agentury vlády Spojených států k ochraně utajovaných informací až k úrovni přísně tajné. 256-bitový klíč, 128-bitové  bloky, 14 iterací (AES-256). Operační režim je XTS.</entry>
@@ -940,7 +940,7 @@
     <entry lang="cs" key="ENTER_HEADER_BACKUP_PASSWORD">Zadejte heslo pro hlavičku uloženou v záložním souboru</entry>
     <entry lang="cs" key="KEYFILE_CREATED">Souborový klíč byl úspěšně vytvořen.</entry>
     <entry lang="cs" key="KEYFILE_INCORRECT_NUMBER">Počet poskytnutých souborových klíčů je neplatný.</entry>
-    <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be at least 64 bytes.</entry>
+    <entry lang="cs" key="KEYFILE_INCORRECT_SIZE">Velikost souborového klíče musí být alespoň 64 bajtů.</entry>
     <entry lang="cs" key="KEYFILE_EMPTY_BASE_NAME">Prosím, zadejte název pro vygenerovaný souborový klíč</entry>
     <entry lang="cs" key="KEYFILE_INVALID_BASE_NAME">Základní název souborového klíče je neplatný</entry>
     <entry lang="cs" key="KEYFILE_ALREADY_EXISTS">Souborový klíč '%s' již existuje.\nPřejete si ho přepsat? Jeho vygenerování bude zastaveno, odpovíte-li „Ne”.</entry>
@@ -1519,7 +1519,7 @@
     <entry lang="cs" key="LINUX_NOT_FAT_HINT">Upozorňujeme, že svazek nebude naformátován systémem souborů FAT, a proto může být nutné na jiných platformách než {0} nainstalovat další ovladače souborového systému, jenž umožní připojení svazku.</entry>
     <entry lang="cs" key="LINUX_KERNEL_OLD">Váš systém používá starou verzi linuxového jádra.\n\nV důsledku chyby v linuxovém jádře může systém přestat reagovat při zápisu dat na svazek VeraCryptu. Tento problém lze vyřešit aktualizací jádra na verzi 2.6.24 nebo novější.</entry>
     <entry lang="cs" key="LINUX_VOL_UNMOUNTED">Svazek {0} byl odpojen.</entry>
-    <entry lang="en" key="LINUX_VOL_MOUNTED">Volume {0} has been mounted.</entry>
+    <entry lang="cs" key="LINUX_VOL_MOUNTED">Svazek {0} byl připojen.</entry>
     <entry lang="cs" key="LINUX_OOM">Nedostatek paměti.</entry>
     <entry lang="cs" key="LINUX_CANT_GET_ADMIN_PRIV">Nepodařilo se získat oprávnění správce systému</entry>
     <entry lang="cs" key="LINUX_COMMAND_GET_ERROR">Příkaz {0} vrátil chybu {1}.</entry>
@@ -1643,47 +1643,47 @@
     <entry lang="cs" key="IDC_DISABLE_SCREEN_PROTECTION">Zakázat ochranu proti snímkům obrazovky a záznamu obrazovky</entry>
     <entry lang="cs" key="DISABLE_SCREEN_PROTECTION_WARNING">UPOZORNĚNÍ: Vypnutí ochrany obrazovky výrazně snižuje úroveň zabezpečení. Tuto možnost povolte POUZE v případě, že potřebujete konkrétně zachytit rozhraní VeraCryptu. Toto nastavení může vystavit citlivá data nástrojům pro snímání obrazovky a funkcím pro záznam obrazovky, jako je například Windows 11 Recall.</entry>
     <entry lang="cs" key="MEMORY_COST">Paměťová náročnost</entry>
-    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
-    <entry lang="en" key="ERR_KEY_DERIVATION_FAILED">Key derivation failed. This may be caused by insufficient memory or an interrupted operation.</entry>
-    <entry lang="en" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">The system partition/drive is already decrypted, but the EFI Microsoft boot loader path was not restored to the Windows Boot Manager. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">The system partition/drive is already decrypted, but the EFI fallback boot loader path still contains the VeraCrypt Boot Loader. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="IDM_REPAIR_EFI_BOOT_LOADER">Repair EFI Boot Loader...</entry>
-    <entry lang="en" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt will restore the Windows EFI boot loader paths and remove VeraCrypt EFI boot entries and files.\n\nUse this only after the system partition/drive is fully decrypted and Windows can boot without system encryption.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_READ_FAILED">The EFI boot loader file could not be read completely:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">The EFI boot loader file is unexpectedly large and was not inspected:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">The system partition/drive is already decrypted and the EFI boot loader files were restored, but VeraCrypt could not remove one or more VeraCrypt firmware boot entries. The VeraCrypt EFI files were left in place so any remaining firmware entry still points to an existing loader. Retry as Administrator or remove the VeraCrypt boot entry from firmware setup after confirming Windows Boot Manager starts normally.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">The EFI boot loader cannot be repaired while system encryption or decryption is active or incomplete. Complete or resume the pending system encryption/decryption process before retrying.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">This repair action is available only on systems booting in UEFI mode from a GPT system partition.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">The EFI boot loader has been repaired successfully.</entry>
-    <entry lang="en" key="PIM_ARGON2_HELP">PIM (Personal Iterations Multiplier) controls the memory and time costs used by Argon2id header key derivation as follows:\n      Memory = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      Iterations = 3 + ((PIM - 1) / 3) for PIM 31 or lower, then 13 + (PIM - 31)\n\nWhen left empty or set to 0, VeraCrypt will use the default Argon2 PIM (12), which uses 416 MiB of memory and 6 iterations.\n\nWhen the password is less than 20 characters, Argon2 PIM can't be smaller than 12 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, Argon2 PIM can be set to any value.\n\nAn Argon2 PIM larger than 12 increases memory usage up to 1024 MiB and then increases iterations. This will lead to slower mounting. A small Argon2 PIM (less than 12) will lead to quicker mounting but it can reduce security if the password is not strong enough.</entry>
-    <entry lang="en" key="PIM_ARGON2_LARGE_WARNING">You have chosen an Argon2 PIM value that is larger than VeraCrypt default value.\nPlease note that this can require more memory and lead to much slower mounting.</entry>
-    <entry lang="en" key="PIM_ARGON2_SMALL_WARNING">You have chosen an Argon2 PIM value that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to weaker security.\n\nDo you confirm that you are using a strong password?</entry>
-    <entry lang="en" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified Argon2 PIM.\nShorter passwords can only be used if the Argon2 PIM is 12 or greater.</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Mount NTFS volumes with an in-kernel Linux driver</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Linux only. When enabled and no explicit filesystem type was supplied, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with an available in-kernel NTFS driver, bypassing mount helpers such as ntfs-3g. VeraCrypt uses ntfs when it is positively identified as a modern read/write driver or expected on Linux 7.1 or later, and otherwise uses ntfs3. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If no supported in-kernel NTFS driver is available or loadable, mounting fails. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
-    <entry lang="en" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">No supported in-kernel NTFS driver is available or loadable. To use the system default NTFS backend, disable the NTFS kernel-driver preference or do not request kernel NTFS explicitly.</entry>
-    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Normal unmount of volume {0} failed. This can happen when applications still have files or directories open on the volume, or when the backing device was disconnected and the mount became stale.\n\nIf the device is still connected, choose No, close applications using the volume, and try unmounting again.\n\nIf the device was disconnected or the mount is stale, VeraCrypt can attempt emergency cleanup by lazy-detaching the filesystem and removing or scheduling removal of VeraCrypt kernel objects. Pending writes may have failed, data may be lost, and cleanup may remain pending until applications close open files. Check the filesystem with fsck or the appropriate repair tool before using it again.\n\nContinue?</entry>
-    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNTED">Emergency cleanup for volume {0} has been initiated. If the volume was disconnected, the mount was stale, or there were pending writes, check the filesystem with fsck or the appropriate repair tool before using it again.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_DATA">Creating volume data. Please wait.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Finalizing volume creation: writing backup header.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FLUSHING_DATA">Finalizing volume creation: flushing data to disk. This can take several minutes on large volumes or slow/USB storage.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FINISHED">Finalizing volume creation.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ABORTED">Volume creation has been aborted.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ERROR">Volume creation failed.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Finalizing volume creation: mounting temporary volume.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Finalizing volume creation: preparing temporary device.</entry>
-    <entry lang="en" key="FORMAT_STAGE_CREATING_FILESYSTEM">Finalizing volume creation: creating filesystem using {0}.</entry>
-    <entry lang="en" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Finalizing volume creation: dismounting temporary volume.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYNTHESIZED_DEVICE">The selected device '{0}' is an APFS synthesized container or volume and cannot be used as a raw VeraCrypt volume host.\n\nSelect the physical APFS store partition{1} instead.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_SYSTEM_PARTITION">The selected device '{0}' is a macOS system/support partition and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYSTEM_STORE">The selected APFS physical store '{0}' contains the currently mounted macOS system volume and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_NOT_WRITABLE">macOS reports the selected device '{0}' as read-only. Select a writable physical partition or disk.</entry>
-    <entry lang="en" key="MACOSX_APFS_EROFS_HINT">macOS reported the selected device as read-only. If this is an APFS disk, make sure you selected the physical APFS store partition, not an APFS synthesized volume. Use Disk Utility or 'diskutil list' to identify the physical partition, then retry.</entry>
+    <entry lang="cs" key="IDT_KDF_ALGO">Algoritmus KDF</entry>
+    <entry lang="cs" key="IDD_PREFERENCES_TAB_GENERAL">Obecné</entry>
+    <entry lang="cs" key="IDD_PREFERENCES_TAB_ACTIONS">Akce</entry>
+    <entry lang="cs" key="IDD_PREFERENCES_TAB_PASSWORD">Heslo</entry>
+    <entry lang="cs" key="IDC_SECURE_DESKTOP_ENABLE_IME">Povolit editor vstupní metody (IME) na zabezpečené ploše</entry>
+    <entry lang="cs" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">UPOZORNĚNÍ: tuto možnost povolte pouze v případě, že máte potíže při výběru souborových klíčů/tokenů na zabezpečené ploše.</entry>
+    <entry lang="cs" key="ERR_KEY_DERIVATION_FAILED">Odvození klíče se nezdařilo. Příčinou může být nedostatek paměti nebo přerušená operace.</entry>
+    <entry lang="cs" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">Systémový diskový oddíl/disk je již dešifrován, ale cesta k zavaděči EFI od Microsoftu nebyla obnovena do Správce zavaděče Windows. Je třeba opravit pouze spouštěcí soubory EFI. Použijte možnost opravy záchranného disku VeraCryptu, nebo spusťte médium pro obnovení Windows a spusťte příkaz 'bcdboot W:\\Windows /s S: /f UEFI' poté, co nahradíte W: písmenem jednotky svazku Windows a S: písmenem jednotky systémového diskového oddílu EFI. Cesta:</entry>
+    <entry lang="cs" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">Systémový diskový oddíl/disk je již dešifrován, ale náhradní cesta zavaděče EFI stále obsahuje zavaděč VeraCryptu. Je třeba opravit pouze spouštěcí soubory EFI. Použijte možnost opravy záchranného disku VeraCryptu, nebo spusťte médium pro obnovení Windows a spusťte příkaz 'bcdboot W:\\Windows /s S: /f UEFI' poté, co nahradíte W: písmenem jednotky svazku Windows a S: písmenem jednotky systémového diskového oddílu EFI. Cesta:</entry>
+    <entry lang="cs" key="IDM_REPAIR_EFI_BOOT_LOADER">Opravit zavaděč EFI...</entry>
+    <entry lang="cs" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt obnoví cesty zavaděče EFI systému Windows a odstraní položky a soubory zavaděče EFI VeraCryptu.\n\nPoužijte tuto možnost pouze poté, co je systémový diskový oddíl/disk plně dešifrován a Windows lze spustit bez šifrování systému.\n\nChcete pokračovat?</entry>
+    <entry lang="cs" key="EFI_BOOT_LOADER_FILE_READ_FAILED">Soubor zavaděče EFI nebylo možné načíst úplně:</entry>
+    <entry lang="cs" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">Soubor zavaděče EFI je neočekávaně velký a nebyl zkontrolován:</entry>
+    <entry lang="cs" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">Systémový diskový oddíl/disk je již dešifrován a soubory zavaděče EFI byly obnoveny, ale VeraCrypt nemohl odstranit jednu nebo více položek zavaděče VeraCryptu ve firmwaru. Soubory EFI VeraCryptu byly ponechány na místě, aby zbývající položky firmwaru stále odkazovaly na existující zavaděč. Zkuste to znovu jako správce nebo odstraňte položku zavaděče VeraCryptu z nastavení firmwaru poté, co ověříte, že se Správce zavaděče Windows spouští normálně.</entry>
+    <entry lang="cs" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">Zavaděč EFI nelze opravit, dokud je šifrování nebo dešifrování systému aktivní či nedokončené. Dokončete nebo obnovte čekající proces šifrování/dešifrování systému a zkuste to znovu.</entry>
+    <entry lang="cs" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">Tato oprava je dostupná pouze na systémech, které se spouštějí v režimu UEFI ze systémového diskového oddílu GPT.</entry>
+    <entry lang="cs" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">Zavaděč EFI byl úspěšně opraven.</entry>
+    <entry lang="cs" key="PIM_ARGON2_HELP">PIM (Personal Iterations Multiplier) reguluje paměťovou a časovou náročnost použitou při odvození klíče hlavičky pomocí Argon2id následovně:\n      Paměť = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      Iterace = 3 + ((PIM - 1) / 3) pro PIM 31 nebo nižší, poté 13 + (PIM - 31)\n\nZanecháte-li prázdné, nebo nastavíte 0, VeraCrypt použije výchozí Argon2 PIM (12), který používá 416 MiB paměti a 6 iterací.\n\nJe-li heslo kratší než 20 znaků, Argon2 PIM nesmí být menší než 12, aby byla zachována alespoň minimální úroveň zabezpečení.\nMá-li heslo minimálně 20 znaků, Argon2 PIM může obsahovat jakoukoliv hodnotu.\n\nHodnota Argon2 PIM větší než 12 zvyšuje využití paměti až na 1024 MiB a poté zvyšuje počet iterací. To povede k pomalejšímu připojení. Malá hodnota Argon2 PIM (menší než 12) povede k rychlejšímu připojení, ale může snížit zabezpečení, není-li heslo dostatečně silné.</entry>
+    <entry lang="cs" key="PIM_ARGON2_LARGE_WARNING">Byla vybrána hodnota Argon2 PIM, která je větší než výchozí hodnota VeraCryptu.\nUvědomte si, že to může vyžadovat více paměti a vést k výrazně pomalejšímu připojení.</entry>
+    <entry lang="cs" key="PIM_ARGON2_SMALL_WARNING">Byla vybrána hodnota Argon2 PIM, která je menší než výchozí hodnota VeraCryptu. Uvědomte si, že není-li vaše heslo dostatečně silné, může to vést ke slabšímu zabezpečení.\n\nPotvrzujete, že používáte silné heslo?</entry>
+    <entry lang="cs" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">Heslo musí obsahovat 20 nebo více znaků, aby bylo možné použít zadaný Argon2 PIM.\nKratší hesla lze použít pouze v případě, že Argon2 PIM je 12 nebo vyšší.</entry>
+    <entry lang="cs" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Připojovat svazky NTFS pomocí ovladače v linuxovém jádře</entry>
+    <entry lang="cs" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Pouze Linux. Je-li tato možnost povolena a nebyl zadán explicitní typ systému souborů, VeraCrypt prověří dešifrované virtuální zařízení pomocí blkid -p a připojí zjištěné systémy souborů NTFS pomocí dostupného ovladače NTFS v jádře, přičemž obejde pomocné nástroje pro připojení, jako je ntfs-3g. VeraCrypt použije ntfs, pokud je jednoznačně rozpoznán jako moderní ovladač pro čtení/zápis nebo očekáván v Linuxu 7.1 či novějším, jinak použije ntfs3. Pokud zjištění NTFS selže, VeraCrypt použije běžný automatický výběr systému souborů. Není-li podporovaný ovladač NTFS v jádře dostupný nebo ho nelze načíst, připojení selže. Tato volitelná možnost může zabránit zaseknutí při uspání nebo hibernaci způsobenému zamrzlými systémy souborů FUSE v uživatelském prostoru.</entry>
+    <entry lang="cs" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">Není dostupný žádný podporovaný ovladač NTFS v jádře nebo jej nelze načíst. Chcete-li použít výchozí systémovou podporu NTFS, zakažte nastavení ovladače NTFS v jádře nebo nepožadujte NTFS v jádře explicitně.</entry>
+    <entry lang="cs" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Běžné odpojení svazku {0} selhalo. To se může stát, pokud aplikace mají na svazku stále otevřené soubory nebo adresáře, nebo pokud bylo hostitelské zařízení odpojeno a připojení je neplatné.\n\nJe-li zařízení stále připojeno, vyberte „Ne”, zavřete aplikace používající svazek a zkuste svazek odpojit znovu.\n\nBylo-li zařízení odpojeno nebo je připojení neplatné, VeraCrypt se může pokusit o nouzové vyčištění odpojením systému souborů metodou lazy a odstraněním objektů VeraCryptu v jádře nebo naplánováním jejich odstranění. Čekající zápisy mohly selhat, data mohla být ztracena a čištění může zůstat nedokončené, dokud aplikace nezavřou otevřené soubory. Před dalším použitím zkontrolujte systém souborů pomocí fsck nebo příslušného opravného nástroje.\n\nPokračovat?</entry>
+    <entry lang="cs" key="LINUX_EMERGENCY_UNMOUNTED">Bylo zahájeno nouzové vyčištění svazku {0}. Pokud bylo zařízení odpojeno, připojení bylo neplatné nebo existovaly čekající zápisy, před dalším použitím zkontrolujte systém souborů pomocí fsck nebo příslušného opravného nástroje.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_WRITING_DATA">Vytváření dat svazku. Čekejte prosím.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Dokončování vytváření svazku: zápis záložní hlavičky.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_FLUSHING_DATA">Dokončování vytváření svazku: zápis dat na disk. U velkých svazků nebo pomalých/USB úložišť to může trvat několik minut.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_FINISHED">Dokončování vytváření svazku.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_ABORTED">Vytváření svazku bylo přerušeno.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_ERROR">Vytváření svazku selhalo.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Dokončování vytváření svazku: připojení dočasného svazku.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Dokončování vytváření svazku: příprava dočasného zařízení.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_CREATING_FILESYSTEM">Dokončování vytváření svazku: vytváření systému souborů pomocí {0}.</entry>
+    <entry lang="cs" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Dokončování vytváření svazku: odpojení dočasného svazku.</entry>
+    <entry lang="cs" key="MACOSX_APFS_SYNTHESIZED_DEVICE">Vybrané zařízení '{0}' je syntetizovaný kontejner nebo svazek APFS a nelze jej použít jako hostitele pro raw svazek VeraCryptu.\n\nMísto toho vyberte fyzický diskový oddíl úložiště APFS{1}.</entry>
+    <entry lang="cs" key="MACOSX_DEVICE_SYSTEM_PARTITION">Vybrané zařízení '{0}' je systémový/podpůrný diskový oddíl macOS a nelze jej použít jako hostitele svazku VeraCryptu.</entry>
+    <entry lang="cs" key="MACOSX_APFS_SYSTEM_STORE">Vybrané fyzické úložiště APFS '{0}' obsahuje aktuálně připojený systémový svazek macOS a nelze jej použít jako hostitele svazku VeraCryptu.</entry>
+    <entry lang="cs" key="MACOSX_DEVICE_NOT_WRITABLE">macOS hlásí vybrané zařízení '{0}' jako pouze pro čtení. Vyberte zapisovatelný fyzický diskový oddíl nebo disk.</entry>
+    <entry lang="cs" key="MACOSX_APFS_EROFS_HINT">macOS oznámil, že vybrané zařízení je pouze pro čtení. Jde-li o disk APFS, ujistěte se, že jste vybrali fyzický diskový oddíl úložiště APFS, nikoli syntetizovaný svazek APFS. Pomocí Diskové utility nebo příkazu 'diskutil list' určete fyzický diskový oddíl a zkuste to znovu.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
