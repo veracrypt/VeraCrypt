@@ -119,6 +119,14 @@ it is also available [online](https://veracrypt.jp/en/CompilingGuidelineLinux.ht
 4. If successful, the VeraCrypt executable should be located in the directory
    'Main'.
 
+Reproducible build note: when `SOURCE_DATE_EPOCH` is not set, a build from a
+git checkout uses the HEAD commit timestamp, while a build from a release
+tarball uses the release date in `src/Common/Tcdefs.h` at 00:00 UTC. To
+reproduce official release artifacts from a git checkout, set
+`SOURCE_DATE_EPOCH` explicitly or build from the release tarball. Vendored
+VeraCrypt sources tracked in another git checkout are treated the same way and
+use that checkout's HEAD timestamp.
+
 By default, a universal executable supporting both graphical and text user
 interface (through the switch --text) is built.
 On Linux, a console-only executable, which requires no GUI library, can be

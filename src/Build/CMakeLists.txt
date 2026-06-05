@@ -27,23 +27,48 @@ else()
 endif()
 project(${PROJECT_NAME})
 
-# SOURCE_DATE_EPOCH for the cpack-driven DEB pipeline.
-# Precedence: -DSOURCE_DATE_EPOCH=N, env, git HEAD, fixed fallback.
-# Re-exported to ENV so dpkg-deb/tar inherit it.
+# Source directory which contains the Makefile. Build scripts set this, but keep
+# direct cmake invocations working as well.
+if(NOT DEFINED ENV{SOURCEPATH})
+    get_filename_component(_vc_sourcepath "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+    set(ENV{SOURCEPATH} "${_vc_sourcepath}")
+endif()
+if("$ENV{SOURCEPATH}" STREQUAL "")
+    get_filename_component(_vc_sourcepath "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+    set(ENV{SOURCEPATH} "${_vc_sourcepath}")
+endif()
+
+# SOURCE_DATE_EPOCH for the cpack-driven packaging pipeline.
+# Precedence: -DSOURCE_DATE_EPOCH=N, env, git HEAD, Common/Tcdefs.h release date.
+# Re-exported to this process for package targets and written into
+# CPACK_PROJECT_CONFIG_FILE so later standalone "cpack --config" runs export
+# the same value before invoking package generators.
 if(NOT DEFINED SOURCE_DATE_EPOCH)
     if(DEFINED ENV{SOURCE_DATE_EPOCH})
         set(SOURCE_DATE_EPOCH "$ENV{SOURCE_DATE_EPOCH}")
+    endif()
+endif()
+set(_derive_source_date_epoch FALSE)
+if(NOT DEFINED SOURCE_DATE_EPOCH)
+    set(_derive_source_date_epoch TRUE)
+elseif("${SOURCE_DATE_EPOCH}" STREQUAL "")
+    set(_derive_source_date_epoch TRUE)
+endif()
+if(_derive_source_date_epoch)
+    execute_process(
+        COMMAND sh "$ENV{SOURCEPATH}/Build/Tools/source_date_epoch.sh" "$ENV{SOURCEPATH}"
+        OUTPUT_VARIABLE _source_date_epoch
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_VARIABLE _source_date_epoch_error
+        RESULT_VARIABLE _source_date_epoch_rc)
+    if(_source_date_epoch_rc EQUAL 0 AND NOT "${_source_date_epoch}" STREQUAL "")
+        set(SOURCE_DATE_EPOCH "${_source_date_epoch}")
     else()
-        execute_process(
-            COMMAND git -C "$ENV{SOURCEPATH}" log -1 --pretty=%ct
-            OUTPUT_VARIABLE _git_ct
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-            ERROR_QUIET
-            RESULT_VARIABLE _git_rc)
-        if(_git_rc EQUAL 0 AND _git_ct)
-            set(SOURCE_DATE_EPOCH "${_git_ct}")
+        string(STRIP "${_source_date_epoch_error}" _source_date_epoch_error)
+        if(_source_date_epoch_error)
+            MESSAGE(FATAL_ERROR "SOURCE_DATE_EPOCH must be set, derivable from git, or derivable from Common/Tcdefs.h release date: ${_source_date_epoch_error}")
         else()
-            set(SOURCE_DATE_EPOCH "1577836800")
+            MESSAGE(FATAL_ERROR "SOURCE_DATE_EPOCH must be set, derivable from git, or derivable from Common/Tcdefs.h release date")
         endif()
     endif()
 endif()
@@ -52,6 +77,13 @@ if(NOT SOURCE_DATE_EPOCH MATCHES "^[0-9]+$")
 endif()
 message(STATUS "SOURCE_DATE_EPOCH = ${SOURCE_DATE_EPOCH}")
 set(ENV{SOURCE_DATE_EPOCH} "${SOURCE_DATE_EPOCH}")
+# Standalone "cpack --config CPackConfig.cmake" runs in a new process, so
+# persist the configure-time epoch into CPack's package-time config.
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/Tools/cpack_source_date_epoch.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cpack_source_date_epoch.cmake"
+    @ONLY)
+set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/cpack_source_date_epoch.cmake")
 # Avoid nondeterministic ordering from cpack 3.18+ parallel compression.
 set(CPACK_THREADS 1)
 

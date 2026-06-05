@@ -601,10 +601,10 @@ LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 # is honoured by GCC/Clang for any residual __DATE__/__TIME__ expansion, by
 # ar/ranlib in deterministic mode, and by tar, gzip and makeself for archive
 # member timestamps. If the caller does not set it, derive a stable value
-# from the HEAD commit; fall back to a fixed constant for tarball builds with
-# no git tree so that unattended builds are still deterministic.
+# from the HEAD commit; fall back to the release date embedded in
+# Common/Tcdefs.h for source-tarball builds without a git checkout.
 ifndef SOURCE_DATE_EPOCH
-export SOURCE_DATE_EPOCH := $(shell git -C $(BASE_DIR) log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
+export SOURCE_DATE_EPOCH := $(shell sh "$(BASE_DIR)/Build/Tools/source_date_epoch.sh" "$(BASE_DIR)")
 export VC_SOURCE_DATE_EPOCH_AUTO := 1
 endif
 override export SOURCE_DATE_EPOCH := $(value SOURCE_DATE_EPOCH)
@@ -620,7 +620,7 @@ SOURCE_DATE_EPOCH_REMAINDER := $(subst 7,,$(SOURCE_DATE_EPOCH_REMAINDER))
 SOURCE_DATE_EPOCH_REMAINDER := $(subst 8,,$(SOURCE_DATE_EPOCH_REMAINDER))
 SOURCE_DATE_EPOCH_REMAINDER := $(subst 9,,$(SOURCE_DATE_EPOCH_REMAINDER))
 ifeq "$(SOURCE_DATE_EPOCH)" ""
-$(error SOURCE_DATE_EPOCH must be a non-negative Unix timestamp)
+$(error SOURCE_DATE_EPOCH must be set, derivable from git, or derivable from Common/Tcdefs.h release date)
 endif
 ifneq "$(SOURCE_DATE_EPOCH_REMAINDER)" ""
 $(error SOURCE_DATE_EPOCH must contain decimal digits only)

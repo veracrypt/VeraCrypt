@@ -15,20 +15,6 @@ set -e
 # not reproducible. Pin it for the whole packaging run.
 umask 022
 
-# Compute and export SOURCE_DATE_EPOCH so cmake/cpack inherit it (they get
-# an empty env from this shell otherwise). Precedence: caller, git HEAD,
-# fallback constant matching src/Makefile and CMakeLists.txt.
-if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
-    SOURCE_DATE_EPOCH=$(git -C "$(dirname "$0")/../.." log -1 --pretty=%ct 2>/dev/null || echo 1577836800)
-fi
-case "$SOURCE_DATE_EPOCH" in
-    ''|*[!0-9]*)
-        echo "Error: SOURCE_DATE_EPOCH must be a non-negative Unix timestamp" >&2
-        exit 1
-        ;;
-esac
-export SOURCE_DATE_EPOCH
-
 # Absolute path to this script
 export SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in
@@ -37,6 +23,23 @@ export SCRIPTPATH=$(dirname "$SCRIPT")
 export SOURCEPATH=$(readlink -f "$SCRIPTPATH/..")
 # Directory where the VeraCrypt has been checked out
 export PARENTDIR=$(readlink -f "$SCRIPTPATH/../../..")
+
+# Compute and export SOURCE_DATE_EPOCH so cmake/cpack inherit it (they get
+# an empty env from this shell otherwise). Precedence: caller, git HEAD,
+# Common/Tcdefs.h release date.
+if [ -z "${SOURCE_DATE_EPOCH:-}" ]; then
+    SOURCE_DATE_EPOCH=$(sh "$SOURCEPATH/Build/Tools/source_date_epoch.sh" "$SOURCEPATH") || {
+        echo "Error: SOURCE_DATE_EPOCH must be set, derivable from git, or derivable from Common/Tcdefs.h release date" >&2
+        exit 1
+    }
+fi
+case "$SOURCE_DATE_EPOCH" in
+    ''|*[!0-9]*)
+        echo "Error: SOURCE_DATE_EPOCH must be a non-negative Unix timestamp" >&2
+        exit 1
+        ;;
+esac
+export SOURCE_DATE_EPOCH
 
 # Check the condition of wxBuildConsole and wxWidgets-3.2.5 in the original PARENTDIR
 if [ -d "$PARENTDIR/wxBuildConsole" ]; then
