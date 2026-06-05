@@ -21,6 +21,10 @@
 #include "Crypto/cpu.h"
 #include "Crypto/misc.h"
 
+#define BLAKE2S_USE_X86_INTRINSICS \
+	((CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32) \
+		&& CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE)
+
 // load32 is always called in SSE case which implies little endian 
 #define load32(x)	*((uint32*) (x))
 
@@ -105,7 +109,7 @@ void blake2s_init_param( blake2s_state *S, const blake2s_param *P )
 typedef void (*blake2s_compressFn)( blake2s_state *S, const uint8 block[BLAKE2S_BLOCKBYTES] );
 
 blake2s_compressFn blake2s_compress_func = NULL;
-#if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
+#if BLAKE2S_USE_X86_INTRINSICS
 extern int blake2s_has_sse2();
 extern int blake2s_has_ssse3();
 extern int blake2s_has_sse41();
@@ -180,7 +184,7 @@ void blake2s_init( blake2s_state *S )
 
   if (!blake2s_compress_func)
   {
-#if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
+#if BLAKE2S_USE_X86_INTRINSICS
 	if (HasSSE2() && blake2s_has_sse2())
 	{
 		if (HasSSE41() && blake2s_has_sse41())

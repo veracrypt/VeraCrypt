@@ -206,10 +206,12 @@ int fill_segment_sse2(const argon2_instance_t *instance,
     return ARGON2_OK;
 }
 #else
+extern int fill_segment_ref(const argon2_instance_t* instance,
+    argon2_position_t position);
+
 int fill_segment_sse2(const argon2_instance_t* instance,
     argon2_position_t position) {
-    (void)instance;
-    (void)position;
-    return ARGON2_INCORRECT_PARAMETER; // SSE2 not available
+    /* NOSSE2 builds can still run on SSE2-capable CPUs and reach this symbol. */
+    return fill_segment_ref(instance, position);
 }
 #endif

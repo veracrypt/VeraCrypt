@@ -205,10 +205,12 @@ int fill_segment_avx2(const argon2_instance_t *instance,
     return ARGON2_OK;
 }
 #else
+extern int fill_segment_sse2(const argon2_instance_t* instance,
+    argon2_position_t position);
+
 int fill_segment_avx2(const argon2_instance_t* instance,
     argon2_position_t position) {
-    (void)instance;
-    (void)position;
-    return ARGON2_INCORRECT_PARAMETER; /* AVX2 not available */
+    /* AVX2-capable CPUs may reach this symbol when the AVX2 TU was built as a stub. */
+    return fill_segment_sse2(instance, position);
 }
 #endif
