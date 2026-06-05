@@ -414,6 +414,8 @@ int benchmarkType = BENCHMARK_TYPE_ENCRYPTION;
 int benchmarkPim = -1;
 BOOL benchmarkPreBoot = FALSE;
 BOOL benchmarkGPT = FALSE;
+BOOL benchmarkSelectedKdfs[LAST_PRF_ID + 1];
+BOOL benchmarkKdfListUpdating = FALSE;
 
 #endif	// #ifndef SETUP
 
@@ -6202,6 +6204,161 @@ void GetSpeedString (unsigned __int64 speed, wchar_t *str, size_t cbStr)
 		StringCbPrintfW (str, cbStr, L"%I64d %s", speed, b);
 }
 
+static void ResetBenchmarkList (HWND hwndDlg);
+
+static void ResetBenchmarkKdfSelections (void)
+{
+	int kdf;
+
+	memset (benchmarkSelectedKdfs, 0, sizeof (benchmarkSelectedKdfs));
+	for (kdf = FIRST_PRF_ID; kdf <= LAST_PRF_ID; kdf++)
+		benchmarkSelectedKdfs[kdf] = TRUE;
+}
+
+static BOOL BenchmarkKdfAllowedForCurrentOptions (int kdf)
+{
+	PRF_BOOT_TYPE bootType = PRF_BOOT_NO;
+
+	if (benchmarkPreBoot)
+		bootType = benchmarkGPT ? PRF_BOOT_GPT : PRF_BOOT_MBR;
+
+	return is_pkcs5_prf_supported (kdf, bootType) && HashIsAvailable (kdf);
+}
+
+static BOOL BenchmarkKdfSelectedForCurrentOptions (int kdf)
+{
+	return BenchmarkKdfAllowedForCurrentOptions (kdf) && benchmarkSelectedKdfs[kdf];
+}
+
+static int GetBenchmarkKdfListItem (HWND hList, int itemIndex)
+{
+	LVITEMW LvItem;
+
+	memset (&LvItem, 0, sizeof (LvItem));
+	LvItem.mask = LVIF_PARAM;
+	LvItem.iItem = itemIndex;
+
+	if (!ListView_GetItem (hList, &LvItem))
+		return 0;
+
+	return (int) LvItem.lParam;
+}
+
+static void InitBenchmarkKdfList (HWND hwndDlg)
+{
+	LVCOLUMNW LvCol;
+	int thid, itemIndex = 0;
+	HWND hList = GetDlgItem (hwndDlg, IDC_BENCHMARK_KDF_LIST);
+
+	if (!hList)
+		return;
+
+	benchmarkKdfListUpdating = TRUE;
+
+	ListView_DeleteAllItems (hList);
+
+	SendMessage (hList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0,
+		LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
+
+	memset (&LvCol, 0, sizeof (LvCol));
+	LvCol.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM | LVCF_FMT;
+	LvCol.pszText = GetString ("KDF");
+	LvCol.cx = CompensateXDPI (126);
+	LvCol.fmt = LVCFMT_LEFT;
+	SendMessageW (hList, LVM_INSERTCOLUMNW, 0, (LPARAM) &LvCol);
+
+	for (thid = FIRST_PRF_ID; thid <= LAST_PRF_ID; thid++)
+	{
+		LVITEMW LvItem;
+
+		memset (&LvItem, 0, sizeof (LvItem));
+		LvItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_STATE;
+		LvItem.iItem = itemIndex;
+		LvItem.pszText = get_kdf_name (thid);
+		LvItem.lParam = (LPARAM) thid;
+		LvItem.stateMask = LVIS_STATEIMAGEMASK;
+		LvItem.state = INDEXTOSTATEIMAGEMASK (benchmarkSelectedKdfs[thid] ? 2 : 1);
+
+		ListView_InsertItem (hList, &LvItem);
+		itemIndex++;
+	}
+
+	benchmarkKdfListUpdating = FALSE;
+}
+
+static void UpdateBenchmarkKdfListForCurrentOptions (HWND hwndDlg)
+{
+	int itemIndex;
+	HWND hList = GetDlgItem (hwndDlg, IDC_BENCHMARK_KDF_LIST);
+	int itemCount = ListView_GetItemCount (hList);
+
+	benchmarkKdfListUpdating = TRUE;
+
+	for (itemIndex = 0; itemIndex < itemCount; itemIndex++)
+	{
+		int kdf = GetBenchmarkKdfListItem (hList, itemIndex);
+		ListView_SetCheckState (hList, itemIndex, BenchmarkKdfSelectedForCurrentOptions (kdf));
+	}
+
+	benchmarkKdfListUpdating = FALSE;
+}
+
+static void UpdateBenchmarkKdfSelectorVisibility (HWND hwndDlg)
+{
+	BOOL show = (benchmarkType == BENCHMARK_TYPE_PRF);
+
+	ShowWindow (GetDlgItem (hwndDlg, IDT_KDF), show ? SW_SHOW : SW_HIDE);
+	ShowWindow (GetDlgItem (hwndDlg, IDC_BENCHMARK_KDF_LIST), show ? SW_SHOW : SW_HIDE);
+	ShowWindow (GetDlgItem (hwndDlg, IDT_BOX_BENCHMARK_INFO), show ? SW_HIDE : SW_SHOW);
+
+	if (show)
+		UpdateBenchmarkKdfListForCurrentOptions (hwndDlg);
+}
+
+static BOOL BenchmarkHasSelectedKdfForCurrentOptions (void)
+{
+	int kdf;
+
+	for (kdf = FIRST_PRF_ID; kdf <= LAST_PRF_ID; kdf++)
+	{
+		if (BenchmarkKdfSelectedForCurrentOptions (kdf))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static BOOL HandleBenchmarkKdfListItemChanged (HWND hwndDlg, LPNMLISTVIEW changedItem)
+{
+	int kdf;
+	BOOL selected;
+	HWND hList = GetDlgItem (hwndDlg, IDC_BENCHMARK_KDF_LIST);
+
+	if (benchmarkKdfListUpdating
+		|| changedItem->iItem < 0
+		|| !(changedItem->uChanged & LVIF_STATE)
+		|| !((changedItem->uOldState ^ changedItem->uNewState) & LVIS_STATEIMAGEMASK))
+	{
+		return TRUE;
+	}
+
+	kdf = GetBenchmarkKdfListItem (hList, changedItem->iItem);
+	selected = ListView_GetCheckState (hList, changedItem->iItem);
+
+	if (!BenchmarkKdfAllowedForCurrentOptions (kdf))
+	{
+		if (selected)
+			ListView_SetCheckState (hList, changedItem->iItem, FALSE);
+
+		return TRUE;
+	}
+
+	benchmarkSelectedKdfs[kdf] = selected;
+	benchmarkTotalItems = 0;
+	ResetBenchmarkList (hwndDlg);
+	return TRUE;
+}
+
 static void ResetBenchmarkList (HWND hwndDlg)
 {
 	LVCOLUMNW LvCol;
@@ -6527,11 +6684,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 		for (thid = FIRST_PRF_ID; thid <= LAST_PRF_ID; thid++) 
 		{
-			if (benchmarkPreBoot && !benchmarkGPT && !HashForSystemEncryption (thid))
-				continue;
-
-			// we don't support Argon2 for system encryption
-			if (benchmarkPreBoot && thid == ARGON2)
+			if (!BenchmarkKdfSelectedForCurrentOptions (thid))
 				continue;
 
 			if (QueryPerformanceCounter (&performanceCountStart) == 0)
@@ -6762,6 +6915,8 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			benchmarkBufferSize = BENCHMARK_DEFAULT_BUF_SIZE;
 			benchmarkSortMethod = BENCHMARK_SORT_BY_SPEED;
 			benchmarkType = BENCHMARK_TYPE_ENCRYPTION;
+			benchmarkPreBoot = FALSE;
+			ResetBenchmarkKdfSelections ();
 
 			if (lParam)
 			{
@@ -6782,6 +6937,8 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage (hList,LVM_INSERTCOLUMNW,0,(LPARAM)&LvCol);
 
 			ResetBenchmarkList (hwndDlg);
+			InitBenchmarkKdfList (hwndDlg);
+			UpdateBenchmarkKdfSelectorVisibility (hwndDlg);
 
 			/* Combo boxes */
 
@@ -6903,6 +7060,14 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		break;
 
+	case WM_NOTIFY:
+		if (((LPNMHDR) lParam)->idFrom == IDC_BENCHMARK_KDF_LIST
+			&& ((LPNMHDR) lParam)->code == LVN_ITEMCHANGED)
+		{
+			return HandleBenchmarkKdfListItemChanged (hwndDlg, (LPNMLISTVIEW) lParam);
+		}
+		break;
+
 	case WM_COMMAND:
 
 		switch (lw)
@@ -6929,6 +7094,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (benchmarkType == BENCHMARK_TYPE_PRF)
 			{
+				benchmarkPreBoot = GetCheckBox (hwndDlg, IDC_BENCHMARK_PREBOOT);
 				ShowWindow (GetDlgItem (hwndDlg, IDC_BENCHMARK_BUFFER_SIZE), SW_HIDE);
 				ShowWindow (GetDlgItem (hwndDlg, IDT_BUFFER_SIZE), SW_HIDE);
 				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM), SW_SHOW);
@@ -6943,6 +7109,16 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ShowWindow (GetDlgItem (hwndDlg, IDT_PIM), SW_HIDE);
 				ShowWindow (GetDlgItem (hwndDlg, IDC_BENCHMARK_PREBOOT), SW_HIDE);
 			}
+
+			UpdateBenchmarkKdfSelectorVisibility (hwndDlg);
+			return 1;
+
+		case IDC_BENCHMARK_PREBOOT:
+
+			benchmarkPreBoot = GetCheckBox (hwndDlg, IDC_BENCHMARK_PREBOOT);
+			UpdateBenchmarkKdfListForCurrentOptions (hwndDlg);
+			benchmarkTotalItems = 0;
+			ResetBenchmarkList (hwndDlg);
 			return 1;
 
 		case IDC_PERFORM_BENCHMARK:
@@ -6951,6 +7127,8 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				benchmarkPim = GetPim (hwndDlg, IDC_PIM, 0);
 				benchmarkPreBoot = GetCheckBox (hwndDlg, IDC_BENCHMARK_PREBOOT);
+				if (!BenchmarkHasSelectedKdfForCurrentOptions ())
+					return 1;
 			}
 			else
 			{
