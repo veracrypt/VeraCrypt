@@ -127,6 +127,8 @@ reproduce official release artifacts from a git checkout, set
 VeraCrypt sources tracked in another git checkout are treated the same way and
 use that checkout's HEAD timestamp.
 
+Both the generated `.deb` and `.rpm` packages are reproducible, including on older rpm (e.g. CentOS/RHEL 7) that lacks the `SOURCE_DATE_EPOCH`/`_buildhost` build macros.
+
 By default, a universal executable supporting both graphical and text user
 interface (through the switch --text) is built.
 On Linux, a console-only executable, which requires no GUI library, can be

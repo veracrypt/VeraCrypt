@@ -459,12 +459,12 @@ endif
 	# Normalise modification times of every staged file. cp preserves the
 	# checkout-time mtimes of the source tree, which would otherwise leak
 	# into the tar/makeself archives and break reproducibility.
-	# Only run when GNU touch supports the option set. Keep AppImage
-	# outside this narrowed reproducibility scope: appimagetool is not
-	# verified here, so do not pre-clamp veracrypt.AppDir for that target.
+	# Only run when GNU touch supports the option set. AppImage staging is
+	# clamped too; appimagetool honours SOURCE_DATE_EPOCH for its SquashFS
+	# metadata, and the AppDir input should not leak checkout/build mtimes.
 ifeq "$(TOUCH_REPRODUCIBLE)" "yes"
 	_appdir="$(BASE_DIR)/Setup/Linux/veracrypt.AppDir"; \
-	if [ -n "$(filter appimage,$(MAKECMDGOALS))" ] || [ ! -d "$$_appdir" ]; then \
+	if [ ! -d "$$_appdir" ]; then \
 		_appdir=""; \
 	fi; \
 	find $(BASE_DIR)/Setup/Linux/usr $$_appdir \
@@ -587,9 +587,6 @@ appimage: prepare
 	wget --quiet -O "$${_appimagetool_executable_path}" "$${_appimagetool_url}"; \
 	chmod +x "$${_appimagetool_executable_path}"; \
 	echo "Creating AppImage $${_final_appimage_path}..."; \
-	if [ "$(VC_SOURCE_DATE_EPOCH_AUTO)" = "1" ]; then \
-		unset SOURCE_DATE_EPOCH; \
-	fi; \
 	ARCH="$${_final_appimage_arch_suffix}" "$${_appimagetool_executable_path}" "$(BASE_DIR)/Setup/Linux/veracrypt.AppDir" "$${_final_appimage_path}"; \
 	echo "AppImage created: $${_final_appimage_path}"; \
 	echo "Cleaning up appimagetool..."; \

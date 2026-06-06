@@ -304,6 +304,18 @@ set( CPACK_PACKAGE_CHECKSUM 		SHA256 )
 set( CPACK_PACKAGE_RELOCATABLE 		"OFF")																						# Disable package relocation (especially for rpm)
 set( CPACK_PACKAGE_DIRECTORY 		${CMAKE_CURRENT_BINARY_DIR}/Packaging )
 
+# Reproducible CPack payloads: clamp the just-installed staging tree's
+# mtimes and modes so DEB/RPM payloads are independent of wall-clock time
+# and the build umask. Placed AFTER install(DIRECTORY) so it runs against a
+# populated tree (install rules execute in declaration order). The script
+# acts only on a real package staging root and refuses a live prefix; see the
+# script header for the staging-root detection rules.
+configure_file(
+	"${CMAKE_CURRENT_SOURCE_DIR}/Tools/cmake_repro_clamp_mtimes.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake"
+	@ONLY)
+install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake")
+
 if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	
 	# Debian control script(s)
@@ -314,18 +326,6 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set( DEBIAN_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
 	
 	set( CPACK_GENERATOR 					"DEB" )																				# mandatory
-
-	# Reproducible DEB: clamp the just-installed staging tree's mtimes
-	# and modes so the payload is independent of wall-clock time and
-	# the build umask. Placed AFTER install(DIRECTORY) so it runs against a
-	# populated tree (install rules execute in declaration order). The script
-	# acts only on a real package staging root and refuses a live prefix;
-	# see the script header for the staging-root detection rules.
-	configure_file(
-		"${CMAKE_CURRENT_SOURCE_DIR}/Tools/cmake_repro_clamp_mtimes.cmake.in"
-		"${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake"
-		@ONLY)
-	install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake")
 
 	set( CPACK_DEBIAN_PACKAGE_NAME 			${CPACK_PACKAGE_NAME}  )															# mandatory
 	set( CPACK_DEBIAN_FILE_NAME 			${CPACK_PACKAGE_FILE_NAME}.deb )													# mandatory
@@ -424,6 +424,30 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	set( RPM_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
 	
 	set( CPACK_GENERATOR 				"RPM" )																					# mandatory
+	# Reproducible RPM: CPackRPM does not consume SOURCE_DATE_EPOCH on its own.
+	# use_source_date_epoch_as_buildtime pins BuildTime to the SOURCE_DATE_EPOCH
+	# environment variable (exported by the wrappers and CPACK_PROJECT_CONFIG_FILE),
+	# _buildhost removes host identity from the header, and the mtime macros cover
+	# rpm versions with built-in policy support. source_date_epoch_from_changelog
+	# is disabled so CPack's placeholder changelog date cannot hijack the epoch.
+	# The install(SCRIPT) clamp above also normalises the CPack staging tree before
+	# rpmbuild sees it. Old rpm still runs brp-strip after %install, which rewrites
+	# executable mtimes, so append one final mtime clamp to the default brp chain.
+	set(_vc_rpm_repro_defines
+"%define source_date_epoch_from_changelog 0
+%define use_source_date_epoch_as_buildtime 1
+%define _buildhost reproducible
+%define clamp_mtime_to_source_date_epoch 1
+%define build_mtime_policy clamp_to_source_date_epoch
+%global _vc_default_os_install_post %{__os_install_post}
+%define __os_install_post %{_vc_default_os_install_post} \\
+    find $RPM_BUILD_ROOT -exec touch --no-dereference --date=@${SOURCE_DATE_EPOCH} {} + \\
+%{nil}")
+	if(CPACK_RPM_SPEC_MORE_DEFINE)
+		set(CPACK_RPM_SPEC_MORE_DEFINE "${CPACK_RPM_SPEC_MORE_DEFINE}\n${_vc_rpm_repro_defines}")
+	else()
+		set(CPACK_RPM_SPEC_MORE_DEFINE "${_vc_rpm_repro_defines}")
+	endif()
 	set( CPACK_RPM_PACKAGE_SUMMARY 		${CPACK_PACKAGE_DESCRIPTION_SUMMARY} )																# mandatory
 	set( CPACK_RPM_PACKAGE_DESCRIPTION 	${CPACK_PACKAGE_DESCRIPTION} )															# mandatory
 	set( CPACK_RPM_PACKAGE_NAME 		${CPACK_PACKAGE_NAME} )																	# mandatory

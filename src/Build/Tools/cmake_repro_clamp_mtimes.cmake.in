@@ -3,7 +3,7 @@
 #
 # Run at install time by install(SCRIPT ...) AFTER all install(DIRECTORY)
 # rules, so the staging tree is fully populated. Clamps every file's mtime
-# and permission bits so the CPack DEB payload is reproducible.
+# and permission bits so the CPack DEB/RPM payload is reproducible.
 #
 # Safety: only a package staging tree may be modified, never a live host
 # tree. Two recognised staging conventions:
@@ -16,8 +16,14 @@
 # Anything else (bare "cmake --install" into /usr or /usr/local) is
 # refused so root cannot rewrite mtimes/modes outside a package build.
 
-if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
-    return()
+if(DEFINED CMAKE_HOST_SYSTEM_NAME)
+    if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+        return()
+    endif()
+elseif(DEFINED CMAKE_SYSTEM_NAME)
+    if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        return()
+    endif()
 endif()
 
 set(_destdir "$ENV{DESTDIR}")
