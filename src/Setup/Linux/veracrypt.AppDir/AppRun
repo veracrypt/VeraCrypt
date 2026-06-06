@@ -3,8 +3,8 @@
 APPDIR=$(dirname "$(readlink -f "$0")")
 
 # Prefer libraries bundled inside the AppImage. This lets the official
-# AppImage carry its private FUSE2 userspace library on systems where
-# libfuse.so.2 is no longer installed by default.
+# AppImage carry the FUSE userspace library required by its VeraCrypt binary
+# on systems where that library is not installed by default.
 if [ -d "${APPDIR}/usr/lib" ]; then
     if [ -n "${LD_LIBRARY_PATH:-}" ]; then
         export LD_LIBRARY_PATH="${APPDIR}/usr/lib:${LD_LIBRARY_PATH}"

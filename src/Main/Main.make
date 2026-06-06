@@ -331,7 +331,14 @@ INSTALL_DESKTOP ?= 1
 INSTALL_MIME ?= 1
 INSTALL_ICONS ?= 1
 INSTALL_APPIMAGE_FILES ?= 1
-APPIMAGE_BUNDLE_FUSE2 ?= 1
+# Keep the former FUSE2-specific override working for existing packaging scripts.
+ifeq "$(origin APPIMAGE_BUNDLE_FUSE)" "undefined"
+ifeq "$(origin APPIMAGE_BUNDLE_FUSE2)" "undefined"
+APPIMAGE_BUNDLE_FUSE := 1
+else
+APPIMAGE_BUNDLE_FUSE := $(APPIMAGE_BUNDLE_FUSE2)
+endif
+endif
 
 # These override values are appended below usr and used in shell recipes.
 # Keep command-line/environment overrides literal and path-like.
@@ -430,25 +437,110 @@ endif
 ifneq "$(INSTALL_APPIMAGE_FILES)" "0"
 	rm -fr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/usr
 	cp -r $(BASE_DIR)/Setup/Linux/usr $(BASE_DIR)/Setup/Linux/veracrypt.AppDir/.
-ifneq "$(APPIMAGE_BUNDLE_FUSE2)" "0"
+ifneq "$(APPIMAGE_BUNDLE_FUSE)" "0"
 	@set -e; \
 	_appdir="$(BASE_DIR)/Setup/Linux/veracrypt.AppDir"; \
-	_fuse_lib="$$( (ldconfig -p 2>/dev/null || /sbin/ldconfig -p 2>/dev/null || true) | awk '/libfuse\.so\.2[[:space:]]/ { print $$NF; exit }')"; \
-	if [ -z "$$_fuse_lib" ]; then \
-		for _candidate in /lib64/libfuse.so.2 /usr/lib64/libfuse.so.2 /lib/libfuse.so.2 /usr/lib/libfuse.so.2 /lib/*/libfuse.so.2 /usr/lib/*/libfuse.so.2; do \
+	_fuse_soname=""; \
+	_fuse_lib=""; \
+	_fuse_link_name=""; \
+	_fuse_lib_prefix=""; \
+	case "$(VC_FUSE_PACKAGE)" in \
+		fuse3) _fuse_link_name="libfuse3.so"; _fuse_lib_prefix="libfuse3.so." ;; \
+		fuse) _fuse_link_name="libfuse.so"; _fuse_lib_prefix="libfuse.so." ;; \
+	esac; \
+	_fuse_soname_from_name() { \
+		printf '%s\n' "$$1" | awk '{ if (match($$0, /^libfuse(3)?\.so\.[0-9]+/)) { print substr($$0, RSTART, RLENGTH); exit } }'; \
+	}; \
+	_fuse_search_dirs() { \
+		$(PKG_CONFIG) --variable=libdir "$(VC_FUSE_PACKAGE)" 2>/dev/null || true; \
+		$(PKG_CONFIG) --libs-only-L "$(VC_FUSE_PACKAGE)" 2>/dev/null | tr ' ' '\n' | sed 's/^-L//' || true; \
+		printf '%s\n' /lib64 /usr/lib64 /lib /usr/lib /lib/* /usr/lib/*; \
+	}; \
+	if command -v readelf >/dev/null 2>&1; then \
+		_fuse_soname="$$(readelf -d "$$_appdir/usr/bin/$(APPNAME)" 2>/dev/null | awk -F'[][]' '/NEEDED/ && $$2 ~ /^libfuse(3)?\.so\./ { print $$2; exit }')"; \
+	fi; \
+	if [ -z "$$_fuse_soname" ] && [ -n "$$_fuse_link_name" ]; then \
+		for _candidate_dir in $$( _fuse_search_dirs ); do \
+			[ -n "$$_candidate_dir" ] || continue; \
+			_candidate="$$_candidate_dir/$$_fuse_link_name"; \
+			if [ -e "$$_candidate" ]; then \
+				_fuse_target="$$(readlink "$$_candidate" 2>/dev/null || true)"; \
+				_fuse_real="$$(readlink -f "$$_candidate" 2>/dev/null || true)"; \
+				if [ -n "$$_fuse_target" ]; then \
+					_fuse_soname="$$( _fuse_soname_from_name "$$(basename "$$_fuse_target")" )"; \
+				fi; \
+				if [ -z "$$_fuse_soname" ]; then \
+					if [ -n "$$_fuse_real" ]; then \
+						_fuse_soname="$$( _fuse_soname_from_name "$$(basename "$$_fuse_real")" )"; \
+					fi; \
+				fi; \
+				if [ -n "$$_fuse_soname" ]; then \
+					if [ -e "$$_candidate_dir/$$_fuse_soname" ]; then \
+						_fuse_lib="$$_candidate_dir/$$_fuse_soname"; \
+					elif [ -n "$$_fuse_real" ]; then \
+						_fuse_lib="$$_fuse_real"; \
+					fi; \
+					break; \
+				fi; \
+			fi; \
+		done; \
+	fi; \
+	if [ -z "$$_fuse_lib" ] && [ -z "$$_fuse_soname" ] && [ -n "$$_fuse_lib_prefix" ]; then \
+		_fuse_soname="$$( (ldconfig -p 2>/dev/null || /sbin/ldconfig -p 2>/dev/null || true) | awk -v prefix="$$_fuse_lib_prefix" 'index($$1, prefix) == 1 { print $$1; exit }')"; \
+	fi; \
+	if [ -z "$$_fuse_lib" ] && [ -z "$$_fuse_soname" ] && [ -n "$$_fuse_lib_prefix" ]; then \
+		for _candidate_dir in $$( _fuse_search_dirs ); do \
+			[ -n "$$_candidate_dir" ] || continue; \
+			for _candidate in "$$_candidate_dir"/"$$_fuse_lib_prefix"*; do \
+				if [ -e "$$_candidate" ]; then \
+					_fuse_soname="$$( _fuse_soname_from_name "$$(basename "$$_candidate")" )"; \
+					if [ -n "$$_fuse_soname" ]; then \
+						_fuse_lib="$$_candidate"; \
+						break; \
+					fi; \
+				fi; \
+			done; \
+			[ -n "$$_fuse_soname" ] && break; \
+		done; \
+	fi; \
+	if [ -z "$$_fuse_soname" ]; then \
+		case "$(VC_FUSE_PACKAGE)" in \
+			fuse) _fuse_soname="libfuse.so.2" ;; \
+		esac; \
+	fi; \
+	if [ -z "$$_fuse_lib" ] && [ -n "$$_fuse_soname" ]; then \
+		for _candidate_dir in $$( _fuse_search_dirs ); do \
+			[ -n "$$_candidate_dir" ] || continue; \
+			_candidate="$$_candidate_dir/$$_fuse_soname"; \
+			if [ -e "$$_candidate" ]; then _fuse_lib="$$_candidate"; break; fi; \
+		done; \
+	fi; \
+	if [ -z "$$_fuse_lib" ] && [ -n "$$_fuse_soname" ]; then \
+		_fuse_lib="$$( (ldconfig -p 2>/dev/null || /sbin/ldconfig -p 2>/dev/null || true) | awk -v soname="$$_fuse_soname" '$$1 == soname { print $$NF; exit }')"; \
+	fi; \
+	if [ -z "$$_fuse_lib" ] && [ -n "$$_fuse_soname" ]; then \
+		for _candidate in /lib64/"$$_fuse_soname" /usr/lib64/"$$_fuse_soname" /lib/"$$_fuse_soname" /usr/lib/"$$_fuse_soname" /lib/*/"$$_fuse_soname" /usr/lib/*/"$$_fuse_soname"; do \
 			if [ -e "$$_candidate" ]; then _fuse_lib="$$_candidate"; break; fi; \
 		done; \
 	fi; \
 	if [ -n "$$_fuse_lib" ]; then \
-		echo "Bundling AppImage FUSE2 userspace library: $$_fuse_lib"; \
 		mkdir -p "$$_appdir/usr/lib"; \
+		rm -f "$$_appdir/usr/lib"/libfuse.so "$$_appdir/usr/lib"/libfuse.so.* "$$_appdir/usr/lib"/libfuse3.so "$$_appdir/usr/lib"/libfuse3.so.*; \
+		echo "Bundling AppImage FUSE userspace library ($$_fuse_soname): $$_fuse_lib"; \
 		cp -P "$$_fuse_lib" "$$_appdir/usr/lib/"; \
 		_fuse_real="$$(readlink -f "$$_fuse_lib" 2>/dev/null || true)"; \
 		if [ -n "$$_fuse_real" ] && [ "$$_fuse_real" != "$$_fuse_lib" ]; then \
 			cp "$$_fuse_real" "$$_appdir/usr/lib/"; \
 		fi; \
+		if [ -n "$$_fuse_real" ] && [ -n "$$_fuse_soname" ] && [ ! -e "$$_appdir/usr/lib/$$_fuse_soname" ]; then \
+			ln -s "$$(basename "$$_fuse_real")" "$$_appdir/usr/lib/$$_fuse_soname"; \
+		fi; \
 	else \
-		echo "Warning: libfuse.so.2 not found; AppImage will rely on a host FUSE2 userspace library"; \
+		if [ -n "$$_fuse_soname" ]; then \
+			echo "Warning: $$_fuse_soname not found; AppImage will rely on a host FUSE userspace library"; \
+		else \
+			echo "Warning: FUSE userspace library not found; AppImage will rely on a host FUSE userspace library"; \
+		fi; \
 	fi
 endif
 ifneq "$(INSTALL_ICONS)" "0"
