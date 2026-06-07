@@ -338,8 +338,9 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,11,274,33
-    CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,49,278,14
+    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,7,274,30
+    CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,41,278,12
+    PUSHBUTTON      "Cancel",IDCANCEL,121,56,50,14
 END
 
 IDD_TEXT_EDIT_DLG DIALOGEX 0, 0, 372, 220

@@ -122,6 +122,8 @@
 PDRIVER_OBJECT TCDriverObject;
 PDEVICE_OBJECT RootDeviceObject = NULL;
 static KMUTEX RootDeviceControlMutex;
+static KMUTEX MountCancelContextMutex;
+static MOUNT_CANCEL_CONTEXT ActiveMountCancelContext;
 BOOL DriverShuttingDown = FALSE;
 BOOL SelfTestsPassed;
 int LastUniqueVolumeId;
@@ -570,6 +572,9 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 		{
 			if (irpSp->MajorFunction == IRP_MJ_DEVICE_CONTROL)
 			{
+				if (irpSp->Parameters.DeviceIoControl.IoControlCode == TC_IOCTL_ABORT_MOUNT_VOLUME)
+					return ProcessMainDeviceControlIrp (DeviceObject, Extension, Irp);
+
 				NTSTATUS status = KeWaitForMutexObject (&RootDeviceControlMutex, Executive, KernelMode, FALSE, NULL);
 				if (!NT_SUCCESS (status))
 					return status;
@@ -694,6 +699,7 @@ NTSTATUS TCCreateRootDeviceObject (PDRIVER_OBJECT DriverObject)
 	*bRootExtension = TRUE;
 
 	KeInitializeMutex (&RootDeviceControlMutex, 0);
+	KeInitializeMutex (&MountCancelContextMutex, 0);
 
 	ntStatus = IoCreateSymbolicLink (&Win32NameString, &ntUnicodeString);
 
@@ -798,6 +804,177 @@ BOOL RootDeviceControlMutexAcquireNoWait ()
 void RootDeviceControlMutexRelease ()
 {
 	KeReleaseMutex (&RootDeviceControlMutex, FALSE);
+}
+
+
+static void RegisterMountCancelContext (PEXTENSION Extension, int nDosDriveNo)
+{
+	if (!NT_SUCCESS (KeWaitForMutexObject (&MountCancelContextMutex, Executive, KernelMode, FALSE, NULL)))
+		return;
+
+	ActiveMountCancelContext.nDosDriveNo = nDosDriveNo;
+	ActiveMountCancelContext.UserSidLength = 0;
+	InterlockedExchange (&ActiveMountCancelContext.UserSidValid, 0);
+	InterlockedExchange (&ActiveMountCancelContext.UserAbortRequested, 0);
+	InterlockedExchange (&ActiveMountCancelContext.KeyDerivationAbort, 0);
+	InterlockedIncrement (&ActiveMountCancelContext.SequenceNumber);
+	Extension->MountCancelContext = &ActiveMountCancelContext;
+	InterlockedExchange (&ActiveMountCancelContext.Active, 1);
+
+	KeReleaseMutex (&MountCancelContextMutex, FALSE);
+}
+
+
+static void SetMountCancelContextUserSid (PEXTENSION Extension, PSID userSid)
+{
+	ULONG sidLength;
+
+	if (!userSid || Extension->MountCancelContext != &ActiveMountCancelContext)
+		return;
+
+	sidLength = RtlLengthSid (userSid);
+	if (sidLength > sizeof (ActiveMountCancelContext.UserSid))
+		return;
+
+	if (!NT_SUCCESS (KeWaitForMutexObject (&MountCancelContextMutex, Executive, KernelMode, FALSE, NULL)))
+		return;
+
+	if (Extension->MountCancelContext == &ActiveMountCancelContext
+		&& InterlockedExchangeAdd (&ActiveMountCancelContext.Active, 0) != 0
+		&& NT_SUCCESS (RtlCopySid (sizeof (ActiveMountCancelContext.UserSid), ActiveMountCancelContext.UserSid, userSid)))
+	{
+		ActiveMountCancelContext.UserSidLength = sidLength;
+		InterlockedExchange (&ActiveMountCancelContext.UserSidValid, 1);
+	}
+
+	KeReleaseMutex (&MountCancelContextMutex, FALSE);
+}
+
+
+static void UnregisterMountCancelContext (PEXTENSION Extension)
+{
+	if (!NT_SUCCESS (KeWaitForMutexObject (&MountCancelContextMutex, Executive, KernelMode, FALSE, NULL)))
+		return;
+
+	if (Extension->MountCancelContext == &ActiveMountCancelContext)
+	{
+		InterlockedExchange (&ActiveMountCancelContext.Active, 0);
+		InterlockedExchange (&ActiveMountCancelContext.KeyDerivationAbort, 1);
+		InterlockedExchange (&ActiveMountCancelContext.UserSidValid, 0);
+		ActiveMountCancelContext.UserSidLength = 0;
+		Extension->MountCancelContext = NULL;
+	}
+
+	KeReleaseMutex (&MountCancelContextMutex, FALSE);
+}
+
+
+static BOOL CurrentUserMatchesSid (PSID userSid)
+{
+	SECURITY_SUBJECT_CONTEXT subContext;
+	PACCESS_TOKEN accessToken;
+	PTOKEN_USER tokenUser;
+	BOOL result = FALSE;
+
+	if (!userSid)
+		return FALSE;
+
+	SeCaptureSubjectContext (&subContext);
+	SeLockSubjectContext(&subContext);
+	if (subContext.ClientToken && subContext.ImpersonationLevel >= SecurityImpersonation)
+		accessToken = subContext.ClientToken;
+	else
+		accessToken = subContext.PrimaryToken;
+
+	if (!accessToken)
+		goto ret;
+
+	if (SeTokenIsAdmin (accessToken))
+	{
+		result = TRUE;
+		goto ret;
+	}
+
+	if (!NT_SUCCESS (SeQueryInformationToken (accessToken, TokenUser, &tokenUser)))
+		goto ret;
+
+	result = RtlEqualSid (userSid, tokenUser->User.Sid);
+	ExFreePool (tokenUser);		// Documented in newer versions of WDK
+
+ret:
+	SeUnlockSubjectContext(&subContext);
+	SeReleaseSubjectContext (&subContext);
+	return result;
+}
+
+
+static BOOL CurrentUserCanAbortPendingMount (PSID userSid, BOOL userSidValid)
+{
+	if (IoIsSystemThread (PsGetCurrentThread()))
+		return TRUE;
+
+	if (UserCanAccessDriveDevice())
+		return TRUE;
+
+	return userSidValid && CurrentUserMatchesSid (userSid);
+}
+
+
+static NTSTATUS AbortPendingMount (MOUNT_ABORT_STRUCT *abortRequest)
+{
+	UCHAR userSid[SECURITY_MAX_SID_SIZE];
+	ULONG userSidLength = 0;
+	LONG sequenceNumber = 0;
+	BOOL userSidValid = FALSE;
+	BOOL activeMountMatches = FALSE;
+
+	if (!NT_SUCCESS (KeWaitForMutexObject (&MountCancelContextMutex, Executive, KernelMode, FALSE, NULL)))
+		return STATUS_UNSUCCESSFUL;
+
+	if (InterlockedExchangeAdd (&ActiveMountCancelContext.Active, 0) != 0
+		&& (abortRequest->nDosDriveNo < 0 || abortRequest->nDosDriveNo == ActiveMountCancelContext.nDosDriveNo))
+	{
+		activeMountMatches = TRUE;
+		sequenceNumber = InterlockedExchangeAdd (&ActiveMountCancelContext.SequenceNumber, 0);
+		userSidValid = InterlockedExchangeAdd (&ActiveMountCancelContext.UserSidValid, 0) != 0;
+		userSidLength = ActiveMountCancelContext.UserSidLength;
+		if (userSidValid && userSidLength <= sizeof (userSid))
+			memcpy (userSid, ActiveMountCancelContext.UserSid, userSidLength);
+		else
+			userSidValid = FALSE;
+	}
+
+	KeReleaseMutex (&MountCancelContextMutex, FALSE);
+
+	if (!activeMountMatches)
+	{
+		abortRequest->nReturnCode = ERR_DRIVE_NOT_FOUND;
+		return STATUS_SUCCESS;
+	}
+
+	if (!CurrentUserCanAbortPendingMount (userSidValid ? (PSID) userSid : NULL, userSidValid))
+	{
+		abortRequest->nReturnCode = ERR_ACCESS_DENIED;
+		return STATUS_ACCESS_DENIED;
+	}
+
+	if (!NT_SUCCESS (KeWaitForMutexObject (&MountCancelContextMutex, Executive, KernelMode, FALSE, NULL)))
+		return STATUS_UNSUCCESSFUL;
+
+	if (InterlockedExchangeAdd (&ActiveMountCancelContext.Active, 0) != 0
+		&& sequenceNumber == InterlockedExchangeAdd (&ActiveMountCancelContext.SequenceNumber, 0)
+		&& (abortRequest->nDosDriveNo < 0 || abortRequest->nDosDriveNo == ActiveMountCancelContext.nDosDriveNo))
+	{
+		InterlockedExchange (&ActiveMountCancelContext.UserAbortRequested, 1);
+		InterlockedExchange (&ActiveMountCancelContext.KeyDerivationAbort, 1);
+		abortRequest->nReturnCode = ERR_USER_ABORT;
+		KeReleaseMutex (&MountCancelContextMutex, FALSE);
+		return STATUS_SUCCESS;
+	}
+
+	abortRequest->nReturnCode = ERR_DRIVE_NOT_FOUND;
+	KeReleaseMutex (&MountCancelContextMutex, FALSE);
+	return STATUS_SUCCESS;
 }
 
 /*
@@ -2605,6 +2782,23 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
+	case TC_IOCTL_ABORT_MOUNT_VOLUME:
+		if (ValidateIOBufferSize (Irp, sizeof (MOUNT_ABORT_STRUCT), ValidateInputOutput))
+		{
+			MOUNT_ABORT_STRUCT *abortRequest = (MOUNT_ABORT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
+
+			if (irpSp->Parameters.DeviceIoControl.InputBufferLength != sizeof (MOUNT_ABORT_STRUCT))
+			{
+				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+				Irp->IoStatus.Information = 0;
+				break;
+			}
+
+			Irp->IoStatus.Status = AbortPendingMount (abortRequest);
+			Irp->IoStatus.Information = sizeof (MOUNT_ABORT_STRUCT);
+		}
+		break;
+
 	case TC_IOCTL_MOUNT_VOLUME:
 		if (ValidateIOBufferSize (Irp, sizeof (MOUNT_STRUCT), ValidateInputOutput))
 		{
@@ -3216,6 +3410,7 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 	{
 #define TC_CASE_RET_NAME(CODE) case CODE : return L###CODE
 
+		TC_CASE_RET_NAME (TC_IOCTL_ABORT_MOUNT_VOLUME);
 		TC_CASE_RET_NAME (TC_IOCTL_ABORT_BOOT_ENCRYPTION_SETUP);
 		TC_CASE_RET_NAME (TC_IOCTL_ABORT_DECOY_SYSTEM_WIPE);
 		TC_CASE_RET_NAME (TC_IOCTL_BOOT_ENCRYPTION_SETUP);
@@ -4013,6 +4208,8 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 		SECURITY_SUBJECT_CONTEXT subContext;
 		PACCESS_TOKEN accessToken;
 
+		RegisterMountCancelContext (NewExtension, mount->nDosDriveNo);
+
 		SeCaptureSubjectContext (&subContext);
 		SeLockSubjectContext(&subContext);
 		if (subContext.ClientToken && subContext.ImpersonationLevel >= SecurityImpersonation)
@@ -4033,6 +4230,8 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 			{
 				ULONG sidLength = RtlLengthSid (tokenUser->User.Sid);
 
+				SetMountCancelContextUserSid (NewExtension, tokenUser->User.Sid);
+
 				NewExtension->UserSid = TCalloc (sidLength);
 				if (!NewExtension->UserSid)
 					ntStatus = STATUS_INSUFFICIENT_RESOURCES;
@@ -4048,6 +4247,8 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 
 		if (NT_SUCCESS (ntStatus))
 			ntStatus = TCStartVolumeThread (NewDeviceObject, NewExtension, mount);
+
+		UnregisterMountCancelContext (NewExtension);
 
 		if (!NT_SUCCESS (ntStatus))
 		{

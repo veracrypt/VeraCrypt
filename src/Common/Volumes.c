@@ -186,7 +186,7 @@ static int MapArgon2ResultToVcError (int result)
 
 BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 
-int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
 {
 	unsigned char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	unsigned char* keyInfoBuffer = NULL;
@@ -203,6 +203,7 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 	int iterationsCount = 0;
 	int memoryCost = 0;
 	LONG volatile abortKeyDerivation = 0;
+	LONG volatile *effectiveAbortKeyDerivation = pAbortKeyDerivation ? (LONG volatile *) pAbortKeyDerivation : &abortKeyDerivation;
 #ifndef VC_DCS_DISABLE_ARGON2
 	int lastArgon2DerivationResult = 0;
 #endif
@@ -326,6 +327,12 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 	// Test all available PKCS5 PRFs
 	for (enqPkcs5Prf = FIRST_PRF_ID; enqPkcs5Prf <= LAST_PRF_ID || queuedWorkItems > 0; ++enqPkcs5Prf)
 	{
+		if (pUserAbort && *pUserAbort)
+		{
+			status = ERR_USER_ABORT;
+			goto err;
+		}
+
 		// if a PRF is specified, we skip all other PRFs
 		if (selected_pkcs5_prf != 0 && enqPkcs5Prf != selected_pkcs5_prf)
 			continue;
@@ -355,7 +362,7 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 						iterationsCount = get_pkcs5_iteration_count (enqPkcs5Prf, pim, bBoot, &memoryCost);
 						EncryptionThreadPoolBeginKeyDerivation (keyDerivationCompletedEvent, noOutstandingWorkItemEvent,
 							&item->KeyReady, outstandingWorkItemCount, enqPkcs5Prf, keyInfo->userKey,
-							keyInfo->keyLength, keyInfo->salt, iterationsCount, memoryCost, item->DerivedKey, &item->DerivationResult, &abortKeyDerivation);
+							keyInfo->keyLength, keyInfo->salt, iterationsCount, memoryCost, item->DerivedKey, &item->DerivationResult, effectiveAbortKeyDerivation);
 
 						++queuedWorkItems;
 						break;
@@ -376,6 +383,12 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 					item = &keyDerivationWorkItems[i];
 					if (!item->Free && InterlockedExchangeAdd (&item->KeyReady, 0) == TRUE)
 					{
+						if (pUserAbort && *pUserAbort)
+						{
+							status = ERR_USER_ABORT;
+							goto err;
+						}
+
 						LONG derivationResult = InterlockedExchangeAdd (&item->DerivationResult, 0);
 						if (derivationResult != 0)
 						{
@@ -418,29 +431,29 @@ KeyReady:	;
 			{
 			case SHA512:
 				derive_key_sha512 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
 			case SHA256:
 				derive_key_sha256 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
 #ifndef WOLFCRYPT_BACKEND
 			case BLAKE2S:
 				derive_key_blake2s (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
 			case WHIRLPOOL:
 				derive_key_whirlpool (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
 
 			case STREEBOG:
 				derive_key_streebog(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), &abortKeyDerivation);
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
 
@@ -448,7 +461,7 @@ KeyReady:	;
 			case ARGON2:
 				{
 					int derivationResult = derive_key_argon2(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-						PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, ARGON2_HEADER_KEYDATA_SIZE, &abortKeyDerivation);
+						PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, ARGON2_HEADER_KEYDATA_SIZE, effectiveAbortKeyDerivation);
 					if (derivationResult != 0)
 					{
 						if (selected_pkcs5_prf == 0)
@@ -468,6 +481,12 @@ KeyReady:	;
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
 			}
+		}
+
+		if (pUserAbort && *pUserAbort)
+		{
+			status = ERR_USER_ABORT;
+			goto err;
 		}
 
 		// Test all available modes of operation
@@ -677,7 +696,7 @@ KeyReady:	;
 				if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 				{
 					// Signal other threads to stop
-					InterlockedExchange(&abortKeyDerivation, 1);
+					InterlockedExchange(effectiveAbortKeyDerivation, 1);
 				}
 #endif
 				goto ret;
@@ -689,12 +708,15 @@ KeyReady:	;
 		status = MapArgon2ResultToVcError (lastArgon2DerivationResult);
 	else
 #endif
+	if (pUserAbort && *pUserAbort)
+		status = ERR_USER_ABORT;
+	else
 		status = ERR_PASSWORD_WRONG;
 
 err:
 #if !defined(_UEFI)
 	// Signal threads to stop
-	InterlockedExchange(&abortKeyDerivation, 1);
+	InterlockedExchange(effectiveAbortKeyDerivation, 1);
 #endif
 	if (cryptoInfo != retHeaderCryptoInfo)
 	{
@@ -742,6 +764,11 @@ ret:
 #endif
 	TCfree(keyInfoBuffer);
 	return status;
+}
+
+int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+{
+	return ReadVolumeHeaderWithAbort (bBoot, encryptedHeader, password, selected_pkcs5_prf, pim, retInfo, retHeaderCryptoInfo, NULL, NULL);
 }
 
 #if defined(_WIN32) && !defined(_UEFI)

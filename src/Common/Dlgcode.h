@@ -412,6 +412,7 @@ BOOL IsDriveAvailable (int driveNo);
 BOOL IsDeviceMounted (wchar_t *deviceName);
 int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced);
 void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap);
+BOOL AbortMountOperation (int nDosDriveNo);
 int MountVolume (HWND hwndDlg, int driveNo, wchar_t *volumePath, Password *password, int pkcs5, int pim, BOOL cachePassword, BOOL cachePim, BOOL sharedAccess,  const MountOptions* const mountOptions, BOOL quiet, BOOL bReportWrongPassword);
 BOOL UnmountVolume (HWND hwndDlg , int nDosDriveNo, BOOL forceUnmount);
 BOOL UnmountVolumeAfterFormatExCall (HWND hwndDlg, int nDosDriveNo);

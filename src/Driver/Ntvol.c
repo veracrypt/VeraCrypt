@@ -36,6 +36,19 @@
 
 volatile BOOL ProbingHostDeviceForWrite = FALSE;
 
+static BOOL MountCancelRequested (PEXTENSION Extension)
+{
+	PMOUNT_CANCEL_CONTEXT context = Extension->MountCancelContext;
+	return context && InterlockedExchangeAdd (&context->UserAbortRequested, 0) != 0;
+}
+
+static void ResetMountKeyDerivationAbort (PEXTENSION Extension)
+{
+	PMOUNT_CANCEL_CONTEXT context = Extension->MountCancelContext;
+	if (context && !MountCancelRequested (Extension))
+		InterlockedExchange (&context->KeyDerivationAbort, 0);
+}
+
 
 NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	       PEXTENSION Extension,
@@ -593,11 +606,20 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 		/* Attempt to recognize the volume (decrypt the header) */
 
+		if (MountCancelRequested (Extension))
+		{
+			mount->nReturnCode = ERR_USER_ABORT;
+			ntStatus = STATUS_SUCCESS;
+			goto error;
+		}
+
+		ResetMountKeyDerivationAbort (Extension);
+
 		ReadVolumeHeaderRecoveryMode = mount->RecoveryMode;
 
 		if ((volumeType == TC_VOLUME_TYPE_HIDDEN) && mount->bProtectHiddenVolume)
 		{
-			mount->nReturnCode = ReadVolumeHeaderWCache (
+			mount->nReturnCode = ReadVolumeHeaderWCacheWithAbort (
 				FALSE,
 				bAutoCachePassword,
 				mount->bCachePim,
@@ -605,11 +627,13 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				&mount->ProtectedHidVolPassword,
 				mount->ProtectedHidVolPkcs5Prf,
 				mount->ProtectedHidVolPim,
-				&tmpCryptoInfo);
+				&tmpCryptoInfo,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->KeyDerivationAbort : NULL,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->UserAbortRequested : NULL);
 		}
 		else
 		{
-			mount->nReturnCode = ReadVolumeHeaderWCache (
+			mount->nReturnCode = ReadVolumeHeaderWCacheWithAbort (
 				mount->bPartitionInInactiveSysEncScope && volumeType == TC_VOLUME_TYPE_NORMAL,
 				bAutoCachePassword,
 				mount->bCachePim,
@@ -617,7 +641,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				&mount->VolumePassword,
 				mount->pkcs5_prf,
 				mount->VolumePim,
-				&Extension->cryptoInfo);
+				&Extension->cryptoInfo,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->KeyDerivationAbort : NULL,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->UserAbortRequested : NULL);
 		}
 
 		ReadVolumeHeaderRecoveryMode = FALSE;

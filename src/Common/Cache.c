@@ -24,6 +24,22 @@ int	 CachedPim[CACHE_SIZE];
 int cacheEmpty = 1;
 static int nPasswordIdx = 0;
 
+static BOOL IsUserAbortRequested (long volatile *pUserAbort)
+{
+	return pUserAbort && *pUserAbort;
+}
+
+static BOOL ResetAbortKeyDerivation (long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
+{
+	if (IsUserAbortRequested (pUserAbort))
+		return FALSE;
+
+	if (pAbortKeyDerivation)
+		*pAbortKeyDerivation = 0;
+
+	return TRUE;
+}
+
 uint64 VcGetPasswordEncryptionID (Password* pPassword)
 {
 	return ((uint64) pPassword->Text) + ((uint64) pPassword);
@@ -39,7 +55,7 @@ void VcUnprotectPassword (Password* pPassword, uint64 encID)
 	VcProtectPassword (pPassword, encID);
 }
 
-int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo)
+int ReadVolumeHeaderWCacheWithAbort (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
 {
 	int nReturnCode = ERR_PASSWORD_WRONG;
 	int i, effectivePim;
@@ -47,7 +63,10 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned ch
 	/* Attempt to recognize volume using mount password */
 	if (password->Length > 0)
 	{
-		nReturnCode = ReadVolumeHeader (bBoot, header, password, pkcs5_prf, pim, retInfo, NULL);
+		if (!ResetAbortKeyDerivation (pAbortKeyDerivation, pUserAbort))
+			return ERR_USER_ABORT;
+
+		nReturnCode = ReadVolumeHeaderWithAbort (bBoot, header, password, pkcs5_prf, pim, retInfo, NULL, pAbortKeyDerivation, pUserAbort);
 
 		/* Save mount passwords back into cache if asked to do so */
 		if (bCache && (nReturnCode == 0 || nReturnCode == ERR_CIPHER_INIT_WEAK_KEY))
@@ -113,7 +132,14 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned ch
 					effectivePim = CachedPim[i];
 				else
 					effectivePim = pim;
-				nReturnCode = ReadVolumeHeader (bBoot, header, pCurrentPassword, pkcs5_prf, effectivePim, retInfo, NULL);
+
+				if (!ResetAbortKeyDerivation (pAbortKeyDerivation, pUserAbort))
+				{
+					nReturnCode = ERR_USER_ABORT;
+					break;
+				}
+
+				nReturnCode = ReadVolumeHeaderWithAbort (bBoot, header, pCurrentPassword, pkcs5_prf, effectivePim, retInfo, NULL, pAbortKeyDerivation, pUserAbort);
 
 				if (nReturnCode != ERR_PASSWORD_WRONG)
 					break;
@@ -126,6 +152,11 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned ch
 	}
 
 	return nReturnCode;
+}
+
+int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo)
+{
+	return ReadVolumeHeaderWCacheWithAbort (bBoot, bCache, bCachePim, header, password, pkcs5_prf, pim, retInfo, NULL, NULL);
 }
 
 

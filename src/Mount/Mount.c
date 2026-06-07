@@ -103,6 +103,7 @@ enum hidden_os_read_only_notif_mode
 #define TIMER_INTERVAL_KEYB_LAYOUT_GUARD	10
 #define TIMER_INTERVAL_UPDATE_DEVICE_LIST	1000
 #define TIMER_INTERVAL_CHECK_FOREGROUND		500
+#define TC_COMMAND_CANCEL_MOUNT				L"/cancelmount"
 
 BootEncryption			*BootEncObj = NULL;
 BootEncryptionStatus	BootEncStatus;
@@ -5502,7 +5503,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szVolFileName, int pi
 
 	NormalCursor ();
 
-	if (mounted)
+	if (mounted > 0)
 	{
 
 		// Check for problematic file extensions (exe, dll, sys)
@@ -9558,6 +9559,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionEnableMemoryProtection,
 				OptionEnableScreenProtection,
 				OptionSignalExit,
+				CommandCancelMount,
 				CommandUnmount,
 			};
 
@@ -9591,6 +9593,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionEnableMemoryProtection,			L"/protectMemory",	NULL, FALSE },
 				{ OptionEnableScreenProtection,			L"/protectScreen",	NULL, FALSE },
 				{ OptionSignalExit,			L"/signalExit",	NULL, FALSE },
+				// Add /cancelmount to the command table so it appears in /help.
+				{ CommandCancelMount,			TC_COMMAND_CANCEL_MOUNT,	NULL, FALSE },
 				{ CommandUnmount,				L"/unmount",		L"/u", FALSE },
 			};
 
@@ -10588,6 +10592,12 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 	for (int i = 0; argv && i < argc; i++)
 	{
+		if (_wcsicmp (argv[i], TC_COMMAND_CANCEL_MOUNT) == 0)
+		{
+			BOOL abortSent = AbortMountOperation (-1);
+			LocalFree (argv); // free memory allocated by CommandLineToArgvW
+			return abortSent ? 0 : 1;
+		}
 		if (_wcsicmp (argv[i], L"/protectScreen") == 0)
 		{
 			if ((i < argc - 1) && _wcsicmp (argv[i + 1], L"no") == 0)

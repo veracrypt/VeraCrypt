@@ -23,4 +23,5 @@ extern int cacheEmpty;
 void AddPasswordToCache (Password *password, int pim, BOOL bCachePim);
 void AddLegacyPasswordToCache (__unaligned PasswordLegacy *password, int pim);
 int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo);
+int ReadVolumeHeaderWCacheWithAbort (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort);
 void WipeCache (void);

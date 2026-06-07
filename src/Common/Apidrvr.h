@@ -129,6 +129,8 @@
 
 #define VC_IOCTL_ENCRYPTION_QUEUE_PARAMS				TC_IOCTL (43)
 
+#define TC_IOCTL_ABORT_MOUNT_VOLUME						TC_IOCTL (44)
+
 // Undocumented IOCTL sent by Windows 10 when handling EFS data on volumes
 #define IOCTL_UNKNOWN_WINDOWS10_EFS_ACCESS				0x455610D8
 
@@ -179,6 +181,12 @@ typedef struct
 	ULONG AlignmentMask;
 	BOOL VolumeMasterKeyVulnerable;
 } MOUNT_STRUCT;
+
+typedef struct
+{
+	int nDosDriveNo;					/* Drive number whose pending mount should be aborted; -1 aborts any pending mount */
+	int nReturnCode;					/* Return code back from driver */
+} MOUNT_ABORT_STRUCT;
 
 typedef struct
 {

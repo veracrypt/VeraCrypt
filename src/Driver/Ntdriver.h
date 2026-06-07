@@ -26,6 +26,22 @@ typedef struct _THREAD_BLOCK_
 	MOUNT_STRUCT *mount;
 } THREAD_BLOCK, *PTHREAD_BLOCK;
 
+#ifndef SECURITY_MAX_SID_SIZE
+#define SECURITY_MAX_SID_SIZE 68
+#endif
+
+typedef struct _MOUNT_CANCEL_CONTEXT_
+{
+	LONG Active;
+	LONG UserAbortRequested;
+	LONG KeyDerivationAbort;
+	LONG UserSidValid;
+	LONG SequenceNumber;
+	int nDosDriveNo;
+	ULONG UserSidLength;
+	UCHAR UserSid[SECURITY_MAX_SID_SIZE];
+} MOUNT_CANCEL_CONTEXT, *PMOUNT_CANCEL_CONTEXT;
+
 
 /* This structure is allocated for non-root devices! WARNING: bRootDevice
    must be the first member of the structure! */
@@ -43,6 +59,7 @@ typedef struct EXTENSION
 	BOOL bThreadShouldQuit;		/* Instruct per device worker thread to quit */
 	PETHREAD peThread;			/* Thread handle */
 	KEVENT keCreateEvent;		/* Device creation event */
+	PMOUNT_CANCEL_CONTEXT MountCancelContext;
 	KSPIN_LOCK ListSpinLock;	/* IRP spinlock */
 	LIST_ENTRY ListEntry;		/* IRP listentry */
 	KSEMAPHORE RequestSemaphore;	/* IRP list request  Semaphore */

@@ -152,6 +152,7 @@ int CreateVolumeHeaderInMemory(BOOL bBoot, unsigned char *encryptedHeader, int e
 BOOL RandgetBytes(unsigned char *buf, int len, BOOL forceSlowPoll);
 #else
 int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
+int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort);
 #if defined(_WIN32) && !defined(_UEFI)
 void ComputeBootloaderFingerprint (uint8 *bootLoaderBuf, unsigned int bootLoaderSize, uint8* fingerprint);
 #endif

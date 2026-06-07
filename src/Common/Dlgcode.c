@@ -8880,12 +8880,18 @@ BOOL GetPhysicalDriveStorageInformation(UINT nDriveNumber, STORAGE_ACCESS_ALIGNM
 // implementation of the generic wait dialog mechanism
 
 static UINT g_wmWaitDlg = ::RegisterWindowMessage(L"VeraCryptWaitDlgMessage");
+#define WAIT_DLG_CANCEL_RETRY_TIMER_ID 1
+#define WAIT_DLG_CANCEL_RETRY_INTERVAL 250
+
+typedef BOOL (CALLBACK* WaitCancelProc)(void* pArg, HWND hWaitDlg);
 
 typedef struct
 {
 	HWND hwnd;
 	void* pArg;
 	WaitThreadProc callback;
+	WaitCancelProc cancelCallback;
+	BOOL cancelRequested;
 } WaitThreadParam;
 
 static void _cdecl WaitThread (void* pParam)
@@ -8899,6 +8905,22 @@ static void _cdecl WaitThread (void* pParam)
 	PostMessage (pThreadParam->hwnd, g_wmWaitDlg, 0, 0);
 }
 
+static BOOL WaitDlgTryCancel (HWND hwndDlg, WaitThreadParam* thParam)
+{
+	if (thParam && thParam->cancelCallback)
+	{
+		if (thParam->cancelCallback (thParam->pArg, hwndDlg))
+		{
+			KillTimer (hwndDlg, WAIT_DLG_CANCEL_RETRY_TIMER_ID);
+			return TRUE;
+		}
+
+		SetTimer (hwndDlg, WAIT_DLG_CANCEL_RETRY_TIMER_ID, WAIT_DLG_CANCEL_RETRY_INTERVAL, NULL);
+	}
+
+	return FALSE;
+}
+
 BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD (wParam);
@@ -8908,6 +8930,7 @@ BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		{
 			WaitThreadParam* thParam = (WaitThreadParam*) lParam;
+			SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) thParam);
 
 			// set the progress bar type to MARQUEE (indefinite progress)
 			HWND hProgress = GetDlgItem (hwndDlg, IDC_WAIT_PROGRESS_BAR);
@@ -8935,24 +8958,50 @@ BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			} 
 
 			LocalizeDialog (hwndDlg, NULL);
+			if (!thParam->cancelCallback)
+				ShowWindow (GetDlgItem (hwndDlg, IDCANCEL), SW_HIDE);
 			_beginthread(WaitThread, 0, thParam);
 			return 0;
 		}
 
 	case WM_COMMAND:
 
-		if (lw == IDOK || lw == IDCANCEL)
+		if (lw == IDCANCEL)
+		{
+			WaitThreadParam* thParam = (WaitThreadParam*) GetWindowLongPtr (hwndDlg, DWLP_USER);
+			if (thParam && thParam->cancelCallback && !thParam->cancelRequested)
+			{
+				thParam->cancelRequested = TRUE;
+				EnableWindow (GetDlgItem (hwndDlg, IDCANCEL), FALSE);
+				WaitDlgTryCancel (hwndDlg, thParam);
+			}
+			return 1;
+		}
+
+		if (lw == IDOK)
 			return 1;
 		else
 			return 0;
 
+	case WM_TIMER:
+		if (wParam == WAIT_DLG_CANCEL_RETRY_TIMER_ID)
+		{
+			WaitThreadParam* thParam = (WaitThreadParam*) GetWindowLongPtr (hwndDlg, DWLP_USER);
+			if (thParam && thParam->cancelRequested)
+				WaitDlgTryCancel (hwndDlg, thParam);
+			return 1;
+		}
+		return 0;
+
 	case WM_DESTROY:
+		KillTimer (hwndDlg, WAIT_DLG_CANCEL_RETRY_TIMER_ID);
 		DetachProtectionFromCurrentThread();
 		return 0;
 
 	default:
 		if (msg == g_wmWaitDlg)
 		{
+			KillTimer (hwndDlg, WAIT_DLG_CANCEL_RETRY_TIMER_ID);
 			EndDialog (hwndDlg, IDOK);
 			return 1;
 		}
@@ -9015,11 +9064,13 @@ static LRESULT CALLBACK ShowWaitDialogParentWndProc (HWND hWnd, UINT message, WP
 }
 
 
-void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg)
+static void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, WaitCancelProc cancelCallback, void* pArg)
 {
 	BOOL bEffectiveHideWaitingDialog = bCmdHideWaitingDialogValid? bCmdHideWaitingDialog : bHideWaitingDialog;
 	WaitThreadParam threadParam;
 	threadParam.callback = callback;
+	threadParam.cancelCallback = cancelCallback;
+	threadParam.cancelRequested = FALSE;
 	threadParam.pArg = pArg;
 
 	if (WaitDialogDisplaying || bEffectiveHideWaitingDialog)
@@ -9082,6 +9133,11 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 	}
 }
 
+void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg)
+{
+	ShowWaitDialogEx (hwnd, bUseHwndAsParent, callback, NULL, pArg);
+}
+
 #ifndef SETUP
 /************************************************************************/
 
@@ -9108,6 +9164,26 @@ static BOOL PerformMountIoctl (MOUNT_STRUCT* pmount, LPDWORD pdwResult, BOOL use
 			sizeof (MOUNT_STRUCT), pmount, sizeof (MOUNT_STRUCT), pdwResult, NULL);
 }
 
+BOOL AbortMountOperation (int nDosDriveNo)
+{
+	BOOL bResult;
+	DWORD dwResult;
+	HANDLE hAbortDriver = CreateFile (WIN32_ROOT_PREFIX, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	MOUNT_ABORT_STRUCT abortMount;
+
+	if (hAbortDriver == INVALID_HANDLE_VALUE)
+		return FALSE;
+
+	memset (&abortMount, 0, sizeof (abortMount));
+	abortMount.nDosDriveNo = nDosDriveNo;
+
+	bResult = DeviceIoControl (hAbortDriver, TC_IOCTL_ABORT_MOUNT_VOLUME, &abortMount,
+		sizeof (abortMount), &abortMount, sizeof (abortMount), &dwResult, NULL);
+
+	CloseHandle (hAbortDriver);
+	return bResult && abortMount.nReturnCode == ERR_USER_ABORT;
+}
+
 // specific definitions and implementation for support of mount operation 
 // in wait dialog mechanism
 
@@ -9128,6 +9204,13 @@ void CALLBACK MountWaitThreadProc(void* pArg, HWND )
 	*(pThreadParam->pbResult) = PerformMountIoctl (pThreadParam->pmount, pThreadParam->pdwResult, pThreadParam->useVolumeID, pThreadParam->volumeID);
 
 	pThreadParam->dwLastError = GetLastError ();
+}
+
+BOOL CALLBACK MountWaitCancelProc(void* pArg, HWND )
+{
+	MountThreadParam* pThreadParam = (MountThreadParam*) pArg;
+
+	return AbortMountOperation (pThreadParam->pmount->nDosDriveNo);
 }
 
 /************************************************************************/
@@ -9366,7 +9449,7 @@ retry:
 		mountThreadParam.pdwResult = &dwResult;
 		mountThreadParam.dwLastError = ERROR_SUCCESS;
 
-		ShowWaitDialog (hwndDlg, FALSE, MountWaitThreadProc, &mountThreadParam);
+		ShowWaitDialogEx (hwndDlg, FALSE, MountWaitThreadProc, MountWaitCancelProc, &mountThreadParam);
 
 		dwLastError  = mountThreadParam.dwLastError;
 	}
@@ -9428,6 +9511,9 @@ retry:
 
 	if (mount.nReturnCode != 0)
 	{
+		if (mount.nReturnCode == ERR_USER_ABORT)
+			return -1;
+
 		if (mount.nReturnCode == ERR_PASSWORD_WRONG)
 		{
 			// Do not report wrong password, if not instructed to 
