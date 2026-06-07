@@ -111,7 +111,7 @@ If it is followed by <strong>n</strong> or <strong>no</strong>: force the displa
 </tr>
 <tr>
 <td><em>/cancelmount</em></td>
-<td>Cancels any currently running mount operation and exits without displaying a status message. The process returns exit code 0 when the cancel request is accepted by the driver, or 1 otherwise.</td>
+<td>Cancels any currently running mount operation and exits without displaying a status message. The process returns exit code 0 when the cancel request is accepted by the driver, or 1 otherwise. This switch only has an effect while a mount operation is active; if an auto-mount scan is between mount attempts, the scan is not stopped by this command.</td>
 </tr>
 <tr>
 <td><em>/secureDesktop</em></td>

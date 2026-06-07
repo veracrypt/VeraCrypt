@@ -8883,8 +8883,6 @@ static UINT g_wmWaitDlg = ::RegisterWindowMessage(L"VeraCryptWaitDlgMessage");
 #define WAIT_DLG_CANCEL_RETRY_TIMER_ID 1
 #define WAIT_DLG_CANCEL_RETRY_INTERVAL 250
 
-typedef BOOL (CALLBACK* WaitCancelProc)(void* pArg, HWND hWaitDlg);
-
 typedef struct
 {
 	HWND hwnd;
@@ -9064,7 +9062,7 @@ static LRESULT CALLBACK ShowWaitDialogParentWndProc (HWND hWnd, UINT message, WP
 }
 
 
-static void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, WaitCancelProc cancelCallback, void* pArg)
+void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, WaitCancelProc cancelCallback, void* pArg)
 {
 	BOOL bEffectiveHideWaitingDialog = bCmdHideWaitingDialogValid? bCmdHideWaitingDialog : bHideWaitingDialog;
 	WaitThreadParam threadParam;
@@ -9512,7 +9510,10 @@ retry:
 	if (mount.nReturnCode != 0)
 	{
 		if (mount.nReturnCode == ERR_USER_ABORT)
+		{
+			SetLastError (ERROR_CANCELLED);
 			return -1;
+		}
 
 		if (mount.nReturnCode == ERR_PASSWORD_WRONG)
 		{

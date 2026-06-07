@@ -116,18 +116,9 @@ static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPAR
 #ifdef __cplusplus
 }
 
-typedef struct
-{
-	BOOL systemFavorites;
-	BOOL logOnMount;
-	BOOL hotKeyMount;
-	/* Owned by the thread parameter when non-NULL. */
-	VeraCrypt::FavoriteVolume* favoriteVolumeToMount;
-} mountFavoriteVolumeThreadParam;
-
 void SetDriverConfigurationFlag (uint32 flag, BOOL state);
 BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites = FALSE, BOOL logOnMount = FALSE, BOOL hotKeyMount = FALSE, const VeraCrypt::FavoriteVolume &favoriteVolumeToMount = VeraCrypt::FavoriteVolume());
-void __cdecl mountFavoriteVolumeThreadFunction (void *pArg);
+void ClearFavoriteVolumeArrivalMountSuppressions ();
 
 // A class that represents a device based on its device ID
 class CDevice

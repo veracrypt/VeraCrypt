@@ -733,6 +733,7 @@ namespace VeraCrypt
 	{
 		FillFavoriteVolumesMenu();
 
+		::ClearFavoriteVolumeArrivalMountSuppressions ();
 		FavoritesOnArrivalMountRequired.clear();
 
 		for (const FavoriteVolume& favorite: FavoriteVolumes)
