@@ -211,6 +211,15 @@ typedef struct
 
 typedef struct
 {
+	BOOL Success;
+	BOOL MountedAny;
+	/* Reason the batch stopped early. Non-terminal per-favorite failures are
+	   reflected by Success == FALSE while StopReason remains MountResultSucceeded. */
+	MountResult StopReason;
+} MountFavoriteVolumesResult;
+
+typedef struct
+{
 	BOOL systemFavorites;
 	BOOL logOnMount;
 	BOOL hotKeyMount;
@@ -220,7 +229,7 @@ typedef struct
 } mountFavoriteVolumeThreadParam;
 
 static void __cdecl mountFavoriteVolumeThreadFunction (void *pArg);
-static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch, MountResult* pBatchResult);
+static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch);
 
 
 static void MountBatchInitialize (MountBatchContext* pMountBatch)
@@ -8453,23 +8462,22 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 							if (!mountedAndNotDisconnected)
 							{
-								BOOL mounted = FALSE;
-								MountResult mountResult = MountResultFailed;
+								MountFavoriteVolumesResult favoriteMountResult;
 								MountBatchContext mountBatch;
 								MountBatchInitialize (&mountBatch);
 								{
 									FavoriteMountOnArrivalInProgress = TRUE;
 									finally_do ({ FavoriteMountOnArrivalInProgress = FALSE; });
 									SetLastError (ERROR_SUCCESS);
-									mounted = MountFavoriteVolumesWithAbort (hwndDlg, FALSE, FALSE, FALSE, favorite, &mountBatch, &mountResult);
+									favoriteMountResult = MountFavoriteVolumesWithAbort (hwndDlg, FALSE, FALSE, FALSE, favorite, &mountBatch);
 								}
 
-								if (mounted)
+								if (favoriteMountResult.Success)
 								{
 									ResumeFavoriteVolumeArrivalMount (SuppressedFavoritesOnArrivalMount, favorite);
 									FavoritesMountedOnArrivalStillConnected.push_back (favorite);
 								}
-								else if (mountResult == MountResultCancelled || mountResult == MountResultArrivalPasswordPromptDeclined)
+								else if (favoriteMountResult.StopReason == MountResultCancelled || favoriteMountResult.StopReason == MountResultArrivalPasswordPromptDeclined)
 								{
 									SuppressFavoriteVolumeArrivalMount (SuppressedFavoritesOnArrivalMount, favorite);
 									break;
@@ -11386,33 +11394,31 @@ skipMount:
 }
 
 
-/* Applies a single favorite's mount result to the running batch state. Updates *pbRet
-   (overall success), *pbMountedAny (whether any volume mounted, for token-session cleanup)
-   and *pBatchResult (the reason a batch stopped). Returns FALSE if the batch must stop
-   after this favorite. All out-pointers must be valid. */
-static BOOL HandleFavoriteMountResult (MountResult mountResult, MountBatchContext* pMountBatch, BOOL* pbRet, BOOL* pbMountedAny, MountResult* pBatchResult)
+/* Applies a single favorite's mount result to the running batch state. Returns FALSE
+   if the batch must stop after this favorite. pResult must be valid. */
+static BOOL HandleFavoriteMountResult (MountResult mountResult, MountBatchContext* pMountBatch, MountFavoriteVolumesResult* pResult)
 {
 	switch (mountResult)
 	{
 	case MountResultSucceeded:
-		*pbMountedAny = TRUE;
+		pResult->MountedAny = TRUE;
 		return TRUE;
 
 	case MountResultFailed:
-		*pbRet = FALSE;
+		pResult->Success = FALSE;
 		return TRUE;
 
 	case MountResultCancelled:
 		/* Wait-dialog/driver abort: stop the whole batch. */
 		MountBatchRequestAbort (pMountBatch);
-		*pBatchResult = mountResult;
-		*pbRet = FALSE;
+		pResult->StopReason = mountResult;
+		pResult->Success = FALSE;
 		return FALSE;
 
 	case MountResultArrivalPasswordPromptDeclined:
 		/* Arrival password-prompt cancel suppresses this favorite without aborting the batch. */
-		*pBatchResult = mountResult;
-		*pbRet = FALSE;
+		pResult->StopReason = mountResult;
+		pResult->Success = FALSE;
 		return FALSE;
 
 	case MountResultDriveLetterUnavailable:
@@ -11429,14 +11435,16 @@ static BOOL HandleFavoriteMountResult (MountResult mountResult, MountBatchContex
 }
 
 
-static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch, MountResult* pBatchResult)
+static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch)
 {
-	BOOL bRet = TRUE;
-	BOOL bMountedAny = FALSE;
+	MountFavoriteVolumesResult batchResult;
 	MountResult mountResult = MountResultSkipped;
-	MountResult batchResult = MountResultSucceeded;
 	BOOL lastbExplore;
 	BOOL userForcedReadOnly = FALSE;
+
+	batchResult.Success = TRUE;
+	batchResult.MountedAny = FALSE;
+	batchResult.StopReason = MountResultSucceeded;
 
 	if (ServiceMode)
 	{
@@ -11492,7 +11500,7 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 		{
 			if (ServiceMode)
 				SystemFavoritesServiceLogError (wstring (L"An error occured while reading System Favorites XML file"));
-			bRet = FALSE;
+			batchResult.Success = FALSE;
 			goto ret;
 		}
 	}
@@ -11505,8 +11513,8 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 	{
 		if (MountBatchAbortRequested (pMountBatch))
 		{
-			batchResult = MountResultCancelled;
-			bRet = FALSE;
+			batchResult.StopReason = MountResultCancelled;
+			batchResult.Success = FALSE;
 			goto ret;
 		}
 
@@ -11528,7 +11536,7 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 
 		SetLastError (ERROR_SUCCESS);
 		mountResult = MountFavoriteVolumeBase (hwnd, favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, pMountBatch);
-		if (!HandleFavoriteMountResult (mountResult, pMountBatch, &bRet, &bMountedAny, &batchResult))
+		if (!HandleFavoriteMountResult (mountResult, pMountBatch, &batchResult))
 			goto ret;
 	}
 
@@ -11542,8 +11550,8 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 		{
 			if (MountBatchAbortRequested (pMountBatch))
 			{
-				batchResult = MountResultCancelled;
-				bRet = FALSE;
+				batchResult.StopReason = MountResultCancelled;
+				batchResult.Success = FALSE;
 				goto ret;
 			}
 
@@ -11551,8 +11559,8 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 
 			if (MountBatchAbortRequested (pMountBatch))
 			{
-				batchResult = MountResultCancelled;
-				bRet = FALSE;
+				batchResult.StopReason = MountResultCancelled;
+				batchResult.Success = FALSE;
 				goto ret;
 			}
 
@@ -11567,8 +11575,8 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 			{
 				if (MountBatchAbortRequested (pMountBatch))
 				{
-					batchResult = MountResultCancelled;
-					bRet = FALSE;
+					batchResult.StopReason = MountResultCancelled;
+					batchResult.Success = FALSE;
 					goto ret;
 				}
 
@@ -11598,7 +11606,7 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 
 						SetLastError (ERROR_SUCCESS);
 						mountResult = MountFavoriteVolumeBase (hwnd, *favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, pMountBatch);
-						if (!HandleFavoriteMountResult (mountResult, pMountBatch, &bRet, &bMountedAny, &batchResult))
+						if (!HandleFavoriteMountResult (mountResult, pMountBatch, &batchResult))
 							goto ret;
 					}
 				}
@@ -11618,8 +11626,8 @@ static BOOL MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL
 ret:
 	if (MountBatchAbortRequested (pMountBatch))
 	{
-		batchResult = MountResultCancelled;
-		bRet = FALSE;
+		batchResult.StopReason = MountResultCancelled;
+		batchResult.Success = FALSE;
 	}
 
 	MultipleMountOperationInProgress = FALSE;
@@ -11627,16 +11635,13 @@ ret:
 	burn (&VolumePkcs5, sizeof (VolumePkcs5));
 	burn (&VolumePim, sizeof (VolumePim));
 
-	if ((bRet || ((batchResult == MountResultCancelled || batchResult == MountResultArrivalPasswordPromptDeclined) && bMountedAny)) && CloseSecurityTokenSessionsAfterMount)
+	if ((batchResult.Success || ((batchResult.StopReason == MountResultCancelled || batchResult.StopReason == MountResultArrivalPasswordPromptDeclined) && batchResult.MountedAny)) && CloseSecurityTokenSessionsAfterMount)
 		SecurityToken::CloseAllSessions();  // TODO Use Token
 
-	if (batchResult == MountResultCancelled)
+	if (batchResult.StopReason == MountResultCancelled)
 		SetLastError (ERROR_CANCELLED);
 
-	if (pBatchResult)
-		*pBatchResult = batchResult;
-
-	return bRet;
+	return batchResult;
 }
 
 BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
@@ -11644,7 +11649,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 	MountBatchContext mountBatch;
 	MountBatchInitialize (&mountBatch);
 
-	return MountFavoriteVolumesWithAbort (hwnd, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, &mountBatch, NULL);
+	return MountFavoriteVolumesWithAbort (hwnd, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, &mountBatch).Success;
 }
 
 static void CALLBACK mountFavoriteVolumeCallbackFunction (void *pArg, HWND hwnd)
@@ -11656,7 +11661,7 @@ static void CALLBACK mountFavoriteVolumeCallbackFunction (void *pArg, HWND hwnd)
 		return;
 
 	const FavoriteVolume& favoriteVolumeToMount = pParam->favoriteVolumeToMount ? *(pParam->favoriteVolumeToMount) : FavoriteVolume();
-	MountFavoriteVolumesWithAbort (hwnd, pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount, favoriteVolumeToMount, &pParam->mountBatch, NULL);
+	MountFavoriteVolumesWithAbort (hwnd, pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount, favoriteVolumeToMount, &pParam->mountBatch);
 }
 
 BOOL CALLBACK mountFavoriteVolumeCancelProc(void* pArg, HWND )
