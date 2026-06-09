@@ -39,7 +39,7 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.29</strong> (June 4<sup>th</sup>, 2026):</p>
+<p><strong style="text-align:left">1.26.29</strong> (June 8<sup>th</sup>, 2026):</p>
 <ul>
 <li><strong>All OSes:</strong>
 	<ul>
@@ -52,7 +52,7 @@
 			<li>Reported by https://github.com/vastblast </li>
 		</ul>
 	</li>
-	<li>Fix CPU feature detection and crypto implementation edge cases, including AVX2/leaf 7 detection, Camellia SSSE3 dispatch, Twofish x64 multiblock tail handling and Whirlpool alignment.</li>
+	<li>Fix CPU feature detection and crypto implementation edge cases, including AVX2/leaf 7 detection, BLAKE2s/Argon2 no-SSE2 x86 fallback paths, Camellia SSSE3 dispatch, Twofish x64 multiblock tail handling and Whirlpool alignment.</li>
 	<li>Update documentation, including Argon2id/KDF information and split Windows/Unix command line usage pages.</li>
 	<li>Update translations.</li>
 	</ul>
@@ -71,6 +71,8 @@
 <li>Improve driver I/O handling, including safer request completion, ordered volume flush barriers, and better VERIFY/TRIM validation.</li>
 <li>Fix PBKDF XSTATE cleanup and add Win64 unwind metadata for AES assembly.</li>
 <li>Speed up mounting when KDF autodetection is selected.</li>
+<li>Allow selecting which KDF algorithms are included in the benchmark dialog.</li>
+<li>Allow canceling long mount operations from the wait dialog and with the new <code>/cancelmount</code> CLI switch, including auto-mount scans.</li>
 <li>Add support for new Microsoft UEFI CA 2023 signed EFI bootloaders while preserving Microsoft UEFI CA 2011 support.</li>
 <li>Improve EFI system encryption repair and upgrade handling, including stuck decryption finalization, Post-OOBE repair, loader restoration verification, and clearer missing-loader reporting.</li>
 <li>Fix EFI <code>DcsProp</code> rewrite handling.</li>
@@ -97,13 +99,13 @@
 		<li><code>--filesystem=ntfs3</code> now pins the kernel ntfs3 driver and bypasses mount helpers such as <code>mount.ntfs3</code>.</li>
 		</ul>
 	</li>
-	<li>Fix AppImage portability and language loading, allow AppImage file name to start with "veracrypt" in any case.</li>
+	<li>Fix AppImage portability and language loading, bundle a matching FUSE library, and allow AppImage file name to start with "veracrypt" in any case.</li>
 	<li>Suppress redundant "already running" dialog and store the GUI instance lock under XDG paths.</li>
 	<li>Add emergency cleanup for stale unmounts.</li>
 	<li>Parallelize header KDF autodetection.</li>
 	<li>Honor <code>nokernelcrypto</code> during external formatting.</li>
 	<li>On WSL, open mounted volumes using Windows Explorer.</li>
-	<li>Add support for reproducible Linux builds and Arch package builds.</li>
+	<li>Add support for reproducible Linux builds, including SOURCE_DATE_EPOCH handling, DEB/RPM packages, and Arch package builds.</li>
 	<li>Add OpenWrt package build and QEMU test scripts.</li>
 	<li>Fix CMake 4 compatibility, CentOS 6 GCC 4.4 builds, and wxWidgets-related build issues.</li>
 	</ul>

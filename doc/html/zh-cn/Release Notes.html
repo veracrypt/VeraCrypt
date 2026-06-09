@@ -39,7 +39,7 @@
 <span style="color:#ff0000;">为避免暴露您的卷是否包含隐藏卷，或者如果您在使用隐藏卷/操作系统时依赖似是而非的否认能力，那么您必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统，并丢弃VeraCrypt 1.18a版本之前创建的现有卷。</span></li>
 </p>
 
-<p><strong style="text-align:left">1.26.29</strong> (2026年6月4日):</p>
+<p><strong style="text-align:left">1.26.29</strong> (2026年6月8日):</p>
 <ul>
 <li><strong>所有操作系统:</strong>
 	<ul>
@@ -52,7 +52,7 @@
 			<li>由 https://github.com/vastblast 报告 </li>
 		</ul>
 	</li>
-	<li>修复 CPU 特性检测和加密实现中的边界情况，包括 AVX2/leaf 7 检测、Camellia SSSE3 调度、Twofish x64 多块尾部处理以及 Whirlpool 对齐。</li>
+	<li>修复 CPU 特性检测和加密实现中的边界情况，包括 AVX2/leaf 7 检测、x86 无 SSE2 构建中的 BLAKE2s/Argon2 后备路径、Camellia SSSE3 调度、Twofish x64 多块尾部处理以及 Whirlpool 对齐。</li>
 	<li>更新文档，包括 Argon2id/KDF 信息，并将 Windows/Unix 命令行用法拆分为独立页面。</li>
 	<li>更新翻译。</li>
 	</ul>
@@ -71,6 +71,8 @@
 <li>改进驱动程序 I/O 处理，包括更安全的请求完成、有序的卷刷新屏障，以及更完善的 VERIFY/TRIM 验证。</li>
 <li>修复 PBKDF 的 XSTATE 清理，并为 AES 汇编代码添加 Win64 栈展开元数据。</li>
 <li>加快选择 KDF 自动检测时的挂载速度。</li>
+<li>基准测试对话框现在可选择要测试的 KDF 算法。</li>
+<li>现在可以在等待对话框中取消耗时较长的挂载操作，也可通过新的 <code>/cancelmount</code> 命令行参数取消，包括自动挂载扫描。</li>
 <li>新增对使用 Microsoft UEFI CA 2023 签名的 EFI 引导加载程序的支持，同时保留对 Microsoft UEFI CA 2011 的支持。</li>
 <li>改进 EFI 系统加密的修复和升级处理，包括卡住的解密完成流程、Post-OOBE 修复、引导加载程序恢复验证，以及缺少引导加载程序时更清晰的报告。</li>
 <li>修复 EFI <code>DcsProp</code> 重写处理。</li>
@@ -97,13 +99,13 @@
 		<li><code>--filesystem=ntfs3</code> 现在固定使用内核 ntfs3 驱动，并绕过 <code>mount.ntfs3</code> 等挂载辅助程序。</li>
 		</ul>
 	</li>
-	<li>修复 AppImage 便携性和语言加载问题，并允许 AppImage 文件名以任意大小写的“veracrypt”开头。</li>
+	<li>修复 AppImage 便携性和语言加载问题，捆绑匹配的 FUSE 库，并允许 AppImage 文件名以任意大小写的“veracrypt”开头。</li>
 	<li>抑制多余的“已在运行”对话框，并将 GUI 实例锁存储在 XDG 路径下。</li>
 	<li>新增对残留卸载状态的应急清理。</li>
 	<li>并行化卷头 KDF 自动检测。</li>
 	<li>外部格式化时遵循 <code>nokernelcrypto</code>。</li>
 	<li>在 WSL 上使用 Windows 资源管理器打开已挂载卷。</li>
-	<li>新增对可复现 Linux 构建和 Arch 软件包构建的支持。</li>
+	<li>新增可复现 Linux 构建支持，包括 SOURCE_DATE_EPOCH 处理、DEB/RPM 软件包以及 Arch 软件包构建。</li>
 	<li>新增 OpenWrt 软件包构建和 QEMU 测试脚本。</li>
 	<li>修复 CMake 4 兼容性、CentOS 6 GCC 4.4 构建，以及与 wxWidgets 相关的构建问题。</li>
 	</ul>

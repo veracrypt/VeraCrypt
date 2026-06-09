@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 AM Crypto
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -73,10 +73,10 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0126
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"June 4, 2026"
+#define TC_STR_RELEASE_DATE			L"June 8, 2026"
 #define TC_RELEASE_DATE_YEAR			2026
 #define TC_RELEASE_DATE_MONTH			 6
-#define TC_RELEASE_DATE_DAY			 4
+#define TC_RELEASE_DATE_DAY			 8
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
