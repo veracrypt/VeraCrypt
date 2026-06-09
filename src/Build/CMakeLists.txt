@@ -440,8 +440,8 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 %define clamp_mtime_to_source_date_epoch 1
 %define build_mtime_policy clamp_to_source_date_epoch
 %global _vc_default_os_install_post %{__os_install_post}
-%define __os_install_post %{_vc_default_os_install_post} \\
-    find $RPM_BUILD_ROOT -exec touch --no-dereference --date=@${SOURCE_DATE_EPOCH} {} + \\
+%define __os_install_post %{_vc_default_os_install_post} \\\\
+    find $RPM_BUILD_ROOT -exec touch --no-dereference --date=@${SOURCE_DATE_EPOCH} {} + \\\\
 %{nil}")
 	if(CPACK_RPM_SPEC_MORE_DEFINE)
 		set(CPACK_RPM_SPEC_MORE_DEFINE "${CPACK_RPM_SPEC_MORE_DEFINE}\n${_vc_rpm_repro_defines}")
