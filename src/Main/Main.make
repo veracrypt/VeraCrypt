@@ -319,6 +319,7 @@ TAR_DETERMINISTIC       := $(strip $(shell t=$$(mktemp 2>/dev/null) && tar --sor
 GZIP_NO_TIMESTAMP       := $(strip $(shell printf x | gzip -n -c >/dev/null 2>&1 && echo yes))
 MAKESELF_PACKAGING_DATE := $(strip $(shell makeself --help 2>&1 | grep -q -- '--packaging-date' && echo yes))
 MAKESELF_TAR_EXTRA      := $(strip $(shell makeself --help 2>&1 | grep -q -- '--tar-extra' && echo yes))
+PYTHON_REPRO_FINALIZE   := $(strip $(shell for p in python3 python python2; do command -v $$p >/dev/null 2>&1 || continue; $$p -c 'import sys; v=sys.version_info; sys.exit(not (v[0] > 2 or (v[0] == 2 and v[1] >= 6)))' >/dev/null 2>&1 && command -v $$p && break; done))
 
 INSTALL_UNINSTALLER ?= 1
 INSTALL_LICENSE ?= 1
@@ -631,11 +632,11 @@ endif
 	# makeself runs 'gzip -c9 < tmpfile' which writes tmpfile's mtime into
 	# the gzip header (SOURCE_DATE_EPOCH is ignored for redirected stdin).
 	# Zero the mtime and refresh CRCsum/MD5; installer --check still passes.
-	@if command -v python3 >/dev/null 2>&1; then \
-		python3 $(BASE_DIR)/Build/Tools/makeself_repro_finalize.py \
-			$(BASE_DIR)/Setup/Linux/$(INSTALLER_NAME); \
+	@if [ -n "$(PYTHON_REPRO_FINALIZE)" ]; then \
+		"$(PYTHON_REPRO_FINALIZE)" "$(BASE_DIR)/Build/Tools/makeself_repro_finalize.py" \
+			"$(BASE_DIR)/Setup/Linux/$(INSTALLER_NAME)"; \
 	else \
-		echo "Reproducible build: python3 unavailable, skipping makeself finalize"; \
+		echo "Reproducible build: Python 2.6+ unavailable, skipping makeself finalize"; \
 	fi
 
 appimage: prepare
