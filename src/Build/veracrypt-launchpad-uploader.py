@@ -3,7 +3,7 @@
 # =============================================================================
 #
 # Author: Mounir IDRASSI <mounir.idrassi@amcrypto.jp>
-# Date: May 31st, 2025
+# Date: May 31st, 2026
 # 
 # This script is part of the VeraCrypt project
 # https://www.veracrypt.jp
