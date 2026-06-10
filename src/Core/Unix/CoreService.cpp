@@ -12,6 +12,7 @@
 
 #include "CoreService.h"
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <stdio.h>
 #include "Platform/FileStream.h"
@@ -58,6 +59,27 @@ namespace VeraCrypt
 	{
 		return IsMacOSXDevicePathWithPrefix (path, "/dev/disk")
 			|| IsMacOSXDevicePathWithPrefix (path, "/dev/rdisk");
+	}
+
+	// The elevated service runs as root, so it must not be tricked into changing
+	// ownership of an arbitrary path. Every legitimate macOS caller of the
+	// elevated SetFileOwner targets a real disk device node (/dev/[r]diskN[sM]),
+	// so restrict the operation to that. lstat() (not stat) is used so a symlink
+	// is rejected outright rather than followed, and the st_mode check confirms an
+	// actual block/character device before the chown.
+	static void ValidateMacOSXSetFileOwnerTarget (const FilesystemPath &path)
+	{
+		const string pathStr = path;
+
+		if (!IsMacOSXFormatterDevicePath (pathStr))
+			throw ParameterIncorrect (SRC_POS);
+
+		struct stat sb;
+		if (lstat (pathStr.c_str(), &sb) != 0)
+			throw ParameterIncorrect (SRC_POS);
+
+		if (!S_ISBLK (sb.st_mode) && !S_ISCHR (sb.st_mode))
+			throw ParameterIncorrect (SRC_POS);
 	}
 
 	static list <string> BuildMacOSXAPFSFormatterArguments (const ExecuteMacOSXAPFSFormatterRequest &request)
@@ -292,6 +314,10 @@ namespace VeraCrypt
 						if (!coreUnix)
 							throw ParameterIncorrect (SRC_POS);
 
+#ifdef TC_MACOSX
+						// Restrict the root-privileged chown to real disk device nodes.
+						ValidateMacOSXSetFileOwnerTarget (setFileOwnerRequest->Path);
+#endif
 						coreUnix->SetFileOwner (setFileOwnerRequest->Path, setFileOwnerRequest->Owner);
 						SetFileOwnerResponse().Serialize (outputStream);
 						continue;
