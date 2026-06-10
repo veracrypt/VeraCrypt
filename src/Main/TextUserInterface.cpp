@@ -766,7 +766,10 @@ namespace VeraCrypt
 				if (options->Type == VolumeType::Normal && wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
 				{
 					AvailableDiskSpace = (uint64) diskSpace.GetValue ();
-					if (maxVolumeSize > AvailableDiskSpace)
+					// Honor --no-size-check so a (sparse) file container larger than the
+					// current free space can be created from the command line, mirroring
+					// the GUI wizard behavior (see VolumeSizeWizardPage.cpp).
+					if (maxVolumeSize > AvailableDiskSpace && !CmdLine->ArgDisableFileSizeCheck)
 						maxVolumeSize = AvailableDiskSpace;
 				}
 			}
