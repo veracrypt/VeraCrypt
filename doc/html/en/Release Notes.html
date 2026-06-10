@@ -50,6 +50,7 @@
 	<ul>
 	<li>Add Argon2id as an alternative memory-hard KDF for non-system volumes.</li>
 	<li>Use "KDF" terminology in the user interface and documentation instead of "PKCS-5 PRF".</li>
+	<li>When changing a volume password or changing only a volume header KDF, use the selected KDF's default PIM when a different KDF is selected unless a new PIM is explicitly specified.</li>
 	<li>Update logo icons with simplified icons without extra label text.</li>
 	<li>Harden XML and TLV parsers against malformed input.</li>
 	<li>Security: Fix <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>: non-default <code>WOLFCRYPT=1</code> builds now use wolfCrypt PBKDF2 instead of HKDF and honor VeraCrypt's PBKDF2 iteration count.
@@ -85,7 +86,7 @@
 <li>Fix EFI <code>DcsProp</code> rewrite handling.</li>
 <li>Fix ghost drive letter after command line unmount (GH #337, GH #1426).</li>
 <li>Fix favorite volume mount race.</li>
-<li>Validate PIM when changing only the KDF.</li>
+<li>Update stored favorite volume PIM/KDF metadata after password or header KDF changes.</li>
 <li>Fix elevated COM format drive validation and device path normalization (GH #1670).</li>
 <li>Fix ReFS formatting during volume creation.</li>
 <li>Fix MSI traveler disk creation with WHQL-signed drivers, ARM64 MSI build, Start Menu folder upgrades, and discovery of newer SDK MSI tools.</li>

@@ -1684,6 +1684,8 @@
     <entry lang="tr" key="MACOSX_APFS_SYSTEM_STORE">Seçilmiş fiziksel APFS deposu '{0}', şu anda bağlı olan macOS sistem birimini içeriyor ve VeraCrypt birimi barındırmak için kullanılamaz.</entry>
     <entry lang="tr" key="MACOSX_DEVICE_NOT_WRITABLE">macOS, seçilmiş aygıtı '{0}' salt okunur olarak bildiriyor. Yazılabilir bir fiziksel bölüm ya da disk seçin.</entry>
     <entry lang="tr" key="MACOSX_APFS_EROFS_HINT">macOS, seçilmiş aygıtı salt okunur olarak bildirdi. Bu bir APFS diskiyse, APFS sentezlenmiş birimi değil fiziksel APFS depolama bölümünü seçtiğinizden emin olun. Fiziksel bölümü belirlemek için Disk İzlencesi ya da 'diskutil list' komutunu kullanıp yeniden deneyin.</entry>
+    <entry lang="en" key="FAVORITE_PIM_OR_KDF_CHANGED">This volume is registered as a System Favorite and its PIM and/or KDF settings were changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
+    <entry lang="en" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">The selected KDF uses different PIM parameters, so VeraCrypt will not reuse the current custom PIM. The new volume header will use the default PIM for the selected KDF unless you select "Use PIM" in the New section and enter a custom value.\n\nDo you want to continue?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -70,12 +70,15 @@ Note: When VeraCrypt re-encrypts a volume header, the original volume header is 
  force scanning tunneling microscopy [17] to recover the overwritten header (however, see also the chapter
 <a href="Security%20Requirements%20and%20Precautions.html">
 <em>Security Requirements and Precautions</em></a>).</p>
+<p>If the selected new KDF differs from the current KDF and the volume currently uses a custom PIM, VeraCrypt does not automatically reuse the current PIM. Unless you select <em>Use PIM</em> in the New section and enter a custom value, the rewritten volume header will use the default PIM for the selected KDF.</p>
 </div>
 <h3>Volumes -&gt; Set Header Key Derivation Algorithm</h3>
 <p>This function allows you to re-encrypt a volume header with a header key derived using a different PRF function (for example, instead of HMAC-BLAKE2S-256 you could use HMAC-Whirlpool). Note that the volume header contains the master encryption key with which
  the volume is encrypted. Therefore, the data stored on the volume will <em>not</em> be lost after you use this function. For more information, see the section
 <a href="Header%20Key%20Derivation.html">
 <em>Header Key Derivation, Salt, and Iteration Count</em></a>.<br>
+<br>
+If the selected KDF differs from the current KDF and the volume currently uses a custom PIM, VeraCrypt does not automatically reuse the current PIM. Unless you select <em>Use PIM</em> in the New section and enter a custom value, the rewritten volume header will use the default PIM for the selected KDF.<br>
 <br>
 Note: When VeraCrypt re-encrypts a volume header, the original volume header is first overwritten many times (3, 7, 35 or 256 depending on the user choice) with random data to prevent adversaries from using techniques such as magnetic force microscopy or magnetic
  force scanning tunneling microscopy [17] to recover the overwritten header (however, see also the chapter

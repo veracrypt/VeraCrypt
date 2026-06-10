@@ -31,12 +31,15 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
 		int GetVolumePim () const;
 		int GetHeaderWipeCount () const;
+		bool IsVolumePimSpecified () const { return VolumePimTextCtrl->IsEnabled () && VolumePimTextCtrl->IsShown (); }
 		void SetCacheCheckBoxValidator (const wxGenericValidator &validator) { CacheCheckBox->SetValidator (validator); }
 		void SetFocusToPasswordTextCtrl () { PasswordTextCtrl->SetSelection (-1, -1); PasswordTextCtrl->SetFocus(); }
+		void SetFocusToPimCheckBox () { PimCheckBox->SetFocus(); }
 		void SetFocusToPimTextCtrl () { VolumePimTextCtrl->SetSelection (-1, -1); VolumePimTextCtrl->SetFocus(); }
+		void ResetVolumePimToDefault ();
 		void SetVolumePim (int pim);
 		bool PasswordsMatch () const;
-		void EnableUsePim () { PimCheckBox->Enable (true); PimCheckBox->Show (true); }
+		void EnableUsePim (bool pimOnlyDisplay = false);
 		bool IsUsePimChecked () const { return PimCheckBox->GetValue (); }
 		void SetUsePimChecked (bool checked) const { PimCheckBox->SetValue (checked); }
 		bool UpdatePimHelpText (bool pimChanged);
@@ -55,6 +58,7 @@ namespace VeraCrypt
 		void OnKeyfilesButtonClick (wxCommandEvent& event);
 		void OnKeyfilesButtonRightClick (wxMouseEvent& event);
 		void OnKeyfilesButtonRightDown (wxMouseEvent& event);
+		void OnPkcs5PrfChoiceSelected (wxCommandEvent& event) { OnUpdate(); }
 		void OnTextChanged (wxCommandEvent& event) { OnUpdate(); }
 		void OnPimChanged  (wxCommandEvent& event) { OnUpdate(); }
 		void OnUsePimCheckBoxClick( wxCommandEvent& event );

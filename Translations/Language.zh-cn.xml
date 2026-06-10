@@ -1685,6 +1685,8 @@
     <entry lang="zh-cn" key="MACOSX_APFS_SYSTEM_STORE">所选 APFS 物理存储 '{0}' 包含当前挂载的 macOS 系统卷，无法作为 VeraCrypt 卷主机使用。</entry>
     <entry lang="zh-cn" key="MACOSX_DEVICE_NOT_WRITABLE">macOS 报告所选设备 '{0}' 为只读。请选择可写的物理分区或磁盘。</entry>
     <entry lang="zh-cn" key="MACOSX_APFS_EROFS_HINT">macOS 报告所选设备为只读。如果这是 APFS 磁盘，请确保您选择的是物理 APFS 存储分区，而不是 APFS 合成卷。请使用“磁盘工具”或 'diskutil list' 来识别物理分区，然后重试。</entry>
+    <entry lang="en" key="FAVORITE_PIM_OR_KDF_CHANGED">This volume is registered as a System Favorite and its PIM and/or KDF settings were changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
+    <entry lang="en" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">The selected KDF uses different PIM parameters, so VeraCrypt will not reuse the current custom PIM. The new volume header will use the default PIM for the selected KDF unless you select "Use PIM" in the New section and enter a custom value.\n\nDo you want to continue?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -1684,6 +1684,8 @@
     <entry lang="pt-br" key="MACOSX_APFS_SYSTEM_STORE">O armazenamento físico APFS selecionado '{0}' contém o volume de sistema macOS atualmente montado e não pode ser usado como host de volume VeraCrypt.</entry>
     <entry lang="pt-br" key="MACOSX_DEVICE_NOT_WRITABLE">O macOS informa que o dispositivo selecionado '{0}' é somente leitura. Selecione uma partição física ou disco gravável.</entry>
     <entry lang="pt-br" key="MACOSX_APFS_EROFS_HINT">O macOS informou que o dispositivo selecionado é somente leitura. Se for um disco APFS, certifique-se de ter selecionado a partição física de armazenamento APFS, não um volume APFS sintetizado. Use o Utilitário de Disco ou 'diskutil list' para identificar a partição física e tente novamente.</entry>
+    <entry lang="en" key="FAVORITE_PIM_OR_KDF_CHANGED">This volume is registered as a System Favorite and its PIM and/or KDF settings were changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
+    <entry lang="en" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">The selected KDF uses different PIM parameters, so VeraCrypt will not reuse the current custom PIM. The new volume header will use the default PIM for the selected KDF unless you select "Use PIM" in the New section and enter a custom value.\n\nDo you want to continue?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

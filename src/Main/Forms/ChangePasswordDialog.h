@@ -46,6 +46,9 @@ namespace VeraCrypt
 		void OnPasswordPanelUpdate (EventArgs &args) { OnPasswordPanelUpdate(); }
 
 		Mode::Enum DialogMode;
+		bool KdfOnlyKdfSelectionInitialized;
+		shared_ptr <Pkcs5Kdf> LastCurrentKdf;
+		shared_ptr <Pkcs5Kdf> LastNewKdf;
 
 		VolumePasswordPanel *CurrentPasswordPanel;
 		VolumePasswordPanel *NewPasswordPanel;

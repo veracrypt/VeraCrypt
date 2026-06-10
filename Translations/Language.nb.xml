@@ -1684,6 +1684,8 @@
     <entry lang="nb" key="MACOSX_APFS_SYSTEM_STORE">Den valgte fysiske APFS-lagringen «{0}» inneholder det monterte macOS-systemvolumet og kan ikke brukes som vert for et VeraCrypt-volum.</entry>
     <entry lang="nb" key="MACOSX_DEVICE_NOT_WRITABLE">macOS rapporterer den valgte enheten «{0}» som skrivebeskyttet. Velg en skrivbar fysisk partisjon eller disk.</entry>
     <entry lang="nb" key="MACOSX_APFS_EROFS_HINT">macOS rapporterte den valgte enheten som skrivebeskyttet. Hvis dette er en APFS-disk, må du forsikre deg om at du har valgt den fysiske APFS-lagringspartisjonen, ikke et syntetisert APFS-volum. Bruk Diskverktøy eller «diskutil list» for å identifisere den fysiske partisjonen, og prøv på nytt.</entry>
+    <entry lang="en" key="FAVORITE_PIM_OR_KDF_CHANGED">This volume is registered as a System Favorite and its PIM and/or KDF settings were changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
+    <entry lang="en" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">The selected KDF uses different PIM parameters, so VeraCrypt will not reuse the current custom PIM. The new volume header will use the default PIM for the selected KDF unless you select "Use PIM" in the New section and enter a custom value.\n\nDo you want to continue?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

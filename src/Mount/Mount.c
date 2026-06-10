@@ -2538,6 +2538,74 @@ static BOOL CheckKdfOnlyPimForPassword (HWND hwndDlg, const Password *password, 
 	return CheckPasswordLength (hwndDlg, password->Length, pim, FALSE, pimValidationPkcs5, TRUE, FALSE);
 }
 
+static int GetSelectedKdfId (HWND hwndDlg, UINT ctrlId)
+{
+	HWND hComboBox = GetDlgItem (hwndDlg, ctrlId);
+	LRESULT selectedIndex = SendMessage (hComboBox, CB_GETCURSEL, 0, 0);
+	LRESULT itemData;
+
+	if (selectedIndex == CB_ERR)
+		return 0;
+
+	itemData = SendMessage (hComboBox, CB_GETITEMDATA, selectedIndex, 0);
+	if (itemData == CB_ERR)
+		return 0;
+
+	return (int) itemData;
+}
+
+static BOOL NewKdfSelectionChangesKdf (int old_pkcs5, int pkcs5)
+{
+	return (pkcs5 != 0 && (old_pkcs5 == 0 || old_pkcs5 != pkcs5));
+}
+
+static BOOL IsNewPimSpecified (HWND hwndDlg)
+{
+	HWND hPim = GetDlgItem (hwndDlg, IDC_PIM);
+	return IsWindowEnabled (hPim) && IsWindowVisible (hPim);
+}
+
+/* The New PIM field can be shown automatically to mirror the current PIM.
+ * Keep that separate from an explicit user request to write a custom New PIM. */
+static BOOL PasswordChangeNewPimExplicitlySpecified = FALSE;
+static BOOL PasswordChangeNewPimProgrammaticUpdate = FALSE;
+
+static BOOL IsNewPimExplicitlySpecified (HWND hwndDlg)
+{
+	return PasswordChangeNewPimExplicitlySpecified && IsNewPimSpecified (hwndDlg);
+}
+
+static void SetNewPimValueProgrammatically (HWND hwndDlg, int pim)
+{
+	PasswordChangeNewPimProgrammaticUpdate = TRUE;
+	SetPim (hwndDlg, IDC_PIM, pim);
+	PasswordChangeNewPimProgrammaticUpdate = FALSE;
+}
+
+static void SetNewPimTextProgrammatically (HWND hwndDlg, const wchar_t *pimText)
+{
+	PasswordChangeNewPimProgrammaticUpdate = TRUE;
+	SetDlgItemText (hwndDlg, IDC_PIM, pimText);
+	PasswordChangeNewPimProgrammaticUpdate = FALSE;
+}
+
+static void ResetNewPimToDefault (HWND hwndDlg)
+{
+	PasswordChangeNewPimExplicitlySpecified = FALSE;
+	SetNewPimValueProgrammatically (hwndDlg, 0);
+	SetCheckBox (hwndDlg, IDC_NEW_PIM_ENABLE, FALSE);
+	ShowWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), SW_SHOW);
+	ShowWindow (GetDlgItem (hwndDlg, IDT_PIM), SW_HIDE);
+	ShowWindow (GetDlgItem (hwndDlg, IDC_PIM), SW_HIDE);
+	ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), SW_HIDE);
+}
+
+typedef struct
+{
+	int NewPimValue;
+	int NewPkcs5Value;
+} PasswordChangeDlgResult;
+
 // implementation for support of change password operation in wait dialog mechanism
 
 typedef struct
@@ -2653,7 +2721,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	static KeyFilesDlgParam newKeyFilesParam;
 	static BOOL PimValueChangedWarning = FALSE;
-	static int* NewPimValuePtr = NULL;
+	static PasswordChangeDlgResult* ResultPtr = NULL;
 
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
@@ -2675,12 +2743,14 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (EffectiveVolumePkcs5 == 0)
 				EffectiveVolumePkcs5 = DefaultVolumePkcs5;
 
-			NewPimValuePtr = (int*) lParam;
+			ResultPtr = (PasswordChangeDlgResult*) lParam;
 
 			PimValueChangedWarning = FALSE;
+			PasswordChangeNewPimExplicitlySpecified = FALSE;
+			PasswordChangeNewPimProgrammaticUpdate = FALSE;
 
 			ZeroMemory (&newKeyFilesParam, sizeof (newKeyFilesParam));
-			if (NewPimValuePtr)
+			if (ResultPtr)
 			{
 				/* we are in the case of a volume. Store its name to use it in the key file dialog
 				 * this will help avoid using the current container file as a key file
@@ -2759,12 +2829,13 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				LocalizeDialog (hwndDlg, "IDD_PCDM_CHANGE_PKCS5_PRF");
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), TRUE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), TRUE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), TRUE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), TRUE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_NEW_KEYFILES), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), TRUE);
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), GetString ("IDC_SHOW_PIM"));
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
@@ -2842,6 +2913,17 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_KDF), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID), FALSE);
+
+				if (pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF)
+				{
+					PasswordChangeNewPimExplicitlySpecified = FALSE;
+					SetNewPimValueProgrammatically (hwndDlg, 0);
+					EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), FALSE);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
+				}
 
 				if (SetTimer (hwndDlg, TIMER_ID_KEYB_LAYOUT_GUARD, TIMER_INTERVAL_KEYB_LAYOUT_GUARD, NULL) == 0)
 				{
@@ -2981,15 +3063,21 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				IDC_PASSWORD, IDC_VERIFY,
 				newKeyFilesParam.EnableKeyFiles && newKeyFilesParam.FirstKeyFile != NULL);
 
-			if ((lw == IDC_OLD_PIM) && IsWindowEnabled (GetDlgItem (hwndDlg, IDC_PIM)))
+			if ((lw == IDC_OLD_PIM)
+				&& pwdChangeDlgMode != PCDM_CHANGE_PKCS5_PRF
+				&& IsNewPimSpecified (hwndDlg)
+				&& !NewKdfSelectionChangesKdf (GetSelectedKdfId (hwndDlg, IDC_PKCS5_OLD_PRF_ID), GetSelectedKdfId (hwndDlg, IDC_PKCS5_PRF_ID)))
 			{
 				wchar_t tmp[MAX_PIM+1] = {0};
 				GetDlgItemText (hwndDlg, IDC_OLD_PIM, tmp, MAX_PIM + 1);
-				SetDlgItemText (hwndDlg, IDC_PIM, tmp);
+				SetNewPimTextProgrammatically (hwndDlg, tmp);
 			}
 
 			if (lw == IDC_PIM)
 			{
+				if (!PasswordChangeNewPimProgrammaticUpdate && IsNewPimSpecified (hwndDlg))
+					PasswordChangeNewPimExplicitlySpecified = TRUE;
+
 				if(GetPim (hwndDlg, IDC_OLD_PIM, 0) != GetPim (hwndDlg, IDC_PIM, 0))
 				{
 					PimValueChangedWarning = TRUE;
@@ -3012,8 +3100,10 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ShowWindow (GetDlgItem( hwndDlg, IDC_OLD_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_OLD_PIM_HELP), SW_SHOW);
 
-			// check also the "Use PIM" for the new password if it is enabled
-			if (IsWindowEnabled (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE)))
+			// Preserve the PIM automatically only when the selected KDF is not changing.
+			if (pwdChangeDlgMode != PCDM_CHANGE_PKCS5_PRF
+				&& IsWindowEnabled (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE))
+				&& !NewKdfSelectionChangesKdf (GetSelectedKdfId (hwndDlg, IDC_PKCS5_OLD_PRF_ID), GetSelectedKdfId (hwndDlg, IDC_PKCS5_PRF_ID)))
 			{
 				SetCheckBox (hwndDlg, IDC_NEW_PIM_ENABLE, TRUE);
 
@@ -3030,6 +3120,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		if (lw == IDC_NEW_PIM_ENABLE)
 		{
+			PasswordChangeNewPimExplicitlySpecified = TRUE;
 			ShowWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), SW_HIDE);
 			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
@@ -3128,9 +3219,11 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		if (hw == CBN_SELCHANGE)
 		{
+			BOOL kdfSelectionChanged = FALSE;
 			switch (lw)
 			{
 			case IDC_PKCS5_PRF_ID:
+				kdfSelectionChanged = TRUE;
 				if (bSysEncPwdChangeDlgMode)
 				{
 					int new_hash_algo_id = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
@@ -3144,6 +3237,22 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 				break;
+
+			case IDC_PKCS5_OLD_PRF_ID:
+				kdfSelectionChanged = TRUE;
+				break;
+			}
+
+			if (kdfSelectionChanged
+				&& !bSysEncPwdChangeDlgMode
+				&& (pwdChangeDlgMode == PCDM_CHANGE_PASSWORD || pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF)
+				&& IsWindowEnabled (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE))
+				&& !IsNewPimExplicitlySpecified (hwndDlg)
+				&& NewKdfSelectionChangesKdf (GetSelectedKdfId (hwndDlg, IDC_PKCS5_OLD_PRF_ID), GetSelectedKdfId (hwndDlg, IDC_PKCS5_PRF_ID)))
+			{
+				ResetNewPimToDefault (hwndDlg);
+				PimValueChangedWarning = FALSE;
+				SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
 			}
 			return 1;
 
@@ -3157,7 +3266,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		if (lw == IDC_SHOW_PASSWORD_CHPWD_NEW)
 		{
-			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW, IDC_PASSWORD, IDC_VERIFY);
+			if (pwdChangeDlgMode != PCDM_CHANGE_PKCS5_PRF)
+				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW, IDC_PASSWORD, IDC_VERIFY);
 			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW, IDC_PIM, 0);
 			return 1;
 		}
@@ -3173,14 +3283,24 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SendMessage (GetDlgItem (hwndDlg, IDC_WIPE_MODE), CB_GETCURSEL, 0, 0),
 				0);
 			int nStatus;
-			int old_pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID), CB_GETITEMDATA,
-					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID), CB_GETCURSEL, 0, 0), 0);
-			int pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA,
-					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
+			int old_pkcs5 = GetSelectedKdfId (hwndDlg, IDC_PKCS5_OLD_PRF_ID);
+			int pkcs5 = GetSelectedKdfId (hwndDlg, IDC_PKCS5_PRF_ID);
 
 			int old_pim = GetPim (hwndDlg, IDC_OLD_PIM, 0);
 			int pim = GetPim (hwndDlg, IDC_PIM, 0);
+			BOOL newPimSpecified = IsNewPimExplicitlySpecified (hwndDlg);
+			BOOL newKdfChangesKdf = !bSysEncPwdChangeDlgMode && NewKdfSelectionChangesKdf (old_pkcs5, pkcs5);
+			BOOL newPimSelectable = (pwdChangeDlgMode == PCDM_CHANGE_PASSWORD || pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF);
 			int iMaxPasswordLength = (bUseLegacyMaxPasswordLength)? MAX_LEGACY_PASSWORD : MAX_PASSWORD;
+
+			if (pwdChangeDlgMode == PCDM_ADD_REMOVE_VOL_KEYFILES || pwdChangeDlgMode == PCDM_REMOVE_ALL_KEYFILES_FROM_VOL)
+			{
+				pim = old_pim;
+			}
+			else if (newPimSelectable && !newPimSpecified)
+			{
+				pim = newKdfChangesKdf ? 0 : old_pim;
+			}
 
 			if (bSysEncPwdChangeDlgMode && !CheckPasswordCharEncoding (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL))
 			{
@@ -3199,6 +3319,13 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 				SetFocus (GetDlgItem(hwndDlg, IDC_PIM));
 				Error ("PIM_TOO_BIG", hwndDlg);
+				return 1;
+			}
+
+			if (newPimSelectable && newKdfChangesKdf && !newPimSpecified && old_pim > 0
+				&& AskWarnNoYes ("PIM_RESET_ON_KDF_CHANGE_CONFIRM", hwndDlg) != IDYES)
+			{
+				SetFocus (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE));
 				return 1;
 			}
 
@@ -3249,10 +3376,14 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 			case PCDM_REMOVE_ALL_KEYFILES_FROM_VOL:
 			case PCDM_ADD_REMOVE_VOL_KEYFILES:
-			case PCDM_CHANGE_PKCS5_PRF:
 				memcpy (newPassword.Text, oldPassword.Text, sizeof (newPassword.Text));
 				newPassword.Length = (unsigned __int32) strlen ((char *) oldPassword.Text);
 				pim = old_pim;
+				break;
+
+			case PCDM_CHANGE_PKCS5_PRF:
+				memcpy (newPassword.Text, oldPassword.Text, sizeof (newPassword.Text));
+				newPassword.Length = (unsigned __int32) strlen ((char *) oldPassword.Text);
 				break;
 
 			default:
@@ -3300,13 +3431,14 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ShowWaitDialog(hwndDlg, TRUE, ChangePwdWaitThreadProc, &changePwdParam);
 
 err:
-			// notify the caller in case the PIM has changed
-			if (NewPimValuePtr)
+			if (ResultPtr && nStatus == 0)
 			{
-				if (pim != old_pim)
-					*NewPimValuePtr = pim;
+				if (newKdfChangesKdf || pim != old_pim)
+					ResultPtr->NewPimValue = pim;
 				else
-					*NewPimValuePtr = -1;
+					ResultPtr->NewPimValue = -1;
+
+				ResultPtr->NewPkcs5Value = newKdfChangesKdf ? pkcs5 : -1;
 			}
 
 			burn (&oldPassword, sizeof (oldPassword));
@@ -6520,10 +6652,71 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 	return param.bRet;
 }
 
+static bool FavoritePimOrKdfNeedsUpdate (const FavoriteVolume &favorite, int newPimValue, int newPkcs5Value)
+{
+	return ((newPimValue != -1 && favorite.Pim != newPimValue)
+		|| (newPkcs5Value > 0 && favorite.Pkcs5 != newPkcs5Value));
+}
+
+static void UpdateFavoritePimAndKdfValues (FavoriteVolume &favorite, int newPimValue, int newPkcs5Value)
+{
+	if (newPimValue != -1)
+		favorite.Pim = newPimValue;
+
+	if (newPkcs5Value > 0)
+		favorite.Pkcs5 = newPkcs5Value;
+}
+
+static void UpdateFavoritePimAndKdfValues (HWND hwndDlg, const wchar_t *volumePath, int newPimValue, int newPkcs5Value)
+{
+	bool bFavoriteFound = false;
+
+	if (newPimValue == -1 && newPkcs5Value <= 0)
+		return;
+
+	for (vector <FavoriteVolume>::iterator favorite = FavoriteVolumes.begin();
+		favorite != FavoriteVolumes.end(); favorite++)
+	{
+		if (favorite->Path == volumePath)
+		{
+			bFavoriteFound = true;
+			if (FavoritePimOrKdfNeedsUpdate (*favorite, newPimValue, newPkcs5Value))
+			{
+				UpdateFavoritePimAndKdfValues (*favorite, newPimValue, newPkcs5Value);
+				SaveFavoriteVolumes (hwndDlg, FavoriteVolumes, false);
+			}
+			break;
+		}
+	}
+
+	if (!bFavoriteFound)
+	{
+		for (vector <FavoriteVolume>::iterator favorite = SystemFavoriteVolumes.begin();
+			favorite != SystemFavoriteVolumes.end(); favorite++)
+		{
+			if (favorite->Path == volumePath)
+			{
+				bFavoriteFound = true;
+
+				if (FavoritePimOrKdfNeedsUpdate (*favorite, newPimValue, newPkcs5Value)
+					&& AskYesNo ("FAVORITE_PIM_OR_KDF_CHANGED", hwndDlg) == IDYES)
+				{
+					UpdateFavoritePimAndKdfValues (*favorite, newPimValue, newPkcs5Value);
+					SaveFavoriteVolumes (hwndDlg, SystemFavoriteVolumes, true);
+				}
+				break;
+			}
+		}
+	}
+}
+
 static void ChangePassword (HWND hwndDlg)
 {
 	INT_PTR result;
-	int newPimValue = -1;
+	PasswordChangeDlgResult dlgResult;
+
+	dlgResult.NewPimValue = -1;
+	dlgResult.NewPkcs5Value = -1;
 
 	GetVolumePath (hwndDlg, szFileName, ARRAYSIZE (szFileName));
 
@@ -6547,7 +6740,7 @@ static void ChangePassword (HWND hwndDlg)
 	bSysEncPwdChangeDlgMode = FALSE;
 
 	result = DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_PASSWORDCHANGE_DLG), hwndDlg,
-		(DLGPROC) PasswordChangeDlgProc, (LPARAM) &newPimValue);
+		(DLGPROC) PasswordChangeDlgProc, (LPARAM) &dlgResult);
 
 	if (result == IDOK)
 	{
@@ -6555,6 +6748,7 @@ static void ChangePassword (HWND hwndDlg)
 		{
 		case PCDM_CHANGE_PKCS5_PRF:
 			Info ("PKCS5_PRF_CHANGED", hwndDlg);
+			UpdateFavoritePimAndKdfValues (hwndDlg, szFileName, dlgResult.NewPimValue, dlgResult.NewPkcs5Value);
 			break;
 
 		case PCDM_ADD_REMOVE_VOL_KEYFILES:
@@ -6566,41 +6760,7 @@ static void ChangePassword (HWND hwndDlg)
 		default:
 			{
 				Info ("PASSWORD_CHANGED", hwndDlg);
-				if (newPimValue != -1)
-				{
-					// update the encoded volue in favorite XML if found
-					bool bFavoriteFound = false;
-					for (vector <FavoriteVolume>::iterator favorite = FavoriteVolumes.begin();
-						favorite != FavoriteVolumes.end(); favorite++)
-					{
-						if (favorite->Path == szFileName)
-						{
-							bFavoriteFound = true;
-							favorite->Pim = newPimValue;
-							SaveFavoriteVolumes (hwndDlg, FavoriteVolumes, false);
-							break;
-						}
-					}
-
-					if (!bFavoriteFound)
-					{
-						for (vector <FavoriteVolume>::iterator favorite = SystemFavoriteVolumes.begin();
-							favorite != SystemFavoriteVolumes.end(); favorite++)
-						{
-							if (favorite->Path == szFileName)
-							{
-								bFavoriteFound = true;
-								favorite->Pim = newPimValue;
-
-								if (AskYesNo("FAVORITE_PIM_CHANGED", hwndDlg) == IDYES)
-								{
-									SaveFavoriteVolumes (hwndDlg, SystemFavoriteVolumes, true);
-								}
-								break;
-							}
-						}
-					}
-				}
+				UpdateFavoritePimAndKdfValues (hwndDlg, szFileName, dlgResult.NewPimValue, dlgResult.NewPkcs5Value);
 			}
 		}
 	}

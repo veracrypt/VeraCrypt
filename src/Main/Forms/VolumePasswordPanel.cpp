@@ -153,10 +153,13 @@ namespace VeraCrypt
 
 		Layout();
 		Fit();
+
+		Pkcs5PrfChoice->Connect (wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (VolumePasswordPanel::OnPkcs5PrfChoiceSelected), nullptr, this);
 	}
 
 	VolumePasswordPanel::~VolumePasswordPanel ()
 	{
+		Pkcs5PrfChoice->Disconnect (wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (VolumePasswordPanel::OnPkcs5PrfChoiceSelected), nullptr, this);
 		WipeTextCtrl (PasswordTextCtrl);
 		WipeTextCtrl (ConfirmPasswordTextCtrl);
 	}
@@ -281,6 +284,40 @@ namespace VeraCrypt
 		}
 	}
 
+	void VolumePasswordPanel::EnableUsePim (bool pimOnlyDisplay)
+	{
+		EnablePimEntry = true;
+		PimCheckBox->Enable (true);
+		PimCheckBox->Show (true);
+		if (pimOnlyDisplay)
+			DisplayPasswordCheckBox->SetLabel (LangString["IDC_SHOW_PIM"]);
+		DisplayPasswordCheckBox->Show (true);
+		Layout();
+		Fit();
+		GetParent()->Layout();
+		GetParent()->Fit();
+	}
+
+	void VolumePasswordPanel::ResetVolumePimToDefault ()
+	{
+		if (DisplayPasswordCheckBox->IsChecked() && VolumePimTextCtrl->IsShown())
+			DisplayPassword (false, &VolumePimTextCtrl, 3);
+
+		DisplayPasswordCheckBox->SetValue (false);
+		SetVolumePim (0);
+		PimCheckBox->SetValue (false);
+		PimCheckBox->Show (EnablePimEntry);
+		VolumePimStaticText->Show (false);
+		VolumePimTextCtrl->Show (false);
+		VolumePimHelpStaticText->SetForegroundColour (wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOWTEXT));
+		VolumePimHelpStaticText->SetLabel (LangString["IDC_PIM_HELP"]);
+		VolumePimHelpStaticText->Show (false);
+		Layout();
+		Fit();
+		GetParent()->Layout();
+		GetParent()->Fit();
+	}
+
 	int VolumePasswordPanel::GetHeaderWipeCount () const
 	{
 		try
@@ -366,7 +403,8 @@ namespace VeraCrypt
 
 	void VolumePasswordPanel::OnDisplayPasswordCheckBoxClick (wxCommandEvent& event)
 	{
-		DisplayPassword (event.IsChecked(), &PasswordTextCtrl, 1);
+		if (PasswordTextCtrl->IsShown())
+			DisplayPassword (event.IsChecked(), &PasswordTextCtrl, 1);
 
 		if (ConfirmPasswordTextCtrl->IsShown())
 			DisplayPassword (event.IsChecked(), &ConfirmPasswordTextCtrl, 2);
@@ -477,6 +515,7 @@ namespace VeraCrypt
 
 			layoutParent->Layout();
 			layoutParent->Fit();
+			OnUpdate();
 		}
 	}
 }
