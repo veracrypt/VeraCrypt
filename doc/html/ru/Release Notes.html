@@ -53,6 +53,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 	<li>Безопасность: исправлена <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>: сборки с неиспользуемым по умолчанию параметром <code>WOLFCRYPT=1</code> теперь используют PBKDF2 из wolfCrypt вместо HKDF и учитывают заданное в VeraCrypt число итераций PBKDF2.
 		<ul>
 			<li>Сообщил https://github.com/vastblast </li>
+			<li>CVE-2026-53762</li>
 		</ul>
 	</li>
 	<li>Исправлены определение возможностей процессора и граничные случаи криптографических реализаций, включая определение AVX2/leaf 7, резервные пути BLAKE2s/Argon2 для x86 без SSE2, диспетчеризацию Camellia SSSE3, обработку хвоста многоблочных операций Twofish x64 и выравнивание Whirlpool.</li>
@@ -68,6 +69,7 @@ VeraCrypt старее, чем 1.18a.</span></li>
 	<ul>
 		<li>Сообщил https://github.com/vastblast </li>
 		<li>Регрессия появилась в версии 1.26.6</li>
+		<li>CVE-2026-54073</li>
 	</ul>
 </li>
 <li>Усилены проверка входных данных драйвера Windows и обработка фильтра аварийных дампов (GH PR #1590).</li>

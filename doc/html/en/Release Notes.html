@@ -50,6 +50,7 @@
 	<li>Security: Fix <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>: non-default <code>WOLFCRYPT=1</code> builds now use wolfCrypt PBKDF2 instead of HKDF and honor VeraCrypt's PBKDF2 iteration count.
 		<ul>
 			<li>Reported by https://github.com/vastblast </li>
+			<li>CVE-2026-53762</li>
 		</ul>
 	</li>
 	<li>Fix CPU feature detection and crypto implementation edge cases, including AVX2/leaf 7 detection, BLAKE2s/Argon2 no-SSE2 x86 fallback paths, Camellia SSSE3 dispatch, Twofish x64 multiblock tail handling and Whirlpool alignment.</li>
@@ -65,6 +66,7 @@
 	<ul>
 		<li>Reported by https://github.com/vastblast </li>
 		<li>Regression introduced in 1.26.6</li>
+		<li>CVE-2026-54073</li>
 	</ul>
 </li>
 <li>Harden Windows driver input validation and crash dump filter handling (GH PR #1590).</li>

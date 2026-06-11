@@ -50,6 +50,7 @@
 	<li>安全：修复 <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>：非默认启用的 <code>WOLFCRYPT=1</code> 构建现在使用 wolfCrypt PBKDF2 而非 HKDF，并使用 VeraCrypt 的 PBKDF2 迭代次数。
 		<ul>
 			<li>由 https://github.com/vastblast 报告 </li>
+			<li>CVE-2026-53762</li>
 		</ul>
 	</li>
 	<li>修复 CPU 特性检测和加密实现中的边界情况，包括 AVX2/leaf 7 检测、x86 无 SSE2 构建中的 BLAKE2s/Argon2 后备路径、Camellia SSSE3 调度、Twofish x64 多块尾部处理以及 Whirlpool 对齐。</li>
@@ -64,7 +65,8 @@
 <li>安全：修复 <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-jjcr-75w7-58jp" target="_blank">GHSA-jjcr-75w7-58jp</a>：隐藏卷快速格式化不再使用文件容器快速分配方法；该方法曾每隔 128 MiB 写入明文零扇区。此修复保持似是而非的否认性。
 	<ul>
 		<li>由 https://github.com/vastblast 报告 </li>
-		<li>此回归问题引入于 1.26.6</li>
+		<li>此回归问题引入于 1.26.6</li>.
+		<li>CVE-2026-54073</li>
 	</ul>
 </li>
 <li>增强 Windows 驱动程序输入验证和崩溃转储过滤处理（GH PR #1590）。</li>
