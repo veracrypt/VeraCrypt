@@ -39,6 +39,11 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
+<p>
+<strong style="color:#ff0000;">Warning to users who created hidden volumes inside file containers using VeraCrypt 1.26.6 through 1.26.28: </strong><br/>
+<span style="color:#ff0000;">A security issue fixed in VeraCrypt 1.26.29 may affect the plausible deniability of these hidden volumes. If you rely on plausible deniability, you should recreate the affected outer file container and its hidden volume using VeraCrypt 1.26.29 or later, then securely erase the old container.</span>
+</p>
+
 <p><strong style="text-align:left">1.26.29</strong> (June 9<sup>th</sup>, 2026):</p>
 <ul>
 <li><strong>All OSes:</strong>
