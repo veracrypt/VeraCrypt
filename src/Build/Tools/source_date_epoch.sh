@@ -59,12 +59,6 @@ fi
 
 RELEASE_EPOCH=$(awk '
     function leap(y) { return ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) }
-    function month_number(name) {
-        return (name == "January" ? 1 : name == "February" ? 2 : name == "March" ? 3 :
-            name == "April" ? 4 : name == "May" ? 5 : name == "June" ? 6 :
-            name == "July" ? 7 : name == "August" ? 8 : name == "September" ? 9 :
-            name == "October" ? 10 : name == "November" ? 11 : name == "December" ? 12 : 0);
-    }
     function mdays(m, y) { return (m == 2 ? 28 + leap(y) : (m == 4 || m == 6 || m == 9 || m == 11 ? 30 : 31)) }
     function epoch(y, m, d, days, i) {
         days = 0;
@@ -75,17 +69,6 @@ RELEASE_EPOCH=$(awk '
     }
     function is_number(value) { return (value ~ /^[0-9]+$/) }
 
-    /^[[:space:]]*#define[[:space:]]+TC_STR_RELEASE_DATE[[:space:]]+L"/ {
-        date = $0;
-        sub(/^.*L"/, "", date);
-        sub(/".*$/, "", date);
-        split(date, parts, /[ ,]+/);
-        if (month_number(parts[1]) == 0 || !is_number(parts[2]) || !is_number(parts[3])) exit 1;
-        date_month = month_number(parts[1]);
-        date_day = parts[2] + 0;
-        date_year = parts[3] + 0;
-        seen_date = 1;
-    }
     /^[[:space:]]*#define[[:space:]]+TC_RELEASE_DATE_YEAR[[:space:]]+/ {
         if (!is_number($3)) exit 1;
         year = $3 + 0;
@@ -102,9 +85,8 @@ RELEASE_EPOCH=$(awk '
         seen_day = 1;
     }
     END {
-        if (!seen_date || !seen_year || !seen_month || !seen_day) exit 1;
+        if (!seen_year || !seen_month || !seen_day) exit 1;
         if (year < 1970 || month < 1 || month > 12 || day < 1 || day > mdays(month, year)) exit 1;
-        if (date_month != month || date_day != day || date_year != year) exit 1;
         printf "%d", epoch(year, month, day);
     }' "$TCDEFS_H") || {
     echo "Error: unable to derive SOURCE_DATE_EPOCH from $TCDEFS_H" >&2

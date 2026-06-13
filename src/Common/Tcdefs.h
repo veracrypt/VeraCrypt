@@ -73,7 +73,6 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0126
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"June 9, 2026"
 #define TC_RELEASE_DATE_YEAR			2026
 #define TC_RELEASE_DATE_MONTH			 6
 #define TC_RELEASE_DATE_DAY			 9
@@ -406,7 +405,26 @@ void EraseMemory (void *memory, int size);
 #define TC_MAX_PATH		260	/* Includes the null terminator */
 #endif
 
-#define TC_STR_RELEASED_BY L"Released by AM Crypto on " TC_STR_RELEASE_DATE
+#define TC_RELEASE_DATE_MONTH_NAME_1	L"January"
+#define TC_RELEASE_DATE_MONTH_NAME_2	L"February"
+#define TC_RELEASE_DATE_MONTH_NAME_3	L"March"
+#define TC_RELEASE_DATE_MONTH_NAME_4	L"April"
+#define TC_RELEASE_DATE_MONTH_NAME_5	L"May"
+#define TC_RELEASE_DATE_MONTH_NAME_6	L"June"
+#define TC_RELEASE_DATE_MONTH_NAME_7	L"July"
+#define TC_RELEASE_DATE_MONTH_NAME_8	L"August"
+#define TC_RELEASE_DATE_MONTH_NAME_9	L"September"
+#define TC_RELEASE_DATE_MONTH_NAME_10	L"October"
+#define TC_RELEASE_DATE_MONTH_NAME_11	L"November"
+#define TC_RELEASE_DATE_MONTH_NAME_12	L"December"
+#define TC_RELEASE_DATE_MONTH_NAME_(m)	TC_RELEASE_DATE_MONTH_NAME_##m
+#define TC_RELEASE_DATE_MONTH_NAME(m)	TC_RELEASE_DATE_MONTH_NAME_(m)
+
+#define TC_RELEASE_DATE_WSTR2(x)		L##x
+#define TC_RELEASE_DATE_WSTR1(x)		TC_RELEASE_DATE_WSTR2(#x)
+#define TC_RELEASE_DATE_WSTR(x)		TC_RELEASE_DATE_WSTR1(x)
+
+#define TC_STR_RELEASED_BY L"Released by AM Crypto on " TC_RELEASE_DATE_MONTH_NAME(TC_RELEASE_DATE_MONTH) L" " TC_RELEASE_DATE_WSTR(TC_RELEASE_DATE_DAY) L", " TC_RELEASE_DATE_WSTR(TC_RELEASE_DATE_YEAR)
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 
