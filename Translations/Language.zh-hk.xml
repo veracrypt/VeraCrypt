@@ -610,7 +610,6 @@
     <entry lang="zh-hk" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">新增/移除加密區中的加密鑰檔案</entry>
     <entry lang="zh-hk" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">從加密區中移除所有加密鑰檔案</entry>
     <entry lang="zh-hk" key="PASSWORD_CHANGED">密碼和/或加密鑰檔案已成功修改。\n\n重要：請確認你已經閱讀了用戶指南內 [Security Requirements and Precautions] 章節中 [Changing Passwords and Keyfiles] 的部分。</entry>
-    <entry lang="zh-hk" key="FAVORITE_PIM_CHANGED">此磁碟區已登記成為喜愛的系統磁碟區及其 PIM 已經變更。\n你是否需要 VeraCrypt 自動更新喜愛的系統磁碟區設定 (必須系統管理員權限)?\n\n請注意如你的回應為否，你將需要手動更新喜愛的系統磁碟區。</entry>
     <entry lang="zh-hk" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果你不銷毀 VeraCrypt 救機碟，你的系統分割區或磁碟機仍然可以通過使用舊密碼解密(通過 VeraCrypt 救機碟來開機和輸入舊密碼)。你應該建立一個新的 VeraCrypt 救機碟，之後銷毀原先的救機碟。\n\n你希望建立一個新的 VeraCrypt 救機碟嗎？</entry>
     <entry lang="zh-hk" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">請注意，VeraCrypt 救機碟仍然使用著早期的加密演算法。如果你覺的先前的加密演算法不安全，你應該建立一個新的 VeraCrypt 救機碟，之後銷毀原先的救機碟。\n\n你希望建立一個新的 VeraCrypt 救機碟嗎？</entry>
     <entry lang="zh-hk" key="KEYFILES_NOTE">任何類型的檔案 (例如, .mp3, .jpg, .zip, .avi) 都可以用作 VeraCrypt 加密鑰檔案。注意 VeraCrypt 絕不會修改加密鑰檔案的內容。你可選擇多於一個加密鑰檔案(次序並不重要)。如果你新增一個資料夾，所有內含的非隱藏檔案都會用作加密鑰檔案。選擇 [加入令牌檔案] 以選取儲存在安全性權杖或智能卡 (或者匯入加密鑰檔案到安全性權杖或智能卡)。</entry>

@@ -610,7 +610,6 @@
     <entry lang="ja" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">ボリュームへのキーファイルの追加/削除</entry>
     <entry lang="ja" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">ボリュームから全てのキーファイルを削除</entry>
     <entry lang="ja" key="PASSWORD_CHANGED">パスワードまたはキーファイルの変更に成功しました。\n\n重要：ユーザーズガイドの「安全のための必要事項と予防策」の章にある「パスワードとキーファイルの変更」節をよくお読みください。</entry>
-    <entry lang="ja" key="FAVORITE_PIM_CHANGED">このボリュームはシステムのお気に入りとして登録されており、その PIM が変更されました。\nVeraCrypt にシステムのお気に入りの設定を自動的に更新させますか？（管理者権限が必要です）\n\nいいえと答えた場合は、システムのお気に入りを手動で更新する必要があることに注意してください。</entry>
     <entry lang="ja" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：VeraCryptレスキューディスクを壊していなければ、システムパーティション/ドライブはまだ古いパスワードで復号可能です（レスキューディスクで起動して古いパスワードを入力します）。新しいVeraCryptレスキューディスクを作成し、古い方は壊してしまうべきです。\n\n新しいVeraCryptレスキューディスクを作成しますか？</entry>
     <entry lang="ja" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">今お持ちのVeraCryptレスキューディスクは従来の暗号化アルゴリズムが使用されています。もし従来の暗号化アルゴリズムが安全でないとお考えなら、新しいVeraCryptレスキューディスクを作成し、古い方は壊してしまうべきです。\n\n新しいVeraCryptレスキューディスクを作成しますか？</entry>
     <entry lang="ja" key="KEYFILES_NOTE">VeraCryptはキーファイルの内容を変更しません。キーファイルを複数選択することもできます（選択順序は無関係です）。フォルダを追加した場合は、その中にあって隠されていないファイルすべてがキーファイルとして使用されます。セキュリティトークンやスマートカードに保存されているキーファイルを選択する（あるいはキーファイルをセキュリティトークンやスマートカードにインポートする）には「トークンファイルの追加」をクリックしてください。</entry>
