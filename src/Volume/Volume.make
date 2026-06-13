@@ -95,6 +95,12 @@ else
 	OBJS += ../Crypto/Aescrypt.o
 endif
 
+ifeq "$(PLATFORM):$(LOCAL_DEVELOPMENT_BUILD):$(CPU_ARCH)" "MacOSX:true:arm64"
+	OBJS += ../Crypto/blake2s_SSE41.o
+	OBJS += ../Crypto/blake2s_SSSE3.o
+	OBJS += ../Crypto/Sha2Intel.o
+	OBJS += ../Crypto/Argon2/src/opt_avx2.o
+else
 ifeq "$(GCC_GTEQ_430)" "1"
 	OBJSSSE41 += ../Crypto/blake2s_SSE41.osse41
 	OBJSSSSE3 += ../Crypto/blake2s_SSSE3.ossse3
@@ -111,6 +117,7 @@ ifeq "$(GCC_GTEQ_470)" "1"
 	OBJSAVX2 += ../Crypto/Argon2/src/opt_avx2.oavx2
 else
 	OBJS += ../Crypto/Argon2/src/opt_avx2.o
+endif
 endif
 else
 OBJS += ../Crypto/wolfCrypt.o
