@@ -30,6 +30,7 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Hash> (new Blake2s ()));
 		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
 		l.push_back (shared_ptr <Hash> (new Streebog ()));
+		l.push_back (shared_ptr <Hash> (new Blake2b ()));
         #endif
 		return l;
 	}

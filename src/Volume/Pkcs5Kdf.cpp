@@ -62,11 +62,11 @@ namespace VeraCrypt
 
 	shared_ptr <Pkcs5Kdf> Pkcs5Kdf::GetAlgorithm (const Hash &hash)
 	{
+		// Match the KDF whose underlying hash is the requested one. Argon2
+		// (whose underlying hash is BLAKE2b-512) is included, so a BLAKE2b-512
+		// hash maps to the Argon2 KDF.
 		foreach (shared_ptr <Pkcs5Kdf> kdf, GetAvailableAlgorithms())
 		{
-			if (kdf->IsArgon2())
-				continue;
-
 			if (typeid (*kdf->GetHash()) == typeid (hash))
 				return kdf;
 		}
