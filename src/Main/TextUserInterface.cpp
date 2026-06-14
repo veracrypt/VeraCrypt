@@ -766,7 +766,10 @@ namespace VeraCrypt
 				if (options->Type == VolumeType::Normal && wxDirExists(parentDir) && wxGetDiskSpace (parentDir, nullptr, &diskSpace))
 				{
 					AvailableDiskSpace = (uint64) diskSpace.GetValue ();
-					if (maxVolumeSize > AvailableDiskSpace)
+					// Honor --no-size-check so a (sparse) file container larger than the
+					// current free space can be created from the command line, mirroring
+					// the GUI wizard behavior (see VolumeSizeWizardPage.cpp).
+					if (maxVolumeSize > AvailableDiskSpace && !CmdLine->ArgDisableFileSizeCheck)
 						maxVolumeSize = AvailableDiskSpace;
 				}
 			}
@@ -779,8 +782,8 @@ namespace VeraCrypt
 				else if (AvailableDiskSpace)
 				{
 					// caller requesting maximum size
-					// we use maxVolumeSize because it is guaranteed to be less or equal to AvailableDiskSpace for outer volumes
-					options->Size = maxVolumeSize;
+					// Limit "max" to available disk space even when --no-size-check allows explicit sparse sizes beyond it.
+					options->Size = VC_MIN (maxVolumeSize, AvailableDiskSpace);
 				}
 				else
 				{
@@ -808,8 +811,8 @@ namespace VeraCrypt
 					else if (AvailableDiskSpace)
 					{
 						// caller requesting maximum size
-						// we use maxVolumeSize because it is guaranteed to be less or equal to AvailableDiskSpace for outer volumes
-						options->Size = maxVolumeSize;
+						// Limit "max" to available disk space even when --no-size-check allows explicit sparse sizes beyond it.
+						options->Size = VC_MIN (maxVolumeSize, AvailableDiskSpace);
 					}
 					else
 					{
