@@ -19,7 +19,7 @@
 extern "C" {
 #endif
 
-#define DATA_POOL_CAPACITY 1000000
+#define DATA_POOL_CAPACITY 4000000
 
 void AddDictionaryEntry (char *key, int intKey, void *value);
 void *GetDictionaryValue (const char *key);
