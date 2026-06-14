@@ -782,8 +782,8 @@ namespace VeraCrypt
 				else if (AvailableDiskSpace)
 				{
 					// caller requesting maximum size
-					// we use maxVolumeSize because it is guaranteed to be less or equal to AvailableDiskSpace for outer volumes
-					options->Size = maxVolumeSize;
+					// Limit "max" to available disk space even when --no-size-check allows explicit sparse sizes beyond it.
+					options->Size = VC_MIN (maxVolumeSize, AvailableDiskSpace);
 				}
 				else
 				{
@@ -811,8 +811,8 @@ namespace VeraCrypt
 					else if (AvailableDiskSpace)
 					{
 						// caller requesting maximum size
-						// we use maxVolumeSize because it is guaranteed to be less or equal to AvailableDiskSpace for outer volumes
-						options->Size = maxVolumeSize;
+						// Limit "max" to available disk space even when --no-size-check allows explicit sparse sizes beyond it.
+						options->Size = VC_MIN (maxVolumeSize, AvailableDiskSpace);
 					}
 					else
 					{
