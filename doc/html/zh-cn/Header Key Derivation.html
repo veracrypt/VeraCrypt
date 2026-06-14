@@ -44,38 +44,49 @@
 VeraCrypt卷格式规范</a> 部分）。在VeraCrypt创建的卷中（以及对于
 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
 系统加密</a>），该区域采用XTS模式进行加密（请参阅 <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
-操作模式</a> 部分）。VeraCrypt用于生成头密钥和辅助头密钥（XTS模式）的方法是PBKDF2，该方法在PKCS #5 v2.0中定义；请参阅
+操作模式</a> 部分）。对于系统加密，VeraCrypt使用PBKDF2-HMAC。对于非系统卷和文件容器，VeraCrypt支持两种用于生成头密钥的密钥推导函数：PBKDF2（该方法在PKCS #5 v2.0中定义；请参阅
 <a href="References.html" style="text-align:left; color:#0080c0; text-decoration:none">
-[7]</a>。
+[7]</a>）和Argon2id。
+</div>
+<h3>PBKDF2-HMAC密钥推导</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+PBKDF2方法使用基于HMAC的伪随机函数，可用的哈希算法包括HMAC-SHA-512、HMAC-SHA-256、HMAC-BLAKE2s-256、HMAC-Whirlpool或HMAC-Streebog（请参阅 [8, 9, 20, 22]） — 用户可以选择使用哪种。派生密钥的长度不取决于底层哈希函数的输出大小。例如，即使使用HMAC-SHA-512，AES-256密码的头密钥始终为256位长（在XTS模式下，还会使用一个额外的256位辅助头密钥；因此，AES-256总共使用两个256位密钥）。更多信息，请参阅 [7]。为了推导出头密钥，必须执行大量的密钥推导函数迭代，这增加了进行密码穷举搜索（即暴力攻击）所需的时间 [7]。
+</div>
+<h3>Argon2id密钥推导</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Argon2id是一种内存困难型密钥推导函数，可抵抗时间 - 内存权衡攻击和侧信道攻击。与PBKDF2-HMAC不同，Argon2id不使用单独的哈希算法选择，而是使用自己的内部哈希函数（<a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none">BLAKE2b-512</a>）。Argon2id需要三个参数：内存成本（使用的内存量）、时间成本（迭代次数）和并行度（线程数）。VeraCrypt在所有情况下都将并行度参数设为1。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-使用了512位的盐值，这意味着每个密码有2<sup style="text-align:left; font-size:85%">512</sup> 个密钥。这显著降低了对“离线”字典/“彩虹表”攻击的脆弱性（使用盐值时，为字典中的所有密码预先计算所有密钥非常困难） [7]。盐值由
+两种密钥推导函数都使用512位的盐值，这意味着每个密码有2<sup style="text-align:left; font-size:85%">512</sup> 个密钥。这显著降低了对“离线”字典/“彩虹表”攻击的脆弱性（使用盐值时，为字典中的所有密码预先计算所有密钥非常困难） [7]。盐值由
 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
-VeraCrypt随机数生成器</a> 在卷创建过程中生成的随机值组成。头密钥推导函数基于HMAC - SHA - 512、HMAC - SHA - 256、HMAC - BLAKE2S - 256、HMAC - Whirlpool或HMAC - Streebog（请参阅 [8, 9, 20, 22]） — 用户可以选择使用哪种。派生密钥的长度不取决于底层哈希函数的输出大小。例如，即使使用HMAC - SHA - 512，AES - 256密码的头密钥始终为256位长（在XTS模式下，还会使用一个额外的256位辅助头密钥；因此，AES - 256总共使用两个256位密钥）。更多信息，请参阅 [7]。为了推导出头密钥，必须执行大量的密钥推导函数迭代，这增加了进行密码穷举搜索（即暴力攻击）所需的时间 [7]。
+VeraCrypt随机数生成器</a> 在卷创建过程中生成的随机值组成。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<p>在1.12版本之前，VeraCrypt始终使用固定的迭代次数，该次数仅取决于卷类型和使用的推导算法。
+<p>在1.12版本之前，VeraCrypt始终使用PBKDF2-HMAC，并采用固定的迭代次数，该次数仅取决于卷类型和使用的哈希算法。
 从1.12版本开始，<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
-PIM </a>字段（<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">个人迭代乘数</a>）使用户能够更好地控制密钥推导函数使用的迭代次数。</p>
-<p>
+PIM </a>字段（<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">个人迭代乘数</a>）使用户能够更好地控制密钥推导函数使用的计算参数。</p>
+<h4>PBKDF2-HMAC参数</h4>
 <p>当未指定 <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
-PIM </a>值或该值等于零时，VeraCrypt使用以下默认值：<br/>
+PIM </a>值或该值等于零时，VeraCrypt对PBKDF2-HMAC使用以下默认值：<br/>
 <ul>
-<li>对于使用SHA - 256、BLAKE2s - 256或Streebog的系统分区加密（引导加密），使用 <strong>200000</strong> 次迭代。</li>
-<li>对于使用SHA - 512或Whirlpool的系统加密，使用 <strong>500000</strong> 次迭代。</li>
-<li>对于非系统加密和文件容器，所有推导算法都将使用 <strong>500000</strong> 次迭代。
+<li>对于使用SHA-256、BLAKE2s-256或Streebog的系统分区加密（引导加密），使用 <strong>200000</strong> 次迭代。</li>
+<li>对于使用SHA-512或Whirlpool的系统加密，使用 <strong>500000</strong> 次迭代。</li>
+<li>对于非系统加密和文件容器，所有PBKDF2-HMAC变体都将使用 <strong>500000</strong> 次迭代。
 </li></ul>
 </p>
 <p>当用户提供 <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
-PIM </a>值时，密钥推导函数的迭代次数计算如下：</p>
+PIM </a>值时，PBKDF2密钥推导函数的迭代次数计算如下：</p>
 <ul>
-<li>对于不使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>PIM x 2048</strong>
-</li><li>对于使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
+<li>对于不使用SHA-512或Whirlpool的系统加密：迭代次数 = <strong>PIM x 2048</strong>
+</li><li>对于使用SHA-512或Whirlpool的系统加密：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
 </li><li>对于非系统加密和文件容器：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
 </li></ul>
+<h4>Argon2id参数</h4>
+<p>对于Argon2id，PIM值控制内存成本和时间成本。如果未指定PIM，则使用相当于PIM = 12的默认参数（416 MiB内存，6次迭代）。</p>
+<p>对于Argon2id，VeraCrypt会为当前卷格式派生固定的192字节头密钥材料，而不依赖于所选加密算法。随后，所选加密算法使用该派生输出中所需的前缀。例如，AES-XTS使用前64字节。实现必须先从Argon2id请求192字节，然后再选择所需前缀；如果只请求所选算法的密钥材料长度，将得到不同的Argon2id输出，因为Argon2id会把请求的输出长度纳入计算。</p>
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-级联密码中使用的头密钥相互独立，即使它们是从单个密码（可能已应用密钥文件）派生而来。例如，对于AES - Twofish - Serpent级联，头密钥推导函数会根据给定密码推导出一个768位的加密密钥（在XTS模式下，还会从给定密码推导出一个768位的
+级联密码中使用的头密钥相互独立，即使它们是从单个密码（可能已应用密钥文件）派生而来。例如，对于AES-Twofish-Serpent级联，头密钥推导函数会根据给定密码推导出一个768位的加密密钥（在XTS模式下，还会从给定密码推导出一个768位的
 <em style="text-align:left">辅助</em> 头密钥）。生成的768位头密钥随后被拆分为三个256位密钥（在XTS模式下，
 <em style="text-align:left">辅助</em> 头密钥也被拆分为三个256位密钥，因此级联实际上总共使用六个256位密钥），其中第一个密钥由Serpent使用，第二个密钥由Twofish使用，第三个密钥由AES使用（此外，在XTS模式下，第一个辅助密钥由Serpent使用，第二个辅助密钥由Twofish使用，第三个辅助密钥由AES使用）。因此，即使攻击者拥有其中一个密钥，他也无法使用该密钥推导出其他密钥，因为除了对弱密码进行暴力攻击外，没有可行的方法来确定派生该密钥的密码。
 </div>

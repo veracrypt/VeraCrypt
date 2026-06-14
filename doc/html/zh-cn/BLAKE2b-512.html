@@ -30,21 +30,22 @@
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
 <a href="Hash%20Algorithms.html">哈希算法</a>
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
-<a href="BLAKE2s-256.html">BLAKE2s-256</a>
+<a href="BLAKE2b-512.html">BLAKE2b-512</a>
 </p></div>
 
 <div class="wikidoc">
-<h1>BLAKE2s-256</h1>
+<h1>BLAKE2b-512</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <p>
-BLAKE2是一种基于BLAKE的加密哈希函数，由让 - 菲利普·奥马森（Jean - Philippe Aumasson）、塞缪尔·内维斯（Samuel Neves）、祖科·威尔科克斯 - 奥赫恩（Zooko Wilcox - O'Hearn）和克里斯蒂安·温纳莱因（Christian Winnerlein）创建。它于2012年12月21日发布。其设计目标是在需要软件高性能的应用程序中取代广泛使用但已被破解的MD5和SHA - 1算法。BLAKE2提供了比SHA - 2更好的安全性，与SHA - 3相当（例如，对长度扩展攻击具有免疫性，与随机预言机不可区分等）。<br/>
-BLAKE2从BLAKE的轮函数中移除了消息字的常量加法，更改了两个旋转常量，简化了填充方式，添加了与初始化向量进行异或运算的参数块，并将BLAKE2b（BLAKE-512的后继者）的轮数从16轮减少到12轮，将BLAKE2s（BLAKE-256的后继者）的轮数从14轮减少到10轮。<br/>
-BLAKE2b和BLAKE2s在RFC 7693中进行了详细说明。
+BLAKE2b是BLAKE2的64位字变体，也是BLAKE-512的后继者。BLAKE2b和BLAKE2s在RFC 7693中进行了详细说明。
 </p>
 <p>
-VeraCrypt将最大输出大小为32字节（256位）的BLAKE2s用作PBKDF2-HMAC哈希算法。对于Argon2id，VeraCrypt在内部使用<a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none">BLAKE2b-512</a>。
+VeraCrypt在<a href="Argon2id.html" style="text-align:left; color:#0080c0; text-decoration:none">Argon2id</a>内部使用最大输出大小为64字节（512位）的BLAKE2b。对于非系统卷头密钥推导，通过在 VeraCrypt 中选择 Argon2 密钥推导算法来使用 BLAKE2b-512；其内部对应 Argon2id。在随机数池混合和密钥文件生成等哈希相关上下文中，同一底层哈希函数可能显示为BLAKE2b-512。
+</p>
+<p>
+BLAKE2b-512不作为单独的PBKDF2-HMAC哈希算法提供。要在VeraCrypt非系统卷头密钥推导中使用BLAKE2b-512，请选择<a href="Argon2id.html" style="text-align:left; color:#0080c0; text-decoration:none">Argon2id</a>；Argon2id没有单独的哈希算法选择。
 </p>
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
+<a href="SHA-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
 </div><div class="ClearBoth"></div></body></html>

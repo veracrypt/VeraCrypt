@@ -36,24 +36,55 @@
 <div class="wikidoc">
 <h1>PIM</h1>
 <div>
-<p>PIM代表“个人迭代乘数”。它是VeraCrypt 1.12版本引入的一个参数，其值控制着头部密钥推导函数使用的迭代次数。该值可以通过密码对话框或命令行指定。</p>
-<p>当指定了PIM值时，迭代次数的计算方式如下：</p>
+<p>PIM代表“个人迭代乘数”。它是VeraCrypt 1.12版本引入的一个参数，其值控制头部密钥推导函数使用的计算参数。该值可以通过密码对话框或命令行指定。</p>
+<p>PIM的确切含义取决于所使用的密钥推导函数（KDF）：</p>
+
+<h3>PBKDF2-HMAC密钥推导</h3>
+<p>使用PBKDF2-HMAC时，PIM值按如下方式控制迭代次数：</p>
 <ul>
-<li>对于不使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>PIM x 2048</strong>
-</li><li>对于使用SHA - 512或Whirlpool的系统加密：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
+<li>对于不使用SHA-512或Whirlpool的系统加密：迭代次数 = <strong>PIM x 2048</strong>
+</li><li>对于使用SHA-512或Whirlpool的系统加密：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
 </li><li>对于非系统加密和文件容器：迭代次数 = <strong>15000 + (PIM x 1000)</strong>
 </li></ul>
-<p>如果未指定PIM值，VeraCrypt将使用1.12版本之前的默认迭代次数（请参阅
+
+<h3>Argon2id密钥推导</h3>
+<p>使用Argon2id时，PIM值同时控制内存成本和时间成本参数：</p>
+<ul>
+<li><strong>内存成本（m_cost），单位MiB：</strong><br/>
+m_cost(pim) = min(64 MiB + (pim - 1) * 32 MiB, 1024 MiB)<br/>
+内存成本从64 MiB开始，每增加1个PIM增加32 MiB；当PIM达到31或更高时，上限为1024 MiB。
+</li>
+<li><strong>时间成本（t_cost），以迭代计：</strong><br/>
+如果PIM ≤ 31：t_cost(pim) = 3 + floor((pim - 1) / 3)<br/>
+如果PIM > 31：t_cost(pim) = 13 + (pim - 31)<br/>
+当PIM ≤ 31时，每增加3个PIM，时间成本增加1次迭代；当PIM > 31时，每增加1个PIM，时间成本增加1次迭代。
+</li>
+<li><strong>并行度：</strong>所有情况下固定为1个线程。</li>
+</ul>
+
+<p><strong>Argon2id示例：</strong></p>
+<ul>
+<li>PIM = 12：内存成本 = 416 MiB，时间成本 = 6 次迭代</li>
+<li>PIM = 31：内存成本 = 1024 MiB，时间成本 = 13 次迭代</li>
+<li>PIM = 32：内存成本 = 1024 MiB，时间成本 = 14 次迭代</li>
+</ul>
+
+<p>如果未指定PIM值，VeraCrypt将对PBKDF2-HMAC使用1.12版本之前的默认参数（请参阅
     <a href="Header%20Key%20Derivation.html">
-    头部密钥推导</a>）。这可以总结如下：<br/>
-        <ul>
-        <li>对于使用SHA - 256、BLAKE2s - 256或Streebog的系统分区加密（引导加密），使用<strong>200000</strong>次迭代，这相当于PIM值为<strong>98</strong>。</li>
-        <li>对于使用SHA - 512或Whirlpool的系统加密，使用<strong>500000</strong>次迭代，这相当于PIM值为<strong>485</strong>。</li>
-        <li>对于非系统加密和文件容器，所有推导算法将使用<strong>500000</strong>次迭代，这相当于PIM值为<strong>485</strong>。</li>
-        </ul>
+    头部密钥推导</a>）。对于Argon2id，默认参数相当于PIM = 12：
 </p>
+<ul>
+<li><strong>PBKDF2-HMAC默认值：</strong></li>
+<ul>
+<li>对于使用SHA-256、BLAKE2s-256或Streebog的系统分区加密（引导加密），使用<strong>200000</strong>次迭代，这相当于PIM值为<strong>98</strong>。</li>
+<li>对于使用SHA-512或Whirlpool的系统加密，使用<strong>500000</strong>次迭代，这相当于PIM值为<strong>485</strong>。</li>
+<li>对于使用PBKDF2-HMAC的非系统加密和文件容器，使用<strong>500000</strong>次迭代，这相当于PIM值为<strong>485</strong>。</li>
+</ul>
+<li><strong>Argon2id默认值：</strong>内存成本 = 416 MiB，时间成本 = 6 次迭代（相当于PIM = 12）</li>
+</ul>
+
 <p>在1.12版本之前，VeraCrypt卷的安全性仅基于密码强度，因为VeraCrypt使用固定的迭代次数。<br>
-随着PIM的引入，VeraCrypt的卷在基于（密码，PIM）对的二维安全空间中具有更高的灵活性，可在控制挂载/引导操作性能的同时调整所需的安全级别。</p>
+随着PIM的引入，VeraCrypt卷基于（密码，PIM，密钥推导函数）组合形成多维安全空间，可在控制挂载/引导操作性能的同时更灵活地调整所需的安全级别。</p>
 <h3>PIM的使用</h3>
 不强制要求指定PIM。</div>
 <div><br>
@@ -61,21 +92,21 @@
 <div>&nbsp;</div>
 <div>PIM被视为一个秘密值，每次用户都必须与密码一起输入。如果指定了错误的PIM值，挂载/引导操作将失败。</div>
 <div>&nbsp;</div>
-<div>使用较高的PIM值可以通过增加迭代次数来提高安全性，但会导致挂载/引导时间变慢。</div>
+<div>使用较高的PIM值可以通过提高KDF成本参数来增强安全性，但会导致挂载/引导时间变慢。</div>
 <div>使用较小的PIM值，挂载/引导速度会更快，但如果使用弱密码，可能会降低安全性。</div>
 <div>&nbsp;</div>
 <div>在创建卷或对系统进行加密时，当密码长度小于20个字符时，VeraCrypt会强制PIM值大于或等于某个最小值。进行此检查是为了确保对于短密码，安全级别至少等于空PIM提供的默认级别。</div>
 <div>&nbsp;</div>
-<div>对于短密码，不使用SHA - 512或Whirlpool的系统加密的PIM最小值为<strong>98</strong>，其他情况的PIM最小值为
+<div>对于短密码，Argon2id卷的PIM最小值为<strong>12</strong>，不使用SHA-512或Whirlpool的系统加密为<strong>98</strong>，其他使用PBKDF2-HMAC的情况为
 <strong>485</strong>。对于长度为20个字符及以上的密码，PIM最小值为
 <strong>1</strong>。在所有情况下，将PIM留空或将其值设置为0将使VeraCrypt使用如
 <a href="Header%20Key%20Derivation.html">
-头部密钥推导</a>部分所述的默认高迭代次数。</div>
+头部密钥推导</a>部分所述的默认KDF参数。</div>
 <div><br>
 使用自定义PIM值的动机可能包括：<br>
 <ul>
 <li>添加一个额外的秘密参数（PIM），使攻击者必须猜测</li><li>通过使用较大的PIM值来提高安全级别，以抵御未来暴力攻击技术的发展。
-</li><li>通过使用较小的PIM值（对于不使用SHA - 512或Whirlpool的系统加密小于98，对于其他情况小于485）来加快引导或挂载速度
+</li><li>通过使用较小的PIM值（对于Argon2id卷小于12，对于不使用SHA-512或Whirlpool的系统加密小于98，对于其他使用PBKDF2-HMAC的情况小于485）来加快引导或挂载速度
 </li></ul>
 <p>以下屏幕截图展示了使用PIM值为231挂载卷的步骤：</p>
 <table style="margin-left:auto; margin-right:auto">

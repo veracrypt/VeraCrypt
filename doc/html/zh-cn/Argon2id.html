@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Key%20Derivation%20Algorithms.html">密钥推导算法</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Argon2id.html">Argon2id</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Argon2id</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Argon2id 是一种内存困难型密钥推导函数，设计用于抵抗时间-内存权衡攻击和侧信道攻击。它在 2015 年被选为密码哈希竞赛（PHC）的获胜算法，并由 RFC 9106 定义。VeraCrypt 支持将 Argon2id 作为 PBKDF2-HMAC 的替代方案用于非系统卷头密钥推导。
+</div>
+
+<h3>主要特性</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>内存困难：</strong>需要可配置数量的内存，从而提高对专用硬件攻击的抵抗能力。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>抗侧信道攻击：</strong>结合了依赖数据和不依赖数据的内存访问模式。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>内部哈希函数：</strong>内部使用 <a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a>，无需单独选择哈希算法。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>可调参数：</strong>允许调整内存成本、时间成本和并行度。
+</li>
+</ul>
+
+<h3>Argon2 变体</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Argon2 有三个变体：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Argon2d：</strong>使用依赖数据的内存访问方式，可抵抗时间-内存权衡攻击，但更容易受到侧信道攻击。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Argon2i：</strong>使用不依赖数据的内存访问方式，可抵抗侧信道攻击，但对时间-内存权衡攻击的抵抗力较弱。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Argon2id：</strong>结合两种变体的混合方式，可同时抵抗两类攻击（VeraCrypt 使用此变体）。
+</li>
+</ul>
+
+<h3>VeraCrypt 中的参数</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt 使用 Argon2id 时采用以下参数配置：
+</div>
+
+<h4>内存成本（m_cost）</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+密钥推导过程中使用的内存量由 PIM 值控制：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>公式：</strong>m_cost(pim) = min(64 MiB + (pim - 1) &times; 32 MiB, 1024 MiB)
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>范围：</strong>64 MiB 到 1024 MiB（在 PIM = 31 时达到上限）
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>默认值：</strong>416 MiB（相当于 PIM = 12）
+</li>
+</ul>
+
+<h4>时间成本（t_cost）</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+密钥推导过程中执行的迭代次数：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>当 PIM &le; 31 时：</strong>t_cost(pim) = 3 + floor((pim - 1) / 3)
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>当 PIM &gt; 31 时：</strong>t_cost(pim) = 13 + (pim - 31)
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>默认值：</strong>6 次迭代（相当于 PIM = 12）
+</li>
+</ul>
+
+<h4>并行度</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+计算过程中使用的并行线程数：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>值：</strong>VeraCrypt 中始终固定为 1 个线程。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>原因：</strong>确保在不同硬件配置上具有一致的行为。
+</li>
+</ul>
+
+<h3>相对于 PBKDF2 的优势</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>内存困难性：</strong>需要分配大量内存，使 GPU 和 ASIC 攻击成本更高。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>现代设计：</strong>专门设计用于抵抗当代攻击方法。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>抗侧信道攻击：</strong>内置对缓存计时和其他侧信道攻击的防护。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>标准化：</strong>已在 RFC 9106 中正式标准化。
+</li>
+</ul>
+
+<h3>使用注意事项</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在 VeraCrypt 中使用 Argon2id 时：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>内存要求：</strong>请确保有足够的 RAM，尤其是在使用较高 PIM 值时。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>性能：</strong>较高的内存成本可能导致挂载时间变慢，但可提供更好的安全性。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>兼容性：</strong>适用于支持多种密钥推导函数的 VeraCrypt 版本。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>无需哈希选择：</strong>与 PBKDF2-HMAC 不同，无需选择单独的哈希算法。
+</li>
+</ul>
+
+<h3>技术规格</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>算法：</strong>RFC 9106 定义的 Argon2id<br/>
+<strong>内部哈希：</strong><a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a><br/>
+<strong>盐值大小：</strong>512 位（与 PBKDF2-HMAC 相同）<br/>
+<strong>头 KDF 输出长度：</strong>当前 VeraCrypt 格式固定为 1536 位（192 字节）。所选加密算法使用该输出中所需的前缀部分（例如 AES（AES-256-XTS）使用前 64 字节）。第三方实现必须先从 Argon2id 请求 192 字节，再选择所需前缀；如果只请求所选算法的密钥材料长度，将得到不同的 Argon2id 输出。<br/>
+<strong>版本：</strong>Argon2 版本 0x13（十进制 19）
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+有关 PIM 值及其对 Argon2id 参数影响的更多信息，请参阅
+<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="text-align:left; color:#0080c0; text-decoration:none">
+个人迭代乘数（PIM）</a>部分。
+</div>
+
+</div><div class="ClearBoth"></div></body></html>

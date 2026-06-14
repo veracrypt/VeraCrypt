@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Key%20Derivation%20Algorithms.html">Алгоритмы формирования ключа</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Argon2id.html">Argon2id</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Argon2id</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Argon2id &mdash; это функция формирования ключа с повышенными требованиями к памяти, разработанная для противодействия как атакам с компромиссом время-память, так и атакам по сторонним каналам. В 2015 году она была выбрана победителем Password Hashing Competition (PHC) и определена в RFC 9106. VeraCrypt поддерживает Argon2id как альтернативу PBKDF2-HMAC для формирования ключа заголовка несистемных томов.
+</div>
+
+<h3>Основные свойства</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Повышенные требования к памяти:</strong> использует настраиваемый объём памяти, что повышает устойчивость к атакам с применением специализированного оборудования.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Устойчивость к атакам по сторонним каналам:</strong> сочетает шаблоны доступа к памяти, зависящие и не зависящие от данных.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Внутренняя хеш-функция:</strong> использует <a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a> внутри алгоритма, поэтому отдельный выбор хеш-алгоритма не требуется.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Настраиваемые параметры:</strong> позволяет изменять затраты памяти, затраты времени и степень параллелизма.
+</li>
+</ul>
+
+<h3>Варианты Argon2</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+У Argon2 есть три варианта:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Argon2d:</strong> использует доступ к памяти, зависящий от данных; устойчив к атакам с компромиссом время-память, но уязвимее к атакам по сторонним каналам.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Argon2i:</strong> использует доступ к памяти, не зависящий от данных; устойчив к атакам по сторонним каналам, но менее устойчив к атакам с компромиссом время-память.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Argon2id:</strong> гибридный вариант, объединяющий оба подхода и обеспечивающий устойчивость к обоим типам атак (используется в VeraCrypt).
+</li>
+</ul>
+
+<h3>Параметры в VeraCrypt</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt использует Argon2id со следующей конфигурацией параметров:
+</div>
+
+<h4>Затраты памяти (m_cost)</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Объём памяти, используемый при формировании ключа, управляется значением PIM:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Формула:</strong> m_cost(pim) = min(64 MiB + (pim - 1) &times; 32 MiB, 1024 MiB)
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Диапазон:</strong> от 64 MiB до 1024 MiB (ограничение достигается при PIM = 31)
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>По умолчанию:</strong> 416 MiB (эквивалентно PIM = 12)
+</li>
+</ul>
+
+<h4>Затраты времени (t_cost)</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Количество итераций, выполняемых при формировании ключа:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Для PIM &le; 31:</strong> t_cost(pim) = 3 + floor((pim - 1) / 3)
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Для PIM &gt; 31:</strong> t_cost(pim) = 13 + (pim - 31)
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>По умолчанию:</strong> 6 итераций (эквивалентно PIM = 12)
+</li>
+</ul>
+
+<h4>Параллелизм</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Количество параллельных потоков, используемых при вычислении:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Значение:</strong> в VeraCrypt всегда фиксировано на уровне 1 потока.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Причина:</strong> обеспечивает одинаковое поведение на разных аппаратных конфигурациях.
+</li>
+</ul>
+
+<h3>Преимущества перед PBKDF2</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Требовательность к памяти:</strong> требует выделения значительного объёма памяти, что делает атаки с использованием GPU и ASIC дороже.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Современная конструкция:</strong> специально разработан с учётом современных методов атак.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Устойчивость к атакам по сторонним каналам:</strong> содержит встроенные меры защиты от атак по времени доступа к кэшу и других сторонних каналов.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Стандартизация:</strong> официально стандартизован в RFC 9106.
+</li>
+</ul>
+
+<h3>Рекомендации по использованию</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При использовании Argon2id в VeraCrypt:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Требования к памяти:</strong> убедитесь, что доступен достаточный объём ОЗУ, особенно при больших значениях PIM.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Производительность:</strong> более высокие затраты памяти могут увеличить время монтирования, но обеспечивают более высокий уровень защиты.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Совместимость:</strong> доступен в версиях VeraCrypt, поддерживающих несколько функций формирования ключа.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Без выбора хеш-алгоритма:</strong> в отличие от PBKDF2-HMAC, отдельный хеш-алгоритм выбирать не нужно.
+</li>
+</ul>
+
+<h3>Технические характеристики</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>Алгоритм:</strong> Argon2id согласно RFC 9106<br/>
+<strong>Внутренняя хеш-функция:</strong> <a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a><br/>
+<strong>Размер соли:</strong> 512 бит (как и у PBKDF2-HMAC)<br/>
+<strong>Длина вывода KDF заголовка:</strong> фиксирована и составляет 1536 бит (192 байта) для текущего формата VeraCrypt. Для выбранного алгоритма шифрования используется требуемый префикс этого вывода (например, первые 64 байта для AES (AES-256-XTS)). Сторонние реализации должны запрашивать у Argon2id 192 байта до выбора требуемого префикса; запрос только длины ключевого материала выбранного алгоритма даёт другой вывод Argon2id.<br/>
+<strong>Версия:</strong> Argon2 версии 0x13 (19 в десятичной системе)
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Дополнительные сведения о значениях PIM и их влиянии на параметры Argon2id см. в разделе
+<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Персональный множитель итераций (PIM)</a>.
+</div>
+
+</div><div class="ClearBoth"></div></body></html>

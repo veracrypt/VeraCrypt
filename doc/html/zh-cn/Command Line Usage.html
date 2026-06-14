@@ -47,7 +47,7 @@
 </tr>
 <tr>
 <td><em>/hash</em></td>
-<td>必须后跟一个参数，指示挂载卷时要使用的 PRF 哈希算法。可能的 /hash 参数值为：sha256, sha-256, sha512, sha-512, whirlpool, blake2s 和 blake2s-256。当省略 /hash 时，VeraCrypt 将尝试所有可能的 PRF 算法，从而延长挂载操作时间。</td>
+<td>必须后跟一个参数，指示挂载卷时要使用的 PRF 哈希算法或 KDF。可能的 /hash 参数值为：sha256, sha-256, sha512, sha-512, whirlpool, blake2s, blake2s-256, streebog 和 blake2b-512（用于 Argon2id 卷）。当省略 /hash 时，VeraCrypt 将尝试所有可能的 PRF/KDF 算法，从而延长挂载操作时间。</td>
 </tr>
 <tr>
 <td id="volume"><em>/volume</em> 或 <em>/v</em></td>
@@ -228,7 +228,7 @@
 <tr>
 <td>&nbsp;<em>/hash</em></td>
 <td>（仅与 /create 一起使用）<br>
-必须后跟一个参数，指示创建卷时要使用的 PRF 哈希算法。它与 VeraCrypt.exe 具有相同的语法。</td>
+必须后跟一个参数，指示创建卷时要使用的 PRF 哈希算法或 KDF。它与 VeraCrypt.exe 具有相同的语法，并且还接受 <code>argon2</code> 作为 Argon2id 的别名。</td>
 </tr>
 <tr>
 <td>/encryption</td>
@@ -299,9 +299,9 @@
 </tbody>
 </table>
 <h4>语法</h4>
-<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
  [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
-<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
+<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512|argon2}]
  [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</p>
 <p>请注意，选项的指定顺序无关紧要。</p>
 <h4>示例</h4>

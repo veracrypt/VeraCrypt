@@ -50,11 +50,11 @@
  written to the pool, this function is applied to the entire pool.</p>
 <p>Description of the pool mixing function:</p>
 <ol>
-<li>Let <em>R</em> be the randomness pool. </li><li>Let <em>H</em> be the hash function selected by the user (SHA-512, BLAKE2S-256, or Whirlpool).
+<li>Let <em>R</em> be the randomness pool. </li><li>Let <em>H</em> be the current RNG pool-mixing hash function. In standalone random-pool and keyfile-generation contexts, this is the hash selected by the user. During volume operations, VeraCrypt derives it from the selected header key derivation algorithm: for PBKDF2-HMAC, it is the selected hash (SHA-512, SHA-256, BLAKE2s-256, Whirlpool, or Streebog); for Argon2id, it is <a href="BLAKE2b-512.html">BLAKE2b-512</a>.
 </li><li><em>l</em> = byte size of the output of the hash function <em>H</em> (i.e., if
-<em>H</em> is BLAKE2S-256, then <em>l</em> = 20; if <em>H</em> is SHA-512, <em>l</em> = 64)
+<em>H</em> is BLAKE2s-256 or SHA-256, then <em>l</em> = 32; if <em>H</em> is SHA-512, Whirlpool, Streebog, or BLAKE2b-512, <em>l</em> = 64)
 </li><li><em>z</em> = byte size of the randomness pool <em>R </em>(320 bytes) </li><li><em>q</em> = <em>z</em> / <em>l</em> &ndash; 1 (e.g., if <em>H</em> is Whirlpool, then
-<em>q</em> = 4) </li><li>Ris divided intol-byte blocksB0...Bq.
+<em>q</em> = 4) </li><li><em>R</em> is divided into <em>l</em>-byte blocks <em>B</em>0...<em>B</em>q.
 <p>For 0 &le; i &le; q (i.e., for each block B) the following steps are performed:</p>
 <ol type="a">
 <li><em>M = H</em> (<em>B</em>0 || <em>B</em>1 || ... || <em>B</em>q) [i.e., the randomness pool is hashed using the hash function H, which produces a hash M]
@@ -73,7 +73,7 @@
  is greater than the size of the pool, no value is generated and an error is returned).
 </li><li>The state of each bit in the pool is inverted (i.e., 0 is changed to 1, and 1 is changed to 0).
 </li><li>Data obtained from some of the sources listed above is added to the pool as described above.
-</li><li>The content of the pool is transformed using the pool mixing function. Note: The function uses a cryptographically secure one-way hash function selected by the user (for more information, see the section
+</li><li>The content of the pool is transformed using the pool mixing function. Note: The function uses the cryptographically secure one-way hash function associated with the selected KDF/hash option (for more information, see the section
 <em>Pool Mixing Function</em> above). </li><li>The transformed content of the pool is XORed into the output buffer as follows:
 <ol type="a">
 <li>The output buffer write cursor is set to 0 (the first byte of the buffer). </li><li>The byte at the position of the pool cursor is read from the pool and XORed into the byte in the output buffer at the position of the output buffer write cursor.

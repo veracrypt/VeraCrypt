@@ -44,7 +44,7 @@ Encryption Scheme</a> and <a href="VeraCrypt%20Volume%20Format%20Specification.h
 VeraCrypt Volume Format Specification</a>). In volumes created by VeraCrypt (and for
 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
 system encryption</a>), the area is encrypted in XTS mode (see the section <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
-Modes of Operation</a>). VeraCrypt supports two key derivation functions for generating header keys: PBKDF2 (specified in PKCS #5 v2.0) and Argon2id.</div>
+Modes of Operation</a>). For system encryption, VeraCrypt uses PBKDF2-HMAC. For non-system volumes and file containers, VeraCrypt supports two key derivation functions for generating header keys: PBKDF2 (specified in PKCS #5 v2.0) and Argon2id.</div>
 
 <h3>PBKDF2-HMAC Key Derivation</h3>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -55,7 +55,7 @@ The PBKDF2 method uses HMAC-based pseudorandom functions with the following hash
 
 <h3>Argon2id Key Derivation</h3>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-Argon2id is a memory-hard key derivation function that provides resistance against both time-memory trade-off attacks and side-channel attacks. Unlike PBKDF2-HMAC, Argon2id does not use a separate hash algorithm selection – it uses its own internal hash function (BLAKE2b). Argon2id requires three parameters: memory cost (amount of memory used), time cost (number of iterations), and parallelism (number of threads). VeraCrypt sets the parallelism parameter to 1 for all cases.</div>
+Argon2id is a memory-hard key derivation function that provides resistance against both time-memory trade-off attacks and side-channel attacks. Unlike PBKDF2-HMAC, Argon2id does not use a separate hash algorithm selection – it uses its own internal hash function (<a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none">BLAKE2b-512</a>). Argon2id requires three parameters: memory cost (amount of memory used), time cost (number of iterations), and parallelism (number of threads). VeraCrypt sets the parallelism parameter to 1 for all cases.</div>
 
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 512-bit salt is used for both key derivation functions, which means there are 2<sup style="text-align:left; font-size:85%">512</sup> keys for each password. This significantly decreases vulnerability to 'off-line' dictionary/'rainbow table' attacks (pre-computing all the keys for a dictionary
@@ -74,7 +74,7 @@ PIM </a>value is not specified or if it is equal to zero, VeraCrypt uses the def
 <ul>
 <li>For system partition encryption (boot encryption) that uses SHA-256, BLAKE2s-256 or Streebog, <strong>200000</strong> iterations are used.</li>
 <li>For system encryption that uses SHA-512 or Whirlpool, <strong>500000</strong> iterations are used.</li>
-<li>For non-system encryption and file containers, all derivation algorithms will use <strong>500000</strong> iterations.
+<li>For non-system encryption and file containers, all PBKDF2-HMAC variants will use <strong>500000</strong> iterations.
 </li></ul>
 </p>
 <p>When a <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">

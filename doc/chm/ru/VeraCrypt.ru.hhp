@@ -14,6 +14,7 @@ Title=Руководство пользователя VeraCrypt
 Acknowledgements.html
 Additional Security Requirements and Precautions.html
 AES.html
+Argon2id.html
 arrow_right.gif
 Authenticity and Integrity.html
 Authors.html
@@ -46,6 +47,7 @@ Beginner's Tutorial_Image_023.png
 Beginner's Tutorial_Image_024.png
 Beginner's Tutorial_Image_034.png
 BLAKE2s-256.html
+BLAKE2b-512.html
 Camellia.html
 Cascades.html
 Changing Passwords and Keyfiles.html
@@ -90,6 +92,7 @@ Incompatibilities.html
 Introduction.html
 Issues and Limitations.html
 Journaling File Systems.html
+Key Derivation Algorithms.html
 Keyfiles in VeraCrypt.html
 Keyfiles in VeraCrypt_Image_040.png
 Keyfiles.html
@@ -111,6 +114,7 @@ Notation.html
 Paging File.html
 Parallelization.html
 paypal_30x30.png
+pbkdf2.html
 Personal Iterations Multiplier (PIM).html
 Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step1.png
 Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step2.png

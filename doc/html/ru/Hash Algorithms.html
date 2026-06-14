@@ -34,17 +34,14 @@
 <div class="wikidoc">
 <h1>Алгоритмы хеширования</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-Выбор алгоритма хеширования предлагается в мастере создания томов, в диалоговом окне смены пароля,
-а также в окне генератора ключевых файлов. Выбранный пользователем алгоритм хеширования применяется
-во встроенном в VeraCrypt генераторе случайных чисел как функция псевдослучайного &quot;смешивания&quot;,
-а также в функции формирования ключа заголовка (HMAC – алгоритме усиления криптостойкости других
-криптоалгоритмов на основе хеш-функции, как определено в PKCS #5 v2.0) как псевдослучайная функция.
-При создании нового тома, генератором случайных чисел создаются мастер-ключ, вторичный ключ (режим XTS)
-и соль. Более подробную информацию см. в разделах <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
+В мастере создания томов и диалоговом окне смены пароля можно выбрать алгоритм хеширования при использовании PBKDF2-HMAC как функции формирования ключа. В окне генератора ключевых файлов выбранный алгоритм хеширования применяется генератором случайных чисел VeraCrypt как функция перемешивания пула. Если в качестве функции формирования ключа выбран Argon2id, отдельный выбор алгоритма хеширования для формирования ключа заголовка недоступен, поскольку Argon2id использует собственную внутреннюю хеш-функцию BLAKE2b-512.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Для PBKDF2-HMAC выбранный пользователем алгоритм хеширования применяется генератором случайных чисел VeraCrypt как псевдослучайная функция &quot;смешивания&quot;, а также функцией формирования ключа заголовка (HMAC на основе хеш-функции, как определено в PKCS #5 v2.0) как псевдослучайная функция. При создании нового тома генератор случайных чисел создаёт мастер-ключ, вторичный ключ (режим XTS) и соль. Более подробную информацию см. в разделах <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Генератор случайных чисел</a> и <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Формирование ключа заголовка, соль и количество итераций</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-В настоящее время VeraCrypt поддерживает следующие алгоритмы хеширования:</div>
+В настоящее время VeraCrypt поддерживает следующие алгоритмы хеширования для PBKDF2-HMAC:</div>
 <ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 <a href="BLAKE2s-256.html"><strong style="text-align:left">BLAKE2s-256</strong></a>
@@ -56,6 +53,12 @@
 <a href="Whirlpool.html"><strong style="text-align:left">Whirlpool</strong></a>
 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 <strong style="text-align:left"><a href="Streebog.html">Streebog</a></strong>
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt также связывает с Argon2id следующую хеш-функцию:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="BLAKE2b-512.html"><strong style="text-align:left">BLAKE2b-512</strong></a> (связана с Argon2id; недоступна для выбора в PBKDF2-HMAC)
 </li></ul>
 <p><a href="BLAKE2s-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></p>
 </div><div class="ClearBoth"></div></body></html>

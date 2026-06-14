@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Key%20Derivation%20Algorithms.html">密钥推导算法</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="pbkdf2.html">PBKDF2</a>
+</p></div>
+<div class="wikidoc">
+<h1>PBKDF2</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+PBKDF2（Password-Based Key Derivation Function 2）是一种广泛使用的 KDF，会重复应用伪随机函数（HMAC）以减缓密码猜测。在 VeraCrypt 中，PBKDF2 可与多种 HMAC 哈希函数配合使用，并用于派生解密卷头所需的密钥。
+</div>
+
+<h3>VeraCrypt 支持的 PBKDF2-HMAC 变体</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="SHA-512.html" style="color:#0080c0; text-decoration:none">SHA-512</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="SHA-256.html" style="color:#0080c0; text-decoration:none">SHA-256</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="Whirlpool.html" style="color:#0080c0; text-decoration:none">Whirlpool</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="BLAKE2s-256.html" style="color:#0080c0; text-decoration:none">BLAKE2s-256</a></strong></li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="Streebog.html" style="color:#0080c0; text-decoration:none">Streebog</a></strong></li>
+</ul>
+
+<h3>VeraCrypt 中的参数</h3>
+
+<h4>盐值</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+存储在卷头中的 512 位随机盐值会混入密码，以防止预计算和彩虹表攻击。
+</div>
+
+<h4>迭代次数</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+PBKDF2 迭代次数取决于所选 HMAC 哈希、使用场景（例如系统加密或非系统加密）以及 <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="color:#0080c0; text-decoration:none">PIM</a> 值。提高 PIM 会增加迭代次数，从而增加派生密钥所需的时间。精确值和公式请参阅 <a href="Header%20Key%20Derivation.html" style="color:#0080c0; text-decoration:none">头密钥推导、盐值和迭代次数</a>。
+</div>
+
+<h4>输出长度</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+派生并使用的卷头密钥材料量取决于所选加密算法或级联。在当前 XTS 卷中，VeraCrypt 同时使用主卷头密钥和辅助卷头密钥；例如，AES-256-XTS 总共使用 512 位（两个 256 位密钥），AES-Twofish-Serpent-XTS 级联总共使用 1536 位（六个 256 位密钥）。
+</div>
+
+<h3>优点和注意事项</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>兼容性广：</strong>PBKDF2 在多种平台和环境中得到广泛支持。</li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>内存需求低：</strong>适合资源受限的系统。</li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><strong>不是内存困难型：</strong>与 <a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a> 相比，PBKDF2 对使用大规模并行硬件（GPU/ASIC）的攻击抵抗力较弱。如果必须使用 PBKDF2，请考虑提高 PIM。</li>
+</ul>
+
+<h3>相关主题</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Key%20Derivation%20Algorithms.html" style="color:#0080c0; text-decoration:none">密钥推导算法（概述）</a></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Header%20Key%20Derivation.html" style="color:#0080c0; text-decoration:none">头密钥推导、盐值和迭代次数</a></li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="color:#0080c0; text-decoration:none">个人迭代乘数（PIM）</a></li>
+</ul>
+</div><div class="ClearBoth"></div></body></html>

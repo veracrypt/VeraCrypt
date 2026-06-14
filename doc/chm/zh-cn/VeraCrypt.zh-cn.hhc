@@ -191,6 +191,10 @@
 			<param name="Local" value="BLAKE2s-256.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="BLAKE2b-512">
+			<param name="Local" value="BLAKE2b-512.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="SHA-256">
 			<param name="Local" value="SHA-256.html">
 			</OBJECT>
@@ -207,6 +211,20 @@
 			<param name="Local" value="Streebog.html">
 			</OBJECT>
 	</UL>
+    <LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="密钥推导算法">
+        <param name="Local" value="Key Derivation Algorithms.html">
+        </OBJECT>
+    <UL>
+        <LI> <OBJECT type="text/sitemap">
+            <param name="Name" value="Argon2id">
+            <param name="Local" value="Argon2id.html">
+            </OBJECT>
+        <LI> <OBJECT type="text/sitemap">
+            <param name="Name" value="PBKDF2">
+            <param name="Local" value="pbkdf2.html">
+            </OBJECT>
+    </UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="支持的操作系统">
 		<param name="Local" value="Supported Operating Systems.html">

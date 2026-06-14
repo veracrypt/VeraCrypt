@@ -93,7 +93,7 @@ When creating a volume or when changing the password, the user has the possibili
 <div>&nbsp;</div>
 <div>The PIM is treated like a secret value that must be entered by the user each time alongside the password. If the incorrect PIM value is specified, the mount/boot operation will fail.</div>
 <div>&nbsp;</div>
-<div>Using high PIM values leads to better security thanks to the increased number of iterations but it comes with slower mounting/booting times.</div>
+<div>Using high PIM values leads to better security thanks to increased KDF cost parameters but it comes with slower mounting/booting times.</div>
 <div>With small PIM values, mounting/booting is quicker but this could decrease security if a weak password is used.</div>
 <div>&nbsp;</div>
 <div>During the creation of a volume or the encryption of the system, VeraCrypt forces the PIM value to be greater than or equal to a certain minimal value when the password is less than 20 characters. This check is done in order to ensure that, for short passwords,

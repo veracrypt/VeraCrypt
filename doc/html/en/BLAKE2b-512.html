@@ -30,21 +30,22 @@
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
 <a href="Hash%20Algorithms.html">Hash Algorithms</a>
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
-<a href="BLAKE2s-256.html">BLAKE2s-256</a>
+<a href="BLAKE2b-512.html">BLAKE2b-512</a>
 </p></div>
 
 <div class="wikidoc">
-<h1>BLAKE2s-256</h1>
+<h1>BLAKE2b-512</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <p>
-BLAKE2 is a cryptographic hash function based on BLAKE, created by Jean-Philippe Aumasson, Samuel Neves, Zooko Wilcox-O'Hearn, and Christian Winnerlein. It was announced on December 21, 2012. The design goal was to replace the widely used, but broken, MD5 and SHA-1 algorithms in applications requiring high performance in software. BLAKE2 provides better security than SHA-2 and similar to that of SHA-3 (e.g. immunity to length extension, indifferentiability from a random oracle, etc...).<br/>
-BLAKE2 removes addition of constants to message words from BLAKE round function, changes two rotation constants, simplifies padding, adds parameter block that is XOR'ed with initialization vectors, and reduces the number of rounds from 16 to 12 for BLAKE2b (successor of BLAKE-512), and from 14 to 10 for BLAKE2s (successor of BLAKE-256).<br/>
-BLAKE2b and BLAKE2s are specified in RFC 7693.
+BLAKE2b is the 64-bit-word variant of BLAKE2 and the successor of BLAKE-512. BLAKE2b and BLAKE2s are specified in RFC 7693.
 </p>
 <p>
-VeraCrypt uses BLAKE2s with its maximum output size of 32 bytes (256 bits) as a PBKDF2-HMAC hash algorithm. For Argon2id, VeraCrypt uses <a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none">BLAKE2b-512</a> internally.
+VeraCrypt uses BLAKE2b with its maximum output size of 64 bytes (512 bits) internally in <a href="Argon2id.html" style="text-align:left; color:#0080c0; text-decoration:none">Argon2id</a>. For non-system volume header key derivation, BLAKE2b-512 is reached by selecting the Argon2 key derivation algorithm in VeraCrypt; this corresponds to Argon2id internally. In hash-oriented contexts such as random pool mixing and keyfile generation, the same underlying hash may be displayed as BLAKE2b-512.
+</p>
+<p>
+BLAKE2b-512 is not offered as a separate PBKDF2-HMAC hash algorithm. To use BLAKE2b-512 in VeraCrypt non-system volume header key derivation, select <a href="Argon2id.html" style="text-align:left; color:#0080c0; text-decoration:none">Argon2id</a>; no separate hash algorithm selection is available for Argon2id.
 </p>
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Next Section &gt;&gt;</a></div>
+<a href="SHA-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Next Section &gt;&gt;</a></div>
 </div><div class="ClearBoth"></div></body></html>

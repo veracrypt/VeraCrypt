@@ -50,17 +50,21 @@
 </li>
 <li>现在VeraCrypt尝试解密在步骤(1)中读取的标准卷头。解密过程中使用和生成的所有数据都保存在内存中（VeraCrypt从不将它们保存到磁盘）。以下参数是未知的&dagger;，必须通过试错过程（即测试以下所有可能的组合）来确定：
 <ol type="a">
-<li>头密钥派生函数使用的伪随机函数（PRF，如PKCS #5 v2.0中所指定；请参阅
+<li>密钥推导函数（KDF）及其相关参数：
+<ul>
+<li><strong>PBKDF2-HMAC：</strong>头密钥派生函数使用的伪随机函数（PRF，如PKCS #5 v2.0中所指定；请参阅
 <a href="Header%20Key%20Derivation.html">
-<em>头密钥派生、盐值和迭代次数</em></a>部分），可以是以下之一：
-<p>HMAC - SHA - 512、HMAC - SHA - 256、HMAC - BLAKE2S - 256、HMAC - Whirlpool。如果用户明确指定了PRF，则将直接使用它，而不尝试其他可能性。</p>
+<em>头密钥派生、盐值和迭代次数</em></a>部分），可以是以下之一：HMAC-SHA-512、HMAC-SHA-256、HMAC-BLAKE2s-256、HMAC-Whirlpool、HMAC-Streebog。</li>
+<li><strong>Argon2id：</strong>用于非系统卷的内存困难型密钥推导函数，内部使用<a href="BLAKE2b-512.html">BLAKE2b-512</a>哈希函数。</li>
+</ul>
+<p>如果用户明确指定了卷头密钥推导算法（或对于 PBKDF2-HMAC 明确指定了 PRF 哈希），VeraCrypt 将直接使用它，而不尝试其他可能性。</p>
 <p>用户输入的密码（可能已应用了一个或多个密钥文件 - 请参阅
 <a href="Keyfiles%20in%20VeraCrypt.html">
 <em>密钥文件</em></a>部分）、PIM值（如果指定）和在步骤(1)中读取的盐值将传递给头密钥派生函数，该函数会生成一系列值（请参阅
 <a href="Header%20Key%20Derivation.html">
 <em>头密钥派生、盐值和迭代次数</em></a>部分），从中形成头加密密钥和辅助头密钥（XTS模式）。（这些密钥用于解密卷头。）</p>
 </li>
-<li>加密算法：AES - 256、Serpent、Twofish、AES - Serpent、AES - Twofish - Serpent等。</li>
+<li>加密算法：AES-256、Serpent、Twofish、AES-Serpent、AES-Twofish-Serpent等。</li>
 <li>操作模式：仅支持XTS模式</li>
 <li>密钥大小</li>
 </ol>

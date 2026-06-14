@@ -34,13 +34,14 @@
 <div class="wikidoc">
 <h1>Hash Algorithms</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-In the Volume Creation Wizard, in the password change dialog window, and in the Keyfile Generator dialog window, you can select a hash algorithm when using PBKDF2-HMAC as the key derivation function. When Argon2id is selected as the key derivation function, no hash algorithm selection is available as Argon2id uses its own internal BLAKE2b hash function.
+In the Volume Creation Wizard and in the password change dialog window, you can select a hash algorithm when using PBKDF2-HMAC as the key derivation function. In the Keyfile Generator dialog window, the selected hash algorithm is used by the VeraCrypt Random Number Generator as its pool mixing function. When Argon2id is selected as the key derivation function, no separate hash algorithm selection is available for header key derivation because Argon2id uses its own internal BLAKE2b-512 hash function.
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 For PBKDF2-HMAC, the user-selected hash algorithm is used by the VeraCrypt Random Number Generator as a pseudorandom &quot;mixing&quot; function, and by the header key derivation function (HMAC based on a hash function, as specified in PKCS #5 v2.0) as a pseudorandom function. When creating a new volume, the Random Number Generator generates the master key, secondary key (XTS mode), and salt. For more
  information, please see the section <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Random Number Generator</a> and section <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Header Key Derivation, Salt, and Iteration Count</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 VeraCrypt currently supports the following hash algorithms for PBKDF2-HMAC:</div>
 <ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
@@ -53,6 +54,12 @@ VeraCrypt currently supports the following hash algorithms for PBKDF2-HMAC:</div
 <a href="Whirlpool.html"><strong style="text-align:left">Whirlpool</strong></a>
 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 <strong style="text-align:left"><a href="Streebog.html">Streebog</a></strong>
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt also associates the following hash with Argon2id:</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="BLAKE2b-512.html"><strong style="text-align:left">BLAKE2b-512</strong></a> (associated with Argon2id; not selectable for PBKDF2-HMAC)
 </li></ul>
 <p><a href="BLAKE2s-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Next Section &gt;&gt;</a></p>
 </div><div class="ClearBoth"></div></body></html>

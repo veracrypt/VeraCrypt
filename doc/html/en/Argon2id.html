@@ -36,7 +36,7 @@
 <div class="wikidoc">
 <h1>Argon2id</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-Argon2id is a memory-hard key derivation function designed to resist both time-memory trade-off attacks and side-channel attacks. It was selected as the winner of the Password Hashing Competition (PHC) in 2015 and is defined in RFC 9106. VeraCrypt supports Argon2id as an alternative to PBKDF2-HMAC for header key derivation.
+Argon2id is a memory-hard key derivation function designed to resist both time-memory trade-off attacks and side-channel attacks. It was selected as the winner of the Password Hashing Competition (PHC) in 2015 and is defined in RFC 9106. VeraCrypt supports Argon2id as an alternative to PBKDF2-HMAC for non-system volume header key derivation.
 </div>
 
 <h3>Key Features</h3>
@@ -48,7 +48,7 @@ Argon2id is a memory-hard key derivation function designed to resist both time-m
 <strong>Side-channel resistant:</strong> Combines data-dependent and data-independent memory access patterns
 </li>
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-<strong>Internal hash function:</strong> Uses BLAKE2b internally, eliminating the need for separate hash algorithm selection
+<strong>Internal hash function:</strong> Uses <a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a> internally, eliminating the need for separate hash algorithm selection
 </li>
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 <strong>Tunable parameters:</strong> Allows adjustment of memory cost, time cost, and parallelism
@@ -159,7 +159,7 @@ When using Argon2id in VeraCrypt:
 <h3>Technical Specifications</h3>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <strong>Algorithm:</strong> Argon2id as defined in RFC 9106<br/>
-<strong>Internal hash:</strong> BLAKE2b<br/>
+<strong>Internal hash:</strong> <a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a><br/>
 <strong>Salt size:</strong> 512 bits (same as PBKDF2-HMAC)<br/>
 <strong>Header KDF output length:</strong> Fixed at 1536 bits (192 bytes) for the current VeraCrypt format. The required prefix is used for the selected encryption algorithm (for example, the first 64 bytes for AES (AES-256-XTS)). Third-party implementations must request 192 bytes from Argon2id before selecting the required prefix; requesting only the selected algorithm's key material length produces a different Argon2id output.<br/>
 <strong>Version:</strong> Argon2 version 0x13 (19 decimal)

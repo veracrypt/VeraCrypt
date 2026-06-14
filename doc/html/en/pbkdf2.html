@@ -60,7 +60,7 @@ The number of PBKDF2 iterations depends on the selected HMAC hash, the context (
 
 <h4>Output Length</h4>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
-The derived key length depends on the selected encryption algorithm(s) (e.g., 256 bits for AES-256, 768 bits for AES-Twofish-Serpent cascades).
+The amount of derived header key material consumed depends on the selected encryption algorithm(s). For current XTS volumes, VeraCrypt uses both primary and secondary header keys; for example, AES-256-XTS uses 512 bits in total (two 256-bit keys), and an AES-Twofish-Serpent-XTS cascade uses 1536 bits in total (six 256-bit keys).
 </div>
 
 <h3>Advantages and Considerations</h3>

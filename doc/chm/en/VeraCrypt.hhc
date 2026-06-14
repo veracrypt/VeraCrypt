@@ -191,6 +191,10 @@
 			<param name="Local" value="BLAKE2s-256.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="BLAKE2b-512">
+			<param name="Local" value="BLAKE2b-512.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="SHA-256">
 			<param name="Local" value="SHA-256.html">
 			</OBJECT>

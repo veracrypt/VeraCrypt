@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -30,29 +30,22 @@
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
 <a href="Hash%20Algorithms.html">Алгоритмы хеширования</a>
 <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
-<a href="BLAKE2s-256.html">BLAKE2s-256</a>
+<a href="BLAKE2b-512.html">BLAKE2b-512</a>
 </p></div>
 
 <div class="wikidoc">
-<h1>BLAKE2s-256</h1>
+<h1>BLAKE2b-512</h1>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <p>
-BLAKE2 – это основанная на BLAKE криптографическая хеш-функция (авторы: Jean-Philippe Aumasson,
-Samuel Neves, Zooko Wilcox-O'Hearn и Christian Winnerlein, опубликована 21 декабря 2012 года).
-Цель разработки состояла в том, чтобы заменить широко используемые, но взломанные алгоритмы
-MD5 и SHA-1 в приложениях, требующих высокой производительности программного обеспечения.
-BLAKE2 обеспечивает лучшую безопасность, чем SHA-2, и похож на SHA-3 (например, невосприимчив
-к увеличению длины, имеет недифференцируемость от случайного оракула и т. д.).<br/>
-BLAKE2 убирает добавление констант к словам сообщения из функции раунда BLAKE, изменяет две
-константы вращения, упрощает заполнение, добавляет блок параметров, который подвергается
-операции XOR с векторами инициализации, и уменьшает количество раундов с 16 до 12 для BLAKE2b
-(преемника BLAKE- 512) и с 14 до 10 для BLAKE2s (преемник BLAKE-256).<br/>
-BLAKE2b и BLAKE2s указаны в документе RFC 7693.
+BLAKE2b — это вариант BLAKE2 с 64-битовыми словами и преемник BLAKE-512. BLAKE2b и BLAKE2s указаны в документе RFC 7693.
 </p>
 <p>
-VeraCrypt использует BLAKE2s с максимальным выходным размером 32 байта (256 бит) как алгоритм хеширования PBKDF2-HMAC. Для Argon2id VeraCrypt внутренне использует <a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none">BLAKE2b-512</a>.
+VeraCrypt использует BLAKE2b с максимальным выходным размером 64 байта (512 бит) внутри <a href="Argon2id.html" style="text-align:left; color:#0080c0; text-decoration:none">Argon2id</a>. Для формирования ключа заголовка несистемных томов BLAKE2b-512 применяется при выборе алгоритма формирования ключа Argon2 в VeraCrypt; внутри это соответствует Argon2id. В контекстах, связанных с хешированием, например при перемешивании пула случайных чисел и создании ключевых файлов, эта же базовая хеш-функция может отображаться как BLAKE2b-512.
+</p>
+<p>
+BLAKE2b-512 не предлагается как отдельный алгоритм хеширования PBKDF2-HMAC. Чтобы использовать BLAKE2b-512 при формировании ключа заголовка несистемного тома VeraCrypt, выберите <a href="Argon2id.html" style="text-align:left; color:#0080c0; text-decoration:none">Argon2id</a>; для Argon2id отдельный выбор алгоритма хеширования недоступен.
 </p>
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-<a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></div>
+<a href="SHA-256.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></div>
 </div><div class="ClearBoth"></div></body></html>
