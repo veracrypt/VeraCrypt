@@ -3739,9 +3739,56 @@ void SavePostInstallTasksSettings (int command)
 }
 
 
+static BOOL ReadEfiBootLoaderDiagnosticsDword (const wchar_t *valueName, DWORD *value)
+{
+	return ReadLocalMachineRegistryDword (
+		(wchar_t *) VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY,
+		(wchar_t *) valueName,
+		value);
+}
+
+
+static BOOL EfiBootLoaderRescueDiskResourceSetMatches (DWORD resourceSet)
+{
+	DWORD rescueDiskResourceSet = 0;
+
+	return resourceSet != 0
+		&& ReadEfiBootLoaderDiagnosticsDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME, &rescueDiskResourceSet)
+		&& rescueDiskResourceSet == resourceSet;
+}
+
+
+static BOOL IsEfiBootLoaderRescueDiskPromptPending (void)
+{
+	DWORD promptId = 0;
+	DWORD recordedResourceSet = 0;
+	DWORD promptResourceSet = 0;
+
+	if (ReadEfiBootLoaderDiagnosticsDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, &promptId) && promptId != 0)
+	{
+		if (!ReadEfiBootLoaderDiagnosticsDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, &promptResourceSet))
+		{
+			if (!ReadEfiBootLoaderDiagnosticsDword (VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, &promptResourceSet))
+				return FALSE;
+		}
+
+		return !EfiBootLoaderRescueDiskResourceSetMatches (promptResourceSet);
+	}
+
+	if (ReadEfiBootLoaderDiagnosticsDword (VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, &recordedResourceSet)
+		&& recordedResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023)
+	{
+		return !EfiBootLoaderRescueDiskResourceSetMatches (recordedResourceSet);
+	}
+
+	return FALSE;
+}
+
+
 void DoPostInstallTasks (HWND hwndDlg)
 {
 	BOOL bDone = FALSE;
+	BOOL bEfiBootLoaderRescueDiskPromptPending = IsEfiBootLoaderRescueDiskPromptPending ();
 
 	if (FileExists (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_TUTORIAL)))
 	{
@@ -3759,7 +3806,7 @@ void DoPostInstallTasks (HWND hwndDlg)
 		bDone = TRUE;
 	}
 
-	if (FileExists (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RESCUE_DISK)))
+	if (FileExists (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RESCUE_DISK)) || bEfiBootLoaderRescueDiskPromptPending)
 	{
 		if (AskYesNo ("AFTER_UPGRADE_RESCUE_DISK", hwndDlg) == IDYES)
 			PostMessage (hwndDlg, VC_APPMSG_CREATE_RESCUE_DISK, 0, 0);

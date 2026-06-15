@@ -2640,7 +2640,7 @@ namespace VeraCrypt
 		IDR_EFI_DCSINFO_2023
 	};
 
-	static const wchar_t *EfiBootLoaderDiagnosticsRegistryKey = L"Software\\VeraCrypt\\Diagnostics\\EfiBootLoader";
+	static const wchar_t *EfiBootLoaderDiagnosticsRegistryKey = VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY;
 
 	static bool ReadFirmwareEnvironmentVariableBuffer (const wchar_t* name, const wchar_t* guid, std::vector<uint8>& value, DWORD* pLastError = NULL)
 	{
@@ -2732,6 +2732,75 @@ namespace VeraCrypt
 		return selection;
 	}
 
+	static bool ReadRecordedEfiBootLoaderResourceSet (DWORD& resourceSet)
+	{
+		resourceSet = 0;
+		return ReadLocalMachineRegistryDword (
+			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
+			(wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME,
+			&resourceSet) && resourceSet != 0;
+	}
+
+	static DWORD ReadEfiBootLoaderRescueDiskPromptId ()
+	{
+		DWORD promptId = 0;
+		ReadLocalMachineRegistryDword (
+			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
+			(wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME,
+			&promptId);
+		return promptId;
+	}
+
+	static bool WriteEfiBootLoaderDiagnosticsRegistryDword (const wchar_t *valueName, DWORD value)
+	{
+#ifndef SETUP
+		if (!IsAdmin () && IsUacSupported ())
+		{
+			try
+			{
+				Elevator::WriteLocalMachineRegistryDwordValue ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) valueName, value);
+				return true;
+			}
+			catch (...) { }
+
+			return false;
+		}
+#endif
+		return WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) valueName, value) ? true : false;
+	}
+
+	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images)
+	{
+		if (!images.ResourceSet)
+			return;
+
+		DWORD previousLastError = GetLastError ();
+		DWORD promptId = ReadEfiBootLoaderRescueDiskPromptId () + 1;
+		if (promptId == 0)
+			promptId = 1;
+
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, promptId);
+		SetLastError (previousLastError);
+	}
+
+	static void RecordEfiBootLoaderRescueDiskResourceSet (const EfiBootLoaderImages& images)
+	{
+		if (!images.ResourceSet)
+			return;
+
+		DWORD previousLastError = GetLastError ();
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
+		SetLastError (previousLastError);
+	}
+
+	static void ClearEfiBootLoaderDiagnosticsRegistry ()
+	{
+		DWORD previousLastError = GetLastError ();
+		::DeleteRegistryKey (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey);
+		SetLastError (previousLastError);
+	}
+
 	static void RecordEfiBootLoaderResourceSetSelection (const EfiBootLoaderImages& images)
 	{
 		if (!images.ResourceSet || !images.SelectionReason)
@@ -2744,7 +2813,7 @@ namespace VeraCrypt
 		StringCchPrintfW (selectionTimeUtc, ARRAYSIZE (selectionTimeUtc), L"%04u-%02u-%02uT%02u:%02u:%02uZ",
 			systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
 
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderResourceSet", images.ResourceSet);
+		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
 		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbLastError", images.FirmwareDbError);
 		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", images.SelectionReason, FALSE);
 		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE);
@@ -3003,18 +3072,18 @@ namespace VeraCrypt
 		if (TryFirmwareDbContainsMicrosoft2023UefiCAs (bContainsMicrosoft2023UefiCAs))
 		{
 			if (bContainsMicrosoft2023UefiCAs)
-				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2023, 2023, L"firmware db contains Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023", ERROR_SUCCESS);
+				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2023, VC_EFI_BOOT_LOADER_RESOURCE_SET_2023, L"firmware db contains Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023", ERROR_SUCCESS);
 
-			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, 2011, L"firmware db does not contain both Microsoft 2023 UEFI CAs", ERROR_SUCCESS);
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"firmware db does not contain both Microsoft 2023 UEFI CAs", ERROR_SUCCESS);
 		}
 
 		DWORD dwError = GetLastError ();
 		if (IsFirmwareDbUnavailableError (dwError))
-			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, 2011, L"firmware db is unavailable; using 2011 compatibility fallback", dwError);
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"firmware db is unavailable; using 2011 compatibility fallback", dwError);
 
 		bool bSecureBootEnabled = false;
 		if (TryFirmwareSecureBootEnabled (bSecureBootEnabled) && !bSecureBootEnabled)
-			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, 2011, L"Secure Boot is disabled and firmware db could not be read; using 2011 compatibility fallback", dwError);
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is disabled and firmware db could not be read; using 2011 compatibility fallback", dwError);
 #ifndef SETUP
 		if (!IsAdmin () && IsUacSupported ())
 		{
@@ -3024,13 +3093,13 @@ namespace VeraCrypt
 			BOOL bElevatedContainsMicrosoft2023UefiCAs = FALSE;
 			Elevator::GetEfiBootLoaderSigningSupport (&bElevatedContainsMicrosoft2023UefiCAs);
 			if (bElevatedContainsMicrosoft2023UefiCAs)
-				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2023, 2023, L"elevated helper reported Microsoft 2023 UEFI CA support", dwError);
+				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2023, VC_EFI_BOOT_LOADER_RESOURCE_SET_2023, L"elevated helper reported Microsoft 2023 UEFI CA support", dwError);
 
-			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, 2011, L"elevated helper did not report Microsoft 2023 UEFI CA support", dwError);
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"elevated helper did not report Microsoft 2023 UEFI CA support", dwError);
 		}
 #endif
 
-		return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, 2011, L"firmware db could not be read; using 2011 compatibility fallback", dwError);
+		return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"firmware db could not be read; using 2011 compatibility fallback", dwError);
 	}
 
 	static void ThrowMissingEfiResource (const wchar_t* resourceName, bool rescueDisk)
@@ -3091,6 +3160,35 @@ namespace VeraCrypt
 		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\DcsCfg.dcs", L"\\EFI\\VeraCrypt\\DcsCfg.dcs.vc_backup", images.DcsCfg, images.SizeDcsCfg);
 		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs.vc_backup", images.LegacySpeaker, images.SizeLegacySpeaker);
 		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\DcsInfo.dcs", L"\\EFI\\VeraCrypt\\DcsInfo.dcs.vc_backup", images.DcsInfo, images.SizeDcsInfo);
+	}
+
+	static bool EfiBootLoaderImageDiffers (EfiBoot& efiBoot, const wchar_t* imageName, uint8* replacementData, DWORD replacementSize)
+	{
+		std::vector<uint8> currentImage;
+		if (!efiBoot.ReadFileToBuffer (imageName, currentImage))
+			return false;
+
+		return (currentImage.size () != replacementSize)
+			|| ((replacementSize != 0) && (memcmp (currentImage.data (), replacementData, replacementSize) != 0));
+	}
+
+	static bool EfiBootLoaderImagesDiffer (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	{
+		return EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsBoot.efi", images.DcsBoot, images.SizeDcsBoot)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsInt.dcs", images.DcsInt, images.SizeDcsInt)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsCfg.dcs", images.DcsCfg, images.SizeDcsCfg)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", images.LegacySpeaker, images.SizeLegacySpeaker)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsInfo.dcs", images.DcsInfo, images.SizeDcsInfo);
+	}
+
+	static bool EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	{
+		DWORD recordedResourceSet = 0;
+		bool bRecordedResourceSetKnown = ReadRecordedEfiBootLoaderResourceSet (recordedResourceSet);
+		if (bRecordedResourceSetKnown && recordedResourceSet == images.ResourceSet)
+			return false;
+
+		return EfiBootLoaderImagesDiffer (efiBoot, images);
 	}
 
 	static void SaveEfiBootLoaderImages (EfiBoot& efiBoot, const EfiBootLoaderImages& images, bool backupExistingImages = false)
@@ -4158,6 +4256,7 @@ namespace VeraCrypt
 						const bool bRefreshMsBootloader = !bModifiedMsBoot
 							|| bMissingMsBoot
 							|| (EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsVeraCryptBootLoader (szStdMsBootloader));
+						const bool bRescueDiskPromptRequired = EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBootInst, efiImages);
 
 						// Keep the firmware-visible loader path valid before the larger module refresh.
 						if (bRefreshMsBootloader && !EfiBootInst.FileExists (szStdMsBootloader))
@@ -4215,6 +4314,8 @@ namespace VeraCrypt
 								EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", szStdEfiBootloader);
 							}
 						}
+						if (bRescueDiskPromptRequired)
+							MarkEfiBootLoaderRescueDiskRecreationNeeded (efiImages);
 						return;
 					}
 				}
@@ -4575,6 +4676,7 @@ namespace VeraCrypt
 			{
 				File isoFile (isoImagePath, false, true);
 				isoFile.Write (RescueZipData, RescueZipSize);
+				RecordEfiBootLoaderRescueDiskResourceSet (efiImages);
 			}
 		}
 		else
@@ -5323,6 +5425,8 @@ namespace VeraCrypt
 			device.SeekAt (0);
 			device.Write (bootLoaderBuf, sizeof (bootLoaderBuf));
 		}
+
+		ClearEfiBootLoaderDiagnosticsRegistry ();
 
 		if (!IsAdmin() && IsUacSupported())
 		{

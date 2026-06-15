@@ -82,6 +82,14 @@ enum
 #define TC_APPD_FILENAME_POST_INSTALL_TASK_RELEASE_NOTES	L"Post-Install Task - Release Notes"
 #define TC_APPD_FILENAME_POST_INSTALL_TASK_RESCUE_DISK		L"Post-Install Task - Rescue Disk"
 
+#define VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY			L"Software\\VeraCrypt\\Diagnostics\\EfiBootLoader"
+#define VC_EFI_BOOT_LOADER_RESOURCE_SET_2011				2011
+#define VC_EFI_BOOT_LOADER_RESOURCE_SET_2023				2023
+#define VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME			L"EfiBootLoaderResourceSet"
+#define VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME	L"EfiBootLoaderRescueDiskPromptId"
+#define VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME	L"EfiBootLoaderRescueDiskPromptResourceSet"
+#define VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME	L"EfiBootLoaderRescueDiskResourceSet"
+
 #define VC_FILENAME_RENAMED_SUFFIX				L"_old"
 
 /* customer service control code to build device list */
