@@ -1683,8 +1683,8 @@
     <entry lang="ja" key="MACOSX_APFS_SYSTEM_STORE">選択された APFS 物理ストア '{0}' には現在マウントされている macOS システムボリュームが含まれているため、VeraCrypt ボリュームホストとして使用できません。</entry>
     <entry lang="ja" key="MACOSX_DEVICE_NOT_WRITABLE">macOS は、選択されたデバイス '{0}' を読み取り専用として報告しています。書き込み可能な物理パーティションまたはディスクを選択してください。</entry>
     <entry lang="ja" key="MACOSX_APFS_EROFS_HINT">macOS は、選択されたデバイスを読み取り専用として報告しました。これが APFS ディスクの場合は、APFS 合成ボリュームではなく物理 APFS ストアパーティションを選択していることを確認してください。ディスクユーティリティまたは 'diskutil list' を使用して物理パーティションを確認してから、再試行してください。</entry>
-    <entry lang="en" key="FAVORITE_PIM_OR_KDF_CHANGED">This volume is registered as a System Favorite and its PIM and/or KDF settings were changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
-    <entry lang="en" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">The selected KDF uses different PIM parameters, so VeraCrypt will not reuse the current custom PIM. The new volume header will use the default PIM for the selected KDF unless you select "Use PIM" in the New section and enter a custom value.\n\nDo you want to continue?</entry>
+    <entry lang="ja" key="FAVORITE_PIM_OR_KDF_CHANGED">このボリュームはシステムお気に入りボリュームとして登録されており、PIM および/または KDF の設定が変更されています。\nVeraCrypt がシステムお気に入りボリュームの設定を自動的に更新しても良いですか（管理者権限が必要です）？\n\nいいえを選択した場合は、システムお気に入りボリュームを手動で更新する必要があります。</entry>
+    <entry lang="ja" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">選択した KDF は異なる PIM パラメータを使用するため、VeraCrypt は現在のカスタム PIM を再利用しません。新しいボリュームヘッダーは、「新規」セクションで「PIMを使用する」を選択してカスタム値を入力しない限り、選択した KDF のデフォルトの PIM を使用します。\n\n続行しますか？</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
