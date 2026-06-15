@@ -18,7 +18,7 @@
  * around the core logic from Tcformat.c and related VeraCrypt source files.
  *
  * First created by Mounir IDRASSI (mounir.idrassi@amcrypto.jp)
- * 
+ *
  */
 
 #pragma once
@@ -66,7 +66,7 @@ typedef struct _VeraCryptFormatOptions
 	/** The encryption algorithm to use. E.g., L"AES", L"Serpent", L"Twofish", L"AES-Twofish-Serpent". */
 	const wchar_t* encryptionAlgorithm;
 
-	/** The header key derivation algorithm and random pool hash selector. E.g., L"Argon2" (Argon2id KDF), L"SHA-512", L"RIPEMD-160", L"Whirlpool", L"BLAKE2s-256", L"SHA-256". */
+	/** The header key derivation algorithm and random pool hash selector. E.g., L"Argon2" (Argon2id KDF), L"SHA-512", L"SHA-256", L"Whirlpool", L"BLAKE2s-256", L"Streebog". */
 	const wchar_t* hashAlgorithm;
 
 	/** The filesystem for the new volume. E.g., L"NTFS", L"FAT", L"ExFAT", L"ReFS", or L"None". */
@@ -74,10 +74,10 @@ typedef struct _VeraCryptFormatOptions
 
 	/** The cluster size in sectors (e.g., 1, 2, 4, 8...). Use 0 for default. */
 	int clusterSize;
-	
+
 	/** If TRUE, performs a quick format. This is faster but less secure as old data is not overwritten. */
 	BOOL quickFormat;
-	
+
 	/** If TRUE, creates a dynamically-expanding (sparse) file container. Only for file containers. Implies quickFormat=TRUE. */
 	BOOL dynamicFormat;
 

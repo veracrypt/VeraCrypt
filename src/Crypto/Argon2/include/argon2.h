@@ -41,7 +41,7 @@ extern "C" {
 #ifdef A2_VISCTL
 #define ARGON2_PUBLIC __attribute__((visibility("default")))
 #define ARGON2_LOCAL __attribute__ ((visibility ("hidden")))
-#elif defined(_MSC_VER)
+#elif defined(_MSC_VER) && defined(ARGON2_EXPORTS)
 #define ARGON2_PUBLIC __declspec(dllexport)
 #define ARGON2_LOCAL
 #else
