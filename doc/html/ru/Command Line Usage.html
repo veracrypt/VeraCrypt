@@ -48,7 +48,7 @@
 </tr>
 <tr>
 <td>&nbsp;<em>/hash</em></td>
-<td>После этого ключа указывается хеш-алгоритм PRF или KDF, используемый при монтировании тома. Возможные значения ключа /hash: <code>sha256, sha-256, sha512, sha-512, whirlpool, blake2s, blake2s-256, streebog</code> и <code>blake2b-512</code> (для томов Argon2id). Если ключ <code>/hash</code> не указан, VeraCrypt будет пробовать
+<td>После этого ключа указывается хеш-алгоритм PRF или KDF, используемый при монтировании тома. Возможные значения ключа /hash: <code>sha256, sha-256, sha512, sha-512, whirlpool, blake2s, blake2s-256, streebog, blake2b-512, argon2, argon2id</code>. Значения <code>blake2b-512</code>, <code>argon2</code> и <code>argon2id</code> выбирают тома Argon2id. Если ключ <code>/hash</code> не указан, VeraCrypt будет пробовать
  все доступные PRF/KDF-алгоритмы, тем самым увеличивая время монтирования.</td>
 </tr>
 <tr>
@@ -233,7 +233,7 @@
 <tr>
 <td>&nbsp;<em>/hash</em></td>
 <td>(Только с ключом <code>/create</code>)<br>
-После этого ключа указывается хеш-алгоритм PRF или KDF, используемый при создании тома. Синтаксис такой же, как у VeraCrypt.exe; также принимается <code>argon2</code> как псевдоним Argon2id.</td>
+После этого ключа указывается хеш-алгоритм PRF или KDF, используемый при создании тома. Синтаксис такой же, как у VeraCrypt.exe; <code>argon2</code> и <code>argon2id</code> выбирают Argon2id.</td>
 </tr>
 <tr>
 <td>&nbsp;<em>/encryption</em></td>
@@ -305,9 +305,9 @@
 </tbody>
 </table>
 <h4>Синтаксис</h4>
-<p><code>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [буква диска]] [/e] [/f] [/h [y|n]] [/k ключевой файл или путь поиска] [tryemptypass [y|n]] [/l буква диска] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+<p><code>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512|argon2|argon2id}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [буква диска]] [/e] [/f] [/h [y|n]] [/k ключевой файл или путь поиска] [tryemptypass [y|n]] [/l буква диска] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
  [/p пароль] [/pim значение pim] [/q [background|preferences]] [/s] [/tokenlib путь] [/v том] [/w]</code></p>
-<p><code>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size число[{K|M|G|T}]] [/p пароль]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512|argon2}]
+<p><code>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size число[{K|M|G|T}]] [/p пароль]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512|argon2|argon2id}]
  [/filesystem {пусто|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</code></p>
 <p>Порядок, в котором указаны параметры, не имеет значения.</p>
 <h4>Примеры</h4>

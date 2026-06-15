@@ -743,6 +743,11 @@ Hash *HashGet (int id)
 int HashGetIdByName (wchar_t *name)
 {
 	int i;
+#ifndef VC_DCS_DISABLE_ARGON2
+	if (_wcsicmp (name, L"Argon2") == 0 || _wcsicmp (name, L"Argon2id") == 0)
+		return ARGON2;
+#endif
+
 	for (i = 0; Hashes[i].Id != 0; i++)
 		if (_wcsicmp (Hashes[i].Name, name) == 0)
 			return Hashes[i].Id;
