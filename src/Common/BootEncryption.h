@@ -29,6 +29,7 @@ namespace VeraCrypt
 {
 #ifdef VC_EFI_BOOTLOADER_SELECTION_TEST
 	bool TestFirmwareDbBufferContainsMicrosoft2023UefiCAs (const uint8* db, size_t dbSize);
+	bool TestFirmwareDbBufferContainsMicrosoftCorporationUefiCa2011 (const uint8* db, size_t dbSize);
 #endif
 
 	class File

@@ -2620,6 +2620,15 @@ namespace VeraCrypt
 		DWORD FirmwareDbError;
 	};
 
+	struct FirmwareDbMicrosoftUefiCaSupport
+	{
+		bool ContainsMicrosoftCorporationUefiCa2011;
+		bool ContainsMicrosoftUefiCa2023;
+		bool ContainsMicrosoftOptionRomUefiCa2023;
+		bool DbMalformed;
+		DWORD ParseError;
+	};
+
 	static const EfiBootLoaderResourceSet EfiBootLoaderResources2011 =
 	{
 		IDR_EFI_DCSBOOT_2011,
@@ -2801,9 +2810,9 @@ namespace VeraCrypt
 		SetLastError (previousLastError);
 	}
 
-	static void RecordEfiBootLoaderResourceSetSelection (const EfiBootLoaderImages& images)
+	static void RecordEfiBootLoaderResourceSetSelectionDiagnostics (DWORD resourceSet, const wchar_t *selectionReason, DWORD firmwareDbError)
 	{
-		if (!images.ResourceSet || !images.SelectionReason)
+		if (!selectionReason)
 			return;
 
 		DWORD previousLastError = GetLastError ();
@@ -2813,11 +2822,19 @@ namespace VeraCrypt
 		StringCchPrintfW (selectionTimeUtc, ARRAYSIZE (selectionTimeUtc), L"%04u-%02u-%02uT%02u:%02u:%02uZ",
 			systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
 
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbLastError", images.FirmwareDbError);
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", images.SelectionReason, FALSE);
+		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, resourceSet);
+		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
+		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", selectionReason, FALSE);
 		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE);
 		SetLastError (previousLastError);
+	}
+
+	static void RecordEfiBootLoaderResourceSetSelection (const EfiBootLoaderImages& images)
+	{
+		if (!images.ResourceSet || !images.SelectionReason)
+			return;
+
+		RecordEfiBootLoaderResourceSetSelectionDiagnostics (images.ResourceSet, images.SelectionReason, images.FirmwareDbError);
 	}
 
 	static uint32 ReadUint32LittleEndian (const uint8* buffer)
@@ -2839,7 +2856,32 @@ namespace VeraCrypt
 		return (bufferSize == expectedSize) && BufferEquals (buffer, expected, expectedSize);
 	}
 
-	static bool FirmwareDbBufferContainsMicrosoft2023UefiCAs (const std::vector<uint8>& db)
+	static bool FirmwareDbMicrosoftUefiCaSupportContains2023Set (const FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		return support.ContainsMicrosoftUefiCa2023 && support.ContainsMicrosoftOptionRomUefiCa2023;
+	}
+
+	static bool FirmwareDbMicrosoftUefiCaSupportContainsSupportedSet (const FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		return support.ContainsMicrosoftCorporationUefiCa2011 || FirmwareDbMicrosoftUefiCaSupportContains2023Set (support);
+	}
+
+	static DWORD FirmwareDbMicrosoftUefiCaSupportGetDiagnosticError (const FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		return support.DbMalformed ? support.ParseError : ERROR_SUCCESS;
+	}
+
+	static bool FirmwareDbMicrosoftUefiCaSupportSetMalformed (FirmwareDbMicrosoftUefiCaSupport& support, DWORD parseError)
+	{
+		support.DbMalformed = true;
+		support.ParseError = parseError;
+		return FirmwareDbMicrosoftUefiCaSupportContainsSupportedSet (support);
+	}
+
+	// Returns true when the db is structurally valid, or when malformed data appears only
+	// after a complete VeraCrypt-supported Microsoft CA set has already been found. In the
+	// latter case support.DbMalformed remains set so selection diagnostics can report it.
+	static bool FirmwareDbBufferGetMicrosoftUefiCaSupport (const std::vector<uint8>& db, FirmwareDbMicrosoftUefiCaSupport& support)
 	{
 		// Microsoft documents these CAs as valid db entries in EFI_CERT_X509_GUID or EFI_CERT_RSA2048_GUID form:
 		// https://learn.microsoft.com/windows-hardware/manufacture/desktop/windows-secure-boot-key-creation-and-management-guidance
@@ -2851,6 +2893,44 @@ namespace VeraCrypt
 
 		// X.509 entries are matched by embedded CA public-key modulus bytes; RSA2048 entries contain this modulus directly.
 		// This is a byte-presence heuristic for bootloader-set selection, not full certificate-chain validation.
+		// Microsoft Corporation UEFI CA 2011, SHA-1 thumbprint 46DEF63B5CE61CF8BA0DE2E6639C1019D0ED14F3.
+		// DER source: https://go.microsoft.com/fwlink/p/?linkid=321194, SHA-256 48E99B991F57FC52F76149599BFF0A58C47154229B9F8D603AC40D3500248507.
+		static const uint8 microsoftCorporationUefiCa2011Rsa2048Modulus[256] =
+		{
+			0xA5, 0x08, 0x6C, 0x4C, 0xC7, 0x45, 0x09, 0x6A,
+			0x4B, 0x0C, 0xA4, 0xC0, 0x87, 0x7F, 0x06, 0x75,
+			0x0C, 0x43, 0x01, 0x54, 0x64, 0xE0, 0x16, 0x7F,
+			0x07, 0xED, 0x92, 0x7D, 0x0B, 0xB2, 0x73, 0xBF,
+			0x0C, 0x0A, 0xC6, 0x4A, 0x45, 0x61, 0xA0, 0xC5,
+			0x16, 0x2D, 0x96, 0xD3, 0xF5, 0x2B, 0xA0, 0xFB,
+			0x4D, 0x49, 0x9B, 0x41, 0x80, 0x90, 0x3C, 0xB9,
+			0x54, 0xFD, 0xE6, 0xBC, 0xD1, 0x9D, 0xC4, 0xA4,
+			0x18, 0x8A, 0x7F, 0x41, 0x8A, 0x5C, 0x59, 0x83,
+			0x68, 0x32, 0xBB, 0x8C, 0x47, 0xC9, 0xEE, 0x71,
+			0xBC, 0x21, 0x4F, 0x9A, 0x8A, 0x7C, 0xFF, 0x44,
+			0x3F, 0x8D, 0x8F, 0x32, 0xB2, 0x26, 0x48, 0xAE,
+			0x75, 0xB5, 0xEE, 0xC9, 0x4C, 0x1E, 0x4A, 0x19,
+			0x7E, 0xE4, 0x82, 0x9A, 0x1D, 0x78, 0x77, 0x4D,
+			0x0C, 0xB0, 0xBD, 0xF6, 0x0F, 0xD3, 0x16, 0xD3,
+			0xBC, 0xFA, 0x2B, 0xA5, 0x51, 0x38, 0x5D, 0xF5,
+			0xFB, 0xBA, 0xDB, 0x78, 0x02, 0xDB, 0xFF, 0xEC,
+			0x0A, 0x1B, 0x96, 0xD5, 0x83, 0xB8, 0x19, 0x13,
+			0xE9, 0xB6, 0xC0, 0x7B, 0x40, 0x7B, 0xE1, 0x1F,
+			0x28, 0x27, 0xC9, 0xFA, 0xEF, 0x56, 0x5E, 0x1C,
+			0xE6, 0x7E, 0x94, 0x7E, 0xC0, 0xF0, 0x44, 0xB2,
+			0x79, 0x39, 0xE5, 0xDA, 0xB2, 0x62, 0x8B, 0x4D,
+			0xBF, 0x38, 0x70, 0xE2, 0x68, 0x24, 0x14, 0xC9,
+			0x33, 0xA4, 0x08, 0x37, 0xD5, 0x58, 0x69, 0x5E,
+			0xD3, 0x7C, 0xED, 0xC1, 0x04, 0x53, 0x08, 0xE7,
+			0x4E, 0xB0, 0x2A, 0x87, 0x63, 0x08, 0x61, 0x6F,
+			0x63, 0x15, 0x59, 0xEA, 0xB2, 0x2B, 0x79, 0xD7,
+			0x0C, 0x61, 0x67, 0x8A, 0x5B, 0xFD, 0x5E, 0xAD,
+			0x87, 0x7F, 0xBA, 0x86, 0x67, 0x4F, 0x71, 0x58,
+			0x12, 0x22, 0x04, 0x22, 0x22, 0xCE, 0x8B, 0xEF,
+			0x54, 0x71, 0x00, 0xCE, 0x50, 0x35, 0x58, 0x76,
+			0x95, 0x08, 0xEE, 0x6A, 0xB1, 0xA2, 0x01, 0xD5
+		};
+
 		// Microsoft UEFI CA 2023, SHA-1 thumbprint B5EEB4A6706048073F0ED296E7F580A790B59EAA.
 		// DER source: https://go.microsoft.com/fwlink/?linkid=2239872, SHA-256 F6124E34125BEE3FE6D79A574EAA7B91C0E7BD9D929C1A321178EFD611DAD901.
 		static const uint8 microsoftUefiCa2023Rsa2048Modulus[256] =
@@ -2929,14 +3009,13 @@ namespace VeraCrypt
 		const size_t efiGuidSize = 16;
 		const size_t efiSignatureListHeaderSize = efiGuidSize + sizeof (uint32) * 3;
 		const size_t efiSignatureOwnerSize = efiGuidSize;
-		bool bContainsMicrosoftUefiCa2023 = false;
-		bool bContainsMicrosoftOptionRomUefiCa2023 = false;
 		size_t offset = 0;
+		memset (&support, 0, sizeof (support));
 
 		while (offset < db.size ())
 		{
 			if (db.size () - offset < efiSignatureListHeaderSize)
-				return false;
+				return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
 
 			const uint8* signatureList = &db[offset];
 			uint32 signatureListSize = ReadUint32LittleEndian (signatureList + efiGuidSize);
@@ -2946,7 +3025,7 @@ namespace VeraCrypt
 			if ((signatureListSize < efiSignatureListHeaderSize)
 				|| (signatureListSize > db.size () - offset)
 				|| (signatureHeaderSize > signatureListSize - efiSignatureListHeaderSize))
-				return false;
+				return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
 
 			size_t signaturesOffset = offset + efiSignatureListHeaderSize + signatureHeaderSize;
 			size_t signaturesSize = signatureListSize - efiSignatureListHeaderSize - signatureHeaderSize;
@@ -2954,28 +3033,30 @@ namespace VeraCrypt
 			if (BufferEquals (signatureList, efiCertX509Guid, efiGuidSize))
 			{
 				if (signatureSize < efiSignatureOwnerSize)
-					return false;
+					return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
 				if ((signaturesSize % signatureSize) != 0)
-					return false;
+					return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
 
 				for (size_t signatureOffset = signaturesOffset; signatureOffset < offset + signatureListSize; signatureOffset += signatureSize)
 				{
 					const uint8* certificate = &db[signatureOffset + efiSignatureOwnerSize];
 					size_t certificateSize = signatureSize - efiSignatureOwnerSize;
 
-					if (!bContainsMicrosoftUefiCa2023
+					if (!support.ContainsMicrosoftCorporationUefiCa2011
+						&& BufferHasPattern (certificate, certificateSize, microsoftCorporationUefiCa2011Rsa2048Modulus, sizeof (microsoftCorporationUefiCa2011Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftCorporationUefiCa2011 = true;
+					}
+					else if (!support.ContainsMicrosoftUefiCa2023
 						&& BufferHasPattern (certificate, certificateSize, microsoftUefiCa2023Rsa2048Modulus, sizeof (microsoftUefiCa2023Rsa2048Modulus)))
 					{
-						bContainsMicrosoftUefiCa2023 = true;
+						support.ContainsMicrosoftUefiCa2023 = true;
 					}
-					else if (!bContainsMicrosoftOptionRomUefiCa2023
+					else if (!support.ContainsMicrosoftOptionRomUefiCa2023
 						&& BufferHasPattern (certificate, certificateSize, microsoftOptionRomUefiCa2023Rsa2048Modulus, sizeof (microsoftOptionRomUefiCa2023Rsa2048Modulus)))
 					{
-						bContainsMicrosoftOptionRomUefiCa2023 = true;
+						support.ContainsMicrosoftOptionRomUefiCa2023 = true;
 					}
-
-					if (bContainsMicrosoftUefiCa2023 && bContainsMicrosoftOptionRomUefiCa2023)
-						return true;
 				}
 			}
 			else if (BufferEquals (signatureList, efiCertRsa2048Guid, efiGuidSize))
@@ -2984,36 +3065,50 @@ namespace VeraCrypt
 					|| signatureSize != efiSignatureOwnerSize + efiRsa2048KeySize
 					|| (signaturesSize % signatureSize) != 0)
 				{
-					return false;
+					return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
 				}
 
 				for (size_t signatureOffset = signaturesOffset; signatureOffset < offset + signatureListSize; signatureOffset += signatureSize)
 				{
 					const uint8* publicKey = &db[signatureOffset + efiSignatureOwnerSize];
 
-					if (!bContainsMicrosoftUefiCa2023
+					if (!support.ContainsMicrosoftCorporationUefiCa2011
+						&& BufferEquals (publicKey, efiRsa2048KeySize, microsoftCorporationUefiCa2011Rsa2048Modulus, sizeof (microsoftCorporationUefiCa2011Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftCorporationUefiCa2011 = true;
+					}
+					else if (!support.ContainsMicrosoftUefiCa2023
 						&& BufferEquals (publicKey, efiRsa2048KeySize, microsoftUefiCa2023Rsa2048Modulus, sizeof (microsoftUefiCa2023Rsa2048Modulus)))
 					{
-						bContainsMicrosoftUefiCa2023 = true;
+						support.ContainsMicrosoftUefiCa2023 = true;
 					}
-					else if (!bContainsMicrosoftOptionRomUefiCa2023
+					else if (!support.ContainsMicrosoftOptionRomUefiCa2023
 						&& BufferEquals (publicKey, efiRsa2048KeySize, microsoftOptionRomUefiCa2023Rsa2048Modulus, sizeof (microsoftOptionRomUefiCa2023Rsa2048Modulus)))
 					{
-						bContainsMicrosoftOptionRomUefiCa2023 = true;
+						support.ContainsMicrosoftOptionRomUefiCa2023 = true;
 					}
-
-					if (bContainsMicrosoftUefiCa2023 && bContainsMicrosoftOptionRomUefiCa2023)
-						return true;
 				}
 			}
 
 			offset += signatureListSize;
 		}
 
-		return false;
+		return true;
 	}
 
 #ifdef VC_EFI_BOOTLOADER_SELECTION_TEST
+	static bool FirmwareDbBufferContainsMicrosoft2023UefiCAs (const std::vector<uint8>& db)
+	{
+		FirmwareDbMicrosoftUefiCaSupport support;
+		return FirmwareDbBufferGetMicrosoftUefiCaSupport (db, support) && FirmwareDbMicrosoftUefiCaSupportContains2023Set (support);
+	}
+
+	static bool FirmwareDbBufferContainsMicrosoftCorporationUefiCa2011 (const std::vector<uint8>& db)
+	{
+		FirmwareDbMicrosoftUefiCaSupport support;
+		return FirmwareDbBufferGetMicrosoftUefiCaSupport (db, support) && support.ContainsMicrosoftCorporationUefiCa2011;
+	}
+
 	bool TestFirmwareDbBufferContainsMicrosoft2023UefiCAs (const uint8* db, size_t dbSize)
 	{
 		std::vector<uint8> firmwareDb;
@@ -3026,9 +3121,25 @@ namespace VeraCrypt
 
 		return FirmwareDbBufferContainsMicrosoft2023UefiCAs (firmwareDb);
 	}
+
+	// Feed a db captured from a machine that trusts Microsoft Corporation UEFI CA 2011
+	// (for example the output of PowerShell Get-SecureBootUEFI db) to validate detection
+	// of the 2011 modulus against real firmware data.
+	bool TestFirmwareDbBufferContainsMicrosoftCorporationUefiCa2011 (const uint8* db, size_t dbSize)
+	{
+		std::vector<uint8> firmwareDb;
+		if (dbSize != 0)
+		{
+			if (!db)
+				return false;
+			firmwareDb.assign (db, db + dbSize);
+		}
+
+		return FirmwareDbBufferContainsMicrosoftCorporationUefiCa2011 (firmwareDb);
+	}
 #endif
 
-	static bool TryFirmwareDbContainsMicrosoft2023UefiCAs (bool& bContainsMicrosoft2023UefiCAs)
+	static bool TryFirmwareDbGetMicrosoftUefiCaSupport (FirmwareDbMicrosoftUefiCaSupport& support)
 	{
 		std::vector<uint8> db;
 		DWORD dwError = ERROR_SUCCESS;
@@ -3038,7 +3149,12 @@ namespace VeraCrypt
 			return false;
 		}
 
-		bContainsMicrosoft2023UefiCAs = FirmwareDbBufferContainsMicrosoft2023UefiCAs (db);
+		if (!FirmwareDbBufferGetMicrosoftUefiCaSupport (db, support))
+		{
+			SetLastError (support.ParseError ? support.ParseError : ERROR_INVALID_DATA);
+			return false;
+		}
+
 		return true;
 	}
 
@@ -3063,27 +3179,67 @@ namespace VeraCrypt
 		return true;
 	}
 
+	static void ThrowUnsupportedEfiSecureBootDb (const wchar_t *reason, DWORD firmwareDbError)
+	{
+		RecordEfiBootLoaderResourceSetSelectionDiagnostics (0, reason, firmwareDbError);
+		throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", SRC_POS);
+	}
+
 	static EfiBootLoaderResourceSelection GetPreferredEfiBootLoaderResourceSet ()
 	{
 		// The current 2023 DCS set uses both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023:
 		// DcsInt.dcs and LegacySpeaker.dcs are signed through the Option ROM UEFI CA 2023 chain.
-		// If db cannot be read, keep the pre-2023 universal behavior and use the 2011 compatibility fallback.
-		bool bContainsMicrosoft2023UefiCAs = false;
-		if (TryFirmwareDbContainsMicrosoft2023UefiCAs (bContainsMicrosoft2023UefiCAs))
+		// If Secure Boot is enabled, only select a loader set whose signing CA is trusted by the active db.
+		FirmwareDbMicrosoftUefiCaSupport support;
+		if (TryFirmwareDbGetMicrosoftUefiCaSupport (support))
 		{
-			if (bContainsMicrosoft2023UefiCAs)
-				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2023, VC_EFI_BOOT_LOADER_RESOURCE_SET_2023, L"firmware db contains Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023", ERROR_SUCCESS);
+			DWORD firmwareDbError = FirmwareDbMicrosoftUefiCaSupportGetDiagnosticError (support);
 
-			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"firmware db does not contain both Microsoft 2023 UEFI CAs", ERROR_SUCCESS);
+			if (FirmwareDbMicrosoftUefiCaSupportContains2023Set (support))
+			{
+				return MakeEfiBootLoaderResourceSelection (
+					EfiBootLoaderResources2023,
+					VC_EFI_BOOT_LOADER_RESOURCE_SET_2023,
+					support.DbMalformed
+						? L"firmware db contains Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023 before malformed data"
+						: L"firmware db contains Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023",
+					firmwareDbError);
+			}
+
+			if (support.ContainsMicrosoftCorporationUefiCa2011)
+			{
+				return MakeEfiBootLoaderResourceSelection (
+					EfiBootLoaderResources2011,
+					VC_EFI_BOOT_LOADER_RESOURCE_SET_2011,
+					support.DbMalformed
+						? L"firmware db contains Microsoft Corporation UEFI CA 2011 before malformed data"
+						: L"firmware db contains Microsoft Corporation UEFI CA 2011",
+					firmwareDbError);
+			}
+
+			bool bSecureBootEnabled = false;
+			bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
+			DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
+			if (bSecureBootStateKnown && !bSecureBootEnabled)
+				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is disabled and firmware db does not contain a supported Microsoft UEFI CA; using 2011 compatibility fallback", ERROR_SUCCESS);
+
+			if (!bSecureBootStateKnown && IsFirmwareDbUnavailableError (secureBootLastError))
+				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is unavailable and firmware db does not contain a supported Microsoft UEFI CA; using 2011 compatibility fallback", ERROR_SUCCESS);
+
+			if (bSecureBootStateKnown)
+				ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db does not contain Microsoft Corporation UEFI CA 2011 or the Microsoft 2023 UEFI CA pair required by VeraCrypt", ERROR_SUCCESS);
+
+			ThrowUnsupportedEfiSecureBootDb (L"firmware db does not contain a supported Microsoft UEFI CA and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", secureBootLastError);
 		}
 
 		DWORD dwError = GetLastError ();
-		if (IsFirmwareDbUnavailableError (dwError))
-			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"firmware db is unavailable; using 2011 compatibility fallback", dwError);
-
 		bool bSecureBootEnabled = false;
-		if (TryFirmwareSecureBootEnabled (bSecureBootEnabled) && !bSecureBootEnabled)
+		bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
+		DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
+		if (bSecureBootStateKnown && !bSecureBootEnabled)
 			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is disabled and firmware db could not be read; using 2011 compatibility fallback", dwError);
+		if (!bSecureBootStateKnown && IsFirmwareDbUnavailableError (secureBootLastError))
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is unavailable and firmware db could not be read; using 2011 compatibility fallback", dwError);
 #ifndef SETUP
 		if (!IsAdmin () && IsUacSupported ())
 		{
@@ -3099,7 +3255,13 @@ namespace VeraCrypt
 		}
 #endif
 
-		return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"firmware db could not be read; using 2011 compatibility fallback", dwError);
+		if (bSecureBootStateKnown && bSecureBootEnabled)
+			ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+
+		if (!bSecureBootStateKnown && !IsFirmwareDbUnavailableError (secureBootLastError))
+			ThrowUnsupportedEfiSecureBootDb (L"firmware db and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+
+		ThrowUnsupportedEfiSecureBootDb (L"firmware db could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
 	}
 
 	static void ThrowMissingEfiResource (const wchar_t* resourceName, bool rescueDisk)
@@ -5971,14 +6133,54 @@ namespace VeraCrypt
 			throw SystemException (SRC_POS);
 		}
 
-		bool bContainsMicrosoft2023UefiCAs = false;
-		if (!TryFirmwareDbContainsMicrosoft2023UefiCAs (bContainsMicrosoft2023UefiCAs))
+		FirmwareDbMicrosoftUefiCaSupport support;
+		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (support))
+		{
+			DWORD dwError = GetLastError ();
+			bool bSecureBootEnabled = false;
+			bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
+			DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
+			if (bSecureBootStateKnown && bSecureBootEnabled)
+				ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+
+			if (!bSecureBootStateKnown && !IsFirmwareDbUnavailableError (secureBootLastError))
+				ThrowUnsupportedEfiSecureBootDb (L"firmware db and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+
+			*pMicrosoft2023UefiCAsSupported = FALSE;
+			return;
+		}
+
+		if (FirmwareDbMicrosoftUefiCaSupportContains2023Set (support))
+		{
+			*pMicrosoft2023UefiCAsSupported = TRUE;
+			return;
+		}
+
+		if (support.ContainsMicrosoftCorporationUefiCa2011)
 		{
 			*pMicrosoft2023UefiCAsSupported = FALSE;
 			return;
 		}
 
-		*pMicrosoft2023UefiCAsSupported = bContainsMicrosoft2023UefiCAs ? TRUE : FALSE;
+		bool bSecureBootEnabled = false;
+		bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
+		DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
+		if (bSecureBootStateKnown && !bSecureBootEnabled)
+		{
+			*pMicrosoft2023UefiCAsSupported = FALSE;
+			return;
+		}
+
+		if (!bSecureBootStateKnown && IsFirmwareDbUnavailableError (secureBootLastError))
+		{
+			*pMicrosoft2023UefiCAsSupported = FALSE;
+			return;
+		}
+
+		if (bSecureBootStateKnown)
+			ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db does not contain Microsoft Corporation UEFI CA 2011 or the Microsoft 2023 UEFI CA pair required by VeraCrypt", ERROR_SUCCESS);
+
+		ThrowUnsupportedEfiSecureBootDb (L"firmware db does not contain a supported Microsoft UEFI CA and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", secureBootLastError);
 	}
 
 #ifndef SETUP

@@ -1685,6 +1685,7 @@
     <entry lang="ja" key="MACOSX_APFS_EROFS_HINT">macOS は、選択されたデバイスを読み取り専用として報告しました。これが APFS ディスクの場合は、APFS 合成ボリュームではなく物理 APFS ストアパーティションを選択していることを確認してください。ディスクユーティリティまたは 'diskutil list' を使用して物理パーティションを確認してから、再試行してください。</entry>
     <entry lang="ja" key="FAVORITE_PIM_OR_KDF_CHANGED">このボリュームはシステムお気に入りボリュームとして登録されており、PIM および/または KDF の設定が変更されています。\nVeraCrypt がシステムお気に入りボリュームの設定を自動的に更新しても良いですか（管理者権限が必要です）？\n\nいいえを選択した場合は、システムお気に入りボリュームを手動で更新する必要があります。</entry>
     <entry lang="ja" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">選択した KDF は異なる PIM パラメータを使用するため、VeraCrypt は現在のカスタム PIM を再利用しません。新しいボリュームヘッダーは、「新規」セクションで「PIMを使用する」を選択してカスタム値を入力しない限り、選択した KDF のデフォルトの PIM を使用します。\n\n続行しますか？</entry>
+    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

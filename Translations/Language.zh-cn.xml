@@ -1686,6 +1686,7 @@
     <entry lang="zh-cn" key="MACOSX_APFS_EROFS_HINT">macOS 报告所选设备为只读。如果这是 APFS 磁盘，请确保您选择的是物理 APFS 存储分区，而不是 APFS 合成卷。请使用“磁盘工具”或 'diskutil list' 来识别物理分区，然后重试。</entry>
     <entry lang="zh-cn" key="FAVORITE_PIM_OR_KDF_CHANGED">此卷已注册为系统收藏加密卷，但其 PIM 和/或 KDF 设置已被更改。\n您希望 VeraCrypt 自动更新系统收藏加密卷配置吗（需要管理员权限）？\n\n请注意，如果您选择“否”，您将需要手动更新系统收藏加密卷配置。</entry>
     <entry lang="zh-cn" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">所选 KDF 使用了不同的 PIM 参数，因此 VeraCrypt 将不会重用当前的自定义 PIM。新的卷头将使用所选 KDF 的默认 PIM，除非您在“新密码”部分中勾选“调整 PIM”并输入一个自定义值。\n\n您确定要继续吗？</entry>
+    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
