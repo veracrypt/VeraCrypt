@@ -221,8 +221,8 @@ If you intend to implement a feature, please contact us first to make sure:
 3) Whether we need the help of third-party developers with implementing the feature.
 
 Information on how to contact us can be found at:
-https://veracrypt.jp/
-https://veracrypt.io/ (mirror)
+https://veracrypt.jp or
+https://veracrypt.io (mirror)
 
 
 
@@ -263,5 +263,5 @@ documentation, are the sole property of their respective owners.
 VI. Further Information
 =======================
 
-https://veracrypt.jp
+https://veracrypt.jp  
 https://veracrypt.io (mirror)
