@@ -569,9 +569,26 @@ endif
 
 install: prepare
 ifneq "$(DESTDIR)" ""
-	mkdir -p $(DESTDIR)
+	mkdir -p "$(DESTDIR)"
 endif
-	cp -R $(BASE_DIR)/Setup/Linux/usr $(DESTDIR)/
+# Merge directory contents so /usr/sbin -> bin layouts are not replaced.
+	@set -e; \
+	mkdir -p "$(DESTDIR)/usr"; \
+	for _src in "$(BASE_DIR)/Setup/Linux/usr"/*; do \
+		[ -e "$$_src" ] || continue; \
+		_name=$$(basename "$$_src"); \
+		_dst="$(DESTDIR)/usr/$$_name"; \
+		if [ -d "$$_src" ]; then \
+			if [ -e "$$_dst" ] || [ -L "$$_dst" ]; then \
+				mkdir -p "$$_dst"; \
+				cp -R "$$_src/." "$$_dst/"; \
+			else \
+				cp -R "$$_src" "$(DESTDIR)/usr/"; \
+			fi; \
+		else \
+			cp -P "$$_src" "$(DESTDIR)/usr/"; \
+		fi; \
+	done
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
