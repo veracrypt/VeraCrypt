@@ -11118,7 +11118,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		}
 		if (_wcsicmp (argv[i], L"/protectScreen") == 0)
 		{
-			if ((i < argc - 1) && _wcsicmp (argv[i + 1], L"no") == 0)
+			if ((i < argc - 1) && (_wcsicmp (argv[i + 1], L"no") == 0 || _wcsicmp (argv[i + 1], L"n") == 0))
 			{
 				// Disabling screen protection is only allowed in portable mode
 				if (IsNonInstallMode())
@@ -11131,7 +11131,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		}
 		if (_wcsicmp (argv[i], L"/protectMemory") == 0)
 		{
-			if ((i < argc - 1) && _wcsicmp (argv[i + 1], L"no") == 0)
+			if ((i < argc - 1) && (_wcsicmp (argv[i + 1], L"no") == 0 || _wcsicmp (argv[i + 1], L"n") == 0))
 			{
 				// Disabling memory protection is only allowed in portable mode
 				if (IsNonInstallMode())
