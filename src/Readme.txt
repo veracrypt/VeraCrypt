@@ -20,7 +20,7 @@ I. Windows
 
 II. Linux and Mac OS X
 
-III. FreeBSD
+III. FreeBSD and OpenBSD
 
 IV. Third-Party Developers (Contributors)
 
@@ -201,10 +201,11 @@ Thus, we recommend using a different macOS SDK version for building VeraCrypt.
 The Packages installer that is used for the VeraCrypt official build has been notarized by IDRIX and it is available at
 https://github.com/idrassi/packages/releases
 
-III. FreeBSD
-============
+III. FreeBSD and OpenBSD
+========================
 
-FreeBSD is supported starting from version 11.
+FreeBSD is supported starting from version 14.
+OpenBSD is supported starting from version 7.8.
 The build requirements and instructions are the same as Linux except that gmake
 should be used instead of make.
 
