@@ -33,8 +33,8 @@
     <entry lang="zh-hk" key="IDC_DISPLAY_POOL_CONTENTS">顯示暫存集區內容</entry>
     <entry lang="zh-hk" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">下載 CD 或 DVD 燒錄軟件</entry>
     <entry lang="zh-hk" key="IDC_FILE_CONTAINER">建立一個加密容器檔案</entry>
-    <entry lang="en" key="IDC_GB">&amp;GiB</entry>
-    <entry lang="en" key="IDC_TB">&amp;TiB</entry>
+    <entry lang="zh-hk" key="IDC_GB">&amp;GiB</entry>
+    <entry lang="zh-hk" key="IDC_TB">&amp;TiB</entry>
     <entry lang="zh-hk" key="IDC_HIDDEN_SYSENC_INFO_LINK">更多資訊</entry>
     <entry lang="zh-hk" key="IDC_HIDDEN_VOL">VeraCrypt 隱藏加密區(&amp;D)</entry>
     <entry lang="zh-hk" key="IDC_HIDDEN_VOL_HELP">更多關於隱藏加密區的資訊</entry>
@@ -48,7 +48,7 @@
     <entry lang="zh-hk" key="IDC_LINK_HASH_INFO">關於雜湊演算法的更多資訊</entry>
     <entry lang="zh-hk" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">更多資訊</entry>
     <entry lang="zh-hk" key="IDC_LINK_PIM_INFO">關於 PIM 的資訊</entry>
-    <entry lang="en" key="IDC_MB">&amp;MiB</entry>
+    <entry lang="zh-hk" key="IDC_MB">&amp;MiB</entry>
     <entry lang="zh-hk" key="IDC_MORE_INFO_ON_CONTAINERS">更多資訊</entry>
     <entry lang="zh-hk" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">更多關於系統加密的資訊</entry>
     <entry lang="zh-hk" key="IDC_MORE_INFO_SYS_ENCRYPTION">更多資訊</entry>
@@ -137,10 +137,10 @@
     <entry lang="zh-hk" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">全局設定</entry>
     <entry lang="zh-hk" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">在使用快捷鍵成功解除掛載之後顯示氣泡提示框</entry>
     <entry lang="zh-hk" key="IDC_HK_UNMOUNT_PLAY_SOUND">在使用快捷鍵成功解除掛載之後播放系統提示音效</entry>
-    <entry lang="en" key="IDC_HK_MOD_ALT">Alt</entry>
-    <entry lang="en" key="IDC_HK_MOD_CTRL">Ctrl</entry>
-    <entry lang="en" key="IDC_HK_MOD_SHIFT">Shift</entry>
-    <entry lang="en" key="IDC_HK_MOD_WIN">Win</entry>
+    <entry lang="zh-hk" key="IDC_HK_MOD_ALT">Alt</entry>
+    <entry lang="zh-hk" key="IDC_HK_MOD_CTRL">Ctrl</entry>
+    <entry lang="zh-hk" key="IDC_HK_MOD_SHIFT">Shift</entry>
+    <entry lang="zh-hk" key="IDC_HK_MOD_WIN">Win</entry>
     <entry lang="zh-hk" key="IDC_HOTKEY_ASSIGN">指定</entry>
     <entry lang="zh-hk" key="IDC_HOTKEY_REMOVE">移除</entry>
     <entry lang="zh-hk" key="IDC_KEYFILES">加密鑰檔案...</entry>
@@ -291,8 +291,8 @@
     <entry lang="zh-hk" key="IDT_NEW_PASSWORD">密碼：</entry>
     <entry lang="zh-hk" key="IDT_PARALLELIZATION_OPTIONS">以執行緒為基礎的平行運算</entry>
     <entry lang="zh-hk" key="IDT_PKCS11_LIB_PATH">PKCS #11 程式庫路徑</entry>
-    <entry lang="en" key="IDT_KDF">KDF：</entry>
-    <entry lang="en" key="IDT_NEW_KDF">KDF：</entry>
+    <entry lang="zh-hk" key="IDT_KDF">KDF：</entry>
+    <entry lang="zh-hk" key="IDT_NEW_KDF">KDF：</entry>
     <entry lang="zh-hk" key="IDT_PW_CACHE_OPTIONS">密碼暫存</entry>
     <entry lang="zh-hk" key="IDT_SECURITY_OPTIONS">保安設定選項</entry>
     <entry lang="zh-hk" key="IDT_EMV_OPTIONS">EMV 設定選項</entry>
@@ -1311,7 +1311,7 @@
     <entry lang="zh-hk" key="TEST">測試</entry>
     <entry lang="zh-hk" key="KEYFILE">加密鑰檔案</entry>
     <entry lang="zh-hk" key="VKEY_08">退格</entry>
-    <entry lang="en" key="VKEY_09">Tab</entry>
+    <entry lang="zh-hk" key="VKEY_09">Tab</entry>
     <entry lang="zh-hk" key="VKEY_0C">清除</entry>
     <entry lang="zh-hk" key="VKEY_0D">輸入</entry>
     <entry lang="zh-hk" key="VKEY_13">暫停</entry>
@@ -1319,8 +1319,8 @@
     <entry lang="zh-hk" key="VKEY_20">空白</entry>
     <entry lang="zh-hk" key="VKEY_21">上一頁</entry>
     <entry lang="zh-hk" key="VKEY_22">下一頁</entry>
-    <entry lang="en" key="VKEY_23">End</entry>
-    <entry lang="en" key="VKEY_24">Home</entry>
+    <entry lang="zh-hk" key="VKEY_23">End</entry>
+    <entry lang="zh-hk" key="VKEY_24">Home</entry>
     <entry lang="zh-hk" key="VKEY_25">左</entry>
     <entry lang="zh-hk" key="VKEY_26">上</entry>
     <entry lang="zh-hk" key="VKEY_27">右</entry>
@@ -1328,7 +1328,7 @@
     <entry lang="zh-hk" key="VKEY_29">選擇鍵</entry>
     <entry lang="zh-hk" key="VKEY_2A">列印鍵</entry>
     <entry lang="zh-hk" key="VKEY_2B">執行鍵</entry>
-    <entry lang="en" key="VKEY_2C">Print Screen</entry>
+    <entry lang="zh-hk" key="VKEY_2C">Print Screen</entry>
     <entry lang="zh-hk" key="VKEY_2D">插入</entry>
     <entry lang="zh-hk" key="VKEY_2E">刪除</entry>
     <entry lang="zh-hk" key="VKEY_5D">應用程式鍵</entry>
@@ -1353,22 +1353,22 @@
     <entry lang="zh-hk" key="VKEY_B5">選擇媒體鍵</entry>
     <entry lang="zh-hk" key="VKEY_B6">應用程式 1</entry>
     <entry lang="zh-hk" key="VKEY_B7">應用程式 2</entry>
-    <entry lang="en" key="VKEY_F6">Attn</entry>
-    <entry lang="en" key="VKEY_F7">CrSel</entry>
-    <entry lang="en" key="VKEY_F8">ExSel</entry>
-    <entry lang="en" key="VKEY_FA">Play</entry>
-    <entry lang="en" key="VKEY_FB">Zoom</entry>
+    <entry lang="zh-hk" key="VKEY_F6">Attn</entry>
+    <entry lang="zh-hk" key="VKEY_F7">CrSel</entry>
+    <entry lang="zh-hk" key="VKEY_F8">ExSel</entry>
+    <entry lang="zh-hk" key="VKEY_FA">播放</entry>
+    <entry lang="zh-hk" key="VKEY_FB">Zoom</entry>
     <entry lang="zh-hk" key="VK_NUMPAD">數字鍵盤</entry>
-    <entry lang="zh-hk" key="VK_SHIFT">大小寫切換</entry>
+    <entry lang="zh-hk" key="VK_SHIFT">Shift</entry>
     <entry lang="zh-hk" key="VK_CONTROL">控制</entry>
-    <entry lang="en" key="VK_ALT">Alt</entry>
-    <entry lang="en" key="VK_WIN">Win</entry>
-    <entry lang="en" key="BYTE">B</entry>
-    <entry lang="en" key="KB">KiB</entry>
-    <entry lang="en" key="MB">MiB</entry>
-    <entry lang="en" key="GB">GiB</entry>
-    <entry lang="en" key="TB">TiB</entry>
-    <entry lang="en" key="PB">PiB</entry>
+    <entry lang="zh-hk" key="VK_ALT">Alt</entry>
+    <entry lang="zh-hk" key="VK_WIN">Win</entry>
+    <entry lang="zh-hk" key="BYTE">B</entry>
+    <entry lang="zh-hk" key="KB">KiB</entry>
+    <entry lang="zh-hk" key="MB">MiB</entry>
+    <entry lang="zh-hk" key="GB">GiB</entry>
+    <entry lang="zh-hk" key="TB">TiB</entry>
+    <entry lang="zh-hk" key="PB">PiB</entry>
     <entry lang="zh-hk" key="B_PER_SEC">B/秒</entry>
     <entry lang="zh-hk" key="KB_PER_SEC">KiB/秒</entry>
     <entry lang="zh-hk" key="MB_PER_SEC">MiB/秒</entry>
@@ -1401,9 +1401,9 @@
     <entry lang="zh-hk" key="TIME">時間</entry>
     <entry lang="zh-hk" key="ITERATIONS">重複次數</entry>
     <entry lang="zh-hk" key="PRE-BOOT">啟動前</entry>
-    <entry lang="zh-hk" key="RESCUE_DISK_EFI_INFO">在你可以加密分割區前，你必須先建立 VeraCrypt 救機碟 (VeraCrypt Rescue Disk, VRD)，其功用為如下：n\n- 如 VeraCrypt 開機程式、主加密鑰或其他重要數據受損，VRD 可以讓你還原它 (但是請注意你仍需要輸入正確的密碼)。\n\n- 如 Windows 已受損壞無法啟動，VRD 可以讓你在 Windows 啟動前永久解密其分割區。\n\n- VRD 內含 現時 EFI 開機程式的備份，可以讓你在必要時用來還原。\n\nVeraCrypt 救機碟的 ZIP 影像檔將會在下列的位置建立。</entry>
-    <entry lang="zh-hk" key="RESCUE_DISK_EFI_EXTRACT_INFO">救機碟 ZIP 影像檔已經建立並儲存到這個檔案：n%s\n\n現在你需要解壓縮影像檔到格式化為 FAT/FAT32 的 USB 隨身碟。n\n%ls在建立救機碟之後，按 [下一步] 來驗證救機碟已正確地被建立。</entry>
-    <entry lang="zh-hk" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">救機碟 ZIP 影像檔已經建立並儲存到這個檔案：n%s\n\n現在你應該解壓縮影像檔到格式化為 FAT/FAT32 的 USB 隨身碟或將其移動到一個安全位置待日後使用。\n\n%ls按 [下一步] 繼續。</entry>
+    <entry lang="zh-hk" key="RESCUE_DISK_EFI_INFO">在你可以加密分割區前，你必須先建立 VeraCrypt 救機碟 (VeraCrypt Rescue Disk, VRD)，其功用為如下：\n\n- 如 VeraCrypt 開機程式、主加密鑰或其他重要數據受損，VRD 可以讓你還原它 (但是請注意你仍需要輸入正確的密碼)。\n\n- 如 Windows 已受損壞無法啟動，VRD 可以讓你在 Windows 啟動前永久解密其分割區。\n\n- VRD 內含 現時 EFI 開機程式的備份，可以讓你在必要時用來還原。\n\nVeraCrypt 救機碟的 ZIP 影像檔將會在下列的位置建立。</entry>
+    <entry lang="zh-hk" key="RESCUE_DISK_EFI_EXTRACT_INFO">救機碟 ZIP 影像檔已經建立並儲存到這個檔案：\n%s\n\n現在你需要解壓縮影像檔到格式化為 FAT/FAT32 的 USB 隨身碟。\n\n%ls在建立救機碟之後，按 [下一步] 來驗證救機碟已正確地被建立。</entry>
+    <entry lang="zh-hk" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">救機碟 ZIP 影像檔已經建立並儲存到這個檔案：\n%s\n\n現在你應該解壓縮影像檔到格式化為 FAT/FAT32 的 USB 隨身碟或將其移動到一個安全位置待日後使用。\n\n%ls按 [下一步] 繼續。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">重要：請注意 zip 壓縮檔必須直接解壓到隨身碟的根目錄。例如隨身碟的磁碟代號是 E: 那麼解壓 zip 壓縮檔時應會在隨身碟上新增一個目錄 E:\\EFI 。\n\n</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_EFI_CHECK_FAILED">無法驗證救機碟已正確地進行解壓縮。\n\n如你已解壓縮救機碟影像檔到 USB 隨身碟，請將其退出然後重新插入，然後按 [下一步] 再試一次。如這樣做沒有幫助的話，請嘗試使用其他的 USB 隨身碟和/或其他的 ZIP 軟件。\n\n如你尚未解壓檔案，請現在進行這個步驟然後按 [下一步]。\n\n如你正已嘗試驗證在開啟這個精靈之前建立的 VeraCrypt 救機碟，請注意並不能使用這樣的救機碟，因為這樣的救機碟是建立給另一個主加密鑰。你需要解壓縮剛才新已產生的救機碟 ZIP 影像檔。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">無法驗證救機碟已正確地進行解壓縮。\n\n如你已解壓縮救機碟影像檔到 USB 隨身碟，請將其退出然後重新插入，然後再試一次。如這樣做沒有幫助的話，請嘗試使用其他的 ZIP 軟件和/或媒體。\n\n如你正已嘗試驗證建立給另一個主加密鑰的 VeraCrypt 救機碟、密碼、salt 之類，請注意這樣的救機碟將必定無法通過驗證。要建立完全兼容於現時設定的救機碟，選取 [系統] &gt; [建立救機碟]。</entry>
@@ -1639,53 +1639,53 @@
     <entry lang="zh-hk" key="MOUNTPOINT_BLOCKED">錯誤：磁碟區掛載點因其覆寫系統受保護的路徑而被阻止。\n\n請選擇另一個掛載點。</entry>
     <entry lang="zh-hk" key="MOUNTPOINT_NOTALLOWED">錯誤： 磁碟區掛載點因其覆寫的路徑屬於 PATH 環境變數的一部份而不被接納。\n\n請選擇另一個掛載點。</entry>
     <entry lang="zh-hk" key="INSECURE_MODE">[不安全模式]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
-    <entry lang="en" key="MEMORY_COST">Memory Cost</entry>
-    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
-    <entry lang="en" key="ERR_KEY_DERIVATION_FAILED">Key derivation failed. This may be caused by insufficient memory or an interrupted operation.</entry>
-    <entry lang="en" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">The system partition/drive is already decrypted, but the EFI Microsoft boot loader path was not restored to the Windows Boot Manager. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">The system partition/drive is already decrypted, but the EFI fallback boot loader path still contains the VeraCrypt Boot Loader. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="IDM_REPAIR_EFI_BOOT_LOADER">Repair EFI Boot Loader...</entry>
-    <entry lang="en" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt will restore the Windows EFI boot loader paths and remove VeraCrypt EFI boot entries and files.\n\nUse this only after the system partition/drive is fully decrypted and Windows can boot without system encryption.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_READ_FAILED">The EFI boot loader file could not be read completely:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">The EFI boot loader file is unexpectedly large and was not inspected:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">The system partition/drive is already decrypted and the EFI boot loader files were restored, but VeraCrypt could not remove one or more VeraCrypt firmware boot entries. The VeraCrypt EFI files were left in place so any remaining firmware entry still points to an existing loader. Retry as Administrator or remove the VeraCrypt boot entry from firmware setup after confirming Windows Boot Manager starts normally.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">The EFI boot loader cannot be repaired while system encryption or decryption is active or incomplete. Complete or resume the pending system encryption/decryption process before retrying.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">This repair action is available only on systems booting in UEFI mode from a GPT system partition.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">The EFI boot loader has been repaired successfully.</entry>
-    <entry lang="en" key="PIM_ARGON2_HELP">PIM (Personal Iterations Multiplier) controls the memory and time costs used by Argon2id header key derivation as follows:\n      Memory = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      Iterations = 3 + ((PIM - 1) / 3) for PIM 31 or lower, then 13 + (PIM - 31)\n\nWhen left empty or set to 0, VeraCrypt will use the default Argon2 PIM (12), which uses 416 MiB of memory and 6 iterations.\n\nWhen the password is less than 20 characters, Argon2 PIM can't be smaller than 12 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, Argon2 PIM can be set to any value.\n\nAn Argon2 PIM larger than 12 increases memory usage up to 1024 MiB and then increases iterations. This will lead to slower mounting. A small Argon2 PIM (less than 12) will lead to quicker mounting but it can reduce security if the password is not strong enough.</entry>
-    <entry lang="en" key="PIM_ARGON2_LARGE_WARNING">You have chosen an Argon2 PIM value that is larger than VeraCrypt default value.\nPlease note that this can require more memory and lead to much slower mounting.</entry>
-    <entry lang="en" key="PIM_ARGON2_SMALL_WARNING">You have chosen an Argon2 PIM value that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to weaker security.\n\nDo you confirm that you are using a strong password?</entry>
-    <entry lang="en" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified Argon2 PIM.\nShorter passwords can only be used if the Argon2 PIM is 12 or greater.</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Mount NTFS volumes with an in-kernel Linux driver</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Linux only. When enabled and no explicit filesystem type was supplied, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with an available in-kernel NTFS driver, bypassing mount helpers such as ntfs-3g. VeraCrypt uses ntfs when it is positively identified as a modern read/write driver or expected on Linux 7.1 or later, and otherwise uses ntfs3. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If no supported in-kernel NTFS driver is available or loadable, mounting fails. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
-    <entry lang="en" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">No supported in-kernel NTFS driver is available or loadable. To use the system default NTFS backend, disable the NTFS kernel-driver preference or do not request kernel NTFS explicitly.</entry>
-    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Normal unmount of volume {0} failed. This can happen when applications still have files or directories open on the volume, or when the backing device was disconnected and the mount became stale.\n\nIf the device is still connected, choose No, close applications using the volume, and try unmounting again.\n\nIf the device was disconnected or the mount is stale, VeraCrypt can attempt emergency cleanup by lazy-detaching the filesystem and removing or scheduling removal of VeraCrypt kernel objects. Pending writes may have failed, data may be lost, and cleanup may remain pending until applications close open files. Check the filesystem with fsck or the appropriate repair tool before using it again.\n\nContinue?</entry>
-    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNTED">Emergency cleanup for volume {0} has been initiated. If the volume was disconnected, the mount was stale, or there were pending writes, check the filesystem with fsck or the appropriate repair tool before using it again.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_DATA">Creating volume data. Please wait.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Finalizing volume creation: writing backup header.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FLUSHING_DATA">Finalizing volume creation: flushing data to disk. This can take several minutes on large volumes or slow/USB storage.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FINISHED">Finalizing volume creation.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ABORTED">Volume creation has been aborted.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ERROR">Volume creation failed.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Finalizing volume creation: mounting temporary volume.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Finalizing volume creation: preparing temporary device.</entry>
-    <entry lang="en" key="FORMAT_STAGE_CREATING_FILESYSTEM">Finalizing volume creation: creating filesystem using {0}.</entry>
-    <entry lang="en" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Finalizing volume creation: dismounting temporary volume.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYNTHESIZED_DEVICE">The selected device '{0}' is an APFS synthesized container or volume and cannot be used as a raw VeraCrypt volume host.\n\nSelect the physical APFS store partition{1} instead.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_SYSTEM_PARTITION">The selected device '{0}' is a macOS system/support partition and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYSTEM_STORE">The selected APFS physical store '{0}' contains the currently mounted macOS system volume and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_NOT_WRITABLE">macOS reports the selected device '{0}' as read-only. Select a writable physical partition or disk.</entry>
-    <entry lang="en" key="MACOSX_APFS_EROFS_HINT">macOS reported the selected device as read-only. If this is an APFS disk, make sure you selected the physical APFS store partition, not an APFS synthesized volume. Use Disk Utility or 'diskutil list' to identify the physical partition, then retry.</entry>
-    <entry lang="en" key="FAVORITE_PIM_OR_KDF_CHANGED">This volume is registered as a System Favorite and its PIM and/or KDF settings were changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
-    <entry lang="en" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">The selected KDF uses different PIM parameters, so VeraCrypt will not reuse the current custom PIM. The new volume header will use the default PIM for the selected KDF unless you select "Use PIM" in the New section and enter a custom value.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
+    <entry lang="zh-hk" key="IDC_DISABLE_SCREEN_PROTECTION">停用針對螢幕截圖和螢幕錄製的保護</entry>
+    <entry lang="zh-hk" key="DISABLE_SCREEN_PROTECTION_WARNING">警告：停用螢幕保護會大幅降低安全性。只有在你有特定需要擷取 VeraCrypt 介面時才啟用此選項。這可能會將敏感資料暴露給螢幕截圖工具和螢幕錄製功能，例如 Windows 11 Recall。</entry>
+    <entry lang="zh-hk" key="MEMORY_COST">記憶體成本</entry>
+    <entry lang="zh-hk" key="IDT_KDF_ALGO">KDF 演算法</entry>
+    <entry lang="zh-hk" key="IDD_PREFERENCES_TAB_GENERAL">一般</entry>
+    <entry lang="zh-hk" key="IDD_PREFERENCES_TAB_ACTIONS">動作</entry>
+    <entry lang="zh-hk" key="IDD_PREFERENCES_TAB_PASSWORD">密碼</entry>
+    <entry lang="zh-hk" key="IDC_SECURE_DESKTOP_ENABLE_IME">在安全桌面中啟用輸入法編輯器 (IME)</entry>
+    <entry lang="zh-hk" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">警告：只有在你於安全桌面下選擇加密鑰檔案/權杖時遇到問題，才啟用此選項。</entry>
+    <entry lang="zh-hk" key="ERR_KEY_DERIVATION_FAILED">加密鑰衍生失敗。這可能是由於記憶體不足或操作中斷造成的。</entry>
+    <entry lang="zh-hk" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">系統分割區/磁碟機已解密，但 Microsoft EFI 開機管理程式路徑未還原至 Windows Boot Manager。只有 EFI 開機檔案需要修復。使用 VeraCrypt 救機光碟修復選項，或啟動 Windows 復原媒體並執行 'bcdboot W:\\Windows /s S: /f UEFI'，當中請以 Windows 磁碟區的磁碟機代號取代 W:，並以 EFI 系統分割區的磁碟機代號取代 S:。路徑：</entry>
+    <entry lang="zh-hk" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">系統分割區/磁碟機已解密，但 EFI 後備開機管理程式路徑仍包含 VeraCrypt 開機管理程式。只有 EFI 開機檔案需要修復。使用 VeraCrypt 救機光碟修復選項，或啟動 Windows 復原媒體並執行 'bcdboot W:\\Windows /s S: /f UEFI'，當中請以 Windows 磁碟區的磁碟機代號取代 W:，並以 EFI 系統分割區的磁碟機代號取代 S:。路徑：</entry>
+    <entry lang="zh-hk" key="IDM_REPAIR_EFI_BOOT_LOADER">修復 EFI 開機管理程式...</entry>
+    <entry lang="zh-hk" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt 將還原 Windows EFI 開機管理程式路徑，並移除 VeraCrypt EFI 開機項目和檔案。\n\n只應在系統分割區/磁碟機已完全解密，而且 Windows 可在沒有系統加密的情況下啟動後使用此功能。\n\n你想繼續嗎？</entry>
+    <entry lang="zh-hk" key="EFI_BOOT_LOADER_FILE_READ_FAILED">無法完整讀取 EFI 開機管理程式檔案：</entry>
+    <entry lang="zh-hk" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">EFI 開機管理程式檔案異常地大，未被檢查：</entry>
+    <entry lang="zh-hk" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">系統分割區/磁碟機已解密，且 EFI 開機管理程式檔案已還原，但 VeraCrypt 無法移除一個或多個 VeraCrypt 韌體開機項目。VeraCrypt EFI 檔案保留在原處，因此任何剩餘的韌體項目仍然指向現有的載入程式。確認 Windows Boot Manager 可正常啟動後，請以管理員身分重試，或從韌體設定中移除 VeraCrypt 開機項目。</entry>
+    <entry lang="zh-hk" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">當系統加密或解密正在進行或尚未完成時，無法修復 EFI 開機管理程式。請先完成或恢復待處理的系統加密/解密程序，然後再試。</entry>
+    <entry lang="zh-hk" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">此修復操作僅適用於從 GPT 系統分割區以 UEFI 模式啟動的系統。</entry>
+    <entry lang="zh-hk" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">EFI 開機管理程式已成功修復。</entry>
+    <entry lang="zh-hk" key="PIM_ARGON2_HELP">PIM（個人迭代乘數）控制 Argon2id 標頭數據加密鑰衍生所使用的記憶體和時間成本，如下所示：\n      記憶體 = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      迭代次數 = 3 + ((PIM - 1) / 3)（PIM 為 31 或以下），然後為 13 + (PIM - 31)\n\n當留空或設定為 0 時，VeraCrypt 將使用預設的 Argon2 PIM (12)，即使用 416 個 MiB 記憶體和 6 次迭代。\n\n當密碼少於 20 個字元時，Argon2 PIM 不能小於 12，以保持最低的安全等級。\n當密碼為 20 個字元或更多時，Argon2 PIM 可以設定為任何值。\n\n大於 12 的 Argon2 PIM 會將記憶體使用量增加到 1024 MiB，然後增加迭代次數。這會令掛載速度變慢。小型 Argon2 PIM（小於 12）會令掛載速度較快，但如果密碼強度不足，可能會降低安全性。</entry>
+    <entry lang="zh-hk" key="PIM_ARGON2_LARGE_WARNING">你選擇的 Argon2 PIM 值大於 VeraCrypt 預設值。\n請注意，這可能需要更多記憶體並導致掛載速度慢得多。</entry>
+    <entry lang="zh-hk" key="PIM_ARGON2_SMALL_WARNING">你選擇的 Argon2 PIM 值小於預設的 VeraCrypt 值。請注意，如果你的密碼強度不足，可能會導致安全性降低。\n\n你確認自己正在使用強密碼嗎？</entry>
+    <entry lang="zh-hk" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">密碼必須包含 20 個或更多字元才能使用指定的 Argon2 PIM。\n僅當 Argon2 PIM 為 12 或更大時才能使用較短的密碼。</entry>
+    <entry lang="zh-hk" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">使用 Linux 核心內驅動程式掛載 NTFS 加密區</entry>
+    <entry lang="zh-hk" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">僅限 Linux。啟用且未提供明確檔案系統類型時，VeraCrypt 會以 blkid -p 偵測已解密的虛擬裝置，並使用可用的核心內 NTFS 驅動程式掛載偵測到的 NTFS 檔案系統，繞過 ntfs-3g 等掛載輔助程式。當 ntfs 被明確識別為現代讀寫驅動程式，或預期在 Linux 7.1 或更高版本上可用時，VeraCrypt 會使用 ntfs，否則使用 ntfs3。如果 NTFS 偵測失敗，VeraCrypt 將使用一般的自動檔案系統選擇。如果沒有支援的核心內 NTFS 驅動程式可用或可載入，掛載會失敗。此選項可以避免因使用者空間 FUSE 檔案系統被凍結而導致暫停或休眠時當機。</entry>
+    <entry lang="zh-hk" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">沒有可用或可載入的受支援的核心 NTFS 驅動程式。若要使用系統預設 NTFS 後端，請停用 NTFS 核心驅動程式首選項或不要明確要求核心 NTFS。</entry>
+    <entry lang="zh-hk" key="LINUX_EMERGENCY_UNMOUNT_WARNING">加密區 {0} 無法正常解除掛載。當應用程式仍在加密區上開啟檔案或資料夾，或主機裝置已中斷連線而掛載變成過時時，可能會發生這種情況。\n\n如果裝置仍然連接，請選擇 [否]，關閉使用該加密區的應用程式，然後再次嘗試解除掛載。\n\n如果裝置已中斷連線或掛載已過時，VeraCrypt 可以嘗試緊急清理：延遲分離檔案系統，並移除或排程移除 VeraCrypt 核心物件。等候中的寫入可能已失敗，資料可能會遺失，而且清理可能會保持等候狀態，直到應用程式關閉已開啟的檔案。再次使用前，請使用 fsck 或適當的修復工具檢查檔案系統。\n\n繼續？</entry>
+    <entry lang="zh-hk" key="LINUX_EMERGENCY_UNMOUNTED">加密區 {0} 的緊急清理已啟動。如果加密區已中斷連線、掛載已過時或存在等候中的寫入，請在再次使用之前使用 fsck 或適當的修復工具檢查檔案系統。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_WRITING_DATA">正在建立加密區資料。請稍等。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">完成加密區建立：寫入備份標頭。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_FLUSHING_DATA">完成加密區建立：將資料刷新到磁碟。對於大容量或慢速/USB 存儲，這可能需要幾分鐘的時間。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_FINISHED">完成加密區建立。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_ABORTED">加密區建立已中止。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_ERROR">加密區建立失敗。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">完成加密區建立：掛載臨時加密區。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">完成加密區建立：準備臨時裝置。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_CREATING_FILESYSTEM">完成加密區建立：使用 {0} 建立檔案系統。</entry>
+    <entry lang="zh-hk" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">完成加密區建立：解除掛載臨時加密區。</entry>
+    <entry lang="zh-hk" key="MACOSX_APFS_SYNTHESIZED_DEVICE">所選裝置「{0}」是 APFS 合成容器或磁碟區，不能用作原始 VeraCrypt 加密區主機。\n\n請改為選擇實體 APFS 儲存分割區{1}。</entry>
+    <entry lang="zh-hk" key="MACOSX_DEVICE_SYSTEM_PARTITION">所選裝置「{0}」是 macOS 系統/支援分割區，不能用作 VeraCrypt 加密區主機。</entry>
+    <entry lang="zh-hk" key="MACOSX_APFS_SYSTEM_STORE">所選 APFS 實體儲存「{0}」包含目前已掛載的 macOS 系統磁碟區，不能用作 VeraCrypt 加密區主機。</entry>
+    <entry lang="zh-hk" key="MACOSX_DEVICE_NOT_WRITABLE">macOS 將所選裝置「{0}」回報為唯讀。請選擇可寫入的實體分割區或磁碟。</entry>
+    <entry lang="zh-hk" key="MACOSX_APFS_EROFS_HINT">macOS 將所選裝置回報為唯讀。如果這是 APFS 磁碟，請確定你選擇的是實體 APFS 儲存分割區，而不是 APFS 合成磁碟區。請使用「磁碟工具程式」或 'diskutil list' 識別實體分割區，然後重試。</entry>
+    <entry lang="zh-hk" key="FAVORITE_PIM_OR_KDF_CHANGED">此加密區已註冊為我的最愛系統加密區，且其 PIM 和/或 KDF 設定已變更。\n你希望 VeraCrypt 自動更新我的最愛系統加密區設定嗎（需要管理員權限）？\n\n請注意，如果你回答「否」，則必須手動更新我的最愛系統加密區。</entry>
+    <entry lang="zh-hk" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">所選的 KDF 使用不同的 PIM 參數，因此 VeraCrypt 不會重用目前的自訂 PIM。新的加密區標頭將使用所選 KDF 的預設 PIM，除非你在「新密碼」區段中選擇「使用 PIM」並輸入自訂值。\n\n你想繼續嗎？</entry>
+    <entry lang="zh-hk" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot 已啟用，但韌體的 Secure Boot 資料庫不信任 VeraCrypt EFI 開機載入程式所支援的任何 Microsoft UEFI CA 集合。請啟用 Microsoft Corporation UEFI CA 2011，或同時啟用 Microsoft UEFI CA 2023 和 Microsoft Option ROM UEFI CA 2023，然後執行 VeraCrypt 修復或重新安裝。或者，請停用 Secure Boot。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

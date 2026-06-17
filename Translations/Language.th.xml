@@ -27,7 +27,7 @@
     <entry lang="th" key="IDC_ABORT_BUTTON">ยกเลิก</entry>
     <entry lang="th" key="IDC_BENCHMARK">&amp;ตัววัดประสิทธิภาพ</entry>
     <entry lang="th" key="IDC_CIPHER_TEST">&amp;ทดสอบ</entry>
-    <entry lang="th" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">สร้างวอลลุมเข้ารหัสและฟอร์แมทมัน</entry>
+    <entry lang="th" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">สร้างวอลุ่มเข้ารหัสและฟอร์แมทมัน</entry>
     <entry lang="th" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">เข้ารหัสพาร์ติชั่น ณ ที่นั้น</entry>
     <entry lang="th" key="IDC_DISPLAY_KEYS">แสดงคีย์ที่ถูกสร้างขึ้น (ส่วนต่างๆ)</entry>
     <entry lang="th" key="IDC_DISPLAY_POOL_CONTENTS">แสดงเนื้อหาของพูล</entry>
@@ -36,8 +36,8 @@
     <entry lang="th" key="IDC_GB">&amp;GiB</entry>
     <entry lang="th" key="IDC_TB">&amp;TiB</entry>
     <entry lang="th" key="IDC_HIDDEN_SYSENC_INFO_LINK">ข้อมูลเพิ่มเติม</entry>
-    <entry lang="th" key="IDC_HIDDEN_VOL">วอลลุม VeraCrypt ที่&amp;ซ่อนอยู่</entry>
-    <entry lang="th" key="IDC_HIDDEN_VOL_HELP">ข้อมูลเพิ่มเติมเกี่ยวกับวอลลุมที่ซ่อนอยู่</entry>
+    <entry lang="th" key="IDC_HIDDEN_VOL">วอลุ่ม VeraCrypt ที่&amp;ซ่อนอยู่</entry>
+    <entry lang="th" key="IDC_HIDDEN_VOL_HELP">ข้อมูลเพิ่มเติมเกี่ยวกับวอลุ่มที่ซ่อนอยู่</entry>
     <entry lang="th" key="IDC_HIDVOL_WIZ_MODE_DIRECT">โหมดตรง</entry>
     <entry lang="th" key="IDC_HIDVOL_WIZ_MODE_FULL">โหมดทั่วไป</entry>
     <entry lang="th" key="IDC_KB">&amp;KiB</entry>
@@ -55,7 +55,7 @@
     <entry lang="th" key="IDC_MULTI_BOOT">การบูทหลายระบบ</entry>
     <entry lang="th" key="IDC_NONSYS_DEVICE">เข้ารหัสพาร์ติชั่น/ไดรฟ์ที่ไม่ใช่ระบบ</entry>
     <entry lang="th" key="IDC_NO_HISTORY">&amp;อย่าบันทึกประวัติ</entry>
-    <entry lang="th" key="IDC_OPEN_OUTER_VOLUME">เปิดวอลลุมภายนอก</entry>
+    <entry lang="th" key="IDC_OPEN_OUTER_VOLUME">เปิดวอลุ่มภายนอก</entry>
     <entry lang="th" key="IDC_PAUSE">&amp;หยุดชั่วคราว</entry>
     <entry lang="th" key="IDC_PIM_ENABLE">ใช้ P&amp;IM</entry>
     <entry lang="th" key="IDC_NEW_PIM_ENABLE">ใช้ PIM</entry>
@@ -64,13 +64,13 @@
     <entry lang="th" key="IDC_SHOW_PASSWORD_SINGLE">&amp;แสดงรหัสผ่าน</entry>
     <entry lang="th" key="IDC_SHOW_PIM">&amp;แสดง PIM</entry>
     <entry lang="th" key="IDC_SINGLE_BOOT">การบูทเดี่ยว</entry>
-    <entry lang="th" key="IDC_STD_VOL">วอลลุม VeraCrypt มาตรฐาน</entry>
+    <entry lang="th" key="IDC_STD_VOL">วอลุ่ม VeraCrypt มาตรฐาน</entry>
     <entry lang="th" key="IDC_SYSENC_HIDDEN">แ&amp;ซ่อน</entry>
     <entry lang="th" key="IDC_SYSENC_NORMAL">ทั่วไป</entry>
     <entry lang="th" key="IDC_SYS_DEVICE">เข้ารหัสพาร์ติชั่นระบบหรือไดรฟ์ระบบทั้งหมด</entry>
     <entry lang="th" key="IDC_SYS_PARTITION">เข้ารหัสพาร์ติชั่นระบบ Windows</entry>
     <entry lang="th" key="IDC_WHOLE_SYS_DRIVE">เข้ารหัสไดรฟ์ทั้งหมด</entry>
-    <entry lang="th" key="IDD_VOL_CREATION_WIZARD_DLG">ตัวช่วยการสร้างวอลลุม VeraCrypt</entry>
+    <entry lang="th" key="IDD_VOL_CREATION_WIZARD_DLG">ตัวช่วยการสร้างวอลุ่ม VeraCrypt</entry>
     <entry lang="th" key="IDT_CLUSTER">คลัสเตอร์</entry>
     <entry lang="th" key="IDT_COLLECTING_RANDOM_DATA_NOTE">สำคัญ: เคลื่อนเมาส์ของคุณแบบสุ่มมากที่สุดในหน้าต่างนี้ ยิ่งคุณเคลื่อนนานเท่าไหร่ก็ยิ่งดีเท่านั้น ซึ่งจะเพิ่มความแข็งแกร่งของการเข้ารหัสด้วยการคีย์ จากนั้นคลิกถัดไปเพื่อดำเนินการต่อ.</entry>
     <entry lang="th" key="IDT_CONFIRM">&amp;ยืนยัน:</entry>
@@ -85,12 +85,12 @@
     <entry lang="th" key="IDT_LEFT">ซ้าย</entry>
     <entry lang="th" key="IDT_MASTER_KEY">คีย์หลัก:</entry>
     <entry lang="th" key="IDT_MULTI_BOOT">เลือกตัวเลือกนี้หากมีระบบปฏิบัติการสองระบบหรือมากกว่าติดตั้งบนคอมพิวเตอร์เครื่องนี้.\n\nตัวอย่างเช่น:\n- Windows XP และ Windows XP\n- Windows XP และ Windows Vista\n- Windows และ Mac OS X\n- Windows และ Linux\n- Windows, Linux และ Mac OS X</entry>
-    <entry lang="th" key="IDT_NON_SYS_DEVICE">เข้ารหัสพาร์ติชั่นที่ไม่ใช่ระบบบนไดรฟ์ภายในหรือนอก (เช่น แฟลชไดรฟ์) และอาจสร้างวอลลุมซ่อน.</entry>
+    <entry lang="th" key="IDT_NON_SYS_DEVICE">เข้ารหัสพาร์ติชั่นที่ไม่ใช่ระบบบนไดรฟ์ภายในหรือนอก (เช่น แฟลชไดรฟ์) และอาจสร้างวอลุ่มซ่อน.</entry>
     <entry lang="th" key="IDT_PARTIAL_POOL_CONTENTS">เนื้อหาพูลปัจจุบัน (บางส่วน)</entry>
     <entry lang="th" key="IDT_PASS">ผ่าน</entry>
     <entry lang="th" key="IDT_PASSWORD">รหัสผ่าน:</entry>
-    <entry lang="th" key="IDT_PIM">PIM ของวอลลุม:</entry>
-    <entry lang="th" key="IDT_OLD_PIM">PIM ของวอลลุม:</entry>
+    <entry lang="th" key="IDT_PIM">PIM ของวอลุ่ม:</entry>
+    <entry lang="th" key="IDT_OLD_PIM">PIM ของวอลุ่ม:</entry>
     <entry lang="th" key="IDT_PROGRESS">ความคืบหน้า:</entry>
     <entry lang="th" key="IDT_RANDOM_POOL">พูลแบบสุ่ม:</entry>
     <entry lang="th" key="IDT_SINGLE_BOOT">เลือกตัวเลือกนี้หากติดตั้งระบบปฏิบัติการเพียงหนึ่งระบบบนคอมพิวเตอร์เครื่องนี้ (แม้ว่าจะมีผู้ใช้หลายคน).</entry>
@@ -99,41 +99,41 @@
     <entry lang="th" key="IDT_SYSENC_KEYS_GEN_INFO">คีย์, เกลือ, และข้อมูลอื่น ๆ ถูกสร้างขึ้นสำเร็จแล้ว หากคุณต้องการสร้างคีย์ใหม่ให้คลิกกลับและจากนั้นคลิกถัดไป มิฉะนั้นคลิกถัดไปเพื่อดำเนินการต่อ.</entry>
     <entry lang="th" key="IDT_SYS_DEVICE">เข้ารหัสพาร์ติชั่น/ไดรฟ์ที่มีการติดตั้ง Windows ใครก็ตามที่ต้องการเข้าถึงและใช้งานระบบ อ่านและเขียนไฟล์ ฯลฯ ต้องป้อนรหัสผ่านที่ถูกต้องทุกครั้งก่อนที่ Windows จะบูต.</entry>
     <entry lang="th" key="IDT_SYS_PARTITION">เลือกตัวเลือกนี้เพื่อเข้ารหัสพาร์ติชั่นที่ติดตั้งระบบปฏิบัติการ Windows ที่กำลังทำงานอยู่.</entry>
-    <entry lang="th" key="IDT_VOLUME_LABEL">ป้ายชื่อวอลลุมใน Windows:</entry>
+    <entry lang="th" key="IDT_VOLUME_LABEL">ป้ายชื่อวอลุ่มใน Windows:</entry>
     <entry lang="th" key="IDT_WIPE_MODE">โหมดลบ:</entry>
     <entry lang="th" key="IDCLOSE">ปิด</entry>
     <entry lang="th" key="IDC_ALLOW_ESC_PBA_BYPASS">อนุญาตให้บายพาสการยืนยันตัวตนก่อนบูตโดยกดปุ่ม Esc (เปิดใช้งานบูตเมนเจอร์)</entry>
     <entry lang="th" key="IDC_AUTORUN_DISABLE">ไม่ทำอะไร</entry>
-    <entry lang="th" key="IDC_AUTORUN_MOUNT">&amp;ติดตั้งวอลลุม VeraCrypt โดยอัตโนมัติ(ระบุตามด้านล่าง)</entry>
+    <entry lang="th" key="IDC_AUTORUN_MOUNT">&amp;ติดตั้งวอลุ่ม VeraCrypt โดยอัตโนมัติ(ระบุตามด้านล่าง)</entry>
     <entry lang="th" key="IDC_AUTORUN_START">&amp;เริ่ม VeraCrypt</entry>
     <entry lang="th" key="IDC_AUTO_DETECT_PKCS11_MODULE">ตรวจจับไลบรารีโดยอัตโนมัติ</entry>
-    <entry lang="th" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;แคชรหัสผ่านในการยืนยันตัวก่อนบูตในหน่วยความจำไดรเวอร์ (สำหรับการติดตั้งวอลลุมที่ไม่ใช่ระบบ)</entry>
+    <entry lang="th" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;แคชรหัสผ่านในการยืนยันตัวก่อนบูตในหน่วยความจำไดรเวอร์ (สำหรับการติดตั้งวอลุ่มที่ไม่ใช่ระบบ)</entry>
     <entry lang="th" key="IDC_BROWSE_DIRS">เรียกดู...</entry>
     <entry lang="th" key="IDC_BROWSE_FILES">เรียกดู...</entry>
     <entry lang="th" key="IDC_CACHE">แคชรหัสผ่านและคีย์ไฟล์ในหน่วยความจำ</entry>
-    <entry lang="th" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">ออกเมื่อไม่มีวอลลุมที่ติดตั้งอยู่</entry>
-    <entry lang="th" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">ปิดเซสชั่นโทเค็น (ออกระบบ) หลังจากติดตั้งวอลลุมสำเร็จ</entry>
+    <entry lang="th" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">ออกเมื่อไม่มีวอลุ่มที่ติดตั้งอยู่</entry>
+    <entry lang="th" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;ปิดเซสชั่นโทเค็น (ออกระบบ) หลังจากติดตั้งวอลุ่มสำเร็จ</entry>
     <entry lang="th" key="IDC_COPY_EXPANDER">รวมถึง VeraCrypt Volume Expander</entry>
-    <entry lang="th" key="IDC_COPY_WIZARD">รวมถึงตัวช่วยการสร้างวอลลุม VeraCrypt</entry>
+    <entry lang="th" key="IDC_COPY_WIZARD">รวมถึงตัวช่วยการสร้างวอลุ่ม VeraCrypt</entry>
     <entry lang="th" key="IDC_CREATE">สร้าง</entry>
-    <entry lang="th" key="IDC_CREATE_VOLUME">สร้างวอลลุม</entry>
+    <entry lang="th" key="IDC_CREATE_VOLUME">&amp;สร้างวอลุ่ม</entry>
     <entry lang="th" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">ไม่แสดงข้อความในหน้าจอยืนยันตัวตนก่อนบูต (ยกเว้นข้อความที่กำหนดเองด้านล่าง)</entry>
     <entry lang="th" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">ปิดใช้งานการตรวจจับการโจมตี "Evil Maid"</entry>
     <entry lang="th" key="IDC_ENABLE_HARDWARE_ENCRYPTION">เร่งการเข้ารหัส/ถอดรหัส AES โดยใช้คำสั่ง AES ของโปรเซสเซอร์ (ถ้ามี)</entry>
     <entry lang="th" key="IDC_ENABLE_KEYFILES">ใช้คีย์ไฟล์</entry>
     <entry lang="th" key="IDC_ENABLE_NEW_KEYFILES">ใช้คีย์ไฟล์</entry>
     <entry lang="th" key="IDC_EXIT">ออก</entry>
-    <entry lang="th" key="IDC_FAVORITES_HELP_LINK">ช่วยเหลือเกี่ยวกับวอลลุมโปรด</entry>
-    <entry lang="th" key="IDC_FAVORITE_DISABLE_HOTKEY">ไม่ติดตั้งวอลลุมที่เลือกรวมถึงเมื่อกดปุ่มลัด 'ติดตั้งวอลลุมโปรด'</entry>
-    <entry lang="th" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">ติดตั้งวอลลุมที่เลือกเมื่ออุปกรณ์โฮสต์ที่เชื่อมต่อ</entry>
-    <entry lang="th" key="IDC_FAVORITE_MOUNT_ON_LOGON">ติดตั้งวอลลุมที่เลือกเมื่อเข้าสู่ระบบ</entry>
-    <entry lang="th" key="IDC_FAVORITE_MOUNT_READONLY">ติดตั้งวอลลุมที่เลือกเป็นอ่านอย่างเดียว</entry>
-    <entry lang="th" key="IDC_FAVORITE_MOUNT_REMOVABLE">ติดตั้งวอลลุมที่เลือกเป็นสื่อที่ถอดออกได้</entry>
+    <entry lang="th" key="IDC_FAVORITES_HELP_LINK">ช่วยเหลือเกี่ยวกับวอลุ่มโปรด</entry>
+    <entry lang="th" key="IDC_FAVORITE_DISABLE_HOTKEY">ไม่ติดตั้งวอลุ่มที่เลือกรวมถึงเมื่อกด&amp;ปุ่มลัด 'ติดตั้งวอลุ่มโปรด'</entry>
+    <entry lang="th" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">ติดตั้งวอลุ่มที่เลือกเมื่ออุปกรณ์โฮสต์&amp;ที่เชื่อมต่อ</entry>
+    <entry lang="th" key="IDC_FAVORITE_MOUNT_ON_LOGON">ติดตั้งวอลุ่มที่เลือกเมื่อ&amp;เข้าสู่ระบบ</entry>
+    <entry lang="th" key="IDC_FAVORITE_MOUNT_READONLY">ติดตั้งวอลุ่มที่เลือกเป็น&amp;อ่านอย่างเดียว</entry>
+    <entry lang="th" key="IDC_FAVORITE_MOUNT_REMOVABLE">ติดตั้งวอลุ่มที่เลือกเป็นสื่อ&amp;ที่ถอดออกได้</entry>
     <entry lang="th" key="IDC_FAVORITE_MOVE_DOWN">เลื่อนลง</entry>
     <entry lang="th" key="IDC_FAVORITE_MOVE_UP">เลื่อนขึ้น</entry>
-    <entry lang="th" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">เปิดหน้าต่าง Explorer สำหรับวอลลุมที่เลือกเมื่อเข้าถึงปลายทางสำเร็จ</entry>
+    <entry lang="th" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">เปิดหน้าต่าง &amp;Explorer สำหรับวอลุ่มที่เลือกเมื่อเข้าถึงปลายทางสำเร็จ</entry>
     <entry lang="th" key="IDC_FAVORITE_REMOVE">ลบ</entry>
-    <entry lang="th" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">ใช้ชื่อวอลลุมโปรดเป็นชื่อไดรฟ์ใน Explorer</entry>
+    <entry lang="th" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">ใช้ชื่อวอลุ่มโปรดเป็นชื่อไดรฟ์ใน Explorer</entry>
     <entry lang="th" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">การตั้งค่าทั่วไป</entry>
     <entry lang="th" key="IDC_HK_UNMOUNT_BALLOON_TOOLTIP">แสดงบอลลูนแจ้งเตือนหลังการติดตั้งเมื่อสำเร็จ</entry>
     <entry lang="th" key="IDC_HK_UNMOUNT_PLAY_SOUND">เล่นเสียงแจ้งเตือนของระบบหลังการติดตั้งเมื่อสำเร็จ</entry>
@@ -150,26 +150,26 @@
     <entry lang="th" key="IDC_MORE_SETTINGS">ตั้งค่าเพิ่มเติม...</entry>
     <entry lang="th" key="IDC_MOUNTALL">ติดตั้งอุปกรณ์โดยอัตโนมัติ</entry>
     <entry lang="th" key="IDC_MOUNT_OPTIONS">ตัวเลือกติดตั้ง...</entry>
-    <entry lang="th" key="IDC_MOUNT_READONLY">ติดตั้งวอลลุ่มเป็นอ่านอย่างเดียว</entry>
+    <entry lang="th" key="IDC_MOUNT_READONLY">ติดตั้งวอลุ่มเป็น&amp;อ่านอย่างเดียว</entry>
     <entry lang="th" key="IDC_NEW_KEYFILES">ไฟล์คีย์ใหม่...</entry>
     <entry lang="th" key="IDC_OLD_PIM_HELP">(เว้นว่างหรือ 0 สำหรับการใช้งานค่าเริ่มต้น)</entry>
     <entry lang="th" key="IDC_PIM_HELP">(เว้นว่างหรือ 0 สำหรับการใช้งานค่าเริ่มต้น)</entry>
     <entry lang="th" key="IDC_PREF_BKG_TASK_ENABLE">เปิดใช้งาน</entry>
     <entry lang="th" key="IDC_PREF_CACHE_PASSWORDS">บันทึกรหัสผ่านในหน่วยความจำ</entry>
-    <entry lang="th" key="IDC_PREF_UNMOUNT_INACTIVE">ปลดวอลลุ่มเมื่อไม่มีการอ่าน/เขียนข้อมูลในช่วง</entry>
+    <entry lang="th" key="IDC_PREF_UNMOUNT_INACTIVE">ปลดวอลุ่มเมื่อไม่มีการอ่าน/เขียนข้อมูลในช่วง</entry>
     <entry lang="th" key="IDC_PREF_UNMOUNT_LOGOFF">เมื่อผู้ใช้ล็อกเอาท์</entry>
     <entry lang="th" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">เมื่อผู้ใช้งานล็อกเซสชั่น</entry>
     <entry lang="th" key="IDC_PREF_UNMOUNT_POWERSAVING">เมื่อเข้าสู่โหมดประหยัดพลังงาน</entry>
     <entry lang="th" key="IDC_PREF_UNMOUNT_SCREENSAVER">เมื่อเปิดใช้งานสกรีนเซฟเวอร์</entry>
-    <entry lang="th" key="IDC_PREF_FORCE_AUTO_UNMOUNT">บังคับการปลดวอลลุมแม้มีไฟล์หรือไดเรกทอรีที่เปิดอยู่</entry>
-    <entry lang="th" key="IDC_PREF_LOGON_MOUNT_DEVICES">ติดตั้งทุกวอลลุม VeraCrypt บนอุปกรณ์เมื่อเข้าสู่ระบบ</entry>
+    <entry lang="th" key="IDC_PREF_FORCE_AUTO_UNMOUNT">บังคับการปลดวอลุ่มแม้มีไฟล์หรือไดเรกทอรีที่เปิดอยู่</entry>
+    <entry lang="th" key="IDC_PREF_LOGON_MOUNT_DEVICES">ติดตั้งทุกวอลุ่ม VeraCrypt บนอุปกรณ์เมื่อเข้าสู่ระบบ</entry>
     <entry lang="th" key="IDC_PREF_LOGON_START">เริ่มทำงานพื้นหลังของ VeraCrypt</entry>
-    <entry lang="th" key="IDC_PREF_MOUNT_READONLY">ติดตั้งวอลลุ่มเป็นอ่านอย่างเดียวโดยค่าเริ่มต้น</entry>
-    <entry lang="th" key="IDC_PREF_MOUNT_REMOVABLE">ติดตั้งวอลลุ่มเป็นสื่อที่ถอดออกได้</entry>
-    <entry lang="th" key="IDC_PREF_OPEN_EXPLORER">เปิดหน้าต่าง Explorer เมื่อวอลลุมถูกติดตั้งสำเร็จ</entry>
-    <entry lang="th" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">บันทึกรหัสผ่านชั่วคราวระหว่างการติดตั้ง "วอลลูมโปรด"</entry>
-    <entry lang="th" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">ใช้ไอคอน Tray แตกต่างกันเมื่อมีวอลลุมที่ติดตั้งอยู่</entry>
-    <entry lang="th" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">ลบข้อมูลในแคชเมื่อปลดวอลลุมโดยอัตโนมัติ</entry>
+    <entry lang="th" key="IDC_PREF_MOUNT_READONLY">ติดตั้งวอลุ่มเป็นอ่านอย่างเดียวโดยค่าเริ่มต้น</entry>
+    <entry lang="th" key="IDC_PREF_MOUNT_REMOVABLE">ติดตั้งวอลุ่มเป็นสื่อที่ถอดออกได้</entry>
+    <entry lang="th" key="IDC_PREF_OPEN_EXPLORER">เปิดหน้าต่าง Explorer เมื่อวอลุ่มถูกติดตั้งสำเร็จ</entry>
+    <entry lang="th" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">บันทึกรหัสผ่านชั่วคราวระหว่างการติดตั้ง "วอลุ่มโปรด"</entry>
+    <entry lang="th" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">ใช้ไอคอน Tray แตกต่างกันเมื่อมีวอลุ่มที่ติดตั้งอยู่</entry>
+    <entry lang="th" key="IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT">ลบข้อมูลในแคชเมื่อปลดวอลุ่มโดยอัตโนมัติ</entry>
     <entry lang="th" key="IDC_PREF_WIPE_CACHE_ON_EXIT">ลบข้อมูลในแคชเมื่อออกจากโปรแกรม</entry>
     <entry lang="th" key="IDC_PRESERVE_TIMESTAMPS">รักษาเวลาแก้ไขล่าสุดของไฟล์คอนเทนเนอร์</entry>
     <entry lang="th" key="IDC_RESET_HOTKEYS">รีเซ็ต</entry>
@@ -178,42 +178,42 @@
     <entry lang="th" key="IDC_SELECT_PKCS11_MODULE">เลือก &amp;ไลบรารี...</entry>
     <entry lang="th" key="IDC_SHOW_PASSWORD_CHPWD_NEW">แสดงรหัสผ่าน</entry>
     <entry lang="th" key="IDC_SHOW_PASSWORD_CHPWD_ORI">แสดงรหัสผ่าน</entry>
-    <entry lang="th" key="IDC_TRAVEL_OPEN_EXPLORER">เปิดหน้าต่าง Explorer สำหรับวอลลุมที่ติดตั้ง</entry>
+    <entry lang="th" key="IDC_TRAVEL_OPEN_EXPLORER">เปิดหน้าต่าง &amp;Explorer สำหรับวอลุ่มที่ติดตั้ง</entry>
     <entry lang="th" key="IDC_TRAV_CACHE_PASSWORDS">&amp;บันทึกรหัสผ่านในหน่วยความจำไดร์เวอร์</entry>
     <entry lang="th" key="IDC_TRUECRYPT_MODE">&amp;โหมด TrueCrypt</entry>
-    <entry lang="th" key="IDC_UNMOUNTALL">ปลดวอลลุมทั้งหมด</entry>
-    <entry lang="th" key="IDC_VOLUME_PROPERTIES">คุณสมบัติของวอลลุม</entry>
-    <entry lang="th" key="IDC_VOLUME_TOOLS">เครื่องมือ &amp;วอลลุม...</entry>
+    <entry lang="th" key="IDC_UNMOUNTALL">ปลดวอลุ่ม&amp;ทั้งหมด</entry>
+    <entry lang="th" key="IDC_VOLUME_PROPERTIES">&amp;คุณสมบัติของวอลุ่ม</entry>
+    <entry lang="th" key="IDC_VOLUME_TOOLS">เครื่องมือ &amp;วอลุ่ม...</entry>
     <entry lang="th" key="IDC_WIPE_CACHE">ล้างแคช</entry>
     <entry lang="th" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - พารามิเตอร์การติดตั้ง</entry>
-    <entry lang="th" key="IDD_FAVORITE_VOLUMES">VeraCrypt - วอลลุมโปรด</entry>
+    <entry lang="th" key="IDD_FAVORITE_VOLUMES">VeraCrypt - วอลุ่มโปรด</entry>
     <entry lang="th" key="IDD_HOTKEYS_DLG">VeraCrypt - คีย์ลัดทั่วระบบ</entry>
     <entry lang="th" key="IDD_MOUNT_DLG">VeraCrypt</entry>
     <entry lang="th" key="IDD_PASSWORDCHANGE_DLG">เปลี่ยนรหัสผ่านหรือไฟล์คีย์</entry>
-    <entry lang="th" key="IDD_PASSWORD_DLG">ป้อนรหัสผ่านวอลลุม VeraCrypt</entry>
+    <entry lang="th" key="IDD_PASSWORD_DLG">ป้อนรหัสผ่านวอลุ่ม VeraCrypt</entry>
     <entry lang="th" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - การตั้งค่าประสิทธิภาพและไดรเวอร์</entry>
     <entry lang="th" key="IDD_PREFERENCES_DLG">VeraCrypt - การตั้งค่า</entry>
     <entry lang="th" key="IDD_SYSENC_SETTINGS">VeraCrypt - การตั้งค่าการเข้ารหัสระบบ</entry>
     <entry lang="th" key="IDD_TOKEN_PREFERENCES">VeraCrypt - การตั้งค่าโทเค็นความปลอดภัย</entry>
     <entry lang="th" key="IDD_TRAVELER_DLG">การตั้งแผ่นดิสก์ตัวแทน VeraCrypt</entry>
-    <entry lang="th" key="IDD_VOLUME_PROPERTIES">คุณสมบัติของวอลลุม VeraCrypt</entry>
+    <entry lang="th" key="IDD_VOLUME_PROPERTIES">คุณสมบัติของวอลุ่ม VeraCrypt</entry>
     <entry lang="th" key="IDM_ABOUT">เกี่ยวกับ</entry>
-    <entry lang="th" key="IDM_ADD_REMOVE_VOL_KEYFILES">เพิ่ม/ลบไฟล์คีย์สำหรับวอลลุม...</entry>
-    <entry lang="th" key="IDM_ADD_VOLUME_TO_FAVORITES">เพิ่มวอลลุมที่ติดตั้งไปยังโปรด...</entry>
-    <entry lang="th" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">เพิ่มวอลลุมที่ติดตั้งไปยังโปรดของระบบ...</entry>
+    <entry lang="th" key="IDM_ADD_REMOVE_VOL_KEYFILES">เพิ่ม/ลบไฟล์คีย์สำหรับวอลุ่ม...</entry>
+    <entry lang="th" key="IDM_ADD_VOLUME_TO_FAVORITES">เพิ่มวอลุ่มที่ติดตั้งไปยังโปรด...</entry>
+    <entry lang="th" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">เพิ่มวอลุ่มที่ติดตั้งไปยังโปรดของระบบ...</entry>
     <entry lang="th" key="IDM_ANALYZE_SYSTEM_CRASH">วิเคราะห์เหตุการณ์ระบบล้มเหลว...</entry>
-    <entry lang="th" key="IDM_BACKUP_VOL_HEADER">สำรองหัวข้อวอลลุม...</entry>
+    <entry lang="th" key="IDM_BACKUP_VOL_HEADER">สำรองหัวข้อวอลุ่ม...</entry>
     <entry lang="th" key="IDM_BENCHMARK">ตัววัดประสิทธิภาพ...</entry>
     <entry lang="th" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">ตั้งค่าอัลกอริธึมการดึงคีย์หัวข้อ...</entry>
-    <entry lang="th" key="IDM_CHANGE_PASSWORD">เปลี่ยนรหัสผ่านวอลลุม...</entry>
+    <entry lang="th" key="IDM_CHANGE_PASSWORD">เปลี่ยนรหัสผ่านวอลุ่ม...</entry>
     <entry lang="th" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">ตั้งค่าอัลกอริธึมการดึงคีย์หัวข้อ...</entry>
     <entry lang="th" key="IDM_CHANGE_SYS_PASSWORD">เปลี่ยนรหัสผ่าน...</entry>
-    <entry lang="th" key="IDM_CLEAR_HISTORY">ล้างประวัติวอลลุม</entry>
+    <entry lang="th" key="IDM_CLEAR_HISTORY">ล้างประวัติวอลุ่ม</entry>
     <entry lang="th" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">ปิดเซสชั่นโทเค็นทุกเซสชั่น</entry>
     <entry lang="th" key="IDM_CONTACT">ติดต่อ</entry>
     <entry lang="th" key="IDM_CREATE_HIDDEN_OS">สร้างระบบปฏิบัติการซ่อน...</entry>
     <entry lang="th" key="IDM_CREATE_RESCUE_DISK">สร้างดิสก์กู้คืน...</entry>
-    <entry lang="th" key="IDM_CREATE_VOLUME">สร้างวอลลุมใหม่...</entry>
+    <entry lang="th" key="IDM_CREATE_VOLUME">สร้างวอลุ่มใหม่...</entry>
     <entry lang="th" key="IDM_DECRYPT_NONSYS_VOL">ถอดรหัสถาวร...</entry>
     <entry lang="th" key="IDM_DEFAULT_KEYFILES">ไฟล์คีย์เริ่มต้น...</entry>
     <entry lang="th" key="IDM_DEFAULT_MOUNT_PARAMETERS">พารามิเตอร์การติดตั้งเริ่มต้น...</entry>
@@ -227,21 +227,21 @@
     <entry lang="th" key="IDM_LANGUAGE">ภาษา...</entry>
     <entry lang="th" key="IDM_LICENSE">การแจ้งเตือนทางกฎหมาย</entry>
     <entry lang="th" key="IDM_MANAGE_TOKEN_KEYFILES">จัดการไฟล์คีย์โทเค็นความปลอดภัย...</entry>
-    <entry lang="th" key="IDM_MOUNTALL">ติดตั้งวอลลุมที่โฮสต์ด้วยอุปกรณ์ทั้งหมดโดยอัตโนมัติ</entry>
-    <entry lang="th" key="IDM_MOUNT_FAVORITE_VOLUMES">ติดตั้งวอลลุมโปรด</entry>
+    <entry lang="th" key="IDM_MOUNTALL">ติดตั้งวอลุ่มที่โฮสต์ด้วยอุปกรณ์ทั้งหมดโดยอัตโนมัติ</entry>
+    <entry lang="th" key="IDM_MOUNT_FAVORITE_VOLUMES">ติดตั้งวอลุ่มโปรด</entry>
     <entry lang="th" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">ติดตั้งโดยไม่ผ่านการยืนยันตัวตนก่อนบูต...</entry>
-    <entry lang="th" key="IDM_MOUNT_VOLUME">ติดตั้งวอลลุม</entry>
-    <entry lang="th" key="IDM_MOUNT_VOLUME_OPTIONS">ติดตั้งวอลลุมพร้อมตัวเลือก</entry>
+    <entry lang="th" key="IDM_MOUNT_VOLUME">ติดตั้งวอลุ่ม</entry>
+    <entry lang="th" key="IDM_MOUNT_VOLUME_OPTIONS">ติดตั้งวอลุ่มพร้อมตัวเลือก</entry>
     <entry lang="th" key="IDM_NEWS">ข่าวสาร</entry>
     <entry lang="th" key="IDM_ONLINE_HELP">ความช่วยเหลือออนไลน์</entry>
     <entry lang="th" key="IDM_ONLINE_TUTORIAL">บทเรียนเริ่มต้น</entry>
-    <entry lang="th" key="IDM_ORGANIZE_FAVORITES">จัดการวอลลุมโปรด...</entry>
-    <entry lang="th" key="IDM_ORGANIZE_SYSTEM_FAVORITES">จัดการวอลลุมโปรดของระบบ...</entry>
+    <entry lang="th" key="IDM_ORGANIZE_FAVORITES">จัดการวอลุ่มโปรด...</entry>
+    <entry lang="th" key="IDM_ORGANIZE_SYSTEM_FAVORITES">จัดการวอลุ่มโปรดของระบบ...</entry>
     <entry lang="th" key="IDM_PERFORMANCE_SETTINGS">การตั้งค่าประสิทธิภาพ/การกำหนดไดร์เวอร์</entry>
     <entry lang="th" key="IDM_PERMANENTLY_DECRYPT_SYS">ถอดรหัสพาร์ติชั่น/ไดรฟ์ระบบอย่างถาวร</entry>
     <entry lang="th" key="IDM_PREFERENCES">การตั้งค่า</entry>
     <entry lang="th" key="IDM_REFRESH_DRIVE_LETTERS">รีเฟรชตัวอักษรไดร์ฟ</entry>
-    <entry lang="th" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">ลบไฟล์คีย์ทั้งหมดจากวอลลุม...</entry>
+    <entry lang="th" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">ลบไฟล์คีย์ทั้งหมดจากวอลุ่ม...</entry>
     <entry lang="th" key="IDM_RESTORE_VOL_HEADER">คืนค่าดาวน์โหลด...</entry>
     <entry lang="th" key="IDM_RESUME_INTERRUPTED_PROC">ดำเนินการต่อกระบดที่ถูกขัดจังหวะ</entry>
     <entry lang="th" key="IDM_SELECT_DEVICE">เลือกอุปกรณ์...</entry>
@@ -250,27 +250,27 @@
     <entry lang="th" key="IDM_SYSENC_SETTINGS">การตั้งค่าการเข้ารหัสระบบ</entry>
     <entry lang="th" key="IDM_SYSTEM_ENCRYPTION_STATUS">สถานะการเข้ารหัสระบบ</entry>
     <entry lang="th" key="IDM_SYS_ENC_SETTINGS">ตั้งค่า</entry>
-    <entry lang="th" key="IDM_SYS_FAVORITES_SETTINGS">วอลลุมโปรดของระบบ</entry>
+    <entry lang="th" key="IDM_SYS_FAVORITES_SETTINGS">วอลุ่มโปรดของระบบ</entry>
     <entry lang="th" key="IDM_TC_DOWNLOADS">ดาวน์โหลด</entry>
     <entry lang="th" key="IDM_TEST_VECTORS">ตัวแปรทดสอบ...</entry>
     <entry lang="th" key="IDM_TOKEN_PREFERENCES">โทเค็นความปลอดภัย...</entry>
     <entry lang="th" key="IDM_TRAVELER">ตั้งค่าแผ่นดิสก์ตัวแทน...</entry>
-    <entry lang="th" key="IDM_UNMOUNTALL">ปลดวอลลุมทั้งหมดที่ติดตั้งอยู่</entry>
-    <entry lang="th" key="IDM_UNMOUNT_VOLUME">ปลดวอลลุม</entry>
+    <entry lang="th" key="IDM_UNMOUNTALL">ปลดวอลุ่มทั้งหมดที่ติดตั้งอยู่</entry>
+    <entry lang="th" key="IDM_UNMOUNT_VOLUME">ปลดวอลุ่ม</entry>
     <entry lang="th" key="IDM_VERIFY_RESCUE_DISK">ยืนยันแผ่นดิสก์กู้คืน</entry>
     <entry lang="th" key="IDM_VERIFY_RESCUE_DISK_ISO">ยืนยันภาพแผ่นดิสก์กู้คืน</entry>
     <entry lang="th" key="IDM_VERSION_HISTORY">ประวัติรุ่น</entry>
-    <entry lang="th" key="IDM_VOLUME_EXPANDER">ขยายวอลลุม</entry>
-    <entry lang="th" key="IDM_VOLUME_PROPERTIES">คุณสมบัติวอลลุม</entry>
-    <entry lang="th" key="IDM_VOLUME_WIZARD">ตัวช่วยสร้างวอลลุม</entry>
+    <entry lang="th" key="IDM_VOLUME_EXPANDER">ขยายวอลุ่ม</entry>
+    <entry lang="th" key="IDM_VOLUME_PROPERTIES">คุณสมบัติวอลุ่ม</entry>
+    <entry lang="th" key="IDM_VOLUME_WIZARD">ตัวช่วยสร้างวอลุ่ม</entry>
     <entry lang="th" key="IDM_WEBSITE">เว็บไซต์ VeraCrypt</entry>
     <entry lang="th" key="IDM_WIPE_CACHE">ล้างแคชที่เก็บรหัสผ่าน</entry>
     <entry lang="th" key="IDOK">ตกลง</entry>
     <entry lang="th" key="IDT_ACCELERATION_OPTIONS">เร่งความเร็วโดยใช้ฮาร์ดแวร์</entry>
     <entry lang="th" key="IDT_ASSIGN_HOTKEY">คีย์ลัด</entry>
     <entry lang="th" key="IDT_AUTORUN">การกำหนดค่า AutoRun (autorun.inf)</entry>
-    <entry lang="th" key="IDT_AUTO_UNMOUNT">ปลดวอลลุมโดยอัตโนมัติ</entry>
-    <entry lang="th" key="IDT_AUTO_UNMOUNT_ON">ปลดวอลลุมทั้งหมดเมื่อ:</entry>
+    <entry lang="th" key="IDT_AUTO_UNMOUNT">ปลดวอลุ่มโดยอัตโนมัติ</entry>
+    <entry lang="th" key="IDT_AUTO_UNMOUNT_ON">ปลดวอลุ่มทั้งหมดเมื่อ:</entry>
     <entry lang="th" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">ตัวเลือกหน้าจอของโหลดเดอร์ก่อนจะบูต</entry>
     <entry lang="th" key="IDT_CONFIRM_PASSWORD">ยืนยันรหัสผ่าน:</entry>
     <entry lang="th" key="IDT_CURRENT">ปัจจุบัน</entry>
@@ -279,13 +279,13 @@
     <entry lang="th" key="IDT_UNMOUNT_ACTION">ตัวเลือกคีย์ลัด</entry>
     <entry lang="th" key="IDT_DRIVER_OPTIONS">การกำหนดค่าไดรเวอร์</entry>
     <entry lang="th" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">เปิดใช้งานการควบคุมดิสก์เสริม</entry>
-    <entry lang="th" key="IDT_FAVORITE_LABEL">ป้ายชื่อวอลลุมโปรดที่เลือก:</entry>
+    <entry lang="th" key="IDT_FAVORITE_LABEL">ป้ายชื่อวอลุ่มโปรดที่เลือก:</entry>
     <entry lang="th" key="IDT_FILE_SETTINGS">การตั้งค่าไฟล์</entry>
     <entry lang="th" key="IDT_HOTKEY_KEY">คีย์ที่กำหนด:</entry>
     <entry lang="th" key="IDT_HW_AES_SUPPORTED_BY_CPU">โปรเซสเซอร์ (CPU) ในคอมพิวเตอร์นี้สนับสนุนการเร่งการเข้ารหัส AES ด้วยฮาร์ดแวร์:</entry>
     <entry lang="th" key="IDT_LOGON">การดำเนินการเมื่อเข้าสู่ระบบ Windows</entry>
     <entry lang="th" key="IDT_MINUTES">นาที</entry>
-    <entry lang="th" key="IDT_MOUNT_LETTER">ติดตั้งวอลลุมเป็นไดรฟ์ตัวอักษร:</entry>
+    <entry lang="th" key="IDT_MOUNT_LETTER">ติดตั้งวอลุ่มเป็นไดรฟ์ตัวอักษร:</entry>
     <entry lang="th" key="IDT_MOUNT_SETTINGS">การตั้งค่าการติดตั้ง</entry>
     <entry lang="th" key="IDT_NEW">ใหม่</entry>
     <entry lang="th" key="IDT_NEW_PASSWORD">รหัสผ่านใหม่:</entry>
@@ -297,10 +297,10 @@
     <entry lang="th" key="IDT_SECURITY_OPTIONS">ตัวเลือกความปลอดภัย</entry>
     <entry lang="th" key="IDT_EMV_OPTIONS">ตัวเลือก EMV</entry>
     <entry lang="th" key="IDT_TASKBAR_ICON">งานพื้นหลังของ VeraCrypt</entry>
-    <entry lang="th" key="IDT_TRAVELER_MOUNT">วอลลุม VeraCrypt ที่จะติดตั้ง (อ้างอิงจากรากของแผ่นดิสก์ตัวแทน):</entry>
+    <entry lang="th" key="IDT_TRAVELER_MOUNT">วอลุ่ม VeraCrypt ที่จะติดตั้ง (อ้างอิงจากรากของแผ่นดิสก์ตัวแทน):</entry>
     <entry lang="th" key="IDT_TRAVEL_INSERTION">เมื่อใส่แผ่นดิสก์ตัวแทน: </entry>
     <entry lang="th" key="IDT_TRAVEL_ROOT">สร้างไฟล์ของแผ่นดิสก์ตัวแทนที่ (ไดเรกทอรีรากของแผ่นดิสก์ตัวแทน):</entry>
-    <entry lang="th" key="IDT_VOLUME">วอลลุม</entry>
+    <entry lang="th" key="IDT_VOLUME">วอลุ่ม</entry>
     <entry lang="th" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
     <entry lang="th" key="IDC_ADD_KEYFILE_PATH">เพิ่ม &amp;เส้นทาง...</entry>
     <entry lang="th" key="IDC_AUTO">ทดสอบทั้งหมดโดยอัตโนมัติ</entry>
@@ -319,18 +319,18 @@
     <entry lang="th" key="IDC_KEYFILES_HIDVOL_PROT">คีย์ไฟล์...</entry>
     <entry lang="th" key="IDC_KEYREMOVE">ลบ</entry>
     <entry lang="th" key="IDC_KEYREMOVEALL">ลบทั้งหมด</entry>
-    <entry lang="th" key="IDC_LINK_HIDVOL_PROTECTION_INFO">การป้องกันของวอลลุมที่ซ่อนอยู่คืออะไร?</entry>
+    <entry lang="th" key="IDC_LINK_HIDVOL_PROTECTION_INFO">การป้องกันของวอลุ่มที่ซ่อนอยู่คืออะไร?</entry>
     <entry lang="th" key="IDC_LINK_KEYFILES_INFO">ข้อมูลเพิ่มเติมเกี่ยวกับไฟล์คีย์</entry>
-    <entry lang="th" key="IDC_MOUNT_REMOVABLE">ติดตั้งวอลลุมเป็นสื่อที่ถอดออกได้</entry>
+    <entry lang="th" key="IDC_MOUNT_REMOVABLE">ติดตั้งวอลุ่มเป็นสื่อ&amp;ที่ถอดออกได้</entry>
     <entry lang="th" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">ติดตั้งพาร์ติชั่นโดยใช้การเข้ารหัสระบบโดยไม่ต้องยืนยันตัวตนก่อนบูต</entry>
     <entry lang="th" key="IDC_PARALLELIZATION_LABEL_LINK">การทำงานแบบขนาน:</entry>
     <entry lang="th" key="IDC_PERFORM_BENCHMARK">ตัววัดประสิทธิภาพ</entry>
     <entry lang="th" key="IDC_PRINT">พิมพ์</entry>
-    <entry lang="th" key="IDC_PROTECT_HIDDEN_VOL">ป้องกันวอลลุมที่ซ่อนอยู่จากการเสียหายที่เกิดจากการเขียนบนวอลลุมภายนอก</entry>
+    <entry lang="th" key="IDC_PROTECT_HIDDEN_VOL">&amp;ป้องกันวอลุ่มที่ซ่อนอยู่จากการเสียหายที่เกิดจากการเขียนบนวอลุ่มภายนอก</entry>
     <entry lang="th" key="IDC_RESET">รีเซ็ต</entry>
     <entry lang="th" key="IDC_SHOW_PASSWORD_MO">แสดงรหัสผ่าน</entry>
     <entry lang="th" key="IDC_TOKEN_FILES_ADD">เพิ่มไฟล์โทเค็น...</entry>
-    <entry lang="th" key="IDC_USE_EMBEDDED_HEADER_BAK">ใช้หัวของสำรองที่ฝังอยู่ภายในวอลลุมถ้ามี</entry>
+    <entry lang="th" key="IDC_USE_EMBEDDED_HEADER_BAK">ใช้หัวของสำรองที่ฝังอยู่ภายใน&amp;วอลุ่มถ้ามี</entry>
     <entry lang="th" key="IDC_XTS_MODE_ENABLED">โหมด XTS</entry>
     <entry lang="th" key="IDD_ABOUT_DLG">เกี่ยวกับ VeraCrypt</entry>
     <entry lang="th" key="IDD_BENCHMARK_DLG">VeraCrypt - ตัววัดประสิทธิภาพของอัลกอริธึม</entry>
@@ -350,11 +350,11 @@
     <entry lang="th" key="IDT_BOX_BENCHMARK_INFO">ความเร็วได้รับผลกระทบจากภาระการใช้งาน CPU และลักษณะของอุปกรณ์จัดเก็บข้อมูล\n\nการทดสอบเหล่านี้ดำเนินการใน RAM.</entry>
     <entry lang="th" key="IDT_BUFFER_SIZE">ขนาดบัฟเฟอร์:</entry>
     <entry lang="th" key="IDT_CIPHER">รหัสลับ:</entry>
-    <entry lang="th" key="IDT_HIDDEN_PROT_PASSWD">รหัสผ่านไปยังวอลลุมที่ซ่อน:\n(ถ้าว่างจะใช้แคช)</entry>
-    <entry lang="th" key="IDT_HIDDEN_VOL_PROTECTION">การป้องกันวอลลุมที่ซ่อน</entry>
+    <entry lang="th" key="IDT_HIDDEN_PROT_PASSWD">รหัส&amp;ผ่านไปยังวอลุ่มที่ซ่อน:\n(ถ้าว่างจะใช้แคช)</entry>
+    <entry lang="th" key="IDT_HIDDEN_VOL_PROTECTION">การป้องกันวอลุ่มที่ซ่อน</entry>
     <entry lang="th" key="IDT_KEY">ขนาดคีย์:</entry>
     <entry lang="th" key="IDT_KEYFILE_GENERATOR_NOTE">สำคัญ: เคลื่อนเมาส์ของคุณแบบสุ่มมากที่สุดในหน้าต่างนี้ ยิ่งคุณเคลื่อนนานเท่าไหร่ก็ยิ่งดีเท่านั้น ซึ่งจะเพิ่มความแข็งแกร่งของการเข้ารหัสด้วยไฟล์คีย์</entry>
-    <entry lang="th" key="IDT_KEYFILE_WARNING">คำเตือน: ถ้าคุณสูญเสียไฟล์คีย์หรือถ้าไบต์ตัวแรก 1024 ของไฟล์คีย์ถูกเปลี่ยน จะไม่สามารถติดตั้งวอลลุมที่ใช้ไฟล์คีย์นั้นได้</entry>
+    <entry lang="th" key="IDT_KEYFILE_WARNING">คำเตือน: ถ้าคุณสูญเสียไฟล์คีย์หรือถ้าไบต์ตัวแรก 1024 ของไฟล์คีย์ถูกเปลี่ยน จะไม่สามารถติดตั้งวอลุ่มที่ใช้ไฟล์คีย์นั้นได้</entry>
     <entry lang="th" key="IDT_KEY_UNIT">บิต</entry>
     <entry lang="th" key="IDT_NUMBER_KEYFILES">จำนวนไฟล์คีย์:</entry>
     <entry lang="th" key="IDT_KEYFILES_SIZE">ขนาดไฟล์คีย์:</entry>
@@ -378,23 +378,23 @@
     <entry lang="th" key="IDT_TOKEN_KEYFILE_NAME">ชื่อไฟล์คีย์:</entry>
     <entry lang="th" key="IDT_XTS_MODE">โหมด XTS</entry>
     <entry lang="th" key="MENU_SYSTEM_ENCRYPTION">ระบบ</entry>
-    <entry lang="th" key="MENU_VOLUMES">วอลลุม</entry>
+    <entry lang="th" key="MENU_VOLUMES">&amp;วอลุ่ม</entry>
     <entry lang="th" key="MENU_FAVORITES">โปรด</entry>
     <entry lang="th" key="MENU_TOOLS">เครื่องมือ</entry>
     <entry lang="th" key="MENU_SETTINGS">การตั้งค่า</entry>
     <entry lang="th" key="MENU_HELP">ช่วยเหลือ</entry>
     <entry lang="th" key="MENU_WEBSITE">  หน้าแรก  </entry>
     <entry lang="th" key="ABOUTBOX">เกี่ยวกับ...</entry>
-    <entry lang="th" key="ACCESSMODEFAIL">ไม่สามารถเปลี่ยนแปลงคุณสมบัติการอ่านอย่างเดียวของวอลลุมเก่าของคุณได้ โปรดตรวจสอบการอนุญาตการเข้าถึงไฟล์</entry>
+    <entry lang="th" key="ACCESSMODEFAIL">ไม่สามารถเปลี่ยนแปลงคุณสมบัติการอ่านอย่างเดียวของวอลุ่มเก่าของคุณได้ โปรดตรวจสอบการอนุญาตการเข้าถึงไฟล์</entry>
     <entry lang="th" key="ACCESS_DENIED">ข้อผิดพลาด: การเข้าถึงถูกปฏิเสธ\n\nพาร์ติชั่นที่คุณกำลังพยายามเข้าถึงนั้นยาวเกิน 0 เซกเตอร์, หรือมันอาจเป็นอุปกรณ์บูต</entry>
     <entry lang="th" key="ADMINISTRATOR">ผู้ดูแลระบบ</entry>
     <entry lang="th" key="ADMIN_PRIVILEGES_DRIVER">ในการโหลดไดร์เวอร์ VeraCrypt คุณต้องล็อกอินเข้าสู่บัญชีที่มีสิทธิ์ของผู้ดูแลระบบ</entry>
-    <entry lang="th" key="ADMIN_PRIVILEGES_WARN_DEVICES">โปรดทราบว่าในการเข้ารหัส, ถอดรหัส หรือฟอร์แมตพาร์ติชั่น/อุปกรณ์ คุณต้องล็อกอินเข้าสู่บัญชีที่มีสิทธิ์ของผู้ดูแลระบบ\n\nข้อมูลนี้ไม่รวมไฟล์วอลลุมที่โฮสต์</entry>
+    <entry lang="th" key="ADMIN_PRIVILEGES_WARN_DEVICES">โปรดทราบว่าในการเข้ารหัส, ถอดรหัส หรือฟอร์แมตพาร์ติชั่น/อุปกรณ์ คุณต้องล็อกอินเข้าสู่บัญชีที่มีสิทธิ์ของผู้ดูแลระบบ\n\nข้อมูลนี้ไม่รวมไฟล์วอลุ่มที่โฮสต์</entry>
     <entry lang="th" key="ADMIN_PRIVILEGES_WARN_MANAGE_VOLUME">ไม่สามารถเปิดใช้งานการสร้างไฟล์ได้อย่างรวดเร็ว: ต้องการสิทธิ์ของผู้ดูแลระบบ\nโปรดเริ่มโปรแกรมนี้ใหม่ในฐานะผู้ดูแลระบบเพื่อเปิดใช้งานฟังก์ชั่นนี้\n\nคุณต้องการดำเนินการต่อโดยไม่มีการสร้างไฟล์อย่างรวดเร็วหรือไม่</entry>
-    <entry lang="th" key="ADMIN_PRIVILEGES_WARN_HIDVOL">ในการสร้างวอลลุมที่ซ่อน คุณต้องล็อกอินเข้าสู่บัญชีที่มีสิทธิ์ของผู้ดูแลระบบ\n\nดำเนินการต่อหรือไม่</entry>
-    <entry lang="th" key="ADMIN_PRIVILEGES_WARN_NTFS">โปรดทราบว่าในการฟอร์แมตวอลลุมเป็น NTFS/exFAT/ReFS คุณต้องล็อกอินเข้าสู่บัญชีที่มีสิทธิ์ของผู้ดูแลระบบ\n\nโดยไม่มีสิทธิ์ของผู้ดูแลระบบ คุณสามารถฟอร์แมตวอลลุมเป็น FAT</entry>
+    <entry lang="th" key="ADMIN_PRIVILEGES_WARN_HIDVOL">ในการสร้างวอลุ่มที่ซ่อน คุณต้องล็อกอินเข้าสู่บัญชีที่มีสิทธิ์ของผู้ดูแลระบบ\n\nดำเนินการต่อหรือไม่</entry>
+    <entry lang="th" key="ADMIN_PRIVILEGES_WARN_NTFS">โปรดทราบว่าในการฟอร์แมตวอลุ่มเป็น NTFS/exFAT/ReFS คุณต้องล็อกอินเข้าสู่บัญชีที่มีสิทธิ์ของผู้ดูแลระบบ\n\nโดยไม่มีสิทธิ์ของผู้ดูแลระบบ คุณสามารถฟอร์แมตวอลุ่มเป็น FAT</entry>
     <entry lang="th" key="AES_HELP">รหัสลับที่ได้รับการอนุมัติโดยมาตรฐาน FIPS (Rijndael, เผยแพร่ในปี 1998) ที่สามารถใช้โดยหน่วยงานรัฐบาลของสหรัฐอเมริกาเพื่อปกป้องข้อมูลที่เป็นความลับสูงสุดได้ เคล็ดลับ 256 บิต, บล็อก 128 บิต, 14 รอบ (AES-256) โหมดการทำงานคือ XTS</entry>
-    <entry lang="th" key="ALREADY_MOUNTED">วอลลุมถูกติดตั้งแล้ว</entry>
+    <entry lang="th" key="ALREADY_MOUNTED">วอลุ่มถูกติดตั้งแล้ว</entry>
     <entry lang="th" key="ERR_SELF_TESTS_FAILED">คำเตือน: อย่างน้อยหนึ่งอัลกอริธึมหรือแฮชมีข้อผิดพลาดในการตรวจสอบตนเองอัตโนมัติ\n\nการติดตั้ง VeraCrypt อาจเสียหาย</entry>
     <entry lang="th" key="ERR_NOT_ENOUGH_RANDOM_DATA">คำเตือน: มีข้อมูลไม่เพียงพอในพูลของเครื่องกำเนิดเลขสุ่มเพื่อให้ข้อมูลสุ่มตามที่ขอ.\n\nคุณไม่ควรดำเนินการต่อไป. กรุณาเลือก 'รายงานบั๊ก' จากเมนูความช่วยเหลือ, และรายงานข้อผิดพลาดนี้.</entry>
     <entry lang="th" key="ERR_HARDWARE_ERROR">ไดรฟ์ถูกเสียหาย (มีข้อบกพร่องทางกายภาพ) หรือสายเคเบิลเสียหาย, หรือหน่วยความจำทำงานผิดปกติ.\n\nโปรดทราบว่านี่เป็นปัญหาของฮาร์ดแวร์ของคุณ, ไม่ใช่ปัญหาของ VeraCrypt. ดังนั้นโปรดอย่ารายงานว่ามันเป็นบั๊ก/ปัญหาใน VeraCrypt และโปรดอย่าขอความช่วยเหลือเกี่ยวกับเรื่องนี้ในฟอรัมของ VeraCrypt. กรุณาติดต่อทีมสนับสนุนเทคนิคของผู้จำหน่ายคอมพิวเตอร์ของคุณสำหรับความช่วยเหลือ. ขอบคุณ.\n\nหมายเหตุ: ถ้าข้อผิดพลาดเกิดขึ้นซ้ำๆ ที่ที่เดียวกัน, มันเป็นไปได้มากที่จะเกิดจากบล็อกดิสก์ที่ไม่ดี, ซึ่งควรจะสามารถแก้ไขได้โดยใช้ซอฟต์แวร์ของบุคคลที่สาม (โปรดทราบว่า, ในหลายกรณี, คำสั่ง 'chkdsk /r' ไม่สามารถแก้ไขได้เพราะมันทำงานเฉพาะที่ระดับระบบไฟล์; ในบางกรณี, เครื่องมือ 'chkdsk' ไม่สามารถตรวจจับได้ด้วยซ้ำ).</entry>
@@ -405,16 +405,16 @@
     <entry lang="th" key="CANCEL">ยกเลิก</entry>
     <entry lang="th" key="CANNOT_CALC_SPACE">ไม่สามารถเข้าถึงอุปกรณ์ได้ ตรวจสอบให้แน่ใจว่าอุปกรณ์ที่เลือกมีอยู่และไม่ถูกใช้โดยระบบ</entry>
     <entry lang="th" key="CAPSLOCK_ON">คำเตือน: Caps Lock เปิดอยู่ อาจทำให้คุณป้อนรหัสผ่านผิด</entry>
-    <entry lang="th" key="VOLUME_TYPE_TITLE">ประเภทวอลลุม</entry>
-    <entry lang="th" key="HIDDEN_VOLUME_TYPE_HELP">อาจมีสถานการณ์ที่คุณถูกบังคับให้เปิดเผยรหัสผ่านสำหรับวอลลุมเข้ารหัส ผู้ใช้งานระดับสูงมักไม่สามารถปฏิเสธการเปิดเผยรหัสผ่านได้ (เช่น เนื่องจากการข่มขู่) การใช้วอลลุ่มที่ซ่อนช่วยแก้ปัญหานี้ได้โดยไม่ต้องเปิดเผยรหัสผ่าน</entry>
-    <entry lang="th" key="NORMAL_VOLUME_TYPE_HELP">เลือกตัวเลือกนี้หากคุณต้องการสร้างวอลลุ่ม VeraCrypt ปกติ</entry>
-    <entry lang="th" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">โปรดทราบว่าหากคุณต้องการติดตั้งระบบปฏิบัติการในวอลลุมที่มีพาร์ติชั่นที่ซ่อน การเข้ารหัสไดรฟ์ระบบทั้งหมดด้วยคีย์เดียวกันไม่สามารถทำได้</entry>
-    <entry lang="th" key="CIPHER_HIDVOL_HOST_TITLE">ตัวเลือกการเข้ารหัสวอลลุมภายนอก</entry>
-    <entry lang="th" key="CIPHER_HIDVOL_TITLE">ตัวเลือกการเข้ารหัสวอลลุมที่ซ่อน</entry>
+    <entry lang="th" key="VOLUME_TYPE_TITLE">ประเภทวอลุ่ม</entry>
+    <entry lang="th" key="HIDDEN_VOLUME_TYPE_HELP">อาจมีสถานการณ์ที่คุณถูกบังคับให้เปิดเผยรหัสผ่านสำหรับวอลุ่มเข้ารหัส ผู้ใช้งานระดับสูงมักไม่สามารถปฏิเสธการเปิดเผยรหัสผ่านได้ (เช่น เนื่องจากการข่มขู่) การใช้วอลุ่มที่ซ่อนช่วยแก้ปัญหานี้ได้โดยไม่ต้องเปิดเผยรหัสผ่าน</entry>
+    <entry lang="th" key="NORMAL_VOLUME_TYPE_HELP">เลือกตัวเลือกนี้หากคุณต้องการสร้างวอลุ่ม VeraCrypt ปกติ</entry>
+    <entry lang="th" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">โปรดทราบว่าหากคุณต้องการติดตั้งระบบปฏิบัติการในวอลุ่มที่มีพาร์ติชั่นที่ซ่อน การเข้ารหัสไดรฟ์ระบบทั้งหมดด้วยคีย์เดียวกันไม่สามารถทำได้</entry>
+    <entry lang="th" key="CIPHER_HIDVOL_HOST_TITLE">ตัวเลือกการเข้ารหัสวอลุ่มภายนอก</entry>
+    <entry lang="th" key="CIPHER_HIDVOL_TITLE">ตัวเลือกการเข้ารหัสวอลุ่มที่ซ่อน</entry>
     <entry lang="th" key="CIPHER_TITLE">ตัวเลือกการเข้ารหัส</entry>
-    <entry lang="th" key="CLEAN_WINMRU_FAILED">คำเตือน: ลบเส้นทางของวอลลุม/ไฟล์คีย์ทำงานล้มเหลวที่เลือกครั้งสุดท้าย</entry>
+    <entry lang="th" key="CLEAN_WINMRU_FAILED">คำเตือน: ลบเส้นทางของวอลุ่ม/ไฟล์คีย์ทำงานล้มเหลวที่เลือกครั้งสุดท้าย</entry>
     <entry lang="th" key="COMPRESSION_NOT_SUPPORTED">ข้อผิดพลาด: คอนเทนเนอร์ถูกบีบอัดที่ระดับระบบไฟล์ VeraCrypt ไม่สนับสนุนคอนเทนเนอร์บีบอัด โปรดปิดการบีบอัดสำหรับคอนเทนเนอร์:</entry>
-    <entry lang="th" key="CREATE_FAILED">สร้างวอลลุมล้มเหลว</entry>
+    <entry lang="th" key="CREATE_FAILED">สร้างวอลุ่ม %s ล้มเหลว</entry>
     <entry lang="th" key="DEVICE_FREE_BYTES">ขนาดของ</entry>
     <entry lang="th" key="DEVICE_FREE_KB">ขนาดของ</entry>
     <entry lang="th" key="DEVICE_FREE_MB">ขนาดของ</entry>
@@ -427,18 +427,18 @@
     <entry lang="th" key="INPLACE_ENC_CANT_LOCK_OR_UNMOUNT_FILESYS">ข้อผิดพลาด: ระบบไฟล์ไม่สามารถล็อกและ/หรือถอดการติดตั้งได้อาจถูกใช้งานระบบหรือแอปพลิเคชัน (เช่นโปรแกรมแอนตี้ไวรัส) การเข้ารหัสพาร์ติชั่นอาจทำให้ข้อมูลเสียหายและระบบไม่เสถียร โปรดปิดแอปพลิเคชันที่อาจใช้งานระบบไฟล์และลองอีกครั้ง:</entry>
     <entry lang="th" key="DEVICE_IN_USE_INFO">คำเตือน: อุปกรณ์/พาร์ติชั่นบางตัวที่ติดตั้งอยู่อาจถูกใช้งานแล้ว</entry>
     <entry lang="th" key="DEVICE_PARTITIONS_ERR">อุปกรณ์ที่เลือกมีพาร์ติชั่น\n\nการฟอร์แมตอุปกรณ์อาจทำให้ระบบไม่เสถียรและ/หรือข้อมูลเสียหาย โปรดเลือกพาร์ติชั่นทั้งหมดบนอุปกรณ์หรือเลือกลบพาร์ติชั่นทั้งหมดบนอุปกรณ์เพื่อให้ VeraCrypt สามารถฟอร์แมตได้อย่างปลอดภัย</entry>
-    <entry lang="th" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">อุปกรณ์ที่เลือกไม่มีการฟอร์แมตสามารถสร้างวอลลุ่ม VeraCrypt ได้เฉพาะในอุปกรณ์ที่ไม่มีพาร์ติชั่น\n\nหากคุณต้องการเข้ารหัสอุปกรณ์สามารถทำได้เฉพาะในกรณีที่ติดตั้งระบบ Windows และบูตจากระบบเท่านั้น</entry>
+    <entry lang="th" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">อุปกรณ์ที่ไม่ใช่ระบบที่เลือกมีพาร์ติชั่นอยู่\n\nสามารถสร้างวอลุ่ม VeraCrypt แบบเข้ารหัสที่โฮสต์บนอุปกรณ์ได้ภายในอุปกรณ์ที่ไม่มีพาร์ติชั่นเท่านั้น (รวมถึงฮาร์ดดิสก์และไดรฟ์โซลิดสเตต) อุปกรณ์ที่มีพาร์ติชั่นสามารถเข้ารหัสทั้งอุปกรณ์แบบเข้าที่ (โดยใช้มาสเตอร์คีย์เดียว) ได้เฉพาะเมื่อเป็นไดรฟ์ที่ติดตั้ง Windows และใช้บูต Windows เท่านั้น\n\nหากคุณต้องการเข้ารหัสอุปกรณ์ที่ไม่ใช่ระบบที่เลือกโดยใช้มาสเตอร์คีย์เดียว คุณต้องลบพาร์ติชั่นทั้งหมดบนอุปกรณ์ก่อน เพื่อให้ VeraCrypt สามารถฟอร์แมตได้อย่างปลอดภัย (การฟอร์แมตอุปกรณ์ที่มีพาร์ติชั่นอาจทำให้ระบบไม่เสถียรและ/หรือข้อมูลเสียหาย) หรือคุณสามารถเข้ารหัสแต่ละพาร์ติชั่นบนไดรฟ์แยกกันได้ (แต่ละพาร์ติชั่นจะถูกเข้ารหัสโดยใช้มาสเตอร์คีย์คนละชุด)\n\nหมายเหตุ: หากคุณต้องการลบพาร์ติชั่นทั้งหมดจากดิสก์ GPT คุณอาจต้องแปลงดิสก์เป็น MBR (เช่น ใช้เครื่องมือ Computer Management) เพื่อให้สามารถลบพาร์ติชั่นที่ซ่อนอยู่ได้</entry>
     <entry lang="th" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">คำเตือน: หากคุณเข้ารหัสอุปกรณ์ทั้งหมด (แทนการเข้ารหัสพาร์ติชั่นเท่านั้น) ระบบปฏิบัติการจะเห็นว่าเป็นอุปกรณ์ใหม่ว่างและไม่มีฟอร์แมต (เนื่องจากไม่มีตารางพาร์ติชั่น) และอาจสอบถามว่าคุณต้องการทำลายข้อมูลหรือไม่?</entry>
-    <entry lang="th" key="AFTER_FORMAT_DRIVE_LETTER_WARN">สำคัญ: โปรดทราบว่าวอลลุ่มนี้ไม่สามารถติดตั้ง/เข้าถึงได้โดยใช้ตัวอักษรไดรฟ์ %c ซึ่งถูกกำหนดในปัจจุบัน</entry>
-    <entry lang="th" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">การเข้ารหัสในสถานที่สำหรับวอลลุ่มที่ไม่ใช่ระบบไม่สนับสนุนเวอร์ชันที่ใช้อยู่:</entry>
+    <entry lang="th" key="AFTER_FORMAT_DRIVE_LETTER_WARN">สำคัญ: โปรดทราบว่าวอลุ่มนี้ไม่สามารถเมานต์/เข้าถึงได้โดยใช้ตัวอักษรไดรฟ์ %c: ที่ถูกกำหนดให้ในขณะนี้!\n\nหากต้องการเมานต์วอลุ่มนี้ ให้คลิก 'เมานต์อุปกรณ์อัตโนมัติ' ในหน้าต่างหลักของ VeraCrypt (หรือในหน้าต่างหลักของ VeraCrypt ให้คลิก 'เลือกอุปกรณ์' จากนั้นเลือกพาร์ติชั่น/อุปกรณ์นี้ แล้วคลิก 'เมานต์') วอลุ่มจะถูกเมานต์ด้วยตัวอักษรไดรฟ์อื่น ซึ่งคุณเลือกได้จากรายการในหน้าต่างหลักของ VeraCrypt\n\nควรใช้ตัวอักษรไดรฟ์เดิม %c: เฉพาะเมื่อคุณต้องการลบการเข้ารหัสออกจากพาร์ติชั่น/อุปกรณ์เท่านั้น (เช่น เมื่อไม่ต้องการการเข้ารหัสอีกต่อไป) ในกรณีดังกล่าว ให้คลิกขวาที่ตัวอักษรไดรฟ์ %c: ในรายการ 'Computer' (หรือ 'My Computer') แล้วเลือก 'Format' มิฉะนั้นไม่ควรใช้ตัวอักษรไดรฟ์ %c: เลย (เว้นแต่คุณจะลบออกตามที่อธิบายไว้ เช่น ใน FAQ ของ VeraCrypt แล้วกำหนดให้พาร์ติชั่น/อุปกรณ์อื่น)</entry>
+    <entry lang="th" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">การเข้ารหัสแบบเข้าที่ของวอลุ่มที่ไม่ใช่ระบบไม่รองรับในเวอร์ชันของระบบปฏิบัติการที่คุณกำลังใช้อยู่ (รองรับเฉพาะ Windows Vista และ Windows เวอร์ชันใหม่กว่า)\n\nเหตุผลคือ Windows เวอร์ชันนี้ไม่รองรับการย่อขนาดระบบไฟล์ (ต้องย่อขนาดระบบไฟล์เพื่อให้มีพื้นที่สำหรับส่วนหัววอลุ่มและส่วนหัวสำรอง)</entry>
     <entry lang="th" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">พาร์ติชั่นที่เลือกดูเหมือนจะไม่มีระบบไฟล์ NTFS จำเป็นต้องลดขนาดที่จัดเก็บเพื่อให้มีการตีบของส่วนหัว:</entry>
     <entry lang="th" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">พาร์ติชั่นที่เลือกดูเหมือนจะไม่มีระบบไฟล์ NTFS จำเป็นต้องลดขนาดที่จัดเก็บเพื่อให้มีการตีบของส่วนหัวและสำรองส่วนหัว:</entry>
     <entry lang="th" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">ข้อผิดพลาด: พาร์ติชั่นเล็กเกินไป VeraCrypt ไม่สามารถเข้ารหัสมันได้</entry>
-    <entry lang="th" key="INPLACE_ENC_ALTERNATIVE_STEPS">เพื่อเข้ารหัสข้อมูลบนพาร์ติชั่นนี้ โปรดทำตามขั้นตอนต่อไปนี้:\n1) สร้างวอลลุม VeraCrypt บนพาร์ติชั่น/อุปกรณ์ว่าง แล้วติดตั้ง\n2) คัดลอกไฟล์ทั้งหมดจากพาร์ติชั่นที่คุณต้องการเข้ารหัสไปยังวอลลุม VeraCrypt ที่ติดตั้งไว้ (ดังที่ได้สร้างและติดตั้งในขั้นตอนที่ 1) วิธีนี้จะสร้างข้อมูลสำรองที่เข้ารหัส\n3) สร้างวอลลุม VeraCrypt บนพาร์ติชั่นที่คุณต้องการเข้ารหัสและตรวจให้แน่ใจว่าเลือกตัวเลือก "สร้างวอลลุมเข้ารหัสและฟอร์แมต" (แทนที่จะเป็น "เข้ารหัสพาร์ติชั่นในที่นั้น") อย่างไรก็ตามจะเป็นการลบข้อมูลทั้งหมดที่เก็บไว้\n4) คัดลอกไฟล์ทั้งหมดจากวอลลุม VeraCrypt ที่สำรองไว้ (สร้างและติดตั้งในขั้นตอนที่ 1) ไปยังวอลลุม VeraCrypt ที่สร้างขึ้นใหม่ (สร้างและติดตั้งในขั้นตอนที่ 3)</entry>
-    <entry lang="th" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">VeraCrypt สามารถเข้ารหัสพาร์ติชั่น/วอลลุมระบบไดนามิก หรือไดรฟ์ระบบทั้งหมดเท่านั้น\nหากคุณต้องการสร้างวอลลุม VeraCrypt ในอุปกรณ์เดียวกันนี้ เลือกตัวเลือก "สร้างวอลลุมเข้ารหัสและฟอร์แมต" (แทนที่จะเป็น "เข้ารหัสพาร์ติชั่นในที่นั้น")</entry>
+    <entry lang="th" key="INPLACE_ENC_ALTERNATIVE_STEPS">ในการเข้ารหัสข้อมูลบนพาร์ติชั่นนี้ โปรดทำตามขั้นตอนต่อไปนี้:\n\n1) สร้างวอลุ่ม VeraCrypt บนพาร์ติชั่น/อุปกรณ์ว่าง แล้วเมานต์วอลุ่มนั้น\n\n2) คัดลอกไฟล์ทั้งหมดจากพาร์ติชั่นที่คุณต้องการเข้ารหัสไปยังวอลุ่ม VeraCrypt ที่เมานต์ไว้ (ซึ่งสร้างและเมานต์ในขั้นตอนที่ 1) วิธีนี้จะสร้างสำเนาสำรองของข้อมูลที่เข้ารหัสด้วย VeraCrypt\n\n3) สร้างวอลุ่ม VeraCrypt บนพาร์ติชั่นที่คุณต้องการเข้ารหัสเดิม และตรวจสอบให้แน่ใจว่าในตัวช่วยสร้างของ VeraCrypt คุณเลือกตัวเลือก "สร้างวอลุ่มเข้ารหัสและฟอร์แมต" (แทนตัวเลือก "เข้ารหัสพาร์ติชั่นแบบเข้าที่") โปรดทราบว่าข้อมูลทั้งหมดที่เก็บอยู่บนพาร์ติชั่นจะถูกลบ หลังจากสร้างวอลุ่มแล้ว ให้เมานต์วอลุ่มนั้น\n\n4) คัดลอกไฟล์ทั้งหมดจากวอลุ่ม VeraCrypt สำรองที่เมานต์ไว้ (สร้างและเมานต์ในขั้นตอนที่ 1) ไปยังวอลุ่ม VeraCrypt ที่เมานต์ไว้ซึ่งสร้าง (และเมานต์) ในขั้นตอนที่ 3\n\nหลังจากทำขั้นตอนเหล่านี้เสร็จ ข้อมูลจะถูกเข้ารหัส และนอกจากนี้ยังมีสำเนาสำรองของข้อมูลที่เข้ารหัสไว้ด้วย</entry>
+    <entry lang="th" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">VeraCrypt สามารถเข้ารหัสแบบเข้าที่ได้เฉพาะพาร์ติชั่น วอลุ่มแบบไดนามิก หรือไดรฟ์ระบบทั้งหมดเท่านั้น\n\nหากคุณต้องการสร้างวอลุ่ม VeraCrypt ที่เข้ารหัสภายในอุปกรณ์ที่ไม่ใช่ระบบที่เลือก ให้เลือกตัวเลือก "สร้างวอลุ่มเข้ารหัสและฟอร์แมต" (แทนตัวเลือก "เข้ารหัสพาร์ติชั่นแบบเข้าที่")</entry>
     <entry lang="th" key="INPLACE_ENC_INVALID_PATH">ข้อผิดพลาด: VeraCrypt สามารถเข้ารหัสในสถานที่เฉพาะพาร์ติชั่น ระบบไดนามิก หรือไดรฟ์ระบบทั้งหมดเท่านั้น\nโปรดตรวจสอบให้แน่ใจว่าเส้นทางที่ระบุถูกต้อง</entry>
     <entry lang="th" key="CANNOT_RESIZE_FILESYS">ข้อผิดพลาด: ไม่สามารถลดขนาดระบบไฟล์ได้ (ระบบไฟล์ต้องถูกย่อเพื่อลดพื้นที่ที่ใช้สำหรับส่วนหัวและสำรองส่วนหัว)\nหากปัญหายังคงมีอยู่ โปรดลองทำตามขั้นตอนต่อไปนี้</entry>
-    <entry lang="th" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">ข้อผิดพลาด: ไม่มีพื้นที่ว่างเพียงพอบนวอลลุมและไม่สามารถลดขนาดระบบไฟล์ได้\nกรุณาลบไฟล์ที่ไม่จำเป็นและว่างถังรีไซเคิลเพื่อที่จะเพิ่มพื้นที่ว่างถึงอย่างน้อย 256 KiB แล้วลองอีกครั้ง</entry>
+    <entry lang="th" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">ข้อผิดพลาด: ไม่มีพื้นที่ว่างเพียงพอบนวอลุ่ม จึงไม่สามารถย่อขนาดระบบไฟล์ได้ (ต้องย่อขนาดระบบไฟล์เพื่อให้มีพื้นที่สำหรับส่วนหัววอลุ่มและส่วนหัวสำรอง)\n\nโปรดลบไฟล์ที่ไม่จำเป็นและล้างถังรีไซเคิลเพื่อให้มีพื้นที่ว่างอย่างน้อย 256 KiB แล้วลองอีกครั้ง โปรดทราบว่าเนื่องจากปัญหาของ Windows พื้นที่ว่างที่ Windows Explorer รายงานอาจไม่ถูกต้องจนกว่าจะเริ่มระบบปฏิบัติการใหม่ หากการเริ่มระบบใหม่ไม่ช่วย ระบบไฟล์อาจเสียหาย ให้ลองตรวจสอบและแก้ไขข้อผิดพลาด (คลิกขวาที่ตัวอักษรไดรฟ์ที่เกี่ยวข้องในรายการ 'Computer' จากนั้นเลือก Properties &gt; Tools &gt; 'Check Now' ตรวจสอบให้แน่ใจว่าเปิดตัวเลือก 'Automatically fix file system errors' แล้วคลิก Start)\n\nหากขั้นตอนข้างต้นไม่ช่วย โปรดทำตามขั้นตอนด้านล่าง</entry>
     <entry lang="th" key="DISK_FREE_BYTES">พื้นที่ว่างบนไดรฟ์</entry>
     <entry lang="th" key="DISK_FREE_KB">พื้นที่ว่างบนไดรฟ์ (KB)</entry>
     <entry lang="th" key="DISK_FREE_MB">พื้นที่ว่างบนไดรฟ์ (MB)</entry>
@@ -470,23 +470,23 @@
     <entry lang="th" key="PERMANENTLY_DECRYPT">ถอดรหัสถาวร</entry>
     <entry lang="th" key="EXIT">ออก</entry>
     <entry lang="th" key="EXT_PARTITION">โปรดสร้างไดรฟ์เพื่อพาร์ติชั่นขยาย และลองใหม่อีกครั้ง</entry>
-    <entry lang="th" key="FILE_HELP">วอลลุม VeraCrypt สามารถอยู่ภายในไฟล์ (เรียกว่าคอนเทนเนอร์ VeraCrypt) ที่สามารถอยู่บนฮาร์ดไดรฟ์</entry>
-    <entry lang="th" key="FILE_HELP_HIDDEN_HOST_VOL">เลือกตำแหน่งของวอลลุมภายนอกที่จะสร้าง ภายในวอลลุมนี้จะมีวอลลุมที่ซ่อนอยู่จะถูกสร้างขึ้นภายหลัง</entry>
-    <entry lang="th" key="DEVICE_HELP">วอลลุม VeraCrypt ที่มีอุปกรณ์เป็นโฮสต์สามารถสร้างได้ภายในพาร์ติชั่นบนฮาร์ดไดรฟ์, ไดรฟ์ SSD, USB memory sticks</entry>
-    <entry lang="th" key="DEVICE_HELP_NO_INPLACE">สามารถสร้างวอลลุม VeraCrypt ที่มีอุปกรณ์เป็นโฮสต์ภายในพาร์ติชั่นบนฮาร์ดไดรฟ์, ไดรฟ์ SSD, USB memory sticks</entry>
-    <entry lang="th" key="DEVICE_HELP_HIDDEN_HOST_VOL">\nเลือกตำแหน่งวอลลุมภายนอกที่จะสร้าง ภายในวอลลุมนี้จะมีวอลลุมที่ซ่อนอยู่จะถูกสร้างขึ้นภายหลัง\n\nสามารถสร้างภายในพาร์ติชั่นบนฮาร์ดไดรฟ์, ไดรฟ์ SSD, USB memory sticks</entry>
-    <entry lang="th" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\nเลือกตำแหน่งของวอลลุม VeraCrypt ภายในที่จะสร้างวอลลุมที่ซ่อน</entry>
-    <entry lang="th" key="FILE_IN_USE">คำเตือน: ไฟล์/อุปกรณ์โฮสต์ถูกใช้แล้ว\n\n\\นีน่าไปป์ไลน์าาาวทุกแอปพลิเคชันที่อาจใช้ไฟล์/อุปกรณ์นั้นๆ (ตัวอย่างเช่น โปรแกรมแอนตี้ไวรัสหรือสำรองข้อมูล) ควรถูกปิดก่อนติดตั้งวอลลุม</entry>
-    <entry lang="th" key="FILE_IN_USE_FAILED">ข้อผิดพลาด: ไม่สามารถติดตั้งวอลลุม ไฟล์/อุปกรณ์โฮสต์ถูกใช้แล้ว ไม่สามารถติดตั้งได้โดยไม่มีการเข้าถึงแบบ exclusive</entry>
+    <entry lang="th" key="FILE_HELP">วอลุ่ม VeraCrypt สามารถอยู่ภายในไฟล์ได้ (เรียกว่าคอนเทนเนอร์ VeraCrypt) ซึ่งไฟล์นั้นอาจอยู่บนฮาร์ดดิสก์ แฟลชไดรฟ์ USB ฯลฯ คอนเทนเนอร์ VeraCrypt เหมือนไฟล์ทั่วไปทุกประการ (เช่น สามารถย้ายหรือลบได้เหมือนไฟล์ทั่วไป) คลิก 'เลือกไฟล์' เพื่อเลือกชื่อไฟล์สำหรับคอนเทนเนอร์และเลือกตำแหน่งที่คุณต้องการสร้างคอนเทนเนอร์\n\nคำเตือน: หากคุณเลือกไฟล์ที่มีอยู่ VeraCrypt จะไม่เข้ารหัสไฟล์นั้น ไฟล์จะถูกลบและแทนที่ด้วยคอนเทนเนอร์ VeraCrypt ที่สร้างขึ้นใหม่ คุณจะสามารถเข้ารหัสไฟล์ที่มีอยู่ได้ในภายหลังโดยย้ายไฟล์เหล่านั้นไปยังคอนเทนเนอร์ VeraCrypt ที่คุณกำลังจะสร้างตอนนี้</entry>
+    <entry lang="th" key="FILE_HELP_HIDDEN_HOST_VOL">เลือกตำแหน่งของวอลุ่มภายนอกที่จะสร้าง (วอลุ่มที่ซ่อนอยู่จะถูกสร้างขึ้นภายในวอลุ่มนี้ในภายหลัง)\n\nวอลุ่ม VeraCrypt สามารถอยู่ภายในไฟล์ได้ (เรียกว่าคอนเทนเนอร์ VeraCrypt) ซึ่งไฟล์นั้นอาจอยู่บนฮาร์ดดิสก์ แฟลชไดรฟ์ USB ฯลฯ คอนเทนเนอร์ VeraCrypt สามารถย้ายหรือลบได้เหมือนไฟล์ทั่วไป คลิก 'เลือกไฟล์' เพื่อเลือกชื่อไฟล์สำหรับคอนเทนเนอร์และเลือกตำแหน่งที่คุณต้องการสร้างคอนเทนเนอร์ หากคุณเลือกไฟล์ที่มีอยู่ VeraCrypt จะไม่เข้ารหัสไฟล์นั้น ไฟล์จะถูกลบและแทนที่ด้วยคอนเทนเนอร์ที่สร้างขึ้นใหม่ คุณจะสามารถเข้ารหัสไฟล์ที่มีอยู่ได้ในภายหลังโดยย้ายไฟล์เหล่านั้นไปยังคอนเทนเนอร์ VeraCrypt ที่คุณกำลังจะสร้างตอนนี้</entry>
+    <entry lang="th" key="DEVICE_HELP">สามารถสร้างวอลุ่ม VeraCrypt แบบเข้ารหัสที่โฮสต์บนอุปกรณ์ได้ภายในพาร์ติชั่นบนฮาร์ดดิสก์ ไดรฟ์โซลิดสเตต แฟลชไดรฟ์ USB และอุปกรณ์จัดเก็บข้อมูลอื่น ๆ ที่รองรับ นอกจากนี้ยังสามารถเข้ารหัสพาร์ติชั่นแบบเข้าที่ได้ด้วย\n\nนอกจากนี้ ยังสามารถสร้างวอลุ่ม VeraCrypt แบบเข้ารหัสที่โฮสต์บนอุปกรณ์ได้ภายในอุปกรณ์ที่ไม่มีพาร์ติชั่น (รวมถึงฮาร์ดดิสก์และไดรฟ์โซลิดสเตต)\n\nหมายเหตุ: อุปกรณ์ที่มีพาร์ติชั่นสามารถเข้ารหัสทั้งอุปกรณ์แบบเข้าที่ (โดยใช้คีย์เดียว) ได้เฉพาะเมื่อเป็นไดรฟ์ที่ติดตั้ง Windows และใช้บูต Windows เท่านั้น</entry>
+    <entry lang="th" key="DEVICE_HELP_NO_INPLACE">สามารถสร้างวอลุ่ม VeraCrypt ที่โฮสต์บนอุปกรณ์ได้ภายในพาร์ติชั่นฮาร์ดดิสก์ ไดรฟ์โซลิดสเตต แฟลชไดรฟ์ USB และอุปกรณ์จัดเก็บข้อมูลอื่น ๆ\n\nคำเตือน: โปรดทราบว่าพาร์ติชั่น/อุปกรณ์จะถูกฟอร์แมต และข้อมูลทั้งหมดที่เก็บอยู่ในขณะนี้จะสูญหาย</entry>
+    <entry lang="th" key="DEVICE_HELP_HIDDEN_HOST_VOL">\nเลือกตำแหน่งของวอลุ่มภายนอกที่จะสร้าง (วอลุ่มที่ซ่อนอยู่จะถูกสร้างขึ้นภายในวอลุ่มนี้ในภายหลัง)\n\nสามารถสร้างวอลุ่มภายนอกได้ภายในพาร์ติชั่นบนฮาร์ดดิสก์ ไดรฟ์โซลิดสเตต แฟลชไดรฟ์ USB และอุปกรณ์จัดเก็บข้อมูลอื่น ๆ ที่รองรับ นอกจากนี้ยังสามารถสร้างวอลุ่มภายนอกภายในอุปกรณ์ที่ไม่มีพาร์ติชั่นได้ด้วย (รวมถึงฮาร์ดดิสก์และไดรฟ์โซลิดสเตต)\n\nคำเตือน: โปรดทราบว่าพาร์ติชั่น/อุปกรณ์จะถูกฟอร์แมต และข้อมูลทั้งหมดที่เก็บอยู่ในขณะนี้จะสูญหาย</entry>
+    <entry lang="th" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\nเลือกตำแหน่งของวอลุ่ม VeraCrypt ภายในที่จะสร้างวอลุ่มที่ซ่อน</entry>
+    <entry lang="th" key="FILE_IN_USE">คำเตือน: ไฟล์/อุปกรณ์โฮสต์กำลังถูกใช้งานอยู่!\n\nการละเลยคำเตือนนี้อาจทำให้เกิดผลที่ไม่พึงประสงค์ รวมถึงระบบไม่เสถียร ควรปิดแอปพลิเคชันทั้งหมดที่อาจกำลังใช้ไฟล์/อุปกรณ์โฮสต์ (เช่น โปรแกรมป้องกันไวรัสหรือโปรแกรมสำรองข้อมูล) ก่อนเมานต์วอลุ่ม\n\nต้องการเมานต์ต่อหรือไม่?</entry>
+    <entry lang="th" key="FILE_IN_USE_FAILED">ข้อผิดพลาด: ไม่สามารถติดตั้งวอลุ่ม ไฟล์/อุปกรณ์โฮสต์ถูกใช้แล้ว ไม่สามารถติดตั้งได้โดยไม่มีการเข้าถึงแบบ exclusive</entry>
     <entry lang="th" key="FILE_OPEN_FAILED">ไม่สามารถเปิดไฟล์ได้</entry>
-    <entry lang="th" key="FILE_TITLE">ตำแหน่งวอลลุม</entry>
+    <entry lang="th" key="FILE_TITLE">ตำแหน่งวอลุ่ม</entry>
     <entry lang="th" key="FILESYS_PAGE_TITLE">ไฟล์ขนาดใหญ่</entry>
-    <entry lang="th" key="FILESYS_PAGE_HELP_QUESTION">คุณตั้งใจจะเก็บไฟล์ที่ใหญ่กว่า 4 GiB ในวอลลุม VeraCrypt หรือไม่?</entry>
-    <entry lang="th" key="FILESYS_PAGE_HELP_EXPLANATION">ตามตัวเลือกด้านบน VeraCrypt จะเลือกระบบไฟล์เริ่มต้นสำหรับวอลลุม VeraCrypt</entry>
-    <entry lang="th" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">เมื่อคุณสร้างวอลลุมภายนอก คุณควรพิจารณาเลือก 'ไม่' ถ้าคุณเลือก 'ใช่' ระบบไฟล์เริ่มต้นจะเป็น NTFS</entry>
+    <entry lang="th" key="FILESYS_PAGE_HELP_QUESTION">คุณตั้งใจจะเก็บไฟล์ที่ใหญ่กว่า 4 GiB ในวอลุ่ม VeraCrypt หรือไม่?</entry>
+    <entry lang="th" key="FILESYS_PAGE_HELP_EXPLANATION">ตามตัวเลือกด้านบน VeraCrypt จะเลือกระบบไฟล์เริ่มต้นสำหรับวอลุ่ม VeraCrypt</entry>
+    <entry lang="th" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">เมื่อคุณสร้างวอลุ่มภายนอก คุณควรพิจารณาเลือก 'ไม่' ถ้าคุณเลือก 'ใช่' ระบบไฟล์เริ่มต้นจะเป็น NTFS</entry>
     <entry lang="th" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">คุณแน่ใจหรือไม่ต้องการเลือก 'ใช่'?</entry>
-    <entry lang="th" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">โหมดการสร้างวอลลุม</entry>
-    <entry lang="th" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">นี้เป็นวิธีที่เร็วที่สุดในการสร้างวอลลุมภายในพาร์ติชั่นหรืออุปกรณ์ อัปโหลดเนื้อหาทั้งหมดที่อยู่บนพาร์ติชั่น/อุปกรณ์นั้น</entry>
+    <entry lang="th" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">โหมดการสร้างวอลุ่ม</entry>
+    <entry lang="th" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">นี้เป็นวิธีที่เร็วที่สุดในการสร้างวอลุ่มภายในพาร์ติชั่นหรืออุปกรณ์ อัปโหลดเนื้อหาทั้งหมดที่อยู่บนพาร์ติชั่น/อุปกรณ์นั้น</entry>
     <entry lang="th" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">พาร์ติชั่นทั้งหมดจะแสดงข้อมูลทั้งหมดที่ถูกเข้ารหัส แต่ถ้าพาร์ติชั่นว่าง ผู้ใช้งานควรเลือกตัวเลือกอื่น (ยังคงเร็วกว่า)</entry>
     <entry lang="th" key="NOTE_BEGINNING">หมายเหตุ:</entry>
     <entry lang="th" key="RESUME">ทำต่อ</entry>
@@ -501,7 +501,7 @@
     <entry lang="th" key="WIPE_FINISHED">เนื้อหาพาร์ติชั่น/อุปกรณ์ถูกลบข้อมูลสำเร็จ</entry>
     <entry lang="th" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">เนื้อหาพาร์ติชั่นที่เคยมีระบบเดิม (ที่ hidden system เป็นคลอน) ถูกลบข้อมูลสำเร็จ</entry>
     <entry lang="th" key="DECOY_OS_VERSION_WARNING">โปรดตรวจสอบให้แน่ใจว่ารุ่น Windows ที่คุณจะติดตั้ง (บนพาร์ติชั่นที่ลบ) เป็นรุ่นเดียวกันกับที่ Windows กำลังที่ใช้งานอยู่ ทั้งนี้ขึ้นอยู่กับงานแชร์พาร์ติชั่นบูท</entry>
-    <entry lang="th" key="SYSTEM_ENCRYPTION_FINISHED">พาร์ติชั่น/ไดรฟ์ระบบถูกเข้ารหัสสำเร็จแล้ว\nหมายเหตุ: ถ้ามีวอลลุม VeraCrypt ที่ไม่ใช่ระบบและต้องการให้ติดตั้งอัตโนมัติทุกครั้งที่ Windows เริ่มต้นคุณสามารถกำหนดค่าได้</entry>
+    <entry lang="th" key="SYSTEM_ENCRYPTION_FINISHED">พาร์ติชั่น/ไดรฟ์ระบบถูกเข้ารหัสสำเร็จแล้ว\n\nหมายเหตุ: หากมีวอลุ่ม VeraCrypt ที่ไม่ใช่ระบบซึ่งคุณต้องการให้เมานต์โดยอัตโนมัติทุกครั้งที่ Windows เริ่มต้น คุณสามารถตั้งค่าได้โดยเมานต์แต่ละวอลุ่ม แล้วเลือก 'รายการโปรด' &gt; 'เพิ่มวอลุ่มที่เมานต์ไปยังรายการโปรดของระบบ')</entry>
     <entry lang="th" key="SYSTEM_DECRYPTION_FINISHED">พาร์ติชัน/ไดรว์ระบบถูกถอดรหัสสำเร็จ</entry>
     <entry lang="th" key="FORMAT_FINISHED_HELP">\n\nสร้างไดรฟ์ VeraCrypt เสร็จแล้วและพร้อมใช้งาน ถ้าคุณต้องการสร้างไดรฟ์ VeraCrypt เพิ่มเติม ให้คลิกถัดไป มิฉะนั้น คลิกออก</entry>
     <entry lang="th" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nสร้างไดรฟ์ VeraCrypt ที่ซ่อนไว้สำเร็จแล้ว (ระบบปฏิบัติการที่ซ่อนจะวางอยู่ในไดรฟ์ที่ซ่อนนี้)\n\nคลิกถัดไป เพื่อดำเนินการต่อ</entry>
@@ -693,10 +693,10 @@
     <entry lang="th" key="MORE_INFO_ABOUT">ข้อมูลเพิ่มเติมเกี่ยวกับ %s</entry>
     <entry lang="th" key="UNKNOWN">ไม่ทราบ</entry>
     <entry lang="th" key="ERR_UNKNOWN">ข้อผิดพลาดที่ไม่ระบุหรือไม่ทราบ (%d).</entry>
-    <entry lang="th" key="UNMOUNTALL_LOCK_FAILED">ปริมาณบางตัวมีไฟล์หรือโฟลเดอร์ที่ถูกใช้งานโดยโปรแกรมหรือระบบ.\n\nบังคับถอดติดตั้ง?</entry>
+    <entry lang="th" key="UNMOUNTALL_LOCK_FAILED">วอลุ่มบางตัวมีไฟล์หรือโฟลเดอร์ที่ถูกใช้งานโดยโปรแกรมหรือระบบ.\n\nบังคับถอดติดตั้ง?</entry>
     <entry lang="th" key="UNMOUNT_BUTTON">ถอดติดตั้ง</entry>
     <entry lang="th" key="UNMOUNT_FAILED">ถอดติดตั้งล้มเหลว!</entry>
-    <entry lang="th" key="UNMOUNT_LOCK_FAILED">ปริมาณมีไฟล์หรือโฟลเดอร์ที่ถูกใช้งานโดยโปรแกรมหรือระบบ.\n\nบังคับถอดติดตั้ง?</entry>
+    <entry lang="th" key="UNMOUNT_LOCK_FAILED">วอลุ่มมีไฟล์หรือโฟลเดอร์ที่ถูกใช้งานโดยโปรแกรมหรือระบบ.\n\nบังคับถอดติดตั้ง?</entry>
     <entry lang="th" key="NO_VOLUME_MOUNTED_TO_DRIVE">ไม่มีปริมาณที่ติดตั้งบนตัวอักษรไดรฟ์ที่ระบุ.</entry>
     <entry lang="th" key="VOL_ALREADY_MOUNTED">ปริมาณที่คุณพยายามติดตั้งถูกติดตั้งอยู่แล้ว. </entry>
     <entry lang="th" key="VOL_MOUNT_FAILED">เกิดข้อผิดพลาดเมื่อพยายามติดตั้งปริมาณ.</entry>
@@ -737,9 +737,9 @@
     <entry lang="th" key="DEVICE">อุปกรณ์</entry>
     <entry lang="th" key="DEVICE_LOWER_CASE">อุปกรณ์</entry>
     <entry lang="th" key="DEVICE_UPPER_CASE">อุปกรณ์</entry>
-    <entry lang="th" key="VOLUME">ปริมาณ</entry>
-    <entry lang="th" key="VOLUME_LOWER_CASE">ปริมาณ</entry>
-    <entry lang="th" key="VOLUME_UPPER_CASE">ปริมาณ</entry>
+    <entry lang="th" key="VOLUME">วอลุ่ม</entry>
+    <entry lang="th" key="VOLUME_LOWER_CASE">วอลุ่ม</entry>
+    <entry lang="th" key="VOLUME_UPPER_CASE">วอลุ่ม</entry>
     <entry lang="th" key="LABEL">ป้ายกำกับ</entry>
     <entry lang="th" key="CLUSTER_TOO_SMALL">ขนาดคลัสเตอร์ที่เลือกเล็กเกินไปสำหรับขนาดวอลุ่มนี้ จะใช้ขนาดคลัสเตอร์ที่ใหญ่ขึ้นแทน</entry>
     <entry lang="th" key="CANT_GET_VOLSIZE">ข้อผิดพลาด: ไม่สามารถรับขนาดวอลุ่มได้!\n\nตรวจสอบให้แน่ใจว่าวอลุ่มที่เลือกไม่ได้ใช้งานโดยระบบหรือแอปพลิเคชัน</entry>
@@ -1290,10 +1290,10 @@
     <entry lang="th" key="COMMAND_LINE_ERROR">ข้อผิดพลาดในการวิเคราะห์บรรทัดคำสั่ง.</entry>
     <entry lang="th" key="RESCUE_DISK">ดิสก์กู้คืน</entry>
     <entry lang="th" key="SELECT_FILE_AND_MOUNT">เลือก &amp;ไฟล์และติดตั้ง...</entry>
-    <entry lang="th" key="SELECT_DEVICE_AND_MOUNT">เลือก &amp;อุปกรณ์และติดตั้ง...</entry>
+    <entry lang="th" key="SELECT_DEVICE_AND_MOUNT">เลือก&amp;อุปกรณ์และเมานท์...</entry>
     <entry lang="th" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">อนุญาตให้ผู้ดูแลระบบเท่านั้นดูและถอดติดตั้งปริมาณโปรดของระบบใน VeraCrypt</entry>
-    <entry lang="th" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">ติดตั้งปริมาณโปรดของระบบเมื่อ Windows เริ่ม (ในขั้นตอนแรกในการเริ่มต้น)</entry>
-    <entry lang="th" key="MOUNTED_VOLUME_DIRTY">คำเตือน: ระบบไฟล์บนปริมาณที่ติดตั้งเป็น '%s' ถูกถอดติดตั้งไม่สะอาดและอาจมีความผิดพลาด. การใช้ระบบไฟล์ที่เสียหายอาจทำให้ข้อมูลสูญหายหรือเสียหายได้.\n\nหมายเหตุ: ก่อนที่คุณจะถอดหรือปิดอุปกรณ์ที่มีปริมาณ VeraCrypt ที่ติดตั้งอยู่, คุณควรถอดติดตั้งปริมาณ VeraCrypt ใน VeraCrypt ก่อนเสมอ.\n\n\nคุณต้องการให้ Windows พยายามตรวจจับและแก้ไขข้อผิดพลาด (ถ้ามี) บนระบบไฟล์หรือไม่?</entry>
+    <entry lang="th" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">ติดตั้งวอลุ่มโปรดของระบบเมื่อ Windows เริ่ม (ในขั้นตอนแรกในการเริ่มต้น)</entry>
+    <entry lang="th" key="MOUNTED_VOLUME_DIRTY">คำเตือน: ระบบไฟล์บนวอลุ่มที่ติดตั้งเป็น '%s' ถูกถอดติดตั้งไม่สะอาดและอาจมีความผิดพลาด. การใช้ระบบไฟล์ที่เสียหายอาจทำให้ข้อมูลสูญหายหรือเสียหายได้.\n\nหมายเหตุ: ก่อนที่คุณจะถอดหรือปิดอุปกรณ์ที่มีวอลุ่ม VeraCrypt ที่ติดตั้งอยู่, คุณควรถอดติดตั้งวอลุ่ม VeraCrypt ใน VeraCrypt ก่อนเสมอ.\n\n\nคุณต้องการให้ Windows พยายามตรวจจับและแก้ไขข้อผิดพลาด (ถ้ามี) บนระบบไฟล์หรือไม่?</entry>
     <entry lang="th" key="SYS_FAVORITE_VOLUME_DIRTY">คำเตือน: หนึ่งหรือมากกว่าหนึ่งปริมาณโปรดของระบบไม่ได้ถูกถอดติดตั้งอย่างสะอาดและอาจมีความผิดพลาดของระบบไฟล์. กรุณาดูบันทึกเหตุการณ์ระบบสำหรับรายละเอียดเพิ่มเติม.\n\nการใช้ระบบไฟล์ที่เสียหายอาจทำให้ข้อมูลสูญหายหรือเสียหายได้. คุณควรตรวจสอบปริมาณโปรดของระบบที่ได้รับผลกระทบสำหรับข้อผิดพลาด (คลิกขวาแต่ละอันใน VeraCrypt และเลือก 'ซ่อมแซมระบบไฟล์').</entry>
     <entry lang="th" key="FILESYS_REPAIR_CONFIRM_BACKUP">คำเตือน: การซ่อมแซมระบบไฟล์ที่เสียหายโดยใช้เครื่องมือ 'chkdsk ของ Microsoft อาจทำให้ไฟล์ในพื้นที่ที่เสียหายสูญหายได้. ดังนั้น, แนะนำให้คุณสำรองไฟล์ที่เก็บไว้บนปริมาณ VeraCrypt ไปยังปริมาณ VeraCrypt อื่นก่อน.\n\nคุณต้องการซ่อมแซมระบบไฟล์ตอนนี้หรือไม่?</entry>
     <entry lang="th" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">ปริมาณ '%s' ถูกติดตั้งในโหมดอ่านอย่างเดียวเพราะการเข้าถึงเพื่อเขียนถูกปฏิเสธ.\n\nโปรดตรวจสอบว่าการอนุญาตความปลอดภัยของตัวเก็บไฟล์อนุญาตให้คุณเขียนไปยังมัน (คลิกขวาที่ตัวเก็บและเลือกคุณสมบัติ > ความปลอดภัย).\n\nโปรดทราบว่า, เนื่องจากปัญหาของ Windows, คุณอาจเห็นคำเตือนนี้แม้ว่าคุณจะตั้งค่าการอนุญาตความปลอดภัยที่เหมาะสมแล้ว. นี่ไม่ใช่บั๊กใน VeraCrypt. วิธีการแก้ปัญหาที่เป็นไปได้คือการย้ายตัวเก็บของคุณไปยัง, เช่น, โฟลเดอร์ 'เอกสาร' ของคุณ.\n\nถ้าคุณตั้งใจที่จะเก็บปริมาณของคุณเป็นโหมดอ่านอย่างเดียว, ให้ตั้งคุณลักษณะอ่านอย่างเดียวของตัวเก็บ (คลิกขวาที่ตัวเก็บแล้วเลือกคุณสมบัติ > อ่านอย่างเดียว), ซึ่งจะลบคำเตือนนี้ออก.</entry>
@@ -1385,10 +1385,10 @@
     <entry lang="th" key="ERR_EXFAT_INVALID_VOLUME_SIZE">ขนาดของไฟล์ปริมาณที่ระบุในบรรทัดคำสั่งไม่เข้ากับรูปแบบระบบไฟล์ exFAT ที่เลือก.</entry>
     <entry lang="th" key="IDT_ENTROPY_BAR">การรวบรวมความแปรปรวนจากการเคลื่อนเมาส์</entry>
     <entry lang="th" key="IDT_VOLUME_ID">รหัสปริมาณ:</entry>
-    <entry lang="th" key="VOLUME_ID">รหัสปริมาณ</entry>
+    <entry lang="th" key="VOLUME_ID">รหัสวอลุ่ม</entry>
     <entry lang="th" key="IDC_FAVORITE_USE_VOLUME_ID">ใช้รหัสปริมาณเพื่อติดตั้งเป็นโปรด</entry>
-    <entry lang="th" key="VOLUME_ID_INVALID">ค่าของรหัสปริมาณไม่ถูกต้อง</entry>
-    <entry lang="th" key="VOLUME_ID_NOT_FOUND">ไม่พบปริมาณที่มีรหัสที่ระบุในระบบ</entry>
+    <entry lang="th" key="VOLUME_ID_INVALID">ค่าของรหัสวอลุ่มไม่ถูกต้อง</entry>
+    <entry lang="th" key="VOLUME_ID_NOT_FOUND">ไม่พบวอลุ่มที่มีรหัสที่ระบุในระบบ</entry>
     <entry lang="th" key="IDPM_COPY_VALUE_TO_CLIPBOARD">คัดลอกค่าสู่คลิปบอร์ด...</entry>
     <entry lang="th" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">ไม่ต้องขอ PIM ในหน้าจอรับรองบูท (ค่าของ PIM ถูกบันทึกไม่เข้ารหัสในดิสก์)</entry>
     <entry lang="th" key="DISABLE_BOOT_LOADER_PIM_PROMPT">คำเตือน: โปรดทราบว่าหากคุณเปิดใช้ตัวเลือกนี้, ค่าของ PIM จะถูกบันทึกไม่เข้ารหัสในดิสก์.\n\nคุณแน่ใจหรือไม่ว่าคุณต้องการเปิดใช้ตัวเลือกนี้?</entry>
@@ -1425,7 +1425,7 @@
     <entry lang="th" key="PASSWORD_PASTED_TRUNCATED">ข้อความที่วางถูกตัดทอนเพราะรหัสผ่านมีความยาวสูงสุด %d อักขระ</entry>
     <entry lang="th" key="PASSWORD_MAXLENGTH_REACHED">รหัสผ่านถึงความยาวสูงสุดของ %d อักขระแล้ว.\nไม่สามารถป้อนอักขระเพิ่มเติมได้.</entry>
     <entry lang="th" key="IDC_SELECT_LANGUAGE_LABEL">เลือกภาษาที่จะใช้ระหว่างการติดตั้ง:</entry>
-    <entry lang="th" key="VOLUME_TOO_LARGE_FOR_HOST">ข้อผิดพลาด: ขนาดของไฟล์ปริมาณใหญ่กว่าพื้นที่ว่างที่มีบนดิสก์.</entry>
+    <entry lang="th" key="VOLUME_TOO_LARGE_FOR_HOST">ข้อผิดพลาด: ขนาดของไฟล์วอลุ่มใหญ่กว่าพื้นที่ว่างที่มีบนดิสก์.</entry>
     <entry lang="th" key="IDC_ALLOW_WINDOWS_DEFRAG">อนุญาตให้ Windows Disk Defragmenter ให้รวบรวมพื้นที่ว่างเพิ่มของพาร์ติชัน/ไดรฟ์ที่ไม่ใช่ระบบ</entry>
     <entry lang="th" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">คำเตือน: การรวบรวมพื้นที่ว่างเพิ่มของพาร์ติชัน/ไดรฟ์ที่ไม่ใช่ระบบอาจเปิดเผยข้อมูลเกี่ยวกับเนื้อหาของพวกเขาหรือก่อให้เกิดปัญหากับปริมาณที่ซ่อนที่อาจมีในพวกเขา.\n\nดำเนินการต่อ?</entry>
     <entry lang="th" key="VIRTUAL_DEVICE">อุปกรณ์เสมือน</entry>
@@ -1518,7 +1518,7 @@
     <entry lang="th" key="LINUX_NOT_FAT_HINT">โปรดทราบว่าปริมาณจะไม่ได้ถูกฟอร์แมทด้วยระบบไฟล์ FAT และ, ดังนั้น, คุณอาจจะต้องติดตั้งไดรเวอร์ระบบไฟล์เพิ่มเติมบนแพลตฟอร์มอื่นเพื่อให้สามารถติดตั้งปริมาณได้.</entry>
     <entry lang="th" key="LINUX_KERNEL_OLD">ระบบของคุณใช้เวอร์ชันเก่าของเคอร์เนล Linux.\n\nเนื่องจากบั๊กในเคอร์เนล Linux, ระบบของคุณอาจหยุดตอบสนองเมื่อเขียนข้อมูลไปยังปริมาณ VeraCrypt. ปัญหานี้สามารถแก้ได้โดยการอัปเกรดเคอร์เนลเป็นเวอร์ชัน 2.6.24 หรือใหม่กว่า.</entry>
     <entry lang="th" key="LINUX_VOL_UNMOUNTED">ปริมาณ {0} ถูกถอดติดตั้งแล้ว.</entry>
-    <entry lang="th" key="LINUX_VOL_MOUNTED">ปริมาณ {0} ถูกติดตั้งแล้ว.</entry>
+    <entry lang="th" key="LINUX_VOL_MOUNTED">วอลุ่ม {0} ถูกเมานท์แล้ว.</entry>
     <entry lang="th" key="LINUX_OOM">หน่วยความจำหมด.</entry>
     <entry lang="th" key="LINUX_CANT_GET_ADMIN_PRIV">ไม่สามารถรับสิทธิ์ผู้ดูแลระบบได้</entry>
     <entry lang="th" key="LINUX_COMMAND_GET_ERROR">คำสั่ง {0} ส่งคืนข้อผิดพลาด {1}.</entry>
@@ -1551,26 +1551,26 @@
     <entry lang="th" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt ต้องการ macFUSE 2.5 หรือใหม่กว่า.</entry>
     <entry lang="th" key="EXCEPTION_OCCURRED">เกิดข้อยกเว้น</entry>
     <entry lang="th" key="ENTER_PASSWORD">ป้อนรหัสผ่าน</entry>
-    <entry lang="th" key="ENTER_TC_VOL_PASSWORD">ป้อนรหัสผ่านปริมาณ VeraCrypt</entry>
-    <entry lang="th" key="MOUNT">ติดตั้ง</entry>
-    <entry lang="th" key="MOUNT_POINT">ไดเร็กทอรีติดตั้ง</entry>
-    <entry lang="th" key="NO_VOLUMES_MOUNTED">ไม่มีปริมาณที่ติดตั้ง.</entry>
-    <entry lang="th" key="OPEN_NEW_VOLUME">ระบุปริมาณ VeraCrypt ใหม่</entry>
+    <entry lang="th" key="ENTER_TC_VOL_PASSWORD">ป้อนรหัสผ่านวอลุ่ม VeraCrypt</entry>
+    <entry lang="th" key="MOUNT">เมานท์</entry>
+    <entry lang="th" key="MOUNT_POINT">ไดเร็กทอรีเมานท์</entry>
+    <entry lang="th" key="NO_VOLUMES_MOUNTED">ไม่มีวอลุ่มที่เมานท์อยู่.</entry>
+    <entry lang="th" key="OPEN_NEW_VOLUME">ระบุวอลุ่ม VeraCrypt ใหม่</entry>
     <entry lang="th" key="PARAMETER_INCORRECT">พารามิเตอร์ไม่ถูกต้อง</entry>
     <entry lang="th" key="SELECT_KEYFILES">เลือกคีย์ไฟล์</entry>
     <entry lang="th" key="START_TC">เริ่ม VeraCrypt</entry>
-    <entry lang="th" key="VOLUME_ALREADY_MOUNTED">ปริมาณ {0} ถูกติดตั้งแล้ว.</entry>
+    <entry lang="th" key="VOLUME_ALREADY_MOUNTED">วอลุ่ม {0} ถูกเมานท์แล้ว.</entry>
     <entry lang="th" key="UNKNOWN_OPTION">ตัวเลือกที่ไม่ทราบ</entry>
-    <entry lang="th" key="VOLUME_LOCATION">ตำแหน่งปริมาณ</entry>
-    <entry lang="th" key="VOLUME_HOST_IN_USE">คำเตือน: ไฟล์/อุปกรณ์โฮสต์ {0} กำลังใช้งานอยู่!\n\nการไม่ใสใจเรื่องนี้อาจทำให้เกิดผลลัพธ์ที่ไม่พึงประสงค์รวมถึงความไม่เสถียรของระบบ. โปรแกรมอื่น ๆ ที่อาจกำลังใช้งานไฟล์/อุปกรณ์โฮสต์ควรถูกปิดก่อนการติดตั้งปริมาณ.\n\nคุณต้องการติดตั้งปริมาณต่อไป?</entry>
+    <entry lang="th" key="VOLUME_LOCATION">ตำแหน่งวอลุ่ม</entry>
+    <entry lang="th" key="VOLUME_HOST_IN_USE">คำเตือน: ไฟล์/อุปกรณ์โฮสต์ {0} กำลังใช้งานอยู่!\n\nการไม่ใสใจเรื่องนี้อาจทำให้เกิดผลลัพธ์ที่ไม่พึงประสงค์รวมถึงความไม่เสถียรของระบบ. โปรแกรมอื่น ๆ ที่อาจกำลังใช้งานไฟล์/อุปกรณ์โฮสต์ควรถูกปิดก่อนเมานท์วอลุ่ม.\n\nคุณต้องการเมานท์วอลุ่มต่อไป?</entry>
     <entry lang="th" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt ถูกติดตั้งโดยใช้แพ็คเกจ MSI และดังนั้นจึงไม่สามารถอัปเดตได้โดยใช้ตัวติดตั้งแบบมาตรฐาน.\n\nกรุณาใช้แพ็คเกจ MSI เพื่ออัปเดตการติดตั้ง VeraCrypt ของคุณ.</entry>
     <entry lang="th" key="IDC_USE_ALL_FREE_SPACE">ใช้พื้นที่ว่างทุกจุด</entry>
     <entry lang="th" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ALGORITHM">ไม่สามารถอัปเกรด VeraCrypt ได้เนื่องจากพาร์ติชัน/ไดรฟ์ระบบที่ถูกเข้ารหัสโดยใช้อัลกอริทึมที่ไม่รองรับอีกต่อไป.\nกรุณาถอดรหัสระบบก่อนอัปเกรด VeraCrypt และจากนั้นเข้ารหัสอีกครั้ง.</entry>
     <entry lang="th" key="LINUX_EX2MSG_TERMINALNOTFOUND">ไม่พบแอปพลิเคชันเทอร์มินัลที่สนับสนุน, คุณต้องมี xterm, konsole หรือ gnome-terminal (พร้อม dbus-x11).</entry>
-    <entry lang="th" key="IDM_MOUNT_NO_CACHE">ติดตั้งไม่มีแคช</entry>
-    <entry lang="th" key="EXPANDER_INFO">:: ตัวขยาย VeraCrypt ::\n\nขยายปริมาณ VeraCrypt ทันทีโดยไม่ต้องฟอร์แมทใหม่\n\n\nสนับสนุนปริมาณทุกประเภท (ไฟล์ตัวเก็บ, ดิสก์ และพาร์ติชัน) ที่ถูกฟอร์แมทด้วย NTFS. เงื่อนไขเดียวคือจะต้องมีพื้นที่ว่างเพียงพอบนไดรฟ์หรืออุปกรณ์โฮสต์ของปริมาณ VeraCrypt.\n\nอย่าใช้ซอฟต์แวร์นี้เพื่อขยายปริมาณภายนอกที่มีปริมาณซ่อน, เพราะนี่จะทำลายปริมาณที่ซ่อน!</entry>
-    <entry lang="th" key="IDC_STEPSEXPAND">1. เลือกปริมาณ VeraCrypt ที่ต้องการขยาย\n2. คลิกปุ่ม 'ติดตั้ง'</entry>
-    <entry lang="th" key="IDT_VOL_NAME">ปริมาณ: </entry>
+    <entry lang="th" key="IDM_MOUNT_NO_CACHE">เมานท์โดยไม่มีแคช</entry>
+    <entry lang="th" key="EXPANDER_INFO">:: VeraCrypt Expander ::\n\nขยายวอลุ่ม VeraCrypt ได้ทันทีโดยไม่ต้องฟอร์แมตใหม่\n\n\nรองรับวอลุ่มทุกชนิด (ไฟล์คอนเทนเนอร์ ดิสก์ และพาร์ติชั่น) ที่ฟอร์แมตด้วย NTFS เงื่อนไขเดียวคือต้องมีพื้นที่ว่างเพียงพอบนไดรฟ์โฮสต์หรืออุปกรณ์โฮสต์ของวอลุ่ม VeraCrypt\n\nอย่าใช้ซอฟต์แวร์นี้เพื่อขยายวอลุ่มภายนอกที่มีวอลุ่มซ่อนอยู่ เพราะจะทำลายวอลุ่มซ่อนอยู่!\n</entry>
+    <entry lang="th" key="IDC_STEPSEXPAND">1. เลือกวอลุ่ม VeraCrypt ที่ต้องการขยาย\n2. คลิกปุ่ม 'เมานท์'</entry>
+    <entry lang="th" key="IDT_VOL_NAME">วอลุ่ม: </entry>
     <entry lang="th" key="IDT_FILE_SYS">ระบบไฟล์: </entry>
     <entry lang="th" key="IDT_CURRENT_SIZE">ขนาดปัจจุบัน: </entry>
     <entry lang="th" key="IDT_NEW_SIZE">ขนาดใหม่: </entry>
@@ -1599,7 +1599,7 @@
     <entry lang="th" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL">ขนาดปริมาณใหม่เล็กเกินไป, ต้องใหญ่กว่าขนาดปัจจุบันอย่างน้อย %I64u KiB.</entry>
     <entry lang="th" key="EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE">ขนาดปริมาณใหม่ใหญ่เกินไป, ไม่มีพื้นที่ว่างเพียงพอบนไดรฟ์โฮสต์.</entry>
     <entry lang="th" key="EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED">ขนาดไฟล์สูงสุดของ %I64u MB บนไดรฟ์โฮสต์เกิน.</entry>
-    <entry lang="th" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">ข้อผิดพลาด: ไม่สามารถรับสิทธิ์ที่จำเป็นในการเปิดใช้ Quick Expand!\nกรุณายกเลิกตัวเลือก Quick Expand และลองอีกครั้ง.</entry>
+    <entry lang="th" key="EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES">ข้อผิดพลาด: ไม่สามารถรับสิทธิ์ที่จำเป็นในการเปิดใช้การขยายอย่างรวดเร็ว!\nกรุณายกเลิกตัวเลือกขยายอย่างรวดเร็วและลองอีกครั้ง.</entry>
     <entry lang="th" key="EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED">ขนาดสูงสุดของปริมาณ VeraCrypt ที่ %I64u TB เกิน!\n</entry>
     <entry lang="th" key="FULL_FORMAT">ฟอร์แมทเต็มรูปแบบ</entry>
     <entry lang="th" key="FAST_CREATE">สร้างอย่างรวดเร็ว</entry>
@@ -1623,10 +1623,10 @@
     <entry lang="th" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">กำลังเขียนหัวสำรองที่เข้ารหัสใหม่ ...\n</entry>
     <entry lang="th" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">กำลังเขียนหัวหลักที่เข้ารหัสใหม่ ...\n</entry>
     <entry lang="th" key="EXPANDER_WIPING_OLD_HEADER">กำลังลบหัวสำรองเก่า ...\n</entry>
-    <entry lang="th" key="EXPANDER_MOUNTING_VOLUME">กำลังติดตั้งปริมาณ ...\n</entry>
-    <entry lang="th" key="EXPANDER_UNMOUNTING_VOLUME">กำลังถอดติดตั้งปริมาณ ...\n</entry>
+    <entry lang="th" key="EXPANDER_MOUNTING_VOLUME">กำลังเมานท์วอลุ่ม ...\n</entry>
+    <entry lang="th" key="EXPANDER_UNMOUNTING_VOLUME">กำลังปลดเมานท์วอลุ่ม ...\n</entry>
     <entry lang="th" key="EXPANDER_EXTENDING_FILESYSTEM">กำลังขยายระบบไฟล์ ...\n</entry>
-    <entry lang="th" key="PARTIAL_SYSENC_MOUNT_READONLY">คำเตือน: พาร์ติชันระบบที่คุณพยายามติดตั้งไม่ได้ถูกเข้ารหัสทั้งหมด. เป็นมาตรการความปลอดภัยเพื่อป้องกันการเสียหายหรือการปรับเปลี่ยนที่ไม่ต้องการ, ปริมาณ '%s' ถูกติดตั้งในโหมดอ่านอย่างเดียว.</entry>
+    <entry lang="th" key="PARTIAL_SYSENC_MOUNT_READONLY">คำเตือน: พาร์ติชันระบบที่คุณพยายามเมานท์ไม่ได้ถูกเข้ารหัสทั้งหมด. เป็นมาตรการความปลอดภัยเพื่อป้องกันการเสียหายหรือการปรับเปลี่ยนที่ไม่ต้องการ, วอลุ่ม '%s' ถูกเมานท์ในโหมดอ่านอย่างเดียว.</entry>
     <entry lang="th" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">ข้อมูลสำคัญเกี่ยวกับการใช้ส่วนขยายไฟล์ของบุคคลที่สาม</entry>
     <entry lang="th" key="IDC_DISABLE_MEMORY_PROTECTION">ปิดการป้องกันหน่วยความจำเพื่อความเข้ากันได้กับเครื่องมือการเข้าถึง</entry>
     <entry lang="th" key="DISABLE_MEMORY_PROTECTION_WARNING">คำเตือน: การปิดการป้องกันหน่วยความจำลดความปลอดภัยอย่างมีนัยสำคัญ. เปิดใช้งานตัวเลือกนี้เฉพาะถ้าคุณต้องพึ่งพาเครื่องมือการเข้าถึง, เช่น เครื่องอ่านหน้าจอ, เพื่อโต้ตอบกับ UI ของ VeraCrypt.</entry>
@@ -1636,56 +1636,56 @@
     <entry lang="th" key="ERR_XTS_MASTERKEY_VULNERABLE">คำเตือน: คีย์หลักของปริมาณมีช่องโหว่ที่ทำให้ความปลอดภัยข้อมูลถูกสอบการโจมตี.\n\nกรุณาสร้างปริมาณใหม่และย้ายข้อมูลไปยังมัน.</entry>
     <entry lang="th" key="ERR_SYSENC_XTS_MASTERKEY_VULNERABLE">คำเตือน: คีย์หลักของระบบที่เข้ารหัสมีช่องโหว่ที่สอบการโจมตีที่ทำให้ความปลอดภัยข้อมูลถูกสอบการโจมตี.\nกรุณาถอดรหัสพาร์ติชัน/ไดรฟ์ระบบแล้วเข้ารหัสใหม่อีกครั้ง.</entry>
     <entry lang="th" key="ERR_XTS_MASTERKEY_VULNERABLE_SHORT">คำเตือน: คีย์หลักของปริมาณมีช่องโหว่ด้านความปลอดภัย.</entry>
-    <entry lang="th" key="MOUNTPOINT_BLOCKED">ข้อผิดพลาด: จุดเชื่อมต่อโวลุ่มถูกบล็อกเนื่องจากไปทับซ้อนกับไดเรกทอรีระบบที่ได้รับการป้องกัน\n\nกรุณาเลือกจุดเชื่อมต่ออื่น</entry>
-    <entry lang="th" key="MOUNTPOINT_NOTALLOWED">ข้อผิดพลาด: จุดเชื่อมต่อโวลุ่มไม่ได้รับอนุญาตเนื่องจากไปทับซ้อนกับไดเรกทอรีที่เป็นส่วนหนึ่งของตัวแปร PATH\n\nกรุณาเลือกจุดเชื่อมต่ออื่น</entry>
+    <entry lang="th" key="MOUNTPOINT_BLOCKED">ข้อผิดพลาด: จุดเชื่อมต่อวอลุ่มถูกบล็อกเนื่องจากไปทับซ้อนกับไดเรกทอรีระบบที่ได้รับการป้องกัน\n\nกรุณาเลือกจุดเชื่อมต่ออื่น</entry>
+    <entry lang="th" key="MOUNTPOINT_NOTALLOWED">ข้อผิดพลาด: จุดเชื่อมต่อวอลุ่มไม่ได้รับอนุญาตเนื่องจากไปทับซ้อนกับไดเรกทอรีที่เป็นส่วนหนึ่งของตัวแปร PATH\n\nกรุณาเลือกจุดเชื่อมต่ออื่น</entry>
     <entry lang="th" key="INSECURE_MODE">[โหมดไม่ปลอดภัย]</entry>
-    <entry lang="en" key="IDC_DISABLE_SCREEN_PROTECTION">Disable protection against screenshots and screen recording</entry>
-    <entry lang="en" key="DISABLE_SCREEN_PROTECTION_WARNING">WARNING: Disabling screen protection significantly reduces security. Enable this option ONLY if you have a specific need to capture VeraCrypt's interface. This may expose sensitive data to screenshot tools and screen recording features such as Windows 11 Recall.</entry>
-    <entry lang="en" key="MEMORY_COST">Memory Cost</entry>
-    <entry lang="en" key="IDT_KDF_ALGO">KDF Algorithm</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_GENERAL">General</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_ACTIONS">Actions</entry>
-    <entry lang="en" key="IDD_PREFERENCES_TAB_PASSWORD">Password</entry>
-    <entry lang="en" key="IDC_SECURE_DESKTOP_ENABLE_IME">Enable Input Method Editor (IME) in Secure Desktop</entry>
-    <entry lang="en" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">WARNING: Enable this option only if you are encountering issues when selecting Keyfiles/Tokens under Secure Desktop.</entry>
-    <entry lang="en" key="ERR_KEY_DERIVATION_FAILED">Key derivation failed. This may be caused by insufficient memory or an interrupted operation.</entry>
-    <entry lang="en" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">The system partition/drive is already decrypted, but the EFI Microsoft boot loader path was not restored to the Windows Boot Manager. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">The system partition/drive is already decrypted, but the EFI fallback boot loader path still contains the VeraCrypt Boot Loader. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="IDM_REPAIR_EFI_BOOT_LOADER">Repair EFI Boot Loader...</entry>
-    <entry lang="en" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt will restore the Windows EFI boot loader paths and remove VeraCrypt EFI boot entries and files.\n\nUse this only after the system partition/drive is fully decrypted and Windows can boot without system encryption.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_READ_FAILED">The EFI boot loader file could not be read completely:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">The EFI boot loader file is unexpectedly large and was not inspected:</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">The system partition/drive is already decrypted and the EFI boot loader files were restored, but VeraCrypt could not remove one or more VeraCrypt firmware boot entries. The VeraCrypt EFI files were left in place so any remaining firmware entry still points to an existing loader. Retry as Administrator or remove the VeraCrypt boot entry from firmware setup after confirming Windows Boot Manager starts normally.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">The EFI boot loader cannot be repaired while system encryption or decryption is active or incomplete. Complete or resume the pending system encryption/decryption process before retrying.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">This repair action is available only on systems booting in UEFI mode from a GPT system partition.</entry>
-    <entry lang="en" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">The EFI boot loader has been repaired successfully.</entry>
-    <entry lang="en" key="PIM_ARGON2_HELP">PIM (Personal Iterations Multiplier) controls the memory and time costs used by Argon2id header key derivation as follows:\n      Memory = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      Iterations = 3 + ((PIM - 1) / 3) for PIM 31 or lower, then 13 + (PIM - 31)\n\nWhen left empty or set to 0, VeraCrypt will use the default Argon2 PIM (12), which uses 416 MiB of memory and 6 iterations.\n\nWhen the password is less than 20 characters, Argon2 PIM can't be smaller than 12 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, Argon2 PIM can be set to any value.\n\nAn Argon2 PIM larger than 12 increases memory usage up to 1024 MiB and then increases iterations. This will lead to slower mounting. A small Argon2 PIM (less than 12) will lead to quicker mounting but it can reduce security if the password is not strong enough.</entry>
-    <entry lang="en" key="PIM_ARGON2_LARGE_WARNING">You have chosen an Argon2 PIM value that is larger than VeraCrypt default value.\nPlease note that this can require more memory and lead to much slower mounting.</entry>
-    <entry lang="en" key="PIM_ARGON2_SMALL_WARNING">You have chosen an Argon2 PIM value that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to weaker security.\n\nDo you confirm that you are using a strong password?</entry>
-    <entry lang="en" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified Argon2 PIM.\nShorter passwords can only be used if the Argon2 PIM is 12 or greater.</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Mount NTFS volumes with an in-kernel Linux driver</entry>
-    <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Linux only. When enabled and no explicit filesystem type was supplied, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with an available in-kernel NTFS driver, bypassing mount helpers such as ntfs-3g. VeraCrypt uses ntfs when it is positively identified as a modern read/write driver or expected on Linux 7.1 or later, and otherwise uses ntfs3. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If no supported in-kernel NTFS driver is available or loadable, mounting fails. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
-    <entry lang="en" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">No supported in-kernel NTFS driver is available or loadable. To use the system default NTFS backend, disable the NTFS kernel-driver preference or do not request kernel NTFS explicitly.</entry>
-    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Normal unmount of volume {0} failed. This can happen when applications still have files or directories open on the volume, or when the backing device was disconnected and the mount became stale.\n\nIf the device is still connected, choose No, close applications using the volume, and try unmounting again.\n\nIf the device was disconnected or the mount is stale, VeraCrypt can attempt emergency cleanup by lazy-detaching the filesystem and removing or scheduling removal of VeraCrypt kernel objects. Pending writes may have failed, data may be lost, and cleanup may remain pending until applications close open files. Check the filesystem with fsck or the appropriate repair tool before using it again.\n\nContinue?</entry>
-    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNTED">Emergency cleanup for volume {0} has been initiated. If the volume was disconnected, the mount was stale, or there were pending writes, check the filesystem with fsck or the appropriate repair tool before using it again.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_DATA">Creating volume data. Please wait.</entry>
-    <entry lang="en" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Finalizing volume creation: writing backup header.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FLUSHING_DATA">Finalizing volume creation: flushing data to disk. This can take several minutes on large volumes or slow/USB storage.</entry>
-    <entry lang="en" key="FORMAT_STAGE_FINISHED">Finalizing volume creation.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ABORTED">Volume creation has been aborted.</entry>
-    <entry lang="en" key="FORMAT_STAGE_ERROR">Volume creation failed.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Finalizing volume creation: mounting temporary volume.</entry>
-    <entry lang="en" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Finalizing volume creation: preparing temporary device.</entry>
-    <entry lang="en" key="FORMAT_STAGE_CREATING_FILESYSTEM">Finalizing volume creation: creating filesystem using {0}.</entry>
-    <entry lang="en" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Finalizing volume creation: dismounting temporary volume.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYNTHESIZED_DEVICE">The selected device '{0}' is an APFS synthesized container or volume and cannot be used as a raw VeraCrypt volume host.\n\nSelect the physical APFS store partition{1} instead.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_SYSTEM_PARTITION">The selected device '{0}' is a macOS system/support partition and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_APFS_SYSTEM_STORE">The selected APFS physical store '{0}' contains the currently mounted macOS system volume and cannot be used as a VeraCrypt volume host.</entry>
-    <entry lang="en" key="MACOSX_DEVICE_NOT_WRITABLE">macOS reports the selected device '{0}' as read-only. Select a writable physical partition or disk.</entry>
-    <entry lang="en" key="MACOSX_APFS_EROFS_HINT">macOS reported the selected device as read-only. If this is an APFS disk, make sure you selected the physical APFS store partition, not an APFS synthesized volume. Use Disk Utility or 'diskutil list' to identify the physical partition, then retry.</entry>
-    <entry lang="en" key="FAVORITE_PIM_OR_KDF_CHANGED">This volume is registered as a System Favorite and its PIM and/or KDF settings were changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</entry>
-    <entry lang="en" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">The selected KDF uses different PIM parameters, so VeraCrypt will not reuse the current custom PIM. The new volume header will use the default PIM for the selected KDF unless you select "Use PIM" in the New section and enter a custom value.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
+    <entry lang="th" key="IDC_DISABLE_SCREEN_PROTECTION">ปิดใช้งานการป้องกันภาพหน้าจอและการบันทึกหน้าจอ</entry>
+    <entry lang="th" key="DISABLE_SCREEN_PROTECTION_WARNING">คำเตือน: การปิดใช้งานการป้องกันหน้าจอจะลดความปลอดภัยลงอย่างมาก เปิดใช้งานตัวเลือกนี้เฉพาะในกรณีที่คุณมีความต้องการเฉพาะในการจับภาพอินเทอร์เฟซของ VeraCrypt สิ่งนี้อาจเปิดเผยข้อมูลที่ละเอียดอ่อนต่อเครื่องมือจับภาพหน้าจอและคุณสมบัติการบันทึกหน้าจอ เช่น Windows 11 Recall</entry>
+    <entry lang="th" key="MEMORY_COST">ต้นทุนหน่วยความจำ</entry>
+    <entry lang="th" key="IDT_KDF_ALGO">อัลกอริทึม KDF</entry>
+    <entry lang="th" key="IDD_PREFERENCES_TAB_GENERAL">ทั่วไป</entry>
+    <entry lang="th" key="IDD_PREFERENCES_TAB_ACTIONS">การดำเนินการ</entry>
+    <entry lang="th" key="IDD_PREFERENCES_TAB_PASSWORD">รหัสผ่าน</entry>
+    <entry lang="th" key="IDC_SECURE_DESKTOP_ENABLE_IME">เปิดใช้งานตัวแก้ไขวิธีการป้อนข้อมูล (IME) บนเดสก์ท็อปที่ปลอดภัย</entry>
+    <entry lang="th" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">คำเตือน: เปิดใช้งานตัวเลือกนี้เฉพาะเมื่อคุณประสบปัญหาเมื่อเลือกไฟล์กุญแจ/โทเค็นบนเดสก์ท็อปที่ปลอดภัย</entry>
+    <entry lang="th" key="ERR_KEY_DERIVATION_FAILED">การรับคีย์ล้มเหลว สาเหตุนี้อาจเกิดจากหน่วยความจำไม่เพียงพอหรือการทำงานหยุดชะงัก</entry>
+    <entry lang="th" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">พาร์ติชัน/ไดรฟ์ระบบถูกถอดรหัสแล้ว แต่เส้นทางบูตโหลดเดอร์ของ Microsoft EFI ไม่ได้ถูกกู้คืนไปยัง Windows Boot Manager เฉพาะไฟล์บูต EFI เท่านั้นที่ต้องซ่อมแซม ใช้ตัวเลือกการซ่อมแซม VeraCrypt Rescue Disk หรือบูตสื่อการกู้คืน Windows และเรียกใช้ 'bcdboot W:\\Windows /s S: /f UEFI' หลังจากแทนที่ W: ด้วยอักษรระบุไดรฟ์ข้อมูล Windows และ S: ด้วยอักษรระบุไดรฟ์ EFI System Partition เส้นทาง:</entry>
+    <entry lang="th" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">พาร์ติชัน/ไดรฟ์ระบบได้รับการถอดรหัสแล้ว แต่พาธตัวโหลดบูตสำรอง EFI ยังคงมี VeraCrypt Boot Loader เฉพาะไฟล์บูต EFI เท่านั้นที่ต้องซ่อมแซม ใช้ตัวเลือกการซ่อมแซม VeraCrypt Rescue Disk หรือบูตสื่อการกู้คืน Windows และเรียกใช้ 'bcdboot W:\\Windows /s S: /f UEFI' หลังจากแทนที่ W: ด้วยอักษรระบุไดรฟ์ข้อมูล Windows และ S: ด้วยอักษรระบุไดรฟ์ EFI System Partition เส้นทาง:</entry>
+    <entry lang="th" key="IDM_REPAIR_EFI_BOOT_LOADER">ซ่อม EFI Boot Loader...</entry>
+    <entry lang="th" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt จะกู้คืนพาธบูตโหลดเดอร์ Windows EFI และลบรายการและไฟล์บูต VeraCrypt EFI\n\nใช้ตัวเลือกนี้หลังจากที่พาร์ติชั่น/ไดรฟ์ระบบได้รับการถอดรหัสโดยสมบูรณ์แล้ว และ Windows สามารถบูตได้โดยไม่ต้องเข้ารหัสระบบ\n\nคุณต้องการดำเนินการต่อหรือไม่?</entry>
+    <entry lang="th" key="EFI_BOOT_LOADER_FILE_READ_FAILED">ไม่สามารถอ่านไฟล์บูตโหลดเดอร์ EFI ได้อย่างสมบูรณ์:</entry>
+    <entry lang="th" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">ไฟล์บูตโหลดเดอร์ EFI มีขนาดใหญ่โดยไม่คาดคิดและไม่ได้รับการตรวจสอบ:</entry>
+    <entry lang="th" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">พาร์ติชัน/ไดรฟ์ระบบได้รับการถอดรหัสแล้ว และไฟล์บูตโหลดเดอร์ EFI ได้รับการกู้คืนแล้ว แต่ VeraCrypt ไม่สามารถลบรายการบูตเฟิร์มแวร์ VeraCrypt อย่างน้อยหนึ่งรายการได้ ไฟล์ VeraCrypt EFI ถูกปล่อยทิ้งไว้ ดังนั้นรายการเฟิร์มแวร์ที่เหลือยังคงชี้ไปที่ตัวโหลดที่มีอยู่ ลองอีกครั้งในฐานะผู้ดูแลระบบหรือลบรายการบูต VeraCrypt ออกจากการตั้งค่าเฟิร์มแวร์ หลังจากยืนยันว่า Windows Boot Manager เริ่มทำงานตามปกติ</entry>
+    <entry lang="th" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">ไม่สามารถซ่อมแซมบูตโหลดเดอร์ EFI ได้ในขณะที่การเข้ารหัสหรือการถอดรหัสระบบทำงานอยู่หรือไม่สมบูรณ์ ดำเนินการหรือดำเนินการขั้นตอนการเข้ารหัส/ถอดรหัสระบบที่ค้างอยู่ให้เสร็จสิ้นหรือดำเนินการต่อก่อนที่จะลองอีกครั้ง</entry>
+    <entry lang="th" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">การดำเนินการซ่อมแซมนี้มีเฉพาะบนระบบที่บูตในโหมด UEFI จากพาร์ติชันระบบ GPT เท่านั้น</entry>
+    <entry lang="th" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">บูตโหลดเดอร์ EFI ได้รับการซ่อมแซมเรียบร้อยแล้ว</entry>
+    <entry lang="th" key="PIM_ARGON2_HELP">PIM (Personal Iterations Multiplier) ควบคุมต้นทุนหน่วยความจำและเวลาที่ใช้โดยการรับคีย์ส่วนหัว Argon2id ดังต่อไปนี้:\n      หน่วยความจำ = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      การวนซ้ำ = 3 + ((PIM - 1) / 3) สำหรับ PIM 31 หรือต่ำกว่า จากนั้น 13 + (PIM - 31)\n\nเมื่อเว้นว่างไว้หรือตั้งค่าเป็น 0 VeraCrypt จะใช้ค่าเริ่มต้น Argon2 PIM (12) ซึ่งใช้หน่วยความจำ 416 MiB และการวนซ้ำ 6 ครั้ง\n\nเมื่อรหัสผ่านน้อยกว่า 20 ตัวอักษร Argon2 PIM ต้องไม่เล็กกว่า 12 ตัว เพื่อรักษาระดับความปลอดภัยขั้นต่ำ\nเมื่อรหัสผ่านมีอักขระตั้งแต่ 20 ตัวขึ้นไป สามารถตั้งค่า Argon2 PIM เป็นค่าใดก็ได้\n\nArgon2 PIM ที่ใหญ่กว่า 12 จะเพิ่มการใช้งานหน่วยความจำได้สูงสุดถึง 1024 MiB จากนั้นจึงเพิ่มการวนซ้ำ ซึ่งจะทำให้การติดตั้งช้าลง Argon2 PIM ขนาดเล็ก (น้อยกว่า 12) จะทำให้การติดตั้งเร็วขึ้น แต่อาจลดความปลอดภัยได้หากรหัสผ่านไม่รัดกุมเพียงพอ</entry>
+    <entry lang="th" key="PIM_ARGON2_LARGE_WARNING">คุณได้เลือกค่า Argon2 PIM ที่มากกว่าค่าเริ่มต้น VeraCrypt\nโปรดทราบว่าการดำเนินการนี้อาจต้องใช้หน่วยความจำเพิ่มขึ้นและทำให้การติดตั้งช้าลงมาก</entry>
+    <entry lang="th" key="PIM_ARGON2_SMALL_WARNING">คุณได้เลือกค่า Argon2 PIM ที่น้อยกว่าค่าดีฟอลต์ VeraCrypt โปรดทราบว่าหากรหัสผ่านของคุณไม่รัดกุมเพียงพอ อาจทำให้ความปลอดภัยลดลงได้\n\nคุณยืนยันว่าคุณกำลังใช้รหัสผ่านที่รัดกุมหรือไม่?</entry>
+    <entry lang="th" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">รหัสผ่านต้องมีอักขระตั้งแต่ 20 ตัวขึ้นไปจึงจะสามารถใช้ Argon2 PIM ที่ระบุได้\nรหัสผ่านที่สั้นกว่าสามารถใช้ได้เฉพาะเมื่อ Argon2 PIM เป็น 12 หรือมากกว่า</entry>
+    <entry lang="th" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">ติดตั้งวอลุ่ม NTFS ด้วยไดรเวอร์ Linux ในเคอร์เนล</entry>
+    <entry lang="th" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Linux เท่านั้น เมื่อเปิดใช้งานและไม่มีการระบุประเภทระบบไฟล์ที่ชัดเจน VeraCrypt จะตรวจสอบอุปกรณ์เสมือนที่ถอดรหัสด้วย blkid -p และติดตั้งระบบไฟล์ NTFS ที่ตรวจพบด้วยไดรเวอร์ NTFS ในเคอร์เนลที่มีอยู่ โดยข้ามตัวช่วยการติดตั้ง เช่น ntfs-3g VeraCrypt ใช้ ntfs เมื่อได้รับการระบุในเชิงบวกว่าเป็นไดรเวอร์การอ่าน/เขียนที่ทันสมัย หรือคาดว่าจะใช้กับ Linux 7.1 หรือใหม่กว่า มิฉะนั้นจะใช้ ntfs3 หากการตรวจจับ NTFS ล้มเหลว VeraCrypt จะใช้การเลือกระบบไฟล์อัตโนมัติตามปกติ หากไม่มีไดรเวอร์ NTFS ในเคอร์เนลที่รองรับหรือโหลดได้ การติดตั้งจะล้มเหลว ตัวเลือกการเลือกใช้นี้สามารถช่วยหลีกเลี่ยงอาการค้างระหว่าง suspend หรือ hibernate ที่เกิดจากระบบไฟล์ FUSE ในพื้นที่ผู้ใช้ที่ถูกแช่แข็ง</entry>
+    <entry lang="th" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">ไม่มีไดรเวอร์ NTFS ในเคอร์เนลที่รองรับหรือโหลดได้ หากต้องการใช้แบ็กเอนด์ NTFS ดีฟอลต์ของระบบ ให้ปิดใช้งานการกำหนดค่าตามความชอบเคอร์เนลไดรเวอร์ NTFS หรืออย่าร้องขอเคอร์เนล NTFS อย่างชัดเจน</entry>
+    <entry lang="th" key="LINUX_EMERGENCY_UNMOUNT_WARNING">การปลดวอลุ่ม {0} ตามปกติล้มเหลว กรณีนี้อาจเกิดขึ้นเมื่อแอปพลิเคชันยังคงเปิดไฟล์หรือไดเรกทอรีบนวอลุ่มอยู่ หรือเมื่ออุปกรณ์โฮสต์ถูกตัดการเชื่อมต่อและสถานะการติดตั้งค้าง\n\nหากอุปกรณ์ยังคงเชื่อมต่ออยู่ ให้เลือก ไม่ ปิดแอปพลิเคชันที่ใช้วอลุ่ม แล้วลองปลดวอลุ่มอีกครั้ง\n\nหากอุปกรณ์ถูกตัดการเชื่อมต่อหรือสถานะการติดตั้งค้าง VeraCrypt สามารถพยายามล้างข้อมูลฉุกเฉินได้โดยการปลดระบบไฟล์แบบ lazy detach และลบหรือกำหนดเวลาลบอ็อบเจ็กต์เคอร์เนลของ VeraCrypt การเขียนที่รอดำเนินการอาจล้มเหลว ข้อมูลอาจสูญหาย และการล้างข้อมูลอาจยังรอดำเนินการจนกว่าแอปพลิเคชันจะปิดไฟล์ที่เปิดอยู่ ตรวจสอบระบบไฟล์ด้วย fsck หรือเครื่องมือซ่อมแซมที่เหมาะสมก่อนใช้งานอีกครั้ง\n\nดำเนินการต่อ?</entry>
+    <entry lang="th" key="LINUX_EMERGENCY_UNMOUNTED">การล้างข้อมูลฉุกเฉินสำหรับวอลุ่ม {0} ได้เริ่มต้นแล้ว หากวอลุ่มถูกตัดการเชื่อมต่อ สถานะการติดตั้งค้าง หรือมีการเขียนที่รอดำเนินการ ให้ตรวจสอบระบบไฟล์ด้วย fsck หรือเครื่องมือซ่อมแซมที่เหมาะสมก่อนใช้งานอีกครั้ง</entry>
+    <entry lang="th" key="FORMAT_STAGE_WRITING_DATA">กำลังสร้างข้อมูลวอลุ่ม โปรดรอ.</entry>
+    <entry lang="th" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">การสิ้นสุดการสร้างวอลุ่ม: การเขียนส่วนหัวการสำรองข้อมูล</entry>
+    <entry lang="th" key="FORMAT_STAGE_FLUSHING_DATA">การสิ้นสุดการสร้างวอลุ่ม: การล้างข้อมูลลงดิสก์ การดำเนินการนี้อาจใช้เวลาหลายนาทีสำหรับวอลุ่มขนาดใหญ่หรือที่เก็บข้อมูล USB ที่ช้า</entry>
+    <entry lang="th" key="FORMAT_STAGE_FINISHED">กำลังสิ้นสุดการสร้างวอลุ่ม</entry>
+    <entry lang="th" key="FORMAT_STAGE_ABORTED">การสร้างวอลุ่มถูกยกเลิก</entry>
+    <entry lang="th" key="FORMAT_STAGE_ERROR">การสร้างวอลุ่มล้มเหลว</entry>
+    <entry lang="th" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">การสร้างวอลุ่มขั้นสุดท้าย: การติดตั้งวอลุ่มชั่วคราว</entry>
+    <entry lang="th" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">การสร้างวอลุ่มขั้นสุดท้าย: การเตรียมอุปกรณ์ชั่วคราว</entry>
+    <entry lang="th" key="FORMAT_STAGE_CREATING_FILESYSTEM">การสิ้นสุดการสร้างวอลุ่ม: การสร้างระบบไฟล์โดยใช้ {0}</entry>
+    <entry lang="th" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">การสิ้นสุดการสร้างวอลุ่ม: การปลดวอลุ่มชั่วคราว</entry>
+    <entry lang="th" key="MACOSX_APFS_SYNTHESIZED_DEVICE">อุปกรณ์ที่เลือก '{0}' เป็นคอนเทนเนอร์หรือวอลุ่มสังเคราะห์ของ APFS และไม่สามารถใช้เป็นโฮสต์วอลุ่ม VeraCrypt แบบดิบได้\n\nเลือกพาร์ติชันที่เก็บข้อมูลจริงของ APFS{1} แทน</entry>
+    <entry lang="th" key="MACOSX_DEVICE_SYSTEM_PARTITION">อุปกรณ์ที่เลือก '{0}' คือระบบ/พาร์ติชันสนับสนุน macOS และไม่สามารถใช้เป็นโฮสต์วอลุ่ม VeraCrypt ได้</entry>
+    <entry lang="th" key="MACOSX_APFS_SYSTEM_STORE">ที่เก็บข้อมูลจริงของ APFS ที่เลือก '{0}' มีวอลุ่มระบบ macOS ที่ติดตั้งอยู่ในปัจจุบัน และไม่สามารถใช้เป็นโฮสต์วอลุ่ม VeraCrypt ได้</entry>
+    <entry lang="th" key="MACOSX_DEVICE_NOT_WRITABLE">macOS รายงานอุปกรณ์ที่เลือก '{0}' เป็นแบบอ่านอย่างเดียว เลือกฟิสิคัลพาร์ติชันหรือดิสก์ที่เขียนได้</entry>
+    <entry lang="th" key="MACOSX_APFS_EROFS_HINT">macOS รายงานว่าอุปกรณ์ที่เลือกเป็นแบบอ่านอย่างเดียว หากนี่คือดิสก์ APFS ตรวจสอบให้แน่ใจว่าคุณเลือกพาร์ติชันที่เก็บข้อมูลจริงของ APFS ไม่ใช่วอลุ่มสังเคราะห์ของ APFS ใช้ยูทิลิตี้ดิสก์หรือ 'diskutil list' เพื่อระบุพาร์ติชันจริง จากนั้นลองอีกครั้ง</entry>
+    <entry lang="th" key="FAVORITE_PIM_OR_KDF_CHANGED">วอลุ่มนี้ได้รับการลงทะเบียนเป็นวอลุ่มรายการโปรดของระบบ และการตั้งค่า PIM และ/หรือ KDF มีการเปลี่ยนแปลง\nคุณต้องการให้ VeraCrypt อัปเดตการกำหนดค่าวอลุ่มรายการโปรดของระบบโดยอัตโนมัติหรือไม่ (ต้องมีสิทธิ์ของผู้ดูแลระบบ)\n\nโปรดทราบว่าหากคุณตอบว่าไม่ คุณจะต้องอัปเดตวอลุ่มรายการโปรดของระบบด้วยตนเอง</entry>
+    <entry lang="th" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">KDF ที่เลือกใช้พารามิเตอร์ PIM ที่แตกต่างกัน ดังนั้น VeraCrypt จะไม่นำ PIM แบบกำหนดเองปัจจุบันมาใช้ซ้ำ ส่วนหัวของวอลุ่มใหม่จะใช้ PIM เริ่มต้นสำหรับ KDF ที่เลือก เว้นแต่คุณจะเลือก "ใช้ PIM" ในส่วนใหม่ และป้อนค่าที่กำหนดเอง\n\nคุณต้องการดำเนินการต่อหรือไม่?</entry>
+    <entry lang="th" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot เปิดใช้งานอยู่ แต่ฐานข้อมูล Secure Boot ของเฟิร์มแวร์ไม่เชื่อถือชุด Microsoft UEFI CA ใด ๆ ที่ตัวโหลดบูต EFI ของ VeraCrypt รองรับ เปิดใช้งาน Microsoft Corporation UEFI CA 2011 หรือเปิดใช้งานทั้ง Microsoft UEFI CA 2023 และ Microsoft Option ROM UEFI CA 2023 จากนั้นเรียกใช้ตัวเลือกซ่อมแซม/ติดตั้งใหม่ของ VeraCrypt หรือปิดใช้งาน Secure Boot แทน</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
