@@ -6,6 +6,16 @@ removal_failed() {
 	echo "Error: File removal failed, please run the script with elevated privileges." 1>&2 && exit 1
 }
 
+update_system_caches() {
+	if command -v update-mime-database >/dev/null 2>&1; then
+		update-mime-database /usr/share/mime >/dev/null 2>&1
+	fi
+	if command -v update-desktop-database >/dev/null 2>&1; then
+		update-desktop-database -q >/dev/null 2>&1
+	fi
+	return 0
+}
+
 rm -f /usr/bin/veracrypt || removal_failed
 rm -f /usr/sbin/mount.veracrypt || removal_failed
 rm -f /usr/share/applications/veracrypt.desktop || removal_failed
@@ -20,7 +30,6 @@ for res in 16 22 24 32 48 64 256 512 1024; do \
 done
 
 rm -f /usr/bin/veracrypt-uninstall.sh || removal_failed
-update-mime-database /usr/share/mime >/dev/null 2>&1
-update-desktop-database -q
+update_system_caches
 
 echo VeraCrypt uninstalled.

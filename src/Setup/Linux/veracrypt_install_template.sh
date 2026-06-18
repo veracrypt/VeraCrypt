@@ -121,6 +121,23 @@ show_exit_message()
 	fi
 }
 
+update_system_caches_command()
+{
+	if [ "$INSTALLER_TYPE" = "console" ]
+	then
+		printf ':'
+		return 0
+	fi
+
+	printf '%s' "if command -v update-mime-database >/dev/null 2>&1; then $SUDO update-mime-database /usr/share/mime >/dev/null 2>&1; fi; if command -v update-desktop-database >/dev/null 2>&1; then $SUDO update-desktop-database -q >/dev/null 2>&1; fi"
+}
+
+update_system_caches()
+{
+	eval "$(update_system_caches_command)"
+	return 0
+}
+
 # License extraction
 
 trap 'rm -f $LICENSE $PACKAGE; exit 1' HUP INT QUIT TERM
@@ -1070,17 +1087,19 @@ then
 
 	if [ $GUI -eq 1 ]
 	then
+		CACHE_UPDATE_COMMAND=$(update_system_caches_command)
+
 		if [ $XTERM -eq 1 ]
 		then
-			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $SUDO update-mime-database /usr/share/mime >/dev/null 2>&1; $SUDO update-desktop-database -q; echo; echo Press Enter to exit...; read A"
+			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 		else
 			if [ $GTERM -eq 1 ]
 			then
-				exec gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $SUDO update-mime-database /usr/share/mime >/dev/null 2>&1; $SUDO update-desktop-database -q; echo; echo Press Enter to exit...; read A"
+				exec gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 			else
 				if [ $KTERM -eq 1 ]
 				then
-					exec konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $SUDO update-mime-database /usr/share/mime >/dev/null 2>&1; $SUDO update-desktop-database -q; echo; echo Press Enter to exit...; read A"
+					exec konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 				fi
 			fi
 		fi
@@ -1091,11 +1110,7 @@ then
 		if [ $INSTALLED -eq 1 ]
 		then
 			$SUDO rm -f $OBSOLETE_DONATION_BANK_FILES
-			$SUDO update-mime-database /usr/share/mime >/dev/null 2>&1 && $SUDO update-desktop-database -q
-		fi
-
-		if [ $INSTALLED -eq 1 ]
-		then
+			update_system_caches
 			show_exit_message ''
 		fi
 	fi
