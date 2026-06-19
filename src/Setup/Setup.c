@@ -1807,6 +1807,12 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 		}
 		return TRUE;
 	}
+	catch (ErrorException &e)
+	{
+		e.Show (hwndDlg);
+		if (e.ErrLangId && strcmp (e.ErrLangId, "SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA") == 0)
+			return FALSE;
+	}
 	catch (Exception &e)
 	{
 		e.Show (hwndDlg);

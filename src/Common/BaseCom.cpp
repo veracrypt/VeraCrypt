@@ -13,6 +13,7 @@
 #include <atlcomcli.h>
 #include <atlconv.h>
 #include <comutil.h>
+#include <string.h>
 #include <windows.h>
 #include "BaseCom.h"
 #include "BootEncryption.h"
@@ -20,6 +21,11 @@
 #include "Registry.h"
 
 using namespace VeraCrypt;
+
+static bool IsUnsupportedEfiSecureBootDbException (const ErrorException &e)
+{
+	return e.ErrLangId && strcmp (e.ErrLangId, "SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA") == 0;
+}
 
 HRESULT CreateElevatedComObject (HWND hwnd, REFGUID guid, REFIID iid, void **ppv)
 {
@@ -318,6 +324,14 @@ DWORD BaseCom::InstallEfiBootLoader (BOOL preserveUserConfig, BOOL hiddenOSCreat
 	{
 		return GetLastError();
 	}
+	catch (ErrorException &e)
+	{
+		if (IsUnsupportedEfiSecureBootDbException (e))
+			return VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB;
+
+		e.Show (NULL);
+		return ERROR_EXCEPTION_IN_SERVICE;
+	}
 	catch (Exception &e)
 	{
 		e.Show (NULL);
@@ -450,6 +464,14 @@ DWORD BaseCom::GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSuppor
 	catch (SystemException &)
 	{
 		return GetLastError();
+	}
+	catch (ErrorException &e)
+	{
+		if (IsUnsupportedEfiSecureBootDbException (e))
+			return VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB;
+
+		e.Show (NULL);
+		return ERROR_EXCEPTION_IN_SERVICE;
 	}
 	catch (Exception &e)
 	{

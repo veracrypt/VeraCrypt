@@ -585,6 +585,8 @@ namespace VeraCrypt
 			DWORD result = ElevatedComInstance->InstallEfiBootLoader (preserveUserConfig ? TRUE : FALSE, hiddenOSCreation ? TRUE : FALSE, pim, hashAlg);
 			if (result != ERROR_SUCCESS)
 			{
+				if (result == VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB)
+					throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", SRC_POS);
 				SetLastError (result);
 				throw SystemException(SRC_POS);
 			}
@@ -662,6 +664,8 @@ namespace VeraCrypt
 			DWORD result = ElevatedComInstance->GetEfiBootLoaderSigningSupport (pMicrosoft2023UefiCAsSupported);
 			if (result != ERROR_SUCCESS)
 			{
+				if (result == VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB)
+					throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", SRC_POS);
 				SetLastError (result);
 				throw SystemException(SRC_POS);
 			}
@@ -2823,6 +2827,11 @@ namespace VeraCrypt
 			systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
 
 		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, resourceSet);
+		if (!resourceSet)
+		{
+			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, 0);
+			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, 0);
+		}
 		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
 		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", selectionReason, FALSE);
 		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE);
@@ -3096,49 +3105,6 @@ namespace VeraCrypt
 		return true;
 	}
 
-#ifdef VC_EFI_BOOTLOADER_SELECTION_TEST
-	static bool FirmwareDbBufferContainsMicrosoft2023UefiCAs (const std::vector<uint8>& db)
-	{
-		FirmwareDbMicrosoftUefiCaSupport support;
-		return FirmwareDbBufferGetMicrosoftUefiCaSupport (db, support) && FirmwareDbMicrosoftUefiCaSupportContains2023Set (support);
-	}
-
-	static bool FirmwareDbBufferContainsMicrosoftCorporationUefiCa2011 (const std::vector<uint8>& db)
-	{
-		FirmwareDbMicrosoftUefiCaSupport support;
-		return FirmwareDbBufferGetMicrosoftUefiCaSupport (db, support) && support.ContainsMicrosoftCorporationUefiCa2011;
-	}
-
-	bool TestFirmwareDbBufferContainsMicrosoft2023UefiCAs (const uint8* db, size_t dbSize)
-	{
-		std::vector<uint8> firmwareDb;
-		if (dbSize != 0)
-		{
-			if (!db)
-				return false;
-			firmwareDb.assign (db, db + dbSize);
-		}
-
-		return FirmwareDbBufferContainsMicrosoft2023UefiCAs (firmwareDb);
-	}
-
-	// Feed a db captured from a machine that trusts Microsoft Corporation UEFI CA 2011
-	// (for example the output of PowerShell Get-SecureBootUEFI db) to validate detection
-	// of the 2011 modulus against real firmware data.
-	bool TestFirmwareDbBufferContainsMicrosoftCorporationUefiCa2011 (const uint8* db, size_t dbSize)
-	{
-		std::vector<uint8> firmwareDb;
-		if (dbSize != 0)
-		{
-			if (!db)
-				return false;
-			firmwareDb.assign (db, db + dbSize);
-		}
-
-		return FirmwareDbBufferContainsMicrosoftCorporationUefiCa2011 (firmwareDb);
-	}
-#endif
-
 	static bool TryFirmwareDbGetMicrosoftUefiCaSupport (FirmwareDbMicrosoftUefiCaSupport& support)
 	{
 		std::vector<uint8> db;
@@ -3175,11 +3141,19 @@ namespace VeraCrypt
 			return false;
 		}
 
-		bSecureBootEnabled = (secureBoot.size () >= 1) && (secureBoot[0] == 1);
+		if (secureBoot.size () != 1 || (secureBoot[0] != 0 && secureBoot[0] != 1))
+		{
+			if (pLastError)
+				*pLastError = ERROR_INVALID_DATA;
+			SetLastError (ERROR_INVALID_DATA);
+			return false;
+		}
+
+		bSecureBootEnabled = secureBoot[0] == 1;
 		return true;
 	}
 
-	static void ThrowUnsupportedEfiSecureBootDb (const wchar_t *reason, DWORD firmwareDbError)
+	static __declspec(noreturn) void ThrowUnsupportedEfiSecureBootDb (const wchar_t *reason, DWORD firmwareDbError)
 	{
 		RecordEfiBootLoaderResourceSetSelectionDiagnostics (0, reason, firmwareDbError);
 		throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", SRC_POS);
@@ -3261,7 +3235,8 @@ namespace VeraCrypt
 		if (!bSecureBootStateKnown && !IsFirmwareDbUnavailableError (secureBootLastError))
 			ThrowUnsupportedEfiSecureBootDb (L"firmware db and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
 
-		ThrowUnsupportedEfiSecureBootDb (L"firmware db could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+		// All Secure Boot state cases are handled above.
+		TC_THROW_FATAL_EXCEPTION;
 	}
 
 	static void ThrowMissingEfiResource (const wchar_t* resourceName, bool rescueDisk)
@@ -6133,54 +6108,7 @@ namespace VeraCrypt
 			throw SystemException (SRC_POS);
 		}
 
-		FirmwareDbMicrosoftUefiCaSupport support;
-		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (support))
-		{
-			DWORD dwError = GetLastError ();
-			bool bSecureBootEnabled = false;
-			bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
-			DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
-			if (bSecureBootStateKnown && bSecureBootEnabled)
-				ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
-
-			if (!bSecureBootStateKnown && !IsFirmwareDbUnavailableError (secureBootLastError))
-				ThrowUnsupportedEfiSecureBootDb (L"firmware db and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
-
-			*pMicrosoft2023UefiCAsSupported = FALSE;
-			return;
-		}
-
-		if (FirmwareDbMicrosoftUefiCaSupportContains2023Set (support))
-		{
-			*pMicrosoft2023UefiCAsSupported = TRUE;
-			return;
-		}
-
-		if (support.ContainsMicrosoftCorporationUefiCa2011)
-		{
-			*pMicrosoft2023UefiCAsSupported = FALSE;
-			return;
-		}
-
-		bool bSecureBootEnabled = false;
-		bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
-		DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
-		if (bSecureBootStateKnown && !bSecureBootEnabled)
-		{
-			*pMicrosoft2023UefiCAsSupported = FALSE;
-			return;
-		}
-
-		if (!bSecureBootStateKnown && IsFirmwareDbUnavailableError (secureBootLastError))
-		{
-			*pMicrosoft2023UefiCAsSupported = FALSE;
-			return;
-		}
-
-		if (bSecureBootStateKnown)
-			ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db does not contain Microsoft Corporation UEFI CA 2011 or the Microsoft 2023 UEFI CA pair required by VeraCrypt", ERROR_SUCCESS);
-
-		ThrowUnsupportedEfiSecureBootDb (L"firmware db does not contain a supported Microsoft UEFI CA and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", secureBootLastError);
+		*pMicrosoft2023UefiCAsSupported = GetPreferredEfiBootLoaderResourceSet ().ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023;
 	}
 
 #ifndef SETUP
@@ -6581,8 +6509,19 @@ namespace VeraCrypt
 				if (storedPimUpdateNeeded || !CheckBootloaderFingerprint (true))
 					InstallBootLoader (device, true, false, pim, cryptoInfo->pkcs5);
 			}
+			catch (Exception &e)
+			{
+				if (storedPimUpdateNeeded)
+				{
+					e.Show (hwndDlg);
+					result = ERR_OS_ERROR;
+				}
+			}
 			catch (...)
-			{}
+			{
+				if (storedPimUpdateNeeded)
+					result = ERR_OS_ERROR;
+			}
 
 			CallDriver (TC_IOCTL_REOPEN_BOOT_VOLUME_HEADER, &reopenRequest, sizeof (reopenRequest));
 		}

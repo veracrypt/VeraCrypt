@@ -10886,8 +10886,13 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 				SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing: InstallBootLoader called");
 			}
 		}
+		catch (Exception &)
+		{
+			SystemFavoritesServiceLogError (L"SystemFavoritesServiceUpdateLoaderProcessing failed while updating the boot loader.");
+		}
 		catch (...)
 		{
+			SystemFavoritesServiceLogError (L"SystemFavoritesServiceUpdateLoaderProcessing failed with an unexpected exception while updating the boot loader.");
 		}
 	}
 }
@@ -11197,8 +11202,13 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 				bootEnc.InstallBootLoader (true);
 			}
 		}
+		catch (Exception &)
+		{
+			SystemFavoritesServiceLogError (L"PostOOBE boot loader update failed.");
+		}
 		catch (...)
 		{
+			SystemFavoritesServiceLogError (L"PostOOBE boot loader update failed with an unexpected exception.");
 		}
 		return 0;
 	}
