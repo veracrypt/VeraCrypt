@@ -189,6 +189,9 @@ static DWORD				LastKnownLogicalDrives;
 
 static volatile LONG FavoriteMountOnGoing = 0;
 static list <FavoriteVolume> SuppressedFavoritesOnArrivalMount;
+/* Cleared when the host is no longer an arrival candidate, not when the drive
+   letter is later freed, to keep mount-on-arrival scoped to the arrival event. */
+static list <FavoriteVolume> LetterConflictFavorites;
 
 typedef enum
 {
@@ -213,6 +216,7 @@ typedef struct
 {
 	BOOL Success;
 	BOOL MountedAny;
+	BOOL LetterConflict;
 	/* Reason the batch stopped early. Non-terminal per-favorite failures are
 	   reflected by Success == FALSE while StopReason remains MountResultSucceeded. */
 	MountResult StopReason;
@@ -229,7 +233,7 @@ typedef struct
 } mountFavoriteVolumeThreadParam;
 
 static void __cdecl mountFavoriteVolumeThreadFunction (void *pArg);
-static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch);
+static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch, BOOL favoriteMountOnArrival);
 
 
 static void MountBatchInitialize (MountBatchContext* pMountBatch)
@@ -365,10 +369,35 @@ static bool FavoriteVolumesMatchForArrivalCancel (const FavoriteVolume& left, co
 	if (!left.VolumePathId.empty() && !right.VolumePathId.empty())
 		return _wcsicmp (left.VolumePathId.c_str(), right.VolumePathId.c_str()) == 0;
 
+	/* Snapshot entries may have a normalized device path while the live favorite
+	   still carries its raw volume-GUID path. Treat those as the same arrival
+	   identity so suppression/conflict cleanup is not left behind. */
+	if (!left.VolumePathId.empty() && !right.Path.empty()
+		&& _wcsicmp (left.VolumePathId.c_str(), right.Path.c_str()) == 0)
+		return true;
+
+	if (!right.VolumePathId.empty() && !left.Path.empty()
+		&& _wcsicmp (right.VolumePathId.c_str(), left.Path.c_str()) == 0)
+		return true;
+
 	if (!left.Path.empty() && !right.Path.empty())
 		return _wcsicmp (left.Path.c_str(), right.Path.c_str()) == 0;
 
 	return false;
+}
+
+
+static bool SameArrivalFavoriteAndLetter (const FavoriteVolume& left, const FavoriteVolume& right)
+{
+	if (left.MountPoint.empty() || right.MountPoint.empty())
+	{
+		if (!left.MountPoint.empty() || !right.MountPoint.empty())
+			return false;
+	}
+	else if (_wcsicmp (left.MountPoint.c_str(), right.MountPoint.c_str()) != 0)
+		return false;
+
+	return FavoriteVolumesMatchForArrivalCancel (left, right);
 }
 
 
@@ -384,10 +413,29 @@ static bool FavoriteVolumeArrivalMountSuppressed (const list <FavoriteVolume>& s
 }
 
 
+static bool FavoriteHasLetterConflict (const list <FavoriteVolume>& conflicts, const FavoriteVolume& favorite)
+{
+	for (const FavoriteVolume& conflict: conflicts)
+	{
+		if (SameArrivalFavoriteAndLetter (conflict, favorite))
+			return true;
+	}
+
+	return false;
+}
+
+
 static void SuppressFavoriteVolumeArrivalMount (list <FavoriteVolume>& suppressedFavorites, const FavoriteVolume& favorite)
 {
 	if (!FavoriteVolumeArrivalMountSuppressed (suppressedFavorites, favorite))
 		suppressedFavorites.push_back (favorite);
+}
+
+
+static void TrackLetterConflict (list <FavoriteVolume>& conflicts, const FavoriteVolume& favorite)
+{
+	if (!FavoriteHasLetterConflict (conflicts, favorite))
+		conflicts.push_back (favorite);
 }
 
 
@@ -404,9 +452,25 @@ static void ResumeFavoriteVolumeArrivalMount (list <FavoriteVolume>& suppressedF
 }
 
 
-void ClearFavoriteVolumeArrivalMountSuppressions ()
+static void ClearLetterConflict (list <FavoriteVolume>& conflicts, const FavoriteVolume& favorite)
+{
+	for (list <FavoriteVolume>::iterator conflict = conflicts.begin();
+		conflict != conflicts.end();)
+	{
+		if (SameArrivalFavoriteAndLetter (*conflict, favorite))
+			conflict = conflicts.erase (conflict);
+		else
+			++conflict;
+	}
+}
+
+
+void ClearFavoriteVolumeArrivalMountSuppressions (BOOL clearLetterConflicts)
 {
 	SuppressedFavoritesOnArrivalMount.clear ();
+
+	if (clearLetterConflicts)
+		LetterConflictFavorites.clear ();
 }
 
 
@@ -463,6 +527,21 @@ static BOOL FavoriteVolumeArrivalMountCandidate (FavoriteVolume& favorite)
 		return FALSE;
 
 	return TRUE;
+}
+
+
+static void ClearUnavailableFavoriteVolumeLetterConflicts ()
+{
+	for (list <FavoriteVolume>::iterator conflict = LetterConflictFavorites.begin();
+		conflict != LetterConflictFavorites.end();)
+	{
+		FavoriteVolume favorite = *conflict;
+
+		if (!FavoriteVolumeArrivalMountCandidate (favorite))
+			conflict = LetterConflictFavorites.erase (conflict);
+		else
+			++conflict;
+	}
 }
 
 
@@ -8599,15 +8678,23 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						reentry = true;
 						finally_do_arg (bool*, &reentry, { *finally_arg = false; });
 
-						for (FavoriteVolume& favorite: FavoritesOnArrivalMountRequired)
+						/* Mount attempts can show modal UI and process WM_DEVICECHANGE,
+						   which may reload and rebuild FavoritesOnArrivalMountRequired. */
+						vector <FavoriteVolume> favoritesOnArrival (FavoritesOnArrivalMountRequired.begin(), FavoritesOnArrivalMountRequired.end());
+
+						for (FavoriteVolume& favorite: favoritesOnArrival)
 						{
 							if (!FavoriteVolumeArrivalMountCandidate (favorite))
 							{
 								ResumeFavoriteVolumeArrivalMount (SuppressedFavoritesOnArrivalMount, favorite);
+								ClearLetterConflict (LetterConflictFavorites, favorite);
 								continue;
 							}
 
 							if (FavoriteVolumeArrivalMountSuppressed (SuppressedFavoritesOnArrivalMount, favorite))
+								continue;
+
+							if (FavoriteHasLetterConflict (LetterConflictFavorites, favorite))
 								continue;
 
 							bool mountedAndNotDisconnected = false;
@@ -8629,12 +8716,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 									FavoriteMountOnArrivalInProgress = TRUE;
 									finally_do ({ FavoriteMountOnArrivalInProgress = FALSE; });
 									SetLastError (ERROR_SUCCESS);
-									favoriteMountResult = MountFavoriteVolumesWithAbort (hwndDlg, FALSE, FALSE, FALSE, favorite, &mountBatch);
+									favoriteMountResult = MountFavoriteVolumesWithAbort (hwndDlg, FALSE, FALSE, FALSE, favorite, &mountBatch, TRUE);
 								}
 
-								if (favoriteMountResult.Success)
+								if (favoriteMountResult.LetterConflict)
+								{
+									TrackLetterConflict (LetterConflictFavorites, favorite);
+								}
+								else if (favoriteMountResult.Success)
 								{
 									ResumeFavoriteVolumeArrivalMount (SuppressedFavoritesOnArrivalMount, favorite);
+									ClearLetterConflict (LetterConflictFavorites, favorite);
 									FavoritesMountedOnArrivalStillConnected.push_back (favorite);
 								}
 								else if (favoriteMountResult.StopReason == MountResultCancelled || favoriteMountResult.StopReason == MountResultArrivalPasswordPromptDeclined)
@@ -8674,7 +8766,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							// set DisconnectedDevice field on FavoritesOnArrivalMountRequired element
 							for (FavoriteVolume& onArrivalFavorite: FavoritesOnArrivalMountRequired)
 							{
-								if (onArrivalFavorite.Path == favorite->Path)
+								if (FavoriteVolumesMatchForArrivalCancel (onArrivalFavorite, *favorite))
 								{
 									onArrivalFavorite.DisconnectedDevice = true;
 									break;
@@ -8884,7 +8976,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 									wchar_t *wszVol = (wchar_t *) LastKnownMountList.wszVolume[m];
 
 									if (wcsstr (wszVol, L"\\??\\") == wszVol)
-										vol += 4;
+										wszVol += 4;
 
 									if (wszVol[1] == L':' && i == (wszVol[0] - (wszVol[0] <= L'Z' ? L'A' : L'a')))
 									{
@@ -8920,6 +9012,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 				}
 			}
+
+			if (wParam == DBT_DEVICEREMOVECOMPLETE)
+				ClearUnavailableFavoriteVolumeLetterConflicts ();
 
 			// Favorite volumes
 			UpdateDeviceHostedFavoriteVolumes();
@@ -11395,7 +11490,15 @@ void DismountIdleVolumes ()
 	}
 }
 
-static MountResult MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, BOOL& lastbExplore, BOOL& userForcedReadOnly, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch)
+static void ReportFavoriteDriveLetterUnavailable (HWND hwnd, BOOL favoriteMountOnArrival)
+{
+	if (favoriteMountOnArrival)
+		WarningBalloonDirect (NULL, GetString ("DRIVE_LETTER_UNAVAILABLE"), hwnd ? hwnd : MainDlg);
+	else
+		Error ("DRIVE_LETTER_UNAVAILABLE", hwnd ? hwnd : MainDlg);
+}
+
+static MountResult MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, BOOL& lastbExplore, BOOL& userForcedReadOnly, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch, BOOL favoriteMountOnArrival)
 {
 	MountResult result = MountResultSkipped;
 	int drive;
@@ -11405,12 +11508,12 @@ static MountResult MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &fav
 	if ((drive < MIN_MOUNTED_VOLUME_DRIVE_NUMBER) || (drive > MAX_MOUNTED_VOLUME_DRIVE_NUMBER))
 	{
 		if (!systemFavorites)
-			Error ("DRIVE_LETTER_UNAVAILABLE", MainDlg);
+			ReportFavoriteDriveLetterUnavailable (MainDlg, favoriteMountOnArrival);
 		else if (ServiceMode && systemFavorites)
 		{
 			SystemFavoritesServiceLogError (wstring (L"The drive letter ") + (wchar_t) (drive + L'A') + wstring (L" used by favorite \"") + favorite.Path + L"\" is invalid.\nThis system favorite will not be mounted");
 		}
-		return MountResultFailed;
+		return favoriteMountOnArrival ? MountResultDriveLetterUnavailable : MountResultFailed;
 	}
 
 	mountOptions.ReadOnly = favorite.ReadOnly || userForcedReadOnly;
@@ -11459,6 +11562,13 @@ static MountResult MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &fav
 		lastbExplore = bExplore;
 
 		bExplore = (BOOL) favorite.OpenExplorerWindow;
+
+		if (!systemFavorites && !IsDriveAvailable (drive))
+		{
+			ReportFavoriteDriveLetterUnavailable (MainDlg, favoriteMountOnArrival);
+			result = favoriteMountOnArrival ? MountResultDriveLetterUnavailable : MountResultFailed;
+			goto skipMount;
+		}
 
 		if (!systemFavorites
 			&& !logOnMount
@@ -11539,7 +11649,7 @@ skipMount:
 	}
 	else if (!systemFavorites && !favoriteVolumeToMount.Path.empty())
 	{
-		Error ("DRIVE_LETTER_UNAVAILABLE", MainDlg);
+		ReportFavoriteDriveLetterUnavailable (MainDlg, favoriteMountOnArrival);
 		result = MountResultDriveLetterUnavailable;
 	}
 	else if (ServiceMode && systemFavorites)
@@ -11584,8 +11694,9 @@ static BOOL HandleFavoriteMountResult (MountResult mountResult, MountBatchContex
 	case MountResultDriveLetterUnavailable:
 		/* The favorite's drive letter is taken by another volume. Treat this as a non-fatal
 		   skip (it does not flip overall success to failure): the favorite-on-arrival scan
-		   relies on this so it parks the favorite instead of re-prompting and re-showing the
+		   uses a separate suppression list instead of re-prompting and re-showing the
 		   error on every timer tick. */
+		pResult->LetterConflict = TRUE;
 		return TRUE;
 
 	case MountResultSkipped:
@@ -11595,7 +11706,7 @@ static BOOL HandleFavoriteMountResult (MountResult mountResult, MountBatchContex
 }
 
 
-static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch)
+static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount, MountBatchContext* pMountBatch, BOOL favoriteMountOnArrival)
 {
 	MountFavoriteVolumesResult batchResult;
 	MountResult mountResult = MountResultSkipped;
@@ -11604,6 +11715,7 @@ static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL
 
 	batchResult.Success = TRUE;
 	batchResult.MountedAny = FALSE;
+	batchResult.LetterConflict = FALSE;
 	batchResult.StopReason = MountResultSucceeded;
 
 	if (ServiceMode)
@@ -11617,7 +11729,7 @@ static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL
 	mountOptions.SkipCachedPasswords = FALSE;
 
 	VolumePassword.Length = 0;
-	MultipleMountOperationInProgress = (favoriteVolumeToMount.Path.empty() || FavoriteMountOnArrivalInProgress);
+	MultipleMountOperationInProgress = (favoriteVolumeToMount.Path.empty() || favoriteMountOnArrival);
 
 	vector <FavoriteVolume> favorites, skippedSystemFavorites;
 
@@ -11695,7 +11807,7 @@ static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL
 		}
 
 		SetLastError (ERROR_SUCCESS);
-		mountResult = MountFavoriteVolumeBase (hwnd, favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, pMountBatch);
+		mountResult = MountFavoriteVolumeBase (hwnd, favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, pMountBatch, favoriteMountOnArrival);
 		if (!HandleFavoriteMountResult (mountResult, pMountBatch, &batchResult))
 			goto ret;
 	}
@@ -11765,7 +11877,7 @@ static MountFavoriteVolumesResult MountFavoriteVolumesWithAbort (HWND hwnd, BOOL
 							SystemFavoritesServiceLogInfo (wstring (L"Favorite \"") + favorite->VolumePathId + L"\" is connected. Performing mount.");
 
 						SetLastError (ERROR_SUCCESS);
-						mountResult = MountFavoriteVolumeBase (hwnd, *favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, pMountBatch);
+						mountResult = MountFavoriteVolumeBase (hwnd, *favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, pMountBatch, favoriteMountOnArrival);
 						if (!HandleFavoriteMountResult (mountResult, pMountBatch, &batchResult))
 							goto ret;
 					}
@@ -11809,7 +11921,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 	MountBatchContext mountBatch;
 	MountBatchInitialize (&mountBatch);
 
-	return MountFavoriteVolumesWithAbort (hwnd, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, &mountBatch).Success;
+	return MountFavoriteVolumesWithAbort (hwnd, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount, &mountBatch, FALSE).Success;
 }
 
 static void CALLBACK mountFavoriteVolumeCallbackFunction (void *pArg, HWND hwnd)
@@ -11821,7 +11933,7 @@ static void CALLBACK mountFavoriteVolumeCallbackFunction (void *pArg, HWND hwnd)
 		return;
 
 	const FavoriteVolume& favoriteVolumeToMount = pParam->favoriteVolumeToMount ? *(pParam->favoriteVolumeToMount) : FavoriteVolume();
-	MountFavoriteVolumesWithAbort (hwnd, pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount, favoriteVolumeToMount, &pParam->mountBatch);
+	MountFavoriteVolumesWithAbort (hwnd, pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount, favoriteVolumeToMount, &pParam->mountBatch, FALSE);
 }
 
 BOOL CALLBACK mountFavoriteVolumeCancelProc(void* pArg, HWND )

@@ -78,7 +78,7 @@ namespace VeraCrypt
 	wstring GetFavoriteVolumeLabel (const wstring &volumePath, bool& useInExplorer);
 	void LoadFavoriteVolumes ();
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation = false);
-	static void OnFavoriteVolumesUpdated ();
+	static void OnFavoriteVolumesUpdated (bool clearLetterConflicts = true);
 	BOOL OrganizeFavoriteVolumes (HWND hwndDlg, bool systemFavorites, const FavoriteVolume &newFavorite = FavoriteVolume());
 	bool SaveFavoriteVolumes (HWND hwndDlg, const vector <FavoriteVolume> &favorites, bool systemFavorites);
 	static void SetControls (HWND hwndDlg, const FavoriteVolume &favorite, bool systemFavoritesMode, bool enable = true);

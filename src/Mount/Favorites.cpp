@@ -556,7 +556,7 @@ namespace VeraCrypt
 	}
 
 
-	void LoadFavoriteVolumes ()
+	static void LoadFavoriteVolumes (bool clearLetterConflicts)
 	{
 		LoadFavoriteVolumes (FavoriteVolumes, false);
 
@@ -566,7 +566,13 @@ namespace VeraCrypt
 		}
 		catch (...) { }	// Ignore errors as SystemFavoriteVolumes list is used only for resolving volume paths to labels
 
-		OnFavoriteVolumesUpdated();
+		OnFavoriteVolumesUpdated (clearLetterConflicts);
+	}
+
+
+	void LoadFavoriteVolumes ()
+	{
+		LoadFavoriteVolumes (true);
 	}
 
 
@@ -729,11 +735,11 @@ namespace VeraCrypt
 	}
 
 
-	static void OnFavoriteVolumesUpdated ()
+	static void OnFavoriteVolumesUpdated (bool clearLetterConflicts)
 	{
 		FillFavoriteVolumesMenu();
 
-		::ClearFavoriteVolumeArrivalMountSuppressions ();
+		::ClearFavoriteVolumeArrivalMountSuppressions (clearLetterConflicts ? TRUE : FALSE);
 		FavoritesOnArrivalMountRequired.clear();
 
 		for (const FavoriteVolume& favorite: FavoriteVolumes)
@@ -1109,7 +1115,7 @@ namespace VeraCrypt
 	{
 		try
 		{
-			LoadFavoriteVolumes();
+			LoadFavoriteVolumes (false);
 		}
 		catch (Exception &e)
 		{

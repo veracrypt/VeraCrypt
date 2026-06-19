@@ -118,7 +118,7 @@ static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPAR
 
 void SetDriverConfigurationFlag (uint32 flag, BOOL state);
 BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites = FALSE, BOOL logOnMount = FALSE, BOOL hotKeyMount = FALSE, const VeraCrypt::FavoriteVolume &favoriteVolumeToMount = VeraCrypt::FavoriteVolume());
-void ClearFavoriteVolumeArrivalMountSuppressions ();
+void ClearFavoriteVolumeArrivalMountSuppressions (BOOL clearLetterConflicts);
 
 // A class that represents a device based on its device ID
 class CDevice
