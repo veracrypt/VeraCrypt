@@ -322,8 +322,10 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control)
 	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/postinst 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postinst)
 	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/prerm 		${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
+	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/postrm 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postrm)
 	set( DEBIAN_POSTINST ${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postinst)
 	set( DEBIAN_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
+	set( DEBIAN_POSTRM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postrm)
 	
 	set( CPACK_GENERATOR 					"DEB" )																				# mandatory
 
@@ -420,8 +422,10 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control)
 	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/postinstall.sh 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postinstall.sh)
 	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/prerm.sh 		${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
+	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/postuninstall.sh ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postuninstall.sh)
 	set( RPM_POSTINSTALL ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postinstall.sh)
 	set( RPM_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
+	set( RPM_POSTUNINSTALL ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postuninstall.sh)
 	
 	set( CPACK_GENERATOR 				"RPM" )																					# mandatory
 	# Reproducible RPM: CPackRPM does not consume SOURCE_DATE_EPOCH on its own.
@@ -481,6 +485,7 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 
 	set( CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE 			${RPM_PRERM})															# optional
 	set( CPACK_RPM_POST_INSTALL_SCRIPT_FILE 			${RPM_POSTINSTALL})														# optional
+	set( CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE 			${RPM_POSTUNINSTALL})													# optional
 	
 	# Prevents CPack from generating file conflicts
 	# This is to avoid having %dir of these directories in the .spec file

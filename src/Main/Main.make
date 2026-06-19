@@ -424,10 +424,8 @@ endif
 ifneq "$(INSTALL_ICONS)" "0"
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/pixmaps
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/scalable/apps
-	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/symbolic/apps
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt.svg $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/scalable/apps/$(APPNAME).svg
-	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-symbolic.svg $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/symbolic/apps/$(APPNAME)-symbolic.svg
 
 	for res in 16 22 24 32 48 64 256 512 1024; do \
 		mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/icons/hicolor/$${res}x$${res}/apps ;\
@@ -589,6 +587,16 @@ endif
 			cp -P "$$_src" "$(DESTDIR)/usr/"; \
 		fi; \
 	done
+ifeq "$(DESTDIR)" ""
+ifndef TC_NO_GUI
+ifneq "$(INSTALL_ICONS)" "0"
+	rm -f /usr/share/icons/hicolor/symbolic/apps/$(APPNAME)-symbolic.svg || true
+	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
+		gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor >/dev/null 2>&1 || true; \
+	fi
+endif
+endif
+endif
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
@@ -727,10 +735,8 @@ ifndef TC_NO_GUI
 
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/pixmaps
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/scalable/apps
-	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/symbolic/apps
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/FreeBSD/usr/local/share/pixmaps/$(APPNAME).xpm
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt.svg $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/scalable/apps/$(APPNAME).svg
-	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-symbolic.svg $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/symbolic/apps/$(APPNAME)-symbolic.svg
 
 	for res in 16 22 24 32 48 64 256 512 1024; do \
 		mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/local/share/icons/hicolor/$${res}x$${res}/apps ;\
@@ -746,6 +752,14 @@ ifneq "$(DESTDIR)" ""
 	mkdir -p $(DESTDIR)
 endif
 	cp -R $(BASE_DIR)/Setup/FreeBSD/usr $(DESTDIR)/.
+ifeq "$(DESTDIR)" ""
+ifndef TC_NO_GUI
+	rm -f /usr/local/share/icons/hicolor/symbolic/apps/$(APPNAME)-symbolic.svg || true
+	@if PATH=$$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin; command -v gtk-update-icon-cache >/dev/null 2>&1; then \
+		PATH=$$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin gtk-update-icon-cache -q -t -f /usr/local/share/icons/hicolor >/dev/null 2>&1 || true; \
+	fi
+endif
+endif
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare

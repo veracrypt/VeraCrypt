@@ -17,6 +17,7 @@ PACKAGE=$PACKAGE_DIR/$PACKAGE_NAME
 umask 022
 
 OBSOLETE_DONATION_BANK_FILES="/usr/share/doc/veracrypt/HTML/en/Donation_Bank.html /usr/share/doc/veracrypt/HTML/en/bank_30x30.png /usr/share/doc/veracrypt/HTML/ru/Donation_Bank.html /usr/share/doc/veracrypt/HTML/ru/bank_30x30.png /usr/share/doc/veracrypt/HTML/zh-cn/Donation_Bank.html /usr/share/doc/veracrypt/HTML/zh-cn/bank_30x30.png"
+OBSOLETE_SYMBOLIC_ICON_FILES="/usr/share/icons/hicolor/symbolic/apps/veracrypt-symbolic.svg"
 
 
 # Terminal setup
@@ -125,11 +126,11 @@ update_system_caches_command()
 {
 	if [ "$INSTALLER_TYPE" = "console" ]
 	then
-		printf ':'
+		printf '%s' "if command -v gtk-update-icon-cache >/dev/null 2>&1; then $SUDO gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor >/dev/null 2>&1 || true; fi"
 		return 0
 	fi
 
-	printf '%s' "if command -v update-mime-database >/dev/null 2>&1; then $SUDO update-mime-database /usr/share/mime >/dev/null 2>&1; fi; if command -v update-desktop-database >/dev/null 2>&1; then $SUDO update-desktop-database -q >/dev/null 2>&1; fi"
+	printf '%s' "if command -v gtk-update-icon-cache >/dev/null 2>&1; then $SUDO gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor >/dev/null 2>&1 || true; fi; if command -v update-mime-database >/dev/null 2>&1; then $SUDO update-mime-database /usr/share/mime >/dev/null 2>&1; fi; if command -v update-desktop-database >/dev/null 2>&1; then $SUDO update-desktop-database -q >/dev/null 2>&1; fi"
 }
 
 update_system_caches()
@@ -1091,15 +1092,15 @@ then
 
 		if [ $XTERM -eq 1 ]
 		then
-			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
+			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 		else
 			if [ $GTERM -eq 1 ]
 			then
-				exec gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
+				exec gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 			else
 				if [ $KTERM -eq 1 ]
 				then
-					exec konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
+					exec konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 				fi
 			fi
 		fi
@@ -1109,7 +1110,7 @@ then
 
 		if [ $INSTALLED -eq 1 ]
 		then
-			$SUDO rm -f $OBSOLETE_DONATION_BANK_FILES
+			$SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES
 			update_system_caches
 			show_exit_message ''
 		fi

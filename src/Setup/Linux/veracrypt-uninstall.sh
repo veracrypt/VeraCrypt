@@ -28,6 +28,7 @@ rm -f /usr/share/icons/hicolor/symbolic/apps/veracrypt-symbolic.svg || removal_f
 for res in 16 22 24 32 48 64 256 512 1024; do \
 		rm -f /usr/share/icons/hicolor/${res}x${res}/apps/veracrypt.png || removal_failed ;\
 done
+gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor >/dev/null 2>&1 || true
 
 rm -f /usr/bin/veracrypt-uninstall.sh || removal_failed
 update_system_caches
