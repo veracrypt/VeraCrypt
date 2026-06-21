@@ -653,7 +653,7 @@
     <entry lang="zh-hk" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">如果你嘗試保護包含隱形系統的隱藏加密區，請確認輸入隱藏加密區密碼時你正在使用標準的美國鍵盤配置。這是因為這些密碼實在啟動驗證環境中輸入的，而此時非美國鍵盤配置將無法使用。</entry>
     <entry lang="zh-hk" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt 未發現加密過程被中斷的，同時標頭數據可以使用提供的密碼 和/或 加密鑰檔案解密的非系統分割區。\n\n請確認密碼 和/或 加密鑰檔案是正確的，並且確認此 分割區/磁碟區 並未被作業系統或其他程式(也包含殺毒軟件)佔用。</entry>
     <entry lang="zh-hk" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">所選擇的分割區或裝置已經完整地加密。\n標頭標記 = 0x%.8X</entry>
-    <entry lang="zh-hk" key="SELECTED_PARTITION_NOT_INPLACE_ENC">>所選擇的分割區或裝置並非使用就地加密。\n標頭標記 = 0x%.8X</entry>
+    <entry lang="zh-hk" key="SELECTED_PARTITION_NOT_INPLACE_ENC">&gt;所選擇的分割區或裝置並非使用就地加密。\n標頭標記 = 0x%.8X</entry>
     <entry lang="zh-hk" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n請注意：如果你嘗試掛載未經啟動驗證的加密系統磁碟機中的分割區，或者是掛載沒有運行的加密系統分割區，你可以通過選擇 [系統] &gt; [以非啟動驗證方式掛載]。</entry>
     <entry lang="zh-hk" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">在這個模式，你不能掛載這個磁碟機上的分割區(該磁碟機的部分內容處於正在運作的加密系統的關鍵範圍)。\n\n要以這個模式來模式掛載此分割區，你需要先啟動到安裝於不同磁碟機上的作業系統(與該系統是否加密無關)，或者先啟動一個未加密的作業系統。</entry>
     <entry lang="zh-hk" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt 無法對完整加密的系統磁碟上進行個別分割區解密(僅能對整個磁碟進行解密)。</entry>
@@ -1527,7 +1527,7 @@
     <entry lang="zh-hk" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">儲存裝置及 VC 加密區的磁區大小不相符</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">這個操作只能在寄存在加密區上的系統正在運行時才可以執行。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_INSUFFICIENTDATA">未有足夠的可用數據。</entry>
-    <entry lang="zh-hk" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">核心加密服務測試失敗。系統核心的核心加密服務很大可能並不援大於 2 TB 的加密區。\n\n可行的解決方案：\n- 升級 Linux 核心到 2.6.33 或更新的版本。\n- 停用核心加密服務 (設定 > 偏好設定 > 系統整合) 或在指令行中使用 'nokernelcrypto' 掛載參數。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">核心加密服務測試失敗。系統核心的核心加密服務很大可能並不援大於 2 TB 的加密區。\n\n可行的解決方案：\n- 升級 Linux 核心到 2.6.33 或更新的版本。\n- 停用核心加密服務 (設定 &gt; 偏好設定 &gt; 系統整合) 或在指令行中使用 'nokernelcrypto' 掛載參數。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">無法設立一個 loop 裝置。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_MISSINGARGUMENT">缺少必需的參數。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">缺少加密區數據。</entry>
@@ -1535,7 +1535,7 @@
     <entry lang="zh-hk" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">掛載點已經正在使用。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_PASSWORDEMPTY">沒有密碼或已指定加密鑰檔案。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\n請注意需要在無法提供非美式鍵盤的啟動前環境下輸入啟動前驗證密碼。因此，啟動前驗證密碼必須使用標準美式鍵盤配置來輸入 (否則大部份情況下密碼將會錯誤地輸入)。但要注意，你毋需使用一個真實的美式鍵盤；你只需要在作業系統中變更鍵盤配置。</entry>
-    <entry lang="zh-hk" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n請注意：如你正在嘗試在不使用啟動前驗證的情況下，掛載位於加密系統磁碟機上的分割區，或掛載並非運作中的作業系統的加密系統分割區，你可以透過選取 [選項 >] > [使用系統加密來掛載分割區] 來執行這個操作。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n請注意：如你正在嘗試在不使用啟動前驗證的情況下，掛載位於加密系統磁碟機上的分割區，或掛載並非運作中的作業系統的加密系統分割區，你可以透過選取 [選項 &gt;] &gt; [使用系統加密來掛載分割區] 來執行這個操作。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_PASSWORDTOOLONG">密碼超過 {0} 個字元。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">必需分割區的裝置</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">受保護隱藏的加密區密碼錯誤或隱藏的加密區並不存在。</entry>
@@ -1544,7 +1544,7 @@
     <entry lang="zh-hk" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">解析格式化的字串時發生錯誤。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">無法在暫存目錄中建立檔案或目錄。\n\n請確保暫存目錄存在及擁有允許其存取的安全權限，並且磁碟有足夠的可用空間。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">錯誤：這個磁碟機使用的磁區大小並非 512 位元組。\n\n由於當前平台可用的元件所限，寄存在主機的外層加密區無法使用隱藏加密區保護功能。\n\n可行的解決方案：\n- 使用磁區大小為 512 位元組的磁碟機\n- 在磁碟機上建立一個寄存在檔案的加密區(容器)。\n- 備份隱藏加密區的內容然後升級外層加密區。</entry>
-    <entry lang="zh-hk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">錯誤：這個磁碟機使用的磁區大小並非 512 位元組。\n\n由於當前平台可用的元件所限，寄存在分割區或裝置上的加密區只可使用核心加密服務進行掛載。\n\n可行的解決方案：\n- 啟用核心加密服務 (偏好設定 > 系統整合)。\n- 使用磁區大小為 512 位元組的磁碟機\n- 在磁碟機上建立一個在檔案寄存的加密區(容器)。</entry>
+    <entry lang="zh-hk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">錯誤：這個磁碟機使用的磁區大小並非 512 位元組。\n\n由於當前平台可用的元件所限，寄存在分割區或裝置上的加密區只可使用核心加密服務進行掛載。\n\n可行的解決方案：\n- 啟用核心加密服務 (偏好設定 &gt; 系統整合)。\n- 使用磁區大小為 512 位元組的磁碟機\n- 在磁碟機上建立一個在檔案寄存的加密區(容器)。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">錯誤：這個磁碟機使用的磁區大小並非 512 位元組。\n\n由於當前平台可用的元件所限，寄存在分割區或裝置上的加密區無法在磁碟機上建立或使用。\n\n可行的解決方案：\n- 在磁碟機上建立一個寄存在檔案的加密區(容器)。\n- 使用磁區大小為 512 位元組的磁碟機\n- 在另一個平台上使用 VeraCrypt。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">主機的檔案或裝置正在使用中。</entry>
     <entry lang="zh-hk" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">加密區的位置不可用。</entry>
