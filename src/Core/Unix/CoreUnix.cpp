@@ -21,14 +21,12 @@
 #ifdef TC_LINUX
 #include <sys/utsname.h>
 #endif
-#ifdef TC_OPENBSD
-#include <pwd.h>
-#endif
 #include <stdio.h>
 #include <unistd.h>
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
 #include "Platform/SystemLog.h"
+#include "Core/Unix/UnixUser.h"
 #include "Driver/Fuse/FuseService.h"
 #include "Volume/VolumePasswordCache.h"
 
@@ -41,26 +39,6 @@ namespace VeraCrypt
 	static bool IsLinuxKernelVersionAtLeast (int major, int minor);
 	static bool IsNtfsReadWriteKernelModuleAvailable ();
 	static bool SamePath (const string& path1, const string& path2);
-#endif
-
-#ifdef TC_OPENBSD
-	static bool GetDoasUserIds (uid_t *uid, gid_t *gid)
-	{
-		const char *env = getenv ("DOAS_USER");
-		if (!env || !env[0])
-			return false;
-
-		struct passwd *pw = getpwnam (env);
-		if (!pw)
-			return false;
-
-		if (uid)
-			*uid = pw->pw_uid;
-		if (gid)
-			*gid = pw->pw_gid;
-
-		return true;
-	}
 #endif
 
 	// Struct to hold terminal emulator information
@@ -657,11 +635,9 @@ namespace VeraCrypt
 			catch (...) { }
 		}
 
-#ifdef TC_OPENBSD
 		gid_t doasGid;
 		if (GetDoasUserIds (nullptr, &doasGid))
 			return doasGid;
-#endif
 
 		return getgid();
 	}
@@ -679,11 +655,9 @@ namespace VeraCrypt
 			catch (...) { }
 		}
 
-#ifdef TC_OPENBSD
 		uid_t doasUid;
 		if (GetDoasUserIds (&doasUid, nullptr))
 			return doasUid;
-#endif
 
 		return getuid();
 	}

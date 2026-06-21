@@ -45,6 +45,13 @@ namespace VeraCrypt
 			throw SystemException (SRC_POS, status);
 	}
 
+	void Thread::Detach () const
+	{
+		int status = pthread_detach (SystemHandle);
+		if (status != 0)
+			throw SystemException (SRC_POS, status);
+	}
+
 	void Thread::Start (ThreadProcPtr threadProc, void *parameter)
 	{
 		PthreadAttr attr;

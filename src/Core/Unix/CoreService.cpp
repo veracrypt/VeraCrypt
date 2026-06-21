@@ -11,9 +11,17 @@
 */
 
 #include "CoreService.h"
+#include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
+#include <poll.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <termios.h>
 #include <stdio.h>
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
@@ -29,6 +37,395 @@
 
 namespace VeraCrypt
 {
+	enum class PrivilegeHelperType
+	{
+		Sudo,
+		Doas
+	};
+
+	struct PrivilegeHelper
+	{
+		PrivilegeHelperType Type;
+		string Name;
+		string Path;
+
+		bool IsDoas () const { return Type == PrivilegeHelperType::Doas; }
+		bool IsSudo () const { return Type == PrivilegeHelperType::Sudo; }
+	};
+
+	// Keep the PTY master open while the doas no-fork service is running;
+	// closing it can hang up the service controlling terminal.
+	static int DoasAuthTerminalFd = -1;
+
+	static void RedirectStandardErrorToDevNull ()
+	{
+		int f = open ("/dev/null", O_WRONLY);
+		throw_sys_sub_if (f == -1, "/dev/null");
+		if (dup2 (f, STDERR_FILENO) == -1)
+		{
+			close (f);
+			throw SystemException (SRC_POS);
+		}
+		if (f != STDERR_FILENO)
+			close (f);
+	}
+
+	static PrivilegeHelper FindPrivilegeHelper ()
+	{
+		std::string errorMsg;
+		string path = Process::FindSystemBinary ("sudo", errorMsg);
+		if (!path.empty())
+			return { PrivilegeHelperType::Sudo, "sudo", path };
+
+		path = Process::FindSystemBinary ("doas", errorMsg);
+		if (!path.empty())
+			return { PrivilegeHelperType::Doas, "doas", path };
+
+		throw SystemException (SRC_POS, "Neither sudo nor doas was found in system directories");
+	}
+
+	static string BuildPrivilegeHelperAuthCheckCommand (const PrivilegeHelper &helper)
+	{
+		std::string errorMsg;
+		string trueAbsolutePath = Process::FindSystemBinary ("true", errorMsg);
+		if (trueAbsolutePath.empty())
+			throw SystemException (SRC_POS, errorMsg);
+
+		return helper.Path + " -n " + trueAbsolutePath + " > /dev/null 2>&1";
+	}
+
+	static bool HasControllingTerminal ()
+	{
+#ifdef O_CLOEXEC
+		int fd = open ("/dev/tty", O_RDWR | O_CLOEXEC);
+#else
+		int fd = open ("/dev/tty", O_RDWR);
+#endif
+		if (fd == -1)
+			return false;
+
+#ifndef O_CLOEXEC
+		if (fcntl (fd, F_SETFD, FD_CLOEXEC) == -1)
+		{
+			close (fd);
+			return false;
+		}
+#endif
+
+		close (fd);
+		return true;
+	}
+
+	static int OpenDoasAuthTerminal (string &slavePath)
+	{
+#ifdef O_CLOEXEC
+		int fd = posix_openpt (O_RDWR | O_NOCTTY | O_CLOEXEC);
+#else
+		int fd = posix_openpt (O_RDWR | O_NOCTTY);
+#endif
+		throw_sys_sub_if (fd == -1, "posix_openpt");
+
+#ifndef O_CLOEXEC
+		if (fcntl (fd, F_SETFD, FD_CLOEXEC) == -1)
+		{
+			close (fd);
+			throw SystemException (SRC_POS);
+		}
+#endif
+
+		if (grantpt (fd) == -1 || unlockpt (fd) == -1)
+		{
+			close (fd);
+			throw SystemException (SRC_POS, "Failed to initialize doas authentication terminal");
+		}
+
+#if defined (TC_LINUX)
+		char path[PATH_MAX];
+		int ptsStatus = ptsname_r (fd, path, sizeof (path));
+		if (ptsStatus != 0)
+		{
+			close (fd);
+			throw SystemException (SRC_POS, ptsStatus);
+		}
+
+		slavePath = path;
+#else
+		char *path = ptsname (fd);
+		if (!path)
+		{
+			close (fd);
+			throw SystemException (SRC_POS, "Failed to get doas authentication terminal path");
+		}
+
+		slavePath = path;
+#endif
+		return fd;
+	}
+
+	static void CloseDoasAuthTerminal ()
+	{
+		if (DoasAuthTerminalFd != -1)
+		{
+			close (DoasAuthTerminalFd);
+			DoasAuthTerminalFd = -1;
+		}
+	}
+
+	static void AttachDoasAuthTerminal (const string &slavePath)
+	{
+		throw_sys_if (setsid () == -1);
+#ifdef O_CLOEXEC
+		int ttyFd = open (slavePath.c_str(), O_RDWR | O_CLOEXEC);
+#else
+		int ttyFd = open (slavePath.c_str(), O_RDWR);
+#endif
+		throw_sys_sub_if (ttyFd == -1, slavePath);
+
+#ifndef O_CLOEXEC
+		if (fcntl (ttyFd, F_SETFD, FD_CLOEXEC) == -1)
+		{
+			close (ttyFd);
+			throw SystemException (SRC_POS);
+		}
+#endif
+
+		// doas reads the passphrase from this terminal with the slave line
+		// discipline active. Put it in raw mode so control characters in the
+		// admin password (^C, ^U, erase, etc.) reach doas verbatim instead of
+		// being interpreted as line editing or signal keys. This only ever
+		// touches VeraCrypt's private authentication PTY, never the caller's
+		// real terminal. Best effort: on failure we keep the default canonical
+		// mode, which still handles ordinary passwords.
+		struct termios tios;
+		if (tcgetattr (ttyFd, &tios) == 0)
+		{
+			tios.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ISIG | IEXTEN);
+			tios.c_iflag &= ~(BRKINT | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+			tios.c_cc[VMIN] = 1;
+			tios.c_cc[VTIME] = 0;
+			tcsetattr (ttyFd, TCSANOW, &tios);
+		}
+
+#ifdef TIOCSCTTY
+		if (ioctl (ttyFd, TIOCSCTTY, 0) == -1 && errno != EINVAL)
+		{
+			close (ttyFd);
+			throw SystemException (SRC_POS, "Failed to set doas authentication terminal as controlling terminal");
+		}
+#endif
+		close (ttyFd);
+	}
+
+	static void ReapChildProcessAsync (int pid)
+	{
+		struct WaitFunctor : public Functor
+		{
+			WaitFunctor (int processId) : Pid (processId) { }
+			virtual void operator() ()
+			{
+				while (true)
+				{
+					int status;
+					int waitResult = waitpid (Pid, &status, 0);
+
+					if (waitResult == Pid)
+						return;
+
+					if (waitResult == -1 && errno == EINTR)
+						continue;
+
+					if (waitResult == -1 && errno == ECHILD)
+						return;
+
+					return;
+				}
+			}
+			int Pid;
+		};
+
+		try
+		{
+			unique_ptr <Functor> waitFunctor (new WaitFunctor (pid));
+			Thread thread;
+			thread.Start (waitFunctor.get());
+			waitFunctor.release();
+			thread.Detach ();
+		}
+		catch (...) { }
+	}
+
+	static void TerminateChildProcessAsync (int pid)
+	{
+		if (pid <= 0)
+			return;
+
+		kill (pid, SIGTERM);
+		ReapChildProcessAsync (pid);
+	}
+
+	static void ReadAvailableData (int fd, vector <char> &output)
+	{
+		char buffer[4096];
+
+		while (true)
+		{
+			ssize_t bytesRead = read (fd, buffer, sizeof (buffer));
+			if (bytesRead > 0)
+			{
+				output.insert (output.end(), buffer, buffer + bytesRead);
+				continue;
+			}
+
+			if (bytesRead == -1 && errno == EINTR)
+				continue;
+
+			if (bytesRead == -1 && (errno == EAGAIN || errno == EWOULDBLOCK))
+				return;
+
+			return;
+		}
+	}
+
+	static string ErrorOutputToString (const vector <char> &errOutput)
+	{
+		if (errOutput.empty())
+			return string();
+
+		return string (errOutput.begin(), errOutput.end());
+	}
+
+	static void ThrowSerializedExceptionIfAny (const vector <char> &errOutput)
+	{
+		if (errOutput.empty())
+			return;
+
+		unique_ptr <Serializable> deserializedObject;
+		Exception *deserializedException = nullptr;
+
+		try
+		{
+			shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr ((uint8 *) &errOutput[0], errOutput.size())));
+			deserializedObject.reset (Serializable::DeserializeNew (stream));
+			deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
+		}
+		catch (...)	{ }
+
+		if (deserializedException)
+			deserializedException->Throw();
+	}
+
+	static void WriteAllBestEffort (int fd, const char *data, size_t size)
+	{
+		size_t offset = 0;
+		while (offset < size)
+		{
+			ssize_t bytesWritten = write (fd, data + offset, size - offset);
+			if (bytesWritten > 0)
+			{
+				offset += static_cast <size_t> (bytesWritten);
+				continue;
+			}
+
+			if (bytesWritten == -1 && errno == EINTR)
+				continue;
+
+			return;
+		}
+	}
+
+	static void SendElevatedServiceSyncWithTimeout (shared_ptr <Stream> inputStream, int outputFd, int errorFd, int childPid, const string &helperName, int timeout)
+	{
+		vector <char> errOutput;
+		uint8 sync[] = { 0, 0x11, 0x22 };
+
+		try
+		{
+			inputStream->Write (ConstBufferPtr (sync, array_capacity (sync)));
+		}
+		catch (...)
+		{
+			ReadAvailableData (errorFd, errOutput);
+			TerminateChildProcessAsync (childPid);
+			ThrowSerializedExceptionIfAny (errOutput);
+			throw ElevationFailed (SRC_POS, helperName, 1, ErrorOutputToString (errOutput));
+		}
+
+		const int pollInterval = 200;
+		int timeLeft = timeout;
+		while (timeLeft > 0)
+		{
+			struct pollfd fds[2];
+			memset (fds, 0, sizeof (fds));
+			fds[0].fd = outputFd;
+			fds[0].events = POLLIN;
+			fds[1].fd = errorFd;
+			fds[1].events = POLLIN;
+
+			int pollTimeout = timeLeft < pollInterval ? timeLeft : pollInterval;
+			int pollResult;
+			do
+			{
+				pollResult = poll (fds, array_capacity (fds), pollTimeout);
+			} while (pollResult == -1 && errno == EINTR);
+
+			throw_sys_if (pollResult == -1);
+			timeLeft -= pollTimeout;
+
+			if (fds[1].revents & (POLLIN | POLLHUP | POLLERR))
+				ReadAvailableData (errorFd, errOutput);
+
+			if (fds[0].revents & POLLIN)
+			{
+				uint8 ready;
+				ssize_t bytesRead;
+				do
+				{
+					bytesRead = read (outputFd, &ready, 1);
+				} while (bytesRead == -1 && errno == EINTR);
+
+				if (bytesRead == 1 && ready == 0x33)
+					return;
+
+				TerminateChildProcessAsync (childPid);
+				ThrowSerializedExceptionIfAny (errOutput);
+				throw ElevationFailed (SRC_POS, helperName, 1, ErrorOutputToString (errOutput));
+			}
+
+			int status;
+			int waitRes;
+			do
+			{
+				waitRes = waitpid (childPid, &status, WNOHANG);
+			} while (waitRes == -1 && errno == EINTR);
+
+			if (waitRes == childPid)
+			{
+				ReadAvailableData (errorFd, errOutput);
+				ThrowSerializedExceptionIfAny (errOutput);
+				int exitCode = WIFEXITED (status) ? WEXITSTATUS (status) : 1;
+				throw ElevationFailed (SRC_POS, helperName, exitCode, ErrorOutputToString (errOutput));
+			}
+
+			throw_sys_if (waitRes == -1);
+
+			if (fds[0].revents & (POLLHUP | POLLERR | POLLNVAL))
+			{
+				TerminateChildProcessAsync (childPid);
+				ThrowSerializedExceptionIfAny (errOutput);
+				throw ElevationFailed (SRC_POS, helperName, 1, ErrorOutputToString (errOutput));
+			}
+		}
+
+		ReadAvailableData (errorFd, errOutput);
+		ThrowSerializedExceptionIfAny (errOutput);
+		string errorOutput = ErrorOutputToString (errOutput);
+		if (errorOutput.empty())
+			errorOutput = "Timed out while waiting for the elevated VeraCrypt service to start";
+
+		TerminateChildProcessAsync (childPid);
+		throw ElevationFailed (SRC_POS, helperName, 1, errorOutput);
+	}
+
 #ifdef TC_MACOSX
 	static bool IsMacOSXDevicePathWithPrefix (const string &path, const string &prefix)
 	{
@@ -132,17 +529,18 @@ namespace VeraCrypt
 		return unique_ptr <T> (dynamic_cast <T *> (deserializedObject.release()));
 	}
 
-	void CoreService::ProcessElevatedRequests ()
+	void CoreService::ProcessElevatedRequests (bool forkProcess)
 	{
-		int pid = fork();
-		throw_sys_if (pid == -1);
+		int pid = forkProcess ? fork() : 0;
+		if (forkProcess)
+			throw_sys_if (pid == -1);
+
 		if (pid == 0)
 		{
 			try
 			{
-				int f = open ("/dev/null", 0);
-				throw_sys_sub_if (f == -1, "/dev/null");
-				throw_sys_if (dup2 (f, STDERR_FILENO) == -1);
+				if (forkProcess)
+					RedirectStandardErrorToDevNull ();
 
 				// Wait for sync code
 				while (true)
@@ -162,6 +560,21 @@ namespace VeraCrypt
 				}
 
 				ElevatedPrivileges = true;
+				if (!forkProcess)
+				{
+					// Only the doas no-fork service emits a readiness byte, so the
+					// parent can distinguish a started service from a failed
+					// elevation. The sudo fork path keeps its original handshake
+					// (no readiness byte) to avoid altering its well-tested startup
+					// sequence.
+					uint8 ready = 0x33;
+					throw_sys_if (write (STDOUT_FILENO, &ready, 1) != 1);
+
+					// Startup diagnostics have been delivered. The parent closes
+					// errPipe after synchronization, so keep later service stderr
+					// writes away from a closed pipe.
+					RedirectStandardErrorToDevNull ();
+				}
 				ProcessRequests (STDIN_FILENO, STDOUT_FILENO);
 				_exit (0);
 			}
@@ -178,6 +591,8 @@ namespace VeraCrypt
 
 	void CoreService::ProcessRequests (int inputFD, int outputFD)
 	{
+		finally_do ({ CloseDoasAuthTerminal (); });
+
 		try
 		{
 			Core = move_ptr(CoreDirect);
@@ -447,46 +862,39 @@ namespace VeraCrypt
 			
 			while (!ElevatedServiceAvailable)
 			{
-				//	Test if the user has an active "sudo" session.
+				//	Test if the user has an active privilege helper session.
 				bool authCheckDone = false;
+				bool passwordCollected = false;
+				PrivilegeHelper privilegeHelper = FindPrivilegeHelper ();
 				if (!Core->GetUseDummySudoPassword ())
-				{	
+				{
 					// We are using -n to avoid prompting the user for a password.
 					// We are redirecting stderr to stdout and discarding both to avoid any output.
 					// This approach also works on newer macOS versions (12.0 and later).
-					std::string errorMsg;
-
-					string sudoAbsolutePath = Process::FindSystemBinary("sudo", errorMsg);
-					if (sudoAbsolutePath.empty())
-						throw SystemException(SRC_POS, errorMsg);
-
-					string trueAbsolutePath = Process::FindSystemBinary("true", errorMsg);
-					if (trueAbsolutePath.empty())
-						throw SystemException(SRC_POS, errorMsg);
-
-					std::string popenCommand = sudoAbsolutePath + " -n " + trueAbsolutePath + " > /dev/null 2>&1";	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+					std::string popenCommand = BuildPrivilegeHelperAuthCheckCommand (privilegeHelper);
 					FILE* pipe = popen(popenCommand.c_str(), "r");
 					if (pipe)
 					{
-						// We only care about the exit code  
-						char buf[128];  
-						while (!feof(pipe))  
-						{  
-							if (fgets(buf, sizeof(buf), pipe) == NULL)  
-								break;  
-						}  
-						int status = pclose(pipe);  
+						// We only care about the exit code
+						char buf[128];
+						while (!feof(pipe))
+						{
+							if (fgets(buf, sizeof(buf), pipe) == NULL)
+								break;
+						}
+						int status = pclose(pipe);
 						pipe = NULL;
-						
-						authCheckDone = true;  
-  
-						// If exit code != 0, user does NOT have an active session => request password  
-						if (status != 0)  
-						{  
-							(*AdminPasswordCallback)(request.AdminPassword);  
+
+						authCheckDone = true;
+
+						// If exit code != 0, user does NOT have an active session => request password
+						if (status != 0)
+						{
+							(*AdminPasswordCallback)(request.AdminPassword);
+							passwordCollected = true;
 						}
 					}
-					
+
 					if (authCheckDone)
 					{
 						//	Set to false to force the 'WarningEvent' to be raised in case of and elevation exception.
@@ -527,8 +935,14 @@ namespace VeraCrypt
 
 					request.FastElevation = false;
 
-					if(!authCheckDone)
+					// doas persist is tty/session scoped. If a no-password
+					// attempt cannot reuse the caller tty, it may still fail
+					// and require a password retry on the authentication PTY.
+					if (!authCheckDone || (privilegeHelper.IsDoas() && !passwordCollected))
+					{
 						(*AdminPasswordCallback) (request.AdminPassword);
+						passwordCollected = true;
+					}
 				}
 			}
 		}
@@ -562,6 +976,20 @@ namespace VeraCrypt
 
 	void CoreService::StartElevated (const CoreServiceRequest &request)
 	{
+		PrivilegeHelper privilegeHelper = FindPrivilegeHelper ();
+		int doasAuthTerminal = -1;
+		string doasAuthTerminalPath;
+		bool doasNoPasswordAttempt = privilegeHelper.IsDoas() && request.AdminPassword.empty();
+		bool useCallerDoasTerminal = doasNoPasswordAttempt && HasControllingTerminal();
+
+		if (privilegeHelper.IsDoas() && !useCallerDoasTerminal)
+		{
+			doasAuthTerminal = OpenDoasAuthTerminal (doasAuthTerminalPath);
+		}
+
+		bool elevatedServiceStarted = false;
+		finally_do_arg2 (bool *, &elevatedServiceStarted, int *, &doasAuthTerminal, { if (!*finally_arg && *finally_arg2 != -1) { close (*finally_arg2); *finally_arg2 = -1; } });
+
 		unique_ptr <Pipe> inPipe (new Pipe());
 		unique_ptr <Pipe> outPipe (new Pipe());
 		Pipe errPipe;
@@ -575,12 +1003,7 @@ namespace VeraCrypt
 			{
 				try
 				{
-					// Throw exception if sudo is not found in secure locations
 					std::string errorMsg;
-					string sudoPath = Process::FindSystemBinary("sudo", errorMsg);
-					if (sudoPath.empty())
-						throw SystemException(SRC_POS, errorMsg);
-
 					string appPath = request.ApplicationExecutablePath;
 					// if appPath is empty or not absolute, use FindSystemBinary to get the full path of veracrpyt executable
 					if (appPath.empty() || appPath[0] != '/')
@@ -592,21 +1015,31 @@ namespace VeraCrypt
 
 #if defined(TC_LINUX)
                     // AppImage specific handling:
-                    // If running from an AppImage, use the path to the AppImage file itself for sudo.
+                    // If running from an AppImage, use the path to the AppImage file itself for the privilege helper.
                     const char* appImageEnv = getenv("APPIMAGE");
 
-                    if (Process::IsRunningUnderAppImage(appPath) && appImageEnv != NULL)
+					if (Process::IsRunningUnderAppImage(appPath) && appImageEnv != NULL)
 					{
 						// The path to the AppImage file is stored in the APPIMAGE environment variable.
-						// We need to use this path for sudo to work correctly.
+						// We need to use this path for elevation to work correctly.
                         appPath = appImageEnv;
                     }
 #endif
+					if (privilegeHelper.IsDoas() && !useCallerDoasTerminal)
+					{
+						AttachDoasAuthTerminal (doasAuthTerminalPath);
+					}
+					if (doasAuthTerminal != -1)
+						close (doasAuthTerminal);
+
+					throw_sys_if (dup2 (errPipe.GetWriteFD(), STDERR_FILENO) == -1);
 					throw_sys_if (dup2 (inPipe->GetReadFD(), STDIN_FILENO) == -1);
 					throw_sys_if (dup2 (outPipe->GetWriteFD(), STDOUT_FILENO) == -1);
-					throw_sys_if (dup2 (errPipe.GetWriteFD(), STDERR_FILENO) == -1);
 
-					const char *args[] = { sudoPath.c_str(), "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
+					const char *sudoArgs[] = { privilegeHelper.Path.c_str(), "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
+					const char *doasArgs[] = { privilegeHelper.Path.c_str(), appPath.c_str(), TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION, nullptr };
+					const char *doasNoPasswordArgs[] = { privilegeHelper.Path.c_str(), "-n", appPath.c_str(), TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION, nullptr };
+					const char **args = privilegeHelper.IsDoas() ? (doasNoPasswordAttempt ? doasNoPasswordArgs : doasArgs) : sudoArgs;
 					execvp (args[0], ((char* const*) args));
 					throw SystemException (SRC_POS, args[0]);
 				}
@@ -636,10 +1069,13 @@ namespace VeraCrypt
 			_exit (1);
 		}
 
+		int serviceInputFd = inPipe->GetWriteFD();
+		int serviceOutputFd = outPipe->GetReadFD();
+
 		vector <char> adminPassword (request.AdminPassword.size() + 1);
 		int timeout = 6000;
 
-		//	'request.FastElevation' is always false under Linux / FreeBSD when "sudo -n" works properly
+		//	'request.FastElevation' is always false under Linux / FreeBSD when non-interactive auth checks work properly
 		if (request.FastElevation)
 		{
 			string dummyPassword = "dummy\n";
@@ -654,20 +1090,48 @@ namespace VeraCrypt
 		}
 
 #if defined(TC_LINUX )
-		Thread::Sleep (1000); // wait 1 second for the forked sudo to start
+		Thread::Sleep (1000); // wait 1 second for the forked privilege helper to start
 #endif
-		if (write (inPipe->GetWriteFD(), &adminPassword.front(), adminPassword.size())) { } // Errors ignored
+		if (privilegeHelper.IsSudo())
+		{
+			if (write (serviceInputFd, &adminPassword.front(), adminPassword.size())) { } // Errors ignored
+		}
+		else if (doasAuthTerminal != -1 && !doasNoPasswordAttempt)
+		{
+			// doas reads authentication from the controlling terminal, not stdin.
+			WriteAllBestEffort (doasAuthTerminal, &adminPassword.front(), adminPassword.size());
+		}
 
 		burn (&adminPassword.front(), adminPassword.size());
 
-		throw_sys_if (fcntl (outPipe->GetReadFD(), F_SETFL, O_NONBLOCK) == -1);
+		throw_sys_if (fcntl (serviceOutputFd, F_SETFL, O_NONBLOCK) == -1);
 		throw_sys_if (fcntl (errPipe.GetReadFD(), F_SETFL, O_NONBLOCK) == -1);
+
+		if (privilegeHelper.IsDoas())
+		{
+			shared_ptr <Stream> inputStream (new FileStream (serviceInputFd));
+			shared_ptr <Stream> outputStream (new FileStream (serviceOutputFd));
+
+			SendElevatedServiceSyncWithTimeout (inputStream, serviceOutputFd, errPipe.GetReadFD(), forkedPid, privilegeHelper.Name, timeout);
+			throw_sys_if (fcntl (serviceOutputFd, F_SETFL, 0) == -1);
+			ReapChildProcessAsync (forkedPid);
+
+			ServiceInputStream = inputStream;
+			ServiceOutputStream = outputStream;
+
+			AdminInputPipe = move_ptr(inPipe);
+			AdminOutputPipe = move_ptr(outPipe);
+			DoasAuthTerminalFd = doasAuthTerminal;
+			doasAuthTerminal = -1;
+			elevatedServiceStarted = true;
+			return;
+		}
 
 		char buffer[4096];
 		vector <char> errOutput;
 		errOutput.reserve (4096);
 
-		Poller poller (outPipe->GetReadFD(), errPipe.GetReadFD());
+		Poller poller (serviceOutputFd, errPipe.GetReadFD());
 		int status, waitRes;
 		int exitCode = 1;
 
@@ -704,7 +1168,7 @@ namespace VeraCrypt
 				outPipe->Close();
 				errPipe.Close();
 
-				//	'request.FastElevation' is always false under Linux / FreeBSD
+				//	'request.FastElevation' is always false under Linux / FreeBSD when non-interactive auth checks work properly
 				if (request.FastElevation)
 				{
 					// Prevent defunct process
@@ -721,30 +1185,16 @@ namespace VeraCrypt
 					};
 					Thread thread;
 					thread.Start (new WaitFunctor (forkedPid));
+					thread.Detach ();
 
-					throw ElevationFailed (SRC_POS, "sudo", 1, "");
+					throw ElevationFailed (SRC_POS, privilegeHelper.Name, 1, "");
 				}
 
 				waitRes = waitpid (forkedPid, &status, 0);
 			}
 		}
 
-		if (!errOutput.empty())
-		{
-			unique_ptr <Serializable> deserializedObject;
-			Exception *deserializedException = nullptr;
-
-			try
-			{
-				shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr ((uint8 *) &errOutput[0], errOutput.size())));
-				deserializedObject.reset (Serializable::DeserializeNew (stream));
-				deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
-			}
-			catch (...)	{ }
-
-			if (deserializedException)
-				deserializedException->Throw();
-		}
+		ThrowSerializedExceptionIfAny (errOutput);
 
 		throw_sys_if (waitRes == -1);
 		exitCode = (WIFEXITED (status) ? WEXITSTATUS (status) : 1);
@@ -756,23 +1206,27 @@ namespace VeraCrypt
 				strErrOutput.insert (strErrOutput.begin(), errOutput.begin(), errOutput.end());
 
 			// sudo may require a tty even if -S is used
-			if (strErrOutput.find (" tty") != string::npos)
+			if (privilegeHelper.IsSudo() && strErrOutput.find (" tty") != string::npos)
 				strErrOutput += "\nTo enable use of 'sudo' by applications without a terminal window, please disable 'requiretty' option in '/etc/sudoers'. Newer versions of sudo automatically determine whether a terminal is required ('requiretty' option is obsolete).";
 
-			throw ElevationFailed (SRC_POS, "sudo", exitCode, strErrOutput);
+			throw ElevationFailed (SRC_POS, privilegeHelper.Name, exitCode, strErrOutput);
 		}
 
-		throw_sys_if (fcntl (outPipe->GetReadFD(), F_SETFL, 0) == -1);
+		throw_sys_if (fcntl (serviceOutputFd, F_SETFL, 0) == -1);
 
-		ServiceInputStream = shared_ptr <Stream> (new FileStream (inPipe->GetWriteFD()));
-		ServiceOutputStream = shared_ptr <Stream> (new FileStream (outPipe->GetReadFD()));
+		if (privilegeHelper.IsSudo())
+		{
+			ServiceInputStream = shared_ptr <Stream> (new FileStream (serviceInputFd));
+			ServiceOutputStream = shared_ptr <Stream> (new FileStream (serviceOutputFd));
+		}
 
-		// Send sync code
+		// Send sync code (sudo path keeps the original fire-and-forget handshake)
 		uint8 sync[] = { 0, 0x11, 0x22 };
 		ServiceInputStream->Write (ConstBufferPtr (sync, array_capacity (sync)));
 
 		AdminInputPipe = move_ptr(inPipe);
 		AdminOutputPipe = move_ptr(outPipe);
+		elevatedServiceStarted = true;
 	}
 
 	void CoreService::Stop ()

@@ -41,6 +41,7 @@ namespace VeraCrypt
 		virtual ~Thread () { };
 
 		void Join () const;
+		void Detach () const;
 		void Start (ThreadProcPtr threadProc, void *parameter = nullptr);
 
 		void Start (Functor *functor)

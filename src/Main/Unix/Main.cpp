@@ -17,6 +17,7 @@
 #include "Platform/SystemLog.h"
 #include "Volume/EncryptionThreadPool.h"
 #include "Core/Unix/CoreService.h"
+#include "Core/Unix/UnixUser.h"
 #include "Main/Application.h"
 #include "Main/Main.h"
 #include "Main/UserInterface.h"
@@ -43,12 +44,16 @@ int main (int argc, char **argv)
 
 		setenv ("PATH", sysPathStr.c_str(), 1);
 
-		if (argc > 1 && strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0)
+		if (argc > 1 && (strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0 || strcmp (argv[1], TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION) == 0))
 		{
 			// Process elevated requests
 			try
 			{
-				CoreService::ProcessElevatedRequests();
+				bool forkProcess = strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0;
+				if (!forkProcess)
+					setenv (TC_DOAS_CORE_SERVICE_ENV, "1", 1);
+
+				CoreService::ProcessElevatedRequests (forkProcess);
 				return 0;
 			}
 			catch (exception &e)
