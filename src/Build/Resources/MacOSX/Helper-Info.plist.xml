@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+
+	<key>CFBundleIdentifier</key>
+	<string>org.idrix.VeraCrypt.helper</string>
+
+	<key>CFBundleName</key>
+	<string>VeraCrypt Privileged Helper</string>
+
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+
+	<key>CFBundleVersion</key>
+	<string>_VERSION_</string>
+
+	<key>CFBundleShortVersionString</key>
+	<string>_VERSION_</string>
+
+	<!-- Code-signing requirement that a connecting client (the VeraCrypt app)
+	     and the binary the helper is asked to exec must satisfy. The helper
+	     reads this at runtime as the single source of truth for the authorized
+	     client identity. _TEAMID_ is substituted at build time. -->
+	<key>SMAuthorizedClients</key>
+	<array>
+		<string>identifier "org.idrix.VeraCrypt" and anchor apple generic and certificate leaf[subject.OU] = "_TEAMID_"</string>
+	</array>
+</dict>
+</plist>

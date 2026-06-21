@@ -26,6 +26,7 @@ OBJS += Unix/$(PLATFORM)/Core$(PLATFORM).o
 OBJS += Unix/$(PLATFORM)/Core$(PLATFORM).o
 ifeq "$(PLATFORM)" "MacOSX"
 OBJS += Unix/FreeBSD/CoreFreeBSD.o
+OBJS += Unix/MacOSX/PrivilegedHelperClient.o
 endif
 
 include $(BUILD_INC)/Makefile.inc
