@@ -96,5 +96,15 @@
 
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
+
+	<!-- SMJobBless: authorizes installation of the privileged helper. The
+	     requirement must match the helper's code signature; _TEAMID_ is
+	     substituted at build time. Keep in sync with the helper's
+	     CFBundleIdentifier (org.idrix.VeraCrypt.helper). -->
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>org.idrix.VeraCrypt.helper</key>
+		<string>identifier "org.idrix.VeraCrypt.helper" and anchor apple generic and certificate leaf[subject.OU] = "_TEAMID_"</string>
+	</dict>
 </dict>
 </plist>

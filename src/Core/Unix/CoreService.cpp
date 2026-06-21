@@ -15,6 +15,9 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <stdio.h>
+#ifdef TC_MACOSX
+#include "Core/Unix/MacOSX/PrivilegedHelperClient.h"
+#endif
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
 #include "Platform/Serializable.h"
@@ -61,13 +64,12 @@ namespace VeraCrypt
 			|| IsMacOSXDevicePathWithPrefix (path, "/dev/rdisk");
 	}
 
-	// The elevated service runs as root, so it must not be tricked into changing
-	// ownership of an arbitrary path. Every legitimate macOS caller of the
-	// elevated SetFileOwner targets a real disk device node (/dev/[r]diskN[sM]),
-	// so restrict the operation to that. lstat() (not stat) is used so a symlink
-	// is rejected outright rather than followed, and the st_mode check confirms an
-	// actual block/character device before the chown.
-	static void ValidateMacOSXSetFileOwnerTarget (const FilesystemPath &path)
+	// The elevated service runs as root, so it must not be tricked into operating
+	// on arbitrary paths. Every legitimate macOS caller that reaches these helpers
+	// targets a real disk device node (/dev/[r]diskN[sM]), so restrict privileged
+	// operations to that. lstat() (not stat) rejects symlinks outright, and the
+	// st_mode check confirms an actual block/character device before use.
+	static void ValidateMacOSXDeviceNodeTarget (const FilesystemPath &path)
 	{
 		const string pathStr = path;
 
@@ -84,8 +86,7 @@ namespace VeraCrypt
 
 	static list <string> BuildMacOSXAPFSFormatterArguments (const ExecuteMacOSXAPFSFormatterRequest &request)
 	{
-		if (!IsMacOSXFormatterDevicePath (request.Device))
-			throw ParameterIncorrect (SRC_POS);
+		ValidateMacOSXDeviceNodeTarget (request.Device);
 
 		if (request.OwnerUserId > static_cast <uint64> ((uid_t) -1)
 			|| request.OwnerGroupId > static_cast <uint64> ((gid_t) -1))
@@ -330,7 +331,7 @@ namespace VeraCrypt
 
 #ifdef TC_MACOSX
 						// Restrict the root-privileged chown to real disk device nodes.
-						ValidateMacOSXSetFileOwnerTarget (setFileOwnerRequest->Path);
+						ValidateMacOSXDeviceNodeTarget (setFileOwnerRequest->Path);
 #endif
 						coreUnix->SetFileOwner (setFileOwnerRequest->Path, setFileOwnerRequest->Owner);
 						SetFileOwnerResponse().Serialize (outputStream);
@@ -449,6 +450,21 @@ namespace VeraCrypt
 			{
 				//	Test if the user has an active "sudo" session.
 				bool authCheckDone = false;
+#ifdef TC_MACOSX
+				// macOS: establish the privileged channel here, in the main
+				// application process. StartElevated() uses the SMJobBless helper
+				// and XPC, which cannot run in the unprivileged core service (a
+				// fork()ed child that never calls exec()); delegating elevation to
+				// it fails before the native authentication dialog is even shown.
+				// StartElevated() repoints the Service streams at the root core
+				// service, so the request is then sent below like any other.
+				authCheckDone = true;
+				request.FastElevation = false;
+				StartElevated (request);
+				ElevatedServiceAvailable = true;
+				request.Serialize (ServiceInputStream);
+				return GetResponse <T> ();
+#else
 				if (!Core->GetUseDummySudoPassword ())
 				{	
 					// We are using -n to avoid prompting the user for a password.
@@ -493,6 +509,7 @@ namespace VeraCrypt
 						request.FastElevation = false;
 					}
 				}
+#endif
 			
 				try
 				{
@@ -527,6 +544,9 @@ namespace VeraCrypt
 
 					request.FastElevation = false;
 
+#ifdef TC_MACOSX
+					throw;
+#endif
 					if(!authCheckDone)
 						(*AdminPasswordCallback) (request.AdminPassword);
 				}
@@ -562,6 +582,51 @@ namespace VeraCrypt
 
 	void CoreService::StartElevated (const CoreServiceRequest &request)
 	{
+#ifdef TC_MACOSX
+		try
+		{
+			std::string errorMsg;
+			string appPath = request.ApplicationExecutablePath;
+			if (appPath.empty() || appPath[0] != '/')
+			{
+				appPath = Process::FindSystemBinary("VeraCrypt", errorMsg);
+				if (appPath.empty())
+					throw SystemException(SRC_POS, errorMsg);
+			}
+
+			// Install (if needed) and drive the SMJobBless privileged helper.
+			// The helper shows the native macOS authentication dialog at install
+			// time, validates this app's code signature on every connection, and
+			// spawns "<appPath> --core-service" as root, returning a connected
+			// socket. VeraCrypt never handles the administrator password.
+			int serviceFD = MacOSXConnectElevatedCoreService (appPath);
+			throw_sys_if (serviceFD == -1);
+
+			shared_ptr <File> servicePipe (new File());
+			servicePipe->AssignSystemHandle (serviceFD, false);
+			ServiceInputStream = shared_ptr <Stream> (new FileStream (servicePipe));
+			ServiceOutputStream = shared_ptr <Stream> (new FileStream (servicePipe));
+
+			// Send sync code
+			uint8 sync[] = { 0, 0x11, 0x22 };
+			ServiceInputStream->Write (ConstBufferPtr (sync, array_capacity (sync)));
+
+			return;
+		}
+		catch (Exception &)
+		{
+			throw;
+		}
+		catch (exception &e)
+		{
+			throw ExternalException (SRC_POS, StringConverter::ToExceptionString (e));
+		}
+		catch (...)
+		{
+			throw UnknownException (SRC_POS);
+		}
+#endif
+
 		unique_ptr <Pipe> inPipe (new Pipe());
 		unique_ptr <Pipe> outPipe (new Pipe());
 		Pipe errPipe;
