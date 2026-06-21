@@ -46,6 +46,7 @@ namespace VeraCrypt
 		static void Stop ();
 
 	protected:
+		static unique_ptr <Serializable> GetResponseObject ();
 		template <class T> static unique_ptr <T> GetResponse ();
 		template <class T> static unique_ptr <T> SendRequest (CoreServiceRequest &request);
 		static void StartElevated (const CoreServiceRequest &request);

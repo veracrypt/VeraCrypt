@@ -110,14 +110,21 @@ namespace VeraCrypt
 	}
 #endif
 
-	template <class T>
-	unique_ptr <T> CoreService::GetResponse ()
+	unique_ptr <Serializable> CoreService::GetResponseObject ()
 	{
 		unique_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream));
 
 		Exception *deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
 		if (deserializedException)
 			deserializedException->Throw();
+
+		return deserializedObject;
+	}
+
+	template <class T>
+	unique_ptr <T> CoreService::GetResponse ()
+	{
+		unique_ptr <Serializable> deserializedObject (GetResponseObject());
 
 		if (dynamic_cast <T *> (deserializedObject.get()) == nullptr)
 			throw ParameterIncorrect (SRC_POS);
@@ -199,13 +206,20 @@ namespace VeraCrypt
 
 					if (!ElevatedPrivileges && request->ElevateUserPrivileges)
 					{
+						bool elevatedServiceStarted = false;
+
 						if (!ElevatedServiceAvailable)
 						{
 							finally_do_arg (string *, &request->AdminPassword, { StringConverter::Erase (*finally_arg); });
 
 							CoreService::StartElevated (*request);
 							ElevatedServiceAvailable = true;
+							elevatedServiceStarted = true;
 						}
+
+						// Report sudo/elevated-service success before executing the request.
+						if (elevatedServiceStarted)
+							ElevatedServiceStartedResponse().Serialize (outputStream);
 
 						request->Serialize (ServiceInputStream);
 						GetResponse <Serializable>()->Serialize (outputStream);
@@ -424,6 +438,7 @@ namespace VeraCrypt
 		request.UserEnvPATH = Core->GetUserEnvPATH();
 		request.UseDummySudoPassword = Core->GetUseDummySudoPassword();
 		request.AllowInsecureMount = Core->GetAllowInsecureMount();
+		finally_do_arg (string *, &request.AdminPassword, { StringConverter::Erase (*finally_arg); });
 
 		if (request.RequiresElevation())
 		{
@@ -482,12 +497,28 @@ namespace VeraCrypt
 				try
 				{
 					request.Serialize (ServiceInputStream);
-					unique_ptr <T> response (GetResponse <T>());
+
+					unique_ptr <Serializable> response (GetResponseObject());
+					if (dynamic_cast <ElevatedServiceStartedResponse *> (response.get()) != nullptr)
+					{
+						// The elevated channel is usable even if the forwarded request fails.
+						// Any later failure must be propagated as the real error rather than
+						// triggering another administrator-password prompt.
+						ElevatedServiceAvailable = true;
+						return GetResponse <T> ();
+					}
+
+					if (dynamic_cast <T *> (response.get()) == nullptr)
+						throw ParameterIncorrect (SRC_POS);
+
 					ElevatedServiceAvailable = true;
-					return response;
+					return unique_ptr <T> (dynamic_cast <T *> (response.release()));
 				}
 				catch (ElevationFailed &e)
 				{
+					if (ElevatedServiceAvailable)
+						throw;
+
 					if (!request.FastElevation)
 					{
 						ExceptionEventArgs args (e);
@@ -501,8 +532,6 @@ namespace VeraCrypt
 				}
 			}
 		}
-
-		finally_do_arg (string *, &request.AdminPassword, { StringConverter::Erase (*finally_arg); });
 
 		request.Serialize (ServiceInputStream);
 		return GetResponse <T>();

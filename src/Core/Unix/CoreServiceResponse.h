@@ -22,6 +22,12 @@ namespace VeraCrypt
 	{
 	};
 
+	struct ElevatedServiceStartedResponse : CoreServiceResponse
+	{
+		ElevatedServiceStartedResponse () { }
+		TC_SERIALIZABLE (ElevatedServiceStartedResponse);
+	};
+
 	struct CheckFilesystemResponse : CoreServiceResponse
 	{
 		CheckFilesystemResponse () { }

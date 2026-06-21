@@ -15,6 +15,16 @@
 
 namespace VeraCrypt
 {
+	// ElevatedServiceStartedResponse
+	void ElevatedServiceStartedResponse::Deserialize (shared_ptr <Stream> stream)
+	{
+	}
+
+	void ElevatedServiceStartedResponse::Serialize (shared_ptr <Stream> stream) const
+	{
+		Serializable::Serialize (stream);
+	}
+
 	// CheckFilesystemResponse
 	void CheckFilesystemResponse::Deserialize (shared_ptr <Stream> stream)
 	{
@@ -124,6 +134,7 @@ namespace VeraCrypt
 		Serializable::Serialize (stream);
 	}
 
+	TC_SERIALIZER_FACTORY_ADD_CLASS (ElevatedServiceStartedResponse);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (CheckFilesystemResponse);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (DismountFilesystemResponse);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (DismountVolumeResponse);
