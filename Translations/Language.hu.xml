@@ -1498,6 +1498,8 @@
     <entry lang="hu" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Felhívjuk figyelmét, hogy a beállítás használata előtt minden jelenleg csatlakoztatott kötetet újra kell csatlakoztatni.</entry>
     <entry lang="hu" key="LINUX_UNKNOWN_EXC_OCCURRED">Ismeretlen kivétel történt.</entry>
     <entry lang="hu" key="LINUX_FIRST_AID">"A lemezkezelő az 'OK' megnyomása után indul el.\n\nVálasszon kötetet a lemezkezelő ablakában, majd nyomja meg a 'Lemez ellenőrzése' vagy a 'Lemez javítása' gombot az 'Elsősegély' lapon.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="hu" key="LINUX_MOUNT_ALL_DEV">Minden eszköz csatlakoztatása</entry>
     <entry lang="hu" key="LINUX_ERROR_LOADING_CONFIG">Hiba történt a következő helyen található konfigurációs fájlok betöltésekor: </entry>
     <entry lang="hu" key="LINUX_SELECT_FREE_SLOT">Válasszon egy szabad meghajtó nyílást a listából.</entry>

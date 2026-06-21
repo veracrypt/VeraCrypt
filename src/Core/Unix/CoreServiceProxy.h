@@ -27,7 +27,17 @@ namespace VeraCrypt
 
 		virtual void CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair) const
 		{
+#ifdef TC_MACOSX
+			// On macOS the check runs diskutil against the VeraCrypt virtual device
+			// and shows the result in a Terminal window; neither needs root. Run it
+			// in this (unprivileged) application process directly: once a device-hosted
+			// mount has started the elevated core service, every request is routed to
+			// that root process, which would create the helper script as root and open
+			// a Terminal the GUI-session user cannot read or execute.
+			T::CheckFilesystem (mountedVolume, repair);
+#else
 			CoreService::RequestCheckFilesystem (mountedVolume, repair);
+#endif
 		}
 
 		virtual void DismountFilesystem (const DirectoryPath &mountPoint, bool force) const

@@ -1498,6 +1498,8 @@
     <entry lang="uz" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Шуни есда тутингки, ҳозирда ўрнатилган жилдлар ушбу созламадан фойдаланишдан олдин қайта ўрнатилиши керак.</entry>
     <entry lang="uz" key="LINUX_UNKNOWN_EXC_OCCURRED">Нома'лум истисно юз берди.</entry>
     <entry lang="uz" key="LINUX_FIRST_AID">"Ок" тугмасини босганингиздан сўнг Диск Утилитй ишга тушади.\n\nИлтимос, Диск Утилитй ойнасида томни танланг ва "Биринчи ёрдам" саҳифасида "Дискни текшириш" ёки "Дискни тузатиш" тугмасини босинг.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="uz" key="LINUX_MOUNT_ALL_DEV">Барча қурилмаларни ўрнатиш</entry>
     <entry lang="uz" key="LINUX_ERROR_LOADING_CONFIG">жойлашган конфигуратсия файлларини юклашда хатолик юз берди </entry>
     <entry lang="uz" key="LINUX_SELECT_FREE_SLOT">Илтимос, рўйхатдан бепул ҳайдовчи уйини танланг.</entry>

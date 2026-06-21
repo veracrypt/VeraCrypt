@@ -1498,6 +1498,8 @@
     <entry lang="ca" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Tingueu en compte que els volums muntats actualment s'han de tornar a muntar abans que puguin utilitzar aquesta configuració.</entry>
     <entry lang="ca" key="LINUX_UNKNOWN_EXC_OCCURRED">S'ha produït una excepció desconeguda.</entry>
     <entry lang="ca" key="LINUX_FIRST_AID">"La Utilitat de disc s'iniciarà després de prémer "D'acord".\n\nSeleccioneu el vostre volum a la finestra Utilitat de disc i premeu el botó "Verifica el disc" o "Repara el disc" a la pàgina "Primers auxilis".</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="ca" key="LINUX_MOUNT_ALL_DEV">Munta tots els dispositius</entry>
     <entry lang="ca" key="LINUX_ERROR_LOADING_CONFIG">S'ha produït un error en carregar els fitxers de configuració que es troben a </entry>
     <entry lang="ca" key="LINUX_SELECT_FREE_SLOT">Seleccioneu una ranura d'unitat lliure de la llista.</entry>
