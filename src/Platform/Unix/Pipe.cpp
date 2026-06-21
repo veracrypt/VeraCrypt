@@ -36,9 +36,15 @@ namespace VeraCrypt
 	void Pipe::Close ()
 	{
 		if (ReadFileDescriptor != -1)
+		{
 			close (ReadFileDescriptor);
+			ReadFileDescriptor = -1;
+		}
 		if (WriteFileDescriptor != -1)
+		{
 			close (WriteFileDescriptor);
+			WriteFileDescriptor = -1;
+		}
 	}
 
 	int Pipe::GetReadFD ()
