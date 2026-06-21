@@ -14,6 +14,8 @@
 #include <errno.h>
 #endif
 #include "EncryptionModeXTS.h"
+#include "EncryptionThreadPool.h"
+#include "Platform/Finally.h"
 #include "Volume.h"
 #include "VolumeHeader.h"
 #include "VolumeLayout.h"
@@ -120,6 +122,114 @@ namespace VeraCrypt
 
 			bool skipLayoutV1Normal = false;
 
+			// Finalizes the volume once a layout's header has been decrypted.
+			// Shared by the serial and parallel header-detection paths below.
+			auto setupFromDecryptedHeader = [&](shared_ptr <VolumeLayout> layout, shared_ptr <VolumeHeader> header)
+			{
+				if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
+				{
+					// VolumeLayoutV1Normal has been opened as VolumeLayoutV2Normal
+					layout.reset (new VolumeLayoutV1Normal);
+					header->SetSize (layout->GetHeaderSize());
+					layout->SetHeader (header);
+				}
+
+				Pim = pim;
+				Type = layout->GetType();
+				SectorSize = header->GetSectorSize();
+
+				VolumeDataOffset = layout->GetDataOffset (VolumeHostSize);
+				VolumeDataSize = layout->GetDataSize (VolumeHostSize);
+				EncryptedDataSize = header->GetEncryptedAreaLength();
+
+				Header = header;
+				Layout = layout;
+				EA = header->GetEncryptionAlgorithm();
+				EncryptionMode &mode = *EA->GetMode();
+
+				if (layout->HasDriveHeader())
+				{
+					if (header->GetEncryptedAreaLength() != header->GetVolumeDataSize())
+					{
+						EncryptionNotCompleted = true;
+						// we avoid writing data to the partition since it is only partially encrypted
+						Protection = VolumeProtection::ReadOnly;
+					}
+
+					uint64 partitionStartOffset = VolumeFile->GetPartitionDeviceStartOffset();
+
+					if (partitionStartOffset < header->GetEncryptedAreaStart()
+						|| partitionStartOffset >= header->GetEncryptedAreaStart() + header->GetEncryptedAreaLength())
+						throw PasswordIncorrect (SRC_POS);
+
+					EncryptedDataSize -= partitionStartOffset - header->GetEncryptedAreaStart();
+
+					mode.SetSectorOffset (partitionStartOffset / ENCRYPTION_DATA_UNIT_SIZE);
+				}
+
+				// Volume protection
+				if (Protection == VolumeProtection::HiddenVolumeReadOnly)
+				{
+					if (Type == VolumeType::Hidden)
+						throw PasswordIncorrect (SRC_POS);
+					else
+					{
+						try
+						{
+							Volume protectedVolume;
+
+							protectedVolume.Open (VolumeFile,
+								protectionPassword, protectionPim, protectionKdf, protectionKeyfiles,
+								emvSupportEnabled,
+								VolumeProtection::ReadOnly,
+								shared_ptr <VolumePassword> (), 0, shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
+								VolumeType::Hidden,
+								useBackupHeaders);
+
+							if (protectedVolume.GetType() != VolumeType::Hidden)
+								ParameterIncorrect (SRC_POS);
+
+							ProtectedRangeStart = protectedVolume.VolumeDataOffset;
+							ProtectedRangeEnd = protectedVolume.VolumeDataOffset + protectedVolume.VolumeDataSize;
+						}
+						catch (PasswordException&)
+						{
+							if (protectionKeyfiles && !protectionKeyfiles->empty())
+								throw ProtectionPasswordKeyfilesIncorrect (SRC_POS);
+							throw ProtectionPasswordIncorrect (SRC_POS);
+						}
+					}
+				}
+			};
+
+			// When no specific KDF is requested and the encryption thread pool is
+			// available, gather every candidate layout header and derive their keys
+			// in parallel (VolumeHeader::DecryptHeaderParallel) so expensive KDFs
+			// (e.g. Argon2) for different layouts run concurrently instead of one
+			// layout at a time. Otherwise use the original serial detection.
+			// Start the encryption thread pool for parallel key derivation only if
+			// it is not already running (the GUI keeps a persistent pool). When we
+			// start it here -- e.g. in the elevated core service -- we also stop it
+			// before returning, so it is NOT running when the caller forks to launch
+			// the FUSE daemon (fork() in a multithreaded process is unsafe). The
+			// FUSE daemon starts its own pool after that fork.
+			bool encryptionPoolStartedHere = false;
+			if (!kdf && !EncryptionThreadPool::IsRunning())
+			{
+				try
+				{
+					EncryptionThreadPool::Start();
+					encryptionPoolStartedHere = true;
+				}
+				catch (...) { }
+			}
+			finally_do_arg (bool, encryptionPoolStartedHere, { if (finally_arg) EncryptionThreadPool::Stop(); });
+
+			bool useParallelHeaderDetection = (!kdf && EncryptionThreadPool::IsRunning());
+			vector < shared_ptr <VolumeLayout> > candidateLayouts;
+			vector < shared_ptr <SecureBuffer> > candidateBuffers;	// keep header buffers alive for the parallel call
+			vector <VolumeHeader::DecryptCandidate> candidates;
+
 			// Test volume layouts
 			foreach (shared_ptr <VolumeLayout> layout, VolumeLayout::GetAvailableLayouts (volumeType))
 			{
@@ -132,7 +242,7 @@ namespace VeraCrypt
 				if (useBackupHeaders && !layout->HasBackupHeader())
 					continue;
 
-				SecureBuffer headerBuffer (layout->GetHeaderSize());
+				shared_ptr <SecureBuffer> headerBuffer (new SecureBuffer (layout->GetHeaderSize()));
 
 				if (layout->HasDriveHeader())
 				{
@@ -152,7 +262,7 @@ namespace VeraCrypt
 					else
 						driveDevice.SeekEnd (headerOffset);
 
-					if (driveDevice.Read (headerBuffer) != layout->GetHeaderSize())
+					if (driveDevice.Read (*headerBuffer) != layout->GetHeaderSize())
 						continue;
 				}
 				else
@@ -167,7 +277,7 @@ namespace VeraCrypt
 					else
 						VolumeFile->SeekEnd (headerOffset);
 
-					if (VolumeFile->Read (headerBuffer) != layout->GetHeaderSize())
+					if (VolumeFile->Read (*headerBuffer) != layout->GetHeaderSize())
 						continue;
 				}
 
@@ -185,84 +295,32 @@ namespace VeraCrypt
 
 				shared_ptr <VolumeHeader> header = layout->GetHeader();
 
-				if (header->Decrypt (headerBuffer, *passwordKey, pim, kdf, layout->GetSupportedKeyDerivationFunctions(), layoutEncryptionAlgorithms, layoutEncryptionModes))
+				if (useParallelHeaderDetection)
 				{
-					// Header decrypted
+					VolumeHeader::DecryptCandidate candidate;
+					candidate.Header = header;
+					candidate.EncryptedData = *headerBuffer;
+					candidate.KeyDerivationFunctions = layout->GetSupportedKeyDerivationFunctions();
+					candidate.EncryptionAlgorithms = layoutEncryptionAlgorithms;
+					candidate.EncryptionModes = layoutEncryptionModes;
 
-					if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
-					{
-						// VolumeLayoutV1Normal has been opened as VolumeLayoutV2Normal
-						layout.reset (new VolumeLayoutV1Normal);
-						header->SetSize (layout->GetHeaderSize());
-						layout->SetHeader (header);
-					}
+					candidates.push_back (candidate);
+					candidateLayouts.push_back (layout);
+					candidateBuffers.push_back (headerBuffer);
+				}
+				else if (header->Decrypt (*headerBuffer, *passwordKey, pim, kdf, layout->GetSupportedKeyDerivationFunctions(), layoutEncryptionAlgorithms, layoutEncryptionModes))
+				{
+					setupFromDecryptedHeader (layout, header);
+					return;
+				}
+			}
 
-					Pim = pim;
-					Type = layout->GetType();
-					SectorSize = header->GetSectorSize();
-
-					VolumeDataOffset = layout->GetDataOffset (VolumeHostSize);
-					VolumeDataSize = layout->GetDataSize (VolumeHostSize);
-					EncryptedDataSize = header->GetEncryptedAreaLength();
-
-					Header = header;
-					Layout = layout;
-					EA = header->GetEncryptionAlgorithm();
-					EncryptionMode &mode = *EA->GetMode();
-
-					if (layout->HasDriveHeader())
-					{
-						if (header->GetEncryptedAreaLength() != header->GetVolumeDataSize())
-						{
-							EncryptionNotCompleted = true;
-							// we avoid writing data to the partition since it is only partially encrypted
-							Protection = VolumeProtection::ReadOnly;
-						}
-
-						uint64 partitionStartOffset = VolumeFile->GetPartitionDeviceStartOffset();
-
-						if (partitionStartOffset < header->GetEncryptedAreaStart()
-							|| partitionStartOffset >= header->GetEncryptedAreaStart() + header->GetEncryptedAreaLength())
-							throw PasswordIncorrect (SRC_POS);
-
-						EncryptedDataSize -= partitionStartOffset - header->GetEncryptedAreaStart();
-
-						mode.SetSectorOffset (partitionStartOffset / ENCRYPTION_DATA_UNIT_SIZE);
-					}
-
-					// Volume protection
-					if (Protection == VolumeProtection::HiddenVolumeReadOnly)
-					{
-						if (Type == VolumeType::Hidden)
-							throw PasswordIncorrect (SRC_POS);
-						else
-						{
-							try
-							{
-								Volume protectedVolume;
-
-								protectedVolume.Open (VolumeFile,
-									protectionPassword, protectionPim, protectionKdf, protectionKeyfiles,
-									emvSupportEnabled,
-									VolumeProtection::ReadOnly,
-									shared_ptr <VolumePassword> (), 0, shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
-									VolumeType::Hidden,
-									useBackupHeaders);
-
-								if (protectedVolume.GetType() != VolumeType::Hidden)
-									ParameterIncorrect (SRC_POS);
-
-								ProtectedRangeStart = protectedVolume.VolumeDataOffset;
-								ProtectedRangeEnd = protectedVolume.VolumeDataOffset + protectedVolume.VolumeDataSize;
-							}
-							catch (PasswordException&)
-							{
-								if (protectionKeyfiles && !protectionKeyfiles->empty())
-									throw ProtectionPasswordKeyfilesIncorrect (SRC_POS);
-								throw ProtectionPasswordIncorrect (SRC_POS);
-							}
-						}
-					}
+			if (useParallelHeaderDetection && !candidates.empty())
+			{
+				int winningCandidate = VolumeHeader::DecryptHeaderParallel (candidates, *passwordKey, pim);
+				if (winningCandidate >= 0)
+				{
+					setupFromDecryptedHeader (candidateLayouts[winningCandidate], candidates[winningCandidate].Header);
 					return;
 				}
 			}
