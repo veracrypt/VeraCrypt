@@ -33,6 +33,7 @@ namespace VeraCrypt
 			CloseSecurityTokenSessionsAfterMount (false),
 			EMVSupportEnabled (false),
 			DisableKernelEncryptionModeWarning (false),
+			DisableScreenProtection (false),
 			DismountOnInactivity (false),
 			DismountOnLogOff (true),
 			DismountOnPowerSaving (false),
@@ -76,6 +77,7 @@ namespace VeraCrypt
 		bool CloseSecurityTokenSessionsAfterMount;
         bool EMVSupportEnabled;
 		bool DisableKernelEncryptionModeWarning;
+		bool DisableScreenProtection;
 		bool DismountOnInactivity;
 		bool DismountOnLogOff;
 		bool DismountOnPowerSaving;

@@ -2053,7 +2053,12 @@ namespace VeraCrypt
 	void GraphicUserInterface::SetContentProtection (bool enable) const
 	{
 #if defined(TC_WINDOWS) || defined(TC_MACOSX)
-		GetActiveWindow()->SetContentProtection(enable ? wxCONTENT_PROTECTION_ENABLED : wxCONTENT_PROTECTION_NONE);
+		foreach (wxWindow *window, wxTopLevelWindows)
+		{
+			wxTopLevelWindow *topLevelWindow = dynamic_cast <wxTopLevelWindow *> (window);
+			if (topLevelWindow)
+				topLevelWindow->SetContentProtection (enable ? wxCONTENT_PROTECTION_ENABLED : wxCONTENT_PROTECTION_NONE);
+		}
 #endif
 	}
 

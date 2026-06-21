@@ -84,6 +84,9 @@ namespace VeraCrypt
 			TC_CONFIG_SET (CloseSecurityTokenSessionsAfterMount);
 			TC_CONFIG_SET (EMVSupportEnabled);
 			TC_CONFIG_SET (DisableKernelEncryptionModeWarning);
+#ifdef TC_MACOSX
+			TC_CONFIG_SET (DisableScreenProtection);
+#endif
 			TC_CONFIG_SET (DismountOnInactivity);
 			TC_CONFIG_SET (DismountOnLogOff);
 			TC_CONFIG_SET (DismountOnPowerSaving);
@@ -212,6 +215,9 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (CloseSecurityTokenSessionsAfterMount);
         TC_CONFIG_ADD (EMVSupportEnabled);
 		TC_CONFIG_ADD (DisableKernelEncryptionModeWarning);
+#ifdef TC_MACOSX
+		TC_CONFIG_ADD (DisableScreenProtection);
+#endif
 		TC_CONFIG_ADD (DismountOnInactivity);
 		TC_CONFIG_ADD (DismountOnLogOff);
 		TC_CONFIG_ADD (DismountOnPowerSaving);

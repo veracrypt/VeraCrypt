@@ -94,6 +94,21 @@ namespace VeraCrypt
 		TC_CHECK_BOX_VALIDATOR (WipeCacheOnAutoDismount);
 		TC_CHECK_BOX_VALIDATOR (WipeCacheOnClose);
 
+#ifdef TC_MACOSX
+		wxStaticBoxSizer *screenProtectionSizer = new wxStaticBoxSizer (new wxStaticBox (SecurityPage, wxID_ANY, LangString["IDT_SECURITY_OPTIONS"]), wxVERTICAL);
+		DisableScreenProtectionCheckBox = new wxCheckBox (screenProtectionSizer->GetStaticBox(), wxID_ANY, LangString["IDC_DISABLE_SCREEN_PROTECTION"]);
+		DisableScreenProtectionCheckBox->SetToolTip (LangString["DISABLE_SCREEN_PROTECTION_WARNING"]);
+		screenProtectionSizer->Add (DisableScreenProtectionCheckBox, 0, wxALL, 5);
+		SecurityPage->GetSizer()->Add (screenProtectionSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+		TC_CHECK_BOX_VALIDATOR (DisableScreenProtection);
+		DisableScreenProtectionCheckBox->Bind (wxEVT_CHECKBOX,
+			[] (wxCommandEvent& event)
+			{
+				if (event.IsChecked())
+					Gui->ShowWarning ("DISABLE_SCREEN_PROTECTION_WARNING");
+			});
+#endif
+
 		// Mount options
 		CachePasswordsCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.CachePassword));
 		MountReadOnlyCheckBox->SetValue (Preferences.DefaultMountOptions.Protection == VolumeProtection::ReadOnly);

@@ -479,7 +479,11 @@ namespace VeraCrypt
 
 	void MainFrame::InitWindowPrivacy ()
 	{
-		Gui->SetContentProtection(!CmdLine->ArgAllowScreencapture);
+		bool enableContentProtection = !CmdLine->ArgAllowScreencapture;
+#ifdef TC_MACOSX
+		enableContentProtection = enableContentProtection && !GetPreferences().DisableScreenProtection;
+#endif
+		Gui->SetContentProtection (enableContentProtection);
 	}
 
 	void MainFrame::InitPreferences ()
@@ -1296,6 +1300,7 @@ namespace VeraCrypt
 		if (Gui->IsInBackgroundMode() && !prefs.BackgroundTaskEnabled)
 			Close (true);
 
+		InitWindowPrivacy();
 		SavePreferences();
 	}
 

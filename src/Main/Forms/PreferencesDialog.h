@@ -58,6 +58,9 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 		wxCheckBox *MountNtfsWithKernelDriverCheckBox;
 #endif
+#ifdef TC_MACOSX
+		wxCheckBox *DisableScreenProtectionCheckBox;
+#endif
 		int LastVirtualKeyPressed;
 		unique_ptr <wxTimer> mTimer;
 		UserPreferences Preferences;
