@@ -630,11 +630,14 @@ namespace VeraCrypt
 			{
 				wstring filesystemType = options.FilesystemType;
 				bool internalMountOnly = false;
+				bool allowFilesystemTypeFallback = filesystemType.empty();
 
 				ResolveNtfsKernelMountOptions (nativeDevPath, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
+				allowFilesystemTypeFallback = allowFilesystemTypeFallback && filesystemType.empty() && !internalMountOnly;
 
-				MountFilesystem (nativeDevPath, *options.MountPoint,
+				MountFilesystemWithFallback (nativeDevPath, *options.MountPoint,
 					StringConverter::ToSingle (filesystemType),
+					allowFilesystemTypeFallback,
 					options.Protection == VolumeProtection::ReadOnly,
 					StringConverter::ToSingle (options.FilesystemOptions),
 					internalMountOnly);

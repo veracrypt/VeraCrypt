@@ -989,6 +989,40 @@ namespace VeraCrypt
 		filesystemType = StringConverter::ToWide (SelectNtfsKernelFilesystemType());
 		internalMountOnly = true;
 	}
+
+	string CoreUnix::DetectLinuxMountFallbackFilesystemType (const DevicePath &devicePath) const
+	{
+		string detectedFilesystemType = DetectFilesystemType (devicePath);
+
+		if (detectedFilesystemType == "vfat" || detectedFilesystemType == "exfat" || detectedFilesystemType == "msdos")
+			return detectedFilesystemType;
+
+		if (detectedFilesystemType == "fat")
+			return "vfat";
+
+		return string();
+	}
+
+	void CoreUnix::MountFilesystemWithFallback (const DevicePath &devicePath, const DirectoryPath &mountPoint,
+		const string &filesystemType, bool allowFilesystemTypeFallback, bool readOnly,
+		const string &systemMountOptions, bool internalMountOnly) const
+	{
+		try
+		{
+			MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions, internalMountOnly);
+		}
+		catch (ExecutedProcessFailed&)
+		{
+			if (!allowFilesystemTypeFallback || !filesystemType.empty() || internalMountOnly)
+				throw;
+
+			string fallbackFilesystemType = DetectLinuxMountFallbackFilesystemType (devicePath);
+			if (fallbackFilesystemType.empty())
+				throw;
+
+			MountFilesystem (devicePath, mountPoint, fallbackFilesystemType, readOnly, systemMountOptions, false);
+		}
+	}
 #endif
 
 	void CoreUnix::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
@@ -1346,14 +1380,24 @@ namespace VeraCrypt
 			bool internalMountOnly = false;
 
 #ifdef TC_LINUX
-			ResolveNtfsKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
-#endif
+			bool allowFilesystemTypeFallback = filesystemType.empty();
 
+			ResolveNtfsKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
+			allowFilesystemTypeFallback = allowFilesystemTypeFallback && filesystemType.empty() && !internalMountOnly;
+
+			MountFilesystemWithFallback (loopDev, *options.MountPoint,
+				StringConverter::ToSingle (filesystemType),
+				allowFilesystemTypeFallback,
+				options.Protection == VolumeProtection::ReadOnly,
+				StringConverter::ToSingle (options.FilesystemOptions),
+				internalMountOnly);
+#else
 			MountFilesystem (loopDev, *options.MountPoint,
 				StringConverter::ToSingle (filesystemType),
 				options.Protection == VolumeProtection::ReadOnly,
 				StringConverter::ToSingle (options.FilesystemOptions),
 				internalMountOnly);
+#endif
 		}
 
 		return loopDev;
