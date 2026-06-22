@@ -369,7 +369,7 @@
     <entry lang="es" key="IDT_SECURITY_TOKEN">Token de seguridad:</entry>
     <entry lang="es" key="IDT_SORT_METHOD">Orden:</entry>
     <entry lang="es" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Por favor, espere. Este proceso puede llevar mucho tiempo...</entry>
-    <entry lang="es" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Por favor, espere...\nEste proceso puede llevar mucho tiempo y VeraCrypt puede parece que no responde.</entry>
+    <entry lang="es" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Por favor, espere...\nEste proceso puede llevar mucho tiempo y VeraCrypt puede parecer que no responde.</entry>
     <entry lang="es" key="IDT_TEST_BLOCK_NUMBER">Número de bloque:</entry>
     <entry lang="es" key="IDT_TEST_CIPHERTEXT">Texto cifrado (hexadecimal)</entry>
     <entry lang="es" key="IDT_TEST_DATA_UNIT_NUMBER">Datos de la unidad (64-bit hexadecimal, tamaño de la unidad de datos es 512 bytes)</entry>
