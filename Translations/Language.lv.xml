@@ -1498,8 +1498,6 @@
     <entry lang="lv" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Lūdzu, ņemiet vērā, ka visi pašlaik pievienotie sējumi ir jāmontē atkārtoti, lai varētu izmantot šo iestatījumu.</entry>
     <entry lang="lv" key="LINUX_UNKNOWN_EXC_OCCURRED">Radās nezināms izņēmums.</entry>
     <entry lang="lv" key="LINUX_FIRST_AID">Diska utilīta tiks palaista pēc tam, kad būsit nospiedis OK.\n\nLūdzu, atlasiet savu sējumu diska utilīta logā un nospiediet pogu "Pārbaudīt disku" vai "Remontēt disku" lapā "Pirmā palīdzība".</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="lv" key="LINUX_MOUNT_ALL_DEV">Uzstādiet visas ierīces</entry>
     <entry lang="lv" key="LINUX_ERROR_LOADING_CONFIG">Kļūda, ielādējot konfigurācijas failus, kas atrodas </entry>
     <entry lang="lv" key="LINUX_SELECT_FREE_SLOT">Lūdzu, sarakstā atlasiet brīvu diska slotu.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="lv" key="FAVORITE_PIM_OR_KDF_CHANGED">Šis sējums ir reģistrēts kā sistēmas iecienītākais sējums, un tā PIM un/vai KDF iestatījumi tika mainīti.\nVai vēlaties, lai VeraCrypt automātiski atjauninātu sistēmas iecienītākā sējuma konfigurāciju (nepieciešamas administratora privilēģijas)?\n\nLūdzu, ņemiet vērā: ja atbildēsiet nē, jums būs manuāli jāatjaunina sistēmas iecienītākais sējums.</entry>
     <entry lang="lv" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Atlasītais KDF izmanto dažādus PIM parametrus, tāpēc VeraCrypt atkārtoti neizmantos pašreizējo pielāgoto PIM. Jaunajā sējuma galvenē atlasītajam KDF tiks izmantots noklusējuma PIM, ja vien sadaļā Jauns atlasīsit "Izmantot PIM" un neievadīsiet pielāgotu vērtību.\n\nVai vēlaties turpināt?</entry>
     <entry lang="lv" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot ir iespējots, bet aparātprogrammatūras Secure Boot datubāze neuzticas nevienai Microsoft UEFI CA kopai, ko atbalsta VeraCrypt EFI sāknēšanas ielādētājs. Iespējojiet Microsoft Corporation UEFI CA 2011 vai gan Microsoft UEFI CA 2023, gan Microsoft Option ROM UEFI CA 2023, pēc tam palaidiet VeraCrypt labošanas/pārinstalēšanas opciju. Alternatīvi atspējojiet Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

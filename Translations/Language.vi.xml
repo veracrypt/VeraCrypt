@@ -1498,8 +1498,6 @@
     <entry lang="vi" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Xin lưu ý rằng mọi tập đĩa hiện đang được gắn đều phải được gắn lại trước khi chúng có thể sử dụng cài đặt này.</entry>
     <entry lang="vi" key="LINUX_UNKNOWN_EXC_OCCURRED">Đã xảy ra ngoại lệ không xác định.</entry>
     <entry lang="vi" key="LINUX_FIRST_AID">"Disk Utility sẽ được khởi chạy sau khi bạn nhấn 'OK'.\n\nVui lòng chọn ổ đĩa của bạn trong cửa sổ Disk Utility và nhấn nút 'Xác minh đĩa' hoặc 'Sửa đĩa' trên trang 'Sơ cứu'.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="vi" key="LINUX_MOUNT_ALL_DEV">Gắn tất cả các thiết bị</entry>
     <entry lang="vi" key="LINUX_ERROR_LOADING_CONFIG">Lỗi khi tải tập tin cấu hình nằm trong </entry>
     <entry lang="vi" key="LINUX_SELECT_FREE_SLOT">Vui lòng chọn một khe cắm ổ đĩa miễn phí từ danh sách.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="vi" key="FAVORITE_PIM_OR_KDF_CHANGED">Tập đĩa này được đăng ký làm tập đĩa hệ thống được chuộng và cài đặt PIM và/hoặc KDF của nó đã được thay đổi.\nBạn có muốn VeraCrypt tự động cập nhật cấu hình tập đĩa hệ thống được chuộng không (yêu cầu quyền quản trị viên)?\n\nXin lưu ý rằng nếu bạn trả lời không, bạn sẽ phải cập nhật tập đĩa hệ thống được chuộng theo cách thủ công.</entry>
     <entry lang="vi" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">KDF được chọn sử dụng các tham số PIM khác nhau nên VeraCrypt sẽ không sử dụng lại PIM tùy chỉnh hiện tại. Tiêu đề tập đĩa mới sẽ sử dụng PIM mặc định cho KDF đã chọn trừ khi bạn chọn "Sử dụng PIM" trong phần Mới và nhập giá trị tùy chỉnh.\n\nBạn có muốn tiếp tục không?</entry>
     <entry lang="vi" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot đang được bật, nhưng cơ sở dữ liệu Secure Boot của chương trình cơ sở không tin cậy bất kỳ bộ Microsoft UEFI CA nào được bộ tải khởi động EFI của VeraCrypt hỗ trợ. Hãy bật Microsoft Corporation UEFI CA 2011, hoặc bật cả Microsoft UEFI CA 2023 và Microsoft Option ROM UEFI CA 2023, sau đó chạy tùy chọn Sửa chữa/Cài đặt lại của VeraCrypt. Hoặc, hãy tắt Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

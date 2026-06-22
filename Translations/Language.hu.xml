@@ -1498,8 +1498,6 @@
     <entry lang="hu" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Felhívjuk figyelmét, hogy a beállítás használata előtt minden jelenleg csatlakoztatott kötetet újra kell csatlakoztatni.</entry>
     <entry lang="hu" key="LINUX_UNKNOWN_EXC_OCCURRED">Ismeretlen kivétel történt.</entry>
     <entry lang="hu" key="LINUX_FIRST_AID">"A lemezkezelő az 'OK' megnyomása után indul el.\n\nVálasszon kötetet a lemezkezelő ablakában, majd nyomja meg a 'Lemez ellenőrzése' vagy a 'Lemez javítása' gombot az 'Elsősegély' lapon.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="hu" key="LINUX_MOUNT_ALL_DEV">Minden eszköz csatlakoztatása</entry>
     <entry lang="hu" key="LINUX_ERROR_LOADING_CONFIG">Hiba történt a következő helyen található konfigurációs fájlok betöltésekor: </entry>
     <entry lang="hu" key="LINUX_SELECT_FREE_SLOT">Válasszon egy szabad meghajtó nyílást a listából.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="hu" key="FAVORITE_PIM_OR_KDF_CHANGED">Ez a kötet rendszerkedvencként van regisztrálva, és a PIM és/vagy KDF beállításai módosultak.\nSzeretné, hogy a VeraCrypt automatikusan frissítse a rendszerkedvenc konfigurációt (rendszergazdai jogosultság szükséges)?\n\nKérjük, vegye figyelembe, hogy ha nemmel válaszol, akkor manuálisan kell frissítenie a rendszerkedvencet.</entry>
     <entry lang="hu" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">A kiválasztott KDF különböző PIM paramétereket használ, így a VeraCrypt nem fogja újra használni a jelenlegi egyéni PIM. Az új kötetfejléc az alapértelmezett PIM értéket fogja használni a kiválasztott KDF esetén, hacsak nem választja ki a "PIM használata" lehetőséget az Új részben, és nem ad meg egyéni értéket.\n\nFolytatja?</entry>
     <entry lang="hu" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">A Secure Boot engedélyezve van, de a firmware Secure Boot adatbázisa nem bízik meg egyetlen olyan Microsoft UEFI CA-készletben sem, amelyet a VeraCrypt EFI rendszerbetöltője támogat. Engedélyezze vagy a Microsoft Corporation UEFI CA 2011-et, vagy egyszerre a Microsoft UEFI CA 2023-at és a Microsoft Option ROM UEFI CA 2023-at, majd futtassa a VeraCrypt javítási/újratelepítési műveletét. Alternatív megoldásként tiltsa le a Secure Bootot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

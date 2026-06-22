@@ -1498,8 +1498,6 @@
     <entry lang="nn" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Ver merksam på at alle akkurat no monterte volum må monterast på nytt før dei kan bruka denne innstillinga.</entry>
     <entry lang="nn" key="LINUX_UNKNOWN_EXC_OCCURRED">Ukjent unntak skjedde.</entry>
     <entry lang="nn" key="LINUX_FIRST_AID">"Diskverktøy vil bli lansert etter at du trykkjer ’OK’.\n\nVel volumet ditt i Diskverktøy-vindauget og trykk på ’Bekreft disk’ eller ’Reparer disk’-knappen på ’Førstehjelp’-sidan.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="nn" key="LINUX_MOUNT_ALL_DEV">Monter alle einingar</entry>
     <entry lang="nn" key="LINUX_ERROR_LOADING_CONFIG">Feil under innlasting av konfigurasjonsfiler som ligg i </entry>
     <entry lang="nn" key="LINUX_SELECT_FREE_SLOT">Vel ein gratis stasjonsplass frå lista.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="nn" key="FAVORITE_PIM_OR_KDF_CHANGED">Dette volumet er registrert som ein systemfavoritt, og innstillingane for PIM og/eller KDF vart endra.\nVil du at VeraCrypt automatisk skal oppdatera systemfavorittkonfigurasjonen (administratorrettar krevst)?\n\nVer merksam på at om du svarer nei, må du oppdatera systemfavoritten manuelt.</entry>
     <entry lang="nn" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Den valde KDF bruker ulike PIM-parametrar, så VeraCrypt vil ikkje gjenbruka gjeldande tilpassa PIM. Den nye volumoverskrifta vil bruka standard PIM for den valde KDF med mindre du vel "Bruk PIM" i delen Ny og skriv inn ein eigendefinert verdi.\n\nVil du halda fram?</entry>
     <entry lang="nn" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot er slått på, men Secure Boot-databasen i fastvara stolar ikkje på noko Microsoft UEFI CA-sett som EFI-oppstartslastaren til VeraCrypt støttar. Slå på anten Microsoft Corporation UEFI CA 2011, eller både Microsoft UEFI CA 2023 og Microsoft Option ROM UEFI CA 2023, og køyr deretter Reparer/installer på nytt i VeraCrypt. Alternativt kan du slå av Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -1498,8 +1498,6 @@
     <entry lang="pt-br" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Observe que qualquer volume atualmente montado precisará ser remontado para usar esta configuração.</entry>
     <entry lang="pt-br" key="LINUX_UNKNOWN_EXC_OCCURRED">Ocorreu uma exceção desconhecida.</entry>
     <entry lang="pt-br" key="LINUX_FIRST_AID">"O Utilitário de Disco será iniciado após você pressionar 'OK'.\n\nPor favor, selecione seu volume na janela do Utilitário de Disco e pressione o botão 'Verificar Disco' ou 'Reparar Disco' na página 'Primeiros Socorros'.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="pt-br" key="LINUX_MOUNT_ALL_DEV">Montar Todos os Dispositivos</entry>
     <entry lang="pt-br" key="LINUX_ERROR_LOADING_CONFIG">Erro ao carregar os arquivos de configuração localizados em </entry>
     <entry lang="pt-br" key="LINUX_SELECT_FREE_SLOT">Por favor, selecione um slot de unidade livre da lista.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="pt-br" key="FAVORITE_PIM_OR_KDF_CHANGED">Este volume está registrado como volume favorito do sistema e suas configurações de PIM e/ou KDF foram alteradas.\nDeseja que o VeraCrypt atualize automaticamente a configuração do volume favorito do sistema (privilégios de administrador necessários)?\n\nObserve que, se você responder Não, terá que atualizar manualmente o volume favorito do sistema.</entry>
     <entry lang="pt-br" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">O KDF selecionado usa parâmetros de PIM diferentes, portanto, o VeraCrypt não reutilizará o PIM personalizado atual. O novo cabeçalho do volume usará o PIM padrão para o KDF selecionado, a menos que você selecione "Usar PIM" na seção "Novo" e insira um valor personalizado.\n\nDeseja continuar?</entry>
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

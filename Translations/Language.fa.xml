@@ -1498,8 +1498,6 @@
     <entry lang="fa" key="LINUX_REMOUNT_BECAUSEOF_SETTING">لطفاً توجه داشته باشید که هر حجمی که در حال حاضر نصب شده است باید قبل از استفاده از این تنظیم مجدداً نصب شود.</entry>
     <entry lang="fa" key="LINUX_UNKNOWN_EXC_OCCURRED">استثنا ناشناخته رخ داد.</entry>
     <entry lang="fa" key="LINUX_FIRST_AID">پس از فشار دادن «قبول»، Disk Utility راه اندازی می شود.\n\nلطفاً حجم خود را در پنجره Disk Utility انتخاب کنید و دکمه "Verify Disk" یا "Repair Disk" را در صفحه "First Aid" فشار دهید.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="fa" key="LINUX_MOUNT_ALL_DEV">نصب همه دستگاه ها</entry>
     <entry lang="fa" key="LINUX_ERROR_LOADING_CONFIG">خطا هنگام بارگیری فایل های پیکربندی واقع در </entry>
     <entry lang="fa" key="LINUX_SELECT_FREE_SLOT">لطفاً یک اسلات درایو رایگان از لیست انتخاب کنید.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="fa" key="FAVORITE_PIM_OR_KDF_CHANGED">این حجم به عنوان حجم مورد علاقه سیستم ثبت شده است و تنظیمات PIM و/یا KDF آن تغییر کرده است.\nآیا می‌خواهید VeraCrypt پیکربندی حجم مورد علاقه سیستم را به طور خودکار به‌روزرسانی کند (حقوق سرپرست مورد نیاز است)؟\n\nلطفاً توجه داشته باشید که اگر پاسخ منفی دهید، باید حجم مورد علاقه سیستم را به صورت دستی به‌روزرسانی کنید.</entry>
     <entry lang="fa" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">KDF انتخاب شده از پارامترهای مختلف PIM استفاده می کند، بنابراین VeraCrypt از PIM سفارشی فعلی استفاده مجدد نخواهد کرد. هدر حجم جدید از PIM پیش‌فرض برای KDF انتخاب‌شده استفاده می‌کند، مگر اینکه «استفاده از PIM» را در بخش «جدید» انتخاب کنید و یک مقدار سفارشی وارد کنید.\n\nآیا می خواهید ادامه دهید؟</entry>
     <entry lang="fa" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot فعال است، اما پایگاه داده Secure Boot در میان‌افزار به هیچ مجموعه Microsoft UEFI CA که توسط بوت‌لودر EFI وراکریپت پشتیبانی می‌شود اعتماد ندارد. یا Microsoft Corporation UEFI CA 2011 را فعال کنید، یا هر دو Microsoft UEFI CA 2023 و Microsoft Option ROM UEFI CA 2023 را فعال کنید، سپس گزینه Repair/Reinstall را در VeraCrypt اجرا کنید. همچنین می‌توانید Secure Boot را غیرفعال کنید.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

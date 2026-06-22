@@ -1498,8 +1498,6 @@
     <entry lang="ko" key="LINUX_REMOUNT_BECAUSEOF_SETTING">현재 설정을 적용하려면 현재 마운트된 볼륨들을 다시 마운트해야 합니다.</entry>
     <entry lang="ko" key="LINUX_UNKNOWN_EXC_OCCURRED">알 수 없는 오류가 발생했습니다.</entry>
     <entry lang="ko" key="LINUX_FIRST_AID">"'확인'을 누르면 디스크 유틸리티가 실행될 것입니다\n\n디스크 유틸리티 창에서 볼륨을 선택하고 '응급 처치' 페이지에서 '디스크 확인' 또는 '디스크 수리' 버튼을 누르십시오.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="ko" key="LINUX_MOUNT_ALL_DEV">모든 장치 마운트</entry>
     <entry lang="ko" key="LINUX_ERROR_LOADING_CONFIG">특정 위치의 설정 파일 불러오기 실패: </entry>
     <entry lang="ko" key="LINUX_SELECT_FREE_SLOT">리스트에서 빈 드라이브 자리를 선택하세요.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="ko" key="FAVORITE_PIM_OR_KDF_CHANGED">이 볼륨은 시스템 즐겨찾기로 등록되어 있으며 PIM 및/또는 KDF 설정이 변경되었습니다.\nVeraCrypt가 시스템 즐겨찾기 설정을 자동으로 업데이트하도록 하시겠습니까(관리자 권한 필요)?\n\n아니요를 선택하면 시스템 즐겨찾기를 수동으로 업데이트해야 합니다.</entry>
     <entry lang="ko" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">선택한 KDF는 다른 PIM 매개변수를 사용하므로 VeraCrypt는 현재 사용자 지정 PIM을 재사용하지 않습니다. 새 볼륨 헤더는 '신규' 섹션에서 'PIM 사용하기'를 선택하고 사용자 지정 값을 입력하지 않는 한, 선택한 KDF의 기본 PIM을 사용합니다.\n\n계속하시겠습니까?</entry>
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

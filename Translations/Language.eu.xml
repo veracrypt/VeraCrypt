@@ -1498,8 +1498,6 @@
     <entry lang="eu" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Kontuan izan unean muntatutako bolumenak berriro muntatu behar direla ezarpen hau erabili ahal izateko.</entry>
     <entry lang="eu" key="LINUX_UNKNOWN_EXC_OCCURRED">Salbuespen ezezaguna gertatu da.</entry>
     <entry lang="eu" key="LINUX_FIRST_AID">"Disko erabilgarritasuna abiaraziko da 'Ados' sakatu ondoren.\n\nMesedez, hautatu zure bolumena Disk Utility leihoan eta sakatu 'Egiaztatu diskoa' edo 'Konpon ezazu diskoa' botoia 'Lehen Laguntzak' orrian.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="eu" key="LINUX_MOUNT_ALL_DEV">Muntatu gailu guztiak</entry>
     <entry lang="eu" key="LINUX_ERROR_LOADING_CONFIG">Errore bat gertatu da hemen kokatutako konfigurazio-fitxategiak kargatzean </entry>
     <entry lang="eu" key="LINUX_SELECT_FREE_SLOT">Mesedez, hautatu doako disko zirrikitua zerrendatik.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="eu" key="FAVORITE_PIM_OR_KDF_CHANGED">Bolumen hau Sistema gogoko gisa erregistratuta dago eta bere PIM eta/edo KDF ezarpenak aldatu dira.\nVeraCrypt sistemaren gogokoen konfigurazioa automatikoki eguneratzea nahi duzu (administratzaile pribilegioak behar dira)?\n\nKontuan izan ezetz erantzuten baduzu, sistemaren gogokoa eskuz eguneratu beharko duzula.</entry>
     <entry lang="eu" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Hautatutako KDF-ek PIM parametro desberdinak erabiltzen ditu, beraz, VeraCrypt-ek ez du uneko PIM pertsonalizatua berrerabiliko. Bolumen-goiburu berriak PIM lehenetsia erabiliko du hautatutako KDF-rako, "Erabili PIM" hautatzen ez baduzu Berria atalean eta balio pertsonalizatu bat sartzen ez baduzu.\n\nJarraitu nahi duzu?</entry>
     <entry lang="eu" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot gaituta dago, baina firmwareko Secure Boot datu-baseak ez du fidagarritzat hartzen VeraCrypt-en EFI abiarazleak onartzen duen Microsoft UEFI CA multzorik. Gaitu Microsoft Corporation UEFI CA 2011, edo bai Microsoft UEFI CA 2023 bai Microsoft Option ROM UEFI CA 2023, eta ondoren exekutatu VeraCrypt Konpondu/Berinstalatu. Bestela, desgaitu Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

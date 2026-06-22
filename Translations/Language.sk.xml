@@ -1498,8 +1498,6 @@
     <entry lang="sk" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Upozorňujeme, že všetky aktuálne pripojené zväzky je potrebné pred použitím tohto nastavenia znova pripojiť.</entry>
     <entry lang="sk" key="LINUX_UNKNOWN_EXC_OCCURRED">Vyskytla sa neznáma výnimka.</entry>
     <entry lang="sk" key="LINUX_FIRST_AID">"Disk Utility sa spustí po stlačení 'OK'.\n\nV okne Disk Utility vyberte svoj zväzok a stlačte tlačidlo „Overiť disk“ alebo „Opraviť disk“ na stránke „Prvá pomoc“.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="sk" key="LINUX_MOUNT_ALL_DEV">Namontujte všetky zariadenia</entry>
     <entry lang="sk" key="LINUX_ERROR_LOADING_CONFIG">Chyba pri načítavaní konfiguračných súborov umiestnených v </entry>
     <entry lang="sk" key="LINUX_SELECT_FREE_SLOT">Vyberte si zo zoznamu voľný diskový slot.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="sk" key="FAVORITE_PIM_OR_KDF_CHANGED">Tento zväzok je zaregistrovaný ako systémový obľúbený zväzok a jeho nastavenia PIM a/alebo KDF boli zmenené.\nChcete, aby VeraCrypt automaticky aktualizoval konfiguráciu systémového obľúbeného zväzku (vyžadujú sa oprávnenia správcu)?\n\nUpozorňujeme, že ak odpoviete nie, budete musieť systémový obľúbený zväzok aktualizovať manuálne.</entry>
     <entry lang="sk" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Vybratý KDF používa rôzne parametre PIM, takže VeraCrypt nebude opätovne používať aktuálny vlastný PIM. Nová hlavička zväzku bude používať predvolenú hodnotu PIM pre vybratú KDF, pokiaľ v sekcii Nový nevyberiete "Použiť PIM" a nezadáte vlastnú hodnotu.\n\nChcete pokračovať?</entry>
     <entry lang="sk" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot je povolený, ale databáza Secure Boot vo firmvéri nedôveruje žiadnej sade Microsoft UEFI CA podporovanej EFI zavádzačom VeraCrypt. Povoľte buď Microsoft Corporation UEFI CA 2011, alebo súčasne Microsoft UEFI CA 2023 a Microsoft Option ROM UEFI CA 2023, potom spustite vo VeraCrypte možnosť "Oprava/opätovná inštalácia". Prípadne zakážte Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

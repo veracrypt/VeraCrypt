@@ -1498,8 +1498,6 @@
     <entry lang="ro" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Orice volum montat acum trebuie să fie remontat înainte de a folosi această setare.</entry>
     <entry lang="ro" key="LINUX_UNKNOWN_EXC_OCCURRED">A apărut o excepție necunoscută.</entry>
     <entry lang="ro" key="LINUX_FIRST_AID">„Utilitarul pentru discuri” va fi lansat după ce apăsați pe «OK».\n\nSelectați volumul în fereastra utilizatorului și apăsați butonul „Verificare disc” sau „Reparare disc” pe pagina „Primul ajutor”.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="ro" key="LINUX_MOUNT_ALL_DEV">Montare toate dispozitivele</entry>
     <entry lang="ro" key="LINUX_ERROR_LOADING_CONFIG">Eroare la încărcarea fișierele de configurare aflate în </entry>
     <entry lang="ro" key="LINUX_SELECT_FREE_SLOT">Selectați o literă de unitate liberă din listă.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="ro" key="FAVORITE_PIM_OR_KDF_CHANGED">Acest volum este înregistrat ca volum sistem favorit și setările sale MIP și/sau KDF au fost modificate.\nDoriți ca VeraCrypt să actualizeze automat configurația volumului sistem favorit (sunt necesare privilegii de administrator)?\n\nVă rugăm să rețineți că, dacă răspundeți nu, va trebui să actualizați manual volumul sistem favorit.</entry>
     <entry lang="ro" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">KDF-ul selectat folosește parametri MIP diferiți, așa că VeraCrypt nu va reutiliza MIP-ul personalizat curent. Antetul noului volum va folosi MIP-ul implicit pentru KDF-ul selectat, cu excepția cazului în care selectați „Folosire MIP” în secțiunea Nou și introduceți o valoare personalizată.\n\nDoriți să continuați?</entry>
     <entry lang="ro" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot este activat, dar baza de date Secure Boot din firmware nu consideră de încredere niciun set Microsoft UEFI CA acceptat de încărcătorul EFI al VeraCrypt. Activați fie Microsoft Corporation UEFI CA 2011, fie atât Microsoft UEFI CA 2023, cât și Microsoft Option ROM UEFI CA 2023, apoi rulați opțiunea Reparare/Reinstalare din VeraCrypt. Alternativ, dezactivați Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

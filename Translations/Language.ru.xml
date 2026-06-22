@@ -1498,8 +1498,6 @@
     <entry lang="ru" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Учтите, что все сейчас смонтированные тома нужно размонтировать, прежде чем они смогут использовать эту настройку.</entry>
     <entry lang="ru" key="LINUX_UNKNOWN_EXC_OCCURRED">Произошло неизвестное исключение.</entry>
     <entry lang="ru" key="LINUX_FIRST_AID">"При нажатии OK будет запущена утилита управления дисками (Disk Utility).\n\nВыберите в её окне ваш том и нажмите кнопку проверки или починки диска ("Verify Disk" или "Repair Disk") на странице первой помощи ("First Aid").</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="ru" key="LINUX_MOUNT_ALL_DEV">Смонтировать все устройства</entry>
     <entry lang="ru" key="LINUX_ERROR_LOADING_CONFIG">Ошибка при загрузке файлов конфигурации в </entry>
     <entry lang="ru" key="LINUX_SELECT_FREE_SLOT">Выберите в списке свободный слот диска.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="ru" key="FAVORITE_PIM_OR_KDF_CHANGED">Этот том зарегистрирован как системный избранный том, и его настройки PIM и/или KDF были изменены.\nХотите, чтобы VeraCrypt автоматически обновил конфигурацию системного избранного тома (требуются права администратора)?\n\nОбратите внимание: если вы ответите «нет», вам придется обновить системный избранный том вручную.</entry>
     <entry lang="ru" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Выбранный KDF использует другие параметры PIM, поэтому VeraCrypt не будет повторно использовать текущий пользовательский PIM. В новом заголовке тома будет использоваться PIM по умолчанию для выбранного KDF, если вы не выберете «Использовать PIM» в разделе «Новый» и не введете пользовательское значение.\n\nВы хотите продолжить?</entry>
     <entry lang="ru" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot включён, но база данных Secure Boot в микропрограмме не доверяет ни одному набору Microsoft UEFI CA, поддерживаемому EFI-загрузчиком VeraCrypt. Включите либо Microsoft Corporation UEFI CA 2011, либо одновременно Microsoft UEFI CA 2023 и Microsoft Option ROM UEFI CA 2023, затем выполните восстановление/переустановку VeraCrypt. Либо отключите Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -1499,8 +1499,6 @@
     <entry lang="zh-cn" key="LINUX_REMOUNT_BECAUSEOF_SETTING">请注意，任何当前已装载的卷都需要重新装载才能应用此设置。</entry>
     <entry lang="zh-cn" key="LINUX_UNKNOWN_EXC_OCCURRED">发生未知异常。</entry>
     <entry lang="zh-cn" key="LINUX_FIRST_AID">磁盘实用程序将在您按下“确定”后启动。\n\n请在“磁盘实用程序”窗口选择您的卷，然后按“急救”页上的“验证磁盘”或“修复磁盘”按钮。</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="zh-cn" key="LINUX_MOUNT_ALL_DEV">装载所有设备</entry>
     <entry lang="zh-cn" key="LINUX_ERROR_LOADING_CONFIG">加载此处的配置文件时出错：</entry>
     <entry lang="zh-cn" key="LINUX_SELECT_FREE_SLOT">请从列表中选择一个可用驱动器插槽。</entry>
@@ -1689,6 +1687,8 @@
     <entry lang="zh-cn" key="FAVORITE_PIM_OR_KDF_CHANGED">此卷已注册为系统收藏加密卷，但其 PIM 和/或 KDF 设置已被更改。\n您希望 VeraCrypt 自动更新系统收藏加密卷配置吗（需要管理员权限）？\n\n请注意，如果您选择“否”，您将需要手动更新系统收藏加密卷配置。</entry>
     <entry lang="zh-cn" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">所选 KDF 使用了不同的 PIM 参数，因此 VeraCrypt 将不会重用当前的自定义 PIM。新的卷头将使用所选 KDF 的默认 PIM，除非您在“新密码”部分中勾选“调整 PIM”并输入一个自定义值。\n\n您确定要继续吗？</entry>
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

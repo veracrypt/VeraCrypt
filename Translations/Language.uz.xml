@@ -1498,8 +1498,6 @@
     <entry lang="uz" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Шуни есда тутингки, ҳозирда ўрнатилган жилдлар ушбу созламадан фойдаланишдан олдин қайта ўрнатилиши керак.</entry>
     <entry lang="uz" key="LINUX_UNKNOWN_EXC_OCCURRED">Нома'лум истисно юз берди.</entry>
     <entry lang="uz" key="LINUX_FIRST_AID">"Ок" тугмасини босганингиздан сўнг Диск Утилитй ишга тушади.\n\nИлтимос, Диск Утилитй ойнасида томни танланг ва "Биринчи ёрдам" саҳифасида "Дискни текшириш" ёки "Дискни тузатиш" тугмасини босинг.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="uz" key="LINUX_MOUNT_ALL_DEV">Барча қурилмаларни ўрнатиш</entry>
     <entry lang="uz" key="LINUX_ERROR_LOADING_CONFIG">жойлашган конфигуратсия файлларини юклашда хатолик юз берди </entry>
     <entry lang="uz" key="LINUX_SELECT_FREE_SLOT">Илтимос, рўйхатдан бепул ҳайдовчи уйини танланг.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="uz" key="FAVORITE_PIM_OR_KDF_CHANGED">Бу том тизимнинг севимли томи сифатида рўйхатга олинган ва унинг PIM ва/ёки KDF созламалари ўзгартирилган.\nVeraCrypt тизимнинг севимли томи конфигурациясини автоматик равишда янгилашини хоҳлайсизми (администратор имтиёзлари талаб қилинади)?\n\nАгар "йўқ" деб жавоб берсангиз, тизимнинг севимли томини қўлда янгилашингиз керак бўлади.</entry>
     <entry lang="uz" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Танланган KDF бошқа PIM параметрларидан фойдаланади, шунинг учун VeraCrypt жорий махсус PIM дан қайта фойдаланмайди. Агар "Янги" бўлимида "PIM дан фойдаланиш" ни танлаб, махсус қиймат киритмасангиз, янги том сарлавҳаси танланган KDF учун стандарт PIM дан фойдаланади.\n\nДавом этишни хоҳлайсизми?</entry>
     <entry lang="uz" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot ёқилган, аммо микродастурнинг Secure Boot маълумотлар базаси VeraCrypt EFI юклагичи қўллаб-қувватлайдиган Microsoft UEFI CA тўпламларининг ҳеч бирига ишонмайди. Microsoft Corporation UEFI CA 2011 ни ёки Microsoft UEFI CA 2023 ва Microsoft Option ROM UEFI CA 2023 иккаласини ёқинг, сўнг VeraCrypt "Таъмирлаш/қайта ўрнатиш" ни ишга туширинг. Ёки Secure Boot ни ўчиринг.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

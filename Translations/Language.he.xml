@@ -1498,8 +1498,6 @@
     <entry lang="he" key="LINUX_REMOUNT_BECAUSEOF_SETTING">שים לב כי כל האמצעי אחסון המותקנים כרגע צריכים להיות מחוזרים לפני שהם יכולים להשתמש בהגדרה זו.</entry>
     <entry lang="he" key="LINUX_UNKNOWN_EXC_OCCURRED">חריג לא ידוע התרחש.</entry>
     <entry lang="he" key="LINUX_FIRST_AID">&amp;quot;תוכנית השירות לדיסק תושק לאחר שתלחץ על &amp;apos;אישור&amp;apos;. \n \n אנא בחר את אמצעי האחסון שלך בחלון כלי הדיסק ולחץ על &amp;apos;אמת דיסק&amp;apos; או &amp;apos;תיקון דיסק&amp;apos; בכפתור בעמוד &amp;apos;עזרה ראשונה&amp;apos;.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="he" key="LINUX_MOUNT_ALL_DEV">טעינה את כל ההתקןים</entry>
     <entry lang="he" key="LINUX_ERROR_LOADING_CONFIG">שגיאה בעת טעינת קבצי תצורה הממוקמים ב</entry>
     <entry lang="he" key="LINUX_SELECT_FREE_SLOT">אנא בחר חריץ כונן חופשי מהרשימה.</entry>
@@ -1688,6 +1686,8 @@
     <entry lang="he" key="FAVORITE_PIM_OR_KDF_CHANGED">אמצעי אחסון זה רשום כאמצעי אחסון מועדף של המערכת והגדרות PIM ו/או KDF שלו שונו.\nהאם ברצונך ש-VeraCrypt יעדכן אוטומטית את תצורת אמצעי האחסון המועדף של המערכת (דרושות הרשאות מנהל)?\n\nשים לב שאם תענה לא, תצטרך לעדכן את אמצעי האחסון המועדף של המערכת באופן ידני.</entry>
     <entry lang="he" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">ה-KDF שנבחר משתמש בפרמטרים שונים של PIM, כך ש-VeraCrypt לא יעשה שימוש חוזר ב-PIM המותאם אישית הנוכחי. כותרת אמצעי האחסון החדשה תשתמש בברירת המחדל PIM עבור KDF שנבחר אלא אם תבחר "השתמש ב-PIM" בקטע חדש והזן ערך מותאם אישית.\n\nהאם אתה רוצה להמשיך?</entry>
     <entry lang="he" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot מופעל, אך מסד הנתונים של Secure Boot בקושחה אינו נותן אמון באף ערכת Microsoft UEFI CA הנתמכת על ידי טוען האתחול EFI של VeraCrypt. הפעל את Microsoft Corporation UEFI CA 2011, או את שניהם Microsoft UEFI CA 2023 ו-Microsoft Option ROM UEFI CA 2023, ולאחר מכן הפעל את אפשרות התיקון/התקנה מחדש של VeraCrypt. לחלופין, השבת את Secure Boot.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
