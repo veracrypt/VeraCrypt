@@ -44,9 +44,15 @@ namespace VeraCrypt
 			return "";
 		}
 
-		// Default system directories to search for executables
+		// Default system directories to search for executables.
+		// On macOS, system locations are searched before /usr/local/bin so that
+		// a user-writable /usr/local/bin (the default on Homebrew installs)
+		// cannot shadow system tools. This matters because this resolver is
+		// also used for privileged binaries such as sudo during elevation
+		// (see CoreService.cpp); a planted /usr/local/bin/sudo would otherwise
+		// receive the admin password.
 #ifdef TC_MACOSX
-		const char* defaultDirs[] = {"/usr/local/bin", "/usr/bin", "/bin", "/usr/sbin", "/sbin"};
+		const char* defaultDirs[] = {"/usr/bin", "/bin", "/usr/sbin", "/sbin", "/usr/local/bin"};
 #elif TC_FREEBSD
 		const char* defaultDirs[] = {"/sbin", "/bin", "/usr/sbin", "/usr/bin", "/usr/local/sbin", "/usr/local/bin"};
 #elif TC_OPENBSD
