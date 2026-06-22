@@ -228,7 +228,7 @@ namespace VeraCrypt
 					L"cmd.exe", args.c_str(), nullptr, SW_SHOW);
 #else
 #	ifdef TC_MACOSX
-				Gui->ShowInfo (LangString["LINUX_FIRST_AID"]);
+				Gui->ShowInfo (LangString[repair ? "MACOSX_REPAIR_FILESYS" : "MACOSX_CHECK_FILESYS"]);
 #	endif
 				Core->CheckFilesystem (selectedVolume, repair);
 				UpdateVolumeList();

@@ -1520,6 +1520,8 @@ Information about Corsican localization:
 	    <entry lang="co" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Sappiate chì, prima di pudè impiegà stu parametru, tutti i vulumi muntati attualmente devenu esse smuntati è muntati torna.</entry>
 	    <entry lang="co" key="LINUX_UNKNOWN_EXC_OCCURRED">Un’anumalia scunnisciuta hè accaduta.</entry>
 	    <entry lang="co" key="LINUX_FIRST_AID">L’utilitariu di discu serà lanciatu dopu à un cliccu nant’à « Vai ».\n\nSelezziunate u vostru vulume in a finestra di l’utilitariu di discu è appughjate nant’à u buttone « Verificà u discu » o « Riparà u discu » di a pagina« Prontu Succorsu ».</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
 	    <entry lang="co" key="LINUX_MOUNT_ALL_DEV">Muntà tutti l’apparechji</entry>
 	    <entry lang="co" key="LINUX_ERROR_LOADING_CONFIG">Sbagliu durante u caricamentu di i schedarii di cunfigurazione lucalizati in</entry>
 	    <entry lang="co" key="LINUX_SELECT_FREE_SLOT">Ci vole à selezziunà una lettera di lettore libera nant’à a lista.</entry>

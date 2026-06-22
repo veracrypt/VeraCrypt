@@ -1498,6 +1498,8 @@
     <entry lang="ro" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Orice volum montat acum trebuie să fie remontat înainte de a folosi această setare.</entry>
     <entry lang="ro" key="LINUX_UNKNOWN_EXC_OCCURRED">A apărut o excepție necunoscută.</entry>
     <entry lang="ro" key="LINUX_FIRST_AID">„Utilitarul pentru discuri” va fi lansat după ce apăsați pe «OK».\n\nSelectați volumul în fereastra utilizatorului și apăsați butonul „Verificare disc” sau „Reparare disc” pe pagina „Primul ajutor”.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="ro" key="LINUX_MOUNT_ALL_DEV">Montare toate dispozitivele</entry>
     <entry lang="ro" key="LINUX_ERROR_LOADING_CONFIG">Eroare la încărcarea fișierele de configurare aflate în </entry>
     <entry lang="ro" key="LINUX_SELECT_FREE_SLOT">Selectați o literă de unitate liberă din listă.</entry>

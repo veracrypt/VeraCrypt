@@ -1498,6 +1498,8 @@
     <entry lang="et" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Pange tähele, et kõik praegu ühendatud köited tuleb enne selle sätte kasutamist uuesti ühendada.</entry>
     <entry lang="et" key="LINUX_UNKNOWN_EXC_OCCURRED">Tekkis tundmatu erand.</entry>
     <entry lang="et" key="LINUX_FIRST_AID">"Disk Utility käivitatakse pärast "OK" vajutamist.\n\nValige aknas Disk Utility oma köide ja vajutage lehel "Esmaabi" nuppu "Kinnita ketas" või "Paranda ketas".</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="et" key="LINUX_MOUNT_ALL_DEV">Ühendage kõik seadmed</entry>
     <entry lang="et" key="LINUX_ERROR_LOADING_CONFIG">Viga asukohas asuvate konfiguratsioonifailide laadimisel </entry>
     <entry lang="et" key="LINUX_SELECT_FREE_SLOT">Valige loendist vaba draivipesa.</entry>

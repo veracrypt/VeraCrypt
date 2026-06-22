@@ -1498,6 +1498,8 @@
     <entry lang="it" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Nota che prima di poter usare questa impostazione tutti i volumi attualmente montati devono essere rimontati.</entry>
     <entry lang="it" key="LINUX_UNKNOWN_EXC_OCCURRED">Si è verificata un'eccezione sconosciuta.</entry>
     <entry lang="it" key="LINUX_FIRST_AID">'Utilità disco' verrà avviata dopo aver selezionato 'OK'.\n\nSeleziona il volume nella finestra 'Utilità disco' e seleziona 'Verifica disco' o 'Ripara disco' nella pagina 'Pronto soccorso'.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="it" key="LINUX_MOUNT_ALL_DEV">Monta tutti i dispositivi</entry>
     <entry lang="it" key="LINUX_ERROR_LOADING_CONFIG">Errore durante il caricamento dei file di configurazione situati in</entry>
     <entry lang="it" key="LINUX_SELECT_FREE_SLOT">Seleziona uno slot unità libero nell'elenco.</entry>

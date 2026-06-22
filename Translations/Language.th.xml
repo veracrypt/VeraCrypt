@@ -1498,6 +1498,8 @@
     <entry lang="th" key="LINUX_REMOUNT_BECAUSEOF_SETTING">โปรดทราบว่าปริมาณที่ติดตั้งอยู่ในปัจจุบันต้องถูกติดตั้งใหม่ก่อนที่พวกมันจะสามารถใช้การตั้งค่านี้ได้.</entry>
     <entry lang="th" key="LINUX_UNKNOWN_EXC_OCCURRED">เกิดข้อผิดพลาดไม่ทราบ.</entry>
     <entry lang="th" key="LINUX_FIRST_AID">ยูทิลิตี้ดิสก์จะเปิดหลังจากที่คุณกด 'ตกลง'.\n\nโปรดเลือกปริมาณของคุณในหน้าต่างยูทิลิตี้ดิสก์และกดปุ่ม 'ตรวจสอบดิสก์' หรือ 'ซ่อมแซมดิสก์' ในหน้าความช่วยเหลือเบื้องต้น.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="th" key="LINUX_MOUNT_ALL_DEV">ติดตั้งอุปกรณ์ทั้งหมด</entry>
     <entry lang="th" key="LINUX_ERROR_LOADING_CONFIG">ข้อผิดพลาดขณะโหลดไฟล์การตั้งค้าที่อยู่ใน</entry>
     <entry lang="th" key="LINUX_SELECT_FREE_SLOT">โปรดเลือกตัวอักษรไดรฟ์ที่ว่างจากรายการ.</entry>

@@ -1498,6 +1498,8 @@
     <entry lang="vi" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Xin lưu ý rằng mọi tập đĩa hiện đang được gắn đều phải được gắn lại trước khi chúng có thể sử dụng cài đặt này.</entry>
     <entry lang="vi" key="LINUX_UNKNOWN_EXC_OCCURRED">Đã xảy ra ngoại lệ không xác định.</entry>
     <entry lang="vi" key="LINUX_FIRST_AID">"Disk Utility sẽ được khởi chạy sau khi bạn nhấn 'OK'.\n\nVui lòng chọn ổ đĩa của bạn trong cửa sổ Disk Utility và nhấn nút 'Xác minh đĩa' hoặc 'Sửa đĩa' trên trang 'Sơ cứu'.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="vi" key="LINUX_MOUNT_ALL_DEV">Gắn tất cả các thiết bị</entry>
     <entry lang="vi" key="LINUX_ERROR_LOADING_CONFIG">Lỗi khi tải tập tin cấu hình nằm trong </entry>
     <entry lang="vi" key="LINUX_SELECT_FREE_SLOT">Vui lòng chọn một khe cắm ổ đĩa miễn phí từ danh sách.</entry>

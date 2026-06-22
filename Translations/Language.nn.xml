@@ -1498,6 +1498,8 @@
     <entry lang="nn" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Ver merksam på at alle akkurat no monterte volum må monterast på nytt før dei kan bruka denne innstillinga.</entry>
     <entry lang="nn" key="LINUX_UNKNOWN_EXC_OCCURRED">Ukjent unntak skjedde.</entry>
     <entry lang="nn" key="LINUX_FIRST_AID">"Diskverktøy vil bli lansert etter at du trykkjer ’OK’.\n\nVel volumet ditt i Diskverktøy-vindauget og trykk på ’Bekreft disk’ eller ’Reparer disk’-knappen på ’Førstehjelp’-sidan.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="nn" key="LINUX_MOUNT_ALL_DEV">Monter alle einingar</entry>
     <entry lang="nn" key="LINUX_ERROR_LOADING_CONFIG">Feil under innlasting av konfigurasjonsfiler som ligg i </entry>
     <entry lang="nn" key="LINUX_SELECT_FREE_SLOT">Vel ein gratis stasjonsplass frå lista.</entry>

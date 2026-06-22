@@ -1498,6 +1498,8 @@
     <entry lang="sv" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Observera att alla för närvarande monterade volymer måste monteras om innan de kan använda den här inställningen.</entry>
     <entry lang="sv" key="LINUX_UNKNOWN_EXC_OCCURRED">Okänt undantag inträffade.</entry>
     <entry lang="sv" key="LINUX_FIRST_AID">"Diskverktyget kommer att startas när du trycker på "OK".\n\nVälj din volym i fönstret Diskverktyget och tryck på "Verifiera disk" eller "Reparera disk"-knappen på "Första hjälp"-sidan.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="sv" key="LINUX_MOUNT_ALL_DEV">Montera alla enheter</entry>
     <entry lang="sv" key="LINUX_ERROR_LOADING_CONFIG">Fel vid inläsning av konfigurationsfiler som finns i </entry>
     <entry lang="sv" key="LINUX_SELECT_FREE_SLOT">Välj en ledig enhetsplats från listan.</entry>

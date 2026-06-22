@@ -11,7 +11,9 @@
 */
 
 #include <fstream>
+#include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <vector>
 #include <CoreFoundation/CoreFoundation.h>
@@ -382,8 +384,151 @@ namespace VeraCrypt
 		}
 	}
 
+	// Strict /dev/diskN or /dev/rdiskN (optionally sN) device-node check so a value
+	// can be embedded safely in a generated shell command.
+	static bool IsPlainDiskDevicePath (const string &path)
+	{
+		size_t index;
+		if (path.compare (0, 10, "/dev/rdisk") == 0)
+			index = 10;
+		else if (path.compare (0, 9, "/dev/disk") == 0)
+			index = 9;
+		else
+			return false;
+
+		size_t digitsStart = index;
+		while (index < path.size() && path[index] >= '0' && path[index] <= '9')
+			++index;
+		if (index == digitsStart)
+			return false;
+
+		if (index == path.size())
+			return true;
+
+		if (path[index++] != 's')
+			return false;
+
+		size_t sliceStart = index;
+		while (index < path.size() && path[index] >= '0' && path[index] <= '9')
+			++index;
+
+		return index > sliceStart && index == path.size();
+	}
+
 	void CoreMacOSX::CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair) const
 	{
+		// Honor the check-vs-repair distinction by running diskutil on the VeraCrypt
+		// virtual device (diskutil unmounts the inner filesystem itself as needed).
+		// The Core layer has no GUI, so results are shown in a Terminal window via a
+		// temporary .command script. Falls back to launching Disk Utility.app.
+		if (mountedVolume && !mountedVolume->VirtualDevice.IsEmpty())
+		{
+			const string device = mountedVolume->VirtualDevice;
+
+			if (IsPlainDiskDevicePath (device))
+			{
+				try
+				{
+					const string verb = repair ? "repairVolume" : "verifyVolume";
+
+					// Create the script securely: a predictable name in the
+					// world-writable /tmp invites a symlink/race attack (the file is
+					// later executed, and this path can run elevated). Use the
+					// per-user temp directory (owned, 0700) and mkstemps(), which
+					// creates the file atomically with O_EXCL while keeping the
+					// ".command" suffix that makes /usr/bin/open launch Terminal.
+					string tempDir;
+					{
+						char dirBuf[MAXPATHLEN];
+						size_t n = confstr (_CS_DARWIN_USER_TEMP_DIR, dirBuf, sizeof (dirBuf));
+						if (n > 0 && n <= sizeof (dirBuf))
+							tempDir = dirBuf;
+						else if (const char *t = getenv ("TMPDIR"))
+							tempDir = t;
+						else
+							tempDir = "/tmp/";
+					}
+					if (tempDir.empty() || tempDir[tempDir.size() - 1] != '/')
+						tempDir += '/';
+
+					const char suffix[] = ".command";
+					string templ = tempDir + "VeraCrypt-fsck-XXXXXXXX" + suffix;
+					vector <char> templBuf (templ.begin(), templ.end());
+					templBuf.push_back ('\0');
+
+					int fd = mkstemps (&templBuf[0], static_cast <int> (sizeof (suffix) - 1));
+					if (fd == -1)
+						throw ParameterIncorrect (SRC_POS);
+
+					const string scriptPath (&templBuf[0]);
+
+					try
+					{
+						// Always show diskutil's result (including failures) and
+						// pause; this is why the script captures $? rather than
+						// using "set -e", which would abort before the prompt.
+						const string contents =
+							string ("#!/bin/sh\n")
+							+ "trap 'rm -f \"$0\"' EXIT\n"	// remove the script even if the window is closed early
+							+ "/usr/sbin/diskutil " + verb + " '" + device + "'\n"
+							+ "status=$?\n"
+							+ "echo\n"
+							+ "echo 'Press Enter to close this window.'\n"
+							+ "read dummy\n"
+							+ "exit $status\n";
+
+						size_t off = 0;
+						while (off < contents.size())
+						{
+							ssize_t written = write (fd, contents.data() + off, contents.size() - off);
+							if (written < 0)
+							{
+								if (errno == EINTR)
+									continue;
+								throw ParameterIncorrect (SRC_POS);
+							}
+							off += static_cast <size_t> (written);
+						}
+
+						// fchmod on the fd (not the path) keeps this race-free.
+						if (fchmod (fd, 0700) != 0)
+							throw ParameterIncorrect (SRC_POS);
+
+						if (close (fd) != 0)	// surfaces deferred write errors
+							throw ParameterIncorrect (SRC_POS);
+						fd = -1;
+					}
+					catch (...)
+					{
+						if (fd != -1)
+							close (fd);
+						unlink (scriptPath.c_str());
+						throw;
+					}
+
+					try
+					{
+						list <string> openArgs;
+						openArgs.push_back (scriptPath);
+						Process::Execute ("/usr/bin/open", openArgs);
+					}
+					catch (...)
+					{
+						// open failed before Terminal could take ownership of the
+						// script (the EXIT trap never runs), so remove it here
+						// rather than leaking it into the temp directory.
+						unlink (scriptPath.c_str());
+						throw;
+					}
+					return;
+				}
+				catch (...)
+				{
+					// Fall back to Disk Utility below.
+				}
+			}
+		}
+
 		list <string> args;
 		struct stat sb;
 

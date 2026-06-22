@@ -1498,6 +1498,8 @@
     <entry lang="he" key="LINUX_REMOUNT_BECAUSEOF_SETTING">שים לב כי כל האמצעי אחסון המותקנים כרגע צריכים להיות מחוזרים לפני שהם יכולים להשתמש בהגדרה זו.</entry>
     <entry lang="he" key="LINUX_UNKNOWN_EXC_OCCURRED">חריג לא ידוע התרחש.</entry>
     <entry lang="he" key="LINUX_FIRST_AID">&amp;quot;תוכנית השירות לדיסק תושק לאחר שתלחץ על &amp;apos;אישור&amp;apos;. \n \n אנא בחר את אמצעי האחסון שלך בחלון כלי הדיסק ולחץ על &amp;apos;אמת דיסק&amp;apos; או &amp;apos;תיקון דיסק&amp;apos; בכפתור בעמוד &amp;apos;עזרה ראשונה&amp;apos;.</entry>
+    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
     <entry lang="he" key="LINUX_MOUNT_ALL_DEV">טעינה את כל ההתקןים</entry>
     <entry lang="he" key="LINUX_ERROR_LOADING_CONFIG">שגיאה בעת טעינת קבצי תצורה הממוקמים ב</entry>
     <entry lang="he" key="LINUX_SELECT_FREE_SLOT">אנא בחר חריץ כונן חופשי מהרשימה.</entry>
