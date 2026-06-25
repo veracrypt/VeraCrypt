@@ -1685,9 +1685,9 @@
     <entry lang="ko" key="MACOSX_APFS_EROFS_HINT">macOS에서 선택한 장치를 읽기 전용으로 보고했습니다. APFS 디스크인 경우 APFS 합성 볼륨이 아니라 물리적 APFS 저장소 파티션을 선택했는지 확인하세요. 디스크 유틸리티 또는 'diskutil list'를 사용하여 물리적 파티션을 식별한 다음 다시 시도하세요.</entry>
     <entry lang="ko" key="FAVORITE_PIM_OR_KDF_CHANGED">이 볼륨은 시스템 즐겨찾기로 등록되어 있으며 PIM 및/또는 KDF 설정이 변경되었습니다.\nVeraCrypt가 시스템 즐겨찾기 설정을 자동으로 업데이트하도록 하시겠습니까(관리자 권한 필요)?\n\n아니요를 선택하면 시스템 즐겨찾기를 수동으로 업데이트해야 합니다.</entry>
     <entry lang="ko" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">선택한 KDF는 다른 PIM 매개변수를 사용하므로 VeraCrypt는 현재 사용자 지정 PIM을 재사용하지 않습니다. 새 볼륨 헤더는 '신규' 섹션에서 'PIM 사용하기'를 선택하고 사용자 지정 값을 입력하지 않는 한, 선택한 KDF의 기본 PIM을 사용합니다.\n\n계속하시겠습니까?</entry>
-    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="ko" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">보안 부팅(Secure Boot)이 활성화되어 있지만 펌웨어의 Secure Boot 데이터베이스가 VeraCrypt의 EFI 부트 로더가 지원하는 어떤 Microsoft UEFI CA 세트도 신뢰하지 않습니다. Microsoft Corporation UEFI CA 2011을 활성화하거나 Microsoft UEFI CA 2023과 Microsoft Option ROM UEFI CA 2023을 모두 활성화한 다음 VeraCrypt 수리/재설치를 실행하세요. 또는 Secure Boot를 비활성화하세요.</entry>
+    <entry lang="ko" key="MACOSX_CHECK_FILESYS">'확인'을 누르면 터미널 창이 열리고 'diskutil'을 사용하여 선택한 VeraCrypt 볼륨의 파일 시스템을 검사합니다. 결과는 해당 창에 표시됩니다.\n\n검사를 시작할 수 없으면 대신 디스크 유틸리티가 실행됩니다.</entry>
+    <entry lang="ko" key="MACOSX_REPAIR_FILESYS">'확인'을 누르면 터미널 창이 열리고 'diskutil'을 사용하여 선택한 VeraCrypt 볼륨의 파일 시스템 복구를 시도합니다. 결과는 해당 창에 표시됩니다.\n\n복구를 시작할 수 없으면 대신 디스크 유틸리티가 실행됩니다.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

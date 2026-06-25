@@ -557,7 +557,7 @@
     <entry lang="ja" key="ERR_VOLUME_SIZE_TOO_BIG">コマンドラインで指定されたボリュームサイズが大きすぎます。ボリュームを作成できません。</entry>
     <entry lang="ja" key="INIT_SYS_ENC">システムを暗号化するアプリケーションコンポーネントを初期化できませんでした。</entry>
     <entry lang="ja" key="INIT_RAND">乱数生成機構の初期化に失敗しました！</entry>
-    <entry lang="ja" key="CAPI_RAND">Windows Crypto APIが失敗しました！\n\n\n（これに関連するバグを報告する場合は、次の技術情報をバグ報告に含めてください:\n%hs, Last Error = 0x%.8X）</entry>    <entry lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</entry>
+    <entry lang="ja" key="CAPI_RAND">Windows Crypto APIが失敗しました！\n\n\n（これに関連するバグを報告する場合は、次の技術情報をバグ報告に含めてください:\n%hs, Last Error = 0x%.8X）</entry>
     <entry lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</entry>
     <entry lang="ja" key="INIT_RICHEDIT">エラー：リッチエディットシステムライブラリの読込に失敗しました。</entry>
     <entry lang="ja" key="INTRO_TITLE">VeraCryptボリューム作成ウィザード</entry>
@@ -1043,7 +1043,7 @@
     <entry lang="ja" key="CONFIRM_EXIT_UNIVERSAL">終了しますか？</entry>
     <entry lang="ja" key="CHOOSE_ENCRYPT_OR_DECRYPT">暗号化なのか復号なのかを決定するための十分な情報がありません。</entry>
     <entry lang="ja" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">暗号化なのか復号なのかを決定するための十分な情報がありません。\n\n注：もし起動前の環境下でシステムパーティション/ドライブを復号したのであれば、「復号」をクリックして作業を完了させる必要があります。</entry>
-    <entry lang="ja" key="NONSYS_INPLACE_ENC_REVERSE_INFO">注意: 非システムパーティション/ボリュームをインプレース暗号化しているときにエラーが発生してプロセスが完了しない場合、ボリュームを完全に復号（つまり、プロセスを元に戻す）するまで、ボリュームをマウント（および保存されているデータにアクセス）することはできません。\n\nその必要がある場合は、次の手順に従ってください。\n1) このウィザードを終了します。\n2) VeraCryptのメインウィンドウで、「ボリューム」&gt;「中断されたプロセスの再開」を選択します。\n3) 「復号」を選択します。</entry>    <entry lang="ja" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">パーティション/ボリュームの暗号化処理を中断して後に回しますか？\n\n注：ボリュームは暗号化処理を完了するまでマウントできないことに注意してください。後で暗号化処理を中断した箇所から再開することができます。その際はVeraCryptのメインウィンドウから、[ボリューム]-[中断処理を再開]を選択してください。</entry>
+    <entry lang="ja" key="NONSYS_INPLACE_ENC_REVERSE_INFO">注意: 非システムパーティション/ボリュームをインプレース暗号化しているときにエラーが発生してプロセスが完了しない場合、ボリュームを完全に復号（つまり、プロセスを元に戻す）するまで、ボリュームをマウント（および保存されているデータにアクセス）することはできません。\n\nその必要がある場合は、次の手順に従ってください。\n1) このウィザードを終了します。\n2) VeraCryptのメインウィンドウで、「ボリューム」&gt;「中断されたプロセスの再開」を選択します。\n3) 「復号」を選択します。</entry>
     <entry lang="ja" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">パーティション/ボリュームの暗号化処理を中断して後に回しますか？\n\n注：ボリュームは暗号化処理を完了するまでマウントできないことに注意してください。後で暗号化処理を中断した箇所から再開することができます。その際はVeraCryptのメインウィンドウから、[ボリューム]-[中断処理を再開]を選択してください。</entry>
     <entry lang="ja" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばVeraCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化自体を解除したい場合は[システム]-[システムパーティション/ドライブの暗号化を解除]を選択してください。</entry>
     <entry lang="ja" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化解除処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばVeraCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化解除をやめて暗号化する場合は[システム]-[システムパーティション/ドライブの暗号化]を選択してください。</entry>
@@ -1415,7 +1415,7 @@
     <entry lang="ja" key="BOOT_LOADER_CONFIGURATION_FILE">ブートローダー設定ファイル</entry>
     <entry lang="ja" key="EFI_PLATFORM_INFORMATION">EFIプラットフォーム情報</entry>
     <entry lang="ja" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">警告: 未経験のユーザーはブートローダー設定の手動編集を試みないでください。\n\n続行しますか?</entry>
-    <entry lang="ja" key="DCSPROP_XML_VALIDATION_FAILED">警告: ブートローダー設定のXML形式の検証に失敗しました。変更を確認してください。</entry>    <entry lang="ja" key="IDT_ADVANCED_OPTIONS">高度な設定</entry>
+    <entry lang="ja" key="DCSPROP_XML_VALIDATION_FAILED">警告: ブートローダー設定のXML形式の検証に失敗しました。変更を確認してください。</entry>
     <entry lang="ja" key="IDT_ADVANCED_OPTIONS">高度な設定</entry>
     <entry lang="ja" key="AFTER_UPGRADE_RESCUE_DISK">新しいバージョンのVeraCryptブートローダーを含む新しいVeraCryptレスキューディスクを作成することを強くお勧めします。「システム」&gt;「レスキューディスクの作成」を選択してください。\n今すぐ作成しますか?</entry>
     <entry lang="ja" key="IDC_ALLOW_TRIM_NONSYS_SSD">非システムSSDパーティション/ドライブでTRIMコマンドを許可</entry>
@@ -1423,7 +1423,7 @@
     <entry lang="ja" key="WINDOWS_EFI_BOOT_LOADER_MISSING">エラー: ディスク上にWindows EFIシステムローダーが見つかりませんでした。操作は中止されます。</entry>
     <entry lang="ja" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">SecureBootが有効で、VeraCryptのカスタムキーがマシンファームウェアにロードされていない場合、システムを暗号化することは現在できません。システム暗号化を進めるためには、BIOS設定でSecureBootを無効にする必要があります。</entry>
     <entry lang="ja" key="PASSWORD_PASTED_TRUNCATED">貼り付けたテキストが切り捨てられました。パスワードの最大長は%d文字です。</entry>
-    <entry lang="ja" key="PASSWORD_MAXLENGTH_REACHED">パスワードはすでに最大長の%d文字に達しています。\nこれ以上の文字を追加することはできません。</entry>    <entry lang="ja" key="IDC_SELECT_LANGUAGE_LABEL">インストール中に利用する言語を選んでください:</entry>
+    <entry lang="ja" key="PASSWORD_MAXLENGTH_REACHED">パスワードはすでに最大長の%d文字に達しています。\nこれ以上の文字を追加することはできません。</entry>
     <entry lang="ja" key="IDC_SELECT_LANGUAGE_LABEL">インストール中に利用する言語を選んでください:</entry>
     <entry lang="ja" key="VOLUME_TOO_LARGE_FOR_HOST">エラー: ファイルコンテナのサイズがディスクの空き容量より大きいです。</entry>
     <entry lang="ja" key="IDC_ALLOW_WINDOWS_DEFRAG">Windowsディスクデフラグツールが非システムパーティション/ドライブをデフラグすることを許可</entry>
@@ -1455,7 +1455,7 @@
     <entry lang="ja" key="TASKICON_PREF_UNMOUNT_VOL">マウント済みボリュームをアンマウント</entry>
     <entry lang="ja" key="DISK_FREE">利用可能な空き容量: {0}</entry>
     <entry lang="ja" key="VOLUME_SIZE_HELP">作成するコンテナのサイズを指定してください。ボリュームの最小サイズは292 KiBです。</entry>
-    <entry lang="ja" key="LINUX_CONFIRM_INNER_VOLUME_CALC">警告: 外部ボリュームにFAT以外のファイルシステムを選択しました。\nこの場合、VeraCryptは隠しボリュームの正確な最大許容サイズを計算できず、誤った推定値を使用します。\nしたがって、外部ボリュームと重ならないように隠しボリュームのサイズを適切に設定する責任があります。\n\n外部ボリュームに選択したファイルシステムを使用し続けますか?</entry>    <entry lang="ja" key="LINUX_PREF_TAB_SECURITY">セキュリティ</entry>
+    <entry lang="ja" key="LINUX_CONFIRM_INNER_VOLUME_CALC">警告: 外部ボリュームにFAT以外のファイルシステムを選択しました。\nこの場合、VeraCryptは隠しボリュームの正確な最大許容サイズを計算できず、誤った推定値を使用します。\nしたがって、外部ボリュームと重ならないように隠しボリュームのサイズを適切に設定する責任があります。\n\n外部ボリュームに選択したファイルシステムを使用し続けますか?</entry>
     <entry lang="ja" key="LINUX_PREF_TAB_SECURITY">セキュリティ</entry>
     <entry lang="ja" key="LINUX_PREF_TAB_MOUNT_OPTIONS">マウントオプション</entry>
     <entry lang="ja" key="LINUX_PREF_TAB_BACKGROUND_TASK">バックグラウンドタスク</entry>
@@ -1685,9 +1685,9 @@
     <entry lang="ja" key="MACOSX_APFS_EROFS_HINT">macOS は、選択されたデバイスを読み取り専用として報告しました。これが APFS ディスクの場合は、APFS 合成ボリュームではなく物理 APFS ストアパーティションを選択していることを確認してください。ディスクユーティリティまたは 'diskutil list' を使用して物理パーティションを確認してから、再試行してください。</entry>
     <entry lang="ja" key="FAVORITE_PIM_OR_KDF_CHANGED">このボリュームはシステムお気に入りボリュームとして登録されており、PIM および/または KDF の設定が変更されています。\nVeraCrypt がシステムお気に入りボリュームの設定を自動的に更新しても良いですか（管理者権限が必要です）？\n\nいいえを選択した場合は、システムお気に入りボリュームを手動で更新する必要があります。</entry>
     <entry lang="ja" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">選択した KDF は異なる PIM パラメータを使用するため、VeraCrypt は現在のカスタム PIM を再利用しません。新しいボリュームヘッダーは、「新規」セクションで「PIMを使用する」を選択してカスタム値を入力しない限り、選択した KDF のデフォルトの PIM を使用します。\n\n続行しますか？</entry>
-    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot is enabled, but the firmware Secure Boot database does not trust any Microsoft UEFI CA set supported by VeraCrypt's EFI bootloader. Enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023, then run VeraCrypt Repair/Reinstall. Alternatively, disable Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="ja" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot が有効になっていますが、ファームウェアの Secure Boot データベースは VeraCrypt の EFI ブートローダーがサポートする Microsoft UEFI CA セットを信頼していません。Microsoft Corporation UEFI CA 2011、または Microsoft UEFI CA 2023 と Microsoft Option ROM UEFI CA 2023 の両方を有効にしてから、VeraCrypt のリペア/再インストールを実行してください。または、Secure Boot を無効にしてください。</entry>
+    <entry lang="ja" key="MACOSX_CHECK_FILESYS">[OK] を押すとターミナルウィンドウが開き、'diskutil' を使用して選択された VeraCrypt ボリュームのファイルシステムを検査します。結果はそのウィンドウに表示されます。\n\n検査を開始できない場合は、代わりにディスクユーティリティが起動します。</entry>
+    <entry lang="ja" key="MACOSX_REPAIR_FILESYS">[OK] を押すとターミナルウィンドウが開き、'diskutil' を使用して選択された VeraCrypt ボリュームのファイルシステムの修復を試みます。結果はそのウィンドウに表示されます。\n\n修復を開始できない場合は、代わりにディスクユーティリティが起動します。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
