@@ -24,7 +24,7 @@ namespace VeraCrypt
 	class CoreService
 	{
 	public:
-		static void ProcessElevatedRequests ();
+		static void ProcessElevatedRequests (bool forkProcess = true);
 		static void ProcessRequests (int inputFD = -1, int outputFD = -1);
 		static void RequestCheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair);
 		static void RequestDismountFilesystem (const DirectoryPath &mountPoint, bool force);
@@ -70,6 +70,7 @@ namespace VeraCrypt
 	};
 
 #define TC_CORE_SERVICE_CMDLINE_OPTION "--core-service"
+#define TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION "--core-service-no-fork"
 }
 
 #endif // TC_HEADER_Core_Unix_CoreService

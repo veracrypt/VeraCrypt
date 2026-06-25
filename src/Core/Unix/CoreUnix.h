@@ -80,6 +80,10 @@ namespace VeraCrypt
 		bool IsFilesystemTypeRegistered (const string &filesystemType) const;
 		bool IsKernelFilesystemTypeAvailable (const string &filesystemType) const;
 		bool IsNtfsReadWriteKernelFilesystemTypeAvailable () const;
+		string DetectLinuxMountFallbackFilesystemType (const DevicePath &devicePath) const;
+		void MountFilesystemWithFallback (const DevicePath &devicePath, const DirectoryPath &mountPoint,
+			const string &filesystemType, bool allowFilesystemTypeFallback, bool readOnly,
+			const string &systemMountOptions, bool internalMountOnly) const;
 		void ResolveNtfsKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver,
 			wstring &filesystemType, bool &internalMountOnly) const;
 		string SelectNtfsKernelFilesystemType () const;

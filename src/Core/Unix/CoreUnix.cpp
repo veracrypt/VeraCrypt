@@ -21,14 +21,12 @@
 #ifdef TC_LINUX
 #include <sys/utsname.h>
 #endif
-#ifdef TC_OPENBSD
-#include <pwd.h>
-#endif
 #include <stdio.h>
 #include <unistd.h>
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
 #include "Platform/SystemLog.h"
+#include "Core/Unix/UnixUser.h"
 #include "Driver/Fuse/FuseService.h"
 #include "Volume/VolumePasswordCache.h"
 
@@ -41,26 +39,6 @@ namespace VeraCrypt
 	static bool IsLinuxKernelVersionAtLeast (int major, int minor);
 	static bool IsNtfsReadWriteKernelModuleAvailable ();
 	static bool SamePath (const string& path1, const string& path2);
-#endif
-
-#ifdef TC_OPENBSD
-	static bool GetDoasUserIds (uid_t *uid, gid_t *gid)
-	{
-		const char *env = getenv ("DOAS_USER");
-		if (!env || !env[0])
-			return false;
-
-		struct passwd *pw = getpwnam (env);
-		if (!pw)
-			return false;
-
-		if (uid)
-			*uid = pw->pw_uid;
-		if (gid)
-			*gid = pw->pw_gid;
-
-		return true;
-	}
 #endif
 
 	// Struct to hold terminal emulator information
@@ -657,11 +635,9 @@ namespace VeraCrypt
 			catch (...) { }
 		}
 
-#ifdef TC_OPENBSD
 		gid_t doasGid;
 		if (GetDoasUserIds (nullptr, &doasGid))
 			return doasGid;
-#endif
 
 		return getgid();
 	}
@@ -679,11 +655,9 @@ namespace VeraCrypt
 			catch (...) { }
 		}
 
-#ifdef TC_OPENBSD
 		uid_t doasUid;
 		if (GetDoasUserIds (&doasUid, nullptr))
 			return doasUid;
-#endif
 
 		return getuid();
 	}
@@ -988,6 +962,40 @@ namespace VeraCrypt
 
 		filesystemType = StringConverter::ToWide (SelectNtfsKernelFilesystemType());
 		internalMountOnly = true;
+	}
+
+	string CoreUnix::DetectLinuxMountFallbackFilesystemType (const DevicePath &devicePath) const
+	{
+		string detectedFilesystemType = DetectFilesystemType (devicePath);
+
+		if (detectedFilesystemType == "vfat" || detectedFilesystemType == "exfat" || detectedFilesystemType == "msdos")
+			return detectedFilesystemType;
+
+		if (detectedFilesystemType == "fat")
+			return "vfat";
+
+		return string();
+	}
+
+	void CoreUnix::MountFilesystemWithFallback (const DevicePath &devicePath, const DirectoryPath &mountPoint,
+		const string &filesystemType, bool allowFilesystemTypeFallback, bool readOnly,
+		const string &systemMountOptions, bool internalMountOnly) const
+	{
+		try
+		{
+			MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions, internalMountOnly);
+		}
+		catch (ExecutedProcessFailed&)
+		{
+			if (!allowFilesystemTypeFallback || !filesystemType.empty() || internalMountOnly)
+				throw;
+
+			string fallbackFilesystemType = DetectLinuxMountFallbackFilesystemType (devicePath);
+			if (fallbackFilesystemType.empty())
+				throw;
+
+			MountFilesystem (devicePath, mountPoint, fallbackFilesystemType, readOnly, systemMountOptions, false);
+		}
 	}
 #endif
 
@@ -1346,14 +1354,24 @@ namespace VeraCrypt
 			bool internalMountOnly = false;
 
 #ifdef TC_LINUX
-			ResolveNtfsKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
-#endif
+			bool allowFilesystemTypeFallback = filesystemType.empty();
 
+			ResolveNtfsKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
+			allowFilesystemTypeFallback = allowFilesystemTypeFallback && filesystemType.empty() && !internalMountOnly;
+
+			MountFilesystemWithFallback (loopDev, *options.MountPoint,
+				StringConverter::ToSingle (filesystemType),
+				allowFilesystemTypeFallback,
+				options.Protection == VolumeProtection::ReadOnly,
+				StringConverter::ToSingle (options.FilesystemOptions),
+				internalMountOnly);
+#else
 			MountFilesystem (loopDev, *options.MountPoint,
 				StringConverter::ToSingle (filesystemType),
 				options.Protection == VolumeProtection::ReadOnly,
 				StringConverter::ToSingle (options.FilesystemOptions),
 				internalMountOnly);
+#endif
 		}
 
 		return loopDev;

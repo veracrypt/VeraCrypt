@@ -41,6 +41,7 @@ namespace VeraCrypt
 		virtual ~Thread () { };
 
 		void Join () const;
+		void Detach () const;
 		void Start (ThreadProcPtr threadProc, void *parameter = nullptr);
 
 		void Start (Functor *functor)
@@ -64,7 +65,7 @@ namespace VeraCrypt
 			return 0;
 		}
 
-		static const size_t MinThreadStackSize = 1024 * 1024;
+		static const size_t MinThreadStackSize = 8 * 1024 * 1024;
 
 		ThreadSystemHandle SystemHandle;
 
