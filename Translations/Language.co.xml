@@ -7,7 +7,7 @@ Information about Corsican localization:
 
 2. History of Corsican translation for VeraCrypt:
 	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28), May 13th (1.26.28),
-	          May 27th (1.26.29), June 15th (1.26.30), June 18th (1.26.30)
+	          May 27th (1.26.29), June 15th (1.26.30), June 18th (1.26.30), June 22nd (1.26.30)
 	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.27),
 	          Aug. 31st (1.26.27), Sep. 27th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
@@ -23,7 +23,7 @@ Information about Corsican localization:
 -->
 <VeraCrypt>
 	<localization prog-version="1.26.30">
-		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.7" translators="Patriccollu di Santa Maria è Sichè"/>
+		<language langid="co" name="Corsu" en-name="Corsican" version="1.5.8" translators="Patriccollu di Santa Maria è Sichè"/>
 		<font lang="co" class="normal" size="11" face="default"/>
 		<font lang="co" class="bold" size="13" face="Arial"/>
 		<font lang="co" class="fixed" size="12" face="Lucida Console"/>
@@ -1708,8 +1708,8 @@ Information about Corsican localization:
 	    <entry lang="co" key="FAVORITE_PIM_OR_KDF_CHANGED">Stu vulume hè arregistratu cum’è un favuritu di u sistema è u so PIM è/o i so parametri KDF sò stati cambiati.\nVulete chì VeraCrypt mudificheghji autumaticamente a cunfigurazione di i favuriti di u sistema (i privileghji d’amministratore sò richiesti) ?\n\nSappiate chì, s’è vò rispundite nò, tuccherà à voi di fallu manualmente.</entry>
 	    <entry lang="co" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">U KDF selezziunatu impiegheghja parametri PIM sfarenti, dunque VeraCrypt ùn rimpiegherà micca u PIM persunalizatu attuale. A nova intestatura di u vulume impiegherà u PIM predefinitu per u KDF selezziunatu fora s’è vo selezziunate « Impiegà un PIM » in a sezzione « Novu » è s’è vo stampittate un valore persunalizatu.\n\nVulete cuntinuà ?</entry>
 	    <entry lang="co" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">A piccera sicurizata hè attiva ma a basa di dati di a piccera sicurizata di u microprugramma ùn face micca cunfidenza à alcunu inseme d’auturità di certificazione UEFI di Microsoft accettatu da u caricadore di piccera EFI di VeraCrypt. Attivà, sia Microsoft Corporation UEFI CA 2011, sia Microsoft UEFI CA 2023 è Microsoft Option ROM UEFI CA 2023 tremindui, eppò lancià « Riparà o riinstallà » di VeraCrypt. Osinnò, disattivà a piccera sicurizata.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+	    <entry lang="co" key="MACOSX_CHECK_FILESYS">Una finestra di terminale s’aprerà dopu avè appughjatu nant’à « Vai » è ci serà un cuntrollu di u sistema di schedariu nant’à u vulume VeraCrypt selezziunatu impieghendu « diskutil ». U risultatu serà affissatu in quella finestra.\n\nS’è u cuntrollu ùn pò principià, « Disk Utility » serà lanciatu in rimpiazzamentu.</entry>
+	    <entry lang="co" key="MACOSX_REPAIR_FILESYS">Una finestra di terminale s’aprerà dopu avè appughjatu nant’à « Vai » è ci serà un tentativu di riparà u sistema di schedariu nant’à u vulume VeraCrypt selezziunatu impieghendu « diskutil ». U risultatu serà affissatu in quella finestra.\n\nS’è a riparazione ùn pò principià, « Disk Utility » serà lanciatu in rimpiazzamentu.</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
