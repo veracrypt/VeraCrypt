@@ -333,7 +333,7 @@
     <entry lang="nb" key="IDC_USE_EMBEDDED_HEADER_BAK">Bruk sikkerhetskopiert hode innebygd i &amp;volumet hvis tilgjengelig</entry>
     <entry lang="nb" key="IDC_XTS_MODE_ENABLED">XTS-modus</entry>
     <entry lang="nb" key="IDD_ABOUT_DLG">Om VeraCrypt</entry>
-    <entry lang="nb" key="IDD_BENCHMARK_DLG">VeraCrypt – ytelsestest for algoritme</entry>
+    <entry lang="nb" key="IDD_BENCHMARK_DLG">VeraCrypt – ytelsestest for algoritmer</entry>
     <entry lang="nb" key="IDD_CIPHER_TEST_DLG">VeraCrypt – testvektorer</entry>
     <entry lang="nb" key="IDD_COMMANDHELP_DLG">Kommandolinjehjelp</entry>
     <entry lang="nb" key="IDD_KEYFILES">VeraCrypt – nøkkelfiler</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="nb" key="FAVORITE_PIM_OR_KDF_CHANGED">Dette volumet er registrert som en systemfavoritt, og PIM- og/eller KDF-innstillingene ble endret.\nVil du at VeraCrypt automatisk skal oppdatere systemfavorittkonfigurasjonen (administratorrettigheter kreves)?\n\nMerk at hvis du svarer nei, må du oppdatere systemfavoritten manuelt.</entry>
     <entry lang="nb" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Den valgte KDF-en bruker andre PIM-parametere, så VeraCrypt vil ikke gjenbruke den gjeldende egendefinerte PIM-en. Det nye volumhodet vil bruke standard-PIM for den valgte KDF-en med mindre du velger «Bruk PIM» i Ny-seksjonen og angir en egendefinert verdi.\n\nVil du fortsette?</entry>
     <entry lang="nb" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Sikker oppstart (Secure Boot) er aktivert, men fastvarens database for sikker oppstart stoler ikke på noe Microsoft UEFI CA-sett som støttes av VeraCrypts EFI-oppstartslaster. Aktiver enten Microsoft Corporation UEFI CA 2011, eller både Microsoft UEFI CA 2023 og Microsoft Option ROM UEFI CA 2023, og kjør deretter VeraCrypt Reparer/Installer på nytt. Alternativt kan du deaktivere sikker oppstart.</entry>
-    <entry lang="nb" key="MACOSX_CHECK_FILESYS">Et terminalvindu åpnes etter at du har trykket på «OK», og filsystemet på det valgte VeraCrypt-volumet kontrolleres ved hjelp av «diskutil». Resultatet vises i det vinduet.\n\nHvis kontrollen ikke kan startes, åpnes diskverktøy i stedet.</entry>
-    <entry lang="nb" key="MACOSX_REPAIR_FILESYS">Et terminalvindu åpnes etter at du har trykket på «OK», og det forsøkes å reparere filsystemet på det valgte VeraCrypt-volumet ved hjelp av «diskutil». Resultatet vises i det vinduet.\n\nHvis reparasjonen ikke kan startes, åpnes diskverktøy i stedet.</entry>
+    <entry lang="nb" key="MACOSX_CHECK_FILESYS">Et terminalvindu åpnes etter at du har trykket på «OK», og filsystemet på det valgte VeraCrypt-volumet kontrolleres ved hjelp av «diskutil». Resultatet vises i det vinduet.\n\nHvis kontrollen ikke kan startes, åpnes Diskverktøy i stedet.</entry>
+    <entry lang="nb" key="MACOSX_REPAIR_FILESYS">Et terminalvindu åpnes etter at du har trykket på «OK», og det forsøkes å reparere filsystemet på det valgte VeraCrypt-volumet ved hjelp av «diskutil». Resultatet vises i det vinduet.\n\nHvis reparasjonen ikke kan startes, åpnes Diskverktøy i stedet.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
