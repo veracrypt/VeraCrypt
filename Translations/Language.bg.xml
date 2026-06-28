@@ -1331,28 +1331,28 @@
     <entry lang="bg" key="VKEY_2C">Print Screen</entry>
     <entry lang="bg" key="VKEY_2D">Insert</entry>
     <entry lang="bg" key="VKEY_2E">Delete</entry>
-    <entry lang="bg" key="VKEY_5D">Applications Key</entry>
+    <entry lang="bg" key="VKEY_5D">Клавиш за приложения</entry>
     <entry lang="bg" key="VKEY_5F">Sleep</entry>
     <entry lang="bg" key="VKEY_90">Num Lock</entry>
     <entry lang="bg" key="VKEY_91">Scroll Lock</entry>
-    <entry lang="bg" key="VKEY_A6">Browser Back</entry>
-    <entry lang="bg" key="VKEY_A7">Browser Forward</entry>
-    <entry lang="bg" key="VKEY_A8">Browser Refresh</entry>
-    <entry lang="bg" key="VKEY_A9">Browser Stop</entry>
-    <entry lang="bg" key="VKEY_AA">Browser Search</entry>
-    <entry lang="bg" key="VKEY_AB">Browser Favorites</entry>
-    <entry lang="bg" key="VKEY_AC">Browser Home</entry>
-    <entry lang="bg" key="VKEY_AD">Mute</entry>
-    <entry lang="bg" key="VKEY_AE">Volume Down</entry>
-    <entry lang="bg" key="VKEY_AF">Volume Up</entry>
-    <entry lang="bg" key="VKEY_B0">Next Track</entry>
-    <entry lang="bg" key="VKEY_B1">Previous Track</entry>
-    <entry lang="bg" key="VKEY_B2">Stop Media</entry>
-    <entry lang="bg" key="VKEY_B3">Play/Pause Media</entry>
-    <entry lang="bg" key="VKEY_B4">Start Mail Key</entry>
-    <entry lang="bg" key="VKEY_B5">Select Media Key</entry>
-    <entry lang="bg" key="VKEY_B6">Application 1</entry>
-    <entry lang="bg" key="VKEY_B7">Application 2</entry>
+    <entry lang="bg" key="VKEY_A6">Браузър назад</entry>
+    <entry lang="bg" key="VKEY_A7">Браузър напред</entry>
+    <entry lang="bg" key="VKEY_A8">Обновяване на браузъра</entry>
+    <entry lang="bg" key="VKEY_A9">Спиране на браузъра</entry>
+    <entry lang="bg" key="VKEY_AA">Търсене в браузъра</entry>
+    <entry lang="bg" key="VKEY_AB">Любими в браузъра</entry>
+    <entry lang="bg" key="VKEY_AC">Начална страница на браузъра</entry>
+    <entry lang="bg" key="VKEY_AD">Заглушаване</entry>
+    <entry lang="bg" key="VKEY_AE">Намаляване на звука</entry>
+    <entry lang="bg" key="VKEY_AF">Увеличаване на звука</entry>
+    <entry lang="bg" key="VKEY_B0">Следваща песен</entry>
+    <entry lang="bg" key="VKEY_B1">Предишна песен</entry>
+    <entry lang="bg" key="VKEY_B2">Спиране на медия</entry>
+    <entry lang="bg" key="VKEY_B3">Възпроизвеждане/пауза на медия</entry>
+    <entry lang="bg" key="VKEY_B4">Клавиш за стартиране на поща</entry>
+    <entry lang="bg" key="VKEY_B5">Клавиш за избор на медия</entry>
+    <entry lang="bg" key="VKEY_B6">Приложение 1</entry>
+    <entry lang="bg" key="VKEY_B7">Приложение 2</entry>
     <entry lang="bg" key="VKEY_F6">Attn</entry>
     <entry lang="bg" key="VKEY_F7">CrSel</entry>
     <entry lang="bg" key="VKEY_F8">ExSel</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="bg" key="FAVORITE_PIM_OR_KDF_CHANGED">Този том е регистриран като системен любим том и настройките му за PIM и/или KDF са променени.\nИскате ли VeraCrypt автоматично да актуализира конфигурацията на системния любим том (необходими са администраторски привилегии)?\n\nМоля, имайте предвид, че ако отговорите с не, ще трябва да актуализирате системния любим том ръчно.</entry>
     <entry lang="bg" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Избраният KDF използва различни PIM параметри, така че VeraCrypt няма да използва повторно текущия персонализиран PIM. Новата заглавна част на тома ще използва PIM по подразбиране за избрания KDF, освен ако не изберете „Използване на PIM“ в раздела Нов и въведете персонализирана стойност.\n\nИскате ли да продължите?</entry>
     <entry lang="bg" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot е активирано, но базата данни на Secure Boot във фърмуера не се доверява на нито един набор Microsoft UEFI CA, поддържан от EFI зареждащия модул на VeraCrypt. Активирайте или Microsoft Corporation UEFI CA 2011, или едновременно Microsoft UEFI CA 2023 и Microsoft Option ROM UEFI CA 2023, след което стартирайте опцията Поправка/Преинсталация във VeraCrypt. Като алтернатива деактивирайте Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="bg" key="MACOSX_CHECK_FILESYS">След като натиснете 'OK', ще се отвори прозорец на Терминал и ще провери файловата система на избрания том VeraCrypt чрез 'diskutil'. Резултатът ще бъде показан в този прозорец.\n\nАко проверката не може да бъде стартирана, вместо това ще бъде стартирана Дискова помощна програма.</entry>
+    <entry lang="bg" key="MACOSX_REPAIR_FILESYS">След като натиснете 'OK', ще се отвори прозорец на Терминал и ще се опита да поправи файловата система на избрания том VeraCrypt чрез 'diskutil'. Резултатът ще бъде показан в този прозорец.\n\nАко поправката не може да бъде стартирана, вместо това ще бъде стартирана Дискова помощна програма.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

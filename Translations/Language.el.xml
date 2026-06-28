@@ -1331,28 +1331,28 @@
     <entry lang="el" key="VKEY_2C">Print Screen</entry>
     <entry lang="el" key="VKEY_2D">Insert</entry>
     <entry lang="el" key="VKEY_2E">Delete</entry>
-    <entry lang="el" key="VKEY_5D">Applications Key</entry>
+    <entry lang="el" key="VKEY_5D">Πλήκτρο εφαρμογών</entry>
     <entry lang="el" key="VKEY_5F">Sleep</entry>
     <entry lang="el" key="VKEY_90">Num Lock</entry>
     <entry lang="el" key="VKEY_91">Scroll Lock</entry>
-    <entry lang="el" key="VKEY_A6">Browser Back</entry>
-    <entry lang="el" key="VKEY_A7">Browser Forward</entry>
-    <entry lang="el" key="VKEY_A8">Browser Refresh</entry>
-    <entry lang="el" key="VKEY_A9">Browser Stop</entry>
-    <entry lang="el" key="VKEY_AA">Browser Search</entry>
-    <entry lang="el" key="VKEY_AB">Browser Favorites</entry>
-    <entry lang="el" key="VKEY_AC">Browser Home</entry>
-    <entry lang="el" key="VKEY_AD">Mute</entry>
-    <entry lang="el" key="VKEY_AE">Volume Down</entry>
-    <entry lang="el" key="VKEY_AF">Volume Up</entry>
-    <entry lang="el" key="VKEY_B0">Next Track</entry>
-    <entry lang="el" key="VKEY_B1">Previous Track</entry>
-    <entry lang="el" key="VKEY_B2">Stop Media</entry>
-    <entry lang="el" key="VKEY_B3">Play/Pause Media</entry>
-    <entry lang="el" key="VKEY_B4">Start Mail Key</entry>
-    <entry lang="el" key="VKEY_B5">Select Media Key</entry>
-    <entry lang="el" key="VKEY_B6">Application 1</entry>
-    <entry lang="el" key="VKEY_B7">Application 2</entry>
+    <entry lang="el" key="VKEY_A6">Πρόγραμμα περιήγησης πίσω</entry>
+    <entry lang="el" key="VKEY_A7">Πρόγραμμα περιήγησης εμπρός</entry>
+    <entry lang="el" key="VKEY_A8">Ανανέωση προγράμματος περιήγησης</entry>
+    <entry lang="el" key="VKEY_A9">Διακοπή προγράμματος περιήγησης</entry>
+    <entry lang="el" key="VKEY_AA">Αναζήτηση προγράμματος περιήγησης</entry>
+    <entry lang="el" key="VKEY_AB">Αγαπημένα προγράμματος περιήγησης</entry>
+    <entry lang="el" key="VKEY_AC">Αρχική σελίδα προγράμματος περιήγησης</entry>
+    <entry lang="el" key="VKEY_AD">Σίγαση</entry>
+    <entry lang="el" key="VKEY_AE">Μείωση έντασης</entry>
+    <entry lang="el" key="VKEY_AF">Αύξηση έντασης</entry>
+    <entry lang="el" key="VKEY_B0">Επόμενο κομμάτι</entry>
+    <entry lang="el" key="VKEY_B1">Προηγούμενο κομμάτι</entry>
+    <entry lang="el" key="VKEY_B2">Διακοπή πολυμέσων</entry>
+    <entry lang="el" key="VKEY_B3">Αναπαραγωγή/παύση πολυμέσων</entry>
+    <entry lang="el" key="VKEY_B4">Πλήκτρο εκκίνησης αλληλογραφίας</entry>
+    <entry lang="el" key="VKEY_B5">Πλήκτρο επιλογής πολυμέσων</entry>
+    <entry lang="el" key="VKEY_B6">Εφαρμογή 1</entry>
+    <entry lang="el" key="VKEY_B7">Εφαρμογή 2</entry>
     <entry lang="el" key="VKEY_F6">Attn</entry>
     <entry lang="el" key="VKEY_F7">CrSel</entry>
     <entry lang="el" key="VKEY_F8">ExSel</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="el" key="FAVORITE_PIM_OR_KDF_CHANGED">Αυτός ο τόμος έχει καταχωρηθεί ως Αγαπημένο Συστήματος και οι ρυθμίσεις του PIM ή/και KDF έχουν αλλάξει.\nΘέλετε η VeraCrypt να ενημερώνει αυτόματα τη διαμόρφωση Αγαπημένου Συστήματος (απαιτούνται δικαιώματα διαχειριστή);\n\nΛάβετε υπόψη ότι εάν απαντήσετε όχι, θα πρέπει να ενημερώσετε το Αγαπημένο συστήματος με μη αυτόματο τρόπο.</entry>
     <entry lang="el" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Το επιλεγμένο KDF χρησιμοποιεί διαφορετικές παραμέτρους PIM, επομένως η VeraCrypt δεν θα επαναχρησιμοποιήσει το τρέχον προσαρμοσμένο PIM. Η νέα κεφαλίδα τόμου θα χρησιμοποιεί το προεπιλεγμένο PIM για το επιλεγμένο KDF, εκτός εάν επιλέξετε "Χρήση PIM" στην ενότητα Νέο και εισαγάγετε μια προσαρμοσμένη τιμή.\n\nΘέλετε να συνεχίσετε;</entry>
     <entry lang="el" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Το Secure Boot είναι ενεργοποιημένο, αλλά η βάση δεδομένων Secure Boot του υλικολογισμικού δεν εμπιστεύεται κανένα σύνολο Microsoft UEFI CA που υποστηρίζεται από τον EFI φορτωτή εκκίνησης του VeraCrypt. Ενεργοποιήστε είτε το Microsoft Corporation UEFI CA 2011 είτε και τα δύο Microsoft UEFI CA 2023 και Microsoft Option ROM UEFI CA 2023, και στη συνέχεια εκτελέστε το VeraCrypt Επιδιόρθωση/Επανεγκατάσταση. Εναλλακτικά, απενεργοποιήστε το Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="el" key="MACOSX_CHECK_FILESYS">Αφού πατήσετε 'OK', θα ανοίξει ένα παράθυρο Τερματικού και θα ελεγχθεί το σύστημα αρχείων στον επιλεγμένο τόμο VeraCrypt χρησιμοποιώντας το 'diskutil'. Το αποτέλεσμα θα εμφανιστεί σε αυτό το παράθυρο.\n\nΕάν ο έλεγχος δεν μπορεί να ξεκινήσει, θα εκκινηθεί αντ' αυτού το Βοήθημα Δίσκων.</entry>
+    <entry lang="el" key="MACOSX_REPAIR_FILESYS">Αφού πατήσετε 'OK', θα ανοίξει ένα παράθυρο Τερματικού και θα γίνει προσπάθεια επιδιόρθωσης του συστήματος αρχείων στον επιλεγμένο τόμο VeraCrypt χρησιμοποιώντας το 'diskutil'. Το αποτέλεσμα θα εμφανιστεί σε αυτό το παράθυρο.\n\nΕάν η επιδιόρθωση δεν μπορεί να ξεκινήσει, θα εκκινηθεί αντ' αυτού το Βοήθημα Δίσκων.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

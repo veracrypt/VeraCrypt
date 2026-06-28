@@ -1122,20 +1122,20 @@
     <entry lang="vi" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">Không thể khởi đầu quá trình cấu tạo hệ điều hành ẩn.</entry>
     <entry lang="vi" key="WIPE_MODE_TITLE">Phương thức Tẩy</entry>
     <entry lang="vi" key="INPLACE_ENC_WIPE_MODE_INFO">Trong một vài loại môi trường chứa, khi các dữ liệu bị viết chòng lên với những dữ liệu khác, các dữ liệu bị viết chòng lên có thể được khôi phục lại bằng cách dùng những kỹ thuật như microscopy lực từ trường. This also applies to data that are overwritten with their mã hóa form (which happens when VeraCrypt initially encrypts một unmã hóa phân vùng or ổ đĩa). Dựa theo một vài nghiên cứu và công bố của chính phủ, sự khôi phục của các dữ liệu bị viết chòng lên có thể được cản trở (hoặc làm cho rất khó khăn) bằng cách viết chòng các dữ liệu với dữ liệu pseudorandom và non-random một số lần nhất định. Vì vậy, nếu bạn tin là một đối phương có thể dùng những kỹ thuật như thế để khôi phục lại các dữ liệu bạn intend mã hóa, bạn có thể chọn một trong những phương thức tẩy (existing data will NOT be lost). Lưu ý là sự tẩy will NOT be performed after the phân vùng/ổ đĩa is mã hóa. When the phân vùng/ổ đĩa is fully mã hóa, no unmã hóa data is written to it. Any data being written to it is first mã hóa ngay khi cần in memory and only then is the (mã hóa) data written to the disk.</entry>
-    <entry lang="vi" key="WIPE_MODE_INFO">Trong một vài loại môi trường chứa, khi các dữ liệu bị viết chòng lên với những dữ liệu khác (ví dụ như khi dữ liệu bị xóa mất), các dữ liệu bị viết chòng lên có thể được khôi phục lại bằng cách dùng những kỹ thuật như microscopy lực từ trường. Dựa theo một vài nghiên cứu và công bố của chính phủ, sự khôi phục của các dữ liệu bị viết chòng lên có thể được cản trở (hoặc làm cho rất khó khăn) bằng cách viết chòng các dữ liệu với dữ liệu pseudorandom và non-random một số lần nhất định. Vì vậy, nếu bạn tin là một đối phương có thể dùng những kỹ thuật như thế để khôi phục lại các dữ liệu đáng được xóa mất, bạn có thể chọn một trong những phương thức tẩy nhiều-pass.\n\nLưu ý: Bạn càng sử dụng nhiều pass tẩy chừng nào thì sẽ nó sẽ mất lâu hơn để xóa mất các dữ liệu.</entry>
+    <entry lang="vi" key="WIPE_MODE_INFO">Trong một vài loại môi trường chứa, khi các dữ liệu bị viết chòng lên với những dữ liệu khác (ví dụ như khi dữ liệu bị xóa mất), các dữ liệu bị viết chòng lên có thể được khôi phục lại bằng cách dùng những kỹ thuật như microscopy lực từ trường. Dựa theo một vài nghiên cứu và công bố của chính phủ, sự khôi phục của các dữ liệu bị viết chòng lên có thể được cản trở (hoặc làm cho rất khó khăn) bằng cách viết chòng các dữ liệu với dữ liệu pseudorandom và non-random một số lần nhất định. Vì vậy, nếu bạn tin là một đối phương có thể dùng những kỹ thuật như thế để khôi phục lại các dữ liệu đáng được xóa mất, bạn có thể chọn một trong những phương thức tẩy nhiều lượt.\n\nLưu ý: Bạn càng sử dụng nhiều lượt tẩy thì sẽ càng mất nhiều thời gian hơn để xóa mất các dữ liệu.</entry>
     <entry lang="vi" key="DEVICE_WIPE_PAGE_TITLE">Đang tẩy</entry>
     <entry lang="vi" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">\nLưu ý: Bạn có thể gián đoạn quá trình của việc tẩy, tắt máy điện toán của bạn, bắt đầu hệ ẩn lại và sau đó tiếp tục lại quá trình (trợ lý này sẽ được tự động khởi chạy). Tuy nhiên, nếu bạn gián đoạn nó, toàn bộ quá trình của việc tẩy sẽ phải bắt đầu lại từ đầu.</entry>
     <entry lang="vi" key="DEVICE_WIPE_PAGE_INFO">\n\nLưu ý: Nếu bạn gián đoạn quá trình tẩy và thử tiếp tục lại thì cả quá trình sẽ phải bắt đầu lại từ đầu.</entry>
     <entry lang="vi" key="CONFIRM_WIPE_ABORT">Bạn có muốn hủy bỏ quá trình tẩy không?</entry>
     <entry lang="vi" key="CONFIRM_WIPE_START">Cảnh báo: Toàn bộ nội dung của phân vùng/thiết bị được chọn sẽ bị xóa và mất đi.</entry>
     <entry lang="vi" key="CONFIRM_WIPE_START_DECOY_SYS_PARTITION">Toàn bộ nội dung của phân vùng nơi mà hệ thống gốc nằm sẽ bị xóa đi.\n\nLưu ý: Toàn bộ nội dung của phân vùng mà bị xóa đi đã được sao chép vào phân vùng của hệ ẩn này.</entry>
-    <entry lang="vi" key="WIPE_MODE_WARN">CẢNH BÁO: Lưu ý là khi bạn chọn ví dụ như phương thức tẩy 3-bước, thời gian cần thiết để mã hóa phân vùng/ổ đĩa sẽ lâu hơn gấp 4 lần. Tương tự, nếu bạn chọn phương thức tẩy 35-bước, nó sẽ lâu hơn gấp 36 lần (nó có thể mất một vài tuần).\n\nTuy nhiên, xin lưu ý là việc tẩy sẽ KHÔNG được thực hiện sau khi phân vùng/ổ đĩa được hoàn toàn mã hóa. Khi phân vùng/ổ đĩa được hoàn toàn mã hóa, dữ liệu không được mã hóa sẽ không được viết vào nó. Bâ;t cứ dữ liệu nào được viết vào nó trước tiên được mã hóa ngay khi cần trong bộ nhớ và chỉ sau đó dữ liệu (mã hóa) mới được viết vào đĩa (vì thế hiệu suất sẽ KHÔNG bị ảnh hưởng).\n\nBạn có chắc là bạn muốn sử dụng phương thức tẩy không?</entry>
+    <entry lang="vi" key="WIPE_MODE_WARN">CẢNH BÁO: Lưu ý là khi bạn chọn ví dụ như phương thức tẩy 3 lượt, thời gian cần thiết để mã hóa phân vùng/ổ đĩa sẽ lâu hơn gấp 4 lần. Tương tự, nếu bạn chọn phương thức tẩy 35 lượt, nó sẽ lâu hơn gấp 36 lần (nó có thể mất một vài tuần).\n\nTuy nhiên, xin lưu ý là việc tẩy sẽ KHÔNG được thực hiện sau khi phân vùng/ổ đĩa được hoàn toàn mã hóa. Khi phân vùng/ổ đĩa được hoàn toàn mã hóa, dữ liệu không được mã hóa sẽ không được viết vào nó. Bất cứ dữ liệu nào được viết vào nó trước tiên được mã hóa ngay khi cần trong bộ nhớ và chỉ sau đó dữ liệu (mã hóa) mới được viết vào đĩa (vì thế hiệu suất sẽ KHÔNG bị ảnh hưởng).\n\nBạn có chắc là bạn muốn sử dụng phương thức tẩy không?</entry>
     <entry lang="vi" key="WIPE_MODE_NONE">Không có (fastest)</entry>
-    <entry lang="vi" key="WIPE_MODE_1_RAND">1-pass (dữ liệu ngẫu nhiên)</entry>
-    <entry lang="vi" key="WIPE_MODE_3_DOD_5220">3-pass (US DoD 5220.22-M)</entry>
-    <entry lang="vi" key="WIPE_MODE_7_DOD_5220">7-pass (US DoD 5220.22-M)</entry>
-    <entry lang="vi" key="WIPE_MODE_35_GUTMANN">35-pass ("Gutmann")</entry>
-    <entry lang="vi" key="WIPE_MODE_256">256-pass</entry>
+    <entry lang="vi" key="WIPE_MODE_1_RAND">1 lượt (dữ liệu ngẫu nhiên)</entry>
+    <entry lang="vi" key="WIPE_MODE_3_DOD_5220">3 lượt (US DoD 5220.22-M)</entry>
+    <entry lang="vi" key="WIPE_MODE_7_DOD_5220">7 lượt (US DoD 5220.22-M)</entry>
+    <entry lang="vi" key="WIPE_MODE_35_GUTMANN">35 lượt ("Gutmann")</entry>
+    <entry lang="vi" key="WIPE_MODE_256">256 lượt</entry>
     <entry lang="vi" key="SYS_MULTI_BOOT_MODE_TITLE">Số Hệ Điều hành</entry>
     <entry lang="vi" key="MULTI_BOOT_FOR_ADVANCED_ONLY">CẢNH BÁO: Người dùng không kinh nghiệm không bao giờ nên thử mã hóa Windows theo cấu hình khởi động đa hệ.\n\nTiếp tục không?</entry>
     <entry lang="vi" key="HIDDEN_OS_MULTI_BOOT">Khi tạo/sử dụng hệ điều hành ẩn, VeraCrypt chỉ hỗ trợ cấu hình multi-boot khi đáp ứng các điều kiện sau:\n\n- Hệ điều hành đang chạy phải được cài đặt trên ổ đĩa khởi động, ổ đĩa này không được chứa bất kỳ hệ điều hành nào khác.\n\n- Hệ điều hành được cài đặt trên các ổ đĩa khác không được sử dụng bất kỳ bộ tải khởi động nào nằm trên ổ đĩa mà hệ điều hành hiện đang chạy được cài đặt.\n\nCác điều kiện trên có đáp ứng được không?</entry>
@@ -1331,26 +1331,26 @@
     <entry lang="vi" key="VKEY_2C">Print Screen</entry>
     <entry lang="vi" key="VKEY_2D">Insert</entry>
     <entry lang="vi" key="VKEY_2E">Xóa</entry>
-    <entry lang="vi" key="VKEY_5D">Applications Key</entry>
+    <entry lang="vi" key="VKEY_5D">Phím ứng dụng</entry>
     <entry lang="vi" key="VKEY_5F">Sleep</entry>
     <entry lang="vi" key="VKEY_90">Num Lock</entry>
     <entry lang="vi" key="VKEY_91">Scroll Lock</entry>
-    <entry lang="vi" key="VKEY_A6">Browser Back</entry>
-    <entry lang="vi" key="VKEY_A7">Browser Forward</entry>
-    <entry lang="vi" key="VKEY_A8">Browser Refresh</entry>
-    <entry lang="vi" key="VKEY_A9">Browser Stop</entry>
-    <entry lang="vi" key="VKEY_AA">Browser Search</entry>
-    <entry lang="vi" key="VKEY_AB">Browser Favorites</entry>
-    <entry lang="vi" key="VKEY_AC">Browser Home</entry>
-    <entry lang="vi" key="VKEY_AD">Mute</entry>
-    <entry lang="vi" key="VKEY_AE">Tập đĩa Down</entry>
-    <entry lang="vi" key="VKEY_AF">Tập đĩa Up</entry>
-    <entry lang="vi" key="VKEY_B0">Phần đường Kế tiếp</entry>
-    <entry lang="vi" key="VKEY_B1">Phần đường Previous</entry>
-    <entry lang="vi" key="VKEY_B2">Stop Media</entry>
-    <entry lang="vi" key="VKEY_B3">Play/Pause Media</entry>
-    <entry lang="vi" key="VKEY_B4">Start Mail Key</entry>
-    <entry lang="vi" key="VKEY_B5">Select Media Key</entry>
+    <entry lang="vi" key="VKEY_A6">Trình duyệt lùi</entry>
+    <entry lang="vi" key="VKEY_A7">Trình duyệt tiến</entry>
+    <entry lang="vi" key="VKEY_A8">Trình duyệt làm mới</entry>
+    <entry lang="vi" key="VKEY_A9">Trình duyệt dừng</entry>
+    <entry lang="vi" key="VKEY_AA">Trình duyệt tìm kiếm</entry>
+    <entry lang="vi" key="VKEY_AB">Trình duyệt yêu thích</entry>
+    <entry lang="vi" key="VKEY_AC">Trang chủ trình duyệt</entry>
+    <entry lang="vi" key="VKEY_AD">Tắt tiếng</entry>
+    <entry lang="vi" key="VKEY_AE">Giảm âm lượng</entry>
+    <entry lang="vi" key="VKEY_AF">Tăng âm lượng</entry>
+    <entry lang="vi" key="VKEY_B0">Bản nhạc tiếp theo</entry>
+    <entry lang="vi" key="VKEY_B1">Bản nhạc trước</entry>
+    <entry lang="vi" key="VKEY_B2">Dừng phương tiện</entry>
+    <entry lang="vi" key="VKEY_B3">Phát/Tạm dừng phương tiện</entry>
+    <entry lang="vi" key="VKEY_B4">Phím mở thư</entry>
+    <entry lang="vi" key="VKEY_B5">Phím chọn phương tiện</entry>
     <entry lang="vi" key="VKEY_B6">Ứng dụng 1</entry>
     <entry lang="vi" key="VKEY_B7">Ứng dụng 2</entry>
     <entry lang="vi" key="VKEY_F6">Attn</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="vi" key="FAVORITE_PIM_OR_KDF_CHANGED">Tập đĩa này được đăng ký làm tập đĩa hệ thống được chuộng và cài đặt PIM và/hoặc KDF của nó đã được thay đổi.\nBạn có muốn VeraCrypt tự động cập nhật cấu hình tập đĩa hệ thống được chuộng không (yêu cầu quyền quản trị viên)?\n\nXin lưu ý rằng nếu bạn trả lời không, bạn sẽ phải cập nhật tập đĩa hệ thống được chuộng theo cách thủ công.</entry>
     <entry lang="vi" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">KDF được chọn sử dụng các tham số PIM khác nhau nên VeraCrypt sẽ không sử dụng lại PIM tùy chỉnh hiện tại. Tiêu đề tập đĩa mới sẽ sử dụng PIM mặc định cho KDF đã chọn trừ khi bạn chọn "Sử dụng PIM" trong phần Mới và nhập giá trị tùy chỉnh.\n\nBạn có muốn tiếp tục không?</entry>
     <entry lang="vi" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot đang được bật, nhưng cơ sở dữ liệu Secure Boot của chương trình cơ sở không tin cậy bất kỳ bộ Microsoft UEFI CA nào được bộ tải khởi động EFI của VeraCrypt hỗ trợ. Hãy bật Microsoft Corporation UEFI CA 2011, hoặc bật cả Microsoft UEFI CA 2023 và Microsoft Option ROM UEFI CA 2023, sau đó chạy tùy chọn Sửa chữa/Cài đặt lại của VeraCrypt. Hoặc, hãy tắt Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="vi" key="MACOSX_CHECK_FILESYS">Một cửa sổ Terminal sẽ mở sau khi bạn bấm 'Đồng ý' và kiểm tra hệ thống tập tin trên tập đĩa VeraCrypt đã chọn bằng 'diskutil'. Kết quả sẽ được hiển thị trong cửa sổ đó.\n\nNếu không thể bắt đầu kiểm tra, Tiện ích Ổ đĩa sẽ được khởi chạy thay thế.</entry>
+    <entry lang="vi" key="MACOSX_REPAIR_FILESYS">Một cửa sổ Terminal sẽ mở sau khi bạn bấm 'Đồng ý' và thử sửa chữa hệ thống tập tin trên tập đĩa VeraCrypt đã chọn bằng 'diskutil'. Kết quả sẽ được hiển thị trong cửa sổ đó.\n\nNếu không thể bắt đầu sửa chữa, Tiện ích Ổ đĩa sẽ được khởi chạy thay thế.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

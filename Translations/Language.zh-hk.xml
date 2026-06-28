@@ -1686,8 +1686,8 @@
     <entry lang="zh-hk" key="FAVORITE_PIM_OR_KDF_CHANGED">此加密區已註冊為我的最愛系統加密區，且其 PIM 和/或 KDF 設定已變更。\n你希望 VeraCrypt 自動更新我的最愛系統加密區設定嗎（需要管理員權限）？\n\n請注意，如果你回答「否」，則必須手動更新我的最愛系統加密區。</entry>
     <entry lang="zh-hk" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">所選的 KDF 使用不同的 PIM 參數，因此 VeraCrypt 不會重用目前的自訂 PIM。新的加密區標頭將使用所選 KDF 的預設 PIM，除非你在「新密碼」區段中選擇「使用 PIM」並輸入自訂值。\n\n你想繼續嗎？</entry>
     <entry lang="zh-hk" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot 已啟用，但韌體的 Secure Boot 資料庫不信任 VeraCrypt EFI 開機載入程式所支援的任何 Microsoft UEFI CA 集合。請啟用 Microsoft Corporation UEFI CA 2011，或同時啟用 Microsoft UEFI CA 2023 和 Microsoft Option ROM UEFI CA 2023，然後執行 VeraCrypt 修復或重新安裝。或者，請停用 Secure Boot。</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="zh-hk" key="MACOSX_CHECK_FILESYS">按下 [確定] 後，將會開啟「終端機」視窗，並使用 'diskutil' 檢查所選 VeraCrypt 加密區上的檔案系統。結果會顯示在該視窗中。\n\n如果無法開始檢查，將會改為啟動「磁碟工具程式」。</entry>
+    <entry lang="zh-hk" key="MACOSX_REPAIR_FILESYS">按下 [確定] 後，將會開啟「終端機」視窗，並使用 'diskutil' 嘗試修復所選 VeraCrypt 加密區上的檔案系統。結果會顯示在該視窗中。\n\n如果無法開始修復，將會改為啟動「磁碟工具程式」。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

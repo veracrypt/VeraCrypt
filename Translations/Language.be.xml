@@ -370,7 +370,7 @@
     <entry lang="be" key="IDT_SORT_METHOD">Сартаванне:</entry>
     <entry lang="be" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Калі ласка, пачакайце. Гэты працэс можа заняць шмат часу...</entry>
     <entry lang="be" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Калі ласка, пачакайце...\nГэты працэс можа заняць шмат часу, і VeraCrypt можа не рэагаваць.</entry>
-    <entry lang="be" key="IDT_TEST_BLOCK_NUMBER">Block number:</entry>
+    <entry lang="be" key="IDT_TEST_BLOCK_NUMBER">Нумар блока:</entry>
     <entry lang="be" key="IDT_TEST_CIPHERTEXT">Шыфраваны тэкст (шаснаццатковы)</entry>
     <entry lang="be" key="IDT_TEST_DATA_UNIT_NUMBER">Лік адзінак з дадзенымі (64-біт 16-ковы, памер адзінкі з дадзенымі - 512 байтаў)</entry>
     <entry lang="be" key="IDT_TEST_KEY">Ключ (шаснаццатковы)</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="be" key="FAVORITE_PIM_OR_KDF_CHANGED">Гэты том зарэгістраваны як сістэмны абраны том, і яго налады PIM і/або KDF былі зменены.\nВы хочаце, каб VeraCrypt аўтаматычна абнавіў канфігурацыю сістэмнага абранага тома (патрабуюцца правы адміністратара)?\n\nЗвярніце ўвагу, што калі вы адкажаце "не", вам давядзецца абнавіць сістэмны абраны том уручную.</entry>
     <entry lang="be" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Выбраны KDF выкарыстоўвае розныя параметры PIM, таму VeraCrypt не будзе паўторна выкарыстоўваць бягучы карыстальніцкі PIM. Новы загаловак тома будзе выкарыстоўваць PIM па змаўчанні для абранага KDF, калі вы не выберыце «Выкарыстоўваць PIM» у раздзеле «Новае» і не ўвядзеце карыстальніцкае значэнне.\n\nВы хочаце працягнуць?</entry>
     <entry lang="be" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot уключаны, але база даных Secure Boot у прашыўцы не давярае ніводнаму набору Microsoft UEFI CA, які падтрымліваецца загрузчыкам EFI VeraCrypt. Уключыце альбо Microsoft Corporation UEFI CA 2011, альбо адначасова Microsoft UEFI CA 2023 і Microsoft Option ROM UEFI CA 2023, затым запусціце VeraCrypt Аднавіць/пераўсталяваць. У якасці альтэрнатывы адключыце Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="be" key="MACOSX_CHECK_FILESYS">Пасля націску 'OK' адкрыецца акно Тэрмінала, у якім будзе праверана файлавая сістэма выбранага тома VeraCrypt з дапамогай 'diskutil'. Вынік будзе паказаны ў гэтым акне.\n\nКалі праверку немагчыма запусціць, замест гэтага будзе запушчана Дыскавая ўтыліта.</entry>
+    <entry lang="be" key="MACOSX_REPAIR_FILESYS">Пасля націску 'OK' адкрыецца акно Тэрмінала, у якім будзе выканана спроба аднавіць файлавую сістэму выбранага тома VeraCrypt з дапамогай 'diskutil'. Вынік будзе паказаны ў гэтым акне.\n\nКалі аднаўленне немагчыма запусціць, замест гэтага будзе запушчана Дыскавая ўтыліта.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

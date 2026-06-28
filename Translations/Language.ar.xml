@@ -1205,7 +1205,7 @@
     <entry lang="ar" key="RESCUE_DISK_HELP_PORTION_6">3)  إذا كان برنامج لإقلاع فيراكربت معطوبا, يمكنك تفادي استخدامه بواسطة الإقلاع واستخدام قرص الإنقاذ.  أدخل قرص الإنقاذ ثم قم بإدخال كلمة السر في شاشة الإنقاذ.\n\n</entry>
     <entry lang="ar" key="RESCUE_DISK_HELP_PORTION_7">4) إذا عطبت ويندوز ولم تقلع, قرص الإنقاذ من ويندوز يتيح لك فك تشفير قسم النظام/قرص النظام بشكل دائم. في شاشة قرص الإنقاذ, اختر 'خيارات الإصلاح' &gt; 'فك تشفير قسم/قرص النظام بشكل دائم'. أدخل كلمة السر الصحيحة وانتظر فك التشفير حتى ينتهي. ثم على سبيل المثال أقلع من قرص ويندوز المدمج ثم اختر تثبيت.\n\n</entry>
     <entry lang="ar" key="RESCUE_DISK_HELP_PORTION_8">ملاحظة: كحل بديل, إذا عطبت ويندوز (ولم يمكن أن تقلع) وتحتاج لإصلاحها (أو الدخول على بيانات بداخلها), يمكنك تفادي فك تشفير قسم/قرص النظام: إذا كان أكثر من نظام تشغيل مثبتا على جهازك, أقلع من أحدها بحيث لا تحتاج إلى كلمة سر قبل الإقلاع. إذا لم يكم هناك أمثر من نظام تشغيل على جهازك, يمكن الإقلاع بواسطة WinBE أو BartBE أو إخراج قرص الكمبيوتر وتوصيله كقرص ثانوي بجهاز آخر والإقلاع من نظام تشغيله . بعد اٌلاع من نظام تشغيل الكمبيوتر الآخر, شغل فيراكربت, اختر 'اختر قرصا', اختر قسم النظام المعطوب, اضغط 'نعم', اختر 'نظام' &gt; 'حمل من دون كلمة السر الخاصة بالإقلاع', أدخل كلمة السر الخاصة بالإقلاع ثم اضغط  'نعم'. سيتم تحميل القرص كقرص فيراكربت عادي (كالمعتاد البيانات سوف يتم تشفيرها/فك تشفيرها على الفور في الذاكرة).\n\n\n</entry>
-    <entry lang="ar" key="RESCUE_DISK_HELP_PORTION_9">Note that even if you lose your VeraCrypt Rescue Disk and an attacker finds it, he or she will NOT be able to decrypt the system partition or drive without the correct password.</entry>
+    <entry lang="ar" key="RESCUE_DISK_HELP_PORTION_9">‮لاحظ أنه حتى إذا فقدت قرص إنقاذ ڤيراكربت وعثر عليه مهاجم، فلن يتمكن من فك تشفير قسم النظام أو السواقة من دون كلمة السر الصحيحة.</entry>
     <entry lang="ar" key="DECOY_OS_INSTRUCTIONS_PORTION_1">\n\nمهم -- الرجاء طباعة النص التالي (اضغط 'طباعة' بالأسفل).\n\n\nملاحظة: هذا النص سوف يظهر في كل مرة تقلع من النظام المخفي حتى تقلع من النظام المزيف.\n\n\n</entry>
     <entry lang="ar" key="DECOY_OS_INSTRUCTIONS_PORTION_2">كيف تنشئ النظام المزيف بشكل آمن وسليم\n----------------------------------------------------------------------------\n\nللحصول على الإنكار المنطقي, تحتاج لإنشاء نظام مزيف. لعمل ذلك, اتبع الخطوات التالية:\n\n</entry>
     <entry lang="ar" key="DECOY_OS_INSTRUCTIONS_PORTION_3">1) لأسباب أمنية, أطفئ الجهاز وأبقع مطفأ لبرهة من الزمن (كلما طالت المدة, فهو أفضل). هذا مطلوب لتنظيف الذاكرة, والتي تحوي معلومات حساسة. ثم شغل الجهاز ولكن لا تقلع النظام المخفي.\n\n</entry>
@@ -1331,7 +1331,7 @@
     <entry lang="ar" key="VKEY_2C">Print Screen</entry>
     <entry lang="ar" key="VKEY_2D">Insert</entry>
     <entry lang="ar" key="VKEY_2E">Delete</entry>
-    <entry lang="ar" key="VKEY_5D">Applications Key</entry>
+    <entry lang="ar" key="VKEY_5D">‮مفتاح التطبيقات</entry>
     <entry lang="ar" key="VKEY_5F">Sleep</entry>
     <entry lang="ar" key="VKEY_90">Num Lock</entry>
     <entry lang="ar" key="VKEY_91">Scroll Lock</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="ar" key="FAVORITE_PIM_OR_KDF_CHANGED">‮تم تسجيل هذا المجلد باعتباره من مفضلات النظام وتم تغيير إعدادات PIM و/أو KDF الخاصة به.\nهل تريد أن يحدّث ڤيراكربت إعدادات مفضلات النظام تلقائيًا (تتطلب صلاحيات المدير)؟\n\nيرجى ملاحظة أنه إذا كانت إجابتك لا، فسيتعين عليك تحديث مفضلات النظام يدويًا.</entry>
     <entry lang="ar" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">‮يستخدم KDF المحدد معلمات PIM مختلفة، لذلك لن يعيد ڤيراكربت استخدام PIM المخصص الحالي. ستستخدم ترويسة المجلد الجديدة PIM الافتراضي لـ KDF المحدد ما لم تحدد "استخدام PIM" في قسم "جديد" وتدخل قيمة مخصصة.\n\nهل تريد الاستمرار؟</entry>
     <entry lang="ar" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">‮الإقلاع الآمن Secure Boot مفعّل، لكن قاعدة بيانات Secure Boot في البرنامج الثابت لا تثق بأي مجموعة Microsoft UEFI CA يدعمها محمل الإقلاع EFI الخاص بـ ڤيراكربت. فعّل إما Microsoft Corporation UEFI CA 2011، أو كليهما Microsoft UEFI CA 2023 و Microsoft Option ROM UEFI CA 2023، ثم شغّل خيار الإصلاح/إعادة التنصيب في ڤيراكربت. بدلاً من ذلك، عطّل Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="ar" key="MACOSX_CHECK_FILESYS">‮ستفتح نافذة الطرفية بعد الضغط على 'موافق' وستتحقق من نظام الملفات على مجلد ڤيراكربت المحدد باستخدام 'diskutil'. ستُعرض النتيجة في تلك النافذة.\n\nإذا تعذر بدء التحقق، فسيتم تشغيل أداة القرص بدلاً من ذلك.</entry>
+    <entry lang="ar" key="MACOSX_REPAIR_FILESYS">‮ستفتح نافذة الطرفية بعد الضغط على 'موافق' وستحاول إصلاح نظام الملفات على مجلد ڤيراكربت المحدد باستخدام 'diskutil'. ستُعرض النتيجة في تلك النافذة.\n\nإذا تعذر بدء الإصلاح، فسيتم تشغيل أداة القرص بدلاً من ذلك.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

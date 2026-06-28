@@ -819,7 +819,7 @@
     <entry lang="id" key="VOLUME_HEADER_DAYS"> (%I64d hari yang lalu)</entry>
     <entry lang="id" key="VOLUME_FORMAT_VERSION">Versi Format Volume</entry>
     <entry lang="id" key="BACKUP_HEADER">Header Cadangan Tertanam</entry>
-    <entry lang="id" key="VC_BOOT_LOADER_VERSION">VeraCrypt Boot Loader Version</entry>
+    <entry lang="id" key="VC_BOOT_LOADER_VERSION">Versi Boot Loader VeraCrypt</entry>
     <entry lang="id" key="FIRST_AVAILABLE">Pertama tersedia</entry>
     <entry lang="id" key="REMOVABLE_DISK">Disk Lepasan</entry>
     <entry lang="id" key="HARDDISK">Hard Disk</entry>
@@ -1122,25 +1122,25 @@
     <entry lang="id" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">Tidak dapat memulai proses pembuatan sistem operasi tersembunyi.</entry>
     <entry lang="id" key="WIPE_MODE_TITLE">Mode Hapus</entry>
     <entry lang="id" key="INPLACE_ENC_WIPE_MODE_INFO">Pada beberapa jenis media penyimpanan, ketika data ditimpa dengan data lain, dimungkinkan untuk memulihkan data yang ditimpa menggunakan teknik seperti mikroskop gaya magnet. Ini juga berlaku untuk data yang ditimpa dengan bentuk terenkripsi mereka (yang terjadi ketika VeraCrypt awalnya mengenkripsi partisi atau drive yang tidak terenkripsi). Menurut beberapa penelitian dan publikasi pemerintah, pemulihan data yang ditimpa dapat dicegah (atau dibuat sangat sulit) dengan menimpa data dengan pseudorandom dan data non-acak tertentu beberapa kali. Oleh karena itu, jika Anda yakin bahwa musuh mungkin dapat menggunakan teknik tersebut untuk memulihkan data yang ingin Anda enkripsi, Anda mungkin ingin memilih salah satu mode penghapusan (data yang ada TIDAK akan hilang). Perhatikan bahwa menyeka TIDAK akan dilakukan setelah partisi / drive dienkripsi. Ketika partisi / drive sepenuhnya dienkripsi, tidak ada data yang tidak terenkripsi yang ditulis untuk itu. Setiap data yang ditulis untuk itu pertama kali dienkripsi dengan cepat dalam memori dan baru kemudian adalah data (terenkripsi) yang ditulis ke disk.</entry>
-    <entry lang="id" key="WIPE_MODE_INFO">Pada beberapa jenis media penyimpanan, ketika data ditimpa dengan data lain (misalnya ketika data dihapus), dimungkinkan untuk memulihkan data yang ditimpa menggunakan teknik seperti mikroskop gaya magnet. Menurut beberapa penelitian dan publikasi pemerintah, pemulihan data yang ditimpa dapat dicegah (atau dibuat sangat sulit) dengan menimpa data dengan pseudorandom dan data non-acak tertentu beberapa kali. Oleh karena itu, jika Anda yakin bahwa musuh mungkin dapat menggunakan teknik tersebut untuk memulihkan data yang akan dihapus, Anda mungkin ingin memilih salah satu mode penghapusan multi-pass.\nNote: Semakin banyak umpan penghapusan yang Anda gunakan, semakin lama waktu yang dibutuhkan untuk menghapus data.</entry>
+    <entry lang="id" key="WIPE_MODE_INFO">Pada beberapa jenis media penyimpanan, ketika data ditimpa dengan data lain (misalnya ketika data dihapus), dimungkinkan untuk memulihkan data yang ditimpa menggunakan teknik seperti mikroskop gaya magnet. Menurut beberapa penelitian dan publikasi pemerintah, pemulihan data yang ditimpa dapat dicegah (atau dibuat sangat sulit) dengan menimpa data dengan pseudorandom dan data non-acak tertentu beberapa kali. Oleh karena itu, jika Anda yakin bahwa musuh mungkin dapat menggunakan teknik tersebut untuk memulihkan data yang akan dihapus, Anda mungkin ingin memilih salah satu mode penghapusan multi-lintasan.\n\nCatatan: Semakin banyak lintasan penghapusan yang Anda gunakan, semakin lama waktu yang dibutuhkan untuk menghapus data.</entry>
     <entry lang="id" key="DEVICE_WIPE_PAGE_TITLE">Menyeka</entry>
     <entry lang="id" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">\nNote: Anda dapat mengganggu proses menyeka, mematikan komputer Anda, memulai sistem tersembunyi lagi dan kemudian melanjutkan proses (panduan ini akan diluncurkan secara otomatis). Namun, jika Anda mengganggunya, seluruh proses menyeka harus dimulai dari awal.</entry>
     <entry lang="id" key="DEVICE_WIPE_PAGE_INFO">\n\nNote: Jika Anda mengganggu proses menyeka dan kemudian mencoba melanjutkannya, seluruh proses harus dimulai dari awal.</entry>
     <entry lang="id" key="CONFIRM_WIPE_ABORT">Apakah Anda ingin membatalkan proses menyeka?</entry>
     <entry lang="id" key="CONFIRM_WIPE_START">Peringatan: Seluruh konten partisi / perangkat yang dipilih akan dihapus dan hilang.</entry>
     <entry lang="id" key="CONFIRM_WIPE_START_DECOY_SYS_PARTITION">Seluruh konten partisi tempat sistem asli berada akan dihapus.\n\nNote: Seluruh konten partisi yang akan dihapus telah disalin ke partisi sistem tersembunyi ini.</entry>
-    <entry lang="id" key="WIPE_MODE_WARN">PERINGATAN: Perhatikan bahwa ketika Anda memilih misalnya mode penghapusan 3-pass, waktu yang diperlukan untuk mengenkripsi partisi / drive akan hingga 4 kali lebih lama. Demikian juga, jika Anda memilih mode wipe 35-pass, itu akan sampai 36 kali lebih lama (bahkan mungkin memakan waktu beberapa minggu). Ketika partisi / drive sepenuhnya dienkripsi, tidak ada data yang tidak terenkripsi yang ditulis untuk itu. Setiap data yang ditulis untuk itu pertama kali dienkripsi dengan cepat dalam memori dan baru kemudian data (dienkripsi) yang ditulis ke disk (sehingga kinerja TIDAK akan terpengaruh).</entry>
+    <entry lang="id" key="WIPE_MODE_WARN">PERINGATAN: Perhatikan bahwa ketika Anda memilih misalnya mode penghapusan 3 lintasan, waktu yang diperlukan untuk mengenkripsi partisi / drive akan hingga 4 kali lebih lama. Demikian juga, jika Anda memilih mode penghapusan 35 lintasan, itu akan sampai 36 kali lebih lama (bahkan mungkin memakan waktu beberapa minggu).\n\nNamun, harap perhatikan bahwa penghapusan TIDAK akan dilakukan setelah partisi / drive sepenuhnya dienkripsi. Ketika partisi / drive sepenuhnya dienkripsi, tidak ada data yang tidak terenkripsi yang ditulis ke sana. Setiap data yang ditulis ke sana pertama-tama dienkripsi secara langsung di memori dan baru kemudian data (terenkripsi) ditulis ke disk (sehingga kinerja TIDAK akan terpengaruh).\n\nApakah Anda yakin ingin menggunakan mode penghapusan?</entry>
     <entry lang="id" key="WIPE_MODE_NONE">Nihil (tercepat)</entry>
-    <entry lang="id" key="WIPE_MODE_1_RAND">1-pass (data acak)</entry>
-    <entry lang="id" key="WIPE_MODE_3_DOD_5220">3-pass (US DoD 5220.22-M)</entry>
-    <entry lang="id" key="WIPE_MODE_7_DOD_5220">7-pass (US DoD 5220.22-M)</entry>
-    <entry lang="id" key="WIPE_MODE_35_GUTMANN">35-pass ("Gutmann")</entry>
-    <entry lang="id" key="WIPE_MODE_256">256-pass</entry>
+    <entry lang="id" key="WIPE_MODE_1_RAND">1 lintasan (data acak)</entry>
+    <entry lang="id" key="WIPE_MODE_3_DOD_5220">3 lintasan (US DoD 5220.22-M)</entry>
+    <entry lang="id" key="WIPE_MODE_7_DOD_5220">7 lintasan (US DoD 5220.22-M)</entry>
+    <entry lang="id" key="WIPE_MODE_35_GUTMANN">35 lintasan ("Gutmann")</entry>
+    <entry lang="id" key="WIPE_MODE_256">256 lintasan</entry>
     <entry lang="id" key="SYS_MULTI_BOOT_MODE_TITLE">Cacah Sistem Operasi</entry>
     <entry lang="id" key="MULTI_BOOT_FOR_ADVANCED_ONLY">PERINGATAN: Pengguna yang tidak berpengalaman seharusnya tidak pernah mencoba mengenkripsi Windows dalam konfigurasi multi-boot.</entry>
     <entry lang="id" key="HIDDEN_OS_MULTI_BOOT">Saat membuat / menggunakan sistem operasi tersembunyi, VeraCrypt mendukung konfigurasi multi-boot hanya ketika kondisi berikut terpenuhi: \n\n- Sistem operasi yang saat ini berjalan harus diinstal pada boot drive, yang tidak boleh berisi sistem operasi lain. \n\n- Sistem operasi yang diinstal pada drive lain tidak boleh menggunakan boot loader yang berada di drive tempat sistem operasi yang saat ini berjalan diinstal.</entry>
     <entry lang="id" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">VeraCrypt tidak mendukung konfigurasi multi-boot ini saat membuat/menggunakan sistem operasi tersembunyi.</entry>
-    <entry lang="id" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">Boot Drive</entry>
+    <entry lang="id" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">Drive boot</entry>
     <entry lang="id" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_HELP">Apakah sistem operasi yang sedang berjalan diinstal pada boot drive? \n\nNote: Terkadang, Windows tidak diinstal pada drive yang sama dengan boot loader Windows (partisi boot). Jika itu masalahnya, pilih 'Tidak'.</entry>
     <entry lang="id" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">VeraCrypt saat ini tidak mendukung enkripsi sistem operasi yang tidak boot dari drive di mana ia diinstal.</entry>
     <entry lang="id" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_TITLE">Cacah Drive Sistem</entry>
@@ -1148,7 +1148,7 @@
     <entry lang="id" key="WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE">VeraCrypt saat ini tidak mendukung enkripsi seluruh drive yang berisi beberapa sistem operasi.\n\nPossible Solutions:\n\n- Anda masih dapat mengenkripsi salah satu sistem jika Anda kembali dan memilih untuk mengenkripsi hanya satu partisi sistem (sebagai lawan memilih untuk mengenkripsi seluruh drive sistem). sistem pada drive yang ingin Anda enkripsi.</entry>
     <entry lang="id" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_TITLE">Beberapa Sistem pada Drive Tunggal</entry>
     <entry lang="id" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_HELP">Apakah ada sistem operasi lain yang dipasang pada drive di mana sistem operasi yang sedang berjalan terpasang? \n\nCatatan: Misalnya, jika sistem operasi yang sedang berjalan dipasang pada drive #0, yang berisi beberapa partisi, dan jika salah satu partisi berisi Windows dan partisi lain berisi sistem operasi tambahan (misalnya Windows,  Mac OS X, Linux, dll.), Pilih 'Ya'.</entry>
-    <entry lang="id" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_TITLE">Non-Windows Boot Loader</entry>
+    <entry lang="id" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_TITLE">Boot Loader non-Windows</entry>
     <entry lang="id" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_HELP">Apakah boot loader non-Windows (atau boot manager) dipasang dalam master boot record (MBR)?\n\nCatatan: Misalnya, jika trek pertama boot drive berisi GRUB, LILO, XOSL, atau beberapa manajer boot non-Windows lainnya (atau boot loader), pilih 'Ya'.</entry>
     <entry lang="id" key="SYSENC_MULTI_BOOT_OUTCOME_TITLE">Multi-Boot</entry>
     <entry lang="id" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">VeraCrypt saat ini tidak mendukung konfigurasi multi-boot di mana boot loader non-Windows diinstal di Master Boot Record.\n\nPossible Solutions: \n\n- Jika Anda menggunakan boot manager untuk mem-boot Windows dan Linux, pindahkan boot manager (biasanya, GRUB) dari Master Boot Record ke partisi. Kemudian mulai wizard ini lagi dan enkripsi partisi / drive sistem. Perhatikan bahwa VeraCrypt Boot Loader akan menjadi manajer boot utama Anda dan itu akan memungkinkan Anda untuk meluncurkan manajer boot asli (misalnya GRUB) sebagai manajer boot sekunder Anda (dengan menekan Esc di layar VeraCrypt Boot Loader) dan dengan demikian Anda akan dapat mem-boot Linux.</entry>
@@ -1335,12 +1335,12 @@
     <entry lang="id" key="VKEY_5F">Sleep</entry>
     <entry lang="id" key="VKEY_90">Num Lock</entry>
     <entry lang="id" key="VKEY_91">Scroll Lock</entry>
-    <entry lang="id" key="VKEY_A6">Browser Kembali</entry>
-    <entry lang="id" key="VKEY_A7">Browser Teruskan</entry>
-    <entry lang="id" key="VKEY_A8">Browser Refresh</entry>
-    <entry lang="id" key="VKEY_A9">Perhentian Browser</entry>
+    <entry lang="id" key="VKEY_A6">Kembali di Peramban</entry>
+    <entry lang="id" key="VKEY_A7">Maju di Peramban</entry>
+    <entry lang="id" key="VKEY_A8">Muat Ulang Peramban</entry>
+    <entry lang="id" key="VKEY_A9">Hentikan Peramban</entry>
     <entry lang="id" key="VKEY_AA">Pencarian Peramban</entry>
-    <entry lang="id" key="VKEY_AB">Favorit Browser</entry>
+    <entry lang="id" key="VKEY_AB">Favorit Peramban</entry>
     <entry lang="id" key="VKEY_AC">Beranda Peramban</entry>
     <entry lang="id" key="VKEY_AD">Senyap</entry>
     <entry lang="id" key="VKEY_AE">Pelankan Suara</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="id" key="FAVORITE_PIM_OR_KDF_CHANGED">Volume ini terdaftar sebagai Favorit Sistem dan pengaturan PIM dan/atau KDF-nya diubah.\nApakah Anda ingin VeraCrypt memperbarui konfigurasi Favorit Sistem secara otomatis (diperlukan hak administrator)?\n\nHarap dicatat bahwa jika Anda menjawab tidak, Anda harus memperbarui Favorit Sistem secara manual.</entry>
     <entry lang="id" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">KDF yang dipilih menggunakan parameter PIM yang berbeda, jadi VeraCrypt tidak akan menggunakan kembali PIM kustom saat ini. Header volume baru akan menggunakan PIM default untuk KDF yang dipilih kecuali Anda memilih "Gunakan PIM" di bagian Baru dan memasukkan nilai khusus.\n\nApakah Anda ingin melanjutkan?</entry>
     <entry lang="id" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot diaktifkan, tetapi basis data Secure Boot pada firmware tidak mempercayai set Microsoft UEFI CA apa pun yang didukung oleh bootloader EFI VeraCrypt. Aktifkan Microsoft Corporation UEFI CA 2011, atau aktifkan keduanya Microsoft UEFI CA 2023 dan Microsoft Option ROM UEFI CA 2023, lalu jalankan opsi Perbaiki/Pasang Ulang VeraCrypt. Sebagai alternatif, nonaktifkan Secure Boot.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="id" key="MACOSX_CHECK_FILESYS">Sebuah jendela Terminal akan terbuka setelah Anda menekan 'Ok' dan memeriksa sistem berkas pada volume VeraCrypt yang dipilih menggunakan 'diskutil'. Hasilnya akan ditampilkan di jendela tersebut.\n\nJika pemeriksaan tidak dapat dimulai, Utilitas Disk akan dijalankan sebagai gantinya.</entry>
+    <entry lang="id" key="MACOSX_REPAIR_FILESYS">Sebuah jendela Terminal akan terbuka setelah Anda menekan 'Ok' dan mencoba memperbaiki sistem berkas pada volume VeraCrypt yang dipilih menggunakan 'diskutil'. Hasilnya akan ditampilkan di jendela tersebut.\n\nJika perbaikan tidak dapat dimulai, Utilitas Disk akan dijalankan sebagai gantinya.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

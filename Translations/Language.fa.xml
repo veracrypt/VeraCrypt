@@ -59,7 +59,7 @@
     <entry lang="fa" key="IDC_PAUSE">&amp;مکث کنید</entry>
     <entry lang="fa" key="IDC_PIM_ENABLE">از P&amp;IM استفاده کنید</entry>
     <entry lang="fa" key="IDC_NEW_PIM_ENABLE">از PIM استفاده کنید</entry>
-    <entry lang="fa" key="IDC_QUICKFORMAT">Quick Format</entry>
+    <entry lang="fa" key="IDC_QUICKFORMAT">فرمت سریع</entry>
     <entry lang="fa" key="IDC_SHOW_PASSWORD">نمايش كلمه عبور</entry>
     <entry lang="fa" key="IDC_SHOW_PASSWORD_SINGLE">نمايش كلمه عبور</entry>
     <entry lang="fa" key="IDC_SHOW_PIM">نمایشگر P&amp;IM</entry>
@@ -1686,8 +1686,8 @@
     <entry lang="fa" key="FAVORITE_PIM_OR_KDF_CHANGED">این حجم به عنوان حجم مورد علاقه سیستم ثبت شده است و تنظیمات PIM و/یا KDF آن تغییر کرده است.\nآیا می‌خواهید VeraCrypt پیکربندی حجم مورد علاقه سیستم را به طور خودکار به‌روزرسانی کند (حقوق سرپرست مورد نیاز است)؟\n\nلطفاً توجه داشته باشید که اگر پاسخ منفی دهید، باید حجم مورد علاقه سیستم را به صورت دستی به‌روزرسانی کنید.</entry>
     <entry lang="fa" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">KDF انتخاب شده از پارامترهای مختلف PIM استفاده می کند، بنابراین VeraCrypt از PIM سفارشی فعلی استفاده مجدد نخواهد کرد. هدر حجم جدید از PIM پیش‌فرض برای KDF انتخاب‌شده استفاده می‌کند، مگر اینکه «استفاده از PIM» را در بخش «جدید» انتخاب کنید و یک مقدار سفارشی وارد کنید.\n\nآیا می خواهید ادامه دهید؟</entry>
     <entry lang="fa" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot فعال است، اما پایگاه داده Secure Boot در میان‌افزار به هیچ مجموعه Microsoft UEFI CA که توسط بوت‌لودر EFI وراکریپت پشتیبانی می‌شود اعتماد ندارد. یا Microsoft Corporation UEFI CA 2011 را فعال کنید، یا هر دو Microsoft UEFI CA 2023 و Microsoft Option ROM UEFI CA 2023 را فعال کنید، سپس گزینه Repair/Reinstall را در VeraCrypt اجرا کنید. همچنین می‌توانید Secure Boot را غیرفعال کنید.</entry>
-    <entry lang="en" key="MACOSX_CHECK_FILESYS">A Terminal window will open after you press 'OK' and check the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the check cannot be started, Disk Utility will be launched instead.</entry>
-    <entry lang="en" key="MACOSX_REPAIR_FILESYS">A Terminal window will open after you press 'OK' and attempt to repair the file system on the selected VeraCrypt volume using 'diskutil'. The result will be shown in that window.\n\nIf the repair cannot be started, Disk Utility will be launched instead.</entry>
+    <entry lang="fa" key="MACOSX_CHECK_FILESYS">پس از فشار دادن 'قبول'، یک پنجره Terminal باز می‌شود و فایل سیستم حجم VeraCrypt انتخاب‌شده را با استفاده از 'diskutil' بررسی می‌کند. نتیجه در همان پنجره نمایش داده می‌شود.\n\nاگر بررسی قابل شروع نباشد، به‌جای آن Disk Utility اجرا خواهد شد.</entry>
+    <entry lang="fa" key="MACOSX_REPAIR_FILESYS">پس از فشار دادن 'قبول'، یک پنجره Terminal باز می‌شود و تلاش می‌کند فایل سیستم حجم VeraCrypt انتخاب‌شده را با استفاده از 'diskutil' تعمیر کند. نتیجه در همان پنجره نمایش داده می‌شود.\n\nاگر تعمیر قابل شروع نباشد، به‌جای آن Disk Utility اجرا خواهد شد.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
