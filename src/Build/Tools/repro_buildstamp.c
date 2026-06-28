@@ -33,6 +33,7 @@
 #define _GNU_SOURCE
 #include <time.h>
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <dlfcn.h>
 #include <sys/utsname.h>
@@ -78,8 +79,7 @@ time_t time(time_t *t)
 int gethostname(char *name, size_t len)
 {
 	if (name && len) {
-		strncpy(name, VC_REPRO_BUILDHOST, len);
-		name[len - 1] = '\0';
+		snprintf(name, len, "%s", VC_REPRO_BUILDHOST);
 	}
 	return 0;
 }
@@ -93,8 +93,7 @@ int uname(struct utsname *buf)
 		real_uname = (int (*)(struct utsname *)) dlsym(RTLD_NEXT, "uname");
 	rc = real_uname ? real_uname(buf) : -1;
 	if (rc == 0 && buf) {
-		strncpy(buf->nodename, VC_REPRO_BUILDHOST, sizeof(buf->nodename) - 1);
-		buf->nodename[sizeof(buf->nodename) - 1] = '\0';
+		snprintf(buf->nodename, sizeof(buf->nodename), "%s", VC_REPRO_BUILDHOST);
 	}
 	return rc;
 }
