@@ -263,7 +263,7 @@
     <entry lang="ro" key="IDM_VOLUME_EXPANDER">Extindere volum</entry>
     <entry lang="ro" key="IDM_VOLUME_PROPERTIES">Proprietăți volum</entry>
     <entry lang="ro" key="IDM_VOLUME_WIZARD">Asistent creare volum</entry>
-    <entry lang="ro" key="IDM_WEBSITE">Pagina web</entry>
+    <entry lang="ro" key="IDM_WEBSITE">Pagina web VeraCrypt</entry>
     <entry lang="ro" key="IDM_WIPE_CACHE">Uitare parole memorate</entry>
     <entry lang="ro" key="IDOK">&amp;OK</entry>
     <entry lang="ro" key="IDT_ACCELERATION_OPTIONS">Accelerare hardware</entry>
@@ -1478,7 +1478,7 @@
     <entry lang="ro" key="LINUX_ADMIN_PW_QUERY_TITLE">Sunt necesare privilegii de administrator</entry>
     <entry lang="ro" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt rulează deja.</entry>
     <entry lang="ro" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">Parola de criptare a sistemului mai lungă de {0} caractere.</entry>
-    <entry lang="ro" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Montare partiție și folosire criptare sistem (autentificare la preîncărcare)</entry>
+    <entry lang="ro" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Montare partiție și folosire criptare sistem (autentificare la prepornire)</entry>
     <entry lang="ro" key="LINUX_DO_NOT_MOUNT">Fără montare</entry>
     <entry lang="ro" key="LINUX_MOUNT_AT_DIR">Montare în folderul:</entry>
     <entry lang="ro" key="LINUX_SELECT">Se&amp;lectare...</entry>
@@ -1535,7 +1535,7 @@
     <entry lang="ro" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Punctul de montare este deja utilizat.</entry>
     <entry lang="ro" key="LINUX_EX2MSG_PASSWORDEMPTY">Nu s-a specificat o parolă sau fișier-cheie.</entry>
     <entry lang="ro" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nParolele de autentificare pre-pornire trebuie introduse în mediul de pre-pornire, unde nu sunt disponibile tipurile de tastatură în alt format decât cel US. Prin urmare, parolele de autentificare înainte de pornire trebuie întotdeauna introduse folosind tastatura standard din SUA (în caz contrar, parola va fi introdusă incorect în majoritatea cazurilor). Cu toate acestea, NU aveți nevoie de o tastatură reală de tip US; trebuie doar să schimbați aspectul tastaturii din sistemul de operare.</entry>
-    <entry lang="ro" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNotă: dacă încercați să montați o partiție situată pe o unitate de sistem criptată fără autentificare la pre-pornire sau să montați partiția de sistem criptată a unui sistem de operare care nu rulează, puteți face acest lucru selectând „Opțiuni” &gt; „Montare partiție folosind criptarea sistemului”.</entry>
+    <entry lang="ro" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNotă: dacă încercați să montați o partiție situată pe o unitate de sistem criptată fără autentificare la pre-pornire sau să montați partiția de sistem criptată a unui sistem de operare care nu rulează, puteți face acest lucru apăsând pe „Opțiuni” și selectând opțiunea „Montare partiție folosind criptarea sistemului (autentificare la prepornire)”.</entry>
     <entry lang="ro" key="LINUX_EX2MSG_PASSWORDTOOLONG">Parola este mai lungă de {0} caractere.</entry>
     <entry lang="ro" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Este necesară partiția dispozitivului.</entry>
     <entry lang="ro" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Parolă incorectă pentru volumul ascuns protejat sau volumul ascuns nu există.</entry>
