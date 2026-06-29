@@ -89,6 +89,7 @@
     <entry lang="en" key="IDT_PARTIAL_POOL_CONTENTS">Current pool content (partial)</entry>
     <entry lang="en" key="IDT_PASS">Pass</entry>
     <entry lang="en" key="IDT_PASSWORD">Password:</entry>
+    <entry lang="en" key="IDT_OUTER_VOL_PASSWORD">Outer p&amp;assword:</entry>
     <entry lang="en" key="IDT_PIM">Volume PIM:</entry>
     <entry lang="en" key="IDT_OLD_PIM">Volume PIM:</entry>
     <entry lang="en" key="IDT_PROGRESS">Progress:</entry>
@@ -350,8 +351,8 @@
     <entry lang="en" key="IDT_BOX_BENCHMARK_INFO">Speed is affected by CPU load and storage device characteristics.\n\nThese tests take place in RAM.</entry>
     <entry lang="en" key="IDT_BUFFER_SIZE">Buffer Size:</entry>
     <entry lang="en" key="IDT_CIPHER">Cipher:</entry>
-    <entry lang="en" key="IDT_HIDDEN_PROT_PASSWD">P&amp;assword to hidden volume:\n(if empty, cache is used)</entry>
-    <entry lang="en" key="IDT_HIDDEN_VOL_PROTECTION">Hidden Volume Protection</entry>
+    <entry lang="en" key="IDT_HIDDEN_PROT_PASSWD">Hidden volume p&amp;assword:\n(if empty, cache is used)</entry>
+    <entry lang="en" key="IDT_HIDDEN_VOL_PROTECTION">Hidden Volume Protection (Hidden Credentials)</entry>
     <entry lang="en" key="IDT_KEY">Key size:</entry>
     <entry lang="en" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.</entry>
     <entry lang="en" key="IDT_KEYFILE_WARNING">WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!</entry>
@@ -637,6 +638,7 @@
     <entry lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.\n - Volume uses an old algorithm that has been removed.\n - TrueCrypt format volumes are no longer supported.</entry>
     <entry lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.\n - Volume uses an old algorithm that has been removed.\n - TrueCrypt format volumes are no longer supported.</entry>
     <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.\n - Volume uses an old algorithm that has been removed.\n - TrueCrypt format volumes are no longer supported.</entry>
+    <entry lang="en" key="HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG">Operation failed while hidden volume protection was enabled.\n\nUse the OUTER (decoy) volume password, PIM, PRF, and keyfile(s), if any, in the main password dialog. Use the HIDDEN volume password, PIM, PRF, and keyfile(s), if any, in Mount Options &gt; Hidden Volume Protection.\n\nOne or more credentials may be incorrect, or the selected volume may be invalid or unsupported.</entry>
     <entry lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</entry>
     <entry lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</entry>
     <entry lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</entry>
