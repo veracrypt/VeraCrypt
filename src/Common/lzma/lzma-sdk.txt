@@ -1,4 +1,4 @@
-LZMA SDK 26.01
+LZMA SDK 26.02
 --------------
 
 LZMA SDK provides the documentation, samples, header files,

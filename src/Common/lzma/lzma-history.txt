@@ -1,6 +1,11 @@
 HISTORY of the LZMA SDK
 -----------------------
 
+26.02          2026-06-25
+-------------------------
+- Some bugs and vulnerabilities were fixed.
+
+
 26.01          2026-04-27
 -------------------------
 - linux version of 7-Zip can use huge pages (2 MB pages). It can increase compression
