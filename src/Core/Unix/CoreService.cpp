@@ -119,13 +119,27 @@ namespace VeraCrypt
 	static int OpenDoasAuthTerminal (string &slavePath)
 	{
 #ifdef O_CLOEXEC
+		bool fdCloseOnExec = true;
 		int fd = posix_openpt (O_RDWR | O_NOCTTY | O_CLOEXEC);
+		if (fd == -1 && errno == EINVAL)
+		{
+			// Some systems, including OpenBSD, only accept the POSIX
+			// pseudoterminal flags here. Set close-on-exec below instead.
+			fdCloseOnExec = false;
+			fd = posix_openpt (O_RDWR | O_NOCTTY);
+		}
 #else
 		int fd = posix_openpt (O_RDWR | O_NOCTTY);
 #endif
 		throw_sys_sub_if (fd == -1, "posix_openpt");
 
-#ifndef O_CLOEXEC
+#ifdef O_CLOEXEC
+		if (!fdCloseOnExec && fcntl (fd, F_SETFD, FD_CLOEXEC) == -1)
+		{
+			close (fd);
+			throw SystemException (SRC_POS);
+		}
+#else
 		if (fcntl (fd, F_SETFD, FD_CLOEXEC) == -1)
 		{
 			close (fd);
