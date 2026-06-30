@@ -57,6 +57,32 @@ namespace VeraCrypt
 	// closing it can hang up the service controlling terminal.
 	static int DoasAuthTerminalFd = -1;
 
+	static void SetCloseOnExec (int fd, bool closeOnExec)
+	{
+		int flags = fcntl (fd, F_GETFD, 0);
+		throw_sys_if (flags == -1);
+
+		int newFlags = closeOnExec ? (flags | FD_CLOEXEC) : (flags & ~FD_CLOEXEC);
+		if (newFlags != flags)
+			throw_sys_if (fcntl (fd, F_SETFD, newFlags) == -1);
+	}
+
+	static void SetPipeCloseOnExec (Pipe &pipe)
+	{
+		SetCloseOnExec (pipe.PeekReadFD(), true);
+		SetCloseOnExec (pipe.PeekWriteFD(), true);
+	}
+
+	static void DupToStandardFd (int fd, int standardFd)
+	{
+		if (fd != standardFd)
+			throw_sys_if (dup2 (fd, standardFd) == -1);
+
+		// If fd already equals standardFd, dup2() is a no-op and does not clear
+		// FD_CLOEXEC. Clear it explicitly for all descriptors kept across exec.
+		SetCloseOnExec (standardFd, false);
+	}
+
 	static void RedirectStandardErrorToDevNull ()
 	{
 		int f = open ("/dev/null", O_WRONLY);
@@ -1007,6 +1033,9 @@ namespace VeraCrypt
 		unique_ptr <Pipe> inPipe (new Pipe());
 		unique_ptr <Pipe> outPipe (new Pipe());
 		Pipe errPipe;
+		SetPipeCloseOnExec (*inPipe);
+		SetPipeCloseOnExec (*outPipe);
+		SetPipeCloseOnExec (errPipe);
 
 		int forkedPid = fork();
 		throw_sys_if (forkedPid == -1);
@@ -1046,9 +1075,9 @@ namespace VeraCrypt
 					if (doasAuthTerminal != -1)
 						close (doasAuthTerminal);
 
-					throw_sys_if (dup2 (errPipe.GetWriteFD(), STDERR_FILENO) == -1);
-					throw_sys_if (dup2 (inPipe->GetReadFD(), STDIN_FILENO) == -1);
-					throw_sys_if (dup2 (outPipe->GetWriteFD(), STDOUT_FILENO) == -1);
+					DupToStandardFd (errPipe.GetWriteFD(), STDERR_FILENO);
+					DupToStandardFd (inPipe->GetReadFD(), STDIN_FILENO);
+					DupToStandardFd (outPipe->GetWriteFD(), STDOUT_FILENO);
 
 					const char *sudoArgs[] = { privilegeHelper.Path.c_str(), "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
 					const char *doasArgs[] = { privilegeHelper.Path.c_str(), appPath.c_str(), TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION, nullptr };
