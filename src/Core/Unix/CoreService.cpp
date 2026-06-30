@@ -73,6 +73,57 @@ namespace VeraCrypt
 		SetCloseOnExec (pipe.PeekWriteFD(), true);
 	}
 
+	static bool IsStandardFd (int fd)
+	{
+		return fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO;
+	}
+
+	static int DuplicateCloseOnExec (int fd)
+	{
+		int duplicateFd;
+#ifdef F_DUPFD_CLOEXEC
+		duplicateFd = fcntl (fd, F_DUPFD_CLOEXEC, STDERR_FILENO + 1);
+		if (duplicateFd != -1)
+			return duplicateFd;
+
+		if (errno != EINVAL)
+			throw SystemException (SRC_POS);
+#endif
+		duplicateFd = fcntl (fd, F_DUPFD, STDERR_FILENO + 1);
+		throw_sys_if (duplicateFd == -1);
+
+		try
+		{
+			SetCloseOnExec (duplicateFd, true);
+		}
+		catch (...)
+		{
+			close (duplicateFd);
+			throw;
+		}
+
+		return duplicateFd;
+	}
+
+	static void MoveFdAwayFromStandardFdsIfNeeded (int &fd)
+	{
+		if (fd != -1 && IsStandardFd (fd))
+			fd = DuplicateCloseOnExec (fd);
+	}
+
+	static void MoveFdAwayFromStandardFdIfNeeded (int &fd, int standardFd)
+	{
+		if (fd != standardFd)
+			MoveFdAwayFromStandardFdsIfNeeded (fd);
+	}
+
+	static void PrepareStandardFdMapping (int &stdinFd, int &stdoutFd, int &stderrFd)
+	{
+		MoveFdAwayFromStandardFdIfNeeded (stdinFd, STDIN_FILENO);
+		MoveFdAwayFromStandardFdIfNeeded (stdoutFd, STDOUT_FILENO);
+		MoveFdAwayFromStandardFdIfNeeded (stderrFd, STDERR_FILENO);
+	}
+
 	static void DupToStandardFd (int fd, int standardFd)
 	{
 		if (fd != standardFd)
@@ -544,17 +595,17 @@ namespace VeraCrypt
 		}
 	}
 
-	static void WaitForDoasAuthTerminalPrompt (int fd, vector <char> &authOutput, int timeout)
+	static bool WaitForDoasAuthTerminalPrompt (int fd, vector <char> &authOutput, int timeout)
 	{
 		const int pollInterval = 50;
 		int timeLeft = timeout;
 		int terminalFlags = fcntl (fd, F_GETFL, 0);
 		if (terminalFlags == -1)
-			return;
+			return false;
 
 		bool restoreFlags = (terminalFlags & O_NONBLOCK) == 0;
 		if (restoreFlags && fcntl (fd, F_SETFL, terminalFlags | O_NONBLOCK) == -1)
-			return;
+			return false;
 
 		while (timeLeft > 0)
 		{
@@ -580,7 +631,11 @@ namespace VeraCrypt
 			}
 
 			if ((pfd.revents & POLLIN) && ReadDoasAuthTerminalPromptData (fd, authOutput))
-				break;
+			{
+				if (restoreFlags)
+					fcntl (fd, F_SETFL, terminalFlags);
+				return true;
+			}
 
 			if (pfd.revents & (POLLERR | POLLNVAL))
 				break;
@@ -594,6 +649,8 @@ namespace VeraCrypt
 
 		if (restoreFlags)
 			fcntl (fd, F_SETFL, terminalFlags);
+
+		return false;
 	}
 #endif
 
@@ -1304,6 +1361,7 @@ namespace VeraCrypt
 
 		if (forkedPid == 0)
 		{
+			int childErrorFd = -1;
 			try
 			{
 				try
@@ -1319,16 +1377,16 @@ namespace VeraCrypt
 					}
 
 #if defined(TC_LINUX)
-                    // AppImage specific handling:
-                    // If running from an AppImage, use the path to the AppImage file itself for the privilege helper.
-                    const char* appImageEnv = getenv("APPIMAGE");
+					// AppImage specific handling:
+					// If running from an AppImage, use the path to the AppImage file itself for the privilege helper.
+					const char* appImageEnv = getenv("APPIMAGE");
 
 					if (Process::IsRunningUnderAppImage(appPath) && appImageEnv != NULL)
 					{
 						// The path to the AppImage file is stored in the APPIMAGE environment variable.
 						// We need to use this path for elevation to work correctly.
-                        appPath = appImageEnv;
-                    }
+						appPath = appImageEnv;
+					}
 #endif
 					bool useDoasAuthTerminal = privilegeHelper.IsDoas() && !useCallerDoasTerminal;
 #ifdef TC_OPENBSD
@@ -1340,6 +1398,16 @@ namespace VeraCrypt
 #else
 					bool keepDoasStderrOnAuthTerminal = false;
 #endif
+					int childStdinFd = inPipe->GetReadFD();
+					int childStdoutFd = outPipe->GetWriteFD();
+					childErrorFd = errPipe.GetWriteFD();
+						int childStderrFd = keepDoasStderrOnAuthTerminal ? -1 : childErrorFd;
+						PrepareStandardFdMapping (childStdinFd, childStdoutFd, childStderrFd);
+						if (keepDoasStderrOnAuthTerminal)
+							MoveFdAwayFromStandardFdsIfNeeded (childErrorFd);
+						else
+							childErrorFd = childStderrFd;
+
 					if (useDoasAuthTerminal)
 					{
 						AttachDoasAuthTerminal (doasAuthTerminalPath, keepDoasStderrOnAuthTerminal);
@@ -1349,9 +1417,9 @@ namespace VeraCrypt
 						close (doasAuthTerminal);
 
 					if (!keepDoasStderrOnAuthTerminal)
-						DupToStandardFd (errPipe.GetWriteFD(), STDERR_FILENO);
-					DupToStandardFd (inPipe->GetReadFD(), STDIN_FILENO);
-					DupToStandardFd (outPipe->GetWriteFD(), STDOUT_FILENO);
+						DupToStandardFd (childStderrFd, STDERR_FILENO);
+					DupToStandardFd (childStdinFd, STDIN_FILENO);
+					DupToStandardFd (childStdoutFd, STDOUT_FILENO);
 
 					const char *sudoArgs[] = { privilegeHelper.Path.c_str(), "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
 					const char *doasArgs[] = { privilegeHelper.Path.c_str(), appPath.c_str(), TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION, nullptr };
@@ -1377,7 +1445,7 @@ namespace VeraCrypt
 			{
 				try
 				{
-					shared_ptr <Stream> outputStream (new FileStream (errPipe.GetWriteFD()));
+					shared_ptr <Stream> outputStream (new FileStream (childErrorFd != -1 ? childErrorFd : errPipe.GetWriteFD()));
 					e.Serialize (outputStream);
 				}
 				catch (...) { }
@@ -1417,10 +1485,12 @@ namespace VeraCrypt
 		else if (doasAuthTerminal != -1 && !doasNoPasswordAttempt)
 		{
 			// doas reads authentication from the controlling terminal, not stdin.
+			bool writeDoasPassword = true;
 #ifdef TC_OPENBSD
-			WaitForDoasAuthTerminalPrompt (doasAuthTerminal, authOutput, 2000);
+			writeDoasPassword = WaitForDoasAuthTerminalPrompt (doasAuthTerminal, authOutput, timeout);
 #endif
-			WriteAllBestEffort (doasAuthTerminal, &adminPassword.front(), adminPassword.size(), 2000);
+			if (writeDoasPassword)
+				WriteAllBestEffort (doasAuthTerminal, &adminPassword.front(), adminPassword.size(), 2000);
 		}
 
 		burn (&adminPassword.front(), adminPassword.size());
