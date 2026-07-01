@@ -8,9 +8,9 @@
     <font lang="en" class="title" size="21" face="Times New Roman" />
     <entry lang="en" key="IDCANCEL">Cancel</entry>
     <entry lang="en" key="IDC_ALL_USERS">Install &amp;for all users</entry>
-    <entry lang="en" key="IDC_BROWSE">Bro&amp;wse...</entry>
+    <entry lang="en" key="IDC_BROWSE">Bro&amp;wse</entry>
     <entry lang="en" key="IDC_DESKTOP_ICON">Add VeraCrypt icon to &amp;desktop</entry>
-    <entry lang="en" key="IDC_DONATE">Donate now...</entry>
+    <entry lang="en" key="IDC_DONATE">Donate now</entry>
     <entry lang="en" key="IDC_FILE_TYPE">Associate the .hc file &amp;extension with VeraCrypt</entry>
     <entry lang="en" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Open the destination location when finished</entry>
     <entry lang="en" key="IDC_PROG_GROUP">Add VeraCrypt to &amp;Start menu</entry>
@@ -44,7 +44,7 @@
     <entry lang="en" key="IDC_KEYFILES_ENABLE">U&amp;se keyfiles</entry>
     <entry lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</entry>
     <entry lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</entry>
-    <entry lang="en" key="IDC_KEY_FILES">&amp;Keyfiles...</entry>
+    <entry lang="en" key="IDC_KEY_FILES">&amp;Keyfiles</entry>
     <entry lang="en" key="IDC_LINK_HASH_INFO">Information on hash algorithms</entry>
     <entry lang="en" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">More information</entry>
     <entry lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</entry>
@@ -108,8 +108,8 @@
     <entry lang="en" key="IDC_AUTORUN_START">&amp;Start VeraCrypt</entry>
     <entry lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</entry>
     <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</entry>
-    <entry lang="en" key="IDC_BROWSE_DIRS">Browse...</entry>
-    <entry lang="en" key="IDC_BROWSE_FILES">Browse...</entry>
+    <entry lang="en" key="IDC_BROWSE_DIRS">Browse</entry>
+    <entry lang="en" key="IDC_BROWSE_FILES">Browse</entry>
     <entry lang="en" key="IDC_CACHE">Cache passwords and keyfil&amp;es in memory</entry>
     <entry lang="en" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Exit when there are no mounted volumes</entry>
     <entry lang="en" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Close token session (log out) after a volume is successfully mounted</entry>
@@ -143,15 +143,15 @@
     <entry lang="en" key="IDC_HK_MOD_WIN">Win</entry>
     <entry lang="en" key="IDC_HOTKEY_ASSIGN">Assign</entry>
     <entry lang="en" key="IDC_HOTKEY_REMOVE">Remove</entry>
-    <entry lang="en" key="IDC_KEYFILES">Keyfiles...</entry>
+    <entry lang="en" key="IDC_KEYFILES">Keyfiles</entry>
     <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
-    <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>
+    <entry lang="en" key="IDC_MORE_SETTINGS">More Settings</entry>
     <entry lang="en" key="IDC_MOUNTALL">&amp;Auto-Mount Devices</entry>
-    <entry lang="en" key="IDC_MOUNT_OPTIONS">Mount Opti&amp;ons...</entry>
+    <entry lang="en" key="IDC_MOUNT_OPTIONS">Mount Opti&amp;ons</entry>
     <entry lang="en" key="IDC_MOUNT_READONLY">Mount volume as read-&amp;only</entry>
-    <entry lang="en" key="IDC_NEW_KEYFILES">Keyfiles...</entry>
+    <entry lang="en" key="IDC_NEW_KEYFILES">Keyfiles</entry>
     <entry lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for defaults)</entry>
     <entry lang="en" key="IDC_PIM_HELP">(Empty or 0 for defaults)</entry>
     <entry lang="en" key="IDC_PREF_BKG_TASK_ENABLE">Enabled</entry>
@@ -173,17 +173,17 @@
     <entry lang="en" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Wipe cached passwords on exit</entry>
     <entry lang="en" key="IDC_PRESERVE_TIMESTAMPS">Preserve modification timestamp of file containers</entry>
     <entry lang="en" key="IDC_RESET_HOTKEYS">Reset</entry>
-    <entry lang="en" key="IDC_SELECT_DEVICE">Select D&amp;evice...</entry>
-    <entry lang="en" key="IDC_SELECT_FILE">Select &amp;File...</entry>
-    <entry lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</entry>
+    <entry lang="en" key="IDC_SELECT_DEVICE">Select D&amp;evice</entry>
+    <entry lang="en" key="IDC_SELECT_FILE">Select &amp;File</entry>
+    <entry lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library</entry>
     <entry lang="en" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Display password</entry>
     <entry lang="en" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Display password</entry>
     <entry lang="en" key="IDC_TRAVEL_OPEN_EXPLORER">Open &amp;Explorer window for mounted volume</entry>
     <entry lang="en" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Cache password in driver memory</entry>
     <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="en" key="IDC_UNMOUNTALL">Unmount A&amp;ll</entry>
-    <entry lang="en" key="IDC_VOLUME_PROPERTIES">&amp;Volume Properties...</entry>
-    <entry lang="en" key="IDC_VOLUME_TOOLS">Volume &amp;Tools...</entry>
+    <entry lang="en" key="IDC_VOLUME_PROPERTIES">&amp;Volume Properties</entry>
+    <entry lang="en" key="IDC_VOLUME_TOOLS">Volume &amp;Tools</entry>
     <entry lang="en" key="IDC_WIPE_CACHE">&amp;Wipe Cache</entry>
     <entry lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</entry>
     <entry lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</entry>
@@ -198,63 +198,63 @@
     <entry lang="en" key="IDD_TRAVELER_DLG">VeraCrypt Traveler Disk Setup</entry>
     <entry lang="en" key="IDD_VOLUME_PROPERTIES">VeraCrypt Volume Properties</entry>
     <entry lang="en" key="IDM_ABOUT">About</entry>
-    <entry lang="en" key="IDM_ADD_REMOVE_VOL_KEYFILES">Add/Remove Keyfiles to/from Volume...</entry>
-    <entry lang="en" key="IDM_ADD_VOLUME_TO_FAVORITES">Add Mounted Volume to Favorites...</entry>
-    <entry lang="en" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Add Mounted Volume to System Favorites...</entry>
-    <entry lang="en" key="IDM_ANALYZE_SYSTEM_CRASH">Analyze a System Crash...</entry>
-    <entry lang="en" key="IDM_BACKUP_VOL_HEADER">Backup Volume Header...</entry>
-    <entry lang="en" key="IDM_BENCHMARK">Benchmark...</entry>
-    <entry lang="en" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm...</entry>
-    <entry lang="en" key="IDM_CHANGE_PASSWORD">Change Volume Password...</entry>
-    <entry lang="en" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm...</entry>
-    <entry lang="en" key="IDM_CHANGE_SYS_PASSWORD">Change Password...</entry>
+    <entry lang="en" key="IDM_ADD_REMOVE_VOL_KEYFILES">Add/Remove Keyfiles to/from Volume</entry>
+    <entry lang="en" key="IDM_ADD_VOLUME_TO_FAVORITES">Add Mounted Volume to Favorites</entry>
+    <entry lang="en" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Add Mounted Volume to System Favorites</entry>
+    <entry lang="en" key="IDM_ANALYZE_SYSTEM_CRASH">Analyze a System Crash</entry>
+    <entry lang="en" key="IDM_BACKUP_VOL_HEADER">Backup Volume Header</entry>
+    <entry lang="en" key="IDM_BENCHMARK">Benchmark</entry>
+    <entry lang="en" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm</entry>
+    <entry lang="en" key="IDM_CHANGE_PASSWORD">Change Volume Password</entry>
+    <entry lang="en" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm</entry>
+    <entry lang="en" key="IDM_CHANGE_SYS_PASSWORD">Change Password</entry>
     <entry lang="en" key="IDM_CLEAR_HISTORY">Clear Volume History</entry>
     <entry lang="en" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Close All Security Token Sessions</entry>
     <entry lang="en" key="IDM_CONTACT">Contact</entry>
-    <entry lang="en" key="IDM_CREATE_HIDDEN_OS">Create Hidden Operating System...</entry>
-    <entry lang="en" key="IDM_CREATE_RESCUE_DISK">Create Rescue Disk...</entry>
-    <entry lang="en" key="IDM_CREATE_VOLUME">Create New Volume...</entry>
-    <entry lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</entry>
-    <entry lang="en" key="IDM_DEFAULT_KEYFILES">Default Keyfiles...</entry>
-    <entry lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</entry>
-    <entry lang="en" key="IDM_DONATE">Donate now...</entry>
-    <entry lang="en" key="IDM_ENCRYPT_SYSTEM_DEVICE">Encrypt System Partition/Drive...</entry>
+    <entry lang="en" key="IDM_CREATE_HIDDEN_OS">Create Hidden Operating System</entry>
+    <entry lang="en" key="IDM_CREATE_RESCUE_DISK">Create Rescue Disk</entry>
+    <entry lang="en" key="IDM_CREATE_VOLUME">Create New Volume</entry>
+    <entry lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt</entry>
+    <entry lang="en" key="IDM_DEFAULT_KEYFILES">Default Keyfiles</entry>
+    <entry lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters</entry>
+    <entry lang="en" key="IDM_DONATE">Donate now</entry>
+    <entry lang="en" key="IDM_ENCRYPT_SYSTEM_DEVICE">Encrypt System Partition/Drive</entry>
     <entry lang="en" key="IDM_FAQ">Frequently Asked Questions</entry>
     <entry lang="en" key="IDM_HELP">User's Guide</entry>
     <entry lang="en" key="IDM_HOMEPAGE">&amp;Homepage </entry>
-    <entry lang="en" key="IDM_HOTKEY_SETTINGS">Hot Keys...</entry>
+    <entry lang="en" key="IDM_HOTKEY_SETTINGS">Hot Keys</entry>
     <entry lang="en" key="IDM_KEYFILE_GENERATOR">Keyfile Generator</entry>
-    <entry lang="en" key="IDM_LANGUAGE">Language...</entry>
+    <entry lang="en" key="IDM_LANGUAGE">Language</entry>
     <entry lang="en" key="IDM_LICENSE">Legal Notices</entry>
-    <entry lang="en" key="IDM_MANAGE_TOKEN_KEYFILES">Manage Security Token Keyfiles...</entry>
+    <entry lang="en" key="IDM_MANAGE_TOKEN_KEYFILES">Manage Security Token Keyfiles</entry>
     <entry lang="en" key="IDM_MOUNTALL">Auto-Mount All Device-Hosted Volumes</entry>
     <entry lang="en" key="IDM_MOUNT_FAVORITE_VOLUMES">Mount Favorite Volumes</entry>
-    <entry lang="en" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Mount Without Pre-Boot &amp;Authentication...</entry>
+    <entry lang="en" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Mount Without Pre-Boot &amp;Authentication</entry>
     <entry lang="en" key="IDM_MOUNT_VOLUME">Mount Volume</entry>
     <entry lang="en" key="IDM_MOUNT_VOLUME_OPTIONS">Mount Volume with Options</entry>
     <entry lang="en" key="IDM_NEWS">News</entry>
     <entry lang="en" key="IDM_ONLINE_HELP">Online Help</entry>
     <entry lang="en" key="IDM_ONLINE_TUTORIAL">Beginner's Tutorial</entry>
-    <entry lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</entry>
-    <entry lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</entry>
+    <entry lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes</entry>
+    <entry lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes</entry>
     <entry lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</entry>
     <entry lang="en" key="IDM_PERMANENTLY_DECRYPT_SYS">Permanently Decrypt System Partition/Drive</entry>
-    <entry lang="en" key="IDM_PREFERENCES">Preferences...</entry>
+    <entry lang="en" key="IDM_PREFERENCES">Preferences</entry>
     <entry lang="en" key="IDM_REFRESH_DRIVE_LETTERS">Refresh Drive Letters</entry>
-    <entry lang="en" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Remove All Keyfiles from Volume...</entry>
-    <entry lang="en" key="IDM_RESTORE_VOL_HEADER">Restore Volume Header...</entry>
+    <entry lang="en" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Remove All Keyfiles from Volume</entry>
+    <entry lang="en" key="IDM_RESTORE_VOL_HEADER">Restore Volume Header</entry>
     <entry lang="en" key="IDM_RESUME_INTERRUPTED_PROC">Resume Interrupted Process</entry>
-    <entry lang="en" key="IDM_SELECT_DEVICE">Select Device...</entry>
-    <entry lang="en" key="IDM_SELECT_FILE">Select File...</entry>
+    <entry lang="en" key="IDM_SELECT_DEVICE">Select Device</entry>
+    <entry lang="en" key="IDM_SELECT_FILE">Select File</entry>
     <entry lang="en" key="IDM_SYSENC_RESUME">Resume Interrupted Process</entry>
-    <entry lang="en" key="IDM_SYSENC_SETTINGS">System Encryption...</entry>
-    <entry lang="en" key="IDM_SYSTEM_ENCRYPTION_STATUS">Properties...</entry>
-    <entry lang="en" key="IDM_SYS_ENC_SETTINGS">Settings...</entry>
-    <entry lang="en" key="IDM_SYS_FAVORITES_SETTINGS">System Favorite Volumes...</entry>
+    <entry lang="en" key="IDM_SYSENC_SETTINGS">System Encryption</entry>
+    <entry lang="en" key="IDM_SYSTEM_ENCRYPTION_STATUS">Properties</entry>
+    <entry lang="en" key="IDM_SYS_ENC_SETTINGS">Settings</entry>
+    <entry lang="en" key="IDM_SYS_FAVORITES_SETTINGS">System Favorite Volumes</entry>
     <entry lang="en" key="IDM_TC_DOWNLOADS">Downloads</entry>
-    <entry lang="en" key="IDM_TEST_VECTORS">Test Vectors...</entry>
-    <entry lang="en" key="IDM_TOKEN_PREFERENCES">Security Tokens...</entry>
-    <entry lang="en" key="IDM_TRAVELER">Traveler Disk Setup...</entry>
+    <entry lang="en" key="IDM_TEST_VECTORS">Test Vectors</entry>
+    <entry lang="en" key="IDM_TOKEN_PREFERENCES">Security Tokens</entry>
+    <entry lang="en" key="IDM_TRAVELER">Traveler Disk Setup</entry>
     <entry lang="en" key="IDM_UNMOUNTALL">Unmount All Mounted Volumes</entry>
     <entry lang="en" key="IDM_UNMOUNT_VOLUME">Unmount Volume</entry>
     <entry lang="en" key="IDM_VERIFY_RESCUE_DISK">Verify Rescue Disk</entry>
@@ -302,21 +302,21 @@
     <entry lang="en" key="IDT_TRAVEL_ROOT">Create traveler disk files at (traveler disk root directory):</entry>
     <entry lang="en" key="IDT_VOLUME">Volume</entry>
     <entry lang="en" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
-    <entry lang="en" key="IDC_ADD_KEYFILE_PATH">Add &amp;Path...</entry>
+    <entry lang="en" key="IDC_ADD_KEYFILE_PATH">Add &amp;Path</entry>
     <entry lang="en" key="IDC_AUTO">&amp;Auto-Test All</entry>
     <entry lang="en" key="IDC_CONTINUE">&amp;Continue</entry>
     <entry lang="en" key="IDC_DECRYPT">&amp;Decrypt</entry>
     <entry lang="en" key="IDC_DELETE">&amp;Delete</entry>
     <entry lang="en" key="IDC_ENCRYPT">&amp;Encrypt</entry>
-    <entry lang="en" key="IDC_EXPORT">&amp;Export...</entry>
-    <entry lang="en" key="IDC_GENERATE_AND_SAVE_KEYFILE">Generate and Save Keyfile...</entry>
-    <entry lang="en" key="IDC_GENERATE_KEYFILE">&amp;Generate Random Keyfile...</entry>
+    <entry lang="en" key="IDC_EXPORT">&amp;Export</entry>
+    <entry lang="en" key="IDC_GENERATE_AND_SAVE_KEYFILE">Generate and Save Keyfile</entry>
+    <entry lang="en" key="IDC_GENERATE_KEYFILE">&amp;Generate Random Keyfile</entry>
     <entry lang="en" key="IDC_GET_LANG_PACKS">Download language pack</entry>
     <entry lang="en" key="IDC_HW_AES_LABEL_LINK">Hardware-accelerated AES:</entry>
-    <entry lang="en" key="IDC_IMPORT_KEYFILE">&amp;Import Keyfile to Token...</entry>
-    <entry lang="en" key="IDC_KEYADD">Add &amp;Files...</entry>
+    <entry lang="en" key="IDC_IMPORT_KEYFILE">&amp;Import Keyfile to Token</entry>
+    <entry lang="en" key="IDC_KEYADD">Add &amp;Files</entry>
     <entry lang="en" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">U&amp;se keyfiles</entry>
-    <entry lang="en" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Keyfiles...</entry>
+    <entry lang="en" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Keyfiles</entry>
     <entry lang="en" key="IDC_KEYREMOVE">&amp;Remove</entry>
     <entry lang="en" key="IDC_KEYREMOVEALL">Remove &amp;All</entry>
     <entry lang="en" key="IDC_LINK_HIDVOL_PROTECTION_INFO">What is hidden volume protection?</entry>
@@ -329,7 +329,7 @@
     <entry lang="en" key="IDC_PROTECT_HIDDEN_VOL">&amp;Protect hidden volume against damage caused by writing to outer volume</entry>
     <entry lang="en" key="IDC_RESET">&amp;Reset</entry>
     <entry lang="en" key="IDC_SHOW_PASSWORD_MO">&amp;Display password</entry>
-    <entry lang="en" key="IDC_TOKEN_FILES_ADD">Add &amp;Token Files...</entry>
+    <entry lang="en" key="IDC_TOKEN_FILES_ADD">Add &amp;Token Files</entry>
     <entry lang="en" key="IDC_USE_EMBEDDED_HEADER_BAK">Use backup header embedded in &amp;volume if available</entry>
     <entry lang="en" key="IDC_XTS_MODE_ENABLED">XTS mode</entry>
     <entry lang="en" key="IDD_ABOUT_DLG">About VeraCrypt</entry>
@@ -384,7 +384,7 @@
     <entry lang="en" key="MENU_SETTINGS">Settin&amp;gs</entry>
     <entry lang="en" key="MENU_HELP">&amp;Help</entry>
     <entry lang="en" key="MENU_WEBSITE">   Home&amp;page   </entry>
-    <entry lang="en" key="ABOUTBOX">&amp;About...</entry>
+    <entry lang="en" key="ABOUTBOX">&amp;About</entry>
     <entry lang="en" key="ACCESSMODEFAIL">The read-only attribute on your old volume could not be changed. Please check the file access permissions.</entry>
     <entry lang="en" key="ACCESS_DENIED">Error: Access denied.\n\nThe partition you are trying to access is either 0 sectors long, or it is the boot device.</entry>
     <entry lang="en" key="ADMINISTRATOR">Administrator</entry>
@@ -978,9 +978,9 @@
     <entry lang="en" key="CANNOT_SET_TIMER">Error: Cannot set timer.</entry>
     <entry lang="en" key="IDPM_CHECK_FILESYS">Check Filesystem</entry>
     <entry lang="en" key="IDPM_REPAIR_FILESYS">Repair Filesystem</entry>
-    <entry lang="en" key="IDPM_ADD_TO_FAVORITES">Add to Favorites...</entry>
-    <entry lang="en" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Add to System Favorites...</entry>
-    <entry lang="en" key="IDPM_PROPERTIES">P&amp;roperties...</entry>
+    <entry lang="en" key="IDPM_ADD_TO_FAVORITES">Add to Favorites</entry>
+    <entry lang="en" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Add to System Favorites</entry>
+    <entry lang="en" key="IDPM_PROPERTIES">P&amp;roperties</entry>
     <entry lang="en" key="HIDDEN_VOL_PROTECTION">Hidden Volume Protected</entry>
     <entry lang="en" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">N/A</entry>
     <entry lang="en" key="UISTR_YES">Yes</entry>
@@ -1289,8 +1289,8 @@
     <entry lang="en" key="SETTING_REQUIRES_REBOOT">Note that this setting takes effect only after the operating system is restarted.</entry>
     <entry lang="en" key="COMMAND_LINE_ERROR">Error while parsing command line.</entry>
     <entry lang="en" key="RESCUE_DISK">Rescue Disk</entry>
-    <entry lang="en" key="SELECT_FILE_AND_MOUNT">Select &amp;File and Mount...</entry>
-    <entry lang="en" key="SELECT_DEVICE_AND_MOUNT">Select &amp;Device and Mount...</entry>
+    <entry lang="en" key="SELECT_FILE_AND_MOUNT">Select &amp;File and Mount</entry>
+    <entry lang="en" key="SELECT_DEVICE_AND_MOUNT">Select &amp;Device and Mount</entry>
     <entry lang="en" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">Allow only administrators to view and unmount system favorite volumes in VeraCrypt</entry>
     <entry lang="en" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Mount system favorite volumes when Windows starts (in the initial phase of the startup procedure)</entry>
     <entry lang="en" key="MOUNTED_VOLUME_DIRTY">Warning: The filesystem on the volume mounted as '%s' was not cleanly unmounted and thus may contain errors. Using a corrupted filesystem can cause data loss or data corruption.\n\nNote: Before you physically remove or switch off a device (such as a USB flash drive or an external hard drive) where a mounted VeraCrypt volume resides, you should always unmount the VeraCrypt volume in VeraCrypt first.\n\n\nDo you want Windows to attempt to detect and fix errors (if any) on the filesystem?</entry>
@@ -1375,7 +1375,7 @@
     <entry lang="en" key="GB_PER_SEC">GiB/s</entry>
     <entry lang="en" key="TB_PER_SEC">TiB/s</entry>
     <entry lang="en" key="PB_PER_SEC">PiB/s</entry>
-    <entry lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</entry>
+    <entry lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">...</entry>
     <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</entry>
     <entry lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</entry>
     <entry lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</entry>
@@ -1389,7 +1389,7 @@
     <entry lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</entry>
     <entry lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</entry>
     <entry lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</entry>
-    <entry lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</entry>
+    <entry lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard</entry>
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</entry>
     <entry lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</entry>
     <entry lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</entry>
@@ -1449,7 +1449,7 @@
     <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
     <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
     <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
+    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites</entry>
     <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
     <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
     <entry lang="en" key="TASKICON_PREF_UNMOUNT_VOL">Unmount Mounted Volumes</entry>
@@ -1481,7 +1481,7 @@
     <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (pre-boot authentication)</entry>
     <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
     <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
+    <entry lang="en" key="LINUX_SELECT">Se&amp;lect</entry>
     <entry lang="en" key="LINUX_UNMOUNT_ALL_WHEN">Unmount All Volumes When</entry>
     <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
     <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
@@ -1588,7 +1588,7 @@
     <entry lang="en" key="EXPANDER_FINISH_ABORT">Error: operation aborted by user.</entry>
     <entry lang="en" key="EXPANDER_FINISH_OK">Finished. Volume successfully expanded.</entry>
     <entry lang="en" key="EXPANDER_CANCEL_WARNING">Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?</entry>
-    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion ...\n</entry>
+    <entry lang="en" key="EXPANDER_STARTING_STATUS">Starting volume expansion...\n</entry>
     <entry lang="en" key="EXPANDER_HIDDEN_VOLUME_ERROR">An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.\n</entry>
     <entry lang="en" key="EXPANDER_SYSTEM_VOLUME_ERROR">A VeraCrypt system volume can't be expanded.</entry>
     <entry lang="en" key="EXPANDER_NO_FREE_SPACE">Not enough free space to expand the volume</entry>
@@ -1619,13 +1619,13 @@
     <entry lang="en" key="SCARD_W_REMOVED_CARD">No card in the reader.\n\nPlease make sure the card is correctly slotted.</entry>
     <entry lang="en" key="FORMAT_EXTERNAL_FAILED">Windows format.com command failed to format the volume as NTFS/exFAT/ReFS: Error 0x%.8X.\n\nFalling back to using Windows FormatEx API.</entry>
     <entry lang="en" key="FORMATEX_API_FAILED">Windows FormatEx API failed to format the volume as NTFS/exFAT/ReFS.\n\nFailure status = %s.</entry>
-    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header ...\n</entry>
-    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header ...\n</entry>
-    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume ...\n</entry>
-    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system ...\n</entry>
+    <entry lang="en" key="EXPANDER_WRITING_RANDOM_DATA">Writing random data to new space...\n</entry>
+    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Writing re-encrypted backup header...\n</entry>
+    <entry lang="en" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Writing re-encrypted primary header...\n</entry>
+    <entry lang="en" key="EXPANDER_WIPING_OLD_HEADER">Wiping old backup header...\n</entry>
+    <entry lang="en" key="EXPANDER_MOUNTING_VOLUME">Mounting volume...\n</entry>
+    <entry lang="en" key="EXPANDER_UNMOUNTING_VOLUME">Unmounting volume...\n</entry>
+    <entry lang="en" key="EXPANDER_EXTENDING_FILESYSTEM">Extending file system...\n</entry>
     <entry lang="en" key="PARTIAL_SYSENC_MOUNT_READONLY">Warning: The system partition you attempted to mount was not fully encrypted. As a safety measure to prevent potential corruption or unwanted modifications, volume '%s' was mounted as read-only.</entry>
     <entry lang="en" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Important information on using third-party file extensions</entry>
     <entry lang="en" key="IDC_DISABLE_MEMORY_PROTECTION">Disable memory protection for Accessibility tools compatibility</entry>
@@ -1651,7 +1651,7 @@
     <entry lang="en" key="ERR_KEY_DERIVATION_FAILED">Key derivation failed. This may be caused by insufficient memory or an interrupted operation.</entry>
     <entry lang="en" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">The system partition/drive is already decrypted, but the EFI Microsoft boot loader path was not restored to the Windows Boot Manager. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
     <entry lang="en" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">The system partition/drive is already decrypted, but the EFI fallback boot loader path still contains the VeraCrypt Boot Loader. Only the EFI boot files need repair. Use the VeraCrypt Rescue Disk repair option, or boot Windows recovery media and run 'bcdboot W:\\Windows /s S: /f UEFI' after replacing W: with the Windows volume drive letter and S: with the EFI System Partition drive letter. Path:</entry>
-    <entry lang="en" key="IDM_REPAIR_EFI_BOOT_LOADER">Repair EFI Boot Loader...</entry>
+    <entry lang="en" key="IDM_REPAIR_EFI_BOOT_LOADER">Repair EFI Boot Loader</entry>
     <entry lang="en" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt will restore the Windows EFI boot loader paths and remove VeraCrypt EFI boot entries and files.\n\nUse this only after the system partition/drive is fully decrypted and Windows can boot without system encryption.\n\nDo you want to continue?</entry>
     <entry lang="en" key="EFI_BOOT_LOADER_FILE_READ_FAILED">The EFI boot loader file could not be read completely:</entry>
     <entry lang="en" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">The EFI boot loader file is unexpectedly large and was not inspected:</entry>
