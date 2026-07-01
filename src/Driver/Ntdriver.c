@@ -3864,31 +3864,114 @@ void TCCloseFsVolume (HANDLE volumeHandle, PFILE_OBJECT fileObject)
 }
 
 
+#define TC_LOWER_DEVICE_IO_TIMEOUT_SECONDS 120
+
+typedef struct
+{
+	PDEVICE_OBJECT DeviceObject;
+	PIRP Irp;
+	PVOID Buffer;
+	KEVENT CompletionEvent;
+	IO_STATUS_BLOCK IoStatus;
+	volatile LONG Completed;
+	volatile LONG RefCount;
+} TC_LOWER_DEVICE_IO_CONTEXT;
+
+
+static VOID TCReleaseLowerDeviceIoContext (TC_LOWER_DEVICE_IO_CONTEXT *context)
+{
+	if (InterlockedDecrement (&context->RefCount) == 0)
+	{
+		IoFreeIrp (context->Irp);
+		ObDereferenceObject (context->DeviceObject);
+		TCfree (context->Buffer);
+		TCfree (context);
+	}
+}
+
+
+static NTSTATUS TCLowerDeviceIoCompletion (PDEVICE_OBJECT deviceObject, PIRP irp, PVOID completionContext)
+{
+	TC_LOWER_DEVICE_IO_CONTEXT *context = (TC_LOWER_DEVICE_IO_CONTEXT *) completionContext;
+
+	UNREFERENCED_PARAMETER (deviceObject);
+
+	context->IoStatus = irp->IoStatus;
+	InterlockedExchange (&context->Completed, TRUE);
+	KeSetEvent (&context->CompletionEvent, IO_DISK_INCREMENT, FALSE);
+	TCReleaseLowerDeviceIoContext (context);
+
+	return STATUS_MORE_PROCESSING_REQUIRED;
+}
+
+
 static NTSTATUS TCReadWriteDevice (BOOL write, PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length)
 {
 	NTSTATUS status;
-	IO_STATUS_BLOCK ioStatusBlock;
+	TC_LOWER_DEVICE_IO_CONTEXT *context;
 	PIRP irp;
-	KEVENT completionEvent;
+	LARGE_INTEGER waitTimeout;
+	ULONG_PTR bytesToCopy;
 
 	ASSERT (KeGetCurrentIrql() <= APC_LEVEL);
 
-	KeInitializeEvent (&completionEvent, NotificationEvent, FALSE);
-	irp = IoBuildSynchronousFsdRequest (write ? IRP_MJ_WRITE : IRP_MJ_READ, deviceObject, buffer, length, &offset, &completionEvent, &ioStatusBlock);
-	if (!irp)
+	if (length == 0)
+		return STATUS_SUCCESS;
+
+	context = TCalloc (sizeof (TC_LOWER_DEVICE_IO_CONTEXT));
+	if (!context)
 		return STATUS_INSUFFICIENT_RESOURCES;
 
-	ObReferenceObject (deviceObject);
-	status = IoCallDriver (deviceObject, irp);
-
-	if (status == STATUS_PENDING)
+	context->Buffer = TCalloc (length);
+	if (!context->Buffer)
 	{
-		status = KeWaitForSingleObject (&completionEvent, Executive, KernelMode, FALSE, NULL);
-		if (NT_SUCCESS (status))
-			status = ioStatusBlock.Status;
+		TCfree (context);
+		return STATUS_INSUFFICIENT_RESOURCES;
 	}
 
-	ObDereferenceObject (deviceObject);
+	if (write)
+		memcpy (context->Buffer, buffer, length);
+
+	KeInitializeEvent (&context->CompletionEvent, NotificationEvent, FALSE);
+	context->RefCount = 2;
+	context->DeviceObject = deviceObject;
+	ObReferenceObject (deviceObject);
+
+	irp = IoBuildAsynchronousFsdRequest (write ? IRP_MJ_WRITE : IRP_MJ_READ, deviceObject, context->Buffer, length, &offset, &context->IoStatus);
+	if (!irp)
+	{
+		ObDereferenceObject (deviceObject);
+		TCfree (context->Buffer);
+		TCfree (context);
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+
+	context->Irp = irp;
+	IoSetCompletionRoutine (irp, TCLowerDeviceIoCompletion, context, TRUE, TRUE, TRUE);
+
+	status = IoCallDriver (deviceObject, irp);
+
+	if (!InterlockedCompareExchange (&context->Completed, FALSE, FALSE))
+	{
+		waitTimeout.QuadPart = -((LONGLONG) TC_LOWER_DEVICE_IO_TIMEOUT_SECONDS * 1000 * 10000);
+		status = KeWaitForSingleObject (&context->CompletionEvent, Executive, KernelMode, FALSE, &waitTimeout);
+		if (status == STATUS_TIMEOUT)
+		{
+			Dump ("Lower device %s timeout: offset=%I64d length=%u\n", write ? "write" : "read", offset.QuadPart, length);
+			IoCancelIrp (irp);
+			TCReleaseLowerDeviceIoContext (context);
+			return STATUS_IO_TIMEOUT;
+		}
+	}
+
+	status = context->IoStatus.Status;
+	if (NT_SUCCESS (status) && !write)
+	{
+		bytesToCopy = context->IoStatus.Information < length ? context->IoStatus.Information : length;
+		memcpy (buffer, context->Buffer, (SIZE_T) bytesToCopy);
+	}
+
+	TCReleaseLowerDeviceIoContext (context);
 	return status;
 }
 
