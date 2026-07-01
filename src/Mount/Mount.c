@@ -3572,6 +3572,12 @@ static wchar_t PasswordDlgVolume[MAX_PATH + 1];
 static BOOL PasswordDialogDisableMountOptions;
 static char *PasswordDialogTitleStringId;
 
+static void UpdatePasswordDlgPasswordLabel (HWND hwndDlg)
+{
+	SetDlgItemTextW (hwndDlg, IDT_PASSWORD,
+		GetString (!PasswordDialogDisableMountOptions && mountOptions.ProtectHiddenVolume ? "IDT_OUTER_VOL_PASSWORD" : "IDT_PASSWORD"));
+}
+
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
    not. - see DialogProc */
@@ -3591,6 +3597,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			pkcs5 = ((PasswordDlgParam *) lParam) -> pkcs5;
 			pim = ((PasswordDlgParam *) lParam) -> pim;
 			LocalizeDialog (hwndDlg, "IDD_PASSWORD_DLG");
+			UpdatePasswordDlgPasswordLabel (hwndDlg);
 			DragAcceptFiles (hwndDlg, TRUE);
 
 			if (PasswordDialogTitleStringId)
@@ -3842,6 +3849,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			DialogBoxParamW (hInst,
 				MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwndDlg,
 				(DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions);
+			UpdatePasswordDlgPasswordLabel (hwndDlg);
 
 			if (!bPrebootPasswordDlgMode && mountOptions.PartitionInInactiveSysEncScope)
 				SendMessage (hwndDlg, TC_APPMSG_PREBOOT_PASSWORD_MODE, 0, 0);
@@ -6618,7 +6626,8 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, MountAllDevicesThreadParam*
 			{
 				WCHAR szTmp[4096];
 
-				StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT"));
+				StringCbPrintfW (szTmp, sizeof(szTmp),
+					GetString (mountOptions.ProtectHiddenVolume ? "HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG" : (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT")));
 				if (CheckCapsLock (hwndDlg, TRUE))
 					StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
