@@ -195,6 +195,7 @@ NTSTATUS TCCompleteIrp (PIRP irp, NTSTATUS status, ULONG_PTR information);
 NTSTATUS TCCompleteDiskIrp (PIRP irp, NTSTATUS status, ULONG_PTR information);
 NTSTATUS ProbeRealDriveSize (PDEVICE_OBJECT driveDeviceObject, LARGE_INTEGER *driveSize);
 BOOL UserCanAccessDriveDevice ();
+BOOL IsOrderedFlushBarriersEnabled ();
 size_t GetCpuCount (WORD* pGroupCount);
 USHORT GetCpuGroup (size_t index);
 void SetThreadCpuGroupAffinity (USHORT index);

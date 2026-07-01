@@ -143,11 +143,17 @@ static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
 static BOOL EnableExtendedIoctlSupport = FALSE;
 static BOOL AllowTrimCommand = FALSE;
+static BOOL OrderedFlushBarriersEnabled = FALSE;
 static BOOL RamEncryptionActivated = FALSE;
 int EncryptionIoRequestCount = 0;
 int EncryptionItemCount = 0;
 int EncryptionFragmentSize = 0;
 int EncryptionMaxWorkItems = 0;
+
+BOOL IsOrderedFlushBarriersEnabled ()
+{
+	return OrderedFlushBarriersEnabled;
+}
 
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
 
@@ -626,7 +632,7 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 			return STATUS_PENDING;
 
 		case IRP_MJ_FLUSH_BUFFERS:
-			if (Extension->hDeviceFile == NULL || Extension->bReadOnly)
+			if (!OrderedFlushBarriersEnabled || Extension->hDeviceFile == NULL || Extension->bReadOnly)
 				return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
 
 			if (!EncryptedIoQueueIsRunning (&Extension->Queue))
@@ -4809,6 +4815,8 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 	NTSTATUS status;
 	uint32 flags = 0;
 
+	OrderedFlushBarriersEnabled = FALSE;
+
 	RtlInitUnicodeString (&name, L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\veracrypt");
 	status = TCReadRegistryKey (&name, TC_DRIVER_CONFIG_REG_VALUE_NAME, &data);
 
@@ -4849,6 +4857,7 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			EnableExtendedIoctlSupport = (flags & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL)? TRUE : FALSE;
 			AllowTrimCommand = (flags & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM)? TRUE : FALSE;
 			AllowWindowsDefrag = (flags & VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG)? TRUE : FALSE;
+			OrderedFlushBarriersEnabled = (flags & VC_DRIVER_CONFIG_ENABLE_ORDERED_FLUSH_BARRIERS)? TRUE : FALSE;
 		}
 		else
 			status = STATUS_INVALID_PARAMETER;

@@ -935,7 +935,7 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 		{
 			RestoreTimeStamp (Extension);
 		}
-		if (!Extension->bReadOnly)
+		if (!Extension->bReadOnly && IsOrderedFlushBarriersEnabled ())
 		{
 			IO_STATUS_BLOCK ioStatus;
 			NTSTATUS flushStatus = ZwFlushBuffersFile (Extension->hDeviceFile, &ioStatus);
