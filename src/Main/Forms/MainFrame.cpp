@@ -1627,23 +1627,23 @@ namespace VeraCrypt
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_mountfavorites = gtk_menu_item_new_with_label (LangString["IDM_MOUNT_FAVORITE_VOLUMES"]);
+				indicator_item_mountfavorites = gtk_menu_item_new_with_label (LangString["IDM_MOUNT_FAVORITE_VOLUMES"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_mountfavorites);
 				g_signal_connect (indicator_item_mountfavorites, "activate", G_CALLBACK (IndicatorOnMountAllFavoritesMenuItemSelected), this);
 
-				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_UNMOUNT_ALL"]);
+				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_UNMOUNT_ALL"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_dismountall);
 				g_signal_connect (indicator_item_dismountall, "activate", G_CALLBACK (IndicatorOnDismountAllMenuItemSelected), this);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_prefs = gtk_menu_item_new_with_label (LangString["IDM_PREFERENCES"]);
+				indicator_item_prefs = gtk_menu_item_new_with_label (LangString["IDM_PREFERENCES"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_prefs);
 				g_signal_connect (indicator_item_prefs, "activate", G_CALLBACK (IndicatorOnPreferencesMenuItemSelected), this);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_exit = gtk_menu_item_new_with_label (LangString["EXIT"]);
+				indicator_item_exit = gtk_menu_item_new_with_label (LangString["EXIT"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_exit);
 				g_signal_connect (indicator_item_exit, "activate", G_CALLBACK (IndicatorOnExitMenuItemSelected), this);
 
