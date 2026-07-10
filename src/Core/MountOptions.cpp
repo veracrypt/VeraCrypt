@@ -26,6 +26,7 @@ namespace VeraCrypt
 		TC_CLONE (FilesystemType);
 #ifdef TC_LINUX
 		TC_CLONE (MountNtfsWithKernelDriver);
+		TC_CLONE (MountExfatWithKernelDriver);
 #endif
 		TC_CLONE_SHARED (KeyfileList, Keyfiles);
 		TC_CLONE_SHARED (DirectoryPath, MountPoint);
@@ -68,6 +69,7 @@ namespace VeraCrypt
 		sr.Deserialize ("FilesystemType", FilesystemType);
 #ifdef TC_LINUX
 		sr.Deserialize ("MountNtfsWithKernelDriver", MountNtfsWithKernelDriver);
+		sr.Deserialize ("MountExfatWithKernelDriver", MountExfatWithKernelDriver);
 #endif
 
 		Keyfiles = Keyfile::DeserializeList (stream, "Keyfiles");
@@ -142,6 +144,7 @@ namespace VeraCrypt
 		sr.Serialize ("FilesystemType", FilesystemType);
 #ifdef TC_LINUX
 		sr.Serialize ("MountNtfsWithKernelDriver", MountNtfsWithKernelDriver);
+		sr.Serialize ("MountExfatWithKernelDriver", MountExfatWithKernelDriver);
 #endif
 		Keyfile::SerializeList (stream, "Keyfiles", Keyfiles);
 

@@ -87,6 +87,9 @@ namespace VeraCrypt
 		void ResolveNtfsKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver,
 			wstring &filesystemType, bool &internalMountOnly) const;
 		string SelectNtfsKernelFilesystemType () const;
+		void ResolveExfatKernelMountOptions (const DevicePath &devicePath, bool mountExfatWithKernelDriver,
+			wstring &filesystemType, bool &internalMountOnly) const;
+		string SelectExfatKernelFilesystemType () const;
 #endif
 
 	private:

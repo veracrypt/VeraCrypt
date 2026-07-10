@@ -553,6 +553,7 @@ namespace VeraCrypt
 		EX2MSG (InvalidSecurityTokenKeyfilePath,	LangString["INVALID_TOKEN_KEYFILE_PATH"]);
 		EX2MSG (HigherVersionRequired,				LangString["NEW_VERSION_REQUIRED"]);
 		EX2MSG (KernelCryptoServiceTestFailed,		LangString["LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED"]);
+		EX2MSG (KernelExfatDriverUnavailable,		LangString["LINUX_KERNEL_EXFAT_DRIVER_UNAVAILABLE"]);
 		EX2MSG (KernelNtfsDriverUnavailable,		LangString["LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE"]);
 		EX2MSG (KeyfilePathEmpty,					LangString["ERR_KEYFILE_PATH_EMPTY"]);
 		EX2MSG (LoopDeviceSetupFailed,				LangString["LINUX_EX2MSG_LOOPDEVICESETUPFAILED"]);
@@ -1440,6 +1441,19 @@ const FileManager fileManagers[] = {
 					" selection. This can avoid suspend or hibernate hangs caused by frozen\n"
 					" user-space FUSE filesystems during kernel filesystem sync; use findmnt\n"
 					" to verify the actual mounted filesystem type.\n"
+					" Filesystem type 'kernel-exfat' mounts an exFAT volume using the\n"
+					" in-kernel exFAT driver, bypassing mount helpers such as exfat-fuse.\n"
+					" This selector is mount-only; use filesystem type 'exFAT' when\n"
+					" creating a new exFAT volume. The Linux preference \"Mount exFAT\n"
+					" volumes with an in-kernel Linux driver\" is disabled by default.\n"
+					" When enabled, VeraCrypt probes the decrypted virtual device with\n"
+					" blkid -p and uses the in-kernel exFAT driver only when exFAT is\n"
+					" detected and no explicit filesystem type was supplied. The mount\n"
+					" option -m kernelexfat enables the same detected-exFAT selection for\n"
+					" the current mount; use --filesystem=kernel-exfat to force\n"
+					" kernel-driver selection. If no in-kernel exFAT driver is available,\n"
+					" mounting fails instead of falling back to exfat-fuse. If detection\n"
+					" fails, VeraCrypt uses the normal automatic filesystem selection.\n"
 #endif
 					"\n"
 					"--force\n"
@@ -1493,6 +1507,8 @@ const FileManager fileManagers[] = {
 					"   to mean that this option does not work).\n"
 #ifdef TC_LINUX
 					"  kernelntfs: Use an available in-kernel NTFS driver when NTFS is\n"
+					"   detected and no filesystem type was supplied.\n"
+					"  kernelexfat: Use the in-kernel exFAT driver when exFAT is\n"
 					"   detected and no filesystem type was supplied.\n"
 #endif
 					" See also option --fs-options.\n"
@@ -1600,6 +1616,9 @@ const FileManager fileManagers[] = {
 #ifdef TC_LINUX
 					"Mount an NTFS volume using a Linux in-kernel NTFS driver:\n"
 					"veracrypt -t --filesystem=kernel-ntfs volume.hc /media/veracrypt1\n"
+					"\n"
+					"Mount an exFAT volume using the Linux in-kernel exFAT driver:\n"
+					"veracrypt -t --filesystem=kernel-exfat volume.hc /media/veracrypt1\n"
 					"\n"
 #endif
 					"Unmount a volume:\n"
@@ -1892,6 +1911,7 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (EncryptedSystemRequired);
 		VC_CONVERT_EXCEPTION (HigherFuseVersionRequired);
 		VC_CONVERT_EXCEPTION (KernelCryptoServiceTestFailed);
+		VC_CONVERT_EXCEPTION (KernelExfatDriverUnavailable);
 		VC_CONVERT_EXCEPTION (KernelNtfsDriverUnavailable);
 		VC_CONVERT_EXCEPTION (LoopDeviceSetupFailed);
 		VC_CONVERT_EXCEPTION (MountPointRequired);

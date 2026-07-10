@@ -128,6 +128,19 @@ namespace VeraCrypt
 		FilesystemSizer->Add (kernelNtfsPreferenceSizer, 0, wxALL, 5);
 
 		MountNtfsWithKernelDriverCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.MountNtfsWithKernelDriver));
+
+		wxBoxSizer *kernelExfatPreferenceSizer = new wxBoxSizer (wxHORIZONTAL);
+		MountExfatWithKernelDriverCheckBox = new wxCheckBox (FilesystemSizer->GetStaticBox(), wxID_ANY, LangString["LINUX_PREF_MOUNT_EXFAT_WITH_KERNEL_DRIVER"]);
+		MountExfatWithKernelDriverCheckBox->SetToolTip (LangString["LINUX_PREF_MOUNT_EXFAT_WITH_KERNEL_DRIVER_HELP"]);
+		kernelExfatPreferenceSizer->Add (MountExfatWithKernelDriverCheckBox, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+
+		wxWindow *kernelExfatHelpIcon = new KernelNtfsHelpIconWindow (FilesystemSizer->GetStaticBox());
+		kernelExfatHelpIcon->SetToolTip (LangString["LINUX_PREF_MOUNT_EXFAT_WITH_KERNEL_DRIVER_HELP"]);
+		kernelExfatPreferenceSizer->Add (kernelExfatHelpIcon, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 10);
+
+		FilesystemSizer->Add (kernelExfatPreferenceSizer, 0, wxALL, 5);
+
+		MountExfatWithKernelDriverCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.MountExfatWithKernelDriver));
 #endif
 
 		int index, prfInitialIndex = 0;
