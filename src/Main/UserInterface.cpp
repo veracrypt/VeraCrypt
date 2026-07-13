@@ -1442,7 +1442,7 @@ const FileManager fileManagers[] = {
 					" user-space FUSE filesystems during kernel filesystem sync; use findmnt\n"
 					" to verify the actual mounted filesystem type.\n"
 					" Filesystem type 'kernel-exfat' mounts an exFAT volume using the\n"
-					" in-kernel exFAT driver, bypassing mount helpers such as exfat-fuse.\n"
+					" in-kernel exFAT driver, bypassing the mount.exfat-fuse helper.\n"
 					" This selector is mount-only; use filesystem type 'exFAT' when\n"
 					" creating a new exFAT volume. The Linux preference \"Mount exFAT\n"
 					" volumes with an in-kernel Linux driver\" is disabled by default.\n"
