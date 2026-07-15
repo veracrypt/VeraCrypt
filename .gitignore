@@ -36,6 +36,10 @@ src/Main/VeraCrypt
 src/Main/VeraCrypt.app
 src/Main/*.dmg
 src/Setup/MacOSX/*.pkg
+# macOS privileged helper build artifacts (binary + plists generated from templates)
+src/PrivilegedHelper/org.idrix.VeraCrypt.helper
+src/PrivilegedHelper/Helper-Info.plist
+src/PrivilegedHelper/Helper-Launchd.plist
 *.oo
 *.o.32
 *.o.64

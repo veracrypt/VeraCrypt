@@ -253,13 +253,23 @@ endif
 
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
 ifdef VC_LEGACY_BUILD
-	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.legacy.xml >$(APPNAME).app/Contents/Info.plist
+	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' -e 's/_TEAMID_/$(VC_OSX_TEAM_ID)/g' ../Build/Resources/MacOSX/Info.plist.legacy.xml >$(APPNAME).app/Contents/Info.plist
 else
-	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
+	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' -e 's/_TEAMID_/$(VC_OSX_TEAM_ID)/g' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 endif
+
+	# Build the SMJobBless privileged helper and embed it in the bundle at the
+	# location SMJobBless expects (Contents/Library/LaunchServices/<label>).
+	$(MAKE) -C $(BASE_DIR)/PrivilegedHelper -f PrivilegedHelper.make helper
+	mkdir -p $(APPNAME).app/Contents/Library/LaunchServices
+	cp $(BASE_DIR)/PrivilegedHelper/org.idrix.VeraCrypt.helper $(APPNAME).app/Contents/Library/LaunchServices/org.idrix.VeraCrypt.helper
+
 	chmod -R go-w $(APPNAME).app
 ifneq ("$(LOCAL_DEVELOPMENT_BUILD)","true")
-	codesign -s "Developer ID Application: IDRIX (Z933746L2S)" --timestamp $(APPNAME).app
+	# Sign inside-out: the nested helper first (hardened runtime + its own
+	# entitlements), then the application bundle.
+	codesign -s "$(VC_OSX_SIGN_IDENTITY)" --timestamp --options runtime --entitlements $(BASE_DIR)/Setup/MacOSX/VeraCryptHelper.entitlements.plist $(APPNAME).app/Contents/Library/LaunchServices/org.idrix.VeraCrypt.helper
+	codesign -s "$(VC_OSX_SIGN_IDENTITY)" --timestamp $(APPNAME).app
 endif
 
 install: prepare

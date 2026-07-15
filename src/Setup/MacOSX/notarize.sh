@@ -22,7 +22,23 @@ echo "Notarizing VeraCrypt ${VC_VERSION}..."
 cd "${SCRIPT_DIR}"
 
 xattr -rc "$BUNDLE_PATH"
+
+# Sign inside-out: the nested SMJobBless privileged helper first (hardened
+# runtime + its own minimal entitlements), then the application bundle. The
+# subsequent --deep app signing re-seals the bundle so its CodeResources record
+# the helper's signature.
+HELPER_PATH="$BUNDLE_PATH/Contents/Library/LaunchServices/org.idrix.VeraCrypt.helper"
+if [ -f "$HELPER_PATH" ]; then
+    codesign --timestamp --option runtime --force --entitlements "${SCRIPT_DIR}/VeraCryptHelper.entitlements.plist" --sign "${SIGNING_ID}" "$HELPER_PATH"
+fi
+
 codesign --timestamp --option runtime --deep --force --entitlements "${SCRIPT_DIR}/VeraCrypt.entitlements.plist" --sign "${SIGNING_ID}" "$BUNDLE_PATH"
+
+# Deep-verify the nested code (including the privileged helper) before packaging.
+codesign --verify --deep --strict --verbose=2 "$BUNDLE_PATH"
+if [ -f "$HELPER_PATH" ]; then
+    codesign --verify --strict --verbose=2 "$HELPER_PATH"
+fi
 
 # Check dependencies of the VeraCrypt binary
 VC_BINARY="$BUNDLE_PATH/Contents/MacOS/VeraCrypt"
