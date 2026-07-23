@@ -1793,6 +1793,22 @@ const FileManager fileManagers[] = {
 		}
 		catch (StringFormatterException&) { }
 
+		// FavoriteVolume::ToMountOptions
+		{
+			MountOptions options;
+			options.NoFilesystem = true;
+
+			FavoriteVolume favoriteWithMountPoint (VolumePath (wstring (L"dummy")), DirectoryPath (L"/media/veracrypt99"), 99, false, false);
+			favoriteWithMountPoint.ToMountOptions (options);
+			if (options.NoFilesystem || !options.MountPoint || options.MountPoint->IsEmpty())
+				throw TestFailed (SRC_POS);
+
+			FavoriteVolume favoriteWithoutMountPoint (VolumePath (wstring (L"dummy")), DirectoryPath (), 99, false, false);
+			favoriteWithoutMountPoint.ToMountOptions (options);
+			if (!options.NoFilesystem || options.MountPoint)
+				throw TestFailed (SRC_POS);
+		}
+
 		ShowInfo ("TESTS_PASSED");
 	}
 
