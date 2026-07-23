@@ -88,7 +88,10 @@ namespace VeraCrypt
 			options.NoFilesystem = true;
 		}
 		else
+		{
 			options.MountPoint.reset (new DirectoryPath (MountPoint));
+			options.NoFilesystem = false;
+		}
 
 		options.Path.reset (new VolumePath (Path));
 		options.PartitionInSystemEncryptionScope = System;
