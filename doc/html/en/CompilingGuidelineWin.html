@@ -107,8 +107,9 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
     <p>
 		<ol>
 			<li>
-				Download “nasm-2.08-installer.exe” at: <br>
-				<a href="https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/</a>
+				Download the installer of a recent NASM version (for example “nasm-2.16.03-installer-x64.exe”) at: <br>
+				<a href="https://www.nasm.us/pub/nasm/releasebuilds/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/</a> <br>
+				Recent NASM versions work; version 2.16.03 has been verified to assemble all VeraCrypt assembly sources without errors.
 			</li>
 			<li>
 				Run the file as administrator
@@ -139,8 +140,9 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
 					</li>
 					<li>
-						Click on "New" and add the following value: <br>
-						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\nasm</p>
+						Click on "New" and add the folder NASM was installed to, for example: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files\NASM</p>
+						(the 32-bit NASM installer uses "C:\Program Files (x86)\nasm" instead)
 					</li>
 					<li>
 						Close the windows by clicking on "OK"
@@ -167,16 +169,6 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 				C:\Program Files\YASM
 			</li>
 			<li>
-				Please download the prebuilt Win64 YASM zip archive at: <br>
-				<a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
-			</li>
-			<li>
-				Your browser might inform you that the file might be a security risk due to the low download rate or the unencrypted connection. Nevertheless, the official website is the most reliable source for this file, so we recommend to allow the download
-			</li>
-			<li>
-				Unzip the zip file and copy the files to “C:\Program Files\YASM”
-			</li>
-			<li>
 				Please download the file "Win64 .exe" at: <br>
 				<a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
 			</li>
@@ -187,7 +179,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 				Rename the file to “yasm.exe” and copy it to “C:\Program Files\YASM”
 			</li>
 			<li>
-				Add YASM to the path Variable and create a new system variable for YASM. This will make the command globally available on the command line. <br>
+				Add YASM to the path Variable. This will make the command globally available on the command line. <br>
 				<ol style="list-style-type: upper-roman;">
 					<li>
 						Open a file explorer
@@ -213,17 +205,6 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 						<p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
 					</li>
 					<li>
-						Close the top window by clicking on "OK"
-					</li>
-					<li>
-						Within the area of the system variables, please click on "New..." <br>
-						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
-					</li>
-					<li>
-						Fill out the form with the following values: <br>
-						<p style="font-family: 'Courier New', monospace;">Variable name: YASMPATH<br> Variable value: C:\Program Files\YASM</p>
-					</li>
-					<li>
 						Close the windows by clicking on "OK"
 					</li>
 				</ol>
@@ -231,8 +212,6 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 			<li>
 				To check if the configuration is working correctly, please open a command prompt and watch the output of the following command: <br>
 				<p style="font-family: 'Courier New', monospace;">yasm</p> <br>
-				and <br>
-				<p style="font-family: 'Courier New', monospace;">vsyasm</p> <br>
 				<img src="CompilingGuidelineWin/YasmCommandLine.jpg" width="50%">
 			</li>
 		</ol>
@@ -435,7 +414,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 				The compiling process should end with warnings, but without errors. Some projects should be skipped.
 			</li>
 			<li>
-				Please select "Release|Win32" as active configuration and build the solution to compile the Win32 setup/helper projects used by the release packaging scripts.
+				Please select "Release|Win32" as active configuration and build the solution to compile the Win32 setup/helper projects used by the release packaging scripts. The installer projects ("VeraCryptSetup.exe", "VeraCryptPortable.exe", "VeraCryptCOMRegBase.exe") are only built by this configuration, which is why this step is required in addition to the x64 build.
 			</li>
 			<li>
 				To build VeraCrypt drivers, select the "Driver" project and build it for "Release|x64" and "Release|ARM64".
@@ -444,7 +423,7 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
 				Build "ReleaseCustomEFI|x64" or "ReleaseCustomEFI|ARM64" only if you need the custom EFI/bootloader release configurations. These configurations include the Boot project and require the optional legacy BIOS bootloader tools listed above.
 			</li>
 			<li>
-				If you are using Build Tools for Visual Studio 2022 instead of the Visual Studio IDE, open "Developer Command Prompt for VS 2022" or "Developer PowerShell for VS 2022" as administrator, change to the VeraCrypt source root, and run the equivalent MSBuild commands:
+				If you are using Build Tools for Visual Studio 2022 instead of the Visual Studio IDE, open "Developer Command Prompt for VS 2022" or "Developer PowerShell for VS 2022", change to the VeraCrypt source root, and run the equivalent MSBuild commands (administrator rights are not required for compiling; they are only needed for the signing and certificate import steps below):
 				<br>
 				<code>
 					msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=x64 <br>
@@ -522,6 +501,24 @@ Below are the procedure steps. Clicking on any of the link takes directly to the
   <div class="texttohide">
     <p>
 		<ul>
+			<li>
+				<b>Common build errors and their causes</b> <br>
+				If a required component is missing, the build stops with one of the following errors. Each of them maps to a specific item of the component list above:
+				<ul>
+					<li>
+						<p style="font-family: 'Courier New', monospace;">error MSB8040: Spectre-mitigated libraries are required for this project</p>
+						The "Spectre-mitigated libs" components are not installed. In the Visual Studio Installer, under "Individual components", install "MSVC v143 - VS 2022 C++ x64/x86 Spectre-mitigated libs (Latest)" as well as the ATL and MFC variants "with Spectre Mitigations" for every architecture you build.
+					</li>
+					<li>
+						<p style="font-family: 'Courier New', monospace;">error C1083: Cannot open include file: 'atlbase.h' (or 'atlcomcli.h')</p>
+						The ATL components are not installed. In the Visual Studio Installer, under "Individual components", install "C++ ATL for latest v143 build tools" (and its Spectre variant) for every architecture you build.
+					</li>
+					<li>
+						<p style="font-family: 'Courier New', monospace;">error MSB8066: Custom build for 'Aes_hw_cpu.asm;...' exited with code 9009</p>
+						The assemblers cannot be found: "nasm.exe" and "yasm.exe" must both be available on the Path (exit code 9009 means "command not found"). Note that a command prompt or Visual Studio instance that was already open when you changed the Path variable does not see the new value - open a new one and build again.
+					</li>
+				</ul>
+			</li>
 			<li>
 				<b>This distribution package is damaged</b> <br>
 				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
