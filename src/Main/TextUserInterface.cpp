@@ -687,6 +687,23 @@ namespace VeraCrypt
 			} while (options->Path.IsEmpty());
 		}
 
+		// Normal file-hosted volumes replace their destination. Require explicit
+		// overwrite authorization, matching the graphical creation wizard.
+		if (options->Type == VolumeType::Normal
+			&& !options->Path.IsDevice()
+			&& FilesystemPath (wstring (options->Path)).IsFile()
+			&& !CmdLine->ArgForce)
+		{
+			wxString confirmMsg = wxString::Format (
+				LangString["OVERWRITEPROMPT"], wstring (options->Path).c_str());
+
+			if (Preferences.NonInteractive)
+				throw_err (confirmMsg);
+
+			if (!AskYesNo (confirmMsg, false, true))
+				throw UserAbort (SRC_POS);
+		}
+
 		if (options->Path.IsDevice())
 		{
 			foreach_ref (const HostDevice &drive, Core->GetHostDevices())
