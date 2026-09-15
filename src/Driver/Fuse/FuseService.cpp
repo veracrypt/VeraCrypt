@@ -846,6 +846,17 @@ namespace VeraCrypt
 
 		SignalHandlerPipe->GetWriteFD();
 
+#ifdef VC_MACOSX_FUSET
+		// FUSE-T bug workaround: Save PID so DismountVolume can forcefully terminate later
+		std::string pidFilePath = "/tmp/veracrypt_fuset_slot_" + std::to_string(FuseService::SlotNumber) + ".pid";
+		FILE* pidFile = fopen(pidFilePath.c_str(), "w");
+		if (pidFile)
+		{
+			fprintf(pidFile, "%d\n", getpid());
+			fclose(pidFile);
+		}
+#endif
+
 #ifdef VC_FUSE3
 		_exit (fuse_main (argc, argv, &fuse_service_oper, nullptr));
 #elif defined(TC_OPENBSD)

@@ -268,6 +268,36 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreMacOSX::DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles, bool syncVolumeInfo)
 	{
+		mountedVolume = CoreUnix::DismountVolume(mountedVolume, ignoreOpenFiles, syncVolumeInfo);
+
+
+#ifdef VC_MACOSX_FUSET
+		// FUSE-T bug workaround: Forcefully terminate the FUSE-T daemon process before 
+		// calling hdiutil detach. If left alive, it holds an open handle on the virtual device,
+		// causing hdiutil detach to throw a "resource busy" exception.
+		std::string pidFilePath = "/tmp/veracrypt_fuset_slot_" + std::to_string(mountedVolume->SlotNumber) + ".pid";
+		FILE* pidFile = fopen(pidFilePath.c_str(), "r");
+		if (pidFile)
+		{
+			pid_t fusePid = 0;
+			if (fscanf(pidFile, "%d", &fusePid) == 1 && fusePid > 0)
+			{
+				if (kill(fusePid, 0) == 0)
+				{
+					kill(fusePid, SIGTERM);
+					usleep(200000); 
+
+					if (kill(fusePid, 0) == 0)
+					{
+						kill(fusePid, SIGKILL); 
+					}
+				}
+			}
+			fclose(pidFile);
+			unlink(pidFilePath.c_str()); 
+		}
+#endif
+
 		if (!mountedVolume->AuxMountPoint.IsEmpty())
 		{
 			try
@@ -289,6 +319,8 @@ namespace VeraCrypt
 			try
 			{
 				Process::Execute ("/usr/bin/hdiutil", args);
+
+
 			}
 			catch (ExecutedProcessFailed &e)
 			{
@@ -326,6 +358,7 @@ namespace VeraCrypt
 			try
 			{
 				Process::Execute ("/sbin/umount", args);
+
 				break;
 			}
 			catch (ExecutedProcessFailed&)
