@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供合理的否认性。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，只需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">首页</a></li>
+	  <li><a href="Code.html">源代码</a></li>
+	  <li><a href="Downloads.html">下载</a></li>
+	  <li><a class="active" href="Documentation.html">文档</a></li>
+	  <li><a href="Donation.html">捐赠</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Command%20Line%20Usage.html">命令行使用</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Command%20Line%20Usage%20for%20Unix.html">Linux 和 macOS</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>Linux 和 macOS 命令行使用</h1>
+<p>本节适用于类 Unix 系统（包括 Linux 和 macOS）上的 VeraCrypt。Windows 命令行语法在 <a href="Command%20Line%20Usage%20for%20Windows.html">Windows 命令行使用</a>中单独记录。</p>
+<p>要在终端中显示已安装 VeraCrypt 版本的命令行帮助，请运行：</p>
+<p><code>veracrypt -t --help</code></p>
+<p><code>-t</code> 或 <code>--text</code> 选项选择文本用户界面，必须作为第一个参数指定。没有 <code>-t</code> 时，<code>veracrypt --help</code> 在图形用户界面可用时可能会显示图形帮助窗口。</p>
+
+<h4>语法</h4>
+<p><code>veracrypt [选项] 命令</code></p>
+<p><code>veracrypt [选项] 卷路径 [挂载目录]</code></p>
+<p>如果未指定显式命令但给出了卷路径，VeraCrypt 将挂载该卷。省略 <code>挂载目录</code> 时，VeraCrypt 使用默认挂载目录。</p>
+
+<h4>命令</h4>
+<table border="1" cellspacing="0" cellpadding="1">
+<tbody>
+<tr>
+<td><em>--auto-mount=devices|favorites</em></td>
+<td>自动挂载设备托管的卷、收藏卷，或在用逗号组合时同时挂载两者。</td>
+</tr>
+<tr>
+<td><em>--backup-headers [卷路径]</em></td>
+<td>将卷头备份到文件。命令行中未指定的必需值将向用户请求。</td>
+</tr>
+<tr>
+<td><em>-c</em> 或 <em>--create [卷路径]</em></td>
+<td>创建新卷。如果未在命令行中指定，大多数值将向用户请求。另请参阅 <em>--encryption</em>、<em>--filesystem</em>、<em>--hash</em>、<em>--keyfiles</em>、<em>--password</em>、<em>--pim</em>、<em>--random-source</em>、<em>--quick</em>、<em>--size</em> 和 <em>--volume-type</em>。</td>
+</tr>
+<tr>
+<td><em>--create-keyfile [文件路径]</em></td>
+<td>创建包含伪随机数据的新密钥文件。</td>
+</tr>
+<tr>
+<td><em>-C</em> 或 <em>--change [卷路径]</em></td>
+<td>更改卷密码、PIM、密钥文件和/或头密钥派生算法。另请参阅 <em>--hash</em>、<em>--new-hash</em>、<em>--new-keyfiles</em>、<em>--new-password</em>、<em>--new-pim</em>、<em>--password</em>、<em>--pim</em> 和 <em>--random-source</em>。</td>
+</tr>
+<tr>
+<td><em>-u</em> 或 <em>--unmount [已挂载卷]</em><br><em>-d</em> 或 <em>--dismount [已挂载卷]</em></td>
+<td>卸载已挂载的卷。如果未指定已挂载的卷，则卸载所有已挂载的 VeraCrypt 卷。<em>--dismount</em> 已弃用；请使用 <em>--unmount</em>。</td>
+</tr>
+<tr>
+<td><em>--delete-token-keyfiles</em></td>
+<td>从安全令牌删除密钥文件。</td>
+</tr>
+<tr>
+<td><em>--export-token-keyfile</em></td>
+<td>从安全令牌导出密钥文件。</td>
+</tr>
+<tr>
+<td><em>--import-token-keyfiles</em></td>
+<td>将密钥文件导入安全令牌。另请参阅 <em>--token-lib</em>。</td>
+</tr>
+<tr>
+<td><em>-l</em> 或 <em>--list [已挂载卷]</em></td>
+<td>显示已挂载的卷。默认情况下，仅显示卷路径、虚拟设备和挂载点。使用 <em>--verbose</em> 获取更多详细信息。</td>
+</tr>
+<tr>
+<td><em>--list-token-keyfiles</em></td>
+<td>显示所有可用的令牌密钥文件。</td>
+</tr>
+<tr>
+<td><em>--list-securitytoken-keyfiles</em></td>
+<td>显示所有可用的安全令牌密钥文件。</td>
+</tr>
+<tr>
+<td><em>--list-emvtoken-keyfiles</em></td>
+<td>显示所有可用的 EMV 令牌密钥文件。</td>
+</tr>
+<tr>
+<td><em>--mount [卷路径]</em></td>
+<td>交互式挂载卷。卷路径和缺失的选项将向用户请求。</td>
+</tr>
+<tr>
+<td><em>--restore-headers [卷路径]</em></td>
+<td>从嵌入式备份头或外部备份文件恢复卷头。</td>
+</tr>
+<tr>
+<td><em>--save-preferences</em></td>
+<td>保存用户偏好设置。</td>
+</tr>
+<tr>
+<td><em>--test</em></td>
+<td>测试加密和解密过程中使用的内部算法。</td>
+</tr>
+<tr>
+<td><em>--version</em></td>
+<td>显示 VeraCrypt 版本信息。</td>
+</tr>
+<tr>
+<td><em>--volume-properties [已挂载卷]</em></td>
+<td>显示已挂载卷的属性。</td>
+</tr>
+</tbody>
+</table>
+
+<h4>已挂载卷</h4>
+<p>已挂载的卷可以使用以下任一形式指定：</p>
+<ul>
+<li>加密 VeraCrypt 卷的路径。</li>
+<li>卷文件系统的挂载目录（如果已挂载）。</li>
+<li>已挂载卷的插槽号（与 <em>--slot</em> 一起使用时）。</li>
+</ul>
+
+<h4>选项</h4>
+<table border="1" cellspacing="0" cellpadding="1">
+<tbody>
+<tr>
+<td><em>--allow-insecure-mount</em></td>
+<td>允许将卷挂载到用户 <code>PATH</code> 中的挂载点。</td>
+</tr>
+<tr>
+<td><em>--allow-screencapture</em></td>
+<td>允许将 VeraCrypt 窗口包含在屏幕截图和屏幕录制中。此选项适用于 macOS 版本。</td>
+</tr>
+<tr>
+<td><em>--background-task</em></td>
+<td>启动 VeraCrypt 后台任务。</td>
+</tr>
+<tr>
+<td><em>--display-password</em></td>
+<td>输入时显示密码字符。</td>
+</tr>
+<tr>
+<td><em>--encryption=加密算法</em></td>
+<td>创建新卷时使用指定的加密算法。对于级联，请使用 VeraCrypt 显示的算法名称，例如 <code>AES-Twofish</code>。</td>
+</tr>
+<tr>
+<td><em>--explore</em></td>
+<td>挂载卷后打开文件管理器窗口。</td>
+</tr>
+<tr>
+<td><em>--filesystem=类型</em></td>
+<td>挂载或创建的文件系统类型。挂载时，该类型传递给系统挂载命令。<em>none</em> 禁用文件系统挂载或创建。在 Linux 上，<em>ntfs3</em> 固定内核 ntfs3 驱动程序并绕过挂载辅助程序，而 <em>kernel-ntfs</em> 选择可用的内核 NTFS 驱动程序（<em>ntfs</em> 或 <em>ntfs3</em>）。这些 Linux 驱动程序选择器仅用于挂载；创建新 NTFS 卷时请使用 <em>NTFS</em>。支持的创建类型取决于平台：Linux 支持 <em>FAT</em>、<em>Ext2</em>、<em>Ext3</em>、<em>Ext4</em>、<em>NTFS</em>、<em>exFAT</em> 和 <em>Btrfs</em>；macOS 支持 <em>FAT</em>、<em>HFS</em>/<em>HFS+</em>/<em>MacOsExt</em>、<em>exFAT</em> 和 <em>APFS</em>；FreeBSD 和 Solaris 版本支持 <em>FAT</em> 和 <em>UFS</em>。非 FAT 创建需要相应的系统格式化程序可用。</td>
+</tr>
+<tr>
+<td><em>-f</em> 或 <em>--force</em></td>
+<td>强制挂载正在使用的卷、卸载正在使用的卷，或覆盖文件。具体效果取决于操作系统。</td>
+</tr>
+<tr>
+<td><em>--fs-options=选项</em></td>
+<td>使用 <code>-o</code> 传递给系统挂载命令的文件系统挂载选项。此选项在 Linux 和其他支持的类 Unix 版本上可用，但在 macOS 上不可用。</td>
+</tr>
+<tr>
+<td><em>--hash=哈希算法</em></td>
+<td>挂载、创建卷或更改密码/密钥文件时使用指定的头密钥派生算法。此选项还在适用时指定随机数生成器的混合哈希。</td>
+</tr>
+<tr>
+<td><em>-h</em> 或 <em>--help</em></td>
+<td>显示详细的命令行帮助。</td>
+</tr>
+<tr>
+<td><em>-k 密钥文件1[,密钥文件2,...]</em> 或 <em>--keyfiles=密钥文件1[,密钥文件2,...]</em></td>
+<td>使用指定的密钥文件。指定目录时，将非递归地使用其中的所有文件。使用双逗号（<code>,,</code>）表示密钥文件名中包含逗号。存储在安全令牌上的密钥文件可以指定为 <code>token://slot/插槽号/file/文件名</code>；EMV 令牌密钥文件可以指定为 <code>emv://slot/插槽号</code>。使用 <code>-k ""</code> 禁用交互式密钥文件提示。</td>
+</tr>
+<tr>
+<td><em>--legacy-password-maxlength</em></td>
+<td>使用 64 UTF-8 字节的传统最大密码长度。</td>
+</tr>
+<tr>
+<td><em>--load-preferences</em></td>
+<td>在处理命令行选项之前加载用户偏好设置，允许命令行选项覆盖偏好设置。</td>
+</tr>
+<tr>
+<td><em>-m 选项1[,选项2,...]</em> 或 <em>--mount-options=选项1[,选项2,...]</em></td>
+<td>设置 VeraCrypt 卷挂载选项。支持的选项有 <em>headerbak</em>、<em>nokernelcrypto</em>、<em>readonly</em> 或 <em>ro</em>、<em>system</em> 以及 <em>timestamp</em> 或 <em>ts</em>。在 Linux 上，<em>kernelntfs</em> 在检测到 NTFS 且未提供文件系统类型时，为当前挂载启用内核 NTFS 驱动程序选择。</td>
+</tr>
+<tr>
+<td><em>--new-hash=哈希算法</em></td>
+<td>更改卷密码或密钥文件时设置新的头密钥派生算法。此选项与 <em>--change</em> 一起使用。</td>
+</tr>
+<tr>
+<td><em>--new-keyfiles=密钥文件1[,密钥文件2,...]</em></td>
+<td>更改卷密码或密钥文件时设置新的密钥文件。此选项与 <em>--change</em> 一起使用。</td>
+</tr>
+<tr>
+<td><em>--new-password=密码</em></td>
+<td>更改卷密码或密钥文件时设置新密码。此选项与 <em>--change</em> 一起使用。</td>
+</tr>
+<tr>
+<td><em>--new-pim=PIM</em></td>
+<td>更改卷密码或密钥文件时设置新的 PIM。此选项与 <em>--change</em> 一起使用。</td>
+</tr>
+<tr>
+<td><em>--no-size-check</em></td>
+<td>禁用验证请求的容器大小与可用磁盘空间的检查。</td>
+</tr>
+<tr>
+<td><em>--non-interactive</em></td>
+<td>不与用户交互。此选项仅在文本模式下支持。</td>
+</tr>
+<tr>
+<td><em>-p 密码</em> 或 <em>--password=密码</em></td>
+<td>使用指定的密码挂载或打开卷。空密码可以用 <code>-p ""</code> 指定。</td>
+</tr>
+<tr>
+<td><em>--pim=PIM</em></td>
+<td>使用指定的 PIM 挂载或打开卷。</td>
+</tr>
+<tr>
+<td><em>--protect-hidden=yes|no</em></td>
+<td>挂载外层卷时写保护隐藏卷。如果启用，VeraCrypt 使用隐藏卷凭据确定隐藏区域并保护其免受写入。</td>
+</tr>
+<tr>
+<td><em>--protection-hash=哈希算法</em></td>
+<td>为受 <em>--protect-hidden=yes</em> 保护的隐藏卷使用指定的头密钥派生算法。</td>
+</tr>
+<tr>
+<td><em>--protection-keyfiles=密钥文件1[,密钥文件2,...]</em></td>
+<td>为受 <em>--protect-hidden=yes</em> 保护的隐藏卷使用指定的密钥文件。</td>
+</tr>
+<tr>
+<td><em>--protection-password=密码</em></td>
+<td>为受 <em>--protect-hidden=yes</em> 保护的隐藏卷使用指定的密码。</td>
+</tr>
+<tr>
+<td><em>--protection-pim=PIM</em></td>
+<td>为受 <em>--protect-hidden=yes</em> 保护的隐藏卷使用指定的 PIM。</td>
+</tr>
+<tr>
+<td><em>--quick</em></td>
+<td>创建普通文件托管或设备托管卷时启用快速格式化。创建外层卷时请勿使用此选项。在文本模式下，VeraCrypt 无法推断普通卷是否打算成为外层卷。对于文件容器，快速格式化可能会创建稀疏或未写入的主机区域。分配行为取决于主机文件系统稀疏文件支持，如果主机文件系统空间不足，后续写入可能会失败。</td>
+</tr>
+<tr>
+<td><em>--random-source=文件</em></td>
+<td>使用指定的文件作为随机数据源，例如创建卷时。</td>
+</tr>
+<tr>
+<td><em>--slot=插槽</em></td>
+<td>挂载、卸载、列出或显示卷属性时使用指定的插槽号。</td>
+</tr>
+<tr>
+<td><em>--size=大小[K|KiB|M|MiB|G|GiB|T|TiB]</em> 或 <em>--size=max</em></td>
+<td>创建新卷时使用指定的大小。如果未指定后缀，则以字节为单位解释该值。<em>max</em> 使用所有可用的空闲空间。</td>
+</tr>
+<tr>
+<td><em>--stdin</em></td>
+<td>从标准输入读取密码。此选项只能与 <em>--non-interactive</em> 一起使用，不能与 <em>--password</em> 组合使用。</td>
+</tr>
+<tr>
+<td><em>-t</em> 或 <em>--text</em></td>
+<td>使用文本用户界面。此选项必须作为第一个参数指定。</td>
+</tr>
+<tr>
+<td><em>--token-lib=库路径</em></td>
+<td>使用指定的 PKCS #11 安全令牌库。</td>
+</tr>
+<tr>
+<td><em>--token-pin=PIN</em></td>
+<td>使用指定的安全令牌 PIN。</td>
+</tr>
+<tr>
+<td><em>--use-dummy-sudo-password</em></td>
+<td>在 <code>sudo</code> 中使用虚拟密码来检测 sudo 是否已经过身份验证。此选项在 Linux 和 FreeBSD 版本上可用。</td>
+</tr>
+<tr>
+<td><em>-v</em> 或 <em>--verbose</em></td>
+<td>启用详细输出。</td>
+</tr>
+<tr>
+<td><em>--volume-type=normal|hidden</em></td>
+<td>创建新卷时使用指定的卷类型。</td>
+</tr>
+</tbody>
+</table>
+
+<h4>安全说明</h4>
+<p>在命令行上传递密码、PIM、令牌 PIN 或隐藏卷保护密码可能不安全，因为命令行参数可能在进程列表、shell 历史记录或系统日志中可见。如果可能，请让 VeraCrypt 交互式地提示输入敏感值，或在适当时使用 <em>--stdin</em> 和 <em>--non-interactive</em>。用户还必须遵守 <a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a> 中列出的安全要求。</p>
+
+<h4>示例</h4>
+<p>使用文本用户界面创建新卷：</p>
+<p><code>veracrypt -t -c</code></p>
+<p>挂载卷：</p>
+<p><code>veracrypt volume.hc /media/veracrypt1</code></p>
+<p>使用密钥文件以只读方式挂载卷：</p>
+<p><code>veracrypt -m ro -k keyfile1,keyfile2 volume.hc /media/veracrypt1</code></p>
+<p>挂载卷但不挂载其文件系统：</p>
+<p><code>veracrypt --filesystem=none volume.hc</code></p>
+<p>使用 Linux 内核 NTFS 驱动程序挂载 NTFS 卷：</p>
+<p><code>veracrypt -t --filesystem=kernel-ntfs volume.hc /media/veracrypt1</code></p>
+<p>挂载卷时仅提示输入密码：</p>
+<p><code>veracrypt -t -k "" --pim=0 --protect-hidden=no volume.hc /media/veracrypt1</code></p>
+<p>非交互式挂载卷并从标准输入读取密码：</p>
+<p><code>printf '%s\n' "$VERACRYPT_PASSWORD" | veracrypt -t --non-interactive --stdin --pim=0 --protect-hidden=no volume.hc /media/veracrypt1</code></p>
+<p>列出已挂载卷的详细信息：</p>
+<p><code>veracrypt -t -v --list</code></p>
+<p>卸载卷：</p>
+<p><code>veracrypt -u volume.hc</code></p>
+<p>卸载所有已挂载的 VeraCrypt 卷：</p>
+<p><code>veracrypt -u</code></p>
+
+<h4>文本模式下创建隐藏卷</h4>
+<p>经验不足的用户应使用图形用户界面创建隐藏卷。使用文本用户界面时，必须遵循以下步骤：</p>
+<ol>
+<li>创建不带文件系统且不使用 <em>--quick</em> 的外层卷。</li>
+<li>在外层卷内创建隐藏卷。</li>
+<li>使用隐藏卷保护挂载外层卷。</li>
+<li>在外层卷的虚拟设备上创建文件系统。</li>
+<li>挂载新文件系统并填充数据。</li>
+<li>卸载外层卷。</li>
+</ol>
+<p>如果在任何步骤中触发了隐藏卷保护，请从第一步重新开始。</p>
+
+</div>
+</div><div class="ClearBoth"></div></body></html>
