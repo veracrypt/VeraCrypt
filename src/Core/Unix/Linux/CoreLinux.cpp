@@ -632,7 +632,7 @@ namespace VeraCrypt
 				bool internalMountOnly = false;
 				bool allowFilesystemTypeFallback = filesystemType.empty();
 
-				ResolveNtfsKernelMountOptions (nativeDevPath, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
+				ResolveKernelMountOptions (nativeDevPath, options.MountNtfsWithKernelDriver, options.MountExfatWithKernelDriver, filesystemType, internalMountOnly);
 				allowFilesystemTypeFallback = allowFilesystemTypeFallback && filesystemType.empty() && !internalMountOnly;
 
 				MountFilesystemWithFallback (nativeDevPath, *options.MountPoint,

@@ -84,9 +84,10 @@ namespace VeraCrypt
 		void MountFilesystemWithFallback (const DevicePath &devicePath, const DirectoryPath &mountPoint,
 			const string &filesystemType, bool allowFilesystemTypeFallback, bool readOnly,
 			const string &systemMountOptions, bool internalMountOnly) const;
-		void ResolveNtfsKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver,
+		void ResolveKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver, bool mountExfatWithKernelDriver,
 			wstring &filesystemType, bool &internalMountOnly) const;
 		string SelectNtfsKernelFilesystemType () const;
+		string SelectExfatKernelFilesystemType () const;
 #endif
 
 	private:

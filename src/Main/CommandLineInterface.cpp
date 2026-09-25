@@ -386,6 +386,15 @@ namespace VeraCrypt
 				}
 				else if (str.IsSameAs (L"exFAT", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
+				else if (str.IsSameAs (L"kernel-exfat", false)
+					|| str.IsSameAs (L"exfat-kernel", false))
+				{
+					if (ArgCommand == CommandId::CreateVolume)
+						throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
+
+					ArgMountOptions.FilesystemType = L"kernel-exfat";
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
+				}
 				else if (str.IsSameAs (L"Btrfs", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::Btrfs;
 #elif defined (TC_MACOSX)
@@ -487,6 +496,8 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 				else if (token == L"kernelntfs" || token == L"kernel-ntfs")
 					ArgMountOptions.MountNtfsWithKernelDriver = true;
+				else if (token == L"kernelexfat" || token == L"kernel-exfat")
+					ArgMountOptions.MountExfatWithKernelDriver = true;
 #endif
 #ifdef TC_WINDOWS
 				else if (token == L"removable" || token == L"rm")

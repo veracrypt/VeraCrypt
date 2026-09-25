@@ -941,11 +941,20 @@ namespace VeraCrypt
 		throw KernelNtfsDriverUnavailable (SRC_POS);
 	}
 
-	void CoreUnix::ResolveNtfsKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver,
+	string CoreUnix::SelectExfatKernelFilesystemType () const
+	{
+		// Require the mainline fs/exfat driver (5.7+); older kernels may register
+		// "exfat" via the staging driver or a vendor backport instead.
+		if (IsLinuxKernelVersionAtLeast (5, 7) && IsKernelFilesystemTypeAvailable ("exfat"))
+			return "exfat";
+
+		throw KernelExfatDriverUnavailable (SRC_POS);
+	}
+
+	void CoreUnix::ResolveKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver, bool mountExfatWithKernelDriver,
 		wstring &filesystemType, bool &internalMountOnly) const
 	{
 		string requestedFilesystemType = StringConverter::ToLower (StringConverter::ToSingle (filesystemType));
-		bool explicitKernelNtfsRequest = requestedFilesystemType == "kernel-ntfs" || requestedFilesystemType == "ntfs-kernel";
 
 		if (requestedFilesystemType == "ntfs3")
 		{
@@ -954,14 +963,36 @@ namespace VeraCrypt
 			return;
 		}
 
-		if (!explicitKernelNtfsRequest
-			&& !(mountNtfsWithKernelDriver
-				&& filesystemType.empty()
-				&& DetectFilesystemType (devicePath) == "ntfs"))
+		if (requestedFilesystemType == "kernel-ntfs" || requestedFilesystemType == "ntfs-kernel")
+		{
+			filesystemType = StringConverter::ToWide (SelectNtfsKernelFilesystemType());
+			internalMountOnly = true;
+			return;
+		}
+
+		// No ntfs3-style alias case here: exFAT's kernel driver name is just "exfat".
+		if (requestedFilesystemType == "kernel-exfat" || requestedFilesystemType == "exfat-kernel")
+		{
+			filesystemType = StringConverter::ToWide (SelectExfatKernelFilesystemType());
+			internalMountOnly = true;
+			return;
+		}
+
+		if (!filesystemType.empty() || (!mountNtfsWithKernelDriver && !mountExfatWithKernelDriver))
 			return;
 
-		filesystemType = StringConverter::ToWide (SelectNtfsKernelFilesystemType());
-		internalMountOnly = true;
+		string detectedFilesystemType = DetectFilesystemType (devicePath);
+
+		if (mountNtfsWithKernelDriver && detectedFilesystemType == "ntfs")
+		{
+			filesystemType = StringConverter::ToWide (SelectNtfsKernelFilesystemType());
+			internalMountOnly = true;
+		}
+		else if (mountExfatWithKernelDriver && detectedFilesystemType == "exfat")
+		{
+			filesystemType = StringConverter::ToWide (SelectExfatKernelFilesystemType());
+			internalMountOnly = true;
+		}
 	}
 
 	string CoreUnix::DetectLinuxMountFallbackFilesystemType (const DevicePath &devicePath) const
@@ -1356,7 +1387,7 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 			bool allowFilesystemTypeFallback = filesystemType.empty();
 
-			ResolveNtfsKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
+			ResolveKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, options.MountExfatWithKernelDriver, filesystemType, internalMountOnly);
 			allowFilesystemTypeFallback = allowFilesystemTypeFallback && filesystemType.empty() && !internalMountOnly;
 
 			MountFilesystemWithFallback (loopDev, *options.MountPoint,

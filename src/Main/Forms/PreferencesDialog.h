@@ -57,6 +57,7 @@ namespace VeraCrypt
 		KeyfilesPanel *DefaultKeyfilesPanel;
 #ifdef TC_LINUX
 		wxCheckBox *MountNtfsWithKernelDriverCheckBox;
+		wxCheckBox *MountExfatWithKernelDriverCheckBox;
 #endif
 #ifdef TC_MACOSX
 		wxCheckBox *DisableScreenProtectionCheckBox;
