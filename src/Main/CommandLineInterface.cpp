@@ -572,13 +572,15 @@ namespace VeraCrypt
 		if (parser.Found (L"protection-keyfiles", &str))
 		{
 			ArgMountOptions.ProtectionKeyfiles = ToKeyfileList (str);
-			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
+			if (ArgMountOptions.Protection != VolumeProtection::ReadOnly)
+				ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
 
 		if (parser.Found (L"protection-password", &str))
 		{
 			ArgMountOptions.ProtectionPassword = ToUTF8Password (str.c_str(), -1, ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize);
-			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
+			if (ArgMountOptions.Protection != VolumeProtection::ReadOnly)
+				ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
 
 		if (parser.Found (L"protection-pim", &str))
@@ -595,7 +597,8 @@ namespace VeraCrypt
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
 			ArgMountOptions.ProtectionPim = pim;
-			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
+			if (ArgMountOptions.Protection != VolumeProtection::ReadOnly)
+				ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
 
 		if (parser.Found (L"protection-hash", &str))
