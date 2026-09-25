@@ -91,65 +91,86 @@ namespace VeraCrypt
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options)
 		{
 			shared_ptr <VolumeInfo> mountedVolume;
-
-			if (!VolumePasswordCache::IsEmpty()
+			const bool useCachedPasswords = !VolumePasswordCache::IsEmpty()
 				&& (!options.Password || options.Password->IsEmpty())
-				&& (!options.Keyfiles || options.Keyfiles->empty()))
-			{
-				finally_do_arg (MountOptions*, &options, { if (finally_arg->Password) finally_arg->Password.reset(); });
+				&& (!options.Keyfiles || options.Keyfiles->empty());
+			MountOptions newOptions = options;
 
-				PasswordIncorrect passwordException;
-				foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
-				{
-					try
-					{
-						options.Password = password;
-						mountedVolume = CoreService::RequestMountVolume (options);
-						break;
-					}
-					catch (PasswordIncorrect &e)
-					{
-						passwordException = e;
-					}
-				}
-
-				if (!mountedVolume)
-					passwordException.Throw();
-			}
-			else
-			{
-				MountOptions newOptions = options;
-
+			// Resolve keyfiles in the application process, also when the outer password
+			// is cached. Token access must not initialize PC/SC in the core service
+			// before it forks FUSE.
+			if (!useCachedPasswords)
 				newOptions.Password = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled);
-				if (newOptions.Keyfiles)
-					newOptions.Keyfiles->clear();
+			if (newOptions.Keyfiles)
+				newOptions.Keyfiles->clear();
 
+			if (options.Protection == VolumeProtection::HiddenVolumeReadOnly)
 				newOptions.ProtectionPassword = Keyfile::ApplyListToPassword (options.ProtectionKeyfiles, options.ProtectionPassword, options.EMVSupportEnabled);
-				if (newOptions.ProtectionKeyfiles)
-					newOptions.ProtectionKeyfiles->clear();
+			else
+				newOptions.ProtectionPassword.reset();
+			if (newOptions.ProtectionKeyfiles)
+				newOptions.ProtectionKeyfiles->clear();
 
-				try
+			try
+			{
+				if (useCachedPasswords)
+				{
+					finally_do_arg (MountOptions*, &options, { if (finally_arg->Password) finally_arg->Password.reset(); });
+
+					PasswordIncorrect passwordException;
+					foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
+					{
+						try
+						{
+							newOptions.Password = password;
+							mountedVolume = CoreService::RequestMountVolume (newOptions);
+							break;
+						}
+						catch (ProtectionPasswordIncorrect&)
+						{
+							// The outer password was accepted; another cached password cannot
+							// correct the hidden-volume protection credentials.
+							throw;
+						}
+						catch (ProtectionPasswordKeyfilesIncorrect&)
+						{
+							throw;
+						}
+						catch (PasswordIncorrect &e)
+						{
+							passwordException = e;
+						}
+					}
+
+					if (!mountedVolume)
+						passwordException.Throw();
+				}
+				else
 				{
 					mountedVolume = CoreService::RequestMountVolume (newOptions);
 				}
-				catch (ProtectionPasswordIncorrect &e)
-				{
-					if (options.ProtectionKeyfiles && !options.ProtectionKeyfiles->empty())
-						throw ProtectionPasswordKeyfilesIncorrect (e.what());
-					throw;
-				}
-				catch (PasswordIncorrect &e)
-				{
-					if (options.Keyfiles && !options.Keyfiles->empty())
-						throw PasswordKeyfilesIncorrect (e.what());
-					throw;
-				}
+			}
+			catch (ProtectionPasswordIncorrect &e)
+			{
+				if (options.ProtectionKeyfiles && !options.ProtectionKeyfiles->empty())
+					throw ProtectionPasswordKeyfilesIncorrect (e.what());
+				throw;
+			}
+			catch (ProtectionPasswordKeyfilesIncorrect&)
+			{
+				throw;
+			}
+			catch (PasswordIncorrect &e)
+			{
+				if (options.Keyfiles && !options.Keyfiles->empty())
+					throw PasswordKeyfilesIncorrect (e.what());
+				throw;
+			}
 
-				if (options.CachePassword
-					&& ((options.Password && !options.Password->IsEmpty()) || (options.Keyfiles && !options.Keyfiles->empty())))
-				{
-					VolumePasswordCache::Store (*Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled));
-				}
+			if (!useCachedPasswords && options.CachePassword
+				&& ((options.Password && !options.Password->IsEmpty()) || (options.Keyfiles && !options.Keyfiles->empty())))
+			{
+				VolumePasswordCache::Store (*Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.EMVSupportEnabled));
 			}
 
 			VolumeEventArgs eventArgs (mountedVolume);
