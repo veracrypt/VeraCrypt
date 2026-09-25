@@ -79,6 +79,8 @@ namespace VeraCrypt
 		virtual wxString SizeToString (uint64 size) const;
 		virtual wxString SpeedToString (uint64 speed) const;
 		virtual void Test () const;
+		virtual void TestRandomNumberGenerator () const;
+		virtual void TestMountOptionsSerialization () const;
 		virtual wxString TimeSpanToString (uint64 seconds) const;
 		virtual bool VolumeHasUnrecommendedExtension (const VolumePath &path) const;
 		virtual void Yield () const = 0;

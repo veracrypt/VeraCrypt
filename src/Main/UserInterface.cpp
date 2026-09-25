@@ -29,6 +29,8 @@
 #include "Platform/SystemException.h"
 #include "Common/SecurityToken.h"
 #include "Volume/EncryptionTest.h"
+#include "Core/RandomNumberGenerator.h"
+#include "Platform/MemoryStream.h"
 #include "Application.h"
 #include "FavoriteVolume.h"
 #include "UserInterface.h"
@@ -1768,12 +1770,145 @@ const FileManager fileManagers[] = {
 		return s.str();
 	}
 
+	// The random number generator is what produces master keys and salts, yet nothing in
+	// --test ever started it, so none of it ran under CI: Start() carries the generator's
+	// own pool-mixing self-test, and that self-test only executed when the graphical or the
+	// text interface happened to start the generator.
+	void UserInterface::TestRandomNumberGenerator () const
+	{
+		if (RandomNumberGenerator::IsRunning())
+			throw TestFailed (SRC_POS);
+
+		Buffer first (32), second (32);
+
+		// Reading before the generator runs must be refused rather than return weak data
+		bool rejected = false;
+		try { RandomNumberGenerator::GetData (first); } catch (NotInitialized&) { rejected = true; }
+		if (!rejected)
+			throw TestFailed (SRC_POS);
+
+		// Feeding entropy in must be refused for the same reason. This guard is the only
+		// thing enforcing the invariant: Start() has seven call sites but Stop() only two,
+		// both in user-interface destructors, so "the generator runs while a dialog is still
+		// delivering mouse events" rests entirely on object destruction order. Without the
+		// guard the write lands on a null pool pointer and the process takes a SIGSEGV.
+		uint8 entropy[16];
+		memset (entropy, 0x5A, sizeof (entropy));
+
+		rejected = false;
+		try { RandomNumberGenerator::AddToPool (ConstBufferPtr (entropy, sizeof (entropy))); }
+		catch (NotInitialized&) { rejected = true; }
+		if (!rejected)
+			throw TestFailed (SRC_POS);
+
+		RandomNumberGenerator::Start();		// runs the built-in pool-mixing self-test
+
+		try
+		{
+			if (!RandomNumberGenerator::IsRunning())
+				throw TestFailed (SRC_POS);
+
+			RandomNumberGenerator::GetData (first);
+			RandomNumberGenerator::GetData (second);
+
+			// Consecutive reads must differ, and neither may come back all zero
+			if (first.Size() != second.Size() || memcmp (first.Ptr(), second.Ptr(), first.Size()) == 0)
+				throw TestFailed (SRC_POS);
+
+			bool allZero = true;
+			for (size_t i = 0; i < first.Size(); i++)
+			{
+				if (first[i] != 0)
+				{
+					allZero = false;
+					break;
+				}
+			}
+
+			if (allZero)
+				throw TestFailed (SRC_POS);
+
+			// A request larger than the pool is only legal when explicitly allowed
+			Buffer oversized (RandomNumberGenerator::PoolSize + 1);
+
+			rejected = false;
+			try { RandomNumberGenerator::GetData (oversized); } catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			RandomNumberGenerator::GetData (oversized, true);
+		}
+		catch (...)
+		{
+			RandomNumberGenerator::Stop();
+			throw;
+		}
+
+		RandomNumberGenerator::Stop();
+
+		if (RandomNumberGenerator::IsRunning())
+			throw TestFailed (SRC_POS);
+	}
+
+	// MountOptions is what the unprivileged process hands to the privileged core service.
+	// It carries the password, the PIM and -- most importantly -- the protection mode. A
+	// field lost in transit would mount a volume writable that the user asked to protect,
+	// with no error anywhere. The Serializer validates names positionally, so ordering
+	// matters as much as completeness. None of this was covered.
+	void UserInterface::TestMountOptionsSerialization () const
+	{
+		MountOptions original;
+
+		const uint8 secret[] = { 's', 'e', 'c', 'r', 'e', 't' };
+		original.Password = make_shared <VolumePassword> (secret, sizeof (secret));
+		original.Pim = 485;
+		original.Protection = VolumeProtection::HiddenVolumeReadOnly;
+		original.ProtectionPim = 191;
+		original.PreserveTimestamps = false;
+		original.CachePassword = true;
+		original.Removable = true;
+		original.NoFilesystem = true;
+		original.NoHardwareCrypto = true;
+		original.UseBackupHeaders = true;
+		original.SharedAccessAllowed = true;
+
+		shared_ptr <Stream> stream (new MemoryStream);
+		original.Serialize (stream);
+
+		shared_ptr <MountOptions> restored = Serializable::DeserializeNew <MountOptions> (stream);
+		if (!restored)
+			throw TestFailed (SRC_POS);
+
+		// The protection mode and its PIM must survive intact
+		if (restored->Protection != original.Protection || restored->ProtectionPim != original.ProtectionPim)
+			throw TestFailed (SRC_POS);
+
+		if (restored->Pim != original.Pim)
+			throw TestFailed (SRC_POS);
+
+		// The password must arrive byte-for-byte, or the volume simply will not open
+		if (!restored->Password || !(*restored->Password == *original.Password))
+			throw TestFailed (SRC_POS);
+
+		// Every boolean must keep its value; a silently defaulted flag is the dangerous case
+		if (restored->PreserveTimestamps != original.PreserveTimestamps
+			|| restored->CachePassword != original.CachePassword
+			|| restored->Removable != original.Removable
+			|| restored->NoFilesystem != original.NoFilesystem
+			|| restored->NoHardwareCrypto != original.NoHardwareCrypto
+			|| restored->UseBackupHeaders != original.UseBackupHeaders
+			|| restored->SharedAccessAllowed != original.SharedAccessAllowed)
+			throw TestFailed (SRC_POS);
+	}
+
 	void UserInterface::Test () const
 	{
 		if (!PlatformTest::TestAll())
 			throw TestFailed (SRC_POS);
 
 		EncryptionTest::TestAll();
+		TestRandomNumberGenerator();
+		TestMountOptionsSerialization();
 
 		// StringFormatter
 		if (static_cast<wstring>(StringFormatter (L"{9} {8} {7} {6} {5} {4} {3} {2} {1} {0} {{0}}", "1", L"2", '3', L'4', 5, 6, 7, 8, 9, 10)) != L"10 9 8 7 6 5 4 3 2 1 {0}")

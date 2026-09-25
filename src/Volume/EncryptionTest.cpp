@@ -22,6 +22,12 @@
 #include "EncryptionTest.h"
 #include "Pkcs5Kdf.h"
 #include "VolumeHeader.h"
+#include "VolumePasswordCache.h"
+#include "Keyfile.h"
+#include "VolumeInfo.h"
+#include "VolumeLayout.h"
+#include "Platform/File.h"
+#include "Platform/MemoryStream.h"
 
 namespace VeraCrypt
 {
@@ -85,6 +91,647 @@ namespace VeraCrypt
 		TestXtsAES();
 		TestXts();
 		TestPkcs5();
+		TestEdgeCases();
+		TestHashClasses();
+		TestKdfSelection();
+		TestVolumeHeaderRejection();
+		TestPasswordHandling();
+		TestKeyfileApplication();
+		TestVolumeInfoSerialization();
+		TestVolumeLayouts();
+	}
+
+	// The layouts decide where a header sits and how much of a host file is usable. Getting an
+	// offset wrong points header reads at the wrong bytes; getting a size wrong lets a volume
+	// claim space it does not own. None of the four layouts was ever instantiated by a test.
+	void EncryptionTest::TestVolumeLayouts ()
+	{
+		const uint64 hostSize = 100ULL * BYTES_PER_MB;
+
+		VolumeLayoutList all = VolumeLayout::GetAvailableLayouts();
+		if (all.size() < 4)
+			throw TestFailed (SRC_POS);
+
+		foreach_ref (VolumeLayout &layout, all)
+		{
+			if (layout.GetHeaderSize() == 0)
+				throw TestFailed (SRC_POS);
+
+			// A layout must offer at least one algorithm and one mode, otherwise nothing
+			// could ever be mounted with it
+			if (layout.GetSupportedEncryptionAlgorithms().empty()
+				|| layout.GetSupportedEncryptionModes().empty()
+				|| layout.GetSupportedKeyDerivationFunctions().empty())
+				throw TestFailed (SRC_POS);
+
+			// GetMaxDataSize is deliberately NotApplicable on the legacy and the
+			// system-encryption layout; where it is available it must not exceed the host
+			bool maxDataSizeApplicable = true;
+			uint64 maxDataSize = 0;
+			try { maxDataSize = layout.GetMaxDataSize (hostSize); }
+			catch (NotApplicable&) { maxDataSizeApplicable = false; }
+
+			if (maxDataSizeApplicable && maxDataSize > hostSize)
+				throw TestFailed (SRC_POS);
+
+			// GetDataOffset/GetDataSize read through Header on the V2 layouts, so a header
+			// has to be present first. GetHeader() creates one on demand, which is also the
+			// only guard against the null dereference at VolumeLayout.cpp:131/136/180/185 --
+			// those two accessors do not check, unlike the rest of the code base.
+			shared_ptr <VolumeHeader> header = layout.GetHeader();
+			if (!header)
+				throw TestFailed (SRC_POS);
+
+			// The data area has to fit inside the host
+			uint64 dataOffset = layout.GetDataOffset (hostSize);
+			uint64 dataSize = layout.GetDataSize (hostSize);
+
+			if (dataOffset > hostSize || dataSize > hostSize || dataOffset + dataSize > hostSize)
+				throw TestFailed (SRC_POS);
+
+			// A backup header, where one exists, must lie inside the host as well. Layouts
+			// without one report NotApplicable rather than a bogus offset.
+			if (layout.HasBackupHeader())
+			{
+				int backupOffset = layout.GetBackupHeaderOffset();
+				uint64 absolute = (backupOffset < 0)
+					? hostSize - (uint64) (-(int64) backupOffset)
+					: (uint64) backupOffset;
+
+				if (absolute >= hostSize)
+					throw TestFailed (SRC_POS);
+			}
+			else
+			{
+				bool notApplicable = false;
+				try { layout.GetBackupHeaderOffset(); } catch (NotApplicable&) { notApplicable = true; }
+				if (!notApplicable)
+					throw TestFailed (SRC_POS);
+			}
+		}
+
+		// Filtering by type must return only layouts of that type, and never more than all
+		VolumeType::Enum types[] = { VolumeType::Normal, VolumeType::Hidden };
+
+		for (size_t t = 0; t < array_capacity (types); t++)
+		{
+			VolumeType::Enum type = types[t];
+			VolumeLayoutList filtered = VolumeLayout::GetAvailableLayouts (type);
+			if (filtered.empty() || filtered.size() > all.size())
+				throw TestFailed (SRC_POS);
+
+			foreach_ref (const VolumeLayout &layout, filtered)
+			{
+				if (layout.GetType() != type)
+					throw TestFailed (SRC_POS);
+			}
+		}
+	}
+
+	// VolumeInfo crosses the IPC boundary to the privileged core service, carrying among other
+	// things the protection mode of a mounted volume. The Serializer validates field names
+	// positionally, so a reordering breaks the transfer as surely as a missing field does --
+	// and neither end had any test coverage.
+	void EncryptionTest::TestVolumeInfoSerialization ()
+	{
+		VolumeInfo original;
+
+		original.EncryptionAlgorithmBlockSize = 16;
+		original.EncryptionAlgorithmKeySize = 64;
+		original.EncryptionAlgorithmMinBlockSize = 16;
+		original.EncryptionAlgorithmName = L"AES-Twofish";
+		original.EncryptionModeName = L"XTS";
+		original.HiddenVolumeProtectionTriggered = true;
+		original.MinRequiredProgramVersion = 0x10b;
+		original.Pkcs5IterationCount = 500000;
+		original.Pkcs5PrfName = L"HMAC-SHA-512";
+		original.ProgramVersion = 0x126;
+		original.Protection = VolumeProtection::HiddenVolumeReadOnly;
+		original.SerialInstanceNumber = 0x0123456789abcdefULL;
+		original.Size = 1024ULL * 1024 * 1024;
+		original.Type = VolumeType::Hidden;
+
+		shared_ptr <Stream> stream (new MemoryStream);
+		original.Serialize (stream);
+
+		shared_ptr <VolumeInfo> restored = Serializable::DeserializeNew <VolumeInfo> (stream);
+		if (!restored)
+			throw TestFailed (SRC_POS);
+
+		// The protection mode is the field that matters most: losing it would silently mount
+		// a volume writable that the user asked to be protected
+		if (restored->Protection != original.Protection)
+			throw TestFailed (SRC_POS);
+
+		if (restored->HiddenVolumeProtectionTriggered != original.HiddenVolumeProtectionTriggered)
+			throw TestFailed (SRC_POS);
+
+		if (restored->Type != original.Type)
+			throw TestFailed (SRC_POS);
+
+		if (restored->Size != original.Size
+			|| restored->SerialInstanceNumber != original.SerialInstanceNumber
+			|| restored->Pkcs5IterationCount != original.Pkcs5IterationCount
+			|| restored->ProgramVersion != original.ProgramVersion
+			|| restored->MinRequiredProgramVersion != original.MinRequiredProgramVersion)
+			throw TestFailed (SRC_POS);
+
+		if (restored->EncryptionAlgorithmName != original.EncryptionAlgorithmName
+			|| restored->EncryptionModeName != original.EncryptionModeName
+			|| restored->Pkcs5PrfName != original.Pkcs5PrfName)
+			throw TestFailed (SRC_POS);
+
+		if (restored->EncryptionAlgorithmBlockSize != original.EncryptionAlgorithmBlockSize
+			|| restored->EncryptionAlgorithmKeySize != original.EncryptionAlgorithmKeySize
+			|| restored->EncryptionAlgorithmMinBlockSize != original.EncryptionAlgorithmMinBlockSize)
+			throw TestFailed (SRC_POS);
+	}
+
+	// Keyfiles are mixed into the password with a CRC32 cascade before key derivation, so a
+	// fault here weakens every key derived from that password without any visible symptom.
+	// The whole path was unexecuted. Temporary files are used because Keyfile::Apply reads
+	// from the filesystem; they are removed again even if an assertion fires.
+	void EncryptionTest::TestKeyfileApplication ()
+	{
+		const char *pathA = "veracrypt-test-keyfile-a.tmp";
+		const char *pathB = "veracrypt-test-keyfile-b.tmp";
+		const char *pathEmpty = "veracrypt-test-keyfile-empty.tmp";
+
+		struct TempFiles
+		{
+			const char *A, *B, *Empty;
+			~TempFiles ()
+			{
+				const char *paths[] = { A, B, Empty };
+				for (size_t i = 0; i < 3; i++)
+				{
+					try
+					{
+						File f;
+						f.Open (FilePath (paths[i]), File::OpenReadWrite);
+						f.Delete();
+					}
+					catch (...) { }
+				}
+			}
+		} cleanup = { pathA, pathB, pathEmpty };
+
+		// Two keyfiles with different content, and one that is empty
+		{
+			Buffer contentA (4096), contentB (4096);
+			for (size_t i = 0; i < contentA.Size(); i++)
+			{
+				contentA[i] = (uint8) (i * 3 + 1);
+				contentB[i] = (uint8) (i * 5 + 7);
+			}
+
+			File fileA;
+			fileA.Open (FilePath (pathA), File::CreateReadWrite);
+			fileA.Write (contentA);
+			fileA.Close();
+
+			File fileB;
+			fileB.Open (FilePath (pathB), File::CreateReadWrite);
+			fileB.Write (contentB);
+			fileB.Close();
+
+			File fileEmpty;
+			fileEmpty.Open (FilePath (pathEmpty), File::CreateReadWrite);
+			fileEmpty.Close();
+		}
+
+		const uint8 secret[] = { 'p', 'a', 's', 's', 'w', 'o', 'r', 'd' };
+		make_shared_auto (VolumePassword, password);
+		password->Set (secret, sizeof (secret));
+
+		// An absent or empty keyfile list must hand the password back untouched
+		{
+			shared_ptr <VolumePassword> unchanged = Keyfile::ApplyListToPassword (shared_ptr <KeyfileList> (), password);
+			if (!unchanged || !(*unchanged == *password))
+				throw TestFailed (SRC_POS);
+
+			shared_ptr <KeyfileList> emptyList (new KeyfileList);
+			unchanged = Keyfile::ApplyListToPassword (emptyList, password);
+			if (!unchanged || !(*unchanged == *password))
+				throw TestFailed (SRC_POS);
+		}
+
+		// Applying a keyfile must change the password, and do so reproducibly
+		shared_ptr <KeyfileList> listA (new KeyfileList);
+		listA->push_back (make_shared <Keyfile> (FilesystemPath (pathA)));
+
+		shared_ptr <VolumePassword> withA = Keyfile::ApplyListToPassword (listA, password);
+		if (!withA || *withA == *password)
+			throw TestFailed (SRC_POS);
+
+		shared_ptr <VolumePassword> withAAgain = Keyfile::ApplyListToPassword (listA, password);
+		if (!withAAgain || !(*withA == *withAAgain))
+			throw TestFailed (SRC_POS);
+
+		// Different keyfile content must produce a different password
+		{
+			shared_ptr <KeyfileList> listB (new KeyfileList);
+			listB->push_back (make_shared <Keyfile> (FilesystemPath (pathB)));
+
+			shared_ptr <VolumePassword> withB = Keyfile::ApplyListToPassword (listB, password);
+			if (!withB || *withA == *withB)
+				throw TestFailed (SRC_POS);
+		}
+
+		// A different base password must produce a different result from the same keyfile
+		{
+			const uint8 otherSecret[] = { 'p', 'a', 's', 's', 'w', 'o', 'r', 'e' };
+			make_shared_auto (VolumePassword, otherPassword);
+			otherPassword->Set (otherSecret, sizeof (otherSecret));
+
+			shared_ptr <VolumePassword> other = Keyfile::ApplyListToPassword (listA, otherPassword);
+			if (!other || *withA == *other)
+				throw TestFailed (SRC_POS);
+		}
+
+		// An empty keyfile carries no entropy and must be refused rather than ignored
+		{
+			shared_ptr <KeyfileList> listEmpty (new KeyfileList);
+			listEmpty->push_back (make_shared <Keyfile> (FilesystemPath (pathEmpty)));
+
+			bool rejected = false;
+			try { Keyfile::ApplyListToPassword (listEmpty, password); }
+			catch (InsufficientData&) { rejected = true; }
+
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+	}
+
+	// Passwords are held in a bounded in-memory cache and travel over the IPC channel to the
+	// privileged core service in serialised form. Neither the cache nor that round trip had
+	// ever been executed, so an oversized password, a full cache or a mangled transfer would
+	// all have gone unnoticed.
+	void EncryptionTest::TestPasswordHandling ()
+	{
+		// A password longer than the maximum is refused rather than truncated
+		{
+			Buffer oversized (VolumePassword::MaxSize + 1);
+			memset (oversized.Ptr(), 'x', oversized.Size());
+
+			bool rejected = false;
+			try
+			{
+				VolumePassword tooLong;
+				tooLong.Set (oversized.Ptr(), oversized.Size());
+			}
+			catch (PasswordTooLong&) { rejected = true; }
+
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+
+		// Serialising a password and reading it back must reproduce it exactly, because this
+		// is how it reaches the privileged service
+		{
+			const uint8 secret[] = { 'c', 'o', 'r', 'r', 'e', 'c', 't', '-', 'h', 'o', 'r', 's', 'e' };
+			VolumePassword original (secret, sizeof (secret));
+
+			shared_ptr <Stream> stream (new MemoryStream);
+			original.Serialize (stream);
+
+			// Serialize() writes a type header, so the counterpart is DeserializeNew rather
+			// than Deserialize -- the same call the core service uses on the receiving end
+			shared_ptr <VolumePassword> restored = Serializable::DeserializeNew <VolumePassword> (stream);
+
+			if (!restored || restored->Size() != original.Size() || !(*restored == original))
+				throw TestFailed (SRC_POS);
+
+			// A different password must not compare equal
+			const uint8 other[] = { 'c', 'o', 'r', 'r', 'e', 'c', 't', '-', 'h', 'o', 'r', 's', 'f' };
+			VolumePassword different (other, sizeof (other));
+			if (*restored == different)
+				throw TestFailed (SRC_POS);
+		}
+
+		// The cache is bounded, deduplicating and ordered most-recent-first
+		{
+			VolumePasswordCache::Clear();
+			if (!VolumePasswordCache::IsEmpty())
+				throw TestFailed (SRC_POS);
+
+			// Fill beyond capacity; the oldest entry has to be dropped
+			for (size_t i = 0; i < VolumePasswordCache::Capacity + 2; i++)
+			{
+				uint8 buf[8];
+				memset (buf, 0, sizeof (buf));
+				buf[0] = (uint8) ('a' + i);
+				VolumePasswordCache::Store (VolumePassword (buf, sizeof (buf)));
+			}
+
+			CachedPasswordList cached = VolumePasswordCache::GetPasswords();
+			if (cached.size() != VolumePasswordCache::Capacity)
+				throw TestFailed (SRC_POS);
+
+			// The most recently stored password is at the front
+			uint8 newest[8];
+			memset (newest, 0, sizeof (newest));
+			newest[0] = (uint8) ('a' + VolumePasswordCache::Capacity + 1);
+			if (!(*cached.front() == VolumePassword (newest, sizeof (newest))))
+				throw TestFailed (SRC_POS);
+
+			// Storing an already cached password moves it to the front instead of duplicating.
+			// Counting the occurrences is what makes this detectable: a duplicate would
+			// otherwise be hidden again by the capacity trim, leaving size and front intact.
+			uint8 again[8];
+			memset (again, 0, sizeof (again));
+			again[0] = (uint8) ('a' + VolumePasswordCache::Capacity);
+			VolumePassword repeated (again, sizeof (again));
+			VolumePasswordCache::Store (repeated);
+
+			cached = VolumePasswordCache::GetPasswords();
+			if (cached.size() != VolumePasswordCache::Capacity)
+				throw TestFailed (SRC_POS);
+			if (!(*cached.front() == repeated))
+				throw TestFailed (SRC_POS);
+
+			size_t occurrences = 0;
+			foreach_ref (const VolumePassword &cachedPassword, cached)
+			{
+				if (cachedPassword == repeated)
+					occurrences++;
+			}
+
+			if (occurrences != 1)
+				throw TestFailed (SRC_POS);
+
+			VolumePasswordCache::Clear();
+			if (!VolumePasswordCache::IsEmpty())
+				throw TestFailed (SRC_POS);
+		}
+	}
+
+	// The C++ Hash wrappers had never been executed: the known-answer tests call the C
+	// routines directly, so the dispatch layer around them, including both parameter
+	// checks, went untested.
+	void EncryptionTest::TestHashClasses ()
+	{
+		HashList hashes = Hash::GetAvailableAlgorithms();
+		if (hashes.empty())
+			throw TestFailed (SRC_POS);
+
+		foreach_ref (Hash &hash, hashes)
+		{
+			if (hash.GetName().empty() || hash.GetAltName().empty())
+				throw TestFailed (SRC_POS);
+
+			if (hash.GetDigestSize() == 0 || hash.GetBlockSize() == 0)
+				throw TestFailed (SRC_POS);
+
+			// GetNew() must hand out an independent instance of the same algorithm
+			shared_ptr <Hash> fresh = hash.GetNew();
+			if (fresh->GetName() != hash.GetName() || fresh->GetDigestSize() != hash.GetDigestSize())
+				throw TestFailed (SRC_POS);
+
+			// Empty input and an undersized digest buffer are both rejected
+			bool rejected = false;
+			try { hash.ValidateDataParameters (ConstBufferPtr ((const uint8 *) "", 0)); }
+			catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			Buffer tooSmall (hash.GetDigestSize() - 1);
+			rejected = false;
+			try { hash.ValidateDigestParameters (tooSmall); }
+			catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			// Hashing is deterministic, sensitive to its input, and Init() resets state
+			Buffer input (64), digestA (hash.GetDigestSize()), digestB (hash.GetDigestSize());
+			for (size_t i = 0; i < input.Size(); i++)
+				input[i] = (uint8) i;
+
+			hash.Init();
+			hash.ProcessData (input);
+			hash.GetDigest (digestA);
+
+			hash.Init();
+			hash.ProcessData (input);
+			hash.GetDigest (digestB);
+
+			if (memcmp (digestA.Ptr(), digestB.Ptr(), digestA.Size()) != 0)
+				throw TestFailed (SRC_POS);
+
+			input[0] ^= 0x01;
+			hash.Init();
+			hash.ProcessData (input);
+			hash.GetDigest (digestB);
+
+			if (memcmp (digestA.Ptr(), digestB.Ptr(), digestA.Size()) == 0)
+				throw TestFailed (SRC_POS);
+		}
+	}
+
+	// Selecting a KDF by name or by hash is how the mount path picks its PRF, yet neither
+	// lookup nor the rejection of an unknown name had ever run.
+	void EncryptionTest::TestKdfSelection ()
+	{
+		Pkcs5KdfList kdfs = Pkcs5Kdf::GetAvailableAlgorithms();
+		if (kdfs.empty())
+			throw TestFailed (SRC_POS);
+
+		foreach_ref (Pkcs5Kdf &kdf, kdfs)
+		{
+			// Looking a KDF up by its own name must return the same algorithm
+			shared_ptr <Pkcs5Kdf> byName = Pkcs5Kdf::GetAlgorithm (kdf.GetName());
+			if (byName->GetName() != kdf.GetName())
+				throw TestFailed (SRC_POS);
+
+			// ... and so must looking it up by its hash, for the non-Argon2 ones
+			if (!kdf.IsArgon2())
+			{
+				shared_ptr <Pkcs5Kdf> byHash = Pkcs5Kdf::GetAlgorithm (*kdf.GetHash());
+				if (byHash->GetName() != kdf.GetName())
+					throw TestFailed (SRC_POS);
+			}
+
+			// Degenerate derivation parameters are refused. Going through DeriveKey rather
+			// than the protected validator also covers the path the mount code takes; both
+			// cases fail the check before any iteration runs, so this stays cheap.
+			Buffer key (32), salt (64);
+			key.Zero(); salt.Zero();
+			VolumePassword password ((const uint8 *) "test", 4);
+
+			bool rejected = false;
+			try { kdf.DeriveKey (key, password, salt, 0); }
+			catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			rejected = false;
+			try { kdf.DeriveKey (key, password, ConstBufferPtr (salt.Ptr(), 0), 1000); }
+			catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+
+		// An unknown PRF name must be refused rather than silently defaulted
+		bool rejected = false;
+		try { Pkcs5Kdf::GetAlgorithm (L"no-such-prf"); }
+		catch (ParameterIncorrect&) { rejected = true; }
+		if (!rejected)
+			throw TestFailed (SRC_POS);
+	}
+
+	// A volume header is the first thing that touches attacker-supplied bytes, and the
+	// guards on that path had no coverage at all.
+	void EncryptionTest::TestVolumeHeaderRejection ()
+	{
+		VolumeHeader header (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+
+		// An empty password must be refused before any key derivation happens
+		{
+			Buffer encrypted (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+			encrypted.Zero();
+
+			VolumePassword empty;
+			bool rejected = false;
+			try
+			{
+				header.Decrypt (encrypted, empty, 0, shared_ptr <Pkcs5Kdf> (),
+					Pkcs5Kdf::GetAvailableAlgorithms(),
+					EncryptionAlgorithm::GetAvailableAlgorithms(),
+					EncryptionMode::GetAvailableModes());
+			}
+			catch (PasswordEmpty&) { rejected = true; }
+
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+
+		// Creating a header with a mismatched key or an impossible sector size is refused
+		{
+			shared_ptr <EncryptionAlgorithm> ea = EncryptionAlgorithm::GetAvailableAlgorithms().front();
+
+			Buffer headerBuffer (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+			Buffer salt (VolumeHeader::GetSaltSize());
+			Buffer headerKey (VolumeHeader::GetLargestSerializedKeySize());
+			Buffer dataKey (ea->GetKeySize() * 2);
+			salt.Zero(); headerKey.Zero(); dataKey.Zero();
+
+			VolumeHeaderCreationOptions options;
+			options.EA = ea;
+			options.Kdf = Pkcs5Kdf::GetAvailableAlgorithms().front();
+			options.Type = VolumeType::Normal;
+			options.SectorSize = TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
+			options.VolumeDataSize = TC_MIN_VOLUME_SIZE;
+			options.VolumeDataStart = 0;
+			options.Salt = salt;
+			options.HeaderKey = headerKey;
+
+			// data key of the wrong length
+			Buffer shortKey (ea->GetKeySize());
+			shortKey.Zero();
+			options.DataKey = shortKey;
+
+			bool rejected = false;
+			try { header.Create (headerBuffer, options); }
+			catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			// sector size that is not a multiple of the encryption data unit
+			options.DataKey = dataKey;
+			options.SectorSize = TC_MIN_VOLUME_SECTOR_SIZE + 1;
+
+			rejected = false;
+			try { header.Create (headerBuffer, options); }
+			catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+	}
+
+	// Exercises the rejection paths and the accessors of the public encryption API. The
+	// known-answer tests above only ever take the success path, so none of this code was
+	// reached before: a wrong key size, block operations on an uninitialised cipher and a
+	// mode without ciphers all went untested, as did the size and name accessors.
+	void EncryptionTest::TestEdgeCases ()
+	{
+		// A cipher must refuse block operations until a key has been set
+		foreach_ref (Cipher &cipher, Cipher::GetAvailableCiphers())
+		{
+			Buffer block (cipher.GetBlockSize());
+			memset (block.Ptr(), 0, block.Size());
+
+			bool rejected = false;
+			try { cipher.EncryptBlock (block); } catch (NotInitialized&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			rejected = false;
+			try { cipher.DecryptBlock (block); } catch (NotInitialized&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			rejected = false;
+			try { cipher.EncryptBlocks (block, 1); } catch (NotInitialized&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			rejected = false;
+			try { cipher.DecryptBlocks (block, 1); } catch (NotInitialized&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			// Reporting its geometry must work regardless of initialisation
+			if (cipher.GetBlockSize() == 0 || cipher.GetKeySize() == 0 || cipher.GetName().empty())
+				throw TestFailed (SRC_POS);
+		}
+
+		// A mode without ciphers cannot report a key size
+		{
+			EncryptionModeXTS mode;
+			bool rejected = false;
+			try { mode.GetKeySize(); } catch (NotInitialized&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+
+		foreach_ref (EncryptionAlgorithm &ea, EncryptionAlgorithm::GetAvailableAlgorithms())
+		{
+			if (ea.IsDeprecated())
+				continue;
+
+			// Block size accessors must be consistent with the ciphers involved
+			size_t minBlockSize = ea.GetMinBlockSize();
+			size_t maxBlockSize = ea.GetMaxBlockSize();
+
+			if (minBlockSize == 0 || maxBlockSize < minBlockSize)
+				throw TestFailed (SRC_POS);
+
+			// Both name forms must be non-empty; the GUI form of a cascade is parenthesised
+			if (ea.GetName().empty() || ea.GetName (true).empty())
+				throw TestFailed (SRC_POS);
+
+			// A key of the wrong length must be refused, one byte short and one byte long
+			Buffer tooShort (ea.GetKeySize() - 1);
+			memset (tooShort.Ptr(), 0, tooShort.Size());
+
+			bool rejected = false;
+			try { ea.SetKey (tooShort); } catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			Buffer tooLong (ea.GetKeySize() + 1);
+			memset (tooLong.Ptr(), 0, tooLong.Size());
+
+			rejected = false;
+			try { ea.SetKey (tooLong); } catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			// The correct length must still be accepted afterwards
+			Buffer correct (ea.GetKeySize());
+			memset (correct.Ptr(), 0, correct.Size());
+			ea.SetKey (correct);
+		}
 	}
 
 
