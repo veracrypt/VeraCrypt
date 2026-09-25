@@ -847,13 +847,15 @@ namespace VeraCrypt
 					newMountedVolumes.push_back (Core->MountVolume (favoriteOptions));
 					mountPerformed = true;
 				}
-				catch (PasswordException&)
+				catch (PasswordException &e)
 				{
 					CloseSecurityTokenSessionsAfterMountScope closeTokenSessionsScope (Preferences.CloseSecurityTokenSessionsAfterMount);
 
-					// The initial silent mount attempt has already consulted cached passwords.
-					// Avoid repeating the same failed cache sweep before prompting the user.
-					shared_ptr <VolumeInfo> volume = MountVolume (favoriteOptions, false);
+					// A protection failure accepted the outer password. Let the UI recover
+					// using that cache; only skip a cache sweep that failed outer authentication.
+					bool protectionError = dynamic_cast <ProtectionPasswordIncorrect *> (&e)
+						|| dynamic_cast <ProtectionPasswordKeyfilesIncorrect *> (&e);
+					shared_ptr <VolumeInfo> volume = MountVolume (favoriteOptions, protectionError);
 
 					if (!volume)
 						break;
