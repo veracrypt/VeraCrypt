@@ -489,7 +489,7 @@ void DisableCPUExtendedFeatures ()
 volatile int g_hasAESARM = 0;
 volatile int g_hasSHA256ARM = 0;
 
-inline int CPU_QueryAES()
+static inline int CPU_QueryAES()
 {
 #if defined(CRYPTOPP_ARM_AES_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)
@@ -513,7 +513,7 @@ inline int CPU_QueryAES()
 #endif
 }
 
-inline int CPU_QuerySHA2()
+static inline int CPU_QuerySHA2()
 {
 #if defined(CRYPTOPP_ARM_SHA2_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)
