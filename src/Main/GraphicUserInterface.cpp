@@ -15,6 +15,7 @@
 #ifdef TC_UNIX
 #include <wx/mimetype.h>
 #include <wx/sckipc.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <unistd.h>
@@ -906,6 +907,17 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> GraphicUserInterface::MountVolume (MountOptions &options, bool tryCachedPasswords) const
 	{
+		return MountVolumeInternal (options, tryCachedPasswords, false);
+	}
+
+	shared_ptr <VolumeInfo> GraphicUserInterface::MountVolumeWithProtectionRecovery (MountOptions &options, const PasswordException &protectionError) const
+	{
+		ShowWarning (protectionError);
+		return MountVolumeInternal (options, false, true);
+	}
+
+	shared_ptr <VolumeInfo> GraphicUserInterface::MountVolumeInternal (MountOptions &options, bool tryCachedPasswords, bool protectionRecovery) const
+	{
 		CheckRequirementsForMountingVolume();
 
 		shared_ptr <VolumeInfo> volume;
@@ -937,7 +949,32 @@ namespace VeraCrypt
 
 		try
 		{
-			if (tryCachedPasswords
+			bool protectionError = protectionRecovery;
+			auto mountWithProtectionRecovery = [&] () -> shared_ptr <VolumeInfo>
+			{
+				protectionError = false;
+				try
+				{
+					return UserInterface::MountVolume (options);
+				}
+				catch (ProtectionPasswordIncorrect &e)
+				{
+					ShowWarning (e);
+				}
+				catch (ProtectionPasswordKeyfilesIncorrect &e)
+				{
+					ShowWarning (e);
+				}
+
+				protectionError = true;
+				// Keep the accepted outer credential source, including the password
+				// cache. An explicit empty list prevents default keyfiles being added.
+				if (!options.Keyfiles)
+					options.Keyfiles = make_shared <KeyfileList>();
+				return shared_ptr <VolumeInfo>();
+			};
+
+			if (!protectionError && tryCachedPasswords
 				&& (!options.Password || options.Password->IsEmpty())
 				&& (!options.Keyfiles || options.Keyfiles->empty())
 				&& !Core->IsPasswordCacheEmpty())
@@ -946,21 +983,25 @@ namespace VeraCrypt
 				try
 				{
 					wxBusyCursor busy;
-					return UserInterface::MountVolume (options);
+					volume = mountWithProtectionRecovery();
+					if (volume)
+						return volume;
 				}
 				catch (PasswordException&) { }
 			}
 
-			if (!options.Keyfiles && GetPreferences().UseKeyfiles && !GetPreferences().DefaultKeyfiles.empty())
+			if (!protectionError && !options.Keyfiles && GetPreferences().UseKeyfiles && !GetPreferences().DefaultKeyfiles.empty())
 				options.Keyfiles = make_shared <KeyfileList> (GetPreferences().DefaultKeyfiles);
 
-			if ((options.Password && !options.Password->IsEmpty())
-				|| (options.Keyfiles && !options.Keyfiles->empty() && options.Password))
+			if (!protectionError && ((options.Password && !options.Password->IsEmpty())
+				|| (options.Keyfiles && !options.Keyfiles->empty() && options.Password)))
 			{
 				try
 				{
 					wxBusyCursor busy;
-					return UserInterface::MountVolume (options);
+					volume = mountWithProtectionRecovery();
+					if (volume)
+						return volume;
 				}
 				catch (PasswordException&) { }
 			}
@@ -970,17 +1011,54 @@ namespace VeraCrypt
 
 			MountOptionsDialog dialog (GetTopWindow(), options);
 			int incorrectPasswordCount = 0;
+			int incorrectProtectionPasswordCount = 0;
+			bool autoBackupHeaderUsed = false;
 
 			while (!volume)
 			{
 				dialog.Hide();
+				dialog.SetProtectionRecovery (protectionError);
 				if (dialog.ShowModal() != wxID_OK)
 					return volume;
 
 				try
 				{
 					wxBusyCursor busy;
-					volume = UserInterface::MountVolume (options);
+					volume = mountWithProtectionRecovery();
+
+					if (!volume && protectionError && !options.UseBackupHeaders
+						&& ++incorrectProtectionPasswordCount > 2)
+					{
+						// The outer primary header was accepted, but the hidden primary
+						// header may be damaged. Try the backups once for this attempt.
+						options.UseBackupHeaders = true;
+						try
+						{
+							volume = UserInterface::MountVolume (options);
+							autoBackupHeaderUsed = true;
+						}
+						catch (PasswordException&)
+						{
+							// Keep recovering against the accepted primary outer header.
+							options.UseBackupHeaders = false;
+						}
+#ifdef TC_UNIX
+						catch (SystemException &e)
+						{
+							options.UseBackupHeaders = false;
+							if (e.GetErrorCode() != EIO)
+								throw;
+
+							// An unreadable backup must not prevent another primary-header attempt.
+							ShowWarning (e);
+						}
+#endif
+						catch (...)
+						{
+							options.UseBackupHeaders = false;
+							throw;
+						}
+					}
 				}
 				catch (PasswordIncorrect &e)
 				{
@@ -988,15 +1066,16 @@ namespace VeraCrypt
 					{
 						// Try to mount the volume using the backup header
 						options.UseBackupHeaders = true;
+						autoBackupHeaderUsed = true;
 
 						try
 						{
-							volume = UserInterface::MountVolume (options);
-							ShowWarning ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
+							volume = mountWithProtectionRecovery();
 						}
 						catch (...)
 						{
 							options.UseBackupHeaders = false;
+							autoBackupHeaderUsed = false;
 							ShowWarning (e);
 						}
 					}
@@ -1008,6 +1087,9 @@ namespace VeraCrypt
 					ShowWarning (e);
 				}
 			}
+
+			if (autoBackupHeaderUsed && options.UseBackupHeaders)
+				ShowWarning ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
 		}
 		catch (exception &e)
 		{

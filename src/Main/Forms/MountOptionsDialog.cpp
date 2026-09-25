@@ -33,7 +33,7 @@ namespace VeraCrypt
 #ifdef __WXGTK__ // GTK apparently needs wxRESIZE_BORDER to support dynamic resizing
 		, wxDefaultPosition, wxSize (-1,-1), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
 #endif
-		), Options (options)
+		), Options (options), ProtectionRecovery (false)
 #ifdef TC_UNIX
 		, m_showRedBorder(false)
 #endif
@@ -79,6 +79,7 @@ namespace VeraCrypt
 		NoFilesystemCheckBox->SetValidator (wxGenericValidator (&Options.NoFilesystem));
 		RemovableCheckBox->SetValidator (wxGenericValidator (&Options.Removable));
 		PartitionInSystemEncryptionScopeCheckBox->SetValidator (wxGenericValidator (&Options.PartitionInSystemEncryptionScope));
+		BackupHeaderCheckBox->SetValidator (wxGenericValidator (&Options.UseBackupHeaders));
 
 		TransferDataToWindow();
 
@@ -88,14 +89,16 @@ namespace VeraCrypt
 		FilesystemOptionsTextCtrl->SetValue (Options.FilesystemOptions);
 
 		ReadOnlyCheckBox->SetValue (Options.Protection == VolumeProtection::ReadOnly);
-		BackupHeaderCheckBox->SetValidator (wxGenericValidator (&Options.UseBackupHeaders));
 		ProtectionCheckBox->SetValue (Options.Protection == VolumeProtection::HiddenVolumeReadOnly);
 
 		OptionsButtonLabel = OptionsButton->GetLabel();
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (ProtectionSizer->GetStaticBox(), &options, options.ProtectionPassword, options.ProtectionKeyfiles, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
+		MountOptions protectionOptions;
+		protectionOptions.Pim = options.ProtectionPim;
+		protectionOptions.Kdf = options.ProtectionKdf;
+		ProtectionPasswordPanel = new VolumePasswordPanel (ProtectionSizer->GetStaticBox(), &protectionOptions, options.ProtectionPassword, options.ProtectionKeyfiles, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
 		ProtectionPasswordPanel->TopOwnerParent = this;
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -105,7 +108,25 @@ namespace VeraCrypt
 
 	void MountOptionsDialog::OnInitDialog (wxInitDialogEvent& event)
 	{
-		PasswordPanel->SetFocusToPasswordTextCtrl();
+		if (ProtectionRecovery)
+			ProtectionPasswordPanel->SetFocusToPasswordTextCtrl();
+		else
+			PasswordPanel->SetFocusToPasswordTextCtrl();
+	}
+
+	void MountOptionsDialog::SetProtectionRecovery (bool recovery)
+	{
+		if (recovery && !ProtectionRecovery)
+			PasswordPanel->SetPasswordVisible (false);
+		ProtectionRecovery = recovery;
+		PasswordPanel->Enable (!recovery);
+		if (recovery)
+		{
+			BackupHeaderCheckBox->SetValue (Options.UseBackupHeaders);
+			OptionsPanel->Show (true);
+			OptionsButton->SetLabel (OptionsButtonLabel + L" <");
+			UpdateDialog();
+		}
 	}
 
 	void MountOptionsDialog::OnMountPointButtonClick (wxCommandEvent& event)
@@ -118,12 +139,12 @@ namespace VeraCrypt
 	void MountOptionsDialog::OnOKButtonClick (wxCommandEvent& event)
 	{
 		/* verify that PIM values are valid before continuing*/
-		int Pim = PasswordPanel->GetVolumePim();
+		int Pim = ProtectionRecovery ? Options.Pim : PasswordPanel->GetVolumePim();
 		int ProtectionPim = (!ReadOnlyCheckBox->IsChecked() && ProtectionCheckBox->IsChecked())?
 			ProtectionPasswordPanel->GetVolumePim() : 0;
 
 		/* invalid PIM: set focus to PIM field and stop processing */
-		if (-1 == Pim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && Pim > MAX_BOOT_PIM_VALUE))
+		if (!ProtectionRecovery && (-1 == Pim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && Pim > MAX_BOOT_PIM_VALUE)))
 		{
 			PasswordPanel->SetFocusToPimTextCtrl();
 			return;
@@ -137,25 +158,28 @@ namespace VeraCrypt
 
 		TransferDataFromWindow();
 
-		try
+		if (!ProtectionRecovery)
 		{
-			Options.Password = PasswordPanel->GetPassword(Options.PartitionInSystemEncryptionScope);
+			try
+			{
+				Options.Password = PasswordPanel->GetPassword(Options.PartitionInSystemEncryptionScope);
+			}
+			catch (PasswordException& e)
+			{
+				Gui->ShowWarning (e);
+				return;
+			}
+
+			if (Options.PartitionInSystemEncryptionScope && Options.Password->Size() > VolumePassword::MaxLegacySize)
+			{
+				Gui->ShowWarning (StringFormatter (LangString["LINUX_SYSTEM_ENC_PW_LENGTH_NOTE"], (int) VolumePassword::MaxLegacySize));
+				return;
+			}
+
+			Options.Pim = Pim;
+			Options.Kdf = PasswordPanel->GetPkcs5Kdf();
+			Options.Keyfiles = PasswordPanel->GetKeyfiles();
 		}
-		catch (PasswordException& e)
-		{
-			Gui->ShowWarning (e);
-			return;
-		}
-		
-		if (Options.PartitionInSystemEncryptionScope && Options.Password->Size() > VolumePassword::MaxLegacySize)
-		{
-			Gui->ShowWarning (StringFormatter (LangString["LINUX_SYSTEM_ENC_PW_LENGTH_NOTE"], (int) VolumePassword::MaxLegacySize));
-			return;
-		}
-		
-		Options.Pim = Pim;
-		Options.Kdf = PasswordPanel->GetPkcs5Kdf();
-		Options.Keyfiles = PasswordPanel->GetKeyfiles();
 
 		if (ReadOnlyCheckBox->IsChecked())
 		{

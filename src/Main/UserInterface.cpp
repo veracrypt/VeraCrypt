@@ -851,11 +851,16 @@ namespace VeraCrypt
 				{
 					CloseSecurityTokenSessionsAfterMountScope closeTokenSessionsScope (Preferences.CloseSecurityTokenSessionsAfterMount);
 
-					// A protection failure accepted the outer password. Let the UI recover
-					// using that cache; only skip a cache sweep that failed outer authentication.
+					// A protection failure accepted the outer credentials. Preserve that
+					// state for UI recovery; otherwise skip the failed cache sweep.
 					bool protectionError = dynamic_cast <ProtectionPasswordIncorrect *> (&e)
 						|| dynamic_cast <ProtectionPasswordKeyfilesIncorrect *> (&e);
-					shared_ptr <VolumeInfo> volume = MountVolume (favoriteOptions, protectionError);
+					// Do not add default outer keyfiles to credentials already accepted.
+					if (protectionError && !favoriteOptions.Keyfiles)
+						favoriteOptions.Keyfiles = make_shared <KeyfileList>();
+					shared_ptr <VolumeInfo> volume = protectionError
+						? MountVolumeWithProtectionRecovery (favoriteOptions, e)
+						: MountVolume (favoriteOptions, false);
 
 					if (!volume)
 						break;

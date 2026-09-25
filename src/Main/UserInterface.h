@@ -102,6 +102,7 @@ namespace VeraCrypt
 
 	protected:
 		UserInterface ();
+		virtual shared_ptr <VolumeInfo> MountVolumeWithProtectionRecovery (MountOptions &options, const PasswordException &protectionError) const { return MountVolume (options); }
 		virtual bool OnExceptionInMainLoop () { throw; }
 		virtual void OnUnhandledException ();
 		virtual void OnVolumeMounted (EventArgs &args);

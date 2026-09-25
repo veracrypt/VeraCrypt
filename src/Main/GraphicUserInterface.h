@@ -120,6 +120,7 @@ namespace VeraCrypt
 		Event OpenVolumeSystemRequestEvent;
 
 	protected:
+		virtual shared_ptr <VolumeInfo> MountVolumeWithProtectionRecovery (MountOptions &options, const PasswordException &protectionError) const;
 		virtual void OnEndSession (wxCloseEvent& event) { OnLogOff(); }
 #ifdef wxHAS_POWER_EVENTS
 		virtual void OnPowerSuspending (wxPowerEvent& event);
@@ -145,6 +146,7 @@ public:
 #endif
 
 	private:
+		shared_ptr <VolumeInfo> MountVolumeInternal (MountOptions &options, bool tryCachedPasswords, bool protectionRecovery) const;
 		GraphicUserInterface (const GraphicUserInterface &);
 		GraphicUserInterface &operator= (const GraphicUserInterface &);
 	};
