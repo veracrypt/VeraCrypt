@@ -33,12 +33,13 @@ namespace VeraCrypt
 	void WaitDialog::ThrowException(Exception* ex)
 	{
 	#define VC_CONVERT_EXCEPTION(NAME) if (dynamic_cast<NAME*> (ex)) throw (NAME&) *ex;
-		VC_CONVERT_EXCEPTION (PasswordIncorrect);
+		// Handle PasswordIncorrect subclasses before the base class to avoid slicing.
 		VC_CONVERT_EXCEPTION (PasswordKeyfilesIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrKeyboardLayoutIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrMountOptionsIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordKeyfilesIncorrect);
+		VC_CONVERT_EXCEPTION (PasswordIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordEmpty);
 		VC_CONVERT_EXCEPTION (PasswordTooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8TooLong);
