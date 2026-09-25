@@ -286,7 +286,10 @@ namespace VeraCrypt
 							if (aidNode && aidNode->Value->size() > 0 && aidPriorityNode && aidPriorityNode->Value->size() == 1)
 							{
 								supportedAIDs.push_back(*aidNode->Value.get());
-								supportedAIDsPriorities.push_back(aidNode->Value->at(0));
+								// Sort on the Application Priority Indicator, which the line above
+								// already required to be exactly one byte. Using the AID's first
+								// byte collapsed every key to 0xA0, the registered provider prefix.
+								supportedAIDsPriorities.push_back(aidPriorityNode->Value->at(0));
 							}
 						}
 						for(size_t i = 0; i < supportedAIDs.size(); i++)
