@@ -878,8 +878,14 @@ namespace VeraCrypt
 				}
 			}
 			
-			if (mountPerformed && newMountedVolumes.back()->MasterKeyVulnerable)
-				ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+			if (mountPerformed)
+			{
+				if (newMountedVolumes.back()->MasterKeyVulnerable)
+					ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+
+				if (newMountedVolumes.back()->Protection == VolumeProtection::HiddenVolumeReadOnly)
+					ShowInfo ("HIDVOL_PROT_WARN_AFTER_MOUNT");
+			}
 		}
 
 		if (!newMountedVolumes.empty() && GetPreferences().CloseSecurityTokenSessionsAfterMount)
@@ -926,7 +932,7 @@ namespace VeraCrypt
 		if (VolumeHasUnrecommendedExtension (*options.Path))
 			ShowWarning ("EXE_FILE_EXTENSION_MOUNT_WARNING");
 
-		if (options.Protection == VolumeProtection::HiddenVolumeReadOnly)
+		if (volume->Protection == VolumeProtection::HiddenVolumeReadOnly)
 			ShowInfo ("HIDVOL_PROT_WARN_AFTER_MOUNT");
 
 		if (GetPreferences().CloseSecurityTokenSessionsAfterMount)
