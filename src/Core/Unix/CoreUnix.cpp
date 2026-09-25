@@ -12,6 +12,9 @@
 
 #include "CoreUnix.h"
 #include "Common/Tcdefs.h"
+#ifdef VC_MACOSX_FUSET
+#include <chrono>
+#endif
 #include <errno.h>
 #include <iostream>
 #include <signal.h>
@@ -521,76 +524,173 @@ namespace VeraCrypt
 		return mountedFilesystems.front()->MountPoint;
 	}
 
-	VolumeInfoList CoreUnix::GetMountedVolumes (const VolumePath &volumePath) const
+	static shared_ptr <VolumeInfo> ReadMountedVolumeControlFile (const MountedFilesystem &mountedFileSystem, string *controlFileError)
+	{
+		if (controlFileError)
+			controlFileError->clear();
+
+		try
+		{
+			shared_ptr <File> controlFile (new File);
+			controlFile->Open (string (mountedFileSystem.MountPoint) + FuseService::GetControlPath());
+
+			FileStream controlFileReader (controlFile);
+			string controlFileData = controlFileReader.ReadToEnd();
+			if (controlFileData.empty() || controlFileData.size() > 1024 * 1024)
+				throw ParameterIncorrect (SRC_POS);
+
+			shared_ptr <Stream> controlFileStream (new MemoryStream (ConstBufferPtr ((const uint8 *) controlFileData.data(), controlFileData.size())));
+			return Serializable::DeserializeNew <VolumeInfo> (controlFileStream);
+		}
+		catch (const std::exception &e)
+		{
+#ifdef VC_MACOSX_FUSET
+			if (controlFileError)
+				*controlFileError = StringConverter::ToSingle (StringConverter::ToExceptionString (e));
+#else
+			(void) e;
+#endif
+		}
+#ifdef VC_MACOSX_FUSET
+		catch (...)
+		{
+			if (controlFileError)
+				*controlFileError = "unknown exception";
+		}
+#endif
+
+		return shared_ptr <VolumeInfo>();
+	}
+
+	VolumeInfoList CoreUnix::GetMountedVolumes (const VolumePath &volumePath, bool retryControlFileAccess) const
 	{
 		VolumeInfoList volumes;
 
-		foreach_ref (const MountedFilesystem &mf, GetMountedFilesystems ())
+		struct MountedVolumeCandidate
 		{
-			if (string (mf.MountPoint).find (GetFuseMountDirPrefix()) == string::npos)
-				continue;
+			MountedVolumeCandidate (shared_ptr <MountedFilesystem> mountedFileSystem)
+				: FileSystem (mountedFileSystem), ControlFileAttempts (0) { }
 
-			shared_ptr <VolumeInfo> mountedVol;
-			// Introduce a retry mechanism with a timeout for control file access.
-			// The list is already filtered to VeraCrypt auxiliary mounts; in
-			// FUSE-T builds, the mount table device name varies by backend.
+			shared_ptr <MountedFilesystem> FileSystem;
+			shared_ptr <VolumeInfo> Volume;
+			string ControlFileError;
+			int ControlFileAttempts;
+		};
+
+		vector <MountedVolumeCandidate> candidates;
+		MountedFilesystemList mountedFileSystems = GetMountedFilesystems ();
+		for (MountedFilesystemList::const_iterator i = mountedFileSystems.begin(); i != mountedFileSystems.end(); ++i)
+		{
+			if (string ((*i)->MountPoint).find (GetFuseMountDirPrefix()) != string::npos)
+				candidates.push_back (MountedVolumeCandidate (*i));
+		}
+
 #ifdef VC_MACOSX_FUSET
-			int controlFileRetries = volumePath.IsEmpty() ? 1 : 10; // Up to 10 attempts with 500ms sleeps for specific volume lookups
-			string controlFileError;
-			while (!mountedVol && (controlFileRetries-- > 0))
-#endif
+		if (!volumePath.IsEmpty())
+		{
+			// Preserve the existing per-candidate retry behavior for specific
+			// volume lookups while a FUSE-T auxiliary mount becomes readable.
+			for (size_t candidateIndex = 0; candidateIndex < candidates.size(); ++candidateIndex)
 			{
-				try 
+				MountedVolumeCandidate &candidate = candidates[candidateIndex];
+				for (int attempt = 0; attempt < 10 && !candidate.Volume; ++attempt)
 				{
-					shared_ptr <File> controlFile (new File);
-					controlFile->Open (string (mf.MountPoint) + FuseService::GetControlPath());
-
-					FileStream controlFileReader (controlFile);
-					string controlFileData = controlFileReader.ReadToEnd();
-					if (controlFileData.empty() || controlFileData.size() > 1024 * 1024)
-						throw ParameterIncorrect (SRC_POS);
-
-					shared_ptr <Stream> controlFileStream (new MemoryStream (ConstBufferPtr ((const uint8 *) controlFileData.data(), controlFileData.size())));
-					mountedVol = Serializable::DeserializeNew <VolumeInfo> (controlFileStream);
-				}
-				catch (const std::exception& e)
-				{
-#ifdef VC_MACOSX_FUSET
-					controlFileError = StringConverter::ToSingle (StringConverter::ToExceptionString (e));
-					if (controlFileRetries > 0)
-					{
-						// FUSE-T's SMB backend can briefly expose the auxiliary mount
-						// before the control file is readable and deserializable.
+					++candidate.ControlFileAttempts;
+					candidate.Volume = ReadMountedVolumeControlFile (*candidate.FileSystem, &candidate.ControlFileError);
+					if (!candidate.Volume && attempt + 1 < 10)
 						Thread::Sleep (500);
-					}
-#else
-					(void) e;
-#endif
 				}
-#ifdef VC_MACOSX_FUSET
-				catch (...)
-				{
-					controlFileError = "unknown exception";
-					if (controlFileRetries > 0)
-					{
-						// FUSE-T's SMB backend can briefly expose the auxiliary mount
-						// before the control file is readable and deserializable.
-						Thread::Sleep (500);
-					}
-				}
-#endif
+
+				if (candidate.Volume && wstring (candidate.Volume->Path).compare (volumePath) == 0)
+					break;
 			}
+		}
+		else
+		{
+			const bool useSecurityRetryDeadline = retryControlFileAccess;
+			const std::chrono::steady_clock::time_point retryDeadline =
+				std::chrono::steady_clock::now() + std::chrono::seconds (2);
+
+			// Every candidate receives one initial attempt. Security-event callers
+			// then retry unresolved control files in shared, rotating rounds; no
+			// retry read or sleep begins after the monotonic deadline.
+			for (size_t candidateIndex = 0; candidateIndex < candidates.size(); ++candidateIndex)
+			{
+				MountedVolumeCandidate &candidate = candidates[candidateIndex];
+				++candidate.ControlFileAttempts;
+				candidate.Volume = ReadMountedVolumeControlFile (*candidate.FileSystem, &candidate.ControlFileError);
+			}
+
+			size_t retryStartIndex = 0;
+			while (useSecurityRetryDeadline && !candidates.empty())
+			{
+				bool retryableCandidateFound = false;
+				for (size_t candidateIndex = 0; candidateIndex < candidates.size(); ++candidateIndex)
+				{
+					if (!candidates[candidateIndex].Volume && candidates[candidateIndex].ControlFileAttempts < 10)
+					{
+						retryableCandidateFound = true;
+						break;
+					}
+				}
+
+				if (!retryableCandidateFound)
+					break;
+
+				std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+				if (now >= retryDeadline)
+					break;
+
+				std::chrono::milliseconds remaining =
+					std::chrono::duration_cast <std::chrono::milliseconds> (retryDeadline - now);
+				uint32 retryDelay = remaining.count() > 200 ? 200 : static_cast <uint32> (remaining.count());
+				if (retryDelay > 0)
+					Thread::Sleep (retryDelay);
+
+				for (size_t offset = 0; offset < candidates.size(); ++offset)
+				{
+					if (std::chrono::steady_clock::now() >= retryDeadline)
+						break;
+
+					size_t candidateIndex = (retryStartIndex + offset) % candidates.size();
+					MountedVolumeCandidate &candidate = candidates[candidateIndex];
+					if (candidate.Volume || candidate.ControlFileAttempts >= 10)
+						continue;
+
+					++candidate.ControlFileAttempts;
+					candidate.Volume = ReadMountedVolumeControlFile (*candidate.FileSystem, &candidate.ControlFileError);
+				}
+
+				retryStartIndex = (retryStartIndex + 1) % candidates.size();
+			}
+		}
+#else
+		(void) retryControlFileAccess;
+		for (size_t candidateIndex = 0; candidateIndex < candidates.size(); ++candidateIndex)
+		{
+			MountedVolumeCandidate &candidate = candidates[candidateIndex];
+			++candidate.ControlFileAttempts;
+			candidate.Volume = ReadMountedVolumeControlFile (*candidate.FileSystem, nullptr);
+		}
+#endif
+
+		for (size_t candidateIndex = 0; candidateIndex < candidates.size(); ++candidateIndex)
+		{
+			MountedVolumeCandidate &candidate = candidates[candidateIndex];
+			const MountedFilesystem &mf = *candidate.FileSystem;
+			shared_ptr <VolumeInfo> mountedVol = candidate.Volume;
 
 			if (!mountedVol) 
 			{
 #ifdef VC_MACOSX_FUSET
-				if (!volumePath.IsEmpty())
+				if (candidate.ControlFileAttempts > 0 && (retryControlFileAccess || !volumePath.IsEmpty()))
 				{
 					stringstream logMessage;
-					logMessage << "Failed to read VeraCrypt auxiliary mount control file after retries: "
+					logMessage << "Failed to read VeraCrypt auxiliary mount control file after "
+						<< candidate.ControlFileAttempts << " attempt(s): "
 						<< string (mf.MountPoint) << FuseService::GetControlPath();
-					if (!controlFileError.empty())
-						logMessage << ": " << controlFileError;
+					if (!candidate.ControlFileError.empty())
+						logMessage << ": " << candidate.ControlFileError;
 					SystemLog::WriteError (logMessage.str());
 				}
 #endif

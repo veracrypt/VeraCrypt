@@ -31,6 +31,8 @@
 #include "FatalErrorHandler.h"
 #ifdef TC_MACOSX
 #include "MacOSXSecureTextFieldHotkeys.h"
+#include "MacOSXSleepLock.h"
+#include "Platform/SystemLog.h"
 #endif
 #include "Forms/DeviceSelectionDialog.h"
 #include "Forms/KeyfileGeneratorDialog.h"
@@ -185,6 +187,7 @@ namespace VeraCrypt
 	{
 #ifdef TC_MACOSX
 		UninstallMacOSXSecureTextFieldHotkeys();
+		UninstallMacOSXSleepLockHandler();
 #endif
 		try
 		{
@@ -1120,6 +1123,152 @@ namespace VeraCrypt
 		}
 	}
 
+#ifdef TC_MACOSX
+	static void LogMacOSXAutoDismountError (const char *eventName, shared_ptr <VolumeInfo> volume, const exception *ex)
+	{
+		try
+		{
+			stringstream message;
+			message << "macOS auto-dismount during " << eventName;
+			if (volume)
+				message << " for volume " << StringConverter::ToSingle (wstring (volume->Path));
+			message << " failed";
+			if (ex)
+			{
+				const ExecutedProcessFailed *processException = dynamic_cast <const ExecutedProcessFailed *> (ex);
+				if (processException)
+				{
+					message << ": command " << processException->GetCommand()
+						<< " exited with status " << processException->GetExitCode();
+					string errorOutput = StringConverter::Trim (processException->GetErrorOutput());
+					if (!errorOutput.empty())
+						message << ": " << errorOutput;
+				}
+				else
+					message << ": " << StringConverter::ToSingle (StringConverter::ToExceptionString (*ex));
+			}
+			else
+				message << ": unknown exception";
+			SystemLog::WriteError (message.str());
+		}
+		catch (...) { }
+	}
+
+	void GraphicUserInterface::AutoDismountVolumesForMacOSXSecurityEvent (const char *eventName)
+	{
+		try
+		{
+			UserPreferences preferences = GetPreferences ();
+			VolumeInfoList mountedVolumes = Core->GetMountedVolumes (VolumePath(), true);
+			mountedVolumes.sort (VolumeInfo::FirstVolumeMountedAfterSecond);
+
+			bool securityCleanupRequired = false;
+			foreach (shared_ptr <VolumeInfo> volume, mountedVolumes)
+			{
+				try
+				{
+					Core->DismountVolume (volume, preferences.ForceAutoDismount);
+					securityCleanupRequired = true;
+				}
+				catch (MountedVolumeInUse &e)
+				{
+					LogMacOSXAutoDismountError (eventName, volume, &e);
+				}
+				catch (exception &e)
+				{
+					// On macOS the user-visible device can be detached before
+					// auxiliary-mount cleanup throws. Wipe cached credentials and
+					// close token sessions conservatively after such failures.
+					securityCleanupRequired = true;
+					LogMacOSXAutoDismountError (eventName, volume, &e);
+				}
+				catch (...)
+				{
+					securityCleanupRequired = true;
+					LogMacOSXAutoDismountError (eventName, volume, nullptr);
+				}
+			}
+
+			if (securityCleanupRequired)
+			{
+				try
+				{
+					OnVolumesAutoDismounted ();
+				}
+				catch (exception &e)
+				{
+					LogMacOSXAutoDismountError (eventName, shared_ptr <VolumeInfo>(), &e);
+				}
+				catch (...)
+				{
+					LogMacOSXAutoDismountError (eventName, shared_ptr <VolumeInfo>(), nullptr);
+				}
+			}
+		}
+		catch (exception &e)
+		{
+			LogMacOSXAutoDismountError (eventName, shared_ptr <VolumeInfo>(), &e);
+		}
+		catch (...)
+		{
+			LogMacOSXAutoDismountError (eventName, shared_ptr <VolumeInfo>(), nullptr);
+		}
+	}
+
+	// Called from MacOSXSleepLock.mm on the main thread when the system is about
+	// to sleep. wxWidgets does not deliver wxEVT_POWER_SUSPENDING on macOS
+	// (wxHAS_POWER_EVENTS is undefined there), so this observer fills that gap.
+	// The lock preference also applies here because a lid-close sleep can suspend
+	// the run loop before the separate screen-lock notification is delivered.
+	void OnMacOSXSystemWillSleep ()
+	{
+		try
+		{
+			if (Gui)
+			{
+				UserPreferences preferences = Gui->GetPreferences ();
+				if (preferences.BackgroundTaskEnabled
+					&& (preferences.DismountOnPowerSaving || preferences.DismountOnScreenSaver))
+				{
+					Gui->AutoDismountVolumesForMacOSXSecurityEvent ("system sleep");
+				}
+			}
+		}
+		catch (exception &e)
+		{
+			LogMacOSXAutoDismountError ("system sleep", shared_ptr <VolumeInfo>(), &e);
+		}
+		catch (...)
+		{
+			LogMacOSXAutoDismountError ("system sleep", shared_ptr <VolumeInfo>(), nullptr);
+		}
+	}
+
+	// Called only after MacOSXSleepLock.mm verifies a transition to the locked
+	// state. The dedicated security-event path honors ForceAutoDismount and does
+	// not display UI while the session is locked.
+	void OnMacOSXScreenLocked ()
+	{
+		try
+		{
+			if (Gui)
+			{
+				UserPreferences preferences = Gui->GetPreferences ();
+				if (preferences.BackgroundTaskEnabled && preferences.DismountOnScreenSaver)
+					Gui->AutoDismountVolumesForMacOSXSecurityEvent ("screen lock");
+			}
+		}
+		catch (exception &e)
+		{
+			LogMacOSXAutoDismountError ("screen lock", shared_ptr <VolumeInfo>(), &e);
+		}
+		catch (...)
+		{
+			LogMacOSXAutoDismountError ("screen lock", shared_ptr <VolumeInfo>(), nullptr);
+		}
+	}
+#endif
+
 	bool GraphicUserInterface::OnInit ()
 	{
 		Gui = this;
@@ -1274,6 +1423,11 @@ namespace VeraCrypt
 			Connect (wxEVT_END_SESSION, wxCloseEventHandler (GraphicUserInterface::OnEndSession));
 #ifdef wxHAS_POWER_EVENTS
 			Gui->Connect (wxEVT_POWER_SUSPENDING, wxPowerEventHandler (GraphicUserInterface::OnPowerSuspending));
+#endif
+#ifdef TC_MACOSX
+			// macOS lacks wxHAS_POWER_EVENTS; use native observers for sleep and
+			// screen lock so volumes can be auto-dismounted on those events.
+			InstallMacOSXSleepLockHandler();
 #endif
 
 			mMainFrame = new MainFrame (nullptr);

@@ -101,6 +101,7 @@ namespace VeraCrypt
 		void ExecuteWaitThreadRoutine (wxWindow *parent, WaitThreadRoutine *pRoutine) const;
 
 #ifdef TC_MACOSX
+		void AutoDismountVolumesForMacOSXSecurityEvent (const char *eventName);
 		virtual void MacOpenFiles (const wxArrayString &fileNames);
 		virtual void MacReopenApp ();
 		static bool HandlePasswordEntryCustomEvent (wxEvent& event);

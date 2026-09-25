@@ -38,7 +38,7 @@ namespace VeraCrypt
 		virtual uint64 GetDeviceSize (const DevicePath &devicePath) const;
 		virtual int GetOSMajorVersion () const { throw NotApplicable (SRC_POS); }
 		virtual int GetOSMinorVersion () const { throw NotApplicable (SRC_POS); }
-		virtual VolumeInfoList GetMountedVolumes (const VolumePath &volumePath = VolumePath()) const;
+		virtual VolumeInfoList GetMountedVolumes (const VolumePath &volumePath = VolumePath(), bool retryControlFileAccess = false) const;
 		virtual bool IsDevicePresent (const DevicePath &device) const { throw NotApplicable (SRC_POS); }
 		virtual bool IsInPortableMode () const { return false; }
 		virtual bool IsMountPointAvailable (const DirectoryPath &mountPoint) const;

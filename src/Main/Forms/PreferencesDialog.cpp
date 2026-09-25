@@ -295,12 +295,16 @@ namespace VeraCrypt
 		CloseExplorerWindowsOnDismountCheckBox->Show (false);
 #endif
 
-#ifndef wxHAS_POWER_EVENTS
+		// On macOS, wxHAS_POWER_EVENTS is undefined but sleep is handled by a
+		// native observer (see MacOSXSleepLock), so keep the checkbox visible.
+#if !defined(wxHAS_POWER_EVENTS) && !defined(TC_MACOSX)
 		DismountOnPowerSavingCheckBox->Show (false);
 #endif
 
 #ifdef TC_MACOSX
-		DismountOnScreenSaverCheckBox->Show (false);
+		// On macOS this checkbox drives dismount on screen lock (see
+		// MacOSXSleepLock), so relabel it accordingly.
+		DismountOnScreenSaverCheckBox->SetLabel (LangString["IDC_PREF_UNMOUNT_SESSION_LOCKED"]);
 		DismountOnLogOffCheckBox->SetLabel (LangString["LINUX_VC_QUITS"]);
 		OpenExplorerWindowAfterMountCheckBox->SetLabel (LangString["LINUX_OPEN_FINDER"]);
 

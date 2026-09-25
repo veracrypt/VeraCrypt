@@ -24,6 +24,9 @@
 #include "Main/Resources.h"
 #include "Main/Application.h"
 #include "Main/GraphicUserInterface.h"
+#ifdef TC_MACOSX
+#include "Main/MacOSXSleepLock.h"
+#endif
 #include "Main/VolumeHistory.h"
 #include "Main/Xml.h"
 #include "MainFrame.h"
@@ -1435,6 +1438,8 @@ namespace VeraCrypt
 							previousState = running;
 						}
 					}
+#elif defined (TC_MACOSX)
+					ReconcileMacOSXScreenLockState ();
 #endif
 				}
 			}

@@ -57,7 +57,7 @@ namespace VeraCrypt
 		virtual int GetOSMinorVersion () const = 0;
 		virtual shared_ptr <VolumeInfo> GetMountedVolume (const VolumePath &volumePath) const;
 		virtual shared_ptr <VolumeInfo> GetMountedVolume (VolumeSlotNumber slot) const;
-		virtual VolumeInfoList GetMountedVolumes (const VolumePath &volumePath = VolumePath()) const = 0;
+		virtual VolumeInfoList GetMountedVolumes (const VolumePath &volumePath = VolumePath(), bool retryControlFileAccess = false) const = 0;
 		virtual bool HasAdminPrivileges () const = 0;
 		virtual void Init () { }
 		virtual bool IsDeviceChangeInProgress () const { return DeviceChangeInProgress; }

@@ -1832,7 +1832,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	DismountOnScreenSaverCheckBox = new wxCheckBox( sbSizer13->GetStaticBox(), wxID_ANY, _("IDC_PREF_UNMOUNT_SCREENSAVER"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer13->Add( DismountOnScreenSaverCheckBox, 0, wxALL, 5 );
 
-	DismountOnPowerSavingCheckBox = new wxCheckBox( sbSizer13->GetStaticBox(), wxID_ANY, _("LINUX_ENTERING_POVERSAWING"), wxDefaultPosition, wxDefaultSize, 0 );
+	DismountOnPowerSavingCheckBox = new wxCheckBox( sbSizer13->GetStaticBox(), wxID_ANY, _("LINUX_ENTERING_POWERSAVING"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer13->Add( DismountOnPowerSavingCheckBox, 0, wxALL, 5 );
 
 
