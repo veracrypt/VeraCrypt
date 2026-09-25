@@ -8,9 +8,9 @@
     <font lang="sv" class="title" size="21" face="Times New Roman" />
     <entry lang="sv" key="IDCANCEL">Avbryt</entry>
     <entry lang="sv" key="IDC_ALL_USERS">Installera för &amp;alla användare</entry>
-    <entry lang="sv" key="IDC_BROWSE">&amp;Bläddra...</entry>
+    <entry lang="sv" key="IDC_BROWSE">&amp;Bläddra…</entry>
     <entry lang="sv" key="IDC_DESKTOP_ICON">Lägg till VeraCrypt-ikonen på skri&amp;vbordet</entry>
-    <entry lang="sv" key="IDC_DONATE">Donera nu...</entry>
+    <entry lang="sv" key="IDC_DONATE">Donera nu…</entry>
     <entry lang="sv" key="IDC_FILE_TYPE">Associera fil&amp;ändelsen .hc med VeraCrypt</entry>
     <entry lang="sv" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Öppna målplatsen när den är klar</entry>
     <entry lang="sv" key="IDC_PROG_GROUP">Lägg till VeraCrypt till &amp;Start-menyn</entry>
@@ -44,7 +44,7 @@
     <entry lang="sv" key="IDC_KEYFILES_ENABLE">&amp;Använd nyckelfiler</entry>
     <entry lang="sv" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Försök först att montera med ett tomt lösenord</entry>
     <entry lang="sv" key="IDC_KEYFILES_RANDOM_SIZE">Slumpmässig storlek ( 64 &lt;-&gt; 1048576 )</entry>
-    <entry lang="sv" key="IDC_KEY_FILES">N&amp;yckelfiler...</entry>
+    <entry lang="sv" key="IDC_KEY_FILES">N&amp;yckelfiler…</entry>
     <entry lang="sv" key="IDC_LINK_HASH_INFO">Information om hashalgoritmer</entry>
     <entry lang="sv" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Mer information</entry>
     <entry lang="sv" key="IDC_LINK_PIM_INFO">Information om PIM</entry>
@@ -108,8 +108,8 @@
     <entry lang="sv" key="IDC_AUTORUN_START">&amp;Starta VeraCrypt</entry>
     <entry lang="sv" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Identifiera bibliotek automatiskt</entry>
     <entry lang="sv" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Lagra lösenordet för autentisering före start i drivrutinens &amp;cache (för montering av icke-systemvolymer)</entry>
-    <entry lang="sv" key="IDC_BROWSE_DIRS">Bläddra...</entry>
-    <entry lang="sv" key="IDC_BROWSE_FILES">Bläddra...</entry>
+    <entry lang="sv" key="IDC_BROWSE_DIRS">Bläddra…</entry>
+    <entry lang="sv" key="IDC_BROWSE_FILES">Bläddra…</entry>
     <entry lang="sv" key="IDC_CACHE">Lagra lösenord och nyckelfil&amp;er i cacheminnet</entry>
     <entry lang="sv" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Avsluta när det inte finns några monterade volymer</entry>
     <entry lang="sv" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Stäng tokensessionen (logga ut) efter att en volym har monterats utan fel</entry>
@@ -143,15 +143,15 @@
     <entry lang="sv" key="IDC_HK_MOD_WIN">Win</entry>
     <entry lang="sv" key="IDC_HOTKEY_ASSIGN">Tilldela</entry>
     <entry lang="sv" key="IDC_HOTKEY_REMOVE">Ta bort</entry>
-    <entry lang="sv" key="IDC_KEYFILES">Nyckelfiler...</entry>
+    <entry lang="sv" key="IDC_KEYFILES">Nyckelfiler…</entry>
     <entry lang="sv" key="IDC_LIMIT_ENC_THREAD_POOL">Använd inte följande antal logiska processorer för kryptering/dekryptering:</entry>
     <entry lang="sv" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Mer information</entry>
     <entry lang="sv" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Mer information</entry>
-    <entry lang="sv" key="IDC_MORE_SETTINGS">Fler inställningar...</entry>
+    <entry lang="sv" key="IDC_MORE_SETTINGS">Fler inställningar…</entry>
     <entry lang="sv" key="IDC_MOUNTALL">Montera enheter &amp;automatiskt</entry>
-    <entry lang="sv" key="IDC_MOUNT_OPTIONS">Monteringsal&amp;ternativ...</entry>
+    <entry lang="sv" key="IDC_MOUNT_OPTIONS">Monteringsal&amp;ternativ…</entry>
     <entry lang="sv" key="IDC_MOUNT_READONLY">Montera volym som &amp;skrivskyddad</entry>
-    <entry lang="sv" key="IDC_NEW_KEYFILES">Nyckelfiler...</entry>
+    <entry lang="sv" key="IDC_NEW_KEYFILES">Nyckelfiler…</entry>
     <entry lang="sv" key="IDC_OLD_PIM_HELP">(Tomt eller 0 för standardvärden)</entry>
     <entry lang="sv" key="IDC_PIM_HELP">(Tomt eller 0 för standardvärden)</entry>
     <entry lang="sv" key="IDC_PREF_BKG_TASK_ENABLE">Aktiverad</entry>
@@ -173,17 +173,17 @@
     <entry lang="sv" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Rensa cachelagrade lösenord vid avslut</entry>
     <entry lang="sv" key="IDC_PRESERVE_TIMESTAMPS">Bevara ändringstidsstämpel för filbehållare</entry>
     <entry lang="sv" key="IDC_RESET_HOTKEYS">Återställ</entry>
-    <entry lang="sv" key="IDC_SELECT_DEVICE">Välj enhe&amp;t...</entry>
-    <entry lang="sv" key="IDC_SELECT_FILE">Välj &amp;fil...</entry>
-    <entry lang="sv" key="IDC_SELECT_PKCS11_MODULE">Välj &amp;bibliotek...</entry>
+    <entry lang="sv" key="IDC_SELECT_DEVICE">Välj enhe&amp;t…</entry>
+    <entry lang="sv" key="IDC_SELECT_FILE">Välj &amp;fil…</entry>
+    <entry lang="sv" key="IDC_SELECT_PKCS11_MODULE">Välj &amp;bibliotek…</entry>
     <entry lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Visa lösenord</entry>
     <entry lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Visa lösenord</entry>
     <entry lang="sv" key="IDC_TRAVEL_OPEN_EXPLORER">Öppna &amp;Utforskaren för monterad volym</entry>
     <entry lang="sv" key="IDC_TRAV_CACHE_PASSWORDS">Lagra lösenord i drivrutinens minnes&amp;cache</entry>
     <entry lang="sv" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt-läge</entry>
     <entry lang="sv" key="IDC_UNMOUNTALL">D&amp;emontera allt</entry>
-    <entry lang="sv" key="IDC_VOLUME_PROPERTIES">&amp;Volymegenskaper...</entry>
-    <entry lang="sv" key="IDC_VOLUME_TOOLS">Volymverkty&amp;g...</entry>
+    <entry lang="sv" key="IDC_VOLUME_PROPERTIES">&amp;Volymegenskaper…</entry>
+    <entry lang="sv" key="IDC_VOLUME_TOOLS">Volymverkty&amp;g…</entry>
     <entry lang="sv" key="IDC_WIPE_CACHE">&amp;Rensa cache</entry>
     <entry lang="sv" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Monteringsparametrar</entry>
     <entry lang="sv" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favoritvolymer</entry>
@@ -198,63 +198,63 @@
     <entry lang="sv" key="IDD_TRAVELER_DLG">VeraCrypt - Inställningar för portabel disk</entry>
     <entry lang="sv" key="IDD_VOLUME_PROPERTIES">VeraCrypt-volymegenskaper</entry>
     <entry lang="sv" key="IDM_ABOUT">Om</entry>
-    <entry lang="sv" key="IDM_ADD_REMOVE_VOL_KEYFILES">Lägg till eller ta bort nyckelfiler för volymen...</entry>
-    <entry lang="sv" key="IDM_ADD_VOLUME_TO_FAVORITES">Lägg till den monterade volymen i favoriter...</entry>
-    <entry lang="sv" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Lägg till den monterade volymen i systemfavoriter...</entry>
-    <entry lang="sv" key="IDM_ANALYZE_SYSTEM_CRASH">Analysera en systemkrasch...</entry>
-    <entry lang="sv" key="IDM_BACKUP_VOL_HEADER">Säkerhetskopiera volymhuvud...</entry>
-    <entry lang="sv" key="IDM_BENCHMARK">Prestandamätning...</entry>
-    <entry lang="sv" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Ange härledningsalgoritm för volymhuvudets nyckel...</entry>
-    <entry lang="sv" key="IDM_CHANGE_PASSWORD">Ändra volymlösenord...</entry>
-    <entry lang="sv" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Ange härledningsalgoritm för volymhuvudets nyckel...</entry>
-    <entry lang="sv" key="IDM_CHANGE_SYS_PASSWORD">Ändra lösenord...</entry>
+    <entry lang="sv" key="IDM_ADD_REMOVE_VOL_KEYFILES">Lägg till eller ta bort nyckelfiler för volymen…</entry>
+    <entry lang="sv" key="IDM_ADD_VOLUME_TO_FAVORITES">Lägg till den monterade volymen i favoriter…</entry>
+    <entry lang="sv" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Lägg till den monterade volymen i systemfavoriter…</entry>
+    <entry lang="sv" key="IDM_ANALYZE_SYSTEM_CRASH">Analysera en systemkrasch…</entry>
+    <entry lang="sv" key="IDM_BACKUP_VOL_HEADER">Säkerhetskopiera volymhuvud…</entry>
+    <entry lang="sv" key="IDM_BENCHMARK">Prestandamätning…</entry>
+    <entry lang="sv" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Ange härledningsalgoritm för volymhuvudets nyckel…</entry>
+    <entry lang="sv" key="IDM_CHANGE_PASSWORD">Ändra volymlösenord…</entry>
+    <entry lang="sv" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Ange härledningsalgoritm för volymhuvudets nyckel…</entry>
+    <entry lang="sv" key="IDM_CHANGE_SYS_PASSWORD">Ändra lösenord…</entry>
     <entry lang="sv" key="IDM_CLEAR_HISTORY">Rensa volymhistorik</entry>
     <entry lang="sv" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Stäng alla säkerhetstokensessioner</entry>
     <entry lang="sv" key="IDM_CONTACT">Kontakt</entry>
-    <entry lang="sv" key="IDM_CREATE_HIDDEN_OS">Skapa dolt operativsystem...</entry>
-    <entry lang="sv" key="IDM_CREATE_RESCUE_DISK">Skapa återställningsdisk...</entry>
-    <entry lang="sv" key="IDM_CREATE_VOLUME">Skapa ny volym...</entry>
-    <entry lang="sv" key="IDM_DECRYPT_NONSYS_VOL">Dekryptera permanent...</entry>
-    <entry lang="sv" key="IDM_DEFAULT_KEYFILES">Standardnyckelfiler...</entry>
-    <entry lang="sv" key="IDM_DEFAULT_MOUNT_PARAMETERS">Standardmonteringsparametrar...</entry>
-    <entry lang="sv" key="IDM_DONATE">Donera nu...</entry>
-    <entry lang="sv" key="IDM_ENCRYPT_SYSTEM_DEVICE">Kryptera systempartition/enhet...</entry>
+    <entry lang="sv" key="IDM_CREATE_HIDDEN_OS">Skapa dolt operativsystem…</entry>
+    <entry lang="sv" key="IDM_CREATE_RESCUE_DISK">Skapa återställningsdisk…</entry>
+    <entry lang="sv" key="IDM_CREATE_VOLUME">Skapa ny volym…</entry>
+    <entry lang="sv" key="IDM_DECRYPT_NONSYS_VOL">Dekryptera permanent…</entry>
+    <entry lang="sv" key="IDM_DEFAULT_KEYFILES">Standardnyckelfiler…</entry>
+    <entry lang="sv" key="IDM_DEFAULT_MOUNT_PARAMETERS">Standardmonteringsparametrar…</entry>
+    <entry lang="sv" key="IDM_DONATE">Donera nu…</entry>
+    <entry lang="sv" key="IDM_ENCRYPT_SYSTEM_DEVICE">Kryptera systempartition/enhet…</entry>
     <entry lang="sv" key="IDM_FAQ">Vanliga frågor</entry>
     <entry lang="sv" key="IDM_HELP">Användarhandbok</entry>
     <entry lang="sv" key="IDM_HOMEPAGE">&amp;Webbplats </entry>
-    <entry lang="sv" key="IDM_HOTKEY_SETTINGS">Kortkommandon...</entry>
+    <entry lang="sv" key="IDM_HOTKEY_SETTINGS">Kortkommandon…</entry>
     <entry lang="sv" key="IDM_KEYFILE_GENERATOR">Nyckelfilsgenerator</entry>
-    <entry lang="sv" key="IDM_LANGUAGE">Språk...</entry>
+    <entry lang="sv" key="IDM_LANGUAGE">Språk…</entry>
     <entry lang="sv" key="IDM_LICENSE">Juridiska villkor</entry>
-    <entry lang="sv" key="IDM_MANAGE_TOKEN_KEYFILES">Hantera nyckelfiler för säkerhetstoken...</entry>
+    <entry lang="sv" key="IDM_MANAGE_TOKEN_KEYFILES">Hantera nyckelfiler för säkerhetstoken…</entry>
     <entry lang="sv" key="IDM_MOUNTALL">Montera automatiskt alla enhetsvärdade volymer</entry>
     <entry lang="sv" key="IDM_MOUNT_FAVORITE_VOLUMES">Montera favoritvolymer</entry>
-    <entry lang="sv" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Montera utan &amp;autentisering före start...</entry>
+    <entry lang="sv" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Montera utan &amp;autentisering före start…</entry>
     <entry lang="sv" key="IDM_MOUNT_VOLUME">Montera volym</entry>
     <entry lang="sv" key="IDM_MOUNT_VOLUME_OPTIONS">Montera volym med alternativ</entry>
     <entry lang="sv" key="IDM_NEWS">Nyheter</entry>
     <entry lang="sv" key="IDM_ONLINE_HELP">Hjälp på nätet</entry>
     <entry lang="sv" key="IDM_ONLINE_TUTORIAL">Nybörjarhandledning</entry>
-    <entry lang="sv" key="IDM_ORGANIZE_FAVORITES">Organisera favoritvolymer...</entry>
-    <entry lang="sv" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organisera systemfavoritvolymer...</entry>
+    <entry lang="sv" key="IDM_ORGANIZE_FAVORITES">Organisera favoritvolymer…</entry>
+    <entry lang="sv" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organisera systemfavoritvolymer…</entry>
     <entry lang="sv" key="IDM_PERFORMANCE_SETTINGS">Prestanda-/drivrutinskonfiguration</entry>
     <entry lang="sv" key="IDM_PERMANENTLY_DECRYPT_SYS">Dekryptera systempartition/enhet permanent</entry>
-    <entry lang="sv" key="IDM_PREFERENCES">Alternativ...</entry>
+    <entry lang="sv" key="IDM_PREFERENCES">Alternativ…</entry>
     <entry lang="sv" key="IDM_REFRESH_DRIVE_LETTERS">Uppdatera enhetsbokstäver</entry>
-    <entry lang="sv" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Ta bort alla nyckelfiler från volym...</entry>
-    <entry lang="sv" key="IDM_RESTORE_VOL_HEADER">Återställ volymhuvud...</entry>
+    <entry lang="sv" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Ta bort alla nyckelfiler från volym…</entry>
+    <entry lang="sv" key="IDM_RESTORE_VOL_HEADER">Återställ volymhuvud…</entry>
     <entry lang="sv" key="IDM_RESUME_INTERRUPTED_PROC">Återuppta avbruten process</entry>
-    <entry lang="sv" key="IDM_SELECT_DEVICE">Välj enhet...</entry>
-    <entry lang="sv" key="IDM_SELECT_FILE">Välj fil...</entry>
+    <entry lang="sv" key="IDM_SELECT_DEVICE">Välj enhet…</entry>
+    <entry lang="sv" key="IDM_SELECT_FILE">Välj fil…</entry>
     <entry lang="sv" key="IDM_SYSENC_RESUME">Återuppta avbruten process</entry>
-    <entry lang="sv" key="IDM_SYSENC_SETTINGS">Systemkryptering...</entry>
-    <entry lang="sv" key="IDM_SYSTEM_ENCRYPTION_STATUS">Egenskaper...</entry>
-    <entry lang="sv" key="IDM_SYS_ENC_SETTINGS">Inställningar...</entry>
-    <entry lang="sv" key="IDM_SYS_FAVORITES_SETTINGS">Systemets favoritvolymer...</entry>
+    <entry lang="sv" key="IDM_SYSENC_SETTINGS">Systemkryptering…</entry>
+    <entry lang="sv" key="IDM_SYSTEM_ENCRYPTION_STATUS">Egenskaper…</entry>
+    <entry lang="sv" key="IDM_SYS_ENC_SETTINGS">Inställningar…</entry>
+    <entry lang="sv" key="IDM_SYS_FAVORITES_SETTINGS">Systemets favoritvolymer…</entry>
     <entry lang="sv" key="IDM_TC_DOWNLOADS">Hämtningar</entry>
-    <entry lang="sv" key="IDM_TEST_VECTORS">Testvektorer...</entry>
-    <entry lang="sv" key="IDM_TOKEN_PREFERENCES">Säkerhetstoken...</entry>
-    <entry lang="sv" key="IDM_TRAVELER">Installation av portabel disk...</entry>
+    <entry lang="sv" key="IDM_TEST_VECTORS">Testvektorer…</entry>
+    <entry lang="sv" key="IDM_TOKEN_PREFERENCES">Säkerhetstoken…</entry>
+    <entry lang="sv" key="IDM_TRAVELER">Installation av portabel disk…</entry>
     <entry lang="sv" key="IDM_UNMOUNTALL">Demontera alla monterade volymer</entry>
     <entry lang="sv" key="IDM_UNMOUNT_VOLUME">Demontera volym</entry>
     <entry lang="sv" key="IDM_VERIFY_RESCUE_DISK">Verifiera återställningsdisk</entry>
@@ -302,21 +302,21 @@
     <entry lang="sv" key="IDT_TRAVEL_ROOT">Skapa portabla diskfiler i rotmappen för den portabla disken:</entry>
     <entry lang="sv" key="IDT_VOLUME">Volym</entry>
     <entry lang="sv" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
-    <entry lang="sv" key="IDC_ADD_KEYFILE_PATH">Lägg till &amp;sökväg...</entry>
+    <entry lang="sv" key="IDC_ADD_KEYFILE_PATH">Lägg till &amp;sökväg…</entry>
     <entry lang="sv" key="IDC_AUTO">Testa alla &amp;automatiskt</entry>
     <entry lang="sv" key="IDC_CONTINUE">&amp;Fortsätt</entry>
     <entry lang="sv" key="IDC_DECRYPT">&amp;Dekryptera</entry>
     <entry lang="sv" key="IDC_DELETE">&amp;Radera</entry>
     <entry lang="sv" key="IDC_ENCRYPT">&amp;Kryptera</entry>
-    <entry lang="sv" key="IDC_EXPORT">&amp;Exportera...</entry>
-    <entry lang="sv" key="IDC_GENERATE_AND_SAVE_KEYFILE">Generera och spara nyckelfil...</entry>
-    <entry lang="sv" key="IDC_GENERATE_KEYFILE">&amp;Generera slumpmässig nyckelfil...</entry>
+    <entry lang="sv" key="IDC_EXPORT">&amp;Exportera…</entry>
+    <entry lang="sv" key="IDC_GENERATE_AND_SAVE_KEYFILE">Generera och spara nyckelfil…</entry>
+    <entry lang="sv" key="IDC_GENERATE_KEYFILE">&amp;Generera slumpmässig nyckelfil…</entry>
     <entry lang="sv" key="IDC_GET_LANG_PACKS">Hämta språkpaket</entry>
     <entry lang="sv" key="IDC_HW_AES_LABEL_LINK">Hårdvaruaccelererad AES:</entry>
-    <entry lang="sv" key="IDC_IMPORT_KEYFILE">&amp;Importera nyckelfil till token...</entry>
-    <entry lang="sv" key="IDC_KEYADD">Lägg till &amp;filer...</entry>
+    <entry lang="sv" key="IDC_IMPORT_KEYFILE">&amp;Importera nyckelfil till token…</entry>
+    <entry lang="sv" key="IDC_KEYADD">Lägg till &amp;filer…</entry>
     <entry lang="sv" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">&amp;Använd nyckelfiler</entry>
-    <entry lang="sv" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Nyckelfiler...</entry>
+    <entry lang="sv" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Nyckelfiler…</entry>
     <entry lang="sv" key="IDC_KEYREMOVE">&amp;Ta bort</entry>
     <entry lang="sv" key="IDC_KEYREMOVEALL">Ta bort &amp;allt</entry>
     <entry lang="sv" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Vad är skydd för dold volym?</entry>
@@ -329,7 +329,7 @@
     <entry lang="sv" key="IDC_PROTECT_HIDDEN_VOL">&amp;Skydda dold volym mot skador orsakade av skrivning till yttre volym</entry>
     <entry lang="sv" key="IDC_RESET">&amp;Återställ</entry>
     <entry lang="sv" key="IDC_SHOW_PASSWORD_MO">&amp;Visa lösenord</entry>
-    <entry lang="sv" key="IDC_TOKEN_FILES_ADD">Lägg till &amp;tokenfiler...</entry>
+    <entry lang="sv" key="IDC_TOKEN_FILES_ADD">Lägg till &amp;tokenfiler…</entry>
     <entry lang="sv" key="IDC_USE_EMBEDDED_HEADER_BAK">Använd säkerhetskopieringshuvud inbäddat i &amp;volymen om tillgängligt</entry>
     <entry lang="sv" key="IDC_XTS_MODE_ENABLED">XTS-läge</entry>
     <entry lang="sv" key="IDD_ABOUT_DLG">Om VeraCrypt</entry>
@@ -368,8 +368,8 @@
     <entry lang="sv" key="IDT_SECONDARY_KEY">Sekundär nyckel (hexadecimal)</entry>
     <entry lang="sv" key="IDT_SECURITY_TOKEN">Säkerhetstoken:</entry>
     <entry lang="sv" key="IDT_SORT_METHOD">Sorteringsmetod:</entry>
-    <entry lang="sv" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Vänta. Denna process kan ta lång tid...</entry>
-    <entry lang="sv" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Vänta...\nDenna process kan ta lång tid och det kan verka som att VeraCrypt inte svarar.</entry>
+    <entry lang="sv" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Vänta. Denna process kan ta lång tid…</entry>
+    <entry lang="sv" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Vänta…\nDenna process kan ta lång tid och det kan verka som att VeraCrypt inte svarar.</entry>
     <entry lang="sv" key="IDT_TEST_BLOCK_NUMBER">Blocknummer:</entry>
     <entry lang="sv" key="IDT_TEST_CIPHERTEXT">Chiffertext (hexadecimal)</entry>
     <entry lang="sv" key="IDT_TEST_DATA_UNIT_NUMBER">Dataenhetsnummer (64-bitars hexadecimal, dataenhetsstorlek är 512 byte)</entry>
@@ -384,7 +384,7 @@
     <entry lang="sv" key="MENU_SETTINGS">&amp;Inställningar</entry>
     <entry lang="sv" key="MENU_HELP">&amp;Hjälp</entry>
     <entry lang="sv" key="MENU_WEBSITE">   Webb&amp;plats   </entry>
-    <entry lang="sv" key="ABOUTBOX">&amp;Om...</entry>
+    <entry lang="sv" key="ABOUTBOX">&amp;Om…</entry>
     <entry lang="sv" key="ACCESSMODEFAIL">Det gick inte att ändra skrivskyddsattributet på din gamla volym. Kontrollera filåtkomstbehörigheterna.</entry>
     <entry lang="sv" key="ACCESS_DENIED">Fel: Åtkomst nekad.\n\nPartitionen du försöker komma åt är antingen 0 sektorer lång eller så är det startenheten.</entry>
     <entry lang="sv" key="ADMINISTRATOR">Administratör</entry>
@@ -607,7 +607,7 @@
     <entry lang="sv" key="PASSWORD">Lösenord</entry>
     <entry lang="sv" key="PIM">PIM</entry>
     <entry lang="sv" key="IDD_PCDM_CHANGE_PKCS5_PRF">Ange härledningsalgoritm för volymhuvudets nyckel</entry>
-    <entry lang="sv" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Lägg till/ta bort nyckelfiler till/från volym...</entry>
+    <entry lang="sv" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Lägg till/ta bort nyckelfiler till/från volym…</entry>
     <entry lang="sv" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Ta bort alla nyckelfiler från volymen</entry>
     <entry lang="sv" key="PASSWORD_CHANGED">Lösenord, PIM och/eller nyckelfil/-er har ändrats.\n\nVIKTIGT: Se till att du har läst avsnittet "Ändra lösenord och nyckelfiler" i kapitlet "Säkerhetskrav och försiktighetsåtgärder" i VeraCrypts användarhandbok.</entry>
     <entry lang="sv" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">VIKTIGT: Om du inte förstörde din VeraCrypt-återställningsdisk, kan din systempartition/enhet fortfarande dekrypteras med det gamla lösenordet (genom att starta VeraCrypt-återställningsdisk och ange det gamla lösenordet). Du bör skapa en ny VeraCrypt-återställningsdisk och sedan förstöra den gamla.\n\nVill du skapa en ny VeraCrypt-återställningsdisk?</entry>
@@ -978,9 +978,9 @@
     <entry lang="sv" key="CANNOT_SET_TIMER">Fel: Det går inte att ställa in timer.</entry>
     <entry lang="sv" key="IDPM_CHECK_FILESYS">Kontrollera filsystem</entry>
     <entry lang="sv" key="IDPM_REPAIR_FILESYS">Reparera filsystem</entry>
-    <entry lang="sv" key="IDPM_ADD_TO_FAVORITES">Lägg till i favoriter...</entry>
-    <entry lang="sv" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Lägg till i systemfavoriter...</entry>
-    <entry lang="sv" key="IDPM_PROPERTIES">E&amp;genskaper...</entry>
+    <entry lang="sv" key="IDPM_ADD_TO_FAVORITES">Lägg till i favoriter…</entry>
+    <entry lang="sv" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Lägg till i systemfavoriter…</entry>
+    <entry lang="sv" key="IDPM_PROPERTIES">E&amp;genskaper…</entry>
     <entry lang="sv" key="HIDDEN_VOL_PROTECTION">Dold volym skyddad</entry>
     <entry lang="sv" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">Inte tillämpligt eller inte tillgängligt</entry>
     <entry lang="sv" key="UISTR_YES">Ja</entry>
@@ -1056,8 +1056,8 @@
     <entry lang="sv" key="NO_SYS_ENC_PROCESS_TO_RESUME">Det finns ingen avbruten process för kryptering/dekryptering av systempartitionen/disken att återuppta.\n\nObs: Om du vill återuppta en avbruten process för kryptering/dekryptering av en partition/volym som inte tillhör systemet, välj "Volymer" &gt; "Återuppta avbruten process".</entry>
     <entry lang="sv" key="HIDVOL_PROT_BKG_TASK_WARNING">VARNING: VeraCrypt-bakgrundsuppgift är inaktiverad. När du har avslutat VeraCrypt kommer du inte att meddelas om skada på dold volym förhindras.\n\nObs: Du kan stänga av bakgrundsuppgiften när som helst genom att högerklicka på VeraCrypt-ikonen och välja "Avsluta".\n\nAktivera VeraCrypt-bakgrundsuppgift?</entry>
     <entry lang="sv" key="LANG_PACK_VERSION">Språkpaketsversion:  %s</entry>
-    <entry lang="sv" key="CHECKING_FS">Kontrollerar filsystemet på VeraCrypt-volymen monterad som %s...</entry>
-    <entry lang="sv" key="REPAIRING_FS">Försöker reparera filsystemet på VeraCrypt-volymen monterad som %s...</entry>
+    <entry lang="sv" key="CHECKING_FS">Kontrollerar filsystemet på VeraCrypt-volymen monterad som %s…</entry>
+    <entry lang="sv" key="REPAIRING_FS">Försöker reparera filsystemet på VeraCrypt-volymen monterad som %s…</entry>
     <entry lang="sv" key="WARN_64_BIT_BLOCK_CIPHER">Varning: Den här volymen är krypterad med en äldre krypteringsalgoritm.\n\nAlla 64-bitars-blockskrypteringsalgoritmer (t.ex. Blowfish, CAST-128 eller Triple DES) är utfasade. Det kommer att vara möjligt att montera den här volymen med framtida versioner av VeraCrypt. Det kommer dock inte att göras några ytterligare förbättringar av implementeringarna av dessa äldre krypteringsalgoritmer. Vi rekommenderar att du skapar en ny VeraCrypt-volym krypterad med en 128-bitars blockkrypteringsalgoritm (t.ex. AES, Serpent, Twofish, etc.) och att du flyttar alla filer från den här volymen till den nya volymen.</entry>
     <entry lang="sv" key="SYS_AUTOMOUNT_DISABLED">Ditt system är inte konfigurerat för att automatiskt montera nya volymer. Det kan vara omöjligt att montera enhetsvärdade VeraCrypt-volymer. Automatisk montering kan aktiveras genom att utföra följande kommando och starta om systemet.\n\nmountvol.exe /E</entry>
     <entry lang="sv" key="SYS_ASSIGN_DRIVE_LETTER">Tilldela en enhetsbokstav till partitionen/enheten innan du fortsätter ("Kontrollpanelen" &gt; "System och underhåll" &gt; "Administrativa verktyg" - "Skapa och formatera hårddiskpartitioner").\n\nObservera att detta är ett krav för operativsystem.</entry>
@@ -1289,8 +1289,8 @@
     <entry lang="sv" key="SETTING_REQUIRES_REBOOT">Observera att den här inställningen träder i kraft först efter att operativsystemet har startat om.</entry>
     <entry lang="sv" key="COMMAND_LINE_ERROR">Fel vid analys av kommandoraden.</entry>
     <entry lang="sv" key="RESCUE_DISK">Återställningsdisk</entry>
-    <entry lang="sv" key="SELECT_FILE_AND_MOUNT">Välj &amp;fil och montera...</entry>
-    <entry lang="sv" key="SELECT_DEVICE_AND_MOUNT">Välj &amp;enhet och montera...</entry>
+    <entry lang="sv" key="SELECT_FILE_AND_MOUNT">Välj &amp;fil och montera…</entry>
+    <entry lang="sv" key="SELECT_DEVICE_AND_MOUNT">Välj &amp;enhet och montera…</entry>
     <entry lang="sv" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">Tillåt endast administratörer att se och demontera systemfavoritvolymer i VeraCrypt</entry>
     <entry lang="sv" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Montera systemfavoritvolymer när Windows startar (i den inledande fasen av startproceduren)</entry>
     <entry lang="sv" key="MOUNTED_VOLUME_DIRTY">Varning: Filsystemet på volymen som monterats som "%s" demonterades inte rent och kan därför innehålla fel. Att använda ett skadat filsystem kan orsaka dataförlust eller datakorruption.\n\nObs: Innan du fysiskt tar bort eller stänger av en enhet (som ett USB-minne eller en extern hårddisk) där en monterad VeraCrypt-volym finns, bör du alltid demontera VeraCrypt-volymen i VeraCrypt först.\n\n\nVill du att Windows ska försöka upptäcka och åtgärda fel (om några) i filsystemet?</entry>
@@ -1389,7 +1389,7 @@
     <entry lang="sv" key="IDC_FAVORITE_USE_VOLUME_ID">Använd volym-ID för att montera favorit</entry>
     <entry lang="sv" key="VOLUME_ID_INVALID">Värdet på volym-ID:et är ogiltigt</entry>
     <entry lang="sv" key="VOLUME_ID_NOT_FOUND">Ingen volym med det angivna ID:et hittades på systemet</entry>
-    <entry lang="sv" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Kopiera värde till urklipp...</entry>
+    <entry lang="sv" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Kopiera värde till urklipp…</entry>
     <entry lang="sv" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Begär inte PIM på skärmen för autentisering före start (PIM-värdet lagras okrypterat på disken)</entry>
     <entry lang="sv" key="DISABLE_BOOT_LOADER_PIM_PROMPT">VARNING: Tänk på att om du aktiverar det här alternativet kommer PIM-värdet att lagras okrypterat på disken.\n\nÄr du säker på att du vill aktivera det här alternativet?</entry>
     <entry lang="sv" key="PIM_TOO_BIG">Det högsta värdet för personlig iterationsmultiplikator (PIM) är 2147468.</entry>
@@ -1449,7 +1449,7 @@
     <entry lang="sv" key="CONFIRM_DISABLE_FAST_STARTUP">VARNING: Windows Snabbstart är aktiverat och det är känt att orsaka problem när du arbetar med VeraCrypt-volymer. Det rekommenderas att inaktivera det för bättre säkerhet och användbarhet.\n\nVill du inaktivera Windows Snabbstart?</entry>
     <entry lang="sv" key="QUICK_FORMAT_HELP">För att ditt operativsystem ska kunna montera din nya volym måste det formateras med ett filsystem. Välj en filsystemstyp.\n\nOm din volym kommer att finnas på en enhet eller partition kan du använda "Snabbformatering" för att hoppa över kryptering av ledigt utrymme på volymen.</entry>
     <entry lang="sv" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Accelerera inte AES-kryptering/dekryptering genom att använda AES-instruktionerna från processorn</entry>
-    <entry lang="sv" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Lägg till alla monterade volymer till favoriter...</entry>
+    <entry lang="sv" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Lägg till alla monterade volymer till favoriter…</entry>
     <entry lang="sv" key="TASKICON_PREF_MENU_ITEMS">Menyalternativ för aktivitetsfältsikon</entry>
     <entry lang="sv" key="TASKICON_PREF_OPEN_VOL">Öppna monterade volymer</entry>
     <entry lang="sv" key="TASKICON_PREF_UNMOUNT_VOL">Demontera monterade volymer</entry>
@@ -1481,7 +1481,7 @@
     <entry lang="sv" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Montera partition &amp;med systemkryptering (autentisering före start)</entry>
     <entry lang="sv" key="LINUX_DO_NOT_MOUNT">Montera i&amp;nte</entry>
     <entry lang="sv" key="LINUX_MOUNT_AT_DIR">Montera i mappen:</entry>
-    <entry lang="sv" key="LINUX_SELECT">Vä&amp;lj...</entry>
+    <entry lang="sv" key="LINUX_SELECT">Vä&amp;lj…</entry>
     <entry lang="sv" key="LINUX_UNMOUNT_ALL_WHEN">Demontera alla volymer när</entry>
     <entry lang="sv" key="LINUX_ENTERING_POWERSAVING">Systemet går in i energisparläge</entry>
     <entry lang="sv" key="LINUX_LOGIN_ACTION">Åtgärder som ska utföras när användaren loggar in</entry>
@@ -1588,7 +1588,7 @@
     <entry lang="sv" key="EXPANDER_FINISH_ABORT">Fel: åtgärden avbröts av användaren.</entry>
     <entry lang="sv" key="EXPANDER_FINISH_OK">Klart. Volymen har utökats.</entry>
     <entry lang="sv" key="EXPANDER_CANCEL_WARNING">Varning: Volymutökning pågår!\n\nAtt stoppa nu kan resultera i en skadad volym.\n\nVill du verkligen avbryta?</entry>
-    <entry lang="sv" key="EXPANDER_STARTING_STATUS">Startar volymutökning ...\n</entry>
+    <entry lang="sv" key="EXPANDER_STARTING_STATUS">Startar volymutökning …\n</entry>
     <entry lang="sv" key="EXPANDER_HIDDEN_VOLUME_ERROR">En yttre volym som innehåller en dold volym kan inte utökas, eftersom detta förstör den dolda volymen.\n</entry>
     <entry lang="sv" key="EXPANDER_SYSTEM_VOLUME_ERROR">En VeraCrypt-systemvolym kan inte utökas.</entry>
     <entry lang="sv" key="EXPANDER_NO_FREE_SPACE">Det finns inte tillräckligt med ledigt utrymme för att utöka volymen.</entry>
@@ -1619,13 +1619,13 @@
     <entry lang="sv" key="SCARD_W_REMOVED_CARD">Inget kort i läsaren.\n\nSe till att kortet är korrekt placerat.</entry>
     <entry lang="sv" key="FORMAT_EXTERNAL_FAILED">Windows-kommandot format.com misslyckades med att formatera volymen som NTFS/exFAT/ReFS: Fel 0x%.8X.\n\nÅtergår till att använda Windows FormatEx API.</entry>
     <entry lang="sv" key="FORMATEX_API_FAILED">Det gick inte att formatera volymen som NTFS/exFAT/ReFS med Windows FormatEx API.\n\nFelstatus = %s.</entry>
-    <entry lang="sv" key="EXPANDER_WRITING_RANDOM_DATA">Skriver slumpmässiga data till nytt utrymme ...\n</entry>
-    <entry lang="sv" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Skriver omkrypterat säkerhetskopieringshuvud ...\n</entry>
-    <entry lang="sv" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Skriver omkrypterat primärt huvud ...\n</entry>
-    <entry lang="sv" key="EXPANDER_WIPING_OLD_HEADER">Rensar gammalt säkerhetskopieringshuvud ...\n</entry>
-    <entry lang="sv" key="EXPANDER_MOUNTING_VOLUME">Monterar volym ...\n</entry>
-    <entry lang="sv" key="EXPANDER_UNMOUNTING_VOLUME">Demonterar volym ...\n</entry>
-    <entry lang="sv" key="EXPANDER_EXTENDING_FILESYSTEM">Utökar filsystem ...\n</entry>
+    <entry lang="sv" key="EXPANDER_WRITING_RANDOM_DATA">Skriver slumpmässiga data till nytt utrymme …\n</entry>
+    <entry lang="sv" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Skriver omkrypterat säkerhetskopieringshuvud …\n</entry>
+    <entry lang="sv" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Skriver omkrypterat primärt huvud …\n</entry>
+    <entry lang="sv" key="EXPANDER_WIPING_OLD_HEADER">Rensar gammalt säkerhetskopieringshuvud …\n</entry>
+    <entry lang="sv" key="EXPANDER_MOUNTING_VOLUME">Monterar volym …\n</entry>
+    <entry lang="sv" key="EXPANDER_UNMOUNTING_VOLUME">Demonterar volym …\n</entry>
+    <entry lang="sv" key="EXPANDER_EXTENDING_FILESYSTEM">Utökar filsystem …\n</entry>
     <entry lang="sv" key="PARTIAL_SYSENC_MOUNT_READONLY">Varning: Systempartitionen som du försökte montera var inte fullständigt krypterad. Som en säkerhetsåtgärd för att förhindra skador eller oönskade ändringar monterades volymen "%s" som skrivskyddad.</entry>
     <entry lang="sv" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Viktig information om hur du använder filändelser från tredje part</entry>
     <entry lang="sv" key="IDC_DISABLE_MEMORY_PROTECTION">Inaktivera minnesskydd för kompatibilitet med tillgänglighetsverktyg</entry>
@@ -1651,7 +1651,7 @@
     <entry lang="sv" key="ERR_KEY_DERIVATION_FAILED">Nyckelhärledningen misslyckades. Detta kan bero på otillräckligt minne eller på att åtgärden avbröts.</entry>
     <entry lang="sv" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">Systempartitionen/enheten är redan dekrypterad, men sökvägen till Microsofts EFI-startinläsare återställdes inte till Windows starthanterare. Endast EFI-startfilerna behöver repareras. Använd reparationsalternativet på VeraCrypt-återställningsdisken, eller starta från Windows-återställningsmedia och kör 'bcdboot W:\\Windows /s S: /f UEFI' efter att ha ersatt W: med enhetsbokstaven för Windows-volymen och S: med enhetsbokstaven för EFI-systempartitionen. Sökväg:</entry>
     <entry lang="sv" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">Systempartitionen/enheten är redan dekrypterad, men reservsökvägen för EFI-start innehåller fortfarande VeraCrypt-startinläsaren. Endast EFI-startfilerna behöver repareras. Använd reparationsalternativet på VeraCrypt-återställningsdisken, eller starta från Windows-återställningsmedia och kör 'bcdboot W:\\Windows /s S: /f UEFI' efter att ha ersatt W: med enhetsbokstaven för Windows-volymen och S: med enhetsbokstaven för EFI-systempartitionen. Sökväg:</entry>
-    <entry lang="sv" key="IDM_REPAIR_EFI_BOOT_LOADER">Reparera EFI-startinläsare...</entry>
+    <entry lang="sv" key="IDM_REPAIR_EFI_BOOT_LOADER">Reparera EFI-startinläsare…</entry>
     <entry lang="sv" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt kommer att återställa sökvägarna till Windows EFI-startinläsare och ta bort VeraCrypts EFI-startposter och filer.\n\nAnvänd detta endast efter att systempartitionen/enheten är helt dekrypterad och Windows kan starta utan systemkryptering.\n\nVill du fortsätta?</entry>
     <entry lang="sv" key="EFI_BOOT_LOADER_FILE_READ_FAILED">EFI-startinläsarfilen kunde inte läsas fullständigt:</entry>
     <entry lang="sv" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">EFI-startinläsarfilen är oväntat stor och inspekterades inte:</entry>
