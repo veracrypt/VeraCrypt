@@ -53,7 +53,11 @@ namespace VeraCrypt
 
 		operator uint8 * () const { return DataPtr; }
 		void CopyFrom (const ConstBufferPtr &bufferPtr) const;
-		void Erase () const { Zero(); }
+		void Erase () const
+		{
+			if (DataSize > 0)
+				burn (DataPtr, DataSize);
+		}
 		uint8 *Get () const { return DataPtr; }
 		BufferPtr GetRange (size_t offset, size_t size) const;
 		void Set (uint8 *data, size_t size) { DataPtr = data; DataSize = size; }
