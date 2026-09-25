@@ -6316,10 +6316,12 @@ retry:
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, prevMountList.ulMountedDrives & ~mountList.ulMountedDrives);
 
-	/* GH #337, GH #1426: Flush shell notifications synchronously in
-	   silent/CLI mode to prevent ghost drive letters when the process
-	   exits immediately after dismount. */
-	if (Silent)
+	/* GH #337, GH #1426: Flush shell notifications synchronously when running
+	   from the command line, to prevent ghost drive letters when the process
+	   exits immediately after dismount. ProcessExitsAfterCommand covers /q,
+	   which is what actually makes the process exit; testing Silent alone
+	   missed "VeraCrypt /d /q" because /q does not imply /s. */
+	if (Silent || ProcessExitsAfterCommand)
 	{
 		DWORD removedDrives = prevMountList.ulMountedDrives & ~mountList.ulMountedDrives;
 		for (i = 0; i < 26; i++)
@@ -10577,6 +10579,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 						else if (!_wcsicmp (szTmp, L"preferences"))
 						{
 							Quit = TRUE;
+							ProcessExitsAfterCommand = TRUE;
 							UsePreferences = TRUE;
 							break;
 						}
@@ -10589,6 +10592,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					}
 
 					Quit = TRUE;
+					ProcessExitsAfterCommand = TRUE;
 					UsePreferences = FALSE;
 				}
 				break;
