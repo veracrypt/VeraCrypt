@@ -20,6 +20,7 @@
 #include <string.h>
 #include "Pkcs5.h"
 #include "cpu.h"
+#include "Volumes.h"
 
 typedef struct {
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 key1[32];
@@ -1280,6 +1281,28 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 	return (nTestsPerformed == 150);
 }
 
+#ifndef TC_WINDOWS_DRIVER
+// Must stay smaller than the alignment under test: the ABI aligns larger objects by itself.
+#define TC_ALIGNMENT_PROBE_SIZE	4
+
+/* Verifies that CRYPTOPP_ALIGN_DATA actually delivers the alignment it requests. It expands
+   to nothing for compilers that are neither MSVC nor GCC/Clang (see Crypto/config.h), and the
+   SIMD backends issue aligned loads against buffers declared with it. */
+static BOOL TestBufferAlignment (void)
+{
+	static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char derivedKeyProbe[TC_ALIGNMENT_PROBE_SIZE];
+	static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) unsigned char keyInfoProbe[TC_ALIGNMENT_PROBE_SIZE];
+
+	if (!TC_IS_ALIGNED (derivedKeyProbe, TC_DERIVED_KEY_BUFFER_ALIGNMENT))
+		return FALSE;
+
+	if (!TC_IS_ALIGNED (keyInfoProbe, TC_KEY_INFO_BUFFER_ALIGNMENT))
+		return FALSE;
+
+	return TRUE;
+}
+#endif
+
 static BOOL DoAutoTestAlgorithms (void)
 {
 	PCRYPTO_INFO ci;
@@ -1489,6 +1512,13 @@ static BOOL DoAutoTestAlgorithms (void)
 		bFailed = TRUE;
 
 	crypto_close (ci);
+
+#ifndef TC_WINDOWS_DRIVER
+	/* Not run in the driver: a failing self-test there reaches TC_BUG_CHECK and would bugcheck the machine. */
+	if (!TestBufferAlignment ())
+		bFailed = TRUE;
+#endif
+
 	return !bFailed;
 }
 
