@@ -61,6 +61,24 @@ namespace VeraCrypt
 
 		void Create (const BufferPtr &headerBuffer, VolumeHeaderCreationOptions &options);
 		bool Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, int pim, shared_ptr <Pkcs5Kdf> kdf, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes);
+
+		// A candidate header (one volume layout) for DecryptHeaderParallel().
+		struct DecryptCandidate
+		{
+			shared_ptr <VolumeHeader> Header;
+			ConstBufferPtr EncryptedData;	// must remain valid for the call
+			Pkcs5KdfList KeyDerivationFunctions;
+			EncryptionAlgorithmList EncryptionAlgorithms;
+			EncryptionModeList EncryptionModes;
+		};
+
+		// Tries to decrypt several candidate headers (different volume layouts)
+		// concurrently: every (candidate x KDF) derivation is dispatched to the
+		// encryption thread pool at once, so expensive KDFs (e.g. Argon2) for
+		// different layouts run in parallel instead of serially. On success the
+		// matching candidate's Header is populated and its index is returned;
+		// returns -1 if none match. Requires EncryptionThreadPool::IsRunning().
+		static int DecryptHeaderParallel (const vector <DecryptCandidate> &candidates, const VolumePassword &password, int pim);
 		void EncryptNew (const BufferPtr &newHeaderBuffer, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf);
 		uint64 GetEncryptedAreaStart () const { return EncryptedAreaStart; }
 		uint64 GetEncryptedAreaLength () const { return EncryptedAreaLength; }
