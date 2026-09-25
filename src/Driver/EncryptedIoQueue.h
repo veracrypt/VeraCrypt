@@ -28,6 +28,13 @@
 
 #define VC_MAX_WORK_ITEMS 1024 
 
+#ifdef _M_ARM64
+typedef NTSTATUS (*Arm64BootWriteHandler) (
+	PVOID context,
+	PIRP irp,
+	PIO_STACK_LOCATION irpSp);
+#endif
+
 typedef struct EncryptedIoQueueBufferStruct
 {
 	struct EncryptedIoQueueBufferStruct *NextBuffer;
@@ -45,6 +52,9 @@ typedef struct _COMPLETE_IRP_WORK_ITEM
 	NTSTATUS Status;
 	ULONG_PTR Information;
 	void* Item;
+#ifdef _M_ARM64
+	BOOL DynamicallyAllocated;
+#endif
 	LIST_ENTRY ListEntry; // For managing free work items
 } COMPLETE_IRP_WORK_ITEM, * PCOMPLETE_IRP_WORK_ITEM;
 
@@ -66,6 +76,11 @@ typedef struct
 	// Filter device
 	BOOL IsFilterDevice;
 	PDEVICE_OBJECT LowerDeviceObject;
+#ifdef _M_ARM64
+	Arm64BootWriteHandler Arm64BootWrite;
+	PVOID Arm64BootWriteContext;
+	volatile LONG Arm64BootWriteCompletionDeferred;
+#endif
 	int64 EncryptedAreaStart;
 	volatile int64 EncryptedAreaEnd;
 	volatile BOOL EncryptedAreaEndUpdatePending;
@@ -178,12 +193,21 @@ typedef struct
 	uint8 *Data;
 	uint8 *OrigDataBufferFragment;
 
+#ifdef _M_ARM64
+	BOOL Arm64BootWriteBarrier;
+	BOOL Arm64BootWriteCompletion;
+	KEVENT Arm64BootWriteBarrierCompleted;
+#endif
+
 	LIST_ENTRY ListEntry;
 	LIST_ENTRY CompletionListEntry;
 } EncryptedIoRequest;
 
 
 NTSTATUS EncryptedIoQueueAddIrp (EncryptedIoQueue *queue, PIRP irp);
+#ifdef _M_ARM64
+BOOL UpdateBuffer (uint8 *buffer, uint8 *secRegion, SIZE_T secRegionSize, uint64 bufferDiskOffset, uint32 bufferLength, BOOL doUpdate);
+#endif
 BOOL EncryptedIoQueueIsRunning (EncryptedIoQueue *queue);
 BOOL EncryptedIoQueueIsSuspended (EncryptedIoQueue *queue);
 NTSTATUS EncryptedIoQueueResumeFromHold (EncryptedIoQueue *queue);

@@ -80,6 +80,13 @@
 #define IDR_EFI_LEGACYSPEAKER_2023      582
 #define IDR_EFI_DCSRE_2023              583
 #define IDR_EFI_DCSINFO_2023            584
+#define IDR_EFI_DCSBOOT_ARM64           585
+#define IDR_EFI_DCSINT_ARM64            586
+#define IDR_EFI_DCSCFG_ARM64            587
+#define IDR_EFI_LEGACYSPEAKER_ARM64     588
+#define IDR_EFI_DCSRE_ARM64             589
+#define IDR_EFI_DCSINFO_ARM64           590
+#define IDR_EFI_DCSBML_ARM64            591
 #define IDC_HW_AES_LABEL_LINK           5000
 #define IDC_HW_AES                      5001
 #define IDC_PARALLELIZATION_LABEL_LINK  5002
@@ -234,7 +241,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        585
+#define _APS_NEXT_RESOURCE_VALUE        592
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         5148
 #define _APS_NEXT_SYMED_VALUE           101

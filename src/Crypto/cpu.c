@@ -10,7 +10,7 @@
 #define EXCEPTION_EXECUTE_HANDLER 1
 #endif
 
-#ifndef CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY
+#if !defined(CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY) && !defined(_UEFI)
 #include <signal.h>
 #include <setjmp.h>
 #endif
@@ -31,7 +31,7 @@ int CpuId(uint32 input, uint32 output[4])
 
 #else
 
-#ifndef CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY
+#if !defined(CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY) && !defined(_UEFI)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -290,7 +290,7 @@ static int Detect_MS_HyperV_AES ()
 
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+#if !defined(_UEFI) && (defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE)
 extern int TrySHA256();
 #endif
 
@@ -366,7 +366,7 @@ void DetectX86Features()
 	}
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+#if !defined(_UEFI) && (defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE)
 	if (!g_hasSHA256)
 	{
 		g_hasSHA256 = TrySHA256();

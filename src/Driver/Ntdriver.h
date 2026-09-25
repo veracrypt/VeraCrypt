@@ -162,6 +162,7 @@ NTSTATUS TCCreateRootDeviceObject (PDRIVER_OBJECT DriverObject);
 NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject, PDEVICE_OBJECT * ppDeviceObject, MOUNT_STRUCT * mount);
 NTSTATUS TCReadDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length);
 NTSTATUS TCWriteDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length);
+NTSTATUS TCFlushDevice (PDEVICE_OBJECT deviceObject);
 NTSTATUS TCStartThread (PKSTART_ROUTINE threadProc, PVOID threadArg, PKTHREAD *kThread);
 NTSTATUS TCStartThreadInProcess (PKSTART_ROUTINE threadProc, PVOID threadArg, PKTHREAD *kThread, PEPROCESS process);
 NTSTATUS TCStartVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension, MOUNT_STRUCT * mount);
@@ -204,6 +205,9 @@ void *AllocateMemoryWithTimeout (size_t size, int retryDelay, int timeout);
 BOOL IsDriveLetterAvailable (int nDosDriveNo, DeviceNamespaceType namespaceType);
 NTSTATUS TCReadRegistryKey (PUNICODE_STRING keyPath, wchar_t *keyValueName, PKEY_VALUE_PARTIAL_INFORMATION *keyData);
 NTSTATUS TCWriteRegistryKey (PUNICODE_STRING keyPath, wchar_t *keyValueName, ULONG keyValueType, void *valueData, ULONG valueSize);
+#ifdef _M_ARM64
+NTSTATUS SetArm64BootArgsHandoffRequired (BOOL required);
+#endif
 BOOL IsVolumeClassFilterRegistered ();
 NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry);
 NTSTATUS WriteRegistryConfigFlags (uint32 flags);

@@ -304,6 +304,11 @@ typedef struct CRYPTO_INFO_t
 
 } CRYPTO_INFO, *PCRYPTO_INFO;
 
+typedef struct CRYPTO_INFO_SCRATCH_t
+{
+	CRYPTO_INFO CryptoInfo;
+} CRYPTO_INFO_SCRATCH, *PCRYPTO_INFO_SCRATCH;
+
 #if defined(_WIN32) || defined(_UEFI)
 
 #pragma pack (push)
@@ -415,8 +420,8 @@ void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData,
 uint64 VcGetEncryptionID (PCRYPTO_INFO pCryptoInfo);
 void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID);
 void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID);
-void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci);
-void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci);
+void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci, PCRYPTO_INFO_SCRATCH scratch);
+void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci, PCRYPTO_INFO_SCRATCH scratch);
 #else
 #define EncryptDataUnitsCurrentThreadEx EncryptDataUnitsCurrentThread
 #define DecryptDataUnitsCurrentThreadEx DecryptDataUnitsCurrentThread

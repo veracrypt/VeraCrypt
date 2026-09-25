@@ -410,6 +410,9 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	EncryptedIoQueueItem* item = (EncryptedIoQueueItem * ) workItem->Item;
 	EncryptedIoQueue* queue = item->Queue;
 	KIRQL oldIrql;
+#ifdef _M_ARM64
+	BOOL dynamicallyAllocated = workItem->DynamicallyAllocated;
+#endif
 	UNREFERENCED_PARAMETER(DeviceObject);
 
 	__try
@@ -422,16 +425,36 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	}
 	__finally
 	{
-		// Return the work item to the free list
-		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
-		InsertTailList(&queue->FreeWorkItemsList, &workItem->ListEntry);
-		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
+#ifdef _M_ARM64
+		if (dynamicallyAllocated)
+		{
+			IoFreeWorkItem (workItem->WorkItem);
+			TCfree (workItem);
+		}
+		else
+#endif
+		{
+			// Return the work item to the free list
+			KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
+			InsertTailList(&queue->FreeWorkItemsList, &workItem->ListEntry);
+			KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
 
-		// Release the semaphore to signal that a work item is available
-		KeReleaseSemaphore(&queue->WorkItemSemaphore, IO_DISK_INCREMENT, 1, FALSE);
+			// Release the semaphore to signal that a work item is available
+			KeReleaseSemaphore(&queue->WorkItemSemaphore, IO_DISK_INCREMENT, 1, FALSE);
+		}
 
 		// Free the item
 		ReleasePoolBuffer(queue, item);
+
+#ifdef _M_ARM64
+		if (InterlockedCompareExchange(
+			&queue->Arm64BootWriteCompletionDeferred,
+			FALSE,
+			FALSE) != FALSE)
+		{
+			KeSetEvent(&queue->CompletionThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
+		}
+#endif
 
 		// Decrement ActiveWorkItems last: once it reaches zero,
 		// EncryptedIoQueueStop frees the work item pool and buffer pools, so
@@ -448,10 +471,96 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	}
 }
 
-// Handles the completion of the original IRP.
-static VOID HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoRequest* request)
+static VOID SubmitCompleteOriginalIrpWorkItem (
+	EncryptedIoQueue *queue,
+	EncryptedIoQueueItem *item,
+	PCOMPLETE_IRP_WORK_ITEM workItem)
 {
-	NTSTATUS status = KeWaitForSingleObject(&queue->WorkItemSemaphore, Executive, KernelMode, FALSE, NULL);
+	InterlockedIncrement(&queue->ActiveWorkItems);
+	KeResetEvent(&queue->NoActiveWorkItemsEvent);
+
+	workItem->Irp = item->OriginalIrp;
+	workItem->Status = item->Status;
+	workItem->Information = NT_SUCCESS(item->Status) ? item->OriginalLength : 0;
+	workItem->Item = item;
+
+	IoQueueWorkItem(
+		workItem->WorkItem,
+		CompleteIrpWorkItemRoutine,
+		DelayedWorkQueue,
+		workItem);
+}
+
+#ifdef _M_ARM64
+static BOOL TryQueueCompleteOriginalIrp (
+	EncryptedIoQueue *queue,
+	EncryptedIoQueueItem *item)
+{
+	PCOMPLETE_IRP_WORK_ITEM workItem;
+	LARGE_INTEGER noWait;
+	NTSTATUS status;
+
+	noWait.QuadPart = 0;
+	status = KeWaitForSingleObject(
+		&queue->WorkItemSemaphore,
+		Executive,
+		KernelMode,
+		FALSE,
+		&noWait);
+	if (status == STATUS_SUCCESS)
+	{
+		KIRQL oldIrql;
+		PLIST_ENTRY freeEntry;
+
+		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
+		freeEntry = RemoveHeadList(&queue->FreeWorkItemsList);
+		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
+
+		workItem = CONTAINING_RECORD(
+			freeEntry,
+			COMPLETE_IRP_WORK_ITEM,
+			ListEntry);
+		workItem->DynamicallyAllocated = FALSE;
+	}
+	else if (status == STATUS_TIMEOUT)
+	{
+		workItem = TCalloc(sizeof(COMPLETE_IRP_WORK_ITEM));
+		if (!workItem)
+			return FALSE;
+
+		workItem->WorkItem = IoAllocateWorkItem(queue->DeviceObject);
+		if (!workItem->WorkItem)
+		{
+			TCfree(workItem);
+			return FALSE;
+		}
+		workItem->DynamicallyAllocated = TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+
+	SubmitCompleteOriginalIrpWorkItem(queue, item, workItem);
+	return TRUE;
+}
+#endif
+
+
+// Completes an original IRP on a fresh stack.
+static VOID QueueCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoQueueItem* item)
+{
+	NTSTATUS status;
+	KIRQL oldIrql;
+	PLIST_ENTRY freeEntry;
+	PCOMPLETE_IRP_WORK_ITEM workItem;
+
+#ifdef _M_ARM64
+	if (TryQueueCompleteOriginalIrp(queue, item))
+		return;
+#endif
+
+	status = KeWaitForSingleObject(&queue->WorkItemSemaphore, Executive, KernelMode, FALSE, NULL);
 	if (queue->ThreadExitRequested)
 		return;
 
@@ -459,30 +568,22 @@ static VOID HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoReques
 	{
 		// Handle wait failure: we call the completion routine directly.
 		// This is not ideal since it can cause deadlock that we are trying to fix but it is better than losing the IRP.
-		CompleteOriginalIrp(request->Item, STATUS_INSUFFICIENT_RESOURCES, 0);
+		CompleteOriginalIrp(item, STATUS_INSUFFICIENT_RESOURCES, 0);
 	}
 	else
 	{
-		// Obtain a work item from the free list.
-		KIRQL oldIrql;
 		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
-		PLIST_ENTRY freeEntry = RemoveHeadList(&queue->FreeWorkItemsList);
+		freeEntry = RemoveHeadList(&queue->FreeWorkItemsList);
 		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
 
-		PCOMPLETE_IRP_WORK_ITEM workItem = CONTAINING_RECORD(freeEntry, COMPLETE_IRP_WORK_ITEM, ListEntry);
-
-		// Increment ActiveWorkItems.
-		InterlockedIncrement(&queue->ActiveWorkItems);
-		KeResetEvent(&queue->NoActiveWorkItemsEvent);
-
-		// Prepare the work item.
-		workItem->Irp = request->Item->OriginalIrp;
-		workItem->Status = request->Item->Status;
-		workItem->Information = NT_SUCCESS(request->Item->Status) ? request->Item->OriginalLength : 0;
-		workItem->Item = request->Item;
-
-		// Queue the work item.
-		IoQueueWorkItem(workItem->WorkItem, CompleteIrpWorkItemRoutine, DelayedWorkQueue, workItem);
+		workItem = CONTAINING_RECORD(
+			freeEntry,
+			COMPLETE_IRP_WORK_ITEM,
+			ListEntry);
+#ifdef _M_ARM64
+		workItem->DynamicallyAllocated = FALSE;
+#endif
+		SubmitCompleteOriginalIrpWorkItem(queue, item, workItem);
 	}
 }
 
@@ -492,6 +593,10 @@ static VOID CompletionThreadProc(PVOID threadArg)
 	PLIST_ENTRY listEntry;
 	EncryptedIoRequest* request;
 	UINT64_STRUCT dataUnit;
+#ifdef _M_ARM64
+	LIST_ENTRY deferredArm64BootWriteCompletions;
+	InitializeListHead(&deferredArm64BootWriteCompletions);
+#endif
 
 	if (IsEncryptionThreadPoolRunning())
 		KeSetPriorityThread(KeGetCurrentThread(), LOW_REALTIME_PRIORITY);
@@ -504,9 +609,63 @@ static VOID CompletionThreadProc(PVOID threadArg)
 		if (queue->ThreadExitRequested)
 			break;
 
-		while ((listEntry = ExInterlockedRemoveHeadList(&queue->CompletionThreadQueue, &queue->CompletionThreadQueueLock)))
+		while (TRUE)
 		{
+#ifdef _M_ARM64
+			if (!IsListEmpty(&deferredArm64BootWriteCompletions))
+			{
+				request = CONTAINING_RECORD(
+					deferredArm64BootWriteCompletions.Flink,
+					EncryptedIoRequest,
+					CompletionListEntry);
+				if (TryQueueCompleteOriginalIrp(queue, request->Item))
+				{
+					RemoveHeadList(&deferredArm64BootWriteCompletions);
+					if (IsListEmpty(&deferredArm64BootWriteCompletions))
+					{
+						InterlockedExchange(
+							&queue->Arm64BootWriteCompletionDeferred,
+							FALSE);
+					}
+					ReleasePoolBuffer(queue, request);
+					continue;
+				}
+			}
+#endif
+
+			listEntry = ExInterlockedRemoveHeadList(
+				&queue->CompletionThreadQueue,
+				&queue->CompletionThreadQueueLock);
+			if (!listEntry)
+				break;
+
 			request = CONTAINING_RECORD(listEntry, EncryptedIoRequest, CompletionListEntry);
+
+#ifdef _M_ARM64
+			if (request->Arm64BootWriteBarrier)
+			{
+				KeSetEvent (&request->Arm64BootWriteBarrierCompleted, IO_DISK_INCREMENT, FALSE);
+				continue;
+			}
+
+			if (request->Arm64BootWriteCompletion)
+			{
+				if (TryQueueCompleteOriginalIrp(queue, request->Item))
+				{
+					ReleasePoolBuffer(queue, request);
+				}
+				else
+				{
+					InsertTailList(
+						&deferredArm64BootWriteCompletions,
+						&request->CompletionListEntry);
+					InterlockedExchange(
+						&queue->Arm64BootWriteCompletionDeferred,
+						TRUE);
+				}
+				continue;
+			}
+#endif
 
 			if (request->EncryptedLength > 0 && NT_SUCCESS(request->Item->Status))
 			{
@@ -528,7 +687,7 @@ static VOID CompletionThreadProc(PVOID threadArg)
 
 			if (request->CompleteOriginalIrp)
 			{
-				HandleCompleteOriginalIrp(queue, request);
+				QueueCompleteOriginalIrp(queue, request->Item);
 			}
 
 			ReleasePoolBuffer(queue, request);
@@ -594,6 +753,18 @@ static VOID IoThreadProc (PVOID threadArg)
 			InterlockedDecrement (&queue->IoThreadPendingRequestCount);
 			request = CONTAINING_RECORD (listEntry, EncryptedIoRequest, ListEntry);
 
+#ifdef _M_ARM64
+			if (request->Arm64BootWriteBarrier)
+			{
+				ExInterlockedInsertTailList (
+					&queue->CompletionThreadQueue,
+					&request->CompletionListEntry,
+					&queue->CompletionThreadQueueLock);
+				KeSetEvent (&queue->CompletionThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
+				continue;
+			}
+#endif
+
 			if (request->Item->Flush)
 			{
 #ifdef TC_TRACE_IO_QUEUE
@@ -612,7 +783,7 @@ static VOID IoThreadProc (PVOID threadArg)
 					}
 				}
 
-				HandleCompleteOriginalIrp (queue, request);
+				QueueCompleteOriginalIrp (queue, request->Item);
 				ReleasePoolBuffer (queue, request);
 				continue;
 			}
@@ -712,7 +883,7 @@ static VOID IoThreadProc (PVOID threadArg)
 
 				if (request->CompleteOriginalIrp)
 				{
-					HandleCompleteOriginalIrp(queue, request);
+					QueueCompleteOriginalIrp(queue, request->Item);
 				}
 
 				ReleasePoolBuffer (queue, request);
@@ -770,6 +941,44 @@ static VOID IoThreadProc (PVOID threadArg)
 
 	PsTerminateSystemThread (STATUS_SUCCESS);
 }
+
+
+#ifdef _M_ARM64
+static NTSTATUS WaitForArm64BootWriteBarrier (EncryptedIoQueue *queue)
+{
+	EncryptedIoRequest *request;
+	NTSTATUS status;
+
+	// Crossing both worker queues preserves FIFO order for the boot-write RMW.
+	request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
+	if (!request)
+		return STATUS_INSUFFICIENT_RESOURCES;
+
+	request->Arm64BootWriteBarrier = TRUE;
+	request->Arm64BootWriteCompletion = FALSE;
+	KeInitializeEvent (
+		&request->Arm64BootWriteBarrierCompleted,
+		SynchronizationEvent,
+		FALSE);
+
+	InterlockedIncrement (&queue->IoThreadPendingRequestCount);
+	ExInterlockedInsertTailList (
+		&queue->IoThreadQueue,
+		&request->ListEntry,
+		&queue->IoThreadQueueLock);
+	KeSetEvent (&queue->IoThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
+
+	status = KeWaitForSingleObject (
+		&request->Arm64BootWriteBarrierCompleted,
+		Executive,
+		KernelMode,
+		FALSE,
+		NULL);
+	ReleasePoolBuffer (queue, request);
+
+	return status;
+}
+#endif
 
 
 static VOID MainThreadProc (PVOID threadArg)
@@ -877,11 +1086,51 @@ static VOID MainThreadProc (PVOID threadArg)
 				request->Length = 0;
 				request->EncryptedOffset = 0;
 				request->EncryptedLength = 0;
+#ifdef _M_ARM64
+				request->Arm64BootWriteBarrier = FALSE;
+				request->Arm64BootWriteCompletion = FALSE;
+#endif
 
 				ExInterlockedInsertTailList (&queue->IoThreadQueue, &request->ListEntry, &queue->IoThreadQueueLock);
 				KeSetEvent (&queue->IoThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
 				continue;
 			}
+
+#ifdef _M_ARM64
+			if (item->Write && queue->Arm64BootWrite)
+			{
+				item->Status = WaitForArm64BootWriteBarrier (queue);
+				if (NT_SUCCESS (item->Status))
+				{
+					queue->ReadAheadBufferValid = FALSE;
+					item->Status = queue->Arm64BootWrite (
+						queue->Arm64BootWriteContext,
+						irp,
+						irpSp);
+					queue->ReadAheadBufferValid = FALSE;
+				}
+
+				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
+				if (!request)
+				{
+					CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
+					continue;
+				}
+
+				request->Item = item;
+				request->Arm64BootWriteBarrier = FALSE;
+				request->Arm64BootWriteCompletion = TRUE;
+				ExInterlockedInsertTailList (
+					&queue->CompletionThreadQueue,
+					&request->CompletionListEntry,
+					&queue->CompletionThreadQueueLock);
+				KeSetEvent (
+					&queue->CompletionThreadQueueNotEmptyEvent,
+					IO_DISK_INCREMENT,
+					FALSE);
+				continue;
+			}
+#endif
 
 			// Handle misaligned read operations to work around a bug in Windows System Assessment Tool which does not follow FILE_FLAG_NO_BUFFERING requirements when benchmarking disk devices
 			if (queue->IsFilterDevice
@@ -1083,6 +1332,10 @@ static VOID MainThreadProc (PVOID threadArg)
 				request->Data = activeFragmentBuffer;
 				request->OrigDataBufferFragment = dataBuffer;
 				request->Length = dataFragmentLength;
+#ifdef _M_ARM64
+				request->Arm64BootWriteBarrier = FALSE;
+				request->Arm64BootWriteCompletion = FALSE;
+#endif
 
 				if (queue->IsFilterDevice || queue->bSupportPartialEncryption)
 				{
@@ -1279,6 +1532,9 @@ NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue)
 
 	queue->OutstandingIoCount = 0;
 	queue->IoThreadPendingRequestCount = 0;
+#ifdef _M_ARM64
+	queue->Arm64BootWriteCompletionDeferred = FALSE;
+#endif
 
 	queue->FirstPoolBuffer = NULL;
 	KeInitializeMutex (&queue->BufferPoolMutex, 0);

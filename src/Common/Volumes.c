@@ -199,7 +199,6 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 	uint16 headerVersion;
 	int status = ERR_PARAMETER_INCORRECT;
 	int primaryKeyOffset;
-	int pkcs5PrfCount = LAST_PRF_ID - FIRST_PRF_ID + 1;
 	int iterationsCount = 0;
 	int memoryCost = 0;
 	LONG volatile abortKeyDerivation = 0;
@@ -208,6 +207,7 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 	int lastArgon2DerivationResult = 0;
 #endif
 #if !defined(_UEFI)
+	int pkcs5PrfCount = LAST_PRF_ID - FIRST_PRF_ID + 1;
 	TC_EVENT *keyDerivationCompletedEvent = NULL;
 	TC_EVENT *noOutstandingWorkItemEvent = NULL;
 	KeyDerivationWorkItem *keyDerivationWorkItems = NULL;
