@@ -1566,6 +1566,13 @@ namespace VeraCrypt
 				options.ProtectionPassword.reset();
 				options.ProtectionPim = -1;
 			}
+			catch (ProtectionPasswordKeyfilesIncorrect &e)
+			{
+				ShowInfo (e);
+				options.ProtectionPassword.reset();
+				options.ProtectionPim = -1;
+				options.ProtectionKeyfiles.reset();
+			}
 			catch (PasswordIncorrect &e)
 			{
 				if (++incorrectPasswordCount > 2 && !options.UseBackupHeaders)
