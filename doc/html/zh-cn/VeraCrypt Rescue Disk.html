@@ -60,6 +60,8 @@
 <em style="text-align:left">请注意，即使你丢失了VeraCrypt救援盘，且攻击者找到了它，在没有正确密码的情况下，他/她也无法解密系统分区或驱动器。</em></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 要启动VeraCrypt救援盘，请根据其类型将其插入USB端口或CD/DVD驱动器，然后重启计算机。如果VeraCrypt救援盘屏幕未出现（或者在MBR传统启动模式下，如果你在屏幕的“键盘控制”部分未看到“修复选项”项），可能是你的BIOS配置为优先从硬盘启动，而不是从USB驱动器和CD/DVD驱动器启动。如果是这种情况，请重启计算机，在看到BIOS启动屏幕后立即按F2或Delete键，等待BIOS配置屏幕出现。如果没有出现BIOS配置屏幕，请再次重启（重置）计算机，并在重启（重置）计算机后立即反复按F2或Delete键。当BIOS配置屏幕出现时，将你的BIOS配置为优先从USB驱动器和CD/DVD驱动器启动（有关如何操作的信息，请参考你的BIOS/主板文档，或联系计算机供应商的技术支持团队寻求帮助）。然后重启计算机。此时VeraCrypt救援盘屏幕应该会出现。注意：在MBR传统启动模式下，你可以通过按键盘上的F8键在VeraCrypt救援盘屏幕上选择“修复选项”。</div>
+<p>在启用安全启动的EFI启动模式下，VeraCrypt救援盘使用Microsoft UEFI CA签名的引导加载程序套件，该套件在创建救援盘时由计算机活动的安全启动db信任。2023 VeraCrypt加载程序套件需要Microsoft UEFI CA 2023和Microsoft Option ROM UEFI CA 2023，而2011加载程序套件需要Microsoft Corporation UEFI CA 2011。如果稍后更改了固件或安全启动db条目，请创建新的VeraCrypt救援盘。在仅信任一个Microsoft UEFI CA代的计算机上创建的救援盘，可能无法在仅信任另一代的计算机上安全启动。</p>
+<p>已安装的EFI引导加载程序文件仅在VeraCrypt安装、修复、升级或Windows PostOOBE修复路径期间刷新。如果您手动更改固件安全启动db条目，请运行VeraCrypt修复或重新安装以刷新已安装的引导加载程序套件。</p>
 <p>如果你的VeraCrypt救援盘损坏，你可以通过选择<em style="text-align:left">系统</em> &gt; <em style="text-align:left">创建救援盘</em>来创建一个新的救援盘。要确定你的VeraCrypt救援盘是否损坏，请将其插入USB端口（在MBR传统启动模式下插入CD/DVD驱动器），然后选择<em style="text-align:left">系统</em> &gt; <em style="text-align:left">验证救援盘</em>。</p>
 </div><div class="ClearBoth"></div>
 

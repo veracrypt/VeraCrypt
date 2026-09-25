@@ -61,7 +61,7 @@
 <br>
 警告：当分配给系统常用卷的驱动器号（保存在配置文件中）不可用时，该卷将不会被挂载，并且不会显示任何错误消息。<br>
 <br>
-请注意，Windows需要在挂载系统常用卷之前使用一些文件（如分页文件、Active Directory文件等）。因此，此类文件不能存储在系统常用卷上。但是，请注意，它们可以存储在系统加密密钥范围内的任何分区上（例如，在系统分区上或在由VeraCrypt完全加密的系统驱动器的任何分区上）。<br>
+请注意，Windows需要在挂载系统常用卷之前使用一些文件（如分页文件、Active Directory文件、配置为在启动时自动附加的VHD/VHDX文件、Dev Drive支持的VHD/VHDX文件、原生启动VHD/VHDX文件等）。因此，此类文件不能存储在系统常用卷上。但是，请注意，VeraCrypt系统加密支持的文件 <em>可以</em> 存储在系统加密密钥范围内的任何分区上（例如，在系统分区上或在由VeraCrypt完全加密的系统驱动器的任何分区上）。原生启动VHD/VHDX文件仍然受VeraCrypt不支持对安装在VHD/VHDX文件中的操作系统进行预启动身份验证的限制。对于不需要启动或早期Windows启动的VHD/VHDX文件，可能的解决方法是禁用Windows自动附加，并仅在相应的系统常用卷挂载后才附加它们，例如使用延迟/重试启动任务或依赖 <em>VeraCryptSystemFavorites</em> 服务并运行 <code>Mount-DiskImage</code> 或 <code>diskpart attach vdisk</code> 的服务。此解决方法不适用于分页文件、Active Directory文件、原生启动VHD/VHDX文件或Windows在服务运行之前必须访问的任何其他文件。<br>
 <br>
 <strong>要从系统常用卷列表中移除一个卷</strong>，请选择“常用卷”>“组织系统常用卷”，选择该卷，单击“移除”，然后单击“确定”。</p>
 </div>
