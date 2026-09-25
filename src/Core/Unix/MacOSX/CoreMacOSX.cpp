@@ -317,12 +317,25 @@ namespace VeraCrypt
 				mountedVolume = ml.front();
 		}
 
+#ifdef VC_MACOSX_FUSET
+		pid_t fuseServiceProcessId = FuseService::RequestDismount (mountedVolume->AuxMountPoint,
+			mountedVolume->SerialInstanceNumber, mountedVolume->SlotNumber);
+#endif
+
 		list <string> args;
 		args.push_back ("--");
 		args.push_back (mountedVolume->AuxMountPoint);
 
 		for (int t = 0; true; t++)
 		{
+#ifdef VC_MACOSX_FUSET
+			try
+			{
+				if (GetMountedFilesystems (DevicePath(), mountedVolume->AuxMountPoint).empty())
+					break;
+			}
+			catch (...) { }
+#endif
 			try
 			{
 				Process::Execute ("/sbin/umount", args);
@@ -335,6 +348,10 @@ namespace VeraCrypt
 				Thread::Sleep (200);
 			}
 		}
+
+#ifdef VC_MACOSX_FUSET
+		FuseService::WaitForDismount (fuseServiceProcessId, mountedVolume->AuxMountPoint, mountedVolume->SlotNumber);
+#endif
 
 		try
 		{

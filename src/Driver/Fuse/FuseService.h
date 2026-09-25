@@ -48,9 +48,14 @@ namespace VeraCrypt
 		static const char *GetAuxDeviceInfoPath () { return "/aux-device-info"; }
 		static const char *GetControlPath () { return "/control"; }
 		static const char *GetVolumeImagePath ();
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		static const char *GetShutdownPath () { return "/shutdown"; }
+#endif
 		static string GetDeviceType () { return "veracrypt"; }
 		static gid_t GetGroupId () { return GroupId; }
 		static uid_t GetUserId () { return UserId; }
+		static uint64 GetSerialInstanceNumber () { return OpenVolumeInfo.SerialInstanceNumber; }
+		static VolumeSlotNumber GetSlotNumber () { return SlotNumber; }
 		static shared_ptr <Buffer> GetAuxDeviceInfo ();
 		static shared_ptr <Buffer> GetVolumeInfo ();
 		static uint64 GetVolumeSize ();
@@ -59,6 +64,10 @@ namespace VeraCrypt
 		static void ReadVolumeSectors (const BufferPtr &buffer, uint64 byteOffset);
 		static void ReceiveAuxDeviceInfo (const ConstBufferPtr &buffer);
 		static void SendAuxDeviceInfo (const DirectoryPath &fuseMountPoint, const DevicePath &virtualDevice, const DevicePath &loopDevice = DevicePath());
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		static pid_t RequestDismount (const DirectoryPath &fuseMountPoint, uint64 serialInstanceNumber, VolumeSlotNumber slotNumber);
+		static void WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut = 10000);
+#endif
 		static void WriteVolumeSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
 
 	protected:

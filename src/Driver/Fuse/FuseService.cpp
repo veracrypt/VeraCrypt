@@ -34,8 +34,10 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <fuse.h>
+#include <atomic>
 #include <iostream>
 #include <signal.h>
+#include <sstream>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -46,6 +48,13 @@
 #include <sys/wait.h>
 
 #include "FuseService.h"
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+#include <fuse_lowlevel.h>
+#undef fuse_unmount
+#ifdef ERR_SUCCESS
+#undef ERR_SUCCESS
+#endif
+#endif
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
 #include "Platform/Serializable.h"
@@ -62,6 +71,16 @@ namespace VeraCrypt
 	static const ino_t VC_FUSE_INODE_VOLUME = 2;
 	static const ino_t VC_FUSE_INODE_CONTROL = 3;
 	static const ino_t VC_FUSE_INODE_AUX_DEVICE_INFO = 4;
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	static const ino_t VC_FUSE_INODE_SHUTDOWN = 5;
+	static atomic <bool> FuseServiceShutdownRequested (false);
+
+	struct FuseServiceShutdownContext
+	{
+		explicit FuseServiceShutdownContext (struct fuse *fuseHandle) : FuseHandle (fuseHandle) { }
+		struct fuse *FuseHandle;
+	};
+#endif
 	static const uint64 VC_FUSE_BLOCK_SIZE = 4096;
 	static const uint64 VC_FUSE_METADATA_SIZE = 64 * 1024;
 	static const uint64 VC_FUSE_STAT_BLOCK_SIZE = 512;
@@ -84,6 +103,51 @@ namespace VeraCrypt
 
 		return FuseService::GetVolumeInfo();
 	}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	static string fuse_service_get_shutdown_identity ()
+	{
+		stringstream identity;
+		identity << getpid() << " " << FuseService::GetSerialInstanceNumber() << " " << FuseService::GetSlotNumber() << "\n";
+		return identity.str();
+	}
+
+	static bool fuse_service_parse_shutdown_identity (const string &identity, pid_t &processId, uint64 &serialInstanceNumber, VolumeSlotNumber &slotNumber)
+	{
+		long long parsedProcessId;
+		uint64 parsedSerialInstanceNumber;
+		VolumeSlotNumber parsedSlotNumber;
+		stringstream parser (identity);
+
+		if (!(parser >> parsedProcessId >> parsedSerialInstanceNumber >> parsedSlotNumber))
+			return false;
+
+		parser >> ws;
+		if (!parser.eof() || parsedProcessId <= 1 || static_cast <pid_t> (parsedProcessId) != parsedProcessId)
+			return false;
+
+		processId = static_cast <pid_t> (parsedProcessId);
+		serialInstanceNumber = parsedSerialInstanceNumber;
+		slotNumber = parsedSlotNumber;
+		return true;
+	}
+
+	static TC_THREAD_PROC fuse_service_shutdown (void *contextArg)
+	{
+		unique_ptr <FuseServiceShutdownContext> context (static_cast <FuseServiceShutdownContext *> (contextArg));
+
+		// Let the write reply reach the caller before closing FUSE-T's channel.
+		Thread::Sleep (100);
+		fuse_exit (context->FuseHandle);
+
+		struct fuse_session *session = fuse_get_session (context->FuseHandle);
+		struct fuse_chan *channel = session ? fuse_session_next_chan (session, NULL) : NULL;
+		if (channel)
+			fuse_unmount (NULL, channel);
+
+		return 0;
+	}
+#endif
 
 	static int fuse_service_fill_dir_entry (void *buf, fuse_fill_dir_t filler, const char *name, mode_t mode, ino_t ino, off_t nextOff)
 	{
@@ -234,6 +298,16 @@ namespace VeraCrypt
 					statData->st_ino = VC_FUSE_INODE_CONTROL;
 					fuse_service_set_stat_blocks (statData);
 				}
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+				else if (strcmp (path, FuseService::GetShutdownPath()) == 0)
+				{
+					statData->st_mode = S_IFREG | 0600;
+					statData->st_nlink = 1;
+					statData->st_size = fuse_service_get_shutdown_identity().size();
+					statData->st_ino = VC_FUSE_INODE_SHUTDOWN;
+					fuse_service_set_stat_blocks (statData);
+				}
+#endif
 				else
 				{
 					return -ENOENT;
@@ -330,6 +404,14 @@ namespace VeraCrypt
 				fi->direct_io = 1;
 				return 0;
 			}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (strcmp (path, FuseService::GetShutdownPath()) == 0)
+			{
+				fi->direct_io = 1;
+				return 0;
+			}
+#endif
 		}
 		catch (...)
 		{
@@ -412,6 +494,24 @@ namespace VeraCrypt
 				outBuf.CopyFrom (infoBuf->GetRange (offset, size));
 				return size;
 			}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (strcmp (path, FuseService::GetShutdownPath()) == 0)
+			{
+				string identity = fuse_service_get_shutdown_identity();
+				if (offset < 0)
+					return -EINVAL;
+
+				if (offset >= (off_t) identity.size())
+					return 0;
+
+				if (offset + size > identity.size())
+					size = identity.size() - offset;
+
+				memcpy (buf, identity.data() + offset, size);
+				return size;
+			}
+#endif
 		}
 		catch (...)
 		{
@@ -461,6 +561,10 @@ namespace VeraCrypt
 				return 0;
 			if (fuse_service_fill_dir_entry (buf, filler, FuseService::GetAuxDeviceInfoPath() + 1, S_IFREG | 0600, VC_FUSE_INODE_AUX_DEVICE_INFO, 0) != 0)
 				return 0;
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (fuse_service_fill_dir_entry (buf, filler, FuseService::GetShutdownPath() + 1, S_IFREG | 0600, VC_FUSE_INODE_SHUTDOWN, 0) != 0)
+				return 0;
+#endif
 		}
 		catch (...)
 		{
@@ -506,6 +610,42 @@ namespace VeraCrypt
 				FuseService::ReceiveAuxDeviceInfo (ConstBufferPtr ((const uint8 *) buf, size));
 				return size;
 			}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (strcmp (path, FuseService::GetShutdownPath()) == 0)
+			{
+				pid_t processId;
+				uint64 serialInstanceNumber;
+				VolumeSlotNumber slotNumber;
+				struct fuse_context *context = fuse_get_context();
+
+				if (offset != 0 || !context || !context->fuse
+					|| !fuse_service_parse_shutdown_identity (string (buf, size), processId, serialInstanceNumber, slotNumber)
+					|| processId != getpid()
+					|| serialInstanceNumber != FuseService::GetSerialInstanceNumber()
+					|| slotNumber != FuseService::GetSlotNumber())
+					return -EINVAL;
+
+				bool expected = false;
+				if (FuseServiceShutdownRequested.compare_exchange_strong (expected, true))
+				{
+					try
+					{
+						unique_ptr <FuseServiceShutdownContext> shutdownContext (new FuseServiceShutdownContext (context->fuse));
+						Thread shutdownThread;
+						shutdownThread.Start (fuse_service_shutdown, shutdownContext.get());
+						shutdownContext.release();
+						shutdownThread.Detach();
+					}
+					catch (...)
+					{
+						FuseServiceShutdownRequested = false;
+						throw;
+					}
+				}
+				return size;
+			}
+#endif
 		}
 #ifdef TC_FREEBSD
 		// FreeBSD apparently retries failed write operations forever, which may lead to a system crash.
@@ -741,6 +881,64 @@ namespace VeraCrypt
 		fuseServiceControl.Write (dynamic_cast <MemoryStream&> (*stream));
 		fuseServiceControl.Close();
 	}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	pid_t FuseService::RequestDismount (const DirectoryPath &fuseMountPoint, uint64 serialInstanceNumber, VolumeSlotNumber slotNumber)
+	{
+		shared_ptr <File> shutdownFile (new File);
+		shutdownFile->Open (string (fuseMountPoint) + GetShutdownPath());
+
+		FileStream shutdownReader (shutdownFile);
+		string identity = shutdownReader.ReadToEnd();
+		shutdownFile->Close();
+		if (identity.empty() || identity.size() > 256)
+			throw ParameterIncorrect (SRC_POS);
+
+		pid_t processId;
+		uint64 serviceSerialInstanceNumber;
+		VolumeSlotNumber serviceSlotNumber;
+		if (!fuse_service_parse_shutdown_identity (identity, processId, serviceSerialInstanceNumber, serviceSlotNumber)
+			|| serviceSerialInstanceNumber != serialInstanceNumber || serviceSlotNumber != slotNumber)
+		{
+			stringstream logMessage;
+			logMessage << "Refusing to shut down mismatched VeraCrypt FUSE service: slot=" << slotNumber
+				<< ", auxiliary mount=" << string (fuseMountPoint);
+			SystemLog::WriteError (logMessage.str());
+			throw ParameterIncorrect (SRC_POS);
+		}
+
+		shutdownFile->Open (string (fuseMountPoint) + GetShutdownPath(), File::OpenWrite);
+		shutdownFile->Write (ConstBufferPtr (reinterpret_cast <const uint8 *> (identity.data()), identity.size()));
+		shutdownFile->Close();
+		return processId;
+	}
+
+	void FuseService::WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut)
+	{
+		for (int timeTaken = 0; ; timeTaken += 100)
+		{
+			if (kill (processId, 0) == -1)
+			{
+				if (errno == ESRCH)
+					return;
+
+				if (errno != EPERM)
+					throw SystemException (SRC_POS);
+			}
+
+			if (timeTaken >= timeOut)
+			{
+				stringstream logMessage;
+				logMessage << "VeraCrypt FUSE service did not terminate after shutdown request: pid=" << processId
+					<< ", slot=" << slotNumber << ", auxiliary mount=" << string (fuseMountPoint);
+				SystemLog::WriteError (logMessage.str());
+				throw TimeOut (SRC_POS);
+			}
+
+			Thread::Sleep (100);
+		}
+	}
+#endif
 
 	void FuseService::WriteVolumeSectors (const ConstBufferPtr &buffer, uint64 byteOffset)
 	{
