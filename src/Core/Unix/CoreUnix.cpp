@@ -1169,9 +1169,17 @@ namespace VeraCrypt
 			}
 		}
 
+#ifdef VC_MACOSX_FUSET
+		uint64 fuseServiceSerialInstanceNumber;
+#endif
+
 		try
 		{
+#ifdef VC_MACOSX_FUSET
+			fuseServiceSerialInstanceNumber = FuseService::Mount (volume, options.SlotNumber, fuseMountPoint);
+#else
 			FuseService::Mount (volume, options.SlotNumber, fuseMountPoint);
+#endif
 		}
 		catch (...)
 		{
@@ -1295,9 +1303,7 @@ namespace VeraCrypt
 			mountedVolume->AuxMountPoint = fuseMountPoint;
 			mountedVolume->VirtualDevice = mountedVirtualDevice;
 
-			struct timeval tv;
-			gettimeofday (&tv, NULL);
-			mountedVolume->SerialInstanceNumber = (uint64) tv.tv_sec * 1000000ULL + tv.tv_usec;
+			mountedVolume->SerialInstanceNumber = fuseServiceSerialInstanceNumber;
 
 			if (!options.NoFilesystem)
 			{

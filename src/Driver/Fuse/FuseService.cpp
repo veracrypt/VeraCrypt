@@ -790,7 +790,7 @@ namespace VeraCrypt
 		return MountedVolume->GetSize();
 	}
 
-	void FuseService::Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint)
+	uint64 FuseService::Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint)
 	{
 		list <string> args;
 		args.push_back (FuseService::GetDeviceType());
@@ -826,7 +826,13 @@ namespace VeraCrypt
 		args.push_back ("use_ino");
 #endif
 
-		ExecFunctor execFunctor (openVolume, slotNumber);
+		// Generate the serial before forking so the caller can reuse it if
+		// the service's control metadata cannot be read.
+		struct timeval tv;
+		throw_sys_if (gettimeofday (&tv, NULL) != 0);
+		const uint64 serialInstanceNumber = (uint64)tv.tv_sec * 1000000ULL + tv.tv_usec;
+
+		ExecFunctor execFunctor (openVolume, slotNumber, serialInstanceNumber);
 		Process::Execute ("fuse", args, -1, &execFunctor);
 
 		for (int t = 0; true; t++)
@@ -846,6 +852,8 @@ namespace VeraCrypt
 
 			Thread::Sleep (100);
 		}
+
+		return serialInstanceNumber;
 	}
 
 	void FuseService::ReadVolumeSectors (const BufferPtr &buffer, uint64 byteOffset)
@@ -964,9 +972,7 @@ namespace VeraCrypt
 
 	void FuseService::ExecFunctor::operator() (int argc, char *argv[])
 	{
-		struct timeval tv;
-		gettimeofday (&tv, NULL);
-		FuseService::OpenVolumeInfo.SerialInstanceNumber = (uint64)tv.tv_sec * 1000000ULL + tv.tv_usec;
+		FuseService::OpenVolumeInfo.SerialInstanceNumber = SerialInstanceNumber;
 
 		FuseService::MountedVolume = MountedVolume;
 		FuseService::SlotNumber = SlotNumber;

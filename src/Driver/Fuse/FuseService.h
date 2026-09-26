@@ -27,8 +27,8 @@ namespace VeraCrypt
 	protected:
 		struct ExecFunctor : public ProcessExecFunctor
 		{
-			ExecFunctor (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber)
-				: MountedVolume (openVolume), SlotNumber (slotNumber)
+			ExecFunctor (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, uint64 serialInstanceNumber)
+				: MountedVolume (openVolume), SlotNumber (slotNumber), SerialInstanceNumber (serialInstanceNumber)
 			{
 			}
 			virtual void operator() (int argc, char *argv[]);
@@ -36,6 +36,7 @@ namespace VeraCrypt
 		protected:
 			shared_ptr <Volume> MountedVolume;
 			VolumeSlotNumber SlotNumber;
+			uint64 SerialInstanceNumber;
 		};
 
 		friend struct ExecFunctor;
@@ -60,7 +61,7 @@ namespace VeraCrypt
 		static shared_ptr <Buffer> GetVolumeInfo ();
 		static uint64 GetVolumeSize ();
 		static uint64 GetVolumeSectorSize () { return MountedVolume->GetSectorSize(); }
-		static void Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint);
+		static uint64 Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint);
 		static void ReadVolumeSectors (const BufferPtr &buffer, uint64 byteOffset);
 		static void ReceiveAuxDeviceInfo (const ConstBufferPtr &buffer);
 		static void SendAuxDeviceInfo (const DirectoryPath &fuseMountPoint, const DevicePath &virtualDevice, const DevicePath &loopDevice = DevicePath());
