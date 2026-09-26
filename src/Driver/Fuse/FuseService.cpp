@@ -823,6 +823,12 @@ namespace VeraCrypt
 
 	uint64 FuseService::Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint)
 	{
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		// Keep the descriptor in the service across fork, but do not let exec'd
+		// helpers retain the backing file after the service exits.
+		openVolume->GetFile()->SetCloseOnExec();
+#endif
+
 		list <string> args;
 		args.push_back (FuseService::GetDeviceType());
 		args.push_back (fuseMountPoint);
@@ -1079,7 +1085,15 @@ namespace VeraCrypt
 			_exit (0);
 		}
 
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		// Keep the backend from delaying EOF when the service exits.
+		int signalPipeWriteFd = SignalHandlerPipe->GetWriteFD();
+		int signalPipeFlags = fcntl (signalPipeWriteFd, F_GETFD);
+		throw_sys_if (signalPipeFlags == -1);
+		throw_sys_if (fcntl (signalPipeWriteFd, F_SETFD, signalPipeFlags | FD_CLOEXEC) == -1);
+#else
 		SignalHandlerPipe->GetWriteFD();
+#endif
 
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 		_exit (fuse_service_main (argc, argv, &fuse_service_oper));
