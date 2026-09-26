@@ -218,7 +218,7 @@ namespace VeraCrypt
 				}
 				catch (MountedVolumeInUse&)
 				{
-					if (!firstPass)
+					if (!firstPass || (!interactive && !twoPassMode))
 						throw;
 
 					if (twoPassMode || !interactive)
@@ -560,6 +560,8 @@ namespace VeraCrypt
 		EX2MSG (MissingVolumeData,					LangString["LINUX_EX2MSG_MISSINGVOLUMEDATA"]);
 		EX2MSG (MountPointRequired,					LangString["LINUX_EX2MSG_MOUNTPOINTREQUIRED"]);
 		EX2MSG (MountPointUnavailable,				LangString["LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE"]);
+		EX2MSG (MountServiceIncompatible,			LangString["MOUNT_SERVICE_INCOMPATIBLE"]);
+		EX2MSG (MountServiceCleanupFailed,			LangString["MOUNT_SERVICE_CLEANUP_FAILED"]);
 		EX2MSG (NoDriveLetterAvailable,				LangString["NO_FREE_DRIVES"]);
 		EX2MSG (PasswordEmpty,						LangString["LINUX_EX2MSG_PASSWORDEMPTY"]);
 		EX2MSG (PasswordIncorrect,					LangString["PASSWORD_WRONG"]);
@@ -1910,6 +1912,8 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (LoopDeviceSetupFailed);
 		VC_CONVERT_EXCEPTION (MountPointRequired);
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);
+		VC_CONVERT_EXCEPTION (MountServiceIncompatible);
+		VC_CONVERT_EXCEPTION (MountServiceCleanupFailed);
 		VC_CONVERT_EXCEPTION (NoDriveLetterAvailable);
 		VC_CONVERT_EXCEPTION (TemporaryDirectoryFailure);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection);

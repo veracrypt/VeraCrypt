@@ -26,6 +26,7 @@
 #endif
 
 #include "Common/SecurityToken.h"
+#include "Platform/SystemLog.h"
 #include "Application.h"
 #include "GraphicUserInterface.h"
 #include "FatalErrorHandler.h"
@@ -234,7 +235,8 @@ namespace VeraCrypt
 			wxBusyCursor busy;
 			DismountVolumes (mountedVolumes, alwaysForce ? true : GetPreferences().ForceAutoDismount, false);
 		}
-		catch (...) { }
+		catch (exception &e) { SystemLog::WriteException (e); }
+		catch (...) { SystemLog::WriteException (UnknownException (SRC_POS)); }
 
 		if (Core->GetMountedVolumes().size() < mountedVolumeCount)
 			OnVolumesAutoDismounted();

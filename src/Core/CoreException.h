@@ -53,6 +53,8 @@ namespace VeraCrypt
 	TC_EXCEPTION (LoopDeviceSetupFailed); \
 	TC_EXCEPTION (MountPointRequired); \
 	TC_EXCEPTION (MountPointUnavailable); \
+	TC_EXCEPTION (MountServiceIncompatible); \
+	TC_EXCEPTION (MountServiceCleanupFailed); \
 	TC_EXCEPTION (NoDriveLetterAvailable); \
 	TC_EXCEPTION (TemporaryDirectoryFailure); \
 	TC_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection); \

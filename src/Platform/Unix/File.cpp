@@ -412,7 +412,7 @@ namespace VeraCrypt
 		throw_sys_sub_if (lseek (FileHandle, offset, SEEK_END) == -1, wstring (Path));
 	}
 
-	void File::SetCloseOnExec ()
+	void File::SetCloseOnExec () const
 	{
 		if_debug (ValidateState());
 		int flags = fcntl (FileHandle, F_GETFD);

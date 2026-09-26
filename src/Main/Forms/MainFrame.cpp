@@ -20,6 +20,7 @@
 #endif
 
 #include "Common/SecurityToken.h"
+#include "Platform/SystemLog.h"
 #include "Main/Main.h"
 #include "Main/Resources.h"
 #include "Main/Application.h"
@@ -817,7 +818,8 @@ namespace VeraCrypt
 			{
 				Gui->DismountVolumes (Core->GetMountedVolumes(), GetPreferences().ForceAutoDismount, false);
 			}
-			catch (...) { }
+			catch (exception &e) { SystemLog::WriteException (e); }
+			catch (...) { SystemLog::WriteException (UnknownException (SRC_POS)); }
 		}
 #endif
 

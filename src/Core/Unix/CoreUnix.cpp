@@ -602,6 +602,12 @@ namespace VeraCrypt
 
 			mountedVol->AuxMountPoint = mf.MountPoint;
 
+#ifdef TC_MACOSX
+			// The control file can retain a disk number after detach. Always resolve
+			// the image first, before consulting the mount table for that device.
+			try { UpdateMountedVolumeInfo (mountedVol); }
+			catch (exception &e) { SystemLog::WriteException (e); }
+#else
 			if (mountedVol->MountPoint.IsEmpty() && !mountedVol->VirtualDevice.IsEmpty())
 			{
 				MountedFilesystemList mpl = GetMountedFilesystems (mountedVol->VirtualDevice);
@@ -612,6 +618,7 @@ namespace VeraCrypt
 
 			if (mountedVol->MountPoint.IsEmpty() || mountedVol->VirtualDevice.IsEmpty())
 				UpdateMountedVolumeInfo (mountedVol);
+#endif
 
 			volumes.push_back (mountedVol);
 
@@ -1129,9 +1136,20 @@ namespace VeraCrypt
 				throw DeviceSectorSizeMismatch (SRC_POS, StringConverter::ToWide(devSectorSize) + L" != " + StringConverter::ToWide((uint32) volSectorSize));
 		}
 
+		string fuseMountPoint;
+#ifdef VC_MACOSX_FUSET
+		// An older service may still be shutting down after its SMB mount has
+		// disappeared. FUSE-T also uses the pathname during backend teardown,
+		// so a replacement volume must have a different auxiliary path.
+		string mountTemplate = string (GetTempDirectory()) + "/" + GetFuseMountDirPrefix() + "-XXXXXXXXXXXX";
+		vector <char> mountDirectory (mountTemplate.begin(), mountTemplate.end());
+		mountDirectory.push_back ('\0');
+		throw_sys_if (mkdtemp (&mountDirectory[0]) == NULL);
+		fuseMountPoint = &mountDirectory[0];
+		throw_sys_if (chmod (fuseMountPoint.c_str(), S_IRUSR | S_IXUSR) == -1);
+#else
 		// Find a free mount point for FUSE service
 		MountedFilesystemList mountedFilesystems = GetMountedFilesystems ();
-		string fuseMountPoint;
 		for (int i = 1; true; i++)
 		{
 			stringstream path;
@@ -1168,6 +1186,7 @@ namespace VeraCrypt
 				}
 			}
 		}
+#endif
 
 #ifdef VC_MACOSX_FUSET
 		uint64 fuseServiceSerialInstanceNumber;
@@ -1175,6 +1194,14 @@ namespace VeraCrypt
 
 		try
 		{
+#ifdef TC_MACOSX
+			// FUSE canonicalizes its mount path. Give hdiutil the same path so
+			// its inventory identifies the image even when TMPDIR is a symlink.
+			char *canonicalPath = realpath (fuseMountPoint.c_str(), NULL);
+			throw_sys_if (canonicalPath == NULL);
+			finally_do_arg (char *, canonicalPath, { free (finally_arg); });
+			fuseMountPoint = canonicalPath;
+#endif
 #ifdef VC_MACOSX_FUSET
 			fuseServiceSerialInstanceNumber = FuseService::Mount (volume, options.SlotNumber, fuseMountPoint);
 #else

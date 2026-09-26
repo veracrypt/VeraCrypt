@@ -96,30 +96,12 @@ namespace VeraCrypt
 		return CFPropertyListCreateWithData (kCFAllocatorDefault, (CFDataRef) data.Get(), kCFPropertyListImmutable, nullptr, nullptr);
 	}
 
-	static string NormalizeDiskImagePath (const string &path)
+	static string CanonicalizeDiskImagePath (const string &path)
 	{
-		string normalized;
-		bool previousSlash = false;
-
-		for (string::const_iterator i = path.begin(); i != path.end(); ++i)
-		{
-			if (*i == '/')
-			{
-				if (previousSlash)
-					continue;
-
-				previousSlash = true;
-			}
-			else
-				previousSlash = false;
-
-			normalized += *i;
-		}
-
-		if (normalized.find ("/private/") == 0)
-			normalized.erase (0, 8);
-
-		return normalized;
+		char *canonicalPath = realpath (path.c_str(), NULL);
+		throw_sys_sub_if (canonicalPath == NULL, path);
+		finally_do_arg (char *, canonicalPath, { free (finally_arg); });
+		return canonicalPath;
 	}
 
 	// Walk a "system-entities" array (from hdiutil attach/info). Prefer the entity
@@ -195,15 +177,22 @@ namespace VeraCrypt
 		args.push_back ("-plist");
 
 		string xml = Process::Execute ("/usr/bin/hdiutil", args);
-		string normalizedImagePath = NormalizeDiskImagePath (imagePath);
+		string canonicalImagePath = CanonicalizeDiskImagePath (imagePath);
+		// TMPDIR aliases change the parent path, not VeraCrypt's auxiliary
+		// directory name or the image filename appended to it.
+		size_t imageSeparator = canonicalImagePath.find_last_of ('/');
+		size_t auxiliarySeparator = canonicalImagePath.find_last_of ('/', imageSeparator - 1);
+		if (imageSeparator == string::npos || auxiliarySeparator == string::npos)
+			throw ParameterIncorrect (SRC_POS);
+		const string imageSuffix = canonicalImagePath.substr (auxiliarySeparator);
 
 		CFHolder plist (ParsePropertyList (xml));
 		if (!plist.Get() || CFGetTypeID (plist.Get()) != CFDictionaryGetTypeID())
-			return false;
+			throw ParameterIncorrect (SRC_POS);
 
 		CFTypeRef images = CFDictionaryGetValue ((CFDictionaryRef) plist.Get(), CFSTR ("images"));	// borrowed
 		if (!images || CFGetTypeID (images) != CFArrayGetTypeID())
-			return false;
+			throw ParameterIncorrect (SRC_POS);
 
 		CFArrayRef imageArray = (CFArrayRef) images;
 		CFIndex count = CFArrayGetCount (imageArray);
@@ -211,21 +200,34 @@ namespace VeraCrypt
 		{
 			CFTypeRef image = CFArrayGetValueAtIndex (imageArray, i);	// borrowed
 			if (!image || CFGetTypeID (image) != CFDictionaryGetTypeID())
-				continue;
+				throw ParameterIncorrect (SRC_POS);
 
 			CFDictionaryRef imageDict = (CFDictionaryRef) image;
 
 			string currentImagePath = CFDictionaryGetStdString (imageDict, "image-path");
-			if (NormalizeDiskImagePath (currentImagePath) != normalizedImagePath)
-				continue;
+			if (currentImagePath.empty())
+				throw ParameterIncorrect (SRC_POS);
+			if (currentImagePath != canonicalImagePath)
+			{
+				// Older clients attached through TMPDIR aliases. Resolve those too,
+				// but do not access unrelated disk images (which may be offline).
+				if (currentImagePath[0] != '/' || currentImagePath.size() < imageSuffix.size()
+					|| currentImagePath.compare (currentImagePath.size() - imageSuffix.size(), imageSuffix.size(), imageSuffix) != 0)
+					continue;
+				// Failure to resolve a candidate is not proof that our image is gone.
+				if (CanonicalizeDiskImagePath (currentImagePath) != canonicalImagePath)
+					continue;
+			}
 
-			// Matching image found: extract from its system-entities (mirrors the
-			// previous behavior of returning the result for the first match).
+			// A missing image and an unreadable inventory are different states.
+			// Callers must never fall back to a cached disk number on an error.
 			CFTypeRef entities = CFDictionaryGetValue (imageDict, CFSTR ("system-entities"));	// borrowed
 			if (!entities || CFGetTypeID (entities) != CFArrayGetTypeID())
-				return false;
+				throw ParameterIncorrect (SRC_POS);
 
-			return ExtractDeviceAndMountPointFromEntities ((CFArrayRef) entities, device, mountPoint);
+			if (!ExtractDeviceAndMountPointFromEntities ((CFArrayRef) entities, device, mountPoint))
+				throw ParameterIncorrect (SRC_POS);
+			return true;
 		}
 
 		return false;
@@ -268,16 +270,32 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreMacOSX::DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles, bool syncVolumeInfo)
 	{
-		if (!mountedVolume->AuxMountPoint.IsEmpty())
-		{
-			try
-			{
-				UpdateMountedVolumeInfo (mountedVolume);
-			}
-			catch (...) { }
-		}
+		if (!mountedVolume || mountedVolume->AuxMountPoint.IsEmpty())
+			throw ParameterIncorrect (SRC_POS);
+#ifdef VC_MACOSX_FUSET
+		// Validate the mount and check the service protocol before detaching
+		// the disk image. Retain its identity independently of SMB metadata.
+		const FuseService::DismountRequest dismountRequest = FuseService::PrepareDismount (mountedVolume->AuxMountPoint,
+			mountedVolume->SerialInstanceNumber, mountedVolume->SlotNumber, ignoreOpenFiles);
+#endif
 
-		if (!mountedVolume->VirtualDevice.IsEmpty() && mountedVolume->VirtualDevice.IsBlockDevice())
+		// Resolve ownership immediately before detach, including retries after a
+		// busy auxiliary unmount or an external eject. BSD disk numbers are reused.
+#ifdef VC_MACOSX_FUSET
+		if (!FuseService::IsDismountMountPresent (dismountRequest))
+		{
+			if (!dismountRequest.LegacyService)
+				FuseService::WaitForDismount (FuseService::RequestDismount (dismountRequest), mountedVolume->AuxMountPoint, mountedVolume->SlotNumber);
+			return mountedVolume;
+		}
+#endif
+		UpdateMountedVolumeInfo (mountedVolume);
+
+		if (!mountedVolume->VirtualDevice.IsEmpty() && mountedVolume->VirtualDevice.IsBlockDevice()
+#ifdef VC_MACOSX_FUSET
+			&& FuseService::IsDismountMountPresent (dismountRequest)
+#endif
+			)
 		{
 			list <string> args;
 			args.push_back ("detach");
@@ -313,29 +331,26 @@ namespace VeraCrypt
 			sync();
 			VolumeInfoList ml = GetMountedVolumes (mountedVolume->Path);
 
-			if (ml.size() > 0)
+			if (ml.size() > 0 && ml.front()->SerialInstanceNumber == mountedVolume->SerialInstanceNumber)
 				mountedVolume = ml.front();
 		}
 
 #ifdef VC_MACOSX_FUSET
-		pid_t fuseServiceProcessId = FuseService::RequestDismount (mountedVolume->AuxMountPoint,
-			mountedVolume->SerialInstanceNumber, mountedVolume->SlotNumber);
-#endif
-
+		// The service unmounts SMB while its FUSE loop can still answer requests.
+		if (!dismountRequest.LegacyService)
+		{
+			pid_t fuseServiceProcessId = FuseService::RequestDismount (dismountRequest);
+			FuseService::WaitForDismount (fuseServiceProcessId, mountedVolume->AuxMountPoint, mountedVolume->SlotNumber);
+		}
+		else
+			FuseService::DismountLegacy (dismountRequest);
+#else
 		list <string> args;
 		args.push_back ("--");
 		args.push_back (mountedVolume->AuxMountPoint);
 
 		for (int t = 0; true; t++)
 		{
-#ifdef VC_MACOSX_FUSET
-			try
-			{
-				if (GetMountedFilesystems (DevicePath(), mountedVolume->AuxMountPoint).empty())
-					break;
-			}
-			catch (...) { }
-#endif
 			try
 			{
 				Process::Execute ("/sbin/umount", args);
@@ -348,9 +363,6 @@ namespace VeraCrypt
 				Thread::Sleep (200);
 			}
 		}
-
-#ifdef VC_MACOSX_FUSET
-		FuseService::WaitForDismount (fuseServiceProcessId, mountedVolume->AuxMountPoint, mountedVolume->SlotNumber);
 #endif
 
 		try
@@ -364,29 +376,21 @@ namespace VeraCrypt
 
 	void CoreMacOSX::UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> mountedVolume) const
 	{
-		if (!mountedVolume || mountedVolume->AuxMountPoint.IsEmpty())
+		if (!mountedVolume)
 			return;
 
-		try
-		{
-			DevicePath recoveredVirtualDevice;
-			DirectoryPath recoveredMountPoint;
-
-			if (FindDiskImageInfoByImagePath (string (mountedVolume->AuxMountPoint) + FuseService::GetVolumeImagePath(), recoveredVirtualDevice, recoveredMountPoint))
-			{
-				if (!recoveredVirtualDevice.IsEmpty())
-				{
-					if (mountedVolume->VirtualDevice != recoveredVirtualDevice && recoveredMountPoint.IsEmpty())
-						mountedVolume->MountPoint = DirectoryPath();
-
-					mountedVolume->VirtualDevice = recoveredVirtualDevice;
-				}
-
-				if (!recoveredMountPoint.IsEmpty())
-					mountedVolume->MountPoint = recoveredMountPoint;
-			}
-		}
-		catch (...) { }
+		// Clear stale metadata even if discovery fails. Destructive callers get
+		// the exception; enumeration can still show the auxiliary mount for retry.
+		mountedVolume->VirtualDevice = DevicePath();
+		mountedVolume->MountPoint = DirectoryPath();
+		if (mountedVolume->AuxMountPoint.IsEmpty())
+			return;
+		DevicePath recoveredVirtualDevice;
+		DirectoryPath recoveredMountPoint;
+		if (!FindDiskImageInfoByImagePath (string (mountedVolume->AuxMountPoint) + FuseService::GetVolumeImagePath(), recoveredVirtualDevice, recoveredMountPoint))
+			return;
+		mountedVolume->VirtualDevice = recoveredVirtualDevice;
+		mountedVolume->MountPoint = recoveredMountPoint;
 
 		if (mountedVolume->MountPoint.IsEmpty() && !mountedVolume->VirtualDevice.IsEmpty())
 		{
@@ -434,6 +438,7 @@ namespace VeraCrypt
 
 	void CoreMacOSX::CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair) const
 	{
+		UpdateMountedVolumeInfo (mountedVolume);
 		// Honor the check-vs-repair distinction by running diskutil on the VeraCrypt
 		// virtual device (diskutil unmounts the inner filesystem itself as needed).
 		// The Core layer has no GUI, so results are shown in a Terminal window via a

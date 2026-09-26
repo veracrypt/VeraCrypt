@@ -88,7 +88,7 @@ namespace VeraCrypt
 		void SeekAt (uint64 position) const;
 		void SeekEnd (int ofset) const;
 #ifndef TC_WINDOWS
-		void SetCloseOnExec ();
+		void SetCloseOnExec () const;
 #endif
 		void SetLength (uint64 length) const;
 		void Write (const ConstBufferPtr &buffer) const;

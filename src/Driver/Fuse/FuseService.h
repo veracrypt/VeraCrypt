@@ -28,10 +28,19 @@ namespace VeraCrypt
 		struct ExecFunctor : public ProcessExecFunctor
 		{
 			ExecFunctor (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, uint64 serialInstanceNumber)
-				: MountedVolume (openVolume), SlotNumber (slotNumber), SerialInstanceNumber (serialInstanceNumber)
+				:
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+				StartupFd (-1), StartupPeerFd (-1),
+#endif
+				MountedVolume (openVolume), SlotNumber (slotNumber), SerialInstanceNumber (serialInstanceNumber)
 			{
 			}
 			virtual void operator() (int argc, char *argv[]);
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			int StartupFd;
+			int StartupPeerFd;
+#endif
 
 		protected:
 			shared_ptr <Volume> MountedVolume;
@@ -51,6 +60,7 @@ namespace VeraCrypt
 		static const char *GetVolumeImagePath ();
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 		static const char *GetShutdownPath () { return "/shutdown"; }
+		static const char *GetShutdownSocketPath () { return "/shutdown-socket"; }
 #endif
 		static string GetDeviceType () { return "veracrypt"; }
 		static gid_t GetGroupId () { return GroupId; }
@@ -66,7 +76,22 @@ namespace VeraCrypt
 		static void ReceiveAuxDeviceInfo (const ConstBufferPtr &buffer);
 		static void SendAuxDeviceInfo (const DirectoryPath &fuseMountPoint, const DevicePath &virtualDevice, const DevicePath &loopDevice = DevicePath());
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
-		static pid_t RequestDismount (const DirectoryPath &fuseMountPoint, uint64 serialInstanceNumber, VolumeSlotNumber slotNumber);
+		struct DismountRequest
+		{
+			pid_t ProcessId;
+			uint64 SerialInstanceNumber;
+			VolumeSlotNumber SlotNumber;
+			bool IgnoreOpenFiles;
+			bool LegacyService;
+			string SocketDirectory;
+			string AuxMountPoint;
+			int32 MountId[2];
+		};
+
+		static DismountRequest PrepareDismount (const DirectoryPath &fuseMountPoint, uint64 serialInstanceNumber, VolumeSlotNumber slotNumber, bool ignoreOpenFiles);
+		static pid_t RequestDismount (const DismountRequest &request);
+		static bool IsDismountMountPresent (const DismountRequest &request);
+		static void DismountLegacy (const DismountRequest &request);
 		static void WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut = 10000);
 #endif
 		static void WriteVolumeSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
