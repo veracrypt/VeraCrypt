@@ -40,6 +40,7 @@
 #include <sstream>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
 #include <sys/mman.h>
@@ -74,6 +75,7 @@ namespace VeraCrypt
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 	static const ino_t VC_FUSE_INODE_SHUTDOWN = 5;
 	static atomic <bool> FuseServiceShutdownRequested (false);
+	static Thread FuseServiceShutdownThread;
 
 	struct FuseServiceShutdownContext
 	{
@@ -132,20 +134,51 @@ namespace VeraCrypt
 		return true;
 	}
 
+	static void fuse_service_unmount (struct fuse *fuseHandle)
+	{
+		struct fuse_session *session = fuse_get_session (fuseHandle);
+		struct fuse_chan *channel = session ? fuse_session_next_chan (session, NULL) : NULL;
+		if (channel)
+			fuse_unmount (NULL, channel);
+	}
+
 	static TC_THREAD_PROC fuse_service_shutdown (void *contextArg)
 	{
 		unique_ptr <FuseServiceShutdownContext> context (static_cast <FuseServiceShutdownContext *> (contextArg));
 
-		// Let the write reply reach the caller before closing FUSE-T's channel.
+		// Give the write reply a chance to reach the caller before closing the
+		// channel. Joining this worker in fuse_service_main protects the handle.
 		Thread::Sleep (100);
 		fuse_exit (context->FuseHandle);
-
-		struct fuse_session *session = fuse_get_session (context->FuseHandle);
-		struct fuse_chan *channel = session ? fuse_session_next_chan (session, NULL) : NULL;
-		if (channel)
-			fuse_unmount (NULL, channel);
+		fuse_service_unmount (context->FuseHandle);
 
 		return 0;
+	}
+
+	static int fuse_service_main (int argc, char *argv[], const struct fuse_operations *operations)
+	{
+		char *mountPoint = NULL;
+		int multithreaded = 0;
+		struct fuse *fuseHandle = fuse_setup (argc, argv, operations, sizeof (*operations),
+			&mountPoint, &multithreaded, NULL);
+		if (!fuseHandle)
+			return 1;
+
+		int result = multithreaded ? fuse_loop_mt (fuseHandle) : fuse_loop (fuseHandle);
+
+		// The loop has completed all callbacks, so no new shutdown worker can
+		// be started. Keep the handle alive until an existing worker has finished.
+		if (FuseServiceShutdownRequested.load())
+			FuseServiceShutdownThread.Join();
+		else
+			fuse_service_unmount (fuseHandle);
+
+		// Do not call fuse_teardown: the channel has already been unmounted.
+		fuse_remove_signal_handlers (fuse_get_session (fuseHandle));
+		fuse_destroy (fuseHandle);
+		free (mountPoint);
+
+		return result == -1 ? 1 : 0;
 	}
 #endif
 
@@ -632,10 +665,8 @@ namespace VeraCrypt
 					try
 					{
 						unique_ptr <FuseServiceShutdownContext> shutdownContext (new FuseServiceShutdownContext (context->fuse));
-						Thread shutdownThread;
-						shutdownThread.Start (fuse_service_shutdown, shutdownContext.get());
+						FuseServiceShutdownThread.Start (fuse_service_shutdown, shutdownContext.get());
 						shutdownContext.release();
-						shutdownThread.Detach();
 					}
 					catch (...)
 					{
@@ -1050,7 +1081,9 @@ namespace VeraCrypt
 
 		SignalHandlerPipe->GetWriteFD();
 
-#ifdef VC_FUSE3
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		_exit (fuse_service_main (argc, argv, &fuse_service_oper));
+#elif defined(VC_FUSE3)
 		_exit (fuse_main (argc, argv, &fuse_service_oper, nullptr));
 #elif defined(TC_OPENBSD)
 		_exit (fuse_main (argc, argv, &fuse_service_oper, NULL));
