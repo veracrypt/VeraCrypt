@@ -3572,6 +3572,29 @@ static wchar_t PasswordDlgVolume[MAX_PATH + 1];
 static BOOL PasswordDialogDisableMountOptions;
 static char *PasswordDialogTitleStringId;
 
+static void UpdatePasswordDlgPasswordLabel (HWND hwndDlg)
+{
+	BOOL hiddenVolumeProtection = !PasswordDialogDisableMountOptions && mountOptions.ProtectHiddenVolume;
+	HWND credentialsNote = GetDlgItem (hwndDlg, HIDVOL_PROT_OUTER_CREDENTIALS_NOTE);
+	BOOL credentialsNoteVisible = (GetWindowLongPtr (credentialsNote, GWL_STYLE) & WS_VISIBLE) != 0;
+
+	SetDlgItemTextW (hwndDlg, IDT_PASSWORD, GetString (hiddenVolumeProtection ? "IDT_OUTER_VOL_PASSWORD" : "IDT_PASSWORD"));
+
+	if (hiddenVolumeProtection != credentialsNoteVisible)
+	{
+		RECT dialogRect;
+		RECT sizeChange = { 0, 0, 0, 23 };
+		MapDialogRect (hwndDlg, &sizeChange);
+		GetWindowRect (hwndDlg, &dialogRect);
+
+		ShowWindow (credentialsNote, hiddenVolumeProtection ? SW_SHOW : SW_HIDE);
+		SetWindowPos (hwndDlg, NULL,
+			dialogRect.left, dialogRect.top + (hiddenVolumeProtection ? -sizeChange.bottom / 2 : sizeChange.bottom / 2),
+			dialogRect.right - dialogRect.left, dialogRect.bottom - dialogRect.top + (hiddenVolumeProtection ? sizeChange.bottom : -sizeChange.bottom),
+			SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+}
+
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
    not. - see DialogProc */
@@ -3639,6 +3662,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SendMessage (hComboBox, CB_SETCURSEL, defaultPrfIndex, 0);
 
 			ToNormalPwdField (hwndDlg, IDC_PASSWORD);
+			UpdatePasswordDlgPasswordLabel (hwndDlg);
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
 
@@ -3842,6 +3866,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			DialogBoxParamW (hInst,
 				MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwndDlg,
 				(DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions);
+			UpdatePasswordDlgPasswordLabel (hwndDlg);
 
 			if (!bPrebootPasswordDlgMode && mountOptions.PartitionInInactiveSysEncScope)
 				SendMessage (hwndDlg, TC_APPMSG_PREBOOT_PASSWORD_MODE, 0, 0);
@@ -6618,7 +6643,8 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, MountAllDevicesThreadParam*
 			{
 				WCHAR szTmp[4096];
 
-				StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT"));
+				StringCbPrintfW (szTmp, sizeof(szTmp),
+					GetString (mountOptions.ProtectHiddenVolume ? "HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG" : (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT")));
 				if (CheckCapsLock (hwndDlg, TRUE))
 					StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
