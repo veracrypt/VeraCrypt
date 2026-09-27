@@ -372,19 +372,22 @@ namespace VeraCrypt
 			for (;;)
 			{
 				bool present = MountPresent();
-				if (StartupCancelled())
+				if (StartupCancelled() && (!present || FuseServiceClock::now() >= NextRollbackAttempt))
 				{
 					// No disk image has been attached yet. Roll back independently
 					// of SMB metadata and the public shutdown socket, while FUSE
 					// can still answer the auxiliary filesystem's final requests.
-					if (present && unmount (MountPoint, MNT_FORCE) != 0)
+					int error = present && unmount (MountPoint, MNT_FORCE) != 0 ? errno : 0;
+					if ((error == EINVAL || error == ENOENT) && !MountPresent())
+						error = 0;
+					if (error == 0)
 					{
-						int error = errno;
-						if ((error != EINVAL && error != ENOENT) || MountPresent())
-							throw SystemException (SRC_POS, error);
+						FinishDismount();
+						return;
 					}
-					FinishDismount();
-					return;
+					// Retry without starving the public endpoint. Probes still validate
+					// this instance; dismount requests can retry and report the error.
+					NextRollbackAttempt = FuseServiceClock::now() + chrono::seconds (1);
 				}
 				// All clients (including released clients and Finder) can remove
 				// SMB without notifying us. Initial absence is not a dismount.
@@ -453,10 +456,10 @@ namespace VeraCrypt
 							// finishes. Never act on a replacement at the same path.
 							for (int attempt = 0; !probe && present; ++attempt)
 							{
-								error = unmount (MountPoint, (request[5] & VC_FUSE_SHUTDOWN_FORCE) ? MNT_FORCE : 0) == 0 ? 0 : errno;
+								error = unmount (MountPoint, (StartupAborted || (request[5] & VC_FUSE_SHUTDOWN_FORCE)) ? MNT_FORCE : 0) == 0 ? 0 : errno;
 								if ((error == EINVAL || error == ENOENT) && !MountPresent())
 									error = 0;
-								if (error != EBUSY || attempt == 10)
+								if (error != EBUSY || StartupAborted || attempt == 10)
 									break;
 								Thread::Sleep (200);
 								present = MountPresent();
@@ -501,9 +504,61 @@ namespace VeraCrypt
 		bool MountSeen;
 		bool StartupReported;
 		bool StartupAborted;
+		FuseServiceClock::time_point NextRollbackAttempt;
 		fsid_t MountId;
 		unique_ptr <Pipe> StopPipe;
 		Thread ShutdownThread;
+	};
+
+	// Hold the original parent across mounting and teardown, then check the
+	// directory's identity before removing it. Never follow a replacement symlink.
+	class FuseServiceAuxDirectory
+	{
+	public:
+		explicit FuseServiceAuxDirectory (const string &path) : ParentFd (-1)
+		{
+			char *canonicalPath = realpath (path.c_str(), NULL);
+			throw_sys_if (canonicalPath == NULL);
+			finally_do_arg (char *, canonicalPath, { free (finally_arg); });
+			Path = canonicalPath;
+			size_t separator = path.find_last_of ('/');
+			if (separator == string::npos || separator + 1 == path.size())
+				throw ParameterIncorrect (SRC_POS);
+			Name = path.substr (separator + 1);
+			ParentFd = open ((separator == 0 ? "/" : path.substr (0, separator)).c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+			throw_sys_if (ParentFd == -1);
+			if (fstatat (ParentFd, Name.c_str(), &Original, AT_SYMLINK_NOFOLLOW) != 0 || !S_ISDIR (Original.st_mode))
+			{
+				close (ParentFd);
+				ParentFd = -1;
+				throw ParameterIncorrect (SRC_POS);
+			}
+		}
+
+		~FuseServiceAuxDirectory ()
+		{
+			try
+			{
+				fsid_t mountId;
+				// Do not enter an auxiliary filesystem that may no longer be
+				// served. Its absence is checked without querying the mount itself.
+				if (!fuse_service_find_mount (Path.c_str(), mountId))
+				{
+					struct stat current;
+					if (fstatat (ParentFd, Name.c_str(), &current, AT_SYMLINK_NOFOLLOW) == 0
+						&& S_ISDIR (current.st_mode) && current.st_dev == Original.st_dev && current.st_ino == Original.st_ino)
+						unlinkat (ParentFd, Name.c_str(), AT_REMOVEDIR);
+				}
+			}
+			catch (...) { }
+			close (ParentFd);
+		}
+
+	private:
+		int ParentFd;
+		string Name;
+		string Path;
+		struct stat Original;
 	};
 
 	static int fuse_service_main (int argc, char *argv[], const struct fuse_operations *operations, int startupFd)
@@ -511,6 +566,9 @@ namespace VeraCrypt
 		// On rollback, EOF must only reach the caller after fuse_destroy has
 		// closed the volume. The worker closes this early only after commit.
 		finally_do_arg (int *, &startupFd, { if (*finally_arg != -1) close (*finally_arg); });
+		if (argc < 2)
+			throw ParameterIncorrect (SRC_POS);
+		FuseServiceAuxDirectory auxiliaryDirectory (argv[1]);
 		// FUSE-T execs its backend during setup. This child no longer needs any
 		// inherited descriptors across exec, including helper pipes and /dev/null.
 		const int descriptorLimit = getdtablesize();
@@ -1281,7 +1339,9 @@ namespace VeraCrypt
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 		// Make sure the watcher has observed this mount before a caller can
 		// immediately dismount it with a released (non-notifying) client.
-		PrepareDismount (fuseMountPoint, serialInstanceNumber, slotNumber, false);
+		DismountRequest prepared = PrepareDismount (fuseMountPoint, serialInstanceNumber, slotNumber, false);
+		if (prepared.LegacyService || prepared.ProcessId != startupProcessId)
+			throw ParameterIncorrect (SRC_POS);
 		uint8 commit = 1;
 		if (!fuse_service_socket_transfer (startup[0], &commit, sizeof (commit), true))
 			throw SystemException (SRC_POS, EPIPE);
@@ -1415,7 +1475,7 @@ namespace VeraCrypt
 				pid_t peerPid;
 				socklen_t peerPidSize = sizeof (peerPid);
 				throw_sys_if (getsockopt (fd, SOL_LOCAL, LOCAL_PEERPID, &peerPid, &peerPidSize) == -1);
-				if (peerPid != request.ProcessId)
+				if (peerPid != request.ProcessId || !Process::IsProcessRunning (peerPid, request.ProcessStartTime))
 					throw ParameterIncorrect (SRC_POS);
 				return fd;
 			}
@@ -1484,6 +1544,7 @@ namespace VeraCrypt
 		if (!fuse_service_parse_shutdown_identity (identity, request.ProcessId, serviceSerialInstanceNumber, serviceSlotNumber)
 			|| serviceSerialInstanceNumber != serialInstanceNumber || serviceSlotNumber != slotNumber)
 			throw ParameterIncorrect (SRC_POS);
+		request.ProcessStartTime = Process::GetProcessStartTime (request.ProcessId);
 
 		try { request.SocketDirectory = fuse_service_read_metadata (request.AuxMountPoint + GetShutdownSocketPath(), 256); }
 		catch (SystemException &e)
@@ -1503,11 +1564,22 @@ namespace VeraCrypt
 		if (!fuse_service_request_mount_present (request))
 			throw SystemException (SRC_POS, ESTALE);
 
-		int fd = fuse_service_connect_shutdown (request);
-		finally_do_arg (int, fd, { close (finally_arg); });
-		int32 error = fuse_service_shutdown_command (fd, request, VC_FUSE_SHUTDOWN_PROBE, 10000);
-		if (error != 0)
-			throw SystemException (SRC_POS, error);
+		try
+		{
+			int fd = fuse_service_connect_shutdown (request);
+			finally_do_arg (int, fd, { close (finally_arg); });
+			int32 error = fuse_service_shutdown_command (fd, request, VC_FUSE_SHUTDOWN_PROBE, 10000);
+			if (error != 0)
+				throw SystemException (SRC_POS, error);
+		}
+		catch (SystemException &e)
+		{
+			throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
+		}
+		catch (TimeOut &e)
+		{
+			throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
+		}
 		return request;
 	}
 
@@ -1529,9 +1601,15 @@ namespace VeraCrypt
 		{
 			// External unmount may have completed between preflight and request.
 			// It is only success when the captured mount instance is already gone.
-			if ((e.GetErrorCode() != ENOENT && e.GetErrorCode() != ECONNREFUSED && e.GetErrorCode() != EPIPE)
-				|| fuse_service_request_mount_present (request))
+			if (e.GetErrorCode() != ENOENT && e.GetErrorCode() != ECONNREFUSED && e.GetErrorCode() != EPIPE)
 				throw;
+			if (fuse_service_request_mount_present (request))
+				throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
+		}
+		catch (TimeOut &e)
+		{
+			if (fuse_service_request_mount_present (request))
+				throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
 		}
 		return request.ProcessId;
 	}
@@ -1563,18 +1641,11 @@ namespace VeraCrypt
 		}
 	}
 
-	void FuseService::WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut)
+	void FuseService::WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut, uint64 processStartTime)
 	{
 		for (int timeTaken = 0; ; timeTaken += 100)
 		{
-			if (kill (processId, 0) == -1)
-			{
-				if (errno == ESRCH)
-					return;
-
-				if (errno != EPERM)
-					throw SystemException (SRC_POS);
-			}
+			if (!Process::IsProcessRunning (processId, processStartTime)) return;
 
 			if (timeTaken >= timeOut)
 			{
@@ -1582,7 +1653,7 @@ namespace VeraCrypt
 				logMessage << "VeraCrypt FUSE service did not terminate after shutdown request: pid=" << processId
 					<< ", slot=" << slotNumber << ", auxiliary mount=" << string (fuseMountPoint);
 				SystemLog::WriteError (logMessage.str());
-				throw TimeOut (SRC_POS);
+				throw DismountServiceCleanupFailed (SRC_POS, StringConverter::ToWide (logMessage.str()));
 			}
 
 			Thread::Sleep (100);
@@ -1604,7 +1675,7 @@ namespace VeraCrypt
 		{
 			shared_ptr <VolumeInfo> volume = Core->GetMountedVolume (SlotNumber);
 
-			if (volume)
+			if (volume && volume->SerialInstanceNumber == GetSerialInstanceNumber())
 				Core->DismountVolume (volume, true);
 		}
 		catch (...) { }

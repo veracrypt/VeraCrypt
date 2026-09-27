@@ -218,21 +218,22 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreBase::GetMountedVolume (const VolumePath &volumePath) const
 	{
-		VolumeInfoList volumes = GetMountedVolumes (volumePath);
-		if (volumes.empty())
-			return shared_ptr <VolumeInfo> ();
-		else
-			return volumes.front();
+		VolumeDiscoveryResult result = GetMountedVolumesWithStatus (volumePath);
+		if (!result.Volumes.empty()) return result.Volumes.front();
+		if (!result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front()));
+		return shared_ptr <VolumeInfo> ();
 	}
 
 	shared_ptr <VolumeInfo> CoreBase::GetMountedVolume (VolumeSlotNumber slot) const
 	{
-		foreach (shared_ptr <VolumeInfo> volume, GetMountedVolumes())
+		VolumeDiscoveryResult result = GetMountedVolumesWithStatus();
+		foreach (shared_ptr <VolumeInfo> volume, result.Volumes)
 		{
 			if (volume->SlotNumber == slot)
 				return volume;
 		}
 
+		if (!result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front()));
 		return shared_ptr <VolumeInfo> ();
 	}
 

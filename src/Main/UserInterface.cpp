@@ -184,6 +184,20 @@ namespace VeraCrypt
 		DismountVolumes (volumes, ignoreOpenFiles, interactive);
 	}
 
+	// Unconfirmed service exits are reported together, followed by any other
+	// failure of the same operation, so that none of them can hide another.
+	static void ThrowUnconfirmedCleanups (const list <DismountServiceCleanupFailed> &failures, const wstring &otherFailure)
+	{
+		wstring details;
+		for (const DismountServiceCleanupFailed &failure : failures)
+			details += (details.empty() ? L"" : L"\n\n") + failure.GetSubject();
+
+		if (!otherFailure.empty())
+			details += L"\n\n" + otherFailure;
+
+		throw DismountServiceCleanupFailed (failures.front().what(), details);
+	}
+
 	void UserInterface::DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles, bool interactive, bool emergencyCleanupRequested) const
 	{
 #ifndef TC_LINUX
@@ -197,6 +211,9 @@ namespace VeraCrypt
 		bool twoPassMode = volumes.size() > 1;
 		bool volumesInUse = false;
 		bool firstPass = true;
+		// Such volumes have already left discovery. Report every one of them, even
+		// when another volume fails or a forced-unmount prompt is declined.
+		list <DismountServiceCleanupFailed> unconfirmedCleanups;
 
 #ifdef TC_WINDOWS
 		if (Preferences.CloseExplorerWindowsOnDismount)
@@ -205,60 +222,51 @@ namespace VeraCrypt
 				CloseExplorerWindows (volume);
 		}
 #endif
-		while (!volumes.empty())
+		try
 		{
-			VolumeInfoList volumesLeft;
-			foreach (shared_ptr <VolumeInfo> volume, volumes)
+			while (!volumes.empty())
 			{
-				bool emergencyCleanupPerformed = false;
-				try
+				VolumeInfoList volumesLeft;
+				foreach (shared_ptr <VolumeInfo> volume, volumes)
 				{
-					BusyScope busy (this);
-					volume = Core->DismountVolume (volume, ignoreOpenFiles);
-				}
-				catch (MountedVolumeInUse&)
-				{
-					if (!firstPass || (!interactive && !twoPassMode))
-						throw;
-
-					if (twoPassMode || !interactive)
+					bool emergencyCleanupPerformed = false;
+					try
 					{
-						volumesInUse = true;
-						volumesLeft.push_back (volume);
-						continue;
+						BusyScope busy (this);
+						volume = DismountVolumeThread (volume, ignoreOpenFiles, interactive);
 					}
-					else
+					catch (MountedVolumeInUse&)
 					{
-						if (AskYesNo (StringFormatter (LangString["UNMOUNT_LOCK_FAILED"], wstring (volume->Path)), true, true))
+						if (!firstPass || (!interactive && !twoPassMode))
+							throw;
+
+						if (twoPassMode || !interactive)
 						{
-							BusyScope busy (this);
-							volume = Core->DismountVolume (volume, true);
+							volumesInUse = true;
+							volumesLeft.push_back (volume);
+							continue;
 						}
 						else
-							throw UserAbort (SRC_POS);
-					}
-				}
-#ifdef TC_LINUX
-				catch (FilesystemDismountFailed&)
-				{
-					if (twoPassMode && firstPass)
-					{
-						volumesLeft.push_back (volume);
-						continue;
-					}
-
-					if (emergencyCleanupRequested)
-					{
 						{
-							BusyScope busy (this);
-							volume = Core->EmergencyDismountVolume (volume);
+							if (AskYesNo (StringFormatter (LangString["UNMOUNT_LOCK_FAILED"], wstring (volume->Path)), true, true))
+							{
+								BusyScope busy (this);
+								volume = DismountVolumeThread (volume, true);
+							}
+							else
+								throw UserAbort (SRC_POS);
 						}
-						emergencyCleanupPerformed = true;
-						ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
 					}
-					else if (interactive)
+#ifdef TC_LINUX
+					catch (FilesystemDismountFailed&)
 					{
-						if (AskYesNo (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path)), false, true))
+						if (twoPassMode && firstPass)
+						{
+							volumesLeft.push_back (volume);
+							continue;
+						}
+
+						if (emergencyCleanupRequested)
 						{
 							{
 								BusyScope busy (this);
@@ -267,55 +275,88 @@ namespace VeraCrypt
 							emergencyCleanupPerformed = true;
 							ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
 						}
+						else if (interactive)
+						{
+							if (AskYesNo (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path)), false, true))
+							{
+								{
+									BusyScope busy (this);
+									volume = Core->EmergencyDismountVolume (volume);
+								}
+								emergencyCleanupPerformed = true;
+								ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
+							}
+							else
+								throw UserAbort (SRC_POS);
+						}
+						else
+							throw;
+					}
+#endif
+					catch (DismountServiceCleanupFailed &e)
+					{
+						// The auxiliary mount is gone, so another attempt cannot reach the service.
+						unconfirmedCleanups.push_back (e);
+						continue;
+					}
+					catch (...)
+					{
+						if (twoPassMode && firstPass)
+							volumesLeft.push_back (volume);
+						else
+							throw;
+					}
+
+					if (volume->HiddenVolumeProtectionTriggered)
+						ShowWarning (StringFormatter (LangString["DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"], wstring (volume->Path)));
+
+					if (Preferences.Verbose)
+					{
+						if (!emergencyCleanupPerformed)
+						{
+							if (!message.IsEmpty())
+								message += L'\n';
+							message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
+						}
+					}
+				}
+
+				if (twoPassMode && firstPass)
+				{
+					volumes = volumesLeft;
+
+					if (volumesInUse && interactive)
+					{
+						if (AskYesNo (LangString["UNMOUNTALL_LOCK_FAILED"], true, true))
+							ignoreOpenFiles = true;
 						else
 							throw UserAbort (SRC_POS);
 					}
-					else
-						throw;
 				}
-#endif
-				catch (...)
-				{
-					if (twoPassMode && firstPass)
-						volumesLeft.push_back (volume);
-					else
-						throw;
-				}
+				else
+					break;
 
-				if (volume->HiddenVolumeProtectionTriggered)
-					ShowWarning (StringFormatter (LangString["DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"], wstring (volume->Path)));
-
-				if (Preferences.Verbose)
-				{
-					if (!emergencyCleanupPerformed)
-					{
-						if (!message.IsEmpty())
-							message += L'\n';
-						message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
-					}
-				}
+				firstPass = false;
 			}
 
-			if (twoPassMode && firstPass)
-			{
-				volumes = volumesLeft;
+			if (Preferences.Verbose && !message.IsEmpty())
+				ShowInfo (message);
+		}
+		catch (...)
+		{
+			if (unconfirmedCleanups.empty())
+				throw;
 
-				if (volumesInUse && interactive)
-				{
-					if (AskYesNo (LangString["UNMOUNTALL_LOCK_FAILED"], true, true))
-						ignoreOpenFiles = true;
-					else
-						throw UserAbort (SRC_POS);
-				}
-			}
-			else
-				break;
-
-			firstPass = false;
+			wxString otherFailure;
+			try { throw; }
+			catch (UserAbort &) { }
+			catch (exception &e) { otherFailure = ExceptionToMessage (e); }
+			catch (...) { otherFailure = ExceptionToMessage (UnknownException (SRC_POS)); }
+			ThrowUnconfirmedCleanups (unconfirmedCleanups, otherFailure.ToStdWstring());
 		}
 
-		if (Preferences.Verbose && !message.IsEmpty())
-			ShowInfo (message);
+		if (!unconfirmedCleanups.empty())
+			ThrowUnconfirmedCleanups (unconfirmedCleanups, wstring());
 	}
 
 	void UserInterface::DisplayVolumeProperties (const VolumeInfoList &volumes) const
@@ -562,6 +603,11 @@ namespace VeraCrypt
 		EX2MSG (MountPointUnavailable,				LangString["LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE"]);
 		EX2MSG (MountServiceIncompatible,			LangString["MOUNT_SERVICE_INCOMPATIBLE"]);
 		EX2MSG (MountServiceCleanupFailed,			LangString["MOUNT_SERVICE_CLEANUP_FAILED"]);
+		EX2MSG (DismountServiceCleanupFailed, LangString["DISMOUNT_SERVICE_CLEANUP_FAILED"]);
+		EX2MSG (MountServiceUnavailable, LangString["MOUNT_SERVICE_UNAVAILABLE"]);
+		EX2MSG (VolumeDiscoveryFailed, LangString["VOLUME_DISCOVERY_FAILED"]);
+		EX2MSG (MountedVolumeInUse, LangString["VOLUME_IN_USE"]);
+		EX2MSG (TimeOut, LangString["OPERATION_TIMED_OUT"]);
 		EX2MSG (NoDriveLetterAvailable,				LangString["NO_FREE_DRIVES"]);
 		EX2MSG (PasswordEmpty,						LangString["LINUX_EX2MSG_PASSWORDEMPTY"]);
 		EX2MSG (PasswordIncorrect,					LangString["PASSWORD_WRONG"]);
@@ -1305,6 +1351,7 @@ const FileManager fileManagers[] = {
 				, cmdLine.ArgEmergencyUnmount
 #endif
 				);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::DisplayVersion:
@@ -1312,7 +1359,9 @@ const FileManager fileManagers[] = {
 			return true;
 
 		case CommandId::DisplayVolumeProperties:
+			if (cmdLine.ArgVolumes.empty() && !cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			DisplayVolumeProperties (cmdLine.ArgVolumes);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::Help:
@@ -1675,10 +1724,12 @@ const FileManager fileManagers[] = {
             return true;
 
 		case CommandId::ListVolumes:
+			if (cmdLine.ArgVolumes.empty() && !cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			if (Preferences.Verbose)
 				DisplayVolumeProperties (cmdLine.ArgVolumes);
 			else
 				ListMountedVolumes (cmdLine.ArgVolumes);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::RestoreHeaders:
@@ -1914,6 +1965,9 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);
 		VC_CONVERT_EXCEPTION (MountServiceIncompatible);
 		VC_CONVERT_EXCEPTION (MountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (DismountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (MountServiceUnavailable);
+		VC_CONVERT_EXCEPTION (VolumeDiscoveryFailed);
 		VC_CONVERT_EXCEPTION (NoDriveLetterAvailable);
 		VC_CONVERT_EXCEPTION (TemporaryDirectoryFailure);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection);

@@ -1,4 +1,5 @@
-/* Scoped macOS fault injection for test_fuset_dismount.py --startup-faults.
+/* Scoped macOS fault injection for test_fuset_dismount.py --startup-faults
+ * and test_macos_gui_teardown.py (delayed service teardown).
  * Copyright (c) 2026 AM Crypto. Licensed under the Apache License 2.0.
  */
 #include <errno.h>
@@ -92,6 +93,12 @@ static int test_stat (const char *path, struct stat *value)
 	return stat (path, value);
 }
 
+static unsigned fault_delay (void)
+{
+	const char *delay = getenv ("VC_FUSET_TEST_DELAY");
+	return delay ? (unsigned) atoi (delay) : 10;
+}
+
 static int test_unmount (const char *path, int flags)
 {
 	const char *gate = getenv ("VC_FUSET_TEST_UNMOUNT_GATE");
@@ -101,7 +108,24 @@ static int test_unmount (const char *path, int flags)
 		errno = EBUSY;
 		return -1;
 	}
+	if (mode_is ("unmount-delay") && fixture_path (path, ""))
+	{
+		/* The service removes SMB slowly; its caller waits for the reply. */
+		mark_fault();
+		sleep (fault_delay());
+	}
 	return unmount (path, flags);
+}
+
+static int test_unlinkat (int fd, const char *path, int flags)
+{
+	if (mode_is ("cleanup-delay") && (flags & AT_REMOVEDIR) && strstr (path, ".veracrypt_aux_mnt"))
+	{
+		/* The service outlives its caller's exit wait after SMB removal. */
+		mark_fault();
+		sleep (fault_delay());
+	}
+	return unlinkat (fd, path, flags);
 }
 
 #define INTERPOSE(replacement, original) \
@@ -113,3 +137,4 @@ INTERPOSE (test_connect, connect);
 INTERPOSE (test_open, open);
 INTERPOSE (test_stat, stat);
 INTERPOSE (test_unmount, unmount);
+INTERPOSE (test_unlinkat, unlinkat);

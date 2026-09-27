@@ -217,8 +217,11 @@ class DismountChecks:
                 with (self.active["aux"] / "control").open("rb") as held:
                     held.read(1)
                     result = self.vc(label + "-refused", "--unmount", self.volume, expected=1)
-                    if "MountedVolumeInUse" not in result.stdout + result.stderr:
-                        raise AssertionError("Busy unmount did not use MountedVolumeInUse")
+                    # CLI errors are localized. Check the refusal and retained
+                    # service instead of its internal C++ exception name.
+                    os.kill(self.active["pid"], 0)
+                    if not any(f" on {self.active['aux']} (" in line for line in self.mounted_paths()):
+                        raise AssertionError("Busy unmount removed the auxiliary mount")
             else:
                 self.run(label + "-detach", ["/usr/bin/hdiutil", "detach", old_device])
             try:

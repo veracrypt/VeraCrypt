@@ -60,6 +60,9 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);
 		VC_CONVERT_EXCEPTION (MountServiceIncompatible);
 		VC_CONVERT_EXCEPTION (MountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (DismountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (MountServiceUnavailable);
+		VC_CONVERT_EXCEPTION (VolumeDiscoveryFailed);
 		VC_CONVERT_EXCEPTION (NoDriveLetterAvailable);
 		VC_CONVERT_EXCEPTION (TemporaryDirectoryFailure);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection);

@@ -834,9 +834,10 @@ namespace VeraCrypt
 		return keyfileList;
 	}
 
-	VolumeInfoList CommandLineInterface::GetMountedVolumes (const wxString &mountedVolumeSpec) const
+	VolumeInfoList CommandLineInterface::GetMountedVolumes (const wxString &mountedVolumeSpec)
 	{
-		VolumeInfoList volumes = Core->GetMountedVolumes ();
+		VolumeDiscoveryResult discovery = Core->GetMountedVolumesWithStatus();
+		VolumeInfoList &volumes = discovery.Volumes;
 		VolumeInfoList filteredVolumes;
 
 		wxFileName pathFilter;
@@ -846,7 +847,10 @@ namespace VeraCrypt
 			pathFilter.Normalize (wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS);
 		}
 		else
+		{
+			ArgUnresolvedMounts = discovery.UnresolvedMounts;
 			return volumes;
+		}
 
 		foreach (shared_ptr <VolumeInfo> volume, volumes)
 		{
@@ -866,7 +870,10 @@ namespace VeraCrypt
 		}
 
 		if (!mountedVolumeSpec.IsEmpty() && filteredVolumes.size() < 1)
+		{
+			if (!discovery.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (discovery.UnresolvedMounts.front()));
 			throw_err (_("No such volume is mounted."));
+		}
 
 		return filteredVolumes;
 	}

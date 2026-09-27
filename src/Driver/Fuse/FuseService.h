@@ -79,6 +79,7 @@ namespace VeraCrypt
 		struct DismountRequest
 		{
 			pid_t ProcessId;
+			uint64 ProcessStartTime;
 			uint64 SerialInstanceNumber;
 			VolumeSlotNumber SlotNumber;
 			bool IgnoreOpenFiles;
@@ -92,7 +93,7 @@ namespace VeraCrypt
 		static pid_t RequestDismount (const DismountRequest &request);
 		static bool IsDismountMountPresent (const DismountRequest &request);
 		static void DismountLegacy (const DismountRequest &request);
-		static void WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut = 10000);
+		static void WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut = 10000, uint64 processStartTime = 0);
 #endif
 		static void WriteVolumeSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
 

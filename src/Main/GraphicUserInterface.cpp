@@ -11,6 +11,7 @@
 */
 
 #include "System.h"
+#include <chrono>
 
 #ifdef TC_UNIX
 #include <wx/mimetype.h>
@@ -121,7 +122,9 @@ namespace VeraCrypt
 		{
 
 			wxString sValue;
-			if (Gui->GetWaitDialog())
+			// Only a worker can wait for the dialog's queue. The main thread
+			// would block on a reply that only it could deliver.
+			if (Gui->GetWaitDialog() && !wxIsMainThread())
 			{
 				Gui->GetWaitDialog()->RequestAdminPassword(sValue);
 				if (sValue.IsEmpty())
@@ -163,6 +166,9 @@ namespace VeraCrypt
 		BackgroundMode (false),
 		mMainFrame (nullptr),
 		mWaitDialog (nullptr)
+#ifdef TC_MACOSX
+		, mShowingCleanupWarning (false)
+#endif
 	{
 #ifdef TC_UNIX
 		signal (SIGHUP, OnSignal);
@@ -229,7 +235,17 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::AutoDismountVolumes (VolumeInfoList mountedVolumes, bool alwaysForce)
 	{
+#ifdef TC_MACOSX
+		if (mountedVolumes.empty() || GetWaitDialog())
+			return;
+		// An automatic lock request must not leave cached credentials behind
+		// merely because service exit confirmation is delayed or fails.
+		try { OnVolumesAutoDismounted(); }
+		catch (exception &e) { SystemLog::WriteException (e); }
+		catch (...) { }
+#else
 		size_t mountedVolumeCount = Core->GetMountedVolumes().size();
+#endif
 		try
 		{
 			wxBusyCursor busy;
@@ -237,9 +253,10 @@ namespace VeraCrypt
 		}
 		catch (exception &e) { SystemLog::WriteException (e); }
 		catch (...) { SystemLog::WriteException (UnknownException (SRC_POS)); }
-
+#ifndef TC_MACOSX
 		if (Core->GetMountedVolumes().size() < mountedVolumeCount)
 			OnVolumesAutoDismounted();
+#endif
 	}
 
 	void GraphicUserInterface::BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const
@@ -700,7 +717,7 @@ namespace VeraCrypt
 					throw MissingArgument (SRC_POS);
 
 				wxString sValue;
-				if (Gui->GetWaitDialog())
+				if (Gui->GetWaitDialog() && !wxIsMainThread())
 				{
 					sValue = StringConverter::ToWide (passwordStr).c_str();
 					Gui->GetWaitDialog()->RequestPin (sValue);
@@ -1308,8 +1325,86 @@ namespace VeraCrypt
 		return true;
 	}
 
+#ifdef TC_MACOSX
+	VolumeInfoList GraphicUserInterface::GetVolumesForAutoDismount () const
+	{
+		VolumeInfoList volumes = GetMountedVolumesForUI();
+		try
+		{
+			VolumeDiscoveryResult result = Core->GetMountedVolumesWithStatus();
+			VolumeInfoList captured;
+			captured.swap (volumes);
+			volumes = result.Volumes;
+			foreach (shared_ptr <VolumeInfo> volume, captured)
+				if (find (result.UnresolvedMounts.begin(), result.UnresolvedMounts.end(), volume->AuxMountPoint) != result.UnresolvedMounts.end()
+					&& none_of (volumes.begin(), volumes.end(), [&volume] (shared_ptr <VolumeInfo> current) { return current->SerialInstanceNumber == volume->SerialInstanceNumber; }))
+					volumes.push_back (volume);
+			if (!result.IsComplete()) SystemLog::WriteException (VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front())));
+		}
+		catch (exception &e) { SystemLog::WriteException (e); }
+		return volumes;
+	}
+
+	void GraphicUserInterface::ReportUnconfirmedCleanup (const exception &e) const
+	{
+		// Without its auxiliary mount, the volume is no longer listed. Queue the
+		// warning so that the reporting caller, such as the inactivity timer,
+		// returns first and other volumes can still be unmounted automatically.
+		mUnconfirmedCleanupWarnings.push_back (ExceptionToMessage (e));
+		wxTheApp->CallAfter ([] () { Gui->ShowUnconfirmedCleanupWarnings(); });
+	}
+
+	void GraphicUserInterface::ShowUnconfirmedCleanupWarnings () const
+	{
+		// One warning at a time; the active call also shows warnings added meanwhile.
+		// Entries are removed only after acknowledgement, which prevents automatic exit.
+		if (mShowingCleanupWarning)
+			return;
+		mShowingCleanupWarning = true;
+		finally_do_arg (bool *, &mShowingCleanupWarning, { *finally_arg = false; });
+		while (!mUnconfirmedCleanupWarnings.empty())
+		{
+			ShowWarningTopMost (mUnconfirmedCleanupWarnings.front());
+			mUnconfirmedCleanupWarnings.pop_front();
+		}
+	}
+#endif
+
 	void GraphicUserInterface::OnLogOff ()
 	{
+#ifdef TC_MACOSX
+		// This is also called directly by Cocoa. No exception may escape the
+		// native callback, including before the first display snapshot exists.
+		try
+		{
+			if (!GetPreferences().DismountOnLogOff || GetWaitDialog()) return;
+			try { OnVolumesAutoDismounted(); }
+			catch (exception &e) { SystemLog::WriteException (e); }
+			catch (...) { }
+			VolumeInfoList remaining = GetVolumesForAutoDismount();
+
+			const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds (4);
+			while (!remaining.empty())
+			{
+				bool finalAttempt = std::chrono::steady_clock::now() >= deadline;
+				VolumeInfoList retry;
+				foreach (shared_ptr <VolumeInfo> volume, remaining)
+				{
+					try { DismountVolume (volume, finalAttempt && GetPreferences().ForceAutoDismount, false); }
+					// Without its auxiliary mount, another attempt cannot reach the service.
+					catch (DismountServiceCleanupFailed &e) { SystemLog::WriteException (e); }
+					catch (exception &e) { SystemLog::WriteException (e); retry.push_back (volume); }
+				}
+				remaining.swap (retry);
+				if (finalAttempt || remaining.empty()) break;
+				Thread::Sleep (500);
+			}
+			// A queued warning would never run once termination proceeds.
+			ShowUnconfirmedCleanupWarnings();
+		}
+		catch (exception &e) { SystemLog::WriteException (e); }
+		catch (...) { }
+#else
 		VolumeInfoList mountedVolumes = Core->GetMountedVolumes();
 		if (GetPreferences().BackgroundTaskEnabled && GetPreferences().DismountOnLogOff
 			&& !mountedVolumes.empty())
@@ -1338,10 +1433,11 @@ namespace VeraCrypt
 					Thread::Sleep (500);
 				}
 
-				VolumeInfoList mountedVolumes = Core->GetMountedVolumes();
+				mountedVolumes = Core->GetMountedVolumes();
 			}
 
 		}
+#endif
 	}
 
 #ifdef wxHAS_POWER_EVENTS
@@ -2036,6 +2132,7 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::SetBackgroundMode (bool state)
 	{
+		if (!mMainFrame) return;
 #ifdef TC_MACOSX
 		// Hiding an iconized window on OS X apparently cannot be reversed
 		if (state && mMainFrame->IsIconized())
@@ -2210,7 +2307,7 @@ namespace VeraCrypt
 				caption.clear();
 		}
 #endif
-		if (mWaitDialog)
+		if (mWaitDialog && !wxIsMainThread())
 		{
 			return mWaitDialog->RequestShowMessage(subMessage, caption, style, topMost);
 		}
@@ -2218,7 +2315,7 @@ namespace VeraCrypt
 		{
 			if (topMost)
 			{
-				if (!IsActive())
+				if (!IsActive() && mMainFrame)
 					mMainFrame->RequestUserAttention (wxUSER_ATTENTION_ERROR);
 
 				style |= wxSTAY_ON_TOP;
@@ -2304,11 +2401,79 @@ namespace VeraCrypt
 		return routine.m_pVolume;
 	}
 
+	VolumeInfoList GraphicUserInterface::GetMountedVolumesForUI () const
+	{
+#ifdef TC_MACOSX
+		if (mMainFrame)
+		{
+			MainFrame *frame = static_cast <MainFrame *> (mMainFrame.get());
+			return frame->GetDisplayedVolumes();
+		}
+		return VolumeInfoList();
+#else
+		return Core->GetMountedVolumes();
+#endif
+	}
+
+#ifdef TC_MACOSX
+	shared_ptr <VolumeInfo> GraphicUserInterface::DismountVolumeThread (shared_ptr <VolumeInfo> volume, bool ignoreOpenFiles, bool interactive) const
+	{
+		if (!interactive)
+		{
+			// Automatic unmounts run synchronously, as before. A quit or logout
+			// request that arrives meanwhile is then handled afterwards; a hidden
+			// wait's modal session would make macOS refuse it.
+			try
+			{
+				return Core->DismountVolume (volume, ignoreOpenFiles);
+			}
+			catch (DismountServiceCleanupFailed &e)
+			{
+				ReportUnconfirmedCleanup (e);
+				throw;
+			}
+		}
+
+		class DismountRoutine : public WaitThreadRoutine
+		{
+		public:
+			DismountRoutine (shared_ptr <VolumeInfo> volume, bool force) : Volume (volume), Force (force) { }
+			virtual void ExecutionCode () { Volume = Core->DismountVolume (Volume, Force); }
+			shared_ptr <VolumeInfo> Volume;
+			bool Force;
+		} routine (volume, ignoreOpenFiles);
+		ExecuteWaitThreadRoutine (GetTopWindow(), &routine);
+		return routine.Volume;
+	}
+
+	void GraphicUserInterface::DismountAllVolumes (bool ignoreOpenFiles, bool interactive) const
+	{
+		class DiscoveryRoutine : public WaitThreadRoutine
+		{
+		public:
+			virtual void ExecutionCode () { Result = Core->GetMountedVolumesWithStatus(); }
+			VolumeDiscoveryResult Result;
+		} routine;
+		try
+		{
+			if (interactive)
+				ExecuteWaitThreadRoutine (GetTopWindow(), &routine);
+			else
+				routine.ExecutionCode();
+			if (interactive && routine.Result.Volumes.empty() && routine.Result.IsComplete()) ShowInfo (LangString["NO_VOLUMES_MOUNTED"]);
+			DismountVolumes (routine.Result.Volumes, ignoreOpenFiles, interactive);
+			if (!routine.Result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (routine.Result.UnresolvedMounts.front()));
+		}
+		catch (exception &e) { if (interactive) ShowError (e); else SystemLog::WriteException (e); }
+	}
+#endif
+
 	void GraphicUserInterface::ExecuteWaitThreadRoutine (wxWindow *parent, WaitThreadRoutine *pRoutine) const
 	{
 		WaitDialog dlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], pRoutine);
+		// Restore an outer wait, whose worker may still route requests through it.
+		finally_do_arg2 (WaitDialog**, &mWaitDialog, WaitDialog*, mWaitDialog, { *finally_arg = finally_arg2; });
 		mWaitDialog = &dlg;
-		finally_do_arg (WaitDialog**, &mWaitDialog, { *finally_arg = nullptr; });
 		dlg.Run();
 	}
 
