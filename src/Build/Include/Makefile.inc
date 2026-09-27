@@ -14,7 +14,7 @@ $(NAME): $(NAME).a
 
 clean:
 	@echo Cleaning $(NAME)
-	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
+	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE2) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE2:.osse2=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
 
 %.o: %.c
 	@echo Compiling $(<F)
@@ -24,6 +24,10 @@ clean:
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -O0 -c $< -o $@
 	
+%.osse2: %.c
+	@echo Compiling $(<F)
+	$(CC) $(CFLAGS) -msse2 -mno-avx2 -mno-avx512f -c $< -o $@
+
 %.osse41: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -mssse3 -msse4.1 -c $< -o $@
@@ -42,7 +46,7 @@ clean:
 
 %.oavx2: %.c
 	@echo Compiling $(<F)
-	$(CC) $(CFLAGS) -mavx2 -c $< -o $@
+	$(CC) $(CFLAGS) -mavx2 -mno-avx512f -c $< -o $@
 
 %.oarmv8crypto: %.c
 	@echo Compiling $(<F)
@@ -122,7 +126,7 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 
 
 # Dependencies
--include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
+-include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE2:.osse2=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
 
 
 # Deterministic static library: the 'D' modifier zeroes member mtime/uid/gid
@@ -135,8 +139,8 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 AR_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) Drc $$t.a $$t >/dev/null 2>&1 && echo D; rm -f $$t $$t.a)
 RANLIB_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) rc $$t.a $$t >/dev/null 2>&1; $(RANLIB) -D $$t.a >/dev/null 2>&1 && echo -D; rm -f $$t $$t.a)
 
-$(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
+$(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE2) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
 	@echo Updating library $@
 	rm -f $@
-	$(AR) $(AFLAGS) $(AR_DETERMINISTIC)rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
+	$(AR) $(AFLAGS) $(AR_DETERMINISTIC)rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE2) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
 	$(RANLIB) $(RANLIB_DETERMINISTIC) $@

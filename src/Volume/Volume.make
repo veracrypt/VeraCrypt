@@ -13,6 +13,7 @@
 OBJS :=
 OBJSEX :=
 OBJSNOOPT :=
+OBJSSSE2 :=
 OBJSSSE41 :=
 OBJSSSSE3 :=
 OBJSHANI :=
@@ -96,17 +97,23 @@ else
 endif
 
 ifeq "$(PLATFORM):$(LOCAL_DEVELOPMENT_BUILD):$(CPU_ARCH)" "MacOSX:true:arm64"
+	OBJS += ../Crypto/blake2s_SSE2.o
 	OBJS += ../Crypto/blake2s_SSE41.o
 	OBJS += ../Crypto/blake2s_SSSE3.o
 	OBJS += ../Crypto/Sha2Intel.o
+	OBJS += ../Crypto/Argon2/src/opt_sse2.o
 	OBJS += ../Crypto/Argon2/src/opt_avx2.o
 else
 ifeq "$(GCC_GTEQ_430)" "1"
+	OBJSSSE2 += ../Crypto/blake2s_SSE2.osse2
 	OBJSSSE41 += ../Crypto/blake2s_SSE41.osse41
 	OBJSSSSE3 += ../Crypto/blake2s_SSSE3.ossse3
+	OBJSSSE2 += ../Crypto/Argon2/src/opt_sse2.osse2
 else
+	OBJS += ../Crypto/blake2s_SSE2.o
 	OBJS += ../Crypto/blake2s_SSE41.o
 	OBJS += ../Crypto/blake2s_SSSE3.o
+	OBJS += ../Crypto/Argon2/src/opt_sse2.o
 endif
 ifeq "$(GCC_GTEQ_500)" "1"
 	OBJSHANI += ../Crypto/Sha2Intel.oshani
@@ -127,7 +134,6 @@ ifeq "$(ENABLE_WOLFCRYPT)" "0"
 OBJS += ../Crypto/Aeskey.o
 OBJS += ../Crypto/Aestab.o
 OBJS += ../Crypto/blake2s.o
-OBJS += ../Crypto/blake2s_SSE2.o
 OBJS += ../Crypto/SerpentFast.o
 OBJS += ../Crypto/SerpentFast_simd.o
 OBJS += ../Crypto/Sha2.o
@@ -141,7 +147,6 @@ OBJS += ../Crypto/Argon2/src/blake2/blake2b.o
 OBJS += ../Crypto/Argon2/src/argon2.o
 OBJS += ../Crypto/Argon2/src/core.o
 OBJS += ../Crypto/Argon2/src/argon2.o
-OBJS += ../Crypto/Argon2/src/opt_sse2.o
 OBJS += ../Crypto/Argon2/src/ref.o
 OBJS += ../Crypto/Argon2/src/selftest.o
 OBJS += ../Common/Pkcs5.o
