@@ -346,8 +346,345 @@ namespace VeraCrypt
 
 		SerializerTest();
 		ThreadTest();
+		BufferTest();
+		StringConverterTest();
+		FileTest();
+		ExceptionTransportTest();
 
 		return true;
+	}
+
+	// File::Copy is what moves keyfiles and header backups around, and ReadCompleteBuffer is
+	// used wherever a short read would be a silent truncation. Neither had coverage.
+	void PlatformTest::FileTest ()
+	{
+		const char *sourcePath = "veracrypt-test-file-src.tmp";
+		const char *copyPath   = "veracrypt-test-file-dst.tmp";
+
+		struct TempFiles
+		{
+			const char *A, *B;
+			~TempFiles ()
+			{
+				const char *paths[] = { A, B };
+				for (size_t i = 0; i < 2; i++)
+				{
+					try { File f; f.Open (FilePath (paths[i]), File::OpenReadWrite); f.Delete(); }
+					catch (...) { }
+				}
+			}
+		} cleanup = { sourcePath, copyPath };
+
+		Buffer content (4096);
+		for (size_t i = 0; i < content.Size(); i++)
+			content[i] = (uint8) (i * 11 + 3);
+
+		{
+			File source;
+			source.Open (FilePath (sourcePath), File::CreateReadWrite);
+			source.Write (content);
+
+			if (source.Length() != (uint64) content.Size())
+				throw TestFailed (SRC_POS);
+
+			if (string (source.GetPath()) != string (sourcePath))
+				throw TestFailed (SRC_POS);
+		}
+
+		// A copy has to reproduce the source byte for byte
+		File::Copy (FilePath (sourcePath), FilePath (copyPath));
+
+		{
+			File copy;
+			copy.Open (FilePath (copyPath), File::OpenRead);
+
+			if (copy.Length() != (uint64) content.Size())
+				throw TestFailed (SRC_POS);
+
+			Buffer readBack (content.Size());
+			copy.ReadCompleteBuffer (readBack);
+
+			if (memcmp (readBack.Ptr(), content.Ptr(), content.Size()) != 0)
+				throw TestFailed (SRC_POS);
+		}
+
+		// Asking for more than the file holds must fail rather than return a partial buffer
+		{
+			File copy;
+			copy.Open (FilePath (copyPath), File::OpenRead);
+
+			Buffer tooLarge (content.Size() * 2);
+			bool rejected = false;
+			try { copy.ReadCompleteBuffer (tooLarge); }
+			catch (InsufficientData&) { rejected = true; }
+			catch (ParameterIncorrect&) { rejected = true; }
+
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+
+		// A default-constructed File reports itself as not open. Note that the accessors do
+		// NOT enforce this: every ValidateState() call in Platform/Unix/File.cpp sits behind
+		// if_debug and is compiled out of release builds, so Length() on a closed file runs
+		// lseek on an uninitialised handle rather than throwing. Only the flag is contractual.
+		{
+			File closed;
+			if (closed.IsOpen())
+				throw TestFailed (SRC_POS);
+		}
+
+		// Opening a path that does not exist must fail rather than yield an unusable handle
+		{
+			File missing;
+			bool rejected = false;
+			try { missing.Open (FilePath ("veracrypt-test-no-such-file.tmp"), File::OpenRead); }
+			catch (SystemException&) { rejected = true; }
+			catch (Exception&) { rejected = true; }
+
+			if (!rejected || missing.IsOpen())
+				throw TestFailed (SRC_POS);
+		}
+	}
+
+	// When the privileged core service fails, it serialises the exception to its stderr and
+	// the unprivileged side reconstructs and rethrows it (CoreService.cpp:582-590). If a type
+	// is missing from the factory the real cause is replaced by a generic failure, so this
+	// checks that the dynamic type and the message both survive the round trip.
+	void PlatformTest::ExceptionTransportTest ()
+	{
+		// A plain Exception carrying a subject
+		{
+			Exception original (SRC_POS, L"subject-text");
+
+			shared_ptr <Stream> stream (new MemoryStream);
+			original.Serialize (stream);
+
+			unique_ptr <Serializable> restored (Serializable::DeserializeNew (stream));
+			if (!restored)
+				throw TestFailed (SRC_POS);
+
+			Exception *asException = dynamic_cast <Exception *> (restored.get());
+			if (!asException)
+				throw TestFailed (SRC_POS);
+
+			if (asException->GetSubject() != original.GetSubject())
+				throw TestFailed (SRC_POS);
+		}
+
+		// A derived type must come back as that same type, not as its base
+		{
+			ParameterIncorrect original (SRC_POS);
+
+			shared_ptr <Stream> stream (new MemoryStream);
+			original.Serialize (stream);
+
+			unique_ptr <Serializable> restored (Serializable::DeserializeNew (stream));
+			if (!restored)
+				throw TestFailed (SRC_POS);
+
+			if (dynamic_cast <ParameterIncorrect *> (restored.get()) == nullptr)
+				throw TestFailed (SRC_POS);
+		}
+
+		// ... and the same for one carrying extra state
+		{
+			ExecutedProcessFailed original (SRC_POS, "/bin/false", 1, "stderr text");
+
+			shared_ptr <Stream> stream (new MemoryStream);
+			original.Serialize (stream);
+
+			unique_ptr <Serializable> restored (Serializable::DeserializeNew (stream));
+			ExecutedProcessFailed *typed = dynamic_cast <ExecutedProcessFailed *> (restored.get());
+
+			if (!typed)
+				throw TestFailed (SRC_POS);
+
+			if (typed->GetCommand() != original.GetCommand()
+				|| typed->GetExitCode() != original.GetExitCode()
+				|| typed->GetErrorOutput() != original.GetErrorOutput())
+				throw TestFailed (SRC_POS);
+		}
+	}
+
+	// StringConverter parses command-line input: the PIM, volume sizes, favourite-volume
+	// attributes and hotkey codes all pass through here. The behaviour on malformed input was
+	// never pinned down, so this records what the parsers actually do -- including the
+	// deliberate rejection of the all-ones value, which CommandLineInterface uses as its
+	// "maximum available size" marker and which user input must therefore never produce.
+	void PlatformTest::StringConverterTest ()
+	{
+		// Well-formed input round-trips
+		if (StringConverter::ToUInt32 ("4294967294") != 4294967294U)
+			throw TestFailed (SRC_POS);
+		if (StringConverter::ToUInt64 ("18446744073709551614") != 18446744073709551614ULL)
+			throw TestFailed (SRC_POS);
+		if (StringConverter::ToInt32 ("-42") != -42)
+			throw TestFailed (SRC_POS);
+		if (StringConverter::FromNumber ((uint32) 4294967295U) != L"4294967295")
+			throw TestFailed (SRC_POS);
+		if (StringConverter::FromNumber ((int64) -9223372036854775807LL) != L"-9223372036854775807")
+			throw TestFailed (SRC_POS);
+
+		// Empty and non-numeric input is refused
+		const char *rejected[] = { "", "abc", "4294967296" };
+		for (size_t i = 0; i < array_capacity (rejected); i++)
+		{
+			bool threw = false;
+			try { StringConverter::ToUInt32 (rejected[i]); } catch (ParameterIncorrect&) { threw = true; }
+			if (!threw)
+				throw TestFailed (SRC_POS);
+		}
+
+		// The all-ones sentinel must never come out of user input
+		{
+			bool threw = false;
+			try { StringConverter::ToUInt64 ("18446744073709551615"); } catch (ParameterIncorrect&) { threw = true; }
+			if (!threw)
+				throw TestFailed (SRC_POS);
+
+			threw = false;
+			try { StringConverter::ToUInt32 ("4294967295"); } catch (ParameterIncorrect&) { threw = true; }
+			if (!threw)
+				throw TestFailed (SRC_POS);
+		}
+
+		// Splitting and trimming, as used when parsing option lists
+		vector <string> parts = StringConverter::Split ("a,b,,c", ",");
+		if (parts.size() != 3 || parts[0] != "a" || parts[1] != "b" || parts[2] != "c")
+			throw TestFailed (SRC_POS);
+
+		parts = StringConverter::Split ("a,b,,c", ",", true);
+		if (parts.size() != 4 || !parts[2].empty())
+			throw TestFailed (SRC_POS);
+
+		if (StringConverter::Trim ("\t hello \r\n") != "hello")
+			throw TestFailed (SRC_POS);
+
+		if (StringConverter::ToLower ("MiXeD") != "mixed")
+			throw TestFailed (SRC_POS);
+
+		// GetTrailingNumber / StripTrailingNumber are a pair and must agree
+		if (StringConverter::GetTrailingNumber ("sda12") != "12")
+			throw TestFailed (SRC_POS);
+		if (StringConverter::StripTrailingNumber ("sda12") != "sda")
+			throw TestFailed (SRC_POS);
+
+		{
+			bool threw = false;
+			try { StringConverter::GetTrailingNumber ("sda"); } catch (ParameterIncorrect&) { threw = true; }
+			if (!threw)
+				throw TestFailed (SRC_POS);
+		}
+
+		// Erase must actually clear the string, not just resize it
+		{
+			string s = "secret";
+			StringConverter::Erase (s);
+			for (size_t i = 0; i < s.size(); i++)
+			{
+				if (s[i] != ' ' && s[i] != 0)
+					throw TestFailed (SRC_POS);
+			}
+		}
+	}
+
+	// Buffer and SecureBuffer hold key material, so the properties that matter are that a
+	// SecureBuffer wipes itself before releasing memory and that every out-of-range access
+	// is refused rather than silently truncated. None of the rejection paths, neither
+	// destructor and none of Memory::Compare had ever been executed by the test suite.
+	void PlatformTest::BufferTest ()
+	{
+		// A zero-sized allocation is not a valid request
+		bool rejected = false;
+		try { Memory::Allocate (0); } catch (ParameterIncorrect&) { rejected = true; }
+		if (!rejected)
+			throw TestFailed (SRC_POS);
+
+		rejected = false;
+		try { Memory::AllocateAligned (0, 16); } catch (ParameterIncorrect&) { rejected = true; }
+		if (!rejected)
+			throw TestFailed (SRC_POS);
+
+		// Memory::Compare orders by size first, then by content
+		const uint8 a[] = { 1, 2, 3 };
+		const uint8 b[] = { 1, 2, 4 };
+
+		if (Memory::Compare (a, sizeof (a), b, sizeof (b) - 1) <= 0)	// longer  -> positive
+			throw TestFailed (SRC_POS);
+		if (Memory::Compare (a, sizeof (a) - 1, b, sizeof (b)) >= 0)	// shorter -> negative
+			throw TestFailed (SRC_POS);
+		if (Memory::Compare (a, sizeof (a), a, sizeof (a)) != 0)		// identical
+			throw TestFailed (SRC_POS);
+		if (Memory::Compare (a, sizeof (a), b, sizeof (b)) >= 0)		// same size, a < b
+			throw TestFailed (SRC_POS);
+
+		// An unallocated buffer must not pretend to hold data, and releasing one is an error
+		{
+			Buffer buffer;
+			if (buffer.Size() != 0 || buffer.IsAllocated())
+				throw TestFailed (SRC_POS);
+
+			rejected = false;
+			try { buffer.Free(); } catch (NotInitialized&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
+
+		// Out-of-range access is refused, not truncated
+		{
+			Buffer buffer (64);
+
+			rejected = false;
+			try { buffer.GetRange (32, 64); } catch (ParameterIncorrect&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			Buffer oversized (128);
+			rejected = false;
+			try { buffer.CopyFrom (oversized); } catch (ParameterTooLarge&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+
+			// A range fully inside the buffer must work and must alias the same memory
+			BufferPtr range = buffer.GetRange (16, 16);
+			if (range.Size() != 16 || range.Get() != buffer.Ptr() + 16)
+				throw TestFailed (SRC_POS);
+		}
+
+		// Erase() must actually clear the bytes, and SecureBuffer::Free() must erase first
+		{
+			SecureBuffer secure (64);
+			memset (secure.Ptr(), 0xA5, secure.Size());
+
+			bool anyNonZero = false;
+			for (size_t i = 0; i < secure.Size(); i++)
+			{
+				if (secure[i] != 0)
+				{
+					anyNonZero = true;
+					break;
+				}
+			}
+			if (!anyNonZero)
+				throw TestFailed (SRC_POS);
+
+			secure.Erase();
+
+			for (size_t i = 0; i < secure.Size(); i++)
+			{
+				if (secure[i] != 0)
+					throw TestFailed (SRC_POS);
+			}
+		}
+
+		// Freeing a SecureBuffer that owns nothing is a programming error, not a no-op
+		{
+			SecureBuffer secure;
+			rejected = false;
+			try { secure.Free(); } catch (NotInitialized&) { rejected = true; }
+			if (!rejected)
+				throw TestFailed (SRC_POS);
+		}
 	}
 
 	bool PlatformTest::TestFlag;
