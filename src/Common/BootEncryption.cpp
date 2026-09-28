@@ -1367,6 +1367,29 @@ namespace VeraCrypt
 
 		// ChangeServiceConfig() rejects SERVICE_BOOT_START with ERROR_INVALID_PARAMETER
 		throw_sys_if (!WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", L"Start", startType));
+#if defined(_M_ARM64) || defined(SETUP)
+		if (IsARM() && !startOnBoot)
+		{
+			wchar_t serviceKeyPath[] = L"SYSTEM\\CurrentControlSet\\Services\\veracrypt";
+			throw_sys_if (!WriteLocalMachineRegistryDword (
+				serviceKeyPath,
+				VC_ARM64_BOOT_ARGS_HANDOFF_REQUIRED_REG_VALUE_NAME,
+				0));
+
+			HKEY serviceKey;
+			LONG result = RegOpenKeyExW (HKEY_LOCAL_MACHINE, serviceKeyPath, 0, KEY_QUERY_VALUE, &serviceKey);
+			if (result == ERROR_SUCCESS)
+			{
+				result = RegFlushKey (serviceKey);
+				RegCloseKey (serviceKey);
+			}
+			if (result != ERROR_SUCCESS)
+			{
+				SetLastError (result);
+				throw SystemException (SRC_POS);
+			}
+		}
+#endif
 	}
 
 
@@ -2663,7 +2686,78 @@ namespace VeraCrypt
 		IDR_EFI_DCSINFO_2023
 	};
 
+#if defined(_M_ARM64) || defined(SETUP)
+	static const EfiBootLoaderResourceSet EfiBootLoaderResourcesArm64 =
+	{
+		IDR_EFI_DCSBOOT_ARM64,
+		IDR_EFI_DCSINT_ARM64,
+		IDR_EFI_DCSCFG_ARM64,
+		IDR_EFI_LEGACYSPEAKER_ARM64,
+		IDR_EFI_DCSRE_ARM64,
+		IDR_EFI_DCSINFO_ARM64
+	};
+#endif
+
+	static bool IsArm64BootTarget ()
+	{
+#if defined(_M_ARM64) || defined(SETUP)
+		return IsARM () != FALSE;
+#else
+		return false;
+#endif
+	}
+
 	static const wchar_t *EfiBootLoaderDiagnosticsRegistryKey = VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY;
+
+#ifdef VC_EFI_CUSTOM_MODE
+	static int GetEfiBootMenuLockerResourceId ()
+	{
+		return IsArm64BootTarget () ? IDR_EFI_DCSBML_ARM64 : IDR_EFI_DCSBML;
+	}
+#endif
+
+	static const wchar_t *GetEfiFallbackBootLoaderPath ()
+	{
+		return IsArm64BootTarget () ? L"\\EFI\\Boot\\bootaa64.efi" : L"\\EFI\\Boot\\bootx64.efi";
+	}
+
+	static const wchar_t *GetEfiFallbackBootLoaderBackupPath ()
+	{
+		return IsArm64BootTarget ()
+			? L"\\EFI\\Boot\\original_bootaa64.vc_backup"
+			: L"\\EFI\\Boot\\original_bootx64.vc_backup";
+	}
+
+	static const wchar_t *GetLegacyEfiFallbackBootLoaderBackupPath ()
+	{
+		return IsArm64BootTarget ()
+			? L"\\EFI\\Boot\\original_bootaa64_vc_backup.efi"
+			: L"\\EFI\\Boot\\original_bootx64_vc_backup.efi";
+	}
+
+	static const char *GetEfiFallbackBootLoaderZipPath ()
+	{
+		return IsArm64BootTarget () ? "EFI/Boot/bootaa64.efi" : "EFI/Boot/bootx64.efi";
+	}
+
+	static const wchar_t *GetEfiFallbackBootLoaderZipPathW ()
+	{
+		return IsArm64BootTarget () ? L"EFI/Boot/bootaa64.efi" : L"EFI/Boot/bootx64.efi";
+	}
+
+	static const char *GetEfiFallbackBootLoaderBackupZipPath ()
+	{
+		return IsArm64BootTarget ()
+			? "EFI/Boot/original_bootaa64.vc_backup"
+			: "EFI/Boot/original_bootx64.vc_backup";
+	}
+
+	static const wchar_t *GetEfiFallbackBootLoaderBackupZipPathW ()
+	{
+		return IsArm64BootTarget ()
+			? L"EFI/Boot/original_bootaa64.vc_backup"
+			: L"EFI/Boot/original_bootx64.vc_backup";
+	}
 
 	static bool ReadFirmwareEnvironmentVariableBuffer (const wchar_t* name, const wchar_t* guid, std::vector<uint8>& value, DWORD* pLastError = NULL)
 	{
@@ -3303,6 +3397,30 @@ namespace VeraCrypt
 
 	static EfiBootLoaderResourceSelection GetPreferredEfiBootLoaderResourceSet ()
 	{
+#if defined(_M_ARM64) || defined(SETUP)
+		if (IsArm64BootTarget ())
+		{
+			bool bSecureBootEnabled = false;
+			if (!TryFirmwareSecureBootEnabled (bSecureBootEnabled))
+			{
+				ThrowUnsupportedEfiSecureBootDb (
+					L"ARM64 Secure Boot state could not be read; refusing to select an unsigned AA64 EFI resource set",
+					GetLastError ());
+			}
+			if (bSecureBootEnabled)
+			{
+				ThrowUnsupportedEfiSecureBootDb (
+					L"Secure Boot is enabled; the AA64 EFI resource set is not signed by a firmware-trusted CA",
+					ERROR_SUCCESS);
+			}
+			return MakeEfiBootLoaderResourceSelection (
+				EfiBootLoaderResourcesArm64,
+				VC_EFI_BOOT_LOADER_RESOURCE_SET_ARM64,
+				L"ARM64 firmware with Secure Boot disabled; using the AA64 DCS resource set",
+				ERROR_SUCCESS);
+		}
+#endif
+
 		// The current 2023 DCS set uses both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023:
 		// DcsInt.dcs and LegacySpeaker.dcs are signed through the Option ROM UEFI CA 2023 chain.
 		// If Secure Boot is enabled (or its state cannot be established), only select a loader set whose
@@ -3477,6 +3595,12 @@ namespace VeraCrypt
 		if (resourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023)
 			return MapEfiBootLoaderImages (MakeEfiBootLoaderResourceSelection (
 				EfiBootLoaderResources2023, resourceSet, L"explicit 2023 resource-set inspection", ERROR_SUCCESS), rescueDisk);
+
+#if defined(_M_ARM64) || defined(SETUP)
+		if (resourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_ARM64)
+			return MapEfiBootLoaderImages (MakeEfiBootLoaderResourceSelection (
+				EfiBootLoaderResourcesArm64, resourceSet, L"explicit ARM64 resource-set inspection", ERROR_SUCCESS), rescueDisk);
+#endif
 
 		throw ParameterIncorrect (SRC_POS);
 	}
@@ -4369,7 +4493,7 @@ namespace VeraCrypt
 		const wchar_t *standardPaths[] =
 		{
 			L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi",
-			L"\\EFI\\Boot\\bootx64.efi"
+			GetEfiFallbackBootLoaderPath ()
 		};
 
 		for (size_t pathIndex = 0; pathIndex < ARRAYSIZE (standardPaths); ++pathIndex)
@@ -4881,12 +5005,12 @@ namespace VeraCrypt
 				}
 			}
 			EfiBootLoaderImages efiImages = MapEfiBootLoaderImages (false);
-			// Kept as aliases for the legacy EFI\Boot\bootx64.efi replacement block below.
+			// Kept as aliases for the UEFI fallback-loader replacement block below.
 			DWORD sizeDcsBoot = efiImages.SizeDcsBoot;
 			uint8 *dcsBootImg = efiImages.DcsBoot;
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
-			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
+			uint8 *BootMenuLockerImg = MapResource(L"BIN", GetEfiBootMenuLockerResourceId (), &sizeBootMenuLocker);
 			if (!BootMenuLockerImg)
 				throw ErrorException(L"Out of resource DcsBml", SRC_POS);
 #endif
@@ -4901,8 +5025,8 @@ namespace VeraCrypt
 				unsigned __int64 loaderSize = 0;
 				const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
 				const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
-				const wchar_t * szStdEfiBootloader = L"\\EFI\\Boot\\bootx64.efi";
-				const wchar_t * szBackupEfiBootloader = L"\\EFI\\Boot\\original_bootx64.vc_backup";
+				const wchar_t * szStdEfiBootloader = GetEfiFallbackBootLoaderPath ();
+				const wchar_t * szBackupEfiBootloader = GetEfiFallbackBootLoaderBackupPath ();
 				const bool bCanRefreshWindowsLoaderFromOs = !hiddenOSCreation && !IsHiddenOSRunning ();
 
 				if (preserveUserConfig)
@@ -5108,7 +5232,10 @@ namespace VeraCrypt
 
 				// move the original bootloader backup from old location (if it exists) to new location
 				// we don't force the move operation if the new location already exists
-				EfiBootInst.RenameFile (L"\\EFI\\Boot\\original_bootx64_vc_backup.efi", L"\\EFI\\Boot\\original_bootx64.vc_backup", FALSE);
+				EfiBootInst.RenameFile (
+					GetLegacyEfiFallbackBootLoaderBackupPath (),
+					GetEfiFallbackBootLoaderBackupPath (),
+					FALSE);
 
 				// Clean beta9
 				EfiBootInst.DelFile(L"\\DcsBoot.efi");
@@ -5289,7 +5416,7 @@ namespace VeraCrypt
 			EfiBootLoaderImages efiImages = MapEfiBootLoaderImages (true);
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
-			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
+			uint8 *BootMenuLockerImg = MapResource(L"BIN", GetEfiBootMenuLockerResourceId (), &sizeBootMenuLocker);
 			if (!BootMenuLockerImg)
 				throw ParameterIncorrect (SRC_POS);
 #endif
@@ -5316,7 +5443,7 @@ namespace VeraCrypt
 
 			finally_do_arg (zip_t**, &z, { if (*finally_arg) zip_discard (*finally_arg);});
 
-			if (!ZipAdd (z, "EFI/Boot/bootx64.efi", efiImages.DcsRescue, efiImages.SizeDcsRescue))
+			if (!ZipAdd (z, GetEfiFallbackBootLoaderZipPath (), efiImages.DcsRescue, efiImages.SizeDcsRescue))
 				throw ParameterIncorrect (SRC_POS);
 #ifdef VC_EFI_CUSTOM_MODE
 			if (!ZipAdd (z, "EFI/VeraCrypt/DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker))
@@ -5365,7 +5492,7 @@ namespace VeraCrypt
 				sysBakFile.GetFileSize(fileSize);
 				fileBuf.Resize ((DWORD) fileSize);
 				DWORD sizeLoader = sysBakFile.Read (fileBuf.Ptr (), fileSize);
-				bLoadAdded = ZipAdd (z, "EFI/Boot/original_bootx64.vc_backup", fileBuf.Ptr (), sizeLoader);				
+				bLoadAdded = ZipAdd (z, GetEfiFallbackBootLoaderBackupZipPath (), fileBuf.Ptr (), sizeLoader);
 			}
 			catch (Exception &e)
 			{
@@ -5582,7 +5709,7 @@ namespace VeraCrypt
 		if (bIsGPT)
 		{
 			const wchar_t* efi64Files[] = {
-				L"EFI/Boot/bootx64.efi",
+				GetEfiFallbackBootLoaderZipPathW (),
 #ifdef VC_EFI_CUSTOM_MODE
 				L"EFI/VeraCrypt/DcsBml.dcs",
 #endif
@@ -5591,7 +5718,7 @@ namespace VeraCrypt
 				L"EFI/VeraCrypt/DcsInt.dcs",
 				L"EFI/VeraCrypt/LegacySpeaker.dcs",
 				L"EFI/VeraCrypt/svh_bak",
-				L"EFI/Boot/original_bootx64.vc_backup"
+				GetEfiFallbackBootLoaderBackupZipPathW ()
 			};
 
 			zip_error_t zerr;
@@ -5764,7 +5891,7 @@ namespace VeraCrypt
 					finally_do_arg (zip_t*, zMem, { zip_close (finally_arg); });
 
 					const wchar_t* efi64Files[] = {
-						L"EFI/Boot/bootx64.efi",
+						GetEfiFallbackBootLoaderZipPathW (),
 #ifdef VC_EFI_CUSTOM_MODE
 						L"EFI/VeraCrypt/DcsBml.dcs",
 #endif
@@ -5773,7 +5900,7 @@ namespace VeraCrypt
 						L"EFI/VeraCrypt/DcsInt.dcs",
 						L"EFI/VeraCrypt/LegacySpeaker.dcs",
 						L"EFI/VeraCrypt/svh_bak",
-						L"EFI/Boot/original_bootx64.vc_backup"
+						GetEfiFallbackBootLoaderBackupZipPathW ()
 					};
 
 					int i;
@@ -6061,9 +6188,8 @@ namespace VeraCrypt
 
 			const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
 			const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
-			// EFI system encryption currently ships x64 EFI loaders and the UEFI fallback path is bootx64.efi
-			const wchar_t * szStdEfiBootloader = L"\\EFI\\Boot\\bootx64.efi";
-			const wchar_t * szBackupEfiBootloader = L"\\EFI\\Boot\\original_bootx64.vc_backup";
+			const wchar_t * szStdEfiBootloader = GetEfiFallbackBootLoaderPath ();
+			const wchar_t * szBackupEfiBootloader = GetEfiFallbackBootLoaderBackupPath ();
 
 			if (!EfiBootInst.FileExists (szStdEfiBootloader) || !EfiBootInst.IsWindowsBootLoader (szStdEfiBootloader))
 				EfiBootInst.RenameFile(szBackupEfiBootloader, szStdEfiBootloader, TRUE);
@@ -6820,16 +6946,31 @@ namespace VeraCrypt
 		{
 			EfiBootInst.PrepareBootPartition (true);
 
-			EfiBootLoaderImages images2011 = MapEfiBootLoaderImages (VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, false);
-			EfiBootLoaderImages images2023 = MapEfiBootLoaderImages (VC_EFI_BOOT_LOADER_RESOURCE_SET_2023, false);
-			bool bMatches2011 = EfiBootLoaderImagesMatch (EfiBootInst, images2011);
-			bool bMatches2023 = EfiBootLoaderImagesMatch (EfiBootInst, images2023);
 			const EfiBootLoaderImages *installedImages = NULL;
-			if (bMatches2011 != bMatches2023)
+#if defined(_M_ARM64) || defined(SETUP)
+			if (IsArm64BootTarget ())
 			{
-				installedImages = bMatches2023 ? &images2023 : &images2011;
-				status.InstalledResourceSet = installedImages->ResourceSet;
-				status.VeraCryptLoaderFilesValid = EfiBootLoaderStandardCopiesMatch (EfiBootInst, *installedImages);
+				EfiBootLoaderImages imagesArm64 = MapEfiBootLoaderImages (VC_EFI_BOOT_LOADER_RESOURCE_SET_ARM64, false);
+				if (EfiBootLoaderImagesMatch (EfiBootInst, imagesArm64))
+				{
+					installedImages = &imagesArm64;
+					status.InstalledResourceSet = installedImages->ResourceSet;
+					status.VeraCryptLoaderFilesValid = EfiBootLoaderStandardCopiesMatch (EfiBootInst, *installedImages);
+				}
+			}
+			else
+#endif
+			{
+				EfiBootLoaderImages images2011 = MapEfiBootLoaderImages (VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, false);
+				EfiBootLoaderImages images2023 = MapEfiBootLoaderImages (VC_EFI_BOOT_LOADER_RESOURCE_SET_2023, false);
+				bool bMatches2011 = EfiBootLoaderImagesMatch (EfiBootInst, images2011);
+				bool bMatches2023 = EfiBootLoaderImagesMatch (EfiBootInst, images2023);
+				if (bMatches2011 != bMatches2023)
+				{
+					installedImages = bMatches2023 ? &images2023 : &images2011;
+					status.InstalledResourceSet = installedImages->ResourceSet;
+					status.VeraCryptLoaderFilesValid = EfiBootLoaderStandardCopiesMatch (EfiBootInst, *installedImages);
+				}
 			}
 
 			if (status.VeraCryptLoaderFilesValid && status.InstalledResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023)
@@ -6897,8 +7038,10 @@ namespace VeraCrypt
 		if (CurrentOSMajor == 6 && CurrentOSMinor == 0 && CurrentOSServicePack < 1)
 			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0", SRC_POS);
 
+#ifndef _M_ARM64
 		if (IsARM())
 			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
+#endif
 
 		if (IsNonInstallMode())
 			throw ErrorException ("FEATURE_REQUIRES_INSTALLATION", SRC_POS);
@@ -6910,6 +7053,11 @@ namespace VeraCrypt
 			throw ErrorException ("SYSENC_BITLOCKER_CONFLICT", SRC_POS);
 
 		SystemDriveConfiguration config = GetSystemDriveConfiguration ();
+
+#ifdef _M_ARM64
+		if (!config.SystemPartition.IsGPT)
+			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
+#endif
 
 		if (SystemDriveIsDynamic())
 			throw ErrorException ("SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK", SRC_POS);
@@ -6966,10 +7114,14 @@ namespace VeraCrypt
 	{
 		// It is assumed that CheckRequirements() had been called (so we don't check e.g. whether it's GPT).
 
+#ifdef _M_ARM64
+		throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
+#else
 		// The user may have modified/added/deleted partitions since the partition table was last scanned.
 		InvalidateCachedSysDriveProperties ();
 
 		GetPartitionForHiddenOS ();
+#endif
 	}
 
 
@@ -7322,6 +7474,11 @@ namespace VeraCrypt
 		if (encStatus.DriveMounted)
 			throw ParameterIncorrect (SRC_POS);
 
+#ifdef _M_ARM64
+		if (hiddenSystem)
+			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
+#endif
+
 		try
 		{
 			InstallBootLoader (false, hiddenSystem, -1, hashAlgo);
@@ -7351,6 +7508,9 @@ namespace VeraCrypt
 
 	void BootEncryption::PrepareHiddenOSCreation (int ea, int mode, int pkcs5)
 	{
+#ifdef _M_ARM64
+		throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
+#else
 		BootEncryptionStatus encStatus = GetStatus();
 		if (encStatus.DriveMounted)
 			throw ParameterIncorrect (SRC_POS);
@@ -7360,6 +7520,7 @@ namespace VeraCrypt
 
 		SelectedEncryptionAlgorithmId = ea;
 		SelectedPrfAlgorithmId = pkcs5;
+#endif
 	}
 
 

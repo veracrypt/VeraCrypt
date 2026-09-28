@@ -4068,7 +4068,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 			AbortProcess("OUTOFMEMORY");
 	}
 
-	if (!EncryptionThreadPoolStart (ReadEncryptionThreadPoolFreeCpuCountLimit()))
+	if (!EncryptionThreadPoolStart (ReadEncryptionThreadPoolFreeCpuCountLimit(), FALSE))
 	{
 		handleWin32Error (NULL, SRC_POS);
 		exit (1);

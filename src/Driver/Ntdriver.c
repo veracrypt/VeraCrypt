@@ -204,6 +204,81 @@ BOOL IsUefiBoot ()
 	return bStatus;
 }
 
+#ifdef _M_ARM64
+static NTSTATUS ReadArm64BootArgsHandoffRequired (BOOL *required)
+{
+	PKEY_VALUE_PARTIAL_INFORMATION data = NULL;
+	UNICODE_STRING serviceKey;
+	NTSTATUS status;
+
+	if (!required)
+		return STATUS_INVALID_PARAMETER;
+
+	*required = FALSE;
+	RtlInitUnicodeString (
+		&serviceKey,
+		L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\veracrypt");
+	status = TCReadRegistryKey (
+		&serviceKey,
+		VC_ARM64_BOOT_ARGS_HANDOFF_REQUIRED_REG_VALUE_NAME,
+		&data);
+	if (status == STATUS_OBJECT_NAME_NOT_FOUND || status == STATUS_NO_DATA_DETECTED)
+		return STATUS_SUCCESS;
+	if (!NT_SUCCESS (status))
+		return status;
+
+	if (data->Type != REG_DWORD || data->DataLength != sizeof (uint32))
+	{
+		TCfree (data);
+		return STATUS_INVALID_PARAMETER;
+	}
+
+	*required = (*(uint32 *) data->Data != 0);
+	TCfree (data);
+	return STATUS_SUCCESS;
+}
+
+
+NTSTATUS SetArm64BootArgsHandoffRequired (BOOL required)
+{
+	OBJECT_ATTRIBUTES regObjAttribs;
+	HANDLE regKeyHandle;
+	UNICODE_STRING serviceKey;
+	UNICODE_STRING valueName;
+	NTSTATUS status;
+	uint32 value = required ? 1 : 0;
+
+	RtlInitUnicodeString (
+		&serviceKey,
+		L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\veracrypt");
+	RtlInitUnicodeString (&valueName, VC_ARM64_BOOT_ARGS_HANDOFF_REQUIRED_REG_VALUE_NAME);
+	InitializeObjectAttributes (
+		&regObjAttribs,
+		&serviceKey,
+		OBJ_KERNEL_HANDLE | OBJ_CASE_INSENSITIVE,
+		NULL,
+		NULL);
+
+	status = ZwOpenKey (&regKeyHandle, KEY_SET_VALUE, &regObjAttribs);
+	if (!NT_SUCCESS (status))
+		return status;
+
+	status = ZwSetValueKey (
+		regKeyHandle,
+		&valueName,
+		0,
+		REG_DWORD,
+		&value,
+		sizeof (value));
+	if (NT_SUCCESS (status))
+		status = ZwFlushKey (regKeyHandle);
+
+	ZwClose (regKeyHandle);
+	return status;
+}
+#endif
+
+
 void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 {
 	LARGE_INTEGER iSeed, iSeed2;
@@ -272,6 +347,10 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	PKEY_VALUE_PARTIAL_INFORMATION startKeyValue;
 	LONG version;
 	int i;
+#ifdef _M_ARM64
+	NTSTATUS bootArgumentsStatus;
+	BOOL bootArgumentsRequired;
+#endif
 
 	Dump("DriverEntry " TC_APP_NAME " " VERSION_STRING VERSION_STRING_SUFFIX "\n");
 
@@ -293,7 +372,11 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	memset(VirtualVolumeDeviceObjects, 0, sizeof(VirtualVolumeDeviceObjects));
 
 	ReadRegistryConfigFlags(TRUE);
-	EncryptionThreadPoolStart(EncryptionThreadPoolFreeCpuCountLimit);
+	if (!EncryptionThreadPoolStart (EncryptionThreadPoolFreeCpuCountLimit, RamEncryptionActivated)
+		&& RamEncryptionActivated)
+	{
+		TC_BUG_CHECK (STATUS_INSUFFICIENT_RESOURCES);
+	}
 	SelfTestsPassed = AutoTestAlgorithms();
 
 	// Enable device class filters and load boot arguments if the driver is set to start at system boot
@@ -318,7 +401,25 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 					TC_BUG_CHECK(STATUS_INVALID_PARAMETER);
 			}
 
+#ifdef _M_ARM64
+			bootArgumentsStatus = ReadArm64BootArgsHandoffRequired (&bootArgumentsRequired);
+			if (!NT_SUCCESS (bootArgumentsStatus))
+				TC_BUG_CHECK (bootArgumentsStatus);
+
+			bootArgumentsStatus = LoadBootArguments(IsUefiBoot());
+			/*
+			 * A missing handoff is allowed only before system encryption writes
+			 * its first block. Corrupt handoff data is never accepted.
+			 */
+			if (!NT_SUCCESS (bootArgumentsStatus)
+				&& (bootArgumentsRequired
+					|| bootArgumentsStatus != STATUS_VARIABLE_NOT_FOUND))
+			{
+				TC_BUG_CHECK (bootArgumentsStatus);
+			}
+#else
 			LoadBootArguments(IsUefiBoot());
+#endif
 			VolumeClassFilterRegistered = IsVolumeClassFilterRegistered();
 
 			DriverObject->DriverExtension->AddDevice = DriverAddDevice;
@@ -4030,6 +4131,42 @@ NTSTATUS TCReadDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER 
 NTSTATUS TCWriteDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length)
 {
 	return TCReadWriteDevice (TRUE, deviceObject, buffer, offset, length);
+}
+
+
+NTSTATUS TCFlushDevice (PDEVICE_OBJECT deviceObject)
+{
+	NTSTATUS status;
+	IO_STATUS_BLOCK ioStatusBlock;
+	PIRP irp;
+	KEVENT completionEvent;
+
+	ASSERT (KeGetCurrentIrql() <= APC_LEVEL);
+
+	KeInitializeEvent (&completionEvent, NotificationEvent, FALSE);
+	irp = IoBuildSynchronousFsdRequest (
+		IRP_MJ_FLUSH_BUFFERS,
+		deviceObject,
+		NULL,
+		0,
+		NULL,
+		&completionEvent,
+		&ioStatusBlock);
+	if (!irp)
+		return STATUS_INSUFFICIENT_RESOURCES;
+
+	ObReferenceObject (deviceObject);
+	status = IoCallDriver (deviceObject, irp);
+
+	if (status == STATUS_PENDING)
+	{
+		status = KeWaitForSingleObject (&completionEvent, Executive, KernelMode, FALSE, NULL);
+		if (NT_SUCCESS (status))
+			status = ioStatusBlock.Status;
+	}
+
+	ObDereferenceObject (deviceObject);
+	return status;
 }
 
 

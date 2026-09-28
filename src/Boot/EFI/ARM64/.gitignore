@@ -1,0 +1,3 @@
+# Release EFI resources are versioned so clean Setup builds are self-contained.
+*.map
+*.pdb

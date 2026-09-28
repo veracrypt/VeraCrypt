@@ -392,6 +392,7 @@ IDB_SETUP_WIZARD_BKG    BITMAP                  "VeraCrypt_setup_background.bmp"
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
+#define VC_SETUP_RESOURCE
 #include "..\\common\\common.rc"
 
 /////////////////////////////////////////////////////////////////////////////

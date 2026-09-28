@@ -23,6 +23,7 @@ typedef struct _DumpFilterContext
 	uint8* WriteFilterBuffer;
 	SIZE_T WriteFilterBufferSize;
 	PMDL WriteFilterBufferMdl;
+	CRYPTO_INFO_SCRATCH CryptoScratch;
 } DumpFilterContext;
 
 // In crash/hibernate paths, execution can be at HIGH_LEVEL and many memory manager
@@ -311,7 +312,8 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 		EncryptDataUnitsCurrentThreadEx (dumpContext->WriteFilterBuffer + (intersectStart - offset),
 			&dataUnit,
 			intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
-			dumpContext->BootDriveFilterExtension->Queue.CryptoInfo);
+			dumpContext->BootDriveFilterExtension->Queue.CryptoInfo,
+			&dumpContext->CryptoScratch);
 	}
 
 	//

@@ -575,6 +575,19 @@ IDR_EFI_LEGACYSPEAKER_2023 BIN                  "..\\Boot\\EFI\\2023UEFICA\\Lega
 IDR_EFI_DCSRE_2023      BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsRe.efi"
 IDR_EFI_DCSINFO_2023    BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsInfo.efi"
 #endif
+
+#if defined(ARM64) || defined(VC_SETUP_RESOURCE)
+IDR_EFI_DCSBOOT_ARM64   BIN                     "..\\Boot\\EFI\\ARM64\\DcsBoot.efi"
+IDR_EFI_DCSINT_ARM64    BIN                     "..\\Boot\\EFI\\ARM64\\DcsInt.dcs"
+IDR_EFI_DCSCFG_ARM64    BIN                     "..\\Boot\\EFI\\ARM64\\DcsCfg.dcs"
+IDR_EFI_LEGACYSPEAKER_ARM64 BIN                 "..\\Boot\\EFI\\ARM64\\LegacySpeaker.dcs"
+#ifdef VC_EFI_CUSTOM_MODE
+IDR_EFI_DCSBML_ARM64    BIN                     "..\\Boot\\EFI\\ARM64\\DcsBml.efi"
+#endif
+IDR_EFI_DCSRE_ARM64     BIN                     "..\\Boot\\EFI\\ARM64\\DcsRe.efi"
+IDR_EFI_DCSINFO_ARM64   BIN                     "..\\Boot\\EFI\\ARM64\\DcsInfo.dcs"
+#endif
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // XML

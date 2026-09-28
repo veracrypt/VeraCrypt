@@ -126,13 +126,26 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 
 } EncryptionThreadPoolWorkItem;
 
+typedef struct
+{
+	WORD ProcessorGroup;
+	BOOL ApplyProcessorGroupAffinity;
+	PCRYPTO_INFO_SCRATCH CryptoScratch;
+} EncryptionThreadContext;
+
 
 static volatile BOOL ThreadPoolRunning = FALSE;
 static volatile BOOL StopPending = FALSE;
 
 static uint32 ThreadCount;
 static TC_THREAD_HANDLE ThreadHandles[TC_ENC_THREAD_POOL_MAX_THREAD_COUNT];
-static WORD ThreadProcessorGroups[TC_ENC_THREAD_POOL_MAX_THREAD_COUNT];
+static EncryptionThreadContext ThreadContexts[TC_ENC_THREAD_POOL_MAX_THREAD_COUNT];
+
+#ifdef TC_WINDOWS_DRIVER
+#define TC_ENC_THREAD_POOL_SCRATCH_TAG 'sCtV'
+static PCRYPTO_INFO_SCRATCH ThreadCryptoScratch;
+static size_t ThreadCryptoScratchCount;
+#endif
 
 static EncryptionThreadPoolWorkItem WorkItemQueue[TC_ENC_THREAD_POOL_QUEUE_SIZE];
 
@@ -145,33 +158,55 @@ static TC_MUTEX DequeueMutex;
 static TC_EVENT WorkItemReadyEvent;
 static TC_EVENT WorkItemCompletedEvent;
 
-void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
+void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci, PCRYPTO_INFO_SCRATCH scratch)
 {
 	if (IsRamEncryptionEnabled())
 	{
-		CRYPTO_INFO tmpCI;
-		memcpy (&tmpCI, ci, sizeof (CRYPTO_INFO));
-		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (ci));
+#ifdef TC_WINDOWS_DRIVER
+		PCRYPTO_INFO tmpCI;
 
-		EncryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, &tmpCI);
+		if (!scratch)
+			TC_THROW_FATAL_EXCEPTION;
 
-		burn (&tmpCI, sizeof(CRYPTO_INFO));
+		tmpCI = &scratch->CryptoInfo;
+#else
+		CRYPTO_INFO localScratch;
+		PCRYPTO_INFO tmpCI = &localScratch;
+		(void) scratch;
+#endif
+		memcpy (tmpCI, ci, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (tmpCI, VcGetEncryptionID (ci));
+
+		EncryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, tmpCI);
+
+		burn (tmpCI, sizeof (CRYPTO_INFO));
 	}
 	else
 		EncryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, ci);
 }
 
-void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
+void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci, PCRYPTO_INFO_SCRATCH scratch)
 {
 	if (IsRamEncryptionEnabled())
 	{
-		CRYPTO_INFO tmpCI;
-		memcpy (&tmpCI, ci, sizeof (CRYPTO_INFO));
-		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (ci));
+#ifdef TC_WINDOWS_DRIVER
+		PCRYPTO_INFO tmpCI;
 
-		DecryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, &tmpCI);
+		if (!scratch)
+			TC_THROW_FATAL_EXCEPTION;
 
-		burn (&tmpCI, sizeof(CRYPTO_INFO));
+		tmpCI = &scratch->CryptoInfo;
+#else
+		CRYPTO_INFO localScratch;
+		PCRYPTO_INFO tmpCI = &localScratch;
+		(void) scratch;
+#endif
+		memcpy (tmpCI, ci, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (tmpCI, VcGetEncryptionID (ci));
+
+		DecryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, tmpCI);
+
+		burn (tmpCI, sizeof (CRYPTO_INFO));
 	}
 	else
 		DecryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, ci);
@@ -192,23 +227,24 @@ static void SetWorkItemState (EncryptionThreadPoolWorkItem *workItem, WorkItemSt
 static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 {
 	EncryptionThreadPoolWorkItem *workItem;
-	if (threadArg)
+	EncryptionThreadContext *threadContext = (EncryptionThreadContext *) threadArg;
+
+	if (!threadContext)
+		TC_THROW_FATAL_EXCEPTION;
+
+	if (threadContext->ApplyProcessorGroupAffinity)
 	{
 #ifdef DEVICE_DRIVER
-		SetThreadCpuGroupAffinity ((USHORT) *(WORD*)(threadArg));
+		SetThreadCpuGroupAffinity ((USHORT) threadContext->ProcessorGroup);
 #else
-		if (threadArg)
-		{
-			GROUP_AFFINITY oldAffinity;
-			GROUP_AFFINITY groupAffinity = {0};
-			WORD groupIndex = *(WORD*)(threadArg);
-			DWORD activeProcessorCount = GetActiveProcessorCount(groupIndex);
-			KAFFINITY mask = (activeProcessorCount >= 64) ? ~0ULL : ((1ULL << activeProcessorCount) - 1);
-			groupAffinity.Mask = mask;
-			groupAffinity.Group = groupIndex;
-			SetThreadGroupAffinity(GetCurrentThread(), &groupAffinity, &oldAffinity);
-		}
-	
+		GROUP_AFFINITY oldAffinity;
+		GROUP_AFFINITY groupAffinity = {0};
+		WORD groupIndex = threadContext->ProcessorGroup;
+		DWORD activeProcessorCount = GetActiveProcessorCount(groupIndex);
+		KAFFINITY mask = (activeProcessorCount >= 64) ? ~0ULL : ((1ULL << activeProcessorCount) - 1);
+		groupAffinity.Mask = mask;
+		groupAffinity.Group = groupIndex;
+		SetThreadGroupAffinity(GetCurrentThread(), &groupAffinity, &oldAffinity);
 #endif
 	}
 
@@ -237,11 +273,11 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 		switch (workItem->Type)
 		{
 		case DecryptDataUnitsWork:
-			DecryptDataUnitsCurrentThreadEx (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo);
+			DecryptDataUnitsCurrentThreadEx (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo, threadContext->CryptoScratch);
 			break;
 
 		case EncryptDataUnitsWork:
-			EncryptDataUnitsCurrentThreadEx (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo);
+			EncryptDataUnitsCurrentThreadEx (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo, threadContext->CryptoScratch);
 			break;
 
 		case DeriveKeyWork:
@@ -385,7 +421,45 @@ size_t GetCpuCount (WORD* pGroupCount)
 #endif
 
 
-BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
+#ifdef TC_WINDOWS_DRIVER
+static void FreeThreadCryptoScratch ()
+{
+	if (ThreadCryptoScratch)
+	{
+		RtlSecureZeroMemory (ThreadCryptoScratch, ThreadCryptoScratchCount * sizeof (*ThreadCryptoScratch));
+		ExFreePoolWithTag (ThreadCryptoScratch, TC_ENC_THREAD_POOL_SCRATCH_TAG);
+		ThreadCryptoScratch = NULL;
+		ThreadCryptoScratchCount = 0;
+	}
+}
+#endif
+
+
+static void StopEncryptionThreads ()
+{
+	size_t i;
+
+	StopPending = TRUE;
+	TC_SET_EVENT (WorkItemReadyEvent);
+
+	for (i = 0; i < ThreadCount; ++i)
+	{
+#ifdef DEVICE_DRIVER
+		TCStopThread (ThreadHandles[i], &WorkItemReadyEvent);
+#else
+		TC_WAIT_EVENT (ThreadHandles[i]);
+#endif
+	}
+
+	ThreadCount = 0;
+
+#ifdef TC_WINDOWS_DRIVER
+	FreeThreadCryptoScratch ();
+#endif
+}
+
+
+BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount, BOOL requireRamEncryptionScratch)
 {
 	size_t cpuCount = 0, i = 0;
 	WORD groupCount = 1;
@@ -393,7 +467,13 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 	cpuCount = GetCpuCount(&groupCount);
 
 	if (ThreadPoolRunning)
+	{
+#ifdef TC_WINDOWS_DRIVER
+		if (requireRamEncryptionScratch && !ThreadCryptoScratch)
+			return FALSE;
+#endif
 		return TRUE;
+	}
 
 	if (groupCount > 1)
 	{
@@ -405,7 +485,15 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 		cpuCount -= encryptionFreeCpuCount;
 
 	if (cpuCount < 2)
-		return TRUE;
+	{
+		if (!requireRamEncryptionScratch)
+			return TRUE;
+
+		if (cpuCount == 0)
+			return FALSE;
+
+		cpuCount = 1;
+	}
 
 	if (cpuCount > ThreadPoolCount)
 		cpuCount = ThreadPoolCount;
@@ -441,6 +529,7 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 #endif
 
 	memset (WorkItemQueue, 0, sizeof (WorkItemQueue));
+	memset (ThreadContexts, 0, sizeof (ThreadContexts));
 
 	for (i = 0; i < sizeof (WorkItemQueue) / sizeof (WorkItemQueue[0]); ++i)
 	{
@@ -458,13 +547,36 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 #endif
 	}
 
+#ifdef TC_WINDOWS_DRIVER
+	if (requireRamEncryptionScratch)
+	{
+		size_t scratchSize = cpuCount * sizeof (*ThreadCryptoScratch);
+
+		ThreadCryptoScratch = (PCRYPTO_INFO_SCRATCH) ExAllocatePoolUninitialized (
+			NonPagedPoolNx, scratchSize, TC_ENC_THREAD_POOL_SCRATCH_TAG);
+		if (!ThreadCryptoScratch)
+			return FALSE;
+
+		ThreadCryptoScratchCount = cpuCount;
+		RtlSecureZeroMemory (ThreadCryptoScratch, scratchSize);
+	}
+#else
+	(void) requireRamEncryptionScratch;
+#endif
+
 	for (ThreadCount = 0; ThreadCount < cpuCount; ++ThreadCount)
 	{
-		WORD* pThreadArg = NULL;
+		EncryptionThreadContext *threadContext = &ThreadContexts[ThreadCount];
+
+#ifdef TC_WINDOWS_DRIVER
+		if (ThreadCryptoScratch)
+			threadContext->CryptoScratch = &ThreadCryptoScratch[ThreadCount];
+#endif
+
 		if (groupCount > 1)
 		{
 #ifdef DEVICE_DRIVER
-			ThreadProcessorGroups[ThreadCount] = GetCpuGroup ((size_t) ThreadCount);
+			threadContext->ProcessorGroup = GetCpuGroup ((size_t) ThreadCount);
 #else
 			GetActiveProcessorCountFn GetActiveProcessorCountPtr = (GetActiveProcessorCountFn) GetProcAddress (GetModuleHandle (L"Kernel32.dll"), "GetActiveProcessorCount");
 			// Determine which processor group to bind the thread to.
@@ -477,25 +589,25 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 					totalProcessors += (uint32) GetActiveProcessorCountPtr(j);
 					if (totalProcessors > ThreadCount)
 					{
-						ThreadProcessorGroups[ThreadCount] = j;
+						threadContext->ProcessorGroup = j;
 						break;
 					}
 				}
 			}
 			else
-				ThreadProcessorGroups[ThreadCount] = 0;
+				threadContext->ProcessorGroup = 0;
 #endif
-			pThreadArg = &ThreadProcessorGroups[ThreadCount];
+			threadContext->ApplyProcessorGroupAffinity = TRUE;
 		}
 
 #ifdef DEVICE_DRIVER
-		if (!NT_SUCCESS(TCStartThread(EncryptionThreadProc, (void*) pThreadArg, &ThreadHandles[ThreadCount])))
+		if (!NT_SUCCESS(TCStartThread(EncryptionThreadProc, threadContext, &ThreadHandles[ThreadCount])))
 #else
-		if (!(ThreadHandles[ThreadCount] = (HANDLE)_beginthreadex(NULL, 0, EncryptionThreadProc, (void*) pThreadArg, 0, NULL)))
+		if (!(ThreadHandles[ThreadCount] = (HANDLE)_beginthreadex(NULL, 0, EncryptionThreadProc, threadContext, 0, NULL)))
 #endif
 
 		{
-			EncryptionThreadPoolStop();
+			StopEncryptionThreads ();
 			return FALSE;
 		}
 	}
@@ -507,24 +619,14 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 
 void EncryptionThreadPoolStop ()
 {
+#ifndef DEVICE_DRIVER
 	size_t i;
+#endif
 
 	if (!ThreadPoolRunning)
 		return;
 
-	StopPending = TRUE;
-	TC_SET_EVENT (WorkItemReadyEvent);
-
-	for (i = 0; i < ThreadCount; ++i)
-	{
-#ifdef DEVICE_DRIVER
-		TCStopThread (ThreadHandles[i], &WorkItemReadyEvent);
-#else
-		TC_WAIT_EVENT (ThreadHandles[i]);
-#endif
-	}
-
-	ThreadCount = 0;
+	StopEncryptionThreads ();
 
 #ifndef DEVICE_DRIVER
 	CloseHandle (DequeueMutex);
@@ -635,16 +737,23 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data,
 	if (unitCount == 0)
 		return;
 
+#ifdef TC_WINDOWS_DRIVER
+	if (!ThreadPoolRunning && IsRamEncryptionEnabled())
+		TC_THROW_FATAL_EXCEPTION;
+
+	if (!ThreadPoolRunning || (unitCount == 1 && !IsRamEncryptionEnabled()))
+#else
 	if (!ThreadPoolRunning || unitCount == 1)
+#endif
 	{
 		switch (type)
 		{
 		case DecryptDataUnitsWork:
-			DecryptDataUnitsCurrentThreadEx (data, startUnitNo, unitCount, cryptoInfo);
+			DecryptDataUnitsCurrentThreadEx (data, startUnitNo, unitCount, cryptoInfo, NULL);
 			break;
 
 		case EncryptDataUnitsWork:
-			EncryptDataUnitsCurrentThreadEx (data, startUnitNo, unitCount, cryptoInfo);
+			EncryptDataUnitsCurrentThreadEx (data, startUnitNo, unitCount, cryptoInfo, NULL);
 			break;
 
 		default:

@@ -74,6 +74,281 @@ static NTSTATUS DecoySystemWipeResult;
 static uint64 BootArgsRegionsDefault[] = { EFI_BOOTARGS_REGIONS_DEFAULT };
 static uint64 BootArgsRegionsEFI[] = { EFI_BOOTARGS_REGIONS_EFI };
 
+#ifdef _M_ARM64
+typedef char VeraCryptArm64BootArgsPayloadSizeCheck[
+	(TC_BOOT_LOADER_ARGS_OFFSET + sizeof (BootArguments) + sizeof (BOOT_CRYPTO_HEADER)
+		+ 2 + sizeof (SECREGION_BOOT_PARAMS)) == VC_ARM64_BOOT_ARGS_HANDOFF_BOOT_PARAMS_LENGTH ? 1 : -1];
+
+static BOOL BootArgsFromArm64Payload = FALSE;
+static volatile LONG BootArgsPayloadReadAttempted = FALSE;
+
+static NTSTATUS ClearArm64RescueDecryptionComplete (void)
+{
+	UNICODE_STRING variableName;
+	GUID variableGuid = VC_ARM64_BOOT_ARGS_HANDOFF_GUID_INIT;
+	uint8 emptyValue = 0;
+	NTSTATUS status;
+
+	RtlInitUnicodeString (
+		&variableName,
+		VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VARIABLE_NAME);
+	status = ExSetFirmwareEnvironmentVariable (
+		&variableName,
+		&variableGuid,
+		&emptyValue,
+		0,
+		VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VARIABLE_ATTRIBUTES);
+	if (status == STATUS_VARIABLE_NOT_FOUND)
+		return STATUS_SUCCESS;
+
+	return status;
+}
+
+
+static NTSTATUS CheckArm64RescueDecryptionComplete (
+	uint32 headerSaltCrc32,
+	BOOL *complete)
+{
+	UNICODE_STRING variableName;
+	GUID variableGuid = VC_ARM64_BOOT_ARGS_HANDOFF_GUID_INIT;
+	VeraCryptArm64RescueDecryptionComplete marker;
+	ULONG attributes = 0;
+	ULONG variableLength = sizeof (marker);
+	BOOL valid = FALSE;
+	NTSTATUS status;
+
+	if (!complete)
+		return STATUS_INVALID_PARAMETER;
+
+	*complete = FALSE;
+	memset (&marker, 0, sizeof (marker));
+	RtlInitUnicodeString (
+		&variableName,
+		VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VARIABLE_NAME);
+	status = ExGetFirmwareEnvironmentVariable (
+		&variableName,
+		&variableGuid,
+		&marker,
+		&variableLength,
+		&attributes);
+	if (status == STATUS_VARIABLE_NOT_FOUND)
+		return STATUS_SUCCESS;
+	if (NT_SUCCESS (status))
+	{
+		valid = variableLength == sizeof (marker)
+			&& attributes == VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VARIABLE_ATTRIBUTES
+			&& marker.Magic == VC_ARM64_RESCUE_DECRYPTION_COMPLETE_MAGIC
+			&& marker.Version == VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VERSION
+			&& marker.Size == sizeof (marker)
+			&& marker.HeaderSaltCrc32 == headerSaltCrc32
+			&& marker.Crc32 == GetCrc32 (
+				(uint8 *) &marker,
+				(int) FIELD_OFFSET (VeraCryptArm64RescueDecryptionComplete, Crc32));
+	}
+	else if (status != STATUS_BUFFER_TOO_SMALL)
+	{
+		burn (&marker, sizeof (marker));
+		return status;
+	}
+
+	if (!valid)
+	{
+		/*
+		 * Invalid or mismatched records are discarded without relaxing the
+		 * fail-closed registry requirement.
+		 */
+		status = ClearArm64RescueDecryptionComplete ();
+	}
+	else
+	{
+		*complete = TRUE;
+		status = STATUS_SUCCESS;
+	}
+
+	burn (&marker, sizeof (marker));
+	return status;
+}
+
+
+static NTSTATUS LoadArm64BootArgumentsPayload (void)
+{
+	UNICODE_STRING variableName;
+	GUID variableGuid = VC_ARM64_BOOT_ARGS_HANDOFF_GUID_INIT;
+	ULONG attributes = 0;
+	ULONG variableLength = sizeof (VeraCryptArm64BootArgsHandoffDescriptor);
+	VeraCryptArm64BootArgsHandoffDescriptor descriptor;
+	PHYSICAL_ADDRESS payloadAddress;
+	uint8 *mappedRegion = NULL;
+	uint8 variable[VC_ARM64_BOOT_ARGS_HANDOFF_PAYLOAD_LENGTH];
+	uint8 *payload;
+	VeraCryptArm64BootArgsHandoffPayloadHeader header;
+	VeraCryptArm64BootArgsHandoffAllocationTag allocationTag;
+	BootArguments bootArguments;
+	BOOT_CRYPTO_HEADER bootCryptoInfo;
+	SECREGION_BOOT_PARAMS secRegionParams;
+	Hash *bootHash;
+	NTSTATUS status;
+
+	memset (&descriptor, 0, sizeof (descriptor));
+	memset (variable, 0, sizeof (variable));
+	memset (&header, 0, sizeof (header));
+	memset (&allocationTag, 0, sizeof (allocationTag));
+	memset (&bootArguments, 0, sizeof (bootArguments));
+	memset (&bootCryptoInfo, 0, sizeof (bootCryptoInfo));
+	memset (&secRegionParams, 0, sizeof (secRegionParams));
+
+	if (InterlockedCompareExchange (&BootArgsPayloadReadAttempted, TRUE, FALSE) != FALSE)
+		return STATUS_INVALID_DEVICE_STATE;
+
+	RtlInitUnicodeString (&variableName, VC_ARM64_BOOT_ARGS_HANDOFF_VARIABLE_NAME);
+	status = ExGetFirmwareEnvironmentVariable (
+		&variableName,
+		&variableGuid,
+		&descriptor,
+		&variableLength,
+		&attributes);
+	if (!NT_SUCCESS (status))
+		goto ret;
+
+	if (variableLength != sizeof (descriptor)
+		|| attributes != VC_ARM64_BOOT_ARGS_HANDOFF_VARIABLE_ATTRIBUTES)
+	{
+		status = STATUS_INVALID_PARAMETER;
+		goto ret;
+	}
+
+	if (descriptor.Magic != VC_ARM64_BOOT_ARGS_HANDOFF_DESCRIPTOR_MAGIC
+		|| descriptor.Version != VC_ARM64_BOOT_ARGS_HANDOFF_VERSION
+		|| descriptor.Size != sizeof (descriptor)
+		|| descriptor.PhysicalAddress == 0
+		|| (descriptor.PhysicalAddress & (VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH - 1)) != 0
+		|| descriptor.PhysicalAddress + VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH < descriptor.PhysicalAddress
+		|| descriptor.RegionLength != VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH
+		|| descriptor.PayloadLength != VC_ARM64_BOOT_ARGS_HANDOFF_PAYLOAD_LENGTH
+		|| descriptor.PayloadLength > VC_ARM64_BOOT_ARGS_HANDOFF_ALLOCATION_TAG_OFFSET
+		|| descriptor.Crc32 != GetCrc32 (
+			(uint8 *) &descriptor,
+			(int) FIELD_OFFSET (VeraCryptArm64BootArgsHandoffDescriptor, Crc32)))
+	{
+		status = STATUS_CRC_ERROR;
+		goto ret;
+	}
+
+	payloadAddress.QuadPart = descriptor.PhysicalAddress;
+	mappedRegion = MmMapIoSpace (
+		payloadAddress,
+		VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH,
+		MmCached);
+	if (!mappedRegion)
+	{
+		status = STATUS_INSUFFICIENT_RESOURCES;
+		goto ret;
+	}
+
+	memcpy (
+		&allocationTag,
+		mappedRegion + VC_ARM64_BOOT_ARGS_HANDOFF_ALLOCATION_TAG_OFFSET,
+		sizeof (allocationTag));
+	if (allocationTag.Magic != VC_ARM64_BOOT_ARGS_HANDOFF_ALLOCATION_TAG_MAGIC
+		|| allocationTag.Version != VC_ARM64_BOOT_ARGS_HANDOFF_VERSION
+		|| allocationTag.Size != sizeof (allocationTag)
+		|| allocationTag.PhysicalAddress != descriptor.PhysicalAddress
+		|| allocationTag.RegionLength != descriptor.RegionLength
+		|| allocationTag.Crc32 != GetCrc32 (
+			(uint8 *) &allocationTag,
+			(int) FIELD_OFFSET (VeraCryptArm64BootArgsHandoffAllocationTag, Crc32)))
+	{
+		status = STATUS_CRC_ERROR;
+		goto ret;
+	}
+
+	memcpy (variable, mappedRegion, VC_ARM64_BOOT_ARGS_HANDOFF_PAYLOAD_LENGTH);
+	burn (mappedRegion, VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH);
+	memcpy (&header, variable, sizeof (header));
+	payload = variable + sizeof (header);
+
+	if (header.Magic != VC_ARM64_BOOT_ARGS_HANDOFF_PAYLOAD_MAGIC
+		|| header.Version != VC_ARM64_BOOT_ARGS_HANDOFF_VERSION
+		|| header.Size != sizeof (header)
+		|| header.BootArgsOffset != TC_BOOT_LOADER_ARGS_OFFSET
+		|| header.PayloadLength != VC_ARM64_BOOT_ARGS_HANDOFF_BOOT_PARAMS_LENGTH
+		|| header.Crc32 != GetCrc32 (variable, (int) FIELD_OFFSET (VeraCryptArm64BootArgsHandoffPayloadHeader, Crc32))
+		|| descriptor.PayloadCrc32 != GetCrc32 (
+			variable,
+			(int) descriptor.PayloadLength)
+		|| header.PayloadCrc32 != GetCrc32 (payload, (int) header.PayloadLength))
+	{
+		status = STATUS_CRC_ERROR;
+		goto ret;
+	}
+	memcpy (&bootArguments, payload + TC_BOOT_LOADER_ARGS_OFFSET, sizeof (bootArguments));
+	if (!TC_IS_BOOT_ARGUMENTS_SIGNATURE (bootArguments.Signature)
+		|| bootArguments.BootLoaderVersion != VERSION_NUM
+		|| bootArguments.BootArgumentsCrc32 != GetCrc32 (
+			(uint8 *) &bootArguments,
+			(int) FIELD_OFFSET (BootArguments, BootArgumentsCrc32))
+		|| bootArguments.BootPassword.Length > MAX_LEGACY_PASSWORD
+		|| ((bootArguments.Flags & 0xffffUL) & ~TC_BOOT_ARGS_FLAG_EXTRA_BOOT_PARTITION) != 0
+		|| bootArguments.CryptoInfoOffset != TC_BOOT_LOADER_ARGS_OFFSET + sizeof (BootArguments)
+		|| bootArguments.CryptoInfoLength != sizeof (BOOT_CRYPTO_HEADER) + 2 + sizeof (SECREGION_BOOT_PARAMS))
+	{
+		status = STATUS_INVALID_PARAMETER;
+		goto ret;
+	}
+
+	memcpy (&bootCryptoInfo, payload + bootArguments.CryptoInfoOffset, sizeof (bootCryptoInfo));
+	memcpy (
+		&secRegionParams,
+		payload + bootArguments.CryptoInfoOffset + sizeof (bootCryptoInfo) + 2,
+		sizeof (secRegionParams));
+
+	bootHash = HashGet (bootCryptoInfo.pkcs5);
+	if (bootCryptoInfo.ea < EAGetFirst ()
+		|| bootCryptoInfo.ea > EAGetCount ()
+		|| EAGetFirstCipher (bootCryptoInfo.ea) == 0
+		|| EAGetFirstMode (bootCryptoInfo.ea) != bootCryptoInfo.mode
+		|| bootCryptoInfo.mode != XTS
+		|| bootHash == NULL
+		|| payload[bootArguments.CryptoInfoOffset + sizeof (bootCryptoInfo)] != 0
+		|| payload[bootArguments.CryptoInfoOffset + sizeof (bootCryptoInfo) + 1] != 0
+		|| secRegionParams.Ptr != 0
+		|| secRegionParams.Size != 0
+		|| secRegionParams.Crc != GetCrc32 ((uint8 *) &secRegionParams, 12))
+	{
+		status = STATUS_INVALID_PARAMETER;
+		goto ret;
+	}
+
+	status = STATUS_SUCCESS;
+
+ret:
+	if (NT_SUCCESS (status))
+	{
+		BootLoaderArgsPtr = 0;
+		BootArgs = bootArguments;
+		BootArgs.CryptoInfoLength = 0;
+		BootArgsValid = TRUE;
+		BootArgsFromArm64Payload = TRUE;
+		BootDriveSignatureValid = TRUE;
+		BootPkcs5 = bootCryptoInfo.pkcs5;
+		BootSecRegionData = NULL;
+		BootSecRegionSize = 0;
+		burn (BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
+	}
+
+	burn (&secRegionParams, sizeof (secRegionParams));
+	burn (&bootCryptoInfo, sizeof (bootCryptoInfo));
+	burn (&bootArguments, sizeof (bootArguments));
+	burn (&allocationTag, sizeof (allocationTag));
+	burn (&header, sizeof (header));
+	burn (&descriptor, sizeof (descriptor));
+	burn (variable, sizeof (variable));
+	if (mappedRegion)
+		MmUnmapIoSpace (mappedRegion, VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH);
+	return status;
+}
+#endif
+
 static BOOL GetHiddenSystemPartitionOffset (uint64 *hiddenPartitionOffset)
 {
 	uint64 hiddenOffset = BootArgs.HiddenSystemPartitionStart;
@@ -162,6 +437,11 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 
 	KeInitializeMutex (&MountMutex, 0);
 //	__debugbreak();
+#ifdef _M_ARM64
+	if (bIsEfi)
+		return LoadArm64BootArgumentsPayload ();
+#endif
+
 	for (bootLoaderArgsIndex = 0;
 		bootLoaderArgsIndex < BootArgsRegionsCount && status != STATUS_SUCCESS;
 		++bootLoaderArgsIndex)
@@ -483,6 +763,349 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, uint8
 }
 
 
+static void PublishBootDriveState (DriveFilterExtension *Extension)
+{
+#ifdef _M_ARM64
+	Extension->MagicNumber = TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER;
+	Extension->VolumeHeaderPresent = TRUE;
+	Extension->DriveMounted = TRUE;
+	BootDriveFilterExtension = Extension;
+
+	KeMemoryBarrier ();
+	InterlockedExchange ((volatile LONG *) &Extension->BootDrive, TRUE);
+	KeMemoryBarrier ();
+	InterlockedExchange ((volatile LONG *) &BootDriveFound, TRUE);
+#else
+	BootDriveFilterExtension = Extension;
+	BootDriveFound = Extension->BootDrive = Extension->DriveMounted = Extension->VolumeHeaderPresent = TRUE;
+	BootDriveFilterExtension->MagicNumber = TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER;
+#endif
+}
+
+
+static BOOL IsBootDriveStatePublished (DriveFilterExtension *Extension)
+{
+#ifdef _M_ARM64
+	return InterlockedCompareExchangeAcquire ((volatile LONG *) &Extension->BootDrive, FALSE, FALSE) != FALSE;
+#else
+	return Extension->BootDrive;
+#endif
+}
+
+
+#ifdef _M_ARM64
+static NTSTATUS VcMapArm64BootWriteBuffer (PIRP irp, ULONG length, PUCHAR *outVa, PMDL *outTempMdl)
+{
+	ULONG mapFlags = HighPagePriority | MdlMappingNoExecute | MdlMappingNoWrite;
+	PUCHAR va = NULL;
+	PMDL mdl = NULL;
+
+	ASSERT (outVa && outTempMdl);
+	*outVa = NULL;
+	*outTempMdl = NULL;
+
+	if (length == 0)
+		return STATUS_INVALID_PARAMETER;
+
+	if (irp->MdlAddress)
+	{
+		if (MmGetMdlByteCount (irp->MdlAddress) < length)
+			return STATUS_INVALID_USER_BUFFER;
+
+		va = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, mapFlags);
+		if (!va)
+			return STATUS_INSUFFICIENT_RESOURCES;
+
+		*outVa = va;
+		return STATUS_SUCCESS;
+	}
+
+	if (irp->AssociatedIrp.SystemBuffer)
+	{
+		*outVa = (PUCHAR) irp->AssociatedIrp.SystemBuffer;
+		return STATUS_SUCCESS;
+	}
+
+	if (!irp->UserBuffer)
+		return STATUS_INVALID_USER_BUFFER;
+
+	mdl = IoAllocateMdl (irp->UserBuffer, length, FALSE, FALSE, NULL);
+	if (!mdl)
+		return STATUS_INSUFFICIENT_RESOURCES;
+
+	__try
+	{
+		MmProbeAndLockPages (mdl, irp->RequestorMode, IoReadAccess);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		IoFreeMdl (mdl);
+		return STATUS_INVALID_USER_BUFFER;
+	}
+
+	va = (PUCHAR) MmGetSystemAddressForMdlSafe (mdl, mapFlags);
+	if (!va)
+	{
+		MmUnlockPages (mdl);
+		IoFreeMdl (mdl);
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+
+	*outTempMdl = mdl;
+	*outVa = va;
+	return STATUS_SUCCESS;
+}
+
+
+static void VcUnmapArm64BootWriteBuffer (PMDL tempMdl)
+{
+	if (tempMdl)
+	{
+		MmUnlockPages (tempMdl);
+		IoFreeMdl (tempMdl);
+	}
+}
+
+
+static BOOL VcArm64BootWriteRangeValid (LONGLONG offset, ULONG length, ULONGLONG *endExclusive)
+{
+	if (length == 0 || offset < 0)
+		return FALSE;
+
+	if ((ULONGLONG) offset > ((ULONGLONG) -1) - length)
+		return FALSE;
+
+	*endExclusive = (ULONGLONG) offset + length;
+	return TRUE;
+}
+
+
+static BOOL VcArm64BootWriteBaseReady (DriveFilterExtension *Extension)
+{
+	EncryptedIoQueue *queue = &Extension->Queue;
+
+	if (!BootArgsFromArm64Payload || Extension != BootDriveFilterExtension)
+		return FALSE;
+
+	if (KeGetCurrentIrql() > APC_LEVEL)
+		return FALSE;
+
+	if (!Extension->BootDrive || !Extension->DriveMounted || Extension->HiddenSystem)
+		return FALSE;
+
+	if (!queue->CryptoInfo || !queue->LowerDeviceObject)
+		return FALSE;
+
+	if (queue->ThreadBlockReadWrite || queue->EncryptedAreaEndUpdatePending)
+		return FALSE;
+
+	if (queue->RemapEncryptedArea || queue->CryptoInfo->bPartitionInInactiveSysEncScope)
+		return FALSE;
+
+	return TRUE;
+}
+
+
+static BOOL VcArm64BootWriteBlocked (DriveFilterExtension *Extension, LONGLONG offset, ULONG length, NTSTATUS *status)
+{
+	EncryptedIoQueue *queue = &Extension->Queue;
+	ULONGLONG endExclusive;
+	ULONGLONG endInclusive;
+
+	if (!VcArm64BootWriteRangeValid (offset, length, &endExclusive))
+	{
+		*status = STATUS_INVALID_PARAMETER;
+		return TRUE;
+	}
+
+	endInclusive = endExclusive - 1;
+	if (RegionsOverlap (offset, endInclusive,
+		TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET,
+		TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET + TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE - 1))
+	{
+		*status = STATUS_MEDIA_WRITE_PROTECTED;
+		return TRUE;
+	}
+
+	if (IsHiddenSystemRunning ()
+		&& (RegionsOverlap (offset, endInclusive,
+				TC_SECTOR_SIZE_BIOS,
+				TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS - 1)
+			|| RegionsOverlap (offset, endInclusive, GetBootDriveLength (), _I64_MAX)))
+	{
+		*status = STATUS_MEDIA_WRITE_PROTECTED;
+		return TRUE;
+	}
+
+	if (queue->SecRegionData != NULL && queue->SecRegionSize > 512
+		&& UpdateBuffer (NULL, queue->SecRegionData, queue->SecRegionSize,
+			(uint64) offset, length, FALSE))
+	{
+		*status = STATUS_MEDIA_WRITE_PROTECTED;
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static void VcEncryptArm64BootWrite (EncryptedIoQueue *queue, PUCHAR buffer, LONGLONG offset, ULONG length)
+{
+	uint64 intersectStart;
+	uint32 intersectLength;
+
+	if (queue->EncryptedAreaStart != -1 && queue->EncryptedAreaEnd != -1)
+	{
+		GetIntersection ((uint64) offset, length,
+			queue->EncryptedAreaStart, queue->EncryptedAreaEnd,
+			&intersectStart, &intersectLength);
+		if (intersectLength > 0)
+		{
+			UINT64_STRUCT dataUnit;
+
+			ASSERT (intersectStart >= (uint64) offset);
+			ASSERT ((intersectStart - (uint64) offset) + intersectLength <= length);
+			dataUnit.Value = intersectStart / ENCRYPTION_DATA_UNIT_SIZE;
+			EncryptDataUnits (buffer + (intersectStart - (uint64) offset),
+				&dataUnit, intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
+				queue->CryptoInfo);
+		}
+	}
+}
+
+
+static void VcDecryptArm64BootWrite (EncryptedIoQueue *queue, PUCHAR buffer, LONGLONG offset, ULONG length)
+{
+	uint64 intersectStart;
+	uint32 intersectLength;
+
+	if (queue->EncryptedAreaStart != -1 && queue->EncryptedAreaEnd != -1)
+	{
+		GetIntersection ((uint64) offset, length,
+			queue->EncryptedAreaStart, queue->EncryptedAreaEnd,
+			&intersectStart, &intersectLength);
+		if (intersectLength > 0)
+		{
+			UINT64_STRUCT dataUnit;
+
+			ASSERT (intersectStart >= (uint64) offset);
+			ASSERT ((intersectStart - (uint64) offset) + intersectLength <= length);
+			dataUnit.Value = intersectStart / ENCRYPTION_DATA_UNIT_SIZE;
+			DecryptDataUnits (buffer + (intersectStart - (uint64) offset),
+				&dataUnit, intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
+				queue->CryptoInfo);
+		}
+	}
+
+	if (queue->SecRegionData != NULL && queue->SecRegionSize > 512)
+		UpdateBuffer (buffer, queue->SecRegionData, queue->SecRegionSize,
+			(uint64) offset, length, TRUE);
+}
+
+
+static NTSTATUS VcArm64BootWrite (PVOID context, PIRP Irp, PIO_STACK_LOCATION irpSp)
+{
+	DriveFilterExtension *Extension = (DriveFilterExtension *) context;
+	EncryptedIoQueue *queue = &Extension->Queue;
+	LARGE_INTEGER offset = irpSp->Parameters.Write.ByteOffset;
+	ULONG length = irpSp->Parameters.Write.Length;
+	PUCHAR dataBuffer = NULL;
+	PUCHAR writeBuffer = NULL;
+	PMDL tempMdl = NULL;
+	NTSTATUS status;
+
+	if (!VcArm64BootWriteBaseReady (Extension))
+		status = STATUS_DEVICE_NOT_READY;
+	else if (!VcArm64BootWriteBlocked (Extension, offset.QuadPart, length, &status))
+		status = VcMapArm64BootWriteBuffer (Irp, length, &dataBuffer, &tempMdl);
+
+	if (NT_SUCCESS (status))
+	{
+		if ((length & (ENCRYPTION_DATA_UNIT_SIZE - 1)) == 0
+			&& (offset.QuadPart & (ENCRYPTION_DATA_UNIT_SIZE - 1)) == 0)
+		{
+			writeBuffer = TCalloc (length);
+			if (!writeBuffer)
+			{
+				status = STATUS_INSUFFICIENT_RESOURCES;
+			}
+			else
+			{
+				memcpy (writeBuffer, dataBuffer, length);
+				VcEncryptArm64BootWrite (queue, writeBuffer, offset.QuadPart, length);
+				status = TCWriteDevice (Extension->LowerDeviceObject, writeBuffer, offset, length);
+				TCfree (writeBuffer);
+			}
+		}
+		else
+		{
+			LARGE_INTEGER alignedOffset;
+			ULONGLONG endExclusive = (ULONGLONG) offset.QuadPart + length;
+			ULONGLONG alignedStart = (ULONGLONG) offset.QuadPart
+				& ~((ULONGLONG) ENCRYPTION_DATA_UNIT_SIZE - 1);
+			ULONGLONG alignedEnd;
+			ULONGLONG alignedSpan;
+			ULONG alignedLength;
+
+			if (endExclusive > ((ULONGLONG) -1) - (ENCRYPTION_DATA_UNIT_SIZE - 1))
+			{
+				status = STATUS_INVALID_PARAMETER;
+			}
+			else
+			{
+				alignedEnd = (endExclusive + ENCRYPTION_DATA_UNIT_SIZE - 1)
+					& ~((ULONGLONG) ENCRYPTION_DATA_UNIT_SIZE - 1);
+				alignedSpan = alignedEnd - alignedStart;
+				if (alignedSpan < length || alignedSpan > MAXULONG)
+				{
+					status = STATUS_INVALID_PARAMETER;
+				}
+				else
+				{
+					alignedLength = (ULONG) alignedSpan;
+					alignedOffset.QuadPart = (LONGLONG) alignedStart;
+					if (!VcArm64BootWriteBlocked (
+						Extension, alignedOffset.QuadPart, alignedLength, &status))
+					{
+						writeBuffer = TCalloc (alignedLength);
+						if (!writeBuffer)
+						{
+							status = STATUS_INSUFFICIENT_RESOURCES;
+						}
+						else
+						{
+							status = TCReadDevice (
+								Extension->LowerDeviceObject,
+								writeBuffer, alignedOffset, alignedLength);
+							if (NT_SUCCESS (status))
+							{
+								VcDecryptArm64BootWrite (
+									queue, writeBuffer,
+									alignedOffset.QuadPart, alignedLength);
+								memcpy (
+									writeBuffer + (offset.QuadPart - alignedOffset.QuadPart),
+									dataBuffer, length);
+								VcEncryptArm64BootWrite (
+									queue, writeBuffer,
+									alignedOffset.QuadPart, alignedLength);
+								status = TCWriteDevice (
+									Extension->LowerDeviceObject,
+									writeBuffer, alignedOffset, alignedLength);
+							}
+							TCfree (writeBuffer);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	VcUnmapArm64BootWriteBuffer (tempMdl);
+	return status;
+}
+#endif
+
+
 static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password, __unaligned uint32 *headerSaltCrc32)
 {
 	BOOL hiddenVolume = (BootArgs.HiddenSystemPartitionStart != 0);
@@ -651,6 +1274,29 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		{
 			Extension->Queue.EncryptedAreaStart = -1;
 			Extension->Queue.EncryptedAreaEnd = -1;
+#ifdef _M_ARM64
+			if (BootArgsFromArm64Payload)
+			{
+				BOOL rescueDecryptionComplete = FALSE;
+
+				status = CheckArm64RescueDecryptionComplete (
+					Extension->VolumeHeaderSaltCrc32,
+					&rescueDecryptionComplete);
+				if (!NT_SUCCESS (status))
+					goto ret;
+
+				if (rescueDecryptionComplete)
+				{
+					status = SetArm64BootArgsHandoffRequired (FALSE);
+					if (!NT_SUCCESS (status))
+						goto ret;
+
+					status = ClearArm64RescueDecryptionComplete ();
+					if (!NT_SUCCESS (status))
+						goto ret;
+				}
+			}
+#endif
 		}
 
 		Dump ("Loaded: ConfiguredEncryptedAreaStart=%I64d (%I64d)  ConfiguredEncryptedAreaEnd=%I64d (%I64d)\n", Extension->ConfiguredEncryptedAreaStart / 1024 / 1024, Extension->ConfiguredEncryptedAreaStart, Extension->ConfiguredEncryptedAreaEnd / 1024 / 1024, Extension->ConfiguredEncryptedAreaEnd);
@@ -658,9 +1304,10 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 
 		// at this stage, we have already erased boot loader scheduled keys
 
-		BootDriveFilterExtension = Extension;
-		BootDriveFound = Extension->BootDrive = Extension->DriveMounted = Extension->VolumeHeaderPresent = TRUE;
-		BootDriveFilterExtension->MagicNumber = TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER;
+#ifdef _M_ARM64
+		if (!BootArgsFromArm64Payload)
+#endif
+			PublishBootDriveState (Extension);
 
 		// Try to load password cached if saved in SecRegion
 		if (BootSecRegionData != NULL && BootSecRegionSize > 1024) {
@@ -740,7 +1387,20 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 			VcProtectKeys (Extension->HeaderCryptoInfo, VcGetEncryptionID (Extension->HeaderCryptoInfo));
 			VcProtectKeys (Extension->Queue.CryptoInfo, VcGetEncryptionID (Extension->Queue.CryptoInfo));
 		}
-		
+
+#ifdef _M_ARM64
+		{
+			BOOL useArm64BootWrite = BootArgsFromArm64Payload
+				&& !Extension->HiddenSystem
+				&& !Extension->Queue.RemapEncryptedArea;
+
+			Extension->Queue.Arm64BootWrite =
+				useArm64BootWrite ? VcArm64BootWrite : NULL;
+			Extension->Queue.Arm64BootWriteContext =
+				useArm64BootWrite ? Extension : NULL;
+		}
+#endif
+
 		status = EncryptedIoQueueStart (&Extension->Queue);
 		if (!NT_SUCCESS (status))
 			TC_BUG_CHECK (status);
@@ -753,7 +1413,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		}
 
 		// Hidden system hibernation is not supported if an extra boot partition is present as the system is not allowed to update the boot partition
-		if (IsHiddenSystemRunning() && (BootArgs.Flags & TC_BOOT_ARGS_FLAG_EXTRA_BOOT_PARTITION))
+		if (Extension->HiddenSystem && (BootArgs.Flags & TC_BOOT_ARGS_FLAG_EXTRA_BOOT_PARTITION))
 		{
 			CrashDumpEnabled = FALSE;
 			HibernationEnabled = FALSE;
@@ -779,6 +1439,7 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 	NTSTATUS status = STATUS_SUCCESS;
 	LARGE_INTEGER offset;
 	uint8 *header;
+	PCRYPTO_INFO temporaryCryptoInfo = NULL;
 
 	header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
 	if (!header)
@@ -811,12 +1472,18 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		uint64 encryptedAreaLength = Extension->Queue.EncryptedAreaEnd + 1 - Extension->Queue.EncryptedAreaStart;
 		uint8 *fieldPos = header + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
 		PCRYPTO_INFO pCryptoInfo = Extension->HeaderCryptoInfo;
-		CRYPTO_INFO tmpCI;
 		if (IsRamEncryptionEnabled())
 		{
-			memcpy (&tmpCI, pCryptoInfo, sizeof (CRYPTO_INFO));
-			VcUnprotectKeys (&tmpCI, VcGetEncryptionID (pCryptoInfo));
-			pCryptoInfo = &tmpCI;
+			temporaryCryptoInfo = crypto_open ();
+			if (!temporaryCryptoInfo)
+			{
+				status = STATUS_INSUFFICIENT_RESOURCES;
+				goto ret;
+			}
+
+			memcpy (temporaryCryptoInfo, pCryptoInfo, sizeof (CRYPTO_INFO));
+			VcUnprotectKeys (temporaryCryptoInfo, VcGetEncryptionID (pCryptoInfo));
+			pCryptoInfo = temporaryCryptoInfo;
 		}
 
 		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
@@ -835,10 +1502,6 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		mputLong (fieldPos, headerCrc32);
 
 		EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
-		if (IsRamEncryptionEnabled())
-		{
-			burn (&tmpCI, sizeof (CRYPTO_INFO));
-		}
 	}
 
 	status = TCWriteDevice (Extension->LowerDeviceObject, header, offset, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
@@ -849,9 +1512,49 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 	}
 
 ret:
+	if (temporaryCryptoInfo)
+		crypto_close (temporaryCryptoInfo);
+
 	TCfree (header);
 	return status;
 }
+
+
+#ifdef _M_ARM64
+static NTSTATUS VerifyDriveVolumeHeaderErased (DriveFilterExtension *Extension)
+{
+	LARGE_INTEGER offset;
+	NTSTATUS status;
+	uint8 *header;
+	size_t i;
+
+	header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+	if (!header)
+		return STATUS_INSUFFICIENT_RESOURCES;
+
+	offset.QuadPart = TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET;
+	status = TCReadDevice (
+		Extension->LowerDeviceObject,
+		header,
+		offset,
+		TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+	if (NT_SUCCESS (status))
+	{
+		for (i = 0; i < TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE; ++i)
+		{
+			if (header[i] != 0)
+			{
+				status = STATUS_DATA_ERROR;
+				break;
+			}
+		}
+	}
+
+	burn (header, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+	TCfree (header);
+	return status;
+}
+#endif
 
 
 static NTSTATUS PassIrp (PDEVICE_OBJECT deviceObject, PIRP irp)
@@ -924,10 +1627,17 @@ static void CheckDeviceTypeAndMount (DriveFilterExtension *filterExtension)
 			if (!BootDriveFound)
 			{
 				Password bootPass = {0};
+				NTSTATUS mountStatus;
 				bootPass.Length = BootArgs.BootPassword.Length;
 				memcpy (bootPass.Text, BootArgs.BootPassword.Text, BootArgs.BootPassword.Length);
-				MountDrive (filterExtension, &bootPass, &BootArgs.HeaderSaltCrc32);
+				mountStatus = MountDrive (filterExtension, &bootPass, &BootArgs.HeaderSaltCrc32);
 				burn (&bootPass, sizeof (bootPass));
+#ifdef _M_ARM64
+				if (NT_SUCCESS (mountStatus) && BootArgsFromArm64Payload)
+					PublishBootDriveState (filterExtension);
+#else
+				UNREFERENCED_PARAMETER (mountStatus);
+#endif
 			}
 
 			KeReleaseMutex (&MountMutex, FALSE);
@@ -1149,7 +1859,7 @@ NTSTATUS DriveFilterDispatchIrp (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 	{
 	case IRP_MJ_READ:
 	case IRP_MJ_WRITE:
-		if (Extension->BootDrive)
+		if (IsBootDriveStatePublished (Extension))
 		{
 			status = EncryptedIoQueueAddIrp (&Extension->Queue, Irp);
 			
@@ -1400,7 +2110,8 @@ static NTSTATUS HiberDriverWriteFunctionFilter (int filterNumber, PLARGE_INTEGER
 				EncryptDataUnitsCurrentThreadEx (HibernationWriteBuffer + (intersectStart - offset),
 					&dataUnit,
 					intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
-					BootDriveFilterExtension->Queue.CryptoInfo);
+					BootDriveFilterExtension->Queue.CryptoInfo,
+					NULL);
 
 				encryptedDataMdl = HibernationWriteBufferMdl;
 				MmInitializeMdl (encryptedDataMdl, HibernationWriteBuffer, dataLength);
@@ -1657,6 +2368,25 @@ static VOID SetupThreadProc (PVOID threadArg)
 	}
 	TransformWaitingForIdle = FALSE;
 
+#ifdef _M_ARM64
+	if (SetupRequest.SetupMode == SetupEncryption)
+	{
+		status = ClearArm64RescueDecryptionComplete ();
+		if (!NT_SUCCESS (status))
+		{
+			SetupResult = status;
+			goto err;
+		}
+
+		status = SetArm64BootArgsHandoffRequired (TRUE);
+		if (!NT_SUCCESS (status))
+		{
+			SetupResult = status;
+			goto err;
+		}
+	}
+#endif
+
 	switch (SetupRequest.SetupMode)
 	{
 	case SetupEncryption:
@@ -1904,6 +2634,23 @@ err:
 		if (!NT_SUCCESS (status) && NT_SUCCESS (SetupResult))
 			SetupResult = status;
 	}
+
+#ifdef _M_ARM64
+	if (SetupRequest.SetupMode == SetupDecryption
+		&& Extension->ConfiguredEncryptedAreaEnd == -1
+		&& NT_SUCCESS (SetupResult))
+	{
+		status = TCFlushDevice (Extension->LowerDeviceObject);
+		if (NT_SUCCESS (status))
+			status = VerifyDriveVolumeHeaderErased (Extension);
+		if (NT_SUCCESS (status))
+			status = SetArm64BootArgsHandoffRequired (FALSE);
+		if (NT_SUCCESS (status))
+			status = ClearArm64RescueDecryptionComplete ();
+		if (!NT_SUCCESS (status))
+			SetupResult = status;
+	}
+#endif
 
 	if (SetupRequest.SetupMode == SetupDecryption && Extension->ConfiguredEncryptedAreaEnd == -1 && Extension->DriveMounted)
 	{

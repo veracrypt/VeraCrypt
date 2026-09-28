@@ -208,4 +208,83 @@ TC_HIDDEN_OS_CREATION_PHASE_WIPED = TC__HIDDEN_OS_CREATION_PHASE_WIPED
 #define EFI_BOOTARGS_REGIONS_DEFAULT EFI_BOOTARGS_REGIONS_LOW, EFI_BOOTARGS_REGIONS_HIGH
 #define EFI_BOOTARGS_REGIONS_EFI EFI_BOOTARGS_REGIONS_HIGH, EFI_BOOTARGS_REGIONS_LOW
 
+#if !defined(TC_ASM_PREPROCESS)
+#define VC_ARM64_BOOT_ARGS_HANDOFF_REQUIRED_REG_VALUE_NAME L"Arm64BootArgsHandoffRequired"
+#endif
+
+#if !defined(TC_ASM_PREPROCESS) && (defined(_M_ARM64) || defined(MDE_CPU_AARCH64))
+#define VC_ARM64_BOOT_ARGS_HANDOFF_VARIABLE_NAME L"VeraCryptArm64BootArgsHandoffPayload"
+#define VC_ARM64_BOOT_ARGS_HANDOFF_GUID_INIT \
+{ 0x101f8560, 0xd73a, 0x4ff7, { 0x89, 0xf6, 0x81, 0x70, 0xf6, 0x61, 0x55, 0x87 } }
+#define VC_ARM64_BOOT_ARGS_HANDOFF_DESCRIPTOR_MAGIC 0x5643414844534332ULL
+#define VC_ARM64_BOOT_ARGS_HANDOFF_PAYLOAD_MAGIC 0x56434148504C4431ULL
+#define VC_ARM64_BOOT_ARGS_HANDOFF_ALLOCATION_TAG_MAGIC 0x564341484F574E31ULL
+#define VC_ARM64_BOOT_ARGS_HANDOFF_VERSION 2
+#define VC_ARM64_BOOT_ARGS_HANDOFF_VARIABLE_ATTRIBUTES 0x00000006UL
+#define VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH 4096UL
+#define VC_ARM64_BOOT_ARGS_HANDOFF_BOOT_PARAMS_LENGTH 158UL
+#define VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VARIABLE_NAME L"VeraCryptArm64RescueDecryptionComplete"
+#define VC_ARM64_RESCUE_DECRYPTION_COMPLETE_MAGIC 0x5643414852444331ULL
+#define VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VERSION 1
+#define VC_ARM64_RESCUE_DECRYPTION_COMPLETE_VARIABLE_ATTRIBUTES 0x00000007UL
+
+#pragma pack (push)
+#pragma pack (1)
+typedef struct
+{
+	uint64 Magic;
+	uint32 Version;
+	uint32 Size;
+	uint32 BootArgsOffset;
+	uint32 PayloadLength;
+	uint32 PayloadCrc32;
+	uint32 Crc32;
+} VeraCryptArm64BootArgsHandoffPayloadHeader;
+
+typedef struct
+{
+	uint64 Magic;
+	uint32 Version;
+	uint32 Size;
+	uint64 PhysicalAddress;
+	uint32 RegionLength;
+	uint32 PayloadLength;
+	uint32 PayloadCrc32;
+	uint32 Crc32;
+} VeraCryptArm64BootArgsHandoffDescriptor;
+
+typedef struct
+{
+	uint64 Magic;
+	uint32 Version;
+	uint32 Size;
+	uint64 PhysicalAddress;
+	uint32 RegionLength;
+	uint32 Crc32;
+} VeraCryptArm64BootArgsHandoffAllocationTag;
+
+typedef struct
+{
+	uint64 Magic;
+	uint32 Version;
+	uint32 Size;
+	uint32 HeaderSaltCrc32;
+	uint32 Crc32;
+} VeraCryptArm64RescueDecryptionComplete;
+#pragma pack (pop)
+
+typedef char VeraCryptArm64BootArgsHandoffPayloadHeaderSizeCheck[
+	sizeof (VeraCryptArm64BootArgsHandoffPayloadHeader) == 32 ? 1 : -1];
+typedef char VeraCryptArm64BootArgsHandoffDescriptorSizeCheck[
+	sizeof (VeraCryptArm64BootArgsHandoffDescriptor) == 40 ? 1 : -1];
+typedef char VeraCryptArm64BootArgsHandoffAllocationTagSizeCheck[
+	sizeof (VeraCryptArm64BootArgsHandoffAllocationTag) == 32 ? 1 : -1];
+typedef char VeraCryptArm64RescueDecryptionCompleteSizeCheck[
+	sizeof (VeraCryptArm64RescueDecryptionComplete) == 24 ? 1 : -1];
+#define VC_ARM64_BOOT_ARGS_HANDOFF_PAYLOAD_LENGTH \
+	(sizeof (VeraCryptArm64BootArgsHandoffPayloadHeader) + VC_ARM64_BOOT_ARGS_HANDOFF_BOOT_PARAMS_LENGTH)
+#define VC_ARM64_BOOT_ARGS_HANDOFF_ALLOCATION_TAG_OFFSET \
+	(VC_ARM64_BOOT_ARGS_HANDOFF_REGION_LENGTH - sizeof (VeraCryptArm64BootArgsHandoffAllocationTag))
+#endif
+
 #endif // TC_HEADER_Boot_BootDefs
