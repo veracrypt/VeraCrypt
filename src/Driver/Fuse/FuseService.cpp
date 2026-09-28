@@ -545,9 +545,11 @@ namespace VeraCrypt
 				if (!fuse_service_find_mount (Path.c_str(), mountId))
 				{
 					struct stat current;
-					if (fstatat (ParentFd, Name.c_str(), &current, AT_SYMLINK_NOFOLLOW) == 0
-						&& S_ISDIR (current.st_mode) && current.st_dev == Original.st_dev && current.st_ino == Original.st_ino)
-						unlinkat (ParentFd, Name.c_str(), AT_REMOVEDIR);
+					int status = fstatat (ParentFd, Name.c_str(), &current, AT_SYMLINK_NOFOLLOW);
+					if ((status == -1 && errno == ENOENT)
+						|| (status == 0 && S_ISDIR (current.st_mode) && current.st_dev == Original.st_dev && current.st_ino == Original.st_ino
+							&& unlinkat (ParentFd, Name.c_str(), AT_REMOVEDIR) == 0))
+						FuseService::RemoveAuxMountParent (Path, ParentFd);
 				}
 			}
 			catch (...) { }
@@ -560,6 +562,28 @@ namespace VeraCrypt
 		string Path;
 		struct stat Original;
 	};
+
+	void FuseService::RemoveAuxMountParent (const string &fuseMountPoint, int parentFd)
+	{
+		const string parent = fuseMountPoint.substr (0, fuseMountPoint.find_last_of ('/'));
+		const string name = parent.substr (parent.find_last_of ('/') + 1);
+		const string prefix = name.find (".veracrypt_aux_root_") == 0 ? ".veracrypt_aux_root_" : ".veracrypt_aux_";
+		const size_t separator = name.find ('-', prefix.size());
+		// Only the per-mount format belongs to us. Legacy parents may be a
+		// shared per-user directory or an arbitrary caller-selected TMPDIR.
+		if (name.compare (0, prefix.size(), prefix) != 0 || separator == string::npos
+			|| separator == prefix.size() || name.size() - separator - 1 != 12
+			|| name.substr (prefix.size(), separator - prefix.size()).find_first_not_of ("0123456789") != string::npos
+			|| name.substr (separator + 1).find_first_not_of ("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") != string::npos)
+			return;
+		struct stat current, original;
+		if (lstat (parent.c_str(), &current) != 0 || !S_ISDIR (current.st_mode) || current.st_uid != geteuid())
+			return;
+		if (parentFd != -1 && (fstat (parentFd, &original) != 0
+			|| current.st_dev != original.st_dev || current.st_ino != original.st_ino))
+			return;
+		rmdir (parent.c_str());
+	}
 
 	static int fuse_service_main (int argc, char *argv[], const struct fuse_operations *operations, int startupFd)
 	{

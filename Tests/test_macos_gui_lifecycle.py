@@ -71,7 +71,7 @@ def main():
         vc("mount", "--mount", volume, mountpoint, "--password=" + password,
            "--pim=1", "--keyfiles=", "--protect-hidden=no",
            *(["--mount-options=ro"] if read_only else []))
-        identities = list(temporary.glob(".veracrypt_aux_mnt*/shutdown"))
+        identities = list(temporary.glob("**/.veracrypt_aux_mnt*/shutdown"))
         assert len(identities) == 1, "Expected one disposable FUSE-T service"
         aux = identities[0].parent
         active = (int(identities[0].read_text().split()[0]), aux,
@@ -86,7 +86,7 @@ def main():
                 pass
             else:
                 raise AssertionError("Disposable service still running")
-            assert not aux.exists() and not endpoint.exists(), "Cleanup paths remain"
+            assert not aux.exists() and not aux.parent.exists() and not endpoint.exists(), "Cleanup paths remain"
         assert str(root) not in mounts(), "Disposable mount remains"
         handles = subprocess.run(["/usr/sbin/lsof", "-t", str(volume)], capture_output=True, text=True)
         assert handles.returncode == 1 and not handles.stdout.strip(), "Backing file still open"

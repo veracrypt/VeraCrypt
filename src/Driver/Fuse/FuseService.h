@@ -61,6 +61,7 @@ namespace VeraCrypt
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 		static const char *GetShutdownPath () { return "/shutdown"; }
 		static const char *GetShutdownSocketPath () { return "/shutdown-socket"; }
+		static void RemoveAuxMountParent (const string &fuseMountPoint, int parentFd = -1);
 #endif
 		static string GetDeviceType () { return "veracrypt"; }
 		static gid_t GetGroupId () { return GroupId; }

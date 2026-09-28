@@ -93,6 +93,17 @@ static int test_stat (const char *path, struct stat *value)
 	return stat (path, value);
 }
 
+static char *test_mkdtemp (char *path)
+{
+	if (mode_is ("aux-child") && fixture_path (path, "/.veracrypt_aux_mnt-XXXXXXXXXXXX"))
+	{
+		mark_fault();
+		errno = EACCES;
+		return NULL;
+	}
+	return mkdtemp (path);
+}
+
 static unsigned fault_delay (void)
 {
 	const char *delay = getenv ("VC_FUSET_TEST_DELAY");
@@ -136,5 +147,6 @@ static int test_unlinkat (int fd, const char *path, int flags)
 INTERPOSE (test_connect, connect);
 INTERPOSE (test_open, open);
 INTERPOSE (test_stat, stat);
+INTERPOSE (test_mkdtemp, mkdtemp);
 INTERPOSE (test_unmount, unmount);
 INTERPOSE (test_unlinkat, unlinkat);

@@ -18,6 +18,12 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+#include <fcntl.h>
+#include <membership.h>
+#include <sys/acl.h>
+#include <sys/mount.h>
+#endif
 #ifdef TC_LINUX
 #include <sys/utsname.h>
 #endif
@@ -32,6 +38,85 @@
 
 namespace VeraCrypt
 {
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	static string CreateFuseTAuxiliaryDirectory (const string &tempDirectory, uid_t userId)
+	{
+		// SMB covers the mountpoint's permissions and does not preserve the
+		// requesting local uid. Enforce access on an unmounted parent instead,
+		// including when sudo removes TMPDIR or a user selects a shared TMPDIR.
+		const bool elevated = geteuid() == 0;
+		const bool userAcl = elevated && userId != 0;
+		const string directoryTemplate = tempDirectory + (elevated ? "/.veracrypt_aux_root_" : "/.veracrypt_aux_")
+			+ StringConverter::ToSingle (static_cast <uint64> (userId)) + "-XXXXXXXXXXXX";
+		uuid_t userUuid;
+		if (userAcl && mbr_uid_to_uuid (userId, userUuid) != 0)
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directoryTemplate));
+		vector <char> temporary (directoryTemplate.begin(), directoryTemplate.end());
+		temporary.push_back ('\0');
+		throw_sys_sub_if (mkdtemp (&temporary[0]) == NULL, tempDirectory);
+		bool ready = false;
+		finally_do_arg2 (const char *, &temporary[0], bool &, ready, { if (!finally_arg2) rmdir (finally_arg); });
+		const string directory = &temporary[0];
+
+		const int fd = open (directory.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+		throw_sys_sub_if (fd == -1, directory);
+		finally_do_arg (int, fd, { close (finally_arg); });
+		struct statfs filesystem;
+		throw_sys_sub_if (fstatfs (fd, &filesystem) == -1, directory);
+		if (filesystem.f_flags & MNT_IGNORE_OWNERSHIP)
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directory)
+				+ L"\nThe temporary filesystem must enforce ownership.");
+		struct stat info;
+		throw_sys_sub_if (fstat (fd, &info) == -1, directory);
+		if (!S_ISDIR (info.st_mode) || info.st_uid != (elevated ? 0 : userId))
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directory));
+		// Keep elevated parents root-owned so the caller cannot replace paths
+		// used by privileged setup. Clear inherited ACLs even without a grant.
+		acl_t acl = acl_init (userAcl ? 1 : 0);
+		throw_sys_sub_if (acl == NULL, directory);
+		finally_do_arg (acl_t *, &acl, { acl_free (*finally_arg); });
+		if (userAcl)
+		{
+			acl_entry_t entry;
+			throw_sys_sub_if (acl_create_entry (&acl, &entry) == -1, directory);
+			throw_sys_sub_if (acl_set_tag_type (entry, ACL_EXTENDED_ALLOW) == -1, directory);
+			throw_sys_sub_if (acl_set_qualifier (entry, userUuid) == -1, directory);
+			throw_sys_sub_if (acl_set_permset_mask_np (entry,
+				ACL_LIST_DIRECTORY | ACL_SEARCH | ACL_READ_ATTRIBUTES | ACL_READ_SECURITY) == -1, directory);
+		}
+		throw_sys_sub_if (acl_set_fd_np (fd, acl, ACL_TYPE_EXTENDED) == -1, directory);
+		throw_sys_sub_if (fchmod (fd, 0700) == -1, directory);
+		throw_sys_sub_if (fstat (fd, &info) == -1, directory);
+		if ((info.st_mode & 0777) != 0700)
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directory));
+
+		ready = true;
+		return directory;
+	}
+
+	static bool IsOtherUsersFuseTAuxiliaryMount (const MountedFilesystem &mount, uid_t userId, uid_t realUserId)
+	{
+		// Preserve root's existing discovery scope; only unprivileged callers
+		// can be excluded by the private parent.
+		if (mount.Type != "smbfs" || mount.Owner != 0 || userId == 0)
+			return false;
+		const string path = mount.MountPoint;
+		const string parent = path.substr (0, path.find_last_of ('/'));
+		const string name = parent.substr (parent.find_last_of ('/') + 1);
+		const string prefix = ".veracrypt_aux_root_";
+		if (name.compare (0, prefix.size(), prefix) == 0)
+		{
+			const string id = name.substr (prefix.size(), name.find ('-', prefix.size()) - prefix.size());
+			if (!id.empty() && id.find_first_not_of ("0123456789") == string::npos)
+				return id != StringConverter::ToSingle (static_cast <uint64> (userId))
+					&& id != StringConverter::ToSingle (static_cast <uint64> (realUserId));
+		}
+		// Preserve metadata discovery for legacy paths: an ACL may grant
+		// traversal despite a foreign-owned parent with mode 0700.
+		return false;
+	}
+#endif
+
 #ifdef TC_LINUX
 	static string GetTmpUser ();
 	static bool GetLinuxKernelVersion (int &kernelMajor, int &kernelMinor);
@@ -562,6 +647,14 @@ namespace VeraCrypt
 			if (string (mf.MountPoint).find (GetFuseMountDirPrefix()) == string::npos)
 #endif
 				continue;
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			// Elevated SMB mounts have a root mount-table owner. Their private
+			// parent identifies the user; an inaccessible foreign mount is not
+			// an unresolved mount of the current user.
+			if (IsOtherUsersFuseTAuxiliaryMount (mf, getuid(), GetRealUserId()))
+				continue;
+#endif
 
 			shared_ptr <VolumeInfo> mountedVol;
 			// Introduce a retry mechanism with a timeout for control file access.
@@ -1174,7 +1267,13 @@ namespace VeraCrypt
 		// An older service may still be shutting down after its SMB mount has
 		// disappeared. FUSE-T also uses the pathname during backend teardown,
 		// so a replacement volume must have a different auxiliary path.
-		string mountTemplate = string (GetTempDirectory()) + "/" + GetFuseMountDirPrefix() + "-XXXXXXXXXXXX";
+		// An elevated parent also needs trusted ancestors. Match the shutdown
+		// socket's location instead of honoring a caller-controlled TMPDIR.
+		const string auxiliaryParent = CreateFuseTAuxiliaryDirectory (geteuid() == 0 ? "/private/tmp" : GetTempDirectory(), GetRealUserId());
+		// Cover failures before the service takes over, including child creation.
+		// A live mount keeps this parent nonempty; its service removes it later.
+		finally_do_arg (string, auxiliaryParent, { rmdir (finally_arg.c_str()); });
+		string mountTemplate = auxiliaryParent + "/" + GetFuseMountDirPrefix() + "-XXXXXXXXXXXX";
 		vector <char> mountDirectory (mountTemplate.begin(), mountTemplate.end());
 		mountDirectory.push_back ('\0');
 		throw_sys_if (mkdtemp (&mountDirectory[0]) == NULL);

@@ -81,11 +81,16 @@ class DismountChecks:
         self.vc(label, "--mount", self.volume, self.mountpoint,
                 "--password=" + self.password, "--pim=1", "--keyfiles=",
                 "--protect-hidden=no", *options, binary=binary)
-        auxiliaries = [p.parent for p in self.tmpdir.glob(".veracrypt_aux_mnt*/control")]
+        auxiliaries = [p.parent for p in self.tmpdir.glob("**/.veracrypt_aux_mnt*/control")]
         if len(auxiliaries) != 1:
             raise AssertionError(f"Expected one test service, found {auxiliaries}")
         aux = auxiliaries[0]
         self.active.update(aux=aux)
+        if binary == self.binary:
+            parent = aux.parent.stat()
+            if (not re.fullmatch(rf"\.veracrypt_aux_{os.getuid()}-[A-Za-z0-9]{{12}}", aux.parent.name)
+                    or parent.st_uid != os.getuid() or parent.st_mode & 0o777 != 0o700):
+                raise AssertionError("Auxiliary mount lacks a private parent owned by the caller")
         identity = aux / "shutdown"
         if identity.exists():
             pid, serial, slot = map(int, identity.read_text().split())
@@ -173,8 +178,9 @@ class DismountChecks:
             endpoint = self.active.get("endpoint")
             state = dict(label=label, mounts=self.mounted_paths(), handles=handles.stdout,
                          service_alive=alive, endpoint_exists=bool(endpoint and endpoint.exists()),
-                         backend=backend, services=services, images=images)
-            if not any(state[key] for key in ("mounts", "handles", "service_alive", "endpoint_exists", "backend", "services", "images")):
+                         backend=backend, services=services, images=images,
+                         auxiliary_parents=[str(p) for p in self.tmpdir.glob(f".veracrypt_aux_{os.getuid()}-*")])
+            if not any(state[key] for key in ("mounts", "handles", "service_alive", "endpoint_exists", "backend", "services", "images", "auxiliary_parents")):
                 self.record(state)
                 self.active = None
                 return
@@ -320,7 +326,7 @@ class DismountChecks:
         source = Path(__file__).with_name("fuset_startup_faults.c")
         self.run("build-startup-faults", ["/usr/bin/xcrun", "clang", "-dynamiclib", "-Wall", "-Wextra",
                                          "-O2", source, "-o", library])
-        for fault in ("refused", "metadata", "control", "rollback-blocked"):
+        for fault in ("aux-child", "refused", "metadata", "control", "rollback-blocked"):
             label = "startup-" + fault
             socket_log = self.root / (label + "-socket.txt")
             fault_marker = self.root / (label + "-fault-reached")

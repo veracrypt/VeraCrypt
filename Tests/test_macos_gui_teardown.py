@@ -167,7 +167,7 @@ def main():
         slow = leg.mount(binary, "slow", password, dict(
             DYLD_INSERT_LIBRARIES=str(faults), VC_FUSET_TEST_FAULT="cleanup-delay", VC_FUSET_TEST_DELAY="15",
             VC_FUSET_TEST_ROOT=str(root), VC_FUSET_TEST_FAULT_MARKER=str(leg.root / "cleanup-delayed")))
-        service = int(next(leg.temporary.glob(".veracrypt_aux_mnt*/shutdown")).read_text().split()[0])
+        service = int(next(leg.temporary.glob("**/.veracrypt_aux_mnt*/shutdown")).read_text().split()[0])
         leg.start_gui(bundle)
         assert wait_for(lambda: slow not in leg.aux_mounts(), 120), "Automatic unmount did not start"
         service_alive = lambda: subprocess.run(["/bin/kill", "-0", str(service)], capture_output=True).returncode == 0

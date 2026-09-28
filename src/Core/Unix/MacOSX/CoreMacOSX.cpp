@@ -415,7 +415,12 @@ namespace VeraCrypt
 		// Current services remove their original directory. Older development
 		// services may leave it behind; rmdir only removes an empty directory
 		// and cannot follow a replacement symlink or remove a mounted filesystem.
-		rmdir (string (mountedVolume->AuxMountPoint).c_str());
+		if (rmdir (string (mountedVolume->AuxMountPoint).c_str()) == 0)
+		{
+#ifdef VC_MACOSX_FUSET
+			FuseService::RemoveAuxMountParent (mountedVolume->AuxMountPoint);
+#endif
+		}
 
 		return mountedVolume;
 	}

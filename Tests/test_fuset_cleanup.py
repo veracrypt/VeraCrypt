@@ -263,6 +263,7 @@ struct FuseService {
         if(FailWait)throw DismountServiceCleanupFailed("mock timeout", L"pid=1234, auxiliary mount=/in-memory");
     }
     static void DismountLegacy(const DismountRequest &) { throw std::runtime_error("unexpected legacy path"); }
+    static void RemoveAuxMountParent(const std::string &) { throw std::runtime_error("unexpected directory cleanup"); }
 };
 struct Process {
     static std::string Execute(const std::string &,const std::list<std::string> &) { ++Commands; throw std::runtime_error("unexpected disk command"); }

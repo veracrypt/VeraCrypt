@@ -14,7 +14,24 @@ build, then run:
 VC_TEST_BUILD_SRC=/absolute/path/to/build/src
 python3 Tests/test_macos_discovery.py --platform-archive "$VC_TEST_BUILD_SRC/Platform/Platform.a"
 python3 Tests/test_fuset_cleanup.py --build-dir "$VC_TEST_BUILD_SRC"
+python3 Tests/test_fuset_aux_directory.py --build-dir "$VC_TEST_BUILD_SRC"
 ```
+
+The auxiliary-directory check exercises the production FUSE-T private-parent
+helpers against disposable local directories, including concurrent creation,
+inherited ACL removal, setup failure cleanup, per-mount parent removal, and
+discovery ownership. The temporary filesystem must support ownership and ACLs.
+The helper check simulates disabled ownership without mounting a filesystem.
+An optional elevated run also checks caller access, parent immutability, and
+actual uid isolation using a harmless fixture:
+
+```sh
+sudo python3 Tests/test_fuset_aux_directory.py --build-dir "$VC_TEST_BUILD_SRC" --owner "$(id -u)"
+```
+
+The private parent protects auxiliary filesystem paths; these checks do not
+assess FUSE-T transport authentication. Existing volumes must be dismounted and
+remounted with the updated build to receive this protection.
 
 The discovery runner compiles the production plist and batch-refresh methods
 with an in-memory inventory provider. It checks exact and legacy alias matches,
