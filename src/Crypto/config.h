@@ -56,6 +56,8 @@
 #endif
 
 #ifndef CRYPTOPP_ALIGN_DATA
+	// Note: expands to nothing for TC_WINDOWS_BOOT and for compilers that are neither
+	// MSVC nor GCC/Clang, so alignment is not guaranteed in those builds.
 	#if defined(_MSC_VER) && !defined(TC_WINDOWS_BOOT)
 		#define CRYPTOPP_ALIGN_DATA(x) __declspec(align(x))
 	#elif defined(__GNUC__)
