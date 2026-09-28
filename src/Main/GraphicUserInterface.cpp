@@ -1091,11 +1091,17 @@ namespace VeraCrypt
 						{
 							volume = mountWithProtectionRecovery();
 						}
-						catch (...)
+						catch (PasswordException&)
 						{
 							options.UseBackupHeaders = false;
 							autoBackupHeaderUsed = false;
 							ShowWarning (e);
+						}
+						catch (...)
+						{
+							options.UseBackupHeaders = false;
+							autoBackupHeaderUsed = false;
+							throw;
 						}
 					}
 					else

@@ -1611,7 +1611,7 @@ namespace VeraCrypt
 					{
 						volume = mountWithProtectionRecovery();
 					}
-					catch (...)
+					catch (PasswordException&)
 					{
 						retryWithCachedPasswords = false;
 						autoBackupHeaderUsed = false;
@@ -1619,6 +1619,12 @@ namespace VeraCrypt
 						ShowInfo (e);
 						options.Password.reset();
 						options.Pim = -1;
+					}
+					catch (...)
+					{
+						autoBackupHeaderUsed = false;
+						options.UseBackupHeaders = false;
+						throw;
 					}
 				}
 				else
