@@ -137,6 +137,7 @@ static struct { std::wstring operator[] (const char *key) const { return StringC
 enum Outcome { Unmounted, Busy, Unconfirmed, Failed };
 static std::map <std::wstring, std::deque <Outcome> > Plan;
 static bool ForceAnswer;
+static std::wstring Info;
 class UserInterface {
 public:
     struct BusyScope { BusyScope (const UserInterface *) {} };
@@ -152,7 +153,7 @@ public:
     }
     bool AskYesNo (const std::wstring &, bool, bool) const { return ForceAnswer; }
     void ShowWarning (const std::wstring &) const {}
-    void ShowInfo (const std::wstring &) const {}
+    void ShowInfo (const std::wstring &text) const { Info = text; }
     static wxString ExceptionToMessage (const exception &e) { return StringConverter::ToExceptionString (e); }
     struct { bool Verbose; } Preferences = { false };
 };
@@ -173,6 +174,7 @@ static VolumeInfoList Volumes () {
 // Returns the details reported for unconfirmed cleanups, or the name of the other outcome.
 static std::wstring Run (std::deque <Outcome> a, std::deque <Outcome> b, bool interactive, bool force = false) {
     UserInterface ui; Plan.clear(); Plan[L"A"] = a; Plan[L"B"] = b; ForceAnswer = force;
+    ui.Preferences.Verbose = true; Info.clear();
     try { ui.DismountVolumes (Volumes(), false, interactive); return L"<no error>"; }
     catch (DismountServiceCleanupFailed &e) { return e.GetSubject(); }
     catch (UserAbort &) { return L"<cancelled>"; }
@@ -194,7 +196,15 @@ int Run () {
     Require (Run ({Unmounted}, {Busy, Busy}, false) == L"<busy>", "busy volume error changed without unconfirmed cleanup");
     Require (Run ({Unmounted}, {Busy}, true, false) == L"<cancelled>", "cancellation changed without unconfirmed cleanup");
     Require (Run ({Unmounted}, {Busy, Unmounted}, true, true) == L"<no error>", "forced second pass failed");
+    for (bool interactive : {false, true}) {
+        Require (Run ({Failed, Unmounted}, {Unmounted}, interactive) == L"<no error>", "generic failure was not retried");
+        Require (Info == L"LINUX_VOL_UNMOUNTED B\nLINUX_VOL_UNMOUNTED A", "retried volume reported unmounted more than once");
+    }
+    Require (Run ({Failed, Failed}, {Unmounted}, false) == L"<failed>" && Info.empty(), "failed retry reported success");
+    r = Run ({Failed, Unconfirmed}, {Unmounted}, false);
+    Require (Has (r, L"service of A") && Info == L"LINUX_VOL_UNMOUNTED B", "unconfirmed retry reported success");
     std::cout << "PASS: multi-volume unmount reports every unconfirmed cleanup with other failures and cancellation\n";
+    std::cout << "PASS: verbose unmount reporting follows successful attempts, including second-pass retries\n";
     return 0;
 }
 }

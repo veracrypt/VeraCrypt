@@ -302,7 +302,10 @@ namespace VeraCrypt
 					catch (...)
 					{
 						if (twoPassMode && firstPass)
+						{
 							volumesLeft.push_back (volume);
+							continue;
+						}
 						else
 							throw;
 					}
