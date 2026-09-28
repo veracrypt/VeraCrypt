@@ -9145,6 +9145,7 @@ void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback,
 		{		
 			/*  create invisible window and use it as parent */
 			WNDCLASSEXW winClass;
+			int parentX = 0, parentY = 0;
 
 			memset (&winClass, 0, sizeof (winClass));
 			winClass.cbSize = sizeof (WNDCLASSEX);
@@ -9153,7 +9154,21 @@ void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback,
 			winClass.lpszClassName = className;
 			RegisterClassExW (&winClass);
 
-			hParent = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt ShowWaitDialog Parent", 0, 0, 0, 1, 1, NULL, NULL, hInst, NULL);
+			/*  Place the invisible parent at the center of the creator window so that
+			    the DS_CENTER wait dialog is centered on the monitor that hosts the main
+			    window instead of always appearing on the primary monitor. Falls back to
+			    (0, 0) when the creator window is unavailable, hidden or minimized. */
+			if (creatorWnd && IsWindowVisible (creatorWnd) && !IsIconic (creatorWnd))
+			{
+				RECT rcCreator;
+				if (GetWindowRect (creatorWnd, &rcCreator))
+				{
+					parentX = rcCreator.left + (rcCreator.right - rcCreator.left) / 2;
+					parentY = rcCreator.top + (rcCreator.bottom - rcCreator.top) / 2;
+				}
+			}
+
+			hParent = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt ShowWaitDialog Parent", 0, parentX, parentY, 1, 1, NULL, NULL, hInst, NULL);
 			if (hParent)
 			{
 				SetLayeredWindowAttributes (hParent, 0, 1, LWA_ALPHA);
