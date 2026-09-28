@@ -36,8 +36,10 @@
 #include <fuse.h>
 #include <iostream>
 #include <signal.h>
+#include <sstream>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
 #include <sys/mman.h>
@@ -46,7 +48,18 @@
 #include <sys/wait.h>
 
 #include "FuseService.h"
-#include "Platform/FileStream.h"
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+#include <chrono>
+#include <fuse_lowlevel.h>
+#include <poll.h>
+#include <sys/mount.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#undef fuse_unmount
+#ifdef ERR_SUCCESS
+#undef ERR_SUCCESS
+#endif
+#endif
 #include "Platform/MemoryStream.h"
 #include "Platform/Serializable.h"
 #include "Platform/SystemLog.h"
@@ -62,6 +75,16 @@ namespace VeraCrypt
 	static const ino_t VC_FUSE_INODE_VOLUME = 2;
 	static const ino_t VC_FUSE_INODE_CONTROL = 3;
 	static const ino_t VC_FUSE_INODE_AUX_DEVICE_INFO = 4;
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	static const ino_t VC_FUSE_INODE_SHUTDOWN = 5;
+	static const ino_t VC_FUSE_INODE_SHUTDOWN_SOCKET = 6;
+	static string FuseServiceShutdownDirectory;
+	static const char *VC_FUSE_SHUTDOWN_DIRECTORY_PREFIX = "/private/tmp/.veracrypt-shutdown-";
+	static const uint64 VC_FUSE_SHUTDOWN_VERSION = 3;
+	static const uint64 VC_FUSE_SHUTDOWN_PROBE = 0;
+	static const uint64 VC_FUSE_SHUTDOWN_DISMOUNT = 1;
+	static const uint64 VC_FUSE_SHUTDOWN_FORCE = 1;
+#endif
 	static const uint64 VC_FUSE_BLOCK_SIZE = 4096;
 	static const uint64 VC_FUSE_METADATA_SIZE = 64 * 1024;
 	static const uint64 VC_FUSE_STAT_BLOCK_SIZE = 512;
@@ -84,6 +107,505 @@ namespace VeraCrypt
 
 		return FuseService::GetVolumeInfo();
 	}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	static string fuse_service_get_shutdown_identity ()
+	{
+		stringstream identity;
+		identity << getpid() << " " << FuseService::GetSerialInstanceNumber() << " " << FuseService::GetSlotNumber() << "\n";
+		return identity.str();
+	}
+
+	static bool fuse_service_parse_shutdown_identity (const string &identity, pid_t &processId, uint64 &serialInstanceNumber, VolumeSlotNumber &slotNumber)
+	{
+		long long parsedProcessId;
+		uint64 parsedSerialInstanceNumber;
+		VolumeSlotNumber parsedSlotNumber;
+		stringstream parser (identity);
+
+		if (!(parser >> parsedProcessId >> parsedSerialInstanceNumber >> parsedSlotNumber))
+			return false;
+
+		parser >> ws;
+		if (!parser.eof() || parsedProcessId <= 1 || static_cast <pid_t> (parsedProcessId) != parsedProcessId)
+			return false;
+
+		processId = static_cast <pid_t> (parsedProcessId);
+		serialInstanceNumber = parsedSerialInstanceNumber;
+		slotNumber = parsedSlotNumber;
+		return true;
+	}
+
+	static sockaddr_un fuse_service_shutdown_address (const string &directory)
+	{
+		string path = directory + "/socket";
+		sockaddr_un address;
+		Memory::Zero (&address, sizeof (address));
+		if (path.size() >= sizeof (address.sun_path))
+			throw ParameterIncorrect (SRC_POS);
+		address.sun_family = AF_UNIX;
+		address.sun_len = sizeof (address);
+		memcpy (address.sun_path, path.c_str(), path.size() + 1);
+		return address;
+	}
+
+	static void fuse_service_configure_socket (int fd)
+	{
+		throw_sys_if (fcntl (fd, F_SETFD, FD_CLOEXEC) == -1);
+		throw_sys_if (fcntl (fd, F_SETFL, O_NONBLOCK) == -1);
+		int enabled = 1;
+		throw_sys_if (setsockopt (fd, SOL_SOCKET, SO_NOSIGPIPE, &enabled, sizeof (enabled)) == -1);
+	}
+
+	typedef chrono::steady_clock FuseServiceClock;
+
+	static int fuse_service_remaining_time (const FuseServiceClock::time_point &deadline)
+	{
+		long long remaining = chrono::duration_cast <chrono::milliseconds> (deadline - FuseServiceClock::now()).count();
+		if (remaining <= 0)
+			throw TimeOut (SRC_POS);
+		return static_cast <int> (remaining);
+	}
+
+	static bool fuse_service_socket_wait (int fd, short events, int stopFd, int timeOut)
+	{
+		const FuseServiceClock::time_point deadline = FuseServiceClock::now() + chrono::milliseconds (timeOut);
+		pollfd descriptors[2] = { { fd, events, 0 }, { stopFd, POLLIN, 0 } };
+		int result;
+		do { result = poll (descriptors, stopFd == -1 ? 1 : 2, fuse_service_remaining_time (deadline)); } while (result == -1 && errno == EINTR);
+		throw_sys_if (result == -1);
+		if (result == 0)
+			throw TimeOut (SRC_POS);
+		return descriptors[1].revents == 0;
+	}
+
+	static bool fuse_service_socket_transfer (int fd, void *buffer, size_t size, bool sending, int stopFd = -1, int timeOut = 10000)
+	{
+		const FuseServiceClock::time_point deadline = FuseServiceClock::now() + chrono::milliseconds (timeOut);
+		uint8 *position = static_cast <uint8 *> (buffer);
+		while (size > 0)
+		{
+			if (!fuse_service_socket_wait (fd, sending ? POLLOUT : POLLIN, stopFd, fuse_service_remaining_time (deadline)))
+				return false;
+			ssize_t transferred = sending ? send (fd, position, size, 0) : recv (fd, position, size, 0);
+			if (transferred == -1 && (errno == EINTR || errno == EAGAIN))
+				continue;
+			throw_sys_if (transferred == -1);
+			if (transferred == 0)
+				return false;
+			position += transferred;
+			size -= transferred;
+		}
+		return true;
+	}
+
+	static void fuse_service_unmount (struct fuse *fuseHandle)
+	{
+		struct fuse_session *session = fuse_get_session (fuseHandle);
+		struct fuse_chan *channel = session ? fuse_session_next_chan (session, NULL) : NULL;
+		if (channel)
+			fuse_unmount (NULL, channel);
+	}
+
+	static bool fuse_service_find_mount (const char *mountPoint, fsid_t &mountId)
+	{
+		int count = getfsstat (NULL, 0, MNT_NOWAIT);
+		throw_sys_if (count == -1);
+		for (;;)
+		{
+			vector <struct statfs> mounts (count + 1);
+			count = getfsstat (&mounts[0], mounts.size() * sizeof (mounts[0]), MNT_NOWAIT);
+			throw_sys_if (count == -1);
+			if (static_cast <size_t> (count) >= mounts.size())
+				continue;
+			for (int i = 0; i < count; ++i)
+				if (strcmp (mounts[i].f_mntonname, mountPoint) == 0)
+				{
+					mountId = mounts[i].f_fsid;
+					return true;
+				}
+			return false;
+		}
+	}
+
+	static bool fuse_service_same_mount (const fsid_t &left, const fsid_t &right)
+	{
+		return left.val[0] == right.val[0] && left.val[1] == right.val[1];
+	}
+
+	class FuseServiceShutdownContext
+	{
+	public:
+		FuseServiceShutdownContext (struct fuse *fuseHandle, const char *mountPoint, int &startupFd)
+			: FuseHandle (fuseHandle), MountPoint (mountPoint), StartupFd (startupFd), ListenFd (-1), DirectoryFd (-1), DirectoryCreated (false),
+			ThreadStarted (false), Unmounted (false), MountSeen (false), StartupReported (false), StartupAborted (false) { }
+
+		~FuseServiceShutdownContext () noexcept
+		{
+			if (ThreadStarted)
+			{
+				uint8 stop = 0;
+				while (write (StopPipe->PeekWriteFD(), &stop, sizeof (stop)) == -1 && errno == EINTR) { }
+				try { ShutdownThread.Join(); }
+				catch (...)
+				{
+					// Destroying a context still used by the worker is unsafe. Join
+					// failures are fatal, but must not unwind a noexcept destructor.
+					SystemLog::WriteError ("Cannot join VeraCrypt FUSE shutdown worker");
+					_exit (1);
+				}
+			}
+			if (!Unmounted)
+				fuse_service_unmount (FuseHandle);
+			if (ListenFd != -1)
+				close (ListenFd);
+			if (DirectoryCreated)
+			{
+				// The mounting user may rename the directory of an elevated service.
+				// Keep cleanup relative to the original directory, without following links.
+				if (DirectoryFd != -1)
+				{
+					unlinkat (DirectoryFd, "socket", 0);
+					close (DirectoryFd);
+				}
+				rmdir (Directory.c_str());
+			}
+		}
+
+		void Start ()
+		{
+			string directoryTemplate = string (VC_FUSE_SHUTDOWN_DIRECTORY_PREFIX) + "XXXXXXXXXXXX";
+			vector <char> directory (directoryTemplate.begin(), directoryTemplate.end());
+			directory.push_back ('\0');
+			throw_sys_if (mkdtemp (&directory[0]) == NULL);
+			Directory = &directory[0];
+			DirectoryCreated = true;
+			FuseServiceShutdownDirectory = Directory;
+			DirectoryFd = open (Directory.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+			throw_sys_if (DirectoryFd == -1);
+			ListenFd = socket (AF_UNIX, SOCK_STREAM, 0);
+			throw_sys_if (ListenFd == -1);
+			fuse_service_configure_socket (ListenFd);
+			sockaddr_un address = fuse_service_shutdown_address (Directory);
+			throw_sys_if (::bind (ListenFd, reinterpret_cast <sockaddr *> (&address), sizeof (address)) == -1);
+			throw_sys_if (chmod (address.sun_path, 0600) == -1);
+			if (geteuid() == 0)
+			{
+				throw_sys_if (chown (address.sun_path, FuseService::GetUserId(), FuseService::GetGroupId()) == -1);
+				throw_sys_if (chown (Directory.c_str(), FuseService::GetUserId(), FuseService::GetGroupId()) == -1);
+			}
+			throw_sys_if (listen (ListenFd, 32) == -1);
+			StopPipe.reset (new Pipe);
+			throw_sys_if (fcntl (StopPipe->PeekReadFD(), F_SETFD, FD_CLOEXEC) == -1);
+			throw_sys_if (fcntl (StopPipe->PeekWriteFD(), F_SETFD, FD_CLOEXEC) == -1);
+			ShutdownThread.Start (Run, this);
+			ThreadStarted = true;
+		}
+
+	private:
+		static TC_THREAD_PROC Run (void *argument)
+		{
+			FuseServiceShutdownContext &context = *static_cast <FuseServiceShutdownContext *> (argument);
+			for (;;)
+			{
+				try { context.Serve(); return 0; }
+				catch (exception &e) { SystemLog::WriteException (e); }
+				catch (...) { SystemLog::WriteException (UnknownException (SRC_POS)); }
+				// Transient accept/getfsstat failures must not leave an apparently
+				// live endpoint with no worker. Back off, remaining interruptible.
+				pollfd stop = { context.StopPipe->PeekReadFD(), POLLIN, 0 };
+				int result;
+				do { result = poll (&stop, 1, 1000); } while (result == -1 && errno == EINTR);
+				if (result > 0)
+					return 0;
+			}
+		}
+
+		bool MountPresent ()
+		{
+			fsid_t current;
+			if (!fuse_service_find_mount (MountPoint, current))
+				return false;
+			if (!MountSeen)
+			{
+				MountId = current;
+				MountSeen = true;
+			}
+			return fuse_service_same_mount (MountId, current);
+		}
+
+		bool StartupCancelled ()
+		{
+			if (StartupFd == -1)
+				return false;
+			if (StartupAborted)
+				return true;
+			pollfd descriptor = { StartupFd, POLLIN, 0 };
+			int result = poll (&descriptor, 1, 0);
+			if (result == 0 || (result == -1 && errno == EINTR))
+				return false;
+			uint8 commit = 0;
+			ssize_t size = result > 0 ? recv (StartupFd, &commit, sizeof (commit), 0) : -1;
+			if (size == -1 && (errno == EINTR || errno == EAGAIN))
+				return false;
+			if (size == sizeof (commit) && commit == 1)
+			{
+				close (StartupFd);
+				StartupFd = -1;
+				return false;
+			}
+			// EOF, a broken channel, or anything other than commit means that
+			// the mounting caller failed or exited before accepting this service.
+			StartupAborted = true;
+			return true;
+		}
+
+		void Serve ()
+		{
+			int stopFd = StopPipe->PeekReadFD();
+			if (!StartupReported)
+			{
+				StartupReported = true;
+				pid_t processId = getpid();
+				fuse_service_socket_transfer (StartupFd, &processId, sizeof (processId), true, stopFd);
+			}
+			for (;;)
+			{
+				bool present = MountPresent();
+				if (StartupCancelled() && (!present || FuseServiceClock::now() >= NextRollbackAttempt))
+				{
+					// No disk image has been attached yet. Roll back independently
+					// of SMB metadata and the public shutdown socket, while FUSE
+					// can still answer the auxiliary filesystem's final requests.
+					int error = present && unmount (MountPoint, MNT_FORCE) != 0 ? errno : 0;
+					if ((error == EINVAL || error == ENOENT) && !MountPresent())
+						error = 0;
+					if (error == 0)
+					{
+						FinishDismount();
+						return;
+					}
+					// Retry without starving the public endpoint. Probes still validate
+					// this instance; dismount requests can retry and report the error.
+					NextRollbackAttempt = FuseServiceClock::now() + chrono::seconds (1);
+				}
+				// All clients (including released clients and Finder) can remove
+				// SMB without notifying us. Initial absence is not a dismount.
+				if (!present && MountSeen)
+				{
+					FinishDismount();
+					return;
+				}
+				try
+				{
+					if (!fuse_service_socket_wait (ListenFd, POLLIN, stopFd, 1000))
+						return;
+				}
+				catch (TimeOut&) { continue; }
+
+				int fd = accept (ListenFd, NULL, NULL);
+				if (fd == -1 && (errno == EINTR || errno == EAGAIN || errno == ECONNABORTED))
+					continue;
+				if (fd == -1 && (errno == EBADF || errno == EINVAL || errno == ENOTSOCK))
+				{
+					// Retire a broken listener, but keep watching for external
+					// unmount. Do not advertise an endpoint that cannot answer.
+					close (ListenFd);
+					ListenFd = -1;
+					unlinkat (DirectoryFd, "socket", 0);
+				}
+				throw_sys_if (fd == -1);
+				finally_do_arg (int, fd, { close (finally_arg); });
+				bool dismounted = false;
+				try
+				{
+					fuse_service_configure_socket (fd);
+					uid_t uid;
+					gid_t gid;
+					throw_sys_if (getpeereid (fd, &uid, &gid) == -1);
+					if (uid != 0 && uid != FuseService::GetUserId())
+						continue;
+
+					// One fixed native-endian frame: version, command, PID, serial,
+					// slot, flags, and the two words of the auxiliary filesystem ID.
+					// A partial request has an absolute deadline, so it cannot keep
+					// the mount watcher occupied indefinitely.
+					uint64 request[8];
+					if (!fuse_service_socket_transfer (fd, request, sizeof (request), false, stopFd, 1000))
+						continue;
+					bool probe = request[1] == VC_FUSE_SHUTDOWN_PROBE;
+					int32 error = EINVAL;
+					if (request[0] != VC_FUSE_SHUTDOWN_VERSION)
+						error = EPROTONOSUPPORT;
+					else if ((probe || request[1] == VC_FUSE_SHUTDOWN_DISMOUNT)
+						&& request[2] == static_cast <uint64> (getpid())
+						&& request[3] == FuseService::GetSerialInstanceNumber()
+						&& request[4] == FuseService::GetSlotNumber()
+						&& (request[5] & ~VC_FUSE_SHUTDOWN_FORCE) == 0)
+					{
+						bool present = MountPresent();
+						if (!MountSeen)
+							error = EAGAIN;
+						else if (request[6] != static_cast <uint32> (MountId.val[0])
+							|| request[7] != static_cast <uint32> (MountId.val[1]))
+							error = ESTALE;
+						else
+						{
+							error = 0;
+							// Keep FUSE answering flush/close requests until unmount
+							// finishes. Never act on a replacement at the same path.
+							for (int attempt = 0; !probe && present; ++attempt)
+							{
+								error = unmount (MountPoint, (StartupAborted || (request[5] & VC_FUSE_SHUTDOWN_FORCE)) ? MNT_FORCE : 0) == 0 ? 0 : errno;
+								if ((error == EINVAL || error == ENOENT) && !MountPresent())
+									error = 0;
+								if (error != EBUSY || StartupAborted || attempt == 10)
+									break;
+								Thread::Sleep (200);
+								present = MountPresent();
+								if (!present)
+									error = 0;
+							}
+							dismounted = !probe && error == 0;
+						}
+					}
+					// Reply independently of the stop pipe: successful unmount can
+					// make the FUSE loop exit before the caller receives its result.
+					fuse_service_socket_transfer (fd, &error, sizeof (error), true, -1, 1000);
+				}
+				catch (TimeOut&) { }
+				catch (exception &e) { SystemLog::WriteException (e); }
+				catch (...) { SystemLog::WriteException (UnknownException (SRC_POS)); }
+
+				if (dismounted)
+				{
+					FinishDismount();
+					return;
+				}
+			}
+		}
+
+		void FinishDismount ()
+		{
+			fuse_exit (FuseHandle);
+			fuse_service_unmount (FuseHandle);
+			Unmounted = true;
+		}
+
+		struct fuse *FuseHandle;
+		const char *MountPoint;
+		int &StartupFd;
+		string Directory;
+		int ListenFd;
+		int DirectoryFd;
+		bool DirectoryCreated;
+		bool ThreadStarted;
+		bool Unmounted;
+		bool MountSeen;
+		bool StartupReported;
+		bool StartupAborted;
+		FuseServiceClock::time_point NextRollbackAttempt;
+		fsid_t MountId;
+		unique_ptr <Pipe> StopPipe;
+		Thread ShutdownThread;
+	};
+
+	// Hold the original parent across mounting and teardown, then check the
+	// directory's identity before removing it. Never follow a replacement symlink.
+	class FuseServiceAuxDirectory
+	{
+	public:
+		explicit FuseServiceAuxDirectory (const string &path) : ParentFd (-1)
+		{
+			char *canonicalPath = realpath (path.c_str(), NULL);
+			throw_sys_if (canonicalPath == NULL);
+			finally_do_arg (char *, canonicalPath, { free (finally_arg); });
+			Path = canonicalPath;
+			size_t separator = path.find_last_of ('/');
+			if (separator == string::npos || separator + 1 == path.size())
+				throw ParameterIncorrect (SRC_POS);
+			Name = path.substr (separator + 1);
+			ParentFd = open ((separator == 0 ? "/" : path.substr (0, separator)).c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+			throw_sys_if (ParentFd == -1);
+			if (fstatat (ParentFd, Name.c_str(), &Original, AT_SYMLINK_NOFOLLOW) != 0 || !S_ISDIR (Original.st_mode))
+			{
+				close (ParentFd);
+				ParentFd = -1;
+				throw ParameterIncorrect (SRC_POS);
+			}
+		}
+
+		~FuseServiceAuxDirectory ()
+		{
+			try
+			{
+				fsid_t mountId;
+				// Do not enter an auxiliary filesystem that may no longer be
+				// served. Its absence is checked without querying the mount itself.
+				if (!fuse_service_find_mount (Path.c_str(), mountId))
+				{
+					struct stat current;
+					if (fstatat (ParentFd, Name.c_str(), &current, AT_SYMLINK_NOFOLLOW) == 0
+						&& S_ISDIR (current.st_mode) && current.st_dev == Original.st_dev && current.st_ino == Original.st_ino)
+						unlinkat (ParentFd, Name.c_str(), AT_REMOVEDIR);
+				}
+			}
+			catch (...) { }
+			close (ParentFd);
+		}
+
+	private:
+		int ParentFd;
+		string Name;
+		string Path;
+		struct stat Original;
+	};
+
+	static int fuse_service_main (int argc, char *argv[], const struct fuse_operations *operations, int startupFd)
+	{
+		// On rollback, EOF must only reach the caller after fuse_destroy has
+		// closed the volume. The worker closes this early only after commit.
+		finally_do_arg (int *, &startupFd, { if (*finally_arg != -1) close (*finally_arg); });
+		if (argc < 2)
+			throw ParameterIncorrect (SRC_POS);
+		FuseServiceAuxDirectory auxiliaryDirectory (argv[1]);
+		// FUSE-T execs its backend during setup. This child no longer needs any
+		// inherited descriptors across exec, including helper pipes and /dev/null.
+		const int descriptorLimit = getdtablesize();
+		for (int fd = 3; fd < descriptorLimit; ++fd)
+		{
+			int flags = fcntl (fd, F_GETFD);
+			if (flags == -1 && errno == EBADF)
+				continue;
+			throw_sys_if (flags == -1 || fcntl (fd, F_SETFD, flags | FD_CLOEXEC) == -1);
+		}
+		char *mountPoint = NULL;
+		int multithreaded = 0;
+		struct fuse *fuseHandle = fuse_setup (argc, argv, operations, sizeof (*operations),
+			&mountPoint, &multithreaded, NULL);
+		if (!fuseHandle)
+			return 1;
+
+		int result = -1;
+		try
+		{
+			FuseServiceShutdownContext shutdown (fuseHandle, mountPoint, startupFd);
+			shutdown.Start();
+			result = multithreaded ? fuse_loop_mt (fuseHandle) : fuse_loop (fuseHandle);
+			// The context wakes and joins the socket worker before destroying the
+			// FUSE handle, including when the loop exits without a shutdown request.
+		}
+		catch (exception &e) { SystemLog::WriteException (e); }
+		catch (...) { SystemLog::WriteException (UnknownException (SRC_POS)); }
+
+		// Do not call fuse_teardown: the channel has already been unmounted.
+		fuse_remove_signal_handlers (fuse_get_session (fuseHandle));
+		fuse_destroy (fuseHandle);
+		free (mountPoint);
+
+		return result == -1 ? 1 : 0;
+	}
+#endif
 
 	static int fuse_service_fill_dir_entry (void *buf, fuse_fill_dir_t filler, const char *name, mode_t mode, ino_t ino, off_t nextOff)
 	{
@@ -234,6 +756,24 @@ namespace VeraCrypt
 					statData->st_ino = VC_FUSE_INODE_CONTROL;
 					fuse_service_set_stat_blocks (statData);
 				}
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+				else if (strcmp (path, FuseService::GetShutdownPath()) == 0)
+				{
+					statData->st_mode = S_IFREG | 0600;
+					statData->st_nlink = 1;
+					statData->st_size = fuse_service_get_shutdown_identity().size();
+					statData->st_ino = VC_FUSE_INODE_SHUTDOWN;
+					fuse_service_set_stat_blocks (statData);
+				}
+				else if (strcmp (path, FuseService::GetShutdownSocketPath()) == 0)
+				{
+					statData->st_mode = S_IFREG | 0400;
+					statData->st_nlink = 1;
+					statData->st_size = FuseServiceShutdownDirectory.size() + 1;
+					statData->st_ino = VC_FUSE_INODE_SHUTDOWN_SOCKET;
+					fuse_service_set_stat_blocks (statData);
+				}
+#endif
 				else
 				{
 					return -ENOENT;
@@ -330,6 +870,15 @@ namespace VeraCrypt
 				fi->direct_io = 1;
 				return 0;
 			}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (strcmp (path, FuseService::GetShutdownPath()) == 0
+				|| strcmp (path, FuseService::GetShutdownSocketPath()) == 0)
+			{
+				fi->direct_io = 1;
+				return 0;
+			}
+#endif
 		}
 		catch (...)
 		{
@@ -412,6 +961,26 @@ namespace VeraCrypt
 				outBuf.CopyFrom (infoBuf->GetRange (offset, size));
 				return size;
 			}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (strcmp (path, FuseService::GetShutdownPath()) == 0
+				|| strcmp (path, FuseService::GetShutdownSocketPath()) == 0)
+			{
+				string identity = strcmp (path, FuseService::GetShutdownPath()) == 0
+					? fuse_service_get_shutdown_identity() : FuseServiceShutdownDirectory + "\n";
+				if (offset < 0)
+					return -EINVAL;
+
+				if (offset >= (off_t) identity.size())
+					return 0;
+
+				if (offset + size > identity.size())
+					size = identity.size() - offset;
+
+				memcpy (buf, identity.data() + offset, size);
+				return size;
+			}
+#endif
 		}
 		catch (...)
 		{
@@ -461,6 +1030,12 @@ namespace VeraCrypt
 				return 0;
 			if (fuse_service_fill_dir_entry (buf, filler, FuseService::GetAuxDeviceInfoPath() + 1, S_IFREG | 0600, VC_FUSE_INODE_AUX_DEVICE_INFO, 0) != 0)
 				return 0;
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (fuse_service_fill_dir_entry (buf, filler, FuseService::GetShutdownPath() + 1, S_IFREG | 0600, VC_FUSE_INODE_SHUTDOWN, 0) != 0)
+				return 0;
+			if (fuse_service_fill_dir_entry (buf, filler, FuseService::GetShutdownSocketPath() + 1, S_IFREG | 0400, VC_FUSE_INODE_SHUTDOWN_SOCKET, 0) != 0)
+				return 0;
+#endif
 		}
 		catch (...)
 		{
@@ -506,6 +1081,25 @@ namespace VeraCrypt
 				FuseService::ReceiveAuxDeviceInfo (ConstBufferPtr ((const uint8 *) buf, size));
 				return size;
 			}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			if (strcmp (path, FuseService::GetShutdownPath()) == 0)
+			{
+				pid_t processId;
+				uint64 serialInstanceNumber;
+				VolumeSlotNumber slotNumber;
+				if (offset != 0 || size == 0 || size > 256
+					|| !fuse_service_parse_shutdown_identity (string (buf, size), processId, serialInstanceNumber, slotNumber)
+					|| processId != getpid() || serialInstanceNumber != FuseService::GetSerialInstanceNumber()
+					|| slotNumber != FuseService::GetSlotNumber())
+					return -EINVAL;
+
+				// This is a compatibility notification, not an instruction to
+				// close FUSE. The worker waits for the client's SMB unmount.
+				return size;
+			}
+#endif
+
 		}
 #ifdef TC_FREEBSD
 		// FreeBSD apparently retries failed write operations forever, which may lead to a system crash.
@@ -650,8 +1244,14 @@ namespace VeraCrypt
 		return MountedVolume->GetSize();
 	}
 
-	void FuseService::Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint)
+	uint64 FuseService::Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint)
 	{
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		// Keep the descriptor in the service across fork, but do not let exec'd
+		// helpers retain the backing file after the service exits.
+		openVolume->GetFile()->SetCloseOnExec();
+#endif
+
 		list <string> args;
 		args.push_back (FuseService::GetDeviceType());
 		args.push_back (fuseMountPoint);
@@ -686,8 +1286,37 @@ namespace VeraCrypt
 		args.push_back ("use_ino");
 #endif
 
-		ExecFunctor execFunctor (openVolume, slotNumber);
+		// Generate the serial before forking so the caller can reuse it if
+		// the service's control metadata cannot be read.
+		struct timeval tv;
+		throw_sys_if (gettimeofday (&tv, NULL) != 0);
+		const uint64 serialInstanceNumber = (uint64)tv.tv_sec * 1000000ULL + tv.tv_usec;
+
+		ExecFunctor execFunctor (openVolume, slotNumber, serialInstanceNumber);
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		// This inherited channel binds startup to this exact child, without
+		// depending on a working public socket or readable SMB metadata.
+		int startup[2];
+		throw_sys_if (socketpair (AF_UNIX, SOCK_STREAM, 0, startup) == -1);
+		finally_do_arg (int *, startup, { if (finally_arg[0] != -1) close (finally_arg[0]); if (finally_arg[1] != -1) close (finally_arg[1]); });
+		fuse_service_configure_socket (startup[0]);
+		fuse_service_configure_socket (startup[1]);
+		execFunctor.StartupFd = startup[1];
+		execFunctor.StartupPeerFd = startup[0];
+		pid_t startupProcessId = 0;
+		try
+		{
+#endif
 		Process::Execute ("fuse", args, -1, &execFunctor);
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		close (startup[1]);
+		startup[1] = -1;
+		pid_t processId;
+		if (!fuse_service_socket_transfer (startup[0], &processId, sizeof (processId), false) || processId <= 1)
+			throw SystemException (SRC_POS, EPIPE);
+		startupProcessId = processId;
+#endif
 
 		for (int t = 0; true; t++)
 		{
@@ -706,6 +1335,49 @@ namespace VeraCrypt
 
 			Thread::Sleep (100);
 		}
+
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		// Make sure the watcher has observed this mount before a caller can
+		// immediately dismount it with a released (non-notifying) client.
+		DismountRequest prepared = PrepareDismount (fuseMountPoint, serialInstanceNumber, slotNumber, false);
+		if (prepared.LegacyService || prepared.ProcessId != startupProcessId)
+			throw ParameterIncorrect (SRC_POS);
+		uint8 commit = 1;
+		if (!fuse_service_socket_transfer (startup[0], &commit, sizeof (commit), true))
+			throw SystemException (SRC_POS, EPIPE);
+		}
+		catch (...)
+		{
+			if (startup[1] != -1)
+			{
+				close (startup[1]);
+				startup[1] = -1;
+			}
+			try
+			{
+				// Half-close requests rollback; retain the read end to observe
+				// teardown even when the original failure was a socket refusal.
+				throw_sys_if (shutdown (startup[0], SHUT_WR) == -1 && errno != ENOTCONN);
+				uint8 reply;
+				const FuseServiceClock::time_point deadline = FuseServiceClock::now() + chrono::seconds (10);
+				while (fuse_service_socket_transfer (startup[0], &reply, sizeof (reply), false, -1, fuse_service_remaining_time (deadline))) { }
+				if (startupProcessId > 1)
+					WaitForDismount (startupProcessId, fuseMountPoint, slotNumber);
+			}
+			catch (exception &e)
+			{
+				SystemLog::WriteException (e);
+				throw MountServiceCleanupFailed (SRC_POS, StringConverter::ToWide (fuseMountPoint));
+			}
+			catch (...)
+			{
+				SystemLog::WriteException (UnknownException (SRC_POS));
+				throw MountServiceCleanupFailed (SRC_POS, StringConverter::ToWide (fuseMountPoint));
+			}
+			throw;
+		}
+#endif
+		return serialInstanceNumber;
 	}
 
 	void FuseService::ReadVolumeSectors (const BufferPtr &buffer, uint64 byteOffset)
@@ -742,6 +1414,253 @@ namespace VeraCrypt
 		fuseServiceControl.Close();
 	}
 
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	static string fuse_service_read_metadata (const string &path, size_t limit)
+	{
+		File file;
+		file.Open (path);
+		Buffer buffer (limit);
+		uint64 size = file.Read (buffer);
+		if (size == 0 || size == buffer.Size())
+			throw ParameterIncorrect (SRC_POS);
+		return string (reinterpret_cast <const char *> (buffer.Ptr()), size);
+	}
+
+	static bool fuse_service_request_mount_present (const FuseService::DismountRequest &request)
+	{
+		fsid_t current;
+		return fuse_service_find_mount (request.AuxMountPoint.c_str(), current)
+			&& current.val[0] == request.MountId[0] && current.val[1] == request.MountId[1];
+	}
+
+	bool FuseService::IsDismountMountPresent (const DismountRequest &request)
+	{
+		return fuse_service_request_mount_present (request);
+	}
+
+	static void fuse_service_validate_legacy (const FuseService::DismountRequest &request)
+	{
+		string control = fuse_service_read_metadata (request.AuxMountPoint + FuseService::GetControlPath(), 1024 * 1024);
+		shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr (reinterpret_cast <const uint8 *> (control.data()), control.size())));
+		shared_ptr <VolumeInfo> volume = Serializable::DeserializeNew <VolumeInfo> (stream);
+		if (!volume || volume->SerialInstanceNumber != request.SerialInstanceNumber || volume->SlotNumber != request.SlotNumber
+			|| !fuse_service_request_mount_present (request))
+			throw ParameterIncorrect (SRC_POS);
+	}
+
+	static int fuse_service_connect_shutdown (const FuseService::DismountRequest &request)
+	{
+		// macOS also returns ECONNREFUSED for a full AF_UNIX listen backlog.
+		// Retry briefly; an unavailable endpoint is not a protocol mismatch.
+		const FuseServiceClock::time_point deadline = FuseServiceClock::now() + chrono::seconds (2);
+		for (;;)
+		{
+			int fd = socket (AF_UNIX, SOCK_STREAM, 0);
+			throw_sys_if (fd == -1);
+			try
+			{
+				fuse_service_configure_socket (fd);
+				sockaddr_un address = fuse_service_shutdown_address (request.SocketDirectory);
+				if (connect (fd, reinterpret_cast <sockaddr *> (&address), sizeof (address)) == -1)
+				{
+					throw_sys_if (errno != EINPROGRESS);
+					fuse_service_socket_wait (fd, POLLOUT, -1, fuse_service_remaining_time (deadline));
+					int error;
+					socklen_t size = sizeof (error);
+					throw_sys_if (getsockopt (fd, SOL_SOCKET, SO_ERROR, &error, &size) == -1);
+					if (error != 0)
+						throw SystemException (SRC_POS, error);
+				}
+
+				pid_t peerPid;
+				socklen_t peerPidSize = sizeof (peerPid);
+				throw_sys_if (getsockopt (fd, SOL_LOCAL, LOCAL_PEERPID, &peerPid, &peerPidSize) == -1);
+				if (peerPid != request.ProcessId || !Process::IsProcessRunning (peerPid, request.ProcessStartTime))
+					throw ParameterIncorrect (SRC_POS);
+				return fd;
+			}
+			catch (SystemException &e)
+			{
+				close (fd);
+				if ((e.GetErrorCode() != ECONNREFUSED && e.GetErrorCode() != ENOENT)
+					|| FuseServiceClock::now() >= deadline)
+					throw;
+				Thread::Sleep (100);
+			}
+			catch (...)
+			{
+				close (fd);
+				throw;
+			}
+		}
+	}
+
+	static int32 fuse_service_shutdown_command (int fd, const FuseService::DismountRequest &request, uint64 command, int timeOut)
+	{
+		uint64 frame[8] = { VC_FUSE_SHUTDOWN_VERSION, command, static_cast <uint64> (request.ProcessId),
+			request.SerialInstanceNumber, request.SlotNumber, request.IgnoreOpenFiles ? VC_FUSE_SHUTDOWN_FORCE : 0,
+			static_cast <uint32> (request.MountId[0]), static_cast <uint32> (request.MountId[1]) };
+		int32 error;
+		if (!fuse_service_socket_transfer (fd, frame, sizeof (frame), true)
+			|| !fuse_service_socket_transfer (fd, &error, sizeof (error), false, -1, timeOut))
+			throw SystemException (SRC_POS, EPIPE);
+		if (error == EPROTONOSUPPORT)
+			throw MountServiceIncompatible (SRC_POS);
+		return error;
+	}
+
+	FuseService::DismountRequest FuseService::PrepareDismount (const DirectoryPath &fuseMountPoint, uint64 serialInstanceNumber, VolumeSlotNumber slotNumber, bool ignoreOpenFiles)
+	{
+		DismountRequest request = {};
+		request.SerialInstanceNumber = serialInstanceNumber;
+		request.SlotNumber = slotNumber;
+		request.IgnoreOpenFiles = ignoreOpenFiles;
+		char *canonicalPath = realpath (string (fuseMountPoint).c_str(), NULL);
+		throw_sys_if (canonicalPath == NULL);
+		finally_do_arg (char *, canonicalPath, { free (finally_arg); });
+		request.AuxMountPoint = canonicalPath;
+		fsid_t mountId;
+		if (!fuse_service_find_mount (canonicalPath, mountId))
+			throw SystemException (SRC_POS, ENOENT);
+		request.MountId[0] = mountId.val[0];
+		request.MountId[1] = mountId.val[1];
+
+		string identity;
+		try { identity = fuse_service_read_metadata (request.AuxMountPoint + GetShutdownPath(), 256); }
+		catch (SystemException &e)
+		{
+			if (e.GetErrorCode() != ENOENT)
+				throw;
+			// Released versions have no shutdown endpoint. Validate their
+			// control metadata and retain the mount instance for the old flow.
+			// Never take this fallback for a broken or mismatched socket service.
+			fuse_service_validate_legacy (request);
+			request.LegacyService = true;
+			return request;
+		}
+
+		uint64 serviceSerialInstanceNumber;
+		VolumeSlotNumber serviceSlotNumber;
+		if (!fuse_service_parse_shutdown_identity (identity, request.ProcessId, serviceSerialInstanceNumber, serviceSlotNumber)
+			|| serviceSerialInstanceNumber != serialInstanceNumber || serviceSlotNumber != slotNumber)
+			throw ParameterIncorrect (SRC_POS);
+		request.ProcessStartTime = Process::GetProcessStartTime (request.ProcessId);
+
+		try { request.SocketDirectory = fuse_service_read_metadata (request.AuxMountPoint + GetShutdownSocketPath(), 256); }
+		catch (SystemException &e)
+		{
+			// The file-only development protocol cannot keep FUSE serving
+			// throughout SMB unmount. Its clients can still dismount new services.
+			if (e.GetErrorCode() == ENOENT)
+				throw MountServiceIncompatible (SRC_POS);
+			throw;
+		}
+		const string prefix (VC_FUSE_SHUTDOWN_DIRECTORY_PREFIX);
+		if (request.SocketDirectory.size() != prefix.size() + 13 || request.SocketDirectory.back() != '\n'
+			|| request.SocketDirectory.compare (0, prefix.size(), prefix) != 0
+			|| request.SocketDirectory.find_first_not_of ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", prefix.size()) != request.SocketDirectory.size() - 1)
+			throw ParameterIncorrect (SRC_POS);
+		request.SocketDirectory.pop_back();
+		if (!fuse_service_request_mount_present (request))
+			throw SystemException (SRC_POS, ESTALE);
+
+		try
+		{
+			int fd = fuse_service_connect_shutdown (request);
+			finally_do_arg (int, fd, { close (finally_arg); });
+			int32 error = fuse_service_shutdown_command (fd, request, VC_FUSE_SHUTDOWN_PROBE, 10000);
+			if (error != 0)
+				throw SystemException (SRC_POS, error);
+		}
+		catch (SystemException &e)
+		{
+			throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
+		}
+		catch (TimeOut &e)
+		{
+			throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
+		}
+		return request;
+	}
+
+	pid_t FuseService::RequestDismount (const DismountRequest &request)
+	{
+		try
+		{
+			// Reconnect after hdiutil detach so a long flush cannot hold open a
+			// preflight connection beyond the service's request deadline.
+			int fd = fuse_service_connect_shutdown (request);
+			finally_do_arg (int, fd, { close (finally_arg); });
+			int32 error = fuse_service_shutdown_command (fd, request, VC_FUSE_SHUTDOWN_DISMOUNT, 60000);
+			if (error == EBUSY)
+				throw MountedVolumeInUse (SRC_POS);
+			if (error != 0)
+				throw SystemException (SRC_POS, error);
+		}
+		catch (SystemException &e)
+		{
+			// External unmount may have completed between preflight and request.
+			// It is only success when the captured mount instance is already gone.
+			if (e.GetErrorCode() != ENOENT && e.GetErrorCode() != ECONNREFUSED && e.GetErrorCode() != EPIPE)
+				throw;
+			if (fuse_service_request_mount_present (request))
+				throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
+		}
+		catch (TimeOut &e)
+		{
+			if (fuse_service_request_mount_present (request))
+				throw MountServiceUnavailable (SRC_POS, StringConverter::ToExceptionString (e));
+		}
+		return request.ProcessId;
+	}
+
+	void FuseService::DismountLegacy (const DismountRequest &request)
+	{
+		if (!request.LegacyService)
+			throw ParameterIncorrect (SRC_POS);
+		if (!fuse_service_request_mount_present (request))
+			return;
+		fuse_service_validate_legacy (request);
+		for (int attempt = 0; ; ++attempt)
+		{
+			if (!fuse_service_request_mount_present (request))
+				return;
+			if (unmount (request.AuxMountPoint.c_str(), request.IgnoreOpenFiles ? MNT_FORCE : 0) == 0)
+				return;
+			int error = errno;
+			if ((error == EINVAL || error == ENOENT) && !fuse_service_request_mount_present (request))
+				return;
+			if (error == EBUSY && attempt < 10)
+			{
+				Thread::Sleep (200);
+				continue;
+			}
+			if (error == EBUSY)
+				throw MountedVolumeInUse (SRC_POS);
+			throw SystemException (SRC_POS, error);
+		}
+	}
+
+	void FuseService::WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut, uint64 processStartTime)
+	{
+		for (int timeTaken = 0; ; timeTaken += 100)
+		{
+			if (!Process::IsProcessRunning (processId, processStartTime)) return;
+
+			if (timeTaken >= timeOut)
+			{
+				stringstream logMessage;
+				logMessage << "VeraCrypt FUSE service did not terminate after shutdown request: pid=" << processId
+					<< ", slot=" << slotNumber << ", auxiliary mount=" << string (fuseMountPoint);
+				SystemLog::WriteError (logMessage.str());
+				throw DismountServiceCleanupFailed (SRC_POS, StringConverter::ToWide (logMessage.str()));
+			}
+
+			Thread::Sleep (100);
+		}
+	}
+#endif
+
 	void FuseService::WriteVolumeSectors (const ConstBufferPtr &buffer, uint64 byteOffset)
 	{
 		if (!MountedVolume)
@@ -756,7 +1675,7 @@ namespace VeraCrypt
 		{
 			shared_ptr <VolumeInfo> volume = Core->GetMountedVolume (SlotNumber);
 
-			if (volume)
+			if (volume && volume->SerialInstanceNumber == GetSerialInstanceNumber())
 				Core->DismountVolume (volume, true);
 		}
 		catch (...) { }
@@ -766,9 +1685,10 @@ namespace VeraCrypt
 
 	void FuseService::ExecFunctor::operator() (int argc, char *argv[])
 	{
-		struct timeval tv;
-		gettimeofday (&tv, NULL);
-		FuseService::OpenVolumeInfo.SerialInstanceNumber = (uint64)tv.tv_sec * 1000000ULL + tv.tv_usec;
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		close (StartupPeerFd);
+#endif
+		FuseService::OpenVolumeInfo.SerialInstanceNumber = SerialInstanceNumber;
 
 		FuseService::MountedVolume = MountedVolume;
 		FuseService::SlotNumber = SlotNumber;
@@ -827,6 +1747,9 @@ namespace VeraCrypt
 
 		if (forkedPid == 0)
 		{
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			close (StartupFd);
+#endif
 			CloseMountedVolume();
 
 			struct sigaction action;
@@ -844,9 +1767,19 @@ namespace VeraCrypt
 			_exit (0);
 		}
 
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		// Keep the backend from delaying EOF when the service exits.
+		int signalPipeWriteFd = SignalHandlerPipe->GetWriteFD();
+		int signalPipeFlags = fcntl (signalPipeWriteFd, F_GETFD);
+		throw_sys_if (signalPipeFlags == -1);
+		throw_sys_if (fcntl (signalPipeWriteFd, F_SETFD, signalPipeFlags | FD_CLOEXEC) == -1);
+#else
 		SignalHandlerPipe->GetWriteFD();
+#endif
 
-#ifdef VC_FUSE3
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		_exit (fuse_service_main (argc, argv, &fuse_service_oper, StartupFd));
+#elif defined(VC_FUSE3)
 		_exit (fuse_main (argc, argv, &fuse_service_oper, nullptr));
 #elif defined(TC_OPENBSD)
 		_exit (fuse_main (argc, argv, &fuse_service_oper, NULL));

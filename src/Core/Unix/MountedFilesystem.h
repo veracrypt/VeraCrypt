@@ -20,6 +20,18 @@ namespace VeraCrypt
 	struct MountedFilesystem
 	{
 	public:
+#ifdef TC_MACOSX
+		MountedFilesystem () : Owner (static_cast <uid_t> (-1)) { MountId[0] = MountId[1] = 0; }
+		bool IsAuxiliaryMountCandidate (const string &prefix, uid_t userId, uid_t realUserId) const
+		{
+			const string name = MountPoint.ToBaseName();
+			return name.compare (0, prefix.size(), prefix) == 0
+				&& (Owner == userId || Owner == 0 || (userId == 0 && Owner == realUserId))
+				&& (Type == "smbfs" || Type == "nfs" || Type == "macfuse" || Type == "osxfuse" || Type == "fusefs");
+		}
+		uid_t Owner;
+		int32 MountId[2];
+#endif
 		DevicePath Device;
 		DirectoryPath MountPoint;
 		string Type;
