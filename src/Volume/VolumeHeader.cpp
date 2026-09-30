@@ -201,6 +201,145 @@ namespace VeraCrypt
 		return false;
 	}
 
+	int VolumeHeader::DecryptHeaderParallel (const vector <DecryptCandidate> &candidates, const VolumePassword &password, int pim)
+	{
+		if (password.Size() < 1)
+			throw PasswordEmpty (SRC_POS);
+
+		if (!EncryptionThreadPool::IsRunning())
+			return -1;
+
+		typedef EncryptionThreadPool::KeyDerivationWorkItem KeyDerivationWorkItem;
+
+		// One work item per (candidate x KDF). 'Tested' guards DecryptWithHeaderKey
+		// against being re-run on the same item across resolution passes.
+		struct Entry
+		{
+			shared_ptr <KeyDerivationWorkItem> Item;
+			bool Tested;
+		};
+
+		// Grouped by candidate so candidates can be resolved in their original
+		// (priority) order even though the derivations complete concurrently.
+		vector < vector <Entry> > candidateEntries (candidates.size());
+		SharedVal <size_t> outstandingWorkItemCount (0);
+		SyncEvent keyDerivationCompletedEvent;
+		SyncEvent noOutstandingWorkItemEvent;
+		long volatile abortKeyDerivation = 0;
+		size_t enqueuedWorkItemCount = 0;
+		bool workItemsDrained = false;
+
+		try
+		{
+			for (size_t ci = 0; ci < candidates.size(); ++ci)
+			{
+				const DecryptCandidate &candidate = candidates[ci];
+				// The salt is a view into the candidate's header buffer, which the
+				// caller keeps alive for the duration of this call.
+				ConstBufferPtr salt (candidate.EncryptedData.GetRange (SaltOffset, SaltSize));
+
+				foreach (shared_ptr <Pkcs5Kdf> pkcs5, candidate.KeyDerivationFunctions)
+				{
+					Entry entry;
+					entry.Item = shared_ptr <KeyDerivationWorkItem> (new KeyDerivationWorkItem (pkcs5, GetHeaderKeyDerivationSize (pkcs5)));
+					entry.Tested = false;
+					candidateEntries[ci].push_back (entry);
+
+					EncryptionThreadPool::BeginKeyDerivation (*entry.Item, password, pim, salt, keyDerivationCompletedEvent, noOutstandingWorkItemEvent, outstandingWorkItemCount, &abortKeyDerivation);
+					++enqueuedWorkItemCount;
+				}
+			}
+
+			// Resolve candidates strictly in priority order, preserving the serial
+			// detection semantics: candidate N is only considered once every
+			// higher-priority candidate is known not to decrypt (and not to throw).
+			// Within a candidate, the first KDF whose derived key decrypts the header
+			// wins, so a fast match does not wait on that candidate's slow KDFs.
+			size_t nextCandidate = 0;
+			while (nextCandidate < candidates.size())
+			{
+				bool recordedCompletion = false;
+
+				// Mark newly completed work items as done across all remaining
+				// candidates so the completion signal is fully consumed each pass.
+				for (size_t ci = nextCandidate; ci < candidates.size(); ++ci)
+				{
+					for (size_t i = 0; i < candidateEntries[ci].size(); ++i)
+					{
+						Entry &entry = candidateEntries[ci][i];
+						if (!entry.Item->Processed && entry.Item->Completed.Get())
+						{
+							entry.Item->Processed = true;
+							recordedCompletion = true;
+						}
+					}
+				}
+
+				// Try to resolve the current (highest remaining priority) candidate.
+				const DecryptCandidate &candidate = candidates[nextCandidate];
+				vector <Entry> &entries = candidateEntries[nextCandidate];
+				bool candidateComplete = true;
+
+				for (size_t i = 0; i < entries.size(); ++i)
+				{
+					Entry &entry = entries[i];
+					if (!entry.Item->Processed)
+					{
+						candidateComplete = false;
+						continue;
+					}
+
+					if (entry.Item->ItemException.get())
+					{
+						// KDF exceptions are fatal; surfaced in candidate priority order.
+						abortKeyDerivation = 1;
+						DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+						entry.Item->ItemException->Throw();
+					}
+
+					if (entry.Tested)
+						continue;
+
+					entry.Tested = true;
+
+					if (entry.Item->Result != 0)
+						continue;
+
+					// DecryptWithHeaderKey may throw (e.g. HigherVersionRequired); it
+					// runs only for the highest-priority unresolved candidate, so that
+					// exception keeps the same priority as the serial path.
+					if (candidate.Header->DecryptWithHeaderKey (candidate.EncryptedData, entry.Item->Kdf, entry.Item->DerivedKey, candidate.EncryptionAlgorithms, candidate.EncryptionModes))
+					{
+						abortKeyDerivation = 1;
+						DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+						return (int) nextCandidate;
+					}
+				}
+
+				if (candidateComplete)
+				{
+					// All of this candidate's KDFs finished without a match.
+					++nextCandidate;
+					continue;
+				}
+
+				// Current candidate still has outstanding derivations; if nothing new
+				// was recorded this pass, block until another work item completes.
+				if (!recordedCompletion)
+					keyDerivationCompletedEvent.Wait();
+			}
+		}
+		catch (...)
+		{
+			abortKeyDerivation = 1;
+			DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+			throw;
+		}
+
+		DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+		return -1;
+	}
+
 	bool VolumeHeader::DecryptWithHeaderKey (const ConstBufferPtr &encryptedData, shared_ptr <Pkcs5Kdf> pkcs5, const ConstBufferPtr &headerKey, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
 	{
 		SecureBuffer header (EncryptedHeaderDataSize);
