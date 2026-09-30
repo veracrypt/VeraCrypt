@@ -290,7 +290,10 @@ static int Detect_MS_HyperV_AES ()
 
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+/* TrySHA256 lives in Sha2Intel.c, which omits it for _UEFI and CRYPTOPP_DISABLE_ASM */
+#if !defined(_UEFI) && !defined(CRYPTOPP_DISABLE_ASM) && \
+	(defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE)
+#define TC_SHA256_PROBE_AVAILABLE
 extern int TrySHA256();
 #endif
 
@@ -366,7 +369,7 @@ void DetectX86Features()
 	}
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+#ifdef TC_SHA256_PROBE_AVAILABLE
 	if (!g_hasSHA256)
 	{
 		g_hasSHA256 = TrySHA256();
