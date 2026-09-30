@@ -12,8 +12,9 @@
 
 PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin/X11
 
-PACKAGE_DIR=$(dirname $(mktemp))
-PACKAGE=$PACKAGE_DIR/$PACKAGE_NAME
+# Write the package to a private temporary file so a planted path cannot be used
+PACKAGE=$(mktemp) || { echo "Error: failed to create a temporary file" >&2; exit 1; }
+PACKAGE_DIR=$(dirname "$PACKAGE")
 umask 022
 
 OBSOLETE_DONATION_BANK_FILES="/usr/share/doc/veracrypt/HTML/en/Donation_Bank.html /usr/share/doc/veracrypt/HTML/en/bank_30x30.png /usr/share/doc/veracrypt/HTML/ru/Donation_Bank.html /usr/share/doc/veracrypt/HTML/ru/bank_30x30.png /usr/share/doc/veracrypt/HTML/zh-cn/Donation_Bank.html /usr/share/doc/veracrypt/HTML/zh-cn/bank_30x30.png"
@@ -141,7 +142,7 @@ update_system_caches()
 
 # License extraction
 
-trap 'rm -f $LICENSE $PACKAGE; exit 1' HUP INT QUIT TERM
+trap 'rm -f "$LICENSE" "$PACKAGE"; exit 1' HUP INT QUIT TERM
 LICENSE=$(mktemp)
 
 cat >$LICENSE <<_LICENSE_END
@@ -1044,7 +1045,7 @@ fi
 
 [ $GUI -eq 0 ] && echo
 
-if ! tail -n +$PACKAGE_START "$0" >$PACKAGE
+if ! tail -n +$PACKAGE_START "$0" > "$PACKAGE"
 then
 	show_exit_message "Error: Extraction to $PACKAGE failed"
 	exit 1
@@ -1092,21 +1093,21 @@ then
 
 		if [ $XTERM -eq 1 ]
 		then
-			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
+			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS \"$PACKAGE\" && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f \"$PACKAGE\"; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 		else
 			if [ $GTERM -eq 1 ]
 			then
-				exec gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
+				exec gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS \"$PACKAGE\" && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f \"$PACKAGE\"; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 			else
 				if [ $KTERM -eq 1 ]
 				then
-					exec konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f $PACKAGE; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
+					exec konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS \"$PACKAGE\" && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f \"$PACKAGE\"; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 				fi
 			fi
 		fi
 	else
 		echo 'Installing package...'
-		$SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && INSTALLED=1
+		$SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS "$PACKAGE" && INSTALLED=1
 
 		if [ $INSTALLED -eq 1 ]
 		then
@@ -1116,13 +1117,18 @@ then
 		fi
 	fi
 
-	rm -f $PACKAGE
+	rm -f "$PACKAGE"
 	if [ $INSTALLED -ne 1 ]
 	then
 		show_exit_message 'Error: VeraCrypt installation failed'
 		exit 1
 	fi
 else
+	if ! mv -f "$PACKAGE" "$PACKAGE_DIR/$PACKAGE_NAME" || [ ! -f "$PACKAGE_DIR/$PACKAGE_NAME" ]
+	then
+		show_exit_message "Error: failed to place package at '$PACKAGE_DIR/$PACKAGE_NAME'"
+		exit 1
+	fi
 	show_exit_message "Installation package '$PACKAGE_NAME' extracted and placed in '$PACKAGE_DIR'"
 fi
 
