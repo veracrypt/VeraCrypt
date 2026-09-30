@@ -162,6 +162,12 @@ HWND MainDlg = NULL;
 wchar_t *lpszTitle = NULL;
 
 BOOL Silent = FALSE;
+/* TRUE when the process terminates as soon as the command line request has been
+   carried out (/q). Shell notifications must then be delivered synchronously,
+   otherwise the process is gone before Explorer processes them. Note that this
+   is independent of Silent: /q controls whether we exit, /s only suppresses the
+   user interface, and either may be given without the other. */
+BOOL ProcessExitsAfterCommand = FALSE;
 BOOL bPreserveTimestamp = TRUE;
 BOOL bShowDisconnectedNetworkDrives = FALSE;
 BOOL bHideWaitingDialog = FALSE;
@@ -9789,13 +9795,16 @@ retry:
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, nDosDriveNo, 0);
 
-	/* GH #337, GH #1426: When running in silent/CLI mode, the process may
+	/* GH #337, GH #1426: When running from the command line, the process may
 	   exit immediately after unmount. BroadcastDeviceChange sends
 	   SHChangeNotify asynchronously, so Explorer may not process the drive
 	   removal before the process exits, leaving a ghost drive letter.
 	   Re-send the notification with SHCNF_FLUSH to force synchronous
-	   processing by Explorer before we return. */
-	if (Silent)
+	   processing by Explorer before we return.
+	   ProcessExitsAfterCommand covers /q, which is what actually makes the
+	   process exit; testing Silent alone missed "VeraCrypt /d X: /q" because
+	   /q does not imply /s. */
+	if (Silent || ProcessExitsAfterCommand)
 	{
 		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
 		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);
