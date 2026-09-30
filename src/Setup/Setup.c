@@ -2676,6 +2676,7 @@ static tLanguageEntry g_languagesEntries[] = {
 	{L"Türkçe", IDR_LANG_TR, LANG_TURKISH, "tr", NULL},
 	{L"Українська", IDR_LANG_UK, LANG_UKRAINIAN, "uk", NULL},
 	{L"Ўзбекча", IDR_LANG_UZ, LANG_UZBEK, "uz", NULL},
+	{L"Valencià", IDR_LANG_VA, LANG_CATALAN, "va", NULL},
 	{L"Tiếng Việt", IDR_LANG_VI, LANG_VIETNAMESE, "vi", NULL},
 	{L"简体中文", IDR_LANG_ZHCN, LANG_CHINESE, "zh-cn", L"zh-CN"},
 	{L"繁體中文(香港)", IDR_LANG_ZHHK, LANG_CHINESE, "zh-hk", L"zh-HK"},

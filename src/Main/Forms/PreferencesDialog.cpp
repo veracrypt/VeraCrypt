@@ -205,6 +205,7 @@ namespace VeraCrypt
 				{"tr", L"Türkçe"},
 				{"uk", L"Українська"},
 				{"uz", L"Ўзбекча"},
+				{"va", L"Valencià"},
 				{"vi", L"Tiếng Việt"},
 				{"zh-cn", L"简体中文"},
 				{"zh-hk", L"繁體中文(香港)"},
