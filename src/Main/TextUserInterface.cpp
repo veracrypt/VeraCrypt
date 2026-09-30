@@ -1269,10 +1269,17 @@ namespace VeraCrypt
         shared_ptr<TokenKeyfile> tokenKeyfile = Token::getTokenKeyfile(keyfilePath);
 
 		vector <uint8> keyfileData;
+		finally_do_arg (
+			vector <uint8> *, &keyfileData,
+			{ if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); }
+		);
+
 		tokenKeyfile->GetKeyfileData (keyfileData);
 
+		if (keyfileData.empty())
+			throw InsufficientData (SRC_POS);
+
 		BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
-		finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
 
 		FilePath exportFilePath = AskFilePath();
 
@@ -1336,10 +1343,14 @@ namespace VeraCrypt
 			if (keyfile.Length() > 0)
 			{
 				vector <uint8> keyfileData (keyfile.Length());
+				finally_do_arg (
+					vector <uint8> *, &keyfileData,
+					{ if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); }
+				);
+
 				BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 
 				keyfile.ReadCompleteBuffer (keyfileDataBuf);
-				finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
 
 				SecurityToken::CreateKeyfile (slotId, keyfileData, string (FilePath (keyfilePath).ToBaseName()));
 			}
