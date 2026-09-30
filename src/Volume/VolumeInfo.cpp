@@ -16,7 +16,7 @@
 
 namespace VeraCrypt
 {
-	void VolumeInfo::Deserialize (shared_ptr <Stream> stream)
+	void VolumeInfo::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 
@@ -63,9 +63,8 @@ namespace VeraCrypt
 		return first->SerialInstanceNumber > second->SerialInstanceNumber;
 	}
 
-	void VolumeInfo::Serialize (shared_ptr <Stream> stream) const
+	void VolumeInfo::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 
 		const uint32 version = VERSION_NUM;

@@ -412,14 +412,12 @@ namespace VeraCrypt
 
 		if (!exOutput.empty())
 		{
-			unique_ptr <Serializable> deserializedObject;
-			Exception *deserializedException = nullptr;
+			shared_ptr <Exception> deserializedException;
 
 			try
 			{
 				shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr ((uint8 *) &exOutput[0], exOutput.size())));
-				deserializedObject.reset (Serializable::DeserializeNew (stream));
-				deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
+				deserializedException = Serializable::DeserializeNew <Exception> (stream);
 			}
 			catch (...)	{ }
 

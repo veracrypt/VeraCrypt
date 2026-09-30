@@ -19,6 +19,7 @@
 #include <wx/apptrait.h>
 #include <wx/cmdline.h>
 #include "Crypto/cpu.h"
+#include "Core/CoreTest.h"
 #include "Platform/PlatformTest.h"
 #include "Common/PCSCException.h"
 #ifdef TC_UNIX
@@ -1829,6 +1830,7 @@ const FileManager fileManagers[] = {
 		if (!PlatformTest::TestAll())
 			throw TestFailed (SRC_POS);
 
+		CoreTest::TestAll();
 		EncryptionTest::TestAll();
 
 		// StringFormatter
