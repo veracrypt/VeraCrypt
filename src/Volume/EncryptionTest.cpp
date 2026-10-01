@@ -511,7 +511,8 @@ namespace VeraCrypt
 
 			memcpy (p, XtsTestVectors[i].plaintext, sizeof (p));
 
-			dataUnitNo = Endian::Big (*((uint64 *) XtsTestVectors[i].dataUnitNo));
+			memcpy (&dataUnitNo, XtsTestVectors[i].dataUnitNo, sizeof (dataUnitNo));
+			dataUnitNo = Endian::Big (dataUnitNo);
 
 			aes.EncryptSectors (p, dataUnitNo, sizeof (p) / ENCRYPTION_DATA_UNIT_SIZE, ENCRYPTION_DATA_UNIT_SIZE);
 
