@@ -70,8 +70,28 @@ namespace VeraCrypt
 
 	void EncryptionTest::TestAll ()
 	{
+		TestAlignment();
 		TestAll (false);
 		TestAll (true);
+	}
+
+	// Must stay smaller than the alignment under test: the ABI aligns larger objects by itself.
+	#define TC_ALIGNMENT_PROBE_SIZE 4
+
+	// Verifies that CRYPTOPP_ALIGN_DATA actually delivers the alignment it requests.
+	// It expands to nothing for compilers that are neither MSVC nor GCC/Clang (see
+	// Crypto/config.h), and the SIMD backends issue aligned loads against buffers
+	// declared with it, so a silent expansion to nothing would fault at run time.
+	void EncryptionTest::TestAlignment ()
+	{
+		static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) uint8 derivedKeyProbe[TC_ALIGNMENT_PROBE_SIZE];
+		static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) uint8 keyInfoProbe[TC_ALIGNMENT_PROBE_SIZE];
+
+		if (!TC_IS_ALIGNED (derivedKeyProbe, TC_DERIVED_KEY_BUFFER_ALIGNMENT))
+			throw TestFailed (SRC_POS);
+
+		if (!TC_IS_ALIGNED (keyInfoProbe, TC_KEY_INFO_BUFFER_ALIGNMENT))
+			throw TestFailed (SRC_POS);
 	}
 
 	void EncryptionTest::TestAll (bool enableCpuEncryptionSupport)
