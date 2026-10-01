@@ -69,11 +69,23 @@ HKEY_LOCAL_MACHINE\SOFTWARE\VeraCrypt\Diagnostics\EfiBootLoader
     EfiBootLoaderSelectionReason      REG_SZ     可读的选择原因
     EfiBootLoaderFirmwareDbLastError  REG_DWORD  上次读取/解析固件db的错误（0 = 无）
     EfiBootLoaderFirmwareDbxLastError REG_DWORD  上次读取/解析dbx的错误（0 = 无）
-    FirmwareDbxPresent                REG_DWORD  dbx是否存在（0可为合法缺失）
-    EfiBootLoaderInstalledResourceSet REG_DWORD  由ESP实际文件识别的套件
+    EfiBootChainStatusKnown           REG_DWORD  db/dbx已知CA评估可用
+    EfiBootChainLastError             REG_DWORD  上次未完成的评估错误（0 = 无）
+    SecureBootEnabled                 REG_DWORD  上次评估时的安全启动状态
+    FirmwareDbxPresent                REG_DWORD  dbx是否存在（0是合法值：可选变量缺失）
     VeraCryptLoaderFilesValid         REG_DWORD  DCS文件与一个内嵌套件完全匹配
-    WindowsLoaderSigner               REG_DWORD  内嵌签名：0、2011或2023
+    VeraCryptLoaderKnownCaAllowed     REG_DWORD  已知所需CA在db中且不在dbx中
+    VeraCryptLoaderKnownCaRevoked     REG_DWORD  一个已知所需VeraCrypt CA在dbx中
+    EfiBootLoaderInstalledResourceSet REG_DWORD  由ESP实际文件识别的套件
+    EfiBootLoaderRecordedResourceSet  REG_DWORD  上次成功刷新时记录的套件
+    WindowsLoaderInspectionSucceeded  REG_DWORD  已解析内嵌PE签名
+    WindowsLoaderPresent              REG_DWORD  是否找到bootmgfw_ms.vc
+    WindowsLoaderSigner               REG_DWORD  0（未知）、2011或2023
+    WindowsLoaderKnownCaAllowed       REG_DWORD  已知签名CA在db中且不在dbx中
+    WindowsLoaderKnownCaRevoked       REG_DWORD  已知Windows加载程序签名CA在dbx中
+    WindowsLoaderMigrationRecommended REG_DWORD  CA 2023可用时PCA 2011副本仍然存在
     EfiBootLoaderSelectionTimeUtc     REG_SZ     上次选择的时间
+    EfiBootChainCheckTimeUtc          REG_SZ     上次尝试的链检查时间
 </pre>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 以下命令在以管理员身份打开的PowerShell窗口中运行，可显示固件db中存在哪些Microsoft证书（请注意，在某些固件上，即使证书存在，这种简单文本搜索也可能看不到名称）：
@@ -89,12 +101,32 @@ $t = [Text.Encoding]::ASCII.GetString((Get-SecureBootUEFI db).Bytes)
 'Microsoft Option ROM UEFI CA 2023' |
   ForEach-Object { "$_ : $($t -match [regex]::Escape($_))" }
 
+try {
+  $dbx = (Get-SecureBootUEFI dbx).Bytes
+  'Windows PCA 2011 in dbx: ' +
+    ([Text.Encoding]::ASCII.GetString($dbx) -match
+     'Microsoft Windows Production PCA 2011')
+} catch {
+  'dbx is absent or could not be read; check FirmwareDbxPresent and EfiBootLoaderFirmwareDbxLastError'
+}
+
 # 将ESP挂载为S:后检查内嵌签名；不要依赖可能返回目录签名的命令。
+# 不要使用 Get-AuthenticodeSignature：它可能报告目录签名。
 Get-PfxCertificate -FilePath S:\EFI\Microsoft\Boot\bootmgfw_ms.vc |
   Select-Object Subject,Issuer,Thumbprint
+
+Get-WinEvent -FilterHashtable @{
+  LogName='System'
+  ProviderName='Microsoft-Windows-TPM-WMI'
+  Id=@(1036,1037,1043,1044,1045,1797,1798,1799,1800,1801,1802,1803)
+  StartTime=(Get-Date).AddDays(-30)
+} | Select-Object TimeCreated,Id,LevelDisplayName,Message
 </pre>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-此外，VeraCrypt System Favorites服务会针对实际DCS文件与内嵌套件不匹配、Windows启动管理器缺失或其内嵌签名无法识别、已知所需CA不在db或被列入dbx，以及PCA 2011副本需要迁移等情况写入警告。这只是“已知CA兼容性”评估，并非固件一定接受映像的证明；dbx还可撤销映像哈希、证书TBS哈希和安全版本。
+此外，VeraCrypt System Favorites服务会在已安装的DCS文件与内嵌套件不匹配、链式加载的Windows启动管理器缺失或其内嵌签名无法识别、已知所需CA不在db中或被列入dbx，或者PCA 2011签名的Windows启动管理器应在撤销前迁移时，向Windows应用程序事件日志（来源 <em>VeraCryptSystemFavorites</em>）写入警告。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+这些值被明确描述为 <em>已知CA兼容性评估</em>，而非固件一定接受映像的证明。UEFI dbx还可包含此诊断未完全评估的单独映像哈希、证书TBS哈希和安全版本撤销。启用安全启动的成功受控重启仍然是最终验证。
 </div>
 
 <h2>Microsoft 2023证书过渡</h2>

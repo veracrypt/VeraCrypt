@@ -43,6 +43,10 @@
 <p>挂载选项会影响正在挂载的卷的参数。可以通过点击密码输入对话框中的 <em>挂载选项</em> 按钮来打开 <em>挂载选项</em> 对话框。当正确的密码被缓存后，点击 <em>挂载</em> 后卷将自动挂载。如果您需要更改使用缓存密码挂载的卷的挂载选项，请在点击 <em>挂载</em> 或 <em>收藏夹</em> 菜单中的收藏卷时按住 <em>Control</em>（<em>Ctrl</em>）键，或者从 <em>卷</em> 菜单中选择 <em>使用选项挂载</em>。<br>
 <br>
 默认挂载选项可以在主程序首选项（<em>设置 -&gt; 首选项</em>）中配置。</p>
+<h4>Linux下的文件系统挂载选项</h4>
+<p>在Linux下，<em>挂载选项</em> 对话框还包含一个用于文件系统挂载选项的 <em>挂载选项</em> 字段。输入的值会在挂载VeraCrypt卷内的文件系统时通过 <code>-o</code> 传递给系统 <code>mount</code> 命令。例如，输入 <code>noatime</code> 可以防止Linux在支持此选项的文件系统上更新inode访问时间，从而减少仅由文件访问引起的元数据写入。多个选项可以用逗号分隔的列表指定，例如 <code>noatime,nosuid,nodev</code>。不支持的选项由操作系统处理，可能会导致挂载失败。</p>
+<p>Linux首选项 <em>使用内核Linux驱动程序挂载NTFS卷</em> 默认处于禁用状态。启用且未提供显式文件系统类型时，VeraCrypt会使用 <code>blkid -p</code> 探测解密的虚拟设备，并使用可用的内核NTFS驱动程序挂载检测到的NTFS文件系统，而不是默认的NTFS后端。VeraCrypt在确定为现代读写驱动程序或预期在Linux 7.1或更高版本上时使用 <code>ntfs</code>，否则使用 <code>ntfs3</code>。挂载辅助程序（如 <code>mount.ntfs</code> 和 <code>ntfs-3g</code>）会被绕过。如果NTFS检测失败，VeraCrypt使用正常的自动文件系统选择。如果没有可用或可加载的受支持内核NTFS驱动程序，挂载将失败。在命令行上，<code>--filesystem=ntfs3</code> 固定内核ntfs3驱动程序，<code>--filesystem=kernel-ntfs</code> 强制VeraCrypt的内核驱动程序选择用于NTFS挂载，<code>-m kernelntfs</code> 为当前挂载启用检测到的NTFS选择。<code>ntfs3</code> 和 <code>kernel-ntfs</code> 文件系统选择器仅用于挂载；创建新NTFS卷时请使用 <code>NTFS</code>。此选择选项可帮助在挂起或休眠可能挂起的系统上，当用户空间FUSE文件系统（如 <code>ntfs-3g</code>/<code>fuseblk</code> 在内核同步文件系统时被冻结）的情况下。实际挂载的文件系统类型可以使用 <code>findmnt</code> 检查。</p>
+<p>命令行等效命令为 <code>veracrypt --fs-options=noatime &lt;卷&gt; &lt;挂载点&gt;</code>。</p>
 <h4>以只读方式挂载卷</h4>
 <p>选中此选项后，将无法向挂载的卷写入任何数据。</p>
 <h4>将卷作为可移动介质挂载</h4>

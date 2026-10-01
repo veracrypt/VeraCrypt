@@ -55,17 +55,20 @@
 另请参阅 <a href="Security%20Requirements%20and%20Precautions.html">
 <em>安全要求和预防措施</em></a> 章节。</p>
 <div style="margin-left:50px">
-<h4>PKCS - 5伪随机函数</h4>
+<h4>KDF</h4>
 <p>在此字段中，您可以选择用于派生新卷头密钥的算法（有关更多信息，请参阅 <a href="Header%20Key%20Derivation.html">
 <em>头密钥派生、盐值和迭代次数</em></a> 部分）以及用于生成新盐值的算法（有关更多信息，请参阅 <a href="Random%20Number%20Generator.html">
 <em>随机数生成器</em></a> 部分）。<br>
 <br>
 注意：当VeraCrypt重新加密卷头时，原始卷头首先会被多次（根据用户选择为3次、7次、35次或256次）用随机数据覆盖，以防止对手使用诸如磁力显微镜或磁力扫描隧道显微镜 [17] 等技术恢复被覆盖的头（不过，另请参阅 <a href="Security%20Requirements%20and%20Precautions.html">
 <em>安全要求和预防措施</em></a> 章节）。</p>
+<p>如果所选的新KDF与当前KDF不同，并且卷当前使用自定义PIM，VeraCrypt不会自动重用当前PIM。除非您在"新建"部分选择 <em>使用PIM</em> 并输入自定义值，否则重写的卷头将使用所选KDF的默认PIM。</p>
 </div>
 <h3>卷 -> 设置头密钥派生算法</h3>
 <p>此功能允许您使用不同的伪随机函数（PRF）派生的头密钥重新加密卷头（例如，您可以使用HMAC - Whirlpool而不是HMAC - BLAKE2S - 256）。请注意，卷头包含用于加密卷的主加密密钥。因此，使用此功能后，存储在卷上的数据<em>不会</em>丢失。有关更多信息，请参阅 <a href="Header%20Key%20Derivation.html">
 <em>头密钥派生、盐值和迭代次数</em></a> 部分。<br>
+<br>
+如果所选的KDF与当前KDF不同，并且卷当前使用自定义PIM，VeraCrypt不会自动重用当前PIM。除非您在"新建"部分选择 <em>使用PIM</em> 并输入自定义值，否则重写的卷头将使用所选KDF的默认PIM。<br>
 <br>
 注意：当VeraCrypt对卷头进行重新加密时，原始卷头首先会被多次（根据用户选择，次数可为3、7、35或256次）用随机数据覆盖，以防止攻击者使用诸如磁力显微镜或磁力扫描隧道显微镜等技术[17]来恢复被覆盖的卷头（不过，另请参阅章节
 <a href="Security%20Requirements%20and%20Precautions.html">

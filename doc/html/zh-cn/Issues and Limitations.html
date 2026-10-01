@@ -60,8 +60,8 @@
 <li>由于Windows 2000的一个问题，VeraCrypt在Windows 2000系统下不支持Windows挂载管理器。因此，一些Windows 2000内置工具，如磁盘碎片整理程序，在VeraCrypt卷上无法正常工作。此外，在Windows 2000系统下无法使用挂载管理器服务，例如为VeraCrypt卷分配挂载点（即将VeraCrypt卷附加到文件夹）。
 </li>
 <li>VeraCrypt不支持对安装在VHD文件中的操作系统进行预引导身份验证，除非使用适当的虚拟机软件（如Microsoft Virtual PC）进行引导。
-</li>
-<li>目前，Windows卷影复制服务仅支持处于系统加密密钥范围内的分区（例如，由VeraCrypt加密的系统分区，或位于由VeraCrypt加密的系统驱动器上的非系统分区，在加密操作系统运行时挂载）。注意：对于其他类型的卷，不支持卷影复制服务，因为必要的API文档不可用。
+</li><li>Windows必须在启动时自动附加的VHD/VHDX文件（包括Dev Drive支持的VHD/VHDX文件）不能存储在系统收藏卷上，因为这些卷仅在Windows启动和存储初始化阶段开始后才挂载。请将此类非启动VHD/VHDX文件存储在加密的系统分区/驱动器上或系统加密密钥范围内的另一个分区上。原生启动VHD/VHDX文件也不能存储在系统收藏卷上；它们仍然受前述对安装在VHD/VHDX文件中的操作系统进行预启动身份验证的限制。对于不需要启动或早期Windows启动的VHD/VHDX文件，请禁用Windows自动附加，并使用延迟/重试启动任务或依赖 <em>VeraCryptSystemFavorites</em> 服务的服务稍后附加它们。此解决方法不适用于原生启动VHD/VHDX文件或Windows在服务运行之前必须访问的任何其他文件。
+</li><li>目前，Windows卷影复制服务仅支持处于系统加密密钥范围内的分区（例如，由VeraCrypt加密的系统分区，或位于由VeraCrypt加密的系统驱动器上的非系统分区，在加密操作系统运行时挂载）。注意：对于其他类型的卷，不支持卷影复制服务，因为必要的API文档不可用。
 </li>
 <li>如果系统不是从其安装的分区启动，则无法从隐藏操作系统中更改Windows启动设置。这是因为出于安全原因，当隐藏系统运行时，启动分区将以只读方式挂载。若要更改启动设置，请启动诱饵操作系统。
 </li>
@@ -84,6 +84,7 @@ http://www.flexhex.com/docs/articles/sparse-files.phtml#msdn</a> </li>
 链接 </a>说明了如何在Windows 8中禁用它，此 <a href="https://www.tenforums.com/tutorials/4189-turn-off-fast-startup-windows-10-a.html" target="_blank">链接</a>提供了在Windows 10中进行等效操作的说明）。以下是一些问题示例：
 <ul>
 <li>关机并重启后，已挂载的卷将继续挂载，而无需输入密码：这是因为新的Windows 8关机实际上不是真正的关机，而是伪装的休眠/睡眠。
+</li><li>使用系统加密并配置了系统收藏卷在启动时挂载的情况下：关机并重启后，这些系统收藏卷将不会被挂载。
 </li>
 </ul>
 </li>
