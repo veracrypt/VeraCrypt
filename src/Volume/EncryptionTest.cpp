@@ -1201,6 +1201,46 @@ namespace VeraCrypt
 		if (memcmp (derivedKey.Ptr(), "\xd0\x53\xa2\x30", 4) != 0)
 			throw TestFailed (SRC_POS);
 
+		// Output longer than one hash block: PBKDF2 block counters 2 and up.
+		Buffer longKey (192);
+		if (pkcs5HmacBlake2s.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr() + 184, "\xb3\xde\x03\x53\x36\xb5\xff\x24", 8) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacSha512.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr() + 184, "\x7b\x9d\x3d\x88\x71\xfc\x55\x1a", 8) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacWhirlpool.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr() + 184, "\xa5\x71\x11\xfc\x82\x74\xe3\x90", 8) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacSha256.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr() + 184, "\x3a\x84\x88\xde\xda\x8e\xce\x85", 8) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacStreebog.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr() + 184, "\x6b\xc2\xa0\x53\x7f\x07\xa2\xea", 8) != 0)
+			throw TestFailed (SRC_POS);
+
+		// Streebog: message blocks whose 512-bit sum hits the carry case of
+		// add512() must hash the same on every CPU.
+		{
+			uint8 message[128];
+			memset (message, 0, sizeof (message));
+			memset (message, 0xff, 16);
+			message[64] = 1;
+
+			Streebog streebog;
+			Buffer digest (streebog.GetDigestSize ());
+			streebog.ProcessData (ConstBufferPtr (message, sizeof (message)));
+			streebog.GetDigest (digest);
+			if (memcmp (digest.Ptr(), "\xf0\x7f\x6f\xae\x81\x90\xe4\x9d\x54\xe6\x98\x5a\x30\x44\xb3\x3d\xd8\xdb\x37\x08\x6b\x81\x83\x16\xcb\x19\xe2\x33\xf1\xa5\x81\x08"
+				"\xb1\x2e\x7f\x02\x74\x48\x32\x31\x1c\x09\x44\x68\x70\xb4\xbb\x45\x4b\xb5\x4f\xa3\x41\x39\x2a\xfd\xdd\x62\x25\x2b\xaf\x8a\x08\x09", 64) != 0)
+				throw TestFailed (SRC_POS);
+		}
+
 	#ifndef VC_DCS_DISABLE_ARGON2
 		Pkcs5Argon2 pkcs5Argon2;
 		static const uint8 argon2SaltData[] = { 's', 'o', 'm', 'e', 's', 'a', 'l', 't' };
