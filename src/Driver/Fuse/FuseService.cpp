@@ -1144,6 +1144,32 @@ namespace VeraCrypt
 		return -ENOENT;
 	}
 
+#ifdef TC_LINUX
+	static int fuse_service_fsync (const char *path, int datasync, struct fuse_file_info *fi)
+	{
+		try
+		{
+			if (!FuseService::CheckAccessRights())
+				return -EACCES;
+
+			// Loop devices turn block-layer flushes into fsync requests on the volume image.
+			// Data written by WriteVolumeSectors() reaches the backing storage only when it is synced.
+			if (strcmp (path, FuseService::GetVolumeImagePath()) == 0)
+				FuseService::FlushVolume();
+		}
+		catch (...)
+		{
+			// Never return -ENOSYS, even if the backing storage does: Linux FUSE would then
+			// report success for every later fsync on this mount without forwarding it.
+			int error = FuseService::ExceptionToErrorCode();
+			return error == -ENOSYS ? -EIO : error;
+		}
+
+		// Other files have nothing to sync, and must not get -ENOSYS either.
+		return 0;
+	}
+#endif
+
 	bool FuseService::CheckAccessRights ()
 	{
 		return fuse_get_context()->uid == 0 || fuse_get_context()->uid == UserId;
@@ -1210,6 +1236,14 @@ namespace VeraCrypt
 			SystemLog::WriteException (UnknownException (SRC_POS));
 			return -EIO;
 		}
+	}
+
+	void FuseService::FlushVolume ()
+	{
+		if (!MountedVolume)
+			throw NotInitialized (SRC_POS);
+
+		MountedVolume->GetFile()->Flush();
 	}
 
 	shared_ptr <Buffer> FuseService::GetAuxDeviceInfo ()
@@ -1750,6 +1784,9 @@ namespace VeraCrypt
 
 		fuse_service_oper.access = fuse_service_access;
 		fuse_service_oper.destroy = fuse_service_destroy;
+#ifdef TC_LINUX
+		fuse_service_oper.fsync = fuse_service_fsync;
+#endif
 		fuse_service_oper.getattr = fuse_service_getattr;
 		fuse_service_oper.init = fuse_service_init;
 		fuse_service_oper.open = fuse_service_open;
