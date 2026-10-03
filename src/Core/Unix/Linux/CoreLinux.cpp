@@ -502,6 +502,12 @@ namespace VeraCrypt
 		if (!SystemInfo::IsVersionAtLeast (2, 6, xts ? 24 : 20))
 			throw NotApplicable (SRC_POS);
 
+		// Without dmsetup, kernel crypto cannot be used: fall back to FUSE
+		// instead of failing, as when nokernelcrypto was given.
+		string dmsetupError;
+		if (Process::FindSystemBinary ("dmsetup", dmsetupError).empty())
+			throw NotApplicable (SRC_POS);
+
 		// Load device mapper kernel module
 		list <string> execArgs;
 		foreach (const string &dmModule, StringConverter::Split ("dm_mod dm-mod dm"))
