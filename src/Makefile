@@ -289,8 +289,8 @@ ifeq "$(shell uname -s)" "Linux"
 	endif
 	
 	ifeq "$(origin NOSSE2)" "command line"
-		CFLAGS += -mno-sse2
-		CXXFLAGS += -mno-sse2
+		CFLAGS += -mno-sse2 -DCRYPTOPP_DISABLE_AESNI -DCRYPTOPP_DISABLE_SHANI
+		CXXFLAGS += -mno-sse2 -DCRYPTOPP_DISABLE_AESNI -DCRYPTOPP_DISABLE_SHANI
 		WXCONFIG_CFLAGS += -mno-sse2
 		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif
