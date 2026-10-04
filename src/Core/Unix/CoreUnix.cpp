@@ -306,7 +306,8 @@ namespace VeraCrypt
 #endif
 		catch (NotApplicable &) { }
 
-		if (!mountedVolume->LoopDevice.IsEmpty())
+		// Earlier versions recorded the host device of a device-hosted volume mounted with Linux kernel cryptography as its loop device
+		if (!mountedVolume->LoopDevice.IsEmpty() && wstring (mountedVolume->LoopDevice) != wstring (mountedVolume->Path))
 		{
 			try
 			{
@@ -410,7 +411,8 @@ namespace VeraCrypt
 				firstException.reset (e.CloneNew());
 		}
 
-		if (!mountedVolume->LoopDevice.IsEmpty())
+		// Earlier versions recorded the host device of a device-hosted volume mounted with kernel cryptography as its loop device
+		if (!mountedVolume->LoopDevice.IsEmpty() && wstring (mountedVolume->LoopDevice) != wstring (mountedVolume->Path))
 		{
 			try
 			{

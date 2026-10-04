@@ -651,7 +651,11 @@ namespace VeraCrypt
 				filesystemMounted = true;
 			}
 
-			FuseService::SendAuxDeviceInfo (auxMountPoint, nativeDevPath, volumePath);
+			// Dismounting detaches the recorded loop device, so record only one attached above
+			if (loopDevAttached)
+				FuseService::SendAuxDeviceInfo (auxMountPoint, nativeDevPath, volumePath);
+			else
+				FuseService::SendAuxDeviceInfo (auxMountPoint, nativeDevPath);
 		}
 		catch (...)
 		{
