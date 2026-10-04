@@ -1,0 +1,155 @@
+name: Build and test Linux big-endian
+
+# Cross-builds the console version for s390x (big-endian) and runs it under
+# qemu-user: the algorithm self-tests, the Tests/*.hc volumes (created on
+# little-endian) and volume compatibility with a native amd64 build.
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/Platform/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_byte_order_interop.py'
+      - '.github/workflows/build-linux-big-endian.yml'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/Platform/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_byte_order_interop.py'
+      - '.github/workflows/build-linux-big-endian.yml'
+  # Manual runs, e.g. on a fork before opening a pull request.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  WXWIDGETS_VERSION: 3.2.5
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ s390x, amd64 ]
+    name: build-${{ matrix.arch }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies (s390x cross)
+      if: matrix.arch == 's390x'
+      run: |
+        sudo sed -i 's/^Types: deb$/Types: deb\nArchitectures: amd64/' /etc/apt/sources.list.d/ubuntu.sources
+        printf 'Types: deb\nURIs: http://ports.ubuntu.com/ubuntu-ports\nSuites: noble noble-updates\nComponents: main universe\nArchitectures: s390x\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n' | sudo tee /etc/apt/sources.list.d/ports.sources
+        sudo dpkg --add-architecture s390x
+        sudo apt-get update
+        sudo apt-get install -y g++-s390x-linux-gnu qemu-user-static \
+          libfuse3-dev:s390x libpcsclite-dev:s390x libstdc++6:s390x libgcc-s1:s390x
+
+    - name: Install dependencies (amd64)
+      if: matrix.arch == 'amd64'
+      run: sudo apt-get update && sudo apt-get install -y libfuse3-dev libpcsclite-dev yasm
+
+    - name: Cache wxBuildConsole
+      uses: actions/cache@v4
+      id: cache-wxbuildconsole
+      with:
+        path: /tmp/wxBuildConsole
+        key: wxBuildConsole-${{ matrix.arch }}-${{ env.WXWIDGETS_VERSION }}-${{ hashFiles('src/Makefile', '.github/workflows/build-linux-big-endian.yml') }}
+
+    - name: Download and extract wxWidgets
+      run: |
+        wget -q https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets.tar.bz2
+        mkdir -p /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        tar -xjf /tmp/wxWidgets.tar.bz2 -C /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }} --strip-components=1
+
+    - name: Build console VeraCrypt
+      run: |
+        set -- NOGUI=1 WITHFUSE3=1 WXSTATIC=1 NOTEST=1 \
+          WX_ROOT=/tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }} WX_BUILD_DIR=/tmp/wxBuildConsole
+        if [ "${{ matrix.arch }}" = s390x ]; then
+          set -- "$@" ARCH=s390x NOSTRIP=1 \
+            CC=s390x-linux-gnu-gcc CXX=s390x-linux-gnu-g++ AR=s390x-linux-gnu-ar RANLIB=s390x-linux-gnu-ranlib \
+            WX_CONFIGURE_EXTRA_FLAGS="--host=s390x-linux-gnu --build=x86_64-linux-gnu"
+          # $(shell pkg-config ...) in the Makefile only sees the environment.
+          export PKG_CONFIG_LIBDIR=/usr/lib/s390x-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          export PKG_CONFIG_PATH=$PKG_CONFIG_LIBDIR
+        fi
+        cd src
+        if [ "${{ steps.cache-wxbuildconsole.outputs.cache-hit }}" != true ]; then
+          make "$@" wxbuild
+        fi
+        make "$@" -j"$(nproc)"
+        file Main/veracrypt
+
+    - name: Algorithm self-tests
+      run: src/Main/veracrypt --text --test
+
+    - name: Volumes created on little-endian
+      run: python3 Tests/test_byte_order_interop.py --binary-a src/Main/veracrypt
+
+    - name: Upload binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: veracrypt-${{ matrix.arch }}
+        path: src/Main/veracrypt
+        retention-days: 1
+
+  interop:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install runtime dependencies
+      run: |
+        sudo sed -i 's/^Types: deb$/Types: deb\nArchitectures: amd64/' /etc/apt/sources.list.d/ubuntu.sources
+        printf 'Types: deb\nURIs: http://ports.ubuntu.com/ubuntu-ports\nSuites: noble noble-updates\nComponents: main universe\nArchitectures: s390x\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n' | sudo tee /etc/apt/sources.list.d/ports.sources
+        sudo dpkg --add-architecture s390x
+        sudo apt-get update
+        sudo apt-get install -y qemu-user-static libfuse3-3 libpcsclite1 \
+          libfuse3-3:s390x libpcsclite1:s390x libstdc++6:s390x libgcc-s1:s390x
+
+    - uses: actions/download-artifact@v4
+      with:
+        path: bin
+
+    - name: Volumes created on one byte order open on the other
+      run: |
+        chmod +x bin/*/veracrypt
+        file bin/*/veracrypt
+        python3 Tests/test_byte_order_interop.py --skip-official \
+          --binary-a bin/veracrypt-s390x/veracrypt --binary-b bin/veracrypt-amd64/veracrypt
