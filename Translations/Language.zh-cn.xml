@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.20">
+  <localization prog-version="1.26.29">
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.3" translators="Barney Li, Zhangjintao, Nkh0472, 风之暇想" />
     <font lang="zh-cn" class="normal" size="12" face="Microsoft YaHei" />
     <font lang="zh-cn" class="bold" size="14" face="Microsoft YaHei" />
@@ -292,8 +292,8 @@
     <entry lang="zh-cn" key="IDT_NEW_PASSWORD">密码：</entry>
     <entry lang="zh-cn" key="IDT_PARALLELIZATION_OPTIONS">基于线程的并行计算</entry>
     <entry lang="zh-cn" key="IDT_PKCS11_LIB_PATH">PKCS #11 运行库路径</entry>
-    <entry lang="zh-cn" key="IDT_PKCS5_PRF">PKCS-5 PRF：</entry>
-    <entry lang="zh-cn" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF：</entry>
+    <entry lang="zh-cn" key="IDT_KDF">KDF：</entry>
+    <entry lang="zh-cn" key="IDT_NEW_KDF">KDF：</entry>
     <entry lang="zh-cn" key="IDT_PW_CACHE_OPTIONS">密码缓存</entry>
     <entry lang="zh-cn" key="IDT_SECURITY_OPTIONS">安全选项</entry>
     <entry lang="zh-cn" key="IDT_EMV_OPTIONS">EMV选项</entry>
@@ -611,7 +611,6 @@
     <entry lang="zh-cn" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">添加/移除 密钥文件...</entry>
     <entry lang="zh-cn" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">从加密卷中移除所有密钥文件</entry>
     <entry lang="zh-cn" key="PASSWORD_CHANGED">密码 和/或 密钥文件已成功修改。\n\n重要：请确认您已经阅读了用户指南的'Security Requirements and Precautions'章节中的'Changing Passwords and Keyfiles'部分。</entry>
-    <entry lang="zh-cn" key="FAVORITE_PIM_CHANGED">此加密卷已经修改PIM并标记成“系统收藏加密卷”。\n您希望VeraCrypt自动更新系统收藏加密卷设置么(需要管理员权限)。\n\n如果您不希望的话，请稍后手动更新设置。</entry>
     <entry lang="zh-cn" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果您不销毁 VeraCrypt 应急盘，您的系统分区/驱动器仍然可以通过使用旧密码解密（通过启动 VeraCrypt 应急盘和输入旧密码）。您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">请注意，VeraCrypt 应急盘仍然使用着早期的加密算法。如果您觉的先前的加密算法不安全，您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="KEYFILES_NOTE">VeraCrypt 并不会修改密钥文件的内容。 您可以选择一个以上的密钥文件（与次序无关）。如果您添加了一个文件夹，里面的所有非隐藏文件都将作为密钥文件。点击“添加口令牌”来选择存储于安全口令牌或智能卡中的密钥文件（或者导入密钥文件到安全口令牌或智能卡）。</entry>
@@ -814,7 +813,7 @@
     <entry lang="zh-cn" key="SECONDARY_KEY_SIZE_LRW">调整密钥大小（LRW 模式）</entry>
     <entry lang="zh-cn" key="BITS">位</entry>
     <entry lang="zh-cn" key="BLOCK_SIZE">块大小</entry>
-    <entry lang="zh-cn" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="zh-cn" key="KDF">KDF</entry>
     <entry lang="zh-cn" key="PKCS5_ITERATIONS">PKCS-5 迭代次数</entry>
     <entry lang="zh-cn" key="VOLUME_CREATE_DATE">加密卷创建时间</entry>
     <entry lang="zh-cn" key="VOLUME_HEADER_DATE">头信息上次修改时间</entry>
@@ -856,7 +855,7 @@
     <entry lang="zh-cn" key="TC_INSTALLER_IS_RUNNING">VeraCrypt 安装程序正在执行 VeraCrypt 的安装或更新。在您继续进行前，请等待其完成或者关闭它。如果您无法关闭它，请在继续之前重启计算机。</entry>
     <entry lang="zh-cn" key="INSTALL_FAILED">安装失败。</entry>
     <entry lang="zh-cn" key="UNINSTALL_FAILED">卸载失败。</entry>
-    <entry lang="zh-cn" key="DIST_PACKAGE_CORRUPTED">该安装包已经损坏。请尝试重新下载安装包（优先建议从 VeraCrypt 官方网站 https://www.veracrypt.fr 下载）。</entry>
+    <entry lang="zh-cn" key="DIST_PACKAGE_CORRUPTED">该安装包已经损坏。请尝试重新下载安装包（优先建议从 VeraCrypt 官方网站 https://veracrypt.jp 下载）。</entry>
     <entry lang="zh-cn" key="CANNOT_WRITE_FILE_X">不能写入文件 %s</entry>
     <entry lang="zh-cn" key="EXTRACTING_VERB">正在释放</entry>
     <entry lang="zh-cn" key="CANNOT_READ_FROM_PACKAGE">不能从安装包中读取数据</entry>
@@ -968,7 +967,7 @@
     <entry lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 应急盘已经被成功验证。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">应急盘验证失败。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再试一次。如果仍然无效，请尝试使用其它 CD/DVD 刻录软件或刻录盘。\n\n如果您尝试验证一个为不同的主密钥、密码、元素等创建的 VeraCrypt 应急盘，请注意这样的应急盘会无法通过验证。要创建一个新的和当前配置完全兼容的应急盘，请选择“系统” -&gt; “创建应急盘”。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 应急盘 镜像已经被成功验证。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘 镜像文件验证失败。\n\n请注意，如果您尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘镜像，请选择 “系统” > “创建应急盘” 。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘 镜像文件验证失败。\n\n请注意，如果您尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘镜像，请选择 “系统” &gt; “创建应急盘” 。</entry>
     <entry lang="zh-cn" key="ERROR_CREATING_RESCUE_DISK">创建 VeraCrypt 应急盘时失败。</entry>
     <entry lang="zh-cn" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 应急盘在隐形操作系统运行时无法创建。\n\n要创建 VeraCrypt 应急盘，请启动到迷惑操作系统之后选择“系统” -&gt; “创建应急盘”。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_CHECK_FAILED">不能确定应急盘是否刻录成功。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再尝试验证一次。如果仍然无效，请尝试使用其它 %s 。\n\n如果您还没有创建应急盘，请首先创建一个，然后再点“下一步”按钮。\n\n如果您尝试验证一个运行加密盘创建向导以前创建的应急盘，则这样的应急盘是无法用于当前系统的，这是因为它是使用了不同的主密钥创建的。您需要刻录和创建一个新的应急盘。</entry>
@@ -1187,8 +1186,8 @@
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- 如果前面步骤无效或者 VeraCrypt 启动管理器屏幕并没有出现（在 Windows 启动前），请在光驱中插入 VeraCrypt 应急盘并重启计算机。如果 VeraCrypt 启动管理器屏幕没有出现 或者如果您在启动管理器屏幕的 'Keyboard Controls'  部份没有看到 'Repair Options' 项目，很可能您的 BIOS 设置了硬盘优先于光驱启动。如果是这种情况，重启计算机，当您一看到 BIOS 启动屏幕的时候按下 F2 或 DEL 按键，直到 BISO 设置界面出现。如果 BIOS 设置界面没有出现，再次重启计算机，在您按下重启键的时候就按住 F2 或 DEL 按键。当 BIOS 设置界面出现时，配置您的 BIOS 优先从光驱启动（相关信息可以参考您的主板说明书或者资讯您的计算机供应商寻求技术协助）。之后重启计算机。VeraCrypt 启动管理器应该就会从应急盘中启动了。在VeraCrypt 启动管理器屏幕，按下键盘的 F8 按键选择修复选项（Repair Options）。在修复选项 'Repair Options' 菜单，选择 'Restore VeraCrypt Boot Loader'（恢复启动管理器）。之后从光驱中取出应急盘并重启计算机。之后 Windows 应当会启动（此时尚未加密系统）。\n\n</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">注意，如果由于系统分区/驱动器已经加密而导致前面步骤无效（没有正确的密码，没有人可以启动加密系统或者访问该驱动器上的加密数据，即使他遵循前面步骤）。\n\n\n即使您丢失了您的 VeraCrypt 应急盘并且被攻击者发现了，他们没有正确的密码也无法解密已经加密了的系统分区或驱动器。</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">预测试已成功完成</entry>
-    <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">如果加密被中断，您可以重新启动 VeraCrypt 并选择“系统”>“继续被中断的进程”。\n\n请确保您的设备在加密过程中电量不会耗尽。</entry>
-    <entry lang="zh-cn" key="SYSENC_ENCRYPTION_PAGE_INFO">请确保您的设备在加密过程中电量不会耗尽。\n如果加密被中断，您可以通过重新启动 VeraCrypt 并选择“系统”>“继续被中断的进程”来恢复它。</entry>
+    <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">如果加密被中断，您可以重新启动 VeraCrypt 并选择“系统”&gt;“继续被中断的进程”。\n\n请确保您的设备在加密过程中电量不会耗尽。</entry>
+    <entry lang="zh-cn" key="SYSENC_ENCRYPTION_PAGE_INFO">请确保您的设备在加密过程中电量不会耗尽。\n如果加密被中断，您可以通过重新启动 VeraCrypt 并选择“系统”&gt;“继续被中断的进程”来恢复它。</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n您可以在加密过程的任何时候点击“暂停”或者“推迟”，来中断加密的过程，退出向导，重启计算机，并在此后继续该过程，继续的时候将会从上次中断之处开始。注意：此加密卷在完全加密之前无法被加载。</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\n您可以在解密过程的任何时候点击“暂停”或者“推迟”，来中断解密的过程，退出向导，重启计算机，并在此后继续该过程，继续的时候将会从上次中断之处开始。注意：此加密卷在完全解密之前无法被挂载。</entry>
     <entry lang="zh-cn" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">隐形系统已启动</entry>
@@ -1230,7 +1229,7 @@
     <entry lang="zh-cn" key="HIDDEN_OS_CREATION_PREINFO_HELP">在下一步中，VeraCrypt 将会通过复制当前运行系统的内容到隐藏加密卷来创建隐形系统（被复制的数据将会使用与迷惑系统不同的密钥实时加密））。\n\n请注意该过程将会在启动验证环境中执行（在 Windows 启动前），并可能花费较长的时间；可能需要花费几个小时或者几天（依据系统分区容量和计算机性能而定，例如PM1.6GHz加密时大概的速度是0.5GB/分钟左右）。\n\n您可以中断该过程，关机，启动操作系统并在此之后继续该过程。然而，如果您中断该过程，整个复制系统的过程将会不得不从头开始（因为系统分区的内容在克隆期间必须不能被改变）。</entry>
     <entry lang="zh-cn" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">您想要取消整个隐形操作系统的创建过程吗？\n\n注意：如果现在取消，您将无法继续该进程。</entry>
     <entry lang="zh-cn" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">您要取消系统加密预测试吗？</entry>
-    <entry lang="zh-cn" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt 系统加密预测试失败。您希望再试一次吗？\n\n如果选择“否”，则启动验证组件将会被卸载。\n\n说明：如果 VeraCrypt 启动管理器在 Windows 启动前不要求您输入密码，这很可能是您的操作系统并没有从该系统所安装的驱动器引导的。目前并不支持这种方式。\n\n- 如果您使用了AES 之外的加密算法并且预测试失败了（并且您也输入了密码），这可能由有设计缺陷的驱动导致的。选择“否”，尝试再次加密系统分区/设备，但是要使用 AES 加密算法（该算法所需内存最低）。\n\n- 更多可能导致该错误的原因，请参考：https://www.veracrypt.fr/en/Troubleshooting.html</entry>
+    <entry lang="zh-cn" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt 系统加密预测试失败。您希望再试一次吗？\n\n如果选择“否”，则启动验证组件将会被卸载。\n\n说明：如果 VeraCrypt 启动管理器在 Windows 启动前不要求您输入密码，这很可能是您的操作系统并没有从该系统所安装的驱动器引导的。目前并不支持这种方式。\n\n- 如果您使用了AES 之外的加密算法并且预测试失败了（并且您也输入了密码），这可能由有设计缺陷的驱动导致的。选择“否”，尝试再次加密系统分区/设备，但是要使用 AES 加密算法（该算法所需内存最低）。\n\n- 更多可能导致该错误的原因，请参考：https://veracrypt.jp/en/Troubleshooting.html</entry>
     <entry lang="zh-cn" key="SYS_DRIVE_NOT_ENCRYPTED">该系统分区/驱动器看起来没有被加密（或者是没有被完全加密）。</entry>
     <entry lang="zh-cn" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">您的系统分区/驱动器已加密（部分或完全加密）。\n\n请在继续进行前解密该系统分区/驱动器。操作步骤：在 VeraCrypt 主窗口的菜单中，选择“系统”-&gt;“永久解密系统分区/驱动器”。</entry>
     <entry lang="zh-cn" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">当系统分区/驱动器已部份或完全加密时，您不能降级 VeraCrypt 的版本（但是可以更新到新版本或者重新安装同一版本）。</entry>
@@ -1408,8 +1407,8 @@
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">应急盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您应该将镜像提取到格式化为 FAT/FAT32 的 U盘，或将其移动到安全位置以备以后使用。\n\n\n\n%ls 单击“下一步”继续。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">重要：请注意，必须将 zip 文件直接提取到 U盘的根目录中。例如，如果 U盘的驱动器号是 E:， 那么解压 zip 文件，应该在 U盘上创建一个文件夹 E:\\EFI。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n如果您已经提取了应急盘，请弹出并重新插入 U盘；然后单击 “下一步” 重试。如果这没有帮助，请尝试另一个 U盘和/或其它 ZIP 软件。\n\n如果您尚未提取应急盘，请执行此操作，然后单击 “下一步”。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 应急盘；请注意，无法使用此应急盘，因为它是为不同的主密钥创建的。您需要提取新生成的应急盘 ZIP 映像。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n您已将应急盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 应急盘，请注意此应急盘将始终无法通过此验证。要创建与当前配置完全兼容的新的应急盘，请选择 “系统” > “创建应急盘“”。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">恢复盘镜像文件已经创建并存储在文件：\n%s\n\n现在您需要提取恢复盘镜像到格式化为 FAT 和 FAT32 的 U盘。\n\n重要：注意 zip 文件必须直接提取到 U盘的根目录。例如，如果 U盘的盘符是 E: ，解压缩 ZIP 文件应该在 U盘创建一个文件夹 E:\\EFI。\n\n创建恢复盘后，选择 “系统” > “验证恢复盘” 以确认它已正确创建。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了应急盘。\n\n您已将应急盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 应急盘，请注意此应急盘将始终无法通过此验证。要创建与当前配置完全兼容的新的应急盘，请选择 “系统” &gt; “创建应急盘“”。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">恢复盘镜像文件已经创建并存储在文件：\n%s\n\n现在您需要提取恢复盘镜像到格式化为 FAT 和 FAT32 的 U盘。\n\n重要：注意 zip 文件必须直接提取到 U盘的根目录。例如，如果 U盘的盘符是 E: ，解压缩 ZIP 文件应该在 U盘创建一个文件夹 E:\\EFI。\n\n创建恢复盘后，选择 “系统” &gt; “验证恢复盘” 以确认它已正确创建。</entry>
     <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">使用安全桌面输入密码</entry>
     <entry lang="zh-cn" key="ERR_REFS_INVALID_VOLUME_SIZE">命令行中指定的卷文件大小与选定的 ReFS 文件系统不兼容。</entry>
     <entry lang="zh-cn" key="IDC_EDIT_DCSPROP">编辑引导加载程序配置</entry>
@@ -1419,7 +1418,7 @@
     <entry lang="zh-cn" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">警告：经验不足的用户不应尝试手动编辑引导加载程序配置。\n\n继续吗？</entry>
     <entry lang="zh-cn" key="DCSPROP_XML_VALIDATION_FAILED">警告：未能验证启动加载程序配置的 XML 格式。请检查您的修改。</entry>
     <entry lang="zh-cn" key="IDT_ADVANCED_OPTIONS">高级选项</entry>
-    <entry lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 应急盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 “系统” > “创建应急盘”。\n您现在要创建吗？</entry>
+    <entry lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 应急盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 “系统” &gt; “创建应急盘”。\n您现在要创建吗？</entry>
     <entry lang="zh-cn" key="IDC_ALLOW_TRIM_NONSYS_SSD">允许在非系统 SSD 分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="IDC_BLOCK_SYSENC_TRIM">阻止系统分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="WINDOWS_EFI_BOOT_LOADER_MISSING">错误：无法在磁盘上找到 Windows EFI 系统加载程序。操作将中止。</entry>
@@ -1518,10 +1517,6 @@
     <entry lang="zh-cn" key="LINUX_MOUNTET_HINT">所选设备的文件系统当前已挂载。在继续之前请卸载'{0}'。</entry>
     <entry lang="zh-cn" key="LINUX_HIDDEN_PASS_NO_DIFF">隐藏卷不能与外部卷有相同的密码、PIM和密钥文件</entry>
     <entry lang="zh-cn" key="LINUX_NOT_FAT_HINT">请注意，该卷将不会被格式化为FAT文件系统，因此，您可能需要在{0}以外的平台上安装额外的文件系统驱动程序，这将使您能够挂载该卷。</entry>
-    <entry lang="zh-cn" key="LINUX_ERROR_SIZE_HIDDEN_VOL">错误：要创建的隐藏卷大于 {0} TB ({1} GB)。\n\n可能的解决方式：\n- 创建一个小于 {0} TB的容器/分区。\n</entry>
-    <entry lang="zh-cn" key="LINUX_MAX_SIZE_HINT">- 使用具有4096字节扇区的驱动器，能够创建分区/设备托管的隐藏卷尺寸可达 16 TB</entry>
-    <entry lang="zh-cn" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="zh-cn" key="LINUX_NOT_SUPPORTED"> (此平台上可用的组件不支持)。\n</entry>
     <entry lang="zh-cn" key="LINUX_KERNEL_OLD">您的系统使用的是旧版本Linux内核。\n\n由于Linux内核中的错误，在将数据写入VeraCrypt卷时，系统可能会停止响应。这个问题可以通过将内核升级到2.6.24或更高版本来解决。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_UNMOUNTED">卷{0}已卸载。</entry>
     <entry lang="zh-cn" key="LINUX_VOL_MOUNTED">卷{0}已装载。</entry>
@@ -1533,7 +1528,7 @@
     <entry lang="zh-cn" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">存储设备和VC卷扇区大小不匹配 </entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">仅当卷上承载的系统正在运行时，才能执行此操作。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_INSUFFICIENTDATA">没有足够的可用数据。</entry>
-    <entry lang="zh-cn" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">内核加密服务测试失败。内核的加密服务很可能不支持大于2 TB的卷。\n\n可能的解决方案：\n- 升级Linux内核至2.6.33或更高版本。\n- 禁用内核加密服务（设置>首选项>系统集成）或在命令行上使用'nokernelcrypto'挂载选项。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">内核加密服务测试失败。内核的加密服务很可能不支持大于2 TB的卷。\n\n可能的解决方案：\n- 升级Linux内核至2.6.33或更高版本。\n- 禁用内核加密服务（设置&gt;首选项&gt;系统集成）或在命令行上使用'nokernelcrypto'挂载选项。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">设置循环设备失败。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_MISSINGARGUMENT">缺少必需的参数。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">缺少卷数据。</entry>
@@ -1541,7 +1536,7 @@
     <entry lang="zh-cn" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">挂载点已经在使用中。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDEMPTY">未指定密码或密钥文件。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\n请注意，在不可用非美国键盘布局的预启动环境中，需要输入预启动身份验证密码。因此，开机前的认证密码必须使用标准的美国键盘布局(否则大多数情况下密码会输入错误)。但是，请注意，您不需要一个真正的美国键盘；您只需要改变操作系统中的键盘布局。</entry>
-    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n注意：如果您试图在没有预引导身份验证的情况下挂载位于加密系统驱动器上的分区，或者挂载未运行的操作系统的加密系统分区，则可以通过选择“选项” > “使用系统加密挂载分区”来执行此操作。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n注意：如果您试图在没有预引导身份验证的情况下挂载位于加密系统驱动器上的分区，或者挂载未运行的操作系统的加密系统分区，则可以通过选择“选项” &gt; “使用系统加密挂载分区”来执行此操作。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDTOOLONG">密码长度超过{0}个字符。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">需要分区设备。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">受保护的隐藏卷密码错误或隐藏卷不存在。</entry>
@@ -1550,11 +1545,11 @@
     <entry lang="zh-cn" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">分析格式化字符串时出错。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">无法在临时目录中创建文件或目录。\n\n请确保临时目录存在，其安全权限允许您访问它，并且有足够的磁盘空间。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">错误：驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，无法使用隐藏卷保护挂载承载在驱动器上的外部卷。\n\n可能的解决方案：\n- 使用512字节扇区的驱动器。\n- 在驱动器上创建以文件为宿主的卷（容器）。\n- 备份隐藏卷的内容，然后更新外部卷。</entry>
-    <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">错误：驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，驱动器上承载分区/设备的卷只能使用内核加密服务挂载。\n\n可能的解决方案：\n- 启用内核密码服务(首选项>系统集成)。\n- 使用512字节扇区的驱动器。\n- 在驱动器上创建以文件为宿主的卷(容器)。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">错误：驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，驱动器上承载分区/设备的卷只能使用内核加密服务挂载。\n\n可能的解决方案：\n- 启用内核密码服务(首选项&gt;系统集成)。\n- 使用512字节扇区的驱动器。\n- 在驱动器上创建以文件为宿主的卷(容器)。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">错误：驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，分区/设备托管卷不能在驱动器上创建/使用。\n\n可能的解决方案：\n- 在驱动器上创建以文件为宿主的卷(容器)。\n- 使用512字节扇区的驱动器。\n- 在其它平台上使用VeraCrypt。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">主机文件/设备已经被使用。</entry>
     <entry lang="zh-cn" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">卷位置不可用。</entry>
-    <entry lang="zh-cn" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt需要OSXFUSE 2.5或更高版本。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt需要macFUSE 2.5或更高版本。</entry>
     <entry lang="zh-cn" key="EXCEPTION_OCCURRED">出现异常</entry>
     <entry lang="zh-cn" key="ENTER_PASSWORD">输入密码</entry>
     <entry lang="zh-cn" key="ENTER_TC_VOL_PASSWORD">输入 VeraCrypt 卷的密码</entry>
@@ -1645,6 +1640,79 @@
     <entry lang="zh-cn" key="MOUNTPOINT_BLOCKED">错误：卷挂载点被阻止，因为它覆盖了受保护的系统目录。\n\n请选择其他挂载点。</entry>
     <entry lang="zh-cn" key="MOUNTPOINT_NOTALLOWED">错误：卷挂载点不允许使用，因为它覆盖了 PATH 环境变量中的目录。\n\n请选择其他挂载点。</entry>
     <entry lang="zh-cn" key="INSECURE_MODE">[不安全模式]</entry>
+    <entry lang="zh-cn" key="IDC_DISABLE_SCREEN_PROTECTION">禁用屏幕截图与录屏保护</entry>
+    <entry lang="zh-cn" key="DISABLE_SCREEN_PROTECTION_WARNING">警告：禁用屏幕截图与录屏保护会显著降低安全性。仅当您有特定需求捕获 VeraCrypt 界面时，才需启用此选项。这可能会使敏感数据暴露给屏幕截图工具和 Windows 11 Recall 等录屏功能。</entry>
+    <entry lang="zh-cn" key="MEMORY_COST">内存成本</entry>
+    <entry lang="zh-cn" key="IDT_KDF_ALGO">KDF算法</entry>
+    <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_GENERAL">常规</entry>
+    <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_ACTIONS">动作</entry>
+    <entry lang="zh-cn" key="IDD_PREFERENCES_TAB_PASSWORD">密码</entry>
+    <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_ENABLE_IME">在安全桌面中启用输入法编辑器（IME）</entry>
+    <entry lang="zh-cn" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">警告：仅当您在安全桌面下选择密钥文件/令牌时遇到问题时，才启用此选项。</entry>
+    <entry lang="zh-cn" key="ERR_KEY_DERIVATION_FAILED">密钥派生失败。这可能由内存不足或操作被中断导致。</entry>
+    <entry lang="zh-cn" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">系统分区/驱动器已解密，但 EFI Microsoft 引导加载程序路径未恢复到 Windows 启动管理器。仅需修复 EFI 引导文件。请使用 VeraCrypt 救援盘修复选项，或启动 Windows 恢复介质，运行 'bcdboot W:\\Windows /s S: /f UEFI'（将 W: 替换为 Windows 卷的驱动器号，S: 替换为 EFI 系统分区的驱动器号）。路径：</entry>
+    <entry lang="zh-cn" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">系统分区/驱动器已解密，但 EFI 回退引导加载程序路径中仍包含 VeraCrypt 引导加载程序。仅需修复 EFI 引导文件。请使用 VeraCrypt 救援盘修复选项，或启动 Windows 恢复介质，运行 'bcdboot W:\\Windows /s S: /f UEFI'（将 W: 替换为 Windows 卷的驱动器号，S: 替换为 EFI 系统分区的驱动器号）。路径：</entry>
+    <entry lang="zh-cn" key="IDM_REPAIR_EFI_BOOT_LOADER">修复 EFI 引导加载程序...</entry>
+    <entry lang="zh-cn" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt 将还原 Windows EFI 引导加载程序路径，并移除 VeraCrypt EFI 引导项和文件。\n\n仅在系统分区/驱动器已完全解密且 Windows 无需系统加密即可启动后使用。\n\n是否继续？</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_FILE_READ_FAILED">无法完整读取 EFI 引导加载程序文件：</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">EFI 引导加载程序文件意外过大，未进行检查：</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">系统分区/驱动器已解密且 EFI 引导文件已还原，但 VeraCrypt 无法移除一个或多个 VeraCrypt 固件引导项。VeraCrypt EFI 文件已保留，因此任何剩余的固件项仍指向现有的加载程序。请以管理员身份重试，或在确认 Windows 启动管理器正常启动后从固件设置中移除 VeraCrypt 引导项。</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">系统加密或解密正在进行或未完成时，无法修复 EFI 引导加载程序。请先完成或继续挂起的系统加密/解密过程，然后再重试。</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">此修复操作仅适用于从 GPT 系统分区以 UEFI 模式启动的系统。</entry>
+    <entry lang="zh-cn" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">EFI 引导加载程序已成功修复。</entry>
+    <entry lang="zh-cn" key="PIM_ARGON2_HELP">PIM（个人迭代乘数）控制 Argon2id 头部密钥派生所使用的内存和时间开销，规则如下：\n      内存 = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      迭代次数 = 当 PIM ≤ 31 时，为 3 + ((PIM - 1) / 3)；当 PIM &gt; 31 时，为 13 + (PIM - 31)\n\n当留空或设为 0 时，VeraCrypt 将使用默认的 Argon2 PIM（12），此时占用 416 MiB 内存并执行 6 次迭代。\n\n当密码长度不足 20 个字符时，为了维持最低安全级别，Argon2 PIM 不能小于 12。\n当密码长度达到 20 个或更多字符时，Argon2 PIM 可以设为任意值。\n\n大于 12 的 Argon2 PIM 会增加内存占用（最高 1024 MiB），然后增加迭代次数，这会导致挂载变慢。较小的 Argon2 PIM（小于 12）会加快挂载速度，但如果密码强度不够，会降低安全性。</entry>
+    <entry lang="zh-cn" key="PIM_ARGON2_LARGE_WARNING">您选择的 Argon2 PIM 值大于 VeraCrypt 的默认值。\n请注意，这可能需要更多内存，并导致挂载速度显著变慢。</entry>
+    <entry lang="zh-cn" key="PIM_ARGON2_SMALL_WARNING">您选择的 Argon2 PIM 值小于 VeraCrypt 的默认值。请注意，如果您的密码强度不够，这可能导致安全性降低。\n\n您确认正在使用强密码吗？</entry>
+    <entry lang="zh-cn" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">密码必须包含 20 个或更多字符，才能使用指定的 Argon2 PIM。\n较短的密码只有在 Argon2 PIM 大于或等于 12 时才能使用。</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">使用 Linux 内核驱动程序挂载 NTFS 卷</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">仅限 Linux。启用后，如果未提供明确的文件系统类型，VeraCrypt 会使用 blkid -p 探测已解密的虚拟设备，并使用可用的 Linux 内核 NTFS 驱动程序挂载检测到的 NTFS 文件系统，从而绕过 ntfs-3g 等挂载辅助程序。当 ntfs 明确对应现代读写驱动程序，或预计在 Linux 内核 7.1 或更高版本中可用时，VeraCrypt 使用 ntfs；否则使用 ntfs3。如果 NTFS 检测失败，VeraCrypt 将使用正常的自动文件系统选择。如果没有可用的或可加载的支持 Linux 内核 NTFS 驱动程序，则挂载失败。启用此选项可以避免因冻结的用户空间 FUSE 文件系统而导致的挂起或休眠无响应。</entry>
+    <entry lang="zh-cn" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">没有可用的或可加载的支持 Linux 内核 NTFS 驱动程序。要使用系统默认的 NTFS 后端，请禁用 NTFS 内核驱动程序首选项，或者不要显式请求内核 NTFS。</entry>
+    <entry lang="zh-cn" key="LINUX_EMERGENCY_UNMOUNT_WARNING">卷 {0} 的正常卸载失败。当应用程序仍在卷上打开文件或目录，或者后端设备已断开连接导致挂载状态失效时，可能会发生这种情况。\n\n如果设备仍处于连接状态，请选择“否”，关闭使用该卷的应用程序，然后再次尝试卸载。\n\n如果设备已断开连接或挂载状态已失效，VeraCrypt 可以尝试执行紧急清理：惰性脱离文件系统，并移除或安排移除 VeraCrypt 内核对象。待处理的写入可能已失败，数据可能丢失，并且清理操作可能保持挂起状态，直到应用程序关闭打开的文件。再次使用前，请使用 fsck 或相应的修复工具检查文件系统。\n\n继续？</entry>
+    <entry lang="zh-cn" key="LINUX_EMERGENCY_UNMOUNTED">已对卷 {0} 启动紧急清理。如果卷已断开连接、挂载状态失效或存在待处理的写入操作，请在再次使用前使用 fsck 或相应的修复工具检查文件系统。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_WRITING_DATA">正在创建卷数据。请稍候。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">正在完成卷创建：写入备份卷头信息。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_FLUSHING_DATA">正在完成卷创建：将数据刷新到磁盘。对于大型卷或慢速/USB 存储设备，这可能需要几分钟时间。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_FINISHED">正在完成卷创建。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_ABORTED">卷创建已中止。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_ERROR">卷创建失败。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">正在完成卷创建：挂载临时卷。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">正在完成卷创建：准备临时设备。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_CREATING_FILESYSTEM">正在完成卷创建：使用 {0} 创建文件系统。</entry>
+    <entry lang="zh-cn" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">正在完成卷创建：卸载临时卷。</entry>
+    <entry lang="zh-cn" key="MACOSX_APFS_SYNTHESIZED_DEVICE">所选设备 '{0}' 是 APFS 合成容器或卷，不能作为原始 VeraCrypt 卷的承载设备使用。\n\n请改选物理 APFS 存储分区{1}。</entry>
+    <entry lang="zh-cn" key="MACOSX_DEVICE_SYSTEM_PARTITION">所选设备 '{0}' 是 macOS 系统/支持分区，无法作为 VeraCrypt 卷主机使用。</entry>
+    <entry lang="zh-cn" key="MACOSX_APFS_SYSTEM_STORE">所选 APFS 物理存储 '{0}' 包含当前挂载的 macOS 系统卷，无法作为 VeraCrypt 卷主机使用。</entry>
+    <entry lang="zh-cn" key="MACOSX_DEVICE_NOT_WRITABLE">macOS 报告所选设备 '{0}' 为只读。请选择可写的物理分区或磁盘。</entry>
+    <entry lang="zh-cn" key="MACOSX_APFS_EROFS_HINT">macOS 报告所选设备为只读。如果这是 APFS 磁盘，请确保您选择的是物理 APFS 存储分区，而不是 APFS 合成卷。请使用“磁盘工具”或 'diskutil list' 来识别物理分区，然后重试。</entry>
+    <entry lang="zh-cn" key="FAVORITE_PIM_OR_KDF_CHANGED">此卷已注册为系统收藏加密卷，但其 PIM 和/或 KDF 设置已被更改。\n您希望 VeraCrypt 自动更新系统收藏加密卷配置吗（需要管理员权限）？\n\n请注意，如果您选择“否”，您将需要手动更新系统收藏加密卷配置。</entry>
+    <entry lang="zh-cn" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">所选 KDF 使用了不同的 PIM 参数，因此 VeraCrypt 将不会重用当前的自定义 PIM。新的卷头将使用所选 KDF 的默认 PIM，除非您在“新密码”部分中勾选“调整 PIM”并输入一个自定义值。\n\n您确定要继续吗？</entry>
+    <entry lang="zh-cn" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">安全启动已启用，但固件的安全启动数据库不信任 VeraCrypt EFI 引导加载程序支持的任何 Microsoft UEFI CA 集合。请启用 Microsoft Corporation UEFI CA 2011，或同时启用 Microsoft UEFI CA 2023 和 Microsoft Option ROM UEFI CA 2023，然后运行 VeraCrypt 的“修复/重新安装”。或者，请禁用安全启动。</entry>
+    <entry lang="zh-cn" key="MACOSX_CHECK_FILESYS">按下“确定”后，将打开“终端”窗口，并使用 'diskutil' 检查所选 VeraCrypt 卷上的文件系统。结果将显示在该窗口中。\n\n如果无法开始检查，则将改为启动“磁盘工具”。</entry>
+    <entry lang="zh-cn" key="MACOSX_REPAIR_FILESYS">按下“确定”后，将打开“终端”窗口，并尝试使用 'diskutil' 修复所选 VeraCrypt 卷上的文件系统。结果将显示在该窗口中。\n\n如果无法开始修复，则将改为启动“磁盘工具”。</entry>
+    <entry lang="en" key="SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT">Warning: VeraCrypt could not validate the installed EFI bootloader files against one complete embedded resource set and confirm that all known required signing CAs are present in db and not listed by dbx. Firmware may reject VeraCrypt when Secure Boot is enabled.\n\nBefore booting with Secure Boot enabled, restore the required Microsoft certificates and current dbx as needed, then run VeraCrypt Repair/Reinstall. Do not remove Microsoft Corporation UEFI CA 2011 until db contains both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023 and the actual installed files match VeraCrypt's 2023 set. This check cannot model every image-hash or security-version revocation. Make sure you have an up-to-date VeraCrypt Rescue Disk.</entry>
+    <entry lang="en" key="SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT">Warning: VeraCrypt could not validate the embedded signature and known-CA compatibility of the Windows Boot Manager it chainloads (bootmgfw_ms.vc). The file may be missing, unreadable, not a Windows Boot Manager, have an unrecognized embedded signer, or use a known signing CA that is absent from db or listed by dbx. The handoff to Windows may fail when Secure Boot is enabled.\n\nComplete or repair the Windows Secure Boot certificate and boot-manager update, keep the VeraCrypt System Favorites service enabled, and run VeraCrypt Repair/Reinstall. Repair also checks Windows' serviced EFI_EX/EFI copies for a compatible current Boot Manager. If Windows cannot start, temporarily disable Secure Boot to recover. Make sure you have an up-to-date VeraCrypt Rescue Disk.</entry>
+    <entry lang="en" key="SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED">Warning: The embedded signature of the Windows Boot Manager used by VeraCrypt (bootmgfw_ms.vc) is still issued by Microsoft Windows Production PCA 2011, although firmware db already contains Windows UEFI CA 2023. Its known CA is currently allowed, but it will no longer start after the PCA 2011 certificate is added to dbx.\n\nDo not apply the PCA 2011 revocation (AvailableUpdates bit 0x80, including combined value 0x280) yet. First complete the Windows 2023 boot-manager update while the VeraCrypt System Favorites service is enabled, then run VeraCrypt Repair/Reinstall so VeraCrypt can import a compatible serviced EFI_EX/EFI copy. Verify the embedded issuer of bootmgfw_ms.vc is Windows UEFI CA 2023 and make sure you have an up-to-date VeraCrypt Rescue Disk.</entry>
+    <entry lang="en" key="MOUNT_SERVICE_INCOMPATIBLE">The service running this volume does not support the requested unmount operation.\n\nUnmount the volume using the version of VeraCrypt that mounted it, then mount it again with this version. Close files using the volume if necessary. Always unmount volumes before upgrading VeraCrypt.</entry>
+    <entry lang="en" key="MOUNT_SERVICE_CLEANUP_FAILED">VeraCrypt could not complete cleanup after a failed mount. The volume may still be accessible.\n\nUnmount the volume in VeraCrypt. If unmounting fails, restart the computer before relying on the volume being locked.</entry>
+    <entry lang="en" key="DISMOUNT_SERVICE_CLEANUP_FAILED">The volume's auxiliary mount has been removed, but VeraCrypt could not confirm that its service has stopped. Encryption keys may still be in memory.\n\nIf the service does not stop, restart the computer before relying on the volume being locked.</entry>
+    <entry lang="en" key="MOUNT_SERVICE_UNAVAILABLE">VeraCrypt could not contact or verify the volume service.\n\nIf this occurred while dismounting, close files using the volume and retry. If cleanup cannot be confirmed, restart the computer before relying on the volume being locked.</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_FAILED">VeraCrypt could not verify all volume information. A volume service or disk image may be unavailable or inaccessible.\n\nAny volumes shown are only the entries VeraCrypt could verify. Wait for pending disk operations to finish and retry. An incomplete list does not confirm that all volumes are dismounted.</entry>
+    <entry lang="en" key="VOLUME_IN_USE">The volume is in use. Close files and applications using it, then retry unmounting.</entry>
+    <entry lang="en" key="OPERATION_TIMED_OUT">The operation did not finish in time. Check the volume's status before retrying.</entry>
+    <entry lang="en" key="VOLUME_STATUS_UNKNOWN">Status unavailable</entry>
+    <entry lang="en" key="VOLUME_IMAGE_ABSENT">Image detached; unmount to finish</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_PENDING">Refreshing volume status…</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_STALLED">Volume status unavailable; retrying…</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_PARTIAL">Some volume information is unavailable; retrying…</entry>
+    <entry lang="en" key="IDC_SECURITY_TOKEN_KEY">Security token key</entry>
+    <entry lang="en" key="IDT_SECURITY_TOKENS">Security Tokens...</entry>
+    <entry lang="en" key="SELECT_TOKEN_KEYS">Select token keys</entry>
+    <entry lang="en" key="TOKEN_KEY_LABEL">Key label</entry>
+    <entry lang="en" key="IDM_REVEAL_REDKEY">Reveal Red Key...</entry>
+    <entry lang="en" key="REVEAL_REDKEY_INFO">This will produce decrypted keyfile which can be used without using the smart card, thus reducing security to two factors. This keyfile should be stored securely. Are you sure to continue?</entry>
+    <entry lang="en" key="REVEAL_REDKEY_DONE">Red key is saved</entry>
+    <entry lang="en" key="REVEAL_REDKEY_PATH">Choose file to save red key to</entry>
+    <entry lang="en" key="TOKEN_KEY_MECHANISM_LABEL">Mechanism</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

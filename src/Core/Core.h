@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -77,6 +77,7 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> m_kdf;
 		shared_ptr <KeyfileList> m_keyfiles;
 		wstring m_securityTokenKeySpec;
+		shared_ptr <Volume> m_openVolume;
 		shared_ptr <VolumePassword> m_newPassword;
 		int m_newPim;
 		shared_ptr <KeyfileList> m_newKeyfiles;
@@ -85,11 +86,15 @@ namespace VeraCrypt
 		int m_wipeCount;
 		bool m_emvSupportEnabled;
 		bool m_masterKeyVulnerable;
-		ChangePasswordThreadRoutine(shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, wstring securityTokenKeySpec, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenKeySpec, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount, bool emvSupportEnabled) : m_volumePath(volumePath), m_preserveTimestamps(preserveTimestamps), m_password(password), m_pim(pim), m_kdf(kdf), m_keyfiles(keyfiles), m_securityTokenKeySpec(securityTokenKeySpec), m_newPassword(newPassword), m_newPim(newPim), m_newKeyfiles(newKeyfiles), m_newSecurityTokenSpec(newSecurityTokenKeySpec), m_newPkcs5Kdf(newPkcs5Kdf), m_wipeCount(wipeCount), m_emvSupportEnabled(emvSupportEnabled), m_masterKeyVulnerable(false)  {}
+		ChangePasswordThreadRoutine(shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, wstring securityTokenKeySpec, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenKeySpec, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount, bool emvSupportEnabled) : m_volumePath(volumePath), m_preserveTimestamps(preserveTimestamps), m_password(password), m_pim(pim), m_kdf(kdf), m_keyfiles(keyfiles), m_securityTokenKeySpec(securityTokenKeySpec), m_openVolume(), m_newPassword(newPassword), m_newPim(newPim), m_newKeyfiles(newKeyfiles), m_newSecurityTokenSpec(newSecurityTokenKeySpec), m_newPkcs5Kdf(newPkcs5Kdf), m_wipeCount(wipeCount), m_emvSupportEnabled(emvSupportEnabled), m_masterKeyVulnerable(false)  {}
+		ChangePasswordThreadRoutine(shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenKeySpec, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount, bool emvSupportEnabled) : m_volumePath(), m_preserveTimestamps(false), m_password(), m_pim(0), m_kdf(), m_keyfiles(), m_securityTokenKeySpec(), m_openVolume(openVolume), m_newPassword(newPassword), m_newPim(newPim), m_newKeyfiles(newKeyfiles), m_newSecurityTokenSpec(newSecurityTokenKeySpec), m_newPkcs5Kdf(newPkcs5Kdf), m_wipeCount(wipeCount), m_emvSupportEnabled(emvSupportEnabled), m_masterKeyVulnerable(false)  {}
 		virtual ~ChangePasswordThreadRoutine() { }
 		virtual void ExecutionCode(void) { 
-			shared_ptr <Volume> openVolume = Core->ChangePassword(m_volumePath, m_preserveTimestamps, m_password, m_pim, m_kdf, m_keyfiles, m_securityTokenKeySpec, m_newPassword, m_newPim, m_newKeyfiles, m_newSecurityTokenSpec, m_emvSupportEnabled, m_newPkcs5Kdf,
-		m_wipeCount); 
+			shared_ptr <Volume> openVolume = m_openVolume;
+			if (openVolume)
+				Core->ChangePassword(openVolume, m_newPassword, m_newPim, m_newKeyfiles, m_newSecurityTokenSpec, m_emvSupportEnabled, m_newPkcs5Kdf, m_wipeCount);
+			else
+				openVolume = Core->ChangePassword(m_volumePath, m_preserveTimestamps, m_password, m_pim, m_kdf, m_keyfiles, m_securityTokenKeySpec, m_newPassword, m_newPim, m_newKeyfiles, m_newSecurityTokenSpec, m_emvSupportEnabled, m_newPkcs5Kdf, m_wipeCount);
 			m_masterKeyVulnerable = openVolume->IsMasterKeyVulnerable();
 		}
 	};

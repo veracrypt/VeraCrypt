@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -20,9 +20,7 @@ namespace VeraCrypt
 {
 	CoreBase::CoreBase ()
 		: DeviceChangeInProgress (false)
-#if defined(TC_LINUX ) || defined (TC_FREEBSD)
 		, UseDummySudoPassword (false)
-#endif
 #if defined(TC_UNIX)
 		,AllowInsecureMount (false)
 #endif
@@ -53,7 +51,7 @@ namespace VeraCrypt
 		RandomNumberGenerator::SetHash (newPkcs5Kdf->GetHash());
 
 		SecureBuffer newSalt (openVolume->GetSaltSize());
-		SecureBuffer newHeaderKey (VolumeHeader::GetLargestSerializedKeySize());
+		SecureBuffer newHeaderKey (VolumeHeader::GetHeaderKeyDerivationSize (newPkcs5Kdf));
 
 		shared_ptr <VolumePassword> password (Keyfile::ApplyListToPassword (newKeyfiles, newPassword, newSecurityTokenSchemeSpec, emvSupportEnabled));
 
@@ -67,7 +65,9 @@ namespace VeraCrypt
 				else
 					RandomNumberGenerator::GetDataFast (newSalt);
 
-				newPkcs5Kdf->DeriveKey (newHeaderKey, *password, newPim, newSalt);
+				int derivationResult = newPkcs5Kdf->DeriveKey (newHeaderKey, *password, newPim, newSalt);
+				if (derivationResult != 0)
+					throw ExternalException (SRC_POS, newPkcs5Kdf->GetDerivationFailureMessage (derivationResult));
 
 				openVolume->ReEncryptHeader (backupHeader, newSalt, newHeaderKey, newPkcs5Kdf);
 				openVolume->GetFile()->Flush();
@@ -140,6 +140,21 @@ namespace VeraCrypt
 #endif
 	}
 
+	// FAT boot sector fields are not necessarily aligned (some start at odd offsets), so they must not be accessed through integer pointers
+	static uint16 GetLittleEndian16 (const uint8 *src)
+	{
+		uint16 value;
+		memcpy (&value, src, sizeof (value));
+		return Endian::Little (value);
+	}
+
+	static uint32 GetLittleEndian32 (const uint8 *src)
+	{
+		uint32 value;
+		memcpy (&value, src, sizeof (value));
+		return Endian::Little (value);
+	}
+
 	uint64 CoreBase::GetMaxHiddenVolumeSize (shared_ptr <Volume> outerVolume) const
 	{
 		uint32 sectorSize = outerVolume->GetSectorSize();
@@ -160,21 +175,21 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		uint32 clusterSize = bootSector[13] * sectorSize;
-		uint32 reservedSectorCount = Endian::Little (*(uint16 *) (bootSector + 14));
+		uint32 reservedSectorCount = GetLittleEndian16 (bootSector + 14);
 		uint32 fatCount = bootSector[16];
 
 		uint64 fatSectorCount;
 		if (fatType == 32)
-			fatSectorCount = Endian::Little (*(uint32 *) (bootSector + 36));
+			fatSectorCount = GetLittleEndian32 (bootSector + 36);
 		else
-			fatSectorCount = Endian::Little (*(uint16 *) (bootSector + 22));
+			fatSectorCount = GetLittleEndian16 (bootSector + 22);
 		uint64 fatSize = fatSectorCount * sectorSize;
 
 		uint64 fatStartOffset = reservedSectorCount * sectorSize;
 		uint64 dataAreaOffset = reservedSectorCount * sectorSize + fatSize * fatCount;
 
 		if (fatType < 32)
-			dataAreaOffset += Endian::Little (*(uint16 *) (bootSector + 17)) * 32;
+			dataAreaOffset += GetLittleEndian16 (bootSector + 17) * 32;
 
 		SecureBuffer sector (sectorSize);
 
@@ -218,21 +233,22 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreBase::GetMountedVolume (const VolumePath &volumePath) const
 	{
-		VolumeInfoList volumes = GetMountedVolumes (volumePath);
-		if (volumes.empty())
-			return shared_ptr <VolumeInfo> ();
-		else
-			return volumes.front();
+		VolumeDiscoveryResult result = GetMountedVolumesWithStatus (volumePath);
+		if (!result.Volumes.empty()) return result.Volumes.front();
+		if (!result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front()));
+		return shared_ptr <VolumeInfo> ();
 	}
 
 	shared_ptr <VolumeInfo> CoreBase::GetMountedVolume (VolumeSlotNumber slot) const
 	{
-		foreach (shared_ptr <VolumeInfo> volume, GetMountedVolumes())
+		VolumeDiscoveryResult result = GetMountedVolumesWithStatus();
+		foreach (shared_ptr <VolumeInfo> volume, result.Volumes)
 		{
 			if (volume->SlotNumber == slot)
 				return volume;
 		}
 
+		if (!result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front()));
 		return shared_ptr <VolumeInfo> ();
 	}
 
@@ -284,12 +300,14 @@ namespace VeraCrypt
 		RandomNumberGenerator::SetHash (pkcs5Kdf->GetHash());
 
 		SecureBuffer newSalt (header->GetSaltSize());
-		SecureBuffer newHeaderKey (VolumeHeader::GetLargestSerializedKeySize());
+		SecureBuffer newHeaderKey (VolumeHeader::GetHeaderKeyDerivationSize (pkcs5Kdf));
 
 		shared_ptr <VolumePassword> passwordKey (Keyfile::ApplyListToPassword (keyfiles, password, tokenDescriptor, emvSupportEnabled));
 
 		RandomNumberGenerator::GetData (newSalt);
-		pkcs5Kdf->DeriveKey (newHeaderKey, *passwordKey, pim, newSalt);
+		int derivationResult = pkcs5Kdf->DeriveKey (newHeaderKey, *passwordKey, pim, newSalt);
+		if (derivationResult != 0)
+			throw ExternalException (SRC_POS, pkcs5Kdf->GetDerivationFailureMessage (derivationResult));
 
 		header->EncryptNew (newHeaderBuffer, newSalt, newHeaderKey, pkcs5Kdf);
 	}

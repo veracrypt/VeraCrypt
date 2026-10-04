@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求与预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Memory%20Protection.html">VeraCrypt内存保护</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>VeraCrypt内存保护机制</h1>
+<h2>简介</h2>
+<p>VeraCrypt始终致力于在保持最高安全级别的同时提升用户体验。内存保护机制就是这样一种安全特性。然而，考虑到可访问性需求，我们也为部分用户提供了禁用此机制的选项。本页面将对此进行详细介绍。</p>
+<h2>内存保护机制概述</h2>
+<p>
+内存保护机制可确保非管理员进程无法访问VeraCrypt进程的内存。这主要有两个目的：
+<ul>
+    <li>防范恶意活动：该机制可防止非管理员进程向VeraCrypt进程注入有害数据或代码。</li>
+    <li>保护敏感数据：尽管VeraCrypt设计为不会在内存中留下敏感数据，但此功能通过确保其他非管理员进程无法访问或提取潜在的敏感信息，提供了额外的保障。</li>
+</ul>
+</p>
+<h2>为何引入禁用内存保护的选项？</h2>
+<p>
+一些辅助工具，如屏幕阅读器，需要访问软件的进程内存才能有效地解释和与用户界面（UI）进行交互。VeraCrypt的内存保护无意中阻碍了此类工具的正常运行。为确保依赖辅助工具的用户仍能无障碍地使用VeraCrypt，我们引入了此选项。
+</p>
+<h2>如何启用/禁用内存保护机制？</h2>
+<p>
+默认情况下，内存保护机制处于启用状态。不过，您可以通过VeraCrypt主用户界面或在安装过程中禁用它。
+    <ol>
+        <li>安装过程中：
+            <ul>
+                <li>在安装向导中，您会看到 <b>"为兼容辅助工具禁用内存保护"</b> 复选框。</li>
+                <li>如果您想禁用内存保护，请勾选该复选框；若要继续使用内存保护，请保持未勾选状态。</li>
+                <li>继续完成安装的其余步骤。</li>
+            </ul>
+        </li>
+        <li>安装后：
+            <ul>
+                <li>打开VeraCrypt主用户界面，导航至菜单“设置” -> “性能/驱动程序配置”。</li>
+                <li>根据您的需求找到并勾选/取消勾选 <b>"为兼容辅助工具禁用内存保护"</b> 选项。您将收到通知，提示更改生效需要重启操作系统。</li>
+                <li>点击 <b>确定</b>。</li>
+            </ul>
+        </li>
+        <li>升级或修复/重新安装期间
+            <ul>
+                <li>在安装向导中，您会看到 <b>"为兼容辅助工具禁用内存保护"</b> 复选框。</li>
+                <li>根据您的需求勾选/取消勾选 <b>"为兼容辅助工具禁用内存保护"</b> 选项。</li>
+                <li>继续完成升级或修复/重新安装的其余步骤。</li>
+                <li>如果您更改了内存保护设置，将收到通知提示需要重启操作系统。</li>
+            </ul>
+
+        </li>
+    </ol>
+<h2>风险与注意事项</h2>
+<p>
+虽然禁用内存保护机制对某些用户来说可能是必要的，但了解其中的风险至关重要：
+<ul>
+    <li><b>潜在暴露风险：</b> 禁用该机制可能会使VeraCrypt进程的内存暴露给恶意进程。</li>
+    <li><b>最佳实践：</b> 如果您不需要使用辅助工具来使用VeraCrypt，建议保持内存保护机制启用状态。</li>
+</ul>
+</p>
+<h2>常见问题解答</h2>
+<p>
+    <b>问：内存保护机制的默认设置是什么？</b><br>
+    <b>答：</b> 内存保护机制默认处于启用状态。
+</p>
+<p>
+    <b>问：如何知道内存保护机制是启用还是禁用的？</b><br>
+    <b>答：</b> 您可以在VeraCrypt主用户界面中查看内存保护机制的状态。导航至菜单“设置” -> “性能/驱动程序配置”。如果 <b>"为兼容辅助工具禁用内存保护"</b> 选项被勾选，则内存保护机制已禁用；如果该选项未被勾选，则内存保护机制已启用。
+</p>
+<p>
+    <b>问：禁用内存保护会降低VeraCrypt的加密强度吗？</b><br>
+    <b>答：</b> 不会，加密算法及其强度保持不变。受影响的只是对非管理员进程潜在的内存窥探和注入的保护。
+</p>
+<p>
+    <b>问：我不使用辅助工具。是否应该禁用此功能？</b><br>
+    <b>答：</b> 不，为了增强安全性，最好保持内存保护机制启用状态。
+</p>
+</div><div class="ClearBoth"></div></body></html>

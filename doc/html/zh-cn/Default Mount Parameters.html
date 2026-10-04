@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认机制。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Default%20Mount%20Parameters.html">默认挂载参数</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>默认挂载参数</h2>
+<p>从1.0f - 2版本开始，可以指定将在密码对话框中默认选择的PRF算法和TrueCrypt模式。</p>
+<p>如下所示，在“设置”菜单下选择“默认挂载参数”条目：</p>
+<p><img src="Home_VeraCrypt_menu_Default_Mount_Parameters.png" alt="菜单 默认挂载参数"></p>
+<p>&nbsp;</p>
+<p>将显示以下对话框：</p>
+<p><img src="Home_VeraCrypt_Default_Mount_Parameters.png" alt="默认挂载参数对话框"></p>
+<p>进行修改，然后点击“确定”。</p>
+<p>所选值随后会写入VeraCrypt主配置文件（Configuration.xml），使其持久化。</p>
+<p>所有后续的密码请求对话框将使用先前选择的默认值。例如，如果在“默认挂载参数”对话框中勾选“TrueCrypt模式”并选择SHA - 512作为PRF，那么后续的密码对话框将如下所示：<br>
+<img src="Default Mount Parameters_VeraCrypt_password_using_default_parameters.png" alt="使用默认值的挂载密码对话框"></p>
+<p>&nbsp;</p>
+<p><strong>注意：</strong>默认挂载参数可以被<a href="Command%20Line%20Usage.html">命令行</a>开关 <strong>/tc</strong> 和 <strong>/hash</strong> 覆盖，这些开关始终具有更高的优先级。</p>
+<p>&nbsp;</p>
+</div><div class="ClearBoth"></div></body></html>

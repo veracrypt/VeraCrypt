@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Model.html">安全模型</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>安全模型</h1>
+<div>
+<h4>致安全研究人员：如果您打算报告安全问题或公布对VeraCrypt的攻击，请确保其不违反以下所述的VeraCrypt安全模型。若违反，该攻击（或安全问题报告）将被视为无效/虚假。</h4>
+</div>
+<p>VeraCrypt是一款计算机软件程序，其主要目的是：</p>
+<ul>
+<li>在数据写入磁盘之前对其进行加密以保护数据。 </li><li>在从磁盘读取加密数据后对其进行解密。 </li></ul>
+<p>VeraCrypt<strong>不能</strong>：</p>
+<ul>
+<li>对RAM（计算机的主内存）的任何部分进行加密或保护。 </li><li>如果攻击者在计算机上安装的操作系统下具有管理员权限†，则无法保护计算机上的任何数据。
+</li><li>如果计算机包含任何恶意软件（如病毒、特洛伊木马、间谍软件）或任何其他由攻击者更改、创建或可控制的软件（包括VeraCrypt或操作系统组件），则无法保护计算机上的任何数据。
+</li><li>如果攻击者在VeraCrypt运行之前或运行期间对计算机有物理访问权限，则无法保护计算机上的任何数据。
+</li><li>如果攻击者在VeraCrypt关闭后到计算机连接的所有易失性内存模块（包括外围设备中的内存模块）的全部内容被永久且不可逆转地擦除/丢失之前对计算机有物理访问权限，则无法保护计算机上的任何数据。 </li><li>如果攻击者在VeraCrypt运行时可以远程拦截计算机硬件（如显示器或电缆）发出的辐射（或以其他方式远程直接或间接监控硬件及其使用情况），则无法保护存储在VeraCrypt卷‡中的任何数据。
+</li><li>如果没有管理员权限的攻击者可以访问已挂载卷的内容（例如，如果文件/文件夹/卷权限不阻止此类攻击者访问），则无法保护存储在VeraCrypt卷‡中的任何数据。
+</li><li>保留/验证加密或解密数据的完整性或真实性。
+</li><li>在加密数据通过网络传输时防止流量分析。 </li><li>如果攻击者可以在数据写入之前和之后观察卷（未挂载或已挂载），或者存储介质/设备允许攻击者确定此类信息（例如，卷位于保存可用于确定数据何时写入特定扇区的元数据的设备上），则无法防止攻击者确定卷的哪些扇区内容发生了更改（以及何时更改和更改了多少次）。
+</li><li>对使用损耗均衡或在内部重新定位数据的设备/文件系统上的任何现有未加密数据进行原地加密（或重新加密或擦除数据）。
+</li><li>确保用户选择具有加密强度的密码或密钥文件。 </li><li>保护任何计算机硬件组件或整个计算机。 </li><li>如果未遵循<a href="Security%20Requirements%20and%20Precautions.html"><em>安全要求和预防措施</em></a>章节中列出的安全要求或预防措施，则无法保护计算机上的任何数据。 </li><li>执行<a href="Issues%20and%20Limitations.html#limitations">限制</a>部分（<a href="Issues%20and%20Limitations.html">已知问题和限制</a>章节）中列出的任何操作。 </li></ul>
+<p>在<strong>Windows</strong>系统下，没有管理员权限的用户可以（假设VeraCrypt和操作系统为默认配置）：</p>
+<ul>
+<li>挂载任何文件托管的VeraCrypt卷，前提是容器的文件权限允许。
+</li><li>挂载任何分区/设备托管的VeraCrypt卷。 </li><li>完成预启动身份验证过程，从而访问加密系统分区/驱动器上的数据（并启动加密的操作系统）。
+</li><li>跳过预启动身份验证过程（可以通过禁用<em>设置</em> &gt; ‘<em>系统加密</em>’ &gt; ‘<em>允许通过按Esc键绕过预启动身份验证</em>’选项来防止；请注意，此选项只能由管理员启用或禁用）。
+</li><li>使用VeraCrypt卸载（并在VeraCrypt应用程序窗口中查看）其自己挂载的任何VeraCrypt卷的路径和属性。但是，这不适用于“系统常用卷”，无论谁挂载了这些卷，他/她都可以卸载（等操作）（可以通过启用<em>设置</em> &gt; ‘<em>系统常用卷</em>’ &gt; ‘<em>仅允许管理员在VeraCrypt中查看和卸载系统常用卷</em>’选项来防止；请注意，此选项只能由管理员启用或禁用）。
+</li><li>创建包含FAT或无文件系统的文件托管VeraCrypt卷，前提是相关文件夹权限允许。
+</li><li>更改文件托管VeraCrypt卷的密码、密钥文件和头密钥派生算法，并恢复或备份其头文件，前提是文件权限允许。
+</li><li>访问系统上由其他用户挂载的VeraCrypt卷内的文件系统（但是，可以设置文件/文件夹/卷权限来防止这种情况）。
+</li><li>使用存储在密码缓存中的密码（和处理后的密钥文件）（请注意，可以禁用缓存；有关更多信息，请参阅<em>设置 -&gt; 首选项</em>子部分<em>在</em>驱动程序内存<em>中缓存密码</em>）。
+</li><li>在加密系统运行时查看加密系统分区/驱动器的基本属性（例如，加密区域的大小、使用的加密和哈希算法等）。
+</li><li>运行和使用VeraCrypt应用程序（包括VeraCrypt卷创建向导），前提是VeraCrypt设备驱动程序正在运行且文件权限允许。
+</li></ul>
+<p>在<strong>Linux</strong>系统下，没有管理员权限的用户可以（假设VeraCrypt和操作系统为默认配置）：</p>
+<ul>
+<li>创建包含FAT或无文件系统的文件托管或分区/设备托管VeraCrypt卷，前提是相关文件夹/设备权限允许。
+</li><li>更改文件托管或分区/设备托管VeraCrypt卷的密码、密钥文件和头密钥派生算法，并恢复或备份其头文件，前提是文件/设备权限允许。
+</li><li>访问系统上由其他用户挂载的VeraCrypt卷内的文件系统（但是，可以设置文件/文件夹/卷权限来防止这种情况）。
+</li><li>运行和使用VeraCrypt应用程序（包括VeraCrypt卷创建向导），前提是文件权限允许。
+</li><li>在VeraCrypt应用程序窗口中查看其自己挂载的任何VeraCrypt卷的路径和属性。
+</li></ul>
+<p>在<strong>Mac OS X</strong>系统下，没有管理员权限的用户可以（假设VeraCrypt和操作系统为默认配置）：</p>
+<ul>
+<li>挂载任何文件托管或分区/设备托管的VeraCrypt卷，前提是文件/设备权限允许。
+</li><li>使用VeraCrypt卸载（并在VeraCrypt应用程序窗口中查看）其自己挂载的任何VeraCrypt卷的路径和属性。
+</li><li>创建文件托管或分区/设备托管的VeraCrypt卷，前提是相关文件夹/设备权限允许。
+</li><li>更改文件托管或分区/设备托管VeraCrypt卷的密码、密钥文件和头密钥派生算法，并恢复或备份其头文件，前提是文件/设备权限允许。
+</li><li>访问系统上由其他用户挂载的VeraCrypt卷内的文件系统（但是，可以设置文件/文件夹/卷权限来防止这种情况）。
+</li><li>运行和使用VeraCrypt应用程序（包括VeraCrypt卷创建向导），前提是文件权限允许。
+</li></ul>
+<p>VeraCrypt不支持设置euid为root的执行模式。<br>
+<br>
+有关安全模型的更多信息和详细内容包含在<a href="Security%20Requirements%20and%20Precautions.html"><em>安全要求和预防措施</em></a>章节中。</p>
+<p>* 在本节（<em>安全模型</em>）中，“计算机上的数据”指连接到计算机的内部和外部存储设备/介质（包括可移动设备和网络驱动器）上的数据。</p>
+<p>† 在本节（<em>安全模型</em>）中，“管理员权限”不一定指有效的管理员账户。它也可能指没有有效管理员账户但能够（例如，由于系统配置不当或利用操作系统或第三方应用程序中的漏洞）执行通常只有具有有效管理员账户的用户才能执行的任何操作（例如，读取或修改驱动器或RAM的任意部分等）的攻击者。</p>
+<p>‡ “VeraCrypt卷”也指VeraCrypt加密的系统分区/驱动器（请参阅<a href="System%20Encryption.html"><em>系统加密</em></a>章节）。</p>
+</div>
+</div>
+</body></html>

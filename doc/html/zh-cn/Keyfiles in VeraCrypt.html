@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即插即用）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Keyfiles%20in%20VeraCrypt.html">密钥文件</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>密钥文件</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+密钥文件是一种文件，其内容会与密码相结合（有关将密钥文件与密码相结合的方法的信息，请参阅 <a href="Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none">密钥文件</a> 章节 <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">技术细节</a>）。在提供正确的密钥文件之前，任何使用该密钥文件的卷都无法挂载。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+您不必使用密钥文件。但是，使用密钥文件有一些优点：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+可能会提高对暴力破解攻击的防护能力（如果卷密码不是很强，这一点尤为重要）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+允许使用安全令牌和智能卡（见下文）。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+允许多个用户使用不同的用户密码或PIN码挂载单个卷。只需为每个用户提供一个包含相同VeraCrypt密钥文件的安全令牌或智能卡，并让他们选择保护其安全令牌或智能卡的个人密码或PIN码。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+允许管理多用户 <em style="text-align:left">共享</em> 访问（所有密钥文件持有者必须在挂载卷之前提供他们的密钥文件）。
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<br style="text-align:left">
+请注意，VeraCrypt永远不会修改密钥文件的内容。您可以选择多个密钥文件，顺序无关紧要。您还可以让VeraCrypt生成一个包含随机内容的文件并将其用作密钥文件。为此，请选择 <em style="text-align:left">工具 > 密钥文件生成器</em>。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：目前系统加密不支持密钥文件。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+警告：如果您丢失了密钥文件，或者其前1024千字节的任何一位发生了变化，将无法挂载使用该密钥文件的卷！</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+    <em style="text-align:left"><strong style="text-align:left">警告：如果启用了密码缓存，密码缓存还会包含用于成功挂载卷的密钥文件的处理后内容。这样，即使密钥文件不可用/无法访问，也可以重新挂载卷。</strong> 为防止这种情况发生，请点击 “</em>清除缓存<em style="text-align:left">” 或禁用密码缓存（有关更多信息，请参阅子部分 “</em>设置 -> 首选项<em style="text-align:left">” 中的 “</em>在驱动程序内存中缓存密码<em style="text-align:left">” 项，该部分位于 </em><a href="Program%20Menu.html" style="text-align:left; color:#0080c0; text-decoration:none">程序菜单</a> 中）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+另请参阅 <a href="Choosing%20Passwords%20and%20Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none">选择密码和密钥文件</a> 章节 <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">安全要求和预防措施</a>。</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+密钥文件对话框窗口</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您想在创建或挂载卷、更改密码时使用密钥文件（即 “应用” 它们），请在密码输入字段下方查找 “<em style="text-align:left">使用密钥文件</em>” 选项和 “<em style="text-align:left">密钥文件</em>” 按钮。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Keyfiles in VeraCrypt_Image_040.gif" alt="VeraCrypt密钥文件对话框" width="450" height="164"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+这些控制元素出现在各种对话框窗口中，并且始终具有相同的功能。选中 “<em style="text-align:left">使用密钥文件</em>” 选项，然后点击 “<em style="text-align:left">密钥文件</em>”。应该会出现密钥文件对话框窗口，您可以在其中指定密钥文件（为此，请点击 “<em style="text-align:left">添加文件</em>” 或 “<em style="text-align:left">添加令牌文件</em>”）或密钥文件搜索路径（点击 “<em style="text-align:left">添加路径</em>”）。</div>
+<p>&nbsp;</p>
+<h3 id="SmartCard" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+安全令牌和智能卡</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt可以直接使用存储在符合PKCS #11（2.0或更高版本）标准 [23] 且允许用户在令牌/卡上存储文件（数据对象）的安全令牌或智能卡上的密钥文件。要将此类文件用作VeraCrypt密钥文件，请点击 “<em style="text-align:left">添加令牌文件</em>”（在密钥文件对话框窗口中）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+对存储在安全令牌或智能卡上的密钥文件的访问通常由PIN码保护，这些PIN码可以使用硬件PIN键盘或通过VeraCrypt图形用户界面输入。它也可以通过其他方式保护，如指纹识别器。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+为了让VeraCrypt能够访问安全令牌或智能卡，您需要先为该令牌或智能卡安装PKCS #11（2.0或更高版本）软件库。此类库可能随设备提供，也可能可以从供应商或其他第三方的网站下载。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您的安全令牌或智能卡不包含任何可以用作VeraCrypt密钥文件的文件（数据对象），您可以使用VeraCrypt将任何文件导入到令牌或智能卡中（如果设备支持）。为此，请按照以下步骤操作：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在密钥文件对话框窗口中，点击 “<em style="text-align:left">添加令牌文件</em>”。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果令牌或智能卡受到PIN码、密码或其他方式（如指纹识别器）的保护，请进行身份验证（例如，使用硬件PIN键盘输入PIN码）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+应该会出现 “安全令牌密钥文件” 对话框窗口。在其中，点击 “<em style="text-align:left">导入密钥文件到令牌</em>”，然后选择您要导入到令牌或智能卡的文件。
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请注意，您可以导入例如由VeraCrypt生成的具有随机内容的512位密钥文件（请参阅下面的 “<em style="text-align:left">工具 > 密钥文件生成器</em>”）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要关闭所有已打开的安全令牌会话，请选择 “<em style="text-align:left">工具</em> > <em style="text-align:left">关闭所有安全令牌会话</em>”，或定义并使用热键组合（“<em style="text-align:left">设置</em> > <em style="text-align:left">热键 > 关闭所有安全令牌会话</em>”）。</div>
+<p>&nbsp;</p>
+<h3 id="EMVSmartCard" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+EMV智能卡</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt的Windows和Linux版本可以直接将从符合EMV标准、支持Visa、Mastercard或Maestro应用程序的智能卡中提取的数据用作密钥文件。与符合PKCS - 11标准的智能卡一样，要将此类数据用作VeraCrypt密钥文件，请点击 “<em style="text-align:left">添加令牌文件</em>”（在密钥文件对话框窗口中）。卡的主账号的最后四位数字将显示出来，以便选择该卡作为密钥文件源。
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+提取并拼接成单个密钥文件的数据如下：ICC公钥证书、颁发者公钥证书和卡片生产生命周期（CPLC）数据。在卡片的数据管理系统中，它们分别由标签 '9F46'、'90' 和 '9F7F' 标识。这两个证书特定于部署在EMV卡上的某个应用程序，用于在银行交易期间对卡片进行动态数据认证。CPLC数据特定于卡片，而非其任何应用程序。它们包含智能卡生产过程的相关信息。因此，在任何符合EMV标准的智能卡上，这两个证书和数据都是唯一且静态的。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+根据EMV标准所基于的ISO/IEC 7816标准，与EMV智能卡的通信是通过称为APDU的结构化命令完成的，这些命令允许从智能卡中提取数据。这些数据采用由ASN.1标准定义的BER - TLV格式进行编码，因此在拼接成密钥文件之前需要进行解析。访问和检索卡片中的数据不需要PIN码。为了适应市场上各种智能卡读卡器，使用了符合Microsoft个人计算机/智能卡通信标准的库。使用了Winscard库。该库在Windows系统的System32目录中是原生可用的，因此在该操作系统上无需安装。然而，在Linux系统上必须安装libpcsclite1软件包。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+由于卡片是只读的，因此无法导入或删除数据。但是，用作密钥文件的数据可以导出到本地的任何二进制文件中。在挂载或创建卷的整个加密过程中，证书和CPLC数据仅存储在用户计算机的RAM中。一旦过程完成，这些RAM内存区域将被严格擦除。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+需要注意的是，此功能是可选的，默认情况下处于禁用状态。可以在<em style="text-align:left">安全令牌首选项</em>参数中，通过勾选提供的复选框来启用该功能。
+</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+密钥文件搜索路径
+</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+通过在密钥文件对话框窗口中添加文件夹（点击<em style="text-align:left">添加路径</em>），您可以指定一个<em style="text-align:left">密钥文件搜索路径</em>。在密钥文件搜索路径中找到的所有文件*都将用作密钥文件，但具有隐藏文件属性的文件除外。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><em style="text-align:left">重要提示：请注意，密钥文件搜索路径中的文件夹（及其包含的文件）和隐藏文件将被忽略。</em></strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+密钥文件搜索路径特别有用，例如，如果您将密钥文件存储在随身携带的USB记忆棒上。您可以将USB记忆棒的驱动器号设置为默认的密钥文件搜索路径。为此，请选择<em style="text-align:left">设置</em> -> <em style="text-align:left">默认密钥文件</em>。然后点击<br style="text-align:left"><em style="text-align:left">添加路径</em>，浏览到分配给USB记忆棒的驱动器号，然后点击<em style="text-align:left">确定</em>。现在，每次您挂载卷时（如果在密码对话框窗口中勾选了<em style="text-align:left">使用密钥文件</em>选项），VeraCrypt将扫描该路径，并将在USB记忆棒上找到的所有文件用作密钥文件。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><em style="text-align:left">警告：当您将文件夹（而不是文件）添加到密钥文件列表中时，只会记住路径，而不会记住文件名！这意味着，例如，如果您在文件夹中创建了一个新文件或复制了一个额外的文件到该文件夹中，那么所有使用该文件夹中密钥文件的卷将无法挂载（直到您从文件夹中移除新添加的文件）。</em></strong>
+</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+空密码和密钥文件
+</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+使用密钥文件时，密码可以为空，因此密钥文件可能成为挂载卷所需的唯一要素（我们不建议这样做）。如果设置并启用了默认密钥文件，在挂载卷时，VeraCrypt会先自动尝试使用空密码加默认密钥文件进行挂载（不过，这不适用于<em style="text-align:left">自动挂载设备</em>功能）。如果您需要为以这种方式挂载的卷设置挂载选项（例如，以只读方式挂载、保护隐藏卷等），在点击<em style="text-align:left">挂载</em>时按住<em style="text-align:left">控制</em>（<em style="text-align:left">Ctrl</em>）键（或者从<em style="text-align:left">卷</em>菜单中选择<em style="text-align:left">带选项挂载</em>）。这将打开<em style="text-align:left">挂载选项</em>对话框。
+</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+快速选择
+</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以通过以下方式快速选择密钥文件和密钥文件搜索路径：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在密码输入对话框窗口中右键点击<em style="text-align:left">密钥文件</em>按钮，然后选择菜单项之一。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+将相应的文件/文件夹图标拖到密钥文件对话框窗口或密码输入对话框中。
+</li>
+</ul>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+卷 -> 向卷添加/从卷移除密钥文件
+</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+此功能允许您使用从任意数量的密钥文件（可带或不带密码）派生的卷头加密密钥对卷头进行重新加密，也可以不使用任何密钥文件。因此，原本仅使用密码即可挂载的卷可以转换为需要密钥文件（除密码外）才能挂载的卷。请注意，卷头包含用于加密卷的主加密密钥。因此，使用此功能后，存储在卷上的数据<em style="text-align:left">不会</em>丢失。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+此功能还可用于更改/设置卷密钥文件（即，移除部分或所有密钥文件，并应用新的密钥文件）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+备注：此功能在内部等同于密码更改功能。<br style="text-align:left"><br style="text-align:left">当VeraCrypt对卷头进行重新加密时，原始卷头首先会被随机数据覆盖256次，以防止攻击者使用诸如磁力显微镜或磁力扫描隧道显微镜[17]等技术恢复被覆盖的卷头（不过，另请参阅<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">安全要求和预防措施</a>章节）。
+</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+卷 -> 从卷中移除所有密钥文件
+</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+此功能允许您使用从密码派生且不使用任何密钥文件的卷头加密密钥对卷头进行重新加密，以便仅使用密码（无需任何密钥文件）即可挂载该卷。请注意，卷头包含用于加密卷的主加密密钥。因此，使用此功能后，存储在卷上的数据<em style="text-align:left">不会</em>丢失。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+备注：此功能在内部等同于密码更改功能。<br style="text-align:left"><br style="text-align:left">当VeraCrypt对卷头进行重新加密时，原始卷头首先会被随机数据覆盖256次，以防止攻击者使用诸如磁力显微镜或磁力扫描隧道显微镜[17]等技术恢复被覆盖的卷头（不过，另请参阅<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">安全要求和预防措施</a>章节）。
+</div>
+<p>&nbsp;</p>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+工具 > 密钥文件生成器
+</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+您可以使用此功能生成一个或多个具有随机内容的文件，将其用作密钥文件（推荐）。此功能使用VeraCrypt随机数生成器。请注意，默认情况下，仅生成一个密钥文件，生成的文件大小为64字节（即512位），这也是VeraCrypt密码的最大可能长度。也可以生成多个文件并指定其大小（可以为所有文件指定一个固定值，也可以让VeraCrypt随机选择文件大小）。在所有情况下，文件大小必须介于64字节和1048576字节（即1MB，这是VeraCrypt处理的密钥文件字节的最大数量）之间。
+</div>
+<h3 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:13px; margin-bottom:4px">
+设置 -> 默认密钥文件
+</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+使用此功能设置默认密钥文件和/或默认密钥文件搜索路径。此功能特别有用，例如，如果您将密钥文件存储在随身携带的USB记忆棒上。您可以将其驱动器号添加到默认密钥文件配置中。为此，请点击<em style="text-align:left">添加路径</em>，浏览到分配给USB记忆棒的驱动器号，然后点击<em style="text-align:left">确定</em>。现在每次您挂载卷时（如果在密码对话框中勾选了<em style="text-align:left">使用密钥文件</em>），VeraCrypt将扫描该路径，并将在那里找到的所有文件用作密钥文件。<br style="text-align:left">
+<br style="text-align:left">
+<strong style="text-align:left"><em style="text-align:left">警告：当您将文件夹（而不是文件）添加到默认密钥文件列表中时，只会记住路径，而不会记住文件名！这意味着，例如，如果您在文件夹中创建了一个新文件或复制了一个额外的文件到该文件夹中，那么所有使用该文件夹中密钥文件的卷将无法挂载（直到您从文件夹中移除新添加的文件）。
+<br style="text-align:left">
+<br style="text-align:left">
+</em></strong><span style="text-align:left; font-style:italic">重要提示：请注意，当您设置默认密钥文件和/或默认密钥文件搜索路径时，文件名和路径将以未加密的方式保存在文件</span>Default Keyfiles.xml<span style="text-align:left; font-style:italic">中。更多信息，请参阅</span><a href="VeraCrypt%20System%20Files.html" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt系统文件和应用程序数据</a><span style="text-align:left; font-style:italic">章节。
+</span></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left"><br style="text-align:left">
+</em></div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 在挂载卷、更改其密码或执行任何涉及重新加密卷头的操作时找到的文件。<br style="text-align:left">
+** 但是，如果您使用MP3文件作为密钥文件，则必须确保没有程序修改MP3文件中的ID3标签（例如歌曲标题、艺术家姓名等）。否则，将无法挂载使用该密钥文件的卷。<br style="text-align:left">
+</span></p>
+</div><div class="ClearBoth"></div></div></body></html>

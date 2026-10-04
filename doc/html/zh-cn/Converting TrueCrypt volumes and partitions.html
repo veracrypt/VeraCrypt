@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title> VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Converting%20TrueCrypt%20volumes%20and%20partitions.html">转换TrueCrypt卷和分区</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>转换TrueCrypt卷和分区</h1>
+<p><strong>⚠️ 警告：</strong> <span style="color: red;">转换后，挂载已转换的卷时，请确保未选中“TrueCrypt模式”复选框。由于它不再是TrueCrypt卷，使用此选项挂载将导致挂载失败。</span></p>
+<p><strong>⚠️ 重要通知：</strong> 从1.26版本开始，VeraCrypt已移除对“TrueCrypt模式”的支持。因此，使用此方法转换TrueCrypt卷和分区不再可行。请参考 <a href="Conversion_Guide_VeraCrypt_1.26_and_Later.html">此文档页面</a> ，以获取在VeraCrypt 1.26及更高版本中处理TrueCrypt卷的指导。</p>
+<p>从1.0f版本到1.25.9版本，使用TrueCrypt 6.x和7.x版本（从2008年7月4日发布的6.0版本开始）创建的TrueCrypt卷和 <strong>非系统</strong> 分区，可以使用以下任何操作转换为VeraCrypt格式：</p>
+<ul>
+<li>更改卷密码</li>
+<li>设置头密钥推导算法</li>
+<li>添加/移除密钥文件</li>
+<li>移除所有密钥文件</li>
+</ul>
+<p>如果TrueCrypt卷包含隐藏卷，则也应使用相同方法进行转换，即指定隐藏卷的密码和/或密钥文件。</p>
+<p>🚨 文件容器转换后，文件扩展名仍将是 .tc。如果您希望VeraCrypt 1.26或更高版本自动识别，请手动将其更改为 .hc。</p>
+<p>必须在对话框中勾选“TrueCrypt模式”，如下所示：</p>
+<p>&nbsp;<img src="Converting TrueCrypt volumes and partitions_truecrypt_convertion.jpg" alt=""></p>
+<p><strong>注意：</strong> 不支持转换使用TrueCrypt加密的系统分区。</p>
+</div><div class="ClearBoth"></div></body></html>

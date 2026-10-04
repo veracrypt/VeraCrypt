@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -48,8 +48,6 @@ typedef struct _DriveFilterExtension
 	BOOL HiddenSystem;
 
 } DriveFilterExtension;
-
-#define TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER 0x5645524142455854
 
 extern BOOL BootArgsValid;
 extern BootArguments BootArgs;

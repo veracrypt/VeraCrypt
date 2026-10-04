@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫你透露密码，VeraCrypt可提供合理的否认性。与文件加密不同，VeraCrypt进行的数据加密是实时（即插即用）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Volume%20Format%20Specification.html">VeraCrypt卷格式规范</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>VeraCrypt卷格式规范</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+文件托管卷的格式与分区/设备托管卷的格式相同（不过，系统分区/驱动器的“卷头”或密钥数据存储在第一个逻辑驱动器磁道的最后512字节中）。VeraCrypt卷没有“签名”或ID字符串。在解密之前，它们看起来完全由随机数据组成。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+每个VeraCrypt卷在创建时，其空闲空间会用随机数据填充。* 随机数据的生成方式如下：在VeraCrypt卷格式化开始之前，随机数生成器会生成一个临时加密密钥和一个临时辅助密钥（XTS模式）（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
+随机数生成器</a> 部分）。使用临时密钥初始化用户选择的加密算法。然后，该加密算法用于加密由随机数生成器生成的随机字节组成的明文块。加密算法以XTS模式运行（请参阅 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷</a> 部分）。生成的密文块用于填充（覆盖）卷上的空闲空间。临时密钥存储在RAM中，并在格式化完成后擦除。</div>
+<p><br style="text-align:left">
+VeraCrypt卷格式规范：</p>
+<table style="border-collapse:separate; border-spacing:0px; width:608px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; border-width:0px 0px 1px 1px; border-style:solid; border-color:#ffffff #ffffff #000000 #000000">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<th style="width:76px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+偏移量（字节）</th>
+<th style="width:50px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+大小（字节）</th>
+<th style="width:98px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+加密<br>
+状态&dagger;</th>
+<th style="width:382px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+描述</th>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">0&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">64&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;未加密&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;盐值</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">64&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;ASCII字符串 &quot;VERA&quot;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">68&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">2&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;卷头格式版本 (2)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">70&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">2&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;打开该卷所需的最低程序版本</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">72&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;字节 256 - 511（解密后）的 CRC - 32 校验和</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">76&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">16&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;保留（必须全为零）</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">92&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;隐藏卷的大小（非隐藏卷中设置为零）</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">100&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;卷大小</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">108&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;主密钥范围起始位置的字节偏移量</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">116&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;主密钥范围内加密区域的大小</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">124&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">72&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;字节 256 - 511（解密后）的 CRC - 32 校验和</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">76&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">16&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;保留（必须全为零）</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">92&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;隐藏卷的大小（非隐藏卷中设置为零）</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<div align="right">252&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;字节 64 - 251（解密后）的 CRC - 32 校验和</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">256&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>可变</em>&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;串联的主密钥和辅助主密钥**</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">512&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65024&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;保留（对于系统加密，此项省略††）</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密 /</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;隐藏卷头区域（如果没有隐藏卷</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;未加密&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;在卷内，此区域包含随机数据&dagger;&dagger;）。对于</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;系统加密，此项省略。&Dagger;&Dagger; 请参阅字节 0&ndash;65535。</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">131072&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>可变</em>&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;数据区域（主密钥范围）。对于系统加密，偏移量</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;可能不同（取决于系统分区的偏移量）。</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>S</em> - 131072&dagger;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;加密 /</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;备份头（使用不同的盐派生的不同头密钥进行加密）。</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;未加密&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;使用不同的盐派生的不同头密钥进行加密）。对于系统加密，此项省略。&Dagger;&Dagger; 请参阅字节 0 - 65535。</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>S</em> - 65536&dagger;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;加密 /</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;隐藏卷的备份头（使用不同的盐派生的不同头密钥进行加密）。</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;未加密&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;使用不同的盐派生的不同头密钥进行加密）。如果没有隐藏卷，</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;如果卷内包含一个隐藏卷，此区域包含随机数据。&dagger;&dagger;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;对于系统加密，此项目省略。&Dagger;&Dagger; 请参阅字节 0 - 65535。</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;0 - 65535。</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+位于字节 #0（盐值）和 #256（主密钥）的字段包含在卷创建过程中由随机数生成器生成的随机值（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">随机数生成器</a> 部分）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果 VeraCrypt 卷包含一个隐藏卷（在其空闲空间内），隐藏卷的头部位于宿主卷的字节 #65536 处（宿主/外部卷的头部位于宿主卷的字节 #0 处 - 请参阅 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏卷</a> 部分）。如果 VeraCrypt 卷内没有隐藏卷，卷的字节 65536 - 131071（即隐藏卷头部可能存在的区域）包含随机数据（有关在卷创建时用随机数据填充空闲卷空间的方法的信息，请参阅上文）。隐藏卷头部的布局与标准卷的布局相同（字节 0 - 65535）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt 卷的最大可能大小为 2<sup style="text-align:left; font-size:85%">63</sup> 字节（8,589,934,592 GB）。然而，出于安全原因（考虑到 <a href="Encryption%20Algorithms.html" style="text-align:left; color:#0080c0; text-decoration:none">加密算法</a> 使用的 128 位块大小），允许的最大卷大小为 1 PB（1,048,576 GB）。
+</div>
+<h4 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:12px; margin-bottom:1px">
+嵌入式备份头部
+</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+每个 VeraCrypt 卷都包含一个嵌入式备份头部，位于卷的末尾（请参阅上文）。头部备份 <em style="text-align:left">不是</em> 卷头部的副本，因为它使用不同的盐值派生的不同头部密钥进行加密（请参阅 <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">头部密钥派生、盐值和迭代次数</a> 部分）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+当卷密码和/或 PIM 和/或密钥文件发生更改时，或者当从嵌入式（或外部）头部备份中恢复头部时，卷头部和备份头部（嵌入在卷中）都会使用不同的头部密钥重新加密（使用新生成的盐值派生 - 卷头部的盐值与备份头部的盐值不同）。每个盐值都由 VeraCrypt 随机数生成器生成（请参阅 <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">随机数生成器</a> 部分）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+有关卷头备份的更多信息，请参阅章节 <a href="Main%20Program%20Window.html" style="text-align:left; color:#0080c0; text-decoration:none">
+主程序窗口</a> 中的小节 <a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none">
+工具 > 恢复卷头</a>。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Standard%20Compliance.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 前提是禁用 <em style="text-align:left">快速格式化</em> 和 <em style="text-align:left">动态</em> 选项，并且该卷不包含已在原地加密的文件系统（请注意，VeraCrypt 不允许用户在此类卷中创建隐藏卷）。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&dagger; 卷头的加密区域使用主头密钥和次头密钥以 XTS 模式进行加密。有关更多信息，请参阅章节 
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+加密方案</a> 以及章节 <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+头密钥推导、盐值和迭代次数</a>。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&Dagger; <em style="text-align:left">
+S</em> 表示卷主机的大小（以字节为单位）。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&sect; 请注意，盐值不需要加密，因为它不需要保密 [7]（盐值是一串随机值）。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">** 当使用密码级联对卷进行加密时，这里会存储多个串联的主密钥（次主密钥用于 XTS 模式）。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&dagger;&dagger; 有关在创建卷时用随机数据填充卷空闲空间的方法的信息，请参阅本节前面的内容。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&Dagger;&Dagger; 这里，“系统加密”的含义不包括包含隐藏操作系统的隐藏卷。</span></p>
+</div><div class="ClearBoth"></div></body></html>

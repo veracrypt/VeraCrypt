@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013-2024 IDRIX
+# Copyright (c) 2013-2026 AM Crypto
 # Governed by the Apache License 2.0 the full text of which is contained
 # in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -58,6 +58,7 @@ fi
 make WXSTATIC=1 clean || exit 1
 make WXSTATIC=1 || exit 1
 make WXSTATIC=1 package || exit 1
+make WXSTATIC=1 appimage || exit 1
 
 echo "Building console version of VeraCrypt"
 

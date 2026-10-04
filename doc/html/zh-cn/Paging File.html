@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title> VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件 </title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认证据。与文件加密不同，VeraCrypt执行的数据加密是实时（即插即用）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">数据泄露</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Paging%20File.html">分页文件</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>分页文件</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">注意：如果系统分区或系统驱动器已加密（有关详细信息，请参阅 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">系统加密</a> 章节），并且所有分页文件都位于 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">系统加密</a> 密钥范围内的一个或多个分区上（例如，Windows 安装所在的分区，有关详细信息，请参阅本小节的第四段），则以下描述的问题不会影响您。</em>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+分页文件（也称为交换文件）由 Windows 用于存储无法放入内存的程序和数据文件部分。这意味着您认为仅存储在 RAM 中的敏感数据实际上可能会在您不知情的情况下由 Windows 以 <em style="text-align:left">未加密</em> 的形式写入硬盘。
+<br style="text-align:left">
+<br style="text-align:left">
+请注意，VeraCrypt <em style="text-align:left">无法</em> 阻止在 RAM 中打开的敏感文件内容以 <em style="text-align:left">未加密</em> 的形式保存到分页文件中（请注意，当您在文本编辑器等软件中打开存储在 VeraCrypt 卷上的文件时，文件内容会以 <em style="text-align:left">未加密</em> 的形式存储在 RAM 中）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">为防止上述问题</strong>，请对系统分区/驱动器进行加密（有关如何操作的信息，请参阅 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">系统加密</a> 章节），并确保所有分页文件都位于系统加密密钥范围内的一个或多个分区上（例如，Windows 安装所在的分区）。请注意，在 Windows XP 中，默认情况下通常会满足最后一个条件。但是，Windows Vista 及更高版本的 Windows 默认配置为在任何合适的卷上创建分页文件。因此，在开始使用 VeraCrypt 之前，您必须执行以下步骤：右键单击桌面上或 <em style="text-align:left">开始菜单</em> 中的“<em style="text-align:left">计算机</em>”（或“<em style="text-align:left">我的电脑</em>”）图标，然后选择 <em style="text-align:left">属性</em> &gt;（<span style="text-align:left">在 Windows Vista 或更高版本上</span>：&gt; <em style="text-align:left">高级系统设置</em> &gt;）<em style="text-align:left">高级</em> 选项卡 &gt; <em style="text-align:left">性能</em> 部分 &gt; <em style="text-align:left">设置</em> &gt; <em style="text-align:left">高级</em> 选项卡 &gt; <em style="text-align:left">虚拟内存</em> 部分 &gt; <em style="text-align:left">更改</em>。在 Windows Vista 或更高版本上，禁用“<em style="text-align:left">自动管理所有驱动器的分页文件大小</em>”。然后确保可用于创建分页文件的卷列表中仅包含系统加密预期密钥范围内的卷（例如，Windows 安装所在的卷）。要禁用在特定卷上创建分页文件，请选择该卷，然后选择“<em style="text-align:left">无分页文件</em>”并点击 <em style="text-align:left">设置</em>。完成后，点击 <em style="text-align:left">确定</em> 并重启计算机。
+<br style="text-align:left">
+<br style="text-align:left">
+<em style="text-align:left">注意：您可能还需要考虑创建一个隐藏操作系统（有关详细信息，请参阅 <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏操作系统</a> 部分）。</em>
+</div>
+</div><div class="ClearBoth"></div></body></html>

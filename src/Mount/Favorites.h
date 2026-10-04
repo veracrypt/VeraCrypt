@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -78,7 +78,7 @@ namespace VeraCrypt
 	wstring GetFavoriteVolumeLabel (const wstring &volumePath, bool& useInExplorer);
 	void LoadFavoriteVolumes ();
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation = false);
-	static void OnFavoriteVolumesUpdated ();
+	static void OnFavoriteVolumesUpdated (bool clearLetterConflicts = true);
 	BOOL OrganizeFavoriteVolumes (HWND hwndDlg, bool systemFavorites, const FavoriteVolume &newFavorite = FavoriteVolume());
 	bool SaveFavoriteVolumes (HWND hwndDlg, const vector <FavoriteVolume> &favorites, bool systemFavorites);
 	static void SetControls (HWND hwndDlg, const FavoriteVolume &favorite, bool systemFavoritesMode, bool enable = true);

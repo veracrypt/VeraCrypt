@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
+    <Filter Include="Source Files\Argon2">
+      <UniqueIdentifier>{c436eacb-1512-4925-8060-274b3cc4149d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Argon2\blake2">
+      <UniqueIdentifier>{8d89b4d3-54fe-42f8-9abd-92ec0b4a914c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Argon2">
+      <UniqueIdentifier>{a64d03f7-3bd3-4dd3-98ca-6a851b689d09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aeskey.c">
@@ -99,6 +108,27 @@
     <ClCompile Include="sha256_armv8.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Argon2\src\argon2.c">
+      <Filter>Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="Argon2\src\core.c">
+      <Filter>Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="Argon2\src\ref.c">
+      <Filter>Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="Argon2\src\blake2\blake2b.c">
+      <Filter>Source Files\Argon2\blake2</Filter>
+    </ClCompile>
+    <ClCompile Include="Argon2\src\opt_avx2.c">
+      <Filter>Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="Argon2\src\opt_sse2.c">
+      <Filter>Source Files\Argon2</Filter>
+    </ClCompile>
+    <ClCompile Include="Argon2\src\selftest.c">
+      <Filter>Source Files\Argon2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -176,6 +206,24 @@
     <ClInclude Include="t1ha_selfcheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Argon2\src\core.h">
+      <Filter>Source Files\Argon2</Filter>
+    </ClInclude>
+    <ClInclude Include="Argon2\src\blake2\blake2.h">
+      <Filter>Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="Argon2\src\blake2\blake2-impl.h">
+      <Filter>Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="Argon2\src\blake2\blamka-round-opt.h">
+      <Filter>Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="Argon2\src\blake2\blamka-round-ref.h">
+      <Filter>Source Files\Argon2\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="Argon2\include\argon2.h">
+      <Filter>Header Files\Argon2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Aes_hw_cpu.asm">
@@ -228,6 +276,9 @@
     </CustomBuild>
     <CustomBuild Include="rdseed_ml.asm">
       <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Argon2\src\opt_avx2.asm">
+      <Filter>Source Files\Argon2</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

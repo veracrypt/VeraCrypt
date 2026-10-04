@@ -290,7 +290,10 @@ static int Detect_MS_HyperV_AES ()
 
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+/* TrySHA256 lives in Sha2Intel.c, which omits it for _UEFI and CRYPTOPP_DISABLE_ASM */
+#if !defined(_UEFI) && !defined(CRYPTOPP_DISABLE_ASM) && \
+	(defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE)
+#define TC_SHA256_PROBE_AVAILABLE
 extern int TrySHA256();
 #endif
 
@@ -326,8 +329,12 @@ static BOOL CheckSHA256Support() {
 void DetectX86Features()
 {
 	uint32 cpuid[4] = {0}, cpuid1[4] = {0}, cpuid2[4] = {0};
+	uint32 max_basic_leaf;
+	int leaf7_avx2 = 0;
+	int leaf7_bmi2 = 0;
 	if (!CpuId(0, cpuid))
 		return;
+	max_basic_leaf = cpuid[0];
 	if (!CpuId(1, cpuid1))
 		return;
 
@@ -342,8 +349,8 @@ void DetectX86Features()
       uint64 xcrFeatureMask = xgetbv();
       g_hasAVX = (xcrFeatureMask & 0x6) == 0x6;
 	}
-	g_hasAVX2 = g_hasAVX && (cpuid1[1] & (1 << 5));
-	g_hasBMI2 = g_hasSSE2 && (cpuid1[1] & (1 << 8));
+	g_hasAVX2 = 0;
+	g_hasBMI2 = 0;
 	g_hasSSE42 = g_hasSSE2 && (cpuid1[2] & (1 << 20));
 	g_hasSSE41 = g_hasSSE2 && (cpuid1[2] & (1 << 19));
 	g_hasSSSE3 = g_hasSSE2 && (cpuid1[2] & (1<<9));
@@ -362,7 +369,7 @@ void DetectX86Features()
 	}
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+#ifdef TC_SHA256_PROBE_AVAILABLE
 	if (!g_hasSHA256)
 	{
 		g_hasSHA256 = TrySHA256();
@@ -388,13 +395,13 @@ void DetectX86Features()
 		g_cacheLineSize = 8 * GETBYTE(cpuid1[1], 1);
 		g_hasRDRAND = (cpuid1[2] & (1 << 30)) != 0;
 
-		if (cpuid[0] >= 7)
+		if (max_basic_leaf >= 7)
 		{
 			if (CpuId(7, cpuid2))
 			{
 				g_hasRDSEED = (cpuid2[1] & (1 << 18)) != 0;
-				g_hasAVX2 = (cpuid2[1] & (1 <<  5)) != 0;
-				g_hasBMI2 = (cpuid2[1] & (1 <<  8)) != 0;
+				leaf7_avx2 = (cpuid2[1] & (1 <<  5)) != 0;
+				leaf7_bmi2 = (cpuid2[1] & (1 <<  8)) != 0;
 			}
 		}
 	}
@@ -405,16 +412,18 @@ void DetectX86Features()
 		g_cacheLineSize = GETBYTE(cpuid[2], 0);
 		g_hasRDRAND = (cpuid1[2] & (1 << 30)) != 0;
 
-		if (cpuid[0]  >= 7)
+		if (max_basic_leaf >= 7)
 		{
 			if (CpuId(7, cpuid2))
 			{
 				g_hasRDSEED = (cpuid2[1] & (1 << 18)) != 0;
-				g_hasAVX2 = (cpuid2[1] & (1 <<  5)) != 0;
-				g_hasBMI2 = (cpuid2[1] & (1 <<  8)) != 0;
+				leaf7_avx2 = (cpuid2[1] & (1 <<  5)) != 0;
+				leaf7_bmi2 = (cpuid2[1] & (1 <<  8)) != 0;
 			}
 		}
 	}
+	g_hasAVX2 = g_hasAVX && leaf7_avx2;
+	g_hasBMI2 = leaf7_bmi2;
 #if defined(_MSC_VER) && !defined(_UEFI)
 	/* Add check fur buggy RDRAND (AMD Ryzen case) even if we always use RDSEED instead of RDRAND when RDSEED available */
 	if (g_hasRDRAND)
@@ -483,7 +492,7 @@ void DisableCPUExtendedFeatures ()
 volatile int g_hasAESARM = 0;
 volatile int g_hasSHA256ARM = 0;
 
-inline int CPU_QueryAES()
+VC_INLINE int CPU_QueryAES()
 {
 #if defined(CRYPTOPP_ARM_AES_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)
@@ -507,7 +516,7 @@ inline int CPU_QueryAES()
 #endif
 }
 
-inline int CPU_QuerySHA2()
+VC_INLINE int CPU_QuerySHA2()
 {
 #if defined(CRYPTOPP_ARM_SHA2_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)

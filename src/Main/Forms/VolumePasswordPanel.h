@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -33,12 +33,16 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
 		int GetVolumePim () const;
 		int GetHeaderWipeCount () const;
+		bool IsVolumePimSpecified () const { return VolumePimTextCtrl->IsEnabled () && VolumePimTextCtrl->IsShown (); }
 		void SetCacheCheckBoxValidator (const wxGenericValidator &validator) { CacheCheckBox->SetValidator (validator); }
 		void SetFocusToPasswordTextCtrl () { PasswordTextCtrl->SetSelection (-1, -1); PasswordTextCtrl->SetFocus(); }
+		void SetFocusToPimCheckBox () { PimCheckBox->SetFocus(); }
 		void SetFocusToPimTextCtrl () { VolumePimTextCtrl->SetSelection (-1, -1); VolumePimTextCtrl->SetFocus(); }
+		void ResetVolumePimToDefault ();
+		void SetPasswordVisible (bool visible);
 		void SetVolumePim (int pim);
 		bool PasswordsMatch () const;
-		void EnableUsePim () { PimCheckBox->Enable (true); PimCheckBox->Show (true); }
+		void EnableUsePim (bool pimOnlyDisplay = false);
 		bool IsUsePimChecked () const { return PimCheckBox->GetValue (); }
 		void SetUsePimChecked (bool checked) const { PimCheckBox->SetValue (checked); }
 		bool UpdatePimHelpText (bool pimChanged);
@@ -53,10 +57,11 @@ namespace VeraCrypt
 		void OnAddKeyfileDirMenuItemSelected (wxCommandEvent& event);
 		void OnAddKeyfilesMenuItemSelected (wxCommandEvent& event);
 		void OnAddSecurityTokenSignatureMenuItemSelected (wxCommandEvent& event);
-		void OnDisplayPasswordCheckBoxClick (wxCommandEvent& event);
+		void OnDisplayPasswordCheckBoxClick (wxCommandEvent& event) { SetPasswordVisible (event.IsChecked()); }
 		void OnKeyfilesButtonClick (wxCommandEvent& event);
 		void OnKeyfilesButtonRightClick (wxMouseEvent& event);
 		void OnKeyfilesButtonRightDown (wxMouseEvent& event);
+		void OnPkcs5PrfChoiceSelected (wxCommandEvent& event) { OnUpdate(); }
 		void OnTextChanged (wxCommandEvent& event) { OnUpdate(); }
 		void OnPimChanged  (wxCommandEvent& event) { OnUpdate(); }
 		void OnUsePimCheckBoxClick( wxCommandEvent& event );

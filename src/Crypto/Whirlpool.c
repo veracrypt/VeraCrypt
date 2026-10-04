@@ -101,11 +101,7 @@
  * employed).
  */
 
-#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
 CRYPTOPP_ALIGN_DATA(16) static const uint64 Whirlpool_C[8*256+R] CRYPTOPP_SECTION_ALIGN16 = {
-#else
-static const uint64 Whirlpool_C[8*256+R] = {
-#endif
     LL(0x18186018c07830d8), LL(0x23238c2305af4626), LL(0xc6c63fc67ef991b8), LL(0xe8e887e8136fcdfb),
     LL(0x878726874ca113cb), LL(0xb8b8dab8a9626d11), LL(0x0101040108050209), LL(0x4f4f214f426e9e0d),
     LL(0x3636d836adee6c9b), LL(0xa6a6a2a6590451ff), LL(0xd2d26fd2debdb90c), LL(0xf5f5f3f5fb06f70e),
@@ -640,6 +636,7 @@ static const uint64 Whirlpool_C[8*256+R] = {
 
 
 // Whirlpool basic transformation. Transforms state based on block.
+#if BYTE_ORDER == LITTLE_ENDIAN
 void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 {
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
@@ -855,7 +852,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 #endif		// #ifdef CRYPTOPP_X86_ASM_AVAILABLE
 	{
 		union { unsigned char ch[64]; unsigned long long ll[8]; } K, state;
-		unsigned long long L[8];
+		CRYPTOPP_ALIGN_DATA(16) unsigned long long L[8];
 		int r, i;
 
 		i = 0; do state.ll[i] = (K.ll[i] = digest[i]) ^ (block)[i]; while (++i < 8);
@@ -885,6 +882,79 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 		i = 0; do digest[i] ^= L[i] ^ (block)[i]; while (++i < 8);
 	}
 }
+#else
+void WhirlpoolTransform(uint64 *digest, const uint64 *block)
+{
+	union { unsigned char ch[64]; unsigned long long ll[8]; } K, state;
+	unsigned long long L[8];
+	int r, i;
+
+	i = 0;
+	do {
+		state.ll[i] = (K.ll[i] = digest[i]) ^ block[i];
+	} while (++i < 8);
+
+	r = 0;
+	do {
+		L[0] = Whirlpool_C[0*256 + K.ch[0 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[7 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[6 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[5 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[4 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[3 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[2 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[1 * 8 + 7]] ^
+		       Whirlpool_C[2048 + r];
+
+		L[1] = Whirlpool_C[0*256 + K.ch[1 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[0 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[7 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[6 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[5 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[4 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[3 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[2 * 8 + 7]];
+
+		L[2] = Whirlpool_C[0*256 + K.ch[2 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[1 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[0 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[7 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[6 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[5 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[4 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[3 * 8 + 7]];
+
+		L[3] = Whirlpool_C[0*256 + K.ch[3 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[2 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[1 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[0 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[7 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[6 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[5 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[4 * 8 + 7]];
+
+		L[4] = Whirlpool_C[0*256 + K.ch[4 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[3 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[2 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[1 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[0 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[7 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[6 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[5 * 8 + 7]];
+
+		L[5] = Whirlpool_C[0*256 + K.ch[5 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[4 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[3 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[2 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[1 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[0 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[7 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[6 * 8 + 7]];
+
+		L[6] = Whirlpool_C[0*256 + K.ch[6 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[5 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[4 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[3 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[2 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[1 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[0 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[7 * 8 + 7]];
+
+		L[7] = Whirlpool_C[0*256 + K.ch[7 * 8 + 0]] ^ Whirlpool_C[1*256 + K.ch[6 * 8 + 1]] ^
+		       Whirlpool_C[2*256 + K.ch[5 * 8 + 2]] ^ Whirlpool_C[3*256 + K.ch[4 * 8 + 3]] ^
+		       Whirlpool_C[4*256 + K.ch[3 * 8 + 4]] ^ Whirlpool_C[5*256 + K.ch[2 * 8 + 5]] ^
+		       Whirlpool_C[6*256 + K.ch[1 * 8 + 6]] ^ Whirlpool_C[7*256 + K.ch[0 * 8 + 7]];
+
+		// Round key mixing and substitution (with big-endian adjustment)
+		for (i = 0; i < 8; ++i) {
+			K.ll[i] = L[i];
+			L[i] ^= Whirlpool_C[0*256 + state.ch[i * 8 + 0]] ^ Whirlpool_C[1*256 + state.ch[((i - 1 + 8) % 8) * 8 + 1]] ^
+			         Whirlpool_C[2*256 + state.ch[((i - 2 + 8) % 8) * 8 + 2]] ^ Whirlpool_C[3*256 + state.ch[((i - 3 + 8) % 8) * 8 + 3]] ^
+			         Whirlpool_C[4*256 + state.ch[((i - 4 + 8) % 8) * 8 + 4]] ^ Whirlpool_C[5*256 + state.ch[((i - 5 + 8) % 8) * 8 + 5]] ^
+			         Whirlpool_C[6*256 + state.ch[((i - 6 + 8) % 8) * 8 + 6]] ^ Whirlpool_C[7*256 + state.ch[((i - 7 + 8) % 8) * 8 + 7]];
+		}
+
+		memcpy(state.ll, L, sizeof(L));
+	} while (++r < 10);
+
+	i = 0;
+	do {
+		digest[i] ^= L[i] ^ block[i];
+	} while (++i < 8);
+}
+#endif
 
 static uint64 HashMultipleBlocks(WHIRLPOOL_CTX * const ctx, const uint64 *input, uint64 length)
 {

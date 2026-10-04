@@ -9,7 +9,7 @@
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -208,6 +208,9 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 		return 0;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 		if (lw == IDCANCEL)
@@ -477,6 +480,10 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 		burn (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
 		burn (maskRandPool, sizeof(maskRandPool));
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;

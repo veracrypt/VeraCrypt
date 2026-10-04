@@ -2,17 +2,19 @@ name: Validate XML
 
 on:
   push:
-    branches: [ "ci" ]
+    branches: [ "master" ]
     paths:
       - 'Translations/*'
       - 'src/Common/Language.xml'
       - '.github/workflows/xmlvalidate.*'
+      - 'Tests/test_xmlvalidate.py'
   pull_request:
-    branches: [ "ci" ]
+    branches: [ "master" ]
     paths:
       - 'Translations/*'
       - 'src/Common/Language.xml'
       - '.github/workflows/xmlvalidate.*'
+      - 'Tests/test_xmlvalidate.py'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -31,6 +33,8 @@ jobs:
       with:
         node-version: 'latest'
     - name: Install fast-xml-parser
-      run: npm install fast-xml-parser -g
+      run: npm install fast-xml-parser@4.5.2 -g
+    - name: Test XML validator
+      run: python3 Tests/test_xmlvalidate.py
     - name: Run XML validator script
       run: ${{ github.workspace }}/.github/workflows/xmlvalidate.sh "${{ github.workspace }}"

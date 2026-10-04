@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -237,6 +237,10 @@ namespace VeraCrypt
 			}
 			return 1;
 
+		case WM_DESTROY:
+			DetachProtectionFromCurrentThread();
+			break;
+
 		case WM_COMMAND:
 
 			switch (lw)
@@ -286,7 +290,7 @@ namespace VeraCrypt
 						{
 							bMountFavoritesOnLogon = FALSE;
 
-							foreach (const FavoriteVolume &favorite, Favorites)
+							for (const FavoriteVolume& favorite: Favorites)
 							{
 								if (favorite.MountOnLogOn)
 								{
@@ -297,7 +301,7 @@ namespace VeraCrypt
 
 							if (!bEnableBkgTask || bCloseBkgTaskWhenNoVolumes || IsNonInstallMode())
 							{
-								foreach (const FavoriteVolume favorite, Favorites)
+								for (const FavoriteVolume& favorite: Favorites)
 								{
 									if (favorite.MountOnArrival)
 									{
@@ -478,7 +482,7 @@ namespace VeraCrypt
 		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, L"");
 
 		int i = 0;
-		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
+		for (const FavoriteVolume& favorite: FavoriteVolumes)
 		{
 			UINT flags = MF_STRING;
 
@@ -508,7 +512,7 @@ namespace VeraCrypt
 		SendMessage (favoriteListControl, LVM_DELETEALLITEMS, 0, 0);
 
 		int line = 0;
-		foreach (const FavoriteVolume favorite, favorites)
+		for (const FavoriteVolume& favorite: favorites)
 		{
 			ListItemAdd (favoriteListControl, line, (wchar_t *) favorite.MountPoint.substr (0, 2).c_str());
 			FillListControlSubItems (favoriteListControl, line++, favorite);
@@ -529,7 +533,7 @@ namespace VeraCrypt
 
 	wstring GetFavoriteVolumeLabel (const wstring &volumePath, bool& useInExplorer)
 	{
-		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
+		for (const FavoriteVolume& favorite: FavoriteVolumes)
 		{
 			if (favorite.Path == volumePath)
 			{
@@ -538,7 +542,7 @@ namespace VeraCrypt
 			}
 		}
 
-		foreach (const FavoriteVolume &favorite, SystemFavoriteVolumes)
+		for (const FavoriteVolume& favorite: SystemFavoriteVolumes)
 		{
 			if (favorite.Path == volumePath)
 			{
@@ -552,7 +556,7 @@ namespace VeraCrypt
 	}
 
 
-	void LoadFavoriteVolumes ()
+	static void LoadFavoriteVolumes (bool clearLetterConflicts)
 	{
 		LoadFavoriteVolumes (FavoriteVolumes, false);
 
@@ -562,7 +566,13 @@ namespace VeraCrypt
 		}
 		catch (...) { }	// Ignore errors as SystemFavoriteVolumes list is used only for resolving volume paths to labels
 
-		OnFavoriteVolumesUpdated();
+		OnFavoriteVolumesUpdated (clearLetterConflicts);
+	}
+
+
+	void LoadFavoriteVolumes ()
+	{
+		LoadFavoriteVolumes (true);
 	}
 
 
@@ -725,13 +735,14 @@ namespace VeraCrypt
 	}
 
 
-	static void OnFavoriteVolumesUpdated ()
+	static void OnFavoriteVolumesUpdated (bool clearLetterConflicts)
 	{
 		FillFavoriteVolumesMenu();
 
+		::ClearFavoriteVolumeArrivalMountSuppressions (clearLetterConflicts ? TRUE : FALSE);
 		FavoritesOnArrivalMountRequired.clear();
 
-		for (const FavoriteVolume favorite: FavoriteVolumes)
+		for (const FavoriteVolume& favorite: FavoriteVolumes)
 		{
 			if (favorite.MountOnArrival)
 			{
@@ -741,7 +752,7 @@ namespace VeraCrypt
 				{
 					bool present = false;
 
-					for (const FavoriteVolume favoriteConnected: FavoritesMountedOnArrivalStillConnected)
+					for (const FavoriteVolume& favoriteConnected: FavoritesMountedOnArrivalStillConnected)
 					{
 						if (favorite.Path == favoriteConnected.Path)
 						{
@@ -791,7 +802,7 @@ namespace VeraCrypt
 		XmlWriteHeader (f);
 		fputws (L"\n\t<favorites>", f);
 
-		foreach (const FavoriteVolume &favorite, favorites)
+		for (const FavoriteVolume& favorite: favorites)
 		{
 			wchar_t tq[2048];
 
@@ -946,7 +957,7 @@ namespace VeraCrypt
 
 		for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 		{
-			nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+			nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 			if (favorite.Pkcs5 == i)
 				nSelected = nIndex;
@@ -981,7 +992,7 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_UP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_DOWN), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_REMOVE), enable);
-		EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), enable && !favorite.SystemEncryption);
+		EnableWindow (GetDlgItem (hwndDlg, IDT_KDF), enable && !favorite.SystemEncryption);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), enable && !favorite.SystemEncryption);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), enable);
@@ -1104,7 +1115,7 @@ namespace VeraCrypt
 	{
 		try
 		{
-			LoadFavoriteVolumes();
+			LoadFavoriteVolumes (false);
 		}
 		catch (Exception &e)
 		{

@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -161,28 +161,52 @@ UINT64_STRUCT GetHeaderField64 (uint8 *header, int offset)
 typedef struct
 {
 	unsigned char DerivedKey[MASTER_KEYDATA_SIZE];
+	LONG DerivationResult;
 	BOOL Free;
 	LONG KeyReady;
 	int Pkcs5Prf;
 } KeyDerivationWorkItem;
 
+#ifndef VC_DCS_DISABLE_ARGON2
+static int MapArgon2ResultToVcError (int result)
+{
+	if (result == 0)
+		return ERR_SUCCESS;
+
+	if (result == ARGON2_MEMORY_ALLOCATION_ERROR)
+		return ERR_OUTOFMEMORY;
+
+	if (result == ARGON2_OPERATION_CANCELLED)
+		return ERR_USER_ABORT;
+
+	return ERR_KEY_DERIVATION_FAILED;
+}
+#endif
+
 
 BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 
-int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
 {
 	unsigned char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	unsigned char* keyInfoBuffer = NULL;
-	int keyInfoBufferSize = sizeof (KEY_INFO) + 16;
+	int keyInfoBufferSize = sizeof (KEY_INFO) + TC_KEY_INFO_BUFFER_ALIGNMENT;
 	size_t keyInfoBufferOffset;
 	PKEY_INFO keyInfo;
 	PCRYPTO_INFO cryptoInfo;
-	CRYPTOPP_ALIGN_DATA(16) unsigned char dk[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char dk[MASTER_KEYDATA_SIZE];
 	int enqPkcs5Prf, pkcs5_prf;
 	uint16 headerVersion;
 	int status = ERR_PARAMETER_INCORRECT;
 	int primaryKeyOffset;
 	int pkcs5PrfCount = LAST_PRF_ID - FIRST_PRF_ID + 1;
+	int iterationsCount = 0;
+	int memoryCost = 0;
+	LONG volatile abortKeyDerivation = 0;
+	LONG volatile *effectiveAbortKeyDerivation = pAbortKeyDerivation ? (LONG volatile *) pAbortKeyDerivation : &abortKeyDerivation;
+#ifndef VC_DCS_DISABLE_ARGON2
+	int lastArgon2DerivationResult = 0;
+#endif
 #if !defined(_UEFI)
 	TC_EVENT *keyDerivationCompletedEvent = NULL;
 	TC_EVENT *noOutstandingWorkItemEvent = NULL;
@@ -199,7 +223,7 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 	keyInfoBuffer = TCalloc(keyInfoBufferSize);
 	if (!keyInfoBuffer)
 		return ERR_OUTOFMEMORY;
-	keyInfoBufferOffset = 16 - (((uint64) keyInfoBuffer) % 16);
+	keyInfoBufferOffset = TC_KEY_INFO_BUFFER_ALIGNMENT - (((uint64) keyInfoBuffer) % TC_KEY_INFO_BUFFER_ALIGNMENT);
 	keyInfo = (PKEY_INFO) (keyInfoBuffer + keyInfoBufferOffset);
 
 #if !defined(DEVICE_DRIVER) && !defined(_UEFI)
@@ -303,9 +327,21 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 	// Test all available PKCS5 PRFs
 	for (enqPkcs5Prf = FIRST_PRF_ID; enqPkcs5Prf <= LAST_PRF_ID || queuedWorkItems > 0; ++enqPkcs5Prf)
 	{
+		if (pUserAbort && *pUserAbort)
+		{
+			status = ERR_USER_ABORT;
+			goto err;
+		}
+
 		// if a PRF is specified, we skip all other PRFs
 		if (selected_pkcs5_prf != 0 && enqPkcs5Prf != selected_pkcs5_prf)
 			continue;
+
+#ifndef VC_DCS_DISABLE_ARGON2
+		// we don't support Argon2 in pre-boot authentication
+		if (bBoot && (enqPkcs5Prf == ARGON2))
+			continue;
+#endif
 
 #if !defined(_UEFI)
 		if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
@@ -320,11 +356,13 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 					{
 						item->Free = FALSE;
 						item->KeyReady = FALSE;
+						item->DerivationResult = 0;
 						item->Pkcs5Prf = enqPkcs5Prf;
 
+						iterationsCount = get_pkcs5_iteration_count (enqPkcs5Prf, pim, bBoot, &memoryCost);
 						EncryptionThreadPoolBeginKeyDerivation (keyDerivationCompletedEvent, noOutstandingWorkItemEvent,
 							&item->KeyReady, outstandingWorkItemCount, enqPkcs5Prf, keyInfo->userKey,
-							keyInfo->keyLength, keyInfo->salt, get_pkcs5_iteration_count (enqPkcs5Prf, pim, bBoot), item->DerivedKey);
+							keyInfo->keyLength, keyInfo->salt, iterationsCount, memoryCost, item->DerivedKey, &item->DerivationResult, effectiveAbortKeyDerivation);
 
 						++queuedWorkItems;
 						break;
@@ -345,8 +383,28 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *pass
 					item = &keyDerivationWorkItems[i];
 					if (!item->Free && InterlockedExchangeAdd (&item->KeyReady, 0) == TRUE)
 					{
+						if (pUserAbort && *pUserAbort)
+						{
+							status = ERR_USER_ABORT;
+							goto err;
+						}
+
+						LONG derivationResult = InterlockedExchangeAdd (&item->DerivationResult, 0);
+						if (derivationResult != 0)
+						{
+#ifndef VC_DCS_DISABLE_ARGON2
+							if (item->Pkcs5Prf == ARGON2)
+								lastArgon2DerivationResult = (int) derivationResult;
+#endif
+							item->Free = TRUE;
+							--queuedWorkItems;
+							continue;
+						}
+
 						pkcs5_prf = item->Pkcs5Prf;
-						keyInfo->noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, bBoot);
+						iterationsCount = get_pkcs5_iteration_count (pkcs5_prf, pim, bBoot, &memoryCost);
+						keyInfo->noIterations = iterationsCount;
+						keyInfo->memoryCost = memoryCost;
 						memcpy (dk, item->DerivedKey, sizeof (dk));
 
 						item->Free = TRUE;
@@ -365,41 +423,70 @@ KeyReady:	;
 #endif // !defined(_UEFI)
 		{
 			pkcs5_prf = enqPkcs5Prf;
-			keyInfo->noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, pim, bBoot);
+			iterationsCount = get_pkcs5_iteration_count (enqPkcs5Prf, pim, bBoot, &memoryCost);
+			keyInfo->noIterations = iterationsCount;
+			keyInfo->memoryCost = memoryCost;
 
 			switch (pkcs5_prf)
 			{
 			case SHA512:
 				derive_key_sha512 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
 			case SHA256:
 				derive_key_sha256 (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
-                #ifndef WOLFCRYPT_BACKEND
-                        case BLAKE2S:
+#ifndef WOLFCRYPT_BACKEND
+			case BLAKE2S:
 				derive_key_blake2s (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
-	                case WHIRLPOOL:
+			case WHIRLPOOL:
 				derive_key_whirlpool (keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
 
 
-                        case STREEBOG:
+			case STREEBOG:
 				derive_key_streebog(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
-					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize());
+					PKCS5_SALT_SIZE, keyInfo->noIterations, dk, GetMaxPkcs5OutSize(), effectiveAbortKeyDerivation);
 				break;
-                #endif	
+
+
+#ifndef VC_DCS_DISABLE_ARGON2
+			case ARGON2:
+				{
+					int derivationResult = derive_key_argon2(keyInfo->userKey, keyInfo->keyLength, keyInfo->salt,
+						PKCS5_SALT_SIZE, keyInfo->noIterations, keyInfo->memoryCost, dk, ARGON2_HEADER_KEYDATA_SIZE, effectiveAbortKeyDerivation);
+					if (derivationResult != 0)
+					{
+						if (selected_pkcs5_prf == 0)
+						{
+							lastArgon2DerivationResult = derivationResult;
+							continue;
+						}
+
+						status = MapArgon2ResultToVcError (derivationResult);
+						goto err;
+					}
+				}
+				break;
+#endif
+#endif	
                         default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
 			}
+		}
+
+		if (pUserAbort && *pUserAbort)
+		{
+			status = ERR_USER_ABORT;
+			goto err;
 		}
 
 		// Test all available modes of operation
@@ -423,6 +510,12 @@ KeyReady:	;
 
 				if (!EAIsModeSupported (cryptoInfo->ea, cryptoInfo->mode))
 					continue;	// This encryption algorithm has never been available with this mode of operation
+
+#ifndef VC_DCS_DISABLE_ARGON2
+				/* Only XTS mode reaches this point; both XTS keys must fit in the fixed Argon2id output. */
+				if (pkcs5_prf == ARGON2 && EAGetKeySize (cryptoInfo->ea) * 2 > ARGON2_HEADER_KEYDATA_SIZE)
+					continue;
+#endif
 
 				blockSize = CipherGetBlockSize (EAGetFirstCipher (cryptoInfo->ea));
 
@@ -457,8 +550,8 @@ KeyReady:	;
 
 				DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
-				// Magic 'VERA'
-				if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
+				// Magic number
+				if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != TC_HEADER_MAGIC_NUMBER)
 					continue;
 
 				// Header version
@@ -540,6 +633,7 @@ KeyReady:	;
 					{
 						cryptoInfo->pkcs5 = pkcs5_prf;
 						cryptoInfo->noIterations = keyInfo->noIterations;
+						cryptoInfo->memoryCost = keyInfo->memoryCost;
 						cryptoInfo->volumePim = pim;
 						goto ret;
 					}
@@ -571,6 +665,7 @@ KeyReady:	;
 				// PKCS #5
 				cryptoInfo->pkcs5 = pkcs5_prf;
 				cryptoInfo->noIterations = keyInfo->noIterations;
+				cryptoInfo->memoryCost = keyInfo->memoryCost;
 				cryptoInfo->volumePim = pim;
 
 				// Init the cipher with the decrypted master key
@@ -596,13 +691,33 @@ KeyReady:	;
 				}
 
 				status = ERR_SUCCESS;
+
+#if !defined(_UEFI)
+				if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
+				{
+					// Signal other threads to stop
+					InterlockedExchange(effectiveAbortKeyDerivation, 1);
+				}
+#endif
 				goto ret;
 			}
 		}
 	}
-	status = ERR_PASSWORD_WRONG;
+#ifndef VC_DCS_DISABLE_ARGON2
+	if (lastArgon2DerivationResult != 0)
+		status = MapArgon2ResultToVcError (lastArgon2DerivationResult);
+	else
+#endif
+	if (pUserAbort && *pUserAbort)
+		status = ERR_USER_ABORT;
+	else
+		status = ERR_PASSWORD_WRONG;
 
 err:
+#if !defined(_UEFI)
+	// Signal threads to stop
+	InterlockedExchange(effectiveAbortKeyDerivation, 1);
+#endif
 	if (cryptoInfo != retHeaderCryptoInfo)
 	{
 		crypto_close(cryptoInfo);
@@ -621,20 +736,39 @@ ret:
 #if !defined(_UEFI)
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
-		EncryptionThreadPoolBeginReadVolumeHeaderFinalization (keyDerivationCompletedEvent, noOutstandingWorkItemEvent, outstandingWorkItemCount, 
-			keyInfoBuffer, keyInfoBufferSize, 
-			keyDerivationWorkItems, keyDerivationWorkItemsSize);
-	}
-	else
+		// Wait for all outstanding threads to finish or cancel
+		TC_WAIT_EVENT(*noOutstandingWorkItemEvent);
+		// Cleanup is now synchronous because we already waited for all threads to stop.
+		// The asynchronous finalization is no longer needed.
+#if !defined(DEVICE_DRIVER)
+		CloseHandle(*keyDerivationCompletedEvent);
+		CloseHandle(*noOutstandingWorkItemEvent);
 #endif
-	{
-		burn (keyInfo, sizeof (KEY_INFO));
+		TCfree(keyDerivationCompletedEvent);
+		TCfree(noOutstandingWorkItemEvent);
+		TCfree(outstandingWorkItemCount);
+		if (keyDerivationWorkItems)
+		{
+			burn(keyDerivationWorkItems, keyDerivationWorkItemsSize);
+#if !defined(DEVICE_DRIVER)
+			VirtualUnlock(keyDerivationWorkItems, keyDerivationWorkItemsSize);
+#endif
+			TCfree(keyDerivationWorkItems);
+		}
+	}
+#endif
+
+	burn (keyInfo, sizeof (KEY_INFO));
 #if !defined(DEVICE_DRIVER) && !defined(_UEFI)
-		VirtualUnlock (keyInfoBuffer, keyInfoBufferSize);
+	VirtualUnlock (keyInfoBuffer, keyInfoBufferSize);
 #endif
-		TCfree(keyInfoBuffer);
-	}
+	TCfree(keyInfoBuffer);
 	return status;
+}
+
+int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+{
+	return ReadVolumeHeaderWithAbort (bBoot, encryptedHeader, password, selected_pkcs5_prf, pim, retInfo, retHeaderCryptoInfo, NULL, NULL);
 }
 
 #if defined(_WIN32) && !defined(_UEFI)
@@ -768,7 +902,7 @@ int ReadVolumeHeader (BOOL bBoot, unsigned char *header, Password *password, int
 		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
 		// Check magic 'VERA' and CRC-32 of header fields and master keydata
-		if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241
+		if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != TC_HEADER_MAGIC_NUMBER
 			|| (GetHeaderField16 (header, TC_HEADER_OFFSET_VERSION) >= 4 && GetHeaderField32 (header, TC_HEADER_OFFSET_HEADER_CRC) != GetCrc32 (header + TC_HEADER_OFFSET_MAGIC, TC_HEADER_OFFSET_HEADER_CRC - TC_HEADER_OFFSET_MAGIC))
 			|| GetHeaderField32 (header, TC_HEADER_OFFSET_KEY_AREA_CRC) != GetCrc32 (header + HEADER_MASTER_KEYDATA_OFFSET, MASTER_KEYDATA_SIZE))
 		{
@@ -884,7 +1018,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 #endif // !defined(_UEFI)
 {
 	unsigned char *p = header;
-	static CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
+	static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) KEY_INFO keyInfo;
 
 	int nUserKeyLen = password? password->Length : 0;
 	PCRYPTO_INFO cryptoInfo = crypto_open ();
@@ -899,6 +1033,15 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 	// if no PIM specified, use default value
 	if (pim < 0)
 		pim = 0;
+
+#ifndef VC_DCS_DISABLE_ARGON2
+	// we don't support Argon2 in pre-boot authentication
+	if (bBoot && (pkcs5_prf == ARGON2))
+	{
+		crypto_close (cryptoInfo);
+		return ERR_PARAMETER_INCORRECT;
+	}
+#endif
 
 	memset (header, 0, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 #if !defined(_UEFI)
@@ -952,20 +1095,31 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 	{
 		memcpy (keyInfo.userKey, password->Text, nUserKeyLen);
 		keyInfo.keyLength = nUserKeyLen;
-		keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, bBoot);
+		keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, bBoot, &keyInfo.memoryCost);
 	}
 	else
 	{
 		keyInfo.keyLength = 0;
 		keyInfo.noIterations = 0;
+		keyInfo.memoryCost = 0;
 	}
 
 	// User selected encryption algorithm
 	cryptoInfo->ea = ea;
 
+#ifndef VC_DCS_DISABLE_ARGON2
+	if (pkcs5_prf == ARGON2 && EAGetKeySize (ea) * 2 > ARGON2_HEADER_KEYDATA_SIZE)
+	{
+		crypto_close (cryptoInfo);
+		retVal = ERR_PARAMETER_INCORRECT;
+		goto err;
+	}
+#endif
+
 	// User selected PRF
 	cryptoInfo->pkcs5 = pkcs5_prf;
 	cryptoInfo->noIterations = keyInfo.noIterations;
+	cryptoInfo->memoryCost = keyInfo.memoryCost;
 	cryptoInfo->volumePim = pim;
 
 	// Mode of operation
@@ -990,29 +1144,44 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 		{
 		case SHA512:
 			derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
 		case SHA256:
 			derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
         #ifndef WOLFCRYPT_BACKEND
 		case BLAKE2S:
 			derive_key_blake2s (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
 		case WHIRLPOOL:
 			derive_key_whirlpool (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
 
 		case STREEBOG:
 			derive_key_streebog(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize(), NULL);
 			break;
+
+#ifndef VC_DCS_DISABLE_ARGON2
+		case ARGON2:
+			{
+				int derivationResult = derive_key_argon2(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+					PKCS5_SALT_SIZE, keyInfo.noIterations, keyInfo.memoryCost, dk, ARGON2_HEADER_KEYDATA_SIZE, NULL);
+				if (derivationResult != 0)
+				{
+					crypto_close (cryptoInfo);
+					retVal = MapArgon2ResultToVcError (derivationResult);
+					goto err;
+				}
+			}
+			break;
+#endif
         #endif
 		default:
 			// Unknown/wrong ID
@@ -1040,8 +1209,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 	// Salt
 	mputBytes (p, keyInfo.salt, PKCS5_SALT_SIZE);
 
-	// Magic
-	mputLong (p, 0x56455241);
+	// Magic number
+	mputLong (p, TC_HEADER_MAGIC_NUMBER);
 
 	// Header version
 	mputWord (p, VOLUME_HEADER_VERSION);
@@ -1208,7 +1377,7 @@ err:
 	VirtualUnlock (&dk, sizeof (dk));
 #endif // !defined(_UEFI)
 
-	return 0;
+	return retVal;
 }
 
 #if !defined(_UEFI)

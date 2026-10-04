@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+</style>
+
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">从源代码构建VeraCrypt</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineWin.html">Windows构建指南</a>
+</p></div>
+
+<div class="wikidoc">
+本指南介绍了如何设置一个能够编译VeraCrypt的Windows系统。此外，还描述了如何编译VeraCrypt。 <br>
+这里以Windows 10/11系统为例进行说明，但其他Windows系统的操作过程类似。
+</div>
+
+<div class="wikidoc">
+编译当前VeraCrypt Windows二进制文件和驱动程序需要以下组件；可选替代项或仅发布时需要的工具会另行标明：
+
+<ol>
+    <li>Microsoft Visual Studio 2022，或作为命令行替代方案的Build Tools for Visual Studio 2022</li>
+    <li>MSVC v143 C++工具集，包含x86/x64和ARM64组件</li>
+    <li>Windows 10/11 SDK（10.0.19041.0或更高版本），包括签名脚本所需的signtool.exe。如果SDK和WDK分开安装，请使用匹配的内部版本号。</li>
+    <li>适用于Windows 10/11并带有Visual Studio 2022扩展的Windows Driver Kit</li>
+    <li>NASM</li>
+    <li>YASM</li>
+    <li>WiX Toolset v3.x（生成MSI包时需要）</li>
+    <li>旧版BIOS引导加载程序工具（可选；仅在重新构建Boot项目时需要）：Microsoft Visual C++ 1.52、gzip、UPX和dd.exe</li>
+    
+</ol>
+
+</div>
+
+<div class="wikidoc">
+以下是操作步骤。点击任何链接可直接跳转到相关步骤：
+<ul>
+<li><strong><a href="#InstallationOfNASM">安装NASM</a></strong></li>
+<li><strong><a href="#InstallationOfYASM">安装YASM</a></strong></li>
+<li><strong><a href="#InstallationOfLegacyBootTools">安装旧版BIOS引导加载程序工具（可选）</a></strong></li>
+<li><strong><a href="#InstallationOfWix3">安装WiX Toolset v3.x</a></strong></li>
+<li><strong><a href="#InstallationOfVS2022">安装Microsoft Visual Studio 2022</a></strong></li>
+<li><strong><a href="#InstallationOfWDK10">安装Windows Driver Kit</a></strong></li>
+<li><strong><a href="#InstallationOfVisualBuildTools">安装Build Tools for Visual Studio 2022</a></strong></li>
+<li><strong><a href="#DownloadVeraCrypt">下载VeraCrypt源代码文件</a></strong></li>
+<li><strong><a href="#CompileWin32X64">编译VeraCrypt的x64、ARM64和驱动程序版本</a></strong></li>
+<li><strong><a href="#BuildVeraCryptExecutables">构建VeraCrypt可执行文件</a></strong></li>
+<li><strong><a href="#ImportCertificates">导入证书</a></strong></li>
+<li><strong><a href="#KnownIssues">已知问题</a></strong></li>
+</ul>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfNASM">
+  <a href="#InstallationOfNASM">安装NASM</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                在以下链接下载“nasm-2.08-installer.exe”： <br>
+                <a href="https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/</a>
+            </li>
+            <li>
+                以管理员身份运行该文件
+            </li>
+            <li>
+                使用默认设置安装NASM
+            </li>
+            <li>
+                将NASM添加到路径变量中。这将使该命令在命令行中全局可用。 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”并选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                              </li>
+                    <li>
+                        请点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域内，请选择“Path”变量并点击“编辑...” <br>
+                        <img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+                    </li>
+                    <li>
+                        点击“新建”并添加以下值： <br>
+                        <p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\nasm</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口
+                    </li>
+                </ol>
+            </li>
+            <li>
+                要检查配置是否正常工作，请打开命令提示符并查看以下命令的输出： <br>
+                <p style="font-family: 'Courier New', monospace;">nasm</p> <br>
+                <img src="CompilingGuidelineWin/NasmCommandLine.jpg" width="50%">
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#InstallationOfYASM">YASM的安装</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请创建以下文件夹： <br>
+                C:\Program Files\YASM
+            </li>
+            <li>
+                请在以下链接下载预构建的Win64 YASM zip压缩包： <br>
+                <a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
+            </li>
+            <li>
+                由于下载率较低或连接未加密，您的浏览器可能会提示该文件存在安全风险。不过，官方网站是该文件最可靠的来源，因此我们建议允许下载
+            </li>
+            <li>
+                解压ZIP文件并将文件复制到“C:\Program Files\YASM”
+            </li>
+            <li>
+                请在以下链接下载“Win64 .exe”文件： <br>
+                <a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
+            </li>
+            <li>
+                由于下载率较低或连接未加密，您的浏览器可能会提示该文件存在安全风险。不过，官方网站是该文件最可靠的来源，因此我们建议允许下载
+            </li>
+            <li>
+                将文件重命名为“yasm.exe”并复制到“C:\Program Files\YASM”
+            </li>
+            <li>
+                将YASM添加到路径变量中，并为YASM创建一个新的系统变量。这样可以使该命令在命令行中全局可用。 <br>
+                <ol style="list-style-type: upper-roman;">
+                    <li>
+                        打开文件资源管理器
+                    </li>
+                    <li>
+                        在左侧文件树中，右键单击“此电脑”并选择“属性” <br>
+                        <img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+                    </li>
+                    <li>
+                        在右侧菜单中，请点击“高级系统设置” <br>
+                        <img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+                    </li>
+                    <li>
+                        请点击“环境变量” <br>
+                        <img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+                    </li>
+                    <li>
+                        在系统变量区域内，请选择“Path”变量并点击“编辑...” <br>
+                        <img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+                    </li>
+                    <li>
+                        点击“新建”并添加以下值： <br>
+                        <p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭顶部窗口
+                    </li>
+                    <li>
+                        在系统变量区域内，请点击“新建...” <br>
+                        <img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
+                    </li>
+                    <li>
+                        使用以下值填写表单： <br>
+                        <p style="font-family: 'Courier New', monospace;">变量名：YASMPATH<br> 变量值：C:\Program Files\YASM</p>
+                    </li>
+                    <li>
+                        点击“确定”关闭窗口
+                    </li>
+                </ol>
+            </li>
+            <li>
+                要检查配置是否正常工作，请打开命令提示符并查看以下命令的输出： <br>
+                <p style="font-family: 'Courier New', monospace;">yasm</p> <br>
+                以及 <br>
+                <p style="font-family: 'Courier New', monospace;">vsyasm</p> <br>
+                <img src="CompilingGuidelineWin/YasmCommandLine.jpg" width="50%">
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfLegacyBootTools">
+  <a href="#InstallationOfLegacyBootTools">安装旧版BIOS引导加载程序工具（可选）</a>
+  <div class="texttohide">
+    <p>
+        使用Visual Studio 2022和当前WDK编译标准VeraCrypt应用程序二进制文件或Windows驱动程序不需要这些工具。仅当你需要重新构建“src\Boot\Windows”中的旧版BIOS引导加载程序，或者构建包含Boot项目的解决方案配置（例如“ReleaseCustomEFI”）时才安装它们。
+        <ol>
+            <li>
+                安装Microsoft Visual C++ 1.52。它可通过付费的Microsoft MSDN订阅获取。如果你没有订阅，也可以从互联网档案馆获取ISO镜像： <br>
+                <a href="https://archive.org/details/ms-vc152" target="_blank">https://archive.org/details/ms-vc152</a>
+            </li>
+            <li>
+                创建文件夹“C:\MSVC15”。挂载ISO文件并将“MSVC”文件夹的内容复制到“C:\MSVC15”。
+            </li>
+            <li>
+                创建名为“MSVC16_ROOT”的系统变量，其值为“C:\MSVC15”。
+            </li>
+            <li>
+                安装gzip，并将包含“gzip.exe”的文件夹添加到Path变量。
+            </li>
+            <li>
+                安装UPX，并将包含“upx.exe”的文件夹添加到Path变量。
+            </li>
+            <li>
+                安装Windows版本的dd，并将包含“dd.exe”的文件夹添加到Path变量。
+            </li>
+            <li>
+                打开新的命令提示符，并确认能够找到以下命令： <br>
+                <p style="font-family: 'Courier New', monospace;">nasm<br>gzip<br>upx<br>dd --help</p>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfWix3">
+  <a href="#InstallationOfWix3">安装WiX Toolset v3.x</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请从以下链接下载WiX Toolset v3.x： <br>
+                <a href="https://github.com/wixtoolset/wix3/releases" target="_blank">https://github.com/wixtoolset/wix3/releases</a>
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并使用默认设置安装 WiX 工具集
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVS2022">
+  <a href="#InstallationOfVS2022">安装Microsoft Visual Studio 2022</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                在以下链接下载Visual Studio 2022： <br>
+                <a href="https://visualstudio.microsoft.com/vs/" target="_blank">https://visualstudio.microsoft.com/vs/</a>
+            </li>
+            <li>
+                以管理员身份运行下载的安装程序。
+            </li>
+            <li>
+                选择“Desktop development with C++”工作负载。
+            </li>
+            <li>
+                选择以下单个组件：
+                <ol style="list-style-type: upper-roman;">
+                    <li>MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)</li>
+                    <li>MSVC v143 - VS 2022 C++ x64/x86 Spectre-mitigated libs (Latest)</li>
+                    <li>MSVC v143 - VS 2022 C++ ARM64 build tools (Latest)</li>
+                    <li>MSVC v143 - VS 2022 C++ ARM64 Spectre-mitigated libs (Latest)</li>
+                    <li>C++ ATL for latest v143 build tools (x86 & x64)</li>
+                    <li>C++ ATL for latest v143 build tools (ARM64)</li>
+                    <li>C++ ATL for latest v143 build tools with Spectre Mitigations (x86 & x64)</li>
+                    <li>C++ ATL for latest v143 build tools with Spectre Mitigations (ARM64)</li>
+                    <li>C++ MFC for latest v143 build tools (x86 & x64)</li>
+                    <li>C++ MFC for latest v143 build tools (ARM64)</li>
+                    <li>C++ MFC for latest v143 build tools with Spectre Mitigations (x86 & x64)</li>
+                    <li>C++ MFC for latest v143 build tools with Spectre Mitigations (ARM64)</li>
+                    <li>Windows 10/11 SDK (10.0.19041.0或更高版本)</li>
+                </ol>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfWDK10">
+  <a href="#InstallationOfWDK10">安装Windows Driver Kit</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                请在以下链接下载与Visual Studio 2022兼容的Windows Driver Kit（WDK）：<br>
+                <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk" target="_blank">https://learn.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk</a>
+            </li>
+            <li>
+                以管理员身份运行下载的文件，并使用默认设置安装 WDK。
+            </li>
+            <li>
+                如果Windows SDK和WDK分开安装，请确保它们的内部版本号匹配。
+            </li>
+            <li>
+                确保已安装WDK Visual Studio扩展。如果WDK安装程序询问是否要“安装 Windows 驱动程序工具包 Visual Studio 扩展”，请在关闭对话框前选择此选项。在当前的Visual Studio 2022安装程序中，也可以在“单个组件”里选择“Windows Driver Kit”进行安装。
+            </li>
+            <li>
+                如果单独的VSIX安装程序自动启动，它会检测到Visual Studio 2022作为该扩展的可能目标。请选择它并继续安装。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVisualBuildTools">
+  <a href="#InstallationOfVisualBuildTools">安装Build Tools for Visual Studio 2022</a>
+  <div class="texttohide">
+    <p>
+        如果已安装上面列出的Visual Studio 2022组件，则可以跳过此步骤。仅在需要不带完整Visual Studio IDE的命令行构建环境时安装Build Tools。
+        <ol>
+            <li>
+                在以下链接下载Build Tools for Visual Studio 2022：<br>
+                <a href="https://visualstudio.microsoft.com/downloads/" target="_blank">https://visualstudio.microsoft.com/downloads/</a>
+            </li>
+            <li>
+                以管理员身份运行下载的安装程序，并选择“C++ build tools”工作负载。
+            </li>
+            <li>
+                选择以下单个组件：
+                <ol style="list-style-type: upper-roman;">
+                    <li>MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)</li>
+                    <li>MSVC v143 - VS 2022 C++ x64/x86 Spectre-mitigated libs (Latest)</li>
+                    <li>MSVC v143 - VS 2022 C++ ARM64 build tools (Latest)</li>
+                    <li>MSVC v143 - VS 2022 C++ ARM64 Spectre-mitigated libs (Latest)</li>
+                    <li>C++ ATL for latest v143 build tools (x86 & x64)</li>
+                    <li>C++ ATL for latest v143 build tools (ARM64)</li>
+                    <li>C++ ATL for latest v143 build tools with Spectre Mitigations (x86 & x64)</li>
+                    <li>C++ ATL for latest v143 build tools with Spectre Mitigations (ARM64)</li>
+                    <li>C++ MFC for latest v143 build tools (x86 & x64)</li>
+                    <li>C++ MFC for latest v143 build tools (ARM64)</li>
+                    <li>C++ MFC for latest v143 build tools with Spectre Mitigations (x86 & x64)</li>
+                    <li>C++ MFC for latest v143 build tools with Spectre Mitigations (ARM64)</li>
+                    <li>Windows 10/11 SDK (10.0.19041.0或更高版本)</li>
+                </ol>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#DownloadVeraCrypt">下载VeraCrypt源代码文件</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                访问VeraCrypt的Github仓库：<br>
+                <a href="https://github.com/veracrypt/VeraCrypt" target="_blank">https://github.com/veracrypt/VeraCrypt</a>
+            </li>
+            <li>
+                点击绿色的“Code”按钮并下载代码。<br>
+                你可以将仓库下载为zip文件，但也可以考虑使用git协议以便跟踪更改。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileWin32X64">
+  <a href="#CompileWin32X64">编译VeraCrypt的x64、ARM64和驱动程序版本</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                在Visual Studio <b>2022</b>中打开文件“src/VeraCrypt.sln”
+            </li>
+            <li>
+                选择“Release|x64”作为活动配置。
+            </li>
+            <li>
+                点击“Build -> Build Solution”。
+            </li>
+            <li>
+                编译过程应仅出现警告，而无错误。部分项目可能会被跳过。
+            </li>
+            <li>
+                选择“Release|ARM64”作为活动配置。
+            </li>
+            <li>
+                点击“Build -> Build Solution”。
+            </li>
+            <li>
+                编译过程应仅出现警告，而无错误。部分项目可能会被跳过。
+            </li>
+            <li>
+                选择“Release|Win32”作为活动配置并构建解决方案，以编译发布打包脚本使用的Win32安装程序/辅助项目。
+            </li>
+            <li>
+                要构建VeraCrypt驱动程序，请选择“Driver”项目，并分别为“Release|x64”和“Release|ARM64”构建它。
+            </li>
+            <li>
+                仅当需要自定义EFI/引导加载程序发布配置时，才构建“ReleaseCustomEFI|x64”或“ReleaseCustomEFI|ARM64”。这些配置包含Boot项目，并需要上面列出的可选旧版BIOS引导加载程序工具。
+            </li>
+            <li>
+                如果使用Build Tools for Visual Studio 2022而不是Visual Studio IDE，请以管理员身份打开“Developer Command Prompt for VS 2022”或“Developer PowerShell for VS 2022”，切换到VeraCrypt源代码根目录，并运行等效的MSBuild命令：
+                <br>
+                <code>
+                    msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=x64 <br>
+                    msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=ARM64 <br>
+                    msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=Win32 <br>
+                    msbuild src\Driver\Driver.vcxproj /m /p:Configuration=Release /p:Platform=x64 <br>
+                    msbuild src\Driver\Driver.vcxproj /m /p:Configuration=Release /p:Platform=ARM64
+                </code>
+                <br>
+                要构建可选的自定义EFI/引导加载程序发布配置，还请运行：
+                <br>
+                <code>
+                    msbuild src\VeraCrypt.sln /m /p:Configuration=ReleaseCustomEFI /p:Platform=x64 <br>
+                    msbuild src\VeraCrypt.sln /m /p:Configuration=ReleaseCustomEFI /p:Platform=ARM64
+                </code>
+            </li>
+            <li>
+                如果是从IDE构建的，请在编译完成后关闭Visual Studio 2022。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="BuildVeraCryptExecutables">
+  <a href="#BuildVeraCryptExecutables">构建VeraCrypt可执行文件</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                以管理员身份打开Visual Studio 2022命令行，以确保Windows SDK签名工具（包括“signtool.exe”）在Path中可用
+            </li>
+            <li>
+                进入“src/Signing/”文件夹
+            </li>
+            <li>
+                运行脚本“sign_test.bat”
+            </li>
+            <li>
+                你将在“src/Release/Setup Files”文件夹中找到生成的可执行文件
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="ImportCertificates">
+  <a href="#ImportCertificates">导入证书</a>
+  <div class="texttohide">
+    <p> 使用sign_test.bat脚本，你刚刚对VeraCrypt可执行文件进行了签名。这是必要的，因为Windows仅接受由签名证书颁发机构信任的驱动程序。<br>
+    由于你没有使用官方的VeraCrypt签名证书来签署代码，而是使用了公共开发版本，因此你需要导入并信任所使用的证书。
+        <ol>
+            <li>
+                打开“src/Signing”文件夹
+            </li>
+            <li>
+                通过双击以下证书，将它们导入到本地计算机证书存储中：
+                <ul>
+                    <li>GlobalSign_R3Cross.cer</li>
+                    <li>GlobalSign_SHA256_EV_CodeSigning_CA.cer</li>
+                    <li>TestCertificate/idrix_codeSign.pfx</li>
+                    <li>TestCertificate/idrix_Sha256CodeSign.pfx</li>
+                    <li>TestCertificate/idrix_SHA256TestRootCA.crt</li>
+                    <li>TestCertificate/idrix_TestRootCA.crt</li>
+                </ul>
+                注意：如果提示输入密码，.pfx证书的密码为 <b>idrix</b>。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="KnownIssues">
+  <a href="#KnownIssues">已知问题</a>
+  <div class="texttohide">
+    <p>
+        <ul>
+            <li>
+                <b>此分发包已损坏</b> <br>
+                <img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
+                在Windows 10或更高版本上，你可能会收到上述错误消息。为避免此问题，你需要：<br>
+                <ul>
+                    <li>仔细检查颁发测试代码签名证书的根证书是否已安装在“本地计算机受信任的根证书颁发机构”存储中。</li>
+                    <li>计算测试代码签名证书的SHA512指纹，并相应地更新“src/Common/Dlgcode.c”文件中的gpbSha512CodeSignCertFingerprint数组。</li>
+                </ul>
+                有关详细信息，请参阅 <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12</a>。<br>
+                <br>
+                另一种方法是在VeraCrypt代码中禁用签名验证。此操作仅应在测试环境中使用，切勿用于生产环境：
+                <ol>
+                    <li>
+                        打开“src/Common/Dlgcode.c”文件
+                    </li>
+                    <li>
+                        查找“VerifyModuleSignature”函数
+                    </li>
+                    <li>
+                        替换以下代码行：<br>
+                        查找：<br>
+                        <p style="font-family: 'Courier New', monospace;">
+                        if (!IsOSAtLeast (WIN_10)) <br>
+                        return TRUE;
+                        </p> <br>
+                        替换为：<br>
+                        <p style="font-family: 'Courier New', monospace;">
+                        return TRUE;
+                        </p>
+                    </li>
+                    <li>
+                        再次编译VeraCrypt代码
+                    </li>
+                </ol>
+            </li>
+            <li>
+                <b>自定义构建的VeraCrypt安装过程中驱动程序安装失败</b> <br>
+                <img src="CompilingGuidelineWin/CertVerifyFails.jpg" width="20%"> <br>
+                Windows会验证每个要安装的驱动程序的签名。<br>
+                出于安全原因，Windows仅允许由Microsoft签名的驱动程序加载。<br>
+                因此，在使用自定义构建时：<br>
+                <ul>
+                    <li>如果你未修改VeraCrypt驱动程序源代码，则可以使用VeraCrypt源代码中包含的由Microsoft签名的驱动程序（位于“src\Release\Setup Files”下）。</li>
+                    <li>如果你进行了修改，<strong>你需要将Windows启动到“测试模式”</strong>。此模式允许Windows加载未由Microsoft签名的驱动程序。但是，即使在“测试模式”下，签名也有特定要求，并且由于以下原因仍可能会失败。</li>
+                </ul>
+                “测试模式”下安装失败的潜在原因：
+                <ol>
+                    <li>
+                        <b>用于签名的证书不受Windows信任</b><br>
+                        你可以通过检查可执行文件的属性来验证是否受影响：
+                        <ol>
+                            <li>
+                                右键单击VeraCrypt安装可执行文件：“src/Release/Setup Files/VeraCrypt Setup 1.XX.exe”
+                            </li>
+                            <li>
+                                点击“属性”
+                            </li>
+                            <li>	
+                                转到顶部菜单“数字签名”。在这里，你会在签名列表中找到两个签名
+                            </li>
+                                通过双击勾选这两个签名。如果标题显示“无法验证签名中的证书”，则相应的签名证书未正确导入。<br>
+                                点击“查看证书”，然后点击“安装证书...”，将证书导入到本地计算机证书存储区。对于根证书，你可能需要选择“将所有证书放入下列存储区”，并选择“受信任的根证书颁发机构”存储区。<br>
+                                <img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
+                            <li>
+                        </ol>
+                    </li>
+                    <li>
+                        <b>驱动程序在签名过程之后被修改。</b> <br>
+                        在这种情况下，请使用脚本“src/Signing/sign_test.bat”，用测试证书再次对你的代码进行签名
+                    </li>
+                </ol>
+            </li>
+        </ul>
+    </p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

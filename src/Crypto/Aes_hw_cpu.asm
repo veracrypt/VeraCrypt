@@ -68,36 +68,6 @@
 %endmacro
 
 
-%macro push_xmm 2
-	sub rsp, 16 * (%2 - %1 + 1)
-
-	%assign stackoffset 0
-	%assign regnumber %1
-
-	%rep (%2 - %1 + 1)
-		movdqu [rsp + 16 * stackoffset], xmm%[regnumber]
-
-		%assign stackoffset stackoffset+1
-		%assign regnumber regnumber+1
-	%endrep
-%endmacro
-
-
-%macro pop_xmm 2
-	%assign stackoffset 0
-	%assign regnumber %1
-
-	%rep (%2 - %1 + 1)
-		movdqu xmm%[regnumber], [rsp + 16 * stackoffset]
-
-		%assign stackoffset stackoffset+1
-		%assign regnumber regnumber+1
-	%endrep
-
-	add rsp, 16 * (%2 - %1 + 1)
-%endmacro
-
-
 %macro aes_hw_cpu 2
 	%define OPERATION %1
 	%define BLOCK_COUNT %2
@@ -145,8 +115,9 @@
 %endmacro
 
 
-%macro aes_hw_cpu_32_blocks 1
-	%define OPERATION_32_BLOCKS %1
+%macro aes_hw_cpu_32_blocks 2
+	%define AES_HW_CPU_32_BLOCKS_NAME %1
+	%define OPERATION_32_BLOCKS %2
 
 	%ifidn __BITS__, 64
 		%define MAX_REG_BLOCK_COUNT 15
@@ -156,7 +127,29 @@
 
 	%ifidn __OUTPUT_FORMAT__, win64
 		%if MAX_REG_BLOCK_COUNT > 5
-			push_xmm 6, MAX_REG_BLOCK_COUNT
+			sub rsp, 16 * (MAX_REG_BLOCK_COUNT - 6 + 1) + 8
+AES_HW_CPU_32_BLOCKS_NAME %+ _alloc_end:
+			movdqu [rsp + 16 * 0], xmm6
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm6_end:
+			movdqu [rsp + 16 * 1], xmm7
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm7_end:
+			movdqu [rsp + 16 * 2], xmm8
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm8_end:
+			movdqu [rsp + 16 * 3], xmm9
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm9_end:
+			movdqu [rsp + 16 * 4], xmm10
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm10_end:
+			movdqu [rsp + 16 * 5], xmm11
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm11_end:
+			movdqu [rsp + 16 * 6], xmm12
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm12_end:
+			movdqu [rsp + 16 * 7], xmm13
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm13_end:
+			movdqu [rsp + 16 * 8], xmm14
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm14_end:
+			movdqu [rsp + 16 * 9], xmm15
+AES_HW_CPU_32_BLOCKS_NAME %+ _save_xmm15_end:
+AES_HW_CPU_32_BLOCKS_NAME %+ _prolog_end:
 		%endif
 	%endif
 
@@ -174,12 +167,77 @@
 
 	%ifidn __OUTPUT_FORMAT__, win64
 		%if MAX_REG_BLOCK_COUNT > 5
-			pop_xmm 6, MAX_REG_BLOCK_COUNT
+			movdqu xmm6, [rsp + 16 * 0]
+			movdqu xmm7, [rsp + 16 * 1]
+			movdqu xmm8, [rsp + 16 * 2]
+			movdqu xmm9, [rsp + 16 * 3]
+			movdqu xmm10, [rsp + 16 * 4]
+			movdqu xmm11, [rsp + 16 * 5]
+			movdqu xmm12, [rsp + 16 * 6]
+			movdqu xmm13, [rsp + 16 * 7]
+			movdqu xmm14, [rsp + 16 * 8]
+			movdqu xmm15, [rsp + 16 * 9]
+			add rsp, 16 * (MAX_REG_BLOCK_COUNT - 6 + 1) + 8
 		%endif
 	%endif
 
 	%undef OPERATION_32_BLOCKS
+	%undef AES_HW_CPU_32_BLOCKS_NAME
 	%undef MAX_REG_BLOCK_COUNT
+%endmacro
+
+
+; Win64 unwind metadata for the 32-block AES-NI routines.
+;
+; The records below are hand-encoded and must stay in exact lockstep with the
+; prologue emitted by aes_hw_cpu_32_blocks: the unwind codes describe the "sub
+; rsp" allocation followed by the xmm6..xmm15 saves, listed in descending prolog
+; offset order. The slot count (22 = 10 SAVE_XMM128 pairs + 1 ALLOC_LARGE pair)
+; and the recorded allocation size are therefore fixed for the win64 /
+; MAX_REG_BLOCK_COUNT == 15 layout. If that saved-register range or the
+; allocation ever changes, update the prologue and this table together; a
+; mismatch makes the OS unwinder mis-restore the caller's context.
+
+%macro win64_aesni_32_unwind_info 2
+%ifidn __OUTPUT_FORMAT__, win64
+	section .pdata rdata align=4
+	align 4
+	dd %1 wrt ..imagebase
+	dd %2 wrt ..imagebase
+	dd %1 %+ _unwind_info wrt ..imagebase
+
+	section .xdata rdata align=8
+	align 4
+%1 %+ _unwind_info:
+	db 1
+	db %1 %+ _prolog_end - %1
+	db 22
+	db 0
+	db %1 %+ _save_xmm15_end - %1, (15 << 4) | 8
+	dw 9
+	db %1 %+ _save_xmm14_end - %1, (14 << 4) | 8
+	dw 8
+	db %1 %+ _save_xmm13_end - %1, (13 << 4) | 8
+	dw 7
+	db %1 %+ _save_xmm12_end - %1, (12 << 4) | 8
+	dw 6
+	db %1 %+ _save_xmm11_end - %1, (11 << 4) | 8
+	dw 5
+	db %1 %+ _save_xmm10_end - %1, (10 << 4) | 8
+	dw 4
+	db %1 %+ _save_xmm9_end - %1, (9 << 4) | 8
+	dw 3
+	db %1 %+ _save_xmm8_end - %1, (8 << 4) | 8
+	dw 2
+	db %1 %+ _save_xmm7_end - %1, (7 << 4) | 8
+	dw 1
+	db %1 %+ _save_xmm6_end - %1, (6 << 4) | 8
+	dw 0
+	db %1 %+ _alloc_end - %1, 1
+	dw (16 * (15 - 6 + 1) + 8) / 8
+
+	section .text
+%endif
 %endmacro
 
 
@@ -312,8 +370,10 @@
 ; void aes_hw_cpu_decrypt_32_blocks (const byte *ks, byte *data);
 
 	aes_function_entry aes_hw_cpu_decrypt_32_blocks
-		aes_hw_cpu_32_blocks dec
+		aes_hw_cpu_32_blocks aes_hw_cpu_decrypt_32_blocks, dec
 	aes_function_exit
+aes_hw_cpu_decrypt_32_blocks_end:
+	win64_aesni_32_unwind_info aes_hw_cpu_decrypt_32_blocks, aes_hw_cpu_decrypt_32_blocks_end
 
 
 ; void aes_hw_cpu_encrypt (const byte *ks, byte *data);
@@ -326,8 +386,10 @@
 ; void aes_hw_cpu_encrypt_32_blocks (const byte *ks, byte *data);
 
 	aes_function_entry aes_hw_cpu_encrypt_32_blocks
-		aes_hw_cpu_32_blocks enc
+		aes_hw_cpu_32_blocks aes_hw_cpu_encrypt_32_blocks, enc
 	aes_function_exit
+aes_hw_cpu_encrypt_32_blocks_end:
+	win64_aesni_32_unwind_info aes_hw_cpu_encrypt_32_blocks, aes_hw_cpu_encrypt_32_blocks_end
 
 
 %endif	; __BITS__ != 16

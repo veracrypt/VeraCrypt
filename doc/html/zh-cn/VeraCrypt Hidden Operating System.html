@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Plausible%20Deniability.html">似是而非的否认性</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Hidden%20Operating%20System.html">隐藏操作系统</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>隐藏操作系统</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您使用VeraCrypt对系统分区或系统驱动器进行了加密，在打开或重启计算机后，需要在VeraCrypt引导加载程序屏幕中输入<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">预启动身份验证</a>密码。可能会出现有人强迫您解密操作系统或透露预启动身份验证密码的情况。在许多情况下，您无法拒绝这样做（例如，受到勒索）。VeraCrypt允许您创建一个隐藏操作系统，只要遵循某些准则（详见下文），其存在应该是无法被证明的。这样，您就不必解密隐藏操作系统或透露其密码。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在继续阅读本节之前，请确保您已经阅读了<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none"><strong style="text-align:left">隐藏卷</strong></a>部分，并且理解了什么是<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏的VeraCrypt卷</a>。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">隐藏操作系统</strong>是安装在<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏的VeraCrypt卷</a>中的系统（例如，Windows 7或Windows XP）。只要遵循某些准则（更多信息请参阅<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏卷</a>部分），应该无法证明<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏的VeraCrypt卷</a>的存在，因此也无法证明隐藏操作系统的存在。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+然而，为了引导由VeraCrypt加密的系统，必须在系统驱动器或<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt救援盘</a>。因此，仅仅存在VeraCrypt引导加载程序就可能表明计算机上存在由VeraCrypt加密的系统。所以，为了给VeraCrypt引导加载程序的存在提供一个合理的解释，在创建隐藏操作系统的过程中，VeraCrypt向导会帮助你创建第二个加密的操作系统，即所谓的<strong style="text-align:left">
+诱饵操作系统</strong>。诱饵操作系统绝不能包含任何敏感文件。它的存在不是秘密（它不是安装在<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷</a>中）。可以安全地向任何强迫你透露预启动认证密码的人透露诱饵操作系统的密码。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+你应该像使用计算机一样频繁地使用诱饵操作系统。理想情况下，你应该将其用于所有不涉及敏感数据的活动。否则，隐藏操作系统的似是而非的否认性可能会受到不利影响（如果你向对手透露了诱饵操作系统的密码，他可能会发现该系统使用频率不高，这可能表明你的计算机上存在隐藏操作系统）。请注意，你可以随时将数据保存到诱饵系统分区，而不会有损坏隐藏卷的风险（因为诱饵系统不是安装在外层卷中 —— 见下文）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+将会有两个预启动认证密码 —— 一个用于隐藏系统，另一个用于诱饵系统。如果你想启动隐藏系统，只需在VeraCrypt引导加载程序屏幕（在你打开或重启计算机后出现）中输入隐藏系统的密码。同样，如果你想启动诱饵系统（例如，当对手要求你这样做时），只需在VeraCrypt引导加载程序屏幕中输入诱饵系统的密码。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：当你输入预启动认证密码时，VeraCrypt引导加载程序首先尝试使用输入的密码解密系统驱动器第一个逻辑磁道的最后512字节（非隐藏加密系统分区/驱动器的加密主密钥数据通常存储在此处）。如果解密失败，并且活动分区后面有一个分区，VeraCrypt引导加载程序（即使驱动器上实际上没有隐藏卷）会自动再次尝试使用相同的输入密码解密活动分区后面第一个分区中可能存在隐藏卷加密头的区域（但是，如果活动分区的大小小于256 MB，则从活动分区后面的<em style="text-align:left">第二个</em>分区读取数据，因为Windows 7及更高版本默认不会从其安装的分区启动）。请注意，VeraCrypt事先永远不知道是否存在隐藏卷（隐藏卷头无法识别，因为它看起来完全由随机数据组成）。如果头被成功解密（有关VeraCrypt如何确定解密成功的信息，请参阅<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+加密方案</a>部分），则从解密后的头（仍存储在RAM中）中检索隐藏卷的大小信息，并挂载隐藏卷（其大小也决定了其偏移量）。有关更多技术细节，请参阅<a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">
+技术细节</a>章节中的<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+加密方案</a>部分。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+运行时，隐藏操作系统看起来像是安装在与原始操作系统（诱饵系统）相同的分区上。然而，实际上，它安装在该分区后面的一个隐藏卷中。所有读写操作都会从系统分区透明地重定向到隐藏卷。操作系统和应用程序都不会知道写入和读取系统分区的数据实际上是写入和读取到后面的分区（到/从隐藏卷）。任何此类数据都会像往常一样动态加密和解密（使用与诱饵操作系统不同的加密密钥）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请注意，还会有第三个密码 —— 用于<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+<strong style="text-align:left">外层卷</strong></a>的密码。它不是预启动认证密码，而是常规的VeraCrypt卷密码。可以安全地向任何强迫你透露包含隐藏操作系统的隐藏卷所在加密分区密码的人透露此密码。这样，隐藏卷（和隐藏操作系统）的存在将保持秘密。如果你不确定是否理解这是如何实现的，或者外层卷是什么，请阅读<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷</a>部分。外层卷应该包含一些看起来敏感但你实际上不想隐藏的文件。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+总结一下，总共会有三个密码。其中两个可以透露给攻击者（用于诱饵系统和外层卷）。第三个密码，用于隐藏系统，必须保密。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Beginner's Tutorial_Image_034.png" alt="Example Layout of System Drive Containing Hidden Operating System"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">包含隐藏操作系统的系统驱动器示例布局</em></div>
+<p>&nbsp;</p>
+<h4 id="CreationProcess" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:12px; margin-bottom:1px">
+隐藏操作系统的创建过程</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要开始创建隐藏操作系统的过程，请选择<em style="text-align:left">
+系统</em> &gt; <em style="text-align:left">创建隐藏操作系统</em>，然后按照向导中的说明操作。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+最初，向导会验证系统驱动器上是否有适合隐藏操作系统的分区。请注意，在创建隐藏操作系统之前，你需要在系统驱动器上为其创建一个分区。该分区必须是系统分区后面的第一个分区，并且其大小必须比系统分区大至少5%（系统分区是当前运行的操作系统所在的分区）。但是，如果外层卷（不要与系统分区混淆）格式化为NTFS，则隐藏操作系统的分区必须比系统分区大至少110%（2.1倍）（原因是NTFS文件系统总是将内部数据精确地存储在卷的中间，因此，要包含系统分区克隆的隐藏卷只能位于分区的后半部分）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在接下来的步骤中，向导将在系统分区后面的第一个分区内创建两个VeraCrypt卷（<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">外层和隐藏</a>）。<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷</a>将包含隐藏操作系统。隐藏卷的大小始终与系统分区的大小相同。原因是隐藏卷需要包含系统分区内容的克隆（见下文）。请注意，克隆将使用与原始内容不同的加密密钥进行加密。在你开始将一些看起来敏感的文件复制到外层卷之前，向导会告诉你这些文件应占用的最大建议空间大小，以便外层卷上有足够的可用空间用于隐藏卷。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+备注：在你将一些看起来敏感的文件复制到外层卷后，将扫描该卷的簇位图，以确定连续可用空间区域的大小，该区域的末尾与外层卷的末尾对齐。该区域将
+
+
+
+### 隐藏卷大小的确定
+为了容纳隐藏卷，系统会对其最大可能的大小进行限制。系统会确定隐藏卷的最大可能大小，并验证该大小是否大于系统分区的大小（这是必需的，因为系统分区的全部内容都需要复制到隐藏卷中 —— 详见下文）。这样可以确保外部卷上存储的数据不会被写入隐藏卷区域的数据覆盖（例如，当系统被复制到隐藏卷时）。隐藏卷的大小始终与系统分区的大小相同。
+
+### 创建隐藏操作系统
+然后，VeraCrypt会通过将系统分区的内容复制到隐藏卷来创建隐藏操作系统。复制的数据将在传输过程中使用与用于伪装操作系统的加密密钥不同的加密密钥进行加密。系统复制过程在预启动环境（Windows启动之前）中执行，可能需要很长时间才能完成；可能需要数小时甚至数天（具体取决于系统分区的大小和计算机的性能）。您可以中断该过程，关闭计算机，启动操作系统，然后恢复该过程。但是，如果您中断了该过程，则整个系统复制过程必须从头开始（因为在克隆过程中系统分区的内容不得更改）。隐藏操作系统最初将是您启动向导时所在操作系统的克隆。
+
+### 安全擦除原系统分区
+Windows通常会在您不知情或未同意的情况下，在系统分区上创建各种日志文件、临时文件等。它还会将RAM的内容保存到位于系统分区上的休眠和分页文件中。因此，如果对手分析存储原始系统（隐藏系统是其克隆）的分区上的文件，他可能会发现，例如，您使用了VeraCrypt向导的隐藏系统创建模式（这可能表明您的计算机上存在隐藏操作系统）。为了防止此类问题，VeraCrypt会在隐藏系统创建完成后安全擦除原始系统所在分区的全部内容。之后，为了实现似是而非的否认，VeraCrypt会提示您在该分区上安装新系统并使用VeraCrypt对其进行加密。这样，您将创建伪装系统，整个隐藏操作系统的创建过程将完成。
+
+### 关于擦除分区内容的说明
+注意：VeraCrypt会通过用随机数据完全填充来擦除原始系统所在分区的内容。如果您向对手透露了伪装系统的密码，而他问您为什么（伪装）系统分区的可用空间包含随机数据，您可以回答，例如：“该分区以前包含一个由VeraCrypt加密的系统，但我忘记了预启动身份验证密码（或者系统损坏并停止启动），所以我不得不重新安装Windows并再次对该分区进行加密。”
+
+### 似是而非的否认和数据泄露保护
+出于安全原因，当隐藏操作系统运行时，VeraCrypt确保所有本地未加密文件系统和非隐藏的VeraCrypt卷为只读（即不能向此类文件系统或VeraCrypt卷写入文件）。仅允许将数据写入任何位于 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏VeraCrypt卷</a> 内的文件系统（前提是隐藏卷不位于存储在未加密文件系统或任何其他只读文件系统上的容器中）。
+
+实施这些对策主要有三个原因：
+1. 它为挂载隐藏VeraCrypt卷创建了一个安全的平台。请注意，我们官方建议仅在隐藏操作系统运行时挂载隐藏卷。有关更多信息，请参阅 <a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏卷的安全要求和预防措施</a> 小节。
+2. 在某些情况下，可以通过分析和比较文件系统日志、文件时间戳、应用程序日志、错误日志等来确定在某个时间，特定文件系统未在特定操作系统实例下挂载（或者该文件系统上的特定文件未在该操作系统实例中保存或访问）。这可能表明计算机上安装了隐藏操作系统。这些对策可以防止此类问题。
+3. 它可以防止数据损坏并允许安全休眠。当Windows从休眠状态恢复时，它假定所有挂载的文件系统与系统进入休眠状态时的状态相同。VeraCrypt通过对从伪装系统和隐藏系统都可访问的任何文件系统进行写保护来确保这一点。如果没有这种保护，当一个系统挂载文件系统而另一个系统处于休眠状态时，文件系统可能会损坏。
+
+### 从伪装系统向隐藏系统安全传输文件的步骤
+如果您需要从伪装系统向隐藏系统安全传输文件，请遵循以下步骤：
+1. 启动伪装系统。
+2. 将文件保存到未加密卷或外部/普通VeraCrypt卷。
+3. 启动隐藏系统。
+4. 如果您将文件保存到VeraCrypt卷，请挂载它（它将自动以只读方式挂载）。
+5. 将文件复制到隐藏系统分区或另一个隐藏卷。
+
+### 单个驱动器上存在两个VeraCrypt分区的可能解释
+对手可能会问，为什么您在单个驱动器上创建了两个VeraCrypt加密分区（一个系统分区和一个非系统分区），而不是使用单个加密密钥对整个磁盘进行加密。有很多可能的原因。但是，如果您不知道任何原因（除了创建隐藏操作系统），您可以提供以下解释之一：
+如果系统驱动器上有两个以上的分区，而您只想加密其中两个分区（系统分区和其后的一个分区），并让其他分区保持未加密状态（例如，为了在向此类未加密分区读写非敏感数据时获得最佳性能），那么唯一的方法是分别对这两个分区进行加密（请注意，使用单个加密密钥，VeraCrypt可以对整个系统驱动器和 <em style="text-align:left">所有</em> 分区进行加密，但它不能只加密其中两个分区 —— 只能使用单个密钥加密一个或所有分区）。结果，系统驱动器上会有两个相邻的VeraCrypt分区（第一个将是系统分区，第二个将是非系统分区），每个分区都使用不同的密钥进行加密（这与创建隐藏操作系统时的情况相同，因此可以这样解释）。
+
+如果您根本不知道系统驱动器上为什么应该有多个分区：
+ 为了容纳隐藏卷，系统会限制其最大可能的大小。系统会确定隐藏卷的最大可能大小，并验证该大小是否大于系统分区的大小（这是必需的，因为系统分区的全部内容都需要复制到隐藏卷中 —— 详见下文）。这样可以确保外部卷上存储的数据不会被写入隐藏卷区域的数据覆盖（例如，当系统被复制到隐藏卷时）。隐藏卷的大小始终与系统分区的大小相同。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+然后，VeraCrypt会通过将系统分区的内容复制到隐藏卷来创建隐藏操作系统。复制的数据将在传输过程中使用与用于伪装操作系统的加密密钥不同的加密密钥进行加密。系统复制过程在预启动环境（Windows启动之前）中执行，可能需要很长时间才能完成；可能需要数小时甚至数天（具体取决于系统分区的大小和计算机的性能）。您可以中断该过程，关闭计算机，启动操作系统，然后恢复该过程。但是，如果您中断了该过程，则整个系统复制过程必须从头开始（因为在克隆过程中系统分区的内容不得更改）。隐藏操作系统最初将是您启动向导时所在操作系统的克隆。</div>
+<div id="SecureEraseOS" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows通常会在您不知情或未同意的情况下，在系统分区上创建各种日志文件、临时文件等。它还会将RAM的内容保存到位于系统分区上的休眠和分页文件中。因此，如果对手分析存储原始系统（隐藏系统是其克隆）的分区上的文件，他可能会发现，例如，您使用了VeraCrypt向导的隐藏系统创建模式（这可能表明您的计算机上存在隐藏操作系统）。为了防止此类问题，VeraCrypt会在隐藏系统创建完成后安全擦除原始系统所在分区的全部内容。之后，为了实现似是而非的否认，VeraCrypt会提示您在该分区上安装新系统并使用VeraCrypt对其进行加密。这样，您将创建伪装系统，整个隐藏操作系统的创建过程将完成。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：VeraCrypt会通过用随机数据完全填充来擦除原始系统所在分区的内容。如果您向对手透露了伪装系统的密码，而他问您为什么（伪装）系统分区的可用空间包含随机数据，您可以回答，例如：“该分区以前包含一个由VeraCrypt加密的系统，但我忘记了预启动身份验证密码（或者系统损坏并停止启动），所以我不得不重新安装Windows并再次对该分区进行加密。”</div>
+<h4 id="data_leak_protection" style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:12px; margin-bottom:1px">
+似是而非的否认和数据泄露保护</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+出于安全原因，当隐藏操作系统运行时，VeraCrypt确保所有本地未加密文件系统和非隐藏的VeraCrypt卷为只读（即不能向此类文件系统或VeraCrypt卷写入文件）。&dagger; 仅允许将数据写入任何位于 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏VeraCrypt卷</a> 内的文件系统（前提是隐藏卷不位于存储在未加密文件系统或任何其他只读文件系统上的容器中）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+实施这些对策主要有三个原因：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+它为挂载隐藏VeraCrypt卷创建了一个安全的平台。请注意，我们官方建议仅在隐藏操作系统运行时挂载隐藏卷。有关更多信息，请参阅 <a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷的安全要求和预防措施</a> 小节。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在某些情况下，可以通过分析和比较文件系统日志、文件时间戳、应用程序日志、错误日志等来确定在某个时间，特定文件系统未在特定操作系统实例下挂载（或者该文件系统上的特定文件未在该操作系统实例中保存或访问）。这可能表明计算机上安装了隐藏操作系统。这些对策可以防止此类问题。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+它可以防止数据损坏并允许安全休眠。当Windows从休眠状态恢复时，它假定所有挂载的文件系统与系统进入休眠状态时的状态相同。VeraCrypt通过对从伪装系统和隐藏系统都可访问的任何文件系统进行写保护来确保这一点。如果没有这种保护，当一个系统挂载文件系统而另一个系统处于休眠状态时，文件系统可能会损坏。
+</li></ol>
+<p>如果您需要从伪装系统向隐藏系统安全传输文件，请遵循以下步骤：</p>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+启动伪装系统。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+将文件保存到未加密卷或外部/普通VeraCrypt卷。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+启动隐藏系统 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果您将文件保存到VeraCrypt卷，请挂载它（它将自动以只读方式挂载）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+将文件复制到隐藏系统分区或另一个隐藏卷。 </li></ol>
+<p>&nbsp;</p>
+<h4 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:12px; margin-bottom:1px">
+单个驱动器上存在两个VeraCrypt分区的可能解释</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+对手可能会问，为什么您在单个驱动器上创建了两个VeraCrypt加密分区（一个系统分区和一个非系统分区），而不是使用单个加密密钥对整个磁盘进行加密。有很多可能的原因。但是，如果您不知道任何原因（除了创建隐藏操作系统），您可以提供以下解释之一：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果系统驱动器上有两个以上的分区，而您只想加密其中两个分区（系统分区和其后的一个分区），并让其他分区保持未加密状态（例如，为了在向此类未加密分区读写非敏感数据时获得最佳性能），那么唯一的方法是分别对这两个分区进行加密（请注意，使用单个加密密钥，VeraCrypt可以对整个系统驱动器和 <em style="text-align:left">所有</em> 分区进行加密，但它不能只加密其中两个分区 —— 只能使用单个密钥加密一个或所有分区）。结果，系统驱动器上会有两个相邻的VeraCrypt分区（第一个将是系统分区，第二个将是非系统分区），每个分区都使用不同的密钥进行加密（这与创建隐藏操作系统时的情况相同，因此可以这样解释）。<br style="text-align:left">
+<br style="text-align:left">
+如果您根本不知道系统驱动器上为什么应该有多个分区：<br style="text-align:left">
+<br style="text-align:left">
+如果向导中的所有说明都已遵循，并且遵循了小节 <a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
+与隐藏卷相关的安全要求和预防措施</a> 中列出的安全要求和预防措施，那么即使在挂载外部卷或解密、启动诱饵操作系统时，也应该无法证明隐藏卷和隐藏操作系统的存在。</ul></div>
+<p>&nbsp;</p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 在嵌入到单个分区中的两个 VeraCrypt 卷中安装操作系统是不实际的（因此也不支持），因为使用外部操作系统通常需要将数据写入隐藏操作系统所在的区域（如果使用 <a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷保护</a> 功能来阻止此类写入操作，这本质上会导致系统崩溃，即出现“蓝屏”错误）。<br style="text-align:left">
+&dagger; 这不适用于类似 CD/DVD 的媒体以及自定义、非典型或非标准设备/媒体上的文件系统。</span><br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+&nbsp;&nbsp;另请参阅：<strong style="text-align:left"><a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">系统加密</a></strong>，&nbsp;<strong style="text-align:left"><a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏
+ 卷</a></strong></p>
+</div>
+</body></html>

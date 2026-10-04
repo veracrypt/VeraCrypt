@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt 是一款适用于 Windows、Mac OS X 和 Linux 的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt 可提供似是而非的否认性。与文件加密不同，VeraCrypt 进行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Avoid%20Third-Party%20File%20Extensions.html">避免使用第三方文件扩展名</a>
+</p></div>
+
+<div class="wikidoc">
+    <h1>了解在 VeraCrypt 中使用第三方文件扩展名的风险</h1>
+    <div>
+      <p>虽然 VeraCrypt 提供了强大的加密功能来保护您的数据，但为文件容器或密钥文件使用第三方文件扩展名可能会导致加密数据无法访问。<br />
+      本指南将深入解释相关风险，并列出减轻这些风险的最佳实践建议。</p>
+    </div>
+    
+    <h2>文件容器相关风险</h2>
+    <div>
+      <p>为文件容器使用第三方文件扩展名会使您面临以下几种风险：</p>
+      <ul>
+        <li>元数据被覆盖：第三方应用程序可能会更新其元数据，这可能会覆盖文件容器的关键部分。</li>
+        <li>意外更改：不小心使用第三方应用程序打开文件容器可能会在您不知情的情况下修改其元数据。</li>
+        <li>容器损坏：这些操作可能会使容器无法读取或使用。</li>
+        <li>数据丢失：如果容器损坏，其中的数据可能会永久丢失。</li>
+      </ul>
+    </div>
+    
+    <h2>密钥文件相关风险</h2>
+    <div>
+      <p>密钥文件也存在类似的风险：</p>
+      <ul>
+        <li>密钥文件损坏：不小心使用第三方应用程序修改密钥文件可能会使其无法用于解密。</li>
+        <li>数据被覆盖：第三方应用程序可能会覆盖 VeraCrypt 用于解密的密钥文件部分。</li>
+        <li>意外更改：意外更改可能会使您无法挂载卷，除非您有未更改的密钥文件备份。</li>
+      </ul>
+    </div>
+    
+    <h2>应避免使用的扩展名示例</h2>
+    <div>
+      <p>避免使用以下类型的第三方文件扩展名：</p>
+      <ul>
+        <li>媒体文件：图片、音频和视频文件容易被各自的软件更改元数据。</li>
+        <li>存档文件：Zip 文件很容易被修改，这可能会破坏加密卷。</li>
+        <li>可执行文件：软件更新可能会修改这些文件，使其作为文件容器或密钥文件不可靠。</li>
+        <li>文档文件：办公和 PDF 文件可能会被办公软件自动更新，使用起来有风险。</li>
+      </ul>
+    </div>
+    
+    <h2>建议</h2>
+    <div>
+      <p>为了安全使用，建议考虑以下最佳实践：</p>
+      <ul>
+        <li>为文件容器和密钥文件使用中性的文件扩展名，以减少自动文件关联的风险。</li>
+        <li>将文件容器和密钥文件的安全备份存放在与网络隔离的位置。</li>
+        <li>禁用您用于 VeraCrypt 文件容器和密钥文件的特定文件扩展名的自动打开设置。</li>
+        <li>始终仔细检查文件关联，并在使用新设备或第三方应用程序时保持谨慎。</li>
+      </ul>
+    </div>
+    
+<div class="ClearBoth"></div></div></body></html>

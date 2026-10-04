@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Defragmenting.html">磁盘碎片整理</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>磁盘碎片整理</h1>
+<p>当您（或操作系统）对存储文件型VeraCrypt容器的文件系统进行磁盘碎片整理时，VeraCrypt容器的副本（或其片段）可能会残留在宿主卷（即经过碎片整理的文件系统）的空闲空间中。
+这可能会带来各种安全隐患。例如，如果您随后更改了卷的密码/密钥文件，而攻击者找到了VeraCrypt卷的旧副本或片段（旧的卷头），他可能会使用旧的、已泄露的密码（和/或使用在卷头重新加密之前用于挂载该卷的已泄露密钥文件）来挂载该卷。为防止此类情况以及其他可能的安全问题（如<a href="Volume%20Clones.html"><em>卷克隆</em></a>部分所述），请采取以下措施之一：</p>
+<ul>
+<li>使用分区/设备型VeraCrypt卷，而非文件型。</li>
+<li>在进行磁盘碎片整理后，<em>安全地</em>擦除宿主卷（即经过碎片整理的文件系统）上的空闲空间。在Windows系统中，可以使用微软的免费工具
+<code>SDelete</code>（<a href="https://technet.microsoft.com/en-us/sysinternals/bb897443.aspx" rel="nofollow">https://technet.microsoft.com/en-us/sysinternals/bb897443.aspx</a>）。在Linux系统中，可以使用GNU coreutils软件包中的
+<code>shred</code>工具来完成此操作。</li>
+<li>不要对存储VeraCrypt卷的文件系统进行磁盘碎片整理。</li>
+</ul>
+</div><div class="ClearBoth"></div></body></html>

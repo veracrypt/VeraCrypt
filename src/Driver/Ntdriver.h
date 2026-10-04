@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -26,6 +26,22 @@ typedef struct _THREAD_BLOCK_
 	MOUNT_STRUCT *mount;
 } THREAD_BLOCK, *PTHREAD_BLOCK;
 
+#ifndef SECURITY_MAX_SID_SIZE
+#define SECURITY_MAX_SID_SIZE 68
+#endif
+
+typedef struct _MOUNT_CANCEL_CONTEXT_
+{
+	LONG Active;
+	LONG UserAbortRequested;
+	LONG KeyDerivationAbort;
+	LONG UserSidValid;
+	LONG SequenceNumber;
+	int nDosDriveNo;
+	ULONG UserSidLength;
+	UCHAR UserSid[SECURITY_MAX_SID_SIZE];
+} MOUNT_CANCEL_CONTEXT, *PMOUNT_CANCEL_CONTEXT;
+
 
 /* This structure is allocated for non-root devices! WARNING: bRootDevice
    must be the first member of the structure! */
@@ -43,6 +59,7 @@ typedef struct EXTENSION
 	BOOL bThreadShouldQuit;		/* Instruct per device worker thread to quit */
 	PETHREAD peThread;			/* Thread handle */
 	KEVENT keCreateEvent;		/* Device creation event */
+	PMOUNT_CANCEL_CONTEXT MountCancelContext;
 	KSPIN_LOCK ListSpinLock;	/* IRP spinlock */
 	LIST_ENTRY ListEntry;		/* IRP listentry */
 	KSEMAPHORE RequestSemaphore;	/* IRP list request  Semaphore */
@@ -151,7 +168,7 @@ NTSTATUS TCStartVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension,
 void TCStopThread (PKTHREAD kThread, PKEVENT wakeUpEvent);
 void TCStopVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension);
 VOID VolumeThreadProc (PVOID Context);
-void TCSleep (int milliSeconds);
+void TCSleep (ULONG milliSeconds);
 void TCGetNTNameFromNumber (LPWSTR ntname, int cbNtName, int nDriveNo);
 void TCGetDosNameFromNumber (LPWSTR dosname, int cbDosName, int nDriveNo, DeviceNamespaceType namespaceType);
 LPWSTR TCTranslateCode (ULONG ulCode);
@@ -178,6 +195,7 @@ NTSTATUS TCCompleteIrp (PIRP irp, NTSTATUS status, ULONG_PTR information);
 NTSTATUS TCCompleteDiskIrp (PIRP irp, NTSTATUS status, ULONG_PTR information);
 NTSTATUS ProbeRealDriveSize (PDEVICE_OBJECT driveDeviceObject, LARGE_INTEGER *driveSize);
 BOOL UserCanAccessDriveDevice ();
+BOOL IsOrderedFlushBarriersEnabled ();
 size_t GetCpuCount (WORD* pGroupCount);
 USHORT GetCpuGroup (size_t index);
 void SetThreadCpuGroupAffinity (USHORT index);

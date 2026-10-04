@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">数据泄露</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>数据泄露</h2>
+<p>当挂载VeraCrypt卷时，操作系统和第三方应用程序可能会将VeraCrypt卷中存储的数据的未加密信息（例如，最近访问文件的文件名和位置、文件索引工具创建的数据库等），或者以未加密形式存储的数据本身（临时文件等），或者VeraCrypt卷中文件系统的未加密信息写入未加密卷（通常是未加密的系统卷）。</p>
+<p>请注意，Windows会自动记录大量潜在的敏感数据，例如您打开的文件的名称和位置、您运行的应用程序等。例如，Windows使用一组称为“shellbags”的注册表项来存储使用资源管理器时文件夹的名称、大小、视图、图标和位置。每次打开文件夹时，这些信息都会更新，包括访问的时间和日期。根据操作系统版本和用户配置文件的不同，Windows Shellbags可能会在几个位置找到。在Windows XP系统上，shellbags可能位于<strong>"HKEY_USERS\{用户ID}\Software\Microsoft\Windows\Shell\"</strong>和<strong>"HKEY_USERS\{用户ID}\Software\Microsoft\Windows\ShellNoRoam\"</strong>下。在Windows 7系统上，shellbags可能位于<strong>"HEKY_USERS\{用户ID}\Local Settings\Software\Microsoft\Windows\Shell\"</strong>下。更多信息请访问 <a href="https://www.sans.org/reading-room/whitepapers/forensics/windows-shellbag-forensics-in-depth-34545" target="_blank">https://www.sans.org/reading-room/whitepapers/forensics/windows-shellbag-forensics-in-depth-34545</a>。</p>
+<p>此外，从Windows 8开始，每次挂载使用NTFS格式化的VeraCrypt卷时，系统事件日志都会写入事件98，其中将包含该卷的设备名称（\\device\VeraCryptVolumeXX）。如 <a href="https://blogs.msdn.microsoft.com/b8/2012/05/09/redesigning-chkdsk-and-the-new-ntfs-health-model/" target="_blank">此处</a> 所述，此事件日志“功能”是Windows 8中作为新引入的NTFS健康检查的一部分引入的。为避免此泄露，必须将VeraCrypt卷 <a href="Removable%20Medium%20Volume.html">作为可移动介质</a> 挂载。非常感谢Liran Elharar发现了此泄露及其解决方法。</p>
+<br>
+<p>为防止数据泄露，您必须遵循以下步骤（可能存在替代步骤）：</p>
+<ul>
+<li>如果您 <em>不需要</em> 似是而非的否认性：
+<ul>
+<li>加密系统分区/驱动器（有关如何操作的信息，请参阅 <a href="System%20Encryption.html"><em>系统加密</em></a> 章节），并确保在每次处理敏感数据的会话期间，仅挂载加密或只读文件系统。<br>
+<br>
+或者，</li>
+<li>如果您无法执行上述操作，请下载或创建操作系统的“Live CD”版本（即完全存储在CD/DVD上并从其启动的“实时”系统），以确保写入系统卷的任何数据都写入RAM磁盘。当您需要处理敏感数据时，启动此类Live CD/DVD，并确保在会话期间仅挂载加密和/或只读文件系统。
+</li>
+</ul>
+</li>
+<li>如果您需要似是而非的否认性：
+<ul>
+<li>创建隐藏操作系统。VeraCrypt将提供自动数据泄露保护。有关更多信息，请参阅 <a href="Hidden%20Operating%20System.html"><em>隐藏操作系统</em></a> 部分。<br>
+<br>
+或者，</li>
+<li>如果您无法执行上述操作，请下载或创建操作系统的“Live CD”版本（即完全存储在CD/DVD上并从其启动的“实时”系统），以确保写入系统卷的任何数据都写入RAM磁盘。当您需要处理敏感数据时，启动此类Live CD/DVD。如果您使用隐藏卷，请遵循 <a href="Security%20Requirements%20for%20Hidden%20Volumes.html"><em>隐藏卷的安全要求和预防措施</em></a> 子部分中列出的安全要求和预防措施。如果您不使用隐藏卷，请确保在会话期间仅挂载非系统分区托管的VeraCrypt卷和/或只读文件系统。
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="ClearBoth"></div></body></html>

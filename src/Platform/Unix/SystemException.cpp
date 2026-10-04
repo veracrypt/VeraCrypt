@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -38,9 +38,9 @@ namespace VeraCrypt
 	{
 	}
 
-	void SystemException::Deserialize (shared_ptr <Stream> stream)
+	void SystemException::DeserializeData (shared_ptr <Stream> stream)
 	{
-		Exception::Deserialize (stream);
+		Exception::DeserializeData (stream);
 		Serializer sr (stream);
 		sr.Deserialize ("ErrorCode", ErrorCode);
 	}
@@ -50,9 +50,9 @@ namespace VeraCrypt
 		return ErrorCode != 0;
 	}
 
-	void SystemException::Serialize (shared_ptr <Stream> stream) const
+	void SystemException::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Exception::Serialize (stream);
+		Exception::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("ErrorCode", ErrorCode);
 	}

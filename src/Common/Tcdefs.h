@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -59,7 +59,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.26.20"
+#define VERSION_STRING					"1.26.29"
 
 #ifdef VC_EFI_CUSTOM_MODE
 #define VERSION_STRING_SUFFIX			"-CustomEFI"
@@ -73,9 +73,9 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0126
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"February 3, 2025"
-#define TC_RELEASE_DATE_YEAR			2025
-#define TC_RELEASE_DATE_MONTH			 2
+#define TC_RELEASE_DATE_YEAR			2026
+#define TC_RELEASE_DATE_MONTH			 6
+#define TC_RELEASE_DATE_DAY			 9
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -405,12 +405,31 @@ void EraseMemory (void *memory, int size);
 #define TC_MAX_PATH		260	/* Includes the null terminator */
 #endif
 
-#define TC_STR_RELEASED_BY L"Released by IDRIX on " TC_STR_RELEASE_DATE
+#define TC_RELEASE_DATE_MONTH_NAME_1	L"January"
+#define TC_RELEASE_DATE_MONTH_NAME_2	L"February"
+#define TC_RELEASE_DATE_MONTH_NAME_3	L"March"
+#define TC_RELEASE_DATE_MONTH_NAME_4	L"April"
+#define TC_RELEASE_DATE_MONTH_NAME_5	L"May"
+#define TC_RELEASE_DATE_MONTH_NAME_6	L"June"
+#define TC_RELEASE_DATE_MONTH_NAME_7	L"July"
+#define TC_RELEASE_DATE_MONTH_NAME_8	L"August"
+#define TC_RELEASE_DATE_MONTH_NAME_9	L"September"
+#define TC_RELEASE_DATE_MONTH_NAME_10	L"October"
+#define TC_RELEASE_DATE_MONTH_NAME_11	L"November"
+#define TC_RELEASE_DATE_MONTH_NAME_12	L"December"
+#define TC_RELEASE_DATE_MONTH_NAME_(m)	TC_RELEASE_DATE_MONTH_NAME_##m
+#define TC_RELEASE_DATE_MONTH_NAME(m)	TC_RELEASE_DATE_MONTH_NAME_(m)
+
+#define TC_RELEASE_DATE_WSTR2(x)		L##x
+#define TC_RELEASE_DATE_WSTR1(x)		TC_RELEASE_DATE_WSTR2(#x)
+#define TC_RELEASE_DATE_WSTR(x)		TC_RELEASE_DATE_WSTR1(x)
+
+#define TC_STR_RELEASED_BY L"Released by AM Crypto on " TC_RELEASE_DATE_MONTH_NAME(TC_RELEASE_DATE_MONTH) L" " TC_RELEASE_DATE_WSTR(TC_RELEASE_DATE_DAY) L", " TC_RELEASE_DATE_WSTR(TC_RELEASE_DATE_YEAR)
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 
-#define TC_HOMEPAGE L"https://www.idrix.fr/"
-#define TC_APPLINK L"https://www.veracrypt.fr"
+#define TC_HOMEPAGE L"https://amcrypto.jp"
+#define TC_APPLINK L"https://veracrypt.jp"
 
 enum
 {
@@ -456,7 +475,8 @@ enum
 	ERR_RAND_INIT_FAILED					= 34,
 	ERR_CAPI_INIT_FAILED					= 35,
 	ERR_XTS_MASTERKEY_VULNERABLE			= 36,
-	ERR_SYSENC_XTS_MASTERKEY_VULNERABLE			= 37
+	ERR_SYSENC_XTS_MASTERKEY_VULNERABLE			= 37,
+	ERR_KEY_DERIVATION_FAILED				= 38
 };
 
 #endif 	// #ifndef TCDEFS_H

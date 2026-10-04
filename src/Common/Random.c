@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -129,8 +129,11 @@ int RandinitWithCheck ( int* pAlreadyInitialized)
 		VirtualLock (pRandPool, RANDOMPOOL_ALLOCSIZE);
 	}
 
+#ifndef VCSDK_DLL
 	bIgnoreHookError = IsThreadInSecureDesktop(GetCurrentThreadId());
-
+#else
+	bIgnoreHookError = TRUE;
+#endif
 	hKeyboard = SetWindowsHookEx (WH_KEYBOARD, (HOOKPROC)&KeyboardProc, NULL, GetCurrentThreadId ());
 	if (hKeyboard == 0 && !bIgnoreHookError) handleWin32Error (0, SRC_POS);
 
@@ -255,8 +258,9 @@ BOOL Randmix ()
 	{
 		unsigned char hashOutputBuffer [MAX_DIGESTSIZE];
         #ifndef WOLFCRYPT_BACKEND		
-                WHIRLPOOL_CTX	wctx;
-                blake2s_state   bctx;
+		WHIRLPOOL_CTX	wctx;
+		blake2s_state   bctx;
+		blake2b_state   b2ctx;
 		STREEBOG_CTX	stctx;
         #endif
 		sha512_ctx		sctx;
@@ -273,10 +277,14 @@ BOOL Randmix ()
 			digestSize = SHA256_DIGESTSIZE;
 			break;
 
-        #ifndef WOLFCRYPT_BACKEND	
-               case BLAKE2S:
-			digestSize = BLAKE2S_DIGESTSIZE;
-			break;
+        #ifndef WOLFCRYPT_BACKEND
+			case BLAKE2S:
+				digestSize = BLAKE2S_DIGESTSIZE;
+				break;
+
+			case ARGON2:
+				digestSize = BLAKE2B_DIGESTSIZE;
+				break;
 	
 		case WHIRLPOOL:
 			digestSize = WHIRLPOOL_DIGESTSIZE;
@@ -310,8 +318,8 @@ BOOL Randmix ()
 				sha256_end (hashOutputBuffer, &s256ctx);
 				break;
 
-                #ifndef WOLFCRYPT_BACKEND
-                      case BLAKE2S:
+#ifndef WOLFCRYPT_BACKEND
+			case BLAKE2S:
 				blake2s_init(&bctx);
 				blake2s_update(&bctx, pRandPool, RNG_POOL_SIZE);
 				blake2s_final(&bctx, hashOutputBuffer);
@@ -328,7 +336,14 @@ BOOL Randmix ()
 				STREEBOG_add (&stctx, pRandPool, RNG_POOL_SIZE);
 				STREEBOG_finalize (&stctx, hashOutputBuffer);
 				break;
-                #endif
+
+			case ARGON2:
+				// For Argon2, we use the underlying Blake2b hash function
+				blake2b_init(&b2ctx, BLAKE2B_OUTBYTES);
+				blake2b_update(&b2ctx, pRandPool, RNG_POOL_SIZE);
+				blake2b_final(&b2ctx, hashOutputBuffer, BLAKE2B_OUTBYTES);
+				break;
+#endif
 			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
@@ -354,9 +369,13 @@ BOOL Randmix ()
 			break;
 
         #ifndef WOLFCRYPT_BACKEND
-               case BLAKE2S:
-			burn (&bctx, sizeof(bctx));
-			break;
+			case BLAKE2S:
+				burn (&bctx, sizeof(bctx));
+				break;
+
+			case ARGON2:
+				burn (&b2ctx, sizeof(b2ctx));
+				break;
 
 		case WHIRLPOOL:
 			burn (&wctx, sizeof(wctx));
@@ -961,4 +980,3 @@ BOOL FastPoll (void)
 
 	return TRUE;
 }
-

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。如果攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">杂项</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Sharing%20over%20Network.html">网络共享</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>网络共享</h1>
+<p>如果需要从多个操作系统同时访问单个VeraCrypt卷，有两种选择：</p>
+<ol>
+<li>仅在一台计算机（例如服务器）上挂载VeraCrypt卷，并且仅通过网络共享已挂载的VeraCrypt卷的内容（即VeraCrypt卷内的文件系统）。其他计算机或系统上的用户将不会挂载该卷（它已在服务器上挂载）。
+<p><strong>优点</strong><span>：所有用户都可以向VeraCrypt卷写入数据。共享卷可以是文件托管的，也可以是分区/设备托管的。</span></p>
+<p><strong>缺点</strong><span>：通过网络传输的数据将不会被加密。但是，仍然可以使用例如SSL、TLS、VPN或其他技术对其进行加密。</span></p>
+<p><strong>备注</strong>：请注意，当您重启系统时，只有当该卷是系统收藏夹卷或加密系统分区/驱动器时，网络共享才会自动恢复（有关如何将卷配置为系统收藏夹卷的信息，请参阅<a href="System%20Favorite%20Volumes.html">
+<em>系统收藏夹卷</em></a>一章）。</p>
+</li><li>将未挂载的VeraCrypt文件容器存储在一台计算机（例如服务器）上。这个加密文件通过网络共享。其他计算机或系统上的用户将在本地挂载共享文件。因此，该卷将在多个操作系统下同时挂载。
+<p><strong>优点</strong><span>：通过网络传输的数据将被加密（但是，仍然建议使用例如SSL、TLS、VPN或其他适当的技术对其进行加密，以使流量分析更加困难并保护数据的完整性）。</span></p>
+<p><strong>缺点</strong>：共享卷只能是文件托管的（不能是分区/设备托管的）。该卷必须在每个系统下以只读模式挂载（有关如何以只读模式挂载卷的信息，请参阅<em>挂载选项</em>部分）。请注意，此要求也适用于未加密的卷。原因之一是，例如，当一个操作系统正在修改文件系统时，另一个操作系统从传统文件系统读取的数据可能不一致（这可能导致数据损坏）。</p>
+</li></ol>
+</div><div class="ClearBoth"></div></body></html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title> VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具 </title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫你透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即插即用）、自动、透明的，占用内存极少，且不涉及临时未加密文件。" />
+<meta name="keywords" content="加密, 安全" />
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt" /></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Volume.html">VeraCrypt卷</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Creating%20New%20Volumes.html">创建新卷</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>创建新的VeraCrypt卷</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>要创建新的VeraCrypt文件托管卷或加密分区/设备（需要管理员权限），请在主程序窗口中点击“创建卷”。此时应会弹出VeraCrypt卷创建向导。向导一旦出现，便会开始收集用于生成新卷的主密钥、次密钥（XTS模式）和盐值的数据。收集的数据应尽可能随机，包括你的鼠标移动、按键操作以及从系统获取的其他值（更多信息，请参阅 <a href="Random%20Number%20Generator.html"> <em>随机数生成器</em> </a> 部分）。向导会提供成功创建新VeraCrypt卷所需的帮助和信息。不过，有几个项目值得进一步说明：</p>
+<h3>哈希算法</h3>
+<p>允许你选择VeraCrypt将使用的哈希算法。所选的哈希算法由随机数生成器用作伪随机混合函数，用于生成主密钥、次密钥（XTS模式）和盐值（更多信息，请参阅 <a href="Random%20Number%20Generator.html"> <em>随机数生成器</em> </a> 部分）。它还用于派生新卷的头密钥和次头密钥（请参阅 <a href="Header%20Key%20Derivation.html"> <em>头密钥派生、盐值和迭代次数</em> </a> 部分）。<br>
+<br>
+有关已实现的哈希算法的信息，请参阅 <a href="Hash%20Algorithms.html"> <em>哈希算法</em> </a> 章节。<br>
+<br>
+请注意，哈希函数的输出 <em>绝不会</em> 直接用作加密密钥。更多信息，请参考 <a href="Technical%20Details.html"> <em>技术细节</em> </a> 章节。</p>
+<h3>加密算法</h3>
+<p>这允许你选择用于加密新卷的加密算法。请注意，卷创建后无法更改加密算法。更多信息，请参阅 <a href="Encryption%20Algorithms.html"> <em>加密算法</em> </a> 章节。</p>
+<h3 id="QuickFormat">快速格式化</h3>
+<p>如果不勾选此选项，新卷的每个扇区都将被格式化。这意味着新卷将 <em>完全</em> 用随机数据填充。快速格式化速度更快，但安全性可能较低，因为在整个卷被文件填满之前，有可能判断出它包含多少数据（如果之前未用随机数据填充空间）。如果你不确定是否启用或禁用快速格式化，建议不勾选此选项。请注意，快速格式化仅在加密分区/设备时可用，在Windows系统上创建文件容器时也可用。</p>
+<p>重要提示：如果要在分区/设备内创建隐藏卷，请不要勾选此选项。</p>
+<h3 id="dynamic">动态</h3>
+<p>动态VeraCrypt容器是预分配的NTFS稀疏文件，其物理大小（实际使用的磁盘空间）会随着向其中添加新数据而增长。请注意，当在VeraCrypt卷上删除文件时，容器的物理大小（容器实际使用的磁盘空间）不会减小。容器的物理大小只能 <em>增加</em> 到用户在创建卷时指定的最大值。达到指定的最大值后，容器的物理大小将保持不变。<br>
+<br>
+请注意，稀疏文件只能在NTFS文件系统中创建。如果在FAT文件系统中创建容器，<em>动态</em> 选项将被禁用（变灰）。<br>
+<br>
+请注意，Windows和VeraCrypt报告的动态（稀疏文件托管）VeraCrypt卷的大小始终等于其最大大小（创建卷时指定）。要查看容器的当前物理大小（实际使用的磁盘空间），请右键单击容器文件（在Windows资源管理器窗口中，而不是在VeraCrypt中），然后选择 <em>属性</em> 并查看“占用空间”值。</p>
+<p>警告：动态（稀疏文件托管）VeraCrypt卷的性能明显低于常规卷。动态（稀疏文件托管）VeraCrypt卷的安全性也较低，因为可以判断出哪些卷扇区未使用。此外，如果在动态卷的宿主文件系统中没有足够的可用空间时写入数据，加密文件系统可能会损坏。</p>
+<h3>簇大小</h3>
+<p>簇是分配单元。例如，在FAT文件系统中，一个字节的文件会分配一个簇。当文件增长超过簇边界时，会分配另一个簇。从理论上讲，簇大小越大，浪费的磁盘空间就越多；但性能会更好。如果你不知道使用哪个值，请使用默认值。</p>
+<h3>CD和DVD上的VeraCrypt卷</h3>
+<p>如果你想将VeraCrypt卷存储在CD或DVD上，请先在硬盘上创建一个文件托管的VeraCrypt容器，然后使用任何CD/DVD刻录软件将其刻录到CD/DVD上（或者在Windows XP或更高版本中，使用操作系统提供的CD刻录工具）。请记住，如果你需要在Windows 2000下挂载存储在只读介质（如CD/DVD）上的VeraCrypt卷，则必须将VeraCrypt卷格式化为FAT。原因是Windows 2000无法在只读介质上挂载NTFS文件系统（Windows XP及更高版本的Windows可以）。</p>
+<h3>硬件/软件RAID、Windows动态卷</h3>
+<p>VeraCrypt支持硬件/软件RAID以及Windows动态卷。</p>
+<p>Windows Vista或更高版本：动态卷在“选择设备”对话框窗口中显示为 \Device\HarddiskVolumeN。</p>
+<p>Windows XP/2000/2003：如果你打算将Windows动态卷格式化为VeraCrypt卷，请记住，在使用Windows磁盘管理工具创建Windows动态卷后，必须重启操作系统，该卷才能在VeraCrypt卷创建向导的“选择设备”对话框窗口中显示。另外请注意，在“选择设备”对话框窗口中，Windows动态卷不会显示为单个设备（项目）。相反，会显示Windows动态卷包含的所有卷，你可以选择其中任何一个来格式化整个Windows动态卷。</p>
+<h3>卷创建的附加说明</h3>
+<p>在卷创建向导窗口（最后一步）中点击“格式化”按钮后，系统会短暂延迟以收集更多随机数据。之后，将生成新卷的主密钥、头密钥、次密钥（XTS模式）和盐值，并显示主密钥和头密钥的内容。<br>
+<br>
+为了提高安全性，可以通过取消相应字段右上角的复选框来防止显示随机性池、主密钥和头密钥的部分内容：<br>
+<br>
+<img src="Beginner's Tutorial_Image_023.gif" alt="" width="338" height="51"><br>
+<br>
+请注意，仅显示池/密钥的前128位（而非全部内容）。<br>
+<br>
+你可以创建FAT（FAT12、FAT16或FAT32会根据簇的数量自动确定）或NTFS卷（不过，只有具有管理员权限的用户才能创建NTFS卷）。已挂载的VeraCrypt卷可以随时重新格式化为FAT12、FAT16、FAT32或NTFS。它们的行为与标准磁盘设备相同，因此你可以右键单击已挂载的VeraCrypt卷的驱动器号（例如在“<em>此电脑</em>”或“<em>我的电脑</em>”列表中）并选择“格式化”。<br>
+<br>
+有关创建VeraCrypt卷的更多信息，请参阅 <a href="Hidden%20Volume.html"> <em>隐藏卷</em> </a> 部分。</p>
+<p>&nbsp;</p>
+<p><a href="Favorite%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div>
+</div>
+
+</body></html>

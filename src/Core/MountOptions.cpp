@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -24,6 +24,9 @@ namespace VeraCrypt
 		TC_CLONE (CachePassword);
 		TC_CLONE (FilesystemOptions);
 		TC_CLONE (FilesystemType);
+#ifdef TC_LINUX
+		TC_CLONE (MountNtfsWithKernelDriver);
+#endif
 		TC_CLONE_SHARED (KeyfileList, Keyfiles);
 		TC_CLONE_SHARED (DirectoryPath, MountPoint);
 		TC_CLONE (NoFilesystem);
@@ -54,9 +57,10 @@ namespace VeraCrypt
 		TC_CLONE (SlotNumber);
 		TC_CLONE (UseBackupHeaders);
 		TC_CLONE (SecurityTokenSchemeSpec);
+		TC_CLONE (EMVSupportEnabled);
 	}
 
-	void MountOptions::Deserialize (shared_ptr <Stream> stream)
+	void MountOptions::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		wstring nameValue;
@@ -64,6 +68,9 @@ namespace VeraCrypt
 		sr.Deserialize ("CachePassword", CachePassword);
 		sr.Deserialize ("FilesystemOptions", FilesystemOptions);
 		sr.Deserialize ("FilesystemType", FilesystemType);
+#ifdef TC_LINUX
+		sr.Deserialize ("MountNtfsWithKernelDriver", MountNtfsWithKernelDriver);
+#endif
 
 		Keyfiles = Keyfile::DeserializeList (stream, "Keyfiles");
 
@@ -102,6 +109,7 @@ namespace VeraCrypt
 		sr.Deserialize ("SharedAccessAllowed", SharedAccessAllowed);
 		sr.Deserialize ("SlotNumber", SlotNumber);
 		sr.Deserialize ("UseBackupHeaders", UseBackupHeaders);
+		sr.Deserialize ("EMVSupportEnabled", EMVSupportEnabled);
 
 		sr.Deserialize("SecurityTokenSchemeSpec", SecurityTokenSchemeSpec);
 
@@ -129,14 +137,16 @@ namespace VeraCrypt
 		sr.Deserialize ("ProtectionPim", ProtectionPim);
 	}
 
-	void MountOptions::Serialize (shared_ptr <Stream> stream) const
+	void MountOptions::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 
 		sr.Serialize ("CachePassword", CachePassword);
 		sr.Serialize ("FilesystemOptions", FilesystemOptions);
 		sr.Serialize ("FilesystemType", FilesystemType);
+#ifdef TC_LINUX
+		sr.Serialize ("MountNtfsWithKernelDriver", MountNtfsWithKernelDriver);
+#endif
 		Keyfile::SerializeList (stream, "Keyfiles", Keyfiles);
 
 		sr.Serialize ("MountPointNull", MountPoint == nullptr);
@@ -169,6 +179,7 @@ namespace VeraCrypt
 		sr.Serialize ("SharedAccessAllowed", SharedAccessAllowed);
 		sr.Serialize ("SlotNumber", SlotNumber);
 		sr.Serialize ("UseBackupHeaders", UseBackupHeaders);
+		sr.Serialize ("EMVSupportEnabled", EMVSupportEnabled);
 
 		sr.Serialize("SecurityTokenSchemeSpec", SecurityTokenSchemeSpec);
 		sr.Serialize ("KdfNull", Kdf == nullptr);

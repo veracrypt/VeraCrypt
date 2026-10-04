@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -20,6 +20,8 @@
 #endif
 
 #include "Common/SecurityToken.h"
+#include "Platform/SystemLog.h"
+#include "Platform/SerializerFactory.h"
 #include "Main/Main.h"
 #include "Main/Resources.h"
 #include "Main/Application.h"
@@ -37,19 +39,81 @@
 #include "SecurityTokenKeyfilesDialog.h"
 #include "VolumeCreationWizard.h"
 #include "VolumePropertiesDialog.h"
+#ifdef TC_MACOSX
+#include <chrono>
+#include "Core/Unix/MacOSX/CoreMacOSX.h"
+#endif
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+	struct VolumeDiscoveryState
+	{
+		VolumeDiscoveryState (wxEvtHandler *target) : Running (false), Completed (false), Succeeded (false), HasResult (false), Generation (0), ResultGeneration (0), Started (chrono::steady_clock::now()), NotificationTarget (target)
+		{
+			// A kernel-blocked metadata read may outlive GUI shutdown. Retain the
+			// read-only serializer registry until process exit as well as this state;
+			// static teardown must not delete it underneath the detached worker.
+			static const bool registryRetained = [] () { SerializerFactory::Initialize(); return true; } ();
+			(void) registryRetained;
+		}
+		// Constructed on the GUI thread (CoreUnix initializes locale state).
+		CoreMacOSX DiscoveryCore;
+		Mutex AccessMutex;
+		bool Running, Completed, Succeeded, HasResult;
+		uint64 Generation, ResultGeneration;
+		chrono::steady_clock::time_point Started;
+		VolumeDiscoveryResult Result;
+		wxEvtHandler *NotificationTarget;
+	};
+
+	class VolumeDiscoveryTask : public Functor
+	{
+	public:
+		VolumeDiscoveryTask (shared_ptr <VolumeDiscoveryState> state, uint64 generation) : State (state), Generation (generation) { }
+		virtual void operator() ()
+		{
+			VolumeDiscoveryResult result;
+			bool succeeded = false;
+			try { result = State->DiscoveryCore.GetMountedVolumesWithStatus(); succeeded = true; }
+			catch (exception &e) { SystemLog::WriteException (e); }
+			catch (...) { }
+			ScopeLock lock (State->AccessMutex);
+			State->Result = result;
+			State->Succeeded = succeeded;
+			State->HasResult = true;
+			State->ResultGeneration = Generation;
+			State->Completed = true;
+			State->Running = false;
+			// Destruction clears this pointer under the same lock before the
+			// window's event handler is destroyed. Never post to a dead window.
+			if (State->NotificationTarget)
+				wxQueueEvent (State->NotificationTarget, new wxCommandEvent (wxEVT_COMMAND_VOLUME_DISCOVERY_COMPLETED));
+		}
+	private:
+		shared_ptr <VolumeDiscoveryState> State;
+		uint64 Generation;
+	};
+#endif
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_UPDATE_VOLUME_LIST)
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_PREF_UPDATED)
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_OPEN_VOLUME_REQUEST)
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_VOLUME_DISCOVERY_COMPLETED)
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_SHOW_WARNING)
 
 	MainFrame::MainFrame (wxWindow* parent) : MainFrameBase (parent),
 #ifdef HAVE_INDICATORS
 		indicator (NULL),
+		indicator_item_showhide (NULL),
+		indicator_item_mountfavorites (NULL),
+		indicator_item_dismountall (NULL),
+		indicator_item_prefs (NULL),
+		indicator_item_exit (NULL),
 #endif
 		ListItemRightClickEventPending (false),
+#ifdef TC_MACOSX
+		VolumeDiscovery (new VolumeDiscoveryState (this)),
+#endif
 		SelectedItemIndex (-1),
 		SelectedSlotNumber (0),
 		ShowRequestFifo (-1)
@@ -59,6 +123,9 @@ namespace VeraCrypt
 		SetName (Application::GetName());
 		SetTitle (Application::GetName());
 		SetIcon (Resources::GetVeraCryptIcon());
+#ifdef TC_MACOSX
+		CreateStatusBar();
+#endif
 
 #if defined(TC_UNIX) && !defined(TC_MACOSX)
 		try
@@ -99,7 +166,8 @@ namespace VeraCrypt
 		}
 
 		Connect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnQuit ) );
-		Connect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxCommandEventHandler( MainFrame::OnUpdateVolumeList ) );
+		Connect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxThreadEventHandler( MainFrame::OnUpdateVolumeList ) );
+		Connect( wxID_ANY, wxEVT_COMMAND_VOLUME_DISCOVERY_COMPLETED, wxCommandEventHandler( MainFrame::OnVolumeDiscoveryCompleted ) );
 		Connect( wxID_ANY, wxEVT_COMMAND_PREF_UPDATED, wxCommandEventHandler( MainFrame::OnPreferencesUpdated ) );
 		Connect( wxID_ANY, wxEVT_COMMAND_OPEN_VOLUME_REQUEST, wxCommandEventHandler( MainFrame::OnOpenVolumeSystemRequest ) );
 
@@ -110,6 +178,12 @@ namespace VeraCrypt
 
 	MainFrame::~MainFrame ()
 	{
+#ifdef TC_MACOSX
+		{
+			ScopeLock lock (VolumeDiscovery->AccessMutex);
+			VolumeDiscovery->NotificationTarget = nullptr;
+		}
+#endif
 #if defined(TC_UNIX) && !defined(TC_MACOSX)
 		if (ShowRequestFifo != -1)
 		{
@@ -123,7 +197,8 @@ namespace VeraCrypt
 #endif
 
 		Disconnect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnQuit ) );
-		Disconnect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxCommandEventHandler( MainFrame::OnUpdateVolumeList ) );
+		Disconnect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxThreadEventHandler( MainFrame::OnUpdateVolumeList ) );
+		Disconnect( wxID_ANY, wxEVT_COMMAND_VOLUME_DISCOVERY_COMPLETED, wxCommandEventHandler( MainFrame::OnVolumeDiscoveryCompleted ) );
 		Disconnect( wxID_ANY, wxEVT_COMMAND_PREF_UPDATED, wxCommandEventHandler( MainFrame::OnPreferencesUpdated ) );
 		Disconnect( wxID_ANY, wxEVT_COMMAND_OPEN_VOLUME_REQUEST, wxCommandEventHandler( MainFrame::OnOpenVolumeSystemRequest ) );
 #ifdef TC_MACOSX
@@ -223,7 +298,7 @@ namespace VeraCrypt
 					L"cmd.exe", args.c_str(), nullptr, SW_SHOW);
 #else
 #	ifdef TC_MACOSX
-				Gui->ShowInfo (LangString["LINUX_FIRST_AID"]);
+				Gui->ShowInfo (LangString[repair ? "MACOSX_REPAIR_FILESYS" : "MACOSX_CHECK_FILESYS"]);
 #	endif
 				Core->CheckFilesystem (selectedVolume, repair);
 				UpdateVolumeList();
@@ -262,9 +337,27 @@ namespace VeraCrypt
 		}
 	}
 
+	bool MainFrame::CanConfirmNoMountedVolumes () const
+	{
+#ifdef TC_MACOSX
+		// An unacknowledged unconfirmed cleanup must not disappear with the app.
+		return VolumeSnapshot.CanConfirmEmpty (MountedVolumes.empty()) && !Gui->HasUnconfirmedCleanupWarnings();
+#else
+		return MountedVolumes.empty();
+#endif
+	}
+
 	shared_ptr <VolumeInfo> MainFrame::GetSelectedVolume () const
 	{
+#ifdef TC_MACOSX
+		// Keep selection tied to the displayed instance. Core operations validate
+		// its serial and resolve current image ownership again before acting.
+		foreach (shared_ptr <VolumeInfo> volume, MountedVolumes)
+			if (volume->SlotNumber == SelectedSlotNumber) return volume;
+		return shared_ptr <VolumeInfo>();
+#else
 		return Core->GetMountedVolume (SelectedSlotNumber);
+#endif
 	}
 
 	void MainFrame::InitControls ()
@@ -474,7 +567,11 @@ namespace VeraCrypt
 
 	void MainFrame::InitWindowPrivacy ()
 	{
-		Gui->SetContentProtection(!CmdLine->ArgAllowScreencapture);
+		bool enableContentProtection = !CmdLine->ArgAllowScreencapture;
+#ifdef TC_MACOSX
+		enableContentProtection = enableContentProtection && !GetPreferences().DisableScreenProtection;
+#endif
+		Gui->SetContentProtection (enableContentProtection);
 	}
 
 	void MainFrame::InitPreferences ()
@@ -520,12 +617,13 @@ namespace VeraCrypt
 			wxMenu *CreatePopupMenu ()
 			{
 				unique_ptr <wxMenu> popup (new wxMenu);
+				const bool operationsEnabled = !Busy && !Gui->GetWaitDialog();
 
 				Gui->AppendToMenu (*popup, LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"], this, wxCommandEventHandler (TaskBarIcon::OnShowHideMenuItemSelected));
 
 				popup->AppendSeparator();
-				Gui->AppendToMenu (*popup, LangString["IDM_MOUNT_FAVORITE_VOLUMES"], this, wxCommandEventHandler (TaskBarIcon::OnMountAllFavoritesMenuItemSelected))->Enable (!Busy);
-				Gui->AppendToMenu (*popup, LangString["HK_UNMOUNT_ALL"], this, wxCommandEventHandler (TaskBarIcon::OnDismountAllMenuItemSelected))->Enable (!Busy);
+				Gui->AppendToMenu (*popup, LangString["IDM_MOUNT_FAVORITE_VOLUMES"], this, wxCommandEventHandler (TaskBarIcon::OnMountAllFavoritesMenuItemSelected))->Enable (operationsEnabled);
+				Gui->AppendToMenu (*popup, LangString["HK_UNMOUNT_ALL"], this, wxCommandEventHandler (TaskBarIcon::OnDismountAllMenuItemSelected))->Enable (operationsEnabled);
 
 				// Favorite volumes
 				if (Gui->GetPreferences().BackgroundTaskMenuMountItemsEnabled && !Frame->FavoriteVolumesMenuMap.empty())
@@ -536,12 +634,12 @@ namespace VeraCrypt
 					{
 						//TBH Gui->AppendToMenu (*popup, LangString["MOUNT"] + L" " + wstring (fp.second.Path) + (fp.second.MountPoint.IsEmpty() ? L"" : L"  " + wstring (fp.second.MountPoint)),
 						Gui->AppendToMenu (*popup, LangString["MOUNT_BUTTON"] + L" " + wstring (fp.second.Path) + (fp.second.MountPoint.IsEmpty() ? L"" : L"  " + wstring (fp.second.MountPoint)),
-							this, wxCommandEventHandler (TaskBarIcon::OnFavoriteVolumeMenuItemSelected), fp.first)->Enable (!Busy);
+							this, wxCommandEventHandler (TaskBarIcon::OnFavoriteVolumeMenuItemSelected), fp.first)->Enable (operationsEnabled);
 					}
 				}
 
 				// Mounted volumes
-				VolumeInfoList mountedVolumes = Core->GetMountedVolumes();
+				VolumeInfoList mountedVolumes = Gui->GetMountedVolumesForUI();
 				if (!mountedVolumes.empty())
 				{
 					if (Gui->GetPreferences().BackgroundTaskMenuOpenItemsEnabled)
@@ -573,14 +671,14 @@ namespace VeraCrypt
 								label += wstring (volume->Path);
 
 							wxMenuItem *item = Gui->AppendToMenu (*popup, label, this, wxCommandEventHandler (TaskBarIcon::OnDismountMenuItemSelected));
-							item->Enable (!Busy);
+							item->Enable (operationsEnabled);
 							DismountMap[item->GetId()] = volume;
 						}
 					}
 				}
 
 				popup->AppendSeparator();
-				Gui->AppendToMenu (*popup, LangString["IDM_PREFERENCES"], this, wxCommandEventHandler (TaskBarIcon::OnPreferencesMenuItemSelected))->Enable (!Busy);
+				Gui->AppendToMenu (*popup, LangString["IDM_PREFERENCES"], this, wxCommandEventHandler (TaskBarIcon::OnPreferencesMenuItemSelected))->Enable (operationsEnabled);
 #ifndef TC_MACOSX
 				popup->AppendSeparator();
 				Gui->AppendToMenu (*popup, LangString["EXIT"], this, wxCommandEventHandler (TaskBarIcon::OnExitMenuItemSelected))->Enable (!Busy && Frame->CanExit());
@@ -651,7 +749,7 @@ namespace VeraCrypt
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+				mountOptions.Kdf = CmdLine->ArgHash;
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -676,7 +774,7 @@ namespace VeraCrypt
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+				mountOptions.Kdf = CmdLine->ArgHash;
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -707,7 +805,7 @@ namespace VeraCrypt
 		mountOptions.Path = GetSelectedVolumePath();
 		if (CmdLine->ArgHash)
 		{
-			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+			mountOptions.Kdf = CmdLine->ArgHash;
 		}
 		if (CmdLine->ArgPim > 0)
 		{
@@ -798,6 +896,13 @@ namespace VeraCrypt
 
 	void MainFrame::OnClose (wxCloseEvent& event)
 	{
+		// Do not start another core operation from a nested wait event loop.
+		if (Gui->GetWaitDialog())
+		{
+			if (event.CanVeto())
+				event.Veto();
+			return;
+		}
 		if (GetPreferences().WipeCacheOnClose)
 			Core->WipePasswordCache();
 
@@ -806,9 +911,10 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Gui->DismountVolumes (Core->GetMountedVolumes(), GetPreferences().ForceAutoDismount, false);
+				Gui->OnLogOff();
 			}
-			catch (...) { }
+			catch (exception &e) { SystemLog::WriteException (e); }
+			catch (...) { SystemLog::WriteException (UnknownException (SRC_POS)); }
 		}
 #endif
 
@@ -837,7 +943,7 @@ namespace VeraCrypt
 			}
 		}
 		else if (event.CanVeto() && GetPreferences().BackgroundTaskEnabled
-			&& (!GetPreferences().CloseBackgroundTaskOnNoVolumes || !MountedVolumes.empty()))
+			&& (!GetPreferences().CloseBackgroundTaskOnNoVolumes || !CanConfirmNoMountedVolumes()))
 		{
 			// Enter background mode
 			if (!Gui->IsInBackgroundMode())
@@ -962,7 +1068,7 @@ namespace VeraCrypt
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+				mountOptions.Kdf = CmdLine->ArgHash;
 			}
 			if (CmdLine->ArgPim > 0)
 			{
@@ -1303,6 +1409,7 @@ namespace VeraCrypt
 		if (Gui->IsInBackgroundMode() && !prefs.BackgroundTaskEnabled)
 			Close (true);
 
+		InitWindowPrivacy();
 		SavePreferences();
 	}
 
@@ -1377,18 +1484,37 @@ namespace VeraCrypt
 			UpdateVolumeList();
 			UpdateWipeCacheButton();
 
-			if (GetPreferences().BackgroundTaskEnabled)
+			if (GetPreferences().BackgroundTaskEnabled && !Gui->GetWaitDialog())
 			{
 				// Inactivity auto-dismount
-				if (GetPreferences().DismountOnInactivity)
+				if (GetPreferences().DismountOnInactivity
+#ifdef TC_MACOSX
+					&& VolumeSnapshot.IsFresh()
+#endif
+					)
 				{
 					VolumeInfoList inactiveVolumes;
+#ifdef TC_MACOSX
+					wxLongLong currentTime = chrono::duration_cast <chrono::milliseconds> (chrono::steady_clock::now().time_since_epoch()).count();
+#else
 					wxLongLong currentTime = wxGetLocalTimeMillis().GetValue();
+#endif
 
 					map <wstring, VolumeActivityMapEntry> newActivityTimeMap;
 
 					foreach (shared_ptr <VolumeInfo> volume, MountedVolumes)
 					{
+#ifdef TC_MACOSX
+						// A retained entry has no current counters. Keep its idle state until
+						// they can be read again: unchanged cumulative counters prove idleness.
+						if (volume->Discovery == VolumeInfo::ControlUnavailable)
+						{
+							map <wstring, VolumeActivityMapEntry>::const_iterator entry = VolumeActivityMap.find (volume->Path);
+							if (entry != VolumeActivityMap.end() && entry->second.SerialInstanceNumber == volume->SerialInstanceNumber)
+								newActivityTimeMap[volume->Path] = entry->second;
+							continue;
+						}
+#endif
 						if (VolumeActivityMap.find (volume->Path) != VolumeActivityMap.end()
 							&& VolumeActivityMap[volume->Path].SerialInstanceNumber == volume->SerialInstanceNumber)
 						{
@@ -1447,7 +1573,8 @@ namespace VeraCrypt
 				{
 					Close (true);
 				}
-				else if (MountedVolumes.empty() && (GetPreferences().CloseBackgroundTaskOnNoVolumes || Core->IsInPortableMode()))
+				else if (CanConfirmNoMountedVolumes()
+					&& (GetPreferences().CloseBackgroundTaskOnNoVolumes || Core->IsInPortableMode()))
 				{
 					Close (true);
 				}
@@ -1457,7 +1584,7 @@ namespace VeraCrypt
 			try
 			{
 				uint8 buf[128];
-				if (read (ShowRequestFifo, buf, sizeof (buf)) > 0 && Gui->IsInBackgroundMode())
+				if (read (ShowRequestFifo, buf, sizeof (buf)) > 0)
 					Gui->SetBackgroundMode (false);
 			}
 			catch (...)
@@ -1629,23 +1756,23 @@ namespace VeraCrypt
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_mountfavorites = gtk_menu_item_new_with_label (LangString["IDM_MOUNT_FAVORITE_VOLUMES"]);
+				indicator_item_mountfavorites = gtk_menu_item_new_with_label (LangString["IDM_MOUNT_FAVORITE_VOLUMES"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_mountfavorites);
 				g_signal_connect (indicator_item_mountfavorites, "activate", G_CALLBACK (IndicatorOnMountAllFavoritesMenuItemSelected), this);
 
-				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_UNMOUNT_ALL"]);
+				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_UNMOUNT_ALL"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_dismountall);
 				g_signal_connect (indicator_item_dismountall, "activate", G_CALLBACK (IndicatorOnDismountAllMenuItemSelected), this);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_prefs = gtk_menu_item_new_with_label (LangString["IDM_PREFERENCES"]);
+				indicator_item_prefs = gtk_menu_item_new_with_label (LangString["IDM_PREFERENCES"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_prefs);
 				g_signal_connect (indicator_item_prefs, "activate", G_CALLBACK (IndicatorOnPreferencesMenuItemSelected), this);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_exit = gtk_menu_item_new_with_label (LangString["EXIT"]);
+				indicator_item_exit = gtk_menu_item_new_with_label (LangString["EXIT"].mb_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_exit);
 				g_signal_connect (indicator_item_exit, "activate", G_CALLBACK (IndicatorOnExitMenuItemSelected), this);
 
@@ -1683,23 +1810,97 @@ namespace VeraCrypt
 		UpdateWipeCacheButton();
 	}
 
-	void MainFrame::UpdateVolumeList ()
+	void MainFrame::OnUpdateVolumeList (wxThreadEvent& event)
+	{
+#ifdef TC_MACOSX
+		{
+			ScopeLock lock (VolumeDiscovery->AccessMutex);
+			++VolumeDiscovery->Generation;
+		}
+		VolumeSnapshot.Invalidate();
+		VolumeListChange change = event.GetPayload <VolumeListChange>();
+		MountedVolumes.remove_if ([&change] (shared_ptr <VolumeInfo> volume) { return volume->SerialInstanceNumber == change.Volume->SerialInstanceNumber; });
+		if (change.Mounted) MountedVolumes.push_back (change.Volume);
+#endif
+		UpdateVolumeList();
+	}
+
+	void MainFrame::OnVolumeDiscoveryCompleted (wxCommandEvent& event)
+	{
+		try { UpdateVolumeList (false); }
+		catch (exception &e) { SystemLog::WriteException (e); }
+		catch (...) { }
+	}
+
+	void MainFrame::UpdateVolumeList (bool startDiscovery)
 	{
 		static Mutex mutex;
 		ScopeLock lock (mutex);
 
 		bool listChanged = false;
 
+#ifdef TC_MACOSX
+		{
+			ScopeLock discoveryLock (VolumeDiscovery->AccessMutex);
+			auto now = chrono::steady_clock::now();
+			if (VolumeDiscovery->Completed)
+			{
+				if (VolumeDiscovery->Succeeded && VolumeDiscovery->ResultGeneration == VolumeDiscovery->Generation)
+				{
+					VolumeDiscoveryResult &result = VolumeDiscovery->Result;
+					// Retain the identity of previously seen but now unreadable services.
+					// New unresolved candidates remain separate, without invented slots.
+					foreach (shared_ptr <VolumeInfo> old, MountedVolumes)
+						if (find (result.UnresolvedMounts.begin(), result.UnresolvedMounts.end(), old->AuxMountPoint) != result.UnresolvedMounts.end()
+							&& none_of (result.Volumes.begin(), result.Volumes.end(), [&old] (shared_ptr <VolumeInfo> volume) { return volume->SerialInstanceNumber == old->SerialInstanceNumber; }))
+						{
+							shared_ptr <VolumeInfo> unknown = old->Clone();
+							unknown->Discovery = VolumeInfo::ControlUnavailable;
+							unknown->VirtualDevice = DevicePath();
+							unknown->MountPoint = DirectoryPath();
+							result.Volumes.push_back (unknown);
+						}
+					MountedVolumes.swap (result.Volumes);
+					VolumeSnapshot.RecordSample (VolumeDiscovery->Started, result.IsComplete());
+				}
+				else
+				{
+					VolumeSnapshot.Invalidate();
+					// A volume event invalidated an in-flight result. Start the
+					// replacement immediately, without waiting for the next timer.
+					if (VolumeDiscovery->ResultGeneration != VolumeDiscovery->Generation) startDiscovery = true;
+				}
+				VolumeDiscovery->Completed = false;
+			}
+			bool stale = !VolumeSnapshot.IsFresh (now);
+			SetStatusText (stale ? LangString[!VolumeDiscovery->HasResult && now - VolumeDiscovery->Started < chrono::seconds (6)
+				? "VOLUME_DISCOVERY_PENDING" : "VOLUME_DISCOVERY_STALLED"]
+				: (VolumeSnapshot.IsComplete() ? wxString() : LangString["VOLUME_DISCOVERY_PARTIAL"]));
+			if (startDiscovery && !VolumeDiscovery->Running)
+			{
+				VolumeDiscovery->Started = now;
+				VolumeDiscovery->Running = true;
+				unique_ptr <Functor> task (new VolumeDiscoveryTask (VolumeDiscovery, VolumeDiscovery->Generation));
+				Thread thread;
+				try { thread.Start (task.get()); }
+				catch (...) { VolumeDiscovery->Running = false; throw; }
+				task.release();
+				thread.Detach();
+			}
+		}
+#else
 		MountedVolumes = Core->GetMountedVolumes();
+#endif
 
 		map < VolumeSlotNumber, shared_ptr <VolumeInfo> > mountedVolumesMap;
 		foreach (shared_ptr <VolumeInfo> volume, MountedVolumes)
 		{
-			mountedVolumesMap[volume->SlotNumber] = volume;
+			// A live replacement may share a slot with a retained unreadable entry.
+			// Keep the visible row and selection on the first (live) instance.
+			mountedVolumesMap.insert (make_pair (volume->SlotNumber, volume));
 		}
 
 		VolumeInfoList protectionTriggeredVolumes;
-		SlotListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 
 		// Update list
 		long prevItemIndex = -1;
@@ -1718,6 +1919,12 @@ namespace VeraCrypt
 #else
 				fields[ColumnSlot] = StringConverter::FromNumber (slotNumber);
 				fields[ColumnMountPoint] = volume->MountPoint;
+#ifdef TC_MACOSX
+				if (volume->Discovery == VolumeInfo::DiscoveryUnknown || volume->Discovery == VolumeInfo::ControlUnavailable)
+					fields[ColumnMountPoint] = LangString["VOLUME_STATUS_UNKNOWN"];
+				else if (volume->Discovery == VolumeInfo::ImageAbsent)
+					fields[ColumnMountPoint] = LangString["VOLUME_IMAGE_ABSENT"];
+#endif
 #endif
 				fields[ColumnPath] = volume->Path;
 				fields[ColumnSize] = Gui->SizeToString (volume->Size);
@@ -1785,8 +1992,10 @@ namespace VeraCrypt
 			}
 		}
 
-		if (listChanged)
+		if (listChanged) {
+			SlotListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 			OnListChanged();
+		}
 
 		foreach (shared_ptr <VolumeInfo> volume, protectionTriggeredVolumes)
 			OnHiddenVolumeProtectionTriggered (volume);

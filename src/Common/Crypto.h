@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -44,6 +44,12 @@ extern "C" {
 // Size of the volume header area containing concatenated master key(s) and secondary key(s) (XTS mode)
 #define MASTER_KEYDATA_SIZE			256
 
+#ifndef VC_DCS_DISABLE_ARGON2
+// VeraCrypt Argon2id header key material size, in bytes, for the current volume format.
+// This is intentionally fixed for compatibility and must not depend on GetMaxPkcs5OutSize().
+#define ARGON2_HEADER_KEYDATA_SIZE	192
+#endif
+
 // The first PRF to try when mounting
 #define FIRST_PRF_ID		1	
 
@@ -55,6 +61,9 @@ enum
 	SHA256,
 	BLAKE2S,
 	STREEBOG,
+#ifndef VC_DCS_DISABLE_ARGON2
+	ARGON2,
+#endif
 	HASH_ENUM_END_ID
 };
 
@@ -63,6 +72,7 @@ enum
 
 #define BLAKE2S_BLOCKSIZE		64
 #define BLAKE2S_DIGESTSIZE		32
+#define BLAKE2B_DIGESTSIZE		64
 
 #define SHA256_BLOCKSIZE		64
 #define SHA256_DIGESTSIZE		32
@@ -172,7 +182,7 @@ typedef struct
 #ifdef TC_WINDOWS_BOOT
 #define MAX_EXPANDED_KEY	VC_MAX((AES_KS + SERPENT_KS + TWOFISH_KS), CAMELLIA_KS)
 #else
-#define MAX_EXPANDED_KEY	VC_MAX(VC_MAX(VC_MAX((AES_KS + SERPENT_KS + TWOFISH_KS), CAMELLIA_KS + KUZNYECHIK_KS + SERPENT_KS), KUZNYECHIK_KS + TWOFISH_KS), AES_KS + KUZNYECHIK_KS)
+#define MAX_EXPANDED_KEY    VC_MAX(VC_MAX(VC_MAX((AES_KS + SERPENT_KS + TWOFISH_KS), CAMELLIA_KS + KUZNYECHIK_KS + SERPENT_KS), KUZNYECHIK_KS + TWOFISH_KS), AES_KS + KUZNYECHIK_KS)
 #endif
 #endif
 
@@ -199,10 +209,14 @@ typedef struct
 #endif
 #include "Twofish.h"
 
-#include "blake2.h"
+#include "blake2s.h"
 #ifndef TC_WINDOWS_BOOT
 #	include "Sha2.h"
 #	include "Whirlpool.h"
+#ifndef VC_DCS_DISABLE_ARGON2
+#	include "argon2.h"
+#	include "Crypto/Argon2/src/blake2/blake2b.h"
+#endif
 #	include "Streebog.h"
 #	include "kuznyechik.h"
 #	include "Camellia.h"
@@ -224,6 +238,7 @@ typedef struct
 typedef struct keyInfo_t
 {
 	int noIterations;					/* Number of times to iterate (PKCS-5) */
+	int memoryCost;						/* Memory cost factor (PKCS-5) */
 	int keyLength;						/* Length of the key */
 	uint64 dummy;						/* Dummy field to ensure 16-byte alignment of this structure */
 	unsigned __int8 salt[PKCS5_SALT_SIZE];		/* PKCS-5 salt */
@@ -239,8 +254,8 @@ typedef struct CRYPTO_INFO_t
 	int mode;								/* Mode of operation (e.g., XTS) */
 	int pkcs5;								/* PRF algorithm */
 
-	unsigned __int8 ks[MAX_EXPANDED_KEY];	/* Primary key schedule (if it is a cascade, it conatins multiple concatenated keys) */
-	unsigned __int8 ks2[MAX_EXPANDED_KEY];	/* Secondary key schedule (if cascade, multiple concatenated) for XTS mode. */
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 ks[MAX_EXPANDED_KEY];	/* Primary key schedule (if it is a cascade, it conatins multiple concatenated keys) */
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 ks2[MAX_EXPANDED_KEY];	/* Secondary key schedule (if cascade, multiple concatenated) for XTS mode. */
 
 	BOOL hiddenVolume;						// Indicates whether the volume is mounted/mountable as hidden volume
 
@@ -255,6 +270,7 @@ typedef struct CRYPTO_INFO_t
 #endif
 
 	int noIterations;	
+	int memoryCost;
 	int volumePim;
 
 	BOOL bProtectHiddenVolume;			// Indicates whether the volume contains a hidden volume to be protected against overwriting
@@ -373,6 +389,7 @@ Hash *HashGet (int id);
 void HashGetName2 (wchar_t *buf, size_t bufLen, int hashId);
 BOOL HashIsDeprecated (int hashId);
 BOOL HashForSystemEncryption (int hashId);
+BOOL HashIsAvailable (int hashId);
 int GetMaxPkcs5OutSize (void);
 #endif
 

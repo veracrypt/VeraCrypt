@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -70,6 +70,29 @@ namespace VeraCrypt
 	private:
 		Blake2s (const Blake2s &);
 		Blake2s &operator= (const Blake2s &);
+	};
+
+	// Blake2b
+	class Blake2b : public Hash
+	{
+	public:
+		Blake2b ();
+		virtual ~Blake2b () { }
+
+		virtual void GetDigest (const BufferPtr &buffer);
+		virtual size_t GetBlockSize () const { return 128; }
+		virtual size_t GetDigestSize () const { return 64; }
+		virtual wstring GetName () const { return L"BLAKE2b-512"; }
+		virtual wstring GetAltName () const { return L"BLAKE2b"; }
+		virtual shared_ptr <Hash> GetNew () const { return shared_ptr <Hash> (new Blake2b); }
+		virtual void Init ();
+		virtual void ProcessData (const ConstBufferPtr &data);
+
+	protected:
+
+	private:
+		Blake2b (const Blake2b &);
+		Blake2b &operator= (const Blake2b &);
 	};
     #endif
 

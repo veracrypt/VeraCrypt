@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -304,6 +304,58 @@ vector <HostDevice> DeferredNonSysInPlaceEncDevices;
 
 int iMaxPasswordLength = MAX_PASSWORD;
 
+void WipePasswordsAndKeyfiles(bool bFull)
+{
+	wchar_t tmp[MAX_PASSWORD + 1];
+
+	// Attempt to wipe passwords stored in the input field buffers
+	wmemset(tmp, L'X', MAX_PASSWORD);
+	tmp[MAX_PASSWORD] = 0;
+	if (hPasswordInputField)
+		SetWindowText(hPasswordInputField, tmp);
+	if (hVerifyPasswordInputField)
+		SetWindowText(hVerifyPasswordInputField, tmp);
+
+	burn(&szVerify[0], sizeof(szVerify));
+	burn(&volumePassword, sizeof(volumePassword));
+	burn(&szRawPassword[0], sizeof(szRawPassword));
+	burn(&volumePim, sizeof(volumePim));
+	burn(&CmdVolumePassword, sizeof(CmdVolumePassword));
+	burn(&CmdVolumePim, sizeof(CmdVolumePim));
+
+	if (bFull)
+	{
+		burn(&outerVolumePassword, sizeof(outerVolumePassword));
+		burn(&outerVolumePim, sizeof(outerVolumePim));
+	}
+
+	if (hPasswordInputField)
+		SetWindowText(hPasswordInputField, L"");
+	if (hVerifyPasswordInputField)
+		SetWindowText(hVerifyPasswordInputField, L"");
+
+	KeyFileRemoveAll(&FirstKeyFile);
+	KeyFileRemoveAll(&defaultKeyFilesParam.FirstKeyFile);
+}
+
+DWORD GetFormatSectorSize()
+{
+	if (!bDevice)
+		return TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
+
+	DISK_GEOMETRY_EX geometry;
+
+	if (!GetDriveGeometry(szDiskFile, &geometry))
+	{
+		handleWin32Error(MainDlg, SRC_POS);
+		AbortProcessSilent();
+	}
+
+	return geometry.Geometry.BytesPerSector;
+}
+
+#ifndef VCSDK_DLL
+
 // specific definitions and implementation for support of resume operation
 // in wait dialog mechanism
 
@@ -412,40 +464,6 @@ static BOOL ElevateWholeWizardProcess (wstring arguments)
 			return FALSE;
 		}
 	}
-}
-
-static void WipePasswordsAndKeyfiles (bool bFull)
-{
-	wchar_t tmp[MAX_PASSWORD+1];
-
-	// Attempt to wipe passwords stored in the input field buffers
-	wmemset (tmp, L'X', MAX_PASSWORD);
-	tmp [MAX_PASSWORD] = 0;
-	if (hPasswordInputField)
-		SetWindowText (hPasswordInputField, tmp);
-	if (hVerifyPasswordInputField)
-		SetWindowText (hVerifyPasswordInputField, tmp);
-
-	burn (&szVerify[0], sizeof (szVerify));
-	burn (&volumePassword, sizeof (volumePassword));
-	burn (&szRawPassword[0], sizeof (szRawPassword));
-	burn (&volumePim, sizeof (volumePim));
-	burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
-	burn (&CmdVolumePim, sizeof (CmdVolumePim));
-
-	if (bFull)
-	{
-		burn (&outerVolumePassword, sizeof (outerVolumePassword));
-		burn (&outerVolumePim, sizeof (outerVolumePim));
-	}
-
-	if (hPasswordInputField)
-		SetWindowText (hPasswordInputField, L"");
-	if (hVerifyPasswordInputField)
-		SetWindowText (hVerifyPasswordInputField, L"");
-
-	KeyFileRemoveAll (&FirstKeyFile);
-	KeyFileRemoveAll (&defaultKeyFilesParam.FirstKeyFile);
 }
 
 static void localcleanup (void)
@@ -772,6 +790,22 @@ static BOOL CreatingHiddenSysVol (void)
 {
 	return (bHiddenOS
 		&& bHiddenVol && !bHiddenVolHost);
+}
+
+static const char *GetPimHelpStringId (int pkcs5Prf, BOOL systemEncryption)
+{
+#if !defined (WOLFCRYPT_BACKEND) && !defined (VC_DCS_DISABLE_ARGON2)
+	if (pkcs5Prf == ARGON2)
+		return "PIM_ARGON2_HELP";
+#endif
+#ifndef WOLFCRYPT_BACKEND
+	if (systemEncryption && pkcs5Prf != SHA512 && pkcs5Prf != WHIRLPOOL)
+		return "PIM_SYSENC_HELP";
+#else
+	if (systemEncryption && pkcs5Prf != SHA512)
+		return "PIM_SYSENC_HELP";
+#endif
+	return "PIM_HELP";
 }
 
 static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* pbSettingsModified, BOOL* pbHistoryModified)
@@ -2504,6 +2538,7 @@ static void UpdateWipeControls (void)
 
 static void __cdecl sysEncDriveAnalysisThread (void *hwndDlgArg)
 {
+	ScreenCaptureBlocker blocker;
 	// Mark the detection process as 'in progress'
 	HiddenSectorDetectionStatus = 1;
 	SaveSettings (NULL);
@@ -2548,6 +2583,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	BOOL bHidden;
 	HWND hwndDlg = (HWND) hwndDlgArg;
 	volatile FORMAT_VOL_PARAMETERS *volParams = (FORMAT_VOL_PARAMETERS *) malloc (sizeof(FORMAT_VOL_PARAMETERS));
+	ScreenCaptureBlocker blocker;
 
 	if (volParams == NULL)
 		AbortProcess ("ERR_MEM_ALLOC");
@@ -2646,6 +2682,8 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	volParams->hwndDlg = hwndDlg;
 	volParams->bForceOperation = bForceOperation;
 	volParams->bGuiMode = bGuiMode;
+	volParams->progress_callback = NULL;
+	volParams->progress_callback_user_data = NULL;
 
 	if (bInPlaceDecNonSys)
 	{
@@ -4195,8 +4233,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 					{
-						if ((!HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
-							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+						if ((!HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)) && (hid != ARGON2)) // We don't support Argon2 for system encryption
+							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), get_kdf_name(hid), hid);
 					}
 				}
 				else
@@ -4205,7 +4243,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 					{
 						if (!HashIsDeprecated (hid))
-							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), get_kdf_name(hid), hid);
 					}
 				}
 
@@ -4333,7 +4371,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 				{
-					nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+					nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				}
 
@@ -4478,11 +4516,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
-                            #ifndef WOLFCRYPT_BACKEND
-				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect () && hash_algo != SHA512 && hash_algo != WHIRLPOOL? "PIM_SYSENC_HELP" : "PIM_HELP"));
-                            #else
-				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect () && hash_algo != SHA512? "PIM_SYSENC_HELP" : "PIM_HELP"));
-                            #endif
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (GetPimHelpStringId (hash_algo, SysEncInEffect ())));
 				ToHyperlink (hwndDlg, IDC_LINK_PIM_INFO);
 
 				if (CreatingHiddenSysVol())
@@ -5991,7 +6025,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					HWND hHashAlgoItem = GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO);
 					int selectedAlgo = (int) SendMessage (hHashAlgoItem, CB_GETITEMDATA, SendMessage (hHashAlgoItem, CB_GETCURSEL, 0, 0), 0);
-					if (!bSystemIsGPT && !HashForSystemEncryption(selectedAlgo))
+					if ((!bSystemIsGPT && !HashForSystemEncryption(selectedAlgo)) || (selectedAlgo == ARGON2))
 					{
 						hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
 						RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);
@@ -6162,6 +6196,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -6240,12 +6278,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (hwndDlg, lpszTitle);
 
 			ExtractCommandLine (hwndDlg, (wchar_t *) lParam);
-
-			if (EnableMemoryProtection)
-			{
-				/* Protect this process memory from being accessed by non-admin users */
-				ActivateMemoryProtection ();
-			}
 
 			if (ComServerMode)
 			{
@@ -6414,7 +6446,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (volumePassword.Length > 0)
 				{
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					if (!CheckPasswordLength (NULL, volumePassword.Length, volumePim, FALSE, 0, Silent, Silent))
+					if (!CheckPasswordLength (NULL, volumePassword.Length, volumePim, FALSE, hash_algo, Silent, Silent))
 					{
 						exit (1);
 					}
@@ -6645,6 +6677,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								catch (Exception &e)
 								{
 									e.Show (hwndDlg);
+									return 1;
 								}
 
 								ManageStartupSeqWiz (TRUE, L"");
@@ -7679,7 +7712,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, FALSE, FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), hash_algo, FALSE, FALSE))
 					{
 						return 1;
 					}
@@ -7790,7 +7823,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, TRUE, FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), hash_algo, TRUE, FALSE))
 					{
 						return 1;
 					}
@@ -9076,6 +9109,10 @@ ovf_end:
 		PostMessage (hwndDlg, TC_APPMSG_FORMAT_USER_QUIT, 0, 0);
 		return 1;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_NCDESTROY:
 		{
 			hPasswordInputField = NULL;
@@ -9147,8 +9184,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionQuickFormat,
 				OptionFastCreateFile,
 				OptionEnableMemoryProtection,
+				OptionEnableScreenProtection,
 				OptionKeyfile,
 				OptionSecureDesktop,
+				OptionEnableIME,
 			};
 
 			argument args[]=
@@ -9173,8 +9212,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionQuickFormat,			L"/quick",	NULL, FALSE },
 				{ OptionFastCreateFile,			L"/fastcreatefile",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,	L"/protectMemory",	NULL, FALSE },
+				{ OptionEnableScreenProtection,	L"/protectScreen",	NULL, FALSE },
 				{ OptionKeyfile,				L"/keyfile",		L"/k", FALSE },
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
+				{ OptionEnableIME,				L"/enableIME",		NULL, FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9286,6 +9327,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							CmdVolumePkcs5 = SHA256;
 						else if ((_wcsicmp(szTmp, L"blake2s") == 0) || (_wcsicmp(szTmp, L"blake2s-256") == 0))
 							CmdVolumePkcs5 = BLAKE2S;
+						else if ((_wcsicmp(szTmp, L"argon2") == 0))
+							CmdVolumePkcs5 = ARGON2;
 						else
 						{
 							/* match using internal hash names */
@@ -9536,9 +9579,39 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				break;
 
 			case OptionEnableMemoryProtection:
-				EnableMemoryProtection = TRUE;
+			{
+				wchar_t szTmp[16] = { 0 };
+				if (HAS_ARGUMENT == GetArgumentValue(lpszCommandLineArgs,
+					&i, nNoCommandLineArgs, szTmp, ARRAYSIZE(szTmp)))
+				{
+					if ((!_wcsicmp(szTmp, L"no") || !_wcsicmp(szTmp, L"n")) && IsNonInstallMode())
+						EnableMemoryProtection = FALSE;
+					else if (!_wcsicmp(szTmp, L"yes") || !_wcsicmp(szTmp, L"y"))
+						EnableMemoryProtection = TRUE;
+					else
+						AbortProcess("COMMAND_LINE_ERROR");
+				}
+				else
+					EnableMemoryProtection = TRUE;
 				break;
-
+			}
+			case OptionEnableScreenProtection:
+			{
+				wchar_t szTmp[16] = { 0 };
+				if (HAS_ARGUMENT == GetArgumentValue(lpszCommandLineArgs,
+					&i, nNoCommandLineArgs, szTmp, ARRAYSIZE(szTmp)))
+				{
+					if ((!_wcsicmp(szTmp, L"no") || !_wcsicmp(szTmp, L"n")) && IsNonInstallMode())
+						EnableScreenProtection = FALSE;
+					else if (!_wcsicmp(szTmp, L"yes") || !_wcsicmp(szTmp, L"y"))
+						EnableScreenProtection = TRUE;
+					else
+						AbortProcess("COMMAND_LINE_ERROR");
+				}
+				else
+					EnableScreenProtection = TRUE;
+				break;
+			}
 			case OptionHistory:
 				{
 					wchar_t szTmp[8] = {0};
@@ -9632,6 +9705,24 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					}
 				}
 				break;
+
+			case OptionEnableIME:
+				{
+					wchar_t szTmp[16] = {0};
+					bCmdEnableIMEInSecureDesktop = TRUE;
+					bCmdEnableIMEInSecureDesktopValid = TRUE;
+
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, ARRAYSIZE (szTmp)))
+					{
+						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
+							bCmdEnableIMEInSecureDesktop = FALSE;
+						else if (!_wcsicmp(szTmp,L"y") || !_wcsicmp(szTmp,L"yes"))
+							bCmdEnableIMEInSecureDesktop = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				}
 
 			default:
 				DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_COMMANDHELP_DLG), hwndDlg, (DLGPROC)
@@ -10565,6 +10656,48 @@ static void AfterWMInitTasks (HWND hwndDlg)
 int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
 {
 	int status;
+	int argc;
+	LPWSTR *argv = CommandLineToArgvW (GetCommandLineW(), &argc);
+
+	for (int i = 0; argv && i < argc; i++)
+	{
+		if (_wcsicmp (argv[i], L"/protectScreen") == 0)
+		{
+			if ((i < argc - 1) && (_wcsicmp (argv[i + 1], L"no") == 0 || _wcsicmp (argv[i + 1], L"n") == 0))
+			{
+				// Disabling screen protection is only allowed in portable mode
+				if (IsNonInstallMode())
+					EnableScreenProtection = FALSE;
+			}
+			else
+			{
+				EnableScreenProtection = TRUE;
+			}
+		}
+		if (_wcsicmp (argv[i], L"/protectMemory") == 0)
+		{
+			if ((i < argc - 1) && (_wcsicmp (argv[i + 1], L"no") == 0 || _wcsicmp (argv[i + 1], L"n") == 0))
+			{
+				// Disabling memory protection is only allowed in portable mode
+				if (IsNonInstallMode())
+					EnableMemoryProtection = FALSE;
+			}
+			else
+			{
+				EnableMemoryProtection = TRUE;
+			}
+		}
+	}
+
+	LocalFree (argv); // free memory allocated by CommandLineToArgvW
+
+	if (EnableMemoryProtection)
+	{
+		/* Protect this process memory from being accessed by non-admin users */
+		ActivateMemoryProtection ();
+	}
+
+	ScreenCaptureBlocker blocker;
 	atexit (localcleanup);
 
 	VirtualLock (&volumePassword, sizeof(volumePassword));
@@ -10650,20 +10783,4 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 	return 0;
 }
-
-
-static DWORD GetFormatSectorSize ()
-{
-	if (!bDevice)
-		return TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
-
-	DISK_GEOMETRY_EX geometry;
-
-	if (!GetDriveGeometry (szDiskFile, &geometry))
-	{
-		handleWin32Error (MainDlg, SRC_POS);
-		AbortProcessSilent();
-	}
-
-	return geometry.Geometry.BytesPerSector;
-}
+#endif

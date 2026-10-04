@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认机制。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求与预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Unencrypted%20Data%20in%20RAM.html">内存中的未加密数据</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>内存中的未加密数据</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+需要注意的是，VeraCrypt是一款<em style="text-align:left">磁盘</em>加密软件，它仅对磁盘进行加密，而不加密内存（RAM）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请记住，大多数程序不会清除其从VeraCrypt卷加载未加密（部分）文件时所使用的内存区域（缓冲区）。这意味着，在您退出此类程序后，它所处理的未加密数据可能会保留在内存（RAM）中，直到计算机被关闭（并且，根据一些研究人员的说法，甚至在电源关闭后的一段时间内仍会保留*）。此外，如果您在文本编辑器中打开存储在VeraCrypt卷上的文件，然后对VeraCrypt卷进行强制卸载，那么该文件将在文本编辑器使用（分配）的内存区域（RAM）中保持未加密状态。这同样适用于强制自动卸载。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+本质上，未加密的主密钥也必须存储在RAM中。当非系统VeraCrypt卷被卸载时，VeraCrypt会擦除存储在RAM中的主密钥。当计算机正常重启（或正常关机）时，所有非系统VeraCrypt卷会自动卸载，因此，VeraCrypt驱动程序会擦除存储在RAM中的所有主密钥（系统分区/驱动器的主密钥除外 —— 见下文）。然而，当电源突然中断、计算机被重置（非正常重启）或系统崩溃时，<strong style="text-align:left">
+VeraCrypt自然会停止运行，因此无法</strong>擦除任何密钥或其他敏感数据。此外，由于微软没有提供任何用于处理休眠和关机的适当API，当计算机休眠、关机或重启时，用于系统加密的主密钥无法可靠地（实际上也不会）从RAM中擦除**。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+从1.24版本开始，VeraCrypt引入了一种机制，用于加密RAM中的主密钥和缓存密码。这种RAM加密机制必须在“性能/驱动程序配置”对话框中手动激活。RAM加密会带来一定的性能开销（根据CPU速度，在5%到15%之间），并且会禁用Windows休眠功能。<br>
+此外，VeraCrypt 1.24及更高版本在使用系统加密时提供了一种额外的安全机制，当新设备连接到计算机时，该机制会使VeraCrypt从RAM中擦除主密钥。这种额外的机制可以在系统设置对话框中通过一个选项来激活。<br/>
+尽管上述两种机制都为主密钥和缓存密码提供了强大的保护，但用户仍应采取与保护RAM中敏感数据相关的常规预防措施。
+</div>
+<table style="border-collapse:separate; border-spacing:0px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<td style="text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; color:#ff0000; padding:15px; border:1px solid #000000">
+总结来说，VeraCrypt <strong style="text-align:left">无法</strong>也 <strong style="text-align:left">不会</strong> 确保RAM中不包含敏感数据（例如密码、主密钥或解密后的数据）。因此，在每次使用VeraCrypt卷或运行加密操作系统的会话结束后，您必须关闭计算机（或者，如果<a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">
+休眠文件</a>已按照<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+系统加密</a>的方式进行加密，则可以让计算机进入休眠状态），然后在再次开机之前，让计算机至少断电几分钟（时间越长越好）。这是清除RAM所必需的操作（另见<a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">
+休眠文件</a>部分）。
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 据称，在正常工作温度（26 - 44 °C）下，数据可保留1.5 - 35秒；当内存模块在计算机运行时被冷却到极低温度（例如 -50 °C）时，数据可保留长达数小时。截至2008年，新型内存模块的数据衰减时间据称比旧型内存模块短得多（例如1.5 - 2.5秒）。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">** 在从RAM中擦除密钥之前，必须先卸载相应的VeraCrypt卷。对于非系统卷，这不会导致任何问题。然而，由于微软目前没有提供任何用于处理系统关机最后阶段的适当API，位于加密系统卷上且在系统关机过程中被卸载的分页文件可能仍然包含有效的换出内存页面（包括Windows系统文件的部分内容）。这可能会导致“蓝屏”错误。因此，为了防止“蓝屏”错误，VeraCrypt在系统关机或重启时不会卸载加密系统卷，因此也无法清除系统卷的主密钥。</span></p>
+</div><div class="ClearBoth"></div></body></html>

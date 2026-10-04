@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -52,6 +52,8 @@ namespace VeraCrypt
 			FilesystemTypeChoice->Append (L"APFS",			(void *) VolumeCreationOptions::FilesystemType::APFS);
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 		FilesystemTypeChoice->Append (L"UFS",				(void *) VolumeCreationOptions::FilesystemType::UFS);
+#elif defined (TC_OPENBSD)
+		FilesystemTypeChoice->Append (L"FFS",				(void *) VolumeCreationOptions::FilesystemType::FFS);
 #endif
 
 		if (!disable32bitFilesystems && filesystemSize <= TC_MAX_FAT_SECTOR_COUNT * sectorSize)
@@ -94,6 +96,7 @@ namespace VeraCrypt
 		case VolumeCreationOptions::FilesystemType::MacOsExt:	FilesystemTypeChoice->SetStringSelection (L"Mac OS Extended"); break;
 		case VolumeCreationOptions::FilesystemType::APFS:		FilesystemTypeChoice->SetStringSelection (L"APFS"); break;
 		case VolumeCreationOptions::FilesystemType::UFS:		FilesystemTypeChoice->SetStringSelection (L"UFS"); break;
+		case VolumeCreationOptions::FilesystemType::FFS:		FilesystemTypeChoice->SetStringSelection (L"FFS"); break;
 
 		default:
 			throw ParameterIncorrect (SRC_POS);

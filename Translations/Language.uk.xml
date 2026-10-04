@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.26.20">
+  <localization prog-version="1.26.29">
     <language langid="uk" name="Українська" en-name="Ukrainian" version="1.1.0" translators="Kravchuk Olexandr, Babchuk Volodymyr" />
     <font lang="uk" class="normal" size="11" face="default" />
     <font lang="uk" class="bold" size="13" face="Arial" />
@@ -291,8 +291,8 @@
     <entry lang="uk" key="IDT_NEW_PASSWORD">Пароль:</entry>
     <entry lang="uk" key="IDT_PARALLELIZATION_OPTIONS">Потокове Розпаралелювання</entry>
     <entry lang="uk" key="IDT_PKCS11_LIB_PATH">Шлях до бібліотеки PKCS #11</entry>
-    <entry lang="uk" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="uk" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="uk" key="IDT_KDF">KDF:</entry>
+    <entry lang="uk" key="IDT_NEW_KDF">KDF:</entry>
     <entry lang="uk" key="IDT_PW_CACHE_OPTIONS">Кешування (запамятовування) паролів</entry>
     <entry lang="uk" key="IDT_SECURITY_OPTIONS">Параметри безпеки</entry>
     <entry lang="uk" key="IDT_EMV_OPTIONS">Параметри EMV</entry>
@@ -610,7 +610,6 @@
     <entry lang="uk" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Додати/видалити файл-ключі до/з тому</entry>
     <entry lang="uk" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Видалити всі файл-ключі з тому</entry>
     <entry lang="uk" key="PASSWORD_CHANGED">Пароль, PIM та/або файл-ключ успішно змінено.\n\nВАЖЛИВО: обов'язково прочитайте розділ 'Changing Passwords and Keyfiles' у главі 'Security Precautions' Посібника Користувача VeraCrypt.</entry>
-    <entry lang="uk" key="FAVORITE_PIM_CHANGED">Цей том зареєстровано як системний улюблений, і його PIM було змінено.\nЧи хочете ви, щоб VeraCrypt автоматично оновив конфігурацію системного улюбленого (потрібні права адміністратора)?\n\nЗверніть увагу, що якщо ви відповісте «ні», вам доведеться оновити системний улюблений вручну.</entry>
     <entry lang="uk" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">ВФЖЛІВО: Якщо ви не знищили свій диск відновлення VeraCrypt (Rescue Disk), ваш системний розділ/диск можна розшифрувати з допомогою старого пароля (завантажившись з диска відновлення VeraCrypt і ввівши старий пароль). Вам потрібно створити новий диск відновлення VeraCrypt, після чого знищити прихований.\n\nБажаєте створити новий диск відновлення VeraCrypt?</entry>
     <entry lang="uk" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">Пам'ятайте, ваш Диск Відновлення VeraCrypt ще використовує попередній алгоритм. Якщо стійкість попереднього алгоритму вас не задовільняє, вам слід створити новий Диск Відновлення VeraCrypt, а потім знищити старий.\n\nБажаєте створити новий диск відновлення VeraCrypt?</entry>
     <entry lang="uk" key="KEYFILES_NOTE">Зверніть увагу, що VeraCrypt не змінює вміст ключового файлу. Допускається вибрати більше одного ключового файлу (порядок вибору немає значення). Якщо додати теку, то всі файли всередині неї будуть використовуватися як ключові. Натисніть 'Добавити токен-файл', щоб вибрати ключові файли, що знаходяться на токенах безпеки або смарт-картах (або для імпортування кдючових файлів на токени/смарт-карти).</entry>
@@ -813,7 +812,7 @@
     <entry lang="uk" key="SECONDARY_KEY_SIZE_LRW">довжина Tweak-ключа (LRW-режим)</entry>
     <entry lang="uk" key="BITS">біт(и,ів)</entry>
     <entry lang="uk" key="BLOCK_SIZE">Розмір блоку</entry>
-    <entry lang="uk" key="PKCS5_PRF">PKCS-5 PRF</entry>
+    <entry lang="uk" key="KDF">KDF</entry>
     <entry lang="uk" key="PKCS5_ITERATIONS">Кількість ітерацій PKCS-5</entry>
     <entry lang="uk" key="VOLUME_CREATE_DATE">Том створено</entry>
     <entry lang="uk" key="VOLUME_HEADER_DATE">Остання зміна заголовку</entry>
@@ -855,7 +854,7 @@
     <entry lang="uk" key="TC_INSTALLER_IS_RUNNING">В этой системе сейчас запущен инсталлятор VeraCrypt. Он выполняет/готовит установку или обновление VeraCrypt. Дождитесь завершения его работы или закройте его. Если закрыть инсталлятор не получается, перезагрузите комп'ютер и лишь потом продолжите.</entry>
     <entry lang="uk" key="INSTALL_FAILED">Невдале встановлювання.</entry>
     <entry lang="uk" key="UNINSTALL_FAILED">Невдале видалення.</entry>
-    <entry lang="uk" key="DIST_PACKAGE_CORRUPTED">Цей файл встановлення пошкоджено. Будь ласка, спробуйте завантажити його знову (рекомендовано з офіційної сторінки VeraCrypt на https://www.veracrypt.fr).</entry>
+    <entry lang="uk" key="DIST_PACKAGE_CORRUPTED">Цей файл встановлення пошкоджено. Будь ласка, спробуйте завантажити його знову (рекомендовано з офіційної сторінки VeraCrypt на https://veracrypt.jp).</entry>
     <entry lang="uk" key="CANNOT_WRITE_FILE_X">Неможливо записати файл %s</entry>
     <entry lang="uk" key="EXTRACTING_VERB">Видобування</entry>
     <entry lang="uk" key="CANNOT_READ_FROM_PACKAGE">Неможливо прочитати дані з файлу встановлювання.</entry>
@@ -967,7 +966,7 @@
     <entry lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">Диск Відновлення VeraCrypt успішно перевірено.</entry>
     <entry lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Неможливо перевірити чи коректно записано Диск Відновлення.\n\nЯкщо у вас є записаний Диск Відновлення, будь ласка, дістаньте, вставте CD/DVD; потім спробуйте ще. Якщо це не допоможе, будь ласка спробуйте іншу CD/DVD-записувальну програму та/або носій.\n\nЯкщо ви захочете перевірити Диск Відновлення VeraCrypt, створений з іншим головний ключем, паролем, "сіллю" тощо, будь ласка пам'ятайте, що перевірка такого Диску Відновлення завжди буде невдалою. Щоб створити новий Диск Відновлення повністю сумісний з вашою поточною конфігурацією, оберіть 'Система' &gt; 'Створити Диск Відновлення'.</entry>
     <entry lang="uk" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">Obraz диска відновлення VeraCrypt успішно пройшов перевірку.</entry>
-    <entry lang="uk" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">Перевірка образу диска відновлення не вдалася.\n\nЯкщо ви спробували перевірити образ диска відновлення VeraCrypt, створений для іншого головного ключа, пароля, солі тощо, зверніть увагу, що такий образ диска відновлення завжди провалює цю перевірку. Щоб створити новий образ диска відновлення, який повністю сумісний з вашою поточною конфігурацією, оберіть «Система» > «Створити диск відновлення».</entry>
+    <entry lang="uk" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">Перевірка образу диска відновлення не вдалася.\n\nЯкщо ви спробували перевірити образ диска відновлення VeraCrypt, створений для іншого головного ключа, пароля, солі тощо, зверніть увагу, що такий образ диска відновлення завжди провалює цю перевірку. Щоб створити новий образ диска відновлення, який повністю сумісний з вашою поточною конфігурацією, оберіть «Система» &gt; «Створити диск відновлення».</entry>
     <entry lang="uk" key="ERROR_CREATING_RESCUE_DISK">Помилка створення Диску Відновлення VeraCrypt.</entry>
     <entry lang="uk" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">Диск відновлення VeraCrypt неможна створити при запущеній прихованій операційній системі.\n\nЩоб створити диск відновлення, завантажте підставну операційну систему, а потім виберіть 'Система' &gt; 'Створити диск відновлення'.</entry>
     <entry lang="uk" key="RESCUE_DISK_CHECK_FAILED">Неможливо перевірити чи коректно записано Диск Відновлення.\n\nЯкщо у вас є записаний Диск Відновлення, будь ласка, вставте в CD/DVD; потім натисніть 'Далі' для наступної спроби. Якщо це не допоможе, будь ласка спробуйте іншу CD/DVD-записувальну програму та/або носій.%s\n\nЯкщо у вас ще немає записаного Диску Відновлення, будь ласка, запишіть його та потім натисніть 'Далі'.\n\nЯкщо ви захочете перевірити Диск Відновлення VeraCrypt, створений перед запуском цього майстра, будь ласка памятайте, що такий Диск Відновлення не можна використовувати, тому що він створений з іншим головним ключем. Вам потрібно записати заново створений Диск Відновлення.</entry>
@@ -1517,10 +1516,6 @@
     <entry lang="uk" key="LINUX_MOUNTET_HINT">Файлова система вибраного пристрою наразі змонтована. Будь ласка, відмонтируйте '{0}' перед продовженням.</entry>
     <entry lang="uk" key="LINUX_HIDDEN_PASS_NO_DIFF">Прихований том не може мати однаковий пароль, PIM і ключові файли, як зовнішній том</entry>
     <entry lang="uk" key="LINUX_NOT_FAT_HINT">Будь ласка, зверніть увагу, що том не буде відформатовано файловою системою FAT, і тому вам може знадобитися встановити додаткові драйвери файлової системи на інших платформах, окрім {0}, що дозволить вам монтувати том.</entry>
-    <entry lang="uk" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Помилка: прихований том, який буде створено, більший за {0} ТБ ({1} ГБ).\n\nМожливі рішення:\n- Створити контейнер/розділ, менший за {0} ТБ.\n</entry>
-    <entry lang="uk" key="LINUX_MAX_SIZE_HINT">- Використовуйте накопичувач із 4096-байтовими секторами, щоб створити розділи/пристрої, що розміщують приховані томи, розміром до 16 ТБ </entry>
-    <entry lang="uk" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="uk" key="LINUX_NOT_SUPPORTED"> (не підтримується компонентами, доступними на цій платформі).\n</entry>
     <entry lang="uk" key="LINUX_KERNEL_OLD">Ваша система використовує стару версію ядра Linux.\n\nЧерез помилку в ядрі Linux ваша система може перестати відповідати під час запису даних на томи VeraCrypt. Цю проблему можна вирішити, оновивши ядро до версії 2.6.24 або новішої.</entry>
     <entry lang="uk" key="LINUX_VOL_UNMOUNTED">Том {0} було відмонтовано.</entry>
     <entry lang="uk" key="LINUX_VOL_MOUNTED">Том {0} було змонтовано.</entry>
@@ -1532,7 +1527,7 @@
     <entry lang="uk" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Невідповідність розміру секторів пристрою збереження та тому VeraCrypt</entry>
     <entry lang="uk" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Цю операцію необхідно виконувати лише тоді, коли система, розміщена на томі, працює.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_INSUFFICIENTDATA">Недостатньо даних.</entry>
-    <entry lang="uk" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Тест криптографічної служби ядра не пройдено. Ймовірно, криптографічна служба вашого ядра не підтримує томи більші за 2 ТБ.\n\nМожливі рішення:\n- Оновіть ядро Linux до версії 2.6.33 або пізнішої.\n- Вимкніть використання криптографічних служб ядра (Налаштування > Переваги > Інтеграція системи) або використовуйте опцію монтування 'nokernelcrypto' у командному рядку.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Тест криптографічної служби ядра не пройдено. Ймовірно, криптографічна служба вашого ядра не підтримує томи більші за 2 ТБ.\n\nМожливі рішення:\n- Оновіть ядро Linux до версії 2.6.33 або пізнішої.\n- Вимкніть використання криптографічних служб ядра (Налаштування &gt; Переваги &gt; Інтеграція системи) або використовуйте опцію монтування 'nokernelcrypto' у командному рядку.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Не вдалося налаштувати пристрій зворотного зв'язку.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_MISSINGARGUMENT">Відсутній необхідний аргумент.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Дані тому відсутні.</entry>
@@ -1540,7 +1535,7 @@
     <entry lang="uk" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Точка монтування вже використовується.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_PASSWORDEMPTY">Не вказано пароль або ключовий файл.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nЗверніть увагу, що паролі автентифікації до завантаження потрібно вводити в середовищі до завантаження, де доступний лише стандартний розклад клавіатури США. Тому паролі автентифікації до завантаження необхідно завжди вводити, використовуючи стандартний розклад клавіатури США (в іншому разі, пароль у більшості випадків буде введений неправильно). Проте зверніть увагу, що для цього вам НЕ потрібна справжня клавіатура США; вам просто потрібно змінити розклад клавіатури в операційній системі.</entry>
-    <entry lang="uk" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nПримітка: Якщо ви намагаєтеся змонтувати розділ, розташований на зашифрованому системному диску без автентифікації до завантаження, або змонтувати зашифрований системний розділ операційної системи, яка не працює, ви можете зробити це, вибравши «Параметри > » > «Змонтувати розділ із використанням системного шифрування».</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nПримітка: Якщо ви намагаєтеся змонтувати розділ, розташований на зашифрованому системному диску без автентифікації до завантаження, або змонтувати зашифрований системний розділ операційної системи, яка не працює, ви можете зробити це, вибравши «Параметри &gt; » &gt; «Змонтувати розділ із використанням системного шифрування».</entry>
     <entry lang="uk" key="LINUX_EX2MSG_PASSWORDTOOLONG">Пароль довший ніж {0} символів.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Потрібен пристрій розділу.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Неправильний пароль для захищеного прихованого тому або прихованого тому не існує.</entry>
@@ -1549,11 +1544,11 @@
     <entry lang="uk" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Помилка під час аналізу форматованого рядка.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Не вдалося створити файл або каталог у тимчасовому каталозі.\n\nПереконайтеся, що тимчасовий каталог існує, його параметри безпеки дозволяють вам отримати до нього доступ і на диску достатньо місця.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, зовнішні томи, розташовані на диску, не можна змонтувати з використанням захисту прихованого тому.\n\nМожливі рішення:\n- Використовуйте диск із секторами розміром 512 байт.\n- Створіть том (контейнер) на диску.\n- Створіть резервну копію вмісту прихованого тому, а потім оновіть зовнішній том.</entry>
-    <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, томи на диску, що розміщені на розділі/пристрої, можна змонтувати лише з використанням криптографічних служб ядра.\n\nМожливі рішення:\n- Увімкніть використання криптографічних служб ядра (Налаштування > Переваги > Інтеграція системи).\n- Використовуйте диск із секторами розміром 512 байт.\n- Створіть том (контейнер) на диску.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, томи на диску, що розміщені на розділі/пристрої, можна змонтувати лише з використанням криптографічних служб ядра.\n\nМожливі рішення:\n- Увімкніть використання криптографічних служб ядра (Налаштування &gt; Переваги &gt; Інтеграція системи).\n- Використовуйте диск із секторами розміром 512 байт.\n- Створіть том (контейнер) на диску.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Помилка: диск використовує розмір сектора, відмінний від 512 байт.\n\nЧерез обмеження компонентів, доступних на вашій платформі, томи, що розміщені на розділі/пристрої, не можна створити/використовувати на диску.\n\nМожливі рішення:\n- Створіть том (контейнер) на диску.\n- Використовуйте диск із секторами розміром 512 байт.\n- Використовуйте VeraCrypt на іншій платформі.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Файл/пристрій, що розміщує том, уже використовується.</entry>
     <entry lang="uk" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Слот тому недоступний.</entry>
-    <entry lang="uk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt потребує OSXFUSE 2.5 або вище.</entry>
+    <entry lang="uk" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt потребує macFUSE 2.5 або вище.</entry>
     <entry lang="uk" key="EXCEPTION_OCCURRED">Сталася виняткова ситуація</entry>
     <entry lang="uk" key="ENTER_PASSWORD">Введіть пароль</entry>
     <entry lang="uk" key="ENTER_TC_VOL_PASSWORD">Введіть пароль до тому VeraCrypt</entry>
@@ -1644,6 +1639,79 @@
     <entry lang="uk" key="MOUNTPOINT_BLOCKED">ПОМИЛКА: Точка монтування тому заблокована, оскільки вона заміщує захищений системний каталог.\n\nБудь ласка, оберіть іншу точку монтування.</entry>
     <entry lang="uk" key="MOUNTPOINT_NOTALLOWED">ПОМИЛКА: Точка монтування тому не дозволена, оскільки вона заміщує каталог, який є частиною змінної середовища PATH.\n\nБудь ласка, оберіть іншу точку монтування.</entry>
     <entry lang="uk" key="INSECURE_MODE">[НЕБЕЗПЕЧНИЙ РЕЖИМ]</entry>
+    <entry lang="uk" key="IDC_DISABLE_SCREEN_PROTECTION">Вимкнути захист від створення знімків екрана та запису екрану</entry>
+    <entry lang="uk" key="DISABLE_SCREEN_PROTECTION_WARNING">ПОПЕРЕДЖЕННЯ: Вимкнення захисту екрана значно знижує безпеку. Активуйте цю опцію ЛИШЕ за наявності конкретної потреби зафіксувати інтерфейс VeraCrypt. Це може призвести до витоку чутливих даних через інструменти створення знімків екрана та запису екрану, наприклад, Windows 11 Recall.</entry>
+    <entry lang="uk" key="MEMORY_COST">Витрати пам'яті</entry>
+    <entry lang="uk" key="IDT_KDF_ALGO">Алгоритм KDF</entry>
+    <entry lang="uk" key="IDD_PREFERENCES_TAB_GENERAL">Загальний</entry>
+    <entry lang="uk" key="IDD_PREFERENCES_TAB_ACTIONS">Дії</entry>
+    <entry lang="uk" key="IDD_PREFERENCES_TAB_PASSWORD">Пароль</entry>
+    <entry lang="uk" key="IDC_SECURE_DESKTOP_ENABLE_IME">Увімкніть редактор методів введення (IME) у безпечному робочому столі</entry>
+    <entry lang="uk" key="ENABLE_IME_IN_SECURE_DESKTOP_WARNING">ПОПЕРЕДЖЕННЯ. Увімкніть цей параметр, лише якщо у вас виникли проблеми під час вибору файлів ключів/токенів у розділі «Захищений робочий стіл».</entry>
+    <entry lang="uk" key="ERR_KEY_DERIVATION_FAILED">Помилка виведення ключа. Це може бути викликано недостатнім обсягом пам'яті або перерваною операцією.</entry>
+    <entry lang="uk" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">Системний розділ/диск уже розшифровано, але шлях завантажувача Microsoft EFI не було відновлено до Windows Boot Manager. Лише файли завантаження EFI потребують ремонту. Скористайтеся опцією відновлення диска відновлення VeraCrypt або завантажте носій відновлення Windows та запустіть 'bcdboot W:\\Windows /s S: /f UEFI' після заміни W: на літеру диска тому Windows та S: на літеру диска EFI системного розділу. Шлях:</entry>
+    <entry lang="uk" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">Системний розділ/диск уже розшифровано, але шлях резервного завантажувача EFI все ще містить завантажувач VeraCrypt. Лише файли завантаження EFI потребують ремонту. Скористайтеся опцією відновлення диска відновлення VeraCrypt або завантажте носій відновлення Windows та запустіть 'bcdboot W:\\Windows /s S: /f UEFI' після заміни W: на літеру диска тому Windows та S: на літеру диска EFI системного розділу. Шлях:</entry>
+    <entry lang="uk" key="IDM_REPAIR_EFI_BOOT_LOADER">Відновлення завантажувача EFI...</entry>
+    <entry lang="uk" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt відновить шляхи завантажувача Windows EFI та видалить записи та файли завантаження VeraCrypt EFI.\n\nВикористовуйте це лише після того, як системний розділ/диск буде повністю розшифровано і Windows зможе завантажитися без системного шифрування.\n\nВи хочете продовжити?</entry>
+    <entry lang="uk" key="EFI_BOOT_LOADER_FILE_READ_FAILED">Файл завантажувача EFI не вдалося прочитати повністю:</entry>
+    <entry lang="uk" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">Файл завантажувача EFI неочікувано великий і не перевірявся:</entry>
+    <entry lang="uk" key="EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED">Системний розділ/диск уже розшифровано, а файли завантажувача EFI відновлено, але VeraCrypt не вдалося видалити один або кілька записів про завантаження мікропрограми VeraCrypt. Файли VeraCrypt EFI були залишені на місці, тому будь-який запис мікропрограми, що залишився, все ще вказує на наявний завантажувач. Повторіть спробу як адміністратор або видаліть запис про завантаження VeraCrypt з налаштування мікропрограми після підтвердження того, що Windows Boot Manager запускається нормально.</entry>
+    <entry lang="uk" key="EFI_BOOT_LOADER_REPAIR_BLOCKED">Завантажувач EFI не можна відновити, якщо системне шифрування або дешифрування активне або не завершене. Завершіть або відновіть незавершений процес системного шифрування/дешифрування перед повторною спробою.</entry>
+    <entry lang="uk" key="EFI_BOOT_LOADER_REPAIR_NOT_APPLICABLE">Ця дія відновлення доступна лише для систем, які завантажуються в режимі UEFI із системного розділу GPT.</entry>
+    <entry lang="uk" key="EFI_BOOT_LOADER_REPAIR_SUCCESS">Завантажувач EFI успішно відновлено.</entry>
+    <entry lang="uk" key="PIM_ARGON2_HELP">PIM (персональний множник ітерацій) контролює витрати пам’яті та часу, які використовуються для отримання ключа заголовка Argon2id таким чином:\n      Пам’ять = min(64 MiB + ((PIM - 1) x 32 MiB), 1024 MiB)\n      Ітерації = 3 + ((PIM - 1) / 3) для PIM 31 або менше, потім 13 + (PIM - 31)\n\nЯкщо залишити порожнім або встановити значення 0, VeraCrypt використовуватиме стандартний Argon2 PIM (12), який використовує 416 MiB пам’яті та 6 ітерацій.\n\nЯкщо пароль містить менше 20 символів, Argon2 PIM не може бути менше 12, щоб підтримувати мінімальний рівень безпеки.\nЯкщо пароль містить 20 символів або більше, Argon2 PIM можна встановити будь-яке значення.\n\nArgon2 PIM більше 12 збільшує використання пам’яті до 1024 MiB, а потім збільшує число ітерацій. Це призведе до уповільнення монтування. Невеликий Argon2 PIM (менше 12) призведе до швидшого монтування, але може знизити безпеку, якщо пароль недостатньо надійний.</entry>
+    <entry lang="uk" key="PIM_ARGON2_LARGE_WARNING">Ви вибрали значення Argon2 PIM, яке більше за значення за замовчуванням VeraCrypt.\nЗверніть увагу, що це може потребувати більше пам’яті та призвести до значно повільнішого монтування.</entry>
+    <entry lang="uk" key="PIM_ARGON2_SMALL_WARNING">Ви вибрали значення Argon2 PIM, яке менше значення VeraCrypt за умовчанням. Зауважте, що якщо ваш пароль недостатньо надійний, це може призвести до погіршення безпеки.\n\nВи підтверджуєте, що використовуєте надійний пароль?</entry>
+    <entry lang="uk" key="PIM_ARGON2_REQUIRE_LONG_PASSWORD">Пароль має містити 20 або більше символів, щоб використовувати вказаний Argon2 PIM.\nКоротші паролі можна використовувати, лише якщо Argon2 PIM становить 12 або більше.</entry>
+    <entry lang="uk" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Змонтувати томи NTFS за допомогою драйвера Linux в ядрі</entry>
+    <entry lang="uk" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Лише Linux. Якщо ввімкнуто та не вказано явний тип файлової системи, VeraCrypt перевіряє розшифрований віртуальний пристрій за допомогою blkid -p та монтує виявлені NTFS файлові системи за допомогою доступного драйвера NTFS в ядрі, минаючи помічники монтування, такі як ntfs-3g. VeraCrypt використовує ntfs, якщо його визначено як сучасний драйвер для читання/запису або очікується на Linux 7.1 або новішої версії, а в інших випадках використовує ntfs3. Якщо виявлення NTFS не вдається, VeraCrypt використовує звичайний автоматичний вибір файлової системи. Якщо підтримуваний драйвер NTFS в ядрі недоступний або не може бути завантажений, монтування не вдається. Цей параметр дозволяє уникнути призупинення або сплячого режиму, спричиненого замороженими файловими системами FUSE у просторі користувача.</entry>
+    <entry lang="uk" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">Немає підтримуваних драйверів ядра NTFS, доступних або завантажуваних. Щоб використовувати серверну частину системи за замовчуванням NTFS, вимкніть налаштування драйвера ядра NTFS або не запитуйте ядро ​​NTFS явно.</entry>
+    <entry lang="uk" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Помилка звичайного розмонтування тому {0}. Це може статися, коли програми все ще мають відкриті файли чи каталоги на томі або коли базовий пристрій було відключено, а монтування застаріло.\n\nЯкщо пристрій все ще підключено, виберіть «Ні», закрийте програми, які використовують том, і спробуйте розмонтувати його знову.\n\nЯкщо пристрій було відключено або монтування застаріле, VeraCrypt може спробувати аварійне очищення шляхом відкладеного від’єднання файлової системи та видалення або планування видалення об’єктів ядра VeraCrypt. Незавершені записи могли не виконатися, дані можуть бути втрачені, а очищення може залишатися в очікуванні, доки програми не закриють відкриті файли. Перед повторним використанням перевірте файлову систему за допомогою fsck або відповідного засобу відновлення.\n\nПродовжити?</entry>
+    <entry lang="uk" key="LINUX_EMERGENCY_UNMOUNTED">Розпочато екстрене очищення тому {0}. Якщо том було відключено, монтування було застарілим або були незавершені записи, перевірте файлову систему за допомогою fsck або відповідного засобу відновлення, перш ніж використовувати її знову.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_WRITING_DATA">Створення даних тому. Будь ласка, зачекайте.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Завершення створення тому: запис заголовка резервної копії.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_FLUSHING_DATA">Завершення створення тому: перенесення даних на диск. Це може зайняти кілька хвилин на великих томах або повільних/USB-носіях.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_FINISHED">Завершення створення тому.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_ABORTED">Створення тому було перервано.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_ERROR">Не вдалося створити том.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_PREPARING_TEMP_VOLUME">Завершення створення тому: монтування тимчасового тому.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_PREPARING_TEMP_DEVICE">Завершення створення тому: підготовка тимчасового пристрою.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_CREATING_FILESYSTEM">Завершення створення тому: створення файлової системи за допомогою {0}.</entry>
+    <entry lang="uk" key="FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME">Завершення створення тому: демонтування тимчасового тому.</entry>
+    <entry lang="uk" key="MACOSX_APFS_SYNTHESIZED_DEVICE">Вибраний пристрій «{0}» є синтезованим контейнером або томом APFS, і його не можна використовувати як необроблений хост тому VeraCrypt.\n\nНатомість виберіть фізичний розділ зберігання APFS{1}.</entry>
+    <entry lang="uk" key="MACOSX_DEVICE_SYSTEM_PARTITION">Вибраний пристрій «{0}» є системним/підтримковим розділом macOS і не може використовуватися як хост тому VeraCrypt.</entry>
+    <entry lang="uk" key="MACOSX_APFS_SYSTEM_STORE">Вибране фізичне сховище APFS '{0}' містить поточний підключений системний том macOS і не може використовуватися як хост тому VeraCrypt.</entry>
+    <entry lang="uk" key="MACOSX_DEVICE_NOT_WRITABLE">macOS повідомляє, що вибраний пристрій «{0}» доступний лише для читання. Виберіть доступний для запису фізичний розділ або диск.</entry>
+    <entry lang="uk" key="MACOSX_APFS_EROFS_HINT">macOS повідомив, що вибраний пристрій доступний лише для читання. Якщо це диск APFS, переконайтеся, що ви вибрали фізичний розділ зберігання APFS, а не синтезований том APFS. Використовуйте Disk Utility або «diskutil list», щоб визначити фізичний розділ, а потім повторіть спробу.</entry>
+    <entry lang="uk" key="FAVORITE_PIM_OR_KDF_CHANGED">Цей том зареєстровано як системний обраний том, і його налаштування PIM та/або KDF були змінені.\nВи хочете, щоб VeraCrypt автоматично оновив конфігурацію системного обраного тому (потрібні права адміністратора)?\n\nЗауважте, що якщо ви відповісте «ні», вам доведеться оновити системний обраний том вручну.</entry>
+    <entry lang="uk" key="PIM_RESET_ON_KDF_CHANGE_CONFIRM">Вибраний KDF використовує інші параметри PIM, тому VeraCrypt не використовуватиме повторно поточний настроюваний PIM. У новому заголовку тому використовуватиметься стандартний PIM для вибраного KDF, якщо ви не виберете «Використовувати PIM» у розділі «Новий» і не введете спеціальне значення.\n\nВи хочете продовжити?</entry>
+    <entry lang="uk" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA">Secure Boot увімкнено, але база даних Secure Boot у мікропрограмі не довіряє жодному набору Microsoft UEFI CA, підтримуваному EFI-завантажувачем VeraCrypt. Увімкніть або Microsoft Corporation UEFI CA 2011, або одночасно Microsoft UEFI CA 2023 і Microsoft Option ROM UEFI CA 2023, потім виконайте відновлення/перевстановлення VeraCrypt. Або вимкніть Secure Boot.</entry>
+    <entry lang="uk" key="MACOSX_CHECK_FILESYS">Після натискання 'Гаразд' відкриється вікно Термінала, у якому за допомогою 'diskutil' буде перевірено файлову систему вибраного тому VeraCrypt. Результат буде показано в цьому вікні.\n\nЯкщо перевірку неможливо запустити, натомість буде запущено Дискову утиліту.</entry>
+    <entry lang="uk" key="MACOSX_REPAIR_FILESYS">Після натискання 'Гаразд' відкриється вікно Термінала, у якому за допомогою 'diskutil' буде виконано спробу виправити файлову систему вибраного тому VeraCrypt. Результат буде показано в цьому вікні.\n\nЯкщо виправлення неможливо запустити, натомість буде запущено Дискову утиліту.</entry>
+    <entry lang="en" key="SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT">Warning: VeraCrypt could not validate the installed EFI bootloader files against one complete embedded resource set and confirm that all known required signing CAs are present in db and not listed by dbx. Firmware may reject VeraCrypt when Secure Boot is enabled.\n\nBefore booting with Secure Boot enabled, restore the required Microsoft certificates and current dbx as needed, then run VeraCrypt Repair/Reinstall. Do not remove Microsoft Corporation UEFI CA 2011 until db contains both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023 and the actual installed files match VeraCrypt's 2023 set. This check cannot model every image-hash or security-version revocation. Make sure you have an up-to-date VeraCrypt Rescue Disk.</entry>
+    <entry lang="en" key="SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT">Warning: VeraCrypt could not validate the embedded signature and known-CA compatibility of the Windows Boot Manager it chainloads (bootmgfw_ms.vc). The file may be missing, unreadable, not a Windows Boot Manager, have an unrecognized embedded signer, or use a known signing CA that is absent from db or listed by dbx. The handoff to Windows may fail when Secure Boot is enabled.\n\nComplete or repair the Windows Secure Boot certificate and boot-manager update, keep the VeraCrypt System Favorites service enabled, and run VeraCrypt Repair/Reinstall. Repair also checks Windows' serviced EFI_EX/EFI copies for a compatible current Boot Manager. If Windows cannot start, temporarily disable Secure Boot to recover. Make sure you have an up-to-date VeraCrypt Rescue Disk.</entry>
+    <entry lang="en" key="SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED">Warning: The embedded signature of the Windows Boot Manager used by VeraCrypt (bootmgfw_ms.vc) is still issued by Microsoft Windows Production PCA 2011, although firmware db already contains Windows UEFI CA 2023. Its known CA is currently allowed, but it will no longer start after the PCA 2011 certificate is added to dbx.\n\nDo not apply the PCA 2011 revocation (AvailableUpdates bit 0x80, including combined value 0x280) yet. First complete the Windows 2023 boot-manager update while the VeraCrypt System Favorites service is enabled, then run VeraCrypt Repair/Reinstall so VeraCrypt can import a compatible serviced EFI_EX/EFI copy. Verify the embedded issuer of bootmgfw_ms.vc is Windows UEFI CA 2023 and make sure you have an up-to-date VeraCrypt Rescue Disk.</entry>
+    <entry lang="en" key="MOUNT_SERVICE_INCOMPATIBLE">The service running this volume does not support the requested unmount operation.\n\nUnmount the volume using the version of VeraCrypt that mounted it, then mount it again with this version. Close files using the volume if necessary. Always unmount volumes before upgrading VeraCrypt.</entry>
+    <entry lang="en" key="MOUNT_SERVICE_CLEANUP_FAILED">VeraCrypt could not complete cleanup after a failed mount. The volume may still be accessible.\n\nUnmount the volume in VeraCrypt. If unmounting fails, restart the computer before relying on the volume being locked.</entry>
+    <entry lang="en" key="DISMOUNT_SERVICE_CLEANUP_FAILED">The volume's auxiliary mount has been removed, but VeraCrypt could not confirm that its service has stopped. Encryption keys may still be in memory.\n\nIf the service does not stop, restart the computer before relying on the volume being locked.</entry>
+    <entry lang="en" key="MOUNT_SERVICE_UNAVAILABLE">VeraCrypt could not contact or verify the volume service.\n\nIf this occurred while dismounting, close files using the volume and retry. If cleanup cannot be confirmed, restart the computer before relying on the volume being locked.</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_FAILED">VeraCrypt could not verify all volume information. A volume service or disk image may be unavailable or inaccessible.\n\nAny volumes shown are only the entries VeraCrypt could verify. Wait for pending disk operations to finish and retry. An incomplete list does not confirm that all volumes are dismounted.</entry>
+    <entry lang="en" key="VOLUME_IN_USE">The volume is in use. Close files and applications using it, then retry unmounting.</entry>
+    <entry lang="en" key="OPERATION_TIMED_OUT">The operation did not finish in time. Check the volume's status before retrying.</entry>
+    <entry lang="en" key="VOLUME_STATUS_UNKNOWN">Status unavailable</entry>
+    <entry lang="en" key="VOLUME_IMAGE_ABSENT">Image detached; unmount to finish</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_PENDING">Refreshing volume status…</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_STALLED">Volume status unavailable; retrying…</entry>
+    <entry lang="en" key="VOLUME_DISCOVERY_PARTIAL">Some volume information is unavailable; retrying…</entry>
+    <entry lang="en" key="IDC_SECURITY_TOKEN_KEY">Security token key</entry>
+    <entry lang="en" key="IDT_SECURITY_TOKENS">Security Tokens...</entry>
+    <entry lang="en" key="SELECT_TOKEN_KEYS">Select token keys</entry>
+    <entry lang="en" key="TOKEN_KEY_LABEL">Key label</entry>
+    <entry lang="en" key="IDM_REVEAL_REDKEY">Reveal Red Key...</entry>
+    <entry lang="en" key="REVEAL_REDKEY_INFO">This will produce decrypted keyfile which can be used without using the smart card, thus reducing security to two factors. This keyfile should be stored securely. Are you sure to continue?</entry>
+    <entry lang="en" key="REVEAL_REDKEY_DONE">Red key is saved</entry>
+    <entry lang="en" key="REVEAL_REDKEY_PATH">Choose file to save red key to</entry>
+    <entry lang="en" key="TOKEN_KEY_MECHANISM_LABEL">Mechanism</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

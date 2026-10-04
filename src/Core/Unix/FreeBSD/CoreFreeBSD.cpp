@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -153,7 +153,12 @@ namespace VeraCrypt
 	MountedFilesystemList CoreFreeBSD::GetMountedFilesystems (const DevicePath &devicePath, const DirectoryPath &mountPoint) const
 	{
 
+#ifdef TC_MACOSX
+		// A detached discovery worker can finish during static teardown.
+		static Mutex &mutex = *new Mutex;
+#else
 		static Mutex mutex;
+#endif
 		ScopeLock sl (mutex);
 
 		struct statfs *sysMountList;
@@ -175,6 +180,11 @@ namespace VeraCrypt
 				mf->MountPoint = DirectoryPath (sysMountList[i].f_mntonname);
 
 			mf->Type = sysMountList[i].f_fstypename;
+#ifdef TC_MACOSX
+			mf->Owner = sysMountList[i].f_owner;
+			mf->MountId[0] = sysMountList[i].f_fsid.val[0];
+			mf->MountId[1] = sysMountList[i].f_fsid.val[1];
+#endif
 
 			if ((devicePath.IsEmpty() || devicePath == mf->Device) && (mountPoint.IsEmpty() || mountPoint == mf->MountPoint))
 				mountedFilesystems.push_back (mf);
@@ -183,8 +193,10 @@ namespace VeraCrypt
 		return mountedFilesystems;
 	}
 
-	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
+		(void) internalMountOnly;
+
 		std::string chosenFilesystem = "msdos";
 		std::string modifiedMountOptions = systemMountOptions;
 

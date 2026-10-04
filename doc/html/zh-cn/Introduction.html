@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫你透露密码的情况下，VeraCrypt提供了似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Introduction.html">简介</a>
+</p>
+</div>
+
+<div class="wikidoc">
+<h1>简介</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt是一款用于创建和维护实时加密卷（数据存储设备）的软件。实时加密意味着数据在保存之前会自动加密，在加载之后会自动解密，无需用户干预。如果没有使用正确的密码/密钥文件或正确的加密密钥，存储在加密卷上的任何数据都无法被读取（解密）。整个文件系统都会被加密（例如，文件名、文件夹名、每个文件的内容、空闲空间、元数据等）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以像将文件复制到任何普通磁盘或从任何普通磁盘复制文件一样，将文件复制到已挂载的VeraCrypt卷或从该卷复制文件（例如，通过简单的拖放操作）。当从加密的VeraCrypt卷读取或复制文件时，文件会在内存（RAM）中实时自动解密。同样，当将文件写入或复制到VeraCrypt卷时，文件会在内存（RAM）中实时自动加密（就在写入磁盘之前）。请注意，这 <span style="text-align:left; font-style:italic">并不</span> 意味着要加密/解密的 <span style="text-align:left; font-style:italic">整个</span> 文件必须先存储在RAM中才能进行加密/解密。VeraCrypt没有额外的内存（RAM）要求。有关如何实现这一点的说明，请参阅以下段落。<br style="text-align:left">
+<br style="text-align:left">
+假设在VeraCrypt卷上存储了一个.avi视频文件（因此，该视频文件是完全加密的）。用户提供正确的密码（和/或密钥文件）并挂载（打开）VeraCrypt卷。当用户双击视频文件的图标时，操作系统会启动与该文件类型关联的应用程序 &mdash; 通常是一个媒体播放器。然后，媒体播放器开始从VeraCrypt加密卷将视频文件的一小部分初始数据加载到RAM（内存）中以进行播放。在加载这部分数据时，VeraCrypt会在RAM中自动对其进行解密。然后，媒体播放器会播放存储在RAM中的已解密视频部分。在播放这部分视频时，媒体播放器会开始从VeraCrypt加密卷将视频文件的另一小部分数据加载到RAM（内存）中，这个过程会不断重复。这个过程称为实时加密/解密，它适用于所有文件类型（不仅仅适用于视频文件）。
+</div>
+<p>请注意，VeraCrypt永远不会将任何已解密的数据保存到磁盘 &mdash; 它只会将其临时存储在RAM（内存）中。即使在挂载卷时，存储在卷中的数据仍然是加密的。当你重启Windows或关闭计算机时，卷将被卸载，存储在其中的文件将无法访问（并且是加密的）。即使在电源突然中断（没有正确关闭系统）的情况下，存储在卷中的文件也是无法访问的（并且是加密的）。要再次访问这些文件，你必须挂载该卷（并提供正确的密码和/或密钥文件）。有关快速入门指南，请参阅“初学者教程”章节。</p>
+</div>
+</body></html>

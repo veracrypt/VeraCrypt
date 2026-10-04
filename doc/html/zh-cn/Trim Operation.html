@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认能力。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求与预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Trim%20Operation.html">TRIM操作</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>TRIM操作</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+一些存储设备（例如，某些固态硬盘，包括USB闪存驱动器）使用所谓的“TRIM”操作来标记驱动器扇区为空闲，例如当删除文件时。因此，即使这些扇区位于VeraCrypt加密的驱动器部分内，它们也可能包含未加密的零或其他未定义的数据（未加密）。
+<br>
+<br>
+在Windows系统上，VeraCrypt允许用户控制非系统卷和系统卷的TRIM操作：
+<ul>
+<li>对于非系统卷，TRIM默认被阻止。用户可以通过VeraCrypt的界面，导航到“设置 -> 性能/驱动程序配置”，并勾选“允许对非系统SSD分区/驱动器执行TRIM命令”选项来启用TRIM。</li>
+<li>对于<a href="System%20Encryption.html">系统加密</a>，TRIM默认启用（除非正在运行<a href="Hidden%20Operating%20System.html">隐藏操作系统</a>）。用户可以通过导航到“系统 -> 设置”，并勾选“阻止对系统分区/驱动器执行TRIM命令”选项来禁用TRIM。</li>
+</ul>
+
+在Linux系统下，VeraCrypt不会阻止使用原生Linux内核加密服务的卷的TRIM操作，这是默认设置。若要在Linux上阻止TRIM，用户应在VeraCrypt的偏好设置中启用“不使用内核加密服务”选项（仅适用于之后挂载的卷），或者在命令行挂载时使用 <code>--mount-options=nokernelcrypto</code> 开关。
+<br>
+<br>
+在macOS系统下，VeraCrypt不支持TRIM操作。因此，所有卷的TRIM始终被阻止。
+<br>
+<br>
+在发生TRIM操作的情况下，攻击者将能够识别哪些扇区包含空闲空间（并可能利用此信息进行进一步的分析和攻击），并且<a href="Plausible%20Deniability.html" style="text-align:left; color:#0080c0; text-decoration:none">
+似是而非的否认能力</a>可能会受到负面影响。为避免这些问题，用户应如前文所述在VeraCrypt设置中禁用TRIM，或者确保VeraCrypt卷不位于使用TRIM操作的驱动器上。</div>
+<p>若要了解设备是否使用TRIM操作，请参考设备附带的文档或联系供应商/制造商。</p>
+</div><div class="ClearBoth"></div></body></html>

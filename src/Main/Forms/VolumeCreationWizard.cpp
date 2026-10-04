@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -13,6 +13,7 @@
 #include "System.h"
 #include "Platform/SystemInfo.h"
 #ifdef TC_UNIX
+#include <errno.h>
 #include <unistd.h>
 #include <sys/statvfs.h> // header for statvfs
 #include "Platform/Unix/Process.h"
@@ -21,6 +22,12 @@
 #include "Core/VolumeCreator.h"
 #include "Main/Application.h"
 #include "Main/GraphicUserInterface.h"
+#ifdef TC_MACOSX
+#include "Main/MacOSXFormatterDevice.h"
+#endif
+#ifdef TC_OPENBSD
+#include "Main/OpenBSDFormatterDevice.h"
+#endif
 #include "Main/Resources.h"
 #include "VolumeCreationWizard.h"
 #include "EncryptionOptionsWizardPage.h"
@@ -52,6 +59,326 @@ namespace VeraCrypt
 
 #ifdef TC_MACOSX
 
+	static string DecodeMacOSXPlistXmlString (const string &xmlString)
+	{
+		string decoded;
+
+		for (size_t i = 0; i < xmlString.size(); ++i)
+		{
+			if (xmlString[i] != '&')
+			{
+				decoded += xmlString[i];
+				continue;
+			}
+
+			if (xmlString.compare (i, 5, "&amp;") == 0)
+			{
+				decoded += '&';
+				i += 4;
+			}
+			else if (xmlString.compare (i, 4, "&lt;") == 0)
+			{
+				decoded += '<';
+				i += 3;
+			}
+			else if (xmlString.compare (i, 4, "&gt;") == 0)
+			{
+				decoded += '>';
+				i += 3;
+			}
+			else if (xmlString.compare (i, 6, "&quot;") == 0)
+			{
+				decoded += '"';
+				i += 5;
+			}
+			else if (xmlString.compare (i, 6, "&apos;") == 0)
+			{
+				decoded += '\'';
+				i += 5;
+			}
+			else
+				decoded += xmlString[i];
+		}
+
+		return decoded;
+	}
+
+	static bool ExtractMacOSXPlistString (const string &xml, const string &key, string &value)
+	{
+		string keyTag = "<key>" + key + "</key>";
+		size_t p = xml.find (keyTag);
+		if (p == string::npos)
+			return false;
+
+		p = xml.find ("<string>", p + keyTag.size());
+		if (p == string::npos)
+			return false;
+		p += 8;
+
+		size_t e = xml.find ("</string>", p);
+		if (e == string::npos)
+			return false;
+
+		value = DecodeMacOSXPlistXmlString (xml.substr (p, e - p));
+		return true;
+	}
+
+	static bool ExtractMacOSXPlistBool (const string &xml, const string &key, bool &value)
+	{
+		string keyTag = "<key>" + key + "</key>";
+		size_t p = xml.find (keyTag);
+		if (p == string::npos)
+			return false;
+
+		p += keyTag.size();
+		size_t truePos = xml.find ("<true/>", p);
+		size_t falsePos = xml.find ("<false/>", p);
+		size_t nextKeyPos = xml.find ("<key>", p);
+
+		if (truePos != string::npos && (nextKeyPos == string::npos || truePos < nextKeyPos)
+			&& (falsePos == string::npos || truePos < falsePos))
+		{
+			value = true;
+			return true;
+		}
+
+		if (falsePos != string::npos && (nextKeyPos == string::npos || falsePos < nextKeyPos))
+		{
+			value = false;
+			return true;
+		}
+
+		return false;
+	}
+
+	static list <string> ExtractMacOSXAPFSPhysicalStores (const string &xml)
+	{
+		list <string> stores;
+		size_t arrayPos = xml.find ("<key>APFSPhysicalStores</key>");
+		if (arrayPos == string::npos)
+			return stores;
+
+		size_t arrayEnd = xml.find ("</array>", arrayPos);
+		if (arrayEnd == string::npos)
+			return stores;
+
+		for (size_t p = arrayPos; p < arrayEnd; )
+		{
+			size_t keyPos = xml.find ("<key>APFSPhysicalStore</key>", p);
+			size_t alternateKeyPos = xml.find ("<key>DeviceIdentifier</key>", p);
+
+			if (alternateKeyPos != string::npos && alternateKeyPos < arrayEnd
+				&& (keyPos == string::npos || alternateKeyPos < keyPos))
+				keyPos = alternateKeyPos;
+
+			if (keyPos == string::npos || keyPos >= arrayEnd)
+				break;
+
+			size_t stringPos = xml.find ("<string>", keyPos);
+			if (stringPos == string::npos || stringPos >= arrayEnd)
+				break;
+			stringPos += 8;
+
+			size_t stringEnd = xml.find ("</string>", stringPos);
+			if (stringEnd == string::npos || stringEnd > arrayEnd)
+				break;
+
+			stores.push_back (DecodeMacOSXPlistXmlString (xml.substr (stringPos, stringEnd - stringPos)));
+			p = stringEnd + 9;
+		}
+
+		return stores;
+	}
+
+	static string GetMacOSXDiskutilDevicePath (const VolumePath &devicePath)
+	{
+		string path = devicePath;
+
+		if (path.find ("/dev/rdisk") == 0)
+			path = string ("/dev/disk") + path.substr (10);
+
+		return path;
+	}
+
+	static string GetMacOSXDiskutilInfo (const VolumePath &devicePath)
+	{
+		list <string> args;
+		args.push_back ("info");
+		args.push_back ("-plist");
+		args.push_back (GetMacOSXDiskutilDevicePath (devicePath));
+
+		return Process::Execute ("/usr/sbin/diskutil", args);
+	}
+
+	static bool IsMacOSXSystemSupportContent (const string &content)
+	{
+		string lowerContent = StringConverter::ToLower (content);
+
+		return lowerContent == "efi"
+			|| lowerContent == "apple_apfs_isc"
+			|| lowerContent == "apple_apfs_recovery"
+			|| lowerContent == "apple_boot"
+			|| lowerContent == "apple_partition_map";
+	}
+
+	static bool IsMacOSXSystemMountPoint (const string &mountPoint)
+	{
+		return mountPoint == "/" || mountPoint.find ("/System/Volumes/") == 0;
+	}
+
+	static bool IsMacOSXAPFSSynthesizedDevice (const string &infoXml)
+	{
+		string containerReference;
+		string filesystemType;
+		string virtualOrPhysical;
+		bool partitionMapPartition = false;
+		bool wholeDisk = false;
+		bool hasPartitionMapPartition = ExtractMacOSXPlistBool (infoXml, "PartitionMapPartition", partitionMapPartition);
+		bool hasWholeDisk = ExtractMacOSXPlistBool (infoXml, "WholeDisk", wholeDisk);
+
+		ExtractMacOSXPlistString (infoXml, "APFSContainerReference", containerReference);
+		ExtractMacOSXPlistString (infoXml, "FilesystemType", filesystemType);
+		ExtractMacOSXPlistString (infoXml, "VirtualOrPhysical", virtualOrPhysical);
+
+		if (StringConverter::ToLower (virtualOrPhysical) == "virtual" && !containerReference.empty())
+			return true;
+
+		if (!ExtractMacOSXAPFSPhysicalStores (infoXml).empty() && hasPartitionMapPartition && !partitionMapPartition)
+			return true;
+
+		if (StringConverter::ToLower (filesystemType) == "apfs"
+			&& hasPartitionMapPartition && !partitionMapPartition
+			&& hasWholeDisk && !wholeDisk)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	static bool IsMacOSXDeviceReadOnly (const string &infoXml)
+	{
+		bool value = false;
+		// Writable and ReadOnlyVolume can reflect a read-only filesystem mount;
+		// only media writability is fatal before unmounting.
+		if (ExtractMacOSXPlistBool (infoXml, "ReadOnlyMedia", value) && value)
+			return true;
+		if (ExtractMacOSXPlistBool (infoXml, "WritableMedia", value) && !value)
+			return true;
+
+		return false;
+	}
+
+	static bool IsSelectedMacOSXSystemAPFSDevice (const string &selectedInfoXml, bool &wholeDiskSelected)
+	{
+		wholeDiskSelected = false;
+
+		string selectedDeviceIdentifier;
+		if (!ExtractMacOSXPlistString (selectedInfoXml, "DeviceIdentifier", selectedDeviceIdentifier) || selectedDeviceIdentifier.empty())
+			return false;
+
+		ExtractMacOSXPlistBool (selectedInfoXml, "WholeDisk", wholeDiskSelected);
+
+		try
+		{
+			string rootInfoXml = GetMacOSXDiskutilInfo (VolumePath (FilesystemPath ("/")));
+			list <string> rootStores = ExtractMacOSXAPFSPhysicalStores (rootInfoXml);
+
+			foreach (const string &store, rootStores)
+			{
+				if (selectedDeviceIdentifier == store)
+					return true;
+
+				if (wholeDiskSelected)
+				{
+					try
+					{
+						string storeInfoXml = GetMacOSXDiskutilInfo (VolumePath (FilesystemPath (GetMacOSXRawDevicePath (store))));
+						string storeParentWholeDisk;
+						if (ExtractMacOSXPlistString (storeInfoXml, "ParentWholeDisk", storeParentWholeDisk)
+							&& selectedDeviceIdentifier == storeParentWholeDisk)
+						{
+							return true;
+						}
+					}
+					catch (...) { }
+				}
+			}
+		}
+		catch (...) { }
+
+		return false;
+	}
+
+	static bool ValidateMacOSXSelectedDeviceForCreation (const VolumePath &devicePath)
+	{
+		string infoXml;
+		try
+		{
+			infoXml = GetMacOSXDiskutilInfo (devicePath);
+		}
+		catch (...)
+		{
+			return true;
+		}
+
+		if (IsMacOSXAPFSSynthesizedDevice (infoXml))
+		{
+			wstring recommendedPath;
+			list <string> stores = ExtractMacOSXAPFSPhysicalStores (infoXml);
+			if (!stores.empty())
+				recommendedPath = L" (" + StringConverter::ToWide (GetMacOSXRawDevicePath (stores.front())) + L")";
+
+			Gui->ShowError (StringFormatter (LangString["MACOSX_APFS_SYNTHESIZED_DEVICE"], wstring (devicePath), recommendedPath));
+			return false;
+		}
+
+		string content;
+		if (ExtractMacOSXPlistString (infoXml, "Content", content) && IsMacOSXSystemSupportContent (content))
+		{
+			Gui->ShowError (StringFormatter (LangString["MACOSX_DEVICE_SYSTEM_PARTITION"], wstring (devicePath)));
+			return false;
+		}
+
+		string mountPoint;
+		if (ExtractMacOSXPlistString (infoXml, "MountPoint", mountPoint) && IsMacOSXSystemMountPoint (mountPoint))
+		{
+			Gui->ShowError (LangString["LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION"]);
+			return false;
+		}
+
+		bool selectedSystemWholeDisk = false;
+		if (IsSelectedMacOSXSystemAPFSDevice (infoXml, selectedSystemWholeDisk))
+		{
+			if (selectedSystemWholeDisk)
+				Gui->ShowError (LangString["LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE"]);
+			else
+				Gui->ShowError (StringFormatter (LangString["MACOSX_APFS_SYSTEM_STORE"], wstring (devicePath)));
+
+			return false;
+		}
+
+		if (IsMacOSXDeviceReadOnly (infoXml))
+		{
+			Gui->ShowError (StringFormatter (LangString["MACOSX_DEVICE_NOT_WRITABLE"], wstring (devicePath)));
+			return false;
+		}
+
+		return true;
+	}
+
+	static void ShowMacOSXVolumeCreationError (const VolumePath &devicePath, const exception &e)
+	{
+		const SystemException *sysEx = dynamic_cast <const SystemException *> (&e);
+		if (devicePath.IsDevice() && sysEx && sysEx->GetErrorCode() == EROFS)
+		{
+			Gui->ShowError (UserInterface::ExceptionToMessage (e) + L"\n\n" + LangString["MACOSX_APFS_EROFS_HINT"]);
+			return;
+		}
+
+		Gui->ShowError (e);
+	}
+
 	bool VolumeCreationWizard::ProcessEvent(wxEvent& event)
 	{
 		if(GraphicUserInterface::HandlePasswordEntryCustomEvent (event))
@@ -67,6 +394,7 @@ namespace VeraCrypt
 		DisplayKeyInfo (false),
 		LargeFilesSupport (false),
 		QuickFormatEnabled (false),
+		QuickFormatEnabledByWizard (false),
 		SelectedFilesystemClusterSize (0),
 		SelectedFilesystemType (VolumeCreationOptions::FilesystemType::FAT),
 		SelectedVolumeHostType (VolumeHostType::File),
@@ -111,6 +439,14 @@ namespace VeraCrypt
 		burn (&OuterPim, sizeof (OuterPim));
 	}
 
+	uint64 VolumeCreationWizard::GetSelectedVolumeFilesystemSize () const
+	{
+		if (OuterVolume || SelectedVolumeType != VolumeType::Hidden)
+			return VolumeLayoutV2Normal().GetMaxDataSize (VolumeSize);
+
+		return VolumeLayoutV2Hidden().GetMaxDataSize (VolumeSize);
+	}
+
 	WizardPage *VolumeCreationWizard::GetPage (WizardStep step)
 	{
 		switch (step)
@@ -122,6 +458,7 @@ namespace VeraCrypt
 				OuterVolume = false;
 				LargeFilesSupport = false;
 				QuickFormatEnabled = false;
+				QuickFormatEnabledByWizard = false;
 				Pim = 0;
 
 				SingleChoiceWizardPage <VolumeHostType::Enum> *page = new SingleChoiceWizardPage <VolumeHostType::Enum> (GetPageParent(), wxEmptyString, true);
@@ -174,7 +511,7 @@ namespace VeraCrypt
 					page->SetPageTitle (LangString["CIPHER_TITLE"]);
 
 				page->SetEncryptionAlgorithm (SelectedEncryptionAlgorithm);
-				page->SetHash (SelectedHash);
+				page->SetPkcs5Kdf (SelectedKdf);
 				return page;
 			}
 
@@ -249,7 +586,7 @@ namespace VeraCrypt
 				else
 					page->SetPageTitle (LangString["PIM_TITLE"]);
 
-				page->SetPageText (LangString["PIM_HELP"]);
+				page->SetPageText (LangString[SelectedKdf ? SelectedKdf->GetPimHelpMessageId() : "PIM_HELP"]);
 				page->SetVolumePim (Pim);
 				return page;
 			}
@@ -269,17 +606,30 @@ namespace VeraCrypt
 
 		case Step::FormatOptions:
 			{
-				shared_ptr <VolumeLayout> layout ((OuterVolume || SelectedVolumeType != VolumeType::Hidden)? (VolumeLayout*) new VolumeLayoutV2Normal() : (VolumeLayout*) new VolumeLayoutV2Hidden());
-				uint64 filesystemSize = layout->GetMaxDataSize (VolumeSize);
+				uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
+				bool hiddenVolumeItself = !OuterVolume && SelectedVolumeType == VolumeType::Hidden;
+				bool normalFileContainer = !OuterVolume && SelectedVolumeType == VolumeType::Normal && SelectedVolumeHostType == VolumeHostType::File;
+				bool existingDeviceSupportedCase = SelectedVolumePath.IsDevice() && !hiddenVolumeItself;
+				bool quickFormatSupported = existingDeviceSupportedCase || normalFileContainer;
 
 				VolumeFormatOptionsWizardPage *page = new VolumeFormatOptionsWizardPage (GetPageParent(), filesystemSize, SectorSize,
-					SelectedVolumePath.IsDevice() && (OuterVolume || SelectedVolumeType != VolumeType::Hidden), OuterVolume, LargeFilesSupport);
+					quickFormatSupported, OuterVolume, LargeFilesSupport);
 
 				page->SetPageTitle (LangString["FORMAT_TITLE"]);
 				page->SetFilesystemType (SelectedFilesystemType);
 
-				if (!OuterVolume && SelectedVolumeType == VolumeType::Hidden)
+				if (hiddenVolumeItself)
+				{
 					QuickFormatEnabled = true;
+					QuickFormatEnabledByWizard = true;
+				}
+				else
+				{
+					if (!quickFormatSupported || QuickFormatEnabledByWizard)
+						QuickFormatEnabled = false;
+
+					QuickFormatEnabledByWizard = false;
+				}
 				page->SetQuickFormat (QuickFormatEnabled);
 
 				return page;
@@ -429,11 +779,14 @@ namespace VeraCrypt
 		VolumeCreator::ProgressInfo progress = Creator->GetProgressInfo();
 
 		VolumeCreationProgressWizardPage *page = dynamic_cast <VolumeCreationProgressWizardPage *> (GetCurrentPage());
-		page->SetProgressValue (progress.SizeDone);
+		if (page)
+		{
+			page->SetProgressStage (progress.Stage);
+			page->SetProgressValue (progress.SizeDone);
+		}
 
 		if (!progress.CreationInProgress && !AbortConfirmationPending)
 		{
-			SetWorkInProgress (false);
 			OnVolumeCreatorFinished ();
 		}
 	}
@@ -447,16 +800,29 @@ namespace VeraCrypt
 		}
 	}
 
+	void VolumeCreationWizard::SetCreationProgressText (const wxString &text)
+	{
+		VolumeCreationProgressWizardPage *page = dynamic_cast <VolumeCreationProgressWizardPage *> (GetCurrentPage());
+		if (!page)
+			return;
+
+		page->SetPageText (text);
+		page->Refresh();
+		page->Update();
+		Gui->Yield();
+	}
+
 	void VolumeCreationWizard::OnVolumeCreatorFinished ()
 	{
 		VolumeCreationProgressWizardPage *page = dynamic_cast <VolumeCreationProgressWizardPage *> (GetCurrentPage());
 
 		ProgressTimer.reset();
-		page->SetProgressState (false);
-
-		Gui->EndInteractiveBusyState (this);
-		SetWorkInProgress (false);
-		UpdateControls();
+		if (page)
+		{
+			page->SetProgressState (false);
+			page->EnableAbort (false);
+		}
+		bool workInProgressCleared = false;
 
 		try
 		{
@@ -472,6 +838,8 @@ namespace VeraCrypt
 				{
 					wxBusyCursor busy;
 
+					SetCreationProgressText (LangString["FORMAT_STAGE_PREPARING_TEMP_VOLUME"]);
+
 					MountOptions mountOptions (Gui->GetPreferences().DefaultMountOptions);
 					mountOptions.Path = make_shared <VolumePath> (SelectedVolumePath);
 					mountOptions.NoFilesystem = true;
@@ -480,43 +848,68 @@ namespace VeraCrypt
 					mountOptions.Pim = Pim;
 					mountOptions.Keyfiles = Keyfiles;
 					mountOptions.Kdf = Kdf;
+					mountOptions.EMVSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
 
 					shared_ptr <VolumeInfo> volume = Core->MountVolume (mountOptions);
 					finally_do_arg (shared_ptr <VolumeInfo>, volume, { Core->DismountVolume (finally_arg, true); });
-					
+
 					shared_ptr <VolumeLayout> layout((volume->Type == VolumeType::Normal)? (VolumeLayout*) new VolumeLayoutV2Normal() : (VolumeLayout*) new VolumeLayoutV2Hidden());
 					uint64 filesystemSize = layout->GetMaxDataSize (VolumeSize);
 
+					SetCreationProgressText (LangString["FORMAT_STAGE_PREPARING_TEMP_DEVICE"]);
 					Thread::Sleep (2000);	// Try to prevent race conditions caused by OS
 
 					// Temporarily take ownership of the device if the user is not an administrator
-					UserId origDeviceOwner ((uid_t) -1);
-
 					DevicePath virtualDevice = volume->VirtualDevice;
+					DevicePath formatterDevice = virtualDevice;
 #ifdef TC_MACOSX
 					string virtualDeviceStr = virtualDevice;
-					if (virtualDeviceStr.find ("/dev/rdisk") != 0)
-						virtualDevice = "/dev/r" + virtualDeviceStr.substr (5);
+					virtualDevice = GetMacOSXRawDevicePath (virtualDeviceStr);
+					formatterDevice = virtualDevice;
+
+					MacOSXFormatterDeviceOwnerRestoreList changedDeviceOwners;
+					finally_do_arg (MacOSXFormatterDeviceOwnerRestoreList *, &changedDeviceOwners,
+					{
+						RestoreMacOSXFormatterDeviceOwners (*finally_arg);
+					});
+					bool useElevatedAPFSFormatter = UseElevatedMacOSXAPFSFormatter (fsFormatter);
+					if (!useElevatedAPFSFormatter)
+						PrepareMacOSXFormatterDevice (formatterDevice, changedDeviceOwners);
+#else
+#ifdef TC_OPENBSD
+					if (SelectedFilesystemType == VolumeCreationOptions::FilesystemType::FFS)
+						formatterDevice = GetOpenBSDRawFormatterDevicePath (virtualDevice);
 #endif
-					try
+					bool prepareFormatterDeviceOwnership = true;
+#ifdef TC_OPENBSD
+					if (SelectedFilesystemType == VolumeCreationOptions::FilesystemType::FFS)
+						prepareFormatterDeviceOwnership = false;
+#endif
+					UserId origDeviceOwner ((uid_t) -1);
+
+					if (prepareFormatterDeviceOwnership)
 					{
-						File file;
-						file.Open (virtualDevice, File::OpenReadWrite);
-					}
-					catch (...)
-					{
-						if (!Core->HasAdminPrivileges())
+						try
 						{
-							origDeviceOwner = virtualDevice.GetOwner();
-							Core->SetFileOwner (virtualDevice, UserId (getuid()));
+							File file;
+							file.Open (formatterDevice, File::OpenReadWrite);
+						}
+						catch (...)
+						{
+							if (!Core->HasAdminPrivileges())
+							{
+								origDeviceOwner = formatterDevice.GetOwner();
+								Core->SetFileOwner (formatterDevice, UserId (getuid()));
+							}
 						}
 					}
 
-					finally_do_arg2 (FilesystemPath, virtualDevice, UserId, origDeviceOwner,
+					finally_do_arg2 (FilesystemPath, formatterDevice, UserId, origDeviceOwner,
 					{
 						if (finally_arg2.SystemId != (uid_t) -1)
 							Core->SetFileOwner (finally_arg, finally_arg2);
 					});
+#endif
 
 					// Create filesystem
 					list <string> args;
@@ -538,11 +931,31 @@ namespace VeraCrypt
 						}
 					}
 
-					args.push_back (string (virtualDevice));
+#ifdef TC_MACOSX
+					if (IsMacOSXExFATFormatter (fsFormatter))
+						AddMacOSXExFATFormatterArgs (args);
 
+					if (IsMacOSXAPFSFormatter (fsFormatter) && !useElevatedAPFSFormatter)
+						AddMacOSXAPFSFormatterUserArgs (args);
+#endif
+
+					args.push_back (string (formatterDevice));
+
+					SetCreationProgressText (StringFormatter (LangString["FORMAT_STAGE_CREATING_FILESYSTEM"], fsFormatter));
+#ifdef TC_MACOSX
+					ExecuteMacOSXFilesystemFormatter (fsFormatter, args);
+#elif defined (TC_OPENBSD)
+					ExecuteOpenBSDFilesystemFormatter (fsFormatter, args);
+#else
 					Process::Execute (fsFormatter, args);
+#endif
+					SetCreationProgressText (LangString["FORMAT_STAGE_DISMOUNTING_TEMP_VOLUME"]);
 				}
 #endif // TC_UNIX
+
+				Gui->EndInteractiveBusyState (this);
+				SetWorkInProgress (false);
+				workInProgressCleared = true;
 
 				if (OuterVolume)
 				{
@@ -559,10 +972,28 @@ namespace VeraCrypt
 		}
 		catch (exception &e)
 		{
+			if (!workInProgressCleared)
+			{
+				Gui->EndInteractiveBusyState (this);
+				SetWorkInProgress (false);
+				workInProgressCleared = true;
+			}
+#ifdef TC_MACOSX
+			ShowMacOSXVolumeCreationError (SelectedVolumePath, e);
+#else
 			Gui->ShowError (e);
+#endif
 		}
 
-		page->SetProgressValue (0);
+		if (!workInProgressCleared)
+		{
+			Gui->EndInteractiveBusyState (this);
+			SetWorkInProgress (false);
+		}
+
+		if (page)
+			page->SetProgressValue (0);
+
 		if (SelectedVolumeType == VolumeType::Normal && !SelectedVolumePath.IsDevice())
 		{
 			try
@@ -633,9 +1064,19 @@ namespace VeraCrypt
 
 						DeviceWarningConfirmed = true;
 
+#ifdef TC_MACOSX
+						if (!ValidateMacOSXSelectedDeviceForCreation (SelectedVolumePath))
+							return GetCurrentStep();
+#endif
+
 						foreach_ref (const HostDevice &drive, Core->GetHostDevices())
 						{
-							if (drive.Path == SelectedVolumePath && !drive.Partitions.empty())
+							bool selectedWholeDevice = drive.Path == SelectedVolumePath;
+#ifdef TC_MACOSX
+							selectedWholeDevice = selectedWholeDevice
+								|| IsSameMacOSXDevicePath (string (drive.Path), string (SelectedVolumePath));
+#endif
+							if (selectedWholeDevice && !drive.Partitions.empty())
 							{
 								foreach_ref (const HostDevice &partition, drive.Partitions)
 								{
@@ -708,10 +1149,10 @@ namespace VeraCrypt
 			{
 				EncryptionOptionsWizardPage *page = dynamic_cast <EncryptionOptionsWizardPage *> (GetCurrentPage());
 				SelectedEncryptionAlgorithm = page->GetEncryptionAlgorithm ();
-				SelectedHash = page->GetHash ();
+				SelectedKdf = page->GetPkcs5Kdf ();
 
 				if (forward)
-					RandomNumberGenerator::SetHash (SelectedHash);
+					RandomNumberGenerator::SetHash (SelectedKdf->GetHash());
 
 				if (SelectedVolumePath.IsDevice() && (OuterVolume || SelectedVolumeType != VolumeType::Hidden))
 					return Step::VolumePassword;
@@ -818,9 +1259,10 @@ namespace VeraCrypt
 						}
 					}
 
-					if (VolumeSize > 4 * BYTES_PER_GB)
+					uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
+					if (filesystemSize > 4 * BYTES_PER_GB)
 					{
-						if (VolumeSize <= TC_MAX_FAT_SECTOR_COUNT * SectorSize)
+						if (filesystemSize <= TC_MAX_FAT_SECTOR_COUNT * (uint64) SectorSize)
 							return Step::LargeFilesSupport;
 						else
 							SelectedFilesystemType = VolumeCreationOptions::FilesystemType::GetPlatformNative();
@@ -871,26 +1313,33 @@ namespace VeraCrypt
 
 				if (forward && Password && !Password->IsEmpty())
 				{
-					if (Password->Size() < VolumePassword::WarningSizeThreshold)
+					if (!SelectedKdf)
 					{
-						if (Pim > 0 && Pim < 485)
+						Gui->ShowError ("PARAMETER_INCORRECT");
+						return GetCurrentStep();
+					}
+
+					if (Password->Size() < VolumePassword::SmallPimPasswordSizeThreshold)
+					{
+						if (Pim > 0 && Pim < SelectedKdf->GetDefaultPim())
 						{
-							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
+							Gui->ShowError (SelectedKdf->GetPimRequireLongPasswordMessageId());
 							return GetCurrentStep();
 						}
 					}
-					else if (Pim > 0 && Pim < 485)
+					else if (Pim > 0 && Pim < SelectedKdf->GetDefaultPim())
 					{
-						if (!Gui->AskYesNo (LangString["PIM_SMALL_WARNING"], false, true))
+						if (!Gui->AskYesNo (LangString[SelectedKdf->GetPimSmallWarningMessageId()], false, true))
 						{
 							return GetCurrentStep();
 						}
 					}
 				}
 
-				if (VolumeSize > 4 * BYTES_PER_GB)
+				uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
+				if (filesystemSize > 4 * BYTES_PER_GB)
 				{
-					if (VolumeSize <= TC_MAX_FAT_SECTOR_COUNT * SectorSize)
+					if (filesystemSize <= TC_MAX_FAT_SECTOR_COUNT * (uint64) SectorSize)
 						return Step::LargeFilesSupport;
 					else
 						SelectedFilesystemType = VolumeCreationOptions::FilesystemType::GetPlatformNative();
@@ -937,6 +1386,7 @@ namespace VeraCrypt
 
 				SelectedFilesystemType = page->GetFilesystemType();
 				QuickFormatEnabled = page->IsQuickFormatEnabled();
+				QuickFormatEnabledByWizard = !OuterVolume && SelectedVolumeType == VolumeType::Hidden;
 
 				if (SelectedFilesystemType != VolumeCreationOptions::FilesystemType::None
 					&& SelectedFilesystemType != VolumeCreationOptions::FilesystemType::FAT)
@@ -974,23 +1424,14 @@ namespace VeraCrypt
 				{
 					if (SelectedVolumeType != VolumeType::Hidden || OuterVolume)
 					{
-						if (OuterVolume && VolumeSize > TC_MAX_FAT_SECTOR_COUNT * SectorSize)
+						if (SelectedFilesystemType == VolumeCreationOptions::FilesystemType::FAT)
 						{
-							uint64 limit = TC_MAX_FAT_SECTOR_COUNT * SectorSize / BYTES_PER_TB;
-							wstring err = static_cast<wstring>(StringFormatter (LangString["LINUX_ERROR_SIZE_HIDDEN_VOL"], limit, limit * 1024));
-
-							if (SectorSize < 4096)
+							uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
+							if (filesystemSize > TC_MAX_FAT_SECTOR_COUNT * (uint64) SectorSize)
 							{
-								err += LangString["LINUX_MAX_SIZE_HINT"];
-#if defined (TC_LINUX)
-								err += LangString["LINUX_DOT_LF"];
-#else
-								err += LangString["LINUX_NOT_SUPPORTED"];
-#endif
+								Gui->ShowError (LangString["FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME"]);
+								return GetCurrentStep();
 							}
-
-							Gui->ShowError (err);
-							return GetCurrentStep();
 						}
 
 						if (SelectedVolumePath.IsDevice())
@@ -1033,7 +1474,7 @@ namespace VeraCrypt
 						options->Quick = QuickFormatEnabled;
 						options->Size = VolumeSize;
 						options->Type = OuterVolume ? VolumeType::Normal : SelectedVolumeType;
-						options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*SelectedHash);
+						options->VolumeHeaderKdf = SelectedKdf;
 						options->EMVSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
 
 
@@ -1065,7 +1506,11 @@ namespace VeraCrypt
 					{
 						CreationAborted = true;
 						OnVolumeCreatorFinished();
+#ifdef TC_MACOSX
+						ShowMacOSXVolumeCreationError (SelectedVolumePath, e);
+#else
 						Gui->ShowError (e);
+#endif
 					}
 				}
 
@@ -1104,8 +1549,15 @@ namespace VeraCrypt
 					struct statvfs stat;
 					if (statvfs(((string)outerVolumeMountPoint).c_str(), &stat) == 0)
 					{
-						 outerVolumeAvailableSpace = (uint64) stat.f_bsize * (uint64) stat.f_bavail;
-						 outerVolumeAvailableSpaceValid = true;
+						uint64 blockSize = (uint64) stat.f_frsize;
+						if (blockSize == 0)
+							blockSize = (uint64) stat.f_bsize;
+
+						if (blockSize != 0)
+						{
+							outerVolumeAvailableSpace = blockSize * (uint64) stat.f_bavail;
+							outerVolumeAvailableSpaceValid = true;
+						}
 					}
 #endif
 					Core->DismountVolume (MountedOuterVolume);
@@ -1129,7 +1581,8 @@ namespace VeraCrypt
 				});
 #endif
 
-				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Pim, Kdf, Keyfiles, SecurityTokenSchemeSpec, VolumeProtection::ReadOnly);
+				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Pim, Kdf, Keyfiles, SecurityTokenSchemeSpec, Gui->GetPreferences().EMVSupportEnabled, VolumeProtection::ReadOnly);
+				uint64 outerVolumeDataSize = outerVolume->GetSize();
 				try
 				{
 					MaxHiddenVolumeSize = Core->GetMaxHiddenVolumeSize (outerVolume);
@@ -1140,17 +1593,24 @@ namespace VeraCrypt
 					// estimate maximum hidden volume size as 80% of available size of outer volume
 					if (outerVolumeAvailableSpaceValid)
 					{
-						MaxHiddenVolumeSize =(4ULL * outerVolumeAvailableSpace) / 5ULL;
+						if (outerVolumeAvailableSpace > outerVolumeDataSize)
+							outerVolumeAvailableSpace = outerVolumeDataSize;
+
+						MaxHiddenVolumeSize = (outerVolumeAvailableSpace / 5ULL) * 4ULL
+							+ ((outerVolumeAvailableSpace % 5ULL) * 4ULL) / 5ULL;
 					}
 					else
 						throw;
 				}
 
+				if (MaxHiddenVolumeSize > outerVolumeDataSize)
+					MaxHiddenVolumeSize = outerVolumeDataSize;
+
 				// Add a reserve (in case the user mounts the outer volume and creates new files
 				// on it by accident or OS writes some new data behind his or her back, such as
 				// System Restore etc.)
 
-				uint64 reservedSize = outerVolume->GetSize() / 200;
+				uint64 reservedSize = outerVolumeDataSize / 200;
 				if (reservedSize > 10 * BYTES_PER_MB)
 					reservedSize = 10 * BYTES_PER_MB;
 

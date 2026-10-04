@@ -1,4 +1,4 @@
-LZMA SDK 24.09
+LZMA SDK 26.02
 --------------
 
 LZMA SDK provides the documentation, samples, header files,
@@ -58,6 +58,34 @@ LZMA SDK Contents
 
     - console programs for lzma / 7z / xz compression and decompression
     - SFX modules for installers.
+
+How to compile with makefile in Windows
+---------------------------------------
+
+Some macronames can be defined for compiling with makefile:
+
+PLATFORM
+  with possible values: x64, x86, arm64, arm, ia64
+
+OLD_COMPILER
+  for old VC compiler, like MSCV 6.0.
+
+MY_DYNAMIC_LINK
+  for dynamic linking to the run-time library (msvcrt.dll).
+  The default makefile option is static linking to the run-time library.
+
+To compile 7zr.exe file for x64 with Visual Studio 2022,
+use the following command sequence:
+
+  cd SRC\CPP\7zip\Bundles\Alone7z\
+  %comspec% /k "C:\Program Files\VS2022\VC\Auxiliary\Build\vcvars64.bat"
+  nmake
+
+You can use other "vcvars*.bat" files from the "VS2022\VC\Auxiliary\Build" directory
+to compile for other platforms:
+  vcvars64.bat
+  vcvarsamd64_arm64.bat
+  vcvarsamd64_x86.bat
 
 
 UNIX/Linux version 

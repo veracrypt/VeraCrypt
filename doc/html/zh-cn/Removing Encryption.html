@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">杂项</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Removing%20Encryption.html">移除加密</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>如何移除加密</h1>
+<p>请注意，VeraCrypt只能对<strong>分区和驱动器</strong>进行原地解密（对于系统分区/驱动器，选择<em>系统</em> &gt; <em>永久解密系统分区/驱动器</em>；对于非系统分区/驱动器，选择<em>卷 -&gt; 永久解密</em>）。如果您需要从<strong>文件托管卷</strong>中移除加密（例如，您不再需要加密），请遵循以下步骤：</p>
+<ol>
+<li>挂载VeraCrypt卷。 </li><li>将VeraCrypt卷中的所有文件移动到VeraCrypt卷之外的任何位置（请注意，文件将在移动过程中自动解密）。
+</li><li>卸载VeraCrypt卷。 </li><li>像删除其他文件一样删除它（容器）。 </li></ol>
+<p>如果不希望对非系统分区/驱动器进行原地解密，在这种情况下也可以遵循上述步骤1 - 3。<br>
+<br>
+在所有情况下，如果遵循了步骤1 - 3，则可以执行以下额外操作：</p>
+<ul>
+<li><strong>如果卷是分区托管的（也适用于USB闪存驱动器）</strong>
+</li></ul>
+<ol type="a">
+<ol>
+<li>右键单击桌面上或开始菜单中的“<em>计算机</em>”（或“<em>我的电脑</em>”）图标，然后选择<em>管理</em>。此时应会出现“<em>计算机管理</em>”窗口。
+</li><li>在<em>计算机管理</em>窗口中，从左侧列表中选择“<em>磁盘管理</em>”（在<em>存储</em>子树中）。 </li><li>右键单击要解密的分区，然后选择“<em>更改驱动器号和路径</em>”。
+</li><li>此时应会出现“<em>更改驱动器号和路径</em>”窗口。如果窗口中未显示驱动器号，请单击<em>添加</em>；否则，单击<em>取消</em>。<br>
+<br>
+如果您单击了<em>添加</em>，则在出现的“<em>添加驱动器号或路径</em>”窗口中，选择要分配给该分区的驱动器号，然后单击<em>确定</em>。 </li><li>在<em>计算机管理</em>窗口中，再次右键单击要解密的分区，然后选择<em>格式化</em>。此时应会出现<em>格式化</em>窗口。 </li><li>在<em>格式化</em>窗口中，单击<em>确定</em>。分区格式化完成后，将不再需要使用VeraCrypt挂载该分区即可保存或加载文件。
+</li></ol>
+</ol>
+<ul>
+<li><strong>如果卷是设备托管的</strong> </li></ul>
+<blockquote>
+<ol>
+<li>右键单击桌面上或开始菜单中的“<em>计算机</em>”（或“<em>我的电脑</em>”）图标，然后选择<em>管理</em>。此时应会出现“<em>计算机管理</em>”窗口。
+</li><li>在<em>计算机管理</em>窗口中，从左侧列表中选择“<em>磁盘管理</em>”（在<em>存储</em>子树中）。 </li><li>此时应会出现“<em>初始化磁盘</em>”窗口。使用该窗口初始化磁盘。
+</li><li>在“<em>计算机管理</em>”窗口中，右键单击代表加密设备存储空间的区域，然后选择“<em>新建分区</em>”或“<em>新建简单卷</em>”。
+</li><li>警告：在继续操作之前，请确保您选择了正确的设备，因为其上存储的所有文件都将丢失。此时应会出现“<em>新建分区向导</em>”或“<em>新建简单卷向导</em>”窗口；请按照其说明在设备上创建新分区。分区创建完成后，将不再需要使用VeraCrypt挂载该设备即可保存或加载文件。
+</li></ol>
+</blockquote>
+</div><div class="ClearBoth"></div></body></html>

@@ -968,7 +968,7 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags) {
         _zip_buffer_put_16(buffer, ZIP_CM_WINZIP_AES);
     }
     else {
-        _zip_buffer_put_16(buffer, (zip_uint16_t)de->comp_method);
+        _zip_buffer_put_16(buffer, (zip_uint16_t)ZIP_CM_ACTUAL(de->comp_method));
     }
 
     if (ZIP_WANT_TORRENTZIP(za)) {
@@ -1190,52 +1190,75 @@ _zip_u2d_time(time_t intime, zip_dostime_t *dtime, zip_error_t *ze) {
 }
 
 
-void
-_zip_dirent_apply_attributes(zip_dirent_t *de, zip_file_attributes_t *attributes, bool force_zip64, zip_uint32_t changed) {
+bool _zip_dirent_apply_attributes(zip_dirent_t *de, zip_file_attributes_t *attributes, bool force_zip64, zip_uint32_t changed) {
     zip_uint16_t length;
+    bool has_changed = false;
 
     if (attributes->valid & ZIP_FILE_ATTRIBUTES_GENERAL_PURPOSE_BIT_FLAGS) {
         zip_uint16_t mask = attributes->general_purpose_bit_mask & ZIP_FILE_ATTRIBUTES_GENERAL_PURPOSE_BIT_FLAGS_ALLOWED_MASK;
-        de->bitflags = (de->bitflags & ~mask) | (attributes->general_purpose_bit_flags & mask);
+        zip_uint16_t bitflags = (de->bitflags & ~mask) | (attributes->general_purpose_bit_flags & mask);
+        if (de->bitflags != bitflags) {
+            de->bitflags = bitflags;
+            has_changed = true;
+        }
     }
     if (attributes->valid & ZIP_FILE_ATTRIBUTES_ASCII) {
-        de->int_attrib = (de->int_attrib & ~0x1) | (attributes->ascii ? 1 : 0);
+        zip_uint16_t int_attrib = (de->int_attrib & ~0x1) | (attributes->ascii ? 1 : 0);
+        if (de->int_attrib != int_attrib) {
+            de->int_attrib = int_attrib;
+            has_changed = true;
+        }
     }
     /* manually set attributes are preferred over attributes provided by source */
     if ((changed & ZIP_DIRENT_ATTRIBUTES) == 0 && (attributes->valid & ZIP_FILE_ATTRIBUTES_EXTERNAL_FILE_ATTRIBUTES)) {
-        de->ext_attrib = attributes->external_file_attributes;
+        if (de->ext_attrib != attributes->external_file_attributes) {
+            de->ext_attrib = attributes->external_file_attributes;
+            has_changed = true;
+        }
     }
 
+    zip_uint16_t version_needed;
     if (de->comp_method == ZIP_CM_LZMA) {
-        de->version_needed = 63;
+        version_needed = 63;
     }
     else if (de->encryption_method == ZIP_EM_AES_128 || de->encryption_method == ZIP_EM_AES_192 || de->encryption_method == ZIP_EM_AES_256) {
-        de->version_needed = 51;
+        version_needed = 51;
     }
     else if (de->comp_method == ZIP_CM_BZIP2) {
-        de->version_needed = 46;
+        version_needed = 46;
     }
     else if (force_zip64 || _zip_dirent_needs_zip64(de, 0)) {
-        de->version_needed = 45;
+        version_needed = 45;
     }
     else if (de->comp_method == ZIP_CM_DEFLATE || de->encryption_method == ZIP_EM_TRAD_PKWARE) {
-        de->version_needed = 20;
+        version_needed = 20;
     }
     else if ((length = _zip_string_length(de->filename)) > 0 && de->filename->raw[length - 1] == '/') {
-        de->version_needed = 20;
+        version_needed = 20;
     }
     else {
-        de->version_needed = 10;
+        version_needed = 10;
     }
 
     if (attributes->valid & ZIP_FILE_ATTRIBUTES_VERSION_NEEDED) {
-        de->version_needed = ZIP_MAX(de->version_needed, attributes->version_needed);
+        version_needed = ZIP_MAX(version_needed, attributes->version_needed);
     }
 
-    de->version_madeby = 63 | (de->version_madeby & 0xff00);
-    if ((changed & ZIP_DIRENT_ATTRIBUTES) == 0 && (attributes->valid & ZIP_FILE_ATTRIBUTES_HOST_SYSTEM)) {
-        de->version_madeby = (de->version_madeby & 0xff) | (zip_uint16_t)(attributes->host_system << 8);
+    if (de->version_needed != version_needed) {
+        de->version_needed = version_needed;
+        has_changed = true;
     }
+
+    zip_int16_t version_madeby = 63 | (de->version_madeby & 0xff00);
+    if ((changed & ZIP_DIRENT_ATTRIBUTES) == 0 && (attributes->valid & ZIP_FILE_ATTRIBUTES_HOST_SYSTEM)) {
+        version_madeby = (version_madeby & 0xff) | (zip_uint16_t)(attributes->host_system << 8);
+    }
+    if (de->version_madeby != version_madeby) {
+        de->version_madeby = version_madeby;
+        has_changed = true;
+    }
+
+    return has_changed;
 }
 
 
@@ -1257,15 +1280,37 @@ zip_dirent_torrentzip_normalize(zip_dirent_t *de) {
     /* last_mod, extra_fields, and comment are normalized in zip_dirent_write() directly */
 }
 
-int
-zip_dirent_check_consistency(zip_dirent_t *dirent) {
-    if (dirent->comp_method == ZIP_CM_STORE && dirent->comp_size != dirent->uncomp_size) {
-        return ZIP_ER_DETAIL_STORED_SIZE_MISMATCH;
+int zip_dirent_check_consistency(zip_dirent_t *dirent) {
+    if (dirent->comp_method == ZIP_CM_STORE) {
+        zip_uint64_t header_size = 0;
+        switch (dirent->encryption_method) {
+        case ZIP_EM_NONE:
+            break;
+        case ZIP_EM_TRAD_PKWARE:
+            header_size = 12;
+            break;
+        case ZIP_EM_AES_128:
+            header_size = 20;
+            break;
+        case ZIP_EM_AES_192:
+            header_size = 24;
+            break;
+        case ZIP_EM_AES_256:
+            header_size = 28;
+            break;
+
+        default:
+            return 0;
+        }
+        if (dirent->uncomp_size + header_size < dirent->uncomp_size || dirent->comp_size != dirent->uncomp_size + header_size) {
+            return ZIP_ER_DETAIL_STORED_SIZE_MISMATCH;
+        }
     }
     return 0;
 }
 
-time_t zip_dirent_get_last_mod_mtime(zip_dirent_t *de) {
+time_t
+zip_dirent_get_last_mod_mtime(zip_dirent_t *de) {
     if (!de->last_mod_mtime_valid) {
         de->last_mod_mtime = _zip_d2u_time(&de->last_mod);
         de->last_mod_mtime_valid = true;

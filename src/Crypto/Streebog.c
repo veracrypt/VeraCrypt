@@ -8,6 +8,14 @@
 
 #include "Streebog.h"
 #include "cpu.h"
+#include "Common/Endian.h"
+
+/* The big-endian code paths below come from the original implementation. */
+#if BYTE_ORDER == BIG_ENDIAN
+#include "misc.h"
+#define __GOST3411_BIG_ENDIAN__
+#define BSWAP64(x) bswap_64(x)
+#endif
 
 #if defined (_MSC_VER) && (_MSC_VER < 1600)
 #error "Streebog SSE code requires at least Visual C++ 2010 when building on Windows"
@@ -24,8 +32,8 @@ STREEBOG_ALIGN(16) static const unsigned long long buffer0[8] = { 0x0ULL, 0x0ULL
 STREEBOG_ALIGN(16) static const unsigned long long buffer512[8] = {0x0000000000000200ULL,
     0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL };
 #else
-STREEBOG_ALIGN(16) static const unsigned long long buffer512[8] = {{ 0x0002000000000000ULL,
-    0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL }};
+STREEBOG_ALIGN(16) static const unsigned long long buffer512[8] = { 0x0002000000000000ULL,
+    0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL };
 #endif
 
 #ifndef __GOST3411_BIG_ENDIAN__
@@ -1783,20 +1791,21 @@ add512(const unsigned long long *x, const unsigned long long *y, unsigned long l
         r[i] = tmp;
 	}
 #else
-    const unsigned char *xp, *yp;
-    unsigned char *rp;
-    unsigned int i;
-    int buf;
+    /* Same limb-wise arithmetic as the little-endian path above (including
+     * its dropped carry, which existing volumes depend on), applied to the
+     * byte-swapped 64-bit limbs. */
+    unsigned int CF = 0, OF, i;
+    unsigned long long a, b, tmp;
 
-    xp = (const unsigned char *) x;
-    yp = (const unsigned char *) y;
-    rp = (unsigned char *) r;
-
-    buf = 0;
-    for (i = 0; i < 64; i++)
+    for (i = 0; i < 8; i++)
     {
-        buf = xp[i] + yp[i] + (buf >> 8);
-        rp[i] = (unsigned char) buf & 0xFF;
+        a = BSWAP64(x[i]);
+        b = BSWAP64(y[i]);
+        tmp = a + b;
+        OF = tmp < a;
+        tmp += CF;
+        CF = OF;
+        r[i] = BSWAP64(tmp);
     }
 #endif
 }

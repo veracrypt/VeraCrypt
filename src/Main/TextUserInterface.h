@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -38,7 +38,7 @@ namespace VeraCrypt
 		virtual bool AskYesNo (const wxString &message, bool defaultYes = false, bool warning = false) const;
 		virtual void BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const;
 		virtual void BeginBusyState () const { }
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Hash> currentHash = shared_ptr <Hash>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), wstring securityTokenSchemeSpec = wstring(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const;
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Pkcs5Kdf> currentKdf = shared_ptr <Pkcs5Kdf>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), wstring securityTokenSchemeSpec = wstring(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Pkcs5Kdf> newKdf = shared_ptr <Pkcs5Kdf>()) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const;
 		virtual void CreateVolume (shared_ptr <VolumeCreationOptions> options) const;
 		virtual void DeleteSecurityTokenKeyfiles () const;
@@ -52,13 +52,18 @@ namespace VeraCrypt
 		virtual void ImportTokenKeyfiles () const;
 #ifndef TC_NO_GUI
 		virtual bool Initialize (int &argc, wxChar **argv) { return wxAppBase::Initialize(argc, argv); }
+#ifdef TC_MACOSX
+		// Avoid wxApp::CallOnInit(), which can enter the Cocoa event loop before text-mode OnInit() runs.
+		virtual bool CallOnInit () { return OnInit(); }
+		virtual bool OSXIsGUIApplication () { return false; }
+#endif
 #endif
 		virtual void InitSecurityTokenLibrary () const;
 		virtual void ListTokenKeyfiles () const;
         virtual void ListSecurityTokenKeyfiles () const;
         virtual void ListEMVTokenKeyfiles () const;
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
-		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) const;
+		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options, bool tryCachedPasswords = true) const;
 		virtual bool OnInit ();
 #ifndef TC_NO_GUI
 		virtual bool OnInitGui () { return true; }

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -24,7 +24,7 @@ DWORD ReadRegistryBytes (wchar_t *path, wchar_t *name, char *value, int maxLen);
 void WriteRegistryInt (wchar_t *subKey, wchar_t *name, int value);
 BOOL WriteLocalMachineRegistryDword (wchar_t *subKey, wchar_t *name, DWORD value);
 BOOL WriteLocalMachineRegistryMultiString (wchar_t *subKey, wchar_t *name, wchar_t *multiString, DWORD size);
-BOOL WriteLocalMachineRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *str, BOOL expandable);
+BOOL WriteLocalMachineRegistryString (const wchar_t *subKey, const wchar_t *name, const wchar_t *str, BOOL expandable);
 void WriteRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *str);
 BOOL WriteRegistryBytes (wchar_t *path, wchar_t *name, char *str, DWORD size);
 BOOL DeleteLocalMachineRegistryKey (wchar_t *parentKey, wchar_t *subKeyToDelete);

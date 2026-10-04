@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认理由。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="System%20Encryption.html">系统加密</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="EFISecureBoot.html">EFI安全启动</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>EFI安全启动</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt系统加密兼容EFI Secure Boot（安全启动）：VeraCrypt EFI引导加载程序通过Microsoft第三方UEFI签名计划由Microsoft签名，因此固件可以使用标准Microsoft证书验证它们，而无需注册任何自定义密钥。本页说明VeraCrypt如何选择已签名的引导加载程序、这与Microsoft Secure Boot证书从2011证书颁发机构（CA）过渡到2023 CA的关系，以及如何诊断并恢复安全启动相关的启动故障。
+</div>
+
+<h2>已签名的引导加载程序套件</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+自1.26.29版起，VeraCrypt随附两套完整的Microsoft签名EFI引导加载程序：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>2011套件：</strong>通过 <em>Microsoft Corporation UEFI CA 2011</em> 签名。这是自安全启动引入以来固件用于第三方引导加载程序的CA。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>2023套件：</strong>通过更新后的Microsoft第三方CA签名。主引导加载程序（<code>DcsBoot.efi</code>）通过 <em>Microsoft UEFI CA 2023</em> 签名，其他组件（<code>DcsInt.dcs</code>、<code>LegacySpeaker.dcs</code>）通过 <em>Microsoft Option ROM UEFI CA 2023</em> 签名。因此，2023套件要求固件安全启动签名数据库（db）中同时存在 <strong>两个</strong> 证书：<em>Microsoft UEFI CA 2023</em> 和 <em>Microsoft Option ROM UEFI CA 2023</em>。
+</li>
+</ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在安装、升级、修复/重新安装以及开始系统加密时，VeraCrypt会读取固件db和dbx，并选择其已知签名CA存在于db且未列入dbx的套件。可选的dbx变量可以合法地不存在（自定义密钥系统尤其如此）；此状态按空禁止数据库处理，而启用安全启动时真正的读取或解析错误仍会导致拒绝安装。若2023 CA对可用则优先选择2023套件，否则在存在 <em>Microsoft Corporation UEFI CA 2011</em> 时使用2011套件。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+更改固件安全启动配置（例如在BIOS设置中启用其他证书）本身不会重写已经安装到EFI系统分区上的文件。更改固件安全启动数据库后，请以 <em>修复/重新安装</em> 模式运行VeraCrypt安装程序，或让VeraCrypt System Favorites服务自动刷新引导加载程序（它会在Windows启动、会话登录或解锁、从睡眠恢复以及关机时重新评估选择）。
+</div>
+
+<h2>诊断</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt在以下注册表键下记录安装了哪个引导加载程序套件以及原因：
+</div>
+<pre>
+HKEY_LOCAL_MACHINE\SOFTWARE\VeraCrypt\Diagnostics\EfiBootLoader
+    EfiBootLoaderResourceSet          REG_DWORD  2011 (0x7db) 或 2023 (0x7e7)
+    EfiBootLoaderSelectionReason      REG_SZ     可读的选择原因
+    EfiBootLoaderFirmwareDbLastError  REG_DWORD  上次读取/解析固件db的错误（0 = 无）
+    EfiBootLoaderFirmwareDbxLastError REG_DWORD  上次读取/解析dbx的错误（0 = 无）
+    FirmwareDbxPresent                REG_DWORD  dbx是否存在（0可为合法缺失）
+    EfiBootLoaderInstalledResourceSet REG_DWORD  由ESP实际文件识别的套件
+    VeraCryptLoaderFilesValid         REG_DWORD  DCS文件与一个内嵌套件完全匹配
+    WindowsLoaderSigner               REG_DWORD  内嵌签名：0、2011或2023
+    EfiBootLoaderSelectionTimeUtc     REG_SZ     上次选择的时间
+</pre>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+以下命令在以管理员身份打开的PowerShell窗口中运行，可显示固件db中存在哪些Microsoft证书（请注意，在某些固件上，即使证书存在，这种简单文本搜索也可能看不到名称）：
+</div>
+<pre>
+reg query HKLM\SOFTWARE\VeraCrypt\Diagnostics\EfiBootLoader /s
+
+$t = [Text.Encoding]::ASCII.GetString((Get-SecureBootUEFI db).Bytes)
+'Microsoft Corporation UEFI CA 2011',
+'Microsoft Windows Production PCA 2011',
+'Windows UEFI CA 2023',
+'Microsoft UEFI CA 2023',
+'Microsoft Option ROM UEFI CA 2023' |
+  ForEach-Object { "$_ : $($t -match [regex]::Escape($_))" }
+
+# 将ESP挂载为S:后检查内嵌签名；不要依赖可能返回目录签名的命令。
+Get-PfxCertificate -FilePath S:\EFI\Microsoft\Boot\bootmgfw_ms.vc |
+  Select-Object Subject,Issuer,Thumbprint
+</pre>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+此外，VeraCrypt System Favorites服务会针对实际DCS文件与内嵌套件不匹配、Windows启动管理器缺失或其内嵌签名无法识别、已知所需CA不在db或被列入dbx，以及PCA 2011副本需要迁移等情况写入警告。这只是“已知CA兼容性”评估，并非固件一定接受映像的证明；dbx还可撤销映像哈希、证书TBS哈希和安全版本。
+</div>
+
+<h2>Microsoft 2023证书过渡</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Microsoft Secure Boot的2011证书在2026年到期：<em>Microsoft Corporation KEK CA 2011</em> 和 <em>Microsoft Corporation UEFI CA 2011</em> 已于2026年6月到期，<em>Microsoft Windows Production PCA 2011</em> 将于2026年10月到期。Microsoft会以2023 CA替换它们，并通过Windows Update分发新证书以及由 <em>Windows UEFI CA 2023</em> 签名的Windows启动管理器。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt用户需要注意两点：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>证书到期通常不会阻止已安装的引导加载程序启动。</strong> UEFI安全启动映像验证通常不强制执行签名证书有效期，因此仅因2011 CA到期并不会拒绝加载程序。但新的二进制文件无法继续通过该签名体系签发，未获得2023证书的系统也无法接收由替代CA签名的启动链更新。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>证书到期与撤销是两回事。</strong> Microsoft提供了一项需明确执行的独立缓解措施，将 <em>Microsoft Windows Production PCA 2011</em> 添加到安全启动禁止签名数据库（dbx）；应用后，所有通过该CA签名的Windows启动管理器都会被拒绝。此Windows PCA撤销不属于下文由 <code>0x5944</code> 执行的证书/启动管理器迁移。截至2026年7月，<a href="https://techcommunity.microsoft.com/blog/linuxandopensourceblog/what-it-teams-need-to-know-about-linux-secure-boot-certificates-expiring-in-2026/4530725">Microsoft表示目前没有撤销Microsoft Corporation UEFI CA 2011的计划</a>；该第三方CA用于VeraCrypt 2011引导加载程序套件。尽管如此，在应用任何Windows PCA 2011撤销之前，仍建议将启动链中的VeraCrypt和Windows部分都迁移到相应的2023 CA。
+</li>
+</ul>
+
+<h2>仅信任2023 CA的新计算机</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+部分较新的计算机出厂时带有只包含 <em>Windows UEFI CA 2023</em>、完全没有Microsoft第三方CA的安全启动配置。在此类系统上，必须先在固件设置中启用VeraCrypt 2023引导加载程序套件所需的两个第三方CA（<em>Microsoft UEFI CA 2023</em> 和 <em>Microsoft Option ROM UEFI CA 2023</em>）。该选项通常称为 <em>&quot;Allow Microsoft 3rd Party UEFI CA&quot;</em>、<em>&quot;Third-Party CA&quot;</em> 或 <em>&quot;Third-Party Certificates&quot;</em>。启用后，请以 <em>修复/重新安装</em> 模式运行VeraCrypt安装程序（或开始系统加密），以便VeraCrypt选择2023引导加载程序套件。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果固件没有提供信任Microsoft第三方CA的方法，则无法在该机器启用安全启动的情况下使用VeraCrypt系统加密。
+</div>
+
+<h2>将现有系统更新到2023证书</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows通过基于遥测的分阶段部署流程分发2023证书。只有在Microsoft对设备硬件/固件组合有足够信心后，设备才会自动更新。VeraCrypt系统加密计算机采用非标准启动链，因为VeraCrypt引导加载程序占用Windows启动管理器的标准位置；这可能影响维护检查，但Microsoft并未将VeraCrypt列为必然排除在部署之外的条件。Windows安全中心显示 <em>&quot;not yet enough data to classify your device&quot;</em> 只表示当前部署状态，不能证明原因是VeraCrypt。<code>MicrosoftUpdateManagedOptIn</code> 是加入Microsoft异步托管部署的另一种方式，需要允许发送相应的诊断数据，也不保证立即部署。不要把该方式与手动设置 <code>AvailableUpdates</code> 混用。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+对于受控的手动部署，Microsoft将 <code>0x5944</code> 记录为显式请求2023 CA、KEK和Windows启动管理器迁移的值（参见<a href="https://support.microsoft.com/en-us/topic/registry-key-updates-for-secure-boot-windows-devices-with-it-managed-updates-a7be69c9-4634-42e1-9ca1-df06f43f360d">Microsoft安全启动注册表指导</a>）。它<strong>不会</strong>应用Windows PCA 2011的dbx撤销，VeraCrypt也绝不会自动设置此值。阅读下述预防措施后，才应在完全更新的Windows上使用：
+</div>
+<pre>
+reg add HKLM\SYSTEM\CurrentControlSet\Control\Secureboot /v AvailableUpdates /t REG_DWORD /d 0x5944 /f
+
+rem 可选：立即运行维护任务（否则它每 12 小时运行一次）：
+schtasks /Run /TN "\Microsoft\Windows\PI\Secure-Boot-Update"
+</pre>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可在 <code>HKLM\SYSTEM\CurrentControlSet\Control\SecureBoot</code> 及其 <code>Servicing</code> 子项下监视进度，也可查看安全启动维护事件。<code>AvailableUpdates</code> 的预期变化顺序为 <code>0x5944</code>、<code>0x4100</code>，在所需任务运行和重启后最终为修饰值 <code>0x4000</code>。还应确认 <code>UEFICA2023Status=Updated</code> 并检查实际启动文件；仅有 <code>0x4000</code> 不能证明VeraCrypt的 <code>bootmgfw_ms.vc</code> 已刷新。db更新会添加 <em>Windows UEFI CA 2023</em>。对于已经信任 <em>Microsoft Corporation UEFI CA 2011</em> 的系统，它会有条件地添加 <em>Microsoft UEFI CA 2023</em> 和 <em>Microsoft Option ROM UEFI CA 2023</em>；并非所有可安装VeraCrypt的系统都具有该旧版第三方CA。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在VeraCrypt系统加密机器上触发更新之前，请采取以下预防措施：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>首先将BIOS/UEFI固件更新到计算机制造商提供的最新版本。</strong> 新证书写入固件安全启动数据库失败通常由固件错误造成，Microsoft建议在应用证书更新之前先向设备制造商确认是否有更新的固件。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>首先创建或更新VeraCrypt救援盘</strong>，并验证它能够启动。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+不要禁用 <em>VeraCrypt System Favorites</em> 服务或其引导加载程序更新功能。如果Windows替换标准ESP位置的启动管理器，该服务会将其保存为 <code>bootmgfw_ms.vc</code> 并恢复VeraCrypt加载程序。如果标准路径保持不变，当前VeraCrypt还会检查 <code>%SystemRoot%\Boot\EFI_EX</code> 和 <code>%SystemRoot%\Boot\EFI</code> 中Windows维护的副本，验证内嵌签名，并用已知固件CA策略允许的最佳副本原子刷新 <code>bootmgfw_ms.vc</code>。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>隐藏操作系统用户不应从隐藏操作系统触发更新。</strong> 运行隐藏操作系统时，自动启动链保留功能被禁用。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+避免在Windows替换启动管理器到下一次正常重启或关机之间强制断电。在大多数系统上，VeraCrypt启动项会在这个时间窗口内保持计算机可启动，但忽略启动顺序的固件可能会启动普通Windows启动管理器，而它无法启动加密的Windows（可用救援盘恢复）。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+由于标准Windows启动管理器位置按设计保存VeraCrypt加载程序，Windows可能仍报告迁移未完成。只有在固件db包含所需2023 CA、<code>EfiBootLoaderInstalledResourceSet</code> 从实际文件识别出2023套件、<code>bootmgfw_ms.vc</code> 的<em>内嵌</em>签发者为 <em>Windows UEFI CA 2023</em> 且事件日志无未解决维护错误后，才可将其视为可能的维护误报。
+</li>
+</ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+应用db更新后，VeraCrypt会在下次刷新引导加载程序时自动切换到2023引导加载程序套件（<em>修复/重新安装</em>、升级，或System Favorites服务的某个自动刷新点）。您可以在上文所述的诊断注册表键中验证结果，并在提示时重新创建救援盘。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows PCA 2011的dbx撤销是后续的独立操作，详见 <a href="https://support.microsoft.com/en-us/topic/how-to-manage-the-windows-boot-manager-revocations-for-secure-boot-changes-associated-with-cve-2023-24932-41a975df-beb2-40c1-99a3-b3ff139f832d">Microsoft KB5025885</a>。在确认 <code>bootmgfw_ms.vc</code> 由 <em>Windows UEFI CA 2023</em> 签名、恢复介质已更新，并且启用安全启动的受控重启成功之前，不要请求其 <code>0x80</code> 位（或还会请求SVN更新的组合值 <code>0x280</code>）。VeraCrypt绝不会自动启用此撤销。
+</div>
+
+<h2>从安全启动故障中恢复</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+当固件安全启动配置不再信任启动链中的某个组件时，可能出现两类不同故障：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>密码提示出现之前</strong>（例如 <em>&quot;Secure Boot Violation&quot;</em> 消息，或立即返回固件）：固件不信任为已安装VeraCrypt引导加载程序签名的CA。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>成功输入密码之后</strong>（VeraCrypt引导加载程序显示明确的安全启动错误消息，或在较旧加载程序版本上返回密码提示）：固件不信任为Windows启动管理器副本（<code>bootmgfw_ms.vc</code>）签名的CA，而该副本由VeraCrypt链式加载。
+</li>
+</ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+两种情况下，恢复步骤均为：
+</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+暂时在固件设置中禁用安全启动并正常启动Windows（禁用安全启动时VeraCrypt预启动身份验证仍可工作）。VeraCrypt救援盘可以恢复缺失或损坏的VeraCrypt引导加载程序组件，但无法生成当前的Windows启动管理器，也无法在PCA 2011 CA被加入dbx后使由其签名的 <code>bootmgfw_ms.vc</code> 重新获得信任；它不能替代完成Windows迁移。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在Windows中修复固件/Windows安全启动策略（启用第三方CA、自定义密钥流程后恢复当前dbx，或应用上述Windows更新），然后以 <em>修复/重新安装</em> 模式运行VeraCrypt。修复会检查Windows维护的 <code>EFI_EX</code>/<code>EFI</code> 副本，并可安装兼容的当前Windows启动管理器。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+检查VeraCrypt诊断和内嵌签名，然后重新启用安全启动并执行一次受控重启。策略评估不完整或加载程序文件不兼容时不要重新启用。
+</li>
+</ol>
+
+<h2>旧版自定义密钥步骤（已弃用）</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+较旧VeraCrypt版本记录的自定义密钥流程（VeraCrypt-DCS <em>SecureBoot</em> 脚本 <code>sb_set_siglists.ps1</code>）会用自定义密钥、2011版Microsoft证书及过时的2018 dbx替换PK、KEK、db和dbx。此流程<strong>已经弃用，在2023证书链系统上不得使用</strong>：它会移除对新Windows启动管理器的信任、丢弃当前撤销并可能破坏Windows交接。应恢复制造商密钥和当前dbx。
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+&nbsp;</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

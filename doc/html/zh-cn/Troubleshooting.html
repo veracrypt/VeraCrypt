@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Troubleshooting.html">故障排除</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>故障排除</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+本节介绍了在使用VeraCrypt时可能遇到的常见问题的解决方案。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：如果您的问题未在此列出，可能会在以下部分列出：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none">不兼容性</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none">已知问题与限制</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="FAQ.html" style="text-align:left; color:#0080c0; text-decoration:none">常见问题解答</a>
+</li></ul>
+<table style="border-collapse:separate; border-spacing:0px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<td style="color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:15px; border:1px solid #000000">
+确保您使用的是VeraCrypt的最新稳定版本。如果问题是由旧版本的VeraCrypt中的漏洞引起的，那么该问题可能已经得到修复。注意：选择 <em style="text-align:left"><strong style="text-align:left">帮助</strong></em> > <em style="text-align:left"><strong style="text-align:left">关于</strong></em> 以查看您使用的版本。
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">即使根据基准测试，我使用的密码算法速度高于硬盘速度，但对卷的读写操作仍然非常缓慢。</em>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+这可能是由干扰应用程序引起的。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+首先，确保您的VeraCrypt容器没有保留给可执行文件的文件扩展名（例如.exe、.sys或.dll）。如果有，Windows和防病毒软件可能会干扰容器并对卷的性能产生不利影响。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+其次，禁用或卸载任何可能造成干扰的应用程序，通常是防病毒软件或自动磁盘碎片整理工具等。对于防病毒软件，通常在其偏好设置中关闭实时（访问时）扫描会有所帮助。如果不起作用，请尝试暂时禁用病毒防护软件。如果还是不行，请尝试完全卸载它，然后重新启动计算机。
+</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">VeraCrypt 卷无法挂载；VeraCrypt 报告 “</em>密码错误或不是 VeraCrypt 卷<em style="text-align:left">”。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+卷头可能已被第三方应用程序或故障硬件组件损坏。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+您可以尝试通过以下步骤从嵌入在卷中的备份恢复卷头：
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+运行 VeraCrypt。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+点击 <em style="text-align:left">选择设备</em> 或 <em style="text-align:left">
+选择文件</em> 以选择您的卷。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+选择 <em style="text-align:left"><a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none">工具 > 恢复卷头</a></em>。
+</li></ol>
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">成功挂载卷后，Windows 报告 “</em>此设备不包含有效的文件系统<em style="text-align:left">” 或类似错误。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt 卷上的文件系统可能已损坏（或者该卷未格式化）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+您可以使用操作系统提供的文件系统修复工具尝试修复 VeraCrypt 卷上的文件系统。在 Windows 中，是 '<em style="text-align:left">chkdsk</em>' 工具。VeraCrypt 提供了一种在 VeraCrypt 卷上使用此工具的简便方法：首先，制作 VeraCrypt 卷的备份副本（因为 '<em style="text-align:left">chkdsk</em>' 工具可能会进一步损坏文件系统），然后挂载该卷。在 VeraCrypt 主窗口（在驱动器列表中）中右键单击已挂载的卷，然后从上下文菜单中选择 '<em style="text-align:left">修复文件系统</em>'。</div>
+<hr style="text-align:left">
+<div id="hidden_volume_small_max_size" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">尝试创建隐藏卷时，其最大可能大小意外地小（外部卷上有比这多得多的可用空间）。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+外部卷已格式化为 NTFS</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+碎片整理</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+簇大小太小 + 外部卷根目录中的文件/文件夹太多。
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+与原因 1 相关的解决方案：</div>
+<blockquote style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+与 FAT 文件系统不同，NTFS 文件系统始终将内部数据精确地存储在卷的中间。因此，隐藏卷只能位于外部卷的后半部分。如果此限制不可接受，请执行以下操作之一：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+将外部卷重新格式化为 FAT，然后在其中创建隐藏卷。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果外部卷太大而无法格式化为 FAT，则将该卷拆分为几个 2 太字节的卷（如果设备使用 4 千字节扇区，则为 16 太字节的卷），并将每个卷格式化为 FAT。
+</li></ul>
+</blockquote>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+与原因 2 相关的解决方案：</div>
+<blockquote style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+创建一个新的外部卷（碎片整理不是解决方案，因为它会对合理推诿性产生不利影响 – 请参阅 <a href="Defragmenting.html" style="text-align:left; color:#0080c0; text-decoration:none">
+碎片整理</a> 部分）。</div>
+</blockquote>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+与原因 3 相关的解决方案：</div>
+<blockquote style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：以下解决方案仅适用于在 FAT 卷中创建的隐藏卷。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+对外部卷进行碎片整理（挂载它，在 '<em style="text-align:left">计算机</em>' 或 '<em style="text-align:left">我的电脑</em>' 窗口中右键单击其驱动器号，点击 <em style="text-align:left">属性</em>，选择 <em style="text-align:left">
+工具</em> 选项卡，然后点击 '<em style="text-align:left">立即进行碎片整理</em>'）。卷进行碎片整理后，退出 <em style="text-align:left">磁盘碎片整理程序</em>，然后再次尝试创建隐藏卷。
+<br style="text-align:left">
+<br style="text-align:left">
+如果这没有帮助，请通过按 Shift + Delete 删除外部卷上的 <em style="text-align:left">所有</em> 文件和文件夹，而不是通过格式化（事先不要忘记为该驱动器禁用回收站和系统还原），然后尝试创建
+</div>
+在这个 <em style="text-align:left">完全为空的</em> 外部卷上再次创建隐藏卷（仅用于测试目的）。如果即使现在隐藏卷的最大可能大小仍未改变，那么问题的原因很可能是扩展根目录。
+如果您没有使用 '<em style="text-align:left">默认</em>' 簇大小（向导的最后一步），请重新格式化外部卷，并在这次将簇大小保留为 '<em style="text-align:left">默认</em>'。
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果这没有帮助，请再次重新格式化外部卷，并比上次少复制一些文件/文件夹到其根文件夹。如果还是没有帮助，请继续重新格式化并减少根文件夹中的文件/文件夹数量。如果这不可接受或者仍然没有帮助，请重新格式化外部卷并选择更大的簇大小。如果仍然没有帮助，请继续重新格式化并增大簇大小，直到问题解决。或者，尝试在 NTFS 卷中创建隐藏卷。</div>
+</blockquote>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+出现以下问题之一：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+VeraCrypt 卷无法挂载。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+无法创建 NTFS VeraCrypt 卷。</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+此外，可能会报告以下错误：“<em style="text-align:left">该进程无法访问此文件，因为它正被另一个进程使用。</em>”</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+这可能是由干扰应用程序引起的。请注意，这不是 VeraCrypt 的 bug。操作系统向 VeraCrypt 报告该设备已被某个应用程序独占锁定（因此 VeraCrypt 不被允许访问它）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+通常，禁用或卸载干扰应用程序会有帮助，这些应用程序通常是防病毒实用程序、磁盘管理应用程序等。</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">在 VeraCrypt 引导加载程序屏幕中，我试图输入密码和/或按下其他键，但 VeraCrypt 引导加载程序没有响应。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+您使用的是 USB 键盘（而非 PS/2 键盘），并且您的 BIOS 设置中禁用了 USB 键盘的预引导支持。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+您需要在 BIOS 设置中启用 USB 键盘的预引导支持。为此，请按照以下步骤操作：</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+重启您的计算机，在看到 BIOS 启动屏幕后立即按下 F2 或 Delete 键，然后等待 BIOS 配置屏幕出现。如果没有出现 BIOS 配置屏幕，请再次重启（重置）计算机，并在重启（重置）计算机后立即反复按下 F2 或 Delete 键。当 BIOS 配置屏幕出现时，启用 USB 键盘的预引导支持。通常可以通过选择以下选项来完成：
+<em style="text-align:left">高级</em> > '<em style="text-align:left">USB 配置</em>' > '<em style="text-align:left">传统 USB 支持</em>'（或 '<em style="text-align:left">USB 传统模式</em>'） >
+<em style="text-align:left">启用</em>。（请注意，“传统”这个词实际上会产生误导，因为现代版本的 MS Windows 的预引导组件需要启用此选项才能允许用户进行交互/控制。）然后保存 BIOS 设置（通常通过按下 F10 键）并重启计算机。有关更多信息，请参考您的 BIOS/主板文档，或联系您计算机供应商的技术支持团队寻求帮助。</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">系统分区/驱动器加密后，计算机重启后无法启动（也无法进入 BIOS 配置屏幕）。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+您计算机的 BIOS 存在 bug。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<p>请按照以下步骤操作：</p>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+断开加密驱动器的连接。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+连接一个安装了操作系统的未加密驱动器（或者在该驱动器上安装操作系统）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+升级 BIOS。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果还是没有帮助，请向计算机制造商或供应商报告此 bug。
+</li></ol>
+<p>或者</p>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果 BIOS/主板/计算机制造商/供应商没有提供解决此问题的更新，并且您使用的是 Windows 7 或更高版本，并且驱动器上有一个额外的引导分区（其大小小于 1 GB），您可以尝试在不使用这个额外引导分区的情况下重新安装 Windows（以解决 BIOS 中的一个 bug）。</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+出现以下问题之一：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">在系统加密预测试期间输入预引导认证密码后，计算机死机（在显示消息 '</em>正在启动...<em style="text-align:left">' 之后）。</em>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">当系统分区/驱动器被部分或完全加密，并且自系统分区/驱动器加密过程开始后系统首次重启时，在您输入预引导认证密码后计算机死机（在显示消息 '</em>正在启动...<em style="text-align:left">' 之后）。</em>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">隐藏操作系统克隆完成并输入其密码后，计算机死机（显示“Booting...”消息后）。</em>
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+计算机BIOS中的错误或Windows引导加载程序存在问题。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+升级你的BIOS（有关如何操作的信息，请参考你的BIOS/主板文档，或联系计算机供应商的技术支持团队寻求帮助）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+使用不同型号/品牌的主板。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果BIOS/主板/计算机制造商/供应商没有提供解决此问题的更新，并且你使用的是Windows 7或更高版本，并且驱动器上有一个额外的引导分区（其大小小于1GB），你可以尝试在不使用这个额外引导分区的情况下重新安装Windows（以绕过BIOS中的一个错误）。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+有另外两种已知的解决此问题的方法，需要有Windows安装盘：
+<ul>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+使用Windows安装盘启动计算机，选择修复计算机。选择“命令提示符”选项，打开后，输入以下命令，然后重启系统：
+<ul>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+BootRec /fixmbr </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+BootRec /FixBoot </li></ul>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+删除位于驱动器开头的100MB系统保留分区，将其旁边的系统分区设置为活动分区（这两个操作都可以使用Windows安装盘修复选项中的diskpart实用工具完成）。之后，在Windows安装盘上重启后运行启动修复。以下链接包含详细说明：
+<a href="https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html" target="_blank">
+https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html</a>
+</li></ul>
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">尝试加密系统分区/驱动器时，在预测试期间，VeraCrypt引导加载程序始终报告我输入的预启动身份验证密码不正确（即使我确定密码是正确的）。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+“Num Lock”和/或“Caps Lock”键的状态不同</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+数据损坏</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+当你<em style="text-align:left">设置</em>预启动身份验证密码时，记住“Num Lock”和“Caps Lock”键是开启还是关闭（根据制造商的不同，这些键可能有不同的标签，如<em style="text-align:left">Num LK</em>）。注意：你可以在设置密码之前根据需要更改每个键的状态，但你需要记住这些状态。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+当你在VeraCrypt引导加载程序屏幕中输入密码时，确保每个键的状态与你设置密码时的状态相同。
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：有关此问题的其他可能解决方案，请参阅本章的其他部分。</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">当系统分区/驱动器被加密时，操作系统每隔5 - 60分钟会“冻结”约10 - 60秒（可能同时出现100%的CPU使用率）。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+CPU和/或主板问题。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+尝试在BIOS设置和Windows控制面板的“电源选项”中禁用所有与节能相关的功能（包括任何特殊的CPU增强暂停功能）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+用不同的处理器（不同类型和/或品牌）替换当前的处理器。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+用不同的主板（不同类型和/或品牌）替换当前的主板。</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">挂载或卸载VeraCrypt卷时，系统崩溃（出现“蓝屏”错误屏幕或计算机突然重启）。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+或</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">自从我安装了VeraCrypt，操作系统频繁崩溃。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的原因：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+第三方应用程序中的错误（例如，防病毒软件、系统“优化工具”、驱动程序等）
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+VeraCrypt中的错误</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Windows中的错误或硬件组件故障</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+尝试禁用任何防病毒工具、系统“优化工具”以及任何其他类似的应用程序。如果问题仍然存在，尝试卸载它们并重启Windows。
+<br style="text-align:left">
+<br style="text-align:left">
+如果问题仍然存在，请在系统崩溃或重启后不久运行VeraCrypt并选择<em style="text-align:left">帮助</em> > '<em style="text-align:left">分析系统崩溃</em>'。VeraCrypt将分析Windows在崩溃时自动创建的崩溃转储文件（如果有）。如果VeraCrypt确定第三方驱动程序中的错误可能导致了崩溃，它将显示驱动程序的名称和供应商（请注意，更新或卸载驱动程序可能会解决问题）。无论结果如何，你都可以选择向我们发送有关系统崩溃的重要信息，以帮助我们确定是否是VeraCrypt中的错误导致的。
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">在Windows 7/Vista（可能包括更高版本）上，Microsoft Windows备份工具无法用于将数据备份到非系统VeraCrypt卷。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows备份工具中的错误。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+挂载你要备份数据的VeraCrypt卷。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+右键单击位于该卷上的文件夹（或在“<em style="text-align:left">计算机</em>”列表中右键单击其驱动器号），并从“<em style="text-align:left">共享</em>”子菜单中选择一个选项（在Windows Vista上，选择“<em style="text-align:left">共享</em>”）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+按照说明将文件夹共享给你的用户账户。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在Windows备份工具中，选择共享文件夹（网络位置/路径）作为目标。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+启动备份过程。</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：上述解决方案不适用于Windows 7（可能包括更高版本）的<em style="text-align:left">入门版</em>和<em style="text-align:left">家庭版</em>。</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">在Windows Vista或更高版本的Windows的“计算机”窗口中，无法更改VeraCrypt卷中文件系统的标签。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows的一个问题导致标签仅被写入Windows注册表文件，而不是写入文件系统。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在“<em style="text-align:left">计算机</em>”窗口中右键单击已挂载的卷，选择<em style="text-align:left">属性</em>，并为该卷输入一个新的标签。
+</li></ul>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">我无法加密分区/设备，因为VeraCrypt卷创建向导提示它正在使用中。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+关闭、禁用或卸载所有可能以任何方式使用该分区/设备的程序（例如，防病毒实用程序）。如果问题仍然存在，右键单击桌面上的“<em style="text-align:left">计算机</em>”（或“<em style="text-align:left">我的电脑</em>”）图标，选择<em style="text-align:left">管理</em> -> <em style="text-align:left">存储</em> -> <em style="text-align:left">磁盘管理</em>。然后右键单击你要加密的分区，点击<em style="text-align:left">更改驱动器号和路径</em>。然后点击<em style="text-align:left">删除</em>和<em style="text-align:left">确定</em>。重启操作系统。</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">创建隐藏卷时，向导报告无法锁定外部卷。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+外部卷包含一个或多个应用程序正在使用的文件。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+关闭所有正在使用外部卷上文件的应用程序。如果问题仍然存在，请尝试禁用或卸载你使用的任何防病毒工具，然后重新启动系统。</div>
+<hr style="text-align:left">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+当访问通过网络共享的文件托管容器时，你会收到以下一条或两条错误消息：
+<br style="text-align:left">
+“<em style="text-align:left">服务器没有足够的存储空间来处理此命令。</em>”和/或<br style="text-align:left">
+“<em style="text-align:left">没有足够的内存来完成事务。</em>”</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows注册表中的<em style="text-align:left">IRPStackSize</em>值可能设置得太小。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方案：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在Windows注册表中找到<em style="text-align:left">IRPStackSize </em>键，并将其设置为更高的值。然后重新启动系统。如果该键在Windows注册表中不存在，请在<em style="text-align:left">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters</em>处创建该键，并将其值设置为16或更高。然后重新启动系统。有关更多信息，请参阅：
+<a href="https://support.microsoft.com/kb/285089/" style="text-align:left; color:#0080c0; text-decoration:none">
+https://support.microsoft.com/kb/285089/ </a>和 <a href="https://support.microsoft.com/kb/177078/" style="text-align:left; color:#0080c0; text-decoration:none">
+https://support.microsoft.com/kb/177078/</a></div>
+<hr style="text-align:left">
+<p><br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+&nbsp;&nbsp;另请参阅： <a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">
+已知问题和限制</a>，&nbsp;&nbsp;<a href="Incompatibilities.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">不兼容性</a></p>
+</div><div class="ClearBoth"></div></body></html>

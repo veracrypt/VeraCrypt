@@ -20,5 +20,8 @@
 	<String Id="VeraCryptDesc" Overridable="yes">VeraCrypt</String>
 	<String Id="VeraCryptExpanderDesc" Overridable="yes">VeraCrypt Expander</String>
 	<String Id="VeraCryptWebsiteDesc" Overridable="yes">VeraCrypt Website</String>
+
+	<String Id="DisableMemoryProtectionDesc">Disable memory protection for Accessibility tools compatibility</String>
+	<String Id="DisableScreenProtectionDesc">Disable protection against screenshots and screen recording</String>
   
 </WixLocalization>

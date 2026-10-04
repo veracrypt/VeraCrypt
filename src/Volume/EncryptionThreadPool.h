@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -18,6 +18,9 @@
 
 namespace VeraCrypt
 {
+	class Pkcs5Kdf;
+	class VolumePassword;
+
 	class EncryptionThreadPool
 	{
 	public:
@@ -30,6 +33,8 @@ namespace VeraCrypt
 				DeriveKey
 			};
 		};
+
+		struct KeyDerivationWorkItem;
 
 		struct WorkItem
 		{
@@ -60,9 +65,37 @@ namespace VeraCrypt
 					uint64 UnitCount;
 					size_t SectorSize;
 				} Encryption;
+
+				struct
+				{
+					long volatile *AbortFlag;
+					SyncEvent *CompletionEvent;
+					SyncEvent *NoOutstandingWorkItemEvent;
+					SharedVal <size_t> *OutstandingWorkItemCount;
+					const VolumePassword *Password;
+					int Pim;
+					const uint8 *Salt;
+					size_t SaltSize;
+					KeyDerivationWorkItem *WorkItem;
+				} KeyDerivation;
 			};
 		};
 
+		struct KeyDerivationWorkItem
+		{
+			KeyDerivationWorkItem (shared_ptr <Pkcs5Kdf> kdf, size_t derivedKeySize);
+			~KeyDerivationWorkItem ();
+
+			SharedVal <bool> Completed;
+			SecureBuffer DerivedKey;
+			unique_ptr <Exception> ItemException;
+			shared_ptr <Pkcs5Kdf> Kdf;
+			bool Processed;
+			int Result;
+		};
+
+		// Caller-owned references and pointers must remain valid until noOutstandingWorkItemEvent is signaled.
+		static void BeginKeyDerivation (KeyDerivationWorkItem &keyDerivationWorkItem, const VolumePassword &password, int pim, const ConstBufferPtr &salt, SyncEvent &completionEvent, SyncEvent &noOutstandingWorkItemEvent, SharedVal <size_t> &outstandingWorkItemCount, long volatile *abortFlag);
 		static void DoWork (WorkType::Enum type, const EncryptionMode *mode, uint8 *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize);
 		static bool IsRunning () { return ThreadPoolRunning; }
 		static void Start ();
@@ -78,6 +111,8 @@ namespace VeraCrypt
 		static volatile size_t DequeuePosition;
 		static volatile size_t EnqueuePosition;
 		static Mutex EnqueueMutex;
+		// Orders KDF outstanding-count transitions against no-outstanding event updates.
+		static Mutex KeyDerivationCompletionMutex;
 		static list < shared_ptr <Thread> > RunningThreads;
 		static volatile bool StopPending;
 		static size_t ThreadCount;

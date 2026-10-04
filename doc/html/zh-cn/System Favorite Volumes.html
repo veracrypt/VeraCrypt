@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Volume.html">VeraCrypt 卷</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="System%20Favorite%20Volumes.html">系统常用卷</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>系统常用卷</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>系统常用卷在以下情况下非常有用：</p>
+<ul>
+<li>您有一些卷需要在系统和应用程序服务启动之前以及用户登录之前挂载。
+</li><li>在VeraCrypt卷上存在网络共享文件夹。如果将这些卷配置为系统常用卷，您可以确保每次操作系统重启时，操作系统都会自动恢复这些网络共享。
+</li><li>您需要每次操作系统启动时，每个这样的卷都挂载到相同的驱动器号。</li></ul>
+<p>请注意，与常规（非系统）常用卷不同，系统常用卷使用预启动身份验证密码，因此需要对系统分区/驱动器进行加密（也请注意，不需要启用预启动身份验证密码的缓存）。此外，由于预启动密码是使用美式键盘布局输入的（BIOS要求），因此在创建系统常用卷时，必须使用美式键盘布局输入其密码，即输入与您输入预启动身份验证密码时相同的键盘按键。如果系统常用卷的密码在美式键盘布局下与预启动身份验证密码不相同，则该卷将无法挂载。</p>
+<p>在创建以后想设为系统常用卷的卷时，您必须明确将VeraCrypt关联的键盘布局设置为美式布局，并且输入与您输入预启动身份验证密码时相同的键盘按键。<br>
+<br>
+系统常用卷可以配置为仅对具有管理员权限的用户在VeraCrypt中可用（选择“设置”>“系统常用卷”>“仅允许管理员在VeraCrypt中查看和卸载系统常用卷”）。在服务器上应启用此选项，以确保没有管理员权限的用户无法卸载系统常用卷。在非服务器系统上，此选项可用于防止常规的VeraCrypt卷操作（如“全部卸载”、自动卸载等）影响系统常用卷。此外，当VeraCrypt以非管理员权限运行时（Windows Vista及更高版本的默认设置），系统常用卷将不会显示在VeraCrypt主应用程序窗口的驱动器号列表中。</p>
+<h3>要将VeraCrypt卷配置为系统常用卷，请按照以下步骤操作：</h3>
+<ol>
+<li>挂载该卷（挂载到您希望每次都挂载到的驱动器号）。
+</li><li>在VeraCrypt主窗口的驱动器列表中右键单击已挂载的卷，然后选择“添加到系统常用卷”。
+</li><li>此时应会出现“系统常用卷管理器”窗口。在该窗口中，启用“Windows启动时挂载系统常用卷”选项，然后单击“确定”。</li></ol>
+<p>“系统常用卷管理器”窗口（“常用卷”>“组织系统常用卷”）中显示的系统常用卷的顺序就是这些卷的挂载顺序。您可以使用“上移”和“下移”按钮来更改卷的顺序。</p>
+<p id="Label">可以为每个系统常用卷分配一个特殊标签。此标签与文件系统标签不同，它会在VeraCrypt用户界面中显示，而不是显示卷的路径。要分配这样的标签，请按照以下步骤操作：</p>
+<ol>
+<li>选择“常用卷”>“组织系统常用卷”。
+</li><li>此时应会出现“系统常用卷管理器”窗口。在该窗口中，选择您要编辑标签的卷。
+</li><li>在“所选常用卷的标签”输入字段中输入标签，然后单击“确定”。
+</li></ol>
+<p>请注意，“系统常用卷管理器”窗口（“常用卷”>“组织系统常用卷”）允许您为每个系统常用卷设置各种选项。例如，任何一个卷都可以以只读方式或可移动介质方式挂载。<br>
+<br>
+警告：当分配给系统常用卷的驱动器号（保存在配置文件中）不可用时，该卷将不会被挂载，并且不会显示任何错误消息。<br>
+<br>
+请注意，Windows需要在挂载系统常用卷之前使用一些文件（如分页文件、Active Directory文件等）。因此，此类文件不能存储在系统常用卷上。但是，请注意，它们可以存储在系统加密密钥范围内的任何分区上（例如，在系统分区上或在由VeraCrypt完全加密的系统驱动器的任何分区上）。<br>
+<br>
+<strong>要从系统常用卷列表中移除一个卷</strong>，请选择“常用卷”>“组织系统常用卷”，选择该卷，单击“移除”，然后单击“确定”。</p>
+</div>
+</div>
+
+</body></html>

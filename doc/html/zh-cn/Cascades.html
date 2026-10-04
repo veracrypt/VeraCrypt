@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt进行的数据加密是实时（即插即用）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Encryption%20Algorithms.html">加密算法</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Cascades.html">密码级联</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>密码级联</h1>
+<p>&nbsp;</p>
+<h2>AES - Twofish</h2>
+<p>级联中的两个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用Twofish（256位密钥）以XTS模式进行加密，然后使用AES（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>AES - Twofish - Serpent</h2>
+<p>级联中的三个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用Serpent（256位密钥）以XTS模式进行加密，然后使用Twofish（256位密钥）以XTS模式进行加密，最后使用AES（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Camellia - Kuznyechik</h2>
+<p>级联中的两个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用Kuznyechik（256位密钥）以XTS模式进行加密，然后使用Camellia（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Camellia - Serpent</h2>
+<p>级联中的两个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用Serpent（256位密钥）以XTS模式进行加密，然后使用Camellia（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Kuznyechik - AES</h2>
+<p>级联中的两个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用AES（256位密钥）以XTS模式进行加密，然后使用Kuznyechik（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Kuznyechik - Serpent - Camellia</h2>
+<p>级联中的三个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用Camellia（256位密钥）以XTS模式进行加密，然后使用Serpent（256位密钥）以XTS模式进行加密，最后使用Kuznyechik（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Kuznyechik - Twofish</h2>
+<p>级联中的两个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用Twofish（256位密钥）以XTS模式进行加密，然后使用Kuznyechik（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Serpent - AES</h2>
+<p>级联中的两个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用AES（256位密钥）以XTS模式进行加密，然后使用Serpent（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Serpent - Twofish - AES</h2>
+<p>级联中的三个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用AES（256位密钥）以XTS模式进行加密，然后使用Twofish（256位密钥）以XTS模式进行加密，最后使用Serpent（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+<h2>Twofish - Serpent</h2>
+<p>级联中的两个密码算法 [15, 16] 以XTS模式运行（请参阅 <a href="Modes%20of%20Operation.html"><em>操作模式</em></a> 部分）。每个128位块首先使用Serpent（256位密钥）以XTS模式进行加密，然后使用Twofish（256位密钥）以XTS模式进行加密。级联中的每个密码算法使用其自己的密钥。所有加密密钥相互独立（请注意，即使头密钥是从单个密码派生而来，它们也是独立的 — 请参阅 <a href="Header Key Derivation.html"><em>头密钥派生、盐值和迭代次数</em></a>）。有关级联中各个密码算法的信息，请参阅上文。</p>
+
+</div>
+</body></html>

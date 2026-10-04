@@ -44,6 +44,17 @@
 
 #include "misc.h"
 
+/* The cipher works on little-endian words: swap only on big-endian hosts. */
+#if BYTE_ORDER == BIG_ENDIAN
+#define TWOFISH_LE32(x) (bswap_32(x))
+#define TWOFISH_LOAD(p, i) VcLoadLE32((p) + (i))
+#define TWOFISH_STORE(p, i, v) VcStoreLE32((p) + (i), (v))
+#else
+#define TWOFISH_LE32(x) (x)
+#define TWOFISH_LOAD(p, i) ((p)[i])
+#define TWOFISH_STORE(p, i, v) ((p)[i] = (v))
+#endif
+
 /* C implementation based on code written by kerukuro for cppcrypto library 
    (http://cppcrypto.sourceforge.net/) and released into public domain.
    With ideas from Botan library	(C) 1999-2007 Jack Lloyd
@@ -89,7 +100,7 @@ void twofish_encrypt_blocks(TwofishInstance *instance, const uint8* in_blk, uint
 	{
 		twofish_enc_blk2 (instance, out_blk, in_blk);
 	}
-	else
+	else if (blockCount == 1)
 	{
 		twofish_enc_blk (instance, out_blk, in_blk);
 	}
@@ -110,7 +121,7 @@ void twofish_decrypt_blocks(TwofishInstance *instance, const uint8* in_blk, uint
 	{
 		twofish_dec_blk2 (instance, out_blk, in_blk);
 	}
-	else
+	else if (blockCount == 1)
 	{
 		twofish_dec_blk (instance, out_blk, in_blk);
 	}
@@ -610,10 +621,10 @@ void twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
 	unsigned int i;
    const uint8* key = (const uint8*) in_key;
 
-	us.S32[0] = RS[0][key[0]] ^ RS[1][key[1]] ^ RS[2][key[2]] ^ RS[3][key[3]] ^ RS[4][key[4]] ^ RS[5][key[5]] ^ RS[6][key[6]] ^ RS[7][key[7]];
-	us.S32[1] = RS[0][key[8]] ^ RS[1][key[9]] ^ RS[2][key[10]] ^ RS[3][key[11]] ^ RS[4][key[12]] ^ RS[5][key[13]] ^ RS[6][key[14]] ^ RS[7][key[15]];
-	us.S32[2] = RS[0][key[16]] ^ RS[1][key[17]] ^ RS[2][key[18]] ^ RS[3][key[19]] ^ RS[4][key[20]] ^ RS[5][key[21]] ^ RS[6][key[22]] ^ RS[7][key[23]];
-	us.S32[3] = RS[0][key[24]] ^ RS[1][key[25]] ^ RS[2][key[26]] ^ RS[3][key[27]] ^ RS[4][key[28]] ^ RS[5][key[29]] ^ RS[6][key[30]] ^ RS[7][key[31]];
+	us.S32[0] = TWOFISH_LE32(RS[0][key[0]] ^ RS[1][key[1]] ^ RS[2][key[2]] ^ RS[3][key[3]] ^ RS[4][key[4]] ^ RS[5][key[5]] ^ RS[6][key[6]] ^ RS[7][key[7]]);
+	us.S32[1] = TWOFISH_LE32(RS[0][key[8]] ^ RS[1][key[9]] ^ RS[2][key[10]] ^ RS[3][key[11]] ^ RS[4][key[12]] ^ RS[5][key[13]] ^ RS[6][key[14]] ^ RS[7][key[15]]);
+	us.S32[2] = TWOFISH_LE32(RS[0][key[16]] ^ RS[1][key[17]] ^ RS[2][key[18]] ^ RS[3][key[19]] ^ RS[4][key[20]] ^ RS[5][key[21]] ^ RS[6][key[22]] ^ RS[7][key[23]]);
+	us.S32[3] = TWOFISH_LE32(RS[0][key[24]] ^ RS[1][key[25]] ^ RS[2][key[26]] ^ RS[3][key[27]] ^ RS[4][key[28]] ^ RS[5][key[29]] ^ RS[6][key[30]] ^ RS[7][key[31]]);
 
 	for (i = 0; i < 256; ++i)
 	{
@@ -1003,10 +1014,10 @@ void twofish_encrypt(TwofishInstance *ks, const u4byte in_blk[4], u4byte out_blk
 {   
 	uint32* rk = ks->l_key;
 
-	uint32 x0 = in_blk[0] ^ rk[0];
-	uint32 x1 = in_blk[1] ^ rk[1];
-	uint32 x2 = in_blk[2] ^ rk[2];
-	uint32 x3 = in_blk[3] ^ rk[3];
+	uint32 x0 = TWOFISH_LOAD(in_blk, 0) ^ rk[0];
+	uint32 x1 = TWOFISH_LOAD(in_blk, 1) ^ rk[1];
+	uint32 x2 = TWOFISH_LOAD(in_blk, 2) ^ rk[2];
+	uint32 x3 = TWOFISH_LOAD(in_blk, 3) ^ rk[3];
 	uint32 f0, f1;
 
 #ifdef UNROLL_TWOFISH
@@ -1027,10 +1038,10 @@ void twofish_encrypt(TwofishInstance *ks, const u4byte in_blk[4], u4byte out_blk
 	x1 ^= rk[7];
 
 
-	out_blk[0] = x2;
-	out_blk[1] = x3;
-	out_blk[2] = x0;
-	out_blk[3] = x1;
+	TWOFISH_STORE(out_blk, 0, x2);
+	TWOFISH_STORE(out_blk, 1, x3);
+	TWOFISH_STORE(out_blk, 2, x0);
+	TWOFISH_STORE(out_blk, 3, x1);
 }
 #endif
 #else // TC_MINIMIZE_CODE_SIZE
@@ -1075,10 +1086,10 @@ void twofish_encrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte o
 void twofish_decrypt(TwofishInstance *ks, const u4byte in_blk[4], u4byte out_blk[4])
 {
 	uint32* rk = ks->l_key;
-	uint32 x0 = in_blk[0] ^ rk[4];
-	uint32 x1 = in_blk[1] ^ rk[5];
-	uint32 x2 = in_blk[2] ^ rk[6];
-	uint32 x3 = in_blk[3] ^ rk[7];
+	uint32 x0 = TWOFISH_LOAD(in_blk, 0) ^ rk[4];
+	uint32 x1 = TWOFISH_LOAD(in_blk, 1) ^ rk[5];
+	uint32 x2 = TWOFISH_LOAD(in_blk, 2) ^ rk[6];
+	uint32 x3 = TWOFISH_LOAD(in_blk, 3) ^ rk[7];
 	uint32 f0, f1;
 
 #ifdef UNROLL_TWOFISH
@@ -1097,10 +1108,10 @@ void twofish_decrypt(TwofishInstance *ks, const u4byte in_blk[4], u4byte out_blk
 	x0 ^= rk[2];
 	x1 ^= rk[3];
 
-	out_blk[0] = x2;
-	out_blk[1] = x3;
-	out_blk[2] = x0;
-	out_blk[3] = x1;
+	TWOFISH_STORE(out_blk, 0, x2);
+	TWOFISH_STORE(out_blk, 1, x3);
+	TWOFISH_STORE(out_blk, 2, x0);
+	TWOFISH_STORE(out_blk, 3, x1);
 };
 #endif
 #else // TC_MINIMIZE_CODE_SIZE

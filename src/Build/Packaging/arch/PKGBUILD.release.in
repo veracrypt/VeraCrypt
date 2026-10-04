@@ -1,0 +1,82 @@
+# Template for generated PKGBUILD.release.
+# Edit this file and run `make pkgbuild-release`.
+
+pkgname=veracrypt
+pkgver=@VERSION@
+pkgrel=1
+pkgdesc='Disk encryption with strong security based on TrueCrypt'
+url='https://www.veracrypt.jp/'
+arch=(x86_64 aarch64 armv7h)
+license=('LicenseRef-TrueCrypt AND Apache-2.0')
+depends=(
+  device-mapper
+  fuse2
+  gcc-libs
+  glibc
+  libsm
+  wxwidgets-common
+  wxwidgets-gtk3
+)
+optdepends=(
+  'pcsclite: EMV and smart card keyfile support'
+  'sudo: mounting encrypted volumes as nonroot users'
+)
+makedepends=(
+  pcsclite
+)
+makedepends_x86_64=(
+  yasm
+)
+_source_archive="VeraCrypt_${pkgver}_Source.tar.bz2"
+source=(
+  "https://launchpad.net/veracrypt/trunk/${pkgver}/+download/${_source_archive}"
+  "https://launchpad.net/veracrypt/trunk/${pkgver}/+download/${_source_archive}.sig"
+)
+validpgpkeys=(
+  5069A233D55A0EEB174A5FC3821ACD02680D16DE
+)
+# Replace only the source archive SKIP with the published SHA-512 before publishing.
+# The .sig checksum should remain SKIP because makepkg verifies it as a PGP signature.
+sha512sums=(
+  'SKIP'
+  'SKIP'
+)
+
+prepare() {
+  local source_version
+
+  source_version="$(awk -F '"' '/^[[:space:]]*#define[[:space:]]+VERSION_STRING[[:space:]]*"/ { print $2; exit }' "${srcdir}/src/Common/Tcdefs.h")"
+  if [[ "${source_version}" != "${pkgver}" ]]; then
+    printf 'PKGBUILD pkgver (%s) does not match source VERSION_STRING (%s)\n' "${pkgver}" "${source_version}" >&2
+    return 1
+  fi
+}
+
+build() {
+  cd "${srcdir}/src"
+  make PKG_CONFIG_PATH=/usr/lib/pkgconfig \
+    WX_CONFIG=/usr/bin/wx-config \
+    TC_EXTRA_LFLAGS="${LDFLAGS}" \
+    TC_EXTRA_CXXFLAGS="${CXXFLAGS} ${CPPFLAGS}" \
+    TC_EXTRA_CFLAGS="${CFLAGS} ${CPPFLAGS}" \
+    NOTEST=1 \
+    NOSTRIP=1
+}
+
+check() {
+  cd "${srcdir}/src"
+  ./Main/veracrypt --text --test >/dev/null
+}
+
+package() {
+  cd "${srcdir}/src"
+  make DESTDIR="${pkgdir}" \
+    INSTALL_UNINSTALLER=0 \
+    INSTALL_APPIMAGE_FILES=0 \
+    INSTALL_MOUNT_HELPER_DIR=bin \
+    INSTALL_LICENSE_DIR="share/licenses/${pkgname}" \
+    NOSTRIP=1 \
+    install
+}
+
+# vim: ts=2 sw=2 et:

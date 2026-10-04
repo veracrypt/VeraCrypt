@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -68,6 +68,7 @@ namespace VeraCrypt
 		uint32 GetFlags () const { return Flags; }
 		VolumeTime GetHeaderCreationTime () const { return HeaderCreationTime; }
 		uint64 GetHiddenVolumeDataSize () const { return HiddenVolumeDataSize; }
+		static size_t GetHeaderKeyDerivationSize (shared_ptr <Pkcs5Kdf> kdf);
 		static size_t GetLargestSerializedKeySize ();
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const { return Pkcs5; }
 		uint16 GetRequiredMinProgramVersion () const { return RequiredMinProgramVersion; }
@@ -79,6 +80,7 @@ namespace VeraCrypt
 		bool IsMasterKeyVulnerable () const { return XtsKeyVulnerable; }
 
 	protected:
+		bool DecryptWithHeaderKey (const ConstBufferPtr &encryptedData, shared_ptr <Pkcs5Kdf> pkcs5, const ConstBufferPtr &headerKey, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes);
 		bool Deserialize (const ConstBufferPtr &header, shared_ptr <EncryptionAlgorithm> &ea, shared_ptr <EncryptionMode> &mode);
 		template <typename T> T DeserializeEntry (const ConstBufferPtr &header, size_t &offset) const;
 		template <typename T> T DeserializeEntryAt (const ConstBufferPtr &header, const size_t &offset) const;

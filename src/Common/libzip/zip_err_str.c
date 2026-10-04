@@ -80,6 +80,7 @@ const struct _zip_err_info _zip_err_details[] = {
     { G, "EOCD64 and EOCD64 locator do not match" },
     { E, "UTF-8 filename is ASCII and doesn't match filename" },
     { E, "UTF-8 comment is ASCII and doesn't match comment" },
+    { G, "garbage at end of compressed data" },
 };
 
 const int _zip_err_details_count = sizeof(_zip_err_details)/sizeof(_zip_err_details[0]);

@@ -4,17 +4,19 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
+// Keep these in sync with MainCom.idl and FormatCom.idl. MSI unregister targets these
+// exact typelib versions before removing older versions.
 #define TC_MAIN_COM_VERSION_MAJOR 2
-#define TC_MAIN_COM_VERSION_MINOR 11
+#define TC_MAIN_COM_VERSION_MINOR 14
 
 #define TC_FORMAT_COM_VERSION_MAJOR 2
-#define TC_FORMAT_COM_VERSION_MINOR 9
+#define TC_FORMAT_COM_VERSION_MINOR 11
 
 #include <atlbase.h>
 #include <comdef.h>
@@ -23,8 +25,13 @@
 #include "ComSetup.h"
 #include "Dlgcode.h"
 #include "Resource.h"
-#include "../Mount/MainCom_i.c"
-#include "../Format/FormatCom_i.c"
+
+#define MIDL_DEFINE_GUID(type,name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) \
+        EXTERN_C __declspec(selectany) const type name = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
+
+// Define GUIDs of "VeraCrypt.exe and" "VeraCrypt Format.exe" type libraries
+MIDL_DEFINE_GUID(GUID, LIBID_TrueCryptMainCom, 0x9ACF6176, 0x5FC4, 0x4690, 0xA0, 0x25, 0xB3, 0x30, 0x6A, 0x50, 0xEB, 0x6A);
+MIDL_DEFINE_GUID(GUID, LIBID_TrueCryptFormatCom, 0x56327DDA, 0xF1A7, 0x4e13, 0xB1, 0x28, 0x52, 0x0D, 0x12, 0x9B, 0xDE, 0xF6);
 
 /* 
  * Same as RegisterComServers() in Setup project, but 
@@ -47,9 +54,9 @@ extern "C" BOOL RegisterComServers (wchar_t *modulePath)
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR, 0, SYS_WIN32);
 	// unregister older versions that may still exist
-	for (WORD i = 7; i >= 1; i--)
+	for (WORD i = 9; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-i, 0, SYS_WIN32);
-	for (WORD i = 5; i >= 1; i--)
+	for (WORD i = 6; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR-i, 0, SYS_WIN32);
 
 	CRegObject ro;
@@ -90,9 +97,9 @@ extern "C" BOOL UnregisterComServers (wchar_t *modulePath)
 		return FALSE;
 
 	// unregister older versions that may still exist
-	for (WORD i = 7; i >= 1; i--)
+	for (WORD i = 9; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-i, 0, SYS_WIN32);
-	for (WORD i = 5; i >= 1; i--)
+	for (WORD i = 6; i >= 1; i--)
 		UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR-i, 0, SYS_WIN32);
 
 	wchar_t module[1024];

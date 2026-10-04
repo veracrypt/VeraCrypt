@@ -55,8 +55,8 @@
 ; The default convention is that for windows, the gnu/linux convention being
 ; used if __GNUC__ is defined.
 ;
-; Define _SEH_ to include support for Win64 structured exception handling
-; (this requires YASM version 0.6 or later).
+; Win64 unwind metadata is emitted explicitly in .pdata/.xdata when this file
+; is assembled as a PE32+ object.
 ;
 ; This code provides the standard AES block size (128 bits, 16 bytes) and the
 ; three standard AES key sizes (128, 192 and 256 bits). It has the same call
@@ -673,6 +673,32 @@
 
 %endif
 
+%macro win64_aes_unwind_info 2
+%ifidn __OUTPUT_FORMAT__, win64
+    section .pdata rdata align=4
+    align   4
+    dd      %1 wrt ..imagebase
+    dd      %2 wrt ..imagebase
+    dd      %1 %+ _unwind_info wrt ..imagebase
+
+    section .xdata rdata align=8
+    align   4
+%1 %+ _unwind_info:
+    db      1                                       ; version 1, no flags
+    db      %1 %+ .prolog_end - %1
+    db      6                                       ; unwind code slots
+    db      0                                       ; no frame register
+    db      %1 %+ .alloc_end - %1, 2                ; UWOP_ALLOC_SMALL, 8 bytes
+    db      %1 %+ .save_r12_end - %1, (12 << 4) | 0 ; UWOP_PUSH_NONVOL r12
+    db      %1 %+ .save_rbp_end - %1, (5 << 4) | 0  ; UWOP_PUSH_NONVOL rbp
+    db      %1 %+ .save_rbx_end - %1, (3 << 4) | 0  ; UWOP_PUSH_NONVOL rbx
+    db      %1 %+ .save_rdi_end - %1, (7 << 4) | 0  ; UWOP_PUSH_NONVOL rdi
+    db      %1 %+ .save_rsi_end - %1, (6 << 4) | 0  ; UWOP_PUSH_NONVOL rsi
+
+    section .text align=16
+%endif
+%endmacro
+
 %ifdef ENCRYPTION
 
     global  aes_encrypt
@@ -691,19 +717,24 @@ enc_tab:
     section .text align=16
     align   16
 
-%ifdef _SEH_
-proc_frame aes_encrypt
-	alloc_stack	7*8			; 7 to align stack to 16 bytes
-	save_reg	rsi,4*8
-	save_reg	rdi,5*8
-	save_reg	rbx,1*8
-	save_reg	rbp,2*8
-	save_reg	r12,3*8
-end_prologue
-    mov     rdi, rcx        ; input pointer
-    mov     [rsp+0*8], rdx  ; output pointer
-%else
 	aes_encrypt:
+	%ifidn __OUTPUT_FORMAT__, win64
+		push    rsi
+.save_rsi_end:
+		push    rdi
+.save_rdi_end:
+		push    rbx
+.save_rbx_end:
+		push    rbp
+.save_rbp_end:
+		push    r12
+.save_r12_end:
+		sub     rsp, 8
+.alloc_end:
+		mov     rdi, rcx        ; input pointer
+		mov     [rsp], rdx      ; output pointer
+.prolog_end:
+	%else
 	%ifdef __GNUC__
 		sub     rsp, 4*8        ; gnu/linux binary interface
 		mov     [rsp+0*8], rsi  ; output pointer
@@ -718,7 +749,7 @@ end_prologue
 		mov     [rsp+1*8], rbx  ; input pointer in rdi
 		mov     [rsp+2*8], rbp  ; output pointer in [rsp]
 		mov     [rsp+3*8], r12  ; context in r8
-%endif
+	%endif
 
     movzx   esi, byte [kptr+4*KS_LENGTH]
     lea     tptr, [rel enc_tab]
@@ -766,23 +797,35 @@ end_prologue
     mov     [rbx+12], r12d
     xor     rax, rax
 .4:
+%ifidn __OUTPUT_FORMAT__, win64
+    add     rsp, 8
+    pop     r12
+    pop     rbp
+    pop     rbx
+    pop     rdi
+    pop     rsi
+    ret
+%else
+%ifdef __GNUC__
     mov     rbx, [rsp+1*8]
     mov     rbp, [rsp+2*8]
     mov     r12, [rsp+3*8]
-%ifdef __GNUC__
     add     rsp, 4*8
     ret
 %else
-		mov     rsi, [rsp+4*8]
-		mov     rdi, [rsp+5*8]
-	%ifdef _SEH_
-		add     rsp, 7*8
-		ret
-	endproc_frame
-	%else
-		add     rsp, 6*8
-		ret
-	%endif
+    mov     rbx, [rsp+1*8]
+    mov     rbp, [rsp+2*8]
+    mov     r12, [rsp+3*8]
+    mov     rsi, [rsp+4*8]
+    mov     rdi, [rsp+5*8]
+    add     rsp, 6*8
+    ret
+%endif
+%endif
+
+%ifidn __OUTPUT_FORMAT__, win64
+aes_encrypt_end:
+    win64_aes_unwind_info aes_encrypt, aes_encrypt_end
 %endif
 
 %endif
@@ -805,19 +848,24 @@ dec_tab:
     section .text
     align   16
 
-%ifdef _SEH_
-proc_frame aes_decrypt
-	alloc_stack	7*8			; 7 to align stack to 16 bytes
-	save_reg	rsi,4*8
-	save_reg	rdi,5*8
-	save_reg	rbx,1*8
-	save_reg	rbp,2*8
-	save_reg	r12,3*8
-end_prologue
-    mov     rdi, rcx        ; input pointer
-    mov     [rsp+0*8], rdx  ; output pointer
-%else
 	aes_decrypt:
+	%ifidn __OUTPUT_FORMAT__, win64
+		push    rsi
+.save_rsi_end:
+		push    rdi
+.save_rdi_end:
+		push    rbx
+.save_rbx_end:
+		push    rbp
+.save_rbp_end:
+		push    r12
+.save_r12_end:
+		sub     rsp, 8
+.alloc_end:
+		mov     rdi, rcx        ; input pointer
+		mov     [rsp], rdx      ; output pointer
+.prolog_end:
+	%else
 	%ifdef __GNUC__
 		sub     rsp, 4*8        ; gnu/linux binary interface
 		mov     [rsp+0*8], rsi  ; output pointer
@@ -832,7 +880,7 @@ end_prologue
 		mov     [rsp+1*8], rbx  ; input pointer in rdi
 		mov     [rsp+2*8], rbp  ; output pointer in [rsp]
 		mov     [rsp+3*8], r12  ; context in r8
-%endif
+	%endif
 
     movzx   esi,byte[kptr+4*KS_LENGTH]
     lea     tptr, [rel dec_tab]
@@ -885,23 +933,36 @@ end_prologue
     mov     [rbx+8], r11d
     mov     [rbx+12], r12d
     xor     rax, rax
-.4: mov     rbx, [rsp+1*8]
+.4:
+%ifidn __OUTPUT_FORMAT__, win64
+    add     rsp, 8
+    pop     r12
+    pop     rbp
+    pop     rbx
+    pop     rdi
+    pop     rsi
+    ret
+%else
+%ifdef __GNUC__
+    mov     rbx, [rsp+1*8]
     mov     rbp, [rsp+2*8]
     mov     r12, [rsp+3*8]
-%ifdef __GNUC__
     add     rsp, 4*8
     ret
 %else
-		mov     rsi, [rsp+4*8]
-		mov     rdi, [rsp+5*8]
-	%ifdef _SEH_
-		add     rsp, 7*8
-		ret
-	endproc_frame
-	%else
-		add     rsp, 6*8
-		ret
-	%endif
+    mov     rbx, [rsp+1*8]
+    mov     rbp, [rsp+2*8]
+    mov     r12, [rsp+3*8]
+    mov     rsi, [rsp+4*8]
+    mov     rdi, [rsp+5*8]
+    add     rsp, 6*8
+    ret
+%endif
+%endif
+
+%ifidn __OUTPUT_FORMAT__, win64
+aes_decrypt_end:
+    win64_aes_unwind_info aes_decrypt, aes_decrypt_end
 %endif
 
 %endif

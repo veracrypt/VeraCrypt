@@ -1170,4 +1170,3 @@ namespace VeraCrypt
 	};
 
 } // namespace VeraCrypt
-

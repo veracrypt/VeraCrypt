@@ -4,12 +4,13 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
+#include <dirent.h>
 #include <fstream>
 #include <iomanip>
 #include <mntent.h>
@@ -17,6 +18,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/mount.h>
+#include <sys/stat.h>
+#include <sys/sysmacros.h>
 #include <sys/wait.h>
 #include "CoreLinux.h"
 #include "Platform/SystemInfo.h"
@@ -126,43 +129,213 @@ namespace VeraCrypt
 		}
 	}
 
+	bool CoreLinux::IsLoopDeviceAttached (const DevicePath &devicePath) const
+	{
+		struct stat statData;
+		if (stat (string (devicePath).c_str(), &statData) != 0 || !S_ISBLK (statData.st_mode))
+			return false;
+
+		stringstream sysDevicePath;
+		sysDevicePath << "/sys/dev/block/" << major (statData.st_rdev) << ":" << minor (statData.st_rdev);
+
+		if (FilesystemPath (sysDevicePath.str() + "/loop").IsDirectory())
+			return true;
+
+		list <string> args;
+		args.push_back (devicePath);
+
+		try
+		{
+			Process::Execute ("losetup", args);
+			return true;
+		}
+		catch (ExecutedProcessFailed&)
+		{
+			return false;
+		}
+		catch (...) { }
+
+		return true;
+	}
+
 	void CoreLinux::DismountNativeVolume (shared_ptr <VolumeInfo> mountedVolume) const
 	{
+		DismountNativeVolumeInternal (mountedVolume, false);
+	}
+
+	void CoreLinux::DismountNativeVolumeDeferred (shared_ptr <VolumeInfo> mountedVolume) const
+	{
+		DismountNativeVolumeInternal (mountedVolume, true);
+	}
+
+	void CoreLinux::DismountNativeVolumeInternal (shared_ptr <VolumeInfo> mountedVolume, bool deferred) const
+	{
 		string devPath = mountedVolume->VirtualDevice;
+		const string virtualDevice = devPath;
 
 		if (devPath.find ("/dev/mapper/veracrypt") != 0)
 			throw NotApplicable (SRC_POS);
 
-		size_t devCount = 0;
-		while (FilesystemPath (devPath).IsBlockDevice())
+		// Deferred cleanup can follow a partial normal cleanup that removed an earlier mapper.
+		// Keep probing the suffixes VeraCrypt creates for cascade layers.
+		size_t maxDeviceMapperDeviceCount = 1;
+		if (deferred)
 		{
+			foreach (shared_ptr <EncryptionAlgorithm> ea, EncryptionAlgorithm::GetAvailableAlgorithms())
+			{
+				size_t cipherCount = ea->GetCiphers().size();
+				if (cipherCount > maxDeviceMapperDeviceCount)
+					maxDeviceMapperDeviceCount = cipherCount;
+			}
+		}
+
+		size_t devCount = 0;
+		while (true)
+		{
+			string deviceMapperName = StringConverter::Split (devPath, "/").back();
+			bool devicePresent = deferred ? IsDeviceMapperDevicePresent (deviceMapperName) : FilesystemPath (devPath).IsBlockDevice();
+
+			if (!devicePresent)
+			{
+				if (deferred && devCount < maxDeviceMapperDeviceCount - 1)
+				{
+					devPath = virtualDevice + "_" + StringConverter::ToSingle (devCount++);
+					continue;
+				}
+
+				break;
+			}
+
 			list <string> dmsetupArgs;
 			dmsetupArgs.push_back ("remove");
-			dmsetupArgs.push_back (StringConverter::Split (devPath, "/").back());
+			if (deferred)
+			{
+				dmsetupArgs.push_back ("--retry");
+				dmsetupArgs.push_back ("--deferred");
+			}
+			dmsetupArgs.push_back (deviceMapperName);
 
-			for (int t = 0; true; t++)
+			if (deferred)
 			{
 				try
 				{
 					Process::Execute ("dmsetup", dmsetupArgs);
-					break;
 				}
-				catch (...)
+				catch (ExecutedProcessFailed&)
 				{
-					if (t > 20)
-						throw;
+					if (IsDeviceMapperDevicePresent (deviceMapperName))
+					{
+						list <string> deferredFallbackArgs;
+						deferredFallbackArgs.push_back ("remove");
+						deferredFallbackArgs.push_back ("--deferred");
+						deferredFallbackArgs.push_back (deviceMapperName);
 
-					Thread::Sleep (100);
+						try
+						{
+							Process::Execute ("dmsetup", deferredFallbackArgs);
+						}
+						catch (ExecutedProcessFailed&)
+						{
+							if (IsDeviceMapperDevicePresent (deviceMapperName))
+							{
+								list <string> fallbackArgs;
+								fallbackArgs.push_back ("remove");
+								fallbackArgs.push_back (deviceMapperName);
+
+								for (int t = 0; true; t++)
+								{
+									try
+									{
+										Process::Execute ("dmsetup", fallbackArgs);
+										break;
+									}
+									catch (...)
+									{
+										if (!IsDeviceMapperDevicePresent (deviceMapperName))
+											break;
+
+										if (t > 20)
+											throw;
+
+										Thread::Sleep (100);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				for (int t = 0; true; t++)
+				{
+					try
+					{
+						Process::Execute ("dmsetup", dmsetupArgs);
+						break;
+					}
+					catch (...)
+					{
+						if (t > 20)
+							throw;
+
+						Thread::Sleep (100);
+					}
 				}
 			}
 
-			for (int t = 0; FilesystemPath (devPath).IsBlockDevice() && t < 20; t++)
+			for (int t = 0; t < 20; t++)
 			{
+				if (deferred)
+				{
+					if (!IsDeviceMapperDevicePresent (deviceMapperName))
+						break;
+				}
+				else if (!FilesystemPath (devPath).IsBlockDevice())
+					break;
+
 				Thread::Sleep (100);
 			}
 
-			devPath = string (mountedVolume->VirtualDevice) + "_" + StringConverter::ToSingle (devCount++);
+			if (deferred && devCount >= maxDeviceMapperDeviceCount - 1)
+				break;
+
+			devPath = virtualDevice + "_" + StringConverter::ToSingle (devCount++);
 		}
+	}
+
+	bool CoreLinux::IsDeviceMapperDevicePresent (const string &deviceMapperName) const
+	{
+		if (deviceMapperName.empty())
+			return false;
+
+		DIR *sysBlockDir = opendir ("/sys/block");
+		if (!sysBlockDir)
+			return FilesystemPath ("/dev/mapper/" + deviceMapperName).IsBlockDevice();
+
+		bool present = false;
+		struct dirent *entry;
+		while ((entry = readdir (sysBlockDir)) != nullptr)
+		{
+			string blockDeviceName = entry->d_name;
+			if (blockDeviceName.find ("dm-") != 0)
+				continue;
+
+			try
+			{
+				TextReader tr ("/sys/block/" + blockDeviceName + "/dm/name");
+				string name;
+				if (tr.ReadLine (name) && name == deviceMapperName)
+				{
+					present = true;
+					break;
+				}
+			}
+			catch (...) { }
+		}
+
+		closedir (sysBlockDir);
+		return present;
 	}
 
 	HostDeviceList CoreLinux::GetHostDevices (bool pathListOnly) const
@@ -282,7 +455,7 @@ namespace VeraCrypt
 		return mountedFilesystems;
 	}
 
-	void CoreLinux::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+	void CoreLinux::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
 		bool fsMounted = false;
 
@@ -293,14 +466,14 @@ namespace VeraCrypt
 				stringstream userMountOptions;
 				userMountOptions << "uid=" << GetRealUserId() << ",gid=" << GetRealGroupId() << ",umask=077" << (!systemMountOptions.empty() ? "," : "");
 
-				CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, userMountOptions.str() + systemMountOptions);
+				CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, userMountOptions.str() + systemMountOptions, internalMountOnly);
 				fsMounted = true;
 			}
 		}
 		catch (...) { }
 
 		if (!fsMounted)
-			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions, internalMountOnly);
 	}
 
 	void CoreLinux::MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const
@@ -327,6 +500,12 @@ namespace VeraCrypt
 		}
 
 		if (!SystemInfo::IsVersionAtLeast (2, 6, xts ? 24 : 20))
+			throw NotApplicable (SRC_POS);
+
+		// Without dmsetup, kernel crypto cannot be used: fall back to FUSE
+		// instead of failing, as when nokernelcrypto was given.
+		string dmsetupError;
+		if (Process::FindSystemBinary ("dmsetup", dmsetupError).empty())
 			throw NotApplicable (SRC_POS);
 
 		// Load device mapper kernel module
@@ -455,15 +634,28 @@ namespace VeraCrypt
 			// Mount filesystem
 			if (!options.NoFilesystem && options.MountPoint && !options.MountPoint->IsEmpty())
 			{
-				MountFilesystem (nativeDevPath, *options.MountPoint,
-					StringConverter::ToSingle (options.FilesystemType),
+				wstring filesystemType = options.FilesystemType;
+				bool internalMountOnly = false;
+				bool allowFilesystemTypeFallback = filesystemType.empty();
+
+				ResolveNtfsKernelMountOptions (nativeDevPath, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
+				allowFilesystemTypeFallback = allowFilesystemTypeFallback && filesystemType.empty() && !internalMountOnly;
+
+				MountFilesystemWithFallback (nativeDevPath, *options.MountPoint,
+					StringConverter::ToSingle (filesystemType),
+					allowFilesystemTypeFallback,
 					options.Protection == VolumeProtection::ReadOnly,
-					StringConverter::ToSingle (options.FilesystemOptions));
+					StringConverter::ToSingle (options.FilesystemOptions),
+					internalMountOnly);
 
 				filesystemMounted = true;
 			}
 
-			FuseService::SendAuxDeviceInfo (auxMountPoint, nativeDevPath, volumePath);
+			// Dismounting detaches the recorded loop device, so record only one attached above
+			if (loopDevAttached)
+				FuseService::SendAuxDeviceInfo (auxMountPoint, nativeDevPath, volumePath);
+			else
+				FuseService::SendAuxDeviceInfo (auxMountPoint, nativeDevPath);
 		}
 		catch (...)
 		{

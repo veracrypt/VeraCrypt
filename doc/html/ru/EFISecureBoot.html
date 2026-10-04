@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="System%20Encryption.html">Шифрование системы</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="EFISecureBoot.html">EFI Secure Boot</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>EFI Secure Boot</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Шифрование системы VeraCrypt совместимо с EFI Secure Boot: EFI-загрузчики VeraCrypt подписаны Microsoft в рамках программы Microsoft для подписи сторонних UEFI-компонентов, поэтому прошивка может проверять их по стандартным сертификатам Microsoft без добавления пользовательского ключа. На этой странице описано, как VeraCrypt выбирает подписанные загрузчики, как это связано с переходом Microsoft Secure Boot от центров сертификации 2011 года (CA) к центрам сертификации 2023 года, а также как диагностировать и устранять сбои загрузки, связанные с Secure Boot.
+</div>
+
+<h2>Наборы подписанных загрузчиков</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Начиная с версии 1.26.29 VeraCrypt поставляет два полных набора EFI-загрузчиков, подписанных Microsoft:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Набор 2011 года:</strong> подписан с помощью <em>Microsoft Corporation UEFI CA 2011</em>. Этот центр сертификации используется прошивками для сторонних загрузчиков с момента появления Secure Boot.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Набор 2023 года:</strong> подписан с помощью обновлённых сторонних центров сертификации Microsoft. Основной загрузчик (<code>DcsBoot.efi</code>) подписан с помощью <em>Microsoft UEFI CA 2023</em>, а остальные компоненты (<code>DcsInt.dcs</code>, <code>LegacySpeaker.dcs</code>) подписаны с помощью <em>Microsoft Option ROM UEFI CA 2023</em>. Поэтому для набора 2023 года требуется, чтобы в базе данных подписей Secure Boot прошивки (db) присутствовали <strong>оба</strong> сертификата: <em>Microsoft UEFI CA 2023</em> и <em>Microsoft Option ROM UEFI CA 2023</em>.
+</li>
+</ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При установке, обновлении, восстановлении/переустановке и запуске шифрования системы VeraCrypt считывает db и dbx прошивки и выбирает набор загрузчиков, известные подписывающие CA которого присутствуют в db и не перечислены в dbx. Необязательная переменная dbx может отсутствовать (особенно при пользовательских ключах); это считается пустой базой запретов, тогда как реальная ошибка чтения или разбора остаётся ошибкой при включённом Secure Boot. Если доступна пара CA 2023 года, предпочтение отдаётся набору 2023 года; иначе используется набор 2011 года при наличии <em>Microsoft Corporation UEFI CA 2011</em>.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Изменение конфигурации Secure Boot в прошивке (например, включение дополнительных сертификатов в настройках BIOS) само по себе не перезаписывает файлы, уже установленные в системном разделе EFI. После изменения базы данных Secure Boot в прошивке запустите установщик VeraCrypt в режиме <em>Восстановить/переустановить</em> или позвольте службе VeraCrypt System Favorites автоматически обновить загрузчик (она повторно оценивает выбор при запуске Windows, входе в сеанс или разблокировке, выходе из сна и завершении работы).
+</div>
+
+<h2>Диагностика</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt записывает сведения о том, какой набор загрузчиков был установлен и почему, в следующий ключ реестра:
+</div>
+<pre>
+HKEY_LOCAL_MACHINE\SOFTWARE\VeraCrypt\Diagnostics\EfiBootLoader
+    EfiBootLoaderResourceSet          REG_DWORD  2011 (0x7db) или 2023 (0x7e7)
+    EfiBootLoaderSelectionReason      REG_SZ     понятная человеку причина выбора
+    EfiBootLoaderFirmwareDbLastError  REG_DWORD  последняя ошибка чтения/разбора db прошивки (0 = нет)
+    EfiBootLoaderFirmwareDbxLastError REG_DWORD  последняя ошибка чтения/разбора dbx (0 = нет)
+    FirmwareDbxPresent                REG_DWORD  наличие dbx (0 допустим: переменная отсутствует)
+    EfiBootLoaderInstalledResourceSet REG_DWORD  набор, определённый по фактическим файлам ESP
+    VeraCryptLoaderFilesValid         REG_DWORD  файлы DCS совпадают со встроенным набором
+    WindowsLoaderSigner               REG_DWORD  встроенная подпись: 0, 2011 или 2023
+    EfiBootLoaderSelectionTimeUtc     REG_SZ     время последнего выбора
+</pre>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Следующие команды, выполненные из окна PowerShell с повышенными правами, показывают, какие сертификаты Microsoft присутствуют в db прошивки (обратите внимание: на некоторых прошивках имена могут не отображаться при таком простом текстовом поиске, даже если сертификаты присутствуют):
+</div>
+<pre>
+reg query HKLM\SOFTWARE\VeraCrypt\Diagnostics\EfiBootLoader /s
+
+$t = [Text.Encoding]::ASCII.GetString((Get-SecureBootUEFI db).Bytes)
+'Microsoft Corporation UEFI CA 2011',
+'Microsoft Windows Production PCA 2011',
+'Windows UEFI CA 2023',
+'Microsoft UEFI CA 2023',
+'Microsoft Option ROM UEFI CA 2023' |
+  ForEach-Object { "$_ : $($t -match [regex]::Escape($_))" }
+
+# После подключения ESP как S: проверяйте встроенную подпись, а не подпись каталога.
+Get-PfxCertificate -FilePath S:\EFI\Microsoft\Boot\bootmgfw_ms.vc |
+  Select-Object Subject,Issuer,Thumbprint
+</pre>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Кроме того, служба VeraCrypt System Favorites предупреждает о несовпадении фактических файлов DCS со встроенным набором, отсутствующей или нераспознанной встроенной подписи Windows Boot Manager, известных CA, отсутствующих в db или перечисленных в dbx, и необходимости миграции копии PCA 2011. Это проверка совместимости известных CA, а не доказательство полного доверия: dbx может также отзывать хэши образов, TBS-хэши сертификатов и версии безопасности.
+</div>
+
+<h2>Переход на сертификаты Microsoft 2023 года</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Сертификаты Microsoft Secure Boot 2011 года истекают в 2026 году: <em>Microsoft Corporation KEK CA 2011</em> и <em>Microsoft Corporation UEFI CA 2011</em> истекли в июне 2026 года, а <em>Microsoft Windows Production PCA 2011</em> истекает в октябре 2026 года. Microsoft заменяет их центрами сертификации 2023 года и распространяет новые сертификаты, а также Windows Boot Manager, подписанный <em>Windows UEFI CA 2023</em>, через Windows Update.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Два важных момента для пользователей VeraCrypt:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Истечение срока действия сертификатов обычно не мешает загрузке уже установленных загрузчиков.</strong> Проверка образа UEFI Secure Boot обычно не применяет срок действия подписывающего сертификата, поэтому сам факт истечения CA 2011 не вызывает отказ загрузчика. Однако новые двоичные файлы больше нельзя подписывать в этой экосистеме, а системы без сертификатов 2023 года не смогут получать обновления цепочки загрузки, подписанные заменяющими CA.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Истечение срока действия и отзыв — разные события.</strong> Microsoft предоставляет отдельную, выполняемую намеренно меру защиты, которая добавляет <em>Microsoft Windows Production PCA 2011</em> в базу запрещённых подписей Secure Boot (dbx). После её применения все Windows Boot Manager, подписанные этим CA, отклоняются. Этот отзыв Windows PCA не является частью миграции сертификатов и Boot Manager с помощью <code>0x5944</code>. По состоянию на июль 2026 года <a href="https://techcommunity.microsoft.com/blog/linuxandopensourceblog/what-it-teams-need-to-know-about-linux-secure-boot-certificates-expiring-in-2026/4530725">Microsoft сообщает, что не планирует отзывать Microsoft Corporation UEFI CA 2011</a> — сторонний CA, используемый набором загрузчиков VeraCrypt 2011 года. Тем не менее перед применением отзыва Windows PCA 2011 рекомендуется перевести на CA 2023 года как часть VeraCrypt, так и часть Windows в цепочке загрузки.
+</li>
+</ul>
+
+<h2>Новые компьютеры, доверяющие только CA 2023 года</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Некоторые новые компьютеры поставляются с завода с конфигурацией Secure Boot, содержащей только <em>Windows UEFI CA 2023</em> и вообще не содержащей сторонних центров сертификации Microsoft. На таких системах сначала нужно включить в настройках прошивки два сторонних центра сертификации, необходимых для набора загрузчиков VeraCrypt 2023 года (<em>Microsoft UEFI CA 2023</em> и <em>Microsoft Option ROM UEFI CA 2023</em>). Обычно этот параметр называется <em>&quot;Allow Microsoft 3rd Party UEFI CA&quot;</em>, <em>&quot;Third-Party CA&quot;</em> или <em>&quot;Third-Party Certificates&quot;</em>. После его включения запустите установщик VeraCrypt в режиме <em>Восстановить/переустановить</em> (или начните шифрование системы), чтобы VeraCrypt выбрал набор загрузчиков 2023 года.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если прошивка не предоставляет возможности доверять стороннему центру сертификации Microsoft, шифрование системы VeraCrypt нельзя использовать на этом компьютере при включённом Secure Boot.
+</div>
+
+<h2>Обновление существующей системы до сертификатов 2023 года</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows распространяет сертификаты 2023 года поэтапно, на основе телеметрии. Устройства обновляются автоматически только после того, как Microsoft получает достаточную уверенность в конкретном сочетании оборудования и прошивки. Компьютер с системным шифрованием VeraCrypt использует нестандартную цепочку загрузки, поскольку загрузчик VeraCrypt занимает стандартное расположение Windows Boot Manager; это может влиять на проверки обслуживания, однако Microsoft не указывает VeraCrypt как безусловное исключение из развёртывания. Сообщение <em>&quot;not yet enough data to classify your device&quot;</em> описывает текущее состояние развёртывания, а не доказывает, что его причиной является VeraCrypt. Значение <code>MicrosoftUpdateManagedOptIn</code> отдельно включает асинхронное управляемое Microsoft развёртывание, требует разрешённой передачи диагностических данных и не гарантирует немедленное обновление. Не сочетайте этот способ с ручным применением <code>AvailableUpdates</code>.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Для контролируемого ручного развёртывания Microsoft документирует <code>0x5944</code> как явный запрос миграции CA 2023, KEK и Windows Boot Manager (см. <a href="https://support.microsoft.com/en-us/topic/registry-key-updates-for-secure-boot-windows-devices-with-it-managed-updates-a7be69c9-4634-42e1-9ca1-df06f43f360d">руководство Microsoft по ключам реестра Secure Boot</a>). Это значение <strong>не</strong> применяет отзыв Windows PCA 2011 через dbx, и VeraCrypt никогда не задаёт его автоматически. Используйте его на полностью обновлённой Windows только после изучения мер предосторожности ниже:
+</div>
+<pre>
+reg add HKLM\SYSTEM\CurrentControlSet\Control\Secureboot /v AvailableUpdates /t REG_DWORD /d 0x5944 /f
+
+rem при необходимости запустите задачу обслуживания сразу (иначе она выполняется каждые 12 часов):
+schtasks /Run /TN "\Microsoft\Windows\PI\Secure-Boot-Update"
+</pre>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Ход выполнения можно отслеживать в <code>HKLM\SYSTEM\CurrentControlSet\Control\SecureBoot</code> и его подразделе <code>Servicing</code>, а также по событиям обслуживания Secure Boot. Ожидаемая последовательность <code>AvailableUpdates</code>: <code>0x5944</code>, затем <code>0x4100</code> и после требуемых запусков задачи и перезагрузок — конечный модификатор <code>0x4000</code>. Дополнительно проверьте <code>UEFICA2023Status=Updated</code> и фактические файлы загрузки: одно значение <code>0x4000</code> не доказывает, что файл VeraCrypt <code>bootmgfw_ms.vc</code> обновлён. Обновление db добавляет <em>Windows UEFI CA 2023</em>. На системах, уже доверяющих <em>Microsoft Corporation UEFI CA 2011</em>, оно условно добавляет <em>Microsoft UEFI CA 2023</em> и <em>Microsoft Option ROM UEFI CA 2023</em>; этот устаревший сторонний CA присутствует не на каждой системе, где можно установить VeraCrypt.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Перед запуском обновления на машине с системным шифрованием VeraCrypt примите следующие меры предосторожности:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Сначала обновите BIOS/UEFI-прошивку до последней версии, доступной у производителя компьютера.</strong> Сбои записи новых сертификатов в базу Secure Boot прошивки обычно вызваны ошибками прошивки, и Microsoft рекомендует проверить наличие обновлённой прошивки у производителя устройства перед применением обновлений сертификатов.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Сначала создайте или обновите Диск восстановления VeraCrypt</strong> и убедитесь, что он загружается.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Не отключайте службу <em>VeraCrypt System Favorites</em> или её функцию обновления загрузчика. Если Windows заменяет Boot Manager в стандартном расположении ESP, служба сохраняет его как <code>bootmgfw_ms.vc</code> и восстанавливает загрузчик VeraCrypt. Если стандартный путь не изменяется, текущая VeraCrypt также проверяет обслуживаемые Windows копии в <code>%SystemRoot%\Boot\EFI_EX</code> и <code>%SystemRoot%\Boot\EFI</code>, проверяет встроенную подпись и атомарно обновляет <code>bootmgfw_ms.vc</code> лучшей копией, совместимой с известной политикой CA.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>Пользователям скрытой операционной системы не следует запускать обновление из скрытой ОС.</strong> Автоматическое сохранение цепочки загрузки отключено, когда работает скрытая ОС.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Избегайте принудительного отключения питания между моментом, когда Windows заменяет загрузчик, и следующей обычной перезагрузкой или выключением. На большинстве систем загрузочная запись VeraCrypt сохраняет возможность загрузки компьютера в этот промежуток, но прошивка, игнорирующая порядок загрузки, может загрузить обычный Windows Boot Manager, который не сможет запустить зашифрованную Windows (восстанавливается с помощью Диска восстановления).
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Windows может продолжать сообщать о незавершённом переходе, поскольку стандартное расположение Windows Boot Manager по замыслу занимает загрузчик VeraCrypt. Считайте это возможным ложным отрицательным результатом обслуживания только после появления требуемых CA 2023 в db, определения фактических файлов как <code>EfiBootLoaderInstalledResourceSet=2023</code>, подтверждения <em>встроенного</em> издателя <code>bootmgfw_ms.vc</code> как <em>Windows UEFI CA 2023</em> и отсутствия неустранённых ошибок обслуживания.
+</li>
+</ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+После применения обновления db VeraCrypt автоматически переключится на набор загрузчиков 2023 года при следующем обновлении загрузчика (<em>Восстановить/переустановить</em>, обновление версии или одна из автоматических точек обновления службы System Favorites). Результат можно проверить в описанном выше ключе реестра диагностики и заново создать Диск восстановления, когда появится соответствующее приглашение.
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Отзыв Windows PCA 2011 через dbx — отдельная последующая операция, описанная в <a href="https://support.microsoft.com/en-us/topic/how-to-manage-the-windows-boot-manager-revocations-for-secure-boot-changes-associated-with-cve-2023-24932-41a975df-beb2-40c1-99a3-b3ff139f832d">Microsoft KB5025885</a>. Не запрашивайте бит <code>0x80</code> (или объединённое значение <code>0x280</code>, которое также запрашивает обновление SVN), пока не подтверждено, что <code>bootmgfw_ms.vc</code> подписан <em>Windows UEFI CA 2023</em>, носители восстановления актуальны и контрольная перезагрузка с включённым Secure Boot прошла успешно. VeraCrypt никогда не включает этот отзыв автоматически.
+</div>
+
+<h2>Восстановление после сбоя загрузки Secure Boot</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если конфигурация Secure Boot в прошивке больше не доверяет одному из компонентов цепочки загрузки, возможны два разных сбоя:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>До запроса пароля</strong> (сообщение вроде <em>&quot;Secure Boot Violation&quot;</em> или немедленный возврат в прошивку): прошивка не доверяет CA, которым подписан установленный загрузчик VeraCrypt.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong>После успешного ввода пароля</strong> (явное сообщение об ошибке Secure Boot от загрузчика VeraCrypt или, на старых версиях загрузчика, возврат к запросу пароля): прошивка не доверяет CA, которым подписана копия Windows Boot Manager (<code>bootmgfw_ms.vc</code>), на которую VeraCrypt передаёт управление.
+</li>
+</ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В обоих случаях процедура восстановления такова:
+</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Временно отключите Secure Boot в настройках прошивки и запустите Windows обычным образом (предзагрузочная аутентификация VeraCrypt работает и с отключённым Secure Boot). Диск восстановления VeraCrypt может восстановить отсутствующие или повреждённые компоненты загрузчика VeraCrypt, но не может создать актуальный Windows Boot Manager или сделать подписанный PCA 2011 файл <code>bootmgfw_ms.vc</code> допустимым после добавления этого CA в dbx; он не заменяет завершение миграции Windows.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+В Windows исправьте политику Secure Boot (включите сторонние CA, восстановите актуальную dbx после пользовательской процедуры либо примените обновления Windows), затем запустите VeraCrypt в режиме <em>Восстановить/переустановить</em>. Восстановление проверит обслуживаемые копии <code>EFI_EX</code>/<code>EFI</code> и сможет установить совместимый актуальный Windows Boot Manager.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Проверьте диагностику VeraCrypt и встроенную подпись, затем включите Secure Boot и выполните одну контролируемую перезагрузку. Не включайте его при неполной оценке политики или несовместимых файлах загрузчика.
+</li>
+</ol>
+
+<h2>Устаревшая процедура с пользовательскими ключами (не рекомендуется)</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В более старых версиях VeraCrypt была задокументирована процедура с пользовательскими ключами (скрипт VeraCrypt-DCS <em>SecureBoot</em>, <code>sb_set_siglists.ps1</code>), которая заменяла PK, KEK, db и dbx пользовательскими ключами, сертификатами Microsoft 2011 года и устаревшей копией dbx 2018 года. Эта процедура <strong>устарела и не должна использоваться</strong> с цепочкой 2023 года: она удаляет доверие к новому Windows Boot Manager, отбрасывает современные отзывы и может нарушить передачу управления Windows. Восстановите заводские ключи производителя и актуальную dbx.
+</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+&nbsp;</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

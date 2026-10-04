@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>VeraCrypt - 新手教程</title>
+</head>
+<body>
+
+<div>
+    <a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+        <li><a href="Home.html">主页</a></li>
+        <li><a href="Code.html">源代码</a></li>
+        <li><a href="Downloads.html">下载</a></li>
+        <li><a class="active" href="Documentation.html">文档</a></li>
+        <li><a href="Donation.html">捐赠</a></li>
+        <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+    <p>
+        <a href="Documentation.html">文档</a>
+        <img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+        <a href="Beginner's%20Tutorial.html">新手教程</a>
+    </p>
+</div>
+
+<div class="wikidoc">
+    <h1>新手教程</h1>
+    <h2>如何创建和使用 VeraCrypt 容器</h2>
+    <p>本章包含了如何创建、挂载和使用 VeraCrypt 卷的详细步骤说明。我们强烈建议您也阅读本手册的其他部分，因为其中包含了重要信息。</p>
+    <h4>步骤 1：</h4>
+    <p>如果您还没有这样做，请下载并安装 VeraCrypt。然后通过双击 VeraCrypt.exe 文件或点击 Windows 开始菜单中的 VeraCrypt 快捷方式来启动 VeraCrypt。</p>
+    <h4>步骤 2：</h4>
+    <p><img src="Beginner's Tutorial_Image_001.jpg" alt=""><br>
+    <br>
+    应该会出现 VeraCrypt 主窗口。点击 <strong>创建卷</strong>（为了清晰起见，用红色矩形标记）。</p>
+    <h4>步骤 3：</h4>
+    <p><img src="Beginner's Tutorial_Image_002.jpg" alt=""><br>
+    <br>
+    应该会出现 VeraCrypt 卷创建向导窗口。<br>
+    <br>
+    在这一步中，您需要选择要将 VeraCrypt 卷创建在哪里。VeraCrypt 卷可以存在于文件（也称为容器）、分区或驱动器中。在本教程中，我们将选择第一个选项，并在文件中创建 VeraCrypt 卷。<br>
+    <br>
+    由于该选项是默认选中的，您只需点击 <strong>下一步</strong>。</p>
+    <p>注意：在接下来的步骤中，截图将只显示向导窗口的右侧部分。</p>
+    <h4>步骤 4：</h4>
+    <p><img src="Beginner's Tutorial_Image_003.jpg" alt=""><br>
+    <br>
+    在这一步中，您需要选择是创建标准的还是隐藏的 VeraCrypt 卷。在本教程中，我们将选择前者并创建一个标准的 VeraCrypt 卷。<br>
+    <br>
+    由于该选项是默认选中的，您只需点击 <strong>下一步</strong>。</p>
+    <h4>步骤 5：</h4>
+    <p><img src="Beginner's Tutorial_Image_004.jpg" alt=""><br>
+    <br>
+    在这一步中，您必须指定要将 VeraCrypt 卷（文件容器）创建在哪里。请注意，VeraCrypt 容器就像任何普通文件一样。例如，它可以像任何普通文件一样被移动或删除。它还需要一个文件名，您将在下一步中选择。<br>
+    <br>
+    点击 <strong>选择文件</strong>。<br>
+    <br>
+    应该会出现标准的 Windows 文件选择器（而 VeraCrypt 卷创建向导窗口将在后台保持打开状态）。</p>
+    <h4>步骤 6：</h4>
+    <p><img src="Beginner's Tutorial_Image_005.jpg" alt=""><br>
+    <br>
+    在本教程中，我们将在文件夹 D<em>:\Data\ </em>中创建我们的 VeraCrypt 卷，并且卷（容器）的文件名将是 <em>MyVolume.hc </em>（如上图所示）。当然，您可以选择任何其他您喜欢的文件名和位置（例如，在 USB 闪存驱动器上）。请注意，文件 <em>MyVolume.hc </em>还不存在 - VeraCrypt 将创建它。</p>
+    <p>重要提示：请注意，VeraCrypt 在创建 VeraCrypt 文件容器时 <em>不会</em> 加密任何现有文件。如果您在这一步中选择了一个现有文件，它将被覆盖并被新创建的卷替换，因此被覆盖的文件将 <em>丢失</em>，而不是被加密。您可以在以后将现有文件移动到我们现在正在创建的 VeraCrypt 卷中来加密它们。*</p>
+    <p>在文件选择器中选择所需的路径（即您希望创建容器的位置）。在 <strong>文件名</strong> 框中输入所需的容器文件名。<br>
+    <br>
+    点击 <strong>保存</strong>。<br>
+    <br>
+    文件选择器窗口应该会消失。<br>
+    <br>
+    在接下来的步骤中，我们将回到 VeraCrypt 卷创建向导。</p>
+    <p>* 请注意，在将现有的未加密文件复制到 VeraCrypt 卷后，您应该安全地擦除（清除）原始的未加密文件。有一些软件工具可以用于安全擦除（其中许多是免费的）。</p>
+    <h4>步骤 7：</h4>
+    <p><img src="Beginner's Tutorial_Image_007.jpg" alt=""><br>
+    <br>
+    在卷创建向导窗口中，点击 <strong>下一步</strong>。</p>
+    <h4>步骤 8：</h4>
+    <p><img src="Beginner's Tutorial_Image_008.jpg" alt=""><br>
+    <br>
+    在这里，您可以为卷选择一种加密算法和一种哈希算法。如果您不确定在这里选择什么，您可以使用默认设置并点击 <strong>下一步</strong>（有关更多信息，请参阅 <a href="Encryption Algorithms.html"><em>加密算法</em></a> 和 <a href="Hash%20Algorithms.html"><em>哈希算法</em></a> 章节）。</p>
+    <h4>步骤 9：</h4>
+    <p><img src="Beginner's Tutorial_Image_009.jpg" alt=""><br>
+    <br>
+    在这里，我们指定希望我们的 VeraCrypt 容器的大小为 250 兆字节。当然，您可以指定不同的大小。在输入字段（用红色矩形标记）中输入所需的大小后，点击 <strong>下一步</strong>。</p>
+    <h4>步骤 10：</h4>
+    <p><img src="Beginner's Tutorial_Image_010.jpg" alt=""><br>
+    <br>
+    这是最重要的步骤之一。在这里，您必须选择一个好的卷密码。仔细阅读向导窗口中显示的关于什么是好密码的信息。<br>
+    <br>
+    选择一个好的密码后，在第一个输入字段中输入它。然后在第一个输入字段下方的输入字段中再次输入它，然后点击 <strong>下一步</strong>。</p>
+    <p>注意：<strong>下一步</strong> 按钮将被禁用，直到两个输入字段中的密码相同。</p>
+    <h4>步骤 11：</h4>
+    <p><img src="Beginner's Tutorial_Image_011.jpg" alt=""><br>
+    <br>
+    在卷创建向导窗口内尽可能随机地移动鼠标，至少直到随机性指示器变为绿色。移动鼠标的时间越长越好（建议至少移动 30 秒）。这将显著提高加密密钥的加密强度（从而提高安全性）。<br>
+    <br>
+    点击 <strong>格式化</strong>。<br>
+    <br>
+    卷创建应该开始。VeraCrypt 现在将在文件夹 F<em>:\Data\ </em>中创建一个名为 <em>MyVolume.hc</em> 的文件（如我们在步骤 6 中指定的）。这个文件将是一个 VeraCrypt 容器（它将包含加密的 VeraCrypt 卷）。根据卷的大小，卷创建可能需要很长时间。完成后，将出现以下对话框：<br>
+    <br>
+    <img src="Beginner's Tutorial_Image_012.jpg" alt=""><br>
+    <br>
+    点击 <strong>确定</strong> 关闭对话框。</p>
+    <h4>步骤 12：</h4>
+    <p><img src="Beginner's Tutorial_Image_013.jpg" alt=""><br>
+    <br>
+    我们刚刚成功创建了一个 VeraCrypt 卷（文件容器）。在 VeraCrypt 卷创建向导窗口中，点击 <strong>退出</strong>。<br>
+    <br>
+    向导窗口应该会消失。<br>
+    <br>
+    在剩下的步骤中，我们将挂载我们刚刚创建的卷。我们将回到 VeraCrypt 主窗口（它应该仍然是打开的，但如果不是，请重复步骤 1 以启动 VeraCrypt，然后从步骤 13 继续）。</p>
+    <h4>步骤 13：</h4>
+    <p><img src="Beginner's Tutorial_Image_014.jpg" alt=""><br>
+    <br>
+    从列表中选择一个驱动器号（用红色矩形标记）。这将是 VeraCrypt 容器将被挂载到的驱动器号。<br>
+    <br>
+    注意：在本教程中，我们选择了驱动器号 M，但您当然可以选择任何其他可用的驱动器号。</p>
+    <h4>步骤 14：</h4>
+    <p><img src="Beginner's Tutorial_Image_015.jpg" alt=""><br>
+    <br>
+    点击 <strong>选择文件</strong>。<br>
+    <br>
+    应该会出现标准的文件选择器窗口。</p>
+    <h4>步骤 15：</h4>
+    <p><img src="Beginner's Tutorial_Image_016.jpg" alt=""><br>
+    <br>
+    在文件选择器中，浏览到我们在步骤 6 - 12 中创建的容器文件并选择它。点击 <strong>打开</strong>（在文件选择器窗口中）。<br>
+    <br>
+    文件选择器窗口应该会消失。<br>
+    <br>
+    在接下来的步骤中，我们将回到 VeraCrypt 主窗口。</p>
+    <h4>步骤 16：</h4>
+    <p><img src="Beginner's Tutorial_Image_017.jpg" alt=""><br>
+    <br>
+    在 VeraCrypt 主窗口中，点击 <strong>挂载</strong>。应该会出现密码提示对话框窗口。</p>
+    <h4>步骤 17：</h4>
+    <p><img src="Beginner's Tutorial_Image_018.jpg" alt=""><br>
+    <br>
+    在密码输入字段（用红色矩形标记）中输入您在步骤 10 中指定的密码。</p>
+    <h4>步骤 18：</h4>
+    <p><img src="Beginner's Tutorial_Image_019.jpg" alt=""><br>
+    <br>
+    选择在创建卷时使用的伪随机函数（PRF）算法（SHA - 512 是 VeraCrypt 使用的默认 PRF）。如果您不记得使用了哪个 PRF，只需将其设置为“自动检测”，但挂载过程将需要更多时间。输入密码后点击 <strong>确定</strong>。<br>
+    <br>
+    VeraCrypt 现在将尝试挂载该卷。如果密码不正确（例如，如果您输入错误），VeraCrypt 将通知您，您需要重复上一步（再次输入密码并点击 <strong>确定</strong>）。如果密码正确，该卷将被挂载。</p>
+    <h4>最后一步：</h4>
+    <p><img src="Beginner's Tutorial_Image_020.jpg" alt=""><br>
+    <br>
+    我们刚刚成功将容器挂载为虚拟磁盘 M:。<br>
+    <br>
+    该虚拟磁盘是完全加密的（包括文件名、分配表、空闲空间等），并且行为就像一个真实的磁盘。您可以将文件保存（或复制、移动等）到这个虚拟磁盘，它们将在写入时即时加密。<br>
+    <br>
+    例如，如果您在媒体播放器中打开存储在 VeraCrypt 卷上的文件，该文件将在读取时自动即时解密到随机存取存储器（RAM）中。</p>
+    <p>重要提示：请注意，当您打开存储在 VeraCrypt 卷上的文件（或向/从 VeraCrypt 卷写入/复制文件）时，您将不会再次被要求输入密码。您只需要在挂载卷时输入正确的密码。</p>
+    <p>您可以通过在列表中选择挂载的卷（如上图所示的蓝色选择），然后双击所选项目来打开它。</p>
+    <p>您也可以像浏览任何其他类型的卷一样浏览到挂载的卷。例如，通过打开“<em>此电脑</em>”（或“<em>我的电脑</em>”）列表并双击相应的驱动器号。</p>
+</div>
+
+</body>
+</html>

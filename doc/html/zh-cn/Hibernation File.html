@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供了合理的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求与预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">数据泄露</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hibernation%20File.html">休眠文件</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>休眠文件</h1>
+<p>注意：如果系统分区或系统驱动器已加密<span>*</span>（有关详细信息，请参阅<a href="System%20Encryption.html"><em>系统加密</em></a>章节），并且休眠文件位于系统加密密钥范围内的某个分区上（通常默认情况下是这样，例如，位于安装Windows的分区上），则以下描述的问题不会影响您。当计算机进入休眠状态时，数据会在写入休眠文件之前进行实时加密。</p>
+<p>当计算机进入休眠状态（或进入节能模式）时，其系统内存的内容会被写入硬盘上的所谓休眠文件。您可以配置VeraCrypt（<em>设置</em> &gt; <em>首选项</em> &gt; <em>进入节能模式时卸载所有卷</em>），使其在计算机进入休眠状态（或进入节能模式）之前自动卸载所有已挂载的VeraCrypt卷，擦除存储在RAM中的主密钥以及缓存的密码（如果有的话）。但是，请记住，如果您不使用系统加密（请参阅<a href="System%20Encryption.html"><em>系统加密</em></a>章节），VeraCrypt仍然无法可靠地防止在RAM中打开的敏感文件内容以未加密的形式保存到休眠文件中。请注意，当您在文本编辑器等程序中打开存储在VeraCrypt卷上的文件时，文件内容会以未加密的形式存储在RAM中（并且在计算机关闭之前可能一直保持未加密状态）。<br>
+<br>
+请注意，当Windows进入睡眠模式时，它可能实际上被配置为进入所谓的混合睡眠模式，其中涉及休眠。此外，操作系统可能被配置为在您单击或选择“关机”时进入休眠或混合睡眠模式（有关更多信息，请参阅您的操作系统文档）。<br>
+<br>
+<strong>为防止上述问题</strong>，请对系统分区/驱动器进行加密（有关如何操作的信息，请参阅<a href="System%20Encryption.html"><em>系统加密</em></a>章节），并确保休眠文件位于系统加密密钥范围内的某个分区上（通常默认情况下是这样，例如，位于安装Windows的分区上）。当计算机进入休眠状态时，数据会在写入休眠文件之前进行实时加密。</p>
+<p>注意：您可能还需要考虑创建一个隐藏操作系统（有关更多信息，请参阅<a href="Hidden%20Operating%20System.html"><em>隐藏操作系统</em></a>部分）<span>.</span></p>
+<p>或者，如果您无法使用系统加密，请至少在每次处理任何敏感数据并挂载VeraCrypt卷的会话期间禁用或防止计算机进入休眠状态。</p>
+<p><span>* </span>免责声明：由于Windows XP和Windows 2003没有提供用于加密休眠文件的API，VeraCrypt必须修改Windows XP/2003的未记录组件，以允许用户加密休眠文件。因此，VeraCrypt不能保证Windows XP/2003的休眠文件始终会被加密。针对我们关于缺少API的公开投诉，微软开始在Windows Vista及更高版本的Windows中提供用于加密休眠文件的公共API。VeraCrypt使用了这个API，因此能够在Windows Vista及更高版本的Windows下安全地加密休眠文件。因此，如果您使用Windows XP/2003并且希望休眠文件能够安全加密，我们强烈建议您升级到Windows Vista或更高版本。</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

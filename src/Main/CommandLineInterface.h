@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -20,6 +20,7 @@
 #include "Core/VolumeCreator.h"
 #include "UserPreferences.h"
 #include "UserInterfaceType.h"
+#include "Volume/Pkcs5Kdf.h"
 
 namespace VeraCrypt
 {
@@ -63,14 +64,17 @@ namespace VeraCrypt
 		CommandId::Enum ArgCommand;
 		bool ArgDisplayPassword;
 		shared_ptr <EncryptionAlgorithm> ArgEncryptionAlgorithm;
+#ifdef TC_LINUX
+		bool ArgEmergencyUnmount;
+#endif
 		shared_ptr <FilePath> ArgFilePath;
 		VolumeCreationOptions::FilesystemType::Enum ArgFilesystem;
 		bool ArgForce;
-		shared_ptr <Hash> ArgHash;
+		shared_ptr <Pkcs5Kdf> ArgHash;
 		shared_ptr <KeyfileList> ArgKeyfiles;
 		MountOptions ArgMountOptions;
 		shared_ptr <DirectoryPath> ArgMountPoint;
-		shared_ptr <Hash> ArgNewHash;
+		shared_ptr <Pkcs5Kdf> ArgNewHash;
 		shared_ptr <KeyfileList> ArgNewKeyfiles;
 		wstring ArgSecurityTokenSchemeSpec;
 		shared_ptr <VolumePassword> ArgNewPassword;
@@ -83,6 +87,7 @@ namespace VeraCrypt
 		uint64 ArgSize;
 		shared_ptr <VolumePath> ArgVolumePath;
 		VolumeInfoList ArgVolumes;
+		list <DirectoryPath> ArgUnresolvedMounts;
 		VolumeType::Enum ArgVolumeType;
         shared_ptr<SecureBuffer> ArgTokenPin;
         bool ArgAllowScreencapture;
@@ -100,7 +105,7 @@ namespace VeraCrypt
 	protected:
 		void CheckCommandSingle () const;
 		shared_ptr <KeyfileList> ToKeyfileList (const wxString &arg) const;
-		VolumeInfoList GetMountedVolumes (const wxString &filter) const;
+		VolumeInfoList GetMountedVolumes (const wxString &filter);
 
 	private:
 		CommandLineInterface (const CommandLineInterface &);

@@ -1,5 +1,5 @@
 # - Minimum CMake version
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 2.8.12...3.10)
 
 # - Obligatory parameters
 #		-DVERACRYPT_BUILD_DIR 	: folder that contains 'usr' folder
@@ -10,9 +10,11 @@ elseif ( NOT DEFINED NOGUI )
 	MESSAGE(FATAL_ERROR "NOGUI variable MUST BE set to TRUE if building 'Console' version, 'FALSE' otherwise")
 endif()
 
+option(VC_WITH_FUSE3 "Link against FUSE3 instead of FUSE2 when packaging" OFF)
+
 # - Set version of the package
-set( FULL_VERSION 		"1.26.20" )
-set( VERSION 			"1.26.20" )
+set( FULL_VERSION 		"1.26.29" )
+set( VERSION 			"1.26.29" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values
@@ -24,6 +26,66 @@ else()
 	set( CONFLICT_PACKAGE	"veracrypt-console" )
 endif()
 project(${PROJECT_NAME})
+
+# Source directory which contains the Makefile. Build scripts set this, but keep
+# direct cmake invocations working as well.
+if(NOT DEFINED ENV{SOURCEPATH})
+    get_filename_component(_vc_sourcepath "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+    set(ENV{SOURCEPATH} "${_vc_sourcepath}")
+endif()
+if("$ENV{SOURCEPATH}" STREQUAL "")
+    get_filename_component(_vc_sourcepath "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+    set(ENV{SOURCEPATH} "${_vc_sourcepath}")
+endif()
+
+# SOURCE_DATE_EPOCH for the cpack-driven packaging pipeline.
+# Precedence: -DSOURCE_DATE_EPOCH=N, env, git HEAD, Common/Tcdefs.h release date.
+# Re-exported to this process for package targets and written into
+# CPACK_PROJECT_CONFIG_FILE so later standalone "cpack --config" runs export
+# the same value before invoking package generators.
+if(NOT DEFINED SOURCE_DATE_EPOCH)
+    if(DEFINED ENV{SOURCE_DATE_EPOCH})
+        set(SOURCE_DATE_EPOCH "$ENV{SOURCE_DATE_EPOCH}")
+    endif()
+endif()
+set(_derive_source_date_epoch FALSE)
+if(NOT DEFINED SOURCE_DATE_EPOCH)
+    set(_derive_source_date_epoch TRUE)
+elseif("${SOURCE_DATE_EPOCH}" STREQUAL "")
+    set(_derive_source_date_epoch TRUE)
+endif()
+if(_derive_source_date_epoch)
+    execute_process(
+        COMMAND sh "$ENV{SOURCEPATH}/Build/Tools/source_date_epoch.sh" "$ENV{SOURCEPATH}"
+        OUTPUT_VARIABLE _source_date_epoch
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_VARIABLE _source_date_epoch_error
+        RESULT_VARIABLE _source_date_epoch_rc)
+    if(_source_date_epoch_rc EQUAL 0 AND NOT "${_source_date_epoch}" STREQUAL "")
+        set(SOURCE_DATE_EPOCH "${_source_date_epoch}")
+    else()
+        string(STRIP "${_source_date_epoch_error}" _source_date_epoch_error)
+        if(_source_date_epoch_error)
+            MESSAGE(FATAL_ERROR "SOURCE_DATE_EPOCH must be set, derivable from git, or derivable from Common/Tcdefs.h release date: ${_source_date_epoch_error}")
+        else()
+            MESSAGE(FATAL_ERROR "SOURCE_DATE_EPOCH must be set, derivable from git, or derivable from Common/Tcdefs.h release date")
+        endif()
+    endif()
+endif()
+if(NOT SOURCE_DATE_EPOCH MATCHES "^[0-9]+$")
+    MESSAGE(FATAL_ERROR "SOURCE_DATE_EPOCH must be a non-negative Unix timestamp")
+endif()
+message(STATUS "SOURCE_DATE_EPOCH = ${SOURCE_DATE_EPOCH}")
+set(ENV{SOURCE_DATE_EPOCH} "${SOURCE_DATE_EPOCH}")
+# Standalone "cpack --config CPackConfig.cmake" runs in a new process, so
+# persist the configure-time epoch into CPack's package-time config.
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/Tools/cpack_source_date_epoch.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cpack_source_date_epoch.cmake"
+    @ONLY)
+set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/cpack_source_date_epoch.cmake")
+# Avoid nondeterministic ordering from cpack 3.18+ parallel compression.
+set(CPACK_THREADS 1)
 
 # - Check whether 'Tcdefs.h' and 'License.txt' exist
 if(NOT EXISTS "$ENV{SOURCEPATH}/Common/Tcdefs.h")
@@ -225,9 +287,9 @@ set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging)	# creates the Packaging directory under build directory when CMake generates the build system
 
-set( VENDOR "IDRIX" )
+set( VENDOR "AM Crypto" )
 set( LICENSE "VeraCrypt License" )
-set( CONTACT "VeraCrypt Team <veracrypt@idrix.fr>" )
+set( CONTACT "VeraCrypt Team <veracrypt@amcrypto.jp>" )
 set( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Disk encryption with strong security based on TrueCrypt." )
 set( CPACK_PACKAGE_DESCRIPTION "This package contains binaries for VeraCrypt, a disk encryption with strong security based on TrueCrypt." )
 set( CPACK_PACKAGE_NAME 			${PROJECT_NAME} )
@@ -242,14 +304,31 @@ set( CPACK_PACKAGE_CHECKSUM 		SHA256 )
 set( CPACK_PACKAGE_RELOCATABLE 		"OFF")																						# Disable package relocation (especially for rpm)
 set( CPACK_PACKAGE_DIRECTORY 		${CMAKE_CURRENT_BINARY_DIR}/Packaging )
 
+# Reproducible CPack payloads: clamp the just-installed staging tree's
+# mtimes and modes so DEB/RPM payloads are independent of wall-clock time
+# and the build umask. Placed AFTER install(DIRECTORY) so it runs against a
+# populated tree (install rules execute in declaration order). The script
+# acts only on a real package staging root and refuses a live prefix; see the
+# script header for the staging-root detection rules.
+configure_file(
+	"${CMAKE_CURRENT_SOURCE_DIR}/Tools/cmake_repro_clamp_mtimes.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake"
+	@ONLY)
+install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/cmake_repro_clamp_mtimes.cmake")
+
 if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	
 	# Debian control script(s)
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control)
+	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/postinst 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postinst)
 	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/prerm 		${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
+	configure_file(		${CMAKE_CURRENT_SOURCE_DIR}/Packaging/debian-control/postrm 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postrm)
+	set( DEBIAN_POSTINST ${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postinst)
 	set( DEBIAN_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/prerm)
+	set( DEBIAN_POSTRM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/debian-control/postrm)
 	
 	set( CPACK_GENERATOR 					"DEB" )																				# mandatory
+
 	set( CPACK_DEBIAN_PACKAGE_NAME 			${CPACK_PACKAGE_NAME}  )															# mandatory
 	set( CPACK_DEBIAN_FILE_NAME 			${CPACK_PACKAGE_FILE_NAME}.deb )													# mandatory
 	# -- Use a distro-specific version string to avoid repository conflicts --
@@ -268,42 +347,61 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set( CPACK_DEBIAN_PACKAGE_RELEASE 		${CPACK_PACKAGE_RELEASE} )
 	set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE 	${ARCHITECTURE} )																	# mandatory
 	
+	# Determine the FUSE runtime package name that matches the selected FUSE version
+	set(VC_DEBIAN_USE_T64 FALSE)
+	if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) )
+		OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) ) )
+		set(VC_DEBIAN_USE_T64 TRUE)
+	endif ()
+	if (VC_WITH_FUSE3)
+		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) )
+			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "25.10" ) ) )
+			set(VC_DEBIAN_FUSE_PACKAGE "libfuse3-4")
+		else ()
+			set(VC_DEBIAN_FUSE_PACKAGE "libfuse3-3")
+		endif ()
+	else ()
+		if (VC_DEBIAN_USE_T64)
+			set(VC_DEBIAN_FUSE_PACKAGE "libfuse2t64")
+		else ()
+			set(VC_DEBIAN_FUSE_PACKAGE "libfuse2")
+		endif ()
+	endif ()
+
 	if (NOGUI)
 		# Link against statically built wxWidgets so that we don't depend on any GTK library
-		# In case of Ubuntu 24.04/ Debian 13 or newer, libfuse2 package was renamed libfuse2t64
-		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) ) 
-			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) ) )
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2t64, dmsetup, sudo, libpcsclite1, pcscd" )
-		else ()
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )
-		endif()
+		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
 	else ()
 		# Link against gtk3 version of wxWidgets if >= Debian 10 or >= Ubuntu 18.04
 		# Otherwise, link against gtk2 version of wxWidgets
-		# In case of Ubuntu 24.04, we depend on libfuse2t64 instead of libfuse2 and we link statically against wxWidgets
-		# because there is a bug in wxWidgets that ships with Ubuntu 24.04 and which was fixed in wxWidgets 3.2.5
-		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) ) 
-			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) ) )
-			
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk-3-0t64, libayatana-appindicator3-1, libfuse2t64, dmsetup, sudo, libpcsclite1, pcscd" )										
+		if (   ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "13" ) )
+			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "25.04" ) ) )
 
-		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "12" ) ) 
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1t64, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
+
+		# In case of Ubuntu 24.04, we depend on the t64 variant of the FUSE package and we link statically against wxWidgets
+		# because there is a bug in wxWidgets that ships with Ubuntu 24.04 and which was fixed in wxWidgets 3.2.5
+		elseif ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "24.04" ) )
+
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk-3-0t64, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
+
+		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "12" ) )
 			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "23.04" ) ) )
-			
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1, libayatana-appindicator3-1, libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )										
-			
-		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) ) 
+
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.2-1, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
+
+		elseif ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) )
 			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "18.04" ) ) )
-			
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libayatana-appindicator3-1, libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )										
-			
+
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libayatana-appindicator3-1, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
+
 		else ()
 			# Link against statically built wxWidgets on Ubuntu 14.04 and older, and Debian 8 and older
 			if ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_LESS_EQUAL "8" ) ) 
 				OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_LESS_EQUAL "14.04" ) ) )
-				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk2.0-0, libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )
+				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk2.0-0, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
 			else ()
-				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup, sudo, libpcsclite1, pcscd" )
+				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, ${VC_DEBIAN_FUSE_PACKAGE}, dmsetup, sudo" )
 			endif ()
 			
 		endif()
@@ -322,11 +420,39 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	
 	# RPM control script(s)
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control)
+	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/postinstall.sh 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postinstall.sh)
 	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/prerm.sh 		${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
+	configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/Packaging/rpm-control/postuninstall.sh ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postuninstall.sh)
+	set( RPM_POSTINSTALL ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postinstall.sh)
 	set( RPM_PRERM 	${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/prerm.sh)
+	set( RPM_POSTUNINSTALL ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control/postuninstall.sh)
 	
 	set( CPACK_GENERATOR 				"RPM" )																					# mandatory
-	set( CPACK_RPM_PACKAGE_SUMMARY 		${CPACK_PACKAGE_SUMMARY} )																# mandatory
+	# Reproducible RPM: CPackRPM does not consume SOURCE_DATE_EPOCH on its own.
+	# use_source_date_epoch_as_buildtime pins BuildTime to the SOURCE_DATE_EPOCH
+	# environment variable (exported by the wrappers and CPACK_PROJECT_CONFIG_FILE),
+	# _buildhost removes host identity from the header, and the mtime macros cover
+	# rpm versions with built-in policy support. source_date_epoch_from_changelog
+	# is disabled so CPack's placeholder changelog date cannot hijack the epoch.
+	# The install(SCRIPT) clamp above also normalises the CPack staging tree before
+	# rpmbuild sees it. Old rpm still runs brp-strip after %install, which rewrites
+	# executable mtimes, so append one final mtime clamp to the default brp chain.
+	set(_vc_rpm_repro_defines
+"%define source_date_epoch_from_changelog 0
+%define use_source_date_epoch_as_buildtime 1
+%define _buildhost reproducible
+%define clamp_mtime_to_source_date_epoch 1
+%define build_mtime_policy clamp_to_source_date_epoch
+%global _vc_default_os_install_post %{__os_install_post}
+%define __os_install_post %{_vc_default_os_install_post} \\\\
+    find $RPM_BUILD_ROOT -exec touch --no-dereference --date=@${SOURCE_DATE_EPOCH} {} + \\\\
+%{nil}")
+	if(CPACK_RPM_SPEC_MORE_DEFINE)
+		set(CPACK_RPM_SPEC_MORE_DEFINE "${CPACK_RPM_SPEC_MORE_DEFINE}\n${_vc_rpm_repro_defines}")
+	else()
+		set(CPACK_RPM_SPEC_MORE_DEFINE "${_vc_rpm_repro_defines}")
+	endif()
+	set( CPACK_RPM_PACKAGE_SUMMARY 		${CPACK_PACKAGE_DESCRIPTION_SUMMARY} )																# mandatory
 	set( CPACK_RPM_PACKAGE_DESCRIPTION 	${CPACK_PACKAGE_DESCRIPTION} )															# mandatory
 	set( CPACK_RPM_PACKAGE_NAME 		${CPACK_PACKAGE_NAME} )																	# mandatory
 	set( CPACK_RPM_FILE_NAME 			${CPACK_PACKAGE_FILE_NAME}.rpm )														# mandatory
@@ -337,21 +463,29 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 	set( CPACK_RPM_PACKAGE_GROUP 		"Applications/System" )																	# mandatory, https://fedoraproject.org/wiki/RPMGroups
 	set( CPACK_RPM_PACKAGE_VENDOR 		${CPACK_PACKAGE_VENDOR} )																# mandatory
 	set( CPACK_RPM_PACKAGE_AUTOREQ 		"no" ) 																					# disable automatic shared libraries dependency detection (most of the time buggy)
+
+	if (VC_WITH_FUSE3)
+		set(VC_RPM_FUSE_PACKAGE "fuse3")
+	else ()
+		set(VC_RPM_FUSE_PACKAGE "fuse")
+	endif ()
 	
 	if (NOGUI)
-		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, sudo" )
+		set( CPACK_RPM_PACKAGE_REQUIRES 	"${VC_RPM_FUSE_PACKAGE}, device-mapper, sudo" )
 	else ()
 		find_package(PkgConfig REQUIRED)
 		pkg_check_modules(GTK3 gtk+-3.0)
 		
 		if(GTK3_FOUND)
-			set( CPACK_RPM_PACKAGE_REQUIRES     "fuse, device-mapper, gtk3, sudo, pcsc-lite" )
+			set( CPACK_RPM_PACKAGE_REQUIRES     "${VC_RPM_FUSE_PACKAGE}, device-mapper, gtk3, sudo" )
 		else()
-			set( CPACK_RPM_PACKAGE_REQUIRES     "fuse, device-mapper, gtk2, sudo, pcsc-lite" )
+			set( CPACK_RPM_PACKAGE_REQUIRES     "${VC_RPM_FUSE_PACKAGE}, device-mapper, gtk2, sudo" )
 		endif()
 	endif()
 
 	set( CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE 			${RPM_PRERM})															# optional
+	set( CPACK_RPM_POST_INSTALL_SCRIPT_FILE 			${RPM_POSTINSTALL})														# optional
+	set( CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE 			${RPM_POSTUNINSTALL})													# optional
 	
 	# Prevents CPack from generating file conflicts
 	# This is to avoid having %dir of these directories in the .spec file

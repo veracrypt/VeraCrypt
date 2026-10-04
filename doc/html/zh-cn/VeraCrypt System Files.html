@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">杂项</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20System%20Files.html">VeraCrypt系统文件</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>VeraCrypt系统文件与应用程序数据</h1>
+<p>注意：%windir% 是Windows的主要安装路径（例如，C:\WINDOWS）</p>
+<h4>VeraCrypt驱动程序</h4>
+<p>%windir%\SYSTEM32\DRIVERS\veracrypt.sys</p>
+<p>注意：当VeraCrypt以便携模式运行时，此文件不存在。</p>
+<h4>VeraCrypt设置、应用程序数据和其他系统文件</h4>
+<p>警告：请注意，VeraCrypt不会对本节列出的任何文件进行加密（除非它对系统分区/驱动器进行加密）。<br>
+<br>
+以下文件保存在文件夹 %APPDATA%\VeraCrypt\ 中。在便携模式下，这些文件将保存到您运行 Vera<em>Crypt.exe</em> 文件的文件夹中（即 Vera<em>Crypt.exe</em> 所在的文件夹）：</p>
+<ul>
+<li>&quot;Configuration.xml&quot;（主配置文件）。 </li></ul>
+<ul>
+<li>&quot;System Encryption.xml&quot;（在对系统分区/驱动器进行原地加密/解密的初始过程中使用的临时配置文件）。
+</li></ul>
+<ul>
+<li>&quot;Default Keyfiles.xml&quot;
+<ul>
+<li>注意：如果未使用相应的VeraCrypt功能，此文件可能不存在。
+</li></ul>
+</li></ul>
+<ul>
+<li>&quot;Favorite Volumes.xml&quot;
+<ul>
+<li>注意：如果未使用相应的VeraCrypt功能，此文件可能不存在。
+</li></ul>
+</li></ul>
+<ul>
+<li>&quot;History.xml&quot;（尝试作为VeraCrypt卷挂载或用作VeraCrypt卷宿主的最后二十个文件/设备的列表；此功能可以禁用 - 有关更多信息，请参阅 <em>永不保存历史记录</em> 部分）
+<ul>
+<li>注意：如果未使用相应的VeraCrypt功能，此文件可能不存在。
+</li></ul>
+</li></ul>
+<ul>
+<li>&quot;In-Place Encryption&quot;（在对非系统卷进行原地加密/解密的初始过程中使用的临时配置文件）。
+</li></ul>
+<ul>
+<li>&quot;In-Place Encryption Wipe Algo&quot;（在对非系统卷进行原地加密/解密的初始过程中使用的临时配置文件）。
+</li></ul>
+<ul>
+<li>&quot;Post-Install Task - Tutorial&quot;（在VeraCrypt安装或升级过程中使用的临时配置文件）。
+</li></ul>
+<ul>
+<li>&quot;Post-Install Task - Release Notes&quot;（在VeraCrypt安装或升级过程中使用的临时配置文件）。
+</li></ul>
+<p>以下文件保存在文件夹 %ALLUSERSPROFILE%\VeraCrypt\ 中：</p>
+<ul>
+<li>&quot;Original System Loader&quot;（在将VeraCrypt引导加载程序写入第一个驱动器磁道之前，对其原始内容进行的备份）。
+<ul>
+<li>注意：如果系统分区/驱动器未加密，此文件不存在。
+</li></ul>
+</li></ul>
+<p>以下文件保存在文件夹 %windir%\system32（32位系统）或 %windir%\SysWOW64（64位系统）中：</p>
+<ul>
+<li>&quot;VeraCrypt System Favorite Volumes.xml&quot;
+<ul>
+<li>注意：如果未使用相应的VeraCrypt功能，此文件可能不存在。
+</li></ul>
+</li></ul>
+<ul>
+<li>VeraCrypt.exe
+<ul>
+<li>注意：仅当启用系统收藏卷的挂载时，此文件夹中才会有该文件的副本。
+</li></ul>
+</li></ul>
+<p>&nbsp;</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

@@ -4,18 +4,22 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
 #include "System.h"
+#ifdef TC_LINUX
+#include <algorithm>
+#endif
 #include <set>
 #include <typeinfo>
 #include <wx/apptrait.h>
 #include <wx/cmdline.h>
 #include "Crypto/cpu.h"
+#include "Core/CoreTest.h"
 #include "Platform/PlatformTest.h"
 #include "Common/PCSCException.h"
 #ifdef TC_UNIX
@@ -39,6 +43,30 @@ namespace VeraCrypt
 		{
 			throw ElevationFailed (SRC_POS, "sudo", 1, "");
 		}
+	};
+
+	class CloseSecurityTokenSessionsAfterMountScope
+	{
+	public:
+		CloseSecurityTokenSessionsAfterMountScope (bool &preference)
+			: Preference (preference), RestoreValue (preference)
+		{
+			if (RestoreValue)
+				Preference = false;
+		}
+
+		~CloseSecurityTokenSessionsAfterMountScope ()
+		{
+			if (RestoreValue)
+				Preference = true;
+		}
+
+	private:
+		bool &Preference;
+		bool RestoreValue;
+
+		CloseSecurityTokenSessionsAfterMountScope (const CloseSecurityTokenSessionsAfterMountScope &);
+		CloseSecurityTokenSessionsAfterMountScope &operator= (const CloseSecurityTokenSessionsAfterMountScope &);
 	};
 
 	UserInterface::UserInterface ()
@@ -157,8 +185,25 @@ namespace VeraCrypt
 		DismountVolumes (volumes, ignoreOpenFiles, interactive);
 	}
 
-	void UserInterface::DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles, bool interactive) const
+	// Unconfirmed service exits are reported together, followed by any other
+	// failure of the same operation, so that none of them can hide another.
+	static void ThrowUnconfirmedCleanups (const list <DismountServiceCleanupFailed> &failures, const wstring &otherFailure)
 	{
+		wstring details;
+		for (const DismountServiceCleanupFailed &failure : failures)
+			details += (details.empty() ? L"" : L"\n\n") + failure.GetSubject();
+
+		if (!otherFailure.empty())
+			details += L"\n\n" + otherFailure;
+
+		throw DismountServiceCleanupFailed (failures.front().what(), details);
+	}
+
+	void UserInterface::DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles, bool interactive, bool emergencyCleanupRequested) const
+	{
+#ifndef TC_LINUX
+		(void) emergencyCleanupRequested;
+#endif
 		BusyScope busy (this);
 
 		volumes.sort (VolumeInfo::FirstVolumeMountedAfterSecond);
@@ -167,6 +212,9 @@ namespace VeraCrypt
 		bool twoPassMode = volumes.size() > 1;
 		bool volumesInUse = false;
 		bool firstPass = true;
+		// Such volumes have already left discovery. Report every one of them, even
+		// when another volume fails or a forced-unmount prompt is declined.
+		list <DismountServiceCleanupFailed> unconfirmedCleanups;
 
 #ifdef TC_WINDOWS
 		if (Preferences.CloseExplorerWindowsOnDismount)
@@ -175,77 +223,144 @@ namespace VeraCrypt
 				CloseExplorerWindows (volume);
 		}
 #endif
-		while (!volumes.empty())
+		try
 		{
-			VolumeInfoList volumesLeft;
-			foreach (shared_ptr <VolumeInfo> volume, volumes)
+			while (!volumes.empty())
 			{
-				try
+				VolumeInfoList volumesLeft;
+				foreach (shared_ptr <VolumeInfo> volume, volumes)
 				{
-					BusyScope busy (this);
-					volume = Core->DismountVolume (volume, ignoreOpenFiles);
-				}
-				catch (MountedVolumeInUse&)
-				{
-					if (!firstPass)
-						throw;
-
-					if (twoPassMode || !interactive)
+					bool emergencyCleanupPerformed = false;
+					try
 					{
-						volumesInUse = true;
-						volumesLeft.push_back (volume);
+						BusyScope busy (this);
+						volume = DismountVolumeThread (volume, ignoreOpenFiles, interactive);
+					}
+					catch (MountedVolumeInUse&)
+					{
+						if (!firstPass || (!interactive && !twoPassMode))
+							throw;
+
+						if (twoPassMode || !interactive)
+						{
+							volumesInUse = true;
+							volumesLeft.push_back (volume);
+							continue;
+						}
+						else
+						{
+							if (AskYesNo (StringFormatter (LangString["UNMOUNT_LOCK_FAILED"], wstring (volume->Path)), true, true))
+							{
+								BusyScope busy (this);
+								volume = DismountVolumeThread (volume, true);
+							}
+							else
+								throw UserAbort (SRC_POS);
+						}
+					}
+#ifdef TC_LINUX
+					catch (FilesystemDismountFailed&)
+					{
+						if (twoPassMode && firstPass)
+						{
+							volumesLeft.push_back (volume);
+							continue;
+						}
+
+						if (emergencyCleanupRequested)
+						{
+							{
+								BusyScope busy (this);
+								volume = Core->EmergencyDismountVolume (volume);
+							}
+							emergencyCleanupPerformed = true;
+							ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
+						}
+						else if (interactive)
+						{
+							if (AskYesNo (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path)), false, true))
+							{
+								{
+									BusyScope busy (this);
+									volume = Core->EmergencyDismountVolume (volume);
+								}
+								emergencyCleanupPerformed = true;
+								ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
+							}
+							else
+								throw UserAbort (SRC_POS);
+						}
+						else
+							throw;
+					}
+#endif
+					catch (DismountServiceCleanupFailed &e)
+					{
+						// The auxiliary mount is gone, so another attempt cannot reach the service.
+						unconfirmedCleanups.push_back (e);
 						continue;
 					}
-					else
+					catch (...)
 					{
-						if (AskYesNo (StringFormatter (LangString["UNMOUNT_LOCK_FAILED"], wstring (volume->Path)), true, true))
+						if (twoPassMode && firstPass)
 						{
-							BusyScope busy (this);
-							volume = Core->DismountVolume (volume, true);
+							volumesLeft.push_back (volume);
+							continue;
 						}
+						else
+							throw;
+					}
+
+					if (volume->HiddenVolumeProtectionTriggered)
+						ShowWarning (StringFormatter (LangString["DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"], wstring (volume->Path)));
+
+					if (Preferences.Verbose)
+					{
+						if (!emergencyCleanupPerformed)
+						{
+							if (!message.IsEmpty())
+								message += L'\n';
+							message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
+						}
+					}
+				}
+
+				if (twoPassMode && firstPass)
+				{
+					volumes = volumesLeft;
+
+					if (volumesInUse && interactive)
+					{
+						if (AskYesNo (LangString["UNMOUNTALL_LOCK_FAILED"], true, true))
+							ignoreOpenFiles = true;
 						else
 							throw UserAbort (SRC_POS);
 					}
 				}
-				catch (...)
-				{
-					if (twoPassMode && firstPass)
-						volumesLeft.push_back (volume);
-					else
-						throw;
-				}
+				else
+					break;
 
-				if (volume->HiddenVolumeProtectionTriggered)
-					ShowWarning (StringFormatter (LangString["DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"], wstring (volume->Path)));
-
-				if (Preferences.Verbose)
-				{
-					if (!message.IsEmpty())
-						message += L'\n';
-					message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
-				}
+				firstPass = false;
 			}
 
-			if (twoPassMode && firstPass)
-			{
-				volumes = volumesLeft;
+			if (Preferences.Verbose && !message.IsEmpty())
+				ShowInfo (message);
+		}
+		catch (...)
+		{
+			if (unconfirmedCleanups.empty())
+				throw;
 
-				if (volumesInUse && interactive)
-				{
-					if (AskYesNo (LangString["UNMOUNTALL_LOCK_FAILED"], true, true))
-						ignoreOpenFiles = true;
-					else
-						throw UserAbort (SRC_POS);
-				}
-			}
-			else
-				break;
-
-			firstPass = false;
+			wxString otherFailure;
+			try { throw; }
+			catch (UserAbort &) { }
+			catch (exception &e) { otherFailure = ExceptionToMessage (e); }
+			catch (...) { otherFailure = ExceptionToMessage (UnknownException (SRC_POS)); }
+			ThrowUnconfirmedCleanups (unconfirmedCleanups, otherFailure.ToStdWstring());
 		}
 
-		if (Preferences.Verbose && !message.IsEmpty())
-			ShowInfo (message);
+		if (!unconfirmedCleanups.empty())
+			ThrowUnconfirmedCleanups (unconfirmedCleanups, wstring());
 	}
 
 	void UserInterface::DisplayVolumeProperties (const VolumeInfoList &volumes) const
@@ -290,7 +405,7 @@ namespace VeraCrypt
 
 			prop << LangString["BLOCK_SIZE"] << L": " << blockSize.str() + L" " + LangString ["BITS"] << L'\n';
 			prop << LangString["MODE_OF_OPERATION"] << L": " << volume.EncryptionModeName << L'\n';
-			prop << LangString["PKCS5_PRF"] << L": " << volume.Pkcs5PrfName << L'\n';
+			prop << LangString["KDF"] << L": " << volume.Pkcs5PrfName << L'\n';
 
 			prop << LangString["VOLUME_FORMAT_VERSION"] << L": " << (volume.MinRequiredProgramVersion < 0x10b ? 1 : 2) << L'\n';
 			prop << LangString["BACKUP_HEADER"] << L": " << LangString[volume.MinRequiredProgramVersion >= 0x10b ? "UISTR_YES" : "UISTR_NO"] << L'\n';
@@ -483,12 +598,20 @@ namespace VeraCrypt
 		EX2MSG (InvalidSecurityTokenKeyfilePath,	LangString["INVALID_TOKEN_KEYFILE_PATH"]);
 		EX2MSG (HigherVersionRequired,				LangString["NEW_VERSION_REQUIRED"]);
 		EX2MSG (KernelCryptoServiceTestFailed,		LangString["LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED"]);
+		EX2MSG (KernelNtfsDriverUnavailable,		LangString["LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE"]);
 		EX2MSG (KeyfilePathEmpty,					LangString["ERR_KEYFILE_PATH_EMPTY"]);
 		EX2MSG (LoopDeviceSetupFailed,				LangString["LINUX_EX2MSG_LOOPDEVICESETUPFAILED"]);
 		EX2MSG (MissingArgument,					LangString["LINUX_EX2MSG_MISSINGARGUMENT"]);
 		EX2MSG (MissingVolumeData,					LangString["LINUX_EX2MSG_MISSINGVOLUMEDATA"]);
 		EX2MSG (MountPointRequired,					LangString["LINUX_EX2MSG_MOUNTPOINTREQUIRED"]);
 		EX2MSG (MountPointUnavailable,				LangString["LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE"]);
+		EX2MSG (MountServiceIncompatible,			LangString["MOUNT_SERVICE_INCOMPATIBLE"]);
+		EX2MSG (MountServiceCleanupFailed,			LangString["MOUNT_SERVICE_CLEANUP_FAILED"]);
+		EX2MSG (DismountServiceCleanupFailed, LangString["DISMOUNT_SERVICE_CLEANUP_FAILED"]);
+		EX2MSG (MountServiceUnavailable, LangString["MOUNT_SERVICE_UNAVAILABLE"]);
+		EX2MSG (VolumeDiscoveryFailed, LangString["VOLUME_DISCOVERY_FAILED"]);
+		EX2MSG (MountedVolumeInUse, LangString["VOLUME_IN_USE"]);
+		EX2MSG (TimeOut, LangString["OPERATION_TIMED_OUT"]);
 		EX2MSG (NoDriveLetterAvailable,				LangString["NO_FREE_DRIVES"]);
 		EX2MSG (PasswordEmpty,						LangString["LINUX_EX2MSG_PASSWORDEMPTY"]);
 		EX2MSG (PasswordIncorrect,					LangString["PASSWORD_WRONG"]);
@@ -745,6 +868,7 @@ namespace VeraCrypt
 	{
 		BusyScope busy (this);
 
+		MountOptions batchOptions (options);
 		VolumeInfoList newMountedVolumes;
 		foreach_ref (const FavoriteVolume &favorite, FavoriteVolume::LoadList())
 		{
@@ -756,13 +880,15 @@ namespace VeraCrypt
 				continue;
 			}
 
-			favorite.ToMountOptions (options);
+			// Keep credentials and KDF/PIM selected for one favorite from leaking into the next one.
+			MountOptions favoriteOptions (batchOptions);
+			favorite.ToMountOptions (favoriteOptions);
 
 			bool mountPerformed = false;
 			if (Preferences.NonInteractive)
 			{
 				BusyScope busy (this);
-				newMountedVolumes.push_back (Core->MountVolume (options));
+				newMountedVolumes.push_back (Core->MountVolume (favoriteOptions));
 				mountPerformed = true;
 			}
 			else
@@ -770,19 +896,33 @@ namespace VeraCrypt
 				try
 				{
 					BusyScope busy (this);
-					newMountedVolumes.push_back (Core->MountVolume (options));
+					newMountedVolumes.push_back (Core->MountVolume (favoriteOptions));
 					mountPerformed = true;
+				}
+				catch (PasswordException &e)
+				{
+					CloseSecurityTokenSessionsAfterMountScope closeTokenSessionsScope (Preferences.CloseSecurityTokenSessionsAfterMount);
+
+					// A protection failure accepted the outer credentials. Preserve that
+					// state for UI recovery; otherwise skip the failed cache sweep.
+					bool protectionError = dynamic_cast <ProtectionPasswordIncorrect *> (&e)
+						|| dynamic_cast <ProtectionPasswordKeyfilesIncorrect *> (&e);
+					// Do not add default outer keyfiles to credentials already accepted.
+					if (protectionError && !favoriteOptions.Keyfiles)
+						favoriteOptions.Keyfiles = make_shared <KeyfileList>();
+					shared_ptr <VolumeInfo> volume = protectionError
+						? MountVolumeWithProtectionRecovery (favoriteOptions, e)
+						: MountVolume (favoriteOptions, false);
+
+					if (!volume)
+						break;
+					newMountedVolumes.push_back (volume);
 				}
 				catch (...)
 				{
-					UserPreferences prefs = GetPreferences();
-					if (prefs.CloseSecurityTokenSessionsAfterMount)
-						Preferences.CloseSecurityTokenSessionsAfterMount = false;
+					CloseSecurityTokenSessionsAfterMountScope closeTokenSessionsScope (Preferences.CloseSecurityTokenSessionsAfterMount);
 
-					shared_ptr <VolumeInfo> volume = MountVolume (options);
-
-					if (prefs.CloseSecurityTokenSessionsAfterMount)
-						Preferences.CloseSecurityTokenSessionsAfterMount = true;
+					shared_ptr <VolumeInfo> volume = MountVolume (favoriteOptions);
 
 					if (!volume)
 						break;
@@ -790,8 +930,14 @@ namespace VeraCrypt
 				}
 			}
 			
-			if (mountPerformed && newMountedVolumes.back()->MasterKeyVulnerable)
-				ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+			if (mountPerformed)
+			{
+				if (newMountedVolumes.back()->MasterKeyVulnerable)
+					ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+
+				if (newMountedVolumes.back()->Protection == VolumeProtection::HiddenVolumeReadOnly)
+					ShowInfo ("HIDVOL_PROT_WARN_AFTER_MOUNT");
+			}
 		}
 
 		if (!newMountedVolumes.empty() && GetPreferences().CloseSecurityTokenSessionsAfterMount)
@@ -800,8 +946,9 @@ namespace VeraCrypt
 		return newMountedVolumes;
 	}
 
-	shared_ptr <VolumeInfo> UserInterface::MountVolume (MountOptions &options) const
+	shared_ptr <VolumeInfo> UserInterface::MountVolume (MountOptions &options, bool tryCachedPasswords) const
 	{
+		(void) tryCachedPasswords;
 		shared_ptr <VolumeInfo> volume;
 
 		try
@@ -837,7 +984,7 @@ namespace VeraCrypt
 		if (VolumeHasUnrecommendedExtension (*options.Path))
 			ShowWarning ("EXE_FILE_EXTENSION_MOUNT_WARNING");
 
-		if (options.Protection == VolumeProtection::HiddenVolumeReadOnly)
+		if (volume->Protection == VolumeProtection::HiddenVolumeReadOnly)
 			ShowInfo ("HIDVOL_PROT_WARN_AFTER_MOUNT");
 
 		if (GetPreferences().CloseSecurityTokenSessionsAfterMount)
@@ -883,6 +1030,64 @@ namespace VeraCrypt
 	}
 
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
+#ifdef TC_LINUX
+	static bool OpenExplorerWindowUnderWsl (const string &mountPoint)
+	{
+		if (mountPoint.empty() || mountPoint[0] != '/'
+			|| !Process::IsExecutable ("/usr/bin/wslinfo")
+			|| !Process::IsExecutable ("/usr/bin/wslpath"))
+			return false;
+
+		try
+		{
+			list <string> args;
+			args.push_back ("-aw");
+			args.push_back ("/");
+
+			// Build from the WSL root UNC so /mnt/<drive> mount points stay in the WSL VFS overlay
+			string windowsPath = StringConverter::Trim (Process::Execute ("/usr/bin/wslpath", args, 2000));
+			if (windowsPath.size() < 2 || windowsPath[0] != '\\' || windowsPath[1] != '\\')
+				return false;
+
+			if (windowsPath[windowsPath.size() - 1] == '\\' || windowsPath[windowsPath.size() - 1] == '/')
+				windowsPath.resize (windowsPath.size() - 1);
+
+			string windowsMountPoint = mountPoint;
+			std::replace (windowsMountPoint.begin(), windowsMountPoint.end(), '/', '\\');
+			windowsPath += windowsMountPoint;
+
+			args.clear();
+			args.push_back ("-u");
+			args.push_back ("C:\\Windows\\explorer.exe");
+
+			string explorerPath = StringConverter::Trim (Process::Execute ("/usr/bin/wslpath", args, 2000));
+			if (explorerPath.empty() || !FilesystemPath (explorerPath).IsFile())
+				return false;
+
+			args.clear();
+			args.push_back (windowsPath);
+
+			try
+			{
+				Process::Execute (explorerPath, args, 5000);
+				return true;
+			}
+			catch (TimeOut&)
+			{
+				return true;
+			}
+			catch (ExecutedProcessFailed &e)
+			{
+				return e.GetExitCode () == 1 && StringConverter::Trim (e.GetErrorOutput()).empty();
+			}
+		}
+		catch (exception&)
+		{
+			return false;
+		}
+	}
+#endif // TC_LINUX
+
 // Define file manager structures with their required parameters
 struct FileManager {
 	const char* name;
@@ -934,6 +1139,11 @@ const FileManager fileManagers[] = {
 
 #else
 		string directoryPath = string(path);
+#ifdef TC_LINUX
+		if (OpenExplorerWindowUnderWsl (directoryPath))
+			return;
+#endif
+
 		// Primary attempt: Use xdg-open
 		string errorMsg;
 		string binPath = Process::FindSystemBinary("xdg-open", errorMsg);
@@ -1008,9 +1218,12 @@ const FileManager fileManagers[] = {
 				cmdLine.ArgMountOptions.Pim = cmdLine.ArgPim;
 				cmdLine.ArgMountOptions.Keyfiles = cmdLine.ArgKeyfiles;
 				cmdLine.ArgMountOptions.SharedAccessAllowed = cmdLine.ArgForce;
+				cmdLine.ArgMountOptions.EMVSupportEnabled =
+					Application::GetUserInterfaceType() == UserInterfaceType::Text
+					|| GetPreferences().EMVSupportEnabled;
 				if (cmdLine.ArgHash)
 				{
-					cmdLine.ArgMountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash);
+					cmdLine.ArgMountOptions.Kdf = cmdLine.ArgHash;
 				}
 
 
@@ -1021,17 +1234,21 @@ const FileManager fileManagers[] = {
 				case CommandId::AutoMountFavorites:
 				case CommandId::AutoMountDevicesFavorites:
 					{
+						MountOptions autoMountOptions (cmdLine.ArgMountOptions);
+
 						if (cmdLine.ArgCommand == CommandId::AutoMountDevices || cmdLine.ArgCommand == CommandId::AutoMountDevicesFavorites)
 						{
+							MountOptions deviceMountOptions (autoMountOptions);
 							if (Preferences.NonInteractive)
-								mountedVolumes = UserInterface::MountAllDeviceHostedVolumes (cmdLine.ArgMountOptions);
+								mountedVolumes = UserInterface::MountAllDeviceHostedVolumes (deviceMountOptions);
 							else
-								mountedVolumes = MountAllDeviceHostedVolumes (cmdLine.ArgMountOptions);
+								mountedVolumes = MountAllDeviceHostedVolumes (deviceMountOptions);
 						}
 
 						if (cmdLine.ArgCommand == CommandId::AutoMountFavorites || cmdLine.ArgCommand == CommandId::AutoMountDevicesFavorites)
 						{
-							foreach (shared_ptr <VolumeInfo> v, MountAllFavoriteVolumes(cmdLine.ArgMountOptions))
+							MountOptions favoriteMountOptions (autoMountOptions);
+							foreach (shared_ptr <VolumeInfo> v, MountAllFavoriteVolumes(favoriteMountOptions))
 								mountedVolumes.push_back (v);
 						}
 					}
@@ -1109,8 +1326,8 @@ const FileManager fileManagers[] = {
 
 				if (cmdLine.ArgHash)
 				{
-					options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash);
-					RandomNumberGenerator::SetHash (cmdLine.ArgHash);
+					options->VolumeHeaderKdf = cmdLine.ArgHash;
+					RandomNumberGenerator::SetHash (cmdLine.ArgHash->GetHash());
 				}
 
 				options->EA = cmdLine.ArgEncryptionAlgorithm;
@@ -1134,7 +1351,12 @@ const FileManager fileManagers[] = {
 			return true;
 
 		case CommandId::DismountVolumes:
-			DismountVolumes (cmdLine.ArgVolumes, cmdLine.ArgForce, !Preferences.NonInteractive);
+			DismountVolumes (cmdLine.ArgVolumes, cmdLine.ArgForce, !Preferences.NonInteractive
+#ifdef TC_LINUX
+				, cmdLine.ArgEmergencyUnmount
+#endif
+				);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::DisplayVersion:
@@ -1142,7 +1364,9 @@ const FileManager fileManagers[] = {
 			return true;
 
 		case CommandId::DisplayVolumeProperties:
+			if (cmdLine.ArgVolumes.empty() && !cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			DisplayVolumeProperties (cmdLine.ArgVolumes);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::Help:
@@ -1159,11 +1383,11 @@ const FileManager fileManagers[] = {
 					"--auto-mount=devices|favorites\n"
 					" Auto mount device-hosted or favorite volumes.\n"
 					"\n"
-					"--backup-headers[=VOLUME_PATH]\n"
+					"--backup-headers [VOLUME_PATH]\n"
 					" Backup volume headers to a file. All required options are requested from the\n"
 					" user.\n"
 					"\n"
-					"-c, --create[=VOLUME_PATH]\n"
+					"-c, --create [VOLUME_PATH]\n"
 					" Create a new volume. Most options are requested from the user if not specified\n"
 					" on command line. See also options --encryption, -k, --filesystem, --hash, -p,\n"
 					" --random-source, --quick, --size, --volume-type. Note that passing some of the\n"
@@ -1172,7 +1396,7 @@ const FileManager fileManagers[] = {
 					" Inexperienced users should use the graphical user interface to create a hidden\n"
 					" volume. When using the text user interface, the following procedure must be\n"
 					" followed to create a hidden volume:\n"
-					"  1) Create an outer volume with no filesystem.\n"
+					"  1) Create an outer volume with no filesystem and without --quick.\n"
 					"  2) Create a hidden volume within the outer volume.\n"
 					"  3) Mount the outer volume using hidden volume protection.\n"
 					"  4) Create a filesystem on the virtual device of the outer volume.\n"
@@ -1180,16 +1404,16 @@ const FileManager fileManagers[] = {
 					"  6) Unmount the outer volume.\n"
 					"  If at any step the hidden volume protection is triggered, start again from 1).\n"
 					"\n"
-					"--create-keyfile[=FILE_PATH]\n"
+					"--create-keyfile [FILE_PATH]\n"
 					" Create a new keyfile containing pseudo-random data.\n"
 					"\n"
-					"-C, --change[=VOLUME_PATH]\n"
+					"-C, --change [VOLUME_PATH]\n"
 					" Change a password and/or keyfile(s) of a volume. Most options are requested\n"
-					" from the user if not specified on command line. PKCS-5 PRF HMAC hash\n"
+					" from the user if not specified on command line. KDF hash\n"
 					" algorithm can be changed with option --hash. See also options -k,\n"
 					" --new-keyfiles, --new-password, -p, --random-source.\n"
 					"\n"
-					"-u, --unmount[=MOUNTED_VOLUME]\n"
+					"-u, --unmount [MOUNTED_VOLUME]\n"
 					" Unmount a mounted volume. If MOUNTED_VOLUME is not specified, all\n"
 					" volumes are unmounted. See below for description of MOUNTED_VOLUME.\n"
 					"\n"
@@ -1202,7 +1426,7 @@ const FileManager fileManagers[] = {
 					"--import-token-keyfiles\n"
 					" Import keyfiles to a security token. See also option --token-lib.\n"
 					"\n"
-					"-l, --list[=MOUNTED_VOLUME]\n"
+					"-l, --list [MOUNTED_VOLUME]\n"
 					" Display a list of mounted volumes. If MOUNTED_VOLUME is not specified, all\n"
 					" volumes are listed. By default, the list contains only volume path, virtual\n"
 					" device, and mount point. A more detailed list can be enabled by verbose\n"
@@ -1218,11 +1442,11 @@ const FileManager fileManagers[] = {
                     "\n""--list-emvtoken-keyfiles\n"
                     " Display a list of all available emv token keyfiles. See also command\n"
                     "\n"
-					"--mount[=VOLUME_PATH]\n"
+					"--mount [VOLUME_PATH]\n"
 					" Mount a volume. Volume path and other options are requested from the user\n"
 					" if not specified on command line.\n"
 					"\n"
-					"--restore-headers[=VOLUME_PATH]\n"
+					"--restore-headers [VOLUME_PATH]\n"
 					" Restore volume headers from the embedded or an external backup. All required\n"
 					" options are requested from the user.\n"
 					"\n"
@@ -1235,7 +1459,7 @@ const FileManager fileManagers[] = {
 					"--version\n"
 					" Display program version.\n"
 					"\n"
-					"--volume-properties[=MOUNTED_VOLUME]\n"
+					"--volume-properties [MOUNTED_VOLUME]\n"
 					" Display properties of a mounted volume. See below for description of\n"
 					" MOUNTED_VOLUME.\n"
 					"\n"
@@ -1260,20 +1484,55 @@ const FileManager fileManagers[] = {
 					" with option -t. Default type is 'auto'. When creating a new volume, this\n"
 					" option specifies the filesystem to be created on the new volume.\n"
 					" Filesystem type 'none' disables mounting or creating a filesystem.\n"
+#ifdef TC_OPENBSD
+					" On OpenBSD, filesystem type 'FFS' creates a native FFS volume and\n"
+					" mounts with filesystem type 'ffs'.\n"
+#endif
+#ifdef TC_LINUX
+					" On Linux, filesystem type 'ntfs3' mounts with the in-kernel ntfs3\n"
+					" driver and bypasses mount helpers. Filesystem type 'kernel-ntfs'\n"
+					" mounts an NTFS volume using an available in-kernel NTFS driver.\n"
+					" These Linux driver selectors are mount-only; use filesystem type\n"
+					" 'NTFS' when creating a new NTFS volume.\n"
+					" VeraCrypt uses ntfs when it is positively identified as a modern\n"
+					" read/write driver or expected on Linux 7.1 or later;\n"
+					" otherwise it selects ntfs3.\n"
+					" The Linux preference \"Mount NTFS volumes with an in-kernel Linux\n"
+					" driver\" is disabled by default. When enabled, VeraCrypt probes the\n"
+					" decrypted virtual device with blkid -p and uses an available in-kernel\n"
+					" NTFS driver only when NTFS is detected and no explicit filesystem type\n"
+					" was supplied. The mount option -m kernelntfs enables the same detected\n"
+					" NTFS selection for the current mount; use --filesystem=kernel-ntfs to\n"
+					" force kernel-driver selection. If no supported in-kernel NTFS driver is\n"
+					" available, mounting fails instead of falling back to ntfs-3g. If\n"
+					" detection fails, VeraCrypt uses the normal automatic filesystem\n"
+					" selection. This can avoid suspend or hibernate hangs caused by frozen\n"
+					" user-space FUSE filesystems during kernel filesystem sync; use findmnt\n"
+					" to verify the actual mounted filesystem type.\n"
+#endif
 					"\n"
 					"--force\n"
 					" Force mounting of a volume in use, unmounting of a volume in use, or\n"
 					" overwriting a file. Note that this option has no effect on some platforms.\n"
 					"\n"
+#ifdef TC_LINUX
+					"--emergency-unmount\n"
+					" When used with --unmount on Linux, attempt emergency cleanup if normal\n"
+					" unmount fails. This recovery operation lazy-detaches the filesystem and\n"
+					" removes or schedules removal of VeraCrypt kernel objects. Pending writes may\n"
+					" already have failed, data may be lost, and cleanup may remain pending until\n"
+					" applications close open files. Use only for stale or removed-device states.\n"
+					"\n"
+#endif
 					"--fs-options=OPTIONS\n"
 					" Filesystem mount options. The OPTIONS argument is passed to mount(8)\n"
 					" command with option -o when a filesystem on a VeraCrypt volume is mounted.\n"
 					" This option is not available on some platforms.\n"
 					"\n"
 					"--hash=HASH\n"
-					" Use specified hash algorithm when creating a new volume or changing password\n"
-					" and/or keyfiles. This option also specifies the mixing PRF of the random\n"
-					" number generator.\n"
+					" Use specified header key derivation algorithm when creating a new volume\n"
+					" or changing password and/or keyfiles. This option also specifies the\n"
+					" mixing hash of the random number generator.\n"
 					"\n"
 					"-k, --keyfiles=KEYFILE1[,KEYFILE2,KEYFILE3,...]\n"
 					" Use specified keyfiles when mounting a volume or when changing password\n"
@@ -1301,6 +1560,10 @@ const FileManager fileManagers[] = {
 					"   is unmounted (note that the operating system under certain circumstances\n"
 					"   does not alter host-file timestamps, which may be mistakenly interpreted\n"
 					"   to mean that this option does not work).\n"
+#ifdef TC_LINUX
+					"  kernelntfs: Use an available in-kernel NTFS driver when NTFS is\n"
+					"   detected and no filesystem type was supplied.\n"
+#endif
 					" See also option --fs-options.\n"
 					"\n"
 					"--new-keyfiles=KEYFILE1[,KEYFILE2,KEYFILE3,...]\n"
@@ -1346,8 +1609,12 @@ const FileManager fileManagers[] = {
 					" See also options -p and --protect-hidden.\n"
 					"\n"
 					"--quick\n"
-					" Do not encrypt free space when creating a device-hosted volume. This option\n"
-					" must not be used when creating an outer volume.\n"
+					" Do not encrypt free space when creating a normal file-hosted or\n"
+					" device-hosted volume. This option must not be used when creating an outer\n"
+					" volume; text mode cannot infer that a normal volume will later be\n"
+					" used as an outer volume. For file containers, Quick Format may create sparse\n"
+					" or unwritten host regions; actual disk savings depend on host filesystem\n"
+					" sparse-file support, and later writes can fail if host space runs out.\n"
 					"\n"
 					"--random-source=FILE\n"
 					" Use FILE as a source of random data (e.g., when creating a volume) instead\n"
@@ -1399,6 +1666,11 @@ const FileManager fileManagers[] = {
 					"Mount a volume prompting only for its password:\n"
 					"veracrypt -t -k \"\" --pim=0 --protect-hidden=no volume.hc /media/veracrypt1\n"
 					"\n"
+#ifdef TC_LINUX
+					"Mount an NTFS volume using a Linux in-kernel NTFS driver:\n"
+					"veracrypt -t --filesystem=kernel-ntfs volume.hc /media/veracrypt1\n"
+					"\n"
+#endif
 					"Unmount a volume:\n"
 					"veracrypt -u volume.hc\n"
 					"\n"
@@ -1457,10 +1729,12 @@ const FileManager fileManagers[] = {
             return true;
 
 		case CommandId::ListVolumes:
+			if (cmdLine.ArgVolumes.empty() && !cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			if (Preferences.Verbose)
 				DisplayVolumeProperties (cmdLine.ArgVolumes);
 			else
 				ListMountedVolumes (cmdLine.ArgVolumes);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::RestoreHeaders:
@@ -1557,6 +1831,7 @@ const FileManager fileManagers[] = {
 		if (!PlatformTest::TestAll())
 			throw TestFailed (SRC_POS);
 
+		CoreTest::TestAll();
 		EncryptionTest::TestAll();
 
 		// StringFormatter
@@ -1669,12 +1944,13 @@ const FileManager fileManagers[] = {
 
 	void UserInterface::ThrowException (Exception* ex)
 	{
-		VC_CONVERT_EXCEPTION (PasswordIncorrect);
+		// Handle PasswordIncorrect subclasses before the base class to avoid slicing.
 		VC_CONVERT_EXCEPTION (PasswordKeyfilesIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrKeyboardLayoutIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrMountOptionsIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordKeyfilesIncorrect);
+		VC_CONVERT_EXCEPTION (PasswordIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordEmpty);
 		VC_CONVERT_EXCEPTION (PasswordTooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8TooLong);
@@ -1689,19 +1965,27 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (EncryptedSystemRequired);
 		VC_CONVERT_EXCEPTION (HigherFuseVersionRequired);
 		VC_CONVERT_EXCEPTION (KernelCryptoServiceTestFailed);
+		VC_CONVERT_EXCEPTION (KernelNtfsDriverUnavailable);
 		VC_CONVERT_EXCEPTION (LoopDeviceSetupFailed);
 		VC_CONVERT_EXCEPTION (MountPointRequired);
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);
+		VC_CONVERT_EXCEPTION (MountServiceIncompatible);
+		VC_CONVERT_EXCEPTION (MountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (DismountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (MountServiceUnavailable);
+		VC_CONVERT_EXCEPTION (VolumeDiscoveryFailed);
 		VC_CONVERT_EXCEPTION (NoDriveLetterAvailable);
 		VC_CONVERT_EXCEPTION (TemporaryDirectoryFailure);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeNoKernelCrypto);
 		VC_CONVERT_EXCEPTION (VolumeAlreadyMounted);
 		VC_CONVERT_EXCEPTION (VolumeSlotUnavailable);
-		VC_CONVERT_EXCEPTION (UserInterfaceException);
+		// Handle UserInterfaceException subclasses before the base class to avoid slicing.
 		VC_CONVERT_EXCEPTION (MissingArgument);
 		VC_CONVERT_EXCEPTION (NoItemSelected);
 		VC_CONVERT_EXCEPTION (StringFormatterException);
+		VC_CONVERT_EXCEPTION (UserInterfaceException);
+		VC_CONVERT_EXCEPTION (FilesystemDismountFailed);
 		VC_CONVERT_EXCEPTION (ExecutedProcessFailed);
 		VC_CONVERT_EXCEPTION (AlreadyInitialized);
 		VC_CONVERT_EXCEPTION (AssertionFailed);

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -70,9 +70,9 @@ namespace VeraCrypt
 	void EncryptionModeXTS::EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
                 uint8 finalCarry;
-		uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
-		uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
-		uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
+		CRYPTOPP_ALIGN_DATA(8) uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 		uint64 *whiteningValuesPtr64 = (uint64 *) whiteningValues;
 		uint64 *whiteningValuePtr64 = (uint64 *) whiteningValue;
 		uint64 *bufPtr = (uint64 *) buffer;
@@ -249,9 +249,9 @@ namespace VeraCrypt
 	void EncryptionModeXTS::DecryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
 		uint8 finalCarry;
-		uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
-		uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
-		uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
+		CRYPTOPP_ALIGN_DATA(8) uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 		uint64 *whiteningValuesPtr64 = (uint64 *) whiteningValues;
 		uint64 *whiteningValuePtr64 = (uint64 *) whiteningValue;
 		uint64 *bufPtr = (uint64 *) buffer;

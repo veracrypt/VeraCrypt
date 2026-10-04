@@ -188,7 +188,7 @@ jobs:
 
     - name: Cleanup old caches
       uses: actions/github-script@v6
-      if: always()
+      if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |

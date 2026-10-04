@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -19,6 +19,86 @@
 #include "Volumes.h"
 #include <IntSafe.h>
 
+// Returns STATUS_SUCCESS on success and sets *outVa.
+// On failure, returns STATUS_INVALID_USER_BUFFER or STATUS_INSUFFICIENT_RESOURCES
+// and leaves *outVa as NULL. If *outTempMdl not NULL, the caller must unlock/free it at completion.
+__drv_maxIRQL(APC_LEVEL) static NTSTATUS
+	MapIrpDataBuffer(
+		_In_ PIRP irp,
+		_In_ BOOL isWriteIRP, // TRUE for IRP_MJ_WRITE (we READ from caller buffer)
+		_In_ ULONG length,
+		_Outptr_result_bytebuffer_(length) PUCHAR *outVa,
+		_Outptr_result_maybenull_ PMDL *outTempMdl)
+{
+	ULONG mapFlags = HighPagePriority | MdlMappingNoExecute;
+	PUCHAR va = NULL;
+
+	ASSERT(outVa && outTempMdl);
+	*outVa = NULL;
+	*outTempMdl = NULL;
+
+	ASSERT(KeGetCurrentIrql() <= APC_LEVEL);
+
+	if (length == 0)
+		return STATUS_INVALID_PARAMETER;
+
+	// If this is a WRITE IRP we only read from caller’s buffer: ask for a no-write mapping.
+	if (isWriteIRP)
+		mapFlags |= MdlMappingNoWrite;
+
+	// --- Direct I/O ---
+	if (irp->MdlAddress)
+	{
+		if (MmGetMdlByteCount(irp->MdlAddress) < length)
+			return STATUS_INVALID_USER_BUFFER; // caller asked for more than mapped
+
+		va = (PUCHAR)MmGetSystemAddressForMdlSafe(irp->MdlAddress, mapFlags);
+		if (!va)
+			return STATUS_INSUFFICIENT_RESOURCES; // low PTEs, etc.
+
+		*outVa = va;
+		return STATUS_SUCCESS;
+	}
+
+	// --- Buffered I/O ---
+	if (irp->AssociatedIrp.SystemBuffer)
+	{
+		*outVa = (PUCHAR)irp->AssociatedIrp.SystemBuffer;
+		return STATUS_SUCCESS;
+	}
+
+	// --- Neither I/O ---
+	if (!irp->UserBuffer)
+		return STATUS_INVALID_USER_BUFFER;
+
+	PMDL mdl = IoAllocateMdl(irp->UserBuffer, length, FALSE, FALSE, NULL);
+	if (!mdl)
+		return STATUS_INSUFFICIENT_RESOURCES;
+
+	__try
+	{
+		// For WRITE IRPs we read from user => IoReadAccess.
+		// For READ IRPs we write to user => IoWriteAccess.
+		MmProbeAndLockPages(mdl, irp->RequestorMode, isWriteIRP ? IoReadAccess : IoWriteAccess);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		IoFreeMdl(mdl);
+		return STATUS_INVALID_USER_BUFFER; // bad pointer/range/rights
+	}
+
+	va = (PUCHAR)MmGetSystemAddressForMdlSafe(mdl, mapFlags);
+	if (!va)
+	{
+		MmUnlockPages(mdl);
+		IoFreeMdl(mdl);
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+
+	*outTempMdl = mdl;
+	*outVa = va;
+	return STATUS_SUCCESS;
+}
 
 static void AcquireBufferPoolMutex (EncryptedIoQueue *queue)
 {
@@ -160,10 +240,16 @@ static void DecrementOutstandingIoCount (EncryptedIoQueue *queue)
 
 static void OnItemCompleted (EncryptedIoQueueItem *item, BOOL freeItem)
 {
+	if (item->TempUserMdl) {
+		MmUnlockPages(item->TempUserMdl);
+		IoFreeMdl(item->TempUserMdl);
+		item->TempUserMdl = NULL;
+	}
+
 	DecrementOutstandingIoCount (item->Queue);
 	IoReleaseRemoveLock (&item->Queue->RemoveLock, item->OriginalIrp);
 
-	if (NT_SUCCESS (item->Status))
+	if (NT_SUCCESS (item->Status) && !item->Flush)
 	{
 		if (item->Write)
 			item->Queue->TotalBytesWritten += item->OriginalLength;
@@ -232,7 +318,7 @@ UpdateBuffer(
 	SIZE_T     secRegionSize,
 	uint64     bufferDiskOffset,
 	uint32     bufferLength,
-	BOOL       doUpadte
+	BOOL       doUpdate
 )
 {
 	uint64       intersectStart;
@@ -261,18 +347,26 @@ UpdateBuffer(
 			uint64 sectorLength = DeList->DE[i].Sectors.Length;
 			uint64 sectorOffset = DeList->DE[i].Sectors.Offset;
 
-			// Check that sectorOffset and sectorLength are valid within secRegion
-			if (sectorOffset > secRegionSize ||
+			// Check that sectorOffset and sectorLength are valid within secRegion (guard against overflow)
+			ULONGLONG regionBoundEnd; // sectorOffset + sectorLength
+			if (sectorOffset > (uint64)secRegionSize ||
 				sectorLength == 0 ||
-				(sectorOffset + sectorLength) > secRegionSize)
+				FAILED(ULongLongAdd(sectorOffset, sectorLength, &regionBoundEnd)) ||
+				regionBoundEnd > (ULONGLONG)secRegionSize)
 			{
 				// Invalid entry - skip
 				continue;
 			}
 
+			// Safely compute inclusive end = start + length - 1
+			ULONGLONG secEnd, tmp;
+			if (FAILED(ULongLongAdd(sectorStart, sectorLength, &tmp)) || tmp == 0)
+				continue; // invalid descriptor (overflow or zero)
+			secEnd = tmp - 1;
+
 			GetIntersection(
 				bufferDiskOffset, bufferLength,
-				sectorStart, sectorStart + sectorLength - 1,
+				sectorStart, secEnd,
 				&intersectStart, &intersectLength
 			);
 
@@ -280,16 +374,20 @@ UpdateBuffer(
 				uint64 bufferPos = intersectStart - bufferDiskOffset;
 				uint64 regionPos = sectorOffset + (intersectStart - sectorStart);
 
-				// Check buffer boundaries
-				if (bufferPos + intersectLength > bufferLength)
+				// Check buffer boundaries using safe add
+				ULONGLONG bufEndCheck;
+				if (FAILED(ULongLongAdd(bufferPos, (ULONGLONG)intersectLength, &bufEndCheck)) ||
+					bufEndCheck > (ULONGLONG)bufferLength)
 					continue; // Intersection out of buffer range
 
-				// Check secRegion boundaries
-				if (regionPos + intersectLength > secRegionSize)
+				// Check secRegion boundaries using safe add
+				ULONGLONG regEndCheck;
+				if (FAILED(ULongLongAdd(regionPos, (ULONGLONG)intersectLength, &regEndCheck)) ||
+					regEndCheck > (ULONGLONG)secRegionSize)
 					continue; // Intersection out of secRegion range
 
 				updated = TRUE;
-				if (doUpadte && buffer != NULL) {
+				if (doUpdate && buffer != NULL) {
 					memcpy(
 						buffer + bufferPos,
 						secRegion + regionPos,
@@ -324,12 +422,6 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 	}
 	__finally
 	{
-		// If no active work items remain, signal the event
-		if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
-		{
-			KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_DISK_INCREMENT, FALSE);
-		}
-
 		// Return the work item to the free list
 		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
 		InsertTailList(&queue->FreeWorkItemsList, &workItem->ListEntry);
@@ -340,6 +432,19 @@ static VOID CompleteIrpWorkItemRoutine(PDEVICE_OBJECT DeviceObject, PVOID Contex
 
 		// Free the item
 		ReleasePoolBuffer(queue, item);
+
+		// Decrement ActiveWorkItems last: once it reaches zero,
+		// EncryptedIoQueueStop frees the work item pool and buffer pools, so
+		// this routine must not touch queue resources afterwards. The
+		// decrement and signal are done under WorkItemLock, which Stop
+		// re-acquires after draining, guaranteeing this routine has left the
+		// protected region before anything is freed.
+		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
+		if (InterlockedDecrement(&queue->ActiveWorkItems) == 0)
+		{
+			KeSetEvent(&queue->NoActiveWorkItemsEvent, IO_DISK_INCREMENT, FALSE);
+		}
+		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
 	}
 }
 
@@ -352,7 +457,7 @@ static VOID HandleCompleteOriginalIrp(EncryptedIoQueue* queue, EncryptedIoReques
 
 	if (!NT_SUCCESS(status))
 	{
-		// Handle wait failure: we call the completion routine directly. 
+		// Handle wait failure: we call the completion routine directly.
 		// This is not ideal since it can cause deadlock that we are trying to fix but it is better than losing the IRP.
 		CompleteOriginalIrp(request->Item, STATUS_INSUFFICIENT_RESOURCES, 0);
 	}
@@ -488,6 +593,29 @@ static VOID IoThreadProc (PVOID threadArg)
 		{
 			InterlockedDecrement (&queue->IoThreadPendingRequestCount);
 			request = CONTAINING_RECORD (listEntry, EncryptedIoRequest, ListEntry);
+
+			if (request->Item->Flush)
+			{
+#ifdef TC_TRACE_IO_QUEUE
+				Dump ("F   [%I64d]\n", GetElapsedTime (&queue->LastPerformanceCounter));
+#endif
+				if (NT_SUCCESS (request->Item->Status))
+				{
+					if (queue->HostFileHandle)
+					{
+						IO_STATUS_BLOCK ioStatus;
+						request->Item->Status = ZwFlushBuffersFile (queue->HostFileHandle, &ioStatus);
+					}
+					else
+					{
+						request->Item->Status = STATUS_DEVICE_NOT_READY;
+					}
+				}
+
+				HandleCompleteOriginalIrp (queue, request);
+				ReleasePoolBuffer (queue, request);
+				continue;
+			}
 
 #ifdef TC_TRACE_IO_QUEUE
 			Dump ("%c   %I64d [%I64d] roff=%I64d rlen=%d\n", request->Item->Write ? 'W' : 'R', request->Item->OriginalIrpOffset.QuadPart, GetElapsedTime (&queue->LastPerformanceCounter), request->Offset.QuadPart, request->Length);
@@ -688,7 +816,9 @@ static VOID MainThreadProc (PVOID threadArg)
 
 			item->Queue = queue;
 			item->OriginalIrp = irp;
+			item->TempUserMdl = NULL;
 			item->Status = STATUS_SUCCESS;
+			item->Flush = FALSE;
 
 			IoSetCancelRoutine (irp, NULL);
 			if (irp->Cancel)
@@ -711,6 +841,13 @@ static VOID MainThreadProc (PVOID threadArg)
 				item->OriginalLength = irpSp->Parameters.Write.Length;
 				break;
 
+			case IRP_MJ_FLUSH_BUFFERS:
+				item->Write = FALSE;
+				item->Flush = TRUE;
+				item->OriginalOffset.QuadPart = 0;
+				item->OriginalLength = 0;
+				break;
+
 			default:
 				CompleteOriginalIrp (item, STATUS_INVALID_PARAMETER, 0);
 				continue;
@@ -719,6 +856,32 @@ static VOID MainThreadProc (PVOID threadArg)
 #ifdef TC_TRACE_IO_QUEUE
 			item->OriginalIrpOffset = item->OriginalOffset;
 #endif
+
+			if (item->Flush)
+			{
+				InterlockedIncrement (&queue->IoThreadPendingRequestCount);
+
+				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
+				if (!request)
+				{
+					InterlockedDecrement (&queue->IoThreadPendingRequestCount);
+					CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
+					continue;
+				}
+
+				request->Item = item;
+				request->CompleteOriginalIrp = TRUE;
+				request->Offset.QuadPart = 0;
+				request->Data = NULL;
+				request->OrigDataBufferFragment = NULL;
+				request->Length = 0;
+				request->EncryptedOffset = 0;
+				request->EncryptedLength = 0;
+
+				ExInterlockedInsertTailList (&queue->IoThreadQueue, &request->ListEntry, &queue->IoThreadQueueLock);
+				KeSetEvent (&queue->IoThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
+				continue;
+			}
 
 			// Handle misaligned read operations to work around a bug in Windows System Assessment Tool which does not follow FILE_FLAG_NO_BUFFERING requirements when benchmarking disk devices
 			if (queue->IsFilterDevice
@@ -752,11 +915,17 @@ static VOID MainThreadProc (PVOID threadArg)
 				{
 					UINT64_STRUCT dataUnit;
 
-					dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | MdlMappingNoExecute));
-					if (!dataBuffer)
+					dataBuffer = NULL;
+					NTSTATUS mapStatus = MapIrpDataBuffer(
+						irp,
+						FALSE,
+						item->OriginalLength,
+						&dataBuffer,
+						&item->TempUserMdl);
+					if (!NT_SUCCESS(mapStatus))
 					{
 						TCfree (buffer);
-						CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
+						CompleteOriginalIrp (item, mapStatus, 0);
 						continue;
 					}
 
@@ -864,19 +1033,24 @@ static VOID MainThreadProc (PVOID threadArg)
 			} 
 			else if (item->Write
 				&& (queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)
-				&& UpdateBuffer (NULL, queue->SecRegionData, queue->SecRegionSize, item->OriginalOffset.QuadPart, (uint32)(item->OriginalOffset.QuadPart + item->OriginalLength - 1), FALSE))
+				&& UpdateBuffer (NULL, queue->SecRegionData, queue->SecRegionSize, item->OriginalOffset.QuadPart, item->OriginalLength, FALSE))
 			{
 				// Prevent inappropriately designed software from damaging important data
 				Dump ("Preventing write to the system GPT area\n");
 				CompleteOriginalIrp (item, STATUS_MEDIA_WRITE_PROTECTED, 0);
 				continue;
 			}
-
-			dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | MdlMappingNoExecute));
-
-			if (dataBuffer == NULL)
+			
+			dataBuffer = NULL;
+			NTSTATUS mapStatus = MapIrpDataBuffer(
+				irp,
+				item->Write,
+				item->OriginalLength,
+				&dataBuffer,
+				&item->TempUserMdl);
+			if (!NT_SUCCESS(mapStatus))
 			{
-				CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
+				CompleteOriginalIrp (item, mapStatus, 0);
 				continue;
 			}
 
@@ -899,6 +1073,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
 				if (!request)
 				{
+					InterlockedDecrement(&queue->IoThreadPendingRequestCount);
 					CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
 					break;
 				}
@@ -990,7 +1165,11 @@ NTSTATUS EncryptedIoQueueAddIrp (EncryptedIoQueue *queue, PIRP irp)
 #ifdef TC_TRACE_IO_QUEUE
 	{
 		PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (irp);
-		Dump ("* %I64d [%I64d] %c len=%d out=%d\n", irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.ByteOffset : irpSp->Parameters.Read.ByteOffset, GetElapsedTime (&queue->LastPerformanceCounter), irpSp->MajorFunction == IRP_MJ_WRITE ? 'W' : 'R', irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.Length : irpSp->Parameters.Read.Length, queue->OutstandingIoCount);
+
+		if (irpSp->MajorFunction == IRP_MJ_FLUSH_BUFFERS)
+			Dump ("* F [%I64d] out=%d\n", GetElapsedTime (&queue->LastPerformanceCounter), queue->OutstandingIoCount);
+		else
+			Dump ("* %I64d [%I64d] %c len=%d out=%d\n", irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.ByteOffset : irpSp->Parameters.Read.ByteOffset, GetElapsedTime (&queue->LastPerformanceCounter), irpSp->MajorFunction == IRP_MJ_WRITE ? 'W' : 'R', irpSp->MajorFunction == IRP_MJ_WRITE ? irpSp->Parameters.Write.Length : irpSp->Parameters.Read.Length, queue->OutstandingIoCount);
 	}
 #endif
 
@@ -1084,11 +1263,16 @@ NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue)
 {
 	NTSTATUS status;
 	EncryptedIoQueueBuffer *buffer;
-	int i, j, preallocatedIoRequestCount, preallocatedItemCount, fragmentSize;
+	int i, preallocatedIoRequestCount, preallocatedItemCount, fragmentSize;
+	int maxWorkItems;
+	SIZE_T workItemPoolSize;
 
 	preallocatedIoRequestCount = EncryptionIoRequestCount;
 	preallocatedItemCount = EncryptionItemCount;
 	fragmentSize = EncryptionFragmentSize;
+	maxWorkItems = EncryptionMaxWorkItems;
+	if (maxWorkItems <= 0 || maxWorkItems > VC_MAX_WORK_ITEMS)
+		maxWorkItems = VC_MAX_WORK_ITEMS;
 
 	queue->StartPending = TRUE;
 	queue->ThreadExitRequested = FALSE;
@@ -1190,15 +1374,24 @@ retry_preallocated:
 
 	// Initialize the free work item list
 	InitializeListHead(&queue->FreeWorkItemsList);
-	KeInitializeSemaphore(&queue->WorkItemSemaphore, EncryptionMaxWorkItems, EncryptionMaxWorkItems);
+	KeInitializeSemaphore(&queue->WorkItemSemaphore, maxWorkItems, maxWorkItems);
 	KeInitializeSpinLock(&queue->WorkItemLock);
 
-	queue->MaxWorkItems = EncryptionMaxWorkItems;
-	queue->WorkItemPool = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(sizeof(COMPLETE_IRP_WORK_ITEM) * queue->MaxWorkItems);
+	queue->MaxWorkItems = maxWorkItems;
+	if (FAILED(SizeTMult(sizeof(COMPLETE_IRP_WORK_ITEM), queue->MaxWorkItems, &workItemPoolSize)))
+	{
+		goto noMemory;
+	}
+
+	queue->WorkItemPool = (PCOMPLETE_IRP_WORK_ITEM)TCalloc(workItemPoolSize);
 	if (!queue->WorkItemPool)
 	{
 		goto noMemory;
 	}
+
+	// TCalloc does not zero memory: the cleanup at err: scans the whole pool
+	// and frees any non-NULL WorkItem, so all entries must start as NULL
+	RtlZeroMemory(queue->WorkItemPool, workItemPoolSize);
 
 	// Allocate and initialize work items
 	for (i = 0; i < (int) queue->MaxWorkItems; ++i)
@@ -1206,13 +1399,6 @@ retry_preallocated:
 		queue->WorkItemPool[i].WorkItem = IoAllocateWorkItem(queue->DeviceObject);
 		if (!queue->WorkItemPool[i].WorkItem)
 		{
-			// Handle allocation failure
-			// Free previously allocated work items
-			for (j = 0; j < i; ++j)
-			{
-				IoFreeWorkItem(queue->WorkItemPool[j].WorkItem);
-			}
-			TCfree(queue->WorkItemPool);
 			goto noMemory;
 		}
 
@@ -1273,6 +1459,20 @@ noMemory:
 	status = STATUS_INSUFFICIENT_RESOURCES;
 
 err:
+	if (queue->WorkItemPool)
+	{
+		for (i = 0; i < (int) queue->MaxWorkItems; ++i)
+		{
+			if (queue->WorkItemPool[i].WorkItem)
+			{
+				IoFreeWorkItem(queue->WorkItemPool[i].WorkItem);
+				queue->WorkItemPool[i].WorkItem = NULL;
+			}
+		}
+		TCfree(queue->WorkItemPool);
+		queue->WorkItemPool = NULL;
+	}
+
 	if (queue->FragmentBufferA)
 		TCfree (queue->FragmentBufferA);
 	if (queue->FragmentBufferB)
@@ -1315,6 +1515,15 @@ NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue)
 		KeResetEvent(&queue->NoActiveWorkItemsEvent);
 	}
 
+	// The last work item drops ActiveWorkItems to zero while holding
+	// WorkItemLock; acquiring it here ensures that work item has stopped
+	// touching queue resources before they are freed below.
+	{
+		KIRQL oldIrql;
+		KeAcquireSpinLock(&queue->WorkItemLock, &oldIrql);
+		KeReleaseSpinLock(&queue->WorkItemLock, oldIrql);
+	}
+
 	// Free pre-allocated work items
 	for (ULONG i = 0; i < queue->MaxWorkItems; ++i)
 	{
@@ -1325,6 +1534,9 @@ NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue)
 		}
 	}
 	TCfree(queue->WorkItemPool);
+	// Clear the pointer: the boot drive filter reuses this queue struct across
+	// mount cycles, and a failed restart would otherwise free it again at err:
+	queue->WorkItemPool = NULL;
 
 	TCfree (queue->FragmentBufferA);
 	TCfree (queue->FragmentBufferB);

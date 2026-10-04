@@ -4,7 +4,7 @@
 # by the TrueCrypt License 3.0.
 #
 # Modifications and additions to the original source code (contained in this file)
-# and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+# and all other portions of this file are Copyright (c) 2026 AM Crypto
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -19,6 +19,8 @@
 # NOTEST:		Do not test release binary
 # RESOURCEDIR:	Run-time resource directory
 # VERBOSE:		Enable verbose messages
+# WITHFUSE3:		Build with FUSE3 support instead of FUSE2
+# WX_CONFIGURE_EXTRA_FLAGS:	Extra flags passed to wxWidgets configure
 # WXSTATIC:		Use static wxWidgets library. If FULL, builds everything. If other value, builds only bare essentials.
 # SSSE3:		Enable SSSE3 support in compiler
 # SSE41:		Enable SSE4.1 support in compiler
@@ -46,13 +48,13 @@ export RANLIB ?= ranlib
 
 export CFLAGS := -Wall
 export CXXFLAGS := -Wall -Wno-unused-parameter
-C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto
+C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto -DARGON2_NO_THREADS -I$(BASE_DIR)/Crypto/Argon2/include
 export ASFLAGS := -D __GNUC__ -D __YASM__
 export LFLAGS :=
 
 export PKG_CONFIG ?= pkg-config
 export PKG_CONFIG_PATH ?= /usr/local/lib/pkgconfig
-export VC_FUSE_PACKAGE := fuse
+
 export VC_OSX_FUSET ?= 0
 
 export WX_CONFIG ?= wx-config
@@ -153,6 +155,7 @@ export ENABLE_WOLFCRYPT ?= 0
 
 export GCC_GTEQ_440 := 0
 export GCC_GTEQ_430 := 0
+export GCC_GTEQ_470 := 0
 export GCC_GTEQ_500 := 0
 export GTK_VERSION := 0
 
@@ -242,6 +245,7 @@ ifeq "$(shell uname -s)" "Linux"
 
 		GCC_GTEQ_440 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
 		GCC_GTEQ_430 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
+		GCC_GTEQ_470 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40700)
 		GCC_GTEQ_500 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 50000)
 
 		ifeq "$(DISABLE_AESNI)" "1"
@@ -325,7 +329,9 @@ $(error Specified SDK version was not found, ensure your active developer direct
 	CC := gcc
 	CXX := g++
 
+	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_470 := 1
 	GCC_GTEQ_500 := 1
 
 	CXXFLAGS += -std=c++11
@@ -343,7 +349,6 @@ $(error Specified SDK version was not found, ensure your active developer direct
 
 	ifneq "$(VC_OSX_FUSET)" "0"
 		C_CXX_FLAGS += -DVC_MACOSX_FUSET
-		VC_FUSE_PACKAGE := fuse-t
 	endif
 
 	export CFLAGS_ARM64 := $(CFLAGS) $(C_CXX_FLAGS) -arch arm64 -march=armv8-a+crypto
@@ -434,7 +439,14 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	CC := cc
 	CXX := c++
 
+	ifdef VC_WX_STATIC
+		# wx-config may omit libiconv for base-only static wxWidgets builds.
+		LFLAGS += -liconv
+	endif
+
+	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_470 := 1
 	GCC_GTEQ_500 := 1
 	
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
@@ -497,7 +509,9 @@ ifeq "$(shell uname -s)" "OpenBSD"
 	CC := cc
 	CXX := c++
 
+	GCC_GTEQ_440 := 1
 	GCC_GTEQ_430 := 1
+	GCC_GTEQ_470 := 1
 	GCC_GTEQ_500 := 1
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
@@ -544,13 +558,112 @@ ifneq (,$(filter Linux FreeBSD OpenBSD,$(PLATFORM)))
 	endif
 endif
 
+#------ FUSE selection ------
+# User must specify WITHFUSE3 (non-zero) to request fuse3. Otherwise fuse (FUSE2) is used.
+# macOS FUSE-T builds select the fuse-t pkg-config package through WITHFUSET.
+# In all cases, existence is validated and build stops if the selected package is not found.
+ifeq "$(PLATFORM)" "MacOSX"
+	ifneq "$(VC_OSX_FUSET)" "0"
+		VC_FUSE_PACKAGE := fuse-t
+	else
+		VC_FUSE_PACKAGE := fuse
+	endif
+else
+	ifeq ($(origin WITHFUSE3),command line)
+		ifneq ($(WITHFUSE3),0)
+			VC_FUSE_PACKAGE := fuse3
+		else
+			VC_FUSE_PACKAGE := fuse
+		endif
+	else
+		VC_FUSE_PACKAGE := fuse
+	endif
+endif
+
+FUSE_FOUND := $(shell $(PKG_CONFIG) --exists $(VC_FUSE_PACKAGE) >/dev/null 2>&1 && echo 1 || echo 0)
+ifeq ($(FUSE_FOUND),0)
+$(error Requested FUSE package '$(VC_FUSE_PACKAGE)' not found. Install it (or set WITHFUSE3/WITHFUSET appropriately).)
+endif
+
+export VC_FUSE_PACKAGE
+export VC_FUSE_VERSION := $(shell $(PKG_CONFIG) --modversion $(VC_FUSE_PACKAGE) 2>/dev/null | cut -d. -f1)
+
 #------ Common configuration ------
 
 CFLAGS := $(C_CXX_FLAGS) $(CFLAGS) $(TC_EXTRA_CFLAGS)
 CXXFLAGS := $(C_CXX_FLAGS) $(CXXFLAGS) $(TC_EXTRA_CXXFLAGS)
 LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 
-WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-tracking --enable-exceptions --enable-std_string --enable-dataobj --enable-mimetype
+#------ Reproducible build configuration ------
+# Goal: byte-identical binaries from identical sources regardless of build
+# path, build host, build user or wall-clock time.
+#
+# Every flag below is probed for compiler support before use, so this block
+# is a safe no-op on older toolchains (VeraCrypt still supports GCC 4.x) and
+# never breaks a build that would otherwise have succeeded.
+#
+# SOURCE_DATE_EPOCH (https://reproducible-builds.org/specs/source-date-epoch/)
+# is honoured by GCC/Clang for any residual __DATE__/__TIME__ expansion, by
+# ar/ranlib in deterministic mode, and by tar, gzip and makeself for archive
+# member timestamps. If the caller does not set it, derive a stable value
+# from the HEAD commit; fall back to the release date embedded in
+# Common/Tcdefs.h for source-tarball builds without a git checkout.
+ifndef SOURCE_DATE_EPOCH
+export SOURCE_DATE_EPOCH := $(shell sh "$(BASE_DIR)/Build/Tools/source_date_epoch.sh" "$(BASE_DIR)")
+export VC_SOURCE_DATE_EPOCH_AUTO := 1
+endif
+override export SOURCE_DATE_EPOCH := $(value SOURCE_DATE_EPOCH)
+SOURCE_DATE_EPOCH_REMAINDER := $(value SOURCE_DATE_EPOCH)
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 0,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 1,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 2,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 3,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 4,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 5,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 6,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 7,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 8,,$(SOURCE_DATE_EPOCH_REMAINDER))
+SOURCE_DATE_EPOCH_REMAINDER := $(subst 9,,$(SOURCE_DATE_EPOCH_REMAINDER))
+ifeq "$(SOURCE_DATE_EPOCH)" ""
+$(error SOURCE_DATE_EPOCH must be set, derivable from git, or derivable from Common/Tcdefs.h release date)
+endif
+ifneq "$(SOURCE_DATE_EPOCH_REMAINDER)" ""
+$(error SOURCE_DATE_EPOCH must contain decimal digits only)
+endif
+
+# cc-option: return $(1) if the C compiler accepts it, empty otherwise.
+cc-option = $(shell printf 'int main(void){return 0;}' | $(CC) $(1) -x c -c - -o /dev/null >/dev/null 2>&1 && echo $(1))
+
+# Normalise build paths embedded in debug info, assertions and __FILE__ so
+# the binary does not depend on where the source tree lives. -ffile-prefix-map
+# needs GCC >= 8 / Clang >= 10; fall back to the older -fdebug-prefix-map
+# (GCC >= 4.3) which at least normalises the path recorded in debug info.
+# Linux-only block: out of scope for FreeBSD/macOS. $(abspath) because
+# -ffile-prefix-map needs an absolute prefix to match.
+ifeq "$(PLATFORM)" "Linux"
+REPRO_BASE_DIR := $(abspath $(BASE_DIR))
+REPRODUCIBLE_FLAGS := $(call cc-option,-ffile-prefix-map=$(REPRO_BASE_DIR)=.)
+ifeq "$(REPRODUCIBLE_FLAGS)" ""
+REPRODUCIBLE_FLAGS := $(call cc-option,-fdebug-prefix-map=$(REPRO_BASE_DIR)=.)
+endif
+# Drop the recorded compiler command line, which embeds absolute paths and
+# host-specific options into .comment / .GCC.command.line.
+REPRODUCIBLE_FLAGS += $(call cc-option,-fno-record-gcc-switches)
+
+CFLAGS += $(REPRODUCIBLE_FLAGS)
+CXXFLAGS += $(REPRODUCIBLE_FLAGS)
+WXCONFIG_CFLAGS += $(REPRODUCIBLE_FLAGS)
+WXCONFIG_CXXFLAGS += $(REPRODUCIBLE_FLAGS)
+
+# Deterministic linking: pin the GNU build-id to a stable hash of the output
+# instead of letting it vary with non-deterministic linker inputs. Only added
+# when the linker actually accepts it.
+REPRODUCIBLE_LFLAGS := $(shell printf 'int main(void){return 0;}' | $(CC) -Wl,--build-id=sha1 -x c - -o /dev/null >/dev/null 2>&1 && echo -Wl,--build-id=sha1)
+LFLAGS += $(REPRODUCIBLE_LFLAGS)
+endif
+
+
+WX_CONFIGURE_FLAGS += -disable-shared --disable-dependency-tracking --enable-exceptions --enable-dataobj --enable-mimetype
 
 ifdef VC_WX_MINIMAL
 WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --without-libcurl --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
@@ -615,6 +728,9 @@ install:
 package:
 	$(MAKE) -C Main -f Main.make NAME=Main package
 
+appimage:
+	$(MAKE) -C Main -f Main.make NAME=Main appimage
+
 #------ wxWidgets build ------
 
 ifeq "$(MAKECMDGOALS)" "wxbuild"
@@ -633,7 +749,14 @@ endif
 	rm -rf "$(WX_BUILD_DIR)"
 	mkdir -p "$(WX_BUILD_DIR)"
 	@echo Configuring wxWidgets library...
-	cd "$(WX_BUILD_DIR)" && "$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) >/dev/null
+	cd "$(WX_BUILD_DIR)" && \
+	WX_CONFIGURE_LEGACY_FLAGS=""; \
+	for option in unicode std_string; do \
+		if grep -Eq "(^|[^[:alnum:]_])enable_$${option}([^[:alnum:]_]|$$)" "$(WX_ROOT)/configure"; then \
+			WX_CONFIGURE_LEGACY_FLAGS="$$WX_CONFIGURE_LEGACY_FLAGS --enable-$$option"; \
+		fi; \
+	done; \
+	"$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) $(WX_CONFIGURE_EXTRA_FLAGS) $$WX_CONFIGURE_LEGACY_FLAGS >/dev/null
 
 	@echo Building wxWidgets library...
 	cd "$(WX_BUILD_DIR)" && $(MAKE) -j 4

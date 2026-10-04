@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -84,6 +84,9 @@ namespace VeraCrypt
 			TC_CONFIG_SET (CloseSecurityTokenSessionsAfterMount);
 			TC_CONFIG_SET (EMVSupportEnabled);
 			TC_CONFIG_SET (DisableKernelEncryptionModeWarning);
+#ifdef TC_MACOSX
+			TC_CONFIG_SET (DisableScreenProtection);
+#endif
 			TC_CONFIG_SET (DismountOnInactivity);
 			TC_CONFIG_SET (DismountOnLogOff);
 			TC_CONFIG_SET (DismountOnPowerSaving);
@@ -102,6 +105,11 @@ namespace VeraCrypt
 			if (configMap.count(L"MountVolumesReadOnly") > 0) { SetValue (configMap[L"MountVolumesReadOnly"], readOnly); configMap.erase (L"MountVolumesReadOnly"); }
 			DefaultMountOptions.Protection = readOnly ? VolumeProtection::ReadOnly : VolumeProtection::None;
 
+#ifdef TC_LINUX
+			if (configMap.count(L"MountNtfsWithKernelDriver") > 0) { SetValue (configMap[L"MountNtfsWithKernelDriver"], DefaultMountOptions.MountNtfsWithKernelDriver); configMap.erase (L"MountNtfsWithKernelDriver"); }
+			else if (configMap.count(L"MountNtfsWithNtfs3") > 0) { SetValue (configMap[L"MountNtfsWithNtfs3"], DefaultMountOptions.MountNtfsWithKernelDriver); }
+			configMap.erase (L"MountNtfsWithNtfs3");
+#endif
 			if (configMap.count(L"MountVolumesRemovable") > 0) { SetValue (configMap[L"MountVolumesRemovable"], DefaultMountOptions.Removable); configMap.erase (L"MountVolumesRemovable"); }
 			if (configMap.count(L"NoHardwareCrypto") > 0) { SetValue (configMap[L"NoHardwareCrypto"], DefaultMountOptions.NoHardwareCrypto); configMap.erase (L"NoHardwareCrypto"); }
 			if (configMap.count(L"NoKernelCrypto") > 0) { SetValue (configMap[L"NoKernelCrypto"], DefaultMountOptions.NoKernelCrypto); configMap.erase (L"NoKernelCrypto"); }
@@ -207,6 +215,9 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (CloseSecurityTokenSessionsAfterMount);
         TC_CONFIG_ADD (EMVSupportEnabled);
 		TC_CONFIG_ADD (DisableKernelEncryptionModeWarning);
+#ifdef TC_MACOSX
+		TC_CONFIG_ADD (DisableScreenProtection);
+#endif
 		TC_CONFIG_ADD (DismountOnInactivity);
 		TC_CONFIG_ADD (DismountOnLogOff);
 		TC_CONFIG_ADD (DismountOnPowerSaving);
@@ -221,6 +232,9 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (MountDevicesOnLogon);
 		TC_CONFIG_ADD (MountFavoritesOnLogon);
 		formatter.AddEntry (L"MountVolumesReadOnly", DefaultMountOptions.Protection == VolumeProtection::ReadOnly);
+#ifdef TC_LINUX
+		formatter.AddEntry (L"MountNtfsWithKernelDriver", DefaultMountOptions.MountNtfsWithKernelDriver);
+#endif
 		formatter.AddEntry (L"MountVolumesRemovable", DefaultMountOptions.Removable);
 		formatter.AddEntry (L"NoHardwareCrypto", DefaultMountOptions.NoHardwareCrypto);
 		formatter.AddEntry (L"NoKernelCrypto", DefaultMountOptions.NoKernelCrypto);

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Key%20Derivation%20Algorithms.html">Алгоритмы формирования ключа</a>
+</p></div>
+<div class="wikidoc">
+<h1>Алгоритмы формирования ключа</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Функция формирования ключа (KDF) преобразует пароль и, при наличии, ключевые файлы в криптографические ключи, используемые для расшифрования заголовка тома VeraCrypt. Такие функции замедляют атаки перебором и защищают от предвычислений благодаря большой случайной соли и настраиваемому рабочему фактору, например числу итераций или объему памяти.
+</div>
+
+<h3>Доступные алгоритмы в VeraCrypt</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:8px; padding:0px">
+<strong><a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a>:</strong> современная функция формирования ключа с повышенными требованиями к памяти, внутри использующая <a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a>. Рекомендуется для новых несистемных томов. Отдельный выбор хеш-алгоритма не требуется.
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding:0px">
+<strong><a href="pbkdf2.html" style="color:#0080c0; text-decoration:none">PBKDF2-HMAC</a>:</strong> широко применяемая KDF, использующая HMAC с выбираемой хеш-функцией. Поддерживаемые HMAC-хеши в VeraCrypt:
+<a href="SHA-512.html" style="color:#0080c0; text-decoration:none">SHA-512</a>, <a href="SHA-256.html" style="color:#0080c0; text-decoration:none">SHA-256</a>, <a href="Whirlpool.html" style="color:#0080c0; text-decoration:none">Whirlpool</a>, <a href="BLAKE2s-256.html" style="color:#0080c0; text-decoration:none">BLAKE2s-256</a> и <a href="Streebog.html" style="color:#0080c0; text-decoration:none">Streebog</a>.
+</li>
+</ul>
+
+</div>
+</div><div class="ClearBoth"></div></body></html>

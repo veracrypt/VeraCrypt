@@ -3,7 +3,7 @@
 # by the TrueCrypt License 3.0.
 #
 # Modifications and additions to the original source code (contained in this file)
-# and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+# and all other portions of this file are Copyright (c) 2013-2017 AM Crypto
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -12,6 +12,7 @@
 OBJS :=
 OBJS += CoreBase.o
 OBJS += CoreException.o
+OBJS += CoreTest.o
 OBJS += FatFormatter.o
 OBJS += HostDevice.o
 OBJS += MountOptions.o
@@ -27,9 +28,9 @@ ifeq "$(PLATFORM)" "MacOSX"
 OBJS += Unix/FreeBSD/CoreFreeBSD.o
 endif
 
-TEST_EXECS := CoreTest.o
+TEST_EXECS := KeyfileTest.o
 
-TEST_EXT_LIBS += $(shell pkg-config fuse --libs)
+TEST_EXT_LIBS += $(shell $(PKG_CONFIG) $(VC_FUSE_PACKAGE) --libs)
 TEST_LFLAGS += -ldl
 
 include $(BUILD_INC)/Makefile.inc

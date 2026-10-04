@@ -6,6 +6,16 @@ and released into public domain.
 #include "kuznyechik.h"
 #include "cpu.h"
 #include "misc.h"
+#include "Common/Endian.h"
+
+/* Keys and blocks are used as little-endian words: swap only on big-endian hosts. */
+#if BYTE_ORDER == BIG_ENDIAN
+#define KUZNYECHIK_LOAD64(p) VcLoadLE64(p)
+#define KUZNYECHIK_STORE64(p, v) VcStoreLE64((p), (v))
+#else
+#define KUZNYECHIK_LOAD64(p) (*(const uint64*)(p))
+#define KUZNYECHIK_STORE64(p, v) (*(uint64*)(p) = (v))
+#endif
 
 #ifdef _MSC_VER
 #define inline __forceinline
@@ -2210,10 +2220,10 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 #endif
 		{
 			int i;
-			uint64 k00 = *(const uint64*)key;
-			uint64 k01 = *(((const uint64*)key) + 1);
-			uint64 k10 = *(((const uint64*)key) + 2);
-			uint64 k11 = *(((const uint64*)key) + 3);
+			uint64 k00 = KUZNYECHIK_LOAD64(key);
+			uint64 k01 = KUZNYECHIK_LOAD64(key + 8);
+			uint64 k10 = KUZNYECHIK_LOAD64(key + 16);
+			uint64 k11 = KUZNYECHIK_LOAD64(key + 24);
 			uint64 t00, t01, t10, t11;
 
 			kds->rke[0] = k00;
@@ -2268,8 +2278,8 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 		else
 #endif
 		{
-			uint64 x1 = *(const uint64*)in;
-			uint64 x2 = *(((const uint64*)in)+1);
+			uint64 x1 = KUZNYECHIK_LOAD64(in);
+			uint64 x2 = KUZNYECHIK_LOAD64(in + 8);
 			uint64 t1, t2;
 			x1 ^= kds->rke[0];
 			x2 ^= kds->rke[1];
@@ -2300,8 +2310,8 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 			LS(x1, x2, t1, t2);
 			t1 ^= kds->rke[18];
 			t2 ^= kds->rke[19];
-			*(uint64*)out = t1;
-			*(((uint64*)out) + 1) = t2;
+			KUZNYECHIK_STORE64(out, t1);
+			KUZNYECHIK_STORE64(out + 8, t2);
 		}
 	}
 
@@ -2335,8 +2345,8 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 		else
 #endif
 		{
-			uint64 x1 = *(const uint64*)in;
-			uint64 x2 = *(((const uint64*)in) + 1);
+			uint64 x1 = KUZNYECHIK_LOAD64(in);
+			uint64 x2 = KUZNYECHIK_LOAD64(in + 8);
 			uint64 t1, t2;
 
 			ILSS(x1, x2, t1, t2);
@@ -2370,8 +2380,8 @@ void kuznyechik_decrypt_blocks_simd(uint8* out, const uint8* in, size_t blocks, 
 			ISI((uint8*)&t2);
 			t1 ^= kds->rkd[0];
 			t2 ^= kds->rkd[1];
-			*(uint64*)out = t1;
-			*(((uint64*)out) + 1) = t2;
+			KUZNYECHIK_STORE64(out, t1);
+			KUZNYECHIK_STORE64(out + 8, t2);
 		}
 	}
 

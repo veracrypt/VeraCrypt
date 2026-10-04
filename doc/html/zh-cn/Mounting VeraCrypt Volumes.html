@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title> VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具 </title>
+<meta name="description" content="VeraCrypt 是一款适用于 Windows、Mac OS X 和 Linux 的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt 可提供似是而非的否认。与文件加密不同，VeraCrypt 执行的数据加密是实时（即插即用）、自动、透明的，占用内存极少，且不涉及临时未加密文件。" />
+<meta name="keywords" content="加密, 安全" />
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt" /></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Main%20Program%20Window.html">主程序窗口</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Mounting%20VeraCrypt%20Volumes.html">挂载卷</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>挂载 VeraCrypt 卷</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>如果您尚未这样做，请阅读 <a href="Main%20Program%20Window.html"><em>主程序窗口</em></a> 章节中的 &lsquo;<em>挂载</em>&rsquo; 和 &lsquo;<em>自动挂载设备</em>&rsquo; 部分。</p>
+<h3>在驱动程序内存中缓存密码</h3>
+<p>此选项可在密码输入对话框中设置，以便仅应用于该特定挂载尝试。也可以在首选项中设置为默认值。有关更多信息，请参阅 <a href="Program%20Menu.html"><em>设置 -&gt; 首选项</em>，子部分 <em>在驱动程序内存中缓存密码</em></a>。</p>
+<h3>挂载选项</h3>
+<p>挂载选项会影响正在挂载的卷的参数。可以通过点击密码输入对话框中的 <em>挂载选项</em> 按钮来打开 <em>挂载选项</em> 对话框。当正确的密码被缓存后，点击 <em>挂载</em> 后卷将自动挂载。如果您需要更改使用缓存密码挂载的卷的挂载选项，请在点击 <em>挂载</em> 或 <em>收藏夹</em> 菜单中的收藏卷时按住 <em>Control</em>（<em>Ctrl</em>）键，或者从 <em>卷</em> 菜单中选择 <em>使用选项挂载</em>。<br>
+<br>
+默认挂载选项可以在主程序首选项（<em>设置 -&gt; 首选项</em>）中配置。</p>
+<h4>以只读方式挂载卷</h4>
+<p>选中此选项后，将无法向挂载的卷写入任何数据。</p>
+<h4>将卷作为可移动介质挂载</h4>
+<p>请参阅 <a href="Removable%20Medium%20Volume.html"><em>作为可移动介质挂载的卷</em></a> 部分。</p>
+<h4>如果可用，使用卷中嵌入的备份头</h4>
+<p>所有由 VeraCrypt 创建的卷都包含一个嵌入的备份头（位于卷的末尾）。如果您选中此选项，VeraCrypt 将尝试使用嵌入的备份头挂载卷。请注意，如果卷头损坏，您无需使用此选项。相反，您可以通过选择 <em>工具</em> &gt; <em>恢复卷头</em> 来修复头。</p>
+<h4>使用系统加密但不进行预启动身份验证来挂载分区</h4>
+<p>如果您需要在不进行预启动身份验证的情况下挂载位于系统加密密钥范围内的分区，请选中此选项。例如，如果您需要挂载位于另一个未运行的操作系统的加密系统驱动器上的分区。当您需要从另一个操作系统备份或修复由 VeraCrypt 加密的操作系统时，这可能会很有用。请注意，在使用 &lsquo;<em>自动挂载设备</em>&rsquo; 或 &lsquo;<em>自动挂载所有设备托管卷</em>&rsquo; 功能时，也可以启用此选项。</p>
+<h4>隐藏卷保护</h4>
+<p>请参阅 <a href="Protection%20of%20Hidden%20Volumes.html"><em>保护隐藏卷免受损坏</em></a> 部分。</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

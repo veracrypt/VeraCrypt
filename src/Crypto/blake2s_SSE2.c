@@ -15,7 +15,7 @@
 
 /* Adapted for VeraCrypt */
 
-#include "blake2.h"
+#include "blake2s.h"
 #include "Common/Endian.h"
 #include "Crypto/config.h"
 #include "Crypto/cpu.h"

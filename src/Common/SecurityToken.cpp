@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -539,8 +539,10 @@ namespace VeraCrypt
 				throw;
 			}
 
-			for(const CK_OBJECT_HANDLE & dataHandle: GetObjects(slotId, CKO_DATA))
+			vector <CK_OBJECT_HANDLE> dataHandles = GetObjects(slotId, CKO_DATA);
+			for (vector <CK_OBJECT_HANDLE>::const_iterator dataHandleIt = dataHandles.begin(); dataHandleIt != dataHandles.end(); ++dataHandleIt)
 			{
+				const CK_OBJECT_HANDLE &dataHandle = *dataHandleIt;
 				SecurityTokenKeyfile keyfile;
 				keyfile.Handle = dataHandle;
 				keyfile.Token->SlotId = slotId;
@@ -1185,9 +1187,9 @@ namespace VeraCrypt
 
 #ifdef TC_HEADER_Platform_Exception
 
-	void Pkcs11Exception::Deserialize(shared_ptr <Stream> stream)
+	void Pkcs11Exception::DeserializeData(shared_ptr <Stream> stream)
 	{
-		Exception::Deserialize(stream);
+		Exception::DeserializeData(stream);
 		Serializer sr(stream);
 		uint64 code;
 		sr.Deserialize("ErrorCode", code);
@@ -1196,9 +1198,9 @@ namespace VeraCrypt
 		ErrorCode = (CK_RV)code;
 	}
 
-	void Pkcs11Exception::Serialize(shared_ptr <Stream> stream) const
+	void Pkcs11Exception::SerializeData(shared_ptr <Stream> stream) const
 	{
-		Exception::Serialize(stream);
+		Exception::SerializeData(stream);
 		Serializer sr(stream);
 		sr.Serialize("ErrorCode", (uint64)ErrorCode);
 		sr.Serialize("SubjectErrorCodeValid", SubjectErrorCodeValid);

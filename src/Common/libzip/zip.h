@@ -34,6 +34,15 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#if defined(__has_feature)
+  #if !__has_feature(nullability)
+    #define _Nullable
+    #define _Nonnull
+  #endif
+#else
+  #define _Nullable
+  #define _Nonnull
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,13 +54,9 @@ extern "C" {
 #include <zipconf.h>
 
 #ifndef ZIP_EXTERN
-#if defined(ZIP_DLL) && !defined(ZIP_STATIC)
+#ifndef ZIP_STATIC
 #ifdef _WIN32
-#ifdef BUILDING_LIBZIP
-#define ZIP_EXTERN __declspec(dllexport)
-#else
 #define ZIP_EXTERN __declspec(dllimport)
-#endif
 #elif defined(__GNUC__) && __GNUC__ >= 4
 #define ZIP_EXTERN __attribute__((visibility("default")))
 #else

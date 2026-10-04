@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -85,8 +85,7 @@
 // TODO: need IOCTL_DISK_GET_PARTITION_INFO_EX to support GPT
 #define TC_IOCTL_GET_DRIVE_PARTITION_INFO				TC_IOCTL (14)
 
-// result IOCTL_DISK_GET_DRIVE_GEOMETRY
-// IN OUT - DISK_GEOMETRY_STRUCT
+// Legacy IOCTL number retained for compatibility, the driver handler has been removed.
 #define TC_IOCTL_GET_DRIVE_GEOMETRY						TC_IOCTL (15)
 
 // result IOCTL_DISK_GET_LENGTH_INFO
@@ -128,6 +127,8 @@
 #define VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED				TC_IOCTL (42)
 
 #define VC_IOCTL_ENCRYPTION_QUEUE_PARAMS				TC_IOCTL (43)
+
+#define TC_IOCTL_ABORT_MOUNT_VOLUME						TC_IOCTL (44)
 
 // Undocumented IOCTL sent by Windows 10 when handling EFS data on volumes
 #define IOCTL_UNKNOWN_WINDOWS10_EFS_ACCESS				0x455610D8
@@ -179,6 +180,12 @@ typedef struct
 	ULONG AlignmentMask;
 	BOOL VolumeMasterKeyVulnerable;
 } MOUNT_STRUCT;
+
+typedef struct
+{
+	int nDosDriveNo;					/* Drive number whose pending mount should be aborted; -1 aborts any pending mount */
+	int nReturnCode;					/* Return code back from driver */
+} MOUNT_ABORT_STRUCT;
 
 typedef struct
 {
@@ -246,7 +253,7 @@ typedef struct
 	WCHAR deviceName[TC_MAX_PATH];
 	DISK_GEOMETRY diskGeometry;
 }
-DISK_GEOMETRY_STRUCT;
+DISK_GEOMETRY_STRUCT; // unused legacy structure, retained for compatibility.
 
 typedef struct
 {
@@ -424,6 +431,7 @@ typedef struct
 #define VC_ERASE_KEYS_SHUTDOWN DRIVER_STR("VeraCryptEraseKeysShutdown")
 
 #define VC_ENABLE_MEMORY_PROTECTION DRIVER_STR("VeraCryptEnableMemoryProtection")
+#define VC_ENABLE_SCREEN_PROTECTION DRIVER_STR("VeraCryptEnableScreenProtection")
 
 // WARNING: Modifying the following values can introduce incompatibility with previous versions.
 #define TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD						0x1
@@ -439,5 +447,6 @@ typedef struct
 #define VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION			0x400
 #define VC_DRIVER_CONFIG_ENABLE_CPU_RNG								0x800
 #define VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION						0x1000
+#define VC_DRIVER_CONFIG_ENABLE_ORDERED_FLUSH_BARRIERS				0x2000
 
 #endif		/* _WIN32 */

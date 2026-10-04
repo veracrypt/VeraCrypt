@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -15,7 +15,7 @@
 
 namespace VeraCrypt
 {
-	void HostDevice::Deserialize (shared_ptr <Stream> stream)
+	void HostDevice::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		MountPoint = sr.DeserializeWString ("MountPoint");
@@ -27,13 +27,16 @@ namespace VeraCrypt
 
 		uint32 partitionCount;
 		sr.Deserialize ("Partitions", partitionCount);
+		Serializer::ValidateCollectionSize (partitionCount);
+		HostDeviceList partitions;
 		for (uint32 i = 0; i < partitionCount; i++)
-			Partitions.push_back (Serializable::DeserializeNew <HostDevice> (stream));
+			partitions.push_back (Serializable::DeserializeNew <HostDevice> (stream));
+		Partitions.swap (partitions);
 	}
 
-	void HostDevice::Serialize (shared_ptr <Stream> stream) const
+	void HostDevice::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
+		Serializer::ValidateCollectionSize (Partitions.size());
 		Serializer sr (stream);
 		sr.Serialize ("MountPoint", wstring (MountPoint));
 		sr.Serialize ("Name", Name);

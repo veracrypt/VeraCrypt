@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Plausible%20Deniability.html">似是而非的否认</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hidden%20Volume.html">隐藏卷</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Protection%20of%20Hidden%20Volumes.html">隐藏卷的保护</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>保护隐藏卷免受损坏</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您挂载一个包含 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷</a> 的VeraCrypt卷，您可以 <em style="text-align:left">读取</em> （外部）卷上存储的数据，而不会有任何风险。但是，如果您（或操作系统）需要 <em style="text-align:left">保存</em> 数据到外部卷，就存在隐藏卷被损坏（覆盖）的风险。为防止这种情况，您应该按照本节所述的方法保护隐藏卷。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+挂载外部卷时，输入其密码，在点击 <em style="text-align:left">
+确定</em> 之前，点击 <em style="text-align:left">挂载选项</em>：</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Protection of Hidden Volumes_Image_027.jpg" alt="VeraCrypt图形用户界面"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+&nbsp;</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在 <em style="text-align:left">挂载选项</em> 对话框中，启用选项 '<em style="text-align:left">保护隐藏卷免受写入外部卷造成的损坏</em> '。在 '<em style="text-align:left">隐藏卷密码</em>'
+输入字段中，输入隐藏卷的密码。点击 <em style="text-align:left">
+确定</em>，然后在主密码输入对话框中，点击 <em style="text-align:left">
+确定</em>。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Protection of Hidden Volumes_Image_028.jpg" alt="启用隐藏保护进行挂载"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<br style="text-align:left">
+两个密码都必须正确；否则，外部卷将无法挂载。启用隐藏卷保护时，VeraCrypt <em style="text-align:left">不会</em> 实际挂载隐藏卷。它只会（在内存中）解密其头文件，并从解密后的头文件中获取有关隐藏卷大小的信息。然后，外部卷将被挂载，任何向隐藏卷区域保存数据的尝试都将被拒绝（直到外部卷被卸载）。
+<strong style="text-align:left">请注意，VeraCrypt绝不会以任何方式修改外部卷内的文件系统（例如，有关已分配簇的信息、可用空间量等）。一旦卷被卸载，保护就会失效。
+当该卷再次挂载时，无法确定该卷是否使用了隐藏卷保护。只有提供隐藏卷正确密码（和/或密钥文件）的用户（每次挂载外部卷时）才能激活隐藏卷保护。<br style="text-align:left">
+</strong><br style="text-align:left">
+一旦对隐藏卷区域的写入操作被拒绝/阻止（以保护隐藏卷），整个宿主卷（包括外部卷和隐藏卷）在卸载之前将变为写保护状态（每次尝试向该卷写入数据时，VeraCrypt驱动程序会向系统报告“无效参数”错误）。这保留了似是而非的否认性（否则，文件系统内的某些不一致情况可能表明该卷使用了隐藏卷保护）。当隐藏卷的损坏被阻止时，会显示一条警告信息（前提是启用了VeraCrypt后台任务 - 请参阅章节
+<a href="VeraCrypt%20Background%20Task.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt后台任务</a>）。此外，主窗口中显示的已挂载外部卷的类型会变为 '<em style="text-align:left">外部(!)</em> ':</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Protection of Hidden Volumes_Image_029.jpg" alt="VeraCrypt GUI"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<br style="text-align:left">
+此外，<em style="text-align:left">卷属性 </em>对话框窗口中的 <em style="text-align:left">隐藏卷受保护 </em>字段显示为：<br style="text-align:left">
+'<em style="text-align:left">是（损坏已阻止！）</em>'<em style="text-align:left">.</em><br style="text-align:left">
+<br style="text-align:left">
+请注意，当隐藏卷的损坏被阻止时，<em style="text-align:left">不会</em>将有关该事件的任何信息写入该卷。当外部卷卸载并再次挂载时，卷属性<em style="text-align:left">不会</em>显示字符串“<em style="text-align:left">损坏已阻止</em>”。<em style="text-align:left"><br style="text-align:left">
+</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+有几种方法可以检查隐藏卷是否正在受到保护以免受损坏：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+外部卷挂载后，会显示一个确认消息框，表明隐藏卷正在受到保护（如果未显示，则隐藏卷未受保护！）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在 <em style="text-align:left">卷属性 </em>对话框中，<em style="text-align:left">
+隐藏卷受保护 </em>字段显示为 '<em style="text-align:left">是</em>': </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+已挂载外部卷的类型为 <em style="text-align:left">外部</em>: </li></ol>
+<p><img src="Protection of Hidden Volumes_Image_030.jpg" alt="VeraCrypt GUI"></p>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left"><br style="text-align:left">
+    <strong style="text-align:left">重要提示：只有您自己可以挂载启用了隐藏卷保护的外部卷（因为没有其他人知道您的隐藏卷密码）。当对手要求您挂载外部卷时，您当然 </strong></em><strong style="text-align:left">不能</strong><em style="text-align:left"><strong style="text-align:left">以启用隐藏卷保护的方式挂载它。您必须将其作为普通卷挂载（然后VeraCrypt将不会显示卷类型为“外部”，而是“普通”）。原因是，在外部卷以启用隐藏卷保护的方式挂载期间，对手</strong></em><strong style="text-align:left">可以</strong><em style="text-align:left"><strong style="text-align:left">发现外部卷内存在隐藏卷（直到该卷卸载，甚至在计算机关机后的一段时间内，他/她都有可能发现 - 请参阅 <a href="Unencrypted%20Data%20in%20RAM.html" style="text-align:left; color:#0080c0; text-decoration:none">
+RAM中的未加密数据</a>）。</strong></em> <br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<em style="text-align:left">警告</em>：请注意，<em style="text-align:left">挂载选项 </em>对话框窗口中的 '<em style="text-align:left">保护隐藏卷免受因写入外部卷而造成的损坏</em>' 选项在挂载尝试完成后会自动禁用，无论挂载是否成功（当然，所有已经受到保护的隐藏卷将继续受到保护）。因此，如果您希望隐藏卷受到保护，则每次尝试挂载外部卷时都需要勾选该选项：<br style="text-align:left">
+<br style="text-align:left">
+<img src="Protection of Hidden Volumes_Image_031.jpg" alt="VeraCrypt GUI"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+如果您想使用缓存的密码挂载外部卷并保护其中的隐藏卷，请按照以下步骤操作：在点击 <em style="text-align:left">挂载 </em>时按住 <em style="text-align:left">Control </em>（<em style="text-align:left">Ctrl</em>）键（或从 <em style="text-align:left">卷 </em>菜单中选择 <em style="text-align:left">带选项挂载</em>）。这将打开 <em style="text-align:left">
+挂载选项 </em>对话框。启用 '<em style="text-align:left">保护隐藏卷免受因写入外部卷而造成的损坏</em>' 选项，并将密码框留空。然后点击 <em style="text-align:left">确定</em>。</div>
+<p>如果您需要挂载外部卷，并且知道不需要向其中保存任何数据，那么保护隐藏卷免受损坏的最便捷方法是将外部卷作为只读卷挂载（请参阅 <a href="Mounting%20VeraCrypt%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
+挂载选项</a> 部分）。</p>
+<p>&nbsp;</p>
+<p><a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>

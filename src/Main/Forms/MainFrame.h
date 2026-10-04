@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -23,15 +23,26 @@
 #include "ChangePasswordDialog.h"
 #ifdef TC_MACOSX
 #include <wx/display.h>
+#include "Main/VolumeSnapshot.h"
 #endif
 
 namespace VeraCrypt
 {
 	struct FavoriteVolume;
+#ifdef TC_MACOSX
+	struct VolumeDiscoveryState;
+#endif
 
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_UPDATE_VOLUME_LIST, -1);
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_PREF_UPDATED, -1);
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_OPEN_VOLUME_REQUEST, -1);
+	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_VOLUME_DISCOVERY_COMPLETED, -1);
+
+	struct VolumeListChange
+	{
+		bool Mounted;
+		shared_ptr <VolumeInfo> Volume;
+	};
 
 	class MainFrame : public MainFrameBase
 	{
@@ -45,6 +56,11 @@ namespace VeraCrypt
 #endif
 
 		void MountAllFavorites ();
+		VolumeInfoList GetDisplayedVolumes () const { return MountedVolumes; }
+#ifdef TC_MACOSX
+		bool HasVolumeSnapshot () const { return VolumeSnapshot.HasSample(); }
+#endif
+		bool CanConfirmNoMountedVolumes () const;
 
 #ifdef HAVE_INDICATORS
 		AppIndicator *indicator;
@@ -168,9 +184,17 @@ namespace VeraCrypt
 		void OnVolumePropertiesButtonClick (wxCommandEvent& event);
 		void OnVolumeToolsButtonClick (wxCommandEvent& event);
 		void OnVolumeButtonClick (wxCommandEvent& event);
-		void OnUpdateVolumeList (wxCommandEvent& event) { UpdateVolumeList(); }
-		void OnVolumeDismounted (EventArgs &args) { wxQueueEvent (this, new wxCommandEvent( wxEVT_COMMAND_UPDATE_VOLUME_LIST,0)); }
-		void OnVolumeMounted (EventArgs &args) { wxQueueEvent (this, new wxCommandEvent( wxEVT_COMMAND_UPDATE_VOLUME_LIST,0)); }
+		void OnUpdateVolumeList (wxThreadEvent& event);
+		void OnVolumeDiscoveryCompleted (wxCommandEvent& event);
+		void OnVolumeChange (EventArgs &args, bool mounted)
+		{
+			wxThreadEvent *event = new wxThreadEvent (wxEVT_COMMAND_UPDATE_VOLUME_LIST);
+			VolumeListChange change = { mounted, static_cast <VolumeEventArgs &> (args).mVolume->Clone() };
+			event->SetPayload (change);
+			wxQueueEvent (this, event);
+		}
+		void OnVolumeDismounted (EventArgs &args) { OnVolumeChange (args, false); }
+		void OnVolumeMounted (EventArgs &args) { OnVolumeChange (args, true); }
 		void OnUserGuideMenuItemSelected (wxCommandEvent& event) { Gui->OpenUserGuide (this); }
 		void OnWebsiteMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"website"); }
 		void OnWipeCacheButtonClick (wxCommandEvent& event);
@@ -181,7 +205,7 @@ namespace VeraCrypt
 		void SetVolumePath (const VolumePath &path) { VolumePathComboBox->SetValue (wstring (path)); }
 		void ShowTaskBarIcon (bool show = true);
 		void UpdateControls ();
-		void UpdateVolumeList ();
+		void UpdateVolumeList (bool startDiscovery = true);
 		void UpdateWipeCacheButton ();
 		void WipeCache ();
 
@@ -234,6 +258,10 @@ namespace VeraCrypt
 		map <int, FavoriteVolume> FavoriteVolumesMenuMap;
 		bool ListItemRightClickEventPending;
 		VolumeInfoList MountedVolumes;
+#ifdef TC_MACOSX
+		shared_ptr <VolumeDiscoveryState> VolumeDiscovery;
+		VolumeSnapshotState VolumeSnapshot;
+#endif
 		unique_ptr <wxTaskBarIcon> mTaskBarIcon;
 		unique_ptr <wxTimer> mTimer;
 		long SelectedItemIndex;

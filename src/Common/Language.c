@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -250,6 +250,10 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 	int headers[] = { IDR_COMMON_RSRC_HEADER, IDR_SETUP_RSRC_HEADER, 0 };
 #endif
 
+#ifdef VCSDK_DLL
+	int headers[] = { 0 };
+#endif
+
 	LocalizationActive = FALSE;
 	ActiveLangPackVersion[0] = 0;
 	ClearDictionaryPool ();
@@ -273,7 +277,7 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 		if (defaultLangParsed && strcmp (attr, VERSION_STRING) && strcmp (attr, "DEBUG"))
 		{
 			wchar_t m[2048];
-			StringCbPrintfW (m, sizeof(m), L"The installed language pack is incompatible with this version of VeraCrypt (the language pack is for VeraCrypt %hs). A newer version may be available at www.idrix.fr.\n\nTo prevent this message from being displayed, do any of the following:\n\n- Select 'Settings' > 'Language'; then select 'English' and click 'OK'.\n\n- Remove or replace the language pack with a compatible version (the language pack may reside e.g. in 'C:\\Program Files\\VeraCrypt' or '%%LOCALAPPDATA%%\\VirtualStore\\Program Files\\VeraCrypt', etc.)", attr);
+			StringCbPrintfW (m, sizeof(m), L"The installed language pack is incompatible with this version of VeraCrypt (the language pack is for VeraCrypt %hs). A newer version may be available at veracrypt.jp.\n\nTo prevent this message from being displayed, do any of the following:\n\n- Select 'Settings' > 'Language'; then select 'English' and click 'OK'.\n\n- Remove or replace the language pack with a compatible version (the language pack may reside e.g. in 'C:\\Program Files\\VeraCrypt' or '%%LOCALAPPDATA%%\\VirtualStore\\Program Files\\VeraCrypt', etc.)", attr);
 			if (!bForceSilent)
 				MessageBoxW (NULL, m, L"VeraCrypt", MB_ICONERROR);
 			continue;
@@ -584,6 +588,10 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			return 1;
 		}
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 

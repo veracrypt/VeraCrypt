@@ -4,28 +4,125 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
 #include "CoreUnix.h"
+#include "Common/Tcdefs.h"
 #include <errno.h>
 #include <iostream>
 #include <signal.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <sys/types.h>
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+#include <fcntl.h>
+#include <membership.h>
+#include <sys/acl.h>
+#include <sys/mount.h>
+#endif
+#ifdef TC_LINUX
+#include <sys/utsname.h>
+#endif
 #include <stdio.h>
 #include <unistd.h>
 #include "Platform/FileStream.h"
+#include "Platform/MemoryStream.h"
+#include "Platform/SystemLog.h"
+#include "Core/Unix/UnixUser.h"
 #include "Driver/Fuse/FuseService.h"
 #include "Volume/VolumePasswordCache.h"
 
 namespace VeraCrypt
 {
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+	static string CreateFuseTAuxiliaryDirectory (const string &tempDirectory, uid_t userId)
+	{
+		// SMB covers the mountpoint's permissions and does not preserve the
+		// requesting local uid. Enforce access on an unmounted parent instead,
+		// including when sudo removes TMPDIR or a user selects a shared TMPDIR.
+		const bool elevated = geteuid() == 0;
+		const bool userAcl = elevated && userId != 0;
+		const string directoryTemplate = tempDirectory + (elevated ? "/.veracrypt_aux_root_" : "/.veracrypt_aux_")
+			+ StringConverter::ToSingle (static_cast <uint64> (userId)) + "-XXXXXXXXXXXX";
+		uuid_t userUuid;
+		if (userAcl && mbr_uid_to_uuid (userId, userUuid) != 0)
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directoryTemplate));
+		vector <char> temporary (directoryTemplate.begin(), directoryTemplate.end());
+		temporary.push_back ('\0');
+		throw_sys_sub_if (mkdtemp (&temporary[0]) == NULL, tempDirectory);
+		bool ready = false;
+		finally_do_arg2 (const char *, &temporary[0], bool &, ready, { if (!finally_arg2) rmdir (finally_arg); });
+		const string directory = &temporary[0];
+
+		const int fd = open (directory.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+		throw_sys_sub_if (fd == -1, directory);
+		finally_do_arg (int, fd, { close (finally_arg); });
+		struct statfs filesystem;
+		throw_sys_sub_if (fstatfs (fd, &filesystem) == -1, directory);
+		if (filesystem.f_flags & MNT_IGNORE_OWNERSHIP)
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directory)
+				+ L"\nThe temporary filesystem must enforce ownership.");
+		struct stat info;
+		throw_sys_sub_if (fstat (fd, &info) == -1, directory);
+		if (!S_ISDIR (info.st_mode) || info.st_uid != (elevated ? 0 : userId))
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directory));
+		// Keep elevated parents root-owned so the caller cannot replace paths
+		// used by privileged setup. Clear inherited ACLs even without a grant.
+		acl_t acl = acl_init (userAcl ? 1 : 0);
+		throw_sys_sub_if (acl == NULL, directory);
+		finally_do_arg (acl_t *, &acl, { acl_free (*finally_arg); });
+		if (userAcl)
+		{
+			acl_entry_t entry;
+			throw_sys_sub_if (acl_create_entry (&acl, &entry) == -1, directory);
+			throw_sys_sub_if (acl_set_tag_type (entry, ACL_EXTENDED_ALLOW) == -1, directory);
+			throw_sys_sub_if (acl_set_qualifier (entry, userUuid) == -1, directory);
+			throw_sys_sub_if (acl_set_permset_mask_np (entry,
+				ACL_LIST_DIRECTORY | ACL_SEARCH | ACL_READ_ATTRIBUTES | ACL_READ_SECURITY) == -1, directory);
+		}
+		throw_sys_sub_if (acl_set_fd_np (fd, acl, ACL_TYPE_EXTENDED) == -1, directory);
+		throw_sys_sub_if (fchmod (fd, 0700) == -1, directory);
+		throw_sys_sub_if (fstat (fd, &info) == -1, directory);
+		if ((info.st_mode & 0777) != 0700)
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (directory));
+
+		ready = true;
+		return directory;
+	}
+
+	static bool IsOtherUsersFuseTAuxiliaryMount (const MountedFilesystem &mount, uid_t userId, uid_t realUserId)
+	{
+		// Preserve root's existing discovery scope; only unprivileged callers
+		// can be excluded by the private parent.
+		if (mount.Type != "smbfs" || mount.Owner != 0 || userId == 0)
+			return false;
+		const string path = mount.MountPoint;
+		const string parent = path.substr (0, path.find_last_of ('/'));
+		const string name = parent.substr (parent.find_last_of ('/') + 1);
+		const string prefix = ".veracrypt_aux_root_";
+		if (name.compare (0, prefix.size(), prefix) == 0)
+		{
+			const string id = name.substr (prefix.size(), name.find ('-', prefix.size()) - prefix.size());
+			if (!id.empty() && id.find_first_not_of ("0123456789") == string::npos)
+				return id != StringConverter::ToSingle (static_cast <uint64> (userId))
+					&& id != StringConverter::ToSingle (static_cast <uint64> (realUserId));
+		}
+		// Preserve metadata discovery for legacy paths: an ACL may grant
+		// traversal despite a foreign-owned parent with mode 0700.
+		return false;
+	}
+#endif
+
 #ifdef TC_LINUX
 	static string GetTmpUser ();
+	static bool GetLinuxKernelVersion (int &kernelMajor, int &kernelMinor);
+	static bool IsLinuxKernelModuleLoaded (const string &moduleName);
+	static bool IsLinuxKernelVersionAtLeast (int major, int minor);
+	static bool IsNtfsReadWriteKernelModuleAvailable ();
 	static bool SamePath (const string& path1, const string& path2);
 #endif
 
@@ -66,11 +163,15 @@ namespace VeraCrypt
 
 	CoreUnix::CoreUnix ()
 	{
-		signal (SIGPIPE, SIG_IGN);
-
-		char *loc = setlocale (LC_ALL, "");
-		if (!loc || string (loc) == "C")
-			setlocale (LC_ALL, "en_US.UTF-8");
+		// Additional read-only core instances may be created for GUI discovery.
+		// Locale and signal disposition are process state, not instance state.
+		static const bool initialized = [] () {
+			signal (SIGPIPE, SIG_IGN);
+			char *loc = setlocale (LC_ALL, "");
+			if (!loc || string (loc) == "C") setlocale (LC_ALL, "en_US.UTF-8");
+			return true;
+		} ();
+		(void) initialized;
 	}
 
 	CoreUnix::~CoreUnix ()
@@ -159,11 +260,34 @@ namespace VeraCrypt
 		Process::Execute ("umount", args);
 	}
 
+#ifdef TC_LINUX
+	void CoreUnix::DismountFilesystemLazy (const DirectoryPath &mountPoint) const
+	{
+		list <string> args;
+		args.push_back ("-l");
+		args.push_back ("--");
+		args.push_back (mountPoint);
+
+		Process::Execute ("umount", args);
+	}
+#endif
+
 	shared_ptr <VolumeInfo> CoreUnix::DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles, bool syncVolumeInfo)
 	{
 		if (!mountedVolume->MountPoint.IsEmpty())
 		{
+#ifdef TC_LINUX
+			try
+			{
+				DismountFilesystem (mountedVolume->MountPoint, ignoreOpenFiles);
+			}
+			catch (ExecutedProcessFailed &e)
+			{
+				throw FilesystemDismountFailed (e);
+			}
+#else
 			DismountFilesystem (mountedVolume->MountPoint, ignoreOpenFiles);
+#endif
 
 			// Delete mount directory if a default path has been used
 			if (string (mountedVolume->MountPoint).find (GetDefaultMountPointPrefix()) == 0)
@@ -174,9 +298,16 @@ namespace VeraCrypt
 		{
 			DismountNativeVolume (mountedVolume);
 		}
+#ifdef TC_LINUX
+		catch (ExecutedProcessFailed &e)
+		{
+			throw FilesystemDismountFailed (e);
+		}
+#endif
 		catch (NotApplicable &) { }
 
-		if (!mountedVolume->LoopDevice.IsEmpty())
+		// Earlier versions recorded the host device of a device-hosted volume mounted with Linux kernel cryptography as its loop device
+		if (!mountedVolume->LoopDevice.IsEmpty() && wstring (mountedVolume->LoopDevice) != wstring (mountedVolume->Path))
 		{
 			try
 			{
@@ -205,10 +336,14 @@ namespace VeraCrypt
 				Process::Execute ("umount", args);
 				break;
 			}
-			catch (ExecutedProcessFailed&)
+			catch (ExecutedProcessFailed &e)
 			{
 				if (t > 10)
+#ifdef TC_LINUX
+					throw FilesystemDismountFailed (e);
+#else
 					throw;
+#endif
 				Thread::Sleep (200);
 			}
 		}
@@ -224,6 +359,151 @@ namespace VeraCrypt
 
 		return mountedVolume;
 	}
+
+#ifdef TC_LINUX
+	shared_ptr <VolumeInfo> CoreUnix::EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+	{
+		unique_ptr <Exception> firstException;
+
+		if (!mountedVolume->MountPoint.IsEmpty())
+		{
+			bool mountPointMounted = true;
+			bool mountPointDetached = false;
+
+			try
+			{
+				mountPointMounted = !GetMountedFilesystems (DevicePath(), mountedVolume->MountPoint).empty();
+			}
+			catch (...) { }
+
+			if (mountPointMounted)
+			{
+				try
+				{
+					DismountFilesystemLazy (mountedVolume->MountPoint);
+					mountPointDetached = true;
+				}
+				catch (Exception &e)
+				{
+					if (!firstException.get())
+						firstException.reset (e.CloneNew());
+				}
+			}
+
+			if ((!mountPointMounted || mountPointDetached) && string (mountedVolume->MountPoint).find (GetDefaultMountPointPrefix()) == 0)
+			{
+				try
+				{
+					mountedVolume->MountPoint.Delete();
+				}
+				catch (...) { }
+			}
+		}
+
+		try
+		{
+			DismountNativeVolumeDeferred (mountedVolume);
+		}
+		catch (NotApplicable&) { }
+		catch (Exception &e)
+		{
+			if (!firstException.get())
+				firstException.reset (e.CloneNew());
+		}
+
+		// Earlier versions recorded the host device of a device-hosted volume mounted with kernel cryptography as its loop device
+		if (!mountedVolume->LoopDevice.IsEmpty() && wstring (mountedVolume->LoopDevice) != wstring (mountedVolume->Path))
+		{
+			try
+			{
+				DetachLoopDevice (mountedVolume->LoopDevice);
+			}
+			catch (ExecutedProcessFailed &e)
+			{
+				if (IsLoopDeviceAttached (mountedVolume->LoopDevice) && !firstException.get())
+					firstException.reset (e.CloneNew());
+			}
+			catch (Exception &e)
+			{
+				if (!firstException.get())
+					firstException.reset (e.CloneNew());
+			}
+		}
+
+		if (!mountedVolume->AuxMountPoint.IsEmpty())
+		{
+			bool auxMountPointMounted = true;
+			bool auxMountPointDetached = false;
+
+			try
+			{
+				auxMountPointMounted = !GetMountedFilesystems (DevicePath(), mountedVolume->AuxMountPoint).empty();
+			}
+			catch (...) { }
+
+			if (auxMountPointMounted)
+			{
+				list <string> args;
+				args.push_back ("--");
+				args.push_back (mountedVolume->AuxMountPoint);
+
+				try
+				{
+					for (int t = 0; true; t++)
+					{
+						try
+						{
+							Process::Execute ("umount", args);
+							auxMountPointDetached = true;
+							break;
+						}
+						catch (ExecutedProcessFailed&)
+						{
+							if (t > 10)
+								throw;
+							Thread::Sleep (200);
+						}
+					}
+				}
+				catch (ExecutedProcessFailed&)
+				{
+					try
+					{
+						DismountFilesystemLazy (mountedVolume->AuxMountPoint);
+						auxMountPointDetached = true;
+					}
+					catch (Exception &e)
+					{
+						if (!firstException.get())
+							firstException.reset (e.CloneNew());
+					}
+				}
+				catch (Exception &e)
+				{
+					if (!firstException.get())
+						firstException.reset (e.CloneNew());
+				}
+			}
+
+			if (!auxMountPointMounted || auxMountPointDetached)
+			{
+				try
+				{
+					mountedVolume->AuxMountPoint.Delete();
+				}
+				catch (...) { }
+			}
+		}
+
+		if (firstException.get())
+			firstException->Throw();
+
+		VolumeEventArgs eventArgs (mountedVolume);
+		VolumeDismountedEvent.Raise (eventArgs);
+
+		return mountedVolume;
+	}
+#endif
 
 	bool CoreUnix::FilesystemSupportsLargeFiles (const FilePath &filePath) const
 	{
@@ -293,7 +573,10 @@ namespace VeraCrypt
 
 		if (FilesystemPath ("/media").IsDirectory())
 			return "/media/veracrypt";
-
+#ifdef TC_LINUX
+		if (FilesystemPath ("/run/media").IsDirectory())
+			return "/run/media/veracrypt";
+#endif
 		if (FilesystemPath ("/mnt").IsDirectory())
 			return "/mnt/veracrypt";
 
@@ -329,55 +612,111 @@ namespace VeraCrypt
 		return mountedFilesystems.front()->MountPoint;
 	}
 
+	shared_ptr <VolumeInfo> CoreUnix::ReadAuxiliaryVolumeInfo (const DirectoryPath &auxMountPoint)
+	{
+		File control;
+		control.Open (string (auxMountPoint) + FuseService::GetControlPath());
+		Buffer buffer (8192);
+		string data;
+		for (uint64 count; (count = control.Read (buffer)) != 0; )
+		{
+			if (data.size() + count > 1024 * 1024) throw ParameterTooLarge (SRC_POS);
+			data.append (reinterpret_cast <const char *> (buffer.Ptr()), count);
+		}
+		shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr (reinterpret_cast <const uint8 *> (data.data()), data.size())));
+		shared_ptr <VolumeInfo> volume = Serializable::DeserializeNew <VolumeInfo> (stream);
+		volume->AuxMountPoint = auxMountPoint;
+		return volume;
+	}
+
 	VolumeInfoList CoreUnix::GetMountedVolumes (const VolumePath &volumePath) const
 	{
-		VolumeInfoList volumes;
+		VolumeDiscoveryResult result = GetMountedVolumesWithStatus (volumePath);
+		if (!result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front()));
+		return result.Volumes;
+	}
+
+	VolumeDiscoveryResult CoreUnix::GetMountedVolumesWithStatus (const VolumePath &volumePath) const
+	{
+		VolumeDiscoveryResult result;
+		VolumeInfoList &volumes = result.Volumes;
 
 		foreach_ref (const MountedFilesystem &mf, GetMountedFilesystems ())
 		{
+#ifdef TC_MACOSX
+			if (!mf.IsAuxiliaryMountCandidate (GetFuseMountDirPrefix(), getuid(), GetRealUserId()))
+#else
 			if (string (mf.MountPoint).find (GetFuseMountDirPrefix()) == string::npos)
+#endif
 				continue;
 
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			// Elevated SMB mounts have a root mount-table owner. Their private
+			// parent identifies the user; an inaccessible foreign mount is not
+			// an unresolved mount of the current user.
+			if (IsOtherUsersFuseTAuxiliaryMount (mf, getuid(), GetRealUserId()))
+				continue;
+#endif
+
 			shared_ptr <VolumeInfo> mountedVol;
-			// Introduce a retry mechanism with a timeout for control file access
-			// This workaround is limited to FUSE-T mounted volume under macOS for
-			// which md.Device starts with "fuse-t:"
+			// Introduce a retry mechanism with a timeout for control file access.
+			// The list is already filtered to VeraCrypt auxiliary mounts; in
+			// FUSE-T builds, the mount table device name varies by backend.
 #ifdef VC_MACOSX_FUSET
-			bool isFuseT = wstring(mf.Device).find(L"fuse-t:") == 0;
-			int controlFileRetries = 10; // 10 retries with 500ms sleep each, total 5 seconds
+			int controlFileRetries = volumePath.IsEmpty() ? 1 : 10; // Up to 10 attempts with 500ms sleeps for specific volume lookups
+			string controlFileError;
 			while (!mountedVol && (controlFileRetries-- > 0))
 #endif
 			{
 				try 
 				{
-					shared_ptr <File> controlFile (new File);
-					controlFile->Open (string (mf.MountPoint) + FuseService::GetControlPath());
-
-					shared_ptr <Stream> controlFileStream (new FileStream (controlFile));
-					mountedVol = Serializable::DeserializeNew <VolumeInfo> (controlFileStream);
+					mountedVol = ReadAuxiliaryVolumeInfo (mf.MountPoint);
 				}
 				catch (const std::exception& e)
 				{
 #ifdef VC_MACOSX_FUSET
-					// if exception starts with "VeraCrypt::Serializer::ValidateName", then 
-					// serialization is not ready yet and we need to wait before retrying
-					// this happens when FUSE-T is used under macOS and if it is the first time
-					// the volume is mounted
-					if (isFuseT && string (e.what()).find ("VeraCrypt::Serializer::ValidateName") != string::npos)
+					controlFileError = StringConverter::ToSingle (StringConverter::ToExceptionString (e));
+					if (controlFileRetries > 0)
 					{
-						Thread::Sleep(500); // Wait before retrying
+						// FUSE-T's SMB backend can briefly expose the auxiliary mount
+						// before the control file is readable and deserializable.
+						Thread::Sleep (500);
 					}
-					else
-					{
-						break; // Control file not found or other error
-					}
+#else
+					(void) e;
 #endif
 				}
+#ifdef VC_MACOSX_FUSET
+				catch (...)
+				{
+					controlFileError = "unknown exception";
+					if (controlFileRetries > 0)
+					{
+						// FUSE-T's SMB backend can briefly expose the auxiliary mount
+						// before the control file is readable and deserializable.
+						Thread::Sleep (500);
+					}
+				}
+#endif
 			}
 
-			if (!mountedVol) 
+			if (!mountedVol)
 			{
-				continue; // Skip to the next mounted filesystem
+#ifdef VC_MACOSX_FUSET
+				if (!volumePath.IsEmpty())
+				{
+					stringstream logMessage;
+					logMessage << "Failed to read VeraCrypt auxiliary mount control file after retries: "
+						<< string (mf.MountPoint) << FuseService::GetControlPath();
+					if (!controlFileError.empty())
+						logMessage << ": " << controlFileError;
+					SystemLog::WriteError (logMessage.str());
+				}
+#endif
+#ifdef TC_MACOSX
+				result.UnresolvedMounts.push_back (mf.MountPoint);
+#endif
+				continue;
 			}
 
 			if (!volumePath.IsEmpty() && wstring (mountedVol->Path).compare (volumePath) != 0)
@@ -385,7 +724,8 @@ namespace VeraCrypt
 
 			mountedVol->AuxMountPoint = mf.MountPoint;
 
-			if (!mountedVol->VirtualDevice.IsEmpty())
+#ifndef TC_MACOSX
+			if (mountedVol->MountPoint.IsEmpty() && !mountedVol->VirtualDevice.IsEmpty())
 			{
 				MountedFilesystemList mpl = GetMountedFilesystems (mountedVol->VirtualDevice);
 
@@ -393,14 +733,29 @@ namespace VeraCrypt
 					mountedVol->MountPoint = mpl.front()->MountPoint;
 			}
 
+			if (mountedVol->MountPoint.IsEmpty() || mountedVol->VirtualDevice.IsEmpty())
+				UpdateMountedVolumeInfo (mountedVol);
+#endif
+
 			volumes.push_back (mountedVol);
 
 			if (!volumePath.IsEmpty())
 				break;
 		}
 
-		return volumes;
+#ifdef TC_MACOSX
+		UpdateMountedVolumesInfo (volumes);
+#endif
+		return result;
 	}
+
+#ifdef TC_MACOSX
+	void CoreUnix::UpdateMountedVolumesInfo (VolumeInfoList &volumes) const
+	{
+		foreach (shared_ptr <VolumeInfo> volume, volumes)
+			UpdateMountedVolumeInfo (volume);
+	}
+#endif
 
 	gid_t CoreUnix::GetRealGroupId () const
 	{
@@ -414,6 +769,10 @@ namespace VeraCrypt
 			}
 			catch (...) { }
 		}
+
+		gid_t doasGid;
+		if (GetDoasUserIds (nullptr, &doasGid))
+			return doasGid;
 
 		return getgid();
 	}
@@ -430,6 +789,10 @@ namespace VeraCrypt
 			}
 			catch (...) { }
 		}
+
+		uid_t doasUid;
+		if (GetDoasUserIds (&doasUid, nullptr))
+			return doasUid;
 
 		return getuid();
 	}
@@ -534,13 +897,253 @@ namespace VeraCrypt
 		return GetMountedFilesystems (DevicePath(), mountPoint).size() == 0;
 	}
 
-	void CoreUnix::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+#ifdef TC_LINUX
+	static bool GetLinuxKernelVersion (int &kernelMajor, int &kernelMinor)
+	{
+		struct utsname kernelInfo;
+		if (uname (&kernelInfo) != 0)
+			return false;
+
+		kernelMajor = 0;
+		kernelMinor = 0;
+		int versionFields = sscanf (kernelInfo.release, "%d.%d", &kernelMajor, &kernelMinor);
+
+		if (versionFields < 1)
+			return false;
+
+		return true;
+	}
+
+	static bool IsLinuxKernelVersionAtLeast (int major, int minor)
+	{
+		int kernelMajor = 0;
+		int kernelMinor = 0;
+		if (!GetLinuxKernelVersion (kernelMajor, kernelMinor))
+			return false;
+
+		return kernelMajor > major || (kernelMajor == major && kernelMinor >= minor);
+	}
+
+	static bool IsLinuxKernelModuleLoaded (const string &moduleName)
+	{
+		string modulePath = "/sys/module/" + moduleName;
+		struct stat moduleStat;
+		return stat (modulePath.c_str(), &moduleStat) == 0 && S_ISDIR (moduleStat.st_mode);
+	}
+
+	static bool IsNtfsReadWriteKernelModuleAvailable ()
+	{
+		list <string> args;
+		args.push_back ("-F");
+		args.push_back ("description");
+		args.push_back ("ntfs");
+
+		try
+		{
+			string description = StringConverter::ToLower (StringConverter::Trim (Process::Execute ("modinfo", args, 2000)));
+			// The upstream fs/ntfs module reports "NTFS read-write filesystem driver".
+			// ntfs3 compatibility aliases report different wording, such as read/write.
+			return description.find ("ntfs") != string::npos
+				&& description.find ("read-write") != string::npos
+				&& description.find ("filesystem driver") != string::npos;
+		}
+		catch (...) { }
+
+		return false;
+	}
+
+	bool CoreUnix::IsNtfsReadWriteKernelFilesystemTypeAvailable () const
+	{
+		if (!IsNtfsReadWriteKernelModuleAvailable ())
+			return false;
+
+		if (!IsLinuxKernelModuleLoaded ("ntfs"))
+		{
+			list <string> args;
+			args.push_back ("-q");
+			args.push_back ("-b");
+			args.push_back ("ntfs");
+
+			try
+			{
+				Process::Execute ("modprobe", args, 5000);
+			}
+			catch (...) { }
+		}
+
+		return IsLinuxKernelModuleLoaded ("ntfs") && IsFilesystemTypeRegistered ("ntfs");
+	}
+
+	string CoreUnix::DetectFilesystemType (const DevicePath &devicePath) const
+	{
+		list <string> args;
+		args.push_back ("-p");
+		args.push_back ("-o");
+		args.push_back ("value");
+		args.push_back ("-s");
+		args.push_back ("TYPE");
+		args.push_back ("--");
+		args.push_back (devicePath);
+
+		try
+		{
+			return StringConverter::ToLower (StringConverter::Trim (Process::Execute ("blkid", args, 2000)));
+		}
+		catch (...)
+		{
+			return string();
+		}
+	}
+
+	bool CoreUnix::IsFilesystemTypeRegistered (const string &filesystemType) const
+	{
+		FILE *procFilesystems = fopen ("/proc/filesystems", "r");
+		if (!procFilesystems)
+			return false;
+
+		bool registered = false;
+		char line[256];
+		finally_do_arg (FILE *, procFilesystems, fclose (finally_arg););
+
+		while (fgets (line, sizeof (line), procFilesystems))
+		{
+			string entry = StringConverter::Trim (line);
+			size_t separator = entry.find_last_of (" \t");
+
+			if (separator != string::npos)
+				entry = entry.substr (separator + 1);
+
+			if (entry == filesystemType)
+			{
+				registered = true;
+				break;
+			}
+		}
+
+		return registered;
+	}
+
+	bool CoreUnix::IsKernelFilesystemTypeAvailable (const string &filesystemType) const
+	{
+		if (IsFilesystemTypeRegistered (filesystemType))
+			return true;
+
+		// This is only used from mount-time paths that run with root-equivalent privileges.
+		// If a future unprivileged caller uses it, modprobe is expected to fail silently here.
+		list <string> moduleNames;
+		moduleNames.push_back (filesystemType);
+		moduleNames.push_back ("fs-" + filesystemType);
+
+		foreach (const string &moduleName, moduleNames)
+		{
+			list <string> args;
+			args.push_back ("-q");
+			args.push_back ("-b");
+			args.push_back (moduleName);
+
+			try
+			{
+				Process::Execute ("modprobe", args, 5000);
+			}
+			catch (...) { }
+
+			if (IsFilesystemTypeRegistered (filesystemType))
+				return true;
+		}
+
+		return false;
+	}
+
+	string CoreUnix::SelectNtfsKernelFilesystemType () const
+	{
+		bool kernelHasStandaloneNtfs = IsLinuxKernelVersionAtLeast (7, 1);
+
+		// Linux 6.9-7.0 may expose an "ntfs" compatibility alias from ntfs3,
+		// but that legacy mount path is forced read-only. Only use "ntfs" where
+		// the standalone read/write in-kernel driver is expected upstream, or when
+		// module metadata and /sys/module positively identify a loaded backport as
+		// the modern driver. Do not trust a pre-existing "ntfs" registration on
+		// pre-7.1 kernels; it may belong to ntfs3's read-only compatibility path.
+		if (!kernelHasStandaloneNtfs && IsNtfsReadWriteKernelFilesystemTypeAvailable ())
+			return "ntfs";
+
+		if (kernelHasStandaloneNtfs && IsKernelFilesystemTypeAvailable ("ntfs"))
+			return "ntfs";
+
+		if (IsKernelFilesystemTypeAvailable ("ntfs3"))
+			return "ntfs3";
+
+		throw KernelNtfsDriverUnavailable (SRC_POS);
+	}
+
+	void CoreUnix::ResolveNtfsKernelMountOptions (const DevicePath &devicePath, bool mountNtfsWithKernelDriver,
+		wstring &filesystemType, bool &internalMountOnly) const
+	{
+		string requestedFilesystemType = StringConverter::ToLower (StringConverter::ToSingle (filesystemType));
+		bool explicitKernelNtfsRequest = requestedFilesystemType == "kernel-ntfs" || requestedFilesystemType == "ntfs-kernel";
+
+		if (requestedFilesystemType == "ntfs3")
+		{
+			// mount.ntfs3 helpers are not required; -i keeps mount(8) on the kernel path.
+			internalMountOnly = true;
+			return;
+		}
+
+		if (!explicitKernelNtfsRequest
+			&& !(mountNtfsWithKernelDriver
+				&& filesystemType.empty()
+				&& DetectFilesystemType (devicePath) == "ntfs"))
+			return;
+
+		filesystemType = StringConverter::ToWide (SelectNtfsKernelFilesystemType());
+		internalMountOnly = true;
+	}
+
+	string CoreUnix::DetectLinuxMountFallbackFilesystemType (const DevicePath &devicePath) const
+	{
+		string detectedFilesystemType = DetectFilesystemType (devicePath);
+
+		if (detectedFilesystemType == "vfat" || detectedFilesystemType == "exfat" || detectedFilesystemType == "msdos")
+			return detectedFilesystemType;
+
+		if (detectedFilesystemType == "fat")
+			return "vfat";
+
+		return string();
+	}
+
+	void CoreUnix::MountFilesystemWithFallback (const DevicePath &devicePath, const DirectoryPath &mountPoint,
+		const string &filesystemType, bool allowFilesystemTypeFallback, bool readOnly,
+		const string &systemMountOptions, bool internalMountOnly) const
+	{
+		try
+		{
+			MountFilesystem (devicePath, mountPoint, filesystemType, readOnly, systemMountOptions, internalMountOnly);
+		}
+		catch (ExecutedProcessFailed&)
+		{
+			if (!allowFilesystemTypeFallback || !filesystemType.empty() || internalMountOnly)
+				throw;
+
+			string fallbackFilesystemType = DetectLinuxMountFallbackFilesystemType (devicePath);
+			if (fallbackFilesystemType.empty())
+				throw;
+
+			MountFilesystem (devicePath, mountPoint, fallbackFilesystemType, readOnly, systemMountOptions, false);
+		}
+	}
+#endif
+
+	void CoreUnix::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
 		if (GetMountedFilesystems (DevicePath(), mountPoint).size() > 0)
 			throw MountPointUnavailable (SRC_POS);
 
 		list <string> args;
 		string options;
+
+		if (internalMountOnly)
+			args.push_back ("-i");
 
 		if (!filesystemType.empty())
 		{
@@ -663,9 +1266,25 @@ namespace VeraCrypt
 				throw DeviceSectorSizeMismatch (SRC_POS, StringConverter::ToWide(devSectorSize) + L" != " + StringConverter::ToWide((uint32) volSectorSize));
 		}
 
+		string fuseMountPoint;
+#ifdef VC_MACOSX_FUSET
+		// An older service may still be shutting down after its SMB mount has
+		// disappeared. FUSE-T also uses the pathname during backend teardown,
+		// so a replacement volume must have a different auxiliary path.
+		// An elevated parent also needs trusted ancestors. Match the shutdown
+		// socket's location instead of honoring a caller-controlled TMPDIR.
+		const string auxiliaryParent = CreateFuseTAuxiliaryDirectory (geteuid() == 0 ? "/private/tmp" : GetTempDirectory(), GetRealUserId());
+		// Cover failures before the service takes over, including child creation.
+		// A live mount keeps this parent nonempty; its service removes it later.
+		finally_do_arg (string, auxiliaryParent, { rmdir (finally_arg.c_str()); });
+		string mountTemplate = auxiliaryParent + "/" + GetFuseMountDirPrefix() + "-XXXXXXXXXXXX";
+		vector <char> mountDirectory (mountTemplate.begin(), mountTemplate.end());
+		mountDirectory.push_back ('\0');
+		throw_sys_if (mkdtemp (&mountDirectory[0]) == NULL);
+		fuseMountPoint = &mountDirectory[0];
+#else
 		// Find a free mount point for FUSE service
 		MountedFilesystemList mountedFilesystems = GetMountedFilesystems ();
-		string fuseMountPoint;
 		for (int i = 1; true; i++)
 		{
 			stringstream path;
@@ -702,10 +1321,30 @@ namespace VeraCrypt
 				}
 			}
 		}
+#endif
+
+#ifdef VC_MACOSX_FUSET
+		uint64 fuseServiceSerialInstanceNumber;
+#endif
 
 		try
 		{
+#ifdef VC_MACOSX_FUSET
+			throw_sys_if (chmod (fuseMountPoint.c_str(), S_IRUSR | S_IXUSR) == -1);
+#endif
+#ifdef TC_MACOSX
+			// FUSE canonicalizes its mount path. Give hdiutil the same path so
+			// its inventory identifies the image even when TMPDIR is a symlink.
+			char *canonicalPath = realpath (fuseMountPoint.c_str(), NULL);
+			throw_sys_if (canonicalPath == NULL);
+			finally_do_arg (char *, canonicalPath, { free (finally_arg); });
+			fuseMountPoint = canonicalPath;
+#endif
+#ifdef VC_MACOSX_FUSET
+			fuseServiceSerialInstanceNumber = FuseService::Mount (volume, options.SlotNumber, fuseMountPoint);
+#else
 			FuseService::Mount (volume, options.SlotNumber, fuseMountPoint);
+#endif
 		}
 		catch (...)
 		{
@@ -716,6 +1355,8 @@ namespace VeraCrypt
 			catch (...) { }
 			throw;
 		}
+
+		DevicePath mountedVirtualDevice;
 
 		try
 		{
@@ -748,7 +1389,7 @@ namespace VeraCrypt
 				}
 				catch (NotApplicable&)
 				{
-					MountAuxVolumeImage (fuseMountPoint, options);
+					mountedVirtualDevice = MountAuxVolumeImage (fuseMountPoint, options);
 				}
 			}
 			catch (...)
@@ -774,33 +1415,114 @@ namespace VeraCrypt
 			}
 #endif
 
+#ifdef VC_MACOSX_FUSET
+			shared_ptr <VolumeInfo> mountedVolume = GetMountedVolume (*options.Path);
+			if (mountedVolume)
+			{
+				if (mountedVolume->SerialInstanceNumber != fuseServiceSerialInstanceNumber)
+					throw ParameterIncorrect (SRC_POS);
+				if (!mountedVirtualDevice.IsEmpty())
+				{
+					if (mountedVolume->VirtualDevice.IsEmpty())
+						mountedVolume->VirtualDevice = mountedVirtualDevice;
+
+					if (!options.NoFilesystem && mountedVolume->MountPoint.IsEmpty())
+					{
+						for (int mountPointRetries = 20; mountPointRetries > 0; --mountPointRetries)
+						{
+							try
+							{
+								mountedVolume->MountPoint = GetDeviceMountPoint (mountedVirtualDevice);
+								if (!mountedVolume->MountPoint.IsEmpty())
+									break;
+							}
+							catch (...) { }
+
+							Thread::Sleep (500);
+						}
+					}
+				}
+			}
+			else if (!mountedVirtualDevice.IsEmpty())
+			{
+				mountedVolume.reset (new VolumeInfo);
+				mountedVolume->Set (*volume);
+				mountedVolume->ProgramVersion = VERSION_NUM;
+				mountedVolume->SlotNumber = options.SlotNumber;
+				mountedVolume->AuxMountPoint = fuseMountPoint;
+				mountedVolume->VirtualDevice = mountedVirtualDevice;
+
+				mountedVolume->SerialInstanceNumber = fuseServiceSerialInstanceNumber;
+
+				if (!options.NoFilesystem)
+				{
+					for (int mountPointRetries = 20; mountPointRetries > 0; --mountPointRetries)
+					{
+						try
+						{
+							mountedVolume->MountPoint = GetDeviceMountPoint (mountedVirtualDevice);
+							if (!mountedVolume->MountPoint.IsEmpty())
+								break;
+						}
+						catch (...) { }
+
+						Thread::Sleep (500);
+					}
+				}
+			}
+#else
+			shared_ptr <VolumeInfo> mountedVolume = GetMountedVolume (*options.Path);
+#endif
+			if (!mountedVolume)
+				throw ParameterIncorrect (SRC_POS);
+
+			VolumeEventArgs eventArgs (mountedVolume);
+			VolumeMountedEvent.Raise (eventArgs);
+
+			return mountedVolume;
 		}
 		catch (...)
 		{
+#ifdef VC_MACOSX_FUSET
+			// Enumeration may itself have failed. Cleanup belongs to the instance
+			// we just started, not a later volume discovered by path or slot.
+			try { throw; }
+			catch (exception &e) { SystemLog::WriteException (e); }
+			catch (...) { }
 			try
 			{
-				VolumeInfoList mountedVolumes = GetMountedVolumes (*options.Path);
-				if (mountedVolumes.size() > 0)
-				{
-					shared_ptr <VolumeInfo> mountedVolume (mountedVolumes.front());
+				shared_ptr <VolumeInfo> cleanupVolume (new VolumeInfo);
+				cleanupVolume->Set (*volume);
+				cleanupVolume->ProgramVersion = VERSION_NUM;
+				cleanupVolume->SlotNumber = options.SlotNumber;
+				cleanupVolume->SerialInstanceNumber = fuseServiceSerialInstanceNumber;
+				cleanupVolume->AuxMountPoint = fuseMountPoint;
+				DismountVolume (cleanupVolume);
+			}
+			catch (DismountServiceCleanupFailed &) { throw; }
+			catch (exception &e)
+			{
+				SystemLog::WriteException (e);
+				throw MountServiceCleanupFailed (SRC_POS, StringConverter::ToWide (fuseMountPoint) + L"\n" + StringConverter::ToExceptionString (e));
+			}
+			catch (...)
+			{
+				throw MountServiceCleanupFailed (SRC_POS, StringConverter::ToWide (fuseMountPoint));
+			}
+#else
+			try
+			{
+				shared_ptr <VolumeInfo> mountedVolume = GetMountedVolume (*options.Path);
+				if (mountedVolume)
 					DismountVolume (mountedVolume);
-				}
 			}
 			catch (...) { }
+#endif
 			throw;
 		}
-
-		VolumeInfoList mountedVolumes = GetMountedVolumes (*options.Path);
-		if (mountedVolumes.size() != 1)
-			throw ParameterIncorrect (SRC_POS);
-
-		VolumeEventArgs eventArgs (mountedVolumes.front());
-		VolumeMountedEvent.Raise (eventArgs);
-
-		return mountedVolumes.front();
 	}
 
-	void CoreUnix::MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const
+	DevicePath CoreUnix::MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const
 	{
 		DevicePath loopDev = AttachFileToLoopDevice (string (auxMountPoint) + FuseService::GetVolumeImagePath(), options.Protection == VolumeProtection::ReadOnly);
 
@@ -820,11 +1542,31 @@ namespace VeraCrypt
 
 		if (!options.NoFilesystem && options.MountPoint && !options.MountPoint->IsEmpty())
 		{
-			MountFilesystem (loopDev, *options.MountPoint,
-				StringConverter::ToSingle (options.FilesystemType),
+			wstring filesystemType = options.FilesystemType;
+			bool internalMountOnly = false;
+
+#ifdef TC_LINUX
+			bool allowFilesystemTypeFallback = filesystemType.empty();
+
+			ResolveNtfsKernelMountOptions (loopDev, options.MountNtfsWithKernelDriver, filesystemType, internalMountOnly);
+			allowFilesystemTypeFallback = allowFilesystemTypeFallback && filesystemType.empty() && !internalMountOnly;
+
+			MountFilesystemWithFallback (loopDev, *options.MountPoint,
+				StringConverter::ToSingle (filesystemType),
+				allowFilesystemTypeFallback,
 				options.Protection == VolumeProtection::ReadOnly,
-				StringConverter::ToSingle (options.FilesystemOptions));
+				StringConverter::ToSingle (options.FilesystemOptions),
+				internalMountOnly);
+#else
+			MountFilesystem (loopDev, *options.MountPoint,
+				StringConverter::ToSingle (filesystemType),
+				options.Protection == VolumeProtection::ReadOnly,
+				StringConverter::ToSingle (options.FilesystemOptions),
+				internalMountOnly);
+#endif
 		}
+
+		return loopDev;
 	}
 
 	void CoreUnix::SetFileOwner (const FilesystemPath &path, const UserId &owner) const
@@ -908,8 +1650,8 @@ namespace VeraCrypt
 		while (getline(ss, token, ':'))
 		{
 			// remove any trailing slashes from the token
-			while (!token.empty() && token.back() == '/')
-				token.pop_back();
+			while (!token.empty() && token[token.length() - 1] == '/')
+				token.erase(token.length() - 1);
 
 			if (token.empty())
 				continue;
@@ -927,8 +1669,8 @@ namespace VeraCrypt
 			free(resolvedEntry);
 
 			// remove any trailing slashes from the token
-			while (!entryPath.empty() && entryPath.back() == '/')
-				entryPath.pop_back();
+			while (!entryPath.empty() && entryPath[entryPath.length() - 1] == '/')
+				entryPath.erase(entryPath.length() - 1);
 
 			// perform check again if the resolved path is different from the original (symlink)
 			if (dirPath == entryPath || dirPath.find(entryPath + "/") == 0)

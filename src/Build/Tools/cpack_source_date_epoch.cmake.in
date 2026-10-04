@@ -1,0 +1,3 @@
+# Preserve configure-time SOURCE_DATE_EPOCH for standalone cpack --config runs.
+set(SOURCE_DATE_EPOCH "@SOURCE_DATE_EPOCH@")
+set(ENV{SOURCE_DATE_EPOCH} "${SOURCE_DATE_EPOCH}")

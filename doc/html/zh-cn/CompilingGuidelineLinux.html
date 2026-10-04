@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title> VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具 </title>
+<meta name="description" content="VeraCrypt 是一款适用于 Windows、Mac OS X 和 Linux 的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt 提供了似是而非的否认能力。与文件加密不同，VeraCrypt 执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。" />
+<meta name="keywords" content="加密, 安全" />
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+</style>
+
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt" /></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">从源代码构建 VeraCrypt</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineLinux.html">Linux 构建指南</a>
+</p></div>
+
+<div class="wikidoc">
+本指南介绍了如何设置 Linux 系统以从源代码构建 VeraCrypt，以及如何进行编译。<br>
+这里以 Ubuntu 22.04 LTS 系统为例进行说明，其他 Linux 系统的操作过程类似。
+</div>
+
+<div class="wikidoc">
+<br>
+<br>
+编译 VeraCrypt 需要以下组件：
+<ol>
+    <li>GNU Make</li>
+    <li>GNU C/C++ 编译器</li>
+    <li>YASM 1.3.0</li>
+    <li>pkg-config</li>
+    <li>系统安装的 wxWidgets 3.x 共享库和头文件，或者 wxWidgets 3.x 库源代码</li>
+    <li>FUSE 库和头文件</li>
+    <li>PCSC-lite 库和头文件</li>
+</ol>
+</div>
+
+<div class="wikidoc">
+<p>以下是具体步骤。点击任何链接可直接跳转到相关步骤：
+<ul>
+<li><strong><a href="#InstallationOfGNUMake">安装 GNU Make</a></strong></li>
+<li><strong><a href="#InstallationOfGNUCompiler">安装 GNU C/C++ 编译器</a></strong></li>
+<li><strong><a href="#InstallationOfYASM">安装 YASM</a></strong></li>
+<li><strong><a href="#InstallationOfPKGConfig">安装 pkg-config</a></strong></li>
+<li><strong><a href="#InstallationOfwxWidgets">安装 wxWidgets 3.2</a></strong></li>
+<li><strong><a href="#InstallationOfFuse">安装 libfuse</a></strong></li>
+<li><strong><a href="#InstallationOfPCSCLite">安装 libpcsclite</a></strong></li>
+<li><strong><a href="#DownloadVeraCrypt">下载 VeraCrypt</a></strong></li>
+<li><strong><a href="#CompileVeraCrypt">编译 VeraCrypt</a></strong></li>
+</ul>
+</p>
+<p>也可以在终端中运行以下命令列表，或将它们复制到脚本中执行：<br>
+<code>
+sudo apt update <br>
+sudo apt install -y build-essential yasm pkg-config libwxgtk3.0-gtk3-dev <br>
+sudo apt install -y libfuse-dev git libpcsclite-dev <br>
+git clone https://github.com/veracrypt/VeraCrypt.git <br>
+cd ~/VeraCrypt/src <br>
+make
+</code>
+</p>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfGNUMake">
+  <a href="#InstallationOfGNUMake">安装 GNU Make</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>
+                sudo apt update <br>
+                sudo apt install build-essential
+                </code>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfGNUCompiler">
+  <a href="#InstallationOfGNUCompiler">安装 GNU C/C++ 编译器</a>
+  <div class="texttohide">
+    <p> 如果在上一步中已经安装了 build-essential，则可以跳过此步骤。
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>
+                sudo apt update <br>
+                sudo apt install build-essential
+                </code>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#InstallationOfYASM">安装 YASM</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>
+                sudo apt update <br>
+                sudo apt install yasm
+                </code>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfPKGConfig">
+  <a href="#InstallationOfPKGConfig">安装 pkg-config</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>
+                sudo apt update <br>
+                sudo apt install pkg-config
+                </code>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfwxWidgets">
+  <a href="#InstallationOfwxWidgets">安装 wxWidgets 3.2</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>        
+                sudo apt update <br>
+                sudo apt install libwxgtk3.0-gtk3-dev <br>
+                </code>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfFuse">
+  <a href="#InstallationOfFuse">安装 libfuse</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>
+                sudo apt update <br>
+                sudo apt install libfuse-dev
+                </code>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+
+<div class="textbox" id="InstallationOfPCSCLite">
+    <a href="#InstallationOfPCSCLite">安装 libpcsclite</a>
+    <div class="texttohide">
+        <p>
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>
+                    sudo apt update <br>
+                    sudo apt install libpcsclite-dev
+                </code>
+            </li>
+        </ol>
+        </p>
+    </div>
+</div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#DownloadVeraCrypt">下载 VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>
+                sudo apt update <br>
+                sudo apt install git <br>
+                git clone https://github.com/veracrypt/VeraCrypt.git
+                </code>
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileVeraCrypt">
+  <a href="#CompileVeraCrypt">编译 VeraCrypt</a>
+  <div class="texttohide">
+    <p> 备注：<br>
+    <ul>
+        <li>
+            默认情况下，会构建一个同时支持图形用户界面和文本用户界面（通过 --text 开关）的通用可执行文件。<br>
+            在 Linux 上，可以使用 'NOGUI' 参数构建仅控制台的可执行文件，该文件不需要 GUI 库。<br>
+            为此，您需要下载 wxWidgets 源代码，将其解压到您选择的位置，然后运行以下命令：<br>
+            <code>
+            make NOGUI=1 WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources wxbuild <br>
+            make NOGUI=1 WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources
+            </code>
+        </li>
+        <li>
+            如果您不使用系统的 wxWidgets 库，则需要像上述备注一样下载并使用 wxWidgets 源代码，但这次应运行以下命令来构建 VeraCrypt 的 GUI 版本（不指定 NOGUI）：<br>
+            <code>
+            make WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources wxbuild <br>
+            make WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources
+            </code>
+        </li>
+    </ul>
+    步骤：
+        <ol>
+            <li>
+                打开终端
+            </li>
+            <li>
+                执行以下命令：<br>
+                <code>        
+                cd ~/VeraCrypt/src <br>
+                make
+                </code>
+            </li>
+            <li>
+                如果成功，VeraCrypt 可执行文件应该位于 'Main' 目录中。
+            </li>
+        </ol>
+    </p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

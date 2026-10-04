@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -29,6 +29,23 @@ namespace VeraCrypt
 		VolumeSizePrefixChoice->Append (LangString["GB"], reinterpret_cast <void *> (3));
 		VolumeSizePrefixChoice->Append (LangString["TB"], reinterpret_cast <void *> (4));
 		VolumeSizePrefixChoice->Select (Prefix::MB);
+
+		// The generated base class fits this choice while it is still empty.
+		// Size it after adding localized labels so Cocoa does not truncate "MiB" to "...".
+		wxCoord maxPrefixTextWidth = 0;
+		for (unsigned int i = 0; i < VolumeSizePrefixChoice->GetCount(); ++i)
+		{
+			wxCoord textWidth, textHeight;
+			VolumeSizePrefixChoice->GetTextExtent (VolumeSizePrefixChoice->GetString (i), &textWidth, &textHeight);
+			if (textWidth > maxPrefixTextWidth)
+				maxPrefixTextWidth = textWidth;
+		}
+
+		wxSize prefixChoiceSize = VolumeSizePrefixChoice->GetBestSize();
+		int minPrefixChoiceWidth = maxPrefixTextWidth + Gui->GetCharWidth (VolumeSizePrefixChoice) * 6;
+		if (prefixChoiceSize.GetWidth() < minPrefixChoiceWidth)
+			prefixChoiceSize.SetWidth (minPrefixChoiceWidth);
+		VolumeSizePrefixChoice->SetMinSize (prefixChoiceSize);
 
 		wxLongLong diskSpace = 0;
 		if (!wxGetDiskSpace (wxFileName (wstring (volumePath)).GetPath(), nullptr, &diskSpace))

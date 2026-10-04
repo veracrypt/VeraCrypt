@@ -4,17 +4,21 @@
 # by the TrueCrypt License 3.0.
 #
 # Modifications and additions to the original source code (contained in this file)
-# and all other portions of this file are Copyright (c) 2013-2017 IDRIX
+# and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
 #
 
-PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin/X11
+PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin/X11
 
-PACKAGE_DIR=$(dirname $(mktemp))
-PACKAGE=$PACKAGE_DIR/$PACKAGE_NAME
+# Write the package to a private temporary file so a planted path cannot be used
+PACKAGE=$(mktemp) || { echo "Error: failed to create a temporary file" >&2; exit 1; }
+PACKAGE_DIR=$(dirname "$PACKAGE")
 umask 022
+
+OBSOLETE_DONATION_BANK_FILES="/usr/share/doc/veracrypt/HTML/en/Donation_Bank.html /usr/share/doc/veracrypt/HTML/en/bank_30x30.png /usr/share/doc/veracrypt/HTML/ru/Donation_Bank.html /usr/share/doc/veracrypt/HTML/ru/bank_30x30.png /usr/share/doc/veracrypt/HTML/zh-cn/Donation_Bank.html /usr/share/doc/veracrypt/HTML/zh-cn/bank_30x30.png"
+OBSOLETE_SYMBOLIC_ICON_FILES="/usr/local/share/icons/hicolor/symbolic/apps/veracrypt-symbolic.svg"
 
 
 # Terminal setup
@@ -52,7 +56,7 @@ then
 
 	if [ $XMESSAGE -eq 0 ] || ([ $XTERM -eq 0 ] && [ $GTERM -eq 0 ] && [ $KTERM -eq 0 ])
 	then
-		which gnome-terminal && exec gnome-terminal -e "$0"
+		which gnome-terminal && exec gnome-terminal -- "$0"
 		which konsole && exec konsole -e "$0"
 		which xterm && exec xterm -e "$0"
 
@@ -77,7 +81,7 @@ show_message()
 	then
 		if [ $XMESSAGE -eq 1 ]
 		then
-			xmessage -center -buttons OK -default OK "$*"
+			xmessage -title "VeraCrypt Setup" -center -buttons OK -default OK "$*"
 		else
 			if [ $TTY -eq 1 ]
 			then
@@ -89,11 +93,11 @@ show_message()
 				else
 					if [ $GTERM -eq 1 ]
 					then
-						gnome-terminal --title='VeraCrypt Setup' -e "sh -c \"echo $*; read A\""
+						gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo $*; read A"
 					else
 						if [ $KTERM -eq 1 ]
 						then
-							konsole --qwindowtitle 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo $*; read A"
+							konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo $*; read A"
 						fi
 					fi
 				fi
@@ -115,9 +119,26 @@ show_exit_message()
 	fi
 }
 
+update_system_caches_command()
+{
+	if [ "$INSTALLER_TYPE" = "console" ]
+	then
+		printf '%s' "if command -v gtk-update-icon-cache >/dev/null 2>&1; then $SUDO gtk-update-icon-cache -q -t -f /usr/local/share/icons/hicolor >/dev/null 2>&1 || true; fi"
+		return 0
+	fi
+
+	printf '%s' "if command -v gtk-update-icon-cache >/dev/null 2>&1; then $SUDO gtk-update-icon-cache -q -t -f /usr/local/share/icons/hicolor >/dev/null 2>&1 || true; fi; if command -v update-mime-database >/dev/null 2>&1; then $SUDO update-mime-database /usr/local/share/mime >/dev/null 2>&1; fi; if command -v update-desktop-database >/dev/null 2>&1; then $SUDO update-desktop-database -q >/dev/null 2>&1; fi"
+}
+
+update_system_caches()
+{
+	eval "$(update_system_caches_command)"
+	return 0
+}
+
 # License extraction
 
-trap 'rm -f $LICENSE $PACKAGE; exit 1' HUP INT QUIT TERM
+trap 'rm -f "$LICENSE" "$PACKAGE"; exit 1' HUP INT QUIT TERM
 LICENSE=$(mktemp)
 
 cat >$LICENSE <<_LICENSE_END
@@ -136,7 +157,7 @@ the TrueCrypt License version 3.0, a verbatim copy of both
 licenses can be found below.
 
 This license does not grant you rights to use any
-contributors' name, logo, or trademarks, including IDRIX,
+contributors' name, logo, or trademarks, including AM Crypto,
 VeraCrypt and all derivative names.
 For example, the following names are not allowed: VeraCrypt,
 VeraCrypt+, VeraCrypt Professional, iVeraCrypt, etc. Nor any
@@ -845,11 +866,11 @@ INSTALL=-1
 if [ $XMESSAGE -eq 1 ]
 then
 
-	cat <<_END | xmessage -center -file - -buttons "Exit:1,Extract .$PACKAGE_TYPE Package File:20,Install VeraCrypt:10" -default 'Install VeraCrypt'
+	cat <<_END | xmessage -title "VeraCrypt Setup" -center -file - -buttons "Exit:1,Extract .$PACKAGE_TYPE Package File:20,Install VeraCrypt:10" -default 'Install VeraCrypt'
 VeraCrypt $VERSION Setup
 ====================
- VeraCrypt is a free disk encryption software brought to you by IDRIX
- (http://www.idrix.fr) and that is based on TrueCrypt.
+ VeraCrypt is a free disk encryption software brought to you by AM Crypto
+ (https://amcrypto.jp) and that is based on TrueCrypt.
  It is a software system for establishing and maintaining an
  on-the-fly-encrypted volume (data storage device). On-the-fly encryption
  means that data are automatically encrypted or decrypted right before they
@@ -934,7 +955,7 @@ then
 
 # GUI license agreement
 
-	cat <<_END | cat - $LICENSE | xmessage -center -file - -buttons 'I accept and agree to be bound by the license terms:10,I do not accept:20'
+	cat <<_END | cat - $LICENSE | xmessage -title "VeraCrypt Setup" -center -file - -buttons 'I accept and agree to be bound by the license terms:10,I do not accept:20'
 
 Before you can use, extract, or install VeraCrypt, you must accept these
 license terms.
@@ -1020,7 +1041,7 @@ fi
 
 [ $GUI -eq 0 ] && echo
 
-if ! tail -n +$PACKAGE_START "$0" >$PACKAGE
+if ! tail -n +$PACKAGE_START "$0" > "$PACKAGE"
 then
 	show_exit_message "Error: Extraction to $PACKAGE failed"
 	exit 1
@@ -1038,7 +1059,7 @@ Requirements for Running VeraCrypt:
 -----------------------------------
 
  - FUSE library and tools
- - device mapper tool
+ - device mapper tools
  - PC/SC Lite (optional)
 
 _INFO
@@ -1064,37 +1085,46 @@ then
 
 	if [ $GUI -eq 1 ]
 	then
+		CACHE_UPDATE_COMMAND=$(update_system_caches_command)
+
 		if [ $XTERM -eq 1 ]
 		then
-			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A"
+			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS \"$PACKAGE\" && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f \"$PACKAGE\"; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 		else
 			if [ $GTERM -eq 1 ]
 			then
-				exec gnome-terminal --title='VeraCrypt Setup' -e "sh -c \"echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A\""
+				exec gnome-terminal --title='VeraCrypt Setup' -- sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS \"$PACKAGE\" && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f \"$PACKAGE\"; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 			else
 				if [ $KTERM -eq 1 ]
 				then
-					exec konsole --qwindowtitle 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A"
+					exec konsole --qwindowtitle 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS \"$PACKAGE\" && $SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES; rm -f \"$PACKAGE\"; $CACHE_UPDATE_COMMAND; echo; echo Press Enter to exit...; read A"
 				fi
 			fi
 		fi
 	else
 		echo 'Installing package...'
-		$SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && INSTALLED=1
+		$SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS "$PACKAGE" && INSTALLED=1
 
 		if [ $INSTALLED -eq 1 ]
 		then
+			$SUDO rm -f $OBSOLETE_DONATION_BANK_FILES $OBSOLETE_SYMBOLIC_ICON_FILES
+			update_system_caches
 			show_exit_message ''
 		fi
 	fi
 
-	rm -f $PACKAGE
+	rm -f "$PACKAGE"
 	if [ $INSTALLED -ne 1 ]
 	then
 		show_exit_message 'Error: VeraCrypt installation failed'
 		exit 1
 	fi
 else
+	if ! mv -f "$PACKAGE" "$PACKAGE_DIR/$PACKAGE_NAME" || [ ! -f "$PACKAGE_DIR/$PACKAGE_NAME" ]
+	then
+		show_exit_message "Error: failed to place package at '$PACKAGE_DIR/$PACKAGE_NAME'"
+		exit 1
+	fi
 	show_exit_message "Installation package '$PACKAGE_NAME' extracted and placed in '$PACKAGE_DIR'"
 fi
 

@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -213,6 +213,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 {
 	static char PageDebugId[128];
 	static HWND hDisableMemProtectionTooltipWnd = NULL;
+	static HWND hDisableScreenProtectionTooltipWnd = NULL;
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
 
@@ -446,10 +447,15 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				// make the help button adjacent to the checkbox
 				MakeControlsContiguous(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, IDC_DISABLE_MEMORY_PROTECTION_HELP);
 
+				hDisableScreenProtectionTooltipWnd = CreateToolTip (IDC_DISABLE_SCREEN_PROTECTION, hwndDlg, "DISABLE_SCREEN_PROTECTION_WARNING");
+				// make the help button adjacent to the checkbox
+				AccommodateCheckBoxTextWidth(hwndDlg, IDC_DISABLE_SCREEN_PROTECTION);
+
 				SetCheckBox (hwndDlg, IDC_ALL_USERS, bForAllUsers);
 				SetCheckBox (hwndDlg, IDC_FILE_TYPE, bRegisterFileExt);
 				SetCheckBox (hwndDlg, IDC_PROG_GROUP, bAddToStartMenu);
 				SetCheckBox (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, bDisableMemoryProtection);
+				SetCheckBox (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION, bDisableScreenProtection);
 				SetCheckBox (hwndDlg, IDC_DESKTOP_ICON, bDesktopIcon);
 
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString (bUpgrade ? "UPGRADE" : "INSTALL"));
@@ -705,6 +711,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Applink("memoryprotection");
 				return 1;
 
+			case IDC_DISABLE_SCREEN_PROTECTION:
+				bDisableScreenProtection = IsButtonChecked (GetDlgItem (hCurPage, IDC_DISABLE_SCREEN_PROTECTION));
+				if (bDisableScreenProtection)
+				{
+					Warning ("DISABLE_SCREEN_PROTECTION_WARNING", hwndDlg);
+				}
+				return 1;
+
 			case IDC_FILE_TYPE:
 				bRegisterFileExt = IsButtonChecked (GetDlgItem (hCurPage, IDC_FILE_TYPE));
 				return 1;
@@ -786,6 +800,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			DestroyWindow (hDisableMemProtectionTooltipWnd);
 			hDisableMemProtectionTooltipWnd = NULL;
+		}
+
+		if (hDisableScreenProtectionTooltipWnd != NULL)
+		{
+			DestroyWindow (hDisableScreenProtectionTooltipWnd);
+			hDisableScreenProtectionTooltipWnd = NULL;
 		}
 
 		break;
@@ -883,8 +903,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			DonColorSchemeId = GetDonVal (2, 9);
 
-			// get the initial value of bDisableMemoryProtection by reading the registry
+			// get the initial value of bDisableMemoryProtection and bDisableScreenProtection by reading the registry
 			bDisableMemoryProtection = bOriginalDisableMemoryProtection = ReadMemoryProtectionConfig()? FALSE : TRUE;
+			bDisableScreenProtection = bOriginalDisableScreenProtection = ReadScreenProtectionConfig()? FALSE : TRUE;
 
 			if (bDevm)
 			{

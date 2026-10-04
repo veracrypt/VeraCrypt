@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即插即用）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Issues%20and%20Limitations.html">已知问题和限制</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>已知问题与限制</h1>
+<h3>已知问题</h3>
+<ul>
+<li>在Windows系统中，可能会出现为挂载的卷分配两个驱动器号而非一个的情况。这是由Windows挂载管理器缓存的问题导致的，可在挂载任何卷之前，在提升权限的命令提示符（以管理员身份运行）中输入命令“<strong>mountvol.exe /r</strong>”来解决。如果重启后问题仍然存在，可以使用以下步骤解决：
+<ul>
+<li>使用注册表编辑器（regedit）检查注册表项“HKEY_LOCAL_MACHINE\SYSTEM\MountedDevices”。向下滚动，您会找到以“\DosDevices\”或“\Global??\”开头的条目，这些条目表示系统已占用的驱动器号。在挂载任何卷之前，双击每个条目，删除包含“VeraCrypt”和“TrueCrypt”名称的条目。
+<br>
+此外，还有一些名称以“#{”和“\??\Volume{”开头的条目：双击每个条目，删除数据值中包含“VeraCrypt”和“TrueCrypt”名称的条目。
+</li></ul>
+</li>
+<li>在某些Windows机器上，VeraCrypt在挂载或卸载卷时可能会间歇性挂起。在VeraCrypt进行挂载或卸载操作期间，类似的挂起情况可能会影响其他正在运行的应用程序。
+此问题是由VeraCrypt在挂载/卸载操作期间显示的等待对话框与机器上安装的其他软件（例如Outpost防火墙专业版）之间的冲突引起的。
+在这种情况下，可以通过在“首选项”中禁用VeraCrypt等待对话框来解决问题：使用菜单“设置 -> 首选项”，并勾选“执行操作时不显示等待消息对话框”选项。
+</li>
+</ul>
+<h3 id="limitations">限制</h3>
+<ul>
+<li>[<em>注意：此限制不适用于Windows Vista及更高版本的Windows用户。</em>] 在Windows XP/2003系统中，VeraCrypt不支持对包含扩展（逻辑）分区的整个系统驱动器进行加密。您可以对仅包含主分区的整个系统驱动器进行加密。在部分或完全加密的任何系统驱动器上不得创建扩展（逻辑）分区（只能在其上创建主分区）。
+<em>注意</em>：如果您需要对包含扩展分区的整个驱动器进行加密，可以加密系统分区，并在驱动器上的任何非系统分区内创建由分区托管的VeraCrypt卷。或者，您可以考虑升级到Windows Vista或更高版本的Windows系统。 </li>
+<li>VeraCrypt目前不支持对已转换为动态磁盘的系统驱动器进行加密。
+</li>
+<li>为解决Windows XP的一个问题，VeraCrypt引导加载程序总是会自动根据其安装时的操作系统版本进行配置。当系统版本发生变化（例如，在运行Windows Vista时安装了VeraCrypt引导加载程序，但后来用它来引导Windows XP），您可能会遇到各种已知和未知的问题（例如，在某些笔记本电脑上，Windows XP可能无法显示登录屏幕）。请注意，这会影响多引导配置、VeraCrypt救援磁盘以及诱饵/隐藏操作系统（因此，如果隐藏系统是例如Windows XP，诱饵系统也应该是Windows XP）。
+</li>
+<li>在不进行预引导身份验证的情况下挂载处于系统加密密钥范围内的分区（例如，位于另一个未运行的操作系统的加密系统驱动器上的分区）的功能，例如通过选择<em>系统</em> > <em>不进行预引导身份验证挂载</em>，仅限于主分区（扩展/逻辑分区不能以这种方式挂载）。
+</li>
+<li>由于Windows 2000的一个问题，VeraCrypt在Windows 2000系统下不支持Windows挂载管理器。因此，一些Windows 2000内置工具，如磁盘碎片整理程序，在VeraCrypt卷上无法正常工作。此外，在Windows 2000系统下无法使用挂载管理器服务，例如为VeraCrypt卷分配挂载点（即将VeraCrypt卷附加到文件夹）。
+</li>
+<li>VeraCrypt不支持对安装在VHD文件中的操作系统进行预引导身份验证，除非使用适当的虚拟机软件（如Microsoft Virtual PC）进行引导。
+</li>
+<li>目前，Windows卷影复制服务仅支持处于系统加密密钥范围内的分区（例如，由VeraCrypt加密的系统分区，或位于由VeraCrypt加密的系统驱动器上的非系统分区，在加密操作系统运行时挂载）。注意：对于其他类型的卷，不支持卷影复制服务，因为必要的API文档不可用。
+</li>
+<li>如果系统不是从其安装的分区启动，则无法从隐藏操作系统中更改Windows启动设置。这是因为出于安全原因，当隐藏系统运行时，启动分区将以只读方式挂载。若要更改启动设置，请启动诱饵操作系统。
+</li>
+<li>加密分区无法调整大小，除非是在完全加密的系统驱动器上，且在加密操作系统运行时对分区进行调整。
+</li>
+<li id="SysEncUpgrade">当系统分区/驱动器被加密时，无法在预引导环境中（使用Windows安装光盘/ DVD或Windows预引导组件）对系统进行升级（例如，从Windows XP升级到Windows Vista）或修复。在这种情况下，必须先对系统分区/驱动器进行解密。注意：即使系统分区/驱动器被加密，正在运行的操作系统也可以正常进行<em>更新</em>（安全补丁、服务包等）。
+</li>
+<li>系统加密仅支持通过ATA/SCSI接口本地连接的驱动器（请注意，术语ATA也指SATA和eSATA）。
+</li>
+<li>使用系统加密时（这也适用于隐藏操作系统），VeraCrypt不支持多引导配置更改（例如，更改操作系统的数量及其位置）。具体而言，配置必须保持与VeraCrypt卷创建向导开始准备系统分区/驱动器加密（或创建隐藏操作系统）过程时的状态相同。<br>
+<br>
+注意：唯一的例外是多启动配置，此时运行的VeraCrypt加密操作系统始终位于驱动器#0上，并且是该驱动器上的唯一操作系统（或者驱动器上有一个VeraCrypt加密的诱饵系统和一个VeraCrypt加密的隐藏操作系统，没有其他操作系统），且该驱动器在计算机开机前已连接或断开（例如，使用外置eSATA硬盘盒上的电源开关）。计算机连接的其他驱动器上可以安装任何额外的操作系统（加密或未加密）（当驱动器#0断开时，驱动器#1会变为驱动器#0，依此类推）。
+</li><li>当笔记本电池电量不足时，计算机进入省电模式时，Windows可能不会向正在运行的应用程序发送适当消息。因此，在此情况下VeraCrypt可能无法自动卸载卷。
+</li><li>无法保证任何文件（例如容器或密钥文件）的时间戳能够被可靠且安全地保留（例如由于文件系统日志、文件属性时间戳，或操作系统因各种已记录/未记录的原因未能执行该操作）。注意：当您写入文件型隐藏卷时，容器的时间戳可能会改变。这可以合理解释为修改（外层）卷密码所致。另请注意，VeraCrypt从不保留系统收藏卷的时间戳（无论设置如何）。</li><li>通过绕过类'DiskDrive'（类GUID为4D36E967-E325-11CE-BFC1-08002BE10318）驱动程序堆栈中驱动程序的特殊软件（如底层磁盘编辑器）向磁盘驱动器写入数据时，可能会向挂载了VeraCrypt卷的非系统驱动器（'Partition0'）和处于活动系统加密密钥范围内的加密分区/驱动器写入未加密数据（VeraCrypt不会加密以此方式写入的数据）。类似地，通过绕过类'Storage Volume'（类GUID为71A27CDD-812A-11D0-BEC7-08002BE2092F）驱动程序堆栈中驱动程序的软件向磁盘驱动器写入数据时，可能会向VeraCrypt分区型卷（即使已挂载）写入未加密数据。</li><li>出于安全考虑，当隐藏操作系统运行时，VeraCrypt确保所有本地未加密文件系统和非隐藏VeraCrypt卷均为只读。但这不适用于类CD/DVD介质上的文件系统，以及自定义、非典型或非标准设备/介质上的文件系统（例如任何不属于Windows设备类'Storage Volume'或不符合该类要求的设备/介质（类GUID为71A27CDD-812A-11D0-BEC7-08002BE2092F））。
+</li><li>不支持位于软盘上的设备型VeraCrypt卷。注意：您仍可在软盘上创建文件型VeraCrypt卷。
+</li><li>Windows Server版本不允许将已挂载的VeraCrypt卷用作服务器备份路径。解决方法是通过资源管理器界面在VeraCrypt卷上激活共享（当然需设置正确权限以防止未授权访问），然后选择"远程共享文件夹"选项（实际上并非远程，但Windows需要网络路径）。在此处输入共享驱动器的路径（例如\\服务器名\共享名），即可正确配置备份。
+</li><li>由于Microsoft在NTFS稀疏文件处理上的设计缺陷，向大型动态卷（超过数百GB）写入数据时可能会遇到系统错误。为避免此问题，建议动态卷容器文件的最大兼容大小为300 GB。以下链接详细说明了此限制：<a href="http://www.flexhex.com/docs/articles/sparse-files.phtml#msdn" target="_blank">
+http://www.flexhex.com/docs/articles/sparse-files.phtml#msdn</a> </li>
+<li>在Windows 8和Windows 10中，引入了名为“<strong>混合启动和关机</strong>”以及“<strong>快速启动</strong>”的功能，这些功能使Windows启动更快。此功能默认启用，并且会对VeraCrypt卷的使用产生副作用。建议禁用此功能（例如，此 <a href="https://www.maketecheasier.com/disable-hybrid-boot-and-shutdown-in-windows-8/" target="_blank">
+链接 </a>说明了如何在Windows 8中禁用它，此 <a href="https://www.tenforums.com/tutorials/4189-turn-off-fast-startup-windows-10-a.html" target="_blank">链接</a>提供了在Windows 10中进行等效操作的说明）。以下是一些问题示例：
+<ul>
+<li>关机并重启后，已挂载的卷将继续挂载，而无需输入密码：这是因为新的Windows 8关机实际上不是真正的关机，而是伪装的休眠/睡眠。
+</li>
+</ul>
+</li>
+<li>当VeraCrypt卷作为固定磁盘（默认设置）挂载时，无法创建Windows系统修复/恢复磁盘。要解决此问题，请卸载所有卷或将卷作为可移动媒体挂载。
+</li><li>其他限制列于<a href="Security%20Model.html"><em>安全模型</em></a>部分。</li></ul>
+</div><div class="ClearBoth"></div></body></html>

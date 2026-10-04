@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -98,15 +98,17 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 		{
 			TC_EVENT *CompletionEvent;
 			LONG *CompletionFlag;
+			LONG *DerivationResult;
 			unsigned char *DerivedKey;
 			int IterationCount;
+			int Memorycost;
 			TC_EVENT *NoOutstandingWorkItemEvent;
 			LONG *OutstandingWorkItemCount;
 			unsigned char *Password;
 			int PasswordLength;
 			int Pkcs5Prf;
 			unsigned char *Salt;
-
+			LONG volatile *pAbortKeyDerivation; 
 		} KeyDerivation;
 
 		struct
@@ -195,13 +197,16 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 #ifdef DEVICE_DRIVER
 		SetThreadCpuGroupAffinity ((USHORT) *(WORD*)(threadArg));
 #else
-		SetThreadGroupAffinityFn SetThreadGroupAffinityPtr = (SetThreadGroupAffinityFn) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "SetThreadGroupAffinity");
-		if (SetThreadGroupAffinityPtr && threadArg)
+		if (threadArg)
 		{
+			GROUP_AFFINITY oldAffinity;
 			GROUP_AFFINITY groupAffinity = {0};
-			groupAffinity.Mask = ~0ULL;
-			groupAffinity.Group = *(WORD*)(threadArg);
-			SetThreadGroupAffinityPtr(GetCurrentThread(), &groupAffinity, NULL);
+			WORD groupIndex = *(WORD*)(threadArg);
+			DWORD activeProcessorCount = GetActiveProcessorCount(groupIndex);
+			KAFFINITY mask = (activeProcessorCount >= 64) ? ~0ULL : ((1ULL << activeProcessorCount) - 1);
+			groupAffinity.Mask = mask;
+			groupAffinity.Group = groupIndex;
+			SetThreadGroupAffinity(GetCurrentThread(), &groupAffinity, &oldAffinity);
 		}
 	
 #endif
@@ -240,36 +245,47 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			break;
 
 		case DeriveKeyWork:
+			{
+			int derivationResult = 0;
+
 			switch (workItem->KeyDerivation.Pkcs5Prf)
 			{
 			case BLAKE2S:
 				derive_key_blake2s (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case SHA512:
 				derive_key_sha512 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case WHIRLPOOL:
 				derive_key_whirlpool (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case SHA256:
 				derive_key_sha256 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			case STREEBOG:
 				derive_key_streebog(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
+				break;
+
+			case ARGON2:
+				derivationResult = derive_key_argon2(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, ARGON2_HEADER_KEYDATA_SIZE, workItem->KeyDerivation.pAbortKeyDerivation);
 				break;
 
 			default:
 				TC_THROW_FATAL_EXCEPTION;
 			}
+
+			if (workItem->KeyDerivation.DerivationResult)
+				InterlockedExchange (workItem->KeyDerivation.DerivationResult, derivationResult);
 
 			InterlockedExchange (workItem->KeyDerivation.CompletionFlag, TRUE);
 			TC_SET_EVENT (*workItem->KeyDerivation.CompletionEvent);
@@ -280,6 +296,7 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			SetWorkItemState (workItem, WorkItemFree);
 			TC_SET_EVENT (WorkItemCompletedEvent);
 			continue;
+			}
 
 		case ReadVolumeHeaderFinalizationWork:
 			TC_WAIT_EVENT (*(workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent));
@@ -458,7 +475,7 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 				for (j = 0U; j < groupCount; j++)
 				{
 					totalProcessors += (uint32) GetActiveProcessorCountPtr(j);
-					if (totalProcessors >= ThreadCount)
+					if (totalProcessors > ThreadCount)
 					{
 						ThreadProcessorGroups[ThreadCount] = j;
 						break;
@@ -527,7 +544,7 @@ void EncryptionThreadPoolStop ()
 }
 
 
-void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount, unsigned char *derivedKey)
+void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount, int memoryCost, unsigned char *derivedKey, LONG *derivationResult, LONG volatile *pAbortKeyDerivation)
 {
 	EncryptionThreadPoolWorkItem *workItem;
 
@@ -548,14 +565,17 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	workItem->Type = DeriveKeyWork;
 	workItem->KeyDerivation.CompletionEvent = completionEvent;
 	workItem->KeyDerivation.CompletionFlag = completionFlag;
+	workItem->KeyDerivation.DerivationResult = derivationResult;
 	workItem->KeyDerivation.DerivedKey = derivedKey;
 	workItem->KeyDerivation.IterationCount = iterationCount;
+	workItem->KeyDerivation.Memorycost = memoryCost;
 	workItem->KeyDerivation.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
 	workItem->KeyDerivation.OutstandingWorkItemCount = outstandingWorkItemCount;
 	workItem->KeyDerivation.Password = password;
 	workItem->KeyDerivation.PasswordLength = passwordLength;
 	workItem->KeyDerivation.Pkcs5Prf = pkcs5Prf;
 	workItem->KeyDerivation.Salt = salt;
+	workItem->KeyDerivation.pAbortKeyDerivation = pAbortKeyDerivation;
 
 	InterlockedIncrement (outstandingWorkItemCount);
 	TC_CLEAR_EVENT (*noOutstandingWorkItemEvent);

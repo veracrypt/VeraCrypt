@@ -21,8 +21,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		if (s)
 			s[1] = 0;
 
-		/* Create self-extracting package */
-		MakeSelfExtractingPackage (NULL, SetupFilesDir, TRUE);
+		/*
+		 * Create a self-extracting package containing the traveler files.
+		 * The MSI traveler creation path verifies this IDRIX-signed package
+		 * instead of verifying individual WHQL-signed driver files.
+		 */
+		MakeSelfExtractingPackage (NULL, SetupFilesDir, FALSE);
 	}
 
 	return 0;

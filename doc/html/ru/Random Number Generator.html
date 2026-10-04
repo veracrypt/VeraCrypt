@@ -1,6 +1,5 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+﻿<!DOCTYPE html>
+<html lang="ru">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
@@ -17,7 +16,7 @@
 <div id="menu">
 	<ul>
 	  <li><a href="Home.html">Начало</a></li>
-	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
 	  <li><a href="Downloads.html">Загрузить</a></li>
 	  <li><a class="active" href="Documentation.html">Документация</a></li>
 	  <li><a href="Donation.html">Поддержать разработку</a></li>
@@ -60,9 +59,9 @@
 <p>Описание функции перемешивания пула:</p>
 <ol>
 <li>Пусть <em>R</em> это пул случайных значений</li>
-<li>Пусть <em>H</em> это выбранная пользователем функция хеширования (SHA-512, BLAKE2S-256 или Whirlpool)</li>
+<li>Пусть <em>H</em> это текущая хеш-функция перемешивания пула RNG. В отдельных контекстах работы со случайным пулом и генерации ключевых файлов это хеш-функция, выбранная пользователем. При операциях с томами VeraCrypt получает её из выбранного алгоритма формирования ключа заголовка: для PBKDF2-HMAC это выбранный хеш (SHA-512, SHA-256, BLAKE2s-256, Whirlpool или Streebog); для Argon2id это <a href="BLAKE2b-512.html">BLAKE2b-512</a>.</li>
 <li><em>l</em> = байтовый размер вывода функции хеширования <em>H</em> (то есть если
-<em>H</em> – BLAKE2S-256, то <em>l</em> = 20; если <em>H</em> – SHA-512, то <em>l</em> = 64)</li>
+<em>H</em> – BLAKE2s-256 или SHA-256, то <em>l</em> = 32; если <em>H</em> – SHA-512, Whirlpool, Streebog или BLAKE2b-512, то <em>l</em> = 64)</li>
 <li><em>z</em> = байтовый размер пула случайных значений <em>R </em>(320 байт)</li>
 <li><em>q</em> = <em>z</em> / <em>l</em> &ndash; 1 (например, если <em>H</em> – Whirlpool, то
 <em>q</em> = 4)</li>
@@ -94,7 +93,7 @@
 <li>Состояние каждого бита в пуле инвертируется (то есть 0 становится 1, а 1 становится 0).</li>
 <li>Данные, полученные из какого-либо перечисленного выше источника, добавляются в пул, как описано выше.</li>
 <li>Содержимое пула трансформируется с помощью функции перемешивания пула.<br>
-Примечание. Эта функция использует криптографически стойкую одностороннюю хеш-функцию, выбираемую пользователем
+Примечание. Эта функция использует криптографически стойкую одностороннюю хеш-функцию, связанную с выбранным вариантом KDF/хеширования
 (подробности см. выше в разделе <em>Функция перемешивания пула</em>).</li>
 <li>Преобразованное содержимое пула подвергается операции XOR в выходной буфер следующим образом:
 <ol type="a">
@@ -115,5 +114,5 @@
 <li><i>Software Generation of Practically Strong Random Numbers</i>, автор Peter Gutmann [10]</li>
 <li><i>Cryptographic Random Numbers</i>, автор Carl Ellison [11]</li></ul>
 <p>&nbsp;</p>
-<p><a href="Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+<p><a href="Keyfiles.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></p>
 </div><div class="ClearBoth"></div></body></html>

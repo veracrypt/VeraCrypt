@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。如果攻击者强迫您透露密码，VeraCrypt提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="FAQ.html">常见问题解答</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>常见问题解答</h1>
+<div style="text-align:left; margin-bottom:19px; padding-top:0px; padding-bottom:0px; margin-top:0px">
+最后更新于2017年7月2日</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">本文件不保证无错误，并且是“按原样”提供，不附带任何形式的保证。有关更多信息，请参阅
+<a href="Disclaimers.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+免责声明</a>。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">TrueCrypt和VeraCrypt可以在同一台机器上运行吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。通常情况下，TrueCrypt和VeraCrypt之间没有冲突，因此它们可以安装并在同一台机器上使用。然而，在Windows系统上，如果它们都用于挂载同一个卷，挂载时可能会出现两个驱动器。可以通过在挂载任何卷之前，在提升权限的命令提示符（以管理员身份运行）中运行以下命令来解决这个问题：
+<strong>mountvol.exe /r</strong>。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">我可以在VeraCrypt中使用我的TrueCrypt卷吗？</strong></div>
+可以。从1.0f版本开始，VeraCrypt支持挂载TrueCrypt卷。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">我可以将我的TrueCrypt卷转换为VeraCrypt格式吗？</strong></div>
+可以。从1.0f版本开始，VeraCrypt提供了将TrueCrypt容器和非系统分区转换为VeraCrypt格式的可能性。这可以通过“更改卷密码”或“设置头密钥派生算法”操作来实现。只需选中“TrueCrypt模式”，输入您的TrueCrypt密码并执行操作。之后，您的卷将采用VeraCrypt格式。<br>
+在进行转换之前，建议使用TrueCrypt备份卷头。一旦转换完成并且检查VeraCrypt能够正确挂载转换后的卷后，您可以安全地删除此备份。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">TrueCrypt和VeraCrypt有什么区别？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt增强了用于系统和分区加密的算法的安全性，使其能够抵御暴力攻击方面的新发展。<br>
+它还解决了TrueCrypt中发现的许多漏洞和安全问题。<br>
+例如，当系统分区被加密时，TrueCrypt使用PBKDF2 - RIPEMD160进行1000次迭代，而在VeraCrypt中我们使用
+<span style="text-decoration:underline">327661</span>次迭代。对于标准容器和其他分区，TrueCrypt最多使用2000次迭代，但VeraCrypt使用
+<span style="text-decoration:underline">500000</span>次迭代。<br>
+这种增强的安全性仅在打开加密分区时会增加一些延迟，对应用程序的使用阶段没有性能影响。这对于合法用户来说是可以接受的，但对于攻击者来说，要获取加密数据则变得更加困难。</div>
+</div>
+<br id="PasswordLost" style="text-align:left">
+<strong style="text-align:left">我忘记了密码 —— 有没有什么方法（“后门”）可以从我的VeraCrypt卷中恢复文件？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+我们在VeraCrypt中没有实现任何“后门”（并且即使政府机构要求，我们也永远不会实现），因为这将违背该软件的目的。VeraCrypt不允许在不知道正确密码或密钥的情况下解密数据。我们无法恢复您的数据，因为我们不知道也无法确定您选择的密码或使用VeraCrypt生成的密钥。恢复您的文件的唯一方法是尝试“破解”密码或密钥，但这可能需要数千年或数百万年（具体取决于密码或密钥文件的长度和质量、软件/硬件性能、算法以及其他因素）。早在2010年，就有关于
+<a href="http://www.webcitation.org/query?url=g1.globo.com/English/noticia/2010/06/not-even-fbi-can-de-crypt-files-daniel-dantas.html" target="_blank">
+美国联邦调查局（FBI）在尝试一年后仍无法解密一个TrueCrypt卷</a>的新闻。虽然我们无法验证这是真的还是一个“心理战”噱头，但在VeraCrypt中，我们将密钥派生的安全性提高到了一个水平，只要满足所有安全要求，任何对密码的暴力破解实际上都是不可能的。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">有没有适合初学者的“快速入门指南”或教程？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+有。VeraCrypt用户指南的第一章，<strong style="text-align:left"><a href="Beginner%27s%20Tutorial.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">初学者教程</a></strong>包含了如何创建、挂载和使用VeraCrypt卷的截图和分步说明。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我可以加密安装了Windows的分区/驱动器吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，请参阅VeraCrypt用户指南中的<a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+系统加密</a>章节。</div>
+<div id="BootingHang" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>系统加密预测试失败，因为引导加载程序在成功验证密码后显示“正在启动”并挂起。如何使预测试成功？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+针对此问题有两种已知的解决方法（两种方法都需要有Windows安装盘）：</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<ol>
+<li>使用Windows安装盘启动您的计算机，选择修复您的计算机。选择“命令提示符”选项，打开后，输入以下命令，然后重启系统：
+<ul><li>BootRec /fixmbr </li><li>BootRec /FixBoot </li></ul>
+</li><li>删除位于硬盘起始位置的100MB系统保留分区，并将紧邻它的系统分区设置为活动分区（这两步都可以使用Windows安装盘修复选项中的diskpart工具完成）。之后，在Windows安装盘上重启并运行启动修复。以下链接包含详细说明：
+<a href="https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html" target="_blank">
+https://www.sevenforums.com/tutorials/71363-system-reserved-partition-delete.html</a>
+</li></ol>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<div id="PreTestFail" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>即使在引导加载程序中正确输入了密码，系统加密预测试仍然失败。如何使预测试成功？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+这可能是由于TrueCrypt驱动程序在VeraCrypt能够读取BIOS内存之前将其清除所致。在这种情况下，卸载TrueCrypt可以解决此问题。<br>
+这也可能是由某些访问BIOS内存的硬件驱动程序和其他软件引起的。对此没有通用的解决方案，受影响的用户应识别此类软件并将其从系统中移除。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我可以直接播放存储在VeraCrypt卷上的视频（.avi、.mpg等）吗？</strong></div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，VeraCrypt加密卷就像普通磁盘一样。你提供正确的密码（和/或密钥文件）并挂载（打开）VeraCrypt卷。当你双击视频文件的图标时，操作系统会启动与该文件类型关联的应用程序 —— 通常是媒体播放器。然后，媒体播放器开始从VeraCrypt加密卷将视频文件的一小部分初始内容加载到RAM（内存）中以进行播放。在加载这部分内容时，VeraCrypt会自动在RAM中对其进行解密。媒体播放器随后播放存储在RAM中的解密后的视频部分。在播放这部分内容的同时，媒体播放器开始从VeraCrypt加密卷将视频文件的另一小部分内容加载到RAM（内存）中，这个过程会不断重复。<br style="text-align:left">
+<br style="text-align:left">
+视频录制也是同样的道理：在将视频文件的一个数据块写入VeraCrypt卷之前，VeraCrypt会在RAM中对其进行加密，然后再将其写入磁盘。这个过程称为实时加密/解密，它适用于所有文件类型（不仅仅是视频文件）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt会永远开源且免费吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，它会的。我们永远不会创建VeraCrypt的商业版本，因为我们相信开源和免费的安全软件。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否可以向VeraCrypt项目捐款？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。你可以使用<a href="https://veracrypt.jp/en/Donation.html" target="_blank">
+https://veracrypt.jp/en/Donation.html</a>上的捐赠按钮。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">为什么VeraCrypt是开源的？有什么优点？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+由于VeraCrypt的源代码是公开可用的，独立研究人员可以验证源代码中不包含任何安全漏洞或秘密“后门”。如果源代码不可用，审查人员就需要对可执行文件进行逆向工程。然而，分析和理解这样逆向工程得到的代码非常困难，实际上几乎<em style="text-align:left">不可能</em>做到（尤其是当代码像VeraCrypt代码一样庞大时）。<br style="text-align:left">
+<br style="text-align:left">
+备注：类似的问题也会影响加密硬件（例如，自加密存储设备）。很难对其进行逆向工程以验证它不包含任何安全漏洞或秘密“后门”。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt是开源的，但实际上有人审查过源代码吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的。<a href="http://blog.quarkslab.com/security-assessment-of-veracrypt-fixes-and-evolutions-from-truecrypt.html" target="_blank">
+审计</a>已经由<a href="https://quarkslab.com/" target="_blank">
+Quarkslab</a>进行。技术报告可以从<a href="http://blog.quarkslab.com/resources/2016-10-17-audit-veracrypt/16-08-215-REP-VeraCrypt-sec-assessment.pdf">这里</a>下载。VeraCrypt 1.19解决了这次审计中发现的问题。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">由于VeraCrypt是开源软件，独立研究人员可以验证源代码中不包含任何安全漏洞或秘密“后门”。他们还能验证官方可执行文件是从公布的源代码构建的，并且不包含额外的代码吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，他们可以。除了审查源代码之外，独立研究人员可以编译源代码，并将生成的可执行文件与官方文件进行比较。他们可能会发现一些差异（例如，时间戳或嵌入式数字签名），但他们可以分析这些差异并验证它们不构成恶意代码。</div>
+<div id="UsbFlashDrive" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我如何在USB闪存驱动器上使用VeraCrypt？ </strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+你有三种选择：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+对整个USB闪存驱动器进行加密。但是，你将无法从USB闪存驱动器运行VeraCrypt。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在你的USB闪存驱动器上创建两个或更多分区。将第一个分区保留为未加密状态，并对其他分区进行加密。你可以将VeraCrypt存储在第一个分区上，以便直接从USB闪存驱动器运行它。<br style="text-align:left">
+注意：Windows只能访问USB闪存驱动器的主分区，但额外的分区仍然可以通过VeraCrypt访问。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在USB闪存驱动器上创建一个VeraCrypt文件容器（有关如何操作的信息，请参阅
+<strong style="text-align:left"><a href="Beginner%27s%20Tutorial.html" style="text-align:left; color:#0080c0; text-decoration:none">初学者教程</a></strong>章节，位于
+<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt用户指南</a>中）。如果你在USB闪存驱动器上留出足够的空间（为VeraCrypt容器选择合适的大小），你还可以将VeraCrypt存储在USB闪存驱动器上（与容器一起 —— 而不是<em style="text-align:left">在</em>容器内），并且你可以从USB闪存驱动器运行VeraCrypt（另请参阅
+<a href="Portable%20Mode.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+便携模式</a>章节，位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt用户指南</a>中）。 </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt也会对文件名和文件夹名进行加密吗？
+</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的。VeraCrypt卷内的整个文件系统都会被加密（包括文件名、文件夹名以及每个文件的内容）。这适用于两种类型的VeraCrypt卷 —— 即文件容器（虚拟VeraCrypt磁盘）和VeraCrypt加密分区/设备。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt是否使用并行处理？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的。加密/解密速度的提升与你的计算机拥有的核心/处理器数量成正比。有关更多信息，请参阅
+<a href="Parallelization.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+并行处理</a>章节，位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>中。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否可以像对未加密的驱动器一样快速地从加密卷/驱动器读取数据和向其写入数据？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，因为VeraCrypt使用了流水线技术和并行处理。有关更多信息，请参阅相关章节<a href="Pipelining.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+流水线处理</a> 以及 <a href="Parallelization.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+并行处理</a>，请参阅 <a href="https://veracrypt.jp/en/Documentation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt 是否支持硬件加速加密？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+支持。更多信息，请参阅 <a href="Hardware%20Acceleration.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+硬件加速</a> 章节，可在 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a> 中查看。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否可以从隐藏的 VeraCrypt 卷中启动安装的 Windows 系统？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。更多信息，请参阅 <a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏操作系统</a> 部分，可在 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a> 中查看。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我能在任何计算机上挂载我的 VeraCrypt 卷（容器）吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，<a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt 卷</a> 与操作系统无关。只要能在计算机上运行 VeraCrypt，就可以挂载 VeraCrypt 卷（另请参阅问题 '<em style="text-align:left">如果我没有管理员权限，能否在 Windows 上使用 VeraCrypt？</em>'）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">当有已挂载的 VeraCrypt 卷在热插拔设备（例如，USB 闪存驱动器或 USB 硬盘）上时，我可以拔出或关闭该设备吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在拔出或关闭设备之前，应始终先在 VeraCrypt 中卸载 VeraCrypt 卷，然后如果有“<em style="text-align:left">弹出</em>”操作（在“<em style="text-align:left">计算机</em>”或“<em style="text-align:left">我的电脑</em>”列表中右键单击该设备），则执行此操作，或者使用“<em style="text-align:left">安全删除硬件</em>”功能（Windows 内置，可通过任务栏通知区域访问）。否则，可能会导致数据丢失。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">什么是隐藏操作系统？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅 <a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏操作系统</a> 部分，可在 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a> 中查看。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">什么是似是而非的否认性？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅 <a href="Plausible%20Deniability.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+似是而非的否认性</a> 章节，可在 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a> 中查看。</div>
+<div id="SystemReinstallUpgrade" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">在重新安装或升级操作系统后，我还能挂载我的 VeraCrypt 分区/容器吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，<a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt 卷</a> 与操作系统无关。但是，需要确保操作系统安装程序不会格式化 VeraCrypt 卷所在的分区。<br style="text-align:left">
+<br style="text-align:left">
+注意：如果系统分区/驱动器已加密，并且想要重新安装或升级 Windows，则需要先对其进行解密（选择 <em style="text-align:left">系统</em> > <em style="text-align:left">永久解密系统分区/驱动器</em>）。但是，即使系统分区/驱动器已加密，正在运行的操作系统也可以进行 <em style="text-align:left">更新</em>（安全补丁、服务包等），不会出现任何问题。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我可以毫无问题地从旧版本的 VeraCrypt 升级到最新版本吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+一般来说，可以。但是，在升级之前，请阅读自您使用的版本发布以来发布的所有 VeraCrypt 版本的 <a href="Release%20Notes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+发行说明</a>。如果从您的版本升级到较新版本存在任何已知问题或不兼容性，它们将在 <a href="Release%20Notes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+发行说明</a> 中列出。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">如果系统分区/驱动器已加密，我可以升级 VeraCrypt 还是必须先解密？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+一般来说，可以在不解密系统分区/驱动器的情况下升级到最新版本（只需运行 VeraCrypt 安装程序，它将自动升级系统上的 VeraCrypt）。但是，在升级之前，请阅读自您使用的版本发布以来发布的所有 VeraCrypt 版本的 <a href="Release%20Notes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+发行说明</a>。如果从您的版本升级到较新版本存在任何已知问题或不兼容性，它们将在 <a href="Release%20Notes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+发行说明</a> 中列出。请注意，此常见问题解答答案对于使用 <a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏操作系统</a> 的用户同样有效。此外，请注意，如果系统分区/驱动器已加密，则不能 <em style="text-align:left">
+降</em> 级 VeraCrypt。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我使用预启动身份验证。我可以防止监视我启动计算机的人知道我使用 VeraCrypt 吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。要做到这一点，请启动加密系统，打开 VeraCrypt，选择 <em style="text-align:left">
+设置</em> > <em style="text-align:left">系统加密</em>，启用“<em style="text-align:left">在预启动身份验证屏幕中不显示任何文本</em>”选项，然后点击 <em style="text-align:left">确定</em>。然后，当您启动计算机时，VeraCrypt 引导加载程序将不会显示任何文本（即使输入错误密码也不会显示）。计算机看起来会“冻结”，而您可以输入密码。但是，重要的是要注意，如果攻击者能够分析硬盘内容，他仍然可以发现硬盘包含 VeraCrypt 引导加载程序。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我使用预启动身份验证。我可以将 VeraCrypt 引导加载程序配置为仅显示虚假错误消息吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。要做到这一点，请启动加密系统，打开 VeraCrypt，选择 <em style="text-align:left">
+设置</em> > <em style="text-align:left">系统加密</em>，启用“<em style="text-align:left">在预启动身份验证屏幕中不显示任何文本</em>”选项，并在相应字段中输入虚假错误消息（例如，“<em style="text-align:left">缺少操作系统</em>”消息，这是 Windows 引导加载程序在找不到 Windows 引导分区时通常显示的消息）。但是，重要的是要注意，如果攻击者能够分析硬盘内容，他仍然可以发现硬盘包含 VeraCrypt 引导加载程序。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我可以将 VeraCrypt 配置为在 Windows 启动时自动挂载使用与我的系统分区/驱动器相同密码（即我的预启动身份验证密码）的非系统 VeraCrypt 卷吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。请按照以下步骤操作：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+挂载该卷（挂载到您希望每次都挂载到的驱动器号）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在 VeraCrypt 主窗口的驱动器列表中右键单击已挂载的卷，然后选择“<em style="text-align:left">添加到系统收藏夹</em>”。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+此时应会出现“系统收藏夹管理器”窗口。在此窗口中，启用“<em style="text-align:left">Windows 启动时挂载系统收藏卷</em>”选项，然后点击<em style="text-align:left">确定</em>。 </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+欲了解更多信息，请参阅<a href="System%20Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+“系统收藏卷”</a>章节。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">每次登录 Windows 时，能否自动挂载某个卷？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。要实现这一点，请按照以下步骤操作：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+挂载该卷（挂载到你希望每次都挂载到的驱动器号）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在 VeraCrypt 主窗口的驱动器列表中，右键单击已挂载的卷，然后选择“<em style="text-align:left">添加到收藏夹</em>”。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+此时应会出现<a href="Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+“收藏夹”</a>管理器窗口。在此窗口中，启用“<em style="text-align:left">登录时挂载所选卷</em>”选项，然后点击<em style="text-align:left">确定</em>。 </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+然后，当你登录 Windows 时，系统会要求你输入卷密码（和/或密钥文件），如果密码正确，该卷将被挂载。<br style="text-align:left">
+<br style="text-align:left">
+或者，如果这些卷是分区/设备托管的，并且你不需要每次都将它们挂载到特定的驱动器号，可以按照以下步骤操作：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+选择<em style="text-align:left">设置</em> > <em style="text-align:left">
+首选项</em>。此时应会出现“<em style="text-align:left">首选项</em>”窗口。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在“<em style="text-align:left">登录 Windows 时执行的操作</em>”部分，启用“<em style="text-align:left">挂载所有设备托管的 VeraCrypt 卷</em>”选项，然后点击<em style="text-align:left">确定</em>。 </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：如果你启用了<a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+预启动身份验证</a>密码的缓存（<em style="text-align:left">设置</em> > “<em style="text-align:left">系统加密</em>”），并且这些卷使用与系统分区/驱动器相同的密码，VeraCrypt 将不会提示你输入密码。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">每当其主机设备连接到计算机时，能否自动挂载某个卷？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。例如，如果你在 USB 闪存驱动器上有一个 VeraCrypt 容器，并且希望在将 USB 闪存驱动器插入 USB 端口时，VeraCrypt 自动挂载它，请按照以下步骤操作：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+挂载该卷（挂载到你希望每次都挂载到的驱动器号）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在 VeraCrypt 主窗口的驱动器列表中，右键单击已挂载的卷，然后选择“<em style="text-align:left">添加到收藏夹</em>”。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+此时应会出现<a href="Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+“收藏夹”</a>管理器窗口。在此窗口中，启用“<em style="text-align:left">主机设备连接时挂载所选卷</em>”选项，然后点击<em style="text-align:left">确定</em>。 </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+然后，当你将 USB 闪存驱动器插入 USB 端口时，系统会要求你输入卷密码（和/或密钥文件）（除非已缓存），如果密码正确，该卷将被挂载。<br style="text-align:left">
+<br style="text-align:left">
+注意：如果你启用了<a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+预启动身份验证</a>密码的缓存（<em style="text-align:left">设置</em> > “<em style="text-align:left">系统加密</em>”），并且该卷使用与系统分区/驱动器相同的密码，VeraCrypt 将不会提示你输入密码。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">能否缓存我的预启动身份验证密码，以便在会话期间用于挂载非系统卷？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。选择<em style="text-align:left">设置</em> > “<em style="text-align:left">系统加密</em>”，并启用以下选项：“<em style="text-align:left">在驱动程序内存中缓存预启动身份验证密码</em>”。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a name="notraces" style="text-align:left; color:#0080c0; text-decoration:none"></a><br style="text-align:left">
+<strong style="text-align:left">我生活在一个侵犯人民基本人权的国家。是否可以在未加密的 Windows 上使用 VeraCrypt 而不留下任何“痕迹”？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。可以通过在<a href="http://www.nu2.nu/pebuilder/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+BartPE</a>或类似环境下以<a href="Portable%20Mode.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+便携模式</a>运行 VeraCrypt 来实现。BartPE 代表“Bart 的预安装环境”，本质上是一种可以完全存储在 CD/DVD 上并从其启动的 Windows 操作系统（注册表、临时文件等都存储在 RAM 中，根本不使用硬盘，甚至硬盘可以不存在）。免费软件<a href="http://www.nu2.nu/pebuilder/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+Bart's PE Builder</a>可以将 Windows XP 安装 CD 转换为 BartPE CD。请注意，你甚至不需要为 BartPE 安装任何特殊的 VeraCrypt 插件。请按照以下步骤操作：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+创建一个 BartPE CD 并从其启动。（注意：你必须在 BartPE 环境中执行以下每个步骤。）
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+将 VeraCrypt 自解压包下载到 RAM 磁盘（BartPE 会自动创建）。
+<br style="text-align:left">
+<br style="text-align:left">
+<strong style="text-align:left">注意</strong>：如果攻击者可以拦截你通过互联网发送或接收的数据，并且你需要防止攻击者知道你下载了 VeraCrypt，可以考虑通过<a href="https://geti2p.net/en/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+<strong style="text-align:left">I2P</strong></a>、<a href="http://www.torproject.org/" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+<strong style="text-align:left">Tor</strong></a>或类似的匿名网络下载。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+验证下载文件的数字签名（有关更多信息，请参阅文档的<a href="Digital%20Signatures.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+此</a>部分）。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+运行下载的文件，并在 VeraCrypt 安装向导的第二页选择<em style="text-align:left">提取</em>（而不是<em style="text-align:left">安装</em>）。将内容提取到 RAM 磁盘。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+从 RAM 磁盘运行<em style="text-align:left">VeraCrypt.exe</em>文件。 </li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：你可能还需要考虑创建一个隐藏操作系统（请参阅文档中的<a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+“隐藏操作系统”</a>部分）。另请参阅<a href="Plausible%20Deniability.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+“似是而非的否认”</a>章节。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">如果我没有美国键盘，能否加密我的系统分区/驱动器？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，VeraCrypt 支持所有键盘布局。由于 BIOS 要求，预启动密码使用为避免密码输入错误，用户在输入密码时必须使用与创建系统加密时相同的按键。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我能否在不损坏隐藏系统分区的前提下，将数据保存到诱饵系统分区？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。您可以随时向诱饵系统分区写入数据，而不会有隐藏卷损坏的风险（因为诱饵系统<em style="text-align:left">并未</em>安装在与隐藏系统相同的分区中）。有关更多信息，请参阅<a href="Hidden%20Operating%20System.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏操作系统</a>部分，该部分位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>中。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">如果我没有管理员权限，能否在Windows系统上使用VeraCrypt？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅<a href="Using%20VeraCrypt%20Without%20Administrator%20Privileges.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+“无管理员权限使用VeraCrypt”</a>章节，该章节位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>中。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt会将我的密码保存到磁盘上吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+不会。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt如何验证输入的密码是否正确？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅<a href="Encryption%20Scheme.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+加密方案</a>部分（位于<a href="Technical%20Details.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+技术细节</a>章节），该部分位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>中。</div>
+<div id="encrypt-in-place" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我能否在不丢失当前存储在分区/驱动器上的数据的情况下对其进行加密？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，但必须满足以下条件：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果您想加密整个系统驱动器（可能包含多个分区）或系统分区（换句话说，如果您想加密安装了Windows的驱动器或分区），只要您使用的是Windows XP或更高版本的Windows系统（如Windows 7），就可以进行加密 <span style="text-align:left; font-size:10px; line-height:12px">
+（选择 '<em style="text-align:left">系统</em>' > '<em style="text-align:left">加密系统分区/驱动器</em>'，然后按照向导中的说明操作）</span>。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果您想对非系统分区进行原地加密，只要该分区包含NTFS文件系统，并且您使用的是Windows Vista或更高版本的Windows系统（例如Windows 7），就可以进行加密
+<span style="text-align:left; font-size:10px; line-height:12px">（点击 '<em style="text-align:left">创建卷</em>' > '<em style="text-align:left">加密非系统分区</em>' > '<em style="text-align:left">标准卷</em>' > '<em style="text-align:left">选择设备</em>' > '<em style="text-align:left">原地加密分区</em>'，然后按照向导中的说明操作）</span>。
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">如果我不安装VeraCrypt，能否运行它？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，请参阅<a href="Portable%20Mode.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+便携模式</a>章节，该章节位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt用户指南</a>中。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a name="tpm" style="text-align:left; color:#0080c0; text-decoration:none"></a><br style="text-align:left">
+<strong style="text-align:left">一些加密程序使用TPM来防止攻击。VeraCrypt也会使用它吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+不会。那些程序使用TPM来防范需要攻击者具备管理员权限或物理访问计算机的攻击，并且攻击者需要在获得访问权限后让您继续使用计算机。
+<em style="text-align:left">然而，如果满足上述任何一个条件，实际上就不可能确保计算机的安全</em>（请见下文），因此，您必须停止使用该计算机（而不是依赖TPM）。
+<br style="text-align:left">
+<br style="text-align:left">
+如果攻击者具有管理员权限，他可以，例如，重置TPM，捕获RAM的内容（包含主密钥）或已挂载的VeraCrypt卷上存储的文件内容（实时解密），然后这些内容可以通过互联网发送给攻击者，或者保存到未加密的本地驱动器中（攻击者在获得计算机的物理访问权限后，可能会从中读取这些内容）。
+<br style="text-align:left">
+<br style="text-align:left">
+如果攻击者可以物理访问计算机硬件（并且您在这种访问之后继续使用计算机），他可以，例如，连接一个恶意组件（如硬件按键记录器）来捕获密码、RAM的内容（包含主密钥）或已挂载的VeraCrypt卷上存储的文件内容（实时解密），然后这些内容可以通过互联网发送给攻击者，或者保存到未加密的本地驱动器中（攻击者在再次获得计算机的物理访问权限后，可能会从中读取这些内容）。 <br style="text-align:left">
+<br style="text-align:left">
+TPM几乎可以保证提供的唯一东西是一种虚假的安全感（甚至它的名称“可信平台模块”也具有误导性，会让人产生虚假的安全感）。至于真正的安全性，TPM实际上是多余的（而实现多余的功能通常是制造所谓的臃肿软件的一种方式）。 <br style="text-align:left">
+<br style="text-align:left">
+有关更多信息，请参阅<a title="Physical%20Security&quot;" style="text-align:left; color:#0080c0; text-decoration:none">
+物理安全</a>和<a href="Malware.html" style="text-align:left; color:#0080c0; text-decoration:none">
+恶意软件</a>部分，这些部分位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>中。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">在关闭或重启Windows系统之前，我是否必须卸载VeraCrypt卷？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+不需要。VeraCrypt会在系统关闭/重启时自动卸载所有已挂载的VeraCrypt卷。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">哪种类型的VeraCrypt卷更好 —— 分区还是文件容器？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">文件容器</a>是普通文件，因此您可以像处理任何普通文件一样处理它们（例如，文件容器可以像普通文件一样移动、重命名和删除）。<a href="VeraCrypt%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+分区/驱动器</a>在性能方面可能更好。请注意，当文件容器严重碎片化时，对其进行读写操作可能会花费显著更长的时间。要解决这个问题，请对存储该容器的文件系统进行碎片整理（当VeraCrypt卷未挂载时）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">备份VeraCrypt卷的推荐方法是什么？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅<a href="How%20to%20Back%20Up%20Securely.html" style="text-align:left; color:#0080c0; text-decoration:none">
+“如何安全备份”</a>章节，该章节位于<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>中。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">如果我格式化一个VeraCrypt分区，会发生什么？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">查看问题 '<em style="text-align:left"><a href="#changing-filesystem" style="text-align:left; color:#0080c0; text-decoration:none">是否可以更改加密卷的文件系统？</a></em>'</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left"><a name="changing-filesystem" style="text-align:left; color:#0080c0; text-decoration:none"></a>是否可以更改加密卷的文件系统？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，挂载后，VeraCrypt 卷可以格式化为 FAT12、FAT16、FAT32、NTFS 或任何其他文件系统。VeraCrypt 卷的行为与标准磁盘设备相同，因此您可以右键单击设备图标（例如在 '<em style="text-align:left">计算机</em>' 
+或 '<em style="text-align:left">我的电脑</em>' 列表中）并选择 '<em style="text-align:left">格式化</em>'。实际的卷内容将丢失。但是，整个卷仍将保持加密状态。如果您在托管 VeraCrypt 卷的分区未挂载时对其进行格式化，那么该卷将被销毁，并且该分区将不再加密（它将为空）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否可以挂载存储在 CD 或 DVD 上的 VeraCrypt 容器？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。但是，如果您需要在 Windows 2000 下挂载存储在只读介质（如 CD 或 DVD）上的 VeraCrypt 卷，VeraCrypt 卷内的文件系统必须是 FAT（Windows 2000 无法在只读介质上挂载 NTFS 文件系统）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否可以更改隐藏卷的密码？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，密码更改对话框适用于标准卷和 <a href="Hidden%20Volume.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷</a>。只需在“卷密码更改”对话框的“当前密码”字段中输入隐藏卷的密码即可。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px; font-size:10px; line-height:12px">
+备注：VeraCrypt 首先尝试解密标准 <a href="VeraCrypt%20Volume%20Format%20Specification.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+卷头</a>，如果失败，它会尝试解密卷中可能存储隐藏卷头的区域（如果卷内有隐藏卷）。如果成功，密码更改将应用于隐藏卷。（两次尝试都使用在“当前密码”字段中输入的密码。）</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">如何将大于 2 GB 的 VeraCrypt 容器刻录到 DVD 上？</strong><br style="text-align:left">
+<br style="text-align:left">
+您使用的 DVD 刻录软件应允许您选择 DVD 的格式。如果可以，请选择 UDF 格式（ISO 格式不支持大于 2 GB 的文件）。</div>
+<div id="disk_defragmenter" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我可以在挂载的 VeraCrypt 卷的内容上使用 <em style="text-align:left">
+chkdsk</em>、磁盘碎片整理程序等工具吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，VeraCrypt 卷的行为就像真实的物理磁盘设备一样，因此可以在挂载的 VeraCrypt 卷的内容上使用任何文件系统检查/修复/碎片整理工具。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt 是否支持 64 位版本的 Windows？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，它支持。<span style="text-align:left; font-size:10px; line-height:12px">注意：64 位版本的 Windows 仅加载使用由获批准颁发内核模式代码签名证书的证书颁发机构颁发的数字证书进行数字签名的驱动程序。VeraCrypt 符合此要求（VeraCrypt 驱动程序使用 IDRIX 的数字证书进行了 <a href="Digital%20Signatures.html" style="text-align:left; color:#0080c0; text-decoration:none">
+数字签名</a>，该证书由证书颁发机构 Thawte 颁发）。</span></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我可以在 Windows、Mac OS X 和 Linux 下挂载我的 VeraCrypt 卷吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以，VeraCrypt 卷是完全跨平台的。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">如何在 Linux 上卸载 VeraCrypt？</strong>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要在 Linux 上卸载 VeraCrypt，请以 root 用户身份在终端中运行以下命令：<strong>
+veracrypt-uninstall.sh</strong>。在 Ubuntu 上，您可以使用 &quot;<strong>sudo veracrypt-uninstall.sh</strong>&quot;。</div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否有 VeraCrypt 支持的所有操作系统的列表？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+有，请参阅 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt 用户指南</a> 中的 <a href="Supported%20Operating%20Systems.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+支持的操作系统</a> 章节。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否可以将应用程序安装到 VeraCrypt 卷并从那里运行它？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">当 VeraCrypt 卷的一部分损坏时会发生什么？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在加密数据中，一个损坏的位通常会损坏它所在的整个密文块。VeraCrypt 使用的密文块大小为 16 字节（即 128 位）。VeraCrypt 使用的 <a href="Modes%20of%20Operation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+操作模式</a> 确保如果一个块内发生数据损坏，其余块不受影响。另请参阅问题 '<em style="text-align:left">当我的 VeraCrypt 卷上的加密文件系统损坏时我该怎么办？</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">当我的 VeraCrypt 卷上的加密文件系统损坏时我该怎么办？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt 卷内的文件系统可能会像任何普通的未加密文件系统一样损坏。发生这种情况时，您可以使用操作系统提供的文件系统修复工具来修复它。在 Windows 中，是 '<em style="text-align:left">chkdsk</em>' 
+工具。VeraCrypt 提供了一种在 VeraCrypt 卷上使用此工具的简便方法：在 VeraCrypt 主窗口（驱动器列表中）中右键单击已挂载的卷，然后从上下文菜单中选择 '<em style="text-align:left">修复文件系统</em>'。</div>
+<div id="reset_volume_password" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我们在企业环境中使用 VeraCrypt。当用户忘记密码（或丢失密钥文件）时，管理员是否有办法重置卷密码或预启动身份验证密码？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以。请注意，VeraCrypt 中没有实现“后门”。但是，有一种方法可以“重置”卷密码/<a href="Keyfiles.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">密钥文件</a>
+和 <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+预启动身份验证</a> 密码。创建卷后，在允许 <a href="Using%20VeraCrypt%20Without%20Administrator%20Privileges.html" style="text-align:left; color:#0080c0; text-decoration:none">
+非管理员用户</a> 使用该卷之前，将其卷头备份到文件中（选择 <em style="text-align:left">工具</em> -> <em style="text-align:left">备份卷头</em>）。请注意，<a href="VeraCrypt%20Volume%20Format%20Specification.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+卷头</a>（使用从密码/密钥文件派生的 <a href="Header%20Key%20Derivation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+头密钥</a> 进行加密）包含用于加密卷的 <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+主密钥</a>。然后要求用户选择一个密码，并为他/她设置该密码（<em style="text-align:left">加密卷</em> -&gt;
+<em style="text-align:left">修改加密卷密码</em>); 或者为他/她生成一个用户密钥文件。然后，你可以允许用户使用该卷，并在无需你协助/许可的情况下更改密码/密钥文件。如果他/她忘记了密码或丢失了密钥文件，你可以通过从备份文件中恢复卷头（<em style="text-align:left">工具</em> -> <em style="text-align:left">恢复卷头</em>），将卷密码/密钥文件“重置”为你原来的管理员密码/密钥文件。<br style="text-align:left">
+<br style="text-align:left">
+同样，你可以重置 <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">预启动认证</a> 密码 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">.</a> 要创建主密钥数据的备份（该备份将存储在 <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 救援盘</a> 上，并使用你的管理员密码进行加密），请选择 '<em style="text-align:left">系统</em>' > '<a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none"><em style="text-align:left">创建救援盘</em></a>'。要设置用户 <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">预启动认证</a> 密码，请选择 '<em style="text-align:left">系统</em>' > '<em style="text-align:left">更改密码</em>'。要恢复你的管理员密码，请启动 VeraCrypt 救援盘，选择 '<em style="text-align:left">修复选项</em>' > '<em style="text-align:left">恢复密钥数据</em>'，然后输入你的管理员密码。
+<br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">注意：无需将每个 <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 救援盘</a> ISO 镜像刻录到 CD/DVD 上。你可以为所有工作站维护一个 ISO 镜像的中央存储库（而不是 CD/DVD 存储库）。有关更多信息，请参阅 <a href="Command%20Line%20Usage.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">命令行用法</a> 部分（选项 <em style="text-align:left">/noisocheck</em>）。</span></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我们的商业公司可以免费使用 VeraCrypt 吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+只要你遵守 <a href="VeraCrypt%20License.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 许可证</a> 的条款和条件，你就可以在任意数量的计算机上免费安装和运行 VeraCrypt。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我们通过网络共享一个卷。有没有办法在系统重启时自动恢复网络共享？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 用户指南</a> 中的 '<a href="Sharing%20over%20Network.html" style="text-align:left; color:#0080c0; text-decoration:none">通过网络共享</a>' 章节。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">是否可以同时从多个操作系统访问单个 VeraCrypt 卷（例如，通过网络共享的卷）？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 用户指南</a> 中的 '<a href="Sharing%20over%20Network.html" style="text-align:left; color:#0080c0; text-decoration:none">通过网络共享</a>' 章节。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">用户可以通过网络访问他/她的 VeraCrypt 卷吗？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 用户指南</a> 中的 '<a href="Sharing%20over%20Network.html" style="text-align:left; color:#0080c0; text-decoration:none">通过网络共享</a>' 章节。</div>
+<div id="non_system_drive_letter" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我对一个非系统分区进行了加密，但它原来的驱动器号仍然显示在 '<span style="text-align:left; font-style:italic">我的电脑</span>' 列表中。当我双击这个驱动器号时，Windows 会询问我是否要格式化该驱动器。有没有办法隐藏或释放这个驱动器号？</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，要释放驱动器号，请按照以下步骤操作：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+右键单击桌面上或开始菜单中的 '<em style="text-align:left">此电脑</em>'（或 '<span style="text-align:left; font-style:italic">我的电脑</span>'）图标，然后选择 <span style="text-align:left; font-style:italic">管理</span>。此时应会出现 '<span style="text-align:left; font-style:italic">计算机管理</span>' 窗口。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+从左侧列表中，选择 '<span style="text-align:left; font-style:italic">磁盘管理</span>'（在 <span style="text-align:left; font-style:italic">存储</span> 子树中）。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+右键单击加密的分区/设备，然后选择 <span style="text-align:left; font-style:italic">更改驱动器号和路径</span>。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+单击 <span style="text-align:left; font-style:italic">删除</span>。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果 Windows 提示你确认操作，请单击 <span style="text-align:left; font-style:italic">是</span>。</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><br style="text-align:left">
+当我插入加密的 USB 闪存驱动器时，Windows 会询问我是否要格式化它。有没有办法防止这种情况发生？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，但你需要删除分配给该设备的驱动器号。有关如何操作的信息，请参阅问题 '<em style="text-align:left">我对一个非系统分区进行了加密，但它原来的驱动器号仍然显示在 '我的电脑' 列表中。</em>'。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><br style="text-align:left">
+如果我不再需要加密，如何移除或撤销加密？如何永久解密一个卷？
+</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 用户指南</a> 中的 '<a href="Removing%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">如何移除加密</a>' 部分。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">启用 '<em style="text-align:left">将卷作为可移动媒体挂载</em>' 选项后会有什么变化？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅 <a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 用户指南</a> 中的 '<a href="Removable%20Medium%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">作为可移动媒体挂载的卷</a>' 部分。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">在线文档是否可以作为单个文件下载？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+是的，文档包含在文件 <em style="text-align:left">VeraCrypt 用户指南.chm</em> 中，该文件包含在适用于 Windows 的官方 VeraCrypt 安装程序中。你也可以使用主页 <a href="https://veracrypt.jp/en/Downloads.html" target="_blank">https://veracrypt.jp/en/downloads/</a> 上提供的链接下载 CHM 文件。请注意，你 <em style="text-align:left">无需</em> 安装 VeraCrypt 即可获取 CHM 文档。只需运行自解压安装包，然后在 VeraCrypt 安装向导的第二页选择 <em style="text-align:left">提取</em>（而不是 <em style="text-align:left">安装</em>）。另外请注意，当你 <em style="text-align:left">确实</em> 安装 VeraCrypt 时，CHM 文档会自动复制到 VeraCrypt 安装的文件夹中，并且可以通过 VeraCrypt 用户界面访问（按 F1 或选择<em style="text-align:left">帮助</em> > <em style="text-align:left">用户指南</em>）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">我是否需要对VeraCrypt卷上的空闲空间和/或文件进行“擦除”操作？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<span style="text-align:left; font-size:10px; line-height:12px">备注：“擦除”指的是安全地删除数据，即覆盖敏感数据以使其无法恢复。
+</span><br style="text-align:left">
+<br style="text-align:left">
+如果您认为攻击者能够解密该卷（例如，他会迫使您透露密码），那么答案是需要。否则，就没有必要，因为整个卷都是加密的。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">VeraCrypt如何知道我的VeraCrypt卷使用了哪种加密算法？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请参阅<a href="Encryption%20Scheme.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+加密方案</a>部分（<a href="Technical%20Details.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+技术细节</a>章节），可在<a href="https://veracrypt.jp/en/Documentation.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+文档</a>中找到。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">如何在VeraCrypt卷上执行Windows内置备份？VeraCrypt卷未显示在可用备份路径列表中。<br>
+</strong>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Windows内置备份实用程序仅查找物理驱动器，因此它不会显示VeraCrypt卷。不过，您仍然可以通过一个技巧在VeraCrypt卷上进行备份：通过资源管理器界面在VeraCrypt卷上启用共享（当然，您需要设置正确的权限以防止未经授权的访问），然后选择“远程共享文件夹”选项（实际上它并不是远程的，但Windows需要一个网络路径）。在那里，您可以输入共享驱动器的路径（例如 \\ServerName\sharename），备份将正确配置。</div>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">VeraCrypt使用的加密技术是否容易受到量子攻击？</strong>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt使用块密码（AES、Serpent、Twofish）进行加密。针对这些块密码的量子攻击只是一种更快的暴力破解方式，因为目前已知针对这些算法的最佳攻击方法是穷举搜索（相关密钥攻击与我们的情况无关，因为所有密钥都是随机且相互独立的）。<br>
+由于VeraCrypt始终使用256位随机且相互独立的密钥，我们可以确保其针对量子算法的安全级别达到128位，这使得VeraCrypt加密能够抵御此类攻击。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>如何使VeraCrypt卷可用于Windows搜索索引？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+为了能够通过Windows搜索对VeraCrypt卷进行索引，该卷必须在启动时挂载（系统收藏），或者在挂载卷后重新启动Windows搜索服务。这是因为Windows搜索只能索引在其启动时可用的驱动器。</div>
+ <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong>在macOS上尝试挂载文件容器时，我遇到了VeraCrypt的“Operation not permitted”错误。如何解决这个问题？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+
+<p>一些用户报告了这种特定的错误，其形式为“Operation not permitted: /var/folders/w6/d2xssyzx.../T/.veracrypt_aux_mnt1/control VeraCrypt::File::Open:232”。这是由于macOS未授予VeraCrypt必要的权限所致。您可以尝试以下几种解决方案：</p>
+
+<ul>
+<li>A. 授予VeraCrypt完全磁盘访问权限：
+<p>
+<ol>
+    <li>转到 <code>苹果菜单</code> > <code>系统设置</code>。</li>
+    <li>点击 <code>隐私与安全</code> 选项卡。</li>
+    <li>向下滚动并选择 <code>完全磁盘访问</code>。</li>
+    <li>点击 <code>+</code> 按钮，导航到您的应用程序文件夹，选择 <code>VeraCrypt</code>，然后点击 <code>打开</code>。</li>
+    <li>确保VeraCrypt旁边的复选框已勾选。</li>
+    <li>关闭系统设置窗口，然后再次尝试使用VeraCrypt。</li>
+</p>
+</ol>
+</li>
+<li>B. 使用sudo命令启动VeraCrypt：
+<p>您可以在终端中使用提升的权限启动VeraCrypt：
+
+<pre>
+sudo /Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt
+</pre>
+
+使用sudo命令运行VeraCrypt通常可以绕过某些与权限相关的问题，但只要可能，最好还是通过系统设置授予必要的权限。</p>
+</li>
+</ul>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">为什么VeraCrypt列表中显示了一个未知设备，而该设备在Windows磁盘管理或DiskPart输出中并未显示为物理磁盘？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>
+从Windows 10版本1903及更高版本开始，微软引入了一项名为 <b>Windows沙盒</b> 的功能。这是一个隔离环境，旨在安全地运行不受信任的应用程序。作为此功能的一部分，Windows会生成一个动态虚拟硬盘（VHDX），它代表一个干净的Windows安装。这个VHDX包含基本系统映像、用户数据和运行时状态，其大小会根据系统配置和使用情况而有所不同。	
+</p>
+<p>
+当VeraCrypt枚举系统上的设备时，它会使用诸如 <b>\Device\HardDiskX\PartitionY</b> 之类的设备路径格式来识别所有可用的磁盘设备。VeraCrypt会列出这些设备，包括与Windows沙盒相关的虚拟设备，而不会根据其物理或虚拟性质进行区分。因此，即使在diskpart等工具中未显示为物理磁盘，您也可能会在VeraCrypt中看到一个意外的设备。
+</p>
+<p>
+有关Windows沙盒功能及其关联的虚拟硬盘的更多详细信息，您可以参考这篇 <a href="https://techcommunity.microsoft.com/t5/windows-os-platform-blog/windows-sandbox/ba-p/301849">微软官方文章</a>。
+</p>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">我在常见问题解答中没有找到我的问题的答案 - 我该怎么办？</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请搜索VeraCrypt文档和网站。</div>
+</div><div class="ClearBoth"></div></div></body></html>

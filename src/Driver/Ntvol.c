@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -35,6 +35,19 @@
 #include <Ntstrsafe.h>
 
 volatile BOOL ProbingHostDeviceForWrite = FALSE;
+
+static BOOL MountCancelRequested (PEXTENSION Extension)
+{
+	PMOUNT_CANCEL_CONTEXT context = Extension->MountCancelContext;
+	return context && InterlockedExchangeAdd (&context->UserAbortRequested, 0) != 0;
+}
+
+static void ResetMountKeyDerivationAbort (PEXTENSION Extension)
+{
+	PMOUNT_CANCEL_CONTEXT context = Extension->MountCancelContext;
+	if (context && !MountCancelRequested (Extension))
+		InterlockedExchange (&context->KeyDerivationAbort, 0);
+}
 
 
 NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
@@ -593,11 +606,20 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 		/* Attempt to recognize the volume (decrypt the header) */
 
+		if (MountCancelRequested (Extension))
+		{
+			mount->nReturnCode = ERR_USER_ABORT;
+			ntStatus = STATUS_SUCCESS;
+			goto error;
+		}
+
+		ResetMountKeyDerivationAbort (Extension);
+
 		ReadVolumeHeaderRecoveryMode = mount->RecoveryMode;
 
 		if ((volumeType == TC_VOLUME_TYPE_HIDDEN) && mount->bProtectHiddenVolume)
 		{
-			mount->nReturnCode = ReadVolumeHeaderWCache (
+			mount->nReturnCode = ReadVolumeHeaderWCacheWithAbort (
 				FALSE,
 				bAutoCachePassword,
 				mount->bCachePim,
@@ -605,11 +627,13 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				&mount->ProtectedHidVolPassword,
 				mount->ProtectedHidVolPkcs5Prf,
 				mount->ProtectedHidVolPim,
-				&tmpCryptoInfo);
+				&tmpCryptoInfo,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->KeyDerivationAbort : NULL,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->UserAbortRequested : NULL);
 		}
 		else
 		{
-			mount->nReturnCode = ReadVolumeHeaderWCache (
+			mount->nReturnCode = ReadVolumeHeaderWCacheWithAbort (
 				mount->bPartitionInInactiveSysEncScope && volumeType == TC_VOLUME_TYPE_NORMAL,
 				bAutoCachePassword,
 				mount->bCachePim,
@@ -617,7 +641,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				&mount->VolumePassword,
 				mount->pkcs5_prf,
 				mount->VolumePim,
-				&Extension->cryptoInfo);
+				&Extension->cryptoInfo,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->KeyDerivationAbort : NULL,
+				Extension->MountCancelContext ? &Extension->MountCancelContext->UserAbortRequested : NULL);
 		}
 
 		ReadVolumeHeaderRecoveryMode = FALSE;
@@ -909,9 +935,21 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 		{
 			RestoreTimeStamp (Extension);
 		}
+		if (!Extension->bReadOnly && IsOrderedFlushBarriersEnabled ())
+		{
+			IO_STATUS_BLOCK ioStatus;
+			NTSTATUS flushStatus = ZwFlushBuffersFile (Extension->hDeviceFile, &ioStatus);
+			if (!NT_SUCCESS (flushStatus))
+				Dump ("ZwFlushBuffersFile failed before closing volume: NTSTATUS 0x%08x\n", flushStatus);
+		}
 		ZwClose (Extension->hDeviceFile);
+		Extension->hDeviceFile = NULL;
 	}
-	ObDereferenceObject (Extension->pfoDeviceFile);
+	if (Extension->pfoDeviceFile != NULL)
+	{
+		ObDereferenceObject (Extension->pfoDeviceFile);
+		Extension->pfoDeviceFile = NULL;
+	}
 	if (Extension->cryptoInfo)
 	{
 		crypto_close (Extension->cryptoInfo);

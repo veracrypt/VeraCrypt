@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Notation.html">符号说明</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>符号说明</h1>
+<p>&nbsp;</p>
+<table cellspacing="0">
+<tbody>
+<tr>
+<td><em>C</em></td>
+<td>密文块</td>
+</tr>
+<tr>
+<td><em>DK()</em></td>
+<td>使用加密/解密密钥 <em>K</em> 的解密算法</td>
+</tr>
+<tr>
+<td><em>EK()</em></td>
+<td>使用加密/解密密钥 <em>K</em> 的加密算法</td>
+</tr>
+<tr>
+<td><em>H()</em></td>
+<td>哈希函数</td>
+</tr>
+<tr>
+<td><em>i</em></td>
+<td>n位块的块索引；n取决于上下文</td>
+</tr>
+<tr>
+<td><em>K</em></td>
+<td>加密密钥</td>
+</tr>
+<tr>
+<td><em>^</em></td>
+<td>按位异或运算（XOR）</td>
+</tr>
+<tr>
+<td><em>&oplus;</em></td>
+<td>模2n加法，其中n是最左边操作数和结果值的位大小（例如，如果左操作数是1位值，右操作数是2位值，则：1 &oplus; 0 = 1；1 &oplus; 1 = 0；1 &oplus; 2 = 1；1 &oplus; 3 = 0；
+ 0 &oplus; 0 = 0；0 &oplus; 1 = 1；0 &oplus; 2 = 0；0 &oplus; 3 = 1）</td>
+</tr>
+<tr>
+<td><em>&otimes;</em></td>
+<td>二元域GF(2)上两个多项式模x128 + x7 + x2 + x + 1的模乘运算（GF代表伽罗瓦域）</td>
+</tr>
+<tr>
+<td><em>||</em></td>
+<td>连接</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p><a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div>
+</body></html>

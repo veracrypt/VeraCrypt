@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="System%20Encryption.html">系统加密</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Rescue%20Disk.html">VeraCrypt救援盘</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>VeraCrypt救援盘</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在准备对系统分区/驱动器进行加密的过程中，VeraCrypt要求您创建一个所谓的VeraCrypt救援盘（EFI启动模式下为USB盘，MBR传统启动模式下为CD/DVD），其用途如下：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果您启动计算机后VeraCrypt引导加载程序界面未出现（或者Windows无法启动），则<strong style="text-align:left">VeraCrypt引导加载程序可能已损坏</strong>。VeraCrypt救援盘可让您恢复它，从而重新访问您的加密系统和数据（不过，请注意，您仍然需要输入正确的密码）。对于EFI启动模式，在救援盘界面中选择<em style="text-align:left">将VeraCrypt加载程序二进制文件恢复到系统磁盘</em>。对于MBR传统启动模式，请选择<em style="text-align:left">修复选项</em> > <em style="text-align:left">恢复VeraCrypt引导加载程序</em>。然后按“Y”确认操作，从USB端口或CD/DVD驱动器中取出救援盘，然后重新启动计算机。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果<strong style="text-align:left">VeraCrypt引导加载程序频繁损坏</strong>（例如，由于设计不当的激活软件），或者如果<strong style="text-align:left">您不希望VeraCrypt引导加载程序驻留在硬盘上</strong>（例如，如果您想为其他操作系统使用替代的引导加载程序/管理器），您可以直接从VeraCrypt救援盘启动（因为它也包含VeraCrypt引导加载程序），而无需将引导加载程序恢复到硬盘。对于EFI启动模式，只需将救援盘插入USB端口，从它启动计算机，然后在救援盘界面上选择<em style="text-align:left">从救援盘启动VeraCrypt加载程序</em>。对于MBR传统启动模式，您需要将救援盘插入CD/DVD驱动器，然后在救援盘界面中输入您的密码。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果您多次输入正确的密码，但VeraCrypt仍提示密码错误，则可能是<strong style="text-align:left">主密钥或其他关键数据已损坏</strong>。VeraCrypt救援盘可让您恢复它们，从而重新访问您的加密系统和数据（不过，请注意，您仍然需要输入正确的密码）。对于EFI启动模式，在救援盘界面中选择<em style="text-align:left">恢复操作系统头密钥</em>。对于MBR传统启动模式，请选择<em style="text-align:left">修复选项</em> > <em style="text-align:left">恢复VeraCrypt引导加载程序</em>。然后输入您的密码，按“Y”确认操作，从USB端口或CD/DVD驱动器中取出救援盘，然后重新启动计算机。<br style="text-align:left">
+<br style="text-align:left">
+注意：此功能不能用于恢复驻留有<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏操作系统</a>的隐藏卷的头（请参阅<a href="Hidden%20Operating%20System.html">隐藏操作系统</a>部分）。要恢复此类卷头，请点击<em style="text-align:left">选择设备</em>，选择诱饵系统分区后面的分区，点击<em style="text-align:left">确定</em>，选择<em style="text-align:left">工具</em> > <em style="text-align:left">恢复卷头</em>，然后按照说明操作。<br style="text-align:left">
+<br style="text-align:left">
+警告：使用VeraCrypt救援盘恢复密钥数据时，您也会恢复创建VeraCrypt救援盘时有效的密码。因此，每当您更改密码时，您应该销毁您的VeraCrypt救援盘并创建一个新的（选择<em style="text-align:left">系统</em> -> <em style="text-align:left">创建救援盘</em>）。否则，如果攻击者知道您的旧密码（例如，通过键盘记录器捕获），并且他随后找到了您的旧VeraCrypt救援盘，他可以使用它来恢复密钥数据（用旧密码加密的主密钥），从而解密您的系统分区/驱动器。</li><li id="WindowsDamaged" style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果<strong style="text-align:left">Windows损坏且在VeraCrypt密码提示中输入正确密码后无法启动</strong>，VeraCrypt救援盘可让您在Windows启动前永久解密分区/驱动器。对于EFI启动，在救援盘界面中选择<em style="text-align:left">解密操作系统</em>。对于MBR传统启动模式，请选择<em style="text-align:left">修复选项</em> > <em style="text-align:left">永久解密系统分区/驱动器</em>。输入正确的密码，等待解密完成。然后，您可以例如启动您的MS Windows安装CD/DVD来修复您的Windows安装。请注意，此功能不能用于解密驻留有<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏操作系统</a>的隐藏卷（请参阅<a href="Hidden%20Operating%20System.html">隐藏操作系统</a>部分）。<br style="text-align:left">
+<br style="text-align:left">
+注意：或者，如果Windows损坏（无法启动）并且您需要修复它（或访问其上的文件），您可以通过以下步骤避免解密系统分区/驱动器：如果您的计算机上安装了多个操作系统，请启动不需要预启动身份验证的操作系统。如果您的计算机上没有安装多个操作系统，您可以启动WinPE或BartPE CD/DVD或Linux Live CD/DVD/USB。您还可以将系统驱动器作为辅助或外部驱动器连接到另一台计算机，然后启动该计算机上安装的操作系统。启动系统后，运行VeraCrypt，点击选择设备，选择受影响的系统分区，点击确定，选择系统 > 无需预启动身份验证挂载，输入您的预启动身份验证密码，然后点击确定。该分区将作为常规VeraCrypt卷挂载（数据将在访问时在RAM中进行即时解密/加密，如往常一样）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在MBR传统启动模式下，您的VeraCrypt救援盘包含<strong style="text-align:left">第一个驱动器磁道原始内容的备份</strong>（在将VeraCrypt引导加载程序写入该磁道之前制作），并允许您在必要时恢复它。第一个磁道通常包含系统加载程序或引导管理器。在救援盘界面中，选择修复选项 > 恢复原始系统加载程序。
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+&nbsp;</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">请注意，即使你丢失了VeraCrypt救援盘，且攻击者找到了它，在没有正确密码的情况下，他/她也无法解密系统分区或驱动器。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要启动VeraCrypt救援盘，请根据其类型将其插入USB端口或CD/DVD驱动器，然后重启计算机。如果VeraCrypt救援盘屏幕未出现（或者在MBR传统启动模式下，如果你在屏幕的“键盘控制”部分未看到“修复选项”项），可能是你的BIOS配置为优先从硬盘启动，而不是从USB驱动器和CD/DVD驱动器启动。如果是这种情况，请重启计算机，在看到BIOS启动屏幕后立即按F2或Delete键，等待BIOS配置屏幕出现。如果没有出现BIOS配置屏幕，请再次重启（重置）计算机，并在重启（重置）计算机后立即反复按F2或Delete键。当BIOS配置屏幕出现时，将你的BIOS配置为优先从USB驱动器和CD/DVD驱动器启动（有关如何操作的信息，请参考你的BIOS/主板文档，或联系计算机供应商的技术支持团队寻求帮助）。然后重启计算机。此时VeraCrypt救援盘屏幕应该会出现。注意：在MBR传统启动模式下，你可以通过按键盘上的F8键在VeraCrypt救援盘屏幕上选择“修复选项”。</div>
+<p>如果你的VeraCrypt救援盘损坏，你可以通过选择<em style="text-align:left">系统</em> &gt; <em style="text-align:left">创建救援盘</em>来创建一个新的救援盘。要确定你的VeraCrypt救援盘是否损坏，请将其插入USB端口（在MBR传统启动模式下插入CD/DVD驱动器），然后选择<em style="text-align:left">系统</em> &gt; <em style="text-align:left">验证救援盘</em>。</p>
+</div><div class="ClearBoth"></div>
+
+
+<h2>适用于USB闪存驱动器的MBR传统启动模式的VeraCrypt救援盘</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果你的计算机没有CD/DVD驱动器，也可以在USB驱动器上创建适用于MBR传统启动模式的VeraCrypt救援盘。<strong style="text-align:left">请注意，你必须确保不会覆盖USB闪存驱动器上的数据！如果你丢失了USB驱动器或数据损坏，在出现问题时你将无法恢复系统！</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要创建可引导的VeraCrypt救援USB驱动器，你需要创建一个能够启动ISO镜像的可引导USB驱动器。像Unetbootin这样试图将ISO镜像内的数据复制到USB驱动器的解决方案目前还不可行。在Windows系统上，请按照以下步骤操作：
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+    <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+        从VeraCrypt的官方SourceForge仓库下载所需文件： <a href="https://sourceforge.net/projects/veracrypt/files/Contributions/VeraCryptUsbRescueDisk.zip" style="text-align:left; 		color:#0080c0; text-decoration:none">
+        https://sourceforge.net/projects/veracrypt/files/Contributions/VeraCryptUsbRescueDisk.zip</a>
+    </li>
+
+    <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+        插入一个USB驱动器。
+    </li>
+    <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+        使用FAT16或FAT32格式格式化USB驱动器：
+        <ul style="text-align:left; margin-top:6px; margin-bottom:6px; padding-top:0px; padding-bottom:0px">
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                以管理员身份运行usb_format.exe（右键单击“以管理员身份运行”）。
+            </li>
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                在设备列表中选择你的USB驱动器。
+            </li>
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                选择FAT作为文件系统，并勾选“快速格式化”。点击“开始”。
+            </li>
+        </ul>
+
+    </li>
+    <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+        创建一个能够启动ISO镜像的引导加载程序：
+        <ul style="text-align:left; margin-top:6px; margin-bottom:6px; padding-top:0px; padding-bottom:0px">
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                运行grubinst_gui.exe。
+            </li>
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                勾选“磁盘”，然后在列表中选择你的USB驱动器。
+            </li>
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                点击“分区列表”前的“刷新”按钮，然后选择“整个磁盘（MBR）”。
+            </li>
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                保持所有其他选项不变，然后点击“安装”。
+            </li>
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                你应该会看到一个控制台窗口显示“MBR/BS已成功安装。按&lt回车&gt继续...”
+            </li>
+            <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+                关闭该工具。
+            </li>
+        </ul>
+    </li>
+    <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+        将文件“grldr”复制到USB驱动器的根目录（例如，如果驱动器盘符为I:，则应将其复制到I:\grldr）。此文件用于加载Grub4Dos。
+    </li>
+    <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+        将文件“menu.lst”复制到USB驱动器的根目录（例如，如果驱动器盘符为I:，则应将其复制到I:\menu.lst）。此文件用于配置显示的菜单及其选项。
+    </li>
+    <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+        将救援盘文件“VeraCrypt Rescue Disk.iso”复制到USB驱动器的根目录，并将其重命名为“veracrypt.iso”。另一种方法是修改“menu.lst”文件中的链接。
+    </li>
+
+</ul>
+</body></html>

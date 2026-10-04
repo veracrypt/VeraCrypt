@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -12,7 +12,8 @@
 
 #include "Hash.h"
 
-#include "Crypto/blake2.h"
+#include "Crypto/Argon2/src/blake2/blake2b.h"
+#include "Crypto/blake2s.h"
 #include "Crypto/Sha2.h"
 #include "Crypto/Whirlpool.h"
 #include "Crypto/Streebog.h"
@@ -27,8 +28,9 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Hash> (new Sha256 ()));
         #ifndef WOLFCRYPT_BACKEND
 		l.push_back (shared_ptr <Hash> (new Blake2s ()));
-                l.push_back (shared_ptr <Hash> (new Whirlpool ()));
+		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
 		l.push_back (shared_ptr <Hash> (new Streebog ()));
+		l.push_back (shared_ptr <Hash> (new Blake2b ()));
         #endif
 		return l;
 	}
@@ -46,7 +48,7 @@ namespace VeraCrypt
 	}
 
     #ifndef WOLFCRYPT_BACKEND
-	// RIPEMD-160
+	// BLAKE2s
 	Blake2s::Blake2s ()
 	{
 		Context.Allocate (sizeof (blake2s_state), 32);
@@ -68,6 +70,30 @@ namespace VeraCrypt
 	{
 		if_debug (ValidateDataParameters (data));
 		blake2s_update ((blake2s_state *) Context.Ptr(), data.Get(), data.Size());
+	}
+
+	// BLAKE2b
+	Blake2b::Blake2b ()
+	{
+		Context.Allocate (sizeof (blake2b_state), 32);
+		Init();
+	}
+
+	void Blake2b::GetDigest (const BufferPtr &buffer)
+	{
+		if_debug (ValidateDigestParameters (buffer));
+		blake2b_final ((blake2b_state *) Context.Ptr(), buffer, BLAKE2B_OUTBYTES);
+	}
+
+	void Blake2b::Init ()
+	{
+		blake2b_init ((blake2b_state *) Context.Ptr(), BLAKE2B_OUTBYTES);
+	}
+
+	void Blake2b::ProcessData (const ConstBufferPtr &data)
+	{
+		if_debug (ValidateDataParameters (data));
+		blake2b_update ((blake2b_state *) Context.Ptr(), data.Get(), data.Size());
 	}
     #endif
 

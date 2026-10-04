@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Multi-User%20Environment.html">多用户环境</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>多用户环境</h1>
+<p>请记住，已挂载的VeraCrypt卷的内容对所有已登录用户可见（可访问）。可以设置NTFS文件/文件夹权限来防止这种情况，但如果该卷作为可移动介质挂载（请参阅<a href="Removable%20Medium%20Volume.html"><em>作为可移动介质挂载的卷</em></a>部分），并且是在Windows Vista或更高版本的桌面版操作系统下，则可能无法阻止。（作为可移动介质挂载的卷的扇区，即使在文件系统级别对某些用户不可访问，但在卷级别可能对无管理员权限的用户是可访问的）。<br>
+<br>
+此外，在Windows系统中，密码缓存由所有已登录用户共享（有关更多信息，请参阅<em>设置 -&gt; 首选项</em>部分中的<em>在驱动程序内存中缓存密码</em>子部分）。<br>
+<br>
+另请注意，在Windows XP或更高版本中切换用户（<em>快速用户切换</em>功能）<em>不会</em>卸载已成功挂载的VeraCrypt卷（与系统重启不同，系统重启会卸载所有已挂载的VeraCrypt卷）。<br>
+<br>
+在Windows 2000系统中，当要挂载由文件托管的VeraCrypt卷时，会忽略容器文件的权限。在所有受支持的Windows版本中，无管理员权限的用户可以挂载任何由分区/设备托管的VeraCrypt卷（前提是他们提供了正确的密码和/或密钥文件）。无管理员权限的用户只能卸载他们自己挂载的卷。但是，这不适用于系统收藏夹卷，除非您启用（默认禁用）<em>设置</em> &gt; <em>系统收藏夹卷</em> &gt; <em>仅允许管理员在VeraCrypt中查看和卸载系统收藏夹卷</em>选项。</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

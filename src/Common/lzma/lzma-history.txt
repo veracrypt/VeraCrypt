@@ -1,6 +1,52 @@
 HISTORY of the LZMA SDK
 -----------------------
 
+26.02          2026-06-25
+-------------------------
+- Some bugs and vulnerabilities were fixed.
+
+
+26.01          2026-04-27
+-------------------------
+- linux version of 7-Zip can use huge pages (2 MB pages). It can increase compression
+  speed for 10% for 7z/xz/LZMA/LZMA2 compression.
+- new -spo[d|c|r] switch specifies the path generation mode for the output directory
+  for archive extraction. The output directory path is generated from the path specified
+  in the -o{dir_path} switch and the name of the archive being unpacked.
+    -spod : for Linux/Posix/macOS: -o{dir_path} specifies the direct path to the output directory.
+            The asterisk (*) character in {dir_path} will not be replaced by the archive name.
+    -spoc : 7-Zip will concatenate the path specified in -o{dir_path} with the archive name
+            to form the final path to the output directory.
+    -spor : 7-Zip will replace asterisk (*) character in the path specified in the -o{dir_path}
+            with the archive name. This is the default option.
+- The 7zdec.exe program (a lightweight 7z archive decoder) has been modified for security purposes.
+  Now 7zdec.exe extracts files only to the current folder and its subfolders.
+- some bugs were fixed.
+
+
+
+26.00          2026-02-12
+-------------------------
+- some bugs were fixed.
+
+
+25.01          2025-08-03
+-------------------------
+- The code for handling symbolic links has been changed
+  to provide greater security when extracting files from archives.
+  Command line switch -snld20 can be used to bypass default security
+  checks when creating symbolic links.
+
+
+25.00          2025-07-05
+-------------------------
+- 7-Zip for Windows can now use more than 64 CPU threads for compression
+  to zip/7z/xz archives and for the 7-Zip benchmark.
+  If there are more than one processor group in Windows (on systems with more than
+  64 cpu threads), 7-Zip distributes running CPU threads across different processor groups.
+- fixed some bugs and vulnerabilities.
+
+
 24.09          2024-11-29
 -------------------------
 - The default dictionary size values for LZMA/LZMA2 compression methods were increased:

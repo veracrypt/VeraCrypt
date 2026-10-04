@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -39,6 +39,12 @@
 
 #include <algorithm>
 #include <Strsafe.h>
+#include <wincrypt.h>
+#include <wintrust.h>
+#include <Softpub.h>
+
+#pragma comment(lib, "Crypt32.lib")
+#pragma comment(lib, "Wintrust.lib")
 
 static unsigned char g_pbEFIDcsPK[1385] = {
 	0xA1, 0x59, 0xC0, 0xA5, 0xE4, 0x94, 0xA7, 0x4A, 0x87, 0xB5, 0xAB, 0x15,
@@ -298,7 +304,7 @@ static BOOL IsWindowsMBR (const uint8 *buffer, size_t bufferSize)
 
 namespace VeraCrypt
 {
-#if !defined (SETUP)
+#if !defined (SETUP) && !defined (VCSDK_DLL)
 
 	class Elevator
 	{
@@ -443,6 +449,30 @@ namespace VeraCrypt
 			}
 		}
 
+		static void FastFileResize (const wstring &filePath, __int64 fileSize)
+		{
+			Elevate();
+
+			DWORD result;
+			CComBSTR fileBstr;
+			BSTR bstr = W2BSTR(filePath.c_str());
+			if (bstr)
+			{
+				fileBstr.Attach (bstr);
+				result = ElevatedComInstance->FastFileResize (fileBstr, fileSize);
+			}
+			else
+			{
+				result = ERROR_OUTOFMEMORY;
+			}
+
+			if (result != ERROR_SUCCESS)
+			{
+				SetLastError (result);
+				throw SystemException(SRC_POS);
+			}
+		}
+
 		static BOOL DeviceIoControl (BOOL readOnly, BOOL device, const wstring &filePath, DWORD dwIoControlCode, LPVOID input, DWORD inputSize, 
 												LPVOID output, DWORD outputSize)
 		{
@@ -561,6 +591,8 @@ namespace VeraCrypt
 			DWORD result = ElevatedComInstance->InstallEfiBootLoader (preserveUserConfig ? TRUE : FALSE, hiddenOSCreation ? TRUE : FALSE, pim, hashAlg);
 			if (result != ERROR_SUCCESS)
 			{
+				if (result == VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB)
+					throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", SRC_POS);
 				SetLastError (result);
 				throw SystemException(SRC_POS);
 			}
@@ -626,6 +658,20 @@ namespace VeraCrypt
 
 			if (result != ERROR_SUCCESS)
 			{
+				SetLastError (result);
+				throw SystemException(SRC_POS);
+			}
+		}
+
+		static void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported)
+		{
+			Elevate();
+
+			DWORD result = ElevatedComInstance->GetEfiBootLoaderSigningSupport (pMicrosoft2023UefiCAsSupported);
+			if (result != ERROR_SUCCESS)
+			{
+				if (result == VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB)
+					throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", SRC_POS);
 				SetLastError (result);
 				throw SystemException(SRC_POS);
 			}
@@ -747,6 +793,7 @@ namespace VeraCrypt
 		static void Release () { }
 		static void SetDriverServiceStartType (DWORD startType) { throw ParameterIncorrect (SRC_POS); }
 		static void GetFileSize (const wstring &filePath, unsigned __int64 *pSize) { throw ParameterIncorrect (SRC_POS); }
+		static void FastFileResize (const wstring &filePath, __int64 fileSize) { throw ParameterIncorrect (SRC_POS); }
 		static BOOL DeviceIoControl (BOOL readOnly, BOOL device, const wstring &filePath, DWORD dwIoControlCode, LPVOID input, DWORD inputSize, LPVOID output, DWORD outputSize) { throw ParameterIncorrect (SRC_POS); }
 		static void InstallEfiBootLoader (bool preserveUserConfig, bool hiddenOSCreation, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
 		static void BackupEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
@@ -755,6 +802,13 @@ namespace VeraCrypt
 		static void WriteEfiBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
 		static void UpdateSetupConfigFile (bool bForInstall) { throw ParameterIncorrect (SRC_POS); }
 		static void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded) { throw ParameterIncorrect (SRC_POS); }
+		static void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported) { throw ParameterIncorrect (SRC_POS); }
+		static void RegisterSystemFavoritesService(BOOL registerService) { throw ParameterIncorrect(SRC_POS); }
+		static BOOL IsPagingFileActive(BOOL checkNonWindowsPartitionsOnly) { throw ParameterIncorrect(SRC_POS); }
+		static void WriteLocalMachineRegistryDwordValue(wchar_t* keyPath, wchar_t* valueName, DWORD value) { throw ParameterIncorrect(SRC_POS); }
+		static void NotifyService(DWORD dwNotifyCmd) { throw ParameterIncorrect(SRC_POS); }
+		static void CopyFile(const wstring& sourceFile, const wstring& destinationFile) { throw ParameterIncorrect(SRC_POS); }
+		static void DeleteFile(const wstring& file) { throw ParameterIncorrect(SRC_POS); }
 	};
 
 #endif // SETUP
@@ -874,6 +928,27 @@ namespace VeraCrypt
 			LARGE_INTEGER pos;
 			pos.QuadPart = position;
 			throw_sys_if (!SetFilePointerEx (Handle, pos, NULL, FILE_BEGIN));
+		}
+	}
+
+	void File::SetEnd ()
+	{
+		if (!FileOpen)
+		{
+			SetLastError (LastError);
+			throw SystemException (SRC_POS);
+		}
+
+		if (Elevated)
+		{
+			if (FilePointerPosition > 0x7fffffffffffffffULL)
+				throw ParameterIncorrect (SRC_POS);
+
+			Elevator::FastFileResize (Path, (int64) FilePointerPosition);
+		}
+		else
+		{
+			throw_sys_if (!SetEndOfFile (Handle));
 		}
 	}
 
@@ -1035,7 +1110,7 @@ namespace VeraCrypt
 		FileOpen = false;
 		Elevated = false;
 
-		if (path.find(L"\\\\?\\") == 0)
+		if (path.find(L"\\\\?\\") == 0 || path.find(L"\\\\.\\") == 0)
 			effectivePath = path;
 		else
 			effectivePath = wstring (L"\\\\.\\") + path;
@@ -1715,6 +1790,8 @@ namespace VeraCrypt
 					pkcs5_prf = WHIRLPOOL;
 				else if (_stricmp(request.BootPrfAlgorithmName, "Streebog") == 0)
 					pkcs5_prf = STREEBOG;
+				else if (_stricmp(request.BootPrfAlgorithmName, "Argon2") == 0)
+					pkcs5_prf = ARGON2;
                         #endif
 				else if (strlen(request.BootPrfAlgorithmName) == 0) // case of version < 1.0f
 					pkcs5_prf = BLAKE2S;
@@ -1745,6 +1822,10 @@ namespace VeraCrypt
 
 		// Only BLAKE2s and SHA-256 are supported for MBR boot loader		
 		if (!bIsGPT && pkcs5_prf != BLAKE2S && pkcs5_prf != SHA256)
+			throw ParameterIncorrect (SRC_POS);
+
+		// we don't support Argon2 for system encryption for now
+		if (pkcs5_prf == ARGON2)
 			throw ParameterIncorrect (SRC_POS);
 
 		int bootSectorId = 0;
@@ -2274,6 +2355,22 @@ namespace VeraCrypt
 		}
 	}
 
+	static string XmlQuoteConfigValue (const char *configValue)
+	{
+		if (!configValue)
+			return string();
+
+		size_t valueLen = strlen (configValue);
+		if (valueLen > (INT_MAX - 2) / 5)
+			throw ParameterIncorrect (SRC_POS);
+
+		vector<char> quotedValue (valueLen * 5 + 2);
+		if (!XmlQuoteText (configValue, quotedValue.data(), (int) quotedValue.size()))
+			throw ParameterIncorrect (SRC_POS);
+
+		return string (quotedValue.data());
+	}
+
 	BOOL EfiBootConf::WriteConfigString (FILE* configFile, char* configContent, const char *configKey, const char *configValue)
 	{
 		
@@ -2289,9 +2386,10 @@ namespace VeraCrypt
 					c[1] = '!';
 			}
 
+			string quotedValue = XmlQuoteConfigValue (configValue);
 			if ( 0 != fwprintf (
 					configFile, L"\n\t\t<config key=\"%hs\">%hs</config>",
-					configKey, configValue))
+					configKey, quotedValue.c_str()))
 			{
 				bRet = TRUE;
 			}
@@ -2419,7 +2517,8 @@ namespace VeraCrypt
 			XmlGetAttributeText (xml, "key", key, sizeof (key));
 			XmlGetNodeText (xml, value, sizeof (value));
 
-			fwprintf (configFile, L"\n\t\t<config key=\"%hs\">%hs</config>", key, value);
+			string quotedValue = XmlQuoteConfigValue (value);
+			fwprintf (configFile, L"\n\t\t<config key=\"%hs\">%hs</config>", key, quotedValue.c_str());
 			xml++;
 		}
 
@@ -2492,6 +2591,966 @@ namespace VeraCrypt
 	}
 
 	static const wchar_t*	EfiVarGuid = L"{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}";
+	static const wchar_t*	EfiImageSecurityDatabaseGuid = L"{D719B2CB-3D3A-4596-A3BC-DAD00E67656F}";
+
+	struct EfiBootLoaderResourceSet
+	{
+		int DcsBoot;
+		int DcsInt;
+		int DcsCfg;
+		int LegacySpeaker;
+		int DcsRescue;
+		int DcsInfo;
+	};
+
+	struct EfiBootLoaderImages
+	{
+		uint8 *DcsBoot;
+		DWORD SizeDcsBoot;
+		uint8 *DcsInt;
+		DWORD SizeDcsInt;
+		uint8 *DcsCfg;
+		DWORD SizeDcsCfg;
+		uint8 *LegacySpeaker;
+		DWORD SizeLegacySpeaker;
+		uint8 *DcsRescue;
+		DWORD SizeDcsRescue;
+		uint8 *DcsInfo;
+		DWORD SizeDcsInfo;
+		DWORD ResourceSet;
+		const wchar_t *SelectionReason;
+		DWORD FirmwareDbError;
+		DWORD FirmwareDbxError;
+	};
+
+	struct EfiBootLoaderResourceSelection
+	{
+		const EfiBootLoaderResourceSet *Resources;
+		DWORD ResourceSet;
+		const wchar_t *Reason;
+		DWORD FirmwareDbError;
+		DWORD FirmwareDbxError;
+	};
+
+	struct FirmwareDbMicrosoftUefiCaSupport
+	{
+		bool ContainsMicrosoftCorporationUefiCa2011;
+		bool ContainsMicrosoftUefiCa2023;
+		bool ContainsMicrosoftOptionRomUefiCa2023;
+		bool ContainsMicrosoftWindowsProductionPca2011;
+		bool ContainsWindowsUefiCa2023;
+		bool DbMalformed;
+		DWORD ParseError;
+	};
+
+	static const EfiBootLoaderResourceSet EfiBootLoaderResources2011 =
+	{
+		IDR_EFI_DCSBOOT_2011,
+		IDR_EFI_DCSINT_2011,
+		IDR_EFI_DCSCFG_2011,
+		IDR_EFI_LEGACYSPEAKER_2011,
+		IDR_EFI_DCSRE_2011,
+		IDR_EFI_DCSINFO_2011
+	};
+
+	static const EfiBootLoaderResourceSet EfiBootLoaderResources2023 =
+	{
+		IDR_EFI_DCSBOOT_2023,
+		IDR_EFI_DCSINT_2023,
+		IDR_EFI_DCSCFG_2023,
+		IDR_EFI_LEGACYSPEAKER_2023,
+		IDR_EFI_DCSRE_2023,
+		IDR_EFI_DCSINFO_2023
+	};
+
+	static const wchar_t *EfiBootLoaderDiagnosticsRegistryKey = VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY;
+
+	static bool ReadFirmwareEnvironmentVariableBuffer (const wchar_t* name, const wchar_t* guid, std::vector<uint8>& value, DWORD* pLastError = NULL)
+	{
+		bool bRet = false;
+		DWORD dwError = ERROR_SUCCESS;
+		BOOL bPrivilegesSet = IsPrivilegeEnabled (SE_SYSTEM_ENVIRONMENT_NAME);
+		BOOL bPrivilegeEnabled = FALSE;
+		const DWORD maxBufferSize = 16 * 1024 * 1024;
+		DWORD bufferSize = 16384;
+
+		value.clear ();
+		if (pLastError)
+			*pLastError = ERROR_SUCCESS;
+
+		if (!bPrivilegesSet)
+		{
+			if (!SetPrivilege (SE_SYSTEM_ENVIRONMENT_NAME, TRUE))
+			{
+				dwError = GetLastError ();
+				if (dwError == ERROR_SUCCESS)
+					dwError = ERROR_PRIVILEGE_NOT_HELD;
+				if (pLastError)
+					*pLastError = dwError;
+				SetLastError (dwError);
+				return false;
+			}
+
+			bPrivilegeEnabled = TRUE;
+		}
+
+		try
+		{
+			while (bufferSize <= maxBufferSize)
+			{
+				value.resize (bufferSize);
+
+				SetLastError (ERROR_SUCCESS);
+				DWORD dwLen = GetFirmwareEnvironmentVariableW (name, guid, value.data(), bufferSize);
+				if (dwLen != 0)
+				{
+					value.resize (dwLen);
+					bRet = true;
+					break;
+				}
+
+				dwError = GetLastError ();
+				if (dwError == ERROR_SUCCESS)
+				{
+					value.resize (0);
+					bRet = true;
+					break;
+				}
+
+				if ((dwError != ERROR_INSUFFICIENT_BUFFER) || (bufferSize == maxBufferSize))
+					break;
+
+				bufferSize = (bufferSize > (maxBufferSize / 2)) ? maxBufferSize : (bufferSize * 2);
+			}
+		}
+		catch (...)
+		{
+			if (bPrivilegeEnabled)
+				SetPrivilege (SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
+
+			throw;
+		}
+
+		if (bPrivilegeEnabled)
+			SetPrivilege (SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
+
+		if (!bRet)
+		{
+			value.clear ();
+			if (dwError == ERROR_SUCCESS)
+				dwError = GetLastError ();
+			if (dwError == ERROR_SUCCESS)
+				dwError = ERROR_INVALID_DATA;
+			if (pLastError)
+				*pLastError = dwError;
+			SetLastError (dwError);
+		}
+
+		return bRet;
+	}
+
+	static EfiBootLoaderResourceSelection MakeEfiBootLoaderResourceSelection (const EfiBootLoaderResourceSet& resources, DWORD resourceSet, const wchar_t *reason, DWORD firmwareDbError, DWORD firmwareDbxError = ERROR_SUCCESS)
+	{
+		EfiBootLoaderResourceSelection selection = { &resources, resourceSet, reason, firmwareDbError, firmwareDbxError };
+		return selection;
+	}
+
+	static bool ReadRecordedEfiBootLoaderResourceSet (DWORD& resourceSet)
+	{
+		resourceSet = 0;
+		return ReadLocalMachineRegistryDword (
+			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
+			(wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME,
+			&resourceSet) && resourceSet != 0;
+	}
+
+	static DWORD ReadEfiBootLoaderRescueDiskPromptId ()
+	{
+		DWORD promptId = 0;
+		ReadLocalMachineRegistryDword (
+			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
+			(wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME,
+			&promptId);
+		return promptId;
+	}
+
+	static bool WriteEfiBootLoaderDiagnosticsRegistryDword (const wchar_t *valueName, DWORD value)
+	{
+#ifndef SETUP
+		if (!IsAdmin () && IsUacSupported ())
+		{
+			try
+			{
+				Elevator::WriteLocalMachineRegistryDwordValue ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) valueName, value);
+				return true;
+			}
+			catch (...) { }
+
+			return false;
+		}
+#endif
+		return WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) valueName, value) ? true : false;
+	}
+
+	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images)
+	{
+		if (!images.ResourceSet)
+			return;
+
+		DWORD previousLastError = GetLastError ();
+		DWORD promptId = ReadEfiBootLoaderRescueDiskPromptId () + 1;
+		if (promptId == 0)
+			promptId = 1;
+
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, promptId);
+		SetLastError (previousLastError);
+	}
+
+	static void RecordEfiBootLoaderRescueDiskResourceSet (const EfiBootLoaderImages& images)
+	{
+		if (!images.ResourceSet)
+			return;
+
+		DWORD previousLastError = GetLastError ();
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
+		SetLastError (previousLastError);
+	}
+
+	static void ClearEfiBootLoaderDiagnosticsRegistry ()
+	{
+		DWORD previousLastError = GetLastError ();
+		::DeleteRegistryKey (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey);
+		SetLastError (previousLastError);
+	}
+
+	static void RecordEfiBootLoaderResourceSetSelectionDiagnostics (DWORD resourceSet, const wchar_t *selectionReason, DWORD firmwareDbError, DWORD firmwareDbxError = ERROR_SUCCESS)
+	{
+		if (!selectionReason)
+			return;
+
+		DWORD previousLastError = GetLastError ();
+		WCHAR selectionTimeUtc[32] = {0};
+		SYSTEMTIME systemTime;
+		GetSystemTime (&systemTime);
+		StringCchPrintfW (selectionTimeUtc, ARRAYSIZE (selectionTimeUtc), L"%04u-%02u-%02uT%02u:%02u:%02uZ",
+			systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
+
+		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, resourceSet);
+		if (!resourceSet)
+		{
+			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, 0);
+			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, 0);
+		}
+		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
+		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
+		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", selectionReason, FALSE);
+		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE);
+		SetLastError (previousLastError);
+	}
+
+	static void RecordEfiBootLoaderResourceSetSelection (const EfiBootLoaderImages& images)
+	{
+		if (!images.ResourceSet || !images.SelectionReason)
+			return;
+
+		RecordEfiBootLoaderResourceSetSelectionDiagnostics (images.ResourceSet, images.SelectionReason, images.FirmwareDbError, images.FirmwareDbxError);
+	}
+
+	static uint32 ReadUint32LittleEndian (const uint8* buffer)
+	{
+		return (uint32) buffer[0]
+			| ((uint32) buffer[1] << 8)
+			| ((uint32) buffer[2] << 16)
+			| ((uint32) buffer[3] << 24);
+	}
+
+	static bool BufferEquals (const uint8* buffer, const uint8* expected, size_t expectedSize)
+	{
+		// Callers of this overload must first verify that buffer contains at least expectedSize bytes.
+		return memcmp (buffer, expected, expectedSize) == 0;
+	}
+
+	static bool BufferEquals (const uint8* buffer, size_t bufferSize, const uint8* expected, size_t expectedSize)
+	{
+		return (bufferSize == expectedSize) && BufferEquals (buffer, expected, expectedSize);
+	}
+
+	static bool FirmwareDbMicrosoftUefiCaSupportContains2023Set (const FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		return support.ContainsMicrosoftUefiCa2023 && support.ContainsMicrosoftOptionRomUefiCa2023;
+	}
+
+	static bool FirmwareDbMicrosoftUefiCaSupportContainsSupportedSet (const FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		return support.ContainsMicrosoftCorporationUefiCa2011 || FirmwareDbMicrosoftUefiCaSupportContains2023Set (support);
+	}
+
+	static DWORD FirmwareDbMicrosoftUefiCaSupportGetDiagnosticError (const FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		return support.DbMalformed ? support.ParseError : ERROR_SUCCESS;
+	}
+
+	static bool FirmwareDbMicrosoftUefiCaSupportSetMalformed (FirmwareDbMicrosoftUefiCaSupport& support, DWORD parseError)
+	{
+		support.DbMalformed = true;
+		support.ParseError = parseError;
+		return FirmwareDbMicrosoftUefiCaSupportContainsSupportedSet (support);
+	}
+
+	// Parses either the allowed database (db) or forbidden database (dbx). Returns true
+	// when the signature database is structurally valid, or when malformed data appears only
+	// after a complete VeraCrypt-supported Microsoft CA set has already been found. In the
+	// latter case support.DbMalformed remains set so selection diagnostics can report it.
+	static bool FirmwareSignatureDatabaseBufferGetMicrosoftUefiCaSupport (const std::vector<uint8>& database, FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		// Microsoft documents these CAs as valid signature-database entries in EFI_CERT_X509_GUID or EFI_CERT_RSA2048_GUID form:
+		// https://learn.microsoft.com/windows-hardware/manufacture/desktop/windows-secure-boot-key-creation-and-management-guidance
+		// EFI_CERT_X509_GUID {a5c059a1-94e4-4aa7-87b5-ab155c2bf072}
+		static const uint8 efiCertX509Guid[16] = { 0xA1, 0x59, 0xC0, 0xA5, 0xE4, 0x94, 0xA7, 0x4A, 0x87, 0xB5, 0xAB, 0x15, 0x5C, 0x2B, 0xF0, 0x72 };
+		// EFI_CERT_RSA2048_GUID {3c5766e8-269c-4e34-aa14-ed776e85b3b6}
+		static const uint8 efiCertRsa2048Guid[16] = { 0xE8, 0x66, 0x57, 0x3C, 0x9C, 0x26, 0x34, 0x4E, 0xAA, 0x14, 0xED, 0x77, 0x6E, 0x85, 0xB3, 0xB6 };
+		const size_t efiRsa2048KeySize = 256;
+
+		// X.509 entries are matched by embedded CA public-key modulus bytes; RSA2048 entries contain this modulus directly.
+		// This is a byte-presence heuristic for bootloader-set selection, not full certificate-chain validation.
+		// Microsoft Corporation UEFI CA 2011, SHA-1 thumbprint 46DEF63B5CE61CF8BA0DE2E6639C1019D0ED14F3.
+		// DER source: https://go.microsoft.com/fwlink/p/?linkid=321194, SHA-256 48E99B991F57FC52F76149599BFF0A58C47154229B9F8D603AC40D3500248507.
+		static const uint8 microsoftCorporationUefiCa2011Rsa2048Modulus[256] =
+		{
+			0xA5, 0x08, 0x6C, 0x4C, 0xC7, 0x45, 0x09, 0x6A,
+			0x4B, 0x0C, 0xA4, 0xC0, 0x87, 0x7F, 0x06, 0x75,
+			0x0C, 0x43, 0x01, 0x54, 0x64, 0xE0, 0x16, 0x7F,
+			0x07, 0xED, 0x92, 0x7D, 0x0B, 0xB2, 0x73, 0xBF,
+			0x0C, 0x0A, 0xC6, 0x4A, 0x45, 0x61, 0xA0, 0xC5,
+			0x16, 0x2D, 0x96, 0xD3, 0xF5, 0x2B, 0xA0, 0xFB,
+			0x4D, 0x49, 0x9B, 0x41, 0x80, 0x90, 0x3C, 0xB9,
+			0x54, 0xFD, 0xE6, 0xBC, 0xD1, 0x9D, 0xC4, 0xA4,
+			0x18, 0x8A, 0x7F, 0x41, 0x8A, 0x5C, 0x59, 0x83,
+			0x68, 0x32, 0xBB, 0x8C, 0x47, 0xC9, 0xEE, 0x71,
+			0xBC, 0x21, 0x4F, 0x9A, 0x8A, 0x7C, 0xFF, 0x44,
+			0x3F, 0x8D, 0x8F, 0x32, 0xB2, 0x26, 0x48, 0xAE,
+			0x75, 0xB5, 0xEE, 0xC9, 0x4C, 0x1E, 0x4A, 0x19,
+			0x7E, 0xE4, 0x82, 0x9A, 0x1D, 0x78, 0x77, 0x4D,
+			0x0C, 0xB0, 0xBD, 0xF6, 0x0F, 0xD3, 0x16, 0xD3,
+			0xBC, 0xFA, 0x2B, 0xA5, 0x51, 0x38, 0x5D, 0xF5,
+			0xFB, 0xBA, 0xDB, 0x78, 0x02, 0xDB, 0xFF, 0xEC,
+			0x0A, 0x1B, 0x96, 0xD5, 0x83, 0xB8, 0x19, 0x13,
+			0xE9, 0xB6, 0xC0, 0x7B, 0x40, 0x7B, 0xE1, 0x1F,
+			0x28, 0x27, 0xC9, 0xFA, 0xEF, 0x56, 0x5E, 0x1C,
+			0xE6, 0x7E, 0x94, 0x7E, 0xC0, 0xF0, 0x44, 0xB2,
+			0x79, 0x39, 0xE5, 0xDA, 0xB2, 0x62, 0x8B, 0x4D,
+			0xBF, 0x38, 0x70, 0xE2, 0x68, 0x24, 0x14, 0xC9,
+			0x33, 0xA4, 0x08, 0x37, 0xD5, 0x58, 0x69, 0x5E,
+			0xD3, 0x7C, 0xED, 0xC1, 0x04, 0x53, 0x08, 0xE7,
+			0x4E, 0xB0, 0x2A, 0x87, 0x63, 0x08, 0x61, 0x6F,
+			0x63, 0x15, 0x59, 0xEA, 0xB2, 0x2B, 0x79, 0xD7,
+			0x0C, 0x61, 0x67, 0x8A, 0x5B, 0xFD, 0x5E, 0xAD,
+			0x87, 0x7F, 0xBA, 0x86, 0x67, 0x4F, 0x71, 0x58,
+			0x12, 0x22, 0x04, 0x22, 0x22, 0xCE, 0x8B, 0xEF,
+			0x54, 0x71, 0x00, 0xCE, 0x50, 0x35, 0x58, 0x76,
+			0x95, 0x08, 0xEE, 0x6A, 0xB1, 0xA2, 0x01, 0xD5
+		};
+
+		// Microsoft UEFI CA 2023, SHA-1 thumbprint B5EEB4A6706048073F0ED296E7F580A790B59EAA.
+		// DER source: https://go.microsoft.com/fwlink/?linkid=2239872, SHA-256 F6124E34125BEE3FE6D79A574EAA7B91C0E7BD9D929C1A321178EFD611DAD901.
+		static const uint8 microsoftUefiCa2023Rsa2048Modulus[256] =
+		{
+			0xBD, 0x22, 0x2A, 0xAE, 0xEF, 0x1A, 0x31, 0x85,
+			0x13, 0x78, 0x51, 0xA7, 0x9B, 0xFD, 0xFC, 0x78,
+			0xD1, 0x63, 0xB8, 0x1A, 0x9B, 0x63, 0xF5, 0x12,
+			0x06, 0xDB, 0x4B, 0x41, 0x35, 0x6A, 0x6F, 0xAB,
+			0xF5, 0x6A, 0x04, 0xCC, 0x97, 0xCF, 0xBB, 0xD4,
+			0x08, 0x09, 0x1A, 0x61, 0x3A, 0x0D, 0xE6, 0xB3,
+			0xA0, 0x46, 0xFF, 0x09, 0xAD, 0xDE, 0x80, 0x24,
+			0xDC, 0x12, 0x80, 0xF2, 0x5F, 0xD9, 0x16, 0xED,
+			0xE2, 0x42, 0x9D, 0xCD, 0x2F, 0x4D, 0x61, 0x02,
+			0x61, 0x8A, 0x1C, 0x4B, 0x1D, 0x18, 0x62, 0x39,
+			0x86, 0x97, 0x71, 0xAD, 0x3E, 0x7F, 0x5D, 0x71,
+			0x13, 0x4B, 0xE9, 0x2A, 0x00, 0xC1, 0xBE, 0xD5,
+			0xB7, 0x00, 0x9F, 0x5E, 0x65, 0xB2, 0x2C, 0x1A,
+			0xFF, 0x74, 0xED, 0xEA, 0x83, 0xD2, 0x39, 0x89,
+			0x33, 0x35, 0x73, 0x7D, 0xA0, 0xA2, 0xFA, 0x40,
+			0xE4, 0x66, 0x50, 0x58, 0xAA, 0xFC, 0x87, 0xE8,
+			0x5C, 0x20, 0x83, 0x34, 0xEC, 0xAB, 0xE2, 0x0B,
+			0xC5, 0x5F, 0x3E, 0xFF, 0x48, 0x2B, 0x11, 0x91,
+			0x26, 0xEF, 0x18, 0x6E, 0x57, 0xC5, 0x9F, 0x18,
+			0x73, 0x99, 0xEF, 0xE1, 0x6A, 0x74, 0x2B, 0xBB,
+			0x2F, 0x7F, 0x50, 0x8E, 0x1D, 0xDA, 0x3D, 0x76,
+			0xB6, 0x04, 0xE5, 0xCC, 0x2E, 0x10, 0xC7, 0x83,
+			0x1B, 0x83, 0xA3, 0xE4, 0xA5, 0x13, 0x13, 0x71,
+			0x6E, 0x33, 0x78, 0xA3, 0xA8, 0x3C, 0xEC, 0x48,
+			0x26, 0x5E, 0xC7, 0xC6, 0x5E, 0x0D, 0x87, 0x9A,
+			0xAA, 0xCC, 0x55, 0x34, 0x81, 0xAD, 0x9D, 0x90,
+			0xF5, 0xE6, 0x96, 0x63, 0xA6, 0xE8, 0x07, 0x20,
+			0x17, 0xC8, 0x93, 0x1E, 0xD2, 0xAE, 0xA4, 0xDC,
+			0xAE, 0x7D, 0x59, 0xBF, 0x88, 0x5E, 0x62, 0x0C,
+			0xAE, 0x5B, 0xF2, 0x29, 0x40, 0x56, 0x1D, 0x26,
+			0x40, 0xDE, 0x85, 0xA6, 0xAD, 0x56, 0xD1, 0xCF,
+			0x55, 0x47, 0x76, 0x5F, 0x9C, 0x39, 0xDB, 0x03
+		};
+
+		// Microsoft Option ROM UEFI CA 2023, SHA-1 thumbprint 3FB39E2B8BD183BF9E4594E72183CA60AFCD4277.
+		// DER source: https://go.microsoft.com/fwlink/?linkid=2284009, SHA-256 E5BE3E64C6E66A281457ECDECE0D6D0787577AAD2A3A0144262C10C14BA8D8F1.
+		static const uint8 microsoftOptionRomUefiCa2023Rsa2048Modulus[256] =
+		{
+			0xD3, 0x0B, 0xFE, 0x89, 0xCD, 0xCD, 0xB6, 0xEE,
+			0xDC, 0xE5, 0x1A, 0x8D, 0xDC, 0xCA, 0x21, 0x1A,
+			0x0F, 0x22, 0x2F, 0x0B, 0xB5, 0x32, 0x84, 0x35,
+			0xC0, 0xBE, 0x6F, 0x70, 0x93, 0x55, 0xB4, 0x47,
+			0xCC, 0x49, 0x03, 0xC2, 0xFE, 0xCF, 0xBA, 0x32,
+			0x65, 0x64, 0xB7, 0x35, 0xBD, 0x04, 0x3B, 0x44,
+			0x64, 0x2F, 0xA0, 0xF2, 0xDD, 0xE1, 0x5D, 0xBA,
+			0xE7, 0xBD, 0x39, 0x9A, 0xBD, 0xCB, 0x4B, 0xE1,
+			0x83, 0xAA, 0x1B, 0xE8, 0x6F, 0x4E, 0x4C, 0x91,
+			0x52, 0x43, 0xA5, 0xC4, 0x50, 0x55, 0x68, 0xF5,
+			0xDA, 0xAC, 0x48, 0xA2, 0x9C, 0xEC, 0x35, 0xA7,
+			0x04, 0x56, 0x68, 0x19, 0xE2, 0xB1, 0x62, 0xD4,
+			0x92, 0xF4, 0x85, 0x3F, 0x34, 0xA1, 0x15, 0x67,
+			0x87, 0x21, 0x6E, 0x1F, 0xC9, 0xD8, 0x35, 0x32,
+			0xB8, 0x3D, 0xCB, 0x58, 0xCA, 0x29, 0x43, 0x54,
+			0x4A, 0x7E, 0x8B, 0x55, 0x7B, 0x23, 0x7A, 0x3A,
+			0xB6, 0x9D, 0x43, 0x07, 0x04, 0x6B, 0x9A, 0x6B,
+			0xF4, 0xF0, 0x20, 0xFF, 0xFA, 0xA6, 0xDF, 0xA2,
+			0x9E, 0x49, 0xE8, 0x55, 0xC5, 0x75, 0x88, 0x44,
+			0xAC, 0xA4, 0x41, 0x3A, 0x03, 0x7C, 0xBB, 0xE9,
+			0x93, 0xE4, 0x6C, 0xF1, 0xED, 0x79, 0x26, 0xC7,
+			0x8B, 0x32, 0xF7, 0x59, 0x49, 0x25, 0x31, 0x00,
+			0x67, 0x18, 0x0C, 0x67, 0xFB, 0x40, 0xC5, 0x5D,
+			0x76, 0x3D, 0x09, 0x87, 0xC2, 0x2D, 0x8C, 0x5F,
+			0x2B, 0x5A, 0x1E, 0x01, 0x0F, 0x33, 0xAF, 0x65,
+			0x08, 0x90, 0x4F, 0xFC, 0x64, 0x5B, 0x9C, 0xA3,
+			0x5C, 0xD6, 0x53, 0x1B, 0x51, 0x01, 0x9F, 0x98,
+			0xCF, 0xC4, 0x53, 0xC5, 0xB1, 0xDF, 0xB3, 0x68,
+			0x6F, 0x45, 0x4B, 0xC8, 0x45, 0x85, 0xC8, 0x1D,
+			0xB8, 0x9E, 0xD1, 0x77, 0x71, 0xA0, 0xD5, 0xA2,
+			0x77, 0x87, 0xEC, 0x67, 0x2E, 0xB9, 0x87, 0x06,
+			0x46, 0xDD, 0x41, 0x43, 0x40, 0x6A, 0x5F, 0x2F
+		};
+
+		// The two Windows boot manager signing CAs below are not used for loader-set selection.
+		// They are tracked so that the trust of the chainloaded Windows boot manager copy
+		// (bootmgfw_ms.vc) can be checked against the active Secure Boot db and dbx before a reboot.
+		// Microsoft Windows Production PCA 2011, SHA-1 thumbprint 580A6F4CC4E4B669B9EBDC1B2B3E087B80D0678D.
+		// DER source: https://go.microsoft.com/fwlink/p/?linkid=321192, SHA-256 E8E95F0733A55E8BAD7BE0A1413EE23C51FCEA64B3C8FA6A786935FDDCC71961.
+		static const uint8 microsoftWindowsProductionPca2011Rsa2048Modulus[256] =
+		{
+			0xDD, 0x0C, 0xBB, 0xA2, 0xE4, 0x2E, 0x09, 0xE3,
+			0xE7, 0xC5, 0xF7, 0x96, 0x69, 0xBC, 0x00, 0x21,
+			0xBD, 0x69, 0x33, 0x33, 0xEF, 0xAD, 0x04, 0xCB,
+			0x54, 0x80, 0xEE, 0x06, 0x83, 0xBB, 0xC5, 0x20,
+			0x84, 0xD9, 0xF7, 0xD2, 0x8B, 0xF3, 0x38, 0xB0,
+			0xAB, 0xA4, 0xAD, 0x2D, 0x7C, 0x62, 0x79, 0x05,
+			0xFF, 0xE3, 0x4A, 0x3F, 0x04, 0x35, 0x20, 0x70,
+			0xE3, 0xC4, 0xE7, 0x6B, 0xE0, 0x9C, 0xC0, 0x36,
+			0x75, 0xE9, 0x8A, 0x31, 0xDD, 0x8D, 0x70, 0xE5,
+			0xDC, 0x37, 0xB5, 0x74, 0x46, 0x96, 0x28, 0x5B,
+			0x87, 0x60, 0x23, 0x2C, 0xBF, 0xDC, 0x47, 0xA5,
+			0x67, 0xF7, 0x51, 0x27, 0x9E, 0x72, 0xEB, 0x07,
+			0xA6, 0xC9, 0xB9, 0x1E, 0x3B, 0x53, 0x35, 0x7C,
+			0xE5, 0xD3, 0xEC, 0x27, 0xB9, 0x87, 0x1C, 0xFE,
+			0xB9, 0xC9, 0x23, 0x09, 0x6F, 0xA8, 0x46, 0x91,
+			0xC1, 0x6E, 0x96, 0x3C, 0x41, 0xD3, 0xCB, 0xA3,
+			0x3F, 0x5D, 0x02, 0x6A, 0x4D, 0xEC, 0x69, 0x1F,
+			0x25, 0x28, 0x5C, 0x36, 0xFF, 0xFD, 0x43, 0x15,
+			0x0A, 0x94, 0xE0, 0x19, 0xB4, 0xCF, 0xDF, 0xC2,
+			0x12, 0xE2, 0xC2, 0x5B, 0x27, 0xEE, 0x27, 0x78,
+			0x30, 0x8B, 0x5B, 0x2A, 0x09, 0x6B, 0x22, 0x89,
+			0x53, 0x60, 0x16, 0x2C, 0xC0, 0x68, 0x1D, 0x53,
+			0xBA, 0xEC, 0x49, 0xF3, 0x9D, 0x61, 0x8C, 0x85,
+			0x68, 0x09, 0x73, 0x44, 0x5D, 0x7D, 0xA2, 0x54,
+			0x2B, 0xDD, 0x79, 0xF7, 0x15, 0xCF, 0x35, 0x5D,
+			0x6C, 0x1C, 0x2B, 0x5C, 0xCE, 0xBC, 0x9C, 0x23,
+			0x8B, 0x6F, 0x6E, 0xB5, 0x26, 0xD9, 0x36, 0x13,
+			0xC3, 0x4F, 0xD6, 0x27, 0xAE, 0xB9, 0x32, 0x3B,
+			0x41, 0x92, 0x2C, 0xE1, 0xC7, 0xCD, 0x77, 0xE8,
+			0xAA, 0x54, 0x4E, 0xF7, 0x5C, 0x0B, 0x04, 0x87,
+			0x65, 0xB4, 0x43, 0x18, 0xA8, 0xB2, 0xE0, 0x6D,
+			0x19, 0x77, 0xEC, 0x5A, 0x24, 0xFA, 0x48, 0x03
+		};
+
+		// Windows UEFI CA 2023, SHA-1 thumbprint 45A0FA32604773C82433C3B7D59E7466B3AC0C67.
+		// DER source: https://go.microsoft.com/fwlink/?linkid=2239776, SHA-256 076F1FEA90AC29155EBF77C17682F75F1FDD1BE196DA302DC8461E350A9AE330.
+		static const uint8 windowsUefiCa2023Rsa2048Modulus[256] =
+		{
+			0xBC, 0xB2, 0x35, 0xD1, 0x54, 0x79, 0xB4, 0x8F,
+			0xCC, 0x81, 0x2A, 0x6E, 0xB3, 0x12, 0xD6, 0x93,
+			0x97, 0x30, 0x7C, 0x38, 0x5C, 0xBF, 0x79, 0x92,
+			0x19, 0x0A, 0x0F, 0x2D, 0x0A, 0xFE, 0xBF, 0xE0,
+			0xA8, 0xD8, 0x32, 0x3F, 0xD2, 0xAB, 0x6F, 0x6F,
+			0x81, 0xC1, 0x4D, 0x17, 0x69, 0x45, 0xCF, 0x85,
+			0x80, 0x27, 0xA3, 0x7C, 0xB3, 0x31, 0xCC, 0xA5,
+			0xA7, 0x4D, 0xF9, 0x43, 0xD0, 0x5A, 0x2F, 0xD7,
+			0x18, 0x1B, 0xD2, 0x58, 0x96, 0x05, 0x39, 0xA3,
+			0x95, 0xB7, 0xBC, 0xDD, 0x79, 0xC1, 0xA0, 0xCF,
+			0x8F, 0xE2, 0x53, 0x1E, 0x2B, 0x26, 0x62, 0xA8,
+			0x1C, 0xAE, 0x36, 0x1E, 0x4F, 0xA1, 0xDF, 0xB9,
+			0x13, 0xBA, 0x0C, 0x25, 0xBB, 0x24, 0x65, 0x67,
+			0x01, 0xAA, 0x1D, 0x41, 0x10, 0xB7, 0x36, 0xC1,
+			0x6B, 0x2E, 0xB5, 0x6C, 0x10, 0xD3, 0x4E, 0x96,
+			0xD0, 0x9F, 0x2A, 0xA1, 0xF1, 0xED, 0xA1, 0x15,
+			0x0B, 0x82, 0x95, 0xC5, 0xFF, 0x63, 0x8A, 0x13,
+			0xB5, 0x92, 0x34, 0x1E, 0x31, 0x5E, 0x61, 0x11,
+			0xAE, 0x5D, 0xCC, 0xF1, 0x10, 0xE6, 0x4C, 0x79,
+			0xC9, 0x72, 0xB2, 0x34, 0x8A, 0x82, 0x56, 0x2D,
+			0xAB, 0x0F, 0x7C, 0xC0, 0x4F, 0x93, 0x8E, 0x59,
+			0x75, 0x41, 0x86, 0xAC, 0x09, 0x10, 0x09, 0xF2,
+			0x51, 0x65, 0x50, 0xB5, 0xF5, 0x21, 0xB3, 0x26,
+			0x39, 0x8D, 0xAA, 0xC4, 0x91, 0xB3, 0xDC, 0xAC,
+			0x64, 0x23, 0x06, 0xCD, 0x35, 0x5F, 0x0D, 0x42,
+			0x49, 0x9C, 0x4F, 0x0D, 0xCE, 0x80, 0x83, 0x82,
+			0x59, 0xFE, 0xDF, 0x4B, 0x44, 0xE1, 0x40, 0xC8,
+			0x3D, 0x63, 0xB6, 0xCF, 0xB4, 0x42, 0x0D, 0x39,
+			0x5C, 0xD2, 0x42, 0x10, 0x0C, 0x08, 0xC2, 0x74,
+			0xEB, 0x1C, 0xDC, 0x6E, 0xBC, 0x0A, 0xAC, 0x98,
+			0xBB, 0xCC, 0xFA, 0x1E, 0x3C, 0xA7, 0x83, 0x16,
+			0xC5, 0xDB, 0x02, 0xDA, 0xD9, 0x96, 0xDF, 0x6B
+		};
+		const size_t efiGuidSize = 16;
+		const size_t efiSignatureListHeaderSize = efiGuidSize + sizeof (uint32) * 3;
+		const size_t efiSignatureOwnerSize = efiGuidSize;
+		size_t offset = 0;
+		memset (&support, 0, sizeof (support));
+
+		while (offset < database.size ())
+		{
+			if (database.size () - offset < efiSignatureListHeaderSize)
+				return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
+
+			const uint8* signatureList = &database[offset];
+			uint32 signatureListSize = ReadUint32LittleEndian (signatureList + efiGuidSize);
+			uint32 signatureHeaderSize = ReadUint32LittleEndian (signatureList + efiGuidSize + sizeof (uint32));
+			uint32 signatureSize = ReadUint32LittleEndian (signatureList + efiGuidSize + sizeof (uint32) * 2);
+
+			if ((signatureListSize < efiSignatureListHeaderSize)
+				|| (signatureListSize > database.size () - offset)
+				|| (signatureHeaderSize > signatureListSize - efiSignatureListHeaderSize))
+				return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
+
+			size_t signaturesOffset = offset + efiSignatureListHeaderSize + signatureHeaderSize;
+			size_t signaturesSize = signatureListSize - efiSignatureListHeaderSize - signatureHeaderSize;
+
+			if (BufferEquals (signatureList, efiCertX509Guid, efiGuidSize))
+			{
+				if (signatureSize < efiSignatureOwnerSize)
+					return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
+				if ((signaturesSize % signatureSize) != 0)
+					return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
+
+				for (size_t signatureOffset = signaturesOffset; signatureOffset < offset + signatureListSize; signatureOffset += signatureSize)
+				{
+					const uint8* certificate = &database[signatureOffset + efiSignatureOwnerSize];
+					size_t certificateSize = signatureSize - efiSignatureOwnerSize;
+
+					if (!support.ContainsMicrosoftCorporationUefiCa2011
+						&& BufferHasPattern (certificate, certificateSize, microsoftCorporationUefiCa2011Rsa2048Modulus, sizeof (microsoftCorporationUefiCa2011Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftCorporationUefiCa2011 = true;
+					}
+					else if (!support.ContainsMicrosoftUefiCa2023
+						&& BufferHasPattern (certificate, certificateSize, microsoftUefiCa2023Rsa2048Modulus, sizeof (microsoftUefiCa2023Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftUefiCa2023 = true;
+					}
+					else if (!support.ContainsMicrosoftOptionRomUefiCa2023
+						&& BufferHasPattern (certificate, certificateSize, microsoftOptionRomUefiCa2023Rsa2048Modulus, sizeof (microsoftOptionRomUefiCa2023Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftOptionRomUefiCa2023 = true;
+					}
+					else if (!support.ContainsMicrosoftWindowsProductionPca2011
+						&& BufferHasPattern (certificate, certificateSize, microsoftWindowsProductionPca2011Rsa2048Modulus, sizeof (microsoftWindowsProductionPca2011Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftWindowsProductionPca2011 = true;
+					}
+					else if (!support.ContainsWindowsUefiCa2023
+						&& BufferHasPattern (certificate, certificateSize, windowsUefiCa2023Rsa2048Modulus, sizeof (windowsUefiCa2023Rsa2048Modulus)))
+					{
+						support.ContainsWindowsUefiCa2023 = true;
+					}
+				}
+			}
+			else if (BufferEquals (signatureList, efiCertRsa2048Guid, efiGuidSize))
+			{
+				if (signatureHeaderSize != 0
+					|| signatureSize != efiSignatureOwnerSize + efiRsa2048KeySize
+					|| (signaturesSize % signatureSize) != 0)
+				{
+					return FirmwareDbMicrosoftUefiCaSupportSetMalformed (support, ERROR_INVALID_DATA);
+				}
+
+				for (size_t signatureOffset = signaturesOffset; signatureOffset < offset + signatureListSize; signatureOffset += signatureSize)
+				{
+					const uint8* publicKey = &database[signatureOffset + efiSignatureOwnerSize];
+
+					if (!support.ContainsMicrosoftCorporationUefiCa2011
+						&& BufferEquals (publicKey, efiRsa2048KeySize, microsoftCorporationUefiCa2011Rsa2048Modulus, sizeof (microsoftCorporationUefiCa2011Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftCorporationUefiCa2011 = true;
+					}
+					else if (!support.ContainsMicrosoftUefiCa2023
+						&& BufferEquals (publicKey, efiRsa2048KeySize, microsoftUefiCa2023Rsa2048Modulus, sizeof (microsoftUefiCa2023Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftUefiCa2023 = true;
+					}
+					else if (!support.ContainsMicrosoftOptionRomUefiCa2023
+						&& BufferEquals (publicKey, efiRsa2048KeySize, microsoftOptionRomUefiCa2023Rsa2048Modulus, sizeof (microsoftOptionRomUefiCa2023Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftOptionRomUefiCa2023 = true;
+					}
+					else if (!support.ContainsMicrosoftWindowsProductionPca2011
+						&& BufferEquals (publicKey, efiRsa2048KeySize, microsoftWindowsProductionPca2011Rsa2048Modulus, sizeof (microsoftWindowsProductionPca2011Rsa2048Modulus)))
+					{
+						support.ContainsMicrosoftWindowsProductionPca2011 = true;
+					}
+					else if (!support.ContainsWindowsUefiCa2023
+						&& BufferEquals (publicKey, efiRsa2048KeySize, windowsUefiCa2023Rsa2048Modulus, sizeof (windowsUefiCa2023Rsa2048Modulus)))
+					{
+						support.ContainsWindowsUefiCa2023 = true;
+					}
+				}
+			}
+
+			offset += signatureListSize;
+		}
+
+		return true;
+	}
+
+	static bool TryFirmwareSignatureDatabaseGetMicrosoftUefiCaSupport (const wchar_t *variableName, FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		memset (&support, 0, sizeof (support));
+		std::vector<uint8> database;
+		DWORD dwError = ERROR_SUCCESS;
+		if (!ReadFirmwareEnvironmentVariableBuffer (variableName, EfiImageSecurityDatabaseGuid, database, &dwError))
+		{
+			SetLastError (dwError);
+			return false;
+		}
+
+		if (!FirmwareSignatureDatabaseBufferGetMicrosoftUefiCaSupport (database, support))
+		{
+			SetLastError (support.ParseError ? support.ParseError : ERROR_INVALID_DATA);
+			return false;
+		}
+
+		return true;
+	}
+
+	static bool TryFirmwareDbGetMicrosoftUefiCaSupport (FirmwareDbMicrosoftUefiCaSupport& support)
+	{
+		return TryFirmwareSignatureDatabaseGetMicrosoftUefiCaSupport (L"db", support);
+	}
+
+	static bool TryFirmwareDbxGetMicrosoftUefiCaSupport (FirmwareDbMicrosoftUefiCaSupport& support, bool *pPresent = NULL)
+	{
+		if (pPresent)
+			*pPresent = false;
+
+		if (TryFirmwareSignatureDatabaseGetMicrosoftUefiCaSupport (L"dbx", support))
+		{
+			if (pPresent)
+				*pPresent = true;
+			return true;
+		}
+
+		// dbx is optional in UEFI. Custom-key deployments in particular may have no
+		// dbx variable at all; that is a valid empty forbidden database, not a read
+		// failure. Preserve fail-closed handling for every other error.
+		if (GetLastError () == ERROR_ENVVAR_NOT_FOUND)
+		{
+			memset (&support, 0, sizeof (support));
+			SetLastError (ERROR_SUCCESS);
+			return true;
+		}
+
+		return false;
+	}
+
+	static bool IsFirmwareDbUnavailableError (DWORD dwError)
+	{
+		return (dwError == ERROR_ENVVAR_NOT_FOUND) || (dwError == ERROR_INVALID_FUNCTION);
+	}
+
+	static bool TryFirmwareSecureBootEnabled (bool& bSecureBootEnabled, DWORD* pLastError = NULL)
+	{
+		std::vector<uint8> secureBoot;
+		DWORD dwError = ERROR_SUCCESS;
+		if (!ReadFirmwareEnvironmentVariableBuffer (L"SecureBoot", EfiVarGuid, secureBoot, &dwError))
+		{
+			if (pLastError)
+				*pLastError = dwError;
+			SetLastError (dwError);
+			return false;
+		}
+
+		if (secureBoot.size () != 1 || (secureBoot[0] != 0 && secureBoot[0] != 1))
+		{
+			if (pLastError)
+				*pLastError = ERROR_INVALID_DATA;
+			SetLastError (ERROR_INVALID_DATA);
+			return false;
+		}
+
+		bSecureBootEnabled = secureBoot[0] == 1;
+		return true;
+	}
+
+	static __declspec(noreturn) void ThrowUnsupportedEfiSecureBootDb (const wchar_t *reason, DWORD firmwareDbError, DWORD firmwareDbxError = ERROR_SUCCESS)
+	{
+		RecordEfiBootLoaderResourceSetSelectionDiagnostics (0, reason, firmwareDbError, firmwareDbxError);
+		throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", SRC_POS);
+	}
+
+	static EfiBootLoaderResourceSelection GetPreferredEfiBootLoaderResourceSet ()
+	{
+		// The current 2023 DCS set uses both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023:
+		// DcsInt.dcs and LegacySpeaker.dcs are signed through the Option ROM UEFI CA 2023 chain.
+		// If Secure Boot is enabled (or its state cannot be established), only select a loader set whose
+		// signing CA is allowed by the active db and is not forbidden by the active dbx.
+		FirmwareDbMicrosoftUefiCaSupport support;
+		if (TryFirmwareDbGetMicrosoftUefiCaSupport (support))
+		{
+			DWORD firmwareDbError = FirmwareDbMicrosoftUefiCaSupportGetDiagnosticError (support);
+			bool bSecureBootEnabled = false;
+			bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
+			DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
+			if (support.DbMalformed && (!bSecureBootStateKnown || bSecureBootEnabled))
+			{
+				ThrowUnsupportedEfiSecureBootDb (
+					L"Secure Boot is enabled or unavailable, but firmware db could not be parsed completely; refusing to select an EFI bootloader from partial policy data",
+					firmwareDbError);
+			}
+
+			FirmwareDbMicrosoftUefiCaSupport forbiddenSupport;
+			bool bFirmwareDbxChecked = false;
+			bool bFirmwareDbxPresent = false;
+			DWORD firmwareDbxError = ERROR_SUCCESS;
+
+			if (!TryFirmwareDbxGetMicrosoftUefiCaSupport (forbiddenSupport, &bFirmwareDbxPresent) || forbiddenSupport.DbMalformed)
+			{
+				firmwareDbxError = forbiddenSupport.ParseError ? forbiddenSupport.ParseError : GetLastError ();
+				if (firmwareDbxError == ERROR_SUCCESS)
+					firmwareDbxError = ERROR_INVALID_DATA;
+
+				if (!bSecureBootStateKnown || bSecureBootEnabled)
+				{
+					ThrowUnsupportedEfiSecureBootDb (
+						L"Secure Boot is enabled or unavailable, but firmware dbx could not be read and parsed completely; refusing to select an EFI bootloader without checking revocations",
+						firmwareDbError,
+						firmwareDbxError);
+				}
+			}
+			else
+				bFirmwareDbxChecked = true;
+
+			bool b2023SetPresent = FirmwareDbMicrosoftUefiCaSupportContains2023Set (support);
+			bool b2023SetRevoked = b2023SetPresent && bFirmwareDbxChecked
+				&& (forbiddenSupport.ContainsMicrosoftUefiCa2023 || forbiddenSupport.ContainsMicrosoftOptionRomUefiCa2023);
+			bool b2011SetPresent = support.ContainsMicrosoftCorporationUefiCa2011;
+			bool b2011SetRevoked = b2011SetPresent && bFirmwareDbxChecked && forbiddenSupport.ContainsMicrosoftCorporationUefiCa2011;
+
+			if (b2023SetPresent && !b2023SetRevoked)
+			{
+				const wchar_t *reason = bFirmwareDbxChecked
+					? (bFirmwareDbxPresent
+						? L"firmware db contains the Microsoft 2023 UEFI CA pair and dbx contains no known revocation of either CA"
+						: L"firmware db contains the Microsoft 2023 UEFI CA pair and the optional dbx variable is absent")
+					: L"Secure Boot is disabled; firmware db contains the Microsoft 2023 UEFI CA pair, but dbx could not be checked";
+				return MakeEfiBootLoaderResourceSelection (
+					EfiBootLoaderResources2023,
+					VC_EFI_BOOT_LOADER_RESOURCE_SET_2023,
+					reason,
+					firmwareDbError,
+					firmwareDbxError);
+			}
+
+			if (b2011SetPresent && !b2011SetRevoked)
+			{
+				const wchar_t *reason = bFirmwareDbxChecked
+					? (bFirmwareDbxPresent
+						? L"firmware db contains Microsoft Corporation UEFI CA 2011 and dbx contains no known revocation of that CA"
+						: L"firmware db contains Microsoft Corporation UEFI CA 2011 and the optional dbx variable is absent")
+					: L"Secure Boot is disabled; firmware db contains Microsoft Corporation UEFI CA 2011, but dbx could not be checked";
+				return MakeEfiBootLoaderResourceSelection (
+					EfiBootLoaderResources2011,
+					VC_EFI_BOOT_LOADER_RESOURCE_SET_2011,
+					reason,
+					firmwareDbError,
+					firmwareDbxError);
+			}
+
+			if (bSecureBootStateKnown && !bSecureBootEnabled)
+				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is disabled and firmware db does not contain a supported Microsoft UEFI CA; using 2011 compatibility fallback", ERROR_SUCCESS);
+
+			if (!bSecureBootStateKnown && IsFirmwareDbUnavailableError (secureBootLastError))
+				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is unavailable and firmware db does not contain a supported Microsoft UEFI CA; using 2011 compatibility fallback", ERROR_SUCCESS);
+
+			if (b2023SetRevoked || b2011SetRevoked)
+				ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled, but every VeraCrypt EFI bootloader signing CA set present in firmware db is forbidden by firmware dbx", firmwareDbError, firmwareDbxError);
+
+			if (bSecureBootStateKnown)
+				ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db does not contain Microsoft Corporation UEFI CA 2011 or the Microsoft 2023 UEFI CA pair required by VeraCrypt", firmwareDbError, firmwareDbxError);
+
+			ThrowUnsupportedEfiSecureBootDb (L"firmware db does not contain a supported Microsoft UEFI CA and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", secureBootLastError, firmwareDbxError);
+		}
+
+		DWORD dwError = GetLastError ();
+		bool bSecureBootEnabled = false;
+		bool bSecureBootStateKnown = TryFirmwareSecureBootEnabled (bSecureBootEnabled);
+		DWORD secureBootLastError = bSecureBootStateKnown ? ERROR_SUCCESS : GetLastError ();
+		if (bSecureBootStateKnown && !bSecureBootEnabled)
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is disabled and firmware db could not be read; using 2011 compatibility fallback", dwError);
+		if (!bSecureBootStateKnown && IsFirmwareDbUnavailableError (secureBootLastError))
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"Secure Boot is unavailable and firmware db could not be read; using 2011 compatibility fallback", dwError);
+#ifndef SETUP
+		if (!IsAdmin () && IsUacSupported ())
+		{
+			// This may prompt for elevation from non-admin Mount/Format paths. EFI rescue
+			// media and bootloader repair need accurate firmware db detection to avoid
+			// selecting a Microsoft CA set unsupported by the current Secure Boot db.
+			BOOL bElevatedContainsMicrosoft2023UefiCAs = FALSE;
+			Elevator::GetEfiBootLoaderSigningSupport (&bElevatedContainsMicrosoft2023UefiCAs);
+			if (bElevatedContainsMicrosoft2023UefiCAs)
+				return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2023, VC_EFI_BOOT_LOADER_RESOURCE_SET_2023, L"elevated helper reported Microsoft 2023 UEFI CA support", dwError);
+
+			return MakeEfiBootLoaderResourceSelection (EfiBootLoaderResources2011, VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, L"elevated helper did not report Microsoft 2023 UEFI CA support", dwError);
+		}
+#endif
+
+		if (bSecureBootStateKnown && bSecureBootEnabled)
+			ThrowUnsupportedEfiSecureBootDb (L"Secure Boot is enabled but firmware db could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+
+		if (!bSecureBootStateKnown && !IsFirmwareDbUnavailableError (secureBootLastError))
+			ThrowUnsupportedEfiSecureBootDb (L"firmware db and Secure Boot state could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+
+		// All Secure Boot state cases are handled above.
+		ThrowUnsupportedEfiSecureBootDb (L"firmware db could not be read; refusing to select an unsupported EFI bootloader signing CA", dwError);
+	}
+
+	static void ThrowMissingEfiResource (const wchar_t* resourceName, bool rescueDisk)
+	{
+		if (rescueDisk)
+			throw ParameterIncorrect (SRC_POS);
+
+		throw ErrorException (wstring (L"Out of resource ") + resourceName, SRC_POS);
+	}
+
+	static uint8* MapEfiBootLoaderResource (int resourceId, const wchar_t* resourceName, DWORD& size, bool rescueDisk)
+	{
+		uint8 *resource = MapResource (L"BIN", resourceId, &size);
+		if (!resource)
+			ThrowMissingEfiResource (resourceName, rescueDisk);
+
+		return resource;
+	}
+
+	static EfiBootLoaderImages MapEfiBootLoaderImages (const EfiBootLoaderResourceSelection& selection, bool rescueDisk)
+	{
+		const EfiBootLoaderResourceSet& resources = *selection.Resources;
+		EfiBootLoaderImages images = {0};
+
+		images.DcsBoot = MapEfiBootLoaderResource (resources.DcsBoot, L"DcsBoot", images.SizeDcsBoot, rescueDisk);
+		images.DcsInt = MapEfiBootLoaderResource (resources.DcsInt, L"DcsInt", images.SizeDcsInt, rescueDisk);
+		images.DcsCfg = MapEfiBootLoaderResource (resources.DcsCfg, L"DcsCfg", images.SizeDcsCfg, rescueDisk);
+		images.LegacySpeaker = MapEfiBootLoaderResource (resources.LegacySpeaker, L"LegacySpeaker", images.SizeLegacySpeaker, rescueDisk);
+		images.DcsRescue = MapEfiBootLoaderResource (resources.DcsRescue, L"DcsRe", images.SizeDcsRescue, rescueDisk);
+		images.DcsInfo = MapEfiBootLoaderResource (resources.DcsInfo, L"DcsInfo", images.SizeDcsInfo, rescueDisk);
+		images.ResourceSet = selection.ResourceSet;
+		images.SelectionReason = selection.Reason;
+		images.FirmwareDbError = selection.FirmwareDbError;
+		images.FirmwareDbxError = selection.FirmwareDbxError;
+
+		return images;
+	}
+
+	static EfiBootLoaderImages MapEfiBootLoaderImages (bool rescueDisk)
+	{
+		return MapEfiBootLoaderImages (GetPreferredEfiBootLoaderResourceSet (), rescueDisk);
+	}
+
+	static EfiBootLoaderImages MapEfiBootLoaderImages (DWORD resourceSet, bool rescueDisk)
+	{
+		if (resourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2011)
+			return MapEfiBootLoaderImages (MakeEfiBootLoaderResourceSelection (
+				EfiBootLoaderResources2011, resourceSet, L"explicit 2011 resource-set inspection", ERROR_SUCCESS), rescueDisk);
+
+		if (resourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023)
+			return MapEfiBootLoaderImages (MakeEfiBootLoaderResourceSelection (
+				EfiBootLoaderResources2023, resourceSet, L"explicit 2023 resource-set inspection", ERROR_SUCCESS), rescueDisk);
+
+		throw ParameterIncorrect (SRC_POS);
+	}
+
+	static void BackupEfiBootLoaderImageIfDifferent (EfiBoot& efiBoot, const wchar_t* imageName, const wchar_t* backupName, uint8* replacementData, DWORD replacementSize)
+	{
+		std::vector<uint8> currentImage;
+		if (!efiBoot.ReadFileToBuffer (imageName, currentImage))
+			return;
+
+		if ((currentImage.size () != replacementSize)
+			|| ((replacementSize != 0) && (memcmp (currentImage.data (), replacementData, replacementSize) != 0)))
+		{
+			// Preserve the first divergent image as the rollback snapshot; later CA refreshes must not overwrite it.
+			if (!efiBoot.FileExists (backupName))
+				efiBoot.SaveFile (backupName, currentImage.data (), (DWORD) currentImage.size ());
+		}
+	}
+
+	static void BackupEfiBootLoaderImagesIfDifferent (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	{
+		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\DcsBoot.efi", L"\\EFI\\VeraCrypt\\DcsBoot.efi.vc_backup", images.DcsBoot, images.SizeDcsBoot);
+		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\DcsInt.dcs", L"\\EFI\\VeraCrypt\\DcsInt.dcs.vc_backup", images.DcsInt, images.SizeDcsInt);
+		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\DcsCfg.dcs", L"\\EFI\\VeraCrypt\\DcsCfg.dcs.vc_backup", images.DcsCfg, images.SizeDcsCfg);
+		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs.vc_backup", images.LegacySpeaker, images.SizeLegacySpeaker);
+		BackupEfiBootLoaderImageIfDifferent (efiBoot, L"\\EFI\\VeraCrypt\\DcsInfo.dcs", L"\\EFI\\VeraCrypt\\DcsInfo.dcs.vc_backup", images.DcsInfo, images.SizeDcsInfo);
+	}
+
+	static bool EfiBootLoaderImageDiffers (EfiBoot& efiBoot, const wchar_t* imageName, uint8* replacementData, DWORD replacementSize)
+	{
+		std::vector<uint8> currentImage;
+		if (!efiBoot.ReadFileToBuffer (imageName, currentImage))
+			return true;
+
+		return (currentImage.size () != replacementSize)
+			|| ((replacementSize != 0) && (memcmp (currentImage.data (), replacementData, replacementSize) != 0));
+	}
+
+	static bool EfiBootLoaderImagesDiffer (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	{
+		return EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsBoot.efi", images.DcsBoot, images.SizeDcsBoot)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsInt.dcs", images.DcsInt, images.SizeDcsInt)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsCfg.dcs", images.DcsCfg, images.SizeDcsCfg)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", images.LegacySpeaker, images.SizeLegacySpeaker)
+			|| EfiBootLoaderImageDiffers (efiBoot, L"\\EFI\\VeraCrypt\\DcsInfo.dcs", images.DcsInfo, images.SizeDcsInfo);
+	}
+
+	static bool EfiBootLoaderImagesMatch (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	{
+		return !EfiBootLoaderImagesDiffer (efiBoot, images);
+	}
+
+	static bool EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	{
+		DWORD recordedResourceSet = 0;
+		bool bRecordedResourceSetKnown = ReadRecordedEfiBootLoaderResourceSet (recordedResourceSet);
+		if (bRecordedResourceSetKnown && recordedResourceSet == images.ResourceSet)
+			return false;
+
+		return EfiBootLoaderImagesDiffer (efiBoot, images);
+	}
+
+	static void SaveEfiBootLoaderImages (EfiBoot& efiBoot, const EfiBootLoaderImages& images, bool backupExistingImages = false)
+	{
+		if (backupExistingImages)
+			BackupEfiBootLoaderImagesIfDifferent (efiBoot, images);
+
+		efiBoot.SaveFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", images.DcsBoot, images.SizeDcsBoot);
+		efiBoot.SaveFile (L"\\EFI\\VeraCrypt\\DcsInt.dcs", images.DcsInt, images.SizeDcsInt);
+		efiBoot.SaveFile (L"\\EFI\\VeraCrypt\\DcsCfg.dcs", images.DcsCfg, images.SizeDcsCfg);
+		efiBoot.SaveFile (L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", images.LegacySpeaker, images.SizeLegacySpeaker);
+		efiBoot.SaveFile (L"\\EFI\\VeraCrypt\\DcsInfo.dcs", images.DcsInfo, images.SizeDcsInfo);
+		RecordEfiBootLoaderResourceSetSelection (images);
+	}
 
 	void 
 	GetVolumeESP(wstring& path, wstring& bootVolumePath) 
@@ -2599,6 +3658,7 @@ namespace VeraCrypt
 
 		File f(pathESP + szFilePath, false, true);
 		f.Write(fileContent.data(), dwSize);
+		f.SetEnd();
 		f.Close();
 
 	}
@@ -2648,8 +3708,11 @@ namespace VeraCrypt
 		return (BootOrderLen != 0) || (GetLastError() != ERROR_INVALID_FUNCTION);
 	}
 
-	void EfiBoot::DeleteStartExec(uint16 statrtOrderNum, wchar_t* type) {
+	static const unsigned __int64 TC_MAX_EFI_BOOT_LOADER_FILE_SIZE = 16ULL * 1024 * 1024;
+
+	bool EfiBoot::DeleteStartExec(uint16 statrtOrderNum, wchar_t* type) {
 		DWORD dwLastError;
+		bool bRet = true;
 		BOOL bPrivilegesSet = IsPrivilegeEnabled (SE_SYSTEM_ENVIRONMENT_NAME);
 		if (!bPrivilegesSet && !SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE))
 		{
@@ -2666,11 +3729,22 @@ namespace VeraCrypt
 		}
 		wchar_t	varName[256];
 		StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
-		SetFirmwareEnvironmentVariable(varName, EfiVarGuid, NULL, 0);
+		if (!SetFirmwareEnvironmentVariable(varName, EfiVarGuid, NULL, 0))
+		{
+			dwLastError = GetLastError();
+			if (dwLastError != ERROR_ENVVAR_NOT_FOUND)
+				bRet = false;
+		}
 
 		wstring order = L"Order";
 		order.insert(0, type == NULL ? L"Boot" : type);
 		uint32 startOrderLen = GetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, tempBuf, sizeof(tempBuf));
+		if (startOrderLen == 0)
+		{
+			dwLastError = GetLastError();
+			if (dwLastError != ERROR_ENVVAR_NOT_FOUND)
+				bRet = false;
+		}
 		uint32 startOrderNumPos = UINT_MAX;
 		bool	startOrderUpdate = false;
 		uint16*	startOrder = (uint16*)tempBuf;
@@ -2691,7 +3765,8 @@ namespace VeraCrypt
 		}
 
 		if (startOrderUpdate) {
-			SetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, startOrder, startOrderLen);
+			if (!SetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, startOrder, startOrderLen))
+				bRet = false;
 
 			// remove ourselves from BootNext value
 			uint16 bootNextValue = 0;
@@ -2702,12 +3777,19 @@ namespace VeraCrypt
 				&&	(bootNextValue == statrtOrderNum)
 				)
 			{
-				SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, startOrder, 0);
+				if (!SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, NULL, 0))
+				{
+					dwLastError = GetLastError();
+					if (dwLastError != ERROR_ENVVAR_NOT_FOUND)
+						bRet = false;
+				}
 			}
 		}
 
 		if (!bPrivilegesSet)
 			SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, FALSE);
+
+		return bRet;
 	}
 
 	void EfiBoot::SetStartExec(wstring description, wstring execPath, bool setBootEntry, bool forceFirstBootEntry, bool setBootNext, uint16 statrtOrderNum , wchar_t* type, uint32 attr) {
@@ -3007,6 +4089,431 @@ namespace VeraCrypt
 		return bRet;
 	}
 
+	bool EfiBoot::FileHasPattern (const wchar_t* name, const void* pattern, size_t patternLen)
+	{
+		std::vector<uint8> fileContent;
+		if (!ReadFileToBuffer (name, fileContent))
+			return false;
+
+		return BufferHasPattern (fileContent.data (), fileContent.size (), pattern, patternLen);
+	}
+
+	static bool BufferHasVeraCryptBootLoaderPattern (const std::vector<uint8>& fileContent)
+	{
+		const wchar_t* appName = _T(TC_APP_NAME);
+		return BufferHasPattern (fileContent.data (), fileContent.size (), appName, wcslen (appName) * sizeof (wchar_t))
+			|| BufferHasPattern (fileContent.data (), fileContent.size (), TC_APP_NAME, strlen (TC_APP_NAME));
+	}
+
+	bool EfiBoot::IsVeraCryptBootLoader (const wchar_t* name)
+	{
+		std::vector<uint8> fileContent;
+		if (!ReadFileToBuffer (name, fileContent))
+			return false;
+
+		return BufferHasVeraCryptBootLoaderPattern (fileContent);
+	}
+
+	bool EfiBoot::IsWindowsBootLoader (const wchar_t* name)
+	{
+		std::vector<uint8> fileContent;
+		if (!ReadFileToBuffer (name, fileContent))
+			return false;
+
+		const char* g_szMsBootString = "bootmgfw.pdb";
+		return !BufferHasVeraCryptBootLoaderPattern (fileContent)
+			&& BufferHasPattern (fileContent.data (), fileContent.size (), g_szMsBootString, strlen (g_szMsBootString));
+	}
+
+	template <typename T>
+	static bool ReadStructureFromBuffer (const std::vector<uint8>& buffer, size_t offset, T& value)
+	{
+		if (offset > buffer.size () || sizeof (T) > buffer.size () - offset)
+			return false;
+
+		memcpy (&value, buffer.data () + offset, sizeof (T));
+		return true;
+	}
+
+	static bool GetPeSecurityDirectory (const std::vector<uint8>& image, IMAGE_DATA_DIRECTORY& securityDirectory)
+	{
+		memset (&securityDirectory, 0, sizeof (securityDirectory));
+
+		IMAGE_DOS_HEADER dosHeader;
+		if (!ReadStructureFromBuffer (image, 0, dosHeader)
+			|| dosHeader.e_magic != IMAGE_DOS_SIGNATURE
+			|| dosHeader.e_lfanew < 0)
+			return false;
+
+		size_t ntOffset = (size_t) dosHeader.e_lfanew;
+		DWORD ntSignature = 0;
+		IMAGE_FILE_HEADER fileHeader;
+		if (!ReadStructureFromBuffer (image, ntOffset, ntSignature)
+			|| ntSignature != IMAGE_NT_SIGNATURE
+			|| !ReadStructureFromBuffer (image, ntOffset + sizeof (ntSignature), fileHeader))
+			return false;
+
+		size_t optionalOffset = ntOffset + sizeof (ntSignature) + sizeof (fileHeader);
+		WORD optionalMagic = 0;
+		if (!ReadStructureFromBuffer (image, optionalOffset, optionalMagic))
+			return false;
+
+		size_t dataDirectoryOffset = 0;
+		size_t numberOfRvaAndSizesOffset = 0;
+		if (optionalMagic == IMAGE_NT_OPTIONAL_HDR32_MAGIC)
+		{
+			dataDirectoryOffset = offsetof (IMAGE_OPTIONAL_HEADER32, DataDirectory);
+			numberOfRvaAndSizesOffset = offsetof (IMAGE_OPTIONAL_HEADER32, NumberOfRvaAndSizes);
+		}
+		else if (optionalMagic == IMAGE_NT_OPTIONAL_HDR64_MAGIC)
+		{
+			dataDirectoryOffset = offsetof (IMAGE_OPTIONAL_HEADER64, DataDirectory);
+			numberOfRvaAndSizesOffset = offsetof (IMAGE_OPTIONAL_HEADER64, NumberOfRvaAndSizes);
+		}
+		else
+			return false;
+
+		DWORD numberOfRvaAndSizes = 0;
+		if (!ReadStructureFromBuffer (image, optionalOffset + numberOfRvaAndSizesOffset, numberOfRvaAndSizes)
+			|| numberOfRvaAndSizes <= IMAGE_DIRECTORY_ENTRY_SECURITY)
+			return false;
+
+		size_t securityEntryOffset = dataDirectoryOffset + IMAGE_DIRECTORY_ENTRY_SECURITY * sizeof (IMAGE_DATA_DIRECTORY);
+		if (securityEntryOffset > fileHeader.SizeOfOptionalHeader
+			|| sizeof (IMAGE_DATA_DIRECTORY) > fileHeader.SizeOfOptionalHeader - securityEntryOffset
+			|| !ReadStructureFromBuffer (image, optionalOffset + securityEntryOffset, securityDirectory)
+			|| securityDirectory.VirtualAddress == 0
+			|| securityDirectory.Size < sizeof (WIN_CERTIFICATE))
+			return false;
+
+		size_t certificateTableOffset = (size_t) securityDirectory.VirtualAddress;
+		return certificateTableOffset <= image.size ()
+			&& (size_t) securityDirectory.Size <= image.size () - certificateTableOffset;
+	}
+
+	static DWORD GetCertificateIssuerFamily (PCCERT_CONTEXT certificate)
+	{
+		wchar_t issuerName[256] = {0};
+		if (CertGetNameStringW (certificate, CERT_NAME_SIMPLE_DISPLAY_TYPE, CERT_NAME_ISSUER_FLAG,
+			NULL, issuerName, ARRAYSIZE (issuerName)) <= 1)
+			return VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+
+		if (_wcsicmp (issuerName, L"Microsoft Windows Production PCA 2011") == 0)
+			return VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011;
+		if (_wcsicmp (issuerName, L"Windows UEFI CA 2023") == 0)
+			return VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023;
+
+		return VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+	}
+
+	static bool GetPkcs7SignerFamily (const uint8 *pkcs7Data, DWORD pkcs7Size, DWORD& signerFamily)
+	{
+		signerFamily = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+		CRYPT_DATA_BLOB blob = { pkcs7Size, const_cast<BYTE *> (pkcs7Data) };
+		HCERTSTORE certificateStore = NULL;
+		HCRYPTMSG cryptMsg = NULL;
+		bool bParsed = false;
+
+		if (!CryptQueryObject (CERT_QUERY_OBJECT_BLOB, &blob,
+			CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED | CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED,
+			CERT_QUERY_FORMAT_FLAG_BINARY, 0, NULL, NULL, NULL, &certificateStore, &cryptMsg, NULL))
+			return false;
+
+		DWORD signerCount = 0;
+		DWORD signerCountSize = sizeof (signerCount);
+		if (CryptMsgGetParam (cryptMsg, CMSG_SIGNER_COUNT_PARAM, 0, &signerCount, &signerCountSize))
+		{
+			bParsed = signerCount != 0;
+			for (DWORD signerIndex = 0; signerIndex < signerCount; ++signerIndex)
+			{
+				DWORD signerInfoSize = 0;
+				if (!CryptMsgGetParam (cryptMsg, CMSG_SIGNER_INFO_PARAM, signerIndex, NULL, &signerInfoSize)
+					|| signerInfoSize < sizeof (CMSG_SIGNER_INFO))
+				{
+					bParsed = false;
+					break;
+				}
+
+				std::vector<uint8> signerInfoBuffer (signerInfoSize);
+				if (!CryptMsgGetParam (cryptMsg, CMSG_SIGNER_INFO_PARAM, signerIndex, signerInfoBuffer.data (), &signerInfoSize))
+				{
+					bParsed = false;
+					break;
+				}
+
+				PCMSG_SIGNER_INFO signerInfo = reinterpret_cast<PCMSG_SIGNER_INFO> (signerInfoBuffer.data ());
+				CERT_INFO certificateInfo;
+				memset (&certificateInfo, 0, sizeof (certificateInfo));
+				certificateInfo.Issuer = signerInfo->Issuer;
+				certificateInfo.SerialNumber = signerInfo->SerialNumber;
+				PCCERT_CONTEXT signerCertificate = CertFindCertificateInStore (certificateStore,
+					X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, &certificateInfo, NULL);
+				if (!signerCertificate)
+				{
+					bParsed = false;
+					break;
+				}
+
+				DWORD currentFamily = GetCertificateIssuerFamily (signerCertificate);
+				CertFreeCertificateContext (signerCertificate);
+				if (currentFamily != VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN)
+				{
+					if (signerFamily != VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN && signerFamily != currentFamily)
+					{
+						signerFamily = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+						bParsed = false;
+						break;
+					}
+					signerFamily = currentFamily;
+				}
+			}
+		}
+
+		if (cryptMsg)
+			CryptMsgClose (cryptMsg);
+		if (certificateStore)
+			CertCloseStore (certificateStore, 0);
+
+		return bParsed;
+	}
+
+	// Extracts the signer from the PE image's embedded WIN_CERTIFICATE table. This
+	// deliberately ignores catalog signatures: the firmware evaluates the image's
+	// embedded Authenticode signature, and Get-AuthenticodeSignature may otherwise
+	// report an unrelated catalog signer for a Windows boot file.
+	static bool GetEmbeddedPeSignerFamily (const std::vector<uint8>& image, DWORD& signerFamily)
+	{
+		signerFamily = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+		IMAGE_DATA_DIRECTORY securityDirectory;
+		if (!GetPeSecurityDirectory (image, securityDirectory))
+			return false;
+
+		size_t tableOffset = (size_t) securityDirectory.VirtualAddress;
+		size_t tableEnd = tableOffset + (size_t) securityDirectory.Size;
+		bool bParsedSignature = false;
+		DWORD detectedFamily = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+
+		while (tableOffset + sizeof (WIN_CERTIFICATE) <= tableEnd)
+		{
+			WIN_CERTIFICATE certificateHeader;
+			if (!ReadStructureFromBuffer (image, tableOffset, certificateHeader)
+				|| certificateHeader.dwLength < offsetof (WIN_CERTIFICATE, bCertificate)
+				|| certificateHeader.dwLength > tableEnd - tableOffset)
+				return false;
+
+			if (certificateHeader.wCertificateType == WIN_CERT_TYPE_PKCS_SIGNED_DATA)
+			{
+				DWORD currentFamily = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+				const size_t certificateDataOffset = offsetof (WIN_CERTIFICATE, bCertificate);
+				DWORD certificateDataSize = certificateHeader.dwLength - (DWORD) certificateDataOffset;
+				if (!GetPkcs7SignerFamily (image.data () + tableOffset + certificateDataOffset,
+					certificateDataSize, currentFamily))
+					return false;
+
+				bParsedSignature = true;
+				if (currentFamily != VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN)
+				{
+					if (detectedFamily != VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN && detectedFamily != currentFamily)
+						return false;
+					detectedFamily = currentFamily;
+				}
+			}
+
+			size_t alignedLength = ((size_t) certificateHeader.dwLength + 7) & ~(size_t) 7;
+			if (alignedLength == 0 || alignedLength > tableEnd - tableOffset)
+				break;
+			tableOffset += alignedLength;
+		}
+
+		signerFamily = detectedFamily;
+		return bParsedSignature;
+	}
+
+	static bool ReadLocalFileToBuffer (const wchar_t *path, std::vector<uint8>& fileContent)
+	{
+		fileContent.clear ();
+		File file (path, true);
+		if (!file.IsOpened ())
+			return false;
+
+		unsigned __int64 fileSize = 0;
+		file.GetFileSize (fileSize);
+		if (fileSize == 0 || fileSize > TC_MAX_EFI_BOOT_LOADER_FILE_SIZE || fileSize > UINT_MAX)
+		{
+			file.Close ();
+			return false;
+		}
+
+		fileContent.resize ((size_t) fileSize);
+		bool bRead = file.Read (fileContent.data (), (DWORD) fileSize) == (DWORD) fileSize;
+		file.Close ();
+		if (!bRead)
+			fileContent.clear ();
+		return bRead;
+	}
+
+	static bool IsWindowsLoaderSignerAllowedByKnownCaPolicy (DWORD signerFamily,
+		const FirmwareDbMicrosoftUefiCaSupport& allowedSupport,
+		const FirmwareDbMicrosoftUefiCaSupport& forbiddenSupport)
+	{
+		if (signerFamily == VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023)
+			return allowedSupport.ContainsWindowsUefiCa2023 && !forbiddenSupport.ContainsWindowsUefiCa2023;
+		if (signerFamily == VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011)
+			return allowedSupport.ContainsMicrosoftWindowsProductionPca2011
+				&& !forbiddenSupport.ContainsMicrosoftWindowsProductionPca2011;
+		return false;
+	}
+
+	static bool EfiBootLoaderStandardCopiesMatch (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	{
+		const wchar_t *standardPaths[] =
+		{
+			L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi",
+			L"\\EFI\\Boot\\bootx64.efi"
+		};
+
+		for (size_t pathIndex = 0; pathIndex < ARRAYSIZE (standardPaths); ++pathIndex)
+		{
+			std::vector<uint8> standardImage;
+			if (!efiBoot.ReadFileToBuffer (standardPaths[pathIndex], standardImage))
+			{
+				if (efiBoot.FileExists (standardPaths[pathIndex]))
+					return false;
+				continue;
+			}
+
+			if (BufferHasVeraCryptBootLoaderPattern (standardImage)
+				&& !BufferEquals (standardImage.data (), standardImage.size (), images.DcsBoot, images.SizeDcsBoot))
+				return false;
+		}
+
+		return true;
+	}
+
+	static int GetWindowsLoaderSignerPreference (DWORD signerFamily)
+	{
+		return signerFamily == VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023 ? 2
+			: (signerFamily == VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011 ? 1 : 0);
+	}
+
+	static bool VerifyFileAuthenticodeSignature (const wchar_t *path)
+	{
+		WINTRUST_FILE_INFO fileInfo;
+		memset (&fileInfo, 0, sizeof (fileInfo));
+		fileInfo.cbStruct = sizeof (fileInfo);
+		fileInfo.pcwszFilePath = path;
+
+		WINTRUST_DATA trustData;
+		memset (&trustData, 0, sizeof (trustData));
+		trustData.cbStruct = sizeof (trustData);
+		trustData.dwUIChoice = WTD_UI_NONE;
+		trustData.fdwRevocationChecks = WTD_REVOKE_NONE;
+		trustData.dwUnionChoice = WTD_CHOICE_FILE;
+		trustData.pFile = &fileInfo;
+		trustData.dwStateAction = WTD_STATEACTION_VERIFY;
+		trustData.dwProvFlags = WTD_CACHE_ONLY_URL_RETRIEVAL;
+
+		GUID action = WINTRUST_ACTION_GENERIC_VERIFY_V2;
+		LONG trustResult = WinVerifyTrust (NULL, &action, &trustData);
+		trustData.dwStateAction = WTD_STATEACTION_CLOSE;
+		WinVerifyTrust (NULL, &action, &trustData);
+		return trustResult == ERROR_SUCCESS;
+	}
+
+	static bool RefreshWindowsBootManagerFromWindows (EfiBoot& efiBoot, const wchar_t *destinationName)
+	{
+		FirmwareDbMicrosoftUefiCaSupport allowedSupport;
+		FirmwareDbMicrosoftUefiCaSupport forbiddenSupport;
+		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (allowedSupport) || allowedSupport.DbMalformed
+			|| !TryFirmwareDbxGetMicrosoftUefiCaSupport (forbiddenSupport) || forbiddenSupport.DbMalformed)
+			return false;
+
+		wchar_t windowsDirectory[MAX_PATH] = {0};
+		UINT windowsDirectoryLength = ::GetWindowsDirectoryW (windowsDirectory, ARRAYSIZE (windowsDirectory));
+		if (windowsDirectoryLength == 0 || windowsDirectoryLength >= ARRAYSIZE (windowsDirectory))
+			return false;
+
+		const wchar_t *relativeCandidatePaths[] =
+		{
+			L"\\Boot\\EFI_EX\\bootmgfw_EX.efi",
+			L"\\Boot\\EFI\\bootmgfw.efi"
+		};
+		std::vector<uint8> preferredCandidate;
+		wstring preferredCandidatePath;
+		DWORD preferredSigner = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+
+		for (size_t candidateIndex = 0; candidateIndex < ARRAYSIZE (relativeCandidatePaths); ++candidateIndex)
+		{
+			wstring candidatePath = windowsDirectory;
+			candidatePath += relativeCandidatePaths[candidateIndex];
+			std::vector<uint8> candidate;
+			DWORD candidateSigner = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+			static const char windowsBootManagerMarker[] = "bootmgfw.pdb";
+			if (!ReadLocalFileToBuffer (candidatePath.c_str (), candidate)
+				|| !BufferHasPattern (candidate.data (), candidate.size (), windowsBootManagerMarker, strlen (windowsBootManagerMarker))
+				|| !VerifyFileAuthenticodeSignature (candidatePath.c_str ())
+				|| !GetEmbeddedPeSignerFamily (candidate, candidateSigner)
+				|| !IsWindowsLoaderSignerAllowedByKnownCaPolicy (candidateSigner, allowedSupport, forbiddenSupport))
+				continue;
+
+			if (GetWindowsLoaderSignerPreference (candidateSigner) > GetWindowsLoaderSignerPreference (preferredSigner))
+			{
+				preferredCandidate.swap (candidate);
+				preferredCandidatePath = candidatePath;
+				preferredSigner = candidateSigner;
+			}
+		}
+
+		if (preferredCandidate.empty ())
+			return false;
+
+		std::vector<uint8> installedLoader;
+		DWORD installedSigner = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+		bool bInstalledLoaderRead = false;
+		try
+		{
+			bInstalledLoaderRead = efiBoot.ReadFileToBuffer (destinationName, installedLoader);
+		}
+		catch (...)
+		{
+			installedLoader.clear ();
+		}
+
+		if (bInstalledLoaderRead
+			&& GetEmbeddedPeSignerFamily (installedLoader, installedSigner)
+			&& IsWindowsLoaderSignerAllowedByKnownCaPolicy (installedSigner, allowedSupport, forbiddenSupport)
+			&& GetWindowsLoaderSignerPreference (installedSigner) > GetWindowsLoaderSignerPreference (preferredSigner))
+			return true;
+
+		if (!installedLoader.empty ()
+			&& BufferEquals (installedLoader.data (), installedLoader.size (), preferredCandidate.data (), preferredCandidate.size ()))
+			return true;
+
+		// Keep the currently bootable manager intact until a complete replacement has
+		// been written and read back on the ESP.
+		wstring temporaryName = destinationName;
+		temporaryName += L".vc_new";
+		try
+		{
+			efiBoot.SaveFile (temporaryName.c_str (), preferredCandidate.data (), (DWORD) preferredCandidate.size ());
+			std::vector<uint8> verifiedCandidate;
+			if (!efiBoot.ReadFileToBuffer (temporaryName.c_str (), verifiedCandidate)
+				|| !BufferEquals (verifiedCandidate.data (), verifiedCandidate.size (), preferredCandidate.data (), preferredCandidate.size ()))
+				throw ErrorException ("EFI_BOOT_LOADER_FILE_READ_FAILED", SRC_POS);
+			throw_sys_if (!efiBoot.RenameFile (temporaryName.c_str (), destinationName, TRUE));
+		}
+		catch (...)
+		{
+			efiBoot.DelFile (temporaryName.c_str ());
+			throw;
+		}
+
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderRefreshSigner", preferredSigner);
+		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRefreshSource",
+			(wchar_t *) preferredCandidatePath.c_str (), FALSE);
+		return true;
+	}
+
 	void EfiBoot::SaveFile(const wchar_t* name, uint8* data, DWORD size) {
 		wstring path = EfiBootPartPath;
 		path += name;
@@ -3015,6 +4522,7 @@ namespace VeraCrypt
 		{
 			File f(path, false, true);
 			f.Write(data, size);
+			f.SetEnd();
 			f.Close();
 		}
 	}
@@ -3042,6 +4550,47 @@ namespace VeraCrypt
 		File f(path, true);
 		f.Read(data, size);
 		f.Close();
+	}
+
+	bool EfiBoot::ReadFileToBuffer (const wchar_t* name, std::vector<uint8>& fileContent)
+	{
+		fileContent.clear ();
+		wstring path = EfiBootPartPath;
+		path += name;
+
+		File f(path, true);
+		if (!f.IsOpened ())
+		{
+			f.Close ();
+			return false;
+		}
+
+		unsigned __int64 fileSize = 0;
+		f.GetFileSize (fileSize);
+		if (fileSize == 0)
+		{
+			f.Close ();
+			return false;
+		}
+
+		if (fileSize > TC_MAX_EFI_BOOT_LOADER_FILE_SIZE || fileSize > UINT_MAX)
+		{
+			f.Close ();
+			throw ErrorException (wstring (GetString ("EFI_BOOT_LOADER_FILE_TOO_LARGE"))
+				+ L"\n" + name, SRC_POS);
+		}
+
+		DWORD fileSize32 = (DWORD) fileSize;
+		fileContent.resize ((size_t) fileSize32);
+		if (f.Read (fileContent.data (), fileSize32) != fileSize32)
+		{
+			f.Close ();
+			throw ErrorException (wstring (GetString ("EFI_BOOT_LOADER_FILE_READ_FAILED"))
+				+ L"\n" + name, SRC_POS);
+		}
+
+		f.Close ();
+		return true;
 	}
 
 	void EfiBoot::CopyFile(const wchar_t* name, const wchar_t* targetName) {
@@ -3331,32 +4880,16 @@ namespace VeraCrypt
 					Warning ("ADMIN_PRIVILEGES_WARN_DEVICES", ParentWindow);
 				}
 			}
-			DWORD sizeDcsBoot;
-			uint8 *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
-			if (!dcsBootImg)
-				throw ErrorException(L"Out of resource DcsBoot", SRC_POS);
-			DWORD sizeDcsInt;
-			uint8 *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
-			if (!dcsIntImg)
-				throw ErrorException(L"Out of resource DcsInt", SRC_POS);
-			DWORD sizeDcsCfg;
-			uint8 *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
-			if (!dcsCfgImg)
-				throw ErrorException(L"Out of resource DcsCfg", SRC_POS);
-			DWORD sizeLegacySpeaker;
-			uint8 *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
-			if (!LegacySpeakerImg)
-				throw ErrorException(L"Out of resource LegacySpeaker", SRC_POS);
+			EfiBootLoaderImages efiImages = MapEfiBootLoaderImages (false);
+			// Kept as aliases for the legacy EFI\Boot\bootx64.efi replacement block below.
+			DWORD sizeDcsBoot = efiImages.SizeDcsBoot;
+			uint8 *dcsBootImg = efiImages.DcsBoot;
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
 			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
 			if (!BootMenuLockerImg)
 				throw ErrorException(L"Out of resource DcsBml", SRC_POS);
 #endif
-			DWORD sizeDcsInfo;
-			uint8 *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
-			if (!DcsInfoImg)
-				throw ErrorException(L"Out of resource DcsInfo", SRC_POS);
 
 			EfiBootInst.PrepareBootPartition(PostOOBEMode);			
 
@@ -3366,14 +4899,18 @@ namespace VeraCrypt
 				bool bAlreadyExist;
 				const char* g_szMsBootString = "bootmgfw.pdb";
 				unsigned __int64 loaderSize = 0;
+				const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
+				const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
 				const wchar_t * szStdEfiBootloader = L"\\EFI\\Boot\\bootx64.efi";
 				const wchar_t * szBackupEfiBootloader = L"\\EFI\\Boot\\original_bootx64.vc_backup";
+				const bool bCanRefreshWindowsLoaderFromOs = !hiddenOSCreation && !IsHiddenOSRunning ();
 
 				if (preserveUserConfig)
 				{
-					bool bModifiedMsBoot = true, bMissingMsBoot = false;;
-					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
-						EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
+					bool bModifiedMsBoot = true, bMissingMsBoot = false, bMsBootloaderMovedToBackup = false;
+					bool bWindowsLoaderRefreshedFromOs = false;
+					if (EfiBootInst.FileExists (szStdMsBootloader))
+						EfiBootInst.GetFileSize(szStdMsBootloader, loaderSize);
 					else
 						bMissingMsBoot = true;
 
@@ -3381,20 +4918,21 @@ namespace VeraCrypt
 					if (PostOOBEMode)
 						EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi", SetBootEntry, ForceFirstBootEntry, SetBootNext);
 
-					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
+					if (EfiBootInst.FileExists (szBackupMsBootloader))
 					{
 						if (loaderSize > 32768)
 						{
 							std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
-							EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
+							EfiBootInst.ReadFile(szStdMsBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
 
 							// look for bootmgfw.efi identifiant string
 							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
 							{
 								bModifiedMsBoot = false;
 								// replace the backup with this version
-								EfiBootInst.RenameFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
+								if (EfiBootInst.RenameFile (szStdMsBootloader, szBackupMsBootloader, TRUE))
+									bMsBootloaderMovedToBackup = true;
 							}
 						}
 					}
@@ -3405,7 +4943,7 @@ namespace VeraCrypt
 						{
 							std::vector<uint8> bootLoaderBuf ((size_t) loaderSize);
 
-							EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
+							EfiBootInst.ReadFile(szStdMsBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
 
 							// look for bootmgfw.efi identifiant string
 							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
@@ -3414,7 +4952,8 @@ namespace VeraCrypt
 
 						if (!bModifiedMsBoot)
 						{
-							EfiBootInst.RenameFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
+							if (EfiBootInst.RenameFile (szStdMsBootloader, szBackupMsBootloader, TRUE))
+								bMsBootloaderMovedToBackup = true;
 						}
 						else
 						{
@@ -3440,28 +4979,71 @@ namespace VeraCrypt
 										if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
 										{
 											bFound = true;
-											EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
+											EfiBootInst.RenameFile(loaderPath.c_str(), szBackupMsBootloader, TRUE);
 										}
 									}
 								}
 							}
 
 							if (!bFound && !PostOOBEMode)
-								throw ErrorException ("WINDOWS_EFI_BOOT_LOADER_MISSING", SRC_POS);
+							{
+								// Windows keeps servicing copies outside the ESP. They are especially
+								// important after the 2023 CA migration, because the standard ESP path
+								// intentionally contains DcsBoot and Windows may therefore not replace it.
+								bWindowsLoaderRefreshedFromOs = bCanRefreshWindowsLoaderFromOs
+									&& RefreshWindowsBootManagerFromWindows (EfiBootInst, szBackupMsBootloader);
+								if (!bWindowsLoaderRefreshedFromOs)
+									throw ErrorException ("WINDOWS_EFI_BOOT_LOADER_MISSING", SRC_POS);
+							}
 						}
 					}
 
+					if (bCanRefreshWindowsLoaderFromOs && !bWindowsLoaderRefreshedFromOs)
+						RefreshWindowsBootManagerFromWindows (EfiBootInst, szBackupMsBootloader);
+
 					if (PostOOBEMode && EfiBootInst.FileExists (L"\\EFI\\VeraCrypt\\DcsBoot.efi"))
-					{						
-						// check if bootmgfw.efi has been set again to Microsoft version
-						// if yes, replace it with our bootloader after it was copied to bootmgfw_ms.vc
-						if (!bModifiedMsBoot || bMissingMsBoot)
-							EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi");
+					{
+						const bool bRefreshMsBootloader = !bModifiedMsBoot
+							|| bMissingMsBoot
+							|| (EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsVeraCryptBootLoader (szStdMsBootloader));
+						const bool bRescueDiskPromptRequired = EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBootInst, efiImages);
+
+						// Keep the firmware-visible loader path valid before the larger module refresh.
+						if (bRefreshMsBootloader && !EfiBootInst.FileExists (szStdMsBootloader))
+						{
+							try
+							{
+								EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", szStdMsBootloader);
+							}
+							catch (...)
+							{
+								if (bMsBootloaderMovedToBackup)
+									EfiBootInst.RenameFile (szBackupMsBootloader, szStdMsBootloader, TRUE);
+								throw;
+							}
+						}
+
+						SaveEfiBootLoaderImages (EfiBootInst, efiImages, true);
+#ifdef VC_EFI_CUSTOM_MODE
+						EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker);
+#endif
+
+						// check if bootmgfw.efi has been set again to Microsoft version.
+						// If yes, replace it with our bootloader after it was copied to bootmgfw_ms.vc.
+						// If it is already a VeraCrypt copy, refresh it because the firmware db may now
+						// trust a different Microsoft CA than the one selected at original install time.
+						if (bRefreshMsBootloader)
+						{
+							EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", szStdMsBootloader);
+						}
 
 						if (EfiBootInst.FileExists (szStdEfiBootloader))
 						{
-							// check if standard bootloader under EFI\Boot has been set to Microsoft version
-							// if yes, replace it with our bootloader
+							// check if standard bootloader under EFI\Boot has been set to Microsoft version.
+							// If yes, replace it with our bootloader. If it is already a VeraCrypt copy,
+							// refresh it because the firmware db may now trust a different Microsoft CA
+							// than the one selected at original install time.
+							bool bStdEfiBootloaderUpdated = false;
 							EfiBootInst.GetFileSize(szStdEfiBootloader, loaderSize);
 							if (loaderSize > 32768)
 							{
@@ -3474,22 +5056,25 @@ namespace VeraCrypt
 								{
 									EfiBootInst.RenameFile (szStdEfiBootloader, szBackupEfiBootloader, TRUE);
 									EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", szStdEfiBootloader);
+									bStdEfiBootloaderUpdated = true;
 								}
 							}
+							if (!bStdEfiBootloaderUpdated && EfiBootInst.IsVeraCryptBootLoader (szStdEfiBootloader))
+							{
+								EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", szStdEfiBootloader);
+							}
 						}
+						if (bRescueDiskPromptRequired)
+							MarkEfiBootLoaderRescueDiskRecreationNeeded (efiImages);
 						return;
 					}
 				}
 
 				EfiBootInst.MkDir(L"\\EFI\\VeraCrypt", bAlreadyExist);
-				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBoot.efi", dcsBootImg, sizeDcsBoot);
-				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInt.dcs", dcsIntImg, sizeDcsInt);
-				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsCfg.dcs", dcsCfgImg, sizeDcsCfg);
-				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker);
+				SaveEfiBootLoaderImages (EfiBootInst, efiImages);
 #ifdef VC_EFI_CUSTOM_MODE
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker);
 #endif
-				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInfo.dcs", DcsInfoImg, sizeDcsInfo);
 				if (!preserveUserConfig)
 					EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\PlatformInfo");
 				EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi", SetBootEntry, ForceFirstBootEntry, SetBootNext);
@@ -3701,36 +5286,13 @@ namespace VeraCrypt
 		if (bIsGPT)
 		{
 			// create EFI disk structure
-			DWORD sizeDcsBoot;
-			uint8 *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
-			if (!dcsBootImg)
-				throw ParameterIncorrect (SRC_POS);
-			DWORD sizeDcsInt;
-			uint8 *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
-			if (!dcsIntImg)
-				throw ParameterIncorrect (SRC_POS);
-			DWORD sizeDcsCfg;
-			uint8 *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
-			if (!dcsCfgImg)
-				throw ParameterIncorrect (SRC_POS);
-			DWORD sizeLegacySpeaker;
-			uint8 *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
-			if (!LegacySpeakerImg)
-				throw ParameterIncorrect (SRC_POS);
+			EfiBootLoaderImages efiImages = MapEfiBootLoaderImages (true);
 #ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
 			uint8 *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
 			if (!BootMenuLockerImg)
 				throw ParameterIncorrect (SRC_POS);
 #endif
-			DWORD sizeDcsRescue;
-			uint8 *DcsRescueImg = MapResource(L"BIN", IDR_EFI_DCSRE, &sizeDcsRescue);
-			if (!DcsRescueImg)
-				throw ParameterIncorrect (SRC_POS);
-			DWORD sizeDcsInfo;
-			uint8 *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
-			if (!DcsInfoImg)
-				throw ParameterIncorrect (SRC_POS);
 
 			WCHAR szTmpPath[MAX_PATH + 1], szTmpFilePath[MAX_PATH + 1];
 			if (!GetTempPathW (MAX_PATH, szTmpPath))
@@ -3754,21 +5316,21 @@ namespace VeraCrypt
 
 			finally_do_arg (zip_t**, &z, { if (*finally_arg) zip_discard (*finally_arg);});
 
-			if (!ZipAdd (z, "EFI/Boot/bootx64.efi", DcsRescueImg, sizeDcsRescue))
+			if (!ZipAdd (z, "EFI/Boot/bootx64.efi", efiImages.DcsRescue, efiImages.SizeDcsRescue))
 				throw ParameterIncorrect (SRC_POS);
 #ifdef VC_EFI_CUSTOM_MODE
 			if (!ZipAdd (z, "EFI/VeraCrypt/DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker))
 				throw ParameterIncorrect (SRC_POS);
 #endif
-			if (!ZipAdd (z, "EFI/VeraCrypt/DcsBoot.efi", dcsBootImg, sizeDcsBoot))
+			if (!ZipAdd (z, "EFI/VeraCrypt/DcsBoot.efi", efiImages.DcsBoot, efiImages.SizeDcsBoot))
 				throw ParameterIncorrect (SRC_POS);
-			if (!ZipAdd (z, "EFI/VeraCrypt/DcsCfg.dcs", dcsCfgImg, sizeDcsCfg))
+			if (!ZipAdd (z, "EFI/VeraCrypt/DcsCfg.dcs", efiImages.DcsCfg, efiImages.SizeDcsCfg))
 				throw ParameterIncorrect (SRC_POS);
-			if (!ZipAdd (z, "EFI/VeraCrypt/DcsInt.dcs", dcsIntImg, sizeDcsInt))
+			if (!ZipAdd (z, "EFI/VeraCrypt/DcsInt.dcs", efiImages.DcsInt, efiImages.SizeDcsInt))
 				throw ParameterIncorrect (SRC_POS);
-			if (!ZipAdd (z, "EFI/VeraCrypt/LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker))
+			if (!ZipAdd (z, "EFI/VeraCrypt/LegacySpeaker.dcs", efiImages.LegacySpeaker, efiImages.SizeLegacySpeaker))
 				throw ParameterIncorrect (SRC_POS);
-			if (!ZipAdd (z, "EFI/VeraCrypt/DcsInfo.dcs", DcsInfoImg, sizeDcsInfo))
+			if (!ZipAdd (z, "EFI/VeraCrypt/DcsInfo.dcs", efiImages.DcsInfo, efiImages.SizeDcsInfo))
 				throw ParameterIncorrect (SRC_POS);
 
 			Buffer volHeader(TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
@@ -3864,6 +5426,7 @@ namespace VeraCrypt
 			{
 				File isoFile (isoImagePath, false, true);
 				isoFile.Write (RescueZipData, RescueZipSize);
+				RecordEfiBootLoaderRescueDiskResourceSet (efiImages);
 			}
 		}
 		else
@@ -4322,7 +5885,7 @@ namespace VeraCrypt
 
 		DecryptBuffer (RescueVolumeHeader + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
-		if (GetHeaderField32 (RescueVolumeHeader, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
+		if (GetHeaderField32 (RescueVolumeHeader, TC_HEADER_OFFSET_MAGIC) != TC_HEADER_MAGIC_NUMBER)
 			throw ParameterIncorrect (SRC_POS);
 
 		uint8 *fieldPos = RescueVolumeHeader + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
@@ -4397,6 +5960,12 @@ namespace VeraCrypt
 			bool bModifiedMsBoot = true;
 
 			EfiBootInst.PrepareBootPartition();		
+
+			if (!EfiBootInst.FileExists (szStdMsBootloader))
+			{
+				Error ("WINDOWS_EFI_BOOT_LOADER_MISSING", ParentWindow);
+				throw UserAbort (SRC_POS);
+			}
 
 			EfiBootInst.GetFileSize(szStdMsBootloader, loaderSize);
 			bootLoaderBuf.resize ((size_t) loaderSize);
@@ -4490,11 +6059,17 @@ namespace VeraCrypt
 
 			EfiBootInst.PrepareBootPartition();			
 
-			EfiBootInst.DeleteStartExec();
-			EfiBootInst.DeleteStartExec(0xDC5B, L"Driver"); // remove DcsBml boot driver it was installed
-			EfiBootInst.RenameFile(L"\\EFI\\Boot\\original_bootx64.vc_backup", L"\\EFI\\Boot\\bootx64.efi", TRUE);
+			const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
+			const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
+			// EFI system encryption currently ships x64 EFI loaders and the UEFI fallback path is bootx64.efi
+			const wchar_t * szStdEfiBootloader = L"\\EFI\\Boot\\bootx64.efi";
+			const wchar_t * szBackupEfiBootloader = L"\\EFI\\Boot\\original_bootx64.vc_backup";
 
-			if (!EfiBootInst.RenameFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE))
+			if (!EfiBootInst.FileExists (szStdEfiBootloader) || !EfiBootInst.IsWindowsBootLoader (szStdEfiBootloader))
+				EfiBootInst.RenameFile(szBackupEfiBootloader, szStdEfiBootloader, TRUE);
+
+			if ((!EfiBootInst.FileExists (szStdMsBootloader) || !EfiBootInst.IsWindowsBootLoader (szStdMsBootloader))
+				&& !EfiBootInst.RenameFile(szBackupMsBootloader, szStdMsBootloader, TRUE))
 			{
 				EfiBootConf conf;
 				if (EfiBootInst.ReadConfig (L"\\EFI\\VeraCrypt\\DcsProp", conf) && strlen (conf.actionSuccessValue.c_str()))
@@ -4503,8 +6078,9 @@ namespace VeraCrypt
 					if (EfiBootConf::IsPostExecFileField (conf.actionSuccessValue, loaderPath))
 					{
 						// check that it is not bootmgfw_ms.vc or bootmgfw.efi
-						if (	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
-							&&	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
+						if (	(0 != _wcsicmp (loaderPath.c_str(), szBackupMsBootloader))
+							&&	(0 != _wcsicmp (loaderPath.c_str(), szStdMsBootloader))
+							&&	EfiBootInst.FileExists (loaderPath.c_str())
 							)
 						{
 							const char* g_szMsBootString = "bootmgfw.pdb";
@@ -4515,15 +6091,51 @@ namespace VeraCrypt
 							EfiBootInst.ReadFile(loaderPath.c_str(), &bootLoaderBuf[0], (DWORD) loaderSize);
 
 							// look for bootmgfw.efi identifiant string
-							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString))
+								&& !BufferHasVeraCryptBootLoaderPattern (bootLoaderBuf))
 							{
-								EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE);
+								EfiBootInst.RenameFile(loaderPath.c_str(), szStdMsBootloader, TRUE);
 							}
 						}
 					}
 				}
 			}
 
+			bool bMsBootloaderRestored = EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsWindowsBootLoader (szStdMsBootloader);
+			if (!bMsBootloaderRestored
+				&& EfiBootInst.FileExists (szStdEfiBootloader)
+				&& EfiBootInst.IsWindowsBootLoader (szStdEfiBootloader))
+			{
+				EfiBootInst.CopyFile (szStdEfiBootloader, szStdMsBootloader);
+				bMsBootloaderRestored = EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsWindowsBootLoader (szStdMsBootloader);
+			}
+
+			if (!bMsBootloaderRestored)
+			{
+				throw ErrorException (wstring (GetString ("SYS_LOADER_RESTORE_FAILED"))
+					+ L"\n\n" + GetString ("EFI_MS_BOOT_LOADER_RESTORE_FAILED") + L"\n"
+					+ szStdMsBootloader, SRC_POS);
+			}
+
+			if (EfiBootInst.FileExists (szStdEfiBootloader) && EfiBootInst.IsVeraCryptBootLoader (szStdEfiBootloader))
+			{
+				EfiBootInst.CopyFile (szStdMsBootloader, szStdEfiBootloader);
+				if (EfiBootInst.IsVeraCryptBootLoader (szStdEfiBootloader) || !EfiBootInst.IsWindowsBootLoader (szStdEfiBootloader))
+				{
+					throw ErrorException (wstring (GetString ("SYS_LOADER_RESTORE_FAILED"))
+						+ L"\n\n" + GetString ("EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT") + L"\n"
+						+ szStdEfiBootloader, SRC_POS);
+				}
+			}
+
+			bool bBootEntryRemoved = EfiBootInst.DeleteStartExec();
+			bool bBmlDriverEntryRemoved = EfiBootInst.DeleteStartExec(0xDC5B, L"Driver"); // remove DcsBml boot driver if it was installed
+			if (!bBootEntryRemoved || !bBmlDriverEntryRemoved)
+			{
+				// Keep VeraCrypt EFI files in place if firmware entries may still point to them.
+				throw ErrorException (wstring (GetString ("SYS_LOADER_RESTORE_FAILED"))
+					+ L"\n\n" + GetString ("EFI_BOOT_LOADER_NVRAM_CLEANUP_FAILED"), SRC_POS);
+			}
 
 			EfiBootInst.DelFile(L"\\DcsBoot.efi");
 			EfiBootInst.DelFile(L"\\DcsInt.efi");
@@ -4563,6 +6175,8 @@ namespace VeraCrypt
 			device.SeekAt (0);
 			device.Write (bootLoaderBuf, sizeof (bootLoaderBuf));
 		}
+
+		ClearEfiBootLoaderDiagnosticsRegistry ();
 
 		if (!IsAdmin() && IsUacSupported())
 		{
@@ -5098,6 +6712,185 @@ namespace VeraCrypt
 		}
 	}
 #endif
+
+	void BootEncryption::GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported)
+	{
+		if (!pMicrosoft2023UefiCAsSupported)
+		{
+			SetLastError (ERROR_INVALID_PARAMETER);
+			throw SystemException (SRC_POS);
+		}
+
+		*pMicrosoft2023UefiCAsSupported = GetPreferredEfiBootLoaderResourceSet ().ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023;
+	}
+
+	static void RecordEfiBootChainTrustStatusDiagnostics (
+		const EfiBootChainTrustStatus& status,
+		DWORD chainError = ERROR_SUCCESS,
+		DWORD firmwareDbError = ERROR_SUCCESS,
+		DWORD firmwareDbxError = ERROR_SUCCESS)
+	{
+		DWORD previousLastError = GetLastError ();
+		WCHAR checkTimeUtc[32] = {0};
+		SYSTEMTIME systemTime;
+		GetSystemTime (&systemTime);
+		StringCchPrintfW (checkTimeUtc, ARRAYSIZE (checkTimeUtc), L"%04u-%02u-%02uT%02u:%02u:%02uZ",
+			systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
+
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootChainStatusKnown", status.StatusKnown ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootChainLastError", chainError);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"SecureBootEnabled", status.SecureBootEnabled ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"FirmwareDbxPresent", status.FirmwareDbxPresent ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"VeraCryptLoaderFilesValid", status.VeraCryptLoaderFilesValid ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"VeraCryptLoaderKnownCaAllowed", status.VeraCryptLoaderKnownCaAllowed ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"VeraCryptLoaderKnownCaRevoked", status.VeraCryptLoaderKnownCaRevoked ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderInspectionSucceeded", status.WindowsLoaderInspectionSucceeded ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderPresent", status.WindowsLoaderPresent ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderSigner", status.WindowsLoaderSigner);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderKnownCaAllowed", status.WindowsLoaderKnownCaAllowed ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderKnownCaRevoked", status.WindowsLoaderKnownCaRevoked ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderMigrationRecommended", status.WindowsLoaderMigrationRecommended ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderInstalledResourceSet", status.InstalledResourceSet);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderRecordedResourceSet", status.RecordedResourceSet);
+		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"VeraCryptLoaderTrusted");
+		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"VeraCryptLoaderRevoked");
+		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderTrusted");
+		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRevoked");
+		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootChainCheckTimeUtc", checkTimeUtc, FALSE);
+		SetLastError (previousLastError);
+	}
+
+	bool BootEncryption::GetEfiBootChainTrustStatus (EfiBootChainTrustStatus& status)
+	{
+		memset (&status, 0, sizeof (status));
+
+		SystemDriveConfiguration config = GetSystemDriveConfiguration();
+		if (!config.SystemPartition.IsGPT || !IsAdmin())
+			return false;
+
+		bool bSecureBootEnabled = false;
+		if (!TryFirmwareSecureBootEnabled (bSecureBootEnabled))
+		{
+			DWORD dwError = GetLastError ();
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError);
+			return true;
+		}
+		status.SecureBootEnabled = bSecureBootEnabled;
+
+		// Known-CA policy facts are asserted only from fully parsed db and dbx
+		// variables. This does not model the other UEFI revocation forms (image
+		// hashes, certificate TBS hashes, and security-version revocations).
+		FirmwareDbMicrosoftUefiCaSupport support;
+		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (support))
+		{
+			DWORD dwError = GetLastError ();
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
+			return true;
+		}
+		if (support.DbMalformed)
+		{
+			DWORD dwError = support.ParseError ? support.ParseError : ERROR_INVALID_DATA;
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
+			return true;
+		}
+
+		FirmwareDbMicrosoftUefiCaSupport forbiddenSupport;
+		bool bFirmwareDbxPresent = false;
+		if (!TryFirmwareDbxGetMicrosoftUefiCaSupport (forbiddenSupport, &bFirmwareDbxPresent))
+		{
+			DWORD dwError = GetLastError ();
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
+			return true;
+		}
+		if (forbiddenSupport.DbMalformed)
+		{
+			DWORD dwError = forbiddenSupport.ParseError ? forbiddenSupport.ParseError : ERROR_INVALID_DATA;
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
+			return true;
+		}
+		status.FirmwareDbxPresent = bFirmwareDbxPresent;
+
+		DWORD recordedResourceSet = 0;
+		if (ReadRecordedEfiBootLoaderResourceSet (recordedResourceSet))
+			status.RecordedResourceSet = recordedResourceSet;
+
+		try
+		{
+			EfiBootInst.PrepareBootPartition (true);
+
+			EfiBootLoaderImages images2011 = MapEfiBootLoaderImages (VC_EFI_BOOT_LOADER_RESOURCE_SET_2011, false);
+			EfiBootLoaderImages images2023 = MapEfiBootLoaderImages (VC_EFI_BOOT_LOADER_RESOURCE_SET_2023, false);
+			bool bMatches2011 = EfiBootLoaderImagesMatch (EfiBootInst, images2011);
+			bool bMatches2023 = EfiBootLoaderImagesMatch (EfiBootInst, images2023);
+			const EfiBootLoaderImages *installedImages = NULL;
+			if (bMatches2011 != bMatches2023)
+			{
+				installedImages = bMatches2023 ? &images2023 : &images2011;
+				status.InstalledResourceSet = installedImages->ResourceSet;
+				status.VeraCryptLoaderFilesValid = EfiBootLoaderStandardCopiesMatch (EfiBootInst, *installedImages);
+			}
+
+			if (status.VeraCryptLoaderFilesValid && status.InstalledResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023)
+			{
+				status.VeraCryptLoaderKnownCaRevoked = forbiddenSupport.ContainsMicrosoftUefiCa2023
+					|| forbiddenSupport.ContainsMicrosoftOptionRomUefiCa2023;
+				status.VeraCryptLoaderKnownCaAllowed = FirmwareDbMicrosoftUefiCaSupportContains2023Set (support)
+					&& !status.VeraCryptLoaderKnownCaRevoked;
+			}
+			else if (status.VeraCryptLoaderFilesValid && status.InstalledResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2011)
+			{
+				status.VeraCryptLoaderKnownCaRevoked = forbiddenSupport.ContainsMicrosoftCorporationUefiCa2011;
+				status.VeraCryptLoaderKnownCaAllowed = support.ContainsMicrosoftCorporationUefiCa2011
+					&& !status.VeraCryptLoaderKnownCaRevoked;
+			}
+
+			status.WindowsLoaderPresent = EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc");
+
+			if (status.WindowsLoaderPresent)
+			{
+				std::vector<uint8> loader;
+				if (EfiBootInst.ReadFileToBuffer (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", loader) && !loader.empty ())
+				{
+					static const char windowsBootManagerMarker[] = "bootmgfw.pdb";
+					status.WindowsLoaderInspectionSucceeded = !BufferHasVeraCryptBootLoaderPattern (loader)
+						&& BufferHasPattern (loader.data (), loader.size (), windowsBootManagerMarker, strlen (windowsBootManagerMarker))
+						&& GetEmbeddedPeSignerFamily (loader, status.WindowsLoaderSigner);
+					if (status.WindowsLoaderInspectionSucceeded)
+					{
+						status.WindowsLoaderSignerKnown = status.WindowsLoaderSigner == VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011
+							|| status.WindowsLoaderSigner == VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023;
+						if (status.WindowsLoaderSigner == VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011)
+						{
+							status.WindowsLoaderKnownCaRevoked = forbiddenSupport.ContainsMicrosoftWindowsProductionPca2011;
+							status.WindowsLoaderKnownCaAllowed = support.ContainsMicrosoftWindowsProductionPca2011
+								&& !status.WindowsLoaderKnownCaRevoked;
+							status.WindowsLoaderMigrationRecommended = status.WindowsLoaderKnownCaAllowed
+								&& support.ContainsWindowsUefiCa2023;
+						}
+						else if (status.WindowsLoaderSigner == VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023)
+						{
+							status.WindowsLoaderKnownCaRevoked = forbiddenSupport.ContainsWindowsUefiCa2023;
+							status.WindowsLoaderKnownCaAllowed = support.ContainsWindowsUefiCa2023
+								&& !status.WindowsLoaderKnownCaRevoked;
+						}
+					}
+				}
+			}
+		}
+		catch (...)
+		{
+			// The EFI system partition could not be inspected; the known CA facts above remain valid.
+			status.VeraCryptLoaderFilesValid = false;
+			status.WindowsLoaderInspectionSucceeded = false;
+		}
+
+		status.StatusKnown = true;
+		RecordEfiBootChainTrustStatusDiagnostics (status);
+		return true;
+	}
+
 #ifndef SETUP
 	void BootEncryption::CheckRequirements ()
 	{ 
@@ -5299,6 +7092,14 @@ namespace VeraCrypt
 
 			RestoreSystemLoader ();
 		}
+		catch (ErrorException &e)
+		{
+			if (!e.ErrMsg.empty())
+				throw;
+
+			e.Show (ParentWindow);
+			throw ErrorException ("SYS_LOADER_RESTORE_FAILED", SRC_POS);
+		}
 		catch (Exception &e)
 		{
 			e.Show (ParentWindow);
@@ -5363,7 +7164,7 @@ namespace VeraCrypt
 			return status;
 		}
 
-		// Change the PKCS-5 PRF if requested by user
+		// Change the KDF if requested by user
 		if (pkcs5 != 0)
 		{
 			cryptoInfo->pkcs5 = pkcs5;
@@ -5488,8 +7289,19 @@ namespace VeraCrypt
 				if (storedPimUpdateNeeded || !CheckBootloaderFingerprint (true))
 					InstallBootLoader (device, true, false, pim, cryptoInfo->pkcs5);
 			}
+			catch (Exception &e)
+			{
+				if (storedPimUpdateNeeded)
+				{
+					e.Show (hwndDlg);
+					result = ERR_OS_ERROR;
+				}
+			}
 			catch (...)
-			{}
+			{
+				if (storedPimUpdateNeeded)
+					result = ERR_OS_ERROR;
+			}
 
 			CallDriver (TC_IOCTL_REOPEN_BOOT_VOLUME_HEADER, &reopenRequest, sizeof (reopenRequest));
 		}

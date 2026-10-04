@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Main%20Program%20Window.html">主程序窗口</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Program%20Menu.html">程序菜单</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>程序菜单</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>注意：为节省篇幅，本文档仅描述非自解释性的菜单项。</p>
+<h3>卷 -> 自动挂载所有设备托管的卷</h3>
+<p>请参阅 <a href="Main%20Program%20Window.html">
+<em>自动挂载设备</em> 部分。</a></p>
+<h3>卷 -> 卸载所有已挂载的卷</h3>
+<p>请参阅 <a href="Main%20Program%20Window.html">
+<em>全部卸载</em> 部分。</a></p>
+<h3>卷 -> 更改卷密码</h3>
+<p>允许更改当前选定的VeraCrypt卷的密码（无论该卷是隐藏卷还是标准卷）。仅更改头密钥和辅助头密钥（XTS模式），主密钥保持不变。此功能会使用<br>
+<br>
+从新密码派生的头加密密钥重新加密卷头。请注意，卷头包含用于加密卷的主加密密钥。因此，使用此功能后，存储在卷上的数据<em>不会</em>丢失（密码更改仅需几秒钟）。<br>
+<br>
+要更改VeraCrypt卷的密码，请点击 <em>选择文件</em> 或 <em>选择设备</em>，然后选择卷，再从 <em>卷</em> 菜单中选择 <em>更改卷密码</em>。<br>
+<br>
+注意：有关如何更改用于预启动身份验证的密码的信息，请参阅 <em>系统 -> 更改密码</em> 部分。<br>
+<br>
+另请参阅 <a href="Security%20Requirements%20and%20Precautions.html">
+<em>安全要求和预防措施</em></a> 章节。</p>
+<div style="margin-left:50px">
+<h4>PKCS - 5伪随机函数</h4>
+<p>在此字段中，您可以选择用于派生新卷头密钥的算法（有关更多信息，请参阅 <a href="Header%20Key%20Derivation.html">
+<em>头密钥派生、盐值和迭代次数</em></a> 部分）以及用于生成新盐值的算法（有关更多信息，请参阅 <a href="Random%20Number%20Generator.html">
+<em>随机数生成器</em></a> 部分）。<br>
+<br>
+注意：当VeraCrypt重新加密卷头时，原始卷头首先会被多次（根据用户选择为3次、7次、35次或256次）用随机数据覆盖，以防止对手使用诸如磁力显微镜或磁力扫描隧道显微镜 [17] 等技术恢复被覆盖的头（不过，另请参阅 <a href="Security%20Requirements%20and%20Precautions.html">
+<em>安全要求和预防措施</em></a> 章节）。</p>
+</div>
+<h3>卷 -> 设置头密钥派生算法</h3>
+<p>此功能允许您使用不同的伪随机函数（PRF）派生的头密钥重新加密卷头（例如，您可以使用HMAC - Whirlpool而不是HMAC - BLAKE2S - 256）。请注意，卷头包含用于加密卷的主加密密钥。因此，使用此功能后，存储在卷上的数据<em>不会</em>丢失。有关更多信息，请参阅 <a href="Header%20Key%20Derivation.html">
+<em>头密钥派生、盐值和迭代次数</em></a> 部分。<br>
+<br>
+注意：当VeraCrypt对卷头进行重新加密时，原始卷头首先会被多次（根据用户选择，次数可为3、7、35或256次）用随机数据覆盖，以防止攻击者使用诸如磁力显微镜或磁力扫描隧道显微镜等技术[17]来恢复被覆盖的卷头（不过，另请参阅章节
+<a href="Security%20Requirements%20and%20Precautions.html">
+<em>安全要求和预防措施</em></a>）。</p>
+<h3>卷 -> 向卷添加/从卷移除密钥文件</h3>
+<h3>卷 -> 从卷移除所有密钥文件</h3>
+<p>请参阅章节 <a href="Keyfiles.html">
+<em>密钥文件</em></a>。</p>
+<h3>收藏夹 -> 将已挂载的卷添加到收藏夹 收藏夹 -> 组织收藏卷 收藏夹 -> 挂载收藏卷</h3>
+<p>请参阅章节 <a href="Favorite%20Volumes.html">
+<em>收藏卷</em></a>。</p>
+<h3>收藏夹 -> 将已挂载的卷添加到系统收藏夹</h3>
+<h3>收藏夹 -> 组织系统收藏卷</h3>
+<p>请参阅章节 <a href="System%20Favorite%20Volumes.html">
+<em>系统收藏卷</em></a>。</p>
+<h3>系统 -> 更改密码</h3>
+<p>更改用于预启动认证的密码（请参阅章节 <em>系统加密</em>）。警告：您的VeraCrypt救援盘可让您在密钥数据损坏时恢复它。通过这样做，您也会恢复VeraCrypt救援盘创建时有效的密码。因此，每当您更改密码时，您应该销毁您的VeraCrypt救援盘并创建一个新的（选择
+<em>系统</em> -> <em>创建救援盘</em>）。否则，攻击者可以使用旧密码解密您的系统分区/驱动器（如果他找到旧的VeraCrypt救援盘并使用它来恢复密钥数据）。另请参阅章节
+<a href="Security%20Requirements%20and%20Precautions.html">
+<em>安全要求和预防措施</em></a>。<br>
+<br>
+有关更改密码的更多信息，请参阅上述 <em>卷 -> 更改卷密码</em> 部分。</p>
+<h3>系统 -> 无需预启动认证进行挂载</h3>
+<p>如果您需要在不进行预启动认证的情况下挂载位于系统加密密钥范围内的分区，请选中此选项。例如，如果您需要挂载位于另一个未运行的操作系统的加密系统驱动器上的分区。当您需要备份或修复由VeraCrypt加密的操作系统（从另一个操作系统内）时，这可能会很有用。</p>
+<p>注意1：如果您需要一次挂载多个分区，请点击 <em>‘自动挂载设备’</em>，然后点击 <em>‘挂载选项’</em> 并启用 <em>‘使用系统加密挂载分区而无需预启动认证’</em> 选项。<br>
+<br>
+请注意，您不能使用此功能来挂载位于完全加密的系统驱动器上的扩展（逻辑）分区。</p>
+<h3>工具 -> 清除卷历史记录</h3>
+<p>清除包含最后二十个成功挂载的卷的文件名（如果是文件托管的）和路径的列表。</p>
+<h3>工具 -> 移动磁盘设置</h3>
+<p>请参阅章节 <a href="Portable%20Mode.html">
+<em>便携模式</em></a>。</p>
+<h3>工具 -> 密钥文件生成器</h3>
+<p>请参阅章节 <a href="Keyfiles.html">
+<em>密钥文件</em></a> 中的 <em>工具 -> 密钥文件生成器</em> 部分。</p>
+<h3 id="tools-backup-volume-header">工具 -> 备份卷头</h3>
+<h3 id="tools-restore-volume-header">工具 -> 恢复卷头</h3>
+<p>如果VeraCrypt卷的卷头损坏，在大多数情况下，该卷将无法挂载。因此，VeraCrypt创建的每个卷（系统分区除外）都包含一个嵌入式备份卷头，位于卷的末尾。为了额外的安全，您还可以创建外部卷头备份文件。为此，请点击 <em>选择设备</em> 或
+<em>选择文件</em>，选择卷，选择 <em>工具</em> -> <em>备份卷头</em>，然后按照说明操作。</p>
+<p>注意：对于系统加密，卷的末尾没有备份卷头。对于非系统卷，首先会进行收缩操作，以确保所有数据都放在卷的开头，将所有空闲空间留在末尾，以便我们有地方放置备份卷头。对于系统分区，在Windows运行时我们无法执行此必要的收缩操作，因此无法在分区末尾创建备份卷头。在系统加密的情况下，替代方法是使用 <a href="VeraCrypt%20Rescue%20Disk.html">
+救援盘</a>。</p>
+<p>注意：备份卷头（嵌入式或外部）<em>不是</em> 原始卷头的副本，因为它是使用从不同盐派生的不同卷头密钥进行加密的（请参阅章节
+<a href="Header%20Key%20Derivation.html">
+<em>卷头密钥派生、盐和迭代次数</em></a>）。当卷密码和/或密钥文件更改时，或者当从嵌入式（或外部）卷头备份恢复卷头时，卷头和（卷中嵌入式的）备份卷头都会使用从新生成的盐派生的卷头密钥进行重新加密（卷头的盐与备份卷头的盐不同）。每个盐都是由VeraCrypt随机数生成器生成的（请参阅章节
+<a href="Random%20Number%20Generator.html">
+<em>随机数生成器</em></a>）。</p>
+<p>两种类型的卷头备份（嵌入式和外部）都可用于修复损坏的卷头。为此，请点击
+<em>选择设备</em> 或 <em>选择文件</em>，选择卷，选择 <em>工具</em> ->
+<em>恢复卷头</em>，然后按照说明操作。<br>
+<br>
+警告：恢复卷头也会恢复备份创建时有效的卷密码和PIM。此外，如果在创建备份时需要密钥文件来挂载卷，那么在恢复卷头后，再次挂载该卷时也需要相同的密钥文件。有关更多信息，请参阅章节
+<a href="Technical%20Details.html"><em>技术细节</em></a> 中的 <a href="Encryption%20Scheme.html"><em>加密方案</em></a> 部分。<br>
+<br>
+创建卷头备份后，只有在更改卷密码和/或密钥文件，或者更改PIM值时，您才可能需要创建一个新的备份。否则，卷头保持不变，因此卷头备份仍然是最新的。</p>
+<p>注意：除了盐（它是一系列随机数）之外，外部卷头备份文件不包含任何未加密的信息，并且在不知道正确密码和/或提供正确密钥文件的情况下无法解密。有关更多信息，请参阅章节 <a href="Technical%20Details.html">
+<em>技术细节</em></a>。</p>
+<p>当您创建外部卷头备份时，标准卷头和可存储隐藏卷头的区域都会被备份，即使卷中没有隐藏卷（以保留隐藏卷的合理否认性）。如果卷中没有隐藏卷，备份文件中为隐藏卷头保留的区域将填充随机数据（以保留合理否认性）。<br>
+<br>
+当 <em>恢复</em> 卷头时，您需要选择要恢复其卷头的卷的类型（标准卷或隐藏卷）。一次只能恢复一个卷头。要恢复两个卷头，您需要使用该功能两次（<em>工具</em>
+ -> <em>恢复卷头</em>）。您需要输入备份卷头创建时有效的正确密码（和/或提供正确的密钥文件）以及非默认的PIM值（如果适用）。密码（和/或密钥文件）和PIM也将自动确定要恢复的卷头的类型，即标准卷头或隐藏卷头（请注意，VeraCrypt通过试错过程确定类型）。<br>
+<br>
+注意：如果用户在尝试挂载卷时连续两次未能提供正确的密码（和/或密钥文件）和/或正确的非默认PIM值，VeraCrypt将在用户随后每次尝试挂载卷时（直到他或她点击
+<em>取消</em>），除了尝试使用主卷头挂载卷之外，还会自动尝试使用嵌入式备份卷头挂载卷。如果VeraCrypt无法解密主卷头，但同时成功解密了嵌入式备份卷头，则卷将被挂载，并且会警告用户卷头已损坏（并告知如何修复它）。</p>
+<h3 id="Settings-Performance">设置 -> 性能和驱动程序选项</h3>
+<p>调用性能对话框窗口，您可以在其中启用或禁用AES硬件加速和基于线程的并行化。您还可以更改以下驱动程序选项：</p>
+<h4>启用扩展磁盘控制代码支持</h4>
+<p>如果启用，VeraCrypt驱动程序将支持通过IOCTL_STORAGE_QUERY_PROPERTY控制代码返回有关已挂载卷的扩展技术信息。物理驱动器始终支持此控制代码，并且某些应用程序可能需要此控制代码来获取有关驱动器的技术信息（例如，Windows的fsutil程序使用此控制代码来获取驱动器的物理扇区大小）。<br>
+启用此选项后，VeraCrypt 卷的行为将更接近物理磁盘；如果禁用此选项，应用程序可以轻松区分物理磁盘和 VeraCrypt 卷，因为向 VeraCrypt 卷发送此控制代码将导致错误。<br>
+如果遇到稳定性问题（如卷访问问题或系统蓝屏死机），可禁用此选项，这些问题可能由编写不佳的软件和驱动程序引起。</p>
+<h3>设置 -> 首选项</h3>
+<p>调用“首选项”对话框窗口，在其中您可以更改以下选项（包括但不限于）：</p>
+<h4>退出时清除缓存的密码</h4>
+<p>如果启用此选项，当 VeraCrypt 退出时，驱动程序内存中缓存的密码（可能还包含已处理的密钥文件内容）和 PIM 值将被清除。</p>
+<h4>在驱动程序内存中缓存密码</h4>
+<p>选中此选项后，最多会缓存最后四个成功挂载的 VeraCrypt 卷的密码和/或已处理的密钥文件内容。如果在“首选项”中启用了“缓存密码时包含 PIM”选项，则非默认的 PIM 值将与密码一起缓存。这样可以在挂载卷时无需反复输入密码（和选择密钥文件）。VeraCrypt 从不将任何密码或 PIM 值保存到磁盘（不过，请参阅 <a href="Security%20Requirements%20and%20Precautions.html">
+<em>安全要求和预防措施</em></a> 章节）。密码缓存可以在“首选项”（<em>设置</em> -> <em>首选项</em>）和密码提示窗口中启用/禁用。如果系统分区/驱动器已加密，则可以在系统加密设置（<em>设置</em> > ‘<em>系统加密</em>’）中启用或禁用预启动身份验证密码的缓存。</p>
+<h4>“挂载常用卷”操作期间临时缓存密码</h4>
+<p>当此选项未选中时（这是默认设置），在执行“挂载常用卷”操作时，VeraCrypt 将为每个常用卷显示密码提示窗口，并且每个密码在卷挂载后即被擦除（除非启用了密码缓存）。<br>
+<br>
+如果选中此选项且有两个或更多常用卷，那么在“挂载常用卷”操作期间，VeraCrypt 将首先尝试前一个常用卷的密码，如果密码无效，则会显示密码提示窗口。此逻辑从第二个常用卷开始适用。所有常用卷处理完毕后，密码将从内存中擦除。</p>
+<p>当常用卷使用相同的密码时，此选项非常有用，因为密码提示窗口仅会为第一个常用卷显示一次，VeraCrypt 将自动挂载所有后续的常用卷。</p>
+<p>请注意，由于我们不能假设所有常用卷都使用相同的 PRF（哈希）或相同的 TrueCrypt 模式，VeraCrypt 会对后续常用卷的 PRF 进行自动检测，并尝试两种 TrueCryptMode 值（false、true），这意味着与手动选择正确的 PRF 和正确的 TrueCryptMode 分别挂载每个卷相比，总挂载时间会更长。</p>
+<h4>为成功挂载的卷打开资源管理器窗口</h4>
+<p>如果选中此选项，在 VeraCrypt 卷成功挂载后，将自动打开一个显示该卷根目录（例如，T:\）的资源管理器窗口。</p>
+<h4>有挂载卷时使用不同的任务栏图标</h4>
+<p>如果启用此选项，在 VeraCrypt 卷挂载时，VeraCrypt 任务栏图标（显示在系统托盘通知区域）的外观会有所不同，但以下情况除外：</p>
+<ul>
+<li>活动系统加密密钥范围内的分区/驱动器（例如，由 VeraCrypt 加密的系统分区，或位于由 VeraCrypt 加密的系统驱动器上的非系统分区，在加密操作系统运行时挂载）。
+</li><li>用户账户无法完全访问的 VeraCrypt 卷（例如，从另一个用户账户挂载的卷）。
+</li><li>未在 VeraCrypt 应用程序窗口中显示的 VeraCrypt 卷。例如，当启用“仅允许管理员在 VeraCrypt 中查看和卸载系统常用卷”选项时，没有管理员权限的 VeraCrypt 实例尝试卸载系统常用卷。 </li></ul>
+<h4>VeraCrypt 后台任务 – 已启用</h4>
+<p>请参阅 <a href="VeraCrypt%20Background%20Task.html">
+<em>VeraCrypt 后台任务</em></a> 章节。</p>
+<h4>VeraCrypt 后台任务 – 无挂载卷时退出</h4>
+<p>如果选中此选项，一旦没有挂载的 VeraCrypt 卷，VeraCrypt 后台任务将自动且无声地退出。有关更多信息，请参阅 <a href="VeraCrypt%20Background%20Task.html">
+<em>VeraCrypt 后台任务</em></a> 章节。请注意，当 VeraCrypt 以便携模式运行时，此选项无法禁用。</p>
+<h4>在卷无读写操作 <em>n</em> 分钟后自动卸载</h4>
+<p>在 VeraCrypt 卷在 <em>n</em> 分钟内没有进行读写操作后，该卷将自动卸载。</p>
+<h4>即使卷包含打开的文件或目录也强制自动卸载</h4>
+<p>此选项仅适用于自动卸载（不适用于常规卸载）。如果自动卸载的卷包含打开的文件或目录（即系统或应用程序正在使用的文件/目录），此选项将强制卸载（无需提示）。</p>
+<p>&nbsp;</p>
+<p><a href="Mounting%20VeraCrypt%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

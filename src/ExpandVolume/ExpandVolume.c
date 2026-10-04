@@ -9,7 +9,7 @@
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -1130,6 +1130,7 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	int nStatus;
 	EXPAND_VOL_THREAD_PARAMS *pParam=(EXPAND_VOL_THREAD_PARAMS *)pExpandDlgParam;
 	HWND hwndDlg = (HWND) pParam->hwndDlg;
+	AttachProtectionToCurrentThread(NULL);
 
 	nStatus = ExpandVolume (hwndDlg, (wchar_t*)pParam->szVolumeName, pParam->pVolumePassword,
 		pParam->VolumePkcs5, pParam->VolumePim, pParam->newSize, pParam->bInitFreeSpace, pParam->bQuickExpand );
@@ -1140,6 +1141,8 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	bVolTransformThreadCancel = FALSE;
 
 	PostMessage (hwndDlg, TC_APPMSG_VOL_TRANSFORM_THREAD_ENDED, 0, nStatus);
+
+	DetachProtectionFromCurrentThread();
 
 	_endthread ();
 }

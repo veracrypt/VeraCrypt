@@ -5,6 +5,16 @@ using namespace std;
 
 namespace VeraCrypt
 {
+	namespace
+	{
+		const size_t MaxTLVNodeLength = 0xffff;
+
+		void ThrowTLVParseException(const string& message, size_t index, size_t size)
+		{
+			throw TLVException("Parse Error! " + message + " index=" + to_string(static_cast<long long>(index)) + " size=" + to_string(static_cast<long long>(size)));
+		}
+	}
+
 	/* TLV node structure creation */
 	shared_ptr<TLVNode> TLVParser::TLV_CreateNode()
 	{
@@ -40,19 +50,31 @@ namespace VeraCrypt
 	{
 		size_t index = 0;
 		size_t i = 0;
-		uint8 tag1, tag2, tagsize;
-		uint8 len, lensize;
+		uint8 tag1, tag2, tagsize, lengthField, lensize;
+		size_t len;
 		shared_ptr<vector<uint8>> value = make_shared<vector<uint8>>();
 		shared_ptr<TLVNode> node = TLV_CreateNode();
+
+		if (buf == nullptr || size == 0)
+		{
+			ThrowTLVParseException("empty or null input", index, size);
+		}
 
 		tag1 = tag2 = 0;
 		tagsize = 1;
 		tag1 = buf[index++];
 		if ((tag1 & 0x1f) == 0x1f)
 		{
+			if (index >= size)
+			{
+				ThrowTLVParseException("missing extended tag byte", index, size);
+			}
 			tagsize++;
 			tag2 = buf[index++];
-			//tag2 b8 must be 0!
+			if ((tag2 & 0x80) != 0)
+			{
+				ThrowTLVParseException("unsupported multi-byte tag", index, size);
+			}
 		}
 		if (tagsize == 1)
 		{
@@ -60,7 +82,7 @@ namespace VeraCrypt
 		}
 		else
 		{
-			node->Tag = (tag1 << 8) + tag2;
+			node->Tag = (static_cast<uint16>(tag1) << 8) + tag2;
 		}
 		node->TagSize = tagsize;
 
@@ -70,27 +92,53 @@ namespace VeraCrypt
 		//L zone
 		len = 0;
 		lensize = 1;
-		len = buf[index++];
-		if (CheckBit(len,8) == 0)
+		if (index >= size)
 		{
-			node->Length = len;
+			ThrowTLVParseException("missing length byte", index, size);
+		}
+		lengthField = buf[index++];
+		if (CheckBit(lengthField,8) == 0)
+		{
+			len = lengthField;
 		}
 		else
 		{
-			lensize = len & 0x7f;
-			len = 0;
+			lensize = static_cast<uint8>(lengthField & 0x7f);
+			if (lensize == 0)
+			{
+				ThrowTLVParseException("indefinite length form is unsupported", index, size);
+			}
 			for (i = 0; i < lensize; i++)
 			{
-				len += (uint16)buf[index++] << (i*8);
+				if (index >= size)
+				{
+					ThrowTLVParseException("truncated long-form length", index, size);
+				}
+				if (len > (MaxTLVNodeLength >> 8))
+				{
+					ThrowTLVParseException("length exceeds uint16 range", index, size);
+				}
+				len = (len << 8) + buf[index++];
 			}
 			lensize++;
 		}
-		node->Length = len;
+		if (len > MaxTLVNodeLength)
+		{
+			ThrowTLVParseException("length exceeds uint16 range", index, size);
+		}
+		if (len > size - index)
+		{
+			ThrowTLVParseException("declared value length exceeds remaining input", index, size);
+		}
+		node->Length = static_cast<uint16>(len);
 		node->LengthSize = lensize;
 
 		//V zone
 		value->resize(len);
-		memcpy(value->data(), buf + index, len);
+		if (len > 0)
+		{
+			memcpy(value->data(), buf + index, len);
+		}
 		node->Value = value;
 		index += len;
 
@@ -104,7 +152,7 @@ namespace VeraCrypt
 		}
 		else
 		{
-			throw TLVException("Parse Error! index="+to_string(static_cast<long long>(index))+"size="+to_string(static_cast<long long>(size)));
+			ThrowTLVParseException("internal parser state exceeded input", index, size);
 		}
 
 		return node;

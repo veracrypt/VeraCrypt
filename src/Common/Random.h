@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -21,7 +21,8 @@ extern "C" {
 /* RNG defines & pool pointers */
 #define RNG_POOL_SIZE	320	// Must be divisible by the size of the output of each of the implemented hash functions. (in bytes)
 
-#if RNG_POOL_SIZE % SHA512_DIGESTSIZE || RNG_POOL_SIZE % WHIRLPOOL_DIGESTSIZE || RNG_POOL_SIZE % BLAKE2S_DIGESTSIZE
+#if RNG_POOL_SIZE % SHA512_DIGESTSIZE || RNG_POOL_SIZE % WHIRLPOOL_DIGESTSIZE || RNG_POOL_SIZE % BLAKE2S_DIGESTSIZE \
+	|| (!defined(VC_DCS_DISABLE_ARGON2) && RNG_POOL_SIZE % BLAKE2B_DIGESTSIZE)
 #error RNG_POOL_SIZE must be divisible by the size of the output of each of the implemented hash functions.
 #endif
 

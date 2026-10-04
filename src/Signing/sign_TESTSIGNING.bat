@@ -1,14 +1,14 @@
-PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
+PATH=%PATH%;%WSDK81%\bin\x86
 
-set VC_VERSION=1.26.20
-set VC_VERSION_NBRE=1.26.20
+set VC_VERSION=1.26.29
+set VC_VERSION_NBRE=1.26.29
 set SIGNINGPATH=%~dp0
 cd %SIGNINGPATH%
 
 rem sign using SHA-256
-signtool sign /v /sha1 88c1ff4b7469ea3915bd8e7635a7567d34f43202 /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\veracrypt-x64.sys" "..\Release\Setup Files\veracrypt-arm64.sys"
+signtool sign /v /sha1 86E1D426731E79117452F090188A828426B29B5F /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\veracrypt-x64.sys" "..\Release\Setup Files\veracrypt-arm64.sys"
 
-signtool sign /v /sha1 88c1ff4b7469ea3915bd8e7635a7567d34f43202 /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe" "..\Release\Setup Files\VeraCrypt-arm64.exe" "..\Release\Setup Files\VeraCrypt Format-arm64.exe" "..\Release\Setup Files\VeraCryptExpander-arm64.exe" "..\Release\Setup Files\VeraCrypt COMReg.exe" "..\Release\Setup Files\VeraCryptSetup.dll"
+signtool sign /v /sha1 86E1D426731E79117452F090188A828426B29B5F /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe" "..\Release\Setup Files\VeraCrypt-arm64.exe" "..\Release\Setup Files\VeraCrypt Format-arm64.exe" "..\Release\Setup Files\VeraCryptExpander-arm64.exe" "..\Release\Setup Files\VeraCrypt COMReg.exe" "..\Release\Setup Files\VeraCryptSetup.dll"
 
 rem create setup and MSI
 cd "..\Release\Setup Files\"
@@ -25,15 +25,15 @@ rmdir /S /Q Languages
 mkdir Languages
 copy /V /Y ..\..\..\Translations\*.xml Languages\.
 del Languages.zip
-7z a -y Languages.zip Languages
+tar -a -cf Languages.zip Languages
 rmdir /S /Q docs
 mkdir docs\html\en
 mkdir docs\EFI-DCS
-copy /V /Y ..\..\..\doc\html\* docs\html\en\.
-copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
+xcopy /E /V /Y ..\..\..\doc\html\* docs\html\.
+copy "..\..\..\doc\chm\VeraCrypt User Guide*.chm" docs\.
 copy "..\..\..\doc\EFI-DCS\*.pdf" docs\EFI-DCS\.
 del docs.zip
-7z a -y docs.zip docs
+tar -a -cf docs.zip docs
 "VeraCrypt Setup.exe" /p
 "VeraCrypt Portable.exe" /p
 
@@ -45,7 +45,7 @@ del VeraCrypt.ico
 del VeraCrypt_setup_background.bmp
 del VeraCrypt_setup.bmp
 del Setup.ico
-del "VeraCrypt User Guide.chm"
+del "VeraCrypt User Guide*.chm"
 del Languages.zip
 del docs.zip
 rmdir /S /Q Languages
@@ -54,6 +54,6 @@ rmdir /S /Q docs
 cd %SIGNINGPATH%
 
 rem sign Setup using SHA-256
-signtool sign /v /sha1 88c1ff4b7469ea3915bd8e7635a7567d34f43202 /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe" 
+signtool sign /v /sha1 86E1D426731E79117452F090188A828426B29B5F /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe" 
 
 pause

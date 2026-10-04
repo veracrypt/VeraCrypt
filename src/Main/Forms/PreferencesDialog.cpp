@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -22,11 +22,56 @@
 #include "Main/Main.h"
 #include "Main/Application.h"
 #include "Main/GraphicUserInterface.h"
+#ifdef TC_LINUX
+#include "Platform/Unix/Process.h"
+#endif
 #include "Volume/Cipher.h"
 #include "PreferencesDialog.h"
 
 namespace VeraCrypt
 {
+#ifdef TC_LINUX
+	class KernelNtfsHelpIconWindow : public wxWindow
+	{
+	public:
+		KernelNtfsHelpIconWindow (wxWindow *parent)
+			: wxWindow (parent, wxID_ANY, wxDefaultPosition, wxSize (16, 16))
+		{
+			SetMinSize (wxSize (16, 16));
+			Bind (wxEVT_PAINT, &KernelNtfsHelpIconWindow::OnPaint, this);
+		}
+
+	protected:
+		void OnPaint (wxPaintEvent&)
+		{
+			wxPaintDC dc (this);
+			wxSize size = GetClientSize();
+			wxColour backgroundColor = GetBackgroundColour();
+			wxColour color = GetForegroundColour();
+			int diameter = (size.GetWidth() < size.GetHeight() ? size.GetWidth() : size.GetHeight()) - 1;
+			int x = (size.GetWidth() - diameter) / 2;
+			int y = (size.GetHeight() - diameter) / 2;
+			wxCoord textWidth, textHeight;
+
+			if (GetParent())
+				backgroundColor = GetParent()->GetBackgroundColour();
+			if (!backgroundColor.IsOk())
+				backgroundColor = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOW);
+			if (!color.IsOk())
+				color = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOWTEXT);
+
+			dc.SetBackground (wxBrush (backgroundColor));
+			dc.Clear();
+			dc.SetPen (wxPen (color, 1));
+			dc.SetBrush (*wxTRANSPARENT_BRUSH);
+			dc.SetTextForeground (color);
+			dc.DrawEllipse (x, y, diameter, diameter);
+			dc.GetTextExtent (L"?", &textWidth, &textHeight);
+			dc.DrawText (L"?", (size.GetWidth() - textWidth) / 2, (size.GetHeight() - textHeight) / 2 - 1);
+		}
+	};
+#endif
+
 	PreferencesDialog::PreferencesDialog (wxWindow* parent)
 		: PreferencesDialogBase (parent),
 		LastVirtualKeyPressed (0),
@@ -49,12 +94,41 @@ namespace VeraCrypt
 		TC_CHECK_BOX_VALIDATOR (WipeCacheOnAutoDismount);
 		TC_CHECK_BOX_VALIDATOR (WipeCacheOnClose);
 
+#ifdef TC_MACOSX
+		wxStaticBoxSizer *screenProtectionSizer = new wxStaticBoxSizer (new wxStaticBox (SecurityPage, wxID_ANY, LangString["IDT_SECURITY_OPTIONS"]), wxVERTICAL);
+		DisableScreenProtectionCheckBox = new wxCheckBox (screenProtectionSizer->GetStaticBox(), wxID_ANY, LangString["IDC_DISABLE_SCREEN_PROTECTION"]);
+		DisableScreenProtectionCheckBox->SetToolTip (LangString["DISABLE_SCREEN_PROTECTION_WARNING"]);
+		screenProtectionSizer->Add (DisableScreenProtectionCheckBox, 0, wxALL, 5);
+		SecurityPage->GetSizer()->Add (screenProtectionSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+		TC_CHECK_BOX_VALIDATOR (DisableScreenProtection);
+		DisableScreenProtectionCheckBox->Bind (wxEVT_CHECKBOX,
+			[] (wxCommandEvent& event)
+			{
+				if (event.IsChecked())
+					Gui->ShowWarning ("DISABLE_SCREEN_PROTECTION_WARNING");
+			});
+#endif
+
 		// Mount options
 		CachePasswordsCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.CachePassword));
 		MountReadOnlyCheckBox->SetValue (Preferences.DefaultMountOptions.Protection == VolumeProtection::ReadOnly);
 		MountRemovableCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.Removable));
 
 		FilesystemOptionsTextCtrl->SetValue (Preferences.DefaultMountOptions.FilesystemOptions);
+#ifdef TC_LINUX
+		wxBoxSizer *kernelNtfsPreferenceSizer = new wxBoxSizer (wxHORIZONTAL);
+		MountNtfsWithKernelDriverCheckBox = new wxCheckBox (FilesystemSizer->GetStaticBox(), wxID_ANY, LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER"]);
+		MountNtfsWithKernelDriverCheckBox->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP"]);
+		kernelNtfsPreferenceSizer->Add (MountNtfsWithKernelDriverCheckBox, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+
+		wxWindow *kernelNtfsHelpIcon = new KernelNtfsHelpIconWindow (FilesystemSizer->GetStaticBox());
+		kernelNtfsHelpIcon->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP"]);
+		kernelNtfsPreferenceSizer->Add (kernelNtfsHelpIcon, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 10);
+
+		FilesystemSizer->Add (kernelNtfsPreferenceSizer, 0, wxALL, 5);
+
+		MountNtfsWithKernelDriverCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.MountNtfsWithKernelDriver));
+#endif
 
 		int index, prfInitialIndex = 0;
 		Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);
@@ -76,7 +150,16 @@ namespace VeraCrypt
 #if defined (TC_MACOSX)
 		wxDir languagesFolder(StringConverter::ToSingle (Application::GetExecutableDirectory()) + "/../Resources/languages/");
 #else
-		wxDir languagesFolder("/usr/share/veracrypt/languages/");
+		wxString languagesFolderPath("/usr/share/veracrypt/languages/");
+#ifdef TC_LINUX
+		if (Process::IsRunningUnderAppImage (StringConverter::ToSingle (wstring (Application::GetExecutablePath()))))
+		{
+			const char* appDirEnv = getenv ("APPDIR");
+			if (appDirEnv)
+				languagesFolderPath = wxString::FromUTF8 (appDirEnv) + "/usr/share/veracrypt/languages/";
+		}
+#endif
+		wxDir languagesFolder(languagesFolderPath);
 #endif
 		wxArrayString langArray;
 		LanguageListBox->Append("System default");

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -22,7 +22,9 @@ namespace VeraCrypt
 		ProgressBarRange (1),
 		RealProgressBarRange (1),
 		VolumeCreatorRunning (false),
-		MouseEventsCounter (0)
+		MouseEventsCounter (0),
+		CurrentProgressStage (VolumeCreator::ProgressStage::NotStarted),
+		MaxStaticTextWidth (-1)
 	{
 		DisplayKeysCheckBox->SetValue (displayKeyInfo);
 #ifdef TC_WINDOWS
@@ -170,7 +172,59 @@ namespace VeraCrypt
 
 	void VolumeCreationProgressWizardPage::SetMaxStaticTextWidth (int width)
 	{
+		MaxStaticTextWidth = width;
 		InfoStaticText->Wrap (width);
+	}
+
+	void VolumeCreationProgressWizardPage::SetPageText (const wxString &text)
+	{
+		InfoStaticText->SetLabel (text);
+
+		if (MaxStaticTextWidth > 0)
+			InfoStaticText->Wrap (MaxStaticTextWidth);
+
+		Layout();
+		if (GetParent())
+			GetParent()->Layout();
+	}
+
+	void VolumeCreationProgressWizardPage::SetProgressStage (VolumeCreator::ProgressStage::Enum stage)
+	{
+		if (stage == CurrentProgressStage)
+			return;
+
+		CurrentProgressStage = stage;
+
+		switch (stage)
+		{
+		case VolumeCreator::ProgressStage::WritingData:
+			SetPageText (LangString["FORMAT_STAGE_WRITING_DATA"]);
+			break;
+
+		case VolumeCreator::ProgressStage::WritingBackupHeader:
+			SetPageText (LangString["FORMAT_STAGE_WRITING_BACKUP_HEADER"]);
+			break;
+
+		case VolumeCreator::ProgressStage::FlushingData:
+			SetPageText (LangString["FORMAT_STAGE_FLUSHING_DATA"]);
+			break;
+
+		case VolumeCreator::ProgressStage::Finished:
+			SetPageText (LangString["FORMAT_STAGE_FINISHED"]);
+			break;
+
+		case VolumeCreator::ProgressStage::Aborted:
+			SetPageText (LangString["FORMAT_STAGE_ABORTED"]);
+			break;
+
+		case VolumeCreator::ProgressStage::Error:
+			SetPageText (LangString["FORMAT_STAGE_ERROR"]);
+			break;
+
+		case VolumeCreator::ProgressStage::NotStarted:
+		default:
+			break;
+		}
 	}
 
 	void VolumeCreationProgressWizardPage::SetProgressState (bool volumeCreatorRunning)

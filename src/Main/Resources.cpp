@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -17,13 +17,14 @@
 #ifdef TC_WINDOWS
 #include "Main/resource.h"
 #else
-#ifdef TC_MACOSX
 #include "Application.h"
-#endif
 #include "Platform/File.h"
 #include "Platform/StringConverter.h"
 #include <stdio.h>
 #include "UserPreferences.h"
+#if defined(TC_LINUX)
+#include "Platform/Unix/Process.h"
+#endif
 #endif
 
 namespace VeraCrypt
@@ -47,13 +48,14 @@ namespace VeraCrypt
 	}
 #endif // TC_WINDOWS
 
-	string Resources::GetLanguageXml ()
+	string Resources::GetLanguageXml (string& xmlLang)
 	{
 #ifdef TC_WINDOWS
 		ConstBufferPtr res = GetWindowsResource (L"XML", L"IDR_LANGUAGE");
 		Buffer strBuf (res.Size() + 1);
 		strBuf.Zero();
 		strBuf.CopyFrom (res);
+		xmlLang = "en";
 		return string (reinterpret_cast <char *> (strBuf.Ptr()));
 #else
 		// get language from env LANG
@@ -65,10 +67,18 @@ namespace VeraCrypt
 		string filenamePrefix = StringConverter::ToSingle (Application::GetExecutableDirectory()) + "/../Resources/languages/Language.";
 #else
 		string filenamePrefix("/usr/share/veracrypt/languages/Language.");
+#if defined(TC_LINUX)
+		if (Process::IsRunningUnderAppImage (StringConverter::ToSingle (wstring (Application::GetExecutablePath()))))
+		{
+			const char* appDirEnv = getenv ("APPDIR");
+			if (appDirEnv)
+				filenamePrefix = string (appDirEnv) + "/usr/share/veracrypt/languages/Language.";
+		}
+#endif
 #endif
 		string filenamePost(".xml");
 		string filename = filenamePrefix + defaultLang + filenamePost;
-
+		xmlLang = defaultLang;
 		UserPreferences Preferences;
 		Preferences.Load();
 		string preferredLang = string(Preferences.Language.begin(), Preferences.Language.end());
@@ -91,34 +101,42 @@ namespace VeraCrypt
 						if (foundUnderscore > 0) {
 							lowerLangTag.replace(foundUnderscore, 1, 1, '-');
 							filename = filenamePrefix + lowerLangTag + filenamePost;
+							xmlLang = lowerLangTag;
 							FilesystemPath xml(filename);
 							if (!xml.IsFile()) {
 								string shortLangTag = lowerLangTag.substr(0, foundUnderscore);
 								filename = filenamePrefix + shortLangTag + filenamePost;
+								xmlLang = shortLangTag;
 								FilesystemPath xml(filename);
 								if (!xml.IsFile()) {
 									filename = filenamePrefix + defaultLang + filenamePost;
+									xmlLang = defaultLang;
 								}
 							}
 						} else {
 							filename = filenamePrefix + langTag + filenamePost;
+							xmlLang = langTag;
 							FilesystemPath xml(filename);
 							if (!xml.IsFile()) {
 								filename = filenamePrefix + defaultLang + filenamePost;
+								xmlLang = defaultLang;
 							}
 						}
 					} else {
 						string lowerLang(StringConverter::ToLower(lang));
 						filename = filenamePrefix + lowerLang + filenamePost;
+						xmlLang = lowerLang;
 						FilesystemPath xml(filename);
 						if (!xml.IsFile()) {
 							int foundUnderscore = lowerLang.find("_");
 							if (foundUnderscore > 0) {
 								lowerLang.replace(foundUnderscore, 1, 1, '-');
 								filename = filenamePrefix + lowerLang + filenamePost;
+								xmlLang = lowerLang;
 								FilesystemPath xml(filename);
 								if (!xml.IsFile()) {
 									filename = filenamePrefix + defaultLang + filenamePost;
+									xmlLang = defaultLang;
 								}
 							}
 						}
@@ -127,6 +145,7 @@ namespace VeraCrypt
 			}
 		} else {
 			filename = filenamePrefix + preferredLang + filenamePost;
+			xmlLang = preferredLang;
 		}
 		FilesystemPath xml(filename);
 		if ( xml.IsFile() ){
@@ -145,6 +164,7 @@ namespace VeraCrypt
 			, 0
 		};
 
+		xmlLang = defaultLang; // fallback to default language
 		return string ((const char*) LanguageXml);
 #endif
 	}

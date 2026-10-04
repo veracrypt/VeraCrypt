@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -18,6 +18,79 @@
 
 namespace VeraCrypt
 {
+	static bool CheckCustomPimForPassword (VolumePasswordPanel *pimPanel, const shared_ptr <VolumePassword> &password, int pim, const shared_ptr <Pkcs5Kdf> &kdf)
+	{
+		int defaultPim = kdf ? kdf->GetDefaultPim() : 0;
+		if (!password || password->Size() == 0 || pim <= 0 || defaultPim <= 0 || pim >= defaultPim)
+			return true;
+
+		if (password->Size() < VolumePassword::SmallPimPasswordSizeThreshold)
+		{
+			Gui->ShowError (kdf ? kdf->GetPimRequireLongPasswordMessageId() : "PIM_REQUIRE_LONG_PASSWORD");
+			pimPanel->SetFocusToPimTextCtrl();
+			return false;
+		}
+
+		if (!Gui->AskYesNo (LangString [kdf ? kdf->GetPimSmallWarningMessageId() : "PIM_SMALL_WARNING"], false, true))
+		{
+			pimPanel->SetFocusToPimTextCtrl();
+			return false;
+		}
+
+		return true;
+	}
+
+	static bool CheckCustomPimForKdfOnlyChange (VolumePasswordPanel *pimPanel, const shared_ptr <VolumePassword> &password, const shared_ptr <Pkcs5Kdf> &kdf, int pim)
+	{
+		int defaultPim = kdf ? kdf->GetDefaultPim() : 0;
+		if (!kdf || !password || password->Size() == 0 || pim <= 0 || defaultPim <= 0 || pim == defaultPim)
+			return true;
+
+		if (pim < defaultPim)
+			return CheckCustomPimForPassword (pimPanel, password, pim, kdf);
+
+		Gui->ShowWarning (kdf->GetPimLargeWarningMessageId());
+		return true;
+	}
+
+	static bool KdfSelectionsEqual (const shared_ptr <Pkcs5Kdf> &left, const shared_ptr <Pkcs5Kdf> &right)
+	{
+		if (!left && !right)
+			return true;
+		if (!left || !right)
+			return false;
+		return left->GetName() == right->GetName();
+	}
+
+	static bool NewKdfSelectionChangesKdf (const shared_ptr <Pkcs5Kdf> &currentKdf, const shared_ptr <Pkcs5Kdf> &newKdf)
+	{
+		return newKdf && (!currentKdf || !KdfSelectionsEqual (currentKdf, newKdf));
+	}
+
+	static bool CheckPasswordChangeWarnings (VolumePasswordPanel *passwordPanel, const shared_ptr <VolumePassword> &password, int pim, const shared_ptr <Pkcs5Kdf> &kdf)
+	{
+		if (!password || password->Size() == 0)
+			return true;
+
+		if (password->Size() < VolumePassword::WarningSizeThreshold)
+		{
+			if (!CheckCustomPimForPassword (passwordPanel, password, pim, kdf))
+				return false;
+
+			if (!Gui->AskYesNo (LangString ["PASSWORD_LENGTH_WARNING"], false, true))
+			{
+				passwordPanel->SetFocusToPasswordTextCtrl();
+				return false;
+			}
+		}
+		else if (!CheckCustomPimForPassword (passwordPanel, password, pim, kdf))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 #ifdef TC_MACOSX
 
 	bool ChangePasswordDialog::ProcessEvent(wxEvent& event)
@@ -30,7 +103,7 @@ namespace VeraCrypt
 #endif
 
 	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, wstring securityTokenSchemeSpec, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenSchemeSpec)
-		: ChangePasswordDialogBase (parent), DialogMode (mode), Path (volumePath)
+		: ChangePasswordDialogBase (parent), DialogMode (mode), KdfOnlyKdfSelectionInitialized (false), Path (volumePath)
 	{
 		bool enableNewPassword = false;
 		bool enableNewKeyfiles = false;
@@ -75,6 +148,9 @@ namespace VeraCrypt
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
 
+		if (mode == Mode::ChangePkcs5Prf)
+			NewPasswordPanel->EnableUsePim (true);
+
 		if (mode == Mode::RemoveAllKeyfiles)
 			NewSizer->Show (false);
 
@@ -102,15 +178,22 @@ namespace VeraCrypt
 		{
 			shared_ptr <Pkcs5Kdf> currentKdf = CurrentPasswordPanel->GetPkcs5Kdf();
 			int currentPim = CurrentPasswordPanel->GetVolumePim();
+			shared_ptr <Pkcs5Kdf> newKdf = NewPasswordPanel->GetPkcs5Kdf();
 			if (-1 == currentPim)
 			{
 				CurrentPasswordPanel->SetFocusToPimTextCtrl();
 				return;
 			}
+			shared_ptr <VolumePassword> currentPassword = CurrentPasswordPanel->GetPassword();
+			shared_ptr <KeyfileList> currentKeyfiles = CurrentPasswordPanel->GetKeyfiles();
+			wstring currentSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
+			bool preserveTimestamps = Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps;
+			bool emvSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
+			int headerWipeCount = NewPasswordPanel->GetHeaderWipeCount();
 
 			shared_ptr <VolumePassword> newPassword;
 			int newPim = 0;
-			wstring newSecuritySchemeSpec = wstring();
+			bool newPimSpecified = false;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 			{
 				try
@@ -129,56 +212,84 @@ namespace VeraCrypt
 					NewPasswordPanel->SetFocusToPimTextCtrl();
 					return;
 				}
-				newSecuritySchemeSpec = NewPasswordPanel->GetSecurityTokenSchemeSpec();
-
-				if (newPassword->Size() > 0)
+			}
+			else
+			{
+				newPassword = currentPassword;
+				if (DialogMode == Mode::ChangePkcs5Prf)
 				{
-					if (newPassword->Size() < VolumePassword::WarningSizeThreshold)
+					bool kdfChangesKdf = NewKdfSelectionChangesKdf (currentKdf, newKdf);
+					newPimSpecified = NewPasswordPanel->IsVolumePimSpecified();
+					if (newPimSpecified)
 					{
-						if (newPim > 0 && newPim < 485)
-						{
-							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
-							return;
-						}
-
-						if (!Gui->AskYesNo (LangString ["PASSWORD_LENGTH_WARNING"], false, true))
-						{
-							NewPasswordPanel->SetFocusToPasswordTextCtrl();
-							return;
-						}
-					}
-					else if (newPim > 0 && newPim < 485)
-					{
-						if (!Gui->AskYesNo (LangString ["PIM_SMALL_WARNING"], false, true))
+						newPim = NewPasswordPanel->GetVolumePim();
+						if (-1 == newPim)
 						{
 							NewPasswordPanel->SetFocusToPimTextCtrl();
 							return;
 						}
 					}
+					else
+					{
+						newPim = kdfChangesKdf ? 0 : currentPim;
+					}
+
+					if (kdfChangesKdf && !newPimSpecified && currentPim > 0)
+					{
+						if (!Gui->AskYesNo (LangString["PIM_RESET_ON_KDF_CHANGE_CONFIRM"], false, true))
+						{
+							NewPasswordPanel->SetFocusToPimCheckBox();
+							return;
+						}
+					}
 				}
-			}
-			else
-			{
-				newPassword = CurrentPasswordPanel->GetPassword();
-				newPim = CurrentPasswordPanel->GetVolumePim();
-				newSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
+				else
+				{
+					newPim = currentPim;
+				}
 			}
 
 			shared_ptr <KeyfileList> newKeyfiles;
-			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles) {
+			wstring newSecuritySchemeSpec;
+			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles)
+			{
 				newKeyfiles = NewPasswordPanel->GetKeyfiles();
 				newSecuritySchemeSpec = NewPasswordPanel->GetSecurityTokenSchemeSpec();
 			}
-			else if (DialogMode != Mode::RemoveAllKeyfiles) {
-				newKeyfiles = CurrentPasswordPanel->GetKeyfiles();
-				newSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
+			else if (DialogMode != Mode::RemoveAllKeyfiles)
+			{
+				newKeyfiles = currentKeyfiles;
+				newSecuritySchemeSpec = currentSecuritySchemeSpec;
 			}
 
-			/* force the display of the random enriching interface */
-			RandomNumberGenerator::SetEnrichedByUserStatus (false);
-			Gui->UserEnrichRandomPool (this, NewPasswordPanel->GetPkcs5Kdf() ? NewPasswordPanel->GetPkcs5Kdf()->GetHash() : shared_ptr <Hash>());
-
+			shared_ptr <Pkcs5Kdf> effectiveNewKdf = newKdf ? newKdf : currentKdf;
+			shared_ptr <Volume> openVolume;
 			bool masterKeyVulnerable = false;
+			// If the unchanged KDF is not known yet, open the header before applying KDF-specific PIM limits.
+			bool needOpenVolumeForKdf = (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangePkcs5Prf)
+				&& !effectiveNewKdf
+				&& newPassword->Size() > 0
+				&& newPim > 0;
+
+			if (!needOpenVolumeForKdf)
+			{
+				if (DialogMode == Mode::ChangePasswordAndKeyfiles
+					&& !CheckPasswordChangeWarnings (NewPasswordPanel, newPassword, newPim, effectiveNewKdf))
+				{
+					return;
+				}
+				else if (DialogMode == Mode::ChangePkcs5Prf
+					&& newPimSpecified
+					&& !CheckCustomPimForKdfOnlyChange (NewPasswordPanel, newPassword, effectiveNewKdf, newPim))
+				{
+					return;
+				}
+
+				/* force the display of the random enriching interface */
+				RandomNumberGenerator::SetEnrichedByUserStatus (false);
+				Gui->UserEnrichRandomPool (this, newKdf ? newKdf->GetHash() : shared_ptr <Hash>());
+			}
+
 			{
 #ifdef TC_UNIX
 				// Temporarily take ownership of a device if the user is not an administrator
@@ -196,17 +307,54 @@ namespace VeraCrypt
 						Core->SetFileOwner (finally_arg, finally_arg2);
 				});
 #endif
-				wxBusyCursor busy;
-				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
-					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
-					CurrentPasswordPanel->GetSecurityTokenSchemeSpec(),
-					newPassword, newPim, newKeyfiles, newSecuritySchemeSpec,
-					NewPasswordPanel->GetPkcs5Kdf(), 
-					NewPasswordPanel->GetHeaderWipeCount(),
-					Gui->GetPreferences().EMVSupportEnabled
-					);
-				Gui->ExecuteWaitThreadRoutine (this, &routine);
-				masterKeyVulnerable = routine.m_masterKeyVulnerable;
+				if (needOpenVolumeForKdf)
+				{
+					wxBusyCursor busy;
+					OpenVolumeThreadRoutine openRoutine(Path, preserveTimestamps, currentPassword, currentPim, currentKdf, currentKeyfiles, currentSecuritySchemeSpec, emvSupportEnabled);
+					Gui->ExecuteWaitThreadRoutine (this, &openRoutine);
+					openVolume = openRoutine.m_pVolume;
+					if (openVolume)
+						effectiveNewKdf = openVolume->GetPkcs5Kdf();
+					if (!effectiveNewKdf)
+						throw ParameterIncorrect (SRC_POS);
+				}
+
+				if (needOpenVolumeForKdf)
+				{
+					if (DialogMode == Mode::ChangePasswordAndKeyfiles
+						&& !CheckPasswordChangeWarnings (NewPasswordPanel, newPassword, newPim, effectiveNewKdf))
+					{
+						// The volume was opened only to detect its KDF; no header rewrite has started.
+						return;
+					}
+					else if (DialogMode == Mode::ChangePkcs5Prf
+						&& newPimSpecified
+						&& !CheckCustomPimForKdfOnlyChange (NewPasswordPanel, newPassword, effectiveNewKdf, newPim))
+					{
+						return;
+					}
+
+					/* force the display of the random enriching interface */
+					RandomNumberGenerator::SetEnrichedByUserStatus (false);
+					Gui->UserEnrichRandomPool (this, newKdf ? newKdf->GetHash() : shared_ptr <Hash>());
+				}
+
+				if (openVolume)
+				{
+					wxBusyCursor busy;
+					ChangePasswordThreadRoutine routine(openVolume, newPassword, newPim, newKeyfiles, newSecuritySchemeSpec, newKdf, headerWipeCount, emvSupportEnabled);
+					Gui->ExecuteWaitThreadRoutine (this, &routine);
+					masterKeyVulnerable = routine.m_masterKeyVulnerable;
+				}
+				else
+				{
+					wxBusyCursor busy;
+					ChangePasswordThreadRoutine routine(Path, preserveTimestamps,
+						currentPassword, currentPim, currentKdf, currentKeyfiles, currentSecuritySchemeSpec,
+						newPassword, newPim, newKeyfiles, newSecuritySchemeSpec, newKdf, headerWipeCount, emvSupportEnabled);
+					Gui->ExecuteWaitThreadRoutine (this, &routine);
+					masterKeyVulnerable = routine.m_masterKeyVulnerable;
+				}
 			}
 
 			switch (DialogMode)
@@ -265,6 +413,30 @@ namespace VeraCrypt
 			if (CurrentPasswordPanel->GetVolumePim () == -1)
 				ok = false;
 
+			if (DialogMode == Mode::ChangePkcs5Prf)
+			{
+				shared_ptr <Pkcs5Kdf> currentKdf = CurrentPasswordPanel->GetPkcs5Kdf();
+				shared_ptr <Pkcs5Kdf> newKdf = NewPasswordPanel->GetPkcs5Kdf();
+
+				if (!KdfOnlyKdfSelectionInitialized)
+				{
+					LastCurrentKdf = currentKdf;
+					LastNewKdf = newKdf;
+					KdfOnlyKdfSelectionInitialized = true;
+				}
+				else if (!KdfSelectionsEqual (LastCurrentKdf, currentKdf) || !KdfSelectionsEqual (LastNewKdf, newKdf))
+				{
+					LastCurrentKdf = currentKdf;
+					LastNewKdf = newKdf;
+
+					if (!NewPasswordPanel->IsVolumePimSpecified() && NewKdfSelectionChangesKdf (currentKdf, newKdf))
+						NewPasswordPanel->ResetVolumePimToDefault();
+				}
+
+				if (NewPasswordPanel->GetVolumePim () == -1)
+					ok = false;
+			}
+
 			if (DialogMode == Mode::RemoveAllKeyfiles && (passwordEmpty || keyfilesEmpty))
 				ok = false;
 
@@ -292,7 +464,7 @@ namespace VeraCrypt
 
 		OKButton->Enable (ok);
 
-		if (DialogMode == Mode::ChangePasswordAndKeyfiles)
+		if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangePkcs5Prf)
 		{
 			bool pimChanged = (CurrentPasswordPanel->GetVolumePim() != NewPasswordPanel->GetVolumePim());
 			NewPasswordPanel->UpdatePimHelpText(pimChanged);

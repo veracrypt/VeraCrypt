@@ -1,6 +1,5 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+﻿<!DOCTYPE html>
+<html lang="ru">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
@@ -17,7 +16,7 @@
 <div id="menu">
 	<ul>
 	  <li><a href="Home.html">Начало</a></li>
-	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
 	  <li><a href="Downloads.html">Загрузить</a></li>
 	  <li><a class="active" href="Documentation.html">Документация</a></li>
 	  <li><a href="Donation.html">Поддержать разработку</a></li>
@@ -49,8 +48,8 @@
 </tr>
 <tr>
 <td>&nbsp;<em>/hash</em></td>
-<td>После этого ключа указывается хеш-алгоритм PRF, используемый при монтировании тома. Возможные значения ключа /hash: <code>sha256, sha-256, sha512, sha-512, whirlpool, blake2s</code> и <code>blake2s-256</code>. Если ключ <code>/hash</code> не указан, VeraCrypt будет пробовать
- все доступные PRF-алгоритмы, тем самым увеличивая время монтирования.</td>
+<td>После этого ключа указывается хеш-алгоритм PRF или KDF, используемый при монтировании тома. Возможные значения ключа /hash: <code>sha256, sha-256, sha512, sha-512, whirlpool, blake2s, blake2s-256, streebog, blake2b-512, argon2, argon2id</code>. Значения <code>blake2b-512</code>, <code>argon2</code> и <code>argon2id</code> выбирают тома Argon2id. Если ключ <code>/hash</code> не указан, VeraCrypt будет пробовать
+ все доступные PRF/KDF-алгоритмы, тем самым увеличивая время монтирования.</td>
 </tr>
 <tr>
 <td id="volume">&nbsp;<em>/volume</em> или <em>/v</em></td>
@@ -82,8 +81,8 @@
  избранных томов. Обратите внимание, что ключ <code>/auto</code> подразумевается, если указаны ключи <code>/quit</code> и <code>/volume</code>. Если требуется подавить вывод на экран окна программы, используйте ключ <code>/quit</code>.</td>
 </tr>
 <tr>
-<td>&nbsp;<em>/unmount</em> или <em>/d</em></td>
-<td>Размонтировать том с указанной буквой диска (пример: <code>/d x</code>). Если буква диска не указана, то будут размонтированы все смонтированные на данный момент тома VeraCrypt.</td>
+<td>&nbsp;<em>/unmount</em> или <em>/u</em></td>
+<td>Размонтировать том с указанной буквой диска (пример: <code>/u x</code>). Если буква диска не указана, то будут размонтированы все смонтированные на данный момент тома VeraCrypt.</td>
 </tr>
 <tr>
 <td>&nbsp;<em>/force</em> или <em>/f</em></td>
@@ -234,19 +233,19 @@
 <tr>
 <td>&nbsp;<em>/hash</em></td>
 <td>(Только с ключом <code>/create</code>)<br>
-После этого ключа указывается хеш-алгоритм PRF, используемый при создании тома. Синтаксис такой же, как у VeraCrypt.exe.</td>
+После этого ключа указывается хеш-алгоритм PRF или KDF, используемый при создании тома. Синтаксис такой же, как у VeraCrypt.exe; <code>argon2</code> и <code>argon2id</code> выбирают Argon2id.</td>
 </tr>
 <tr>
 <td>&nbsp;<em>/encryption</em></td>
 <td>(Только с ключом <code>/create</code>)<br>
 После этого ключа указывается используемый алгоритм шифрования. По умолчанию это AES, если данный ключ не указан. Возможны следующие значения (регистр букв не учитывается):
 <ul>
-<li><code>AES </li><li>Serpent </li><li>Twofish </li><li>Camellia </li><li>Kuznyechik </li><li>AES(Twofish) </li><li>AES(Twofish(Serpent)) </li><li>Serpent(AES) </li><li>Serpent(Twofish(AES)) </li><li>Twofish(Serpent) </li>
-<li>Camellia(Kuznyechik) </li>
-<li>Kuznyechik(Twofish) </li>
-<li>Camellia(Serpent) </li>
-<li>Kuznyechik(AES) </li>
-<li>Kuznyechik(Serpent(Camellia))</code></li>
+<li><code>AES </code></li><li><code>Serpent </code></li><li><code>Twofish </code></li><li><code>Camellia </code></li><li><code>Kuznyechik </code></li><li><code>AES(Twofish) </code></li><li><code>AES(Twofish(Serpent)) </code></li><li><code>Serpent(AES) </code></li><li><code>Serpent(Twofish(AES)) </code></li><li><code>Twofish(Serpent) </code></li>
+<li><code>Camellia(Kuznyechik) </code></li>
+<li><code>Kuznyechik(Twofish) </code></li>
+<li><code>Camellia(Serpent) </code></li>
+<li><code>Kuznyechik(AES) </code></li>
+<li><code>Kuznyechik(Serpent(Camellia))</code></li>
 </ul>
 </td>
 </tr>
@@ -306,9 +305,9 @@
 </tbody>
 </table>
 <h4>Синтаксис</h4>
-<p><code>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |blake2s|blake2s-256}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [буква диска]] [/e] [/f] [/h [y|n]] [/k ключевой файл или путь поиска] [tryemptypass [y|n]] [/l буква диска] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
+<p><code>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512|argon2|argon2id}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [буква диска]] [/e] [/f] [/h [y|n]] [/k ключевой файл или путь поиска] [tryemptypass [y|n]] [/l буква диска] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
  [/p пароль] [/pim значение pim] [/q [background|preferences]] [/s] [/tokenlib путь] [/v том] [/w]</code></p>
-<p><code>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size число[{K|M|G|T}]] [/p пароль]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256}]
+<p><code>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size число[{K|M|G|T}]] [/p пароль]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|blake2s|blake2s-256|streebog|blake2b-512|argon2|argon2id}]
  [/filesystem {пусто|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</code></p>
 <p>Порядок, в котором указаны параметры, не имеет значения.</p>
 <h4>Примеры</h4>

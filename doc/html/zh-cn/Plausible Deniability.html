@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt提供了似是而非的否认机制。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Plausible%20Deniability.html">似是而非的否认</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>似是而非的否认</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+若对手迫使您透露密码，VeraCrypt提供并支持两种似是而非的否认方式：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+隐藏卷（请参阅 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">
+隐藏卷</a> 部分）和隐藏操作系统（请参阅 <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
+<strong style="text-align:left">隐藏操作系统</strong></a> 部分）。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在解密之前，VeraCrypt分区/设备看起来仅仅是由随机数据组成（它不包含任何类型的“签名”）。因此，应该不可能证明一个分区或设备是VeraCrypt卷，或者它已被加密（前提是遵循 <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">
+安全要求和预防措施</a> 章节中列出的安全要求和预防措施）。对于一个仅包含随机数据的分区/设备的存在，一个可能看似合理的解释是，您使用了一种通过用随机数据覆盖来擦除数据的工具，对该分区/设备的内容进行了擦除（安全擦除）（实际上，VeraCrypt也可用于通过在其中创建一个空的加密分区/设备托管卷来安全擦除分区/设备）。但是，您需要防止数据泄露（请参阅 <a href="Data%20Leaks.html" style="text-align:left; color:#0080c0; text-decoration:none">
+数据泄露</a> 部分），并且还需注意，对于 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+系统加密</a>，第一个磁盘轨道包含（未加密的）VeraCrypt引导加载程序，它可以很容易地被识别出来（更多信息，请参阅 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+系统加密</a> 章节）。在使用 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+系统加密</a> 时，可以通过创建一个隐藏操作系统来实现似是而非的否认（请参阅 <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏操作系统</a> 部分）。<br style="text-align:left">
+<br style="text-align:left">
+尽管文件托管的VeraCrypt卷（容器）也不包含任何类型的“签名”（在解密之前，它们看起来仅由随机数据组成），但它们无法提供这种似是而非的否认，因为实际上没有合理的解释可以说明一个仅包含随机数据的文件的存在。但是，通过在文件托管的VeraCrypt卷（容器）中创建一个隐藏卷，仍然可以实现似是而非的否认（见上文）。
+</li></ol>
+<h4 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:12px; margin-bottom:1px">
+<br style="text-align:left">
+注意事项</h4>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+将硬盘分区格式化为VeraCrypt卷（或对分区进行原地加密）时，分区表（包括分区类型）<em style="text-align:left">绝不会</em> 被修改（不会向分区表写入任何VeraCrypt“签名”或“ID”）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+有一些方法可以找到包含随机数据的文件或设备（如VeraCrypt卷）。但是请注意，这<em style="text-align:left">不应</em> 以任何方式影响似是而非的否认。对手仍然应该无法<em style="text-align:left">证明</em> 该分区/设备是VeraCrypt卷，或者该文件、分区或设备包含隐藏的VeraCrypt卷（前提是您遵循 <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">
+安全要求和预防措施</a> 章节以及 <a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷的安全要求和预防措施</a> 子部分中列出的安全要求和预防措施）。 </li></ul>
+<p>&nbsp;</p>
+<p><a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>

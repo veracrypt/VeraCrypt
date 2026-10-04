@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -48,7 +48,7 @@ enum
 	TC_TBXID_EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS
 };
 
-#define TC_APPLICATION_ID	L"IDRIX.VeraCrypt"
+#define TC_APPLICATION_ID	L"AMCrypto.VeraCrypt"
 
 #define TC_MUTEX_NAME_SYSENC				L"Global\\VeraCrypt System Encryption Wizard"
 #define TC_MUTEX_NAME_NONSYS_INPLACE_ENC	L"Global\\VeraCrypt In-Place Encryption Wizard"
@@ -81,6 +81,18 @@ enum
 #define TC_APPD_FILENAME_POST_INSTALL_TASK_TUTORIAL			L"Post-Install Task - Tutorial"
 #define TC_APPD_FILENAME_POST_INSTALL_TASK_RELEASE_NOTES	L"Post-Install Task - Release Notes"
 #define TC_APPD_FILENAME_POST_INSTALL_TASK_RESCUE_DISK		L"Post-Install Task - Rescue Disk"
+
+#define VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY			L"Software\\VeraCrypt\\Diagnostics\\EfiBootLoader"
+#define VC_EFI_BOOT_LOADER_RESOURCE_SET_2011				2011
+#define VC_EFI_BOOT_LOADER_RESOURCE_SET_2023				2023
+#define VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME			L"EfiBootLoaderResourceSet"
+#define VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME	L"EfiBootLoaderRescueDiskPromptId"
+#define VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME	L"EfiBootLoaderRescueDiskPromptResourceSet"
+#define VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME	L"EfiBootLoaderRescueDiskResourceSet"
+#define VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN				0
+#define VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011			2011
+#define VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023			2023
+#define VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB				((DWORD) 0xE0000201)
 
 #define VC_FILENAME_RENAMED_SUFFIX				L"_old"
 
@@ -128,11 +140,14 @@ extern BOOL bHideWaitingDialog;
 extern BOOL bCmdHideWaitingDialog;
 extern BOOL bCmdHideWaitingDialogValid;
 extern BOOL bUseSecureDesktop;
+extern BOOL bEnableIMEInSecureDesktop;
 extern volatile BOOL bSecureDesktopOngoing;
 extern TCHAR SecureDesktopName[65];
 extern BOOL bUseLegacyMaxPasswordLength;
 extern BOOL bCmdUseSecureDesktop;
 extern BOOL bCmdUseSecureDesktopValid;
+extern BOOL bCmdEnableIMEInSecureDesktop;
+extern BOOL bCmdEnableIMEInSecureDesktopValid;
 extern BOOL bStartOnLogon;
 extern BOOL bMountDevicesOnLogon;
 extern BOOL bMountFavoritesOnLogon;
@@ -174,6 +189,7 @@ extern BOOL EMVSupportEnabled;
 extern volatile BOOL NeedPeriodicDeviceListUpdate;
 extern BOOL DisablePeriodicDeviceListUpdate;
 extern BOOL EnableMemoryProtection;
+extern BOOL EnableScreenProtection;
 
 #ifndef SETUP
 extern BOOL bLanguageSetInSetup;
@@ -355,7 +371,10 @@ uint32 ReadServiceConfigurationFlags ();
 uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ();
 BOOL ReadMemoryProtectionConfig ();
 BOOL WriteMemoryProtectionConfig (BOOL bEnable);
+BOOL ReadScreenProtectionConfig();
+BOOL WriteScreenProtectionConfig(BOOL bEnable);
 BOOL LoadSysEncSettings ();
+BOOL ClearSystemEncryptionStatus (HWND hwndDlg);
 int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm);
 void RemoveNonSysInPlaceEncNotifications (void);
 void SavePostInstallTasksSettings (int command);
@@ -405,6 +424,7 @@ BOOL IsDriveAvailable (int driveNo);
 BOOL IsDeviceMounted (wchar_t *deviceName);
 int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced);
 void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap);
+BOOL AbortMountOperation (int nDosDriveNo);
 int MountVolume (HWND hwndDlg, int driveNo, wchar_t *volumePath, Password *password, int pkcs5, int pim, BOOL cachePassword, BOOL cachePim, BOOL sharedAccess,  const MountOptions* const mountOptions, BOOL quiet, BOOL bReportWrongPassword);
 BOOL UnmountVolume (HWND hwndDlg , int nDosDriveNo, BOOL forceUnmount);
 BOOL UnmountVolumeAfterFormatExCall (HWND hwndDlg, int nDosDriveNo);
@@ -588,6 +608,7 @@ BOOL DeleteDirectory (const wchar_t* szDirName);
 BOOL IsThreadInSecureDesktop(DWORD dwThreadID);
 INT_PTR SecureDesktopDialogBoxParam (HINSTANCE, LPCWSTR, HWND, DLGPROC, LPARAM);
 BOOL VerifyModuleSignature (const wchar_t* path);
+BOOL VerifyModuleSignatureAllowingMicrosoftWHQL (const wchar_t* path);
 void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, BOOL* pbInstallPathDetermined);
 BOOL GetSetupconfigLocation (wchar_t* path, DWORD cchSize);
 BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void* pattern, size_t patternLen);
@@ -598,10 +619,14 @@ BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter);
 BOOL IsTestSigningModeEnabled ();
 DWORD SendServiceNotification (DWORD dwNotificationCmd);
 DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
-#if !defined(SETUP)
+#if !defined(SETUP) && !defined(VCSDK_DLL)
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif
 BOOL IsInternetConnected();
+BOOL AttachProtectionToCurrentThread(HWND hwnd);
+void DetachProtectionFromCurrentThread();
+BOOL MoveFilePointer(HANDLE dev, LARGE_INTEGER offset);
+
 #if defined(SETUP) && !defined (PORTABLE)
 typedef struct _SECURITY_INFO_BACKUP {
 	PSID pOrigOwner;
@@ -754,7 +779,9 @@ INT_PTR TextEditDialogBox (BOOL readOnly, HWND parent, const WCHAR* Title, std::
 
 // Display a wait dialog while calling the provided callback with the given parameter
 typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);
+typedef BOOL (CALLBACK* WaitCancelProc)(void* pArg, HWND hWaitDlg);
 void BringToForeground(HWND hWnd);
+void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, WaitCancelProc cancelCallback, void* pArg);
 void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg);
 
 // classes used to implement support for password drag-n-drop from KeePass Password Safe
@@ -814,6 +841,27 @@ public:
 BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled);
 bool GetKbList (std::vector<std::wstring>& kbList);
 bool OneOfKBsInstalled (const wchar_t* szKBs[], int count);
+
+class ScreenCaptureBlocker
+{
+public:
+	ScreenCaptureBlocker(HWND hwnd = NULL)
+		: m_hwnd(hwnd), m_attached(false)
+	{
+		m_attached = AttachProtectionToCurrentThread(m_hwnd);
+	}
+
+	~ScreenCaptureBlocker()
+	{
+		if (m_attached)
+			DetachProtectionFromCurrentThread();
+	}
+
+private:
+	HWND m_hwnd;
+	bool m_attached;
+};
+
 
 #endif // __cplusplus
 

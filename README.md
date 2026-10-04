@@ -18,7 +18,7 @@ called 'TrueCrypt' or 'VeraCrypt'
 
 [II. Linux and Mac OS X](#ii-linux-and-mac-os-x)
 
-[III. FreeBSD](#iii-freebsd)
+[III. FreeBSD and OpenBSD](#iii-freebsd-and-openbsd)
 
 [IV. Third-Party Developers (Contributors)](#iv-third-party-developers-contributors)
 
@@ -31,8 +31,8 @@ called 'TrueCrypt' or 'VeraCrypt'
 ## Requirements for Building VeraCrypt for Windows:
 
 A detailed guide on how to build VeraCrypt on Windows can be found in
-the [documentation](./doc/html/CompilingGuidelineWin.html) in the repository and
-it is also available [online](https://www.veracrypt.fr/en/CompilingGuidelineWin.html).
+the [documentation](./doc/html/en/CompilingGuidelineWin.html) in the repository and
+it is also available [online](https://veracrypt.jp/en/CompilingGuidelineWin.html) or on the [mirror](https://veracrypt.io/en/CompilingGuidelineWin.html).
 
 IMPORTANT:
 
@@ -80,8 +80,8 @@ For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 # II. Linux and Mac OS X
 
 A detailed guide on how to build VeraCrypt on Linux can be found in
-the [documentation](./doc/html/CompilingGuidelineLinux.html) in the repository and
-it is also available [online](https://www.veracrypt.fr/en/CompilingGuidelineLinux.html).
+the [documentation](./doc/html/en/CompilingGuidelineLinux.html) in the repository and
+it is also available [online](https://veracrypt.jp/en/CompilingGuidelineLinux.html) or on the [mirror](https://veracrypt.io/en/CompilingGuidelineLinux.html).
 
 ## Requirements for Building VeraCrypt for Linux and Mac OS X:
 
@@ -93,7 +93,7 @@ it is also available [online](https://www.veracrypt.fr/en/CompilingGuidelineLinu
 - wxWidgets 3.0 shared library and header files installed or
   wxWidgets 3.0 library source code (available at https://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse
-  and https://osxfuse.github.io/)
+  and https://macfuse.github.io/)
 - PCSC-lite library and header files (available at https://github.com/LudovicRousseau/PCSC)
 
 ## Instructions for Building VeraCrypt for Linux and Mac OS X:
@@ -121,6 +121,16 @@ it is also available [online](https://www.veracrypt.fr/en/CompilingGuidelineLinu
 4. If successful, the VeraCrypt executable should be located in the directory
    'Main'.
 
+Reproducible build note: when `SOURCE_DATE_EPOCH` is not set, a build from a
+git checkout uses the HEAD commit timestamp, while a build from a release
+tarball uses the release date in `src/Common/Tcdefs.h` at 00:00 UTC. To
+reproduce official release artifacts from a git checkout, set
+`SOURCE_DATE_EPOCH` explicitly or build from the release tarball. Vendored
+VeraCrypt sources tracked in another git checkout are treated the same way and
+use that checkout's HEAD timestamp.
+
+Both the generated `.deb` and `.rpm` packages are reproducible, including on older rpm (e.g. CentOS/RHEL 7) that lacks the `SOURCE_DATE_EPOCH`/`_buildhost` build macros.
+
 By default, a universal executable supporting both graphical and text user
 interface (through the switch --text) is built.
 On Linux, a console-only executable, which requires no GUI library, can be
@@ -129,6 +139,15 @@ built using the 'NOGUI' parameter:
 `$ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild`
 
 `$ make NOGUI=1 WXSTATIC=1`
+
+## Arch Linux package build:
+
+Arch Linux users can build and install a package from the current checkout with
+makepkg:
+
+`$ cd src/Build/Packaging/arch`
+
+`$ makepkg -si`
 
 On MacOSX, building a console-only executable is not supported.
 
@@ -165,8 +184,8 @@ compile using the following commands:
 
 `$ sudo make install`
 
-After making sure pkg-config is available, download and install OSXFuse from
-https://osxfuse.github.io/
+After making sure pkg-config is available, download and install macFUSE from
+https://macfuse.github.io/
 
 The [build_veracrypt_macosx.sh](./src/Build/build_veracrypt_macosx.sh) script performs the
 full build of VeraCrypt including the creation of the installer pkg. It expects
@@ -179,16 +198,17 @@ src/Main/Main.make (look for lines containing "Developer ID Application" and
 "Developer ID Installer"). You'll have to modify these lines to put the ID of
 your Code Signing certificates or comment them out if you don't have one.
 
-Because of incompatibility issues with OSXFUSE, the SDK 10.9 generates a
-VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension.
-Thus, we recommend using a different OSX SDK version for building VeraCrypt.
+Because of incompatibility issues with macFUSE, the SDK 10.9 generates a
+VeraCrypt binary that has issues communicating with the macFUSE kernel extension.
+Thus, we recommend using a different macOS SDK version for building VeraCrypt.
 
 The Packages installer that is used for the VeraCrypt official build has been notarized by IDRIX and it is available at
 https://github.com/idrassi/packages/releases
 
-# III. FreeBSD
+# III. FreeBSD and OpenBSD
 
-FreeBSD is supported starting from version 11.
+FreeBSD is supported starting from version 14.
+OpenBSD is supported starting from version 7.8.
 The build requirements and instructions are the same as Linux except that gmake
 should be used instead of make.
 
@@ -202,16 +222,18 @@ If you intend to implement a feature, please contact us first to make sure:
 3. Whether we need the help of third-party developers with implementing the feature.
 
 Information on how to contact us can be found at:
-https://www.veracrypt.fr/
+https://veracrypt.jp or
+https://veracrypt.io (mirror)
 
 # V. Legal Information
 
 ## Copyright Information
 
 This software as a whole:  
-Copyright (c) 2013-2025 IDRIX. All rights reserved.  
+Copyright (c) 2026 AM Crypto. All rights reserved.  
 
 Portions of this software:  
+Copyright (c) 2026 AM Crypto. All rights reserved.  
 Copyright (c) 2013-2025 IDRIX. All rights reserved.  
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.  
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.  
@@ -234,4 +256,5 @@ documentation, are the sole property of their respective owners.
 
 # VI. Further Information
 
-https://www.veracrypt.fr
+https://veracrypt.jp  
+https://veracrypt.io (mirror)

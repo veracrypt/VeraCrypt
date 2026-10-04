@@ -44,22 +44,19 @@
 /* to have ISO C secure library functions */
 #define __STDC_WANT_LIB_EXT1__ 1
 
-#if defined(_WIN32) && defined(ZIP_DLL) && !defined(ZIP_STATIC)
-#ifdef BUILDING_LIBZIP
-#define ZIP_EXTERN __declspec(dllexport)
-#else
-#define ZIP_EXTERN __declspec(dllimport)
-#endif
-#endif
-
 #ifdef _WIN32
+#ifndef ZIP_EXTERN
+#ifndef ZIP_STATIC
+#define ZIP_EXTERN __declspec(dllexport)
+#endif
+#endif
 /* for dup(), close(), etc. */
 #include <io.h>
 #endif
 
 #ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
-#elif !defined(__BOOL_DEFINED)
+#else
 typedef char bool;
 #define true 1
 #define false 0
@@ -127,14 +124,13 @@ typedef char bool;
 #endif
 
 
-#if defined(HAVE__FSEEKI64) && defined(HAVE__FSTAT64) && defined(HAVE__FTELLI64)
+#if defined(HAVE__FSEEKI64) && defined(HAVE__FSTAT64) && defined(HAVE__SEEK64)
 /* Windows API using int64 */
 typedef zip_int64_t zip_off_t;
 typedef struct _stat64 zip_os_stat_t;
 #define zip_os_stat _stat64
 #define zip_os_fstat _fstat64
-#define zip_os_fseek _fseeki64
-#define zip_os_ftell _ftelli64
+#define zip_os_seek _fseeki64
 #define ZIP_FSEEK_MAX ZIP_INT64_MAX
 #define ZIP_FSEEK_MIN ZIP_INT64_MIN
 #else

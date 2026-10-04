@@ -15,14 +15,25 @@
 
 /* Adapted for VeraCrypt */
 
-#include "blake2.h"
+#include "blake2s.h"
 #include "Common/Endian.h"
 #include "Crypto/config.h"
 #include "Crypto/cpu.h"
 #include "Crypto/misc.h"
 
+#define BLAKE2S_USE_X86_INTRINSICS \
+	((CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32) \
+		&& CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE)
+
 // load32 is always called in SSE case which implies little endian 
 #define load32(x)	*((uint32*) (x))
+
+/* Message words are little-endian: read them byte-wise on big-endian hosts. */
+#if BYTE_ORDER == BIG_ENDIAN
+#define BLAKE2S_LOAD32(p) VcLoadLE32(p)
+#else
+#define BLAKE2S_LOAD32(p) (*((uint32*) (p)))
+#endif
 
 const uint32 blake2s_IV[8] =
 {
@@ -66,6 +77,26 @@ void blake2s_init_param( blake2s_state *S, const blake2s_param *P )
 {
   size_t i;
   /*blake2s_init0( S ); */
+#if BYTE_ORDER == BIG_ENDIAN
+  /* IV XOR ParamBlock: the parameter block is defined as little-endian
+   * words, so build them from the (native) fields. */
+  uint32 w[8];
+
+  memset( S, 0, sizeof( blake2s_state ) );
+  w[0] = ( uint32 ) P->digest_length | ( ( uint32 ) P->key_length << 8 )
+    | ( ( uint32 ) P->fanout << 16 ) | ( ( uint32 ) P->depth << 24 );
+  w[1] = P->leaf_length;
+  w[2] = P->node_offset;
+  w[3] = ( uint32 ) P->xof_length | ( ( uint32 ) P->node_depth << 16 )
+    | ( ( uint32 ) P->inner_length << 24 );
+  w[4] = VcLoadLE32( P->salt );
+  w[5] = VcLoadLE32( P->salt + 4 );
+  w[6] = VcLoadLE32( P->personal );
+  w[7] = VcLoadLE32( P->personal + 4 );
+
+  for( i = 0; i < 8; ++i )
+    S->h[i] = blake2s_IV[i] ^ w[i];
+#else
   const uint8 * v = ( const uint8 * )( blake2s_IV );
   const uint8 * p = ( const uint8 * )( P );
   uint8 * h = ( uint8 * )( S->h );
@@ -73,6 +104,7 @@ void blake2s_init_param( blake2s_state *S, const blake2s_param *P )
   memset( S, 0, sizeof( blake2s_state ) );
 
   for( i = 0; i < BLAKE2S_OUTBYTES; ++i ) h[i] = v[i] ^ p[i];
+#endif
 
   S->outlen = P->digest_length;
 }
@@ -105,7 +137,7 @@ void blake2s_init_param( blake2s_state *S, const blake2s_param *P )
 typedef void (*blake2s_compressFn)( blake2s_state *S, const uint8 block[BLAKE2S_BLOCKBYTES] );
 
 blake2s_compressFn blake2s_compress_func = NULL;
-#if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
+#if BLAKE2S_USE_X86_INTRINSICS
 extern int blake2s_has_sse2();
 extern int blake2s_has_ssse3();
 extern int blake2s_has_sse41();
@@ -122,7 +154,7 @@ static void blake2s_compress_std( blake2s_state *S, const uint8 in[BLAKE2S_BLOCK
   size_t i;
 
   for( i = 0; i < 16; ++i ) {
-	m[i] = *((uint32*) (in + i * sizeof( m[i] )));
+	m[i] = BLAKE2S_LOAD32( in + i * sizeof( m[i] ) );
   }
 
   for( i = 0; i < 8; ++i ) {
@@ -180,7 +212,7 @@ void blake2s_init( blake2s_state *S )
 
   if (!blake2s_compress_func)
   {
-#if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
+#if BLAKE2S_USE_X86_INTRINSICS
 	if (HasSSE2() && blake2s_has_sse2())
 	{
 		if (HasSSE41() && blake2s_has_sse41())

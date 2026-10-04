@@ -1,6 +1,5 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+﻿<!DOCTYPE html>
+<html lang="ru">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
@@ -17,7 +16,7 @@
 <div id="menu">
 	<ul>
 	  <li><a href="Home.html">Начало</a></li>
-	  <li><a href="/code/">Исходный код</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
 	  <li><a href="Downloads.html">Загрузить</a></li>
 	  <li><a class="active" href="Documentation.html">Документация</a></li>
 	  <li><a href="Donation.html">Поддержать разработку</a></li>
@@ -57,7 +56,7 @@ VeraCrypt позволяет "на лету" шифровать системны
 т. д. будет нужно вводить правильный пароль перед каждой загрузкой (стартом) Windows. Предзагрузочную
 аутентификацию обеспечивает загрузчик VeraCrypt (Boot Loader), расположенный в первой дорожке загрузочного
 диска и на
-<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Диске восстановления VeraCrypt</a> (Rescue Disk, см. далее).</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Обратите внимание, что VeraCrypt выполняет шифрование имеющегося незашифрованного системного раздела/диска
@@ -67,11 +66,11 @@ VeraCrypt системный раздел/диск можно расшифров
 шифрования/дешифрования можно прервать в любой момент, оставить раздел/диск частично незашифрованным,
 перезагрузить или выключить компьютер, а затем возобновить операцию с той точки, в которой она была остановлена.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-При шифровании системы применяется режим <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-XTS</a> (см. раздел <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+При шифровании системы применяется режим <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+XTS</a> (см. раздел <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Режимы работы</a>). Технические детали шифрования системы см. в разделе
-<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
-Схема шифрования</a> главы <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Схема шифрования</a> главы <a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">
 Технические подробности</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Чтобы зашифровать системный раздел или весь системный диск, выберите <em style="text-align:left">
@@ -97,7 +96,8 @@ XTS</a> (см. раздел <a href="Modes%20of%20Operation.html" style="text-al
 (позже пользователь может вручную зашифровать другие разделы с данными с помощью VeraCrypt).
 В устаревшем режиме загрузки MBR программа выполняет шифрование этого раздела, только если вы выбрали
 шифрование всего системного диска (а не шифрование только раздела, в котором установлена Windows).</p>
+<p>В режиме загрузки EFI с включённым Secure Boot при установке, восстановлении/переустановке, обновлении или восстановлении после Windows PostOOBE VeraCrypt выбирает набор загрузчиков, подписанный Microsoft UEFI CA и разрешённый активной политикой Secure Boot прошивки: каждый требуемый CA должен присутствовать в базе разрешённых подписей (db) и отсутствовать в базе запрещённых подписей (dbx). Для набора загрузчиков VeraCrypt 2023 года требуются Microsoft UEFI CA 2023 и Microsoft Option ROM UEFI CA 2023, а для набора 2011 года — Microsoft Corporation UEFI CA 2011. Если активная политика db/dbx не разрешает ни один поддерживаемый набор, VeraCrypt прерывает операцию и не устанавливает загрузчик, который прошивка отклонит при следующей перезагрузке. Если вы вручную изменили записи db или dbx Secure Boot в прошивке, запустите восстановление/переустановку VeraCrypt, чтобы обновить установленный набор загрузчиков. Подробности, включая переход на сертификаты Microsoft 2023 года и процедуры восстановления, см. в разделе <a href="EFISecureBoot.html" style="text-align:left; color:#0080c0; text-decoration:none">EFI Secure Boot</a>.</p>
 <p>&nbsp;</p>
-<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Следующий раздел &gt;&gt;</a></p>
+<p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></p>
 </div>
 </body></html>

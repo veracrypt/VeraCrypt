@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2025 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -84,16 +84,20 @@ char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *att
 char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize)
 {
 	char *t = xmlNode;
-	char *e = xmlNode;
+	char *nodeEnd = xmlNode;
+	char *quote1, *quote2;
 	int l = 0;
+
+	if (xmlAttrValueSize <= 0)
+		return NULL;
 
 	xmlAttrValue[0] = 0;
 	if (t[0] != '<') return NULL;
 
-	e = strchr (e, '>');
-	if (e == NULL) return NULL;
+	nodeEnd = strchr (nodeEnd, '>');
+	if (nodeEnd == NULL) return NULL;
 
-	while ((t = strstr (t, xmlAttrName)) && t < e)
+	while ((t = strstr (t, xmlAttrName)) && t < nodeEnd)
 	{
 		char *o = t + strlen (xmlAttrName);
 		if (t[-1] == ' '
@@ -108,12 +112,17 @@ char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttr
 		t++;
 	}
 
-	if (t == NULL || t > e) return NULL;
+	if (t == NULL || t > nodeEnd) return NULL;
 
-	t = ((char*)strchr (t, '"')) + 1;
-	e = strchr (t, '"');
-	l = (int)(e - t);
-	if (e == NULL || l > xmlAttrValueSize) return NULL;
+	quote1 = strchr (t, '"');
+	if (quote1 == NULL || quote1 > nodeEnd) return NULL;
+	t = quote1 + 1;
+
+	quote2 = strchr (t, '"');
+	if (quote2 == NULL || quote2 > nodeEnd) return NULL;
+
+	l = (int)(quote2 - t);
+	if (l < 0 || l >= xmlAttrValueSize) return NULL;
 
 	memcpy (xmlAttrValue, t, l);
 	xmlAttrValue[l] = 0;
@@ -128,6 +137,9 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	char *e = xmlNode + 1;
 	int l = 0, i = 0, j = 0;
 
+	if (xmlTextSize <= 0)
+		return NULL;
+
 	xmlText[0] = 0;
 
 	if (t[0] != '<')
@@ -141,10 +153,16 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	if (e == NULL) return NULL;
 
 	l = (int)(e - t);
-	if (e == NULL || l > xmlTextSize) return NULL;
+	if (l < 0) return NULL;
 
 	while (i < l)
 	{
+		if (j >= xmlTextSize - 1)
+		{
+			xmlText[0] = 0;
+			return NULL;
+		}
+
 		if (BeginsWith (&t[i], "&lt;"))
 		{
 			xmlText[j++] = '<';
@@ -282,3 +300,69 @@ int XmlWriteFooter (FILE *file)
 	return fputws (L"\n</VeraCrypt>", file);
 }
 #endif !defined(_UEFI)
+
+#if !defined(TC_WINDOWS_DRIVER) && !defined(_UEFI)
+BOOL XmlTest (void)
+{
+	char buffer[10];
+
+	/* XmlGetAttributeText tests */
+
+	/* 1. length size - 1 accepted */
+	char xmlAttrValid[] = "<Node attr=\"123456789\"></Node>";
+	if (XmlGetAttributeText (xmlAttrValid, "attr", buffer, sizeof (buffer)) == NULL
+		|| strcmp (buffer, "123456789") != 0)
+		return FALSE;
+
+	/* 2. length size rejected (off-by-one: would write NUL past buffer end) */
+	char xmlAttrOverflow[] = "<Node attr=\"1234567890\"></Node>";
+	if (XmlGetAttributeText (xmlAttrOverflow, "attr", buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+	/* 3. malformed: closing quote absent returns NULL */
+	char xmlAttrMissingQuote[] = "<Node attr=\"123456789></Node>";
+	if (XmlGetAttributeText (xmlAttrMissingQuote, "attr", buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+	/* 4. closing quote belongs to a later tag, not the current one */
+	char xmlAttrCrossTag[] = "<Node attr=\"123456789></Node><Other attr=\"test\"></Other>";
+	if (XmlGetAttributeText (xmlAttrCrossTag, "attr", buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+
+	/* XmlGetNodeText tests */
+
+	/* 5. length size - 1 accepted */
+	char xmlNodeValid[] = "<Node>123456789</Node>";
+	if (XmlGetNodeText (xmlNodeValid, buffer, sizeof (buffer)) == NULL
+		|| strcmp (buffer, "123456789") != 0)
+		return FALSE;
+
+	/* 6. length size rejected (off-by-one: would write NUL past buffer end) */
+	char xmlNodeOverflow[] = "<Node>1234567890</Node>";
+	if (XmlGetNodeText (xmlNodeOverflow, buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+	/* 7. escaped text accepted: raw input is larger than buffer but decoded
+	   output fits. Decoded: "<>&456789" (9 chars), buffer is 10 bytes. */
+	char xmlNodeEscaped[] = "<Node>&lt;&gt;&amp;456789</Node>";
+	if (XmlGetNodeText (xmlNodeEscaped, buffer, sizeof (buffer)) == NULL
+		|| strcmp (buffer, "<>&456789") != 0)
+		return FALSE;
+
+	/* 8. escaped text rejected: decoded output is exactly size (10 chars),
+	   leaving no room for the NUL terminator. Decoded: "<>&4567890" (10 chars). */
+	char xmlNodeEscapedOverflow[] = "<Node>&lt;&gt;&amp;4567890</Node>";
+	if (XmlGetNodeText (xmlNodeEscapedOverflow, buffer, sizeof (buffer)) != NULL)
+		return FALSE;
+
+	/* 9. seed the buffer and verify overflow failure leaves it empty */
+	char xmlNodeOverflowSeed[] = "<Node>1234567890</Node>";
+	buffer[0] = 's';
+	buffer[1] = 0;
+	if (XmlGetNodeText (xmlNodeOverflowSeed, buffer, sizeof (buffer)) != NULL || buffer[0] != 0)
+		return FALSE;
+
+	return TRUE;
+}
+#endif

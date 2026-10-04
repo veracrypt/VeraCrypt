@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>
+      VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具
+    </title>
+    <meta
+      name="description"
+      content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"
+    />
+    <meta name="keywords" content="加密, 安全" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div>
+      <a href="Documentation.html">
+        <img src="VeraCrypt128x128.png" alt="VeraCrypt" />
+      </a>
+    </div>
+
+    <div id="menu">
+      <ul>
+        <li><a href="Home.html">主页</a></li>
+        <li><a href="Code.html">源代码</a></li>
+        <li><a href="Downloads.html">下载</a></li>
+        <li><a class="active" href="Documentation.html">文档</a></li>
+        <li><a href="Donation.html">捐赠</a></li>
+        <li>
+          <a
+            href="https://sourceforge.net/p/veracrypt/discussion/"
+            target="_blank"
+            >论坛</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <p>
+        <a href="Documentation.html">文档</a>
+        <img src="arrow_right.gif" alt=">>" style="margin-top: 5px" />
+        <a href="Technical%20Details.html">技术细节</a>
+        <img src="arrow_right.gif" alt=">>" style="margin-top: 5px" />
+        <a href="Keyfiles.html">密钥文件</a>
+      </p>
+    </div>
+
+    <div class="wikidoc">
+      <h1>密钥文件</h1>
+      <div
+        style="
+          text-align: left;
+          margin-top: 19px;
+          margin-bottom: 19px;
+          padding-top: 0px;
+          padding-bottom: 0px;
+        "
+      >
+        <p>
+          VeraCrypt密钥文件是一种其内容会与密码相结合的文件。用户可以使用任何类型的文件作为VeraCrypt密钥文件。用户还可以使用内置的密钥文件生成器来生成密钥文件，该生成器利用VeraCrypt随机数生成器（RNG）生成具有随机内容的文件（更多信息，请参阅
+          <a href="Random%20Number%20Generator.html">
+            <em>随机数生成器</em></a
+          >部分）。
+        </p>
+        <p>
+          密钥文件的最大大小没有限制；但是，仅处理其前1,048,576字节（1 MiB）（由于处理超大文件会带来性能问题，所有剩余字节将被忽略）。用户可以提供一个或多个密钥文件（密钥文件的数量没有限制）。
+        </p>
+        <p>
+          密钥文件可以存储在符合PKCS - 11标准[23]的安全令牌和受多个PIN码保护的智能卡上（可以使用硬件PIN键盘或通过VeraCrypt图形用户界面输入这些PIN码）。
+        </p>
+        <p>
+          符合EMV标准的智能卡数据可以用作密钥文件，请参阅
+          <a
+            href="EMV%20Smart%20Cards.html"
+            style="text-align: left; color: #0080c0; text-decoration: none"
+          >
+            <em style="text-align: left">EMV智能卡</em></a
+          >章节。
+        </p>
+        <p>
+          密钥文件使用以下方法进行处理并应用于密码：
+        </p>
+        <ol>
+          <li>
+            设<em>P</em>为用户提供的VeraCrypt卷密码（可以为空）
+          </li>
+          <li>设<em>KP</em>为密钥文件池</li>
+          <li>
+            设<em>kpl</em>为密钥文件池<em>KP</em>的大小，以字节为单位（64，即512位）；
+            <p>
+              kpl必须是哈希函数H输出大小的倍数
+            </p>
+          </li>
+          <li>
+            设<em>pl</em>为密码<em>P</em>的长度，以字节为单位（在当前版本中：0 ≤ <em>pl</em> ≤ 64）
+          </li>
+          <li>
+            如果<em>kpl > pl</em>，则在密码<em>P</em>后面追加（<em>kpl - pl</em>）个零字节（因此<em>pl = kpl</em>）
+          </li>
+          <li>
+            用<em>kpl</em>个零字节填充密钥文件池<em>KP</em>。
+          </li>
+          <li>
+            对每个密钥文件执行以下步骤：
+            <ol type="a">
+              <li>
+                将密钥文件池游标位置设置为池的开头
+              </li>
+              <li>初始化哈希函数<em>H</em></li>
+              <li>
+                逐个加载密钥文件的所有字节，并对每个加载的字节执行以下步骤：
+                <ol type="i">
+                  <li>
+                    使用哈希函数<em>H</em>对加载的字节进行哈希处理，而不初始化哈希，以获得中间哈希（状态）<em>M</em>。不要完成哈希计算（状态将保留用于下一轮）。
+                  </li>
+                  <li>
+                    将状态<em>M</em>拆分为单个字节。<br />
+                    例如，如果哈希输出大小为4字节，（<em>T</em><sub>0</sub> || <em>T</em><sub>1</sub> || <em>T</em><sub>2</sub> || <em>T</em><sub>3</sub>） = <em>M</em>
+                  </li>
+                  <li>
+                    将这些字节（在步骤7.c.ii中获得）逐个写入密钥文件池，使用模2<sup>8</sup>加法运算（而不是替换池中旧值），写入位置为池游标的位置。写入一个字节后，池游标位置前进一个字节。当游标到达池的末尾时，其位置将设置为池的开头。
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>
+            使用以下方法将密钥文件池的内容应用于密码<em>P</em>：
+            <ol type="a">
+              <li>
+                将密码<em>P</em>拆分为单个字节<em>B</em><sub>0</sub>...<em>B</em><sub>pl - 1</sub>。<br />
+                请注意，如果密码比密钥文件池短，则在步骤5中密码已用零字节填充到池的长度（因此，此时密码的长度始终大于或等于密钥文件池的长度）。
+              </li>
+              <li>
+                将密钥文件池<em>KP</em>拆分为单个字节<em>G</em><sub>0</sub>...<em>G</em><sub>kpl - 1</sub>
+              </li>
+              <li>对于0 ≤ i < kpl，执行：Bi = Bi ⊕ Gi</li>
+              <li>
+                <em>P</em> = <em>B</em><sub>0</sub> || <em>B</em><sub>1</sub> || ... || <em>B</em><sub>pl - 2</sub> || <em>B</em><sub>pl - 1</sub>
+              </li>
+            </ol>
+          </li>
+          <li>
+            应用了密钥文件池内容后的密码<em>P</em>现在将传递给头密钥派生函数PBKDF2（PKCS #5 v2），该函数使用用户选择的加密安全哈希算法（例如SHA - 512）对其进行处理（连同盐值和其他数据）。有关更多信息，请参阅
+            <a href="Header%20Key%20Derivation.html">
+              <em>头密钥派生、盐值和迭代次数</em></a
+            >部分。
+          </li>
+        </ol>
+        <p>
+          哈希函数<em>H</em>的作用仅仅是进行扩散[2]。使用CRC - 32作为哈希函数<em>H</em>。请注意，CRC - 32的输出随后会使用加密安全哈希算法进行处理：密钥文件池的内容（除了使用CRC - 32进行哈希处理外）会应用于密码，然后将该密码传递给头密钥派生函数PBKDF2（PKCS #5 v2），该函数使用用户选择的加密安全哈希算法（例如SHA - 512）对其进行处理（连同盐值和其他数据）。所得值用于形成头密钥和辅助头密钥（XTS模式）。
+        </p>
+        <p>&nbsp;</p>
+        <p>
+          <a
+            href="Personal%20Iterations%20Multiplier%20%28PIM%29.html"
+            style="
+              text-align: left;
+              color: #0080c0;
+              text-decoration: none;
+              font-weight: bold;
+            "
+            >下一部分 &gt;&gt;</a
+          >
+        </p>
+      </div>
+    </div>
+    <div class="ClearBoth"></div>
+  </body>
+</html>
