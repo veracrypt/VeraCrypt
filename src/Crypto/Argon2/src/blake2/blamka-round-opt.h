@@ -193,7 +193,7 @@ static BLAKE2_INLINE __m128i fBlaMka(__m128i x, __m128i y) {
                                                                                \
         UNDIAGONALIZE(A0, B0, C0, D0, A1, B1, C1, D1);                         \
     } while ((void)0, 0)
-#else /* __AVX2__ */
+#else /* ARGON2_BLAMKA_USE_AVX2 */
 
 //#include <immintrin.h>
 
@@ -340,9 +340,9 @@ static BLAKE2_INLINE __m128i fBlaMka(__m128i x, __m128i y) {
         UNDIAGONALIZE_2(A0, A1, B0, B1, C0, C1, D0, D1) \
     } while((void)0, 0);
 
-#endif /* __AVX2__ */
+#endif /* ARGON2_BLAMKA_USE_SSE2 */
 
-#else /* __AVX512F__ */
+#else /* AVX-512 */
 
 //#include <immintrin.h>
 
@@ -482,5 +482,5 @@ static __m512i muladd(__m512i x, __m512i y)
         UNSWAP_QUARTERS(D0, D1); \
     } while ((void)0, 0)
 
-#endif /* __AVX512F__ */
+#endif /* ARGON2_BLAMKA_USE_SSE2 || ARGON2_BLAMKA_USE_AVX2 */
 #endif /* BLAKE_ROUND_MKA_OPT_H */
