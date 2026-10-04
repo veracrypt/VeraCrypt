@@ -22,6 +22,14 @@
 #include "Whirlpool.h"
 #include "cpu.h"
 #include "misc.h"
+#include "Endian.h"
+
+/* PBKDF2 block numbers are big-endian: swap only on little-endian hosts. */
+#if BYTE_ORDER == BIG_ENDIAN
+#define PKCS5_BE32(x) (x)
+#else
+#define PKCS5_BE32(x) (bswap_32(x))
+#endif
 #else
 #pragma optimize ("t", on)
 #include <string.h>
@@ -180,7 +188,7 @@ static void derive_u_sha256 (const unsigned char *salt, int salt_len, uint32 ite
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (unsigned char) b;
 #else
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
     memcpy (&k[salt_len], &b, 4);
 #endif	
 
@@ -433,7 +441,7 @@ static void derive_u_sha512 (const unsigned char *salt, int salt_len, uint32 ite
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
 	memcpy (&k[salt_len], &b, 4);
 
 	hmac_sha512_internal (k, salt_len + 4, hmac);
@@ -681,7 +689,7 @@ static void derive_u_blake2s (const unsigned char *salt, int salt_len, uint32 it
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (unsigned char) b;
 #else
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
     memcpy (&k[salt_len], &b, 4);
 #endif	
 
@@ -911,7 +919,7 @@ static void derive_u_whirlpool (const unsigned char *salt, int salt_len, uint32 
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
 	memcpy (&k[salt_len], &b, 4);
 
 	hmac_whirlpool_internal (k, salt_len + 4, hmac);
@@ -1114,7 +1122,7 @@ static void derive_u_streebog (const unsigned char *salt, int salt_len, uint32 i
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
 	memcpy (&k[salt_len], &b, 4);
 
 	hmac_streebog_internal (k, salt_len + 4, hmac);
