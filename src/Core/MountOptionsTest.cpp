@@ -1,3 +1,11 @@
+/*
+ Copyright (c) 2026 AM Crypto. All rights reserved.
+
+ Governed by the Apache License 2.0 the full text of which is
+ contained in the file License.txt included in VeraCrypt binary and source
+ code distribution packages.
+*/
+
 #include <Testing.h>
 #include "Core.h"
 #include "Platform/MemoryStream.h"
@@ -73,7 +81,7 @@ namespace
         options.ProtectionKeyfiles->push_back(make_shared<Keyfile>(FilePath(string(directory) + "/nonexistent")));
         bool rejected = false;
         try { Core->MountVolume(options); }
-        catch (const ParameterIncorrect &) { rejected = true; }
+        catch (const EncryptedKeyfileKeyfilesRequired &) { rejected = true; }
         Require(result, rejected, "A token descriptor without keyfiles bypassed validation through password cache");
         Require(result, !options.SecurityTokenSchemeSpec.empty(), "Rejected mount changed caller's token descriptor");
     }
@@ -86,7 +94,7 @@ namespace
         options.ProtectionSecurityTokenSchemeSpec = L"slot-key:1:42:RSA PKCS#1 OAEP";
         bool rejected = false;
         try { Core->MountVolume(options); }
-        catch (const ParameterIncorrect &) { rejected = true; }
+        catch (const EncryptedKeyfileKeyfilesRequired &) { rejected = true; }
         Require(result, rejected, "Hidden-volume token descriptor without keyfiles was ignored");
     }
 }

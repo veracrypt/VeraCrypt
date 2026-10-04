@@ -594,6 +594,14 @@ namespace VeraCrypt
 		EX2MSG (DeviceSectorSizeMismatch,			LangString["LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH"]);
 		EX2MSG (EncryptedSystemRequired,			LangString["LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED"]);
 		EX2MSG (ExternalException,					LangString["EXCEPTION_OCCURRED"]);
+		EX2MSG (InvalidSecurityTokenKeyDescriptor, LangString["TOKEN_KEY_DESCRIPTOR_INVALID"]);
+		EX2MSG (SecurityTokenKeyNotFound, LangString["TOKEN_KEY_NOT_FOUND"]);
+		EX2MSG (SecurityTokenKeyAmbiguous, LangString["TOKEN_KEY_AMBIGUOUS"]);
+		EX2MSG (EncryptedKeyfileInvalid, LangString["ENCRYPTED_KEYFILE_INVALID"]);
+		EX2MSG (EncryptedKeyfileKeyfilesRequired, LangString["TOKEN_KEYFILES_REQUIRED"]);
+		EX2MSG (EncryptedKeyfileIncompatible, LangString["TOKEN_KEYFILE_INCOMPATIBLE"]);
+		EX2MSG (AtomicFileDestinationNotRegular, LangString["ATOMIC_FILE_DESTINATION_NOT_REGULAR"]);
+		EX2MSG (AtomicFilePublished, LangString["ATOMIC_FILE_PUBLISHED"]);
 		EX2MSG (InsufficientData, 					LangString["LINUX_EX2MSG_INSUFFICIENTDATA"]);
 		EX2MSG (InvalidSecurityTokenKeyfilePath,	LangString["INVALID_TOKEN_KEYFILE_PATH"]);
 		EX2MSG (HigherVersionRequired,				LangString["NEW_VERSION_REQUIRED"]);
@@ -1370,11 +1378,31 @@ const FileManager fileManagers[] = {
 			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
+		case CommandId::ExportDecryptedKeyfile:
+			if (wxFileName::Exists (wstring (*cmdLine.ArgOutputPath)) && !cmdLine.ArgForce)
+				throw_err (LangString["TOKEN_EXPORT_EXISTS"]);
+			ShowWarning ("TOKEN_EXPORT_WARNING");
+			Keyfile (*cmdLine.ArgFilePath).RevealRedkey (*cmdLine.ArgOutputPath, cmdLine.ArgSecurityTokenSchemeSpec);
+			ShowInfo ("REVEAL_REDKEY_DONE");
+			return true;
+
 		case CommandId::ListSecurityTokenKeys:
-			foreach (const SecurityTokenScheme &scheme, SecurityToken::GetAvailablePublicKeys())
-				ShowString (L"encrypt\t" + scheme.GetSpec() + L"\n");
-			foreach (const SecurityTokenScheme &scheme, SecurityToken::GetAvailablePrivateKeys())
-				ShowString (L"decrypt\t" + scheme.GetSpec() + L"\n");
+			{
+				wstring text;
+				foreach (const SecurityTokenScheme &scheme, SecurityToken::GetAvailablePublicKeys())
+				{
+					text += L"encrypt\t" + scheme.GetSpec() + L"\n";
+					if (scheme.GetSpec (true) != scheme.GetSpec())
+						text += L"encrypt-slot\t" + scheme.GetSpec (true) + L"\n";
+				}
+				foreach (const SecurityTokenScheme &scheme, SecurityToken::GetAvailablePrivateKeys())
+				{
+					text += L"decrypt\t" + scheme.GetSpec() + L"\n";
+					if (scheme.GetSpec (true) != scheme.GetSpec())
+						text += L"decrypt-slot\t" + scheme.GetSpec (true) + L"\n";
+				}
+				ShowString (text.empty() ? LangString["TOKEN_KEY_NOT_FOUND"] : wxString (text));
+			}
 			return true;
 
 		case CommandId::Help:
@@ -1427,6 +1455,11 @@ const FileManager fileManagers[] = {
 					"\n"
 					"--delete-token-keyfiles\n"
 					" Delete keyfiles from security tokens. See also command --list-token-keyfiles.\n"
+					"\n"
+					"--export-decrypted-keyfile INPUT --output OUTPUT\n"
+					" Export an encrypted keyfile as an ordinary recovery keyfile, using\n"
+					" --security-token-key and --token-lib. The output works without the token;\n"
+					" store it securely. Replacing an existing regular file requires --force.\n"
 					"\n"
 					"--export-token-keyfile\n"
 					" Export a keyfile from a token. See also command --list-token-keyfiles.\n"
@@ -1589,6 +1622,8 @@ const FileManager fileManagers[] = {
 					"\n"
 					"--new-security-token-key=DESCRIPTOR\n"
 					" Token key for --new-keyfiles when changing a volume's credentials.\n"
+					" Required for unattended changes when the current credentials use a token key.\n"
+					" Use an explicit empty value to remove the token requirement.\n"
 					"\n"
 					"--protection-security-token-key=DESCRIPTOR\n"
 					" Token key for the hidden volume's encrypted protection keyfiles.\n"
@@ -2013,6 +2048,14 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (AlreadyInitialized);
 		VC_CONVERT_EXCEPTION (AssertionFailed);
 		VC_CONVERT_EXCEPTION (ExternalException);
+		VC_CONVERT_EXCEPTION (InvalidSecurityTokenKeyDescriptor);
+		VC_CONVERT_EXCEPTION (SecurityTokenKeyNotFound);
+		VC_CONVERT_EXCEPTION (SecurityTokenKeyAmbiguous);
+		VC_CONVERT_EXCEPTION (EncryptedKeyfileInvalid);
+		VC_CONVERT_EXCEPTION (EncryptedKeyfileKeyfilesRequired);
+		VC_CONVERT_EXCEPTION (EncryptedKeyfileIncompatible);
+		VC_CONVERT_EXCEPTION (AtomicFileDestinationNotRegular);
+		VC_CONVERT_EXCEPTION (AtomicFilePublished);
 		VC_CONVERT_EXCEPTION (InsufficientData);
 		VC_CONVERT_EXCEPTION (NotApplicable);
 		VC_CONVERT_EXCEPTION (NotImplemented);

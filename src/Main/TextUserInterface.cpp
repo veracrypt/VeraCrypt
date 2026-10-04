@@ -125,7 +125,10 @@ namespace VeraCrypt
 
 	wstring TextUserInterface::AskSecurityTokenSchemeSpec(const wxString &message) const 
 	{
-		return AskString (!message.empty() ? message : wxString (_("Security token key descriptor (Enter for ordinary keyfiles): ")));
+		// Preserve existing redirected-input transcripts, including users of token:// keyfiles.
+		if (!isatty (STDIN_FILENO) || !SecurityToken::IsInitialized())
+			return wstring();
+		return AskString (!message.empty() ? message : LangString["TOKEN_KEY_DESCRIPTOR_PROMPT"]);
 	}
 
 	shared_ptr <KeyfileList> TextUserInterface::AskKeyfiles (const wxString &message) const
@@ -360,10 +363,11 @@ namespace VeraCrypt
 				options->Password = AskPassword (LangString[volumeType == VolumeType::Hidden ? "ENTER_HIDDEN_VOL_PASSWORD" : "ENTER_NORMAL_VOL_PASSWORD"]);
 				options->Pim = AskPim (volumeType == VolumeType::Hidden ?_("Enter PIM for the hidden volume") : _("Enter PIM for the normal/outer volume"));
 				options->Keyfiles = AskKeyfiles();
-				if (options->Keyfiles && !options->Keyfiles->empty())
-					options->SecurityTokenSchemeSpec = AskSecurityTokenSchemeSpec();
-				else
-					options->SecurityTokenSchemeSpec.clear();
+				bool selectorSpecified = volumeType == VolumeType::Hidden
+					? CmdLine->ArgProtectionSecurityTokenSchemeSpecified : CmdLine->ArgSecurityTokenSchemeSpecified;
+				options->SecurityTokenSchemeSpec = selectorSpecified
+					? (volumeType == VolumeType::Hidden ? CmdLine->ArgMountOptions.ProtectionSecurityTokenSchemeSpec : CmdLine->ArgSecurityTokenSchemeSpec)
+					: (options->Keyfiles && !options->Keyfiles->empty() ? AskSecurityTokenSchemeSpec() : wstring());
 
 				try
 				{
@@ -528,7 +532,7 @@ namespace VeraCrypt
 
 		bool passwordInteractive = !password.get();
 		bool keyfilesInteractive = !keyfiles.get();
-		bool securityTokenSchemeSpecInteractive = securityTokenSchemeSpec.empty();
+		bool securityTokenSchemeSpecInteractive = securityTokenSchemeSpec.empty() && !CmdLine->ArgSecurityTokenSchemeSpecified;
 
 		shared_ptr <Pkcs5Kdf> kdf = currentKdf;
 
@@ -584,6 +588,8 @@ namespace VeraCrypt
 					throw;
 
 				ShowInfo (e);
+				keyfiles.reset();
+				if (securityTokenSchemeSpecInteractive) securityTokenSchemeSpec.clear();
 				continue;
 			}
 
@@ -620,12 +626,15 @@ namespace VeraCrypt
 			newPim = -1;
 		}
 
+		// A token-to-ordinary transition must be an explicit decision.
+		bool newTokenChoiceMade = CmdLine->ArgNewSecurityTokenSchemeSpecified;
 		// New keyfiles
 		if (!newKeyfiles.get() && !Preferences.NonInteractive)
 		{
 			if (keyfiles.get() && keyfiles->size() > 0 && AskYesNo (_("Keep current keyfiles?"), true))
 			{
 				newKeyfiles = keyfiles;
+				newTokenChoiceMade = true;
 				if (!CmdLine->ArgNewSecurityTokenSchemeSpecified)
 					newSecurityTokenSchemeSpec = securityTokenSchemeSpec;
 			}
@@ -635,6 +644,15 @@ namespace VeraCrypt
 				if (newKeyfiles && !newKeyfiles->empty() && !CmdLine->ArgNewSecurityTokenSchemeSpecified && newSecurityTokenSchemeSpec.empty())
 					newSecurityTokenSchemeSpec = AskSecurityTokenSchemeSpec();
 			}
+		}
+
+		if (!securityTokenSchemeSpec.empty() && !newTokenChoiceMade)
+		{
+			if (Preferences.NonInteractive || !isatty (STDIN_FILENO))
+				throw_err (LangString["NEW_TOKEN_KEY_REQUIRED"]);
+			if (newSecurityTokenSchemeSpec.empty()
+				&& !AskYesNo (LangString["TOKEN_KEY_REMOVAL_CONFIRM"], false))
+				throw UserAbort (SRC_POS);
 		}
 
 		/* force the display of the random enriching interface */
@@ -675,7 +693,7 @@ namespace VeraCrypt
 					throw UserAbort (SRC_POS);
 			}
 			SecurityTokenScheme scheme;
-			SecurityToken::GetSecurityTokenScheme (CmdLine->ArgSecurityTokenSchemeSpec, scheme, SecurityTokenKeyOperation::ENCRYPT);
+			SecurityToken::GetSecurityTokenScheme (CmdLine->ArgSecurityTokenSchemeSpec, scheme, SecurityTokenKeyOperation::Encrypt);
 			SecureBuffer buffer (scheme.DecryptOutputSize);
 			RandomNumberGenerator::GetData (buffer, true);
 			Keyfile::CreateBluekey (path, CmdLine->ArgSecurityTokenSchemeSpec, buffer);
@@ -1108,7 +1126,7 @@ namespace VeraCrypt
 		{
 			ShowString (L"\n");
 			options->Keyfiles = AskKeyfiles (_("Enter keyfile path"));
-			if (!options->Keyfiles->empty() && options->SecurityTokenSchemeSpec.empty())
+			if (!options->Keyfiles->empty() && options->SecurityTokenSchemeSpec.empty() && !CmdLine->ArgSecurityTokenSchemeSpecified)
 				options->SecurityTokenSchemeSpec = AskSecurityTokenSchemeSpec();
 		}
 
@@ -1126,6 +1144,11 @@ namespace VeraCrypt
 
 		ShowString (L"\n");
 		wxLongLong startTime = wxGetLocalTimeMillis();
+
+		shared_ptr<VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password, options->SecurityTokenSchemeSpec, true);
+		options->Password = passwordKey;
+		options->Keyfiles.reset();
+		options->SecurityTokenSchemeSpec.clear();
 
 		VolumeCreator creator;
 		options->EMVSupportEnabled = true;
@@ -1504,7 +1527,7 @@ namespace VeraCrypt
 			if (!options.Keyfiles)
 			{
 				options.Keyfiles = AskKeyfiles();
-				if (!options.Keyfiles->empty() && options.SecurityTokenSchemeSpec.empty())
+				if (!options.Keyfiles->empty() && options.SecurityTokenSchemeSpec.empty() && !CmdLine->ArgSecurityTokenSchemeSpecified)
 					options.SecurityTokenSchemeSpec = AskSecurityTokenSchemeSpec();
 			}
 
@@ -1634,7 +1657,7 @@ namespace VeraCrypt
 				if (!options.Keyfiles)
 				{
 					options.Keyfiles = AskKeyfiles();
-					if (!options.Keyfiles->empty() && options.SecurityTokenSchemeSpec.empty())
+					if (!options.Keyfiles->empty() && options.SecurityTokenSchemeSpec.empty() && !CmdLine->ArgSecurityTokenSchemeSpecified)
 						options.SecurityTokenSchemeSpec = AskSecurityTokenSchemeSpec();
 				}
 			}
@@ -1654,7 +1677,7 @@ namespace VeraCrypt
 				if (!options.ProtectionKeyfiles)
 				{
 					options.ProtectionKeyfiles = AskKeyfiles (_("Enter keyfile for hidden volume"));
-					if (!options.ProtectionKeyfiles->empty() && options.ProtectionSecurityTokenSchemeSpec.empty())
+					if (!options.ProtectionKeyfiles->empty() && options.ProtectionSecurityTokenSchemeSpec.empty() && !CmdLine->ArgProtectionSecurityTokenSchemeSpecified)
 						options.ProtectionSecurityTokenSchemeSpec = AskSecurityTokenSchemeSpec();
 				}
 			}
@@ -1843,7 +1866,7 @@ namespace VeraCrypt
 				options.Password = AskPassword();
 				options.Pim = AskPim();
 				options.Keyfiles = AskKeyfiles();
-				options.SecurityTokenSchemeSpec = options.Keyfiles->empty() ? wstring() : AskSecurityTokenSchemeSpec();
+				options.SecurityTokenSchemeSpec = CmdLine->ArgSecurityTokenSchemeSpecified ? CmdLine->ArgSecurityTokenSchemeSpec : (options.Keyfiles->empty() ? wstring() : AskSecurityTokenSchemeSpec());
 
 				try
 				{
@@ -1939,16 +1962,19 @@ namespace VeraCrypt
 			options.EMVSupportEnabled = true;
 
 			shared_ptr <VolumeLayout> decryptedLayout;
+			shared_ptr <VolumePassword> passwordKey;
 
 			while (!decryptedLayout)
 			{
 				options.Password = AskPassword (L"\n" + LangString["ENTER_HEADER_BACKUP_PASSWORD"]);
 				options.Pim = AskPim (_("Enter PIM"));
 				options.Keyfiles = AskKeyfiles();
-				options.SecurityTokenSchemeSpec = options.Keyfiles->empty() ? wstring() : AskSecurityTokenSchemeSpec();
+				options.SecurityTokenSchemeSpec = CmdLine->ArgSecurityTokenSchemeSpecified ? CmdLine->ArgSecurityTokenSchemeSpec : (options.Keyfiles->empty() ? wstring() : AskSecurityTokenSchemeSpec());
 
 				try
 				{
+					passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.SecurityTokenSchemeSpec, options.EMVSupportEnabled);
+
 					// Test volume layouts
 					foreach (shared_ptr <VolumeLayout> layout, VolumeLayout::GetAvailableLayouts ())
 					{
@@ -1965,7 +1991,6 @@ namespace VeraCrypt
 						backupFile.ReadAt (headerBuffer, layout->GetType() == VolumeType::Hidden ? layout->GetHeaderSize() : 0);
 
 						// Decrypt header
-						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.SecurityTokenSchemeSpec, options.EMVSupportEnabled);
 						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, options.Pim, kdf, layout->GetSupportedKeyDerivationFunctions(), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
 						{
 							decryptedLayout = layout;
@@ -1991,7 +2016,14 @@ namespace VeraCrypt
 
 			// Re-encrypt volume header
 			SecureBuffer newHeaderBuffer (decryptedLayout->GetHeaderSize());
-			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles, options.SecurityTokenSchemeSpec, options.EMVSupportEnabled);
+			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), passwordKey, options.Pim, shared_ptr<KeyfileList>(), wstring(), options.EMVSupportEnabled);
+
+			SecureBuffer backupHeaderBuffer (decryptedLayout->GetHeaderSize());
+			if (decryptedLayout->HasBackupHeader())
+			{
+				// Re-encrypt backup volume header
+				Core->ReEncryptVolumeHeaderWithNewSalt (backupHeaderBuffer, decryptedLayout->GetHeader(), passwordKey, options.Pim, shared_ptr<KeyfileList>(), wstring(), options.EMVSupportEnabled);
+			}
 
 			// Write volume header
 			int headerOffset = decryptedLayout->GetHeaderOffset();
@@ -2004,9 +2036,6 @@ namespace VeraCrypt
 
 			if (decryptedLayout->HasBackupHeader())
 			{
-				// Re-encrypt backup volume header
-				Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles, options.SecurityTokenSchemeSpec, options.EMVSupportEnabled);
-
 				// Write backup volume header
 				headerOffset = decryptedLayout->GetBackupHeaderOffset();
 				if (headerOffset >= 0)
@@ -2014,7 +2043,7 @@ namespace VeraCrypt
 				else
 					volumeFile.SeekEnd (headerOffset);
 
-				volumeFile.Write (newHeaderBuffer);
+				volumeFile.Write (backupHeaderBuffer);
 			}
 		}
 

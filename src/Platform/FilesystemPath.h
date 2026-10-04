@@ -58,7 +58,6 @@ namespace VeraCrypt
 		bool IsEmpty () const throw () { try { return Path.empty(); } catch (...) { return false; } }
 		bool IsFile () const throw () { try { return GetType() == FilesystemPathType::File; } catch (...) { return false; } }
 		FilesystemPath ToBaseName () const;
-		FilesystemPath Append(wstring name) const;
 		FilesystemPath ToHostDriveOfPartition () const;
 
 		static const int MaxSize = 260;

@@ -4,7 +4,8 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
+ with contributions Copyright (c) 2024-2025 Anton Dubenchuk
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -20,9 +21,9 @@
 namespace VeraCrypt
 {
 
-	enum KeyType {
-		PRIVATE,
-		PUBLIC
+	enum class KeyType {
+		Private,
+		Public
 	};
 
 	class SecurityTokenSchemesDialog : public SecurityTokenSchemesDialogBase
@@ -37,7 +38,9 @@ namespace VeraCrypt
 			ColumnSecurityTokenSlotId = 0,
 			ColumnSecurityTokenLabel,
 			ColumnSecurityTokenKeyLabel,
-			ColumnSecurityTokenMechanismLabel
+			ColumnSecurityTokenMechanismLabel,
+			ColumnSecurityTokenKeyId,
+			ColumnSecurityTokenKeySize
 		};
 
 		void FillSecurityTokenSchemesListCtrl (KeyType keyType);

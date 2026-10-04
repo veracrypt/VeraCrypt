@@ -131,7 +131,7 @@ namespace VeraCrypt
 		if (!keyfiles || keyfiles->empty())
 		{
 			if (!tokenDescriptor.empty())
-				throw ParameterIncorrect (SRC_POS);
+				throw EncryptedKeyfileKeyfilesRequired (SRC_POS);
 			return password;
 		}
 
@@ -231,7 +231,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		SecurityTokenScheme scheme;
-		SecurityToken::GetSecurityTokenScheme (tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::ENCRYPT);
+		SecurityToken::GetSecurityTokenScheme (tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::Encrypt);
 		ValidateScheme (scheme);
 		const size_t plaintextSize = scheme.DecryptOutputSize;
 		if (buffer.Size() < plaintextSize)
@@ -273,7 +273,7 @@ namespace VeraCrypt
 		{
 			// A token object keyfile is already plaintext, not an encrypted disk keyfile.
 			if (!tokenSchemeDescriptor.empty())
-				throw ParameterIncorrect (SRC_POS, Path);
+				throw EncryptedKeyfileIncompatible (SRC_POS, Path);
 			vector<uint8> keyfileData;
 			WipeVector wipeKeyfileData (keyfileData);
 			Token::getTokenKeyfile (wstring (Path))->GetKeyfileData (keyfileData);
@@ -288,7 +288,7 @@ namespace VeraCrypt
 			return make_shared<FileStream> (file);
 
 		SecurityTokenScheme scheme;
-		SecurityToken::GetSecurityTokenScheme (tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::DECRYPT);
+		SecurityToken::GetSecurityTokenScheme (tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::Decrypt);
 		ValidateScheme (scheme);
 
 		// Consume exactly the ciphertext prefix, leaving the plaintext remainder
@@ -300,15 +300,21 @@ namespace VeraCrypt
 		{
 			uint64 readLength = file->Read (BufferPtr (ciphertext.data() + position, ciphertext.size() - position));
 			if (readLength == 0)
-				throw InsufficientData (SRC_POS, Path);
+				throw EncryptedKeyfileInvalid (SRC_POS, Path);
 			position += static_cast<size_t> (readLength);
 		}
 
 		vector<uint8> plaintext;
 		WipeVector wipePlaintext (plaintext);
-		SecurityToken::GetDecryptedData (scheme, ciphertext, plaintext);
+		try { SecurityToken::GetDecryptedData (scheme, ciphertext, plaintext); }
+		catch (const Pkcs11Exception &e)
+		{
+			if (e.GetErrorCode() == CKR_ENCRYPTED_DATA_INVALID || e.GetErrorCode() == CKR_ENCRYPTED_DATA_LEN_RANGE)
+				throw EncryptedKeyfileInvalid (SRC_POS, Path);
+			throw;
+		}
 		if (plaintext.size() != scheme.DecryptOutputSize)
-			throw InsufficientData (SRC_POS, Path);
+			throw EncryptedKeyfileInvalid (SRC_POS, Path);
 
 		shared_ptr<PipelineStream> stream = make_shared<PipelineStream>();
 		stream->AddStream (make_shared<KeyfileBufferStream> (ConstBufferPtr (plaintext.data(), plaintext.size())));

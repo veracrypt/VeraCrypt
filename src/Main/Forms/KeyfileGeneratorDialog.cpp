@@ -21,6 +21,8 @@ namespace VeraCrypt
 {
 	KeyfileGeneratorDialog::KeyfileGeneratorDialog (wxWindow* parent) : KeyfileGeneratorDialogBase (parent)
 	{
+		RandomSizeCheckBox->SetLabel (LangString["TOKEN_KEYFILE_RANDOM_SIZE"]);
+		ChooseSecurityTokenButton->SetLabel (LangString["TOKEN_KEY_SELECT"]);
 		RandomNumberGenerator::Start();
 
 		Hashes = Hash::GetAvailableAlgorithms();
@@ -82,7 +84,7 @@ namespace VeraCrypt
 			if (!securityTokenSchemeSpec.IsEmpty())
 			{
 				SecurityTokenScheme scheme;
-				SecurityToken::GetSecurityTokenScheme (securityTokenSchemeSpec.ToStdWstring(), scheme, SecurityTokenKeyOperation::ENCRYPT);
+				SecurityToken::GetSecurityTokenScheme (securityTokenSchemeSpec.ToStdWstring(), scheme, SecurityTokenKeyOperation::Encrypt);
 				minimumSize = static_cast<int> (scheme.DecryptOutputSize);
 				if (minimumSize < 64 || minimumSize > 1024 * 1024)
 					throw ParameterIncorrect (SRC_POS);
@@ -251,12 +253,12 @@ namespace VeraCrypt
 	{
 		try
 		{
-			SecurityTokenSchemesDialog dialog (this, SecurityTokenKeyOperation::ENCRYPT);
+			SecurityTokenSchemesDialog dialog (this, SecurityTokenKeyOperation::Encrypt);
 			if (dialog.ShowModal() == wxID_OK)
 			{
 				wstring schemeSpec = dialog.GetSelectedSecurityTokenSchemeSpec();
 				SecurityTokenScheme scheme;
-				SecurityToken::GetSecurityTokenScheme (schemeSpec, scheme, SecurityTokenKeyOperation::ENCRYPT);
+				SecurityToken::GetSecurityTokenScheme (schemeSpec, scheme, SecurityTokenKeyOperation::Encrypt);
 				SecurityTokenSchemeDesc->SetValue (wxString (schemeSpec));
 				KeyfilesSize->SetValue (std::max (KeyfilesSize->GetValue(), static_cast<int> (scheme.DecryptOutputSize)));
 			}

@@ -157,6 +157,22 @@ After building these tests, run `python3 Tests/test_token_credential_workflows.p
 from the repository root to check CLI hidden-volume protection, wizard credential
 validation, and header-backup cancellation. This also requires `wx-config` and a
 C++11 compiler; it uses temporary files and mock tokens without mounting volumes.
+Also run `python3 Tests/test_backup_header_retry.py` and
+`python3 Tests/test_keyfile_cli_workflows.py` to check credential retries and redirected
+text-mode input. The Linux CI runs these harnesses with `make test`.
+After a Linux GUI build, `python3 Tests/test_token_password_panel.py` uses the actual
+wxWidgets dialogs under Xvfb to check token inheritance and removal confirmation.
+Use `--xvfb /path/to/Xvfb` if it is not on PATH.
+
+Encrypted keyfiles remain unmarked and are experimental. The current validation covers
+Linux GUI and console builds plus a development SoftHSM provider. Before a stable release,
+record the card model, firmware and released provider versions for YKCS11 and OpenSC,
+testing generation and decryption separately, incorrect PIN and cancellation, per-operation
+PIN/touch, reconnect, recovery export, and legacy token-stored keyfiles. Complete native
+Windows builds of Mount, Format, ExpandVolume and FormatDLL with legacy token regression
+checks, and macOS/FreeBSD builds before claiming support there. The provider interoperability
+harness is `Tests/test_encrypted_keyfile_cli.py`; it uses an explicitly configured disposable
+token and does not provision or alter token objects.
 
 On MacOSX, building a console-only executable is not supported.
 

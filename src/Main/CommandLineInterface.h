@@ -41,6 +41,7 @@ namespace VeraCrypt
 			DisplayVersion,
 			DisplayVolumeProperties,
 			ExportTokenKeyfile,
+			ExportDecryptedKeyfile,
 			Help,
 			ImportTokenKeyfiles,
 			ListTokenKeyfiles,
@@ -69,6 +70,7 @@ namespace VeraCrypt
 		bool ArgEmergencyUnmount;
 #endif
 		shared_ptr <FilePath> ArgFilePath;
+		shared_ptr <FilePath> ArgOutputPath;
 		VolumeCreationOptions::FilesystemType::Enum ArgFilesystem;
 		bool ArgForce;
 		shared_ptr <Pkcs5Kdf> ArgHash;
@@ -79,6 +81,8 @@ namespace VeraCrypt
 		shared_ptr <KeyfileList> ArgNewKeyfiles;
 		wstring ArgSecurityTokenSchemeSpec;
 		wstring ArgNewSecurityTokenSchemeSpec;
+		bool ArgSecurityTokenSchemeSpecified;
+		bool ArgProtectionSecurityTokenSchemeSpecified;
 		bool ArgNewSecurityTokenSchemeSpecified;
 		shared_ptr <VolumePassword> ArgNewPassword;
 		int ArgNewPim;

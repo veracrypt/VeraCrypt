@@ -262,6 +262,42 @@ int main (int argc, char **argv) {
 '''
 
 
+CREATOR = r'''
+#include "Core/Core.h"
+#include "Core/VolumeCreator.h"
+namespace VeraCrypt { unique_ptr<CoreBase> Core; }
+class FailingToken : public MockSecurityTokenImpl {
+public:
+    void GetDecryptedData (const SecurityTokenScheme &, const vector<uint8> &, vector<uint8> &) {
+        throw UserAbort ("cancelled token operation");
+    }
+};
+int main (int argc, char **argv) {
+    Require (argc == 2, "Missing scratch directory");
+    const FilePath keyfile (string (argv[1]) + "/creator-keyfile");
+    WriteFile (keyfile, string (256, 'x'));
+    SecurityToken::UseImpl (make_shared<FailingToken>());
+    for (bool existing : {false, true}) {
+        const FilePath destination (string (argv[1]) + (existing ? "/creator-existing" : "/creator-new"));
+        if (existing) WriteFile (destination, "existing contents");
+        auto options = make_shared<VolumeCreationOptions>();
+        options->Path = VolumePath (wstring (destination));
+        options->Keyfiles = make_shared<KeyfileList>();
+        options->Keyfiles->push_back (make_shared<Keyfile> (keyfile));
+        options->SecurityTokenSchemeSpec = L"test";
+        bool cancelled = false;
+        try { VolumeCreator creator; creator.CreateVolume (options); }
+        catch (const UserAbort &) { cancelled = true; }
+        Require (cancelled, "Creation did not resolve credentials before contacting the core");
+        Require (existing ? ReadFile (destination) == "existing contents" : !destination.IsFile(),
+            "Credential failure modified the creation destination");
+    }
+    SecurityToken::UseImpl (shared_ptr<SecurityTokenIface>());
+    std::cout << "PASS: common volume creator preflights credentials before opening existing/new destinations\n";
+}
+'''
+
+
 def method(source, signature):
     start = source.index(signature)
     opening = source.index("{", start)
@@ -298,7 +334,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="vc-token-workflows-") as temporary:
         work = Path(temporary)
         for name, harness, extra in (("cli", CLI, [str(ROOT / "src/Main/CommandLineInterface.cpp")]),
-                                     ("wizard", wizard, []), ("backup", backup, [])):
+                                     ("wizard", wizard, []), ("backup", backup, []), ("creator", CREATOR, [])):
             unit, executable = work / (name + ".cpp"), work / name
             unit.write_text(COMMON + harness)
             subprocess.run(flags + [str(unit)] + extra + libraries + ["-o", str(executable)], check=True, timeout=120)

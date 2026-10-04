@@ -4,7 +4,8 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
+ with contributions Copyright (c) 2024-2025 Anton Dubenchuk
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -27,18 +28,22 @@ namespace VeraCrypt
 		list <int> colPermilles;
 
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenSlotId, _("TOKEN_SLOT_ID"), wxLIST_FORMAT_CENTER, 1);
-		colPermilles.push_back (150);
+		colPermilles.push_back (80);
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenLabel, _("TOKEN_NAME"), wxLIST_FORMAT_LEFT, 1);
-		colPermilles.push_back (220);
+		colPermilles.push_back (170);
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenKeyLabel, _("TOKEN_KEY_LABEL"), wxLIST_FORMAT_LEFT, 1);
-		colPermilles.push_back (300);
+		colPermilles.push_back (200);
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenMechanismLabel, _("TOKEN_KEY_MECHANISM_LABEL"), wxLIST_FORMAT_LEFT, 1);
-		colPermilles.push_back (330);
+		colPermilles.push_back (270);
+		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenKeyId, LangString["TOKEN_KEY_ID"], wxLIST_FORMAT_LEFT, 1);
+		colPermilles.push_back (160);
+		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenKeySize, LangString["TOKEN_KEY_SIZE"], wxLIST_FORMAT_RIGHT, 1);
+		colPermilles.push_back (120);
 
 
-		KeyType keyType = KeyType::PUBLIC;
-		if (mode == SecurityTokenKeyOperation::DECRYPT) {
-			keyType = KeyType::PRIVATE;
+		KeyType keyType = KeyType::Public;
+		if (mode == SecurityTokenKeyOperation::Decrypt) {
+			keyType = KeyType::Private;
 		}
 		FillSecurityTokenSchemesListCtrl(keyType);
 
@@ -60,10 +65,10 @@ namespace VeraCrypt
 
 		SecurityTokenSchemeListCtrl->DeleteAllItems();
 		switch (keyType) {
-			case KeyType::PRIVATE:
+			case KeyType::Private:
 				SecurityTokenSchemeList = SecurityToken::GetAvailablePrivateKeys();
 				break;
-			case KeyType::PUBLIC:
+			case KeyType::Public:
 				SecurityTokenSchemeList = SecurityToken::GetAvailablePublicKeys();
 				break;
 			default:
@@ -79,6 +84,10 @@ namespace VeraCrypt
 			fields[ColumnSecurityTokenLabel] = scheme.Token.Label;
 			fields[ColumnSecurityTokenKeyLabel] = scheme.Id;
 			fields[ColumnSecurityTokenMechanismLabel] = scheme.MechanismLabel;
+			wxString id;
+			foreach (uint8 value, scheme.ObjectId) id += wxString::Format (L"%02x", static_cast<unsigned int> (value));
+			fields[ColumnSecurityTokenKeyId] = id.ToStdWstring();
+			fields[ColumnSecurityTokenKeySize] = StringConverter::ToWide (static_cast<uint64> (scheme.RsaKeyBits));
 
 			Gui->AppendToListCtrl (SecurityTokenSchemeListCtrl, fields, 0, &SecurityTokenSchemeList[i++]); 
 		}
@@ -104,7 +113,12 @@ namespace VeraCrypt
 		foreach (long item, Gui->GetListCtrlSelectedItems (SecurityTokenSchemeListCtrl))
 		{
 			SecurityTokenScheme *key = reinterpret_cast <SecurityTokenScheme *> (SecurityTokenSchemeListCtrl->GetItemData (item));
-			SelectedSecurityTokenSchemeSpec = key->GetSpec();
+			bool useSlot = false;
+			foreach (const SecurityTokenScheme &candidate, SecurityTokenSchemeList)
+				if (candidate.SlotId != key->SlotId && candidate.Token.SerialNumber == key->Token.SerialNumber
+					&& candidate.ObjectId == key->ObjectId)
+					useSlot = true;
+			SelectedSecurityTokenSchemeSpec = key->GetSpec (useSlot);
 		}
 
 		EndModal (wxID_OK);

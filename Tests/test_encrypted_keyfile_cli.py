@@ -20,8 +20,8 @@ import subprocess
 import tempfile
 
 
-def run(command, success=True):
-    result = subprocess.run(command, capture_output=True, text=True, timeout=120)
+def run(command, success=True, transcript=None):
+    result = subprocess.run(command, input=transcript, capture_output=True, text=True, timeout=120)
     if (result.returncode == 0) != success:
         # Do not print command arguments, which contain the disposable PIN.
         raise AssertionError(result.stdout + result.stderr)
@@ -57,6 +57,13 @@ def main():
              "--mechanism", "RSA-PKCS-OAEP", "--hash-algorithm", "SHA256",
              "--mgf", "MGF1-SHA256", "--input-file", str(blue2), "--output-file", str(red2)])
         assert red2.stat().st_size + 66 == blue2.stat().st_size
+        exported = directory / "exported-red2"
+        run(base + token + ["--export-decrypted-keyfile", str(blue2), f"--output={exported}",
+                            f"--security-token-key={args.descriptor}"])
+        assert exported.read_bytes() == red2.read_bytes()
+        assert exported.stat().st_mode & 0o777 == 0o600
+        run(base + token + ["--export-decrypted-keyfile", str(blue2), f"--output={exported}",
+                            f"--security-token-key={args.descriptor}"], success=False)
 
         run(base + token + ["--create", str(volume), "--size=2M", "--encryption=AES",
              "--hash=sha512", "--filesystem=none", "--volume-type=normal",
@@ -66,10 +73,31 @@ def main():
                          "--hash=sha512", f"--new-password={password}", "--new-pim=1",
                          "--random-source=/dev/urandom"]
 
+        # Back up and restore both headers through the text workflow without a mount.
+        backup = directory / "headers.bak"
+        interactive = [binary, "--text"] + token + ["--hash=sha512", "--random-source=/dev/urandom",
+                                                     f"--security-token-key={args.descriptor}"]
+        run(interactive + ["--backup-headers", str(volume)],
+            transcript=f"{password}\n1\n{blue1}\n\nn\ny\n{backup}\n")
+        assert backup.stat().st_size == 131072
+        run(interactive + ["--restore-headers", str(volume)],
+            transcript=f"2\ny\n{backup}\n{password}\n1\n{blue1}\n\n")
+
+        # A password retry must ask for keyfiles again even with an explicit selector.
+        run(interactive + ["--change", str(volume), "--pim=1", f"--new-password={password}",
+                           "--new-pim=1", f"--new-keyfiles={blue1}",
+                           f"--new-security-token-key={args.descriptor}"],
+            transcript=f"WrongDisposablePassword\n{blue1}\n\n{password}\n{blue1}\n\ny\n")
+
         # Invalid token selection must fail before modifying any volume bytes.
         before = hashlib.sha256(volume.read_bytes()).digest()
         run(change + token + [f"--keyfiles={blue1}", "--security-token-key=invalid",
                                "--new-keyfiles="], success=False)
+        assert hashlib.sha256(volume.read_bytes()).digest() == before
+
+        # Omitting a new token decision cannot silently install ordinary credentials.
+        run(change + token + [f"--keyfiles={blue1}", f"--security-token-key={args.descriptor}",
+                               f"--new-keyfiles={blue1}"], success=False)
         assert hashlib.sha256(volume.read_bytes()).digest() == before
 
         # Exercise both current and new selectors. The red recovery file must
@@ -80,7 +108,7 @@ def main():
         run(change + token + ["--keyfiles=", f"--new-keyfiles={blue1}",
                                f"--new-security-token-key={args.descriptor}"])
         run(change + token + [f"--keyfiles={blue1}", f"--security-token-key={args.descriptor}",
-                               "--new-keyfiles="])
+                               "--new-keyfiles=", "--new-security-token-key="])
     print("PASS: OAEP interoperability, encrypted creation, credential changes, recovery and failure preservation")
 
 

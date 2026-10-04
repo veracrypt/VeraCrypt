@@ -81,9 +81,23 @@ namespace VeraCrypt
 
 		UseKeyfilesCheckBox->Show (enableKeyfiles);
 		KeyfilesButton->Show (enableKeyfiles);
+		wxStaticText *tokenLabel = new wxStaticText (this, wxID_ANY, LangString["IDC_SECURITY_TOKEN_KEY"]);
+		GridBagSizer->Add (tokenLabel, wxGBPosition (8, 0), wxGBSpan (1, 1), wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+		tokenLabel->Show (enableKeyfiles);
+		SecurityTokenSchemeSpecText->SetMinSize (wxSize (250, -1));
+		GridBagSizer->GetItem (SecurityTokenSchemeSpecText)->SetFlag (wxEXPAND | wxTOP | wxRIGHT | wxLEFT);
+		SecurityTokenSchemeSpecButton->SetLabel (LangString["TOKEN_KEY_SELECT"]);
 		SecurityTokenSchemeSpecText->Show (enableKeyfiles);
 		SecurityTokenSchemeSpecButton->Show (enableKeyfiles);
-		SecurityTokenSchemeSpecText->SetValue(securityTokenSchemeSpec);
+		SecurityTokenSchemeSpecText->ChangeValue (securityTokenSchemeSpec);
+		SecurityTokenSchemeEdited = !securityTokenSchemeSpec.empty();
+		SecurityTokenSchemeSpecText->SetHint (LangString["TOKEN_KEY_ORDINARY_MODE"]);
+		SecurityTokenSchemeSpecText->SetToolTip (LangString["TOKEN_KEY_MODE_HELP"]);
+		SecurityTokenSchemeSpecText->Bind (wxEVT_TEXT, [this] (wxCommandEvent &)
+		{
+			SecurityTokenSchemeEdited = true;
+			OnUpdate();
+		});
 		
 
 		Pkcs5PrfStaticText->Show (enablePkcs5Prf);

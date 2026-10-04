@@ -1,3 +1,11 @@
+/*
+ Copyright (c) 2026 AM Crypto. All rights reserved.
+
+ Governed by the Apache License 2.0 the full text of which is
+ contained in the file License.txt included in VeraCrypt binary and source
+ code distribution packages.
+*/
+
 // Regression tests for the production PKCS #11 adapter. The function table below
 // models provider responses; it deliberately does not implement RSA cryptography.
 #include <Testing.h>
@@ -32,6 +40,9 @@ namespace
     public:
         typedef map<CK_ATTRIBUTE_TYPE, vector<uint8> > Attributes;
         map<CK_OBJECT_HANDLE, Attributes> Objects;
+        map<CK_OBJECT_HANDLE, CK_SLOT_ID> ObjectSlots;
+        map<CK_SESSION_HANDLE, CK_SLOT_ID> SessionSlots;
+        map<CK_SLOT_ID, CK_RV> TokenInfoStatus;
         map<CK_SESSION_HANDLE, bool> ModuleSessions;
         CK_FUNCTION_LIST Functions;
         CK_SLOT_ID SlotCount = 1;
@@ -133,8 +144,9 @@ namespace
             info->flags = CKF_TOKEN_PRESENT;
             return CKR_OK;
         }
-        static CK_RV ProviderTokenInfo(CK_SLOT_ID, CK_TOKEN_INFO_PTR info)
+        static CK_RV ProviderTokenInfo(CK_SLOT_ID slot, CK_TOKEN_INFO_PTR info)
         {
+            if (Active->TokenInfoStatus.count(slot)) return Active->TokenInfoStatus.at(slot);
             memset(info, 0, sizeof(*info));
             memset(info->label, ' ', sizeof(info->label));
             memcpy(info->label, "test token", 10);
@@ -152,10 +164,11 @@ namespace
             info->flags = Active->MechanismFlags;
             return CKR_OK;
         }
-        static CK_RV OpenSession(CK_SLOT_ID, CK_FLAGS, CK_VOID_PTR, CK_NOTIFY, CK_SESSION_HANDLE_PTR handle)
+        static CK_RV OpenSession(CK_SLOT_ID slot, CK_FLAGS, CK_VOID_PTR, CK_NOTIFY, CK_SESSION_HANDLE_PTR handle)
         {
             *handle = Active->ReuseSessionHandle ? 10 : Active->NextSession++;
             Active->ModuleSessions[*handle] = false;
+            Active->SessionSlots[*handle] = slot;
             return CKR_OK;
         }
         static CK_RV CloseSession(CK_SESSION_HANDLE handle)
@@ -188,7 +201,7 @@ namespace
             if (type == CKU_USER) Active->ModuleSessions[handle] = true;
             return CKR_OK;
         }
-        static CK_RV FindObjectsInit(CK_SESSION_HANDLE, CK_ATTRIBUTE_PTR attributes, CK_ULONG count)
+        static CK_RV FindObjectsInit(CK_SESSION_HANDLE session, CK_ATTRIBUTE_PTR attributes, CK_ULONG count)
         {
             if (count != 1 || attributes[0].type != CKA_CLASS) return CKR_ARGUMENTS_BAD;
             vector<uint8> objectClass(static_cast<uint8 *>(attributes[0].pValue),
@@ -196,7 +209,9 @@ namespace
             Active->Search.clear();
             Active->SearchIndex = 0;
             for (const auto &object : Active->Objects)
-                if (object.second.at(CKA_CLASS) == objectClass) Active->Search.push_back(object.first);
+                if (object.second.at(CKA_CLASS) == objectClass
+                    && (!Active->ObjectSlots.count(object.first) || Active->ObjectSlots.at(object.first) == Active->SessionSlots.at(session)))
+                    Active->Search.push_back(object.first);
             return CKR_OK;
         }
         static CK_RV FindObjects(CK_SESSION_HANDLE, CK_OBJECT_HANDLE_PTR handles, CK_ULONG capacity, CK_ULONG_PTR count)
@@ -291,7 +306,7 @@ namespace
         ~Fixture() { SecurityToken::UseImpl(shared_ptr<SecurityTokenIface>()); }
         SecurityTokenScheme Key(SecurityTokenKeyOperation operation)
         {
-            vector<SecurityTokenScheme> keys = operation == ENCRYPT ? SecurityToken::GetAvailablePublicKeys() : SecurityToken::GetAvailablePrivateKeys();
+            vector<SecurityTokenScheme> keys = operation == SecurityTokenKeyOperation::Encrypt ? SecurityToken::GetAvailablePublicKeys() : SecurityToken::GetAvailablePrivateKeys();
             if (keys.size() != 1) throw runtime_error("Expected one test key");
             return keys.front();
         }
@@ -310,6 +325,49 @@ namespace
             return;
         }
         result->Failed("Expected PKCS #11 error");
+    }
+
+    template<class Expected> void ExpectException(shared_ptr<TestResult> result, const function<void()> &operation)
+    {
+        try { operation(); }
+        catch (const Expected &) { return; }
+        result->Failed("Expected typed exception");
+    }
+
+    void SlotResolution(shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt), selected;
+        Require(result, key.GetSpec(true) == L"slot-key:1:42:RSA PKCS#1 OAEP", "Explicit slot fallback is missing");
+        fixture.Token->SlotCount = 2;
+        fixture.Token->TokenInfoStatus[1] = CKR_TOKEN_NOT_RECOGNIZED;
+        SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, SecurityTokenKeyOperation::Decrypt);
+        Require(result, selected.SlotId == 2, "An unrelated unsupported reader hid the selected key");
+        fixture.Token->TokenInfoStatus.clear();
+        fixture.Token->ObjectSlots[2] = 2;
+        SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, SecurityTokenKeyOperation::Decrypt);
+        Require(result, selected.SlotId == 2, "Lookup stopped before the slot containing the key");
+        fixture.Token->ObjectSlots.clear();
+        ExpectException<SecurityTokenKeyAmbiguous>(result, [&] {
+            SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, SecurityTokenKeyOperation::Decrypt);
+        });
+        SecurityToken::GetSecurityTokenScheme(key.GetSpec(true), selected, SecurityTokenKeyOperation::Decrypt);
+        Require(result, selected.SlotId == 1, "Explicit slot did not disambiguate mirrored keys");
+        ExpectException<SecurityTokenKeyNotFound>(result, [&] {
+            SecurityToken::GetSecurityTokenScheme(L"slot-key:1:43:RSA PKCS#1 OAEP", selected, SecurityTokenKeyOperation::Decrypt);
+        });
+    }
+
+    void PublicModulusFallback(shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        fixture.Token->Objects[2].erase(CKA_MODULUS);
+        fixture.Token->MechanismFlags = CKF_DECRYPT;
+        fixture.Token->Objects[1][CKA_ENCRYPT] = Bytes(CK_BBOOL(CK_FALSE));
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt);
+        Require(result, key.RsaKeyBits == 2048 && key.EncryptOutputSize == 256, "Public RSA modulus fallback failed");
+        fixture.Token->AddKey(3, CKO_PUBLIC_KEY);
+        Require(result, SecurityToken::GetAvailablePrivateKeys().empty(), "Ambiguous public-key pairing was accepted");
     }
 
     void LegacyLargeDataKeyfile(shared_ptr<TestResult> result)
@@ -346,11 +404,11 @@ namespace
         token.Objects[8][CKA_ENCRYPT] = Bytes(CK_BBOOL(CK_FALSE));
         token.AddKey(9, CKO_PUBLIC_KEY);
         token.Objects[9][CKA_ENCRYPT].clear();
-        SecurityTokenScheme key = fixture.Key(ENCRYPT);
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Encrypt);
         Require(result, key.Handle == 1 && key.EncryptOutputSize == 256 && key.DecryptOutputSize == 190,
             "Mixed unsupported keys hid or changed the usable RSA OAEP key");
         token.Objects[2].erase(CKA_ALWAYS_AUTHENTICATE);
-        SecurityTokenScheme privateKey = fixture.Key(DECRYPT);
+        SecurityTokenScheme privateKey = fixture.Key(SecurityTokenKeyOperation::Decrypt);
         vector<uint8> plaintext;
         SecurityToken::GetDecryptedData(privateKey, vector<uint8>(256), plaintext);
         Require(result, plaintext.size() == 190, "Optional ALWAYS_AUTHENTICATE attribute was required");
@@ -381,26 +439,26 @@ namespace
     void Descriptors(shared_ptr<TestResult> result)
     {
         Fixture fixture;
-        SecurityTokenScheme key = fixture.Key(ENCRYPT), selected;
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Encrypt), selected;
         Require(result, key.GetSpec() == L"token-key:53455249414c:42:RSA PKCS#1 OAEP", "Serial/ID descriptor changed");
-        SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, DECRYPT);
+        SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, SecurityTokenKeyOperation::Decrypt);
         Require(result, selected.Handle == 2, "Public descriptor did not select paired private key");
-        SecurityToken::GetSecurityTokenScheme(L"1:test:key:RSA PKCS#1 OAEP", selected, DECRYPT);
+        SecurityToken::GetSecurityTokenScheme(L"1:test:key:RSA PKCS#1 OAEP", selected, SecurityTokenKeyOperation::Decrypt);
         Require(result, selected.Handle == 2, "Legacy label containing a colon did not resolve");
         fixture.Token->AddKey(3, CKO_PRIVATE_KEY);
-        ExpectPkcs11(result, CKR_KEY_NEEDED, [&] { SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, DECRYPT); });
+        ExpectException<SecurityTokenKeyAmbiguous>(result, [&] { SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, SecurityTokenKeyOperation::Decrypt); });
         fixture.Token->Objects.erase(3);
         fixture.Token->SlotCount = 2;
-        ExpectPkcs11(result, CKR_KEY_NEEDED, [&] { SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, DECRYPT); });
+        ExpectException<SecurityTokenKeyAmbiguous>(result, [&] { SecurityToken::GetSecurityTokenScheme(key.GetSpec(), selected, SecurityTokenKeyOperation::Decrypt); });
         fixture.Token->SlotCount = 1;
         fixture.Token->Serial.clear();
-        key = fixture.Key(ENCRYPT);
+        key = fixture.Key(SecurityTokenKeyOperation::Encrypt);
         Require(result, key.GetSpec() == L"slot-key:1:42:RSA PKCS#1 OAEP", "Empty serial did not use explicit slot identity");
         const wchar_t *invalid[] = { L"slot-key:-1:42:RSA PKCS#1 OAEP", L"slot-key:1:4x:RSA PKCS#1 OAEP", L"slot-key:1:4:RSA PKCS#1 OAEP" };
         for (const wchar_t *descriptor : invalid) {
             bool rejected = false;
-            try { SecurityToken::GetSecurityTokenScheme(descriptor, selected, DECRYPT); }
-            catch (const InvalidSecurityTokenKeyfilePath &) { rejected = true; }
+            try { SecurityToken::GetSecurityTokenScheme(descriptor, selected, SecurityTokenKeyOperation::Decrypt); }
+            catch (const InvalidSecurityTokenKeyDescriptor &) { rejected = true; }
             Require(result, rejected, "Malformed descriptor accepted");
         }
     }
@@ -410,7 +468,7 @@ namespace
         Fixture fixture;
         fixture.Token->BadPins = 1;
         fixture.Token->Objects[2][CKA_ALWAYS_AUTHENTICATE] = Bytes(CK_BBOOL(CK_TRUE));
-        SecurityTokenScheme key = fixture.Key(DECRYPT);
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt);
         Require(result, fixture.Token->Pin->Calls == 2 && fixture.Token->Pin->Incorrect == 1, "Incorrect user PIN was not retried and reported");
         vector<uint8> output;
         SecurityToken::GetDecryptedData(key, vector<uint8>(256), output);
@@ -424,7 +482,7 @@ namespace
         Fixture fixture;
         fixture.Token->TokenFlags |= CKF_PROTECTED_AUTHENTICATION_PATH;
         fixture.Token->Objects[2][CKA_ALWAYS_AUTHENTICATE] = Bytes(CK_BBOOL(CK_TRUE));
-        SecurityTokenScheme key = fixture.Key(DECRYPT);
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt);
         vector<uint8> output;
         SecurityToken::GetDecryptedData(key, vector<uint8>(256), output);
         Require(result, fixture.Token->Pin->Calls == 0 && fixture.Token->ProtectedPinWasNull && fixture.Token->ContextAfterInit,
@@ -437,7 +495,7 @@ namespace
         for (CK_ULONG length : lengths) {
             Fixture fixture;
             fixture.Token->EncryptLength = length;
-            SecurityTokenScheme key = fixture.Key(ENCRYPT);
+            SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Encrypt);
             vector<uint8> output;
             if (length == 256) {
                 SecurityToken::GetEncryptedData(key, vector<uint8>(190, 0x5a), output);
@@ -455,7 +513,7 @@ namespace
         for (CK_ULONG length : lengths) {
             Fixture fixture;
             fixture.Token->DecryptLength = length;
-            SecurityTokenScheme key = fixture.Key(DECRYPT);
+            SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt);
             vector<uint8> output(20, 0x33);
             if (length == 1 || length == 190) {
                 SecurityToken::GetDecryptedData(key, vector<uint8>(256), output);
@@ -470,7 +528,7 @@ namespace
     void OperationFailureAndStaleSession(shared_ptr<TestResult> result)
     {
         Fixture fixture;
-        SecurityTokenScheme key = fixture.Key(DECRYPT);
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt);
         fixture.Token->DecryptStatus = CKR_ENCRYPTED_DATA_INVALID;
         vector<uint8> output(20, 0x33);
         ExpectPkcs11(result, CKR_ENCRYPTED_DATA_INVALID, [&] { SecurityToken::GetDecryptedData(key, vector<uint8>(256), output); });
@@ -483,7 +541,7 @@ namespace
     {
         Fixture fixture;
         fixture.Token->ReuseSessionHandle = true;
-        SecurityTokenScheme key = fixture.Key(DECRYPT);
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt);
         SecurityToken::CloseAllSessions();
         vector<uint8> output;
         ExpectPkcs11(result, CKR_KEY_CHANGED, [&] { SecurityToken::GetDecryptedData(key, vector<uint8>(256), output); });
@@ -496,7 +554,7 @@ namespace
         for (const vector<uint8> &attribute : invalid) {
             Fixture fixture;
             fixture.Token->Objects[2][CKA_ALWAYS_AUTHENTICATE] = attribute;
-            SecurityTokenScheme key = fixture.Key(DECRYPT);
+            SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Decrypt);
             vector<uint8> output;
             ExpectPkcs11(result, CKR_ATTRIBUTE_VALUE_INVALID, [&] { SecurityToken::GetDecryptedData(key, vector<uint8>(256), output); });
             Require(result, fixture.Token->DecryptCalls == 0, "Malformed authentication attribute reached decryption");
@@ -506,7 +564,7 @@ namespace
     void InvalidOperationInputs(shared_ptr<TestResult> result)
     {
         Fixture fixture;
-        SecurityTokenScheme encryptKey = fixture.Key(ENCRYPT), decryptKey = fixture.Key(DECRYPT);
+        SecurityTokenScheme encryptKey = fixture.Key(SecurityTokenKeyOperation::Encrypt), decryptKey = fixture.Key(SecurityTokenKeyOperation::Decrypt);
         vector<uint8> output;
         ExpectPkcs11(result, CKR_DATA_LEN_RANGE, [&] { SecurityToken::GetEncryptedData(encryptKey, vector<uint8>(), output); });
         ExpectPkcs11(result, CKR_DATA_LEN_RANGE, [&] { SecurityToken::GetEncryptedData(encryptKey, vector<uint8>(191), output); });
@@ -520,7 +578,7 @@ namespace
     void RejectedOaepParameters(shared_ptr<TestResult> result)
     {
         Fixture fixture;
-        SecurityTokenScheme key = fixture.Key(ENCRYPT);
+        SecurityTokenScheme key = fixture.Key(SecurityTokenKeyOperation::Encrypt);
         fixture.Token->InitStatus = CKR_MECHANISM_PARAM_INVALID;
         vector<uint8> output;
         ExpectPkcs11(result, CKR_MECHANISM_PARAM_INVALID, [&] { SecurityToken::GetEncryptedData(key, vector<uint8>(190), output); });
@@ -533,6 +591,8 @@ int main()
 {
     SerializerFactory::Initialize();
     Testing tests;
+    tests.AddTest("resolve key identity across token slots", SlotResolution);
+    tests.AddTest("private-key modulus from unique public key", PublicModulusFallback);
     tests.AddTest("legacy data keyfiles larger than one MiB", LegacyLargeDataKeyfile);
     tests.AddTest("mixed RSA, EC, malformed and unavailable key attributes", DiscoverMixedKeys);
     tests.AddTest("unsupported OAEP and operation flags", UnavailableMechanisms);

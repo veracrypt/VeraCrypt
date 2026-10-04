@@ -1,5 +1,14 @@
+/*
+ Copyright (c) 2026 AM Crypto. All rights reserved.
+
+ Governed by the Apache License 2.0 the full text of which is
+ contained in the file License.txt included in VeraCrypt binary and source
+ code distribution packages.
+*/
+
 #include "Testing.h"
 #include "Volume/Keyfile.h"
+#include "Volume/VolumeException.h"
 #include "Common/MockSecurityToken.h"
 #include <dirent.h>
 #include <sys/stat.h>
@@ -172,10 +181,10 @@ namespace
         Fixture fixture;
         WriteFile (fixture.Path ("empty"), ConstBufferPtr());
         ExpectFailure<InsufficientData> (result, [&] { Apply (fixture.Path ("empty")); });
-        ExpectFailure<ParameterIncorrect> (result, [&] {
+        ExpectFailure<EncryptedKeyfileKeyfilesRequired> (result, [&] {
             Keyfile::ApplyListToPassword (shared_ptr<KeyfileList>(), shared_ptr<VolumePassword>(), TokenDescriptor);
         });
-        ExpectFailure<ParameterIncorrect> (result, [&] {
+        ExpectFailure<EncryptedKeyfileKeyfilesRequired> (result, [&] {
             Keyfile::ApplyListToPassword (make_shared<KeyfileList>(), shared_ptr<VolumePassword>(), TokenDescriptor);
         });
     }
@@ -230,7 +239,7 @@ namespace
         for (size_t size : {size_t (0), size_t (1), ciphertext.Size() - 1})
         {
             WriteFile (fixture.Path ("short"), ciphertext.GetRange (0, size));
-            ExpectFailure<InsufficientData> (result, [&] {
+            ExpectFailure<EncryptedKeyfileInvalid> (result, [&] {
                 Keyfile (fixture.Path ("short")).RevealRedkey (fixture.Path ("output"), TokenDescriptor);
             });
         }
@@ -268,7 +277,7 @@ namespace
         fixture.Token->Failure = TestToken::WrongEncryptSize;
         ExpectFailure<InsufficientData> (result, [&] { Keyfile::CreateBluekey (fixture.Path ("output"), TokenDescriptor, data); });
         fixture.Token->Failure = TestToken::WrongDecryptSize;
-        ExpectFailure<InsufficientData> (result, [&] { Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("output"), TokenDescriptor); });
+        ExpectFailure<EncryptedKeyfileInvalid> (result, [&] { Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("output"), TokenDescriptor); });
         if (!FileEquals (fixture.Path ("output"), data)) result->Failed ("Token failure altered existing output");
         if (fixture.HasTemporaryFiles()) result->Failed ("Token failure left a temporary file");
     }
@@ -314,7 +323,7 @@ namespace
         Fill (data);
         Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
         if (mkdir (string (fixture.Path ("directory")).c_str(), 0700) != 0) throw SystemException (SRC_POS);
-        ExpectFailure<SystemException> (result, [&] {
+        ExpectFailure<AtomicFileDestinationNotRegular> (result, [&] {
             Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("directory"), TokenDescriptor);
         });
         if (fixture.HasTemporaryFiles()) result->Failed ("Failed publication left a temporary keyfile");

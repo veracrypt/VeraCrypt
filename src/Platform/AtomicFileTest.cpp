@@ -15,7 +15,7 @@ using namespace VeraCrypt;
 
 namespace
 {
-    enum Fault { None, FileSync, Rename, DirectorySync };
+    enum Fault { None, FileSync, Rename, DirectorySync, DirectorySyncUnsupported };
     Fault Failure = None;
     vector<char> Operations;
     bool Track = false;
@@ -53,7 +53,7 @@ namespace
                 while (dirent *entry = readdir (directory))
                 {
                     string name = entry->d_name;
-                    if (name != "." && name != "..") unlink ((Directory + "/" + name).c_str());
+                    if (name != "." && name != "..") { unlink ((Directory + "/" + name).c_str()); rmdir ((Directory + "/" + name).c_str()); }
                 }
                 closedir (directory);
             }
@@ -120,6 +120,26 @@ namespace
 #endif
     }
 
+    void NonRegularDestinations (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        string symlinkPath = fixture.Directory + "/symlink";
+        string fifoPath = fixture.Directory + "/fifo";
+        string directoryPath = fixture.Directory + "/directory";
+        throw_sys_if (symlink (string (fixture.Path()).c_str(), symlinkPath.c_str()) != 0);
+        throw_sys_if (mkfifo (fifoPath.c_str(), 0600) != 0);
+        throw_sys_if (mkdir (directoryPath.c_str(), 0700) != 0);
+        for (const string &path : {symlinkPath, fifoPath, directoryPath})
+        {
+            bool refused = false;
+            try { AtomicFile output {FilePath (path)}; }
+            catch (const AtomicFileDestinationNotRegular &) { refused = true; }
+            Require (result, refused, "Non-regular output destination was accepted");
+        }
+        Require (result, fixture.Contains ("previous backup"), "Symlink target was changed");
+        Require (result, !fixture.HasTemporaryFiles(), "Rejected output left a temporary file");
+    }
+
     void RelativeDestination (shared_ptr<TestResult> result)
     {
         Fixture fixture;
@@ -145,7 +165,8 @@ namespace
             output.GetFile().Write (Bytes ("complete replacement"));
             output.Commit();
         }
-        catch (const SystemException &e) { failed = e.GetErrorCode() == EIO; }
+        catch (const SystemException &e) { failed = fault != DirectorySync && e.GetErrorCode() == EIO; }
+        catch (const AtomicFilePublished &) { failed = fault == DirectorySync; }
         Require (result, failed, "Publication error was not propagated");
         Require (result, fixture.Contains (fault == DirectorySync ? "complete replacement" : "previous backup"),
             "Failure discarded the last complete file");
@@ -153,6 +174,15 @@ namespace
         vector<char> expected = fault == FileSync ? vector<char> ({'F'})
             : fault == Rename ? vector<char> ({'F', 'R'}) : vector<char> ({'F', 'R', 'D'});
         Require (result, Operations == expected, "Publication continued after a failed step");
+    }
+    void UnsupportedDirectorySync (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        Failure = DirectorySyncUnsupported;
+        AtomicFile output (fixture.Path());
+        output.GetFile().Write (Bytes ("complete replacement"));
+        output.Commit();
+        Require (result, fixture.Contains ("complete replacement"), "Unsupported directory sync prevented publication");
     }
     void FileSyncFailure (shared_ptr<TestResult> result) { FailedPublication (result, FileSync); }
     void RenameFailure (shared_ptr<TestResult> result) { FailedPublication (result, Rename); }
@@ -170,6 +200,7 @@ extern "C" int __wrap_fsync (int handle)
     {
         bool directory = S_ISDIR (info.st_mode);
         Operations.push_back (directory ? 'D' : 'F');
+        if (directory && Failure == DirectorySyncUnsupported) { errno = EINVAL; return -1; }
         if (Failure == (directory ? DirectorySync : FileSync)) { errno = EIO; return -1; }
     }
     return __real_fsync (handle);
@@ -188,13 +219,15 @@ extern "C" int __wrap_rename (const char *source, const char *destination)
 int main ()
 {
     Testing tests;
+    tests.AddTest ("refuse symlinks, FIFOs and directories", NonRegularDestinations);
     tests.AddTest ("cancelled output preserves the previous file", AbandonedWrite);
     tests.AddTest ("complete output is private and durably published", CompleteWrite);
     tests.AddTest ("relative destination", RelativeDestination);
 #ifdef TC_LINUX
     tests.AddTest ("file sync failure preserves the previous file", FileSyncFailure);
     tests.AddTest ("rename failure preserves the previous file", RenameFailure);
-    tests.AddTest ("directory sync failure is reported after publication", DirectorySyncFailure);
+    tests.AddTest ("directory sync failure identifies the published file", DirectorySyncFailure);
+    tests.AddTest ("unsupported directory sync preserves successful publication", UnsupportedDirectorySync);
 #endif
     return tests.Main();
 }

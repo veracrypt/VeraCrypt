@@ -230,6 +230,8 @@ namespace VeraCrypt
 		Stage.Set (ProgressStage::NotStarted);
 		ThreadException.reset();
 
+		PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password, options->SecurityTokenSchemeSpec, options->EMVSupportEnabled);
+
 		{
 #ifdef TC_UNIX
 			// Temporarily take ownership of a device if the user is not an administrator
@@ -355,7 +357,6 @@ namespace VeraCrypt
 
 			// Header key
 			HeaderKey.Allocate (VolumeHeader::GetHeaderKeyDerivationSize (options->VolumeHeaderKdf));
-			PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password, options->SecurityTokenSchemeSpec, options->EMVSupportEnabled);
 			int derivationResult = options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, options->Pim, salt);
 			if (derivationResult != 0)
 				throw ExternalException (SRC_POS, options->VolumeHeaderKdf->GetDerivationFailureMessage (derivationResult));

@@ -58,9 +58,9 @@
 namespace VeraCrypt
 {
 
-	enum SecurityTokenKeyOperation {
-		ENCRYPT,
-		DECRYPT
+	enum class SecurityTokenKeyOperation {
+		Encrypt,
+		Decrypt
 	};
 
 	struct SecurityTokenInfo: TokenInfo
@@ -110,16 +110,6 @@ namespace VeraCrypt
 		
 	};
 
-	class RSASecurityTokenMechanism : public SecurityTokenMechanism {
-		static CK_MECHANISM _MECHANISM;
-		public: 
-			static CK_MECHANISM GetMechanism() { return _MECHANISM; };
-			static wstring GetLabel() { return L"RSA PKCS#1 v1.5"; };
-
-			bool ApplyTo(SecurityTokenScheme &key);
-			virtual ~RSASecurityTokenMechanism() {};
-	};
-
 	class RSAOAEPSecurityTokenMechanism : public SecurityTokenMechanism {
 		static CK_RSA_PKCS_OAEP_PARAMS _OAEP_PARAMS;
 		static CK_MECHANISM _MECHANISM;
@@ -135,7 +125,7 @@ namespace VeraCrypt
 	struct SecurityTokenScheme
 	{
 		SecurityTokenScheme () : Handle(CK_INVALID_HANDLE), SlotId(CK_UNAVAILABLE_INFORMATION),
-			SessionHandle(CK_INVALID_HANDLE), SessionGeneration(0), Operation(DECRYPT), DecryptOutputSize(0), EncryptOutputSize(0),
+			SessionHandle(CK_INVALID_HANDLE), SessionGeneration(0), Operation(SecurityTokenKeyOperation::Decrypt), RsaKeyBits(0), DecryptOutputSize(0), EncryptOutputSize(0),
 			Mechanism(NULL_PTR) { Token.SlotId = CK_UNAVAILABLE_INFORMATION; Token.Flags = 0; }
 
 		CK_OBJECT_HANDLE Handle;
@@ -147,12 +137,13 @@ namespace VeraCrypt
 		SecurityTokenKeyOperation Operation;
 		vector<uint8> ObjectId;
 		SecurityTokenInfo Token;
+		size_t RsaKeyBits;
 		size_t DecryptOutputSize;
 		size_t EncryptOutputSize;
 		CK_MECHANISM_PTR Mechanism;
 		wstring MechanismLabel;
 
-		wstring GetSpec() const;
+		wstring GetSpec (bool useSlot = false) const;
 
 	};
 
@@ -196,6 +187,9 @@ namespace VeraCrypt
 #define TC_EXCEPTION_SET \
 	TC_EXCEPTION_NODECL (Pkcs11Exception); \
 	TC_EXCEPTION (InvalidSecurityTokenKeyfilePath); \
+	TC_EXCEPTION (InvalidSecurityTokenKeyDescriptor); \
+	TC_EXCEPTION (SecurityTokenKeyNotFound); \
+	TC_EXCEPTION (SecurityTokenKeyAmbiguous); \
 	TC_EXCEPTION (SecurityTokenLibraryNotInitialized); \
 	TC_EXCEPTION (SecurityTokenKeyfileAlreadyExists); \
 	TC_EXCEPTION (SecurityTokenKeyfileNotFound);
@@ -205,6 +199,21 @@ namespace VeraCrypt
 #undef TC_EXCEPTION
 
 #else // !TC_HEADER_Platform_Exception
+
+	struct InvalidSecurityTokenKeyDescriptor: public Exception
+	{
+		void Show(HWND parent) const { Error("TOKEN_KEY_DESCRIPTOR_INVALID", parent); }
+	};
+
+	struct SecurityTokenKeyNotFound: public Exception
+	{
+		void Show(HWND parent) const { Error("TOKEN_KEY_NOT_FOUND", parent); }
+	};
+
+	struct SecurityTokenKeyAmbiguous: public Exception
+	{
+		void Show(HWND parent) const { Error("TOKEN_KEY_AMBIGUOUS", parent); }
+	};
 
 	struct SecurityTokenLibraryNotInitialized: public Exception
 	{
@@ -322,7 +331,8 @@ namespace VeraCrypt
 	class SecurityTokenImpl : public SecurityTokenIface {
 		public:
 			SecurityTokenImpl() : Initialized(false), Pkcs11Functions(NULL_PTR), Pkcs11LibraryHandle(nullptr), NextSessionGeneration(0) {} ;
-			virtual ~SecurityTokenImpl() { try { CloseLibrary(); } catch (...) {} }
+			// Library shutdown is explicit. Do not call a provider during static destruction.
+			virtual ~SecurityTokenImpl() { }
 			void CloseAllSessions () throw ();
 			void CloseLibrary ();
 			void CreateKeyfile (CK_SLOT_ID slotId, vector <uint8> &keyfileData, const string &name);

@@ -63,9 +63,11 @@ clean:
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -march=armv8-a+crypto -c $< -o $@
 
-%Test.o: %Test.cpp
+ifneq "$(strip $(TEST_EXECS) $(TEST_OBJS))" ""
+$(TEST_EXECS) $(TEST_OBJS): %.o: %.cpp
 	@echo Compiling test $(<F)
 	$(CXX) $(CXXFLAGS) -I$(BASE_DIR)/Testing -c $< -o $@
+endif
 
 %.o: %.cpp
 	@echo Compiling $(<F)

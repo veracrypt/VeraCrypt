@@ -140,11 +140,11 @@ namespace VeraCrypt
 		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
 #endif
 
-		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, securityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, false, true, true, false, true, true);
+		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, securityTokenSchemeSpec, SecurityTokenKeyOperation::Decrypt, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
-		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, newSecurityTokenSchemeSpec, SecurityTokenKeyOperation::DECRYPT, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
+		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, newSecurityTokenSchemeSpec, SecurityTokenKeyOperation::Decrypt, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -261,6 +261,10 @@ namespace VeraCrypt
 				newKeyfiles = currentKeyfiles;
 				newSecuritySchemeSpec = currentSecuritySchemeSpec;
 			}
+
+			if (!currentSecuritySchemeSpec.empty() && newSecuritySchemeSpec.empty()
+				&& !Gui->AskYesNo (LangString["TOKEN_KEY_REMOVAL_CONFIRM"], false, true))
+				return;
 
 			shared_ptr <Pkcs5Kdf> effectiveNewKdf = newKdf ? newKdf : currentKdf;
 			shared_ptr <Volume> openVolume;
@@ -400,6 +404,8 @@ namespace VeraCrypt
 	void ChangePasswordDialog::OnPasswordPanelUpdate ()
 	{
 		bool ok = true;
+		if (!CmdLine->ArgNewSecurityTokenSchemeSpecified && !NewPasswordPanel->IsSecurityTokenSchemeEdited())
+			NewPasswordPanel->SetSecurityTokenSchemeSpec (CurrentPasswordPanel->GetSecurityTokenSchemeSpec());
 
 		try
 		{

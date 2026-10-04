@@ -22,8 +22,9 @@ namespace VeraCrypt
 		~AtomicFile ();
 		File &GetFile () { return Output; }
 		// Flush the contents, replace the destination, and sync its directory.
-		// A directory-sync error is reported even though replacement has occurred;
-		// the complete published file is retained in that case.
+		// Symlinks and other non-regular destinations are refused. Unsupported
+		// directory fsync is tolerated; other failures after publication throw
+		// AtomicFilePublished, indicating that the complete file now exists.
 		void Commit ();
 
 	private:

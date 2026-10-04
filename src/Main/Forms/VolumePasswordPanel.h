@@ -30,6 +30,8 @@ namespace VeraCrypt
 		shared_ptr <KeyfileList> GetKeyfiles () const { return UseKeyfilesCheckBox->IsChecked() ? Keyfiles : shared_ptr <KeyfileList> (); }
 		shared_ptr <VolumePassword> GetPassword (bool bForceLegacyPassword = false) const;
 		wstring GetSecurityTokenSchemeSpec () const;
+		void SetSecurityTokenSchemeSpec (const wstring &value) { SecurityTokenSchemeSpecText->ChangeValue (value); }
+		bool IsSecurityTokenSchemeEdited () const { return SecurityTokenSchemeEdited; }
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
 		int GetVolumePim () const;
 		int GetHeaderWipeCount () const;
@@ -74,6 +76,7 @@ namespace VeraCrypt
 		shared_ptr <Functor> UpdateCallback;
 		bool EnablePimEntry;
 		SecurityTokenKeyOperation Mode;
+		bool SecurityTokenSchemeEdited = false;
 	};
 }
 

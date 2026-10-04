@@ -31,6 +31,9 @@ namespace VeraCrypt
 #define TC_EXCEPTION_SET \
 	TC_EXCEPTION (HigherVersionRequired); \
 	TC_EXCEPTION (KeyfilePathEmpty); \
+	TC_EXCEPTION (EncryptedKeyfileInvalid); \
+	TC_EXCEPTION (EncryptedKeyfileKeyfilesRequired); \
+	TC_EXCEPTION (EncryptedKeyfileIncompatible); \
 	TC_EXCEPTION (MissingVolumeData); \
 	TC_EXCEPTION (MountedVolumeInUse); \
 	TC_EXCEPTION (UnsupportedSectorSize); \

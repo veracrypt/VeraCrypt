@@ -59,7 +59,7 @@ static struct {
     bool IsVolumeMounted (const VolumePath &) const { return false; }
     bool IsPasswordCacheEmpty () const { return !State.Cache; }
 } CoreInstance, *Core = &CoreInstance;
-static struct { bool ArgNoHiddenVolumeProtection = true; } CommandLine, *CmdLine = &CommandLine;
+static struct { bool ArgNoHiddenVolumeProtection = true; bool ArgSecurityTokenSchemeSpecified = false; bool ArgProtectionSecurityTokenSchemeSpecified = false; } CommandLine, *CmdLine = &CommandLine;
 static struct {
     wstring operator[] (const char *key) const { string s (key); return wstring (s.begin(), s.end()); }
 } LangString;
