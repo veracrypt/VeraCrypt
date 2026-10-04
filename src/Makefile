@@ -726,6 +726,10 @@ CXXFLAGS :=
 LFLAGS :=
 endif
 
+# The wxWidgets build runs 4 jobs by default, but follows the job count and
+# jobserver of a parent "make -jN" (e.g. a distribution package build).
+WX_MAKE_JOBS = $(if $(filter -j% --jobserver%,$(MFLAGS)),,-j 4)
+
 wxbuild:
 
 ifneq "$(shell test -f $(WX_ROOT)/configure || test -f $(WX_BUILD_DIR)/../configure && echo 1)" "1"
@@ -746,4 +750,4 @@ endif
 	"$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) $(WX_CONFIGURE_EXTRA_FLAGS) $$WX_CONFIGURE_LEGACY_FLAGS >/dev/null
 
 	@echo Building wxWidgets library...
-	cd "$(WX_BUILD_DIR)" && $(MAKE) -j 4
+	cd "$(WX_BUILD_DIR)" && $(MAKE) $(WX_MAKE_JOBS)
