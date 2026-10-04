@@ -26,6 +26,14 @@ namespace VeraCrypt
 
 	protected:
 		static void TestCiphers ();
+		static void TestEdgeCases ();
+		static void TestHashClasses ();
+		static void TestKdfSelection ();
+		static void TestKeyfileApplication ();
+		static void TestPasswordHandling ();
+		static void TestVolumeHeaderRejection ();
+		static void TestVolumeInfoSerialization ();
+		static void TestVolumeLayouts ();
 		static void TestLegacyModes ();
 		static void TestPkcs5 ();
 		static void TestXts ();
