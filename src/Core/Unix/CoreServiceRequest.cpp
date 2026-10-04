@@ -16,7 +16,7 @@
 
 namespace VeraCrypt
 {
-	void CoreServiceRequest::Deserialize (shared_ptr <Stream> stream)
+	void CoreServiceRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		sr.Deserialize ("AdminPassword", AdminPassword);
@@ -28,9 +28,8 @@ namespace VeraCrypt
 		sr.Deserialize ("AllowInsecureMount", AllowInsecureMount);
 	}
 
-	void CoreServiceRequest::Serialize (shared_ptr <Stream> stream) const
+	void CoreServiceRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 		sr.Serialize ("AdminPassword", AdminPassword);
 		sr.Serialize ("ApplicationExecutablePath", wstring (ApplicationExecutablePath));
@@ -42,9 +41,9 @@ namespace VeraCrypt
 	}
 
 	// CheckFilesystemRequest
-	void CheckFilesystemRequest::Deserialize (shared_ptr <Stream> stream)
+	void CheckFilesystemRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		MountedVolumeInfo = Serializable::DeserializeNew <VolumeInfo> (stream);
 		sr.Deserialize ("Repair", Repair);
@@ -58,18 +57,18 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void CheckFilesystemRequest::Serialize (shared_ptr <Stream> stream) const
+	void CheckFilesystemRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		MountedVolumeInfo->Serialize (stream);
 		sr.Serialize ("Repair", Repair);
 	}
 
 	// DismountFilesystemRequest
-	void DismountFilesystemRequest::Deserialize (shared_ptr <Stream> stream)
+	void DismountFilesystemRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		sr.Deserialize ("Force", Force);
 		MountPoint = sr.DeserializeWString ("MountPoint");
@@ -80,18 +79,18 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void DismountFilesystemRequest::Serialize (shared_ptr <Stream> stream) const
+	void DismountFilesystemRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("Force", Force);
 		sr.Serialize ("MountPoint", wstring (MountPoint));
 	}
 
 	// DismountVolumeRequest
-	void DismountVolumeRequest::Deserialize (shared_ptr <Stream> stream)
+	void DismountVolumeRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		sr.Deserialize ("IgnoreOpenFiles", IgnoreOpenFiles);
 		sr.Deserialize ("SyncVolumeInfo", SyncVolumeInfo);
@@ -119,9 +118,9 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void DismountVolumeRequest::Serialize (shared_ptr <Stream> stream) const
+	void DismountVolumeRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("IgnoreOpenFiles", IgnoreOpenFiles);
 		sr.Serialize ("SyncVolumeInfo", SyncVolumeInfo);
@@ -130,9 +129,9 @@ namespace VeraCrypt
 
 #ifdef TC_LINUX
 	// EmergencyDismountVolumeRequest
-	void EmergencyDismountVolumeRequest::Deserialize (shared_ptr <Stream> stream)
+	void EmergencyDismountVolumeRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		MountedVolumeInfo = Serializable::DeserializeNew <VolumeInfo> (stream);
 	}
 
@@ -141,17 +140,17 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void EmergencyDismountVolumeRequest::Serialize (shared_ptr <Stream> stream) const
+	void EmergencyDismountVolumeRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		MountedVolumeInfo->Serialize (stream);
 	}
 #endif
 
 	// GetDeviceSectorSizeRequest
-	void GetDeviceSectorSizeRequest::Deserialize (shared_ptr <Stream> stream)
+	void GetDeviceSectorSizeRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		Path = sr.DeserializeWString ("Path");
 	}
@@ -161,17 +160,17 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void GetDeviceSectorSizeRequest::Serialize (shared_ptr <Stream> stream) const
+	void GetDeviceSectorSizeRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("Path", wstring (Path));
 	}
 
 	// GetDeviceSizeRequest
-	void GetDeviceSizeRequest::Deserialize (shared_ptr <Stream> stream)
+	void GetDeviceSizeRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		Path = sr.DeserializeWString ("Path");
 	}
@@ -181,17 +180,17 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void GetDeviceSizeRequest::Serialize (shared_ptr <Stream> stream) const
+	void GetDeviceSizeRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("Path", wstring (Path));
 	}
 
 	// GetHostDevicesRequest
-	void GetHostDevicesRequest::Deserialize (shared_ptr <Stream> stream)
+	void GetHostDevicesRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		sr.Deserialize ("PathListOnly", PathListOnly);
 	}
@@ -201,29 +200,29 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void GetHostDevicesRequest::Serialize (shared_ptr <Stream> stream) const
+	void GetHostDevicesRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("PathListOnly", PathListOnly);
 	}
 
 	// ExitRequest
-	void ExitRequest::Deserialize (shared_ptr <Stream> stream)
+	void ExitRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 	}
 
-	void ExitRequest::Serialize (shared_ptr <Stream> stream) const
+	void ExitRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 	}
 
 #ifdef TC_MACOSX
 	// ExecuteMacOSXAPFSFormatterRequest
-	void ExecuteMacOSXAPFSFormatterRequest::Deserialize (shared_ptr <Stream> stream)
+	void ExecuteMacOSXAPFSFormatterRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		Device = sr.DeserializeWString ("Device");
 		sr.Deserialize ("OwnerGroupId", OwnerGroupId);
@@ -235,9 +234,9 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void ExecuteMacOSXAPFSFormatterRequest::Serialize (shared_ptr <Stream> stream) const
+	void ExecuteMacOSXAPFSFormatterRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("Device", wstring (Device));
 		sr.Serialize ("OwnerGroupId", OwnerGroupId);
@@ -247,9 +246,9 @@ namespace VeraCrypt
 
 #ifdef TC_OPENBSD
 	// ExecuteOpenBSDFFSFormatterRequest
-	void ExecuteOpenBSDFFSFormatterRequest::Deserialize (shared_ptr <Stream> stream)
+	void ExecuteOpenBSDFFSFormatterRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		Device = sr.DeserializeWString ("Device");
 		sr.Deserialize ("OwnerGroupId", OwnerGroupId);
@@ -261,9 +260,9 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void ExecuteOpenBSDFFSFormatterRequest::Serialize (shared_ptr <Stream> stream) const
+	void ExecuteOpenBSDFFSFormatterRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("Device", wstring (Device));
 		sr.Serialize ("OwnerGroupId", OwnerGroupId);
@@ -272,9 +271,9 @@ namespace VeraCrypt
 #endif
 
 	// MountVolumeRequest
-	void MountVolumeRequest::Deserialize (shared_ptr <Stream> stream)
+	void MountVolumeRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 		DeserializedOptions = Serializable::DeserializeNew <MountOptions> (stream);
 		Options = DeserializedOptions.get();
@@ -301,17 +300,17 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void MountVolumeRequest::Serialize (shared_ptr <Stream> stream) const
+	void MountVolumeRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 		Options->Serialize (stream);
 	}
 
 	// SetFileOwnerRequest
-	void SetFileOwnerRequest::Deserialize (shared_ptr <Stream> stream)
+	void SetFileOwnerRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
-		CoreServiceRequest::Deserialize (stream);
+		CoreServiceRequest::DeserializeData (stream);
 		Serializer sr (stream);
 
 		uint64 owner;
@@ -326,9 +325,9 @@ namespace VeraCrypt
 		return !Core->HasAdminPrivileges();
 	}
 
-	void SetFileOwnerRequest::Serialize (shared_ptr <Stream> stream) const
+	void SetFileOwnerRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
-		CoreServiceRequest::Serialize (stream);
+		CoreServiceRequest::SerializeData (stream);
 		Serializer sr (stream);
 
 		uint64 owner = Owner.SystemId;

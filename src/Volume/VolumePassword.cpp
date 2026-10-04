@@ -36,11 +36,13 @@ namespace VeraCrypt
 			PasswordBuffer.Allocate (MaxSize);
 	}
 
-	void VolumePassword::Deserialize (shared_ptr <Stream> stream)
+	void VolumePassword::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		uint64 passwordSize;
 		sr.Deserialize ("PasswordSize", passwordSize);
+		if (passwordSize > MaxSize)
+			throw ParameterIncorrect (SRC_POS);
 		PasswordSize = static_cast <size_t> (passwordSize);
 		sr.Deserialize ("PasswordBuffer", BufferPtr (PasswordBuffer));
 
@@ -48,9 +50,10 @@ namespace VeraCrypt
 		sr.Deserialize ("WipeData", wipeBuffer);
 	}
 
-	void VolumePassword::Serialize (shared_ptr <Stream> stream) const
+	void VolumePassword::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
+		if (PasswordSize > MaxSize)
+			throw ParameterIncorrect (SRC_POS);
 		Serializer sr (stream);
 		sr.Serialize ("PasswordSize", static_cast <uint64> (PasswordSize));
 		sr.Serialize ("PasswordBuffer", ConstBufferPtr (PasswordBuffer));

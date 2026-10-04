@@ -753,9 +753,9 @@ namespace VeraCrypt
 
 #ifdef TC_HEADER_Platform_Exception
 
-	void Pkcs11Exception::Deserialize(shared_ptr <Stream> stream)
+	void Pkcs11Exception::DeserializeData(shared_ptr <Stream> stream)
 	{
-		Exception::Deserialize(stream);
+		Exception::DeserializeData(stream);
 		Serializer sr(stream);
 		uint64 code;
 		sr.Deserialize("ErrorCode", code);
@@ -764,9 +764,9 @@ namespace VeraCrypt
 		ErrorCode = (CK_RV)code;
 	}
 
-	void Pkcs11Exception::Serialize(shared_ptr <Stream> stream) const
+	void Pkcs11Exception::SerializeData(shared_ptr <Stream> stream) const
 	{
-		Exception::Serialize(stream);
+		Exception::SerializeData(stream);
 		Serializer sr(stream);
 		sr.Serialize("ErrorCode", (uint64)ErrorCode);
 		sr.Serialize("SubjectErrorCodeValid", SubjectErrorCodeValid);
