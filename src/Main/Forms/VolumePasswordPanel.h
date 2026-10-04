@@ -65,10 +65,10 @@ namespace VeraCrypt
 		void OnTextChanged (wxCommandEvent& event) { OnUpdate(); }
 		void OnPimChanged  (wxCommandEvent& event) { OnUpdate(); }
 		void OnUsePimCheckBoxClick( wxCommandEvent& event );
-		void OnUpdate () { UpdateEvent.Raise(); }
+		void OnUpdate ();
 		void OnUseKeyfilesCheckBoxClick (wxCommandEvent& event) { OnUpdate(); }
 		void WipeTextCtrl (wxTextCtrl *textCtrl);
-		void OnSecurityTokenSchemeSpecButtonClick( wxMouseEvent& event );
+		void OnSecurityTokenSchemeSpecButtonClick( wxCommandEvent& event );
 
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <Functor> UpdateCallback;

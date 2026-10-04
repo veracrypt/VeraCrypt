@@ -1,46 +1,81 @@
-
 #include "Testing.h"
 #include "SampleTest.h"
 
 using namespace VeraCrypt;
 
-static bool functionDidRaise = true;
-static bool functionWasRun = true;
-
-void exceptionalTest(shared_ptr<VeraCrypt::TestResult> r) {
-    r->Phase("throwing exception");
-    functionWasRun = true;
-    throw std::invalid_argument("intentionally raised exception within test");
-    functionDidRaise = false;
+static void FailedAssertion(shared_ptr<TestResult> result)
+{
+    result->Failed("expected assertion failure");
 }
 
-void failedAssertionTest(shared_ptr<VeraCrypt::TestResult> r) {
-    r->Failed("intentionally failed without exception");
+static void StandardException(shared_ptr<TestResult>)
+{
+    throw std::invalid_argument("expected exception");
 }
 
-int main() {
-    VeraCrypt::Testing t;
+static void UnknownException(shared_ptr<TestResult>)
+{
+    throw 42;
+}
 
-    auto classTest = new SampleTest("sample");
-    t.AddTest(classTest);
-    t.AddTest("failing test", failedAssertionTest);
-    t.AddTest("functional sample test", &exceptionalTest);
+static void BareFailure(shared_ptr<TestResult>)
+{
+    throw TestFailedException();
+}
 
-    t.Main();
-
-    
-    if (!classTest->WasRun) {
-        cerr << "Test was not run" << endl;
-        std::exit(1);
+static void CheckFailureHandling(shared_ptr<TestResult> result)
+{
+    TestSuite suite;
+    suite.AddTest("assertion", FailedAssertion);
+    suite.AddTest("standard exception", StandardException);
+    suite.AddTest("unknown exception", UnknownException);
+    suite.AddTest("bare failure", BareFailure);
+    auto aggregate = make_shared<TestResult>("expected failures");
+    suite.Run(aggregate);
+    if (!aggregate->IsFailed() || suite.GetResults().size() != 4)
+        result->Failed("Failures were not reported by the suite");
+    for (const auto &entry : suite.GetResults()) {
+        TestResult outcome(entry);
+        if (!outcome.IsFailed())
+            result->Failed("A failing test was reported as passing");
     }
 
-    if (!functionWasRun) {
-        cerr << "Test was not run" << endl;
-        std::exit(1);
-    }
-    if (!functionDidRaise) {
-        cerr << "Test did not raise as expected";
-        std::exit(1);
-    }
+    suite.Run(aggregate);
+    if (suite.GetResults().size() != 4)
+        result->Failed("Repeated runs retained stale results");
+}
 
+static void CheckNestedFailure(shared_ptr<TestResult> result)
+{
+    TestSuite suite;
+    TestSuite *nested = new TestSuite();
+    nested->AddTest("nested failure", FailedAssertion);
+    suite.AddTest(nested);
+    auto aggregate = make_shared<TestResult>("nested suite");
+    suite.Run(aggregate);
+    if (!aggregate->IsFailed())
+        result->Failed("Nested failure did not reach the parent suite");
+}
+
+static void CheckStopOnFailure(shared_ptr<TestResult> result)
+{
+    TestSuite suite;
+    suite.StopOnFirstFailure();
+    suite.AddTest("failure", FailedAssertion);
+    SampleTest *unreached = new SampleTest("unreached");
+    suite.AddTest(unreached);
+    auto aggregate = make_shared<TestResult>("stop on failure");
+    suite.Run(aggregate);
+    if (!aggregate->IsFailed() || unreached->WasRun || suite.GetResults().size() != 1)
+        result->Failed("Stop-on-failure did not stop the suite");
+}
+
+int main()
+{
+    Testing tests;
+    tests.AddTest(new SampleTest("successful test"));
+    tests.AddTest("failure and exception reporting", CheckFailureHandling);
+    tests.AddTest("nested suite failures", CheckNestedFailure);
+    tests.AddTest("stop on first failure", CheckStopOnFailure);
+    return tests.Main();
 }

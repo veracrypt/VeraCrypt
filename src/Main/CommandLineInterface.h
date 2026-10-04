@@ -44,6 +44,7 @@ namespace VeraCrypt
 			Help,
 			ImportTokenKeyfiles,
 			ListTokenKeyfiles,
+			ListSecurityTokenKeys,
             ListSecurityTokenKeyfiles,
             ListEMVTokenKeyfiles,
 			ListVolumes,
@@ -77,6 +78,8 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> ArgNewHash;
 		shared_ptr <KeyfileList> ArgNewKeyfiles;
 		wstring ArgSecurityTokenSchemeSpec;
+		wstring ArgNewSecurityTokenSchemeSpec;
+		bool ArgNewSecurityTokenSchemeSpecified;
 		shared_ptr <VolumePassword> ArgNewPassword;
 		int ArgNewPim;
 		bool ArgNoHiddenVolumeProtection;

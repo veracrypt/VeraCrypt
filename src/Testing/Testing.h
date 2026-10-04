@@ -22,11 +22,11 @@ namespace VeraCrypt
 
     class TestResult {
         public:
-            TestResult(string testName) : failed(false), ex(), testName(testName) { };
+            TestResult(string testName) : failed(false), testName(testName) { };
             void Phase(string msg) { phaseMsgs.push_back(msg); };
 
             void Success() { };
-            void Failed(string reason, const exception &e) { ex = &e; Failed(reason); };
+            void Failed(string reason, const exception &e) { Failed(reason + ": " + e.what()); };
             void Failed(string reason) { failReason = reason; failed = true; throw TestFailedException(); }
             void MarkFailed(string reason) { failReason = reason; failed = true; }
 
@@ -35,14 +35,12 @@ namespace VeraCrypt
 
             bool IsSuccess() { return !failed; };
             bool IsFailed() { return failed; };
-            const exception* Ex() { return ex; };
             string GetName() { return testName; };
             string GetFailureReason() { return failReason; }
             vector<string> GetPhases() { return phaseMsgs; };
         private:
             string failReason;
             bool failed;
-            const exception *ex;
             string testName;
             vector<string> phaseMsgs;
     };
@@ -55,6 +53,7 @@ namespace VeraCrypt
     class Test {
         public:
             Test(string name) : name(name) {};
+            virtual ~Test() {}
             
             virtual void Run(shared_ptr<TestResult> r) = 0;
             
@@ -106,22 +105,20 @@ namespace VeraCrypt
 
             vector<TestResult> GetResults() { return results; }
             void StopOnFirstFailure() { stopOnFirstFailure = true; }
-            void MarkRollUp() { rollUp = true; }
 
         protected:
             shared_ptr<TestResult> RunSingle(Test *t);
 
         private:
             bool stopOnFirstFailure = false;
-            bool rollUp = false;
-            vector<Test*> tests;
+            vector<unique_ptr<Test> > tests;
             vector<TestResult> results;
     };
 
     class Testing : public TestSuite {
         public:
             Testing() : TestSuite() {};
-            void Main();
+            int Main();
             void Report();
     };
 

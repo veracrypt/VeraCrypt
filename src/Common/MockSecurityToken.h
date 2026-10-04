@@ -16,12 +16,11 @@ namespace VeraCrypt
             public:
                 static size_t GetPlaintextSize() { return 190; }
                 static size_t GetCiphertextSize() { return 256; }
-                static vector<uint8> LatestPlaintext;
 
                 MockSecurityTokenImpl() : Initialized(false) {} ;
                 virtual ~MockSecurityTokenImpl() {};
                 void CloseAllSessions () throw () {};
-                void CloseLibrary () {};
+                void CloseLibrary () { Initialized = false; };
                 void CreateKeyfile (CK_SLOT_ID slotId, vector <uint8> &keyfileData, const string &name) {};
                 void DeleteKeyfile (const SecurityTokenKeyfile &keyfile) {};
                 vector <SecurityTokenKeyfile> GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
@@ -29,15 +28,15 @@ namespace VeraCrypt
                 vector <SecurityTokenScheme> GetAvailablePrivateKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring());
                 vector <SecurityTokenScheme> GetAvailablePublicKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring());
                 void GetSecurityTokenScheme(wstring tokenSchemeDescriptor, SecurityTokenScheme &scheme, SecurityTokenKeyOperation mode);
-                void GetDecryptedData(SecurityTokenScheme scheme, vector<uint8> tokenDataToDecrypt, vector<uint8> &decryptedData);
-                void GetEncryptedData(SecurityTokenScheme scheme, vector<uint8> plaintext, vector<uint8> &ciphertext);
+                void GetDecryptedData(const SecurityTokenScheme &scheme, const vector<uint8> &tokenDataToDecrypt, vector<uint8> &decryptedData);
+                void GetEncryptedData(const SecurityTokenScheme &scheme, const vector<uint8> &plaintext, vector<uint8> &ciphertext);
 
 
                 void GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <uint8> &keyfileData) {};
                 list <SecurityTokenInfo> GetAvailableTokens ();
                 SecurityTokenInfo GetTokenInfo (CK_SLOT_ID slotId);
     #ifdef TC_WINDOWS
-                void InitLibrary (const wstring &pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback) {};
+                void InitLibrary (const wstring &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback);
     #else
                 virtual void InitLibrary (const string &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback);
     #endif

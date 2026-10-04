@@ -1,3 +1,4 @@
+#
 # Derived from source code of TrueCrypt 7.1a, which is
 # Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 # by the TrueCrypt License 3.0.
@@ -28,13 +29,12 @@ ifeq "$(PLATFORM)" "MacOSX"
 OBJS += Unix/FreeBSD/CoreFreeBSD.o
 endif
 
-TEST_EXECS := KeyfileTest.o
+TEST_EXECS := KeyfileTest.o SecurityTokenTest.o MountOptionsTest.o
 
 TEST_EXT_LIBS += $(shell $(PKG_CONFIG) $(VC_FUSE_PACKAGE) --libs)
+TEST_LFLAGS += -lpthread
+ifeq "$(PLATFORM)" "Linux"
 TEST_LFLAGS += -ldl
+endif
 
 include $(BUILD_INC)/Makefile.inc
-
-
-
-

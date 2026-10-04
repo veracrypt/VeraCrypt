@@ -19,8 +19,6 @@ namespace VeraCrypt
 		Initialized = true;
 	}
 
-	vector<uint8> MockSecurityTokenImpl::LatestPlaintext;
-
 	vector <SecurityTokenKeyfile> MockSecurityTokenImpl::GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter, const wstring keyfileIdFilter)
 	{
 		return vector<SecurityTokenKeyfile>();
@@ -43,34 +41,35 @@ namespace VeraCrypt
 		testKey->EncryptOutputSize = GetCiphertextSize();
 		testKey->Id = L"Mock key";
 		testKey->SlotId = 1;
+		testKey->Operation = mode;
 		testKey->Token = SecurityTokenInfo();
 		testKey->Token.Label = L"Mock security token";
 		testKey->MechanismLabel = RSAOAEPSecurityTokenMechanism::GetLabel();
 		key = *testKey;
 	}
-	void MockSecurityTokenImpl::GetDecryptedData(SecurityTokenScheme key, vector<uint8> ciphertext, vector<uint8> &plaintext)
+	void MockSecurityTokenImpl::GetDecryptedData(const SecurityTokenScheme &key, const vector<uint8> &ciphertext, vector<uint8> &plaintext)
 	{
 		if (ciphertext.size() != GetCiphertextSize()) {
 			throw Pkcs11Exception(CKR_FUNCTION_FAILED);
 		}
-		plaintext = LatestPlaintext;
+		for (size_t i = GetPlaintextSize(); i < ciphertext.size(); ++i)
+			if (ciphertext[i] != 0x5a)
+				throw Pkcs11Exception (CKR_ENCRYPTED_DATA_INVALID);
+		plaintext.resize (GetPlaintextSize());
+		for (size_t i = 0; i < plaintext.size(); ++i)
+			plaintext[i] = ciphertext[i] ^ 0xa5;
 	}
 
-	void MockSecurityTokenImpl::GetEncryptedData(SecurityTokenScheme key, vector<uint8> plaintext, vector<uint8> &ciphertext)
+	void MockSecurityTokenImpl::GetEncryptedData (const SecurityTokenScheme &key, const vector<uint8> &plaintext, vector<uint8> &ciphertext)
 	{
-		if (plaintext.size() != GetPlaintextSize()) {
-			throw Pkcs11Exception(CKR_FUNCTION_FAILED);
-		}
-		LatestPlaintext = plaintext;
-		if (plaintext.size() > GetCiphertextSize()) {
-			ciphertext = vector<uint8> (plaintext.data(), plaintext.data() + GetCiphertextSize());	
-		} else if (plaintext.size() < GetCiphertextSize()) {
-			ciphertext = vector<uint8> (GetCiphertextSize(), 0);
-			std::copy(plaintext.begin(), plaintext.end(), ciphertext.begin());
-		} else {
-			ciphertext = plaintext;
-		}
+		if (plaintext.size() != GetPlaintextSize())
+			throw Pkcs11Exception (CKR_DATA_LEN_RANGE);
+		// Reversible test encoding only: never retain plaintext outside the caller.
+		ciphertext.assign (GetCiphertextSize(), 0x5a);
+		for (size_t i = 0; i < plaintext.size(); ++i)
+			ciphertext[i] = plaintext[i] ^ 0xa5;
 	}
+
 	list <SecurityTokenInfo> MockSecurityTokenImpl::GetAvailableTokens ()
 	{
 		return list<SecurityTokenInfo>();
@@ -97,10 +96,14 @@ namespace VeraCrypt
 			attributeValue = vector<uint8>(1, CK_TRUE);
 			break;
 		case CKA_KEY_TYPE:
-			attributeValue = vector<uint8>(1, CKK_RSA);
+		{
+			CK_KEY_TYPE type = CKK_RSA;
+			attributeValue.resize (sizeof (type));
+			memcpy (attributeValue.data(), &type, sizeof (type));
 			break;
-		case CKA_MODULUS_BITS:
-			attributeValue = vector<uint8>(1, (uint8)2048);
+		}
+		case CKA_MODULUS:
+			attributeValue.assign (GetCiphertextSize(), 0xff);
 			break;
 		default:
 			throw Pkcs11Exception(CKR_ATTRIBUTE_TYPE_INVALID);
@@ -110,8 +113,10 @@ namespace VeraCrypt
 	bool MockSecurityTokenImpl::GetMechanismInfo(CK_SLOT_ID slotId, CK_MECHANISM_TYPE type, CK_MECHANISM_INFO_PTR info)
 	{
 		CK_MECHANISM_INFO mi;
-		mi.flags = CKF_DECRYPT;
-		mi.ulMaxKeySize = 1024;
+		if (type != CKM_RSA_PKCS_OAEP)
+			return false;
+		mi.flags = CKF_DECRYPT | CKF_ENCRYPT;
+		mi.ulMinKeySize = 2048;
 		mi.ulMaxKeySize = 2048;
 		*info = mi;
 		return true;

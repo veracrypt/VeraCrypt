@@ -1,5 +1,3 @@
-![build](./actions/workflows/build-macos.yml/badge.svg)
-
 This archive contains the source code of VeraCrypt.
 It is based on the original TrueCrypt 7.1a with security enhancements and modifications.
 
@@ -148,6 +146,17 @@ makepkg:
 `$ cd src/Build/Packaging/arch`
 
 `$ makepkg -si`
+
+The optional keyfile, token-interface, mount-option, atomic-file and stream regression tests use
+local temporary files and mock tokens; they do not mount volumes or require a card.
+Run them from `src` with `make test` (add `WITHFUSE3=1` when building with FUSE 3).
+`TEST=1` builds the test executables without running them. Test code is excluded
+from the normal application build.
+
+After building these tests, run `python3 Tests/test_token_credential_workflows.py`
+from the repository root to check CLI hidden-volume protection, wizard credential
+validation, and header-backup cancellation. This also requires `wx-config` and a
+C++11 compiler; it uses temporary files and mock tokens without mounting volumes.
 
 On MacOSX, building a console-only executable is not supported.
 

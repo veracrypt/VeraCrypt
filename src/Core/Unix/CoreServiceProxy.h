@@ -93,7 +93,8 @@ namespace VeraCrypt
 			shared_ptr <VolumeInfo> mountedVolume;
 			const bool useCachedPasswords = !VolumePasswordCache::IsEmpty()
 				&& (!options.Password || options.Password->IsEmpty())
-				&& (!options.Keyfiles || options.Keyfiles->empty());
+				&& (!options.Keyfiles || options.Keyfiles->empty())
+				&& options.SecurityTokenSchemeSpec.empty();
 			MountOptions newOptions = options;
 
 			// Resolve keyfiles in the application process, also when the outer password
@@ -103,6 +104,7 @@ namespace VeraCrypt
 				newOptions.Password = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password, options.SecurityTokenSchemeSpec, options.EMVSupportEnabled);
 			if (newOptions.Keyfiles)
 				newOptions.Keyfiles->clear();
+			newOptions.SecurityTokenSchemeSpec.clear();
 
 			if (options.Protection == VolumeProtection::HiddenVolumeReadOnly)
 				newOptions.ProtectionPassword = Keyfile::ApplyListToPassword (options.ProtectionKeyfiles, options.ProtectionPassword, options.ProtectionSecurityTokenSchemeSpec, options.EMVSupportEnabled);
@@ -110,6 +112,7 @@ namespace VeraCrypt
 				newOptions.ProtectionPassword.reset();
 			if (newOptions.ProtectionKeyfiles)
 				newOptions.ProtectionKeyfiles->clear();
+			newOptions.ProtectionSecurityTokenSchemeSpec.clear();
 
 			try
 			{

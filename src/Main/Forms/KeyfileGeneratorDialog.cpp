@@ -78,6 +78,18 @@ namespace VeraCrypt
 				return;
 			}
 
+			int minimumSize = 64;
+			if (!securityTokenSchemeSpec.IsEmpty())
+			{
+				SecurityTokenScheme scheme;
+				SecurityToken::GetSecurityTokenScheme (securityTokenSchemeSpec.ToStdWstring(), scheme, SecurityTokenKeyOperation::ENCRYPT);
+				minimumSize = static_cast<int> (scheme.DecryptOutputSize);
+				if (minimumSize < 64 || minimumSize > 1024 * 1024)
+					throw ParameterIncorrect (SRC_POS);
+				if (!useRandomSize && keyfilesSize < minimumSize)
+					throw InsufficientData (SRC_POS);
+			}
+
 			DirectoryPath keyfilesDir = Gui->SelectDirectory (Gui->GetActiveWindow(), LangString["SELECT_KEYFILE_GENERATION_DIRECTORY"], false);
 			if (keyfilesDir.IsEmpty())
 				return;
@@ -103,8 +115,8 @@ namespace VeraCrypt
 					/* since keyfilesSize < 1024 * 1024, we mask with 0x000FFFFF */
 					bufferLen = (long) (((unsigned long) bufferLen) & 0x000FFFFF);
 
-					bufferLen %= ((1024*1024 - 64) + 1);
-					bufferLen += 64;
+					bufferLen %= ((1024 * 1024 - minimumSize) + 1);
+					bufferLen += minimumSize;
 				}
 				else
 					bufferLen = keyfilesSize;
@@ -235,22 +247,18 @@ namespace VeraCrypt
 		textCtrl->SetLabel (str.c_str());
 	}
 
-	void KeyfileGeneratorDialog::OnSelectSecurityTokenSchemeClick( wxCommandEvent& event) { 
+	void KeyfileGeneratorDialog::OnSelectSecurityTokenSchemeClick (wxCommandEvent& event)
+	{
 		try
 		{
 			SecurityTokenSchemesDialog dialog (this, SecurityTokenKeyOperation::ENCRYPT);
 			if (dialog.ShowModal() == wxID_OK)
 			{
-				auto schemeSpec = dialog.GetSelectedSecurityTokenSchemeSpec();
-				SecurityTokenSchemeDesc->SetValue(wxString(schemeSpec));
-				if (!schemeSpec.empty()) {
-					SecurityTokenScheme scheme;
-					SecurityToken::GetSecurityTokenScheme(schemeSpec, scheme, SecurityTokenKeyOperation::ENCRYPT);
-					KeyfilesSize->SetRange(scheme.EncryptOutputSize, 1048576);
-					if (KeyfilesSize->GetValue() < scheme.EncryptOutputSize) {
-						KeyfilesSize->SetValue(scheme.EncryptOutputSize);
-					}
-				}
+				wstring schemeSpec = dialog.GetSelectedSecurityTokenSchemeSpec();
+				SecurityTokenScheme scheme;
+				SecurityToken::GetSecurityTokenScheme (schemeSpec, scheme, SecurityTokenKeyOperation::ENCRYPT);
+				SecurityTokenSchemeDesc->SetValue (wxString (schemeSpec));
+				KeyfilesSize->SetValue (std::max (KeyfilesSize->GetValue(), static_cast<int> (scheme.DecryptOutputSize)));
 			}
 		}
 		catch (exception &e)

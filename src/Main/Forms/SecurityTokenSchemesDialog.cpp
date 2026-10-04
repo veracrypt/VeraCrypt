@@ -27,13 +27,13 @@ namespace VeraCrypt
 		list <int> colPermilles;
 
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenSlotId, _("TOKEN_SLOT_ID"), wxLIST_FORMAT_CENTER, 1);
-		colPermilles.push_back (102);
+		colPermilles.push_back (150);
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenLabel, _("TOKEN_NAME"), wxLIST_FORMAT_LEFT, 1);
-		colPermilles.push_back (268);
+		colPermilles.push_back (220);
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenKeyLabel, _("TOKEN_KEY_LABEL"), wxLIST_FORMAT_LEFT, 1);
-		colPermilles.push_back (368);
+		colPermilles.push_back (300);
 		SecurityTokenSchemeListCtrl->InsertColumn (ColumnSecurityTokenMechanismLabel, _("TOKEN_KEY_MECHANISM_LABEL"), wxLIST_FORMAT_LEFT, 1);
-		colPermilles.push_back (200);
+		colPermilles.push_back (330);
 
 
 		KeyType keyType = KeyType::PUBLIC;
@@ -42,7 +42,7 @@ namespace VeraCrypt
 		}
 		FillSecurityTokenSchemesListCtrl(keyType);
 
-		Gui->SetListCtrlWidth (SecurityTokenSchemeListCtrl, 65);
+		Gui->SetListCtrlWidth (SecurityTokenSchemeListCtrl, 95);
 		Gui->SetListCtrlHeight (SecurityTokenSchemeListCtrl, 16);
 		Gui->SetListCtrlColumnWidths (SecurityTokenSchemeListCtrl, colPermilles);
 
@@ -50,6 +50,7 @@ namespace VeraCrypt
 		Layout();
 		Center();
 
+		OKButton->Enable (false);
 		OKButton->SetDefault();
 	}
 
@@ -87,14 +88,19 @@ namespace VeraCrypt
 	
 	void SecurityTokenSchemesDialog::OnListItemDeselected (wxListEvent& event)
 	{
+		OKButton->Enable (SecurityTokenSchemeListCtrl->GetSelectedItemCount() == 1);
 	}
 
 	void SecurityTokenSchemesDialog::OnListItemSelected (wxListEvent& event)
 	{
+		OKButton->Enable (SecurityTokenSchemeListCtrl->GetSelectedItemCount() == 1);
 	}
 
 	void SecurityTokenSchemesDialog::OnOKButtonClick ()
 	{
+		if (SecurityTokenSchemeListCtrl->GetSelectedItemCount() != 1)
+			return;
+
 		foreach (long item, Gui->GetListCtrlSelectedItems (SecurityTokenSchemeListCtrl))
 		{
 			SecurityTokenScheme *key = reinterpret_cast <SecurityTokenScheme *> (SecurityTokenSchemeListCtrl->GetItemData (item));

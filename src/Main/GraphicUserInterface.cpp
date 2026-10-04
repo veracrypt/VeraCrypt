@@ -28,6 +28,7 @@
 
 #include "Common/SecurityToken.h"
 #include "Volume/Keyfile.h"
+#include "Platform/AtomicFile.h"
 #include "Platform/SystemLog.h"
 #include "Application.h"
 #include "GraphicUserInterface.h"
@@ -264,41 +265,30 @@ namespace VeraCrypt
 	void GraphicUserInterface::RevealRedkey (shared_ptr <VolumePath> volumePath) const
 	{
 		wxWindow *parent = GetActiveWindow();
+		if (!AskYesNo (LangString["REVEAL_REDKEY_INFO"], false, true))
+			return;
 
-		ShowInfo ("REVEAL_REDKEY_INFO");
-
-		// choose blue key file
 		FilePathList files = SelectFiles (parent, wxEmptyString, false, false);
 		if (files.empty())
 			return;
+		FilePath blueKey = *files.front();
 
-		DirectoryPath blueKey = *files.front();
-
-		// choose security token scheme
 		SecurityTokenSchemesDialog dialog (parent, SecurityTokenKeyOperation::DECRYPT);
-		if (dialog.ShowModal() != wxID_OK) {
+		if (dialog.ShowModal() != wxID_OK)
 			return;
-		}
+		wstring schemeSpec = dialog.GetSelectedSecurityTokenSchemeSpec();
+		if (schemeSpec.empty())
+			throw ParameterIncorrect (SRC_POS);
 
-		
-		wxString schemeSpec( dialog.GetSelectedSecurityTokenSchemeSpec() );
-				
-
-		// choose red key filepath
-		files = SelectFiles (parent, wxString(LangString["REVEAL_REDKEY_PATH"]), true, false);
+		files = SelectFiles (parent, wxString (LangString["REVEAL_REDKEY_PATH"]), true, false);
 		if (files.empty())
 			return;
 
-		DirectoryPath redKeyPath = *files.front();		
-
-		// apply security key to blue key file in decryption mode
-		Keyfile kf(blueKey);
-		
-		// save result to red key file
-		kf.RevealRedkey(redKeyPath, schemeSpec.ToStdWstring());
-
-		ShowWarning ("REVEAL_REDKEY_DONE");
-	} 
+		wxBusyCursor busy;
+		Keyfile keyfile (blueKey);
+		keyfile.RevealRedkey (*files.front(), schemeSpec);
+		ShowInfo ("REVEAL_REDKEY_DONE");
+	}
 
 	void GraphicUserInterface::BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const
 	{
@@ -496,9 +486,6 @@ namespace VeraCrypt
 		if (files.empty())
 			return;
 
-		File backupFile;
-		backupFile.Open (*files.front(), File::CreateWrite);
-
 		RandomNumberGenerator::Start();
 		/* force the display of the random enriching interface */
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
@@ -509,16 +496,15 @@ namespace VeraCrypt
 
 			// Re-encrypt volume header
 			SecureBuffer newHeaderBuffer (normalVolume->GetLayout()->GetHeaderSize());
+			SecureBuffer hiddenHeaderBuffer (newHeaderBuffer.Size());
 			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, normalVolume->GetHeader(), normalVolumeMountOptions.Password, normalVolumeMountOptions.Pim, normalVolumeMountOptions.Keyfiles, normalVolumeMountOptions.SecurityTokenSchemeSpec, normalVolumeMountOptions.EMVSupportEnabled);
 
 			ExecuteWaitThreadRoutine (parent, &routine);
 
-			backupFile.Write (newHeaderBuffer);
-
 			if (hiddenVolume)
 			{
 				// Re-encrypt hidden volume header
-				ReEncryptHeaderThreadRoutine hiddenRoutine(newHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Pim, hiddenVolumeMountOptions.Keyfiles, hiddenVolumeMountOptions.SecurityTokenSchemeSpec, hiddenVolumeMountOptions.EMVSupportEnabled);
+				ReEncryptHeaderThreadRoutine hiddenRoutine(hiddenHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Pim, hiddenVolumeMountOptions.Keyfiles, hiddenVolumeMountOptions.SecurityTokenSchemeSpec, hiddenVolumeMountOptions.EMVSupportEnabled);
 
 				ExecuteWaitThreadRoutine (parent, &hiddenRoutine);
 			}
@@ -527,10 +513,15 @@ namespace VeraCrypt
 				// Store random data in place of hidden volume header
 				shared_ptr <EncryptionAlgorithm> ea = normalVolume->GetEncryptionAlgorithm();
 				Core->RandomizeEncryptionAlgorithmKey (ea);
-				ea->Encrypt (newHeaderBuffer);
+				hiddenHeaderBuffer.CopyFrom (newHeaderBuffer);
+				ea->Encrypt (hiddenHeaderBuffer);
 			}
 
-			backupFile.Write (newHeaderBuffer);
+			// Finish all token operations before replacing a previous backup.
+			AtomicFile backupFile (*files.front());
+			backupFile.GetFile().Write (newHeaderBuffer);
+			backupFile.GetFile().Write (hiddenHeaderBuffer);
+			backupFile.Commit();
 		}
 
 		ShowWarning ("VOL_HEADER_BACKED_UP");
@@ -1041,6 +1032,7 @@ namespace VeraCrypt
 			if (!protectionError && tryCachedPasswords
 				&& (!options.Password || options.Password->IsEmpty())
 				&& (!options.Keyfiles || options.Keyfiles->empty())
+				&& options.SecurityTokenSchemeSpec.empty()
 				&& !Core->IsPasswordCacheEmpty())
 			{
 				// Cached password

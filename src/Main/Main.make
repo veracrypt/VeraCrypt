@@ -269,11 +269,7 @@ install: prepare
 package: prepare
 ifdef VC_LEGACY_BUILD
 	/usr/local/bin/packagesbuild $(BASE_DIR)/Setup/MacOSX/veracrypt_Legacy.pkgproj
-ifdef $(VC_OSX_DEVELOPER_ID)
-	productsign --sign "Developer ID Installer: $(VC_OSX_DEVELOPER_ID)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt Legacy $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
-else
-	cp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt Legacy $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
-endif
+	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt Legacy $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_Legacy_$(TC_VERSION).dmg
 else
 ifeq "$(VC_OSX_FUSET)" "1"

@@ -181,6 +181,7 @@ namespace VeraCrypt
 
 		Keyfiles->push_back (keyfile);
 		UseKeyfilesCheckBox->SetValue (true);
+		OnUpdate();
 	}
 
 	void VolumePasswordPanel::SetPimValidator ()
@@ -265,6 +266,8 @@ namespace VeraCrypt
 
 	wstring VolumePasswordPanel::GetSecurityTokenSchemeSpec () const
 	{
+		if (!UseKeyfilesCheckBox->IsChecked() || !UseKeyfilesCheckBox->IsShown())
+			return wstring();
 		wxString spec = SecurityTokenSchemeSpecText->GetValue();
 		return spec.ToStdWstring();
 	}
@@ -394,7 +397,15 @@ namespace VeraCrypt
 		}
 	}
 
-	void VolumePasswordPanel::OnSecurityTokenSchemeSpecButtonClick( wxMouseEvent& event )
+	void VolumePasswordPanel::OnUpdate ()
+	{
+		bool enabled = UseKeyfilesCheckBox->IsChecked();
+		SecurityTokenSchemeSpecText->Enable (enabled);
+		SecurityTokenSchemeSpecButton->Enable (enabled);
+		UpdateEvent.Raise();
+	}
+
+	void VolumePasswordPanel::OnSecurityTokenSchemeSpecButtonClick( wxCommandEvent& event )
 	{
 		try
 		{

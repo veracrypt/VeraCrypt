@@ -170,7 +170,10 @@ OBJS += ../Common/SecurityToken.o
 TEST_OBJS :=
 TEST_OBJS += ../Common/MockSecurityToken.o
 
-VolumeLibrary: Volume.a VolumeTest.a
+VolumeLibrary: Volume.a
+ifeq "$(TEST)" "1"
+VolumeLibrary: VolumeTest.a
+endif
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
 ifeq "$(PLATFORM)" "MacOSX"

@@ -16,7 +16,6 @@
 #include "Platform/Platform.h"
 #include "Platform/Stream.h"
 #include "VolumePassword.h"
-#include "Common/SecurityToken.h"
 
 namespace VeraCrypt
 {

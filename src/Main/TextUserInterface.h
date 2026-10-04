@@ -38,7 +38,7 @@ namespace VeraCrypt
 		virtual bool AskYesNo (const wxString &message, bool defaultYes = false, bool warning = false) const;
 		virtual void BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const;
 		virtual void BeginBusyState () const { }
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Pkcs5Kdf> currentKdf = shared_ptr <Pkcs5Kdf>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), wstring securityTokenSchemeSpec = wstring(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Pkcs5Kdf> newKdf = shared_ptr <Pkcs5Kdf>()) const;
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Pkcs5Kdf> currentKdf = shared_ptr <Pkcs5Kdf>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), wstring securityTokenSchemeSpec = wstring(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Pkcs5Kdf> newKdf = shared_ptr <Pkcs5Kdf>(), wstring newSecurityTokenSchemeSpec = wstring()) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const;
 		virtual void CreateVolume (shared_ptr <VolumeCreationOptions> options) const;
 		virtual void DeleteSecurityTokenKeyfiles () const;

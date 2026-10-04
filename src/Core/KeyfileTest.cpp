@@ -1,970 +1,353 @@
-#include <Testing.h>
-
-#include "VolumeCreator.h"
-#include "Unix/CoreService.h"
-#include "RandomNumberGenerator.h"
-#include "CoreException.h"
-
-#include "Volume/EncryptionThreadPool.h"
-#include "Platform/SerializerFactory.h"
-#include "Platform/Functor.h"
-#include "Platform/FileStream.h"
-#include "Common/SecurityToken.h"
+#include "Testing.h"
+#include "Volume/Keyfile.h"
 #include "Common/MockSecurityToken.h"
-
+#include <dirent.h>
 #include <sys/stat.h>
-#include <sys/statvfs.h>
 #include <unistd.h>
 
-#include <optional>
-
 using namespace VeraCrypt;
-using namespace std;
 
-#define DEFAULT_PASSWORD "12345"
-#define PASSWORD_TO_CHANGE_TO "54321"
-// leave some additional space after the key
-#define DEFAULT_REDKEY_DATA_SIZE (MockSecurityTokenImpl::GetPlaintextSize() + MockSecurityTokenImpl::GetPlaintextSize()/2)
-#define TOKEN_KEY L"test token key"
-
-
-#define KB(k) (k*1024)
-#define MB(m) (KB(m)*1024)
-
-
-static Buffer *redkeyBuffer;
-
-
-struct VolumeTestParams {
-    string caseName;
-    shared_ptr<MountOptions> opts;
-    shared_ptr<VolumeCreationOptions> createOpts;
-    bool useBluekey;
-};
-
-template ParameterizedFunctionalTest<VolumeTestParams>::ParameterizedFunctionalTest(string name, paramTestFunc<VolumeTestParams> func, VolumeTestParams *param);
-
-class AdminPasswordRequestHandler : public GetStringFunctor
+namespace
 {
+    const wstring TokenDescriptor = L"test token key";
+
+    class TestToken : public MockSecurityTokenImpl
+    {
     public:
-    virtual void operator() (string &str)
+        enum Fault { None, EmptyScheme, HugeScheme, WrongEncryptSize, WrongDecryptSize, EncryptError, DecryptError };
+        TestToken () : Failure (None) { }
+        void GetSecurityTokenScheme (wstring descriptor, SecurityTokenScheme &scheme, SecurityTokenKeyOperation operation)
+        {
+            MockSecurityTokenImpl::GetSecurityTokenScheme (descriptor, scheme, operation);
+            if (Failure == EmptyScheme) scheme.DecryptOutputSize = 0;
+            if (Failure == HugeScheme) scheme.EncryptOutputSize = Keyfile::MaxProcessedLength + 1;
+        }
+        void GetEncryptedData (const SecurityTokenScheme &scheme, const vector<uint8> &plaintext, vector<uint8> &ciphertext)
+        {
+            if (Failure == EncryptError) throw Pkcs11Exception (CKR_FUNCTION_FAILED);
+            MockSecurityTokenImpl::GetEncryptedData (scheme, plaintext, ciphertext);
+            if (Failure == WrongEncryptSize) ciphertext.resize (ciphertext.size() - 1);
+        }
+        void GetDecryptedData (const SecurityTokenScheme &scheme, const vector<uint8> &ciphertext, vector<uint8> &plaintext)
+        {
+            if (Failure == DecryptError) throw Pkcs11Exception (CKR_FUNCTION_FAILED);
+            MockSecurityTokenImpl::GetDecryptedData (scheme, ciphertext, plaintext);
+            if (Failure == WrongDecryptSize) plaintext.resize (plaintext.size() - 1);
+        }
+        Fault Failure;
+    };
+
+    class Fixture
     {
-        throw ElevationFailed (SRC_POS, "sudo", 1, "");
-    }
-};
-
-FilesystemPath TestFile(string name) {
-    struct stat fstat;
-    for (auto i = 0; i < 255; i ++) {
-        if (stat ("Tests", &fstat) == 0) {
-            auto *wd = getcwd(NULL, 0);
-            return FilesystemPath(string(wd)).Append(L"Tests").Append(StringConverter::ToWide(name));
+    public:
+        Fixture () : Token (make_shared<TestToken>())
+        {
+            char name[] = "/tmp/veracrypt-keyfile-test-XXXXXX";
+            char *directory = mkdtemp (name);
+            if (!directory) throw SystemException (SRC_POS);
+            Directory = directory;
+            SecurityToken::UseImpl (Token);
         }
-        chdir("..");
-    }
-    throw std::exception();
-}
-
-void SetUp() {
-    SerializerFactory::Initialize();
-
-    SecurityToken::UseImpl(shared_ptr<SecurityTokenIface>(new MockSecurityTokenImpl()));
-
-    VeraCrypt::CoreService::Start();
-
-    RandomNumberGenerator::Start();
-
-    // this is from UserInterface.cpp
-    // LangString.Init();
-    VeraCrypt::Core->Init();
-    VeraCrypt::Core->SetAdminPasswordCallback (shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler));
-}
-
-void TearDown() {
-    RandomNumberGenerator::Stop();
-    CoreService::Stop();
-    SerializerFactory::Deinitialize();
-}
-
-
-shared_ptr<VolumePassword> GetPassword(string passwordString) {
-    size_t ulen = passwordString.length();
-    return shared_ptr<VolumePassword>(new VolumePassword ((uint8*)passwordString.c_str(), ulen));
-}
-
-
-shared_ptr<MountOptions> GetOptions(string name) {
-    shared_ptr<VolumePath> volumePath(new VolumePath(TestFile(name + ".vol")));
-    shared_ptr<VolumePassword> password = GetPassword(DEFAULT_PASSWORD);
-    
-
-    Sha512 *SelectedHash = new Sha512();
-    shared_ptr<Pkcs5Kdf> kdf = Pkcs5Kdf::GetAlgorithm (*SelectedHash);
-    shared_ptr<KeyfileList> keyfiles(new KeyfileList());
-    VolumeProtection::Enum protection = VolumeProtection::None;
-    shared_ptr<VolumePassword> protectionPassword;
-    shared_ptr<Pkcs5Kdf> protectionKdf;
-    shared_ptr<KeyfileList> protectionKeyfileList(new KeyfileList());
-    VolumeType::Enum volumeType = VolumeType::Unknown;
-    wstring securityTokenSchemeSpec;
-
-
-    MountOptions opts;
-    opts.Path = volumePath;
-    opts.FilesystemOptions = wstring();
-    opts.FilesystemType = wstring();
-    opts.NoFilesystem = false;
-    opts.Password = password;
-    opts.Kdf = kdf;
-    opts.Keyfiles = keyfiles;
-    opts.Protection = protection;
-    opts.ProtectionPassword = protectionPassword;
-    opts.ProtectionKdf = protectionKdf;
-    opts.ProtectionKeyfiles = protectionKeyfileList;
-    opts.SecurityTokenSchemeSpec = securityTokenSchemeSpec;
-
-    opts.SlotNumber = 0;
-
-    shared_ptr<MountOptions> result = shared_ptr<MountOptions>(new MountOptions());
-    *result = opts;
-    return result;
-}
-
-
-shared_ptr<VolumeCreationOptions> GetCreateOpts(string name) {
-    MountOptions mopts = *GetOptions(name);
-
-    VolumeCreationOptions opts;
-    
-    opts.FilesystemClusterSize = 0; // default
-    opts.SectorSize = 512;
-    // XXX: other filesystems doesn't work, because we can only format fat fs within Core
-    opts.Filesystem = VolumeCreationOptions::FilesystemType::Enum::FAT;
-    opts.EA = shared_ptr <AESTwofishSerpent> (new AESTwofishSerpent ());
-    opts.Quick = false;
-    opts.Size = 10*1024*1024;
-    opts.Type = VolumeType::Normal;
-
-    opts.Password = make_shared<VolumePassword>(*(mopts.Password));
-    opts.Pim = mopts.Pim;
-    opts.Keyfiles = mopts.Keyfiles;
-    opts.SecurityTokenSchemeSpec = mopts.SecurityTokenSchemeSpec;
-    opts.Path = *mopts.Path;
-    
-    opts.VolumeHeaderKdf = mopts.Kdf;
-
-    shared_ptr<VolumeCreationOptions> result = shared_ptr<VolumeCreationOptions>(new VolumeCreationOptions());
-    *result = opts;
-    return result;
-
-}
-
-
-Test* WithParams(string name, paramTestFunc<VolumeTestParams> f, shared_ptr<VolumeCreationOptions> createOpts, shared_ptr<MountOptions> mountOpts) {
-    VolumeTestParams *params = new VolumeTestParams{name, mountOpts, createOpts, false};
-    return Testing::param<VolumeTestParams>(name, f, params);
-}
-
-Test* WithDefaultParams(string name, paramTestFunc<VolumeTestParams> f) {
-    auto createOpts = GetCreateOpts(name);
-    auto mountOpts = GetOptions(name);
-    return WithParams(name, f, createOpts, mountOpts);
-}
-
-
-
-void WithBluekey(const VolumeTestParams *params, shared_ptr<Keyfile> kf) {
-    // setting this signals to use security token key
-    params->opts->SecurityTokenSchemeSpec = params->createOpts->SecurityTokenSchemeSpec = TOKEN_KEY;
-    params->createOpts->Keyfiles->push_back(kf);
-    params->opts->Keyfiles->push_back(kf);
-}
-
-
-
-
-shared_ptr<Keyfile> CreateKeyfile(string name) {
-    SecureBuffer data(100);
-    RandomNumberGenerator::GetData(data);
-
-    FilePath kfp(TestFile(name));
-    File f;
-    f.Open(kfp, File::FileOpenMode::CreateWrite);
-    f.Write(data);
-    f.Close();
-
-    auto keyfile = shared_ptr<Keyfile>(new Keyfile(kfp));
-    return keyfile;
-}
-
-
-
-shared_ptr<Keyfile> CreateBluekey(size_t size) {   
-    SecureBuffer buffer(size);
-    RandomNumberGenerator::GetData(buffer, true);
-
-    redkeyBuffer = new Buffer(ConstBufferPtr(buffer));
-
-    stringstream ss;
-    ss << "readkey_original_" << size << ".key";
-
-    File redkeyOriginal;
-    redkeyOriginal.Open(TestFile(ss.str()), File::FileOpenMode::CreateWrite);
-    redkeyOriginal.Write(*redkeyBuffer);
-    redkeyOriginal.Close();
-
-    stringstream bkFn;
-    bkFn << "bluekey_" << size << ".key";
-    FilePath bluekeyPath(TestFile(bkFn.str()));
-    Keyfile::CreateBluekey(bluekeyPath, TOKEN_KEY, buffer);
-    return shared_ptr<Keyfile>(new Keyfile(bluekeyPath));
-}
-
-shared_ptr<Keyfile> CreateBluekey() {
-    return CreateBluekey(DEFAULT_REDKEY_DATA_SIZE);
-}
-
-
-
-VolumeTestParams *GetTestParams(void *arg) {
-    VolumeTestParams *params = (VolumeTestParams*) arg;
-    return params;
-}
-
-
-
-
-void EnsureBluekey(const VolumeTestParams *params, size_t keyfileSize) {
-    shared_ptr<Keyfile> kf = CreateBluekey(keyfileSize);
-    WithBluekey(params, kf);
-}
-
-void EnsureBluekey(const VolumeTestParams *params) {
-    EnsureBluekey(params, DEFAULT_REDKEY_DATA_SIZE);
-}
-
-void CreateVolume(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    VolumeCreator creator;
-    shared_ptr<VolumeCreationOptions> opts = params->createOpts;
-
-    if (!opts->EA) {
-        r->Failed("encryption algorithm is null for creation");
-        return;
-    }
-    creator.CreateVolume(opts);
-
-    while (creator.GetProgressInfo().CreationInProgress) {
-        Thread::Sleep(1000);
-    }
-    creator.CheckResult();
-    r->Phase("volume created successfully");
-}
-
-void Read(char *buf, shared_ptr<Volume> v, size_t offset, size_t size);
-
-void DumpVolume() {
-    MountOptions opts = *GetOptions(TestFile("dump.vol"));
-
-    try {
-        shared_ptr<Volume> vol = VeraCrypt::Core->OpenVolume(opts.Path,
-            true, opts.Password, 0, opts.Kdf,
-            opts.Keyfiles, opts.SecurityTokenSchemeSpec, false,
-            opts.Protection, opts.ProtectionPassword, 0, opts.ProtectionKdf, opts.ProtectionKeyfiles,
-            opts.ProtectionSecurityTokenSchemeSpec,
-            false, VolumeType::Unknown, false, false);
-
-        if (vol) {
-            trace_msg(vol->GetSize());
-            trace_msg(vol->GetVolumeCreationTime());
-            trace_msg(vol->GetFile()->IsOpen());
-            trace_msg(string(vol->GetFile()->GetPath()));
-
-            size_t rs = 256;
-            char *buffer = new char[rs];
-            Read(buffer, vol, 0, rs);
-
-            string s((char*)buffer, rs);
-            trace_msg("DATA" << s);
-        } else {
-            trace_msg("Volume is null");
-        }
-    } catch (exception &ex) {
-        trace_msg("EX" << ex.what());
-    }
-}
-
-void EnsureVolumeMounts(shared_ptr<TestResult> r, VolumeTestParams params) {   
-    try {
-        shared_ptr<VolumeInfo> vi = VeraCrypt::Core->MountVolume(*params.opts);
-        if (vi) {
-            VeraCrypt::Core->DismountVolume(vi);
-        } else {
-            r->Failed("no volume information available after mounting");
-        }
-    } catch (exception &e) {
-        r->Failed(string("ex caught") + e.what());
-    }
-    
-}
-
-
-shared_ptr<Keyfile> RevealRedkey(VolumeTestParams *params) {
-    shared_ptr<Keyfile> kf = params->opts->Keyfiles->front();
-
-
-    FilePath redkeyPath(TestFile("redkey.key"));
-    kf->RevealRedkey(redkeyPath, params->opts->SecurityTokenSchemeSpec);
-    return shared_ptr<Keyfile>(new Keyfile(redkeyPath));
-}
-
-
-void Read(char *buf, shared_ptr<Volume> v, size_t offset, size_t size) {
-    if ((uint64) offset + size > v->GetSize())
-        size = v->GetSize() - offset;
-
-    size_t sectorSize = v->GetSectorSize();
-    if (size % sectorSize != 0 || offset % sectorSize != 0)
-    {
-        // Support for non-sector-aligned read operations is required by some loop device tools
-        // which may analyze the volume image before attaching it as a device
-
-        uint64 alignedOffset = offset - (offset % sectorSize);
-        uint64 alignedSize = size + (offset % sectorSize);
-
-        if (alignedSize % sectorSize != 0)
-            alignedSize += sectorSize - (alignedSize % sectorSize);
-
-        SecureBuffer alignedBuffer (alignedSize);
-
-        // FuseService::ReadVolumeSectors (alignedBuffer, alignedOffset);
-        v->ReadSectors(alignedBuffer, alignedOffset);
-        BufferPtr ((uint8 *) buf, size).CopyFrom (alignedBuffer.GetRange (offset % sectorSize, size));
-    }
-    else
-    {
-        v->ReadSectors(BufferPtr ((uint8 *) buf, size), offset);
-        // FuseService::ReadVolumeSectors (, offset);
-    }
-}
-
-
-#define PHASE(msg) trace_msg(">>>>>> " << msg << "<<<<<<<<")
-
-
-void ChangeSecurityParametersTest(shared_ptr<TestResult> r, VolumeTestParams *params,
-    shared_ptr<VolumePassword> newPassword,
-    int newPim, 
-    shared_ptr<VeraCrypt::KeyfileList> newKeyfiles, 
-    shared_ptr<wstring> newSecurityTokenSchemeSpec,
-    shared_ptr<VeraCrypt::Pkcs5Kdf> newPkcs5Kdf
-    ) {
-
-    auto opts = params->opts;
-
-    auto volumePath = opts->Path;
-    bool preserveTimestamps = params->opts->PreserveTimestamps;
-    bool truecryptMode = false;
-
-
-    auto password = opts->Password;
-    auto pim = opts->Pim;
-    auto kdf = opts->Kdf;
-    shared_ptr<VeraCrypt::KeyfileList> keyfiles = opts->Keyfiles;
-    wstring securityTokenSchemeSpec = opts->SecurityTokenSchemeSpec;
-
-    
-    if (!newPkcs5Kdf) {
-        newPkcs5Kdf = kdf;
-    }
-
-    // null value => same
-    // empty list => drop kf
-    // KEYFILES_TO_CHANGE_TO => replace kefiles
-    shared_ptr<VeraCrypt::KeyfileList> greenKeyfiles = newKeyfiles;
-    if (!greenKeyfiles) {
-        r->Phase("keeping the same keyfiles");
-        greenKeyfiles = keyfiles;
-    }
-    
-
-    // null => same
-    // empty => drop key
-    // non-empty => use specified
-    wstring greenSecurityTokenSchemeSpec;
-    if (!newSecurityTokenSchemeSpec) {
-        r->Phase("keeping the same tokenspec");
-        greenSecurityTokenSchemeSpec = securityTokenSchemeSpec;
-    } else {
-        greenSecurityTokenSchemeSpec = *newSecurityTokenSchemeSpec;
-    }
-
-    auto greenPim = newPim;
-    if (greenPim < 0) {
-        r->Phase("keeping the same pim");
-        greenPim = pim;
-    }
-
-    auto greenPassword = newPassword;
-    if (!greenPassword) {
-        r->Phase("keeping the same password");
-        greenPassword = password;
-    }
-    
-    int wipeCount = 3;
-    
-
-    r->Phase("applying security parameters changes");
-    try {
-        VeraCrypt::Core->ChangePassword(volumePath, preserveTimestamps,
-        password, pim, kdf, keyfiles, securityTokenSchemeSpec,
-        greenPassword, greenPim, greenKeyfiles, greenSecurityTokenSchemeSpec, false,
-        newPkcs5Kdf, wipeCount);
-    } catch (exception &e) {
-        r->Failed("unable to change security parameters");
-        return;
-    }
-    
-
-    params->opts->Password = greenPassword;
-    params->opts->Pim = greenPim;
-    params->opts->Keyfiles = greenKeyfiles;
-    params->opts->SecurityTokenSchemeSpec = greenSecurityTokenSchemeSpec;
-    params->opts->Kdf = newPkcs5Kdf;
-
-    r->Phase("mounting updated volume");
-    EnsureVolumeMounts(r, *params);
-}
-
-void ChangePasswordTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-
-    r->Phase("changings password");
-
-    auto newPassword = GetPassword(PASSWORD_TO_CHANGE_TO);
-
-    ChangeSecurityParametersTest(r, params, newPassword, -1,
-        shared_ptr<VeraCrypt::KeyfileList>(nullptr),
-        shared_ptr<wstring>(nullptr), shared_ptr<Pkcs5Kdf>(nullptr));
-
-}
-
-void AddKeyfileToVolumeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-
-
-    r->Phase("creating keyfile");
-    shared_ptr<Keyfile> kf = CreateKeyfile("added_keyfile.key");
-
-    r->Phase("creating kfl");
-    shared_ptr<KeyfileList> kfl = shared_ptr<KeyfileList>(new KeyfileList());
-    kfl->push_back(kf);
-
-    r->Phase("adding keyfile to the volume");
-    ChangeSecurityParametersTest(r, params, shared_ptr<VolumePassword>(nullptr),
-        -1, shared_ptr<VeraCrypt::KeyfileList>(kfl),
-    shared_ptr<wstring>(nullptr), shared_ptr<Pkcs5Kdf>(nullptr));
-}
-
-void AddBluekeyToVolumeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-    
-    r->Phase("creating bluekey");
-    shared_ptr<KeyfileList> kfl = shared_ptr<KeyfileList>(new KeyfileList());
-    kfl->push_back(CreateBluekey());
-        
-    r->Phase("adding bluekey to the volume");
-    ChangeSecurityParametersTest(r, params, shared_ptr<VolumePassword>(nullptr),
-        -1, shared_ptr<VeraCrypt::KeyfileList>(kfl),
-    shared_ptr<wstring>(new wstring(TOKEN_KEY)), shared_ptr<Pkcs5Kdf>(nullptr));
-}
-
-void RemoveBluekeyFromVolumeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    EnsureBluekey(params);
-    CreateVolume(r, params);
-    
-    shared_ptr<KeyfileList> kfl = shared_ptr<KeyfileList>(new KeyfileList());
-        
-    r->Phase("removing bluekey from the volume");
-    ChangeSecurityParametersTest(r, params, shared_ptr<VolumePassword>(nullptr),
-        -1, shared_ptr<VeraCrypt::KeyfileList>(kfl),
-    shared_ptr<wstring>(new wstring(L"")), shared_ptr<Pkcs5Kdf>(nullptr));
-}
-
-
-void UseBluekeyAsRedkeyTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    EnsureBluekey(params);
-    CreateVolume(r, params);
-    
-           
-    r->Phase("removing bluekey from the volume");
-    ChangeSecurityParametersTest(r, params,
-        shared_ptr<VolumePassword>(nullptr),
-        -1,
-        shared_ptr<VeraCrypt::KeyfileList>(nullptr),
-        shared_ptr<wstring>(new wstring(L"")),
-        shared_ptr<Pkcs5Kdf>(nullptr));
-}
-
-
-void UseTokenKeyWithoutKeyfilesTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    EnsureBluekey(params);
-    CreateVolume(r, params);
-    
-
-    shared_ptr<KeyfileList> kfl = shared_ptr<KeyfileList>(new KeyfileList());
-
-    r->Phase("removing bluekey from the volume");
-    ChangeSecurityParametersTest(r, params, shared_ptr<VolumePassword>(nullptr),
-        -1, shared_ptr<VeraCrypt::KeyfileList>(nullptr),
-    shared_ptr<wstring>(nullptr), shared_ptr<Pkcs5Kdf>(nullptr));
-}
-
-void AssertEquals(shared_ptr<TestResult> r, size_t expected, size_t actual) {
-    if (expected != actual) {
-        r->Failed(string("Size differ. Expected") + std::to_string(expected) + ", actual " + std::to_string(actual));
-        return;
-    }
-}
-
-void AssertEquals(shared_ptr<TestResult> r, BufferPtr actual, BufferPtr expected) {
-    if (actual.Size() != expected.Size()) {
-        r->Failed("Size differ");
-        return;
-    }
-    
-    if (!std::equal(actual.Get(), actual.Get()+actual.Size(), expected.Get())) {
-        r->Failed("Data differ");
-        return;
-    }
-}
-
-void RevealRedkeyTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating bluekey");
-    // one-byte 
-    shared_ptr<Keyfile> kf = CreateBluekey(MockSecurityTokenImpl::GetPlaintextSize() + 1);
-    WithBluekey(params, kf);
-
-    r->Phase("revealing redkey");
-    shared_ptr<Keyfile> redkeyKf = RevealRedkey(params);
-
-    r->Phase("Reading revealed redkey");
-    FilePath redkeyPath = *redkeyKf;
-    auto redkey = shared_ptr<File>(new File());
-    redkey->Open(redkeyPath, File::FileOpenMode::OpenRead);
-    FileStream rkFs(redkey);
-    string redkeyData = rkFs.ReadToEnd();
-    redkey->Close();
-
-    r->Phase("comparing the data bluekey is based on with revealed keyfile");
-    AssertEquals(r, BufferPtr((uint8*)redkeyData.c_str(), redkeyData.size()), *redkeyBuffer);
-}
-
-void RevealReadkeyStrictPlaintextSizeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating bluekey");
-    shared_ptr<Keyfile> kf = CreateBluekey(MockSecurityTokenImpl::GetPlaintextSize());
-    WithBluekey(params, kf);
-
-    r->Phase("revealing redkey");
-    shared_ptr<Keyfile> redkeyKf = RevealRedkey(params);
-
-    r->Phase("Reading revealed redkey");
-    FilePath redkeyPath = *redkeyKf;
-    auto redkey = shared_ptr<File>(new File());
-    redkey->Open(redkeyPath, File::FileOpenMode::OpenRead);
-    FileStream rkFs(redkey);
-    string redkeyData = rkFs.ReadToEnd();
-    redkey->Close();
-
-    r->Phase("comparing the data bluekey is based on with revealed keyfile");
-    AssertEquals(r, BufferPtr((uint8*)redkeyData.c_str(), redkeyData.size()), *redkeyBuffer);
-}
-
-void CreateBluekeyTest(shared_ptr<TestResult> r) {
-    // just checks if blue key gets created
-    // doesn't check if volume can be mounted, redkey revealed, etc.
-    // compares the sized
-    shared_ptr<Keyfile> kf = CreateBluekey();
-    FilePath bluekeyPath = *kf;
-    File bluekey;
-    bluekey.Open(bluekeyPath, File::FileOpenMode::OpenRead);
-    size_t remainder = DEFAULT_REDKEY_DATA_SIZE - MockSecurityTokenImpl::GetPlaintextSize();
-    AssertEquals(r, MockSecurityTokenImpl::GetCiphertextSize() + remainder, bluekey.Length());
-}
-
-
-
-void CreateVolumeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    CreateVolume(r, params);
-}
-
-void MountVolumeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-
-    r->Phase("volume created, mounting");
-    EnsureVolumeMounts(r, *params);
-}
-
-void DumpVolumeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-
-    r->Phase("volume created, dumping");
-    DumpVolume();
-}
-
-void MountWithBlueKeyTest(shared_ptr<TestResult> r, VolumeTestParams *params, size_t keyfileSize) {
-    r->Phase("creating bluekey");
-    EnsureBluekey(params, keyfileSize);
-
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-    
-    // mounting with the same set of parameters
-    r->Phase("mounting with the same set of parameters");
-    EnsureVolumeMounts(r, *params);
-
-
-    r->Phase("mounting with redkey");
-    shared_ptr<Keyfile> redkey = RevealRedkey(params);
-
-    params->opts->Keyfiles->clear();
-    params->opts->Keyfiles->push_back(redkey);
-    params->opts->SecurityTokenSchemeSpec = L""; // do not use security key
-
-    EnsureVolumeMounts(r, *params);
-}
-
-void MountWithBlueKeyTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    MountWithBlueKeyTest(r, params, DEFAULT_REDKEY_DATA_SIZE);
-}
-
-void CreateVolumeWithBluekeySizeGreaterThanEncryptionKeySizeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    MountWithBlueKeyTest(r, params, DEFAULT_REDKEY_DATA_SIZE + 200);
-}
-
-
-void CreateVolumeWithBluekeySizeLessThanEncryptionKeySizeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    try {
-        MountWithBlueKeyTest(r, params, MockSecurityTokenImpl::GetPlaintextSize() - 1);
-        r->Failed("shouldn't use keyfiles less than encryption key size");
-    } catch (InsufficientData &e) {
-        r->Success();
-    }
-}
-
-void CreateHiddenVolumeTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    // create outer volume
-    r->Phase("creating outer volume");
-    auto outerParams = unique_ptr<VolumeTestParams>(new VolumeTestParams());
-    *outerParams = *params;
-
-    auto outerCreateOpts = make_shared<VolumeCreationOptions>();
-    *outerCreateOpts = *params->createOpts;
-    outerParams->createOpts = outerCreateOpts;
-
-    outerCreateOpts->Size = MB(20);
-    outerCreateOpts->Type = VolumeType::Enum::Normal;
-    outerCreateOpts->Password = GetPassword("outervolumepassword");
-    outerParams->opts->Password = outerCreateOpts->Password;
-    
-
-    CreateVolume(r, outerParams.get());
-
-    // shared_ptr<VolumeInfo> vi = VeraCrypt::Core->MountVolume(*outerParams->opts);
-    // if (!vi) {
-    //     r->Failed("couldn't mount created mounted volume to get hidden volume max size");
-    // }
-
-    // r->Phase("getting outer volume available space");
-    // const DirectoryPath &outerVolumeMountPoint = vi->MountPoint;
-    // struct statvfs stat;
-    // uint64 outerVolumeAvailableSpace = 0;
-    uint64 maxHiddenVolumeSize = outerCreateOpts->Size / 2;
-    // if (statvfs(((string)outerVolumeMountPoint).c_str(), &stat) == 0)
-    // {
-    //     outerVolumeAvailableSpace = (uint64) stat.f_bsize * (uint64) stat.f_bavail;
-        
-    //     maxHiddenVolumeSize = (4ULL * outerVolumeAvailableSpace) / 5ULL;
-    //     uint64 reservedSize = outerCreateOpts->Size / 200;
-    //     if (reservedSize > MB(10))
-    //         reservedSize = MB(10);
-    //     if (maxHiddenVolumeSize < reservedSize)
-    //         maxHiddenVolumeSize = 0;
-    //     else
-    //         maxHiddenVolumeSize -= reservedSize;
-
-    //     maxHiddenVolumeSize -= maxHiddenVolumeSize % outerCreateOpts->SectorSize;
-
-    //     stringstream desc;
-    //     desc << "outer volume available space: " << outerVolumeAvailableSpace << ", hidden volume size: " << maxHiddenVolumeSize;
-    //     r->Phase(desc.str());
-    // }
-    // Core->DismountVolume(vi);
-
-    r->Phase("creating hidden volume");
-    auto hiddenParams = unique_ptr<VolumeTestParams>(new VolumeTestParams());
-    *hiddenParams = *params;
-
-    auto hiddenCreateOpts = make_shared<VolumeCreationOptions>();
-    *hiddenCreateOpts = *params->createOpts;
-    hiddenParams->createOpts = hiddenCreateOpts;
-
-    hiddenCreateOpts->Size = maxHiddenVolumeSize;
-    hiddenCreateOpts->Type = VolumeType::Enum::Hidden;
-    hiddenCreateOpts->Password = GetPassword("hiddenvolumepassword");
-    hiddenParams->opts->Password = hiddenCreateOpts->Password;
-    CreateVolume(r, hiddenParams.get());
-
-    r->Phase("mounting outer volume");
-    EnsureVolumeMounts(r, *outerParams);
-    
-    r->Phase("mounting hidden volume");
-    EnsureVolumeMounts(r, *hiddenParams);
-
-    outerParams->opts->Protection = VolumeProtection::HiddenVolumeReadOnly;
-    outerParams->opts->ProtectionPassword = hiddenCreateOpts->Password;    
-}
-
-
-void FilesTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-
-    r->Phase("mounting volume");
-    auto vi = VeraCrypt::Core->MountVolume(*params->opts);
-    auto mp = vi->MountPoint;
-    auto volumeSize = vi->Size;
-
-    r->Phase("creating files");
-    size_t size = 50;
-    size_t step = 50;
-    size_t total = 0;
-    while (total + size < volumeSize) {
-        File f;
-        auto filePath = mp.Append(L"test" + std::to_wstring(size) + L".txt");
-        f.Open(filePath, File::CreateWrite);
-        Buffer buffer(size);
-        buffer.Zero();
-        f.Write(buffer);
-        f.Close();
-
-        total += size;
-        step = 2*step;
-        size += step;
-    }
-
-    r->Phase("dismounting");
-    VeraCrypt::Core->DismountVolume(vi);
-
-    r->Phase("mounting back");
-    vi = VeraCrypt::Core->MountVolume(*params->opts);
-    mp = vi->MountPoint;
-    volumeSize = vi->Size;
-
-    r->Phase("checking files");
-    size = 50;
-    step = 50;
-    total = 0;
-    while (total + size < volumeSize) {
-        File f;
-        auto filePath = mp.Append(L"test" + std::to_wstring(size) + L".txt");
-        f.Open(filePath, File::OpenRead);
-        Buffer buffer(size);
-        f.ReadCompleteBuffer(buffer);
-        // for (auto i = buffer.Ptr(); i < buffer.Ptr() + buffer.Size(); i++) {
-        //     *i = (i - buffer.Ptr()) % 0x100;
-        // }
-        // f.SeekAt(0);
-        // f.Write(buffer);
-        f.Close();
-
-        total += size;
-        step = 2*step;
-        size += step;
-    }
-
-    r->Phase("re-creating files");
-    size = 50;
-    step = 50;
-    total = 0;
-    while (total + size < volumeSize) {
-        File f;
-        auto filePath = mp.Append(L"test" + std::to_wstring(size) + L".txt");
-        f.Open(filePath, File::CreateReadWrite);
-        Buffer buffer(size);
-        size_t read = f.Read(buffer);
-        for (auto i = buffer.Ptr(); i < buffer.Ptr() + buffer.Size(); i++) {
-            *i = (i - buffer.Ptr()) % 0x100;
-        }
-        f.SeekAt(0);
-        f.Write(buffer);
-        f.Close();
-
-        total += size;
-        step = 2*step;
-        size += step;
-    }
-
-    VeraCrypt::Core->DismountVolume(vi);
-}
-
-void OutOfSpaceTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-
-    r->Phase("mounting volume");
-    // EnsureVolumeMounts(r, *params);
-
-    VolumeTestParams p = *params;
-    MountOptions opt = *p.opts;
-    auto vi = VeraCrypt::Core->MountVolume(opt);
-    auto mp = vi->MountPoint;
-    auto volumeSize = vi->Size;
-
-    r->Phase("writing oversized file");
-    File f;
-    auto filePath = mp.Append(L"test.txt");
-    f.Open(filePath, File::CreateWrite);
-    Buffer buffer(volumeSize);
-    try {
-        f.Write(buffer);
-        f.Close();
-        r->Failed("write was successful");
-    } catch (...) {
-        f.Close();
-        VeraCrypt::Core->DismountVolume(vi);
-    }
-
-}
-
-void WriteBeyondSpaceTest(shared_ptr<TestResult> r, VolumeTestParams *params) {
-    r->Phase("creating volume");
-    CreateVolume(r, params);
-
-    r->Phase("mounting volume");
-    VolumeTestParams p = *params;
-    MountOptions opt = *p.opts;
-    auto vi = VeraCrypt::Core->MountVolume(opt);
-    auto mp = vi->MountPoint;
-    auto volumeSize = vi->Size;
-
-
-    auto smallFileSize = KB(100);
-    auto largeFileSize = volumeSize - smallFileSize;
-
-    r->Phase("writing large file");
-    File f;
-    auto filePath = mp.Append(L"test-large.txt");
-    f.Open(filePath, File::CreateWrite);
-    Buffer buffer(largeFileSize);
-    buffer.Zero();
-    f.Write(buffer);
-    f.Close();
-
-
-    r->Phase("writing small file by byte");
-    filePath = mp.Append(L"test-small.txt");
-    f.Open(filePath, File::CreateWrite);
-    Buffer smallBuff(1);
-    
-    for (size_t i = 0; i < smallFileSize; i++) {
-        *smallBuff.Ptr() = (i % 0x100);
-        try {
-            f.Write(smallBuff);
-        } catch (...) {
-            f.Close();
-            VeraCrypt::Core->DismountVolume(vi);
-            return;
-        }
-    }
-    f.Close();
-    r->Failed("write was successful");
-}
-
-
-vector<VolumeTestParams> GenerateCombinations() {
-    auto EAs = VeraCrypt::EncryptionAlgorithm::GetAvailableAlgorithms();
-    auto hashAlgos = VeraCrypt::Hash::GetAvailableAlgorithms();
-
-
-    vector<VolumeTestParams> res;
-
-    for (auto ea : EAs) {
-        for (auto ha : hashAlgos) {
-                ea->GetName();
-                ha->GetName();
-                shared_ptr<Pkcs5Kdf> kdf = Pkcs5Kdf::GetAlgorithm (*ha);
-                
-                wstringstream wname;
-                wname << ea->GetName() << "_" << ha->GetName() << "_" << kdf->GetName();
-                
-                string name = StringConverter::ToSingle(wname.str());
-                auto createOpts = GetCreateOpts(name);
-                auto mountOpts = GetOptions(name);
-                createOpts->EA = ea;
-                createOpts->VolumeHeaderKdf = kdf;
-
-                mountOpts->Kdf = kdf;
-
-                res.push_back(VolumeTestParams{name, mountOpts, createOpts});
+        ~Fixture ()
+        {
+            DIR *directory = opendir (Directory.c_str());
+            if (directory)
+            {
+                while (dirent *entry = readdir (directory))
+                {
+                    string name = entry->d_name;
+                    if (name == "." || name == "..") continue;
+                    string path = Directory + "/" + name;
+                    unlink (path.c_str());
+                    rmdir (path.c_str());
+                }
+                closedir (directory);
             }
+            rmdir (Directory.c_str());
         }
-    return res;
+        FilePath Path (const string &name) const { return Directory + "/" + name; }
+        bool HasTemporaryFiles () const
+        {
+            DIR *directory = opendir (Directory.c_str());
+            if (!directory) throw SystemException (SRC_POS);
+            bool found = false;
+            while (dirent *entry = readdir (directory))
+                if (string (entry->d_name).find (".tmp-") != string::npos) found = true;
+            closedir (directory);
+            return found;
+        }
+        shared_ptr<TestToken> Token;
+    private:
+        string Directory;
+    };
+
+    void Fill (SecureBuffer &buffer)
+    {
+        for (size_t i = 0; i < buffer.Size(); ++i) buffer[i] = static_cast<uint8> (i * 29 + 7);
+    }
+
+    void WriteFile (const FilePath &path, const ConstBufferPtr &data)
+    {
+        File file;
+        file.Open (path, File::CreateWrite);
+        if (data.Size()) file.Write (data);
+    }
+
+    bool FileEquals (const FilePath &path, const ConstBufferPtr &expected)
+    {
+        File file;
+        file.Open (path);
+        if (file.Length() != expected.Size()) return false;
+        if (expected.Size() == 0) return true;
+        SecureBuffer actual (expected.Size());
+        file.ReadCompleteBuffer (actual);
+        return ConstBufferPtr (actual).IsDataEqual (expected);
+    }
+
+    shared_ptr<VolumePassword> Apply (const FilePath &path, const wstring &descriptor = L"", const string &password = "password")
+    {
+        auto keyfiles = make_shared<KeyfileList>();
+        keyfiles->push_back (make_shared<Keyfile> (path));
+        auto original = make_shared<VolumePassword> (reinterpret_cast<const uint8*> (password.data()), password.size());
+        return Keyfile::ApplyListToPassword (keyfiles, original, descriptor);
+    }
+
+    template<class Expected, class Action>
+    void ExpectFailure (shared_ptr<TestResult> result, Action action)
+    {
+        bool failed = false;
+        try { action(); }
+        catch (const Expected &) { failed = true; }
+        if (!failed) result->Failed ("Operation unexpectedly succeeded");
+    }
+
+    void LegacyMixing (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (381);
+        Fill (data);
+        WriteFile (fixture.Path ("plain"), data);
+        for (size_t passwordSize : {size_t (8), size_t (80)})
+        {
+            string password (passwordSize, 'p');
+            vector<uint8> expected (passwordSize <= 64 ? 64 : 128, 0);
+            std::copy (password.begin(), password.end(), expected.begin());
+            // Independent bitwise CRC calculation checks compatibility with the
+            // established keyfile algorithm, including both password pool sizes.
+            uint32 crc = 0xffffffff;
+            size_t position = 0;
+            for (size_t i = 0; i < data.Size(); ++i)
+            {
+                crc ^= data[i];
+                for (unsigned bit = 0; bit < 8; ++bit)
+                    crc = (crc >> 1) ^ ((crc & 1) ? 0xedb88320U : 0);
+                for (int shift = 24; shift >= 0; shift -= 8)
+                {
+                    expected[position++] += static_cast<uint8> (crc >> shift);
+                    position %= expected.size();
+                }
+            }
+            auto actual = Apply (fixture.Path ("plain"), L"", password);
+            if (actual->Size() != expected.size() || memcmp (actual->DataPtr(), expected.data(), expected.size()) != 0)
+                result->Failed ("Legacy keyfile password mixing changed");
+        }
+    }
+
+    void ProcessingLimit (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (Keyfile::MaxProcessedLength + File::GetOptimalReadSize() * 2);
+        Fill (data);
+        WriteFile (fixture.Path ("prefix"), data.GetRange (0, Keyfile::MaxProcessedLength));
+        WriteFile (fixture.Path ("long"), data);
+        if (*Apply (fixture.Path ("prefix")) != *Apply (fixture.Path ("long")))
+            result->Failed ("Bytes after the 1 MiB keyfile limit affected the password");
+        Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
+        if (*Apply (fixture.Path ("prefix")) != *Apply (fixture.Path ("encrypted"), TokenDescriptor))
+            result->Failed ("Encrypted keyfile processing limit differs");
+    }
+
+    void EmptyAndMissingKeyfiles (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        WriteFile (fixture.Path ("empty"), ConstBufferPtr());
+        ExpectFailure<InsufficientData> (result, [&] { Apply (fixture.Path ("empty")); });
+        ExpectFailure<ParameterIncorrect> (result, [&] {
+            Keyfile::ApplyListToPassword (shared_ptr<KeyfileList>(), shared_ptr<VolumePassword>(), TokenDescriptor);
+        });
+        ExpectFailure<ParameterIncorrect> (result, [&] {
+            Keyfile::ApplyListToPassword (make_shared<KeyfileList>(), shared_ptr<VolumePassword>(), TokenDescriptor);
+        });
+    }
+
+    void EncryptedRoundTrips (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        const size_t minimum = MockSecurityTokenImpl::GetPlaintextSize();
+        for (size_t size : {minimum, minimum + 1, File::GetOptimalReadSize(), File::GetOptimalReadSize() + minimum + 1})
+        {
+            SecureBuffer data (size);
+            Fill (data);
+            WriteFile (fixture.Path ("plain"), data);
+            Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
+            File encrypted;
+            encrypted.Open (fixture.Path ("encrypted"));
+            if (encrypted.Length() != size - minimum + MockSecurityTokenImpl::GetCiphertextSize())
+                result->Failed ("Unexpected encrypted keyfile layout");
+            encrypted.Close();
+            Keyfile keyfile (fixture.Path ("encrypted"));
+            keyfile.RevealRedkey (fixture.Path ("revealed"), TokenDescriptor);
+            if (!FileEquals (fixture.Path ("revealed"), data)) result->Failed ("Round-trip bytes differ");
+            if (*Apply (fixture.Path ("plain")) != *Apply (fixture.Path ("encrypted"), TokenDescriptor))
+                result->Failed ("Encrypted and plaintext keyfiles produced different passwords");
+        }
+    }
+
+    void IndependentKeyfiles (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer first (MockSecurityTokenImpl::GetPlaintextSize() + 1);
+        SecureBuffer second (first.Size());
+        Fill (first);
+        second.Zero();
+        Keyfile::CreateBluekey (fixture.Path ("first"), TokenDescriptor, first);
+        Keyfile::CreateBluekey (fixture.Path ("second"), TokenDescriptor, second);
+        Keyfile (fixture.Path ("first")).RevealRedkey (fixture.Path ("revealed"), TokenDescriptor);
+        if (!FileEquals (fixture.Path ("revealed"), first))
+            result->Failed ("Creating another keyfile changed decryption of the first");
+    }
+
+    void InvalidLengths (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer marker (7);
+        Fill (marker);
+        WriteFile (fixture.Path ("output"), marker);
+        SecureBuffer tooSmall (MockSecurityTokenImpl::GetPlaintextSize() - 1);
+        ExpectFailure<InsufficientData> (result, [&] { Keyfile::CreateBluekey (fixture.Path ("output"), TokenDescriptor, tooSmall); });
+        SecureBuffer ciphertext (MockSecurityTokenImpl::GetCiphertextSize());
+        ciphertext.Zero();
+        for (size_t size : {size_t (0), size_t (1), ciphertext.Size() - 1})
+        {
+            WriteFile (fixture.Path ("short"), ciphertext.GetRange (0, size));
+            ExpectFailure<InsufficientData> (result, [&] {
+                Keyfile (fixture.Path ("short")).RevealRedkey (fixture.Path ("output"), TokenDescriptor);
+            });
+        }
+        if (!FileEquals (fixture.Path ("output"), marker)) result->Failed ("Invalid input altered existing output");
+        if (fixture.HasTemporaryFiles()) result->Failed ("Invalid input left a temporary file");
+    }
+
+    void InvalidSchemes (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (MockSecurityTokenImpl::GetPlaintextSize());
+        Fill (data);
+        Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
+        WriteFile (fixture.Path ("output"), data);
+        for (TestToken::Fault fault : {TestToken::EmptyScheme, TestToken::HugeScheme})
+        {
+            fixture.Token->Failure = fault;
+            ExpectFailure<ParameterIncorrect> (result, [&] { Keyfile::CreateBluekey (fixture.Path ("output"), TokenDescriptor, data); });
+            ExpectFailure<ParameterIncorrect> (result, [&] { Apply (fixture.Path ("encrypted"), TokenDescriptor); });
+        }
+        if (!FileEquals (fixture.Path ("output"), data)) result->Failed ("Invalid scheme altered existing output");
+    }
+
+    void TokenFailures (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (MockSecurityTokenImpl::GetPlaintextSize());
+        Fill (data);
+        Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
+        WriteFile (fixture.Path ("output"), data);
+        fixture.Token->Failure = TestToken::EncryptError;
+        ExpectFailure<Pkcs11Exception> (result, [&] { Keyfile::CreateBluekey (fixture.Path ("output"), TokenDescriptor, data); });
+        fixture.Token->Failure = TestToken::DecryptError;
+        ExpectFailure<Pkcs11Exception> (result, [&] { Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("output"), TokenDescriptor); });
+        fixture.Token->Failure = TestToken::WrongEncryptSize;
+        ExpectFailure<InsufficientData> (result, [&] { Keyfile::CreateBluekey (fixture.Path ("output"), TokenDescriptor, data); });
+        fixture.Token->Failure = TestToken::WrongDecryptSize;
+        ExpectFailure<InsufficientData> (result, [&] { Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("output"), TokenDescriptor); });
+        if (!FileEquals (fixture.Path ("output"), data)) result->Failed ("Token failure altered existing output");
+        if (fixture.HasTemporaryFiles()) result->Failed ("Token failure left a temporary file");
+    }
+
+    void OutputAliases (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (MockSecurityTokenImpl::GetPlaintextSize() + 1);
+        Fill (data);
+        FilePath source = fixture.Path ("encrypted");
+        Keyfile::CreateBluekey (source, TokenDescriptor, data);
+        if (link (string (source).c_str(), string (fixture.Path ("hardlink")).c_str()) != 0
+            || symlink (string (source).c_str(), string (fixture.Path ("symlink")).c_str()) != 0)
+            throw SystemException (SRC_POS);
+        Keyfile keyfile (source);
+        for (const char *name : {"encrypted", "hardlink", "symlink"})
+            ExpectFailure<ParameterIncorrect> (result, [&] { keyfile.RevealRedkey (fixture.Path (name), TokenDescriptor); });
+        keyfile.RevealRedkey (fixture.Path ("revealed"), TokenDescriptor);
+        if (!FileEquals (fixture.Path ("revealed"), data)) result->Failed ("Alias rejection changed the source");
+    }
+
+    void OutputPermissions (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (MockSecurityTokenImpl::GetPlaintextSize());
+        Fill (data);
+        WriteFile (fixture.Path ("output"), data);
+        if (chmod (string (fixture.Path ("output")).c_str(), 0644) != 0) throw SystemException (SRC_POS);
+        Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
+        Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("output"), TokenDescriptor);
+        for (const char *name : {"encrypted", "output"})
+        {
+            struct stat info;
+            if (stat (string (fixture.Path (name)).c_str(), &info) != 0) throw SystemException (SRC_POS);
+            if ((info.st_mode & 0777) != 0600) result->Failed ("Exported keyfile permissions are not 0600");
+        }
+    }
+
+    void PublicationFailure (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (MockSecurityTokenImpl::GetPlaintextSize());
+        Fill (data);
+        Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
+        if (mkdir (string (fixture.Path ("directory")).c_str(), 0700) != 0) throw SystemException (SRC_POS);
+        ExpectFailure<SystemException> (result, [&] {
+            Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("directory"), TokenDescriptor);
+        });
+        if (fixture.HasTemporaryFiles()) result->Failed ("Failed publication left a temporary keyfile");
+        Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("output"), TokenDescriptor);
+        if (!FileEquals (fixture.Path ("output"), data)) result->Failed ("Failed publication damaged the source");
+    }
+
+    void DescriptorRequired (shared_ptr<TestResult> result)
+    {
+        Fixture fixture;
+        SecureBuffer data (MockSecurityTokenImpl::GetPlaintextSize());
+        Fill (data);
+        Keyfile::CreateBluekey (fixture.Path ("encrypted"), TokenDescriptor, data);
+        ExpectFailure<ParameterIncorrect> (result, [&] { Keyfile::CreateBluekey (fixture.Path ("output"), L"", data); });
+        ExpectFailure<ParameterIncorrect> (result, [&] { Keyfile (fixture.Path ("encrypted")).RevealRedkey (fixture.Path ("output"), L""); });
+        if (fixture.Path ("output").IsFile()) result->Failed ("Missing token descriptor created output");
+    }
 }
 
-
-int main() {
-    SetUp();
-    VeraCrypt::Testing t;
-
-    /*
-     * Test not related to the volume
-     */    
-    t.AddTest("create blue key", &CreateBluekeyTest);
-    t.AddTest(WithDefaultParams("reveal redkey (additinal data after encrypted portion)", &RevealRedkeyTest));
-    t.AddTest(WithDefaultParams("reveal redkey (no additional data after encrypted portion)", &RevealReadkeyStrictPlaintextSizeTest));
-
-    /*
-     * Test related to volume creation/mounting/changing
-     */
-    t.AddTest(WithDefaultParams("create volume", &CreateVolumeTest));
-    t.AddTest(WithDefaultParams("create hidden volume", &CreateHiddenVolumeTest));
-    t.AddTest(WithDefaultParams("create volume with bluekey", &MountWithBlueKeyTest));
-    t.AddTest(WithDefaultParams("create volume with bluekey, size > encryption size", &CreateVolumeWithBluekeySizeGreaterThanEncryptionKeySizeTest));
-    t.AddTest(WithDefaultParams("create volume with bluekey, size < encryption size", &CreateVolumeWithBluekeySizeLessThanEncryptionKeySizeTest));
-    t.AddTest(WithDefaultParams("change password", &ChangePasswordTest));
-    t.AddTest(WithDefaultParams("add keyfile to the volume", &AddKeyfileToVolumeTest));
-    t.AddTest(WithDefaultParams("add bluekey to existing volume", &AddBluekeyToVolumeTest)); 
-    t.AddTest(WithDefaultParams("remove blue key from existing volume", &RemoveBluekeyFromVolumeTest));
-    t.AddTest(WithDefaultParams("use bluekey as redkey", &UseBluekeyAsRedkeyTest));
-    t.AddTest(WithDefaultParams("use token key without keyfiles", &UseTokenKeyWithoutKeyfilesTest));
-        
-    t.AddTest(WithDefaultParams("test creating files of differing sizes", &FilesTest));
-    t.AddTest(WithDefaultParams("out of space test", &OutOfSpaceTest));
-    t.AddTest(WithDefaultParams("test writing beyond available space", &WriteBeyondSpaceTest));
-    
-
-    /*
-    *  Parameterized tests
-    *    The combination of parameters covers all possible security options (keyfiles, passwords, pim, truecrypt, algos)
-    *    and filesystems
-    */
-
-   TestSuite *algosSuite = new TestSuite();
-   algosSuite->StopOnFirstFailure();
-   for (auto p : GenerateCombinations()) {
-        algosSuite->AddTest(WithParams(p.caseName, MountVolumeTest, p.createOpts, p.opts));
-   }
-
-    t.AddTest(algosSuite);
-
-    t.Main();
-    TearDown();
+int main ()
+{
+    Testing tests;
+    tests.AddTest ("legacy keyfile mixing", LegacyMixing);
+    tests.AddTest ("1 MiB processing limit", ProcessingLimit);
+    tests.AddTest ("empty files and missing keyfiles", EmptyAndMissingKeyfiles);
+    tests.AddTest ("encrypted prefix and remainder round trips", EncryptedRoundTrips);
+    tests.AddTest ("independent encrypted keyfiles", IndependentKeyfiles);
+    tests.AddTest ("input length validation", InvalidLengths);
+    tests.AddTest ("scheme size validation", InvalidSchemes);
+    tests.AddTest ("token failures preserve output", TokenFailures);
+    tests.AddTest ("source and destination aliases", OutputAliases);
+    tests.AddTest ("private output permissions", OutputPermissions);
+    tests.AddTest ("failed publication cleanup", PublicationFailure);
+    tests.AddTest ("token descriptor required", DescriptorRequired);
+    return tests.Main();
 }

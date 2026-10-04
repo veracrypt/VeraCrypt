@@ -17,11 +17,12 @@
 # NOGUI:		Disable graphical user interface (build console-only application)
 # NOSTRIP:		Do not strip release binary
 # NOTEST:		Do not test release binary
+# TEST:		Set to 1 to build the optional standalone regression tests
 # RESOURCEDIR:	Run-time resource directory
 # VERBOSE:		Enable verbose messages
 # WITHFUSE3:		Build with FUSE3 support instead of FUSE2
 # WX_CONFIGURE_EXTRA_FLAGS:	Extra flags passed to wxWidgets configure
-# WXSTATIC:		Use static wxWidgets library. If FULL, builds everything. If other value, builds only bare essentials.
+# WXSTATIC:		Use static wxWidgets library
 # SSSE3:		Enable SSSE3 support in compiler
 # SSE41:		Enable SSE4.1 support in compiler
 # NOSSE2:		Disable SEE2 support in compiler
@@ -120,12 +121,10 @@ else
 #------ Debug configuration ------
 
 	C_CXX_FLAGS += -DDEBUG
-	ifeq '' '$(findstring clang++,$(CXX))'
-  		C_CXX_FLAGS += 
-	else
-  		C_CXX_FLAGS += -fno-default-inline
-	endif
 	CXXFLAGS += -Wno-unused-function -Wno-unused-variable
+	ifeq "$(findstring clang,$(CXX))" ""
+		CXXFLAGS += -fno-default-inline
+	endif
 	export WX_BUILD_DIR ?= $(BASE_DIR)/wxdebug
 	WX_CONFIGURE_FLAGS += --enable-debug_flag --disable-debug_gdb --disable-debug_info
 
@@ -671,19 +670,17 @@ WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --dis
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
 	--disable-animatectrl --disable-bmpcombobox --disable-calendar --disable-caret --disable-checklst --disable-collpane --disable-colourpicker --disable-comboctrl \
-	--disable-datepick --disable-timepick --disable-display --disable-fontpicker --disable-grid --disable-dataviewctrl \
+	--disable-datepick --disable-display --disable-dirpicker --disable-filepicker --disable-fontpicker --disable-grid --disable-dataviewctrl \
 	--disable-listbook --disable-odcombobox --disable-sash --disable-searchctrl --disable-slider --disable-splitter --disable-togglebtn \
 	--disable-toolbar --disable-tbarnative --disable-treebook --disable-toolbook --disable-tipwindow --disable-popupwin \
 	--disable-commondlg --disable-aboutdlg --disable-coldlg --disable-finddlg --disable-fontdlg --disable-numberdlg --disable-splash \
 	--disable-tipdlg --disable-progressdlg --disable-wizarddlg --disable-miniframe --disable-splines --disable-palette \
 	--disable-richtext --disable-dialupman --disable-debugreport --disable-filesystem --disable-rearrangectrl --disable-treelist --disable-richmsgdlg \
 	--disable-richtooltip --disable-propgrid --disable-stc --without-libnotify \
-	--without-gtkprint --without-gnomevfs --disable-fswatcher \
+	--without-gtkprint --without-gnomevfs --disable-fsvolume --disable-fswatcher \
 	--disable-sound --disable-mediactrl --disable-joystick --disable-apple_ieee \
 	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm --disable-svg \
-	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib \
-	--disable-webrequest --without-liblzma
-	
+	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib
 	
 ifneq (,$(filter Linux FreeBSD,$(PLATFORM)))
 WX_CONFIGURE_FLAGS += --disable-tooltips
@@ -703,24 +700,36 @@ endif
 
 #------ Project build ------
 
-PROJ_DIRS := Testing Platform Volume Driver/Fuse Core Main
+PROJ_DIRS := Platform Volume Driver/Fuse Core Main
+ifneq (,$(filter 1,$(TEST))$(filter clean,$(MAKECMDGOALS)))
+PROJ_DIRS := Testing $(PROJ_DIRS)
+endif
 
-.PHONY: all clean wxbuild
+.PHONY: all clean wxbuild test
 
 all clean:
 	@if pwd | grep -q ' '; then echo 'Error: source code is stored in a path containing spaces' >&2; exit 1; fi
 
 	@for DIR in $(PROJ_DIRS); do \
 		PROJ=$$(echo $$DIR | cut -d/ -f1); \
-		echo "Building $$PROJ"; \
-		$(MAKE) -C $$DIR -f $$PROJ.make NAME=$$PROJ $(MAKECMDGOALS) || exit $?; \
+		$(MAKE) -C $$DIR -f $$PROJ.make NAME=$$PROJ $(if $(filter clean,$@),clean) || exit $$?; \
 		if [ -e $(BASE_DIR)/$$DIR/$$PROJ.a ]; then \
 			export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
 		fi; \
-		if [ -e $(BASE_DIR)/$$DIR/$${PROJ}Test.a ]; then \
+		if [ "$(TEST)" = "1" ] && [ -e $(BASE_DIR)/$$DIR/$${PROJ}Test.a ]; then \
 			export TEST_LIBS="$(BASE_DIR)/$$DIR/$${PROJ}Test.a $$TEST_LIBS"; \
 		fi; \
 	done
+
+# These tests use temporary files and mock tokens; no mounted volume or token is required.
+test:
+	$(MAKE) TEST=1 all
+	./Testing/SampleTestRun
+	./Platform/PipelineStreamTestRun
+	./Platform/AtomicFileTestRun
+	./Core/KeyfileTestRun
+	./Core/SecurityTokenTestRun
+	./Core/MountOptionsTestRun
 
 install:
 	$(MAKE) -C Main -f Main.make NAME=Main install

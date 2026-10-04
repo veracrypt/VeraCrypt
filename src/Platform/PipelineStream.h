@@ -15,13 +15,14 @@
 
 #include "PlatformBase.h"
 #include "Stream.h"
+#include <exception>
 
 namespace VeraCrypt
 {
 	class PipelineStream : public Stream
 	{
 	public:
-		PipelineStream () :  streams(), ReadPosition (0), CurrentStreamIdx(0) { }
+		PipelineStream () : CurrentStreamIdx (0) { }
 		~PipelineStream () {  }
 
 		void AddStream(shared_ptr<Stream> stream);
@@ -31,8 +32,8 @@ namespace VeraCrypt
 		void Write (const ConstBufferPtr &data);
 
 	protected:
-		vector <shared_ptr<Stream>> streams;
-		size_t ReadPosition;
+		vector <shared_ptr<Stream>> Streams;
+		std::exception_ptr ReadFailure;
 		size_t CurrentStreamIdx;
 	};
 }

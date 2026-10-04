@@ -44,8 +44,6 @@ int main (int argc, char **argv)
 
 		setenv ("PATH", sysPathStr.c_str(), 1);
 
-		SecurityToken::UseImpl(make_shared<SecurityTokenImpl>());
-
 		if (argc > 1 && (strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0 || strcmp (argv[1], TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION) == 0))
 		{
 			// Process elevated requests

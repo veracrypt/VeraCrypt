@@ -13,50 +13,59 @@
 #include "Exception.h"
 #include "PipelineStream.h"
 
-using namespace std;
-
 namespace VeraCrypt
 {
-	
 	uint64 PipelineStream::Read (const BufferPtr &buffer)
 	{
-		if (streams.size() < 1 || CurrentStreamIdx >= streams.size()) {
+		if (ReadFailure)
+			std::rethrow_exception (ReadFailure);
+		// A zero-length read must not discard streams which still contain data.
+		if (buffer.Size() == 0)
+			return 0;
+
+		try
+		{
+			while (CurrentStreamIdx < Streams.size())
+			{
+				uint64 readLength = Streams[CurrentStreamIdx]->Read (buffer);
+				if (readLength > buffer.Size())
+					throw ParameterIncorrect (SRC_POS);
+				if (readLength != 0)
+					return readLength;
+				++CurrentStreamIdx;
+			}
 			return 0;
 		}
-
-		auto s = streams.at(CurrentStreamIdx);
-		
-		size_t read = s->Read(buffer);
-		if (read != 0) {
-			return read;
+		catch (...)
+		{
+			// A failed source may already have consumed bytes; never resume with a
+			// silently truncated concatenation after a caller catches the error.
+			ReadFailure = std::current_exception();
+			throw;
 		}
-
-		bool hasMoreStreams = CurrentStreamIdx + 1 < streams.size();
-		while (hasMoreStreams) {
-			CurrentStreamIdx++;
-			s = streams.at(CurrentStreamIdx);
-			read = s->Read(buffer);
-			if (read != 0) {
-				return read;
-			}
-			hasMoreStreams = CurrentStreamIdx + 1 < streams.size();
-		}
-		
-		return read;
 	}
 
 	void PipelineStream::ReadCompleteBuffer (const BufferPtr &buffer)
 	{
-		if (Read (buffer) != buffer.Size())
-			throw InsufficientData (SRC_POS);
+		size_t position = 0;
+		while (position < buffer.Size())
+		{
+			uint64 readLength = Read (buffer.GetRange (position, buffer.Size() - position));
+			if (readLength == 0)
+				throw InsufficientData (SRC_POS);
+			position += static_cast<size_t> (readLength);
+		}
 	}
 
-	void PipelineStream::AddStream(shared_ptr<Stream> stream) {
-		streams.push_back(stream);
-	}
-
-	void PipelineStream::Write (const ConstBufferPtr &data)
+	void PipelineStream::AddStream (shared_ptr<Stream> stream)
 	{
-		throw std::domain_error("write is not supported for pipeline stream");
+		if (!stream || stream.get() == this)
+			throw ParameterIncorrect (SRC_POS);
+		Streams.push_back (stream);
+	}
+
+	void PipelineStream::Write (const ConstBufferPtr &)
+	{
+		throw NotApplicable (SRC_POS);
 	}
 }

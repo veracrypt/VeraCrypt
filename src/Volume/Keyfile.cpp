@@ -12,47 +12,113 @@
 
 #include "Platform/Serializer.h"
 #include "Common/SecurityToken.h"
-#include "Platform/MemoryStream.h"
 #include "Platform/PipelineStream.h"
 #include "Platform/FileStream.h"
-#include "Common/EMVToken.h"
+#include "Platform/AtomicFile.h"
 #include "Crc32.h"
 #include "Keyfile.h"
 #include "VolumeException.h"
+
+#ifdef TC_UNIX
+#include <sys/stat.h>
+#endif
 namespace VeraCrypt
 {
-	void Keyfile::Apply (const BufferPtr &pool, wstring tokenKeyDescriptor, bool emvSupportEnabled) const {
-		if (Path.IsDirectory())
+	namespace
+	{
+		class WipeVector
+		{
+		public:
+			explicit WipeVector (vector<uint8> &data) : Data (data) { }
+			~WipeVector () { if (!Data.empty()) burn (Data.data(), Data.size()); }
+		private:
+			vector<uint8> &Data;
+			WipeVector (const WipeVector &);
+			WipeVector &operator= (const WipeVector &);
+		};
+
+		// Keyfile plaintext must not outlive its stream in an ordinary vector.
+		class KeyfileBufferStream : public Stream
+		{
+		public:
+			explicit KeyfileBufferStream (const ConstBufferPtr &data) : Data (data), Position (0) { }
+			uint64 Read (const BufferPtr &buffer)
+			{
+				size_t length = std::min (buffer.Size(), Data.Size() - Position);
+				if (length != 0)
+					buffer.CopyFrom (Data.GetRange (Position, length));
+				Position += length;
+				return length;
+			}
+			void ReadCompleteBuffer (const BufferPtr &buffer)
+			{
+				if (Read (buffer) != buffer.Size())
+					throw InsufficientData (SRC_POS);
+			}
+			void Write (const ConstBufferPtr &) { throw NotApplicable (SRC_POS); }
+		private:
+			SecureBuffer Data;
+			size_t Position;
+		};
+
+		void ValidateScheme (const SecurityTokenScheme &scheme)
+		{
+			if (scheme.DecryptOutputSize < Keyfile::MinProcessedLength
+				|| scheme.DecryptOutputSize > Keyfile::MaxProcessedLength
+				|| scheme.EncryptOutputSize <= scheme.DecryptOutputSize
+				|| scheme.EncryptOutputSize > Keyfile::MaxProcessedLength)
+				throw ParameterIncorrect (SRC_POS);
+		}
+
+		void CheckSeparateOutput (const FilePath &source, const FilePath &destination)
+		{
+			if (source == destination)
+				throw ParameterIncorrect (SRC_POS, destination);
+#ifdef TC_UNIX
+			struct stat sourceStat, destinationStat;
+			throw_sys_sub_if (stat (string (source).c_str(), &sourceStat) != 0, wstring (source));
+			if (stat (string (destination).c_str(), &destinationStat) == 0
+				&& sourceStat.st_dev == destinationStat.st_dev && sourceStat.st_ino == destinationStat.st_ino)
+				throw ParameterIncorrect (SRC_POS, destination);
+#endif
+		}
+	}
+
+	void Keyfile::Apply (const BufferPtr &pool, wstring tokenKeyDescriptor, bool emvSupportEnabled) const
+	{
+		if (Path.IsDirectory() || pool.Size() == 0 || pool.Size() % 4 != 0)
 			throw ParameterIncorrect (SRC_POS);
 
 		Crc32 crc32;
 		size_t poolPos = 0;
-		uint64 totalLength = 0;
-		uint64 readLength;
-
-		shared_ptr<Stream> s = PrepareStream(tokenKeyDescriptor, emvSupportEnabled);
-
+		size_t totalLength = 0;
+		shared_ptr<Stream> stream = PrepareStream (tokenKeyDescriptor, emvSupportEnabled);
 		SecureBuffer keyfileBuf (File::GetOptimalReadSize());
-		File encryptedKeyfile;
 
-		
-		while ((readLength = s->Read (keyfileBuf)) > 0)
+		while (totalLength < MaxProcessedLength)
 		{
-			for (uint64 i = 0; i < readLength; i++) {
+			size_t remaining = MaxProcessedLength - totalLength;
+			uint64 readLength = stream->Read (keyfileBuf.GetRange (0, std::min (keyfileBuf.Size(), remaining)));
+			if (readLength == 0)
+				break;
+			if (readLength > std::min (keyfileBuf.Size(), remaining))
+				throw ParameterIncorrect (SRC_POS);
+
+			for (size_t i = 0; i < readLength; ++i)
+			{
 				uint32 crc = crc32.Process (keyfileBuf[i]);
-
-				pool[poolPos++] += (uint8)(crc >> 24);
-				pool[poolPos++] += (uint8)(crc >> 16);
-				pool[poolPos++] += (uint8)(crc >> 8);
+				pool[poolPos++] += (uint8) (crc >> 24);
+				pool[poolPos++] += (uint8) (crc >> 16);
+				pool[poolPos++] += (uint8) (crc >> 8);
 				pool[poolPos++] += (uint8) crc;
-
 				if (poolPos >= pool.Size())
 					poolPos = 0;
-
-				if (++totalLength >= MaxProcessedLength)
-					break;
 			}
+			totalLength += static_cast<size_t> (readLength);
 		}
+
+		if (totalLength < MinProcessedLength)
+			throw InsufficientData (SRC_POS, Path);
 	}
 
 
@@ -62,8 +128,12 @@ namespace VeraCrypt
 		if (!password)
 			password.reset (new VolumePassword);
 
-		if (!keyfiles || keyfiles->size() < 1)
+		if (!keyfiles || keyfiles->empty())
+		{
+			if (!tokenDescriptor.empty())
+				throw ParameterIncorrect (SRC_POS);
 			return password;
+		}
 
 		KeyfileList keyfilesExp;
 		HiddenFileWasPresentInKeyfilePath = false;
@@ -71,6 +141,8 @@ namespace VeraCrypt
 		// Enumerate directories
 		foreach (shared_ptr <Keyfile> keyfile, *keyfiles)
 		{
+			if (!keyfile)
+				throw ParameterIncorrect (SRC_POS);
 			if (FilesystemPath (*keyfile).IsDirectory())
 			{
 				size_t keyfileCount = 0;
@@ -153,138 +225,95 @@ namespace VeraCrypt
 		}
 	}
 
-	void Keyfile::CreateBluekey(FilePath bluekeyFile, wstring tokenSchemeDescriptor, SecureBuffer &buffer) {
+	void Keyfile::CreateBluekey (FilePath bluekeyFile, wstring tokenSchemeDescriptor, SecureBuffer &buffer)
+	{
+		if (tokenSchemeDescriptor.empty())
+			throw ParameterIncorrect (SRC_POS);
+
 		SecurityTokenScheme scheme;
-		SecurityToken::GetSecurityTokenScheme(tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::ENCRYPT);
+		SecurityToken::GetSecurityTokenScheme (tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::ENCRYPT);
+		ValidateScheme (scheme);
+		const size_t plaintextSize = scheme.DecryptOutputSize;
+		if (buffer.Size() < plaintextSize)
+			throw InsufficientData (SRC_POS);
 
-		size_t inputBufferSize = scheme.DecryptOutputSize;
-		size_t outputBufferSize = scheme.EncryptOutputSize;
+		vector<uint8> plaintext (buffer.Ptr(), buffer.Ptr() + plaintextSize);
+		WipeVector wipePlaintext (plaintext);
+		vector<uint8> ciphertext;
+		WipeVector wipeCiphertext (ciphertext);
+		SecurityToken::GetEncryptedData (scheme, plaintext, ciphertext);
+		if (ciphertext.size() != scheme.EncryptOutputSize)
+			throw InsufficientData (SRC_POS);
 
-		vector<uint8> tokenDataToProcess;
-		vector<uint8> processedData;
-
-		tokenDataToProcess.reserve(inputBufferSize);
-
-		BufferPtr remainder;
-		if (buffer.Size() >= inputBufferSize) {
-			std::copy(buffer.Ptr(), buffer.Ptr() + inputBufferSize, back_inserter(tokenDataToProcess));
-			remainder = buffer.GetRange(inputBufferSize, buffer.Size() - inputBufferSize);
-		} else {
-			// buffer size less than encryption buffer size
-			// in order to provide the best security, we shouldn't work with such keyfiles
-			throw InsufficientData();
-		}
-		
-		SecurityToken::GetEncryptedData(scheme, tokenDataToProcess, processedData);
-		SecureBuffer result(ConstBufferPtr(processedData.data(), processedData.size()));
-
-		PipelineStream bkfs;
-		auto m = make_shared<MemoryStream>(result);
-
-		bkfs.AddStream(m);
-		
-		if (remainder.Size() > 0) {
-			auto r = make_shared<MemoryStream>(remainder);
-			bkfs.AddStream(r);
-		}
-
-		File keyfile;
-		keyfile.Open (bluekeyFile, File::CreateWrite);
-
-		size_t n;
-		SecureBuffer writeBuffer(File::GetOptimalWriteSize());
-		while ((n = bkfs.Read(writeBuffer)) > 0) {
-			keyfile.Write (writeBuffer, n);
-		}
-		keyfile.Close();
+		AtomicFile output (bluekeyFile);
+		output.GetFile().Write (ConstBufferPtr (ciphertext.data(), ciphertext.size()));
+		if (buffer.Size() > plaintextSize)
+			output.GetFile().Write (buffer.GetRange (plaintextSize, buffer.Size() - plaintextSize));
+		output.Commit();
 	}
 
-	void Keyfile::RevealRedkey(FilePath redkey, wstring tokenSchemeDescriptor) {
-		shared_ptr<Stream> kfs = PrepareStream(tokenSchemeDescriptor, false);	
+	void Keyfile::RevealRedkey (FilePath redkey, wstring tokenSchemeDescriptor)
+	{
+		if (tokenSchemeDescriptor.empty())
+			throw ParameterIncorrect (SRC_POS);
+		CheckSeparateOutput (Path, redkey);
+		shared_ptr<Stream> stream = PrepareStream (tokenSchemeDescriptor, false);
 
-		File redKey;
-		redKey.Open (redkey, File::CreateWrite, File::ShareReadWriteIgnoreLock);
-		size_t read;
+		AtomicFile output (redkey);
 		SecureBuffer buffer (File::GetOptimalReadSize());
-		while ((read = kfs->Read(buffer)) > 0) {
-			redKey.Write(buffer, read);
-		}
-		redKey.Close();
+		uint64 readLength;
+		while ((readLength = stream->Read (buffer)) != 0)
+			output.GetFile().Write (buffer, static_cast<size_t> (readLength));
+		output.Commit();
 	}
-	
-	shared_ptr<Stream> Keyfile::PrepareStream(wstring tokenSchemeDescriptor, bool emvSupportEnabled) const {
+
+	shared_ptr<Stream> Keyfile::PrepareStream (wstring tokenSchemeDescriptor, bool emvSupportEnabled) const
+	{
 		if (Token::IsKeyfilePathValid (Path, emvSupportEnabled))
 		{
-			// Apply keyfile generated by a security token			
-			vector <uint8> keyfileData;
-			Token::getTokenKeyfile(wstring(Path))->GetKeyfileData(keyfileData);
-
+			// A token object keyfile is already plaintext, not an encrypted disk keyfile.
+			if (!tokenSchemeDescriptor.empty())
+				throw ParameterIncorrect (SRC_POS, Path);
+			vector<uint8> keyfileData;
+			WipeVector wipeKeyfileData (keyfileData);
+			Token::getTokenKeyfile (wstring (Path))->GetKeyfileData (keyfileData);
 			if (keyfileData.size() < MinProcessedLength)
 				throw InsufficientData (SRC_POS, Path);
-
-			MemoryStream *ms = new MemoryStream(ConstBufferPtr(keyfileData.data(), keyfileData.size()));
-			return shared_ptr<Stream>(ms);
+			return make_shared<KeyfileBufferStream> (ConstBufferPtr (keyfileData.data(), keyfileData.size()));
 		}
 
-		shared_ptr<PipelineStream> ps = shared_ptr<PipelineStream>(new PipelineStream());
-		
-		shared_ptr<File> file = shared_ptr<File> (new File());
-		SecureBuffer keyfileBuf (File::GetOptimalReadSize());
-		uint64 readLength;
-		
+		shared_ptr<File> file = make_shared<File>();
 		file->Open (Path, File::OpenRead, File::ShareRead);
+		if (tokenSchemeDescriptor.empty())
+			return make_shared<FileStream> (file);
 
-		if (!tokenSchemeDescriptor.empty()) {
-			// if token is specified, first part of the file is/should be encrypted
+		SecurityTokenScheme scheme;
+		SecurityToken::GetSecurityTokenScheme (tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::DECRYPT);
+		ValidateScheme (scheme);
 
-			
-			// get token slot and key from descriptor
-			SecurityTokenScheme scheme;
-			SecurityToken::GetSecurityTokenScheme(tokenSchemeDescriptor, scheme, SecurityTokenKeyOperation::DECRYPT);
-			
-			// set proper vector size based on key length
-			// and mode (encryption/decryption)
-			const size_t inputBufferSize = scheme.EncryptOutputSize;
-			const size_t outputBufferSize = scheme.DecryptOutputSize;
-			uint64 appendBytesCount = 0;
-
-			vector<uint8> tokenDataToProcess;
-			vector<uint8> processedData;
-
-
-			while ((readLength = file->Read (keyfileBuf)) > 0)
-			{
-				if (tokenDataToProcess.size() < inputBufferSize) {
-					appendBytesCount = readLength;
-					if (tokenDataToProcess.size() + appendBytesCount > inputBufferSize) {
-						appendBytesCount = inputBufferSize - tokenDataToProcess.size();
-						tokenDataToProcess.insert(tokenDataToProcess.end(), keyfileBuf.Ptr(), keyfileBuf.Ptr() + appendBytesCount);
-						break;
-					}
-					tokenDataToProcess.insert(tokenDataToProcess.end(), keyfileBuf.Ptr(), keyfileBuf.Ptr() + appendBytesCount);
-				}
-			}
-
-			SecurityToken::GetDecryptedData(scheme, tokenDataToProcess, processedData);
-			
-			auto tokenStream = make_shared<MemoryStream>(ConstBufferPtr(processedData.data(), processedData.size()));
-			ps->AddStream(tokenStream);
-
-			// process the rest of the buffer as an ordinary (non-encrypted) data
-			// otherwise we'd get non-deterministic behavior, because Read() could produce buffers of different sizes
-			if (readLength > appendBytesCount) {
-				BufferPtr remainderBuffer = keyfileBuf.GetRange(appendBytesCount, readLength-appendBytesCount);
-				auto remainderStream = make_shared<MemoryStream>(remainderBuffer);
-				ps->AddStream(remainderStream);
-			}
+		// Consume exactly the ciphertext prefix, leaving the plaintext remainder
+		// at the current file position regardless of short reads or buffer sizes.
+		vector<uint8> ciphertext (scheme.EncryptOutputSize);
+		WipeVector wipeCiphertext (ciphertext);
+		size_t position = 0;
+		while (position < ciphertext.size())
+		{
+			uint64 readLength = file->Read (BufferPtr (ciphertext.data() + position, ciphertext.size() - position));
+			if (readLength == 0)
+				throw InsufficientData (SRC_POS, Path);
+			position += static_cast<size_t> (readLength);
 		}
 
-		// use the rest of the file, too
-		auto fs = make_shared<FileStream>(file);
-		ps->AddStream(fs);
-		
-		return ps;
+		vector<uint8> plaintext;
+		WipeVector wipePlaintext (plaintext);
+		SecurityToken::GetDecryptedData (scheme, ciphertext, plaintext);
+		if (plaintext.size() != scheme.DecryptOutputSize)
+			throw InsufficientData (SRC_POS, Path);
 
+		shared_ptr<PipelineStream> stream = make_shared<PipelineStream>();
+		stream->AddStream (make_shared<KeyfileBufferStream> (ConstBufferPtr (plaintext.data(), plaintext.size())));
+		stream->AddStream (make_shared<FileStream> (file));
+		return stream;
 	}
 
 	bool Keyfile::HiddenFileWasPresentInKeyfilePath = false;

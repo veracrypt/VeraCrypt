@@ -1313,7 +1313,7 @@ const FileManager fileManagers[] = {
 			return true;
 
 		case CommandId::ChangePassword:
-			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgPim, cmdLine.ArgHash, cmdLine.ArgKeyfiles, cmdLine.ArgSecurityTokenSchemeSpec, cmdLine.ArgNewPassword, cmdLine.ArgNewPim, cmdLine.ArgNewKeyfiles, cmdLine.ArgNewHash);
+			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgPim, cmdLine.ArgHash, cmdLine.ArgKeyfiles, cmdLine.ArgSecurityTokenSchemeSpec, cmdLine.ArgNewPassword, cmdLine.ArgNewPim, cmdLine.ArgNewKeyfiles, cmdLine.ArgNewHash, cmdLine.ArgNewSecurityTokenSchemeSpec);
 			return true;
 
 		case CommandId::CreateKeyfile:
@@ -1333,6 +1333,7 @@ const FileManager fileManagers[] = {
 				options->EA = cmdLine.ArgEncryptionAlgorithm;
 				options->Filesystem = cmdLine.ArgFilesystem;
 				options->Keyfiles = cmdLine.ArgKeyfiles;
+				options->SecurityTokenSchemeSpec = cmdLine.ArgSecurityTokenSchemeSpec;
 				options->Password = cmdLine.ArgPassword;
 				options->Pim = cmdLine.ArgPim;
 				options->Quick = cmdLine.ArgQuick;
@@ -1367,6 +1368,13 @@ const FileManager fileManagers[] = {
 			if (cmdLine.ArgVolumes.empty() && !cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			DisplayVolumeProperties (cmdLine.ArgVolumes);
 			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
+			return true;
+
+		case CommandId::ListSecurityTokenKeys:
+			foreach (const SecurityTokenScheme &scheme, SecurityToken::GetAvailablePublicKeys())
+				ShowString (L"encrypt\t" + scheme.GetSpec() + L"\n");
+			foreach (const SecurityTokenScheme &scheme, SecurityToken::GetAvailablePrivateKeys())
+				ShowString (L"decrypt\t" + scheme.GetSpec() + L"\n");
 			return true;
 
 		case CommandId::Help:
@@ -1431,6 +1439,9 @@ const FileManager fileManagers[] = {
 					" volumes are listed. By default, the list contains only volume path, virtual\n"
 					" device, and mount point. A more detailed list can be enabled by verbose\n"
 					" output option (-v). See below for description of MOUNTED_VOLUME.\n"
+					"\n"
+					"--list-security-token-keys\n"
+					" List supported RSA OAEP encryption and decryption key descriptors.\n"
 					"\n"
 					"--list-token-keyfiles\n"
 					" Display a list of all available token keyfiles. See also command\n"
@@ -1569,6 +1580,18 @@ const FileManager fileManagers[] = {
 					"--new-keyfiles=KEYFILE1[,KEYFILE2,KEYFILE3,...]\n"
 					" Add specified keyfiles to a volume. This option can only be used with command\n"
 					" -C.\n"
+					"\n"
+					"--security-token-key=DESCRIPTOR\n"
+					" Decrypt external encrypted keyfiles using the selected token key. With\n"
+					" --create-keyfile, encrypt the generated keyfile. Requires --token-lib.\n"
+					" Use --list-security-token-keys to list supported keys and their descriptors.\n"
+					" All external keyfiles in one keyfile list must use the same token key.\n"
+					"\n"
+					"--new-security-token-key=DESCRIPTOR\n"
+					" Token key for --new-keyfiles when changing a volume's credentials.\n"
+					"\n"
+					"--protection-security-token-key=DESCRIPTOR\n"
+					" Token key for the hidden volume's encrypted protection keyfiles.\n"
 					"\n"
 					"--new-password=PASSWORD\n"
 					" Specifies a new password. This option can only be used with command -C.\n"

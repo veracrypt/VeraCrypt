@@ -95,6 +95,7 @@ public:
     int AskPim (const wstring &) const { return 7; }
     shared_ptr<KeyfileList> AskKeyfiles (const wstring & = L"") const { return make_shared<KeyfileList>(); }
     wstring AskString (const wstring &) const { return L""; }
+    wstring AskSecurityTokenSchemeSpec (const wstring & = L"") const { return L""; }
     shared_ptr<VolumePath> AskVolumePath () const { throw std::runtime_error ("unexpected path prompt"); }
     shared_ptr<VolumeInfo> MountVolume (MountOptions &options) const {
         Require (State.Calls.size() < State.Plan.size(), "unexpected additional mount attempt");

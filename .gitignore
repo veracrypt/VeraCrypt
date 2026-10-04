@@ -8,8 +8,7 @@ Tests/**/*.bin
 Tests/**/*.dmg
 Tests/**/*.vc
 Tests/**/*.key
-**/*Testing
-!src/Testing
+*TestRun
 
 # CLion
 .idea/

@@ -5,10 +5,11 @@ using namespace std;
 
 namespace VeraCrypt {
 
-    void Testing::Main() {
+    int Testing::Main() {
         auto r = make_shared<TestResult>(this->GetName());
         Run(r);
         Report();
+        return r->IsSuccess() ? 0 : 1;
     };
 
     void Testing::Report() {
@@ -52,34 +53,32 @@ namespace VeraCrypt {
         shared_ptr<TestResult> result = shared_ptr<TestResult>(new TestResult(t->GetName()));
         try {
             t->Run(result);
-        } catch (TestFailedException& e) {
+        } catch (const TestFailedException& e) {
+            if (!result->IsFailed())
+                result->MarkFailed(e.what());
         } catch (const exception& e) {
             result->MarkFailed("Test case threw exception: " + string(e.what()));
+        } catch (...) {
+            result->MarkFailed("Test case threw an unknown exception");
         }
         return result;
     };
 
     void TestSuite::Run(shared_ptr<TestResult> res) {
-        try {
-            for (auto t = tests.begin(); t != tests.end(); ++t) {
-                auto r = RunSingle(*t);
-                results.push_back(*r);
-                if (r->IsFailed()) {
-                    res->MarkFailed(r->GetFailureReason());
-                }
-                if (stopOnFirstFailure && r->IsFailed()) {
+        results.clear();
+        for (auto t = tests.begin(); t != tests.end(); ++t) {
+            auto r = RunSingle(t->get());
+            results.push_back(*r);
+            if (r->IsFailed()) {
+                res->MarkFailed(r->GetName() + ": " + r->GetFailureReason());
+                if (stopOnFirstFailure)
                     return;
-                }
             }
-        } catch (const exception &e) {
-            cerr << "Testing system failure: " << e.what() << endl;
-        } catch (...) {
-            cerr << "Testing system failure" << endl;
         }
     }
 
     void TestSuite::AddTest(Test *test) {
-        tests.push_back(test);
+        tests.push_back(unique_ptr<Test>(test));
     };
 
     void TestSuite::AddTest(string name, testFunc func) {
@@ -87,8 +86,7 @@ namespace VeraCrypt {
     };
 
     void TestSuite::AddTest(TestSuite *suite, bool rollUp) {
-        suite->MarkRollUp();
-        tests.push_back(suite);
+        AddTest(static_cast<Test*>(suite));
     }
 
 };

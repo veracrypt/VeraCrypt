@@ -10,21 +10,26 @@
 # code distribution packages.
 #
 
-.PHONY: test-only lib $(NAME)
+.PHONY: $(NAME)
 
-ifeq "$(OBJS)" ""
-$(NAME): test-only
+ifneq "$(strip $(OBJS))" ""
+$(NAME): $(NAME).a
 else
-$(NAME): lib
+$(NAME):
 endif
 
-test-only: $(NAME)Testing $(NAME)Test.a
-lib: $(NAME).a $(NAME)Test.a $(NAME)Testing
+TEST_PROGRAMS := $(TEST_EXECS:.o=Run)
+ifeq "$(TEST)" "1"
+$(NAME): $(TEST_PROGRAMS)
+ifneq "$(strip $(TEST_OBJS))" ""
+$(NAME): $(NAME)Test.a
+endif
+endif
 
 clean:
 	@echo Cleaning $(NAME)
 	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
-	rm -f $(NAME)Testing.a $(NAME)Test.a $(TEST_OBJS)
+	rm -f $(NAME)Test.a $(TEST_OBJS) $(TEST_EXECS) $(TEST_PROGRAMS) $(TEST_OBJS:.o=.d) $(TEST_EXECS:.o=.d)
 
 %.o: %.c
 	@echo Compiling $(<F)
@@ -50,10 +55,6 @@ clean:
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -mssse3 -c $< -o $@
 
-%Test.o: %Test.cpp
-	@echo Compiling test $(<F)
-	$(CXX) $(CXXFLAGS) -I$(BASE_DIR)/Testing -c $< -o $@
-
 %.oavx2: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -mavx2 -c $< -o $@
@@ -61,6 +62,10 @@ clean:
 %.oarmv8crypto: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -march=armv8-a+crypto -c $< -o $@
+
+%Test.o: %Test.cpp
+	@echo Compiling test $(<F)
+	$(CXX) $(CXXFLAGS) -I$(BASE_DIR)/Testing -c $< -o $@
 
 %.o: %.cpp
 	@echo Compiling $(<F)
@@ -101,8 +106,6 @@ ifeq "$(PLATFORM)" "MacOSX"
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS32) -f macho32 -o $@.32 $<
 	$(AS) $(ASFLAGS64) -f macho64 -o $@.64 $<
-	$(AS) $(ASFLAGS32) -f macho32 -o $@.32 $<
-	$(AS) $(ASFLAGS64) -f macho64 -o $@.64 $<
 	lipo -create $@.32 $@.64 -output $@
 else
 %.o: %.asm
@@ -141,6 +144,8 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 -include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
 
 
+-include $(TEST_OBJS:.o=.d) $(TEST_EXECS:.o=.d)
+
 # Deterministic static library: the 'D' modifier zeroes member mtime/uid/gid
 # and 'ranlib -D' writes a deterministic index. Both are probed functionally
 # (running them on a throwaway archive) rather than by parsing --help, whose
@@ -152,26 +157,22 @@ AR_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) Drc $$t.a $$t >/dev
 RANLIB_DETERMINISTIC := $(shell t=$$(mktemp); rm -f $$t.a; $(AR) rc $$t.a $$t >/dev/null 2>&1; $(RANLIB) -D $$t.a >/dev/null 2>&1 && echo -D; rm -f $$t $$t.a)
 
 $(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
-ifneq "$(OBJS)" ""
 	@echo Updating library $@
 	rm -f $@
 	$(AR) $(AFLAGS) $(AR_DETERMINISTIC)rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
 	$(RANLIB) $(RANLIB_DETERMINISTIC) $@
-endif
 
+
+ifneq "$(strip $(TEST_OBJS))" ""
 $(NAME)Test.a: $(TEST_OBJS)
-ifneq "$(TEST_OBJS)" ""
 	@echo Updating test library $@
 	rm -f $@
 	$(AR) $(AFLAGS) $(AR_DETERMINISTIC)rc $@ $(TEST_OBJS)
 	$(RANLIB) $(RANLIB_DETERMINISTIC) $@
 endif
 
-$(NAME)Testing: $(TEST_EXECS) $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(LIBS) $(TEST_LIBS) $(TEST_OBJS)
-ifneq "$(TEST_EXECS)" ""
-	@for TE in $(TEST_EXECS); do \
-			export EXEC_NAME=`basename "$$TE" .o`; \
-			echo Compiling $${EXEC_NAME}Run; \
-			$(CXX) -o $${EXEC_NAME}Run $${TE} $(TEST_LIBS) $(TEST_OBJS) $(OBJS) $(LIBS) $(TEST_EXT_LIBS) $(LFLAGS) $(TEST_LFLAGS); \
-	done
+ifneq "$(strip $(TEST_PROGRAMS))" ""
+$(TEST_PROGRAMS): %Run: %.o $(TEST_OBJS) $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(TEST_LIBS) $(filter %.a,$(LIBS))
+	@echo Linking test $@
+	$(CXX) -o $@ $< $(TEST_OBJS) $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(TEST_LIBS) $(LIBS) $(TEST_EXT_LIBS) $(LFLAGS) $(TEST_LFLAGS)
 endif

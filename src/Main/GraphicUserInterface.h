@@ -38,7 +38,7 @@ namespace VeraCrypt
 		virtual void RevealRedkey (shared_ptr <VolumePath> volumePath) const;
 		virtual void BeginBusyState () const { wxBeginBusyCursor(); }
 		virtual void BeginInteractiveBusyState (wxWindow *window);
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Pkcs5Kdf> currentKdf = shared_ptr <Pkcs5Kdf>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), wstring securityTokenKeySpec = wstring(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Pkcs5Kdf> newKdf = shared_ptr <Pkcs5Kdf>()) const { ThrowTextModeRequired(); }
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Pkcs5Kdf> currentKdf = shared_ptr <Pkcs5Kdf>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), wstring securityTokenKeySpec = wstring(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Pkcs5Kdf> newKdf = shared_ptr <Pkcs5Kdf>(), wstring newSecurityTokenSchemeSpec = wstring()) const { ThrowTextModeRequired(); }
 		wxHyperlinkCtrl *CreateHyperlink (wxWindow *parent, const wxString &linkUrl, const wxString &linkText) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const;
 		virtual void CreateVolume (shared_ptr <VolumeCreationOptions> options) const { ThrowTextModeRequired(); }

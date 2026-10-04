@@ -23,6 +23,7 @@ OBJS += Serializer.o
 OBJS += SerializerFactory.o
 OBJS += StringConverter.o
 OBJS += TextReader.o
+OBJS += Unix/AtomicFile.o
 OBJS += Unix/Directory.o
 OBJS += Unix/File.o
 OBJS += Unix/FilesystemPath.o
@@ -37,7 +38,11 @@ OBJS += Unix/SystemLog.o
 OBJS += Unix/Thread.o
 OBJS += Unix/Time.o
 
-TEST_OBJS := PipelineStreamTest.o
+TEST_EXECS := PipelineStreamTest.o AtomicFileTest.o
 TEST_LFLAGS := -lpthread
 
 include $(BUILD_INC)/Makefile.inc
+
+ifeq "$(PLATFORM)" "Linux"
+AtomicFileTestRun: TEST_LFLAGS += -Wl,--wrap=fsync -Wl,--wrap=rename
+endif
