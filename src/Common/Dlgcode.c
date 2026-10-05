@@ -9154,17 +9154,23 @@ void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback,
 			winClass.lpszClassName = className;
 			RegisterClassExW (&winClass);
 
-			/*  Place the invisible parent at the center of the creator window so that
-			    the DS_CENTER wait dialog is centered on the monitor that hosts the main
-			    window instead of always appearing on the primary monitor. Falls back to
+			/*  Place the invisible parent in the middle of the work area of the monitor
+			    that Windows associates with the creator window, so that the DS_CENTER
+			    wait dialog is centered on that monitor instead of always appearing on
+			    the primary one. The parent is kept well inside the monitor because
+			    Windows may make it larger than the requested 1x1 size. Falls back to
 			    (0, 0) when the creator window is unavailable, hidden or minimized. */
 			if (creatorWnd && IsWindowVisible (creatorWnd) && !IsIconic (creatorWnd))
 			{
-				RECT rcCreator;
-				if (GetWindowRect (creatorWnd, &rcCreator))
+				HMONITOR hMonitor = MonitorFromWindow (creatorWnd, MONITOR_DEFAULTTONEAREST);
+				MONITORINFO monitorInfo;
+
+				memset (&monitorInfo, 0, sizeof (monitorInfo));
+				monitorInfo.cbSize = sizeof (monitorInfo);
+				if (hMonitor && GetMonitorInfoW (hMonitor, &monitorInfo))
 				{
-					parentX = rcCreator.left + (rcCreator.right - rcCreator.left) / 2;
-					parentY = rcCreator.top + (rcCreator.bottom - rcCreator.top) / 2;
+					parentX = monitorInfo.rcWork.left + (monitorInfo.rcWork.right - monitorInfo.rcWork.left) / 2;
+					parentY = monitorInfo.rcWork.top + (monitorInfo.rcWork.bottom - monitorInfo.rcWork.top) / 2;
 				}
 			}
 
