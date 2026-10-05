@@ -1,8 +1,12 @@
 name: Build and test Linux big-endian
 
 # Cross-builds the console version for s390x (big-endian) and runs it under
-# qemu-user: the algorithm self-tests, the Tests/*.hc volumes (created on
-# little-endian) and volume compatibility with a native amd64 build.
+# qemu-user: the algorithm self-tests and the Tests/*.hc volumes (created on
+# little-endian).
+#
+# The full suite (manual run with "full" selected) also builds amd64, then
+# tests the Tests/*.hc volumes on both builds and volume compatibility
+# between them in both directions, in separate jobs that run concurrently.
 
 on:
   push:
@@ -41,6 +45,11 @@ on:
       - '.github/workflows/build-linux-big-endian.yml'
   # Manual runs, e.g. on a fork before opening a pull request.
   workflow_dispatch:
+    inputs:
+      full:
+        description: 'Full suite: also build amd64 and test volume compatibility in both directions'
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -51,6 +60,7 @@ concurrency:
 
 env:
   WXWIDGETS_VERSION: 3.2.5
+  FULL: ${{ github.event_name == 'workflow_dispatch' && inputs.full }}
 
 jobs:
   build:
@@ -59,7 +69,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [ s390x, amd64 ]
+        arch: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.full && '["s390x","amd64"]' || '["s390x"]') }}
     name: build-${{ matrix.arch }}
 
     steps:
@@ -116,16 +126,58 @@ jobs:
       run: src/Main/veracrypt --text --test
 
     - name: Volumes created on little-endian
+      if: env.FULL != 'true'
       run: python3 Tests/test_byte_order_interop.py --binary-a src/Main/veracrypt
 
     - name: Upload binary
+      if: env.FULL == 'true'
       uses: actions/upload-artifact@v4
       with:
         name: veracrypt-${{ matrix.arch }}
         path: src/Main/veracrypt
         retention-days: 1
 
+  volumes:
+    if: github.event_name == 'workflow_dispatch' && inputs.full
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ s390x, amd64 ]
+    name: volumes-${{ matrix.arch }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install runtime dependencies (s390x)
+      if: matrix.arch == 's390x'
+      run: |
+        sudo sed -i 's/^Types: deb$/Types: deb\nArchitectures: amd64/' /etc/apt/sources.list.d/ubuntu.sources
+        printf 'Types: deb\nURIs: http://ports.ubuntu.com/ubuntu-ports\nSuites: noble noble-updates\nComponents: main universe\nArchitectures: s390x\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n' | sudo tee /etc/apt/sources.list.d/ports.sources
+        sudo dpkg --add-architecture s390x
+        sudo apt-get update
+        sudo apt-get install -y qemu-user-static \
+          libfuse3-3:s390x libpcsclite1:s390x libstdc++6:s390x libgcc-s1:s390x
+
+    - name: Install runtime dependencies (amd64)
+      if: matrix.arch == 'amd64'
+      run: sudo apt-get update && sudo apt-get install -y libfuse3-3 libpcsclite1
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: veracrypt-${{ matrix.arch }}
+        path: bin
+
+    - name: Volumes created on little-endian
+      run: |
+        chmod +x bin/veracrypt
+        python3 Tests/test_byte_order_interop.py --binary-a bin/veracrypt
+
   interop:
+    if: github.event_name == 'workflow_dispatch' && inputs.full
     needs: build
     runs-on: ubuntu-24.04
     timeout-minutes: 60
