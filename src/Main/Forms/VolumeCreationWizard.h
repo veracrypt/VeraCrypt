@@ -62,6 +62,8 @@ namespace VeraCrypt
 		void SetCreationProgressText (const wxString &text);
 
 		uint64 GetSelectedVolumeFilesystemSize () const;
+		shared_ptr <VolumePassword> GetPasswordKey ();
+		bool ValidateHiddenVolumePassword ();
 		volatile bool AbortConfirmationPending;
 		volatile bool AbortRequested;
 		volatile bool CreationAborted;
@@ -72,6 +74,7 @@ namespace VeraCrypt
 		unique_ptr <wxTimer> ProgressTimer;
 		unique_ptr <wxTimer> RandomPoolUpdateTimer;
 		shared_ptr <KeyfileList> Keyfiles;
+		wstring SecurityTokenSchemeSpec;
 		bool LargeFilesSupport;
 		uint64 MaxHiddenVolumeSize;
 		shared_ptr <VolumeInfo> MountedOuterVolume;
@@ -85,6 +88,7 @@ namespace VeraCrypt
 		VolumeHostType::Enum SelectedVolumeHostType;
 		VolumeType::Enum SelectedVolumeType;
 		shared_ptr <VolumePassword> Password;
+		shared_ptr <VolumePassword> PasswordKey;
 		shared_ptr <VolumePassword> OuterPassword;
 		int Pim;
 		int OuterPim;

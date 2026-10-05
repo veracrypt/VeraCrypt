@@ -1,6 +1,15 @@
 # For those using Visual Studio Code for development
 .vscode/
 
+# Testing artifacts
+Tests/**/*.raw
+Tests/**/*.vol
+Tests/**/*.bin
+Tests/**/*.dmg
+Tests/**/*.vc
+Tests/**/*.key
+*TestRun
+
 # CLion
 .idea/
 

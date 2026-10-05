@@ -7,10 +7,13 @@ on:
       - 'src/Build/Include/Makefile.inc'
       - 'src/Build/CMakeLists.txt'
       - 'src/Build/build_cmake_deb.sh'
+      - 'src/Common/Language.xml'
       - 'src/Common/*.h'
       - 'src/Common/*.cpp'
       - 'src/Common/*.c'
       - 'src/Core/**'
+      - 'src/Testing/**'
+      - 'Tests/**'
       - 'src/Crypto/**'
       - 'src/Driver/Fuse/**'
       - 'src/Main/**'
@@ -27,10 +30,13 @@ on:
       - 'src/Build/Include/Makefile.inc'
       - 'src/Build/CMakeLists.txt'
       - 'src/Build/build_cmake_deb.sh'
+      - 'src/Common/Language.xml'
       - 'src/Common/*.h'
       - 'src/Common/*.cpp'
       - 'src/Common/*.c'
       - 'src/Core/**'
+      - 'src/Testing/**'
+      - 'Tests/**'
       - 'src/Crypto/**'
       - 'src/Driver/Fuse/**'
       - 'src/Main/**'
@@ -112,6 +118,15 @@ jobs:
         else
           src/Build/build_cmake_deb.sh WXSTATIC INDICATOR
         fi
+
+    - name: Run credential and file-publication regression tests
+      run: |
+        export WX_BUILD_DIR=/tmp/wxBuildConsole
+        export PATH="$WX_BUILD_DIR:$PATH"
+        make -C src -j2 WXSTATIC=1 NOGUI=1 test
+        python3 Tests/test_token_credential_workflows.py
+        python3 Tests/test_backup_header_retry.py
+        python3 Tests/test_keyfile_cli_workflows.py
 
     - name: Upload GUI .deb packages
       uses: actions/upload-artifact@v4

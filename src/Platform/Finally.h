@@ -35,6 +35,17 @@ struct TC_JOIN(Finally,__LINE__) \
 TC_UNUSED_VAR \
 TC_JOIN(finally,__LINE__) (arg)
 
+#define finally_do_member(clazz, argType, arg, code) \
+struct TC_JOIN(Finally,__LINE__) \
+{ \
+	TC_JOIN(Finally,__LINE__) (clazz *obj, argType a) : finally_arg (a), finally_obj(obj) { } \
+	TC_JOIN(~Finally,__LINE__) () { try { code } catch (...) { } } \
+	argType finally_arg; \
+	clazz *finally_obj; \
+}\
+TC_UNUSED_VAR \
+TC_JOIN(finally,__LINE__) (this, arg)
+
 #define finally_do_arg2(argType, arg, argType2, arg2, code) \
 struct TC_JOIN(Finally,__LINE__) \
 { \

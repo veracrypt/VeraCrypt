@@ -35,7 +35,7 @@ namespace VeraCrypt
 
 		friend void EMVTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const;
 
-		static map <unsigned long int, shared_ptr<EMVCard>> EMVCards;
+		static map <unsigned long int, shared_ptr<EMVCard> > EMVCards;
 	};
 }
 

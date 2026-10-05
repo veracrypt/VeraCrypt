@@ -29,6 +29,8 @@ for arg in $OPTSTR; do
 		pim=*)            set -- "$@" "--pim=${arg#*=}" ;;
 		protect-hidden=*) set -- "$@" "--protect-hidden=${arg#*=}" ;;
 		slot=*)           set -- "$@" "--slot=${arg#*=}" ;;
+		token-lib=*|token-pin=*|security-token-key=*|protection-security-token-key=*|protection-keyfiles=*|protection-password=*|protection-pim=*|protection-hash=*)
+		                  set -- "$@" "--$arg" ;;
 		*)                OPTIONS="${OPTIONS}${arg}," ;;
 	esac
 done

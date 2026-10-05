@@ -102,7 +102,7 @@ namespace VeraCrypt
 	}
 #endif
 
-	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles)
+	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, wstring securityTokenSchemeSpec, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, wstring newSecurityTokenSchemeSpec)
 		: ChangePasswordDialogBase (parent), DialogMode (mode), KdfOnlyKdfSelectionInitialized (false), Path (volumePath)
 	{
 		bool enableNewPassword = false;
@@ -140,11 +140,11 @@ namespace VeraCrypt
 		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
 #endif
 
-		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, false, true, true, false, true, true);
+		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, keyfiles, securityTokenSchemeSpec, SecurityTokenKeyOperation::Decrypt, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
-		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
+		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, newKeyfiles, newSecurityTokenSchemeSpec, SecurityTokenKeyOperation::Decrypt, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -186,6 +186,7 @@ namespace VeraCrypt
 			}
 			shared_ptr <VolumePassword> currentPassword = CurrentPasswordPanel->GetPassword();
 			shared_ptr <KeyfileList> currentKeyfiles = CurrentPasswordPanel->GetKeyfiles();
+			wstring currentSecuritySchemeSpec = CurrentPasswordPanel->GetSecurityTokenSchemeSpec();
 			bool preserveTimestamps = Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps;
 			bool emvSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
 			int headerWipeCount = NewPasswordPanel->GetHeaderWipeCount();
@@ -249,10 +250,21 @@ namespace VeraCrypt
 			}
 
 			shared_ptr <KeyfileList> newKeyfiles;
+			wstring newSecuritySchemeSpec;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles)
+			{
 				newKeyfiles = NewPasswordPanel->GetKeyfiles();
+				newSecuritySchemeSpec = NewPasswordPanel->GetSecurityTokenSchemeSpec();
+			}
 			else if (DialogMode != Mode::RemoveAllKeyfiles)
+			{
 				newKeyfiles = currentKeyfiles;
+				newSecuritySchemeSpec = currentSecuritySchemeSpec;
+			}
+
+			if (!currentSecuritySchemeSpec.empty() && newSecuritySchemeSpec.empty()
+				&& !Gui->AskYesNo (LangString["TOKEN_KEY_REMOVAL_CONFIRM"], false, true))
+				return;
 
 			shared_ptr <Pkcs5Kdf> effectiveNewKdf = newKdf ? newKdf : currentKdf;
 			shared_ptr <Volume> openVolume;
@@ -302,7 +314,7 @@ namespace VeraCrypt
 				if (needOpenVolumeForKdf)
 				{
 					wxBusyCursor busy;
-					OpenVolumeThreadRoutine openRoutine(Path, preserveTimestamps, currentPassword, currentPim, currentKdf, currentKeyfiles, emvSupportEnabled);
+					OpenVolumeThreadRoutine openRoutine(Path, preserveTimestamps, currentPassword, currentPim, currentKdf, currentKeyfiles, currentSecuritySchemeSpec, emvSupportEnabled);
 					Gui->ExecuteWaitThreadRoutine (this, &openRoutine);
 					openVolume = openRoutine.m_pVolume;
 					if (openVolume)
@@ -334,7 +346,7 @@ namespace VeraCrypt
 				if (openVolume)
 				{
 					wxBusyCursor busy;
-					ChangePasswordThreadRoutine routine(openVolume, newPassword, newPim, newKeyfiles, newKdf, headerWipeCount, emvSupportEnabled);
+					ChangePasswordThreadRoutine routine(openVolume, newPassword, newPim, newKeyfiles, newSecuritySchemeSpec, newKdf, headerWipeCount, emvSupportEnabled);
 					Gui->ExecuteWaitThreadRoutine (this, &routine);
 					masterKeyVulnerable = routine.m_masterKeyVulnerable;
 				}
@@ -342,8 +354,8 @@ namespace VeraCrypt
 				{
 					wxBusyCursor busy;
 					ChangePasswordThreadRoutine routine(Path, preserveTimestamps,
-						currentPassword, currentPim, currentKdf, currentKeyfiles,
-						newPassword, newPim, newKeyfiles, newKdf, headerWipeCount, emvSupportEnabled);
+						currentPassword, currentPim, currentKdf, currentKeyfiles, currentSecuritySchemeSpec,
+						newPassword, newPim, newKeyfiles, newSecuritySchemeSpec, newKdf, headerWipeCount, emvSupportEnabled);
 					Gui->ExecuteWaitThreadRoutine (this, &routine);
 					masterKeyVulnerable = routine.m_masterKeyVulnerable;
 				}
@@ -392,6 +404,8 @@ namespace VeraCrypt
 	void ChangePasswordDialog::OnPasswordPanelUpdate ()
 	{
 		bool ok = true;
+		if (!CmdLine->ArgNewSecurityTokenSchemeSpecified && !NewPasswordPanel->IsSecurityTokenSchemeEdited())
+			NewPasswordPanel->SetSecurityTokenSchemeSpec (CurrentPasswordPanel->GetSecurityTokenSchemeSpec());
 
 		try
 		{

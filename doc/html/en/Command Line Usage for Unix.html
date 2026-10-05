@@ -336,4 +336,12 @@
 <p>If hidden volume protection is triggered at any step, start again from the first step.</p>
 
 </div>
-</div><div class="ClearBoth"></div></body></html>
+</div><div class="ClearBoth"></div><h2>Encrypted keyfiles and security token keys</h2>
+<p>Use <code>--list-security-token-keys</code> with <code>--token-lib</code> to list supported
+RSA OAEP key descriptors. Pass an encryption descriptor to <code>--create-keyfile</code> with
+<code>--security-token-key</code>. Pass the corresponding decryption descriptor when creating,
+mounting or changing a volume that uses the encrypted keyfile. Use
+<code>--new-security-token-key</code> for new keyfiles during a password change and
+<code>--protection-security-token-key</code> for hidden-volume protection.
+See <a href="Bluekeys.html">Encrypted Keyfiles</a> for requirements, examples and recovery precautions.</p>
+</body></html>

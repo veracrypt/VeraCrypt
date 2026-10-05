@@ -427,6 +427,10 @@
 			<param name="Local" value="Keyfiles.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Encrypted Keyfiles (Bluekeys)">
+			<param name="Local" value="Bluekeys.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="PIM">
 			<param name="Local" value="Personal Iterations Multiplier (PIM).html">
 			</OBJECT>

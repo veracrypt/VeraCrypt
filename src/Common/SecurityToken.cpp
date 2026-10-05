@@ -22,6 +22,9 @@
 #	include "Language.h"
 #endif
 
+#include <algorithm>
+#include <limits>
+
 #ifdef TC_UNIX
 #	include <dlfcn.h>
 #endif
@@ -36,6 +39,141 @@ using namespace std;
 
 namespace VeraCrypt
 {
+
+	namespace
+	{
+		// Keyfiles contain RSA ciphertext, so bound allocation sizes independently
+		// of lengths supplied by a PKCS #11 module.
+		const size_t MaxRsaCiphertextSize = 2048; // RSA-16384
+
+		bool IsUnavailableAttribute (CK_RV status)
+		{
+			return status == CKR_ATTRIBUTE_TYPE_INVALID || status == CKR_ATTRIBUTE_SENSITIVE;
+		}
+
+		template <class T> bool ReadScalarAttribute (SecurityTokenScheme &key, CK_ATTRIBUTE_TYPE type, T &value)
+		{
+			vector<uint8> attribute;
+			SecurityToken::GetObjectAttribute (key, type, attribute);
+			if (attribute.size() != sizeof (value))
+				return false;
+			memcpy (&value, attribute.data(), sizeof (value));
+			return true;
+		}
+
+		bool ConfigureRsaScheme (SecurityTokenScheme &key, CK_MECHANISM_PTR mechanism, const wstring &label, size_t paddingSize)
+		{
+			CK_KEY_TYPE keyType;
+			if (!ReadScalarAttribute (key, CKA_KEY_TYPE, keyType) || keyType != CKK_RSA)
+				return false;
+
+			CK_MECHANISM_INFO info;
+			if (!SecurityToken::GetMechanismInfo (key.SlotId, mechanism->mechanism, &info)
+				|| !(info.flags & (key.Operation == SecurityTokenKeyOperation::Encrypt ? CKF_ENCRYPT : CKF_DECRYPT)))
+				return false;
+
+			// CKA_MODULUS_BITS belongs to public keys; CKA_MODULUS is defined for
+			// both public and private RSA keys and contains no private material.
+			vector<uint8> modulus;
+			SecurityToken::GetObjectAttribute (key, CKA_MODULUS, modulus);
+			size_t first = 0;
+			while (first < modulus.size() && modulus[first] == 0)
+				++first;
+			size_t bytes = modulus.size() - first;
+			if (bytes == 0 || bytes > MaxRsaCiphertextSize)
+				return false;
+			size_t bits = (bytes - 1) * 8;
+			for (uint8 high = modulus[first]; high != 0; high >>= 1)
+				++bits;
+			if (bits < 2048 || bits < info.ulMinKeySize || bits > info.ulMaxKeySize || bytes <= paddingSize)
+				return false;
+
+			key.RsaKeyBits = bits;
+			key.DecryptOutputSize = bytes - paddingSize;
+			key.EncryptOutputSize = bytes;
+			key.Mechanism = mechanism;
+			key.MechanismLabel = label;
+			return true;
+		}
+
+		wstring HexEncode (const uint8 *data, size_t size)
+		{
+			static const wchar_t digits[] = L"0123456789abcdef";
+			wstring result;
+			for (size_t i = 0; i < size; ++i)
+			{
+				result += digits[data[i] >> 4];
+				result += digits[data[i] & 15];
+			}
+			return result;
+		}
+
+		vector<uint8> HexDecode (const wstring &text)
+		{
+			if (text.empty() || text.size() % 2 != 0 || text.size() > 8192)
+				throw InvalidSecurityTokenKeyDescriptor();
+			vector<uint8> result (text.size() / 2);
+			for (size_t i = 0; i < text.size(); ++i)
+			{
+				wchar_t c = text[i];
+				int digit = c >= L'0' && c <= L'9' ? c - L'0' :
+					c >= L'a' && c <= L'f' ? c - L'a' + 10 :
+					c >= L'A' && c <= L'F' ? c - L'A' + 10 : -1;
+				if (digit < 0)
+					throw InvalidSecurityTokenKeyDescriptor();
+				result[i / 2] = static_cast<uint8> ((result[i / 2] << 4) | digit);
+			}
+			return result;
+		}
+
+		CK_SLOT_ID ParseSlotId (const wstring &text)
+		{
+			if (text.empty())
+				throw InvalidSecurityTokenKeyDescriptor();
+			CK_SLOT_ID value = 0;
+			for (size_t i = 0; i < text.size(); ++i)
+			{
+				if (text[i] < L'0' || text[i] > L'9'
+					|| value > ((numeric_limits<CK_SLOT_ID>::max)() - (text[i] - L'0')) / 10)
+					throw InvalidSecurityTokenKeyDescriptor();
+				value = value * 10 + text[i] - L'0';
+			}
+			return value;
+		}
+	}
+
+	MechanismList SecurityTokenMechanism::GetAvailableMechanisms ()
+	{
+		MechanismList mechanisms;
+		mechanisms.push_back (make_shared<RSAOAEPSecurityTokenMechanism>());
+		return mechanisms;
+	}
+
+	CK_RSA_PKCS_OAEP_PARAMS RSAOAEPSecurityTokenMechanism::_OAEP_PARAMS = { CKM_SHA256, CKG_MGF1_SHA256, CKZ_DATA_SPECIFIED, NULL_PTR, 0 };
+	CK_MECHANISM RSAOAEPSecurityTokenMechanism::_MECHANISM = { CKM_RSA_PKCS_OAEP, &_OAEP_PARAMS, sizeof (_OAEP_PARAMS) };
+
+	bool RSAOAEPSecurityTokenMechanism::ApplyTo (SecurityTokenScheme &key)
+	{
+		return ConfigureRsaScheme (key, &_MECHANISM, GetLabel(), 2 + 2 * 32);
+	}
+
+	wstring SecurityTokenScheme::GetSpec (bool useSlot) const
+	{
+		wstringstream result;
+		if (!ObjectId.empty())
+		{
+			if (!useSlot && !Token.SerialNumber.empty())
+				result << L"token-key:" << HexEncode (reinterpret_cast<const uint8 *> (Token.SerialNumber.data()), Token.SerialNumber.size());
+			else
+				result << L"slot-key:" << SlotId;
+			result << L":" << HexEncode (ObjectId.data(), ObjectId.size()) << L":" << MechanismLabel;
+		}
+		else
+			result << SlotId << L":" << Id << L":" << MechanismLabel;
+		return result.str();
+	}
+
+
 	SecurityTokenKeyfile::SecurityTokenKeyfile(): Handle(CK_INVALID_HANDLE) {
 		SecurityTokenInfo* token = new SecurityTokenInfo();
 		Token = shared_ptr<SecurityTokenInfo>(token);
@@ -75,13 +213,13 @@ namespace VeraCrypt
 		return path.str();
 	}
 
-	void SecurityToken::CheckLibraryStatus()
+	void SecurityTokenImpl::CheckLibraryStatus ()
 	{
 		if (!Initialized)
 			throw SecurityTokenLibraryNotInitialized();
 	}
 
-	void SecurityToken::CloseLibrary()
+	void SecurityTokenImpl::CloseLibrary ()
 	{
 		if (Initialized)
 		{
@@ -94,27 +232,26 @@ namespace VeraCrypt
 			dlclose(Pkcs11LibraryHandle);
 #endif
 			Initialized = false;
+			Pkcs11Functions = NULL_PTR;
+			Pkcs11LibraryHandle = nullptr;
+			PinCallback.reset();
+			WarningCallback.reset();
 		}
 	}
 
-	void SecurityToken::CloseAllSessions() throw ()
+	void SecurityTokenImpl::CloseAllSessions () throw ()
 	{
 		if (!Initialized)
 			return;
 
-		typedef pair <CK_SLOT_ID, Pkcs11Session> SessionMapPair;
-
-		foreach(SessionMapPair p, Sessions)
+		while (!Sessions.empty())
 		{
-			try
-			{
-				CloseSession(p.first);
-			}
-			catch (...) {}
+			Pkcs11Functions->C_CloseSession (Sessions.begin()->second.Handle);
+			Sessions.erase (Sessions.begin());
 		}
 	}
 
-	void SecurityToken::CloseSession(CK_SLOT_ID slotId)
+	void SecurityTokenImpl::CloseSession (CK_SLOT_ID slotId)
 	{
 		if (Sessions.find(slotId) == Sessions.end())
 			throw ParameterIncorrect(SRC_POS);
@@ -123,9 +260,9 @@ namespace VeraCrypt
 		Sessions.erase(Sessions.find(slotId));
 	}
 
-	void SecurityToken::CreateKeyfile(CK_SLOT_ID slotId, vector <uint8>& keyfileData, const string& name)
+	void SecurityTokenImpl::CreateKeyfile (CK_SLOT_ID slotId, vector <uint8> &keyfileData, const string &name)
 	{
-		if (name.empty())
+		if (name.empty() || keyfileData.empty() || name.size() > (numeric_limits<CK_ULONG>::max)() || keyfileData.size() > (numeric_limits<CK_ULONG>::max)())
 			throw ParameterIncorrect(SRC_POS);
 
 		LoginUserIfRequired(slotId);
@@ -179,7 +316,7 @@ namespace VeraCrypt
 		}
 	}
 
-	void SecurityToken::DeleteKeyfile(const SecurityTokenKeyfile& keyfile)
+	void SecurityTokenImpl::DeleteKeyfile (const SecurityTokenKeyfile &keyfile)
 	{
 		LoginUserIfRequired(keyfile.Token->SlotId);
 
@@ -188,7 +325,164 @@ namespace VeraCrypt
 			throw Pkcs11Exception(status);
 	}
 
-	vector <SecurityTokenKeyfile> SecurityToken::GetAvailableKeyfiles(CK_SLOT_ID* slotIdFilter, const wstring keyfileIdFilter)
+
+	void SecurityTokenImpl::GetSecurityTokenScheme (wstring descriptor, SecurityTokenScheme &key, SecurityTokenKeyOperation mode)
+	{
+		if (mode != SecurityTokenKeyOperation::Encrypt && mode != SecurityTokenKeyOperation::Decrypt)
+			throw ParameterIncorrect (SRC_POS);
+		if (descriptor.size() > 16384)
+			throw InvalidSecurityTokenKeyDescriptor();
+
+		bool serialDescriptor = descriptor.find (L"token-key:") == 0;
+		bool idDescriptor = serialDescriptor || descriptor.find (L"slot-key:") == 0;
+		if (idDescriptor)
+			descriptor.erase (0, serialDescriptor ? 10 : 9);
+		size_t firstColon = descriptor.find (L':');
+		size_t lastColon = descriptor.rfind (L':');
+		if (firstColon == wstring::npos || firstColon == lastColon || lastColon + 1 == descriptor.size())
+			throw InvalidSecurityTokenKeyDescriptor();
+
+		wstring mechanism = descriptor.substr (lastColon + 1);
+		if (mechanism != RSAOAEPSecurityTokenMechanism::GetLabel())
+			throw InvalidSecurityTokenKeyDescriptor();
+		wstring identity = descriptor.substr (firstColon + 1, lastColon - firstColon - 1);
+		if (identity.empty())
+			throw InvalidSecurityTokenKeyDescriptor();
+		vector<uint8> objectId;
+		if (idDescriptor)
+			objectId = HexDecode (identity);
+
+		vector<CK_SLOT_ID> matchingSlots;
+		if (serialDescriptor)
+		{
+			vector<uint8> serialBytes = HexDecode (descriptor.substr (0, firstColon));
+			string serial (serialBytes.begin(), serialBytes.end());
+			foreach (const CK_SLOT_ID &candidate, GetTokenSlots())
+			{
+				SecurityTokenInfo token;
+				try { token = GetTokenInfo (candidate); }
+				catch (const Pkcs11Exception &) { continue; } // An unrelated reader may contain an unsupported card.
+				if (token.SerialNumber == serial)
+					matchingSlots.push_back (candidate);
+			}
+			if (matchingSlots.empty())
+				throw SecurityTokenKeyNotFound();
+		}
+		else
+			matchingSlots.push_back (ParseSlotId (descriptor.substr (0, firstColon)));
+
+		vector<SecurityTokenScheme> matches;
+		foreach (CK_SLOT_ID slotId, matchingSlots)
+		{
+			// Authentication errors and cancellation for a matching token propagate.
+			vector<SecurityTokenScheme> keys = GetAvailableKeys (&slotId, idDescriptor ? wstring() : identity,
+				mechanism, mode, idDescriptor ? &objectId : NULL_PTR);
+			matches.insert (matches.end(), keys.begin(), keys.end());
+		}
+		if (matches.empty())
+			throw SecurityTokenKeyNotFound();
+		if (matches.size() != 1)
+			throw SecurityTokenKeyAmbiguous();
+		key = matches.front();
+	}
+
+	vector<SecurityTokenScheme> SecurityTokenImpl::GetAvailablePrivateKeys (CK_SLOT_ID *slotIdFilter, const wstring keyIdFilter, const wstring mechanismLabel)
+	{
+		return GetAvailableKeys (slotIdFilter, keyIdFilter, mechanismLabel, SecurityTokenKeyOperation::Decrypt);
+	}
+
+	vector<SecurityTokenScheme> SecurityTokenImpl::GetAvailablePublicKeys (CK_SLOT_ID *slotIdFilter, const wstring keyIdFilter, const wstring mechanismLabel)
+	{
+		return GetAvailableKeys (slotIdFilter, keyIdFilter, mechanismLabel, SecurityTokenKeyOperation::Encrypt);
+	}
+
+	vector<SecurityTokenScheme> SecurityTokenImpl::GetAvailableKeys (CK_SLOT_ID *slotIdFilter, const wstring &keyIdFilter,
+		const wstring &mechanismLabel, SecurityTokenKeyOperation operation, const vector<uint8> *objectIdFilter)
+	{
+		bool unrecognizedTokenPresent = false;
+		vector<SecurityTokenScheme> keys;
+		MechanismList mechanisms = SecurityTokenMechanism::GetAvailableMechanisms();
+		foreach (const CK_SLOT_ID &slotId, GetTokenSlots())
+		{
+			if (slotIdFilter && *slotIdFilter != slotId)
+				continue;
+			SecurityTokenInfo token;
+			try
+			{
+				LoginUserIfRequired (slotId);
+				token = GetTokenInfo (slotId);
+			}
+			catch (UserAbort &)
+			{
+				if (slotIdFilter)
+					throw;
+				continue;
+			}
+			catch (Pkcs11Exception &e)
+			{
+				if (e.GetErrorCode() == CKR_TOKEN_NOT_RECOGNIZED)
+				{
+					unrecognizedTokenPresent = true;
+					continue;
+				}
+				throw;
+			}
+
+			foreach (const CK_OBJECT_HANDLE &handle, GetObjects (slotId, operation == SecurityTokenKeyOperation::Encrypt ? CKO_PUBLIC_KEY : CKO_PRIVATE_KEY))
+			{
+				try
+				{
+					SecurityTokenScheme key;
+					key.Handle = handle;
+					key.SlotId = slotId;
+					key.SessionHandle = Sessions[slotId].Handle;
+					key.SessionGeneration = Sessions[slotId].Generation;
+					key.Operation = operation;
+					key.Token = token;
+					CK_BBOOL permitted;
+					if (!ReadScalarAttribute (key, operation == SecurityTokenKeyOperation::Encrypt ? CKA_ENCRYPT : CKA_DECRYPT, permitted) || permitted != CK_TRUE)
+						continue;
+
+					GetObjectAttribute (slotId, handle, CKA_ID, key.ObjectId);
+					if (key.ObjectId.size() > 4096 || (objectIdFilter && key.ObjectId != *objectIdFilter))
+						continue;
+					vector<uint8> label;
+					GetObjectAttribute (slotId, handle, CKA_LABEL, label);
+					// Embedded NULs cannot be represented faithfully by the legacy label format.
+					if (find (label.begin(), label.end(), 0) != label.end())
+						continue;
+					key.IdUtf8.assign (label.begin(), label.end());
+#if defined (TC_WINDOWS) && !defined (TC_PROTOTYPE)
+					key.Id = Utf8StringToWide (key.IdUtf8);
+#else
+					key.Id = StringConverter::ToWide (key.IdUtf8);
+#endif
+					if ((!keyIdFilter.empty() && key.Id != keyIdFilter) || (key.Id.empty() && key.ObjectId.empty()))
+						continue;
+					if (key.Id.empty())
+						key.Id = L"ID " + HexEncode (key.ObjectId.data(), key.ObjectId.size());
+
+					foreach (const shared_ptr<SecurityTokenMechanism> &mechanism, mechanisms)
+					{
+						if (mechanism->ApplyTo (key) && (mechanismLabel.empty() || mechanismLabel == key.MechanismLabel))
+							keys.push_back (key);
+					}
+				}
+				catch (Pkcs11Exception &e)
+				{
+					// Mixed tokens commonly expose EC, signing-only and unavailable keys.
+					// An unsupported attribute on one object must not hide usable RSA keys.
+					if (!IsUnavailableAttribute (e.GetErrorCode()))
+						throw;
+				}
+			}
+		}
+		if (keys.empty() && unrecognizedTokenPresent)
+			throw Pkcs11Exception (CKR_TOKEN_NOT_RECOGNIZED);
+		return keys;
+	}
+
+	vector <SecurityTokenKeyfile> SecurityTokenImpl::GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter, const wstring keyfileIdFilter)
 	{
 		bool unrecognizedTokenPresent = false;
 		vector <SecurityTokenKeyfile> keyfiles;
@@ -262,7 +556,7 @@ namespace VeraCrypt
 		return keyfiles;
 	}
 
-	list <SecurityTokenInfo> SecurityToken::GetAvailableTokens()
+	list <SecurityTokenInfo> SecurityTokenImpl::GetAvailableTokens ()
 	{
 		bool unrecognizedTokenPresent = false;
 		list <SecurityTokenInfo> tokens;
@@ -291,8 +585,9 @@ namespace VeraCrypt
 		return tokens;
 	}
 
-	SecurityTokenInfo SecurityToken::GetTokenInfo(CK_SLOT_ID slotId)
+	SecurityTokenInfo SecurityTokenImpl::GetTokenInfo (CK_SLOT_ID slotId)
 	{
+		CheckLibraryStatus();
 		CK_TOKEN_INFO info;
 		CK_RV status = Pkcs11Functions->C_GetTokenInfo(slotId, &info);
 		if (status != CKR_OK)
@@ -301,6 +596,9 @@ namespace VeraCrypt
 		SecurityTokenInfo token;
 		token.SlotId = slotId;
 		token.Flags = info.flags;
+		token.SerialNumber.assign (reinterpret_cast<const char *> (info.serialNumber), sizeof (info.serialNumber));
+		size_t serialEnd = token.SerialNumber.find_last_not_of (' ');
+		token.SerialNumber.resize (serialEnd == string::npos ? 0 : serialEnd + 1);
 
 		char label[sizeof(info.label) + 1];
 		memset(label, 0, sizeof(label));
@@ -324,11 +622,16 @@ namespace VeraCrypt
 
 	void SecurityTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const
 	{
-		SecurityToken::LoginUserIfRequired(Token->SlotId);
-		SecurityToken::GetObjectAttribute(Token->SlotId, Handle, CKA_VALUE, keyfileData);
+		SecurityToken::GetKeyfileData(*this, keyfileData);
 	}
 
-	vector <CK_OBJECT_HANDLE> SecurityToken::GetObjects(CK_SLOT_ID slotId, CK_ATTRIBUTE_TYPE objectClass)
+	void SecurityTokenImpl::GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <uint8> &keyfileData)
+	{
+		LoginUserIfRequired (keyfile.Token->SlotId);
+		GetObjectAttribute (keyfile.Token->SlotId, keyfile.Handle, CKA_VALUE, keyfileData);
+	}
+
+	vector <CK_OBJECT_HANDLE> SecurityTokenImpl::GetObjects (CK_SLOT_ID slotId, CK_ATTRIBUTE_TYPE objectClass)
 	{
 		if (Sessions.find(slotId) == Sessions.end())
 			throw ParameterIncorrect(SRC_POS);
@@ -342,7 +645,8 @@ namespace VeraCrypt
 		if (status != CKR_OK)
 			throw Pkcs11Exception(status);
 
-		finally_do_arg(CK_SLOT_ID, slotId, { Pkcs11Functions->C_FindObjectsFinal(Sessions[finally_arg].Handle); });
+		finally_do_member (SecurityTokenImpl, CK_SLOT_ID, slotId, { finally_obj->Pkcs11Functions->C_FindObjectsFinal (finally_obj->Sessions[finally_arg].Handle); });
+
 
 		CK_ULONG objectCount;
 		vector <CK_OBJECT_HANDLE> objects;
@@ -363,71 +667,191 @@ namespace VeraCrypt
 		return objects;
 	}
 
-	void SecurityToken::GetObjectAttribute(CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <uint8>& attributeValue)
+
+	void SecurityTokenImpl::GetEncryptedData (const SecurityTokenScheme &key, const vector<uint8> &plaintext, vector<uint8> &ciphertext)
 	{
-		attributeValue.clear();
+		if (&plaintext == &ciphertext || key.Operation != SecurityTokenKeyOperation::Encrypt || !key.Mechanism
+			|| key.Mechanism->mechanism != CKM_RSA_PKCS_OAEP
+			|| key.EncryptOutputSize < 256 || key.EncryptOutputSize > MaxRsaCiphertextSize
+			|| key.DecryptOutputSize != key.EncryptOutputSize - 66
+			|| plaintext.empty() || plaintext.size() > key.DecryptOutputSize)
+			throw Pkcs11Exception (CKR_DATA_LEN_RANGE);
+		ciphertext.clear();
+		LoginUserIfRequired (key.SlotId);
+		if (Sessions[key.SlotId].Handle != key.SessionHandle || Sessions[key.SlotId].Generation != key.SessionGeneration
+			|| GetTokenInfo (key.SlotId).SerialNumber != key.Token.SerialNumber)
+			throw Pkcs11Exception (CKR_KEY_CHANGED);
 
-		if (Sessions.find(slotId) == Sessions.end())
-			throw ParameterIncorrect(SRC_POS);
-
-		CK_ATTRIBUTE attribute;
-		attribute.type = attributeType;
-		attribute.pValue = NULL_PTR;
-
-		CK_RV status = Pkcs11Functions->C_GetAttributeValue(Sessions[slotId].Handle, tokenObject, &attribute, 1);
+		bool complete = false;
+		typedef pair<CK_SLOT_ID, bool *> OperationState;
+		finally_do_arg2 (SecurityTokenImpl *, this, OperationState, make_pair (key.SlotId, &complete),
+			{ if (!*finally_arg2.second) finally_arg->CloseSession (finally_arg2.first); });
+		CK_MECHANISM mechanism = RSAOAEPSecurityTokenMechanism::GetMechanism();
+		CK_RV status = Pkcs11Functions->C_EncryptInit (Sessions[key.SlotId].Handle, &mechanism, key.Handle);
 		if (status != CKR_OK)
-			throw Pkcs11Exception(status);
+			throw Pkcs11Exception (status);
 
-		if (attribute.ulValueLen == 0)
-			return;
-
-		attributeValue = vector <uint8>(attribute.ulValueLen);
-		attribute.pValue = &attributeValue.front();
-
-		status = Pkcs11Functions->C_GetAttributeValue(Sessions[slotId].Handle, tokenObject, &attribute, 1);
+		vector<uint8> result (key.EncryptOutputSize);
+		CK_ULONG length = static_cast<CK_ULONG> (result.size());
+		status = Pkcs11Functions->C_Encrypt (Sessions[key.SlotId].Handle, const_cast<CK_BYTE_PTR> (plaintext.data()),
+			static_cast<CK_ULONG> (plaintext.size()), result.data(), &length);
 		if (status != CKR_OK)
-			throw Pkcs11Exception(status);
+			throw Pkcs11Exception (status);
+		if (length != result.size())
+			throw Pkcs11Exception (CKR_DATA_LEN_RANGE);
+		complete = true;
+		ciphertext.swap (result);
 	}
 
-	list <CK_SLOT_ID> SecurityToken::GetTokenSlots()
+	void SecurityTokenImpl::GetDecryptedData (const SecurityTokenScheme &key, const vector<uint8> &ciphertext, vector<uint8> &plaintext)
 	{
-		CheckLibraryStatus();
+		if (&ciphertext == &plaintext)
+			throw ParameterIncorrect (SRC_POS);
+		if (!plaintext.empty())
+			burn (plaintext.data(), plaintext.size());
+		plaintext.clear();
+		if (key.Operation != SecurityTokenKeyOperation::Decrypt || !key.Mechanism || key.Mechanism->mechanism != CKM_RSA_PKCS_OAEP
+			|| key.EncryptOutputSize < 256 || key.EncryptOutputSize > MaxRsaCiphertextSize
+			|| key.DecryptOutputSize != key.EncryptOutputSize - 66 || ciphertext.size() != key.EncryptOutputSize)
+			throw Pkcs11Exception (CKR_ENCRYPTED_DATA_LEN_RANGE);
+		LoginUserIfRequired (key.SlotId);
+		if (Sessions[key.SlotId].Handle != key.SessionHandle || Sessions[key.SlotId].Generation != key.SessionGeneration
+			|| GetTokenInfo (key.SlotId).SerialNumber != key.Token.SerialNumber)
+			throw Pkcs11Exception (CKR_KEY_CHANGED);
 
-		list <CK_SLOT_ID> slots;
-		CK_ULONG slotCount;
-
-		CK_RV status = Pkcs11Functions->C_GetSlotList(TRUE, NULL_PTR, &slotCount);
-		if (status != CKR_OK)
-			throw Pkcs11Exception(status);
-
-		if (slotCount > 0)
+		CK_BBOOL alwaysAuthenticate = CK_FALSE;
+		try
 		{
-			vector <CK_SLOT_ID> slotArray(slotCount);
-			status = Pkcs11Functions->C_GetSlotList(TRUE, &slotArray.front(), &slotCount);
-			if (status != CKR_OK)
-				throw Pkcs11Exception(status);
-
-			for (size_t i = 0; i < slotCount; i++)
-			{
-				CK_SLOT_INFO slotInfo;
-				status = Pkcs11Functions->C_GetSlotInfo(slotArray[i], &slotInfo);
-
-				if (status != CKR_OK || !(slotInfo.flags & CKF_TOKEN_PRESENT))
-					continue;
-
-				slots.push_back(slotArray[i]);
-			}
+			vector<uint8> attribute;
+			GetObjectAttribute (key.SlotId, key.Handle, CKA_ALWAYS_AUTHENTICATE, attribute);
+			if (attribute.size() != sizeof (alwaysAuthenticate))
+				throw Pkcs11Exception (CKR_ATTRIBUTE_VALUE_INVALID);
+			memcpy (&alwaysAuthenticate, attribute.data(), sizeof (alwaysAuthenticate));
+			if (alwaysAuthenticate != CK_TRUE && alwaysAuthenticate != CK_FALSE)
+				throw Pkcs11Exception (CKR_ATTRIBUTE_VALUE_INVALID);
+		}
+		catch (Pkcs11Exception &e)
+		{
+			if (e.GetErrorCode() != CKR_ATTRIBUTE_TYPE_INVALID)
+				throw;
 		}
 
-		return slots;
+		bool complete = false;
+		typedef pair<CK_SLOT_ID, bool *> OperationState;
+		finally_do_arg2 (SecurityTokenImpl *, this, OperationState, make_pair (key.SlotId, &complete),
+			{ if (!*finally_arg2.second) finally_arg->CloseSession (finally_arg2.first); });
+		CK_MECHANISM mechanism = RSAOAEPSecurityTokenMechanism::GetMechanism();
+		CK_RV status = Pkcs11Functions->C_DecryptInit (Sessions[key.SlotId].Handle, &mechanism, key.Handle);
+		if (status != CKR_OK)
+			throw Pkcs11Exception (status);
+		if (alwaysAuthenticate == CK_TRUE)
+			LoginContextSpecific (key.SlotId);
+
+		// A modulus-sized buffer also accommodates modules returning the conservative
+		// RSA output bound. Avoid a size-query call that can consume touch/PIN state.
+		vector<uint8> result (key.EncryptOutputSize);
+		finally_do_arg (vector<uint8> *, &result, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
+		CK_ULONG length = static_cast<CK_ULONG> (result.size());
+		status = Pkcs11Functions->C_Decrypt (Sessions[key.SlotId].Handle, const_cast<CK_BYTE_PTR> (ciphertext.data()),
+			static_cast<CK_ULONG> (ciphertext.size()), result.data(), &length);
+		if (status != CKR_OK)
+			throw Pkcs11Exception (status);
+		if (length == 0 || length > key.DecryptOutputSize)
+			throw Pkcs11Exception (CKR_ENCRYPTED_DATA_LEN_RANGE);
+		burn (result.data() + length, result.size() - length);
+		result.resize (length);
+		complete = true;
+		plaintext.swap (result);
 	}
 
-	bool SecurityToken::IsKeyfilePathValid(const wstring& securityTokenKeyfilePath)
+	void SecurityTokenImpl::GetObjectAttribute (CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector<uint8> &attributeValue)
 	{
-		return securityTokenKeyfilePath.find(TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX) == 0;
+		CheckLibraryStatus();
+		if (!attributeValue.empty())
+			burn (attributeValue.data(), attributeValue.size());
+		attributeValue.clear();
+		if (Sessions.find (slotId) == Sessions.end())
+			throw ParameterIncorrect (SRC_POS);
+
+		CK_ATTRIBUTE attribute = { attributeType, NULL_PTR, 0 };
+		CK_RV status = Pkcs11Functions->C_GetAttributeValue (Sessions[slotId].Handle, tokenObject, &attribute, 1);
+		if (status != CKR_OK)
+			throw Pkcs11Exception (status);
+		// Bound metadata independently of provider-supplied lengths. Legacy data
+		// keyfiles may exceed one MiB: mounting mixes their prefix, but export must
+		// preserve the complete CKA_VALUE object accepted by earlier releases.
+		vector<uint8> result;
+		if (attribute.ulValueLen == CK_UNAVAILABLE_INFORMATION || attribute.ulValueLen > result.max_size()
+			|| (attributeType != CKA_VALUE && attribute.ulValueLen > 1024 * 1024))
+			throw Pkcs11Exception (CKR_ATTRIBUTE_VALUE_INVALID);
+		if (attribute.ulValueLen == 0)
+			return;
+		result.resize (static_cast<size_t> (attribute.ulValueLen));
+		finally_do_arg (vector<uint8> *, &result, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
+		attribute.pValue = result.data();
+		status = Pkcs11Functions->C_GetAttributeValue (Sessions[slotId].Handle, tokenObject, &attribute, 1);
+		if (status != CKR_OK)
+			throw Pkcs11Exception (status);
+		if (attribute.ulValueLen > result.size())
+			throw Pkcs11Exception (CKR_ATTRIBUTE_VALUE_INVALID);
+		burn (result.data() + attribute.ulValueLen, result.size() - attribute.ulValueLen);
+		result.resize (attribute.ulValueLen);
+		attributeValue.swap (result);
 	}
 
-	void SecurityToken::Login(CK_SLOT_ID slotId, const char* pin)
+	list <CK_SLOT_ID> SecurityTokenImpl::GetTokenSlots ()
+	{
+		CheckLibraryStatus();
+		// Slot counts may change between the query and read when a token is inserted.
+		for (unsigned int attempt = 0; attempt < 3; ++attempt)
+		{
+			CK_ULONG count = 0;
+			CK_RV status = Pkcs11Functions->C_GetSlotList (TRUE, NULL_PTR, &count);
+			if (status != CKR_OK)
+				throw Pkcs11Exception (status);
+			if (count > 65536)
+				throw Pkcs11Exception (CKR_DEVICE_MEMORY);
+			list<CK_SLOT_ID> slots;
+			if (count == 0)
+				return slots;
+			vector<CK_SLOT_ID> slotArray (count);
+			status = Pkcs11Functions->C_GetSlotList (TRUE, slotArray.data(), &count);
+			if (status == CKR_BUFFER_TOO_SMALL)
+				continue;
+			if (status != CKR_OK)
+				throw Pkcs11Exception (status);
+			if (count > slotArray.size())
+				throw Pkcs11Exception (CKR_DEVICE_ERROR);
+			for (size_t i = 0; i < count; ++i)
+			{
+				CK_SLOT_INFO info;
+				if (Pkcs11Functions->C_GetSlotInfo (slotArray[i], &info) == CKR_OK && (info.flags & CKF_TOKEN_PRESENT))
+					slots.push_back (slotArray[i]);
+			}
+			return slots;
+		}
+		throw Pkcs11Exception (CKR_BUFFER_TOO_SMALL);
+	}
+
+	bool SecurityTokenImpl::GetMechanismInfo (CK_SLOT_ID slotId, CK_MECHANISM_TYPE type, CK_MECHANISM_INFO_PTR mechanismInfo)
+	{
+		CheckLibraryStatus();
+		if (!mechanismInfo)
+			throw ParameterIncorrect (SRC_POS);
+		CK_RV status = Pkcs11Functions->C_GetMechanismInfo (slotId, type, mechanismInfo);
+		if (status == CKR_MECHANISM_INVALID)
+			return false;
+		if (status != CKR_OK)
+			throw Pkcs11Exception (status);
+		return true;
+	}
+
+	bool SecurityTokenImpl::IsKeyfilePathValid (const wstring &SecurityTokenKeyfilePath)
+	{
+		return SecurityTokenKeyfilePath.find(TC_SECURITY_TOKEN_KEYFILE_URL_PREFIX) == 0;
+	}
+
+	void SecurityTokenImpl::Login (CK_SLOT_ID slotId, const char* pin)
 	{
 		if (Sessions.find(slotId) == Sessions.end())
 			OpenSession(slotId);
@@ -437,15 +861,40 @@ namespace VeraCrypt
 		size_t pinLen = pin ? strlen(pin) : 0;
 		CK_RV status = Pkcs11Functions->C_Login(Sessions[slotId].Handle, CKU_USER, (CK_CHAR_PTR)pin, (CK_ULONG)pinLen);
 
-		if (status != CKR_OK)
+		if (status != CKR_OK && status != CKR_USER_ALREADY_LOGGED_IN)
 			throw Pkcs11Exception(status);
 
 		Sessions[slotId].UserLoggedIn = true;
 	}
 
-	void SecurityToken::LoginUserIfRequired(CK_SLOT_ID slotId)
+	void SecurityTokenImpl::LoginContextSpecific (CK_SLOT_ID slotId)
+	{
+		SecurityTokenInfo token = GetTokenInfo (slotId);
+		CK_RV status;
+		if (token.Flags & CKF_PROTECTED_AUTHENTICATION_PATH)
+			status = Pkcs11Functions->C_Login (Sessions[slotId].Handle, CKU_CONTEXT_SPECIFIC, NULL_PTR, 0);
+		else
+		{
+			if (!PinCallback)
+				throw Pkcs11Exception (CKR_USER_NOT_LOGGED_IN);
+			string pin = token.LabelUtf8;
+			finally_do_arg (string *, &pin, { if (!finally_arg->empty()) burn (&(*finally_arg)[0], finally_arg->size()); });
+			(*PinCallback) (pin);
+			if (pin.size() > (numeric_limits<CK_ULONG>::max)())
+				throw Pkcs11Exception (CKR_PIN_LEN_RANGE);
+			status = Pkcs11Functions->C_Login (Sessions[slotId].Handle, CKU_CONTEXT_SPECIFIC,
+				reinterpret_cast<CK_UTF8CHAR_PTR> (const_cast<char *> (pin.c_str())), static_cast<CK_ULONG> (pin.size()));
+			if (status == CKR_PIN_INCORRECT)
+				PinCallback->notifyIncorrectPin();
+		}
+		if (status != CKR_OK)
+			throw Pkcs11Exception (status);
+	}
+
+	void SecurityTokenImpl::LoginUserIfRequired (CK_SLOT_ID slotId)
 	{
 		CheckLibraryStatus();
+
 		CK_RV status;
 
 		if (Sessions.find(slotId) == Sessions.end())
@@ -496,7 +945,11 @@ namespace VeraCrypt
 
 					finally_do_arg(string*, &pin, { burn((void*)finally_arg->c_str(), finally_arg->size()); });
 
+					if (!PinCallback)
+						throw Pkcs11Exception (CKR_USER_NOT_LOGGED_IN);
 					(*PinCallback) (pin);
+					if (pin.find ('\0') != string::npos || pin.size() > (numeric_limits<CK_ULONG>::max)())
+						throw Pkcs11Exception (CKR_PIN_LEN_RANGE);
 					Login(slotId, pin.c_str());
 				}
 
@@ -508,12 +961,14 @@ namespace VeraCrypt
 
 				if (error == CKR_USER_ALREADY_LOGGED_IN)
 				{
+					Sessions[slotId].UserLoggedIn = true;
 					break;
 				}
 				else if (error == CKR_PIN_INCORRECT && !(tokenInfo.Flags & CKF_PROTECTED_AUTHENTICATION_PATH))
 				{
 					PinCallback->notifyIncorrectPin();
-					(*WarningCallback) (Pkcs11Exception(CKR_PIN_INCORRECT));
+					if (WarningCallback)
+						(*WarningCallback) (Pkcs11Exception(CKR_PIN_INCORRECT));
 					continue;
 				}
 
@@ -523,9 +978,9 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_WINDOWS
-	void SecurityToken::InitLibrary(const wstring& pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback)
+	void SecurityTokenImpl::InitLibrary (const wstring &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback)
 #else
-	void SecurityToken::InitLibrary(const string& pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback)
+	void SecurityTokenImpl::InitLibrary (const string &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback)
 #endif
 	{
 		if (Initialized)
@@ -539,32 +994,44 @@ namespace VeraCrypt
 		throw_sys_sub_if(!Pkcs11LibraryHandle, dlerror());
 #endif
 
-
-		typedef CK_RV(*C_GetFunctionList_t) (CK_FUNCTION_LIST_PTR_PTR ppFunctionList);
+		try
+		{
+			typedef CK_RV(*C_GetFunctionList_t) (CK_FUNCTION_LIST_PTR_PTR ppFunctionList);
 #ifdef TC_WINDOWS
-		C_GetFunctionList_t C_GetFunctionList = (C_GetFunctionList_t)GetProcAddress(Pkcs11LibraryHandle, "C_GetFunctionList");
+			C_GetFunctionList_t C_GetFunctionList = (C_GetFunctionList_t) GetProcAddress (Pkcs11LibraryHandle, "C_GetFunctionList");
 #else
-		C_GetFunctionList_t C_GetFunctionList = (C_GetFunctionList_t)dlsym(Pkcs11LibraryHandle, "C_GetFunctionList");
+			C_GetFunctionList_t C_GetFunctionList = (C_GetFunctionList_t) dlsym (Pkcs11LibraryHandle, "C_GetFunctionList");
 #endif
+			if (!C_GetFunctionList)
+				throw SecurityTokenLibraryNotInitialized();
+			CK_RV status = C_GetFunctionList (&Pkcs11Functions);
+			if (status != CKR_OK)
+				throw Pkcs11Exception (status);
+			if (!Pkcs11Functions)
+				throw SecurityTokenLibraryNotInitialized();
+			status = Pkcs11Functions->C_Initialize (NULL_PTR);
+			if (status != CKR_OK)
+				throw Pkcs11Exception (status);
+		}
+		catch (...)
+		{
+#ifdef TC_WINDOWS
+			FreeLibrary (Pkcs11LibraryHandle);
+#else
+			dlclose (Pkcs11LibraryHandle);
+#endif
+			Pkcs11LibraryHandle = nullptr;
+			Pkcs11Functions = NULL_PTR;
+			throw;
+		}
 
-		if (!C_GetFunctionList)
-			throw SecurityTokenLibraryNotInitialized();
-
-		CK_RV status = C_GetFunctionList(&Pkcs11Functions);
-		if (status != CKR_OK)
-			throw Pkcs11Exception(status);
-
-		status = Pkcs11Functions->C_Initialize(NULL_PTR);
-		if (status != CKR_OK)
-			throw Pkcs11Exception(status);
-
-		PinCallback = move_ptr(pinCallback);
-		WarningCallback = move_ptr(warningCallback);
+		PinCallback = pinCallback;
+		WarningCallback = warningCallback;
 
 		Initialized = true;
 	}
 
-	void SecurityToken::OpenSession(CK_SLOT_ID slotId)
+	void SecurityTokenImpl::OpenSession (CK_SLOT_ID slotId)
 	{
 		if (Sessions.find(slotId) != Sessions.end())
 			return;
@@ -581,6 +1048,44 @@ namespace VeraCrypt
 			throw Pkcs11Exception(status);
 
 		Sessions[slotId].Handle = session;
+		Sessions[slotId].Generation = ++NextSessionGeneration;
+	}
+
+	void SecurityTokenImpl::GetObjectAttribute (SecurityTokenScheme &key, CK_ATTRIBUTE_TYPE attributeType, vector <uint8> &attributeValue)
+	{
+		try { GetObjectAttribute (key.SlotId, key.Handle, attributeType, attributeValue); }
+		catch (const Pkcs11Exception &e)
+		{
+			if (attributeType != CKA_MODULUS || key.Operation != SecurityTokenKeyOperation::Decrypt
+				|| key.ObjectId.empty() || !IsUnavailableAttribute (e.GetErrorCode()))
+				throw;
+			// Some modules expose the modulus only on the corresponding public key.
+			// Require a unique RSA public object with the same binary ID in this session.
+			vector<uint8> modulus;
+			size_t matches = 0;
+			foreach (const CK_OBJECT_HANDLE &handle, GetObjects (key.SlotId, CKO_PUBLIC_KEY))
+			{
+				vector<uint8> id, type;
+				try
+				{
+					GetObjectAttribute (key.SlotId, handle, CKA_ID, id);
+					if (id != key.ObjectId) continue;
+					GetObjectAttribute (key.SlotId, handle, CKA_KEY_TYPE, type);
+					CK_KEY_TYPE keyType;
+					if (type.size() != sizeof (keyType)) continue;
+					memcpy (&keyType, type.data(), sizeof (keyType));
+					if (keyType != CKK_RSA) continue;
+					++matches;
+					GetObjectAttribute (key.SlotId, handle, CKA_MODULUS, modulus);
+				}
+				catch (const Pkcs11Exception &attributeError)
+				{
+					if (!IsUnavailableAttribute (attributeError.GetErrorCode())) throw;
+				}
+			}
+			if (matches != 1 || modulus.empty()) throw;
+			attributeValue.swap (modulus);
+		}
 	}
 
 	Pkcs11Exception::operator string () const
@@ -738,18 +1243,7 @@ namespace VeraCrypt
 	}
 #endif // TC_HEADER_Common_Exception
 
-	unique_ptr <GetPinFunctor> SecurityToken::PinCallback;
-	unique_ptr <SendExceptionFunctor> SecurityToken::WarningCallback;
-
-	bool SecurityToken::Initialized;
-	CK_FUNCTION_LIST_PTR SecurityToken::Pkcs11Functions;
-	map <CK_SLOT_ID, Pkcs11Session> SecurityToken::Sessions;
-
-#ifdef TC_WINDOWS
-	HMODULE SecurityToken::Pkcs11LibraryHandle;
-#else
-	void* SecurityToken::Pkcs11LibraryHandle;
-#endif
+	shared_ptr<SecurityTokenIface> SecurityToken::impl (new SecurityTokenImpl());
 
 #ifdef TC_HEADER_Platform_Exception
 

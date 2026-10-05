@@ -167,7 +167,13 @@ OBJS += ../Common/Endian.o
 OBJS += ../Common/GfMul.o
 OBJS += ../Common/SecurityToken.o
 
+TEST_OBJS :=
+TEST_OBJS += ../Common/MockSecurityToken.o
+
 VolumeLibrary: Volume.a
+ifeq "$(TEST)" "1"
+VolumeLibrary: VolumeTest.a
+endif
 
 ifeq "$(ENABLE_WOLFCRYPT)" "0"
 ifeq "$(PLATFORM)" "MacOSX"

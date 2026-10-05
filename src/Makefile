@@ -17,6 +17,7 @@
 # NOGUI:		Disable graphical user interface (build console-only application)
 # NOSTRIP:		Do not strip release binary
 # NOTEST:		Do not test release binary
+# TEST:		Set to 1 to build the optional standalone regression tests
 # RESOURCEDIR:	Run-time resource directory
 # VERBOSE:		Enable verbose messages
 # WITHFUSE3:		Build with FUSE3 support instead of FUSE2
@@ -120,7 +121,10 @@ else
 #------ Debug configuration ------
 
 	C_CXX_FLAGS += -DDEBUG
-	CXXFLAGS += -fno-default-inline -Wno-unused-function -Wno-unused-variable
+	CXXFLAGS += -Wno-unused-function -Wno-unused-variable
+	ifeq "$(findstring clang,$(CXX))" ""
+		CXXFLAGS += -fno-default-inline
+	endif
 	export WX_BUILD_DIR ?= $(BASE_DIR)/wxdebug
 	WX_CONFIGURE_FLAGS += --enable-debug_flag --disable-debug_gdb --disable-debug_info
 
@@ -697,17 +701,35 @@ endif
 #------ Project build ------
 
 PROJ_DIRS := Platform Volume Driver/Fuse Core Main
+ifneq (,$(filter 1,$(TEST))$(filter clean,$(MAKECMDGOALS)))
+PROJ_DIRS := Testing $(PROJ_DIRS)
+endif
 
-.PHONY: all clean wxbuild
+.PHONY: all clean wxbuild test
 
 all clean:
 	@if pwd | grep -q ' '; then echo 'Error: source code is stored in a path containing spaces' >&2; exit 1; fi
 
 	@for DIR in $(PROJ_DIRS); do \
 		PROJ=$$(echo $$DIR | cut -d/ -f1); \
-		$(MAKE) -C $$DIR -f $$PROJ.make NAME=$$PROJ $(MAKECMDGOALS) || exit $?; \
-		export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
+		$(MAKE) -C $$DIR -f $$PROJ.make NAME=$$PROJ $(if $(filter clean,$@),clean) || exit $$?; \
+		if [ -e $(BASE_DIR)/$$DIR/$$PROJ.a ]; then \
+			export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
+		fi; \
+		if [ "$(TEST)" = "1" ] && [ -e $(BASE_DIR)/$$DIR/$${PROJ}Test.a ]; then \
+			export TEST_LIBS="$(BASE_DIR)/$$DIR/$${PROJ}Test.a $$TEST_LIBS"; \
+		fi; \
 	done
+
+# These tests use temporary files and mock tokens; no mounted volume or token is required.
+test:
+	$(MAKE) TEST=1 all
+	./Testing/SampleTestRun
+	./Platform/PipelineStreamTestRun
+	./Platform/AtomicFileTestRun
+	./Core/KeyfileTestRun
+	./Core/SecurityTokenTestRun
+	./Core/MountOptionsTestRun
 
 install:
 	$(MAKE) -C Main -f Main.make NAME=Main install

@@ -16,18 +16,22 @@
 #include "Forms.h"
 #include "Platform/Functor.h"
 #include "Main/Main.h"
+#include "Common/SecurityToken.h"
 
 namespace VeraCrypt
 {
 	class VolumePasswordPanel : public VolumePasswordPanelBase
 	{
 	public:
-		VolumePasswordPanel (wxWindow* parent, MountOptions* options, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, bool enableCache = false, bool enablePassword = true, bool enableKeyfiles = true, bool enableConfirmation = false, bool enablePkcs5Prf = false, bool isMountPassword = false, const wxString &passwordLabel = wxString());
+		VolumePasswordPanel (wxWindow* parent, MountOptions* options, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, wstring securityTokenSchemeSpec, SecurityTokenKeyOperation mode, bool enableCache = false, bool enablePassword = true, bool enableKeyfiles = true, bool enableConfirmation = false, bool enablePkcs5Prf = false, bool isMountPassword = false, const wxString &passwordLabel = wxString());
 		virtual ~VolumePasswordPanel ();
 
 		void AddKeyfile (shared_ptr <Keyfile> keyfile);
 		shared_ptr <KeyfileList> GetKeyfiles () const { return UseKeyfilesCheckBox->IsChecked() ? Keyfiles : shared_ptr <KeyfileList> (); }
 		shared_ptr <VolumePassword> GetPassword (bool bForceLegacyPassword = false) const;
+		wstring GetSecurityTokenSchemeSpec () const;
+		void SetSecurityTokenSchemeSpec (const wstring &value) { SecurityTokenSchemeSpecText->ChangeValue (value); }
+		bool IsSecurityTokenSchemeEdited () const { return SecurityTokenSchemeEdited; }
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
 		int GetVolumePim () const;
 		int GetHeaderWipeCount () const;
@@ -63,13 +67,16 @@ namespace VeraCrypt
 		void OnTextChanged (wxCommandEvent& event) { OnUpdate(); }
 		void OnPimChanged  (wxCommandEvent& event) { OnUpdate(); }
 		void OnUsePimCheckBoxClick( wxCommandEvent& event );
-		void OnUpdate () { UpdateEvent.Raise(); }
+		void OnUpdate ();
 		void OnUseKeyfilesCheckBoxClick (wxCommandEvent& event) { OnUpdate(); }
 		void WipeTextCtrl (wxTextCtrl *textCtrl);
+		void OnSecurityTokenSchemeSpecButtonClick( wxCommandEvent& event );
 
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <Functor> UpdateCallback;
 		bool EnablePimEntry;
+		SecurityTokenKeyOperation Mode;
+		bool SecurityTokenSchemeEdited = false;
 	};
 }
 

@@ -1703,6 +1703,34 @@
     <entry lang="en" key="VOLUME_DISCOVERY_PENDING">Refreshing volume status…</entry>
     <entry lang="en" key="VOLUME_DISCOVERY_STALLED">Volume status unavailable; retrying…</entry>
     <entry lang="en" key="VOLUME_DISCOVERY_PARTIAL">Some volume information is unavailable; retrying…</entry>
+    <entry lang="en" key="IDC_SECURITY_TOKEN_KEY">Security token key</entry>
+    <entry lang="en" key="SELECT_TOKEN_KEYS">Select a security token key</entry>
+    <entry lang="en" key="TOKEN_KEY_LABEL">Key label</entry>
+    <entry lang="en" key="IDM_REVEAL_REDKEY">Export Decrypted Keyfile...</entry>
+    <entry lang="en" key="REVEAL_REDKEY_INFO">This will save a decrypted keyfile that can be used without the smart card. Anyone with this file and the volume password (if set) can access the volume. Store it securely. Continue?</entry>
+    <entry lang="en" key="REVEAL_REDKEY_DONE">The decrypted keyfile has been saved.</entry>
+    <entry lang="en" key="REVEAL_REDKEY_PATH">Choose where to save the decrypted keyfile</entry>
+    <entry lang="en" key="TOKEN_KEY_MECHANISM_LABEL">Mechanism</entry>
+    <entry lang="en" key="TOKEN_KEY_DESCRIPTOR_PROMPT">Security token key descriptor (Enter for ordinary keyfiles): </entry>
+    <entry lang="en" key="NEW_TOKEN_KEY_REQUIRED">Specify --new-security-token-key when changing credentials that currently use an encrypted keyfile. Use the current descriptor to retain the token requirement, another descriptor to change it, or --new-security-token-key= to explicitly remove it.</entry>
+    <entry lang="en" key="TOKEN_KEY_REMOVAL_CONFIRM">The new credentials do not use a security token key. Encrypted keyfiles are unmarked and will be used as ordinary bytes if selected without a token key. This changes the volume credentials and removes the token requirement. Continue?</entry>
+    <entry lang="en" key="TOKEN_KEY_DESCRIPTOR_INVALID">Invalid security token key descriptor. Select a key again or copy a descriptor from --list-security-token-keys. Only RSA OAEP with SHA-256 and MGF1-SHA-256 is supported.</entry>
+    <entry lang="en" key="TOKEN_KEY_NOT_FOUND">No suitable security token key matches the descriptor. Check the token, key ID, and whether the provider supports the requested RSA OAEP operation.</entry>
+    <entry lang="en" key="TOKEN_KEY_AMBIGUOUS">More than one security token key matches the descriptor. Select a specific slot using a slot-key descriptor from --list-security-token-keys. Duplicate key IDs within a slot must be resolved on the token.</entry>
+    <entry lang="en" key="ENCRYPTED_KEYFILE_INVALID">The keyfile could not be decrypted with the selected token key. Check the key, RSA size, and file contents. Every selected keyfile must be encrypted for the same key; ordinary keyfiles cannot be mixed into this list.</entry>
+    <entry lang="en" key="TOKEN_KEYFILES_REQUIRED">A security token key was selected without any keyfiles. Select encrypted keyfiles or clear the security token key descriptor.</entry>
+    <entry lang="en" key="TOKEN_KEYFILE_INCOMPATIBLE">Token-stored and EMV keyfiles cannot be used with an encrypted-keyfile descriptor. Clear the descriptor or select encrypted files on disk.</entry>
+    <entry lang="en" key="ATOMIC_FILE_DESTINATION_NOT_REGULAR">The output destination is a symbolic link or another non-regular file. Select a regular file or a new filename in a writable directory.</entry>
+    <entry lang="en" key="ATOMIC_FILE_PUBLISHED">The complete output file has been written, but synchronizing its directory failed. Its persistence after a power loss is uncertain. If this was a decrypted-keyfile export, the ordinary keyfile now exists at the destination and must be protected.</entry>
+    <entry lang="en" key="TOKEN_KEY_ORDINARY_MODE">Ordinary keyfiles (no token key)</entry>
+    <entry lang="en" key="TOKEN_KEY_MODE_HELP">Empty: use keyfile bytes directly. Selected token key: decrypt every keyfile using this key. Encrypted keyfiles are unmarked and cannot be detected automatically.</entry>
+    <entry lang="en" key="TOKEN_KEY_SELECT">Select key...</entry>
+    <entry lang="en" key="TOKEN_KEY_ID">Key ID (hex)</entry>
+    <entry lang="en" key="TOKEN_KEY_SIZE">RSA bits</entry>
+    <entry lang="en" key="TOKEN_EXPORT_ARGUMENTS">Use --export-decrypted-keyfile INPUT --output OUTPUT --security-token-key DESCRIPTOR with the token library configured. The output is an ordinary keyfile that works without the token.</entry>
+    <entry lang="en" key="TOKEN_EXPORT_EXISTS">The export destination already exists. Choose another filename or specify --force to replace a regular file.</entry>
+    <entry lang="en" key="TOKEN_EXPORT_WARNING">The output will be an ordinary keyfile that works without the token. Store it securely; the volume password is still required if one is set.</entry>
+    <entry lang="en" key="TOKEN_KEYFILE_RANDOM_SIZE">Random size (64 to 1048576 bytes; selected token key may increase the minimum)</entry>
 </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
