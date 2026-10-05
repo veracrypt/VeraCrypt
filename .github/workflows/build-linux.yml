@@ -20,6 +20,9 @@ on:
       - 'src/Setup/Linux/**'
       - 'src/Volume/**'
       - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
       - '.github/workflows/build-linux.yml'
   pull_request:
     branches: [ "master" ]
@@ -40,6 +43,9 @@ on:
       - 'src/Setup/Linux/**'
       - 'src/Volume/**'
       - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
       - '.github/workflows/build-linux.yml'
 
 concurrency:
@@ -124,6 +130,12 @@ jobs:
       with:
         name: veracrypt-console-debs-${{ matrix.os }}
         path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.*
+
+    # Decrypts the Tests/*.hc volumes through Volume::ReadSectors, without
+    # mounting, using the archives that the last build above (the console
+    # version) left in src, and checks known data.
+    - name: Read known data from the test volumes
+      run: python3 Tests/test_volume_read.py --build-dir src
 
     - name: Install and test VeraCrypt GUI .deb packages
       run: |
