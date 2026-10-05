@@ -13,7 +13,8 @@ decrypts and re-encrypts the volume headers without mounting anything.
 
 For every binary, the volumes in Tests/test.*.hc (created by little-endian
 VeraCrypt, password "test") must open with the KDF named in the file name,
-accept a new password, and then open with the new password.
+accept a new password, and then open with the new password (with KDF
+autodetection for the first volume).
 
 With two binaries, for every encryption algorithm and cascade (the PRFs are
 used in turn, so every PRF is covered too), in both directions:
@@ -104,7 +105,7 @@ def change_args(volume, kdf, old, pim, new, new_pim):
 
 def official_volumes(runner, binary, fixtures, workdir):
     failures = 0
-    for source in fixtures:
+    for i, source in enumerate(fixtures):
         kdf = source.name.split(".")[1]
         volume = workdir / source.name
         shutil.copyfile(source, volume)
@@ -115,13 +116,18 @@ def official_volumes(runner, binary, fixtures, workdir):
             runner.step("open and change password", binary,
                         change_args(volume, kdf, OFFICIAL_PASSWORD, 0,
                                     PASSWORD, 1))
+            # The command line has no way to only check a password without
+            # mounting, so another password change verifies the new header.
+            # The first volume is opened without --hash, which covers KDF
+            # autodetection (cheap with PIM 1).
             runner.step("open with the new password", binary,
-                        change_args(volume, kdf, PASSWORD, 1,
+                        change_args(volume, kdf if i else None, PASSWORD, 1,
                                     NEW_PASSWORD, 1))
             print(f"ok   {binary}: {source.name} "
                   f"({time.monotonic() - start:.0f} s)", flush=True)
         except StepFailed as e:
-            print(f"FAIL {binary}: {source.name}: {e}", flush=True)
+            print(f"FAIL {binary}: {source.name} "
+                  f"({time.monotonic() - start:.0f} s): {e}", flush=True)
             failures += 1
         volume.unlink()
     return failures
@@ -150,8 +156,9 @@ def interop(runner, maker, opener, workdir):
     failures = 0
     for i, algorithm in enumerate(ALGORITHMS):
         prf = PRFS[i % len(PRFS)]
-        # The first case leaves out --hash to exercise KDF autodetection.
-        kdf = prf if i else None
+        # One case leaves out --hash to exercise KDF autodetection. sha512
+        # is tried first anyway, so use the second case (sha256).
+        kdf = None if i == 1 else prf
         name = f"{algorithm}/{prf}{'' if kdf else ' (autodetect)'}"
         start = time.monotonic()
         try:
@@ -160,7 +167,8 @@ def interop(runner, maker, opener, workdir):
             print(f"ok   {name}: {maker} -> {opener} "
                   f"({time.monotonic() - start:.0f} s)", flush=True)
         except StepFailed as e:
-            print(f"FAIL {name}: {maker} -> {opener}: {e}", flush=True)
+            print(f"FAIL {name}: {maker} -> {opener} "
+                  f"({time.monotonic() - start:.0f} s): {e}", flush=True)
             failures += 1
     return failures
 
@@ -191,8 +199,9 @@ def main():
                         help="do not open the Tests/test.*.hc volumes")
     parser.add_argument("--fixture", action="append", default=[],
                         metavar="NAME",
-                        help="open only this Tests/ volume, e.g. "
-                             "test.sha512.hc (repeatable; default: all)")
+                        help="open only this volume from Tests/, given by "
+                             "file name, e.g. test.sha512.hc (repeatable; "
+                             "default: all)")
     parser.add_argument("--timeout", type=int, default=900,
                         help="seconds per veracrypt call (default: 900)")
     args = parser.parse_args()

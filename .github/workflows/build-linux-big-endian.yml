@@ -1,8 +1,8 @@
 name: Build and test Linux big-endian
 
 # Cross-builds the console version for s390x (big-endian) and runs it under
-# qemu-user: the algorithm self-tests and the Tests/*.hc volumes (created on
-# little-endian).
+# qemu-user: the algorithm self-tests and one of the Tests/*.hc volumes
+# (created on little-endian).
 #
 # The full suite (manual run with "full" selected) also builds amd64, then
 # tests the Tests/*.hc volumes on both builds and volume compatibility
@@ -55,11 +55,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # Keep a manual full run from being cancelled by a push, and vice versa.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
   WXWIDGETS_VERSION: 3.2.5
+  # The same condition is repeated in the build matrix and the job "if"s,
+  # where the env context is not available.
   FULL: ${{ github.event_name == 'workflow_dispatch' && inputs.full }}
 
 jobs:
@@ -125,9 +128,10 @@ jobs:
     - name: Algorithm self-tests
       run: src/Main/veracrypt --text --test
 
-    - name: Volumes created on little-endian
+    # One volume keeps this check short; the full suite opens all of them.
+    - name: Volume created on little-endian
       if: env.FULL != 'true'
-      run: python3 Tests/test_byte_order_interop.py --binary-a src/Main/veracrypt
+      run: python3 Tests/test_byte_order_interop.py --binary-a src/Main/veracrypt --fixture test.sha512.hc
 
     - name: Upload binary
       if: env.FULL == 'true'
