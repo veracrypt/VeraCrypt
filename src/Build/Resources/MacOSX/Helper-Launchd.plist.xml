@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>org.idrix.VeraCrypt.helper</string>
+
+	<!-- launchd publishes this privileged Mach service on the helper's behalf
+	     and launches it on demand when the client connects. -->
+	<key>MachServices</key>
+	<dict>
+		<key>org.idrix.VeraCrypt.helper</key>
+		<true/>
+	</dict>
+</dict>
+</plist>
