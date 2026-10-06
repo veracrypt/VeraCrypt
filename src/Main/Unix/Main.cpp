@@ -22,10 +22,6 @@
 #include "Main/Main.h"
 #include "Main/UserInterface.h"
 
-#if defined (TC_MACOSX) && !defined (TC_NO_GUI)
-#include <ApplicationServices/ApplicationServices.h>
-#endif
-
 using namespace VeraCrypt;
 
 int main (int argc, char **argv)
@@ -92,17 +88,6 @@ int main (int argc, char **argv)
 		}
 		else
 		{
-#if defined (TC_MACOSX) && !defined (TC_NO_GUI)
-			if (argc > 1 && !(argc == 2 && strstr (argv[1], "-psn_") == argv[1]))
-			{
-				ProcessSerialNumber p;
-				if (GetCurrentProcess (&p) == noErr)
-				{
-					TransformProcessType (&p, kProcessTransformToForegroundApplication);
-					SetFrontProcess (&p);
-				}
-			}
-#endif
 			Application::Initialize (UserInterfaceType::Graphic);
 		}
 
