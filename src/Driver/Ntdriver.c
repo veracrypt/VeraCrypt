@@ -15,6 +15,7 @@
 #include <ntddk.h>
 #include <initguid.h>
 #include <Ntddstor.h>
+#include <scsi.h>
 #include "Crypto.h"
 #include "Fat.h"
 #include "Tests.h"
@@ -149,6 +150,91 @@ int EncryptionIoRequestCount = 0;
 int EncryptionItemCount = 0;
 int EncryptionFragmentSize = 0;
 int EncryptionMaxWorkItems = 0;
+
+typedef struct
+{
+	__int64 VirtualDiskLength;
+	__int64 PartitionStartingOffset;
+	__int64 PartitionLength;
+	ULONG DeviceNumber;
+	ULONG PartitionNumber;
+	ULONG HiddenSectors;
+	BOOL HasPhysicalBacking;
+	BOOL ExtendedIoctlEnabled;
+	BOOL WindowsDefragEnabled;
+} TC_VOLUME_IDENTITY;
+
+static void TCGetVolumeIdentity (PEXTENSION Extension, TC_VOLUME_IDENTITY *identity)
+{
+	ULONGLONG start;
+	ULONGLONG end;
+	ULONGLONG hostEnd;
+	ULONGLONG hiddenSectors;
+	ULONGLONG partitionSectors;
+	BOOL extendedIoctlEnabled = EnableExtendedIoctlSupport;
+	BOOL windowsDefragEnabled = AllowWindowsDefrag;
+	BOOL physicalIdentityEnabled = extendedIoctlEnabled || windowsDefragEnabled;
+
+	identity->VirtualDiskLength = Extension->DiskLength + BYTES_PER_MB;
+	identity->PartitionStartingOffset = BYTES_PER_MB;
+	identity->PartitionLength = Extension->DiskLength;
+	identity->DeviceNumber = (ULONG) -1;
+	identity->PartitionNumber = 1;
+	identity->HiddenSectors = Extension->BytesPerSector != 0
+		? BYTES_PER_MB / Extension->BytesPerSector
+		: 0;
+	identity->HasPhysicalBacking = FALSE;
+	identity->ExtendedIoctlEnabled = extendedIoctlEnabled;
+	identity->WindowsDefragEnabled = windowsDefragEnabled;
+
+	// Keep the synthetic MBR view unless one raw backing extent maps to the normal volume data area.
+	if (!physicalIdentityEnabled
+		|| !Extension->bRawDevice
+		|| Extension->DeviceNumber == (ULONG) -1
+		|| Extension->PartitionNumber == (ULONG) -1
+		|| Extension->HostPartitionStartingOffset < 0
+		|| Extension->HostLength <= 0
+		|| Extension->DiskLength <= 0
+		|| !Extension->cryptoInfo
+		|| Extension->cryptoInfo->hiddenVolume
+		|| Extension->cryptoInfo->bProtectHiddenVolume
+		|| Extension->PartitionInInactiveSysEncScope)
+	{
+		return;
+	}
+
+	if (S_OK != ULongLongAdd (
+		(ULONGLONG) Extension->HostPartitionStartingOffset,
+		Extension->cryptoInfo->volDataAreaOffset,
+		&start)
+		|| S_OK != ULongLongAdd (start, (ULONGLONG) Extension->DiskLength, &end)
+		|| S_OK != ULongLongAdd (
+			(ULONGLONG) Extension->HostPartitionStartingOffset,
+			(ULONGLONG) Extension->HostLength,
+			&hostEnd)
+		|| end > hostEnd
+		|| end > (ULONGLONG) 0x7fffffffffffffffULL
+		|| Extension->BytesPerSector == 0
+		|| start % Extension->BytesPerSector != 0
+		|| end % Extension->BytesPerSector != 0)
+	{
+		return;
+	}
+
+	hiddenSectors = start / Extension->BytesPerSector;
+	partitionSectors = (ULONGLONG) Extension->DiskLength / Extension->BytesPerSector;
+	if (hiddenSectors > 0xffffffffUL
+		|| partitionSectors > 0xffffffffUL
+		|| end / Extension->BytesPerSector > 0x100000000ULL)
+		return;
+
+	identity->VirtualDiskLength = (__int64) end;
+	identity->PartitionStartingOffset = (__int64) start;
+	identity->DeviceNumber = Extension->DeviceNumber;
+	identity->PartitionNumber = Extension->PartitionNumber;
+	identity->HiddenSectors = (ULONG) hiddenSectors;
+	identity->HasPhysicalBacking = TRUE;
+}
 
 BOOL IsOrderedFlushBarriersEnabled ()
 {
@@ -1099,6 +1185,7 @@ IOCTL_STORAGE_QUERY_PROPERTY 0x002D1400
 NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension, PIRP Irp)
 {
 	PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
+	TC_VOLUME_IDENTITY identity;
 	UNREFERENCED_PARAMETER(DeviceObject);
 
 	switch (irpSp->Parameters.DeviceIoControl.IoControlCode)
@@ -1228,8 +1315,11 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			PDISK_GEOMETRY outputBuffer = (PDISK_GEOMETRY)
 			Irp->AssociatedIrp.SystemBuffer;
 
+			TCGetVolumeIdentity (Extension, &identity);
 			outputBuffer->MediaType = Extension->bRemovable ? RemovableMedia : FixedMedia;
-			outputBuffer->Cylinders.QuadPart = Extension->NumberOfCylinders;
+			outputBuffer->Cylinders.QuadPart = identity.HasPhysicalBacking
+				? identity.VirtualDiskLength / Extension->BytesPerSector
+				: Extension->NumberOfCylinders;
 			outputBuffer->TracksPerCylinder = Extension->TracksPerCylinder;
 			outputBuffer->SectorsPerTrack = Extension->SectorsPerTrack;
 			outputBuffer->BytesPerSector = Extension->BytesPerSector;
@@ -1249,13 +1339,15 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				BOOL bFullBuffer = (irpSp->Parameters.DeviceIoControl.OutputBufferLength >= fullOutputSize)? TRUE : FALSE;
 				PDISK_GEOMETRY_EX outputBuffer = (PDISK_GEOMETRY_EX) Irp->AssociatedIrp.SystemBuffer;
 
+				TCGetVolumeIdentity (Extension, &identity);
 				outputBuffer->Geometry.MediaType = Extension->bRemovable ? RemovableMedia : FixedMedia;
-				outputBuffer->Geometry.Cylinders.QuadPart = Extension->NumberOfCylinders;
+				outputBuffer->Geometry.Cylinders.QuadPart = identity.HasPhysicalBacking
+					? identity.VirtualDiskLength / Extension->BytesPerSector
+					: Extension->NumberOfCylinders;
 				outputBuffer->Geometry.TracksPerCylinder = Extension->TracksPerCylinder;
 				outputBuffer->Geometry.SectorsPerTrack = Extension->SectorsPerTrack;
 				outputBuffer->Geometry.BytesPerSector = Extension->BytesPerSector;
-				// Add 1MB to the disk size to emulate the geometry of a real MBR disk
-				outputBuffer->DiskSize.QuadPart = Extension->DiskLength + BYTES_PER_MB;
+				outputBuffer->DiskSize.QuadPart = identity.VirtualDiskLength;
 
 				if (bFullBuffer)
 				{
@@ -1291,6 +1383,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			Irp->AssociatedIrp.SystemBuffer;
 			PDEVICE_MEDIA_INFO mediaInfo = &outputBuffer->MediaInfo[0];
 
+			TCGetVolumeIdentity (Extension, &identity);
 			outputBuffer->DeviceType = FILE_DEVICE_DISK;
 			outputBuffer->MediaInfoCount = 1;
 
@@ -1302,7 +1395,9 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				else
 					mediaInfo->DeviceSpecific.RemovableDiskInfo.MediaCharacteristics = (MEDIA_CURRENTLY_MOUNTED | MEDIA_READ_WRITE);
 				mediaInfo->DeviceSpecific.RemovableDiskInfo.MediaType = (STORAGE_MEDIA_TYPE) RemovableMedia;
-				mediaInfo->DeviceSpecific.RemovableDiskInfo.Cylinders.QuadPart = Extension->NumberOfCylinders;
+				mediaInfo->DeviceSpecific.RemovableDiskInfo.Cylinders.QuadPart = identity.HasPhysicalBacking
+					? identity.VirtualDiskLength / Extension->BytesPerSector
+					: Extension->NumberOfCylinders;
 				mediaInfo->DeviceSpecific.RemovableDiskInfo.TracksPerCylinder = Extension->TracksPerCylinder;
 				mediaInfo->DeviceSpecific.RemovableDiskInfo.SectorsPerTrack = Extension->SectorsPerTrack;
 				mediaInfo->DeviceSpecific.RemovableDiskInfo.BytesPerSector = Extension->BytesPerSector;
@@ -1315,7 +1410,9 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				else
 					mediaInfo->DeviceSpecific.DiskInfo.MediaCharacteristics = (MEDIA_CURRENTLY_MOUNTED | MEDIA_READ_WRITE);
 				mediaInfo->DeviceSpecific.DiskInfo.MediaType = (STORAGE_MEDIA_TYPE) FixedMedia;
-				mediaInfo->DeviceSpecific.DiskInfo.Cylinders.QuadPart = Extension->NumberOfCylinders;
+				mediaInfo->DeviceSpecific.DiskInfo.Cylinders.QuadPart = identity.HasPhysicalBacking
+					? identity.VirtualDiskLength / Extension->BytesPerSector
+					: Extension->NumberOfCylinders;
 				mediaInfo->DeviceSpecific.DiskInfo.TracksPerCylinder = Extension->TracksPerCylinder;
 				mediaInfo->DeviceSpecific.DiskInfo.SectorsPerTrack = Extension->SectorsPerTrack;
 				mediaInfo->DeviceSpecific.DiskInfo.BytesPerSector = Extension->BytesPerSector;
@@ -1390,7 +1487,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 										outputBuffer->Version = sizeof(STORAGE_DEVICE_DESCRIPTOR);
 										outputBuffer->Size = descriptorSize;
-										outputBuffer->DeviceType = FILE_DEVICE_DISK;
+										outputBuffer->DeviceType = DIRECT_ACCESS_DEVICE;
 										outputBuffer->RemovableMedia = Extension->bRemovable? TRUE : FALSE;
 										outputBuffer->ProductIdOffset = sizeof (STORAGE_DEVICE_DESCRIPTOR);
 										outputBuffer->SerialNumberOffset = sizeof (STORAGE_DEVICE_DESCRIPTOR);
@@ -1522,14 +1619,15 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			PPARTITION_INFORMATION outputBuffer = (PPARTITION_INFORMATION)
 			Irp->AssociatedIrp.SystemBuffer;
 
+			TCGetVolumeIdentity (Extension, &identity);
 			outputBuffer->PartitionType = Extension->PartitionType;
 			outputBuffer->BootIndicator = FALSE;
 			outputBuffer->RecognizedPartition = TRUE;
 			outputBuffer->RewritePartition = FALSE;
-			outputBuffer->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
-			outputBuffer->PartitionLength.QuadPart= Extension->DiskLength;
-			outputBuffer->PartitionNumber = 1;
-			outputBuffer->HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
+			outputBuffer->StartingOffset.QuadPart = identity.PartitionStartingOffset;
+			outputBuffer->PartitionLength.QuadPart = identity.PartitionLength;
+			outputBuffer->PartitionNumber = identity.PartitionNumber;
+			outputBuffer->HiddenSectors = identity.HiddenSectors;
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (PARTITION_INFORMATION);
 		}
@@ -1541,15 +1639,16 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		{
 			PPARTITION_INFORMATION_EX outputBuffer = (PPARTITION_INFORMATION_EX) Irp->AssociatedIrp.SystemBuffer;
 
+			TCGetVolumeIdentity (Extension, &identity);
 			outputBuffer->PartitionStyle = PARTITION_STYLE_MBR;
 			outputBuffer->RewritePartition = FALSE;
-			outputBuffer->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
-			outputBuffer->PartitionLength.QuadPart= Extension->DiskLength;
-			outputBuffer->PartitionNumber = 1;
+			outputBuffer->StartingOffset.QuadPart = identity.PartitionStartingOffset;
+			outputBuffer->PartitionLength.QuadPart = identity.PartitionLength;
+			outputBuffer->PartitionNumber = identity.PartitionNumber;
 			outputBuffer->Mbr.PartitionType = Extension->PartitionType;
 			outputBuffer->Mbr.BootIndicator = FALSE;
 			outputBuffer->Mbr.RecognizedPartition = TRUE;
-			outputBuffer->Mbr.HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
+			outputBuffer->Mbr.HiddenSectors = identity.HiddenSectors;
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (PARTITION_INFORMATION_EX);
 		}
@@ -1563,6 +1662,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			PDRIVE_LAYOUT_INFORMATION outputBuffer = (PDRIVE_LAYOUT_INFORMATION)
 			Irp->AssociatedIrp.SystemBuffer;
 
+			TCGetVolumeIdentity (Extension, &identity);
 			outputBuffer->PartitionCount = bFullBuffer? 4 : 1;
 			outputBuffer->Signature = GetCrc32((unsigned char*) &(Extension->UniqueVolumeId), 4);
 
@@ -1570,10 +1670,10 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->PartitionEntry->BootIndicator = FALSE;
 			outputBuffer->PartitionEntry->RecognizedPartition = TRUE;
 			outputBuffer->PartitionEntry->RewritePartition = FALSE;
-			outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
-			outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
-			outputBuffer->PartitionEntry->PartitionNumber = 1;
-			outputBuffer->PartitionEntry->HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;		
+			outputBuffer->PartitionEntry->StartingOffset.QuadPart = identity.PartitionStartingOffset;
+			outputBuffer->PartitionEntry->PartitionLength.QuadPart = identity.PartitionLength;
+			outputBuffer->PartitionEntry->PartitionNumber = identity.PartitionNumber;
+			outputBuffer->PartitionEntry->HiddenSectors = identity.HiddenSectors;
 
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (DRIVE_LAYOUT_INFORMATION);
@@ -1589,9 +1689,10 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_LAYOUT_EX)\n");
 		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 		Irp->IoStatus.Information = 0;
-		if (EnableExtendedIoctlSupport)
 		{
-			if (ValidateIOBufferSize (Irp, sizeof (DRIVE_LAYOUT_INFORMATION_EX), ValidateOutput))
+			TCGetVolumeIdentity (Extension, &identity);
+			if (identity.ExtendedIoctlEnabled
+				&& ValidateIOBufferSize (Irp, sizeof (DRIVE_LAYOUT_INFORMATION_EX), ValidateOutput))
 			{
 				BOOL bFullBuffer = (irpSp->Parameters.DeviceIoControl.OutputBufferLength >= (sizeof (DRIVE_LAYOUT_INFORMATION_EX) + 3*sizeof(PARTITION_INFORMATION_EX)))? TRUE : FALSE;
 				PDRIVE_LAYOUT_INFORMATION_EX outputBuffer = (PDRIVE_LAYOUT_INFORMATION_EX)
@@ -1605,10 +1706,10 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				outputBuffer->PartitionEntry->Mbr.BootIndicator = FALSE;
 				outputBuffer->PartitionEntry->Mbr.RecognizedPartition = TRUE;
 				outputBuffer->PartitionEntry->RewritePartition = FALSE;
-				outputBuffer->PartitionEntry->StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
-				outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
-				outputBuffer->PartitionEntry->PartitionNumber = 1;
-				outputBuffer->PartitionEntry->Mbr.HiddenSectors = BYTES_PER_MB / Extension->BytesPerSector;
+				outputBuffer->PartitionEntry->StartingOffset.QuadPart = identity.PartitionStartingOffset;
+				outputBuffer->PartitionEntry->PartitionLength.QuadPart = identity.PartitionLength;
+				outputBuffer->PartitionEntry->PartitionNumber = identity.PartitionNumber;
+				outputBuffer->PartitionEntry->Mbr.HiddenSectors = identity.HiddenSectors;
 				outputBuffer->PartitionEntry->Mbr.PartitionType = Extension->PartitionType;
 
 				Irp->IoStatus.Status = STATUS_SUCCESS;
@@ -1750,25 +1851,48 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
 		// Vista's, Windows 8.1 and later filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
-		if (!AllowWindowsDefrag || !Extension->bRawDevice) // We don't support defragmentation for file-hosted volumes
 		{
-			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
-			Irp->IoStatus.Information = 0;
+			TCGetVolumeIdentity (Extension, &identity);
+			if (!identity.WindowsDefragEnabled
+				|| !identity.HasPhysicalBacking)
+			{
+				Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+				Irp->IoStatus.Information = 0;
+			}
+			else if (ValidateIOBufferSize(Irp, sizeof(VOLUME_DISK_EXTENTS), ValidateOutput))
+			{
+				VOLUME_DISK_EXTENTS* extents = (VOLUME_DISK_EXTENTS*)Irp->AssociatedIrp.SystemBuffer;
+
+				extents->NumberOfDiskExtents = 1;
+				extents->Extents[0].DiskNumber = identity.DeviceNumber;
+				extents->Extents[0].StartingOffset.QuadPart = identity.PartitionStartingOffset;
+				extents->Extents[0].ExtentLength.QuadPart = identity.PartitionLength;
+
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof(*extents);
+			}
 		}
-		else if (ValidateIOBufferSize(Irp, sizeof(VOLUME_DISK_EXTENTS), ValidateOutput))
+		break;
+
+	case IOCTL_STORAGE_GET_DEVICE_NUMBER:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_DEVICE_NUMBER)\n");
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
 		{
-			VOLUME_DISK_EXTENTS* extents = (VOLUME_DISK_EXTENTS*)Irp->AssociatedIrp.SystemBuffer;
+			TCGetVolumeIdentity (Extension, &identity);
+			if (identity.ExtendedIoctlEnabled
+				&& identity.HasPhysicalBacking
+				&& ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_NUMBER), ValidateOutput))
+			{
+				STORAGE_DEVICE_NUMBER *storage = (STORAGE_DEVICE_NUMBER *) Irp->AssociatedIrp.SystemBuffer;
 
-			// Windows 10 filesystem defragmenter works only if we report an extent with a real disk number
-			// So in the case of a VeraCrypt disk based volume, we use the disk number
-			// of the underlaying physical disk and we report a single extent 
-			extents->NumberOfDiskExtents = 1;
-			extents->Extents[0].DiskNumber = Extension->DeviceNumber;
-			extents->Extents[0].StartingOffset.QuadPart = BYTES_PER_MB; // Set offset to 1MB to emulate the partition offset on a real MBR disk
-			extents->Extents[0].ExtentLength.QuadPart = Extension->DiskLength;
+				storage->DeviceType = FILE_DEVICE_DISK;
+				storage->DeviceNumber = identity.DeviceNumber;
+				storage->PartitionNumber = identity.PartitionNumber;
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof(*extents);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_NUMBER);
+			}
 		}
 		break;
 
@@ -1776,16 +1900,17 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_READ_CAPACITY)\n");
 		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 		Irp->IoStatus.Information = 0;
-		if (EnableExtendedIoctlSupport)
 		{
-			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_READ_CAPACITY), ValidateOutput))
+			TCGetVolumeIdentity (Extension, &identity);
+			if (identity.ExtendedIoctlEnabled
+				&& ValidateIOBufferSize (Irp, sizeof (STORAGE_READ_CAPACITY), ValidateOutput))
 			{
 				STORAGE_READ_CAPACITY *capacity = (STORAGE_READ_CAPACITY *) Irp->AssociatedIrp.SystemBuffer;
 
 				capacity->Version = sizeof (STORAGE_READ_CAPACITY);
 				capacity->Size = sizeof (STORAGE_READ_CAPACITY);
 				capacity->BlockLength = Extension->BytesPerSector;
-				capacity->DiskLength.QuadPart = Extension->DiskLength + BYTES_PER_MB; // Add 1MB to the disk size to emulate the geometry of a real MBR disk
+				capacity->DiskLength.QuadPart = identity.VirtualDiskLength;
 				capacity->NumberOfBlocks.QuadPart = capacity->DiskLength.QuadPart / capacity->BlockLength;
 
 				Irp->IoStatus.Status = STATUS_SUCCESS;
@@ -1793,26 +1918,6 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			}
 		}
 		break;
-
-	/*case IOCTL_STORAGE_GET_DEVICE_NUMBER:
-		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_DEVICE_NUMBER)\n");
-		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
-		Irp->IoStatus.Information = 0;
-		if (EnableExtendedIoctlSupport)
-		{
-			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_NUMBER), ValidateOutput))
-			{
-				STORAGE_DEVICE_NUMBER *storage = (STORAGE_DEVICE_NUMBER *) Irp->AssociatedIrp.SystemBuffer;
-
-				storage->DeviceType = FILE_DEVICE_DISK;
-				storage->DeviceNumber = (ULONG) -1;
-				storage->PartitionNumber = 1;
-
-				Irp->IoStatus.Status = STATUS_SUCCESS;
-				Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_NUMBER);
-			}
-		}
-		break;*/
 
 	case IOCTL_STORAGE_GET_HOTPLUG_INFO:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_HOTPLUG_INFO)\n");
@@ -2158,7 +2263,6 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	case IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT:
 	case IOCTL_VOLUME_QUERY_ALLOCATION_HINT:
 	case FT_BALANCED_READ_MODE:
-	case IOCTL_STORAGE_GET_DEVICE_NUMBER:
 	case IOCTL_MOUNTDEV_LINK_CREATED:
 		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_INVALID_DEVICE_REQUEST for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
 		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
