@@ -263,7 +263,10 @@
 #endif
 
 #if !defined(CRYPTOPP_NO_UNALIGNED_DATA_ACCESS) && !defined(CRYPTOPP_ALLOW_UNALIGNED_DATA_ACCESS)
-#if (CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || defined(__powerpc__) || (__ARM_FEATURE_UNALIGNED >= 1))
+// Users of this macro (Camellia, Whirlpool) load and store 64-bit words through
+// unaligned pointers. 32-bit ARM supports unaligned single-word accesses only:
+// the LDRD/STRD/LDM instructions used for 64-bit words still fault (SIGBUS).
+#if (CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || defined(__powerpc__) || (defined(__aarch64__) && __ARM_FEATURE_UNALIGNED >= 1))
     #define CRYPTOPP_ALLOW_UNALIGNED_DATA_ACCESS
 #endif
 #endif
