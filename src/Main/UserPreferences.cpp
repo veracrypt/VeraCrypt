@@ -109,6 +109,7 @@ namespace VeraCrypt
 			if (configMap.count(L"MountNtfsWithKernelDriver") > 0) { SetValue (configMap[L"MountNtfsWithKernelDriver"], DefaultMountOptions.MountNtfsWithKernelDriver); configMap.erase (L"MountNtfsWithKernelDriver"); }
 			else if (configMap.count(L"MountNtfsWithNtfs3") > 0) { SetValue (configMap[L"MountNtfsWithNtfs3"], DefaultMountOptions.MountNtfsWithKernelDriver); }
 			configMap.erase (L"MountNtfsWithNtfs3");
+			if (configMap.count(L"MountExfatWithKernelDriver") > 0) { SetValue (configMap[L"MountExfatWithKernelDriver"], DefaultMountOptions.MountExfatWithKernelDriver); configMap.erase (L"MountExfatWithKernelDriver"); }
 #endif
 			if (configMap.count(L"MountVolumesRemovable") > 0) { SetValue (configMap[L"MountVolumesRemovable"], DefaultMountOptions.Removable); configMap.erase (L"MountVolumesRemovable"); }
 			if (configMap.count(L"NoHardwareCrypto") > 0) { SetValue (configMap[L"NoHardwareCrypto"], DefaultMountOptions.NoHardwareCrypto); configMap.erase (L"NoHardwareCrypto"); }
@@ -234,6 +235,7 @@ namespace VeraCrypt
 		formatter.AddEntry (L"MountVolumesReadOnly", DefaultMountOptions.Protection == VolumeProtection::ReadOnly);
 #ifdef TC_LINUX
 		formatter.AddEntry (L"MountNtfsWithKernelDriver", DefaultMountOptions.MountNtfsWithKernelDriver);
+		formatter.AddEntry (L"MountExfatWithKernelDriver", DefaultMountOptions.MountExfatWithKernelDriver);
 #endif
 		formatter.AddEntry (L"MountVolumesRemovable", DefaultMountOptions.Removable);
 		formatter.AddEntry (L"NoHardwareCrypto", DefaultMountOptions.NoHardwareCrypto);
