@@ -501,8 +501,8 @@
     <entry lang="nb" key="WIPE_FINISHED">Innholdet i partisjonen/enheten har blitt slettet.</entry>
     <entry lang="nb" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">Innholdet i partisjonen der det opprinnelige systemet (som det skjulte systemet er en klone av) er lokalisert har blitt slettet.</entry>
     <entry lang="nb" key="DECOY_OS_VERSION_WARNING">Vennligst sørg for at versjonen av Windows du skal installere (på den slettede partisjonen) er den samme som versjonen av Windows du kjører nå. Dette er nødvendig på grunn av at begge systemene deler en felles oppstartspartisjon.</entry>
-    <entry lang="nb" key="SYSTEM_ENCRYPTION_FINISHED">systempartisjonen/-disken har blitt kryptert.\n\nMerk: Hvis det finnes VeraCrypt-volumer som ikke er systemvolumer, og som du trenger å ha montert automatisk hver gang Windows starter, kan du sette det opp ved å montere hver av dem og velge «Favoritter» &gt; «Legg til montert volum i systemfavoritter»).</entry>
-    <entry lang="nb" key="SYSTEM_DECRYPTION_FINISHED">systempartisjonen/-disken har blitt dekryptert.</entry>
+    <entry lang="nb" key="SYSTEM_ENCRYPTION_FINISHED">Systempartisjonen/-disken har blitt kryptert.\n\nMerk: Hvis det finnes VeraCrypt-volumer som ikke er systemvolumer, og som du trenger å ha montert automatisk hver gang Windows starter, kan du sette det opp ved å montere hver av dem og velge «Favoritter» &gt; «Legg til montert volum i systemfavoritter»).</entry>
+    <entry lang="nb" key="SYSTEM_DECRYPTION_FINISHED">Systempartisjonen/-disken har blitt dekryptert.</entry>
     <entry lang="nb" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt-volumet har blitt opprettet og er klart til bruk. Hvis du ønsker å opprette et nytt VeraCrypt-volum, klikk Neste. Ellers klikker du Avslutt.</entry>
     <entry lang="nb" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nDet skjulte VeraCrypt-volumet har blitt opprettet (det skjulte operativsystemet vil ligge innenfor dette skjulte volumet).\n\nKlikk Neste for å fortsette.</entry>
     <entry lang="nb" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volum fullstendig kryptert</entry>
