@@ -23,9 +23,13 @@ and released into public domain.
 #if BYTE_ORDER == BIG_ENDIAN
 #define SHA2_LOAD_BE32(p, i) VcLoadBE32((const uint8 *) (p) + 4 * (i))
 #define SHA2_LOAD_BE64(p, i) VcLoadBE64((const uint8 *) (p) + 8 * (i))
-#else
+#elif VC_UNALIGNED_ACCESS_OK
 #define SHA2_LOAD_BE32(p, i) bswap_32(((const uint_32t *) (p))[i])
 #define SHA2_LOAD_BE64(p, i) bswap_64(((const uint_64t *) (p))[i])
+#else
+/* The caller's buffer may be unaligned: load it alignment-safe, then swap. */
+#define SHA2_LOAD_BE32(p, i) bswap_32(VcLoadLE32((const uint8 *) (p) + 4 * (i)))
+#define SHA2_LOAD_BE64(p, i) bswap_64(VcLoadLE64((const uint8 *) (p) + 8 * (i)))
 #endif
 
 #if defined(_UEFI) || defined(CRYPTOPP_DISABLE_ASM)

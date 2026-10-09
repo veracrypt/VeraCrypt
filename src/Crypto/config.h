@@ -216,6 +216,17 @@
 	#define CRYPTOPP_BOOL_ARM64 0
 #endif
 
+// VC_UNALIGNED_ACCESS_OK is 1 on targets where unaligned 32- and 64-bit loads
+// and stores are safe (x86, x64, ARMv8, PowerPC), which keep their direct word
+// accesses. Elsewhere (e.g. 32-bit ARM, whose unaligned support does not cover
+// the 64-bit LDRD/LDM, and MIPS), code that may get unaligned buffers uses the
+// alignment-safe VcLoad*/VcStore* helpers from misc.h.
+#if CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_ARMV8 || defined(__powerpc__)
+	#define VC_UNALIGNED_ACCESS_OK 1
+#else
+	#define VC_UNALIGNED_ACCESS_OK 0
+#endif
+
 // ARMv8 and ASIMD. -march=armv8-a or above must be present
 // Requires GCC 4.8, Clang 3.3 or Visual Studio 2017
 // Do not use APPLE_CLANG_VERSION; use __ARM_FEATURE_XXX instead.

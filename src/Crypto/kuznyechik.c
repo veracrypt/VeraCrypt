@@ -8,8 +8,9 @@ and released into public domain.
 #include "misc.h"
 #include "Common/Endian.h"
 
-/* Keys and blocks are used as little-endian words: swap only on big-endian hosts. */
-#if BYTE_ORDER == BIG_ENDIAN
+/* Keys and blocks are used as little-endian words: swap on big-endian hosts,
+ * and access them alignment-safe where unaligned access is not safe. */
+#if BYTE_ORDER == BIG_ENDIAN || !VC_UNALIGNED_ACCESS_OK
 #define KUZNYECHIK_LOAD64(p) VcLoadLE64(p)
 #define KUZNYECHIK_STORE64(p, v) VcStoreLE64((p), (v))
 #else
