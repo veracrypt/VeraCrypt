@@ -113,24 +113,19 @@ extern "C" {
 #endif
 
 /* Alignment-safe loads and stores of little- and big-endian words in byte
- * buffers, which callers may pass unaligned. Little-endian words are copied
- * with memcpy on GCC/Clang, which compiles to a single load or store wherever
- * unaligned accesses are allowed. MSVC targets are all little-endian and
- * allow unaligned scalar accesses, so they keep native accesses. */
+ * buffers (used by the big-endian code paths and where unaligned access is
+ * not safe). On little-endian GCC/Clang targets, memcpy compiles to the
+ * fastest access the target allows. */
 #if defined(__GNUC__) && defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 #	define VC_LE_ACCESS_MEMCPY
-#elif defined(_MSC_VER)
-#	define VC_LE_ACCESS_NATIVE
 #endif
 
 VC_INLINE uint32 VcLoadLE32 (const void *ptr)
 {
-#if defined(VC_LE_ACCESS_MEMCPY)
+#ifdef VC_LE_ACCESS_MEMCPY
 	uint32 value;
 	__builtin_memcpy (&value, ptr, sizeof (value));
 	return value;
-#elif defined(VC_LE_ACCESS_NATIVE)
-	return *(const uint32 *) ptr;
 #else
 	const uint8 *p = (const uint8 *) ptr;
 	return (uint32) p[0] | ((uint32) p[1] << 8) | ((uint32) p[2] << 16) | ((uint32) p[3] << 24);
@@ -145,10 +140,8 @@ VC_INLINE uint32 VcLoadBE32 (const void *ptr)
 
 VC_INLINE void VcStoreLE32 (void *ptr, uint32 value)
 {
-#if defined(VC_LE_ACCESS_MEMCPY)
+#ifdef VC_LE_ACCESS_MEMCPY
 	__builtin_memcpy (ptr, &value, sizeof (value));
-#elif defined(VC_LE_ACCESS_NATIVE)
-	*(uint32 *) ptr = value;
 #else
 	uint8 *p = (uint8 *) ptr;
 	p[0] = (uint8) value;
@@ -161,12 +154,10 @@ VC_INLINE void VcStoreLE32 (void *ptr, uint32 value)
 #ifndef TC_NO_COMPILER_INT64
 VC_INLINE uint64 VcLoadLE64 (const void *ptr)
 {
-#if defined(VC_LE_ACCESS_MEMCPY)
+#ifdef VC_LE_ACCESS_MEMCPY
 	uint64 value;
 	__builtin_memcpy (&value, ptr, sizeof (value));
 	return value;
-#elif defined(VC_LE_ACCESS_NATIVE)
-	return *(const uint64 *) ptr;
 #else
 	const uint8 *p = (const uint8 *) ptr;
 	return (uint64) VcLoadLE32 (p) | ((uint64) VcLoadLE32 (p + 4) << 32);
@@ -181,10 +172,8 @@ VC_INLINE uint64 VcLoadBE64 (const void *ptr)
 
 VC_INLINE void VcStoreLE64 (void *ptr, uint64 value)
 {
-#if defined(VC_LE_ACCESS_MEMCPY)
+#ifdef VC_LE_ACCESS_MEMCPY
 	__builtin_memcpy (ptr, &value, sizeof (value));
-#elif defined(VC_LE_ACCESS_NATIVE)
-	*(uint64 *) ptr = value;
 #else
 	uint8 *p = (uint8 *) ptr;
 	VcStoreLE32 (p, (uint32) value);

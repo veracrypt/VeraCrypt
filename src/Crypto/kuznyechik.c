@@ -8,9 +8,15 @@ and released into public domain.
 #include "misc.h"
 #include "Common/Endian.h"
 
-/* Keys and blocks are little-endian 64-bit words in byte buffers that may be unaligned. */
+/* Keys and blocks are used as little-endian words: swap on big-endian hosts,
+ * and access them alignment-safe where unaligned access is not safe. */
+#if BYTE_ORDER == BIG_ENDIAN || !VC_UNALIGNED_ACCESS_OK
 #define KUZNYECHIK_LOAD64(p) VcLoadLE64(p)
 #define KUZNYECHIK_STORE64(p, v) VcStoreLE64((p), (v))
+#else
+#define KUZNYECHIK_LOAD64(p) (*(const uint64*)(p))
+#define KUZNYECHIK_STORE64(p, v) (*(uint64*)(p) = (v))
+#endif
 
 #ifdef _MSC_VER
 #define inline __forceinline

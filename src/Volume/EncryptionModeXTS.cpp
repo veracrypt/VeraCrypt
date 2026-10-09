@@ -47,16 +47,17 @@
 
 namespace VeraCrypt
 {
-#if !(CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
-	// The data buffer is supplied by the caller and need not be 64-bit aligned
-	// (strict-alignment CPUs fault on unaligned 64-bit accesses).
-	static inline void XorWhiteningValue (void *data, const uint64 *whiteningValue)
+#if !VC_UNALIGNED_ACCESS_OK
+	// The data buffer is supplied by the caller and need not be 64-bit aligned.
+	static inline void XorWhiteningValue (uint64 *&data, uint64 *&whiteningValue)
 	{
 		uint64 block[2];
 		memcpy (block, data, sizeof (block));
 		block[0] ^= whiteningValue[0];
 		block[1] ^= whiteningValue[1];
 		memcpy (data, block, sizeof (block));
+		data += 2;
+		whiteningValue += 2;
 	}
 #endif
 
@@ -190,9 +191,12 @@ namespace VeraCrypt
 			for (block = 0; block < countBlock; block++)
 			{
 				// Pre-whitening
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
 				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
-				bufPtr += 2;
-				whiteningValuesPtr64 += 2;
+#endif
 			}
 #endif
 			// Actual encryption
@@ -207,9 +211,12 @@ namespace VeraCrypt
 			for (block = 0; block < countBlock; block++)
 			{
 				// Post-whitening
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
 				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
-				bufPtr += 2;
-				whiteningValuesPtr64 += 2;
+#endif
 			}
 #endif
 			remainingBlocks -= countBlock;
@@ -363,9 +370,12 @@ namespace VeraCrypt
 #else
 			for (block = 0; block < countBlock; block++)
 			{
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
 				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
-				bufPtr += 2;
-				whiteningValuesPtr64 += 2;
+#endif
 			}
 #endif
 			cipher.DecryptBlocks ((uint8 *) dataUnitBufPtr, countBlock);
@@ -377,9 +387,12 @@ namespace VeraCrypt
 #else
 			for (block = 0; block < countBlock; block++)
 			{
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
 				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
-				bufPtr += 2;
-				whiteningValuesPtr64 += 2;
+#endif
 			}
 #endif
 			remainingBlocks -= countBlock;

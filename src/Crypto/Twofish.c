@@ -47,13 +47,19 @@
 /* The cipher works on little-endian words: swap only on big-endian hosts. */
 #if BYTE_ORDER == BIG_ENDIAN
 #define TWOFISH_LE32(x) (bswap_32(x))
-#else
-#define TWOFISH_LE32(x) (x)
-#endif
-
-/* Data blocks are little-endian words in caller buffers that may be unaligned. */
 #define TWOFISH_LOAD(p, i) VcLoadLE32((p) + (i))
 #define TWOFISH_STORE(p, i, v) VcStoreLE32((p) + (i), (v))
+#else
+#define TWOFISH_LE32(x) (x)
+#if VC_UNALIGNED_ACCESS_OK
+#define TWOFISH_LOAD(p, i) ((p)[i])
+#define TWOFISH_STORE(p, i, v) ((p)[i] = (v))
+#else
+/* Blocks may be unaligned in the caller's buffer. */
+#define TWOFISH_LOAD(p, i) VcLoadLE32((p) + (i))
+#define TWOFISH_STORE(p, i, v) VcStoreLE32((p) + (i), (v))
+#endif
+#endif
 
 /* C implementation based on code written by kerukuro for cppcrypto library 
    (http://cppcrypto.sourceforge.net/) and released into public domain.
