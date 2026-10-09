@@ -21,7 +21,8 @@ used in turn, so every PRF is covered too), in both directions:
 
   - a volume created by one binary opens with the other,
   - after that password change, the first binary opens it again,
-  - a wrong password is rejected as such, and the volume still opens.
+  - a wrong password is rejected without changing the volume's contents,
+    and the volume still opens.
 
 The KDF is passed with --hash, except in one case per direction, which
 exercises KDF autodetection.
@@ -143,11 +144,15 @@ def interop_case(runner, maker, opener, algorithm, prf, kdf, volume):
                 change_args(volume, kdf, PASSWORD, 1, NEW_PASSWORD, 1))
     runner.step(f"reopen by {maker}", maker,
                 change_args(volume, kdf, NEW_PASSWORD, 1, PASSWORD, 1))
+    before_wrong_password = volume.read_bytes()
     result = runner.run(opener, change_args(volume, kdf, WRONG_PASSWORD, 1,
                                             NEW_PASSWORD, 1))
     if result.returncode != 1 or "Incorrect password" not in result.stderr:
         raise StepFailed(f"wrong password by {opener}: exit "
                          f"{result.returncode}\n{result.stderr.strip()}")
+    # Check before another password change can repair a damaged header.
+    if volume.read_bytes() != before_wrong_password:
+        raise StepFailed(f"wrong password by {opener}: volume contents changed")
     runner.step(f"open by {opener} after a wrong password", opener,
                 change_args(volume, kdf, PASSWORD, 1, NEW_PASSWORD, 1))
 
