@@ -70,6 +70,17 @@ enum
 // The last PRF to try when mounting and also the number of implemented PRFs
 #define LAST_PRF_ID			(HASH_ENUM_END_ID - 1)	
 
+// KDF groups for two-phase autodetection of the header key derivation function.
+// KDF_GROUP_ALL preserves the historical single-phase behaviour; the split lets the
+// mount path try all fast PBKDF2 PRFs on every header first and fall back to the slow
+// memory-hard Argon2 only if none match. This avoids a full Argon2 run on a header
+// the password cannot match (e.g. the NORMAL header of a hidden volume).
+#define KDF_GROUP_ALL		0
+#ifndef VC_DCS_DISABLE_ARGON2
+#define KDF_GROUP_PBKDF2	1
+#define KDF_GROUP_ARGON2	2
+#endif
+
 #define BLAKE2S_BLOCKSIZE		64
 #define BLAKE2S_DIGESTSIZE		32
 #define BLAKE2B_DIGESTSIZE		64

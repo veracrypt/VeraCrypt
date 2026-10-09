@@ -118,152 +118,181 @@ namespace VeraCrypt
 			VolumeHostSize = VolumeFile->Length();
 			shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (keyfiles, password, emvSupportEnabled);
 
-			bool skipLayoutV1Normal = false;
+			// Two-phase KDF autodetection: when no KDF is selected, every layout is first tried with
+			// the PBKDF2 KDFs only, and with Argon2 only if none of them matched. Otherwise Argon2
+			// runs to completion on a header that the password cannot match, such as the outer
+			// header of a hidden volume, because pending derivations are aborted only when one of
+			// them opens the header. Hidden volume protection keeps a single pass with all KDFs,
+			// so that its outer volume opens with the given password as before.
+			bool twoKdfPhases = !kdf && protection != VolumeProtection::HiddenVolumeReadOnly;
 
-			// Test volume layouts
-			foreach (shared_ptr <VolumeLayout> layout, VolumeLayout::GetAvailableLayouts (volumeType))
+			// Phase 0 tries the PBKDF2 KDFs and phase 1 Argon2; a single pass is phase 1 without filtering
+			for (int kdfPhase = twoKdfPhases ? 0 : 1; kdfPhase <= 1; ++kdfPhase)
 			{
-				if (skipLayoutV1Normal && typeid (*layout) == typeid (VolumeLayoutV1Normal))
+				bool skipLayoutV1Normal = false;
+
+				// Test volume layouts
+				foreach (shared_ptr <VolumeLayout> layout, VolumeLayout::GetAvailableLayouts (volumeType))
 				{
-					// Skip VolumeLayoutV1Normal as it shares header location with VolumeLayoutV2Normal
-					continue;
-				}
-
-				if (useBackupHeaders && !layout->HasBackupHeader())
-					continue;
-
-				SecureBuffer headerBuffer (layout->GetHeaderSize());
-
-				if (layout->HasDriveHeader())
-				{
-					if (!partitionInSystemEncryptionScope)
-						continue;
-
-					if (!GetPath().IsDevice())
-						throw PartitionDeviceRequired (SRC_POS);
-
-					File driveDevice;
-					driveDevice.Open (DevicePath (wstring (GetPath())).ToHostDriveOfPartition());
-
-					int headerOffset = layout->GetHeaderOffset();
-
-					if (headerOffset >= 0)
-						driveDevice.SeekAt (headerOffset);
-					else
-						driveDevice.SeekEnd (headerOffset);
-
-					if (driveDevice.Read (headerBuffer) != layout->GetHeaderSize())
-						continue;
-				}
-				else
-				{
-					if (partitionInSystemEncryptionScope)
-						continue;
-
-					int headerOffset = useBackupHeaders ? layout->GetBackupHeaderOffset() : layout->GetHeaderOffset();
-
-					if (headerOffset >= 0)
-						VolumeFile->SeekAt (headerOffset);
-					else
-						VolumeFile->SeekEnd (headerOffset);
-
-					if (VolumeFile->Read (headerBuffer) != layout->GetHeaderSize())
-						continue;
-				}
-
-				EncryptionAlgorithmList layoutEncryptionAlgorithms = layout->GetSupportedEncryptionAlgorithms();
-				EncryptionModeList layoutEncryptionModes = layout->GetSupportedEncryptionModes();
-
-				if (typeid (*layout) == typeid (VolumeLayoutV2Normal))
-				{
-					skipLayoutV1Normal = true;
-
-					// Test all algorithms and modes of VolumeLayoutV1Normal as it shares header location with VolumeLayoutV2Normal
-					layoutEncryptionAlgorithms = EncryptionAlgorithm::GetAvailableAlgorithms();
-					layoutEncryptionModes = EncryptionMode::GetAvailableModes();
-				}
-
-				shared_ptr <VolumeHeader> header = layout->GetHeader();
-
-				if (header->Decrypt (headerBuffer, *passwordKey, pim, kdf, layout->GetSupportedKeyDerivationFunctions(), layoutEncryptionAlgorithms, layoutEncryptionModes))
-				{
-					// Header decrypted
-
-					if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
+					if (skipLayoutV1Normal && typeid (*layout) == typeid (VolumeLayoutV1Normal))
 					{
-						// VolumeLayoutV1Normal has been opened as VolumeLayoutV2Normal
-						layout.reset (new VolumeLayoutV1Normal);
-						header->SetSize (layout->GetHeaderSize());
-						layout->SetHeader (header);
+						// Skip VolumeLayoutV1Normal as it shares header location with VolumeLayoutV2Normal
+						continue;
 					}
 
-					Pim = pim;
-					Type = layout->GetType();
-					SectorSize = header->GetSectorSize();
+					if (useBackupHeaders && !layout->HasBackupHeader())
+						continue;
 
-					VolumeDataOffset = layout->GetDataOffset (VolumeHostSize);
-					VolumeDataSize = layout->GetDataSize (VolumeHostSize);
-					EncryptedDataSize = header->GetEncryptedAreaLength();
+					// Restrict the KDFs to the current phase, and skip a layout without any of them
+					// before reading its header
+					Pkcs5KdfList layoutKdfs = layout->GetSupportedKeyDerivationFunctions();
+					if (twoKdfPhases)
+					{
+						Pkcs5KdfList phaseKdfs;
+						foreach (shared_ptr <Pkcs5Kdf> phaseKdf, layoutKdfs)
+						{
+							if ((kdfPhase == 0) != phaseKdf->IsArgon2())
+								phaseKdfs.push_back (phaseKdf);
+						}
+						layoutKdfs = phaseKdfs;
 
-					Header = header;
-					Layout = layout;
-					EA = header->GetEncryptionAlgorithm();
-					EncryptionMode &mode = *EA->GetMode();
+						if (layoutKdfs.empty())
+							continue;
+					}
+
+					SecureBuffer headerBuffer (layout->GetHeaderSize());
 
 					if (layout->HasDriveHeader())
 					{
-						if (header->GetEncryptedAreaLength() != header->GetVolumeDataSize())
-						{
-							EncryptionNotCompleted = true;
-							// we avoid writing data to the partition since it is only partially encrypted
-							Protection = VolumeProtection::ReadOnly;
-						}
+						if (!partitionInSystemEncryptionScope)
+							continue;
 
-						uint64 partitionStartOffset = VolumeFile->GetPartitionDeviceStartOffset();
+						if (!GetPath().IsDevice())
+							throw PartitionDeviceRequired (SRC_POS);
 
-						if (partitionStartOffset < header->GetEncryptedAreaStart()
-							|| partitionStartOffset >= header->GetEncryptedAreaStart() + header->GetEncryptedAreaLength())
-							throw PasswordIncorrect (SRC_POS);
+						File driveDevice;
+						driveDevice.Open (DevicePath (wstring (GetPath())).ToHostDriveOfPartition());
 
-						EncryptedDataSize -= partitionStartOffset - header->GetEncryptedAreaStart();
+						int headerOffset = layout->GetHeaderOffset();
 
-						mode.SetSectorOffset (partitionStartOffset / ENCRYPTION_DATA_UNIT_SIZE);
-					}
-
-					// Volume protection
-					if (Protection == VolumeProtection::HiddenVolumeReadOnly)
-					{
-						if (Type == VolumeType::Hidden)
-							throw PasswordIncorrect (SRC_POS);
+						if (headerOffset >= 0)
+							driveDevice.SeekAt (headerOffset);
 						else
+							driveDevice.SeekEnd (headerOffset);
+
+						if (driveDevice.Read (headerBuffer) != layout->GetHeaderSize())
+							continue;
+					}
+					else
+					{
+						if (partitionInSystemEncryptionScope)
+							continue;
+
+						int headerOffset = useBackupHeaders ? layout->GetBackupHeaderOffset() : layout->GetHeaderOffset();
+
+						if (headerOffset >= 0)
+							VolumeFile->SeekAt (headerOffset);
+						else
+							VolumeFile->SeekEnd (headerOffset);
+
+						if (VolumeFile->Read (headerBuffer) != layout->GetHeaderSize())
+							continue;
+					}
+
+					EncryptionAlgorithmList layoutEncryptionAlgorithms = layout->GetSupportedEncryptionAlgorithms();
+					EncryptionModeList layoutEncryptionModes = layout->GetSupportedEncryptionModes();
+
+					if (typeid (*layout) == typeid (VolumeLayoutV2Normal))
+					{
+						skipLayoutV1Normal = true;
+
+						// Test all algorithms and modes of VolumeLayoutV1Normal as it shares header location with VolumeLayoutV2Normal
+						layoutEncryptionAlgorithms = EncryptionAlgorithm::GetAvailableAlgorithms();
+						layoutEncryptionModes = EncryptionMode::GetAvailableModes();
+					}
+
+					shared_ptr <VolumeHeader> header = layout->GetHeader();
+
+					if (header->Decrypt (headerBuffer, *passwordKey, pim, kdf, layoutKdfs, layoutEncryptionAlgorithms, layoutEncryptionModes))
+					{
+						// Header decrypted
+
+						if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
 						{
-							try
+							// VolumeLayoutV1Normal has been opened as VolumeLayoutV2Normal
+							layout.reset (new VolumeLayoutV1Normal);
+							header->SetSize (layout->GetHeaderSize());
+							layout->SetHeader (header);
+						}
+
+						Pim = pim;
+						Type = layout->GetType();
+						SectorSize = header->GetSectorSize();
+
+						VolumeDataOffset = layout->GetDataOffset (VolumeHostSize);
+						VolumeDataSize = layout->GetDataSize (VolumeHostSize);
+						EncryptedDataSize = header->GetEncryptedAreaLength();
+
+						Header = header;
+						Layout = layout;
+						EA = header->GetEncryptionAlgorithm();
+						EncryptionMode &mode = *EA->GetMode();
+
+						if (layout->HasDriveHeader())
+						{
+							if (header->GetEncryptedAreaLength() != header->GetVolumeDataSize())
 							{
-								Volume protectedVolume;
-
-								protectedVolume.Open (VolumeFile,
-									protectionPassword, protectionPim, protectionKdf, protectionKeyfiles,
-									emvSupportEnabled,
-									VolumeProtection::ReadOnly,
-									shared_ptr <VolumePassword> (), 0, shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
-									VolumeType::Hidden,
-									useBackupHeaders);
-
-								if (protectedVolume.GetType() != VolumeType::Hidden)
-									ParameterIncorrect (SRC_POS);
-
-								ProtectedRangeStart = protectedVolume.VolumeDataOffset;
-								ProtectedRangeEnd = protectedVolume.VolumeDataOffset + protectedVolume.VolumeDataSize;
+								EncryptionNotCompleted = true;
+								// we avoid writing data to the partition since it is only partially encrypted
+								Protection = VolumeProtection::ReadOnly;
 							}
-							catch (PasswordException&)
+
+							uint64 partitionStartOffset = VolumeFile->GetPartitionDeviceStartOffset();
+
+							if (partitionStartOffset < header->GetEncryptedAreaStart()
+								|| partitionStartOffset >= header->GetEncryptedAreaStart() + header->GetEncryptedAreaLength())
+								throw PasswordIncorrect (SRC_POS);
+
+							EncryptedDataSize -= partitionStartOffset - header->GetEncryptedAreaStart();
+
+							mode.SetSectorOffset (partitionStartOffset / ENCRYPTION_DATA_UNIT_SIZE);
+						}
+
+						// Volume protection
+						if (Protection == VolumeProtection::HiddenVolumeReadOnly)
+						{
+							if (Type == VolumeType::Hidden)
+								throw PasswordIncorrect (SRC_POS);
+							else
 							{
-								if (protectionKeyfiles && !protectionKeyfiles->empty())
-									throw ProtectionPasswordKeyfilesIncorrect (SRC_POS);
-								throw ProtectionPasswordIncorrect (SRC_POS);
+								try
+								{
+									Volume protectedVolume;
+
+									protectedVolume.Open (VolumeFile,
+										protectionPassword, protectionPim, protectionKdf, protectionKeyfiles,
+										emvSupportEnabled,
+										VolumeProtection::ReadOnly,
+										shared_ptr <VolumePassword> (), 0, shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
+										VolumeType::Hidden,
+										useBackupHeaders);
+
+									if (protectedVolume.GetType() != VolumeType::Hidden)
+										ParameterIncorrect (SRC_POS);
+
+									ProtectedRangeStart = protectedVolume.VolumeDataOffset;
+									ProtectedRangeEnd = protectedVolume.VolumeDataOffset + protectedVolume.VolumeDataSize;
+								}
+								catch (PasswordException&)
+								{
+									if (protectionKeyfiles && !protectionKeyfiles->empty())
+										throw ProtectionPasswordKeyfilesIncorrect (SRC_POS);
+									throw ProtectionPasswordIncorrect (SRC_POS);
+								}
 							}
 						}
+						return;
 					}
-					return;
 				}
 			}
 

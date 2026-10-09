@@ -186,7 +186,24 @@ static int MapArgon2ResultToVcError (int result)
 
 BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 
-int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
+#ifndef VC_DCS_DISABLE_ARGON2
+// Two-phase KDF autodetection: decide whether a PRF should be skipped for the
+// current phase group. Factored out so the selection can be unit-tested.
+BOOL SkipPrfForKdfGroup (int selected_pkcs5_prf, int kdfGroup, int enqPkcs5Prf)
+{
+	if (selected_pkcs5_prf != 0)
+		return FALSE;	// explicit PRF requested: phase filtering does not apply
+	if (enqPkcs5Prf < FIRST_PRF_ID || enqPkcs5Prf > LAST_PRF_ID)
+		return FALSE;	// drain iterations of the PRF loop must never be skipped
+	if ((kdfGroup == KDF_GROUP_PBKDF2) && (enqPkcs5Prf == ARGON2))
+		return TRUE;
+	if ((kdfGroup == KDF_GROUP_ARGON2) && (enqPkcs5Prf != ARGON2))
+		return TRUE;
+	return FALSE;
+}
+#endif
+
+int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int kdfGroup, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
 {
 	unsigned char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	unsigned char* keyInfoBuffer = NULL;
@@ -340,6 +357,12 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 #ifndef VC_DCS_DISABLE_ARGON2
 		// we don't support Argon2 in pre-boot authentication
 		if (bBoot && (enqPkcs5Prf == ARGON2))
+			continue;
+
+		// Two-phase KDF autodetection: in the PBKDF2 phase skip Argon2, in the Argon2
+		// phase skip the rest. Exhausts the fast PRFs on every header before paying for a
+		// full Argon2 run on a header that cannot match (the abort only fires on success).
+		if (SkipPrfForKdfGroup (selected_pkcs5_prf, kdfGroup, enqPkcs5Prf))
 			continue;
 #endif
 
@@ -768,7 +791,7 @@ ret:
 
 int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
-	return ReadVolumeHeaderWithAbort (bBoot, encryptedHeader, password, selected_pkcs5_prf, pim, retInfo, retHeaderCryptoInfo, NULL, NULL);
+	return ReadVolumeHeaderWithAbort (bBoot, encryptedHeader, password, selected_pkcs5_prf, KDF_GROUP_ALL, pim, retInfo, retHeaderCryptoInfo, NULL, NULL);
 }
 
 #if defined(_WIN32) && !defined(_UEFI)

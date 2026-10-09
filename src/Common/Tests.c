@@ -19,6 +19,7 @@
 #include "Xts.h"
 #include <string.h>
 #include "Pkcs5.h"
+#include "Volumes.h"
 #include "cpu.h"
 
 typedef struct {
@@ -1470,6 +1471,12 @@ static BOOL DoAutoTestAlgorithms (void)
 	if (0 != argon2id_selftest())
 		bFailed = TRUE;
 
+#ifndef VC_DCS_DISABLE_ARGON2
+	/* Mount-time two-phase KDF selection */
+	if (!test_kdf_phase_selection ())
+		bFailed = TRUE;
+#endif
+
 	/* CRC-32 */
 	if (!crc32_selftests ())
 		bFailed = TRUE;
@@ -1492,6 +1499,36 @@ static BOOL DoAutoTestAlgorithms (void)
 	return !bFailed;
 }
 
+
+#ifndef VC_DCS_DISABLE_ARGON2
+// Verifies the mount-time two-phase KDF selection: PBKDF2 phase never tries Argon2,
+// Argon2 phase tries only Argon2, KDF_GROUP_ALL tries everything (historical), and an
+// explicit PRF disables phase filtering.
+BOOL test_kdf_phase_selection (void)
+{
+	int prf;
+
+	for (prf = FIRST_PRF_ID; prf <= LAST_PRF_ID; prf++)
+	{
+		if (SkipPrfForKdfGroup (0, KDF_GROUP_PBKDF2, prf) != (prf == ARGON2))
+			return FALSE;
+		if (SkipPrfForKdfGroup (0, KDF_GROUP_ARGON2, prf) != (prf != ARGON2))
+			return FALSE;
+		if (SkipPrfForKdfGroup (0, KDF_GROUP_ALL, prf))
+			return FALSE;
+		if (SkipPrfForKdfGroup (WHIRLPOOL, KDF_GROUP_PBKDF2, prf)
+			|| SkipPrfForKdfGroup (WHIRLPOOL, KDF_GROUP_ARGON2, prf))
+			return FALSE;
+	}
+	// drain iterations (enq past LAST_PRF_ID) must never be skipped in any group,
+	// otherwise the thread-pool drain loop would livelock if a PRF were ever
+	// added after ARGON2 in the enum.
+	if (SkipPrfForKdfGroup (0, KDF_GROUP_ARGON2, LAST_PRF_ID + 1)
+		|| SkipPrfForKdfGroup (0, KDF_GROUP_PBKDF2, LAST_PRF_ID + 1))
+		return FALSE;
+	return TRUE;
+}
+#endif
 
 BOOL AutoTestAlgorithms (void)
 {

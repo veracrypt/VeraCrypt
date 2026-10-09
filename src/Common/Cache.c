@@ -55,7 +55,7 @@ void VcUnprotectPassword (Password* pPassword, uint64 encID)
 	VcProtectPassword (pPassword, encID);
 }
 
-int ReadVolumeHeaderWCacheWithAbort (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
+int ReadVolumeHeaderWCacheWithAbort (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int kdfGroup, int pim, PCRYPTO_INFO *retInfo, long volatile *pAbortKeyDerivation, long volatile *pUserAbort)
 {
 	int nReturnCode = ERR_PASSWORD_WRONG;
 	int i, effectivePim;
@@ -66,7 +66,7 @@ int ReadVolumeHeaderWCacheWithAbort (BOOL bBoot, BOOL bCache, BOOL bCachePim, un
 		if (!ResetAbortKeyDerivation (pAbortKeyDerivation, pUserAbort))
 			return ERR_USER_ABORT;
 
-		nReturnCode = ReadVolumeHeaderWithAbort (bBoot, header, password, pkcs5_prf, pim, retInfo, NULL, pAbortKeyDerivation, pUserAbort);
+		nReturnCode = ReadVolumeHeaderWithAbort (bBoot, header, password, pkcs5_prf, kdfGroup, pim, retInfo, NULL, pAbortKeyDerivation, pUserAbort);
 
 		/* Save mount passwords back into cache if asked to do so */
 		if (bCache && (nReturnCode == 0 || nReturnCode == ERR_CIPHER_INIT_WEAK_KEY))
@@ -139,7 +139,7 @@ int ReadVolumeHeaderWCacheWithAbort (BOOL bBoot, BOOL bCache, BOOL bCachePim, un
 					break;
 				}
 
-				nReturnCode = ReadVolumeHeaderWithAbort (bBoot, header, pCurrentPassword, pkcs5_prf, effectivePim, retInfo, NULL, pAbortKeyDerivation, pUserAbort);
+				nReturnCode = ReadVolumeHeaderWithAbort (bBoot, header, pCurrentPassword, pkcs5_prf, kdfGroup, effectivePim, retInfo, NULL, pAbortKeyDerivation, pUserAbort);
 
 				if (nReturnCode != ERR_PASSWORD_WRONG)
 					break;
@@ -156,7 +156,7 @@ int ReadVolumeHeaderWCacheWithAbort (BOOL bBoot, BOOL bCache, BOOL bCachePim, un
 
 int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, unsigned char *header, Password *password, int pkcs5_prf, int pim, PCRYPTO_INFO *retInfo)
 {
-	return ReadVolumeHeaderWCacheWithAbort (bBoot, bCache, bCachePim, header, password, pkcs5_prf, pim, retInfo, NULL, NULL);
+	return ReadVolumeHeaderWCacheWithAbort (bBoot, bCache, bCachePim, header, password, pkcs5_prf, KDF_GROUP_ALL, pim, retInfo, NULL, NULL);
 }
 
 
