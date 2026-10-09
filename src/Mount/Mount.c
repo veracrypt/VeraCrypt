@@ -958,9 +958,13 @@ void EndMainDlg (HWND hwndDlg)
 	}
 }
 
-/* Outer size of the main window, refreshed at the end of InitMainDialog once the
-   layout is final. A window parked off screen carries the parking size, so it
-   cannot serve as a source for the normal dimensions. */
+/* Outer size of the main window, used by RepairMainWindowPlacement. The user cannot
+   resize the dialog: its width is the one it was created with, and its height only
+   changes through the font compensation in InitMainDialog, which can only increase
+   it. The size is therefore taken once from the newly created window and then
+   follows the compensation, instead of being measured on the window later: in the
+   state RepairMainWindowPlacement handles, the window is not minimized but still has
+   the parking dimensions, so neither IsIconic nor the current size can be trusted. */
 static SIZE MainDlgNormalSize = {0};
 
 static void InitMainDialog (HWND hwndDlg)
@@ -969,6 +973,18 @@ static void InitMainDialog (HWND hwndDlg)
 	char *popupTexts[] = {"MENU_VOLUMES", "MENU_SYSTEM_ENCRYPTION", "MENU_FAVORITES", "MENU_TOOLS", "MENU_SETTINGS", "MENU_HELP", "MENU_WEBSITE", 0};
 	wchar_t *str;
 	int i;
+
+	if (MainDlgNormalSize.cx == 0)
+	{
+		/* First call, from WM_INITDIALOG: the window has just been created from the
+		   dialog template and has never been shown, so its size can be trusted. */
+		RECT rcCreated;
+		if (GetWindowRect (hwndDlg, &rcCreated))
+		{
+			MainDlgNormalSize.cx = rcCreated.right - rcCreated.left;
+			MainDlgNormalSize.cy = rcCreated.bottom - rcCreated.top;
+		}
+	}
 
 	if (!Silent)
 	{
@@ -1095,18 +1111,15 @@ static void InitMainDialog (HWND hwndDlg)
 			SetWindowPos (hwndDlg, NULL, 0, 0, mainWidth, correctHeigth , SWP_NOACTIVATE | SWP_NOZORDER  | SWP_NOMOVE);
 		}
 
-		/* The layout is final here, including the font compensation above, so
-		   record the window size for RepairMainWindowPlacement. A minimized
-		   window would report the parking size instead. */
-		if (!IsIconic (hwndDlg))
-		{
-			RECT rcNormal;
-			if (GetWindowRect (hwndDlg, &rcNormal))
-			{
-				MainDlgNormalSize.cx = rcNormal.right - rcNormal.left;
-				MainDlgNormalSize.cy = rcNormal.bottom - rcNormal.top;
-			}
-		}
+		/* Apply the same compensation to the size kept for RepairMainWindowPlacement,
+		   but only when the window has the width it was created with. This can run
+		   while the window is minimized or has the parking dimensions - for instance
+		   when the language is changed from Preferences opened from the notification
+		   area - and in a window that narrow the menu bar wraps, which moves the
+		   controls down and makes correctHeigth meaningless. The kept size then stays
+		   as it was. */
+		if ((LONG) mainWidth == MainDlgNormalSize.cx && (LONG) correctHeigth > MainDlgNormalSize.cy)
+			MainDlgNormalSize.cy = (LONG) correctHeigth;
 	}
 }
 
@@ -8040,8 +8053,9 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 {
 	WINDOWPLACEMENT wp;
 	MONITORINFO mi;
-	RECT workArea;
-	LONG width, height;
+	HMONITOR hMonitor;
+	RECT rcScreen;
+	LONG width, height, offsetX, offsetY;
 
 	memset (&wp, 0, sizeof (wp));
 	wp.length = sizeof (wp);
@@ -8054,33 +8068,41 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 	if (width <= 0 || height <= 0)
 		return FALSE;
 
-	/* Repair when the restore rectangle lies outside every monitor, and also
-	   when it is no larger than a minimized window: the position may have been
-	   pulled back inside the desktop while the parking dimensions were left
-	   behind, which would restore the dialog as a sliver. Neither state can be
-	   reached by resizing, the dialog having a fixed size. */
-	if (MonitorFromRect (&wp.rcNormalPosition, MONITOR_DEFAULTTONULL)
-		&& ((wp.rcNormalPosition.right - wp.rcNormalPosition.left) > GetSystemMetrics (SM_CXMINIMIZED)
-			|| (wp.rcNormalPosition.bottom - wp.rcNormalPosition.top) > GetSystemMetrics (SM_CYMINIMIZED)))
-		return FALSE;
-
+	/* rcNormalPosition is in workspace coordinates. They differ from screen
+	   coordinates by the offset of the work area within the monitor associated
+	   with the window: the origin of its rcWork minus the origin of its rcMonitor.
+	   For a minimized window, MonitorFromWindow uses the restore position. A window
+	   that intersects no monitor falls back to the primary one, which is also where
+	   the repair puts it. */
+	hMonitor = MonitorFromWindow (hwnd, MONITOR_DEFAULTTOPRIMARY);
 	mi.cbSize = sizeof (mi);
-	if (!GetMonitorInfo (MonitorFromWindow (hwnd, MONITOR_DEFAULTTOPRIMARY), &mi))
+	if (!hMonitor || !GetMonitorInfo (hMonitor, &mi))
 		return FALSE;
 
+	offsetX = mi.rcWork.left - mi.rcMonitor.left;
+	offsetY = mi.rcWork.top - mi.rcMonitor.top;
+
+	/* Repair when the restore rectangle, converted to screen coordinates, lies
+	   outside every monitor, and also when it is no larger than a minimized window
+	   in either dimension: the position may have been pulled back inside the
+	   desktop while a parking dimension was left behind, which would restore the
+	   dialog as a sliver. Neither state can be reached by resizing, the dialog
+	   having a fixed size. */
+	rcScreen = wp.rcNormalPosition;
+	OffsetRect (&rcScreen, offsetX, offsetY);
+
+	if (MonitorFromRect (&rcScreen, MONITOR_DEFAULTTONULL)
+		&& (rcScreen.right - rcScreen.left) > GetSystemMetrics (SM_CXMINIMIZED)
+		&& (rcScreen.bottom - rcScreen.top) > GetSystemMetrics (SM_CYMINIMIZED))
+		return FALSE;
+
+	/* Center the window on the work area of that monitor, then convert the result
+	   to workspace coordinates with the same offset. */
 	wp.rcNormalPosition.left   = mi.rcWork.left + ((mi.rcWork.right - mi.rcWork.left) - width) / 2;
 	wp.rcNormalPosition.top    = mi.rcWork.top  + ((mi.rcWork.bottom - mi.rcWork.top) - height) / 2;
 	wp.rcNormalPosition.right  = wp.rcNormalPosition.left + width;
 	wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + height;
-
-	/* rcNormalPosition is expressed in workspace coordinates: screen coordinates
-	   minus the origin of the work area of the PRIMARY monitor, whichever
-	   monitor the window itself lives on. This is a property of the coordinate
-	   system, not of the target monitor, so SPI_GETWORKAREA is deliberately used
-	   here rather than the rcWork of the monitor we center on. The two coincide
-	   unless an appbar is docked to the top or the left of the primary monitor. */
-	if (SystemParametersInfo (SPI_GETWORKAREA, 0, &workArea, 0))
-		OffsetRect (&wp.rcNormalPosition, -workArea.left, -workArea.top);
+	OffsetRect (&wp.rcNormalPosition, -offsetX, -offsetY);
 
 	SetWindowPlacement (hwnd, &wp);
 	return TRUE;
@@ -8630,11 +8652,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		if ((wParam & 0xFFF0) == SC_RESTORE)
 		{
-			/* Sent when the taskbar button of a minimized window is clicked, a
-			   path that reaches no other code of ours. Repair the restore
-			   position first; when it had to be corrected, restore the window
-			   here as well, the default handling having already read the
-			   placement that was in effect when the message was dispatched. */
+			/* Sent when the taskbar button of a minimized window is clicked.
+			   WM_ACTIVATE skips a minimized window, so this is the only repair
+			   on that path. Repair the restore position first; when it had to
+			   be corrected, restore the window here as well, the default
+			   handling having already read the placement that was in effect
+			   when the message was dispatched. */
 			if (RepairMainWindowPlacement (hwndDlg))
 			{
 				ShowWindow (hwndDlg, SW_RESTORE);
@@ -8646,6 +8669,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_HELP:
 		OpenPageHelp (hwndDlg, 0);
 		return 1;
+
+	case WM_ACTIVATE:
+		/* Activating a window that is not minimized, by clicking its taskbar button
+		   or with Alt+Tab, runs none of the other code that repairs the restore
+		   position, and the session notifications used below are only registered
+		   while the background task is enabled. Checking here as well means that
+		   activating the window always brings it back. The default handling is
+		   left to run. */
+		if (LOWORD (wParam) != WA_INACTIVE && !HIWORD (wParam) && IsWindowVisible (hwndDlg))
+			RepairMainWindowPlacement (hwndDlg);
+		return 0;
 
 	case WM_WTSSESSION_CHANGE:
 		if (TaskBarIconMutex != NULL)
@@ -8679,11 +8713,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case WM_DISPLAYCHANGE:
 		/* The display topology changed. Correct the restore position now if it
-		   was left outside every monitor, so that the window can be shown again
-		   through paths that do not run any of our code - clicking the taskbar
-		   button merely activates an already visible window. A window hidden in
-		   the notification area is skipped; its position is repaired by
-		   ShowMainWindow when the user asks for it. */
+		   was left outside every monitor, instead of waiting until the window is
+		   activated or shown. A window hidden in the notification area is
+		   skipped; its position is repaired by ShowMainWindow when the user asks
+		   for it. */
 		if (IsWindowVisible (hwndDlg))
 			RepairMainWindowPlacement (hwndDlg);
 		return 0;
