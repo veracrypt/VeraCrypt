@@ -12,6 +12,7 @@
 
 #include <syslog.h>
 #include "Platform/SystemLog.h"
+#include "Platform/StringConverter.h"
 
 namespace VeraCrypt
 {
@@ -27,5 +28,10 @@ namespace VeraCrypt
 		openlog ("veracrypt", LOG_PID, LOG_USER);
 		syslog (LOG_ERR, "%s", errorMessage.c_str());
 		closelog();
+	}
+
+	void SystemLog::WriteException (const exception &ex)
+	{
+		WriteError (string ("exception: ") + StringConverter::ToSingle (StringConverter::ToExceptionString (ex)));
 	}
 }

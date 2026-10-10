@@ -14,7 +14,6 @@
 #define TC_HEADER_Platform_SystemLog
 
 #include "Platform/PlatformBase.h"
-#include "Platform/StringConverter.h"
 
 namespace VeraCrypt
 {
@@ -24,10 +23,7 @@ namespace VeraCrypt
 		static void WriteDebug (const string &debugMessage);
 		static void WriteError (const string &errorMessage);
 
-		static void WriteException (const exception &ex)
-		{
-			WriteError (string ("exception: ") + StringConverter::ToSingle (StringConverter::ToExceptionString (ex)));
-		}
+		static void WriteException (const exception &ex);
 
 	protected:
 		SystemLog ();
