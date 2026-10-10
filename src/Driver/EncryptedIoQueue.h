@@ -27,6 +27,9 @@
 #define TC_ENC_IO_QUEUE_PREALLOCATED_IO_REQUEST_MAX_COUNT 8192
 
 #define VC_MAX_WORK_ITEMS 1024 
+#define VC_MOUNTED_VOLUME_FAST_IO_MAX_REQUEST_SIZE (1024U * 1024U)
+#define VC_MOUNTED_VOLUME_FAST_IO_MAX_SEGMENT_SIZE VC_MOUNTED_VOLUME_FAST_IO_MAX_REQUEST_SIZE
+#define VC_DIRECT_HOST_IO_THREAD_COUNT 8
 
 typedef struct EncryptedIoQueueBufferStruct
 {
@@ -48,6 +51,16 @@ typedef struct _COMPLETE_IRP_WORK_ITEM
 	LIST_ENTRY ListEntry; // For managing free work items
 } COMPLETE_IRP_WORK_ITEM, * PCOMPLETE_IRP_WORK_ITEM;
 
+typedef struct _VC_DIRECT_HOST_IO_TASK VC_DIRECT_HOST_IO_TASK;
+typedef void (*VC_DIRECT_HOST_IO_TASK_ROUTINE) (VC_DIRECT_HOST_IO_TASK *task);
+
+struct _VC_DIRECT_HOST_IO_TASK
+{
+	LIST_ENTRY ListEntry;
+	VC_DIRECT_HOST_IO_TASK_ROUTINE Routine;
+	PIRP IrpToMarkPending;
+};
+
 typedef struct
 {
 	PDEVICE_OBJECT DeviceObject;
@@ -59,6 +72,31 @@ typedef struct
 
 	// File-handle-based IO
 	HANDLE HostFileHandle;
+	PDEVICE_OBJECT HostDeviceObject;
+	PFILE_OBJECT HostFileObject;
+	ULONG HostDeviceIoMaxSize;
+	ULONG DirectHostIoMaxRequestSize;
+	ULONG HostAlignmentMask;
+	uint32 HostBytesPerSector;
+	BOOL DirectHostWriteConfigured;
+	volatile LONG DirectHostReadEnabled;
+	volatile LONG DirectHostWriteEnabled;
+	KSPIN_LOCK DirectHostReadLock;
+	KEVENT NoDirectHostReadsEvent;
+	volatile LONG DirectHostReadsInFlight;
+	KSPIN_LOCK DirectHostWriteLock;
+	KEVENT NoDirectHostWritesEvent;
+	KEVENT DirectHostWriteRangeChangedEvent;
+	KSEMAPHORE DirectHostWriteSlots;
+	LIST_ENTRY DirectHostWriteRanges;
+	volatile LONG DirectHostWritesInFlight;
+	volatile LONG PendingWriteBarrierCount;
+	PKTHREAD DirectHostIoThreads[VC_DIRECT_HOST_IO_THREAD_COUNT];
+	ULONG DirectHostIoThreadCount;
+	LIST_ENTRY DirectHostIoQueue;
+	KSPIN_LOCK DirectHostIoQueueLock;
+	KSEMAPHORE DirectHostIoQueueSemaphore;
+	volatile LONG DirectHostIoExitRequested;
 	BOOL bSupportPartialEncryption;
 	int64 VirtualDeviceLength;
 	SECURITY_CLIENT_CONTEXT *SecurityClientContext;
@@ -110,6 +148,8 @@ typedef struct
 	volatile LONG OutstandingIoCount;
 	KEVENT NoOutstandingIoEvent;
 	volatile LONG IoThreadPendingRequestCount;
+	volatile LONG LegacyIoRequestsInFlight;
+	KEVENT NoLegacyIoRequestsEvent;
 
 	KEVENT PoolBufferFreeEvent;
 
@@ -158,6 +198,7 @@ typedef struct
 	LARGE_INTEGER OriginalOffset;
 	NTSTATUS Status;
 	PMDL TempUserMdl; // NULL if none. Used in MapIrpDataBuffer logic
+	BOOL WriteBarrierTracked;
 
 #ifdef TC_TRACE_IO_QUEUE
 	LARGE_INTEGER OriginalIrpOffset;
@@ -190,6 +231,12 @@ NTSTATUS EncryptedIoQueueResumeFromHold (EncryptedIoQueue *queue);
 NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue);
 NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue);
 NTSTATUS EncryptedIoQueueHoldWhenIdle (EncryptedIoQueue *queue, int64 timeout);
+NTSTATUS EncryptedIoQueueBeginDirectRead (EncryptedIoQueue *queue, PIRP irp);
+NTSTATUS EncryptedIoQueueAdmitDirectRead (EncryptedIoQueue *queue);
+void EncryptedIoQueueCancelDirectRead (EncryptedIoQueue *queue, PIRP irp);
+void EncryptedIoQueueAbortDirectRead (EncryptedIoQueue *queue, PIRP irp);
+void EncryptedIoQueueCompleteDirectRead (EncryptedIoQueue *queue, PIRP irp, ULONG length, NTSTATUS status, ULONG_PTR information);
+BOOL EncryptedIoQueueSubmitDirectIoTask (EncryptedIoQueue *queue, VC_DIRECT_HOST_IO_TASK *task);
 
 
 #endif // TC_HEADER_DRIVER_ENCRYPTED_IO_QUEUE
