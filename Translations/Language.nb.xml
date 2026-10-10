@@ -1412,7 +1412,7 @@
     <entry lang="nb" key="ERR_REFS_INVALID_VOLUME_SIZE">Volumfilstørrelsen som er angitt på kommandolinjen, er uforenlig med valgt ReFS-filsystem.</entry>
     <entry lang="nb" key="IDC_EDIT_DCSPROP">Rediger oppstartslaster-konfigurasjon</entry>
     <entry lang="nb" key="IDC_SHOW_PLATFORMINFO">Vis EFI-plattforminformasjon</entry>
-    <entry lang="nb" key="BOOT_LOADER_CONFIGURATION_FILE">Oppstartslaster-konfigurasjonsfil</entry>
+    <entry lang="nb" key="BOOT_LOADER_CONFIGURATION_FILE">Konfigurasjonsfil for oppstartslaster</entry>
     <entry lang="nb" key="EFI_PLATFORM_INFORMATION">EFI-plattforminformasjon</entry>
     <entry lang="nb" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">ADVARSEL: Uerfarne brukere bør aldri forsøke å manuelt redigere oppstartslaster-konfigurasjoner.\n\nFortsette?</entry>
     <entry lang="nb" key="DCSPROP_XML_VALIDATION_FAILED">ADVARSEL: Kunne ikke verifisere XML-formatet til oppstartslaster-konfigurasjonen. Vennligst sjekk dine modifikasjoner.</entry>
